@@ -780,7 +780,188 @@ describe('Field.Date', () => {
     })
   })
 
-  // TODO: Add test for month, sync and hideLastWeek prop when it's working again
+  describe('month (onlyMonth), sync (link) and hideLastWeek props', () => {
+    it('should support `onlyMonth` prop with date selection', async () => {
+      const onChange = jest.fn()
+
+      render(<Field.Date onlyMonth onChange={onChange} />)
+
+      await userEvent.click(
+        document.querySelector('button.dnb-input__submit-button__button')
+      )
+
+      const calendar = document.querySelector('.dnb-date-picker__calendar')
+
+      expect(
+        calendar.querySelector(
+          '.dnb-date-picker__header--only-month-label'
+        )
+      ).toBeInTheDocument()
+
+      expect(
+        calendar.querySelector('.dnb-date-picker__labels')
+      ).not.toBeInTheDocument()
+
+      // Select a date
+      const monthButtons = Array.from(
+        calendar.querySelectorAll('.dnb-date-picker__day')
+      ).filter((button) => !button.hasAttribute('disabled'))
+
+      await userEvent.click(monthButtons[0] as HTMLButtonElement)
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.anything()
+      )
+    })
+
+    it('should support `link` prop in range mode with synchronized navigation', async () => {
+      render(<Field.Date value="2024-11-01|2024-12-01" range link open />)
+
+      const [rightCalendar, leftCalendar] = Array.from(
+        document.querySelectorAll('.dnb-date-picker__calendar')
+      )
+
+      const rightNext = rightCalendar.querySelector(
+        '.dnb-date-picker__next'
+      )
+      const leftPrev = leftCalendar.querySelector('.dnb-date-picker__prev')
+
+      expect(
+        rightCalendar.querySelector('.dnb-date-picker__header__title')
+      ).toHaveTextContent('november 2024')
+      expect(
+        leftCalendar.querySelector('.dnb-date-picker__header__title')
+      ).toHaveTextContent('desember 2024')
+
+      // Navigate forward and verify both calendars move together
+      await userEvent.click(rightNext)
+
+      expect(
+        rightCalendar.querySelector('.dnb-date-picker__header__title')
+      ).toHaveTextContent('desember 2024')
+      expect(
+        leftCalendar.querySelector('.dnb-date-picker__header__title')
+      ).toHaveTextContent('januar 2025')
+
+      // Navigate backward and verify both calendars move together
+      await userEvent.click(leftPrev)
+
+      expect(
+        rightCalendar.querySelector('.dnb-date-picker__header__title')
+      ).toHaveTextContent('november 2024')
+      expect(
+        leftCalendar.querySelector('.dnb-date-picker__header__title')
+      ).toHaveTextContent('desember 2024')
+    })
+
+    it('should support `hideLastWeek` prop with date selection', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Field.Date
+          value="2024-10-01"
+          hideLastWeek
+          onChange={onChange}
+          open
+        />
+      )
+
+      expect(
+        document.querySelector('.dnb-date-picker__calendar__week--last')
+      ).not.toBeInTheDocument()
+
+      // Verify we can still select dates
+      await userEvent.click(
+        screen.getByLabelText('torsdag 31. oktober 2024')
+      )
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenCalledWith(
+        '2024-10-31',
+        expect.anything()
+      )
+    })
+
+    it('should combine `onlyMonth`, `link`, and `hideLastWeek` in range mode', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Field.Date
+          value="2024-10-01|2024-11-01"
+          range
+          link
+          onlyMonth
+          hideLastWeek
+          onChange={onChange}
+          open
+        />
+      )
+
+      const [rightCalendar, leftCalendar] = Array.from(
+        document.querySelectorAll('.dnb-date-picker__calendar')
+      )
+
+      // Verify onlyMonth
+      expect(
+        rightCalendar.querySelector(
+          '.dnb-date-picker__header--only-month-label'
+        )
+      ).toBeInTheDocument()
+      expect(
+        leftCalendar.querySelector(
+          '.dnb-date-picker__header--only-month-label'
+        )
+      ).toBeInTheDocument()
+
+      // Verify hideLastWeek
+      expect(
+        rightCalendar.querySelector(
+          '.dnb-date-picker__calendar__week--last'
+        )
+      ).not.toBeInTheDocument()
+      expect(
+        leftCalendar.querySelector(
+          '.dnb-date-picker__calendar__week--last'
+        )
+      ).not.toBeInTheDocument()
+
+      // Verify link works
+      const rightNext = rightCalendar.querySelector(
+        '.dnb-date-picker__next'
+      )
+
+      expect(
+        rightCalendar.querySelector('.dnb-date-picker__header__title')
+      ).toHaveTextContent('oktober 2024')
+      expect(
+        leftCalendar.querySelector('.dnb-date-picker__header__title')
+      ).toHaveTextContent('november 2024')
+
+      await userEvent.click(rightNext)
+
+      expect(
+        rightCalendar.querySelector('.dnb-date-picker__header__title')
+      ).toHaveTextContent('november 2024')
+      expect(
+        leftCalendar.querySelector('.dnb-date-picker__header__title')
+      ).toHaveTextContent('desember 2024')
+
+      // Verify date selection still works
+      await userEvent.click(
+        screen.getAllByLabelText('fredag 1. november 2024')[0]
+      )
+      await userEvent.click(
+        screen.getByLabelText('mandag 30. desember 2024')
+      )
+
+      expect(onChange).toHaveBeenCalledWith(
+        '2024-11-01|2024-12-30',
+        expect.anything()
+      )
+    })
+  })
 
   it('should parse dates in specified format', async () => {
     render(<Field.Date value="01/10/2024" dateFormat="dd/MM/yyyy" />)
