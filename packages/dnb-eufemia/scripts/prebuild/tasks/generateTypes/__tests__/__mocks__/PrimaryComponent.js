@@ -3,7 +3,6 @@
  *
  */
 
-import React from 'react'
 import PropTypes from 'prop-types'
 import SecondaryComponent, {
   secondaryDefaultProps,
@@ -42,50 +41,60 @@ export const primaryDefaultProps = {
   left: null,
 }
 
-export default class PrimaryComponent extends React.PureComponent {
-  static propTypes = {
-    boolean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+const PrimaryComponent = (props) => {
+  const {
+    boolean = null,
+    number = null,
+    spacing = null,
+    top = null,
+    secondaryFoo,
+    secondarySpacing,
+    children = null,
+  } = props
 
-    spacing: PropTypes.shape(primaryPropTypes),
-    top: primaryPropTypes.top,
-    ...primaryPropTypes,
-    ...secondaryPropTypes,
-    ...ClassComponent.propTypes,
-    secondaryFoo: secondaryPropTypes.secondary,
-    secondarySpacing: PropTypes.shape(secondaryPropTypes),
-
-    children: PropTypes.node,
-  }
-
-  static defaultProps = {
-    boolean: null,
-    number: null,
-
-    spacing: null,
-    top: null,
-    ...primaryDefaultProps,
-    ...secondaryDefaultProps,
-    ...ClassComponent.defaultProps,
-
-    children: null,
-  }
-
-  static Secondary = SecondaryComponent
-  static SecondaryDuplication = SecondaryComponent
-
-  render() {
-    return [
-      this.props.boolean,
-      this.props.number,
-      this.props.spacing,
-      this.props.top,
-      this.props.secondaryFoo,
-      this.props.secondarySpacing,
-      this.props.children,
-    ]
-  }
+  return [
+    boolean,
+    number,
+    spacing,
+    top,
+    secondaryFoo,
+    secondarySpacing,
+    children,
+  ]
 }
+
+PrimaryComponent.propTypes = {
+  boolean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
+  spacing: PropTypes.shape(primaryPropTypes),
+  top: primaryPropTypes.top,
+  ...primaryPropTypes,
+  ...secondaryPropTypes,
+  ...ClassComponent.propTypes,
+  secondaryFoo: secondaryPropTypes.secondary,
+  secondarySpacing: PropTypes.shape(secondaryPropTypes),
+
+  children: PropTypes.node,
+}
+
+PrimaryComponent.defaultProps = {
+  boolean: null,
+  number: null,
+
+  spacing: null,
+  top: null,
+  ...primaryDefaultProps,
+  ...secondaryDefaultProps,
+  ...ClassComponent.defaultProps,
+
+  children: null,
+}
+
+PrimaryComponent.Secondary = SecondaryComponent
+PrimaryComponent.SecondaryDuplication = SecondaryComponent
+
+export default PrimaryComponent
 
 const Element = () => {
   return null
