@@ -91,7 +91,15 @@ const MediaQuery: React.FC<MediaQueryProps> = (props) => {
         listenerRef.current = null
       }
     }
-  }, [props.query, props.when, props.not, props.disabled, props.correctRange, props.log, context?.breakpoints])
+  }, [
+    props.query,
+    props.when,
+    props.not,
+    props.disabled,
+    props.correctRange,
+    props.log,
+    context?.breakpoints,
+  ])
 
   return <>{state.match ? props.children : null}</>
 }
