@@ -6,13 +6,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-export default class ComponentName extends React.PureComponent {
-  static propTypes = {
-    children: PropTypes.node,
-    classProperty: PropTypes.string,
-  }
-  static defaultProps = {
-    children: null,
-    classProperty: null,
-  }
+const ComponentName: React.FC<{
+  children?: React.ReactNode
+  classProperty?: string
+}> = () => {
+  return null
 }
+
+ComponentName.propTypes = {
+  children: PropTypes.node,
+  classProperty: PropTypes.string,
+}
+
+ComponentName.defaultProps = {
+  children: null,
+  classProperty: null,
+}
+
+export default ComponentName
