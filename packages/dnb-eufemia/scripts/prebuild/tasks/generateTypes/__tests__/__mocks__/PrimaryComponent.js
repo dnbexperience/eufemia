@@ -42,7 +42,7 @@ export const primaryDefaultProps = {
   left: null,
 }
 
-const PrimaryComponent: React.FC = (props) => {
+const PrimaryComponent = (props) => {
   const {
     boolean = null,
     number = null,
