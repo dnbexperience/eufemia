@@ -661,9 +661,9 @@ const InputSubmitButton = (props) => {
     statusState = 'error',
     statusProps = null,
     className = null,
-    onSubmit: _onSubmit = null,
-    onSubmitFocus: _onSubmitFocus = null,
-    onSubmitBlur: _onSubmitBlur = null,
+    onSubmit: _onSubmit = null, // eslint-disable-line no-unused-vars
+    onSubmitFocus: _onSubmitFocus = null, // eslint-disable-line no-unused-vars
+    onSubmitBlur: _onSubmitBlur = null, // eslint-disable-line no-unused-vars
     ...rest
   } = props
 
@@ -672,7 +672,10 @@ const InputSubmitButton = (props) => {
 
   const onSubmitFocusHandler = (event) => {
     setFocusState('focus')
-    dispatchCustomElementEvent({ props }, 'onSubmitFocus', { value, event })
+    dispatchCustomElementEvent({ props }, 'onSubmitFocus', {
+      value,
+      event,
+    })
   }
 
   const onSubmitBlurHandler = (event) => {
