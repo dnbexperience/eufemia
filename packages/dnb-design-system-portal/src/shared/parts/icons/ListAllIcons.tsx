@@ -55,14 +55,12 @@ type Props = {
   variant: string
 }
 
-export default class ListAllIcons extends React.PureComponent<Props> {
-  state = { iconsToRender: [] }
+export default function ListAllIcons(props: Props) {
+  const { groupBy, variant } = props
 
-  constructor(props) {
-    super(props)
-
+  const iconsToRender = React.useMemo(() => {
     let icons = {}
-    switch (props.variant) {
+    switch (variant) {
       case 'primary':
         icons = PrimaryIcons
         break
@@ -76,9 +74,10 @@ export default class ListAllIcons extends React.PureComponent<Props> {
         break
     }
 
-    this.state.iconsToRender = getListOfIcons(icons)
-  }
-  renderListItem(icons) {
+    return getListOfIcons(icons)
+  }, [variant])
+
+  const renderListItem = (icons) => {
     return icons.map(({ iconName, Svg, variant, tags }) => {
       const SvgMedium = (
         variant === 'primary' ? PrimaryIconsMedium : SecondaryIconsMedium
@@ -116,28 +115,20 @@ export default class ListAllIcons extends React.PureComponent<Props> {
     })
   }
 
-  render() {
-    if (this.state.iconsToRender.length === 0) {
-      return <></>
-    }
+  if (iconsToRender.length === 0) {
+    return <></>
+  }
 
-    if (this.props.groupBy === 'category') {
-      return groupByCategory(this.state.iconsToRender).map(
-        ([categoryName, icons]) => (
-          <React.Fragment key={categoryName}>
-            <AutoLinkHeader level={2} size="large" useSlug={categoryName}>
-              {categoryName}
-            </AutoLinkHeader>
-            <ul className={listStyle}>{this.renderListItem(icons)}</ul>
-          </React.Fragment>
-        ),
-      )
-    } else {
-      return (
-        <ul className={listStyle}>
-          {this.renderListItem(this.state.iconsToRender)}
-        </ul>
-      )
-    }
+  if (groupBy === 'category') {
+    return groupByCategory(iconsToRender).map(([categoryName, icons]) => (
+      <React.Fragment key={categoryName}>
+        <AutoLinkHeader level={2} size="large" useSlug={categoryName}>
+          {categoryName}
+        </AutoLinkHeader>
+        <ul className={listStyle}>{renderListItem(icons)}</ul>
+      </React.Fragment>
+    ))
+  } else {
+    return <ul className={listStyle}>{renderListItem(iconsToRender)}</ul>
   }
 }
