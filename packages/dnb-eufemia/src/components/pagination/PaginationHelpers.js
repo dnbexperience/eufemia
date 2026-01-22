@@ -10,9 +10,10 @@ import clsx from 'clsx'
 import Context from '../../shared/Context'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 
-export const PaginationIndicator: React.FC<{
-  indicatorElement?: React.ElementType | React.ReactNode | string
-}> = ({ indicatorElement = 'div', ...props }) => {
+export const PaginationIndicator = ({
+  indicatorElement = 'div',
+  ...props
+}) => {
   const context = React.useContext(Context)
   const Element = preparePageElement(indicatorElement)
   const ElementChild = isTrElement(Element) ? 'td' : 'div'
@@ -22,10 +23,7 @@ export const PaginationIndicator: React.FC<{
       <ElementChild className="dnb-pagination__indicator">
         <div className="dnb-pagination__indicator__inner">
           <ProgressIndicator />
-          {
-            context.getTranslation(props).Pagination
-              .isLoadingText
-          }
+          {context.getTranslation(props).Pagination.isLoadingText}
         </div>
       </ElementChild>
     </Element>
