@@ -103,7 +103,7 @@ export type ContextComponents = {
 
   Switch?: Partial<SwitchProps>
   NumberFormat?: Partial<NumberFormatAllProps>
-  Pagination?: Record<string, unknown>
+  Pagination?: Partial<AccordionProps>
 
   // Common props
   formElement?: FormElementProps
