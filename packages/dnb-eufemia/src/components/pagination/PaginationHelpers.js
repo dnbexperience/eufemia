@@ -10,38 +10,35 @@ import clsx from 'clsx'
 import Context from '../../shared/Context'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 
-export class PaginationIndicator extends React.PureComponent {
-  static contextType = Context
-  static propTypes = {
-    indicatorElement: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func,
-      PropTypes.string,
-    ]),
-  }
-  static defaultProps = {
-    indicatorElement: 'div',
-  }
-  render() {
-    const { indicatorElement } = this.props
-    const Element = preparePageElement(indicatorElement)
-    const ElementChild = isTrElement(Element) ? 'td' : 'div'
+export const PaginationIndicator: React.FC<{
+  indicatorElement?: React.ElementType | React.ReactNode | string
+}> = ({ indicatorElement = 'div', ...props }) => {
+  const context = React.useContext(Context)
+  const Element = preparePageElement(indicatorElement)
+  const ElementChild = isTrElement(Element) ? 'td' : 'div'
 
-    return (
-      <Element>
-        <ElementChild className="dnb-pagination__indicator">
-          <div className="dnb-pagination__indicator__inner">
-            <ProgressIndicator />
-            {
-              this.context.getTranslation(this.props).Pagination
-                .isLoadingText
-            }
-          </div>
-        </ElementChild>
-      </Element>
-    )
-  }
+  return (
+    <Element>
+      <ElementChild className="dnb-pagination__indicator">
+        <div className="dnb-pagination__indicator__inner">
+          <ProgressIndicator />
+          {
+            context.getTranslation(props).Pagination
+              .isLoadingText
+          }
+        </div>
+      </ElementChild>
+    </Element>
+  )
+}
+
+PaginationIndicator.propTypes = {
+  indicatorElement: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.node,
+    PropTypes.func,
+    PropTypes.string,
+  ]),
 }
 
 export class ContentObject {
