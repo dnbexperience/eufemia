@@ -37,7 +37,7 @@ const TextMask: React.FC<TextMaskProps> = (props) => {
     value = null,
     pipe = null,
     placeholderChar = null,
-    keepCharPositions = null,
+    keepCharPositions: _keepCharPositions = null,
     showMask = null,
     mask,
     ...restProps
