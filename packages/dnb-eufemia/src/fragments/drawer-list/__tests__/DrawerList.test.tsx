@@ -1134,15 +1134,14 @@ describe('DrawerList component', () => {
 
       // Verify the list can still handle scroll events properly after direction change
       // by checking that scroll positions are tracked correctly
-      if (listElement) {
-        fireEvent.scroll(listElement, { target: { scrollTop: 100 } })
+      expect(listElement).toBeInTheDocument()
+      fireEvent.scroll(listElement, { target: { scrollTop: 100 } })
 
-        // The scroll observer should still be working and updating internal state
-        // If it wasn't refreshed, scroll tracking would be broken
-        await waitFor(() => {
-          expect(listElement.scrollTop).toBe(100)
-        })
-      }
+      // The scroll observer should still be working and updating internal state
+      // If it wasn't refreshed, scroll tracking would be broken
+      await waitFor(() => {
+        expect(listElement.scrollTop).toBe(100)
+      })
     })
 
     it('should refresh scroll observer when data changes', async () => {
@@ -1172,9 +1171,8 @@ describe('DrawerList component', () => {
       })
 
       // Scroll to middle
-      if (listElement) {
-        fireEvent.scroll(listElement, { target: { scrollTop: 50 } })
-      }
+      expect(listElement).toBeInTheDocument()
+      fireEvent.scroll(listElement, { target: { scrollTop: 50 } })
 
       // Update data - this should trigger refreshScrollObserver
       rerender(<DrawerList {...props} data={updatedData} scrollable />)
@@ -1188,16 +1186,14 @@ describe('DrawerList component', () => {
 
       // Verify scroll observer still works after data change
       // by checking that new scroll events are handled
-      if (listElement) {
-        const initialScrollTop = listElement.scrollTop
-        fireEvent.scroll(listElement, { target: { scrollTop: 100 } })
+      expect(listElement).toBeInTheDocument()
+      fireEvent.scroll(listElement, { target: { scrollTop: 100 } })
 
-        await waitFor(() => {
-          // If scroll observer wasn't refreshed, it would have stale item positions
-          // and scrolling might not work correctly
-          expect(listElement.scrollTop).toBe(100)
-        })
-      }
+      await waitFor(() => {
+        // If scroll observer wasn't refreshed, it would have stale item positions
+        // and scrolling might not work correctly
+        expect(listElement.scrollTop).toBe(100)
+      })
     })
   })
 
