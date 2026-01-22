@@ -201,14 +201,10 @@ describe('Flex.Item', () => {
         '--size--default: 5;'
       )
       expect(
-        getFlexItem(0)
-          .querySelector('.dnb-flex-item__spacer')
-          .getAttribute('style')
+        getFlexItem(0).querySelector('div').getAttribute('style')
       ).toBe('background: blue;')
       expect(
-        getFlexItem(1)
-          .querySelector('.dnb-flex-item__spacer')
-          .getAttribute('style')
+        getFlexItem(1).querySelector('div').getAttribute('style')
       ).toBe('background: red;')
     })
 
@@ -473,7 +469,7 @@ function getSpacingClasses() {
   const elements = document.querySelectorAll('.dnb-flex-item')
 
   elements.forEach((node) => {
-    const element = node.querySelector('.dnb-flex-item__spacer')
+    const element = node.querySelector('div')
 
     const item = []
 

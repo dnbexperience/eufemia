@@ -239,17 +239,12 @@ const InfoCard = (localProps: InfoCardAllProps) => {
 
         <div className="dnb-info-card__content">
           {title && (
-            <P
-              className="dnb-info-card__title"
-              size="small"
-              weight="medium"
-              bottom="x-small"
-            >
+            <P size="small" weight="medium" bottom="x-small">
               {title}
             </P>
           )}
           {text && (
-            <P size="small" className="dnb-info-card__text" bottom="0">
+            <P size="small" bottom="0">
               {text}
             </P>
           )}
