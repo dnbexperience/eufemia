@@ -204,6 +204,16 @@ function GlobalStatus(localProps) {
       // so we set this here, because it gets removed from the stack
       if (updatedGlobalStatus.onClose) {
         _globalStatusRef.current = updatedGlobalStatus
+      } else {
+        // Keep callbacks from current props if not in updated status
+        _globalStatusRef.current = {
+          ...updatedGlobalStatus,
+          onClose: propsRef.current.onClose,
+          onHide: propsRef.current.onHide,
+          onOpen: propsRef.current.onOpen,
+          onShow: propsRef.current.onShow,
+          onAdjust: propsRef.current.onAdjust,
+        }
       }
 
       // force re-render
@@ -280,8 +290,26 @@ function GlobalStatus(localProps) {
       setIsActive(true)
     } else if (localProps.show === false || localProps.show === 'false') {
       setIsActive(false)
+    } else if (localProps.show === 'auto') {
+      // When show="auto", respect explicit show:false from combined status
+      if (
+        typeof globalStatus.show !== 'undefined' &&
+        !isTrue(globalStatus.show)
+      ) {
+        setIsActive(false)
+      } else {
+        // Otherwise, evaluate based on current content
+        const hasCurrentContent = hasContent(globalStatus)
+        if (hasCurrentContent) {
+          _hadContentRef.current = true
+          setIsActive(true)
+        } else if (_hadContentRef.current && !hasCurrentContent) {
+          // Had content before but not anymore
+          setIsActive(false)
+        }
+      }
     }
-  }, [localProps.show])
+  }, [localProps.show, globalStatus]) // Depend on both show and globalStatus for auto mode
 
   const hasContent = (status) => {
     return Boolean(status?.items?.length > 0 || status?.text)
