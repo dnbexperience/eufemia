@@ -204,7 +204,7 @@
     "dotenv": "10.0.0",
     "dotenv-cli": "4.1.0",
     "eslint": "9.39.2",
-    "eslint-plugin-compat": "patch:eslint-plugin-compat@npm%3A6.0.2#~/.yarn/patches/eslint-plugin-compat-npm-6.0.2-187c42861e.patch",
+    "eslint-plugin-compat": "6.1.0",
     "eslint-plugin-import": "2.32.0",
     "eslint-plugin-jest": "29.12.1",
     "eslint-plugin-jsx-a11y": "6.10.2",
