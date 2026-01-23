@@ -156,7 +156,7 @@ function NumberFormat(localProps: NumberFormatAllProps) {
 
   // State
   const [selected, setSelected] = React.useState(false)
-  const [omitCurrencySign, setOmitCurrencySign] = React.useState(false)
+  const [omitCurrencySign, _setOmitCurrencySign] = React.useState(false)
   const [hover, setHover] = React.useState(false)
   const [copyTooltipActive, setCopyTooltipActive] = React.useState(false)
   const [copyTooltipText, setCopyTooltipText] =
