@@ -1,4 +1,5 @@
 import { PropertiesTableProps } from '../../../shared/types'
+import { FieldBlockProperties } from '../FieldBlock/FieldBlockDocs'
 
 export const ValueProperties: PropertiesTableProps = {
   value: {
@@ -21,11 +22,7 @@ export const ValueProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  help: {
-    doc: 'Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).',
-    type: 'object',
-    status: 'optional',
-  },
+  help: FieldBlockProperties.help,
   transformLabel: {
     doc: 'Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is a object containing the `convertJsxToString` function.',
     type: 'function',
