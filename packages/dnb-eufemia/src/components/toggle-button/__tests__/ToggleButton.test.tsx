@@ -295,7 +295,8 @@ describe('ToggleButton component', () => {
     expect(onChange).toHaveBeenCalledTimes(1)
 
     fireEvent.keyUp(element, { keyCode: 13 }) // enter
-    expect(onChange).toHaveBeenCalledTimes(2)
+    // KeyUp does not trigger onChange for Enter to prevent double-toggling
+    expect(onChange).toHaveBeenCalledTimes(1)
   })
 
   it('should support spacing props', () => {

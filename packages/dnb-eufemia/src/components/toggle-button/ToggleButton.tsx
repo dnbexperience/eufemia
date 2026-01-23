@@ -183,64 +183,80 @@ function ToggleButton(localProps: ToggleButtonProps) {
     prevStateCheckedRef.current = checked
   }, [checked, props])
 
-  const callOnChange = ({ checked: newChecked, event }) => {
-    if (toggleButtonGroupContext.onChange) {
-      toggleButtonGroupContext.onChange({
+  const callOnChange = React.useCallback(
+    ({ checked: newChecked, event }) => {
+      if (toggleButtonGroupContext.onChange) {
+        toggleButtonGroupContext.onChange({
+          value: props.value,
+          event,
+        })
+      }
+      dispatchCustomElementEvent({ props }, 'onChange', {
+        checked: newChecked,
         value: props.value,
         event,
       })
-    }
-    dispatchCustomElementEvent({ props }, 'onChange', {
-      checked: newChecked,
-      value: props.value,
-      event,
-    })
-  }
+    },
+    [toggleButtonGroupContext, props]
+  )
 
-  const onClickHandler = ({ event }) => {
-    if (isTrue(props.readOnly)) {
-      return event?.preventDefault()
-    }
-
-    // only select a value once
-    if (
-      !isTrue(toggleButtonGroupContext.multiselect) &&
-      props.value === toggleButtonGroupContext.value
-    ) {
-      return
-    }
-
-    // else we change the checked state
-    const newChecked = !checked
-    setChecked(newChecked)
-    callOnChange({ checked: newChecked, event })
-
-    if (_refButton.current && newChecked) {
-      // simulate focus for firefox and safari
-      // so we can get rid of the hover ring after click
-      try {
-        _refButton.current._ref.current.focus()
-      } catch (e) {
-        warn(e)
+  const onClickHandler = React.useCallback(
+    ({ event }) => {
+      if (isTrue(props.readOnly)) {
+        return event?.preventDefault()
       }
-    }
-  }
 
-  const onKeyDownHandler = (event) => {
-    switch (keycode(event)) {
-      case 'enter':
-        onClickHandler({ event })
-        break
-    }
-  }
+      // only select a value once (only applies when in a group context)
+      if (
+        toggleButtonGroupContext.name &&
+        typeof props.value !== 'undefined' &&
+        !isTrue(toggleButtonGroupContext.multiselect) &&
+        props.value === toggleButtonGroupContext.value
+      ) {
+        return
+      }
 
-  const onKeyUpHandler = (event) => {
-    switch (keycode(event)) {
-      case 'enter':
-        onClickHandler({ event })
-        break
-    }
-  }
+      // else we change the checked state
+      const newChecked = !checked
+      setChecked(newChecked)
+      callOnChange({ checked: newChecked, event })
+
+      if (_refButton.current && newChecked) {
+        // simulate focus for firefox and safari
+        // so we can get rid of the hover ring after click
+        try {
+          _refButton.current._ref.current.focus()
+        } catch (e) {
+          warn(e)
+        }
+      }
+    },
+    [props, checked, toggleButtonGroupContext, callOnChange]
+  )
+
+  const onKeyDownHandler = React.useCallback(
+    (event) => {
+      switch (keycode(event)) {
+        case 'enter':
+          event.preventDefault() // Prevent native click event from firing
+          onClickHandler({ event })
+          break
+      }
+    },
+    [onClickHandler]
+  )
+
+  const onKeyUpHandler = React.useCallback(
+    (event) => {
+      switch (keycode(event)) {
+        case 'enter':
+          // Do not handle Enter on keyUp to prevent double-toggling
+          // Only keyDown should trigger the toggle
+          break
+      }
+    },
+    [onClickHandler]
+  )
 
   const {
     status,
