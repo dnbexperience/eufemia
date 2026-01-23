@@ -189,6 +189,7 @@ function GlobalStatus(localProps) {
   const [isActive, setIsActive] = React.useState(() =>
     isTrue(localProps.show)
   )
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_isAnimating, setIsAnimating] = React.useState(false)
 
   const prevItemsRef = React.useRef(localProps.items)
