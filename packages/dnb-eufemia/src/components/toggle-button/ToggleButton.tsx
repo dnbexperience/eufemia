@@ -85,6 +85,7 @@ function ToggleButton(localProps: ToggleButtonProps) {
     leftComponent: toggleButtonGroupContext.leftComponent,
     disabled: toggleButtonGroupContext.disabled,
     skeleton: toggleButtonGroupContext.skeleton,
+    status: toggleButtonGroupContext.status,
   }
 
   const contextProps = extendPropsWithContext(
