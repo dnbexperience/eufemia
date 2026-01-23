@@ -104,6 +104,7 @@ function Modal(localProps: ModalPropTypes) {
   const isFirstRenderRef = React.useRef(true)
   const prevModalActiveRef = React.useRef(false)
   const renderCountRef = React.useRef(0)
+  const prevPropsRef = React.useRef(localProps)
 
   // Increment render count
   renderCountRef.current++
@@ -318,19 +319,16 @@ function Modal(localProps: ModalPropTypes) {
   ) // eslint-disable-line react-hooks/exhaustive-deps
 
   const openBasedOnStateUpdate = React.useCallback(() => {
-    const { hide, modalActive } = state
+    const { hide } = state
     const { open } = localProps
 
     if (!activeElementRef.current && typeof document !== 'undefined') {
       activeElementRef.current = document.activeElement
     }
 
-    // Open if not hidden, open=true, and not currently active
-    if (!hide && open === true && !modalActive) {
+    if (!hide && open === true) {
       toggleOpenClose(null, true)
-    }
-    // Close if hidden, open=false, and currently active
-    else if (hide && open === false && modalActive) {
+    } else if (hide && open === false) {
       toggleOpenClose(null, false)
     }
   }, [state, localProps.open]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -439,22 +437,28 @@ function Modal(localProps: ModalPropTypes) {
   ])
 
   // componentDidUpdate equivalent - call openBasedOnStateUpdate when state._open changes (after getDerivedStateFromProps)
+  // OR when props object reference changes (mimicking class component's prevProps !== this.props check)
   React.useEffect(() => {
     if (isFirstRenderRef.current) {
       isFirstRenderRef.current = false
+      prevPropsRef.current = localProps
       return
     }
     if (isInTransitionRef.current) {
       return
     }
 
-    // Only call if state._open actually changed
-    if (state._open !== prevOpenRef.current) {
+    // Check if props reference changed (like class component did with prevProps !== this.props)
+    const propsChanged = prevPropsRef.current !== localProps
+
+    // Only call if state._open actually changed OR props changed
+    if (state._open !== prevOpenRef.current || propsChanged) {
       openBasedOnStateUpdate()
     }
 
     prevOpenRef.current = state._open
-  }, [state._open, openBasedOnStateUpdate])
+    prevPropsRef.current = localProps
+  }, [state._open, localProps, openBasedOnStateUpdate])
 
   // componentDidMount equivalent
   React.useEffect(() => {
