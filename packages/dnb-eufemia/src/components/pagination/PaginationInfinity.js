@@ -438,7 +438,10 @@ const InteractionMarker = ({
   }, [pageNumber, onVisible])
 
   // Create observer if it doesn't exist
-  if (!intersectionObserverRef.current && typeof IntersectionObserver !== 'undefined') {
+  if (
+    !intersectionObserverRef.current &&
+    typeof IntersectionObserver !== 'undefined'
+  ) {
     intersectionObserverRef.current = new IntersectionObserver(
       (entries) => {
         const [{ isIntersecting }] = entries
