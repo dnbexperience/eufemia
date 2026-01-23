@@ -57,7 +57,85 @@ function createDocsFixture(): DocsFixture {
       '---',
       '# Input',
       '',
-      'Another component.',
+      'The Input component is used in forms. This is a form components for text input.',
+    ].join('\n')
+  )
+
+  fs.writeFileSync(
+    path.join(componentsDir, 'form.md'),
+    [
+      '---',
+      'title: Form',
+      '---',
+      '# Form',
+      '',
+      'Form components help build user interfaces. Use form elements like input fields.',
+    ].join('\n')
+  )
+
+  fs.writeFileSync(
+    path.join(componentsDir, 'textfield.md'),
+    [
+      '---',
+      'title: TextField',
+      '---',
+      '# TextField',
+      '',
+      'A text field is an input element for entering text data.',
+    ].join('\n')
+  )
+
+  // Add Field.Address component in extensions/forms/feature-fields
+  const extensionsFormsDir = path.join(
+    docsRoot,
+    'uilib',
+    'extensions',
+    'forms'
+  )
+  const featureFieldsDir = path.join(extensionsFormsDir, 'feature-fields')
+  fs.mkdirSync(featureFieldsDir, { recursive: true })
+
+  fs.writeFileSync(
+    path.join(featureFieldsDir, 'Address.mdx'),
+    [
+      '---',
+      'title: Field.Address',
+      '---',
+      '# Field.Address',
+      '',
+      'Field.Address is a wrapper component for the input of strings.',
+    ].join('\n')
+  )
+
+  // Add Field.String component in extensions/forms/base-fields
+  const baseFieldsDir = path.join(extensionsFormsDir, 'base-fields')
+  fs.mkdirSync(baseFieldsDir, { recursive: true })
+
+  fs.writeFileSync(
+    path.join(baseFieldsDir, 'String.mdx'),
+    [
+      '---',
+      'title: Field.String',
+      '---',
+      '# Field.String',
+      '',
+      'Field.String is the base component for receiving user input.',
+    ].join('\n')
+  )
+
+  // Add Value.Address component in extensions/forms/Value
+  const valueDir = path.join(extensionsFormsDir, 'Value')
+  fs.mkdirSync(valueDir, { recursive: true })
+
+  fs.writeFileSync(
+    path.join(valueDir, 'Address.mdx'),
+    [
+      '---',
+      'title: Value.Address',
+      '---',
+      '# Value.Address',
+      '',
+      'Value.Address is a wrapper component for displaying string values.',
     ].join('\n')
   )
 
@@ -182,7 +260,7 @@ describe('docs_search', () => {
 
   afterAll(() => cleanup())
 
-  it('returns ranked matches with snippets', async () => {
+  it('returns ranked matches with snippets for single-word queries', async () => {
     const tools = createDocsTools({ docsRoot })
     const result = await tools.docsSearch({
       query: 'foobar',
@@ -191,9 +269,180 @@ describe('docs_search', () => {
     const hits = JSON.parse(getText(result)) as Array<{
       path: string
       snippet: string
+      score: number
     }>
+    expect(hits.length).toBeGreaterThan(0)
     expect(hits[0]?.path).toBe('/uilib/components/button.md')
     expect(hits[0]?.snippet).toContain('foobar')
+    expect(hits[0]?.score).toBeGreaterThan(0)
+  })
+
+  it('handles multi-word queries with AND logic', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.docsSearch({
+      query: 'form components input',
+      limit: 5,
+    })
+    const hits = JSON.parse(getText(result)) as Array<{
+      path: string
+      score: number
+      snippet: string
+    }>
+    // Should find input.md which contains "form", "components", and "input"
+    expect(hits.length).toBeGreaterThan(0)
+    const inputHit = hits.find(
+      (h) => h.path === '/uilib/components/input.md'
+    )
+    expect(inputHit).toBeDefined()
+    expect(inputHit?.snippet.toLowerCase()).toMatch(/form/)
+    expect(inputHit?.snippet.toLowerCase()).toMatch(/component/)
+    expect(inputHit?.snippet.toLowerCase()).toMatch(/input/)
+    expect(inputHit?.score).toBeGreaterThan(0)
+  })
+
+  it('finds matches when words appear in different order', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.docsSearch({
+      query: 'input form components',
+      limit: 5,
+    })
+    const hits = JSON.parse(getText(result)) as Array<{
+      path: string
+      snippet: string
+    }>
+    // Should still find input.md even though words are in different order
+    const inputHit = hits.find(
+      (h) => h.path === '/uilib/components/input.md'
+    )
+    expect(inputHit).toBeDefined()
+  })
+
+  it('finds matches when words are separated by other text', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.docsSearch({
+      query: 'form input',
+      limit: 5,
+    })
+    const hits = JSON.parse(getText(result)) as Array<{
+      path: string
+      snippet: string
+    }>
+    // Should find both input.md and form.md
+    const inputHit = hits.find(
+      (h) => h.path === '/uilib/components/input.md'
+    )
+    const formHit = hits.find(
+      (h) => h.path === '/uilib/components/form.md'
+    )
+    expect(inputHit || formHit).toBeDefined()
+  })
+
+  it('returns empty results when not all words match', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.docsSearch({
+      query: 'form components nonexistent',
+      limit: 5,
+    })
+    const hits = JSON.parse(getText(result)) as Array<{
+      path: string
+    }>
+    // Should not find anything since "nonexistent" doesn't exist
+    expect(hits.length).toBe(0)
+  })
+
+  it('handles case-insensitive queries', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.docsSearch({
+      query: 'FORM COMPONENTS INPUT',
+      limit: 5,
+    })
+    const hits = JSON.parse(getText(result)) as Array<{
+      path: string
+      snippet: string
+    }>
+    // Should find results regardless of case
+    expect(hits.length).toBeGreaterThan(0)
+    const inputHit = hits.find(
+      (h) => h.path === '/uilib/components/input.md'
+    )
+    expect(inputHit).toBeDefined()
+  })
+
+  it('handles queries with extra whitespace', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.docsSearch({
+      query: '  form   components   input  ',
+      limit: 5,
+    })
+    const hits = JSON.parse(getText(result)) as Array<{
+      path: string
+      snippet: string
+    }>
+    // Should handle extra whitespace gracefully
+    expect(hits.length).toBeGreaterThan(0)
+    const inputHit = hits.find(
+      (h) => h.path === '/uilib/components/input.md'
+    )
+    expect(inputHit).toBeDefined()
+  })
+
+  it('returns empty results for queries shorter than 2 characters', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.docsSearch({
+      query: 'a',
+      limit: 5,
+    })
+    const hits = JSON.parse(getText(result)) as Array<{
+      path: string
+    }>
+    expect(hits.length).toBe(0)
+  })
+
+  it('ranks results by score (higher scores first)', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.docsSearch({
+      query: 'form',
+      limit: 10,
+    })
+    const hits = JSON.parse(getText(result)) as Array<{
+      path: string
+      score: number
+    }>
+    // Results should be sorted by score descending
+    for (let i = 1; i < hits.length; i++) {
+      expect(hits[i - 1]?.score).toBeGreaterThanOrEqual(
+        hits[i]?.score ?? 0
+      )
+    }
+  })
+
+  it('respects the limit parameter', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.docsSearch({
+      query: 'component',
+      limit: 2,
+    })
+    const hits = JSON.parse(getText(result)) as Array<{
+      path: string
+    }>
+    expect(hits.length).toBeLessThanOrEqual(2)
+  })
+
+  it('includes occurrence count in results', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.docsSearch({
+      query: 'input',
+      limit: 5,
+    })
+    const hits = JSON.parse(getText(result)) as Array<{
+      path: string
+      occurrences: number
+    }>
+    expect(hits.length).toBeGreaterThan(0)
+    const inputHit = hits.find(
+      (h) => h.path === '/uilib/components/input.md'
+    )
+    expect(inputHit?.occurrences).toBeGreaterThan(0)
   })
 })
 
@@ -217,11 +466,74 @@ describe('component_find', () => {
       properties?: string
       events?: string
       fromIndex?: boolean
+      docExists?: boolean
     }
     expect(info.doc).toBe('/uilib/components/button.md')
     expect(info.properties).toBe('/uilib/components/button.md')
     expect(info.events).toBe('/uilib/components/button.md')
     expect(info.fromIndex).toBe(false)
+    expect(info.docExists).toBe(true)
+  })
+
+  it('handles Field.Address dot notation', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.componentFind({ name: 'Field.Address' })
+    const info = JSON.parse(getText(result)) as {
+      doc?: string
+      docExists?: boolean
+    }
+    expect(info.doc).toBe(
+      '/uilib/extensions/forms/feature-fields/Address.mdx'
+    )
+    expect(info.docExists).toBe(true)
+  })
+
+  it('handles Field.String dot notation', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.componentFind({ name: 'Field.String' })
+    const info = JSON.parse(getText(result)) as {
+      doc?: string
+      docExists?: boolean
+    }
+    expect(info.doc).toBe('/uilib/extensions/forms/base-fields/String.mdx')
+    expect(info.docExists).toBe(true)
+  })
+
+  it('handles Value.Address dot notation', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.componentFind({ name: 'Value.Address' })
+    const info = JSON.parse(getText(result)) as {
+      doc?: string
+      docExists?: boolean
+    }
+    expect(info.doc).toBe('/uilib/extensions/forms/Value/Address.mdx')
+    expect(info.docExists).toBe(true)
+  })
+
+  it('handles case-insensitive dot notation', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.componentFind({ name: 'field.address' })
+    const info = JSON.parse(getText(result)) as {
+      doc?: string
+      docExists?: boolean
+    }
+    expect(info.doc).toBe(
+      '/uilib/extensions/forms/feature-fields/Address.mdx'
+    )
+    expect(info.docExists).toBe(true)
+  })
+
+  it('returns docExists false for non-existent components', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.componentFind({ name: 'Field.Nonexistent' })
+    const info = JSON.parse(getText(result)) as {
+      doc?: string
+      docExists?: boolean
+    }
+    expect(info.doc).toBe(
+      '/uilib/extensions/forms/feature-fields/Nonexistent.mdx'
+    )
+    expect(info.docExists).toBe(false)
   })
 })
 
@@ -241,6 +553,41 @@ describe('component_doc', () => {
     const tools = createDocsTools({ docsRoot })
     const result = await tools.componentDoc({ name: 'Button' })
     expect(getText(result)).toContain('# Button')
+  })
+
+  it('returns Field.Address component markdown', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.componentDoc({ name: 'Field.Address' })
+    expect(getText(result)).toContain('Field.Address')
+    expect(getText(result)).toContain('wrapper component')
+  })
+
+  it('returns Field.String component markdown', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.componentDoc({ name: 'Field.String' })
+    expect(getText(result)).toContain('Field.String')
+    expect(getText(result)).toContain('base component')
+  })
+
+  it('returns Value.Address component markdown', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.componentDoc({ name: 'Value.Address' })
+    expect(getText(result)).toContain('Value.Address')
+    expect(getText(result)).toContain('displaying string values')
+  })
+
+  it('handles case-insensitive component names', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.componentDoc({ name: 'field.address' })
+    expect(getText(result)).toContain('Field.Address')
+    expect(getText(result)).toContain('wrapper component')
+  })
+
+  it('returns error message for non-existent components', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.componentDoc({ name: 'Field.Nonexistent' })
+    expect(getText(result)).toContain('Component doc not found')
+    expect(getText(result)).toContain('Nonexistent.mdx')
   })
 })
 

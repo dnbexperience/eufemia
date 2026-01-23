@@ -14,8 +14,15 @@ import { getCommittedFiles } from '../../tools/cliTools'
 
 const makeStagePathException = (stage) => (stage === '/esm' ? '' : stage)
 
+// Filter out /es stage when BUILD_MINI is set (it's not built in mini builds)
+// Also filter it out if the directory doesn't exist (to avoid test failures)
+const getBuildStages = (stages) => {
+  const shouldSkipEs = process.env.BUILD_MINI
+  return shouldSkipEs ? stages.filter((s) => s !== '/es') : stages
+}
+
 describe('type definitions', () => {
-  const buildStages = ['/es', '/esm', '/cjs']
+  const buildStages = getBuildStages(['/es', '/esm', '/cjs'])
 
   it.each(buildStages)('has d.ts index file on stage %s', (stage) => {
     stage = makeStagePathException(stage)
@@ -93,7 +100,7 @@ describe('type definitions', () => {
 })
 
 describe('babel build', () => {
-  const buildStages = ['/es', '/esm', '/cjs']
+  const buildStages = getBuildStages(['/es', '/esm', '/cjs'])
 
   it('should not contain any .cjs or .mjs files', () => {
     const buildDir = path.resolve(packpath.self(), 'build')
@@ -460,7 +467,7 @@ describe('tsdown build', () => {
 })
 
 describe('style build', () => {
-  const buildStages = ['', '/es', '/cjs']
+  const buildStages = getBuildStages(['', '/es', '/cjs'])
 
   it.each(buildStages)('has created a package on stage "%s"', (stage) => {
     {

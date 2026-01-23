@@ -27,7 +27,7 @@
     "build:es": "./scripts/postbuild/babel-es.sh",
     "build:esm": "./scripts/postbuild/babel-esm.sh",
     "build:lebab": "babel-node --extensions .ts ./src/plugins/postcss-isolated-style-scope/scripts/transformToESM",
-    "build:mini": "BUILD_MINI=1 yarn build:ci && rm -rf ./build/es ./build/esm ./build/assets/icons ./build/assets/flags && find ./build/assets/fonts/ -type f \\( -name \"*.eot\" -o -name \"*.otf\" -o -name \"*.ttf\" -o -name \"*.zip\" \\) -delete",
+    "build:mini": "BUILD_MINI=1 yarn build:ci && rm -rf ./build/assets/icons ./build/assets/flags && find ./build/assets/fonts/ -type f \\( -name \"*.eot\" -o -name \"*.otf\" -o -name \"*.ttf\" -o -name \"*.zip\" \\) -delete",
     "build:pack": "yarn build && yarn publish:prepare && cd ./build && npm pack",
     "build:packages": "./scripts/postbuild/build-packages.sh",
     "build:prebuild": "babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/runPrepub",

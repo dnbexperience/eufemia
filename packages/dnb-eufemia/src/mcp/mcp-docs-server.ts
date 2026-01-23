@@ -124,7 +124,11 @@ async function listMarkdownFiles(rootAbs: string): Promise<string[]> {
         continue
       }
 
-      if (entry.isFile() && entry.name.toLowerCase().endsWith('.md')) {
+      if (
+        entry.isFile() &&
+        (entry.name.toLowerCase().endsWith('.md') ||
+          entry.name.toLowerCase().endsWith('.mdx'))
+      ) {
         out.push(relPath)
       }
     }
@@ -174,8 +178,47 @@ function normalizeName(name: unknown) {
     .toLowerCase()
 }
 
-function conventionalDocPath(name: string) {
-  return `/uilib/components/${normalizeName(name)}.md`
+function conventionalDocPath(name: string): string[] {
+  // Handle dot notation like "Field.Address" or "Value.Address"
+  if (name.includes('.')) {
+    const parts = name.split('.')
+    const prefix = parts[0] // e.g., "Field" or "Value"
+    const componentName = parts.slice(1).join('.') // e.g., "Address" or "Address.Postal"
+
+    // Capitalize first letter of component name for proper casing
+    const capitalizedName =
+      componentName.charAt(0).toUpperCase() + componentName.slice(1)
+
+    if (prefix.toLowerCase() === 'field') {
+      // Field components can be in base-fields or feature-fields
+      return [
+        `/uilib/extensions/forms/feature-fields/${capitalizedName}.mdx`,
+        `/uilib/extensions/forms/feature-fields/${capitalizedName}.md`,
+        `/uilib/extensions/forms/base-fields/${capitalizedName}.mdx`,
+        `/uilib/extensions/forms/base-fields/${capitalizedName}.md`,
+      ]
+    } else if (prefix.toLowerCase() === 'value') {
+      // Value components are in the Value directory
+      return [
+        `/uilib/extensions/forms/Value/${capitalizedName}.mdx`,
+        `/uilib/extensions/forms/Value/${capitalizedName}.md`,
+      ]
+    } else if (prefix.toLowerCase() === 'form') {
+      // Form components are in the Form directory
+      return [
+        `/uilib/extensions/forms/Form/${capitalizedName}.mdx`,
+        `/uilib/extensions/forms/Form/${capitalizedName}.md`,
+      ]
+    }
+    // For other prefixes, try extensions/forms/{prefix}/{componentName}
+    return [
+      `/uilib/extensions/forms/${prefix}/${capitalizedName}.mdx`,
+      `/uilib/extensions/forms/${prefix}/${capitalizedName}.md`,
+    ]
+  }
+
+  // Default: regular component in components directory
+  return [`/uilib/components/${normalizeName(name)}.md`]
 }
 
 function extractJsonBlocks(markdown: string) {
@@ -234,24 +277,41 @@ function createDocsContext(docsRoot: string) {
     let events = null
     const slug = null
 
-    if (!doc) {
-      doc = conventionalDocPath(name)
+    // Try multiple possible paths for the component
+    const possiblePaths = conventionalDocPath(name)
+
+    // Find the first path that exists
+    for (const candidatePath of possiblePaths) {
+      try {
+        const candidateAbs = resolveInside(docsRoot, candidatePath).abs
+        const st = await statSafe(candidateAbs)
+        if (st?.isFile()) {
+          doc = candidatePath
+          break
+        }
+        // If it's a directory, try adding .md or .mdx
+        if (st?.isDirectory()) {
+          const tryMd = candidatePath.replace(/\.(mdx?)?$/, '') + '.md'
+          const tryMdx = candidatePath.replace(/\.(mdx?)?$/, '') + '.mdx'
+          for (const tryPath of [tryMd, tryMdx]) {
+            const tryAbs = resolveInside(docsRoot, tryPath).abs
+            const trySt = await statSafe(tryAbs)
+            if (trySt?.isFile()) {
+              doc = tryPath
+              break
+            }
+          }
+          if (doc) break
+        }
+      } catch {
+        // ignore and try next path
+        continue
+      }
     }
 
-    // doc could be mistakenly a directory
-    try {
-      const docAbs0 = resolveInside(docsRoot, doc).abs
-      const st0 = await statSafe(docAbs0)
-      if (st0?.isDirectory()) {
-        const tryMd = doc.replace(/\/+$/, '') + '.md'
-        const tryAbs = resolveInside(docsRoot, tryMd).abs
-        const trySt = await statSafe(tryAbs)
-        if (trySt?.isFile()) {
-          doc = tryMd
-        }
-      }
-    } catch {
-      // ignore
+    // If no path found, use the first candidate as fallback
+    if (!doc && possiblePaths.length > 0) {
+      doc = possiblePaths[0]
     }
 
     // links from frontmatter
@@ -310,8 +370,18 @@ function createDocsContext(docsRoot: string) {
     prefix?: string,
     opts: { concurrency?: number; timeoutMs?: number } = {}
   ): Promise<SearchHit[]> {
-    const q = String(query ?? '').toLowerCase()
+    const q = String(query ?? '').trim()
     if (q.length < 2) {
+      return []
+    }
+
+    // Split query into words, filtering out empty strings
+    const queryWords = q
+      .toLowerCase()
+      .split(/\s+/)
+      .filter((w) => w.length > 0)
+
+    if (queryWords.length === 0) {
       return []
     }
 
@@ -354,19 +424,118 @@ function createDocsContext(docsRoot: string) {
         }
 
         const lower = text.toLowerCase()
-        const idx = lower.indexOf(q)
-        if (idx === -1) {
-          continue
+
+        // For single-word queries, use exact phrase matching (backward compatible)
+        if (queryWords.length === 1) {
+          const q = queryWords[0]
+          const idx = lower.indexOf(q)
+          if (idx === -1) {
+            continue
+          }
+
+          const occurrences = lower.split(q).length - 1
+          const score = Math.max(1, 1000 - idx) + occurrences * 25
+
+          const start = Math.max(0, idx - 80)
+          const end = Math.min(text.length, idx + q.length + 220)
+          const snippet = text
+            .slice(start, end)
+            .replace(/\s+/g, ' ')
+            .trim()
+
+          hits.push({ path: relPath, score, occurrences, snippet })
+        } else {
+          // For multi-word queries, find all words (AND logic)
+          const wordMatches: Array<{ word: string; indices: number[] }> =
+            []
+          let allWordsFound = true
+
+          for (const word of queryWords) {
+            const indices: number[] = []
+            let searchIdx = 0
+            while (true) {
+              const idx = lower.indexOf(word, searchIdx)
+              if (idx === -1) {
+                break
+              }
+              indices.push(idx)
+              searchIdx = idx + 1
+            }
+
+            if (indices.length === 0) {
+              allWordsFound = false
+              break
+            }
+
+            wordMatches.push({ word, indices })
+          }
+
+          if (!allWordsFound) {
+            continue
+          }
+
+          // Calculate score based on:
+          // 1. Position of first match (earlier is better)
+          // 2. Number of occurrences of each word
+          // 3. Proximity of words (closer together is better)
+          const firstMatchIdx = Math.min(
+            ...wordMatches.map((m) => m.indices[0])
+          )
+          const totalOccurrences = wordMatches.reduce(
+            (sum, m) => sum + m.indices.length,
+            0
+          )
+
+          // Calculate average proximity (distance between words)
+          let proximityScore = 0
+          if (wordMatches.length > 1) {
+            const allIndices = wordMatches.flatMap((m) =>
+              m.indices.map((idx) => ({ word: m.word, idx }))
+            )
+            allIndices.sort((a, b) => a.idx - b.idx)
+
+            // Find minimum span that contains all words
+            const wordSet = new Set(queryWords)
+            let minSpan = Infinity
+            for (let i = 0; i < allIndices.length; i++) {
+              const foundWords = new Set<string>()
+              for (let j = i; j < allIndices.length; j++) {
+                foundWords.add(allIndices[j].word)
+                if (foundWords.size === wordSet.size) {
+                  const span = allIndices[j].idx - allIndices[i].idx
+                  minSpan = Math.min(minSpan, span)
+                  break
+                }
+              }
+            }
+            // Closer words get higher score (inverse of span)
+            proximityScore =
+              minSpan < Infinity ? 1000 / (1 + minSpan / 10) : 0
+          }
+
+          const score =
+            Math.max(1, 1000 - firstMatchIdx) +
+            totalOccurrences * 25 +
+            proximityScore
+
+          // Generate snippet from first match position
+          const snippetStart = Math.max(0, firstMatchIdx - 80)
+          const snippetEnd = Math.min(
+            text.length,
+            firstMatchIdx + queryWords.join(' ').length + 220
+          )
+          const snippet = text
+            .slice(snippetStart, snippetEnd)
+            .replace(/\s+/g, ' ')
+            .trim()
+
+          hits.push({
+            path: relPath,
+            score,
+            occurrences: totalOccurrences,
+            snippet,
+          })
         }
-
-        const occurrences = lower.split(q).length - 1
-        const score = Math.max(1, 1000 - idx) + occurrences * 25
-
-        const start = Math.max(0, idx - 80)
-        const end = Math.min(text.length, idx + q.length + 220)
-        const snippet = text.slice(start, end).replace(/\s+/g, ' ').trim()
-
-        hits.push({ path: relPath, score, occurrences, snippet })
 
         if (hits.length >= limit * 3) {
           stopped = true
