@@ -64,6 +64,19 @@ Run `yarn workspace dnb-design-system-portal build:visual-test`.
 
 You can also run `filter=button,input yarn start` (case sensitive) to only run specific pages.
 
+### What are `build:mini` scripts
+
+When running `build:mini` scripts, the build will be faster and the output will be smaller. Its used for the CI/CD pipeline to build the package for the Sandbox or documentation preview.
+
+For the Portal, `build:mini` (`BUILD_MINI=1`) also skips some Gatsby plugins and processing steps to speed up the build. This currently includes:
+
+- `gatsby-plugin-eufemia-llm-metadata`
+- `gatsby-plugin-manifest`
+- `gatsby-plugin-meta-redirect`
+- `gatsby-plugin-offline`
+- `gatsby-plugin-algolia`
+- Image processing (`gatsby-plugin-sharp`, `gatsby-remark-images`)
+
 ## Dependency issues
 
 ### ESLint compat patch
