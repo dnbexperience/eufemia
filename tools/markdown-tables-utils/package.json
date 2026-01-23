@@ -1,0 +1,22 @@
+{
+  "private": true,
+  "name": "markdown-tables-utils",
+  "version": "1.0.0",
+  "description": "Shared markdown table extraction helpers",
+  "license": "SEE LICENSE IN LICENSE FILE",
+  "author": "DNB Team & Tobias Høegh",
+  "type": "module",
+  "main": "markdownTablesUtils.ts",
+  "types": "markdownTablesUtils.ts",
+  "exports": {
+    "import": "./markdownTablesUtils.ts",
+    "require": "./markdownTablesUtils.ts"
+  },
+  "scripts": {
+    "test": "node ../../node_modules/.bin/jest --config ./jest.config.js",
+    "lint": "node ../../node_modules/.bin/eslint **/*.ts"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}

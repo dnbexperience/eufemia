@@ -1,12 +1,20 @@
-const fs = require('fs')
-const path = require('path')
+import fs from 'fs'
+import path from 'path'
 
-function isAllowed(pathname, rules = {}) {
+type RobotsRules = {
+  allow?: string[]
+  disallow?: string[]
+}
+
+export function isAllowed(pathname: string, rules: RobotsRules = {}) {
   const { allow = [], disallow = [] } = rules || {}
   return prefLen(allow, pathname) >= prefLen(disallow, pathname)
 }
 
-async function loadRobots(baseDir = null) {
+export async function loadRobots(baseDir: string | null = null) {
+  if (!baseDir) {
+    throw new Error('baseDir is required to load robots.txt')
+  }
   const content = await fs.promises.readFile(
     path.join(baseDir, 'robots.txt'),
     'utf-8'
@@ -14,8 +22,8 @@ async function loadRobots(baseDir = null) {
   return parseRobots(content)
 }
 
-function parseRobots(content) {
-  const out = { allow: [], disallow: [] }
+function parseRobots(content: string) {
+  const out: Required<RobotsRules> = { allow: [], disallow: [] }
   const regex = /^(Allow|Disallow):\s*(\S+)/i
 
   String(content)
@@ -27,18 +35,16 @@ function parseRobots(content) {
       }
       const match = regex.exec(line)
       if (match) {
-        out[match[1].toLowerCase()].push(match[2])
+        out[match[1].toLowerCase() as 'allow' | 'disallow'].push(match[2])
       }
     })
 
   return out
 }
 
-function prefLen(arr, s) {
+function prefLen(arr: string[], s: string) {
   return arr.reduce(
     (m, p) => (p && s.startsWith(p) && p.length > m ? p.length : m),
     0
   )
 }
-
-module.exports = { isAllowed, loadRobots }

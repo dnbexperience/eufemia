@@ -1,17 +1,22 @@
 import fs from 'fs'
 import nodePath from 'path'
 import { parse, type ParserOptions } from '@babel/parser'
-import traverse, { type NodePath } from '@babel/traverse'
-import type * as BabelTypes from '@babel/types'
+import traverse from '@babel/traverse'
+import type { NodePath, types as BabelTypes } from '@babel/core'
 import { babylonConfigDefaults } from './babelPluginConfigDefaults'
 
+type BabelTypesModule = typeof import('@babel/core').types
+
+type BabelNodePath<T extends BabelTypes.Node = BabelTypes.Node> =
+  NodePath<T>
+
 type BabelPluginApi = {
-  types: typeof import('@babel/types')
+  types: BabelTypesModule
 }
 
 type TargetPath = {
   node: BabelTypes.Node
-  parentPath?: NodePath<BabelTypes.Node>
+  parentPath?: BabelNodePath<BabelTypes.Node>
   replaceWith?: (node: BabelTypes.Node) => void
 }
 
@@ -54,7 +59,9 @@ export function babelPluginPropTypesRelations(
   const { types: t } = babel
   const cloneNode = t.cloneNode || t.cloneDeep
 
-  const toTargetPath = (path: NodePath<BabelTypes.Node>): TargetPath => ({
+  const toTargetPath = (
+    path: BabelNodePath<BabelTypes.Node>
+  ): TargetPath => ({
     node: path.node,
     parentPath: path.parentPath,
     replaceWith: (node) => path.replaceWith(node),
@@ -66,14 +73,14 @@ export function babelPluginPropTypesRelations(
     targetPath,
   }: {
     ast?: BabelTypes.Node
-    path: NodePath<BabelTypes.Node>
+    path: BabelNodePath<BabelTypes.Node>
     targetPath: TargetPath
   }) => {
     if (targetPath.parentPath?.isSpreadElement()) {
       const multiReplaceList: BabelTypes.Node[] = []
       const container =
         (
-          targetPath.parentPath as NodePath<BabelTypes.Node> & {
+          targetPath.parentPath as BabelNodePath<BabelTypes.Node> & {
             container?: BabelTypes.Node[]
           }
         ).container || []
@@ -91,7 +98,7 @@ export function babelPluginPropTypesRelations(
       )
 
       const addToMultiReplaceList = (
-        path: NodePath<BabelTypes.ObjectProperty>
+        path: BabelNodePath<BabelTypes.ObjectProperty>
       ) => {
         const hash = getIdentifierName(path.node.key)
         if (hash && !existingPropKeys[hash]) {
@@ -114,10 +121,10 @@ export function babelPluginPropTypesRelations(
            * 2. Icon.js has: iconPropTypes, which has again: {...spacingPropTypes, ...}
            * 3. Follow SpacingHelper.js to grab spacingPropTypes
            */
-          SpreadElement(path: NodePath<BabelTypes.SpreadElement>) {
-            let targetRoot: NodePath<BabelTypes.Program> | null = null
+          SpreadElement(path: BabelNodePath<BabelTypes.SpreadElement>) {
+            let targetRoot: BabelNodePath<BabelTypes.Program> | null = null
             traverse(ast as BabelTypes.Node, {
-              Program(path: NodePath<BabelTypes.Program>) {
+              Program(path: BabelNodePath<BabelTypes.Program>) {
                 targetRoot = path
               },
             })
@@ -133,7 +140,9 @@ export function babelPluginPropTypesRelations(
 
             if (foundPath) {
               foundPath.traverse({
-                ObjectProperty(path: NodePath<BabelTypes.ObjectProperty>) {
+                ObjectProperty(
+                  path: BabelNodePath<BabelTypes.ObjectProperty>
+                ) {
                   addToMultiReplaceList(path)
                 },
               })
@@ -145,7 +154,7 @@ export function babelPluginPropTypesRelations(
            * 1. When parsing IconPrimary.js follow iconPropTypes from inside Icon.js
            * 2. Get all Icon.js "iconPropTypes" properties
            */
-          ObjectProperty(path: NodePath<BabelTypes.ObjectProperty>) {
+          ObjectProperty(path: BabelNodePath<BabelTypes.ObjectProperty>) {
             addToMultiReplaceList(path)
           },
         })
@@ -167,20 +176,22 @@ export function babelPluginPropTypesRelations(
          * static propTypes = { ...Variables };
          */
         path.parentPath.traverse({
-          SpreadElement(path: NodePath<BabelTypes.SpreadElement>) {
+          SpreadElement(path: BabelNodePath<BabelTypes.SpreadElement>) {
             const { foundPath } = findDeclarationRelation({
               targetPath: { node: path.node.argument },
             })
 
             if (foundPath) {
               foundPath.parentPath.traverse({
-                ObjectProperty(path: NodePath<BabelTypes.ObjectProperty>) {
+                ObjectProperty(
+                  path: BabelNodePath<BabelTypes.ObjectProperty>
+                ) {
                   addToMultiReplaceList(path)
                 },
               })
             }
           },
-          ObjectProperty(path: NodePath<BabelTypes.ObjectProperty>) {
+          ObjectProperty(path: BabelNodePath<BabelTypes.ObjectProperty>) {
             if (path.node?.value?.type === 'Identifier') {
               const { foundPath } = findDeclarationRelation({
                 targetPath: { node: path.node.value },
@@ -211,7 +222,7 @@ export function babelPluginPropTypesRelations(
         | BabelTypes.OptionalMemberExpression
       const memberPropertyName = getMemberPropertyName(memberExpression)
       path.parentPath.traverse({
-        ObjectProperty(path: NodePath<BabelTypes.ObjectProperty>) {
+        ObjectProperty(path: BabelNodePath<BabelTypes.ObjectProperty>) {
           if (
             memberPropertyName &&
             memberPropertyName === getIdentifierName(path.node.key)
@@ -242,15 +253,15 @@ export function babelPluginPropTypesRelations(
     targetPath,
     propertyName = null,
   }: {
-    targetRoot?: NodePath<BabelTypes.Program>
+    targetRoot?: BabelNodePath<BabelTypes.Program>
     targetPath: TargetPath
     propertyName?: string | null
   }) => {
-    let foundPath: NodePath<BabelTypes.Node> | null = null
+    let foundPath: BabelNodePath<BabelTypes.Node> | null = null
     let ast: BabelTypes.Node | null = null
 
     targetRoot.traverse({
-      Identifier(path: NodePath<BabelTypes.Identifier>) {
+      Identifier(path: BabelNodePath<BabelTypes.Identifier>) {
         const name = getIdentifierName(targetPath.node)
 
         if (name && path.isIdentifier({ name })) {
@@ -261,7 +272,7 @@ export function babelPluginPropTypesRelations(
             path.parentPath.isImportSpecifier() ||
             path.parentPath.isImportDefaultSpecifier()
           ) {
-            let selectedObjectExpression: NodePath<BabelTypes.Node> | null
+            let selectedObjectExpression: BabelNodePath<BabelTypes.Node> | null
 
             const sourceFile = (
               path.parentPath.parentPath
@@ -285,7 +296,7 @@ export function babelPluginPropTypesRelations(
               if (importName) {
                 traverse(ast as BabelTypes.Node, {
                   VariableDeclarator(
-                    path: NodePath<BabelTypes.VariableDeclarator>
+                    path: BabelNodePath<BabelTypes.VariableDeclarator>
                   ) {
                     if (
                       path.node.id.type === 'Identifier' &&
@@ -302,7 +313,7 @@ export function babelPluginPropTypesRelations(
             if (path.parentPath.isImportDefaultSpecifier()) {
               traverse(ast as BabelTypes.Node, {
                 ExportDefaultDeclaration(
-                  exportPath: NodePath<BabelTypes.ExportDefaultDeclaration>
+                  exportPath: BabelNodePath<BabelTypes.ExportDefaultDeclaration>
                 ) {
                   const declaration = exportPath.node.declaration
                   const exportDeclarationName =
@@ -315,7 +326,7 @@ export function babelPluginPropTypesRelations(
 
                   traverse(ast as BabelTypes.Node, {
                     MemberExpression(
-                      path: NodePath<BabelTypes.MemberExpression>
+                      path: BabelNodePath<BabelTypes.MemberExpression>
                     ) {
                       // Find Button.propTypes = "AssignmentExpression"
                       if (
@@ -331,7 +342,7 @@ export function babelPluginPropTypesRelations(
                         ) {
                           path.parentPath.traverse({
                             ObjectExpression(
-                              path: NodePath<BabelTypes.ObjectExpression>
+                              path: BabelNodePath<BabelTypes.ObjectExpression>
                             ) {
                               selectedObjectExpression = path
                             },
@@ -344,7 +355,9 @@ export function babelPluginPropTypesRelations(
                     },
 
                     // Find const someNameToProps = {}
-                    Identifier(path: NodePath<BabelTypes.Identifier>) {
+                    Identifier(
+                      path: BabelNodePath<BabelTypes.Identifier>
+                    ) {
                       if (
                         exportDeclarationName &&
                         path.node.name === exportDeclarationName &&
@@ -357,7 +370,7 @@ export function babelPluginPropTypesRelations(
 
                     // Find class { strict propTypes = {} }
                     ClassProperty(
-                      path: NodePath<BabelTypes.ClassProperty>
+                      path: BabelNodePath<BabelTypes.ClassProperty>
                     ) {
                       if (
                         declaration.type === 'ClassDeclaration' &&
@@ -394,15 +407,15 @@ export function babelPluginPropTypesRelations(
     return { foundPath, ast }
   }
 
-  let root: NodePath<BabelTypes.Program>
+  let root: BabelNodePath<BabelTypes.Program>
 
   return {
     visitor: {
-      Program(path: NodePath<BabelTypes.Program>) {
+      Program(path: BabelNodePath<BabelTypes.Program>) {
         root = path
       },
 
-      Identifier(path: NodePath<BabelTypes.Identifier>) {
+      Identifier(path: BabelNodePath<BabelTypes.Identifier>) {
         /**
          * Iterate over every propTypes object properties,
          * and extend them, we they need to.
@@ -413,9 +426,11 @@ export function babelPluginPropTypesRelations(
             path.node.name === 'defaultProps')
         ) {
           path.parentPath.parentPath.traverse({
-            ObjectExpression(path: NodePath<BabelTypes.ObjectExpression>) {
+            ObjectExpression(
+              path: BabelNodePath<BabelTypes.ObjectExpression>
+            ) {
               path.traverse({
-                Identifier(path: NodePath<BabelTypes.Identifier>) {
+                Identifier(path: BabelNodePath<BabelTypes.Identifier>) {
                   let targetPath: TargetPath | null = null
 
                   /**

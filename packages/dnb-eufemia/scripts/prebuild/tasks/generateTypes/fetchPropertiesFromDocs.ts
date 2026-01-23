@@ -7,7 +7,6 @@ import fs from 'fs-extra'
 import path from 'path'
 import { log } from '../../../lib'
 import { asyncForEach } from '../../../tools'
-import { Extractor } from 'markdown-tables-to-json'
 import {
   toKebabCase,
   toPascalCase,
@@ -173,6 +172,12 @@ async function extractorFactory({
   componentName,
   unsureSituation = false,
 }: ExtractorFactoryOptions) {
+  if (process.env.BUILD_MINI) {
+    return { docs: [], componentName, unsureSituation }
+  }
+
+  const { extractMarkdownTables } = await import('markdown-tables-utils')
+
   const collections = await asyncForEach(
     mdxDocsFiles,
     async ({ file }) => {
@@ -184,7 +189,7 @@ async function extractorFactory({
       const relationalTable = []
       const mdContent = await fs.readFile(file, 'utf-8')
 
-      const allTables = Extractor.extractAllTables(mdContent, 'rows')
+      const allTables = extractMarkdownTables(mdContent)
 
       allTables.forEach((rows, tableIndex) => {
         const headerRow = rows.shift()

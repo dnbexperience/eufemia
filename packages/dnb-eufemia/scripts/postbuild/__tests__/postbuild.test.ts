@@ -14,8 +14,15 @@ import { getCommittedFiles } from '../../tools/cliTools'
 
 const makeStagePathException = (stage) => (stage === '/esm' ? '' : stage)
 
+// Filter out /es stage when BUILD_MINI is set (it's not built in mini builds)
+// Also filter it out if the directory doesn't exist (to avoid test failures)
+const getBuildStages = (stages) => {
+  const shouldSkipEs = process.env.BUILD_MINI
+  return shouldSkipEs ? stages.filter((s) => s !== '/es') : stages
+}
+
 describe('type definitions', () => {
-  const buildStages = ['/es', '/esm', '/cjs']
+  const buildStages = getBuildStages(['/es', '/esm', '/cjs'])
 
   it.each(buildStages)('has d.ts index file on stage %s', (stage) => {
     stage = makeStagePathException(stage)
@@ -93,7 +100,7 @@ describe('type definitions', () => {
 })
 
 describe('babel build', () => {
-  const buildStages = ['/es', '/esm', '/cjs']
+  const buildStages = getBuildStages(['/es', '/esm', '/cjs'])
 
   it('should not contain any .cjs or .mjs files', () => {
     const buildDir = path.resolve(packpath.self(), 'build')
@@ -367,6 +374,50 @@ describe('babel build', () => {
   })
 })
 
+const describeDocsBuild = process.env.BUILD_MINI ? describe.skip : describe
+describeDocsBuild('docs build', () => {
+  const docsRoot = path.resolve(packpath.self(), 'build/docs')
+
+  it('generates llm entry file', () => {
+    const readmePath = path.join(docsRoot, 'llm.md')
+    const llmsPath = path.join(docsRoot, 'llms.txt')
+
+    expect(fs.existsSync(readmePath)).toBe(true)
+    expect(fs.existsSync(llmsPath)).toBe(false)
+
+    const content = fs.readFileSync(readmePath, 'utf-8')
+    expect(content).toContain(
+      '/uilib/usage/first-steps/quick-reference.md'
+    )
+    expect(content).toContain('## Machine-readable docs')
+    expect(content).not.toContain('https://eufemia.dnb.no')
+  })
+
+  it('writes markdown copies', () => {
+    const markdownPath = path.join(
+      docsRoot,
+      'uilib/components/breadcrumb.md'
+    )
+
+    expect(fs.existsSync(markdownPath)).toBe(true)
+
+    const markdown = fs.readFileSync(markdownPath, 'utf-8')
+    expect(markdown).toContain('version:')
+    expect(markdown).toContain('generatedAt:')
+    expect(markdown).toContain('checksum:')
+    expect(markdown).toContain('## Description')
+    expect(markdown).toContain('## Demos')
+    expect(markdown).toContain('## Properties')
+    expect(markdown).toContain('## Translations')
+    expect(markdown).toContain('## `Breadcrumb` properties')
+    expect(markdown).toContain('## `Breadcrumb` events')
+    expect(markdown).toContain('## `Breadcrumb.Item` properties')
+    expect(markdown).toContain('## `Breadcrumb.Item` events')
+    expect(markdown).toMatch(/```json[\s\S]*```/)
+    expect(markdown).toMatch(/```tsx[\s\S]*render\(/)
+  })
+})
+
 describe('tsdown build', () => {
   const buildStages = ['/esm', '/umd']
 
@@ -416,7 +467,7 @@ describe('tsdown build', () => {
 })
 
 describe('style build', () => {
-  const buildStages = ['', '/es', '/cjs']
+  const buildStages = getBuildStages(['', '/es', '/cjs'])
 
   it.each(buildStages)('has created a package on stage "%s"', (stage) => {
     {

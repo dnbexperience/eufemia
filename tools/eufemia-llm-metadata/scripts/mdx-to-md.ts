@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-/* eslint-disable no-console */
 
 import fs from 'node:fs'
 import path from 'node:path'
@@ -11,7 +10,6 @@ import * as t from '@babel/types'
 
 const traverse = (traverseModule as any).default ?? traverseModule
 const generate = (generateModule as any).default ?? generateModule
-const PUBLIC_URL = process.env.CF_PAGES_URL || 'https://eufemia.dnb.no'
 
 type ComponentCodeMap = Map<string, string>
 type ImportsByFile = Map<string, string[]>
@@ -41,7 +39,7 @@ async function main() {
   const docsRoot = path.join(portalRoot, 'src/docs')
   const prettierConfigPath = path.join(portalRoot, '.prettierrc')
   const prettierConfig = JSON.parse(
-    fs.readFileSync(prettierConfigPath, 'utf-8'),
+    fs.readFileSync(prettierConfigPath, 'utf-8')
   ) as PrettierConfig
 
   const state: ConvertState = {
@@ -59,7 +57,7 @@ async function main() {
   console.log(`Wrote ${outputPath}`)
 }
 
-if (require.main === module) {
+if (typeof require !== 'undefined' && require.main === module) {
   main().catch((error) => {
     console.error(error)
     process.exit(1)
@@ -88,7 +86,7 @@ function resolvePortalRoot(startDir: string) {
     const portalCandidate = path.join(
       current,
       'packages',
-      'dnb-design-system-portal',
+      'dnb-design-system-portal'
     )
     if (fs.existsSync(portalCandidate)) {
       return portalCandidate
@@ -101,7 +99,7 @@ function resolvePortalRoot(startDir: string) {
   }
 
   throw new Error(
-    'Could not resolve dnb-design-system-portal root. Run from repo root or packages/dnb-design-system-portal.',
+    'Could not resolve dnb-design-system-portal root. Run from repo root or packages/dnb-design-system-portal.'
   )
 }
 
@@ -168,7 +166,7 @@ function extractImports(content: string) {
 
 function collectImportSpecifiers(
   statement: string,
-  importsByFile: ImportsByFile,
+  importsByFile: ImportsByFile
 ) {
   if (/^import\s+type\s+/.test(statement)) {
     return
@@ -335,9 +333,8 @@ export async function convertMdxToMd({
   ])
   outputBody = replaceComponentUsages(outputBody, componentCode)
 
-  const metadataUrl = buildMetadataUrlFromPath(inputPath, docsRoot)
   const outputFrontmatter = includeFrontmatter
-    ? addMetadataToFrontmatter(frontmatter, metadataUrl)
+    ? addDocLinksToFrontmatter(frontmatter)
     : ''
   const output = [outputFrontmatter, outputBody.trim()]
     .filter(Boolean)
@@ -349,22 +346,9 @@ export async function convertMdxToMd({
   return `${formattedOutput.trim()}\n`
 }
 
-function buildMetadataUrlFromPath(filePath: string, docsRoot: string) {
-  const rel = path.relative(docsRoot, filePath)
-  const noExt = rel.replace(/\.[^/.]+$/, '')
-  const slug = `/${path.posix.join(
-    'uilib',
-    noExt.split(path.sep).join('/'),
-  )}/`
-  return `${PUBLIC_URL}${slug}metadata.json`
-}
-
-function addMetadataToFrontmatter(
-  frontmatter: string,
-  metadataUrl: string,
-) {
+function addDocLinksToFrontmatter(frontmatter: string) {
   if (!frontmatter) {
-    return `---\nmetadata: ${metadataUrl}\n---`
+    return ''
   }
   const lines = frontmatter
     .replace(/^---\n/, '')
@@ -386,7 +370,6 @@ function addMetadataToFrontmatter(
       cleaned.push(line)
     }
   }
-  cleaned.push(`metadata: ${metadataUrl}`)
   return `---\n${cleaned.join('\n')}\n---`
 }
 
@@ -480,7 +463,7 @@ function getReturnedJSX(fnNode?: any) {
     }
     if (t.isBlockStatement(fnNode.body)) {
       const returnStmt = fnNode.body.body.find((node) =>
-        t.isReturnStatement(node),
+        t.isReturnStatement(node)
       )
       const arg = returnStmt?.argument
       if (t.isJSXElement(arg) || t.isJSXFragment(arg)) {
@@ -491,7 +474,7 @@ function getReturnedJSX(fnNode?: any) {
 
   if (t.isFunctionDeclaration(fnNode) || t.isFunctionExpression(fnNode)) {
     const returnStmt = fnNode.body.body.find((node) =>
-      t.isReturnStatement(node),
+      t.isReturnStatement(node)
     )
     const arg = returnStmt?.argument
     if (t.isJSXElement(arg) || t.isJSXFragment(arg)) {
@@ -504,7 +487,7 @@ function getReturnedJSX(fnNode?: any) {
 
 async function formatJSXChildren(
   jsxNode: t.JSXElement | t.JSXFragment,
-  prettierConfig: PrettierConfig,
+  prettierConfig: PrettierConfig
 ) {
   let children: Array<any> = []
 
@@ -547,7 +530,7 @@ async function formatJSXChildren(
           const last = statements[statements.length - 1]
           if (t.isReturnStatement(last) && last.argument) {
             const renderCall = t.expressionStatement(
-              t.callExpression(t.identifier('render'), [last.argument]),
+              t.callExpression(t.identifier('render'), [last.argument])
             )
             childCode = statements
               .slice(0, -1)
@@ -611,10 +594,9 @@ function stripWrapperTags(content: string, tagNames: string[]) {
 
 function replaceComponentUsages(
   content: string,
-  componentCode: Map<string, ComponentEntry | string>,
+  componentCode: Map<string, ComponentEntry | string>
 ) {
-  const componentRegex =
-    /<([A-Z][A-Za-z0-9_]*(?:\.[A-Za-z0-9_]+)*)\s*\/>/g
+  const componentRegex = /<([A-Z][A-Za-z0-9_]*(?:\.[A-Za-z0-9_]+)*)\s*\/>/g
 
   return content.replace(componentRegex, (match, name: string) => {
     const entry = componentCode.get(name)
