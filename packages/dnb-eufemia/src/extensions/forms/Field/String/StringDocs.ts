@@ -1,7 +1,7 @@
-import { inputProperties } from '../../../../components/input/InputDocs'
+import { InputProperties } from '../../../../components/input/InputDocs'
 import { PropertiesTableProps } from '../../../../shared/types'
 
-export const stringProperties: PropertiesTableProps = {
+export const StringProperties: PropertiesTableProps = {
   multiline: {
     doc: 'True to be able to write in multiple lines (switching from input-element to textarea-element).',
     type: 'boolean',
@@ -60,13 +60,13 @@ export const stringProperties: PropertiesTableProps = {
 
   // - Input props
   size: {
-    ...inputProperties.size,
-    doc: `${inputProperties.size.doc} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`,
+    ...InputProperties.size,
+    doc: `${InputProperties.size.doc} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`,
   },
-  align: inputProperties.align,
-  selectall: inputProperties.selectall,
-  clear: inputProperties.clear,
-  keepPlaceholder: inputProperties.keep_placeholder,
+  align: InputProperties.align,
+  selectall: InputProperties.selectall,
+  clear: InputProperties.clear,
+  keepPlaceholder: InputProperties.keep_placeholder,
 
   // - Textarea props
   rows: {

@@ -1,6 +1,6 @@
 import { PropertiesTableProps } from '../../shared/types'
 
-export const inputProperties: PropertiesTableProps = {
+export const InputProperties: PropertiesTableProps = {
   value: {
     doc: 'The content value of the input.',
     type: 'string',
@@ -158,7 +158,7 @@ export const inputProperties: PropertiesTableProps = {
   },
 }
 
-export const inputEvents: PropertiesTableProps = {
+export const InputEvents: PropertiesTableProps = {
   on_change: {
     doc: 'Will be called on value changes made by the user. Returns an object with the value as a string and the native event: `{ value, event }`.',
     type: 'function',
