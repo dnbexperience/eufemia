@@ -3,8 +3,6 @@
 /**
  * Web ToggleButtonGroup Component
  *
- * This is a legacy component.
- * For referencing while developing new features, please use a Functional component.
  */
 
 import React from 'react'
@@ -12,7 +10,7 @@ import clsx from 'clsx'
 import {
   isTrue,
   makeUniqueId,
-  extendPropsWithContextInClassComponent,
+  extendPropsWithContext,
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
@@ -30,274 +28,277 @@ import Suffix from '../../shared/helpers/Suffix'
 import ToggleButtonGroupContext from './ToggleButtonGroupContext'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
-class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
-  static contextType = Context
+const defaultProps = {
+  label: null,
+  labelDirection: null,
+  labelSrOnly: null,
+  title: null,
+  multiselect: null,
+  variant: null,
+  leftComponent: null,
+  disabled: null,
+  skeleton: null,
+  id: null,
+  name: null,
+  size: null,
+  status: null,
+  statusState: 'error',
+  statusProps: null,
+  statusNoAnimation: null,
+  globalStatus: null,
+  suffix: null,
+  vertical: null,
+  layoutDirection: 'row',
+  value: undefined,
+  values: undefined,
+  attributes: null,
 
-  static defaultProps = {
-    label: null,
-    labelDirection: null,
-    labelSrOnly: null,
-    title: null,
-    multiselect: null,
-    variant: null,
-    leftComponent: null,
-    disabled: null,
-    skeleton: null,
-    id: null,
-    name: null,
-    size: null,
-    status: null,
-    statusState: 'error',
-    statusProps: null,
-    statusNoAnimation: null,
-    globalStatus: null,
-    suffix: null,
-    vertical: null,
-    layoutDirection: 'row',
-    value: undefined,
-    values: undefined,
-    attributes: null,
+  className: null,
+  children: null,
 
-    className: null,
-    children: null,
+  onChange: null,
+}
 
-    onChange: null,
+const getValues = (props) => {
+  if (typeof props.values === 'string' && props.values[0] === '[') {
+    return JSON.parse(props.values)
   }
+  return props.values
+}
 
-  static getDerivedStateFromProps(props, state) {
-    if (state._listenForPropChanges) {
-      if (
-        typeof props.value !== 'undefined' &&
-        props.value !== state.value
-      ) {
-        state.value = props.value
-      }
-      if (
-        typeof props.values !== 'undefined' &&
-        props.values !== state.values
-      ) {
-        state.values = ToggleButtonGroup.getValues(props)
-      }
+function ToggleButtonGroup(localProps: ToggleButtonGroupProps) {
+  const sharedContext = React.useContext(Context)
+
+  const _idRef = React.useRef(localProps.id || makeUniqueId())
+  const _nameRef = React.useRef(localProps.name || makeUniqueId())
+  const _id = _idRef.current
+  const _name = _nameRef.current
+
+  const [value, setValue] = React.useState(localProps.value)
+  const [values, setValues] = React.useState(() => getValues(localProps))
+
+  const prevValueRef = React.useRef(localProps.value)
+  const prevValuesRef = React.useRef(localProps.values)
+
+  // getDerivedStateFromProps equivalent
+  React.useEffect(() => {
+    if (
+      typeof localProps.value !== 'undefined' &&
+      localProps.value !== prevValueRef.current
+    ) {
+      setValue(localProps.value)
     }
-    state._listenForPropChanges = true
+    prevValueRef.current = localProps.value
+  }, [localProps.value])
 
-    return state
-  }
-
-  static getValues(props) {
-    if (typeof props.values === 'string' && props.values[0] === '[') {
-      return JSON.parse(props.values)
+  React.useEffect(() => {
+    if (
+      typeof localProps.values !== 'undefined' &&
+      localProps.values !== prevValuesRef.current
+    ) {
+      setValues(getValues(localProps))
     }
-    return props.values
-  }
+    prevValuesRef.current = localProps.values
+  }, [localProps.values])
 
-  constructor(props) {
-    super(props)
-    this._refInput = React.createRef()
-    this._id = props.id || makeUniqueId() // cause we need an id anyway
-    this._name = props.name || makeUniqueId() // cause we need an id anyway
-    this.state = {
-      // do not set the value here, else get true in this check } else if (context.values && Array.isArray(context.values)) {
-      _listenForPropChanges: true,
-    }
-  }
+  const onChangeHandler = React.useCallback(
+    ({ value: newValue, event }) => {
+      const updatedValues = values || []
 
-  onChangeHandler = ({ value, event }) => {
-    const { multiselect } = this.props
-    const values = this.state.values || []
-
-    if (isTrue(multiselect)) {
-      if (!values.includes(value)) {
-        values.push(value)
-      } else {
-        values.splice(values.indexOf(value), 1)
-      }
-    }
-
-    this.setState({
-      value,
-      values,
-      _listenForPropChanges: false,
-    })
-
-    dispatchCustomElementEvent(this, 'onChange', {
-      value,
-      values,
-      event,
-    })
-  }
-
-  render() {
-    // use only the props from context, who are available here anyway
-    const props = extendPropsWithContextInClassComponent(
-      this.props,
-      ToggleButtonGroup.defaultProps,
-      this.context.getTranslation(this.props).ToggleButton,
-      pickFormElementProps(this.context?.formElement),
-      this.context.ToggleButtonGroup
-    )
-
-    const {
-      status,
-      statusState,
-      statusProps,
-      statusNoAnimation,
-      globalStatus,
-      suffix,
-      labelDirection,
-      labelSrOnly,
-      vertical,
-      layoutDirection,
-      label,
-      variant,
-      leftComponent,
-      size,
-      disabled,
-      skeleton,
-      className,
-
-      multiselect,
-      id: _id, // eslint-disable-line
-      name: _name, // eslint-disable-line
-      value: _value, // eslint-disable-line
-      values: _values, // eslint-disable-line
-      children, // eslint-disable-line
-      onChange, // eslint-disable-line
-
-      ...rest
-    } = props
-
-    const { value, values } = this.state
-
-    const id = this._id
-    const showStatus = getStatusState(status)
-
-    const classes = clsx(
-      'dnb-toggle-button-group',
-      status && `dnb-toggle-button-group__status--${statusState}`,
-      !label && 'dnb-toggle-button-group--no-label',
-      `dnb-toggle-button-group--${layoutDirection}`,
-      'dnb-form-component',
-      createSpacingClasses(props),
-      className
-    )
-
-    const params = {
-      ...rest,
-    }
-
-    if (showStatus || suffix) {
-      params['aria-describedby'] = combineDescribedBy(
-        params,
-        showStatus ? id + '-status' : null,
-        suffix ? id + '-suffix' : null
-      )
-    }
-    if (label) {
-      params['aria-labelledby'] = combineLabelledBy(params, id + '-label')
-    }
-
-    // also used for code markup simulation
-    validateDOMAttributes(this.props, params)
-
-    const context = {
-      name: this._name,
-      value,
-      values,
-      size,
-      multiselect: isTrue(multiselect),
-      variant,
-      leftComponent,
-      disabled,
-      skeleton,
-      setContext: (context) => {
-        // also look for a function, where we are able to fill old values
-        // this is used in the "constructor" inside the ToggleButton.js component
-        if (typeof context === 'function') {
-          context = context(this._tmp)
+      if (isTrue(localProps.multiselect)) {
+        if (!updatedValues.includes(newValue)) {
+          updatedValues.push(newValue)
+        } else {
+          updatedValues.splice(updatedValues.indexOf(newValue), 1)
         }
-        this._tmp = { ...this._tmp, ...context }
-        this.setState({
-          ...context,
-          _listenForPropChanges: false,
-        })
-      },
-      onChange: this.onChangeHandler,
+      }
+
+      setValue(newValue)
+      setValues(updatedValues)
+
+      dispatchCustomElementEvent({ props: localProps }, 'onChange', {
+        value: newValue,
+        values: updatedValues,
+        event,
+      })
+    },
+    [localProps, values]
+  )
+
+  const setContext = React.useCallback((context) => {
+    // also look for a function, where we are able to fill old values
+    // this is used in the "constructor" inside the ToggleButton.js component
+    if (typeof context === 'function') {
+      context = context(tmpContextRef.current)
     }
+    tmpContextRef.current = { ...tmpContextRef.current, ...context }
 
-    const Fieldset = label ? 'fieldset' : 'div'
+    if (context.value !== undefined) {
+      setValue(context.value)
+    }
+    if (context.values !== undefined) {
+      setValues(context.values)
+    }
+  }, [])
 
-    return (
-      <ToggleButtonGroupContext.Provider value={context}>
-        <div className={classes}>
-          <AlignmentHelper />
-          <Fieldset
-            className="dnb-toggle-button-group__fieldset"
-            aria-labelledby={label ? id + '-label' : undefined}
-            role={variant === 'radio' ? 'radiogroup' : 'group'}
-          >
-            <Flex.Container
-              direction={
-                vertical || labelDirection === 'vertical'
-                  ? 'vertical'
-                  : 'horizontal'
-              }
-              gap={vertical ? 'x-small' : 'small'}
-            >
-              {label && (
-                <FormLabel
-                  element="legend"
-                  id={id + '-label'}
-                  srOnly={labelSrOnly}
-                >
-                  {label}
-                </FormLabel>
-              )}
+  const tmpContextRef = React.useRef({})
 
-              <Space
-                element="span"
-                id={id}
-                className="dnb-toggle-button-group__shell"
-                {...params}
-              >
-                <FormStatus
-                  show={showStatus}
-                  id={id + '-form-status'}
-                  globalStatus={globalStatus}
-                  label={label}
-                  textId={id + '-status'} // used for "aria-describedby"
-                  text={status}
-                  state={statusState}
-                  noAnimation={statusNoAnimation}
-                  skeleton={skeleton}
-                  {...statusProps}
-                />
+  // use only the props from context, who are available here anyway
+  const props = extendPropsWithContext(
+    localProps,
+    defaultProps,
+    sharedContext.getTranslation(localProps).ToggleButton,
+    pickFormElementProps(sharedContext?.formElement),
+    sharedContext.ToggleButtonGroup
+  )
 
-                <span
-                  className={clsx(
-                    'dnb-toggle-button-group__shell__children',
-                    `dnb-toggle-button-group__shell__children--${layoutDirection}`
-                  )}
-                >
-                  {children}
+  const {
+    status,
+    statusState,
+    statusProps,
+    statusNoAnimation,
+    globalStatus,
+    suffix,
+    labelDirection,
+    labelSrOnly,
+    vertical,
+    layoutDirection,
+    label,
+    variant,
+    leftComponent,
+    size,
+    disabled,
+    skeleton,
+    className,
 
-                  {suffix && (
-                    <Suffix
-                      className="dnb-toggle-button-group__suffix"
-                      id={id + '-suffix'} // used for "aria-describedby"
-                      context={props}
-                    >
-                      {suffix}
-                    </Suffix>
-                  )}
-                </span>
-              </Space>
-            </Flex.Container>
-          </Fieldset>
-        </div>
-      </ToggleButtonGroupContext.Provider>
+    multiselect,
+    id: _ignoreId, // eslint-disable-line
+    name: _ignoreName, // eslint-disable-line
+    value: _ignoreValue, // eslint-disable-line
+    values: _ignoreValues, // eslint-disable-line
+    children, // eslint-disable-line
+    onChange, // eslint-disable-line
+
+    ...rest
+  } = props
+
+  const id = _id
+  const showStatus = getStatusState(status)
+
+  const classes = clsx(
+    'dnb-toggle-button-group',
+    status && `dnb-toggle-button-group__status--${statusState}`,
+    !label && 'dnb-toggle-button-group--no-label',
+    `dnb-toggle-button-group--${layoutDirection}`,
+    'dnb-form-component',
+    createSpacingClasses(props),
+    className
+  )
+
+  const params = {
+    ...rest,
+  }
+
+  if (showStatus || suffix) {
+    params['aria-describedby'] = combineDescribedBy(
+      params,
+      showStatus ? id + '-status' : null,
+      suffix ? id + '-suffix' : null
     )
   }
+  if (label) {
+    params['aria-labelledby'] = combineLabelledBy(params, id + '-label')
+  }
+
+  // also used for code markup simulation
+  validateDOMAttributes(localProps, params)
+
+  const context = {
+    name: _name,
+    value,
+    values,
+    size,
+    multiselect: isTrue(multiselect),
+    variant,
+    leftComponent,
+    disabled,
+    skeleton,
+    setContext,
+    onChange: onChangeHandler,
+  }
+
+  const Fieldset = label ? 'fieldset' : 'div'
+
+  return (
+    <ToggleButtonGroupContext.Provider value={context}>
+      <div className={classes}>
+        <AlignmentHelper />
+        <Fieldset
+          className="dnb-toggle-button-group__fieldset"
+          aria-labelledby={label ? id + '-label' : undefined}
+          role={variant === 'radio' ? 'radiogroup' : 'group'}
+        >
+          <Flex.Container
+            direction={
+              vertical || labelDirection === 'vertical'
+                ? 'vertical'
+                : 'horizontal'
+            }
+            gap={vertical ? 'x-small' : 'small'}
+          >
+            {label && (
+              <FormLabel
+                element="legend"
+                id={id + '-label'}
+                srOnly={labelSrOnly}
+              >
+                {label}
+              </FormLabel>
+            )}
+
+            <Space
+              element="span"
+              id={id}
+              className="dnb-toggle-button-group__shell"
+              {...params}
+            >
+              <FormStatus
+                show={showStatus}
+                id={id + '-form-status'}
+                globalStatus={globalStatus}
+                label={label}
+                textId={id + '-status'} // used for "aria-describedby"
+                text={status}
+                state={statusState}
+                noAnimation={statusNoAnimation}
+                skeleton={skeleton}
+                {...statusProps}
+              />
+
+              <span
+                className={clsx(
+                  'dnb-toggle-button-group__shell__children',
+                  `dnb-toggle-button-group__shell__children--${layoutDirection}`
+                )}
+              >
+                {children}
+
+                {suffix && (
+                  <Suffix
+                    className="dnb-toggle-button-group__suffix"
+                    id={id + '-suffix'} // used for "aria-describedby"
+                    context={props}
+                  >
+                    {suffix}
+                  </Suffix>
+                )}
+              </span>
+            </Space>
+          </Flex.Container>
+        </Fieldset>
+      </div>
+    </ToggleButtonGroupContext.Provider>
+  )
 }
 
 ToggleButtonGroup._supportsSpacingProps = true
