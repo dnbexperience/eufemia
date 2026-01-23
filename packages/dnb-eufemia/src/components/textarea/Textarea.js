@@ -2,7 +2,13 @@
  * Web Textarea Component
  */
 
-import React, { useContext, useState, useRef, useEffect, useCallback } from 'react'
+import React, {
+  useContext,
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+} from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import FormLabel from '../form-label/FormLabel'
@@ -171,14 +177,14 @@ const defaultProps = {
  */
 const TextareaComponent = (localProps) => {
   const context = useContext(Context)
-  
+
   // Refs - initialize before using props
   const _ref = useRef(null)
   const _idRef = useRef(localProps.id || makeUniqueId())
   const _heightOffsetRef = useRef(undefined)
   const resizeObserverRef = useRef(null)
   const resizeModifierRef = useRef(null)
-  
+
   // Get extended props with context (call once per render)
   const props = extendPropsWithContext(
     localProps,
@@ -188,7 +194,7 @@ const TextareaComponent = (localProps) => {
     pickFormElementProps(context?.formElement),
     context.Textarea
   )
-  
+
   // State management
   const [textareaState, setTextareaState] = useState(
     props.textareaState || 'virgin'
@@ -228,9 +234,7 @@ const TextareaComponent = (localProps) => {
   }, [])
 
   const getRows = useCallback(() => {
-    return (
-      Math.floor(_ref.current.scrollHeight / getLineHeight()) || 1
-    )
+    return Math.floor(_ref.current.scrollHeight / getLineHeight()) || 1
   }, [getLineHeight])
 
   const prepareAutosize = useCallback(() => {
@@ -245,99 +249,118 @@ const TextareaComponent = (localProps) => {
     }
   }, [])
 
-  const setAutosize = useCallback((rows = null) => {
-    const elem = _ref.current
-    if (!elem) {
-      return
-    }
-    try {
-      if (typeof _heightOffsetRef.current === 'undefined') {
-        _heightOffsetRef.current = elem.offsetHeight - elem.clientHeight
+  const setAutosize = useCallback(
+    (rows = null) => {
+      const elem = _ref.current
+      if (!elem) {
+        return
       }
-
-      elem.style.height = 'auto'
-
-      const lineHeight = getLineHeight()
-      let newHeight = elem.scrollHeight + _heightOffsetRef.current
-      if (!rows) {
-        rows = getRows()
-      }
-
-      if (rows === 1) {
-        if (newHeight > lineHeight) {
-          newHeight = lineHeight
+      try {
+        if (typeof _heightOffsetRef.current === 'undefined') {
+          _heightOffsetRef.current = elem.offsetHeight - elem.clientHeight
         }
-      }
 
-      const maxRows = parseFloat(props.autoresizeMaxRows)
-      if (maxRows > 0) {
-        const maxHeight = maxRows * lineHeight
+        elem.style.height = 'auto'
 
-        if (rows > maxRows || newHeight > maxHeight) {
-          newHeight = maxHeight
+        const lineHeight = getLineHeight()
+        let newHeight = elem.scrollHeight + _heightOffsetRef.current
+        if (!rows) {
+          rows = getRows()
         }
-      }
 
-      elem.style.height = newHeight + 'px'
-    } catch (e) {
-      warn(e)
-    }
-  }, [getLineHeight, getRows, props.autoresizeMaxRows])
+        if (rows === 1) {
+          if (newHeight > lineHeight) {
+            newHeight = lineHeight
+          }
+        }
+
+        const maxRows = parseFloat(props.autoresizeMaxRows)
+        if (maxRows > 0) {
+          const maxHeight = maxRows * lineHeight
+
+          if (rows > maxRows || newHeight > maxHeight) {
+            newHeight = maxHeight
+          }
+        }
+
+        elem.style.height = newHeight + 'px'
+      } catch (e) {
+        warn(e)
+      }
+    },
+    [getLineHeight, getRows, props.autoresizeMaxRows]
+  )
 
   // Event handlers
-  const onFocusHandler = useCallback((event) => {
-    const { value: currentValue } = _ref.current
-    setValue(currentValue)
-    setTextareaState('focus')
-    dispatchCustomElementEvent({ props: localProps }, 'onFocus', {
-      value: currentValue,
-      event,
-    })
-  }, [localProps])
-
-  const onBlurHandler = useCallback((event) => {
-    const { value: currentValue } = event.target
-    setValue(currentValue)
-    setTextareaState(hasValue(currentValue) ? 'dirty' : 'initial')
-    dispatchCustomElementEvent({ props: localProps }, 'onBlur', {
-      value: currentValue,
-      event,
-    })
-  }, [localProps])
-
-  const onChangeHandler = useCallback((event) => {
-    const { value: currentValue } = event.target
-
-    const autoresize = isTrue(props.autoresize)
-
-    if (autoresize) {
-      prepareAutosize()
-    }
-
-    const rows = getRows(currentValue)
-
-    const ret = dispatchCustomElementEvent({ props: localProps }, 'onChange', {
-      value: currentValue,
-      rows,
-      event,
-    })
-    if (ret !== false) {
+  const onFocusHandler = useCallback(
+    (event) => {
+      const { value: currentValue } = _ref.current
       setValue(currentValue)
-      if (autoresize) {
-        setAutosize(rows)
-      }
-    }
-  }, [localProps, props.autoresize, prepareAutosize, getRows, setAutosize])
+      setTextareaState('focus')
+      dispatchCustomElementEvent({ props: localProps }, 'onFocus', {
+        value: currentValue,
+        event,
+      })
+    },
+    [localProps]
+  )
 
-  const onKeyDownHandler = useCallback((event) => {
-    const rows = getRows()
-    const { value: currentValue } = event.target
-    dispatchCustomElementEvent({ props: localProps }, 'onKeyDown', {
-      value: currentValue,
-      rows,
-      event,
-    })
-  }, [localProps, getRows])
+  const onBlurHandler = useCallback(
+    (event) => {
+      const { value: currentValue } = event.target
+      setValue(currentValue)
+      setTextareaState(hasValue(currentValue) ? 'dirty' : 'initial')
+      dispatchCustomElementEvent({ props: localProps }, 'onBlur', {
+        value: currentValue,
+        event,
+      })
+    },
+    [localProps]
+  )
+
+  const onChangeHandler = useCallback(
+    (event) => {
+      const { value: currentValue } = event.target
+
+      const autoresize = isTrue(props.autoresize)
+
+      if (autoresize) {
+        prepareAutosize()
+      }
+
+      const rows = getRows(currentValue)
+
+      const ret = dispatchCustomElementEvent(
+        { props: localProps },
+        'onChange',
+        {
+          value: currentValue,
+          rows,
+          event,
+        }
+      )
+      if (ret !== false) {
+        setValue(currentValue)
+        if (autoresize) {
+          setAutosize(rows)
+        }
+      }
+    },
+    [localProps, props.autoresize, prepareAutosize, getRows, setAutosize]
+  )
+
+  const onKeyDownHandler = useCallback(
+    (event) => {
+      const rows = getRows()
+      const { value: currentValue } = event.target
+      dispatchCustomElementEvent({ props: localProps }, 'onKeyDown', {
+        value: currentValue,
+        rows,
+        event,
+      })
+    },
+    [localProps, getRows]
+  )
 
   // Effect for getDerivedStateFromProps logic
   useEffect(() => {
@@ -351,9 +374,13 @@ const TextareaComponent = (localProps) => {
         currentValue !== value &&
         typeof localProps.onStateUpdate === 'function'
       ) {
-        dispatchCustomElementEvent({ props: localProps }, 'onStateUpdate', {
-          value: currentValue,
-        })
+        dispatchCustomElementEvent(
+          { props: localProps },
+          'onStateUpdate',
+          {
+            value: currentValue,
+          }
+        )
       }
       setValue(currentValue)
     }
@@ -361,7 +388,13 @@ const TextareaComponent = (localProps) => {
       setTextareaState(localProps.textareaState)
     }
     set_value(localProps.value)
-  }, [localProps, localProps.value, localProps.textareaState, value, _value])
+  }, [
+    localProps,
+    localProps.value,
+    localProps.textareaState,
+    value,
+    _value,
+  ])
 
   // Effect for innerRef
   useEffect(() => {
