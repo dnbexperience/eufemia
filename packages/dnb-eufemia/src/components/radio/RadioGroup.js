@@ -1,15 +1,18 @@
 /**
  * Web RadioGroup Component
- *
- * This is a legacy component.
- * For referencing while developing new features, please use a Functional component.
  */
 
-import React from 'react'
+import React, {
+  useContext,
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+} from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import {
-  extendPropsWithContextInClassComponent,
+  extendPropsWithContext,
   makeUniqueId,
   validateDOMAttributes,
   getStatusState,
@@ -31,272 +34,281 @@ import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import RadioGroupContext from './RadioGroupContext'
 
+// Helper functions
+const parseChecked = (state) => /true|on/.test(String(state))
+
+const propTypes = {
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node,
+  ]),
+  labelDirection: PropTypes.oneOf(['horizontal', 'vertical']),
+  labelSrOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  labelPosition: PropTypes.oneOf(['left', 'right']),
+  title: PropTypes.string,
+  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  id: PropTypes.string,
+  name: PropTypes.string,
+  size: PropTypes.oneOf(['default', 'medium', 'large']),
+  status: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+    PropTypes.func,
+    PropTypes.node,
+  ]),
+  statusState: PropTypes.string,
+  statusProps: PropTypes.object,
+  statusNoAnimation: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+  ]),
+  globalStatus: PropTypes.shape({
+    id: PropTypes.string,
+    message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  }),
+  suffix: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node,
+  ]),
+  layoutDirection: PropTypes.oneOf(['column', 'row']),
+  vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  value: PropTypes.string,
+  attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+
+  ...spacingPropTypes,
+
+  className: PropTypes.string,
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node,
+  ]),
+
+  onChange: PropTypes.func,
+}
+
+const defaultProps = {
+  label: null,
+  labelDirection: null,
+  labelSrOnly: null,
+  labelPosition: null,
+  title: null,
+  disabled: null,
+  skeleton: null,
+  id: null,
+  name: null,
+  size: null,
+  status: null,
+  statusState: 'error',
+  statusProps: null,
+  statusNoAnimation: null,
+  globalStatus: null,
+  suffix: null,
+  vertical: null,
+  layoutDirection: 'row',
+  value: undefined,
+  attributes: null,
+
+  className: null,
+  children: null,
+
+  onChange: null,
+}
+
 /**
  * The radio component is our enhancement of the classic radio button. It acts like a radio. Example: On/off, yes/no.
  */
-export default class RadioGroup extends React.PureComponent {
-  static contextType = Context
+const RadioGroupComponent = (localProps) => {
+  const context = useContext(Context)
 
-  static propTypes = {
-    label: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    labelDirection: PropTypes.oneOf(['horizontal', 'vertical']),
-    labelSrOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    labelPosition: PropTypes.oneOf(['left', 'right']),
-    title: PropTypes.string,
-    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    id: PropTypes.string,
-    name: PropTypes.string,
-    size: PropTypes.oneOf(['default', 'medium', 'large']),
-    status: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    statusState: PropTypes.string,
-    statusProps: PropTypes.object,
-    statusNoAnimation: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    globalStatus: PropTypes.shape({
-      id: PropTypes.string,
-      message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    }),
-    suffix: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    layoutDirection: PropTypes.oneOf(['column', 'row']),
-    vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    value: PropTypes.string,
-    attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  // Refs - initialize before using props
+  const _idRef = useRef(localProps.id || makeUniqueId())
+  const _nameRef = useRef(localProps.name || _idRef.current)
 
-    ...spacingPropTypes,
+  // Get extended props with context
+  const props = extendPropsWithContext(
+    localProps,
+    defaultProps,
+    pickFormElementProps(context?.formElement),
+    context.RadioGroup
+  )
 
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
+  // State management
+  const [value, setValue] = useState(props.value)
+  const [_listenForPropChanges, setListenForPropChanges] = useState(true)
+  const [_value, set_value] = useState(props.value)
 
-    onChange: PropTypes.func,
-  }
-
-  static defaultProps = {
-    label: null,
-    labelDirection: null,
-    labelSrOnly: null,
-    labelPosition: null,
-    title: null,
-    disabled: null,
-    skeleton: null,
-    id: null,
-    name: null,
-    size: null,
-    status: null,
-    statusState: 'error',
-    statusProps: null,
-    statusNoAnimation: null,
-    globalStatus: null,
-    suffix: null,
-    vertical: null,
-    layoutDirection: 'row',
-    value: undefined,
-    attributes: null,
-
-    className: null,
-    children: null,
-
-    onChange: null,
-  }
-
-  static parseChecked = (state) => /true|on/.test(String(state))
-
-  static getDerivedStateFromProps(props, state) {
-    if (state._listenForPropChanges) {
-      if (props.value !== state._value) {
-        state.value = props.value
+  // Effect for getDerivedStateFromProps logic
+  useEffect(() => {
+    if (_listenForPropChanges) {
+      if (props.value !== _value) {
+        setValue(props.value)
       }
       if (typeof props.value !== 'undefined') {
-        state._value = props.value
+        set_value(props.value)
       }
     }
-    state._listenForPropChanges = true
+    setListenForPropChanges(true)
+  }, [props.value, _value, _listenForPropChanges])
 
-    return state
+  // Event handler
+  const onChangeHandler = useCallback(
+    ({ value: newValue, event }) => {
+      setValue(newValue)
+      setListenForPropChanges(false)
+      dispatchCustomElementEvent({ props: localProps }, 'onChange', {
+        value: newValue,
+        event,
+      })
+    },
+    [localProps]
+  )
+
+  // Render logic
+  const {
+    status,
+    statusState,
+    statusProps,
+    statusNoAnimation,
+    globalStatus,
+    suffix,
+    label,
+    labelDirection,
+    labelSrOnly,
+    labelPosition,
+    vertical,
+    layoutDirection,
+    size,
+    disabled,
+    skeleton,
+    className,
+
+    id: _id, // eslint-disable-line
+    name: _name, // eslint-disable-line
+    value: _valueProp, // eslint-disable-line
+    children, // eslint-disable-line
+    onChange, // eslint-disable-line
+
+    ...rest
+  } = props
+
+  const id = _idRef.current
+  const showStatus = getStatusState(status)
+
+  const classes = clsx(
+    'dnb-radio-group',
+    status && `dnb-radio-group__status--${statusState}`,
+    `dnb-radio-group--${layoutDirection}`,
+    'dnb-form-component',
+    createSpacingClasses(props),
+    className
+  )
+
+  const params = {
+    ...rest,
   }
+  const legendId = id + '-label'
 
-  constructor(props) {
-    super(props)
-    this._refInput = React.createRef()
-    this._id = props.id || makeUniqueId() // cause we need an id anyway
-    this._name = props.name || this._id
-    this.state = {
-      _listenForPropChanges: true,
-    }
-  }
-
-  onChangeHandler = ({ value, event }) => {
-    this.setState({ value, _listenForPropChanges: false })
-    dispatchCustomElementEvent(this, 'onChange', {
-      value,
-      event,
-    })
-  }
-
-  render() {
-    // use only the props from context, who are available here anyway
-    const props = extendPropsWithContextInClassComponent(
-      this.props,
-      RadioGroup.defaultProps,
-      pickFormElementProps(this.context?.formElement),
-      this.context.RadioGroup
+  if (showStatus || suffix) {
+    params['aria-describedby'] = combineDescribedBy(
+      params,
+      showStatus ? id + '-status' : null,
+      suffix ? id + '-suffix' : null
     )
+  }
+  if (label) {
+    params['aria-labelledby'] = combineLabelledBy(params, legendId)
+  }
 
-    const {
-      status,
-      statusState,
-      statusProps,
-      statusNoAnimation,
-      globalStatus,
-      suffix,
-      label,
-      labelDirection,
-      labelSrOnly,
-      labelPosition,
-      vertical,
-      layoutDirection,
-      size,
-      disabled,
-      skeleton,
-      className,
+  // also used for code markup simulation
+  validateDOMAttributes(localProps, params)
 
-      id: _id, // eslint-disable-line
-      name: _name, // eslint-disable-line
-      value: _value, // eslint-disable-line
-      children, // eslint-disable-line
-      onChange, // eslint-disable-line
+  const contextValue = {
+    name: _nameRef.current,
+    value,
+    size,
+    disabled,
+    labelPosition,
+    onChange: onChangeHandler,
+  }
 
-      ...rest
-    } = props
+  const Fieldset = label ? 'fieldset' : 'div'
 
-    const { value } = this.state
-
-    const id = this._id
-    const showStatus = getStatusState(status)
-
-    const classes = clsx(
-      'dnb-radio-group',
-      status && `dnb-radio-group__status--${statusState}`,
-      `dnb-radio-group--${layoutDirection}`,
-      'dnb-form-component',
-      createSpacingClasses(props),
-      className
-    )
-
-    const params = {
-      ...rest,
-    }
-    const legendId = id + '-label'
-
-    if (showStatus || suffix) {
-      params['aria-describedby'] = combineDescribedBy(
-        params,
-        showStatus ? id + '-status' : null,
-        suffix ? id + '-suffix' : null
-      )
-    }
-    if (label) {
-      params['aria-labelledby'] = combineLabelledBy(params, legendId)
-    }
-
-    // also used for code markup simulation
-    validateDOMAttributes(this.props, params)
-
-    const context = {
-      name: this._name,
-      value,
-      size,
-      disabled,
-      labelPosition,
-      onChange: this.onChangeHandler,
-    }
-
-    const Fieldset = label ? 'fieldset' : 'div'
-
-    return (
-      <RadioGroupContext.Provider value={context}>
-        <div className={classes}>
-          <AlignmentHelper />
-          <Fieldset
-            className="dnb-radio-group__fieldset"
-            aria-labelledby={label ? legendId : undefined}
-            role="radiogroup"
+  return (
+    <RadioGroupContext.Provider value={contextValue}>
+      <div className={classes}>
+        <AlignmentHelper />
+        <Fieldset
+          className="dnb-radio-group__fieldset"
+          aria-labelledby={label ? legendId : undefined}
+          role="radiogroup"
+        >
+          <Flex.Container
+            direction={
+              vertical || labelDirection === 'vertical'
+                ? 'vertical'
+                : 'horizontal'
+            }
+            gap={vertical ? 'x-small' : 'small'}
           >
-            <Flex.Container
-              direction={
-                vertical || labelDirection === 'vertical'
-                  ? 'vertical'
-                  : 'horizontal'
-              }
-              gap={vertical ? 'x-small' : 'small'}
+            {label && (
+              <FormLabel
+                element="legend"
+                id={legendId}
+                srOnly={labelSrOnly}
+              >
+                {label}
+              </FormLabel>
+            )}
+
+            <Space
+              element="span"
+              id={id}
+              className="dnb-radio-group__shell"
+              {...params}
             >
-              {label && (
-                <FormLabel
-                  element="legend"
-                  id={legendId}
-                  srOnly={labelSrOnly}
+              {children}
+
+              {suffix && (
+                <Suffix
+                  className="dnb-radio-group__suffix"
+                  id={id + '-suffix'} // used for "aria-describedby"
+                  context={props}
                 >
-                  {label}
-                </FormLabel>
+                  {suffix}
+                </Suffix>
               )}
 
-              <Space
-                element="span"
-                id={id}
-                className="dnb-radio-group__shell"
-                {...params}
-              >
-                {children}
-
-                {suffix && (
-                  <Suffix
-                    className="dnb-radio-group__suffix"
-                    id={id + '-suffix'} // used for "aria-describedby"
-                    context={props}
-                  >
-                    {suffix}
-                  </Suffix>
-                )}
-
-                <FormStatus
-                  show={showStatus}
-                  id={id + '-form-status'}
-                  globalStatus={globalStatus}
-                  label={label}
-                  text={status}
-                  state={statusState}
-                  textId={id + '-status'} // used for "aria-describedby"
-                  widthSelector={id + ', ' + legendId}
-                  noAnimation={statusNoAnimation}
-                  skeleton={skeleton}
-                  {...statusProps}
-                />
-              </Space>
-            </Flex.Container>
-          </Fieldset>
-        </div>
-      </RadioGroupContext.Provider>
-    )
-  }
+              <FormStatus
+                show={showStatus}
+                id={id + '-form-status'}
+                globalStatus={globalStatus}
+                label={label}
+                text={status}
+                state={statusState}
+                textId={id + '-status'} // used for "aria-describedby"
+                widthSelector={id + ', ' + legendId}
+                noAnimation={statusNoAnimation}
+                skeleton={skeleton}
+                {...statusProps}
+              />
+            </Space>
+          </Flex.Container>
+        </Fieldset>
+      </div>
+    </RadioGroupContext.Provider>
+  )
 }
+
+const RadioGroup = React.memo(RadioGroupComponent)
+
+RadioGroup.propTypes = propTypes
+RadioGroup.defaultProps = defaultProps
+RadioGroup.parseChecked = parseChecked
+
+export default RadioGroup
 
 RadioGroup._supportsSpacingProps = true
