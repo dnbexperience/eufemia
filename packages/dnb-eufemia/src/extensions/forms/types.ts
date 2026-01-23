@@ -667,8 +667,9 @@ export type SubmitState =
 
 /**
  * Provide a error that shows in the FormStatus of a field.
+ * Use null/undefined to remove an existing error.
  */
-type EventStateObjectError = Error
+type EventStateObjectError = Error | null | undefined
 /**
  * Provide a warning that shows in the FormStatus of a field.
  */
