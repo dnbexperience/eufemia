@@ -189,7 +189,7 @@ function GlobalStatus(localProps) {
   const [isActive, setIsActive] = React.useState(() =>
     isTrue(localProps.show)
   )
-  const [isAnimating, setIsAnimating] = React.useState(false)
+  const [_isAnimating, setIsAnimating] = React.useState(false)
 
   const prevItemsRef = React.useRef(localProps.items)
 
@@ -293,10 +293,6 @@ function GlobalStatus(localProps) {
       default:
         return state
     }
-  }
-
-  const isPassive = () => {
-    return localProps.show !== 'auto' && isTrue(localProps.show) === false
   }
 
   const onKeyDownHandler = (e) => {
