@@ -1370,7 +1370,11 @@ class AutocompleteInstance extends React.PureComponent {
     }
 
     const getWordBoundary = (wordIndex) =>
-      startsWithMatch && wordIndex === 0 ? '^' : '^|\\s' // wordCond
+      startsWithMatch && wordIndex === 0
+        ? '^'
+        : searchNumbers
+        ? '' // when searching numbers, we don't care about word boundaries
+        : '^|\\s'
 
     const findSearchWords = (contentChunk) => {
       if (typeof contentChunk !== 'string') {
@@ -1386,11 +1390,6 @@ class AutocompleteInstance extends React.PureComponent {
           } else {
             // To ensure we escape regex chars
             word = escapeRegexChars(word)
-          }
-
-          if (searchNumbers) {
-            // This will make it possible to search with one letter less
-            word = word.replace(/(\d)/g, '$1+')
           }
 
           const wordBoundary = getWordBoundary(wordIndex)
@@ -1458,6 +1457,25 @@ class AutocompleteInstance extends React.PureComponent {
 
     searchIndex = searchIndex.map((item, i) => {
       const listOfFoundWords = findSearchWords(item.contentChunk, i)
+
+      // Check if ALL search words are purely numeric (no letters)
+      const allWordsAreNumeric = searchNumbers
+        ? searchWords.every((word) => /^[\p{N}\s.,]+$/u.test(word))
+        : false
+
+      // When searching numbers with multiple numeric terms, ensure ALL search words are found (AND logic)
+      // For text or mixed searches, keep existing behavior (OR logic)
+      const hasMultipleNumericTerms =
+        searchNumbers &&
+        searchWords &&
+        searchWords.length > 1 &&
+        allWordsAreNumeric
+      if (
+        hasMultipleNumericTerms &&
+        listOfFoundWords.length !== searchWords.length
+      ) {
+        return { totalScore: 0, item } // Will be filtered out later
+      }
 
       if (typeof item.dataItem === 'string') {
         item.dataItem = { content: item.dataItem }

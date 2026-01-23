@@ -1124,6 +1124,10 @@ describe('Autocomplete component', () => {
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
         .textContent
+    ).toBe(mockData[0])
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')[1]
+        .textContent
     ).toBe(mockData[2])
 
     fireEvent.change(document.querySelector('.dnb-input__input'), {
@@ -1132,7 +1136,83 @@ describe('Autocomplete component', () => {
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
         .textContent
+    ).toBe(mockData[0])
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')[1]
+        .textContent
     ).toBe(mockData[3])
+  })
+
+  it('matches last digits when using search_numbers', () => {
+    const mockData = [
+      '2111 11 34567',
+      '2222 22 42567',
+      '2333 33 44425',
+    ] as DrawerListData
+
+    render(
+      <Autocomplete
+        data={mockData}
+        search_numbers
+        show_submit_button
+        {...mockProps}
+      />
+    )
+
+    toggle()
+
+    fireEvent.change(document.querySelector('.dnb-input__input'), {
+      target: { value: '25' },
+    })
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')
+    ).toHaveLength(3)
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')[0]
+        .textContent
+    ).toBe(mockData[1])
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')[1]
+        .textContent
+    ).toBe(mockData[2])
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')[2]
+        .textContent
+    ).toContain('Vis alt')
+  })
+
+  it('should narrow down when numbers with whitespace are given and search_numbers is used', () => {
+    const mockData = [
+      '2111 11 34567',
+      '2222 22 42567',
+      '2333 33 44425',
+    ] as DrawerListData
+
+    render(
+      <Autocomplete
+        data={mockData}
+        search_numbers
+        show_submit_button
+        {...mockProps}
+      />
+    )
+
+    toggle()
+
+    fireEvent.change(document.querySelector('.dnb-input__input'), {
+      target: { value: '25 44' },
+    })
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')
+    ).toHaveLength(2)
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')[0]
+        .textContent
+    ).toBe(mockData[2])
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')[1]
+        .textContent
+    ).toContain('Vis alt')
   })
 
   it('has correct options when using search_numbers, and searching with æøå', () => {
@@ -1167,71 +1247,6 @@ describe('Autocomplete component', () => {
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
         .textContent
     ).toBe("Andrè Ørjåsæter O'Neill12 345 678 901")
-  })
-
-  it('has correct options when using search_numbers and search_in_word_index=1', () => {
-    const mockData = ['100.222.333,40', '123456', '100 222 444,50']
-
-    render(
-      <Autocomplete
-        data={mockData}
-        show_submit_button
-        search_numbers
-        search_in_word_index={1}
-        {...mockProps}
-      />
-    )
-
-    toggle()
-
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: '1002223' },
-    })
-    expect(
-      document.querySelectorAll('li.dnb-drawer-list__option')[0]
-        .textContent
-    ).toBe(mockData[0])
-
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: '100,222,3' },
-    })
-    expect(
-      document.querySelectorAll('li.dnb-drawer-list__option')[0]
-        .textContent
-    ).toBe(mockData[0])
-
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: '100,222,34' },
-    })
-    expect(
-      document.querySelectorAll('li.dnb-drawer-list__option')[0]
-        .textContent
-    ).toBe(mockData[0])
-
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: '1002224' },
-    })
-    expect(
-      document.querySelectorAll('li.dnb-drawer-list__option')[0]
-        .textContent
-    ).toBe(mockData[2])
-
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: '1' },
-    })
-    expect(
-      document.querySelectorAll(
-        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
-      ).length
-    ).toBe(3)
-
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: '333' },
-    })
-    expect(
-      document.querySelectorAll('li.dnb-drawer-list__option')[0]
-        .textContent
-    ).toBe(mockData[0])
   })
 
   it('has correct options after filter and key interaction', () => {
