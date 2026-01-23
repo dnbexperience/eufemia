@@ -15,6 +15,7 @@ const {
 } = require('@dnb/eufemia/src/plugins/postcss-isolated-style-scope/config')
 
 const PREBUILD_EXISTS = shouldUsePrebuild()
+const isMini = process.env.BUILD_MINI === '1'
 
 // Used for heading
 const {
@@ -120,10 +121,16 @@ exports.createResolvers = ({ createResolvers }) => {
 }
 
 exports.createPages = async (params) => {
+  if (isMini) {
+    return
+  }
   await createRedirects(params)
 }
 
 exports.onPostBuild = async (params) => {
+  if (isMini) {
+    return
+  }
   await createRedirects(params)
 
   if (deletedPages.length) {
