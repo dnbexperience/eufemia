@@ -161,7 +161,21 @@ function DrawerListProvider(localProps: DrawerListProviderProps) {
   const outsideClickRef = React.useRef<DetectOutsideClickClass>(null)
   const attributesRef = React.useRef<object>({})
 
-  // Initial state setup
+  // Refs to store latest handlers for event listeners
+  const onKeyDownHandlerRef = React.useRef<(e: any) => void>(null)
+  const onKeyUpHandlerRef = React.useRef<(e: any) => void>(null)
+  // Track previous props to detect changes (start empty so first render applies derived state)
+  const prevPropsRef = React.useRef<{
+    data?: any
+    value?: any
+    skipPortal?: any
+    wrapperElement?: any
+    preventSelection?: any
+    direction?: any
+    groups?: any
+  }>({})
+
+  // Initial state setup - WITHOUT derived state (like class component constructor)
   const [state, setState] = React.useState<DrawerListContextState>(() => ({
     cacheHash: '',
     activeItem: undefined,
@@ -171,12 +185,47 @@ function DrawerListProvider(localProps: DrawerListProviderProps) {
   }))
 
   // getDerivedStateFromProps equivalent
-  React.useEffect(() => {
-    const derivedState = prepareDerivedState(localProps, state)
-    if (derivedState) {
-      setState((prevState) => ({ ...prevState, ...derivedState }))
+  // Runs before first paint and whenever props change
+  React.useLayoutEffect(() => {
+    // Check if any relevant props changed
+    const propsChanged =
+      prevPropsRef.current.data !== localProps.data ||
+      prevPropsRef.current.value !== localProps.value ||
+      prevPropsRef.current.skipPortal !== localProps.skipPortal ||
+      prevPropsRef.current.wrapperElement !== localProps.wrapperElement ||
+      prevPropsRef.current.preventSelection !==
+        localProps.preventSelection ||
+      prevPropsRef.current.direction !== localProps.direction ||
+      prevPropsRef.current.groups !== localProps.groups
+
+    if (propsChanged) {
+      // Update the ref to track current props
+      prevPropsRef.current = {
+        data: localProps.data,
+        value: localProps.value,
+        skipPortal: localProps.skipPortal,
+        wrapperElement: localProps.wrapperElement,
+        preventSelection: localProps.preventSelection,
+        direction: localProps.direction,
+        groups: localProps.groups,
+      }
+
+      setState((prevState) => {
+        // Make a copy of state to pass to prepareDerivedState
+        // since it mutates the object
+        const stateCopy = { ...prevState }
+        return prepareDerivedState(localProps, stateCopy)
+      })
     }
-  }, [localProps, state])
+  }, [
+    localProps.data,
+    localProps.value,
+    localProps.skipPortal,
+    localProps.wrapperElement,
+    localProps.preventSelection,
+    localProps.direction,
+    localProps.groups,
+  ])
 
   // componentDidMount equivalent
   React.useEffect(() => {
@@ -815,6 +864,14 @@ function DrawerListProvider(localProps: DrawerListProviderProps) {
     [setMetaKey]
   )
 
+  // Update ref whenever handler changes
+  onKeyUpHandlerRef.current = onKeyUpHandler
+
+  // Create stable wrapper functions that always call the latest handler
+  const onKeyUpHandlerStable = React.useCallback((e) => {
+    onKeyUpHandlerRef.current?.(e)
+  }, [])
+
   const getCurrentSelectedItem = React.useCallback(() => {
     const elem = getSelectedElement()
     return getItemData(elem)
@@ -1178,6 +1235,14 @@ function DrawerListProvider(localProps: DrawerListProviderProps) {
     ]
   ) // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Update ref whenever handler changes
+  onKeyDownHandlerRef.current = onKeyDownHandler
+
+  // Create stable wrapper function that always calls the latest handler
+  const onKeyDownHandlerStable = React.useCallback((e) => {
+    onKeyDownHandlerRef.current?.(e)
+  }, [])
+
   const setOutsideClickObserver = React.useCallback(() => {
     removeOutsideClickObserver()
 
@@ -1188,20 +1253,20 @@ function DrawerListProvider(localProps: DrawerListProviderProps) {
     )
 
     if (typeof document !== 'undefined') {
-      document.addEventListener('keydown', onKeyDownHandler, true)
-      document.addEventListener('keyup', onKeyUpHandler, true)
+      document.addEventListener('keydown', onKeyDownHandlerStable, true)
+      document.addEventListener('keyup', onKeyUpHandlerStable, true)
     }
-  }, [state.wrapperElement, onKeyDownHandler, onKeyUpHandler]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [state.wrapperElement, onKeyDownHandlerStable, onKeyUpHandlerStable]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const removeOutsideClickObserver = React.useCallback(() => {
     if (outsideClickRef.current) {
       outsideClickRef.current.remove()
     }
     if (typeof document !== 'undefined') {
-      document.removeEventListener('keydown', onKeyDownHandler, true)
-      document.removeEventListener('keyup', onKeyUpHandler, true)
+      document.removeEventListener('keydown', onKeyDownHandlerStable, true)
+      document.removeEventListener('keyup', onKeyUpHandlerStable, true)
     }
-  }, [onKeyDownHandler, onKeyUpHandler])
+  }, [onKeyDownHandlerStable, onKeyUpHandlerStable])
 
   const addObservers = React.useCallback(() => {
     setDirectionObserver()
