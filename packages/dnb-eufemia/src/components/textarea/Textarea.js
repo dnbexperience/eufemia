@@ -631,7 +631,7 @@ const TextareaComponent = (localProps) => {
             <Suffix
               className="dnb-textarea__suffix"
               id={id + '-suffix'}
-              context={currentProps}
+              context={props}
             >
               {suffix}
             </Suffix>
