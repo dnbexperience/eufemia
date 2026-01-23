@@ -1,8 +1,6 @@
 /**
  * Web GlobalStatus Component
  *
- * This is a legacy component.
- * For referencing while developing new features, please use a Functional component.
  */
 
 import React from 'react'
@@ -42,97 +40,26 @@ export class GlobalStatusInterceptor {
   }
 }
 
-// This is the Update controller
-class GlobalStatusController extends React.PureComponent {
-  static propTypes = {
-    id: PropTypes.string, // Provider id
-    statusId: PropTypes.string, // Status Item id
-    removeOnUnmount: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-  }
-  static defaultProps = {
-    id: 'main',
-    statusId: null,
-    removeOnUnmount: false,
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    if (state._props !== props) {
-      state.provider.update(state.statusId, props)
-      state._props = props
-    }
-
-    return state
-  }
-
-  state = {}
-
-  constructor(props) {
-    super(props)
-
-    let GSP = null
-    try {
-      GSP = GlobalStatusProvider
-    } catch (e) {
-      // do noting
-    }
-    if (!GSP && typeof window !== 'undefined') {
-      GSP = window.GlobalStatusProvider
-    }
-
-    this.state.provider = GSP.init(props.id)
-    this.state._props = props
-
-    return this
-  }
-
-  componentDidMount() {
-    const { statusId } = this.state.provider.add(this.props)
-
-    // current status id
-    this.setState({ statusId })
-  }
-
-  componentWillUnmount() {
-    if (this.state.provider && isTrue(this.props.removeOnUnmount)) {
-      this.state.provider.remove(this.state.statusId)
-      /**
-       * For now, do not unbind, because of re-render issues
-       */
-      // this.state.provider.unbind()
-      // this.state.provider = null
-    }
-  }
-
-  render() {
-    return null
-  }
+const controllerPropTypes = {
+  id: PropTypes.string, // Provider id
+  statusId: PropTypes.string, // Status Item id
+  removeOnUnmount: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 }
 
-class GlobalStatusRemove extends React.PureComponent {
-  static propTypes = {
-    id: PropTypes.string, // Provider id
-    statusId: PropTypes.string.isRequired, // Status Item id
-  }
-  static defaultProps = {
-    id: 'main',
-  }
+const controllerDefaultProps = {
+  id: 'main',
+  statusId: null,
+  removeOnUnmount: false,
+}
 
-  static getDerivedStateFromProps(props, state) {
-    if (state._props !== props) {
-      state.provider.update(props.statusId, props)
-    }
+// This is the Update controller
+function GlobalStatusController(props) {
+  const [statusId, setStatusId] = React.useState(null)
+  const providerRef = React.useRef(null)
+  const prevPropsRef = React.useRef(props)
 
-    return state
-  }
-
-  state = {}
-
-  constructor(props) {
-    super(props)
-
+  // Initialize provider
+  React.useEffect(() => {
     let GSP = null
     try {
       GSP = GlobalStatusProvider
@@ -142,17 +69,79 @@ class GlobalStatusRemove extends React.PureComponent {
     if (!GSP && typeof window !== 'undefined') {
       GSP = window.GlobalStatusProvider
     }
-    this.state.provider = GSP.init(props.id)
-    this.state._props = props
-  }
 
-  componentDidMount() {
-    this.state.provider.remove(this.props.statusId, this.props)
-  }
+    const provider = GSP.init(props.id)
+    providerRef.current = provider
 
-  render() {
-    return null
-  }
+    // Add status and get statusId
+    const { statusId: newStatusId } = provider.add(props)
+    setStatusId(newStatusId)
+
+    return () => {
+      if (provider && isTrue(props.removeOnUnmount)) {
+        provider.remove(newStatusId)
+      }
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // getDerivedStateFromProps equivalent - update provider when props change
+  React.useEffect(() => {
+    if (
+      prevPropsRef.current !== props &&
+      providerRef.current &&
+      statusId
+    ) {
+      providerRef.current.update(statusId, props)
+    }
+    prevPropsRef.current = props
+  }, [props, statusId])
+
+  return null
+}
+
+GlobalStatusController.propTypes = controllerPropTypes
+GlobalStatusController.defaultProps = controllerDefaultProps
+
+function GlobalStatusRemove(props) {
+  const providerRef = React.useRef(null)
+  const prevPropsRef = React.useRef(props)
+
+  // Initialize provider
+  React.useEffect(() => {
+    let GSP = null
+    try {
+      GSP = GlobalStatusProvider
+    } catch (e) {
+      // do noting
+    }
+    if (!GSP && typeof window !== 'undefined') {
+      GSP = window.GlobalStatusProvider
+    }
+    const provider = GSP.init(props.id)
+    providerRef.current = provider
+
+    // Remove status immediately
+    provider.remove(props.statusId, props)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // getDerivedStateFromProps equivalent - update provider when props change
+  React.useEffect(() => {
+    if (prevPropsRef.current !== props && providerRef.current) {
+      providerRef.current.update(props.statusId, props)
+    }
+    prevPropsRef.current = props
+  }, [props])
+
+  return null
+}
+
+GlobalStatusRemove.propTypes = {
+  id: PropTypes.string, // Provider id
+  statusId: PropTypes.string.isRequired, // Status Item id
+}
+
+GlobalStatusRemove.defaultProps = {
+  id: 'main',
 }
 
 GlobalStatusController.Remove = GlobalStatusRemove
