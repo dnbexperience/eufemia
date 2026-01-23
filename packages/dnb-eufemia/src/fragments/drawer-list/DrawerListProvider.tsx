@@ -1545,5 +1545,6 @@ function DrawerListProvider(localProps: DrawerListProviderProps) {
 }
 
 DrawerListProvider.defaultProps = defaultProps
+DrawerListProvider.blurDelay = blurDelay
 
 export default DrawerListProvider
