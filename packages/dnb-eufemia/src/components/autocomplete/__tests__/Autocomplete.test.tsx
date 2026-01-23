@@ -1107,7 +1107,7 @@ describe('Autocomplete component', () => {
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].outerHTML
     ).toBe(
-      /* html */ `<li class="first-of-type first-item dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="false" aria-current="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span><span class="dnb-drawer-list__option__item--highlight">2223</span> <span class="dnb-drawer-list__option__item--highlight">33</span> <span class="dnb-drawer-list__option__item--highlight">4442</span>5</span></span></span></li>`
+      /* html */ `<li class="first-of-type first-item dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="false" aria-current="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>2223 33 44425</span></span></span></li>`
     )
 
     fireEvent.change(document.querySelector('.dnb-input__input'), {

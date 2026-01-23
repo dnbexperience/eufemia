@@ -1525,14 +1525,24 @@ class AutocompleteInstance extends React.PureComponent {
               word = escapeRegexChars(word)
 
               if (searchNumbers) {
-                word.split('').forEach((char) => {
-                  if (/[\p{L}\p{N}]/u.test(char)) {
-                    segment = segment.replace(
-                      new RegExp(`(${char})`, 'gi'),
-                      `${strS}$1${strE}`
-                    )
-                  }
-                })
+                // Remove all other chars, except numbers and letters, so we can match complete sequences
+                const cleanedWord = word.replace(/[^\p{L}\p{N}]+/gu, '')
+                if (cleanedWord) {
+                  // Highlight the complete sequence wherever it appears as a contiguous block
+                  // This ensures "12 34" highlights "12" and "34" as separate sequences,
+                  // not all individual "1", "2", "3", "4" characters
+                  const escapedWord = escapeRegexChars(cleanedWord)
+                  segment = segment.replace(
+                    new RegExp(`(${escapedWord})`, 'gi'),
+                    (match) => {
+                      // Avoid double-highlighting
+                      if (match.includes(strS)) {
+                        return match
+                      }
+                      return `${strS}${match}${strE}`
+                    }
+                  )
+                }
               } else {
                 if (wordIndex >= inWordIndex) {
                   segment = segment.replace(
