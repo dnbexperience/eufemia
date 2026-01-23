@@ -421,48 +421,11 @@ const InteractionMarker = ({
   markerElement = null,
 }) => {
   const [isConnected, setIsConnected] = React.useState(false)
-  const _ref = React.useRef(null)
   const intersectionObserverRef = React.useRef(null)
   const _readyTimeoutRef = React.useRef(null)
-  const _isMountedRef = React.useRef(false)
+  const _isMountedRef = React.useRef(true)
 
-  React.useEffect(() => {
-    if (typeof markerElement === 'function') {
-      warn(
-        'Pagination: Please use a string or React element e.g. markerElement="tr"'
-      )
-    }
-
-    if (typeof IntersectionObserver !== 'undefined') {
-      intersectionObserverRef.current = new IntersectionObserver(
-        (entries) => {
-          const [{ isIntersecting }] = entries
-          if (isIntersecting) {
-            callReady()
-          }
-        }
-      )
-    } else {
-      warn('Pagination is missing IntersectionObserver supported!')
-    }
-  }, [])
-
-  React.useEffect(() => {
-    if (_ref.current) {
-      _isMountedRef.current = true
-      intersectionObserverRef.current?.observe(_ref.current)
-    }
-
-    return () => {
-      _isMountedRef.current = false
-      if (intersectionObserverRef.current) {
-        clearTimeout(_readyTimeoutRef.current)
-        intersectionObserverRef.current.disconnect()
-      }
-    }
-  }, [])
-
-  const callReady = () => {
+  const callReady = React.useCallback(() => {
     intersectionObserverRef.current?.disconnect()
     intersectionObserverRef.current = null
     clearTimeout(_readyTimeoutRef.current)
@@ -472,7 +435,47 @@ const InteractionMarker = ({
       }
       onVisible(pageNumber)
     }, 1) // because of re-render loop
+  }, [pageNumber, onVisible])
+
+  // Create observer if it doesn't exist
+  if (!intersectionObserverRef.current && typeof IntersectionObserver !== 'undefined') {
+    intersectionObserverRef.current = new IntersectionObserver(
+      (entries) => {
+        const [{ isIntersecting }] = entries
+        if (isIntersecting) {
+          callReady()
+        }
+      }
+    )
   }
+
+  // Use callback ref to ensure we have the DOM node when we try to observe
+  const _ref = React.useCallback((node) => {
+    if (node && intersectionObserverRef.current) {
+      intersectionObserverRef.current.observe(node)
+    }
+  }, [])
+
+  React.useEffect(() => {
+    if (typeof markerElement === 'function') {
+      warn(
+        'Pagination: Please use a string or React element e.g. markerElement="tr"'
+      )
+    }
+
+    if (typeof IntersectionObserver === 'undefined') {
+      warn('Pagination is missing IntersectionObserver supported!')
+    }
+
+    return () => {
+      _isMountedRef.current = false
+      if (intersectionObserverRef.current) {
+        clearTimeout(_readyTimeoutRef.current)
+        intersectionObserverRef.current.disconnect()
+        intersectionObserverRef.current = null
+      }
+    }
+  }, [])
 
   if (isConnected || !intersectionObserverRef.current) {
     return null
