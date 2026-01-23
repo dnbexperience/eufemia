@@ -6,7 +6,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import {
   extendPropsWithContextInClassComponent,
@@ -18,10 +17,7 @@ import {
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import Space from '../Space'
 import FormLabel from '../FormLabel'
@@ -36,59 +32,6 @@ import RadioGroupContext from './RadioGroupContext'
  */
 export default class RadioGroup extends React.PureComponent {
   static contextType = Context
-
-  static propTypes = {
-    label: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    labelDirection: PropTypes.oneOf(['horizontal', 'vertical']),
-    labelSrOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    labelPosition: PropTypes.oneOf(['left', 'right']),
-    title: PropTypes.string,
-    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    id: PropTypes.string,
-    name: PropTypes.string,
-    size: PropTypes.oneOf(['default', 'medium', 'large']),
-    status: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    statusState: PropTypes.string,
-    statusProps: PropTypes.object,
-    statusNoAnimation: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    globalStatus: PropTypes.shape({
-      id: PropTypes.string,
-      message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    }),
-    suffix: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    layoutDirection: PropTypes.oneOf(['column', 'row']),
-    vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    value: PropTypes.string,
-    attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-
-    ...spacingPropTypes,
-
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-
-    onChange: PropTypes.func,
-  }
 
   static defaultProps = {
     label: null,

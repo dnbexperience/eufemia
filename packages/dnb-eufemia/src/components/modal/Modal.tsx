@@ -38,11 +38,11 @@ interface ModalState {
   preventAutoFocus: boolean
 }
 
-export type ModalPropTypes = ModalProps &
+export type ModalTypes = ModalProps &
   SpacingProps &
   Omit<ScrollViewAllProps, 'children'>
 
-class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
+class Modal extends React.PureComponent<ModalTypes, ModalState> {
   static contextType = Context
 
   context!: ContextProps

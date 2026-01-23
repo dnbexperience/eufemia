@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`babelPluginPropTypesRelations has to match snapshot 1`] = `
 "/**
@@ -7,15 +7,7 @@ exports[`babelPluginPropTypesRelations has to match snapshot 1`] = `
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import SecondaryComponent, { secondaryDefaultProps, secondaryPropTypes } from './SecondaryComponent';
-import ClassComponent from './ClassComponent';
-export const primaryPropTypes = {
-  top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
-};
+import SecondaryComponent from './SecondaryComponent';
 export const primaryDefaultProps = {
   space: null,
   top: null,
@@ -28,68 +20,6 @@ export default class PrimaryComponent extends React.PureComponent {
     return [this.props.boolean, this.props.number, this.props.spacing, this.props.top, this.props.secondaryFoo, this.props.secondarySpacing, this.props.children];
   }
 }
-PrimaryComponent.propTypes = {
-  boolean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  spacing: PropTypes.shape({
-    top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-    right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-    bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-    left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
-  }),
-  top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  classProperty: PropTypes.string,
-  secondaryFoo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  secondarySpacing: PropTypes.shape({
-    secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
-  }),
-  children: PropTypes.node
-};
-PrimaryComponent.defaultProps = {
-  boolean: null,
-  number: null,
-  spacing: null,
-  top: null,
-  ...primaryDefaultProps,
-  ...secondaryDefaultProps,
-  classProperty: null,
-  children: null
-};
 PrimaryComponent.Secondary = SecondaryComponent;
-PrimaryComponent.SecondaryDuplication = SecondaryComponent;
-const Element = () => {
-  return null;
-};
-Element.propTypes = {
-  boolean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  spacing: PropTypes.shape({
-    top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-    right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-    bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-    left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
-  }),
-  top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  secondaryFoo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  secondarySpacing: PropTypes.shape({
-    secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
-  }),
-  children: PropTypes.node
-};
-Element.defaultProps = {
-  boolean: null,
-  number: null,
-  spacing: null,
-  top: null,
-  ...primaryDefaultProps,
-  children: null
-};"
+PrimaryComponent.SecondaryDuplication = SecondaryComponent;"
 `;

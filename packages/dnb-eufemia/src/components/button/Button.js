@@ -6,7 +6,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import {
@@ -19,10 +18,7 @@ import {
   getStatusState,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -34,20 +30,6 @@ import Anchor, { pickIcon, opensNewTab } from '../anchor/Anchor'
 import { launch } from '../../icons'
 import Tooltip from '../tooltip/Tooltip'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-
-export const buttonVariantPropType = {
-  variant: PropTypes.oneOf([
-    'primary',
-    'secondary',
-    'tertiary',
-    'signal',
-
-    /**
-     * For internal use only (as of now)
-     */
-    'unstyled',
-  ]),
-}
 
 /**
  * The button component should be used as the call-to-action in a form, or as a user interaction mechanism. Generally speaking, a button should not be used when a link would do the trick. Exceptions are made at times when it is used as a navigation element in the action-nav element.
@@ -92,7 +74,7 @@ export default class Button extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContextInClassComponent(
       this.props,
-      Button.defaultProps,
+      buttonDefaultProps,
       { skeleton: this.context?.skeleton },
       pickFormElementProps(this.context?.formElement),
       this.context.Button
@@ -297,74 +279,10 @@ export default class Button extends React.PureComponent {
   }
 }
 
-Button.propTypes = {
-  text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  type: PropTypes.string,
-  title: PropTypes.string,
-  variant: buttonVariantPropType.variant,
-  size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
-  icon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func,
-  ]),
-  iconPosition: PropTypes.oneOf(['left', 'right', 'top']),
-  iconSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  tooltip: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node,
-  ]),
-  status: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-    PropTypes.func,
-    PropTypes.node,
-  ]),
-  statusState: PropTypes.string,
-  statusProps: PropTypes.object,
-  statusNoAnimation: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-  ]),
-  globalStatus: PropTypes.shape({
-    id: PropTypes.string,
-    message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  }),
-  id: PropTypes.string,
-  href: PropTypes.string,
-  target: PropTypes.string,
-  rel: PropTypes.string,
-  to: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.func,
-  ]),
-  customContent: PropTypes.node,
-  wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  innerRef: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node,
-  ]),
-  element: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.object,
-    PropTypes.node,
-  ]),
+Button._formElement = true
+Button._supportsSpacingProps = true
 
-  ...spacingPropTypes,
-
-  onClick: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-}
-
-Button.defaultProps = {
+const buttonDefaultProps = {
   type: null, // set the type because of the anchor/href situation – can be made more smart in future
   text: null,
   variant: null,
@@ -398,6 +316,8 @@ Button.defaultProps = {
 
   onClick: null,
 }
+
+Button.defaultProps = buttonDefaultProps
 
 function Content({
   title = null,
@@ -464,25 +384,3 @@ function Content({
     </>
   )
 }
-
-Content.propTypes = {
-  title: PropTypes.string,
-  customContent: PropTypes.node,
-  content: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.array,
-    PropTypes.node,
-  ]),
-  icon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func,
-  ]),
-  iconSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skeleton: PropTypes.bool,
-  isIconOnly: PropTypes.bool,
-}
-
-Button._formElement = true
-Button._supportsSpacingProps = true

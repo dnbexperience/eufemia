@@ -6,7 +6,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
@@ -25,10 +24,7 @@ import {
 } from '../../shared/component-helper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -42,80 +38,6 @@ import Suffix from '../../shared/helpers/Suffix'
  */
 export default class Textarea extends React.PureComponent {
   static contextType = Context
-
-  static propTypes = {
-    value: PropTypes.string,
-    id: PropTypes.string,
-    label: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    labelDirection: PropTypes.oneOf(['horizontal', 'vertical']),
-    labelSrOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    status: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    textareaState: PropTypes.string,
-    statusState: PropTypes.string,
-    statusProps: PropTypes.object,
-    statusNoAnimation: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    globalStatus: PropTypes.shape({
-      id: PropTypes.string,
-      message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    }),
-    suffix: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    placeholder: PropTypes.node,
-    keepPlaceholder: PropTypes.bool,
-    align: PropTypes.oneOf(['left', 'right']),
-    size: PropTypes.oneOf(['small', 'medium', 'large']),
-    stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    characterCounter: PropTypes.oneOfType([
-      PropTypes.shape({
-        max: PropTypes.number,
-        variant: PropTypes.oneOf(['down', 'up']),
-      }),
-      PropTypes.number,
-    ]),
-    autoresize: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    autoresizeMaxRows: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-    ]),
-    textareaClass: PropTypes.string,
-    textareaAttributes: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object,
-    ]),
-    readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    rows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    cols: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-
-    ...spacingPropTypes,
-
-    className: PropTypes.string,
-    textareaElement: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-
-    onChange: PropTypes.func,
-    onFocus: PropTypes.func,
-    onBlur: PropTypes.func,
-    onKeyDown: PropTypes.func,
-    onStateUpdate: PropTypes.func,
-  }
 
   static defaultProps = {
     value: 'initval',
@@ -146,15 +68,12 @@ export default class Textarea extends React.PureComponent {
     rows: null,
     cols: null,
     innerRef: null,
-
     className: null,
     textareaElement: null,
     children: null,
-
     onChange: null,
     onFocus: null,
     onBlur: null,
-    onKeyDown: null,
     onStateUpdate: null,
   }
 

@@ -17,7 +17,6 @@ import {
   createSpacingClasses,
   createSpacingProperties,
 } from '../SpacingUtils'
-import { spacingPropTypes } from '../SpacingHelper'
 import { SpaceType } from '../types'
 
 describe('spacePatterns', () => {
@@ -439,11 +438,5 @@ describe('createSpacingProperties', () => {
       '--space-t-s': '1rem',
     })
     expect(createSpacingProperties({ innerSpace: null })).toEqual({})
-  })
-})
-
-describe('SpacingHelper', () => {
-  it('should have valid spacingPropTypes', () => {
-    expect(typeof spacingPropTypes.space).toBe('function')
   })
 })

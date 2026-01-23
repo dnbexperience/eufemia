@@ -5,24 +5,12 @@
  * For referencing while developing new features, please use a Functional component.
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 
 export class PaginationIndicator extends React.PureComponent {
   static contextType = Context
-  static propTypes = {
-    indicatorElement: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func,
-      PropTypes.string,
-    ]),
-  }
-  static defaultProps = {
-    indicatorElement: 'div',
-  }
   render() {
     const { indicatorElement } = this.props
     const Element = preparePageElement(indicatorElement)

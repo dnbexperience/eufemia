@@ -5,7 +5,6 @@
  * For referencing while developing new features, please use a Functional component.
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
@@ -14,10 +13,7 @@ import {
   validateDOMAttributes,
   extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../../components/space/SpacingHelper'
+import { createSpacingClasses } from '../../components/space/SpacingHelper'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -48,47 +44,6 @@ const translationDefaultPropsProps = {
 
 export default class PaymentCard extends React.PureComponent {
   static contextType = Context
-
-  static propTypes = {
-    productCode: PropTypes.string.isRequired,
-    cardNumber: PropTypes.string.isRequired,
-    cardStatus: PropTypes.oneOf([
-      'active',
-      'blocked',
-      'expired',
-      'notActive',
-      'newOrder',
-      'new',
-      'orderInProcess',
-      'renewed',
-      'replaced',
-      'unknown',
-    ]),
-    variant: PropTypes.oneOf(['normal', 'compact']),
-    digits: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    rawData: PropTypes.shape({
-      productCode: PropTypes.string.isRequired,
-      productName: PropTypes.string.isRequired,
-      displayName: PropTypes.string.isRequired,
-      cardDesign: PropTypes.object.isRequired,
-      cardType: PropTypes.object.isRequired,
-      productType: PropTypes.object.isRequired,
-      bankAxept: PropTypes.object.isRequired,
-    }),
-    id: PropTypes.string,
-    locale: PropTypes.string,
-
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-    ...spacingPropTypes,
-
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func,
-    ]),
-  }
 
   static defaultProps = {
     digits: 8,
