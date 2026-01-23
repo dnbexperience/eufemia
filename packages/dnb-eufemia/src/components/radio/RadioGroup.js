@@ -125,7 +125,6 @@ const RadioGroupComponent = (localProps) => {
   const context = useContext(Context)
 
   // Refs - initialize before using props
-  const _refInput = useRef(null)
   const _idRef = useRef(localProps.id || makeUniqueId())
   const _nameRef = useRef(localProps.name || _idRef.current)
 
