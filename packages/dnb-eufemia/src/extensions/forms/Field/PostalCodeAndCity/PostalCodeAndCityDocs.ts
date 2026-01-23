@@ -1,6 +1,6 @@
 import { PropertiesTableProps } from '../../../../shared/types'
 import { FieldProperties } from '../FieldDocs'
-import { stringProperties } from '../String/StringDocs'
+import { StringProperties } from '../String/StringDocs'
 
 export const PostalCodeAndCityProperties: PropertiesTableProps = {
   countryCode: {
@@ -23,5 +23,5 @@ export const PostalCodeAndCityProperties: PropertiesTableProps = {
     status: 'required',
   },
   help: FieldProperties.help,
-  size: stringProperties.size,
+  size: StringProperties.size,
 }
