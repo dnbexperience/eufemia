@@ -6,12 +6,12 @@
 import React from 'react'
 import clsx from 'clsx'
 import { SuffixContext } from '../../shared/helpers/Suffix'
-import Context, { ContextProps } from '../../shared/Context'
+import Context from '../../shared/Context'
 import {
   warn,
   isTrue,
   makeUniqueId,
-  extendPropsWithContextInClassComponent,
+  extendPropsWithContext,
   processChildren,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
@@ -32,273 +32,172 @@ import type { ButtonProps } from '../button/Button'
 
 export const ANIMATION_DURATION = 300
 
-interface ModalState {
-  hide: boolean
-  modalActive: boolean
-  preventAutoFocus: boolean
-}
-
 export type ModalPropTypes = ModalProps &
   SpacingProps &
   Omit<ScrollViewAllProps, 'children'>
 
-class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
-  static contextType = Context
+const defaultProps = {
+  id: null,
+  focusSelector: null,
+  labelledBy: null,
+  title: null,
+  disabled: null,
+  spacing: true,
+  openDelay: null,
+  contentId: null,
+  dialogTitle: 'Vindu',
+  closeTitle: 'Lukk', // Close Modal Window
+  hideCloseButton: false,
+  closeButtonAttributes: null,
+  preventClose: false,
+  preventCoreStyle: false,
+  animationDuration: ANIMATION_DURATION,
+  noAnimation: false,
+  noAnimationOnMobile: false,
+  fullscreen: 'auto',
+  minWidth: null,
+  maxWidth: null,
+  alignContent: 'left',
+  containerPlacement: null,
+  verticalAlignment: null,
+  open: null,
+  directDomReturn: false,
+  rootId: 'root',
+  omitTriggerButton: false,
 
-  context!: ContextProps
+  className: null,
+  children: null,
 
-  static Bar = ModalHeaderBar
-  static Header = ModalHeader
-  static Content = ModalInner
+  onOpen: null,
+  onClose: null,
+  onClosePrevent: null,
+  openModal: null,
+  closeModal: null,
 
-  static getContent(props) {
-    if (typeof props.modalContent === 'string') {
-      return props.modalContent
-    } else if (typeof props.modalContent === 'function') {
-      return props.modalContent(props)
+  trigger: null,
+  triggerAttributes: null,
+
+  overlayClass: null,
+  contentClass: null,
+
+  modalContent: null,
+  headerContent: null,
+  barContent: null,
+}
+
+function Modal(localProps: ModalPropTypes) {
+  const context = React.useContext(Context)
+
+  // Refs
+  const _idRef = React.useRef(localProps.id || makeUniqueId('modal-'))
+  const _triggerRef = React.useRef<HTMLElement>(null)
+  const modalContentCloseRef =
+    React.useRef<
+      (event: Event, options: { triggeredBy?: string }) => void
+    >(null)
+  const _onUnmountRef = React.useRef<Array<() => void>>([])
+  const _openTimeoutRef = React.useRef<NodeJS.Timeout>(null)
+  const _closeTimeoutRef = React.useRef<NodeJS.Timeout>(null)
+  const activeElementRef = React.useRef<Element>(null)
+  const isInTransitionRef = React.useRef<boolean>(false)
+  const prevOpenRef = React.useRef(localProps.open)
+  const isFirstRenderRef = React.useRef(true)
+  const prevModalActiveRef = React.useRef(false)
+  const renderCountRef = React.useRef(0)
+  const prevPropsRef = React.useRef(localProps)
+
+  // Increment render count
+  renderCountRef.current++
+
+  // State
+  const [state, setState] = React.useState(() => {
+    const initialState: {
+      hide: boolean
+      modalActive: boolean
+      preventAutoFocus: boolean
+      animationDuration: string | number
+      noAnimation: boolean
+      _open: boolean
+    } = {
+      hide: false,
+      modalActive: false,
+      preventAutoFocus: true,
+      animationDuration: ANIMATION_DURATION,
+      noAnimation: false,
+      _open: localProps.open,
     }
-    return processChildren(props)
-  }
 
-  _id: string
-  _triggerRef: React.RefObject<HTMLElement>
-  _onUnmount: Array<() => void>
-  _openTimeout: NodeJS.Timeout
-  _closeTimeout: NodeJS.Timeout
-  _sideEffectsTimeout: NodeJS.Timeout
-  _tryToOpenTimeout: NodeJS.Timeout
-  activeElement: Element
-  isInTransition: boolean
-  modalContentCloseRef: React.RefObject<
-    (event: Event, options: { triggeredBy?: string }) => void
-  >
-
-  state = {
-    hide: false,
-    modalActive: false,
-    preventAutoFocus: true,
-    animationDuration: ANIMATION_DURATION,
-    noAnimation: false,
-  }
-
-  static defaultProps = {
-    id: null,
-    focusSelector: null,
-    labelledBy: null,
-    title: null,
-    disabled: null,
-    spacing: true,
-    openDelay: null,
-    contentId: null,
-    dialogTitle: 'Vindu',
-    closeTitle: 'Lukk', // Close Modal Window
-    hideCloseButton: false,
-    closeButtonAttributes: null,
-    preventClose: false,
-    preventCoreStyle: false,
-    animationDuration: ANIMATION_DURATION,
-    noAnimation: false,
-    noAnimationOnMobile: false,
-    fullscreen: 'auto',
-    minWidth: null,
-    maxWidth: null,
-    alignContent: 'left',
-    containerPlacement: null,
-    verticalAlignment: null,
-    open: null,
-    directDomReturn: false,
-    rootId: 'root',
-    omitTriggerButton: false,
-
-    className: null,
-    children: null,
-
-    onOpen: null,
-    onClose: null,
-    onClosePrevent: null,
-    openModal: null,
-    closeModal: null,
-
-    trigger: null,
-    triggerAttributes: null,
-
-    overlayClass: null,
-    contentClass: null,
-
-    modalContent: null,
-    headerContent: null,
-    barContent: null,
-  }
-
-  static getDerivedStateFromProps(props, state) {
     if (typeof window !== 'undefined' && window['IS_TEST']) {
-      state.animationDuration = 0
-      state.noAnimation = true
+      initialState.animationDuration = 0
+      initialState.noAnimation = true
     } else {
-      state.animationDuration = props.animationDuration
-      state.noAnimation = props.noAnimation
+      initialState.animationDuration = localProps.animationDuration
+      initialState.noAnimation = localProps.noAnimation
     }
 
-    if (props.open !== state._open) {
-      if (props.open === true) {
-        state.hide = false
-        if (isTrue(state.noAnimation)) {
-          state.modalActive = true
-        }
-      } else if (props.open === false) {
-        state.hide = true
-        if (isTrue(state.noAnimation)) {
-          state.modalActive = false
-        }
+    if (localProps.open === true) {
+      initialState.hide = false
+      if (isTrue(initialState.noAnimation)) {
+        initialState.modalActive = true
+      }
+    } else if (localProps.open === false) {
+      initialState.hide = true
+      if (isTrue(initialState.noAnimation)) {
+        initialState.modalActive = false
       }
     }
-    state._open = props.open
 
-    return state
-  }
+    return initialState
+  })
 
-  constructor(props) {
-    super(props)
-    this._id = props.id || makeUniqueId('modal-')
+  const removeActiveState = React.useCallback(() => {
+    const last = getModalRoot(-1)
 
-    this._triggerRef = React.createRef()
-    this.modalContentCloseRef = React.createRef()
-
-    this._onUnmount = []
-  }
-
-  componentDidMount() {
-    this.openBasedOnStateUpdate()
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this._openTimeout)
-    clearTimeout(this._closeTimeout)
-
-    this.removeActiveState()
-
-    this._onUnmount.forEach((fn) => {
-      if (typeof fn === 'function') {
-        fn()
-      }
-    })
-  }
-
-  componentDidUpdate(prevProps) {
-    // Don't interfere if modal is currently transitioning, added to fix an issue with rapid state changes in React v19.
-    // Could be considered to be removed in the future, when Eufemia is using React v19.
-    if (this.isInTransition) {
-      return
-    }
-    if (prevProps !== this.props) {
-      this.openBasedOnStateUpdate()
-    }
-  }
-
-  openBasedOnStateUpdate() {
-    const { hide } = this.state
-    const { open } = this.props
-
-    if (!this.activeElement && typeof document !== 'undefined') {
-      this.activeElement = document.activeElement
+    if (last?._id && last._id !== _idRef.current) {
+      return setActiveState(last._id)
     }
 
-    if (!hide && open === true) {
-      this.toggleOpenClose(null, true)
-    } else if (hide && open === false) {
-      this.toggleOpenClose(null, false)
+    try {
+      document.documentElement.removeAttribute('data-dnb-modal-active')
+    } catch (e) {
+      warn('Modal: Error on remove "data-dnb-modal-active"', e)
     }
-  }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  toggleOpenClose = (event = null, showModal = null) => {
-    if (event && event.preventDefault) {
-      event.preventDefault()
+  const setActiveState = React.useCallback((modalId: string) => {
+    if (!modalId) {
+      warn('Modal: A valid modalId is required')
     }
-
-    const toggleNow = () => {
-      const {
-        animationDuration = ANIMATION_DURATION,
-        noAnimation = false,
-      } = this.state
-      const timeoutDuration =
-        typeof animationDuration === 'string'
-          ? parseFloat(animationDuration)
-          : animationDuration
-
-      const modalActive =
-        typeof showModal === 'boolean'
-          ? showModal
-          : !this.state.modalActive
-
-      this.isInTransition = true
-
-      const doItNow = () => {
-        this.setState(
-          {
-            hide: false,
-            modalActive,
-          },
-          () => {
-            this.isInTransition = false
-            this.handleSideEffects()
-          }
+    if (typeof document !== 'undefined') {
+      try {
+        document.documentElement.setAttribute(
+          'data-dnb-modal-active',
+          modalId
         )
-      }
-
-      if (modalActive === false && !isTrue(noAnimation)) {
-        this.setState({
-          hide: true,
-        })
-
-        this._closeTimeout = setTimeout(doItNow, timeoutDuration) // delay because of the animation
-      } else {
-        doItNow()
+      } catch (e) {
+        warn('Modal: Error on set "data-dnb-modal-active"', e)
       }
     }
+  }, [])
 
-    const waitBeforeOpen = () => {
-      const { openDelay } = this.props
-      const { noAnimation } = this.state
-      const delay =
-        typeof openDelay === 'string' ? parseFloat(openDelay) : openDelay
-      if (delay > 0 && !isTrue(noAnimation)) {
-        this._openTimeout = setTimeout(toggleNow, delay) // custom delay
-      } else {
-        toggleNow()
-      }
-    }
-
-    clearTimeout(this._closeTimeout)
-    clearTimeout(this._openTimeout)
-
-    const { openModal } = this.props
-    if (typeof openModal === 'function') {
-      const fn = openModal(waitBeforeOpen, this)
-      if (fn) {
-        this._onUnmount.push(fn)
-      }
-    } else {
-      waitBeforeOpen()
-    }
-  }
-
-  handleSideEffects = () => {
-    const { modalActive, preventAutoFocus, animationDuration } = this.state
-    const { closeModal, open } = this.props
+  const handleSideEffects = React.useCallback(() => {
+    const { modalActive, preventAutoFocus, animationDuration } = state
 
     if (modalActive) {
-      if (typeof closeModal === 'function') {
-        const fn = closeModal(() => {
-          this.toggleOpenClose(null, false)
-        }, this)
+      if (typeof localProps.closeModal === 'function') {
+        const fn = localProps.closeModal(
+          () => {
+            toggleOpenClose(null, false)
+          },
+          { _id: _idRef.current }
+        )
         if (fn) {
-          this._onUnmount.push(fn)
+          _onUnmountRef.current.push(fn)
         }
       }
-      this.setActiveState(this._id)
+      setActiveState(_idRef.current)
     } else if (modalActive === false && !preventAutoFocus) {
       const focus = (elem: HTMLElement) => {
-        // So we can omit showing a Tooltip on the trigger button
         elem.setAttribute('data-autofocus', 'true')
         elem.focus({ preventScroll: true })
 
@@ -313,156 +212,343 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
         })
       }
 
-      if (this._triggerRef?.current) {
-        focus(this._triggerRef.current)
+      if (_triggerRef?.current) {
+        focus(_triggerRef.current)
       }
 
-      // because the open was set to true, we force
-      if (open === true && this.activeElement instanceof HTMLElement) {
+      if (
+        localProps.open === true &&
+        activeElementRef.current instanceof HTMLElement
+      ) {
         try {
-          focus(this.activeElement).then(() => {
-            this.activeElement = null
+          focus(activeElementRef.current as HTMLElement).then(() => {
+            activeElementRef.current = null
           })
         } catch (e) {
           //
         }
       }
 
-      this.removeActiveState()
+      removeActiveState()
     }
 
     if (preventAutoFocus) {
-      this.setState({ preventAutoFocus: false })
+      setState((prev) => ({ ...prev, preventAutoFocus: false }))
     }
-  }
+  }, [
+    state,
+    localProps.closeModal,
+    localProps.open,
+    setActiveState,
+    removeActiveState,
+  ]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  open = (e: Event) => {
-    this.toggleOpenClose(e, true)
-  }
+  const toggleOpenClose = React.useCallback(
+    (event = null, showModal = null) => {
+      if (event && event.preventDefault) {
+        event.preventDefault()
+      }
 
-  close = (
-    event: Event,
-    { ifIsLatest, triggeredBy = 'handler' } = {
-      ifIsLatest: true,
-    }
-  ) => {
-    this.modalContentCloseRef.current?.(event, { triggeredBy })
+      const toggleNow = () => {
+        const {
+          animationDuration = ANIMATION_DURATION,
+          noAnimation = false,
+        } = state
+        const timeoutDuration =
+          typeof animationDuration === 'string'
+            ? parseFloat(animationDuration)
+            : animationDuration
 
-    const { preventClose = false } = this.props
+        const modalActive =
+          typeof showModal === 'boolean' ? showModal : !state.modalActive
 
-    if (isTrue(preventClose)) {
-      const id = this._id
-      dispatchCustomElementEvent(this, 'onClosePrevent', {
-        id,
-        event,
-        triggeredBy,
-        close: (e) => {
-          this.toggleOpenClose(e, false)
-        },
-      })
-    } else {
-      if (ifIsLatest) {
-        const list = getListOfModalRoots()
-        if (list.length > 1) {
-          const last = getModalRoot(-1)
-          if (last !== this) {
-            return // stop here
-          }
+        // If already in target state, just handle side effects without transition
+        if (modalActive === state.modalActive) {
+          handleSideEffects()
+          return
+        }
+
+        isInTransitionRef.current = true
+
+        const doItNow = () => {
+          setState((prev) => ({
+            ...prev,
+            hide: false,
+            modalActive,
+          }))
+        }
+
+        if (modalActive === false && !isTrue(noAnimation)) {
+          setState((prev) => ({
+            ...prev,
+            hide: true,
+          }))
+
+          _closeTimeoutRef.current = setTimeout(doItNow, timeoutDuration)
+        } else {
+          doItNow()
         }
       }
 
-      this.toggleOpenClose(event, false)
-    }
-  }
+      const waitBeforeOpen = () => {
+        const { openDelay } = localProps
+        const { noAnimation } = state
+        const delay =
+          typeof openDelay === 'string' ? parseFloat(openDelay) : openDelay
+        if (delay > 0 && !isTrue(noAnimation)) {
+          _openTimeoutRef.current = setTimeout(toggleNow, delay)
+        } else {
+          toggleNow()
+        }
+      }
 
-  removeActiveState() {
-    const last = getModalRoot(-1)
+      clearTimeout(_closeTimeoutRef.current)
+      clearTimeout(_openTimeoutRef.current)
 
-    // If this instance is not the last one,
-    // make the current one to as the active one
-    if (last?._id && last._id !== this._id) {
-      return this.setActiveState(last._id)
+      const { openModal } = localProps
+      if (typeof openModal === 'function') {
+        const fn = openModal(waitBeforeOpen, { _id: _idRef.current })
+        if (fn) {
+          _onUnmountRef.current.push(fn)
+        }
+      } else {
+        waitBeforeOpen()
+      }
+    },
+    [state, localProps]
+  ) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const openBasedOnStateUpdate = React.useCallback(() => {
+    const { hide } = state
+    const { open } = localProps
+
+    if (!activeElementRef.current && typeof document !== 'undefined') {
+      activeElementRef.current = document.activeElement
     }
 
-    try {
-      document.documentElement.removeAttribute('data-dnb-modal-active')
-    } catch (e) {
-      warn('Modal: Error on remove "data-dnb-modal-active"', e)
+    if (!hide && open === true) {
+      toggleOpenClose(null, true)
+    } else if (hide && open === false) {
+      toggleOpenClose(null, false)
     }
-  }
+  }, [state, localProps.open]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  /**
-   * Prevent scrolling on the background
-   * But checks if this instance was the last one or not
-   *
-   * @param {string} modalId Will remove the attribute if false is given
-   */
-  setActiveState(modalId: string) {
-    if (!modalId) {
-      warn('Modal: A valid modalId is required')
-    }
-    // prevent scrolling on the background
-    if (typeof document !== 'undefined') {
-      try {
-        document.documentElement.setAttribute(
-          'data-dnb-modal-active',
-          modalId
+  const open = React.useCallback(
+    (e: Event) => {
+      toggleOpenClose(e, true)
+    },
+    [toggleOpenClose]
+  )
+
+  const close = React.useCallback(
+    (
+      event: Event,
+      { ifIsLatest, triggeredBy = 'handler' } = {
+        ifIsLatest: true,
+      }
+    ) => {
+      modalContentCloseRef.current?.(event, { triggeredBy })
+
+      const { preventClose = false } = localProps
+
+      if (isTrue(preventClose)) {
+        const id = _idRef.current
+        dispatchCustomElementEvent(
+          { props: localProps, open, close },
+          'onClosePrevent',
+          {
+            id,
+            event,
+            triggeredBy,
+            close: (e) => {
+              toggleOpenClose(e, false)
+            },
+          }
         )
-      } catch (e) {
-        warn('Modal: Error on set "data-dnb-modal-active"', e)
+      } else {
+        if (ifIsLatest) {
+          const list = getListOfModalRoots()
+          if (list.length > 1) {
+            const last = getModalRoot(-1)
+            if (last?._id && last._id !== _idRef.current) {
+              return
+            }
+          }
+        }
+
+        toggleOpenClose(event, false)
+      }
+    },
+    [localProps, toggleOpenClose, open]
+  ) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // getDerivedStateFromProps equivalent
+  React.useEffect(() => {
+    const newState: any = {}
+    let hasChanges = false
+
+    if (typeof window !== 'undefined' && window['IS_TEST']) {
+      if (state.animationDuration !== 0) {
+        newState.animationDuration = 0
+        hasChanges = true
+      }
+      if (state.noAnimation !== true) {
+        newState.noAnimation = true
+        hasChanges = true
+      }
+    } else {
+      if (state.animationDuration !== localProps.animationDuration) {
+        newState.animationDuration = localProps.animationDuration
+        hasChanges = true
+      }
+      if (state.noAnimation !== localProps.noAnimation) {
+        newState.noAnimation = localProps.noAnimation
+        hasChanges = true
       }
     }
-  }
 
-  render() {
-    const visualTestsPropsOverride =
-      typeof window !== 'undefined' && window['IS_TEST']
-        ? {
-            animationDuration: 0,
-            noAnimation: true,
-          }
-        : {}
+    if (localProps.open !== state._open) {
+      if (localProps.open === true) {
+        newState.hide = false
+        if (isTrue(state.noAnimation)) {
+          newState.modalActive = true
+        }
+        hasChanges = true
+      } else if (localProps.open === false) {
+        newState.hide = true
+        if (isTrue(state.noAnimation)) {
+          newState.modalActive = false
+        }
+        hasChanges = true
+      }
+      newState._open = localProps.open
+    }
 
-    // use only the props from context, who are available here anyway
-    const props = extendPropsWithContextInClassComponent(
-      this.props,
-      Modal.defaultProps,
-      this.context.getTranslation(this.props).Modal,
-      this.context.Modal,
-      visualTestsPropsOverride
-    )
+    if (hasChanges) {
+      setState((prev) => ({ ...prev, ...newState }))
+    }
+  }, [
+    localProps.open,
+    localProps.animationDuration,
+    localProps.noAnimation,
+    state.animationDuration,
+    state.noAnimation,
+    state._open,
+  ])
 
-    const {
-      rootId = 'root',
-      contentId = null,
-      disabled = null,
-      labelledBy = null,
-      focusSelector = null,
-      headerContent = null,
-      barContent = null,
-      bypassInvalidationSelectors = null,
-      verticalAlignment = 'center',
+  // componentDidUpdate equivalent - call openBasedOnStateUpdate when state._open changes (after getDerivedStateFromProps)
+  // OR when props object reference changes (mimicking class component's prevProps !== this.props check)
+  React.useEffect(() => {
+    if (isFirstRenderRef.current) {
+      isFirstRenderRef.current = false
+      prevPropsRef.current = localProps
+      return
+    }
+    if (isInTransitionRef.current) {
+      return
+    }
 
-      id, // eslint-disable-line
-      openDelay, // eslint-disable-line
+    // Check if props reference changed (like class component did with prevProps !== this.props)
+    const propsChanged = prevPropsRef.current !== localProps
 
-      omitTriggerButton = false,
-      trigger = null,
-      triggerAttributes = null,
-      ...rest
-    } = props
+    // Only call if state._open actually changed OR props changed
+    if (state._open !== prevOpenRef.current || propsChanged) {
+      openBasedOnStateUpdate()
+    }
 
-    const { hide, modalActive } = this.state
-    const modalContent = Modal.getContent(
-      typeof this.props.children === 'function'
-        ? Object.freeze({
-            ...this.props,
-            close: this.close,
-          })
-        : this.props
-    )
+    prevOpenRef.current = state._open
+    prevPropsRef.current = localProps
+  }, [state._open, localProps, openBasedOnStateUpdate])
 
-    const render = (suffixProps) => {
+  // componentDidMount equivalent
+  React.useEffect(() => {
+    openBasedOnStateUpdate()
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // componentWillUnmount equivalent
+  React.useEffect(() => {
+    return () => {
+      clearTimeout(_openTimeoutRef.current)
+      clearTimeout(_closeTimeoutRef.current)
+
+      removeActiveState()
+
+      _onUnmountRef.current.forEach((fn) => {
+        if (typeof fn === 'function') {
+          fn()
+        }
+      })
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Handle side effects when modalActive changes
+  React.useEffect(() => {
+    // Skip on first render
+    if (isFirstRenderRef.current) {
+      prevModalActiveRef.current = state.modalActive
+      return
+    }
+
+    // Only handle side effects if modalActive actually changed
+    if (state.modalActive !== prevModalActiveRef.current) {
+      prevModalActiveRef.current = state.modalActive
+
+      if (isInTransitionRef.current) {
+        isInTransitionRef.current = false
+      }
+      handleSideEffects()
+    }
+  }, [state.modalActive, handleSideEffects])
+
+  // Render
+  const render = React.useCallback(
+    (suffixProps) => {
+      const visualTestsPropsOverride =
+        typeof window !== 'undefined' && window['IS_TEST']
+          ? {
+              animationDuration: 0,
+              noAnimation: true,
+            }
+          : {}
+
+      const props = extendPropsWithContext(
+        localProps,
+        defaultProps,
+        context.getTranslation(localProps).Modal,
+        context.Modal,
+        visualTestsPropsOverride
+      )
+
+      const {
+        rootId = 'root',
+        contentId = null,
+        disabled = null,
+        labelledBy = null,
+        focusSelector = null,
+        headerContent = null,
+        barContent = null,
+        bypassInvalidationSelectors = null,
+        verticalAlignment = 'center',
+
+        id, // eslint-disable-line
+        openDelay, // eslint-disable-line
+
+        omitTriggerButton = false,
+        trigger = null,
+        triggerAttributes = null,
+        ...rest
+      } = props
+
+      const { hide, modalActive } = state
+      const modalContent = getContent(
+        typeof localProps.children === 'function'
+          ? Object.freeze({
+              ...localProps,
+              close,
+            })
+          : localProps
+      )
+
       const usedTriggerAttributes = {
         hidden: false,
         variant: 'secondary',
@@ -475,17 +561,14 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
       }
 
       if (usedTriggerAttributes.id) {
-        this._id = usedTriggerAttributes.id
+        _idRef.current = usedTriggerAttributes.id
       }
 
       let fallbackTitle: string
       if (usedTriggerAttributes.title) {
         fallbackTitle = usedTriggerAttributes.title
-      }
-      // in case the modal is used in suffix and no title is given
-      // suffixProps.label is also available, so we could use that too
-      else if (suffixProps) {
-        fallbackTitle = this.context.translation.HelpButton.title
+      } else if (suffixProps) {
+        fallbackTitle = context.translation.HelpButton.title
       }
 
       const headerTitle = rest.title || fallbackTitle
@@ -504,10 +587,10 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
           {TriggerButton && !isTrue(omitTriggerButton) && (
             <TriggerButton
               {...usedTriggerAttributes}
-              id={this._id}
+              id={_idRef.current}
               title={title}
-              onClick={this.toggleOpenClose}
-              innerRef={this._triggerRef}
+              onClick={toggleOpenClose}
+              innerRef={_triggerRef}
               className={clsx(
                 'dnb-modal__trigger',
                 createSpacingClasses(rest as SpacingProps),
@@ -520,9 +603,9 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
             <ParagraphContext.Provider value={{ isNested: false }}>
               <ModalRoot
                 {...rest}
-                id={this._id}
+                id={_idRef.current}
                 rootId={rootId}
-                contentId={contentId || `dnb-modal-${this._id}`}
+                contentId={contentId || `dnb-modal-${_idRef.current}`}
                 labelledBy={labelledBy}
                 focusSelector={focusSelector}
                 modalContent={modalContent}
@@ -530,19 +613,35 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
                 verticalAlignment={verticalAlignment}
                 barContent={barContent}
                 bypassInvalidationSelectors={bypassInvalidationSelectors}
-                close={this.close}
+                close={close}
                 hide={hide}
                 title={headerTitle}
-                modalContentCloseRef={this.modalContentCloseRef}
+                modalContentCloseRef={modalContentCloseRef}
               />
             </ParagraphContext.Provider>
           )}
         </>
       )
-    }
+    },
+    [state, localProps, context, toggleOpenClose, close]
+  )
 
-    return <SuffixContext.Consumer>{render}</SuffixContext.Consumer>
+  return <SuffixContext.Consumer>{render}</SuffixContext.Consumer>
+}
+
+// Static properties
+Modal.Bar = ModalHeaderBar
+Modal.Header = ModalHeader
+Modal.Content = ModalInner
+Modal.defaultProps = defaultProps
+
+const getContent = (props) => {
+  if (typeof props.modalContent === 'string') {
+    return props.modalContent
+  } else if (typeof props.modalContent === 'function') {
+    return props.modalContent(props)
   }
+  return processChildren(props)
 }
 
 export { CloseButton, Modal as OriginalComponent }
