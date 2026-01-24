@@ -164,16 +164,6 @@ function DrawerListProvider(localProps: DrawerListProviderProps) {
   // Refs to store latest handlers for event listeners
   const onKeyDownHandlerRef = React.useRef<(e: any) => void>(null)
   const onKeyUpHandlerRef = React.useRef<(e: any) => void>(null)
-  // Track previous props to detect changes (start empty so first render applies derived state)
-  const prevPropsRef = React.useRef<{
-    data?: any
-    value?: any
-    skipPortal?: any
-    wrapperElement?: any
-    preventSelection?: any
-    direction?: any
-    groups?: any
-  }>({})
 
   // Initial state setup - WITHOUT derived state (like class component constructor)
   const [state, setState] = React.useState<DrawerListContextState>(() => ({
@@ -185,38 +175,31 @@ function DrawerListProvider(localProps: DrawerListProviderProps) {
   }))
 
   // getDerivedStateFromProps equivalent
-  // Runs before first paint and whenever props change
+  // Runs before first paint and whenever relevant props change
   React.useLayoutEffect(() => {
-    // Check if any relevant props changed
-    const propsChanged =
-      prevPropsRef.current.data !== localProps.data ||
-      prevPropsRef.current.value !== localProps.value ||
-      prevPropsRef.current.skipPortal !== localProps.skipPortal ||
-      prevPropsRef.current.wrapperElement !== localProps.wrapperElement ||
-      prevPropsRef.current.preventSelection !==
-        localProps.preventSelection ||
-      prevPropsRef.current.direction !== localProps.direction ||
-      prevPropsRef.current.groups !== localProps.groups
+    setState((prevState) => {
+      // Make a copy of state to pass to prepareDerivedState
+      // since it mutates the object
+      const stateCopy = { ...prevState }
+      const newState = prepareDerivedState(localProps, stateCopy)
 
-    if (propsChanged) {
-      // Update the ref to track current props
-      prevPropsRef.current = {
-        data: localProps.data,
-        value: localProps.value,
-        skipPortal: localProps.skipPortal,
-        wrapperElement: localProps.wrapperElement,
-        preventSelection: localProps.preventSelection,
-        direction: localProps.direction,
-        groups: localProps.groups,
+      // Check if state actually changed to avoid unnecessary re-renders
+      // Compare key properties that prepareDerivedState might update
+      if (
+        newState.data === prevState.data &&
+        newState.selectedItem === prevState.selectedItem &&
+        newState.activeItem === prevState.activeItem &&
+        newState.skipPortal === prevState.skipPortal &&
+        newState.wrapperElement === prevState.wrapperElement &&
+        newState.direction === prevState.direction &&
+        newState.cacheHash === prevState.cacheHash &&
+        newState.ariaActiveDescendant === prevState.ariaActiveDescendant
+      ) {
+        return prevState // No change, return the same state to prevent re-render
       }
 
-      setState((prevState) => {
-        // Make a copy of state to pass to prepareDerivedState
-        // since it mutates the object
-        const stateCopy = { ...prevState }
-        return prepareDerivedState(localProps, stateCopy)
-      })
-    }
+      return newState
+    })
   }, [
     localProps.data,
     localProps.value,
@@ -774,51 +757,62 @@ function DrawerListProvider(localProps: DrawerListProviderProps) {
       activeItem,
       { fireSelectEvent = false, scrollTo = true, event = null } = {}
     ) => {
-      setState((prev) => ({ ...prev, activeItem }))
-
-      // Handle side effects after state update with useRef to track changes
-      setTimeout(() => {
-        if (parseFloat(activeItem) === -1) {
-          // Select the first item to NVDA is more easily navigatable,
-          // without using the alt + arrow key
-          // else we set the focus on the "ul" element
-          if (document.activeElement?.tagName !== 'INPUT') {
-            _refUl.current?.focus({ preventScroll: true })
-          }
-
-          dispatchCustomElementEvent(
-            { ...state, activeItem },
-            'onOpenFocus',
-            {
-              element: _refUl.current,
-            }
-          )
-        } else if (parseFloat(activeItem) > -1) {
-          const { selectedItem } = state
-
-          if (fireSelectEvent) {
-            const attributes = attributesRef.current
-            const ret = dispatchCustomElementEvent(state, 'onSelect', {
-              activeItem,
-              value: getSelectedItemValue(selectedItem, state),
-              data: getEventData(activeItem, state.data),
-              event,
-              attributes,
-            })
-            if (ret === false) {
-              return // stop here!
-            }
-          }
-
-          if (isTrue(localProps.noAnimation)) {
-            scrollTo = false
-          }
-
-          scrollToItem(activeItem, { scrollTo })
+      setState((prev) => {
+        const newState = {
+          ...prev,
+          activeItem,
+          ariaActiveDescendant:
+            parseFloat(activeItem) > -1
+              ? `option-${prev.id}-${activeItem}`
+              : prev.ariaActiveDescendant,
         }
-      }, 0)
+
+        // Handle side effects after state update
+        setTimeout(() => {
+          if (parseFloat(activeItem) === -1) {
+            // Select the first item to NVDA is more easily navigatable,
+            // without using the alt + arrow key
+            // else we set the focus on the "ul" element
+            if (document.activeElement?.tagName !== 'INPUT') {
+              _refUl.current?.focus({ preventScroll: true })
+            }
+
+            dispatchCustomElementEvent(newState, 'onOpenFocus', {
+              element: _refUl.current,
+            })
+          } else if (parseFloat(activeItem) > -1) {
+            const { selectedItem } = newState
+
+            if (fireSelectEvent) {
+              const attributes = attributesRef.current
+              const ret = dispatchCustomElementEvent(
+                newState,
+                'onSelect',
+                {
+                  activeItem,
+                  value: getSelectedItemValue(selectedItem, newState),
+                  data: getEventData(activeItem, newState.data),
+                  event,
+                  attributes,
+                }
+              )
+              if (ret === false) {
+                return // stop here!
+              }
+            }
+
+            if (isTrue(localProps.noAnimation)) {
+              scrollTo = false
+            }
+
+            scrollToItem(activeItem, { scrollTo })
+          }
+        }, 0)
+
+        return newState
+      })
     },
-    [state, localProps.noAnimation, scrollToItem]
+    [localProps.noAnimation, scrollToItem]
   )
 
   const setWrapperElement = React.useCallback(
@@ -863,14 +857,6 @@ function DrawerListProvider(localProps: DrawerListProviderProps) {
     },
     [setMetaKey]
   )
-
-  // Update ref whenever handler changes
-  onKeyUpHandlerRef.current = onKeyUpHandler
-
-  // Create stable wrapper functions that always call the latest handler
-  const onKeyUpHandlerStable = React.useCallback((e) => {
-    onKeyUpHandlerRef.current?.(e)
-  }, [])
 
   const getCurrentSelectedItem = React.useCallback(() => {
     const elem = getSelectedElement()
@@ -1235,12 +1221,19 @@ function DrawerListProvider(localProps: DrawerListProviderProps) {
     ]
   ) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Update ref whenever handler changes
-  onKeyDownHandlerRef.current = onKeyDownHandler
+  // Update refs with latest handlers after every render
+  React.useLayoutEffect(() => {
+    onKeyDownHandlerRef.current = onKeyDownHandler
+    onKeyUpHandlerRef.current = onKeyUpHandler
+  })
 
-  // Create stable wrapper function that always calls the latest handler
+  // Create stable wrapper functions that always call the latest handler
   const onKeyDownHandlerStable = React.useCallback((e) => {
     onKeyDownHandlerRef.current?.(e)
+  }, [])
+
+  const onKeyUpHandlerStable = React.useCallback((e) => {
+    onKeyUpHandlerRef.current?.(e)
   }, [])
 
   const setOutsideClickObserver = React.useCallback(() => {
@@ -1306,6 +1299,9 @@ function DrawerListProvider(localProps: DrawerListProviderProps) {
       searchCacheRef.current = null
 
       const handleSingleComponentCheck = () => {
+        // Capture current state before making changes
+        const { selectedItem, activeItem, data: currentData } = state
+
         setState((prev) => ({
           ...prev,
           hidden: false,
@@ -1343,14 +1339,13 @@ function DrawerListProvider(localProps: DrawerListProviderProps) {
           ) // wait until animation is over
         }
 
-        const { selectedItem, activeItem } = state
         const newActiveItem =
           parseFloat(selectedItem as string) > -1
             ? selectedItem
             : activeItem
         dispatchCustomElementEvent(state, 'onOpen', {
           ...args,
-          data: getEventData(newActiveItem, state.data),
+          data: getEventData(newActiveItem, currentData),
           attributes: attributesRef.current,
           ulElement: _refUl.current,
         })
@@ -1393,14 +1388,15 @@ function DrawerListProvider(localProps: DrawerListProviderProps) {
       clearTimeout(_showTimeoutRef.current)
       clearTimeout(_hideTimeoutRef.current)
 
-      const { selectedItem, activeItem } = state
+      // Capture current state values before dispatching event
+      const { selectedItem, activeItem, data } = state
       const res = dispatchCustomElementEvent(state, 'onClose', {
         ...args,
         data: getEventData(
           parseFloat(selectedItem as string) > -1
             ? selectedItem
             : activeItem,
-          state.data
+          data
         ),
         attributes: attributesRef.current,
       })
