@@ -160,6 +160,7 @@ function DrawerListProvider(localProps: DrawerListProviderProps) {
   })
   const outsideClickRef = React.useRef<DetectOutsideClickClass>(null)
   const attributesRef = React.useRef<object>({})
+  const drawerListApiRef = React.useRef<any>(null)
 
   // Refs to store latest handlers for event listeners
   const onKeyDownHandlerRef = React.useRef<(e: any) => void>(null)
@@ -193,7 +194,8 @@ function DrawerListProvider(localProps: DrawerListProviderProps) {
         newState.wrapperElement === prevState.wrapperElement &&
         newState.direction === prevState.direction &&
         newState.cacheHash === prevState.cacheHash &&
-        newState.ariaActiveDescendant === prevState.ariaActiveDescendant
+        newState.ariaActiveDescendant === prevState.ariaActiveDescendant &&
+        newState._data === prevState._data // Include _data in comparison
       ) {
         return prevState // No change, return the same state to prevent re-render
       }
@@ -830,6 +832,9 @@ function DrawerListProvider(localProps: DrawerListProviderProps) {
           wrapperElement,
         }))
       }
+
+      // Return the API object for method chaining
+      return drawerListApiRef.current
     },
     [localProps.wrapperElement, state.wrapperElement]
   )
@@ -1446,11 +1451,15 @@ function DrawerListProvider(localProps: DrawerListProviderProps) {
 
       data = normalizeData(data)
 
-      setState((prev) => ({
-        ...prev,
-        data,
-        originalData: overwriteOriginalData ? data : state.originalData,
-      }))
+      setState((prev) => {
+        const newState = {
+          ...prev,
+          data,
+          originalData: overwriteOriginalData ? data : state.originalData,
+        }
+
+        return newState
+      })
 
       setTimeout(() => {
         refreshScrollObserver()
@@ -1573,31 +1582,41 @@ function DrawerListProvider(localProps: DrawerListProviderProps) {
     [state, localProps, setHidden]
   )
 
+  // Create the drawerList API object
+  // We need to maintain the same object reference for method chaining to work,
+  // but update its properties on each render
+  if (!drawerListApiRef.current) {
+    drawerListApiRef.current = {}
+  }
+
+  // Update the API object properties on each render
+  Object.assign(drawerListApiRef.current, {
+    attributes: attributesRef.current,
+    _refRoot,
+    _refShell,
+    _refUl,
+    _refTriangle,
+    _rootElem: _rootElemRef.current,
+    setData: setDataHandler,
+    setState: setStateHandler,
+    setWrapperElement,
+    addObservers,
+    removeObservers,
+    setVisible,
+    setHidden,
+    toggleVisible,
+    selectItem,
+    selectItemAndClose,
+    scrollToItem,
+    setActiveItemAndScrollToIt,
+    ...state,
+  })
+
   return (
     <DrawerListContext.Provider
       value={{
         ...context,
-        drawerList: {
-          attributes: attributesRef.current,
-          _refRoot,
-          _refShell,
-          _refUl,
-          _refTriangle,
-          _rootElem: _rootElemRef.current,
-          setData: setDataHandler,
-          setState: setStateHandler,
-          setWrapperElement,
-          addObservers,
-          removeObservers,
-          setVisible,
-          setHidden,
-          toggleVisible,
-          selectItem,
-          selectItemAndClose,
-          scrollToItem,
-          setActiveItemAndScrollToIt,
-          ...state,
-        },
+        drawerList: drawerListApiRef.current,
       }}
     >
       {localProps.children}
