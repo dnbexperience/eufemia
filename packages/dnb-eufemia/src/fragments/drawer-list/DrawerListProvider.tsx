@@ -1,8 +1,6 @@
 /**
  * Web DrawerList Provider
  *
- * This is a legacy component.
- * For referencing while developing new features, please use a Functional component.
  */
 
 import React from 'react'
@@ -59,11 +57,9 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
       }?: {
         overwriteOriginalData?: boolean
       }
-    ) => DrawerListProvider
+    ) => void
     setState?: (state: any, cb?: any) => void
-    setWrapperElement?: (
-      wrapperElement?: string | HTMLElement
-    ) => DrawerListProvider
+    setWrapperElement?: (wrapperElement?: string | HTMLElement) => void
     setHidden?: (args?: any[], onStateComplete?: any) => void
     selectItemAndClose?: (
       itemToSelect: any,
@@ -117,144 +113,193 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
     children: React.ReactNode
   }
 
-export default class DrawerListProvider extends React.PureComponent<
-  DrawerListProviderProps,
-  DrawerListContextState
-> {
-  static contextType = Context
-  context!: React.ContextType<typeof Context>
+const defaultProps = {
+  ...drawerListDefaultProps,
+  ...drawerListProviderDefaultProps,
+}
 
-  static defaultProps = {
-    ...drawerListDefaultProps,
-    ...drawerListProviderDefaultProps,
-  }
+const blurDelay = 201 // some ms more than "DrawerListSlideDown 200ms"
 
-  static blurDelay = 201 // some ms more than "DrawerListSlideDown 200ms"
+let isOpenGlobal = false
 
-  static isOpen: boolean
+function DrawerListProvider(localProps: DrawerListProviderProps) {
+  const context = React.useContext(Context)
 
-  static getDerivedStateFromProps(props, state) {
-    return prepareDerivedState(props, state)
-  }
+  // Refs
+  const _refRoot = React.useRef<HTMLSpanElement>(null)
+  const _refShell = React.useRef<HTMLSpanElement>(null)
+  const _refUl = React.useRef<HTMLUListElement>(null)
+  const _refTriangle = React.useRef<HTMLLIElement & HTMLSpanElement>(null)
 
-  attributes: object
-  _refRoot: React.RefObject<HTMLSpanElement>
-  _refShell: React.RefObject<HTMLSpanElement>
-  _refUl: React.RefObject<HTMLUListElement>
-  _refTriangle: React.RefObject<HTMLLIElement & HTMLSpanElement>
+  const _showTimeoutRef = React.useRef<NodeJS.Timeout>(null)
+  const _hideTimeoutRef = React.useRef<NodeJS.Timeout>(null)
+  const _scrollTimeoutRef = React.useRef<NodeJS.Timeout>(null)
+  const _directionTimeoutRef = React.useRef<NodeJS.Timeout>(null)
 
-  _showTimeout: NodeJS.Timeout
-  _hideTimeout: NodeJS.Timeout
-  _scrollTimeout: NodeJS.Timeout
-  _directionTimeout: NodeJS.Timeout
-
-  itemSpots: { [customProperty: number]: { id: string } }
-  itemSpotsCount: number
-  setOnScroll: () => void
-  _bodyLockIsEnabled: boolean
-  setDirection: () => void
-  _rootElem: Window | Element
-  changedOrderFor: string
-  searchCache: Record<string, { i: number }[]>
-  meta: {
+  const itemSpotsRef = React.useRef<{
+    [customProperty: number]: { id: string }
+  }>({})
+  const itemSpotsCountRef = React.useRef<number>(0)
+  const setOnScrollRef = React.useRef<() => void>(null)
+  const _bodyLockIsEnabledRef = React.useRef<boolean>(false)
+  const setDirectionRef = React.useRef<() => void>(null)
+  const _rootElemRef = React.useRef<Window | Element>(null)
+  const changedOrderForRef = React.useRef<string>(null)
+  const searchCacheRef =
+    React.useRef<Record<string, { i: number }[]>>(null)
+  const metaRef = React.useRef<{
     cmd: any
     ctrl: any
     shift: any
     alt: any
-  }
-  outsideClick: DetectOutsideClickClass
+  }>({
+    cmd: false,
+    ctrl: false,
+    shift: false,
+    alt: false,
+  })
+  const outsideClickRef = React.useRef<DetectOutsideClickClass>(null)
+  const attributesRef = React.useRef<object>({})
+  const drawerListApiRef = React.useRef<any>(null)
 
-  constructor(props) {
-    super(props)
+  // Refs to store latest handlers for event listeners
+  const onKeyDownHandlerRef = React.useRef<(e: any) => void>(null)
+  const onKeyUpHandlerRef = React.useRef<(e: any) => void>(null)
 
-    this.attributes = {}
-    this.state = {
-      cacheHash: '',
-      activeItem: undefined,
-      selectedItem: undefined,
-      ignoreEvents: false,
-      ...prepareStartupState(props),
+  // Initial state setup - WITHOUT derived state (like class component constructor)
+  const [state, setState] = React.useState<DrawerListContextState>(() => ({
+    cacheHash: '',
+    activeItem: undefined,
+    selectedItem: undefined,
+    ignoreEvents: false,
+    ...prepareStartupState(localProps),
+  }))
+
+  // getDerivedStateFromProps equivalent
+  // Runs before first paint and whenever relevant props change
+  React.useLayoutEffect(() => {
+    setState((prevState) => {
+      // Make a copy of state to pass to prepareDerivedState
+      // since it mutates the object
+      const stateCopy = { ...prevState }
+      const newState = prepareDerivedState(localProps, stateCopy)
+
+      // Check if state actually changed to avoid unnecessary re-renders
+      // Compare key properties that prepareDerivedState might update
+      if (
+        newState.data === prevState.data &&
+        newState.selectedItem === prevState.selectedItem &&
+        newState.activeItem === prevState.activeItem &&
+        newState.skipPortal === prevState.skipPortal &&
+        newState.wrapperElement === prevState.wrapperElement &&
+        newState.direction === prevState.direction &&
+        newState.cacheHash === prevState.cacheHash &&
+        newState.ariaActiveDescendant === prevState.ariaActiveDescendant &&
+        newState._data === prevState._data // Include _data in comparison
+      ) {
+        return prevState // No change, return the same state to prevent re-render
+      }
+
+      return newState
+    })
+  }, [
+    localProps.data,
+    localProps.value,
+    localProps.skipPortal,
+    localProps.wrapperElement,
+    localProps.preventSelection,
+    localProps.direction,
+    localProps.groups,
+  ])
+
+  // componentDidMount equivalent
+  React.useEffect(() => {
+    if (isTrue(localProps.open)) {
+      setVisible()
     }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-    this._refRoot = React.createRef()
-    this._refShell = React.createRef()
-    this._refUl = React.createRef()
-    this._refTriangle = React.createRef()
-  }
-
-  componentDidMount() {
-    if (isTrue(this.props.open)) {
-      this.setVisible()
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.open !== null && this.props.open !== prevProps.open) {
-      if (isTrue(this.props.open)) {
-        this.setVisible()
-      } else if (isTrue(this.props.open) === false) {
-        this.setHidden()
+  // Handle open prop changes (part of componentDidUpdate)
+  const prevOpenRef = React.useRef(localProps.open)
+  React.useEffect(() => {
+    const prevOpen = prevOpenRef.current
+    if (localProps.open !== null && localProps.open !== prevOpen) {
+      if (isTrue(localProps.open)) {
+        setVisible()
+      } else if (isTrue(localProps.open) === false) {
+        setHidden()
       }
     }
+    prevOpenRef.current = localProps.open
+  }, [localProps.open]) // eslint-disable-line react-hooks/exhaustive-deps
 
-    if (this.state.open) {
+  // Handle data/direction changes when open (part of componentDidUpdate)
+  const prevDataRef = React.useRef(localProps.data)
+  const prevDirectionRef = React.useRef(state.direction)
+  React.useEffect(() => {
+    if (state.open) {
       if (
-        this.props.data !== prevProps.data &&
+        localProps.data !== prevDataRef.current &&
         typeof document !== 'undefined' &&
         document.activeElement?.tagName === 'BODY'
       ) {
-        this._refUl.current?.focus()
+        _refUl.current?.focus()
       }
 
       // Recalculate scroll observer when direction changes or data changes
       if (
-        this.state.direction !== prevState.direction ||
-        this.props.data !== prevProps.data
+        state.direction !== prevDirectionRef.current ||
+        localProps.data !== prevDataRef.current
       ) {
         // Use requestAnimationFrame to ensure DOM has updated
         window?.requestAnimationFrame?.(() => {
-          this.refreshScrollObserver()
+          refreshScrollObserver()
           // Trigger scroll event to update arrow indicators
-          this.setOnScroll?.()
+          setOnScrollRef.current?.()
         })
       }
     }
-  }
+    prevDataRef.current = localProps.data
+    prevDirectionRef.current = state.direction
+  }, [state.open, state.direction, localProps.data]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  componentWillUnmount() {
-    clearTimeout(this._showTimeout)
-    clearTimeout(this._hideTimeout)
-    clearTimeout(this._scrollTimeout)
-    clearTimeout(this._directionTimeout)
+  // componentWillUnmount equivalent
+  React.useEffect(() => {
+    return () => {
+      clearTimeout(_showTimeoutRef.current)
+      clearTimeout(_hideTimeoutRef.current)
+      clearTimeout(_scrollTimeoutRef.current)
+      clearTimeout(_directionTimeoutRef.current)
 
-    this.removeObservers()
-    this.setActiveState(false)
-  }
+      removeObservers()
+      setActiveState(false)
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  refreshScrollObserver() {
-    if (typeof window === 'undefined' || !this._refUl.current) {
+  const refreshScrollObserver = React.useCallback(() => {
+    if (typeof window === 'undefined' || !_refUl.current) {
       return
     }
-    const elements = this._refUl.current?.querySelectorAll<HTMLLIElement>(
+    const elements = _refUl.current?.querySelectorAll<HTMLLIElement>(
       `li.dnb-drawer-list__option,li.dnb-drawer-list__group-title`
     )
-    this.itemSpots = {}
+    itemSpotsRef.current = {}
     elements.forEach((element) => {
-      this.itemSpots[element.offsetTop] = {
+      itemSpotsRef.current[element.offsetTop] = {
         id: element.getAttribute('id'),
       }
     })
 
-    this.itemSpotsCount = Object.keys(this.itemSpots).length
-  }
+    itemSpotsCountRef.current = Object.keys(itemSpotsRef.current).length
+  }, [])
 
-  setScrollObserver() {
-    if (typeof window === 'undefined' || !this._refUl.current) {
+  const setScrollObserver = React.useCallback(() => {
+    if (typeof window === 'undefined' || !_refUl.current) {
       return
     }
 
-    this.removeScrollObserver()
-    this.itemSpotsCount = 1 // to make sure we recalculate the spots
+    removeScrollObserver()
+    itemSpotsCountRef.current = 1 // to make sure we recalculate the spots
 
     try {
       let closestToTop = null,
@@ -262,83 +307,152 @@ export default class DrawerListProvider extends React.PureComponent<
         tmpToTop,
         tmpToBottom
 
-      this.setOnScroll = () => {
-        if (!this._refUl.current) {
+      setOnScrollRef.current = () => {
+        if (!_refUl.current) {
           return // stop here
         }
 
         // recalculate the spots
-        if (this.itemSpotsCount <= 1) {
-          this.refreshScrollObserver()
+        if (itemSpotsCountRef.current <= 1) {
+          refreshScrollObserver()
         }
 
-        const counts = Object.keys(this.itemSpots)
+        const counts = Object.keys(itemSpotsRef.current)
         closestToBottom = findClosest(
           counts,
-          this._refUl.current.scrollTop + this._refUl.current.offsetHeight
+          _refUl.current.scrollTop + _refUl.current.offsetHeight
         )
-        closestToTop = findClosest(counts, this._refUl.current.scrollTop)
+        closestToTop = findClosest(counts, _refUl.current.scrollTop)
         if (
-          this.itemSpots[closestToTop] &&
-          this.itemSpots[closestToTop].id !== tmpToTop
+          itemSpotsRef.current[closestToTop] &&
+          itemSpotsRef.current[closestToTop].id !== tmpToTop
         ) {
-          tmpToTop = this.itemSpots[closestToTop].id
-          this.setState({
-            closestToTop: this.itemSpots[closestToTop].id,
-          })
+          tmpToTop = itemSpotsRef.current[closestToTop].id
+          setState((prev) => ({
+            ...prev,
+            closestToTop: itemSpotsRef.current[closestToTop].id,
+          }))
         }
         // we do this because we want the arrow
         // to change visually
         if (
-          this.itemSpots[closestToBottom] &&
-          this.itemSpots[closestToBottom].id !== tmpToBottom
+          itemSpotsRef.current[closestToBottom] &&
+          itemSpotsRef.current[closestToBottom].id !== tmpToBottom
         ) {
-          tmpToBottom = this.itemSpots[closestToBottom].id
-          this.setState({
-            closestToBottom: this.itemSpots[closestToBottom].id,
-          })
+          tmpToBottom = itemSpotsRef.current[closestToBottom].id
+          setState((prev) => ({
+            ...prev,
+            closestToBottom: itemSpotsRef.current[closestToBottom].id,
+          }))
         }
       }
 
-      this._refUl.current.addEventListener('scroll', this.setOnScroll)
-      this.setOnScroll()
+      _refUl.current.addEventListener('scroll', setOnScrollRef.current)
+      setOnScrollRef.current()
     } catch (e) {
       warn('List could not set onScroll:', e)
     }
-  }
+  }, [refreshScrollObserver])
 
-  removeScrollObserver() {
-    if (typeof window !== 'undefined' && this.setOnScroll) {
-      window.removeEventListener('resize', this.setOnScroll)
-      this.setOnScroll = null
+  const correctHiddenView = React.useCallback(() => {
+    // We use "style.transform", because it is a independent "and quick" solution
+    // we could send down spaceToLeft and spaceToRight and set it with React's "style" prop in future
+    if (!_refShell.current || !_refUl.current) {
+      return // stop here
     }
-  }
 
-  enableBodyLock = () => {
-    if (this._refUl.current) {
-      this._bodyLockIsEnabled = true
-      disableBodyScroll(this._refUl.current)
+    try {
+      const spaceToLeft = getOffsetLeft(_refUl.current)
+      const spaceToRight =
+        window.innerWidth -
+        (getOffsetLeft(_refUl.current) + _refUl.current.offsetWidth)
+
+      const triangleStyle = _refTriangle.current.style
+      const shellStyle = _refShell.current.style
+
+      // correct left side
+      if (spaceToLeft < 0) {
+        shellStyle.transform = `translateX(${Math.abs(
+          spaceToLeft / 16
+        )}rem)`
+        triangleStyle.right = `${Math.abs(spaceToLeft / 16)}rem`
+
+        // correct right side
+      } else if (spaceToRight < 0) {
+        shellStyle.transform = `translateX(${spaceToRight / 16}rem)`
+        triangleStyle.left = `${Math.abs(spaceToRight / 16)}rem`
+      } else {
+        if (shellStyle.transform) {
+          shellStyle.transform = ''
+          triangleStyle.left = 'auto'
+          triangleStyle.right = 'auto'
+        }
+      }
+    } catch (e) {
+      //
     }
-  }
+  }, [])
 
-  disableBodyLock = () => {
-    if (this._bodyLockIsEnabled && this._refUl.current) {
-      this._bodyLockIsEnabled = null
-      enableBodyScroll(this._refUl.current)
+  const removeScrollObserver = React.useCallback(() => {
+    if (typeof window !== 'undefined' && setOnScrollRef.current) {
+      window.removeEventListener('resize', setOnScrollRef.current)
+      setOnScrollRef.current = null
     }
-  }
+  }, [])
 
-  setDirectionObserver() {
+  const enableBodyLock = React.useCallback(() => {
+    if (_refUl.current) {
+      _bodyLockIsEnabledRef.current = true
+      disableBodyScroll(_refUl.current)
+    }
+  }, [])
+
+  const disableBodyLock = React.useCallback(() => {
+    if (_bodyLockIsEnabledRef.current && _refUl.current) {
+      _bodyLockIsEnabledRef.current = null
+      enableBodyScroll(_refUl.current)
+    }
+  }, [])
+
+  const removeDirectionObserver = React.useCallback(() => {
+    disableBodyLock()
+
+    clearTimeout(_directionTimeoutRef.current)
+    if (typeof window !== 'undefined' && setDirectionRef.current) {
+      _rootElemRef.current?.removeEventListener(
+        'scroll',
+        setDirectionRef.current
+      )
+
+      // this fixes iOS softkeyboard
+      if (typeof window.visualViewport !== 'undefined') {
+        window.visualViewport.removeEventListener(
+          'scroll',
+          setDirectionRef.current
+        )
+        window.visualViewport.removeEventListener(
+          'resize',
+          setDirectionRef.current
+        )
+      } else {
+        window.removeEventListener('resize', setDirectionRef.current)
+      }
+
+      setDirectionRef.current = null
+    }
+  }, [disableBodyLock])
+
+  const setDirectionObserver = React.useCallback(() => {
     if (
       typeof window === 'undefined' ||
       typeof document === 'undefined' ||
-      !(this.state.wrapperElement || this._refRoot.current)
+      !(state.wrapperElement || _refRoot.current)
     ) {
       return
     }
 
     const {
-      enableBodyLock,
+      enableBodyLock: enableBodyLockProp,
       scrollable,
       minHeight,
       maxHeight,
@@ -346,9 +460,9 @@ export default class DrawerListProvider extends React.PureComponent<
       pageOffset,
       observerElement,
       direction: directionProp,
-    } = this.props
+    } = localProps
 
-    const useBodyLock = isTrue(enableBodyLock)
+    const useBodyLock = isTrue(enableBodyLockProp)
     const isScrollable = isTrue(scrollable)
     const customMinHeight = parseFloat(minHeight as string) * 16
     const customMaxHeight = parseFloat(maxHeight as string) || 0
@@ -359,16 +473,16 @@ export default class DrawerListProvider extends React.PureComponent<
         : null
 
     if (!customElem) {
-      customElem = getClosestScrollViewElement(this._refRoot.current)
+      customElem = getClosestScrollViewElement(_refRoot.current)
     }
 
     // In case we have one before hand
-    this.removeDirectionObserver()
+    removeDirectionObserver()
 
     const directionOffset = 96
     const spaceToTopOffset = 2 * 16
     const spaceToBottomOffset = 2 * 16
-    const elem = this.state.wrapperElement || this._refRoot.current
+    const elem = state.wrapperElement || _refRoot.current
     const getSpaceToBottom = ({ rootElem, pageYOffset }) => {
       const spaceToBottom =
         rootElem.clientHeight -
@@ -412,8 +526,8 @@ export default class DrawerListProvider extends React.PureComponent<
         if (direction === 'top') {
           maxHeight =
             spaceToTop -
-            ((this.state.wrapperElement || this._refRoot.current)
-              .offsetHeight || 0) -
+            ((state.wrapperElement || _refRoot.current).offsetHeight ||
+              0) -
             spaceToTopOffset
         }
 
@@ -451,18 +565,20 @@ export default class DrawerListProvider extends React.PureComponent<
         const { direction, maxHeight: maxHeight } = calculateMaxHeight()
 
         // update the states
-        if (this.props.direction === 'auto') {
-          this.setState({
+        if (localProps.direction === 'auto') {
+          setState((prev) => ({
+            ...prev,
             direction,
-          })
+          }))
         }
-        this.setState({
+        setState((prev) => ({
+          ...prev,
           maxHeight,
-        })
+        }))
 
         // call the event, if set
         if (onResize) {
-          dispatchCustomElementEvent(this.state, 'onResize', {
+          dispatchCustomElementEvent(state, 'onResize', {
             direction,
             maxHeight,
           })
@@ -472,1025 +588,1043 @@ export default class DrawerListProvider extends React.PureComponent<
       }
 
       // React v18 needs a delay to make the calculation during first render
-      window?.requestAnimationFrame?.(this.correctHiddenView) ||
-        this.correctHiddenView()
+      window?.requestAnimationFrame?.(correctHiddenView) ||
+        correctHiddenView()
     }
 
     // debounce
-    this.setDirection = () => {
-      clearTimeout(this._directionTimeout)
-      this._directionTimeout = setTimeout(renderDirection, 50)
+    setDirectionRef.current = () => {
+      clearTimeout(_directionTimeoutRef.current)
+      _directionTimeoutRef.current = setTimeout(renderDirection, 50)
     }
 
     // customElem can be a dnb-scroll-view
-    this._rootElem = customElem || window
-    this._rootElem.addEventListener('scroll', this.setDirection)
+    _rootElemRef.current = customElem || window
+    _rootElemRef.current.addEventListener(
+      'scroll',
+      setDirectionRef.current
+    )
 
     // this fixes iOS softkeyboard
     if (typeof window.visualViewport !== 'undefined') {
-      window.visualViewport.addEventListener('scroll', this.setDirection)
-      window.visualViewport.addEventListener('resize', this.setDirection)
+      window.visualViewport.addEventListener(
+        'scroll',
+        setDirectionRef.current
+      )
+      window.visualViewport.addEventListener(
+        'resize',
+        setDirectionRef.current
+      )
     } else {
-      window.addEventListener('resize', this.setDirection)
+      window.addEventListener('resize', setDirectionRef.current)
     }
 
     if (useBodyLock) {
-      this.enableBodyLock()
+      enableBodyLock()
     }
 
-    this.refreshScrollObserver()
+    refreshScrollObserver()
 
     renderDirection()
-  }
+  }, [
+    state,
+    localProps,
+    removeDirectionObserver,
+    correctHiddenView,
+    enableBodyLock,
+    refreshScrollObserver,
+  ])
 
-  /**
-   * Deprecated
-   * We should replace all the logic of handling left/right aligned
-   * and setting the position, with a PopupMenu component,
-   * which uses the logic form Tooltip.
-   *
-   * EDS-246
-   */
-  correctHiddenView = () => {
-    // We use "style.transform", because it is a independent "and quick" solution
-    // we could send down spaceToLeft and spaceToRight and set it with React's "style" prop in future
-    if (!this._refShell.current || !this._refUl.current) {
-      return // stop here
-    }
+  const findItemByValue = React.useCallback(
+    (value) => {
+      if (isTrue(localProps.skipKeysearch)) {
+        return
+      }
 
-    try {
-      const spaceToLeft = getOffsetLeft(this._refUl.current)
-      const spaceToRight =
-        window.innerWidth -
-        (getOffsetLeft(this._refUl.current) +
-          this._refUl.current.offsetWidth)
+      let index = -1
 
-      const triangleStyle = this._refTriangle.current.style
-      const shellStyle = this._refShell.current.style
+      try {
+        value = String(value).toLowerCase()
 
-      // correct left side
-      if (spaceToLeft < 0) {
-        shellStyle.transform = `translateX(${Math.abs(
-          spaceToLeft / 16
-        )}rem)`
-        triangleStyle.right = `${Math.abs(spaceToLeft / 16)}rem`
-
-        // correct right side
-      } else if (spaceToRight < 0) {
-        shellStyle.transform = `translateX(${spaceToRight / 16}rem)`
-        triangleStyle.left = `${Math.abs(spaceToRight / 16)}rem`
-      } else {
-        if (shellStyle.transform) {
-          shellStyle.transform = ''
-          triangleStyle.left = 'auto'
-          triangleStyle.right = 'auto'
+        // delete the cache
+        // if there are several of the same type
+        if (changedOrderForRef.current !== value) {
+          searchCacheRef.current = null
+          changedOrderForRef.current = null
         }
-      }
-    } catch (e) {
-      //
-    }
-  }
 
-  // this gives us the possibility to quickly search for an item
-  // by simply pressing any alphabetical key
-  findItemByValue(value) {
-    if (isTrue(this.props.skipKeysearch)) {
-      return
-    }
+        searchCacheRef.current =
+          searchCacheRef.current ||
+          state.data.reduce((acc, itemData, i) => {
+            const str = String(
+              parseContentTitle(itemData, {
+                separator: ' ',
+                removeNumericOnlyValues: true,
+              })
+            )
 
-    let index = -1
-
-    try {
-      value = String(value).toLowerCase()
-
-      // delete the cache
-      // if there are several of the same type
-      if (this.changedOrderFor !== value) {
-        this.searchCache = null
-        this.changedOrderFor = null
-      }
-
-      this.searchCache =
-        this.searchCache ||
-        this.state.data.reduce((acc, itemData, i) => {
-          const str = String(
-            parseContentTitle(itemData, {
-              separator: ' ',
-              removeNumericOnlyValues: true,
+            // take the first letter
+            const firstLetter = String(str[0]).toLowerCase()
+            acc[firstLetter] = acc[firstLetter] || []
+            acc[firstLetter].push({
+              i,
             })
-          )
 
-          // take the first letter
-          const firstLetter = String(str[0]).toLowerCase()
-          acc[firstLetter] = acc[firstLetter] || []
-          acc[firstLetter].push({
-            i,
-          })
+            return acc
+          }, {})
 
-          return acc
-        }, {})
+        const found = searchCacheRef.current[value]
+        index = found && found[0] && found[0].i > -1 ? found[0].i : -1
 
-      const found = this.searchCache[value]
-      index = found && found[0] && found[0].i > -1 ? found[0].i : -1
-
-      // if there are several of the same type
-      if (found && found.length > 1) {
-        found.push(found.shift())
-        this.changedOrderFor = value
-      }
-    } catch (e) {
-      warn('List could not findItemByValue:', e)
-    }
-
-    return index
-  }
-
-  scrollToItem = (
-    activeItem,
-    { scrollTo = true, element = null } = {}
-  ) => {
-    clearTimeout(this._scrollTimeout)
-    this._scrollTimeout = setTimeout(() => {
-      // try to scroll to item
-      if (this._refUl.current && parseFloat(activeItem) > -1) {
-        try {
-          const ulElement = this._refUl.current
-          const liElement =
-            element || this.getActiveElement() || this.getSelectedElement()
-          if (liElement) {
-            const top = liElement.offsetTop
-            if (ulElement.scrollTo) {
-              if (scrollTo === false || window['IS_TEST']) {
-                ulElement.style.scrollBehavior = 'auto'
-              }
-              ulElement.scrollTo({
-                top,
-                behavior: scrollTo ? 'smooth' : 'auto',
-              })
-              if (scrollTo === false) {
-                ulElement.style.scrollBehavior = 'smooth'
-              }
-            } else if (ulElement.scrollTop) {
-              ulElement.scrollTop = top
-            }
-
-            if (!isTrue(this.props.preventFocus) && liElement) {
-              liElement.focus()
-              dispatchCustomElementEvent(this, 'onOpenFocus', {
-                element: liElement,
-              })
-            }
-          } else {
-            warn('The DrawerList item was not a DOM Element')
-          }
-        } catch (e) {
-          warn('List could not scroll into element:', e)
+        // if there are several of the same type
+        if (found && found.length > 1) {
+          found.push(found.shift())
+          changedOrderForRef.current = value
         }
+      } catch (e) {
+        warn('List could not findItemByValue:', e)
       }
-    }, 1) // to make sure we are after all DOM updates, else we don't get this scrolling
-  }
 
-  /**
-   * During opening (Dropdown, Autocomplete),
-   * and if noting is selected,
-   * set scroll to item.
-   *
-   * @param {number} activeItem The item to set as active
-   * @param {object} param1
-   * @property {boolean} fireSelectEvent Whether the onSelect event should get emitted
-   * @property {boolean} scrollTo Whether the list should animate the scroll to the new active item or not
-   * @property {event} event The event object to forward to the emitted events
-   */
-  setActiveItemAndScrollToIt = (
-    activeItem,
-    { fireSelectEvent = false, scrollTo = true, event = null } = {}
-  ) => {
-    this.setState({ activeItem }, () => {
-      if (parseFloat(activeItem) === -1) {
-        // Select the first item to NVDA is more easily navigatable,
-        // without using the alt + arrow key
-        // else we set the focus on the "ul" element
-        if (document.activeElement?.tagName !== 'INPUT') {
-          this._refUl.current?.focus({ preventScroll: true })
-        }
+      return index
+    },
+    [localProps.skipKeysearch, state.data]
+  )
 
-        dispatchCustomElementEvent(this, 'onOpenFocus', {
-          element: this._refUl.current,
-        })
-      } else if (parseFloat(activeItem) > -1) {
-        const { selectedItem } = this.state
+  const scrollToItem = React.useCallback(
+    (activeItem, { scrollTo = true, element = null } = {}) => {
+      clearTimeout(_scrollTimeoutRef.current)
+      _scrollTimeoutRef.current = setTimeout(() => {
+        // try to scroll to item
+        if (_refUl.current && parseFloat(activeItem) > -1) {
+          try {
+            const ulElement = _refUl.current
+            const liElement =
+              element || getActiveElement() || getSelectedElement()
+            if (liElement) {
+              const top = liElement.offsetTop
+              if (ulElement.scrollTo) {
+                if (scrollTo === false || window['IS_TEST']) {
+                  ulElement.style.scrollBehavior = 'auto'
+                }
+                ulElement.scrollTo({
+                  top,
+                  behavior: scrollTo ? 'smooth' : 'auto',
+                })
+                if (scrollTo === false) {
+                  ulElement.style.scrollBehavior = 'smooth'
+                }
+              } else if (ulElement.scrollTop) {
+                ulElement.scrollTop = top
+              }
 
-        if (fireSelectEvent) {
-          const attributes = this.attributes
-          const ret = dispatchCustomElementEvent(this.state, 'onSelect', {
-            activeItem,
-            value: getSelectedItemValue(selectedItem, this.state),
-            data: getEventData(activeItem, this.state.data),
-            event,
-            attributes,
-          })
-          if (ret === false) {
-            return // stop here!
+              if (!isTrue(localProps.preventFocus) && liElement) {
+                liElement.focus()
+                dispatchCustomElementEvent({ ...state }, 'onOpenFocus', {
+                  element: liElement,
+                })
+              }
+            } else {
+              warn('The DrawerList item was not a DOM Element')
+            }
+          } catch (e) {
+            warn('List could not scroll into element:', e)
           }
         }
+      }, 1) // to make sure we are after all DOM updates, else we don't get this scrolling
+    },
+    [localProps.preventFocus, state]
+  )
 
-        if (isTrue(this.props.noAnimation)) {
-          scrollTo = false
+  const getSelectedElement = React.useCallback(() => {
+    return (
+      _refUl.current?.querySelector<HTMLLIElement>(
+        'li.dnb-drawer-list__option--selected'
+      ) || _refUl.current
+    )
+  }, [])
+
+  const getActiveElement = React.useCallback(() => {
+    return _refUl.current?.querySelector<HTMLLIElement>(
+      'li.dnb-drawer-list__option--focus'
+    )
+  }, [])
+
+  const getItemData = React.useCallback((element: Element) => {
+    const item = parseFloat(element && element.getAttribute('data-item'))
+    return isNaN(item) ? undefined : item
+  }, [])
+
+  const setActiveItemAndScrollToIt = React.useCallback(
+    (
+      activeItem,
+      { fireSelectEvent = false, scrollTo = true, event = null } = {}
+    ) => {
+      setState((prev) => {
+        const newState = {
+          ...prev,
+          activeItem,
+          ariaActiveDescendant:
+            parseFloat(activeItem) > -1
+              ? `option-${prev.id}-${activeItem}`
+              : prev.ariaActiveDescendant,
         }
 
-        this.scrollToItem(activeItem, { scrollTo })
-      }
-    })
-  }
+        // Handle side effects after state update
+        setTimeout(() => {
+          if (parseFloat(activeItem) === -1) {
+            // Select the first item to NVDA is more easily navigatable,
+            // without using the alt + arrow key
+            // else we set the focus on the "ul" element
+            if (document.activeElement?.tagName !== 'INPUT') {
+              _refUl.current?.focus({ preventScroll: true })
+            }
 
-  removeDirectionObserver() {
-    this.disableBodyLock()
+            dispatchCustomElementEvent(newState, 'onOpenFocus', {
+              element: _refUl.current,
+            })
+          } else if (parseFloat(activeItem) > -1) {
+            const { selectedItem } = newState
 
-    clearTimeout(this._directionTimeout)
-    if (typeof window !== 'undefined' && this.setDirection) {
-      this._rootElem?.removeEventListener('scroll', this.setDirection)
+            if (fireSelectEvent) {
+              const attributes = attributesRef.current
+              const ret = dispatchCustomElementEvent(
+                newState,
+                'onSelect',
+                {
+                  activeItem,
+                  value: getSelectedItemValue(selectedItem, newState),
+                  data: getEventData(activeItem, newState.data),
+                  event,
+                  attributes,
+                }
+              )
+              if (ret === false) {
+                return // stop here!
+              }
+            }
 
-      // this fixes iOS softkeyboard
-      if (typeof window.visualViewport !== 'undefined') {
-        window.visualViewport.removeEventListener(
-          'scroll',
-          this.setDirection
-        )
-        window.visualViewport.removeEventListener(
-          'resize',
-          this.setDirection
-        )
-      } else {
-        window.removeEventListener('resize', this.setDirection)
-      }
+            if (isTrue(localProps.noAnimation)) {
+              scrollTo = false
+            }
 
-      this.setDirection = null
-    }
-  }
+            scrollToItem(activeItem, { scrollTo })
+          }
+        }, 0)
 
-  setWrapperElement = (wrapperElement = this.props.wrapperElement) => {
-    if (typeof wrapperElement === 'string') {
-      wrapperElement =
-        typeof document !== 'undefined'
-          ? document.querySelector<HTMLElement>(wrapperElement)
-          : undefined
-    }
-
-    if (wrapperElement !== this.state.wrapperElement) {
-      this.setState({
-        wrapperElement,
+        return newState
       })
-    }
+    },
+    [localProps.noAnimation, scrollToItem]
+  )
 
-    return this
-  }
+  const setWrapperElement = React.useCallback(
+    (wrapperElement = localProps.wrapperElement) => {
+      if (typeof wrapperElement === 'string') {
+        wrapperElement =
+          typeof document !== 'undefined'
+            ? document.querySelector<HTMLElement>(wrapperElement)
+            : undefined
+      }
 
-  getAnchorElem(activeElement) {
+      if (wrapperElement !== state.wrapperElement) {
+        setState((prev) => ({
+          ...prev,
+          wrapperElement,
+        }))
+      }
+
+      // Return the API object for method chaining
+      return drawerListApiRef.current
+    },
+    [localProps.wrapperElement, state.wrapperElement]
+  )
+
+  const getAnchorElem = React.useCallback((activeElement) => {
     try {
       return activeElement?.querySelector('a:first-of-type')
     } catch (e) {
       return null
     }
-  }
+  }, [])
 
-  setMetaKey = (e) => {
-    this.meta = {
+  const setMetaKey = React.useCallback((e) => {
+    metaRef.current = {
       cmd: e.metaKey,
       ctrl: e.ctrlKey,
       shift: e.shiftKey,
       alt: e.altKey,
     }
-  }
+  }, [])
 
-  onKeyUpHandler = (e) => {
-    this.setMetaKey(e)
-  }
+  const onKeyUpHandler = React.useCallback(
+    (e) => {
+      setMetaKey(e)
+    },
+    [setMetaKey]
+  )
 
-  onKeyDownHandler = (e) => {
-    const key = keycode(e)
+  const getCurrentSelectedItem = React.useCallback(() => {
+    const elem = getSelectedElement()
+    return getItemData(elem)
+  }, [getSelectedElement, getItemData])
 
-    if (/command|alt|shift|ctrl/.test(key)) {
-      this.setMetaKey(e)
-    }
+  const getCurrentActiveItem = React.useCallback(() => {
+    const elem = getActiveElement()
+    return getItemData(elem)
+  }, [getActiveElement, getItemData])
 
-    dispatchCustomElementEvent(this.state, 'onKeyDown', {
-      event: e,
-      key,
-    })
-
-    // To allow copy
-    // But makes VO not reading our list items once command key is pressed
-    // if (this.meta.cmd || this.meta.ctrl || this.meta.shift || this.meta.alt) {
-    //   return // stop here
-    // }
-
-    // stop here if the focus is not set
-    // and the drawer is opened by default
-    if (
-      isTrue(this.props.preventClose)
-      // TODO: Has to be worked on better!
-      // !isTrue(this.props.preventFocus)
-    ) {
-      let isSameDrawer = false
-      try {
-        const ulElem = getClosestParent(
-          'dnb-drawer-list__options',
-          document.activeElement
-        )
-
-        isSameDrawer =
-          ulElem === this._refUl.current ||
-          ulElem?.getAttribute('id') === this.state.id
-      } catch (e) {
-        warn(e)
-      }
-      if (!isSameDrawer && key !== 'tab') {
-        return // stop here
-      }
-    }
-
-    if (!this.state.isOpen) {
-      return // stop here
-    }
-
-    if (isTrue(this.state.ignoreEvents) && key !== 'tab') {
-      return // stop here
-    }
-
-    let activeItem = parseFloat(this.state.activeItem as string)
-
-    if (isNaN(activeItem)) {
-      activeItem = -1
-    }
-
-    const total = this.state.data && this.state.data.length - 1
-
-    switch (key) {
-      case 'up':
-        {
-          e.preventDefault()
-
-          activeItem = this.getPrevActiveItem() ?? this.getLastItem()
-        }
-        break
-
-      case 'down':
-        {
-          e.preventDefault()
-
-          activeItem = this.getNextActiveItem() ?? this.getFirstItem()
-        }
-        break
-
-      case 'page up':
-      case 'home':
-        {
-          e.preventDefault()
-          activeItem = this.getFirstItem() ?? 0
-        }
-        break
-
-      case 'page down':
-      case 'end':
-        {
-          e.preventDefault()
-          activeItem = this.getLastItem() ?? total
-        }
-        break
-
-      case 'enter':
-      case 'space':
-        {
-          if (e.target.tagName === 'A') {
-            e.target.dispatchEvent(new MouseEvent('click'))
-            this.setHidden()
-            return // stop here, and let the browser + anchor do the rest
-          }
-
-          activeItem =
-            this.getCurrentActiveItem() ?? this.getCurrentSelectedItem()
-
-          if (
-            isTrue(this.props.skipKeysearch)
-              ? activeItem > -1 && key !== 'space'
-              : true
-          ) {
-            e.preventDefault()
-            const result = this.selectItemAndClose(activeItem, {
-              fireSelectEvent: true,
-              event: e,
-            })
-            if (result === false) {
-              return // stop here if the data actually does not exit
-            }
-          }
-        }
-        break
-
-      case 'escape':
-      case 'esc':
-        {
-          this.setHidden({ event: e })
-          e.preventDefault()
-          e.stopPropagation() // To make Modal/Dialog/Drawer not close as well
-        }
-        break
-
-      case 'tab':
-        {
-          if (activeItem > -1) {
-            // If there is an active item
-            // we make it possible to tab inside it (to an anchor) instead of closing the list
-            const activeElement = this.getActiveElement()
-            const hasFocusOnElement = Boolean(
-              this.getAnchorElem(activeElement)
-            )
-
-            this.setState({ hasFocusOnElement })
-
-            // And if there is an anchor inside our active element
-            if (hasFocusOnElement) {
-              e.stopPropagation()
-
-              // Also, set the focus actively into the active element, if it is not from beforehand
-              const currentActiveElement = getClosestParent(
-                'dnb-drawer-list__option',
-                document.activeElement
-              )
-
-              if (currentActiveElement !== activeElement) {
-                /**
-                 * Create an fake element,
-                 * so it's the last one we focus, within our active element.
-                 *
-                 * When the users tabs to it,
-                 * we return the focus the users prev focus element, e.g. autocomplete input
-                 *
-                 * Why is this needed? Because we have our list in a portal, outside of the tab order
-                 */
-                const createTabElem = () => {
-                  try {
-                    const elem = document.createElement('BUTTON')
-                    elem.setAttribute(
-                      'style',
-                      'opacity:0;position:absolute;'
-                    )
-                    const focus = () => {
-                      prevActiveElement.focus()
-                      elem.removeEventListener('focus', focus)
-                      activeElement.removeChild(after)
-                      activeElement.removeChild(before)
-                    }
-                    elem.addEventListener('focus', focus)
-                    return elem
-                  } catch (e) {
-                    //
-                  }
-                }
-
-                const prevActiveElement =
-                  document.activeElement as HTMLElement
-                const after = createTabElem()
-                const before = createTabElem()
-
-                // Now, focus our active element
-                activeElement.focus()
-
-                const insertElem = () => {
-                  try {
-                    // Insert our fake elements
-                    activeElement.appendChild(after)
-                    activeElement.insertBefore(
-                      before,
-                      activeElement.firstChild
-                    )
-                  } catch (e) {
-                    //
-                  }
-                }
-
-                // check because of test
-                if (typeof window.requestAnimationFrame === 'function') {
-                  // requestAnimationFrame is need by chromium browsers
-                  window.requestAnimationFrame(insertElem)
-                } else {
-                  insertElem()
-                }
-              }
-
-              return // stop here
-            }
-
-            // We may consider to close the list and set the focus it the handler
-            // but also, in portal mode, we want to prevent to start the focus from the top of the page
-            else if (isTrue(this.props.preventClose)) {
-              activeItem = -1
-            }
-          }
-
-          this.setHidden({ event: e })
-        }
-        break
-
-      default:
-        {
-          const searchIndex = this.findItemByValue(keycode(e))
-          if (searchIndex > -1) {
-            // Only change position if we find a result
-            activeItem = searchIndex
-          }
-        }
-        break
-    }
-
-    if (
-      activeItem === -1 &&
-      this._refUl.current &&
-      typeof document !== 'undefined'
-    ) {
-      const ulElem = getClosestParent(
-        'dnb-drawer-list__options',
-        document.activeElement
-      )
-
-      if (ulElem === this._refUl.current) {
-        this.setState({
-          showFocusRing: true,
-          activeItem,
-        })
-
-        this._refUl.current.focus({ preventScroll: true })
-        dispatchCustomElementEvent(this.state, 'handleDismissFocus')
-      }
-    } else if (activeItem > -1 && activeItem !== this.state.activeItem) {
-      this.setState({
-        showFocusRing: false,
-      })
-      this.setActiveItemAndScrollToIt(activeItem, {
-        fireSelectEvent: true,
-        event: e,
-      })
-    }
-  }
-
-  /**
-   * Gets the currently selected element inside the DrawerList. Or the list element if nothing is selected.
-   */
-  getSelectedElement = () => {
-    return (
-      this._refUl.current?.querySelector<HTMLLIElement>(
-        'li.dnb-drawer-list__option--selected'
-      ) || this._refUl.current
-    )
-  }
-
-  getCurrentSelectedItem = () => {
-    const elem = this.getSelectedElement()
-    return this.getItemData(elem)
-  }
-
-  /**
-   * Gets the currently focused element inside the DrawerList. Or `null` if nothing is focused.
-   */
-  getActiveElement = () => {
-    return this._refUl.current?.querySelector<HTMLLIElement>(
-      'li.dnb-drawer-list__option--focus'
-    )
-  }
-
-  getElementGroup = (element: HTMLLIElement) => {
+  const getElementGroup = React.useCallback((element: HTMLLIElement) => {
     return element?.parentElement?.classList.contains(
       'dnb-drawer-list__group'
     )
       ? (element.parentElement as HTMLUListElement)
       : null
-  }
+  }, [])
 
-  getCurrentActiveItem = () => {
-    const elem = this.getActiveElement()
-    return this.getItemData(elem)
-  }
-
-  getNextActiveItem = () => {
-    const activeElement = this.getActiveElement()
+  const getNextActiveItem = React.useCallback(() => {
+    const activeElement = getActiveElement()
 
     const elem =
       activeElement?.nextElementSibling ||
-      this.getElementGroup(
+      getElementGroup(
         activeElement
       )?.nextElementSibling?.querySelector<HTMLLIElement>(
         'li.dnb-drawer-list__option.first-of-type'
       )
 
-    return this.getItemData(elem)
-  }
+    return getItemData(elem)
+  }, [getActiveElement, getElementGroup, getItemData])
 
-  getPrevActiveItem = () => {
-    const activeElement = this.getActiveElement()
+  const getPrevActiveItem = React.useCallback(() => {
+    const activeElement = getActiveElement()
 
     const elem =
       (activeElement?.previousElementSibling?.classList.contains(
         'dnb-drawer-list__option'
       ) &&
         activeElement?.previousElementSibling) ||
-      this.getElementGroup(
+      getElementGroup(
         activeElement
       )?.previousElementSibling?.querySelector<HTMLLIElement>(
         'li.dnb-drawer-list__option.last-of-type'
       )
 
-    return this.getItemData(elem)
-  }
+    return getItemData(elem)
+  }, [getActiveElement, getElementGroup, getItemData])
 
-  getFirstItem = () => {
-    const elem = this._refUl.current?.querySelector<HTMLLIElement>(
+  const getFirstItem = React.useCallback(() => {
+    const elem = _refUl.current?.querySelector<HTMLLIElement>(
       'li.dnb-drawer-list__option.first-item' // because of the triangle element
     )
-    return this.getItemData(elem)
-  }
+    return getItemData(elem)
+  }, [getItemData])
 
-  getLastItem = () => {
-    const elem = this._refUl.current?.querySelector<HTMLLIElement>(
+  const getLastItem = React.useCallback(() => {
+    const elem = _refUl.current?.querySelector<HTMLLIElement>(
       'li.dnb-drawer-list__option.last-item' // because of the triangle element
     )
-    return this.getItemData(elem)
-  }
+    return getItemData(elem)
+  }, [getItemData])
 
-  getItemData = (element: Element) => {
-    const item = parseFloat(element && element.getAttribute('data-item'))
-    return isNaN(item) ? undefined : item
-  }
+  const setActiveState = React.useCallback(
+    (active) => {
+      if (typeof document !== 'undefined') {
+        try {
+          if (active) {
+            document.documentElement.setAttribute(
+              'data-dnb-drawer-list-active',
+              String(state.id)
+            )
+          } else {
+            document.documentElement.removeAttribute(
+              'data-dnb-drawer-list-active'
+            )
+          }
+        } catch (e) {
+          warn(
+            'DrawerList: Error on set "data-dnb-drawer-list-active" by using element.setAttribute()',
+            e
+          )
+        }
+      }
+    },
+    [state.id]
+  )
 
-  setOutsideClickObserver = () => {
-    this.removeOutsideClickObserver()
+  const onKeyDownHandler = React.useCallback(
+    (e) => {
+      const key = keycode(e)
 
-    this.outsideClick = detectOutsideClick(
-      [
-        this.state.wrapperElement,
-        this._refRoot.current,
-        this._refUl.current,
-      ],
-      () => this.setHidden({ preventHideFocus: true }),
+      if (/command|alt|shift|ctrl/.test(key)) {
+        setMetaKey(e)
+      }
+
+      dispatchCustomElementEvent(state, 'onKeyDown', {
+        event: e,
+        key,
+      })
+
+      // stop here if the focus is not set
+      // and the drawer is opened by default
+      if (isTrue(localProps.preventClose)) {
+        let isSameDrawer = false
+        try {
+          const ulElem = getClosestParent(
+            'dnb-drawer-list__options',
+            document.activeElement
+          )
+
+          isSameDrawer =
+            ulElem === _refUl.current ||
+            ulElem?.getAttribute('id') === state.id
+        } catch (e) {
+          warn(e)
+        }
+        if (!isSameDrawer && key !== 'tab') {
+          return // stop here
+        }
+      }
+
+      if (!state.isOpen) {
+        return // stop here
+      }
+
+      if (isTrue(state.ignoreEvents) && key !== 'tab') {
+        return // stop here
+      }
+
+      let activeItem = parseFloat(state.activeItem as string)
+
+      if (isNaN(activeItem)) {
+        activeItem = -1
+      }
+
+      const total = state.data && state.data.length - 1
+
+      switch (key) {
+        case 'up':
+          {
+            e.preventDefault()
+
+            activeItem = getPrevActiveItem() ?? getLastItem()
+          }
+          break
+
+        case 'down':
+          {
+            e.preventDefault()
+
+            activeItem = getNextActiveItem() ?? getFirstItem()
+          }
+          break
+
+        case 'page up':
+        case 'home':
+          {
+            e.preventDefault()
+            activeItem = getFirstItem() ?? 0
+          }
+          break
+
+        case 'page down':
+        case 'end':
+          {
+            e.preventDefault()
+            activeItem = getLastItem() ?? total
+          }
+          break
+
+        case 'enter':
+        case 'space':
+          {
+            if (e.target.tagName === 'A') {
+              e.target.dispatchEvent(new MouseEvent('click'))
+              setHidden()
+              return // stop here, and let the browser + anchor do the rest
+            }
+
+            activeItem = getCurrentActiveItem() ?? getCurrentSelectedItem()
+
+            if (
+              isTrue(localProps.skipKeysearch)
+                ? activeItem > -1 && key !== 'space'
+                : true
+            ) {
+              e.preventDefault()
+              const result = selectItemAndClose(activeItem, {
+                fireSelectEvent: true,
+                event: e,
+              })
+              if (result === false) {
+                return // stop here if the data actually does not exit
+              }
+            }
+          }
+          break
+
+        case 'escape':
+        case 'esc':
+          {
+            setHidden({ event: e })
+            e.preventDefault()
+            e.stopPropagation() // To make Modal/Dialog/Drawer not close as well
+          }
+          break
+
+        case 'tab':
+          {
+            if (activeItem > -1) {
+              // If there is an active item
+              // we make it possible to tab inside it (to an anchor) instead of closing the list
+              const activeElement = getActiveElement()
+              const hasFocusOnElement = Boolean(
+                getAnchorElem(activeElement)
+              )
+
+              setState((prev) => ({ ...prev, hasFocusOnElement }))
+
+              // And if there is an anchor inside our active element
+              if (hasFocusOnElement) {
+                e.stopPropagation()
+
+                // Also, set the focus actively into the active element, if it is not from beforehand
+                const currentActiveElement = getClosestParent(
+                  'dnb-drawer-list__option',
+                  document.activeElement
+                )
+
+                if (currentActiveElement !== activeElement) {
+                  /**
+                   * Create an fake element,
+                   * so it's the last one we focus, within our active element.
+                   *
+                   * When the users tabs to it,
+                   * we return the focus the users prev focus element, e.g. autocomplete input
+                   *
+                   * Why is this needed? Because we have our list in a portal, outside of the tab order
+                   */
+                  const createTabElem = () => {
+                    try {
+                      const elem = document.createElement('BUTTON')
+                      elem.setAttribute(
+                        'style',
+                        'opacity:0;position:absolute;'
+                      )
+                      const focus = () => {
+                        prevActiveElement.focus()
+                        elem.removeEventListener('focus', focus)
+                        activeElement.removeChild(after)
+                        activeElement.removeChild(before)
+                      }
+                      elem.addEventListener('focus', focus)
+                      return elem
+                    } catch (e) {
+                      //
+                    }
+                  }
+
+                  const prevActiveElement =
+                    document.activeElement as HTMLElement
+                  const after = createTabElem()
+                  const before = createTabElem()
+
+                  // Now, focus our active element
+                  activeElement.focus()
+
+                  const insertElem = () => {
+                    try {
+                      // Insert our fake elements
+                      activeElement.appendChild(after)
+                      activeElement.insertBefore(
+                        before,
+                        activeElement.firstChild
+                      )
+                    } catch (e) {
+                      //
+                    }
+                  }
+
+                  // check because of test
+                  if (typeof window.requestAnimationFrame === 'function') {
+                    // requestAnimationFrame is need by chromium browsers
+                    window.requestAnimationFrame(insertElem)
+                  } else {
+                    insertElem()
+                  }
+                }
+
+                return // stop here
+              }
+
+              // We may consider to close the list and set the focus it the handler
+              // but also, in portal mode, we want to prevent to start the focus from the top of the page
+              else if (isTrue(localProps.preventClose)) {
+                activeItem = -1
+              }
+            }
+
+            setHidden({ event: e })
+          }
+          break
+
+        default:
+          {
+            const searchIndex = findItemByValue(keycode(e))
+            if (searchIndex > -1) {
+              // Only change position if we find a result
+              activeItem = searchIndex
+            }
+          }
+          break
+      }
+
+      if (
+        activeItem === -1 &&
+        _refUl.current &&
+        typeof document !== 'undefined'
+      ) {
+        const ulElem = getClosestParent(
+          'dnb-drawer-list__options',
+          document.activeElement
+        )
+
+        if (ulElem === _refUl.current) {
+          setState((prev) => ({
+            ...prev,
+            showFocusRing: true,
+            activeItem,
+          }))
+
+          _refUl.current.focus({ preventScroll: true })
+          dispatchCustomElementEvent(state, 'handleDismissFocus')
+        }
+      } else if (activeItem > -1 && activeItem !== state.activeItem) {
+        setState((prev) => ({
+          ...prev,
+          showFocusRing: false,
+        }))
+        setActiveItemAndScrollToIt(activeItem, {
+          fireSelectEvent: true,
+          event: e,
+        })
+      }
+    },
+    [
+      state,
+      localProps,
+      setMetaKey,
+      getPrevActiveItem,
+      getLastItem,
+      getNextActiveItem,
+      getFirstItem,
+      getCurrentActiveItem,
+      getCurrentSelectedItem,
+      getActiveElement,
+      getAnchorElem,
+      findItemByValue,
+      setActiveItemAndScrollToIt,
+    ]
+  ) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Update refs with latest handlers after every render
+  React.useLayoutEffect(() => {
+    onKeyDownHandlerRef.current = onKeyDownHandler
+    onKeyUpHandlerRef.current = onKeyUpHandler
+  })
+
+  // Create stable wrapper functions that always call the latest handler
+  const onKeyDownHandlerStable = React.useCallback((e) => {
+    onKeyDownHandlerRef.current?.(e)
+  }, [])
+
+  const onKeyUpHandlerStable = React.useCallback((e) => {
+    onKeyUpHandlerRef.current?.(e)
+  }, [])
+
+  const setOutsideClickObserver = React.useCallback(() => {
+    removeOutsideClickObserver()
+
+    outsideClickRef.current = detectOutsideClick(
+      [state.wrapperElement, _refRoot.current, _refUl.current],
+      () => setHidden({ preventHideFocus: true }),
       { includedKeys: ['tab'] }
     )
 
     if (typeof document !== 'undefined') {
-      document.addEventListener('keydown', this.onKeyDownHandler, true)
-      document.addEventListener('keyup', this.onKeyUpHandler, true)
+      document.addEventListener('keydown', onKeyDownHandlerStable, true)
+      document.addEventListener('keyup', onKeyUpHandlerStable, true)
     }
-  }
+  }, [state.wrapperElement, onKeyDownHandlerStable, onKeyUpHandlerStable]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  removeOutsideClickObserver() {
-    if (this.outsideClick) {
-      this.outsideClick.remove()
+  const removeOutsideClickObserver = React.useCallback(() => {
+    if (outsideClickRef.current) {
+      outsideClickRef.current.remove()
     }
     if (typeof document !== 'undefined') {
-      document.removeEventListener('keydown', this.onKeyDownHandler, true)
-      document.removeEventListener('keyup', this.onKeyUpHandler, true)
+      document.removeEventListener('keydown', onKeyDownHandlerStable, true)
+      document.removeEventListener('keyup', onKeyUpHandlerStable, true)
     }
-  }
+  }, [onKeyDownHandlerStable, onKeyUpHandlerStable])
 
-  addObservers = () => {
-    this.setDirectionObserver()
-    this.setScrollObserver()
-    this.setOutsideClickObserver()
-  }
-  removeObservers = () => {
-    this.removeDirectionObserver()
-    this.removeScrollObserver()
-    this.removeOutsideClickObserver()
-  }
+  const addObservers = React.useCallback(() => {
+    setDirectionObserver()
+    setScrollObserver()
+    setOutsideClickObserver()
+  }, [setDirectionObserver, setScrollObserver, setOutsideClickObserver])
 
-  toggleVisible = (...args) => {
-    return this.state.open
-      ? this.setHidden(...args)
-      : this.setVisible(...args)
-  }
+  const removeObservers = React.useCallback(() => {
+    removeDirectionObserver()
+    removeScrollObserver()
+    removeOutsideClickObserver()
+  }, [
+    removeDirectionObserver,
+    removeScrollObserver,
+    removeOutsideClickObserver,
+  ])
 
-  setVisible = (args = {}, onStateComplete = null) => {
-    if (this.state.open && this.state.hidden === false) {
-      if (typeof onStateComplete === 'function') {
-        onStateComplete(true)
-      }
-      return // stop
-    }
-
-    clearTimeout(this._showTimeout)
-    clearTimeout(this._hideTimeout)
-
-    this.searchCache = null
-
-    const handleSingleComponentCheck = () => {
-      this.setState({
-        hidden: false,
-        open: true,
-      })
-
-      const animationDelayHandler = () => {
-        DrawerListProvider.isOpen = true
-        this.setState({
-          isOpen: true,
-        })
-
+  const setVisible = React.useCallback(
+    (args = {}, onStateComplete = null) => {
+      if (state.open && state.hidden === false) {
         if (typeof onStateComplete === 'function') {
           onStateComplete(true)
         }
-
-        this.setActiveState(true)
+        return // stop
       }
 
-      if (isTrue(this.props.noAnimation)) {
-        // our tests want no delay!
-        if (process?.env.NODE_ENV === 'test') {
-          animationDelayHandler()
-        } else {
-          // We have to have still a delay, to ensure the user can press enter to toggle the open state
-          clearTimeout(this._showTimeout)
-          this._showTimeout = setTimeout(animationDelayHandler, 0) // ensure we do not set isOpen true before the keydown handler has run
+      clearTimeout(_showTimeoutRef.current)
+      clearTimeout(_hideTimeoutRef.current)
+
+      searchCacheRef.current = null
+
+      const handleSingleComponentCheck = () => {
+        // Capture current state before making changes
+        const { selectedItem, activeItem, data: currentData } = state
+
+        setState((prev) => ({
+          ...prev,
+          hidden: false,
+          open: true,
+        }))
+
+        const animationDelayHandler = () => {
+          isOpenGlobal = true
+          setState((prev) => ({
+            ...prev,
+            isOpen: true,
+          }))
+
+          if (typeof onStateComplete === 'function') {
+            onStateComplete(true)
+          }
+
+          setActiveState(true)
         }
-      } else {
-        clearTimeout(this._showTimeout)
-        this._showTimeout = setTimeout(
-          animationDelayHandler,
-          DrawerListProvider.blurDelay
-        ) // wait until animation is over
-      }
 
-      const { selectedItem, activeItem } = this.state
-      const newActiveItem =
-        parseFloat(selectedItem as string) > -1 ? selectedItem : activeItem
-      dispatchCustomElementEvent(this.state, 'onOpen', {
-        ...args,
-        data: getEventData(newActiveItem, this.state.data),
-        attributes: this.attributes,
-        ulElement: this._refUl.current,
-      })
+        if (isTrue(localProps.noAnimation)) {
+          // our tests want no delay!
+          if (process?.env.NODE_ENV === 'test') {
+            animationDelayHandler()
+          } else {
+            // We have to have still a delay, to ensure the user can press enter to toggle the open state
+            clearTimeout(_showTimeoutRef.current)
+            _showTimeoutRef.current = setTimeout(animationDelayHandler, 0) // ensure we do not set isOpen true before the keydown handler has run
+          }
+        } else {
+          clearTimeout(_showTimeoutRef.current)
+          _showTimeoutRef.current = setTimeout(
+            animationDelayHandler,
+            blurDelay
+          ) // wait until animation is over
+        }
 
-      this.setActiveItemAndScrollToIt(
-        parseFloat(newActiveItem as string) > -1 ? newActiveItem : -1,
-        { scrollTo: false }
-      )
-    }
-
-    // If a user clicks on a second drawer list
-    // we ensure we first close it, before we open it
-    if (DrawerListProvider.isOpen && !isTrue(this.props.noAnimation)) {
-      clearTimeout(this._hideTimeout)
-      this._hideTimeout = setTimeout(
-        handleSingleComponentCheck,
-        DrawerListProvider.blurDelay
-      )
-    } else {
-      handleSingleComponentCheck()
-    }
-  }
-
-  setHidden = (args = {}, onStateComplete = null) => {
-    if (!this.state.open || isTrue(this.props.preventClose)) {
-      if (typeof onStateComplete === 'function') {
-        onStateComplete(false)
-      }
-      return // stop here
-    }
-
-    clearTimeout(this._showTimeout)
-    clearTimeout(this._hideTimeout)
-
-    const { selectedItem, activeItem } = this.state
-    const res = dispatchCustomElementEvent(this.state, 'onClose', {
-      ...args,
-      data: getEventData(
-        parseFloat(selectedItem as string) > -1
-          ? selectedItem
-          : activeItem,
-        this.state.data
-      ),
-      attributes: this.attributes,
-    })
-
-    if (res !== false) {
-      this.setState({
-        open: false,
-      })
-
-      const delayHandler = () => {
-        this.removeObservers()
-
-        this.setState({
-          hidden: true,
-          isOpen: false,
+        const newActiveItem =
+          parseFloat(selectedItem as string) > -1
+            ? selectedItem
+            : activeItem
+        dispatchCustomElementEvent(state, 'onOpen', {
+          ...args,
+          data: getEventData(newActiveItem, currentData),
+          attributes: attributesRef.current,
+          ulElement: _refUl.current,
         })
+
+        setActiveItemAndScrollToIt(
+          parseFloat(newActiveItem as string) > -1 ? newActiveItem : -1,
+          { scrollTo: false }
+        )
+      }
+
+      // If a user clicks on a second drawer list
+      // we ensure we first close it, before we open it
+      if (isOpenGlobal && !isTrue(localProps.noAnimation)) {
+        clearTimeout(_hideTimeoutRef.current)
+        _hideTimeoutRef.current = setTimeout(
+          handleSingleComponentCheck,
+          blurDelay
+        )
+      } else {
+        handleSingleComponentCheck()
+      }
+    },
+    [
+      state,
+      localProps.noAnimation,
+      setActiveState,
+      setActiveItemAndScrollToIt,
+    ]
+  )
+
+  const setHidden = React.useCallback(
+    (args = {}, onStateComplete = null) => {
+      if (!state.open || isTrue(localProps.preventClose)) {
         if (typeof onStateComplete === 'function') {
           onStateComplete(false)
         }
-        DrawerListProvider.isOpen = false
-
-        this.setActiveState(false)
-      }
-
-      if (isTrue(this.props.noAnimation)) {
-        delayHandler()
-      } else {
-        clearTimeout(this._hideTimeout)
-        this._hideTimeout = setTimeout(
-          delayHandler,
-          DrawerListProvider.blurDelay
-        ) // wait until animation is over
-      }
-    }
-  }
-
-  setActiveState(active) {
-    if (typeof document !== 'undefined') {
-      try {
-        if (active) {
-          document.documentElement.setAttribute(
-            'data-dnb-drawer-list-active',
-            String(this.state.id)
-          )
-        } else {
-          document.documentElement.removeAttribute(
-            'data-dnb-drawer-list-active'
-          )
-        }
-      } catch (e) {
-        warn(
-          'DrawerList: Error on set "data-dnb-drawer-list-active" by using element.setAttribute()',
-          e
-        )
-      }
-    }
-  }
-
-  setDataHandler = (
-    data,
-    cb = null,
-    { overwriteOriginalData = false } = {}
-  ) => {
-    if (!data) {
-      return
-    }
-
-    if (typeof data === 'function') {
-      data = getData(data)
-    }
-
-    data = normalizeData(data)
-
-    this.setState(
-      {
-        data,
-        originalData: overwriteOriginalData
-          ? data
-          : this.state.originalData,
-      },
-      () => {
-        this.refreshScrollObserver()
-        typeof cb === 'function' && cb(data)
-      }
-    )
-
-    return this
-  }
-
-  setStateHandler = (state, cb = null) => {
-    this.setState(
-      {
-        ...state,
-      },
-      cb
-    )
-
-    return this
-  }
-
-  selectItemAndClose = (
-    itemToSelect,
-    args: {
-      fireSelectEvent?: boolean
-      event?: any
-      closeOnSelection?: boolean
-    } = {}
-  ) => {
-    args.closeOnSelection = true
-    return this.selectItem(itemToSelect, args)
-  }
-
-  selectItem = (
-    itemToSelect,
-    {
-      fireSelectEvent = false,
-      event = null,
-      closeOnSelection = false,
-    } = {}
-  ) => {
-    // because of our delay on dispatching the event
-    // make a copy of it, so we don't break the synthetic event
-    if (event && typeof event.persist === 'function') {
-      event.persist()
-    }
-
-    // if no value is set on start and we confirm, we get -1
-    if (itemToSelect === -1) {
-      itemToSelect = null
-    }
-
-    const data = getEventData(itemToSelect, this.state.data) || null
-    const value = getSelectedItemValue(itemToSelect, this.state)
-    const attributes = this.attributes
-    const attr = {
-      selectedItem: itemToSelect,
-      value,
-      data,
-      event,
-      attributes,
-    }
-
-    if (data?.disabled) {
-      return false
-    }
-
-    const res = dispatchCustomElementEvent(this.state, 'onPreChange', attr)
-
-    if (res === false) {
-      return res // stop here
-    }
-
-    if (hasSelectedText()) {
-      const elem = getSelectedTextElement()
-      const isInput =
-        elem instanceof Element
-          ? getClosestParent('dnb-input', elem)
-          : null
-      if (!isInput) {
         return // stop here
       }
+
+      clearTimeout(_showTimeoutRef.current)
+      clearTimeout(_hideTimeoutRef.current)
+
+      // Capture current state values before dispatching event
+      const { selectedItem, activeItem, data } = state
+      const res = dispatchCustomElementEvent(state, 'onClose', {
+        ...args,
+        data: getEventData(
+          parseFloat(selectedItem as string) > -1
+            ? selectedItem
+            : activeItem,
+          data
+        ),
+        attributes: attributesRef.current,
+      })
+
+      if (res !== false) {
+        setState((prev) => ({
+          ...prev,
+          open: false,
+        }))
+
+        const delayHandler = () => {
+          removeObservers()
+
+          setState((prev) => ({
+            ...prev,
+            hidden: true,
+            isOpen: false,
+          }))
+          if (typeof onStateComplete === 'function') {
+            onStateComplete(false)
+          }
+          isOpenGlobal = false
+
+          setActiveState(false)
+        }
+
+        if (isTrue(localProps.noAnimation)) {
+          delayHandler()
+        } else {
+          clearTimeout(_hideTimeoutRef.current)
+          _hideTimeoutRef.current = setTimeout(delayHandler, blurDelay) // wait until animation is over
+        }
+      }
+    },
+    [state, localProps, removeObservers, setActiveState]
+  )
+
+  const toggleVisible = React.useCallback(
+    (...args) => {
+      return state.open ? setHidden(...args) : setVisible(...args)
+    },
+    [state.open, setHidden, setVisible]
+  )
+
+  const setDataHandler = React.useCallback(
+    (data, cb = null, { overwriteOriginalData = false } = {}) => {
+      if (!data) {
+        return
+      }
+
+      if (typeof data === 'function') {
+        data = getData(data)
+      }
+
+      data = normalizeData(data)
+
+      setState((prev) => {
+        const newState = {
+          ...prev,
+          data,
+          originalData: overwriteOriginalData ? data : state.originalData,
+        }
+
+        return newState
+      })
+
+      setTimeout(() => {
+        refreshScrollObserver()
+        typeof cb === 'function' && cb(data)
+      }, 0)
+    },
+    [state.originalData, refreshScrollObserver]
+  )
+
+  const setStateHandler = React.useCallback((newState, cb = null) => {
+    setState((prev) => ({
+      ...prev,
+      ...newState,
+    }))
+
+    if (typeof cb === 'function') {
+      setTimeout(cb, 0)
     }
+  }, [])
 
-    const { keepOpen, preventSelection } = this.props
+  const selectItemAndClose = React.useCallback(
+    (
+      itemToSelect,
+      args: {
+        fireSelectEvent?: boolean
+        event?: any
+        closeOnSelection?: boolean
+      } = {}
+    ) => {
+      args.closeOnSelection = true
+      return selectItem(itemToSelect, args)
+    },
+    []
+  ) // eslint-disable-line react-hooks/exhaustive-deps
 
-    const doCallOnChange =
-      parseFloat(itemToSelect) > -1 &&
-      itemToSelect !== this.state.selectedItem
-    const onSelectionIsComplete = () => {
-      if (doCallOnChange) {
-        dispatchCustomElementEvent(this.state, 'onChange', attr)
+  const selectItem = React.useCallback(
+    (
+      itemToSelect,
+      {
+        fireSelectEvent = false,
+        event = null,
+        closeOnSelection = false,
+      } = {}
+    ) => {
+      // because of our delay on dispatching the event
+      // make a copy of it, so we don't break the synthetic event
+      if (event && typeof event.persist === 'function') {
+        event.persist()
       }
-      if (fireSelectEvent) {
-        dispatchCustomElementEvent(this.state, 'onSelect', {
-          ...attr,
-          activeItem: itemToSelect,
-        })
+
+      // if no value is set on start and we confirm, we get -1
+      if (itemToSelect === -1) {
+        itemToSelect = null
       }
 
-      if (closeOnSelection && !isTrue(keepOpen)) {
-        this.setHidden()
+      const data = getEventData(itemToSelect, state.data) || null
+      const value = getSelectedItemValue(itemToSelect, state)
+      const attributes = attributesRef.current
+      const attr = {
+        selectedItem: itemToSelect,
+        value,
+        data,
+        event,
+        attributes,
       }
-    }
 
-    if (isTrue(preventSelection)) {
-      onSelectionIsComplete()
-    } else {
-      this.setState(
-        {
+      if (data?.disabled) {
+        return false
+      }
+
+      const res = dispatchCustomElementEvent(state, 'onPreChange', attr)
+
+      if (res === false) {
+        return res // stop here
+      }
+
+      if (hasSelectedText()) {
+        const elem = getSelectedTextElement()
+        const isInput =
+          elem instanceof Element
+            ? getClosestParent('dnb-input', elem)
+            : null
+        if (!isInput) {
+          return // stop here
+        }
+      }
+
+      const { keepOpen, preventSelection } = localProps
+
+      const doCallOnChange =
+        parseFloat(itemToSelect) > -1 &&
+        itemToSelect !== state.selectedItem
+      const onSelectionIsComplete = () => {
+        if (doCallOnChange) {
+          dispatchCustomElementEvent(state, 'onChange', attr)
+        }
+        if (fireSelectEvent) {
+          dispatchCustomElementEvent(state, 'onSelect', {
+            ...attr,
+            activeItem: itemToSelect,
+          })
+        }
+
+        if (closeOnSelection && !isTrue(keepOpen)) {
+          setHidden()
+        }
+      }
+
+      if (isTrue(preventSelection)) {
+        onSelectionIsComplete()
+      } else {
+        setState((prev) => ({
+          ...prev,
           selectedItem: itemToSelect,
           activeItem: itemToSelect,
-        },
-        onSelectionIsComplete
-      )
-    }
+        }))
+        setTimeout(onSelectionIsComplete, 0)
+      }
+    },
+    [state, localProps, setHidden]
+  )
+
+  // Create the drawerList API object
+  // We need to maintain the same object reference for method chaining to work,
+  // but update its properties on each render
+  if (!drawerListApiRef.current) {
+    drawerListApiRef.current = {}
   }
 
-  render() {
-    return (
-      <DrawerListContext.Provider
-        value={{
-          ...this.context,
-          drawerList: {
-            attributes: this.attributes,
-            _refRoot: this._refRoot,
-            _refShell: this._refShell,
-            _refUl: this._refUl,
-            _refTriangle: this._refTriangle,
-            _rootElem: this._rootElem,
-            setData: this.setDataHandler,
-            setState: this.setStateHandler,
-            setWrapperElement: this.setWrapperElement,
-            addObservers: this.addObservers,
-            removeObservers: this.removeObservers,
-            setVisible: this.setVisible,
-            setHidden: this.setHidden,
-            toggleVisible: this.toggleVisible,
-            selectItem: this.selectItem,
-            selectItemAndClose: this.selectItemAndClose,
-            scrollToItem: this.scrollToItem,
-            setActiveItemAndScrollToIt: this.setActiveItemAndScrollToIt,
-            ...this.state,
-          },
-        }}
-      >
-        {this.props.children}
-      </DrawerListContext.Provider>
-    )
-  }
+  // Update the API object properties on each render
+  Object.assign(drawerListApiRef.current, {
+    attributes: attributesRef.current,
+    _refRoot,
+    _refShell,
+    _refUl,
+    _refTriangle,
+    _rootElem: _rootElemRef.current,
+    setData: setDataHandler,
+    setState: setStateHandler,
+    setWrapperElement,
+    addObservers,
+    removeObservers,
+    setVisible,
+    setHidden,
+    toggleVisible,
+    selectItem,
+    selectItemAndClose,
+    scrollToItem,
+    setActiveItemAndScrollToIt,
+    ...state,
+  })
+
+  return (
+    <DrawerListContext.Provider
+      value={{
+        ...context,
+        drawerList: drawerListApiRef.current,
+      }}
+    >
+      {localProps.children}
+    </DrawerListContext.Provider>
+  )
 }
+
+DrawerListProvider.defaultProps = defaultProps
+DrawerListProvider.blurDelay = blurDelay
+
+export default DrawerListProvider
