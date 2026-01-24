@@ -62,6 +62,7 @@ export default [
       ...(config.settings || {}),
       polyfills: [...(config.settings?.polyfills || []), 'Object.hasOwn'],
       lintAllEsApis: true,
+      ignoreConditionalChecks: true,
     },
   })),
   {
