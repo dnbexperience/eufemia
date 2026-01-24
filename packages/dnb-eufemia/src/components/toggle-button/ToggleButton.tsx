@@ -40,7 +40,7 @@ const defaultProps = {
   title: null,
   checked: undefined,
   variant: null,
-  size: null,
+  size: undefined,
   leftComponent: null,
   disabled: null,
   skeleton: null,
