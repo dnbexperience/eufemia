@@ -1277,13 +1277,6 @@ function DrawerListProvider(localProps: DrawerListProviderProps) {
     removeOutsideClickObserver,
   ])
 
-  const toggleVisible = React.useCallback(
-    (...args) => {
-      return state.open ? setHidden(...args) : setVisible(...args)
-    },
-    [state.open]
-  ) // eslint-disable-line react-hooks/exhaustive-deps
-
   const setVisible = React.useCallback(
     (args = {}, onStateComplete = null) => {
       if (state.open && state.hidden === false) {
@@ -1432,6 +1425,13 @@ function DrawerListProvider(localProps: DrawerListProviderProps) {
       }
     },
     [state, localProps, removeObservers, setActiveState]
+  )
+
+  const toggleVisible = React.useCallback(
+    (...args) => {
+      return state.open ? setHidden(...args) : setVisible(...args)
+    },
+    [state.open, setHidden, setVisible]
   )
 
   const setDataHandler = React.useCallback(
