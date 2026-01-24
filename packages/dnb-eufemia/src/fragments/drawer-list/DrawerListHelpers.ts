@@ -462,7 +462,6 @@ export function prepareStartupState(
     onOpen: props.onOpen,
     onChange: props.onChange,
     onSelect: props.onSelect,
-    _data: props.data, // Track props.data to detect changes
   }
 
   if (
