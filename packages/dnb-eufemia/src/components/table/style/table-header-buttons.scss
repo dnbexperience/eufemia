@@ -24,6 +24,10 @@
           opacity 200ms ease-out,
           transform 500ms ease-out;
 
+        @include reducedMotion() {
+          transition-duration: 0.01ms;
+        }
+
         html[data-visual-test] & {
           transition: none;
         }

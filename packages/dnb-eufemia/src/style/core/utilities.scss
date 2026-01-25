@@ -63,6 +63,12 @@
   }
 }
 
+@mixin reducedMotion() {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}
+
 @mixin whatInput($whatinput: null) {
   html[data-whatinput='#{$whatinput}'] & {
     @content;
@@ -219,6 +225,10 @@
 
   html:not([data-visual-test]) & {
     scroll-behavior: smooth;
+
+    @media (prefers-reduced-motion: reduce) {
+      scroll-behavior: auto;
+    }
   }
 
   @include scrollbarAppearance();
@@ -226,6 +236,10 @@
 
 @mixin scrollX($mode: scroll) {
   overflow-x: $mode;
+
+    @media (prefers-reduced-motion: reduce) {
+      scroll-behavior: auto;
+    }
   overscroll-behavior: contain;
 
   html:not([data-visual-test]) & {

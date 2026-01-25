@@ -160,6 +160,10 @@
     animation-duration: 0ms !important;
   }
 
+  @include reducedMotion() {
+    animation-duration: 0.01ms !important;
+  }
+
   @include allBelow(small) {
     &--no-animation-on-mobile {
       animation-duration: 0ms !important;

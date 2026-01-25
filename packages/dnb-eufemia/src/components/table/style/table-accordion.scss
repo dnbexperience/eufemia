@@ -67,6 +67,10 @@
     .dnb-icon {
       color: var(--table-accordion-icon-color);
       transition: transform 500ms var(--easing-default);
+
+      @include reducedMotion() {
+        transition-duration: 0.01ms;
+      }
     }
   }
   &__tr--clickable#{&}__tr--no-animation &__button .dnb-icon,
@@ -215,11 +219,19 @@
       will-change: height;
       transition: height 400ms var(--easing-default);
 
+      @include reducedMotion() {
+        transition-duration: 0.01ms;
+      }
+
       &__spacing {
         padding: 1rem;
 
         transform: translateY(-10px);
         transition: transform 500ms var(--easing-default);
+
+        @include reducedMotion() {
+          transition-duration: 0.01ms;
+        }
       }
 
       position: relative;

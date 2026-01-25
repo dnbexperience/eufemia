@@ -102,6 +102,10 @@
     transition-duration: 1.5s;
     transition-timing-function: var(--easing-default);
 
+    @include reducedMotion() {
+      transition-duration: 0.01ms;
+    }
+
     // Align border to bottom
     &::after {
       top: auto;

@@ -155,6 +155,10 @@
     transition: max-height 300ms var(--easing-default);
 
     @include scrollY(auto);
+
+    @include reducedMotion() {
+      transition-duration: 0.01ms;
+    }
   }
   html[data-visual-test] &--scroll &__options,
   &--scroll#{&}--no-animation &__options {
@@ -162,6 +166,10 @@
   }
   &--opened &__options {
     scroll-behavior: smooth;
+
+    @media (prefers-reduced-motion: reduce) {
+      scroll-behavior: auto;
+    }
   }
   &--no-scroll-animation &__options {
     scroll-behavior: auto;
