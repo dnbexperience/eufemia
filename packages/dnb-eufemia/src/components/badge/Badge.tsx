@@ -14,7 +14,7 @@ import {
   extendPropsWithContext,
   validateDOMAttributes,
 } from '../../shared/component-helper'
-import NumberFormat from '../NumberFormat'
+import useNumberFormat from '../number-format/useNumberFormat'
 
 export type BadgeProps = {
   /**
@@ -190,14 +190,9 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
 
   const skeletonClasses = createSkeletonClass('shape', skeleton, context)
   const contentIsNum = typeof contentProp === 'number'
+  const num = useNumberFormat(contentIsNum ? contentProp : 0)
   const variantIsNotification = variant === 'notification'
-
-  const content =
-    variantIsNotification && contentIsNum ? (
-      <NumberFormat>{contentProp}</NumberFormat>
-    ) : (
-      contentProp
-    )
+  const content = variantIsNotification && contentIsNum ? num : contentProp
 
   if (!label && contentIsNum) {
     warn(
