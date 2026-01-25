@@ -56,6 +56,25 @@ describe('Badge', () => {
     expect(element).toHaveClass('dnb-badge--variant-notification')
   })
 
+  it('isolates context for NumberFormat in notification variant', () => {
+    const { rerender } = render(
+      <Provider NumberFormat={{ decimals: 2 }}>
+        <Badge content={1} variant="notification" label="Amount:" />
+      </Provider>
+    )
+
+    const badge = document.querySelector('.dnb-badge')
+    expect(badge.textContent).toContain('Amount: 1')
+
+    rerender(
+      <Provider locale="de-DE" NumberFormat={{ decimals: 2 }}>
+        <Badge content={1234} variant="notification" label="Amount:" />
+      </Provider>
+    )
+
+    expect(badge.textContent).toContain('Amount: 1.234')
+  })
+
   it('renders the label as string', () => {
     const label = 'Money:'
     const content = 100
