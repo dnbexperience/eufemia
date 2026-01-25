@@ -753,6 +753,11 @@ button .dnb-form-status__text {
   transition-duration: 1.5s;
   transition-timing-function: var(--easing-default);
 }
+@media (prefers-reduced-motion: reduce) {
+  .dnb-upload__file-cell {
+    transition-duration: 0.01ms;
+  }
+}
 .dnb-upload__file-cell::after {
   top: auto;
 }

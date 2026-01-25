@@ -236,6 +236,11 @@ exports[`Table scss should match style dependencies css 1`] = `
   opacity: 0;
   transition: opacity 200ms ease-out, transform 500ms ease-out;
 }
+@media (prefers-reduced-motion: reduce) {
+  .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon {
+    transition-duration: 0.01ms;
+  }
+}
 html[data-visual-test] .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon, html[data-visual-test] .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon {
   transition: none;
 }
@@ -737,6 +742,11 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   color: var(--table-accordion-icon-color);
   transition: transform 500ms var(--easing-default);
 }
+@media (prefers-reduced-motion: reduce) {
+  .dnb-table__tr--clickable .dnb-table__button .dnb-icon {
+    transition-duration: 0.01ms;
+  }
+}
 .dnb-table__tr--clickable.dnb-table__tr--no-animation .dnb-table__button .dnb-icon, html[data-visual-test] .dnb-table__tr--clickable .dnb-table__button .dnb-icon {
   transition: none !important;
 }
@@ -833,10 +843,20 @@ html:not([data-whatinput=keyboard]) .dnb-table__tr--clickable.dnb-table__tr.dnb-
   transition: height 400ms var(--easing-default);
   position: relative;
 }
+@media (prefers-reduced-motion: reduce) {
+  .dnb-table__tr__accordion-content__inner {
+    transition-duration: 0.01ms;
+  }
+}
 .dnb-table__tr__accordion-content__inner__spacing {
   padding: 1rem;
   transform: translateY(-10px);
   transition: transform 500ms var(--easing-default);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-table__tr__accordion-content__inner__spacing {
+    transition-duration: 0.01ms;
+  }
 }
 .dnb-table__tr__accordion-content--parallax .dnb-table__tr__accordion-content__inner__spacing {
   transform: translateY(0);

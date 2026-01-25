@@ -69,6 +69,11 @@ html[data-whatinput=keyboard] .dnb-tabs__tabs__tablist:focus {
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
+@media (prefers-reduced-motion: reduce) {
+  .dnb-tabs__tabs__tablist {
+    scroll-behavior: auto;
+  }
+}
 html:not([data-visual-test]) .dnb-tabs__tabs__tablist {
   scroll-behavior: smooth;
 }

@@ -528,6 +528,11 @@ button.dnb-button::-moz-focus-inner {
   --button-icon-margin-top: 0.25rem;
   transition: transform 400ms var(--easing-default);
 }
+@media (prefers-reduced-motion: reduce) {
+  .dnb-step-indicator__trigger__button .dnb-button__icon {
+    transition-duration: 0.01ms;
+  }
+}
 .dnb-step-indicator__trigger__button--expanded .dnb-button__icon {
   transform: rotate(180deg);
 }
@@ -597,6 +602,11 @@ button.dnb-button::-moz-focus-inner {
 .dnb-step-indicator__item__icon {
   opacity: 1;
   transition: opacity 400ms ease-in-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-step-indicator__item__icon {
+    transition-duration: 0.01ms;
+  }
 }
 .dnb-step-indicator__item__icon--hidden {
   opacity: 0;
