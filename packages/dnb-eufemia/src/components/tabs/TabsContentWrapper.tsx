@@ -66,10 +66,14 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
 
     const params = rest
 
-    if (key) {
+    // Use state.key if available (when linked with EventEmitter),
+    // otherwise fall back to selectedKey prop
+    const activeKey = this.state.key !== null ? this.state.key : key
+
+    if (activeKey) {
       params['aria-labelledby'] = combineLabelledBy(
         params,
-        `${id}-tab-${key}`
+        `${id}-tab-${activeKey}`
       )
     }
 
@@ -77,7 +81,12 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
 
     let content = children
     if (typeof children === 'function') {
-      content = children(this.state)
+      // If state.key is null but we have an activeKey, create a proper state object
+      const stateToPass =
+        this.state.key !== null
+          ? this.state
+          : { ...this.state, key: activeKey }
+      content = children(stateToPass)
     }
 
     return (
