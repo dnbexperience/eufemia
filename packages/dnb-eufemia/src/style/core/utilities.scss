@@ -237,9 +237,9 @@
 @mixin scrollX($mode: scroll) {
   overflow-x: $mode;
 
-    @media (prefers-reduced-motion: reduce) {
-      scroll-behavior: auto;
-    }
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
   overscroll-behavior: contain;
 
   html:not([data-visual-test]) & {
