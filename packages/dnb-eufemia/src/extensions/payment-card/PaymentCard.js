@@ -46,144 +46,144 @@ const translationDefaultPropsProps = {
   textUnknown: null,
 }
 
-export default class PaymentCard extends React.PureComponent {
-  static contextType = Context
+function PaymentCard(props) {
+  const context = React.useContext(Context)
 
-  static propTypes = {
-    productCode: PropTypes.string.isRequired,
-    cardNumber: PropTypes.string.isRequired,
-    cardStatus: PropTypes.oneOf([
-      'active',
-      'blocked',
-      'expired',
-      'notActive',
-      'newOrder',
-      'new',
-      'orderInProcess',
-      'renewed',
-      'replaced',
-      'unknown',
-    ]),
-    variant: PropTypes.oneOf(['normal', 'compact']),
-    digits: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    rawData: PropTypes.shape({
-      productCode: PropTypes.string.isRequired,
-      productName: PropTypes.string.isRequired,
-      displayName: PropTypes.string.isRequired,
-      cardDesign: PropTypes.object.isRequired,
-      cardType: PropTypes.object.isRequired,
-      productType: PropTypes.object.isRequired,
-      bankAxept: PropTypes.object.isRequired,
-    }),
-    id: PropTypes.string,
-    locale: PropTypes.string,
+  // use only the props from context, who are available here anyway
+  const extendedProps = extendPropsWithContextInClassComponent(
+    props,
+    PaymentCard.defaultProps,
+    { locale: context.locale },
+    { skeleton: context?.skeleton }
+  )
 
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  const {
+    productCode,
+    cardNumber,
+    cardStatus,
+    variant,
+    digits,
+    id,
+    rawData,
+    locale,
+    skeleton,
+    className,
+    class: _className,
+    children, //eslint-disable-line
+    ...attributes
+  } = extendedProps
 
-    ...spacingPropTypes,
+  const cardData = rawData || getCardData(productCode)
 
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func,
-    ]),
-  }
-
-  static defaultProps = {
-    digits: 8,
-    locale: null,
-    cardStatus: 'active',
-    variant: 'normal',
-
-    id: null,
-    rawData: null,
-
-    skeleton: false,
-    className: null,
-    children: null,
-
-    ...translationDefaultPropsProps,
-  }
-
-  render() {
-    // use only the props from context, who are available here anyway
-    const props = extendPropsWithContextInClassComponent(
-      this.props,
-      PaymentCard.defaultProps,
-      { locale: this.context.locale },
-      { skeleton: this.context?.skeleton }
-    )
-
-    const {
-      productCode,
-      cardNumber,
-      cardStatus,
-      variant,
-      digits,
-      id,
-      rawData,
-      locale,
-      skeleton,
+  const params = {
+    className: clsx(
+      'dnb-payment-card',
+      `dnb-payment-card--${variant}`,
+      createSkeletonClass(null, skeleton, context),
+      createSpacingClasses(extendedProps),
       className,
-      class: _className,
-      children, //eslint-disable-line
-      ...attributes
-    } = props
-
-    const cardData = rawData || getCardData(productCode)
-
-    const params = {
-      className: clsx(
-        'dnb-payment-card',
-        `dnb-payment-card--${variant}`,
-        createSkeletonClass(null, skeleton, this.context),
-        createSpacingClasses(props),
-        className,
-        _className
-      ),
-      ...attributes,
-    }
-
-    skeletonDOMAttributes(params, skeleton, this.context)
-
-    // also used for code markup simulation
-    validateDOMAttributes(this.props, params)
-
-    return (
-      <Provider locale={locale}>
-        <Context.Consumer>
-          {({ translation }) => {
-            const translations = extendPropsWithContextInClassComponent(
-              this.props,
-              translationDefaultPropsProps,
-              translation.PaymentCard
-            )
-            return (
-              <figure {...params}>
-                <figcaption className="dnb-sr-only dnb-payment-card__figcaption">
-                  {cardData.productName}
-                </figcaption>
-                <CardFigure
-                  id={id}
-                  skeleton={isTrue(skeleton)}
-                  compact={variant === 'compact'}
-                  data={cardData}
-                  cardStatus={cardStatus}
-                  cardNumber={formatCardNumber(
-                    cardNumber,
-                    parseFloat(digits)
-                  )}
-                  translations={translations}
-                />
-              </figure>
-            )
-          }}
-        </Context.Consumer>
-      </Provider>
-    )
+      _className
+    ),
+    ...attributes,
   }
+
+  skeletonDOMAttributes(params, skeleton, context)
+
+  // also used for code markup simulation
+  validateDOMAttributes(props, params)
+
+  return (
+    <Provider locale={locale}>
+      <Context.Consumer>
+        {({ translation }) => {
+          const translations = extendPropsWithContextInClassComponent(
+            props,
+            translationDefaultPropsProps,
+            translation.PaymentCard
+          )
+          return (
+            <figure {...params}>
+              <figcaption className="dnb-sr-only dnb-payment-card__figcaption">
+                {cardData.productName}
+              </figcaption>
+              <CardFigure
+                id={id}
+                skeleton={isTrue(skeleton)}
+                compact={variant === 'compact'}
+                data={cardData}
+                cardStatus={cardStatus}
+                cardNumber={formatCardNumber(
+                  cardNumber,
+                  parseFloat(digits)
+                )}
+                translations={translations}
+              />
+            </figure>
+          )
+        }}
+      </Context.Consumer>
+    </Provider>
+  )
 }
+
+PaymentCard.propTypes = {
+  productCode: PropTypes.string.isRequired,
+  cardNumber: PropTypes.string.isRequired,
+  cardStatus: PropTypes.oneOf([
+    'active',
+    'blocked',
+    'expired',
+    'notActive',
+    'newOrder',
+    'new',
+    'orderInProcess',
+    'renewed',
+    'replaced',
+    'unknown',
+  ]),
+  variant: PropTypes.oneOf(['normal', 'compact']),
+  digits: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  rawData: PropTypes.shape({
+    productCode: PropTypes.string.isRequired,
+    productName: PropTypes.string.isRequired,
+    displayName: PropTypes.string.isRequired,
+    cardDesign: PropTypes.object.isRequired,
+    cardType: PropTypes.object.isRequired,
+    productType: PropTypes.object.isRequired,
+    bankAxept: PropTypes.object.isRequired,
+  }),
+  id: PropTypes.string,
+  locale: PropTypes.string,
+
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+  ...spacingPropTypes,
+
+  className: PropTypes.string,
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func,
+  ]),
+}
+
+PaymentCard.defaultProps = {
+  digits: 8,
+  locale: null,
+  cardStatus: 'active',
+  variant: 'normal',
+
+  id: null,
+  rawData: null,
+
+  skeleton: false,
+  className: null,
+  children: null,
+
+  ...translationDefaultPropsProps,
+}
+
+export default PaymentCard
 
 export const getCardData = (productCode) => {
   const card = cardProducts.find(
