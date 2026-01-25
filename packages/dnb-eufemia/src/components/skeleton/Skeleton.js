@@ -22,165 +22,163 @@ import {
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
 
-export default class Skeleton extends React.PureComponent {
-  static contextType = Context
+function Skeleton(props) {
+  const context = React.useContext(Context)
+  const [ariaLiveUpdate, setAriaLiveUpdate] = React.useState(null)
+  const ariaLiveUpdateTimeoutRef = React.useRef(null)
+  const prevShowRef = React.useRef(props.show)
 
-  static propTypes = {
-    show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    noAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    figure: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    ariaBusy: PropTypes.string,
-    ariaReady: PropTypes.string,
-    element: PropTypes.node,
+  const getProps = React.useCallback(
+    (propsToExtend = props, ctx = context) => {
+      return extendPropsWithContextInClassComponent(
+        propsToExtend,
+        Skeleton.defaultProps,
+        {
+          skeleton: ctx.Skeleton || ctx.skeleton,
+          noAnimation: ctx.skeletonNoAnimation,
+        },
+        ctx.getTranslation(propsToExtend).Skeleton
+      )
+    },
+    [props, context]
+  )
 
-    ...spacingPropTypes,
-
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-  }
-
-  static defaultProps = {
-    show: null,
-    skeleton: null, // only to make sure we process extendPropsWithContextInClassComponent
-    noAnimation: null,
-    figure: null,
-    ariaBusy: null,
-    ariaReady: null,
-    element: null,
-    className: null,
-    children: null,
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = { ariaLiveUpdate: null }
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this._ariaLiveUpdateTimeout)
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.show !== this.props.show) {
-      this.setAriaLiveUpdate()
-    }
-  }
-
-  getProps(props = this.props, context = this.context) {
-    return extendPropsWithContextInClassComponent(
-      props,
-      Skeleton.defaultProps,
-      {
-        skeleton: context.Skeleton || context.skeleton,
-        noAnimation: context.skeletonNoAnimation,
-      },
-      context.getTranslation(props).Skeleton
-    )
-  }
-
-  setAriaLiveUpdate() {
+  const updateAriaLive = React.useCallback(() => {
     // this is only to make a better screen reader ux
-    clearTimeout(this._ariaLiveUpdateTimeout)
-    this._ariaLiveUpdateTimeout = setTimeout(() => {
-      const { ariaBusy, ariaReady } = this.getProps()
+    clearTimeout(ariaLiveUpdateTimeoutRef.current)
+    ariaLiveUpdateTimeoutRef.current = setTimeout(() => {
+      const { ariaBusy, ariaReady } = getProps()
 
       let newString = null
 
-      if (isTrue(this.props.show)) {
+      if (isTrue(props.show)) {
         newString = ariaBusy
       } else {
         newString = ariaReady
       }
 
       if (newString) {
-        this.setState({
-          ariaLiveUpdate: newString,
-        })
-        this._ariaLiveUpdateTimeout = setTimeout(() => {
-          this.setState({
-            ariaLiveUpdate: null,
-          })
+        setAriaLiveUpdate(newString)
+        ariaLiveUpdateTimeoutRef.current = setTimeout(() => {
+          setAriaLiveUpdate(null)
         }, 1e3)
       }
     }, 1e3) // so that the input gets read out first, and then the results
+  }, [props.show, getProps])
+
+  React.useEffect(() => {
+    if (prevShowRef.current !== props.show) {
+      updateAriaLive()
+    }
+    prevShowRef.current = props.show
+  }, [props.show, updateAriaLive])
+
+  React.useEffect(() => {
+    return () => {
+      clearTimeout(ariaLiveUpdateTimeoutRef.current)
+    }
+  }, [])
+
+  // consume the skeleton context
+  const extendedProps = getProps()
+
+  const {
+    show,
+    noAnimation,
+    figure,
+    skeleton,
+    ariaBusy,
+    ariaReady, // eslint-disable-line
+    className,
+    children,
+
+    ...attributes
+  } = extendedProps
+
+  const showSkeleton =
+    typeof show === 'boolean' || typeof show === 'string'
+      ? isTrue(show)
+      : skeleton
+
+  const params = {
+    className: clsx(
+      figure ? 'dnb-skeleton__figure' : 'dnb-skeleton__root',
+      isTrue(showSkeleton) && 'dnb-skeleton',
+      isTrue(noAnimation) && 'dnb-skeleton--no-animation',
+      createSpacingClasses(extendedProps),
+      className
+    ),
+    // role: 'status',// is not needed as for now
+    'aria-busy': showSkeleton,
+    'aria-label': showSkeleton ? ariaBusy : undefined,
+    lang: context.locale || LOCALE,
+    ...attributes,
   }
 
-  render() {
-    // consume the skeleton context
-    const props = this.getProps()
+  validateDOMAttributes(props, params)
 
-    const {
-      show,
-      noAnimation,
-      figure,
-      skeleton,
-      ariaBusy,
-      ariaReady, // eslint-disable-line
-      className,
-      children,
-
-      ...attributes
-    } = props
-
-    const { ariaLiveUpdate } = this.state
-
-    const showSkeleton =
-      typeof show === 'boolean' || typeof show === 'string'
-        ? isTrue(show)
-        : skeleton
-
-    const params = {
-      className: clsx(
-        figure ? 'dnb-skeleton__figure' : 'dnb-skeleton__root',
-        isTrue(showSkeleton) && 'dnb-skeleton',
-        isTrue(noAnimation) && 'dnb-skeleton--no-animation',
-        createSpacingClasses(props),
-        className
-      ),
-      // role: 'status',// is not needed as for now
-      'aria-busy': showSkeleton,
-      'aria-label': showSkeleton ? ariaBusy : undefined,
-      lang: this.context.locale || LOCALE,
-      ...attributes,
-    }
-
-    validateDOMAttributes(props, params)
-
-    return (
-      <Space {...params}>
-        {figure ? (
-          showSkeleton ? (
-            typeof figure === 'function' ? (
-              figure()
-            ) : (
-              figure
-            )
+  return (
+    <Space {...params}>
+      {figure ? (
+        showSkeleton ? (
+          typeof figure === 'function' ? (
+            figure()
           ) : (
-            children
+            figure
           )
         ) : (
-          <Provider
-            skeleton={showSkeleton}
-            skeletonNoAnimation={noAnimation}
-          >
-            {children}
-          </Provider>
-        )}
-        <span className="dnb-sr-only" aria-live="assertive">
-          {ariaLiveUpdate}
-        </span>
-      </Space>
-    )
-  }
+          children
+        )
+      ) : (
+        <Provider
+          skeleton={showSkeleton}
+          skeletonNoAnimation={noAnimation}
+        >
+          {children}
+        </Provider>
+      )}
+      <span className="dnb-sr-only" aria-live="assertive">
+        {ariaLiveUpdate}
+      </span>
+    </Space>
+  )
 }
+
+Skeleton.propTypes = {
+  show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  noAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  figure: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node,
+  ]),
+  ariaBusy: PropTypes.string,
+  ariaReady: PropTypes.string,
+  element: PropTypes.node,
+
+  ...spacingPropTypes,
+
+  className: PropTypes.string,
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node,
+  ]),
+}
+
+Skeleton.defaultProps = {
+  show: null,
+  skeleton: null, // only to make sure we process extendPropsWithContextInClassComponent
+  noAnimation: null,
+  figure: null,
+  ariaBusy: null,
+  ariaReady: null,
+  element: null,
+  className: null,
+  children: null,
+}
+
+export default Skeleton
 
 function Exclude(props) {
   return <Provider {...props} skeleton={false} />
