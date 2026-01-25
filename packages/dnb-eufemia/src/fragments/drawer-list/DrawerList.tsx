@@ -799,18 +799,18 @@ DrawerList.Options = React.memo(
 DrawerList.Item = DrawerListItem
 DrawerList.HorizontalItem = DrawerListHorizontalItem
 
-class OnMounted extends React.PureComponent<{
+const OnMounted: React.FC<{
   addObservers: () => void
   removeObservers: () => void
-}> {
-  componentDidMount() {
-    this.props.addObservers()
-  }
-  componentWillUnmount() {
-    this.props.removeObservers()
-  }
-  render() {
-    return null
-  }
+}> = ({ addObservers, removeObservers }) => {
+  React.useEffect(() => {
+    addObservers()
+    return () => {
+      removeObservers()
+    }
+  }, [addObservers, removeObservers])
+
+  return null
 }
+
 export default DrawerList
