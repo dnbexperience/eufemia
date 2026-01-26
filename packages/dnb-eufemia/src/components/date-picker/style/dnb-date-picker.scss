@@ -89,6 +89,12 @@
       &.dnb-no-focus:focus {
         @include focusRing();
       }
+
+      // Enhanced focus indicator for keyboard navigation
+      @include focus-visible() {
+        @include focusRing();
+        outline-offset: 2px;
+      }
     }
     &:not(#{&}--show-footer) .dnb-date-picker__calendar::after {
       content: none;
