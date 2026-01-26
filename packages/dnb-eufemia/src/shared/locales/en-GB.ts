@@ -50,7 +50,7 @@ export default {
       },
     },
     Anchor: {
-      targetBlankTitle: 'Opens a new Window',
+      targetBlankTitle: 'Opens a new window',
     },
     GlobalStatus: {
       default_title: 'An error has occurred',
@@ -84,7 +84,7 @@ export default {
     Autocomplete: {
       title: 'Type and select',
       submit_button_title: 'Show options',
-      no_options: 'No option',
+      no_options: 'No options',
       show_all: 'Show everything',
       show_options_sr: 'Browse options, close with esc button',
       aria_live_options: '%s options',

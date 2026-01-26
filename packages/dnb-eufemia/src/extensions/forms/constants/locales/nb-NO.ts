@@ -70,9 +70,10 @@ export default {
       removeButton: 'Fjern',
       doneButton: 'Ferdig',
       cancelButton: 'Avbryt',
-      resetButton: 'Nullstill',
+      resetButton: 'Tilbakestill',
       errorInContainer: 'Feilene ovenfor må rettes.',
-      confirmResetText: 'Er du sikker på at du vil nullstille endringene?',
+      confirmResetText:
+        'Er du sikker på at du vil tilbakestille endringene?',
     },
     IteratePushContainer: {
       createButton: 'Legg til',

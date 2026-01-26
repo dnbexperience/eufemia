@@ -41,7 +41,7 @@ export default {
       firstDay: 'monday', // used in DatePickerCalendar to set the first day of the week
       submitButtonText: 'Ok',
       cancelButtonText: 'Avbryt',
-      resetButtonText: 'Nullstill',
+      resetButtonText: 'Tilbakestill',
       placeholderCharacters: {
         day: 'd',
         month: 'm',
@@ -110,8 +110,8 @@ export default {
       aria_role: 'Hjelp-knapp',
     },
     Input: {
-      submit_button_title: 'Send knapp',
-      clear_button_title: 'Nullstill',
+      submit_button_title: 'Send',
+      clear_button_title: 'Tøm',
     },
     Pagination: {
       button_title: 'Side %s',

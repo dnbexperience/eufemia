@@ -128,8 +128,8 @@ export default {
     },
     Date: {
       label: 'Datum',
-      errorRequired: 'Du måste fylla i en datum.',
-      errorRequiredRange: 'Du måste fylla i en datumintervall.',
+      errorRequired: 'Du måste fylla i ett datum.',
+      errorRequiredRange: 'Du måste fylla i ett datumintervall.',
       errorMinDate: 'Valt datum kan inte vara före {date}.',
       errorMaxDate: 'Valt datum kan inte vara efter {date}.',
       errorStartDateMinDate: 'Startdatum kan inte vara före {date}.',
@@ -202,10 +202,10 @@ export default {
       dayPlaceholder: 'dd',
       monthPlaceholder: 'månad',
       yearPlaceholder: 'åååå',
-      errorRequired: 'Du må fylle inn en födelsedatum.',
+      errorRequired: 'Du måste fylla i ett födelsedatum.',
       errorDateOfBirth: 'Ogiltigt födelsedatum.',
       errorDateOfBirthFuture:
-        'Invalid date of birth. Skriv in dagens datum eller tidigare.',
+        'Ogiltigt födelsedatum. Ange dagens datum eller tidigare.',
     },
     PhoneNumber: {
       label: 'Mobilnummer',
