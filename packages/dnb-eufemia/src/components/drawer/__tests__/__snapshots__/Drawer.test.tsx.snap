@@ -548,6 +548,11 @@ button.dnb-button::-moz-focus-inner {
 .dnb-help-button__inline:not(.dnb-help-button__inline--user-intent) svg, html[data-visual-test] .dnb-help-button__inline svg {
   animation-duration: 0ms;
 }
+@media (prefers-reduced-motion: reduce) {
+  .dnb-help-button__inline svg {
+    animation-duration: 0.01ms !important;
+  }
+}
 @keyframes rotate-icon-in {
   from {
     opacity: 0;
@@ -593,6 +598,11 @@ button.dnb-button::-moz-focus-inner {
   max-width: var(--prose-max-width);
   transition: transform 400ms var(--easing-default) 40ms;
   transform: translate3d(0, -0.5rem, 0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-help-button__content .dnb-section .dnb-p {
+    transition-duration: 0.01ms;
+  }
 }
 :not(.dnb-card) .dnb-help-button__content .dnb-section {
   --outset-left: calc(
@@ -778,6 +788,11 @@ html[data-dnb-modal-active] .eufemia-portal-root {
 html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
   animation-delay: 0ms !important;
   animation-duration: 0ms !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-modal__overlay {
+    animation-duration: 0.01ms !important;
+  }
 }
 .dnb-modal-root__inner {
   position: relative;
@@ -1032,6 +1047,11 @@ html:not([data-visual-test]) .dnb-drawer--hide.dnb-drawer--bottom {
 }
 .dnb-drawer--no-animation {
   animation-duration: 0ms !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-drawer {
+    animation-duration: 0.01ms !important;
+  }
 }
 @media screen and (max-width: 40em) {
   .dnb-drawer--no-animation-on-mobile {

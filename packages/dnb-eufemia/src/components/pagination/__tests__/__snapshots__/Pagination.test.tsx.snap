@@ -594,6 +594,12 @@ button.dnb-button::-moz-focus-inner {
   animation-timing-function: var(--progress-indicator-timing);
   animation-iteration-count: infinite;
 }
+@media (prefers-reduced-motion: reduce) {
+  .dnb-progress-indicator__circular__line {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+  }
+}
 .dnb-progress-indicator__circular__line.background {
   stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max);
 }
@@ -612,6 +618,11 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-progress-indicator__circular--has-progress-value .dnb-progress-indicator__circular__line.dark {
   transition: stroke-dashoffset 600ms var(--progress-indicator-timing);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-progress-indicator__circular--has-progress-value .dnb-progress-indicator__circular__line.dark {
+    transition-duration: 0.01ms;
+  }
 }
 .dnb-progress-indicator__circular__circle {
   stroke-linecap: round;
@@ -646,13 +657,30 @@ button.dnb-button::-moz-focus-inner {
 .dnb-progress-indicator__linear__bar-transition {
   transition: transform 0.2s linear;
 }
+@media (prefers-reduced-motion: reduce) {
+  .dnb-progress-indicator__linear__bar-transition {
+    transition-duration: 0.01ms;
+  }
+}
 .dnb-progress-indicator__linear__bar1-animation {
   width: auto;
   animation: progress-indicator-linear-bar-1 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
 }
+@media (prefers-reduced-motion: reduce) {
+  .dnb-progress-indicator__linear__bar1-animation {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+  }
+}
 .dnb-progress-indicator__linear__bar2-animation {
   width: auto;
   animation: progress-indicator-linear-bar-2 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-progress-indicator__linear__bar2-animation {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+  }
 }
 html[data-visual-test] .dnb-progress-indicator__linear__bar1-animation {
   left: -35%;
@@ -672,6 +700,11 @@ html[data-visual-test] .dnb-progress-indicator__linear__bar2-animation {
 }
 .dnb-progress-indicator--complete:not(.dnb-progress-indicator--visible) {
   animation: progress-indicator-fade-out 600ms ease-out 1 forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-progress-indicator {
+    animation-duration: 0.01ms !important;
+  }
 }
 html[data-visual-test] .dnb-progress-indicator {
   opacity: 1;

@@ -175,6 +175,10 @@
     animation: hide-modal 220ms ease-in-out forwards;
   }
 
+  @include reducedMotion() {
+    animation-duration: 0.01ms !important;
+  }
+
   &--no-animation {
     animation-duration: 0ms !important;
   }

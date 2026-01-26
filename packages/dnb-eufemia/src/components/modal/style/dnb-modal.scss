@@ -99,6 +99,12 @@ html[data-dnb-modal-active] {
     animation-duration: 0ms !important;
   }
 
+  @include reducedMotion() {
+    &__overlay {
+      animation-duration: 0.01ms !important;
+    }
+  }
+
   &-root__inner {
     position: relative;
     z-index: calc(var(--modal-z-index) + 1);

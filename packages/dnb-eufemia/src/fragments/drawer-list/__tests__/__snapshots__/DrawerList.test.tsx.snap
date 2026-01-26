@@ -108,6 +108,11 @@ html[data-visual-test] .dnb-drawer-list__portal__style {
 html:not([data-visual-test]) .dnb-drawer-list--scroll .dnb-drawer-list__options {
   scroll-behavior: smooth;
 }
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-visual-test]) .dnb-drawer-list--scroll .dnb-drawer-list__options {
+    scroll-behavior: auto;
+  }
+}
 @supports not (scrollbar-color: auto) {
   .dnb-drawer-list--scroll .dnb-drawer-list__options::-webkit-scrollbar {
     border-radius: var(--scrollbar-thumb-width, 0.5rem);
@@ -127,11 +132,21 @@ html:not([data-visual-test]) .dnb-drawer-list--scroll .dnb-drawer-list__options 
     background-color: var(--scrollbar-thumb-hover-color, #666);
   }
 }
+@media (prefers-reduced-motion: reduce) {
+  .dnb-drawer-list--scroll .dnb-drawer-list__options {
+    transition-duration: 0.01ms;
+  }
+}
 html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options, .dnb-drawer-list--scroll.dnb-drawer-list--no-animation .dnb-drawer-list__options {
   transition: none !important;
 }
 .dnb-drawer-list--opened .dnb-drawer-list__options {
   scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-drawer-list--opened .dnb-drawer-list__options {
+    scroll-behavior: auto;
+  }
 }
 .dnb-drawer-list--no-scroll-animation .dnb-drawer-list__options {
   scroll-behavior: auto;

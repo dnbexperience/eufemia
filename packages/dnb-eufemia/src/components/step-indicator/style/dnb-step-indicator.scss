@@ -41,6 +41,10 @@
     .dnb-button__icon {
       --button-icon-margin-top: 0.25rem;
       transition: transform 400ms var(--easing-default);
+
+      @include reducedMotion() {
+        transition-duration: 0.01ms;
+      }
     }
     &--expanded .dnb-button__icon {
       transform: rotate(180deg);
@@ -128,6 +132,10 @@
     &__icon {
       opacity: 1;
       transition: opacity 400ms ease-in-out;
+
+      @include reducedMotion() {
+        transition-duration: 0.01ms;
+      }
 
       &--hidden {
         opacity: 0;

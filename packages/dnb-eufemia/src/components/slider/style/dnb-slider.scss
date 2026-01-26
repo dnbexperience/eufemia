@@ -255,6 +255,10 @@
       bottom 250ms var(--easing-default),
       right 250ms var(--easing-default),
       box-shadow 250ms var(--easing-default);
+
+    @include reducedMotion() {
+      transition-duration: 0.01ms;
+    }
   }
 
   html[data-visual-test] &__thumb,

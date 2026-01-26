@@ -74,12 +74,20 @@
     flex-direction: column;
 
     transition: height 400ms var(--easing-default);
+
+    @include reducedMotion() {
+      transition-duration: 0.01ms;
+    }
   }
 
   &__multiple &__item {
     transition: transform 400ms var(--easing-default)
       calc(var(--delay) * 50ms);
     transform: translateX(-1rem);
+
+    @include reducedMotion() {
+      transition-duration: 0.01ms;
+    }
   }
 
   &__multiple.dnb-height-animation--parallax &__item {

@@ -226,6 +226,11 @@ button .dnb-form-status__text {
 html:not([data-visual-test]) .dnb-textarea__textarea {
   scroll-behavior: smooth;
 }
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-visual-test]) .dnb-textarea__textarea {
+    scroll-behavior: auto;
+  }
+}
 @supports not (scrollbar-color: auto) {
   .dnb-textarea__textarea::-webkit-scrollbar {
     border-radius: var(--scrollbar-thumb-width, 0.5rem);

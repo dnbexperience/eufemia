@@ -717,9 +717,19 @@ button.dnb-button::-moz-focus-inner {
   flex-direction: column;
   transition: height 400ms var(--easing-default);
 }
+@media (prefers-reduced-motion: reduce) {
+  .dnb-breadcrumb__multiple {
+    transition-duration: 0.01ms;
+  }
+}
 .dnb-breadcrumb__multiple .dnb-breadcrumb__item {
   transition: transform 400ms var(--easing-default) calc(var(--delay) * 50ms);
   transform: translateX(-1rem);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-breadcrumb__multiple .dnb-breadcrumb__item {
+    transition-duration: 0.01ms;
+  }
 }
 .dnb-breadcrumb__multiple.dnb-height-animation--parallax .dnb-breadcrumb__item {
   transform: translateX(0);

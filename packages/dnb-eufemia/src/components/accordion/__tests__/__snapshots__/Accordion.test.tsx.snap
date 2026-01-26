@@ -160,6 +160,11 @@ p > .dnb-icon {
   line-height: var(--line-height-small);
   transition: transform 400ms var(--accordion-easing);
 }
+@media (prefers-reduced-motion: reduce) {
+  .dnb-accordion__header__icon {
+    transition-duration: 0.01ms;
+  }
+}
 .dnb-accordion__header--description .dnb-accordion__header__icon {
   margin-top: var(--accordion-header-margin-vertical--description);
 }
@@ -215,6 +220,11 @@ p > .dnb-icon {
   will-change: height;
   transition: height 400ms var(--accordion-easing), opacity 600ms var(--accordion-easing);
 }
+@media (prefers-reduced-motion: reduce) {
+  .dnb-accordion__content {
+    transition-duration: 0.01ms;
+  }
+}
 .dnb-accordion__content__inner {
   width: 100%;
   margin: var(--accordion-content-margin);
@@ -222,6 +232,11 @@ p > .dnb-icon {
 }
 .dnb-accordion-group--single-container {
   transition: min-height 1s var(--accordion-easing);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-accordion-group--single-container {
+    transition-duration: 0.01ms;
+  }
 }
 .dnb-accordion-group--single-container .dnb-accordion {
   position: static;
@@ -235,6 +250,13 @@ p > .dnb-icon {
     margin-left: 1rem;
     transition: opacity 1s var(--accordion-easing);
   }
+}
+@media screen and (min-width: 40.00625em) and (prefers-reduced-motion: reduce) {
+  .dnb-accordion-group--single-container .dnb-accordion__content {
+    transition-duration: 0.01ms;
+  }
+}
+@media screen and (min-width: 40.00625em) {
   .dnb-accordion-group--single-container .dnb-accordion__content__inner {
     margin-top: 0;
   }

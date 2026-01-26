@@ -53,6 +53,12 @@
     }
   }
 
+  @include reducedMotion() {
+    svg {
+      animation-duration: 0.01ms !important;
+    }
+  }
+
   @keyframes rotate-icon-in {
     from {
       opacity: 0;
@@ -102,6 +108,10 @@
 
       transition: transform 400ms var(--easing-default) 40ms;
       transform: translate3d(0, -0.5rem, 0);
+
+      @include reducedMotion() {
+        transition-duration: 0.01ms;
+      }
     }
   }
 
