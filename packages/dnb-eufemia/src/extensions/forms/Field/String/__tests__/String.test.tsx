@@ -2372,10 +2372,21 @@ describe('Field.String', () => {
         </>
       )
 
-      expect(
-        document.querySelector('.dnb-global-status__message__content p')
-          .innerHTML
-      ).toBe('A <strong>formatted</strong> error message')
+      // Wait for GlobalStatus to render the error
+      await waitFor(() => {
+        const content = document.querySelector(
+          '.dnb-global-status__message__content'
+        )
+        expect(content).toBeInTheDocument()
+      })
+
+      // JSX content is rendered directly in the content div, not wrapped in a p tag
+      const content = document.querySelector(
+        '.dnb-global-status__message__content'
+      )
+      expect(content.innerHTML).toContain(
+        'A <strong>formatted</strong> error message'
+      )
     })
   })
 
