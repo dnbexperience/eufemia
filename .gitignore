@@ -5,6 +5,9 @@ node_modules/
 # testing
 /coverage
 
+# lighthouse
+.lighthouseci/
+
 # misc
 package-lock.json
 completions.json
