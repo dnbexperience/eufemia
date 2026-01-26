@@ -154,6 +154,15 @@ function getText(result: CallToolResult) {
   return block?.text ?? ''
 }
 
+function getAllText(result: CallToolResult) {
+  return (
+    result.content
+      ?.filter((item): item is TextContent => item.type === 'text')
+      .map((item) => item.text)
+      .join('\n') ?? ''
+  )
+}
+
 describe('docs_entry', () => {
   let docsRoot: string
   let cleanup: () => void
@@ -632,5 +641,48 @@ describe('component_props', () => {
     const blocks = JSON.parse(getText(result)) as unknown[]
     expect(Array.isArray(blocks)).toBe(true)
     expect(blocks[0]).toEqual([{ name: 'text', type: 'string' }])
+  })
+})
+
+describe('initial reminder', () => {
+  let docsRoot: string
+  let cleanup: () => void
+
+  beforeAll(() => {
+    const fixture = createDocsFixture()
+    docsRoot = fixture.docsRoot
+    cleanup = fixture.cleanup
+  })
+
+  afterAll(() => cleanup())
+
+  it('returns the reminder only on the first call', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const reminderText =
+      'Before implementing any Eufemia-based features, call mcp_eufemia_docs_entry'
+
+    // First call should have the reminder
+    const result1 = await tools.docsEntry({})
+    expect(getAllText(result1)).toContain(reminderText)
+
+    // Second call should NOT have the reminder
+    const result2 = await tools.docsEntry({})
+    expect(getAllText(result2)).not.toContain(reminderText)
+  })
+
+  it('returns the reminder only on the first call across different tools', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const reminderText =
+      'Before implementing any Eufemia-based features, call mcp_eufemia_docs_entry'
+
+    // First call (search) should have the reminder
+    const result1 = await tools.docsSearch({ query: 'button', limit: 10 })
+    expect(getAllText(result1)).toContain(reminderText)
+
+    // Second call (read) should NOT have the reminder
+    const result2 = await tools.docsRead({
+      path: '/uilib/components/button.md',
+    })
+    expect(getAllText(result2)).not.toContain(reminderText)
   })
 })
