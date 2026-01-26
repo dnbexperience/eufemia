@@ -3,6 +3,30 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.95.0](https://github.com/dnbexperience/eufemia/compare/v10.94.3...v10.95.0) (2026-01-26)
+
+
+### :memo: Documentation
+
+* **Forms:** improve title of pages and search results ([#6371](https://github.com/dnbexperience/eufemia/issues/6371)) ([83bf555](https://github.com/dnbexperience/eufemia/commit/83bf555a2e61ddfbe77ae74c9ef98b7766f16b97))
+
+
+### :sparkles: Features
+
+* add reduced motion support ([#6446](https://github.com/dnbexperience/eufemia/issues/6446)) ([7b53563](https://github.com/dnbexperience/eufemia/commit/7b53563e8ecfa967c3ce35a1485ef3e05f82aeaa))
+* **AI:** include MCP Server with Eufemia documentation ([#6437](https://github.com/dnbexperience/eufemia/issues/6437)) ([028e751](https://github.com/dnbexperience/eufemia/commit/028e7517b9f3ae102e320258f348857388ab25c5))
+* **Badge:** add `hideBadge` prop ([#6311](https://github.com/dnbexperience/eufemia/issues/6311)) ([90ae62a](https://github.com/dnbexperience/eufemia/commit/90ae62a415ff4ac64979e83002f80ecd44a79fde))
+
+
+### :bug: Bug Fixes
+
+* **Autocomplete:** ensure better results when `search_numbers` is used ([#6436](https://github.com/dnbexperience/eufemia/issues/6436)) ([309eff8](https://github.com/dnbexperience/eufemia/commit/309eff864cc005449fa4d7af166b60b84f3dfd32))
+* **Autocomplete:** ensure stricter `searchMatch="starts-with"` to allow a strict matching search ([#6362](https://github.com/dnbexperience/eufemia/issues/6362)) ([fd85631](https://github.com/dnbexperience/eufemia/commit/fd85631c2fc86387acd997fc70acc35c4118a3ec))
+* **Badge:** ensure number formatting gets not inherited ([#6444](https://github.com/dnbexperience/eufemia/issues/6444)) ([f53c8c7](https://github.com/dnbexperience/eufemia/commit/f53c8c7db51d500daf9dbdade25d58b0225872a3))
+* **Forms:** improve typing for `setFieldStatus` ([#6435](https://github.com/dnbexperience/eufemia/issues/6435)) ([6be4843](https://github.com/dnbexperience/eufemia/commit/6be4843112ab7c8c9a06759fed1b3df58f01e960))
+* improve llms.txt and metadata.json output ([#6370](https://github.com/dnbexperience/eufemia/issues/6370)) ([1f81129](https://github.com/dnbexperience/eufemia/commit/1f811295b3d389b397836714b7960f5d35f30e63))
+* **Input:** only memoize `icon` for ProgressIndicator ([#6449](https://github.com/dnbexperience/eufemia/issues/6449)) ([18454a7](https://github.com/dnbexperience/eufemia/commit/18454a74ae968512f48459811ddf81f1e59f8888))
+
 ## [10.94.3](https://github.com/dnbexperience/eufemia/compare/v10.94.2...v10.94.3) (2026-01-16)
 
 
