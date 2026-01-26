@@ -29,20 +29,75 @@ interface DurationFormatConstructor {
 export type FormatDateOptions = {
   locale?: AnyLocale
   options?: Intl.DateTimeFormatOptions
+  timeZone?: string
+}
+
+type FormatDateInput = DateType | number | string
+
+/**
+ * Detects if a date string represents a UTC date
+ * by checking if it ends with 'Z' or contains a timezone offset
+ */
+function isUTCDateString(dateValue: string): boolean {
+  // Check for UTC indicator 'Z' at the end
+  if (dateValue.endsWith('Z')) {
+    return true
+  }
+
+  // Check for timezone offset pattern (+HH:MM or -HH:MM or +HHMM or -HHMM)
+  const timezonePattern = /[+-]\d{2}:?\d{2}$/
+  if (timezonePattern.test(dateValue)) {
+    // If it has a timezone offset, check if it's UTC (+00:00 or +0000)
+    const offsetMatch = dateValue.match(/([+-]\d{2}:?\d{2})$/)?.[1]
+    if (offsetMatch) {
+      const normalizedOffset = offsetMatch.replace(':', '')
+      return normalizedOffset === '+0000' || normalizedOffset === '-0000'
+    }
+  }
+
+  return false
 }
 
 export function formatDate(
-  dateValue: DateType,
+  dateValue: FormatDateInput,
   {
     locale = defaultLocale,
     options = { dateStyle: 'short' },
+    timeZone,
   }: FormatDateOptions = {}
 ) {
-  const date = convertStringToDate(dateValue)
+  // Preserve original string for UTC detection
+  const originalString =
+    typeof dateValue === 'string'
+      ? dateValue
+      : typeof dateValue === 'number'
+      ? String(dateValue)
+      : null
+
+  // Convert to DateType (Date | string) for convertStringToDate
+  // Numbers are converted to strings to preserve UTC detection
+  const dateInput: DateType =
+    typeof dateValue === 'number' ? String(dateValue) : dateValue
+
+  const date = convertStringToDate(dateInput)
+
+  // If timeZone is explicitly provided, use it
+  // Otherwise, if formatting time and input is UTC, use UTC timezone
+  const finalOptions = { ...options }
+  if (timeZone) {
+    finalOptions.timeZone = timeZone
+  } else if (
+    options.timeStyle &&
+    originalString &&
+    isUTCDateString(originalString)
+  ) {
+    // When formatting time for a UTC date, preserve UTC timezone
+    finalOptions.timeZone = 'UTC'
+  }
 
   return typeof Intl !== 'undefined'
-    ? new Intl.DateTimeFormat(locale, options).format(date)
-    : date.toLocaleString(locale, options)
+    ? new Intl.DateTimeFormat(locale, finalOptions).format(date)
+    : date.toLocaleString(locale, finalOptions)
 }
 
 export function formatDateRange(

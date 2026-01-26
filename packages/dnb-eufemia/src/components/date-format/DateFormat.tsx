@@ -143,12 +143,21 @@ function DateFormat(props: DateFormatProps) {
         return // stop here
       }
 
+      // Get the original input value to detect UTC dates
+      // Convert children to string if needed, otherwise use value
+      const originalValue =
+        value !== undefined
+          ? value
+          : children !== undefined
+          ? convertJsxToString(children)
+          : date
+
       if (dateTimeSeparator && options?.timeStyle) {
-        const formattedDate = formatDate(date, {
+        const formattedDate = formatDate(originalValue, {
           locale,
           options: { dateStyle: options.dateStyle },
         })
-        const formattedTime = formatDate(date, {
+        const formattedTime = formatDate(originalValue, {
           locale,
           options: { timeStyle: options.timeStyle },
         })
@@ -156,12 +165,20 @@ function DateFormat(props: DateFormatProps) {
         return `${formattedDate}${dateTimeSeparator}${formattedTime}`
       }
 
-      return formatDate(date, {
+      return formatDate(originalValue, {
         locale,
         options,
       })
     },
-    [date, locale, dateStyle, timeStyle, dateTimeSeparator]
+    [
+      date,
+      locale,
+      dateStyle,
+      timeStyle,
+      dateTimeSeparator,
+      value,
+      children,
+    ]
   )
 
   // Auto-updating relative time with minimal CPU: schedule updates only when the label changes next
