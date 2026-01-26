@@ -828,16 +828,49 @@ export function createDocsTools(
     return makeTextResult(JSON.stringify(blocks, null, 2))
   }
 
+  let initialReminderSent = false
+  const INITIAL_REMINDER = `
+Before implementing any Eufemia-based features, call mcp_eufemia_docs_entry to understand the docs structure, then use mcp_eufemia_docs_search and mcp_eufemia_docs_read to fetch relevant documentation.
+
+Always follow these guidelines when using the documentation:
+- Use the documentation exactly as provided.
+- Gather all required information from the documentation before using it as a reference.
+- Do not make assumptions or infer missing details unless explicitly instructed to do so.@
+
+After calling any of these tools, you may call the most recently used tool again as needed to fully retrieve the originally requested information.
+`
+
+  function applyInitialReminder(result: ToolResult): ToolResult {
+    if (initialReminderSent) {
+      return result
+    }
+
+    result.content.push({
+      type: 'text',
+      text: INITIAL_REMINDER.trim(),
+    })
+
+    initialReminderSent = true
+    return result
+  }
+
   return {
-    docsEntry,
-    docsIndex,
-    docsList,
-    docsRead,
-    docsSearch,
-    componentFind,
-    componentDoc,
-    componentApi,
-    componentProps,
+    docsEntry: async (input) =>
+      applyInitialReminder(await docsEntry(input)),
+    docsIndex: async (input) =>
+      applyInitialReminder(await docsIndex(input)),
+    docsList: async (input) => applyInitialReminder(await docsList(input)),
+    docsRead: async (input) => applyInitialReminder(await docsRead(input)),
+    docsSearch: async (input) =>
+      applyInitialReminder(await docsSearch(input)),
+    componentFind: async (input) =>
+      applyInitialReminder(await componentFind(input)),
+    componentDoc: async (input) =>
+      applyInitialReminder(await componentDoc(input)),
+    componentApi: async (input) =>
+      applyInitialReminder(await componentApi(input)),
+    componentProps: async (input) =>
+      applyInitialReminder(await componentProps(input)),
     docsRoot,
   }
 }
