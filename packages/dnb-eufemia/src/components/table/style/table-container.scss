@@ -89,10 +89,9 @@
       bottom: calc(var(--table-outline-width) * -1);
     }
 
-    // TODO: Our SASS version c support :has – so we may use this in future
-    // &:has(#{&}__foot--empty)::after {
-    //   bottom: 0;
-    // }
+    &:has(#{&}__foot--empty)::after {
+      bottom: 0;
+    }
   }
 
   // When placed inside a Modal/Drawer, let the parent scroll-bar do its job.

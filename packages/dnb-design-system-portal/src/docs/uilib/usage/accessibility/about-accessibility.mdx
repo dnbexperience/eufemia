@@ -1,3 +1,7 @@
+---
+draft: true
+---
+
 import { check as CheckIcon } from '@dnb/eufemia/src/icons'
 import { Icon } from '@dnb/eufemia/src/components'
 
@@ -19,6 +23,19 @@ As a developer, you have the responsibility to have the technical knowledge abou
 - Test with **screen readers** during development <Icon icon={CheckIcon} aria-hidden />
 - Test with **200%** in `font-size` during development <Icon icon={CheckIcon} aria-hidden />
 - Test page at **320px** screen width during development <Icon icon={CheckIcon} aria-hidden />
+- Test with **reduced motion** preferences enabled <Icon icon={CheckIcon} aria-hidden />
+
+## Reduced motion support
+
+Eufemia respects the `prefers-reduced-motion` user preference, automatically reducing or removing animations and transitions for users with motion sensitivity or vestibular disorders. This includes:
+
+- Modal and drawer animations
+- Accordion expansions/collapses
+- Progress indicator animations
+- Scroll behavior transitions
+- Icon rotations and transforms
+
+All animations are automatically minimized when a user has enabled reduced motion in their operating system settings. This is compliant with [WCAG 2.1 Success Criterion 2.3.3 Animation from Interactions](https://www.w3.org/WAI/WCAG21/Understanding/animation-from-interactions.html).
 
 ## Keyboard users
 

@@ -33,7 +33,7 @@ export const PostalCode = () => {
             url: async (value, { countryCode }) => {
               await mockFetch(
                 countryCode,
-                getMockDataPostalCode(countryCode),
+                getMockDataPostalCode(countryCode)
               )
               return `[YOUR-API-URL]/${value}`
             },
@@ -41,7 +41,7 @@ export const PostalCode = () => {
         })
 
         const onBlurValidator = withConfig(
-          Connectors.Bring.postalCode.validator,
+          Connectors.Bring.postalCode.validator
         )
 
         const onBlur = withConfig(Connectors.Bring.postalCode.autofill, {
@@ -97,7 +97,7 @@ export const Address = () => {
             countryCode: '/countryCode',
             cityPath: '/city',
             postalCodePath: '/postalCode',
-          },
+          }
         )
 
         return (

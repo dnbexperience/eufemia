@@ -275,19 +275,25 @@ export const makeScreenshot = async (
     recalculateHeightAfterSimulate?: boolean
   } = { selector: undefined }
 ) => {
+  const effectivePageViewport = pageViewport || global.pageViewport || null
+
   // Handle retry attempts with complete page reset
   const isRetry = await detectAndHandleRetry(page)
 
   if (isRetry) {
     // Handle complete retry setup
-    await handleRetrySetup({ page, pageViewport, headers })
+    await handleRetrySetup({
+      page,
+      pageViewport: effectivePageViewport,
+      headers,
+    })
   } else {
     // Normal page setup for first attempt
     await makePageReady({
       page,
       url,
       themeName,
-      pageViewport,
+      pageViewport: effectivePageViewport,
       headers,
       fullscreen,
       matchConfig,
@@ -425,6 +431,7 @@ export const setupPageScreenshot = (
   }
 
   beforeAll(async () => {
+    global.pageViewport = pageViewport
     await navigateToPage({
       page,
       url,

@@ -209,7 +209,7 @@ type MyFieldValue = string
 
 const MyField = (props: FieldProps<MyFieldValue>) => {
   const translations = Form.useTranslation<Translation>(
-    myFieldTranslations,
+    myFieldTranslations
   )
   const { label, requiredMessage } = translations.MyField
 

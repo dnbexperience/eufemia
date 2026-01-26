@@ -3,8 +3,10 @@
  *
  */
 
+import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Badge, Avatar, Grid } from '@dnb/eufemia/src'
+import { Badge, Avatar, Grid, Flex } from '@dnb/eufemia/src'
+import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const BadgeNotification = () => (
   <ComponentBox hideCode data-visual-test="badge-variant-notification">
@@ -70,67 +72,61 @@ export const BadgeInformationAvatar = () => (
   </ComponentBox>
 )
 
-export const BadgeTopLeft = () => (
-  <ComponentBox hideCode data-visual-test="badge-top-left">
-    <Badge
-      content={66}
-      label="Notifications"
-      vertical="top"
-      horizontal="left"
-      variant="notification"
-    >
-      <Avatar.Group label="Persons">
-        <Avatar size="large">A</Avatar>
-      </Avatar.Group>
-    </Badge>
-  </ComponentBox>
-)
+export const BadgeCornerPosition = () => (
+  <ComponentBox hideCode data-visual-test="badge-corner-position">
+    <Flex.Container>
+      <Badge
+        content={66}
+        label="Notifications"
+        vertical="top"
+        horizontal="left"
+        variant="notification"
+        data-visual-test="badge-top-left"
+      >
+        <Avatar.Group label="Persons">
+          <Avatar size="large">A</Avatar>
+        </Avatar.Group>
+      </Badge>
 
-export const BadgeTopRight = () => (
-  <ComponentBox hideCode data-visual-test="badge-top-right">
-    <Badge
-      content={1234}
-      label="Notifications"
-      vertical="top"
-      horizontal="right"
-      variant="notification"
-    >
-      <Avatar.Group label="Persons">
-        <Avatar size="large">A</Avatar>
-      </Avatar.Group>
-    </Badge>
-  </ComponentBox>
-)
+      <Badge
+        content={1234}
+        label="Notifications"
+        vertical="top"
+        horizontal="right"
+        variant="notification"
+        data-visual-test="badge-top-right"
+      >
+        <Avatar.Group label="Persons">
+          <Avatar size="large">B</Avatar>
+        </Avatar.Group>
+      </Badge>
 
-export const BadgeBottomLeft = () => (
-  <ComponentBox hideCode data-visual-test="badge-bottom-left">
-    <Badge
-      content={13}
-      label="Notifications"
-      vertical="bottom"
-      horizontal="left"
-      variant="notification"
-    >
-      <Avatar.Group label="Persons">
-        <Avatar size="large">A</Avatar>
-      </Avatar.Group>
-    </Badge>
-  </ComponentBox>
-)
+      <Badge
+        content={13}
+        label="Notifications"
+        vertical="bottom"
+        horizontal="left"
+        variant="notification"
+        data-visual-test="badge-bottom-left"
+      >
+        <Avatar.Group label="Persons">
+          <Avatar size="large">C</Avatar>
+        </Avatar.Group>
+      </Badge>
 
-export const BadgeBottomRight = () => (
-  <ComponentBox hideCode data-visual-test="badge-bottom-right">
-    <Badge
-      content={58}
-      label="Notifications"
-      vertical="bottom"
-      horizontal="right"
-      variant="notification"
-    >
-      <Avatar.Group label="Persons">
-        <Avatar size="large">A</Avatar>
-      </Avatar.Group>
-    </Badge>
+      <Badge
+        content={58}
+        label="Notifications"
+        vertical="bottom"
+        horizontal="right"
+        variant="notification"
+        data-visual-test="badge-bottom-right"
+      >
+        <Avatar.Group label="Persons">
+          <Avatar size="large">D</Avatar>
+        </Avatar.Group>
+      </Badge>
+    </Flex.Container>
   </ComponentBox>
 )
 
@@ -156,5 +152,46 @@ export const BadgeStatus = () => (
       <Badge content="negative" status="negative" />
       <Badge content="negative (subtle)" status="negative" subtle />
     </Grid.Container>
+  </ComponentBox>
+)
+
+export const BadgeHide = () => (
+  <ComponentBox hideCode>
+    {() => {
+      const Example = () => {
+        type Data = { notifications: number }
+        const { data } = Form.useData<Data>('badge-hide-example')
+        const notifications = data?.notifications
+
+        return (
+          <Form.Handler id="badge-hide-example">
+            <Form.Card>
+              <Badge
+                label="Notifications"
+                variant="notification"
+                content={notifications}
+                hideBadge={notifications === 0}
+              >
+                <Avatar.Group label="Persons">
+                  <Avatar size="large">A</Avatar>
+                </Avatar.Group>
+              </Badge>
+
+              <Field.Number
+                label="Define number of notifications"
+                width="small"
+                path="/notifications"
+                defaultValue={1}
+                minimum={0}
+                step={1}
+                showStepControls
+              />
+            </Form.Card>
+          </Form.Handler>
+        )
+      }
+
+      return <Example />
+    }}
   </ComponentBox>
 )

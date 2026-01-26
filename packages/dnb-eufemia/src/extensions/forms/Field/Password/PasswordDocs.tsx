@@ -1,8 +1,8 @@
 import { PropertiesTableProps } from '../../../../shared/types'
-import { stringProperties } from '../String/StringDocs'
+import { StringProperties } from '../String/StringDocs'
 
 export const PasswordProperties: PropertiesTableProps = {
-  ...stringProperties,
+  ...StringProperties,
   pattern: {
     doc: 'Validation based on regex pattern for the number field e.g. `pattern="w{8}d{4}"`.',
     type: 'string',

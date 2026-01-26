@@ -10,6 +10,11 @@ import userEvent from '@testing-library/user-event'
 import Input, { InputProps } from '../Input'
 import { format } from '../../number-format/NumberUtils'
 import { Provider } from '../../../shared'
+import {
+  add_medium as AddIcon,
+  subtract_medium as SubtractIcon,
+} from '../../../icons'
+import ProgressIndicator from '../../progress-indicator'
 
 const props: InputProps = {
   id: 'input',
@@ -759,6 +764,61 @@ describe('Input with clear button', () => {
     expect(on_change).toHaveBeenCalledWith(
       expect.objectContaining({ value: '' })
     )
+  })
+})
+
+describe('Input icon memoization', () => {
+  it('should re-render when icon changes from one string to another', () => {
+    const { rerender } = render(<Input {...props} icon="loupe" />)
+
+    const firstIcon = document.querySelector('.dnb-input__icon')
+    expect(firstIcon).toBeInTheDocument()
+
+    rerender(<Input {...props} icon="close" />)
+
+    const secondIcon = document.querySelector('.dnb-input__icon')
+    expect(secondIcon).toBeInTheDocument()
+  })
+
+  it('should re-render when icon changes from one icon to another icon', () => {
+    const { rerender } = render(
+      <Input {...props} icon={<AddIcon data-testid="icon-1" />} />
+    )
+
+    expect(
+      document.querySelector('[data-testid="icon-1"]')
+    ).toBeInTheDocument()
+
+    rerender(
+      <Input {...props} icon={<SubtractIcon data-testid="icon-2" />} />
+    )
+
+    expect(
+      document.querySelector('[data-testid="icon-2"]')
+    ).toBeInTheDocument()
+  })
+
+  it('should memoize when icon is a ProgressIndicator component and type does not change', () => {
+    const { rerender } = render(
+      <Input {...props} icon={<ProgressIndicator type="circular" />} />
+    )
+
+    expect(
+      document.querySelector('.dnb-progress-indicator__circular')
+    ).toBeInTheDocument()
+
+    // Re-render with ProgressIndicator but different props
+    rerender(
+      <Input {...props} icon={<ProgressIndicator type="linear" />} />
+    )
+
+    expect(
+      document.querySelector('.dnb-progress-indicator__linear')
+    ).not.toBeInTheDocument()
+
+    expect(
+      document.querySelector('.dnb-progress-indicator__circular')
+    ).toBeInTheDocument()
   })
 })
 

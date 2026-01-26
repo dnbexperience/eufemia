@@ -39,7 +39,7 @@ export default function MenuCard(props: MenuCardProps) {
         className={classnames(
           linkStyle,
           'dnb-anchor--no-style',
-          isSelected() && 'current-card',
+          isSelected() && 'current-card'
         )}
         to={url}
         aria-current={isSelected()}

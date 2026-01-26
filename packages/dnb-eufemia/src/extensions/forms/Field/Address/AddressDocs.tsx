@@ -1,5 +1,5 @@
 import { PropertiesTableProps } from '../../../../shared/types'
-import { stringProperties } from '../String/StringDocs'
+import { StringProperties } from '../String/StringDocs'
 
 export const AddressProperties: PropertiesTableProps = {
   element: {
@@ -7,5 +7,5 @@ export const AddressProperties: PropertiesTableProps = {
     type: 'React.Element',
     status: 'optional',
   },
-  ...stringProperties,
+  ...StringProperties,
 }

@@ -121,7 +121,7 @@ const DatePickerAlignPickerRight = () => (
           return days.map((dayObject) => {
             dayObject.isToday = isSameDay(
               dayObject.date,
-              new Date('2025-05-22'),
+              new Date('2025-05-22')
             )
             return dayObject
           })
@@ -146,7 +146,7 @@ const DatePickerAlignPickerRightWithInput = () => (
           return days.map((dayObject) => {
             dayObject.isToday = isSameDay(
               dayObject.date,
-              new Date('2025-05-22'),
+              new Date('2025-05-22')
             )
             return dayObject
           })
@@ -174,7 +174,7 @@ const DatePickerRangeMode = () => (
         return days.map((dayObject) => {
           dayObject.isToday = isSameDay(
             dayObject.date,
-            new Date('2019-06-03'),
+            new Date('2019-06-03')
           )
           return dayObject
         })

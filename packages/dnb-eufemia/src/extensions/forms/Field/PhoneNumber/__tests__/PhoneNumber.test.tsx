@@ -1995,7 +1995,7 @@ describe('Field.PhoneNumber', () => {
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
         '/myValue': {
           type: 'field',
-          value: '+45 123​​​​​​​​​',
+          value: '+47 12 3​ ​​ ​​',
         },
       })
     })

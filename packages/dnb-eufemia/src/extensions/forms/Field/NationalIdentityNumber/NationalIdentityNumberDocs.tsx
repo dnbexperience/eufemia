@@ -1,8 +1,8 @@
 import { PropertiesTableProps } from '../../../../shared/types'
-import { stringProperties } from '../String/StringDocs'
+import { StringProperties } from '../String/StringDocs'
 
 export const NationalIdentityNumberProperties: PropertiesTableProps = {
-  ...stringProperties,
+  ...StringProperties,
   validate: {
     doc: 'Using this prop you can disable the default validation.',
     type: 'boolean',

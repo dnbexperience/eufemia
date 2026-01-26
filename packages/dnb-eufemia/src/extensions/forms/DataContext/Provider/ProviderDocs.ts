@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../../../shared/types'
 
 export const ProviderProperties: PropertiesTableProps = {
   defaultData: {
-    doc: 'Default source data, only used if no other source is available, and not leading to updates if changed after mount.',
+    doc: "Default source data is used only when no other source is provided and does not trigger updates after mount. Initializing fields with an empty value is optional. If you do, use the field's `emptyValue`, which is often `undefined`.",
     type: 'object',
     status: 'optional',
   },

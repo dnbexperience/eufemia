@@ -13,6 +13,9 @@ const {
 } = require('@dnb/eufemia/src/plugins/postcss-isolated-style-scope/config')
 
 const pathPrefix = '/'
+const isMini = process.env.BUILD_MINI === '1'
+const skipImageProcessing =
+  process.env.SKIP_IMAGE_PROCESSING === '1' || isMini
 
 const siteMetadata = {
   title: 'DNB Design System',
@@ -36,11 +39,7 @@ const ignoreAsPage = [
 ]
 
 const plugins = [
-  process.env.GATSBY_CLOUD === 'true' && {
-    resolve: 'gatsby-plugin-gatsby-cloud',
-    options: {},
-  },
-  {
+  !isMini && {
     resolve: 'gatsby-plugin-manifest',
     options: {
       name: 'Eufemia - DNB Design System',
@@ -64,10 +63,10 @@ const plugins = [
       display: 'standalone',
     },
   },
-  'gatsby-plugin-meta-redirect',
+  !isMini && 'gatsby-plugin-meta-redirect',
   'gatsby-plugin-catch-links',
-  process.env.SKIP_IMAGE_PROCESSING !== '1' && 'gatsby-plugin-sharp', // is used by gatsby-remark-images
-  process.env.SKIP_IMAGE_PROCESSING !== '1' && 'gatsby-remark-images',
+  !skipImageProcessing && 'gatsby-plugin-sharp', // is used by gatsby-remark-images
+  !skipImageProcessing && 'gatsby-remark-images',
   {
     resolve: 'gatsby-plugin-mdx',
     options: {
@@ -79,7 +78,7 @@ const plugins = [
         ],
       },
       gatsbyRemarkPlugins: [
-        process.env.SKIP_IMAGE_PROCESSING !== '1' && {
+        !skipImageProcessing && {
           resolve: 'gatsby-remark-images',
           options: {
             maxWidth: 1024,
@@ -176,10 +175,10 @@ const plugins = [
       omitScrollBehavior: true, // Ensure smooth scrolling with CSS `scroll-behavior: smooth;` is working
     },
   },
-  'gatsby-plugin-eufemia-llm-metadata',
+  process.env.BUILD_MINI ? null : 'gatsby-plugin-eufemia-llm-metadata',
 ].filter(Boolean)
 
-if (currentBranch === 'release') {
+if (currentBranch === 'release' && !isMini) {
   plugins.push({
     // This (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.app/offline
@@ -195,6 +194,7 @@ if (currentBranch === 'release') {
 
 // Algolia search
 if (
+  !isMini &&
   process.env.IS_VISUAL_TEST !== '1' &&
   !global.pagesPath.includes('_dummy')
 ) {

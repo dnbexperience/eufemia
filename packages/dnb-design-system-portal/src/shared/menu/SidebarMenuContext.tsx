@@ -59,7 +59,7 @@ export class SidebarMenuProvider extends React.PureComponent<Props> {
           }
         }, 100) // after animation is done
       },
-      this.state.isOpen ? 260 : 10,
+      this.state.isOpen ? 260 : 10
     )
     if (this.state.isOpen) {
       this.setState({

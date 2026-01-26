@@ -1,6 +1,6 @@
 import { PropertiesTableProps } from '../../../../shared/types'
 import { getFieldEventsWithTypes } from '../FieldDocs'
-import { stringProperties } from '../String/StringDocs'
+import { StringProperties } from '../String/StringDocs'
 import { FieldProperties } from '../../Field/FieldDocs'
 
 export const PhoneNumberProperties: PropertiesTableProps = {
@@ -68,7 +68,7 @@ export const PhoneNumberProperties: PropertiesTableProps = {
     doc: 'Description text shown below the label on the FieldBlock (wrapper around the phone number fields).',
   },
   labelSrOnly: FieldProperties.labelSrOnly,
-  size: stringProperties.size,
+  size: StringProperties.size,
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],

@@ -230,7 +230,7 @@ export const DropdownEllipsisOverflow = () => (
 
 export const DropdownDirections = () => {
   const visualTestProps = (
-    enabled: boolean,
+    enabled: boolean
   ): VisibleWhenVisualTestReturn => {
     if (!enabled) {
       return {}
@@ -352,7 +352,7 @@ export const DropdownTertiaryRight = () => (
 
 export const DropdownMoreMenu = () => {
   const visualTestProps = (
-    enabled: boolean,
+    enabled: boolean
   ): VisibleWhenVisualTestReturn => {
     if (!enabled) {
       return {}
@@ -527,7 +527,7 @@ export const DropdownDisabledTertiary = () => (
 
 export const DropdownCustomEvent = () => {
   const visualTestProps = (
-    enabled: boolean,
+    enabled: boolean
   ): VisibleWhenVisualTestReturn => {
     if (!enabled) {
       return {}

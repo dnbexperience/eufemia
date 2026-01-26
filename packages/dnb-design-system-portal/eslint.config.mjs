@@ -14,6 +14,7 @@ export default [
       '**/reports/**',
       '**/node_modules/**',
       '*not_in_use*',
+      '**/plugins/gatsby-plugin-eufemia-llm-metadata/**',
     ],
   },
   ...eufemiaConfig,

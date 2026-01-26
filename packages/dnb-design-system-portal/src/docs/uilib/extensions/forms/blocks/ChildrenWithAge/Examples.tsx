@@ -109,7 +109,7 @@ export function WithToolbar({ children }) {
     () => ({
       '/toggleToolOf': false,
     }),
-    [],
+    []
   )
 
   const generateDataRef = useMemo(() => {

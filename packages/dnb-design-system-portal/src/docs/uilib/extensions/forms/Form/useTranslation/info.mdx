@@ -26,7 +26,7 @@ function MyComponent() {
 render(
   <Form.Handler locale="en-GB">
     <MyComponent />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -50,7 +50,7 @@ function MyComponent() {
 render(
   <Form.Handler locale="en-GB">
     <MyComponent />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -102,7 +102,7 @@ const MyComponent = () => {
 render(
   <Form.Handler translations={myTranslations}>
     <MyComponent />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -129,7 +129,7 @@ render(
     <Form.SubHeading>
       <Translation<TranslationType> id={(t) => t.custom.string} />
     </Form.SubHeading>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -155,7 +155,7 @@ type TranslationType = (typeof myTranslations)[keyof typeof myTranslations]
 render(
   <Form.Handler translations={myTranslations} locale="en-GB">
     <Translation<TranslationType> id={(t) => t.info} />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -186,7 +186,7 @@ render(
     <Form.Handler>
       <Field.PhoneNumber />
     </Form.Handler>
-  </Provider>,
+  </Provider>
 )
 ```
 
@@ -218,7 +218,7 @@ function MyField() {
 render(
   <Form.Handler locale="sv-SE" translations={translations}>
     <MyField />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 

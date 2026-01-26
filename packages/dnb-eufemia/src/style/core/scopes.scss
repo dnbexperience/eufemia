@@ -71,6 +71,10 @@
   html {
     &:not([data-visual-test]) {
       scroll-behavior: smooth;
+
+      @media (prefers-reduced-motion: reduce) {
+        scroll-behavior: auto;
+      }
     }
     font-size: 100%;
 

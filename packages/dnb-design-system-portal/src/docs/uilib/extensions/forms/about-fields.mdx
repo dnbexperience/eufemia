@@ -70,6 +70,8 @@ When a user removes its content from e.g. a string input field, the value will b
 
 - The default `emptyValue` value is `undefined`.
 
+When initializing fields from `defaultData`, providing an explicit empty value is optional; if you do, prefer the field's `emptyValue` (often `undefined`).
+
 ### Standardized properties
 
 All input components have a fixed set of properties that make it possible to build more complex standardized functionality around them. The most important ones here are `value` and `onChange` (can be async). Value expects values in the given data type, so for example, `Field.Number` expects a `value` of the type `number`, and will give a type error in TypeScript if it, e.g., receives a number in a `string`. The callback function submitted to `onChange` will always receive the value of the corresponding type as the first argument.
@@ -131,7 +133,7 @@ render(
     <Form.ButtonRow>
       <Form.SubmitButton />
     </Form.ButtonRow>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 

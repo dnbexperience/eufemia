@@ -594,7 +594,7 @@ const hexToRGB = (hex: string) => {
 
 const getRow = (
   { name, type, brandName, figmaName }: ColorData,
-  theme: ThemeNames,
+  theme: ThemeNames
 ) => {
   const color = themes[theme].properties[name]?.toLowerCase()
 

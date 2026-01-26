@@ -16,7 +16,7 @@ const getIndexName = (currentBranch) => {
 const runQueriesWhen = (currentBranch) => {
   if ((process.env.ALGOLIA_API_KEY || '').length === 0) {
     console.info(
-      'If you want to submit searchable data to Algolia, you need to request access keys and put them in a local .env file.',
+      'If you want to submit searchable data to Algolia, you need to request access keys and put them in a local .env file.'
     )
     return false
   }

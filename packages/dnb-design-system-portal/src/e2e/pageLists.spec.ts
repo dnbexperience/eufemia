@@ -34,7 +34,7 @@ test.describe('Page Lists', () => {
     test('should have correct title', async ({ page }) => {
       await expect(page).toHaveTitle('Components | Eufemia')
       const headingText = await getHeadingTextWithoutSrDescription(
-        page.locator('h1'),
+        page.locator('h1')
       )
       await expect(headingText).toBe('#Components')
       await expect(page.locator('h1')).toHaveCount(1)
@@ -47,14 +47,14 @@ test.describe('Page Lists', () => {
         .locator(
           // make exception with:
           // - "infinity-scroller"
-          '#portal-sidebar-menu ul li:has(> .dnb-sidebar-menu__item > a[href*="/uilib/components"]) ul li:is(.l-3:has(> .dnb-sidebar-menu__item > a[href*="/components"]):has(>.dnb-sidebar-menu__item> a:not([href*="/fragments"])), .l-4:has(a[href*="/infinity"]))',
+          '#portal-sidebar-menu ul li:has(> .dnb-sidebar-menu__item > a[href*="/uilib/components"]) ul li:is(.l-3:has(> .dnb-sidebar-menu__item > a[href*="/components"]):has(>.dnb-sidebar-menu__item> a:not([href*="/fragments"])), .l-4:has(a[href*="/infinity"]))'
         )
         .count()
 
       await expect(
         page.locator(
-          '#tab-bar-content h2:has(a[href*="/uilib/components/"]:not([aria-hidden]))',
-        ),
+          '#tab-bar-content h2:has(a[href*="/uilib/components/"]:not([aria-hidden]))'
+        )
       ).toHaveCount(listLength)
     })
   })
@@ -72,7 +72,7 @@ test.describe('Page Lists', () => {
     test('should have correct title', async ({ page }) => {
       await expect(page).toHaveTitle('Extensions | Eufemia')
       const headingText = await getHeadingTextWithoutSrDescription(
-        page.locator('h1'),
+        page.locator('h1')
       )
       await expect(headingText).toBe('#Extensions')
       await expect(page.locator('h1')).toHaveCount(1)
@@ -81,14 +81,14 @@ test.describe('Page Lists', () => {
     test('should have same amount of extensions', async ({ page }) => {
       const listLength = await page
         .locator(
-          '#portal-sidebar-menu ul li:has(> .dnb-sidebar-menu__item> a[href*="/uilib/extensions"]) ul li.l-3:has(> .dnb-sidebar-menu__item> a[href*="/uilib/extensions/"])',
+          '#portal-sidebar-menu ul li:has(> .dnb-sidebar-menu__item> a[href*="/uilib/extensions"]) ul li.l-3:has(> .dnb-sidebar-menu__item> a[href*="/uilib/extensions/"])'
         )
         .count()
 
       await expect(
         page.locator(
-          '#tab-bar-content h2:has(a[href*="/uilib/extensions/"]:not([aria-hidden]))',
-        ),
+          '#tab-bar-content h2:has(a[href*="/uilib/extensions/"]:not([aria-hidden]))'
+        )
       ).toHaveCount(listLength)
     })
   })
@@ -106,7 +106,7 @@ test.describe('Page Lists', () => {
     test('should have correct title', async ({ page }) => {
       await expect(page).toHaveTitle('HTML Elements | Eufemia')
       const headingText = await getHeadingTextWithoutSrDescription(
-        page.locator('h1'),
+        page.locator('h1')
       )
       await expect(headingText).toBe('#HTML Elements')
       await expect(page.locator('h1')).toHaveCount(1)
@@ -115,13 +115,13 @@ test.describe('Page Lists', () => {
     test('should have same amount of elements', async ({ page }) => {
       const listLength = await page
         .locator(
-          '#portal-sidebar-menu ul li.l-2:has(> .dnb-sidebar-menu__item> a[href*="/uilib/elements"]) ul li:has(> .dnb-sidebar-menu__item> a[href*="/uilib/elements"])',
+          '#portal-sidebar-menu ul li.l-2:has(> .dnb-sidebar-menu__item> a[href*="/uilib/elements"]) ul li:has(> .dnb-sidebar-menu__item> a[href*="/uilib/elements"])'
         )
         .count()
       await expect(
         page.locator(
-          '#tab-bar-content ul li:has(a[href*="/uilib/elements/"]:not([aria-hidden]))',
-        ),
+          '#tab-bar-content ul li:has(a[href*="/uilib/elements/"]:not([aria-hidden]))'
+        )
       ).toHaveCount(listLength)
     })
   })

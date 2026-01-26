@@ -14,23 +14,23 @@ export interface FormSetProps
   extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   /**
-   * define what HTML element should be used. Defaults to `<form>`.
+   * Define what HTML element should be used. Defaults to `<form>`.
    */
   element?: string;
   /**
-   * if set to `true`, then a `div` HTML element will be used instead of `form`. Defaults to `false`.
+   * If set to `true`, then a `div` HTML element will be used instead of `form`. Defaults to `false`.
    */
   no_form?: boolean;
   /**
-   * if set to `true`, every component inside will be disabled. Defaults to `false`.
+   * If set to `true`, every component inside will be disabled. Defaults to `false`.
    */
   disabled?: boolean;
   /**
-   * if set to `true`, it enables skeleton for nested components. Defaults to `false`.
+   * If set to `true`, it enables skeleton for nested components. Defaults to `false`.
    */
   skeleton?: SkeletonShow;
   /**
-   * if set to `true`, components inside can't cause a page refresh. The event `on_submit` will still be triggered. Defaults to `false`.
+   * If set to `true`, components inside can't cause a page refresh. The event `on_submit` will still be triggered. Defaults to `false`.
    */
   prevent_submit?: boolean;
   id?: string;

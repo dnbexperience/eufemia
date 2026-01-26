@@ -13,6 +13,8 @@ render(<Field.Boolean />)
 
 `Field.Boolean` is the base component for receiving user input where the target data is of type `boolean`.
 
+Before using this component, ensure there is not a more specific [field component](/uilib/extensions/forms/feature-fields/) available that better suits your needs.
+
 There is a corresponding [Value.Boolean](/uilib/extensions/forms/Value/Boolean) component.
 
 ```tsx
@@ -45,7 +47,7 @@ const schema = z.object({
 render(
   <Form.Handler schema={schema} data={{ myField: false }}>
     <Field.Boolean path="/myField" />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -76,6 +78,6 @@ render(
     data={{ myField: false }}
   >
     <Field.Boolean path="/myField" />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```

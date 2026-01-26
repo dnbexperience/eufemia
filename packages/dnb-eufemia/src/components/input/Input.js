@@ -779,10 +779,27 @@ export { SubmitButton }
 const InputIcon = React.memo(
   (props) => <IconPrimary {...props} />,
   ({ icon: prev }, { icon: next }) => {
+    // Always re-render for string icons
     if (typeof prev === 'string' && typeof next === 'string') {
       return false
     }
-    return typeof prev === typeof next
+
+    // Check if it's a ProgressIndicator (React element)
+    const isProgressIndicator = (icon) => {
+      return (
+        React.isValidElement(icon) &&
+        (icon.type?.displayName === 'ProgressIndicator' ||
+          icon.type?.name === 'ProgressIndicator')
+      )
+    }
+
+    // Only memoize if both are ProgressIndicators and types match
+    if (isProgressIndicator(prev) && isProgressIndicator(next)) {
+      return typeof prev === typeof next
+    }
+
+    // For all other icons, don't memoize (always re-render)
+    return false
   }
 )
 InputIcon.propTypes = {

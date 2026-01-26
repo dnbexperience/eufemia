@@ -42,7 +42,7 @@ export const SearchBarInput = () => {
             hideIndicator()
           })
       },
-      { value },
+      { value }
     )
     showIndicator()
   }
@@ -67,10 +67,10 @@ export const SearchBarInput = () => {
   const onFocusHandler = () => {
     const searchClient = algoliasearch(
       process.env.ALGOLIA_APP_ID,
-      process.env.ALGOLIA_SEARCH_KEY,
+      process.env.ALGOLIA_SEARCH_KEY
     )
     searchIndex.current = searchClient.initIndex(
-      process.env.ALGOLIA_INDEX_NAME,
+      process.env.ALGOLIA_INDEX_NAME
     )
   }
 
@@ -119,7 +119,7 @@ const makeHitsHumanFriendly = ({ hits, setHidden }) => {
     const { slug, title, description, search } = hit
 
     const handleTitleClick = (
-      event: React.MouseEvent<HTMLAnchorElement | HTMLLinkElement>,
+      event: React.MouseEvent<HTMLAnchorElement | HTMLLinkElement>
     ) => {
       event.stopPropagation()
       if (
@@ -149,7 +149,7 @@ const makeHitsHumanFriendly = ({ hits, setHidden }) => {
 
     hit.headings?.forEach(({ value, slug: hash }, i) => {
       const handleHeadingClick = (
-        event: React.MouseEvent<HTMLAnchorElement | HTMLLinkElement>,
+        event: React.MouseEvent<HTMLAnchorElement | HTMLLinkElement>
       ) => {
         event.stopPropagation()
         if (
@@ -175,7 +175,7 @@ const makeHitsHumanFriendly = ({ hits, setHidden }) => {
             onClick={handleHeadingClick}
           >
             {value}
-          </Anchor>,
+          </Anchor>
         )
       }
     })

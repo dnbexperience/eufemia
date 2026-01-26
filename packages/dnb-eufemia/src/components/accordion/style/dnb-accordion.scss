@@ -88,6 +88,10 @@
         --line-height-small
       ); // to ensure correct icon height
       transition: transform 400ms var(--accordion-easing);
+
+      @include reducedMotion() {
+        transition-duration: 0.01ms;
+      }
     }
     &--description &__icon {
       margin-top: var(--accordion-header-margin-vertical--description);
@@ -153,6 +157,10 @@
       height 400ms var(--accordion-easing),
       opacity 600ms var(--accordion-easing);
 
+    @include reducedMotion() {
+      transition-duration: 0.01ms;
+    }
+
     &__inner {
       width: 100%;
       margin: var(--accordion-content-margin);
@@ -162,6 +170,10 @@
 
   &-group--single-container {
     transition: min-height 1s var(--accordion-easing);
+
+    @include reducedMotion() {
+      transition-duration: 0.01ms;
+    }
   }
 
   &-group--single-container & {
@@ -179,6 +191,10 @@
 
         // Slower down the animation if single container is used
         transition: opacity 1s var(--accordion-easing);
+
+        @include reducedMotion() {
+          transition-duration: 0.01ms;
+        }
 
         &__inner {
           margin-top: 0;

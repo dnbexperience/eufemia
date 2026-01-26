@@ -81,7 +81,7 @@ export const PaginationExampleCentered = () => (
           () => {
             setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
           },
-          Math.ceil(Math.random() * 500),
+          Math.ceil(Math.random() * 500)
         )
 
         return () => clearTimeout(timeout)
@@ -119,7 +119,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
 
   const onToggleExpanded = (
     { ssn: _ssn },
-    { pageNumber, element = null, onExpanded = null },
+    { pageNumber, element = null, onExpanded = null }
   ) => {
     const index = tableItems.findIndex(({ ssn }) => ssn === _ssn)
     if (index > -1) {
@@ -149,7 +149,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   // set the startup height
   const onMounted = (items) => {
     items.forEach(({ element: { current: element }, expanded }) =>
-      setHeight({ element, expanded, animation: false }),
+      setHeight({ element, expanded, animation: false })
     )
   }
 
@@ -184,7 +184,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
           setLocalPage(pageNumber)
         }
       },
-      Math.ceil(Math.random() * 1e3),
+      Math.ceil(Math.random() * 1e3)
     ) // simulate random delay
   }
 
@@ -470,7 +470,7 @@ const setHeight = ({ element, expanded = false, animation = true }) => {
         element.style.height = '1px'
       }
       window.requestAnimationFrame(
-        () => (element.style.height = newHeight),
+        () => (element.style.height = newHeight)
       )
     })
   }

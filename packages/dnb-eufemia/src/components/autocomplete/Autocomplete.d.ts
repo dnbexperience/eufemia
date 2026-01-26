@@ -42,17 +42,8 @@ type AutocompleteInputElement =
 type AutocompleteSearchInWordIndex = string | number;
 type AutocompleteSearchMatch = 'word' | 'starts-with';
 export type AutocompleteClearEvent = {
-  /**
-   * The new value after clearing (empty string).
-   */
   value: string;
-  /**
-   * The previous value before clearing.
-   */
   previousValue: string;
-  /**
-   * The original event that triggered the clear action.
-   */
   event: React.SyntheticEvent | Event;
 };
 export interface AutocompleteProps {
@@ -239,9 +230,6 @@ export interface AutocompleteProps {
   on_blur?: (...args: any[]) => any;
   on_select?: (...args: any[]) => any;
   on_state_update?: (...args: any[]) => any;
-  /**
-   * Will be called on a clear button click. Returns `{ value, previousValue, event }`.
-   */
   onClear?: (event: AutocompleteClearEvent) => void;
 }
 export type AutocompleteAllProps = AutocompleteProps &

@@ -73,7 +73,7 @@ export function WithoutFormHandler() {
         const Component = () => {
           const { data, update } = Form.useData(
             'independent-id',
-            existingData,
+            existingData
           )
 
           const increment = React.useCallback(() => {
@@ -195,7 +195,7 @@ export const VisibleData = () => {
               'Result of reduceToVisibleFields:\n',
               reduceToVisibleFields(data, {
                 removePaths: ['/isVisible'],
-              }),
+              })
             )
           }, [data, reduceToVisibleFields])
 

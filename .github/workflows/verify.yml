@@ -65,13 +65,22 @@ jobs:
         run: yarn workspace @dnb/eufemia audit:ci
 
       - name: Run lint
-        run: yarn workspace @dnb/eufemia lint:ci && yarn workspace dnb-design-system-portal lint:ci
+        run: |
+          yarn workspace @dnb/eufemia lint:ci
+          yarn workspace dnb-design-system-portal lint:ci
 
       - name: Run type checks
-        run: yarn workspace @dnb/eufemia test:types && yarn workspace dnb-design-system-portal test:types
+        run: |
+          yarn workspace @dnb/eufemia test:types
+          yarn workspace dnb-design-system-portal test:types
+          yarn workspace eufemia-llm-metadata test:types
 
       - name: Run tests
-        run: yarn workspace @dnb/eufemia test:ci && yarn workspace dnb-design-system-portal test:ci
+        run: |
+          yarn workspace @dnb/eufemia test:ci
+          yarn workspace dnb-design-system-portal test:ci
+          yarn workspace markdown-tables-utils test
+          yarn workspace eufemia-llm-metadata test
 
       - name: Run dependency checks
         run: yarn workspace @dnb/eufemia test:deps

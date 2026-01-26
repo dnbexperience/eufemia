@@ -18,7 +18,7 @@ export const CustomComponentWithAjvSchemaExample = () => {
           const fromInput = React.useCallback(
             (event) =>
               typeof event === 'number' ? event : event?.value || 0,
-            [],
+            []
           )
 
           const errorMessages = React.useMemo(() => {
@@ -116,7 +116,7 @@ export const CustomComponentWithZodSchemaExample = () => {
           const fromInput = React.useCallback(
             (event) =>
               typeof event === 'number' ? event : event?.value || 0,
-            [],
+            []
           )
 
           const errorMessages = React.useMemo(() => {
@@ -221,7 +221,7 @@ export const CustomComponentWithJsonSchema = () => {
           const fromInput = React.useCallback(
             (event) =>
               typeof event === 'number' ? event : event?.value || 0,
-            [],
+            []
           )
 
           const errorMessages = React.useMemo(() => {

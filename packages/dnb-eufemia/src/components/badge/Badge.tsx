@@ -14,7 +14,7 @@ import {
   extendPropsWithContext,
   validateDOMAttributes,
 } from '../../shared/component-helper'
-import NumberFormat from '../NumberFormat'
+import useNumberFormat from '../number-format/useNumberFormat'
 
 export type BadgeProps = {
   /**
@@ -75,6 +75,11 @@ export type BadgeProps = {
    * Default: false.
    */
   subtle?: boolean
+  /**
+   * Removes the badge without removing children. Useful when Badge wraps content.
+   * Default: false
+   */
+  hideBadge?: boolean
 }
 
 type BadgeAndSpacingProps = BadgeProps &
@@ -94,6 +99,7 @@ export const defaultProps: BadgeAndSpacingProps = {
   variant: 'information',
   status: 'default',
   subtle: false,
+  hideBadge: false,
 }
 
 function Badge(localProps: BadgeAndSpacingProps) {
@@ -107,22 +113,39 @@ function Badge(localProps: BadgeAndSpacingProps) {
     context?.Badge,
     { skeleton: context?.skeleton }
   )
-  const { children } = allProps
+  const { children, className } = allProps
+  const spacingClasses = createSpacingClasses(allProps)
 
   if (children) {
     return (
-      <BadgeRoot>
+      <BadgeRoot className={classnames(spacingClasses)}>
         {children}
-        <BadgeElem context={context} {...allProps} />
+        <BadgeElem context={context} {...allProps} className={className} />
       </BadgeRoot>
     )
   }
 
-  return <BadgeElem context={context} {...allProps} />
+  return (
+    <BadgeElem
+      context={context}
+      {...allProps}
+      className={classnames(spacingClasses, className)}
+    />
+  )
 }
 
-function BadgeRoot({ children }: { children: React.ReactNode }) {
-  return <span className="dnb-badge__root">{children}</span>
+function BadgeRoot({
+  children,
+  className,
+}: {
+  children: React.ReactNode
+  className?: string
+}) {
+  return (
+    <span className={classnames('dnb-badge__root', className)}>
+      {children}
+    </span>
+  )
 }
 
 /** Ensures props that only affect certain variants are reset to default */
@@ -153,24 +176,23 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
     variant,
     status,
     subtle,
+    hideBadge,
     context,
     ...restProps
   } = props
+
+  if (hideBadge) {
+    return null
+  }
 
   // to remove spacing props, etc.
   validateDOMAttributes(props, restProps)
 
   const skeletonClasses = createSkeletonClass('shape', skeleton, context)
-  const spacingClasses = createSpacingClasses(props)
   const contentIsNum = typeof contentProp === 'number'
+  const num = useNumberFormat(contentIsNum ? contentProp : 0)
   const variantIsNotification = variant === 'notification'
-
-  const content =
-    variantIsNotification && contentIsNum ? (
-      <NumberFormat>{contentProp}</NumberFormat>
-    ) : (
-      contentProp
-    )
+  const content = variantIsNotification && contentIsNum ? num : contentProp
 
   if (!label && contentIsNum) {
     warn(
@@ -194,7 +216,6 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
             subtle ? ` dnb-badge--subtle` : ''
           }`,
         skeletonClasses,
-        spacingClasses,
         className
       )}
       {...restProps}

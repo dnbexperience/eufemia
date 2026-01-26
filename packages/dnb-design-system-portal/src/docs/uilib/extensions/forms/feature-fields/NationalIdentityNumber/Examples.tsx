@@ -173,7 +173,7 @@ export const ValidationExtendValidator = () => {
         // Keep the default validator while ensuring birth month is April.
         const myValidator: NationalIdentityNumberValidator = (
           value,
-          { validators },
+          { validators }
         ) => {
           const { dnrAndFnrValidator } = validators ?? {}
 
@@ -201,7 +201,7 @@ export const ValidationExtendValidatorAdult = () => {
         // Keep the default validator while adding an age check.
         const myAdultValidator: NationalIdentityNumberValidator = (
           value,
-          { validators },
+          { validators }
         ) => {
           const { dnrAndFnrValidator } = validators ?? {}
 
@@ -229,7 +229,7 @@ export const ValidationFnrAdult = () => {
         // Keep the default validator while ensuring an FNR-based age check.
         const myFnrAdultValidator: NationalIdentityNumberValidator = (
           value,
-          { validators },
+          { validators }
         ) => {
           const { fnrValidator } = validators ?? {}
 

@@ -18,6 +18,11 @@
     transition: none !important;
   }
 
+  @include reducedMotion() {
+    --height-animation-duration: 0.01ms;
+    transition-duration: 0.01ms !important;
+  }
+
   &--animating {
     overflow-y: hidden;
 

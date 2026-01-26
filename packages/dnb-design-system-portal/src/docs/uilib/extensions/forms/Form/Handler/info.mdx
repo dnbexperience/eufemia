@@ -33,6 +33,8 @@ function MyForm() {
 }
 ```
 
+`defaultData` is only used if no other data source is provided and will not update internal data if it changes after mount. Initializing fields with an empty value is optional; if you do, prefer the field's `emptyValue` (often `undefined`).
+
 ## Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Form/Handler)
@@ -256,7 +258,7 @@ render(
     }}
   >
     <Form.SubmitButton />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -315,7 +317,7 @@ const MyForm = () => {
           transformData,
           resetForm,
           clearData,
-        },
+        }
       ) => {
         resetForm()
         clearData()
@@ -326,7 +328,7 @@ const MyForm = () => {
           myData,
           ({ path, value, displayValue, label, props, error }) => {
             return 'new value'
-          },
+          }
         )
       }}
       sessionStorageId="session-key"
@@ -371,7 +373,7 @@ const MyForm = () => {
           data,
           ({ value, displayValue, label }) => {
             return { value, displayValue, label }
-          },
+          }
         )
       }}
     >

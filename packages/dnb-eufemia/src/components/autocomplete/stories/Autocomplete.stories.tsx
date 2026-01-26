@@ -6,7 +6,12 @@
 import React, { useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
-
+import {
+  chevron_down as ChevronDown,
+  chevron_up as ChevronUp,
+  chevron_left as ChevronLeft,
+  chevron_right as ChevronRight,
+} from '../../../icons'
 import {
   Autocomplete,
   NumberFormat,
@@ -15,7 +20,7 @@ import {
   GlobalStatus,
   Input,
 } from '../..'
-import { Anchor, Li, Ol, P, Section, Space } from '../../../'
+import { Anchor, Flex, Li, Ol, P, Section, Space } from '../../../'
 import { Context, Provider } from '../../../shared'
 import { SubmitButton } from '../../input/Input'
 import { format } from '../../number-format/NumberUtils'
@@ -1034,5 +1039,68 @@ export const OpenedEmptyDataExample = () => {
       <Autocomplete opened />
       <Input />
     </>
+  )
+}
+
+function getIconString(value: number | undefined) {
+  switch (value) {
+    case 0:
+      return 'chevron-up'
+    case 1:
+      return 'chevron-right'
+    case 2:
+      return 'chevron-down'
+    case 3:
+      return 'chevron-left'
+  }
+
+  return 'loupe'
+}
+
+function getIconElement(value: number | undefined) {
+  switch (value) {
+    case 0:
+      return <ChevronUp />
+    case 1:
+      return <ChevronRight />
+    case 2:
+      return <ChevronDown />
+    case 3:
+      return <ChevronLeft />
+  }
+
+  return 'loupe'
+}
+
+export const Memo = () => {
+  function AutoComplete({
+    getInputIcon,
+    label,
+  }: {
+    getInputIcon: (value: number | undefined) => string | JSX.Element
+    label: string
+  }) {
+    const [value, setValue] = useState()
+
+    return (
+      <Autocomplete
+        label={label}
+        label_direction={'vertical'}
+        value={value}
+        data={['Up', 'Right', 'Down', 'Left']}
+        onChange={(e) => {
+          // @ts-expect-error - onChange event structure differs from actual on_change prop
+          setValue(e.value)
+        }}
+        input_icon={getInputIcon(value)}
+      />
+    )
+  }
+
+  return (
+    <Flex.Vertical space="large" gap="large">
+      <AutoComplete getInputIcon={getIconString} label="String" />
+      <AutoComplete getInputIcon={getIconElement} label="Element" />
+    </Flex.Vertical>
   )
 }

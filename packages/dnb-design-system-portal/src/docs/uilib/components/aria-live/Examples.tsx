@@ -102,7 +102,7 @@ export const AriaLiveAdditions = () => (
       function AriaLiveExample() {
         const { data, update } = Form.useData(
           'aria-live-additions',
-          defaultData,
+          defaultData
         )
 
         return (

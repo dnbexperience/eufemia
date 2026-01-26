@@ -27,7 +27,7 @@ export default function TranslationsTable({
       source ||
       Object.assign(
         extendDeep({}, globalTranslations, formsTranslations),
-        translationsWithoutEnUS,
+        translationsWithoutEnUS
       )
     )
   }, [source])
@@ -62,7 +62,7 @@ export default function TranslationsTable({
       const translationsObj = translations[localeKey]
       if (!translationsObj) {
         warn(
-          `TranslationsTable: Could not find any translations for key: "${localeKey}", perhaps you misspelled the key's name?`,
+          `TranslationsTable: Could not find any translations for key: "${localeKey}", perhaps you misspelled the key's name?`
         )
         return
       }
@@ -103,7 +103,7 @@ export default function TranslationsTable({
 
   if (tableRows.length == 0) {
     warn(
-      `TranslationsTable: Not able to find any translations for input : "${localeKey}", hence not rendering the translations table.`,
+      `TranslationsTable: Not able to find any translations for input : "${localeKey}", hence not rendering the translations table.`
     )
     return
   }
