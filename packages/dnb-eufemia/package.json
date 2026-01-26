@@ -87,6 +87,8 @@
     "test:types": "tsc --noEmit",
     "test:types:watch": "tsc --noEmit --watch",
     "test:update": "yarn jest --updateSnapshot",
+    "test:unused": "knip",
+    "test:unused:production": "knip --production",
     "test:watch": "yarn jest --watchAll"
   },
   "sideEffects": [
@@ -229,6 +231,7 @@
     "jest-playwright-preset": "4.0.0",
     "jest-raw-loader": "1.0.1",
     "jest-tobetype": "1.2.3",
+    "knip": "6.2.1",
     "lebab": "3.2.7",
     "lockfile-lint": "4.14.1",
     "lodash.isequal": "4.5.0",

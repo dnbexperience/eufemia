@@ -5,6 +5,9 @@ node_modules/
 # testing
 /coverage
 
+# knip
+.knip-cache/
+
 # misc
 package-lock.json
 completions.json
