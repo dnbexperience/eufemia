@@ -139,7 +139,11 @@ describe('Anchor element', () => {
 
     it('should not have screen reader text for mailto links even with target="_blank"', () => {
       const { container } = render(
-        <Anchor href="mailto:test@example.com" target="_blank" lang="nb-NO">
+        <Anchor
+          href="mailto:test@example.com"
+          target="_blank"
+          lang="nb-NO"
+        >
           Email
         </Anchor>
       )
