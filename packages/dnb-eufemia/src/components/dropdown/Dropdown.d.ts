@@ -16,6 +16,7 @@ import type {
 import type { GlobalStatusConfigObject } from '../GlobalStatus';
 export type DropdownData = DrawerListData;
 type DropdownTitle = string | React.ReactNode;
+type DropdownMode = 'default' | 'prevent' | 'action-menu' | 'more-menu';
 type DropdownAlignDropdown = 'left' | 'right';
 type DropdownTriggerElement = ((...args: any[]) => any) | React.ReactNode;
 export interface DropdownProps {
@@ -77,11 +78,11 @@ export interface DropdownProps {
    */
   buttonRef?: React.Ref;
   /**
-   * same as `preventSelection`, but the "selection area" (given title) will not be visible and the icon `more` (three dots) is used. Defaults to `false`.
+   * defines the dropdown behavior mode. `default` (normal selection), `prevent` (no permanent selection), `action-menu` (prevent selection + bottom drawer on mobile), `more-menu` (prevent selection + icon-only trigger with three dots). Defaults to `default`.
    */
-  moreMenu?: boolean;
+  mode?: DropdownMode;
   /**
-   * use `right` to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `moreMenu`. Defaults to `left`.
+   * use `right` to change the options alignment direction. Defaults to `left`.
    */
   alignDropdown?: DropdownAlignDropdown;
   /**

@@ -128,7 +128,7 @@ const DropdownStory = () => {
       <Box>
         <RightAligned>
           <Dropdown
-            actionMenu
+            mode="action-menu"
             title="Action Menu"
             data={[
               <>
@@ -148,7 +148,7 @@ const DropdownStory = () => {
             }}
           />
           <Dropdown
-            actionMenu
+            mode="action-menu"
             iconPosition="right"
             alignDropdown="right"
             title="Action Menu"
@@ -169,7 +169,7 @@ const DropdownStory = () => {
         <RightAligned>
           <Dropdown
             size="small"
-            moreMenu
+            mode="more-menu"
             data={[
               <Link key="item-1" href="/">
                 Go to this Link
@@ -180,7 +180,7 @@ const DropdownStory = () => {
           />
           <Dropdown
             size="small"
-            moreMenu
+            mode="more-menu"
             data={[
               <Link key="item-1" href="/">
                 Go to this Link
@@ -306,7 +306,7 @@ const DropdownStory = () => {
               direction={direction}
               alignDropdown={alignDropdown}
               iconPosition={iconPosition}
-              moreMenu={true}
+              mode="more-menu"
               data={[
                 <Link key="item-1" href="/">
                   Go to this Link
@@ -317,7 +317,7 @@ const DropdownStory = () => {
               skipPortal
             />
             <Dropdown
-              moreMenu={true}
+              mode="more-menu"
               open={open}
               label={label}
               noAnimation
@@ -334,7 +334,7 @@ const DropdownStory = () => {
             />
             <Dropdown
               size="medium"
-              moreMenu={true}
+              mode="more-menu"
               open={open}
               label={label}
               noAnimation
@@ -351,7 +351,7 @@ const DropdownStory = () => {
             />
             <Dropdown
               size="large"
-              moreMenu
+              mode="more-menu"
               open={open}
               label={label}
               noAnimation
@@ -861,7 +861,7 @@ function UpdateDataExample() {
 
       <Dropdown
         title="Choose an item"
-        preventSelection
+        mode="prevent"
         enableBodyLock
         data={choiceData}
         onChange={({ data }) => {

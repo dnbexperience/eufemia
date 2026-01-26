@@ -391,7 +391,7 @@ describe('Dropdown component', () => {
         data={mockData}
         title={title}
         onChange={onChange}
-        preventSelection
+        mode="prevent"
       />
     )
 
@@ -421,7 +421,7 @@ describe('Dropdown component', () => {
         data={mockData}
         title={title}
         onChange={onChange}
-        preventSelection={false}
+        mode="default"
       />
     )
 
@@ -445,8 +445,7 @@ describe('Dropdown component', () => {
         data={mockData}
         title={title}
         onChange={onChange}
-        preventSelection={false}
-        actionMenu={true}
+        mode="action-menu"
       />
     )
 
@@ -470,8 +469,7 @@ describe('Dropdown component', () => {
         data={mockData}
         title={title}
         onChange={onChange}
-        preventSelection={true}
-        actionMenu={false}
+        mode="prevent"
       />
     )
 
@@ -648,7 +646,7 @@ describe('Dropdown component', () => {
         value={null}
         data={mockData}
         title={title}
-        moreMenu
+        mode="more-menu"
       />
     )
 
@@ -831,7 +829,7 @@ describe('Dropdown component', () => {
   })
 
   it('has correct "aria-haspopup" when actionMenu', () => {
-    render(<Dropdown {...props} data={mockData} actionMenu />)
+    render(<Dropdown {...props} data={mockData} mode="action-menu" />)
 
     expect(
       document
@@ -842,7 +840,7 @@ describe('Dropdown component', () => {
   })
 
   it('has correct "aria-haspopup" when moreMenu', () => {
-    render(<Dropdown {...props} data={mockData} moreMenu />)
+    render(<Dropdown {...props} data={mockData} mode="more-menu" />)
 
     expect(
       document
@@ -853,7 +851,7 @@ describe('Dropdown component', () => {
   })
 
   it('has correct "aria-haspopup" when preventSelection', () => {
-    render(<Dropdown {...props} data={mockData} preventSelection />)
+    render(<Dropdown {...props} data={mockData} mode="prevent" />)
 
     expect(
       document
@@ -882,7 +880,7 @@ describe('Dropdown component', () => {
         noAnimation
         open={true}
         data={mockData}
-        actionMenu
+        mode="action-menu"
       />
     )
 
@@ -900,7 +898,7 @@ describe('Dropdown component', () => {
         noAnimation
         open={true}
         data={mockData}
-        moreMenu
+        mode="more-menu"
       />
     )
 
@@ -918,7 +916,7 @@ describe('Dropdown component', () => {
         noAnimation
         open={true}
         data={mockData}
-        preventSelection
+        mode="prevent"
       />
     )
 
