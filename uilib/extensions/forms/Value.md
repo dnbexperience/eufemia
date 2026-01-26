@@ -1,8 +1,12 @@
 ---
 title: 'Value'
 description: '`Value` components can be used to summarize any kind of data.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Value/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.218Z
+checksum: f5bf69aeee94faebbfc244489084fb8cb5016612f2bdc3507d62f802627d3fef
 ---
+
+# Value
 
 ## Import
 
@@ -33,7 +37,7 @@ render(
   <Value.SummaryList>
     <Value.String label="Foo" value="value" />
     <Value.Number label="Bar" value={123} />
-  </Value.SummaryList>,
+  </Value.SummaryList>
 )
 ```
 
@@ -49,7 +53,7 @@ render(
       <Value.String value="value" />
       <Value.Number value={123} />
     </Value.Composition>
-  </Value.SummaryList>,
+  </Value.SummaryList>
 )
 ```
 

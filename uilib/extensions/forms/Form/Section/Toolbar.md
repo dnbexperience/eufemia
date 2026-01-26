@@ -1,8 +1,12 @@
 ---
-title: 'Toolbar'
+title: 'Form.Section.Toolbar'
 description: '`Form.Section.Toolbar` is a helper component to be used within an `Form.Section.ViewContainer` and `Form.Section.EditContainer`.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Form/Section/Toolbar/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.899Z
+checksum: c3f04873caf51183e6c06dbd3e430a12d720489dfc5ff74ccae0c9dc1e3934d5
 ---
+
+# Form.Section.Toolbar
 
 ## Import
 
@@ -38,7 +42,7 @@ render(
         <Form.Section.EditContainer.CancelButton />
       </Form.Section.Toolbar>
     </Form.Section.EditContainer>
-  </Form.Section>,
+  </Form.Section>
 )
 ```
 
@@ -65,6 +69,40 @@ render(
         <Form.Section.EditContainer.CancelButton />
       </Form.Section.Toolbar>
     </Form.Section.EditContainer>
-  </Form.Section>,
+  </Form.Section>
 )
+```
+
+## Properties
+
+```json
+{
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": "Various",
+    "status": "optional"
+  }
+}
+```
+
+## Events
+
+```json
+{
+  "onEdit": {
+    "doc": "Callback for the edit button.",
+    "type": "Function",
+    "status": "optional"
+  },
+  "onDone": {
+    "doc": "Callback for the done button.",
+    "type": "Function",
+    "status": "optional"
+  },
+  "onCancel": {
+    "doc": "Callback for the cancel button.",
+    "type": "Function",
+    "status": "optional"
+  }
+}
 ```

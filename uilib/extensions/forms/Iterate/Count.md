@@ -1,8 +1,12 @@
 ---
-title: 'Count'
+title: 'Iterate.Count'
 description: '`Iterate.Count` is a helper component / function that returns the count of a data array or object.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Iterate/Count/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.992Z
+checksum: 24a65aff8e8538a7914ffdfd1242ec2bf1593b2d10c2ebb27f733d47f345b138
 ---
+
+# Iterate.Count
 
 ## Import
 
@@ -25,7 +29,7 @@ const MyComponent = () => {
 render(
   <Form.Handler data={{ myList: ['foo', 'bar'] }}>
     <MyComponent />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -41,7 +45,7 @@ const MyComponent = () => {
 render(
   <Form.Handler data={{ myList: ['foo', 'bar'] }}>
     <MyComponent />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -79,7 +83,7 @@ render(
     </Form.Handler>
 
     <Iterate.Count path="/myList" id="myForm" />
-  </>,
+  </>
 )
 ```
 
@@ -111,7 +115,7 @@ render(
     }}
   >
     <Iterate.Count path="/myList" />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -159,4 +163,26 @@ const MyForm = () => {
   )
 }
 render(<MyForm />)
+```
+
+## Properties
+
+```json
+{
+  "path": {
+    "doc": "The path (JSON Pointer) to the array or object to count.",
+    "type": "string",
+    "status": "required"
+  },
+  "id": {
+    "doc": "A Form.Handler or DataContext `id` for when called outside of the context.",
+    "type": "string",
+    "status": "optional"
+  },
+  "filter": {
+    "doc": "A filter function to filter the data before counting.",
+    "type": "string",
+    "status": "optional"
+  }
+}
 ```

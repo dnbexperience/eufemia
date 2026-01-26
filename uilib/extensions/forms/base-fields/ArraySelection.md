@@ -1,8 +1,12 @@
 ---
-title: 'ArraySelection'
+title: 'Field.ArraySelection'
 description: '`Field.ArraySelection` is a component for selecting between a fixed set of options using checkboxes or similar, that will produce a value in the form of an array containing the values of selected options.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/base-fields/ArraySelection/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.259Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
+
+# Field.ArraySelection
 
 ## Import
 
@@ -15,6 +19,8 @@ render(<Field.ArraySelection />)
 
 `Field.ArraySelection` is a component for selecting between a fixed set of options using checkboxes or similar, that will produce a value in the form of an array containing the values of selected options.
 
+Before using this component, ensure there is not a more specific [field component](/uilib/extensions/forms/feature-fields/) available that better suits your needs.
+
 Uses the [Field.Option](/uilib/extensions/forms/base-fields/Option/) pseudo-component to define options.
 
 There is a corresponding [Value.ArraySelection](/uilib/extensions/forms/Value/ArraySelection) component.
@@ -26,7 +32,7 @@ render(
   <Field.ArraySelection>
     <Field.Option />
     <Field.Option />
-  </Field.ArraySelection>,
+  </Field.ArraySelection>
 )
 ```
 
@@ -45,7 +51,7 @@ render(
     }}
   >
     <Field.ArraySelection dataPath="/myDataPath" />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -69,7 +75,7 @@ render(
     <Field.Option value="bar" title="Baar!" />
     <Field.Option value="baz" title="Bazz!" />
     <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>,
+  </Field.ArraySelection>
 )
 ```
 
@@ -85,7 +91,7 @@ render(
     <Field.Option value="bar" title="Baar!" />
     <Field.Option value="baz" title="Bazz!" />
     <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>,
+  </Field.ArraySelection>
 )
 ```
 
@@ -101,7 +107,7 @@ render(
     <Field.Option value="bar" title="Baar!" />
     <Field.Option value="baz" title="Bazz!" />
     <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>,
+  </Field.ArraySelection>
 )
 ```
 
@@ -121,7 +127,7 @@ render(
     <Field.Option value="bar" title="Baar!" />
     <Field.Option value="baz" title="Bazz!" />
     <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>,
+  </Field.ArraySelection>
 )
 ```
 
@@ -137,7 +143,7 @@ render(
     <Field.Option value="bar" title="Baar!" />
     <Field.Option value="baz" title="Bazz!" />
     <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>,
+  </Field.ArraySelection>
 )
 ```
 
@@ -155,7 +161,7 @@ render(
     <Field.Option value="bar" title="Baar!" />
     <Field.Option value="baz" title="Bazz!" />
     <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>,
+  </Field.ArraySelection>
 )
 ```
 
@@ -173,7 +179,7 @@ render(
     <Field.Option value="bar" title="Baar!" />
     <Field.Option value="baz" title="Bazz!" />
     <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>,
+  </Field.ArraySelection>
 )
 ```
 
@@ -192,7 +198,7 @@ render(
     <Field.Option value="bar" title="Baar!" />
     <Field.Option value="baz" title="Bazz!" />
     <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>,
+  </Field.ArraySelection>
 )
 ```
 
@@ -209,7 +215,7 @@ render(
   >
     <Field.Option value="foo" title="Foo!" />
     <Field.Option value="bar" title="Baar!" />
-  </Field.ArraySelection>,
+  </Field.ArraySelection>
 )
 ```
 
@@ -227,7 +233,7 @@ render(
     <Field.Option value="bar" title="Baar!" />
     <Field.Option value="baz" title="Bazz!" />
     <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>,
+  </Field.ArraySelection>
 )
 ```
 
@@ -244,7 +250,7 @@ render(
     <Field.Option value="bar" title="Baar!" disabled />
     <Field.Option value="baz" title="Bazz!" disabled />
     <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>,
+  </Field.ArraySelection>
 )
 ```
 
@@ -261,7 +267,7 @@ render(
     <Field.Option value="bar" title="Baar!" />
     <Field.Option value="baz" title="Bazz!" />
     <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>,
+  </Field.ArraySelection>
 )
 ```
 
@@ -278,7 +284,7 @@ render(
     <Field.Option value="bar" title="Baar!" />
     <Field.Option value="baz" title="Bazz!" />
     <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>,
+  </Field.ArraySelection>
 )
 ```
 
@@ -295,7 +301,7 @@ render(
     <Field.Option value="bar" title="Baar!" />
     <Field.Option value="baz" title="Bazz!" />
     <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>,
+  </Field.ArraySelection>
 )
 ```
 
@@ -375,7 +381,7 @@ render(
 
       <Form.SubmitButton />
     </Flex.Stack>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -405,7 +411,7 @@ render(
       label="Populated by dataPath"
       dataPath="/myDataPath"
     />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -429,7 +435,7 @@ render(
         value: 'baz',
       },
     ]}
-  />,
+  />
 )
 ```
 
@@ -450,7 +456,7 @@ render(
     <Field.Option value="bar" title="Baar!" />
     <Field.Option value="baz" title="Bazz!" />
     <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>,
+  </Field.ArraySelection>
 )
 ```
 
@@ -467,7 +473,7 @@ render(
     <Field.Option value="bar" title="Baar!" />
     <Field.Option value="baz" title="Bazz!" />
     <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>,
+  </Field.ArraySelection>
 )
 ```
 
@@ -486,7 +492,7 @@ render(
     <Field.Option value="bar" title="Baar!" />
     <Field.Option value="baz" title="Bazz!" />
     <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>,
+  </Field.ArraySelection>
 )
 ```
 
@@ -505,7 +511,7 @@ render(
     <Field.Option value="bar" title="Baar!" />
     <Field.Option value="baz" title="Bazz!" />
     <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>,
+  </Field.ArraySelection>
 )
 ```
 
@@ -525,7 +531,7 @@ render(
     <Field.Option value="bar" title="Baar!" />
     <Field.Option value="baz" title="Bazz!" />
     <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>,
+  </Field.ArraySelection>
 )
 ```
 
@@ -543,7 +549,7 @@ render(
   >
     <Field.Option value="foo" title="Foo!" />
     <Field.Option value="bar" title="Baar!" />
-  </Field.ArraySelection>,
+  </Field.ArraySelection>
 )
 ```
 
@@ -562,7 +568,7 @@ render(
     <Field.Option value="bar" title="Baar!" />
     <Field.Option value="baz" title="Bazz!" />
     <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>,
+  </Field.ArraySelection>
 )
 ```
 
@@ -580,7 +586,7 @@ render(
     <Field.Option value="bar" title="Baar!" disabled />
     <Field.Option value="baz" title="Bazz!" disabled />
     <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>,
+  </Field.ArraySelection>
 )
 ```
 
@@ -598,7 +604,7 @@ render(
     <Field.Option value="bar" title="Baar!" />
     <Field.Option value="baz" title="Bazz!" />
     <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>,
+  </Field.ArraySelection>
 )
 ```
 
@@ -616,7 +622,7 @@ render(
     <Field.Option value="bar" title="Baar!" />
     <Field.Option value="baz" title="Bazz!" />
     <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>,
+  </Field.ArraySelection>
 )
 ```
 
@@ -634,7 +640,7 @@ render(
     <Field.Option value="bar" title="Baar!" />
     <Field.Option value="baz" title="Bazz!" />
     <Field.Option value="qux" title="Quxx!" />
-  </Field.ArraySelection>,
+  </Field.ArraySelection>
 )
 ```
 
@@ -665,7 +671,7 @@ render(
       label="Populated by dataPath"
       dataPath="/myDataPath"
     />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -690,7 +696,7 @@ render(
         value: 'baz',
       },
     ]}
-  />,
+  />
 )
 ```
 
@@ -766,7 +772,7 @@ render(
         </Form.Visibility>
       </Field.ArraySelection>
     </Form.Card>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -788,6 +794,81 @@ render(
     <Field.Option value="quux" title="Quuux!" />
     <Field.Option value="quuz" title="Quuuuz!" />
     <Field.Option value="corge" title="Corge!" />
-  </Field.ArraySelection>,
+  </Field.ArraySelection>
 )
+```
+
+## Properties
+
+### Field-specific properties
+
+```json
+{
+  "variant": {
+    "doc": "Choice of UI feature.",
+    "type": ["'checkbox'", "'button'", "'checkbox-button'"],
+    "defaultValue": "'checkbox'",
+    "status": "optional"
+  },
+  "optionsLayout": {
+    "doc": "Layout for the list of options.",
+    "type": ["'horizontal'", "'vertical'"],
+    "defaultValue": "'vertical'",
+    "status": "optional"
+  },
+  "children": {
+    "doc": "For providing `<Field.Option>` components.",
+    "type": "React.Node",
+    "status": "optional"
+  },
+  "size": {
+    "doc": "The sizes you can choose is small (1.5rem), default (2rem), medium (2.5rem) and large (3rem) are supported component sizes. Defaults to default / null. Also, if you define a number like size=\"2\" then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).",
+    "type": "string",
+    "status": "optional"
+  },
+  "data": {
+    "doc": "Data to be used for the component. The object needs to have a `value` and a `title` property. Provide the Dropdown or Autocomplete data in the format documented here: [Dropdown](/uilib/components/dropdown) and [Autocomplete](/uilib/components/autocomplete) documentation.",
+    "type": "array",
+    "status": "optional"
+  },
+  "dataPath": {
+    "doc": "The path to the context data (Form.Handler). The context data object needs to have a `value` and a `title` property. The generated options will be placed above given JSX based children.",
+    "type": "string",
+    "status": "optional"
+  }
+}
+```
+
+### General properties
+
+<PropertiesTable
+  props={FieldProperties}
+  valueType="Array<string | number>"
+/>
+
+## Events
+
+```json
+{
+  "onChange": {
+    "doc": "Will be called on value changes made by the user, with the new value as argument. When an `async` function is used, the corresponding [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) will show an indicator on the field label. You can return `{ success: 'saved' } as const` to show a success symbol, or an error or an object with these keys `{ info: 'Info message', warning: 'Warning message', error: Error('My error') } as const`. The second parameter is an object that e.g. contains `props` (all given `Field.*` properties).",
+    "type": "(value) => void",
+    "status": "optional"
+  },
+  "onFocus": {
+    "doc": "Will be called when the component gets into focus. Like clicking inside a text input or opening a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `props` (all given `Field.*` properties).",
+    "type": "(value) => void",
+    "status": "optional"
+  },
+  "onBlur": {
+    "doc": "Will be called when the component stop being in focus. Like when going to next field, or closing a dropdown. Called with active value as argument. The second parameter is an object that e.g. contains `props` (all given `Field.*` properties).",
+    "type": "(value) => void",
+    "status": "optional"
+  },
+  "onStatusChange": {
+    "doc": "Called whenever the status messages (info, warning or error) gets visible or changes. Receives the current `{ info, warning, error }` object.",
+    "type": "({ info?, warning?, error? }: FieldStatus) => void",
+    "status": "optional"
+  }
+}
 ```

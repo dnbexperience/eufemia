@@ -1,8 +1,12 @@
 ---
-title: 'Upload'
+title: 'Field.Upload'
 description: '`Field.Upload` is a wrapper for the Upload component to make it easier to use inside a form.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/more-fields/Upload/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.298Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
+
+# Field.Upload
 
 ## Import
 
@@ -65,7 +69,7 @@ The `path` property represents an array with an object described above:
 render(
   <Form.Handler defaultData={{ myFiles: files }}>
     <Field.Upload path="/myFiles" />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -217,7 +221,7 @@ render(
       labelDescription="My description"
       onChange={(files) => console.log('onChange', files)}
     />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -232,7 +236,7 @@ render(
       labelDescription="My description"
       onChange={(files) => console.log('onChange', files)}
     />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -245,7 +249,7 @@ render(
       <Field.Upload path="/myFiles" required />
       <Form.SubmitButton />
     </Flex.Stack>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -264,7 +268,7 @@ render(
     }}
   >
     <Field.Upload path="/myFiles" />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -278,7 +282,7 @@ render(
       title: 'Help title',
       content: 'Help content',
     }}
-  />,
+  />
 )
 ```
 
@@ -299,7 +303,7 @@ render(
     acceptedFileTypes={['pdf']}
     filesAmountLimit={1}
     fileMaxSize={1}
-  />,
+  />
 )
 ```
 
@@ -325,7 +329,7 @@ render(
       <Form.SubmitButton />
       <Tools.Log />
     </Flex.Stack>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -351,7 +355,7 @@ const MyForm = () => {
   )
 }
 async function mockAsyncFileUpload(
-  newFiles: UploadValue,
+  newFiles: UploadValue
 ): Promise<UploadValue> {
   const updatedFiles: UploadValue = []
   for (const [index, file] of Object.entries(newFiles)) {
@@ -437,7 +441,7 @@ render(
   <Field.Upload
     onFileDelete={mockAsyncFileRemoval}
     acceptedFileTypes={['jpg', 'png']}
-  />,
+  />
 )
 ```
 
@@ -447,12 +451,12 @@ render(
 async function mockAsyncFileClick({ fileItem }) {
   const request = createRequest()
   console.log(
-    `making API request to fetch the url of the file: ${fileItem.file.name}`,
+    `making API request to fetch the url of the file: ${fileItem.file.name}`
   )
   await request(2000) // Simulate a request
   window.open(
     `https://eufemia.dnb.no/images/avatars/${fileItem.file.name}`,
-    '_blank',
+    '_blank'
   )
 }
 render(
@@ -467,7 +471,7 @@ render(
     }}
   >
     <Field.Upload path="/myFiles" onFileClick={mockAsyncFileClick} />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -561,7 +565,7 @@ render(
     </Form.Card>
 
     <Form.SubmitButton />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -582,7 +586,7 @@ render(
       <Field.Upload path="/myFiles" width="large" label="large" />
       <Field.Upload path="/myFiles" width="stretch" label="stretch" />
     </Form.Card>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -595,7 +599,7 @@ render(
       title: 'Help title',
       content: 'Help content',
     }}
-  />,
+  />
 )
 ```
 
@@ -618,6 +622,238 @@ render(
       labelDescription="My description"
       onChange={(files) => console.log('onChange', files)}
     />
-  </Form.Handler>,
+  </Form.Handler>
 )
+```
+
+## Properties
+
+### Field-specific properties
+
+```json
+{
+  "fileHandler": {
+    "doc": "File handler function that takes newly added files (`newFiles: UploadValue`) as a parameter and returns the processed files. The function can either be synchronous or asynchronous. It returns a promise (`Promise<UploadValue>`) containing the processed files when asynchronous.",
+    "type": "function",
+    "status": "optional"
+  },
+  "id": {
+    "doc": "Unique id used together with the `useUpload` hook to manage the files. Needed when wanting to connect with the `useUpload` hook.",
+    "type": ["string", "Function", "Object", "React.Context"],
+    "status": "optional"
+  },
+  "children": {
+    "doc": "Content to display below the `title` and `text`. Can be used to add custom content.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "variant": {
+    "doc": "Defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.",
+    "type": ["normal", "compact"],
+    "status": "optional"
+  },
+  "acceptedFileTypes": {
+    "doc": "List of accepted file types. Either as string or [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype). When providing a list of [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype), the accepted file types will be presented in a table(see [example](/uilib/components/upload/demos/#upload-with-file-max-size-based-on-file-type)).",
+    "type": ["Array<string>", "Array<AcceptedFileType>"],
+    "status": "required"
+  },
+  "filesAmountLimit": {
+    "doc": "Defines the amount of files the user can select and upload. Defaults to `100`.",
+    "type": "number",
+    "status": "optional"
+  },
+  "fileMaxSize": {
+    "doc": "Defines the max file size of each file in MB. Use either `0` or `false` to disable. Defaults to 5 MB.",
+    "type": ["number", "false"],
+    "status": "optional"
+  },
+  "download": {
+    "doc": "Causes the browser to treat all listed files as downloadable instead of opening them in a new browser tab or window. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "allowDuplicates": {
+    "doc": "Allows uploading of duplicate files. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "disableDragAndDrop": {
+    "doc": "Disables file drag and drop, by removing the drop zone. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "buttonProps": {
+    "doc": "Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object, to customize the upload button behavior and appearance.",
+    "type": "ButtonProps",
+    "status": "optional"
+  },
+  "skeleton": {
+    "doc": "Skeleton should be applied when loading content.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
+```
+
+### General properties
+
+<PropertiesTable
+props={FieldProperties}
+valueType={['Array<{ file, id }>']}
+omit={[
+'layout',
+'layoutOptions',
+'onBlurValidator',
+'onChangeValidator',
+'contentWidth',
+'labelSize',
+'labelDescriptionInline',
+'labelSrOnly',
+'labelSize',
+]}
+/>
+
+## Translations
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "Upload.buttonText": {
+      "nb-NO": "Velg filer",
+      "en-GB": "Choose files",
+      "sv-SE": "Välj filer",
+      "da-DK": "Vælg filer"
+    },
+    "Upload.buttonTextSingular": {
+      "nb-NO": "Velg fil",
+      "en-GB": "Choose file",
+      "sv-SE": "Välj fil",
+      "da-DK": "Vælg fil"
+    },
+    "Upload.deleteButton": {
+      "nb-NO": "Slett",
+      "en-GB": "Delete",
+      "sv-SE": "Radera",
+      "da-DK": "Slet"
+    },
+    "Upload.errorAmountLimit": {
+      "nb-NO": "Det er begrenset hvor mange filer du kan laste opp (%amount).",
+      "en-GB": "There is a limit to how many files you can upload (%amount).",
+      "sv-SE": "Det är begränsat hur många filer du kan ladda upp (%amount).",
+      "da-DK": "Der er en grænse for, hvor mange filer du kan uploade (%amount)."
+    },
+    "Upload.errorInvalidFiles": {
+      "nb-NO": "Fjern alle filer som har feil.",
+      "en-GB": "Remove all files that have errors.",
+      "sv-SE": "Ta bort alla filer som innehåller fel.",
+      "da-DK": "Fjern alle filer, der indeholder fejl."
+    },
+    "Upload.errorLargeFile": {
+      "nb-NO": "Filen du prøver å laste opp er for stor, den maksimale støttede størrelsen er %size MB.",
+      "en-GB": "The file you are trying to upload is too big, the maximum size supported is %size MB.",
+      "sv-SE": "Filen du försöker ladda upp är för stor, den maximalt tillåtna storleken är %size MB.",
+      "da-DK": "Filen du prøver at uploade er for stor, den maksimale understøttede størrelse er %size MB."
+    },
+    "Upload.errorRequired": {
+      "nb-NO": "Du må laste opp minst en fil.",
+      "en-GB": "You must upload a file.",
+      "sv-SE": "Du måste ladda upp minst en fil.",
+      "da-DK": "Du skal uploade mindst én fil."
+    },
+    "Upload.errorUnsupportedFile": {
+      "nb-NO": "Filen du prøver å laste opp er ikke støttet.",
+      "en-GB": "The file you are trying to upload is not supported.",
+      "sv-SE": "Filen du försöker ladda upp stöds inte.",
+      "da-DK": "Filen du prøver at uploade er ikke understøttet."
+    },
+    "Upload.fileAmountDescription": {
+      "nb-NO": "Maks antall filer:",
+      "en-GB": "Max. number of files:",
+      "sv-SE": "Max antal filer:",
+      "da-DK": "Maks antal filer:"
+    },
+    "Upload.fileListAriaLabel": {
+      "nb-NO": "opplastede filer",
+      "en-GB": "uploaded files",
+      "sv-SE": "uppladdade filer",
+      "da-DK": "uploadede filer"
+    },
+    "Upload.fileSizeContent": {
+      "nb-NO": "%size MB",
+      "en-GB": "%size MB",
+      "sv-SE": "%size MB",
+      "da-DK": "%size MB"
+    },
+    "Upload.fileSizeDescription": {
+      "nb-NO": "Maks filstørrelse:",
+      "en-GB": "Max. file size:",
+      "sv-SE": "Max filstorlek:",
+      "da-DK": "Maks filstørrelse:"
+    },
+    "Upload.fileTypeDescription": {
+      "nb-NO": "Tillatte filformater:",
+      "en-GB": "Allowed formats:",
+      "sv-SE": "Tillåtna filformat:",
+      "da-DK": "Tilladte filformater:"
+    },
+    "Upload.fileTypeTableCaption": {
+      "nb-NO": "Tillatte filformater og maks filstørrelse",
+      "en-GB": "Allowed formats and max. file size",
+      "sv-SE": "Tillåtna filformat och max filstorlek",
+      "da-DK": "Tilladte filformater og maks filstørrelse"
+    },
+    "Upload.loadingText": {
+      "nb-NO": "Laster",
+      "en-GB": "Loading",
+      "sv-SE": "Laddar",
+      "da-DK": "Indlæser"
+    },
+    "Upload.text": {
+      "nb-NO": "Dra og slipp eller velg hvilke filer du vil laste opp.",
+      "en-GB": "Drag & drop your files or choose files to upload.",
+      "sv-SE": "Dra och släpp eller välj vilka filer du vill ladda upp.",
+      "da-DK": "Træk og slip eller vælg hvilke filer du vil uploade."
+    },
+    "Upload.textSingular": {
+      "nb-NO": "Dra og slipp eller velg hvilken fil du vil laste opp.",
+      "en-GB": "Drag & drop your file or choose which file to upload.",
+      "sv-SE": "Dra och släpp eller välj vilken fil du vill ladda upp.",
+      "da-DK": "Træk og slip eller vælg hvilken fil du vil uploade."
+    },
+    "Upload.title": {
+      "nb-NO": "Last opp dokumenter",
+      "en-GB": "Upload documents",
+      "sv-SE": "Ladda upp dokument",
+      "da-DK": "Upload dokumenter"
+    }
+  }
+}
+```
+
+## Events
+
+```json
+{
+  "onChange": {
+    "doc": "Will be called on `files` changes made by the user. Access the files with `{ files }` (containing each a `fileItem`).",
+    "type": "function",
+    "status": "optional"
+  },
+  "onFileDelete": {
+    "doc": "Will be called once a file gets deleted by the user. Access the deleted file with `{ fileItem }`.",
+    "type": "function",
+    "status": "optional"
+  },
+  "onFileClick": {
+    "doc": "Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`. When providing this prop, the file will be rendered as a button instead of an anchor or plain text.",
+    "type": "function",
+    "status": "optional"
+  }
+}
 ```

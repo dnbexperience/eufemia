@@ -1,8 +1,12 @@
 ---
-title: 'Schema validation'
+title: 'Form.SchemaValidation'
 description: 'Schema validation can be done with a JSON Schema which makes it possible to describe the data structure and validation needs, both for the individual value, and more complex rules across the data set.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Form/schema-validation/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.962Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
+
+# Form.SchemaValidation
 
 ## Table of Contents
 
@@ -214,7 +218,7 @@ const ajv = makeAjvInstance(
   new Ajv({
     strict: true,
     allErrors: true,
-  }),
+  })
 )
 ```
 
@@ -256,7 +260,7 @@ import {
 render(
   <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
     <Field.String path="/myKey" value="1" validateInitially />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -296,7 +300,7 @@ render(
       value=""
       validateInitially
     />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -345,7 +349,7 @@ render(
         notEmpty: 'Or on a single Field itself',
       }}
     />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -363,7 +367,7 @@ render(
     <Tools.GenerateSchema log>
       <Field.String path="/myString" pattern="^[a-z]{2}[0-9]+$" required />
     </Tools.GenerateSchema>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -392,7 +396,7 @@ it('should match generated schema snapshot', () => {
         <Field.Name.First path="/firstName" />
         <Field.Name.Last path="/lastName" minLength={2} required />
       </Tools.GenerateSchema>
-    </Form.Handler>,
+    </Form.Handler>
   )
 
   const { schema } = generateRef.current()
@@ -439,7 +443,7 @@ const schema = {
 render(
   <Form.Handler ajvInstance={ajv}>
     <Field.String schema={schema} />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -477,7 +481,7 @@ render(
     </Form.Card>
 
     <Form.SubmitButton />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -531,7 +535,7 @@ render(
     </Form.Card>
 
     <Form.SubmitButton />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -653,7 +657,7 @@ render(
 
       <Form.SubmitButton />
     </Flex.Vertical>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -810,7 +814,7 @@ render(
       <Tools.Log label="Form data" />
       <Tools.Errors label="Errors" />
     </Flex.Stack>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -911,7 +915,7 @@ const schema = z
               message: 'Field.errorRequired',
             })
           }
-        },
+        }
       )
     }
 
@@ -988,6 +992,6 @@ render(
       <Tools.Log label="Form data" />
       <Tools.Errors label="Errors" />
     </Flex.Stack>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```

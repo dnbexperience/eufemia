@@ -1,8 +1,12 @@
 ---
-title: 'RemoveButton'
+title: 'Iterate.RemoveButton'
 description: '`Iterate.RemoveButton` connects to the array of a surrounding Iterate.Array and removes the item when clicked.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Iterate/RemoveButton/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.022Z
+checksum: f8ee112a21fc50920cdfd3cec2d68bd5c9db04abc522b7368dec8674cc28ddc9
 ---
+
+# Iterate.RemoveButton
 
 ## Import
 
@@ -23,7 +27,7 @@ render(
     <Iterate.Array path="/myList">
       <Iterate.RemoveButton text="Remove item" />
     </Iterate.Array>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -47,7 +51,7 @@ render(
     <Iterate.Array path="/myList">
       <Iterate.RemoveButton text="Remove item {itemNo}" />
     </Iterate.Array>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -69,7 +73,7 @@ render(
         onChange={(value) => console.log('onChange', value)}
       />
     </Flex.Horizontal>
-  </Iterate.Array>,
+  </Iterate.Array>
 )
 ```
 
@@ -97,6 +101,45 @@ render(
         <Iterate.RemoveButton text="Remove avenger" />
       </Flex.Horizontal>
     </Iterate.Array>
-  </Form.Handler>,
+  </Form.Handler>
 )
+```
+
+## Properties
+
+```json
+{
+  "showConfirmDialog": {
+    "doc": "Use `true` to show a confirmation dialog before removing the item.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "[Button](/uilib/components/button/properties)": {
+    "doc": "All button properties.",
+    "type": "Various",
+    "status": "optional"
+  }
+}
+```
+
+## Translations
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "RemoveButton.confirmRemoveText": {
+      "nb-NO": "Er du sikker på at du vil slette dette?",
+      "en-GB": "Are you sure you want to delete this?",
+      "sv-SE": "Är du säker på att du vill ta bort detta?",
+      "da-DK": "Er du sikker på, at du vil fjerne dette?"
+    },
+    "RemoveButton.text": {
+      "nb-NO": "Fjern",
+      "en-GB": "Remove",
+      "sv-SE": "Ta bort",
+      "da-DK": "Fjern"
+    }
+  }
+}
 ```

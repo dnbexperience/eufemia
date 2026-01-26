@@ -1,8 +1,12 @@
 ---
-title: 'ArraySelection'
+title: 'Value.ArraySelection'
 description: '`Value.ArraySelection` is a wrapper component for displaying string values, with user experience tailored for an array of selected values.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Value/ArraySelection/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.074Z
+checksum: f12df0403993f342663e615901d7bfd301426d2474518338f5240f45e61f8d41
 ---
+
+# Value.ArraySelection
 
 ## Import
 
@@ -14,6 +18,8 @@ render(<Value.ArraySelection />)
 ## Description
 
 `Value.ArraySelection` is a wrapper component for displaying string values, with user experience tailored for an array of selected values.
+
+Before using this component, ensure there is not a more specific [value component](/uilib/extensions/forms/Value/components/) available that better suits your needs.
 
 There is a corresponding [Field.ArraySelection](/uilib/extensions/forms/base-fields/ArraySelection) component.
 
@@ -57,7 +63,7 @@ render(
         type: 'disjunction',
       }}
     />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -71,10 +77,7 @@ render(<Value.ArraySelection label="Label text" showEmpty />)
 
 ```tsx
 render(
-  <Value.ArraySelection
-    label="Label text"
-    value={['Foo', 'Bar', 'Baz']}
-  />,
+  <Value.ArraySelection label="Label text" value={['Foo', 'Bar', 'Baz']} />
 )
 ```
 
@@ -86,7 +89,7 @@ render(
     This is before the component{' '}
     <Value.ArraySelection value={['Foo', 'Bar', 'Baz']} inline /> This is
     after the component
-  </P>,
+  </P>
 )
 ```
 
@@ -105,7 +108,7 @@ render(
       label="Unordered List"
       variant="ul"
     />
-  </Value.SummaryList>,
+  </Value.SummaryList>
 )
 ```
 
@@ -176,6 +179,83 @@ render(
 
       <Value.ArraySelection inheritLabel path="/myPath" />
     </Flex.Stack>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
+
+## Properties
+
+### Value-specific properties
+
+```json
+{
+  "value": {
+    "doc": "The value to format. Can be given as `children` instead.",
+    "type": ["Array<React.ReactNode>"],
+    "status": "optional"
+  },
+  "children": {
+    "doc": "The children to format.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "format": {
+    "doc": "Formatting options for the value when variant is `text`. See the [Intl.ListFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/ListFormat/ListFormat) documentation.",
+    "type": "Intl.ListFormatOptions",
+    "status": "optional"
+  },
+  "variant": {
+    "doc": "Defines if the value should be displayed in list format (`ol`, `ul`) or regular text format in one line. Defaults to `text`.",
+    "type": ["ol", "ul", "text"],
+    "status": "optional"
+  },
+  "listType": {
+    "doc": "Defines the type of list styling used for list variants. Used together with variant `ol` and `ul`. Variant `ol`: `a`, `A`, `i`, `I` and `1`. Variant `ul`: `circle`, `disc` and `square`. Defaults to `undefined`.",
+    "type": [
+      "a",
+      "A",
+      "i",
+      "I",
+      "1",
+      "circle",
+      "disc",
+      "square",
+      "unstyled",
+      "undefined"
+    ],
+    "status": "optional"
+  },
+  "inside": {
+    "doc": "Defines the position of the marker.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "outside": {
+    "doc": "Defines the position of the marker (default).",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "nested": {
+    "doc": "Will ensure a nested structure of several lists.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "innerRef": {
+    "doc": "Send along a custom React Ref.",
+    "type": "React.RefObject",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
+```
+
+### General properties
+
+<PropertiesTable
+  props={ValueProperties}
+  valueType="Array<string | number>"
+/>

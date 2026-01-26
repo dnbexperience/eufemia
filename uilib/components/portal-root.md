@@ -1,8 +1,12 @@
 ---
 title: 'PortalRoot'
 description: 'PortalRoot is a React component that helps you make React Portals.'
-metadata: https://eufemia.dnb.no/uilib/components/portal-root/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.463Z
+checksum: 38d092b4ad2fd4f7fdae39a7c2361f67a11171d1a440dd483dfe3306f64e0d50
 ---
+
+# PortalRoot
 
 ## Import
 
@@ -100,7 +104,7 @@ import { PortalRoot } from '@dnb/eufemia'
 
 // Insert the portal root before the element with id="my-custom-id"
 render(
-  <PortalRoot beforeSelector="#my-custom-id">Your content</PortalRoot>,
+  <PortalRoot beforeSelector="#my-custom-id">Your content</PortalRoot>
 )
 
 // Insert the portal root as the first child inside the element with class="my-selector"
@@ -119,7 +123,7 @@ import { PortalRoot, DatePicker } from '@dnb/eufemia'
 render(
   <PortalRoot.Provider beforeSelector="#my-custom-id">
     <DatePicker />
-  </PortalRoot.Provider>,
+  </PortalRoot.Provider>
 )
 ```
 
@@ -132,4 +136,39 @@ This makes the `DatePicker` render its portal content right before `my-custom-id
     <div id="my-custom-id" />
   </div>
 </body>
+```
+
+## Properties
+
+```json
+{
+  "innerRef": {
+    "doc": "The ref of the element that will be used.",
+    "type": [
+      "React.Ref<HTMLElement>",
+      "React.MutableRefObject<HTMLElement>"
+    ],
+    "status": "optional"
+  },
+  "id": {
+    "doc": "The id attribute for the portal root element.",
+    "type": "string",
+    "status": "optional"
+  },
+  "insideSelector": {
+    "doc": "CSS selector for a container to place the portal root inside. The portal element is inserted as the first child of the matched element.",
+    "type": "string",
+    "status": "optional"
+  },
+  "beforeSelector": {
+    "doc": "CSS selector for a target element; the portal root will be inserted directly before the first matched element.",
+    "type": "string",
+    "status": "optional"
+  },
+  "children": {
+    "doc": "The content that will be placed in a React Portal.",
+    "type": "ReactNode",
+    "status": "required"
+  }
+}
 ```

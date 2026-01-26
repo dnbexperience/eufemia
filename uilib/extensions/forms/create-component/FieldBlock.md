@@ -1,8 +1,12 @@
 ---
 title: 'FieldBlock'
 description: '`FieldBlock` is a reusable wrapper for building Field-components. It shows surrounding elements through properties from `FieldProps` like `label` and `error`.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/create-component/FieldBlock/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.277Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
+
+# FieldBlock
 
 ## Import
 
@@ -48,7 +52,7 @@ More information about the usage can be found in the [create your own component]
 
 ```tsx
 render(
-  <FieldBlock label="Label text">Input features goes here</FieldBlock>,
+  <FieldBlock label="Label text">Input features goes here</FieldBlock>
 )
 ```
 
@@ -58,7 +62,7 @@ render(
 render(
   <FieldBlock label="Label text" info="For your information">
     Input features goes here
-  </FieldBlock>,
+  </FieldBlock>
 )
 ```
 
@@ -79,7 +83,7 @@ render(
         />
       </FieldBlock>
     </Flex.Stack>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -89,7 +93,7 @@ render(
 render(
   <FieldBlock label="Label text" layout="horizontal">
     Input features goes here
-  </FieldBlock>,
+  </FieldBlock>
 )
 ```
 
@@ -103,7 +107,7 @@ render(
     info="For your information"
   >
     Input features goes here
-  </FieldBlock>,
+  </FieldBlock>
 )
 ```
 
@@ -113,7 +117,7 @@ render(
 render(
   <FieldBlock label="Label text" labelDescription="Description text">
     Input features goes here
-  </FieldBlock>,
+  </FieldBlock>
 )
 ```
 
@@ -123,7 +127,7 @@ render(
 render(
   <FieldBlock labelDescription="Description text">
     Input features goes here
-  </FieldBlock>,
+  </FieldBlock>
 )
 ```
 
@@ -169,7 +173,7 @@ render(
         </FieldBlock>
       </Flex.Item>
     </Flex.Container>
-  </FieldBlock>,
+  </FieldBlock>
 )
 ```
 
@@ -194,7 +198,7 @@ render(
       minLength={5}
       validateInitially
     />
-  </Field.Composition>,
+  </Field.Composition>
 )
 ```
 
@@ -227,7 +231,7 @@ render(
         content: 'Dette er hvor mye du har tenkt å låne totalt.',
       }}
     />
-  </Flex.Stack>,
+  </Flex.Stack>
 )
 ```
 
@@ -258,7 +262,7 @@ render(
         content: 'Dette er hvor mye du har tenkt å låne totalt.',
       }}
     />
-  </Flex.Stack>,
+  </Flex.Stack>
 )
 ```
 
@@ -287,7 +291,7 @@ render(
         content: 'Dette er hvor mye du har tenkt å låne totalt.',
       }}
     />
-  </Flex.Stack>,
+  </Flex.Stack>
 )
 ```
 
@@ -318,7 +322,7 @@ render(
         content: 'Dette er hvor mye du har tenkt å låne totalt.',
       }}
     />
-  </Form.Card>,
+  </Form.Card>
 )
 ```
 
@@ -366,7 +370,7 @@ render(
       }}
       info="Info message"
     />
-  </Form.Card>,
+  </Form.Card>
 )
 ```
 
@@ -406,7 +410,7 @@ render(
         content: 'Dette er hvor mye du har tenkt å låne totalt.',
       }}
     />
-  </Form.Card>,
+  </Form.Card>
 )
 ```
 
@@ -435,7 +439,7 @@ render(
         await new Promise((resolve) => setTimeout(resolve, 1000))
       }}
     />
-  </Flex.Stack>,
+  </Flex.Stack>
 )
 ```
 
@@ -518,7 +522,7 @@ render(
         Right content
       </FieldBlock>
     </Flex.Horizontal>
-  </Flex.Stack>,
+  </Flex.Stack>
 )
 ```
 
@@ -527,7 +531,7 @@ render(
   <FieldBlock layout="horizontal" composition width="large">
     <Field.String label="Foo" width="medium" />
     <Field.String label="Bar" width="medium" />
-  </FieldBlock>,
+  </FieldBlock>
 )
 ```
 
@@ -574,7 +578,7 @@ render(
         value
       </FieldBlock>
     </Form.Card>
-  </Flex.Stack>,
+  </Flex.Stack>
 )
 ```
 
@@ -623,6 +627,149 @@ render(
         value
       </FieldBlock>
     </Form.Card>
-  </Flex.Stack>,
+  </Flex.Stack>
 )
+```
+
+## Properties
+
+```json
+{
+  "label": {
+    "doc": "Field label to show above / before the input feature.",
+    "type": "string",
+    "status": "optional"
+  },
+  "labelDescription": {
+    "doc": "A more discreet text displayed beside the label (i.e for \"(optional)\").",
+    "type": "string",
+    "status": "optional"
+  },
+  "labelDescriptionInline": {
+    "doc": "If true, the `labelDescription` will be displayed on the same line as the label.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "labelSrOnly": {
+    "doc": "Use `true` to make the label only readable by screen readers.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "labelSize": {
+    "doc": "Define one of the following [heading sizes](/uilib/elements/heading/): `medium` or `large`.",
+    "type": ["string", "false"],
+    "status": "optional"
+  },
+  "help": {
+    "doc": "Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
+    "type": "object",
+    "status": "optional"
+  },
+  "hideHelpButton": {
+    "doc": "Set `true` when you render the inline help button outside the label (e.g. inside a checkbox suffix) so FieldBlock skips drawing the default label help button.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "layout": {
+    "doc": "Layout for the label and input. Can be `horizontal` or `vertical`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "layoutOptions": {
+    "doc": "Use this to set additional options for the `horizontal` layout. E.g. `{ width: \"medium\" }`. You can also use a custom width `{number}rem`. Instead of a width, you can use a min/max width. E.g. `{ minWidth: \"6rem\", maxWidth: \"12rem\" }`.",
+    "type": "object",
+    "status": "optional"
+  },
+  "width": {
+    "doc": "Will set the width for the whole block. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
+    "type": ["string", "false"],
+    "status": "optional"
+  },
+  "contentWidth": {
+    "doc": "Will set the width for its contents. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
+    "type": ["string", "false"],
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  },
+  "labelHeight": {
+    "doc": "Defines the height of an component (size prop), so the label can be aligned correctly. Can be `default`, `small`, `medium`, `large`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "asFieldset": {
+    "doc": "Use `true` when you have several form elements. This way a `fieldset` with a `legend` is used.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "align": {
+    "doc": "`center` or `bottom` for aligning the contents vertically. Defaults to `bottom`.",
+    "type": ["string", "false"],
+    "status": "optional"
+  },
+  "disableStatusSummary": {
+    "doc": "Use `true` to disable the error summary.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "composition": {
+    "doc": "Use `true` for when you have more than one field wrapped.",
+    "type": "true",
+    "status": "optional"
+  },
+  "disabled": {
+    "doc": "Set `true` to make the inner [FormLabel](/uilib/components/form-label/) behave as disabled.",
+    "type": "boolean",
+    "status": "optional"
+  }
+}
+```
+
+## Translations
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "Field.errorPattern": {
+      "nb-NO": "Verdien er ugyldig.",
+      "en-GB": "The value is invalid.",
+      "sv-SE": "Värdet är ogiltigt.",
+      "da-DK": "Ugyldig værdi."
+    },
+    "Field.errorRequired": {
+      "nb-NO": "Dette feltet må fylles ut.",
+      "en-GB": "This field is required.",
+      "sv-SE": "Detta fält måste fyllas i.",
+      "da-DK": "Dette felt skal udfyldes."
+    },
+    "Field.errorSummary": {
+      "nb-NO": "Feil som må rettes:",
+      "en-GB": "Please correct the following errors:",
+      "sv-SE": "Fel som måste åtgärdas:",
+      "da-DK": "Felter der skal rettes:"
+    },
+    "Field.errorSummaryTitle": {
+      "nb-NO": "Feil som må rettes",
+      "en-GB": "Please correct the following errors",
+      "sv-SE": "Fel som måste åtgärdas",
+      "da-DK": "Felter der skal rettes"
+    },
+    "Field.optionalLabelSuffix": {
+      "nb-NO": "(valgfritt)",
+      "en-GB": "(optional)",
+      "sv-SE": "(valfritt)",
+      "da-DK": "(valgfrit)"
+    },
+    "Field.stateSummary": {
+      "nb-NO": "Oppsummering:",
+      "en-GB": "Summary:",
+      "sv-SE": "Sammanfattning:",
+      "da-DK": "Oversigt:"
+    }
+  }
+}
 ```

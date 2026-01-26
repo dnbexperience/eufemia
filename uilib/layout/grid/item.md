@@ -1,8 +1,12 @@
 ---
 title: 'Grid Item'
 description: '`Grid.Item` is a building block for CSS Grid based layouts.'
-metadata: https://eufemia.dnb.no/uilib/layout/grid/item/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.327Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
+
+# Grid Item
 
 ## Import
 
@@ -39,7 +43,7 @@ render(
   <Grid.Container>
     <Grid.Item span={[1, 6]}>uses 50% in width</Grid.Item>
     <Grid.Item span={[7, 12]}>uses 50% in width</Grid.Item>
-  </Grid.Container>,
+  </Grid.Container>
 )
 ```
 
@@ -73,7 +77,7 @@ render(
     >
       uses 50% or 100% based on the screen size
     </Grid.Item>
-  </Grid.Container>,
+  </Grid.Container>
 )
 ```
 
@@ -131,7 +135,7 @@ render(
     >
       Item D
     </Grid.Item>
-  </Grid.Container>,
+  </Grid.Container>
 )
 ```
 
@@ -154,7 +158,7 @@ render(
     <Grid.Item span={[7, 12]}>
       <Item>Right bottom</Item>
     </Grid.Item>
-  </Grid.Container>,
+  </Grid.Container>
 )
 ```
 
@@ -177,6 +181,23 @@ render(
     <Grid.Item span={[7, 12]}>
       <Item>Right bottom</Item>
     </Grid.Item>
-  </Grid.Container>,
+  </Grid.Container>
 )
+```
+
+## Properties
+
+```json
+{
+  "span": {
+    "doc": "To place the item on the grid with numbers from 1 to 12 (`columns`). Needs always two values, a so called span (from - to) `span={[1, 6]}`. Accepts also `end` like so `span={[1, \"end\"]}` or `full` like so `span={\"full\"}`. You can also provide [Media Query](/uilib/usage/layout/media-queries/) types in an object like so like so `span={{ small: [1, 4], medium: [1, 6], large: [1, 12]}}`.",
+    "type": ["object", "array"],
+    "status": "optional"
+  },
+  "element": {
+    "doc": "Define the type of element. Defaults to `div`.",
+    "type": ["string", "React.Element"],
+    "status": "optional"
+  }
+}
 ```

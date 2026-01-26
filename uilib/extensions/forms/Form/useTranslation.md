@@ -1,8 +1,12 @@
 ---
-title: 'useTranslation'
+title: 'Form.useTranslation'
 description: '`Form.useTranslation` is a hook that returns the translations for the current locale.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Form/useTranslation/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.965Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
+
+# Form.useTranslation
 
 ## Import
 
@@ -28,7 +32,7 @@ function MyComponent() {
 render(
   <Form.Handler locale="en-GB">
     <MyComponent />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -52,7 +56,7 @@ function MyComponent() {
 render(
   <Form.Handler locale="en-GB">
     <MyComponent />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -104,7 +108,7 @@ const MyComponent = () => {
 render(
   <Form.Handler translations={myTranslations}>
     <MyComponent />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -131,7 +135,7 @@ render(
     <Form.SubHeading>
       <Translation<TranslationType> id={(t) => t.custom.string} />
     </Form.SubHeading>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -157,7 +161,7 @@ type TranslationType = (typeof myTranslations)[keyof typeof myTranslations]
 render(
   <Form.Handler translations={myTranslations} locale="en-GB">
     <Translation<TranslationType> id={(t) => t.info} />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -188,7 +192,7 @@ render(
     <Form.Handler>
       <Field.PhoneNumber />
     </Form.Handler>
-  </Provider>,
+  </Provider>
 )
 ```
 
@@ -220,7 +224,7 @@ function MyField() {
 render(
   <Form.Handler locale="sv-SE" translations={translations}>
     <MyField />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 

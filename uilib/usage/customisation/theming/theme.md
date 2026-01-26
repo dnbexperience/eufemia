@@ -1,8 +1,12 @@
 ---
 title: 'Theme'
 description: 'The Theme component is a helper component that lets you create nested theming solutions.'
-metadata: https://eufemia.dnb.no/uilib/usage/customisation/theming/theme/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.349Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
+
+# Theme
 
 ## Description
 
@@ -23,7 +27,7 @@ render(
     <App>
       <MyComponent />
     </App>
-  </Theme>,
+  </Theme>
 )
 ```
 
@@ -72,7 +76,7 @@ render(
         <MyComponent />
       </Theme>
     </App>
-  </Theme>,
+  </Theme>
 )
 ```
 
@@ -86,7 +90,7 @@ import { Theme } from '@dnb/eufemia/shared'
 render(
   <Theme propMapping="my-maps">
     <MyComponent />
-  </Theme>,
+  </Theme>
 )
 ```
 
@@ -149,7 +153,7 @@ render(
     <App>
       <MyComponent />
     </App>
-  </Theme>,
+  </Theme>
 )
 ```
 
@@ -170,7 +174,7 @@ render(
     Sbanken or Eiendom theme Only shown in Sbanken or Eiendom theme Only
     shown in Sbanken then or Eiendom theme – that also includes the fictive
     variant="blue".
-  </Theme>,
+  </Theme>
 )
 ```
 
@@ -184,7 +188,7 @@ render(
 render(
   <Theme name="sbanken">
     <Logo size={40} />
-  </Theme>,
+  </Theme>
 )
 ```
 
@@ -206,6 +210,43 @@ render(
         <CustomComponent>Text with custom color</CustomComponent>
       </Theme>
     </Theme>
-  </MyMapping>,
+  </MyMapping>
 )
+```
+
+## Properties
+
+```json
+{
+  "name": {
+    "doc": "The name of a branding theme. Can be `ui` (universal identity), `eiendom`, `sbanken` or `carnegie`.",
+    "type": ["ui", "eiendom", "sbanken", "carnegie"],
+    "status": "optional"
+  },
+  "size": {
+    "doc": "Will define what sizes of components are used (WIP).",
+    "type": "basis",
+    "status": "optional"
+  },
+  "variant": {
+    "doc": "(WIP).",
+    "type": "string",
+    "status": "optional"
+  },
+  "propMapping": {
+    "doc": "Defines a specific CSS class so you get a declarative way of mapping CSS properties. A set of predefined maps will be available (WIP).",
+    "type": "string",
+    "status": "optional"
+  },
+  "contrastMode": {
+    "doc": "When a component supports a contrast style, it will be used instead for the dedicated area.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "darkMode": {
+    "doc": "When a component supports a dark mode style, it will be used instead for the dedicated area.",
+    "type": "boolean",
+    "status": "optional"
+  }
+}
 ```

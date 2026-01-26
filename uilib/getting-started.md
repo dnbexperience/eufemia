@@ -1,7 +1,9 @@
 ---
 title: 'Getting Started'
 description: 'A fast path to using Eufemia in your app. Install, import styles, render your first component, and explore theming and customization.'
-metadata: https://eufemia.dnb.no/uilib/getting-started/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.304Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
 # Getting Started
@@ -49,19 +51,22 @@ Learn more about importing CSS in [Importing Styles](/uilib/usage/customisation/
 ## Choose Your Path
 
 - [First steps and basics](/uilib/usage/first-steps/the-basics)
+- [Quick reference](/uilib/usage/first-steps/quick-reference)
 - [Use components](/uilib/components)
 - [Use HTML elements](/uilib/elements)
 - [Styling and CSS setup](/uilib/usage/customisation/styling)
 - [Layout](/uilib/usage/layout)
 - [Theming and brand customization](/uilib/usage/customisation/theming)
 - [Internationalization (i18n)](/uilib/usage/customisation/localization)
-- [Helpers and tools](/uilib/helpers/tools)
+- [Helpers and tools](/uilib/usage/first-steps/tools)
 - [Contribution guide](/contribute)
 - [Forms, validation and schema](/uilib/extensions/forms)
 
 ## Code Editor Extensions
 
-Boost your workflow with the [Eufemia VS Code extension](/uilib/helpers/tools/#code-editor-extensions) (spacing, typography and more).
+Boost your workflow with the [Eufemia VS Code extension](/uilib/usage/first-steps/tools/#code-editor-extensions) (spacing, typography and more).
+
+# Welcome Info
 
 ## Please contribute
 

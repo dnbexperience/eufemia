@@ -1,8 +1,12 @@
 ---
-title: 'MainHeading'
+title: 'Form.MainHeading'
 description: '`Form.MainHeading` is a standardized main heading for sections, ensuring default layout, spacing etc.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Form/MainHeading/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.889Z
+checksum: 852178e7769f20736f67a3e4db9a97d5e10326cd12425eeff6aed85ea0fd6c56
 ---
+
+# Form.MainHeading
 
 ## Import
 
@@ -29,7 +33,7 @@ render(
         <Field.Email path="/dataPath" />
       </Form.Card>
     </Flex.Stack>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -79,6 +83,33 @@ render(
     <Form.Card>
       <P>Card contents</P>
     </Form.Card>
-  </Flex.Stack>,
+  </Flex.Stack>
 )
+```
+
+## Properties
+
+```json
+{
+  "level": {
+    "doc": "Define a specific level value to ensure correct level hierarchy. Defaults to `2`.",
+    "type": "number",
+    "status": "optional"
+  },
+  "help": {
+    "doc": "Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
+    "type": "object",
+    "status": "optional"
+  },
+  "children": {
+    "doc": "Heading text / contents.",
+    "type": "React.Node",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
 ```

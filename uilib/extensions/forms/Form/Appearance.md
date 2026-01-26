@@ -1,8 +1,12 @@
 ---
-title: 'Appearance'
+title: 'Form.Appearance'
 description: '`Form.Appearance` is a provider for theming form fields.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Form/Appearance/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.794Z
+checksum: d6b11c80210b7884d976867f8565b1c0f77aa94c858afe0492294e0c643b9630
 ---
+
+# Form.Appearance
 
 ## Import
 
@@ -31,7 +35,7 @@ render(
     <Form.Appearance size="large">
       <Field.String />
     </Form.Appearance>
-  </Form.Appearance>,
+  </Form.Appearance>
 )
 ```
 
@@ -124,6 +128,18 @@ render(
         </Form.Appearance>
       </Flex.Stack>
     </Form.Handler>
-  </Form.Appearance>,
+  </Form.Appearance>
 )
+```
+
+## Properties
+
+```json
+{
+  "size": {
+    "doc": "The sizes you can choose is `default`, `medium` and `large`.",
+    "type": "string",
+    "status": "optional"
+  }
+}
 ```

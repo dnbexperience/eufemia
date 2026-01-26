@@ -1,8 +1,12 @@
 ---
-title: 'NextButton'
+title: 'Wizard.NextButton'
 description: '`Wizard.NextButton` connects to the `Wizard.Context` to move the user to the next step when clicked.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Wizard/NextButton/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.246Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
+
+# Wizard.NextButton
 
 ## Import
 
@@ -28,7 +32,7 @@ render(
       </Wizard.Step>
       <Wizard.Step title="Step 2">next step</Wizard.Step>
     </Wizard.Container>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -48,6 +52,22 @@ render(
     <ComponentBox>
       <Wizard.NextButton />
     </ComponentBox>
-  </Wizard.Provider>,
+  </Wizard.Provider>
 )
+```
+
+## Translations
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "WizardNextButton.text": {
+      "nb-NO": "Neste",
+      "en-GB": "Next",
+      "sv-SE": "Nästa",
+      "da-DK": "Næste"
+    }
+  }
+}
 ```

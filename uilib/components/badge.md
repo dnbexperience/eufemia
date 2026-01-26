@@ -1,8 +1,12 @@
 ---
 title: 'Badge'
 description: 'The Badge component allows the user to focus on new or unread content or notifications.'
-metadata: https://eufemia.dnb.no/uilib/components/badge/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.213Z
+checksum: 2c1982de052a9d5afd0ac34e55c13a93d11ef62bbd002fa16d2bec40fedc36e4
 ---
+
+# Badge
 
 ## Import
 
@@ -12,7 +16,7 @@ import { Badge } from '@dnb/eufemia'
 
 ## Description
 
-Badge generates a small badge on its children, or can be an inline/standalone badge.
+Badge can be overlayed on another element by wrapping it, or can be a standalone badge.
 
 ## Relevant links
 
@@ -44,6 +48,14 @@ The default variant. Equivalent to `variant='information'`.
 render(<Badge content="New" />)
 ```
 
+```tsx
+render(
+  <div>
+    Text <Badge content="Info" variant="information" /> Text
+  </div>
+)
+```
+
 #### Notification
 
 `variant='notification'`.
@@ -52,15 +64,19 @@ render(<Badge content="New" />)
 render(<Badge content={1} label="Notifications" variant="notification" />)
 ```
 
-### Usage examples
-
 ```tsx
 render(
   <div>
-    Text <Badge content="Info" variant="information" /> Text
-  </div>,
+    Text{' '}
+    <Badge content={1234} label="Notifications" variant="notification" />{' '}
+    Text
+  </div>
 )
 ```
+
+### Overlayed badge
+
+You can overlay the badge on top of an element by wrapping the `<Badge>` component around it.
 
 ```tsx
 render(
@@ -70,17 +86,7 @@ render(
         A
       </Avatar>
     </Avatar.Group>
-  </Badge>,
-)
-```
-
-```tsx
-render(
-  <div>
-    Text{' '}
-    <Badge content={1234} label="Notifications" variant="notification" />{' '}
-    Text
-  </div>,
+  </Badge>
 )
 ```
 
@@ -90,7 +96,69 @@ render(
     <Avatar.Group label="Persons">
       <Avatar size="large">A</Avatar>
     </Avatar.Group>
-  </Badge>,
+  </Badge>
+)
+```
+
+#### Setting property `horizontal` and `vertical`
+
+When overlaying the badge you can control its position.
+
+```tsx
+render(
+  <Flex.Container>
+    <Badge
+      content={66}
+      label="Notifications"
+      vertical="top"
+      horizontal="left"
+      variant="notification"
+      data-visual-test="badge-top-left"
+    >
+      <Avatar.Group label="Persons">
+        <Avatar size="large">A</Avatar>
+      </Avatar.Group>
+    </Badge>
+
+    <Badge
+      content={1234}
+      label="Notifications"
+      vertical="top"
+      horizontal="right"
+      variant="notification"
+      data-visual-test="badge-top-right"
+    >
+      <Avatar.Group label="Persons">
+        <Avatar size="large">B</Avatar>
+      </Avatar.Group>
+    </Badge>
+
+    <Badge
+      content={13}
+      label="Notifications"
+      vertical="bottom"
+      horizontal="left"
+      variant="notification"
+      data-visual-test="badge-bottom-left"
+    >
+      <Avatar.Group label="Persons">
+        <Avatar size="large">C</Avatar>
+      </Avatar.Group>
+    </Badge>
+
+    <Badge
+      content={58}
+      label="Notifications"
+      vertical="bottom"
+      horizontal="right"
+      variant="notification"
+      data-visual-test="badge-bottom-right"
+    >
+      <Avatar.Group label="Persons">
+        <Avatar size="large">D</Avatar>
+      </Avatar.Group>
+    </Badge>
+  </Flex.Container>
 )
 ```
 
@@ -121,80 +189,122 @@ render(
     <Badge content="warning (subtle)" status="warning" subtle />
     <Badge content="negative" status="negative" />
     <Badge content="negative (subtle)" status="negative" subtle />
-  </Grid.Container>,
+  </Grid.Container>
 )
 ```
 
-### Setting property `horizontal` and `vertical`
+### Hiding Badge with `hideBadge`
 
-#### `vertical` 'top' `horizontal` 'left'
+Sometimes you need to hide the badge without hiding the overlayed element. To make this less complicated you can use the `hideBadge` prop.
+
+The example below hides the badge when there are no notifications. You can add or remove notifications with the "+" and "-" buttons.
 
 ```tsx
-render(
-  <Badge
-    content={66}
-    label="Notifications"
-    vertical="top"
-    horizontal="left"
-    variant="notification"
-  >
-    <Avatar.Group label="Persons">
-      <Avatar size="large">A</Avatar>
-    </Avatar.Group>
-  </Badge>,
-)
+const Example = () => {
+  type Data = {
+    notifications: number
+  }
+  const { data } = Form.useData<Data>('badge-hide-example')
+  const notifications = data?.notifications
+  return (
+    <Form.Handler id="badge-hide-example">
+      <Form.Card>
+        <Badge
+          label="Notifications"
+          variant="notification"
+          content={notifications}
+          hideBadge={notifications === 0}
+        >
+          <Avatar.Group label="Persons">
+            <Avatar size="large">A</Avatar>
+          </Avatar.Group>
+        </Badge>
+
+        <Field.Number
+          label="Define number of notifications"
+          width="small"
+          path="/notifications"
+          defaultValue={1}
+          minimum={0}
+          step={1}
+          showStepControls
+        />
+      </Form.Card>
+    </Form.Handler>
+  )
+}
+render(<Example />)
 ```
 
-#### `vertical` 'top' `horizontal` 'right'
+## Properties
 
-```tsx
-render(
-  <Badge
-    content={1234}
-    label="Notifications"
-    vertical="top"
-    horizontal="right"
-    variant="notification"
-  >
-    <Avatar.Group label="Persons">
-      <Avatar size="large">A</Avatar>
-    </Avatar.Group>
-  </Badge>,
-)
-```
-
-#### `vertical` 'bottom' `horizontal` 'left'
-
-```tsx
-render(
-  <Badge
-    content={13}
-    label="Notifications"
-    vertical="bottom"
-    horizontal="left"
-    variant="notification"
-  >
-    <Avatar.Group label="Persons">
-      <Avatar size="large">A</Avatar>
-    </Avatar.Group>
-  </Badge>,
-)
-```
-
-#### `vertical` 'bottom' `horizontal` 'right'
-
-```tsx
-render(
-  <Badge
-    content={58}
-    label="Notifications"
-    vertical="bottom"
-    horizontal="right"
-    variant="notification"
-  >
-    <Avatar.Group label="Persons">
-      <Avatar size="large">A</Avatar>
-    </Avatar.Group>
-  </Badge>,
-)
+```json
+{
+  "content": {
+    "doc": "Content of the component.",
+    "type": ["string", "number", "React.ReactNode"],
+    "status": "optional"
+  },
+  "children": {
+    "doc": "Content to display the badge on top of.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "vertical": {
+    "doc": "Vertical positioning of the component. Options: `bottom` | `top`.",
+    "type": ["\"top\"", "\"bottom\""],
+    "status": "optional"
+  },
+  "horizontal": {
+    "doc": "Horizontal positioning of the component. Options: `left` | `right`.",
+    "type": ["\"left\"", "\"right\""],
+    "status": "optional"
+  },
+  "className": {
+    "doc": "Custom className for the component.",
+    "type": "string",
+    "status": "optional"
+  },
+  "skeleton": {
+    "doc": "Applies loading skeleton.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "variant": {
+    "doc": "Defines the visual appearance of the badge. There are two main variants `notification` and `information`. The `content` variant is just for placement purposes, and will require you to style the `content` all by yourself. Default variant is `information`.",
+    "type": ["\"information\"", "\"notification\"", "\"content\""],
+    "status": "optional"
+  },
+  "status": {
+    "doc": "Defines the status color of the `\"information\"` variant. Has no effect on other variants. Default is `\"default\"`.",
+    "type": [
+      "\"default\"",
+      "\"success\"",
+      "\"warning\"",
+      "\"error\"",
+      "\"neutral\""
+    ],
+    "status": "optional"
+  },
+  "subtle": {
+    "doc": "Applies subtle style to `\"information\"` variant. Has no effect on other variants. Default is `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "hideBadge": {
+    "doc": "Removes the badge without removing children. Useful when Badge wraps content. Default is `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "label": {
+    "doc": "The label description of the badge. Only required when passing a number as the badge content.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
 ```

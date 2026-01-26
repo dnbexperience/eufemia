@@ -1,8 +1,12 @@
 ---
-title: 'Buttons'
+title: 'Wizard.Buttons'
 description: '`Wizard.Buttons` is a combination of PreviousButton and NextButton for navigating between steps/pages.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Wizard/Buttons/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.235Z
+checksum: 4ea56087d0680bf07da056cf40e953588811b3ff8876526853e7bcc84fb35e61
 ---
+
+# Wizard.Buttons
 
 ## Import
 
@@ -29,7 +33,7 @@ render(
         <Wizard.Buttons />
       </Wizard.Step>
     </Wizard.Container>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -48,7 +52,7 @@ render(
         </Form.ButtonRow>
       </Wizard.Step>
     </Wizard.Container>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -72,6 +76,18 @@ render(
       <Step title="Step 2" />
       <Step title="Step 3" />
     </Wizard.Container>
-  </Form.Handler>,
+  </Form.Handler>
 )
+```
+
+## Properties
+
+```json
+{
+  "[Form.ButtonRow](/uilib/extensions/forms/Form/ButtonRow/properties/)": {
+    "doc": "ButtonRow properties.",
+    "type": "Various",
+    "status": "optional"
+  }
+}
 ```

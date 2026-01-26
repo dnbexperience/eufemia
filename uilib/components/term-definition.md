@@ -1,8 +1,12 @@
 ---
 title: 'TermDefinition'
 description: 'TermDefinition renders a compact, inline explanation for a word or phrase with an anchor-style trigger button.'
-metadata: https://eufemia.dnb.no/uilib/components/term-definition/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.556Z
+checksum: 9dc75b9f1552ed9694083681def91b6897c9b323bcf260ef4fc1e0197d370d9e
 ---
+
+# TermDefinition
 
 ## Import
 
@@ -51,7 +55,7 @@ render(
       unusual words (yeah)
     </TermDefinition>{' '}
     lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  </P>,
+  </P>
 )
 ```
 
@@ -92,7 +96,7 @@ render(
         }}
       />
     </Form.Card>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -126,7 +130,7 @@ render(
         }
       />
     </Form.Card>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -145,4 +149,60 @@ render(
   </TermDefinition>
   .
 </H2>
+```
+
+## Properties
+
+```json
+{
+  "children": {
+    "doc": "Term shown as the trigger. Typically a short word or phrase.",
+    "type": "React.ReactNode",
+    "status": "required"
+  },
+  "content": {
+    "doc": "Definition text that will be displayed inside.",
+    "type": "React.ReactNode",
+    "status": "required"
+  },
+  "placement": {
+    "doc": "Defines the preferred popover placement relative to the trigger.",
+    "type": ["top", "right", "bottom", "left"],
+    "defaultValue": "bottom",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `left` or `right` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
+```
+
+## Translations
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "TermDefinition.closeButtonTitle": {
+      "nb-NO": "Lukk ordforklaring",
+      "en-GB": "Close definition",
+      "sv-SE": "Stäng ordförklaring",
+      "da-DK": "Luk ordforklaring"
+    },
+    "TermDefinition.closeTriggerTitle": {
+      "nb-NO": "Klikk for å lukke ordforklaring",
+      "en-GB": "Click to close definition",
+      "sv-SE": "Klicka för att stänga ordförklaring",
+      "da-DK": "Klik for at lukke ordforklaring"
+    },
+    "TermDefinition.openTriggerTitle": {
+      "nb-NO": "Klikk for å åpne ordforklaring",
+      "en-GB": "Click to open definition",
+      "sv-SE": "Klicka för att öppna ordförklaring",
+      "da-DK": "Klik for at åbne ordforklaring"
+    }
+  }
+}
 ```

@@ -1,8 +1,12 @@
 ---
 title: 'Flex'
 description: 'To make it easier to build application layout and form-views in line with defined design sketches, there are a number of components for layout.'
-metadata: https://eufemia.dnb.no/uilib/layout/flex/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.322Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
+
+# Flex
 
 ## Import
 
@@ -64,7 +68,7 @@ render(
       <Field.Email value="john@smith.email" />
       <Field.PhoneNumber value="+47 98765432" />
     </Form.Card>
-  </Flex.Stack>,
+  </Flex.Stack>
 )
 ```
 
@@ -101,7 +105,7 @@ render(
         FlexItem (small: 4, medium: 8)
       </TestElement>
     </Flex.Item>
-  </Flex.Container>,
+  </Flex.Container>
 )
 ```
 
@@ -179,6 +183,6 @@ render(
         <TestElement style={colors[3]}>FlexItem</TestElement>
       </Flex.Item>
     </Flex.Container>
-  </CustomMediaQuery>,
+  </CustomMediaQuery>
 )
 ```

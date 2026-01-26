@@ -1,8 +1,12 @@
 ---
-title: 'Card'
+title: 'Form.Card'
 description: '`Form.Card` is a wrapper for the Card component to make it easier to use inside a form.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Form/Card/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.807Z
+checksum: e2c835faa46550f07b7035374eaf42b4ceeedfbc1c00075484f0133cd3d7cb1d
 ---
+
+# Form.Card
 
 ## Import
 
@@ -34,7 +38,7 @@ render(
       </Form.Card>
     </Form.Card>
     <Form.SubmitButton />
-  </Flex.Stack>,
+  </Flex.Stack>
 )
 ```
 
@@ -71,7 +75,7 @@ render(
         </P>
       </Form.Card>
     </Form.Card.Provider>
-  </Flex.Stack>,
+  </Flex.Stack>
 )
 ```
 
@@ -96,6 +100,90 @@ render(
         <Form.SubmitButton text="Happy coding!" />
       </Wizard.Step>
     </Wizard.Container>
-  </Form.Handler>,
+  </Form.Handler>
 )
+```
+
+## Properties
+
+```json
+{
+  "outset": {
+    "doc": "Whether or not to break out (using negative margins) on larger screens. Same as `outset` in [Card](/uilib/components/card/properties). But defaults to `true`",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "stack": {
+    "doc": "True to stack the sub components with space between. The `spacing` will default to `medium`. Same as `stack` in [Card](/uilib/components/card/properties). But defaults to `true`",
+    "type": "boolean",
+    "status": "optional"
+  }
+}
+```
+
+## Other properties inherited from [Card](/uilib/components/card/properties)
+
+```json
+{
+  "direction": {
+    "doc": "Defaults to `vertical`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "alignSelf": {
+    "doc": "Defaults to `stretch`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "title": {
+    "doc": "Define a title that appears on top of the Card.",
+    "type": "React.Node",
+    "status": "optional"
+  },
+  "responsive": {
+    "doc": "Define if the card should behave responsive. Defaults to `true`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "filled": {
+    "doc": "Define if the Card should get the same background color as the outline border.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "outline": {
+    "doc": "Define the outline color. Defaults to `var(--card-outline-color)`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "backgroundColor": {
+    "doc": "Define the background color. Defaults to `var(--card-background-color)`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "element": {
+    "doc": "Define the type of element. Defaults to `section`.",
+    "type": "React.Element",
+    "status": "optional"
+  },
+  "children": {
+    "doc": "Contents.",
+    "type": "React.Node",
+    "status": "required"
+  },
+  "[Flex.Container](/uilib/layout/flex/container/properties)": {
+    "doc": "Flex.Container properties.",
+    "type": "Various",
+    "status": "optional"
+  },
+  "[Flex.Item](/uilib/layout/flex/item/properties)": {
+    "doc": "Flex.Item properties.",
+    "type": "Various",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
 ```

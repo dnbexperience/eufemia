@@ -1,6 +1,8 @@
 ---
 title: 'Locale / Translation'
-metadata: https://eufemia.dnb.no/uilib/usage/customisation/localization/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.345Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
 # Localization
@@ -60,7 +62,7 @@ const myLocale = 'en-GB'
 render(
   <Provider locale={myLocale}>
     <MyApp>Eufemia components</MyApp>
-  </Provider>,
+  </Provider>
 )
 ```
 
@@ -74,7 +76,7 @@ render(
     <MyApp>
       <HelpButton lang="nb-NO" />
     </MyApp>
-  </Provider>,
+  </Provider>
 )
 ```
 
@@ -95,7 +97,7 @@ render(
     }}
   >
     <MyApp>Eufemia components</MyApp>
-  </Provider>,
+  </Provider>
 )
 ```
 
@@ -126,7 +128,7 @@ render(
     <MyApp>
       <ChangeLocale />
     </MyApp>
-  </Provider>,
+  </Provider>
 )
 ```
 
@@ -158,7 +160,7 @@ render(
     <MyApp>
       <MyComponent />
     </MyApp>
-  </Provider>,
+  </Provider>
 )
 ```
 
@@ -214,7 +216,7 @@ render(
     <MyApp>
       <MyComponent />
     </MyApp>
-  </Provider>,
+  </Provider>
 )
 ```
 
@@ -327,7 +329,7 @@ function Example() {
 render(
   <Provider locale="sv-SE" translations={translations}>
     <Example />
-  </Provider>,
+  </Provider>
 )
 ```
 
@@ -379,7 +381,7 @@ render(
     }}
   >
     <MyApp>Eufemia components</MyApp>
-  </EufemiaProvider>,
+  </EufemiaProvider>
 )
 ```
 
@@ -423,7 +425,7 @@ render(
     }}
   >
     <MyComponent />
-  </EufemiaProvider>,
+  </EufemiaProvider>
 )
 ```
 
@@ -447,7 +449,7 @@ render(
     }}
   >
     <Translation id="my.string" foo="bar" />
-  </EufemiaProvider>,
+  </EufemiaProvider>
 )
 ```
 
@@ -469,7 +471,7 @@ type TranslationType = (typeof translations)[keyof typeof translations]
 render(
   <EufemiaProvider locale="nb-NO" translations={translations}>
     <Translation<TranslationType> id={(t) => t.my.string} foo="bar" />
-  </EufemiaProvider>,
+  </EufemiaProvider>
 )
 ```
 
@@ -499,7 +501,7 @@ render(
     <p>
       <Translation<TranslationType> id={(t) => t.info} />
     </p>
-  </EufemiaProvider>,
+  </EufemiaProvider>
 )
 ```
 
@@ -530,7 +532,7 @@ import svSE from '@dnb/eufemia/shared/locales/sv-SE'
 render(
   <Provider translations={svSE} locale="sv-SE">
     Your app
-  </Provider>,
+  </Provider>
 )
 ```
 
@@ -543,7 +545,7 @@ import daDK from '@dnb/eufemia/shared/locales/da-DK'
 render(
   <Provider translations={daDK} locale="da-DK">
     Your app
-  </Provider>,
+  </Provider>
 )
 ```
 
@@ -582,7 +584,7 @@ const translations = mergeTranslations(svSE_forms, svSE_forms_countries)
 render(
   <Form.Handler translations={translations} locale="sv-SE">
     Your form
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -599,13 +601,13 @@ import svSE_forms_countries from '@dnb/eufemia/extensions/forms/constants/locale
 const translations = mergeTranslations(
   svSE,
   svSE_forms,
-  svSE_forms_countries,
+  svSE_forms_countries
 )
 
 render(
   <Provider translations={translations} locale="sv-SE">
     Your app, including Eufemia Forms
-  </Provider>,
+  </Provider>
 )
 ```
 
@@ -634,7 +636,7 @@ import myTranslations from './locales/nn-NO'
 render(
   <Provider translations={myTranslations}>
     <MyApp>Eufemia components</MyApp>
-  </Provider>,
+  </Provider>
 )
 ```
 
@@ -662,6 +664,6 @@ render(
       <ChangeLocale />
       ...
     </MyApp>
-  </Provider>,
+  </Provider>
 )
 ```

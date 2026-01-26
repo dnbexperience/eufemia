@@ -1,6 +1,8 @@
 ---
 title: 'Accessibility'
-metadata: https://eufemia.dnb.no/uilib/usage/accessibility/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.339Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
 # Accessibility
@@ -23,6 +25,19 @@ As a developer, you have the responsibility to have the technical knowledge abou
 - Test with **screen readers** during development <Icon icon={CheckIcon} aria-hidden />
 - Test with **200%** in `font-size` during development <Icon icon={CheckIcon} aria-hidden />
 - Test page at **320px** screen width during development <Icon icon={CheckIcon} aria-hidden />
+- Test with **reduced motion** preferences enabled <Icon icon={CheckIcon} aria-hidden />
+
+## Reduced motion support
+
+Eufemia respects the `prefers-reduced-motion` user preference, automatically reducing or removing animations and transitions for users with motion sensitivity or vestibular disorders. This includes:
+
+- Modal and drawer animations
+- Accordion expansions/collapses
+- Progress indicator animations
+- Scroll behavior transitions
+- Icon rotations and transforms
+
+All animations are automatically minimized when a user has enabled reduced motion in their operating system settings. This is compliant with [WCAG 2.1 Success Criterion 2.3.3 Animation from Interactions](https://www.w3.org/WAI/WCAG21/Understanding/animation-from-interactions.html).
 
 ## Keyboard users
 

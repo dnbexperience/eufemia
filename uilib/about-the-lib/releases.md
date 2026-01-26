@@ -1,6 +1,8 @@
 ---
 title: 'Releases and versions'
-metadata: https://eufemia.dnb.no/uilib/about-the-lib/releases/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:25.579Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
 # Releases and versions
@@ -16,6 +18,8 @@ Here you can find an overview of all major releases (versions) and changes, incl
 ## dnb-ui-lib
 
 <ListUiLibVersions returnListItems />
+
+# Welcome Info
 
 ## Please contribute
 

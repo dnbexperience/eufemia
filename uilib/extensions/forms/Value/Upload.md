@@ -1,8 +1,12 @@
 ---
-title: 'Upload'
+title: 'Value.Upload'
 description: '`Value.Upload` is a value component for displaying a list of files.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Value/Upload/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.207Z
+checksum: adc00d6c075c1ed111082ea109c2ba4dcd3db8f148e6bc34ed075297e62f7bff
 ---
+
+# Value.Upload
 
 ## Import
 
@@ -53,7 +57,7 @@ render(
         id: '2',
       },
     ]}
-  />,
+  />
 )
 ```
 
@@ -70,7 +74,7 @@ render(
         id: '1',
       },
     ]}
-  />,
+  />
 )
 ```
 
@@ -87,7 +91,7 @@ render(
         id: '1',
       },
     ]}
-  />,
+  />
 )
 ```
 
@@ -119,7 +123,7 @@ render(
         type: 'disjunction',
       }}
     />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -147,7 +151,7 @@ render(
         id: '2',
       },
     ]}
-  />,
+  />
 )
 ```
 
@@ -173,7 +177,7 @@ render(
       inline
     />{' '}
     This is after the component
-  </Span>,
+  </Span>
 )
 ```
 
@@ -395,7 +399,7 @@ render(
         listType="unstyled"
       />
     </Flex.Stack>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -420,15 +424,15 @@ render(
     onFileClick={async ({ fileItem }) => {
       const request = createRequest()
       console.log(
-        `making API request to fetch the url of the file: ${fileItem.file.name}`,
+        `making API request to fetch the url of the file: ${fileItem.file.name}`
       )
       await request(2000) // Simulate a request
       window.open(
         `https://eufemia.dnb.no/images/avatars/${fileItem.file.name}`,
-        '_blank',
+        '_blank'
       )
     }}
-  />,
+  />
 )
 ```
 
@@ -452,7 +456,7 @@ render(
         id: '2',
       },
     ]}
-  />,
+  />
 )
 ```
 
@@ -476,7 +480,7 @@ render(
         id: '2',
       },
     ]}
-  />,
+  />
 )
 ```
 
@@ -532,4 +536,103 @@ render(
   label="Unordered List"
   variant="ul"
 />
+```
+
+## Properties
+
+### Value-specific properties
+
+```json
+{
+  "download": {
+    "doc": "Causes the browser to treat all listed files as downloadable instead of opening them in a new browser tab or window. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "displaySize": {
+    "doc": "Can be used to display the file size of the file. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "value": {
+    "doc": "The value to format. Can be given as `children` instead.",
+    "type": ["Array<React.ReactNode>"],
+    "status": "optional"
+  },
+  "children": {
+    "doc": "The children to format.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "format": {
+    "doc": "Formatting options for the value when variant is `text`. See the [Intl.ListFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/ListFormat/ListFormat) documentation.",
+    "type": "Intl.ListFormatOptions",
+    "status": "optional"
+  },
+  "variant": {
+    "doc": "Defines if the value should be displayed in list format (`ol`, `ul`) or regular text format in one line. Defaults to `text`.",
+    "type": ["ol", "ul", "text"],
+    "status": "optional"
+  },
+  "listType": {
+    "doc": "Defines the type of list styling used for list variants. Used together with variant `ol` and `ul`. Variant `ol`: `a`, `A`, `i`, `I` and `1`. Variant `ul`: `circle`, `disc` and `square`. Defaults to `undefined`.",
+    "type": [
+      "a",
+      "A",
+      "i",
+      "I",
+      "1",
+      "circle",
+      "disc",
+      "square",
+      "unstyled",
+      "undefined"
+    ],
+    "status": "optional"
+  },
+  "inside": {
+    "doc": "Defines the position of the marker.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "outside": {
+    "doc": "Defines the position of the marker (default).",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "nested": {
+    "doc": "Will ensure a nested structure of several lists.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "innerRef": {
+    "doc": "Send along a custom React Ref.",
+    "type": "React.RefObject",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
+```
+
+### General properties
+
+<PropertiesTable
+  props={ValueProperties}
+  valueType="Array<string | number>"
+/>
+
+## Events
+
+```json
+{
+  "onFileClick": {
+    "doc": "Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`. When providing this prop, the file will be rendered as a button instead of an anchor or plain text.",
+    "type": "function",
+    "status": "optional"
+  }
+}
 ```

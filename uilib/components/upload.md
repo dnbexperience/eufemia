@@ -1,8 +1,12 @@
 ---
 title: 'Upload'
 description: 'The Upload component should be used in scenarios where the user has to upload files. Files can be uploaded by clicking button. You also have the opportunity to add descriptive texts below the title where you could put max file size, allowed file formats etc.'
-metadata: https://eufemia.dnb.no/uilib/components/upload/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.598Z
+checksum: 635cb11b451f4904eb69f12f651c3ccff8e75bee1895005031d7bb39b9f8a50c
 ---
+
+# Upload
 
 ## Import
 
@@ -40,7 +44,7 @@ function YourComponent() {
           fileItem.errorMessage = 'Your message from the backend'
         }
         return fileItem
-      }),
+      })
     )
   }, [fileNameFromBackend])
 
@@ -108,7 +112,7 @@ render(
   <Upload
     acceptedFileTypes={['jpg', 'png']}
     onChange={({ files }) => console.log('onChange', files)}
-  />,
+  />
 )
 ```
 
@@ -120,7 +124,7 @@ render(
     variant="compact"
     acceptedFileTypes={['jpg', 'png']}
     onChange={({ files }) => console.log('onChange', files)}
-  />,
+  />
 )
 ```
 
@@ -165,7 +169,7 @@ const Component = () => {
             setImages([...images])
             reader = null
           },
-          false,
+          false
         )
         reader.readAsDataURL(file)
       })
@@ -235,7 +239,7 @@ const Component = () => {
                 ...fileItem,
                 isLoading: checked,
               }
-            }),
+            })
           )
         }
       >
@@ -270,7 +274,7 @@ const Component = () => {
                 ...fileItem,
                 errorMessage: checked ? 'custom error message' : null,
               }
-            }),
+            })
           )
         }}
       >
@@ -399,7 +403,7 @@ render(
         fileMaxSize: 99,
       },
     ]}
-  />,
+  />
 )
 ```
 
@@ -423,7 +427,7 @@ render(
         fileType: 'svg',
       },
     ]}
-  />,
+  />
 )
 ```
 
@@ -442,7 +446,7 @@ render(<Upload acceptedFileTypes={['jpg', 'pdf']} fileMaxSize={false} />)
 
 ```tsx
 render(
-  <Upload title={false} text={false} acceptedFileTypes={['jpg', 'png']} />,
+  <Upload title={false} text={false} acceptedFileTypes={['jpg', 'png']} />
 )
 ```
 
@@ -464,7 +468,7 @@ render(
   <Upload
     onFileDelete={mockAsyncFileRemoval}
     acceptedFileTypes={['jpg', 'png']}
-  />,
+  />
 )
 ```
 
@@ -483,7 +487,7 @@ const Component = () => {
         file: createMockFile(
           'file-name-that-is-very-long-and-has-letters.png',
           123,
-          'image/png',
+          'image/png'
         ),
         id: '2',
       },
@@ -493,12 +497,12 @@ const Component = () => {
     const request = createRequest()
     console.log(
       'making API request to fetch the url of the file:',
-      fileItem.file.name,
+      fileItem.file.name
     )
     await request(2000) // Simulate a request
     window.open(
       `https://eufemia.dnb.no/images/avatars/${fileItem.file.name}`,
-      '_blank',
+      '_blank'
     )
   }
   return (
@@ -527,7 +531,7 @@ const Component = () => {
         file: createMockFile(
           'file-name-that-is-very-long-and-has-letters.png',
           123,
-          'image/png',
+          'image/png'
         ),
         id: '2',
       },
@@ -561,7 +565,7 @@ const Component = () => {
         file: createMockFile(
           'file-name-that-is-very-long-and-has-letters.png',
           0,
-          'image/png',
+          'image/png'
         ),
         id: '2',
       },
@@ -587,7 +591,7 @@ const Component = () => {
               ...fileItem,
               description: 'This is my description',
             }
-          }),
+          })
         )
       }
     />
@@ -611,7 +615,7 @@ const Component = () => {
         file: createMockFile(
           'file-name-that-is-very-very-very-very-very-very-very-verylong-to-display-that-when-remove-button-is-hidden-file-name-will-take-full-width.png',
           0,
-          'image/png',
+          'image/png'
         ),
         description:
           'Description that is very very very very very very very very long to display that when delete button is removed, file description will take full width.',
@@ -643,7 +647,7 @@ const Component = () => {
                 tooltip: `Do you want to remove ${fileItem.file.name} file?`,
               },
             }
-          }),
+          })
         )
       }
     />
@@ -665,7 +669,7 @@ const Component = () => {
         file: createMockFile(
           'file-name-that-is-very-long-and-has-letters.png',
           0,
-          'image/png',
+          'image/png'
         ),
         id: '2',
       },
@@ -687,14 +691,14 @@ render(
     disableDragAndDrop
     acceptedFileTypes={['jpg', 'png']}
     onChange={({ files }) => console.log('onChange', files)}
-  />,
+  />
 )
 ```
 
 ```tsx
 const Component = () => {
   const { setInternalFiles, setFiles } = Upload.useUpload(
-    'upload-files-amount-message',
+    'upload-files-amount-message'
   )
   React.useEffect(() => {
     setFiles([
@@ -732,7 +736,7 @@ render(<Component />)
 ```tsx
 const Component = () => {
   const { setInternalFiles, setFiles } = Upload.useUpload(
-    'upload-files-amount-limit',
+    'upload-files-amount-limit'
   )
   React.useEffect(() => {
     setFiles([
@@ -773,7 +777,7 @@ render(
     acceptedFileTypes={['jpg', 'png']}
     disabled
     onChange={({ files }) => console.log('onChange', files)}
-  />,
+  />
 )
 ```
 
@@ -785,7 +789,7 @@ render(
     title={false}
     text={false}
     onChange={({ files }) => console.log('onChange', files)}
-  />,
+  />
 )
 ```
 
@@ -802,7 +806,7 @@ const Component = () => {
         file: createMockFile(
           'file-name-that-is-very-long-and-has-letters.png',
           0,
-          'image/png',
+          'image/png'
         ),
         id: '2',
       },
@@ -826,3 +830,296 @@ const Component = () => {
 }
 render(<Component />)
 ```
+
+## Properties
+
+```json
+{
+  "id": {
+    "doc": "Unique id used together with the `useUpload` hook to manage the files. Needed when wanting to connect with the `useUpload` hook.",
+    "type": ["string", "Function", "Object", "React.Context"],
+    "status": "optional"
+  },
+  "children": {
+    "doc": "Content to display below the `title` and `text`. Can be used to add custom content.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "variant": {
+    "doc": "Defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.",
+    "type": ["normal", "compact"],
+    "status": "optional"
+  },
+  "acceptedFileTypes": {
+    "doc": "List of accepted file types. Either as string or [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype). When providing a list of [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype), the accepted file types will be presented in a table(see [example](/uilib/components/upload/demos/#upload-with-file-max-size-based-on-file-type)).",
+    "type": ["Array<string>", "Array<AcceptedFileType>"],
+    "status": "required"
+  },
+  "filesAmountLimit": {
+    "doc": "Defines the amount of files the user can select and upload. Defaults to `100`.",
+    "type": "number",
+    "status": "optional"
+  },
+  "fileMaxSize": {
+    "doc": "Defines the max file size of each file in MB. Use either `0` or `false` to disable. Defaults to 5 MB.",
+    "type": ["number", "false"],
+    "status": "optional"
+  },
+  "title": {
+    "doc": "Custom text property. Replaces the default title. Can be disabled using `false`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "text": {
+    "doc": "Custom text property. Replaces the default text. Can be disabled using `false`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "download": {
+    "doc": "Causes the browser to treat all listed files as downloadable instead of opening them in a new browser tab or window. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "allowDuplicates": {
+    "doc": "Allows uploading of duplicate files. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "disableDragAndDrop": {
+    "doc": "Disables file drag and drop, by removing the drop zone. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "buttonProps": {
+    "doc": "Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object, to customize the upload button behavior and appearance.",
+    "type": "ButtonProps",
+    "status": "optional"
+  },
+  "skeleton": {
+    "doc": "Skeleton should be applied when loading content.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
+```
+
+## FileItem
+
+The file item object is representing the files of the Upload component.
+
+```json
+{
+  "file": {
+    "doc": "The file object. This is the same object as the one returned by the `File` API.",
+    "type": "File",
+    "status": "required"
+  },
+  "id": {
+    "doc": "Unique ID for the file item. This ID is generated by the component and is not user-defined.",
+    "type": "string",
+    "status": "required"
+  },
+  "exists": {
+    "doc": "Indicates if the file item already exists in the list of files. This is useful for distinguishing between new and existing files.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "isLoading": {
+    "doc": "Indicates if the file item is currently being loaded. This is useful for showing a loading state while the file is being processed.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "errorMessage": {
+    "doc": "Provide an error message to be displayed. This is useful for indicating issues with the file upload process.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "description": {
+    "doc": "Provide a description to be displayed. This is useful for providing additional information about the file.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "removeDeleteButton": {
+    "doc": "Set to `true` to remove the delete button from the file item. This is useful for preventing users from deleting files.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "deleteButtonProps": {
+    "doc": "Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.",
+    "type": "ButtonProps",
+    "status": "optional"
+  }
+}
+```
+
+## AcceptedFileType
+
+The accepted file type object is used to define file max size for specific file types.
+
+When providing a list of AcceptedFileType to [Uploads](/uilib/components/upload/properties/#properties) `acceptedFileTypes`, the accepted file types will be presented in a table. Here is an [example](/uilib/components/upload/demos/#upload-with-file-max-size-based-on-file-type).
+
+The table is sorted descending by `maxFileSize`. Multiple `fileType` for the same `maxFileSize` is sorted alphabetically ascending by `fileType`.
+
+```json
+{
+  "fileType": {
+    "doc": "The name of the accepted file type.",
+    "type": "string",
+    "status": "required"
+  },
+  "fileMaxSize": {
+    "doc": "Defines the max file size of the given file type in MB. Use either `0` or `false` to disable. If not provided, it defaults to the value of [Uploads](/uilib/components/upload/properties/#properties) `fileMaxSize` which defaults to 5 MB.",
+    "type": ["number", "false"],
+    "status": "optional"
+  }
+}
+```
+
+## Translations
+
+All translation keys listed in the translations table below, can be used as a component property (like `title` or `text`).
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "Upload.buttonText": {
+      "nb-NO": "Velg filer",
+      "en-GB": "Choose files",
+      "sv-SE": "Välj filer",
+      "da-DK": "Vælg filer"
+    },
+    "Upload.buttonTextSingular": {
+      "nb-NO": "Velg fil",
+      "en-GB": "Choose file",
+      "sv-SE": "Välj fil",
+      "da-DK": "Vælg fil"
+    },
+    "Upload.deleteButton": {
+      "nb-NO": "Slett",
+      "en-GB": "Delete",
+      "sv-SE": "Radera",
+      "da-DK": "Slet"
+    },
+    "Upload.errorAmountLimit": {
+      "nb-NO": "Det er begrenset hvor mange filer du kan laste opp (%amount).",
+      "en-GB": "There is a limit to how many files you can upload (%amount).",
+      "sv-SE": "Det är begränsat hur många filer du kan ladda upp (%amount).",
+      "da-DK": "Der er en grænse for, hvor mange filer du kan uploade (%amount)."
+    },
+    "Upload.errorInvalidFiles": {
+      "nb-NO": "Fjern alle filer som har feil.",
+      "en-GB": "Remove all files that have errors.",
+      "sv-SE": "Ta bort alla filer som innehåller fel.",
+      "da-DK": "Fjern alle filer, der indeholder fejl."
+    },
+    "Upload.errorLargeFile": {
+      "nb-NO": "Filen du prøver å laste opp er for stor, den maksimale støttede størrelsen er %size MB.",
+      "en-GB": "The file you are trying to upload is too big, the maximum size supported is %size MB.",
+      "sv-SE": "Filen du försöker ladda upp är för stor, den maximalt tillåtna storleken är %size MB.",
+      "da-DK": "Filen du prøver at uploade er for stor, den maksimale understøttede størrelse er %size MB."
+    },
+    "Upload.errorRequired": {
+      "nb-NO": "Du må laste opp minst en fil.",
+      "en-GB": "You must upload a file.",
+      "sv-SE": "Du måste ladda upp minst en fil.",
+      "da-DK": "Du skal uploade mindst én fil."
+    },
+    "Upload.errorUnsupportedFile": {
+      "nb-NO": "Filen du prøver å laste opp er ikke støttet.",
+      "en-GB": "The file you are trying to upload is not supported.",
+      "sv-SE": "Filen du försöker ladda upp stöds inte.",
+      "da-DK": "Filen du prøver at uploade er ikke understøttet."
+    },
+    "Upload.fileAmountDescription": {
+      "nb-NO": "Maks antall filer:",
+      "en-GB": "Max. number of files:",
+      "sv-SE": "Max antal filer:",
+      "da-DK": "Maks antal filer:"
+    },
+    "Upload.fileListAriaLabel": {
+      "nb-NO": "opplastede filer",
+      "en-GB": "uploaded files",
+      "sv-SE": "uppladdade filer",
+      "da-DK": "uploadede filer"
+    },
+    "Upload.fileSizeContent": {
+      "nb-NO": "%size MB",
+      "en-GB": "%size MB",
+      "sv-SE": "%size MB",
+      "da-DK": "%size MB"
+    },
+    "Upload.fileSizeDescription": {
+      "nb-NO": "Maks filstørrelse:",
+      "en-GB": "Max. file size:",
+      "sv-SE": "Max filstorlek:",
+      "da-DK": "Maks filstørrelse:"
+    },
+    "Upload.fileTypeDescription": {
+      "nb-NO": "Tillatte filformater:",
+      "en-GB": "Allowed formats:",
+      "sv-SE": "Tillåtna filformat:",
+      "da-DK": "Tilladte filformater:"
+    },
+    "Upload.fileTypeTableCaption": {
+      "nb-NO": "Tillatte filformater og maks filstørrelse",
+      "en-GB": "Allowed formats and max. file size",
+      "sv-SE": "Tillåtna filformat och max filstorlek",
+      "da-DK": "Tilladte filformater og maks filstørrelse"
+    },
+    "Upload.loadingText": {
+      "nb-NO": "Laster",
+      "en-GB": "Loading",
+      "sv-SE": "Laddar",
+      "da-DK": "Indlæser"
+    },
+    "Upload.text": {
+      "nb-NO": "Dra og slipp eller velg hvilke filer du vil laste opp.",
+      "en-GB": "Drag & drop your files or choose files to upload.",
+      "sv-SE": "Dra och släpp eller välj vilka filer du vill ladda upp.",
+      "da-DK": "Træk og slip eller vælg hvilke filer du vil uploade."
+    },
+    "Upload.textSingular": {
+      "nb-NO": "Dra og slipp eller velg hvilken fil du vil laste opp.",
+      "en-GB": "Drag & drop your file or choose which file to upload.",
+      "sv-SE": "Dra och släpp eller välj vilken fil du vill ladda upp.",
+      "da-DK": "Træk og slip eller vælg hvilken fil du vil uploade."
+    },
+    "Upload.title": {
+      "nb-NO": "Last opp dokumenter",
+      "en-GB": "Upload documents",
+      "sv-SE": "Ladda upp dokument",
+      "da-DK": "Upload dokumenter"
+    }
+  }
+}
+```
+
+## Events
+
+```json
+{
+  "onChange": {
+    "doc": "Will be called on `files` changes made by the user. Access the files with `{ files }` (containing each a `fileItem`).",
+    "type": "function",
+    "status": "optional"
+  },
+  "onFileDelete": {
+    "doc": "Will be called once a file gets deleted by the user. Access the deleted file with `{ fileItem }`.",
+    "type": "function",
+    "status": "optional"
+  },
+  "onFileClick": {
+    "doc": "Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`. When providing this prop, the file will be rendered as a button instead of an anchor or plain text.",
+    "type": "function",
+    "status": "optional"
+  }
+}
+```
+
+Read more about `fileItem` in the properties docs section [FileItem](/uilib/components/upload/properties/#fileitem).

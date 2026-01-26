@@ -1,8 +1,12 @@
 ---
 title: 'Blockquote'
 description: 'The blockquote element is used to indicate the quotation of a large section of text from another source.'
-metadata: https://eufemia.dnb.no/uilib/elements/blockquote/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.609Z
+checksum: e341aee176a995e059958ae251b9c652f485687ac5e5fac027d3525f26fe4459
 ---
+
+# Blockquote
 
 ## Import
 
@@ -29,7 +33,7 @@ render(
     Dis leo aliquam neque aptent nascetur metus ad ut eu Choro vivendum
     tractatos ei quo.
     <cite>Cite Reference</cite>
-  </Blockquote>,
+  </Blockquote>
 )
 ```
 
@@ -41,7 +45,7 @@ render(
     Dis leo aliquam neque aptent nascetur metus ad ut eu Choro{' '}
     <Anchor href="/uilib/elements#blockquote">vivendum tractatos</Anchor>{' '}
     ei quo.
-  </Blockquote>,
+  </Blockquote>
 )
 ```
 
@@ -58,7 +62,7 @@ render(
         Cite Reference
       </Anchor>
     </cite>
-  </Blockquote>,
+  </Blockquote>
 )
 ```
 
@@ -74,7 +78,7 @@ render(
     Dis leo aliquam neque aptent nascetur metus ad ut eu Choro{' '}
     <Anchor href="/uilib/elements#blockquote">vivendum tractatos</Anchor>{' '}
     ei quo.
-  </Blockquote>,
+  </Blockquote>
 )
 ```
 
@@ -85,6 +89,28 @@ render(
   <Blockquote data-visual-test="blockquote-with-code">
     <Code>display</Code> and <Code>background-color</Code> are CSS
     properties
-  </Blockquote>,
+  </Blockquote>
 )
+```
+
+## Properties
+
+```json
+{
+  "noBackground": {
+    "doc": "Hides the blockquote background by making it transparent.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "direction": {
+    "doc": "Determines the flow direction of the content inside of blockquote. Can be either `horizontal` or `vertical`. Defaults to `horizontal`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
 ```

@@ -1,8 +1,12 @@
 ---
 title: 'Avatar'
 description: 'The Avatar component is an identifier that makes people and companies more scannable.'
-metadata: https://eufemia.dnb.no/uilib/components/avatar/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.205Z
+checksum: ff009813a4f1ecae3163225075557e7175e0fd0d77c827e8fc7e043b3f87a0b4
 ---
+
+# Avatar
 
 ## Import
 
@@ -36,7 +40,7 @@ See more examples below.
 render(
   <Avatar.Group label="Persons">
     <Avatar>Ola Nordmann</Avatar>
-  </Avatar.Group>,
+  </Avatar.Group>
 )
 ```
 
@@ -56,7 +60,7 @@ Text
 render(
   <Avatar.Group label="Stocks">
     <Avatar size="medium">NFLX</Avatar>
-  </Avatar.Group>,
+  </Avatar.Group>
 )
 ```
 
@@ -66,7 +70,7 @@ render(
 render(
   <Avatar.Group label="Companies">
     <Avatar size="large">Amazon</Avatar>
-  </Avatar.Group>,
+  </Avatar.Group>
 )
 ```
 
@@ -76,7 +80,7 @@ render(
 render(
   <Avatar.Group label="TV Shows">
     <Avatar size="x-large">Friends</Avatar>
-  </Avatar.Group>,
+  </Avatar.Group>
 )
 ```
 
@@ -88,7 +92,7 @@ render(
 render(
   <Avatar.Group label="Dogs">
     <Avatar>Kleiner münsterländer</Avatar>
-  </Avatar.Group>,
+  </Avatar.Group>
 )
 ```
 
@@ -98,7 +102,7 @@ render(
 render(
   <Avatar.Group label="Cities">
     <Avatar variant="primary">Oslo</Avatar>
-  </Avatar.Group>,
+  </Avatar.Group>
 )
 ```
 
@@ -108,7 +112,7 @@ render(
 render(
   <Avatar.Group label="Countries">
     <Avatar variant="secondary">Spain</Avatar>
-  </Avatar.Group>,
+  </Avatar.Group>
 )
 ```
 
@@ -118,7 +122,7 @@ render(
 render(
   <Avatar.Group label="Cars">
     <Avatar variant="tertiary">Tesla</Avatar>
-  </Avatar.Group>,
+  </Avatar.Group>
 )
 ```
 
@@ -152,7 +156,7 @@ render(
     <Avatar icon="calendar_medium" />
     <Avatar icon={<IconPrimary icon={CalendarMedium} />} />
     <Avatar icon={<Icon icon={CalendarMedium} />} />
-  </Avatar.Group>,
+  </Avatar.Group>
 )
 ```
 
@@ -164,7 +168,7 @@ render(
     <Avatar>
       <Logo size="auto" inheritColor />
     </Avatar>
-  </Avatar.Group>,
+  </Avatar.Group>
 )
 ```
 
@@ -178,7 +182,7 @@ render(
     <Avatar variant="tertiary">
       <Icon icon={AccountCardMedium} />
     </Avatar>
-  </Avatar.Group>,
+  </Avatar.Group>
 )
 ```
 
@@ -192,7 +196,7 @@ render(
       src="/dnb/safari-pinned-tab.svg"
       alt="DNB Logo"
     />
-  </Avatar.Group>,
+  </Avatar.Group>
 )
 ```
 
@@ -204,7 +208,7 @@ render(
       alt="DNB Logo"
       size="x-large"
     />
-  </Avatar.Group>,
+  </Avatar.Group>
 )
 ```
 
@@ -216,7 +220,7 @@ render(
       alt="Profile picture"
       size="large"
     />
-  </Avatar.Group>,
+  </Avatar.Group>
 )
 ```
 
@@ -233,7 +237,7 @@ render(
         alt: 'DNB Logo',
       }}
     />
-  </Avatar.Group>,
+  </Avatar.Group>
 )
 ```
 
@@ -268,7 +272,7 @@ render(
     <Avatar>Erlend</Avatar>
     <Avatar>Frida</Avatar>
     <Avatar>Gøril</Avatar>
-  </Avatar.Group>,
+  </Avatar.Group>
 )
 ```
 
@@ -287,7 +291,7 @@ render(
     <Avatar>Erlend</Avatar>
     <Avatar>Frida</Avatar>
     <Avatar>Gøril</Avatar>
-  </Avatar.Group>,
+  </Avatar.Group>
 )
 ```
 
@@ -306,7 +310,7 @@ render(
     <Avatar>Erlend</Avatar>
     <Avatar>Frida</Avatar>
     <Avatar>Gøril</Avatar>
-  </Avatar.Group>,
+  </Avatar.Group>
 )
 ```
 
@@ -320,7 +324,7 @@ render(
     <Avatar src="/images/avatars/1501870.jpg" alt="Profile picture" />
     <Avatar src="/images/avatars/1501870.jpg" alt="Profile picture" />
     <Avatar src="/images/avatars/1501870.jpg" alt="Profile picture" />
-  </Avatar.Group>,
+  </Avatar.Group>
 )
 ```
 
@@ -332,7 +336,7 @@ render(
     <Avatar backgroundColor="fire-red" color="sky-blue">
       Ola Nordmann
     </Avatar>
-  </Avatar.Group>,
+  </Avatar.Group>
 )
 ```
 
@@ -379,4 +383,115 @@ render(
     <Avatar size="x-large">A</Avatar>
   </Avatar.Group>
 </Badge>
+```
+
+## Properties
+
+### `Avatar` properties
+
+```json
+{
+  "size": {
+    "doc": "Size of the Avatar. Options: `small` | `medium` | `large` | `x-large`. Defaults to `medium`.",
+    "type": ["small", "medium", "large", "x-large"],
+    "status": "optional"
+  },
+  "children": {
+    "doc": "Content of the component.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "alt": {
+    "doc": "Used in combination with `src` to provide an alt attribute for the `img` element.",
+    "type": "string",
+    "status": "optional"
+  },
+  "src": {
+    "doc": "Specifies the path to the image.",
+    "type": "string",
+    "status": "optional"
+  },
+  "imgProps": {
+    "doc": "[Image properties](/uilib/elements/image) applied to the `img` element if the component is used to display an image.",
+    "type": ["ImgProps"],
+    "status": "optional"
+  },
+  "icon": {
+    "doc": "An icon name or component. (Will override the `src` property.)",
+    "type": ["string", "[Icon](/uilib/components/icon)"],
+    "status": "optional"
+  },
+  "variant": {
+    "doc": "Override the variant of the component. Options: `primary` | `secondary` | `tertiary`. Defaults to `primary`.",
+    "type": ["primary", "secondary", "tertiary"],
+    "status": "optional"
+  },
+  "hasLabel": {
+    "doc": "If aria-hidden is set to `true` or if a label is given, typical inside a table or dl (definition list), then you can disable Avatar.Group as a dependent of Avatar. Use `true` to omit the `Avatar group required:` warning.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "backgroundColor": {
+    "doc": "Define a custom background color, instead of a variant. Use a Eufemia color.",
+    "type": "string",
+    "status": "optional"
+  },
+  "color": {
+    "doc": "Define a custom color to compliment the backgroundColor. Use a Eufemia color.",
+    "type": "string",
+    "status": "optional"
+  },
+  "skeleton": {
+    "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": "Various",
+    "status": "optional"
+  }
+}
+```
+
+### `Avatar.Group` properties
+
+```json
+{
+  "label": {
+    "doc": "The label description of the group of avatars.",
+    "type": "string",
+    "status": "required"
+  },
+  "size": {
+    "doc": "Size of the Avatars, and \"elements hidden text (+x)\". Options: `small` | `medium` | `large` | `x-large`. Defaults to `medium`.",
+    "type": ["small", "medium", "large", "x-large"],
+    "status": "optional"
+  },
+  "variant": {
+    "doc": "Override the variant of the Avatars. Options: `primary` | `secondary` | `tertiary`. Defaults to `primary`.",
+    "type": ["primary", "secondary", "tertiary"],
+    "status": "optional"
+  },
+  "maxElements": {
+    "doc": "Number of max displayed elements, including the \"elements hidden text (+x)\". Defaults to `4`.",
+    "type": "number",
+    "status": "optional"
+  },
+  "children": {
+    "doc": "The Avatars to group.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "skeleton": {
+    "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": "Various",
+    "status": "optional"
+  }
+}
 ```

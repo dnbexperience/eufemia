@@ -1,8 +1,12 @@
 ---
 title: 'Iterate'
 description: '`Iterate` contains components and functionality for traversing values and parts of data sets such as arrays, which contain a varying number of elements where the number of components on the screen depends on how many elements the data consists of.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Iterate/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.035Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
+
+# Iterate
 
 ## Import
 
@@ -32,7 +36,7 @@ import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
 render(
   <Iterate.Array value={['foo', 'bar']} onChange={console.log}>
     <Field.String itemPath="/" />
-  </Iterate.Array>,
+  </Iterate.Array>
 )
 ```
 
@@ -55,7 +59,7 @@ render(
     <Iterate.Array path="/listOfHeroes">
       <Field.Name.Last itemPath="/name" />
     </Iterate.Array>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 

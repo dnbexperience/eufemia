@@ -1,8 +1,12 @@
 ---
-title: 'ButtonRow'
+title: 'Form.ButtonRow'
 description: '`Form.ButtonRow` is a wrapper for horizontally separated buttons.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Form/ButtonRow/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.798Z
+checksum: d981eefdb45eafd168f036ff6bd5cdd6fd3f57f1495fb8fa4f65863b174d1723
 ---
+
+# Form.ButtonRow
 
 ## Import
 
@@ -23,7 +27,7 @@ render(
     <Form.ButtonRow>
       <Form.SubmitButton />
     </Form.ButtonRow>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -36,7 +40,7 @@ render(
   <Form.ButtonRow>
     <Wizard.Buttons />
     <Button variant="secondary">Other button</Button>
-  </Form.ButtonRow>,
+  </Form.ButtonRow>
 )
 ```
 
@@ -52,6 +56,23 @@ render(
         <Button variant="secondary">Cancel</Button>
       </Form.ButtonRow>
     </Form.Card>
-  </Form.Handler>,
+  </Form.Handler>
 )
+```
+
+## Properties
+
+```json
+{
+  "children": {
+    "doc": "Buttons.",
+    "type": "React.ReactNode",
+    "status": "required"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
 ```

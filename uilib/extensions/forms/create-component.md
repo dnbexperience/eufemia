@@ -1,6 +1,8 @@
 ---
 title: 'Create your own component'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/create-component/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.280Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
 # Create your own component
@@ -119,10 +121,7 @@ const MyField = (props) => {
   )
 }
 render(
-  <MyField
-    onChange={(value) => console.log('onChange', value)}
-    required
-  />,
+  <MyField onChange={(value) => console.log('onChange', value)} required />
 )
 ```
 
@@ -186,7 +185,7 @@ const MyComposedField = (props) => {
     (sliderData) => {
       handleChange(sliderData.value)
     },
-    [handleChange],
+    [handleChange]
   )
   return (
     <FieldBlock id={id} label={props.label ?? 'Name and age'}>
@@ -222,7 +221,7 @@ render(
     onChange={(data) => console.log('onChange', data)}
   >
     <MyComposedField label="My custom label" />
-  </DataContext.Provider>,
+  </DataContext.Provider>
 )
 ```
 
@@ -286,7 +285,7 @@ type MyFieldValue = string
 
 const MyField = (props: FieldProps<MyFieldValue>) => {
   const translations = Form.useTranslation<Translation>(
-    myFieldTranslations,
+    myFieldTranslations
   )
   const { label, requiredMessage } = translations.MyField
 

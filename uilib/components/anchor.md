@@ -1,8 +1,12 @@
 ---
 title: 'Anchor (Text Link)'
 description: 'The Anchor, also known as "Link" is used to navigate from one page to the next HTML page.'
-metadata: https://eufemia.dnb.no/uilib/components/anchor/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.168Z
+checksum: 35bea6c380e4b3529826d030033bf9d64835ad4fd0611e3b0e0ba38aac9bcb4c
 ---
+
+# Anchor (Text Link)
 
 ## Import
 
@@ -38,7 +42,7 @@ render(
     <Anchor element={Link} to="/path">
       Link
     </Anchor>
-  </App>,
+  </App>
 )
 ```
 
@@ -73,7 +77,7 @@ render(
         middle of some text.
       </P>
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -132,7 +136,7 @@ render(
         </P>
       </Example>
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -222,7 +226,7 @@ render(
         </Anchor>
       </Example>
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -272,7 +276,7 @@ render(
         </Anchor>
       </Example>
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -304,7 +308,7 @@ render(
         </Anchor>
       </Example>
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -340,7 +344,7 @@ render(
         </H2>
       </Example>
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -359,7 +363,7 @@ render(
         </Anchor>
       </Section>
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -400,7 +404,7 @@ render(
         </Anchor>
       </Example>
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -433,7 +437,7 @@ render(
         </Anchor>
       </Example>
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -498,7 +502,7 @@ render(
         </ContrastExample>
       </Example>
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -539,7 +543,7 @@ render(
         </P>
       </Example>
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -567,7 +571,7 @@ render(
         </Anchor>
       </Example>
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -583,6 +587,128 @@ render(
         Disabled link
       </Anchor>
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
+```
+
+## Properties
+
+```json
+{
+  "element": {
+    "doc": "Define what HTML or React element should be used (e.g. `element={Link}`). Defaults to semantic `a` element.",
+    "type": "React.Element",
+    "status": "optional"
+  },
+  "href": {
+    "doc": "Relative or absolute url.",
+    "type": "string",
+    "status": "optional"
+  },
+  "to": {
+    "doc": "Use this prop only if you are using a router Link component as the `element` that uses the `to` property to declare the navigation url.",
+    "type": "string",
+    "status": "optional"
+  },
+  "target": {
+    "doc": "Defines the opening method. Use `_blank` to open a new browser window/tab.",
+    "type": "string",
+    "status": "optional"
+  },
+  "targetBlankTitle": {
+    "doc": "The title shown as a tooltip when target is set to `_blank`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "tooltip": {
+    "doc": "Provide a string or a React Element to be shown as the tooltip content.",
+    "type": "string",
+    "status": "optional"
+  },
+  "icon": {
+    "doc": "[Primary Icons](/icons/primary) can be set as a string (e.g. icon=\"chevron_right\"), other icons should be set as React elements.",
+    "type": "React.Node",
+    "status": "optional"
+  },
+  "iconPosition": {
+    "doc": "`left` (default) or `right`. Places icon to the left or to the right of the text.",
+    "type": "string",
+    "status": "optional"
+  },
+  "noAnimation": {
+    "doc": "Removes animations if set to `true`. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "noHover": {
+    "doc": "Removes hover effects if set to `true`. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "noStyle": {
+    "doc": "Removes styling if set to `true`. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "noUnderline": {
+    "doc": "Removes underline if set to `true`. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "noIcon": {
+    "doc": "Removes icons if set to `true`. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "noLaunchIcon": {
+    "doc": "Removes launch icon if set to `true`. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "disabled": {
+    "doc": "Disables the Anchor (no navigation, no hover). Keep a short reason nearby (e.g. using the `tooltip` property).",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "skeleton": {
+    "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `left` or `right` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
+```
+
+### Router Link
+
+You can make use of the `element` property in combination with the `to` property.
+
+```jsx
+import { Link } from 'gatsby'
+
+render(
+  <Anchor to="/url" element={Link}>
+    Link
+  </Anchor>
+)
+```
+
+## Translations
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "Anchor.targetBlankTitle": {
+      "nb-NO": "Åpner et nytt vindu",
+      "en-GB": "Opens a new Window",
+      "sv-SE": "Öppnar ett nytt fönster",
+      "da-DK": "Åbner et nyt vindue"
+    }
+  }
+}
 ```

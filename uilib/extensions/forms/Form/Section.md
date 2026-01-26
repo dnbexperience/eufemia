@@ -1,8 +1,12 @@
 ---
-title: 'Section'
+title: 'Form.Section'
 description: '`Form.Section` lets you compose blocks of fields and values to be reused in different contexts.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Form/Section/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.910Z
+checksum: e125633052ef7908a2f0171cb864e12c3c898f9452212cab006b060b10d68116
 ---
+
+# Form.Section
 
 ## Import
 
@@ -93,7 +97,7 @@ render(
         lastName: { required: false, minLength: 0 },
       }}
     />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -123,7 +127,7 @@ render(
     }}
   >
     <MySection path="/nestedPath" />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -164,7 +168,7 @@ render(
     }}
   >
     <MySection path="/section" />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -214,7 +218,7 @@ render(
     }}
   >
     <AddressSection path="/address" />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -235,7 +239,7 @@ render(
   <Form.Section required={true}>
     <Field.Name.First path="/firstName" />
     <Field.Name.Last path="/lastName" />
-  </Form.Section>,
+  </Form.Section>
 )
 ```
 
@@ -248,7 +252,7 @@ import { Form, Field, SectionProps } from '@dnb/eufemia/extensions/forms'
 import type { Props as PhoneNumberProps } from '@dnb/eufemia/extensions/forms/Field/PhoneNumber'
 
 const MySection = (
-  props: SectionProps<{ phoneNumber?: PhoneNumberProps }>,
+  props: SectionProps<{ phoneNumber?: PhoneNumberProps }>
 ) => {
   return (
     <Form.Section {...props}>
@@ -260,7 +264,7 @@ const MySection = (
 render(
   <Form.Handler>
     <MySection />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -492,7 +496,7 @@ render(
   <Form.Handler>
     <MySection />
     <Form.SubmitButton />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -514,7 +518,7 @@ it('MySection should match snapshot', () => {
       <Tools.ListAllProps generateRef={generateRef}>
         <MySection />
       </Tools.ListAllProps>
-    </Form.Handler>,
+    </Form.Handler>
   )
 
   const { propsOfFields, propsOfValues } = generateRef.current()
@@ -536,7 +540,7 @@ render(
     onChange={console.log}
   >
     <Field.String path="/myField" />
-  </Form.Section>,
+  </Form.Section>
 )
 ```
 
@@ -567,7 +571,7 @@ render(
   >
     <MyNameSection path="/nestedPath" />
     <Form.SubmitButton variant="send" />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -612,7 +616,7 @@ render(
       </Form.Section>
     </Form.Card>
     <Form.SubmitButton />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -657,7 +661,7 @@ render(
       </Form.Section>
     </Form.Card>
     <Form.SubmitButton />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -702,7 +706,7 @@ render(
       </Form.Section>
     </Form.Card>
     <Form.SubmitButton />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -747,7 +751,7 @@ render(
       }}
     />
     <Form.SubmitButton variant="send" />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -802,7 +806,7 @@ render(
   >
     <MyNameSection path="/nestedPath" />
     <Form.SubmitButton variant="send" />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -836,7 +840,7 @@ render(
       <Tools.Log label="Data" />
       <Tools.Errors label="Errors" />
     </Flex.Stack>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -877,7 +881,7 @@ render(
       <MyNameSection path="/myRequiredSection" />
       <Form.SubmitButton variant="send" />
     </Form.Handler>
-  </Flex.Stack>,
+  </Flex.Stack>
 )
 ```
 
@@ -1026,6 +1030,117 @@ render(
         </P>
       </Form.Visibility>
     </MySection>
-  </Form.Handler>,
+  </Form.Handler>
 )
+```
+
+## Properties
+
+```json
+{
+  "path": {
+    "doc": "A path to the section (JSON Pointer). When defined, fields inside the section will get this path as a prefix of their own path.",
+    "type": "string",
+    "status": "optional"
+  },
+  "overwriteProps": {
+    "doc": "Overwrite field props for the section.",
+    "type": "object",
+    "status": "optional"
+  },
+  "translation": {
+    "doc": "Provide a translation for the section (e.g. `{'nb-NO': { MySection: { MyField: { label: 'Custom' }}}}`).",
+    "type": "object",
+    "status": "optional"
+  },
+  "required": {
+    "doc": "Makes all fields inside it required.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "validateInitially": {
+    "doc": "If set to `true`, the whole section will be validated initially. All fields will then automatically get `validateInitially` and show their error messages. Can be useful in combination with `containerMode=\"auto\"`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "defaultData": {
+    "doc": "Provide default data to the section fields and values, in case the data context (Form.Handler) is not available.",
+    "type": "object",
+    "status": "optional"
+  },
+  "data": {
+    "doc": "Provide data to the section fields and values, in case the data context (Form.Handler) is not available.",
+    "type": "object",
+    "status": "optional"
+  },
+  "containerMode": {
+    "doc": "Defines the container mode. Can be `view`, `edit` or `auto`. When set to `auto`, the mode will initially be \"edit\" if fields contain errors. Defaults to `auto`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "disableEditing": {
+    "doc": "If set to `true`, the section will stay in view mode and hide the edit toolbar.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "children": {
+    "doc": "All the fields and values inside the section.",
+    "type": "React.Node",
+    "status": "optional"
+  }
+}
+```
+
+## Translations
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "SectionEditContainer.cancelButton": {
+      "nb-NO": "Avbryt",
+      "en-GB": "Cancel",
+      "sv-SE": "Avbryt",
+      "da-DK": "Annuller"
+    },
+    "SectionEditContainer.confirmCancelText": {
+      "nb-NO": "Er du sikker på at du vil forkaste endringene?",
+      "en-GB": "Are you sure you want to discard your changes?",
+      "sv-SE": "Är du säker på att du vill ångra dina ändringar?",
+      "da-DK": "Er du sikker på, at du vil forkaste dine ændringer?"
+    },
+    "SectionEditContainer.doneButton": {
+      "nb-NO": "Ferdig",
+      "en-GB": "Done",
+      "sv-SE": "Klar",
+      "da-DK": "Færdig"
+    },
+    "SectionEditContainer.errorInSection": {
+      "nb-NO": "Feilene ovenfor må rettes.",
+      "en-GB": "Please correct the errors above.",
+      "sv-SE": "Felen ovan måste åtgärdas.",
+      "da-DK": "Fejlene ovenfor skal rettes."
+    },
+    "SectionViewContainer.editButton": {
+      "nb-NO": "Endre",
+      "en-GB": "Edit",
+      "sv-SE": "Ändra",
+      "da-DK": "Rediger"
+    }
+  }
+}
+```
+
+## Events
+
+### Section-specific events
+
+```json
+{
+  "onChange": {
+    "doc": "Will be called when a value of a field was changed by the user, with the data set (including the changed value) as argument.",
+    "type": "function",
+    "status": "optional"
+  }
+}
 ```

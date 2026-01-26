@@ -1,8 +1,12 @@
 ---
 title: 'Table'
 description: 'Enhanced HTML Table element.'
-metadata: https://eufemia.dnb.no/uilib/components/table/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.539Z
+checksum: 03d6217bba4dd90e46b5dd2977d5de43f3c8df2ff1505c783d6df23cf5e9c57d
 ---
+
+# Table
 
 ## Import
 
@@ -62,7 +66,7 @@ import { Table } from '@dnb/eufemia'
 render(
   <Table.ScrollView>
     <Table />
-  </Table.ScrollView>,
+  </Table.ScrollView>
 )
 ```
 
@@ -110,7 +114,7 @@ export const YourComponent = () => {
       column3: { modes: ['asc', 'off'] }, // will only allow one direction
       column4: {}, // etc.
     },
-    defaultOptions,
+    defaultOptions
   )
 
   // Use these properties for your custom sorting logic
@@ -319,7 +323,7 @@ render(
         </Tr>
       </tbody>
     </Table>
-  </Table.ScrollView>,
+  </Table.ScrollView>
 )
 ```
 
@@ -345,7 +349,7 @@ render(
         </Tr>
       </tbody>
     </Table>
-  </Table.ScrollView>,
+  </Table.ScrollView>
 )
 ```
 
@@ -442,7 +446,7 @@ render(
         </Tr>
       </tbody>
     </FixedTable>
-  </Table.ScrollView>,
+  </Table.ScrollView>
 )
 ```
 
@@ -483,7 +487,7 @@ render(
         </Tr>
       </tbody>
     </Table>
-  </Table.ScrollView>,
+  </Table.ScrollView>
 )
 ```
 
@@ -524,7 +528,7 @@ render(
         </Tr>
       </tbody>
     </Table>
-  </Table.ScrollView>,
+  </Table.ScrollView>
 )
 ```
 
@@ -636,7 +640,7 @@ render(
         size="medium"
       />
     </Table.ScrollView>
-  </>,
+  </>
 )
 ```
 
@@ -739,7 +743,7 @@ render(
         </Tr>
       </tbody>
     </Table>
-  </Table.ScrollView>,
+  </Table.ScrollView>
 )
 ```
 
@@ -825,7 +829,7 @@ render(
         size="medium"
       />
     </Table.ScrollView>
-  </>,
+  </>
 )
 ```
 
@@ -884,7 +888,7 @@ render(
         </Tr>
       </tfoot>
     </Table>
-  </Table.ScrollView>,
+  </Table.ScrollView>
 )
 ```
 
@@ -983,7 +987,7 @@ render(
         </Tr>
       </tbody>
     </Table>
-  </Table.ScrollView>,
+  </Table.ScrollView>
 )
 ```
 
@@ -1008,17 +1012,15 @@ render(
       <P>Footer</P>
     </TableContainer.Foot>
 
-</TableContainer>,
+  </TableContainer>
 )
-
-````
+```
 
 </Details>
 
-
 ```tsx
 const StyledContainer = styled(TableContainer)`
-  /*
+  /* 
             Define the width of the THs so they are aligned across tables.
             A "fixed" table width is needed in order to align all tables to act with the same column widths.
           */
@@ -1144,9 +1146,9 @@ render(
     <TableContainer.Foot>
       <P id="unique-ref-id">Footer</P>
     </TableContainer.Foot>
-  </StyledContainer>,
+  </StyledContainer>
 )
-````
+```
 
 With no (empty) `head` and `foot` content.
 
@@ -1179,7 +1181,7 @@ render(
         </tbody>
       </Table>
     </TableContainer.Body>
-  </TableContainer>,
+  </TableContainer>
 )
 ```
 
@@ -1218,7 +1220,7 @@ render(
         </Tr>
       </tbody>
     </Table>
-  </Table.ScrollView>,
+  </Table.ScrollView>
 )
 ```
 
@@ -1420,7 +1422,7 @@ render(
         </tr>
       </tbody>
     </table>
-  </Table.ScrollView>,
+  </Table.ScrollView>
 )
 ```
 
@@ -1458,7 +1460,7 @@ render(
         </tr>
       </tbody>
     </table>
-  </Table.ScrollView>,
+  </Table.ScrollView>
 )
 ```
 
@@ -1580,7 +1582,7 @@ render(
         size="medium"
       />
     </Table.ScrollView>
-  </>,
+  </>
 )
 ```
 
@@ -1664,7 +1666,7 @@ render(
         size="medium"
       />
     </Table.ScrollView>
-  </>,
+  </>
 )
 ```
 
@@ -1733,6 +1735,261 @@ render(
       id="accordion-table-in-table"
       accordionChevronPlacement="end"
     />
-  </Table.ScrollView>,
+  </Table.ScrollView>
 )
+```
+
+## Properties
+
+### `<Table>`
+
+```json
+{
+  "mode": {
+    "doc": "Defines how the Table should look. Use `accordion` for an accordion-like table. Use `navigation` for a navigation table.",
+    "type": ["'accordion'", "'navigation'"],
+    "defaultValue": "null",
+    "status": "optional"
+  },
+  "accordionChevronPlacement": {
+    "doc": "Defines where the chevron will be placed, should only be used together with mode=\"accordion\".",
+    "type": ["'start'", "'end'"],
+    "defaultValue": "'start'",
+    "status": "optional"
+  },
+  "border": {
+    "doc": "Use `true` to show borders between table data cells.",
+    "type": "boolean",
+    "defaultValue": "false",
+    "status": "optional"
+  },
+  "outline": {
+    "doc": "Use `true` to show an outline border around the table",
+    "type": "boolean",
+    "defaultValue": "false",
+    "status": "optional"
+  },
+  "sticky": {
+    "doc": "Use `true` to enable a sticky Table header. Or use `'css-position'` to enable the CSS based scroll behavior.",
+    "type": ["boolean", "'css-position'"],
+    "defaultValue": "false",
+    "status": "optional"
+  },
+  "stickyOffset": {
+    "doc": "Defines the offset (top) in `rem` from where the header should start to stick. You may define your app header height here, if you have a sticky header on your page.",
+    "type": ["string", "number"],
+    "defaultValue": "false",
+    "status": "optional"
+  },
+  "size": {
+    "doc": "Spacing size inside the table header and data.",
+    "type": ["'large'", "'medium'", "'small'"],
+    "defaultValue": "'large'",
+    "status": "optional"
+  },
+  "fixed": {
+    "doc": "If set to `true`, the table will behave with a fixed table layout, using: `table-layout: fixed;`. Use e.g. CSS `width: 40%` on a table column to define the width.",
+    "type": "boolean",
+    "defaultValue": "null",
+    "status": "optional"
+  },
+  "children": {
+    "doc": "The content of the component.",
+    "type": "React.ReactNode",
+    "status": "required"
+  },
+  "className": {
+    "doc": "Custom className on the component root",
+    "type": "string",
+    "defaultValue": "undefined",
+    "status": "optional"
+  },
+  "skeleton": {
+    "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+    "type": "boolean",
+    "defaultValue": "undefined",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
+```
+
+### Table Row `<Tr>`
+
+```json
+{
+  "variant": {
+    "doc": "Override the automatic variant of the current row. The next row one will continue with the opposite.",
+    "type": ["'even'", "'odd'"],
+    "defaultValue": "undefined",
+    "status": "optional"
+  },
+  "noWrap": {
+    "doc": "If set to `true`, the inherited header text will not wrap to new lines.",
+    "type": "boolean",
+    "defaultValue": "true",
+    "status": "optional"
+  },
+  "expanded": {
+    "doc": "Use `true` to render the `<Tr>` initially as expanded.",
+    "type": "boolean",
+    "defaultValue": "false",
+    "status": "optional"
+  },
+  "disabled": {
+    "doc": "Use `true` to disable the `<Tr>` to be accessible as an interactive element.",
+    "type": "boolean",
+    "defaultValue": "false",
+    "status": "optional"
+  },
+  "noAnimation": {
+    "doc": "Use `true` to disable the expand/collapse animation.",
+    "type": "boolean",
+    "defaultValue": "false",
+    "status": "optional"
+  },
+  "children": {
+    "doc": "The content of the component.",
+    "type": "React.ReactNode",
+    "status": "required"
+  }
+}
+```
+
+### Table Header `<Th>`
+
+```json
+{
+  "sortable": {
+    "doc": "Defines the table header as sortable if set to `true` (ascending).",
+    "type": "boolean",
+    "defaultValue": "false",
+    "status": "optional"
+  },
+  "active": {
+    "doc": "Defines the sortable column as the current active (ascending).",
+    "type": "boolean",
+    "defaultValue": "false",
+    "status": "optional"
+  },
+  "reversed": {
+    "doc": "Defines the sortable column as in reversed order (descending).",
+    "type": "boolean",
+    "defaultValue": "false",
+    "status": "optional"
+  },
+  "noWrap": {
+    "doc": "If set to `true`, the header text will not wrap to new lines.",
+    "type": "boolean",
+    "defaultValue": "false",
+    "status": "optional"
+  },
+  "children": {
+    "doc": "The content of the component.",
+    "type": "React.ReactNode",
+    "defaultValue": "undefined",
+    "status": "optional"
+  }
+}
+```
+
+### Table Data `<Td>`
+
+```json
+{
+  "noSpacing": {
+    "doc": "If set to `true`, no padding will be added.",
+    "type": "boolean",
+    "defaultValue": "false",
+    "status": "optional"
+  },
+  "spacing": {
+    "doc": "Set to `horizontal` for padding on left and right side.",
+    "type": "'horizontal'",
+    "defaultValue": "undefined",
+    "status": "optional"
+  },
+  "children": {
+    "doc": "The content of the component.",
+    "type": "React.ReactNode",
+    "defaultValue": "undefined",
+    "status": "optional"
+  }
+}
+```
+
+## Table Translations
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "Table.accordionMoreContentSR": {
+      "nb-NO": "Mer innhold i neste rad",
+      "en-GB": "More content in the next row",
+      "sv-SE": "Mer innehåll i nästa rad",
+      "da-DK": "Mere indhold i næste række"
+    },
+    "Table.accordionToggleButtonSR": {
+      "nb-NO": "Vis mer innhold",
+      "en-GB": "Show more content",
+      "sv-SE": "Visa mer innehåll",
+      "da-DK": "Vis mere indhold"
+    },
+    "Table.navigationButtonSR": {
+      "nb-NO": "Naviger til mer innhold",
+      "en-GB": "Navigate to more content",
+      "sv-SE": "Navigera till mer innehåll",
+      "da-DK": "Naviger til mere indhold"
+    }
+  }
+}
+```
+
+## Table events
+
+```json
+{
+  "collapseAllHandleRef": {
+    "doc": "Ref handle to collapse all expanded accordion rows. Send in a ref and use `.current()` to collapse all rows.",
+    "type": "React.MutableRefObject<() => void>",
+    "defaultValue": "undefined",
+    "status": "optional"
+  }
+}
+```
+
+## Table Row `<Tr>` events
+
+Table Row `<Tr>` events are a part of the mode feature and needs to be enabled with the `mode` property on the main Table.
+
+Table with navigation mode(`mode="navigation"`) only supports the `<Tr>` event `onClick`.
+
+Table with accordion mode(`mode="accordion"`) supports all the `<Tr>` events listed below.
+
+```json
+{
+  "onClick": {
+    "doc": "Will emit when user clicks/expands or on keydown space/enter(in mode=\"accordion\" and mode=\"navigation\") in the table row. Returns a native click.",
+    "type": "(event) => void",
+    "defaultValue": "undefined",
+    "status": "optional"
+  },
+  "onOpened": {
+    "doc": "Will emit when table row is expanded. Returns an object with the table row as the target: `{ target }`.",
+    "type": "({ target }) => void",
+    "defaultValue": "undefined",
+    "status": "optional"
+  },
+  "onClosed": {
+    "doc": "Will emit when table row is closed (after it was open). Returns an object with the table row as the target: `{ target }`.",
+    "type": "({ target }) => void",
+    "defaultValue": "undefined",
+    "status": "optional"
+  }
+}
 ```

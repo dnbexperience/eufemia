@@ -1,8 +1,12 @@
 ---
 title: 'Drawer'
 description: 'The Drawer component is a Modal variation that appears as a side panel at any chosen side of the page.'
-metadata: https://eufemia.dnb.no/uilib/components/drawer/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.296Z
+checksum: 8953eeeb2cb867c589fb63b790f1712d76c5101e998194e31f21f9ce479c2da0
 ---
+
+# Drawer
 
 ## Import
 
@@ -60,7 +64,7 @@ render(
       eros euismod volutpat nisl dui lectus fames suscipit phasellus
       praesent justo mollis montes velit taciti gravida
     </P>
-  </Drawer>,
+  </Drawer>
 )
 ```
 
@@ -76,7 +80,7 @@ render(
       vestibulum neque pulvinar semper vulputate id dis varius pellentesque
       nunc egestas risus amet
     </P>
-  </Drawer>,
+  </Drawer>
 )
 ```
 
@@ -98,7 +102,7 @@ render(
       vestibulum neque pulvinar semper vulputate id dis varius pellentesque
       nunc egestas risus amet
     </P>
-  </Drawer>,
+  </Drawer>
 )
 ```
 
@@ -160,7 +164,7 @@ render(
         }}
       </Tabs.Content>
     </Drawer.Body>
-  </Drawer>,
+  </Drawer>
 )
 ```
 
@@ -181,7 +185,7 @@ render(
     <Drawer.Body spacing>
       <P>Opened a Drawer with a custom trigger button!</P>
     </Drawer.Body>
-  </Drawer>,
+  </Drawer>
 )
 ```
 
@@ -201,7 +205,7 @@ render(
         <Button text="Close by callback" on_click={close} />
       </>
     )}
-  </Drawer>,
+  </Drawer>
 )
 ```
 
@@ -227,7 +231,7 @@ render(
       </Button>
       <FormStatus state="info">This is a lorem ipsum dolor</FormStatus>
     </Drawer.Body>
-  </Drawer>,
+  </Drawer>
 )
 ```
 
@@ -245,23 +249,23 @@ const DrawerMock = () => {
       scrollRef={scrollRef}
       onOpen={() => {
         const innerOverflowY = window.getComputedStyle(
-          innerRef.current,
+          innerRef.current
         ).overflowY
         const contentElem = scrollRef.current.querySelector(
-          '.dnb-drawer__content',
+          '.dnb-drawer__content'
         )
         const contentOverflowY =
           window.getComputedStyle(contentElem)?.overflowY
         const scrollOverflowY = window.getComputedStyle(
-          scrollRef.current,
+          scrollRef.current
         ).overflowY
         if (contentOverflowY !== 'visible') {
           setErrorMessage(
-            `.dnb-drawer__content was "${contentOverflowY}" and not "visible"`,
+            `.dnb-drawer__content was "${contentOverflowY}" and not "visible"`
           )
         } else if (innerOverflowY !== 'visible') {
           setErrorMessage(
-            `.dnb-drawer__inner was "${innerOverflowY}" and not "visible"`,
+            `.dnb-drawer__inner was "${innerOverflowY}" and not "visible"`
           )
         } else if (scrollOverflowY !== 'auto') {
           setErrorMessage('.dnb-scroll-view was not "auto"')
@@ -295,7 +299,7 @@ render(
       vestibulum neque pulvinar semper vulputate id dis varius pellentesque
       nunc egestas risus amet
     </P>
-  </Drawer>,
+  </Drawer>
 )
 ```
 
@@ -309,7 +313,7 @@ render(
       vestibulum neque pulvinar semper vulputate id dis varius pellentesque
       nunc egestas risus amet
     </P>
-  </Drawer>,
+  </Drawer>
 )
 ```
 
@@ -450,3 +454,115 @@ const MockComponent = () => {
 }
 render(<MockComponent />)
 ```
+
+## Properties
+
+```json
+{
+  "containerPlacement": {
+    "doc": "Defines on what side the Drawer should be opened. Can be set to `left`, `right`, `top` and `bottom`. Defaults to `right`.",
+    "type": ["left", "right", "top", "bottom"],
+    "status": "optional"
+  },
+  "title": {
+    "doc": "The drawer title. Displays on the very top of the content.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "minWidth": {
+    "doc": "The minimum Drawer content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem` (average width is set to `60vw`).",
+    "type": ["string", "number"],
+    "status": "optional"
+  },
+  "maxWidth": {
+    "doc": "The maximum Drawer content width, defined by a CSS width value like `20rem`. Defaults to `60rem` (average width is set to `60vw`).",
+    "type": ["string", "number"],
+    "status": "optional"
+  },
+  "className": {
+    "doc": "Give the Drawer content a class name (maps to `dnb-drawer`).",
+    "type": "string",
+    "status": "optional"
+  },
+  "spacing": {
+    "doc": "If set to `false` then the drawer content will be shown without any spacing. Defaults to `true`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "preventCoreStyle": {
+    "doc": "By default the drawer content gets added the core style class `dnb-core-style`. Use `false` to disable this behavior.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "navContent": {
+    "doc": "The content which will appear in the navigation, above the header, and side-by-side the close button.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "headerContent": {
+    "doc": "The content which will appear in the header of the drawer.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "modalContent": {
+    "doc": "The content which will appear when triggering the drawer.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "alignContent": {
+    "doc": "Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.",
+    "type": ["left", "right", "centered", "center"],
+    "status": "optional"
+  },
+  "fullscreen": {
+    "doc": "If set to `true` then the drawer content will be shown as fullscreen, without showing the original content behind. Can be set to `false` to omit the auto fullscreen. Defaults to `auto`.",
+    "type": ["boolean", "string"],
+    "status": "optional"
+  }
+}
+```
+
+### More properties
+
+The properties of [Modal](/uilib/components/modal) formatted as camel case are also provided.
+See the table below:
+
+<PropertiesTable props={ModalProperties} />
+
+## Translations
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "Modal.close_title": {
+      "nb-NO": "Lukk",
+      "en-GB": "Close",
+      "sv-SE": "Stäng",
+      "da-DK": "Luk"
+    },
+    "Modal.dialog_title": {
+      "nb-NO": "Separat Vindu",
+      "en-GB": "Dialog Window",
+      "sv-SE": "Separat Fönster",
+      "da-DK": "Separat vindue"
+    }
+  }
+}
+```
+
+### Drawer sizes
+
+The Drawer is responsive with the following properties:
+
+```css
+--drawer-width: 40vw;
+--drawer-min-width: 384px;
+--drawer-max-width: 40rem;
+```
+
+## Events
+
+Drawer includes the same events as [Modal](/uilib/components/modal), only formatted as camel case.
+
+<PropertiesTable props={ModalEvents} />

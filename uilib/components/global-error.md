@@ -1,8 +1,12 @@
 ---
 title: 'GlobalError (404)'
 description: 'The GlobalError is a simple component to integrate where a 404 or 500 message has to be shown.'
-metadata: https://eufemia.dnb.no/uilib/components/global-error/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.325Z
+checksum: 4324f46f1ca330649e6d2284e2e49931506e145839e3e8f0c2ea7cc3bee65ee3
 ---
+
+# GlobalError (404)
 
 ## Import
 
@@ -71,6 +75,130 @@ render(
     links={links}
   >
     Additional Content
-  </GlobalError>,
+  </GlobalError>
 )
+```
+
+## Properties
+
+```json
+{
+  "statusCode": {
+    "doc": "Defines a status code as a string. When `404` or `500` is given, predefined `text` and `title` will be shown. Defaults to `404`.",
+    "type": ["404", "500", "string"],
+    "status": "optional"
+  },
+  "status": {
+    "doc": "Defines a status code as a string. When `404` or `500` is given, predefined `text` and `title` will be shown. Defaults to `404`. This prop is deprecated and will be removed in v11, please use `statusCode` instead.",
+    "type": ["404", "500", "string"],
+    "status": "deprecated"
+  },
+  "title": {
+    "doc": "Overwrites the default title for the provided `statusCode`.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "text": {
+    "doc": "Overwrites the default text for the provided `statusCode`.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "code": {
+    "doc": "Overwrites the default error message code text `Feilmeldings-kode:`. . This prop is deprecated and will be removed in v11, please use `errorMessageCode` instead.",
+    "type": "React.ReactNode",
+    "status": "deprecated"
+  },
+  "errorMessageCode": {
+    "doc": "Overwrites the default error message code text `Feilmeldings-kode: %statusCode`.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "help": {
+    "doc": "Overwrites the default additional help text `Her er noen lenker som kanskje kan hjelpe:`. This text is only rendered when `links` are provided.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "links": {
+    "doc": "Provide an array with objects `{ text: \"Text\", url: \"https://...\" }` to display a list of anchor links.",
+    "type": ["Array<GlobalErrorLink>"],
+    "status": "optional"
+  },
+  "center": {
+    "doc": "If true, it will use `80vh` as the height and center its content.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "skeleton": {
+    "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "locale": {
+    "doc": "Set a [supported locale](/uilib/usage/customisation/localization/) if needed.",
+    "type": "string",
+    "status": "optional"
+  },
+  "children": {
+    "doc": "To display additional related content, like useful links etc.",
+    "type": "React.Node",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
+```
+
+## Translations
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "GlobalError.404.text": {
+      "nb-NO": "Sikker på at du har skrevet riktig adresse? Eller har vi rotet med lenkene?",
+      "en-GB": "Are you sure you have entered the correct address? Or have we messed with the links?",
+      "sv-SE": "Är du säker på att du har skrivit rätt adress?",
+      "da-DK": "Er du sikker på, at du har skrevet den rigtige adresse?"
+    },
+    "GlobalError.404.title": {
+      "nb-NO": "Vi finner ikke siden du leter etter …",
+      "en-GB": "We can't find the page you're looking for …",
+      "sv-SE": "Vi kan inte hitta sidan du letar efter …",
+      "da-DK": "Vi kan ikke finde den siden du leder efter …"
+    },
+    "GlobalError.500.text": {
+      "nb-NO": "Tjenesten fungerer ikke slik den skal for øyeblikket, men prøv igjen senere.",
+      "en-GB": "The service is not working properly at the moment. Try again later.",
+      "sv-SE": "Tjänsten fungerar inte som den ska just nu, men försök igen senare.",
+      "da-DK": "Tjenesten fungerer ikke som den skal i øjeblikket, prøv igen senere."
+    },
+    "GlobalError.500.title": {
+      "nb-NO": "Beklager, her skjedde det noe feil!",
+      "en-GB": "Sorry, a technical error happened!",
+      "sv-SE": "Tyvärr, något gick fel!",
+      "da-DK": "Beklager, der opstod en fejl!"
+    },
+    "GlobalError.code": {
+      "nb-NO": "Feilmeldings-kode:",
+      "en-GB": "Error code:",
+      "sv-SE": "Felmeddelande-kod:",
+      "da-DK": "Fejlkode:"
+    },
+    "GlobalError.errorMessageCode": {
+      "nb-NO": "Feilmeldings-kode: %statusCode",
+      "en-GB": "Error code: %statusCode",
+      "sv-SE": "Felmeddelande-kod: %statusCode",
+      "da-DK": "Fejlkode: %statusCode"
+    },
+    "GlobalError.help": {
+      "nb-NO": "Her er noen lenker som kanskje kan hjelpe:",
+      "en-GB": "Here are some links that might help:",
+      "sv-SE": "Här är några länkar som kanske kan hjälpa:",
+      "da-DK": "Her er nogle links, der måske kan hjælpe:"
+    }
+  }
+}
 ```

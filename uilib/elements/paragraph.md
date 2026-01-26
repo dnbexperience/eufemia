@@ -1,8 +1,12 @@
 ---
 title: 'Paragraph'
 description: 'Paragraphs are block-level elements, used to structure and format text contents.'
-metadata: https://eufemia.dnb.no/uilib/elements/paragraph/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.756Z
+checksum: 8ca1a8dbfa38ce91ec8dc7ebf113334db61f45a4848fa815125f84df2a476441
 ---
+
+# Paragraph
 
 ## Import
 
@@ -105,7 +109,7 @@ render(
     <P weight="bold">Bold weight paragraph</P>
     <P decoration="underline">Underline paragraph</P>
     <P slant="italic">Italic paragraph</P>
-  </article>,
+  </article>
 )
 ```
 
@@ -131,7 +135,7 @@ render(
     <P proseMaxWidth>
       This paragraph uses proseMaxWidth with its default value.
     </P>
-  </Flex.Stack>,
+  </Flex.Stack>
 )
 ```
 
@@ -156,7 +160,7 @@ render(
         proseMaxWidth={40}
       </P>
     </Typography.Provider>
-  </Flex.Stack>,
+  </Flex.Stack>
 )
 ```
 
@@ -215,7 +219,7 @@ render(
     <Case>
       <abbr title="Bolig Sparing for Ungdom">BSU</abbr>
     </Case>
-  </P>,
+  </P>
 )
 ```
 
@@ -274,7 +278,7 @@ render(
         with a new line.
       </Case>
     </P>
-  </article>,
+  </article>
 )
 ```
 
@@ -307,7 +311,7 @@ render(
     <Case>
       Text <sub>Subscript</sub>
     </Case>
-  </P>,
+  </P>
 )
 ```
 
@@ -320,4 +324,92 @@ render(
 <PWrap size="basis" />
 <PWrap size="small" />
 <PWrap size="x-small" />
+```
+
+## Properties
+
+```json
+{
+  "element": {
+    "doc": "Defines the Element Type, like `p`.",
+    "type": ["HTMLElement", "string"],
+    "status": "optional"
+  },
+  "size": {
+    "doc": "Sets the font size, also sets the line-height if `lineHeight` prop is not set.",
+    "type": [
+      "'x-small'",
+      "'small'",
+      "'basis'",
+      "'medium'",
+      "'large'",
+      "'x-large'",
+      "'xx-large'"
+    ],
+    "status": "optional"
+  },
+  "lineHeight": {
+    "doc": "Sets the line height, will use same value as `size` if not set.",
+    "type": [
+      "'x-small'",
+      "'small'",
+      "'basis'",
+      "'medium'",
+      "'large'",
+      "'x-large'",
+      "'xx-large'"
+    ],
+    "status": "optional"
+  },
+  "align": {
+    "doc": "Sets the text alignment.",
+    "type": ["'center'", "'left'", "'right'"],
+    "status": "optional"
+  },
+  "family": {
+    "doc": "Sets the font family.",
+    "type": ["'basis'", "'heading'", "'monospace'"],
+    "status": "optional"
+  },
+  "weight": {
+    "doc": "Sets the font weight.",
+    "type": ["'regular'", "'medium'"],
+    "status": "optional"
+  },
+  "decoration": {
+    "doc": "Sets the font decoration.",
+    "type": "'underline'",
+    "status": "optional"
+  },
+  "slant": {
+    "doc": "Sets the font style.",
+    "type": "'italic'",
+    "status": "optional"
+  },
+  "proseMaxWidth": {
+    "doc": "Sets the maximum width based on character count. This will limit the text width to approximately the specified number of characters. Use `true` for a default value of 60ch.",
+    "type": ["number", "boolean"],
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  },
+  "medium": {
+    "doc": "Tells the component to use the medium font-weight styling `dnb-t__weight--medium`. More details [here](/uilib/typography/font-weight).",
+    "type": "boolean",
+    "status": "deprecated"
+  },
+  "bold": {
+    "doc": "Tells the component to use the bold font-weight styling class `dnb-t__weight--bold`. More details [here](/uilib/typography/font-weight).",
+    "type": "boolean",
+    "status": "deprecated"
+  },
+  "modifier": {
+    "doc": "String containing a combination of modifiers, used to set both font-size and weight in one property. e.g. `x-small medium` would make the paragraph extra small and medium.",
+    "type": "string",
+    "status": "deprecated"
+  }
+}
 ```

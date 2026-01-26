@@ -1,8 +1,12 @@
 ---
 title: 'GlobalStatus'
 description: 'The GlobalStatus is a complex component meant for displaying global Application notifications or a summary of a form.'
-metadata: https://eufemia.dnb.no/uilib/components/global-status/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.333Z
+checksum: 70b3a7985681808c8a626273d279d16fd4df87329bae8bbe924b08aa6f9a3337
 ---
+
+# GlobalStatus
 
 ## Import
 
@@ -185,7 +189,7 @@ render(
     no_animation={true}
     omit_set_focus={true}
     id="demo-1"
-  />,
+  />
 )
 ```
 
@@ -203,7 +207,7 @@ render(
     no_animation={true}
     omit_set_focus={true}
     id="demo-4"
-  />,
+  />
 )
 ```
 
@@ -220,7 +224,7 @@ render(
     no_animation={true}
     omit_set_focus={true}
     id="demo-5"
-  />,
+  />
 )
 ```
 
@@ -237,7 +241,7 @@ render(
     no_animation={true}
     omit_set_focus={true}
     id="demo-6"
-  />,
+  />
 )
 ```
 
@@ -252,7 +256,7 @@ render(
     no_animation={true}
     omit_set_focus={true}
     id="demo-icon"
-  />,
+  />
 )
 ```
 
@@ -479,6 +483,312 @@ render(
         text: 'Dui consectetur viverra aenean vestibulum ac tristique sem ligula condimentum',
       })
     }}
-  />,
+  />
 )
+```
+
+## Properties
+
+```json
+{
+  "id": {
+    "doc": "The main ID. Defaults to `main`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "title": {
+    "doc": "The title appears as a part of the status content. Defaults to `En feil har skjedd`.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "text": {
+    "doc": "The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "children": {
+    "doc": "The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "items": {
+    "doc": "The items (list items) appear as a part of the status content. you can both use an JSON array, or a vanilla array with a string or an object content. See **Item Object** example below.",
+    "type": "Array<GlobalStatusItem>",
+    "status": "optional"
+  },
+  "icon": {
+    "doc": "The icon shown before the status title. Defaults to `exclamation`.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "state": {
+    "doc": "Defines the visual appearance of the status. There are four main statuses `error`, `warning`, `info` and `success`. The default status is `error`.",
+    "type": ["error", "info", "warning", "success"],
+    "status": "optional"
+  },
+  "icon_size": {
+    "doc": "The icon size of the title icon shows. Defaults to `medium`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "show": {
+    "doc": "Set to `true` or `false` to manually make the global status visible. Defaults to `true`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "autoclose": {
+    "doc": "Set to `true` to automatically close the global status if there are no more left items in the provider stack. Defaults to `true`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "autoscroll": {
+    "doc": "Set to `true` to automatically scroll the page to the appeared global status. Defaults to `true`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "no_animation": {
+    "doc": "Set to `true` to disable the show/hide/slide/fade/grow/shrink animation. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "delay": {
+    "doc": "Defines the delay on how long the automated visibility should wait before it appears to the user. Defaults to `200ms`.",
+    "type": ["number", "string"],
+    "status": "optional"
+  },
+  "hide_close_button": {
+    "doc": "Set to `true` if the close button should be hidden for the user. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "close_text": {
+    "doc": "Text of the close button. Defaults to `Lukk`.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "status_anchor_text": {
+    "doc": "Defines the anchor text showing up after every item, in case there is a `status_id` defined. Defaults to `Gå til %s`. The `%s` represents the optional and internal handled label addition.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "omit_set_focus": {
+    "doc": "Set to `true` to omit setting the focus during visibility. Defaults to `false`. Additionally, there is `omit_set_focus_on_update` which is set to `true` by default.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "omit_set_focus_on_update": {
+    "doc": "Set to `true` to omit setting the focus during update. Defaults to `true`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "skeleton": {
+    "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
+```
+
+## Translations
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "GlobalStatus.close_text": {
+      "nb-NO": "Lukk",
+      "en-GB": "Close",
+      "sv-SE": "Stäng",
+      "da-DK": "Luk"
+    },
+    "GlobalStatus.default_title": {
+      "nb-NO": "En feil har skjedd",
+      "en-GB": "An error has occurred",
+      "sv-SE": "Ett fel har inträffat",
+      "da-DK": "Der er opstået en fejl"
+    },
+    "GlobalStatus.status_anchor_text": {
+      "nb-NO": "Gå til %s",
+      "en-GB": "Go to %s",
+      "sv-SE": "Gå till %s",
+      "da-DK": "Gå til %s"
+    }
+  }
+}
+```
+
+## Item Object
+
+```js
+// simple
+const items = ['Item #1', 'Item #2']
+
+// advanced
+const items = [
+  { text: 'Item #1', status_id: 'id-1' },
+  { text: 'Item #2', status_id: 'id-2', status_anchor_url: 'https://' },
+]
+```
+
+## Advanced Item Properties
+
+```json
+{
+  "text": {
+    "doc": "The text appears as the status content. Beside plain text, you can send in a React component as well.",
+    "type": "string",
+    "status": "required"
+  },
+  "status_id": {
+    "doc": "Defines an unique ID so the message can be either updated or removed individual.",
+    "type": "string",
+    "status": "required"
+  },
+  "status_anchor_url": {
+    "doc": "Use `status_anchor_url={true}` to enable the go-to link, defined as a url hash using the `status_id`. Or provide it with an actual url: `status_anchor_url=\"https://\"`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "status_anchor_text": {
+    "doc": "Defines the anchor text showing up after every item. Defaults to `Gå til %s`. The `%s` represents the optional and internal handled label addition.",
+    "type": "string",
+    "status": "optional"
+  },
+  "status_anchor_label": {
+    "doc": "Adds an additional text to the anchor (replaces `%s`), showing up after every item. Is used by default by other form components, if they have an `label`.",
+    "type": "string",
+    "status": "optional"
+  }
+}
+```
+
+## Controllers
+
+In React, you can make use of the helper components, the function as a kind of a controller component.
+The goal is to update the content (properties/events) of the target GlobalStatus.
+
+```tsx
+{/* Place the status wherever you have to.*/}
+<GlobalStatus id="custom-id" />
+{/* Manipulate the status later on. Every property is optional.*/}
+<GlobalStatus.Add
+  id="custom-id"
+  status_id="status-1"
+  item="Item #1"
+  text="New Text"
+  on_close={({ status_id }) => {
+    console.log('on_close', status_id)
+  }}
+/>
+<GlobalStatus.Add
+  id="custom-id"
+  status_id="status-2"
+  item="Item #2"
+  text="New Text"
+  title="New Title"
+  on_close={({ status_id }) => {
+    console.log('on_close', status_id)
+  }}
+/>
+<GlobalStatus.Add
+  id="custom-id"
+  status_id="status-3"
+  item="Item #3"
+  text="Text #3"
+  on_close={({ status_id }) => {
+    console.log('on_close', status_id)
+  }}
+/>
+{/* or update the status.*/}
+<GlobalStatus.Update id="custom-id" text="text" />
+{/* Later you can remove a resolved item.*/}
+<GlobalStatus.Remove id="custom-id" status_id="status-3" />
+```
+
+## Controller Properties
+
+```json
+{
+  "id": {
+    "doc": "The main ID. Defaults to `main`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "status_id": {
+    "doc": "Define a new stack ID so you can remove it with the same ID later on. Defaults to `null`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "remove_on_unmount": {
+    "doc": "Set to `true` if you want that the component `<GlobalStatus.Add remove_on_unmount={true} ... />` should automatically remove the stacked status from the target **GlobalStatus** on component unmount. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  }
+}
+```
+
+## Configuration Object
+
+This object is used as a representation to configure the GlobalStatus component from other components, using the `globalStatus` property.
+See [Autocomplete](/uilib/components/autocomplete/properties), [Button](/uilib/components/button/properties), [Input](/uilib/components/input/properties), etc, as examples that use the `globalStatus` property.
+
+```js
+{
+  id: 'global-status-id',
+  message: 'global status message'
+}
+```
+
+## Configuration Object Properties
+
+```json
+{
+  "id": {
+    "doc": "The main ID. Defaults to `main`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "message": {
+    "doc": "The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  }
+}
+```
+
+## Events
+
+```json
+{
+  "on_open": {
+    "doc": "Gets triggered the first time the GlobalStatus appears on the screen. In other words, it has to have been hidden before. Returns `{ id, status_id, ...properties }`.",
+    "type": "function",
+    "status": "optional"
+  },
+  "on_show": {
+    "doc": "Gets triggered for the first time and for every new content update the GlobalStatus gets. Returns `{ id, status_id, ...properties }`.",
+    "type": "function",
+    "status": "optional"
+  },
+  "on_close": {
+    "doc": "Gets triggered once the GlobalStatus disappears from the screen. Works only if `no_animation` is not `true`. Returns `{ id, status_id, ...properties }`.",
+    "type": "function",
+    "status": "optional"
+  },
+  "on_hide": {
+    "doc": "Gets triggered once the GlobalStatus is getting closed/hidden by the user. Returns `{ id, status_id, ...properties }`.",
+    "type": "function",
+    "status": "optional"
+  },
+  "on_adjust": {
+    "doc": "Gets triggered once the GlobalStatus is getting new content by the user. Returns `{ id, status_id, ...properties }`.",
+    "type": "function",
+    "status": "optional"
+  }
+}
 ```

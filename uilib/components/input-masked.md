@@ -1,8 +1,12 @@
 ---
 title: 'InputMasked'
 description: 'The InputMasked component uses the basic input component, but with some additional masking functionality.'
-metadata: https://eufemia.dnb.no/uilib/components/input-masked/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.376Z
+checksum: 7fada4479855a6b17e08bf7350acdd56abbf0d0e2d2cd33e8574692a98166a94
 ---
+
+# InputMasked
 
 ## Import
 
@@ -49,7 +53,7 @@ render(
         }}
       />
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -76,7 +80,7 @@ render(
     <ComponentBox hidePreview>
       <InputMasked as_currency="EUR" value="1234.50" />
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -94,7 +98,7 @@ render(
         }}
       />
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -124,7 +128,7 @@ render(
         <InputMasked as_currency="USD" value="1234.567" />
       </Provider>
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -143,7 +147,7 @@ render(
         <InputMasked as_number value="1234.567" />
       </Provider>
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -162,7 +166,7 @@ render(
         value="1234.567"
       />
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -218,7 +222,7 @@ render(
         ]}
       />
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -282,7 +286,7 @@ render(
         </Flex.Vertical>
       </Provider>
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -328,7 +332,7 @@ render(
         </Flex.Vertical>
       </Provider>
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -366,7 +370,7 @@ render(
         </Flex.Vertical>
       </Provider>
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -389,7 +393,7 @@ render(
         }}
       />
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -412,7 +416,7 @@ render(
         }}
       />
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -434,7 +438,7 @@ render(
         }}
       />
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -479,7 +483,7 @@ render(
         }}
       />
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -535,6 +539,335 @@ render(
         ]}
       />
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
+```
+
+## Properties
+
+```json
+{
+  "as_number": {
+    "doc": "Set to `true` to automatically set a number mask based on the given or inherited locale.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "as_percent": {
+    "doc": "Set to `true` to automatically set a number mask with a percentage sign based on the given or inherited locale.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "as_currency": {
+    "doc": "Set to `true` to use `NOK` or give it a currency code e.g. `USD` to automatically set a currency mask based on the given or inherited locale.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "mask_options": {
+    "doc": "Use it to manipulate internal masks. You can use it instead of e.g. `number_mask` or `currency_mask`. All options are listed below.",
+    "type": "object",
+    "status": "optional"
+  },
+  "number_mask": {
+    "doc": "Set to `true` to enable the default numbers formatting – or give an `object` containing the number mask properties. More details below. Can be a JSON string as well, containing the number mask properties. Is disabled by default.",
+    "type": ["boolean", "object"],
+    "status": "optional"
+  },
+  "currency_mask": {
+    "doc": "Set to `true` or set the _valuta_ (currency_mask=\"kr\") to enable a custom currency mask – or give an `object` containing the number mask properties. More details below. Can be a JSON string as well, containing the number mask properties. Is disabled by default. Defaults to `kr`.",
+    "type": ["boolean", "object"],
+    "status": "optional"
+  },
+  "number_format": {
+    "doc": "Use an object with [NumberFormat](/uilib/components/number-format/properties).",
+    "type": "object",
+    "status": "optional"
+  },
+  "locale": {
+    "doc": "Define the locale to be used in the `as_number` or `as_currency` masked. It will be inherited from the [Eufemia Provider](/uilib/usage/customisation/provider) if not given. Defaults to `nb-NO`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "mask": {
+    "doc": "A mask can be defined both as a [RegExp style of characters](https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme) or a callback function. Example below. Defaults to number mask.",
+    "type": ["RegExp", "function"],
+    "status": "optional"
+  },
+  "show_mask": {
+    "doc": "Show mask when input is empty and has no focus. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "show_guide": {
+    "doc": "When `false` is given, it doesn't print out placeholder characters and only adds mask characters when the user reaches them as they're typing. Defaults to `true`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "placeholder_char": {
+    "doc": "The placeholder character represents the fillable spot in the mask (e.g. `_`). Defaults to invisible space.",
+    "type": "string",
+    "status": "optional"
+  },
+  "keep_char_positions": {
+    "doc": "When `true`, adding or deleting characters will not affect the positions of existing characters. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  },
+  "[Input](/uilib/components/input/properties)": {
+    "doc": "All `Input` properties are supported.",
+    "type": "Various",
+    "status": "optional"
+  }
+}
+```
+
+## Number mask properties
+
+The number mask is used for all kinds of number based masks, like:
+
+**Locale based masks:**
+
+- `as_number`
+- `as_currency`
+- `as_percent`
+
+**Static masks:**
+
+- `number_mask`
+- `currency_mask`
+
+You can `mask_options` to manipulate the options.
+
+Defaults to Norwegian number format.
+
+```json
+{
+  "prefix": {
+    "doc": "What to display before the amount. Defaults to an empty string.",
+    "type": "string",
+    "status": "optional"
+  },
+  "suffix": {
+    "doc": "What to display after the amount. Defaults to an empty string.",
+    "type": "string",
+    "status": "optional"
+  },
+  "includeThousandsSeparator": {
+    "doc": "Whether or not to separate thousands. Defaults to `true`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "thousandsSeparatorSymbol": {
+    "doc": "Character with which to separate thousands. Defaults to `' '`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "allowDecimal": {
+    "doc": "Whether or not to allow the user to enter a fraction with the amount. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "decimalSymbol": {
+    "doc": "Character that will act as a decimal point. Defaults to `','`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "decimalLimit": {
+    "doc": "How many digits to allow after the decimal. Defaults to `2`.",
+    "type": "number",
+    "status": "optional"
+  },
+  "integerLimit": {
+    "doc": "Limit the length of the integer number. Defaults to `null` for unlimited.",
+    "type": "number",
+    "status": "optional"
+  },
+  "requireDecimal": {
+    "doc": "Whether or not to always include a decimal point and placeholder for decimal digits after the integer. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "allowNegative": {
+    "doc": "Whether or not to allow negative numbers. Defaults to `true`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "disallowLeadingZeroes": {
+    "doc": "Whether or not to allow leading zeroes during typing. *A leading zero is any 0 digit that comes before the first nonzero digit in a number string in positional notation* - [wikipedia](https://en.wikipedia.org/wiki/Leading_zero). Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  }
+}
+```
+
+### Custom number mask usage
+
+The number mask is included and can be set with the `number_mask` property.
+
+```jsx
+
+// 1. Use the desired configurations
+const numberMask = {
+  prefix: '',
+  suffix: ',- kr'
+}
+
+// 2. Then pass 'numberMask' to the InputMasked component as the number_mask
+<InputMasked number_mask={numberMask} ... />
+```
+
+But in case you have to create the mask by yourself, you can do so:
+
+```jsx
+import createNumberMask from '@dnb/eufemia/components/input-masked/addons/createNumberMask'
+
+// 1. Create the 'numberMask' with your desired configurations
+const numberMask = createNumberMask({
+  prefix: '',
+  suffix: ',- kr'
+})
+
+// 2. Then pass 'numberMask' to the InputMasked component as the mask
+<InputMasked mask={numberMask} ... />
+```
+
+## Email mask
+
+```jsx
+import emailMask from '@dnb/eufemia/components/input-masked/addons/emailMask'
+
+render(
+  <InputMasked
+    label="Email:"
+    mask={emailMask}
+    placeholder="@."
+    keep_placeholder={true}
+  />
+)
+```
+
+Read more about other addons [on the open-source project](https://github.com/text-mask/text-mask)
+
+## Multi-input mask
+
+```json
+{
+  "label": {
+    "doc": "`legend` element describing the group of inputs inside the components.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "labelDirection": {
+    "doc": "Use to change the label layout direction. Defaults to `horizontal`.",
+    "type": ["horizontal", "vertical"],
+    "status": "optional"
+  },
+  "inputs": {
+    "doc": "Array of [MultiInputMaskInput](/uilib/components/input-masked/properties/#multiinputmask-inputs-properties) that defines the inputs in the component. The id's defined here is used to map input value to correct property in `values` parameters used in `onChange`.",
+    "type": "array",
+    "status": "optional"
+  },
+  "values": {
+    "doc": "Values used for the inputs in the component. Expects an object with keys matching the id's defined in `inputs`.",
+    "type": "object",
+    "status": "optional"
+  },
+  "delimiter": {
+    "doc": "Character that separates the input inputs.",
+    "type": "string",
+    "status": "optional"
+  },
+  "stretch": {
+    "doc": "Use `true` in order to stretch the input to the available space. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "status": {
+    "doc": "Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "statusState": {
+    "doc": "Defines the state of the status. It's two statuses [error, info]. Defaults to error.",
+    "type": ["error", "info"],
+    "status": "optional"
+  },
+  "suffix": {
+    "doc": "Text describing the content of the input more than the label. you can also send in a React component, so it gets wrapped inside the Input component.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  }
+}
+```
+
+### MultiInputMask inputs properties
+
+```json
+{
+  "id": {
+    "doc": "(string) Defines input id. This id is also used to map the input value to the correct property on the objects used for `values` and `onChange` parameters.",
+    "type": "string",
+    "status": "optional"
+  },
+  "label": {
+    "doc": "Label used by the input. The label itself is hidden, but required to uphold accessibility standards for screen readers.",
+    "type": "string",
+    "status": "optional"
+  },
+  "mask": {
+    "doc": "Each RegExp item in the array defines what the mask should be for each subsequent character in the input. The array length sets the inputs size/character limit.",
+    "type": "array",
+    "status": "optional"
+  },
+  "placeholderCharacter": {
+    "doc": "Sets the placeholder character used for the input.",
+    "type": "string",
+    "status": "optional"
+  }
+}
+```
+
+## Events
+
+```json
+{
+  "on_change": {
+    "doc": "Will be called on value changes made by the user. Returns an object with the value as a string and the native event: `{ value, numberValue, cleanedValue, event }`.",
+    "type": "function",
+    "status": "optional"
+  },
+  "[Input](/uilib/components/input/events)": {
+    "doc": "All `Input` events are supported.",
+    "type": "Various",
+    "status": "optional"
+  }
+}
+```
+
+**NB:** `numberValue` is returned as a float value and is only returned if the createNumberMask is used by either using `number_mask`, `currency_mask`, `as_number` or `as_currency`.
+
+### MultiInputMask
+
+```json
+{
+  "onChange": {
+    "doc": "Runs when an input value changes. Has an object parameter with keys matching the id's defined in `inputs`, and values of string. E.g: `{month: string, year: string}`.",
+    "type": "function",
+    "status": "optional"
+  },
+  "onFocus": {
+    "doc": "Runs when an input gains focus. Has an object parameter with keys matching the id's defined in `inputs`, and values of string. E.g: `{month: string, year: string}`.",
+    "type": "function",
+    "status": "optional"
+  },
+  "onBlur": {
+    "doc": "Runs when an input lose focus. Has an object parameter with keys matching the id's defined in `inputs`, and values of string. E.g: `{month: string, year: string}`.",
+    "type": "function",
+    "status": "optional"
+  }
+}
 ```

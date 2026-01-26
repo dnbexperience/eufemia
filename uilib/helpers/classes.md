@@ -1,6 +1,8 @@
 ---
 title: 'CSS classes'
-metadata: https://eufemia.dnb.no/uilib/helpers/classes/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.305Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
 # CSS classes
@@ -35,7 +37,7 @@ render(
         </p>
       </div>
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -62,7 +64,7 @@ render(
         <code className="dnb-code">.dnb-tab-focus</code>
       </details>
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -134,7 +136,7 @@ render(
         </span>!
       </p>
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -209,7 +211,7 @@ render(
         <li>But I'm not.</li>
       </ul>
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 
@@ -237,7 +239,7 @@ render(
         highlight is green.
       </p>
     </ComponentBox>
-  </Wrapper>,
+  </Wrapper>
 )
 ```
 

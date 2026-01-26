@@ -1,8 +1,12 @@
 ---
 title: 'Layout'
 description: 'To make it easier to build application layouts and form views in line with defined design sketches, there are a number of components for layout.'
-metadata: https://eufemia.dnb.no/uilib/layout/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.332Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
+
+# Layout
 
 ## Description
 
@@ -71,7 +75,7 @@ render(
   <Flex.Container>
     <Flex.Item>content</Flex.Item>
     <OtherComponent>content</OtherComponent>
-  </Flex.Container>,
+  </Flex.Container>
 )
 ```
 
@@ -92,7 +96,7 @@ render(
   <Grid.Container>
     <Grid.Item>content</Grid.Item>
     <Grid.Item>content</Grid.Item>
-  </Grid.Container>,
+  </Grid.Container>
 )
 ```
 
@@ -124,7 +128,7 @@ render(
       <H2>Heading</H2>
       <P>Text</P>
     </Card>
-  </Grid.Container>,
+  </Grid.Container>
 )
 ```
 
@@ -192,7 +196,7 @@ render(
         <Flex.Stack gap="x-small">{[...items].reverse()}</Flex.Stack>
       </Grid.Item>
     </Grid.Container>
-  </>,
+  </>
 )
 ```
 
@@ -248,7 +252,7 @@ render(
     >
       Item D
     </Grid.Item>
-  </Grid.Container>,
+  </Grid.Container>
 )
 ```
 
@@ -285,7 +289,7 @@ render(
         FlexItem (small: 4, medium: 8)
       </TestElement>
     </Flex.Item>
-  </Flex.Container>,
+  </Flex.Container>
 )
 ```
 
@@ -363,7 +367,7 @@ render(
         <TestElement style={colors[3]}>FlexItem</TestElement>
       </Flex.Item>
     </Flex.Container>
-  </CustomMediaQuery>,
+  </CustomMediaQuery>
 )
 ```
 
@@ -388,6 +392,6 @@ render(
       <Field.Email value="john@smith.email" />
       <Field.PhoneNumber value="+47 98765432" />
     </Form.Card>
-  </Flex.Stack>,
+  </Flex.Stack>
 )
 ```

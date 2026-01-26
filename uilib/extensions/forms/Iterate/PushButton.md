@@ -1,8 +1,12 @@
 ---
-title: 'PushButton'
+title: 'Iterate.PushButton'
 description: '`Iterate.PushButton` builds on top of the same data flow logic as field components, but the only thing it changes in the value it receives or retrieves from source data is adding a new item to the array.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Iterate/PushButton/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.003Z
+checksum: 197d8ae847f788628e541f64a96a84e035ec18e2b7161c0d972b31ccdbcac29f
 ---
+
+# Iterate.PushButton
 
 ## Import
 
@@ -29,7 +33,7 @@ render(
       text="Add another item"
       pushValue={{}}
     />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -53,7 +57,7 @@ render(
       pushValue="push value"
       text="Add no. {nextItemNo}"
     />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -74,7 +78,7 @@ render(
         pushValue="new"
       />
     </Flex.Stack>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -106,6 +110,33 @@ render(
       path="/"
       pushValue={{}}
     />
-  </Form.Handler>,
+  </Form.Handler>
 )
+```
+
+## Properties
+
+```json
+{
+  "path": {
+    "doc": "The path to the array to add the new item to.",
+    "type": "string",
+    "status": "required"
+  },
+  "itemPath": {
+    "doc": "The path to the item in a nested array, to add the new item to.",
+    "type": "string",
+    "status": "optional"
+  },
+  "pushValue": {
+    "doc": "The element to add to the array when the button is clicked. Can be a function to returns the push value.",
+    "type": "unknown",
+    "status": "optional"
+  },
+  "[Button](/uilib/components/button/properties)": {
+    "doc": "All button properties.",
+    "type": "Various",
+    "status": "optional"
+  }
+}
 ```

@@ -1,8 +1,12 @@
 ---
 title: 'Logo'
 description: 'A ready to use Logo component with the needed SVGs.'
-metadata: https://eufemia.dnb.no/uilib/components/logo/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.409Z
+checksum: fe25a5898eabf812128ff8ca3e67a7c0258c549542d8de06bdb3577af6a64a10
 ---
+
+# Logo
 
 ## Import
 
@@ -73,7 +77,7 @@ render(
     }}
   >
     <Logo />
-  </span>,
+  </span>
 )
 ```
 
@@ -89,7 +93,7 @@ render(
     }}
   >
     <Logo inheritSize />
-  </span>,
+  </span>
 )
 ```
 
@@ -111,7 +115,7 @@ render(
     }}
   >
     <Logo height="96" inheritColor />
-  </span>,
+  </span>
 )
 ```
 
@@ -133,6 +137,58 @@ render(
     height="96"
     svg={CarnegieDefault}
     color="var(--ca-color-burgundy-red)"
-  />,
+  />
 )
+```
+
+## Properties
+
+```json
+{
+  "svg": {
+    "doc": "Provide a custom SVG to render instead of the built-in logos. Accepts a React SVG component or element. Width, height and color props still apply.",
+    "type": ["React.Component", "React.Element"],
+    "status": "optional"
+  },
+  "brand": {
+    "doc": "Define which brands logo to show. Defaults to `dnb`.",
+    "type": ["dnb", "sbanken"],
+    "status": "optional"
+  },
+  "variant": {
+    "doc": "Define the logo variant, if there is more than one variant of a brands logo. Currently the only option other than default is `compact` and `compactHorizontal` variant of the Sbanken logo. Defaults to `default`.",
+    "type": ["\"default\"", "\"compact\"", "\"compactHorizontal\""],
+    "status": "deprecated"
+  },
+  "color": {
+    "doc": "Define the color of the logo.",
+    "type": "string",
+    "status": "optional"
+  },
+  "inheritColor": {
+    "doc": "Set to `true` if you do not want to inherit the color by `currentColor`. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "inheritSize": {
+    "doc": "Set to `true` if you want to inherit the size of the parent. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "width": {
+    "doc": "Define the width of the logo.",
+    "type": "string",
+    "status": "optional"
+  },
+  "height": {
+    "doc": "Define the height of the logo.",
+    "type": "string",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
 ```

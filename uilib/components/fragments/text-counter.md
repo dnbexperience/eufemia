@@ -1,8 +1,12 @@
 ---
 title: 'Text Counter'
 description: 'The TextCounter is a component designed to provide real-time character count feedback in text input fields.'
-metadata: https://eufemia.dnb.no/uilib/components/fragments/text-counter/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.319Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
+
+# Text Counter
 
 ## Import
 
@@ -61,7 +65,7 @@ const Counter = () => {
 render(
   <Form.Handler id="text-counter">
     <Counter />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -81,4 +85,59 @@ render(<TextCounter variant="up" text="test" max={10} />)
 
 ```tsx
 render(<TextCounter text="test" max={2} />)
+```
+
+## Properties
+
+```json
+{
+  "text": {
+    "doc": "The text to count characters from.",
+    "type": "string",
+    "status": "required"
+  },
+  "max": {
+    "doc": "The maximum number of characters allowed.",
+    "type": "number",
+    "status": "required"
+  },
+  "variant": {
+    "doc": "The counting variant. Can be either `up` (counts up from zero) or `down` (counts down from max). Default is `down`.",
+    "type": ["down", "up"],
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
+```
+
+## Translations
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "TextCounter.characterDown": {
+      "nb-NO": "%count av %max tegn gjenstår.",
+      "en-GB": "%count of %max characters remaining.",
+      "sv-SE": "%count av %max tecken återstår.",
+      "da-DK": "%count af %max tegn tilbage."
+    },
+    "TextCounter.characterExceeded": {
+      "nb-NO": "%count tegn over grensen på %max.",
+      "en-GB": "%count characters over the limit of %max.",
+      "sv-SE": "%count tecken över gränsen på %max.",
+      "da-DK": "%count tegn over grænsen på %max."
+    },
+    "TextCounter.characterUp": {
+      "nb-NO": "Du har brukt %count av %max tegn.",
+      "en-GB": "You have used %count of %max characters.",
+      "sv-SE": "Du har använt %count av %max tecken.",
+      "da-DK": "Du har brugt %count af %max tegn."
+    }
+  }
+}
 ```

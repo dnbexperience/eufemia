@@ -1,8 +1,12 @@
 ---
 title: 'CopyOnClick'
 description: 'The CopyOnClick component allows users to copy text to their clipboard simply by clicking on it.'
-metadata: https://eufemia.dnb.no/uilib/components/copy-on-click/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.247Z
+checksum: 8ea60c96f88632fc93f5e54467cbab676571cfcb8665066047ec0c4b27bfda71
 ---
+
+# CopyOnClick
 
 ## Import
 
@@ -30,7 +34,7 @@ import { CopyOnClick, P } from '@dnb/eufemia'
 render(
   <P>
     <CopyOnClick>This is the text to copy!</CopyOnClick>
-  </P>,
+  </P>
 )
 ```
 
@@ -46,7 +50,7 @@ render(
       pharetra elit in bibendum. Praesent nunc ipsum, convallis eget
       convallis gravida, vehicula vitae metus.
     </CopyOnClick>
-  </P>,
+  </P>
 )
 ```
 
@@ -59,7 +63,7 @@ render(
       Praesent nunc ipsum, convallis eget convallis gravida, vehicula vitae
       metus.
     </CopyOnClick>
-  </P>,
+  </P>
 )
 ```
 
@@ -73,7 +77,7 @@ render(
     <CopyOnClick copyContent="content to copy">
       content to display
     </CopyOnClick>
-  </P>,
+  </P>
 )
 ```
 
@@ -87,7 +91,7 @@ render(
     <CopyOnClick>
       <NumberFormat value={1234567.89} currency="NOK" />
     </CopyOnClick>
-  </P>,
+  </P>
 )
 ```
 
@@ -101,6 +105,54 @@ render(
       pharetra elit in bibendum. Praesent nunc ipsum, convallis eget
       convallis gravida, vehicula vitae metus.
     </CopyOnClick>
-  </P>,
+  </P>
 )
+```
+
+## Properties
+
+```json
+{
+  "showCursor": {
+    "doc": "Define if the copy cursor should be visible. Defaults to `true`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "disabled": {
+    "doc": "If `true`, the copy functionality and copy cursor will be omitted. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "copyContent": {
+    "doc": "Contents to copy. Used when the copied value should differ from the visually shown value(`children`).",
+    "type": "React.Node",
+    "status": "optional"
+  },
+  "tooltipContent": {
+    "doc": "The message shown in the tooltip when the content is copied. Defaults to the translation `CopyOnClick.clipboard_copy`.",
+    "type": "React.Node",
+    "status": "optional"
+  },
+  "children": {
+    "doc": "Contents.",
+    "type": "React.Node",
+    "status": "required"
+  }
+}
+```
+
+## Translations
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "CopyOnClick.clipboard_copy": {
+      "nb-NO": "Kopiert",
+      "en-GB": "Copied",
+      "sv-SE": "Kopierad",
+      "da-DK": "Kopieret"
+    }
+  }
+}
 ```

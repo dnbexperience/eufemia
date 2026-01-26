@@ -1,8 +1,12 @@
 ---
-title: 'useStep'
+title: 'Wizard.useStep'
 description: '`Wizard.useStep` returns `Wizard.Context` parameters such as totalSteps, activeIndex or a setActiveIndex handler.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Wizard/useStep/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.254Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
+
+# Wizard.useStep
 
 ## Import
 
@@ -71,7 +75,7 @@ function MyStep() {
     (index, mode, { preventNavigation }) => {
       // Do something with the step change
     },
-    [],
+    []
   )
 
   Wizard.useStep(undefined, { onStepChange })
@@ -135,7 +139,7 @@ render(
     <Wizard.Step title="Step 3">
       <Step3 />
     </Wizard.Step>
-  </Wizard.Container>,
+  </Wizard.Container>
 )
 ```
 
@@ -185,7 +189,7 @@ render(
       </Wizard.Step>
     </Wizard.Container>
     <RenderAfter />
-  </Flex.Stack>,
+  </Flex.Stack>
 )
 ```
 
@@ -197,7 +201,7 @@ const onStepChange1 = (index, mode, { preventNavigation }) => {
     'onStepChange from Step1:',
     index,
     mode,
-    typeof preventNavigation,
+    typeof preventNavigation
   )
 }
 const onStepChange2 = (index, mode, { preventNavigation }) => {
@@ -205,7 +209,7 @@ const onStepChange2 = (index, mode, { preventNavigation }) => {
     'onStepChange from Step2:',
     index,
     mode,
-    typeof preventNavigation,
+    typeof preventNavigation
   )
 }
 const onStepChange3 = (index, mode, { preventNavigation }) => {
@@ -213,7 +217,7 @@ const onStepChange3 = (index, mode, { preventNavigation }) => {
     'onStepChange from Step3:',
     index,
     mode,
-    typeof preventNavigation,
+    typeof preventNavigation
   )
 }
 const Step1 = () => {
@@ -251,6 +255,46 @@ render(
     <Step1 />
     <Step2 />
     <Step3 />
-  </Wizard.Container>,
+  </Wizard.Container>
 )
+```
+
+## Translations
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "Step.stepHasError": {
+      "nb-NO": "Skjemaet inneholder feil.",
+      "en-GB": "The form contains errors.",
+      "sv-SE": "Formuläret innehåller fel.",
+      "da-DK": "Skemaet indeholder fejl."
+    },
+    "Step.summaryTitle": {
+      "nb-NO": "Oppsummering",
+      "en-GB": "Summary",
+      "sv-SE": "Sammanfattning",
+      "da-DK": "Oversigt"
+    },
+    "WizardEditButton.text": {
+      "nb-NO": "Endre",
+      "en-GB": "Edit",
+      "sv-SE": "Ändra",
+      "da-DK": "Rediger"
+    },
+    "WizardNextButton.text": {
+      "nb-NO": "Neste",
+      "en-GB": "Next",
+      "sv-SE": "Nästa",
+      "da-DK": "Næste"
+    },
+    "WizardPreviousButton.text": {
+      "nb-NO": "Tilbake",
+      "en-GB": "Back",
+      "sv-SE": "Tillbaka",
+      "da-DK": "Tilbage"
+    }
+  }
+}
 ```

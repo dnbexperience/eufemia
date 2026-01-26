@@ -1,8 +1,12 @@
 ---
 title: 'Flex Item'
 description: '`Flex.Item` is a building block for flexbox based layout of contents and components.'
-metadata: https://eufemia.dnb.no/uilib/layout/flex/item/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.320Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
+
+# Flex Item
 
 ## Import
 
@@ -21,7 +25,7 @@ import { Flex } from '@dnb/eufemia'
 render(
   <Flex.Container>
     <Flex.Item>content</Flex.Item>
-  </Flex.Container>,
+  </Flex.Container>
 )
 ```
 
@@ -43,7 +47,7 @@ render(
   <Flex.Container>
     <Flex.Item size={6}>uses 50% in width</Flex.Item>
     <Flex.Item size={6}>uses 50% in width</Flex.Item>
-  </Flex.Container>,
+  </Flex.Container>
 )
 ```
 
@@ -72,7 +76,7 @@ render(
     >
       uses 50% or 100% based on the screen size
     </Flex.Item>
-  </Flex.Container>,
+  </Flex.Container>
 )
 ```
 
@@ -89,7 +93,7 @@ render(
     <Flex.Item>
       <TestElement>FlexItem</TestElement>
     </Flex.Item>
-  </Flex.Container>,
+  </Flex.Container>
 )
 ```
 
@@ -104,3 +108,40 @@ With the default `sizeCount` of 12 parts.
 The following example has a customized amount of 4 parts (`sizeCount`) as well as custom breakpoints and media queries.
 
 <Examples.AdvancedSizeExample />
+
+## Properties
+
+```json
+{
+  "grow": {
+    "doc": "True to expand in width/height when there is more space available. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "shrink": {
+    "doc": "True to shrink in width/height when there is not enough space available for all components within the container. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "size": {
+    "doc": "To set the size (parts) in percentage with numbers from 1 to 12 (`sizeCount`). You can also provide [Media Query](/uilib/usage/layout/media-queries/) types in an object. You can also use the value `auto` to disable it on a specific screen size. Wrap your Flex.Items inside a [Flex.Container](/uilib/layout/flex/container).",
+    "type": ["number", "object"],
+    "status": "optional"
+  },
+  "element": {
+    "doc": "Define the type of element. Defaults to `div`.",
+    "type": ["string", "React.Element"],
+    "status": "optional"
+  },
+  "innerRef": {
+    "doc": "Provide a React.Ref to accessing the inner HTML element.",
+    "type": "React.Ref",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
+```

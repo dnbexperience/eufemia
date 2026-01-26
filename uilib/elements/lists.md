@@ -1,8 +1,12 @@
 ---
 title: 'Lists'
 description: 'Lists are used to specify lists of information.'
-metadata: https://eufemia.dnb.no/uilib/elements/lists/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.727Z
+checksum: 597b732809a09b344dd0a6a017235ff45068cc56d53a2cca843c880151107c4d
 ---
+
+# Lists
 
 ## Import
 
@@ -34,7 +38,7 @@ import { Ol } from '@dnb/eufemia'
 render(
   <Ol nested inside>
     <li>Item</li>
-  </Ol>,
+  </Ol>
 )
 ```
 
@@ -58,7 +62,7 @@ render(
       </Ul>
     </Li>
     <Li>Item 4</Li>
-  </Ul>,
+  </Ul>
 )
 ```
 
@@ -90,7 +94,7 @@ render(
       </Ol>
     </Li>
     <Li>Item</Li>
-  </Ol>,
+  </Ol>
 )
 ```
 
@@ -108,7 +112,7 @@ render(
       </Ul>
     </Li>
     <Li>Ordered item 2</Li>
-  </Ol>,
+  </Ol>
 )
 ```
 
@@ -152,7 +156,7 @@ render(
         </Ol>
       </Li>
     </Ol>
-  </WidthLimit>,
+  </WidthLimit>
 )
 ```
 
@@ -179,7 +183,7 @@ render(
       </Ol>
     </Li>
     <Li>Item</Li>
-  </Ol>,
+  </Ol>
 )
 ```
 
@@ -208,7 +212,7 @@ render(
         <Dd>Sub Description</Dd>
       </Dl>
     </Dd>
-  </Dl>,
+  </Dl>
 )
 ```
 
@@ -239,7 +243,7 @@ render(
         vulputate
       </Dd>
     </Dl.Item>
-  </Dl>,
+  </Dl>
 )
 ```
 
@@ -263,7 +267,7 @@ render(
       Description with several words lorem nulla mi posuere cubilia vel
       vulputate
     </Dd>
-  </Dl>,
+  </Dl>
 )
 ```
 
@@ -280,4 +284,105 @@ render(
   <dt>dl Title</dt>
   <dd>dl Description</dd>
 </dl>
+```
+
+## `Dl` Properties
+
+```json
+{
+  "layout": {
+    "doc": "Sets the layout of the list. Can be `vertical`, `horizontal` or `grid`. Defaults to `vertical`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "innerRef": {
+    "doc": "Send along a custom React Ref.",
+    "type": "React.RefObject",
+    "status": "optional"
+  },
+  "children": {
+    "doc": "Contents.",
+    "type": "React.Node",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
+```
+
+## `Ol` Properties
+
+```json
+{
+  "inside": {
+    "doc": "Defines the position of the marker.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "outside": {
+    "doc": "Defines the position of the marker (default).",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "nested": {
+    "doc": "Will ensure a nested structure of several lists.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "innerRef": {
+    "doc": "Send along a custom React Ref.",
+    "type": "React.RefObject",
+    "status": "optional"
+  },
+  "children": {
+    "doc": "Contents.",
+    "type": "React.Node",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
+```
+
+## `Ul` Properties
+
+```json
+{
+  "inside": {
+    "doc": "Defines the position of the marker.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "outside": {
+    "doc": "Defines the position of the marker (default).",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "nested": {
+    "doc": "Will ensure a nested structure of several lists.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "innerRef": {
+    "doc": "Send along a custom React Ref.",
+    "type": "React.RefObject",
+    "status": "optional"
+  },
+  "children": {
+    "doc": "Contents.",
+    "type": "React.Node",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
 ```

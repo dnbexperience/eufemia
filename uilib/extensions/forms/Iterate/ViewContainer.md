@@ -1,8 +1,12 @@
 ---
-title: 'ViewContainer'
+title: 'Iterate.ViewContainer'
 description: '`Iterate.ViewContainer` enables users to toggle (with animation) the content of each item between the view and edit container.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Iterate/ViewContainer/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.031Z
+checksum: 3740fb2dd2daecacdcd46006f95723a17f40bf3c5b296b58cde948055a7d6676
 ---
+
+# Iterate.ViewContainer
 
 ## Import
 
@@ -32,7 +36,7 @@ render(
     <Iterate.ViewContainer title="Account holder">
       <Value.Name.Last itemPath="/name" />
     </Iterate.ViewContainer>
-  </Iterate.Array>,
+  </Iterate.Array>
 )
 ```
 
@@ -48,7 +52,7 @@ render(
     <Iterate.ViewContainer title="Account holder {itemNo}">
       <Value.Name.Last itemPath="/name" />
     </Iterate.ViewContainer>
-  </Iterate.Array>,
+  </Iterate.Array>
 )
 ```
 
@@ -67,7 +71,7 @@ render(
         <Iterate.ViewContainer.RemoveButton />
       </Iterate.Toolbar>
     </Iterate.ViewContainer>
-  </Iterate.Array>,
+  </Iterate.Array>
 )
 ```
 
@@ -87,7 +91,7 @@ render(
     <Iterate.ViewContainer toolbarVariant="minimumOneItem">
       Item Content
     </Iterate.ViewContainer>
-  </Iterate.Array>,
+  </Iterate.Array>
 )
 ```
 
@@ -112,3 +116,57 @@ When having one item in the Iterate.Array:
 When having two items in the Iterate.Array:
 
 <Examples.ToolbarVariantMiniumOneItemTwoItems />
+
+## Properties
+
+```json
+{
+  "title": {
+    "doc": "The title of the container.",
+    "type": "React.Node",
+    "status": "optional"
+  },
+  "variant": {
+    "doc": "Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "toolbar": {
+    "doc": "An alternative toolbar to be shown in the container.",
+    "type": "React.Node",
+    "status": "optional"
+  },
+  "toolbarVariant": {
+    "doc": "Use variants to render the toolbar differently. Currently there are the `minimumOneItem` and `custom` variants. See the info section for more info.",
+    "type": "string",
+    "status": "optional"
+  },
+  "[FlexVertical](/uilib/layout/flex/container/properties)": {
+    "doc": "All Flex.Vertical properties.",
+    "type": "Various",
+    "status": "optional"
+  }
+}
+```
+
+## Translations
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "IterateViewContainer.editButton": {
+      "nb-NO": "Endre",
+      "en-GB": "Edit",
+      "sv-SE": "Ändra",
+      "da-DK": "Rediger"
+    },
+    "IterateViewContainer.removeButton": {
+      "nb-NO": "Fjern",
+      "en-GB": "Remove",
+      "sv-SE": "Ta bort",
+      "da-DK": "Fjern"
+    }
+  }
+}
+```

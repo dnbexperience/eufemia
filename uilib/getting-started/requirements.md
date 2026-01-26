@@ -1,7 +1,9 @@
 ---
 title: 'Requirements'
 description: 'Eufemia can be used within an UMD, ESM, CJS or TypeScript environment. The purpose is to use it on top (or inside) of modern JavaScript frontend framework and setups.'
-metadata: https://eufemia.dnb.no/uilib/getting-started/requirements/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.303Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
 # Requirements
@@ -14,7 +16,7 @@ Eufemia (`@dnb/eufemia`) can be used within a UMD, ESM, CJS, or TypeScript envir
 
 ## The hard part of a living design system
 
-The hard part of a [living design system](/uilib/getting-started/living-system), like Eufemia, is avoiding the creation of black holes and choosing ways that make **maintainability of user experience** hard and complex. To address this challenge and gain more insight, read on about [**maintainability**](/uilib/getting-started/maintainability).
+The hard part of a [living design system](/uilib/about-the-lib/living-system), like Eufemia, is avoiding the creation of black holes and choosing ways that make **maintainability of user experience** hard and complex. To address this challenge and gain more insight, read on about [**maintainability**](/uilib/about-the-lib/maintainability).
 
 ## React
 

@@ -1,8 +1,12 @@
 ---
 title: 'VisuallyHidden'
 description: 'VisuallyHidden has all the styles necessary to hide it from visual clients, but keep it for screen readers.'
-metadata: https://eufemia.dnb.no/uilib/components/visually-hidden/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.602Z
+checksum: 28d243b62406799fd86da1f9d89208ecb4b4735e8ed07aff554b859e2b71065c
 ---
+
+# VisuallyHidden
 
 ## Import
 
@@ -31,7 +35,7 @@ render(
     <span>before|</span>
     <VisuallyHidden>hidden content</VisuallyHidden>
     <span>|after</span>
-  </P>,
+  </P>
 )
 ```
 
@@ -43,7 +47,7 @@ Use `VisuallyHidden` with `focusable={true}` to visually hide an element by defa
 render(
   <VisuallyHidden focusable>
     <Anchor href="/">Hidden, but focusable content</Anchor>
-  </VisuallyHidden>,
+  </VisuallyHidden>
 )
 ```
 
@@ -53,7 +57,7 @@ render(
 render(
   <Anchor href="/">
     Read more <VisuallyHidden>about Eufemia</VisuallyHidden>
-  </Anchor>,
+  </Anchor>
 )
 ```
 
@@ -77,6 +81,23 @@ render(
       <P>but, not visible to you!</P>
     </VisuallyHidden>
     <BoxAfter />
-  </>,
+  </>
 )
+```
+
+## Properties
+
+```json
+{
+  "focusable": {
+    "doc": "Set to `true` to hide an element by default, but to display it when it’s focused (e.g. by a keyboard-only user) root. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "element": {
+    "doc": "Custom root HTML element for the component. Defaults to `<span>`.",
+    "type": ["string", "React.Element"],
+    "status": "optional"
+  }
+}
 ```

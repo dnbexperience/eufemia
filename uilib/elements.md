@@ -1,6 +1,8 @@
 ---
 title: 'HTML Elements'
-metadata: https://eufemia.dnb.no/uilib/elements/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.775Z
+checksum: 462f79af118c885e70e7d53dbc0a476cb5e6ade9a644f6e0a616bba8e4a624a0
 ---
 
 # HTML Elements
@@ -35,7 +37,7 @@ render(
     <P>My Paragraph</P>
     <Anchor href="/">Link</Anchor>
     <Link href="/">Link</Link>
-  </article>,
+  </article>
 )
 ```
 
@@ -50,7 +52,7 @@ const StyledLink = styled(Link)`
 render(
   <StyledLink href="/" target="_blank">
     Styled Link
-  </StyledLink>,
+  </StyledLink>
 )
 ```
 

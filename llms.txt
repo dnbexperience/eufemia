@@ -1,10 +1,221 @@
-# Eufemia
+# Eufemia documentation
 
-> DNB’s Eufemia design system. This file points LLMs to machine-readable docs and clean Markdown copies.
+> DNB's Eufemia design system. This file points LLMs to machine-readable docs and clean Markdown copies.
 
-Index (JSON): https://eufemia.dnb.no/llm/index.json
-Version: 10.94.3
-GeneratedAt: 2026-01-16T16:38:32.279Z
+- Use the documentation exactly as provided.
+- Gather all required information from the documentation before using it as a reference.
+- Do not make assumptions or infer missing details unless explicitly instructed to do so.
+
+## Quick Reference
+
+- [Eufemia quick reference](https://eufemia.dnb.no/uilib/usage/first-steps/quick-reference.md): A compact, practical guide with setup, components, forms, and key conventions.
+
+## Machine-readable docs
+
+Every Eufemia documentation page — including components, Forms fields, values, and related entities — includes machine-readable Markdown copies with JSON blocks that describe its public API.
+
+Each page is both:
+
+- a standalone documentation page, and
+- an addressable API surface with structured JSON blocks.
+
+The JSON blocks may include:
+
+- props (properties, types, defaults, descriptions).
+- events.
+- relationships to other pages or components.
+- links to related documentation pages.
+- a docs entry that leads to the markdown file, which includes additional information, demos and examples.
+
+The docs links are referenced from each page's frontmatter and are intended for tooling and AI-assisted usage, without relying on prose.
+
+### Finding component API details
+
+For any page (component, field, value, etc.):
+
+- Open the page markdown (e.g. `/uilib/components/<name>.md`).
+- Look at the demos and examples how to use the component.
+- Read the JSON blocks in the markdown to get the API (props, events, translations).
+
+## General
+
+- [Living system](https://eufemia.dnb.no/uilib/about-the-lib/living-system.md): Eufemia is DNBs design system. It is constantly evolving and improving and is our single source of truth for UI design and front end code.
+
+- [Maintainability](https://eufemia.dnb.no/uilib/about-the-lib/maintainability.md): The hard part of a living design system, like Eufemia, is not to create black holes and choosing ways to make maintainability hard and complex.
+
+- [v4.0](https://eufemia.dnb.no/uilib/about-the-lib/releases/dnb-ui-lib/v4-info.md): July, 21. 2019
+
+- [v4.10](https://eufemia.dnb.no/uilib/about-the-lib/releases/dnb-ui-lib/v4.10-info.md): August, 24. 2019
+
+- [v4.18](https://eufemia.dnb.no/uilib/about-the-lib/releases/dnb-ui-lib/v4.18-info.md): September, 28. 2019
+
+- [v5.0](https://eufemia.dnb.no/uilib/about-the-lib/releases/dnb-ui-lib/v5-info.md): October, 30. 2019
+
+- [v5.8](https://eufemia.dnb.no/uilib/about-the-lib/releases/dnb-ui-lib/v5.8-info.md): November, 30. 2019
+
+- [v6.0](https://eufemia.dnb.no/uilib/about-the-lib/releases/dnb-ui-lib/v6-info.md): January, 30. 2020
+
+- [v7.0](https://eufemia.dnb.no/uilib/about-the-lib/releases/dnb-ui-lib/v7-info.md): June, 4. 2020
+
+- [v7.2](https://eufemia.dnb.no/uilib/about-the-lib/releases/dnb-ui-lib/v7.2-info.md): November, 8. 2020
+
+- [v8](https://eufemia.dnb.no/uilib/about-the-lib/releases/dnb-ui-lib/v8-info.md): December, 15. 2020
+
+- [dnb-ui-lib](https://eufemia.dnb.no/uilib/about-the-lib/releases/dnb-ui-lib.md): Look into the documentation for more details.
+
+- [v10](https://eufemia.dnb.no/uilib/about-the-lib/releases/eufemia/v10-info.md): May, 31. 2023
+
+- [v9](https://eufemia.dnb.no/uilib/about-the-lib/releases/eufemia/v9-info.md): March, 3. 2021
+
+- [@dnb/eufemia](https://eufemia.dnb.no/uilib/about-the-lib/releases/eufemia.md): Look into the documentation for more details.
+
+- [Releases and versions](https://eufemia.dnb.no/uilib/about-the-lib/releases.md): Look into the documentation for more details.
+
+- [About the Library](https://eufemia.dnb.no/uilib/about-the-lib.md): Look into the documentation for more details.
+
+- [Components](https://eufemia.dnb.no/uilib/components.md): Look into the documentation for more details.
+
+- [HTML Elements](https://eufemia.dnb.no/uilib/elements.md): Look into the documentation for more details.
+
+- [Extensions](https://eufemia.dnb.no/uilib/extensions.md): Look into the documentation for more details.
+
+- [Requirements](https://eufemia.dnb.no/uilib/getting-started/requirements.md): Eufemia can be used within an UMD, ESM, CJS or TypeScript environment. The purpose is to use it on top (or inside) of modern JavaScript frontend framework and setups.
+
+- [Getting Started](https://eufemia.dnb.no/uilib/getting-started.md): A fast path to using Eufemia in your app. Install, import styles, render your first component, and explore theming and customization.
+
+- [CSS classes](https://eufemia.dnb.no/uilib/helpers/classes.md): Look into the documentation for more details.
+
+- [Functions](https://eufemia.dnb.no/uilib/helpers/functions.md): Look into the documentation for more details.
+
+- [SASS mixins](https://eufemia.dnb.no/uilib/helpers/sass.md): Look into the documentation for more details.
+
+- [Helpers](https://eufemia.dnb.no/uilib/helpers.md): A couple of helper functions used inside of components and extensions.
+
+- [Common Design Patterns](https://eufemia.dnb.no/uilib/intro/02-common-patterns.md): Look into the documentation for more details.
+
+- [Accessibility](https://eufemia.dnb.no/uilib/intro/03-accessibility.md): Look into the documentation for more details.
+
+- [UX handover](https://eufemia.dnb.no/uilib/intro/04-ux-handover.md): Look into the documentation for more details.
+
+- [Eufemia for Developers](https://eufemia.dnb.no/uilib/intro/05-eufemia-for-developers.md): Look into the documentation for more details.
+
+- [CSS Packages](https://eufemia.dnb.no/uilib/intro/06-css-packages.md): Look into the documentation for more details.
+
+- [Typography](https://eufemia.dnb.no/uilib/intro/07-typography.md): Look into the documentation for more details.
+
+- [Color usage](https://eufemia.dnb.no/uilib/intro/08-color-usage.md): Look into the documentation for more details.
+
+- [Icons](https://eufemia.dnb.no/uilib/intro/09-icons.md): Look into the documentation for more details.
+
+- [Layout](https://eufemia.dnb.no/uilib/intro/10-layout.md): Look into the documentation for more details.
+
+- [Components, Elements and Extensions](https://eufemia.dnb.no/uilib/intro/11-components-elements-extensions.md): Look into the documentation for more details.
+
+- [Usage of components and elements](https://eufemia.dnb.no/uilib/intro/12-usage-of-components-elements.md): Look into the documentation for more details.
+
+- [Quality and Tests](https://eufemia.dnb.no/uilib/intro/13-quality-and-tests.md): Look into the documentation for more details.
+
+- [Section Component](https://eufemia.dnb.no/uilib/intro/14-helpers.md): Look into the documentation for more details.
+
+- [Summary](https://eufemia.dnb.no/uilib/intro/15-summary.md): Look into the documentation for more details.
+
+- [Intro](https://eufemia.dnb.no/uilib/intro.md): Look into the documentation for more details.
+
+- [Flex Container](https://eufemia.dnb.no/uilib/layout/flex/container.md): `Flex.Container` is a building block for CSS Grid based layouts.
+
+- [Flex Item](https://eufemia.dnb.no/uilib/layout/flex/item.md): `Flex.Item` is a building block for flexbox based layout of contents and components.
+
+- [Flex Stack](https://eufemia.dnb.no/uilib/layout/flex/stack.md): `Flex.Stack` is an outer block element that wraps content to ensure proper layout and spacing between form elements, larger regions and headings. It stretches its content horizontally (100%).
+
+- [Flex](https://eufemia.dnb.no/uilib/layout/flex.md): To make it easier to build application layout and form-views in line with defined design sketches, there are a number of components for layout.
+
+- [Provider](https://eufemia.dnb.no/uilib/layout/form-row/provider.md): Look into the documentation for more details.
+
+- [FormRow (deprecated)](https://eufemia.dnb.no/uilib/layout/form-row.md): The FormRow component is a helper to more easily achieve often used DNB form layout setups.
+
+- [Form-Set-Row-Deprecation](https://eufemia.dnb.no/uilib/layout/form-set-row-deprecation.md): Look into the documentation for more details.
+
+- [FormSet (deprecated)](https://eufemia.dnb.no/uilib/layout/form-set.md): The FormSet component is a helper to more easily achieve often used DNB form layout setups.
+
+- [Grid Container](https://eufemia.dnb.no/uilib/layout/grid/container.md): `Grid.Container` is a building block for CSS Grid based layout of contents and components.
+
+- [Grid Item](https://eufemia.dnb.no/uilib/layout/grid/item.md): `Grid.Item` is a building block for CSS Grid based layouts.
+
+- [Grid](https://eufemia.dnb.no/uilib/layout/grid.md): To make it easier to build responsive application layouts in line with defined design sketches, there are a number of components for layout.
+
+- [Media Queries](https://eufemia.dnb.no/uilib/layout/media-queries.md): Look into the documentation for more details.
+
+- [Space](https://eufemia.dnb.no/uilib/layout/space.md): The Space component provides margins within the provided spacing patterns.
+
+- [Spacing](https://eufemia.dnb.no/uilib/layout/spacing.md): Look into the documentation for more details.
+
+- [Layout](https://eufemia.dnb.no/uilib/layout.md): To make it easier to build application layouts and form views in line with defined design sketches, there are a number of components for layout.
+
+- [Font Size](https://eufemia.dnb.no/uilib/typography/font-size.md): Look into the documentation for more details.
+
+- [Font Weights](https://eufemia.dnb.no/uilib/typography/font-weight.md): Look into the documentation for more details.
+
+- [Helper classes](https://eufemia.dnb.no/uilib/typography/helper-classes.md): A list of typography CSS classes
+
+- [Line Height](https://eufemia.dnb.no/uilib/typography/line-height.md): Look into the documentation for more details.
+
+- [Typography](https://eufemia.dnb.no/uilib/typography.md): DNB Headings and paragraphs, their properties and styling.
+
+- [Checklist](https://eufemia.dnb.no/uilib/usage/accessibility/checklist.md): Accessibility checklist to help you remember the most important tasks you have to follow during front end development.
+
+- [Focus](https://eufemia.dnb.no/uilib/usage/accessibility/focus.md): Accessibility helpers to handle focus management and Skip Link usage.
+
+- [Icons](https://eufemia.dnb.no/uilib/usage/accessibility/icons.md): Look into the documentation for more details.
+
+- [Screen readers](https://eufemia.dnb.no/uilib/usage/accessibility/screenreader.md): Look into the documentation for more details.
+
+- [Accessibility](https://eufemia.dnb.no/uilib/usage/accessibility.md): Look into the documentation for more details.
+
+- [Best Practices for JavaScript and JSX](https://eufemia.dnb.no/uilib/usage/best-practices/for-javascript.md): Look into the documentation for more details.
+
+- [Best Practices for styling](https://eufemia.dnb.no/uilib/usage/best-practices/for-styling.md): Look into the documentation for more details.
+
+- [Best Practices for testing](https://eufemia.dnb.no/uilib/usage/best-practices/for-testing.md): Look into the documentation for more details.
+
+- [Best Practices for typography](https://eufemia.dnb.no/uilib/usage/best-practices/for-typography.md): Look into the documentation for more details.
+
+- [Best Practices](https://eufemia.dnb.no/uilib/usage/best-practices.md): Look into the documentation for more details.
+
+- [Colors](https://eufemia.dnb.no/uilib/usage/customisation/colors.md): Look into the documentation for more details.
+
+- [Component Properties](https://eufemia.dnb.no/uilib/usage/customisation/component-properties.md): Look into the documentation for more details.
+
+- [Locale / Translation](https://eufemia.dnb.no/uilib/usage/customisation/localization.md): Look into the documentation for more details.
+
+- [Provider / Context](https://eufemia.dnb.no/uilib/usage/customisation/provider.md): Look into the documentation for more details.
+
+- [Importing CSS](https://eufemia.dnb.no/uilib/usage/customisation/styling/consume-styles.md): Look into the documentation for more details.
+
+- [Style Isolation](https://eufemia.dnb.no/uilib/usage/customisation/styling/style-isolation.md): Look into the documentation for more details.
+
+- [CSS Styles](https://eufemia.dnb.no/uilib/usage/customisation/styling.md): To ensure flexibility and the possibility of theming, the DNB CSS Styles area built as flexible packages you can import and combine.
+
+- [Theme](https://eufemia.dnb.no/uilib/usage/customisation/theming/theme.md): The Theme component is a helper component that lets you create nested theming solutions.
+
+- [Theming](https://eufemia.dnb.no/uilib/usage/customisation/theming.md): Look into the documentation for more details.
+
+- [Customization](https://eufemia.dnb.no/uilib/usage/customisation.md): Customization and tools is a section dedicated to how to use and customize Eufemia in various situations.
+
+- [Bundles: UMD and ESM (mjs)](https://eufemia.dnb.no/uilib/usage/first-steps/bundles.md): Look into the documentation for more details.
+
+- [ESM / SSR](https://eufemia.dnb.no/uilib/usage/first-steps/module-formats.md): Eufemia uses ESM as their default module format. More info on this topic below.
+
+- [Quick Reference](https://eufemia.dnb.no/uilib/usage/first-steps/quick-reference.md): A compact, practical guide for building with Eufemia: install, components, forms, and key conventions. AI-friendly.
+
+- [React & TypeScript](https://eufemia.dnb.no/uilib/usage/first-steps/react.md): Look into the documentation for more details.
+
+- [The Basics](https://eufemia.dnb.no/uilib/usage/first-steps/the-basics.md): Look into the documentation for more details.
+
+- [AI and Tools](https://eufemia.dnb.no/uilib/usage/first-steps/tools.md): Code editor extensions, ESLint plugin, AI assistance and MCP server for Eufemia development.
+
+- [First Steps](https://eufemia.dnb.no/uilib/usage/first-steps.md): Look into the documentation for more details.
+
+- [Usage](https://eufemia.dnb.no/uilib/usage.md): Look into the documentation for more details.
 
 ## Components
 
@@ -72,8 +283,6 @@ GeneratedAt: 2026-01-16T16:38:32.279Z
 
 - [HelpButton](https://eufemia.dnb.no/uilib/components/help-button.md): A help button with custom semantics, helping screen readers determine the meaning of that button.
 
-- [IconPrimary](https://eufemia.dnb.no/uilib/components/icon-primary.md): The IconPrimary component loads by default all the primary icons used internally in the components.
-
 - [Icon](https://eufemia.dnb.no/uilib/components/icon.md): The main Icon component is basically a wrapper for whatever icon you place within it.
 
 - [InfoCard](https://eufemia.dnb.no/uilib/components/info-card.md): The InfoCard is used to give the user more information than a message box. It can also be used to give useful tips.
@@ -89,8 +298,6 @@ GeneratedAt: 2026-01-16T16:38:32.279Z
 - [Event-Table-Camel-Case](https://eufemia.dnb.no/uilib/components/modal/event-table-camel-case.md): Look into the documentation for more details.
 
 - [Event-Table](https://eufemia.dnb.no/uilib/components/modal/event-table.md): Look into the documentation for more details.
-
-- [Prop-Table-Camel-Case](https://eufemia.dnb.no/uilib/components/modal/prop-table-camel-case.md): Look into the documentation for more details.
 
 - [Prop-Table](https://eufemia.dnb.no/uilib/components/modal/prop-table.md): Look into the documentation for more details.
 
@@ -150,201 +357,195 @@ GeneratedAt: 2026-01-16T16:38:32.279Z
 
 ## Extensions
 
-- [Bring](https://eufemia.dnb.no/uilib/extensions/forms/Connectors/Bring.md): Bring is a connector that allows you to fetch data from their REST API and use it in your form.
+- [Connector.Bring](https://eufemia.dnb.no/uilib/extensions/forms/Connectors/Bring.md): Bring is a connector that allows you to fetch data from their REST API and use it in your form.
 
 - [Connectors](https://eufemia.dnb.no/uilib/extensions/forms/Connectors.md): Connectors are an opt-in way to extend the functionality of a form. They can be used to add features like API calls for autofill, validation, and more.
 
-- [At](https://eufemia.dnb.no/uilib/extensions/forms/DataContext/At.md): `DataContext.At` makes it possible to dig into a data set to set a pointer as the root for sub components, as well as iterate array-data.
+- [DataContext.At](https://eufemia.dnb.no/uilib/extensions/forms/DataContext/At.md): `DataContext.At` makes it possible to dig into a data set to set a pointer as the root for sub components, as well as iterate array-data.
 
-- [Context](https://eufemia.dnb.no/uilib/extensions/forms/DataContext/Context.md): The context object used in `DataContext.Provider`.
+- [DataContext.Context](https://eufemia.dnb.no/uilib/extensions/forms/DataContext/Context.md): The context object used in `DataContext.Provider`.
 
-- [Provider](https://eufemia.dnb.no/uilib/extensions/forms/DataContext/Provider.md): `DataContext.Provider` is the context provider that has to wrap the features if components of Field and Value is to be used with a common source instead of distributing values and events individually.
+- [DataContext.Provider](https://eufemia.dnb.no/uilib/extensions/forms/DataContext/Provider.md): `DataContext.Provider` is the context provider that has to wrap the features if components of Field and Value is to be used with a common source instead of distributing values and events individually.
 
 - [DataContext](https://eufemia.dnb.no/uilib/extensions/forms/DataContext.md): `DataContext` interweaves your data-set with your form fields.
 
-- [Appearance](https://eufemia.dnb.no/uilib/extensions/forms/Form/Appearance.md): `Form.Appearance` is a provider for theming form fields.
+- [Form.Appearance](https://eufemia.dnb.no/uilib/extensions/forms/Form/Appearance.md): `Form.Appearance` is a provider for theming form fields.
 
-- [ButtonRow](https://eufemia.dnb.no/uilib/extensions/forms/Form/ButtonRow.md): `Form.ButtonRow` is a wrapper for horizontally separated buttons.
+- [Form.ButtonRow](https://eufemia.dnb.no/uilib/extensions/forms/Form/ButtonRow.md): `Form.ButtonRow` is a wrapper for horizontally separated buttons.
 
-- [Card](https://eufemia.dnb.no/uilib/extensions/forms/Form/Card.md): `Form.Card` is a wrapper for the Card component to make it easier to use inside a form.
+- [Form.Card](https://eufemia.dnb.no/uilib/extensions/forms/Form/Card.md): `Form.Card` is a wrapper for the Card component to make it easier to use inside a form.
 
-- [Async-Change-Example](https://eufemia.dnb.no/uilib/extensions/forms/Form/Handler/parts/async-change-example.md): Look into the documentation for more details.
+- [Form.Handler](https://eufemia.dnb.no/uilib/extensions/forms/Form/Handler.md): The `Form.Handler` is the root component of your form. It provides an HTML form element and handles the form data.
 
-- [Async-State-Return-Example](https://eufemia.dnb.no/uilib/extensions/forms/Form/Handler/parts/async-state-return-example.md): Look into the documentation for more details.
+- [Form.InfoOverlay](https://eufemia.dnb.no/uilib/extensions/forms/Form/InfoOverlay.md): `Form.InfoOverlay` is used to display an informational message that fully covers the available space.
 
-- [Handler](https://eufemia.dnb.no/uilib/extensions/forms/Form/Handler.md): The `Form.Handler` is the root component of your form. It provides an HTML form element and handles the form data.
+- [Form.Isolation](https://eufemia.dnb.no/uilib/extensions/forms/Form/Isolation.md): `Form.Isolation` lets you isolate parts of your form so data and validations are not shared between the `Form.Handler` until you want to.
 
-- [InfoOverlay](https://eufemia.dnb.no/uilib/extensions/forms/Form/InfoOverlay.md): `Form.InfoOverlay` is used to display an informational message that fully covers the available space.
+- [Form.MainHeading](https://eufemia.dnb.no/uilib/extensions/forms/Form/MainHeading.md): `Form.MainHeading` is a standardized main heading for sections, ensuring default layout, spacing etc.
 
-- [Isolation](https://eufemia.dnb.no/uilib/extensions/forms/Form/Isolation.md): `Form.Isolation` lets you isolate parts of your form so data and validations are not shared between the `Form.Handler` until you want to.
+- [Form.Section.EditContainer](https://eufemia.dnb.no/uilib/extensions/forms/Form/Section/EditContainer.md): `Form.Section.EditContainer` enables users to toggle (with animation) the content of each item between the view and edit container.
 
-- [MainHeading](https://eufemia.dnb.no/uilib/extensions/forms/Form/MainHeading.md): `Form.MainHeading` is a standardized main heading for sections, ensuring default layout, spacing etc.
+- [Form.Section.Toolbar](https://eufemia.dnb.no/uilib/extensions/forms/Form/Section/Toolbar.md): `Form.Section.Toolbar` is a helper component to be used within an `Form.Section.ViewContainer` and `Form.Section.EditContainer`.
 
-- [EditContainer](https://eufemia.dnb.no/uilib/extensions/forms/Form/Section/EditContainer.md): `Form.Section.EditContainer` enables users to toggle (with animation) the content of each item between the view and edit container.
+- [Form.Section.ViewContainer](https://eufemia.dnb.no/uilib/extensions/forms/Form/Section/ViewContainer.md): `Form.Section.ViewContainer` enables users to toggle (with animation) the content of each item between the view and edit container.
 
-- [Toolbar](https://eufemia.dnb.no/uilib/extensions/forms/Form/Section/Toolbar.md): `Form.Section.Toolbar` is a helper component to be used within an `Form.Section.ViewContainer` and `Form.Section.EditContainer`.
+- [Form.Section](https://eufemia.dnb.no/uilib/extensions/forms/Form/Section.md): `Form.Section` lets you compose blocks of fields and values to be reused in different contexts.
 
-- [ViewContainer](https://eufemia.dnb.no/uilib/extensions/forms/Form/Section/ViewContainer.md): `Form.Section.ViewContainer` enables users to toggle (with animation) the content of each item between the view and edit container.
+- [Form.SubHeading](https://eufemia.dnb.no/uilib/extensions/forms/Form/SubHeading.md): `Form.SubHeading` is a standardized sub heading for sections, ensuring default layout, spacing etc.
 
-- [Section](https://eufemia.dnb.no/uilib/extensions/forms/Form/Section.md): `Form.Section` lets you compose blocks of fields and values to be reused in different contexts.
+- [Form.SubmitButton](https://eufemia.dnb.no/uilib/extensions/forms/Form/SubmitButton.md): `Form.SubmitButton` connects to the `Form.Handler` to submit the active state of the internal DataContext, triggering `onSubmit`.
 
-- [SubHeading](https://eufemia.dnb.no/uilib/extensions/forms/Form/SubHeading.md): `Form.SubHeading` is a standardized sub heading for sections, ensuring default layout, spacing etc.
+- [Form.SubmitConfirmation](https://eufemia.dnb.no/uilib/extensions/forms/Form/SubmitConfirmation.md): `Form.SubmitConfirmation` can be used to prevent the `Form.Handler` from submitting, and makes it possible to show a confirmation dialog in different scenarios.
 
-- [SubmitButton](https://eufemia.dnb.no/uilib/extensions/forms/Form/SubmitButton.md): `Form.SubmitButton` connects to the `Form.Handler` to submit the active state of the internal DataContext, triggering `onSubmit`.
+- [Form.SubmitIndicator](https://eufemia.dnb.no/uilib/extensions/forms/Form/SubmitIndicator.md): `Form.SubmitIndicator` lets you show an indicator while async form operations are performed.
 
-- [SubmitConfirmation](https://eufemia.dnb.no/uilib/extensions/forms/Form/SubmitConfirmation.md): `Form.SubmitConfirmation` can be used to prevent the `Form.Handler` from submitting, and makes it possible to show a confirmation dialog in different scenarios.
+- [Form.Visibility](https://eufemia.dnb.no/uilib/extensions/forms/Form/Visibility.md): `Form.Visibility` makes it possible to hide components and elements on the screen based on the dynamic state of data.
 
-- [SubmitIndicator](https://eufemia.dnb.no/uilib/extensions/forms/Form/SubmitIndicator.md): `Form.SubmitIndicator` lets you show an indicator while async form operations are performed.
-
-- [Visibility](https://eufemia.dnb.no/uilib/extensions/forms/Form/Visibility.md): `Form.Visibility` makes it possible to hide components and elements on the screen based on the dynamic state of data.
-
-- [clearData](https://eufemia.dnb.no/uilib/extensions/forms/Form/clearData.md): `Form.clearData` lets you clear the data of a form.
+- [Form.clearData](https://eufemia.dnb.no/uilib/extensions/forms/Form/clearData.md): `Form.clearData` lets you clear the data of a form.
 
 - [Components](https://eufemia.dnb.no/uilib/extensions/forms/Form/components.md): Look into the documentation for more details.
 
-- [Error messages](https://eufemia.dnb.no/uilib/extensions/forms/Form/error-messages.md): Error messages in Eufemia Forms are used to provide feedback to users when there are issues with their input.
+- [Form.ErrorMessages](https://eufemia.dnb.no/uilib/extensions/forms/Form/error-messages.md): Error messages in Eufemia Forms are used to provide feedback to users when there are issues with their input.
 
-- [getData](https://eufemia.dnb.no/uilib/extensions/forms/Form/getData.md): `Form.getData` lets you access your form data outside of the form context.
+- [Form.getData](https://eufemia.dnb.no/uilib/extensions/forms/Form/getData.md): `Form.getData` lets you access your form data outside of the form context.
 
-- [Schema validation](https://eufemia.dnb.no/uilib/extensions/forms/Form/schema-validation.md): Schema validation can be done with a JSON Schema which makes it possible to describe the data structure and validation needs, both for the individual value, and more complex rules across the data set.
+- [Form.SchemaValidation](https://eufemia.dnb.no/uilib/extensions/forms/Form/schema-validation.md): Schema validation can be done with a JSON Schema which makes it possible to describe the data structure and validation needs, both for the individual value, and more complex rules across the data set.
 
-- [setData](https://eufemia.dnb.no/uilib/extensions/forms/Form/setData.md): `Form.setData` lets you set or modify your form data outside of the form context.
+- [Form.setData](https://eufemia.dnb.no/uilib/extensions/forms/Form/setData.md): `Form.setData` lets you set or modify your form data outside of the form context.
 
-- [useData](https://eufemia.dnb.no/uilib/extensions/forms/Form/useData.md): `Form.useData` lets you access or modify your form data outside of the form context within your application.
+- [Form.useData](https://eufemia.dnb.no/uilib/extensions/forms/Form/useData.md): `Form.useData` lets you access or modify your form data outside of the form context within your application.
 
-- [useSnapshot](https://eufemia.dnb.no/uilib/extensions/forms/Form/useSnapshot.md): `Form.useSnapshot` lets you store data snapshots of your form data, either inside or outside of the form context.
+- [Form.useSnapshot](https://eufemia.dnb.no/uilib/extensions/forms/Form/useSnapshot.md): `Form.useSnapshot` lets you store data snapshots of your form data, either inside or outside of the form context.
 
-- [useTranslation](https://eufemia.dnb.no/uilib/extensions/forms/Form/useTranslation.md): `Form.useTranslation` is a hook that returns the translations for the current locale.
+- [Form.useTranslation](https://eufemia.dnb.no/uilib/extensions/forms/Form/useTranslation.md): `Form.useTranslation` is a hook that returns the translations for the current locale.
 
-- [useValidation](https://eufemia.dnb.no/uilib/extensions/forms/Form/useValidation.md): `Form.useValidation` lets you monitor and modify field status or your form errors outside of the context.
+- [Form.useValidation](https://eufemia.dnb.no/uilib/extensions/forms/Form/useValidation.md): `Form.useValidation` lets you monitor and modify field status or your form errors outside of the context.
 
 - [Form](https://eufemia.dnb.no/uilib/extensions/forms/Form.md): `Form` provides the main forms-helpers including data provider and event handling.
 
-- [AnimatedContainer](https://eufemia.dnb.no/uilib/extensions/forms/Iterate/AnimatedContainer.md): `Iterate.AnimatedContainer` can be used to animate items when they are added or removed.
+- [Iterate.AnimatedContainer](https://eufemia.dnb.no/uilib/extensions/forms/Iterate/AnimatedContainer.md): `Iterate.AnimatedContainer` can be used to animate items when they are added or removed.
 
-- [Array](https://eufemia.dnb.no/uilib/extensions/forms/Iterate/Array.md): `Iterate.Array` works in many ways similar to field-components. It has a value-property that can receive an array or you can give it a path if you want it to retrieve an array from a surrounding DataContext. All children components of Iterate.Array are rendered once per item the array-value consists of.
+- [Iterate.Array](https://eufemia.dnb.no/uilib/extensions/forms/Iterate/Array.md): `Iterate.Array` works in many ways similar to field-components. It has a value-property that can receive an array or you can give it a path if you want it to retrieve an array from a surrounding DataContext. All children components of Iterate.Array are rendered once per item the array-value consists of.
 
-- [Count](https://eufemia.dnb.no/uilib/extensions/forms/Iterate/Count.md): `Iterate.Count` is a helper component / function that returns the count of a data array or object.
+- [Iterate.Count](https://eufemia.dnb.no/uilib/extensions/forms/Iterate/Count.md): `Iterate.Count` is a helper component / function that returns the count of a data array or object.
 
-- [EditContainer](https://eufemia.dnb.no/uilib/extensions/forms/Iterate/EditContainer.md): `Iterate.EditContainer` enables users to toggle (with animation) the content of each item between the view and edit container.
+- [Iterate.EditContainer](https://eufemia.dnb.no/uilib/extensions/forms/Iterate/EditContainer.md): `Iterate.EditContainer` enables users to toggle (with animation) the content of each item between the view and edit container.
 
-- [ItemNo](https://eufemia.dnb.no/uilib/extensions/forms/Iterate/ItemNo.md): `Iterate.ItemNo` is a helper component that can be used to render the current item number (index) in a given string.
+- [Iterate.ItemNo](https://eufemia.dnb.no/uilib/extensions/forms/Iterate/ItemNo.md): `Iterate.ItemNo` is a helper component that can be used to render the current item number (index) in a given string.
 
-- [PushButton](https://eufemia.dnb.no/uilib/extensions/forms/Iterate/PushButton.md): `Iterate.PushButton` builds on top of the same data flow logic as field components, but the only thing it changes in the value it receives or retrieves from source data is adding a new item to the array.
+- [Iterate.PushButton](https://eufemia.dnb.no/uilib/extensions/forms/Iterate/PushButton.md): `Iterate.PushButton` builds on top of the same data flow logic as field components, but the only thing it changes in the value it receives or retrieves from source data is adding a new item to the array.
 
-- [PushContainer](https://eufemia.dnb.no/uilib/extensions/forms/Iterate/PushContainer.md): `Iterate.PushContainer` enables users to create a new item in the array.
+- [Iterate.PushContainer](https://eufemia.dnb.no/uilib/extensions/forms/Iterate/PushContainer.md): `Iterate.PushContainer` enables users to create a new item in the array.
 
-- [RemoveButton](https://eufemia.dnb.no/uilib/extensions/forms/Iterate/RemoveButton.md): `Iterate.RemoveButton` connects to the array of a surrounding Iterate.Array and removes the item when clicked.
+- [Iterate.RemoveButton](https://eufemia.dnb.no/uilib/extensions/forms/Iterate/RemoveButton.md): `Iterate.RemoveButton` connects to the array of a surrounding Iterate.Array and removes the item when clicked.
 
-- [Toolbar](https://eufemia.dnb.no/uilib/extensions/forms/Iterate/Toolbar.md): `Iterate.Toolbar` is a helper component to be used within an `Iterate.AnimatedContainer` to add a toolbar to each item in the array.
+- [Iterate.Toolbar](https://eufemia.dnb.no/uilib/extensions/forms/Iterate/Toolbar.md): `Iterate.Toolbar` is a helper component to be used within an `Iterate.AnimatedContainer` to add a toolbar to each item in the array.
 
-- [ViewContainer](https://eufemia.dnb.no/uilib/extensions/forms/Iterate/ViewContainer.md): `Iterate.ViewContainer` enables users to toggle (with animation) the content of each item between the view and edit container.
+- [Iterate.ViewContainer](https://eufemia.dnb.no/uilib/extensions/forms/Iterate/ViewContainer.md): `Iterate.ViewContainer` enables users to toggle (with animation) the content of each item between the view and edit container.
 
-- [Visibility](https://eufemia.dnb.no/uilib/extensions/forms/Iterate/Visibility.md): The `Iterate.Visibility` component allows you to conditionally display content based on relative paths (`itemPath`) within an `Iterate.Array` component.
+- [Iterate.Visibility](https://eufemia.dnb.no/uilib/extensions/forms/Iterate/Visibility.md): The `Iterate.Visibility` component allows you to conditionally display content based on relative paths (`itemPath`) within an `Iterate.Array` component.
 
 - [Components](https://eufemia.dnb.no/uilib/extensions/forms/Iterate/components.md): Look into the documentation for more details.
 
 - [Iterate](https://eufemia.dnb.no/uilib/extensions/forms/Iterate.md): `Iterate` contains components and functionality for traversing values and parts of data sets such as arrays, which contain a varying number of elements where the number of components on the screen depends on how many elements the data consists of.
 
-- [Address](https://eufemia.dnb.no/uilib/extensions/forms/Value/Address.md): `Value.Address` is a wrapper component for displaying string values, with user experience tailored for postal and street addresses.
+- [Value.Address](https://eufemia.dnb.no/uilib/extensions/forms/Value/Address.md): `Value.Address` is a wrapper component for displaying string values, with user experience tailored for postal and street addresses.
 
-- [ArraySelection](https://eufemia.dnb.no/uilib/extensions/forms/Value/ArraySelection.md): `Value.ArraySelection` is a wrapper component for displaying string values, with user experience tailored for an array of selected values.
+- [Value.ArraySelection](https://eufemia.dnb.no/uilib/extensions/forms/Value/ArraySelection.md): `Value.ArraySelection` is a wrapper component for displaying string values, with user experience tailored for an array of selected values.
 
-- [BankAccountNumber](https://eufemia.dnb.no/uilib/extensions/forms/Value/BankAccountNumber.md): `Value.BankAccountNumber` is a wrapper component for displaying string values, with user experience tailored for bank account number values.
+- [Value.BankAccountNumber](https://eufemia.dnb.no/uilib/extensions/forms/Value/BankAccountNumber.md): `Value.BankAccountNumber` is a wrapper component for displaying string values, with user experience tailored for bank account number values.
 
-- [Boolean](https://eufemia.dnb.no/uilib/extensions/forms/Value/Boolean.md): `Value.Boolean` is a base component for displaying values of the type `boolean`.
+- [Value.Boolean](https://eufemia.dnb.no/uilib/extensions/forms/Value/Boolean.md): `Value.Boolean` is a base component for displaying values of the type `boolean`.
 
-- [Composition](https://eufemia.dnb.no/uilib/extensions/forms/Value/Composition.md): `Value.Composition` combines two or more `Value.*` components into one.
+- [Value.Composition](https://eufemia.dnb.no/uilib/extensions/forms/Value/Composition.md): `Value.Composition` combines two or more `Value.*` components into one.
 
-- [Currency](https://eufemia.dnb.no/uilib/extensions/forms/Value/Currency.md): `Value.Currency` is a wrapper component for displaying number values, with user experience tailored for currency values.
+- [Value.Currency](https://eufemia.dnb.no/uilib/extensions/forms/Value/Currency.md): `Value.Currency` is a wrapper component for displaying number values, with user experience tailored for currency values.
 
-- [Date](https://eufemia.dnb.no/uilib/extensions/forms/Value/Date.md): `Value.Date` is a wrapper component for displaying string values, with user experience tailored for date values.
+- [Value.Date](https://eufemia.dnb.no/uilib/extensions/forms/Value/Date.md): `Value.Date` is a wrapper component for displaying string values, with user experience tailored for date values.
 
-- [DateOfBirth](https://eufemia.dnb.no/uilib/extensions/forms/Value/DateOfBirth.md): `Value.DateOfBirth` is a wrapper component for displaying string values, with user experience tailored for date of birth values.
+- [Value.DateOfBirth](https://eufemia.dnb.no/uilib/extensions/forms/Value/DateOfBirth.md): `Value.DateOfBirth` is a wrapper component for displaying string values, with user experience tailored for date of birth values.
 
-- [Email](https://eufemia.dnb.no/uilib/extensions/forms/Value/Email.md): `Value.Email` is a wrapper component for displaying string values, with user experience tailored for email values.
+- [Value.Email](https://eufemia.dnb.no/uilib/extensions/forms/Value/Email.md): `Value.Email` is a wrapper component for displaying string values, with user experience tailored for email values.
 
-- [Name](https://eufemia.dnb.no/uilib/extensions/forms/Value/Name.md): `Value.Name` is a wrapper component for displaying string values, with user experience tailored for personal, like first and last name and company names.
+- [Value.Name](https://eufemia.dnb.no/uilib/extensions/forms/Value/Name.md): `Value.Name` is a wrapper component for displaying string values, with user experience tailored for personal, like first and last name and company names.
 
-- [NationalIdentityNumber](https://eufemia.dnb.no/uilib/extensions/forms/Value/NationalIdentityNumber.md): `Value.NationalIdentityNumber` is a wrapper component for displaying string values, with user experience tailored for national identity number values.
+- [Value.NationalIdentityNumber](https://eufemia.dnb.no/uilib/extensions/forms/Value/NationalIdentityNumber.md): `Value.NationalIdentityNumber` is a wrapper component for displaying string values, with user experience tailored for national identity number values.
 
-- [Number](https://eufemia.dnb.no/uilib/extensions/forms/Value/Number.md): `Value.Number` is a base component for displaying values of the type `number`.
+- [Value.Number](https://eufemia.dnb.no/uilib/extensions/forms/Value/Number.md): `Value.Number` is a base component for displaying values of the type `number`.
 
-- [OrganizationNumber](https://eufemia.dnb.no/uilib/extensions/forms/Value/OrganizationNumber.md): `Value.OrganizationNumber` is a wrapper component for displaying string values, with user experience tailored for organization number values.
+- [Value.OrganizationNumber](https://eufemia.dnb.no/uilib/extensions/forms/Value/OrganizationNumber.md): `Value.OrganizationNumber` is a wrapper component for displaying string values, with user experience tailored for organization number values.
 
-- [PhoneNumber](https://eufemia.dnb.no/uilib/extensions/forms/Value/PhoneNumber.md): `Value.PhoneNumber` is a wrapper component for displaying string values, with user experience tailored for phone number values.
+- [Value.PhoneNumber](https://eufemia.dnb.no/uilib/extensions/forms/Value/PhoneNumber.md): `Value.PhoneNumber` is a wrapper component for displaying string values, with user experience tailored for phone number values.
 
-- [PostalCodeAndCity](https://eufemia.dnb.no/uilib/extensions/forms/Value/PostalCodeAndCity.md): `Value.PostalCodeAndCity` is a wrapper component for displaying string values, with user experience tailored for Norwegian postal code and city values.
+- [Value.PostalCodeAndCity](https://eufemia.dnb.no/uilib/extensions/forms/Value/PostalCodeAndCity.md): `Value.PostalCodeAndCity` is a wrapper component for displaying string values, with user experience tailored for Norwegian postal code and city values.
 
-- [Provider](https://eufemia.dnb.no/uilib/extensions/forms/Value/Provider.md): The `Value.Provider` lets you pass generic properties to all nested Value.* components.
+- [Value.Provider](https://eufemia.dnb.no/uilib/extensions/forms/Value/Provider.md): The `Value.Provider` lets you pass generic properties to all nested Value.\* components.
 
-- [SelectCountry](https://eufemia.dnb.no/uilib/extensions/forms/Value/SelectCountry.md): `Value.SelectCountry` will render the selected country.
+- [Value.SelectCountry](https://eufemia.dnb.no/uilib/extensions/forms/Value/SelectCountry.md): `Value.SelectCountry` will render the selected country.
 
-- [SelectCurrency](https://eufemia.dnb.no/uilib/extensions/forms/Value/SelectCurrency.md): `Value.SelectCurrency` will render the selected currency.
+- [Value.SelectCurrency](https://eufemia.dnb.no/uilib/extensions/forms/Value/SelectCurrency.md): `Value.SelectCurrency` will render the selected currency.
 
-- [Selection](https://eufemia.dnb.no/uilib/extensions/forms/Value/Selection.md): `Value.Selection` is a component for displaying a string value based on a user selection.
+- [Value.Selection](https://eufemia.dnb.no/uilib/extensions/forms/Value/Selection.md): `Value.Selection` is a component for displaying a string value based on a user selection.
 
-- [String](https://eufemia.dnb.no/uilib/extensions/forms/Value/String.md): `Value.String` is a base component for displaying values of the type `string`.
+- [Value.String](https://eufemia.dnb.no/uilib/extensions/forms/Value/String.md): `Value.String` is a base component for displaying values of the type `string`.
 
-- [SummaryList](https://eufemia.dnb.no/uilib/extensions/forms/Value/SummaryList.md): `Value.SummaryList` uses definition lists to semantically make content consumable for screen readers.
+- [Value.SummaryList](https://eufemia.dnb.no/uilib/extensions/forms/Value/SummaryList.md): `Value.SummaryList` uses definition lists to semantically make content consumable for screen readers.
 
-- [Upload](https://eufemia.dnb.no/uilib/extensions/forms/Value/Upload.md): `Value.Upload` is a value component for displaying a list of files.
+- [Value.Upload](https://eufemia.dnb.no/uilib/extensions/forms/Value/Upload.md): `Value.Upload` is a value component for displaying a list of files.
 
-- [Components](https://eufemia.dnb.no/uilib/extensions/forms/Value/components.md): Look into the documentation for more details.
+- [Value.Components](https://eufemia.dnb.no/uilib/extensions/forms/Value/components.md): Look into the documentation for more details.
 
-- [Value](https://eufemia.dnb.no/uilib/extensions/forms/Value.md): `Value` components can be used to summarize any kind of data.
+- [Value.Value](https://eufemia.dnb.no/uilib/extensions/forms/Value.md): `Value` components can be used to summarize any kind of data.
 
-- [Buttons](https://eufemia.dnb.no/uilib/extensions/forms/Wizard/Buttons.md): `Wizard.Buttons` is a combination of PreviousButton and NextButton for navigating between steps/pages.
+- [Wizard.Buttons](https://eufemia.dnb.no/uilib/extensions/forms/Wizard/Buttons.md): `Wizard.Buttons` is a combination of PreviousButton and NextButton for navigating between steps/pages.
 
-- [Container](https://eufemia.dnb.no/uilib/extensions/forms/Wizard/Container.md): The `Wizard.Container` is a container component for multi-page forms including a step indicator.
+- [Wizard.Container](https://eufemia.dnb.no/uilib/extensions/forms/Wizard/Container.md): The `Wizard.Container` is a container component for multi-page forms including a step indicator.
 
-- [EditButton](https://eufemia.dnb.no/uilib/extensions/forms/Wizard/EditButton.md): `Wizard.EditButton` is a button to be placed in a summary step.
+- [Wizard.EditButton](https://eufemia.dnb.no/uilib/extensions/forms/Wizard/EditButton.md): `Wizard.EditButton` is a button to be placed in a summary step.
 
-- [NextButton](https://eufemia.dnb.no/uilib/extensions/forms/Wizard/NextButton.md): `Wizard.NextButton` connects to the `Wizard.Context` to move the user to the next step when clicked.
+- [Wizard.NextButton](https://eufemia.dnb.no/uilib/extensions/forms/Wizard/NextButton.md): `Wizard.NextButton` connects to the `Wizard.Context` to move the user to the next step when clicked.
 
-- [PreviousButton](https://eufemia.dnb.no/uilib/extensions/forms/Wizard/PreviousButton.md): `Wizard.PreviousButton` connects to the `Wizard.Context` to move the user to the previous step when clicked.
+- [Wizard.PreviousButton](https://eufemia.dnb.no/uilib/extensions/forms/Wizard/PreviousButton.md): `Wizard.PreviousButton` connects to the `Wizard.Context` to move the user to the previous step when clicked.
 
-- [Step](https://eufemia.dnb.no/uilib/extensions/forms/Wizard/Step.md): Each step should be wrapped with a `Wizard.Step` component directly inside Wizard.Container.
+- [Wizard.Step](https://eufemia.dnb.no/uilib/extensions/forms/Wizard/Step.md): Each step should be wrapped with a `Wizard.Step` component directly inside Wizard.Container.
 
 - [Components](https://eufemia.dnb.no/uilib/extensions/forms/Wizard/components.md): Look into the documentation for more details.
 
-- [Location Hooks](https://eufemia.dnb.no/uilib/extensions/forms/Wizard/location-hooks.md): Is a set of React Hooks that lets you easily hook up your existing router in order to store the current step in the URL query string.
+- [Wizard.LocationHooks](https://eufemia.dnb.no/uilib/extensions/forms/Wizard/location-hooks.md): Is a set of React Hooks that lets you easily hook up your existing router in order to store the current step in the URL query string.
 
-- [useStep](https://eufemia.dnb.no/uilib/extensions/forms/Wizard/useStep.md): `Wizard.useStep` returns `Wizard.Context` parameters such as totalSteps, activeIndex or a setActiveIndex handler.
+- [Wizard.useStep](https://eufemia.dnb.no/uilib/extensions/forms/Wizard/useStep.md): `Wizard.useStep` returns `Wizard.Context` parameters such as totalSteps, activeIndex or a setActiveIndex handler.
 
 - [Wizard](https://eufemia.dnb.no/uilib/extensions/forms/Wizard.md): `Wizard` is a set of components for showing forms with a [StepIndicator](/uilib/components/step-indicator/) for navigation between several wizard. It also includes components for navigating between wizard.
 
 - [What are fields?](https://eufemia.dnb.no/uilib/extensions/forms/about-fields.md): Look into the documentation for more details.
 
-- [Forms for applications](https://eufemia.dnb.no/uilib/extensions/forms/about-forms.md): Look into the documentation for more details.
-
 - [All features and APIs](https://eufemia.dnb.no/uilib/extensions/forms/all-features.md): Look into the documentation for more details.
 
 - [All fields](https://eufemia.dnb.no/uilib/extensions/forms/all-fields.md): Look into the documentation for more details.
 
-- [ArraySelection](https://eufemia.dnb.no/uilib/extensions/forms/base-fields/ArraySelection.md): `Field.ArraySelection` is a component for selecting between a fixed set of options using checkboxes or similar, that will produce a value in the form of an array containing the values of selected options.
+- [Field.ArraySelection](https://eufemia.dnb.no/uilib/extensions/forms/base-fields/ArraySelection.md): `Field.ArraySelection` is a component for selecting between a fixed set of options using checkboxes or similar, that will produce a value in the form of an array containing the values of selected options.
 
-- [Boolean](https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Boolean.md): `Field.Boolean` is the base component for receiving user input where the target data is of type `boolean`.
+- [Field.Boolean](https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Boolean.md): `Field.Boolean` is the base component for receiving user input where the target data is of type `boolean`.
 
-- [Composition](https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Composition.md): `Field.Composition` is a component for when you create a field block that contains of several existing fields.
+- [Field.Composition](https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Composition.md): `Field.Composition` is a component for when you create a field block that contains of several existing fields.
 
-- [Indeterminate](https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Indeterminate.md): `Field.Indeterminate` component is used to display and handle the indeterminate state of a checkbox.
+- [Field.Indeterminate](https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Indeterminate.md): `Field.Indeterminate` component is used to display and handle the indeterminate state of a checkbox.
 
-- [Number](https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Number.md): `Field.Number` is the base component for receiving user input where the target data is of type `number`.
+- [Field.Number](https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Number.md): `Field.Number` is the base component for receiving user input where the target data is of type `number`.
 
-- [Option](https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Option.md): `Field.Option` is a pseudo-component for defining an option to be used in a dropdown or similar user experiences.
+- [Field.Option](https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Option.md): `Field.Option` is a pseudo-component for defining an option to be used in a dropdown or similar user experiences.
 
-- [Selection](https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Selection.md): `Field.Selection` is a wrapper component for selecting between options using a dropdown or similar user experiences.
+- [Field.Selection](https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Selection.md): `Field.Selection` is a wrapper component for selecting between options using a dropdown or similar user experiences.
 
-- [String](https://eufemia.dnb.no/uilib/extensions/forms/base-fields/String.md): `Field.String` is the base component for receiving user input where the target data is of type `string`.
+- [Field.String](https://eufemia.dnb.no/uilib/extensions/forms/base-fields/String.md): `Field.String` is the base component for receiving user input where the target data is of type `string`.
 
-- [Toggle](https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Toggle.md): `Field.Toggle` is a base component for allowing the user to toggle between two different values in the target data point.
+- [Field.Toggle](https://eufemia.dnb.no/uilib/extensions/forms/base-fields/Toggle.md): `Field.Toggle` is a base component for allowing the user to toggle between two different values in the target data point.
 
 - [Base fields](https://eufemia.dnb.no/uilib/extensions/forms/base-fields.md): Look into the documentation for more details.
 
 - [Best-Practices-On-Forms](https://eufemia.dnb.no/uilib/extensions/forms/best-practices-on-forms.md): Look into the documentation for more details.
 
-- [ChildrenWithAge](https://eufemia.dnb.no/uilib/extensions/forms/blocks/ChildrenWithAge.md): `ChildrenWithAge` is a block for displaying children with age.
+- [Block.ChildrenWithAge](https://eufemia.dnb.no/uilib/extensions/forms/blocks/ChildrenWithAge.md): `ChildrenWithAge` is a block for displaying children with age.
 
 - [Collection](https://eufemia.dnb.no/uilib/extensions/forms/blocks/collection.md): Look into the documentation for more details.
 
@@ -366,51 +567,47 @@ GeneratedAt: 2026-01-16T16:38:32.279Z
 
 - [Case Demo 2](https://eufemia.dnb.no/uilib/extensions/forms/demo-cases/casedemo2.md): Look into the documentation for more details.
 
-- [Address](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Address.md): `Field.Address` is a wrapper component for the input of strings, with user experience tailored for postal and street addresses.
+- [Field.Address](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Address.md): `Field.Address` is a wrapper component for the input of strings, with user experience tailored for postal and street addresses.
 
-- [BankAccountNumber](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/BankAccountNumber.md): `Field.BankAccountNumber` is a wrapper component for the input of strings, with user experience tailored for bank account number values.
+- [Field.BankAccountNumber](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/BankAccountNumber.md): `Field.BankAccountNumber` is a wrapper component for the input of strings, with user experience tailored for bank account number values.
 
-- [Currency](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Currency.md): `Field.Currency` is a wrapper component for the input of numbers, with user experience tailored for currency values.
+- [Field.Currency](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Currency.md): `Field.Currency` is a wrapper component for the input of numbers, with user experience tailored for currency values.
 
-- [Date](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Date.md): `Field.Date` is a wrapper component for the input of strings, with user experience tailored for date values.
+- [Field.Date](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Date.md): `Field.Date` is a wrapper component for the input of strings, with user experience tailored for date values.
 
-- [DateOfBirth](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/DateOfBirth.md): `Field.DateOfBirth` is a wrapper component for the input of strings, with user experience tailored for date of birth values.
+- [Field.DateOfBirth](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/DateOfBirth.md): `Field.DateOfBirth` is a wrapper component for the input of strings, with user experience tailored for date of birth values.
 
-- [Email](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Email.md): `Field.Email` is a wrapper component for the input of strings, with user experience tailored for email values.
+- [Field.Email](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Email.md): `Field.Email` is a wrapper component for the input of strings, with user experience tailored for email values.
 
-- [Expiry](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Expiry.md): `Field.Expiry` is a wrapper component for the input of strings, with user experience tailored for expiry dates for payment cards.
+- [Field.Expiry](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Expiry.md): `Field.Expiry` is a wrapper component for the input of strings, with user experience tailored for expiry dates for payment cards.
 
-- [Name](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Name.md): `Field.Name` is a wrapper component for the input of strings, with user experience tailored for first name, last name and company names.
+- [Field.Name](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Name.md): `Field.Name` is a wrapper component for the input of strings, with user experience tailored for first name, last name and company names.
 
-- [NationalIdentityNumber](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/NationalIdentityNumber.md): `Field.NationalIdentityNumber` is a wrapper component for the input of strings, with user experience tailored for national identity number values.
+- [Field.NationalIdentityNumber](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/NationalIdentityNumber.md): `Field.NationalIdentityNumber` is a wrapper component for the input of strings, with user experience tailored for national identity number values.
 
-- [OrganizationNumber](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/OrganizationNumber.md): `Field.OrganizationNumber` is a wrapper component for the input of strings, with user experience tailored for organization number values.
+- [Field.OrganizationNumber](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/OrganizationNumber.md): `Field.OrganizationNumber` is a wrapper component for the input of strings, with user experience tailored for organization number values.
 
-- [PhoneNumber](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/PhoneNumber.md): `Field.PhoneNumber` is a wrapper component for the input of strings, with user experience tailored for phone number values.
+- [Field.PhoneNumber](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/PhoneNumber.md): `Field.PhoneNumber` is a wrapper component for the input of strings, with user experience tailored for phone number values.
 
-- [PostalCodeAndCity](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/PostalCodeAndCity.md): `Field.PostalCodeAndCity` is a wrapper component for input of two separate values with user experience tailored for postal code and city values.
+- [Field.PostalCodeAndCity](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/PostalCodeAndCity.md): `Field.PostalCodeAndCity` is a wrapper component for input of two separate values with user experience tailored for postal code and city values.
 
 - [Field.Provider](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Provider.md): `Field.Provider` is a provider for forwarding fields properties, such as `required` or `disabled` to all nested field components.
 
-- [SelectCountry](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/SelectCountry.md): `Field.SelectCountry` is a wrapper component for the selection component, with options built in for selecting a country.
+- [Field.SelectCountry](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/SelectCountry.md): `Field.SelectCountry` is a wrapper component for the selection component, with options built in for selecting a country.
 
-- [SelectCurrency](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/SelectCurrency.md): `Field.SelectCurrency` is a wrapper component for the selection component, with options built in for selecting a currency.
+- [Field.SelectCurrency](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/SelectCurrency.md): `Field.SelectCurrency` is a wrapper component for the selection component, with options built in for selecting a currency.
 
-- [Password](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/more-fields/Password.md): `Field.Password` is a wrapper component for the input of strings, with user experience tailored for passwords.
+- [Field.Password](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/more-fields/Password.md): `Field.Password` is a wrapper component for the input of strings, with user experience tailored for passwords.
 
-- [Slider](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/more-fields/Slider.md): `Field.Slider` is a wrapper component for the Slider to make it easier to use inside a form.
+- [Field.Slider](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/more-fields/Slider.md): `Field.Slider` is a wrapper component for the Slider to make it easier to use inside a form.
 
-- [Upload](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/more-fields/Upload.md): `Field.Upload` is a wrapper for the Upload component to make it easier to use inside a form.
+- [Field.Upload](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/more-fields/Upload.md): `Field.Upload` is a wrapper for the Upload component to make it easier to use inside a form.
 
-- [more fields...](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/more-fields.md): Look into the documentation for more details.
+- [Field.more fields...](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/more-fields.md): Look into the documentation for more details.
 
-- [Feature fields](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields.md): Look into the documentation for more details.
+- [Field.Feature fields](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields.md): Look into the documentation for more details.
 
 - [Getting started](https://eufemia.dnb.no/uilib/extensions/forms/getting-started.md): Forms is reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.
-
-- [Examples](https://eufemia.dnb.no/uilib/extensions/forms/intro-examples.md): Look into the documentation for more details.
-
-- [Quick-Start](https://eufemia.dnb.no/uilib/extensions/forms/quick-start.md): Look into the documentation for more details.
 
 - [Forms for applications](https://eufemia.dnb.no/uilib/extensions/forms.md): Forms is reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.
 
@@ -436,196 +633,5 @@ GeneratedAt: 2026-01-16T16:38:32.279Z
 
 - [Span](https://eufemia.dnb.no/uilib/elements/span.md): Spans are inline-elements, used to define parts of text content.
 
-## Other
-
-- [v4.0](https://eufemia.dnb.no/uilib/about-the-lib/releases/dnb-ui-lib/v4-info.md): July, 21. 2019
-
-- [v4.10](https://eufemia.dnb.no/uilib/about-the-lib/releases/dnb-ui-lib/v4.10-info.md): August, 24. 2019
-
-- [v4.18](https://eufemia.dnb.no/uilib/about-the-lib/releases/dnb-ui-lib/v4.18-info.md): September, 28. 2019
-
-- [v5.0](https://eufemia.dnb.no/uilib/about-the-lib/releases/dnb-ui-lib/v5-info.md): October, 30. 2019
-
-- [v5.8](https://eufemia.dnb.no/uilib/about-the-lib/releases/dnb-ui-lib/v5.8-info.md): November, 30. 2019
-
-- [v6.0](https://eufemia.dnb.no/uilib/about-the-lib/releases/dnb-ui-lib/v6-info.md): January, 30. 2020
-
-- [v7.0](https://eufemia.dnb.no/uilib/about-the-lib/releases/dnb-ui-lib/v7-info.md): June, 4. 2020
-
-- [v7.2](https://eufemia.dnb.no/uilib/about-the-lib/releases/dnb-ui-lib/v7.2-info.md): November, 8. 2020
-
-- [v8](https://eufemia.dnb.no/uilib/about-the-lib/releases/dnb-ui-lib/v8-info.md): December, 15. 2020
-
-- [dnb-ui-lib](https://eufemia.dnb.no/uilib/about-the-lib/releases/dnb-ui-lib.md): Look into the documentation for more details.
-
-- [v10](https://eufemia.dnb.no/uilib/about-the-lib/releases/eufemia/v10-info.md): May, 31. 2023
-
-- [v11](https://eufemia.dnb.no/uilib/about-the-lib/releases/eufemia/v11-info.md): TBA
-
-- [v12](https://eufemia.dnb.no/uilib/about-the-lib/releases/eufemia/v12-info.md): TBA
-
-- [v9](https://eufemia.dnb.no/uilib/about-the-lib/releases/eufemia/v9-info.md): March, 3. 2021
-
-- [@dnb/eufemia](https://eufemia.dnb.no/uilib/about-the-lib/releases/eufemia.md): Look into the documentation for more details.
-
-- [Releases and versions](https://eufemia.dnb.no/uilib/about-the-lib/releases.md): Look into the documentation for more details.
-
-- [About the Library](https://eufemia.dnb.no/uilib/about-the-lib.md): Look into the documentation for more details.
-
-- [Components](https://eufemia.dnb.no/uilib/components.md): Look into the documentation for more details.
-
-- [HTML Elements](https://eufemia.dnb.no/uilib/elements.md): Look into the documentation for more details.
-
-- [Extensions](https://eufemia.dnb.no/uilib/extensions.md): Look into the documentation for more details.
-
-- [Living system](https://eufemia.dnb.no/uilib/getting-started/living-system.md): Eufemia is DNBs design system. It is constantly evolving and improving and is our single source of truth for UI design and front end code.
-
-- [Maintainability](https://eufemia.dnb.no/uilib/getting-started/maintainability.md): The hard part of a living design system, like Eufemia, is not to create black holes and choosing ways to make maintainability hard and complex.
-
-- [Requirements](https://eufemia.dnb.no/uilib/getting-started/requirements.md): Eufemia can be used within an UMD, ESM, CJS or TypeScript environment. The purpose is to use it on top (or inside) of modern JavaScript frontend framework and setups.
-
-- [Getting Started](https://eufemia.dnb.no/uilib/getting-started.md): A fast path to using Eufemia in your app. Install, import styles, render your first component, and explore theming and customization.
-
-- [CSS classes](https://eufemia.dnb.no/uilib/helpers/classes.md): Look into the documentation for more details.
-
-- [Functions](https://eufemia.dnb.no/uilib/helpers/functions.md): Look into the documentation for more details.
-
-- [SASS mixins](https://eufemia.dnb.no/uilib/helpers/sass.md): Look into the documentation for more details.
-
-- [Tools](https://eufemia.dnb.no/uilib/helpers/tools.md): Look into the documentation for more details.
-
-- [Helpers](https://eufemia.dnb.no/uilib/helpers.md): A couple of helper functions used inside of components and extensions.
-
-- [About-Watching-Releases](https://eufemia.dnb.no/uilib/info/about-watching-releases.md): Look into the documentation for more details.
-
-- [Eufemia Design System](https://eufemia.dnb.no/uilib/intro/01-about-design-systems.md): Look into the documentation for more details.
-
-- [Common Design Patterns](https://eufemia.dnb.no/uilib/intro/02-common-patterns.md): Look into the documentation for more details.
-
-- [Accessibility](https://eufemia.dnb.no/uilib/intro/03-accessibility.md): Look into the documentation for more details.
-
-- [UX handover](https://eufemia.dnb.no/uilib/intro/04-ux-handover.md): Look into the documentation for more details.
-
-- [Eufemia for Developers](https://eufemia.dnb.no/uilib/intro/05-eufemia-for-developers.md): Look into the documentation for more details.
-
-- [CSS Packages](https://eufemia.dnb.no/uilib/intro/06-css-packages.md): Look into the documentation for more details.
-
-- [Typography](https://eufemia.dnb.no/uilib/intro/07-typography.md): Look into the documentation for more details.
-
-- [Color usage](https://eufemia.dnb.no/uilib/intro/08-color-usage.md): Look into the documentation for more details.
-
-- [Icons](https://eufemia.dnb.no/uilib/intro/09-icons.md): Look into the documentation for more details.
-
-- [Layout](https://eufemia.dnb.no/uilib/intro/10-layout.md): Look into the documentation for more details.
-
-- [Components, Elements and Extensions](https://eufemia.dnb.no/uilib/intro/11-components-elements-extensions.md): Look into the documentation for more details.
-
-- [Usage of components and elements](https://eufemia.dnb.no/uilib/intro/12-usage-of-components-elements.md): Look into the documentation for more details.
-
-- [Quality and Tests](https://eufemia.dnb.no/uilib/intro/13-quality-and-tests.md): Look into the documentation for more details.
-
-- [Section Component](https://eufemia.dnb.no/uilib/intro/14-helpers.md): Look into the documentation for more details.
-
-- [Summary](https://eufemia.dnb.no/uilib/intro/15-summary.md): Look into the documentation for more details.
-
-- [Intro](https://eufemia.dnb.no/uilib/intro.md): Look into the documentation for more details.
-
-- [Flex Container](https://eufemia.dnb.no/uilib/layout/flex/container.md): `Flex.Container` is a building block for CSS Grid based layouts.
-
-- [Flex Item](https://eufemia.dnb.no/uilib/layout/flex/item.md): `Flex.Item` is a building block for flexbox based layout of contents and components.
-
-- [Flex Stack](https://eufemia.dnb.no/uilib/layout/flex/stack.md): `Flex.Stack` is an outer block element that wraps content to ensure proper layout and spacing between form elements, larger regions and headings. It stretches its content horizontally (100%).
-
-- [Flex](https://eufemia.dnb.no/uilib/layout/flex.md): To make it easier to build application layout and form-views in line with defined design sketches, there are a number of components for layout.
-
-- [Provider](https://eufemia.dnb.no/uilib/layout/form-row/provider.md): Look into the documentation for more details.
-
-- [FormRow (deprecated)](https://eufemia.dnb.no/uilib/layout/form-row.md): The FormRow component is a helper to more easily achieve often used DNB form layout setups.
-
-- [Form-Set-Row-Deprecation](https://eufemia.dnb.no/uilib/layout/form-set-row-deprecation.md): Look into the documentation for more details.
-
-- [FormSet (deprecated)](https://eufemia.dnb.no/uilib/layout/form-set.md): The FormSet component is a helper to more easily achieve often used DNB form layout setups.
-
-- [Grid Container](https://eufemia.dnb.no/uilib/layout/grid/container.md): `Grid.Container` is a building block for CSS Grid based layout of contents and components.
-
-- [Grid Item](https://eufemia.dnb.no/uilib/layout/grid/item.md): `Grid.Item` is a building block for CSS Grid based layouts.
-
-- [Grid](https://eufemia.dnb.no/uilib/layout/grid.md): To make it easier to build responsive application layouts in line with defined design sketches, there are a number of components for layout.
-
-- [Media Queries](https://eufemia.dnb.no/uilib/layout/media-queries.md): Look into the documentation for more details.
-
-- [Space](https://eufemia.dnb.no/uilib/layout/space.md): The Space component provides margins within the provided spacing patterns.
-
-- [Spacing-Table](https://eufemia.dnb.no/uilib/layout/spacing-table.md): Look into the documentation for more details.
-
-- [Spacing](https://eufemia.dnb.no/uilib/layout/spacing.md): Look into the documentation for more details.
-
-- [Layout](https://eufemia.dnb.no/uilib/layout.md): To make it easier to build application layouts and form views in line with defined design sketches, there are a number of components for layout.
-
-- [Font Size](https://eufemia.dnb.no/uilib/typography/font-size.md): Look into the documentation for more details.
-
-- [Font Weights](https://eufemia.dnb.no/uilib/typography/font-weight.md): Look into the documentation for more details.
-
-- [Helper classes](https://eufemia.dnb.no/uilib/typography/helper-classes.md): A list of typography CSS classes
-
-- [Line Height](https://eufemia.dnb.no/uilib/typography/line-height.md): Look into the documentation for more details.
-
-- [Typography](https://eufemia.dnb.no/uilib/typography.md): DNB Headings and paragraphs, their properties and styling.
-
-- [About-Accessibility](https://eufemia.dnb.no/uilib/usage/accessibility/about-accessibility.md): Look into the documentation for more details.
-
-- [Checklist](https://eufemia.dnb.no/uilib/usage/accessibility/checklist.md): Accessibility checklist to help you remember the most important tasks you have to follow during front end development.
-
-- [Focus](https://eufemia.dnb.no/uilib/usage/accessibility/focus.md): Accessibility helpers to handle focus management and Skip Link usage.
-
-- [Icons](https://eufemia.dnb.no/uilib/usage/accessibility/icons.md): Look into the documentation for more details.
-
-- [Screen readers](https://eufemia.dnb.no/uilib/usage/accessibility/screenreader.md): Look into the documentation for more details.
-
-- [Accessibility](https://eufemia.dnb.no/uilib/usage/accessibility.md): Look into the documentation for more details.
-
-- [Best Practices for JavaScript and JSX](https://eufemia.dnb.no/uilib/usage/best-practices/for-javascript.md): Look into the documentation for more details.
-
-- [Best Practices for styling](https://eufemia.dnb.no/uilib/usage/best-practices/for-styling.md): Look into the documentation for more details.
-
-- [Best Practices for testing](https://eufemia.dnb.no/uilib/usage/best-practices/for-testing.md): Look into the documentation for more details.
-
-- [Best Practices for typography](https://eufemia.dnb.no/uilib/usage/best-practices/for-typography.md): Look into the documentation for more details.
-
-- [Best Practices](https://eufemia.dnb.no/uilib/usage/best-practices.md): Look into the documentation for more details.
-
-- [Colors](https://eufemia.dnb.no/uilib/usage/customisation/colors.md): Look into the documentation for more details.
-
-- [Component Properties](https://eufemia.dnb.no/uilib/usage/customisation/component-properties.md): Look into the documentation for more details.
-
-- [Locale / Translation](https://eufemia.dnb.no/uilib/usage/customisation/localization.md): Look into the documentation for more details.
-
-- [Provider-Info](https://eufemia.dnb.no/uilib/usage/customisation/provider-info.md): Look into the documentation for more details.
-
-- [Provider / Context](https://eufemia.dnb.no/uilib/usage/customisation/provider.md): Look into the documentation for more details.
-
-- [Importing CSS](https://eufemia.dnb.no/uilib/usage/customisation/styling/consume-styles.md): Look into the documentation for more details.
-
-- [Polyfill](https://eufemia.dnb.no/uilib/usage/customisation/styling/polyfill.md): Look into the documentation for more details.
-
-- [Style Isolation](https://eufemia.dnb.no/uilib/usage/customisation/styling/style-isolation.md): Look into the documentation for more details.
-
-- [CSS Styles](https://eufemia.dnb.no/uilib/usage/customisation/styling.md): To ensure flexibility and the possibility of theming, the DNB CSS Styles area built as flexible packages you can import and combine.
-
-- [Theme](https://eufemia.dnb.no/uilib/usage/customisation/theming/theme.md): The Theme component is a helper component that lets you create nested theming solutions.
-
-- [Theming](https://eufemia.dnb.no/uilib/usage/customisation/theming.md): Look into the documentation for more details.
-
-- [Customization](https://eufemia.dnb.no/uilib/usage/customisation.md): Customization and tools is a section dedicated to how to use and customize Eufemia in various situations.
-
-- [Bundles: UMD and ESM (mjs)](https://eufemia.dnb.no/uilib/usage/first-steps/bundles.md): Look into the documentation for more details.
-
-- [ESM / SSR](https://eufemia.dnb.no/uilib/usage/first-steps/module-formats.md): Eufemia uses ESM as their default module format. More info on this topic below.
-
-- [React & TypeScript](https://eufemia.dnb.no/uilib/usage/first-steps/react.md): Look into the documentation for more details.
-
-- [The Basics](https://eufemia.dnb.no/uilib/usage/first-steps/the-basics.md): Look into the documentation for more details.
-
-- [First Steps](https://eufemia.dnb.no/uilib/usage/first-steps.md): Look into the documentation for more details.
-
-- [Usage](https://eufemia.dnb.no/uilib/usage.md): Look into the documentation for more details.
+Version: 10.95.0
+GeneratedAt: 2026-01-26T10:49:46.480Z

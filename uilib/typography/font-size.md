@@ -1,6 +1,8 @@
 ---
 title: 'Font Size'
-metadata: https://eufemia.dnb.no/uilib/typography/font-size/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.332Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
 # Font Size for
@@ -24,7 +26,7 @@ For details about what values Typographic elements do use, have a look at the
 
 ### Code Editor Extensions
 
-You may be interested to install an [Eufemia code editor extension](/uilib/helpers/tools/#code-editor-extensions) that allows you to quickly auto complete the correct `font-size`.
+You may be interested to install an [Eufemia code editor extension](/uilib/usage/first-steps/tools/#code-editor-extensions) that allows you to quickly auto complete the correct `font-size`.
 
 ## Additional `font-size` **em** table
 

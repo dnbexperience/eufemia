@@ -1,8 +1,12 @@
 ---
-title: 'PreviousButton'
+title: 'Wizard.PreviousButton'
 description: '`Wizard.PreviousButton` connects to the `Wizard.Context` to move the user to the previous step when clicked.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Wizard/PreviousButton/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.247Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
+
+# Wizard.PreviousButton
 
 ## Import
 
@@ -28,7 +32,7 @@ render(
         <Wizard.PreviousButton />
       </Wizard.Step>
     </Wizard.Container>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -48,6 +52,22 @@ render(
     <ComponentBox>
       <Wizard.PreviousButton />
     </ComponentBox>
-  </Wizard.Provider>,
+  </Wizard.Provider>
 )
+```
+
+## Translations
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "WizardPreviousButton.text": {
+      "nb-NO": "Tilbake",
+      "en-GB": "Back",
+      "sv-SE": "Tillbaka",
+      "da-DK": "Tilbage"
+    }
+  }
+}
 ```

@@ -1,8 +1,12 @@
 ---
 title: 'Tag'
 description: 'The Tag component is a compact element for displaying discrete information.'
-metadata: https://eufemia.dnb.no/uilib/components/tag/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.552Z
+checksum: 78045c01041fd2536a36c495e423cca5761572785f4dd1540387b5fb57a86dd9
 ---
+
+# Tag
 
 ## Import
 
@@ -58,7 +62,7 @@ render(
     >
       Removable
     </Tag>
-  </Tag.Group>,
+  </Tag.Group>
 )
 ```
 
@@ -74,7 +78,7 @@ render(
   <Tag.Group label="Payment types">
     <Tag>Digipost</Tag>
     <Tag>AvtaleGiro</Tag>
-  </Tag.Group>,
+  </Tag.Group>
 )
 ```
 
@@ -86,7 +90,7 @@ render(
     <Tag icon={AInvoice} text="AvtaleGiro" />
     <Tag icon={EInvoice} text="eFaktura" />
     <Tag icon={DigiPost} text="DigiPost" />
-  </Tag.Group>,
+  </Tag.Group>
 )
 ```
 
@@ -127,14 +131,14 @@ const Genres = () => {
       setTagsAdded(tagsAdded.filter((tag) => tag.key !== tagToRemove.key))
       setTagsRemoved([...tagsRemoved, tagToRemove])
     },
-    [tagsAdded, tagsRemoved],
+    [tagsAdded, tagsRemoved]
   )
   const handleAdd = React.useCallback(
     (tagToAdd) => () => {
       setTagsAdded([...tagsAdded, tagToAdd])
       setTagsRemoved(tagsRemoved.filter((tag) => tag.key !== tagToAdd.key))
     },
-    [tagsAdded, tagsRemoved],
+    [tagsAdded, tagsRemoved]
   )
   return (
     <Flex.Stack>
@@ -192,6 +196,131 @@ render(
     <Tag skeleton text="Skeleton" />
     <Tag skeleton text="Skeleton" />
     <Tag skeleton text="Skeleton" />
-  </Tag.Group>,
+  </Tag.Group>
 )
+```
+
+## Properties
+
+### `Tag` properties
+
+```json
+{
+  "text": {
+    "doc": "The content of the tag can be a string or a React Element.",
+    "type": ["string", "React.ReactNode"],
+    "status": "optional"
+  },
+  "children": {
+    "doc": "The content of the tag can be a string or a React Element.",
+    "type": ["string", "React.ReactNode"],
+    "status": "optional"
+  },
+  "icon": {
+    "doc": "To be included in the tag. Primary Icons can be set as a string (e.g. icon=\"chevron_right\"), other icons should be set as React elements. Note, we recommend not to use icons with clickable tags.",
+    "type": ["string", "React.Node"],
+    "status": "optional"
+  },
+  "hasLabel": {
+    "doc": "If a label is given, typical inside a table or dl (definition list), then you can disable Tag.Group as a dependent of Tag. Use `true` to omit the `Tag group required:` warning.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "variant": {
+    "doc": "Possible values are `default`, `clickable`, `addable`, or `removable`. Defaults to `default`.",
+    "type": ["default", "clickable", "addable", "removable"],
+    "status": "optional"
+  },
+  "omitOnKeyUpDeleteEvent": {
+    "doc": "Set to `true` to omit triggering an event when the user releases the `Delete` or `Backspace` keys. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "className": {
+    "doc": "Custom className for the component root.",
+    "type": "string",
+    "status": "optional"
+  },
+  "skeleton": {
+    "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
+```
+
+### `Tag.Group` properties
+
+```json
+{
+  "label": {
+    "doc": "The label description of the group of tags.",
+    "type": "React.ReactNode",
+    "status": "required"
+  },
+  "children": {
+    "doc": "Content of the component. Can be used instead of the `data`-property, by adding Tag elements as children `<Tag {...props} />`.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "className": {
+    "doc": "Custom className for the component root.",
+    "type": "string",
+    "status": "optional"
+  },
+  "skeleton": {
+    "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
+```
+
+### `Tag` translations
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "Tag.addIconTitle": {
+      "nb-NO": "Legg til",
+      "en-GB": "Add",
+      "sv-SE": "Lägg till",
+      "da-DK": "Tilføj"
+    },
+    "Tag.removeIconTitle": {
+      "nb-NO": "Fjern",
+      "en-GB": "Remove",
+      "sv-SE": "Ta bort",
+      "da-DK": "Fjern"
+    }
+  }
+}
+```
+
+## `Tag` events
+
+```json
+{
+  "onClick": {
+    "doc": "Will be called on a click event. Returns an object with the native event: `{ event }`.",
+    "type": "function",
+    "status": "optional"
+  },
+  "onDelete": {
+    "doc": "Will be called on a click event. Returns an object with the native event: `{ event }`. This property does not support icon and will be ignored if `onClick`is defined.",
+    "type": "function",
+    "status": "optional"
+  }
+}
 ```

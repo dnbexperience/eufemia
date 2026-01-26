@@ -1,8 +1,12 @@
 ---
-title: 'ItemNo'
+title: 'Iterate.ItemNo'
 description: '`Iterate.ItemNo` is a helper component that can be used to render the current item number (index) in a given string.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Iterate/ItemNo/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.998Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
+
+# Iterate.ItemNo
 
 ## Import
 
@@ -25,7 +29,7 @@ render(
     <Form.SubHeading>
       <Iterate.ItemNo>{myString}</Iterate.ItemNo>
     </Form.SubHeading>
-  </Iterate.Array>,
+  </Iterate.Array>
 )
 ```
 
@@ -39,6 +43,6 @@ render(
     <Form.SubHeading>
       <Iterate.ItemNo>{'Item no. {itemNo}'}</Iterate.ItemNo>
     </Form.SubHeading>
-  </Iterate.Array>,
+  </Iterate.Array>
 )
 ```

@@ -1,8 +1,12 @@
 ---
-title: 'SubmitButton'
+title: 'Form.SubmitButton'
 description: '`Form.SubmitButton` connects to the `Form.Handler` to submit the active state of the internal DataContext, triggering `onSubmit`.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Form/SubmitButton/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.937Z
+checksum: 94297868c7fcb391480f7508ca2e4c349769a80809b5b456b395fddb66bb86b6
 ---
+
+# Form.SubmitButton
 
 ## Import
 
@@ -24,7 +28,7 @@ render(
     <Form.ButtonRow>
       <Form.SubmitButton />
     </Form.ButtonRow>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -41,7 +45,7 @@ render(
     onSubmit={(data) => console.log('onSubmit', data)}
   >
     <Form.SubmitButton />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -56,7 +60,7 @@ render(
     onSubmit={(data) => console.log('onSubmit', data)}
   >
     <Form.SubmitButton variant="send" />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -70,6 +74,55 @@ When using the submit button inside [Form.Handler](/uilib/extensions/forms/Form/
 render(
   <Form.Handler>
     <Form.SubmitButton showIndicator />
-  </Form.Handler>,
+  </Form.Handler>
 )
+```
+
+## Properties
+
+```json
+{
+  "variant": {
+    "doc": "Use `send` to show the send icon, or `secondary` for secondary button styling.",
+    "type": "string",
+    "status": "optional"
+  },
+  "showIndicator": {
+    "doc": "Show the submit indicator.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "[Button](/uilib/components/button/properties)": {
+    "doc": "All button properties.",
+    "type": "Various",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
+```
+
+## Translations
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "SubmitButton.sendText": {
+      "nb-NO": "Send inn",
+      "en-GB": "Send",
+      "sv-SE": "Skicka in",
+      "da-DK": "Indsend"
+    },
+    "SubmitButton.text": {
+      "nb-NO": "Send",
+      "en-GB": "Send",
+      "sv-SE": "Skicka",
+      "da-DK": "Send"
+    }
+  }
+}
 ```

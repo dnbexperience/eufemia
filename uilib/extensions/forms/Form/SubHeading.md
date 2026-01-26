@@ -1,8 +1,12 @@
 ---
-title: 'SubHeading'
+title: 'Form.SubHeading'
 description: '`Form.SubHeading` is a standardized sub heading for sections, ensuring default layout, spacing etc.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Form/SubHeading/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.933Z
+checksum: 2cc1c6355eb5efbe05e0862c6140463aae4b8c4816d6f27d9edfb3ee0c7a4c32
 ---
+
+# Form.SubHeading
 
 ## Import
 
@@ -29,7 +33,7 @@ render(
         <Field.Email path="/dataPath" />
       </Form.Card>
     </Flex.Stack>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -66,7 +70,7 @@ render(
       <Form.SubHeading>This is a sub heading</Form.SubHeading>
       <P>Card contents</P>
     </Flex.Stack>
-  </Form.Card>,
+  </Form.Card>
 )
 ```
 
@@ -107,6 +111,33 @@ render(
     <Form.Card>
       <P>Card contents</P>
     </Form.Card>
-  </Flex.Stack>,
+  </Flex.Stack>
 )
+```
+
+## Properties
+
+```json
+{
+  "level": {
+    "doc": "Define a specific level value to ensure correct level hierarchy. Defaults to `3`.",
+    "type": "number",
+    "status": "optional"
+  },
+  "help": {
+    "doc": "Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
+    "type": "object",
+    "status": "optional"
+  },
+  "children": {
+    "doc": "Heading text / contents.",
+    "type": "React.Node",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
 ```

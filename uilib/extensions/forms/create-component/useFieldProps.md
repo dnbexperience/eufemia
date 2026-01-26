@@ -1,8 +1,12 @@
 ---
 title: 'useFieldProps'
 description: 'The `useFieldProps` hook standardize handling of the value flow for a single consumer component representing one data point.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/create-component/useFieldProps/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.279Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
+
+# useFieldProps
 
 ## Import
 
@@ -189,7 +193,7 @@ render(
   <Field.String
     label="Label"
     error={new Error('This is what is wrong...')}
-  />,
+  />
 )
 ```
 
@@ -293,7 +297,7 @@ It is recommended to use Zod schemas instead of JSON Schemas, as they provide be
 const MySliderComponent = (props) => {
   const fromInput = React.useCallback(
     (event) => (typeof event === 'number' ? event : event?.value || 0),
-    [],
+    []
   )
   const errorMessages = React.useMemo(() => {
     return {
@@ -386,7 +390,7 @@ render(
       // You can override with a custom Zod schema if needed
       // Example: schema={z.number().min(40).max(90).refine(val => val > 60, 'Value must be greater than 60')}
     />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -396,7 +400,7 @@ render(
 const MySliderComponent = (props) => {
   const fromInput = React.useCallback(
     (event) => (typeof event === 'number' ? event : event?.value || 0),
-    [],
+    []
   )
   const errorMessages = React.useMemo(() => {
     return {
@@ -481,6 +485,6 @@ render(
       required
       info="Info"
     />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```

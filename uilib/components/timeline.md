@@ -1,8 +1,12 @@
 ---
 title: 'Timeline'
 description: 'The Timeline component shows events in chronological order and gives a great overview of the overall process.'
-metadata: https://eufemia.dnb.no/uilib/components/timeline/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.567Z
+checksum: 7b8327863bd09751fb094d8efa78a85dcf8d2f99cefe1dcb7c58b31fe65c37d9
 ---
+
+# Timeline
 
 ## Import
 
@@ -47,7 +51,7 @@ render(
         state: 'upcoming',
       },
     ]}
-  />,
+  />
 )
 ```
 
@@ -69,7 +73,7 @@ render(
       state="current"
     />
     <Timeline.Item title="Upcoming event" state="upcoming" />
-  </Timeline>,
+  </Timeline>
 )
 ```
 
@@ -86,7 +90,7 @@ render(
         state: 'completed',
       },
     ]}
-  />,
+  />
 )
 ```
 
@@ -101,7 +105,7 @@ render(
         state: 'current',
       },
     ]}
-  />,
+  />
 )
 ```
 
@@ -116,7 +120,7 @@ render(
         state: 'upcoming',
       },
     ]}
-  />,
+  />
 )
 ```
 
@@ -147,7 +151,7 @@ render(
         state: 'upcoming',
       },
     ]}
-  />,
+  />
 )
 ```
 
@@ -180,7 +184,7 @@ render(
         iconAlt: 'Money bag & card',
       },
     ]}
-  />,
+  />
 )
 ```
 
@@ -207,7 +211,7 @@ render(
         state: 'completed',
       },
     ]}
-  />,
+  />
 )
 ```
 
@@ -231,7 +235,7 @@ render(
       subtitle="11. september 2021"
       state="completed"
     />
-  </Timeline>,
+  </Timeline>
 )
 ```
 
@@ -254,7 +258,7 @@ render(
         state: 'completed',
       },
     ]}
-  />,
+  />
 )
 ```
 
@@ -281,7 +285,7 @@ render(
         state: 'completed',
       },
     ]}
-  />,
+  />
 )
 ```
 
@@ -308,7 +312,7 @@ render(
         state: 'current',
       },
     ]}
-  />,
+  />
 )
 ```
 
@@ -335,6 +339,105 @@ render(
         state: 'upcoming',
       },
     ]}
-  />,
+  />
 )
+```
+
+## Properties
+
+### `Timeline` properties
+
+```json
+{
+  "data": {
+    "doc": "List of [timeline items](/uilib/components/timeline/properties#timelineitem-properties) to render. Each object in data can include all properties from [Timeline.Item properties](/uilib/components/timeline/properties#timelineitem-properties).",
+    "type": "Array<TimelineItemProps>",
+    "status": "optional"
+  },
+  "children": {
+    "doc": "Content of the component. Can be used instead of property `data`, by adding [Timeline Item](/uilib/components/timeline/properties#timelineitem-properties) as children `<Timeline.Item {...props} />`.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "skeleton": {
+    "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
+```
+
+### `Timeline.Item` properties
+
+```json
+{
+  "title": {
+    "doc": "Title of the Timeline item.",
+    "type": "React.ReactNode",
+    "status": "required"
+  },
+  "state": {
+    "doc": "The component state. Options: `completed` | `current` | `upcoming`.",
+    "type": ["completed", "current", "upcoming"],
+    "status": "required"
+  },
+  "subtitle": {
+    "doc": "Subtitle of the Timeline item, displayed below the `title`. Also supports passing an array of subtitles. The subtitle is usually a date of the timeline item.",
+    "type": ["React.ReactNode", "React.ReactNode[]"],
+    "status": "optional"
+  },
+  "infoMessage": {
+    "doc": "Info message, displayed in a [FormStatus of state info](/uilib/components/form-status#displaying-info-status), below the `subtitle` if it exists.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "icon": {
+    "doc": "Override icon displaying on the left side (Not recommended). Default: `check` for state `completed`, `pin` for state `current`, and `calendar` for state `upcoming`.",
+    "type": "React.ReactNode",
+    "status": "optional"
+  },
+  "iconAlt": {
+    "doc": "Alt label describing the icon provided.",
+    "type": "string",
+    "status": "optional"
+  },
+  "skeleton": {
+    "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+    "type": "boolean",
+    "status": "optional"
+  }
+}
+```
+
+### `Timeline.Item` translations
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "TimelineItem.alt_label_completed": {
+      "nb-NO": "Utført",
+      "en-GB": "Completed",
+      "sv-SE": "Utförd",
+      "da-DK": "Udført"
+    },
+    "TimelineItem.alt_label_current": {
+      "nb-NO": "Nåværende",
+      "en-GB": "Current",
+      "sv-SE": "Nuvarande",
+      "da-DK": "Nuværende"
+    },
+    "TimelineItem.alt_label_upcoming": {
+      "nb-NO": "Kommende",
+      "en-GB": "Upcoming",
+      "sv-SE": "Kommande",
+      "da-DK": "Kommende"
+    }
+  }
+}
 ```

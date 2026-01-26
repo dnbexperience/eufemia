@@ -1,8 +1,12 @@
 ---
 title: 'CountryFlag'
 description: 'The CountryFlag component lets you display a country flag based on a country ISO code.'
-metadata: https://eufemia.dnb.no/uilib/components/country-flag/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.251Z
+checksum: e95e21927630e53209d67e09696c37bbb6bcd26ccaef3599d84b19c26f3202d5
 ---
+
+# CountryFlag
 
 ## Import
 
@@ -45,7 +49,7 @@ render(
     <CountryFlag iso="NO" size="medium" />
     <CountryFlag iso="NO" size="large" />
     <CountryFlag iso="NO" size="x-large" />
-  </Flex.Horizontal>,
+  </Flex.Horizontal>
 )
 ```
 
@@ -78,7 +82,7 @@ render(
       />
       <MyComponent label="Country flag" path="/country" />
     </Field.Composition>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -165,6 +169,39 @@ render(
         <CountryFlag iso="NO" />
       </P>
     </Flex.Vertical>
-  </Flex.Vertical>,
+  </Flex.Vertical>
 )
 ```
+
+## Properties
+
+```json
+{
+  "iso": {
+    "doc": "[ISO 3166-1 alpha-2 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) representing the country, such as `NO` for Norway. Defaults to `NO`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "size": {
+    "doc": "The size of the component. Can be `auto`, `xx-small`, `x-small`, `small`, `medium`, `large` or `x-large`. Defaults to `auto` (1em).",
+    "type": "string",
+    "status": "optional"
+  },
+  "shape": {
+    "doc": "The shape of the component. Can be `round` or `square`. Defaults to `round`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
+```
+
+## List of available countries
+
+[Link to the code of the available countries](https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/extensions/forms/constants/countries.ts#L46).
+
+<AvailableCountriesTable />

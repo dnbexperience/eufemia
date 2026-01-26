@@ -1,8 +1,12 @@
 ---
-title: 'Bring'
+title: 'Connector.Bring'
 description: 'Bring is a connector that allows you to fetch data from their REST API and use it in your form.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Connectors/Bring/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.776Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
+
+# Connector.Bring
 
 ## Description
 
@@ -148,7 +152,7 @@ render(
       />
     </Form.Card>
     <Form.SubmitButton />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -183,7 +187,7 @@ const addressSuggestionsElement = withConfig(
     countryCode: '/countryCode', // Can be "NO" or a path
     cityPath: '/city',
     postalCodePath: '/postalCode',
-  },
+  }
 )
 ```
 
@@ -253,7 +257,19 @@ Ensure you use one of the [following endpoints](https://developer.bring.com/api/
 
 ### Translations
 
-<TranslationsTable localeKey={['StreetAddress.suggestionPlaceholder']} />
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "StreetAddress.suggestionPlaceholder": {
+      "nb-NO": "Skriv inn adressen",
+      "en-GB": "Enter an address",
+      "sv-SE": "Ange en adress",
+      "da-DK": "Indtast en adresse"
+    }
+  }
+}
+```
 
 ### Address suggestion demos
 
@@ -274,7 +290,7 @@ const addressSuggestionsElement = withConfig(
     countryCode: '/countryCode',
     cityPath: '/city',
     postalCodePath: '/postalCode',
-  },
+  }
 )
 render(
   <Form.Handler onSubmit={console.log}>
@@ -302,6 +318,6 @@ render(
     </Form.Card>
 
     <Form.SubmitButton />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```

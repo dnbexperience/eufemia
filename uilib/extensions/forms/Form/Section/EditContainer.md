@@ -1,8 +1,12 @@
 ---
-title: 'EditContainer'
+title: 'Form.Section.EditContainer'
 description: '`Form.Section.EditContainer` enables users to toggle (with animation) the content of each item between the view and edit container.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Form/Section/EditContainer/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.894Z
+checksum: 3a3c3d0e49e2c12b2e78849f5784f909f49e8d2aa76cad07a5714074d3a7b48a
 ---
+
+# Form.Section.EditContainer
 
 ## Import
 
@@ -33,7 +37,7 @@ render(
         <Value.Name.Last path="/lastName" />
       </Value.SummaryList>
     </Form.Section.ViewContainer>
-  </Form.Section>,
+  </Form.Section>
 )
 ```
 
@@ -51,7 +55,7 @@ render(
         <Form.Section.EditContainer.CancelButton />
       </Form.Section.Toolbar>
     </Form.Section.EditContainer>
-  </Form.Section>,
+  </Form.Section>
 )
 ```
 
@@ -101,6 +105,79 @@ render(
       </Form.Section>
     </Form.Card>
     <Form.SubmitButton />
-  </Form.Handler>,
+  </Form.Handler>
 )
+```
+
+## Properties
+
+```json
+{
+  "title": {
+    "doc": "The title of the container.",
+    "type": "React.Node",
+    "status": "optional"
+  },
+  "variant": {
+    "doc": "Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "[FlexVertical](/uilib/layout/flex/container/properties)": {
+    "doc": "All Flex.Vertical properties.",
+    "type": "Various",
+    "status": "optional"
+  }
+}
+```
+
+## Translations
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "SectionEditContainer.cancelButton": {
+      "nb-NO": "Avbryt",
+      "en-GB": "Cancel",
+      "sv-SE": "Avbryt",
+      "da-DK": "Annuller"
+    },
+    "SectionEditContainer.confirmCancelText": {
+      "nb-NO": "Er du sikker på at du vil forkaste endringene?",
+      "en-GB": "Are you sure you want to discard your changes?",
+      "sv-SE": "Är du säker på att du vill ångra dina ändringar?",
+      "da-DK": "Er du sikker på, at du vil forkaste dine ændringer?"
+    },
+    "SectionEditContainer.doneButton": {
+      "nb-NO": "Ferdig",
+      "en-GB": "Done",
+      "sv-SE": "Klar",
+      "da-DK": "Færdig"
+    },
+    "SectionEditContainer.errorInSection": {
+      "nb-NO": "Feilene ovenfor må rettes.",
+      "en-GB": "Please correct the errors above.",
+      "sv-SE": "Felen ovan måste åtgärdas.",
+      "da-DK": "Fejlene ovenfor skal rettes."
+    }
+  }
+}
+```
+
+## Events
+
+```json
+{
+  "onDone": {
+    "doc": "Callback for the done button.",
+    "type": "Function",
+    "status": "optional"
+  },
+  "onCancel": {
+    "doc": "Callback for the cancel button.",
+    "type": "Function",
+    "status": "optional"
+  }
+}
 ```

@@ -1,8 +1,12 @@
 ---
-title: 'Step'
+title: 'Wizard.Step'
 description: 'Each step should be wrapped with a `Wizard.Step` component directly inside Wizard.Container.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Wizard/Step/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.251Z
+checksum: 07919774d2afc2cdb67d93072b9824f6c039a0d4a8363a1e2e1fefa6b8430116
 ---
+
+# Wizard.Step
 
 ## Import
 
@@ -162,7 +166,7 @@ render(
       <Field.Option value="group-1" title="Group 1" />
       <Field.Option value="group-2" title="Group 2" />
     </Field.Selection>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -200,4 +204,88 @@ const Component = () => {
   )
 }
 render(<Component />)
+```
+
+## Properties
+
+```json
+{
+  "title": {
+    "doc": "An unique title of the step.",
+    "type": "React.Node",
+    "status": "required"
+  },
+  "inactive": {
+    "doc": "Will treat the step as non-navigable if set to `true`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "required": {
+    "doc": "Will make all nested form fields required.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "include": {
+    "doc": "If set to `false`, the step will not be rendered.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "includeWhen": {
+    "doc": "Provide a `path` and a `hasValue` property with the expected value in order to enable the step. You can alternatively provide a `hasValue` function that returns a boolean. The first parameter is the value of the path.",
+    "type": "object",
+    "status": "optional"
+  },
+  "keepInDOM": {
+    "doc": "Determines if the step should be kept in the DOM. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "children": {
+    "doc": "Contents.",
+    "type": "React.Node",
+    "status": "required"
+  },
+  "[Flex.Container](/uilib/layout/flex/container/properties)": {
+    "doc": "Flex.Container properties.",
+    "type": "Various",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  },
+  "active": {
+    "doc": "Deprecated, use `include`. Old docs: If set to `false`, the step will not be rendered.",
+    "type": "boolean",
+    "status": "deprecated"
+  },
+  "activeWhen": {
+    "doc": "Deprecated, use `includeWhen`. Old docs: Provide a `path` and a `hasValue` property with the expected value in order to enable the step. You can alternatively provide a `hasValue` function that returns a boolean. The first parameter is the value of the path.",
+    "type": "object",
+    "status": "deprecated"
+  }
+}
+```
+
+## Translations
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "Step.stepHasError": {
+      "nb-NO": "Skjemaet inneholder feil.",
+      "en-GB": "The form contains errors.",
+      "sv-SE": "Formuläret innehåller fel.",
+      "da-DK": "Skemaet indeholder fejl."
+    },
+    "Step.summaryTitle": {
+      "nb-NO": "Oppsummering",
+      "en-GB": "Summary",
+      "sv-SE": "Sammanfattning",
+      "da-DK": "Oversigt"
+    }
+  }
+}
 ```

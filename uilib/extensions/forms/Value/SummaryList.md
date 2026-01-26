@@ -1,8 +1,12 @@
 ---
-title: 'SummaryList'
+title: 'Value.SummaryList'
 description: '`Value.SummaryList` uses definition lists to semantically make content consumable for screen readers.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Value/SummaryList/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.176Z
+checksum: 92c6b89f079b833cdcf9297959702e4b70e744cbcd2f1718096b55836b2b7b84
 ---
+
+# Value.SummaryList
 
 ## Import
 
@@ -21,7 +25,7 @@ render(
   <Value.SummaryList>
     <Value.String label="First value" path="/myValue" />
     <Value.String label="Second value" path="/mySecondValue" />
-  </Value.SummaryList>,
+  </Value.SummaryList>
 )
 ```
 
@@ -50,7 +54,7 @@ render(
         <Value.Name.Last path="/lastName" />
       </Value.SummaryList>
     </Form.Card>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -72,7 +76,7 @@ render(
         <Value.Name.Last path="/lastName" />
       </Value.SummaryList>
     </Form.Card>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -94,7 +98,7 @@ render(
         <Value.Name.Last path="/lastName" />
       </Value.SummaryList>
     </Form.Card>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -132,7 +136,7 @@ render(
         </Value.Composition>
       </Value.SummaryList>
     </Form.Card>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -158,7 +162,7 @@ render(
         <Value.Name.First path="/bar" />
       </Value.SummaryList>
     </Form.Card>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -176,7 +180,7 @@ render(
         <Value.String path="/bar" />
       </Value.SummaryList>
     </Form.Card>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -206,7 +210,7 @@ render(
         </Value.SummaryList>
       </Form.Card>
     </Flex.Stack>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -255,7 +259,7 @@ render(
         />
       </Form.Card>
     </Flex.Stack>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -265,7 +269,7 @@ render(
     <Value.String value="foo" label="Foo" />
     <Value.String value="bar" />
     <Value.String value="baz" label="Baz" />
-  </Value.SummaryList>,
+  </Value.SummaryList>
 )
 ```
 
@@ -322,7 +326,7 @@ render(
         </Value.Composition>
       </Value.SummaryList>
     </Form.Card>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -388,7 +392,7 @@ render(
         </Value.Composition>
       </Value.SummaryList>
     </Form.Card>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -445,7 +449,7 @@ render(
         </Value.Composition>
       </Value.SummaryList>
     </Form.Card>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -522,7 +526,7 @@ render(
         </Value.Composition>
       </Value.SummaryList>
     </Form.Card>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -552,7 +556,7 @@ render(
         />
       </Value.SummaryList>
     </Form.InfoOverlay>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -592,6 +596,43 @@ render(
         />
       </Value.SummaryList>
     </Form.Card>
-  </Form.Handler>,
+  </Form.Handler>
 )
+```
+
+## Properties
+
+```json
+{
+  "layout": {
+    "doc": "Use `grid`, `horizontal` or `vertical`. Defaults to `vertical`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "inheritVisibility": {
+    "doc": "Use this property to propagate the `inheritVisibility` property to all nested values.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "inheritLabel": {
+    "doc": "Use this property to propagate the `inheritLabel` property to all nested values.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "transformLabel": {
+    "doc": "Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is a object containing the `convertJsxToString` function.",
+    "type": "function",
+    "status": "optional"
+  },
+  "children": {
+    "doc": "Contents.",
+    "type": "React.Node",
+    "status": "required"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
 ```

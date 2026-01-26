@@ -1,8 +1,12 @@
 ---
 title: 'Skeleton'
 description: 'The Skeleton component is a visual building block helper.'
-metadata: https://eufemia.dnb.no/uilib/components/skeleton/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.505Z
+checksum: de79945fb9971e14aefdad3f791c581254380e2cfc6bbb7f8e537bb73e30e9b9
 ---
+
+# Skeleton
 
 ## Import
 
@@ -77,7 +81,7 @@ render(
       <Input>I'm hidden behind the skeleton</Input>
       <Input>I'm hidden behind the skeleton</Input>
     </Skeleton>
-  </Div>,
+  </Div>
 )
 ```
 
@@ -94,7 +98,7 @@ render(
         <Input>I'm hidden behind the skeleton</Input>
       </Provider>
     </Div>
-  </Provider>,
+  </Provider>
 )
 ```
 
@@ -110,7 +114,7 @@ render(
     <Skeleton.Exclude>
       <Input>I'm NOT hidden</Input>
     </Skeleton.Exclude>
-  </Skeleton>,
+  </Skeleton>
 )
 ```
 
@@ -128,7 +132,7 @@ render(
     }
   >
     <Div id="user-data" />
-  </Suspense>,
+  </Suspense>
 )
 ```
 
@@ -205,7 +209,7 @@ render(
       Paragraph Non habitasse ut nisi dictum laoreet ridiculus dui.
     </P>
     <Button>Button</Button>
-  </Skeleton>,
+  </Skeleton>
 )
 ```
 
@@ -223,7 +227,7 @@ render(
       Paragraph Non habitasse ut nisi dictum laoreet ridiculus dui.
     </P>
     <Button>Button</Button>
-  </Provider>,
+  </Provider>
 )
 ```
 
@@ -239,7 +243,7 @@ import { Article } from '@dnb/eufemia/components/skeleton/figures'
 render(
   <Skeleton show figure={<Article rows={5} />}>
     hidden content
-  </Skeleton>,
+  </Skeleton>
 )
 ```
 
@@ -250,4 +254,68 @@ render(
 <Skeleton show no_animation>
   <AllComponentsVerticalLabelsTestCase data-visual-test="skeleton-all-vertical" />
 </Skeleton>
+```
+
+## Properties
+
+```json
+{
+  "show": {
+    "doc": "Use `true` to enable/show the skeleton for the component used inside. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "figure": {
+    "doc": "Define a figure to use, like `article`. The wrapped content will be hidden while the skeleton figure is shown.",
+    "type": ["string", "React.Element", "function"],
+    "status": "optional"
+  },
+  "no_animation": {
+    "doc": "Use `true` to disable the animation.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "aria_busy": {
+    "doc": "Is used for screen reader text translation, defined in the translation files. You can set a custom text if needed.",
+    "type": "string",
+    "status": "optional"
+  },
+  "aria_ready": {
+    "doc": "Is used for screen reader text translation, defined in the translation files. You can set a custom text if needed.",
+    "type": "string",
+    "status": "optional"
+  },
+  "element": {
+    "doc": "Set any HTML element type you have to use. A couple of aria attributes will be set on this element while active. Defaults to `div`.",
+    "type": ["string", "React.Element"],
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
+```
+
+## Translations
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "Skeleton.aria_busy": {
+      "nb-NO": "Behandler data ...",
+      "en-GB": "In progress ...",
+      "sv-SE": "Bearbetar data ...",
+      "da-DK": "Behandler data ..."
+    },
+    "Skeleton.aria_ready": {
+      "nb-NO": "Klar til å samhandle",
+      "en-GB": "Ready to interact",
+      "sv-SE": "Klar att interagera",
+      "da-DK": "Klar til at interagere"
+    }
+  }
+}
 ```

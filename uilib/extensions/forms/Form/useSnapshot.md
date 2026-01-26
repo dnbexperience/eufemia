@@ -1,8 +1,12 @@
 ---
-title: 'useSnapshot'
+title: 'Form.useSnapshot'
 description: '`Form.useSnapshot` lets you store data snapshots of your form data, either inside or outside of the form context.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Form/useSnapshot/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.964Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
+
+# Form.useSnapshot
 
 ## Import
 
@@ -28,7 +32,7 @@ function MyComponent() {
 render(
   <Form.Handler>
     <MyComponent />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -169,7 +173,7 @@ const MyComponent = () => {
 render(
   <Form.Handler>
     <MyComponent />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 

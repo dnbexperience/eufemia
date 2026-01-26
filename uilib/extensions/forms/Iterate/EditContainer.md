@@ -1,8 +1,12 @@
 ---
-title: 'EditContainer'
+title: 'Iterate.EditContainer'
 description: '`Iterate.EditContainer` enables users to toggle (with animation) the content of each item between the view and edit container.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Iterate/EditContainer/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.997Z
+checksum: e26a9cd2ef9add46be0be2b3722e39b9885b72d1bce7283500f4f6fc4969a44d
 ---
+
+# Iterate.EditContainer
 
 ## Import
 
@@ -32,7 +36,7 @@ render(
     <Iterate.ViewContainer title="Account holder">
       <Value.Name.Last itemPath="/name" />
     </Iterate.ViewContainer>
-  </Iterate.Array>,
+  </Iterate.Array>
 )
 ```
 
@@ -51,7 +55,7 @@ render(
     >
       <Field.Name.Last itemPath="/name" />
     </Iterate.EditContainer>
-  </Iterate.Array>,
+  </Iterate.Array>
 )
 ```
 
@@ -73,7 +77,7 @@ const MyItemForm = () => {
 render(
   <Iterate.Array value={['foo', 'bar']}>
     <MyItemForm />
-  </Iterate.Array>,
+  </Iterate.Array>
 )
 ```
 
@@ -91,7 +95,7 @@ render(
         <Iterate.EditContainer.CancelButton />
       </Iterate.Toolbar>
     </Iterate.EditContainer>
-  </Iterate.Array>,
+  </Iterate.Array>
 )
 ```
 
@@ -111,7 +115,7 @@ render(
     <Iterate.EditContainer toolbarVariant="minimumOneItem">
       Item Content
     </Iterate.EditContainer>
-  </Iterate.Array>,
+  </Iterate.Array>
 )
 ```
 
@@ -228,6 +232,94 @@ render(
     </Flex.Stack>
 
     <Form.SubmitButton text="Press me to see the error" />
-  </Form.Handler>,
+  </Form.Handler>
 )
+```
+
+## Properties
+
+```json
+{
+  "title": {
+    "doc": "The title of the container.",
+    "type": "React.Node",
+    "status": "optional"
+  },
+  "titleWhenNew": {
+    "doc": "The title for a new item.",
+    "type": "React.Node",
+    "status": "optional"
+  },
+  "variant": {
+    "doc": "Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "toolbar": {
+    "doc": "An alternative toolbar to be shown in the container.",
+    "type": "React.Node",
+    "status": "optional"
+  },
+  "toolbarVariant": {
+    "doc": "Use variants to render the toolbar differently. Currently there are the `minimumOneItem` and `custom` variants. See the info section for more info.",
+    "type": "string",
+    "status": "optional"
+  },
+  "open": {
+    "doc": "If the container should be open or not. This is taken care of internally by default.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "[FlexVertical](/uilib/layout/flex/container/properties)": {
+    "doc": "All Flex.Vertical properties.",
+    "type": "Various",
+    "status": "optional"
+  }
+}
+```
+
+## Translations
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "IterateEditContainer.cancelButton": {
+      "nb-NO": "Avbryt",
+      "en-GB": "Cancel",
+      "sv-SE": "Avbryt",
+      "da-DK": "Annuller"
+    },
+    "IterateEditContainer.confirmResetText": {
+      "nb-NO": "Er du sikker på at du vil nullstille endringene?",
+      "en-GB": "Are you sure you want to clear the changes?",
+      "sv-SE": "Är du säker på att du vill återställa ändringarna?",
+      "da-DK": "Er du sikker på, at du vil nulstille ændringerne?"
+    },
+    "IterateEditContainer.doneButton": {
+      "nb-NO": "Ferdig",
+      "en-GB": "Done",
+      "sv-SE": "Klar",
+      "da-DK": "Færdig"
+    },
+    "IterateEditContainer.errorInContainer": {
+      "nb-NO": "Feilene ovenfor må rettes.",
+      "en-GB": "Please correct the errors above.",
+      "sv-SE": "Felen ovan måste åtgärdas.",
+      "da-DK": "Fejlene ovenfor skal rettes."
+    },
+    "IterateEditContainer.removeButton": {
+      "nb-NO": "Fjern",
+      "en-GB": "Remove",
+      "sv-SE": "Ta bort",
+      "da-DK": "Fjern"
+    },
+    "IterateEditContainer.resetButton": {
+      "nb-NO": "Nullstill",
+      "en-GB": "Reset",
+      "sv-SE": "Återställ",
+      "da-DK": "Nulstil"
+    }
+  }
+}
 ```

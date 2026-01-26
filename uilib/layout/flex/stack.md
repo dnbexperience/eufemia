@@ -1,8 +1,12 @@
 ---
 title: 'Flex Stack'
 description: '`Flex.Stack` is an outer block element that wraps content to ensure proper layout and spacing between form elements, larger regions and headings. It stretches its content horizontally (100%).'
-metadata: https://eufemia.dnb.no/uilib/layout/flex/stack/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.321Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
+
+# Flex Stack
 
 ## Import
 
@@ -35,7 +39,7 @@ render(
     <Card>
       <P>Content inside a landmark ...</P>
     </Card>
-  </Flex.Stack>,
+  </Flex.Stack>
 )
 ```
 
@@ -49,7 +53,7 @@ render(
     <Field.String label="Label" value="Foo" />
     <Field.String label="Label" value="Foo" />
     <Form.SubmitButton />
-  </Flex.Stack>,
+  </Flex.Stack>
 )
 ```
 
@@ -66,7 +70,7 @@ render(
       Praesent nunc ipsum, convallis eget convallis gravida, vehicula vitae
       metus.
     </P>
-  </Flex.Stack>,
+  </Flex.Stack>
 )
 ```
 
@@ -78,7 +82,7 @@ render(
     <Form.MainHeading>Heading</Form.MainHeading>
     <P>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</P>
     <P>Aliquam at felis rutrum, luctus dui at, bibendum ipsum.</P>
-  </Flex.Stack>,
+  </Flex.Stack>
 )
 ```
 
@@ -95,7 +99,7 @@ render(
       <P>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</P>
       <P>Aliquam at felis rutrum, luctus dui at, bibendum ipsum.</P>
     </Card>
-  </Flex.Stack>,
+  </Flex.Stack>
 )
 ```
 
@@ -109,7 +113,7 @@ render(
       <P>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</P>
       <P>Aliquam at felis rutrum, luctus dui at, bibendum ipsum.</P>
     </Card>
-  </Flex.Stack>,
+  </Flex.Stack>
 )
 ```
 
@@ -124,6 +128,33 @@ render(
       <P>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</P>
       <P>Aliquam at felis rutrum, luctus dui at, bibendum ipsum.</P>
     </Card>
-  </Flex.Stack>,
+  </Flex.Stack>
 )
+```
+
+## Properties
+
+```json
+{
+  "direction": {
+    "doc": "Defaults to `vertical`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "align": {
+    "doc": "Defaults to `stretch`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "[Flex.Container](/uilib/layout/flex/container/properties)": {
+    "doc": "Flex.Container properties.",
+    "type": "Various",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
 ```

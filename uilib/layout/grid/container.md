@@ -1,8 +1,12 @@
 ---
 title: 'Grid Container'
 description: '`Grid.Container` is a building block for CSS Grid based layout of contents and components.'
-metadata: https://eufemia.dnb.no/uilib/layout/grid/container/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.327Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
+
+# Grid Container
 
 ## Import
 
@@ -29,7 +33,7 @@ render(
   <Grid.Container>
     <Grid.Item span={[1, 6]}>Item A</Grid.Item>
     <Grid.Item span={[7, 12]}>Item B</Grid.Item>
-  </Grid.Container>,
+  </Grid.Container>
 )
 ```
 
@@ -44,7 +48,7 @@ render(
   <Grid.Container>
     <Grid.Item span={[1, 6]}>uses 50% in width</Grid.Item>
     <Grid.Item span={[7, 12]}>uses 50% in width</Grid.Item>
-  </Grid.Container>,
+  </Grid.Container>
 )
 ```
 
@@ -106,7 +110,7 @@ render(
     >
       Item D
     </Grid.Item>
-  </Grid.Container>,
+  </Grid.Container>
 )
 ```
 
@@ -168,6 +172,33 @@ render(
     >
       Item D
     </Grid.Item>
-  </Grid.Container>,
+  </Grid.Container>
 )
+```
+
+## Properties
+
+```json
+{
+  "columns": {
+    "doc": "Define how many columns your layout should be divided in. Can be just a number `columns={12}` or an object with media query sizes like `columns={{ small: 4, medium: 6, large: 12 }}` (default values). You can also disabled CSS Grid by providing `false` for one size, like so `columns={{ small: 4, medium: false, large: 12 }}`.",
+    "type": ["number", "object"],
+    "status": "optional"
+  },
+  "rowGap": {
+    "doc": "Defines how much the gap between rows should be. Can be `large`, `medium`, `small`, `x-small` or `false` for no gap. Defaults to `false`.",
+    "type": ["string", "false"],
+    "status": "optional"
+  },
+  "columnGap": {
+    "doc": "Defines how much the gap between columns should be. Can be `large`, `medium`, `small`, `x-small` or `false` for no gap. Defaults to `false`.",
+    "type": ["string", "false"],
+    "status": "optional"
+  },
+  "element": {
+    "doc": "Define the type of element. Defaults to `div`.",
+    "type": ["string", "React.Element"],
+    "status": "optional"
+  }
+}
 ```

@@ -1,8 +1,12 @@
 ---
 title: 'Card'
 description: '`Card` is a block section element showing the white box with rounded gray borders, adding spacing automatically.'
-metadata: https://eufemia.dnb.no/uilib/components/card/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.234Z
+checksum: bd2391a3d37df442648d3aad465f3abb1eb38fee518a34594ca5b5321de5d429
 ---
+
+# Card
 
 ## Import
 
@@ -33,7 +37,7 @@ render(
         <Form.SubmitButton />
       </Form.ButtonRow>
     </Card>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -48,7 +52,7 @@ render(
       Heading
     </Form.SubHeading>
     <P>Content inside a landmark ...</P>
-  </Card>,
+  </Card>
 )
 ```
 
@@ -63,7 +67,7 @@ render(
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi cursus
       pharetra elit in bibendum.
     </P>
-  </Card>,
+  </Card>
 )
 ```
 
@@ -80,7 +84,7 @@ render(
   <Card stack>
     <P>Stacked content</P>
     <P>Stacked content</P>
-  </Card>,
+  </Card>
 )
 ```
 
@@ -93,7 +97,7 @@ render(
   <Form.Card>
     <Field.String label="Label" value="Value" />
     <Field.String label="Label" value="Value" />
-  </Form.Card>,
+  </Form.Card>
 )
 ```
 
@@ -108,7 +112,7 @@ render(
       <Field.String label="Label" value="Value" width="small" />
       <Field.String label="Label" value="Value" width="stretch" />
     </Flex.Horizontal>
-  </Form.Card>,
+  </Form.Card>
 )
 ```
 
@@ -126,7 +130,7 @@ render(
         <P>Third Card (for edge cases only)</P>
       </Card>
     </Card>
-  </Card>,
+  </Card>
 )
 ```
 
@@ -146,7 +150,7 @@ render(
       </Card>
     </Card>
     <Form.SubmitButton text="I'm also left aligned" />
-  </Flex.Vertical>,
+  </Flex.Vertical>
 )
 ```
 
@@ -156,7 +160,7 @@ render(
 render(
   <Card innerSpace={false} align="stretch">
     <P>no inner space</P>
-  </Card>,
+  </Card>
 )
 ```
 
@@ -202,7 +206,7 @@ render(
       </Section>
       <P>no inner space</P>
     </Card>
-  </Flex.Stack>,
+  </Flex.Stack>
 )
 ```
 
@@ -242,7 +246,7 @@ const MyTable = () => (
 render(
   <Card title="Card title" responsive={false} innerSpace={0} filled>
     <MyTable />
-  </Card>,
+  </Card>
 )
 ```
 
@@ -272,7 +276,7 @@ render(
       <H2>Heading</H2>
       <P>Text</P>
     </Card>
-  </Grid.Container>,
+  </Grid.Container>
 )
 ```
 
@@ -316,7 +320,7 @@ render(
       <H2>Heading</H2>
       <P>Text</P>
     </Card>
-  </Flex.Container>,
+  </Flex.Container>
 )
 ```
 
@@ -354,7 +358,7 @@ const MyTable = () => (
 render(
   <Card title="Card title" responsive={false} filled>
     <MyTable />
-  </Card>,
+  </Card>
 )
 ```
 
@@ -362,7 +366,7 @@ render(
 render(
   <Section backgroundColor="var(--color-signal-orange)" innerSpace="large">
     <Card>Card in colored Section</Card>
-  </Section>,
+  </Section>
 )
 ```
 
@@ -378,6 +382,83 @@ render(
         <P>Nested card</P>
       </Card>
     </Card>
-  </Flex.Vertical>,
+  </Flex.Vertical>
 )
+```
+
+## Properties
+
+```json
+{
+  "outset": {
+    "doc": "Whether or not to break out (using negative margins) on larger screens. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "stack": {
+    "doc": "True to stack the sub components with space between. The `spacing` will default to `medium`. Defaults to `false`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "direction": {
+    "doc": "Defaults to `vertical`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "alignSelf": {
+    "doc": "Defaults to `stretch`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "title": {
+    "doc": "Define a title that appears on top of the Card.",
+    "type": "React.Node",
+    "status": "optional"
+  },
+  "responsive": {
+    "doc": "Define if the card should behave responsive. Defaults to `true`.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "filled": {
+    "doc": "Define if the Card should get the same background color as the outline border.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "outline": {
+    "doc": "Define the outline color. Defaults to `var(--card-outline-color)`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "backgroundColor": {
+    "doc": "Define the background color. Defaults to `var(--card-background-color)`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "element": {
+    "doc": "Define the type of element. Defaults to `section`.",
+    "type": "React.Element",
+    "status": "optional"
+  },
+  "children": {
+    "doc": "Contents.",
+    "type": "React.Node",
+    "status": "required"
+  },
+  "[Flex.Container](/uilib/layout/flex/container/properties)": {
+    "doc": "Flex.Container properties.",
+    "type": "Various",
+    "status": "optional"
+  },
+  "[Flex.Item](/uilib/layout/flex/item/properties)": {
+    "doc": "Flex.Item properties.",
+    "type": "Various",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
 ```

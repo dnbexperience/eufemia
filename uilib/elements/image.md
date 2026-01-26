@@ -1,8 +1,12 @@
 ---
 title: 'Image'
 description: 'Image element exists to have a future possibility to optimize and add features.'
-metadata: https://eufemia.dnb.no/uilib/elements/image/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.621Z
+checksum: 9647918c23f999b9fff1dd2e6ce4ccf9a4006864cf96c10144ab80b1b732ecc5
 ---
+
+# Image
 
 ## Import
 
@@ -47,7 +51,7 @@ render(<CustomImage />)
 ```tsx
 const MyImg = Img
 render(
-  <MyImg width="100" height="100" alt="Alt text" src="https://invalid" />,
+  <MyImg width="100" height="100" alt="Alt text" src="https://invalid" />
 )
 ```
 
@@ -101,4 +105,41 @@ const CustomImage = () => {
   )
 }
 render(<CustomImage />)
+```
+
+## Properties
+
+```json
+{
+  "skeleton": {
+    "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "imgClass": {
+    "doc": "Custom className on the `<img>`-element",
+    "type": "string",
+    "status": "optional"
+  },
+  "element": {
+    "doc": "Defines the Element Type, like `figure`.",
+    "type": ["HTMLElement", "string"],
+    "status": "optional"
+  },
+  "caption": {
+    "doc": "Use to define a caption for the image. Uses `<figcaption>`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "loading": {
+    "doc": "Can either be `eager` or `lazy`. Defaults to `eager`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
 ```

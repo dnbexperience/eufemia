@@ -1,7 +1,9 @@
 ---
 title: 'Getting started'
 description: 'Forms is reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/getting-started/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.301Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
 # Getting started
@@ -357,7 +359,7 @@ render(
     }}
   >
     <MyComponent />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -405,7 +407,7 @@ const MyComponent = () => {
 render(
   <Form.Handler>
     <MyComponent />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -437,7 +439,7 @@ render(
     }}
   >
     <Field.String path="/foo" />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -789,7 +791,7 @@ const schema = {
 render(
   <Form.Handler ajvInstance={ajv}>
     <Field.PhoneNumber schema={schema} />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -833,7 +835,7 @@ render(
       defaultValue={2}
       onChangeValidator={onChangeValidator} // NB: You may use "onBlurValidator" depending on use case.
     />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -909,7 +911,7 @@ render(
         A <strong>formatted</strong> error message.
       </>
     }
-  />,
+  />
 )
 ```
 
@@ -935,7 +937,7 @@ render(
         </>
       ),
     }}
-  />,
+  />
 )
 ```
 
@@ -953,7 +955,7 @@ render(
         return conditionally(() => new Error('Invalid value'))
       }
     }}
-  />,
+  />
 )
 ```
 
@@ -1013,7 +1015,7 @@ const translations = mergeTranslations(svSE_forms, svSE_forms_countries)
 render(
   <Form.Handler translations={translations} locale="sv-SE">
     Your form
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -1031,7 +1033,7 @@ const translations = mergeTranslations(svSE, svSE_forms)
 render(
   <Provider translations={translations} locale="sv-SE">
     Your app, including Eufemia Forms
-  </Provider>,
+  </Provider>
 )
 ```
 
@@ -1074,7 +1076,7 @@ const myTranslations = {
 render(
   <Form.Handler translations={myTranslations}>
     <Field.PhoneNumber />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -1126,7 +1128,7 @@ const MyComponent = () => {
 render(
   <Form.Handler translations={myTranslations}>
     <MyComponent />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 

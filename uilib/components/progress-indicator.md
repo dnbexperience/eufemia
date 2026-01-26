@@ -1,8 +1,12 @@
 ---
 title: 'ProgressIndicator'
 description: 'The ProgressIndicator component is a waiting loader / spinner to show while other content is in progression.'
-metadata: https://eufemia.dnb.no/uilib/components/progress-indicator/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.470Z
+checksum: 93b6f37f7b6c15ec345d58c93a83c4f52596c3df794509054b90a3e9c6a778ca
 ---
+
+# ProgressIndicator
 
 ## Import
 
@@ -47,7 +51,7 @@ render(
     type="circular"
     showDefaultLabel={true}
     labelDirection="horizontal"
-  />,
+  />
 )
 ```
 
@@ -60,7 +64,7 @@ render(
     type="circular"
     showDefaultLabel={true}
     labelDirection="vertical"
-  />,
+  />
 )
 ```
 
@@ -97,7 +101,7 @@ render(
     progress="50"
     size="large"
     noAnimation
-  />,
+  />
 )
 ```
 
@@ -138,7 +142,7 @@ const Example = () => {
   React.useEffect(() => {
     const timer = setInterval(
       () => setProgressIndicator(random(1, 100)),
-      1e3,
+      1e3
     )
     return () => clearInterval(timer)
   })
@@ -159,7 +163,7 @@ const Example = () => {
   React.useEffect(() => {
     const timer = setInterval(
       () => setVisible(!visible),
-      random(2400, 4200),
+      random(2400, 4200)
     )
     return () => clearTimeout(timer)
   })
@@ -200,7 +204,7 @@ render(
       bottom="large"
       size="large"
     />
-  </Dialog>,
+  </Dialog>
 )
 ```
 
@@ -225,7 +229,7 @@ render(
     // label="Custom label ..."
     showDefaultLabel={true}
     labelDirection="horizontal"
-  />,
+  />
 )
 ```
 
@@ -238,7 +242,7 @@ render(
     // label="Custom label ..."
     showDefaultLabel={true}
     labelDirection="vertical"
-  />,
+  />
 )
 ```
 
@@ -251,7 +255,7 @@ render(
     progress="50"
     size="large"
     noAnimation
-  />,
+  />
 )
 ```
 
@@ -287,7 +291,7 @@ const Example = () => {
   React.useEffect(() => {
     const timer = setInterval(
       () => setProgressIndicator(random(1, 100)),
-      1e3,
+      1e3
     )
     return () => clearInterval(timer)
   })
@@ -306,7 +310,7 @@ const Example = () => {
   React.useEffect(() => {
     const timer = setInterval(
       () => setVisible(!visible),
-      random(2400, 4200),
+      random(2400, 4200)
     )
     return () => clearTimeout(timer)
   })
@@ -346,7 +350,7 @@ render(
       top="large"
       bottom="large"
     />
-  </Dialog>,
+  </Dialog>
 )
 ```
 
@@ -468,4 +472,189 @@ render(<MyProgressIndicator />)
   }}
   size="4rem"
 />
+```
+
+## Properties
+
+```json
+{
+  "progress": {
+    "doc": "A number between 0-100, if not supplied a continuous loading-type animation will be used.",
+    "type": ["string", "number"],
+    "defaultValue": "undefined",
+    "status": "optional"
+  },
+  "visible": {
+    "doc": "Defines the visibility of the progress. Toggling the `visible` property to `false` will force a fade-out animation.",
+    "type": "boolean",
+    "defaultValue": "true",
+    "status": "optional"
+  },
+  "type": {
+    "doc": "Defines the type.",
+    "type": ["'circular'", "'linear'", "'countdown'"],
+    "defaultValue": "'circular'",
+    "status": "optional"
+  },
+  "noAnimation": {
+    "doc": "Disables the fade-in and fade-out animation.",
+    "type": "boolean",
+    "defaultValue": "false",
+    "status": "optional"
+  },
+  "size": {
+    "doc": "Defines the size.",
+    "type": [
+      "'default'",
+      "'small'",
+      "'medium'",
+      "'large'",
+      "'huge'",
+      "string"
+    ],
+    "defaultValue": "'default'",
+    "status": "optional"
+  },
+  "label": {
+    "doc": "Content of a custom label. (Overrides `indicator_label` and `showDefaultLabel`)",
+    "type": "React.ReactNode",
+    "defaultValue": "undefined",
+    "status": "optional"
+  },
+  "children": {
+    "doc": "Same as `label` prop (`label` prop has priority)",
+    "type": "React.ReactNode",
+    "defaultValue": "undefined",
+    "status": "optional"
+  },
+  "labelDirection": {
+    "doc": "Sets the position of the label. `'inside'` only works with `type='circular'.",
+    "type": ["'horizontal'", "'vertical'", "'inside'"],
+    "defaultValue": "'horizontal'",
+    "status": "optional"
+  },
+  "showDefaultLabel": {
+    "doc": "If set to `true` a default label (from text locales) will be shown.",
+    "type": "boolean",
+    "defaultValue": "false",
+    "status": "optional"
+  },
+  "indicator_label": {
+    "doc": "Use this to override the default label from text locales.",
+    "type": "string",
+    "defaultValue": "undefined",
+    "status": "optional"
+  },
+  "title": {
+    "doc": "Used to set title and aria-label. Defaults to the value of progress property, formatted as a percent.",
+    "type": "string",
+    "defaultValue": "undefined",
+    "status": "optional"
+  },
+  "[customColors](/uilib/components/progress-indicator/properties/#data-object-customcolors)": {
+    "doc": "Send in custom css colors that overrides any css. See below for data structure.",
+    "type": "object",
+    "defaultValue": "undefined",
+    "status": "optional"
+  },
+  "customCircleWidth": {
+    "doc": "Send in custom css width for circle progress line. (`undefined` defaults to one eighth of the size).",
+    "type": "string",
+    "defaultValue": "undefined",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
+```
+
+## Translations
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "ProgressIndicator.indicator_label": {
+      "nb-NO": "Vennligst vent ...",
+      "en-GB": "Please wait ...",
+      "sv-SE": "Vänligen vänta ...",
+      "da-DK": "Vent venligst ..."
+    }
+  }
+}
+```
+
+### Data object `customColors`
+
+```json
+{
+  "line": {
+    "doc": "Override the moving line color.",
+    "type": "string",
+    "defaultValue": "undefined",
+    "status": "optional"
+  },
+  "shaft": {
+    "doc": "Override the background line color.",
+    "type": "string",
+    "defaultValue": "undefined",
+    "status": "optional"
+  },
+  "background": {
+    "doc": "Set a background color for the center of the circle.",
+    "type": "string",
+    "defaultValue": "undefined",
+    "status": "optional"
+  }
+}
+```
+
+## Deprecated properties
+
+```json
+{
+  "no_animation": {
+    "doc": "Use `noAnimation`.",
+    "type": " boolean",
+    "status": "deprecated"
+  },
+  "label_direction": {
+    "doc": "Use `labelDirection`.",
+    "type": "string",
+    "status": "deprecated"
+  },
+  "show_label": {
+    "doc": "Use `showDefaultLabel`.",
+    "type": "boolean",
+    "status": "deprecated"
+  }
+}
+```
+
+## Events
+
+```json
+{
+  "onComplete": {
+    "doc": "Will be called once it's no longer `visible`.",
+    "type": "function",
+    "defaultValue": "undefined",
+    "status": "optional"
+  }
+}
+```
+
+## Deprecated events
+
+```json
+{
+  "on_complete": {
+    "doc": "Use `onComplete`.",
+    "type": "function",
+    "status": "deprecated"
+  }
+}
 ```

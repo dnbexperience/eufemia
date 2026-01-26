@@ -1,6 +1,8 @@
 ---
 title: 'What are fields?'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/about-fields/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.256Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
 # About fields
@@ -57,6 +59,8 @@ Every field has an `emptyValue` property that can be used to define what value s
 When a user removes its content from e.g. a string input field, the value will be set to the `emptyValue`.
 
 - The default `emptyValue` value is `undefined`.
+
+When initializing fields from `defaultData`, providing an explicit empty value is optional; if you do, prefer the field's `emptyValue` (often `undefined`).
 
 ### Standardized properties
 
@@ -119,7 +123,7 @@ render(
     <Form.ButtonRow>
       <Form.SubmitButton />
     </Form.ButtonRow>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 

@@ -1,8 +1,12 @@
 ---
-title: 'SelectCurrency'
+title: 'Value.SelectCurrency'
 description: '`Value.SelectCurrency` will render the selected currency.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Value/SelectCurrency/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.158Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
+
+# Value.SelectCurrency
 
 ## Import
 
@@ -55,7 +59,7 @@ render(
       <Field.SelectCurrency path="/myCurrency" />
       <Value.SelectCurrency path="/myCurrency" />
     </Flex.Stack>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -82,7 +86,7 @@ render(
     }}
   >
     <Value.SelectCurrency path="/myCurrency" />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -105,6 +109,152 @@ render(
   <P>
     This is before the component{' '}
     <Value.SelectCurrency value="NOK" inline /> This is after the component
-  </P>,
+  </P>
 )
+```
+
+## Properties
+
+```json
+{
+  "value": {
+    "doc": "Value for the value component. Will take precedence over the path value given in the data context.",
+    "type": "{valueType}",
+    "status": "optional"
+  },
+  "defaultValue": {
+    "doc": "Default value for the value component. Will not take precedence over the path value given in the data context.",
+    "type": "{valueType}",
+    "status": "optional"
+  },
+  "label": {
+    "doc": "Field label to show above the displayed value.",
+    "type": "string",
+    "status": "optional"
+  },
+  "labelSrOnly": {
+    "doc": "Use `true` to make the label only readable by screen readers.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "help": {
+    "doc": "Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
+    "type": "object",
+    "status": "optional"
+  },
+  "transformLabel": {
+    "doc": "Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is a object containing the `convertJsxToString` function.",
+    "type": "function",
+    "status": "optional"
+  },
+  "inheritLabel": {
+    "doc": "Use `true` to inherit the label from a visible (rendered) field with the same path.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "inheritVisibility": {
+    "doc": "Use `true` to inherit the visibility from a field with the same path. You can find more info in the [Value section](/uilib/extensions/forms/Value/#inherit-visibility-from-fields-based-on-path).",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "showEmpty": {
+    "doc": "Shows the value even if it is empty.",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "placeholder": {
+    "doc": "Text showing in place of the value if no value is given.",
+    "type": "string",
+    "status": "optional"
+  },
+  "path": {
+    "doc": "JSON Pointer for where the data for this input is located in the source dataset.",
+    "type": "string",
+    "status": "optional"
+  },
+  "inline": {
+    "doc": "For showing the value inline (not as a block element).",
+    "type": "boolean",
+    "status": "optional"
+  },
+  "maxWidth": {
+    "doc": "Use `auto` for no max-width (use browser default), `small`, `medium` or `large` for predefined standard max widths. Defaults to `large`.",
+    "type": "string",
+    "status": "optional"
+  },
+  "transformIn": {
+    "doc": "Transforms the `value` before its displayed in the value component.",
+    "type": "function",
+    "status": "optional"
+  },
+  "[Space](/uilib/layout/space/properties)": {
+    "doc": "Spacing properties like `top` or `bottom` are supported.",
+    "type": ["string", "object"],
+    "status": "optional"
+  }
+}
+```
+
+## Translations
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "Field.errorPattern": {
+      "nb-NO": "Verdien er ugyldig.",
+      "en-GB": "The value is invalid.",
+      "sv-SE": "Värdet är ogiltigt.",
+      "da-DK": "Ugyldig værdi."
+    },
+    "Field.errorRequired": {
+      "nb-NO": "Dette feltet må fylles ut.",
+      "en-GB": "This field is required.",
+      "sv-SE": "Detta fält måste fyllas i.",
+      "da-DK": "Dette felt skal udfyldes."
+    },
+    "Field.errorSummary": {
+      "nb-NO": "Feil som må rettes:",
+      "en-GB": "Please correct the following errors:",
+      "sv-SE": "Fel som måste åtgärdas:",
+      "da-DK": "Felter der skal rettes:"
+    },
+    "Field.errorSummaryTitle": {
+      "nb-NO": "Feil som må rettes",
+      "en-GB": "Please correct the following errors",
+      "sv-SE": "Fel som måste åtgärdas",
+      "da-DK": "Felter der skal rettes"
+    },
+    "Field.optionalLabelSuffix": {
+      "nb-NO": "(valgfritt)",
+      "en-GB": "(optional)",
+      "sv-SE": "(valfritt)",
+      "da-DK": "(valgfrit)"
+    },
+    "Field.stateSummary": {
+      "nb-NO": "Oppsummering:",
+      "en-GB": "Summary:",
+      "sv-SE": "Sammanfattning:",
+      "da-DK": "Oversigt:"
+    },
+    "SelectCurrency.errorRequired": {
+      "nb-NO": "Du må velge en valuta fra listen.",
+      "en-GB": "You must select a currency from the list.",
+      "sv-SE": "Du måste välja en valuta från listan.",
+      "da-DK": "Du skal vælge en valuta fra listen."
+    },
+    "SelectCurrency.label": {
+      "nb-NO": "Valuta",
+      "en-GB": "Currency",
+      "sv-SE": "Valuta",
+      "da-DK": "Valuta"
+    },
+    "SelectCurrency.placeholder": {
+      "nb-NO": "Velg en valuta",
+      "en-GB": "Select currency",
+      "sv-SE": "Välj en valuta",
+      "da-DK": "Vælg en valuta"
+    }
+  }
+}
 ```

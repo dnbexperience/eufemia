@@ -1,7 +1,9 @@
 ---
 title: 'Typography'
 description: 'DNB Headings and paragraphs, their properties and styling.'
-metadata: https://eufemia.dnb.no/uilib/typography/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.335Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
 # Typography
@@ -103,7 +105,7 @@ render(
     <P size="x-small" weight="medium" space={0}>
       Lorem ipsum dolor sit amet, sint quodsi concludaturque nam ei.
     </P>
-  </div>,
+  </div>
 )
 ```
 

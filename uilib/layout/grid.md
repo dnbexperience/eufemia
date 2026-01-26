@@ -1,8 +1,12 @@
 ---
 title: 'Grid'
 description: 'To make it easier to build responsive application layouts in line with defined design sketches, there are a number of components for layout.'
-metadata: https://eufemia.dnb.no/uilib/layout/grid/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.328Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
+
+# Grid
 
 ## Import
 
@@ -25,7 +29,7 @@ render(
   <Grid.Container>
     <Grid.Item span={[1, 6]}>Item A</Grid.Item>
     <Grid.Item span={[7, 12]}>Item B</Grid.Item>
-  </Grid.Container>,
+  </Grid.Container>
 )
 ```
 
@@ -91,6 +95,6 @@ render(
     >
       Item D
     </Grid.Item>
-  </Grid.Container>,
+  </Grid.Container>
 )
 ```

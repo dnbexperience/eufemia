@@ -1,8 +1,12 @@
 ---
-title: 'SubmitConfirmation'
+title: 'Form.SubmitConfirmation'
 description: '`Form.SubmitConfirmation` can be used to prevent the `Form.Handler` from submitting, and makes it possible to show a confirmation dialog in different scenarios.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Form/SubmitConfirmation/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:26.942Z
+checksum: 7bf2130a8c9d87f05ba44fb9f83d48ee659850d6119e13e570398d54a7d4d582
 ---
+
+# Form.SubmitConfirmation
 
 ## Import
 
@@ -37,7 +41,7 @@ render(
         return 'Your content'
       }}
     />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -82,7 +86,7 @@ render(
         )
       }}
     />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -137,7 +141,7 @@ render(
         )
       }}
     />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -200,7 +204,7 @@ render(
         )
       }}
     />
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -257,6 +261,40 @@ render(
         )
       }}
     />
-  </Form.Handler>,
+  </Form.Handler>
 )
+```
+
+## Properties
+
+```json
+{
+  "preventSubmitWhen": {
+    "doc": "Use this function to prevent the original `onSubmit` from being called. It receives an object as the first parameter. Read more about the parameters in the info section. It should return a boolean value that determines whether the confirmation routine (submit prevention) should be active or not. It defaults to be active by default.",
+    "type": "function",
+    "status": "optional"
+  },
+  "renderWithState": {
+    "doc": "This function is called whenever the submit confirmation state changes. It receives an object as the first parameter. Read more about the parameters in the info section. The function is expected to return a React Element to render.",
+    "type": "function",
+    "status": "optional"
+  }
+}
+```
+
+## Events
+
+```json
+{
+  "onSubmitResult": {
+    "doc": "This function is called whenever the `onSubmit` event returns a result. It receives an object as the first parameter, including the `submitState`. Read more about the parameters in the info section.",
+    "type": "function",
+    "status": "optional"
+  },
+  "onStateChange": {
+    "doc": "This function is called whenever the submit confirmation state changes. It takes an object as the first parameter. Read more about the parameters in the info section.",
+    "type": "function",
+    "status": "optional"
+  }
+}
 ```

@@ -1,8 +1,12 @@
 ---
-title: 'EditButton'
+title: 'Wizard.EditButton'
 description: '`Wizard.EditButton` is a button to be placed in a summary step.'
-metadata: https://eufemia.dnb.no/uilib/extensions/forms/Wizard/EditButton/metadata.json
+version: 10.95.0
+generatedAt: 2026-01-26T10:49:27.245Z
+checksum: d43acdbd40599e17d5d5ac71404f1b13ab47c7e14fcd42693e31368e140df117
 ---
+
+# Wizard.EditButton
 
 ## Import
 
@@ -32,7 +36,7 @@ render(
         </Form.Card>
       </Wizard.Step>
     </Wizard.Layout>
-  </Form.Handler>,
+  </Form.Handler>
 )
 ```
 
@@ -74,6 +78,34 @@ render(
       <Step title="Step" />
       <Summary />
     </Wizard.Container>
-  </Form.Handler>,
+  </Form.Handler>
 )
+```
+
+## Properties
+
+```json
+{
+  "toStep": {
+    "doc": "Lets you navigate to a specific step.",
+    "type": "number",
+    "status": "optional"
+  }
+}
+```
+
+## Translations
+
+```json
+{
+  "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
+  "entries": {
+    "WizardEditButton.text": {
+      "nb-NO": "Endre",
+      "en-GB": "Edit",
+      "sv-SE": "Ändra",
+      "da-DK": "Rediger"
+    }
+  }
+}
 ```
