@@ -103,148 +103,117 @@ export type NumberFormatAllProps = NumberFormatProps &
 
 export const COPY_TOOLTIP_TIMEOUT = 3000
 
-export default class NumberFormat extends React.PureComponent<NumberFormatAllProps> {
-  static contextType = Context
+const defaultProps = {
+  id: null,
+  value: null,
+  locale: null,
+  prefix: null,
+  suffix: null,
+  currency: null,
+  currencyDisplay: null, // code, name, symbol
+  currencyPosition: null, // null, before, after
+  compact: null,
+  ban: null,
+  nin: null,
+  phone: null,
+  org: null,
+  percent: null,
+  link: null,
+  monospace: false,
+  options: null,
+  decimals: null,
+  selectall: true,
+  alwaysSelectall: false,
+  copySelection: true,
+  cleanCopyValue: false,
+  rounding: null,
+  clean: null,
+  srLabel: null,
+  element: 'span', // span or abbr
+  tooltip: null,
+  skeleton: null,
 
-  static defaultProps = {
-    id: null,
-    value: null,
-    locale: null,
-    prefix: null,
-    suffix: null,
-    currency: null,
-    currencyDisplay: null, // code, name, symbol
-    currencyPosition: null, // null, before, after
-    compact: null,
-    ban: null,
-    nin: null,
-    phone: null,
-    org: null,
-    percent: null,
-    link: null,
-    monospace: false,
-    options: null,
-    decimals: null,
-    selectall: true,
-    alwaysSelectall: false,
-    copySelection: true,
-    cleanCopyValue: false,
-    rounding: null,
-    clean: null,
-    srLabel: null,
-    element: 'span', // span or abbr
-    tooltip: null,
-    skeleton: null,
+  className: null,
+  children: null,
+}
 
-    className: null,
-    children: null,
-  }
+function NumberFormat(localProps: NumberFormatAllProps) {
+  const context = React.useContext(Context)
 
-  constructor(props) {
-    super(props)
-    this._ref = React.createRef()
-    this._selectionRef = React.createRef()
+  // Refs
+  const _ref = React.useRef<HTMLElement>(null)
+  const _selectionRef = React.useRef<HTMLSpanElement>(null)
+  const _copyTooltipTimeoutRef = React.useRef<NodeJS.Timeout>(null)
+  const outsideClickRef = React.useRef<{ remove: () => void }>(null)
+  const cleanedValueRef = React.useRef<string>(null)
 
-    this._id = props.tooltip ? props.id || makeUniqueId() : undefined
-    this._copyTooltipTimeout = null
-    this.state = {
-      selected: false,
-      omitCurrencySign: false,
-      hover: false,
-      copyTooltipActive: false,
-      copyTooltipText: null,
-    }
-  }
+  // Generate stable ID
+  const _id = React.useMemo(
+    () =>
+      localProps.tooltip ? localProps.id || makeUniqueId() : undefined,
+    [localProps.tooltip, localProps.id]
+  )
 
-  componentDidMount() {
+  // State
+  const [selected, setSelected] = React.useState(false)
+  const [omitCurrencySign, _setOmitCurrencySign] = React.useState(false)
+  const [hover, setHover] = React.useState(false)
+  const [copyTooltipActive, setCopyTooltipActive] = React.useState(false)
+  const [copyTooltipText, setCopyTooltipText] =
+    React.useState<string>(null)
+
+  // componentDidMount equivalent
+  React.useEffect(() => {
     // NB: This hack may be removed in future iOS versions
     // in order that iOS v13 can select something on the first try, we run this add range trick
     if (IS_IOS && !hasiOSFix) {
       hasiOSFix = true
       runIOSSelectionFix()
     }
-  }
+  }, [])
 
-  clearCopyTooltipTimeout = () => {
-    if (this._copyTooltipTimeout) {
-      clearTimeout(this._copyTooltipTimeout)
-      this._copyTooltipTimeout = null
-    }
-  }
-
-  showCopyTooltip = (message) => {
-    const translations = this.context.getTranslation?.(this.props)
-      ?.NumberFormat
-    const label = message || translations?.clipboardCopy
-
-    if (!label) {
-      return
-    }
-
-    this.clearCopyTooltipTimeout()
-    this.setState(
-      { copyTooltipActive: true, copyTooltipText: label },
-      () => {
-        this._copyTooltipTimeout = setTimeout(() => {
-          this.setState({
-            copyTooltipActive: false,
-          })
-        }, COPY_TOOLTIP_TIMEOUT)
+  // componentWillUnmount equivalent
+  React.useEffect(() => {
+    return () => {
+      outsideClickRef.current?.remove()
+      if (_copyTooltipTimeoutRef.current) {
+        clearTimeout(_copyTooltipTimeoutRef.current)
+        _copyTooltipTimeoutRef.current = null
       }
-    )
-  }
-
-  shortcutHandler = () => {
-    const label = this.context.getTranslation(this.props)?.NumberFormat
-      .clipboardCopy
-    this.showCopyTooltip(label)
-  }
-
-  onBlurHandler = () => {
-    this.setState({ selected: false })
-  }
-
-  onContextMenuHandler = () => {
-    if (!hasSelectedText()) {
-      this.setFocus()
     }
-  }
+  }, [])
 
-  onClickHandler = () => {
-    if (
-      (isTrue(this.props.selectall) ||
-        isTrue(this.props.alwaysSelectall)) &&
-      !hasSelectedText()
-    ) {
-      this.setFocus()
+  const clearCopyTooltipTimeout = React.useCallback(() => {
+    if (_copyTooltipTimeoutRef.current) {
+      clearTimeout(_copyTooltipTimeoutRef.current)
+      _copyTooltipTimeoutRef.current = null
     }
-  }
+  }, [])
 
-  componentWillUnmount() {
-    this.outsideClick?.remove()
-    this.clearCopyTooltipTimeout()
-  }
+  const showCopyTooltip = React.useCallback(
+    (message?: string) => {
+      const translations =
+        context.getTranslation?.(localProps)?.NumberFormat
+      const label = message || translations?.clipboardCopy
 
-  setFocus() {
-    if (isTouchDevice()) {
-      return // stop here
-    }
-    this.setState({ selected: true }, () => {
-      this._selectionRef.current?.focus({ preventScroll: true })
-      this.selectAll()
-
-      if (!isTrue(this.props.copySelection)) {
-        this.outsideClick = detectOutsideClick(
-          this._ref.current,
-          this.onBlurHandler
-        )
+      if (!label) {
+        return
       }
-    })
-  }
 
-  selectAll() {
+      clearCopyTooltipTimeout()
+      setCopyTooltipActive(true)
+      setCopyTooltipText(label)
+
+      _copyTooltipTimeoutRef.current = setTimeout(() => {
+        setCopyTooltipActive(false)
+      }, COPY_TOOLTIP_TIMEOUT)
+    },
+    [context, localProps, clearCopyTooltipTimeout]
+  )
+
+  const selectAll = React.useCallback(() => {
     try {
-      const elem = this._selectionRef.current || this._ref.current
+      const elem = _selectionRef.current || _ref.current
       if (elem) {
         const selection = window.getSelection()
         const range = document.createRange()
@@ -255,9 +224,57 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     } catch (e) {
       warn(e)
     }
-  }
+  }, [])
 
-  runFix(comp, className) {
+  const onBlurHandler = React.useCallback(() => {
+    setSelected(false)
+  }, [])
+
+  const setFocus = React.useCallback(() => {
+    if (isTouchDevice()) {
+      return // stop here
+    }
+    setSelected(true)
+  }, [])
+
+  // Handle focus and selection after selected state changes
+  React.useLayoutEffect(() => {
+    if (selected) {
+      _selectionRef.current?.focus({ preventScroll: true })
+      selectAll()
+
+      if (!isTrue(localProps.copySelection)) {
+        outsideClickRef.current = detectOutsideClick(
+          _ref.current,
+          onBlurHandler
+        )
+      }
+    }
+  }, [selected, localProps.copySelection, selectAll, onBlurHandler])
+
+  const shortcutHandler = React.useCallback(() => {
+    const label =
+      context.getTranslation(localProps)?.NumberFormat.clipboardCopy
+    showCopyTooltip(label)
+  }, [context, localProps, showCopyTooltip])
+
+  const onContextMenuHandler = React.useCallback(() => {
+    if (!hasSelectedText()) {
+      setFocus()
+    }
+  }, [setFocus])
+
+  const onClickHandler = React.useCallback(() => {
+    if (
+      (isTrue(localProps.selectall) ||
+        isTrue(localProps.alwaysSelectall)) &&
+      !hasSelectedText()
+    ) {
+      setFocus()
+    }
+  }, [localProps.selectall, localProps.alwaysSelectall, setFocus])
+
+  const runFix = React.useCallback((comp, className) => {
     if (typeof comp === 'function') {
       comp = comp()
     }
@@ -267,256 +284,252 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       })
     }
     return <span className={className}>{comp}</span>
+  }, [])
+
+  const onMouseEnter = React.useCallback(() => {
+    setHover(true)
+  }, [])
+
+  const onMouseLeave = React.useCallback(() => {
+    setHover(false)
+  }, [])
+
+  const translations = context.getTranslation(localProps).NumberFormat
+
+  // consume the global context
+  const props = extendPropsWithContextInClassComponent(
+    localProps,
+    defaultProps,
+    translations,
+    context.NumberFormat
+  )
+
+  const {
+    id, // eslint-disable-line
+    value: _value,
+    prefix,
+    suffix,
+    children,
+    currency,
+    currencyDisplay,
+    currencyPosition,
+    compact,
+    ban,
+    nin,
+    phone,
+    org,
+    percent,
+    link: _link,
+    monospace,
+    tooltip,
+    skeleton,
+    options,
+    locale,
+    decimals,
+    rounding,
+    clean,
+    selectall,
+    copySelection,
+    cleanCopyValue,
+    srLabel,
+    element,
+    className,
+
+    alwaysSelectall, // eslint-disable-line
+    ..._rest
+  } = props
+  let rest = _rest
+
+  let link = _link
+  let value = _value
+
+  if (value === null && children !== null) {
+    value = children
   }
 
-  onMouseEnter = () => {
-    this.setState({ hover: true })
+  let usedCurrencyPosition = currencyPosition
+  if (currencyDisplay === 'code' && !usedCurrencyPosition) {
+    usedCurrencyPosition = 'before'
+  }
+  const formatOptions = {
+    locale,
+    currency,
+    currencyDisplay,
+    currencyPosition: usedCurrencyPosition,
+    omitCurrencySign: omitCurrencySign,
+    compact,
+    ban,
+    nin,
+    phone,
+    org,
+    percent,
+    decimals,
+    rounding,
+    options,
+    clean: isTrue(clean),
+    cleanCopyValue: isTrue(cleanCopyValue),
+    returnAria: true,
+    invalidAriaText:
+      locale && locale !== context.locale
+        ? null
+        : translations?.notAvailable,
   }
 
-  onMouseLeave = () => {
-    this.setState({ hover: false })
+  // use only the props from context, who are available here anyway
+  const useContext = extendDeep({ locale: null, currency: null }, context)
+
+  if (useContext) {
+    if (useContext.locale && !locale) {
+      formatOptions.locale = useContext.locale
+    }
+
+    // only replace if the prop is "true" and not actually a currency
+    if (useContext.currency && isTrue(currency)) {
+      formatOptions.options = formatOptions.options
+        ? { ...formatOptions.options }
+        : {}
+      formatOptions.options.currency = useContext.currency
+    }
   }
 
-  render() {
-    const translations = this.context.getTranslation(
-      this.props
-    ).NumberFormat
+  const result = format(value, formatOptions)
+  const { cleanedValue, locale: lang } = result
+  let { aria, number: display } = result
+  cleanedValueRef.current = cleanedValue
 
-    // consume the global context
-    const props = extendPropsWithContextInClassComponent(
-      this.props,
-      NumberFormat.defaultProps,
-      translations,
-      this.context.NumberFormat
+  if (prefix) {
+    display = (
+      <>
+        {runFix(prefix, 'dnb-number-format__prefix')} {display}
+      </>
     )
+    aria = String(
+      `${convertJsxToString(
+        runFix(prefix, 'dnb-number-format__prefix')
+      )} ${aria}`
+    )
+  }
+  if (suffix) {
+    display = (
+      <>
+        {display} {runFix(suffix, 'dnb-number-format__suffix')}
+      </>
+    )
+    aria = `${aria} ${convertJsxToString(
+      runFix(suffix, 'dnb-number-format__suffix')
+    )}`
+  }
 
-    const {
-      id, // eslint-disable-line
-      value: _value,
-      prefix,
-      suffix,
-      children,
-      currency,
-      currencyDisplay,
-      currencyPosition,
-      compact,
-      ban,
-      nin,
-      phone,
-      org,
-      percent,
-      link: _link,
-      monospace,
-      tooltip,
-      skeleton,
-      options,
-      locale,
-      decimals,
-      rounding,
-      clean,
-      selectall,
-      copySelection,
-      cleanCopyValue,
-      srLabel,
-      element,
+  if (tooltip) {
+    rest = injectTooltipSemantic(rest)
+  }
+
+  const attributes = {
+    lang,
+    ref: _ref,
+    className: clsx(
+      'dnb-number-format',
       className,
+      (isTrue(currency) || typeof currency === 'string') &&
+        'dnb-number-format--currency',
+      isTrue(selectall) && 'dnb-number-format--selectall',
+      selected && 'dnb-number-format--selected',
+      link && 'dnb-anchor',
+      monospace && 'dnb-number-format--monospace',
+      createSpacingClasses(localProps)
+    ),
 
-      alwaysSelectall, // eslint-disable-line
-      ..._rest
-    } = props
-    let rest = _rest
+    // Makes it possible for NVDA to read on mouse over
+    onMouseEnter: onMouseEnter,
+    onMouseLeave: onMouseLeave,
 
-    let link = _link
-    let value = _value
+    ...rest,
+  }
 
-    if (value === null && children !== null) {
-      value = children
+  const displayParams = {}
+  if (isTrue(selectall) || isTrue(copySelection)) {
+    displayParams.onClick = onClickHandler
+    displayParams.onContextMenu = onContextMenuHandler
+  }
+
+  validateDOMAttributes(localProps, attributes)
+  skeletonDOMAttributes(attributes, skeleton, context)
+
+  if (link) {
+    if (isTrue(link)) {
+      link = 'tel'
     }
-
-    let usedCurrencyPosition = currencyPosition
-    if (currencyDisplay === 'code' && !usedCurrencyPosition) {
-      usedCurrencyPosition = 'before'
-    }
-    const formatOptions = {
-      locale,
-      currency,
-      currencyDisplay,
-      currencyPosition: usedCurrencyPosition,
-      omitCurrencySign: this.state.omitCurrencySign,
-      compact,
-      ban,
-      nin,
-      phone,
-      org,
-      percent,
-      decimals,
-      rounding,
-      options,
-      clean: isTrue(clean),
-      cleanCopyValue: isTrue(cleanCopyValue),
-      returnAria: true,
-      invalidAriaText:
-        locale && locale !== this.context.locale
-          ? null
-          : translations?.notAvailable,
-    }
-
-    // use only the props from context, who are available here anyway
-    const useContext = extendDeep(
-      { locale: null, currency: null },
-      this.context
-    )
-
-    if (useContext) {
-      if (useContext.locale && !locale) {
-        formatOptions.locale = useContext.locale
-      }
-
-      // only replace if the prop is "true" and not actually a currency
-      if (useContext.currency && isTrue(currency)) {
-        formatOptions.options = formatOptions.options
-          ? { ...formatOptions.options }
-          : {}
-        formatOptions.options.currency = useContext.currency
-      }
-    }
-
-    const result = format(value, formatOptions)
-    const { cleanedValue, locale: lang } = result
-    let { aria, number: display } = result
-    this.cleanedValue = cleanedValue
-
-    if (prefix) {
-      display = (
-        <>
-          {this.runFix(prefix, 'dnb-number-format__prefix')} {display}
-        </>
-      )
-      aria = String(
-        `${convertJsxToString(
-          this.runFix(prefix, 'dnb-number-format__prefix')
-        )} ${aria}`
-      )
-    }
-    if (suffix) {
-      display = (
-        <>
-          {display} {this.runFix(suffix, 'dnb-number-format__suffix')}
-        </>
-      )
-      aria = `${aria} ${convertJsxToString(
-        this.runFix(suffix, 'dnb-number-format__suffix')
-      )}`
-    }
-
-    if (tooltip) {
-      rest = injectTooltipSemantic(rest)
-    }
-
-    const attributes = {
-      lang,
-      ref: this._ref,
-      className: clsx(
-        'dnb-number-format',
-        className,
-        (isTrue(currency) || typeof currency === 'string') &&
-          'dnb-number-format--currency',
-        isTrue(selectall) && 'dnb-number-format--selectall',
-        this.state.selected && 'dnb-number-format--selected',
-        link && 'dnb-anchor',
-        monospace && 'dnb-number-format--monospace',
-        createSpacingClasses(this.props)
-      ),
-
-      // Makes it possible for NVDA to read on mouse over
-      onMouseEnter: this.onMouseEnter,
-      onMouseLeave: this.onMouseLeave,
-
-      ...rest,
-    }
-
-    const displayParams = {}
-    if (isTrue(selectall) || isTrue(copySelection)) {
-      displayParams.onClick = this.onClickHandler
-      displayParams.onContextMenu = this.onContextMenuHandler
-    }
-
-    validateDOMAttributes(this.props, attributes)
-    skeletonDOMAttributes(attributes, skeleton, this.context)
-
-    if (link) {
-      if (isTrue(link)) {
-        link = 'tel'
-      }
-      return (
-        <a href={`${link}:${display}`} {...attributes}>
-          {display}
-        </a>
-      )
-    }
-
-    const Element = element
-
     return (
-      <Element {...attributes}>
-        <span
-          className={clsx(
-            'dnb-number-format__visible',
-            createSkeletonClass('font', skeleton, this.context)
-          )}
-          // Makes it possible for NVDA to read on mouse over
-          aria-hidden={!this.state.hover}
-          {...displayParams}
-        >
-          {display}
-        </span>
-
-        {/* Used for VoiceOver and NVDA when navigating with arrow keys */}
-        <span
-          className="dnb-sr-only"
-          // Use "data-text" so Chrome does not copy the HTML as content, when pasting it in Outlook etc.
-          data-text={
-            srLabel ? `${convertJsxToString(srLabel)}${' '}${aria}` : aria
-          }
-        />
-
-        {isTrue(copySelection) && (
-          <span
-            className="dnb-number-format__selection dnb-no-focus"
-            ref={this._selectionRef}
-            tabIndex={-1}
-            onBlur={this.onBlurHandler}
-            onCopy={this.shortcutHandler}
-            aria-hidden
-          >
-            {this.state.selected && cleanedValue}
-          </span>
-        )}
-
-        {tooltip && (
-          <Tooltip
-            id={this._id + '-tooltip'}
-            targetElement={this._ref}
-            tooltip={tooltip}
-          />
-        )}
-
-        {this.state.copyTooltipActive && (
-          <Tooltip
-            active={this.state.copyTooltipActive}
-            targetElement={this._ref}
-            showDelay={0}
-            hideDelay={0}
-            triggerOffset={8}
-          >
-            {this.state.copyTooltipText}
-          </Tooltip>
-        )}
-      </Element>
+      <a href={`${link}:${display}`} {...attributes}>
+        {display}
+      </a>
     )
   }
+
+  const Element = element
+
+  return (
+    <Element {...attributes}>
+      <span
+        className={clsx(
+          'dnb-number-format__visible',
+          createSkeletonClass('font', skeleton, context)
+        )}
+        // Makes it possible for NVDA to read on mouse over
+        aria-hidden={!hover}
+        {...displayParams}
+      >
+        {display}
+      </span>
+
+      {/* Used for VoiceOver and NVDA when navigating with arrow keys */}
+      <span
+        className="dnb-sr-only"
+        // Use "data-text" so Chrome does not copy the HTML as content, when pasting it in Outlook etc.
+        data-text={
+          srLabel ? `${convertJsxToString(srLabel)}${' '}${aria}` : aria
+        }
+      />
+
+      {isTrue(copySelection) && (
+        <span
+          className="dnb-number-format__selection dnb-no-focus"
+          ref={_selectionRef}
+          tabIndex={-1}
+          onBlur={onBlurHandler}
+          onCopy={shortcutHandler}
+          aria-hidden
+        >
+          {selected && cleanedValue}
+        </span>
+      )}
+
+      {tooltip && (
+        <Tooltip
+          id={_id + '-tooltip'}
+          targetElement={_ref}
+          tooltip={tooltip}
+        />
+      )}
+
+      {copyTooltipActive && (
+        <Tooltip
+          active={copyTooltipActive}
+          targetElement={_ref}
+          showDelay={0}
+          hideDelay={0}
+          triggerOffset={8}
+        >
+          {copyTooltipText}
+        </Tooltip>
+      )}
+    </Element>
+  )
 }
 
 let hasiOSFix = false
 
 NumberFormat._supportsSpacingProps = true
+NumberFormat.defaultProps = defaultProps
+
+export default NumberFormat
