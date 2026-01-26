@@ -3670,6 +3670,19 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
+html:not([data-whatintent=touch]) .dnb-date-picker__container table:focus-visible[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-date-picker__container table:focus-visible:not([disabled]) {
+  outline: none;
+  outline-offset: 2px;
+}
+html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-date-picker__container table:focus-visible:not([disabled]) {
+  --border-color: var(--focus-ring-color);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
 .dnb-date-picker__container:not(.dnb-date-picker__container--show-footer) .dnb-date-picker__calendar::after {
   content: none;
 }
