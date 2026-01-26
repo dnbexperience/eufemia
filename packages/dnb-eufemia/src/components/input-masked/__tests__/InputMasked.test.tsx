@@ -2470,6 +2470,57 @@ describe('controlled', () => {
     expect(nativeInput).toHaveValue('1,00')
     expect(inputMasked).toHaveValue('1,00')
   })
+
+  it('should not cause infinite loop when props object reference changes', async () => {
+    const renderSpy = jest.fn()
+
+    const MockComponent = () => {
+      renderSpy()
+      const [value, setValue] = React.useState('')
+
+      return (
+        <InputMasked
+          mask={[
+            /\d/,
+            /\d/,
+            ' ',
+            /\d/,
+            /\d/,
+            ' ',
+            /\d/,
+            /\d/,
+            ' ',
+            /\d/,
+            /\d/,
+          ]}
+          value={value}
+          onChange={({ value }) => setValue(value)}
+          {...({ customProp: 'test' } as any)}
+        />
+      )
+    }
+
+    render(<MockComponent />)
+
+    // Allow React to complete initial renders
+    await waitFor(() => {
+      expect(renderSpy).toHaveBeenCalled()
+    })
+
+    const initialRenderCount = renderSpy.mock.calls.length
+
+    // Type something to trigger onChange
+    const inputElement = document.querySelector('input')
+    await userEvent.type(inputElement, '12345678')
+
+    // Wait a bit to ensure no infinite loop occurs
+    await wait(100)
+
+    // Verify that renders happened for user input but not infinitely
+    expect(renderSpy.mock.calls.length).toBeLessThan(
+      initialRenderCount + 20
+    )
+  })
 })
 
 describe('InputMasked scss', () => {
