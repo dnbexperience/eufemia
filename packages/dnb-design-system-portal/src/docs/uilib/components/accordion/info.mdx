@@ -18,6 +18,10 @@ The Accordion component is a combination of an accessible button (header area) a
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/accordion)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/accordion)
 
+## Accessibility
+
+The Accordion follows the [WAI-ARIA Accordion Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/accordion/). The header uses a semantic button with `aria-expanded` to communicate the expanded/collapsed state. The content panel is associated with its header using `aria-controls` and `aria-labelledby`.
+
 The component is made so you can compose different parts according to your technical needs.
 
 By default the Accordion component will animate the users events, resulting in an ending height of `auto`. This way the content is still responsive after the animation has ended.
