@@ -53,6 +53,56 @@ describe('convertMdxToMd', () => {
     expect(output).not.toContain('PropertiesTable')
   })
 
+  it('includes extra attributes when converting PropertiesTable', async () => {
+    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'mdx-attrs-'))
+    const docsRoot = path.join(tmpRoot, 'docs')
+    fs.mkdirSync(docsRoot, { recursive: true })
+
+    const docsFile = path.join(docsRoot, 'SliderDocs.ts')
+    fs.writeFileSync(
+      docsFile,
+      [
+        'export const SliderFieldProperties = {',
+        "  min: { doc: 'Minimum value', type: 'number' },",
+        '};',
+      ].join('\n')
+    )
+
+    const mdxPath = path.join(docsRoot, 'slider.mdx')
+    fs.writeFileSync(
+      mdxPath,
+      [
+        "import { SliderFieldProperties } from './SliderDocs'",
+        '',
+        '## General props',
+        '',
+        '<PropertiesTable',
+        '  props={SliderFieldProperties}',
+        '  valueType={["number","Array<number>"]}',
+        '  omit={["min"]}',
+        '  showDefaultValue',
+        '/>',
+      ].join('\n')
+    )
+
+    const output = await convertMdxToMd({
+      inputPath: mdxPath,
+      docsRoot,
+      docsBaseRoot: docsRoot,
+      prettierConfig: {},
+      includeFrontmatter: false,
+      state: { mdxCache: new Map(), inProgress: new Set() },
+    })
+
+    expect(output).toContain('"valueType"')
+    expect(output).toContain('Array<number>')
+    expect(output).toContain('"omit"')
+    expect(output).toContain('min')
+    expect(output).toContain('"showDefaultValue"')
+    expect(output).toContain('"min":')
+    expect(output).not.toContain('{valueType}')
+  })
+
   it('replaces TranslationsTable with JSON block using source', async () => {
     const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'mdx-i18n-'))
     const docsRoot = path.join(tmpRoot, 'docs')
