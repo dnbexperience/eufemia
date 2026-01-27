@@ -171,7 +171,13 @@ export const ForTestingPurposes = () => (
               content: getContent(country.i18n.nb, country.iso),
             }
           })
-        }, [countries])
+        }, [])
+
+        // Create a stable cache hash from the data length
+        const cacheHash = useMemo(
+          () => `countries-${memoizedCountries.length}`,
+          [memoizedCountries.length]
+        )
 
         return (
           <>
@@ -179,11 +185,13 @@ export const ForTestingPurposes = () => (
               data={memoizedCountries}
               value={value}
               on_change={({ data }) => setValue(data?.selectedKey)}
+              cache_hash={cacheHash}
             />
             <Dropdown
               data={memoizedCountries}
               value={value}
               on_change={({ data }) => setValue(data?.selectedKey)}
+              cache_hash={cacheHash}
             />
           </>
         )
