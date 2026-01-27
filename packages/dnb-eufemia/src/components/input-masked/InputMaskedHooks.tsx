@@ -130,7 +130,21 @@ export const useLocalValue = () => {
     setLocalValue(value)
 
     // Do not set "localValue" and "maskParams" here
-  }, [props, context, locale]) // eslint-disable-line
+    // Only depend on the actual prop values that affect the calculation,
+    // not the entire props object to avoid infinite loops.
+    // Include mask-related props to ensure the component reacts to mask changes.
+  }, [
+    props.value,
+    props.number_format,
+    props.number_mask,
+    props.currency_mask,
+    props.mask_options,
+    props.as_number,
+    props.as_percent,
+    props.as_currency,
+    context,
+    locale,
+  ]) // eslint-disable-line
 
   return { localValue, setLocalValue }
 }
