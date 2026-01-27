@@ -5,6 +5,7 @@
 
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
+  Autocomplete,
   Button,
   CountryFlag,
   Dropdown,
@@ -23,6 +24,8 @@ import {
 
 // Import the flag icons styles
 import '@dnb/eufemia/src/components/country-flag/style/dnb-country-flag-icons.scss'
+import countries from '@dnb/eufemia/src/extensions/forms/constants/countries'
+import { useMemo, useState } from 'react'
 
 export const AllSizes = () => (
   <ComponentBox data-visual-test="country-flag-sizes">
@@ -154,3 +157,47 @@ export const InComponents = () => (
     </Flex.Vertical>
   </ComponentBox>
 )
+
+export const ForTestingPurposes = () => (
+  <ComponentBox scope={{ useValueProps }}>
+    {() => {
+      const MyComponent = () => {
+        const [value, setValue] = useState()
+        const memoizedCountries = useMemo(() => {
+          return countries.map((country) => {
+            return {
+              selectedKey: country.iso,
+              selected_value: country.i18n.nb,
+              content: getContent(country.i18n.nb, country.iso),
+            }
+          })
+        }, [countries])
+
+        return (
+          <>
+            <Autocomplete
+              data={memoizedCountries}
+              value={value}
+              on_change={({ data }) => setValue(data?.selectedKey)}
+            />
+            <Dropdown
+              data={memoizedCountries}
+              value={value}
+              on_change={({ data }) => setValue(data?.selectedKey)}
+            />
+          </>
+        )
+      }
+
+      return <MyComponent />
+    }}
+  </ComponentBox>
+)
+function getContent(countryName: string, countryCode: string) {
+  return (
+    <Flex.Horizontal align="center">
+      <CountryFlag iso={countryCode} size="medium" right="small" />
+      {countryName}
+    </Flex.Horizontal>
+  )
+}
