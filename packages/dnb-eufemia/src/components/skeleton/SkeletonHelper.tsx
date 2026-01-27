@@ -65,49 +65,34 @@ export type AutoSizeProps = {
   style?: React.CSSProperties
 }
 
-export class AutoSize extends React.Component<AutoSizeProps, any> {
-  static defaultProps = {
-    __element: null,
-    children: null,
-    className: null,
-    style: null,
-  }
+export const AutoSize: React.FC<AutoSizeProps> = ({
+  __element: Comp = null,
+  children = null,
+  className = null,
+  style = null,
+  ...props
+}) => {
+  const string = convertJsxToString(children)
 
-  render() {
-    const {
-      className,
-      children,
-      __element: Comp,
-      style,
-      ...props
-    } = this.props
+  if (typeof string === 'string') {
+    const countChars = string.trim().length
 
-    const string = convertJsxToString(children)
-
-    if (typeof string === 'string') {
-      const countChars = string.trim().length
-
-      if (countChars > 0) {
-        return React.createElement(
-          Comp,
-          {
-            className: clsx(
-              className,
-              'dnb-skeleton',
-              'dnb-skeleton--font'
-            ),
-            'data-skeleton-chars': String(countChars),
-            style: {
-              ...(style || {}),
-              '--skeleton-chars': `${countChars}ch`,
-            },
-            ...props,
+    if (countChars > 0) {
+      return React.createElement(
+        Comp,
+        {
+          className: clsx(className, 'dnb-skeleton', 'dnb-skeleton--font'),
+          'data-skeleton-chars': String(countChars),
+          style: {
+            ...(style || {}),
+            '--skeleton-chars': `${countChars}ch`,
           },
-          children
-        )
-      }
+          ...props,
+        },
+        children
+      )
     }
-
-    return <Comp {...props} className={className} style={style} />
   }
+
+  return <Comp {...props} className={className} style={style} />
 }
