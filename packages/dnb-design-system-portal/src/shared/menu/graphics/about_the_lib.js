@@ -3,8 +3,6 @@
  *
  */
 
-import React from 'react'
-
 export default function about_the_lib(props = {}) {
   return (
     <svg
