@@ -15,7 +15,7 @@ export type useTableAnimationHandlerProps = {
   trRef: React.MutableRefObject<HTMLTableRowElement>
 }
 
-export function useTableAnimationHandler({
+function useTableAnimationHandler({
   innerRef,
   trRef,
   expanded,
