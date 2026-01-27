@@ -103,10 +103,10 @@ export default class TextMask extends React.PureComponent<TextMaskProps> {
         : (isNil(pipe) && !isNil(prevProps.pipe)) ||
           (!isNil(pipe) && isNil(prevProps.pipe))
     const isMaskChanged = mask.toString() !== prevProps.mask.toString()
+    // Cache Object.keys() result for performance
+    const settingsKeys = Object.keys(settings)
     const isSettingChanged =
-      Object.keys(settings).some(
-        (prop) => settings[prop] !== prevProps[prop]
-      ) ||
+      settingsKeys.some((prop) => settings[prop] !== prevProps[prop]) ||
       isMaskChanged ||
       isPipeChanged
 

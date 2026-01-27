@@ -76,7 +76,9 @@ function StepIndicatorTriggerButton({
     id + '-overview'
   )
 
-  Object.keys(triggerParams).forEach((key) => {
+  // Cache Object.keys() result for performance
+  const triggerParamKeys = Object.keys(triggerParams)
+  triggerParamKeys.forEach((key) => {
     if (filterAttributes.includes(key)) {
       delete triggerParams[key]
     }

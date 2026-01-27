@@ -44,7 +44,9 @@ export default function useTranslation<
 
   const { extMessages, fallbackLocale, baseOverride, warnLabel } =
     useMemo(() => {
-      const defaultLocale = Object.keys(defaultLocales)[0]
+      // Cache Object.keys() result for performance
+      const defaultLocaleKeys = Object.keys(defaultLocales)
+      const defaultLocale = defaultLocaleKeys[0]
 
       const arg: Partial<UseTranslationArgs<T>> =
         isObject(messages) &&
@@ -73,6 +75,7 @@ export default function useTranslation<
     let translationLocale = locale
 
     // If e.g. en-US translations don't exist, fallback to en-GB
+    // Cache Object.keys() result for performance
     if (
       locale.startsWith('en-') &&
       !Object.keys(defaultLocales).some((l) => l === locale)
@@ -122,6 +125,7 @@ export default function useTranslation<
       return base
     }
 
+    // Cache Object.keys() result for performance
     const currentHasContent =
       isObject(currentMessages) && Object.keys(currentMessages).length > 0
 
