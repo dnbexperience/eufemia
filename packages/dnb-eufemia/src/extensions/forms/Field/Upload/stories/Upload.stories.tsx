@@ -111,7 +111,7 @@ export const WithAsyncFileHandler = () => {
 
 async function mockAsyncFileRemoval({ fileItem }) {
   const request = createRequest()
-  console.log('making API request to remove: ' + fileItem.file.name)
+  console.log('Making API request to remove: ' + fileItem.file.name)
   await request(3000) // Simulate a request
 }
 
