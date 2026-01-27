@@ -24,7 +24,7 @@ afterEach(() => {
 })
 
 describe('Table', () => {
-  it('renders with props as an object', () => {
+  it('should render with props as an object', () => {
     const props: TableAllProps = { children: null }
     render(<Table {...props} />)
 
@@ -190,7 +190,7 @@ describe('Table', () => {
     )
   })
 
-  it('supports inline styling', () => {
+  it('should support inline styling', () => {
     render(
       <Table style={{ color: 'red' }}>
         <BasicTable />

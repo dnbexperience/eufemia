@@ -16,7 +16,7 @@ const definition =
 const translations = defaultLocales['nb-NO'].TermDefinition
 
 describe('TermDefinition', () => {
-  it('renders trigger with closed state by default', () => {
+  it('should render trigger with closed state by default', () => {
     render(<TermDefinition content={definition}>{term}</TermDefinition>)
     const trigger = document.querySelector('.dnb-term-definition__trigger')
 
@@ -92,7 +92,7 @@ describe('TermDefinition', () => {
     expect(closeButton).toBeInTheDocument()
   })
 
-  it('renders content inside the term-definition portal root', async () => {
+  it('should render content inside the term-definition portal root', async () => {
     render(<TermDefinition content={definition}>{term}</TermDefinition>)
     const trigger = document.querySelector('.dnb-term-definition__trigger')
 
@@ -108,7 +108,7 @@ describe('TermDefinition', () => {
     })
   })
 
-  it('keeps content unfocusable via class and tabIndex', async () => {
+  it('should keep content unfocusable via class and tabIndex', async () => {
     render(<TermDefinition content={definition}>{term}</TermDefinition>)
     const trigger = document.querySelector('.dnb-term-definition__trigger')
 
@@ -120,7 +120,7 @@ describe('TermDefinition', () => {
     })
   })
 
-  it('applies spacing utility classes when spacing props are used', () => {
+  it('should apply spacing utility classes when spacing props are used', () => {
     render(
       <TermDefinition content={definition} top="large">
         {term}
@@ -152,7 +152,7 @@ describe('TermDefinition', () => {
     expect(activeTooltip).toBeNull()
   })
 
-  it('renders close button after  content', async () => {
+  it('should render close button after  content', async () => {
     render(<TermDefinition content={definition}>{term}</TermDefinition>)
     const trigger = document.querySelector('.dnb-term-definition__trigger')
 
@@ -253,7 +253,7 @@ describe('TermDefinition', () => {
     })
   })
 
-  it('supports keyboard activation and close button interaction', async () => {
+  it('should support keyboard activation and close button interaction', async () => {
     render(<TermDefinition content={definition}>{term}</TermDefinition>)
     const trigger = document.querySelector('.dnb-term-definition__trigger')
 
@@ -274,7 +274,7 @@ describe('TermDefinition', () => {
     })
   })
 
-  it('calls focus with preventScroll when closing', async () => {
+  it('should call focus with preventScroll when closing', async () => {
     render(<TermDefinition content={definition}>{term}</TermDefinition>)
     const trigger = document.querySelector(
       '.dnb-term-definition__trigger'

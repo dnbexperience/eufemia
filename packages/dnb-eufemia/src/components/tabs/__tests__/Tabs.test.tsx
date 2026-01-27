@@ -48,7 +48,7 @@ describe('Tabs component', () => {
     )
   })
 
-  it('has working "on_change" and "on_click" event handler', () => {
+  it('should have working "on_change" and "on_click" event handler', () => {
     let preventChange = false
     const on_change = jest.fn((e) => {
       if (preventChange) {
@@ -89,7 +89,7 @@ describe('Tabs component', () => {
     expect(on_click).toHaveBeenCalledTimes(3)
   })
 
-  it('has working "on_focus" event handler', () => {
+  it('should have working "on_focus" event handler', () => {
     const on_focus = jest.fn()
 
     render(
@@ -109,7 +109,7 @@ describe('Tabs component', () => {
     expect(on_focus).toHaveBeenCalledTimes(2)
   })
 
-  it('will use given tab_element', () => {
+  it('should use given tab_element', () => {
     const Link = ({ href, children }) => {
       return <a href={href}>{children}</a>
     }
@@ -294,7 +294,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
 })
 
 describe('TabList component', () => {
-  it('has to have the right amount of rendered components', () => {
+  it('should have the right amount of rendered components', () => {
     render(
       <Tabs
         {...props}
@@ -313,7 +313,7 @@ describe('TabList component', () => {
     )
   })
 
-  it('has to have the right content on a "click event"', () => {
+  it('should have the right content on a "click event"', () => {
     render(
       <Tabs
         {...props}
@@ -337,7 +337,7 @@ describe('TabList component', () => {
 })
 
 describe('A single Tab component', () => {
-  it('has to have a role="tab" attribute and a selected class', () => {
+  it('should have a role="tab" attribute and a selected class', () => {
     render(
       <Tabs
         {...props}
@@ -358,7 +358,7 @@ describe('A single Tab component', () => {
     ).toContain('selected')
   })
 
-  it('has to have the right content on a keydown "ArrowRight"', () => {
+  it('should have the right content on a keydown "ArrowRight"', () => {
     render(
       <Tabs
         {...props}
@@ -385,7 +385,7 @@ describe('A single Tab component', () => {
     expect(content.innerHTML).toBe(container.innerHTML)
   })
 
-  it('has to work with "data only" property containing a "content"', () => {
+  it('should work with "data only" property containing a "content"', () => {
     render(<Tabs {...props} data={tablistDataWithContent} />)
     expect(
       document
@@ -404,7 +404,7 @@ describe('A single Tab component', () => {
     ).toBe('Second')
   })
 
-  it('has to run "prevent_rerender" as supposed', () => {
+  it('should run "prevent_rerender" as supposed', () => {
     render(
       <Tabs
         {...props}
@@ -463,7 +463,7 @@ describe('A single Tab component', () => {
     ).toBe('true')
   })
 
-  it('has to run "prerender" as supposed', () => {
+  it('should run "prerender" as supposed', () => {
     render(
       <Tabs
         {...props}
@@ -500,7 +500,7 @@ describe('A single Tab component', () => {
     ).toBe('Content two')
   })
 
-  it('has to work with "Tabs.Content" as children components', () => {
+  it('should work with "Tabs.Content" as children components', () => {
     render(
       <Tabs {...props} data={tablistData}>
         <Tabs.Content title="first title">first</Tabs.Content>
@@ -529,7 +529,7 @@ describe('A single Tab component', () => {
     ).toBe('second title')
   })
 
-  it('has to work with "Tabs.Content" from outside', () => {
+  it('should work with "Tabs.Content" from outside', () => {
     let testKey = null
     let testTitle = null
     const LinkedContent = (props: { selected_key?: string }) => {
@@ -577,7 +577,7 @@ describe('A single Tab component', () => {
     expect(testKey).toBe('third')
   })
 
-  it('has to work with "Tabs.Content" as a single children', () => {
+  it('should work with "Tabs.Content" as a single children', () => {
     render(
       <Tabs {...props}>
         <Tabs.Content title="single title">
@@ -595,7 +595,7 @@ describe('A single Tab component', () => {
     ).toBe('single title')
   })
 
-  it('has to work when conditional rendering "Tabs.Content" as children components', () => {
+  it('should work when conditional rendering "Tabs.Content" as children components', () => {
     const whenUndefined = undefined
     const whenNull = null
     const showFirst = false
@@ -640,7 +640,7 @@ describe('A single Tab component', () => {
     ).toBe('Fifth')
   })
 
-  it('has to work with a single element for data property', () => {
+  it('should work with a single element for data property', () => {
     render(
       <Tabs
         {...props}
@@ -720,12 +720,12 @@ describe('A single Tab component', () => {
 })
 
 describe('Tabs scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
 
-  it('have to match default theme snapshot', () => {
+  it('should match default theme snapshot', () => {
     const css = loadScss(
       require.resolve('../style/themes/dnb-tabs-theme-ui.scss')
     )

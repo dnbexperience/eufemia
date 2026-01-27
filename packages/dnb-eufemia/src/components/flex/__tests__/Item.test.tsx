@@ -86,7 +86,7 @@ describe('Flex.Item', () => {
     expect(element.tagName).toBe('DIV')
   })
 
-  it('gets valid ref element', () => {
+  it('should get valid ref element', () => {
     let ref: React.RefObject<HTMLInputElement>
 
     function MockComponent() {

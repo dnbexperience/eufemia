@@ -21,7 +21,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     url: '/uilib/components/input/demos',
   })
 
-  it('have to match input with placeholder', async () => {
+  it('should match input with placeholder', async () => {
     const screenshot = await makeScreenshot({
       ...extend('input-placeholder'),
       selector: '[data-visual-test="input-placeholder"]',
@@ -29,7 +29,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match input with icon', async () => {
+  it('should match input with icon', async () => {
     const screenshot = await makeScreenshot({
       ...extend('input-icon'),
       selector: '[data-visual-test="input-icon"]',
@@ -37,7 +37,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match disabled input', async () => {
+  it('should match disabled input', async () => {
     const screenshot = await makeScreenshot({
       ...extend('input-disabled'),
       selector: '[data-visual-test="input-disabled"]',
@@ -45,7 +45,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match search type', async () => {
+  it('should match search type', async () => {
     const screenshot = await makeScreenshot({
       ...extend('input-search'),
       selector: '[data-visual-test="input-search"]',
@@ -53,7 +53,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match search type with hover state', async () => {
+  it('should match search type with hover state', async () => {
     const screenshot = await makeScreenshot({
       ...extend('input-search'),
       selector: '[data-visual-test="input-search"]',
@@ -62,7 +62,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match search type with button hover state', async () => {
+  it('should match search type with button hover state', async () => {
     const screenshot = await makeScreenshot({
       ...extend('input-search'),
       selector: '[data-visual-test="input-search"]',
@@ -72,7 +72,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match search type with button active state', async () => {
+  it('should match search type with button active state', async () => {
     const screenshot = await makeScreenshot({
       ...extend('input-search'),
       selector: '[data-visual-test="input-search"]',
@@ -82,7 +82,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match search type with mouse focus state', async () => {
+  it('should match search type with mouse focus state', async () => {
     const screenshot = await makeScreenshot({
       ...extend('input-search'),
       selector: '[data-visual-test="input-search"]',
@@ -92,7 +92,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match search type with focus state', async () => {
+  it('should match search type with focus state', async () => {
     const screenshot = await makeScreenshot({
       ...extend('input-search'),
       selector: '[data-visual-test="input-search"]',
@@ -102,7 +102,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match search type with button focus state', async () => {
+  it('should match search type with button focus state', async () => {
     const screenshot = await makeScreenshot({
       ...extend('input-search'),
       selector: '[data-visual-test="input-search"]',
@@ -113,7 +113,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match stretched and medium size', async () => {
+  it('should match stretched and medium size', async () => {
     const screenshot = await makeScreenshot({
       ...{ ...extend('input-medium'), style: { width: '300px' } },
       selector: '[data-visual-test="input-medium"]',
@@ -121,7 +121,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match stretched input with status', async () => {
+  it('should match stretched input with status', async () => {
     const screenshot = await makeScreenshot({
       ...{ ...extend('input-stretch'), style: { width: '300px' } },
       selector: '[data-visual-test="input-stretch"]',
@@ -129,7 +129,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match error state', async () => {
+  it('should match error state', async () => {
     const screenshot = await makeScreenshot({
       ...extend('input-error'),
       selector: '[data-visual-test="input-error"]',
@@ -137,7 +137,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match error hover state', async () => {
+  it('should match error hover state', async () => {
     const screenshot = await makeScreenshot({
       ...extend('input-error'),
       selector: '[data-visual-test="input-error"]',
@@ -146,7 +146,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match error mouse focus state', async () => {
+  it('should match error mouse focus state', async () => {
     const screenshot = await makeScreenshot({
       ...extend('input-error'),
       selector: '[data-visual-test="input-error"]',
@@ -156,7 +156,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match error focus state', async () => {
+  it('should match error focus state', async () => {
     const screenshot = await makeScreenshot({
       ...extend('input-error'),
       selector: '[data-visual-test="input-error"]',
@@ -166,7 +166,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match error with button', async () => {
+  it('should match error with button', async () => {
     const screenshot = await makeScreenshot({
       ...extend('input-error-button'),
       selector: '[data-visual-test="input-error-button"]',
@@ -174,7 +174,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match error with button hover', async () => {
+  it('should match error with button hover', async () => {
     const screenshot = await makeScreenshot({
       ...extend('input-error-button'),
       selector: '[data-visual-test="input-error-button"]',
@@ -184,7 +184,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match error with button active', async () => {
+  it('should match error with button active', async () => {
     const screenshot = await makeScreenshot({
       ...extend('input-error-button'),
       selector: '[data-visual-test="input-error-button"]',
@@ -194,7 +194,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match error with button focus', async () => {
+  it('should match error with button focus', async () => {
     const screenshot = await makeScreenshot({
       ...extend('input-error-button'),
       selector: '[data-visual-test="input-error-button"]',
@@ -204,14 +204,14 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match input with clear button', async () => {
+  it('should match input with clear button', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="input-clear"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match input with clear button in hover state', async () => {
+  it('should match input with clear button in hover state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="input-clear"]',
       simulateSelector:
@@ -221,7 +221,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match text align with icon', async () => {
+  it('should match text align with icon', async () => {
     const screenshot = await makeScreenshot({
       ...extend('input-align'),
       selector: '[data-visual-test="input-align"]',

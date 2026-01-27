@@ -11,7 +11,7 @@ import Provider from '../../../shared/Provider'
 import Theme from '../../../shared/Theme'
 
 describe('Logo component', () => {
-  it('renders with empty props', () => {
+  it('should render with empty props', () => {
     const props: LogoProps = {}
     render(<Logo {...props} />)
     expect(document.querySelector('.dnb-logo')).toBeInTheDocument()

@@ -8,7 +8,7 @@ import '../core/jest/jestSetup'
 import { Button } from '../index'
 
 describe('Library', () => {
-  it('has to have a Button Component', () => {
+  it('should have a Button Component', () => {
     expect(Button).toBeType('function')
   })
 })

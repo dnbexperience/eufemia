@@ -10,14 +10,14 @@ import {
 } from '../../components'
 
 describe('Theme', () => {
-  it('renders with props as an object', () => {
+  it('should render with props as an object', () => {
     const props: ThemeAllProps = {}
 
     render(<Theme {...props} />)
     expect(document.querySelector('.eufemia-theme')).toBeInTheDocument()
   })
 
-  it('sets name and variant as HTML classes', () => {
+  it('should set name and variant as HTML classes', () => {
     render(
       <Theme name="eiendom" variant="soft">
         content
@@ -32,7 +32,7 @@ describe('Theme', () => {
     ])
   })
 
-  it('supports nested themes', () => {
+  it('should support nested themes', () => {
     render(
       <Theme id="theme-1" name="eiendom">
         <Theme id="theme-2" variant="soft">
@@ -54,7 +54,7 @@ describe('Theme', () => {
     ])
   })
 
-  it('sets size as HTML classes', () => {
+  it('should set size as HTML classes', () => {
     render(<Theme size="basis">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
@@ -64,7 +64,7 @@ describe('Theme', () => {
     ])
   })
 
-  it('sets prop-mapping as HTML classes', () => {
+  it('should set prop-mapping as HTML classes', () => {
     render(<Theme propMapping="basis">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
@@ -74,7 +74,7 @@ describe('Theme', () => {
     ])
   })
 
-  it('sets contrast-mode as HTML classes', () => {
+  it('should set contrast-mode as HTML classes', () => {
     render(<Theme contrastMode>content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
@@ -84,7 +84,7 @@ describe('Theme', () => {
     ])
   })
 
-  it('sets dark-mode as HTML classes', () => {
+  it('should set dark-mode as HTML classes', () => {
     render(<Theme darkMode>content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
@@ -94,7 +94,7 @@ describe('Theme', () => {
     ])
   })
 
-  it('sets additional attributes', () => {
+  it('should set additional attributes', () => {
     render(
       <Theme aria-label="custom label" element="section">
         content
@@ -108,14 +108,14 @@ describe('Theme', () => {
     expect(attributes).toEqual(['class', 'aria-label'])
   })
 
-  it('uses custom element when set', () => {
+  it('should use custom element when set', () => {
     render(<Theme element="span">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
     expect(element.tagName).toBe('SPAN')
   })
 
-  it('uses custom component when set', () => {
+  it('should use custom component when set', () => {
     const Component = React.forwardRef(
       (
         { children, ...rest }: { children: React.ReactNode },
@@ -132,7 +132,7 @@ describe('Theme', () => {
     expect(element.tagName).toBe('SECTION')
   })
 
-  it('will omit element on false or fragment', () => {
+  it('should omit element on false or fragment', () => {
     const { rerender } = render(<Theme element={false}>content</Theme>)
 
     expect(

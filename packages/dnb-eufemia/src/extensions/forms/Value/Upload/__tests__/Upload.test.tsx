@@ -31,7 +31,7 @@ describe('Value.Upload', () => {
     return element?.textContent?.trim() ?? ''
   }
 
-  it('renders file values', () => {
+  it('should render file values', () => {
     render(<Value.Upload value={files} />)
 
     const valueElement = document.querySelector(
@@ -40,7 +40,7 @@ describe('Value.Upload', () => {
     expect(getValueText(valueElement)).toBe('foo.png, bar.png og baz.png')
   })
 
-  it('does not render empty array of file values', () => {
+  it('should not render empty array of file values', () => {
     render(<Value.Upload value={[]} />)
 
     expect(
@@ -48,7 +48,7 @@ describe('Value.Upload', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('renders when value is empty but showEmpty is true', () => {
+  it('should render when value is empty but showEmpty is true', () => {
     render(<Value.Upload value={[]} showEmpty />)
 
     expect(
@@ -59,7 +59,7 @@ describe('Value.Upload', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('renders array of falsy values', () => {
+  it('should render array of falsy values', () => {
     render(<Value.Upload value={[null, undefined]} />)
 
     expect(
@@ -130,7 +130,7 @@ describe('Value.Upload', () => {
     ).toHaveTextContent('fileName.png')
   })
 
-  it('renders custom format', () => {
+  it('should render custom format', () => {
     render(
       <Value.Upload
         value={files}
@@ -208,14 +208,14 @@ describe('Value.Upload', () => {
     expect(list('ul')).toHaveAttribute('type', 'square')
   })
 
-  it('renders label when showEmpty is true', () => {
+  it('should render label when showEmpty is true', () => {
     render(<Value.Upload showEmpty label="My label" />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
       'My label'
     )
   })
 
-  it('renders value and label', () => {
+  it('should render value and label', () => {
     render(<Value.Upload label="My selections" value={files} />)
     const valueElementWithLabel = document.querySelector(
       '.dnb-forms-value-upload .dnb-forms-value-block__content'
@@ -229,19 +229,19 @@ describe('Value.Upload', () => {
     )
   })
 
-  it('renders custom label', () => {
+  it('should render custom label', () => {
     render(<Value.Upload label="Custom label" showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
       'Custom label'
     )
   })
 
-  it('renders placeholder', () => {
+  it('should render placeholder', () => {
     render(<Value.Upload placeholder="Please select a value" />)
     expect(screen.getByText('Please select a value')).toBeInTheDocument()
   })
 
-  it('renders value from path', () => {
+  it('should render value from path', () => {
     render(
       <Form.Handler data={{ myPath: files }}>
         <Value.Upload path="/myPath" />
@@ -270,7 +270,7 @@ describe('Value.Upload', () => {
   })
 
   describe('Icons', () => {
-    it('renders the pdf icon', () => {
+    it('should render the pdf icon', () => {
       render(
         <Value.Upload
           value={[
@@ -288,7 +288,7 @@ describe('Value.Upload', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders the xls icon', () => {
+    it('should render the xls icon', () => {
       render(
         <Value.Upload
           value={[
@@ -306,7 +306,7 @@ describe('Value.Upload', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders the ppt icon', () => {
+    it('should render the ppt icon', () => {
       render(
         <Value.Upload
           value={[
@@ -324,7 +324,7 @@ describe('Value.Upload', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders the csv icon', () => {
+    it('should render the csv icon', () => {
       render(
         <Value.Upload
           value={[
@@ -342,7 +342,7 @@ describe('Value.Upload', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders the txt icon', () => {
+    it('should render the txt icon', () => {
       render(
         <Value.Upload
           value={[
@@ -360,7 +360,7 @@ describe('Value.Upload', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders the xml icon', () => {
+    it('should render the xml icon', () => {
       render(
         <Value.Upload
           value={[
@@ -378,7 +378,7 @@ describe('Value.Upload', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders the file icon as default', () => {
+    it('should render the file icon as default', () => {
       render(
         <Value.Upload
           value={[
@@ -399,7 +399,7 @@ describe('Value.Upload', () => {
     })
   })
 
-  it('renders a span when file size is 0', () => {
+  it('should render a span when file size is 0', () => {
     const fileName = 'file.png'
 
     render(
@@ -418,7 +418,7 @@ describe('Value.Upload', () => {
   })
 
   describe('File Anchor', () => {
-    it('renders the anchor', () => {
+    it('should render the anchor', () => {
       const fileName = 'file.png'
 
       render(
@@ -506,7 +506,7 @@ describe('Value.Upload', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders the anchor href', () => {
+    it('should render the anchor href', () => {
       const fileName = 'file.png'
       const mockUrl = 'mock-url'
 
@@ -532,7 +532,7 @@ describe('Value.Upload', () => {
       global.URL.createObjectURL = originalCreateObjectURL
     })
 
-    it('renders the download attribute', () => {
+    it('should render the download attribute', () => {
       render(
         <Value.Upload
           download
@@ -551,7 +551,7 @@ describe('Value.Upload', () => {
       expect(element).toHaveAttribute('download', 'file.png')
     })
 
-    it('renders the file size', () => {
+    it('should render the file size', () => {
       const fileName = 'file.png'
 
       render(

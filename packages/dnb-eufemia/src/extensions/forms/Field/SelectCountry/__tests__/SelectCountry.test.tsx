@@ -381,7 +381,7 @@ describe('Field.SelectCountry', () => {
     expect(selectedItemElement().textContent).toBe('Danmark')
   })
 
-  it('renders error', () => {
+  it('should render error', () => {
     const errorMessage = new Error('Error message')
     render(<Field.SelectCountry error={errorMessage} />)
 
@@ -392,7 +392,7 @@ describe('Field.SelectCountry', () => {
     expect(input).toHaveClass('dnb-input__status--error')
   })
 
-  it('shows error style in FieldBlock', () => {
+  it('should show error style in FieldBlock', () => {
     const errorMessage = new Error('Error message')
     render(
       <FieldBlock>

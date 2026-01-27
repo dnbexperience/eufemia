@@ -14,7 +14,7 @@ const props: RadioProps = {
 }
 
 describe('Radio component', () => {
-  it('has correct state after "change" trigger', () => {
+  it('should have correct state after "change" trigger', () => {
     const { rerender } = render(<Radio {...props} />)
     // default checked value has to be false
     expect(document.querySelector('input').checked).toBe(false)
@@ -34,7 +34,7 @@ describe('Radio component', () => {
     expect(document.querySelector('input').value).toBe(value)
   })
 
-  it('has "on_change" event which will trigger on a input change', () => {
+  it('should have "on_change" event which will trigger on a input change', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
     render(
@@ -53,7 +53,7 @@ describe('Radio component', () => {
     expect(my_event.mock.calls[0][0].checked).toBe(true)
   })
 
-  it('does handle controlled vs uncontrolled state properly', () => {
+  it('should handle controlled vs uncontrolled state properly', () => {
     const ControlledVsUncontrolled = () => {
       const [checked, setChecked] = React.useState(true)
       const [random, setRandom] = React.useState(null)
@@ -112,7 +112,7 @@ describe('Radio component', () => {
     )
   })
 
-  it('will disable a single button', () => {
+  it('should disable a single button', () => {
     const { rerender } = render(<Radio disabled />)
 
     expect(document.querySelector('input[disabled]')).toBeInTheDocument()
@@ -191,7 +191,7 @@ describe('Radio ARIA', () => {
     ).toHaveNoViolations()
   })
 
-  it('gets valid ref element', () => {
+  it('should get valid ref element', () => {
     let ref: React.RefObject<HTMLInputElement>
 
     function MockComponent() {
@@ -204,7 +204,7 @@ describe('Radio ARIA', () => {
     expect(ref.current.classList).toContain('dnb-radio__input')
   })
 
-  it('gets valid element when ref is function', () => {
+  it('should get valid element when ref is function', () => {
     const ref: React.MutableRefObject<HTMLInputElement> = React.createRef()
 
     const refFn = (elem: HTMLInputElement) => {
@@ -219,12 +219,12 @@ describe('Radio ARIA', () => {
 })
 
 describe('Radio scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
 
-  it('have to match default theme snapshot', () => {
+  it('should match default theme snapshot', () => {
     const css = loadScss(
       require.resolve('../style/themes/dnb-radio-theme-ui.scss')
     )

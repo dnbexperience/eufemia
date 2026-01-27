@@ -9,7 +9,7 @@ const renderNode = (node: React.ReactNode) =>
   render(<output>{node}</output>)
 
 describe('renderWithFormatting', () => {
-  it('renders plain text without changes', () => {
+  it('should render plain text without changes', () => {
     const { container } = renderNode(renderWithFormatting('Hello world'))
     expect(container.textContent).toBe('Hello world')
   })
@@ -23,7 +23,7 @@ describe('renderWithFormatting', () => {
     expect(container.textContent).toBe('Line ALine BLine C')
   })
 
-  it('supports custom br', () => {
+  it('should support custom br', () => {
     const { container } = renderNode(
       renderWithFormatting('A~B~C', { br: '~' })
     )
@@ -43,7 +43,7 @@ describe('renderWithFormatting', () => {
     expect(em.tagName.toLowerCase()).toBe('em')
   })
 
-  it('handles combined formatting and line breaks', () => {
+  it('should handle combined formatting and line breaks', () => {
     const { container } = renderNode(
       renderWithFormatting('**Bold** then _italic_{br}next line')
     )
@@ -53,7 +53,7 @@ describe('renderWithFormatting', () => {
     expect(container.textContent).toBe('Bold then italicnext line')
   })
 
-  it('supports custom wrappers for strong and em', () => {
+  it('should support custom wrappers for strong and em', () => {
     const { container } = renderNode(
       renderWithFormatting('**B** and _I_', {
         strong: (c) => <b data-testid="custom-strong">{c}</b>,
@@ -83,7 +83,7 @@ describe('renderWithFormatting', () => {
     expect(a.getAttribute('href')).toBe('https://www.dnb.no')
   })
 
-  it('supports formatting inside link labels', () => {
+  it('should support formatting inside link labels', () => {
     const text = 'Click [**here**](https://example.com)'
     renderNode(renderWithFormatting(text))
     const a = document.querySelector('a') as HTMLAnchorElement
@@ -92,7 +92,7 @@ describe('renderWithFormatting', () => {
     expect(a.getAttribute('href')).toBe('https://example.com')
   })
 
-  it('supports URLs https:// without label', () => {
+  it('should support URLs https:// without label', () => {
     const text = 'Go to https://example.com now'
     renderNode(renderWithFormatting(text))
     const a = document.querySelector('a') as HTMLAnchorElement
@@ -107,7 +107,7 @@ describe('renderWithFormatting', () => {
     expect((node as React.ReactElement).key).toBe('renderWithFormatting')
   })
 
-  it('does not produce React key warnings for generated fragments', () => {
+  it('should not produce React key warnings for generated fragments', () => {
     const spy = jest.spyOn(console, 'error').mockImplementation()
 
     const text = [
@@ -138,7 +138,7 @@ describe('renderWithFormatting', () => {
     expect(document.querySelector('code').textContent).toBe('const x = 1')
   })
 
-  it('does not format tokens inside inline code', () => {
+  it('should not format tokens inside inline code', () => {
     const text = 'This is `**not bold** and _not italic_` example'
     renderNode(renderWithFormatting(text))
     expect(document.querySelector('code')).toBeTruthy()
@@ -149,7 +149,7 @@ describe('renderWithFormatting', () => {
     expect(document.querySelector('em')).toBeNull()
   })
 
-  it('can be used in Eufemia Forms Field labels', () => {
+  it('should be able to be used in Eufemia Forms Field labels', () => {
     render(
       <Field.String
         label={renderWithFormatting(
@@ -166,7 +166,7 @@ describe('renderWithFormatting', () => {
     )
   })
 
-  it('does not format when markers are not closed', () => {
+  it('should not format when markers are not closed', () => {
     const cases = [
       'Start **bold only',
       'Some _italic only',

@@ -754,7 +754,7 @@ describe('Wizard.Container', () => {
     expect(output()).toHaveTextContent('Step 2')
   })
 
-  it('supports wizard layout to be in their own components', async () => {
+  it('should support wizard layout to be in their own components', async () => {
     let context = null
 
     const Step1 = () => {

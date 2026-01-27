@@ -13,7 +13,7 @@ const props: IconPrimaryAllProps = {
 }
 
 describe('IconPrimary component', () => {
-  it('has valid width and height prop', () => {
+  it('should have valid width and height prop', () => {
     const width = '200'
     const height = '100'
     render(<IconPrimary {...props} width={width} height={height} />)
@@ -24,7 +24,7 @@ describe('IconPrimary component', () => {
     expect(elem.getAttribute('viewBox')).toBe('0 0 16 16')
   })
 
-  it('has valid medium size as enum', () => {
+  it('should have valid medium size as enum', () => {
     // here we explicit set size="medium" as well, cause we then test that the loadSVG makes a good job
     render(<IconPrimary {...props} icon="question_medium" size="medium" />)
     const svg = document.querySelector('svg')
@@ -34,7 +34,7 @@ describe('IconPrimary component', () => {
     expect(svg.getAttribute('viewBox')).toBe('0 0 24 24')
   })
 
-  it('has valid medium size as int', () => {
+  it('should have valid medium size as int', () => {
     // here we explicit set size="medium" as well, cause we then test that the loadSVG makes a good job
     render(<IconPrimary {...props} icon="question_medium" size="24" />)
     const svg = document.querySelector('svg')

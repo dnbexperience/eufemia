@@ -5,7 +5,7 @@ import { Provider } from '../../../../../shared'
 
 describe('Value.Date', () => {
   describe('props', () => {
-    it('renders value', () => {
+    it('should render value', () => {
       render(<Value.Date value="2023-01-16" />)
       expect(
         document.querySelector('.dnb-forms-value-block__content')
@@ -13,14 +13,14 @@ describe('Value.Date', () => {
       ).toBe('16. januar 2023')
     })
 
-    it('renders without value', () => {
+    it('should render without value', () => {
       expect(() => render(<Value.Date />)).not.toThrow()
 
       render(<Value.Date />)
       expect(document.body.textContent).toBe('')
     })
 
-    it('renders label when showEmpty is true', () => {
+    it('should render label when showEmpty is true', () => {
       const { rerender } = render(
         <Value.Date label="Date label" showEmpty />
       )
@@ -32,7 +32,7 @@ describe('Value.Date', () => {
       expect(document.querySelector('.dnb-form-label')).toBeNull()
     })
 
-    it('renders value and label', () => {
+    it('should render value and label', () => {
       render(<Value.Date label="Label" value="2023-01-16" />)
       expect(
         document.querySelector('.dnb-forms-value-block__content')
@@ -42,12 +42,12 @@ describe('Value.Date', () => {
       )
     })
 
-    it('renders placeholder', () => {
+    it('should render placeholder', () => {
       render(<Value.Date placeholder="Enter some number" />)
       expect(screen.getByText('Enter some number')).toBeInTheDocument()
     })
 
-    it('renders gets value based on path', () => {
+    it('should render gets value based on path', () => {
       render(
         <Form.Handler data={{ myDate: '2023-01-16' }}>
           <Value.Date path="/myDate" />
@@ -210,7 +210,7 @@ describe('Value.Date', () => {
         ).toHaveTextContent('16/01/yy')
       })
 
-      it('handles invalid date gracefully', () => {
+      it('should handle invalid date gracefully', () => {
         render(<Value.Date value="invalid-date" dateFormat="dd/MM/yyyy" />)
 
         expect(
@@ -218,19 +218,19 @@ describe('Value.Date', () => {
         ).toHaveTextContent('invalid-date')
       })
 
-      it('handles empty value with dateFormat', () => {
+      it('should handle empty value with dateFormat', () => {
         render(<Value.Date value="" dateFormat="dd/MM/yyyy" />)
 
         expect(document.body.textContent).toBe('')
       })
 
-      it('handles null value with dateFormat', () => {
+      it('should handle null value with dateFormat', () => {
         render(<Value.Date value={null} dateFormat="dd/MM/yyyy" />)
 
         expect(document.body.textContent).toBe('')
       })
 
-      it('handles undefined value with dateFormat', () => {
+      it('should handle undefined value with dateFormat', () => {
         render(<Value.Date value={undefined} dateFormat="dd/MM/yyyy" />)
 
         expect(document.body.textContent).toBe('')

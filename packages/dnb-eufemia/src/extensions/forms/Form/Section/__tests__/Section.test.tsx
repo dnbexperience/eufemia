@@ -1494,7 +1494,7 @@ describe('Form.Section', () => {
       ).toBe(true)
     })
 
-    it('handles schema function that throws gracefully', () => {
+    it('should handle schema function that throws gracefully', () => {
       const sectionSchema = () => {
         throw new Error('Schema function error')
       }
@@ -2028,7 +2028,7 @@ describe('Form.Section', () => {
         expect(errors?.['/customer/firstName']).toBeInstanceOf(Error)
       })
 
-      it('uses handler schema when only handler schema exists and contextSchema is prioritized', () => {
+      it('should use handler schema when only handler schema exists and contextSchema is prioritized', () => {
         // Handler schema requires minLength: 5
         const handlerSchema: JSONSchema = {
           type: 'object',
@@ -2078,7 +2078,7 @@ describe('Form.Section', () => {
         ).toBe(true)
       })
 
-      it('uses section schema when only section schema exists and sectionSchema is prioritized', () => {
+      it('should use section schema when only section schema exists and sectionSchema is prioritized', () => {
         // Section schema requires minLength: 3
         const sectionSchema: JSONSchema = {
           type: 'object',

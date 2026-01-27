@@ -153,7 +153,7 @@ describe('FormStatus component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('has to have a text value as defined in the prop', () => {
+  it('should have a text value as defined in the prop', () => {
     render(<FormStatus {...props} />)
 
     expect(
@@ -390,12 +390,12 @@ describe('FormStatus component', () => {
 })
 
 describe('FormStatus scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
 
-  it('have to match default theme snapshot', () => {
+  it('should match default theme snapshot', () => {
     const css = loadScss(
       require.resolve('../style/themes/dnb-form-status-theme-ui.scss')
     )

@@ -11,28 +11,28 @@ describe.each(['ui'])('Date for %s', (themeName) => {
     url,
   })
 
-  it('have to match with a label', async () => {
+  it('should match with a label', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="date-label"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match with a horizontal layout', async () => {
+  it('should match with a horizontal layout', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="date-horizontal-layout"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match with an error', async () => {
+  it('should match with an error', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="date-error"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match width', async () => {
+  it('should match width', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '30rem' },
       selector: '[data-visual-test="date-width"]',

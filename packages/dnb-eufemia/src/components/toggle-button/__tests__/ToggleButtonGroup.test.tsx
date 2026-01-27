@@ -95,7 +95,7 @@ describe('ToggleButton group component', () => {
     ).toHaveAttribute('aria-pressed')
   })
 
-  it('has "on_change" event which will trigger on a button click', () => {
+  it('should have "on_change" event which will trigger on a button click', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
     render(
@@ -247,7 +247,7 @@ describe('ToggleButton group component', () => {
     })
   })
 
-  it('has multiselect "on_change" event which will trigger on a button click', () => {
+  it('should have multiselect "on_change" event which will trigger on a button click', () => {
     const my_event = jest.fn()
     render(
       <ToggleButton.Group
@@ -316,7 +316,7 @@ describe('ToggleButton group component', () => {
     ).toBe('false')
   })
 
-  it('can be changed from props', () => {
+  it('should be able to be changed from props', () => {
     const GroupOf = () => {
       const [values, setValues] = React.useState(['second'])
 
@@ -368,7 +368,7 @@ describe('ToggleButton group component', () => {
     expect(second.getAttribute('aria-pressed')).toBe('false')
   })
 
-  it('will let their items to be check/uncheck by its siblings', () => {
+  it('should let their items to be check/uncheck by its siblings', () => {
     const TestComp = () => {
       return (
         <ToggleButton.Group id="group" multiselect={true}>

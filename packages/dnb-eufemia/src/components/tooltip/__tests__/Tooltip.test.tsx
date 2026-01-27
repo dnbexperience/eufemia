@@ -49,7 +49,7 @@ describe('Tooltip', () => {
 
   const getMainElem = () => document.body.querySelector('.dnb-tooltip')
 
-  it('supports snake_case props', () => {
+  it('should support snake_case props', () => {
     render(
       <Tooltip skipPortal active>
         With snake_case props
@@ -254,7 +254,7 @@ describe('Tooltip', () => {
       )
     })
 
-    it('renders tooltip content from tooltip prop without children', async () => {
+    it('should render tooltip content from tooltip prop without children', async () => {
       render(<Tooltip active tooltip="Tooltip prop content" />)
 
       await waitFor(() => {
@@ -263,7 +263,7 @@ describe('Tooltip', () => {
     })
 
     describe('skipPortal', () => {
-      it('will skip React Portal', () => {
+      it('should skip React Portal', () => {
         render(<Tooltip skipPortal active />)
 
         expect(
@@ -271,7 +271,7 @@ describe('Tooltip', () => {
         ).toHaveLength(0)
       })
 
-      it('will not have aria-hidden', () => {
+      it('should not have aria-hidden', () => {
         render(<Tooltip skipPortal active />)
 
         expect(getMainElem()).not.toHaveAttribute('aria-hidden')
@@ -390,7 +390,7 @@ describe('Tooltip', () => {
     })
 
     describe('aria-describedby fallback', () => {
-      it('does not set aria-describedby when tooltip is inactive', () => {
+      it('should not set aria-describedby when tooltip is inactive', () => {
         render(
           <Tooltip showDelay={0} hideDelay={0}>
             Tooltip content
@@ -403,7 +403,7 @@ describe('Tooltip', () => {
         expect(describedById).toBeNull()
       })
 
-      it('uses span element for AriaLive to avoid DOM nesting issues', () => {
+      it('should use span element for AriaLive to avoid DOM nesting issues', () => {
         render(
           <Tooltip showDelay={0} hideDelay={0} active>
             Tooltip content
@@ -767,7 +767,7 @@ describe('Tooltip', () => {
   })
 
   describe('NumberFormat with tooltip', () => {
-    it('will get wrapped with dnb-tooltip__wrapper', async () => {
+    it('should get wrapped with dnb-tooltip__wrapper', async () => {
       render(
         <NumberFormat
           tooltip={
@@ -808,7 +808,7 @@ describe('Tooltip', () => {
       expect(document.body.querySelectorAll('#' + id).length).toBe(1)
     })
 
-    it('has to have active class on focus', async () => {
+    it('should have active class on focus', async () => {
       render(
         <NumberFormat
           tooltip={
@@ -1050,7 +1050,7 @@ describe('Tooltip', () => {
   })
 
   describe('Anchor with tooltip', () => {
-    it('has to be in the DOM so aria-describedby is valid', async () => {
+    it('should be in the DOM so aria-describedby is valid', async () => {
       render(
         <Anchor href="/url" target="_blank" lang="en-GB">
           text
@@ -1074,7 +1074,7 @@ describe('Tooltip', () => {
       })
     })
 
-    it('has to be visible on hover', async () => {
+    it('should be visible on hover', async () => {
       render(
         <Anchor href="/url" target="_blank" lang="en-GB">
           text
@@ -1096,7 +1096,7 @@ describe('Tooltip', () => {
       )
     })
 
-    it('has to be visible on focus event dispatch', async () => {
+    it('should be visible on focus event dispatch', async () => {
       render(
         <Anchor href="/url" target="_blank" lang="en-GB">
           text
@@ -1119,12 +1119,12 @@ describe('Tooltip', () => {
 })
 
 describe('Tooltip scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
 
-  it('have to match default theme snapshot', () => {
+  it('should match default theme snapshot', () => {
     const css = loadScss(
       require.resolve('../style/themes/dnb-tooltip-theme-ui.scss')
     )

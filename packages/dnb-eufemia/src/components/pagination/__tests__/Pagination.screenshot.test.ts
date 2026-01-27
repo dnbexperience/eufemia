@@ -14,7 +14,7 @@ describe.each(['ui', 'sbanken'])('Pagination for %s', (themeName) => {
     url: '/uilib/components/pagination/demos',
   })
 
-  it('have to match the default pagination bar', async () => {
+  it('should match the default pagination bar', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="pagination-default"]',
       style: {
@@ -24,7 +24,7 @@ describe.each(['ui', 'sbanken'])('Pagination for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the pagination with horizontal layout', async () => {
+  it('should match the pagination with horizontal layout', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="pagination-horizontal"]',
       style: {
@@ -34,7 +34,7 @@ describe.each(['ui', 'sbanken'])('Pagination for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the current button hover', async () => {
+  it('should match the current button hover', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="pagination-default"]',
       style: {
@@ -47,7 +47,7 @@ describe.each(['ui', 'sbanken'])('Pagination for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the current button active', async () => {
+  it('should match the current button active', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="pagination-default"]',
       style: {
@@ -60,7 +60,7 @@ describe.each(['ui', 'sbanken'])('Pagination for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the current button focus', async () => {
+  it('should match the current button focus', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="pagination-default"]',
       style: {
@@ -73,7 +73,7 @@ describe.each(['ui', 'sbanken'])('Pagination for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match unselected button hover', async () => {
+  it('should match unselected button hover', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="pagination-default"]',
       style: {
@@ -86,7 +86,7 @@ describe.each(['ui', 'sbanken'])('Pagination for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match unselected button active', async () => {
+  it('should match unselected button active', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="pagination-default"]',
       style: {
@@ -99,7 +99,7 @@ describe.each(['ui', 'sbanken'])('Pagination for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match unselected button focus', async () => {
+  it('should match unselected button focus', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="pagination-default"]',
       style: {
@@ -112,7 +112,7 @@ describe.each(['ui', 'sbanken'])('Pagination for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match pagination bar at page one', async () => {
+  it('should match pagination bar at page one', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="pagination-default"]',
       style: {
@@ -125,7 +125,7 @@ describe.each(['ui', 'sbanken'])('Pagination for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match pagination bar at last page', async () => {
+  it('should match pagination bar at last page', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="pagination-default"]',
       style: {
@@ -149,7 +149,7 @@ describe.each(['ui', 'sbanken'])('Pagination for %s', (themeName) => {
     },
   })
 
-  it('have to match the default pagination bar in small viewport', async () => {
+  it('should match the default pagination bar in small viewport', async () => {
     const screenshot = await makeScreenshot({
       pageViewport: {
         width: 500,

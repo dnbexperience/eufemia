@@ -12,14 +12,14 @@ describe.each(['ui'])('PostalCodeAndCity for %s', (themeName) => {
     url,
   })
 
-  it('have to match with a label', async () => {
+  it('should match with a label', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="postal-code-and-city-label"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match with error', async () => {
+  it('should match with error', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="postal-code-and-city-error"]',
     })
@@ -28,7 +28,7 @@ describe.each(['ui'])('PostalCodeAndCity for %s', (themeName) => {
 })
 
 describe('PostalCodeAndCity', () => {
-  it('have to match medium screen', async () => {
+  it('should match medium screen', async () => {
     const screenshot = await makeScreenshot({
       url,
       pageViewport: {
@@ -39,7 +39,7 @@ describe('PostalCodeAndCity', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match small screen', async () => {
+  it('should match small screen', async () => {
     const screenshot = await makeScreenshot({
       url,
       pageViewport: {
@@ -50,7 +50,7 @@ describe('PostalCodeAndCity', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match long label', async () => {
+  it('should match long label', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector: '[data-visual-test="postal-code-and-city-long-label"]',

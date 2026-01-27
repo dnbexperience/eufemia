@@ -39,7 +39,7 @@ describe('Suffix', () => {
     ).toBe(more_info)
   })
 
-  it('has skeleton wrapper when children is a string', () => {
+  it('should have skeleton wrapper when children is a string', () => {
     const suffixContent = 'Modal Content'
 
     render(
@@ -61,7 +61,7 @@ describe('Suffix', () => {
     ])
   })
 
-  it('has not skeleton when children is a valid React Element', () => {
+  it('should have not skeleton when children is a valid React Element', () => {
     render(
       <Input suffix={<HelpButton skeleton />} skeleton>
         Input Value

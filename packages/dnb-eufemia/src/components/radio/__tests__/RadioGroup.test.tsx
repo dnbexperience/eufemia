@@ -14,7 +14,7 @@ describe('Radio group component', () => {
     expect(Radio.Group['_formElement']).toBeUndefined()
   })
 
-  it('has to set correct value using keys', () => {
+  it('should set correct value using keys', () => {
     const my_event = jest.fn()
     render(
       <Radio.Group
@@ -38,7 +38,7 @@ describe('Radio group component', () => {
     expect(my_event.mock.calls[1][0].event).toBeType('object')
   })
 
-  it('will disable a single button within a group', () => {
+  it('should disable a single button within a group', () => {
     render(
       <Radio.Group>
         <Radio disabled />
@@ -48,7 +48,7 @@ describe('Radio group component', () => {
     expect(document.querySelector('input[disabled]')).toBeInTheDocument()
   })
 
-  it('will disable a single button, defined in the group', () => {
+  it('should disable a single button, defined in the group', () => {
     render(
       <Radio.Group disabled>
         <Radio />
@@ -72,7 +72,7 @@ describe('Radio group component', () => {
     ).toBe('color: red;')
   })
 
-  it('will overwrite "disable" state, defined in the group', () => {
+  it('should overwrite "disable" state, defined in the group', () => {
     render(
       <Radio.Group disabled>
         <Radio disabled={false} />

@@ -8,7 +8,7 @@ import { makeScreenshot } from '../../../core/jest/jestSetupScreenshots'
 describe('Modal', () => {
   const url = '/uilib/components/modal/demos'
 
-  it('have to match the default modal trigger button', async () => {
+  it('should match the default modal trigger button', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector: '[data-visual-test="modal-standard"]',
@@ -16,7 +16,7 @@ describe('Modal', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the default modal window', async () => {
+  it('should match the default modal window', async () => {
     const screenshot = await makeScreenshot({
       url: url,
       pageViewport: {

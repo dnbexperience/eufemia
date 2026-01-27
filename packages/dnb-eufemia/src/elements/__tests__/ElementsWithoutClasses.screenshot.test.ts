@@ -19,7 +19,7 @@ describe('Elements without classes', () => {
     url: '/uilib/elements/elements-without-classes',
   })
 
-  it('have to match all the typography variants', async () => {
+  it('should match all the typography variants', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="elements-without-classes"]',
     })

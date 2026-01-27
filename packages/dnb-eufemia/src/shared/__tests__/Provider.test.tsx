@@ -347,7 +347,7 @@ describe('Provider', () => {
       expect(getNestedLocale()).toBe('nb-NO')
     })
 
-    it('will support "value" prop in nested contexts', () => {
+    it('should support "value" prop in nested contexts', () => {
       type ConsumerContext = {
         myProperty: string
       }

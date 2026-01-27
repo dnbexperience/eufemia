@@ -8,21 +8,21 @@ describe('Upload', () => {
     url: '/uilib/extensions/forms/feature-fields/more-fields/Upload/demos',
   })
 
-  it('have to match upload-field-customized', async () => {
+  it('should match upload-field-customized', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-field-customized"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match help button', async () => {
+  it('should match help button', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-field-help-button"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match help button without labelDescription', async () => {
+  it('should match help button without labelDescription', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="upload-field-help-button-without-label-description"]',
@@ -30,14 +30,14 @@ describe('Upload', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match help button in compact variant', async () => {
+  it('should match help button in compact variant', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-field-compact-help-button"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match widths', async () => {
+  it('should match widths', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '40rem' },
       selector: '[data-visual-test="upload-field-width"]',

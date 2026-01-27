@@ -9,7 +9,7 @@ import H5 from '../H5'
 import H6 from '../H6'
 
 describe('Heading', () => {
-  it('renders with props as an object', () => {
+  it('should render with props as an object', () => {
     const props: SharedHProps = {}
 
     render(<H {...props} />)

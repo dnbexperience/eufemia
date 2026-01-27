@@ -14,42 +14,42 @@ describe.each(['ui', 'sbanken'])('Expiry field for %s', (themeName) => {
     url: '/uilib/extensions/forms/feature-fields/Expiry',
   })
 
-  it('have to match the empty state', async () => {
+  it('should match the empty state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="expiry-empty"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the input filled in value', async () => {
+  it('should match the input filled in value', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="expiry-with-value"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the horizontal layout', async () => {
+  it('should match the horizontal layout', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="expiry-horizontal-layout"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match expiry with help button', async () => {
+  it('should match expiry with help button', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="expiry-with-help"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the disabled state', async () => {
+  it('should match the disabled state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="expiry-disabled"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the error state', async () => {
+  it('should match the error state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="expiry-error"]',
     })

@@ -955,7 +955,7 @@ describe('Field.Expiry', () => {
     })
   })
 
-  it('renders info', () => {
+  it('should render info', () => {
     render(<Field.Expiry info="Info message" />)
 
     const element = document.querySelector('.dnb-form-status')
@@ -965,7 +965,7 @@ describe('Field.Expiry', () => {
     expect(input).not.toHaveClass('dnb-input__status--error')
   })
 
-  it('renders warning', () => {
+  it('should render warning', () => {
     render(<Field.Expiry warning="Warning message" />)
 
     const element = document.querySelector('.dnb-form-status')
@@ -975,7 +975,7 @@ describe('Field.Expiry', () => {
     expect(input).not.toHaveClass('dnb-input__status--error')
   })
 
-  it('renders error', () => {
+  it('should render error', () => {
     render(<Field.Expiry error={new Error('Error message')} />)
 
     const element = document.querySelector('.dnb-form-status')
@@ -985,7 +985,7 @@ describe('Field.Expiry', () => {
     expect(input).toHaveClass('dnb-input__status--error')
   })
 
-  it('shows error style in FieldBlock', () => {
+  it('should show error style in FieldBlock', () => {
     render(
       <FieldBlock>
         <Field.Expiry error={new Error('Error message')} />

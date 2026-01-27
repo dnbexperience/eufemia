@@ -4,7 +4,7 @@ import ScrollView, { ScrollViewAllProps } from '../ScrollView'
 import { setResizeObserver } from './shared-mocks/ResizeObserver'
 
 describe('ScrollView', () => {
-  it('renders with props as an object', () => {
+  it('should render with props as an object', () => {
     const props: ScrollViewAllProps = {}
 
     render(<ScrollView {...props} />)

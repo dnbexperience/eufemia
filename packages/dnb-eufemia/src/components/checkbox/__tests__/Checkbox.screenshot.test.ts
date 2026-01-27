@@ -15,14 +15,14 @@ describe.each(['ui', 'sbanken'])('Checkbox for %s', (themeName) => {
       url: '/uilib/components/checkbox/demos',
     })
 
-    it('have to match checkbox in unchecked state', async () => {
+    it('should match checkbox in unchecked state', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="checkbox-default"] .dnb-checkbox',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match checkbox in unchecked state with focus', async () => {
+    it('should match checkbox in unchecked state with focus', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="checkbox-default"] .dnb-checkbox',
         simulateSelector:
@@ -32,7 +32,7 @@ describe.each(['ui', 'sbanken'])('Checkbox for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match checkbox in unchecked state with hover', async () => {
+    it('should match checkbox in unchecked state with hover', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="checkbox-default"] .dnb-checkbox',
         simulateSelector:
@@ -42,7 +42,7 @@ describe.each(['ui', 'sbanken'])('Checkbox for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match checkbox in unchecked state with error', async () => {
+    it('should match checkbox in unchecked state with error', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="checkbox-error-unchecked"] .dnb-checkbox',
@@ -50,7 +50,7 @@ describe.each(['ui', 'sbanken'])('Checkbox for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match checkbox in unchecked state with error and hover', async () => {
+    it('should match checkbox in unchecked state with error and hover', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="checkbox-error-unchecked"] .dnb-checkbox',
@@ -63,14 +63,14 @@ describe.each(['ui', 'sbanken'])('Checkbox for %s', (themeName) => {
   // NB: Because of focus simulation and screenshotElement.press('Tab')
   // we have to run the two focus simulations in a separate run each
   describe('checked', () => {
-    it('have to match checkbox in checked state', async () => {
+    it('should match checkbox in checked state', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="checkbox-checked"] .dnb-checkbox',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match checkbox in checked state with focus', async () => {
+    it('should match checkbox in checked state with focus', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="checkbox-checked"] .dnb-checkbox',
         simulateSelector:
@@ -80,7 +80,7 @@ describe.each(['ui', 'sbanken'])('Checkbox for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match checkbox in checked state with hover', async () => {
+    it('should match checkbox in checked state with hover', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="checkbox-checked"] .dnb-checkbox',
         simulateSelector:
@@ -90,28 +90,28 @@ describe.each(['ui', 'sbanken'])('Checkbox for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match different checkbox sizes', async () => {
+    it('should match different checkbox sizes', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="checkbox-sizes"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match disabled checkbox', async () => {
+    it('should match disabled checkbox', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="checkbox-disabled"] .dnb-checkbox',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match checkbox in error state', async () => {
+    it('should match checkbox in error state', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="checkbox-error"] .dnb-checkbox',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match checkbox in checked state with error', async () => {
+    it('should match checkbox in checked state with error', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="checkbox-error-checked"] .dnb-checkbox',
@@ -119,7 +119,7 @@ describe.each(['ui', 'sbanken'])('Checkbox for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match checkbox in checked state with error and hover', async () => {
+    it('should match checkbox in checked state with error and hover', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="checkbox-error-checked"] .dnb-checkbox',
@@ -128,21 +128,21 @@ describe.each(['ui', 'sbanken'])('Checkbox for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match checkbox in checked state with larger bounding area', async () => {
+    it('should match checkbox in checked state with larger bounding area', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="checkbox-bounding"] .dnb-checkbox',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match checkbox in indeterminate state', async () => {
+    it('should match checkbox in indeterminate state', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="checkbox-indeterminate"] .dnb-checkbox',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-    it('have to match checkbox in indeterminate state with larger bounding area', async () => {
+    it('should match checkbox in indeterminate state with larger bounding area', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="checkbox-indeterminate-large"] .dnb-checkbox',

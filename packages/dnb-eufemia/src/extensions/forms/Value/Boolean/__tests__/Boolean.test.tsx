@@ -6,7 +6,7 @@ import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
 describe('Value.Boolean', () => {
-  it('renders positive value', () => {
+  it('should render positive value', () => {
     render(<Value.Boolean value={true} />)
     expect(
       document.querySelector(
@@ -15,7 +15,7 @@ describe('Value.Boolean', () => {
     ).toHaveTextContent(nb.BooleanField.yes)
   })
 
-  it('renders negative value', () => {
+  it('should render negative value', () => {
     render(<Value.Boolean value={false} />)
     expect(
       document.querySelector(
@@ -24,7 +24,7 @@ describe('Value.Boolean', () => {
     ).toHaveTextContent(nb.BooleanField.no)
   })
 
-  it('renders positive trueText', () => {
+  it('should render positive trueText', () => {
     render(<Value.Boolean value={true} trueText="True Text" />)
     expect(
       document.querySelector(
@@ -33,7 +33,7 @@ describe('Value.Boolean', () => {
     ).toHaveTextContent('True Text')
   })
 
-  it('renders negative falseText', () => {
+  it('should render negative falseText', () => {
     render(<Value.Boolean value={false} falseText="False Text" />)
     expect(
       document.querySelector(
@@ -42,14 +42,14 @@ describe('Value.Boolean', () => {
     ).toHaveTextContent('False Text')
   })
 
-  it('renders label when showEmpty is true', () => {
+  it('should render label when showEmpty is true', () => {
     render(<Value.Boolean label="The Label" showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
       'The Label'
     )
   })
 
-  it('renders value and label', () => {
+  it('should render value and label', () => {
     render(<Value.Boolean label="The Label" value={true} />)
     expect(
       document.querySelector(
@@ -61,12 +61,12 @@ describe('Value.Boolean', () => {
     )
   })
 
-  it('renders placeholder', () => {
+  it('should render placeholder', () => {
     render(<Value.Boolean placeholder="Enter some value" />)
     expect(screen.getByText('Enter some value')).toBeInTheDocument()
   })
 
-  it('renders value from path', () => {
+  it('should render value from path', () => {
     const { rerender } = render(
       <Form.Handler data={{ myPath: true }}>
         <Value.Boolean path="/myPath" />

@@ -8,7 +8,7 @@ import { makeScreenshot } from '../../../../../core/jest/jestSetupScreenshots'
 describe('Field.Toggle', () => {
   const url = '/uilib/extensions/forms/base-fields/Toggle/demos'
 
-  it('have to match buttons variant with help', async () => {
+  it('should match buttons variant with help', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector: '[data-visual-test="toggle-variant-buttons-with-help"]',
@@ -16,7 +16,7 @@ describe('Field.Toggle', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match buttons variant without label', async () => {
+  it('should match buttons variant without label', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector:
@@ -25,7 +25,7 @@ describe('Field.Toggle', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match radio variant with help', async () => {
+  it('should match radio variant with help', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector: '[data-visual-test="toggle-variant-radio-with-help"]',
@@ -33,7 +33,7 @@ describe('Field.Toggle', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match radio variant without label', async () => {
+  it('should match radio variant without label', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector: '[data-visual-test="toggle-variant-radio-without-label"]',

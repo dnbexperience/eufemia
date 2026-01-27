@@ -9,7 +9,7 @@ import useNumberFormat from '../useNumberFormat'
 import Provider from '../../../shared/Provider'
 
 describe('useNumberFormat', () => {
-  it('will render without provider', () => {
+  it('should render without provider', () => {
     const { result } = renderHook(() =>
       useNumberFormat(1234, { currency: true })
     )
@@ -17,7 +17,7 @@ describe('useNumberFormat', () => {
     expect(result.current).toBe('1 234,00 kr')
   })
 
-  it('will return object when returnAria is true', () => {
+  it('should return object when returnAria is true', () => {
     const { result } = renderHook(() =>
       useNumberFormat(1234, { currency: true, returnAria: true })
     )
@@ -34,7 +34,7 @@ describe('useNumberFormat', () => {
     )
   })
 
-  it('will inherit NumberFormat props from provider', () => {
+  it('should inherit NumberFormat props from provider', () => {
     const wrapper = ({ children }) => (
       <Provider
         locale="nb-NO" // should get overwritten by the NumberFormat props
@@ -51,7 +51,7 @@ describe('useNumberFormat', () => {
     expect(result.current).toBe('NOK\u00A01,234.00')
   })
 
-  it('will inherit locale from provider', () => {
+  it('should inherit locale from provider', () => {
     const wrapper = ({ children }) => (
       <Provider
         locale="en-GB"

@@ -8,7 +8,7 @@ import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import { Provider } from '../../../shared'
 
 describe('Avatar', () => {
-  it('renders without properties', () => {
+  it('should render without properties', () => {
     const props: AvatarProps = {}
     render(
       <Avatar.Group {...props} label="label">
@@ -19,7 +19,7 @@ describe('Avatar', () => {
     expect(document.querySelector('.dnb-avatar')).toBeInTheDocument()
   })
 
-  it('renders children as text', () => {
+  it('should render children as text', () => {
     const children = 'E'
     render(
       <Avatar.Group label="label">
@@ -30,7 +30,7 @@ describe('Avatar', () => {
     expect(screen.queryAllByText(children)[0]).toBeInTheDocument()
   })
 
-  it('renders text children by first char uppercased', () => {
+  it('should render text children by first char uppercased', () => {
     const children = 'easy'
     render(
       <Avatar.Group label="label">
@@ -42,7 +42,7 @@ describe('Avatar', () => {
     expect(screen.queryByText('e')).not.toBeInTheDocument()
   })
 
-  it('renders a label for screen readers when passing children as text', () => {
+  it('should render a label for screen readers when passing children as text', () => {
     const children = 'Ola Nordmann'
     render(
       <Avatar.Group label="label">
@@ -53,7 +53,7 @@ describe('Avatar', () => {
     expect(screen.queryByText(children)).toBeInTheDocument()
   })
 
-  it('renders children as Icon', () => {
+  it('should render children as Icon', () => {
     render(
       <Avatar.Group label="label">
         <Avatar>
@@ -133,7 +133,7 @@ describe('Avatar', () => {
     ])
   })
 
-  it('renders img from src', () => {
+  it('should render img from src', () => {
     const img_src = '/dnb/android-chrome-192x192.png'
     render(
       <Avatar.Group label="label">
@@ -144,7 +144,7 @@ describe('Avatar', () => {
     expect(screen.queryByRole('img').getAttribute('src')).toBe(img_src)
   })
 
-  it('renders alt for img from src', () => {
+  it('should render alt for img from src', () => {
     const img_alt = 'custom_alt_label'
     render(
       <Avatar.Group label="label">
@@ -156,7 +156,7 @@ describe('Avatar', () => {
     expect(screen.queryByRole('img').getAttribute('alt')).toBe(img_alt)
   })
 
-  it('renders imgProps', () => {
+  it('should render imgProps', () => {
     const img_src = '/dnb/android-chrome-192x192.png'
     const img_width = '48'
     const img_height = '48'
@@ -189,14 +189,14 @@ describe('Avatar', () => {
     expect(global.console.log).toHaveBeenCalled()
   })
 
-  it('will not warn when hasLabel is true', () => {
+  it('should not warn when hasLabel is true', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()
     render(<Avatar hasLabel />)
     expect(global.console.log).not.toHaveBeenCalled()
   })
 
-  it('renders skeleton if skeleton is true', () => {
+  it('should render skeleton if skeleton is true', () => {
     const skeletonClassName = 'dnb-skeleton'
 
     render(
@@ -252,7 +252,7 @@ describe('Avatar', () => {
     ])
   })
 
-  it('supports inline styling', () => {
+  it('should support inline styling', () => {
     render(
       <Avatar.Group label="tags">
         <Avatar style={{ color: 'red' }}>A</Avatar>
@@ -364,7 +364,7 @@ describe('Avatar', () => {
   })
 
   describe('AvatarGroup', () => {
-    it('renders the label as string', () => {
+    it('should render the label as string', () => {
       const label = 'avatar'
       render(
         <Avatar.Group label={label} maxElements={2}>
@@ -377,7 +377,7 @@ describe('Avatar', () => {
       expect(screen.queryByText(label)).toBeInTheDocument()
     })
 
-    it('renders the label as react node', () => {
+    it('should render the label as react node', () => {
       const label = <span data-testid="react-node">ReactNode</span>
       render(
         <Avatar.Group label={label} maxElements={2}>
@@ -389,7 +389,7 @@ describe('Avatar', () => {
       expect(screen.queryByTestId('react-node')).toBeInTheDocument()
     })
 
-    it('renders the "elements left"-avatar when having more avatars than maxElements', () => {
+    it('should render the "elements left"-avatar when having more avatars than maxElements', () => {
       render(
         <Avatar.Group maxElements={2} label="label">
           <Avatar>A</Avatar>
@@ -406,7 +406,7 @@ describe('Avatar', () => {
       expect(avatarsDisplayed).toHaveLength(1)
     })
 
-    it('renders the "elements left"-avatar when having multiple avatars, and maxElement 1', () => {
+    it('should render the "elements left"-avatar when having multiple avatars, and maxElement 1', () => {
       render(
         <Avatar.Group maxElements={1} label="label">
           <Avatar>A</Avatar>
@@ -423,7 +423,7 @@ describe('Avatar', () => {
       expect(avatarsDisplayed).toHaveLength(0)
     })
 
-    it('supports inline styling', () => {
+    it('should support inline styling', () => {
       render(
         <Avatar.Group label="tags" style={{ color: 'red' }}>
           <Avatar>A</Avatar>
@@ -435,7 +435,7 @@ describe('Avatar', () => {
       ).toBe('color: red;')
     })
 
-    it('does not render "elements left"-avatar when num of avatars is the same as maxElements', () => {
+    it('should not render "elements left"-avatar when num of avatars is the same as maxElements', () => {
       render(
         <Avatar.Group maxElements={3} label="label">
           <Avatar>A</Avatar>
@@ -454,7 +454,7 @@ describe('Avatar', () => {
       expect(avatarsDisplayed).toHaveLength(3)
     })
 
-    it('does not render "elements left"-avatar when num of avatars is less than maxElements', () => {
+    it('should not render "elements left"-avatar when num of avatars is less than maxElements', () => {
       render(
         <Avatar.Group maxElements={4} label="label">
           <Avatar>A</Avatar>
@@ -472,7 +472,7 @@ describe('Avatar', () => {
       expect(avatarsDisplayed).toHaveLength(3)
     })
 
-    it('does not render "elements left"-avatar when maxElements is 0', () => {
+    it('should not render "elements left"-avatar when maxElements is 0', () => {
       render(
         <Avatar.Group maxElements={0} label="label">
           <Avatar>A</Avatar>
@@ -490,7 +490,7 @@ describe('Avatar', () => {
       expect(avatarsDisplayed).toHaveLength(3)
     })
 
-    it('does not render "elements left"-avatar when maxElements is not a number', () => {
+    it('should not render "elements left"-avatar when maxElements is not a number', () => {
       render(
         <Avatar.Group maxElements={null} label="label">
           <Avatar>A</Avatar>
@@ -507,7 +507,7 @@ describe('Avatar', () => {
       expect(avatarsDisplayed).toHaveLength(2)
     })
 
-    it('renders "elements left"-avatar when maxElements is not a number, and five or more avatars', () => {
+    it('should render "elements left"-avatar when maxElements is not a number, and five or more avatars', () => {
       render(
         <Avatar.Group maxElements={null} label="label">
           <Avatar>A</Avatar>

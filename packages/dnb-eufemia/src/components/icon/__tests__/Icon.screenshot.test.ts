@@ -13,7 +13,7 @@ describe('Icon', () => {
     url: '/uilib/components/icon/demos',
   })
 
-  it('have to match default icons setup', async () => {
+  it('should match default icons setup', async () => {
     const screenshot = await makeScreenshot({
       style: {
         // Flex makes the pixel height 100% correct
@@ -25,7 +25,7 @@ describe('Icon', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match inherited sized icons', async () => {
+  it('should match inherited sized icons', async () => {
     const screenshot = await makeScreenshot({
       style: {
         // Flex makes the pixel height 100% correct
@@ -37,7 +37,7 @@ describe('Icon', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match icons with border', async () => {
+  it('should match icons with border', async () => {
     const screenshot = await makeScreenshot({
       style: {
         // Flex makes the pixel height 100% correct
@@ -49,7 +49,7 @@ describe('Icon', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match icons with colors', async () => {
+  it('should match icons with colors', async () => {
     const screenshot = await makeScreenshot({
       style: {
         // Flex makes the pixel height 100% correct
@@ -61,7 +61,7 @@ describe('Icon', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match icons with sizes', async () => {
+  it('should match icons with sizes', async () => {
     const screenshot = await makeScreenshot({
       style: {
         // Flex makes the pixel height 100% correct
@@ -80,7 +80,7 @@ describe('Icon', () => {
     url: '/uilib/components/icon/visual-tests',
   })
 
-  it('have to match responsive icons', async () => {
+  it('should match responsive icons', async () => {
     const screenshot = await makeScreenshot({
       style: {
         // Flex makes the pixel height 100% correct
@@ -92,14 +92,14 @@ describe('Icon', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match text alignment', async () => {
+  it('should match text alignment', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="icon-alignment"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match all primary icons', async () => {
+  it('should match all primary icons', async () => {
     const screenshot = await makeScreenshot({
       style: {
         display: 'inline-flex',
@@ -111,7 +111,7 @@ describe('Icon', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match all secondary icons', async () => {
+  it('should match all secondary icons', async () => {
     const screenshot = await makeScreenshot({
       style: {
         display: 'inline-flex',
@@ -123,7 +123,7 @@ describe('Icon', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match all primary icons with color', async () => {
+  it('should match all primary icons with color', async () => {
     const screenshot = await makeScreenshot({
       style: {
         display: 'inline-flex',
@@ -136,7 +136,7 @@ describe('Icon', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match all secondary icons with color', async () => {
+  it('should match all secondary icons with color', async () => {
     const screenshot = await makeScreenshot({
       style: {
         display: 'inline-flex',

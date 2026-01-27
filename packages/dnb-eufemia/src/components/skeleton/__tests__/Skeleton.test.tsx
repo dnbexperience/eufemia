@@ -22,7 +22,7 @@ const props: SkeletonProps = {
 }
 
 describe('Skeleton component', () => {
-  it('has to use the provider to enable a skeleton in a component', () => {
+  it('should use the provider to enable a skeleton in a component', () => {
     const { rerender } = render(<Skeleton {...props} />)
     expect(
       document.querySelector('.dnb-input .dnb-skeleton')
@@ -40,7 +40,7 @@ describe('Skeleton component', () => {
 })
 
 describe('Skeleton scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })

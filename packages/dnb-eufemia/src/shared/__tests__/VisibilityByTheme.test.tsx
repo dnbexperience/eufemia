@@ -4,7 +4,7 @@ import Theme from '../Theme'
 import VisibilityByTheme from '../VisibilityByTheme'
 
 describe('VisibilityByTheme', () => {
-  it('renders content if not visible or hidden was given', () => {
+  it('should render content if not visible or hidden was given', () => {
     const Component = (props) => (
       <Theme name="eiendom" {...props}>
         <VisibilityByTheme>
@@ -18,7 +18,7 @@ describe('VisibilityByTheme', () => {
     expect(document.body.textContent).toBe("I'm visible")
   })
 
-  it('renders content on name match', () => {
+  it('should render content on name match', () => {
     const Component = (props) => (
       <Theme name="eiendom" {...props}>
         <VisibilityByTheme visible="eiendom">
@@ -80,7 +80,7 @@ describe('VisibilityByTheme', () => {
     expect(document.body.textContent).toBe("I'm visible")
   })
 
-  it('renders content on match from names in an array', () => {
+  it('should render content on match from names in an array', () => {
     const Component = (props) => (
       <Theme name="eiendom" {...props}>
         <VisibilityByTheme visible={['eiendom', 'sbanken']}>
@@ -102,7 +102,7 @@ describe('VisibilityByTheme', () => {
     expect(document.body.textContent).toBe('')
   })
 
-  it('renders content on match from names in an object inside an array', () => {
+  it('should render content on match from names in an object inside an array', () => {
     const Component = (props) => (
       <Theme name="eiendom" {...props}>
         <VisibilityByTheme
@@ -126,7 +126,7 @@ describe('VisibilityByTheme', () => {
     expect(document.body.textContent).toBe('')
   })
 
-  it('renders content on match by several theme criteria', () => {
+  it('should render content on match by several theme criteria', () => {
     const Component = (props) => (
       <Theme name="eiendom" variant="red" {...props}>
         <VisibilityByTheme

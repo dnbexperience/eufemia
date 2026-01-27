@@ -17,7 +17,7 @@ import H3 from '../../../elements/H3'
 const warn = jest.fn()
 
 describe('Heading component', () => {
-  it('renders with empty props', () => {
+  it('should render with empty props', () => {
     const props: HeadingProps = {}
     render(<Heading {...props} />)
 
@@ -517,7 +517,7 @@ describe('Heading component', () => {
     expect(await axeComponent(Comp, {})).toHaveNoViolations()
   })
 
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })

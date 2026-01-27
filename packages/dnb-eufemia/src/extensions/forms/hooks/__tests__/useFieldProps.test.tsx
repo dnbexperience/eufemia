@@ -129,7 +129,7 @@ describe('useFieldProps', () => {
       })
     })
 
-    it('calls onStatusChange when validateInitially reveals validation errors', async () => {
+    it('should call onStatusChange when validateInitially reveals validation errors', async () => {
       const onStatusChange = jest.fn()
 
       renderHook(

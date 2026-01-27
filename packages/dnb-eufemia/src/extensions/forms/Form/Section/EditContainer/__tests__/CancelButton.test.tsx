@@ -12,7 +12,7 @@ import nbNO from '../../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO'].SectionEditContainer
 
 describe('CancelButton', () => {
-  it('calls "switchContainerMode"', async () => {
+  it('should call "switchContainerMode"', async () => {
     const switchContainerMode = jest.fn()
 
     render(
@@ -52,7 +52,7 @@ describe('CancelButton', () => {
     expect(button).toHaveTextContent(nb.cancelButton)
   })
 
-  it('sets boundary errors but not toolbar error when there are field errors and no visible error', () => {
+  it('should set boundary errors but not toolbar error when there are field errors and no visible error', () => {
     const setShowError = jest.fn()
     const setShowBoundaryErrors = jest.fn()
 
@@ -84,7 +84,7 @@ describe('CancelButton', () => {
     })
   })
 
-  it('sets boundary and toolbar errors when there are field errors and a visible error', () => {
+  it('should set boundary and toolbar errors when there are field errors and a visible error', () => {
     const setShowError = jest.fn()
     const setShowBoundaryErrors = jest.fn()
 
@@ -185,7 +185,7 @@ describe('CancelButton', () => {
     })
   })
 
-  it('will restore the original value', () => {
+  it('should restore the original value', () => {
     const onSubmit = jest.fn()
     let submitData = null
 
@@ -220,7 +220,7 @@ describe('CancelButton', () => {
     expect(submitData).toEqual({ foo: 'original value' })
   })
 
-  it('shows a confirm dialog by default and proceeds on confirm', async () => {
+  it('should show a confirm dialog by default and proceeds on confirm', async () => {
     render(
       <FieldBoundaryContext.Provider
         value={{ verifyFieldError: () => false }}

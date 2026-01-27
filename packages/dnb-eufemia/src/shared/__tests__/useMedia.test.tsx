@@ -33,7 +33,7 @@ describe('useMedia', () => {
       window.matchMedia = matchMediaOriginal
     })
 
-    it('will return object with', () => {
+    it('should return object with', () => {
       setMedia({ type: 'print' })
 
       const { result } = renderHook(useMedia, { wrapper })
@@ -47,7 +47,7 @@ describe('useMedia', () => {
       })
     })
 
-    it('will return positive isSmall', async () => {
+    it('should return positive isSmall', async () => {
       setMedia({ width: SMALL })
 
       const { result } = renderHook(useMedia, { wrapper })
@@ -75,7 +75,7 @@ describe('useMedia', () => {
       })
     })
 
-    it('will return positive isMedium', async () => {
+    it('should return positive isMedium', async () => {
       setMedia({ width: MEDIUM })
 
       const { result } = renderHook(useMedia, { wrapper })
@@ -103,7 +103,7 @@ describe('useMedia', () => {
       })
     })
 
-    it('will return positive isLarge', async () => {
+    it('should return positive isLarge', async () => {
       setMedia({ width: LARGE })
 
       const { result } = renderHook(useMedia, { wrapper })
@@ -131,7 +131,7 @@ describe('useMedia', () => {
       })
     })
 
-    it('will react to all possible sizes', async () => {
+    it('should react to all possible sizes', async () => {
       setMedia({ width: ABOVE })
 
       const { result } = renderHook(useMedia, { wrapper })
@@ -217,7 +217,7 @@ describe('useMedia', () => {
       }
     })
 
-    it('can be disabled programmatically', async () => {
+    it('should be able to be disabled programmatically', async () => {
       setMedia({ width: LARGE })
 
       const { result, rerender } = renderHook(useMedia, {
@@ -292,7 +292,7 @@ describe('useMedia', () => {
       })
     })
 
-    it('will return isSSR=true during SSR', () => {
+    it('should return isSSR=true during SSR', () => {
       setMedia({ width: SMALL })
 
       window.matchMedia = undefined
@@ -308,7 +308,7 @@ describe('useMedia', () => {
       })
     })
 
-    it('will re-render component', async () => {
+    it('should re-render component', async () => {
       let count = 0
       const MockComponent = (options: UseMediaProps = null) => {
         const props = useMedia(options)
@@ -441,7 +441,7 @@ describe('useMedia', () => {
       expect(count).toBe(24)
     })
 
-    it('will return correct key based on size', async () => {
+    it('should return correct key based on size', async () => {
       setMedia({ width: ABOVE })
 
       const { result } = renderHook(useMedia, { wrapper })
@@ -528,7 +528,7 @@ describe('useMedia', () => {
     })
 
     describe('breakpoints', () => {
-      it('will react to all possible sizes', async () => {
+      it('should react to all possible sizes', async () => {
         setMedia({ width: ABOVE })
 
         const SMALL = '40em'
@@ -625,7 +625,7 @@ describe('useMedia', () => {
         }
       })
 
-      it('will use custom breakpoints', async () => {
+      it('should use custom breakpoints', async () => {
         setMedia({ width: ABOVE })
 
         const { result } = renderHook(() =>
@@ -822,7 +822,7 @@ describe('useMedia', () => {
       jest.spyOn(window, 'matchMedia').mockImplementation(matchMediaMock)
     })
 
-    it('will return positive isSmall', () => {
+    it('should return positive isSmall', () => {
       const query = `(min-width: 0em) and (max-width: 40em)`
       matchMedia.useMediaQuery(query)
 
@@ -837,7 +837,7 @@ describe('useMedia', () => {
       })
     })
 
-    it('will return positive isMedium', () => {
+    it('should return positive isMedium', () => {
       const query = `(min-width: 40.00625em) and (max-width: 60em)`
       matchMedia.useMediaQuery(query)
 
@@ -852,7 +852,7 @@ describe('useMedia', () => {
       })
     })
 
-    it('will return positive isLarge', () => {
+    it('should return positive isLarge', () => {
       const query = `(min-width: 60.00625em)`
       matchMedia.useMediaQuery(query)
 
@@ -867,7 +867,7 @@ describe('useMedia', () => {
       })
     })
 
-    it('will render once when same result was detected in layout effect', () => {
+    it('should render once when same result was detected in layout effect', () => {
       const query = `(min-width: 60.00625em)`
       matchMedia.useMediaQuery(query)
 
@@ -891,7 +891,7 @@ describe('useMedia', () => {
       ])
     })
 
-    it('will render twice when different result was detected in layout effect', () => {
+    it('should render twice when different result was detected in layout effect', () => {
       const query = `(min-width: 60.00625em)`
       matchMedia.useMediaQuery(query)
 
@@ -940,7 +940,7 @@ describe('useMedia', () => {
       delete global.window['__SSR_TEST__']
     })
 
-    it('will by default return false on all sizes', () => {
+    it('should by default return false on all sizes', () => {
       const { result } = renderHook(useMedia, { wrapper })
 
       expect(result.current).toEqual(
@@ -954,7 +954,7 @@ describe('useMedia', () => {
       )
     })
 
-    it('will return positive isSmall when in initialValue', () => {
+    it('should return positive isSmall when in initialValue', () => {
       const { result } = renderHook(useMedia, {
         wrapper,
         initialProps: {
@@ -975,7 +975,7 @@ describe('useMedia', () => {
       )
     })
 
-    it('will return both positive isSmall and isLarge', () => {
+    it('should return both positive isSmall and isLarge', () => {
       const { result } = renderHook(useMedia, {
         wrapper,
         initialProps: {

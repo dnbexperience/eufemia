@@ -18,7 +18,7 @@ describe.each(['ui', 'sbanken'])('Blockquote for %s', (themeName) => {
     width: '30rem', // make sure our input gets an explicit width, because of mac/linux rendering differences
   }
 
-  it('have to match default "blockquote"', async () => {
+  it('should match default "blockquote"', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="blockquote-default"]',
@@ -26,7 +26,7 @@ describe.each(['ui', 'sbanken'])('Blockquote for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match "blockquote" with top aligned graphic', async () => {
+  it('should match "blockquote" with top aligned graphic', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="blockquote-top"]',
@@ -34,7 +34,7 @@ describe.each(['ui', 'sbanken'])('Blockquote for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match "blockquote" with top aligned graphic and no background', async () => {
+  it('should match "blockquote" with top aligned graphic and no background', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="blockquote-top-no-background"]',
@@ -42,7 +42,7 @@ describe.each(['ui', 'sbanken'])('Blockquote for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match "blockquote" with no background', async () => {
+  it('should match "blockquote" with no background', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="blockquote-no-background"]',
@@ -50,7 +50,7 @@ describe.each(['ui', 'sbanken'])('Blockquote for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match "blockquote" with code as child', async () => {
+  it('should match "blockquote" with code as child', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="blockquote-with-code"]',
@@ -70,7 +70,7 @@ describe.each(['sbanken'])('Blockquote on mobile for %s', (themeName) => {
     width: '30rem', // make sure our input gets an explicit width, because of mac/linux rendering differences
   }
 
-  it('have to match default "blockquote"', async () => {
+  it('should match default "blockquote"', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="blockquote-default"]',
@@ -78,7 +78,7 @@ describe.each(['sbanken'])('Blockquote on mobile for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match "blockquote" with top aligned graphic', async () => {
+  it('should match "blockquote" with top aligned graphic', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="blockquote-top"]',
@@ -86,7 +86,7 @@ describe.each(['sbanken'])('Blockquote on mobile for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match "blockquote" with top aligned graphic and no background', async () => {
+  it('should match "blockquote" with top aligned graphic and no background', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="blockquote-top-no-background"]',
@@ -94,7 +94,7 @@ describe.each(['sbanken'])('Blockquote on mobile for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match "blockquote" with no background', async () => {
+  it('should match "blockquote" with no background', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="blockquote-no-background"]',

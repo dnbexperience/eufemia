@@ -201,7 +201,7 @@ describe('Value.Composition', () => {
     })
   })
 
-  it('renders the label with a strong element', () => {
+  it('should render the label with a strong element', () => {
     render(
       <Value.SummaryList>
         <Value.Composition label="Label">
@@ -216,7 +216,7 @@ describe('Value.Composition', () => {
   })
 
   describe('transformLabel', () => {
-    it('renders labels', async () => {
+    it('should render labels', async () => {
       render(
         <Value.Composition
           label="Label"
@@ -232,7 +232,7 @@ describe('Value.Composition', () => {
       expect(label.textContent).toBe('LABEL')
     })
 
-    it('renders transformLabel given in Value.Provider', async () => {
+    it('should render transformLabel given in Value.Provider', async () => {
       render(
         <Value.Provider
           transformLabel={(label: string) => label?.toUpperCase()}

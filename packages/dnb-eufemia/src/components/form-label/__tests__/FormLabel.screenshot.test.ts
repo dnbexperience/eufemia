@@ -14,14 +14,14 @@ describe.each(['ui', 'sbanken'])('FormLabel for %s', (themeName) => {
     url: '/uilib/components/form-label/demos',
   })
 
-  it('have to match default form-label', async () => {
+  it('should match default form-label', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="form-label-default"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match default form-label with hover', async () => {
+  it('should match default form-label with hover', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="form-label-default"]',
       simulate: 'hover',
@@ -29,7 +29,7 @@ describe.each(['ui', 'sbanken'])('FormLabel for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match checkbox label hover', async () => {
+  it('should match checkbox label hover', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="form-label-default"]',
       simulate: 'hover',
@@ -39,14 +39,14 @@ describe.each(['ui', 'sbanken'])('FormLabel for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match vertical form-label', async () => {
+  it('should match vertical form-label', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="form-label-vertical"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match fix-content width', async () => {
+  it('should match fix-content width', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="form-label-vertical"] label',
       style: {

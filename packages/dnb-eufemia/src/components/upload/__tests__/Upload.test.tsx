@@ -30,13 +30,13 @@ describe('Upload', () => {
     jest.clearAllMocks()
   })
 
-  it('renders the component', () => {
+  it('should render the component', () => {
     render(<Upload {...defaultProps} />)
 
     expect(document.querySelector('.dnb-upload')).toBeInTheDocument()
   })
 
-  it('renders default button', () => {
+  it('should render default button', () => {
     render(<Upload {...defaultProps} />)
 
     const button = document.querySelector('button')
@@ -45,7 +45,7 @@ describe('Upload', () => {
     expect(button.textContent).toBe(nb.buttonText)
   })
 
-  it('renders custom button icon using buttonProps', () => {
+  it('should render custom button icon using buttonProps', () => {
     const { rerender } = render(
       <Upload
         {...defaultProps}
@@ -86,7 +86,7 @@ describe('Upload', () => {
     expect(inputClick).toHaveBeenCalledTimes(1)
   })
 
-  it('renders custom onClick using buttonProps', () => {
+  it('should render custom onClick using buttonProps', () => {
     const onClick = jest.fn()
 
     render(
@@ -109,7 +109,7 @@ describe('Upload', () => {
     expect(onClick).toHaveBeenCalledTimes(1)
   })
 
-  it('renders the upload file input section', () => {
+  it('should render the upload file input section', () => {
     render(<Upload {...defaultProps} />)
 
     expect(
@@ -117,20 +117,20 @@ describe('Upload', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders custom content using children', () => {
+  it('should render custom content using children', () => {
     render(<Upload {...defaultProps}>My custom content</Upload>)
 
     expect(screen.getByText('My custom content')).toBeInTheDocument()
   })
 
   describe('Text', () => {
-    it('renders the title', () => {
+    it('should render the title', () => {
       render(<Upload {...defaultProps} />)
 
       expect(screen.queryByText(nb.title)).toBeInTheDocument()
     })
 
-    it('renders the custom title', () => {
+    it('should render the custom title', () => {
       const customTitle = 'custom title'
 
       render(<Upload {...defaultProps} title={customTitle} />)
@@ -138,13 +138,13 @@ describe('Upload', () => {
       expect(screen.queryByText(customTitle)).toBeInTheDocument()
     })
 
-    it('renders the text', () => {
+    it('should render the text', () => {
       render(<Upload {...defaultProps} />)
 
       expect(screen.queryByText(nb.text)).toBeInTheDocument()
     })
 
-    it('renders the custom text', () => {
+    it('should render the custom text', () => {
       const customText = 'custom text'
 
       render(<Upload {...defaultProps} text={customText} />)
@@ -152,7 +152,7 @@ describe('Upload', () => {
       expect(screen.queryByText(customText)).toBeInTheDocument()
     })
 
-    it('supports inline styling', () => {
+    it('should support inline styling', () => {
       render(<Upload {...defaultProps} style={{ color: 'red' }} />)
       expect(
         document
@@ -161,7 +161,7 @@ describe('Upload', () => {
       ).toBe('color: red;')
     })
 
-    it('renders the format description', () => {
+    it('should render the format description', () => {
       render(<Upload {...defaultProps} />)
 
       expect(
@@ -169,7 +169,7 @@ describe('Upload', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders the custom format description', () => {
+    it('should render the custom format description', () => {
       const customFormatDescription = 'custom formats description'
 
       render(
@@ -184,31 +184,31 @@ describe('Upload', () => {
       ).toBeInTheDocument()
     })
 
-    it('does not render text when text is false', () => {
+    it('should not render text when text is false', () => {
       render(<Upload {...defaultProps} text={false} />)
 
       expect(screen.queryByText(nb.text)).not.toBeInTheDocument()
     })
 
-    it('does not render text when text is empty string', () => {
+    it('should not render text when text is empty string', () => {
       render(<Upload {...defaultProps} text="" />)
 
       expect(screen.queryByText(nb.text)).not.toBeInTheDocument()
     })
 
-    it('does not render title when title is false', () => {
+    it('should not render title when title is false', () => {
       render(<Upload {...defaultProps} title={false} />)
 
       expect(screen.queryByText(nb.title)).not.toBeInTheDocument()
     })
 
-    it('does not render title when title is empty string', () => {
+    it('should not render title when title is empty string', () => {
       render(<Upload {...defaultProps} title="" />)
 
       expect(screen.queryByText(nb.title)).not.toBeInTheDocument()
     })
 
-    it('does not render fileTypeDescription when acceptedFileTypes is empty', () => {
+    it('should not render fileTypeDescription when acceptedFileTypes is empty', () => {
       const acceptedFileTypes = []
 
       render(
@@ -220,7 +220,7 @@ describe('Upload', () => {
       ).not.toBeInTheDocument()
     })
 
-    it('does not render the accepted file types table when acceptedFileTypes is an array of strings', () => {
+    it('should not render the accepted file types table when acceptedFileTypes is an array of strings', () => {
       const acceptedFileTypes = ['jpg', 'png']
 
       render(
@@ -232,7 +232,7 @@ describe('Upload', () => {
       ).not.toBeInTheDocument()
     })
 
-    it('renders the accepted file types table when acceptedFileTypes is an array of objects', () => {
+    it('should render the accepted file types table when acceptedFileTypes is an array of objects', () => {
       const acceptedFileTypes = [
         { fileType: 'jpg', fileMaxSize: 1 },
         { fileType: 'png', fileMaxSize: 2 },
@@ -247,7 +247,7 @@ describe('Upload', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders the correct grouping of file types based on file max size', () => {
+    it('should render the correct grouping of file types based on file max size', () => {
       const fileMaxSize = 99
 
       const fileMaxSize1Types = [
@@ -325,7 +325,7 @@ describe('Upload', () => {
       expect(screen.queryByText('TEXT, TXT')).toBeInTheDocument()
     })
 
-    it('renders the custom accepted format', () => {
+    it('should render the custom accepted format', () => {
       const acceptedFileTypes = ['png', 'jpg']
 
       render(
@@ -337,7 +337,7 @@ describe('Upload', () => {
       expect(screen.queryByText(formattedFileTypes)).toBeInTheDocument()
     })
 
-    it('renders the file size description', () => {
+    it('should render the file size description', () => {
       render(<Upload {...defaultProps} />)
 
       expect(
@@ -345,7 +345,7 @@ describe('Upload', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders the custom file size description', () => {
+    it('should render the custom file size description', () => {
       const fileSizeDescription = 'file size description'
 
       render(
@@ -358,7 +358,7 @@ describe('Upload', () => {
       expect(screen.queryByText(fileSizeDescription)).toBeInTheDocument()
     })
 
-    it('renders the file size', () => {
+    it('should render the file size', () => {
       const fileMaxSize = 2
       render(<Upload {...defaultProps} fileMaxSize={fileMaxSize} />)
 
@@ -372,7 +372,7 @@ describe('Upload', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders the custom file size', () => {
+    it('should render the custom file size', () => {
       const fileMaxSize = 2
       const fileSizeContent = '%size custom'
 
@@ -391,7 +391,7 @@ describe('Upload', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders no file size when fileMaxSize is disabled', () => {
+    it('should render no file size when fileMaxSize is disabled', () => {
       const fileMaxSize = 0
       render(<Upload {...defaultProps} fileMaxSize={fileMaxSize} />)
 
@@ -405,7 +405,7 @@ describe('Upload', () => {
       ).not.toBeInTheDocument()
     })
 
-    it('renders no custom file size when fileMaxSize is disabled', () => {
+    it('should render no custom file size when fileMaxSize is disabled', () => {
       const fileMaxSize = false
       const fileSizeContent = '%size custom'
 
@@ -424,7 +424,7 @@ describe('Upload', () => {
       ).not.toBeInTheDocument()
     })
 
-    it('renders the file amount limit description', () => {
+    it('should render the file amount limit description', () => {
       const filesAmountLimit = 2
       render(
         <Upload {...defaultProps} filesAmountLimit={filesAmountLimit} />
@@ -438,13 +438,13 @@ describe('Upload', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders the upload file input section button text', () => {
+    it('should render the upload file input section button text', () => {
       render(<Upload {...defaultProps} />)
 
       expect(screen.queryByText(nb.buttonText)).toBeInTheDocument()
     })
 
-    it('renders the upload file input section button custom text', () => {
+    it('should render the upload file input section button custom text', () => {
       const buttonText = 'upload button text'
 
       render(<Upload {...defaultProps} buttonText={buttonText} />)
@@ -452,7 +452,7 @@ describe('Upload', () => {
       expect(screen.queryByText(buttonText)).toBeInTheDocument()
     })
 
-    it('renders the upload file input section button as disabled', () => {
+    it('should render the upload file input section button as disabled', () => {
       render(<Upload {...defaultProps} disabled />)
 
       expect(
@@ -512,14 +512,14 @@ describe('Upload', () => {
       )
     })
 
-    it('renders the singular upload button text when filesAmountLimit is 1', () => {
+    it('should render the singular upload button text when filesAmountLimit is 1', () => {
       render(<Upload {...defaultProps} filesAmountLimit={1} />)
 
       expect(screen.queryByText(nb.buttonText)).not.toBeInTheDocument()
       expect(screen.queryByText(nb.buttonTextSingular)).toBeInTheDocument()
     })
 
-    it('renders the singular text when filesAmountLimit is 1', () => {
+    it('should render the singular text when filesAmountLimit is 1', () => {
       render(<Upload {...defaultProps} filesAmountLimit={1} />)
 
       expect(screen.queryByText(nb.text)).not.toBeInTheDocument()
@@ -527,7 +527,7 @@ describe('Upload', () => {
     })
   })
 
-  it('will only accept one file if filesAmountLimit is 1', async () => {
+  it('should only accept one file if filesAmountLimit is 1', async () => {
     const id = 'filesAmountLimit'
 
     const { result } = renderHook(useUpload, { initialProps: id })
@@ -575,7 +575,7 @@ describe('Upload', () => {
     ).not.toHaveAttribute('disabled')
   })
 
-  it('will remove files amount warning when resetting files', async () => {
+  it('should remove files amount warning when resetting files', async () => {
     const id = 'filesAmountLimitResetFiles'
 
     const { result } = renderHook(useUpload, { initialProps: id })
@@ -636,7 +636,7 @@ describe('Upload', () => {
     expect(result.current.files).toEqual([])
   })
 
-  it('will hide upload button when filesAmountLimit is met', async () => {
+  it('should hide upload button when filesAmountLimit is met', async () => {
     const id = 'filesAmountLimitIsMet'
 
     renderHook(useUpload, { initialProps: id })
@@ -670,7 +670,7 @@ describe('Upload', () => {
     ).toBeInTheDocument()
   })
 
-  it('will hide upload button when uploaded files is more than filesAmountLimit', async () => {
+  it('should hide upload button when uploaded files is more than filesAmountLimit', async () => {
     const id = 'filesAmountLimitIsMetWithMultipleFiles'
 
     renderHook(useUpload, { initialProps: id })
@@ -705,7 +705,7 @@ describe('Upload', () => {
     ).toBeInTheDocument()
   })
 
-  it('will accept same file only once when fileName, size and lastModified is equal', async () => {
+  it('should accept same file only once when fileName, size and lastModified is equal', async () => {
     const id = 'only-once'
 
     const { result } = renderHook(useUpload, { initialProps: id })
@@ -739,7 +739,7 @@ describe('Upload', () => {
     ])
   })
 
-  it('will accept same file only once when fileName and lastModified is equal', async () => {
+  it('should accept same file only once when fileName and lastModified is equal', async () => {
     const id = 'only-once-filename-last-modified'
 
     const { result } = renderHook(useUpload, { initialProps: id })
@@ -783,7 +783,7 @@ describe('Upload', () => {
     ])
   })
 
-  it('will accept same file only once when fileName and size is equal', async () => {
+  it('should accept same file only once when fileName and size is equal', async () => {
     const id = 'only-once-file-name-size'
 
     const { result } = renderHook(useUpload, { initialProps: id })
@@ -817,7 +817,7 @@ describe('Upload', () => {
     ])
   })
 
-  it('will accept same file only once when fileName is equal', async () => {
+  it('should accept same file only once when fileName is equal', async () => {
     const id = 'only-once-file-name'
 
     const { result } = renderHook(useUpload, { initialProps: id })
@@ -851,7 +851,7 @@ describe('Upload', () => {
     ])
   })
 
-  it('will highlight same file', async () => {
+  it('should highlight same file', async () => {
     const id = 'highlight'
 
     renderHook(useUpload, { initialProps: id })
@@ -882,7 +882,7 @@ describe('Upload', () => {
     ).toEqual(expect.arrayContaining(['dnb-upload__file-cell--highlight']))
   })
 
-  it('will accept duplicate files when allowDuplicates', async () => {
+  it('should accept duplicate files when allowDuplicates', async () => {
     const id = 'allow-duplicates'
 
     const { result } = renderHook(useUpload, { initialProps: id })
@@ -917,7 +917,7 @@ describe('Upload', () => {
     ])
   })
 
-  it('will not highlight same file when allowDuplicates', async () => {
+  it('should not highlight same file when allowDuplicates', async () => {
     const id = 'not-highlight-duplicates'
 
     renderHook(useUpload, { initialProps: id })
@@ -943,7 +943,7 @@ describe('Upload', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('will return error when dropping a file with extension that is not accepted', async () => {
+  it('should return error when dropping a file with extension that is not accepted', async () => {
     const id = 'not-supported-extension'
 
     renderHook(useUpload, { initialProps: id })
@@ -964,7 +964,7 @@ describe('Upload', () => {
     expect(screen.queryByText(nb.errorUnsupportedFile)).toBeInTheDocument()
   })
 
-  it('will return error when dropping a file with extension that is not accepted when acceptedFileTypes is an array of objects', async () => {
+  it('should return error when dropping a file with extension that is not accepted when acceptedFileTypes is an array of objects', async () => {
     const id = 'not-supported-extension-array-of-objects'
 
     renderHook(useUpload, { initialProps: id })
@@ -1001,7 +1001,7 @@ describe('Upload', () => {
     expect(screen.queryByText(nb.errorUnsupportedFile)).toBeInTheDocument()
   })
 
-  it('will return error when dropping a file without extension when acceptedFileTypes is an array of objects', async () => {
+  it('should return error when dropping a file without extension when acceptedFileTypes is an array of objects', async () => {
     const id = 'no-extension-array-of-objects'
 
     renderHook(useUpload, { initialProps: id })
@@ -1038,7 +1038,7 @@ describe('Upload', () => {
     expect(screen.queryByText(nb.errorUnsupportedFile)).toBeInTheDocument()
   })
 
-  it('will return error when dropping a file without extension', async () => {
+  it('should return error when dropping a file without extension', async () => {
     const id = 'no-extension'
 
     renderHook(useUpload, { initialProps: id })
@@ -1080,7 +1080,7 @@ describe('Upload', () => {
   })
 
   describe('useUpload', () => {
-    it('calls the useUpload hook to store files', async () => {
+    it('should call the useUpload hook to store files', async () => {
       const validationFunction = jest.fn()
 
       const file = createMockFile('fileName.png', 100, 'image/png')
@@ -1113,7 +1113,7 @@ describe('Upload', () => {
       expect(validationFunction).toHaveBeenCalledWith(expectedResult)
     })
 
-    it('renders the list of files', async () => {
+    it('should render the list of files', async () => {
       const files = [
         { file: createMockFile('fileName.png', 100, 'image/png') },
         { file: createMockFile('fileName2.png', 100, 'image/png') },
@@ -1139,7 +1139,7 @@ describe('Upload', () => {
       expect(fileCells.length).toBe(files.length)
     })
 
-    it('renders file without file extension', async () => {
+    it('should render file without file extension', async () => {
       const files = [
         { file: createMockFile('fileName.png', 100, undefined) },
       ]
@@ -1163,7 +1163,7 @@ describe('Upload', () => {
       expect(fileCells.length).toBe(files.length)
     })
 
-    it('renders file without file extension and file extension in name', async () => {
+    it('should render file without file extension and file extension in name', async () => {
       const files = [{ file: createMockFile('fileName', 100, undefined) }]
 
       const id = 'random-id'
@@ -1185,7 +1185,7 @@ describe('Upload', () => {
       expect(fileCells.length).toBe(files.length)
     })
 
-    it('renders file without file extension and file name', async () => {
+    it('should render file without file extension and file name', async () => {
       const files = [{ file: createMockFile(undefined, 100, undefined) }]
 
       const id = 'random-id'
@@ -1207,7 +1207,7 @@ describe('Upload', () => {
       expect(fileCells.length).toBe(files.length)
     })
 
-    it('does not render any file when file is undefined', async () => {
+    it('should not render any file when file is undefined', async () => {
       const files = [{ file: undefined }]
 
       const id = 'random-id'
@@ -1229,7 +1229,7 @@ describe('Upload', () => {
       expect(fileCells.length).toBe(0)
     })
 
-    it('does not render any file when list of files is undefined', async () => {
+    it('should not render any file when list of files is undefined', async () => {
       const files = [undefined]
 
       const id = 'random-id'
@@ -1251,7 +1251,7 @@ describe('Upload', () => {
       expect(fileCells.length).toBe(0)
     })
 
-    it('does not render any file when undefined', async () => {
+    it('should not render any file when undefined', async () => {
       const files = undefined
 
       const id = 'random-id'
@@ -1273,7 +1273,7 @@ describe('Upload', () => {
       expect(fileCells.length).toBe(0)
     })
 
-    it('does not render a undefined file', async () => {
+    it('should not render a undefined file', async () => {
       const files = [
         undefined,
         { file: createMockFile('fileName.png', 100, 'image/png') },
@@ -1324,7 +1324,7 @@ describe('Upload', () => {
       )
     })
 
-    it('does not treat linked URLs of the files as a download by default', async () => {
+    it('should not treat linked URLs of the files as a download by default', async () => {
       const files = [
         { file: createMockFile('fileName.png', 100, 'image/png') },
         { file: createMockFile('fileName2.png', 100, 'image/png') },
@@ -1348,7 +1348,7 @@ describe('Upload', () => {
       expect(document.querySelectorAll('[download]').length).toBe(0)
     })
 
-    it('shows no files', async () => {
+    it('should show no files', async () => {
       const files = []
 
       const id = 'random-id3'
@@ -1371,7 +1371,7 @@ describe('Upload', () => {
       expect(emptyFileCell).not.toBeInTheDocument()
     })
 
-    it('does not show the delete button when removeDeleteButton', () => {
+    it('should not show the delete button when removeDeleteButton', () => {
       const files = [
         {
           file: createMockFile('fileName.png', 100, 'image/png'),
@@ -1400,7 +1400,7 @@ describe('Upload', () => {
       ).not.toBeInTheDocument()
     })
 
-    it('renders the delete button with additional props', () => {
+    it('should render the delete button with additional props', () => {
       const text = 'my delete text'
       const files = [
         {
@@ -1430,7 +1430,7 @@ describe('Upload', () => {
       ).toBeInTheDocument()
     })
 
-    it('shows the file description when provided', async () => {
+    it('should show the file description when provided', async () => {
       const myDescription = 'my description'
       const files = [
         {
@@ -1456,7 +1456,7 @@ describe('Upload', () => {
       expect(screen.queryByText(myDescription)).toBeInTheDocument()
     })
 
-    it('does not show the file description when loading', async () => {
+    it('should not show the file description when loading', async () => {
       const myDescription = 'my description'
       const files = [
         {
@@ -1486,7 +1486,7 @@ describe('Upload', () => {
       ).toBe(1)
     })
 
-    it('shows the file when the file is added', async () => {
+    it('should show the file when the file is added', async () => {
       const files = [
         { file: createMockFile('fileName.png', 100, 'image/png') },
       ]
@@ -1585,7 +1585,7 @@ describe('Upload', () => {
       ).not.toBeInTheDocument()
     })
 
-    it('sets focus on choose button when clicking delete', () => {
+    it('should set focus on choose button when clicking delete', () => {
       const files = [
         { file: createMockFile('fileName.png', 100, 'image/png') },
       ]
@@ -1712,7 +1712,7 @@ describe('Upload', () => {
       ).toBeInTheDocument()
     })
 
-    it('keeps files in shared state when providing id', async () => {
+    it('should keep files in shared state when providing id', async () => {
       const files = [
         createMockFile('fileName1.png', 100, 'image/png'),
         createMockFile('fileName2.png', 200, 'image/png'),
@@ -1770,7 +1770,7 @@ describe('Upload', () => {
       ).toBe(0)
     })
 
-    it('will not support drop when disableDragAndDrop', async () => {
+    it('should not support drop when disableDragAndDrop', async () => {
       const id = 'disable-drag-and-drop'
 
       const { result } = renderHook(useUpload, { initialProps: id })
@@ -1793,7 +1793,7 @@ describe('Upload', () => {
       expect(result.current.internalFiles.length).toBe(0)
     })
 
-    it('will not support drop when disabled', async () => {
+    it('should not support drop when disabled', async () => {
       const id = 'disabled'
 
       const { result } = renderHook(useUpload, { initialProps: id })
@@ -1816,7 +1816,7 @@ describe('Upload', () => {
   })
 
   describe('events', () => {
-    it('will call onChange when file gets added or removed', async () => {
+    it('should call onChange when file gets added or removed', async () => {
       const id = 'onChange'
       const onChange = jest.fn()
 
@@ -1846,7 +1846,7 @@ describe('Upload', () => {
       expect(onChange).toHaveBeenCalledWith({ files: [] })
     })
 
-    it('will call onFileClick when file gets clicked', async () => {
+    it('should call onFileClick when file gets clicked', async () => {
       const id = 'onFileClick-sync'
       const onFileClick = jest.fn()
 
@@ -1880,7 +1880,7 @@ describe('Upload', () => {
       })
     })
 
-    it('will display loading state when onFileClick is async function', async () => {
+    it('should display loading state when onFileClick is async function', async () => {
       const id = 'onFileClick-async'
       const onFileClick = jest.fn(async () => {
         await wait(1)
@@ -1912,7 +1912,7 @@ describe('Upload', () => {
       })
     })
 
-    it('will display loading state when async onFileClick fn when files do not have id', async () => {
+    it('should display loading state when async onFileClick fn when files do not have id', async () => {
       const files = [
         { file: createMockFile('fileName1.png', 100, 'image/png') },
         { file: createMockFile('fileName2.png', 100, 'image/png') },
@@ -1950,7 +1950,7 @@ describe('Upload', () => {
       })
     })
 
-    it('will call onFileDelete when file gets removed', async () => {
+    it('should call onFileDelete when file gets removed', async () => {
       const id = 'onFileDelete-sync'
       const onFileDelete = jest.fn()
 
@@ -1979,7 +1979,7 @@ describe('Upload', () => {
       })
     })
 
-    it('will display loading state when onFileDelete is async function', async () => {
+    it('should display loading state when onFileDelete is async function', async () => {
       const id = 'onFileDelete-async'
       const onFileDelete = jest.fn(async () => {
         await wait(1)
@@ -2010,7 +2010,7 @@ describe('Upload', () => {
       })
     })
 
-    it('will call onFileDelete when async function succeed', async () => {
+    it('should call onFileDelete when async function succeed', async () => {
       const id = 'onFileDelete-async-success'
       const onFileDelete = jest.fn(async () => {
         await wait(1)
@@ -2047,7 +2047,7 @@ describe('Upload', () => {
       })
     })
 
-    it('will call onFileDelete when async function fails', async () => {
+    it('should call onFileDelete when async function fails', async () => {
       const id = 'onFileDelete-async-fail'
       const onFileDelete = jest.fn(async () => {
         await wait(1)
@@ -2086,7 +2086,7 @@ describe('Upload', () => {
       })
     })
 
-    it('will display error message when async onFileDelete function fails', async () => {
+    it('should display error message when async onFileDelete function fails', async () => {
       const id = 'onFileDelete-async-fail-error-message'
       const onFileDelete = jest.fn(async () => {
         await wait(1)
@@ -2122,13 +2122,13 @@ describe('Upload', () => {
   })
 
   describe('Compact variant', () => {
-    it('renders the title', () => {
+    it('should render the title', () => {
       render(<Upload {...defaultProps} variant="compact" />)
 
       expect(screen.queryByText(nb.title)).toBeInTheDocument()
     })
 
-    it('renders the custom title', () => {
+    it('should render the custom title', () => {
       const customTitle = 'custom title'
 
       render(
@@ -2138,13 +2138,13 @@ describe('Upload', () => {
       expect(screen.queryByText(customTitle)).toBeInTheDocument()
     })
 
-    it('renders the text', () => {
+    it('should render the text', () => {
       render(<Upload {...defaultProps} variant="compact" />)
 
       expect(screen.queryByText(nb.text)).toBeInTheDocument()
     })
 
-    it('renders the custom text', () => {
+    it('should render the custom text', () => {
       const customText = 'custom text'
 
       render(
@@ -2154,7 +2154,7 @@ describe('Upload', () => {
       expect(screen.queryByText(customText)).toBeInTheDocument()
     })
 
-    it('does not render the format description', () => {
+    it('should not render the format description', () => {
       render(<Upload {...defaultProps} variant="compact" />)
 
       expect(
@@ -2162,7 +2162,7 @@ describe('Upload', () => {
       ).not.toBeInTheDocument()
     })
 
-    it('does not render the file size description', () => {
+    it('should not render the file size description', () => {
       render(<Upload {...defaultProps} variant="compact" />)
 
       expect(

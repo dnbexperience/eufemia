@@ -14,14 +14,14 @@ describe.each(['ui', 'sbanken'])('String field for %s', (themeName) => {
     url: '/uilib/extensions/forms/base-fields/String',
   })
 
-  it('have to match widths', async () => {
+  it('should match widths', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="string-widths"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match multiple errors', async () => {
+  it('should match multiple errors', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="multiple-errors"]',
     })

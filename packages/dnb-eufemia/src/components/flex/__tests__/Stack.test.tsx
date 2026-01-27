@@ -104,7 +104,7 @@ describe('Flex.Stack', () => {
     )
   })
 
-  it('has correct classes when divider is line', () => {
+  it('should have correct classes when divider is line', () => {
     render(
       <Flex.Stack divider="line">
         <Flex.Item>Flex</Flex.Item>
@@ -134,7 +134,7 @@ describe('Flex.Stack', () => {
     )
   })
 
-  it('has correct classes when divider is line-framed', () => {
+  it('should have correct classes when divider is line-framed', () => {
     render(
       <Flex.Stack divider="line-framed">
         <Flex.Item>Flex</Flex.Item>

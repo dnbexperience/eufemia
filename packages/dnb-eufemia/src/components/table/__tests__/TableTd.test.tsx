@@ -4,7 +4,7 @@ import TableTd, { TableTdProps } from '../TableTd'
 import { TableAccordionContentSingle } from '../table-accordion/TableAccordionContent'
 
 describe('TableTd', () => {
-  it('renders with props as an object', () => {
+  it('should render with props as an object', () => {
     const props: TableTdProps = {}
 
     render(

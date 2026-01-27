@@ -15,7 +15,7 @@ const props: SwitchProps = {
 }
 
 describe('Switch component', () => {
-  it('has correct state after "change" trigger', () => {
+  it('should have correct state after "change" trigger', () => {
     const { rerender } = render(<Switch {...props} />)
     // default checked value has to be false
     expect(document.querySelector('input').checked).toBe(false)
@@ -37,7 +37,7 @@ describe('Switch component', () => {
     expect(document.querySelector('input').value).toBe(value)
   })
 
-  it('has "onChange" event which will trigger on a input change', () => {
+  it('should have "onChange" event which will trigger on a input change', () => {
     const myEvent = jest.fn()
 
     render(<Switch onChange={myEvent} checked={false} />)
@@ -49,7 +49,7 @@ describe('Switch component', () => {
     expect(myEvent.mock.calls[0][0].checked).toBe(true)
   })
 
-  it('does handle controlled vs uncontrolled state properly', () => {
+  it('should handle controlled vs uncontrolled state properly', () => {
     const ControlledVsUncontrolled = () => {
       const [checked, setChecked] = React.useState(true)
       const [random, setRandom] = React.useState(null)
@@ -111,7 +111,7 @@ describe('Switch component', () => {
     )
   })
 
-  it('has a disabled attribute, once we set disabled to true', () => {
+  it('should have a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(<Switch />)
     rerender(<Switch disabled={true} />)
     expect(document.querySelector('input[disabled]')).toBeInTheDocument()
@@ -171,7 +171,7 @@ describe('Switch component', () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
-  it('gets valid ref element', () => {
+  it('should get valid ref element', () => {
     let ref: React.RefObject<HTMLInputElement>
 
     function MockComponent() {
@@ -184,7 +184,7 @@ describe('Switch component', () => {
     expect(ref.current.classList).toContain('dnb-switch__input')
   })
 
-  it('gets valid element when ref is function', () => {
+  it('should get valid element when ref is function', () => {
     const ref: React.MutableRefObject<HTMLInputElement> = React.createRef()
 
     const refFn = (elem: HTMLInputElement) => {

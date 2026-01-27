@@ -4,7 +4,7 @@ import Dialog from '../Dialog'
 import Button from '../../button/Button'
 
 describe('Dialog.Action', () => {
-  it('has correct class', () => {
+  it('should have correct class', () => {
     const MockComponent = () => {
       return (
         <Dialog openState>
@@ -22,7 +22,7 @@ describe('Dialog.Action', () => {
     ).toBeInTheDocument()
   })
 
-  it('supports spacing', () => {
+  it('should support spacing', () => {
     const MockComponent = () => {
       return (
         <Dialog openState>

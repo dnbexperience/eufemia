@@ -15,14 +15,14 @@ describe.each(['ui', 'sbanken'])('ToggleButton for %s', (themeName) => {
       url: '/uilib/components/toggle-button/demos',
     })
 
-    it('have to match toggle-button in unchecked state', async () => {
+    it('should match toggle-button in unchecked state', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="toggle-button-default"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match toggle-button in unchecked state with focus', async () => {
+    it('should match toggle-button in unchecked state with focus', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="toggle-button-default"]',
         simulateSelector:
@@ -32,7 +32,7 @@ describe.each(['ui', 'sbanken'])('ToggleButton for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match toggle-button in unchecked state with hover', async () => {
+    it('should match toggle-button in unchecked state with hover', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="toggle-button-default"]',
         simulateSelector:
@@ -51,14 +51,14 @@ describe.each(['ui', 'sbanken'])('ToggleButton for %s', (themeName) => {
       url: '/uilib/components/toggle-button/demos',
     })
 
-    it('have to match toggle-button in checked state', async () => {
+    it('should match toggle-button in checked state', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="toggle-button-checked"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match toggle-button in checked state with focus', async () => {
+    it('should match toggle-button in checked state with focus', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="toggle-button-checked"]',
         simulateSelector:
@@ -68,7 +68,7 @@ describe.each(['ui', 'sbanken'])('ToggleButton for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match toggle-button in checked state with hover', async () => {
+    it('should match toggle-button in checked state with hover', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="toggle-button-checked"]',
         simulateSelector:
@@ -78,7 +78,7 @@ describe.each(['ui', 'sbanken'])('ToggleButton for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match toggle-button in active focus state', async () => {
+    it('should match toggle-button in active focus state', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="toggle-button-checked"]',
         simulateSelector:
@@ -88,7 +88,7 @@ describe.each(['ui', 'sbanken'])('ToggleButton for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match toggle-button group', async () => {
+    it('should match toggle-button group', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="toggle-button-group-default"] .dnb-toggle-button-group',
@@ -96,7 +96,7 @@ describe.each(['ui', 'sbanken'])('ToggleButton for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match toggle-button group in vertical layout', async () => {
+    it('should match toggle-button group in vertical layout', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="toggle-button-group-vertical"] .dnb-toggle-button-group',
@@ -104,7 +104,7 @@ describe.each(['ui', 'sbanken'])('ToggleButton for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match toggle-button group with form-status', async () => {
+    it('should match toggle-button group with form-status', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="toggle-button-group-status"] .dnb-toggle-button-group',
@@ -113,7 +113,7 @@ describe.each(['ui', 'sbanken'])('ToggleButton for %s', (themeName) => {
     })
   })
 
-  it('have to match toggle-button in disabled state', async () => {
+  it('should match toggle-button in disabled state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="toggle-button-group-disabled"]',
     })

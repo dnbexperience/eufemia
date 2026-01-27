@@ -11,7 +11,7 @@ describe.each(['ui', 'sbanken'])(
       url: '/uilib/layout/visual-tests',
     })
 
-    it('have to match vertical direction', async () => {
+    it('should match vertical direction', async () => {
       const screenshot = await makeScreenshot({
         addWrapper: false,
         style: { width: '30rem' },
@@ -21,7 +21,7 @@ describe.each(['ui', 'sbanken'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match vertical-labels direction', async () => {
+    it('should match vertical-labels direction', async () => {
       const screenshot = await makeScreenshot({
         addWrapper: false,
         style: { width: '30rem' },
@@ -31,7 +31,7 @@ describe.each(['ui', 'sbanken'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match horizontal direction', async () => {
+    it('should match horizontal direction', async () => {
       const screenshot = await makeScreenshot({
         addWrapper: false,
         style: { width: '60rem', overflow: 'visible' },

@@ -8,7 +8,7 @@ import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO'].IterateViewContainer
 
 describe('ViewContainer', () => {
-  it('renders content and without errors', () => {
+  it('should render content and without errors', () => {
     const { rerender } = render(
       <IterateItemContext.Provider
         value={{ containerMode: 'edit', value: 'foo' }}
@@ -37,7 +37,7 @@ describe('ViewContainer', () => {
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
   })
 
-  it('calls "switchContainerMode" when edit button is clicked', () => {
+  it('should call "switchContainerMode" when edit button is clicked', () => {
     const switchContainerMode = jest.fn()
 
     render(
@@ -91,7 +91,7 @@ describe('ViewContainer', () => {
     expect(leads[1]).toHaveTextContent('Item title 2')
   })
 
-  it('calls "handleRemove" when remove button is clicked', () => {
+  it('should call "handleRemove" when remove button is clicked', () => {
     const handleRemove = jest.fn()
 
     render(
@@ -105,7 +105,7 @@ describe('ViewContainer', () => {
     expect(handleRemove).toHaveBeenCalledTimes(1)
   })
 
-  it('has correct class', () => {
+  it('should have correct class', () => {
     render(
       <IterateItemContext.Provider value={{ containerMode: 'view' }}>
         <ViewContainer>content</ViewContainer>
@@ -117,7 +117,7 @@ describe('ViewContainer', () => {
     ).toBeInTheDocument()
   })
 
-  it('will forward custom HTML attributes to the inner wrapper', () => {
+  it('should forward custom HTML attributes to the inner wrapper', () => {
     render(
       <IterateItemContext.Provider value={{ containerMode: 'view' }}>
         <ViewContainer data-attr="value">content</ViewContainer>
@@ -145,7 +145,7 @@ describe('ViewContainer', () => {
     expect(buttons[1]).toHaveTextContent(nb.removeButton)
   })
 
-  it('supports translations from Form.Handler', () => {
+  it('should support translations from Form.Handler', () => {
     const remove = 'custom-translation-remove-button-text'
     const edit = 'custom-translation-edit-button-text'
 

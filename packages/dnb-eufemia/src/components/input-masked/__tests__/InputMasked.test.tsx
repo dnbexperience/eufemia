@@ -46,7 +46,7 @@ describe('InputMasked component', () => {
     )
   })
 
-  it('gets valid ref element', () => {
+  it('should get valid ref element', () => {
     let ref: React.RefObject<HTMLInputElement>
 
     function MockComponent() {
@@ -61,7 +61,7 @@ describe('InputMasked component', () => {
     expect(ref.current.tagName).toBe('INPUT')
   })
 
-  it('gets valid element when ref is function', () => {
+  it('should get valid element when ref is function', () => {
     const ref: React.MutableRefObject<HTMLInputElement> = React.createRef()
 
     const refFn = (elem: HTMLInputElement) => {
@@ -1171,7 +1171,7 @@ describe('InputMasked component as_number', () => {
     expect(document.querySelector('input').value).toBe('12 345,6')
   })
 
-  it('will not overwrite decimalSymbol when undefined was given', () => {
+  it('should not overwrite decimalSymbol when undefined was given', () => {
     const { rerender } = render(
       <InputMasked
         value={12345.678}

@@ -30,14 +30,14 @@ const makeWrapper = (props = null) => {
 }
 
 describe('UploadFileInput', () => {
-  it('renders the upload button', () => {
+  it('should render the upload button', () => {
     render(<UploadFileInput />, {
       wrapper: makeWrapper(),
     })
     expect(screen.getByRole('button')).toBeInTheDocument()
   })
 
-  it('renders the upload button text', () => {
+  it('should render the upload button text', () => {
     const buttonText = 'button text'
     render(<UploadFileInput />, {
       wrapper: makeWrapper({
@@ -48,7 +48,7 @@ describe('UploadFileInput', () => {
     expect(screen.queryByText(buttonText)).toBeInTheDocument()
   })
 
-  it('renders the upload input', () => {
+  it('should render the upload input', () => {
     render(<UploadFileInput />, {
       wrapper: makeWrapper(),
     })
@@ -80,7 +80,7 @@ describe('UploadFileInput', () => {
     expect(element).not.toHaveAttribute('multiple')
   })
 
-  it('renders the input', () => {
+  it('should render the input', () => {
     render(<UploadFileInput />, {
       wrapper: makeWrapper(),
     })
@@ -107,7 +107,7 @@ describe('UploadFileInput', () => {
     expect(clickEventListener).toHaveBeenCalled()
   })
 
-  it('calls the onInputUpload function', async () => {
+  it('should call the onInputUpload function', async () => {
     const file = createMockFile('fileName.png', 100, 'image/png')
 
     const onInputUpload = jest.fn()
@@ -125,7 +125,7 @@ describe('UploadFileInput', () => {
     expect(onInputUpload).toHaveBeenCalledWith([{ file }])
   })
 
-  it('will reset input value on click', async () => {
+  it('should reset input value on click', async () => {
     const file = createMockFile('fileName.png', 100, 'image/png')
 
     const onInputUpload = jest.fn()

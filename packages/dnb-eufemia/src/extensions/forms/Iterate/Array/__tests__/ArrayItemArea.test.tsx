@@ -225,7 +225,7 @@ describe('ArrayItemArea', () => {
     ).toHaveAttribute('aria-label', 'Aria Label')
   })
 
-  it('renders content and without errors', () => {
+  it('should render content and without errors', () => {
     const { rerender } = render(
       <ArrayItemArea mode="view">content</ArrayItemArea>
     )
@@ -260,7 +260,7 @@ describe('ArrayItemArea', () => {
     ).not.toHaveClass('open')
   })
 
-  it('calls handleRemove when remove button is clicked', () => {
+  it('should call handleRemove when remove button is clicked', () => {
     const handleRemove = jest.fn()
 
     render(
@@ -276,7 +276,7 @@ describe('ArrayItemArea', () => {
     expect(handleRemove).toHaveBeenCalledTimes(1)
   })
 
-  it('calls "fulfillRemove" when remove button is clicked', async () => {
+  it('should call "fulfillRemove" when remove button is clicked', async () => {
     const handleRemove = jest.fn()
     const fulfillRemove = jest.fn()
 
@@ -545,7 +545,7 @@ describe('ArrayItemArea', () => {
     expect(element).toHaveClass('dnb-height-animation--hidden')
   })
 
-  it('calls onAnimationEnd when remove button is clicked', async () => {
+  it('should call onAnimationEnd when remove button is clicked', async () => {
     const handleRemove = jest.fn()
     const onAnimationEnd = jest.fn()
 

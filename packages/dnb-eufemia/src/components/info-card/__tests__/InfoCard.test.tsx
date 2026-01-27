@@ -8,7 +8,7 @@ import { Provider } from '../../../shared'
 import { Li, Ul } from '../../../elements'
 
 describe('InfoCard', () => {
-  it('renders without props', () => {
+  it('should render without props', () => {
     render(<InfoCard />)
 
     expect(
@@ -17,7 +17,7 @@ describe('InfoCard', () => {
     expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
   })
 
-  it('renders with props', () => {
+  it('should render with props', () => {
     const props: InfoCardAllProps = { text: 'text' }
     render(<InfoCard {...props} />)
 
@@ -26,7 +26,7 @@ describe('InfoCard', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders the title as string', () => {
+  it('should render the title as string', () => {
     const title = 'my title'
 
     render(<InfoCard text="text" title={title} />)
@@ -47,7 +47,7 @@ describe('InfoCard', () => {
     ).toBe('color: red;')
   })
 
-  it('renders the title as react node', () => {
+  it('should render the title as react node', () => {
     const title = <span data-testid="react-node">ReactNode</span>
 
     render(<InfoCard text="text" title={title} />)
@@ -62,7 +62,7 @@ describe('InfoCard', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders the text as string', () => {
+  it('should render the text as string', () => {
     const text = 'my-text'
 
     render(<InfoCard text={text} />)
@@ -75,7 +75,7 @@ describe('InfoCard', () => {
     ).toMatch(text)
   })
 
-  it('renders the text as react node', () => {
+  it('should render the text as react node', () => {
     const text = <span data-testid="react-node">ReactNode</span>
 
     render(<InfoCard text={text} />)
@@ -90,7 +90,7 @@ describe('InfoCard', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders the icon', () => {
+  it('should render the icon', () => {
     const icon = <Confetti data-testid="custom-icon" />
 
     render(<InfoCard text="text" icon={icon} />)
@@ -98,7 +98,7 @@ describe('InfoCard', () => {
     expect(screen.queryByTestId('custom-icon')).toBeInTheDocument()
   })
 
-  it('renders the image', () => {
+  it('should render the image', () => {
     const img_src = '/dnb/android-chrome-192x192.png'
 
     render(
@@ -108,7 +108,7 @@ describe('InfoCard', () => {
     expect(screen.queryByRole('img').getAttribute('src')).toBe(img_src)
   })
 
-  it('renders imgProps', () => {
+  it('should render imgProps', () => {
     const img_src = '/dnb/android-chrome-192x192.png'
     const img_width = '16'
     const img_height = '16'
@@ -133,7 +133,7 @@ describe('InfoCard', () => {
     expect(image.getAttribute('height')).toBe(img_height)
   })
 
-  it('does not render the buttons', () => {
+  it('should not render the buttons', () => {
     render(<InfoCard text="text" />)
 
     expect(
@@ -144,7 +144,7 @@ describe('InfoCard', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('renders the accept button when on_accept is provided', () => {
+  it('should render the accept button when on_accept is provided', () => {
     const onAccept = jest.fn()
     render(<InfoCard text="text" onAccept={onAccept} />)
 
@@ -159,7 +159,7 @@ describe('InfoCard', () => {
     expect(onAccept).toHaveBeenCalled()
   })
 
-  it('renders the accept button text as string', () => {
+  it('should render the accept button text as string', () => {
     const acceptButtonText = 'some text'
     render(<InfoCard text="text" acceptButtonText={acceptButtonText} />)
 
@@ -171,7 +171,7 @@ describe('InfoCard', () => {
     expect(buttonElement.textContent).toMatch(acceptButtonText)
   })
 
-  it('renders the accept button text as react node', () => {
+  it('should render the accept button text as react node', () => {
     const acceptButtonText = (
       <span data-testid="react-node">ReactNode</span>
     )
@@ -188,7 +188,7 @@ describe('InfoCard', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders the close button when on_close is provided', () => {
+  it('should render the close button when on_close is provided', () => {
     const onClose = jest.fn()
     render(<InfoCard text="text" onClose={onClose} />)
 
@@ -203,7 +203,7 @@ describe('InfoCard', () => {
     expect(onClose).toHaveBeenCalled()
   })
 
-  it('renders the close button text as string', () => {
+  it('should render the close button text as string', () => {
     const closeButtonText = 'some text'
     render(<InfoCard text="text" closeButtonText={closeButtonText} />)
 
@@ -215,7 +215,7 @@ describe('InfoCard', () => {
     expect(buttonElement.textContent).toMatch(closeButtonText)
   })
 
-  it('renders the close button text as react node', () => {
+  it('should render the close button text as react node', () => {
     const closeButtonText = <span data-testid="react-node">ReactNode</span>
 
     render(<InfoCard text="text" closeButtonText={closeButtonText} />)
@@ -230,7 +230,7 @@ describe('InfoCard', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders the accept button with additional props', () => {
+  it('should render the accept button with additional props', () => {
     const href = 'href'
 
     render(
@@ -248,7 +248,7 @@ describe('InfoCard', () => {
     expect(buttonElement.getAttribute('href')).toMatch(href)
   })
 
-  it('renders the close button with additional props', () => {
+  it('should render the close button with additional props', () => {
     const href = 'href'
 
     render(
@@ -266,7 +266,7 @@ describe('InfoCard', () => {
     expect(buttonElement.getAttribute('href')).toMatch(href)
   })
 
-  it('renders skeleton if skeleton is true', () => {
+  it('should render skeleton if skeleton is true', () => {
     const skeletonClassName = 'dnb-skeleton'
 
     render(<InfoCard skeleton text="skeleton" />)
@@ -306,7 +306,7 @@ describe('InfoCard', () => {
     ])
   })
 
-  it('renders the drop shadow if dropShadow is true', () => {
+  it('should render the drop shadow if dropShadow is true', () => {
     const shadowClassName = 'dnb-info-card--shadow'
 
     render(<InfoCard dropShadow text="content" />)
@@ -339,7 +339,7 @@ describe('InfoCard', () => {
     expect(element.querySelector('h3')).not.toBeInTheDocument()
   })
 
-  it('renders the children as children', () => {
+  it('should render the children as children', () => {
     const children = (
       <Ul>
         <Li>Item 1</Li>
@@ -361,7 +361,7 @@ describe('InfoCard', () => {
   })
 
   describe('InfoCard scss', () => {
-    it('has to match style dependencies css', () => {
+    it('should match style dependencies css', () => {
       const css = loadScss(require.resolve('../style/deps.scss'))
       expect(css).toMatchSnapshot()
     })

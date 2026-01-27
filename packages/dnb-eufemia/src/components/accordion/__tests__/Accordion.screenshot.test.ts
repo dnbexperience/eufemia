@@ -14,7 +14,7 @@ describe.each(['ui', 'sbanken'])('Accordion for %s', (themeName) => {
     url: '/uilib/components/accordion/demos',
   })
 
-  it('have to match in closed state', async () => {
+  it('should match in closed state', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '20rem' },
       selector: '[data-visual-test="accordion-default"]',
@@ -22,7 +22,7 @@ describe.each(['ui', 'sbanken'])('Accordion for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match in nested accordions', async () => {
+  it('should match in nested accordions', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '20rem' },
       selector: '[data-visual-test="accordion-nested"]',
@@ -30,7 +30,7 @@ describe.each(['ui', 'sbanken'])('Accordion for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match with large content', async () => {
+  it('should match with large content', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '20rem' },
       selector: '[data-visual-test="accordion-large"]',
@@ -38,7 +38,7 @@ describe.each(['ui', 'sbanken'])('Accordion for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match in open state with focus', async () => {
+  it('should match in open state with focus', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '20rem' },
       styleSelector: '[data-visual-test="accordion-default"]',
@@ -50,7 +50,7 @@ describe.each(['ui', 'sbanken'])('Accordion for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match in closed state with focus', async () => {
+  it('should match in closed state with focus', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '20rem' },
       styleSelector: '[data-visual-test="accordion-default"]',
@@ -72,7 +72,7 @@ describe.each(['ui', 'sbanken'])('Accordion for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match in closed state with hover', async () => {
+  it('should match in closed state with hover', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '20rem' },
       styleSelector: '[data-visual-test="accordion-default"]',
@@ -84,7 +84,7 @@ describe.each(['ui', 'sbanken'])('Accordion for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match in first state', async () => {
+  it('should match in first state', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '30rem' },
       selector: '[data-visual-test="accordion-group"]',
@@ -92,7 +92,7 @@ describe.each(['ui', 'sbanken'])('Accordion for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match in second state', async () => {
+  it('should match in second state', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '30rem' },
       selector: '[data-visual-test="accordion-group"]',
@@ -104,7 +104,7 @@ describe.each(['ui', 'sbanken'])('Accordion for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match with plain variant', async () => {
+  it('should match with plain variant', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '20rem' },
       selector: '[data-visual-test="accordion-variant-plain"]',
@@ -112,7 +112,7 @@ describe.each(['ui', 'sbanken'])('Accordion for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match disabled state', async () => {
+  it('should match disabled state', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '20rem' },
       selector: '[data-visual-test="accordion-disabled"]',

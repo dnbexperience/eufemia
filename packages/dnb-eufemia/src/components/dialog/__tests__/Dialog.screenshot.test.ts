@@ -18,21 +18,21 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
     },
   })
 
-  it('have to match default dialog trigger', async () => {
+  it('should match default dialog trigger', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="dialog-default"] .dnb-modal__trigger',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match suffix dialog trigger', async () => {
+  it('should match suffix dialog trigger', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="dialog-help-button"] .dnb-input',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match custom dialog trigger', async () => {
+  it('should match custom dialog trigger', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="dialog-custom-trigger"] .dnb-modal__trigger',
@@ -40,7 +40,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dialog help window', async () => {
+  it('should match the dialog help window', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="dialog-help-button"]', // only to make sure we have a valid selector
       simulate: 'click',
@@ -53,7 +53,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match a top aligned dialog', async () => {
+  it('should match a top aligned dialog', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="dialog-vertical-alignment"]', // only to make sure we have a valid selector
       simulate: 'click',
@@ -66,7 +66,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dialog fullscreen window', async () => {
+  it('should match the dialog fullscreen window', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="dialog-fullscreen"]', // only to make sure we have a valid selector
       simulate: 'click',
@@ -79,7 +79,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dialog window using custom trigger', async () => {
+  it('should match the dialog window using custom trigger', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="dialog-custom-trigger"]', // only to make sure we have a valid selector
       simulate: 'click',
@@ -92,7 +92,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the custom dialog window', async () => {
+  it('should match the custom dialog window', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="full-dialog"]', // only to make sure we have a valid selector
       simulate: 'click',
@@ -105,7 +105,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the default dialog window', async () => {
+  it('should match the default dialog window', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="dialog-default"]', // only to make sure we have a valid selector
       simulate: 'click',
@@ -118,7 +118,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the default confirmation', async () => {
+  it('should match the default confirmation', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="dialog-confirm-default"]', // only to make sure we have a valid selector
       simulate: 'click',
@@ -131,7 +131,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the delete confirmation', async () => {
+  it('should match the delete confirmation', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="dialog-confirm-delete"]', // only to make sure we have a valid selector
       simulate: 'click',
@@ -144,7 +144,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the logged out confirmation', async () => {
+  it('should match the logged out confirmation', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="dialog-confirm-loggedout"]', // only to make sure we have a valid selector
       simulate: 'click',
@@ -157,7 +157,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the cookie concent confirmation', async () => {
+  it('should match the cookie concent confirmation', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="dialog-confirm-cookie"]', // only to make sure we have a valid selector
       simulate: 'click',
@@ -170,7 +170,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dialog progressindicator window', async () => {
+  it('should match the dialog progressindicator window', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="dialog-progress-indicator"]', // only to make sure we have a valid selector
       simulate: 'click',
@@ -194,7 +194,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
       headers: { 'User-Agent': 'iPhone OS 15' },
     })
 
-    it('have to match scrolled to top', async () => {
+    it('should match scrolled to top', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="dialog-scroll-content"]', // only to make sure we have a valid selector
         simulate: 'click',
@@ -208,7 +208,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match scrolled to bottom', async () => {
+    it('should match scrolled to bottom', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="dialog-scroll-content"]', // only to make sure we have a valid selector
         simulate: 'click',
@@ -234,7 +234,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
       headers: { 'User-Agent': 'iPhone OS 15' },
     })
 
-    it('have to match scrolled to top', async () => {
+    it('should match scrolled to top', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="dialog-scroll-content-info"]', // only to make sure we have a valid selector
         simulate: 'click',
@@ -248,7 +248,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match scrolled to bottom', async () => {
+    it('should match scrolled to bottom', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="dialog-scroll-content-info"]', // only to make sure we have a valid selector
         simulate: 'click',

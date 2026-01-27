@@ -38,7 +38,7 @@ describe('withCamelCaseProps', () => {
 
   const Component = withCamelCaseProps(Original)
 
-  it('will still expose a static property', () => {
+  it('should still expose a static property', () => {
     expect(Original.property).toBe('thing')
 
     expect(Component.property).toBe(Original.property)
@@ -55,7 +55,7 @@ describe('withCamelCaseProps', () => {
     expect(Component.name).toBe('Original')
   })
 
-  it('will render', () => {
+  it('should render', () => {
     const { rerender, asFragment } = render(
       <Component snake_case={false} camelCase={1} />
     )
@@ -428,7 +428,7 @@ describe('convertCamelCasePropsToSnakeCase', () => {
     })
   })
 
-  it('will keep frozen object as frozen', () => {
+  it('should keep frozen object as frozen', () => {
     const props = Object.freeze({
       fooBar: 'value',
       snakeCase: { fooBar: 123 },

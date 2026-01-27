@@ -44,7 +44,7 @@ afterEach(() => {
 })
 
 describe('Dialog', () => {
-  it('will run bodyScrollLock with disableBodyScroll', () => {
+  it('should run bodyScrollLock with disableBodyScroll', () => {
     render(
       <Dialog {...props}>
         <button>button</button>
@@ -82,7 +82,7 @@ describe('Dialog', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('will close by using callback method', () => {
+  it('should close by using callback method', () => {
     const on_close = jest.fn()
     const on_open = jest.fn()
     render(
@@ -104,7 +104,7 @@ describe('Dialog', () => {
     expect(on_close).toHaveBeenCalledTimes(1)
   })
 
-  it('will accept custom refs', () => {
+  it('should accept custom refs', () => {
     const contentRef = React.createRef<HTMLElement>()
     const scrollRef = React.createRef<HTMLElement>()
 
@@ -127,7 +127,7 @@ describe('Dialog', () => {
     expect(scrollRef.current).toBeTruthy()
   })
 
-  it('will use props from global context', () => {
+  it('should use props from global context', () => {
     const contextTitle = 'Custom title'
     render(
       <Provider
@@ -186,7 +186,7 @@ describe('Dialog', () => {
     )
   })
 
-  it('will set correct class when verticalAlignment is set to top', () => {
+  it('should set correct class when verticalAlignment is set to top', () => {
     render(<Dialog verticalAlignment="top" />)
 
     fireEvent.click(document.querySelector('button'))
@@ -363,7 +363,7 @@ describe('Dialog', () => {
     })
   })
 
-  it('has support for nested Dialogs', async () => {
+  it('should have support for nested Dialogs', async () => {
     const on_open = {
       first: jest.fn(),
       second: jest.fn(),
@@ -525,7 +525,7 @@ describe('Dialog', () => {
     })
   })
 
-  it('will close dialog by using callback method', () => {
+  it('should close dialog by using callback method', () => {
     const onClose = jest.fn()
     const onOpen = jest.fn()
 
@@ -572,7 +572,7 @@ describe('Dialog', () => {
     ).toBe(1)
   })
 
-  it('does not close with click on overlay for variant confirmation', async () => {
+  it('should not close with click on overlay for variant confirmation', async () => {
     render(<Dialog {...props} variant="confirmation" openState="opened" />)
 
     fireEvent.click(document.querySelector('.dnb-modal__content'))
@@ -588,7 +588,7 @@ describe('Dialog', () => {
     })
   })
 
-  it('sets focus inside modal when opened after form submission, not on submit button', async () => {
+  it('should set focus inside modal when opened after form submission, not on submit button', async () => {
     const TestComponent = () => {
       const [isOpen, setIsOpen] = React.useState(false)
 

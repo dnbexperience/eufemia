@@ -16,7 +16,7 @@ describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
       url: '/uilib/typography',
     })
 
-    it('have to match all the typography variants', async () => {
+    it('should match all the typography variants', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="typography-variants"]',
       })
@@ -34,7 +34,7 @@ describe.each(['sbanken'])('Typography mobile for %s', (themeName) => {
     },
   })
 
-  it('have to match all the typography variants', async () => {
+  it('should match all the typography variants', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="typography-variants"]',
     })

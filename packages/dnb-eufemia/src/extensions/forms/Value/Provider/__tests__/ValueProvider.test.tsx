@@ -114,7 +114,7 @@ describe('Value.Provider', () => {
   })
 
   describe('inheritVisibility', () => {
-    it('renders value when visibility of field is initially true', async () => {
+    it('should render value when visibility of field is initially true', async () => {
       render(
         <Form.Handler>
           <Field.Boolean

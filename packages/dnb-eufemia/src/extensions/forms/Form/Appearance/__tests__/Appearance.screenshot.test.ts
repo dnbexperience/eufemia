@@ -9,14 +9,14 @@ describe.each(['ui', 'sbanken'])('Form.Appearance for %s', (themeName) => {
     url: '/uilib/extensions/forms/Form/Appearance/demos',
   })
 
-  it('have to match size', async () => {
+  it('should match size', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="form-appearance-size"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match size nested', async () => {
+  it('should match size nested', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="form-appearance-size-nested"]',
     })

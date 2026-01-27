@@ -938,7 +938,7 @@ describe('Field.Date', () => {
     expect(cancelButton).toHaveAttribute('data-testid', 'cancel')
   })
 
-  it('will reset the value and the picker on reset click', async () => {
+  it('should reset the value and the picker on reset click', async () => {
     const onReset = jest.fn()
     let dataContext = null
 
@@ -2641,7 +2641,7 @@ describe('Field.Date', () => {
   })
 
   describe('error handling', () => {
-    it('renders error', () => {
+    it('should render error', () => {
       render(<Field.Date error={new Error('Error message')} />)
 
       const element = document.querySelector('.dnb-form-status')
@@ -2651,7 +2651,7 @@ describe('Field.Date', () => {
       expect(input).toHaveClass('dnb-date-picker__status--error')
     })
 
-    it('shows error style in FieldBlock', () => {
+    it('should show error style in FieldBlock', () => {
       render(
         <FieldBlock>
           <Field.Date error={new Error('Error message')} />

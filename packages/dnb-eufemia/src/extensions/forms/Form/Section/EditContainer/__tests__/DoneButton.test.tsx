@@ -10,7 +10,7 @@ import ToolbarContext from '../../Toolbar/ToolbarContext'
 const nb = nbNO['nb-NO'].SectionEditContainer
 
 describe('DoneButton', () => {
-  it('calls "switchContainerMode"', () => {
+  it('should call "switchContainerMode"', () => {
     const switchContainerMode = jest.fn()
 
     render(

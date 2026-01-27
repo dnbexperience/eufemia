@@ -274,7 +274,7 @@ describe('docs_search', () => {
     expect(hits[0]?.score).toBeGreaterThan(0)
   })
 
-  it('handles multi-word queries with AND logic', async () => {
+  it('should handle multi-word queries with AND logic', async () => {
     const tools = createDocsTools({ docsRoot })
     const result = await tools.docsSearch({
       query: 'form components input',
@@ -347,7 +347,7 @@ describe('docs_search', () => {
     expect(hits.length).toBe(0)
   })
 
-  it('handles case-insensitive queries', async () => {
+  it('should handle case-insensitive queries', async () => {
     const tools = createDocsTools({ docsRoot })
     const result = await tools.docsSearch({
       query: 'FORM COMPONENTS INPUT',
@@ -365,7 +365,7 @@ describe('docs_search', () => {
     expect(inputHit).toBeDefined()
   })
 
-  it('handles queries with extra whitespace', async () => {
+  it('should handle queries with extra whitespace', async () => {
     const tools = createDocsTools({ docsRoot })
     const result = await tools.docsSearch({
       query: '  form   components   input  ',
@@ -472,7 +472,7 @@ describe('component_find', () => {
     expect(info.docExists).toBe(true)
   })
 
-  it('handles Field.Address dot notation', async () => {
+  it('should handle Field.Address dot notation', async () => {
     const tools = createDocsTools({ docsRoot })
     const result = await tools.componentFind({ name: 'Field.Address' })
     const info = JSON.parse(getText(result)) as {
@@ -485,7 +485,7 @@ describe('component_find', () => {
     expect(info.docExists).toBe(true)
   })
 
-  it('handles Field.String dot notation', async () => {
+  it('should handle Field.String dot notation', async () => {
     const tools = createDocsTools({ docsRoot })
     const result = await tools.componentFind({ name: 'Field.String' })
     const info = JSON.parse(getText(result)) as {
@@ -496,7 +496,7 @@ describe('component_find', () => {
     expect(info.docExists).toBe(true)
   })
 
-  it('handles Value.Address dot notation', async () => {
+  it('should handle Value.Address dot notation', async () => {
     const tools = createDocsTools({ docsRoot })
     const result = await tools.componentFind({ name: 'Value.Address' })
     const info = JSON.parse(getText(result)) as {
@@ -507,7 +507,7 @@ describe('component_find', () => {
     expect(info.docExists).toBe(true)
   })
 
-  it('handles case-insensitive dot notation', async () => {
+  it('should handle case-insensitive dot notation', async () => {
     const tools = createDocsTools({ docsRoot })
     const result = await tools.componentFind({ name: 'field.address' })
     const info = JSON.parse(getText(result)) as {
@@ -573,7 +573,7 @@ describe('component_doc', () => {
     expect(getText(result)).toContain('displaying string values')
   })
 
-  it('handles case-insensitive component names', async () => {
+  it('should handle case-insensitive component names', async () => {
     const tools = createDocsTools({ docsRoot })
     const result = await tools.componentDoc({ name: 'field.address' })
     expect(getText(result)).toContain('Field.Address')
@@ -633,7 +633,7 @@ describe('component_props', () => {
 })
 
 describe('MCP dependency configuration', () => {
-  it('has @modelcontextprotocol/sdk dependency declared in package.json', () => {
+  it('should have @modelcontextprotocol/sdk dependency declared in package.json', () => {
     const packageJsonPath = path.join(__dirname, '../../../package.json')
     const packageJson = JSON.parse(
       fs.readFileSync(packageJsonPath, 'utf8')
@@ -648,7 +648,7 @@ describe('MCP dependency configuration', () => {
     ).toBeTruthy()
   })
 
-  it('has .vscode/mcp.json with correct eufemia server configuration', () => {
+  it('should have .vscode/mcp.json with correct eufemia server configuration', () => {
     const mcpConfigPath = path.join(
       __dirname,
       '../../../../../.vscode/mcp.json'
@@ -669,7 +669,7 @@ describe('MCP dependency configuration', () => {
     )
   })
 
-  it('has run-mcp-server.sh script file at expected location', () => {
+  it('should have run-mcp-server.sh script file at expected location', () => {
     const scriptPath = path.join(__dirname, '../run-mcp-server.sh')
     expect(fs.existsSync(scriptPath)).toBe(true)
   })

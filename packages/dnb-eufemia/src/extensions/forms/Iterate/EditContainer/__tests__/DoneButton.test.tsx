@@ -10,7 +10,7 @@ import ToolbarContext from '../../Toolbar/ToolbarContext'
 const nb = nbNO['nb-NO'].IterateEditContainer
 
 describe('DoneButton', () => {
-  it('calls "switchContainerMode"', () => {
+  it('should call "switchContainerMode"', () => {
     const switchContainerMode = jest.fn()
 
     render(
@@ -27,7 +27,7 @@ describe('DoneButton', () => {
     expect(switchContainerMode).toHaveBeenCalledWith('view')
   })
 
-  it('calls "switchContainerMode" when isNew is true', () => {
+  it('should call "switchContainerMode" when isNew is true', () => {
     const switchContainerMode = jest.fn()
 
     render(

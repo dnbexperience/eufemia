@@ -217,7 +217,7 @@ describe('useValueProps', () => {
   })
 
   describe('inheritLabel', () => {
-    it('renders label from field with same path', () => {
+    it('should render label from field with same path', () => {
       render(
         <Form.Handler
           data={{
@@ -236,7 +236,7 @@ describe('useValueProps', () => {
       ).toHaveTextContent('The label')
     })
 
-    it('renders label from field with same path when rendered before the field', async () => {
+    it('should render label from field with same path when rendered before the field', async () => {
       render(
         <Form.Handler data={{ myPath: 'A value' }}>
           <Value.String path="/myPath" inheritLabel />
@@ -325,7 +325,7 @@ describe('useValueProps', () => {
       ).toHaveTextContent('A value')
     })
 
-    it('renders label from field with same path inside a Section', () => {
+    it('should render label from field with same path inside a Section', () => {
       render(
         <Form.Handler
           data={{
@@ -348,7 +348,7 @@ describe('useValueProps', () => {
       ).toHaveTextContent('The label')
     })
 
-    it('renders label from field with same path inside a Wizard', async () => {
+    it('should render label from field with same path inside a Wizard', async () => {
       render(
         <Form.Handler>
           <Wizard.Container>
@@ -398,7 +398,7 @@ describe('useValueProps', () => {
   })
 
   describe('inheritVisibility', () => {
-    it('renders value when visibility of field is initially true', () => {
+    it('should render value when visibility of field is initially true', () => {
       render(
         <Form.Handler>
           <Field.Boolean
@@ -436,7 +436,7 @@ describe('useValueProps', () => {
       ).toHaveTextContent('Foo')
     })
 
-    it('renders value visibility when field visibility changes', async () => {
+    it('should render value visibility when field visibility changes', async () => {
       render(
         <Form.Handler>
           <Field.Boolean
@@ -498,7 +498,7 @@ describe('useValueProps', () => {
       })
     })
 
-    it('renders value visibility changes without Form.Visibility', async () => {
+    it('should render value visibility changes without Form.Visibility', async () => {
       const MyForm = () => {
         const [count, increment] = React.useReducer(
           (state) => state + 1,
@@ -566,7 +566,7 @@ describe('useValueProps', () => {
       })
     })
 
-    it('renders value visibility inside a Wizard', async () => {
+    it('should render value visibility inside a Wizard', async () => {
       render(
         <Form.Handler>
           <Wizard.Container>

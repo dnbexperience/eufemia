@@ -10,7 +10,7 @@ describe('CopyOnClick', () => {
     mockClipboard()
   })
 
-  it('renders with default props', () => {
+  it('should render with default props', () => {
     render(<CopyOnClick>CopyOnClick text</CopyOnClick>)
 
     expect(screen.getByText('CopyOnClick text')).toBeInTheDocument()
@@ -24,7 +24,7 @@ describe('CopyOnClick', () => {
     ])
   })
 
-  it('does not render the cursor when disabled', () => {
+  it('should not render the cursor when disabled', () => {
     render(<CopyOnClick showCursor={true}>Disabled cursor</CopyOnClick>)
 
     const element = document.querySelector('.dnb-copy-on-click')
@@ -34,7 +34,7 @@ describe('CopyOnClick', () => {
     ])
   })
 
-  it('updates when children changes', () => {
+  it('should update when children changes', () => {
     const { rerender } = render(<CopyOnClick>First copy text</CopyOnClick>)
 
     expect(screen.getByText('First copy text')).toBeInTheDocument()
@@ -44,7 +44,7 @@ describe('CopyOnClick', () => {
     expect(screen.getByText('Second copy text')).toBeInTheDocument()
   })
 
-  it('renders with a paragraph element', () => {
+  it('should render with a paragraph element', () => {
     render(
       <CopyOnClick>
         <p>CopyOnClick text</p>

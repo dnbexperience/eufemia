@@ -4,14 +4,14 @@ import { Value, Form, Field } from '../../..'
 import { Provider } from '../../../../../shared'
 
 describe('Value.Number', () => {
-  it('renders value', () => {
+  it('should render value', () => {
     render(<Value.Number value={42} />)
     expect(
       document.querySelector('.dnb-forms-value-number')
     ).toHaveTextContent('42')
   })
 
-  it('renders label when showEmpty is true', () => {
+  it('should render label when showEmpty is true', () => {
     const { rerender } = render(
       <Value.Number label="Number label" showEmpty />
     )
@@ -23,7 +23,7 @@ describe('Value.Number', () => {
     expect(document.querySelector('.dnb-form-label')).toBeNull()
   })
 
-  it('renders value and label', () => {
+  it('should render value and label', () => {
     render(<Value.Number label="Label" value={42} />)
     expect(
       document.querySelector('.dnb-forms-value-number')
@@ -33,21 +33,21 @@ describe('Value.Number', () => {
     )
   })
 
-  it('renders given minimum value', () => {
+  it('should render given minimum value', () => {
     render(<Value.Number value={10} minimum={20} />)
     expect(
       document.querySelector('.dnb-forms-value-number')
     ).toHaveTextContent('20')
   })
 
-  it('renders given maximum value', () => {
+  it('should render given maximum value', () => {
     render(<Value.Number value={20} maximum={10} />)
     expect(
       document.querySelector('.dnb-forms-value-number')
     ).toHaveTextContent('10')
   })
 
-  it('renders placeholder', () => {
+  it('should render placeholder', () => {
     render(<Value.Number placeholder="Enter some number" />)
     expect(screen.getByText('Enter some number')).toBeInTheDocument()
   })
@@ -60,7 +60,7 @@ describe('Value.Number', () => {
     ).toHaveTextContent('-12 345 678')
   })
 
-  it('renders gets value based on path', () => {
+  it('should render gets value based on path', () => {
     render(
       <Form.Handler data={{ myNumber: 1234 }}>
         <Value.Number path="/myNumber" />
@@ -199,7 +199,7 @@ describe('Value.Number', () => {
   })
 
   describe('inheritLabel', () => {
-    it('renders label from field with same path', () => {
+    it('should render label from field with same path', () => {
       render(
         <Form.Handler
           data={{

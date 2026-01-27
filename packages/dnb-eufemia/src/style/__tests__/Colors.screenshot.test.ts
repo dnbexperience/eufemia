@@ -16,7 +16,7 @@ describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
       url: '/uilib/usage/customisation/colors/',
     })
 
-    it('have to all colors', async () => {
+    it('should all colors', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="color-table"]',
         addWrapper: false,

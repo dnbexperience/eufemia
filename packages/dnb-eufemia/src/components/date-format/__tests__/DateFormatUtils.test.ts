@@ -86,7 +86,7 @@ describe('DateFormatUtils', () => {
       expect(res).toMatch(/in|minute|hour|second/)
     })
 
-    it('uses custom relativeTimeReference Date for relative time calculation', () => {
+    it('should use custom relativeTimeReference Date for relative time calculation', () => {
       const referenceDate = new Date('2024-10-05T12:00:00.000Z')
       const past = new Date('2024-10-05T11:00:00.000Z')
       const res = getRelativeTime(
@@ -103,7 +103,7 @@ describe('DateFormatUtils', () => {
       expect(res).toMatch(/ago|since/)
     })
 
-    it('uses custom relativeTimeReference function for relative time calculation', () => {
+    it('should use custom relativeTimeReference function for relative time calculation', () => {
       const referenceDate = new Date('2024-10-05T12:00:00.000Z')
       const past = new Date('2024-10-05T11:00:00.000Z')
       const relativeTimeReferenceFn = () => referenceDate
@@ -177,7 +177,7 @@ describe('DateFormatUtils', () => {
       expect(parseDuration('P1W')).toBe(7 * 24 * 60 * 60 * 1000)
     })
 
-    it('handles invalid or empty strings as 0', () => {
+    it('should handle invalid or empty strings as 0', () => {
       expect(parseDuration('')).toBe(0)
       expect(parseDuration(null)).toBe(0)
       expect(parseDuration('INVALID')).toBe(0)

@@ -11,7 +11,7 @@ import Dt, { DtProps } from '../../Dt'
 import Dd, { DdProps } from '../../Dd'
 
 describe('Dl', () => {
-  it('renders with props as an object', () => {
+  it('should render with props as an object', () => {
     const props: DlAllProps = {}
     render(<Dl {...props} />)
 
@@ -99,7 +99,7 @@ describe('Dl', () => {
   })
 
   describe('Dt', () => {
-    it('renders with props as an object', () => {
+    it('should render with props as an object', () => {
       const props: DtProps = {}
       render(<Dt {...props} />)
 
@@ -108,7 +108,7 @@ describe('Dl', () => {
   })
 
   describe('Dd', () => {
-    it('renders with props as an object', () => {
+    it('should render with props as an object', () => {
       const props: DdProps = { children: 'children' }
       render(<Dd {...props} />)
 

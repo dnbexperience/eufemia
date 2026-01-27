@@ -13,7 +13,7 @@ const props: SharedHProps = {
 }
 
 describe('H element', () => {
-  it('has H1 as default', () => {
+  it('should have H1 as default', () => {
     render(<H>Test heading</H>)
 
     const element = document.querySelector('h1')
@@ -43,7 +43,7 @@ describe('H element', () => {
     expect(element.tagName).toBe('H2')
   })
 
-  it('has correct size when size is defined', () => {
+  it('should have correct size when size is defined', () => {
     render(<H size="large">Test heading</H>)
     const element = document.querySelector('.dnb-h--large')
 
@@ -56,7 +56,7 @@ describe('H element', () => {
   })
 
   describe('proseMaxWidth', () => {
-    it('applies proseMaxWidth style when provided', () => {
+    it('should apply proseMaxWidth style when provided', () => {
       render(<H proseMaxWidth={80}>Test heading</H>)
       const element = document.querySelector(
         '.dnb-h--xx-large'
@@ -65,7 +65,7 @@ describe('H element', () => {
       expect(element.style.maxWidth).toBe('80ch')
     })
 
-    it('does not apply proseMaxWidth style when not provided', () => {
+    it('should not apply proseMaxWidth style when not provided', () => {
       render(<H>Test heading</H>)
       const element = document.querySelector(
         '.dnb-h--xx-large'
@@ -111,7 +111,7 @@ describe('H element', () => {
       expect(element.style.maxWidth).toBe('100ch')
     })
 
-    it('applies proseMaxWidth as 60ch when true', () => {
+    it('should apply proseMaxWidth as 60ch when true', () => {
       render(<H proseMaxWidth>Test heading</H>)
       const element = document.querySelector(
         '.dnb-h--xx-large'

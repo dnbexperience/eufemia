@@ -14,7 +14,7 @@ describe.each(['ui', 'sbanken'])('HelperClasses for %s', (themeName) => {
     url: '/uilib/helpers/classes/visual-tests',
   })
 
-  it('have to match core-style', async () => {
+  it('should match core-style', async () => {
     const screenshot = await makeScreenshot({
       addWrapper: false,
       selector: '[data-visual-test="helper-core-style"]',
@@ -22,7 +22,7 @@ describe.each(['ui', 'sbanken'])('HelperClasses for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tap-focus', async () => {
+  it('should match tap-focus', async () => {
     const screenshot = await makeScreenshot({
       addWrapper: false,
       selector: '[data-visual-test="helper-tap-focus"]',
@@ -30,7 +30,7 @@ describe.each(['ui', 'sbanken'])('HelperClasses for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match unstyled-list', async () => {
+  it('should match unstyled-list', async () => {
     const screenshot = await makeScreenshot({
       addWrapper: false,
       selector: '[data-visual-test="helper-unstyled-list"]',
@@ -38,7 +38,7 @@ describe.each(['ui', 'sbanken'])('HelperClasses for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match sr-only', async () => {
+  it('should match sr-only', async () => {
     const screenshot = await makeScreenshot({
       addWrapper: false,
       selector: '[data-visual-test="helper-sr-only"]',
@@ -46,7 +46,7 @@ describe.each(['ui', 'sbanken'])('HelperClasses for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match selection', async () => {
+  it('should match selection', async () => {
     const screenshot = await makeScreenshot({
       addWrapper: false,
       selector: '[data-visual-test="helper-selection"]',
@@ -54,14 +54,14 @@ describe.each(['ui', 'sbanken'])('HelperClasses for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match fieldset reset', async () => {
+  it('should match fieldset reset', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="helper-fieldset-reset"] fieldset',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match focused skip link', async () => {
+  it('should match focused skip link', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="skip-link"]',
       simulateSelector: '[data-visual-test="skip-link"] .dnb-skip-link',
@@ -77,7 +77,7 @@ describe('media', () => {
   const selector = '[data-visual-test="helper-media-offset"] ul'
   const url = '/uilib/helpers/classes/visual-tests'
 
-  it('have to match media offset for "isLarge"', async () => {
+  it('should match media offset for "isLarge"', async () => {
     const screenshot = await makeScreenshot({
       selector,
       url,
@@ -88,7 +88,7 @@ describe('media', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match media offset for "isLarge" + offset', async () => {
+  it('should match media offset for "isLarge" + offset', async () => {
     const screenshot = await makeScreenshot({
       selector,
       url,
@@ -99,7 +99,7 @@ describe('media', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match media offset for below "isMedium"', async () => {
+  it('should match media offset for below "isMedium"', async () => {
     const screenshot = await makeScreenshot({
       selector,
       url,
@@ -110,7 +110,7 @@ describe('media', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match media offset for below "isMedium" + offset', async () => {
+  it('should match media offset for below "isMedium" + offset', async () => {
     const screenshot = await makeScreenshot({
       selector,
       url,
@@ -121,7 +121,7 @@ describe('media', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match media offset for above "isMedium"', async () => {
+  it('should match media offset for above "isMedium"', async () => {
     const screenshot = await makeScreenshot({
       selector,
       url,
@@ -132,7 +132,7 @@ describe('media', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match media offset for above "isMedium" + offset', async () => {
+  it('should match media offset for above "isMedium" + offset', async () => {
     const screenshot = await makeScreenshot({
       selector,
       url,
@@ -143,7 +143,7 @@ describe('media', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match media offset for "isSmall"', async () => {
+  it('should match media offset for "isSmall"', async () => {
     const screenshot = await makeScreenshot({
       selector,
       url,
@@ -154,7 +154,7 @@ describe('media', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match media offset for "isSmall" + offset', async () => {
+  it('should match media offset for "isSmall" + offset', async () => {
     const screenshot = await makeScreenshot({
       selector,
       url,

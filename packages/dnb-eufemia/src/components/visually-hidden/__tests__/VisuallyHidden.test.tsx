@@ -5,7 +5,7 @@ import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { Provider } from '../../../shared'
 
 describe('VisuallyHidden', () => {
-  it('renders with props as an object', () => {
+  it('should render with props as an object', () => {
     const props: VisuallyHiddenAllProps = {}
     render(<VisuallyHidden {...props} />)
 
@@ -14,7 +14,7 @@ describe('VisuallyHidden', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders without properties', () => {
+  it('should render without properties', () => {
     render(<VisuallyHidden />)
 
     expect(
@@ -22,7 +22,7 @@ describe('VisuallyHidden', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders the content by children prop', () => {
+  it('should render the content by children prop', () => {
     render(<VisuallyHidden>children</VisuallyHidden>)
 
     expect(
@@ -30,7 +30,7 @@ describe('VisuallyHidden', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders the default className', () => {
+  it('should render the default className', () => {
     const defaultClassName = 'dnb-visually-hidden dnb-sr-only'
 
     render(<VisuallyHidden>ClassName</VisuallyHidden>)
@@ -39,7 +39,7 @@ describe('VisuallyHidden', () => {
     ).toMatch(defaultClassName)
   })
 
-  it('renders with className if className is provided', () => {
+  it('should render with className if className is provided', () => {
     const customClassName = 'custom-class'
 
     render(
@@ -52,7 +52,7 @@ describe('VisuallyHidden', () => {
     ).toMatch(customClassName)
   })
 
-  it('renders with the correct attributes if focusable is true', () => {
+  it('should render with the correct attributes if focusable is true', () => {
     const focusableClassName = 'focusable'
 
     render(<VisuallyHidden focusable>focusable</VisuallyHidden>)
@@ -61,26 +61,26 @@ describe('VisuallyHidden', () => {
     ).toMatch(focusableClassName)
   })
 
-  it('renders with span as the default element', () => {
+  it('should render with span as the default element', () => {
     render(<VisuallyHidden>I'm a span</VisuallyHidden>)
     expect(document.querySelector('span') instanceof HTMLElement).toBe(
       true
     )
   })
 
-  it('supports inline styling', () => {
+  it('should support inline styling', () => {
     render(<VisuallyHidden style={{ color: 'red' }} />)
     expect(
       document.querySelector('.dnb-visually-hidden').getAttribute('style')
     ).toBe('color: red;')
   })
 
-  it('renders with custom HTML element', () => {
+  it('should render with custom HTML element', () => {
     render(<VisuallyHidden element="div">I'm a div</VisuallyHidden>)
     expect(document.querySelector('div') instanceof HTMLElement).toBe(true)
   })
 
-  it('renders with provider', () => {
+  it('should render with provider', () => {
     render(
       <Provider locale="en-GB">
         <VisuallyHidden>Provider</VisuallyHidden>

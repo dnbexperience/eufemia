@@ -710,7 +710,7 @@ describe('MultiInputMask', () => {
     })
   })
 
-  it('will set highlight class on fields with a number value', async () => {
+  it('should set highlight class on fields with a number value', async () => {
     render(<MultiInputMask {...defaultProps} />)
 
     const [month, year] = Array.from(document.querySelectorAll('input'))

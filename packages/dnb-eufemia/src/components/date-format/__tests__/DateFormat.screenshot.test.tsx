@@ -13,14 +13,14 @@ describe('DateFormat', () => {
     url: '/uilib/components/date-format/demos',
   })
 
-  it('have to match date styles', async () => {
+  it('should match date styles', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="date-format-date-styles"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match date when inline', async () => {
+  it('should match date when inline', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="date-format-date-inline"]',
     })

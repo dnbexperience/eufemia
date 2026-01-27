@@ -29,7 +29,7 @@ afterEach(() => {
 })
 
 describe('Input component', () => {
-  it('has correct state after "focus" trigger', () => {
+  it('should have correct state after "focus" trigger', () => {
     render(
       <Input {...props} value={null}>
         {null}
@@ -43,7 +43,7 @@ describe('Input component', () => {
     ).toBe('focus')
   })
 
-  it('has correct state after "change" trigger', () => {
+  it('should have correct state after "change" trigger', () => {
     render(
       <Input {...props} value={null}>
         {null}
@@ -66,7 +66,7 @@ describe('Input component', () => {
     expect(document.querySelector('input').value).toBe(newValue)
   })
 
-  it('gets valid ref element', () => {
+  it('should get valid ref element', () => {
     let ref: React.RefObject<HTMLInputElement>
 
     function MockComponent() {
@@ -81,7 +81,7 @@ describe('Input component', () => {
     expect(ref.current.tagName).toBe('INPUT')
   })
 
-  it('gets valid element when ref is function', () => {
+  it('should get valid element when ref is function', () => {
     const ref: React.MutableRefObject<HTMLInputElement> = React.createRef()
 
     const refFn = (elem: HTMLInputElement) => {
@@ -205,7 +205,7 @@ describe('Input component', () => {
   })
 
   // make sure getDerivedStateFromProps works
-  it('has correct state after changing "value" prop (set by getDerivedStateFromProps)', () => {
+  it('should have correct state after changing "value" prop (set by getDerivedStateFromProps)', () => {
     const { rerender } = render(
       <Input {...props} value={null}>
         {null}
@@ -258,7 +258,7 @@ describe('Input component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('has correct state after setting "value" prop using placeholder (set by getDerivedStateFromProps)', () => {
+  it('should have correct state after setting "value" prop using placeholder (set by getDerivedStateFromProps)', () => {
     const { rerender } = render(<Input placeholder="Placeholder" />)
 
     const newValue = 'new value'
@@ -275,7 +275,7 @@ describe('Input component', () => {
     expect(document.querySelector('input').value).toBe(String(zeroValue))
   })
 
-  it('uses aria-placeholder and label for when placeholder is set', () => {
+  it('should use aria-placeholder and label for when placeholder is set', () => {
     const { rerender } = render(
       <Input id="unique" placeholder="Placeholder" label="Label-text" />
     )
@@ -351,14 +351,14 @@ describe('Input component', () => {
     expect(document.querySelector('.dnb-input__placeholder')).toBeNull()
   })
 
-  it('has correct medium input size', () => {
+  it('should have correct medium input size', () => {
     render(<Input size="medium" />)
     expect(
       document.querySelector('.dnb-input--medium')
     ).toBeInTheDocument()
   })
 
-  it('will select the whole input when selectall is set', async () => {
+  it('should select the whole input when selectall is set', async () => {
     render(<Input selectall={true} value="1234" />)
 
     const select = jest.fn()
@@ -373,27 +373,27 @@ describe('Input component', () => {
     expect(select).toHaveBeenCalledTimes(1)
   })
 
-  it('uses children as the value', () => {
+  it('should use children as the value', () => {
     render(<Input>children</Input>)
     expect(document.querySelector('input').value).toBe('children')
   })
 
-  it('has correct size attribute (chars length) on input by int number', () => {
+  it('should have correct size attribute (chars length) on input by int number', () => {
     render(<Input size={2} />)
     expect(document.querySelector('input').getAttribute('size')).toBe('2')
   })
 
-  it('has correct size attribute (chars length) on input by using input_attributes', () => {
+  it('should have correct size attribute (chars length) on input by using input_attributes', () => {
     render(<Input input_attributes={{ size: 2 }} />)
     expect(document.querySelector('input').getAttribute('size')).toBe('2')
   })
 
-  it('has correct size attribute (chars length) on input by using input_attributes and a JSON object', () => {
+  it('should have correct size attribute (chars length) on input by using input_attributes and a JSON object', () => {
     render(<Input input_attributes='{"size": "2"}' />)
     expect(document.querySelector('input').getAttribute('size')).toBe('2')
   })
 
-  it('has to have a prop value like value', () => {
+  it('should have a prop value like value', () => {
     const { rerender } = render(
       <Input {...props} value={null}>
         {null}
@@ -409,19 +409,19 @@ describe('Input component', () => {
     expect(document.querySelector('input').value).toBe(value)
   })
 
-  it('has to have a label value as defined in the prop', () => {
+  it('should have a label value as defined in the prop', () => {
     render(<Input {...props} label="label" />)
     expect(document.querySelector('label').textContent).toBe('label')
   })
 
-  it('has to have a status value as defined in the prop', () => {
+  it('should have a status value as defined in the prop', () => {
     render(<Input {...props} status="status" status_state="error" />)
     expect(
       document.querySelector('.dnb-form-status__text').textContent
     ).toBe('status')
   })
 
-  it('shows form-status with correct classes', () => {
+  it('should show form-status with correct classes', () => {
     render(
       <Input
         value="value"
@@ -439,7 +439,7 @@ describe('Input component', () => {
     )
   })
 
-  it('has a disabled attribute and class when disabled', () => {
+  it('should have a disabled attribute and class when disabled', () => {
     const { rerender } = render(<Input />)
 
     rerender(<Input disabled={true} />)
@@ -450,7 +450,7 @@ describe('Input component', () => {
     )
   })
 
-  it('has a submit button on prop type="search"', () => {
+  it('should have a submit button on prop type="search"', () => {
     render(
       <Input {...props} type="search" value={null} aria-describedby="id">
         {null}
@@ -852,12 +852,12 @@ describe('Input ARIA', () => {
 })
 
 describe('Input scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
 
-  it('have to match default theme snapshot', () => {
+  it('should match default theme snapshot', () => {
     const css = loadScss(
       require.resolve('../style/themes/dnb-input-theme-ui.scss')
     )

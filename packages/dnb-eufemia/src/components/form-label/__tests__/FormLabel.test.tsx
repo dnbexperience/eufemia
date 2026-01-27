@@ -174,7 +174,7 @@ describe('FormLabel component', () => {
     expect(document.querySelector('.dnb-form-label').tagName).toBe('LABEL')
   })
 
-  it('gets valid ref element', () => {
+  it('should get valid ref element', () => {
     let ref: React.RefObject<HTMLInputElement>
 
     function MockComponent() {
@@ -189,7 +189,7 @@ describe('FormLabel component', () => {
   })
 
   describe('nested', () => {
-    it('gets valid ref element', () => {
+    it('should get valid ref element', () => {
       let refA: React.RefObject<HTMLInputElement>
       let refB: React.RefObject<HTMLInputElement>
 
@@ -434,12 +434,12 @@ describe('FormLabel component', () => {
 })
 
 describe('FormLabel scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
 
-  it('have to match default theme snapshot', () => {
+  it('should match default theme snapshot', () => {
     const css = loadScss(
       require.resolve('../style/themes/dnb-form-label-theme-ui.scss')
     )

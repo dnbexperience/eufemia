@@ -58,7 +58,7 @@ describe('useHandleStatus', () => {
     expect(result.current.showStatus).toBe(true)
   })
 
-  it('hides status when preventUncommittedChanges=true and hasContentChanged=false', async () => {
+  it('should hide status when preventUncommittedChanges=true and hasContentChanged=false', async () => {
     const currentHasChanged = false
     useHasContentChangedMock.mockImplementation(() => ({
       hasContentChanged: currentHasChanged,
@@ -165,7 +165,7 @@ describe('useHandleStatus', () => {
     })
   })
 
-  it('keeps status hidden after clearing until showAllErrors changes again', async () => {
+  it('should keep status hidden after clearing until showAllErrors changes again', async () => {
     let currentHasChanged = true
     useHasContentChangedMock.mockImplementation(() => ({
       hasContentChanged: currentHasChanged,

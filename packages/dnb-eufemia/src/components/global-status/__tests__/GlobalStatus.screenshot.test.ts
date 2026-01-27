@@ -16,7 +16,7 @@ describe.each(['ui', 'sbanken'])('GlobalStatus for %s', (themeName) => {
     url: '/uilib/components/global-status/demos',
   })
 
-  it('have to match the default state with custom content', async () => {
+  it('should match the default state with custom content', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="global-status"] .dnb-global-status',
@@ -24,7 +24,7 @@ describe.each(['ui', 'sbanken'])('GlobalStatus for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the info state and custom content', async () => {
+  it('should match the info state and custom content', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector:
@@ -33,7 +33,7 @@ describe.each(['ui', 'sbanken'])('GlobalStatus for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the success state and custom content', async () => {
+  it('should match the success state and custom content', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector:
@@ -42,7 +42,7 @@ describe.each(['ui', 'sbanken'])('GlobalStatus for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the custom icon', async () => {
+  it('should match the custom icon', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector:
@@ -52,7 +52,7 @@ describe.each(['ui', 'sbanken'])('GlobalStatus for %s', (themeName) => {
   })
 
   if (themeName !== 'sbanken') {
-    it('have to match the close button in focus state', async () => {
+    it('should match the close button in focus state', async () => {
       const screenshot = await makeScreenshot({
         style,
         selector: '[data-visual-test="global-status"] .dnb-global-status',
@@ -63,7 +63,7 @@ describe.each(['ui', 'sbanken'])('GlobalStatus for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match the close button in hover state', async () => {
+    it('should match the close button in hover state', async () => {
       const screenshot = await makeScreenshot({
         style,
         selector: '[data-visual-test="global-status"] .dnb-global-status',

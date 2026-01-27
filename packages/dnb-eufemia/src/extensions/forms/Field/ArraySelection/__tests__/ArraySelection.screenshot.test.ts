@@ -15,7 +15,7 @@ describe.each(['ui', 'sbanken'])(
     })
 
     describe('checkbox', () => {
-      it('have to match checkbox-options-vertical', async () => {
+      it('should match checkbox-options-vertical', async () => {
         const screenshot = await makeScreenshot({
           selector:
             '[data-visual-test="array-selection-checkbox-options-vertical"]',
@@ -23,7 +23,7 @@ describe.each(['ui', 'sbanken'])(
         expect(screenshot).toMatchImageSnapshot()
       })
 
-      it('have to match checkbox-options-horizontal', async () => {
+      it('should match checkbox-options-horizontal', async () => {
         const screenshot = await makeScreenshot({
           selector:
             '[data-visual-test="array-selection-checkbox-options-horizontal"]',
@@ -31,7 +31,7 @@ describe.each(['ui', 'sbanken'])(
         expect(screenshot).toMatchImageSnapshot()
       })
 
-      it('have to match checkbox-horizontal', async () => {
+      it('should match checkbox-horizontal', async () => {
         const screenshot = await makeScreenshot({
           selector:
             '[data-visual-test="array-selection-checkbox-horizontal"]',
@@ -39,7 +39,7 @@ describe.each(['ui', 'sbanken'])(
         expect(screenshot).toMatchImageSnapshot()
       })
 
-      it('have to match checkbox-horizontal-layout', async () => {
+      it('should match checkbox-horizontal-layout', async () => {
         const screenshot = await makeScreenshot({
           selector:
             '[data-visual-test="array-selection-checkbox-horizontal-layout"]',
@@ -47,14 +47,14 @@ describe.each(['ui', 'sbanken'])(
         expect(screenshot).toMatchImageSnapshot()
       })
 
-      it('have to match checkbox-help', async () => {
+      it('should match checkbox-help', async () => {
         const screenshot = await makeScreenshot({
           selector: '[data-visual-test="array-selection-checkbox-help"]',
         })
         expect(screenshot).toMatchImageSnapshot()
       })
 
-      it('have to match checkbox-nesting-logic', async () => {
+      it('should match checkbox-nesting-logic', async () => {
         const screenshot = await makeScreenshot({
           selector:
             '[data-visual-test="array-selection-checkbox-nesting-logic"]',
@@ -68,7 +68,7 @@ describe.each(['ui', 'sbanken'])(
     })
 
     describe('button', () => {
-      it('have to match button-options-vertical', async () => {
+      it('should match button-options-vertical', async () => {
         const screenshot = await makeScreenshot({
           selector:
             '[data-visual-test="array-selection-button-options-vertical"]',
@@ -76,7 +76,7 @@ describe.each(['ui', 'sbanken'])(
         expect(screenshot).toMatchImageSnapshot()
       })
 
-      it('have to match button-options-horizontal', async () => {
+      it('should match button-options-horizontal', async () => {
         const screenshot = await makeScreenshot({
           selector:
             '[data-visual-test="array-selection-button-options-horizontal"]',
@@ -84,7 +84,7 @@ describe.each(['ui', 'sbanken'])(
         expect(screenshot).toMatchImageSnapshot()
       })
 
-      it('have to match button-horizontal', async () => {
+      it('should match button-horizontal', async () => {
         const screenshot = await makeScreenshot({
           selector:
             '[data-visual-test="array-selection-button-horizontal"]',
@@ -92,7 +92,7 @@ describe.each(['ui', 'sbanken'])(
         expect(screenshot).toMatchImageSnapshot()
       })
 
-      it('have to match button-horizontal-layout', async () => {
+      it('should match button-horizontal-layout', async () => {
         const screenshot = await makeScreenshot({
           selector:
             '[data-visual-test="array-selection-button-horizontal-layout"]',
@@ -100,14 +100,14 @@ describe.each(['ui', 'sbanken'])(
         expect(screenshot).toMatchImageSnapshot()
       })
 
-      it('have to match button-help', async () => {
+      it('should match button-help', async () => {
         const screenshot = await makeScreenshot({
           selector: '[data-visual-test="array-selection-button-help"]',
         })
         expect(screenshot).toMatchImageSnapshot()
       })
 
-      it('have to match button-nesting-logic', async () => {
+      it('should match button-nesting-logic', async () => {
         const screenshot = await makeScreenshot({
           selector:
             '[data-visual-test="array-selection-button-nesting-logic"]',
@@ -121,14 +121,14 @@ describe.each(['ui', 'sbanken'])(
     })
 
     describe('checkbox-button', () => {
-      it('have to match simple checkbox-button', async () => {
+      it('should match simple checkbox-button', async () => {
         const screenshot = await makeScreenshot({
           selector: '[data-visual-test="array-selection-checkbox-button"]',
         })
         expect(screenshot).toMatchImageSnapshot()
       })
 
-      it('have to match checkbox-button-options-horizontal', async () => {
+      it('should match checkbox-button-options-horizontal', async () => {
         const screenshot = await makeScreenshot({
           style: { width: '40rem' },
           selector:

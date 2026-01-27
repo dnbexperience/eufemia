@@ -17,7 +17,7 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
     url: '/uilib/components/table/demos',
   })
 
-  it('have to match the default choice of table styles', async () => {
+  it('should match the default choice of table styles', async () => {
     const screenshot = await makeScreenshot({
       ...defaults,
       style: {
@@ -28,7 +28,7 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match a complex table layout', async () => {
+  it('should match a complex table layout', async () => {
     const screenshot = await makeScreenshot({
       ...defaults,
       style: {
@@ -39,7 +39,7 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match a row scope only table layout', async () => {
+  it('should match a row scope only table layout', async () => {
     const screenshot = await makeScreenshot({
       ...defaults,
       selector: '[data-visual-test="table-row-scope-only"] .dnb-table',
@@ -47,7 +47,7 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match a fixed table layout', async () => {
+  it('should match a fixed table layout', async () => {
     const screenshot = await makeScreenshot({
       ...defaults,
       selector: '[data-visual-test="table-fixed"]',
@@ -55,7 +55,7 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match table container', async () => {
+  it('should match table container', async () => {
     const screenshot = await makeScreenshot({
       ...defaults,
       selector: '[data-visual-test="table-container"]',
@@ -66,7 +66,7 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match table empty container head and foot', async () => {
+  it('should match table empty container head and foot', async () => {
     const screenshot = await makeScreenshot({
       ...defaults,
       selector: '[data-visual-test="table-container-empty"]',
@@ -74,7 +74,7 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match table in medium size', async () => {
+  it('should match table in medium size', async () => {
     const screenshot = await makeScreenshot({
       ...defaults,
       selector: '[data-visual-test="table-size-medium"]',
@@ -82,7 +82,7 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match table in small size', async () => {
+  it('should match table in small size', async () => {
     const screenshot = await makeScreenshot({
       ...defaults,
       selector: '[data-visual-test="table-size-small"]',
@@ -90,7 +90,7 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match header with wrapped text', async () => {
+  it('should match header with wrapped text', async () => {
     const selector = '[data-visual-test="table-header"] .dnb-table'
     const screenshot = await makeScreenshot({
       ...defaults,
@@ -103,7 +103,7 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
   })
 
   // should be tested first from the other "simulate" tests
-  it('have to match a sortable table header on focus', async () => {
+  it('should match a sortable table header on focus', async () => {
     const selector =
       '[data-visual-test="table-classes"] th.dnb-table--sortable.dnb-table--reversed'
     const screenshot = await makeScreenshot({
@@ -115,7 +115,7 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match a sortable table header on active', async () => {
+  it('should match a sortable table header on active', async () => {
     const selector =
       '[data-visual-test="table-classes"] th.dnb-table--sortable.dnb-table--reversed'
     const screenshot = await makeScreenshot({
@@ -127,7 +127,7 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match a active sortable table header on active state', async () => {
+  it('should match a active sortable table header on active state', async () => {
     const selector =
       '[data-visual-test="table-classes"] th.dnb-table--sortable.dnb-table--active'
     const screenshot = await makeScreenshot({
@@ -139,7 +139,7 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match a sortable table header on hover', async () => {
+  it('should match a sortable table header on hover', async () => {
     const selector =
       '[data-visual-test="table-classes"] th.dnb-table--sortable.dnb-table--reversed'
     const screenshot = await makeScreenshot({
@@ -151,7 +151,7 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match table without inner classes', async () => {
+  it('should match table without inner classes', async () => {
     const selector = '[data-visual-test="table-no-classes"]'
     const screenshot = await makeScreenshot({
       ...defaults,
@@ -160,7 +160,7 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match all combinations default', async () => {
+  it('should match all combinations default', async () => {
     const selector = '[data-visual-test="table-combinations-default"]'
     const screenshot = await makeScreenshot({
       ...defaults,
@@ -169,7 +169,7 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match all combinations with no header', async () => {
+  it('should match all combinations with no header', async () => {
     const selector = '[data-visual-test="table-combinations-no-header"]'
     const screenshot = await makeScreenshot({
       ...defaults,
@@ -178,7 +178,7 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match all combinations with row header', async () => {
+  it('should match all combinations with row header', async () => {
     const selector = '[data-visual-test="table-combinations-row-header"]'
     const screenshot = await makeScreenshot({
       ...defaults,
@@ -187,7 +187,7 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match all combinations with spanning', async () => {
+  it('should match all combinations with spanning', async () => {
     const selector = '[data-visual-test="table-combinations-spanning"]'
     const screenshot = await makeScreenshot({
       ...defaults,
@@ -196,7 +196,7 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match all combinations with spanning row headers', async () => {
+  it('should match all combinations with spanning row headers', async () => {
     const selector =
       '[data-visual-test="table-combinations-row-header-spanning"]'
     const screenshot = await makeScreenshot({
@@ -252,7 +252,7 @@ describe.each(['ui', 'sbanken'])(
       url: '/uilib/components/table/demos?skeleton',
     })
 
-    it('have to match default table', async () => {
+    it('should match default table', async () => {
       const screenshot = await makeScreenshot({
         ...defaults,
         style: {
@@ -273,7 +273,7 @@ describe.each(['ui', 'sbanken'])(
       url: '/uilib/components/table/demos',
     })
 
-    it('have to match default state', async () => {
+    it('should match default state', async () => {
       const screenshot = await makeScreenshot({
         ...defaults,
         style: {
@@ -284,7 +284,7 @@ describe.each(['ui', 'sbanken'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match hover state on first row', async () => {
+    it('should match hover state on first row', async () => {
       const screenshot = await makeScreenshot({
         ...defaults,
         style: {
@@ -299,7 +299,7 @@ describe.each(['ui', 'sbanken'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match hover state on last row', async () => {
+    it('should match hover state on last row', async () => {
       const screenshot = await makeScreenshot({
         ...defaults,
         style: {
@@ -314,7 +314,7 @@ describe.each(['ui', 'sbanken'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match focus state on last row', async () => {
+    it('should match focus state on last row', async () => {
       const screenshot = await makeScreenshot({
         ...defaults,
         style: {
@@ -329,7 +329,7 @@ describe.each(['ui', 'sbanken'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match active state on last row', async () => {
+    it('should match active state on last row', async () => {
       const screenshot = await makeScreenshot({
         ...defaults,
         style: {
@@ -344,7 +344,7 @@ describe.each(['ui', 'sbanken'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match expanded state on first row', async () => {
+    it('should match expanded state on first row', async () => {
       const screenshot = await makeScreenshot({
         ...defaults,
         style: {
@@ -360,7 +360,7 @@ describe.each(['ui', 'sbanken'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match default state when mixed(only a few TRs has accordionContent', async () => {
+    it('should match default state when mixed(only a few TRs has accordionContent', async () => {
       const screenshot = await makeScreenshot({
         ...defaults,
         style: {
@@ -381,7 +381,7 @@ describe.each(['ui', 'sbanken'])(
       url: '/uilib/components/table/demos',
     })
 
-    it('have to match default state', async () => {
+    it('should match default state', async () => {
       const screenshot = await makeScreenshot({
         ...defaults,
         style: {
@@ -392,7 +392,7 @@ describe.each(['ui', 'sbanken'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match hover state on first row', async () => {
+    it('should match hover state on first row', async () => {
       const screenshot = await makeScreenshot({
         ...defaults,
         style: {
@@ -406,7 +406,7 @@ describe.each(['ui', 'sbanken'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match hover state on last row', async () => {
+    it('should match hover state on last row', async () => {
       const screenshot = await makeScreenshot({
         ...defaults,
         style: {
@@ -420,7 +420,7 @@ describe.each(['ui', 'sbanken'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match focus state on last row', async () => {
+    it('should match focus state on last row', async () => {
       const screenshot = await makeScreenshot({
         ...defaults,
         style: {
@@ -434,7 +434,7 @@ describe.each(['ui', 'sbanken'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match active state on last row', async () => {
+    it('should match active state on last row', async () => {
       const screenshot = await makeScreenshot({
         ...defaults,
         style: {
@@ -451,7 +451,7 @@ describe.each(['ui', 'sbanken'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match expanded state on first row', async () => {
+    it('should match expanded state on first row', async () => {
       const screenshot = await makeScreenshot({
         ...defaults,
         style: {
@@ -470,7 +470,7 @@ describe.each(['ui', 'sbanken'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match table in accordion table', async () => {
+    it('should match table in accordion table', async () => {
       const screenshot = await makeScreenshot({
         ...defaults,
         style: {
@@ -499,7 +499,7 @@ describe.each(['ui', 'sbanken'])(
       url: '/uilib/components/table/demos',
     })
 
-    it('have to match default state', async () => {
+    it('should match default state', async () => {
       const screenshot = await makeScreenshot({
         ...defaults,
         style: {
@@ -510,7 +510,7 @@ describe.each(['ui', 'sbanken'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match hover state on first row', async () => {
+    it('should match hover state on first row', async () => {
       const screenshot = await makeScreenshot({
         ...defaults,
         style: {
@@ -525,7 +525,7 @@ describe.each(['ui', 'sbanken'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match hover state on last row', async () => {
+    it('should match hover state on last row', async () => {
       const screenshot = await makeScreenshot({
         ...defaults,
         style: {
@@ -540,7 +540,7 @@ describe.each(['ui', 'sbanken'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match focus state on last row', async () => {
+    it('should match focus state on last row', async () => {
       const screenshot = await makeScreenshot({
         ...defaults,
         style: {
@@ -555,7 +555,7 @@ describe.each(['ui', 'sbanken'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match default state when mixed(only a few TRs has onClick', async () => {
+    it('should match default state when mixed(only a few TRs has onClick', async () => {
       const screenshot = await makeScreenshot({
         ...defaults,
         style: {
@@ -569,7 +569,7 @@ describe.each(['ui', 'sbanken'])(
 )
 
 describe('Table', () => {
-  it('have to match table with one td', async () => {
+  it('should match table with one td', async () => {
     const screenshot = await makeScreenshot({
       ...defaults,
       pageViewport: {
@@ -581,7 +581,7 @@ describe('Table', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match table with one td on larger screens', async () => {
+  it('should match table with one td on larger screens', async () => {
     const screenshot = await makeScreenshot({
       ...defaults,
       pageViewport: {

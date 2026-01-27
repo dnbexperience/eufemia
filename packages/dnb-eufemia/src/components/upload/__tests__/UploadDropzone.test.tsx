@@ -37,7 +37,7 @@ describe('UploadDropzone', () => {
 
   const getRootElement = () => document.querySelector('.upload-drop-zone')
 
-  it('renders the component', () => {
+  it('should render the component', () => {
     render(<MockComponent {...defaultProps} />)
 
     expect(getRootElement()).toBeInTheDocument()
@@ -52,7 +52,7 @@ describe('UploadDropzone', () => {
     )
   })
 
-  it('has drop event', () => {
+  it('should have drop event', () => {
     defaultContext.onInputUpload = jest.fn()
     render(<MockComponent {...defaultProps} />)
 
@@ -69,7 +69,7 @@ describe('UploadDropzone', () => {
     ])
   })
 
-  it('has "active" class on dragEnter event', async () => {
+  it('should have "active" class on dragEnter event', async () => {
     render(<MockComponent {...defaultProps} />)
 
     const dropZone = getRootElement()
@@ -81,7 +81,7 @@ describe('UploadDropzone', () => {
     )
   })
 
-  it('has not "active" class on dragLeave event', async () => {
+  it('should have not "active" class on dragLeave event', async () => {
     render(<MockComponent {...defaultProps} />)
 
     const dropZone = getRootElement()
@@ -108,7 +108,7 @@ describe('UploadDropzone', () => {
       document.body = document.createElement('body')
     })
 
-    it('has attribute while mounted', async () => {
+    it('should have attribute while mounted', async () => {
       const { unmount } = render(<MockComponent {...defaultProps} />)
 
       await waitFor(() =>
@@ -122,7 +122,7 @@ describe('UploadDropzone', () => {
       expect(document.body).not.toHaveAttribute('data-upload-drop-zone')
     })
 
-    it('has drop event', async () => {
+    it('should have drop event', async () => {
       defaultContext.onInputUpload = jest.fn()
       render(<MockComponent {...defaultProps} />)
 
@@ -143,7 +143,7 @@ describe('UploadDropzone', () => {
       ])
     })
 
-    it('has "active" class on dragEnter event', async () => {
+    it('should have "active" class on dragEnter event', async () => {
       render(<MockComponent {...defaultProps} />)
 
       const bodyDropZone = getBodyElement()
@@ -157,7 +157,7 @@ describe('UploadDropzone', () => {
       )
     })
 
-    it('has not "active" class on dragLeave event', async () => {
+    it('should have not "active" class on dragLeave event', async () => {
       render(<MockComponent {...defaultProps} />)
 
       const bodyDropZone = getBodyElement()

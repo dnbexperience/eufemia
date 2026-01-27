@@ -24,7 +24,7 @@ const props: TextareaProps = {
 }
 
 describe('Textarea component', () => {
-  it('has correct state after "focus" trigger', () => {
+  it('should have correct state after "focus" trigger', () => {
     render(
       <Textarea {...props} value={null}>
         {null}
@@ -37,7 +37,7 @@ describe('Textarea component', () => {
     )
   })
 
-  it('has correct state after "change" trigger', () => {
+  it('should have correct state after "change" trigger', () => {
     render(
       <Textarea {...props} value={null}>
         {null}
@@ -60,7 +60,7 @@ describe('Textarea component', () => {
   })
 
   // // make sure getDerivedStateFromProps works
-  it('has correct state after changing "value" prop (set by getDerivedStateFromProps)', () => {
+  it('should have correct state after changing "value" prop (set by getDerivedStateFromProps)', () => {
     const { rerender } = render(
       <Textarea {...props} value={null}>
         {null}
@@ -120,13 +120,13 @@ describe('Textarea component', () => {
     })
   })
 
-  it('supports null as value', () => {
+  it('should support null as value', () => {
     render(<Textarea {...props} value={null} />)
 
     expect(document.querySelector('textarea').value).toBe('')
   })
 
-  it('has correct state after setting "value" prop using placeholder (set by getDerivedStateFromProps)', () => {
+  it('should have correct state after setting "value" prop using placeholder (set by getDerivedStateFromProps)', () => {
     const { rerender } = render(<Textarea placeholder="Placeholder" />)
 
     const newValue = 'new value'
@@ -182,19 +182,19 @@ describe('Textarea component', () => {
     expect(document.querySelector('.dnb-textarea__placeholder')).toBeNull()
   })
 
-  it('uses children as the value', () => {
+  it('should use children as the value', () => {
     render(<Textarea>children</Textarea>)
     expect(document.querySelector('textarea').value).toBe('children')
   })
 
-  it('has correct size attribute (chars length) on textarea by using textarea_attributes', () => {
+  it('should have correct size attribute (chars length) on textarea by using textarea_attributes', () => {
     render(<Textarea textarea_attributes={{ size: 2 }} />)
     expect(document.querySelector('textarea').getAttribute('size')).toBe(
       '2'
     )
   })
 
-  it('has to have a prop value like value', () => {
+  it('should have a prop value like value', () => {
     const { rerender } = render(
       <Textarea {...props} value={null}>
         {null}
@@ -209,19 +209,19 @@ describe('Textarea component', () => {
     expect(document.querySelector('textarea').value).toBe(value)
   })
 
-  it('has to have a label value as defined in the prop', () => {
+  it('should have a label value as defined in the prop', () => {
     render(<Textarea {...props} label="label" />)
     expect(document.querySelector('label').textContent).toBe('label')
   })
 
-  it('has to have a status value as defined in the prop', () => {
+  it('should have a status value as defined in the prop', () => {
     render(<Textarea {...props} status="status" status_state="error" />)
     expect(
       document.querySelector('.dnb-form-status__text').textContent
     ).toBe('status')
   })
 
-  it('has a disabled attribute, once we set disabled to true', () => {
+  it('should have a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(<Textarea />)
     rerender(<Textarea disabled={true} />)
     expect(document.querySelector('textarea')).toHaveAttribute('disabled')
@@ -241,7 +241,7 @@ describe('Textarea component', () => {
     )
   })
 
-  it('will correctly auto resize if prop autoresize is used', async () => {
+  it('should correctly auto resize if prop autoresize is used', async () => {
     render(<Textarea rows={1} autoresize={true} autoresize_max_rows={4} />)
 
     const elem = document.querySelector('textarea')
@@ -316,7 +316,7 @@ describe('Textarea component', () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
-  it('gets valid ref element', () => {
+  it('should get valid ref element', () => {
     let ref: React.RefObject<HTMLTextAreaElement>
 
     function MockComponent() {
@@ -331,7 +331,7 @@ describe('Textarea component', () => {
     expect(ref.current).toBeInstanceOf(HTMLTextAreaElement)
   })
 
-  it('gets valid element when ref is function', () => {
+  it('should get valid element when ref is function', () => {
     const ref: React.MutableRefObject<HTMLTextAreaElement> =
       React.createRef()
 
@@ -463,7 +463,7 @@ describe('Textarea component', () => {
     )
   })
 
-  it('supports inline styling', () => {
+  it('should support inline styling', () => {
     render(<Textarea style={{ color: 'red' }} />)
     expect(document.querySelector('textarea').getAttribute('style')).toBe(
       'color: red;'
@@ -524,12 +524,12 @@ describe('Textarea component', () => {
 })
 
 describe('Textarea scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
 
-  it('have to match default theme snapshot', () => {
+  it('should match default theme snapshot', () => {
     const css = loadScss(
       require.resolve('../style/themes/dnb-textarea-theme-ui.scss')
     )

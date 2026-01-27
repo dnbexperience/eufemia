@@ -16,14 +16,14 @@ describe.each(['ui', 'sbanken'])('Composition for %s', (themeName) => {
     themeName,
   })
 
-  it('have to match composition', async () => {
+  it('should match composition', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="forms-field-block-composition"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match composition with label', async () => {
+  it('should match composition with label', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="forms-field-block-composition-with-label"]',
@@ -31,7 +31,7 @@ describe.each(['ui', 'sbanken'])('Composition for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match composition with help button', async () => {
+  it('should match composition with help button', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="forms-field-block-composition-with-help-button"]',
@@ -39,7 +39,7 @@ describe.each(['ui', 'sbanken'])('Composition for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match composition alignment', async () => {
+  it('should match composition alignment', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="forms-field-block-composition-alignment"]',
@@ -47,7 +47,7 @@ describe.each(['ui', 'sbanken'])('Composition for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match composition wrapping', async () => {
+  it('should match composition wrapping', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="forms-field-block-composition-wrapping"]',
@@ -55,7 +55,7 @@ describe.each(['ui', 'sbanken'])('Composition for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match composition medium screen', async () => {
+  it('should match composition medium screen', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="forms-field-block-composition-statuses"]',
@@ -63,7 +63,7 @@ describe.each(['ui', 'sbanken'])('Composition for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match composition small screen', async () => {
+  it('should match composition small screen', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="forms-field-block-composition-error"]',
     })

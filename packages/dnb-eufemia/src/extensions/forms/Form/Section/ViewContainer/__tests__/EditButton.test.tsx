@@ -19,7 +19,7 @@ describe('EditButton', () => {
     expect(button).toHaveTextContent(nb.editButton)
   })
 
-  it('calls "switchContainerMode" when edit button is clicked', () => {
+  it('should call "switchContainerMode" when edit button is clicked', () => {
     const switchContainerMode = jest.fn()
 
     render(
@@ -37,7 +37,7 @@ describe('EditButton', () => {
     expect(switchContainerMode).toHaveBeenCalledWith('edit')
   })
 
-  it('does not render when editing is disabled', () => {
+  it('should not render when editing is disabled', () => {
     render(
       <SectionContainerContext.Provider value={{ disableEditing: true }}>
         <Toolbar>
@@ -49,7 +49,7 @@ describe('EditButton', () => {
     expect(document.querySelector('button')).not.toBeInTheDocument()
   })
 
-  it('supports custom properties', () => {
+  it('should support custom properties', () => {
     render(
       <Toolbar>
         <EditButton

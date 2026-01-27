@@ -180,7 +180,7 @@ describe('Modal component', () => {
     expect(scrollRef.current).toEqual(null)
   })
 
-  it('has no trigger button once we set omitTriggerButton', () => {
+  it('should have no trigger button once we set omitTriggerButton', () => {
     const { rerender } = render(<Modal {...props} />)
     rerender(<Modal {...props} omitTriggerButton={true} />)
     expect(
@@ -232,7 +232,7 @@ describe('Modal component', () => {
     )
   })
 
-  it('has a disabled trigger button once we set trigger disabled to true', () => {
+  it('should have a disabled trigger button once we set trigger disabled to true', () => {
     const { rerender } = render(<Modal {...props} open_state={true} />)
     rerender(
       <Modal
@@ -246,7 +246,7 @@ describe('Modal component', () => {
     ).toHaveAttribute('disabled')
   })
 
-  it('has working open event and close event if "Esc" key gets pressed', async () => {
+  it('should have working open event and close event if "Esc" key gets pressed', async () => {
     let testTriggeredBy = null
 
     const onOpen = jest.fn()
@@ -268,7 +268,7 @@ describe('Modal component', () => {
     expect(testTriggeredBy).toBe('keyboard')
   })
 
-  it('will set focus on content div if no h1 and close button is given', async () => {
+  it('should set focus on content div if no h1 and close button is given', async () => {
     render(
       <Modal no_animation={true} hide_close_button>
         <DialogContent />
@@ -294,7 +294,7 @@ describe('Modal component', () => {
     )
   })
 
-  it('will set focus and selection on "focusSelector" element', async () => {
+  it('should set focus and selection on "focusSelector" element', async () => {
     const { rerender } = render(
       <Modal no_animation={true} focusSelector="#focus-me">
         <DialogContent>
@@ -340,7 +340,7 @@ describe('Modal component', () => {
     })
   })
 
-  it('will move focus to content by default when opened', async () => {
+  it('should move focus to content by default when opened', async () => {
     render(
       <Modal no_animation={true}>
         <DialogContent>
@@ -363,7 +363,7 @@ describe('Modal component', () => {
     })
   })
 
-  it('renders a focus helper in the header', () => {
+  it('should render a focus helper in the header', () => {
     render(
       <Modal no_animation>
         <DialogContent>
@@ -495,7 +495,7 @@ describe('Modal component', () => {
     ).toBe('-1')
   })
 
-  it('will set "data-autofocus" attribute on focusing the trigger when closed', async () => {
+  it('should set "data-autofocus" attribute on focusing the trigger when closed', async () => {
     render(
       <Modal no_animation={true} animation_duration={3}>
         <DialogContent />
@@ -550,7 +550,7 @@ describe('Modal component', () => {
     })
   })
 
-  it('will warn if first heading is not h1', async () => {
+  it('should warn if first heading is not h1', async () => {
     jest.spyOn(helpers, 'warn')
     const log = global.console.log
     global.console.log = jest.fn()
@@ -576,7 +576,7 @@ describe('Modal component', () => {
     global.console.log = log
   })
 
-  it('will only use one heading if a custom one is given', () => {
+  it('should only use one heading if a custom one is given', () => {
     render(
       <Modal no_animation={true} title="original title">
         <Modal.Header>
@@ -592,7 +592,7 @@ describe('Modal component', () => {
     expect(document.querySelector('h1').textContent).toBe('custom heading')
   })
 
-  it('will render modal focus helper if a custom header is given', () => {
+  it('should render modal focus helper if a custom header is given', () => {
     render(
       <Modal no_animation={true} title="modal title">
         <Modal.Header>
@@ -612,7 +612,7 @@ describe('Modal component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('will not render modal focus helper if a header is given', () => {
+  it('should not render modal focus helper if a header is given', () => {
     render(
       <Modal no_animation={true}>
         <Modal.Header title="my title" />
@@ -628,7 +628,7 @@ describe('Modal component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('will provide custom bar, header and content if given', () => {
+  it('should provide custom bar, header and content if given', () => {
     render(
       <Modal no_animation={true} direct_dom_return>
         <DialogContent>
@@ -649,7 +649,7 @@ describe('Modal component', () => {
     expect(elements[2].textContent).toContain('modal content')
   })
 
-  it('has support for nested Modals', async () => {
+  it('should have support for nested Modals', async () => {
     const on_open = {
       first: jest.fn(),
       second: jest.fn(),
@@ -815,7 +815,7 @@ describe('Modal component', () => {
     )
   })
 
-  it('will remove HTML attributes on unmount when open_state is used', () => {
+  it('should remove HTML attributes on unmount when open_state is used', () => {
     const HandleState = () => {
       const [open, toggle] = React.useState(false)
       return (
@@ -854,7 +854,7 @@ describe('Modal component', () => {
     )
   })
 
-  it('will animate when open_state is used', async () => {
+  it('should animate when open_state is used', async () => {
     const on_open = jest.fn()
     const on_close = jest.fn()
 
@@ -895,7 +895,7 @@ describe('Modal component', () => {
     })
   })
 
-  it('will prevent closing the modal on prevent_close', async () => {
+  it('should prevent closing the modal on prevent_close', async () => {
     let preventClose = true
     let testTriggeredBy = null
     const on_close = jest.fn(
@@ -999,7 +999,7 @@ describe('Modal component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('will close the modal on overlay click', () => {
+  it('should close the modal on overlay click', () => {
     let testTriggeredBy = null
     const on_close = jest.fn(
       ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
@@ -1021,7 +1021,7 @@ describe('Modal component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('will omit close when no mousedown was fired', () => {
+  it('should omit close when no mousedown was fired', () => {
     const on_close = jest.fn()
     render(<Modal {...props} on_close={on_close} />)
     fireEvent.click(document.querySelector('button'))
@@ -1035,7 +1035,7 @@ describe('Modal component', () => {
     ).toBeInTheDocument()
   })
 
-  it('will only close when mousedown and click DOM targets are the same', () => {
+  it('should only close when mousedown and click DOM targets are the same', () => {
     const on_close = jest.fn()
     render(<Modal {...props} on_close={on_close} />)
 
@@ -1070,7 +1070,7 @@ describe('Modal component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('has working open event and close event on changing the "open_state"', async () => {
+  it('should have working open event and close event on changing the "open_state"', async () => {
     let testTriggeredBy = null
     const on_close = jest.fn(
       ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
@@ -1325,7 +1325,7 @@ describe('Modal component', () => {
     )
   })
 
-  it('has correct opened state when "open_state" is used', () => {
+  it('should have correct opened state when "open_state" is used', () => {
     const { rerender } = render(<Modal {...props} />)
 
     rerender(<Modal {...props} open_state="opened" />)
@@ -1339,7 +1339,7 @@ describe('Modal component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('has correct opened state when "open_state" is used with boolean', () => {
+  it('should have correct opened state when "open_state" is used with boolean', () => {
     const { rerender } = render(<Modal {...props} />)
     rerender(<Modal {...props} open_state={true} />)
 
@@ -1354,7 +1354,7 @@ describe('Modal component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('can be mounted from within another component', () => {
+  it('should be able to be mounted from within another component', () => {
     const TestCustomTrigger = () => {
       const [count, setCount] = React.useState(0)
 
@@ -1421,7 +1421,7 @@ describe('Modal component', () => {
     // expect(document.querySelector('div.dnb-modal__content')).toBeInTheDocument()
   })
 
-  it('will keep its internal open_state from within provider', () => {
+  it('should keep its internal open_state from within provider', () => {
     const on_open = jest.fn()
     const on_close = jest.fn()
 
@@ -1851,7 +1851,7 @@ describe('Modal component', () => {
     })
 
     describe('StrictMode', () => {
-      it('will call onOpen in StrictMode, even it should not be called', () => {
+      it('should call onOpen in StrictMode, even it should not be called', () => {
         const onClose = jest.fn()
         const onOpen = jest.fn()
 
@@ -1990,7 +1990,7 @@ describe('Modal root_id', () => {
 describe('Modal trigger', () => {
   const roledescription = 'Hjelp-knapp'
 
-  it('will act by default as a HelpButton', () => {
+  it('should act by default as a HelpButton', () => {
     render(<Modal {...props} trigger_attributes={{ text: '' }} />)
     expect(
       document
@@ -1999,7 +1999,7 @@ describe('Modal trigger', () => {
     ).toBe(roledescription)
   })
 
-  it('will have a aria-label', () => {
+  it('should have a aria-label', () => {
     render(
       <Modal {...props} trigger_attributes={{ 'aria-label': 'label' }} />
     )
@@ -2015,7 +2015,7 @@ describe('Modal trigger', () => {
     ).toBe('label')
   })
 
-  it('will not act as a HelpButton if only trigger_text was given', () => {
+  it('should not act as a HelpButton if only trigger_text was given', () => {
     render(<Modal {...props} trigger_attributes={{ text: 'text' }} />)
     expect(
       document.querySelector('button.dnb-modal__trigger')
@@ -2032,7 +2032,7 @@ describe('Modal trigger', () => {
     ).toBe('text')
   })
 
-  it('will not act as a HelpButton if a different icon was given', () => {
+  it('should not act as a HelpButton if a different icon was given', () => {
     render(<Modal {...props} trigger_attributes={{ icon: 'bell' }} />)
     expect(
       document.querySelector('button.dnb-modal__trigger')
@@ -2044,7 +2044,7 @@ describe('Modal trigger', () => {
     ).toBeInTheDocument()
   })
 
-  it('will not act as a HelpButton if trigger text was given', () => {
+  it('should not act as a HelpButton if trigger text was given', () => {
     render(<Modal {...props} trigger_attributes={{ text: 'text' }} />)
     expect(
       document.querySelector('button.dnb-modal__trigger')

@@ -21,7 +21,7 @@ describe('RemoveButton', () => {
     expect(button).toHaveTextContent(nb.removeButton)
   })
 
-  it('calls "handleRemove" when remove button is clicked', () => {
+  it('should call "handleRemove" when remove button is clicked', () => {
     const handleRemove = jest.fn()
 
     render(

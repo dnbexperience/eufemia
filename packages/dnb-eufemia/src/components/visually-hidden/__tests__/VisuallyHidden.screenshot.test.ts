@@ -11,28 +11,28 @@ import {
 describe('VisuallyHidden', () => {
   setupPageScreenshot({ url: '/uilib/components/visually-hidden/demos' })
 
-  it('have to match VisuallyHidden default', async () => {
+  it('should match VisuallyHidden default', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="visually-hidden-default"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match VisuallyHidden use case', async () => {
+  it('should match VisuallyHidden use case', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="visually-hidden-use-case"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match VisuallyHidden element element', async () => {
+  it('should match VisuallyHidden element element', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="visually-hidden-element"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match VisuallyHidden focusable', async () => {
+  it('should match VisuallyHidden focusable', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="visually-hidden-focusable"]',
       simulateSelector:

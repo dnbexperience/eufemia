@@ -9,14 +9,14 @@ import { TagGroupProps } from '../TagGroup'
 const nb = nbNO['nb-NO'].Tag
 
 describe('Tag Group', () => {
-  it('renders with props as an object', () => {
+  it('should render with props as an object', () => {
     const props: TagGroupProps = { label: 'label' }
 
     render(<Tag.Group {...props} />)
     expect(document.querySelector('.dnb-tag__group')).toBeInTheDocument()
   })
 
-  it('supports inline styling', () => {
+  it('should support inline styling', () => {
     render(<Tag.Group label="tags" style={{ color: 'red' }} />)
 
     expect(
@@ -24,27 +24,27 @@ describe('Tag Group', () => {
     ).toBe('color: red;')
   })
 
-  it('renders without children', () => {
+  it('should render without children', () => {
     render(<Tag.Group label="tags" />)
 
     expect(document.querySelector('.dnb-tag__group')).toBeInTheDocument()
     expect(document.querySelector('.dnb-tag')).not.toBeInTheDocument()
   })
 
-  it('renders the label as string', () => {
+  it('should render the label as string', () => {
     const label = 'tags'
     render(<Tag.Group label={label} />)
     expect(screen.queryByText(label)).toBeInTheDocument()
   })
 
-  it('renders the label as react node', () => {
+  it('should render the label as react node', () => {
     const label = <span data-testid="react-node">ReactNode</span>
     render(<Tag.Group label={label} />)
 
     expect(screen.queryByTestId('react-node')).toBeInTheDocument()
   })
 
-  it('renders a tag group with multiple tag elements by children', () => {
+  it('should render a tag group with multiple tag elements by children', () => {
     render(
       <Tag.Group label="animals">
         <Tag text="Cat" />
@@ -57,7 +57,7 @@ describe('Tag Group', () => {
     expect(document.querySelectorAll('.dnb-tag')).toHaveLength(4)
   })
 
-  it('renders a tag group with className if className is provided', () => {
+  it('should render a tag group with className if className is provided', () => {
     const customClassName = 'custom-class'
 
     render(
@@ -70,7 +70,7 @@ describe('Tag Group', () => {
     )
   })
 
-  it('renders a tag with skeleton if skeleton is true', () => {
+  it('should render a tag with skeleton if skeleton is true', () => {
     const skeletonClassName = 'dnb-skeleton'
 
     render(
@@ -105,7 +105,7 @@ describe('Tag Group', () => {
 })
 
 describe('Tag', () => {
-  it('renders with props as an object', () => {
+  it('should render with props as an object', () => {
     const props: TagProps = {}
 
     render(
@@ -116,7 +116,7 @@ describe('Tag', () => {
     expect(document.querySelector('.dnb-tag')).toBeInTheDocument()
   })
 
-  it('renders without properties', () => {
+  it('should render without properties', () => {
     render(
       <Tag.Group label="tags">
         <Tag />
@@ -126,7 +126,7 @@ describe('Tag', () => {
     expect(document.querySelector('.dnb-tag')).toBeInTheDocument()
   })
 
-  it('supports inline styling', () => {
+  it('should support inline styling', () => {
     render(
       <Tag.Group label="tags">
         <Tag text="text" style={{ color: 'red' }} />
@@ -138,7 +138,7 @@ describe('Tag', () => {
     )
   })
 
-  it('renders a tag with content by text prop', () => {
+  it('should render a tag with content by text prop', () => {
     const text = 'This is a tag'
 
     render(
@@ -150,7 +150,7 @@ describe('Tag', () => {
     expect(screen.queryByText(text)).toBeInTheDocument()
   })
 
-  it('renders a tag with content by children prop', () => {
+  it('should render a tag with content by children prop', () => {
     const text = 'This is a tag'
 
     render(
@@ -162,7 +162,7 @@ describe('Tag', () => {
     expect(screen.queryByText(text)).toBeInTheDocument()
   })
 
-  it('renders a tag with content if both text and children prop is defined', () => {
+  it('should render a tag with content if both text and children prop is defined', () => {
     const text = 'This is a tag'
 
     render(
@@ -174,7 +174,7 @@ describe('Tag', () => {
     expect(screen.queryByText(text)).toBeInTheDocument()
   })
 
-  it('renders a tag with skeleton if skeleton is true', () => {
+  it('should render a tag with skeleton if skeleton is true', () => {
     const skeletonClassName = 'dnb-skeleton'
 
     render(
@@ -204,7 +204,7 @@ describe('Tag', () => {
     ).toHaveLength(1)
   })
 
-  it('does not render a clickable Tag as default', () => {
+  it('should not render a clickable Tag as default', () => {
     const text = 'Tag with text'
 
     render(
@@ -217,7 +217,7 @@ describe('Tag', () => {
     expect(screen.queryByText(text)).toBeInTheDocument()
   })
 
-  it('does support icon', () => {
+  it('should support icon', () => {
     render(
       <Tag.Group label="tags">
         <Tag text="Tag with icon" icon="bell" />
@@ -252,7 +252,7 @@ describe('Tag', () => {
   })
 
   describe('variant clickable', () => {
-    it('renders a clickable tag with the correct attributes if variant="clickable"', () => {
+    it('should render a clickable tag with the correct attributes if variant="clickable"', () => {
       const interactiveClassName = 'dnb-tag--interactive'
       const clickableClassName = 'dnb-tag--clickable'
 
@@ -292,7 +292,7 @@ describe('Tag', () => {
       expect(onClick).toHaveBeenCalledTimes(1)
     })
 
-    it('does support icon', () => {
+    it('should support icon', () => {
       render(
         <Tag.Group label="tags">
           <Tag text="Tag with icon" icon="bell" onClick={jest.fn()} />
@@ -304,7 +304,7 @@ describe('Tag', () => {
   })
 
   describe('variant addable', () => {
-    it('renders a clickable tag with the correct attributes if variant="addable"', () => {
+    it('should render a clickable tag with the correct attributes if variant="addable"', () => {
       const interactiveClassName = 'dnb-tag--interactive'
       const clickableClassName = 'dnb-tag--addable'
 
@@ -344,7 +344,7 @@ describe('Tag', () => {
       expect(onClick).toHaveBeenCalledTimes(1)
     })
 
-    it('does not support icon if variant="addable"', () => {
+    it('should not support icon if variant="addable"', () => {
       render(
         <Tag.Group label="onDelete">
           <Tag
@@ -360,7 +360,7 @@ describe('Tag', () => {
       expect(document.querySelectorAll('.dnb-icon').length).toBe(1)
     })
 
-    it('renders the delete icon if variant="addable" is provided', () => {
+    it('should render the delete icon if variant="addable" is provided', () => {
       render(
         <Tag.Group label="onDelete">
           <Tag text="Addable" variant="addable" onClick={jest.fn()} />
@@ -372,7 +372,7 @@ describe('Tag', () => {
   })
 
   describe('variant removable', () => {
-    it('renders a clickable tag with the correct attributes if variant="removable"', () => {
+    it('should render a clickable tag with the correct attributes if variant="removable"', () => {
       const interactiveClassName = 'dnb-tag--interactive'
       const removableClassName = 'dnb-tag--removable'
 
@@ -412,7 +412,7 @@ describe('Tag', () => {
       expect(onClick).toHaveBeenCalledTimes(1)
     })
 
-    it('does not support icon if variant="removable"', () => {
+    it('should not support icon if variant="removable"', () => {
       render(
         <Tag.Group label="onDelete">
           <Tag
@@ -428,7 +428,7 @@ describe('Tag', () => {
       expect(document.querySelectorAll('.dnb-icon').length).toBe(1)
     })
 
-    it('renders the delete icon if variant="removable" is provided', () => {
+    it('should render the delete icon if variant="removable" is provided', () => {
       render(
         <Tag.Group label="onDelete">
           <Tag text="Removable" variant="removable" onClick={jest.fn()} />
@@ -465,7 +465,7 @@ describe('Tag', () => {
   })
 
   describe('with onClick', () => {
-    it('renders a clickable tag with the correct attributes if onClick is defined', () => {
+    it('should render a clickable tag with the correct attributes if onClick is defined', () => {
       const interactiveClassName = 'dnb-tag--interactive'
       const clickableClassName = 'dnb-tag--clickable'
 
@@ -502,7 +502,7 @@ describe('Tag', () => {
       expect(onClick).toHaveBeenCalledTimes(1)
     })
 
-    it('does support icon', () => {
+    it('should support icon', () => {
       render(
         <Tag.Group label="tags">
           <Tag text="Tag with icon" icon="bell" onClick={jest.fn()} />
@@ -514,7 +514,7 @@ describe('Tag', () => {
   })
 
   describe('with onDelete (deprecated)', () => {
-    it('renders a removable tag with the correct attributes if onDelete is defined', () => {
+    it('should render a removable tag with the correct attributes if onDelete is defined', () => {
       const interactiveClassName = 'dnb-tag--interactive'
       const removableClassName = 'dnb-tag--removable'
 
@@ -573,7 +573,7 @@ describe('Tag', () => {
       ).toBe(2)
     })
 
-    it('renders the close button if onDelete is defined', () => {
+    it('should render the close button if onDelete is defined', () => {
       render(
         <Tag.Group label="onDelete">
           <Tag text="Delete" onDelete={jest.fn()} />
@@ -583,7 +583,7 @@ describe('Tag', () => {
       expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
     })
 
-    it('does not support icon if onDelete', () => {
+    it('should not support icon if onDelete', () => {
       render(
         <Tag.Group label="onDelete">
           <Tag text="Tag with icon" icon="bell" onDelete={jest.fn()} />
@@ -594,7 +594,7 @@ describe('Tag', () => {
       expect(document.querySelectorAll('.dnb-icon').length).toBe(1)
     })
 
-    it('renders the delete icon if onDelete is provided', () => {
+    it('should render the delete icon if onDelete is provided', () => {
       render(
         <Tag.Group label="onDelete">
           <Tag text="Deletable" onDelete={jest.fn()} />
@@ -651,14 +651,14 @@ describe('Tag', () => {
     expect(global.console.log).toHaveBeenCalled()
   })
 
-  it('will not warn when hasLabel is true', () => {
+  it('should not warn when hasLabel is true', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()
     render(<Tag text="Tag" hasLabel />)
     expect(global.console.log).not.toHaveBeenCalled()
   })
 
-  it('renders a tag with className if className is provided', () => {
+  it('should render a tag with className if className is provided', () => {
     const customClassName = 'custom-class'
 
     render(
@@ -671,7 +671,7 @@ describe('Tag', () => {
     )
   })
 
-  it('renders a tag with provider', () => {
+  it('should render a tag with provider', () => {
     render(
       <Provider locale="en-GB">
         <Tag.Group label="tags">

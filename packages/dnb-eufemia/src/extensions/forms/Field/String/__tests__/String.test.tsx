@@ -47,7 +47,7 @@ const asyncValidatorResolvingWithError = () =>
 
 describe('Field.String', () => {
   describe('props', () => {
-    it('renders value', () => {
+    it('should render value', () => {
       const { rerender } = render(<Field.String value="test123" />)
       expect(document.querySelector('input')).toHaveValue('test123')
 
@@ -56,7 +56,7 @@ describe('Field.String', () => {
       expect(document.querySelector('textarea')).toHaveValue('test123')
     })
 
-    it('renders placeholder', () => {
+    it('should render placeholder', () => {
       render(<Field.String placeholder="Enter something" />)
       expect(
         // getByText instead of getByPlaceholderText since eufemia adds placeholder as tag, not placeholder-attribute
@@ -64,7 +64,7 @@ describe('Field.String', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders help', () => {
+    it('should render help', () => {
       render(
         <Field.String
           help={{ title: 'Help title', content: 'Help content' }}
@@ -78,13 +78,13 @@ describe('Field.String', () => {
       ).toBe(document.querySelector('.dnb-help-button').id)
     })
 
-    it('renders label once', () => {
+    it('should render label once', () => {
       render(<Field.String label="The label" />)
       expect(screen.getByLabelText('The label')).toBeInTheDocument()
       expect(document.querySelectorAll('label')).toHaveLength(1)
     })
 
-    it('does not render placeholder when value is given', () => {
+    it('should not render placeholder when value is given', () => {
       render(
         <Field.String value="value-text" placeholder="placeholder-text" />
       )
@@ -560,7 +560,7 @@ describe('Field.String', () => {
       )
     })
 
-    it('renders autoComplete', () => {
+    it('should render autoComplete', () => {
       const { rerender } = render(
         <Field.String autoComplete="given-name" />
       )
@@ -593,14 +593,14 @@ describe('Field.String', () => {
       ).toBe('family-name')
     })
 
-    it('renders name based on path', () => {
+    it('should render name based on path', () => {
       render(<Field.String path="/firstName" />)
       expect(document.querySelector('input').getAttribute('name')).toBe(
         'firstName'
       )
     })
 
-    it('renders error', () => {
+    it('should render error', () => {
       render(<Field.String error={new Error('This is what went wrong')} />)
       expect(
         screen.getByText('This is what went wrong')
@@ -704,7 +704,7 @@ describe('Field.String', () => {
   })
 
   describe('event handlers', () => {
-    it('calls onChange for every change of the input value', async () => {
+    it('should call onChange for every change of the input value', async () => {
       const onChange = jest.fn()
       render(<Field.String value="abc" onChange={onChange} />)
       const input = document.querySelector('input')
@@ -727,7 +727,7 @@ describe('Field.String', () => {
       )
     })
 
-    it('calls onFocus with current value', () => {
+    it('should call onFocus with current value', () => {
       const onFocus = jest.fn()
       render(<Field.String value="blah" onFocus={onFocus} />)
       const input = document.querySelector('input')
@@ -738,7 +738,7 @@ describe('Field.String', () => {
       expect(onFocus).toHaveBeenNthCalledWith(1, 'blah', expect.anything())
     })
 
-    it('calls onBlur with current value', async () => {
+    it('should call onBlur with current value', async () => {
       const onBlur = jest.fn()
       render(<Field.String value="song2" onBlur={onBlur} />)
       const input = document.querySelector('input')
@@ -1534,7 +1534,7 @@ describe('Field.String', () => {
       expect(screen.getByDisplayValue('direct-prop')).toBeInTheDocument()
     })
 
-    it('calls onChange and onPathChange correctly when an input was changed', async () => {
+    it('should call onChange and onPathChange correctly when an input was changed', async () => {
       const dataContextOnChange = jest.fn()
       const dataContextOnPathChange = jest.fn()
       const inputOnChange = jest.fn()
@@ -1644,7 +1644,7 @@ describe('Field.String', () => {
     )
   })
 
-  it('gets valid ref element', () => {
+  it('should get valid ref element', () => {
     const id = 'unique'
     let ref: React.RefObject<HTMLInputElement>
 
@@ -2404,7 +2404,7 @@ describe('Field.String', () => {
   })
 
   describe('Zod validation', () => {
-    it('shows localized min error when Zod schema has min without custom message (direct)', async () => {
+    it('should show localized min error when Zod schema has min without custom message (direct)', async () => {
       const schema = z.string().min(4) // expect localized key usage
 
       render(<Field.String schema={schema} />)
@@ -2421,7 +2421,7 @@ describe('Field.String', () => {
       })
     })
 
-    it('shows localized min error when Zod schema has min without custom message (via Form.Handler)', async () => {
+    it('should show localized min error when Zod schema has min without custom message (via Form.Handler)', async () => {
       const schema = z.object({ name: z.string().min(6) })
 
       render(
@@ -2442,7 +2442,7 @@ describe('Field.String', () => {
       })
     })
 
-    it('shows localized max error when Zod schema has max without custom message (direct)', async () => {
+    it('should show localized max error when Zod schema has max without custom message (direct)', async () => {
       const schema = z.string().max(3)
 
       render(<Field.String schema={schema} />)
@@ -2459,7 +2459,7 @@ describe('Field.String', () => {
       })
     })
 
-    it('shows localized max error when Zod schema has max without custom message (via Form.Handler)', async () => {
+    it('should show localized max error when Zod schema has max without custom message (via Form.Handler)', async () => {
       const schema = z.object({ code: z.string().max(2) })
 
       render(
@@ -2480,7 +2480,7 @@ describe('Field.String', () => {
       })
     })
 
-    it('shows custom pattern error when Zod schema has regex with custom message', async () => {
+    it('should show custom pattern error when Zod schema has regex with custom message', async () => {
       const schema = z
         .string()
         .regex(/^[A-Z]{2}\d{4}$/, 'Must be 2 letters followed by 4 digits')
@@ -2495,7 +2495,7 @@ describe('Field.String', () => {
       )
     })
 
-    it('shows localized pattern error when Zod schema has regex without custom message (default)', async () => {
+    it('should show localized pattern error when Zod schema has regex without custom message (default)', async () => {
       const schema = z.string().regex(/^[A-Z]{2}\d{4}$/)
 
       render(

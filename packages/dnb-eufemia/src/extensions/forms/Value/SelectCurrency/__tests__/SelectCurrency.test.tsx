@@ -4,7 +4,7 @@ import { Value, Form } from '../../..'
 import { CurrencyISO } from '../../../constants/currencies'
 
 describe('Value.SelectCurrency', () => {
-  it('renders string values', () => {
+  it('should render string values', () => {
     render(<Value.SelectCurrency value="NOK" />)
 
     expect(
@@ -14,7 +14,7 @@ describe('Value.SelectCurrency', () => {
     ).toHaveTextContent('Norsk krone (NOK)')
   })
 
-  it('supports invalid values', () => {
+  it('should support invalid values', () => {
     const { rerender } = render(
       <Value.SelectCurrency value={'NotValidISOCode' as CurrencyISO} />
     )
@@ -55,14 +55,14 @@ describe('Value.SelectCurrency', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('renders label when showEmpty is true', () => {
+  it('should render label when showEmpty is true', () => {
     render(<Value.SelectCurrency showEmpty label="My label" />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
       'My label'
     )
   })
 
-  it('renders value and label', () => {
+  it('should render value and label', () => {
     render(<Value.SelectCurrency label="My selections" value="NOK" />)
     expect(
       document.querySelector(
@@ -75,19 +75,19 @@ describe('Value.SelectCurrency', () => {
     )
   })
 
-  it('renders custom label', () => {
+  it('should render custom label', () => {
     render(<Value.SelectCurrency label="Custom label" showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
       'Custom label'
     )
   })
 
-  it('renders placeholder', () => {
+  it('should render placeholder', () => {
     render(<Value.SelectCurrency placeholder="Please select a value" />)
     expect(screen.getByText('Please select a value')).toBeInTheDocument()
   })
 
-  it('renders value from path', () => {
+  it('should render value from path', () => {
     render(
       <Form.Handler data={{ myCurrency: 'CHF' }}>
         <Value.SelectCurrency path="/myCurrency" />

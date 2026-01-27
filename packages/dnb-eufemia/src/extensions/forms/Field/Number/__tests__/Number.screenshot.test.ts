@@ -99,7 +99,7 @@ describe('Field.Number', () => {
     url: '/uilib/extensions/forms/base-fields/Number',
   })
 
-  it('have to match widths', async () => {
+  it('should match widths', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="number-widths"]',
     })

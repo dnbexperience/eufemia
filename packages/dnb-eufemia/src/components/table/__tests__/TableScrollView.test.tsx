@@ -6,7 +6,7 @@ import { BasicTable } from './TableMocks'
 import { setResizeObserver } from '../../../fragments/scroll-view/__tests__/shared-mocks/ResizeObserver'
 
 describe('Table.ScrollView', () => {
-  it('renders with props as an object', () => {
+  it('should render with props as an object', () => {
     const props: TableScrollViewAllProps = {
       children: (
         <Table>

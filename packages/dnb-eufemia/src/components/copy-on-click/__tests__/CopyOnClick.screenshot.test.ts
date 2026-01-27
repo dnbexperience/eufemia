@@ -19,7 +19,7 @@ describe('CopyOnClick', () => {
     'max-width': '30rem',
   }
 
-  it('have to match tooltip', async () => {
+  it('should match tooltip', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="copy-on-click-default"]',
       style,
@@ -42,7 +42,7 @@ describe('CopyOnClick in drawer', () => {
     pageViewport,
   })
 
-  it('have to match tooltip', async () => {
+  it('should match tooltip', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="copy-on-click-inside-drawer"]',
       simulate: 'click',

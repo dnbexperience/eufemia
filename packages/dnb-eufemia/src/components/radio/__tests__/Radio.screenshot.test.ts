@@ -15,14 +15,14 @@ describe.each(['ui', 'sbanken'])('Radio for %s', (themeName) => {
       url: '/uilib/components/radio/demos',
     })
 
-    it('have to match radio in unchecked state', async () => {
+    it('should match radio in unchecked state', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="radio-default"] .dnb-radio',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match radio in unchecked state with focus', async () => {
+    it('should match radio in unchecked state with focus', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="radio-default"] .dnb-radio',
         simulateSelector:
@@ -32,7 +32,7 @@ describe.each(['ui', 'sbanken'])('Radio for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match radio in unchecked state with hover', async () => {
+    it('should match radio in unchecked state with hover', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="radio-default"] .dnb-radio',
         simulateSelector:
@@ -42,14 +42,14 @@ describe.each(['ui', 'sbanken'])('Radio for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match radio in unchecked state with error', async () => {
+    it('should match radio in unchecked state with error', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="radio-error-unchecked"] .dnb-radio',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match radio in unchecked state with error and hover', async () => {
+    it('should match radio in unchecked state with error and hover', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="radio-error-unchecked"] .dnb-radio',
         simulate: 'hover',
@@ -66,14 +66,14 @@ describe.each(['ui', 'sbanken'])('Radio for %s', (themeName) => {
       url: '/uilib/components/radio/demos',
     })
 
-    it('have to match radio in checked state', async () => {
+    it('should match radio in checked state', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="radio-checked"] .dnb-radio',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match radio in checked state with focus', async () => {
+    it('should match radio in checked state with focus', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="radio-checked"] .dnb-radio',
         simulateSelector:
@@ -83,7 +83,7 @@ describe.each(['ui', 'sbanken'])('Radio for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match radio in checked state with hover', async () => {
+    it('should match radio in checked state with hover', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="radio-checked"] .dnb-radio',
         simulateSelector:
@@ -93,7 +93,7 @@ describe.each(['ui', 'sbanken'])('Radio for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match disabled group', async () => {
+    it('should match disabled group', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="radio-group-disabled"] .dnb-radio-group',
@@ -101,14 +101,14 @@ describe.each(['ui', 'sbanken'])('Radio for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match radio group', async () => {
+    it('should match radio group', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="radio-group"] .dnb-radio-group',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match radio group in vertical layout', async () => {
+    it('should match radio group in vertical layout', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="radio-group-vertical"] .dnb-radio-group',
@@ -116,7 +116,7 @@ describe.each(['ui', 'sbanken'])('Radio for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match radio group with label above', async () => {
+    it('should match radio group with label above', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="radio-group-label-above"] .dnb-radio-group',
@@ -124,7 +124,7 @@ describe.each(['ui', 'sbanken'])('Radio for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match radio group with form-status', async () => {
+    it('should match radio group with form-status', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="radio-group-status"] .dnb-radio-group',
@@ -132,28 +132,28 @@ describe.each(['ui', 'sbanken'])('Radio for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match radio group plain', async () => {
+    it('should match radio group plain', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="radio-group-plain"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match radio button in different sizes', async () => {
+    it('should match radio button in different sizes', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="radio-sizes"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match radio in checked state with error', async () => {
+    it('should match radio in checked state with error', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="radio-error-checked"] .dnb-radio',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match radio in checked state with error and hover', async () => {
+    it('should match radio in checked state with error and hover', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="radio-error-checked"] .dnb-radio',
         simulate: 'hover',
@@ -161,7 +161,7 @@ describe.each(['ui', 'sbanken'])('Radio for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match radio in checked state with larger bounding area', async () => {
+    it('should match radio in checked state with larger bounding area', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="radio-bounding"] .dnb-radio',
       })

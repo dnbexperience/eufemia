@@ -15,49 +15,49 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
     url: '/uilib/components/tabs/demos',
   })
 
-  it('have to match the "Tablist"', async () => {
+  it('should match the "Tablist"', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match when used with a single children as react element', async () => {
+  it('should match when used with a single children as react element', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="tabs-single-children-react-element"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match when used with a single element in data', async () => {
+  it('should match when used with a single element in data', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="tabs-single-element-data"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tabs with badge notification', async () => {
+  it('should match tabs with badge notification', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="tabs-badge-notification"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match when using the align property', async () => {
+  it('should match when using the align property', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="tabs-align-property"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match a tablist with a click handler', async () => {
+  it('should match a tablist with a click handler', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="tabs-clickhandler"] .dnb-tabs__tabs',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match max-width tabs', async () => {
+  it('should match max-width tabs', async () => {
     const screenshot = await makeScreenshot({
       style: {
         width: '40rem',
@@ -68,7 +68,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match custom section styles', async () => {
+  it('should match custom section styles', async () => {
     const screenshot = await makeScreenshot({
       style: {
         width: '40rem',
@@ -80,7 +80,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tabs with no bottom border', async () => {
+  it('should match tabs with no bottom border', async () => {
     const screenshot = await makeScreenshot({
       style: {
         width: '40rem',
@@ -92,7 +92,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tabs with no breakout', async () => {
+  it('should match tabs with no breakout', async () => {
     const screenshot = await makeScreenshot({
       style: {
         width: '40rem',
@@ -104,7 +104,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match ignored scrollable tabs', async () => {
+  it('should match ignored scrollable tabs', async () => {
     const screenshot = await makeScreenshot({
       style: {
         width: '80rem',
@@ -116,7 +116,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match a tab button in focus state', async () => {
+  it('should match a tab button in focus state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs',
       simulateSelector:
@@ -127,7 +127,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the "Tablist" on focus state', async () => {
+  it('should match the "Tablist" on focus state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs',
       style: { margin: '0 2rem' },
@@ -138,7 +138,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tabs content with focus ring', async () => {
+  it('should match tabs content with focus ring', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="tabs-section-styles"] .dnb-tabs__content',
@@ -162,7 +162,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
     },
   })
 
-  it('have to match scrollable tabs narrow', async () => {
+  it('should match scrollable tabs narrow', async () => {
     const screenshot = await makeScreenshot({
       style: {
         width: '30rem',
@@ -183,7 +183,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
     },
   })
 
-  it('have to match horizontally aligned tabs', async () => {
+  it('should match horizontally aligned tabs', async () => {
     const screenshot = await makeScreenshot({
       style: {
         width: '50rem',
@@ -193,7 +193,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match scrollable tabs', async () => {
+  it('should match scrollable tabs', async () => {
     const screenshot = await makeScreenshot({
       style: {
         width: '50rem',
@@ -204,7 +204,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match first scrollable tabs', async () => {
+  it('should match first scrollable tabs', async () => {
     const screenshot = await makeScreenshot({
       style: {
         width: '50rem',
@@ -218,7 +218,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match last scrollable tabs', async () => {
+  it('should match last scrollable tabs', async () => {
     const screenshot = await makeScreenshot({
       style: {
         width: '50rem',

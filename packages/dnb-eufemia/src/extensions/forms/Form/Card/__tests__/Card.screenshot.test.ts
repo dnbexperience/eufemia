@@ -8,7 +8,7 @@ import { makeScreenshot } from '../../../../../core/jest/jestSetupScreenshots'
 const url = '/uilib/extensions/forms/Form/Card/demos'
 
 describe('Form.Card', () => {
-  it('have to match outset', async () => {
+  it('should match outset', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector: '[data-visual-test="forms-card"]',
@@ -19,7 +19,7 @@ describe('Form.Card', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match when used in wizard', async () => {
+  it('should match when used in wizard', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector: '[data-visual-test="forms-card-in-wizard"]',
@@ -27,7 +27,7 @@ describe('Form.Card', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match outset variants on a large screen', async () => {
+  it('should match outset variants on a large screen', async () => {
     const screenshot = await makeScreenshot({
       url,
       pageViewport: {
@@ -38,7 +38,7 @@ describe('Form.Card', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match outset variants on small screen', async () => {
+  it('should match outset variants on small screen', async () => {
     const screenshot = await makeScreenshot({
       url,
       pageViewport: {
@@ -61,7 +61,7 @@ describe.each(['ui', 'sbanken'])(
       url,
     }
 
-    it('have to match outset', async () => {
+    it('should match outset', async () => {
       const screenshot = await makeScreenshot({
         ...params,
         selector: '[data-visual-test="forms-card"]',

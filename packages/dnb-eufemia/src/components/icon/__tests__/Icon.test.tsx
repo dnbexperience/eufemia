@@ -16,14 +16,14 @@ const props: IconAllProps = {
 }
 
 describe('Icon component', () => {
-  it('renders with props as an object', () => {
+  it('should render with props as an object', () => {
     const props: IconAllProps = { icon: question }
 
     render(<Icon {...props} />)
     expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
   })
 
-  it('has valid width and height prop', () => {
+  it('should have valid width and height prop', () => {
     const width = '200'
     const height = '100'
     render(<Icon {...props} width={width} height={height} />)

@@ -4,7 +4,7 @@ import { Value, Form, Field } from '../../..'
 import userEvent from '@testing-library/user-event'
 
 describe('Value.Selection', () => {
-  it('renders value', () => {
+  it('should render value', () => {
     render(<Value.Selection value="Bankaxept" />)
 
     expect(
@@ -14,14 +14,14 @@ describe('Value.Selection', () => {
     ).toHaveTextContent('Bankaxept')
   })
 
-  it('renders label when showEmpty is true', () => {
+  it('should render label when showEmpty is true', () => {
     render(<Value.Selection showEmpty label="My label" />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
       'My label'
     )
   })
 
-  it('renders value and label', () => {
+  it('should render value and label', () => {
     render(<Value.Selection label="My selections" value="Visa" />)
     expect(
       document.querySelector(
@@ -34,19 +34,19 @@ describe('Value.Selection', () => {
     )
   })
 
-  it('renders custom label', () => {
+  it('should render custom label', () => {
     render(<Value.Selection label="Custom label" showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
       'Custom label'
     )
   })
 
-  it('renders placeholder', () => {
+  it('should render placeholder', () => {
     render(<Value.Selection placeholder="Please select a value" />)
     expect(screen.getByText('Please select a value')).toBeInTheDocument()
   })
 
-  it('renders value from path', () => {
+  it('should render value from path', () => {
     render(
       <Form.Handler data={{ myPath: 'Mastercard' }}>
         <Value.Selection path="/myPath" />

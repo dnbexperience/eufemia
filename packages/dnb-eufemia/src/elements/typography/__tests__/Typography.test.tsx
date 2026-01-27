@@ -15,7 +15,7 @@ const props: TypographyProps = {
 }
 
 describe('Typography element', () => {
-  it('has p element as default', () => {
+  it('should have p element as default', () => {
     render(<Typography />)
 
     const element = document.querySelector('.dnb-p')
@@ -31,7 +31,7 @@ describe('Typography element', () => {
     expect(element.classList.contains('dnb-t__weight--regular')).toBe(true)
   })
 
-  it('has correct size and line height when size is defined', () => {
+  it('should have correct size and line height when size is defined', () => {
     render(<Typography size="large" />)
     const element = document.querySelector('.dnb-t__size--large')
 
@@ -48,14 +48,14 @@ describe('Typography element', () => {
   })
 
   describe('proseMaxWidth', () => {
-    it('applies proseMaxWidth style when provided', () => {
+    it('should apply proseMaxWidth style when provided', () => {
       render(<Typography proseMaxWidth={80}>Test text</Typography>)
       const element = document.querySelector('.dnb-p') as HTMLElement
 
       expect(element.style.maxWidth).toBe('80ch')
     })
 
-    it('does not apply proseMaxWidth style when not provided', () => {
+    it('should not apply proseMaxWidth style when not provided', () => {
       render(<Typography>Test text</Typography>)
       const element = document.querySelector('.dnb-p') as HTMLElement
 
@@ -142,7 +142,7 @@ describe('Typography element', () => {
       expect(element.style.maxWidth).toBe('50ch')
     })
 
-    it('applies proseMaxWidth as 60ch when true', () => {
+    it('should apply proseMaxWidth as 60ch when true', () => {
       render(<Typography proseMaxWidth>Test text</Typography>)
       const element = document.querySelector('.dnb-p') as HTMLElement
 
@@ -162,7 +162,7 @@ describe('Typography element', () => {
   })
 
   describe('Typography.Provider', () => {
-    it('applies proseMaxWidth from Provider to Typography children', () => {
+    it('should apply proseMaxWidth from Provider to Typography children', () => {
       render(
         <Typography.Provider proseMaxWidth={80}>
           <Typography>Text with context width</Typography>
@@ -173,7 +173,7 @@ describe('Typography element', () => {
       expect(element.style.maxWidth).toBe('80ch')
     })
 
-    it('uses prop value over Provider value when both are provided', () => {
+    it('should use prop value over Provider value when both are provided', () => {
       render(
         <Typography.Provider proseMaxWidth={80}>
           <Typography proseMaxWidth={120}>
@@ -186,7 +186,7 @@ describe('Typography element', () => {
       expect(element.style.maxWidth).toBe('120ch')
     })
 
-    it('applies to multiple Typography children', () => {
+    it('should apply to multiple Typography children', () => {
       render(
         <Typography.Provider proseMaxWidth={70}>
           <Typography>First paragraph</Typography>
@@ -203,7 +203,7 @@ describe('Typography element', () => {
       })
     })
 
-    it('supports nested Providers with different values', () => {
+    it('should support nested Providers with different values', () => {
       render(
         <Typography.Provider proseMaxWidth={80}>
           <Typography>Outer paragraph</Typography>
@@ -264,7 +264,7 @@ describe('Typography element', () => {
       expect(pElement.style.maxWidth).toBe('75ch')
     })
 
-    it('does not apply maxWidth when Provider value is undefined', () => {
+    it('should not apply maxWidth when Provider value is undefined', () => {
       render(
         <Typography.Provider>
           <Typography>No width limit</Typography>

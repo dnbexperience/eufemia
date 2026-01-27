@@ -62,7 +62,7 @@ describe('Field.Toggle', () => {
         expect(switchElement.classList).toContain('dnb-switch--large')
       })
 
-      it('renders label', () => {
+      it('should render label', () => {
         render(
           <Field.Toggle
             valueOn="on"
@@ -88,7 +88,7 @@ describe('Field.Toggle', () => {
         expect(screen.queryByText('Nei')).not.toBeInTheDocument()
       })
 
-      it('renders help', () => {
+      it('should render help', () => {
         render(
           <Field.Toggle
             valueOn="on"
@@ -112,7 +112,7 @@ describe('Field.Toggle', () => {
         ).toContain(document.querySelector('.dnb-help-button').id)
       })
 
-      it('renders error', () => {
+      it('should render error', () => {
         render(
           <Field.Toggle
             valueOn="on"
@@ -126,7 +126,7 @@ describe('Field.Toggle', () => {
         ).toBeInTheDocument()
       })
 
-      it('shows error border', () => {
+      it('should show error border', () => {
         render(
           <Field.Toggle
             valueOn="on"
@@ -400,7 +400,7 @@ describe('Field.Toggle', () => {
         expect(buttonElement.classList).toContain('dnb-button--size-large')
       })
 
-      it('renders label', () => {
+      it('should render label', () => {
         render(
           <Field.Toggle
             valueOn="on"
@@ -412,7 +412,7 @@ describe('Field.Toggle', () => {
         expect(screen.getByText('Toggle label')).toBeInTheDocument()
       })
 
-      it('renders help', () => {
+      it('should render help', () => {
         render(
           <Field.Toggle
             valueOn="on"
@@ -556,7 +556,7 @@ describe('Field.Toggle', () => {
         })
       })
 
-      it('renders error', () => {
+      it('should render error', () => {
         const errorMessage = new Error('Error message')
 
         render(
@@ -576,7 +576,7 @@ describe('Field.Toggle', () => {
         expect(input).toHaveClass('dnb-toggle-button__status--error')
       })
 
-      it('shows error style in FieldBlock', () => {
+      it('should show error style in FieldBlock', () => {
         const errorMessage = new Error('Error message')
 
         render(
@@ -629,7 +629,7 @@ describe('Field.Toggle', () => {
         )
       })
 
-      it('renders label', () => {
+      it('should render label', () => {
         render(
           <Field.Toggle
             valueOn="on"
@@ -641,7 +641,7 @@ describe('Field.Toggle', () => {
         expect(screen.getByText('Toggle label')).toBeInTheDocument()
       })
 
-      it('renders help', () => {
+      it('should render help', () => {
         render(
           <Field.Toggle
             valueOn="on"
@@ -779,7 +779,7 @@ describe('Field.Toggle', () => {
         })
       })
 
-      it('renders error', () => {
+      it('should render error', () => {
         const errorMessage = new Error('Error message')
 
         render(
@@ -802,7 +802,7 @@ describe('Field.Toggle', () => {
         expect(noElement).toHaveClass('dnb-toggle-button__status--error')
       })
 
-      it('shows error style in FieldBlock', () => {
+      it('should show error style in FieldBlock', () => {
         const errorMessage = new Error('Error message')
 
         render(
@@ -918,7 +918,7 @@ describe('Field.Toggle', () => {
         expect(radioElementTwo.classList).toContain('dnb-radio--large')
       })
 
-      it('renders label', () => {
+      it('should render label', () => {
         render(
           <Field.Toggle
             valueOn="on"
@@ -930,7 +930,7 @@ describe('Field.Toggle', () => {
         expect(screen.getByText('Radio label')).toBeInTheDocument()
       })
 
-      it('renders help', () => {
+      it('should render help', () => {
         render(
           <Field.Toggle
             valueOn="on"
@@ -1064,7 +1064,7 @@ describe('Field.Toggle', () => {
         })
       })
 
-      it('renders error', () => {
+      it('should render error', () => {
         const errorMessage = new Error('Error message')
 
         render(
@@ -1087,7 +1087,7 @@ describe('Field.Toggle', () => {
         expect(noElement).toHaveClass('dnb-radio__status--error')
       })
 
-      it('shows error style in FieldBlock', () => {
+      it('should show error style in FieldBlock', () => {
         const errorMessage = new Error('Error message')
 
         render(
@@ -1135,7 +1135,7 @@ describe('Field.Toggle', () => {
         )
       })
 
-      it('renders label', () => {
+      it('should render label', () => {
         render(
           <Field.Toggle
             valueOn="on"
@@ -1147,7 +1147,7 @@ describe('Field.Toggle', () => {
         expect(screen.getByText('Toggle label')).toBeInTheDocument()
       })
 
-      it('renders help', () => {
+      it('should render help', () => {
         render(
           <Field.Toggle
             valueOn="on"
@@ -1250,7 +1250,7 @@ describe('Field.Toggle', () => {
         })
       })
 
-      it('renders error', () => {
+      it('should render error', () => {
         const errorMessage = new Error('Error message')
 
         render(
@@ -1271,7 +1271,7 @@ describe('Field.Toggle', () => {
         expect(input).toHaveClass('dnb-toggle-button__status--error')
       })
 
-      it('shows error style in FieldBlock', () => {
+      it('should show error style in FieldBlock', () => {
         const errorMessage = new Error('Error message')
 
         render(
@@ -1315,7 +1315,7 @@ describe('Field.Toggle', () => {
         expect(checkboxElement.classList).toContain('dnb-checkbox--large')
       })
 
-      it('renders label', () => {
+      it('should render label', () => {
         render(
           <Field.Toggle
             valueOn="on"
@@ -1345,7 +1345,7 @@ describe('Field.Toggle', () => {
         expect(element).not.toHaveClass('dnb-form-label--interactive')
       })
 
-      it('renders help', () => {
+      it('should render help', () => {
         render(
           <Field.Toggle
             valueOn="on"
@@ -1448,7 +1448,7 @@ describe('Field.Toggle', () => {
         })
       })
 
-      it('renders error', () => {
+      it('should render error', () => {
         const errorMessage = new Error('Error message')
 
         render(
@@ -1469,7 +1469,7 @@ describe('Field.Toggle', () => {
         expect(input).toHaveClass('dnb-checkbox__status--error')
       })
 
-      it('shows error style in FieldBlock', () => {
+      it('should show error style in FieldBlock', () => {
         const errorMessage = new Error('Error message')
 
         render(

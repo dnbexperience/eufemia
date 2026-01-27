@@ -4,7 +4,7 @@ import Table from '../Table'
 import TableTr, { TableTrProps } from '../TableTr'
 
 describe('TableTr', () => {
-  it('renders with props as an object', () => {
+  it('should render with props as an object', () => {
     const props: TableTrProps = { children: <td>content</td> }
 
     render(

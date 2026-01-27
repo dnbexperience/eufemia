@@ -6,7 +6,7 @@
 import { makeScreenshot } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Flex.Container', () => {
-  it('have to match divider', async () => {
+  it('should match divider', async () => {
     const screenshot = await makeScreenshot({
       url: '/uilib/layout/flex/container/demos',
       selector:
@@ -15,7 +15,7 @@ describe('Flex.Container', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match with children', async () => {
+  it('should match with children', async () => {
     const screenshot = await makeScreenshot({
       url: '/uilib/layout/flex/container/demos',
       selector:
@@ -24,7 +24,7 @@ describe('Flex.Container', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match bookend line', async () => {
+  it('should match bookend line', async () => {
     const screenshot = await makeScreenshot({
       url: '/uilib/layout/flex/container/demos',
       selector:
@@ -33,7 +33,7 @@ describe('Flex.Container', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match wrapped bookend line', async () => {
+  it('should match wrapped bookend line', async () => {
     const screenshot = await makeScreenshot({
       url: '/uilib/layout/flex/container/demos',
       pageViewport: {
@@ -45,7 +45,7 @@ describe('Flex.Container', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match field on large viewport', async () => {
+  it('should match field on large viewport', async () => {
     const screenshot = await makeScreenshot({
       url: '/uilib/layout/flex/container/demos',
       selector:
@@ -54,7 +54,7 @@ describe('Flex.Container', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match field on small viewport', async () => {
+  it('should match field on small viewport', async () => {
     const screenshot = await makeScreenshot({
       url: '/uilib/layout/flex/container/demos',
       pageViewport: {
@@ -66,7 +66,7 @@ describe('Flex.Container', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match field on x-small viewport', async () => {
+  it('should match field on x-small viewport', async () => {
     const screenshot = await makeScreenshot({
       url: '/uilib/layout/flex/container/demos',
       pageViewport: {

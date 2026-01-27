@@ -11,21 +11,21 @@ describe.each(['ui'])('PhoneNumber for %s', (themeName) => {
     url,
   })
 
-  it('have to match with a label', async () => {
+  it('should match with a label', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="phone-number-label"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match with error', async () => {
+  it('should match with error', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="phone-number-error"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match widths', async () => {
+  it('should match widths', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '35rem' },
       selector: '[data-visual-test="phone-number-width"]',
@@ -35,7 +35,7 @@ describe.each(['ui'])('PhoneNumber for %s', (themeName) => {
 })
 
 describe('PhoneNumber', () => {
-  it('have to match medium screen', async () => {
+  it('should match medium screen', async () => {
     const screenshot = await makeScreenshot({
       url,
       pageViewport: {
@@ -46,7 +46,7 @@ describe('PhoneNumber', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match small screen', async () => {
+  it('should match small screen', async () => {
     const screenshot = await makeScreenshot({
       url,
       pageViewport: {
@@ -57,7 +57,7 @@ describe('PhoneNumber', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match long label', async () => {
+  it('should match long label', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector: '[data-visual-test="phone-number-long-label"]',
@@ -66,7 +66,7 @@ describe('PhoneNumber', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match used in card', async () => {
+  it('should match used in card', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector: '[data-visual-test="phone-number-in-card"]',

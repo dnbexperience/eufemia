@@ -3,7 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import AriaLive from '../AriaLive'
 
 describe('AriaLive', () => {
-  it('renders with default props', async () => {
+  it('should render with default props', async () => {
     render(<AriaLive>Default announcement</AriaLive>)
 
     await waitFor(() =>
@@ -24,7 +24,7 @@ describe('AriaLive', () => {
     ])
   })
 
-  it('does not render when disabled', async () => {
+  it('should not render when disabled', async () => {
     render(<AriaLive disabled={true}>Disabled announcement</AriaLive>)
 
     await waitFor(() =>
@@ -32,7 +32,7 @@ describe('AriaLive', () => {
     )
   })
 
-  it('renders with delay', async () => {
+  it('should render with delay', async () => {
     render(<AriaLive>Delayed announcement</AriaLive>)
 
     expect(screen.queryByText('Delayed announcement')).toBeNull()
@@ -41,7 +41,7 @@ describe('AriaLive', () => {
     )
   })
 
-  it('renders with politeness', async () => {
+  it('should render with politeness', async () => {
     render(
       <AriaLive politeness="assertive">Assertive announcement</AriaLive>
     )
@@ -53,7 +53,7 @@ describe('AriaLive', () => {
     )
   })
 
-  it('renders with atomic', async () => {
+  it('should render with atomic', async () => {
     render(<AriaLive atomic={true}>Atomic announcement</AriaLive>)
 
     await waitFor(() =>
@@ -61,7 +61,7 @@ describe('AriaLive', () => {
     )
   })
 
-  it('renders with relevant', async () => {
+  it('should render with relevant', async () => {
     render(<AriaLive relevant="text">Relevant text announcement</AriaLive>)
 
     await waitFor(() =>
@@ -71,7 +71,7 @@ describe('AriaLive', () => {
     )
   })
 
-  it('updates when children changes', async () => {
+  it('should update when children changes', async () => {
     const { rerender } = render(<AriaLive>First announcement</AriaLive>)
 
     await waitFor(() =>
@@ -85,7 +85,7 @@ describe('AriaLive', () => {
     )
   })
 
-  it('renders with a paragraph element', async () => {
+  it('should render with a paragraph element', async () => {
     render(
       <AriaLive>
         <p>Announcement</p>
@@ -148,7 +148,7 @@ describe('AriaLive', () => {
     expect(element).toHaveClass('dnb-aria-live')
   })
 
-  it('has the same attributes with default as with low priority', () => {
+  it('should have the same attributes with default as with low priority', () => {
     const { rerender } = render(
       <AriaLive>
         <p>Default priority announcement</p>

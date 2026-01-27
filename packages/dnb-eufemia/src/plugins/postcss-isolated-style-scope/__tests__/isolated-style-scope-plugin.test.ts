@@ -460,7 +460,7 @@ describe('isolated-style-scope-plugin', () => {
       )
     })
 
-    it('keeps rule when selector became empty after stripping default scope', async () => {
+    it('should keep rule when selector became empty after stripping default scope', async () => {
       await run(
         '.eufemia-scope--default { color: red; }',
         '.new-scope { color: red; }',
@@ -468,7 +468,7 @@ describe('isolated-style-scope-plugin', () => {
       )
     })
 
-    it('keeps rule when selector became empty inside @media', async () => {
+    it('should keep rule when selector became empty inside @media', async () => {
       await run(
         '@media (min-width: 40em){ .eufemia-scope--default { color: red; } }',
         '@media (min-width: 40em){ .new-scope { color: red; } }',
@@ -1013,7 +1013,7 @@ describe('isolated-style-scope-plugin', () => {
         )
       })
 
-      it('keeps rule when selector Became empty inside :global', async () => {
+      it('should keep rule when selector Became empty inside :global', async () => {
         await run(
           ':global(.eufemia-scope--default) { color: red; }',
           ':global(.new-scope) { color: red; }',
@@ -1130,7 +1130,7 @@ describe('isolated-style-scope-plugin', () => {
         )
       })
 
-      it('does not scope html inside :global', async () => {
+      it('should not scope html inside :global', async () => {
         await run(
           ':global {\n  html { color: red; }\n}',
           ':global {\n  html { color: red; }\n}',
@@ -1138,7 +1138,7 @@ describe('isolated-style-scope-plugin', () => {
         )
       })
 
-      it('does not scope body inside :global', async () => {
+      it('should not scope body inside :global', async () => {
         await run(
           ':global {\n  body { color: red; }\n}',
           ':global {\n  body { color: red; }\n}',
@@ -1146,7 +1146,7 @@ describe('isolated-style-scope-plugin', () => {
         )
       })
 
-      it('does not scope html body inside :global', async () => {
+      it('should not scope html body inside :global', async () => {
         await run(
           ':global {\n  html body { color: red; }\n}',
           ':global {\n  html body { color: red; }\n}',
@@ -1154,7 +1154,7 @@ describe('isolated-style-scope-plugin', () => {
         )
       })
 
-      it('does not scope html inside :global but scope the rest', async () => {
+      it('should not scope html inside :global but scope the rest', async () => {
         await run(
           ':global {\n  html { color: red; }\n.selector { color: red; }\n}',
           ':global {\n  html { color: red; }\n:global(.test-scope) .selector { color: red; }\n}',

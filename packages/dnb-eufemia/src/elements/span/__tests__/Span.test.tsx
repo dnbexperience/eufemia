@@ -19,7 +19,7 @@ describe('Span element', () => {
       'dnb-span',
     ])
   })
-  it('sets only line-height when size is not defined', () => {
+  it('should set only line-height when size is not defined', () => {
     render(<Span lineHeight="large" />)
     const element = document.querySelector('.dnb-t__line-height--large')
 
@@ -28,7 +28,7 @@ describe('Span element', () => {
       'dnb-span',
     ])
   })
-  it('has correct style when several modifiers are defined', () => {
+  it('should have correct style when several modifiers are defined', () => {
     render(
       <Span
         size="small"
@@ -51,7 +51,7 @@ describe('Span element', () => {
       'dnb-span',
     ])
   })
-  it('has correct style when medium is set to true', () => {
+  it('should have correct style when medium is set to true', () => {
     render(<Span weight="bold" />)
     const element = document.querySelector('.dnb-t__weight--bold')
     expect(Array.from(element.classList)).toEqual([

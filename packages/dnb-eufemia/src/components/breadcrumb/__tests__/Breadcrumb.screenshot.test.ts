@@ -14,35 +14,35 @@ describe.each(['ui', 'sbanken'])('Breadcrumb for %s', (themeName) => {
     url: '/uilib/components/breadcrumb/demos',
   })
 
-  it('have to match Breadcrumb single', async () => {
+  it('should match Breadcrumb single', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="breadcrumb-single"] .dnb-breadcrumb',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match Breadcrumb default', async () => {
+  it('should match Breadcrumb default', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="breadcrumb-default"] .dnb-breadcrumb',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match Breadcrumb with custom children', async () => {
+  it('should match Breadcrumb with custom children', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="breadcrumb-children"] .dnb-breadcrumb',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match Breadcrumb collapse', async () => {
+  it('should match Breadcrumb collapse', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="breadcrumb-collapse"] .dnb-breadcrumb',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match Breadcrumb collapse opened', async () => {
+  it('should match Breadcrumb collapse opened', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="breadcrumb-collapse"] .dnb-breadcrumb',
       simulateSelector:
@@ -53,7 +53,7 @@ describe.each(['ui', 'sbanken'])('Breadcrumb for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match Breadcrumb hover state', async () => {
+  it('should match Breadcrumb hover state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="breadcrumb-default"] .dnb-breadcrumb',
       screenshotSelector:
@@ -65,7 +65,7 @@ describe.each(['ui', 'sbanken'])('Breadcrumb for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match Breadcrumb active state', async () => {
+  it('should match Breadcrumb active state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="breadcrumb-default"] .dnb-breadcrumb',
       screenshotSelector:
@@ -77,7 +77,7 @@ describe.each(['ui', 'sbanken'])('Breadcrumb for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match Breadcrumb focus state', async () => {
+  it('should match Breadcrumb focus state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="breadcrumb-default"] .dnb-breadcrumb',
       screenshotSelector:
@@ -89,7 +89,7 @@ describe.each(['ui', 'sbanken'])('Breadcrumb for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match Breadcrumb multiple', async () => {
+  it('should match Breadcrumb multiple', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="breadcrumb-multiple"] .dnb-breadcrumb',
     })
@@ -105,7 +105,7 @@ describe.each(['ui', 'sbanken'])('Breadcrumb for %s', (themeName) => {
       },
     })
 
-    it('have to match Breadcrumb default', async () => {
+    it('should match Breadcrumb default', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="breadcrumb-default"] .dnb-breadcrumb',
@@ -113,7 +113,7 @@ describe.each(['ui', 'sbanken'])('Breadcrumb for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match Breadcrumb multiple', async () => {
+    it('should match Breadcrumb multiple', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="breadcrumb-multiple"] .dnb-breadcrumb',

@@ -9,7 +9,7 @@ import { Provider } from '../../../shared'
 import Input from '../../input/Input'
 
 describe('Timeline', () => {
-  it('renders with props as an object', () => {
+  it('should render with props as an object', () => {
     const props: TimelineAllProps = {}
 
     render(<Timeline {...props} />)
@@ -17,13 +17,13 @@ describe('Timeline', () => {
     expect(document.querySelector('.dnb-timeline')).toBeInTheDocument()
   })
 
-  it('renders without properties', () => {
+  it('should render without properties', () => {
     render(<Timeline />)
 
     expect(document.querySelector('.dnb-timeline')).toBeInTheDocument()
   })
 
-  it('renders a timeline with multiple items by data prop', () => {
+  it('should render a timeline with multiple items by data prop', () => {
     render(
       <Timeline
         data={[
@@ -42,7 +42,7 @@ describe('Timeline', () => {
     )
   })
 
-  it('renders a timeline with multiple items by children', () => {
+  it('should render a timeline with multiple items by children', () => {
     render(
       <Timeline>
         <Timeline.Item title="Upcoming" state="upcoming" />
@@ -76,7 +76,7 @@ describe('Timeline', () => {
     ).toBe('step')
   })
 
-  it('uses ordered list semantic elements', () => {
+  it('should use ordered list semantic elements', () => {
     render(
       <Timeline
         data={[
@@ -167,7 +167,7 @@ describe('Timeline', () => {
   })
 
   describe('TimelineItem', () => {
-    it('renders with props as an object', () => {
+    it('should render with props as an object', () => {
       const props: TimelineItemAllProps = {
         state: 'completed',
         title: 'title',
@@ -180,13 +180,13 @@ describe('Timeline', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders title', () => {
+    it('should render title', () => {
       const title = 'Completed'
       render(<TimelineItem title={title} state="completed" />)
       expect(screen.queryByText(title)).toBeInTheDocument()
     })
 
-    it('renders subtitle', () => {
+    it('should render subtitle', () => {
       const subtitle = '10. september 2021'
       render(
         <TimelineItem
@@ -198,7 +198,7 @@ describe('Timeline', () => {
       expect(screen.queryByText(subtitle)).toBeInTheDocument()
     })
 
-    it('renders subtitles', () => {
+    it('should render subtitles', () => {
       const subtitles = ['10. september 2021', '11. september 2021']
       render(
         <TimelineItem
@@ -212,7 +212,7 @@ describe('Timeline', () => {
       expect(screen.queryByText(subtitles[1])).toBeInTheDocument()
     })
 
-    it('renders info message', () => {
+    it('should render info message', () => {
       const infoMessage = 'Info text'
       render(
         <TimelineItem
@@ -224,7 +224,7 @@ describe('Timeline', () => {
       expect(screen.queryByText(infoMessage)).toBeInTheDocument()
     })
 
-    it('renders custom icon', () => {
+    it('should render custom icon', () => {
       const CustomIcon = <IconPrimary icon="bell" />
       render(
         <TimelineItem
@@ -238,7 +238,7 @@ describe('Timeline', () => {
       expect(element).toBeInTheDocument()
     })
 
-    it('renders custom alt label', () => {
+    it('should render custom alt label', () => {
       const iconAlt = 'custom_alt_label'
       render(
         <TimelineItem
@@ -251,7 +251,7 @@ describe('Timeline', () => {
       expect(screen.queryByRole('img').getAttribute('alt')).toBe(iconAlt)
     })
 
-    it('renders skeleton if skeleton is true', () => {
+    it('should render skeleton if skeleton is true', () => {
       const skeletonClassName = 'dnb-skeleton'
 
       render(<TimelineItem skeleton title="title" state="completed" />)
@@ -330,42 +330,42 @@ describe('Timeline', () => {
     })
 
     describe('renders default icon based on state property', () => {
-      it('renders check icon when state is completed', () => {
+      it('should render check icon when state is completed', () => {
         render(<TimelineItem title="Complete" state="completed" />)
         expect(screen.queryByRole('img').getAttribute('aria-label')).toBe(
           'check icon'
         )
       })
 
-      it('renders pin icon when state is current', () => {
+      it('should render pin icon when state is current', () => {
         render(<TimelineItem title="Current" state="current" />)
         expect(screen.queryByRole('img').getAttribute('aria-label')).toBe(
           'pin icon'
         )
       })
 
-      it('renders calendar icon when state is upcoming', () => {
+      it('should render calendar icon when state is upcoming', () => {
         render(<TimelineItem title="Upcoming" state="upcoming" />)
         expect(screen.queryByRole('img').getAttribute('aria-label')).toBe(
           'calendar icon'
         )
       })
 
-      it('renders alt label "Utfør"t when state is completed', () => {
+      it('should render alt label "Utfør"t when state is completed', () => {
         render(<TimelineItem title="Complete" state="completed" />)
         expect(screen.queryByRole('img').getAttribute('alt')).toBe(
           'Utført'
         )
       })
 
-      it('renders alt label "Nåværende" when state is current', () => {
+      it('should render alt label "Nåværende" when state is current', () => {
         render(<TimelineItem title="Current" state="current" />)
         expect(screen.queryByRole('img').getAttribute('alt')).toBe(
           'Nåværende'
         )
       })
 
-      it('renders alt label "Kommende" when state is upcoming', () => {
+      it('should render alt label "Kommende" when state is upcoming', () => {
         render(<TimelineItem title="Upcoming" state="upcoming" />)
         expect(screen.queryByRole('img').getAttribute('alt')).toBe(
           'Kommende'

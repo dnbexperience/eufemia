@@ -19,7 +19,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     url: '/uilib/components/tooltip/demos',
   })
 
-  it('have to match tooltip on button hover state', async () => {
+  it('should match tooltip on button hover state', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="tooltip-hover"]',
@@ -30,7 +30,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tooltip on button hover state with long tooltip text', async () => {
+  it('should match tooltip on button hover state with long tooltip text', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="tooltip-hover-button-long-text"]',
@@ -42,7 +42,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tooltip on button hover state when align left', async () => {
+  it('should match tooltip on button hover state when align left', async () => {
     const screenshot = await makeScreenshot({
       style: { ...style, 'padding-left': '2rem' },
       selector: '[data-visual-test="tooltip-hover-align-left"]',
@@ -54,7 +54,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tooltip on button hover state when align left with long text', async () => {
+  it('should match tooltip on button hover state when align left with long text', async () => {
     const screenshot = await makeScreenshot({
       style: { ...style, 'padding-left': '6rem' },
       selector: '[data-visual-test="tooltip-hover-align-left-long-text"]',
@@ -66,7 +66,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tooltip on button hover state when align left and arrow left', async () => {
+  it('should match tooltip on button hover state when align left and arrow left', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="tooltip-hover-align-arrow-left"]',
@@ -78,7 +78,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tooltip on button hover state when align left and arrow left with long text', async () => {
+  it('should match tooltip on button hover state when align left and arrow left with long text', async () => {
     const screenshot = await makeScreenshot({
       style: { ...style, 'padding-right': '12rem' },
       selector:
@@ -91,7 +91,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tooltip on button hover state when align right and arrow right', async () => {
+  it('should match tooltip on button hover state when align right and arrow right', async () => {
     const screenshot = await makeScreenshot({
       style: style,
       selector: '[data-visual-test="tooltip-hover-align-arrow-right"]',
@@ -103,7 +103,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tooltip on button hover state when align right and arrow right with long text', async () => {
+  it('should match tooltip on button hover state when align right and arrow right with long text', async () => {
     const screenshot = await makeScreenshot({
       style: { ...style, 'padding-left': '12rem' },
       selector:
@@ -116,7 +116,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tooltip on button hover state when align left and arrow right', async () => {
+  it('should match tooltip on button hover state when align left and arrow right', async () => {
     const screenshot = await makeScreenshot({
       style: { ...style, 'padding-left': '6rem' },
       selector:
@@ -129,7 +129,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tooltip on button hover state when align left and arrow right with long text', async () => {
+  it('should match tooltip on button hover state when align left and arrow right with long text', async () => {
     const screenshot = await makeScreenshot({
       style: { ...style, 'padding-left': '12rem' },
       selector:
@@ -142,7 +142,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tooltip on button hover state when align right and arrow left', async () => {
+  it('should match tooltip on button hover state when align right and arrow left', async () => {
     const screenshot = await makeScreenshot({
       style: { ...style, 'padding-right': '6rem' },
       selector:
@@ -155,7 +155,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tooltip on button hover state when align right and arrow left with long text', async () => {
+  it('should match tooltip on button hover state when align right and arrow left with long text', async () => {
     const screenshot = await makeScreenshot({
       style: { ...style, 'padding-right': '12rem' },
       selector:
@@ -168,7 +168,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tooltip on button hover state when align right', async () => {
+  it('should match tooltip on button hover state when align right', async () => {
     const screenshot = await makeScreenshot({
       style: { ...style, 'padding-right': '3rem' },
       selector: '[data-visual-test="tooltip-hover-align-right"]',
@@ -180,7 +180,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tooltip on button hover state when align center and arrow center', async () => {
+  it('should match tooltip on button hover state when align center and arrow center', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="tooltip-hover-align-center"]',
@@ -192,7 +192,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tooltip on button hover state when align center and arrow center with long text', async () => {
+  it('should match tooltip on button hover state when align center and arrow center with long text', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector:
@@ -205,7 +205,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tooltip on button hover state when arrow left', async () => {
+  it('should match tooltip on button hover state when arrow left', async () => {
     const screenshot = await makeScreenshot({
       style: style,
       selector: '[data-visual-test="tooltip-hover-arrow-left"]',
@@ -217,7 +217,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tooltip on button hover state when arrow left with long text', async () => {
+  it('should match tooltip on button hover state when arrow left with long text', async () => {
     const screenshot = await makeScreenshot({
       style: { ...style, 'padding-right': '12rem' },
       selector: '[data-visual-test="tooltip-hover-arrow-left-long-text"]',
@@ -229,7 +229,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tooltip on button hover state when arrow right', async () => {
+  it('should match tooltip on button hover state when arrow right', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="tooltip-hover-arrow-right"]',
@@ -241,7 +241,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tooltip on button hover state when arrow right with long text', async () => {
+  it('should match tooltip on button hover state when arrow right with long text', async () => {
     const screenshot = await makeScreenshot({
       style: { ...style, 'padding-left': '6rem', 'padding-right': '6rem' },
       selector: '[data-visual-test="tooltip-hover-arrow-right-long-text"]',
@@ -253,7 +253,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tooltip on button hover state when position right', async () => {
+  it('should match tooltip on button hover state when position right', async () => {
     const screenshot = await makeScreenshot({
       style: { ...style, 'padding-right': '6rem' },
       selector: '[data-visual-test="tooltip-hover-position-right"]',
@@ -265,7 +265,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tooltip on button hover state when position left', async () => {
+  it('should match tooltip on button hover state when position left', async () => {
     const screenshot = await makeScreenshot({
       style: { ...style, 'padding-left': '6rem' },
       selector: '[data-visual-test="tooltip-hover-position-left"]',
@@ -277,7 +277,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tooltip on button hover state when position left with long text', async () => {
+  it('should match tooltip on button hover state when position left with long text', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector:
@@ -290,7 +290,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tooltip on button hover state when position bottom', async () => {
+  it('should match tooltip on button hover state when position bottom', async () => {
     const screenshot = await makeScreenshot({
       style: { ...style, 'padding-top': '0', 'padding-bottom': '2rem' },
       selector: '[data-visual-test="tooltip-hover-position-bottom"]',
@@ -302,7 +302,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tooltip on button hover state when position bottom with long text', async () => {
+  it('should match tooltip on button hover state when position bottom with long text', async () => {
     const screenshot = await makeScreenshot({
       style: { ...style, 'padding-top': '0', 'padding-bottom': '2rem' },
       selector:
@@ -315,7 +315,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tooltip in large size', async () => {
+  it('should match tooltip in large size', async () => {
     const screenshot = await makeScreenshot({
       style: {
         height: '5rem',
@@ -336,7 +336,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     url: '/uilib/components/tooltip/demos',
   })
 
-  it('have to match tooltip on button hover state when align right with long text', async () => {
+  it('should match tooltip on button hover state when align right with long text', async () => {
     const screenshot = await makeScreenshot({
       style: { ...style, 'padding-right': '12rem', 'padding-bottom': '0' },
       selector: '[data-visual-test="tooltip-hover-align-right-long-text"]',
@@ -348,7 +348,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tooltip on button hover state when position right with long text', async () => {
+  it('should match tooltip on button hover state when position right with long text', async () => {
     const screenshot = await makeScreenshot({
       style: { ...style, 'padding-right': '12rem' },
       selector:

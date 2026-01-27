@@ -169,7 +169,7 @@ describe('Value.SummaryList', () => {
   })
 
   describe('inheritVisibility', () => {
-    it('renders value when visibility of field is initially true', async () => {
+    it('should render value when visibility of field is initially true', async () => {
       render(
         <Form.Handler>
           <Field.Boolean
@@ -211,7 +211,7 @@ describe('Value.SummaryList', () => {
   })
 
   describe('inheritLabel', () => {
-    it('renders labels', async () => {
+    it('should render labels', async () => {
       render(
         <Form.Handler>
           <Field.String path="/foo" defaultValue="foo" label="foo label" />
@@ -234,7 +234,7 @@ describe('Value.SummaryList', () => {
   })
 
   describe('transformLabel', () => {
-    it('renders labels', async () => {
+    it('should render labels', async () => {
       render(
         <Form.Handler>
           <Field.String path="/foo" defaultValue="foo" label="foo label" />

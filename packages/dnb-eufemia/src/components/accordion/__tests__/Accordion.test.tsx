@@ -22,7 +22,7 @@ const props: AccordionProps = {
 }
 
 describe('Accordion component', () => {
-  it('has correct state after "click" trigger', () => {
+  it('should have correct state after "click" trigger', () => {
     const { rerender } = render(<Accordion {...props} />)
 
     // default expanded value has to be false
@@ -45,7 +45,7 @@ describe('Accordion component', () => {
     ).toBe('false')
   })
 
-  it('has "on_change" event which will trigger on click', () => {
+  it('should have "on_change" event which will trigger on click', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
     render(
@@ -70,7 +70,7 @@ describe('Accordion component', () => {
     expect(my_event.mock.calls[1][0].expanded).toBe(false)
   })
 
-  it('uses a p element when string content is given', () => {
+  it('should use a p element when string content is given', () => {
     const { rerender } = render(
       <Accordion {...props} expanded>
         string content
@@ -93,7 +93,7 @@ describe('Accordion component', () => {
     )
   })
 
-  it('has a disabled attribute, once we set disabled to true', () => {
+  it('should have a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(<Accordion {...props} />)
 
     rerender(<Accordion {...props} disabled={true} />)
@@ -102,7 +102,7 @@ describe('Accordion component', () => {
     ).toHaveAttribute('disabled')
   })
 
-  it('has correct classes when no_animation', () => {
+  it('should have correct classes when no_animation', () => {
     render(<Accordion no_animation />)
 
     expect(
@@ -114,7 +114,7 @@ describe('Accordion component', () => {
     )
   })
 
-  it('supports an icon for expanded state', () => {
+  it('should support an icon for expanded state', () => {
     render(
       <Accordion
         {...props}
@@ -139,14 +139,14 @@ describe('Accordion component', () => {
     )
   })
 
-  it('supports default outlined variant', () => {
+  it('should support default outlined variant', () => {
     render(<Accordion />)
     expect(document.querySelector('.dnb-accordion').classList).toContain(
       'dnb-accordion__variant--outlined'
     )
   })
 
-  it('supports plain variant', () => {
+  it('should support plain variant', () => {
     render(<Accordion {...props} variant="plain" />)
     expect(document.querySelector('.dnb-accordion').classList).toContain(
       'dnb-accordion__variant--plain'
@@ -179,7 +179,7 @@ describe('Accordion component', () => {
 })
 
 describe('Accordion store API', () => {
-  it('will save and read the states for a single accordion', () => {
+  it('should save and read the states for a single accordion', () => {
     const inst = Accordion.Store('accordion-id')
 
     inst.saveState(true)
@@ -195,7 +195,7 @@ describe('Accordion store API', () => {
     expect(inst.getData()).toBe(null)
   })
 
-  it('will save and read the states for an accordion group', () => {
+  it('should save and read the states for an accordion group', () => {
     const inst = Accordion.Group.Store('group-id')
 
     inst.saveState(true, 'remembered-state-2')
@@ -213,7 +213,7 @@ describe('Accordion store API', () => {
 })
 
 describe('Accordion group component', () => {
-  it('has to inherit expanded from group', () => {
+  it('should inherit expanded from group', () => {
     render(
       <Accordion.Group expanded id="group">
         <Accordion id="accordion-1" title="Accordion 1">
@@ -233,7 +233,7 @@ describe('Accordion group component', () => {
     ).toBeFalsy()
   })
 
-  it('has "on_change" event which will trigger on a button click', () => {
+  it('should have "on_change" event which will trigger on a button click', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
     render(
@@ -381,7 +381,7 @@ describe('Accordion container component', () => {
     )
   }
 
-  it('has only to render the expanded accordion content', () => {
+  it('should have only to render the expanded accordion content', () => {
     render(<Container />)
 
     expect(document.querySelector('button#increment').textContent).toBe(
@@ -446,7 +446,7 @@ describe('Accordion container component', () => {
     )
   })
 
-  it('will set minHeight', async () => {
+  it('should set minHeight', async () => {
     const contentRef = React.createRef<HTMLElement>()
 
     render(<Container contentRef={contentRef} />)
@@ -574,12 +574,12 @@ describe('Accordion container component', () => {
 })
 
 describe('Accordion scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
 
-  it('have to match default theme snapshot', () => {
+  it('should match default theme snapshot', () => {
     const css = loadScss(
       require.resolve('../style/themes/dnb-accordion-theme-ui.scss')
     )

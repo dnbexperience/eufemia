@@ -522,7 +522,7 @@ describe('FieldBlock', () => {
     expect(document.querySelectorAll('label')).toHaveLength(1)
   })
 
-  it('hides the label help button when requested', () => {
+  it('should hide the label help button when requested', () => {
     const help = { title: 'Help title', content: 'Help content' }
 
     const { rerender } = render(

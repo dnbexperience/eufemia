@@ -9,7 +9,7 @@ import ArrayItemAreaContext from '../../Array/ArrayItemAreaContext'
 const nb = nbNO['nb-NO'].RemoveButton
 
 describe('Toolbar', () => {
-  it('supports spacing props', () => {
+  it('should support spacing props', () => {
     render(
       <IterateItemContext.Provider value={{}}>
         <Toolbar top="large">content</Toolbar>
@@ -47,7 +47,7 @@ describe('Toolbar', () => {
     expect(document.querySelector('.dnb-hr')).not.toBeInTheDocument()
   })
 
-  it('has no buttons/tools by default', () => {
+  it('should have no buttons/tools by default', () => {
     render(
       <IterateItemContext.Provider value={{}}>
         <Toolbar />
@@ -59,7 +59,7 @@ describe('Toolbar', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('calls "handleRemove" when remove button is clicked and isNew is true', () => {
+  it('should call "handleRemove" when remove button is clicked and isNew is true', () => {
     const handleRemove = jest.fn()
 
     render(

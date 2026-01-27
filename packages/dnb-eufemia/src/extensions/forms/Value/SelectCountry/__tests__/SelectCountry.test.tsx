@@ -4,7 +4,7 @@ import { Value, Form } from '../../..'
 import { CountryISO } from '../../../constants/countries'
 
 describe('Value.SelectCountry', () => {
-  it('renders string values', () => {
+  it('should render string values', () => {
     render(<Value.SelectCountry value="NO" />)
 
     expect(
@@ -14,7 +14,7 @@ describe('Value.SelectCountry', () => {
     ).toHaveTextContent('Norge')
   })
 
-  it('supports invalid values', () => {
+  it('should support invalid values', () => {
     const { rerender } = render(
       <Value.SelectCountry value={'NotValidISOCode' as CountryISO} />
     )
@@ -52,14 +52,14 @@ describe('Value.SelectCountry', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('renders label when showEmpty is true', () => {
+  it('should render label when showEmpty is true', () => {
     render(<Value.SelectCountry showEmpty label="My label" />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
       'My label'
     )
   })
 
-  it('renders value and label', () => {
+  it('should render value and label', () => {
     render(<Value.SelectCountry label="My selections" value="NO" />)
     expect(
       document.querySelector(
@@ -72,19 +72,19 @@ describe('Value.SelectCountry', () => {
     )
   })
 
-  it('renders custom label', () => {
+  it('should render custom label', () => {
     render(<Value.SelectCountry label="Custom label" showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
       'Custom label'
     )
   })
 
-  it('renders placeholder', () => {
+  it('should render placeholder', () => {
     render(<Value.SelectCountry placeholder="Please select a value" />)
     expect(screen.getByText('Please select a value')).toBeInTheDocument()
   })
 
-  it('renders value from path', () => {
+  it('should render value from path', () => {
     render(
       <Form.Handler data={{ myCountry: 'CH' }}>
         <Value.SelectCountry path="/myCountry" />

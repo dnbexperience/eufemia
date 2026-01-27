@@ -14,21 +14,21 @@ describe('Drawer', () => {
       url: '/uilib/components/drawer/demos',
     })
 
-    it('have to match default drawer trigger with title', async () => {
+    it('should match default drawer trigger with title', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="simple-drawer"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match default drawer trigger', async () => {
+    it('should match default drawer trigger', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="full-drawer"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match customized drawer trigger', async () => {
+    it('should match customized drawer trigger', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="drawer-custom-trigger"]',
       })
@@ -47,7 +47,7 @@ describe('Drawer', () => {
       pageViewport,
     })
 
-    it('have to match simple drawer window', async () => {
+    it('should match simple drawer window', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="simple-drawer"]',
         simulate: 'click',
@@ -59,7 +59,7 @@ describe('Drawer', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match fullscreen drawer', async () => {
+    it('should match fullscreen drawer', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="fullscreen-drawer"]',
         simulate: 'click',
@@ -71,7 +71,7 @@ describe('Drawer', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match left placement drawer', async () => {
+    it('should match left placement drawer', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="left-placement-drawer"]',
         simulate: 'click',
@@ -83,7 +83,7 @@ describe('Drawer', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match full drawer window', async () => {
+    it('should match full drawer window', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="full-drawer"]',
         simulate: 'click',
@@ -95,7 +95,7 @@ describe('Drawer', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match callback drawer window', async () => {
+    it('should match callback drawer window', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="callback-drawer"]',
         simulate: 'click',
@@ -107,7 +107,7 @@ describe('Drawer', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match no-animation drawer window', async () => {
+    it('should match no-animation drawer window', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="drawer-no-animation"]',
         simulate: 'click',
@@ -119,7 +119,7 @@ describe('Drawer', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match correct scroll view setup', async () => {
+    it('should match correct scroll view setup', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="drawer-scroll-view"]',
         simulate: 'click',
@@ -131,7 +131,7 @@ describe('Drawer', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match large content drawer scrolled', async () => {
+    it('should match large content drawer scrolled', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="large-content-drawer"]',
         simulate: 'click',
@@ -145,7 +145,7 @@ describe('Drawer', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to apply sticky header when header content changes', async () => {
+    it('should apply sticky header when header content changes', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="update-navigation-header-example"]',
         simulate: 'click',
@@ -169,7 +169,7 @@ describe('Drawer', () => {
       },
     })
 
-    it('have to match top placement drawer', async () => {
+    it('should match top placement drawer', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="top-placement-drawer"]',
         simulate: 'click',
@@ -182,7 +182,7 @@ describe('Drawer', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match bottom placement drawer', async () => {
+    it('should match bottom placement drawer', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="bottom-placement-drawer"]',
         simulate: 'click',

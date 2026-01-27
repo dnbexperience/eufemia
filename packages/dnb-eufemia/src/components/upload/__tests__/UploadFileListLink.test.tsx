@@ -13,20 +13,20 @@ const defaultProps: UploadFileLinkProps = {
 
 describe('UploadFileListLink', () => {
   describe('as an anchor', () => {
-    it('renders the anchor', () => {
+    it('should render the anchor', () => {
       render(<UploadFileLink {...defaultProps} />)
       expect(document.querySelector('.dnb-button')).not.toBeInTheDocument()
       expect(document.querySelector('.dnb-a')).toBeInTheDocument()
     })
 
-    it('renders the anchor text', () => {
+    it('should render the anchor text', () => {
       const fileName = 'file.png'
 
       render(<UploadFileLink {...defaultProps} text={fileName} />)
       expect(screen.queryByText(fileName)).toBeInTheDocument()
     })
 
-    it('renders the anchor href', () => {
+    it('should render the anchor href', () => {
       const fileName = 'file.png'
 
       const href = 'mock-url'
@@ -41,7 +41,7 @@ describe('UploadFileListLink', () => {
       expect(anchorElement.href).toMatch(href)
     })
 
-    it('renders the download attribute', () => {
+    it('should render the download attribute', () => {
       const fileName = 'file.png'
 
       render(
@@ -57,7 +57,7 @@ describe('UploadFileListLink', () => {
       expect(element).toHaveAttribute('download', fileName)
     })
 
-    it('supports spacing props', () => {
+    it('should support spacing props', () => {
       render(<UploadFileLink {...defaultProps} top="large" />)
 
       const element = document.querySelector('.dnb-a')
@@ -66,13 +66,13 @@ describe('UploadFileListLink', () => {
   })
 
   describe('as a button', () => {
-    it('renders the button', () => {
+    it('should render the button', () => {
       render(<UploadFileLink {...defaultProps} onClick={jest.fn()} />)
       expect(document.querySelector('.dnb-a')).not.toBeInTheDocument()
       expect(document.querySelector('.dnb-button')).toBeInTheDocument()
     })
 
-    it('renders the button text', () => {
+    it('should render the button text', () => {
       const fileName = 'file.png'
 
       render(
@@ -96,7 +96,7 @@ describe('UploadFileListLink', () => {
       expect(onClick).toHaveBeenCalledTimes(1)
     })
 
-    it('supports spacing props', () => {
+    it('should support spacing props', () => {
       render(
         <UploadFileLink
           {...defaultProps}
@@ -113,7 +113,7 @@ describe('UploadFileListLink', () => {
   describe('as non-clickable', () => {
     const props = { ...defaultProps, href: undefined, onClick: undefined }
 
-    it('renders the span with a dnb-p class', () => {
+    it('should render the span with a dnb-p class', () => {
       render(<UploadFileLink {...props} />)
       expect(document.querySelector('span')).toHaveClass('dnb-p')
     })

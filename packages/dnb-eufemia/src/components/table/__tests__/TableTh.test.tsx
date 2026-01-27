@@ -5,7 +5,7 @@ import TableSortButton from '../TableSortButton'
 import TableHelpButton from '../TableHelpButton'
 
 describe('TableTh', () => {
-  it('renders with props as an object', () => {
+  it('should render with props as an object', () => {
     const props: TableThProps = {}
 
     render(

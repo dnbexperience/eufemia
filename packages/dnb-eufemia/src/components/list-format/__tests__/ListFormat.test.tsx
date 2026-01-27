@@ -11,7 +11,7 @@ import { Provider } from '../../../shared'
 import { render } from '@testing-library/react'
 
 describe('ListFormat', () => {
-  it('renders string values', () => {
+  it('should render string values', () => {
     const { container } = render(
       <ListFormat value={['Foo', 'Bar', 'Baz']} />
     )
@@ -19,13 +19,13 @@ describe('ListFormat', () => {
     expect(container).toHaveTextContent('Foo, Bar og Baz')
   })
 
-  it('renders number values', () => {
+  it('should render number values', () => {
     const { container } = render(<ListFormat value={[123, 456, 789]} />)
 
     expect(container).toHaveTextContent('123, 456 og 789')
   })
 
-  it('renders jsx values', () => {
+  it('should render jsx values', () => {
     const { container } = render(
       <ListFormat
         value={[
@@ -52,7 +52,7 @@ describe('ListFormat', () => {
     expect(container).toHaveTextContent('A, B, C, D, 123 og link')
   })
 
-  it('renders jsx values with keys', () => {
+  it('should render jsx values with keys', () => {
     const { container } = render(
       <ListFormat
         value={[
@@ -70,7 +70,7 @@ describe('ListFormat', () => {
     expect(container).toHaveTextContent('A, B, C, D og 123')
   })
 
-  it('renders custom format', () => {
+  it('should render custom format', () => {
     const { container } = render(
       <ListFormat
         value={[123, 456, 789]}

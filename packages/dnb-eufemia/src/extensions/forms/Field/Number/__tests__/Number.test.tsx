@@ -28,12 +28,12 @@ const en = enGB['en-GB']
 
 describe('Field.Number', () => {
   describe('props', () => {
-    it('renders value', () => {
+    it('should render value', () => {
       render(<Field.Number value={42} />)
       expect(screen.getByDisplayValue('42')).toBeInTheDocument()
     })
 
-    it('renders placeholder', () => {
+    it('should render placeholder', () => {
       render(<Field.Number placeholder="Enter some number" />)
       expect(
         // getByText instead of getByPlaceholderText since eufemia adds placeholder as tag, not placeholder-attribute
@@ -41,7 +41,7 @@ describe('Field.Number', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders help', () => {
+    it('should render help', () => {
       render(
         <Field.Number
           help={{ title: 'Help title', content: 'Help content' }}
@@ -55,12 +55,12 @@ describe('Field.Number', () => {
       ).toBe(document.querySelector('.dnb-help-button').id)
     })
 
-    it('renders label', () => {
+    it('should render label', () => {
       render(<Field.Number label="Number label" />)
       expect(screen.getByLabelText('Number label')).toBeInTheDocument()
     })
 
-    it('renders custom mask with 6 digits', () => {
+    it('should render custom mask with 6 digits', () => {
       render(
         <Field.Number
           mask={[/\d/, /\d/, /\d/, /\d/, /\d/, /\d/]}
@@ -71,13 +71,13 @@ describe('Field.Number', () => {
       expect(document.querySelector('input')).toHaveValue('1234​​')
     })
 
-    it('renders custom mask with 4 digits', () => {
+    it('should render custom mask with 4 digits', () => {
       render(<Field.Number mask={Array(4).fill(/\d/)} value={1234} />)
 
       expect(document.querySelector('input')).toHaveValue('1234')
     })
 
-    it('renders custom mask given as a function with 4 digits', () => {
+    it('should render custom mask given as a function with 4 digits', () => {
       const mask = jest.fn(() => {
         return Array(4).fill(/\d/)
       })
@@ -111,7 +111,7 @@ describe('Field.Number', () => {
       expect(document.querySelector('input')).toHaveValue('1.234,56')
     })
 
-    it('shows error when minimum exceeded', () => {
+    it('should show error when minimum exceeded', () => {
       render(<Field.Number value={Number.MIN_SAFE_INTEGER} />)
 
       const input = document.querySelector('input')
@@ -142,7 +142,7 @@ describe('Field.Number', () => {
       expect(alertText).toMatch(new RegExp(expectedRegex))
     })
 
-    it('shows error when maximum exceeded', () => {
+    it('should show error when maximum exceeded', () => {
       render(<Field.Number value={Number.MAX_SAFE_INTEGER} />)
 
       const input = document.querySelector('input')
@@ -187,7 +187,7 @@ describe('Field.Number', () => {
       expect(labelElement()).not.toHaveAttribute('disabled')
     })
 
-    it('renders autoComplete', () => {
+    it('should render autoComplete', () => {
       const { rerender } = render(
         <Field.Number autoComplete="postal-code" />
       )
@@ -204,7 +204,7 @@ describe('Field.Number', () => {
       ).toBe('tel')
     })
 
-    it('renders name based on path', () => {
+    it('should render name based on path', () => {
       render(<Field.Number path="/postalCode" />)
       expect(document.querySelector('input').getAttribute('name')).toBe(
         'postalCode'
@@ -212,7 +212,7 @@ describe('Field.Number', () => {
     })
 
     describe('error', () => {
-      it('renders error', () => {
+      it('should render error', () => {
         render(
           <Field.Number error={new Error('This is what went wrong')} />
         )
@@ -221,7 +221,7 @@ describe('Field.Number', () => {
         ).toBeInTheDocument()
       })
 
-      it('renders error given as a function', () => {
+      it('should render error given as a function', () => {
         render(
           <Field.Number
             error={() => new Error('This is what went wrong')}
@@ -249,7 +249,7 @@ describe('Field.Number', () => {
         ).not.toBeInTheDocument()
       })
 
-      it('renders error given as a function with value', () => {
+      it('should render error given as a function with value', () => {
         render(
           <Field.Number
             error={(value) =>
@@ -264,7 +264,7 @@ describe('Field.Number', () => {
       })
 
       describe('conditionally', () => {
-        it('renders message when field gets blurred', async () => {
+        it('should render message when field gets blurred', async () => {
           render(
             <Field.Number
               error={(value, { conditionally }) => {
@@ -293,7 +293,7 @@ describe('Field.Number', () => {
           ).toHaveTextContent('This is what went wrong 1234')
         })
 
-        it('renders message conditionally on every value change', async () => {
+        it('should render message conditionally on every value change', async () => {
           render(
             <Field.Number
               emptyValue={0}
@@ -408,14 +408,14 @@ describe('Field.Number', () => {
     })
 
     describe('warning', () => {
-      it('renders warning', () => {
+      it('should render warning', () => {
         render(<Field.Number warning={'This is what went wrong'} />)
         expect(
           screen.getByText('This is what went wrong')
         ).toBeInTheDocument()
       })
 
-      it('renders warning given as a function', () => {
+      it('should render warning given as a function', () => {
         render(
           <Field.Number
             warning={(value) => 'This is what went wrong ' + value}
@@ -428,7 +428,7 @@ describe('Field.Number', () => {
       })
 
       describe('getValueByPath', () => {
-        it('renders message with value from other path', async () => {
+        it('should render message with value from other path', async () => {
           render(
             <Form.Handler
               data={{
@@ -459,14 +459,14 @@ describe('Field.Number', () => {
     })
 
     describe('info', () => {
-      it('renders info', () => {
+      it('should render info', () => {
         render(<Field.Number info={'This is what went wrong'} />)
         expect(
           screen.getByText('This is what went wrong')
         ).toBeInTheDocument()
       })
 
-      it('renders info given as a function', () => {
+      it('should render info given as a function', () => {
         render(
           <Field.Number
             info={(value) => 'This is what went wrong ' + value}
@@ -478,7 +478,7 @@ describe('Field.Number', () => {
         ).toHaveTextContent('This is what went wrong 123')
       })
 
-      it('renders summarized messages given by an array from a function return', async () => {
+      it('should render summarized messages given by an array from a function return', async () => {
         render(
           <Field.Number
             info={() => {
@@ -493,7 +493,7 @@ describe('Field.Number', () => {
       })
 
       describe('getFieldByPath', () => {
-        it('renders message with value from other path', async () => {
+        it('should render message with value from other path', async () => {
           render(
             <Form.Handler>
               <Field.Number
@@ -529,13 +529,13 @@ describe('Field.Number', () => {
       })
     })
 
-    it('shows error border', () => {
+    it('should show error border', () => {
       render(<Field.Number error={new Error('This is what went wrong')} />)
       const element = document.querySelector('.dnb-input')
       expect(element.className).toContain('dnb-input__status--error')
     })
 
-    it('shows error style in FieldBlock', () => {
+    it('should show error style in FieldBlock', () => {
       const errorMessage = new Error('Error message')
       render(
         <FieldBlock>
@@ -550,7 +550,7 @@ describe('Field.Number', () => {
     })
 
     describe('percent', () => {
-      it('renders without value', () => {
+      it('should render without value', () => {
         render(<Field.Number percent />)
         expect(document.querySelector('input')).toHaveValue('')
       })
@@ -1539,7 +1539,7 @@ describe('Field.Number', () => {
   })
 
   describe('event handlers', () => {
-    it('calls onChange for every change of an integer input value', async () => {
+    it('should call onChange for every change of an integer input value', async () => {
       const onChange = jest.fn()
       render(<Field.Number value={23} onChange={onChange} />)
       const input = document.querySelector('input')
@@ -1554,7 +1554,7 @@ describe('Field.Number', () => {
       expect(onChange.mock.calls[5][0]).toEqual(23579012)
     })
 
-    it('calls onChange for every change of a float input value', async () => {
+    it('should call onChange for every change of a float input value', async () => {
       const onChange = jest.fn()
       render(<Field.Number value={24.5} onChange={onChange} />)
       const input = document.querySelector('input')
@@ -1721,7 +1721,7 @@ describe('Field.Number', () => {
   })
 
   describe('with step controls', () => {
-    it('renders with control buttons', () => {
+    it('should render with control buttons', () => {
       render(<Field.Number showStepControls />)
       const buttons = document.querySelectorAll('.dnb-button')
       expect(buttons.length).toBe(2)
@@ -1835,7 +1835,7 @@ describe('Field.Number', () => {
       expect(input).toHaveValue('0')
     })
 
-    it('has correct accessibility props', () => {
+    it('should have correct accessibility props', () => {
       const settings = {
         showStepControls: true,
         value: 10,
@@ -2446,7 +2446,7 @@ describe('Field.Number', () => {
   })
 
   describe('Zod validation', () => {
-    it('shows localized min error when Zod schema has min without custom message (direct)', async () => {
+    it('should show localized min error when Zod schema has min without custom message (direct)', async () => {
       const schema = z.number().min(5)
 
       render(<Field.Number schema={schema} />)
@@ -2470,7 +2470,7 @@ describe('Field.Number', () => {
       })
     })
 
-    it('shows localized max error when Zod schema has max without custom message (via Form.Handler)', async () => {
+    it('should show localized max error when Zod schema has max without custom message (via Form.Handler)', async () => {
       const schema = z.object({ amount: z.number().max(10) })
 
       render(
@@ -2555,7 +2555,7 @@ describe('Field.Number', () => {
       })
     })
 
-    it('shows localized multipleOf error when Zod schema has multipleOf without custom message (direct)', async () => {
+    it('should show localized multipleOf error when Zod schema has multipleOf without custom message (direct)', async () => {
       const schema = z.number().multipleOf(3)
 
       render(<Field.Number schema={schema} />)

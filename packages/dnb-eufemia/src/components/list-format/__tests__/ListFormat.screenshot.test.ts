@@ -13,42 +13,42 @@ describe('ListFormat', () => {
     url: '/uilib/components/list-format/demos',
   })
 
-  it('have to match default list', async () => {
+  it('should match default list', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="list-format-default"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match custom format', async () => {
+  it('should match custom format', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="list-format-custom-format"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match inline', async () => {
+  it('should match inline', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="list-format-inline"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match variants', async () => {
+  it('should match variants', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="list-format-variants"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match types', async () => {
+  it('should match types', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="list-format-types"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to list format function', async () => {
+  it('should list format function', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="list-format-function"]',
     })

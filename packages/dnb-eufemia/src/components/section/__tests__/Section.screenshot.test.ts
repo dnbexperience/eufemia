@@ -70,7 +70,7 @@ describe.each(['ui'])('Section for %s', (themeName) => {
 })
 
 describe('Responsive', () => {
-  it('have to match section on "small" size', async () => {
+  it('should match section on "small" size', async () => {
     const screenshot = await makeScreenshot({
       url: '/uilib/components/section/demos',
       pageViewport: {
@@ -81,7 +81,7 @@ describe('Responsive', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match section on "medium" size', async () => {
+  it('should match section on "medium" size', async () => {
     const screenshot = await makeScreenshot({
       url: '/uilib/components/section/demos',
       pageViewport: {
@@ -92,7 +92,7 @@ describe('Responsive', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match section on "large" size', async () => {
+  it('should match section on "large" size', async () => {
     const screenshot = await makeScreenshot({
       url: '/uilib/components/section/demos',
       pageViewport: {

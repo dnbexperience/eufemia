@@ -22,7 +22,7 @@ const props: ToggleButtonProps = {
 }
 
 describe('ToggleButton component', () => {
-  it('has correct state after "click" trigger', () => {
+  it('should have correct state after "click" trigger', () => {
     const { rerender } = render(<ToggleButton {...props} />)
 
     // default checked value has to be false
@@ -55,7 +55,7 @@ describe('ToggleButton component', () => {
     ).toBe('true')
   })
 
-  it('has correct variant', () => {
+  it('should have correct variant', () => {
     const { rerender } = render(
       <ToggleButton variant="checkbox" checked={false} />
     )
@@ -96,7 +96,7 @@ describe('ToggleButton component', () => {
     ).toBe('false')
   })
 
-  it('has "on_change" event which will trigger on a button click', () => {
+  it('should have "on_change" event which will trigger on a button click', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
     render(
@@ -121,7 +121,7 @@ describe('ToggleButton component', () => {
     expect(my_event.mock.calls[1][0].checked).toBe(false)
   })
 
-  it('does handle controlled vs uncontrolled state properly', () => {
+  it('should handle controlled vs uncontrolled state properly', () => {
     const ControlledVsUncontrolled = () => {
       const [checked, setChecked] = React.useState(true)
       const [random, setRandom] = React.useState(null)
@@ -224,7 +224,7 @@ describe('ToggleButton component', () => {
     )
   })
 
-  it('has a disabled attribute, once we set disabled to true', () => {
+  it('should have a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(<ToggleButton />)
     rerender(<ToggleButton disabled={true} />)
     expect(document.querySelector('button[disabled]')).toBeInTheDocument()
@@ -378,7 +378,7 @@ describe('ToggleButton component', () => {
       expect(icon.classList).toContain('dnb-icon--default')
     })
 
-    it('has size set to medium when button size is default', () => {
+    it('should have size set to medium when button size is default', () => {
       render(<ToggleButton icon="question" size="default" />)
       const button = document.querySelector('button')
       const icon = document.querySelector('.dnb-icon')
@@ -386,7 +386,7 @@ describe('ToggleButton component', () => {
       expect(icon.classList).toContain('dnb-icon--medium')
     })
 
-    it('has medium icon if button size is large', () => {
+    it('should have medium icon if button size is large', () => {
       render(<ToggleButton text="Button" size="large" icon="question" />)
       const button = document.querySelector('button')
       const icon = document.querySelector('.dnb-icon')

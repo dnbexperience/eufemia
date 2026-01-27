@@ -114,7 +114,7 @@ describe('Anchor element', () => {
       })
     })
 
-    it('has "__launch-icon" class', () => {
+    it('should have "__launch-icon" class', () => {
       render(
         <Anchor href="/url" target="_blank">
           <span>text</span>
@@ -127,7 +127,7 @@ describe('Anchor element', () => {
       ).toBeInTheDocument()
     })
 
-    it('has no "__launch-icon" class when href was mailto, tel or sms', () => {
+    it('should have no "__launch-icon" class when href was mailto, tel or sms', () => {
       const { rerender } = render(
         <Anchor href="mailto:" target="_blank">
           <span>text</span>
@@ -178,7 +178,7 @@ describe('Anchor element', () => {
       expect(anchorElement).toHaveAttribute('rel', 'custom-rel')
     })
 
-    it('has no "__launch-icon" class when adding class dnb-anchor--no-launch-icon', () => {
+    it('should have no "__launch-icon" class when adding class dnb-anchor--no-launch-icon', () => {
       render(
         <Anchor
           href="/url"
@@ -193,7 +193,7 @@ describe('Anchor element', () => {
       ).not.toBeInTheDocument()
     })
 
-    it('has no tooltip when title was given', () => {
+    it('should have no tooltip when title was given', () => {
       render(
         <Anchor href="/url" target="_blank" title="Title">
           <span>text</span>
@@ -207,7 +207,7 @@ describe('Anchor element', () => {
       ).not.toBeInTheDocument()
     })
 
-    it('has aria-describedby', async () => {
+    it('should have aria-describedby', async () => {
       const { rerender } = render(
         <Anchor href="/url" target="_blank" lang="en-GB">
           text
@@ -330,12 +330,12 @@ describe('Anchor element', () => {
     })
   })
 
-  it('has dnb-a class', () => {
+  it('should have dnb-a class', () => {
     render(<Anchor>text</Anchor>)
     expect(document.querySelector('.dnb-a')).toBeInTheDocument()
   })
 
-  it('has href', () => {
+  it('should have href', () => {
     render(<Anchor href="/url">text</Anchor>)
     expect(document.querySelector('[href]')).toBeInTheDocument()
   })
@@ -420,7 +420,7 @@ describe('Anchor element', () => {
     globalThis.IS_TEST = false
   })
 
-  it('has "--was-node" class when child was not a string', () => {
+  it('should have "--was-node" class when child was not a string', () => {
     render(
       <Anchor href="/url">
         <span>text</span>
@@ -444,7 +444,7 @@ describe('Anchor element', () => {
     expect(ref.current).toBe(element)
   })
 
-  it('gets valid element when ref is function', () => {
+  it('should get valid element when ref is function', () => {
     const ref: React.MutableRefObject<HTMLAnchorElement> =
       React.createRef()
 
@@ -458,7 +458,7 @@ describe('Anchor element', () => {
     expect(ref.current.tagName).toBe('A')
   })
 
-  it('supports rel', () => {
+  it('should support rel', () => {
     render(
       <Anchor rel="external" href="http://www.externallink.com/">
         text
@@ -472,7 +472,7 @@ describe('Anchor element', () => {
     expect(await axeComponent(Component)).toHaveNoViolations()
   })
 
-  it('has left icon class when using left icon prop', () => {
+  it('should have left icon class when using left icon prop', () => {
     render(
       <Anchor href="/url" icon="bell" iconPosition="left">
         text
@@ -483,7 +483,7 @@ describe('Anchor element', () => {
     ).toBeInTheDocument()
   })
 
-  it('has right icon class when using right icon prop', () => {
+  it('should have right icon class when using right icon prop', () => {
     render(
       <Anchor href="/url" icon="bell" iconPosition="right">
         text

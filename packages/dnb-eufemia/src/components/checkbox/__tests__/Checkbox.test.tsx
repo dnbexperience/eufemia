@@ -21,7 +21,7 @@ const props: CheckboxProps = {
 }
 
 describe('Checkbox component', () => {
-  it('has correct state after "change" trigger', () => {
+  it('should have correct state after "change" trigger', () => {
     const { rerender } = render(<Checkbox {...props} />)
 
     // default checked value has to be false
@@ -71,7 +71,7 @@ describe('Checkbox component', () => {
     )
   })
 
-  it('calls focus with preventScroll when clicking', async () => {
+  it('should call focus with preventScroll when clicking', async () => {
     render(<Checkbox {...props} />)
 
     const checkbox = screen.getByRole('checkbox') as HTMLInputElement
@@ -209,7 +209,7 @@ describe('Checkbox component', () => {
     expect(checkbox.checked).toBe(true)
   })
 
-  it('has "on_change" event which will trigger on a input change', () => {
+  it('should have "on_change" event which will trigger on a input change', () => {
     const myEvent = jest.fn()
     render(<Checkbox onChange={myEvent} checked={false} />)
     screen.getByRole('checkbox').click()
@@ -242,7 +242,7 @@ describe('Checkbox component', () => {
       )
     }
 
-    it('handles re-render + default state', () => {
+    it('should handle re-render + default state', () => {
       render(<ControlledVsUncontrolled />)
 
       fireEvent.click(document.querySelector('button#set-state'))
@@ -258,14 +258,14 @@ describe('Checkbox component', () => {
       cleanup()
     })
 
-    it('handles set it to true', () => {
+    it('should handle set it to true', () => {
       render(<ControlledVsUncontrolled />)
 
       fireEvent.click(document.querySelector('button#set-state'))
       expect(document.querySelector('input').checked).toBe(true)
       cleanup()
     })
-    it('handles reset it with undefined to false', () => {
+    it('should handle reset it with undefined to false', () => {
       render(<ControlledVsUncontrolled />)
 
       fireEvent.click(document.querySelector('button#reset-undefined'))
@@ -274,7 +274,7 @@ describe('Checkbox component', () => {
 
       cleanup()
     })
-    it('handles set to true + reset it with null to false', () => {
+    it('should handle set to true + reset it with null to false', () => {
       render(<ControlledVsUncontrolled />)
 
       fireEvent.click(document.querySelector('button#set-state'))
@@ -285,7 +285,7 @@ describe('Checkbox component', () => {
       cleanup()
     })
 
-    it('handles re-render + still false', async () => {
+    it('should handle re-render + still false', async () => {
       render(<ControlledVsUncontrolled />)
 
       userEvent.click(document.querySelector('button#rerender'))
@@ -298,7 +298,7 @@ describe('Checkbox component', () => {
     })
   })
 
-  it('has a disabled attribute, once we set disabled to true', () => {
+  it('should have a disabled attribute, once we set disabled to true', () => {
     render(<Checkbox disabled={true} />)
 
     expect(
@@ -361,7 +361,7 @@ describe('Checkbox component', () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
-  it('gets valid ref element', () => {
+  it('should get valid ref element', () => {
     let ref: React.RefObject<HTMLInputElement>
 
     function MockComponent() {
@@ -376,7 +376,7 @@ describe('Checkbox component', () => {
     expect(ref.current.tagName).toBe('INPUT')
   })
 
-  it('gets valid element when ref is function', () => {
+  it('should get valid element when ref is function', () => {
     const ref: React.MutableRefObject<HTMLInputElement> = React.createRef()
 
     const refFn = (elem: HTMLInputElement) => {
@@ -400,7 +400,7 @@ describe('Checkbox component', () => {
     ).toBe('checkbox')
   })
   describe('Indeterminate state', () => {
-    it('renders indeterminate state', () => {
+    it('should render indeterminate state', () => {
       render(<Checkbox indeterminate />)
 
       expect(
@@ -423,7 +423,7 @@ describe('Checkbox component', () => {
       )
     })
 
-    it('sets the input indeterminate when setting indeterminate true', () => {
+    it('should set the input indeterminate when setting indeterminate true', () => {
       render(<Checkbox indeterminate />)
 
       expect(
@@ -431,7 +431,7 @@ describe('Checkbox component', () => {
       ).toBe(true)
     })
 
-    it('sets the input indeterminate to false when clicking an indeterminate checkbox', () => {
+    it('should set the input indeterminate to false when clicking an indeterminate checkbox', () => {
       render(<Checkbox indeterminate />)
 
       screen.getByRole('checkbox').click()

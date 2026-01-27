@@ -14,7 +14,7 @@ describe.each(['ui', 'sbanken'])('DrawerList for %s', (themeName) => {
     url: '/uilib/components/fragments/drawer-list/demos',
   })
 
-  it('have to match the default drawer-list', async () => {
+  it('should match the default drawer-list', async () => {
     const screenshot = await makeScreenshot({
       style: {
         width: '14rem',
@@ -24,7 +24,7 @@ describe.each(['ui', 'sbanken'])('DrawerList for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the disabled option', async () => {
+  it('should match the disabled option', async () => {
     const screenshot = await makeScreenshot({
       style: {
         width: '14rem',
@@ -34,7 +34,7 @@ describe.each(['ui', 'sbanken'])('DrawerList for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the inline style example', async () => {
+  it('should match the inline style example', async () => {
     const screenshot = await makeScreenshot({
       style: {
         width: '14rem',
@@ -45,7 +45,7 @@ describe.each(['ui', 'sbanken'])('DrawerList for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the groups example', async () => {
+  it('should match the groups example', async () => {
     const screenshot = await makeScreenshot({
       style: {
         width: '14rem',

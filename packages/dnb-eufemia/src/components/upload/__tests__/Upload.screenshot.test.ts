@@ -14,28 +14,28 @@ describe.each(['ui', 'sbanken'])('Upload for %s', (themeName) => {
     url: '/uilib/components/upload/demos',
   })
 
-  it('have to match the default', async () => {
+  it('should match the default', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-basic"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the compact variant', async () => {
+  it('should match the compact variant', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-basic-compact-variant"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the compact variant file list', async () => {
+  it('should match the compact variant file list', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-compact-variant-files-list"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the compact variant without labels', async () => {
+  it('should match the compact variant without labels', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="upload-basic-compact-variant-without-labels"]',
@@ -43,35 +43,35 @@ describe.each(['ui', 'sbanken'])('Upload for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the files amount message', async () => {
+  it('should match the files amount message', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-files-amount-message"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to hide upload button when files amount limit is met', async () => {
+  it('should hide upload button when files amount limit is met', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-files-amount-limit"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the loading state', async () => {
+  it('should match the loading state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-is-loading"] .dnb-upload',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match file list', async () => {
+  it('should match file list', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-file-list"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match file max size based on file type table', async () => {
+  it('should match file max size based on file type table', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="upload-file-max-size-based-on-file-format"]',
@@ -79,7 +79,7 @@ describe.each(['ui', 'sbanken'])('Upload for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match disabled file max size', async () => {
+  it('should match disabled file max size', async () => {
     const screenshot = await makeScreenshot({
       style: { height: '14rem' },
       selector: '[data-visual-test="upload-disabled-file-max-size"]',
@@ -87,49 +87,49 @@ describe.each(['ui', 'sbanken'])('Upload for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match when not providing title and text', async () => {
+  it('should match when not providing title and text', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-no-title-no-text"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match anchor looks when displaying a button', async () => {
+  it('should match anchor looks when displaying a button', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-on-file-click"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match when displaying text', async () => {
+  it('should match when displaying text', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-file-empty-size"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match when disabling drag and drop', async () => {
+  it('should match when disabling drag and drop', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-disabled-drag-and-drop"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match when file item has description', async () => {
+  it('should match when file item has description', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-description"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match when file item does not have delete button', async () => {
+  it('should match when file item does not have delete button', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-remove-delete-button"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match when disabled', async () => {
+  it('should match when disabled', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-disabled"]',
     })
@@ -145,7 +145,7 @@ describe('Upload', () => {
     },
   })
 
-  it('have to match small screens', async () => {
+  it('should match small screens', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-basic"]',
     })

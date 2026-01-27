@@ -15,14 +15,14 @@ describe('PushContainer', () => {
     url,
   })
 
-  it('have to match variants', async () => {
+  it('should match variants', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="push-container-variants"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match variants in error state', async () => {
+  it('should match variants in error state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="push-container-variants"]',
       simulateSelector:
@@ -40,14 +40,14 @@ describe('PushContainer on small screen', () => {
     pageViewport: { width: 640 },
   })
 
-  it('have to match variants', async () => {
+  it('should match variants', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="push-container-variants"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match variants in error state', async () => {
+  it('should match variants in error state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="push-container-variants"]',
       simulateSelector:

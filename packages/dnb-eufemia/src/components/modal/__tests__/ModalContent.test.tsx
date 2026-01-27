@@ -245,7 +245,7 @@ describe('ModalContent Focus Logic', () => {
       }).not.toThrow()
     })
 
-    it('will handle same children content', () => {
+    it('should handle same children content', () => {
       const props = createTestProps()
       const { rerender } = render(<ModalContent {...props} />)
 

@@ -10,7 +10,7 @@ describe('BreadcrumbItem', () => {
     text: 'Page',
   }
 
-  it('renders without properties', () => {
+  it('should render without properties', () => {
     render(<BreadcrumbItem {...defaultProps} />)
 
     expect(document.querySelector('li')).toBeInTheDocument()
@@ -23,7 +23,7 @@ describe('BreadcrumbItem', () => {
     expect(document.querySelector('li')).toHaveTextContent('Hjem')
   })
 
-  it('renders breadcrumb item as a link', () => {
+  it('should render breadcrumb item as a link', () => {
     render(<BreadcrumbItem {...defaultProps} href="/url" />)
 
     expect(document.querySelector('li')).toBeInTheDocument()
@@ -31,7 +31,7 @@ describe('BreadcrumbItem', () => {
     expect(document.querySelector('a').getAttribute('href')).toBe('/url')
   })
 
-  it('renders breadcrumb item as a button', () => {
+  it('should render breadcrumb item as a button', () => {
     render(<BreadcrumbItem {...defaultProps} onClick={jest.fn()} />)
 
     expect(document.querySelector('button')).toBeDefined()
@@ -77,7 +77,7 @@ describe('BreadcrumbItem', () => {
     const MEDIUM = '59em' // 60em
     const LARGE = '79em' // 80em
 
-    it('has a default icon', () => {
+    it('should have a default icon', () => {
       render(<BreadcrumbItem {...defaultProps} />)
 
       expect(document.querySelector('img')).toBeDefined()
@@ -97,7 +97,7 @@ describe('BreadcrumbItem', () => {
       )
     })
 
-    it('supports inline styling', () => {
+    it('should support inline styling', () => {
       render(
         <BreadcrumbItem
           {...defaultProps}
@@ -111,7 +111,7 @@ describe('BreadcrumbItem', () => {
       )
     })
 
-    it('has a home icon', () => {
+    it('should have a home icon', () => {
       render(<BreadcrumbItem {...defaultProps} variant="home" />)
 
       expect(document.querySelector('img')).toBeDefined()

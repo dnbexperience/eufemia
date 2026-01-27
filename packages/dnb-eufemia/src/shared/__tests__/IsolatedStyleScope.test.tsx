@@ -12,7 +12,7 @@ jest.mock('../build-info/BuildInfo.js', () => ({
 }))
 
 describe('StyleScope', () => {
-  it('renders children without style scope when none provided', () => {
+  it('should render children without style scope when none provided', () => {
     render(
       <IsolatedStyleScope>
         <div id="content-child">Test Content</div>
@@ -22,7 +22,7 @@ describe('StyleScope', () => {
     expect(document.getElementById('content-child')).toBeInTheDocument()
   })
 
-  it('applies custom style scope class', () => {
+  it('should apply custom style scope class', () => {
     render(
       <IsolatedStyleScope scopeHash="custom-scope">
         <div id="content-child">Test Content</div>
@@ -35,7 +35,7 @@ describe('StyleScope', () => {
     expect(scope).toHaveAttribute('data-scope-hash', 'custom-scope')
   })
 
-  it('uses auto-generated style scope when set to "auto"', () => {
+  it('should use auto-generated style scope when set to "auto"', () => {
     render(
       <IsolatedStyleScope scopeHash="auto">
         <div id="content-child">Test Content</div>
@@ -96,7 +96,7 @@ describe('StyleScope', () => {
     expect(scope).toHaveStyle('--color-sea-green: tomato;')
   })
 
-  it('renders one style scope when nested', () => {
+  it('should render one style scope when nested', () => {
     render(
       <IsolatedStyleScope>
         <IsolatedStyleScope>content</IsolatedStyleScope>
@@ -134,7 +134,7 @@ describe('StyleScope', () => {
 })
 
 describe('useIsolatedStyleScope', () => {
-  it('uses style scope from context', () => {
+  it('should use style scope from context', () => {
     let scopeElement = null
 
     const MockComponent = () => {
@@ -370,7 +370,7 @@ describe('useIsolatedStyleScope', () => {
 })
 
 describe('uniqueKey functionality', () => {
-  it('uses default uniqueKey when not specified', () => {
+  it('should use default uniqueKey when not specified', () => {
     render(
       <IsolatedStyleScope scopeHash="my-scope">
         <div id="content-child">Test Content</div>
@@ -382,7 +382,7 @@ describe('uniqueKey functionality', () => {
     expect(scope).toHaveAttribute('data-scope-hash-id', 'default')
   })
 
-  it('applies custom uniqueKey when specified', () => {
+  it('should apply custom uniqueKey when specified', () => {
     render(
       <IsolatedStyleScope scopeHash="my-scope" uniqueKey="custom-key">
         <div id="content-child">Test Content</div>
@@ -530,7 +530,7 @@ describe('uniqueKey functionality', () => {
   })
 
   describe('data-scope-sha', () => {
-    it('does not include data-scope-sha attribute when uniqueKey is false', () => {
+    it('should not include data-scope-sha attribute when uniqueKey is false', () => {
       render(
         <IsolatedStyleScope scopeHash="my-scope" uniqueKey={false}>
           <div id="content-child">Test Content</div>

@@ -9,7 +9,7 @@ describe('Flex.Item', () => {
   const selector =
     '[data-visual-test="flex-item-custom-size"] .dnb-flex-container'
 
-  it('have to match responsive size on large viewport', async () => {
+  it('should match responsive size on large viewport', async () => {
     const screenshot = await makeScreenshot({
       url: '/uilib/layout/flex/item/demos',
       pageViewport: {
@@ -20,7 +20,7 @@ describe('Flex.Item', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match responsive size on medium viewport', async () => {
+  it('should match responsive size on medium viewport', async () => {
     const screenshot = await makeScreenshot({
       url: '/uilib/layout/flex/item/demos',
       pageViewport: {
@@ -31,7 +31,7 @@ describe('Flex.Item', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match responsive size on small viewport', async () => {
+  it('should match responsive size on small viewport', async () => {
     const screenshot = await makeScreenshot({
       url: '/uilib/layout/flex/item/demos',
       pageViewport: {
@@ -42,7 +42,7 @@ describe('Flex.Item', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match responsive size on x-small viewport', async () => {
+  it('should match responsive size on x-small viewport', async () => {
     const screenshot = await makeScreenshot({
       url: '/uilib/layout/flex/item/demos',
       pageViewport: {

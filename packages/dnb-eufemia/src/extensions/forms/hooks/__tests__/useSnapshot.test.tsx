@@ -54,7 +54,7 @@ describe('Form.useSnapshot', () => {
     expect(contextData.data).toEqual({ foo: 'bar' })
   })
 
-  it('applies a snapshot without deleting it', () => {
+  it('should apply a snapshot without deleting it', () => {
     let snapshotId: SnapshotId
     let contextData: ContextState
 

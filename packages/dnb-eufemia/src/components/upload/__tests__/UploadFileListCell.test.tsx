@@ -16,7 +16,7 @@ const defaultProps: UploadFileListCellProps = {
 }
 
 describe('UploadFileListCell', () => {
-  it('renders the component', () => {
+  it('should render the component', () => {
     render(<UploadFileListCell {...defaultProps} />)
 
     expect(
@@ -24,7 +24,7 @@ describe('UploadFileListCell', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders the error styling', () => {
+  it('should render the error styling', () => {
     render(
       <UploadFileListCell
         {...defaultProps}
@@ -40,7 +40,7 @@ describe('UploadFileListCell', () => {
     expect(element.className).toMatch('dnb-upload__file-cell--warning')
   })
 
-  it('supports special file extensions', async () => {
+  it('should support special file extensions', async () => {
     render(
       <UploadFileListCell
         {...defaultProps}
@@ -55,7 +55,7 @@ describe('UploadFileListCell', () => {
     expect(element.textContent).toMatch('file.dat')
   })
 
-  it('renders the no error styling', () => {
+  it('should render the no error styling', () => {
     render(
       <UploadFileListCell
         {...defaultProps}
@@ -69,7 +69,7 @@ describe('UploadFileListCell', () => {
     expect(element.className).toMatch('dnb-upload__file-cell')
   })
 
-  it('renders the form errorMessage warning', () => {
+  it('should render the form errorMessage warning', () => {
     const errorMessage = 'error message'
 
     render(
@@ -86,7 +86,7 @@ describe('UploadFileListCell', () => {
   })
 
   describe('Icons', () => {
-    it('renders the exclamation icon', () => {
+    it('should render the exclamation icon', () => {
       render(
         <UploadFileListCell
           {...defaultProps}
@@ -102,7 +102,7 @@ describe('UploadFileListCell', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders the pdf icon', () => {
+    it('should render the pdf icon', () => {
       render(
         <UploadFileListCell
           {...defaultProps}
@@ -117,7 +117,7 @@ describe('UploadFileListCell', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders the xls icon', () => {
+    it('should render the xls icon', () => {
       render(
         <UploadFileListCell
           {...defaultProps}
@@ -132,7 +132,7 @@ describe('UploadFileListCell', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders the ppt icon', () => {
+    it('should render the ppt icon', () => {
       render(
         <UploadFileListCell
           {...defaultProps}
@@ -147,7 +147,7 @@ describe('UploadFileListCell', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders the csv icon', () => {
+    it('should render the csv icon', () => {
       render(
         <UploadFileListCell
           {...defaultProps}
@@ -162,7 +162,7 @@ describe('UploadFileListCell', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders the txt icon', () => {
+    it('should render the txt icon', () => {
       render(
         <UploadFileListCell
           {...defaultProps}
@@ -177,7 +177,7 @@ describe('UploadFileListCell', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders the xml icon', () => {
+    it('should render the xml icon', () => {
       render(
         <UploadFileListCell
           {...defaultProps}
@@ -192,7 +192,7 @@ describe('UploadFileListCell', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders the file icon as default', () => {
+    it('should render the file icon as default', () => {
       render(
         <UploadFileListCell
           {...defaultProps}
@@ -206,7 +206,7 @@ describe('UploadFileListCell', () => {
     })
   })
 
-  it('renders a span when file size is 0', () => {
+  it('should render a span when file size is 0', () => {
     const fileName = 'file.png'
 
     render(
@@ -219,7 +219,7 @@ describe('UploadFileListCell', () => {
     expect(screen.queryByText(fileName)).toHaveClass('dnb-span')
   })
 
-  it('renders a span when file size is not given', () => {
+  it('should render a span when file size is not given', () => {
     const fileName = 'file.png'
 
     render(
@@ -234,7 +234,7 @@ describe('UploadFileListCell', () => {
     expect(screen.queryByText(fileName)).toHaveClass('dnb-span')
   })
 
-  it('renders a button when file size is invalid, but onClick is given', () => {
+  it('should render a button when file size is invalid, but onClick is given', () => {
     const fileName = 'file.png'
 
     render(
@@ -253,7 +253,7 @@ describe('UploadFileListCell', () => {
   })
 
   describe('File Anchor', () => {
-    it('renders the anchor', () => {
+    it('should render the anchor', () => {
       const fileName = 'file.png'
 
       render(
@@ -265,7 +265,7 @@ describe('UploadFileListCell', () => {
       expect(screen.queryByText(fileName).tagName).toBe('A')
     })
 
-    it('renders the anchor href', () => {
+    it('should render the anchor href', () => {
       const fileName = 'file.png'
       const mockUrl = 'mock-url'
 
@@ -288,7 +288,7 @@ describe('UploadFileListCell', () => {
       global.URL.createObjectURL = originalCreateObjectURL
     })
 
-    it('renders the download attribute', () => {
+    it('should render the download attribute', () => {
       render(
         <UploadFileListCell
           {...defaultProps}
@@ -305,7 +305,7 @@ describe('UploadFileListCell', () => {
       expect(element).toHaveAttribute('download', 'file.png')
     })
 
-    it('renders without the error style', () => {
+    it('should render without the error style', () => {
       const fileName = 'file.png'
 
       render(
@@ -347,7 +347,7 @@ describe('UploadFileListCell', () => {
   })
 
   describe('Delete Button', () => {
-    it('renders the delete button', () => {
+    it('should render the delete button', () => {
       render(<UploadFileListCell {...defaultProps} />)
 
       const element = document.querySelector('button')
@@ -355,7 +355,7 @@ describe('UploadFileListCell', () => {
       expect(element).toBeInTheDocument()
     })
 
-    it('renders the delete button text', () => {
+    it('should render the delete button text', () => {
       const deleteButtonText = 'delete'
 
       render(
@@ -370,7 +370,7 @@ describe('UploadFileListCell', () => {
       expect(element.textContent).toMatch(deleteButtonText)
     })
 
-    it('renders button as tertiary', () => {
+    it('should render button as tertiary', () => {
       render(<UploadFileListCell {...defaultProps} />)
 
       const element = document.querySelector('button')
@@ -378,7 +378,7 @@ describe('UploadFileListCell', () => {
       expect(element.className).toMatch('dnb-button--tertiary')
     })
 
-    it('renders the file cell loading state', () => {
+    it('should render the file cell loading state', () => {
       render(
         <UploadFileListCell
           {...defaultProps}
@@ -413,7 +413,7 @@ describe('UploadFileListCell', () => {
       expect(onDelete).toHaveBeenCalledTimes(1)
     })
 
-    it('renders the delete button as disabled when loading state', () => {
+    it('should render the delete button as disabled when loading state', () => {
       render(
         <UploadFileListCell
           {...defaultProps}
@@ -428,7 +428,7 @@ describe('UploadFileListCell', () => {
       expect(element).toBeDisabled()
     })
 
-    it('does not render the loading state when not loading', () => {
+    it('should not render the loading state when not loading', () => {
       render(
         <UploadFileListCell
           {...defaultProps}

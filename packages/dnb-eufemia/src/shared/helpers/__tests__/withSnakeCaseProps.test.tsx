@@ -38,7 +38,7 @@ describe('withSnakeCaseProps', () => {
 
   const Component = withSnakeCaseProps(Original)
 
-  it('will still expose a static property', () => {
+  it('should still expose a static property', () => {
     expect(Original.property).toBe('thing')
 
     expect(Component.property).toBe(Original.property)
@@ -55,7 +55,7 @@ describe('withSnakeCaseProps', () => {
     expect(Component.name).toBe('Original')
   })
 
-  it('will render', () => {
+  it('should render', () => {
     const { rerender, asFragment } = render(
       <Component snake_case={1} camelCase={false} />
     )

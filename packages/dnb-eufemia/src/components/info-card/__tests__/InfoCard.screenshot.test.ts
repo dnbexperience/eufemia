@@ -11,7 +11,7 @@ import {
 describe('InfoCard', () => {
   setupPageScreenshot({ url: '/uilib/components/info-card/demos' })
 
-  it('renders correct default component', async () => {
+  it('should render correct default component', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '30rem' },
       selector: '[data-visual-test="info-card-basic"] .dnb-info-card',
@@ -19,7 +19,7 @@ describe('InfoCard', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('renders correct stretched component', async () => {
+  it('should render correct stretched component', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '60rem' },
       selector: '[data-visual-test="info-card-stretch"]',
@@ -27,7 +27,7 @@ describe('InfoCard', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('renders correct component with title and buttons', async () => {
+  it('should render correct component with title and buttons', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '20rem' },
       selector: '[data-visual-test="info-card-buttons"] .dnb-info-card',
@@ -35,7 +35,7 @@ describe('InfoCard', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('renders correct component with close button', async () => {
+  it('should render correct component with close button', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '30rem' },
       selector:
@@ -44,7 +44,7 @@ describe('InfoCard', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('renders correct component with accept button', async () => {
+  it('should render correct component with accept button', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '30rem' },
       selector:
@@ -53,7 +53,7 @@ describe('InfoCard', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('renders the centered component', async () => {
+  it('should render the centered component', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '30rem' },
       selector:
@@ -62,7 +62,7 @@ describe('InfoCard', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('renders the centered card component', async () => {
+  it('should render the centered card component', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '30rem' },
       selector: '[data-visual-test="info-card-centered"] .dnb-info-card',
@@ -70,7 +70,7 @@ describe('InfoCard', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('renders with custom icon', async () => {
+  it('should render with custom icon', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '30rem' },
       selector:
@@ -79,7 +79,7 @@ describe('InfoCard', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('renders with custom image', async () => {
+  it('should render with custom image', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '30rem' },
       selector:
@@ -88,7 +88,7 @@ describe('InfoCard', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('renders with custom image centered', async () => {
+  it('should render with custom image centered', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '30rem' },
       selector:
@@ -97,7 +97,7 @@ describe('InfoCard', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('renders with children', async () => {
+  it('should render with children', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '30rem' },
       selector: '[data-visual-test="info-card-children"] .dnb-info-card',

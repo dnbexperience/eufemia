@@ -9,21 +9,21 @@ import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import { Provider } from '../../../shared'
 
 describe('Badge', () => {
-  it('renders without properties', () => {
+  it('should render without properties', () => {
     const props: BadgeProps = {}
     render(<Badge {...props} />)
 
     expect(document.querySelector('.dnb-badge')).toBeInTheDocument()
   })
 
-  it('renders content as text', () => {
+  it('should render content as text', () => {
     const string = 'A'
     render(<Badge content={string} />)
 
     expect(screen.queryByText(string)).toBeInTheDocument()
   })
 
-  it('renders content as number', () => {
+  it('should render content as number', () => {
     const number = 1
     const label = 'Notifications:'
     render(<Badge content={number} label={label} />)
@@ -32,7 +32,7 @@ describe('Badge', () => {
     expect(screen.queryByText(label)).toBeInTheDocument()
   })
 
-  it('supports variant content', () => {
+  it('should support variant content', () => {
     render(<Badge variant="content" content="content" />)
 
     const element = document.querySelector('.dnb-badge')
@@ -43,7 +43,7 @@ describe('Badge', () => {
     ])
   })
 
-  it('renders formatted number when content is a number with notification variant', () => {
+  it('should render formatted number when content is a number with notification variant', () => {
     const number = 10
     const label = 'Notifications:'
     render(<Badge content={number} variant="notification" label={label} />)
@@ -75,7 +75,7 @@ describe('Badge', () => {
     expect(badge.textContent).toContain('Amount: 1.234')
   })
 
-  it('renders the label as string', () => {
+  it('should render the label as string', () => {
     const label = 'Money:'
     const content = 100
     render(<Badge label={label} content={content} />)
@@ -84,14 +84,14 @@ describe('Badge', () => {
     expect(screen.queryByText(content)).toBeInTheDocument()
   })
 
-  it('renders the label as a react node', () => {
+  it('should render the label as a react node', () => {
     const label = <span data-testid="react-node">ReactNode</span>
     render(<Badge label={label} content="something" />)
 
     expect(screen.queryByTestId('react-node')).toBeInTheDocument()
   })
 
-  it('renders children as content', () => {
+  it('should render children as content', () => {
     render(
       <Badge content={<Icon icon={Confetti} />}>
         <Avatar.Group label="children:">
@@ -103,7 +103,7 @@ describe('Badge', () => {
     expect(screen.queryByTestId('confetti icon')).toBeInTheDocument()
   })
 
-  it('does not warn when notification badge content is a number', () => {
+  it('should not warn when notification badge content is a number', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()
     render(
@@ -112,7 +112,7 @@ describe('Badge', () => {
     expect(global.console.log).not.toHaveBeenCalled()
   })
 
-  it('supports inline styling', () => {
+  it('should support inline styling', () => {
     render(<Badge style={{ color: 'red' }}>A</Badge>)
 
     expect(
@@ -127,14 +127,14 @@ describe('Badge', () => {
     expect(global.console.log).toHaveBeenCalled()
   })
 
-  it('does not warn when Badge content is a string and label is missing', () => {
+  it('should not warn when Badge content is a string and label is missing', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()
     render(<Badge content="text" />)
     expect(global.console.log).not.toHaveBeenCalled()
   })
 
-  it('does not warn when Badge content is a number and has a label', () => {
+  it('should not warn when Badge content is a number and has a label', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()
     render(<Badge content="text" label="Notifications:" />)
@@ -224,7 +224,7 @@ describe('Badge', () => {
   })
 
   describe('default values', () => {
-    it('has variant information as default', () => {
+    it('should have variant information as default', () => {
       render(<Badge />)
 
       expect(
@@ -232,7 +232,7 @@ describe('Badge', () => {
       ).toHaveLength(1)
     })
 
-    it('has status neutral as default', () => {
+    it('should have status neutral as default', () => {
       render(<Badge content="test" />)
 
       const element = document.querySelector('.dnb-badge')
@@ -241,7 +241,7 @@ describe('Badge', () => {
   })
 
   describe('status and subtle props', () => {
-    it('applies status class correctly', () => {
+    it('should apply status class correctly', () => {
       const { rerender } = render(
         <Badge content="test" status="positive" />
       )
@@ -257,14 +257,14 @@ describe('Badge', () => {
       expect(element).toHaveClass('dnb-badge--status-negative')
     })
 
-    it('applies subtle class when subtle prop is true', () => {
+    it('should apply subtle class when subtle prop is true', () => {
       render(<Badge content="test" status="positive" subtle />)
       const element = document.querySelector('.dnb-badge')
       expect(element).toHaveClass('dnb-badge--status-positive')
       expect(element).toHaveClass('dnb-badge--subtle')
     })
 
-    it('does not apply status or subtle classes for non-information variants', () => {
+    it('should not apply status or subtle classes for non-information variants', () => {
       render(
         <Badge
           content="test"
@@ -281,7 +281,7 @@ describe('Badge', () => {
   })
 
   describe('hideBadge prop', () => {
-    it('hides the badge when hideBadge is true', () => {
+    it('should hide the badge when hideBadge is true', () => {
       render(
         <Badge content="test" hideBadge>
           Hello
@@ -290,7 +290,7 @@ describe('Badge', () => {
       expect(document.querySelector('.dnb-badge')).not.toBeInTheDocument()
     })
 
-    it('shows the badge when hideBadge is false', () => {
+    it('should show the badge when hideBadge is false', () => {
       render(
         <Badge content="test" hideBadge={false}>
           Hello
@@ -299,7 +299,7 @@ describe('Badge', () => {
       expect(document.querySelector('.dnb-badge')).toBeInTheDocument()
     })
 
-    it('keeps children visible when hideBadge is true', () => {
+    it('should keep children visible when hideBadge is true', () => {
       render(
         <Badge content="badge content" hideBadge>
           <span data-testid="child">Child content</span>

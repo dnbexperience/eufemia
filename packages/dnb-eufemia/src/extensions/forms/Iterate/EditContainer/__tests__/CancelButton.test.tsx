@@ -13,7 +13,7 @@ import PushContainerContext from '../../PushContainer/PushContainerContext'
 const nb = nbNO['nb-NO'].IterateEditContainer
 
 describe('CancelButton', () => {
-  it('calls "switchContainerMode"', async () => {
+  it('should call "switchContainerMode"', async () => {
     const switchContainerMode = jest.fn()
 
     render(
@@ -54,7 +54,7 @@ describe('CancelButton', () => {
     expect(switchContainerMode).toHaveBeenCalledTimes(0)
   })
 
-  it('calls "restoreOriginalValue"', () => {
+  it('should call "restoreOriginalValue"', () => {
     const restoreOriginalValue = jest.fn()
 
     render(
@@ -78,7 +78,7 @@ describe('CancelButton', () => {
     expect(restoreOriginalValue).toHaveBeenCalledWith('original value')
   })
 
-  it('does not show toolbar error when inside push container (no visible error)', () => {
+  it('should not show toolbar error when inside push container (no visible error)', () => {
     const setShowError = jest.fn()
     const setShowBoundaryErrors = jest.fn()
 
@@ -135,7 +135,7 @@ describe('CancelButton', () => {
     return promise
   })
 
-  it('sets boundary and toolbar errors when there are field errors and a visible error', () => {
+  it('should set boundary and toolbar errors when there are field errors and a visible error', () => {
     const setShowError = jest.fn()
     const setShowBoundaryErrors = jest.fn()
 
@@ -267,7 +267,7 @@ describe('CancelButton', () => {
     })
   })
 
-  it('shows a confirm dialog by default and proceeds on confirm', async () => {
+  it('should show a confirm dialog by default and proceeds on confirm', async () => {
     const switchContainerMode = jest.fn()
 
     render(

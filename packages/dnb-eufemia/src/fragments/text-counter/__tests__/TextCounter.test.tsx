@@ -4,42 +4,42 @@ import { Provider } from '../../../shared'
 import TextCounter from '../TextCounter'
 
 describe('TextCounter', () => {
-  it('renders without provider', () => {
+  it('should render without provider', () => {
     render(<TextCounter text="test" max={10} />)
 
     const element = document.querySelector('.dnb-text-counter')
     expect(element).toBeInTheDocument()
   })
 
-  it('displays the correct count when variant is not specified', () => {
+  it('should display the correct count when variant is not specified', () => {
     render(<TextCounter text="test" max={10} />)
 
     const element = document.querySelector('.dnb-text-counter')
     expect(element).toHaveTextContent('6 av 10 tegn gjenstår')
   })
 
-  it('displays the correct count for variant "down"', () => {
+  it('should display the correct count for variant "down"', () => {
     render(<TextCounter variant="down" text="test" max={10} />)
 
     const element = document.querySelector('.dnb-text-counter')
     expect(element).toHaveTextContent('6 av 10 tegn gjenstår')
   })
 
-  it('displays the correct count for variant "up"', () => {
+  it('should display the correct count for variant "up"', () => {
     render(<TextCounter variant="up" text="test" max={10} />)
 
     const element = document.querySelector('.dnb-text-counter')
     expect(element).toHaveTextContent('Du har brukt 4 av 10 tegn')
   })
 
-  it('handles empty text correctly', () => {
+  it('should handle empty text correctly', () => {
     render(<TextCounter text="" max={10} />)
 
     const element = document.querySelector('.dnb-text-counter')
     expect(element).toHaveTextContent('0 av 10 tegn gjenstår')
   })
 
-  it('handles text length exceeding max correctly in down variant', () => {
+  it('should handle text length exceeding max correctly in down variant', () => {
     render(
       <TextCounter text="this is a long text" max={10} variant="down" />
     )
@@ -48,14 +48,14 @@ describe('TextCounter', () => {
     expect(element).toHaveTextContent('9 tegn over grensen på 10.')
   })
 
-  it('handles negative max correctly in down variant', () => {
+  it('should handle negative max correctly in down variant', () => {
     render(<TextCounter text="test" max={-10} variant="down" />)
 
     const element = document.querySelector('.dnb-text-counter')
     expect(element).toHaveTextContent('')
   })
 
-  it('handles text length exceeding max correctly in up variant', () => {
+  it('should handle text length exceeding max correctly in up variant', () => {
     render(
       <TextCounter text="this is a long text" max={10} variant="up" />
     )
@@ -64,14 +64,14 @@ describe('TextCounter', () => {
     expect(element.textContent).toBe('9 tegn over grensen på 10.')
   })
 
-  it('handles negative max correctly in up variant', () => {
+  it('should handle negative max correctly in up variant', () => {
     render(<TextCounter text="test" max={-10} variant="up" />)
 
     const element = document.querySelector('.dnb-text-counter')
     expect(element).toHaveTextContent('')
   })
 
-  it('updates correctly when props change', () => {
+  it('should update correctly when props change', () => {
     const { rerender } = render(<TextCounter text="test" max={10} />)
 
     const element = document.querySelector('.dnb-text-counter')
@@ -82,7 +82,7 @@ describe('TextCounter', () => {
     expect(element).toHaveTextContent('3 av 10 tegn gjenstår')
   })
 
-  it('supports lang and locale props', () => {
+  it('should support lang and locale props', () => {
     const { rerender } = render(
       <Provider>
         <TextCounter text="test" max={10} lang="en-GB" />
@@ -174,14 +174,14 @@ describe('TextCounter', () => {
     })
   })
 
-  it('supports spacing props', () => {
+  it('should support spacing props', () => {
     render(<TextCounter text="test" max={10} top="large" />)
 
     const element = document.querySelector('.dnb-text-counter')
     expect(element).toHaveClass('dnb-space__top--large')
   })
 
-  it('supports accept custom class', () => {
+  it('should support accept custom class', () => {
     render(<TextCounter text="test" max={10} className="custom-class" />)
 
     const element = document.querySelector('.dnb-text-counter')

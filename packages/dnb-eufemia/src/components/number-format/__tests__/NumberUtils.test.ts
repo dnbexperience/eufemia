@@ -43,7 +43,7 @@ beforeAll(() => {
 })
 
 describe('Node', () => {
-  it('has icu and full-icu support', () => {
+  it('should have icu and full-icu support', () => {
     expect(typeof process.versions.icu).toBe('string')
 
     const intl = new Intl.NumberFormat(LOCALE, {
@@ -53,7 +53,7 @@ describe('Node', () => {
     expect(intl.format(value)).toBe('12 345 678,99 kr') // Rounds
   })
 
-  it('supports setting navigator.language (JSDOM)', () => {
+  it('should support setting navigator.language (JSDOM)', () => {
     expect(navigator.language).toBe(LOCALE)
   })
 })

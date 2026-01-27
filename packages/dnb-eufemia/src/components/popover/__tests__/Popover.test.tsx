@@ -325,7 +325,7 @@ describe('Popover', () => {
     spy.mockRestore()
   })
 
-  it('renders provided trigger and toggles visibility', async () => {
+  it('should render provided trigger and toggles visibility', async () => {
     renderWithTrigger()
 
     const trigger = document.querySelector('button[aria-controls]')
@@ -350,7 +350,7 @@ describe('Popover', () => {
     expect(popoverElement).not.toHaveClass('dnb-popover--active')
   })
 
-  it('renders optional title and focuses content when opened', async () => {
+  it('should render optional title and focuses content when opened', async () => {
     renderWithTrigger({ title: 'Definition' })
 
     const trigger = document.querySelector('button[aria-controls]')
@@ -439,7 +439,7 @@ describe('Popover', () => {
     }
   })
 
-  it('calls onOpenChange when state toggles', async () => {
+  it('should call onOpenChange when state toggles', async () => {
     const onOpenChange = jest.fn()
     renderWithTrigger({ onOpenChange })
 
@@ -466,7 +466,7 @@ describe('Popover', () => {
     await waitFor(() => expect(onOpenChange).toHaveBeenCalledWith(false))
   })
 
-  it('supports custom trigger renderer and manual close button', async () => {
+  it('should support custom trigger renderer and manual close button', async () => {
     render(
       <Popover
         hideCloseButton
@@ -506,7 +506,7 @@ describe('Popover', () => {
     )
   })
 
-  it('hides the default close button when hideCloseButton is true', async () => {
+  it('should hide the default close button when hideCloseButton is true', async () => {
     renderWithTrigger({ hideCloseButton: true })
 
     const trigger = document.querySelector('button[aria-controls]')
@@ -519,7 +519,7 @@ describe('Popover', () => {
     )
   })
 
-  it('hides the arrow when hideArrow is true', async () => {
+  it('should hide the arrow when hideArrow is true', async () => {
     renderWithTrigger({ hideArrow: true })
 
     const trigger = document.querySelector('button[aria-controls]')
@@ -534,7 +534,7 @@ describe('Popover', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('hides the arrow when hideArrow is true even if arrowPosition is set', async () => {
+  it('should hide the arrow when hideArrow is true even if arrowPosition is set', async () => {
     renderWithTrigger({ hideArrow: true, arrowPosition: 'center' })
 
     const trigger = document.querySelector('button[aria-controls]')
@@ -549,7 +549,7 @@ describe('Popover', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('renders the arrow by default when hideArrow is false', async () => {
+  it('should render the arrow by default when hideArrow is false', async () => {
     renderWithTrigger({ hideArrow: false })
 
     const trigger = document.querySelector('button[aria-controls]')
@@ -695,7 +695,7 @@ describe('Popover', () => {
     })
   })
 
-  it('renders focus trap buttons with the translated label', async () => {
+  it('should render focus trap buttons with the translated label', async () => {
     renderWithTrigger()
 
     const trigger = document.querySelector('button[aria-controls]')
@@ -817,7 +817,7 @@ describe('Popover', () => {
     )
   })
 
-  it('renders popover content inside the dedicated portal root', async () => {
+  it('should render popover content inside the dedicated portal root', async () => {
     renderWithTrigger()
 
     const trigger = document.querySelector('button[aria-controls]')
@@ -842,7 +842,7 @@ describe('Popover', () => {
     expect(popover).toHaveAttribute('role', 'menu')
   })
 
-  it('does not set a default role on the overlay element', async () => {
+  it('should not set a default role on the overlay element', async () => {
     renderWithTrigger()
 
     const trigger = document.querySelector('button[aria-controls]')
@@ -892,7 +892,7 @@ describe('Popover', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('applies custom portalRootClass to the wrapper', async () => {
+  it('should apply custom portalRootClass to the wrapper', async () => {
     renderWithTrigger({ portalRootClass: 'custom-popover-root' })
 
     const trigger = document.querySelector('button[aria-controls]')
@@ -905,7 +905,7 @@ describe('Popover', () => {
     )
   })
 
-  it('keeps popover content unfocusable with correct tabIndex', async () => {
+  it('should keep popover content unfocusable with correct tabIndex', async () => {
     renderWithTrigger()
 
     const trigger = document.querySelector('button[aria-controls]')
@@ -934,7 +934,7 @@ describe('Popover', () => {
     )
   })
 
-  it('supports keyboard activation using Enter and Space', async () => {
+  it('should support keyboard activation using Enter and Space', async () => {
     renderWithTrigger()
 
     const trigger = document.querySelector('button[aria-controls]')
@@ -993,7 +993,7 @@ describe('Popover', () => {
     )
   })
 
-  it('keeps dialog open when Popover handles Escape locally', async () => {
+  it('should keep dialog open when Popover handles Escape locally', async () => {
     render(
       <Dialog noAnimation openState={true} title="Dialog">
         <Popover
@@ -1081,7 +1081,7 @@ describe('Popover', () => {
     )
   })
 
-  it('applies show-outline class when hideOutline is false', async () => {
+  it('should apply show-outline class when hideOutline is false', async () => {
     renderWithTrigger({ hideOutline: false })
 
     const trigger = document.querySelector('button[aria-controls]')
@@ -1093,7 +1093,7 @@ describe('Popover', () => {
     expect(popoverElement).toHaveClass('dnb-popover--show-outline')
   })
 
-  it('does not apply show-outline class when hideOutline is true', async () => {
+  it('should not apply show-outline class when hideOutline is true', async () => {
     renderWithTrigger({ hideOutline: true })
 
     const trigger = document.querySelector('button[aria-controls]')
@@ -1105,7 +1105,7 @@ describe('Popover', () => {
     expect(popoverElement).not.toHaveClass('dnb-popover--show-outline')
   })
 
-  it('applies show-outline class by default', async () => {
+  it('should apply show-outline class by default', async () => {
     renderWithTrigger()
 
     const trigger = document.querySelector('button[aria-controls]')
@@ -1150,7 +1150,7 @@ describe('Popover', () => {
     }
   })
 
-  it('uses default triggerOffset of 0 when not provided', async () => {
+  it('should use default triggerOffset of 0 when not provided', async () => {
     const { element: targetElement, rect } = createTargetElement({
       top: 90,
       height: 32,
@@ -1229,7 +1229,7 @@ describe('Popover', () => {
     }
   })
 
-  it('uses default horizontalOffset of 0 when not provided', async () => {
+  it('should use default horizontalOffset of 0 when not provided', async () => {
     const { element: targetElement, rect } = createTargetElement({
       left: 240,
       width: 60,
@@ -1271,7 +1271,7 @@ describe('Popover', () => {
     expect(popoverElement).toHaveClass('dnb-popover--no-inner-space')
   })
 
-  it('does not disable inner spacing when noInnerSpace is false', async () => {
+  it('should not disable inner spacing when noInnerSpace is false', async () => {
     renderWithTrigger({ noInnerSpace: false })
 
     const trigger = document.querySelector('button[aria-controls]')
@@ -1283,7 +1283,7 @@ describe('Popover', () => {
     expect(popoverElement).not.toHaveClass('dnb-popover--no-inner-space')
   })
 
-  it('applies no-inner-space class which sets --inner-space: 0 via CSS', async () => {
+  it('should apply no-inner-space class which sets --inner-space: 0 via CSS', async () => {
     renderWithTrigger({ noInnerSpace: true })
 
     const trigger = document.querySelector('button[aria-controls]')
@@ -1321,7 +1321,7 @@ describe('Popover', () => {
     expect(triggerOnClick).toHaveBeenCalledTimes(1)
   })
 
-  it('applies contentClassName and exposes a contentRef', async () => {
+  it('should apply contentClassName and exposes a contentRef', async () => {
     const contentRef = React.createRef<HTMLSpanElement>()
     renderWithTrigger({
       contentClassName: 'custom-content',
@@ -1345,7 +1345,7 @@ describe('Popover', () => {
     expect(contentRef.current).toBe(popover)
   })
 
-  it('applies closeButtonProps to the default close button', async () => {
+  it('should apply closeButtonProps to the default close button', async () => {
     renderWithTrigger({
       closeButtonProps: {
         title: 'Dismiss tooltip',
@@ -1383,7 +1383,7 @@ describe('Popover', () => {
       )
     })
 
-    it('keeps open when tabbing outside if preventClose is true', async () => {
+    it('should keep open when tabbing outside if preventClose is true', async () => {
       renderWithTrigger({ preventClose: true })
 
       const trigger = (await waitFor(() =>
@@ -1427,7 +1427,7 @@ describe('Popover', () => {
       )
     })
 
-    it('keeps popover open when close button is clicked if preventClose is true', async () => {
+    it('should keep popover open when close button is clicked if preventClose is true', async () => {
       renderWithTrigger({ preventClose: true })
 
       const trigger = (await waitFor(() =>
@@ -1446,7 +1446,7 @@ describe('Popover', () => {
     })
   })
 
-  it('does not restore focus when restoreFocus is false', async () => {
+  it('should not restore focus when restoreFocus is false', async () => {
     renderWithTrigger({ restoreFocus: false })
 
     const trigger = (await waitFor(() =>
@@ -1475,7 +1475,7 @@ describe('Popover', () => {
     focusSpy.mockRestore()
   })
 
-  it('calls focus with preventScroll when opening', async () => {
+  it('should call focus with preventScroll when opening', async () => {
     renderWithTrigger()
 
     const trigger = (await waitFor(() =>
@@ -1504,7 +1504,7 @@ describe('Popover', () => {
     focusSpy.mockRestore()
   })
 
-  it('calls focus with preventScroll when closing', async () => {
+  it('should call focus with preventScroll when closing', async () => {
     renderWithTrigger()
 
     const trigger = (await waitFor(() =>
@@ -1539,7 +1539,7 @@ describe('Popover', () => {
     focusSpy.mockRestore()
   })
 
-  it('adds the no-max-width class when noMaxWidth is true', async () => {
+  it('should add the no-max-width class when noMaxWidth is true', async () => {
     renderWithTrigger({ noMaxWidth: true })
 
     const trigger = (await waitFor(() =>
@@ -1570,7 +1570,7 @@ describe('Popover', () => {
     ).toHaveLength(0)
   })
 
-  it('applies the theme class when theme is provided', async () => {
+  it('should apply the theme class when theme is provided', async () => {
     renderWithTrigger({ theme: 'dark' })
 
     const trigger = (await waitFor(() =>
@@ -1598,7 +1598,7 @@ describe('Popover', () => {
     expect(popover).toHaveClass('custom-popover')
   })
 
-  it('adds the fixed class when fixedPosition is true', async () => {
+  it('should add the fixed class when fixedPosition is true', async () => {
     renderWithTrigger({ fixedPosition: true })
 
     const trigger = (await waitFor(() =>
@@ -1876,7 +1876,7 @@ describe('Popover', () => {
       })
     })
 
-    it('keeps the arrow within the popover width near the viewport edge', async () => {
+    it('should keep the arrow within the popover width near the viewport edge', async () => {
       const targetElement = document.createElement('div')
       document.body.appendChild(targetElement)
 
@@ -1929,7 +1929,7 @@ describe('Popover', () => {
       targetElement.remove()
     })
 
-    it('keeps the arrow at the dialog left edge while scrolling a dialog to the left', async () => {
+    it('should keep the arrow at the dialog left edge while scrolling a dialog to the left', async () => {
       const scrollViewElement = document.createElement('div')
       scrollViewElement.className = 'dnb-scroll-view'
       document.body.appendChild(scrollViewElement)
@@ -1997,7 +1997,7 @@ describe('Popover', () => {
       scrollViewElement.remove()
     })
 
-    it('keeps the arrow at the dialog right edge while scrolling a dialog to the right', async () => {
+    it('should keep the arrow at the dialog right edge while scrolling a dialog to the right', async () => {
       const scrollViewElement = document.createElement('div')
       scrollViewElement.className = 'dnb-scroll-view'
       document.body.appendChild(scrollViewElement)
@@ -3154,7 +3154,7 @@ describe('Popover', () => {
       expect(trigger).toHaveAttribute('aria-expanded', 'false')
     })
 
-    it('does not create portal root before opening when keepInDOM is false', () => {
+    it('should not create portal root before opening when keepInDOM is false', () => {
       document.getElementById('eufemia-portal-root')?.remove()
 
       renderWithTrigger({ keepInDOM: false })
@@ -3169,7 +3169,7 @@ describe('Popover', () => {
       expect(trigger).toHaveAttribute('aria-expanded', 'false')
     })
 
-    it('hides the popover until placement is determined', async () => {
+    it('should hide the popover until placement is determined', async () => {
       const { unmount } = render(
         <PopoverContainerModule.default
           active
@@ -3192,7 +3192,7 @@ describe('Popover', () => {
       unmount()
     })
 
-    it('does not set inline styles before the popover is active', async () => {
+    it('should not set inline styles before the popover is active', async () => {
       const { container } = renderWithTrigger({
         keepInDOM: true,
         noAnimation: true,
@@ -3239,7 +3239,7 @@ describe('Popover', () => {
         )
       })
 
-      it('keeps the inline popover when keepInDOM is true', async () => {
+      it('should keep the inline popover when keepInDOM is true', async () => {
         const { container } = renderWithTrigger({
           skipPortal: true,
           keepInDOM: true,
@@ -3636,7 +3636,7 @@ describe('Popover', () => {
     cleanup()
   })
 
-  it('does not adjust vertical offset when placement="right" and arrowPosition="left"', async () => {
+  it('should not adjust vertical offset when placement="right" and arrowPosition="left"', async () => {
     const cleanup = setupPopoverPositionMocks()
 
     const { unmount: unmountDefault } = render(

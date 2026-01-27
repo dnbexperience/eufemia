@@ -3,7 +3,7 @@ import { screen, render, fireEvent } from '@testing-library/react'
 import { Value, Form, Field } from '../../..'
 
 describe('Value.ArraySelection', () => {
-  it('renders string values', () => {
+  it('should render string values', () => {
     render(<Value.ArraySelection value={['Foo', 'Bar', 'Baz']} />)
 
     expect(
@@ -13,7 +13,7 @@ describe('Value.ArraySelection', () => {
     ).toHaveTextContent('Foo, Bar og Baz')
   })
 
-  it('renders number values', () => {
+  it('should render number values', () => {
     render(<Value.ArraySelection value={[123, 456, 789]} />)
 
     expect(
@@ -23,7 +23,7 @@ describe('Value.ArraySelection', () => {
     ).toHaveTextContent('123, 456 og 789')
   })
 
-  it('renders custom format', () => {
+  it('should render custom format', () => {
     render(
       <Value.ArraySelection
         value={[123, 456, 789]}
@@ -127,14 +127,14 @@ describe('Value.ArraySelection', () => {
     expect(list('ul')).toHaveAttribute('type', 'square')
   })
 
-  it('renders label when showEmpty is true', () => {
+  it('should render label when showEmpty is true', () => {
     render(<Value.ArraySelection showEmpty label="My label" />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
       'My label'
     )
   })
 
-  it('renders value and label', () => {
+  it('should render value and label', () => {
     render(
       <Value.ArraySelection
         label="My selections"
@@ -152,19 +152,19 @@ describe('Value.ArraySelection', () => {
     )
   })
 
-  it('renders custom label', () => {
+  it('should render custom label', () => {
     render(<Value.ArraySelection label="Custom label" showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
       'Custom label'
     )
   })
 
-  it('renders placeholder', () => {
+  it('should render placeholder', () => {
     render(<Value.ArraySelection placeholder="Please select a value" />)
     expect(screen.getByText('Please select a value')).toBeInTheDocument()
   })
 
-  it('renders value from path', () => {
+  it('should render value from path', () => {
     render(
       <Form.Handler data={{ myPath: ['Baz', 'Bar', 'Foo'] }}>
         <Value.ArraySelection path="/myPath" />

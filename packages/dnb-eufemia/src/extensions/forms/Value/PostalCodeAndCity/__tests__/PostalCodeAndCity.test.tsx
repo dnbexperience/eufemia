@@ -6,7 +6,7 @@ import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
 describe('Value.PostalCodeAndCity', () => {
-  it('renders value', () => {
+  it('should render value', () => {
     render(<Value.PostalCodeAndCity value="0010 Oslo" />)
     expect(
       document.querySelector(
@@ -15,7 +15,7 @@ describe('Value.PostalCodeAndCity', () => {
     ).toHaveTextContent('0010 Oslo')
   })
 
-  it('renders only city', () => {
+  it('should render only city', () => {
     render(<Value.PostalCodeAndCity city={{ value: 'Oslo' }} />)
     expect(
       document.querySelector(
@@ -24,7 +24,7 @@ describe('Value.PostalCodeAndCity', () => {
     ).toHaveTextContent('Oslo')
   })
 
-  it('renders only postalCode', () => {
+  it('should render only postalCode', () => {
     render(<Value.PostalCodeAndCity postalCode={{ value: '0010' }} />)
     expect(
       document.querySelector(
@@ -33,14 +33,14 @@ describe('Value.PostalCodeAndCity', () => {
     ).toHaveTextContent('0010')
   })
 
-  it('renders label when showEmpty is true', () => {
+  it('should render label when showEmpty is true', () => {
     render(<Value.PostalCodeAndCity showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
       nb.PostalCodeAndCity.label
     )
   })
 
-  it('renders value and label', () => {
+  it('should render value and label', () => {
     render(<Value.PostalCodeAndCity value="0010 Oslo" />)
     expect(
       document.querySelector(
@@ -52,19 +52,19 @@ describe('Value.PostalCodeAndCity', () => {
     )
   })
 
-  it('renders custom label', () => {
+  it('should render custom label', () => {
     render(<Value.PostalCodeAndCity label="Custom label" showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
       'Custom label'
     )
   })
 
-  it('renders placeholder', () => {
+  it('should render placeholder', () => {
     render(<Value.PostalCodeAndCity placeholder="Enter some value" />)
     expect(screen.getByText('Enter some value')).toBeInTheDocument()
   })
 
-  it('renders value from path', () => {
+  it('should render value from path', () => {
     render(
       <Form.Handler data={{ myPath: '0010 Oslo' }}>
         <Value.PostalCodeAndCity path="/myPath" />
@@ -78,7 +78,7 @@ describe('Value.PostalCodeAndCity', () => {
     ).toHaveTextContent('0010 Oslo')
   })
 
-  it('renders city value from path', () => {
+  it('should render city value from path', () => {
     render(
       <Form.Handler data={{ myCity: 'Oslo' }}>
         <Value.PostalCodeAndCity city={{ path: '/myCity' }} />
@@ -92,7 +92,7 @@ describe('Value.PostalCodeAndCity', () => {
     ).toHaveTextContent('Oslo')
   })
 
-  it('renders postalCode value from path', () => {
+  it('should render postalCode value from path', () => {
     render(
       <Form.Handler data={{ myPostalCode: '0010' }}>
         <Value.PostalCodeAndCity postalCode={{ path: '/myPostalCode' }} />
@@ -106,7 +106,7 @@ describe('Value.PostalCodeAndCity', () => {
     ).toHaveTextContent('0010')
   })
 
-  it('renders city and postalCode value from path', () => {
+  it('should render city and postalCode value from path', () => {
     render(
       <Form.Handler data={{ myPostalCode: '0010', myCity: 'Oslo' }}>
         <Value.PostalCodeAndCity

@@ -20,7 +20,7 @@ const props: GlobalErrorAllProps = {
 }
 
 describe('GlobalError', () => {
-  it('has default text for 404', () => {
+  it('should have default text for 404', () => {
     render(<GlobalError statusCode="404" />)
 
     expect(
@@ -31,7 +31,7 @@ describe('GlobalError', () => {
     )
   })
 
-  it('has default text for 500', () => {
+  it('should have default text for 500', () => {
     render(<GlobalError statusCode="500" />)
 
     expect(
@@ -42,7 +42,7 @@ describe('GlobalError', () => {
     )
   })
 
-  it('has default text for 404 in en-GB', () => {
+  it('should have default text for 404 in en-GB', () => {
     render(<GlobalError statusCode="404" locale="en-GB" />)
 
     expect(
@@ -53,7 +53,7 @@ describe('GlobalError', () => {
     )
   })
 
-  it('has default text for 500 in en-GB', () => {
+  it('should have default text for 500 in en-GB', () => {
     render(
       <Provider locale="en-GB">
         <GlobalError statusCode="500" />
@@ -78,7 +78,7 @@ describe('GlobalError', () => {
 
   // Deprecated – status is replaced with statusCode - can be removed in v11
   describe('has to support deprecated status property', () => {
-    it('has default text for 404', () => {
+    it('should have default text for 404', () => {
       render(<GlobalError status="404" />)
 
       expect(
@@ -89,7 +89,7 @@ describe('GlobalError', () => {
       )
     })
 
-    it('has default text for 500', () => {
+    it('should have default text for 500', () => {
       render(<GlobalError status="500" />)
 
       expect(
@@ -100,7 +100,7 @@ describe('GlobalError', () => {
       )
     })
 
-    it('has default text for 404 in en-GB', () => {
+    it('should have default text for 404 in en-GB', () => {
       render(<GlobalError status="404" locale="en-GB" />)
 
       expect(
@@ -111,7 +111,7 @@ describe('GlobalError', () => {
       )
     })
 
-    it('has default text for 500 in en-GB', () => {
+    it('should have default text for 500 in en-GB', () => {
       render(
         <Provider locale="en-GB">
           <GlobalError status="500" />

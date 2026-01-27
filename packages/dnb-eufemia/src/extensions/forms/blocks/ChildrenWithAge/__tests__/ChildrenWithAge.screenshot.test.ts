@@ -14,14 +14,14 @@ describe.each(['ui', 'sbanken'])('ChildrenWithAge for %s', (themeName) => {
     url: '/uilib/extensions/forms/blocks/ChildrenWithAge/demos',
   })
 
-  it('have to match when answering yes to all options', async () => {
+  it('should match when answering yes to all options', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="children-with-age-prefilled"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match field and value when multiple children', async () => {
+  it('should match field and value when multiple children', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="children-with-age-summary-multiple-children"]',
@@ -29,7 +29,7 @@ describe.each(['ui', 'sbanken'])('ChildrenWithAge for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match field and value when no children', async () => {
+  it('should match field and value when no children', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="children-with-age-summary-no-children"]',
@@ -37,7 +37,7 @@ describe.each(['ui', 'sbanken'])('ChildrenWithAge for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match field and value when previously filled out data', async () => {
+  it('should match field and value when previously filled out data', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="children-with-age-summary-previously-filled-out-data"]',
@@ -45,7 +45,7 @@ describe.each(['ui', 'sbanken'])('ChildrenWithAge for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match field and value when multiple no answers', async () => {
+  it('should match field and value when multiple no answers', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="children-with-age-summary-multiple-no-answers"]',
@@ -62,7 +62,7 @@ describe('ChildrenWithAge', () => {
     },
   })
 
-  it('have to match small screens', async () => {
+  it('should match small screens', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="children-with-age-prefilled"]',
     })

@@ -11,35 +11,35 @@ describe.each(['ui', 'sbanken'])('ValueBlock for %s', (themeName) => {
     themeName,
   })
 
-  it('have to match inline value', async () => {
+  it('should match inline value', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="value-block-inline"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match help button', async () => {
+  it('should match help button', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="value-block-help-button"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match help button with html', async () => {
+  it('should match help button with html', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="value-block-help-button-html"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match widths', async () => {
+  it('should match widths', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="forms-value-block-widths"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match wrapping', async () => {
+  it('should match wrapping', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="forms-value-block-wrapping"]',
     })

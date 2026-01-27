@@ -17,14 +17,14 @@ import 'mock-match-media/jest-setup'
 import { setMedia } from 'mock-match-media'
 
 describe('Breadcrumb', () => {
-  it('renders without properties', () => {
+  it('should render without properties', () => {
     const props: BreadcrumbProps = {}
     render(<Breadcrumb {...props} />)
 
     expect(screen.queryByRole('button')).toBeInTheDocument()
   })
 
-  it('renders a breadcrumb with multiple items by data prop', () => {
+  it('should render a breadcrumb with multiple items by data prop', () => {
     render(
       <Breadcrumb
         data={[
@@ -42,7 +42,7 @@ describe('Breadcrumb', () => {
     expect(screen.queryAllByRole('link')).toHaveLength(2)
   })
 
-  it('renders a breadcrumb with a single item by data prop', () => {
+  it('should render a breadcrumb with a single item by data prop', () => {
     render(
       <Breadcrumb data={[{ href: '/page1/page2', text: 'Page 2' }]} />
     )
@@ -93,7 +93,7 @@ describe('Breadcrumb', () => {
     ).toHaveAttribute('aria-label', 'Label')
   })
 
-  it('renders a breadcrumb with multiple items by children', () => {
+  it('should render a breadcrumb with multiple items by children', () => {
     render(
       <Breadcrumb>
         <Breadcrumb.Item href="/" text="Home" />
@@ -109,7 +109,7 @@ describe('Breadcrumb', () => {
     expect(screen.queryAllByRole('link')).toHaveLength(3)
   })
 
-  it('renders a breadcrumb with a single item by children', () => {
+  it('should render a breadcrumb with a single item by children', () => {
     render(
       <Breadcrumb>
         <Breadcrumb.Item text="Page item #1" href="/page1" />
@@ -152,7 +152,7 @@ describe('Breadcrumb', () => {
     expect(screen.queryAllByRole('link')).toHaveLength(4)
   })
 
-  it('renders a breadcrumb with one item', () => {
+  it('should render a breadcrumb with one item', () => {
     render(
       <Provider locale="en-GB">
         <Breadcrumb href="/url" />
@@ -192,7 +192,7 @@ describe('Breadcrumb', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('will handle last item as current', () => {
+  it('should handle last item as current', () => {
     render(
       <Breadcrumb
         data={[
@@ -366,27 +366,27 @@ describe('Breadcrumb', () => {
   })
 
   describe('BreadcrumbItem', () => {
-    it('renders without properties', () => {
+    it('should render without properties', () => {
       const props: BreadcrumbItemProps = {}
       render(<BreadcrumbItem {...props} />)
 
       expect(screen.queryByRole('listitem')).toBeInTheDocument()
     })
 
-    it('renders breadcrumbitem as a link', () => {
+    it('should render breadcrumbitem as a link', () => {
       render(<BreadcrumbItem href="/url" text="Page" />)
 
       expect(screen.queryByRole('link')).toBeDefined()
       expect(screen.queryByRole('link').getAttribute('href')).toBe('/url')
     })
 
-    it('renders breadcrumbitem as a button', () => {
+    it('should render breadcrumbitem as a button', () => {
       render(<BreadcrumbItem onClick={jest.fn()} text="Page" />)
 
       expect(screen.queryByRole('button')).toBeDefined()
     })
 
-    it('will use given element', () => {
+    it('should use given element', () => {
       const CustomElement = React.forwardRef(
         (props: AnchorAllProps, ref) => {
           return (
@@ -408,7 +408,7 @@ describe('Breadcrumb', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders breadcrumbitem as a link if the to prop is given and element is a router link', () => {
+    it('should render breadcrumbitem as a link if the to prop is given and element is a router link', () => {
       const MockLink = React.forwardRef(
         (props: { to: string; children: React.ReactNode }, ref) => (
           <a
@@ -433,7 +433,7 @@ describe('Breadcrumb', () => {
       expect(onClick).toHaveBeenCalledTimes(1)
     })
 
-    it('renders breadcrumbitem as text, not button or link', () => {
+    it('should render breadcrumbitem as text, not button or link', () => {
       const text = 'Just text'
       render(<BreadcrumbItem text={text} />)
 
@@ -442,7 +442,7 @@ describe('Breadcrumb', () => {
       expect(screen.queryByText(text)).toBeInTheDocument()
     })
 
-    it('will render custom icon', () => {
+    it('should render custom icon', () => {
       const CustomIcon = <IconPrimary icon="bell" />
       render(<BreadcrumbItem text="Just text" icon={CustomIcon} />)
 
@@ -450,7 +450,7 @@ describe('Breadcrumb', () => {
       expect(element).toBeInTheDocument()
     })
 
-    it('renders a skeleton if skeleton is true', () => {
+    it('should render a skeleton if skeleton is true', () => {
       render(
         <BreadcrumbItem skeleton onClick={jest.fn()} text="skeleton" />
       )

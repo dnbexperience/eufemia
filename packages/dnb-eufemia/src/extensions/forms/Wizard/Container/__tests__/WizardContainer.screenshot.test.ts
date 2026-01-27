@@ -2,7 +2,7 @@ import { makeScreenshot } from '../../../../../core/jest/jestSetupScreenshots'
 
 describe('Wizard.Container', () => {
   const url = '/uilib/extensions/forms/Wizard/Container/demos'
-  it('have to match border', async () => {
+  it('should match border', async () => {
     const screenshot = await makeScreenshot({
       url,
       pageViewport: {
@@ -18,7 +18,7 @@ describe('Wizard.Container', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match large screen', async () => {
+  it('should match large screen', async () => {
     const screenshot = await makeScreenshot({
       url,
       pageViewport: {
@@ -33,7 +33,7 @@ describe('Wizard.Container', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match small screen', async () => {
+  it('should match small screen', async () => {
     const screenshot = await makeScreenshot({
       url,
       pageViewport: {
@@ -44,7 +44,7 @@ describe('Wizard.Container', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match container with status message in menu', async () => {
+  it('should match container with status message in menu', async () => {
     const screenshot = await makeScreenshot({
       url,
       pageViewport: {
@@ -59,7 +59,7 @@ describe('Wizard.Container', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match container with status message', async () => {
+  it('should match container with status message', async () => {
     const screenshot = await makeScreenshot({
       url,
       pageViewport: {
@@ -74,7 +74,7 @@ describe('Wizard.Container', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match container with status message on a small screen', async () => {
+  it('should match container with status message on a small screen', async () => {
     const screenshot = await makeScreenshot({
       url,
       pageViewport: {
@@ -89,7 +89,7 @@ describe('Wizard.Container', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to behave like nested card with Provider on a large screen', async () => {
+  it('should behave like nested card with Provider on a large screen', async () => {
     const screenshot = await makeScreenshot({
       url,
       pageViewport: {
@@ -100,7 +100,7 @@ describe('Wizard.Container', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to behave like nested card with Provider on a small screen', async () => {
+  it('should behave like nested card with Provider on a small screen', async () => {
     const screenshot = await makeScreenshot({
       url,
       pageViewport: {

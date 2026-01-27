@@ -23,7 +23,7 @@ describe.each(['ui', 'sbanken'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match the static primary circular with 50 percentage', async () => {
+    it('should match the static primary circular with 50 percentage', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="progress-indicator-circular--primary"] .dnb-progress-indicator',
@@ -31,7 +31,7 @@ describe.each(['ui', 'sbanken'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match the static primary linear with 50 percentage', async () => {
+    it('should match the static primary linear with 50 percentage', async () => {
       const screenshot = await makeScreenshot({
         style: {
           width: '20rem',
@@ -52,7 +52,7 @@ describe.each(['ui', 'sbanken'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match customized horizontal', async () => {
+    it('should match customized horizontal', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="progress-indicator-custom-horizontal"]',
@@ -60,7 +60,7 @@ describe.each(['ui', 'sbanken'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match customized  countdown', async () => {
+    it('should match customized  countdown', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="progress-indicator-custom-countdown"]',
@@ -78,7 +78,7 @@ describe.each(['ui', 'sbanken'])(
       url: '/uilib/components/progress-indicator/visual-tests',
     })
 
-    it('have to match static primary circular sizes', async () => {
+    it('should match static primary circular sizes', async () => {
       const screenshot = await makeScreenshot({
         style: {
           height: '3.5rem',

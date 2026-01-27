@@ -17,7 +17,7 @@ describe.each(['ui', 'sbanken'])('Textarea for %s', (themeName) => {
     url: '/uilib/components/textarea/demos',
   })
 
-  it('have to match the "default" textarea style', async () => {
+  it('should match the "default" textarea style', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="textarea-default"]',
@@ -27,7 +27,7 @@ describe.each(['ui', 'sbanken'])('Textarea for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match character counter', async () => {
+  it('should match character counter', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="textarea-character-counter"]',
@@ -37,7 +37,7 @@ describe.each(['ui', 'sbanken'])('Textarea for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the default error textarea style', async () => {
+  it('should match the default error textarea style', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="textarea-error"]',
@@ -47,7 +47,7 @@ describe.each(['ui', 'sbanken'])('Textarea for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the error textarea "hover"', async () => {
+  it('should match the error textarea "hover"', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="textarea-error"]',
@@ -59,7 +59,7 @@ describe.each(['ui', 'sbanken'])('Textarea for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the error textarea mouse focus', async () => {
+  it('should match the error textarea mouse focus', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="textarea-error"]',
@@ -72,7 +72,7 @@ describe.each(['ui', 'sbanken'])('Textarea for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the error textarea "focus"', async () => {
+  it('should match the error textarea "focus"', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="textarea-error"]',
@@ -85,7 +85,7 @@ describe.each(['ui', 'sbanken'])('Textarea for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match stretched textarea style', async () => {
+  it('should match stretched textarea style', async () => {
     const screenshot = await makeScreenshot({
       style: {
         width: '30rem', // make sure our textarea gets an explicit width, because of mac/linux rendering differences
@@ -97,7 +97,7 @@ describe.each(['ui', 'sbanken'])('Textarea for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the "hover" textarea style', async () => {
+  it('should match the "hover" textarea style', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="textarea-default"]',
@@ -109,7 +109,7 @@ describe.each(['ui', 'sbanken'])('Textarea for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the mouse focus textarea style', async () => {
+  it('should match the mouse focus textarea style', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="textarea-default"]',
@@ -122,7 +122,7 @@ describe.each(['ui', 'sbanken'])('Textarea for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the "focus" textarea style', async () => {
+  it('should match the "focus" textarea style', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="textarea-default"]',
@@ -135,7 +135,7 @@ describe.each(['ui', 'sbanken'])('Textarea for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match different sizes', async () => {
+  it('should match different sizes', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="textarea-sizes"]',

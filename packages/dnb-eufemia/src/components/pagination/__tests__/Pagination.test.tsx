@@ -24,7 +24,7 @@ describe('Pagination bar', () => {
     current_page: 15,
   }
 
-  it('has correct state at startup', () => {
+  it('should have correct state at startup', () => {
     render(<Pagination {...props} />)
     const innerElem = document.querySelector('.dnb-pagination__bar__inner')
 
@@ -145,7 +145,7 @@ describe('Pagination bar', () => {
     ).toBe('2')
   })
 
-  it('sets content with setContent', () => {
+  it('should set content with setContent', () => {
     render(
       <Pagination page_count={3} startup_page={2}>
         {({ pageNumber, setContent }) => {
@@ -244,7 +244,7 @@ describe('Pagination bar', () => {
     ).toBe('{"pageNumber":3,"count":3}')
   })
 
-  it('has valid on_change callback', () => {
+  it('should have valid on_change callback', () => {
     const on_change = jest.fn()
 
     render(<Pagination {...props} on_change={on_change} />)
@@ -608,7 +608,7 @@ describe('Infinity scroller', () => {
     expect(on_load).toHaveBeenCalledTimes(3)
   })
 
-  it('will pass children', () => {
+  it('should pass children', () => {
     render(
       <Pagination mode="infinity" {...props}>
         <div id="page-content">content</div>
@@ -868,12 +868,12 @@ describe('Pagination ARIA', () => {
 })
 
 describe('Pagination scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
 
-  it('have to match default theme snapshot', () => {
+  it('should match default theme snapshot', () => {
     const css = loadScss(
       require.resolve('../style/themes/dnb-pagination-theme-ui.scss')
     )

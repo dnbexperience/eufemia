@@ -22,7 +22,7 @@ describe('Card', () => {
     expect(element.getAttribute('aria-label')).toBe('Aria Label')
   })
 
-  it('supports inline styling', () => {
+  it('should support inline styling', () => {
     render(
       <Card style={{ color: 'red' }}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
@@ -315,7 +315,7 @@ describe('Card', () => {
     expect(children[2]).toHaveClass('dnb-space__bottom--zero')
   })
 
-  it('gets valid ref element', () => {
+  it('should get valid ref element', () => {
     let ref: React.RefObject<HTMLInputElement>
 
     function MockComponent() {

@@ -57,14 +57,14 @@ const getAnnouncementElement = () =>
   document.querySelector('p.dnb-sr-only[aria-live="assertive"]')
 
 describe('DatePicker component', () => {
-  it('renders with props as an object', () => {
+  it('should render with props as an object', () => {
     const props: DatePickerAllProps = {}
 
     render(<DatePicker {...props} />)
     expect(document.querySelector('input')).toBeInTheDocument()
   })
 
-  it('has a disabled attribute, once we set disabled to true', () => {
+  it('should have a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(<DatePicker showInput />)
     rerender(<DatePicker showInput disabled={true} />)
     expect(document.querySelectorAll('input')[0]).toHaveAttribute(
@@ -75,7 +75,7 @@ describe('DatePicker component', () => {
     ).toHaveAttribute('disabled')
   })
 
-  it('has correct state after "click" trigger', () => {
+  it('should have correct state after "click" trigger', () => {
     render(<DatePicker {...defaultProps} />)
 
     fireEvent.click(
@@ -98,7 +98,7 @@ describe('DatePicker component', () => {
     )
   })
 
-  it('will close the picker on click outside', async () => {
+  it('should close the picker on click outside', async () => {
     render(<DatePicker {...defaultProps} />)
 
     await userEvent.click(
@@ -148,7 +148,7 @@ describe('DatePicker component', () => {
     )
   })
 
-  it('keeps open when Escape is pressed if preventClose is true', async () => {
+  it('should keep open when Escape is pressed if preventClose is true', async () => {
     render(<DatePicker {...defaultProps} preventClose />)
 
     await userEvent.click(getDatePickerTriggerButton())
@@ -227,7 +227,7 @@ describe('DatePicker component', () => {
     )
   })
 
-  it('will close the picker on click outside when `onShow` callback sets a state', async () => {
+  it('should close the picker on click outside when `onShow` callback sets a state', async () => {
     const onShow = jest.fn()
 
     const Component = () => {
@@ -276,7 +276,7 @@ describe('DatePicker component', () => {
     )
   })
 
-  it('will close the picker after selection', () => {
+  it('should close the picker after selection', () => {
     const onChange = jest.fn()
     const { rerender } = render(
       <DatePicker {...defaultProps} onChange={onChange} />
@@ -350,7 +350,7 @@ describe('DatePicker component', () => {
     )
   })
 
-  it('will close the picker on reset', async () => {
+  it('should close the picker on reset', async () => {
     const onReset = jest.fn()
 
     render(
@@ -799,7 +799,7 @@ describe('DatePicker component', () => {
     expect(endYear.value).toBe('åååå')
   })
 
-  it('will render the result of "onDaysRender"', () => {
+  it('should render the result of "onDaysRender"', () => {
     const customClassName = 'dnb-date-picker__day--weekend'
     const onDaysRender = jest.fn((days) => {
       return days.map((dateObject) => {
@@ -843,7 +843,7 @@ describe('DatePicker component', () => {
     expect(singleTd.classList).toContain(customClassName)
   })
 
-  it('will render the result of "onDaysRender" using getOsloDate', () => {
+  it('should render the result of "onDaysRender" using getOsloDate', () => {
     const osloDate = getOsloDate()
 
     const onDaysRender = jest.fn((days) => {
@@ -1051,7 +1051,7 @@ describe('DatePicker component', () => {
     )
   })
 
-  it('has two calendar views', () => {
+  it('should have two calendar views', () => {
     render(<DatePicker {...defaultProps} />)
 
     fireEvent.click(
@@ -1065,7 +1065,7 @@ describe('DatePicker component', () => {
     ).toBe(2)
   })
 
-  it('has correctly synced calendar views based on user navigation and date selection', async () => {
+  it('should have correctly synced calendar views based on user navigation and date selection', async () => {
     render(
       <DatePicker range startDate="2024-10-01" endDate="2024-10-24" />
     )
@@ -1356,7 +1356,7 @@ describe('DatePicker component', () => {
     expect(rightPickerTitle).toHaveTextContent('september 2024')
   })
 
-  it('has a reacting start date input with valid value', () => {
+  it('should have a reacting start date input with valid value', () => {
     const { rerender } = render(<DatePicker {...defaultProps} />)
     const elem = document.querySelectorAll(
       'input.dnb-date-picker__input--day'
@@ -1416,7 +1416,7 @@ describe('DatePicker component', () => {
     )
   })
 
-  it('will set highlight class on fields with a number value', async () => {
+  it('should set highlight class on fields with a number value', async () => {
     render(<DatePicker showInput />)
 
     const [day, month, year] = Array.from(
@@ -1714,7 +1714,7 @@ describe('DatePicker component', () => {
     expect(datePickerFooter).not.toBeInTheDocument()
   })
 
-  it('has a working month correction', () => {
+  it('should have a working month correction', () => {
     render(<DatePicker showInput />)
 
     const [dayElem, monthElem, yearElem] = Array.from(
@@ -1742,7 +1742,7 @@ describe('DatePicker component', () => {
     expect(yearElem).toHaveValue(year)
   })
 
-  it('has a working min and max date limitation', () => {
+  it('should have a working min and max date limitation', () => {
     const onType = jest.fn()
     const onChange = jest.fn()
 
@@ -1846,7 +1846,7 @@ describe('DatePicker component', () => {
     expect(onChange.mock.calls[4][0].is_valid).toBe(true)
   })
 
-  it('has valid on_type and onChange event calls', () => {
+  it('should have valid on_type and onChange event calls', () => {
     const onType = jest.fn()
     const onChange = jest.fn()
 
@@ -1955,7 +1955,7 @@ describe('DatePicker component', () => {
     })
   })
 
-  it('has correct css classes on range selection', () => {
+  it('should have correct css classes on range selection', () => {
     render(
       <DatePicker id="date-picker-id" noAnimation range opened showInput />
     )
@@ -2230,7 +2230,7 @@ describe('DatePicker component', () => {
     expect(onChange).toHaveBeenCalledTimes(1)
   })
 
-  it('has a reacting end date input with valid value', () => {
+  it('should have a reacting end date input with valid value', () => {
     const { rerender } = render(
       <DatePicker
         showInput
@@ -2579,19 +2579,19 @@ describe('DatePicker component', () => {
   })
 
   describe('size', () => {
-    it('has correct small size', () => {
+    it('should have correct small size', () => {
       render(<DatePicker {...defaultProps} size="small" />)
       expect(
         document.querySelector('.dnb-date-picker--small')
       ).toBeInTheDocument()
     })
-    it('has correct medium size', () => {
+    it('should have correct medium size', () => {
       render(<DatePicker {...defaultProps} size="medium" />)
       expect(
         document.querySelector('.dnb-date-picker--medium')
       ).toBeInTheDocument()
     })
-    it('has correct large size', () => {
+    it('should have correct large size', () => {
       render(<DatePicker {...defaultProps} size="large" />)
       expect(
         document.querySelector('.dnb-date-picker--large')
@@ -2658,7 +2658,7 @@ describe('DatePicker component', () => {
     expect(thirdDateButton.children[2]).toHaveTextContent('24')
   })
 
-  it('renders correct placeholder when setting locale', () => {
+  it('should render correct placeholder when setting locale', () => {
     const props: DatePickerAllProps = {}
 
     render(
@@ -2685,7 +2685,7 @@ describe('DatePicker component', () => {
     expect(separator2.textContent).toBe('/')
   })
 
-  it('renders should support `sv-SE` locale', () => {
+  it('should render should support `sv-SE` locale', () => {
     render(
       <Provider locale="sv-SE" translations={svSE}>
         <DatePicker
@@ -2726,7 +2726,7 @@ describe('DatePicker component', () => {
     ).toBe('Okej')
   })
 
-  it('renders should support `da-DK` locale', () => {
+  it('should render should support `da-DK` locale', () => {
     render(
       <Provider locale="da-DK" translations={daDK}>
         <DatePicker
@@ -4078,7 +4078,7 @@ describe('DatePicker calc', () => {
       month,
     })
 
-    it('has given properties', () => {
+    it('should have given properties', () => {
       expect(result).toStrictEqual({
         date,
         isToday: false,
@@ -4715,7 +4715,7 @@ describe('DatePicker ARIA', () => {
   })
 
   describe('inline', () => {
-    it('renders calendar inline without button or input when inline is true', () => {
+    it('should render calendar inline without button or input when inline is true', () => {
       render(<DatePicker inline />)
 
       // Should not render input or button
@@ -4748,7 +4748,7 @@ describe('DatePicker ARIA', () => {
       expect(calendar).toHaveClass('dnb-date-picker__container--opened')
     })
 
-    it('does not render Popover when inline is true', () => {
+    it('should not render Popover when inline is true', () => {
       render(<DatePicker inline />)
 
       // Popover should not be rendered
@@ -4779,7 +4779,7 @@ describe('DatePicker ARIA', () => {
       expect(calendars.length).toBeGreaterThan(0)
     })
 
-    it('does not show buttons by default in range mode when inline is true', () => {
+    it('should not show buttons by default in range mode when inline is true', () => {
       render(<DatePicker inline range />)
 
       // Buttons should not be shown by default
@@ -4794,7 +4794,7 @@ describe('DatePicker ARIA', () => {
       ).not.toBeInTheDocument()
     })
 
-    it('shows buttons when explicitly requested in inline range mode', () => {
+    it('should show buttons when explicitly requested in inline range mode', () => {
       render(
         <DatePicker
           inline

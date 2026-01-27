@@ -530,7 +530,7 @@ describe('Field.SelectCurrency', () => {
     }
   })
 
-  it('renders error', () => {
+  it('should render error', () => {
     const errorMessage = new Error('Error message')
     render(<Field.SelectCurrency error={errorMessage} />)
 
@@ -541,7 +541,7 @@ describe('Field.SelectCurrency', () => {
     expect(input).toHaveClass('dnb-input__status--error')
   })
 
-  it('shows error style in FieldBlock', () => {
+  it('should show error style in FieldBlock', () => {
     const errorMessage = new Error('Error message')
     render(
       <FieldBlock>

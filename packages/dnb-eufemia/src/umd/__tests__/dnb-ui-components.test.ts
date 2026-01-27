@@ -7,15 +7,15 @@ import '../../core/jest/jestSetup'
 import * as dnbComponents from '../dnb-ui-components'
 
 describe('UMD Components package', () => {
-  it('has to have a named export of dnbComponents', () => {
+  it('should have a named export of dnbComponents', () => {
     expect(dnbComponents).toBeType('object')
   })
 
-  it('has to have a Button Component', () => {
+  it('should have a Button Component', () => {
     expect(dnbComponents.Button).toBeType('function')
   })
 
-  it('has to have a Anchor Component', () => {
+  it('should have a Anchor Component', () => {
     expect(dnbComponents.Anchor).toBeType('object')
   })
 })

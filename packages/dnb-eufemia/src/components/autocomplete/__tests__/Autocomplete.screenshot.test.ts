@@ -19,7 +19,7 @@ describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
 
   // Run this test as one of the first because it's scroll-sensitive
   // Browser scroll position affects the list height
-  it('have to match autocomplete with search result', async () => {
+  it('should match autocomplete with search result', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="autocomplete-drawer-search"]',
       simulateSelector:
@@ -41,21 +41,21 @@ describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
     url: '/uilib/components/autocomplete/demos',
   })
 
-  it('have to match different sizes', async () => {
+  it('should match different sizes', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="autocomplete-sizes"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match custom input width', async () => {
+  it('should match custom input width', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="autocomplete-input-width"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match autocomplete with drawer-button', async () => {
+  it('should match autocomplete with drawer-button', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="autocomplete-drawer-button"] .dnb-autocomplete__inner',
@@ -63,7 +63,7 @@ describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the closed autocomplete', async () => {
+  it('should match the closed autocomplete', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="autocomplete-closed"] .dnb-autocomplete__inner',
@@ -71,7 +71,7 @@ describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match autocomplete with suffix value', async () => {
+  it('should match autocomplete with suffix value', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="autocomplete-suffix"]',
       simulateSelector:
@@ -86,7 +86,7 @@ describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match autocomplete with groups', async () => {
+  it('should match autocomplete with groups', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="autocomplete-groups"]',
       simulateSelector:
@@ -102,7 +102,7 @@ describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the status with status_state info', async () => {
+  it('should match the status with status_state info', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="autocomplete-status-info"] .dnb-autocomplete__inner',
@@ -110,7 +110,7 @@ describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the status with status_state error', async () => {
+  it('should match the status with status_state error', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="autocomplete-status-error"] .dnb-autocomplete__inner',
@@ -128,7 +128,7 @@ describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
     },
   })
 
-  it('have to match small screen autocomplete with suffix value', async () => {
+  it('should match small screen autocomplete with suffix value', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="autocomplete-suffix"]',
       style: {
@@ -145,14 +145,14 @@ describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
     url: '/uilib/components/autocomplete/visual-tests',
   })
 
-  it('have to match disabled state', async () => {
+  it('should match disabled state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="autocomplete-disabled"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match disabled options', async () => {
+  it('should match disabled options', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="autocomplete-disabled-options"]',
       simulateSelector:
@@ -167,7 +167,7 @@ describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match autocomplete opened list', async () => {
+  it('should match autocomplete opened list', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="autocomplete-opened"]',
       simulateSelector:

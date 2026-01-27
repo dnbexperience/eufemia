@@ -21,14 +21,14 @@ beforeAll(() => {
 })
 
 describe('Button component', () => {
-  it('renders with props as an object', () => {
+  it('should render with props as an object', () => {
     const props: ButtonProps = {}
 
     render(<Button {...props} />)
     expect(document.querySelector('button')).toBeInTheDocument()
   })
 
-  it('has a button tag', () => {
+  it('should have a button tag', () => {
     const title = 'title'
     render(<Button {...props} title={title} href={null} />)
     const button = document.querySelector('button')
@@ -77,7 +77,7 @@ describe('Button component', () => {
       expect(icon.classList).toContain('dnb-icon--default')
     })
 
-    it('has size set to medium when button size is default', () => {
+    it('should have size set to medium when button size is default', () => {
       render(<Button icon="question" size="default" />)
       const button = document.querySelector('button')
       const icon = document.querySelector('.dnb-icon')
@@ -85,7 +85,7 @@ describe('Button component', () => {
       expect(icon.classList).toContain('dnb-icon--medium')
     })
 
-    it('has medium icon if button size is large', () => {
+    it('should have medium icon if button size is large', () => {
       render(<Button text="Button" size="large" icon="question" />)
       const button = document.querySelector('button')
       const icon = document.querySelector('.dnb-icon')
@@ -95,14 +95,14 @@ describe('Button component', () => {
     })
   })
 
-  it('has to have a bounding tag if property is set', () => {
+  it('should have a bounding tag if property is set', () => {
     render(<Button bounding={true} />)
     expect(
       document.querySelector('.dnb-button__bounding')
     ).toBeInTheDocument()
   })
 
-  it('has a disabled attribute, once we set disabled to true', () => {
+  it('should have a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(<Button />)
     expect(document.querySelector('button')).not.toHaveAttribute(
       'disabled'
@@ -163,7 +163,7 @@ describe('Button component', () => {
     ])
   })
 
-  it('has "on_click" event which will trigger on a click', () => {
+  it('should have "on_click" event which will trigger on a click', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
     render(<Button on_click={my_event} onClick={myEvent} />)
@@ -173,7 +173,7 @@ describe('Button component', () => {
     expect(myEvent.mock.calls.length).toBe(1)
   })
 
-  it('has set innerRef if ref was given', () => {
+  it('should have set innerRef if ref was given', () => {
     const ref = React.createRef()
     expect(ref.current).toBe(null)
     render(<Button {...props} innerRef={ref} />)
@@ -181,7 +181,7 @@ describe('Button component', () => {
     expect(typeof ref.current).toBe('object')
   })
 
-  it('gets valid element when innerRef is function', () => {
+  it('should get valid element when innerRef is function', () => {
     const ref: React.MutableRefObject<HTMLButtonElement> =
       React.createRef()
 
@@ -194,13 +194,13 @@ describe('Button component', () => {
     expect(ref.current.tagName).toBe('BUTTON')
   })
 
-  it('has type of button', () => {
+  it('should have type of button', () => {
     render(<Button />)
     const button = document.querySelector('button')
     expect(button.getAttribute('type')).toBe('button')
   })
 
-  it('has alignment helper with aria-hidden', () => {
+  it('should have alignment helper with aria-hidden', () => {
     const text = 'Button'
     const { rerender } = render(<Button text={text} />)
 
@@ -231,13 +231,13 @@ describe('Button component', () => {
   })
 
   describe('href', () => {
-    it('has a anchor tag', () => {
+    it('should have a anchor tag', () => {
       render(<Button {...props} href="https://url" icon={null} />)
       expect(document.querySelector('a')).toBeInTheDocument()
       expect(document.querySelector('svg')).not.toBeInTheDocument()
     })
 
-    it('has a anchor tag and includes a launch icon', () => {
+    it('should have a anchor tag and includes a launch icon', () => {
       render(
         <Button
           {...props}
@@ -249,7 +249,7 @@ describe('Button component', () => {
       expect(document.querySelector('svg')).toBeInTheDocument()
     })
 
-    it('supports anchor rel property', () => {
+    it('should support anchor rel property', () => {
       render(<Button {...props} href="https://url" icon={null} rel="me" />)
       expect(document.querySelector('a').getAttribute('rel')).toBe('me')
     })
@@ -267,7 +267,7 @@ describe('Button component', () => {
         expect(await axeComponent(Comp)).toHaveNoViolations()
       })
 
-      it('does not navigate when href is set and button is disabled', async () => {
+      it('should not navigate when href is set and button is disabled', async () => {
         render(
           <Button href="https://url" disabled>
             Go to example
@@ -284,7 +284,7 @@ describe('Button component', () => {
         expect(anchor).toHaveAttribute('tabindex', '-1')
       })
 
-      it('renders disabled attribute when href is set', async () => {
+      it('should render disabled attribute when href is set', async () => {
         render(
           <Button href="https://url" disabled>
             Go to example
@@ -309,37 +309,37 @@ describe('Button component', () => {
     })
   })
 
-  it('has variant set to primary as default', () => {
+  it('should have variant set to primary as default', () => {
     render(<Button />)
     const button = document.querySelector('button')
     expect(button.classList).toContain('dnb-button--primary')
   })
 
-  it('has variant set to primary when only setting text', () => {
+  it('should have variant set to primary when only setting text', () => {
     render(<Button text="Button" />)
     const button = document.querySelector('button')
     expect(button.classList).toContain('dnb-button--primary')
   })
 
-  it('has variant set to secondary when only setting icon', () => {
+  it('should have variant set to secondary when only setting icon', () => {
     render(<Button icon="question" />)
     const button = document.querySelector('button')
     expect(button.classList).toContain('dnb-button--secondary')
   })
 
-  it('has variant tertiary', () => {
+  it('should have variant tertiary', () => {
     render(<Button text="Button" variant="tertiary" icon="question" />)
     const button = document.querySelector('button')
     expect(button.classList).toContain('dnb-button--tertiary')
   })
 
-  it('has variant unstyled', () => {
+  it('should have variant unstyled', () => {
     render(<Button text="Button" variant="unstyled" />)
     const button = document.querySelector('button')
     expect(button.classList).toContain('dnb-button--unstyled')
   })
 
-  it('will replace icon with icon component', () => {
+  it('should replace icon with icon component', () => {
     const { rerender } = render(
       <Button icon={<span className="dnb-icon custom-icon">icon</span>} />
     )
@@ -359,7 +359,7 @@ describe('Button component', () => {
     ).toBeInTheDocument()
   })
 
-  it('will only have attached event listener if one is given', () => {
+  it('should only have attached event listener if one is given', () => {
     const on_click = jest.fn()
     const { rerender } = render(
       <Button text="Button" on_click={on_click} />
@@ -386,14 +386,14 @@ describe('Button component', () => {
     expect(button.onClickHandler).toHaveBeenCalledTimes(2)
   })
 
-  it('will warn when tertiary is used without an icon', () => {
+  it('should warn when tertiary is used without an icon', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()
     render(<Button text="Button" variant="tertiary" />)
     expect(global.console.log).toHaveBeenCalled()
   })
 
-  it('has no size when only setting text', () => {
+  it('should have no size when only setting text', () => {
     render(<Button text="Button" />)
     expect(
       document.querySelector('.dnb-button--size-medium')
@@ -403,7 +403,7 @@ describe('Button component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('supports inline styling', () => {
+  it('should support inline styling', () => {
     render(<Button text="text" style={{ color: 'red' }} />)
 
     expect(document.querySelector('button').getAttribute('style')).toBe(
@@ -431,7 +431,7 @@ describe('Button component', () => {
 })
 
 describe('Button scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })

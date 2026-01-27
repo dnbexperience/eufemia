@@ -6,7 +6,7 @@ import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
 describe('Value.Email', () => {
-  it('renders value', () => {
+  it('should render value', () => {
     render(<Value.Email value="user@example.com" />)
     expect(
       document.querySelector(
@@ -15,14 +15,14 @@ describe('Value.Email', () => {
     ).toHaveTextContent('user@example.com')
   })
 
-  it('renders label when showEmpty is true', () => {
+  it('should render label when showEmpty is true', () => {
     render(<Value.Email showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
       nb.Email.label
     )
   })
 
-  it('renders value and label', () => {
+  it('should render value and label', () => {
     render(<Value.Email value="user@example.com" />)
     expect(
       document.querySelector(
@@ -34,19 +34,19 @@ describe('Value.Email', () => {
     )
   })
 
-  it('renders custom label', () => {
+  it('should render custom label', () => {
     render(<Value.Email label="Custom label" showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
       'Custom label'
     )
   })
 
-  it('renders placeholder', () => {
+  it('should render placeholder', () => {
     render(<Value.Email placeholder="Enter some value" />)
     expect(screen.getByText('Enter some value')).toBeInTheDocument()
   })
 
-  it('renders value from path', () => {
+  it('should render value from path', () => {
     render(
       <Form.Handler data={{ myPath: 'user@example.com' }}>
         <Value.Email path="/myPath" />

@@ -18,7 +18,7 @@ const props: ElementAllProps = {
 }
 
 describe('Element', () => {
-  it('have to merge className', () => {
+  it('should merge className', () => {
     const { container } = render(
       <Element {...props} className="extra">
         text
@@ -63,7 +63,7 @@ describe('Element', () => {
     expect(element.textContent).toBe('text')
   })
 
-  it('have to support skeleton', () => {
+  it('should support skeleton', () => {
     const { container, rerender } = render(
       <Element as="p" skeleton>
         text
@@ -112,7 +112,7 @@ describe('Element', () => {
     ])
   })
 
-  it('does not have inner_ref null inside default props', () => {
+  it('should not have inner_ref null inside default props', () => {
     expect(defaultProps['inner_ref']).toBe(undefined)
   })
 

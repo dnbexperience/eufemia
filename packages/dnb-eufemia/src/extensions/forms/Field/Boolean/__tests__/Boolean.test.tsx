@@ -37,7 +37,7 @@ describe('Field.Boolean', () => {
       expect(checkboxElement.classList).toContain('dnb-checkbox--large')
     })
 
-    it('renders label', () => {
+    it('should render label', () => {
       render(<Field.Boolean variant="checkbox" label="Boolean label" />)
       expect(screen.getByLabelText('Boolean label')).toBeInTheDocument()
     })
@@ -49,7 +49,7 @@ describe('Field.Boolean', () => {
       expect(screen.queryByText('Nei')).not.toBeInTheDocument()
     })
 
-    it('renders help', () => {
+    it('should render help', () => {
       render(
         <Field.Boolean
           variant="checkbox"
@@ -69,7 +69,7 @@ describe('Field.Boolean', () => {
       ).toContain(document.querySelector('.dnb-help-button').id)
     })
 
-    it('renders error', () => {
+    it('should render error', () => {
       render(
         <Field.Boolean
           variant="checkbox"
@@ -81,7 +81,7 @@ describe('Field.Boolean', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders trueText', async () => {
+    it('should render trueText', async () => {
       render(
         <Field.Boolean
           variant="checkbox"
@@ -94,7 +94,7 @@ describe('Field.Boolean', () => {
       expect(screen.getByText('True text')).toBeInTheDocument()
     })
 
-    it('shows error border', () => {
+    it('should show error border', () => {
       render(
         <Field.Boolean
           variant="checkbox"
@@ -344,7 +344,7 @@ describe('Field.Boolean', () => {
       expect(switchElement.classList).toContain('dnb-switch--large')
     })
 
-    it('renders label', () => {
+    it('should render label', () => {
       render(<Field.Boolean variant="switch" label="Boolean label" />)
       expect(screen.getByLabelText('Boolean label')).toBeInTheDocument()
     })
@@ -356,7 +356,7 @@ describe('Field.Boolean', () => {
       expect(screen.queryByText('Nei')).not.toBeInTheDocument()
     })
 
-    it('renders help', () => {
+    it('should render help', () => {
       render(
         <Field.Boolean
           variant="switch"
@@ -376,7 +376,7 @@ describe('Field.Boolean', () => {
       ).toContain(document.querySelector('.dnb-help-button').id)
     })
 
-    it('renders error', () => {
+    it('should render error', () => {
       render(
         <Field.Boolean
           variant="switch"
@@ -388,7 +388,7 @@ describe('Field.Boolean', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders trueText', async () => {
+    it('should render trueText', async () => {
       render(
         <Field.Boolean
           variant="switch"
@@ -401,7 +401,7 @@ describe('Field.Boolean', () => {
       expect(screen.getByText('True text')).toBeInTheDocument()
     })
 
-    it('shows error border', () => {
+    it('should show error border', () => {
       render(
         <Field.Boolean
           variant="switch"
@@ -650,7 +650,7 @@ describe('Field.Boolean', () => {
       expect(buttonElement.classList).toContain('dnb-button--size-large')
     })
 
-    it('renders label', () => {
+    it('should render label', () => {
       render(<Field.Boolean variant="button" label="Boolean label" />)
       expect(screen.getByText('Boolean label')).toBeInTheDocument()
     })
@@ -662,7 +662,7 @@ describe('Field.Boolean', () => {
       expect(screen.queryByText('Ja')).not.toBeInTheDocument()
     })
 
-    it('renders help', () => {
+    it('should render help', () => {
       render(
         <Field.Boolean
           variant="button"
@@ -680,7 +680,7 @@ describe('Field.Boolean', () => {
       ).toBe(document.querySelector('.dnb-help-button').id)
     })
 
-    it('renders error', () => {
+    it('should render error', () => {
       render(
         <Field.Boolean
           variant="button"
@@ -692,7 +692,7 @@ describe('Field.Boolean', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders trueText', async () => {
+    it('should render trueText', async () => {
       render(
         <Field.Boolean
           variant="button"
@@ -705,7 +705,7 @@ describe('Field.Boolean', () => {
       expect(screen.getByText('True text')).toBeInTheDocument()
     })
 
-    it('shows error border', () => {
+    it('should show error border', () => {
       render(
         <Field.Boolean
           variant="button"
@@ -897,7 +897,7 @@ describe('Field.Boolean', () => {
       )
     })
 
-    it('renders label', () => {
+    it('should render label', () => {
       render(
         <Field.Boolean variant="checkbox-button" label="Boolean label" />
       )
@@ -913,7 +913,7 @@ describe('Field.Boolean', () => {
       expect(screen.getByText('Nei')).toBeInTheDocument()
     })
 
-    it('renders help', () => {
+    it('should render help', () => {
       render(
         <Field.Boolean
           variant="checkbox-button"
@@ -931,7 +931,7 @@ describe('Field.Boolean', () => {
       ).toBe(document.querySelector('.dnb-help-button').id)
     })
 
-    it('renders error', () => {
+    it('should render error', () => {
       render(
         <Field.Boolean
           variant="checkbox-button"
@@ -943,7 +943,7 @@ describe('Field.Boolean', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders trueText', async () => {
+    it('should render trueText', async () => {
       render(
         <Field.Boolean
           variant="checkbox-button"
@@ -956,7 +956,7 @@ describe('Field.Boolean', () => {
       expect(screen.getByText('True text')).toBeInTheDocument()
     })
 
-    it('shows error border', () => {
+    it('should show error border', () => {
       render(
         <Field.Boolean
           variant="checkbox-button"
@@ -1079,7 +1079,7 @@ describe('Field.Boolean', () => {
       )
     })
 
-    it('renders label', () => {
+    it('should render label', () => {
       render(<Field.Boolean variant="buttons" label="Boolean label" />)
       expect(screen.getByText('Boolean label')).toBeInTheDocument()
     })
@@ -1091,7 +1091,7 @@ describe('Field.Boolean', () => {
       expect(screen.getByText('Nei')).toBeInTheDocument()
     })
 
-    it('renders help', () => {
+    it('should render help', () => {
       render(
         <Field.Boolean
           variant="buttons"
@@ -1108,28 +1108,28 @@ describe('Field.Boolean', () => {
       })
     })
 
-    it('has no selected value by default', () => {
+    it('should have no selected value by default', () => {
       render(<Field.Boolean variant="buttons" />)
       const buttons = document.querySelectorAll('button')
       expect(buttons[0].getAttribute('aria-checked')).toBe('false')
       expect(buttons[1].getAttribute('aria-checked')).toBe('false')
     })
 
-    it('has "false" selected', () => {
+    it('should have "false" selected', () => {
       render(<Field.Boolean variant="buttons" value={false} />)
       const buttons = document.querySelectorAll('button')
       expect(buttons[0].getAttribute('aria-checked')).toBe('false')
       expect(buttons[1].getAttribute('aria-checked')).toBe('true')
     })
 
-    it('has "true" selected', () => {
+    it('should have "true" selected', () => {
       render(<Field.Boolean variant="buttons" value={true} />)
       const buttons = document.querySelectorAll('button')
       expect(buttons[0].getAttribute('aria-checked')).toBe('true')
       expect(buttons[1].getAttribute('aria-checked')).toBe('false')
     })
 
-    it('renders error', () => {
+    it('should render error', () => {
       render(
         <Field.Boolean
           variant="buttons"
@@ -1141,7 +1141,7 @@ describe('Field.Boolean', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders trueText', () => {
+    it('should render trueText', () => {
       render(
         <Field.Boolean
           variant="buttons"
@@ -1153,7 +1153,7 @@ describe('Field.Boolean', () => {
       expect(screen.getByText('True text')).toBeInTheDocument()
     })
 
-    it('shows error border', () => {
+    it('should show error border', () => {
       render(
         <Field.Boolean
           variant="buttons"
@@ -1399,7 +1399,7 @@ describe('Field.Boolean', () => {
       expect(radioElementTwo.classList).toContain('dnb-radio--large')
     })
 
-    it('renders label', () => {
+    it('should render label', () => {
       render(<Field.Boolean variant="radio" label="Boolean label" />)
       expect(screen.getByText('Boolean label')).toBeInTheDocument()
     })
@@ -1411,7 +1411,7 @@ describe('Field.Boolean', () => {
       expect(screen.getByText('Nei')).toBeInTheDocument()
     })
 
-    it('renders help', () => {
+    it('should render help', () => {
       render(
         <Field.Boolean
           variant="radio"
@@ -1426,28 +1426,28 @@ describe('Field.Boolean', () => {
       })
     })
 
-    it('has no selected value by default', () => {
+    it('should have no selected value by default', () => {
       render(<Field.Boolean variant="radio" />)
       const radios = document.querySelectorAll('.dnb-radio__input')
       expect(radios[0].getAttribute('aria-checked')).toBe('false')
       expect(radios[1].getAttribute('aria-checked')).toBe('false')
     })
 
-    it('has "false" selected', () => {
+    it('should have "false" selected', () => {
       render(<Field.Boolean variant="radio" value={false} />)
       const radios = document.querySelectorAll('.dnb-radio__input')
       expect(radios[0].getAttribute('aria-checked')).toBe('false')
       expect(radios[1].getAttribute('aria-checked')).toBe('true')
     })
 
-    it('has "true" selected', () => {
+    it('should have "true" selected', () => {
       render(<Field.Boolean variant="radio" value={true} />)
       const radios = document.querySelectorAll('.dnb-radio__input')
       expect(radios[0].getAttribute('aria-checked')).toBe('true')
       expect(radios[1].getAttribute('aria-checked')).toBe('false')
     })
 
-    it('renders error', () => {
+    it('should render error', () => {
       render(
         <Field.Boolean
           variant="radio"
@@ -1459,7 +1459,7 @@ describe('Field.Boolean', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders trueText', () => {
+    it('should render trueText', () => {
       render(
         <Field.Boolean
           variant="radio"
@@ -1471,7 +1471,7 @@ describe('Field.Boolean', () => {
       expect(screen.getByText('True text')).toBeInTheDocument()
     })
 
-    it('shows error border', () => {
+    it('should show error border', () => {
       render(
         <Field.Boolean
           variant="radio"

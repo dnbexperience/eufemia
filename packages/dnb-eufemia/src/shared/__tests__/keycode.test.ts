@@ -13,7 +13,7 @@ describe('keycode', () => {
     expect(keycode('ctl')).toBe(keycode('ctrl'))
   })
 
-  it('does not use alias name when mapping back from a number', () => {
+  it('should not use alias name when mapping back from a number', () => {
     for (const key in aliases) {
       expect(keycode(keycode(key))).not.toBe(key)
     }

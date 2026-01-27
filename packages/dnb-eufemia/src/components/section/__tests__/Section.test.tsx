@@ -91,7 +91,7 @@ describe('Section component', () => {
     ])
   })
 
-  it('will use props from Provider', () => {
+  it('should use props from Provider', () => {
     render(
       <Provider Section={{ style_type: 'divider' }}>
         <Section />
@@ -130,7 +130,7 @@ describe('Section component', () => {
     expect(document.querySelector('div.dnb-section')).toBeInTheDocument()
   })
 
-  it('supports inline styling', () => {
+  it('should support inline styling', () => {
     render(<Section style={{ color: 'red' }} />)
 
     expect(
@@ -318,12 +318,12 @@ describe('Section component', () => {
 })
 
 describe('Section scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
 
-  it('have to match default theme snapshot', () => {
+  it('should match default theme snapshot', () => {
     const css = loadScss(
       require.resolve('../style/themes/dnb-section-theme-ui.scss')
     )

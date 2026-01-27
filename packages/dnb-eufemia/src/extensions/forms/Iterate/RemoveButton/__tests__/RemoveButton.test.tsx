@@ -105,7 +105,7 @@ describe('RemoveButton', () => {
     )
   })
 
-  it('supports translations from Form.Handler', () => {
+  it('should support translations from Form.Handler', () => {
     const remove = 'custom-translation-remove-button-text'
 
     render(

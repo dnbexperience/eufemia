@@ -16,14 +16,14 @@ const props: PProps = {
 }
 
 describe('P element', () => {
-  it('has p element as default', () => {
+  it('should have p element as default', () => {
     render(<P />)
 
     const element = document.querySelector('.dnb-p')
     expect(element.tagName).toBe('P')
   })
 
-  it('has span element when nested', () => {
+  it('should have span element when nested', () => {
     render(
       <P>
         <P />
@@ -34,7 +34,7 @@ describe('P element', () => {
     expect(element.tagName).toBe('SPAN')
   })
 
-  it('uses the given element when nested and defined', () => {
+  it('should use the given element when nested and defined', () => {
     const MockComponent = (props) => <strong {...props}>Mock</strong>
 
     render(
@@ -48,7 +48,7 @@ describe('P element', () => {
   })
 
   describe('paragraphs inside Dialog', () => {
-    it('renders as a paragraph inside Dialog even when the Dialog is wrapped by another paragraph', () => {
+    it('should render as a paragraph inside Dialog even when the Dialog is wrapped by another paragraph', () => {
       render(
         <P>
           <Dialog noAnimation openState title="Dialog title">
@@ -82,7 +82,7 @@ describe('P element', () => {
   })
 
   describe('paragraphs inside Drawer', () => {
-    it('renders as a paragraph inside Drawer even when the Drawer is wrapped by another paragraph', () => {
+    it('should render as a paragraph inside Drawer even when the Drawer is wrapped by another paragraph', () => {
       render(
         <P>
           <Drawer noAnimation openState title="Drawer title">
@@ -126,7 +126,7 @@ describe('P element', () => {
     ])
   })
 
-  it('has correct size and line height when size is defined', () => {
+  it('should have correct size and line height when size is defined', () => {
     render(<P size="large" />)
     const element = document.querySelector('.dnb-t__size--large')
 
@@ -137,7 +137,7 @@ describe('P element', () => {
     ])
   })
 
-  it('has correct style when bold is set to true', () => {
+  it('should have correct style when bold is set to true', () => {
     render(<P weight="bold" />)
     const element = document.querySelector('.dnb-t__weight--bold')
 
@@ -147,7 +147,7 @@ describe('P element', () => {
     ])
   })
 
-  it('has correct style when several modifiers are defined', () => {
+  it('should have correct style when several modifiers are defined', () => {
     render(
       <P
         size="small"
@@ -187,7 +187,7 @@ describe('P element', () => {
         'my-class',
       ])
     })
-    it('has correct style when size and a modifier is defined', () => {
+    it('should have correct style when size and a modifier is defined', () => {
       render(<P size="medium" modifier="medium" />)
       const element = document.querySelector('.dnb-t__size--medium')
 
@@ -198,7 +198,7 @@ describe('P element', () => {
         'dnb-t__weight--medium',
       ])
     })
-    it('has correct style when several modifiers are defined', () => {
+    it('should have correct style when several modifiers are defined', () => {
       render(<P modifier="medium small" />)
       const element = document.querySelector('.dnb-t__size--small')
 
@@ -209,7 +209,7 @@ describe('P element', () => {
         'dnb-t__weight--medium',
       ])
     })
-    it('has correct style when several modifiers conflict', () => {
+    it('should have correct style when several modifiers conflict', () => {
       render(<P modifier="medium bold x-small small" />)
       const element = document.querySelector('.dnb-t__size--x-small')
 
@@ -220,7 +220,7 @@ describe('P element', () => {
         'dnb-t__weight--bold',
       ])
     })
-    it('has correct style when medium is set to true', () => {
+    it('should have correct style when medium is set to true', () => {
       render(<P medium />)
       const element = document.querySelector('.dnb-t__weight--medium')
       expect(Array.from(element.classList)).toEqual([
@@ -229,7 +229,7 @@ describe('P element', () => {
       ])
     })
 
-    it('has correct style when bold is set to true', () => {
+    it('should have correct style when bold is set to true', () => {
       render(<P bold />)
       const element = document.querySelector('.dnb-t__weight--bold')
 
@@ -241,14 +241,14 @@ describe('P element', () => {
   })
 
   describe('proseMaxWidth', () => {
-    it('applies proseMaxWidth style when provided', () => {
+    it('should apply proseMaxWidth style when provided', () => {
       render(<P proseMaxWidth={60}>Test paragraph</P>)
       const element = document.querySelector('.dnb-p') as HTMLElement
 
       expect(element.style.maxWidth).toBe('60ch')
     })
 
-    it('does not apply proseMaxWidth style when not provided', () => {
+    it('should not apply proseMaxWidth style when not provided', () => {
       render(<P>Test paragraph</P>)
       const element = document.querySelector('.dnb-p') as HTMLElement
 
@@ -330,7 +330,7 @@ describe('P element', () => {
       expect(element.style.maxWidth).toBe('70ch')
     })
 
-    it('applies proseMaxWidth as 60ch when true', () => {
+    it('should apply proseMaxWidth as 60ch when true', () => {
       render(<P proseMaxWidth>Test paragraph</P>)
       const element = document.querySelector('.dnb-p') as HTMLElement
 

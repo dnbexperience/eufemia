@@ -16,21 +16,21 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
       url: '/uilib/components/heading/demos',
     })
 
-    it('have to match default headings', async () => {
+    it('should match default headings', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="heading-default"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match headings with context usage', async () => {
+    it('should match headings with context usage', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="heading-context"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match headings with manual mixin', async () => {
+    it('should match headings with manual mixin', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="heading-mixin"]',
       })
@@ -48,21 +48,21 @@ describe.each(['sbanken'])('Heading mobile for %s', (themeName) => {
     },
   })
 
-  it('have to match default headings', async () => {
+  it('should match default headings', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="heading-default"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match headings with context usage', async () => {
+  it('should match headings with context usage', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="heading-context"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match headings with manual mixin', async () => {
+  it('should match headings with manual mixin', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="heading-mixin"]',
     })

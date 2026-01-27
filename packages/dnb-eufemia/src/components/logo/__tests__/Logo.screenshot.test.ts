@@ -13,7 +13,7 @@ import {
 describe.each(['ui', 'sbanken'])('Logo for %s', (themeName) => {
   setupPageScreenshot({ themeName, url: '/uilib/components/logo/demos' })
 
-  it('have to match the default "Logo"', async () => {
+  it('should match the default "Logo"', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="logo-default"]',
       matchConfig: {
@@ -23,21 +23,21 @@ describe.each(['ui', 'sbanken'])('Logo for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the auto sized "Logo"', async () => {
+  it('should match the auto sized "Logo"', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="logo-auto-size"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the inherited sized "Logo"', async () => {
+  it('should match the inherited sized "Logo"', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="logo-inherit-size"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the inherited color', async () => {
+  it('should match the inherited color', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="logo-inherit-color"]',
     })
@@ -45,7 +45,7 @@ describe.each(['ui', 'sbanken'])('Logo for %s', (themeName) => {
   })
 
   if (themeName === 'sbanken') {
-    it('have to match the compact variant', async () => {
+    it('should match the compact variant', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="logo-compact-variant"]',
       })
@@ -57,7 +57,7 @@ describe.each(['ui', 'sbanken'])('Logo for %s', (themeName) => {
 describe.each(['carnegie'])('Logo for %s', (themeName) => {
   setupPageScreenshot({ themeName, url: '/uilib/components/logo/demos' })
 
-  it('have to match the default variant', async () => {
+  it('should match the default variant', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="logo-carnegie"]',
     })
@@ -66,7 +66,7 @@ describe.each(['carnegie'])('Logo for %s', (themeName) => {
 })
 
 describe('png image', () => {
-  it('have to match image snapshot', async () => {
+  it('should match image snapshot', async () => {
     const image = await loadImage(
       path.resolve(__dirname, '../../../../assets/images/dnb/dnb-logo.png')
     )

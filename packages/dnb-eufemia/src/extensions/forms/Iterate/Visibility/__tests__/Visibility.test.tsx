@@ -4,7 +4,7 @@ import { Provider } from '../../../DataContext'
 import { Form, Iterate } from '../../..'
 
 describe('Iterate.Visibility', () => {
-  it('renders children when no props is given', () => {
+  it('should render children when no props is given', () => {
     render(
       <Iterate.Array value={[{ foo: 'bar' }]}>
         <Iterate.Visibility>Child</Iterate.Visibility>
@@ -14,7 +14,7 @@ describe('Iterate.Visibility', () => {
   })
 
   describe('visibility', () => {
-    it('renders children when visible is true', () => {
+    it('should render children when visible is true', () => {
       render(
         <Iterate.Array value={[{ foo: 'bar' }]}>
           <Iterate.Visibility visible={true}>Child</Iterate.Visibility>
@@ -23,7 +23,7 @@ describe('Iterate.Visibility', () => {
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
 
-    it('does not render children when visible is false', () => {
+    it('should not render children when visible is false', () => {
       render(
         <Iterate.Array value={[{ foo: 'bar' }]}>
           <Iterate.Visibility visible={false}>Child</Iterate.Visibility>
@@ -34,7 +34,7 @@ describe('Iterate.Visibility', () => {
   })
 
   describe('pathDefined', () => {
-    it('renders children when target path is defined', () => {
+    it('should render children when target path is defined', () => {
       render(
         <Provider data={{ myList: [{ isDefined: 'foo' }] }}>
           <Iterate.Array path="/myList">
@@ -47,7 +47,7 @@ describe('Iterate.Visibility', () => {
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
 
-    it('does not render children when target path is not defined', () => {
+    it('should not render children when target path is not defined', () => {
       render(
         <Provider data={{ myList: [{ isDefined: 'foo' }] }}>
           <Iterate.Array path="/myList">
@@ -62,7 +62,7 @@ describe('Iterate.Visibility', () => {
   })
 
   describe('pathUndefined', () => {
-    it('does not render children when target path is not defined', () => {
+    it('should not render children when target path is not defined', () => {
       render(
         <Provider data={{ myList: [{ isDefined: 'foo' }] }}>
           <Iterate.Array path="/myList">
@@ -75,7 +75,7 @@ describe('Iterate.Visibility', () => {
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
 
-    it('renders children when target path is defined', () => {
+    it('should render children when target path is defined', () => {
       render(
         <Provider data={{ myList: [{ isDefined: 'foo' }] }}>
           <Iterate.Array path="/myList">
@@ -90,7 +90,7 @@ describe('Iterate.Visibility', () => {
   })
 
   describe('pathTruthy', () => {
-    it('renders children when target path is truthy', () => {
+    it('should render children when target path is truthy', () => {
       render(
         <Provider data={{ myList: [{ isTruthy: 'value' }] }}>
           <Iterate.Array path="/myList">
@@ -103,7 +103,7 @@ describe('Iterate.Visibility', () => {
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
 
-    it('does not render children when target path is not truthy', () => {
+    it('should not render children when target path is not truthy', () => {
       render(
         <Provider data={{ myList: [{ isFalsy: null }] }}>
           <Iterate.Array path="/myList">
@@ -116,7 +116,7 @@ describe('Iterate.Visibility', () => {
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
 
-    it('does not render children when target path is not defined', () => {
+    it('should not render children when target path is not defined', () => {
       render(
         <Provider data={{ myList: [{ isFalse: false }] }}>
           <Iterate.Array path="/myList">
@@ -131,7 +131,7 @@ describe('Iterate.Visibility', () => {
   })
 
   describe('pathFalsy', () => {
-    it('renders children when target path is falsy', () => {
+    it('should render children when target path is falsy', () => {
       render(
         <Provider data={{ myList: [{ isFalsy: null }] }}>
           <Iterate.Array path="/myList">
@@ -144,7 +144,7 @@ describe('Iterate.Visibility', () => {
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
 
-    it('renders children when target path is not defined', () => {
+    it('should render children when target path is not defined', () => {
       render(
         <Provider data={{ myList: [{ isFalse: false }] }}>
           <Iterate.Array path="/myList">
@@ -157,7 +157,7 @@ describe('Iterate.Visibility', () => {
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
 
-    it('does not render children when target path is not falsy', () => {
+    it('should not render children when target path is not falsy', () => {
       render(
         <Provider data={{ myList: [{ isTruthy: 'value' }] }}>
           <Iterate.Array path="/myList">
@@ -172,7 +172,7 @@ describe('Iterate.Visibility', () => {
   })
 
   describe('inferData', () => {
-    it('renders children when infer-function returns true', () => {
+    it('should render children when infer-function returns true', () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const inferData = jest.fn((data) => true)
       render(
@@ -187,7 +187,7 @@ describe('Iterate.Visibility', () => {
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
 
-    it('does not render children when infer-function return false', () => {
+    it('should not render children when infer-function return false', () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const inferData = jest.fn((data) => false)
       render(
@@ -208,7 +208,7 @@ describe('Iterate.Visibility', () => {
   })
 
   describe('pathValue', () => {
-    it('renders children when target path and value matches', () => {
+    it('should render children when target path and value matches', () => {
       render(
         <Provider data={{ myList: [{ myPath: 'checked' }] }}>
           <Iterate.Array path="/myList">
@@ -221,7 +221,7 @@ describe('Iterate.Visibility', () => {
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
 
-    it('does not render children when target path not not value matches', () => {
+    it('should not render children when target path not not value matches', () => {
       render(
         <Provider data={{ myList: [{ myPath: 'checked' }] }}>
           <Iterate.Array path="/myList">
@@ -366,7 +366,7 @@ describe('Iterate.Visibility', () => {
 
   describe('when in Form.Section', () => {
     describe('pathTruthy', () => {
-      it('renders children when target path is truthy', () => {
+      it('should render children when target path is truthy', () => {
         render(
           <Provider
             data={{

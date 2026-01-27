@@ -189,7 +189,7 @@ describe('Anchor with scrollToHashHandler', () => {
     expect(onScroll).toHaveBeenCalledTimes(0)
   })
 
-  it('will skip when no # exists in href', () => {
+  it('should skip when no # exists in href', () => {
     const onScroll = jest.fn()
 
     jest.spyOn(window, 'scroll').mockImplementationOnce(onScroll)

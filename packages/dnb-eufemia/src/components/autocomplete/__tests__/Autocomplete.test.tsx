@@ -56,7 +56,7 @@ const mockData: DrawerListDataArray = [
 mockImplementationForDirectionObserver()
 
 describe('Autocomplete component', () => {
-  it('has correct word and in-word highlighting', () => {
+  it('should have correct word and in-word highlighting', () => {
     render(
       <Autocomplete
         data={['aaa', 'The Godfather the godfather The Godfather', 'ccc']}
@@ -72,7 +72,7 @@ describe('Autocomplete component', () => {
     )
   })
 
-  it('does not render HTML tags when highlighting', async () => {
+  it('should not render HTML tags when highlighting', async () => {
     render(
       <Autocomplete
         data={['hello <em>world</em>']}
@@ -96,7 +96,7 @@ describe('Autocomplete component', () => {
     expect(option.innerHTML).toContain('&lt;/em&gt;')
   })
 
-  it('has correct attributes on input', () => {
+  it('should have correct attributes on input', () => {
     render(<Autocomplete data={mockData} opened {...mockProps} />)
 
     const input = document.querySelector('input')
@@ -118,7 +118,7 @@ describe('Autocomplete component', () => {
     expect(input).toHaveAttribute('aria-expanded', 'false')
   })
 
-  it('supports setting autocomplete', () => {
+  it('should support setting autocomplete', () => {
     render(
       <Autocomplete
         data={mockData}
@@ -133,7 +133,7 @@ describe('Autocomplete component', () => {
     expect(input).toHaveAttribute('autocomplete', 'language')
   })
 
-  it('keeps dialog open when Escape is pressed inside the autocomplete input', async () => {
+  it('should keep dialog open when Escape is pressed inside the autocomplete input', async () => {
     render(
       <Dialog noAnimation openState title="Dialog">
         <Autocomplete {...mockProps} opened data={mockData} no_animation />
@@ -164,7 +164,7 @@ describe('Autocomplete component', () => {
     document.body.removeAttribute('style')
   })
 
-  it('has correct options after filter', () => {
+  it('should have correct options after filter', () => {
     render(
       <Autocomplete data={mockData} show_submit_button {...mockProps} />
     )
@@ -242,7 +242,7 @@ describe('Autocomplete component', () => {
     ).toBe('Ingen alternativer')
   })
 
-  it('will set correct width when independent_width is set', async () => {
+  it('should set correct width when independent_width is set', async () => {
     const style = {
       getPropertyValue: () => 20,
     } as undefined
@@ -296,7 +296,7 @@ describe('Autocomplete component', () => {
       },
     ]
 
-    it('will show suffix_value in options and in input when selected', () => {
+    it('should show suffix_value in options and in input when selected', () => {
       let index = 1
 
       const { rerender } = render(
@@ -338,7 +338,7 @@ describe('Autocomplete component', () => {
       ).toBe(mockData[2].suffix_value)
     })
 
-    it('will not open drawer-list when click on suffix_value and is disabled', () => {
+    it('should not open drawer-list when click on suffix_value and is disabled', () => {
       render(
         <Autocomplete {...mockProps} value={1} data={mockData} disabled />
       )
@@ -354,7 +354,7 @@ describe('Autocomplete component', () => {
       expect(document.activeElement.tagName).toBe('BODY')
     })
 
-    it('will open drawer-list when click on suffix_value', () => {
+    it('should open drawer-list when click on suffix_value', () => {
       render(<Autocomplete {...mockProps} value={1} data={mockData} />)
 
       expect(
@@ -371,7 +371,7 @@ describe('Autocomplete component', () => {
       expect(document.activeElement.tagName).toBe('INPUT')
     })
 
-    it('has inner id, used to compute form status width, when status and suffix value', () => {
+    it('should have inner id, used to compute form status width, when status and suffix value', () => {
       render(
         <Autocomplete
           data={mockData}
@@ -548,7 +548,7 @@ describe('Autocomplete component', () => {
       testAllIds(id)
     })
   })
-  it('has correct options when search_in_word_index is set to 1', () => {
+  it('should have correct options when search_in_word_index is set to 1', () => {
     render(
       <Autocomplete
         data={mockData}
@@ -753,7 +753,7 @@ describe('Autocomplete component', () => {
     ).toBe('Ingen alternativer')
   })
 
-  it('will prefer search_content over content', () => {
+  it('should prefer search_content over content', () => {
     const mockData = [
       { content: 'item aa', search_content: ['AA c'] },
       { content: 'item bb', search_content: ['BB cc zethx'] },
@@ -1005,7 +1005,7 @@ describe('Autocomplete component', () => {
     expect(ariaLiveElements.length).toBeGreaterThan(0)
   })
 
-  it('can be used with regex chars', () => {
+  it('should be able to be used with regex chars', () => {
     const mockData = [
       'AA aa',
       'BB * bb',
@@ -1078,7 +1078,7 @@ describe('Autocomplete component', () => {
     ).toBe(mockData[5])
   })
 
-  it('has correct options when using search_numbers', () => {
+  it('should have correct options when using search_numbers', () => {
     const mockData = [
       format(20001234567, { ban: true }),
       format(22233344425, { ban: true }),
@@ -1215,7 +1215,7 @@ describe('Autocomplete component', () => {
     ).toContain('Vis alt')
   })
 
-  it('has correct options when using search_numbers, and searching with æøå', () => {
+  it('should have correct options when using search_numbers, and searching with æøå', () => {
     const mockData = [
       ['Åge Ørn Ærlig', format('12345678901')],
       ["Andrè Ørjåsæter O'Neill", format('12345678901')],
@@ -1249,7 +1249,7 @@ describe('Autocomplete component', () => {
     ).toBe("Andrè Ørjåsæter O'Neill12 345 678 901")
   })
 
-  it('has correct options after filter and key interaction', () => {
+  it('should have correct options after filter and key interaction', () => {
     render(
       <Autocomplete data={mockData} show_submit_button {...mockProps} />
     )
@@ -1333,7 +1333,7 @@ describe('Autocomplete component', () => {
   })
 
   describe('disable_filter', () => {
-    it('has correct options after filter if filter is disabled', () => {
+    it('should have correct options after filter if filter is disabled', () => {
       render(
         <Autocomplete
           disable_filter
@@ -1400,7 +1400,7 @@ describe('Autocomplete component', () => {
     })
   })
 
-  it('has correct "aria-expanded"', () => {
+  it('should have correct "aria-expanded"', () => {
     render(<Autocomplete {...props} data={mockData} />)
 
     keyDownOnInput(13) // enter
@@ -1415,7 +1415,7 @@ describe('Autocomplete component', () => {
     ).toBe('true')
   })
 
-  it('has correct "opened" state on click in input', () => {
+  it('should have correct "opened" state on click in input', () => {
     render(<Autocomplete {...mockProps} data={mockData} />)
 
     fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
@@ -1430,7 +1430,7 @@ describe('Autocomplete component', () => {
     ).toBe(3)
   })
 
-  it('has correct "opened" state on submit button click', () => {
+  it('should have correct "opened" state on submit button click', () => {
     render(<Autocomplete {...props} data={mockData} />)
 
     const submitButton = document.querySelector(
@@ -1454,7 +1454,7 @@ describe('Autocomplete component', () => {
     expect(elem.classList).toContain('dnb-autocomplete--opened')
   })
 
-  it('has type="button" on submit button', () => {
+  it('should have type="button" on submit button', () => {
     render(<Autocomplete {...props} data={mockData} />)
 
     expect(
@@ -1464,7 +1464,7 @@ describe('Autocomplete component', () => {
     ).toBe('button')
   })
 
-  it('has correct length of li elements', () => {
+  it('should have correct length of li elements', () => {
     render(<Autocomplete {...props} data={mockData} />)
 
     toggle()
@@ -1476,7 +1476,7 @@ describe('Autocomplete component', () => {
     ).toBe(mockData.length)
   })
 
-  it('has valid events returning all additional attributes in the event return', () => {
+  it('should have valid events returning all additional attributes in the event return', () => {
     const on_show = jest.fn()
     const on_hide = jest.fn()
     const on_focus = jest.fn()
@@ -1560,7 +1560,7 @@ describe('Autocomplete component', () => {
     expect(on_show).toHaveBeenCalledTimes(3)
   })
 
-  it('updates its input value if value and data prop changes', async () => {
+  it('should update its input value if value and data prop changes', async () => {
     const value = 0
     const data = mockData
 
@@ -1582,7 +1582,7 @@ describe('Autocomplete component', () => {
     ).toBe(newData[newValue])
   })
 
-  it('can be reset to null', () => {
+  it('should be able to be reset to null', () => {
     let value: number
     const { rerender } = render(
       <Autocomplete
@@ -1649,7 +1649,7 @@ describe('Autocomplete component', () => {
     expect(inputElement.value).toBe('')
   })
 
-  it('will invalidate selected_item when selected_key changes', () => {
+  it('should invalidate selected_item when selected_key changes', () => {
     const mockData = [
       { selected_key: 'a', content: 'AA c' },
       { selected_key: 'b', content: 'BB cc zethx' },
@@ -1849,7 +1849,7 @@ describe('Autocomplete component', () => {
     ).toBe('color: red;')
   })
 
-  it('will call on_change on each change, when selecting the first option from different data sources', async () => {
+  it('should call on_change on each change, when selecting the first option from different data sources', async () => {
     const mockDataA = [{ selected_key: 'a', content: 'A' }]
     const mockDataB = [{ selected_key: 'b', content: 'B' }]
 
@@ -2615,7 +2615,7 @@ describe('Autocomplete component', () => {
     )
   })
 
-  it('has correct "opened" state on input mousedown', () => {
+  it('should have correct "opened" state on input mousedown', () => {
     render(<Autocomplete {...props} data={mockData} />)
 
     fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
@@ -2638,7 +2638,7 @@ describe('Autocomplete component', () => {
     ).toContain('dnb-autocomplete--opened')
   })
 
-  it('will open drawer-list when open_on_focus is set to true', () => {
+  it('should open drawer-list when open_on_focus is set to true', () => {
     const on_focus = jest.fn()
     const on_change = jest.fn()
 
@@ -2668,7 +2668,7 @@ describe('Autocomplete component', () => {
     expect(on_change.mock.calls[0][0].data).toBe('BB cc zethx')
   })
 
-  it('will not open drawer-list when open_on_focus is set to true and data is not valid', () => {
+  it('should not open drawer-list when open_on_focus is set to true and data is not valid', () => {
     const on_focus = jest.fn()
     const on_change = jest.fn()
 
@@ -2689,7 +2689,7 @@ describe('Autocomplete component', () => {
     ).not.toContain('dnb-autocomplete--opened')
   })
 
-  it('will prevent close if false gets returned from on_hide event', () => {
+  it('should prevent close if false gets returned from on_hide event', () => {
     let preventClose = false
     const on_hide = jest.fn(() => !preventClose)
     render(
@@ -2739,7 +2739,7 @@ describe('Autocomplete component', () => {
     ).toContain('dnb-autocomplete--opened')
   })
 
-  it('has no highlighted value by using "disable_highlighting"', () => {
+  it('should have no highlighted value by using "disable_highlighting"', () => {
     render(
       <Autocomplete
         mode="async"
@@ -2853,7 +2853,7 @@ describe('Autocomplete component', () => {
     expect(callThree.dataList).toStrictEqual(callTwo.dataList)
   })
 
-  it('will use selected_value as the input value when selected', () => {
+  it('should use selected_value as the input value when selected', () => {
     const mockData = [
       { selected_value: 'a value', content: '11 aa' },
       { selected_value: 'b value', content: '22 bb' },
@@ -2881,7 +2881,7 @@ describe('Autocomplete component', () => {
     assert()
   })
 
-  it('will select correct item after updateData', () => {
+  it('should select correct item after updateData', () => {
     const mockData = [
       { selected_value: 'a value', content: '11 aa' },
       { selected_value: 'b value', content: '22 bb' },
@@ -2927,7 +2927,7 @@ describe('Autocomplete component', () => {
     ).toBe('c value')
   })
 
-  it('will filter items with current value after data prop has changed', async () => {
+  it('should filter items with current value after data prop has changed', async () => {
     const mockDataA = ['first', 'foo']
     const mockDataB = ['second', 'bar', 'baz']
 
@@ -3001,7 +3001,7 @@ describe('Autocomplete component', () => {
     expect(options()[2]).toHaveTextContent('baz')
   })
 
-  it('has correct selected value', () => {
+  it('should have correct selected value', () => {
     render(<Autocomplete {...props} data={mockData} />)
     expect(
       (document.querySelector('.dnb-input__input') as HTMLInputElement)
@@ -3009,7 +3009,7 @@ describe('Autocomplete component', () => {
     ).toBe(mockData[props.value])
   })
 
-  it('has correct selected value after new selection', () => {
+  it('should have correct selected value after new selection', () => {
     render(<Autocomplete {...props} data={mockData} />)
     toggle()
 
@@ -3022,7 +3022,7 @@ describe('Autocomplete component', () => {
     ).toBe(mockData[props.value])
   })
 
-  it('has a default title if no value is given', () => {
+  it('should have a default title if no value is given', () => {
     const title = 'Make a selection'
     render(
       <Autocomplete
@@ -3037,7 +3037,7 @@ describe('Autocomplete component', () => {
     ).toBe(title)
   })
 
-  it('has a correct value content if we send in a React component', () => {
+  it('should have a correct value content if we send in a React component', () => {
     const value = 1
     render(
       <Autocomplete
@@ -3053,7 +3053,7 @@ describe('Autocomplete component', () => {
     ).toBe(mockData[value])
   })
 
-  it('has correct value after useEffect value state change', () => {
+  it('should have correct value after useEffect value state change', () => {
     const newValue = 0
     const UpdateValue = () => {
       const [value, setValue] = React.useState(props.value)
@@ -3073,7 +3073,7 @@ describe('Autocomplete component', () => {
     ).toBe(mockData[newValue])
   })
 
-  it('has a disabled attribute, once we set disabled to true', () => {
+  it('should have a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(
       <Autocomplete data={mockData} show_submit_button {...mockProps} />
     )
@@ -3100,7 +3100,7 @@ describe('Autocomplete component', () => {
     ).toContain('chevron down')
   })
 
-  it('supports input_element properly', () => {
+  it('should support input_element properly', () => {
     const onChange = jest.fn()
     render(
       <Autocomplete
@@ -3137,7 +3137,7 @@ describe('Autocomplete component', () => {
     window.requestAnimationFrame = orig
   })
 
-  it('will make anchors inside drawer-list item accessible', async () => {
+  it('should make anchors inside drawer-list item accessible', async () => {
     window.requestAnimationFrame = undefined
 
     const mockData = [
@@ -3176,7 +3176,7 @@ describe('Autocomplete component', () => {
     )
   })
 
-  it('will keep focus on input when opening', () => {
+  it('should keep focus on input when opening', () => {
     const mockData = ['first item', 'one more item']
 
     render(<Autocomplete data={mockData} {...mockProps} />)
@@ -3228,7 +3228,7 @@ describe('Autocomplete component', () => {
     ).toContain('bell')
   })
 
-  it('has working direction observer', async () => {
+  it('should have working direction observer', async () => {
     render(<Autocomplete {...props} data={mockData} />)
 
     // open first
@@ -3241,7 +3241,7 @@ describe('Autocomplete component', () => {
     await testDirectionObserver()
   })
 
-  it('has error status when only providing status', () => {
+  it('should have error status when only providing status', () => {
     render(
       <Autocomplete
         data={mockData}
@@ -3266,7 +3266,7 @@ describe('Autocomplete component', () => {
     ).toContain('dnb-button__status--error')
   })
 
-  it('has correct status when status_state is error', () => {
+  it('should have correct status when status_state is error', () => {
     render(
       <Autocomplete
         data={mockData}
@@ -3292,7 +3292,7 @@ describe('Autocomplete component', () => {
     ).toContain('dnb-button__status--error')
   })
 
-  it('has correct status when status_state is info', () => {
+  it('should have correct status when status_state is info', () => {
     render(
       <Autocomplete
         data={mockData}
@@ -3918,7 +3918,7 @@ describe('Autocomplete component', () => {
     })
   })
 
-  it('gets valid element when input_ref is function', () => {
+  it('should get valid element when input_ref is function', () => {
     const ref: React.MutableRefObject<HTMLInputElement> = React.createRef()
 
     const refFn = (elem: HTMLInputElement) => {
@@ -4123,7 +4123,7 @@ describe('Autocomplete component', () => {
       'Fourth',
     ]
 
-    it('renders groups', async () => {
+    it('should render groups', async () => {
       render(
         <Autocomplete
           no_animation={true}
@@ -4181,7 +4181,7 @@ describe('Autocomplete component', () => {
       ).toBe('Item 3.1')
     })
 
-    it('uses default title for groups missing title', async () => {
+    it('should use default title for groups missing title', async () => {
       render(
         <Autocomplete
           no_animation={true}
@@ -4219,7 +4219,7 @@ describe('Autocomplete component', () => {
       )
     })
 
-    it('adds group for items without group index', async () => {
+    it('should add group for items without group index', async () => {
       render(
         <Autocomplete
           no_animation={true}
@@ -4251,7 +4251,7 @@ describe('Autocomplete component', () => {
       )
     })
 
-    it('has correct options after filter', () => {
+    it('should have correct options after filter', () => {
       const searchData = [
         { groupIndex: 0, content: 'Abed' },
         { groupIndex: 0, content: 'Better' },
@@ -4421,12 +4421,12 @@ describe('Autocomplete markup', () => {
 })
 
 describe('Autocomplete scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
 
-  it('have to match default theme snapshot', () => {
+  it('should match default theme snapshot', () => {
     const css = loadScss(
       require.resolve('../style/themes/dnb-autocomplete-theme-ui.scss')
     )

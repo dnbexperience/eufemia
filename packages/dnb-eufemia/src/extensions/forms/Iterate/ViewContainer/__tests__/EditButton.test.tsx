@@ -21,7 +21,7 @@ describe('EditButton', () => {
     expect(button).toHaveTextContent(nb.editButton)
   })
 
-  it('calls "switchContainerMode" when edit button is clicked', () => {
+  it('should call "switchContainerMode" when edit button is clicked', () => {
     const switchContainerMode = jest.fn()
 
     render(

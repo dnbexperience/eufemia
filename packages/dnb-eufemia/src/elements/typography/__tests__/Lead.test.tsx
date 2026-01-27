@@ -3,7 +3,7 @@ import Lead from '../Lead'
 import { render } from '@testing-library/react'
 
 describe('Lead', () => {
-  it('has correct classes by default', () => {
+  it('should have correct classes by default', () => {
     render(<Lead />)
     const element = document.querySelector(
       '.dnb-p--lead'

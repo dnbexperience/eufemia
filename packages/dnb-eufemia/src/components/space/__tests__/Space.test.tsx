@@ -12,7 +12,7 @@ import Section from '../../Section'
 const props: SpaceAllProps = {}
 
 describe('Space component', () => {
-  it('renders with empty props', () => {
+  it('should render with empty props', () => {
     render(<Space {...props} />)
     expect(document.querySelector('.dnb-space')).toBeInTheDocument()
   })
@@ -24,7 +24,7 @@ describe('Space component', () => {
     )
   })
 
-  it('gets valid ref element', () => {
+  it('should get valid ref element', () => {
     let ref: React.RefObject<HTMLDivElement>
 
     function MockComponent(props) {

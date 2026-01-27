@@ -15,7 +15,7 @@ const nb = nbNO['nb-NO']
 
 describe('ArraySelection', () => {
   describe('checkbox', () => {
-    it('renders correctly', () => {
+    it('should render correctly', () => {
       render(
         <Field.ArraySelection>
           <Field.Option value="option1">Option 1</Field.Option>
@@ -65,7 +65,7 @@ describe('ArraySelection', () => {
       expect(checkboxElement.classList).toContain('dnb-checkbox--large')
     })
 
-    it('renders help', () => {
+    it('should render help', () => {
       render(
         <Field.ArraySelection
           help={{ title: 'Help title', content: 'Help content' }}
@@ -93,7 +93,7 @@ describe('ArraySelection', () => {
       expect(options[1].textContent).toBe('title b')
     })
 
-    it('handles selection correctly', () => {
+    it('should handle selection correctly', () => {
       const handleChange = jest.fn()
       render(
         <Field.ArraySelection onChange={handleChange}>
@@ -121,7 +121,7 @@ describe('ArraySelection', () => {
       )
     })
 
-    it('handles emptyValue correctly', () => {
+    it('should handle emptyValue correctly', () => {
       const handleChange = jest.fn()
       render(
         <Field.ArraySelection onChange={handleChange} emptyValue={[]}>
@@ -135,7 +135,7 @@ describe('ArraySelection', () => {
       expect(handleChange).toHaveBeenLastCalledWith([], expect.anything())
     })
 
-    it('displays error message when error prop is provided', () => {
+    it('should display error message when error prop is provided', () => {
       const errorMessage = new Error('This is what is wrong...')
       render(
         <Field.ArraySelection error={errorMessage}>
@@ -151,7 +151,7 @@ describe('ArraySelection', () => {
       expect(element).toHaveTextContent('This is what is wrong...')
     })
 
-    it('applies the correct layout class when layout prop is provided', () => {
+    it('should apply the correct layout class when layout prop is provided', () => {
       const layout = 'horizontal'
       render(
         <Field.ArraySelection layout={layout}>
@@ -181,7 +181,7 @@ describe('ArraySelection', () => {
       ).toHaveClass('dnb-forms-field-array-selection--variant-checkbox')
     })
 
-    it('applies the correct layout class when optionsLayout prop is provided', () => {
+    it('should apply the correct layout class when optionsLayout prop is provided', () => {
       const optionsLayout = 'horizontal'
       render(
         <Field.ArraySelection optionsLayout={optionsLayout}>
@@ -198,7 +198,7 @@ describe('ArraySelection', () => {
       )
     })
 
-    it('has correct elements when "checkbox" is provided provided', () => {
+    it('should have correct elements when "checkbox" is provided provided', () => {
       render(
         <Field.ArraySelection>
           <Field.Option value="option1">Option 1</Field.Option>
@@ -269,7 +269,7 @@ describe('ArraySelection', () => {
       expect(option3).toHaveAttribute('type', 'checkbox')
     })
 
-    it('has error class when error prop is provided', () => {
+    it('should have error class when error prop is provided', () => {
       const errorMessage = new Error('This is what is wrong...')
       render(
         <Field.ArraySelection error={errorMessage}>
@@ -286,7 +286,7 @@ describe('ArraySelection', () => {
       expect(option2).toHaveClass('dnb-checkbox__status--error')
     })
 
-    it('renders error', () => {
+    it('should render error', () => {
       render(
         <Field.ArraySelection error={new Error('Error message')}>
           <Field.Option value="A" title="Fooo!" />
@@ -307,7 +307,7 @@ describe('ArraySelection', () => {
       expect(optionD).toHaveClass('dnb-checkbox__status--error')
     })
 
-    it('shows error style in FieldBlock', () => {
+    it('should show error style in FieldBlock', () => {
       render(
         <FieldBlock>
           <Field.ArraySelection error={new Error('Error message')}>
@@ -688,7 +688,7 @@ describe('ArraySelection', () => {
         expect(option3).toHaveAttribute('type', 'button')
       })
 
-      it('has error class when error prop is provided', () => {
+      it('should have error class when error prop is provided', () => {
         const errorMessage = new Error('This is what is wrong...')
         render(
           <Field.ArraySelection variant={testVariant} error={errorMessage}>
@@ -734,7 +734,7 @@ describe('ArraySelection', () => {
         ).toHaveClass('dnb-forms-field-array-selection--variant-button')
       })
 
-      it('renders help', () => {
+      it('should render help', () => {
         render(
           <Field.ArraySelection
             variant={testVariant}
@@ -749,7 +749,7 @@ describe('ArraySelection', () => {
         )
       })
 
-      it('renders error', () => {
+      it('should render error', () => {
         render(
           <Field.ArraySelection
             variant={testVariant}
@@ -779,7 +779,7 @@ describe('ArraySelection', () => {
         expect(optionD).toHaveClass('dnb-toggle-button__status--error')
       })
 
-      it('shows error style in FieldBlock', () => {
+      it('should show error style in FieldBlock', () => {
         render(
           <FieldBlock>
             <Field.ArraySelection
@@ -861,7 +861,7 @@ describe('ArraySelection', () => {
         expect(option3).not.toHaveClass('dnb-toggle-button--checked')
       })
 
-      it('displays correct error messages for minItems and maxItems', () => {
+      it('should display correct error messages for minItems and maxItems', () => {
         const data = [
           { value: 'oslo', title: 'Oslo' },
           { value: 'stockholm', title: 'Stockholm' },

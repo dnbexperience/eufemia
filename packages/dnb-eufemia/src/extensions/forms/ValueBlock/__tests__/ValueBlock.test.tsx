@@ -7,13 +7,13 @@ import { renderWithFormatting } from '../../../../shared'
 import userEvent from '@testing-library/user-event'
 
 describe('ValueBlock', () => {
-  it('renders without crashing', () => {
+  it('should render without crashing', () => {
     render(<ValueBlock placeholder="Placeholder" />)
     const element = document.querySelector('.dnb-forms-value-block')
     expect(element).toBeInTheDocument()
   })
 
-  it('renders label and placeholder correctly', () => {
+  it('should render label and placeholder correctly', () => {
     render(<ValueBlock label="Label" placeholder="Placeholder" />)
     const label = document.querySelector('.dnb-forms-value-block__label')
     const placeholder = document.querySelector(
@@ -25,33 +25,33 @@ describe('ValueBlock', () => {
     expect(placeholder?.textContent).toBe('Placeholder')
   })
 
-  it('renders children correctly', () => {
+  it('should render children correctly', () => {
     render(<ValueBlock>Children</ValueBlock>)
     const element = document.querySelector('.dnb-forms-value-block')
     expect(element).toBeInTheDocument()
     expect(element?.textContent).toBe('Children')
   })
 
-  it('renders inline class when inline prop is true', () => {
+  it('should render inline class when inline prop is true', () => {
     render(<ValueBlock inline placeholder="Placeholder" />)
     const element = document.querySelector('.dnb-forms-value-block')
     expect(element).toHaveClass('dnb-forms-value-block--inline')
   })
 
-  it('renders no label when inline prop is true', () => {
+  it('should render no label when inline prop is true', () => {
     render(
       <ValueBlock inline label="Don't show me" placeholder="Placeholder" />
     )
     expect(document.querySelector('.dnb-form-label')).toBeNull()
   })
 
-  it('renders when showEmpty is provided', () => {
+  it('should render when showEmpty is provided', () => {
     render(<ValueBlock showEmpty />)
     const element = document.querySelector('.dnb-forms-value-block')
     expect(element).toBeInTheDocument()
   })
 
-  it('does not render when children, showEmpty, and placeholder are not provided', () => {
+  it('should not render when children, showEmpty, and placeholder are not provided', () => {
     render(<ValueBlock />)
     const element = document.querySelector('.dnb-forms-value-block')
     expect(element).not.toBeInTheDocument()
@@ -133,7 +133,7 @@ describe('ValueBlock', () => {
     expect(element).toHaveTextContent('content')
   })
 
-  it('renders the label as a strong element', () => {
+  it('should render the label as a strong element', () => {
     render(<ValueBlock label="Label">Value</ValueBlock>)
 
     expect(
@@ -235,7 +235,7 @@ describe('ValueBlock', () => {
       expect(await axeComponent(result)).toHaveNoViolations()
     })
 
-    it('renders label and placeholder correctly', () => {
+    it('should render label and placeholder correctly', () => {
       render(
         <Value.SummaryList>
           <ValueBlock label="Label" placeholder="Placeholder">
@@ -252,7 +252,7 @@ describe('ValueBlock', () => {
       expect(placeholder).not.toBeInTheDocument()
     })
 
-    it('renders no label when not given', () => {
+    it('should render no label when not given', () => {
       render(
         <Value.SummaryList>
           <ValueBlock>Value</ValueBlock>
@@ -264,7 +264,7 @@ describe('ValueBlock', () => {
       ).toBeEmptyDOMElement()
     })
 
-    it('renders the label with a strong element', () => {
+    it('should render the label with a strong element', () => {
       render(
         <Value.SummaryList>
           <ValueBlock label="Label">Value</ValueBlock>
@@ -276,7 +276,7 @@ describe('ValueBlock', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders Composition value from Iterate.Array', () => {
+    it('should render Composition value from Iterate.Array', () => {
       render(
         <Value.Composition>
           <Iterate.Array
@@ -327,7 +327,7 @@ describe('ValueBlock', () => {
       ).toHaveTextContent('value 2')
     })
 
-    it('renders label given as a ValueBlock', () => {
+    it('should render label given as a ValueBlock', () => {
       render(
         <Value.Composition>
           <Iterate.Array
@@ -503,7 +503,7 @@ describe('ValueBlock', () => {
     })
   })
 
-  it('renders support gap', () => {
+  it('should render support gap', () => {
     const { rerender } = render(
       <ValueBlock gap="medium" label="Label">
         Value
@@ -709,7 +709,7 @@ describe('ValueBlock', () => {
   })
 
   describe('inheritLabel', () => {
-    it('renders label from field with same path', () => {
+    it('should render label from field with same path', () => {
       render(
         <Form.Handler
           data={{
@@ -728,7 +728,7 @@ describe('ValueBlock', () => {
       ).toHaveTextContent('The label')
     })
 
-    it('renders label from field with same path given as a ValueBlock', () => {
+    it('should render label from field with same path given as a ValueBlock', () => {
       render(
         <Form.Handler data={{ label: 'The label' }}>
           <Field.String

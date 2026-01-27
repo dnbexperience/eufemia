@@ -14,7 +14,7 @@ describe.each(['ui', 'sbanken'])('Skeleton for %s', (themeName) => {
     url: '/uilib/components/skeleton/demos',
   })
 
-  it('have to match skeleton article figure', async () => {
+  it('should match skeleton article figure', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '20rem', height: '20rem' },
       selector: '[data-visual-test="skeleton-figure-article"]',
@@ -22,7 +22,7 @@ describe.each(['ui', 'sbanken'])('Skeleton for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match excluded components', async () => {
+  it('should match excluded components', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '20rem', height: '20rem' },
       selector: '[data-visual-test="skeleton-exclude"]',
@@ -30,7 +30,7 @@ describe.each(['ui', 'sbanken'])('Skeleton for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match a removed skeleton', async () => {
+  it('should match a removed skeleton', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '20rem', height: '20rem' },
       selector: '[data-visual-test="skeleton-exclude"]',
@@ -41,14 +41,14 @@ describe.each(['ui', 'sbanken'])('Skeleton for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match all components - vertical', async () => {
+  it('should match all components - vertical', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="skeleton-all-vertical"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match all components - horizontal', async () => {
+  it('should match all components - horizontal', async () => {
     const screenshot = await makeScreenshot({
       addWrapper: false,
       style: { width: '60rem', overflow: 'visible' },

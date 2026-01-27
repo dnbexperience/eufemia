@@ -10,7 +10,7 @@ import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
 describe('Selection', () => {
-  it('renders selected option', () => {
+  it('should render selected option', () => {
     render(
       <Field.Selection value="bar">
         <Field.Option value="foo">Foo</Field.Option>
@@ -23,7 +23,7 @@ describe('Selection', () => {
     expect(screen.queryByText('Foo')).not.toBeInTheDocument()
   })
 
-  it('renders selected option with a text property', () => {
+  it('should render selected option with a text property', () => {
     render(
       <Field.Selection value="bar">
         <Field.Option value="foo" title="Foo!" text="Text" />
@@ -36,7 +36,7 @@ describe('Selection', () => {
   })
 
   describe('transformSelection', () => {
-    it('renders selected option with the "transformSelection" return', () => {
+    it('should render selected option with the "transformSelection" return', () => {
       render(
         <Field.Selection
           value="bar"
@@ -51,7 +51,7 @@ describe('Selection', () => {
       ).toBe('Bar!')
     })
 
-    it('renders selected option with the "transformSelection" return using "children"', () => {
+    it('should render selected option with the "transformSelection" return using "children"', () => {
       render(
         <Field.Selection
           value="bar"
@@ -70,7 +70,7 @@ describe('Selection', () => {
       ).toBe('Bar!')
     })
 
-    it('renders selected data context with the "transformSelection" return', () => {
+    it('should render selected data context with the "transformSelection" return', () => {
       render(
         <Form.Handler
           defaultData={{
@@ -105,7 +105,7 @@ describe('Selection', () => {
     })
   })
 
-  it('renders selected option with number values', () => {
+  it('should render selected option with number values', () => {
     render(
       <Field.Selection value="20">
         <Field.Option value="10" title="Ten" />
@@ -144,7 +144,7 @@ describe('Selection', () => {
     expect(within(btn2).queryByText('Bar')).not.toBeInTheDocument()
   })
 
-  it('renders given options', async () => {
+  it('should render given options', async () => {
     render(
       <Field.Selection value="bar">
         <Field.Option value="one">One</Field.Option>
@@ -164,7 +164,7 @@ describe('Selection', () => {
     expect(screen.getByText("Four o'clock rock")).toBeInTheDocument()
   })
 
-  it('renders placeholder', () => {
+  it('should render placeholder', () => {
     render(
       <Field.Selection placeholder="Select something">
         <Field.Option value="foo">Foo</Field.Option>
@@ -238,7 +238,7 @@ describe('variants', () => {
       expect(radioButtons[1]).not.toBeChecked()
     })
 
-    it('renders selected option', () => {
+    it('should render selected option', () => {
       render(
         <Field.Selection variant="radio" value="bar">
           <Field.Option value="foo">Foo</Field.Option>
@@ -269,7 +269,7 @@ describe('variants', () => {
       expect(options[1].textContent).toBe('title b')
     })
 
-    it('renders help', () => {
+    it('should render help', () => {
       render(
         <Field.Selection variant="radio">
           <Field.Option
@@ -352,7 +352,7 @@ describe('variants', () => {
       expect(option3).toHaveAttribute('type', 'radio')
     })
 
-    it('renders update selected option based on external value change', () => {
+    it('should render update selected option based on external value change', () => {
       const { rerender } = render(
         <Field.Selection variant="radio" value="bar">
           <Field.Option value="foo">Foo</Field.Option>
@@ -857,7 +857,7 @@ describe('variants', () => {
       expect(buttonElement.classList).toContain('dnb-button--size-large')
     })
 
-    it('has no selected value by default', () => {
+    it('should have no selected value by default', () => {
       render(
         <Field.Selection variant="button">
           <Field.Option value="foo">Foo</Field.Option>
@@ -871,7 +871,7 @@ describe('variants', () => {
       expect(buttons[1].getAttribute('aria-checked')).toBe('false')
     })
 
-    it('has radio roles', () => {
+    it('should have radio roles', () => {
       render(
         <Field.Selection variant="button" label="Legend">
           <Field.Option value="foo">Foo</Field.Option>
@@ -892,7 +892,7 @@ describe('variants', () => {
       ).toBe('radio')
     })
 
-    it('renders help', () => {
+    it('should render help', () => {
       render(
         <Field.Selection variant="button">
           <Field.Option
@@ -935,7 +935,7 @@ describe('variants', () => {
       expect(buttons[1]).toBeDisabled()
     })
 
-    it('renders selected option', () => {
+    it('should render selected option', () => {
       render(
         <Field.Selection variant="button" value="bar">
           <Field.Option value="foo">Foo</Field.Option>
@@ -989,7 +989,7 @@ describe('variants', () => {
       expect(option3).toHaveAttribute('type', 'button')
     })
 
-    it('renders fieldset/legend if more than two options are given', () => {
+    it('should render fieldset/legend if more than two options are given', () => {
       const { rerender } = render(
         <Field.Selection variant="button" label="Legend">
           <Field.Option value="foo">Foo</Field.Option>
@@ -1016,7 +1016,7 @@ describe('variants', () => {
       )
     })
 
-    it('renders update selected option based on external value change', () => {
+    it('should render update selected option based on external value change', () => {
       const { rerender } = render(
         <Field.Selection variant="button" value="bar">
           <Field.Option value="foo">Foo</Field.Option>
@@ -1353,7 +1353,7 @@ describe('variants', () => {
       expect(dropdownElement.classList).toContain('dnb-dropdown--large')
     })
 
-    it('has no selected value by default', async () => {
+    it('should have no selected value by default', async () => {
       render(
         <Field.Selection variant="dropdown">
           <Field.Option value="foo">Foo</Field.Option>
@@ -1394,7 +1394,7 @@ describe('variants', () => {
       expect(options[1].textContent).toBe('title b')
     })
 
-    it('renders help', () => {
+    it('should render help', () => {
       render(
         <Field.Selection
           variant="dropdown"
@@ -1443,7 +1443,7 @@ describe('variants', () => {
       ).toBeDisabled()
     })
 
-    it('renders selected option', async () => {
+    it('should render selected option', async () => {
       render(
         <Field.Selection variant="dropdown" value="bar">
           <Field.Option value="foo">Foo</Field.Option>
@@ -1462,7 +1462,7 @@ describe('variants', () => {
       expect(options[1].getAttribute('aria-current')).toBe('true')
     })
 
-    it('renders update selected option based on external value change', async () => {
+    it('should render update selected option based on external value change', async () => {
       const { rerender } = render(
         <Field.Selection variant="dropdown" value="bar">
           <Field.Option value="foo">Foo</Field.Option>
@@ -1488,7 +1488,7 @@ describe('variants', () => {
       expect(options[1].getAttribute('aria-current')).toBe(null)
     })
 
-    it('renders only options with a value', async () => {
+    it('should render only options with a value', async () => {
       const { rerender } = render(
         <Field.Selection variant="dropdown" value="bar">
           <Field.Option value="foo">Foo</Field.Option>
@@ -1881,7 +1881,7 @@ describe('variants', () => {
       })
     })
 
-    it('has no selected value by default', async () => {
+    it('should have no selected value by default', async () => {
       render(
         <Field.Selection variant="autocomplete">
           <Field.Option value="foo">Foo</Field.Option>
@@ -1902,7 +1902,7 @@ describe('variants', () => {
       })
     })
 
-    it('renders help', () => {
+    it('should render help', () => {
       render(
         <Field.Selection
           variant="autocomplete"
@@ -2192,7 +2192,7 @@ describe('variants', () => {
       expect(document.querySelector('input')).toBeDisabled()
     })
 
-    it('renders selected option', async () => {
+    it('should render selected option', async () => {
       render(
         <Field.Selection variant="autocomplete" value="bar">
           <Field.Option value="foo">Foo</Field.Option>
@@ -2213,7 +2213,7 @@ describe('variants', () => {
       })
     })
 
-    it('renders update selected option based on external value change', async () => {
+    it('should render update selected option based on external value change', async () => {
       const { rerender } = render(
         <Field.Selection variant="autocomplete" value="bar">
           <Field.Option value="foo">Foo</Field.Option>
@@ -2241,7 +2241,7 @@ describe('variants', () => {
       })
     })
 
-    it('renders only options with a value', async () => {
+    it('should render only options with a value', async () => {
       const { rerender } = render(
         <Field.Selection variant="autocomplete" value="bar">
           <Field.Option value="foo">Foo</Field.Option>
@@ -2608,7 +2608,7 @@ describe('variants', () => {
 })
 
 describe('event handlers', () => {
-  it('calls onChange when selecting a different options', async () => {
+  it('should call onChange when selecting a different options', async () => {
     const onChange = jest.fn()
     render(
       <Field.Selection value="bar" onChange={onChange}>
@@ -2639,7 +2639,7 @@ describe('event handlers', () => {
     expect(onChange.mock.calls[1][0]).toEqual('bar')
   })
 
-  it('calls onFocus when opening the dropdown with selected value as argument', async () => {
+  it('should call onFocus when opening the dropdown with selected value as argument', async () => {
     const onFocus = jest.fn()
     render(
       <Field.Selection value="bar" onFocus={onFocus}>
@@ -2657,7 +2657,7 @@ describe('event handlers', () => {
     })
   })
 
-  it('calls onBlur when selecting the options so the dropdown closes with selected value as argument', async () => {
+  it('should call onBlur when selecting the options so the dropdown closes with selected value as argument', async () => {
     const onBlur = jest.fn()
     render(
       <Field.Selection value="bar" onBlur={onBlur}>
@@ -2715,7 +2715,7 @@ describe('validation and error handling', () => {
     })
   })
 
-  it('shows error border', () => {
+  it('should show error border', () => {
     const { rerender } = render(
       <Field.Selection error={new Error('This is what went wrong')}>
         <Field.Option value="foo">Foo</Field.Option>
@@ -2752,7 +2752,7 @@ describe('validation and error handling', () => {
     expect(button.className).toContain('dnb-toggle-button__status--error')
   })
 
-  it('shows error in individual button item', () => {
+  it('should show error in individual button item', () => {
     render(
       <Field.Selection variant="button">
         <Field.Option

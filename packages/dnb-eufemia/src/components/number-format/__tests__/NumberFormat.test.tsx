@@ -59,7 +59,7 @@ describe('NumberFormat component', () => {
     element + '.dnb-number-format .dnb-number-format__visible'
   const ariaSelector = element + '.dnb-number-format .dnb-sr-only'
 
-  it('renders without properties', () => {
+  it('should render without properties', () => {
     const props: NumberFormatProps = {}
     render(<Component {...props} />)
 
@@ -68,7 +68,7 @@ describe('NumberFormat component', () => {
     ).toBeTruthy()
   })
 
-  it('have to match default number', () => {
+  it('should match default number', () => {
     render(<Component value={value} />)
     expect(document.querySelector(displaySelector).textContent).toBe(
       '12 345 678,9876'
@@ -83,7 +83,7 @@ describe('NumberFormat component', () => {
     ).toBe('color: red;')
   })
 
-  it('have to match currency for default locale', () => {
+  it('should match currency for default locale', () => {
     const { rerender } = render(<Component value={-value} currency />)
 
     expect(document.querySelector(displaySelector).textContent).toBe(
@@ -102,7 +102,7 @@ describe('NumberFormat component', () => {
     )
   })
 
-  it('have to match currency in en locale', () => {
+  it('should match currency in en locale', () => {
     const { rerender } = render(
       <Component value={-value} currency locale="en" />
     )
@@ -161,14 +161,14 @@ describe('NumberFormat component', () => {
     log.mockRestore()
   })
 
-  it('have to match currency with large decimals', () => {
+  it('should match currency with large decimals', () => {
     render(<Component value="5000.0099" currency />)
     expect(document.querySelector(displaySelector).textContent).toBe(
       '5 000,01 kr'
     )
   })
 
-  it('will show copy advice', () => {
+  it('should show copy advice', () => {
     render(<Component value={-value} currency />)
 
     expect(document.querySelector('span').classList).not.toContain(
@@ -211,7 +211,7 @@ describe('NumberFormat component', () => {
     }
   })
 
-  it('has valid selected number', () => {
+  it('should have valid selected number', () => {
     const { rerender } = render(<Component value={-value} currency />)
 
     expect(document.querySelector('span').classList).not.toContain(
@@ -258,7 +258,7 @@ describe('NumberFormat component', () => {
     )
   })
 
-  it('have to match currency with currency_position="after"', () => {
+  it('should match currency with currency_position="after"', () => {
     const { rerender } = render(
       <Component value={-value} currency currency_position="after" />
     )
@@ -317,7 +317,7 @@ describe('NumberFormat component', () => {
     )
   })
 
-  it('have to match currency with currency_position="before"', () => {
+  it('should match currency with currency_position="before"', () => {
     const { rerender } = render(
       <Component value={-value} currency currency_position="before" />
     )
@@ -375,7 +375,7 @@ describe('NumberFormat component', () => {
     )
   })
 
-  it('have to match currency under 100.000', () => {
+  it('should match currency under 100.000', () => {
     render(<Component value={-12345.95} currency />)
 
     expect(document.querySelector(displaySelector).textContent).toBe(
@@ -387,7 +387,7 @@ describe('NumberFormat component', () => {
     ).toBe('-12345,95 kroner')
   })
 
-  it('have to match currency with no decimals', () => {
+  it('should match currency with no decimals', () => {
     render(<Component value={-12345.99} currency decimals={0} />)
 
     expect(document.querySelector(displaySelector).textContent).toBe(
@@ -455,14 +455,14 @@ describe('NumberFormat component', () => {
     expect(element.textContent).toBe('0')
   })
 
-  it('have to match phone number', () => {
+  it('should match phone number', () => {
     render(<Component phone>+47 99999999</Component>)
     expect(document.querySelector(displaySelector).textContent).toBe(
       '+47 99 99 99 99'
     )
   })
 
-  it('have to match bank account number', () => {
+  it('should match bank account number', () => {
     const { rerender } = render(<Component ban>20001234567</Component>)
     expect(document.querySelector(displaySelector).textContent).toBe(
       '2000 12 34567'
@@ -476,7 +476,7 @@ describe('NumberFormat component', () => {
     )
   })
 
-  it('have to match national identification number', () => {
+  it('should match national identification number', () => {
     render(<Component nin>18089212345</Component>)
     expect(document.querySelector(displaySelector).textContent).toBe(
       '180892 12345'
@@ -486,7 +486,7 @@ describe('NumberFormat component', () => {
     ).toBe('18 08 92 1 2 3 4 5')
   })
 
-  it('have to match organization number', () => {
+  it('should match organization number', () => {
     render(
       <Component org suffix="MVA">
         123456789
@@ -500,7 +500,7 @@ describe('NumberFormat component', () => {
     ).toBe('1 2 3 4 5 6 7 8 9 MVA')
   })
 
-  it('have to handle prefix and suffix', () => {
+  it('should handle prefix and suffix', () => {
     render(
       <Component prefix={<span>prefix</span>} suffix={<span>suffix</span>}>
         123456789.5
@@ -536,7 +536,7 @@ describe('NumberFormat component', () => {
     expect(suffixElement.classList).toContain('custom-suffix')
   })
 
-  it('will prefix aria-label with "srLabel" when given', () => {
+  it('should prefix aria-label with "srLabel" when given', () => {
     render(<Component value={-value} currency srLabel="Total:" />)
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
@@ -546,7 +546,7 @@ describe('NumberFormat component', () => {
     ).toContain('-12 345 678,99 kr')
   })
 
-  it('will support "srLabel" given in a jsx element', () => {
+  it('should support "srLabel" given in a jsx element', () => {
     render(
       <Component value={-value} currency srLabel={<span>Total:</span>} />
     )
@@ -558,14 +558,14 @@ describe('NumberFormat component', () => {
     ).toContain('-12 345 678,99 kr')
   })
 
-  it('will have aria-hidden on the visual element', () => {
+  it('should have aria-hidden on the visual element', () => {
     render(<Component value={-value} currency />)
     expect(
       document.querySelector('.dnb-number-format__visible')
     ).toHaveAttribute('aria-hidden', 'true')
   })
 
-  it('will set aria-hidden to false on mouse over', () => {
+  it('should set aria-hidden to false on mouse over', () => {
     render(<Component value={-value} currency />)
 
     const element = document.querySelector('.dnb-number-format__visible')
@@ -577,7 +577,7 @@ describe('NumberFormat component', () => {
     expect(element).toHaveAttribute('aria-hidden', 'true')
   })
 
-  it('will render selection value on click event', () => {
+  it('should render selection value on click event', () => {
     render(<Component value={-value} currency />)
 
     expect(
@@ -597,7 +597,7 @@ describe('NumberFormat component', () => {
     ).toBe('')
   })
 
-  it('will not render selection element when copy_selection="false"', () => {
+  it('should not render selection element when copy_selection="false"', () => {
     render(<Component value={-value} currency copy_selection={false} />)
 
     expect(
@@ -819,7 +819,7 @@ describe('NumberFormat component', () => {
     expect(selection).toHaveTextContent('')
   })
 
-  it('calls focus with preventScroll when selecting', async () => {
+  it('should call focus with preventScroll when selecting', async () => {
     render(<NumberFormat selectall value={1234568} />)
 
     const number = document.querySelector('.dnb-number-format__visible')
@@ -1469,7 +1469,7 @@ describe('NumberFormat compact', () => {
     element + '.dnb-number-format .dnb-number-format__visible'
   const ariaSelector = element + '.dnb-number-format .dnb-sr-only'
 
-  it('have to match default compact number', () => {
+  it('should match default compact number', () => {
     render(<Component value={-value} compact decimals={1} />)
     expect(document.querySelector(displaySelector).textContent).toBe(
       '-12,3 mill.'
@@ -1479,7 +1479,7 @@ describe('NumberFormat compact', () => {
     ).toBe('-12,3 millioner')
   })
 
-  it('have to match short compact number', () => {
+  it('should match short compact number', () => {
     render(<Component value={-12345} compact="short" decimals={3} />)
     expect(document.querySelector(displaySelector).textContent).toBe(
       '-12,345k'
@@ -1489,7 +1489,7 @@ describe('NumberFormat compact', () => {
     ).toBe('-12,345 tusen')
   })
 
-  it('have to match long compact number', () => {
+  it('should match long compact number', () => {
     render(<Component value={-value} compact="long" decimals={3} />)
     expect(document.querySelector(displaySelector).textContent).toBe(
       '-12,346 millioner'
@@ -1499,7 +1499,7 @@ describe('NumberFormat compact', () => {
     ).toBe('-12,346 millioner')
   })
 
-  it('have to match currency based compact number', () => {
+  it('should match currency based compact number', () => {
     render(<Component value={-value} compact currency decimals={2} />)
     expect(document.querySelector(displaySelector).textContent).toBe(
       '-12,35 mill. kr'
@@ -1509,7 +1509,7 @@ describe('NumberFormat compact', () => {
     ).toBe('-12,35 millioner kroner')
   })
 
-  it('have to match currency based compact number with custom currency_display', () => {
+  it('should match currency based compact number with custom currency_display', () => {
     render(
       <Component
         compact="long"
@@ -1527,7 +1527,7 @@ describe('NumberFormat compact', () => {
     ).toBe('-12,346 millioner kroner')
   })
 
-  it('have to hide currency code on falsy currency_display', () => {
+  it('should hide currency code on falsy currency_display', () => {
     const { rerender } = render(
       <Component currency currency_display={false} value={-1234} />
     )
@@ -1553,7 +1553,7 @@ describe('NumberFormat compact', () => {
     expect(attributes).toEqual(['lang', 'class'])
   })
 
-  it('have to match compact number with custom decimals', () => {
+  it('should match compact number with custom decimals', () => {
     render(<Component value={-value} compact currency decimals={4} />)
     expect(document.querySelector(displaySelector).textContent).toBe(
       '-12,3457 mill. kr'
@@ -1564,7 +1564,7 @@ describe('NumberFormat compact', () => {
   })
 
   describe('en-GB', () => {
-    it('have to match default compact number', () => {
+    it('should match default compact number', () => {
       render(
         <Component value={-value} compact locale="en-GB" decimals="2" />
       )
@@ -1576,7 +1576,7 @@ describe('NumberFormat compact', () => {
       ).toBe('-12.35 million')
     })
 
-    it('have to match long compact number', () => {
+    it('should match long compact number', () => {
       render(
         <Component
           value={-value}
@@ -1593,7 +1593,7 @@ describe('NumberFormat compact', () => {
       ).toBe('-12.35 million')
     })
 
-    it('have to match currency based compact number', () => {
+    it('should match currency based compact number', () => {
       render(
         <Component
           value={-value}
@@ -1699,7 +1699,7 @@ describe('NumberFormat component with provider', () => {
   const displaySelector =
     element + '.dnb-number-format .dnb-number-format__visible'
 
-  it('have to match inherit properties', () => {
+  it('should match inherit properties', () => {
     render(
       <Provider
         locale="en-GB"
@@ -1715,7 +1715,7 @@ describe('NumberFormat component with provider', () => {
 })
 
 describe('NumberFormat scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
@@ -1731,7 +1731,7 @@ describe('NumberFormat copy tooltip', () => {
     jest.useRealTimers()
   })
 
-  it('shows the tooltip from the NumberFormat copy handler', () => {
+  it('should show the tooltip from the NumberFormat copy handler', () => {
     const { container } = render(<Component value={1234} />)
     const selection = container.querySelector<HTMLSpanElement>(
       '.dnb-number-format__selection'

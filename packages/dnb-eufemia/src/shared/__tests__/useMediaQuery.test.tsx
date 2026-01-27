@@ -167,7 +167,7 @@ describe('useMediaQuery', () => {
     expect(match2Handler).toHaveBeenCalledWith(false)
   })
 
-  it('can be disabled', () => {
+  it('should be able to be disabled', () => {
     jest
       .spyOn(window, 'matchMedia')
       .mockImplementationOnce(jest.fn(window.matchMedia))

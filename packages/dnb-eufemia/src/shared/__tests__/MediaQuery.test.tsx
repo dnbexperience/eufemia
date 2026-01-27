@@ -40,7 +40,7 @@ describe('MediaQuery', () => {
     matchMedia?.destroy()
   })
 
-  it('renders with props as an object', () => {
+  it('should render with props as an object', () => {
     matchMedia.useMediaQuery(
       '(min-width: 60.00625em) and (max-width: 72em)'
     )

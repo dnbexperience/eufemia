@@ -9,7 +9,7 @@ import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO'].IterateEditContainer
 
 describe('EditContainer', () => {
-  it('renders content and without errors', () => {
+  it('should render content and without errors', () => {
     const { rerender } = render(
       <IterateItemContext.Provider
         value={{ containerMode: 'view', value: 'foo' }}
@@ -38,7 +38,7 @@ describe('EditContainer', () => {
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
   })
 
-  it('calls "switchContainerMode" when edit button is clicked', () => {
+  it('should call "switchContainerMode" when edit button is clicked', () => {
     const switchContainerMode = jest.fn()
 
     render(
@@ -53,7 +53,7 @@ describe('EditContainer', () => {
     expect(switchContainerMode).toHaveBeenCalledWith('view')
   })
 
-  it('calls "switchContainerMode" when edit button is clicked and isNew is true', () => {
+  it('should call "switchContainerMode" when edit button is clicked and isNew is true', () => {
     const switchContainerMode = jest.fn()
 
     render(
@@ -70,7 +70,7 @@ describe('EditContainer', () => {
     expect(switchContainerMode).toHaveBeenCalledWith('view')
   })
 
-  it('calls "handleRemove" when remove button is clicked and isNew is true', () => {
+  it('should call "handleRemove" when remove button is clicked and isNew is true', () => {
     const handleRemove = jest.fn()
 
     render(
@@ -89,7 +89,7 @@ describe('EditContainer', () => {
     expect(handleRemove).toHaveBeenCalledTimes(1)
   })
 
-  it('calls "restoreOriginalValue" when cancel button is clicked', () => {
+  it('should call "restoreOriginalValue" when cancel button is clicked', () => {
     const restoreOriginalValue = jest.fn()
 
     render(
@@ -173,7 +173,7 @@ describe('EditContainer', () => {
     )
   })
 
-  it('has correct class', () => {
+  it('should have correct class', () => {
     render(
       <IterateItemContext.Provider value={{ containerMode: 'edit' }}>
         <EditContainer>content</EditContainer>
@@ -185,7 +185,7 @@ describe('EditContainer', () => {
     ).toBeInTheDocument()
   })
 
-  it('will forward custom HTML attributes to the inner wrapper', () => {
+  it('should forward custom HTML attributes to the inner wrapper', () => {
     render(
       <IterateItemContext.Provider value={{ containerMode: 'edit' }}>
         <EditContainer data-attr="value">content</EditContainer>
@@ -265,7 +265,7 @@ describe('EditContainer', () => {
       expect(buttons[1]).toHaveTextContent(nb.cancelButton)
     })
 
-    it('supports translations removeButton and doneButton from Form.Handler', () => {
+    it('should support translations removeButton and doneButton from Form.Handler', () => {
       const remove = 'custom-translation-remove-button-text'
       const done = 'custom-translation-done-button-text'
 
@@ -297,7 +297,7 @@ describe('EditContainer', () => {
       expect(screen.getByText(done)).toBeInTheDocument()
     })
 
-    it('supports translations cancelButton and doneButton from Form.Handler', () => {
+    it('should support translations cancelButton and doneButton from Form.Handler', () => {
       const done = 'custom-translation-done-button-text'
       const cancel = 'custom-translation-cancel-button-text'
 

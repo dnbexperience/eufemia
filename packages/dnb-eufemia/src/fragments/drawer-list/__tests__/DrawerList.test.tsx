@@ -89,7 +89,7 @@ describe('DrawerList component', () => {
     return getFocusedItemIndex() === -1 && item !== null
   }
 
-  it('has correct state at startup', () => {
+  it('should have correct state at startup', () => {
     render(<DrawerList {...props} data={mockData} />)
     expect(
       document.querySelector('.dnb-drawer-list--opened')
@@ -117,7 +117,7 @@ describe('DrawerList component', () => {
     ).toBeInTheDocument()
   })
 
-  it('has correct state after changing prop to opened', () => {
+  it('should have correct state after changing prop to opened', () => {
     const { rerender } = render(<DrawerList {...props} data={mockData} />)
 
     expect(
@@ -135,7 +135,7 @@ describe('DrawerList component', () => {
     ).toBeInTheDocument()
   })
 
-  it('keeps dialog open when Escape is pressed inside the drawer list', async () => {
+  it('should keep dialog open when Escape is pressed inside the drawer list', async () => {
     render(
       <Dialog noAnimation openState title="Dialog">
         <DrawerList
@@ -189,7 +189,7 @@ describe('DrawerList component', () => {
       ],
     }
 
-    it('has correct attributes', async () => {
+    it('should have correct attributes', async () => {
       render(<DrawerList {...disabledOptionProps} />)
 
       const options = document.querySelectorAll('.dnb-drawer-list__option')
@@ -197,7 +197,7 @@ describe('DrawerList component', () => {
       expect(options[1].getAttribute('aria-disabled')).toEqual('true')
     })
 
-    it('sends on_select events', async () => {
+    it('should send on_select events', async () => {
       const on_select = jest.fn()
 
       render(<DrawerList {...disabledOptionProps} on_select={on_select} />)
@@ -224,7 +224,7 @@ describe('DrawerList component', () => {
       })
     })
 
-    it('cannot be clicked', async () => {
+    it('should not be clicked', async () => {
       const on_change = jest.fn()
       const on_select = jest.fn()
 
@@ -263,7 +263,7 @@ describe('DrawerList component', () => {
     })
   })
 
-  it('handles default_value correctly on forcing re-render', () => {
+  it('should handle default_value correctly on forcing re-render', () => {
     const { rerender } = render(
       <DrawerList
         opened
@@ -313,7 +313,7 @@ describe('DrawerList component', () => {
     expect(screen.getByTitle(title)).toBeInTheDocument()
   })
 
-  it('has correct value on key search', async () => {
+  it('should have correct value on key search', async () => {
     render(<DrawerList {...props} data={mockData} />)
 
     expect(
@@ -334,7 +334,7 @@ describe('DrawerList component', () => {
     })
   })
 
-  it('does not change focus with no search results', async () => {
+  it('should not change focus with no search results', async () => {
     render(<DrawerList {...props} data={mockData} />)
 
     expect(
@@ -531,7 +531,7 @@ describe('DrawerList component', () => {
     })
   })
 
-  it('has valid on_select callback', async () => {
+  it('should have valid on_select callback', async () => {
     const on_select = jest.fn()
 
     const { rerender } = render(
@@ -581,7 +581,7 @@ describe('DrawerList component', () => {
     })
   })
 
-  it('will set data-dnb-drawer-list-active with id', () => {
+  it('should set data-dnb-drawer-list-active with id', () => {
     const { rerender } = render(
       <DrawerList {...props} opened={false} data={mockData} />
     )
@@ -699,7 +699,7 @@ describe('DrawerList component', () => {
     })
   })
 
-  it('will unset data-dnb-drawer-list-active on unmount', () => {
+  it('should unset data-dnb-drawer-list-active on unmount', () => {
     const { rerender, unmount } = render(
       <DrawerList {...props} data={mockData} opened={false} />
     )
@@ -717,7 +717,7 @@ describe('DrawerList component', () => {
     )
   })
 
-  it('will lock body scroll when enable_body_lock is true', () => {
+  it('should lock body scroll when enable_body_lock is true', () => {
     const MockComponent = (p) => (
       <DrawerList {...props} data={mockData} enable_body_lock {...p} />
     )
@@ -737,7 +737,7 @@ describe('DrawerList component', () => {
     expect(document.body.getAttribute('style')).toBe('')
   })
 
-  it('has valid on_change callback', async () => {
+  it('should have valid on_change callback', async () => {
     const on_change = jest.fn()
     const on_select = jest.fn()
 
@@ -792,7 +792,7 @@ describe('DrawerList component', () => {
     })
   })
 
-  it('does not fire on_change when selecting the selected item', async () => {
+  it('should not fire on_change when selecting the selected item', async () => {
     const on_change = jest.fn()
 
     render(
@@ -814,7 +814,7 @@ describe('DrawerList component', () => {
     })
   })
 
-  it('has correct direction prop', () => {
+  it('should have correct direction prop', () => {
     const directionTop = 'top'
 
     const { rerender } = render(
@@ -834,7 +834,7 @@ describe('DrawerList component', () => {
     ).toBeInTheDocument()
   })
 
-  it('will call on_hide after "esc" key', async () => {
+  it('should call on_hide after "esc" key', async () => {
     const on_hide = jest.fn()
 
     render(<DrawerList {...props} data={mockData} on_hide={on_hide} />)
@@ -871,7 +871,7 @@ describe('DrawerList component', () => {
     })
   })
 
-  it('has correct class modifier "--opened"', () => {
+  it('should have correct class modifier "--opened"', () => {
     render(<DrawerList {...props} data={mockData} />)
     const elem = document.querySelector('span.dnb-drawer-list')
 
@@ -880,7 +880,7 @@ describe('DrawerList component', () => {
     expect(elem.className).not.toContain('dnb-drawer-list--hidden')
   })
 
-  it('has correct length of li elements', () => {
+  it('should have correct length of li elements', () => {
     render(<DrawerList {...props} data={mockData} />)
 
     expect(
@@ -888,7 +888,7 @@ describe('DrawerList component', () => {
     ).toBe(mockData.length)
   })
 
-  it('has correct value on data given as an object', async () => {
+  it('should have correct value on data given as an object', async () => {
     const on_change = jest.fn()
     const on_select = jest.fn()
 
@@ -980,7 +980,7 @@ describe('DrawerList component', () => {
     expect(getSelectedItem()).toHaveTextContent('Content 8')
   })
 
-  it('has to return all additional attributes the event return', () => {
+  it('should return all additional attributes the event return', () => {
     const on_show = jest.fn()
     const on_hide = jest.fn()
     const params = { 'data-attr': 'value' }
@@ -1004,7 +1004,7 @@ describe('DrawerList component', () => {
   })
 
   describe('height calculation', () => {
-    it('has given max-height when max_height is set', () => {
+    it('should have given max-height when max_height is set', () => {
       render(<DrawerList {...props} data={mockData} max_height={10} />)
 
       expect(
@@ -1014,7 +1014,7 @@ describe('DrawerList component', () => {
       ).toBe('max-height: 10rem;')
     })
 
-    it('has correct max-height with direction top', () => {
+    it('should have correct max-height with direction top', () => {
       jest
         .spyOn(document.documentElement, 'clientHeight', 'get')
         .mockImplementationOnce(() => 100)
@@ -1046,7 +1046,7 @@ describe('DrawerList component', () => {
       ).toBe('max-height: 4rem;')
     })
 
-    it('has correct max-height with direction bottom', () => {
+    it('should have correct max-height with direction bottom', () => {
       jest
         .spyOn(document.documentElement, 'clientHeight', 'get')
         .mockImplementationOnce(() => 300)
@@ -1082,7 +1082,7 @@ describe('DrawerList component', () => {
   })
 
   describe('inline style', () => {
-    it('sets correct styling using data object', () => {
+    it('should set correct styling using data object', () => {
       render(
         <DrawerList
           {...props}
@@ -1102,7 +1102,7 @@ describe('DrawerList component', () => {
       ).toBe('hyphens: auto;')
     })
 
-    it('sets correct style using DrawerList.Item', () => {
+    it('should set correct style using DrawerList.Item', () => {
       render(
         <DrawerList {...props}>
           <DrawerList.Options>
@@ -1128,7 +1128,7 @@ describe('DrawerList component', () => {
       ).toBe('hyphens: auto;')
     })
 
-    it('sets correct style using DrawerList.HorizontalItem', () => {
+    it('should set correct style using DrawerList.HorizontalItem', () => {
       render(
         <DrawerList {...props}>
           <DrawerList.Options>
@@ -1167,7 +1167,7 @@ describe('DrawerList component', () => {
       'Fourth',
     ]
 
-    it('renders groups', () => {
+    it('should render groups', () => {
       render(
         <DrawerList
           opened={true}
@@ -1221,7 +1221,7 @@ describe('DrawerList component', () => {
       ).toBe('Item 3.1')
     })
 
-    it('uses default title for groups missing title', () => {
+    it('should use default title for groups missing title', () => {
       render(
         <DrawerList
           opened={true}
@@ -1255,7 +1255,7 @@ describe('DrawerList component', () => {
       )
     })
 
-    it('adds group for items without group index', () => {
+    it('should add group for items without group index', () => {
       render(
         <DrawerList
           opened={true}
@@ -1368,7 +1368,7 @@ describe('DrawerList markup', () => {
 })
 
 describe('DrawerList portal', () => {
-  it('will set correct width when independent_width is set', async () => {
+  it('should set correct width when independent_width is set', async () => {
     const style = {
       getPropertyValue: () => 20,
     } as undefined
@@ -1399,7 +1399,7 @@ describe('DrawerList portal', () => {
     )
   })
 
-  it('will set correct width when independent_width is set and isolated style scope is used', async () => {
+  it('should set correct width when independent_width is set and isolated style scope is used', async () => {
     const style = {
       getPropertyValue: () => 20,
     } as undefined
@@ -1440,12 +1440,12 @@ describe('DrawerList portal', () => {
 })
 
 describe('DrawerList scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
 
-  it('have to match default theme snapshot', () => {
+  it('should match default theme snapshot', () => {
     const css = loadScss(
       require.resolve('../style/themes/dnb-drawer-list-theme-ui.scss')
     )

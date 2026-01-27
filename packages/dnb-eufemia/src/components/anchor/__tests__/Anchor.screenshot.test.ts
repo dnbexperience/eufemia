@@ -11,14 +11,14 @@ import {
 describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
   setupPageScreenshot({ themeName, url: '/uilib/components/anchor' })
 
-  it('have to match the preview states', async () => {
+  it('should match the preview states', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-states"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match breaking lines', async () => {
+  it('should match breaking lines', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'white-space': 'nowrap',
@@ -28,35 +28,35 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match anchor with skeleton', async () => {
+  it('should match anchor with skeleton', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-skeleton"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match anchor with icon-right', async () => {
+  it('should match anchor with icon-right', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-icon-right"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match anchor with icon left', async () => {
+  it('should match anchor with icon left', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-icon-left"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match anchor with icon node', async () => {
+  it('should match anchor with icon node', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-icon-node"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match anchor with paragraph', async () => {
+  it('should match anchor with paragraph', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-paragraph"]',
       matchConfig: {
@@ -66,42 +66,42 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match anchor in heading', async () => {
+  it('should match anchor in heading', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-heading"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match anchor with no icon', async () => {
+  it('should match anchor with no icon', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-no-icon-prop"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match anchor with no launch icon', async () => {
+  it('should match anchor with no launch icon', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-no-launch-icon-prop"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match disabled anchor', async () => {
+  it('should match disabled anchor', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-disabled"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the "default" state', async () => {
+  it('should match the "default" state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-basic"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the "focus" state', async () => {
+  it('should match the "focus" state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-basic"]',
       simulateSelector: '[data-visual-test="anchor-basic"] .dnb-anchor',
@@ -110,7 +110,7 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the "hover" state', async () => {
+  it('should match the "hover" state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-basic"]',
       simulateSelector: '[data-visual-test="anchor-basic"] .dnb-anchor',
@@ -119,7 +119,7 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the "active" state', async () => {
+  it('should match the "active" state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-basic"]',
       simulateSelector: '[data-visual-test="anchor-basic"] .dnb-anchor',
@@ -129,14 +129,14 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
   })
 
   describe('contrast', () => {
-    it('have to match the anchor-contrast no-underline "default" state', async () => {
+    it('should match the anchor-contrast no-underline "default" state', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="anchor-contrast-no-underline"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match the anchor-contrast no-underline no-hover "default" state', async () => {
+    it('should match the anchor-contrast no-underline no-hover "default" state', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="anchor-contrast-no-underline-no-hover"]',
@@ -144,7 +144,7 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match the anchor-contrast no-underline no-hover "hover" state', async () => {
+    it('should match the anchor-contrast no-underline no-hover "hover" state', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="anchor-contrast-no-underline-no-hover"]',
@@ -155,7 +155,7 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match the anchor-contrast no-underline no-radius "default" state', async () => {
+    it('should match the anchor-contrast no-underline no-radius "default" state', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="anchor-contrast-no-underline-no-radius"]',
@@ -163,7 +163,7 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match the anchor-contrast no-underline no-radius "hover" state', async () => {
+    it('should match the anchor-contrast no-underline no-radius "hover" state', async () => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="anchor-contrast-no-underline-no-radius"]',
@@ -174,7 +174,7 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match the anchor-contrast no-hover "hover" state', async () => {
+    it('should match the anchor-contrast no-hover "hover" state', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="anchor-contrast-no-hover"]',
         simulateSelector:
@@ -184,7 +184,7 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match the anchor-contrast no-radius "hover" state', async () => {
+    it('should match the anchor-contrast no-radius "hover" state', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="anchor-contrast-no-radius"]',
         simulateSelector:
@@ -194,14 +194,14 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match the anchor-contrast "default" state', async () => {
+    it('should match the anchor-contrast "default" state', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="anchor-contrast"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match the anchor-contrast "focus" state', async () => {
+    it('should match the anchor-contrast "focus" state', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="anchor-contrast"]',
         simulateSelector:
@@ -211,7 +211,7 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match the anchor-contrast "hover" state', async () => {
+    it('should match the anchor-contrast "hover" state', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="anchor-contrast"]',
         simulateSelector:
@@ -221,7 +221,7 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match the anchor-contrast "active" state', async () => {
+    it('should match the anchor-contrast "active" state', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="anchor-contrast"]',
         simulateSelector:
@@ -233,14 +233,14 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
   })
 
   describe('modifiers', () => {
-    it('have to match the dnb-anchor--no-icon', async () => {
+    it('should match the dnb-anchor--no-icon', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="anchor-no-icon"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match the dnb-anchor--no-underline', async () => {
+    it('should match the dnb-anchor--no-underline', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="anchor-in-section"]',
       })
@@ -248,7 +248,7 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
     })
   })
 
-  it('have to match the "hover" state for modifier no-style', async () => {
+  it('should match the "hover" state for modifier no-style', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-no-style"]',
       simulateSelector: '[data-visual-test="anchor-no-style"] .dnb-anchor',
@@ -257,7 +257,7 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the "hover" state for modifier no-hover', async () => {
+  it('should match the "hover" state for modifier no-hover', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-no-hover"]',
       simulateSelector: '[data-visual-test="anchor-no-hover"] .dnb-anchor',
@@ -267,7 +267,7 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
   })
 
   if (themeName === 'sbanken') {
-    it('have to match the dnb-anchor--inline hover', async () => {
+    it('should match the dnb-anchor--inline hover', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="anchor-paragraph"]',
         simulateSelector:
@@ -277,7 +277,7 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match the dnb-anchor--inline active', async () => {
+    it('should match the dnb-anchor--inline active', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="anchor-paragraph"]',
         simulateSelector:
@@ -287,7 +287,7 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match the dnb-anchor--inline focus', async () => {
+    it('should match the dnb-anchor--inline focus', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="anchor-paragraph"]',
         simulateSelector:
@@ -297,7 +297,7 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match with icon hover', async () => {
+    it('should match with icon hover', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="anchor-icon-left"]',
         simulateSelector:
@@ -307,7 +307,7 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match with icon active', async () => {
+    it('should match with icon active', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="anchor-icon-left"]',
         simulateSelector:
@@ -317,7 +317,7 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match with icon focus', async () => {
+    it('should match with icon focus', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="anchor-icon-left"]',
         simulateSelector:
@@ -328,7 +328,7 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
     })
   }
 
-  it('have to break word with icon', async () => {
+  it('should break word with icon', async () => {
     const widths = { sbanken: '16rem', ui: '17.5rem' }
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-icon-break"]',
@@ -343,35 +343,35 @@ describe.each(['ui', 'sbanken'])(
   (themeName) => {
     setupPageScreenshot({ themeName, url: '/uilib/components/anchor' })
 
-    it('have to match blank target anchor in heading', async () => {
+    it('should match blank target anchor in heading', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="anchor-heading-blank"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match the target blank state', async () => {
+    it('should match the target blank state', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="anchor-blank"] a',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match blank target with icon left', async () => {
+    it('should match blank target with icon left', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="anchor-blank-icon-left"] a',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match the target blank with href protocol', async () => {
+    it('should match the target blank with href protocol', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="anchor-protocol"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match the target blank with tooltip', async () => {
+    it('should match the target blank with tooltip', async () => {
       const screenshot = await makeScreenshot({
         style: {
           'padding-top': '2rem',
@@ -390,21 +390,21 @@ describe.each(['ui', 'sbanken'])(
 describe.each(['ui'])('Anchor legacy icon usage for %s', (themeName) => {
   setupPageScreenshot({ themeName, url: '/uilib/components/anchor' })
 
-  it('have to match anchor with legacy icon', async () => {
+  it('should match anchor with legacy icon', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-legacy-icon"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match anchor with paragraph legacy icon', async () => {
+  it('should match anchor with paragraph legacy icon', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-legacy-paragraph"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match anchor with target blank legacy icon', async () => {
+  it('should match anchor with target blank legacy icon', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-legacy-blank-with-icon"]',
     })

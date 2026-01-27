@@ -9,7 +9,7 @@ describe('Grid.Container', () => {
   const selector =
     '[data-visual-test="grid-container-responsive"] .dnb-grid-container'
 
-  it('have to match responsive size on large viewport', async () => {
+  it('should match responsive size on large viewport', async () => {
     const screenshot = await makeScreenshot({
       url: '/uilib/layout/grid/container/demos',
       pageViewport: {
@@ -23,7 +23,7 @@ describe('Grid.Container', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match responsive size on medium viewport', async () => {
+  it('should match responsive size on medium viewport', async () => {
     const screenshot = await makeScreenshot({
       url: '/uilib/layout/grid/container/demos',
       pageViewport: {
@@ -34,7 +34,7 @@ describe('Grid.Container', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match responsive size on small viewport', async () => {
+  it('should match responsive size on small viewport', async () => {
     const screenshot = await makeScreenshot({
       url: '/uilib/layout/grid/container/demos',
       pageViewport: {

@@ -17,7 +17,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     width: '200px', // make sure our input gets an explicit width, because of mac/linux rendering differences
   }
 
-  it('have to match masked input', async () => {
+  it('should match masked input', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector:
@@ -26,7 +26,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match currency_mask', async () => {
+  it('should match currency_mask', async () => {
     const screenshot = await makeScreenshot({
       // style,
       selector: '[data-visual-test="input-masked-currency_mask"]',
@@ -34,7 +34,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match number_mask', async () => {
+  it('should match number_mask', async () => {
     const screenshot = await makeScreenshot({
       // style,
       selector: '[data-visual-test="input-masked-number_mask"]',
@@ -42,7 +42,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match locale number', async () => {
+  it('should match locale number', async () => {
     const screenshot = await makeScreenshot({
       // style,
       selector: '[data-visual-test="input-masked-number"]',
@@ -50,7 +50,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match locale currency', async () => {
+  it('should match locale currency', async () => {
     const screenshot = await makeScreenshot({
       // style,
       selector: '[data-visual-test="input-masked-currency"]',

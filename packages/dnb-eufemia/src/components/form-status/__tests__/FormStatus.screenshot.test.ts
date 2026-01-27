@@ -18,7 +18,7 @@ describe.each(['ui', 'sbanken'])('FormStatus for %s', (themeName) => {
     'max-width': '60rem', // make sure our input gets an explicit width, because of mac/linux rendering differences
   }
 
-  it('have to match the form-status with icon', async () => {
+  it('should match the form-status with icon', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="form-status"] .dnb-form-status',
@@ -26,7 +26,7 @@ describe.each(['ui', 'sbanken'])('FormStatus for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the info state', async () => {
+  it('should match the info state', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="form-status-info"] .dnb-form-status',
@@ -34,7 +34,7 @@ describe.each(['ui', 'sbanken'])('FormStatus for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match with stretch prop', async () => {
+  it('should match with stretch prop', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'min-width': '60rem',
@@ -45,7 +45,7 @@ describe.each(['ui', 'sbanken'])('FormStatus for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the warn state', async () => {
+  it('should match the warn state', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="form-status-warn"] .dnb-form-status',
@@ -53,7 +53,7 @@ describe.each(['ui', 'sbanken'])('FormStatus for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the marketing state', async () => {
+  it('should match the marketing state', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector:
@@ -62,7 +62,7 @@ describe.each(['ui', 'sbanken'])('FormStatus for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match custom content', async () => {
+  it('should match custom content', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="form-status-custom"]',
@@ -70,7 +70,7 @@ describe.each(['ui', 'sbanken'])('FormStatus for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match icons used in the icon component', async () => {
+  it('should match icons used in the icon component', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="form-status-icons"]',
@@ -78,7 +78,7 @@ describe.each(['ui', 'sbanken'])('FormStatus for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match all variants', async () => {
+  it('should match all variants', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="form-status-all-variants"]',

@@ -8,7 +8,7 @@ import nbNO from '../../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO'].SectionViewContainer
 
 describe('Toolbar', () => {
-  it('supports spacing props', () => {
+  it('should support spacing props', () => {
     render(
       <SectionContainerContext.Provider value={{}}>
         <Toolbar top="large">content</Toolbar>
@@ -20,7 +20,7 @@ describe('Toolbar', () => {
     ).toHaveClass('dnb-space__top--large')
   })
 
-  it('has buttons/tools by default', () => {
+  it('should have buttons/tools by default', () => {
     render(
       <SectionContainerContext.Provider value={{}}>
         <Toolbar />
@@ -30,7 +30,7 @@ describe('Toolbar', () => {
     expect(document.querySelector('button')).not.toBeInTheDocument()
   })
 
-  it('has hr element', () => {
+  it('should have hr element', () => {
     render(
       <SectionContainerContext.Provider value={{}}>
         <Toolbar />
@@ -40,7 +40,7 @@ describe('Toolbar', () => {
     expect(document.querySelector('hr')).toBeInTheDocument()
   })
 
-  it('has render given children', () => {
+  it('should have render given children', () => {
     render(
       <SectionContainerContext.Provider value={{}}>
         <Toolbar>

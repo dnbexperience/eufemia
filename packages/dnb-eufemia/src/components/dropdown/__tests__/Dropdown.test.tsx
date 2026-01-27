@@ -76,7 +76,7 @@ describe('Dropdown component', () => {
     dispatchKeyDown(27) // esc
   })
 
-  it('has correct value on keydown "ArrowDown" and "Enter"', () => {
+  it('should have correct value on keydown "ArrowDown" and "Enter"', () => {
     render(<Dropdown {...props} data={mockData} />)
     let elem: HTMLUListElement
 
@@ -126,7 +126,7 @@ describe('Dropdown component', () => {
     )
   })
 
-  it('has correct value on key search', () => {
+  it('should have correct value on key search', () => {
     const { rerender } = render(<Dropdown {...props} data={mockData} />)
 
     keydown(32) // space
@@ -154,7 +154,7 @@ describe('Dropdown component', () => {
     ).toContain('dnb-drawer-list__option--focus')
   })
 
-  it('has correct state when opened prop is given', () => {
+  it('should have correct state when opened prop is given', () => {
     render(
       <Dropdown skip_portal no_animation opened={true} data={mockData} />
     )
@@ -169,7 +169,7 @@ describe('Dropdown component', () => {
     ).toBe('true')
   })
 
-  it('supports a trigger_element properly', () => {
+  it('should support a trigger_element properly', () => {
     render(
       <Dropdown
         skip_portal
@@ -195,7 +195,7 @@ describe('Dropdown component', () => {
     ).toBe('true')
   })
 
-  it('shows form-status with correct classes', () => {
+  it('should show form-status with correct classes', () => {
     render(
       <Dropdown
         skip_portal
@@ -212,7 +212,7 @@ describe('Dropdown component', () => {
     )
   })
 
-  it('will stay open when keep_open and a selection is made', () => {
+  it('should stay open when keep_open and a selection is made', () => {
     const on_change = jest.fn()
     render(
       <Dropdown
@@ -250,7 +250,7 @@ describe('Dropdown component', () => {
     ).not.toContain('dnb-dropdown--opened')
   })
 
-  it('will stay open when prevent_close is given, regardless', async () => {
+  it('should stay open when prevent_close is given, regardless', async () => {
     const on_change = jest.fn()
     const on_hide = jest.fn()
     render(
@@ -291,7 +291,7 @@ describe('Dropdown component', () => {
     expect(on_hide).toHaveBeenCalledTimes(0)
   })
 
-  it('has valid on_select callback', () => {
+  it('should have valid on_select callback', () => {
     const on_select = jest.fn()
 
     render(<Dropdown {...props} data={mockData} on_select={on_select} />)
@@ -314,7 +314,7 @@ describe('Dropdown component', () => {
     expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
   })
 
-  it('will select correct item on given numeric selectedKey', () => {
+  it('should select correct item on given numeric selectedKey', () => {
     const { rerender } = render(
       <Dropdown
         {...props}
@@ -382,7 +382,7 @@ describe('Dropdown component', () => {
     }
   })
 
-  it('has no selected items on using prevent_selection', async () => {
+  it('should have no selected items on using prevent_selection', async () => {
     const on_change = jest.fn()
     const title = 'custom title'
 
@@ -518,7 +518,7 @@ describe('Dropdown component', () => {
     ).toBeInTheDocument()
   })
 
-  it('can be reset to null', () => {
+  it('should be able to be reset to null', () => {
     let value
     const { rerender } = render(
       <Dropdown {...props} value={null} data={mockData} />
@@ -642,7 +642,7 @@ describe('Dropdown component', () => {
     )
   })
 
-  it('has no selected items on using more_menu', () => {
+  it('should have no selected items on using more_menu', () => {
     const title = 'custom title'
     render(
       <Dropdown
@@ -684,7 +684,7 @@ describe('Dropdown component', () => {
     ).toBeInTheDocument()
   })
 
-  it('has valid on_change callback', () => {
+  it('should have valid on_change callback', () => {
     let selectedItem
     const on_change = jest.fn()
     const on_select = jest.fn()
@@ -736,7 +736,7 @@ describe('Dropdown component', () => {
     expect(on_select).toHaveBeenCalledTimes(4)
   })
 
-  it('has valid on_change callback if object was given', () => {
+  it('should have valid on_change callback if object was given', () => {
     const on_change = jest.fn()
 
     render(
@@ -789,7 +789,7 @@ describe('Dropdown component', () => {
     expect(on_change).toHaveBeenCalledTimes(2)
   })
 
-  it('has correct "aria-expanded"', () => {
+  it('should have correct "aria-expanded"', () => {
     render(<Dropdown {...props} data={mockData} />)
 
     expect(
@@ -812,7 +812,7 @@ describe('Dropdown component', () => {
     expect(elem.getAttribute('class')).toContain('dnb-dropdown--opened')
   })
 
-  it('has correct "role"', () => {
+  it('should have correct "role"', () => {
     render(<Dropdown {...props} data={mockData} />)
 
     expect(
@@ -823,7 +823,7 @@ describe('Dropdown component', () => {
     ).toBe('combobox')
   })
 
-  it('has correct "aria-haspopup"', () => {
+  it('should have correct "aria-haspopup"', () => {
     render(<Dropdown {...props} data={mockData} />)
 
     expect(
@@ -834,7 +834,7 @@ describe('Dropdown component', () => {
     ).toBe('listbox')
   })
 
-  it('has correct "aria-haspopup" when action_menu', () => {
+  it('should have correct "aria-haspopup" when action_menu', () => {
     render(<Dropdown {...props} data={mockData} action_menu />)
 
     expect(
@@ -845,7 +845,7 @@ describe('Dropdown component', () => {
     ).toBe('true')
   })
 
-  it('has correct "aria-haspopup" when more_menu', () => {
+  it('should have correct "aria-haspopup" when more_menu', () => {
     render(<Dropdown {...props} data={mockData} more_menu />)
 
     expect(
@@ -856,7 +856,7 @@ describe('Dropdown component', () => {
     ).toBe('true')
   })
 
-  it('has correct "aria-haspopup" when prevent_selection', () => {
+  it('should have correct "aria-haspopup" when prevent_selection', () => {
     render(<Dropdown {...props} data={mockData} prevent_selection />)
 
     expect(
@@ -867,7 +867,7 @@ describe('Dropdown component', () => {
     ).toBe('true')
   })
 
-  it('has correct "role" in options', () => {
+  it('should have correct "role" in options', () => {
     render(
       <Dropdown skip_portal no_animation opened={true} data={mockData} />
     )
@@ -883,7 +883,7 @@ describe('Dropdown component', () => {
     ).toBe('listbox')
   })
 
-  it('has correct "role" in options when action_menu', () => {
+  it('should have correct "role" in options when action_menu', () => {
     render(
       <Dropdown
         skip_portal
@@ -901,7 +901,7 @@ describe('Dropdown component', () => {
     ).toBe('menu')
   })
 
-  it('has correct "role" in options when more_menu', () => {
+  it('should have correct "role" in options when more_menu', () => {
     render(
       <Dropdown
         skip_portal
@@ -919,7 +919,7 @@ describe('Dropdown component', () => {
     ).toBe('menu')
   })
 
-  it('has correct "role" in options when prevent_selection', () => {
+  it('should have correct "role" in options when prevent_selection', () => {
     render(
       <Dropdown
         skip_portal
@@ -952,7 +952,7 @@ describe('Dropdown component', () => {
     )
   })
 
-  it('has correct length of li elements', () => {
+  it('should have correct length of li elements', () => {
     render(<Dropdown {...props} data={mockData} />)
 
     open()
@@ -962,7 +962,7 @@ describe('Dropdown component', () => {
     ).toBe(mockData.length)
   })
 
-  it('has to return all additional attributes the event return', () => {
+  it('should return all additional attributes the event return', () => {
     const on_show = jest.fn()
     const on_hide = jest.fn()
     const params = { 'data-attr': 'value' }
@@ -1002,7 +1002,7 @@ describe('Dropdown component', () => {
     expect(on_hide).toHaveBeenCalledTimes(1)
   })
 
-  it('has to set correct focus during open and close', async () => {
+  it('should set correct focus during open and close', async () => {
     const on_show = jest.fn()
     const on_hide = jest.fn()
     const on_show_focus = jest.fn()
@@ -1053,7 +1053,7 @@ describe('Dropdown component', () => {
     )
   })
 
-  it('will prevent close if false gets returned from on_hide event', () => {
+  it('should prevent close if false gets returned from on_hide event', () => {
     let preventClose = false
     const on_hide = jest.fn(() => !preventClose)
     render(<Dropdown no_animation on_hide={on_hide} data={mockData} />)
@@ -1098,7 +1098,7 @@ describe('Dropdown component', () => {
     )
   })
 
-  it('keeps dialog open when Escape is pressed inside the dropdown', async () => {
+  it('should keep dialog open when Escape is pressed inside the dropdown', async () => {
     render(
       <Dialog noAnimation openState title="Dialog">
         <Dropdown data={mockData} skip_portal no_animation opened />
@@ -1124,7 +1124,7 @@ describe('Dropdown component', () => {
     )
   })
 
-  it('will not set focus on options when key down/up is pressed on first or last item', async () => {
+  it('should not set focus on options when key down/up is pressed on first or last item', async () => {
     const { rerender } = render(
       <Dropdown id="key-nav" no_animation data={mockData} />
     )
@@ -1223,7 +1223,7 @@ describe('Dropdown component', () => {
     ).toContain('dnb-drawer-list__option--focus')
   })
 
-  it('will change the selected value when StrictMode is enabled', () => {
+  it('should change the selected value when StrictMode is enabled', () => {
     render(
       <React.StrictMode>
         <Dropdown no_animation data={mockData} value={props.value} />
@@ -1245,7 +1245,7 @@ describe('Dropdown component', () => {
     )
   })
 
-  it('has correct selected value', () => {
+  it('should have correct selected value', () => {
     render(<Dropdown {...props} data={mockData} />)
     expect(
       document.querySelector('.dnb-dropdown__text__inner').textContent
@@ -1254,7 +1254,7 @@ describe('Dropdown component', () => {
     )
   })
 
-  it('has correct selected value after new selection', () => {
+  it('should have correct selected value after new selection', () => {
     render(<Dropdown {...props} data={mockData} />)
     open()
 
@@ -1268,7 +1268,7 @@ describe('Dropdown component', () => {
     )
   })
 
-  it('has correct value after useEffect value state change', () => {
+  it('should have correct value after useEffect value state change', () => {
     const newValue = 3
     const UpdateValue = () => {
       const [value, setValue] = React.useState(props.value)
@@ -1299,7 +1299,7 @@ describe('Dropdown component', () => {
     )
   })
 
-  it('has a default value if no value is given', () => {
+  it('should have a default value if no value is given', () => {
     const title = 'Make a selection'
     render(<Dropdown data={mockData} title={title} {...mockProps} />)
     expect(
@@ -1343,7 +1343,7 @@ describe('Dropdown component', () => {
     ).toHaveTextContent('Title as prop')
   })
 
-  it('has correct title', () => {
+  it('should have correct title', () => {
     render(<Dropdown {...props} data={mockData} />)
     expect(
       document.querySelector('.dnb-dropdown__trigger')
@@ -1353,7 +1353,7 @@ describe('Dropdown component', () => {
     )
   })
 
-  it('has correct title after new selection', () => {
+  it('should have correct title after new selection', () => {
     render(<Dropdown {...props} data={mockData} />)
     open()
 
@@ -1367,7 +1367,7 @@ describe('Dropdown component', () => {
     )
   })
 
-  it('has correct title after useEffect value state change', () => {
+  it('should have correct title after useEffect value state change', () => {
     const newValue = 3
     const UpdateValue = () => {
       const [value, setValue] = React.useState(props.value)
@@ -1399,7 +1399,7 @@ describe('Dropdown component', () => {
     )
   })
 
-  it('supports Icon as selected_value', () => {
+  it('should support Icon as selected_value', () => {
     render(
       <Dropdown
         {...props}
@@ -1418,7 +1418,7 @@ describe('Dropdown component', () => {
     ).toBe('bank icon')
   })
 
-  it('supports CountryFlag as selected_value', () => {
+  it('should support CountryFlag as selected_value', () => {
     render(
       <Dropdown
         {...props}
@@ -1437,7 +1437,7 @@ describe('Dropdown component', () => {
     ).toBe('Norge')
   })
 
-  it('has a default title if no value is given', () => {
+  it('should have a default title if no value is given', () => {
     const title = 'Make a selection'
     render(<Dropdown data={mockData} title={title} {...mockProps} />)
     expect(
@@ -1445,7 +1445,7 @@ describe('Dropdown component', () => {
     ).toHaveAttribute('title', title)
   })
 
-  it('has correct title when passing a react fragment as selected_value', () => {
+  it('should have correct title when passing a react fragment as selected_value', () => {
     render(
       <Dropdown
         {...props}
@@ -1464,7 +1464,7 @@ describe('Dropdown component', () => {
     ).toHaveAttribute('title', 'my value')
   })
 
-  it('has correct title when passing a react fragment with an Icon as selected_value', () => {
+  it('should have correct title when passing a react fragment with an Icon as selected_value', () => {
     render(
       <Dropdown
         {...props}
@@ -1488,7 +1488,7 @@ describe('Dropdown component', () => {
     ).toHaveAttribute('title', 'Banking')
   })
 
-  it('has no title when passing an Icon as selected_value', () => {
+  it('should have no title when passing an Icon as selected_value', () => {
     render(
       <Dropdown
         {...props}
@@ -1507,7 +1507,7 @@ describe('Dropdown component', () => {
     ).not.toHaveAttribute('title')
   })
 
-  it('has correct title when passing a NumberFormat as selected_value', () => {
+  it('should have correct title when passing a NumberFormat as selected_value', () => {
     render(
       <Dropdown
         {...props}
@@ -1553,7 +1553,7 @@ describe('Dropdown component', () => {
     ).toBe('')
   })
 
-  it('has a correct value content if we send in a React component', () => {
+  it('should have a correct value content if we send in a React component', () => {
     const aStringOf = 'Custom content 123'
 
     render(<Dropdown data={mockData} value={4} {...mockProps} />)
@@ -1572,7 +1572,7 @@ describe('Dropdown component', () => {
     ).toBe(aStringOf)
   })
 
-  it('has a disabled attribute, once we set disabled to true', () => {
+  it('should have a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(
       <Dropdown data={mockData} {...mockProps} />
     )
@@ -1586,7 +1586,7 @@ describe('Dropdown component', () => {
     expect(button).toHaveAttribute('disabled')
   })
 
-  it('has correct trigger button aria attributes', () => {
+  it('should have correct trigger button aria attributes', () => {
     render(
       <Dropdown data={mockData} {...mockProps} opened id="dropdown-id" />
     )
@@ -1604,7 +1604,7 @@ describe('Dropdown component', () => {
     expect(elem).toHaveAttribute('aria-expanded', 'false')
   })
 
-  it('gets valid buttonRef element', () => {
+  it('should get valid buttonRef element', () => {
     let ref: React.RefObject<HTMLButtonElement>
 
     function MockComponent() {
@@ -1619,7 +1619,7 @@ describe('Dropdown component', () => {
     expect(ref.current instanceof HTMLButtonElement).toBe(true)
   })
 
-  it('gets valid buttonRef element when ref is function', () => {
+  it('should get valid buttonRef element when ref is function', () => {
     const ref: React.MutableRefObject<HTMLButtonElement> =
       React.createRef()
 
@@ -1634,7 +1634,7 @@ describe('Dropdown component', () => {
     expect(ref.current instanceof HTMLButtonElement).toBe(true)
   })
 
-  it('gets valid innerRef element', () => {
+  it('should get valid innerRef element', () => {
     let ref: React.RefObject<HTMLButtonElement>
 
     function MockComponent() {
@@ -1649,7 +1649,7 @@ describe('Dropdown component', () => {
     expect(ref.current instanceof HTMLSpanElement).toBe(true)
   })
 
-  it('gets valid innerRef element when ref is function', () => {
+  it('should get valid innerRef element when ref is function', () => {
     const ref: React.MutableRefObject<HTMLButtonElement> =
       React.createRef()
 
@@ -1702,7 +1702,7 @@ describe('Dropdown component', () => {
     window.resizeTo({ height: window.innerHeight })
   })
 
-  it('has working direction observer', async () => {
+  it('should have working direction observer', async () => {
     render(<Dropdown {...props} data={mockData} />)
 
     // open first
@@ -1826,7 +1826,7 @@ describe('Dropdown component', () => {
       'Fourth',
     ]
 
-    it('renders groups', async () => {
+    it('should render groups', async () => {
       render(
         <Dropdown
           no_animation={true}
@@ -1882,7 +1882,7 @@ describe('Dropdown component', () => {
       ).toBe('Item 3.1')
     })
 
-    it('uses default title for groups missing title', async () => {
+    it('should use default title for groups missing title', async () => {
       render(
         <Dropdown
           no_animation={true}
@@ -1918,7 +1918,7 @@ describe('Dropdown component', () => {
       )
     })
 
-    it('adds group for items without group index', async () => {
+    it('should add group for items without group index', async () => {
       render(
         <Dropdown
           no_animation={true}
@@ -2134,12 +2134,12 @@ describe('Dropdown markup', () => {
 })
 
 describe('Dropdown scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
 
-  it('have to match default theme snapshot', () => {
+  it('should match default theme snapshot', () => {
     const css = loadScss(
       require.resolve('../style/themes/dnb-dropdown-theme-ui.scss')
     )

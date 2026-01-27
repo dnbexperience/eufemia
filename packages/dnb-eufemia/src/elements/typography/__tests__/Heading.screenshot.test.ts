@@ -33,14 +33,14 @@ describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
       url: '/uilib/elements/heading',
     })
 
-    it('have to match the default heading examples', async () => {
+    it('should match the default heading examples', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="heading-default"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match the additional heading examples', async () => {
+    it('should match the additional heading examples', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="heading-additional"]',
       })
@@ -78,14 +78,14 @@ describe.each(['sbanken'])('Heading mobile for %s', (themeName) => {
       width: 400,
     },
   })
-  it('have to match the default heading examples', async () => {
+  it('should match the default heading examples', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="heading-default"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the additional heading examples', async () => {
+  it('should match the additional heading examples', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="heading-additional"]',
     })

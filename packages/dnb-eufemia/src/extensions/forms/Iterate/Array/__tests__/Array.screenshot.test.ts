@@ -8,7 +8,7 @@ import { makeScreenshot } from '../../../../../core/jest/jestSetupScreenshots'
 describe('Iterate.Array', () => {
   const url = '/uilib/extensions/forms/Iterate/Array/demos'
 
-  it('have to match primitive element values', async () => {
+  it('should match primitive element values', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector: '[data-visual-test="primitive-element-values"]',
@@ -16,7 +16,7 @@ describe('Iterate.Array', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match animated container', async () => {
+  it('should match animated container', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector:
@@ -25,7 +25,7 @@ describe('Iterate.Array', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match filled view container', async () => {
+  it('should match filled view container', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector:
@@ -35,7 +35,7 @@ describe('Iterate.Array', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match view container with line divider', async () => {
+  it('should match view container with line divider', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector:
@@ -45,7 +45,7 @@ describe('Iterate.Array', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match filled edit container', async () => {
+  it('should match filled edit container', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector: '[data-visual-test="filled-view-and-edit-container"]',
@@ -59,7 +59,7 @@ describe('Iterate.Array', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match view container', async () => {
+  it('should match view container', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector:
@@ -68,7 +68,7 @@ describe('Iterate.Array', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match edit container', async () => {
+  it('should match edit container', async () => {
     const screenshot = await makeScreenshot({
       url,
       selector: '[data-visual-test="view-and-edit-container"]',

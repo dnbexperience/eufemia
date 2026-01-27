@@ -18,21 +18,21 @@ describe('GlobalError', () => {
     url: '/uilib/components/global-error/demos',
   })
 
-  it('have to match the 404 status', async () => {
+  it('should match the 404 status', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="global-error-404"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the 500 status', async () => {
+  it('should match the 500 status', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="global-error-500"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the custom status', async () => {
+  it('should match the custom status', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="global-error-custom"]',
       matchConfig: {

@@ -256,7 +256,7 @@ describe('Iterate.Array', () => {
   })
 
   describe('Zod validation', () => {
-    it('shows localized min items error for Zod array schema', async () => {
+    it('should show localized min items error for Zod array schema', async () => {
       const schema = z.array(z.string()).min(3)
 
       render(
@@ -279,7 +279,7 @@ describe('Iterate.Array', () => {
       })
     })
 
-    it('shows localized max items error for Zod array schema', async () => {
+    it('should show localized max items error for Zod array schema', async () => {
       const schema = z.array(z.string()).max(1)
 
       render(

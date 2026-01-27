@@ -10,7 +10,7 @@ import { Flex } from '../../../../../components'
 import { P } from '../../../../../elements'
 
 describe('Visibility', () => {
-  it('renders children when no props is given', () => {
+  it('should render children when no props is given', () => {
     render(<Visibility>Child</Visibility>)
     expect(screen.getByText('Child')).toBeInTheDocument()
   })
@@ -20,12 +20,12 @@ describe('Visibility', () => {
   })
 
   describe('visibility', () => {
-    it('renders children when visible is true', () => {
+    it('should render children when visible is true', () => {
       render(<Visibility visible={true}>Child</Visibility>)
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
 
-    it('does not render children when visible is false', () => {
+    it('should not render children when visible is false', () => {
       render(<Visibility visible={false}>Child</Visibility>)
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
@@ -60,7 +60,7 @@ describe('Visibility', () => {
   })
 
   describe('pathDefined', () => {
-    it('renders children when target path is defined', () => {
+    it('should render children when target path is defined', () => {
       render(
         <Provider data={{ isDefined: 'foo' }}>
           <Visibility pathDefined="/isDefined">Child</Visibility>
@@ -69,7 +69,7 @@ describe('Visibility', () => {
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
 
-    it('does not render children when target path is not defined', () => {
+    it('should not render children when target path is not defined', () => {
       render(
         <Provider data={{ isDefined: 'foo' }}>
           <Visibility pathDefined="/notDefined">Child</Visibility>
@@ -80,7 +80,7 @@ describe('Visibility', () => {
   })
 
   describe('pathUndefined', () => {
-    it('renders children when target path is defined', () => {
+    it('should render children when target path is defined', () => {
       render(
         <Provider data={{ isDefined: 'foo' }}>
           <Visibility pathUndefined="/isDefined">Child</Visibility>
@@ -89,7 +89,7 @@ describe('Visibility', () => {
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
 
-    it('does not render children when target path is not defined', () => {
+    it('should not render children when target path is not defined', () => {
       render(
         <Provider data={{ isDefined: 'foo' }}>
           <Visibility pathUndefined="/notDefined">Child</Visibility>
@@ -100,7 +100,7 @@ describe('Visibility', () => {
   })
 
   describe('pathTruthy', () => {
-    it('renders children when target path is truthy', () => {
+    it('should render children when target path is truthy', () => {
       render(
         <Provider data={{ isTruthy: 'value' }}>
           <Visibility pathTruthy="/isTruthy">Child</Visibility>
@@ -109,7 +109,7 @@ describe('Visibility', () => {
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
 
-    it('does not render children when target path is not truthy', () => {
+    it('should not render children when target path is not truthy', () => {
       render(
         <Provider data={{ isFalsy: null }}>
           <Visibility pathTruthy="/isFalsy">Child</Visibility>
@@ -118,7 +118,7 @@ describe('Visibility', () => {
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
 
-    it('does not render children when target path is not defined', () => {
+    it('should not render children when target path is not defined', () => {
       render(
         <Provider data={{ isFalse: false }}>
           <Visibility pathTruthy="/isNotDefined">Child</Visibility>
@@ -129,7 +129,7 @@ describe('Visibility', () => {
   })
 
   describe('pathFalsy', () => {
-    it('renders children when target path is falsy', () => {
+    it('should render children when target path is falsy', () => {
       render(
         <Provider data={{ isFalsy: null }}>
           <Visibility pathFalsy="/isFalsy">Child</Visibility>
@@ -138,7 +138,7 @@ describe('Visibility', () => {
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
 
-    it('renders children when target path is not defined', () => {
+    it('should render children when target path is not defined', () => {
       render(
         <Provider data={{ isFalse: false }}>
           <Visibility pathFalsy="/isNotDefined">Child</Visibility>
@@ -147,7 +147,7 @@ describe('Visibility', () => {
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
 
-    it('does not render children when target path is not falsy', () => {
+    it('should not render children when target path is not falsy', () => {
       render(
         <Provider data={{ isTruthy: 'value' }}>
           <Visibility pathFalsy="/isTruthy">Child</Visibility>
@@ -158,7 +158,7 @@ describe('Visibility', () => {
   })
 
   describe('inferData', () => {
-    it('renders children when infer-function returns true', () => {
+    it('should render children when infer-function returns true', () => {
       // eslint-disable-next-line no-unused-vars
       const inferData = jest.fn((data) => true)
       render(
@@ -169,7 +169,7 @@ describe('Visibility', () => {
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
 
-    it('does not render children when infer-function return false', () => {
+    it('should not render children when infer-function return false', () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const inferData = jest.fn((data) => false)
       render(
@@ -184,7 +184,7 @@ describe('Visibility', () => {
   })
 
   describe('pathValue', () => {
-    it('renders children when target path and value matches', () => {
+    it('should render children when target path and value matches', () => {
       render(
         <Provider data={{ myPath: 'checked' }}>
           <Visibility pathValue="/myPath" whenValue="checked">
@@ -195,7 +195,7 @@ describe('Visibility', () => {
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
 
-    it('does not render children when target path not not value matches', () => {
+    it('should not render children when target path not not value matches', () => {
       render(
         <Provider data={{ myPath: 'checked' }}>
           <Visibility pathValue="/myPath" whenValue="not-checked">

@@ -13,7 +13,7 @@ describe('List', () => {
     url: '/uilib/elements/lists',
   })
 
-  it('have to match ul list', async () => {
+  it('should match ul list', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="lists-ul"]',
       style: { width: '20rem', height: '18rem' },
@@ -21,14 +21,14 @@ describe('List', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match ol list', async () => {
+  it('should match ol list', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="lists-ol"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match outside ol list', async () => {
+  it('should match outside ol list', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '20rem', height: '20rem' },
       selector: '[data-visual-test="lists-ol-style-position"]',
@@ -36,21 +36,21 @@ describe('List', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match ol list with custom types', async () => {
+  it('should match ol list with custom types', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="lists-ol-types"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match dl list', async () => {
+  it('should match dl list', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="lists-dl"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match dl horizontal list', async () => {
+  it('should match dl horizontal list', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '35rem' },
       selector: '[data-visual-test="lists-dl-horizontal"]',
@@ -58,7 +58,7 @@ describe('List', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match dl grid list', async () => {
+  it('should match dl grid list', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '35rem' },
       selector: '[data-visual-test="lists-dl-grid"]',
@@ -66,14 +66,14 @@ describe('List', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match lists reset', async () => {
+  it('should match lists reset', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="lists-reset"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match ul inside ol', async () => {
+  it('should match ul inside ol', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="ul-inside-ol"]',
     })
@@ -84,21 +84,21 @@ describe('List', () => {
 describe('Lists with skeleton', () => {
   setupPageScreenshot({ url: '/uilib/elements/lists?skeleton' })
 
-  it('have to match ul list', async () => {
+  it('should match ul list', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="lists-ul"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match ol list', async () => {
+  it('should match ol list', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="lists-ol"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match outside ol list', async () => {
+  it('should match outside ol list', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '20rem', height: '20rem' },
       selector: '[data-visual-test="lists-ol-style-position"]',
@@ -106,14 +106,14 @@ describe('Lists with skeleton', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match ol list with custom types', async () => {
+  it('should match ol list with custom types', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="lists-ol-types"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match dl list', async () => {
+  it('should match dl list', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="lists-dl"]',
     })

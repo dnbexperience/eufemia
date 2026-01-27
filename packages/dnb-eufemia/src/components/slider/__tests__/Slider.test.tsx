@@ -38,7 +38,7 @@ describe('Slider component', () => {
   const getRangeElement = (index: number) =>
     document.querySelectorAll('[type="range"]')[index] as HTMLInputElement
 
-  it('supports snake_case props', () => {
+  it('should support snake_case props', () => {
     const props: SliderAllProps = {
       id: 'slider',
       label: 'Label',
@@ -108,7 +108,7 @@ describe('Slider component', () => {
     )
   })
 
-  it('has correct value on mouse move', () => {
+  it('should have correct value on mouse move', () => {
     render(<Slider {...props} />)
     expect(parseFloat(getButtonHelper().value)).toBe(props.value)
 
@@ -118,7 +118,7 @@ describe('Slider component', () => {
     expect(parseFloat(getButtonHelper().value)).toBe(value + 10)
   })
 
-  it('has correct value on mouse move in vertical mode', () => {
+  it('should have correct value on mouse move in vertical mode', () => {
     render(<Slider {...props} vertical />)
 
     expect(parseFloat(getButtonHelper().value)).toBe(props.value)
@@ -128,7 +128,7 @@ describe('Slider component', () => {
     expect(parseFloat(getButtonHelper().value)).toBe(20) // since we use reverse in vertical mode
   })
 
-  it('has correct value with reverse', () => {
+  it('should have correct value with reverse', () => {
     render(<Slider {...props} vertical reverse />)
 
     expect(parseFloat(getButtonHelper().value)).toBe(props.value)
@@ -256,7 +256,7 @@ describe('Slider component', () => {
       globalThis.IS_TEST = IS_TEST
     })
 
-    it('shows always a Tooltip when alwaysShowTooltip is true', () => {
+    it('should show always a Tooltip when alwaysShowTooltip is true', () => {
       render(
         <Slider {...props} id="unique-tooltip" tooltip alwaysShowTooltip />
       )
@@ -269,7 +269,7 @@ describe('Slider component', () => {
       )
     })
 
-    it('shows Tooltip on hover with numberFormat', async () => {
+    it('should show Tooltip on hover with numberFormat', async () => {
       render(
         <Slider
           {...props}
@@ -309,7 +309,7 @@ describe('Slider component', () => {
       expect(tooltipElement.classList).toContain('dnb-tooltip--hide')
     })
 
-    it('shows Tooltip on focus', async () => {
+    it('should show Tooltip on focus', async () => {
       render(<Slider {...props} id="unique-tooltip" tooltip />)
 
       const mainElem = document.querySelector('.dnb-slider')
@@ -340,7 +340,7 @@ describe('Slider component', () => {
       expect(tooltipElement.classList).toContain('dnb-tooltip--hide')
     })
 
-    it('shows Tooltip on hover with custom formatting', async () => {
+    it('should show Tooltip on hover with custom formatting', async () => {
       render(
         <Slider
           {...props}
@@ -413,7 +413,7 @@ describe('Slider component', () => {
       expect(tooltipElement.classList).toContain('dnb-tooltip')
     })
 
-    it('updates Tooltip targetRefreshKey when the thumb value changes', () => {
+    it('should update Tooltip targetRefreshKey when the thumb value changes', () => {
       const popoverSpy = jest.spyOn(PopoverModule, 'default')
       render(<Slider {...props} id="tooltip-key" tooltip />)
 
@@ -508,7 +508,7 @@ describe('Slider component', () => {
       expect(markerElement).toHaveAttribute('aria-label', '120')
     })
 
-    it('shows Tooltip with info', async () => {
+    it('should show Tooltip with info', async () => {
       const marker = { instance: SliderMarker, value: 30 }
       render(<Slider extensions={{ marker }} />)
 
@@ -526,7 +526,7 @@ describe('Slider component', () => {
       expect(tooltipElement).toHaveTextContent('30')
     })
 
-    it('shows Tooltip with  text', async () => {
+    it('should show Tooltip with  text', async () => {
       const marker = {
         instance: SliderMarker,
         value: 30,
@@ -548,7 +548,7 @@ describe('Slider component', () => {
     })
   })
 
-  it('has events that return a correct value', () => {
+  it('should have events that return a correct value', () => {
     const onChange = jest.fn()
 
     render(<Slider onChange={onChange} />)
@@ -611,7 +611,7 @@ describe('Slider component', () => {
     ).toBe('80,0 kroner')
   })
 
-  it('will not emit onChange with same value twice', () => {
+  it('should not emit onChange with same value twice', () => {
     const onChange = jest.fn()
 
     render(<Slider onChange={onChange} />)
@@ -642,7 +642,7 @@ describe('Slider component', () => {
       return <Slider {...props} value={value} onChange={onChangehandler} />
     }
 
-    it('will not emit onChange with same value twice', () => {
+    it('should not emit onChange with same value twice', () => {
       const onChange = jest.fn()
 
       props.value = [20, 30, 90]
@@ -658,7 +658,7 @@ describe('Slider component', () => {
       resetMouseSimulation()
     })
 
-    it('will not need on external prop changes', () => {
+    it('should not need on external prop changes', () => {
       const WrongUsage = () => {
         const [min, setMinVal] = React.useState(0) //eslint-disable-line
         const [max, setMaxVal] = React.useState(200) //eslint-disable-line
@@ -743,7 +743,7 @@ describe('Slider component', () => {
       expect(onChange.mock.calls[2][0].value).toEqual([10, 40, 80])
     })
 
-    it('updates thumb index and returns correct event value', () => {
+    it('should update thumb index and returns correct event value', () => {
       const onChange = jest.fn()
 
       props.value = [10, 30, 40]
@@ -769,7 +769,7 @@ describe('Slider component', () => {
       expect(onChange.mock.calls[1][0].value).toEqual([10, 20, 40])
     })
 
-    it('will not swap thumb positions when multiThumbBehavior="omit"', () => {
+    it('should not swap thumb positions when multiThumbBehavior="omit"', () => {
       const onChange = jest.fn()
 
       props.value = [10, 30, 60]
@@ -821,7 +821,7 @@ describe('Slider component', () => {
       )
     })
 
-    it('will push thumb positions when multiThumbBehavior="push"', () => {
+    it('should push thumb positions when multiThumbBehavior="push"', () => {
       const onChange = jest.fn()
 
       props.value = [10, 30, 60]
@@ -873,7 +873,7 @@ describe('Slider component', () => {
       )
     })
 
-    it('sets correct inline styles', () => {
+    it('should set correct inline styles', () => {
       props.value = [20, 30, 90]
       render(
         <SliderWithStateUpdate
@@ -991,7 +991,7 @@ describe('Slider component', () => {
 })
 
 describe('Slider scss', () => {
-  it('has to match style dependencies css', () => {
+  it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })

@@ -34,7 +34,7 @@ describe('Circular ProgressIndicator component', () => {
     )
   })
 
-  it('has role of alert or progressbar depending if progress has a value', () => {
+  it('should have role of alert or progressbar depending if progress has a value', () => {
     const { rerender } = render(
       <ProgressIndicator {...props} type="circular" progress={undefined} />
     )
@@ -60,7 +60,7 @@ describe('Circular ProgressIndicator component', () => {
     ).toBe(`stroke-dashoffset: ${Math.PI * 20}%;`)
   })
 
-  it('has aria-label set to the value of progress property when title is default', () => {
+  it('should have aria-label set to the value of progress property when title is default', () => {
     render(<ProgressIndicator {...props} type="circular" progress={1} />)
 
     const indicator = screen.getByRole('progressbar')
@@ -72,7 +72,7 @@ describe('Circular ProgressIndicator component', () => {
     )
   })
 
-  it('has title set to the value of progress property when title is default', () => {
+  it('should have title set to the value of progress property when title is default', () => {
     render(<ProgressIndicator {...props} type="circular" progress={1} />)
 
     const indicator = screen.getByRole('progressbar')
@@ -84,7 +84,7 @@ describe('Circular ProgressIndicator component', () => {
     )
   })
 
-  it('does not have aria-label when progress, and title is both null', () => {
+  it('should not have aria-label when progress, and title is both null', () => {
     render(
       <ProgressIndicator
         {...props}
@@ -98,7 +98,7 @@ describe('Circular ProgressIndicator component', () => {
     expect(indicator.getAttribute('aria-label')).not.toBeInTheDocument()
   })
 
-  it('does not have title when progress, and title is both null', () => {
+  it('should not have title when progress, and title is both null', () => {
     render(
       <ProgressIndicator
         {...props}
@@ -112,7 +112,7 @@ describe('Circular ProgressIndicator component', () => {
     expect(indicator.getAttribute('title')).not.toBeInTheDocument()
   })
 
-  it('has aria-label set to the value of title property', () => {
+  it('should have aria-label set to the value of title property', () => {
     const title = 'loading'
     render(
       <ProgressIndicator
@@ -127,7 +127,7 @@ describe('Circular ProgressIndicator component', () => {
     expect(indicator.getAttribute('aria-label')).toBe(title)
   })
 
-  it('has title set to the value of title property', () => {
+  it('should have title set to the value of title property', () => {
     const title = 'loading'
     render(
       <ProgressIndicator
@@ -322,7 +322,7 @@ describe('Linear ProgressIndicator component', () => {
     )
   })
 
-  it('has role of alert or progressbar depending if progress has a value', () => {
+  it('should have role of alert or progressbar depending if progress has a value', () => {
     const { rerender } = render(
       <ProgressIndicator {...props} type="linear" progress={undefined} />
     )
@@ -346,7 +346,7 @@ describe('Linear ProgressIndicator component', () => {
     ).toBe('transform: translateX(-20%);')
   })
 
-  it('has aria-label set to the value of progress property when title is default', () => {
+  it('should have aria-label set to the value of progress property when title is default', () => {
     render(<ProgressIndicator {...props} type="linear" progress={1} />)
 
     const indicator = screen.getByRole('progressbar')
@@ -358,7 +358,7 @@ describe('Linear ProgressIndicator component', () => {
     )
   })
 
-  it('has title set to the value of progress property when title is default', () => {
+  it('should have title set to the value of progress property when title is default', () => {
     render(<ProgressIndicator {...props} type="linear" progress={1} />)
 
     const indicator = screen.getByRole('progressbar')
@@ -370,7 +370,7 @@ describe('Linear ProgressIndicator component', () => {
     )
   })
 
-  it('does not have aria-label when progress, and title is both null', () => {
+  it('should not have aria-label when progress, and title is both null', () => {
     render(
       <ProgressIndicator
         {...props}
@@ -384,7 +384,7 @@ describe('Linear ProgressIndicator component', () => {
     expect(indicator.getAttribute('aria-label')).not.toBeInTheDocument()
   })
 
-  it('does not have title when progress, and title is both null', () => {
+  it('should not have title when progress, and title is both null', () => {
     render(
       <ProgressIndicator
         {...props}
@@ -398,7 +398,7 @@ describe('Linear ProgressIndicator component', () => {
     expect(indicator.getAttribute('title')).not.toBeInTheDocument()
   })
 
-  it('has aria-label set to the value of title property', () => {
+  it('should have aria-label set to the value of title property', () => {
     const title = 'loading'
     render(
       <ProgressIndicator
@@ -413,7 +413,7 @@ describe('Linear ProgressIndicator component', () => {
     expect(indicator.getAttribute('aria-label')).toBe(title)
   })
 
-  it('has title set to the value of title property', () => {
+  it('should have title set to the value of title property', () => {
     const title = 'loading'
     render(
       <ProgressIndicator

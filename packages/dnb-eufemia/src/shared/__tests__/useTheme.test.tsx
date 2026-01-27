@@ -41,7 +41,7 @@ describe('useTheme', () => {
     })
   })
 
-  it('will return false on all constants when no name was given', () => {
+  it('should return false on all constants when no name was given', () => {
     const wrapper = ({ children }) => <Theme>{children}</Theme>
     const { result } = renderHook(() => useTheme(), { wrapper })
 

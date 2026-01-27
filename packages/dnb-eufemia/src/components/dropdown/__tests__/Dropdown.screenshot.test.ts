@@ -14,7 +14,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     url: '/uilib/components/dropdown/demos',
   })
 
-  it('have to match the closed dropdown', async () => {
+  it('should match the closed dropdown', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="dropdown-closed"] .dnb-dropdown__inner',
@@ -22,21 +22,21 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match different sizes', async () => {
+  it('should match different sizes', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="dropdown-sizes"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match disabled state', async () => {
+  it('should match disabled state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="dropdown-disabled"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match disabled options', async () => {
+  it('should match disabled options', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-bottom': '14rem',
@@ -50,21 +50,21 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match tertiary variant disabled state', async () => {
+  it('should match tertiary variant disabled state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="dropdown-disabled-tertiary"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dropdown with icon on left side', async () => {
+  it('should match the dropdown with icon on left side', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="dropdown-left-icon"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dropdown with status: error', async () => {
+  it('should match the dropdown with status: error', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="dropdown-status-error"] .dnb-dropdown__inner',
@@ -72,7 +72,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dropdown with tertiary button', async () => {
+  it('should match the dropdown with tertiary button', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="dropdown-tertiary"] .dnb-dropdown__inner',
@@ -80,7 +80,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dropdown as action menu', async () => {
+  it('should match the dropdown as action menu', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="dropdown-action_menu"] .dnb-dropdown__inner',
@@ -88,7 +88,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the closed dropdown with focus', async () => {
+  it('should match the closed dropdown with focus', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="dropdown-closed"] .dnb-dropdown__inner',
@@ -99,7 +99,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the closed dropdown with hover', async () => {
+  it('should match the closed dropdown with hover', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="dropdown-closed"] .dnb-dropdown__inner',
@@ -110,7 +110,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dropdown items', async () => {
+  it('should match the dropdown items', async () => {
     const screenshot = await makeScreenshot({
       style: {
         width: '14rem',
@@ -124,7 +124,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dropdown button with ellipsis overflow', async () => {
+  it('should match the dropdown button with ellipsis overflow', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="dropdown-ellipsis"] .dnb-dropdown__inner',
@@ -132,7 +132,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dropdown button in active state', async () => {
+  it('should match the dropdown button in active state', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="dropdown-closed"] .dnb-dropdown__inner',
@@ -143,7 +143,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dropdown with groups', async () => {
+  it('should match the dropdown with groups', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-bottom': '26rem',
@@ -157,7 +157,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dropdown action menu with custom items', async () => {
+  it('should match the dropdown action menu with custom items', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="dropdown-action_menu-custom"]',
       simulate: 'click',
@@ -178,7 +178,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     },
   })
 
-  it('have to match different item directions', async () => {
+  it('should match different item directions', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-top': '16rem',
@@ -192,7 +192,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dropdown as more_menu opened on left side', async () => {
+  it('should match the dropdown as more_menu opened on left side', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="dropdown-more_menu"]',
       simulate: 'click',
@@ -203,7 +203,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dropdown as more_menu opened on right side', async () => {
+  it('should match the dropdown as more_menu opened on right side', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="dropdown-more_menu"]',
       simulate: 'click',
@@ -214,7 +214,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dropdown with independent_width opened with icon_position left', async () => {
+  it('should match the dropdown with independent_width opened with icon_position left', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-top': '16rem',
@@ -228,7 +228,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dropdown with independent_width opened with icon_position right', async () => {
+  it('should match the dropdown with independent_width opened with icon_position right', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-top': '16rem',
@@ -242,7 +242,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dropdown action menu in mobile view', async () => {
+  it('should match the dropdown action menu in mobile view', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="dropdown-action_menu-custom"]',
       simulate: 'click',
@@ -264,7 +264,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     url: '/uilib/components/dropdown/demos',
   })
 
-  it('have to match the tertiary variant opened on left side', async () => {
+  it('should match the tertiary variant opened on left side', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="dropdown-tertiary"]',
       simulate: 'click',
@@ -279,7 +279,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the tertiary variant opened on right side', async () => {
+  it('should match the tertiary variant opened on right side', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="dropdown-tertiary-right"]',
       simulate: ['focus', 'click'],

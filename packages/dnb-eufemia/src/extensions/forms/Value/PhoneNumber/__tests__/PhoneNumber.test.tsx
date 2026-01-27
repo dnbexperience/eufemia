@@ -52,13 +52,13 @@ describe('Value.PhoneNumber', () => {
     expect(element).toHaveTextContent('+47 11 22 33 44')
   })
 
-  it('does not render when value is null', () => {
+  it('should not render when value is null', () => {
     render(<Value.PhoneNumber value={null} />)
     const element = document.querySelector('.dnb-forms-value-block')
     expect(element).not.toBeInTheDocument()
   })
 
-  it('does not render when value is undefined', () => {
+  it('should not render when value is undefined', () => {
     render(<Value.PhoneNumber value={undefined} />)
     const element = document.querySelector('.dnb-forms-value-block')
     expect(element).not.toBeInTheDocument()

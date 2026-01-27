@@ -44,7 +44,7 @@ describe.each(['ui'])('Popover alignment for %s', (themeName) => {
     url: '/uilib/components/popover/demos',
   })
 
-  it('have to match align center and arrow center', async () => {
+  it('should match align center and arrow center', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-bottom': '3rem',
@@ -57,7 +57,7 @@ describe.each(['ui'])('Popover alignment for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match align left', async () => {
+  it('should match align left', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-left': '2rem',
@@ -69,7 +69,7 @@ describe.each(['ui'])('Popover alignment for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match align left and arrow left', async () => {
+  it('should match align left and arrow left', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-left': '2rem',
@@ -82,7 +82,7 @@ describe.each(['ui'])('Popover alignment for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match align right and arrow right', async () => {
+  it('should match align right and arrow right', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-right': '2rem',
@@ -95,7 +95,7 @@ describe.each(['ui'])('Popover alignment for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match align left and arrow right', async () => {
+  it('should match align left and arrow right', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-left': '2rem',
@@ -108,7 +108,7 @@ describe.each(['ui'])('Popover alignment for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match align right and arrow left', async () => {
+  it('should match align right and arrow left', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-right': '2rem',
@@ -121,7 +121,7 @@ describe.each(['ui'])('Popover alignment for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match align right', async () => {
+  it('should match align right', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-right': '3rem',
@@ -133,7 +133,7 @@ describe.each(['ui'])('Popover alignment for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match arrow left', async () => {
+  it('should match arrow left', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-left': '2rem',
@@ -145,7 +145,7 @@ describe.each(['ui'])('Popover alignment for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match arrow right', async () => {
+  it('should match arrow right', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-right': '2rem',
@@ -157,7 +157,7 @@ describe.each(['ui'])('Popover alignment for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match placement right', async () => {
+  it('should match placement right', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-right': '2rem',
@@ -170,7 +170,7 @@ describe.each(['ui'])('Popover alignment for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match placement left', async () => {
+  it('should match placement left', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-left': '2rem',
@@ -183,7 +183,7 @@ describe.each(['ui'])('Popover alignment for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match placement top', async () => {
+  it('should match placement top', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-top': '2rem',
@@ -197,7 +197,7 @@ describe.each(['ui'])('Popover alignment for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match placement bottom', async () => {
+  it('should match placement bottom', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-bottom': '2rem',
@@ -210,7 +210,7 @@ describe.each(['ui'])('Popover alignment for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match placement right and arrow top', async () => {
+  it('should match placement right and arrow top', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-right': '2rem',
@@ -223,7 +223,7 @@ describe.each(['ui'])('Popover alignment for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match placement right and arrow bottom', async () => {
+  it('should match placement right and arrow bottom', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-right': '2rem',
@@ -237,7 +237,7 @@ describe.each(['ui'])('Popover alignment for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match placement left and arrow bottom', async () => {
+  it('should match placement left and arrow bottom', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-left': '2rem',
@@ -250,7 +250,7 @@ describe.each(['ui'])('Popover alignment for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match placement right and arrow left', async () => {
+  it('should match placement right and arrow left', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-right': '2rem',
@@ -263,7 +263,7 @@ describe.each(['ui'])('Popover alignment for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match placement left and arrow right', async () => {
+  it('should match placement left and arrow right', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-left': '2rem',
@@ -276,7 +276,7 @@ describe.each(['ui'])('Popover alignment for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match placement left and arrow top', async () => {
+  it('should match placement left and arrow top', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-left': '2rem',

@@ -8,21 +8,21 @@ describe('Form.MainHeading', () => {
     url: '/uilib/extensions/forms/Form/MainHeading/demos',
   })
 
-  it('have to match above stack', async () => {
+  it('should match above stack', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="layout-main-heading-above-stack"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match above card', async () => {
+  it('should match above card', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="layout-main-heading-above-card"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match help button', async () => {
+  it('should match help button', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="layout-main-heading-help-button"]',
       simulate: 'click',

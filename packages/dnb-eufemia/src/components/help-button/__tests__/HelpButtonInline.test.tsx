@@ -109,7 +109,7 @@ describe('HelpButtonInline', () => {
     })
   })
 
-  it('keeps dialog open when Escape is pressed inside the inline help', async () => {
+  it('should keep dialog open when Escape is pressed inside the inline help', async () => {
     render(
       <Dialog noAnimation openState title="Dialog">
         <HelpButtonInline
@@ -484,7 +484,7 @@ describe('HelpButtonInline', () => {
     expect(ariaDescribedBy).toBe(tooltipContent.id)
   })
 
-  it('calls focus with preventScroll when opening', async () => {
+  it('should call focus with preventScroll when opening', async () => {
     render(
       <HelpButtonInline focusWhenOpen help={{ title: 'Help title' }} />
     )
@@ -509,7 +509,7 @@ describe('HelpButtonInline', () => {
     focusSpy.mockRestore()
   })
 
-  it('calls focus with preventScroll when closing', async () => {
+  it('should call focus with preventScroll when closing', async () => {
     render(
       <HelpButtonInline focusWhenOpen help={{ title: 'Help title' }} />
     )

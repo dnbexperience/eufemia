@@ -13,21 +13,21 @@ describe('Horizontal rule', () => {
     url: '/uilib/elements/horizontal-rule',
   })
 
-  it('have to match default horizontal rule', async () => {
+  it('should match default horizontal rule', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="hr-default"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match breakout horizontal rule', async () => {
+  it('should match breakout horizontal rule', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="hr-breakout"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match dashed horizontal rule', async () => {
+  it('should match dashed horizontal rule', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="hr-dashed"]',
     })

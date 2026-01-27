@@ -18,7 +18,7 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
     url: '/uilib/components/step-indicator/demos',
   })
 
-  it('have to match statuses', async () => {
+  it('should match statuses', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="step-indicator-statuses"]',
       simulate: 'click',
@@ -36,7 +36,7 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match loose mode', async () => {
+  it('should match loose mode', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="step-indicator-loose"]',
       simulate: 'click',
@@ -47,7 +47,7 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match loose mode after click simulation', async () => {
+  it('should match loose mode after click simulation', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="step-indicator-loose"]',
       simulate: [
@@ -62,7 +62,7 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match strict mode', async () => {
+  it('should match strict mode', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="step-indicator-strict"]',
       simulate: 'click',
@@ -73,7 +73,7 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match strict mode after click simulation', async () => {
+  it('should match strict mode after click simulation', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="step-indicator-strict"]',
       simulate: [
@@ -88,7 +88,7 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match static mode after click simulation', async () => {
+  it('should match static mode after click simulation', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="step-indicator-static"]',
       simulateSelector:
@@ -99,7 +99,7 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match skeleton', async () => {
+  it('should match skeleton', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="step-indicator-skeleton"]',
     })
@@ -118,21 +118,21 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
     },
   })
 
-  it('have to match loose mode for small screens', async () => {
+  it('should match loose mode for small screens', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="step-indicator-loose"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match strict mode for small screens', async () => {
+  it('should match strict mode for small screens', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="step-indicator-strict"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match strict mode for small screens after click simulation', async () => {
+  it('should match strict mode for small screens after click simulation', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="step-indicator-strict"]',
       simulateSelector:
@@ -156,7 +156,7 @@ describe('deprecated', () => {
       url: '/uilib/components/step-indicator/deprecated-visual-tests',
     })
 
-    it('have to match statuses', async () => {
+    it('should match statuses', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="step-indicator-statuses"]',
         simulate: 'click',
@@ -167,7 +167,7 @@ describe('deprecated', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match loose mode', async () => {
+    it('should match loose mode', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="step-indicator-loose"]',
         simulate: 'click',
@@ -178,7 +178,7 @@ describe('deprecated', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match loose mode after click simulation', async () => {
+    it('should match loose mode after click simulation', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="step-indicator-loose"]',
         simulate: [
@@ -193,7 +193,7 @@ describe('deprecated', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match strict mode', async () => {
+    it('should match strict mode', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="step-indicator-strict"]',
         simulate: 'click',
@@ -204,7 +204,7 @@ describe('deprecated', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match strict mode after click simulation', async () => {
+    it('should match strict mode after click simulation', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="step-indicator-strict"]',
         simulate: [
@@ -219,7 +219,7 @@ describe('deprecated', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match static mode after click simulation', async () => {
+    it('should match static mode after click simulation', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="step-indicator-static"]',
         simulateSelector:
@@ -242,21 +242,21 @@ describe('deprecated', () => {
       },
     })
 
-    it('have to match loose mode for small screens', async () => {
+    it('should match loose mode for small screens', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="step-indicator-loose"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match strict mode for small screens', async () => {
+    it('should match strict mode for small screens', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="step-indicator-strict"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match strict mode for small screens after click simulation', async () => {
+    it('should match strict mode for small screens after click simulation', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="step-indicator-strict"]',
         simulateSelector:

@@ -19,7 +19,7 @@ const nb = nbNO['nb-NO']
 const en = enGB['en-GB']
 
 describe('Password component', () => {
-  it('has correct type by default', () => {
+  it('should have correct type by default', () => {
     const props: PasswordProps = {}
     render(<Field.Password {...props} id="input" />)
 
@@ -38,7 +38,7 @@ describe('Password component', () => {
     )
   })
 
-  it('has correct state after "focus" trigger', () => {
+  it('should have correct state after "focus" trigger', () => {
     render(<Field.Password id="input" />)
 
     fireEvent.focus(document.querySelector('input'))
@@ -48,7 +48,7 @@ describe('Password component', () => {
     ).toBe('focus')
   })
 
-  it('has correct aria-label', async () => {
+  it('should have correct aria-label', async () => {
     const { rerender } = render(
       <Form.Handler>
         <Field.Password />
@@ -84,7 +84,7 @@ describe('Password component', () => {
     )
   })
 
-  it('sets correct class when size prop is large', () => {
+  it('should set correct class when size prop is large', () => {
     render(<Field.Password size="large" />)
 
     expect(document.querySelector('.dnb-input')).toHaveClass(
@@ -92,7 +92,7 @@ describe('Password component', () => {
     )
   })
 
-  it('has aria-describedby and aria-controls', () => {
+  it('should have aria-describedby and aria-controls', () => {
     render(<Field.Password id="input" />)
 
     fireEvent.focus(document.querySelector('input'))
@@ -108,7 +108,7 @@ describe('Password component', () => {
     ).toBe('input')
   })
 
-  it('has correct aria-controls id', () => {
+  it('should have correct aria-controls id', () => {
     render(<Field.Password id="input" />)
 
     expect(
@@ -120,7 +120,7 @@ describe('Password component', () => {
     )
   })
 
-  it('has a submit button which gets focus', () => {
+  it('should have a submit button which gets focus', () => {
     render(<Field.Password />)
 
     const Button = document.querySelector('button')

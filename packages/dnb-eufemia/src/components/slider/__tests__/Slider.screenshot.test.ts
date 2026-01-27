@@ -14,7 +14,7 @@ describe.each(['ui', 'sbanken'])('Slider for %s', (themeName) => {
     url: '/uilib/components/slider/demos',
   })
 
-  it('have to match default slider', async () => {
+  it('should match default slider', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '20rem' },
       selector: '[data-visual-test="slider-default"] .dnb-slider__wrapper',
@@ -25,7 +25,7 @@ describe.each(['ui', 'sbanken'])('Slider for %s', (themeName) => {
   /**
    * NB: "hover" needs to come before "focus"!
    */
-  it('have to match the hover state', async () => {
+  it('should match the hover state', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '20rem', 'padding-top': '3rem' },
       selector: '[data-visual-test="slider-default"] .dnb-slider__wrapper',
@@ -37,7 +37,7 @@ describe.each(['ui', 'sbanken'])('Slider for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the focus state', async () => {
+  it('should match the focus state', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '20rem', 'padding-top': '3rem' },
       selector: '[data-visual-test="slider-default"] .dnb-slider__wrapper',
@@ -49,7 +49,7 @@ describe.each(['ui', 'sbanken'])('Slider for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the active state', async () => {
+  it('should match the active state', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '20rem', 'padding-top': '3rem' },
       selector: '[data-visual-test="slider-default"] .dnb-slider__wrapper',
@@ -61,7 +61,7 @@ describe.each(['ui', 'sbanken'])('Slider for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match vertical slider', async () => {
+  it('should match vertical slider', async () => {
     const screenshot = await makeScreenshot({
       style: { height: '20rem' },
       selector:
@@ -70,7 +70,7 @@ describe.each(['ui', 'sbanken'])('Slider for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match multi thumbs slider', async () => {
+  it('should match multi thumbs slider', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '20rem', height: '10rem' },
       selector: '[data-visual-test="slider-multi"]',
@@ -78,7 +78,7 @@ describe.each(['ui', 'sbanken'])('Slider for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match slider with marker', async () => {
+  it('should match slider with marker', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '20rem', 'padding-top': '2rem' },
       selector: '[data-visual-test="slider-marker"] .dnb-slider__wrapper',

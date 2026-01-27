@@ -272,7 +272,7 @@ describe('Flex.Container', () => {
     )
   })
 
-  it('has correct classes when divider is line', () => {
+  it('should have correct classes when divider is line', () => {
     render(
       <Flex.Container direction="vertical" divider="line">
         <Flex.Item>Flex</Flex.Item>
@@ -302,7 +302,7 @@ describe('Flex.Container', () => {
     )
   })
 
-  it('has correct classes when divider is line-framed', () => {
+  it('should have correct classes when divider is line-framed', () => {
     render(
       <Flex.Container direction="vertical" divider="line-framed">
         <Flex.Item>Flex</Flex.Item>
@@ -911,7 +911,7 @@ describe('Flex.Container', () => {
     expect(element.tagName).toBe('SECTION')
   })
 
-  it('gets valid ref element', () => {
+  it('should get valid ref element', () => {
     let ref: React.RefObject<HTMLInputElement>
 
     function MockComponent() {

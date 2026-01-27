@@ -9,7 +9,7 @@ import Toolbar from '../../Toolbar'
 const nb = nbNO['nb-NO'].SectionViewContainer
 
 describe('ViewContainer', () => {
-  it('renders content and without errors', () => {
+  it('should render content and without errors', () => {
     const { rerender } = render(
       <SectionContainerContext.Provider value={{ containerMode: 'edit' }}>
         <ViewContainer>content</ViewContainer>
@@ -34,7 +34,7 @@ describe('ViewContainer', () => {
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
   })
 
-  it('calls "switchContainerMode" when edit button is clicked', () => {
+  it('should call "switchContainerMode" when edit button is clicked', () => {
     const switchContainerMode = jest.fn()
 
     render(
@@ -49,7 +49,7 @@ describe('ViewContainer', () => {
     expect(switchContainerMode).toHaveBeenCalledWith('edit')
   })
 
-  it('has correct class', () => {
+  it('should have correct class', () => {
     render(
       <SectionContainerContext.Provider value={{ containerMode: 'view' }}>
         <ViewContainer>content</ViewContainer>
@@ -61,7 +61,7 @@ describe('ViewContainer', () => {
     ).toBeInTheDocument()
   })
 
-  it('will forward custom HTML attributes to the inner wrapper', () => {
+  it('should forward custom HTML attributes to the inner wrapper', () => {
     render(
       <SectionContainerContext.Provider value={{ containerMode: 'view' }}>
         <ViewContainer data-attr="value">content</ViewContainer>
@@ -88,7 +88,7 @@ describe('ViewContainer', () => {
     expect(buttons[0]).toHaveTextContent(nb.editButton)
   })
 
-  it('supports translations from Form.Handler', () => {
+  it('should support translations from Form.Handler', () => {
     const edit = 'custom-translation-edit-button-text'
 
     render(

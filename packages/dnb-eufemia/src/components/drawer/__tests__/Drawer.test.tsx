@@ -42,7 +42,7 @@ afterEach(() => {
 })
 
 describe('Drawer', () => {
-  it('will run bodyScrollLock with disableBodyScroll', () => {
+  it('should run bodyScrollLock with disableBodyScroll', () => {
     render(
       <Drawer {...props}>
         <button>button</button>
@@ -80,7 +80,7 @@ describe('Drawer', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('will close by using callback method', () => {
+  it('should close by using callback method', () => {
     const on_close = jest.fn()
     const on_open = jest.fn()
     render(
@@ -106,7 +106,7 @@ describe('Drawer', () => {
     expect(on_close).toHaveBeenCalledTimes(1)
   })
 
-  it('will render Navigation, Header and Body even when hideCloseButton is true', () => {
+  it('should render Navigation, Header and Body even when hideCloseButton is true', () => {
     const on_close = jest.fn()
     const on_open = jest.fn()
 
@@ -158,7 +158,7 @@ describe('Drawer', () => {
     expect(on_close).toHaveBeenCalledTimes(1)
   })
 
-  it('sends along closeButtonAttributes to close button', () => {
+  it('should send along closeButtonAttributes to close button', () => {
     render(
       <Drawer
         openState
@@ -179,7 +179,7 @@ describe('Drawer', () => {
     ).toBe('Custom text')
   })
 
-  it('will use props from global context', () => {
+  it('should use props from global context', () => {
     const contextTitle = 'Custom title'
     render(
       <Provider
@@ -301,7 +301,7 @@ describe('Drawer', () => {
     })
   })
 
-  it('has support for nested Drawers', async () => {
+  it('should have support for nested Drawers', async () => {
     const on_open = {
       first: jest.fn(),
       second: jest.fn(),
@@ -463,7 +463,7 @@ describe('Drawer', () => {
     )
   })
 
-  it('will accept custom refs', () => {
+  it('should accept custom refs', () => {
     const contentRef = React.createRef<HTMLElement>()
     const scrollRef = React.createRef<HTMLElement>()
 
@@ -486,7 +486,7 @@ describe('Drawer', () => {
     expect(scrollRef.current).toBeTruthy()
   })
 
-  it('will close drawer by using callback method', () => {
+  it('should close drawer by using callback method', () => {
     const onClose = jest.fn()
     const onOpen = jest.fn()
 
@@ -541,7 +541,7 @@ describe('Drawer', () => {
     ).toBe(1)
   })
 
-  it('sets default fullscreen to auto', () => {
+  it('should set default fullscreen to auto', () => {
     render(
       <Drawer {...props}>
         <button>button</button>
@@ -561,7 +561,7 @@ describe('Drawer', () => {
     ).toBeInTheDocument()
   })
 
-  it('sets fullscreen to true', () => {
+  it('should set fullscreen to true', () => {
     render(
       <Drawer {...props} fullscreen>
         <button>button</button>
@@ -581,7 +581,7 @@ describe('Drawer', () => {
     ).toBeInTheDocument()
   })
 
-  it('sets fullscreen to false', () => {
+  it('should set fullscreen to false', () => {
     render(
       <Drawer {...props} fullscreen={false}>
         <button>button</button>

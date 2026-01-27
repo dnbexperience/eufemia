@@ -5,14 +5,14 @@ import { Provider } from '../../../../../shared'
 
 describe('Value.Currency', () => {
   describe('props', () => {
-    it('renders value', () => {
+    it('should render value', () => {
       render(<Value.Currency value={42} />)
       expect(
         document.querySelector('.dnb-forms-value-number')
       ).toHaveTextContent('42,00 kr')
     })
 
-    it('renders label when showEmpty is true', () => {
+    it('should render label when showEmpty is true', () => {
       const { rerender } = render(
         <Value.Currency label="Number label" showEmpty />
       )
@@ -24,7 +24,7 @@ describe('Value.Currency', () => {
       expect(document.querySelector('.dnb-form-label')).toBeNull()
     })
 
-    it('renders value and label', () => {
+    it('should render value and label', () => {
       render(<Value.Currency label="Label" value={42} />)
       expect(
         document.querySelector('.dnb-forms-value-number')
@@ -34,7 +34,7 @@ describe('Value.Currency', () => {
       )
     })
 
-    it('renders placeholder', () => {
+    it('should render placeholder', () => {
       render(<Value.Currency placeholder="Enter some number" />)
       expect(screen.getByText('Enter some number')).toBeInTheDocument()
     })
@@ -47,7 +47,7 @@ describe('Value.Currency', () => {
       ).toHaveTextContent('-12 345 678,00 kr')
     })
 
-    it('renders gets value based on path', () => {
+    it('should render gets value based on path', () => {
       render(
         <Form.Handler data={{ myNumber: 1234 }}>
           <Value.Currency path="/myNumber" />
@@ -127,7 +127,7 @@ describe('Value.Currency', () => {
       ).toBe('-12,345.68 kroner')
     })
 
-    it('hides the currency sign when currencyDisplay is false', () => {
+    it('should hide the currency sign when currencyDisplay is false', () => {
       render(
         <Value.Currency value={1234.5} currency currencyDisplay={false} />
       )
