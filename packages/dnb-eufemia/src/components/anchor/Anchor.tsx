@@ -227,6 +227,9 @@ export function AnchorInstance(localProps: AnchorAllProps) {
       >
         {prefix}
         {children}
+        {_opensNewTab && (
+          <span className="dnb-sr-only"> {targetBlankTitle}</span>
+        )}
         {suffix}
       </E>
 

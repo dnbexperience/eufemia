@@ -114,6 +114,44 @@ describe('Anchor element', () => {
       })
     })
 
+    it('should have screen reader text for external links', () => {
+      const { container } = render(
+        <Anchor href="https://example.com" target="_blank" lang="nb-NO">
+          Example Link
+        </Anchor>
+      )
+
+      const srOnlyElement = container.querySelector('.dnb-sr-only')
+      expect(srOnlyElement).toBeInTheDocument()
+      expect(srOnlyElement).toHaveTextContent(nb.targetBlankTitle)
+    })
+
+    it('should not have screen reader text for internal links', () => {
+      const { container } = render(
+        <Anchor href="/internal" lang="nb-NO">
+          Internal Link
+        </Anchor>
+      )
+
+      const srOnlyElement = container.querySelector('.dnb-sr-only')
+      expect(srOnlyElement).not.toBeInTheDocument()
+    })
+
+    it('should not have screen reader text for mailto links even with target="_blank"', () => {
+      const { container } = render(
+        <Anchor
+          href="mailto:test@example.com"
+          target="_blank"
+          lang="nb-NO"
+        >
+          Email
+        </Anchor>
+      )
+
+      const srOnlyElement = container.querySelector('.dnb-sr-only')
+      expect(srOnlyElement).not.toBeInTheDocument()
+    })
+
     it('has "__launch-icon" class', () => {
       render(
         <Anchor href="/url" target="_blank">
