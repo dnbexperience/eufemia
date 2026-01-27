@@ -1,11 +1,14 @@
 /**
  * Web Textarea Component
- *
- * This is a legacy component.
- * For referencing while developing new features, please use a Functional component.
  */
 
-import React from 'react'
+import React, {
+  useContext,
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+} from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import FormLabel from '../form-label/FormLabel'
@@ -14,7 +17,7 @@ import TextCounter from '../../fragments/text-counter/TextCounter'
 import {
   isTrue,
   makeUniqueId,
-  extendPropsWithContextInClassComponent,
+  extendPropsWithContext,
   validateDOMAttributes,
   processChildren,
   getStatusState,
@@ -37,581 +40,624 @@ import {
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 
+// Helper functions (previously static methods)
+const hasValue = (value) => {
+  return (
+    ((typeof value === 'string' || typeof value === 'number') &&
+      String(value).length > 0) ||
+    false
+  )
+}
+
+const getValue = (props) => {
+  const value = processChildren(props)
+  if (value === '' || hasValue(value)) {
+    return value
+  }
+  return props.value
+}
+
+const propTypes = {
+  value: PropTypes.string,
+  id: PropTypes.string,
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node,
+  ]),
+  labelDirection: PropTypes.oneOf(['horizontal', 'vertical']),
+  labelSrOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  status: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+    PropTypes.func,
+    PropTypes.node,
+  ]),
+  textareaState: PropTypes.string,
+  statusState: PropTypes.string,
+  statusProps: PropTypes.object,
+  statusNoAnimation: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+  ]),
+  globalStatus: PropTypes.shape({
+    id: PropTypes.string,
+    message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  }),
+  suffix: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node,
+  ]),
+  placeholder: PropTypes.node,
+  keepPlaceholder: PropTypes.bool,
+  align: PropTypes.oneOf(['left', 'right']),
+  size: PropTypes.oneOf(['small', 'medium', 'large']),
+  stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  characterCounter: PropTypes.oneOfType([
+    PropTypes.shape({
+      max: PropTypes.number,
+      variant: PropTypes.oneOf(['down', 'up']),
+    }),
+    PropTypes.number,
+  ]),
+  autoresize: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  autoresizeMaxRows: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
+  textareaClass: PropTypes.string,
+  textareaAttributes: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+  ]),
+  readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  rows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  cols: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+
+  ...spacingPropTypes,
+
+  className: PropTypes.string,
+  textareaElement: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+
+  onChange: PropTypes.func,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
+  onKeyDown: PropTypes.func,
+  onStateUpdate: PropTypes.func,
+}
+
+const defaultProps = {
+  value: 'initval',
+  id: null,
+  label: null,
+  labelDirection: null,
+  labelSrOnly: null,
+  status: null,
+  textareaState: null,
+  statusState: 'error',
+  statusProps: null,
+  statusNoAnimation: null,
+  globalStatus: null,
+  suffix: null,
+  placeholder: null,
+  keepPlaceholder: null,
+  align: null,
+  size: null,
+  stretch: null,
+  disabled: null,
+  skeleton: null,
+  autoresize: null,
+  autoresizeMaxRows: null,
+  characterCounter: null,
+  textareaClass: null,
+  textareaAttributes: null,
+  readOnly: false,
+  rows: null,
+  cols: null,
+  innerRef: null,
+
+  className: null,
+  textareaElement: null,
+  children: null,
+
+  onChange: null,
+  onFocus: null,
+  onBlur: null,
+  onKeyDown: null,
+  onStateUpdate: null,
+}
+
 /**
  * The textarea component is an umbrella component for all textareas which share the same style as the classic `text` textarea field.
  */
-export default class Textarea extends React.PureComponent {
-  static contextType = Context
+const TextareaComponent = (localProps) => {
+  const context = useContext(Context)
 
-  static propTypes = {
-    value: PropTypes.string,
-    id: PropTypes.string,
-    label: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    labelDirection: PropTypes.oneOf(['horizontal', 'vertical']),
-    labelSrOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    status: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    textareaState: PropTypes.string,
-    statusState: PropTypes.string,
-    statusProps: PropTypes.object,
-    statusNoAnimation: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    globalStatus: PropTypes.shape({
-      id: PropTypes.string,
-      message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    }),
-    suffix: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    placeholder: PropTypes.node,
-    keepPlaceholder: PropTypes.bool,
-    align: PropTypes.oneOf(['left', 'right']),
-    size: PropTypes.oneOf(['small', 'medium', 'large']),
-    stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    characterCounter: PropTypes.oneOfType([
-      PropTypes.shape({
-        max: PropTypes.number,
-        variant: PropTypes.oneOf(['down', 'up']),
-      }),
-      PropTypes.number,
-    ]),
-    autoresize: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    autoresizeMaxRows: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-    ]),
-    textareaClass: PropTypes.string,
-    textareaAttributes: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object,
-    ]),
-    readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    rows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    cols: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+  // Refs - initialize before using props
+  const _ref = useRef(null)
+  const _idRef = useRef(localProps.id || makeUniqueId())
+  const _heightOffsetRef = useRef(undefined)
+  const resizeObserverRef = useRef(null)
+  const resizeModifierRef = useRef(null)
 
-    ...spacingPropTypes,
+  // Get extended props with context (call once per render)
+  const props = extendPropsWithContext(
+    localProps,
+    defaultProps,
+    { skeleton: context?.skeleton },
+    context.getTranslation(localProps).Textarea,
+    pickFormElementProps(context?.formElement),
+    context.Textarea
+  )
 
-    className: PropTypes.string,
-    textareaElement: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+  // State management
+  const [textareaState, setTextareaState] = useState(
+    props.textareaState || 'virgin'
+  )
+  const [value, setValue] = useState(null)
+  const [_value, set_value] = useState(null)
 
-    onChange: PropTypes.func,
-    onFocus: PropTypes.func,
-    onBlur: PropTypes.func,
-    onKeyDown: PropTypes.func,
-    onStateUpdate: PropTypes.func,
-  }
-
-  static defaultProps = {
-    value: 'initval',
-    id: null,
-    label: null,
-    labelDirection: null,
-    labelSrOnly: null,
-    status: null,
-    textareaState: null,
-    statusState: 'error',
-    statusProps: null,
-    statusNoAnimation: null,
-    globalStatus: null,
-    suffix: null,
-    placeholder: null,
-    keepPlaceholder: null,
-    align: null,
-    size: null,
-    stretch: null,
-    disabled: null,
-    skeleton: null,
-    autoresize: null,
-    autoresizeMaxRows: null,
-    characterCounter: null,
-    textareaClass: null,
-    textareaAttributes: null,
-    readOnly: false,
-    rows: null,
-    cols: null,
-    innerRef: null,
-
-    className: null,
-    textareaElement: null,
-    children: null,
-
-    onChange: null,
-    onFocus: null,
-    onBlur: null,
-    onKeyDown: null,
-    onStateUpdate: null,
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    const value = Textarea.getValue(props)
-    if (
-      value !== 'initval' &&
-      value !== state.value &&
-      value !== state._value
-    ) {
-      if (
-        value !== state.value &&
-        typeof props.onStateUpdate === 'function'
-      ) {
-        dispatchCustomElementEvent({ props }, 'onStateUpdate', { value })
-      }
-      state.value = value
-    }
-    if (props.textareaState) {
-      state.textareaState = props.textareaState
-    }
-    state._value = props.value
-    return state
-  }
-
-  static hasValue(value) {
-    return (
-      ((typeof value === 'string' || typeof value === 'number') &&
-        String(value).length > 0) ||
-      false
-    )
-  }
-
-  static getValue(props) {
-    const value = processChildren(props)
-    if (value === '' || Textarea.hasValue(value)) {
-      return value
-    }
-    return props.value
-  }
-
-  state = {
-    textareaState: 'virgin',
-    value: null,
-    _value: null,
-  }
-
-  constructor(props) {
-    super(props)
-
-    this._ref = React.createRef()
-    this._id = props.id || makeUniqueId() // cause we need an id anyway
-
-    if (props.textareaState) {
-      this.state.textareaState = props.textareaState
-    }
-
+  // Initialize resize modifier (previously in constructor)
+  useEffect(() => {
     try {
       if (typeof navigator !== 'undefined') {
-        this.resizeModifier =
+        const modifier =
           /Firefox|Edg/.test(navigator.userAgent) ||
           (/Chrome/.test(navigator.userAgent) &&
             /Win/.test(navigator.platform))
             ? 'large'
             : false
 
-        if (!this.resizeModifier) {
-          this.resizeModifier =
+        if (!modifier) {
+          resizeModifierRef.current =
             /Safari|Chrome/.test(navigator.userAgent) &&
             /Mac/.test(navigator.platform)
               ? 'medium'
               : false
+        } else {
+          resizeModifierRef.current = modifier
         }
       }
     } catch (error) {
       console.error(error)
     }
-  }
-  componentDidMount() {
-    const props = this.getProps()
-    if (props.innerRef) {
-      typeof props.innerRef === 'function'
-        ? props.innerRef(this._ref.current)
-        : (props.innerRef.current = this._ref.current)
-    }
+  }, [])
 
-    if (isTrue(props.autoresize) && typeof window !== 'undefined') {
-      this.setAutosize()
+  // Helper methods
+  const getLineHeight = useCallback(() => {
+    return parseFloat(getComputedStyle(_ref.current).lineHeight) || 0
+  }, [])
+
+  const getRows = useCallback(() => {
+    return Math.floor(_ref.current.scrollHeight / getLineHeight()) || 1
+  }, [getLineHeight])
+
+  const prepareAutosize = useCallback(() => {
+    const elem = _ref.current
+    if (!elem) {
+      return
+    }
+    try {
+      elem.style.height = 'auto'
+    } catch (e) {
+      warn(e)
+    }
+  }, [])
+
+  const setAutosize = useCallback(
+    (rows = null) => {
+      const elem = _ref.current
+      if (!elem) {
+        return
+      }
       try {
-        this.resizeObserver = new ResizeObserver((entries) => {
+        if (typeof _heightOffsetRef.current === 'undefined') {
+          _heightOffsetRef.current = elem.offsetHeight - elem.clientHeight
+        }
+
+        elem.style.height = 'auto'
+
+        const lineHeight = getLineHeight()
+        let newHeight = elem.scrollHeight + _heightOffsetRef.current
+        if (!rows) {
+          rows = getRows()
+        }
+
+        if (rows === 1) {
+          if (newHeight > lineHeight) {
+            newHeight = lineHeight
+          }
+        }
+
+        const maxRows = parseFloat(props.autoresizeMaxRows)
+        if (maxRows > 0) {
+          const maxHeight = maxRows * lineHeight
+
+          if (rows > maxRows || newHeight > maxHeight) {
+            newHeight = maxHeight
+          }
+        }
+
+        elem.style.height = newHeight + 'px'
+      } catch (e) {
+        warn(e)
+      }
+    },
+    [getLineHeight, getRows, props.autoresizeMaxRows]
+  )
+
+  // Event handlers
+  const onFocusHandler = useCallback(
+    (event) => {
+      const { value: currentValue } = _ref.current
+      setValue(currentValue)
+      setTextareaState('focus')
+      dispatchCustomElementEvent({ props: localProps }, 'onFocus', {
+        value: currentValue,
+        event,
+      })
+    },
+    [localProps]
+  )
+
+  const onBlurHandler = useCallback(
+    (event) => {
+      const { value: currentValue } = event.target
+      setValue(currentValue)
+      setTextareaState(hasValue(currentValue) ? 'dirty' : 'initial')
+      dispatchCustomElementEvent({ props: localProps }, 'onBlur', {
+        value: currentValue,
+        event,
+      })
+    },
+    [localProps]
+  )
+
+  const onChangeHandler = useCallback(
+    (event) => {
+      const { value: currentValue } = event.target
+
+      const autoresize = isTrue(props.autoresize)
+
+      if (autoresize) {
+        prepareAutosize()
+      }
+
+      const rows = getRows(currentValue)
+
+      const ret = dispatchCustomElementEvent(
+        { props: localProps },
+        'onChange',
+        {
+          value: currentValue,
+          rows,
+          event,
+        }
+      )
+      if (ret !== false) {
+        setValue(currentValue)
+        if (autoresize) {
+          setAutosize(rows)
+        }
+      }
+    },
+    [localProps, props.autoresize, prepareAutosize, getRows, setAutosize]
+  )
+
+  const onKeyDownHandler = useCallback(
+    (event) => {
+      const rows = getRows()
+      const { value: currentValue } = event.target
+      dispatchCustomElementEvent({ props: localProps }, 'onKeyDown', {
+        value: currentValue,
+        rows,
+        event,
+      })
+    },
+    [localProps, getRows]
+  )
+
+  // Effect for getDerivedStateFromProps logic
+  useEffect(() => {
+    const currentValue = getValue(localProps)
+    if (
+      currentValue !== 'initval' &&
+      currentValue !== value &&
+      currentValue !== _value
+    ) {
+      if (
+        currentValue !== value &&
+        typeof localProps.onStateUpdate === 'function'
+      ) {
+        dispatchCustomElementEvent(
+          { props: localProps },
+          'onStateUpdate',
+          {
+            value: currentValue,
+          }
+        )
+      }
+      setValue(currentValue)
+    }
+    if (localProps.textareaState) {
+      setTextareaState(localProps.textareaState)
+    }
+    set_value(localProps.value)
+  }, [
+    localProps,
+    localProps.value,
+    localProps.textareaState,
+    value,
+    _value,
+  ])
+
+  // Effect for innerRef
+  useEffect(() => {
+    if (props.innerRef) {
+      if (typeof props.innerRef === 'function') {
+        props.innerRef(_ref.current)
+      } else {
+        props.innerRef.current = _ref.current
+      }
+    }
+  }, [props.innerRef])
+
+  // Effect for componentDidMount and componentWillUnmount
+  useEffect(() => {
+    if (isTrue(props.autoresize) && typeof window !== 'undefined') {
+      setAutosize()
+      try {
+        resizeObserverRef.current = new ResizeObserver((entries) => {
           window.requestAnimationFrame(() => {
             if (!Array.isArray(entries) || !entries.length) {
               return
             }
-            this.setAutosize()
+            setAutosize()
           })
         })
-        this.resizeObserver.observe(document.body)
+        resizeObserverRef.current.observe(document.body)
       } catch (e) {
-        window.addEventListener('resize', this.setAutosize)
+        window.addEventListener('resize', setAutosize)
       }
     }
-  }
-  componentWillUnmount() {
-    if (this.resizeObserver) {
-      this.resizeObserver.disconnect()
-      this.resizeObserver = null
-    }
-    if (typeof window !== 'undefined') {
-      window.removeEventListener('resize', this.setAutosize)
-    }
-  }
-  onFocusHandler = (event) => {
-    const { value } = this._ref.current
-    this.setState({
-      value,
-      textareaState: 'focus',
-    })
-    dispatchCustomElementEvent(this, 'onFocus', { value, event })
-  }
-  onBlurHandler = (event) => {
-    const { value } = event.target
-    this.setState({
-      value,
-      textareaState: Textarea.hasValue(value) ? 'dirty' : 'initial',
-    })
-    dispatchCustomElementEvent(this, 'onBlur', { value, event })
-  }
-  onChangeHandler = (event) => {
-    const { value } = event.target
 
-    const props = this.getProps()
-    const autoresize = isTrue(props.autoresize)
-
-    if (autoresize) {
-      this.prepareAutosize()
-    }
-
-    const rows = this.getRows(value)
-
-    const ret = dispatchCustomElementEvent(this, 'onChange', {
-      value,
-      rows,
-      event,
-    })
-    if (ret !== false) {
-      this.setState({ value })
-      if (autoresize) {
-        this.setAutosize(rows)
+    return () => {
+      if (resizeObserverRef.current) {
+        resizeObserverRef.current.disconnect()
+        resizeObserverRef.current = null
+      }
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', setAutosize)
       }
     }
+  }, [props.autoresize, setAutosize])
+
+  // Render logic
+  const {
+    label,
+    labelDirection,
+    labelSrOnly,
+    status,
+    statusState,
+    statusProps,
+    statusNoAnimation,
+    globalStatus,
+    suffix,
+    disabled,
+    skeleton,
+    stretch,
+    placeholder,
+    keepPlaceholder,
+    align,
+    size,
+    textareaClass,
+    readOnly,
+    textareaAttributes,
+    className,
+    autoresize,
+    characterCounter,
+    autoresizeMaxRows, //eslint-disable-line
+    id: _id, //eslint-disable-line
+    children, //eslint-disable-line
+    value: _valueProp, //eslint-disable-line
+    textareaElement: _textareaElement, //eslint-disable-line
+    innerRef: _innerRef, //eslint-disable-line
+
+    ...attributes
+  } = props
+
+  const id = _idRef.current
+  const showStatus = getStatusState(status)
+  const hasCurrentValue = hasValue(value)
+
+  let { textareaElement: TextareaElement } = props
+
+  const usedTextareaAttributes = textareaAttributes
+    ? typeof textareaAttributes === 'string'
+      ? JSON.parse(textareaAttributes)
+      : textareaAttributes
+    : {}
+
+  const textareaParams = {
+    className: clsx(
+      'dnb-textarea__textarea',
+      'dnb-input__border',
+      textareaClass
+    ),
+    role: 'textbox',
+    value: hasCurrentValue ? value : '',
+    id,
+    name: id,
+    disabled: isTrue(disabled) || isTrue(skeleton),
+    'aria-placeholder': placeholder
+      ? convertJsxToString(placeholder)
+      : undefined,
+    ...attributes,
+    ...usedTextareaAttributes,
+    onChange: onChangeHandler,
+    onFocus: onFocusHandler,
+    onBlur: onBlurHandler,
+    onKeyDown: onKeyDownHandler,
   }
-  onKeyDownHandler = (event) => {
-    const rows = this.getRows()
-    const { value } = event.target
-    dispatchCustomElementEvent(this, 'onKeyDown', {
-      value,
-      rows,
-      event,
-    })
-  }
-  prepareAutosize = () => {
-    const elem = this._ref.current
-    if (!elem) {
-      return // stop here if no element was gotten
-    }
-    try {
-      elem.style.height = 'auto'
-    } catch (e) {
-      warn(e)
-    }
-  }
-  setAutosize = (rows = null) => {
-    const elem = this._ref.current
-    if (!elem) {
-      return // stop here if no element was gotten
-    }
-    try {
-      if (typeof this._heightOffset === 'undefined') {
-        this._heightOffset = elem.offsetHeight - elem.clientHeight
-      }
 
-      elem.style.height = 'auto'
-
-      // get rows after we set height to auto, this way we get 100% correct rows
-      const lineHeight = this.getLineHeight()
-      let newHeight = elem.scrollHeight + this._heightOffset
-      if (!rows) {
-        rows = this.getRows()
-      }
-
-      if (rows === 1) {
-        if (newHeight > lineHeight) {
-          newHeight = lineHeight
-        }
-      }
-
-      const props = this.getProps()
-      const maxRows = parseFloat(props.autoresizeMaxRows)
-      if (maxRows > 0) {
-        const maxHeight = maxRows * lineHeight
-
-        if (rows > maxRows || newHeight > maxHeight) {
-          newHeight = maxHeight
-        }
-      }
-
-      elem.style.height = newHeight + 'px'
-    } catch (e) {
-      warn(e)
-    }
-  }
-  getRows() {
-    return (
-      Math.floor(this._ref.current.scrollHeight / this.getLineHeight()) ||
-      1
+  if (showStatus || suffix) {
+    textareaParams['aria-describedby'] = combineDescribedBy(
+      textareaParams,
+      showStatus ? id + '-status' : null,
+      suffix ? id + '-suffix' : null
     )
   }
-  getLineHeight() {
-    return parseFloat(getComputedStyle(this._ref.current).lineHeight) || 0
+  if (readOnly) {
+    textareaParams['aria-readonly'] = textareaParams.readOnly = true
   }
-  getProps() {
-    return extendPropsWithContextInClassComponent(
-      this.props,
-      Textarea.defaultProps,
-      { skeleton: this.context?.skeleton },
-      this.context.getTranslation(this.props).Textarea,
-      pickFormElementProps(this.context?.formElement),
-      this.context.Textarea
-    )
+
+  const mainParams = {
+    className: clsx(
+      'dnb-textarea',
+      `dnb-textarea--${textareaState}`,
+      disabled && 'dnb-textarea--disabled',
+      hasCurrentValue && 'dnb-textarea--has-content',
+      align && `dnb-textarea__align--${align}`,
+      size && `dnb-textarea__size--${size}`,
+      status && `dnb-textarea__status--${statusState}`,
+      autoresize && 'dnb-textarea__autoresize',
+      !autoresize &&
+        resizeModifierRef.current &&
+        `dnb-textarea__resize--${resizeModifierRef.current}`,
+      labelDirection && `dnb-textarea--${labelDirection}`,
+      isTrue(stretch) && `dnb-textarea--stretch`,
+      isTrue(keepPlaceholder) && `dnb-textarea--keep-placeholder`,
+      'dnb-form-component',
+      createSkeletonClass(null, skeleton),
+      createSpacingClasses(props),
+      className
+    ),
   }
-  render() {
-    // use only the props from context, who are available here anyway
-    const props = this.getProps()
 
-    const {
-      label,
-      labelDirection,
-      labelSrOnly,
-      status,
-      statusState,
-      statusProps,
-      statusNoAnimation,
-      globalStatus,
-      suffix,
-      disabled,
-      skeleton,
-      stretch,
-      placeholder,
-      keepPlaceholder,
-      align,
-      size,
-      textareaClass,
-      readOnly,
-      textareaAttributes,
-      className,
-      autoresize,
-      characterCounter,
-      autoresizeMaxRows, //eslint-disable-line
-      id: _id, //eslint-disable-line
-      children, //eslint-disable-line
-      value: _value, //eslint-disable-line
-      textareaElement: _textareaElement, //eslint-disable-line
-      innerRef: _innerRef, //eslint-disable-line
+  const innerParams = {
+    className: clsx(
+      'dnb-textarea__inner',
+      createSkeletonClass('shape', skeleton, context)
+    ),
+  }
 
-      ...attributes
-    } = props
+  const shellParams = {
+    className: clsx('dnb-textarea__shell'),
+  }
 
-    const { value, textareaState } = this.state
+  if (isTrue(disabled) || isTrue(skeleton)) {
+    shellParams['aria-disabled'] = true
+  }
 
-    const id = this._id
-    const showStatus = getStatusState(status)
-    const hasValue = Textarea.hasValue(value)
+  const placeholderStyle =
+    parseFloat(props.rows) > 0
+      ? {
+          '--textarea-rows': parseFloat(props.rows),
+        }
+      : null
 
-    // pass along all props we wish to have as params
-    let { textareaElement: TextareaElement } = props
+  skeletonDOMAttributes(innerParams, skeleton, context)
 
-    const usedTextareaAttributes = textareaAttributes
-      ? typeof textareaAttributes === 'string'
-        ? JSON.parse(textareaAttributes)
-        : textareaAttributes
-      : {}
+  validateDOMAttributes(localProps, textareaParams)
+  validateDOMAttributes(null, innerParams)
+  validateDOMAttributes(null, shellParams)
 
-    const textareaParams = {
-      className: clsx(
-        'dnb-textarea__textarea',
-        'dnb-input__border',
-        textareaClass
-      ),
-      role: 'textbox',
-      value: hasValue ? value : '',
-      id,
-      name: id,
-      disabled: isTrue(disabled) || isTrue(skeleton),
-      'aria-placeholder': placeholder
-        ? convertJsxToString(placeholder)
-        : undefined,
-      ...attributes,
-      ...usedTextareaAttributes,
-      onChange: this.onChangeHandler,
-      onFocus: this.onFocusHandler,
-      onBlur: this.onBlurHandler,
-      // onPaste: this.onChangeHandler,
-      onKeyDown: this.onKeyDownHandler,
-    }
+  if (TextareaElement && typeof TextareaElement === 'function') {
+    TextareaElement = TextareaElement(textareaParams, _ref)
+  } else if (!TextareaElement && _textareaElement) {
+    TextareaElement = _textareaElement
+  }
 
-    // we may consider using: aria-details
-    if (showStatus || suffix) {
-      textareaParams['aria-describedby'] = combineDescribedBy(
-        textareaParams,
-        showStatus ? id + '-status' : null,
-        suffix ? id + '-suffix' : null
-      )
-    }
-    if (readOnly) {
-      textareaParams['aria-readonly'] = textareaParams.readOnly = true
-    }
+  return (
+    <span {...mainParams}>
+      {label && (
+        <FormLabel
+          id={id + '-label'}
+          forId={id}
+          text={label}
+          labelDirection={labelDirection}
+          srOnly={labelSrOnly}
+          disabled={disabled}
+          skeleton={skeleton}
+        />
+      )}
 
-    const mainParams = {
-      className: clsx(
-        'dnb-textarea',
-        `dnb-textarea--${textareaState}`,
-        disabled && 'dnb-textarea--disabled',
-        hasValue && 'dnb-textarea--has-content',
-        align && `dnb-textarea__align--${align}`,
-        size && `dnb-textarea__size--${size}`,
-        status && `dnb-textarea__status--${statusState}`,
-        autoresize && 'dnb-textarea__autoresize',
-        !autoresize &&
-          this.resizeModifier &&
-          `dnb-textarea__resize--${this.resizeModifier}`,
-        labelDirection && `dnb-textarea--${labelDirection}`,
-        isTrue(stretch) && `dnb-textarea--stretch`,
-        isTrue(keepPlaceholder) && `dnb-textarea--keep-placeholder`,
-        'dnb-form-component',
-        createSkeletonClass(null, skeleton),
-        createSpacingClasses(props),
-        className
-      ),
-    }
+      <span {...innerParams}>
+        <AlignmentHelper />
 
-    const innerParams = {
-      className: clsx(
-        'dnb-textarea__inner',
-        createSkeletonClass('shape', skeleton, this.context)
-      ),
-    }
+        <FormStatus
+          show={showStatus}
+          id={id + '-form-status'}
+          globalStatus={globalStatus}
+          label={label}
+          textId={id + '-status'}
+          text={status}
+          state={statusState}
+          noAnimation={statusNoAnimation}
+          skeleton={skeleton}
+          {...statusProps}
+        />
 
-    const shellParams = {
-      className: clsx('dnb-textarea__shell'),
-    }
+        <span className="dnb-textarea__row">
+          <span {...shellParams}>
+            {TextareaElement || (
+              <textarea ref={_ref} {...textareaParams} />
+            )}
 
-    if (isTrue(disabled) || isTrue(skeleton)) {
-      shellParams['aria-disabled'] = true
-    }
-
-    // to show the ending dots on a placeholder, if the text is longer
-    const placeholderStyle =
-      parseFloat(props.rows) > 0
-        ? {
-            '--textarea-rows': parseFloat(props.rows),
-          }
-        : null
-
-    skeletonDOMAttributes(innerParams, skeleton, this.context)
-
-    // also used for code markup simulation
-    validateDOMAttributes(this.props, textareaParams)
-    validateDOMAttributes(null, innerParams)
-    validateDOMAttributes(null, shellParams)
-
-    if (TextareaElement && typeof TextareaElement === 'function') {
-      TextareaElement = TextareaElement(textareaParams, this._ref)
-    } else if (!TextareaElement && _textareaElement) {
-      TextareaElement = _textareaElement
-    }
-
-    return (
-      <span {...mainParams}>
-        {label && (
-          <FormLabel
-            id={id + '-label'}
-            forId={id}
-            text={label}
-            labelDirection={labelDirection}
-            srOnly={labelSrOnly}
-            disabled={disabled}
-            skeleton={skeleton}
-          />
-        )}
-
-        <span {...innerParams}>
-          <AlignmentHelper />
-
-          <FormStatus
-            show={showStatus}
-            id={id + '-form-status'}
-            globalStatus={globalStatus}
-            label={label}
-            textId={id + '-status'} // used for "aria-describedby"
-            text={status}
-            state={statusState}
-            noAnimation={statusNoAnimation}
-            skeleton={skeleton}
-            {...statusProps}
-          />
-
-          <span className="dnb-textarea__row">
-            <span {...shellParams}>
-              {TextareaElement || (
-                <textarea ref={this._ref} {...textareaParams} />
+            {!hasCurrentValue &&
+              placeholder &&
+              (textareaState !== 'focus' || keepPlaceholder) && (
+                <span
+                  className={clsx(
+                    'dnb-textarea__placeholder',
+                    align ? `dnb-textarea__align--${align}` : null
+                  )}
+                  style={placeholderStyle}
+                  aria-hidden
+                >
+                  {placeholder}
+                </span>
               )}
 
-              {!hasValue &&
-                placeholder &&
-                (textareaState !== 'focus' || keepPlaceholder) && (
-                  <span
-                    className={clsx(
-                      'dnb-textarea__placeholder',
-                      align ? `dnb-textarea__align--${align}` : null
-                    )}
-                    style={placeholderStyle}
-                    aria-hidden
-                  >
-                    {placeholder}
-                  </span>
-                )}
-
-              <span className="dnb-textarea__state" />
-            </span>
-
-            {suffix && (
-              <Suffix
-                className="dnb-textarea__suffix"
-                id={id + '-suffix'} // used for "aria-describedby"
-                context={props}
-              >
-                {suffix}
-              </Suffix>
-            )}
+            <span className="dnb-textarea__state" />
           </span>
 
-          {characterCounter && (
-            <TextCounter
-              top="x-small"
-              text={value}
-              max={characterCounter}
-              lang={props.lang}
-              locale={props.locale}
-              {...characterCounter}
-            />
+          {suffix && (
+            <Suffix
+              className="dnb-textarea__suffix"
+              id={id + '-suffix'}
+              context={props}
+            >
+              {suffix}
+            </Suffix>
           )}
         </span>
+
+        {characterCounter && (
+          <TextCounter
+            top="x-small"
+            text={value}
+            max={characterCounter}
+            lang={props.lang}
+            locale={props.locale}
+            {...characterCounter}
+          />
+        )}
       </span>
-    )
-  }
+    </span>
+  )
 }
 
+const Textarea = React.memo(TextareaComponent)
+
+Textarea.propTypes = propTypes
+Textarea.defaultProps = defaultProps
 Textarea._formElement = true
 Textarea._supportsSpacingProps = true
+
+export default Textarea
