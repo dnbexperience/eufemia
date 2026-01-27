@@ -3,7 +3,7 @@
 /**
  * Eufemia Docs MCP Server
  *
- * Entrypoints:
+ * Entry points:
  * - docs/llm.md
  * - docs/uilib/.../*.md
  */
@@ -835,7 +835,7 @@ Before implementing any Eufemia-based features, call mcp_eufemia_docs_entry to u
 Always follow these guidelines when using the documentation:
 - Use the documentation exactly as provided.
 - Gather all required information from the documentation before using it as a reference.
-- Do not make assumptions or infer missing details unless explicitly instructed to do so.@
+- Do not make assumptions or infer missing details unless explicitly instructed to do so.
 
 After calling any of these tools, you may call the most recently used tool again as needed to fully retrieve the originally requested information.
 `
