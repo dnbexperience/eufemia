@@ -14,7 +14,7 @@ import {
   transformFiles,
 } from '../../Field/Upload/Upload'
 import { format } from '../../../../components/number-format/NumberUtils'
-import { UploadFileLink } from '../../../../components/upload/UploadFileListLink'
+import UploadFileLink from '../../../../components/upload/UploadFileListLink'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 
 export type Props = ValueProps<Array<UploadFile>> &
