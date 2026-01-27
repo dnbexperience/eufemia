@@ -3,8 +3,6 @@
  *
  */
 
-import React from 'react'
-
 export default function inspiration(props = {}) {
   return (
     <svg

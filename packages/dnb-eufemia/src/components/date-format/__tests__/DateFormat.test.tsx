@@ -67,6 +67,68 @@ describe('DateFormat', () => {
       expect(dateFormat).toHaveTextContent('01/08/2025 - 14:30')
     })
 
+    it('should preserve UTC time when using timeStyle with UTC date input', () => {
+      const utcDateString = '2025-01-26T12:44:00Z' // 12:44 UTC
+      const utcDate = new Date(utcDateString)
+
+      // Verify the Date object correctly represents 12:44 UTC
+      expect(utcDate.toISOString()).toBe('2025-01-26T12:44:00.000Z')
+      expect(utcDate.getUTCHours()).toBe(12)
+      expect(utcDate.getUTCMinutes()).toBe(44)
+
+      render(
+        <DateFormat
+          value={utcDateString}
+          dateStyle="short"
+          timeStyle="short"
+          dateTimeSeparator=" – "
+          locale="en-GB"
+        />
+      )
+
+      const dateFormat = document.querySelector('.dnb-date-format')
+      const displayedText = dateFormat?.textContent || ''
+
+      // Extract the displayed time from the formatted string
+      const actualDisplayedTime = displayedText.match(/\d{2}:\d{2}/)?.[0]
+      const expectedUTCTime = '12:44'
+
+      // The component should display "12:44" (UTC time), not the local timezone conversion
+      expect(actualDisplayedTime).toBe(expectedUTCTime)
+    })
+
+    it('should preserve UTC time when using timeStyle with UTC date input using +00:00 offset', () => {
+      // This test verifies that UTC dates with explicit +00:00 timezone offset
+      // are also handled correctly (not just 'Z' suffix)
+      const utcDateString = '2025-01-26T12:44:00+00:00' // 12:44 UTC with explicit offset
+      const utcDate = new Date(utcDateString)
+
+      // Verify the Date object correctly represents 12:44 UTC
+      expect(utcDate.toISOString()).toBe('2025-01-26T12:44:00.000Z')
+      expect(utcDate.getUTCHours()).toBe(12)
+      expect(utcDate.getUTCMinutes()).toBe(44)
+
+      render(
+        <DateFormat
+          value={utcDateString}
+          dateStyle="short"
+          timeStyle="short"
+          dateTimeSeparator=" – "
+          locale="en-GB"
+        />
+      )
+
+      const dateFormat = document.querySelector('.dnb-date-format')
+      const displayedText = dateFormat?.textContent || ''
+
+      // Extract the displayed time from the formatted string
+      const actualDisplayedTime = displayedText.match(/\d{2}:\d{2}/)?.[0]
+      const expectedUTCTime = '12:44'
+
+      // The component should display "12:44" (UTC time), not the local timezone conversion
+      expect(actualDisplayedTime).toBe(expectedUTCTime)
+    })
+
     it('should return an invalid date message if the date is invalid', () => {
       global.console.log = jest.fn()
 

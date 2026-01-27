@@ -149,8 +149,8 @@ export default {
     },
     Email: {
       label: 'Email address',
-      errorRequired: 'You must enter a Email address.',
-      errorPattern: 'Invalid Email address. Enter a valid Email address.',
+      errorRequired: 'You must enter an email address.',
+      errorPattern: 'Invalid email address. Enter a valid email address.',
     },
     FirstName: {
       label: 'Given name',
@@ -221,9 +221,9 @@ export default {
       invalidCode: 'Invalid postal code.',
     },
     PostalCode: {
-      label: 'Postc.',
-      errorRequired: 'You must enter a postal code.',
-      errorPattern: 'This is not a valid postal code (four-digits).',
+      label: 'Postcode',
+      errorRequired: 'You must enter a postcode.',
+      errorPattern: 'This is not a valid postcode (four digits).',
     },
     City: {
       label: 'City',
@@ -249,7 +249,7 @@ export default {
     },
     Upload: {
       errorRequired: 'You must upload a file.',
-      errorInvalidFiles: 'Remove all files that have errors.',
+      errorInvalidFiles: 'Remove all files with errors.',
     },
   } satisfies (typeof nb)['nb-NO'],
 }

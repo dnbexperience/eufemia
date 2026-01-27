@@ -150,8 +150,8 @@ function BadgeRoot({
 
 /** Ensures props that only affect certain variants are reset to default */
 function propGuard(
-  fn: React.FC<BadgeElemProps>
-): React.FC<BadgeElemProps> {
+  fn: (props: BadgeElemProps) => JSX.Element | null
+): (props: BadgeElemProps) => JSX.Element | null {
   return (props) => {
     if (props.variant !== 'information') {
       return fn({

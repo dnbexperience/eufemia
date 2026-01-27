@@ -1279,7 +1279,7 @@ async function replacePropertiesTableWithJsonBlock(
     docsBaseRoot: string
   }
 ) {
-  const regex = /<PropertiesTable\b[^>]*\/>/g
+  const regex = /<PropertiesTable\b[\s\S]*?\/>/g
 
   if (!regex.test(body)) {
     return body
@@ -1295,20 +1295,40 @@ async function replacePropertiesTableWithJsonBlock(
   while ((match = regex.exec(body))) {
     output += body.slice(lastIndex, match.index)
     const tag = match[0]
-    const propsName = extractPropsName(tag)
-    const propsValue = propsName
-      ? await resolveImportedValue({
-          propsName,
-          importsByFile,
-          inputDir,
-          docsRoot,
-          docsBaseRoot,
-          moduleCache,
-        })
-      : null
+    const attrs = parsePropertiesTableAttributes(tag)
+    const propsName =
+      attrs.props?.type === 'expression' ? attrs.props.value?.trim() : null
+    const propsValue =
+      propsName &&
+      (await resolveImportedValue({
+        propsName,
+        importsByFile,
+        inputDir,
+        docsRoot,
+        docsBaseRoot,
+        moduleCache,
+      }))
 
     if (propsValue) {
-      output += renderJsonBlock(propsValue)
+      const metadata: Record<string, any> = {
+        props: propsValue,
+      }
+
+      for (const [name, attr] of Object.entries(attrs)) {
+        if (name === 'props') {
+          continue
+        }
+        const attrValue = convertPropertyAttribute(attr)
+        if (attrValue !== undefined) {
+          metadata[name] = attrValue
+        }
+      }
+
+      if (metadata.valueType) {
+        metadata.props = applyValueType(metadata.props, metadata.valueType)
+      }
+
+      output += renderJsonBlock(metadata)
     } else {
       if (fallbackLink) {
         output += `See ${fallbackLink.label}: ${fallbackLink.url}`
@@ -1323,13 +1343,249 @@ async function replacePropertiesTableWithJsonBlock(
   return output
 }
 
-function extractPropsName(tag: string) {
-  const match = tag.match(/\bprops\s*=\s*\{([^}]+)\}/)
+type ParsedPropertyAttribute =
+  | { type: 'expression'; value: string }
+  | { type: 'string'; value: string }
+  | { type: 'boolean' }
 
-  if (!match) {
-    return null
+function parsePropertiesTableAttributes(tag: string) {
+  const attrs: Record<string, ParsedPropertyAttribute> = {}
+  const start = tag.indexOf('PropertiesTable')
+
+  if (start === -1) {
+    return attrs
   }
-  return match[1].trim() || null
+
+  const end = tag.lastIndexOf('/>')
+
+  if (end === -1) {
+    return attrs
+  }
+
+  const inner = tag.slice(start + 'PropertiesTable'.length, end).trim()
+  let i = 0
+
+  while (i < inner.length) {
+    i = skipWhitespace(inner, i)
+
+    if (i >= inner.length) {
+      break
+    }
+
+    let name = ''
+
+    while (i < inner.length && /[A-Za-z0-9_-]/.test(inner[i])) {
+      name += inner[i++]
+    }
+
+    if (!name) {
+      break
+    }
+
+    i = skipWhitespace(inner, i)
+    let attr: ParsedPropertyAttribute
+
+    if (inner[i] === '=') {
+      i++
+      i = skipWhitespace(inner, i)
+
+      if (inner[i] === '{') {
+        const { value, nextIndex } = readBalancedExpression(
+          inner,
+          i + 1,
+          '{',
+          '}'
+        )
+        attr = { type: 'expression', value: value.trim() }
+        i = nextIndex
+      } else if (inner[i] === '"' || inner[i] === "'") {
+        const { value, nextIndex } = readString(inner, i)
+        attr = { type: 'string', value }
+        i = nextIndex
+      } else {
+        const value = readWord(inner, i)
+        attr = { type: 'string', value }
+        i += value.length
+      }
+    } else {
+      attr = { type: 'boolean' }
+    }
+
+    attrs[name] = attr
+  }
+
+  return attrs
+}
+
+function convertPropertyAttribute(attr: ParsedPropertyAttribute) {
+  if (!attr) {
+    return undefined
+  }
+  if (attr.type === 'boolean') {
+    return true
+  }
+  if (attr.type === 'string') {
+    return attr.value
+  }
+  if (!attr.value) {
+    return undefined
+  }
+  const expression = attr.value.trim()
+
+  if (!expression) {
+    return undefined
+  }
+
+  return evaluateAttributeExpression(expression)
+}
+
+function applyValueType(
+  propsValue: Record<string, any>,
+  valueTypeMeta: any
+): Record<string, any> {
+  if (!propsValue || valueTypeMeta === undefined) {
+    return propsValue
+  }
+
+  const replace = (typeField: any): any => {
+    if (typeof typeField === 'string') {
+      if (typeField === '{valueType}') {
+        return valueTypeMeta
+      }
+      return typeField
+    }
+    if (Array.isArray(typeField)) {
+      const expanded = typeField.flatMap((entry) => {
+        const replaced = replace(entry)
+        return Array.isArray(replaced) ? replaced : [replaced]
+      })
+      return expanded
+    }
+    return typeField
+  }
+
+  const result: Record<string, any> = {}
+
+  for (const [key, entry] of Object.entries(propsValue)) {
+    if (!entry || typeof entry !== 'object') {
+      result[key] = entry
+      continue
+    }
+    result[key] = {
+      ...entry,
+      type: replace(entry.type),
+    }
+  }
+
+  return result
+}
+
+function evaluateAttributeExpression(expression: string) {
+  try {
+    return new Function('"use strict"; return (' + expression + ')')()
+  } catch {
+    return expression
+  }
+}
+
+function skipWhitespace(str: string, index: number) {
+  while (index < str.length && /\s/.test(str[index])) {
+    index++
+  }
+  return index
+}
+
+function readBalancedExpression(
+  str: string,
+  startIndex: number,
+  open: string,
+  close: string
+) {
+  let depth = 1
+  let currentIndex = startIndex
+  let value = ''
+  let quote = ''
+
+  while (currentIndex < str.length) {
+    const char = str[currentIndex++]
+
+    if (quote) {
+      if (char === '\\') {
+        value += char
+
+        if (currentIndex < str.length) {
+          value += str[currentIndex++]
+        }
+        continue
+      }
+
+      if (char === quote) {
+        quote = ''
+      }
+      value += char
+      continue
+    }
+
+    if (char === '"' || char === "'") {
+      quote = char
+      value += char
+      continue
+    }
+
+    if (char === open) {
+      depth++
+      value += char
+      continue
+    }
+
+    if (char === close) {
+      depth--
+
+      if (depth === 0) {
+        break
+      }
+    }
+
+    value += char
+  }
+
+  return { value, nextIndex: currentIndex }
+}
+
+function readString(str: string, startIndex: number) {
+  const quote = str[startIndex]
+  let currentIndex = startIndex + 1
+  let value = ''
+
+  while (currentIndex < str.length) {
+    const char = str[currentIndex++]
+
+    if (char === '\\') {
+      if (currentIndex < str.length) {
+        value += str[currentIndex++]
+      }
+      continue
+    }
+
+    if (char === quote) {
+      break
+    }
+
+    value += char
+  }
+
+  return { value, nextIndex: currentIndex }
+}
+
+function readWord(str: string, startIndex: number) {
+  let currentIndex = startIndex
+  let value = ''
+
+  while (currentIndex < str.length && /[^\s/>]/.test(str[currentIndex])) {
+    value += str[currentIndex++]
+  }
+
+  return value
 }
 
 async function replaceTranslationsTableWithJsonBlock(

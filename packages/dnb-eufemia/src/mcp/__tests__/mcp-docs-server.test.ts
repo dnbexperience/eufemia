@@ -1,7 +1,4 @@
-import type {
-  CallToolResult,
-  TextContent,
-} from '@modelcontextprotocol/sdk/types'
+import type { CallToolResult } from '@modelcontextprotocol/sdk/types'
 import fs from 'fs'
 import os from 'os'
 import path from 'path'
@@ -149,7 +146,7 @@ function createDocsFixture(): DocsFixture {
 
 function getText(result: CallToolResult) {
   const block = result.content?.find(
-    (item): item is TextContent => item.type === 'text'
+    (item): item is { type: 'text'; text: string } => item.type === 'text'
   )
   return block?.text ?? ''
 }
@@ -632,5 +629,48 @@ describe('component_props', () => {
     const blocks = JSON.parse(getText(result)) as unknown[]
     expect(Array.isArray(blocks)).toBe(true)
     expect(blocks[0]).toEqual([{ name: 'text', type: 'string' }])
+  })
+})
+
+describe('MCP dependency configuration', () => {
+  it('has @modelcontextprotocol/sdk dependency declared in package.json', () => {
+    const packageJsonPath = path.join(__dirname, '../../../package.json')
+    const packageJson = JSON.parse(
+      fs.readFileSync(packageJsonPath, 'utf8')
+    )
+
+    expect(packageJson.dependencies).toBeDefined()
+    expect(
+      packageJson.dependencies['@modelcontextprotocol/sdk']
+    ).toBeDefined()
+    expect(
+      packageJson.dependencies['@modelcontextprotocol/sdk']
+    ).toBeTruthy()
+  })
+
+  it('has .vscode/mcp.json with correct eufemia server configuration', () => {
+    const mcpConfigPath = path.join(
+      __dirname,
+      '../../../../../.vscode/mcp.json'
+    )
+    expect(fs.existsSync(mcpConfigPath)).toBe(true)
+
+    const mcpConfig = JSON.parse(fs.readFileSync(mcpConfigPath, 'utf8'))
+
+    expect(mcpConfig.servers).toBeDefined()
+    expect(mcpConfig.servers.eufemia).toBeDefined()
+    expect(mcpConfig.servers.eufemia.command).toBe('bash')
+    expect(mcpConfig.servers.eufemia.args).toBeDefined()
+    expect(mcpConfig.servers.eufemia.args.length).toBeGreaterThan(0)
+
+    const scriptPath = mcpConfig.servers.eufemia.args[0]
+    expect(scriptPath).toContain(
+      'packages/dnb-eufemia/src/mcp/run-mcp-server.sh'
+    )
+  })
+
+  it('has run-mcp-server.sh script file at expected location', () => {
+    const scriptPath = path.join(__dirname, '../run-mcp-server.sh')
+    expect(fs.existsSync(scriptPath)).toBe(true)
   })
 })

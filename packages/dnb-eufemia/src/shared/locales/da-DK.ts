@@ -41,7 +41,7 @@ export default {
       firstDay: 'monday', // used in DatePickerCalendar to set the first day of the week
       submitButtonText: 'Ok',
       cancelButtonText: 'Annuller',
-      resetButtonText: 'Nulstil',
+      resetButtonText: 'Gendan',
       placeholderCharacters: {
         day: 'd',
         month: 'm',

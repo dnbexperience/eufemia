@@ -6,4 +6,4 @@ Read more about Eufemia and the [DNB UI Library](https://eufemia.dnb.no/uilib/ab
 
 ## License
 
-You find the license here: https://github.com/dnbexperience/eufemia/blob/main/LICENSE
+You find the license here: [LICENSE](https://github.com/dnbexperience/eufemia/blob/main/LICENSE)
