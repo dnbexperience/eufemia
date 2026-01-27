@@ -3,8 +3,6 @@
  *
  */
 
-import React from 'react'
-
 export default function getting_started(props = {}) {
   return (
     <svg

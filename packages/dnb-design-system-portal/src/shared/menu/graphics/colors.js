@@ -3,8 +3,6 @@
  *
  */
 
-import React from 'react'
-
 export default function colors(props = {}) {
   return (
     <svg

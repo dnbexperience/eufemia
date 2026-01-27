@@ -3,8 +3,6 @@
  *
  */
 
-import React from 'react'
-
 export default function principles(props = {}) {
   return (
     <svg

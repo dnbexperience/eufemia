@@ -30,7 +30,7 @@ import secondary from './graphics/secondary'
 import primary from './graphics/primary'
 import elements from './graphics/elements'
 
-export default {
+const SidebarGraphics = {
   about_the_lib,
   getting_started,
   usage,
@@ -58,3 +58,5 @@ export default {
   primary,
   elements,
 }
+
+export default SidebarGraphics
