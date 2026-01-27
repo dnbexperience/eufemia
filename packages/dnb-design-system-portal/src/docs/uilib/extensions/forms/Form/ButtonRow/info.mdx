@@ -11,7 +11,7 @@ render(<Form.ButtonRow />)
 
 ## Description
 
-`Form.ButtonRow` is a wrapper for horizontally separated buttons.
+`Form.ButtonRow` is a wrapper for horizontally separated buttons. Use it when you place two or more buttons together; a single button can be rendered directly without a ButtonRow.
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
@@ -20,6 +20,7 @@ render(
     ...
     <Form.ButtonRow>
       <Form.SubmitButton />
+      <Button variant="secondary">Other button</Button>
     </Form.ButtonRow>
   </Form.Handler>
 )
