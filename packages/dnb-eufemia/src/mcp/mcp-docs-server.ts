@@ -853,7 +853,7 @@ async function main() {
     {
       title: 'Docs entry',
       description:
-        'IMPORTANT! Primary entrypoint to the Eufemia documentation. Before implementing any Eufemia-based features, call mcp_eufemia_docs_entry to understand the docs structure, and learn how to use the other MCP tools correctly; then use mcp_eufemia_docs_search and mcp_eufemia_docs_read to fetch relevant documentation. Always follow these guidelines when using the documentation: use the documentation exactly as provided; gather all required information from the documentation before using it as a reference; and do not make assumptions or infer missing details unless the documentation or user explicitly instructs you to do so.',
+        'IMPORTANT! Primary entrypoint to the Eufemia documentation. Before implementing any Eufemia-based features or examples, call mcp_eufemia_docs_entry to understand the docs structure, and learn how to use the other MCP tools correctly; then use mcp_eufemia_docs_search and mcp_eufemia_docs_read to fetch relevant documentation. Make sure you have located and carefully read the relevant getting started or first-steps documentation before you implement any examples or code snippets based on these docs. Always follow these guidelines when using the documentation: use the documentation exactly as provided; gather all required information from the documentation before using it as a reference; and do not make assumptions or infer missing details unless the documentation or user explicitly instructs you to do so.',
       inputSchema: EmptyInput.shape,
     },
     (input) => tools.docsEntry(input)
@@ -897,7 +897,7 @@ async function main() {
     {
       title: 'Search docs',
       description:
-        'Search across all markdown and MDX documentation using a free-text query, returning a JSON array of ranked matches with relevance scores and text snippets. Use this when you know what you are looking for conceptually (for example a component, feature, or concept name), but you do not know the exact file path yet. Prefer this after you have called the docs entry tool so you understand how the docs are structured.',
+        'Search across all markdown and MDX documentation using a free-text query, returning a JSON array of ranked matches with relevance scores and text snippets. Use this when you know what you are looking for conceptually (for example a component, feature, or concept name), but you do not know the exact file path yet. Prefer this after you have called the docs entry tool so you understand how the docs are structured. In particular, use this to find and read the appropriate getting started or first-steps documentation before you rely on any specific examples or code snippets.',
       inputSchema: DocsSearchInput.shape,
     },
     (input) => tools.docsSearch(input)
@@ -919,7 +919,7 @@ async function main() {
     {
       title: 'Component doc',
       description:
-        "Return the full markdown or MDX documentation for a single Eufemia component, identified by its name (for example 'Button' or 'Field.Address'). Use this when you need to read the human-facing docs for a component, including narrative text, examples, and API descriptions, rather than just the structured JSON blocks.",
+        "Return the full markdown or MDX documentation for a single Eufemia component, identified by its name (for example 'Button' or 'Field.Address'). Use this when you need to read the human-facing docs for a component, including narrative text, examples, and API, property, event and translation descriptions, rather than just the structured JSON blocks. Before implementing any examples from these docs, make sure you have already read the relevant getting started or first-steps documentation so you apply the examples in the correct way and context.",
       inputSchema: ComponentNameInput.shape,
     },
     (input) => tools.componentDoc(input)
