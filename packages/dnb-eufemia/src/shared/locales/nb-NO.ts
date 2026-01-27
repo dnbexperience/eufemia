@@ -111,7 +111,7 @@ export default {
     },
     Input: {
       submit_button_title: 'Send',
-      clear_button_title: 'Tøm',
+      clear_button_title: 'Nullstill',
     },
     Pagination: {
       button_title: 'Side %s',
