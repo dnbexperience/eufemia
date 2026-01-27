@@ -79,11 +79,7 @@ function FlexItem(props: Props) {
   if (Object.keys(spaceStyles).length) {
     return (
       <Space element={element} className={cn} style={spaceStyles}>
-        <Space
-          className={clsx('dnb-flex-item__spacer', className)}
-          style={style}
-          {...rest}
-        >
+        <Space className={className} style={style} {...rest}>
           {children}
         </Space>
       </Space>

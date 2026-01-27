@@ -12,7 +12,7 @@ describe('InfoCard', () => {
     render(<InfoCard />)
 
     expect(
-      document.querySelector('.dnb-info-card__text')
+      document.querySelector('.dnb-info-card__content p')
     ).not.toBeInTheDocument()
     expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
   })
@@ -21,9 +21,7 @@ describe('InfoCard', () => {
     const props: InfoCardAllProps = { text: 'text' }
     render(<InfoCard {...props} />)
 
-    expect(
-      document.querySelector('.dnb-info-card__text')
-    ).toBeInTheDocument()
+    expect(screen.getByText('text')).toBeInTheDocument()
   })
 
   it('renders the title as string', () => {
@@ -31,12 +29,9 @@ describe('InfoCard', () => {
 
     render(<InfoCard text="text" title={title} />)
 
-    expect(
-      document.querySelector('.dnb-info-card__title')
-    ).toBeInTheDocument()
-    expect(
-      document.querySelector('.dnb-info-card__title').textContent
-    ).toMatch(title)
+    const titleElement = screen.getByText(title)
+    expect(titleElement).toBeInTheDocument()
+    expect(titleElement.textContent).toMatch(title)
   })
 
   it('should support inline styling', () => {
@@ -52,14 +47,7 @@ describe('InfoCard', () => {
 
     render(<InfoCard text="text" title={title} />)
 
-    expect(
-      document.querySelector('.dnb-info-card__title')
-    ).toBeInTheDocument()
-    expect(
-      within(
-        document.querySelector('.dnb-info-card__title')
-      ).queryByTestId('react-node')
-    ).toBeInTheDocument()
+    expect(screen.queryByTestId('react-node')).toBeInTheDocument()
   })
 
   it('renders the text as string', () => {
@@ -67,12 +55,9 @@ describe('InfoCard', () => {
 
     render(<InfoCard text={text} />)
 
-    expect(
-      document.querySelector('.dnb-info-card__text')
-    ).toBeInTheDocument()
-    expect(
-      document.querySelector('.dnb-info-card__text').textContent
-    ).toMatch(text)
+    const textElement = screen.getByText(text)
+    expect(textElement).toBeInTheDocument()
+    expect(textElement.textContent).toMatch(text)
   })
 
   it('renders the text as react node', () => {
@@ -80,14 +65,7 @@ describe('InfoCard', () => {
 
     render(<InfoCard text={text} />)
 
-    expect(
-      document.querySelector('.dnb-info-card__text')
-    ).toBeInTheDocument()
-    expect(
-      within(document.querySelector('.dnb-info-card__text')).queryByTestId(
-        'react-node'
-      )
-    ).toBeInTheDocument()
+    expect(screen.queryByTestId('react-node')).toBeInTheDocument()
   })
 
   it('renders the icon', () => {
@@ -271,9 +249,10 @@ describe('InfoCard', () => {
 
     render(<InfoCard skeleton text="skeleton" />)
 
-    expect(
-      document.querySelector('.dnb-info-card__text').className
-    ).toMatch(skeletonClassName)
+    const paragraphElement = document.querySelector(
+      '.dnb-info-card__content .dnb-p'
+    )
+    expect(paragraphElement.className).toMatch(skeletonClassName)
   })
 
   it('inherits skeleton prop from provider', () => {
@@ -285,9 +264,10 @@ describe('InfoCard', () => {
       </Provider>
     )
 
-    expect(
-      document.querySelector('.dnb-info-card__text').className
-    ).toMatch(skeletonClassName)
+    const paragraphElement = document.querySelector(
+      '.dnb-info-card__content .dnb-p'
+    )
+    expect(paragraphElement.className).toMatch(skeletonClassName)
   })
 
   it('should support spacing props', () => {
