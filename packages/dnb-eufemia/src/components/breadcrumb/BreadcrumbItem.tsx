@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 
 // Components
 import Button, { ButtonProps } from '../Button'
@@ -21,10 +21,6 @@ import {
   extendPropsWithContext,
   filterProps,
 } from '../../shared/component-helper'
-
-// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
-const useLayoutEffect =
-  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
 export type BreadcrumbItemProps = {
   /**
@@ -120,17 +116,11 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
     when: { max: 'medium' },
   })
 
-  const [currentIcon, setCurrentIcon] =
-    React.useState<IconIcon>('chevron_left')
-
-  useLayoutEffect(() => {
+  const currentIcon = useMemo(() => {
     if (!icon) {
-      setCurrentIcon(determineIcon(variant, isSmallScreen))
-    } else {
-      if (variant !== 'home') {
-        setCurrentIcon(icon ?? 'chevron_left')
-      }
+      return determineIcon(variant, isSmallScreen)
     }
+    return variant === 'home' ? 'home-icon' : icon ?? 'chevron_left'
   }, [icon, isSmallScreen, variant])
 
   const currentText = text || (variant === 'home' && homeText) || ''
