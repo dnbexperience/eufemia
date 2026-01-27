@@ -231,7 +231,7 @@
     "jest-playwright-preset": "4.0.0",
     "jest-raw-loader": "1.0.1",
     "jest-tobetype": "1.2.3",
-    "knip": "6.2.1",
+    "knip": "5.82.1",
     "lebab": "3.2.7",
     "lockfile-lint": "4.14.1",
     "lodash.isequal": "4.5.0",
