@@ -154,14 +154,29 @@
       }
     }
 
-    // TODO: Use CSS Container Queries when available
-    @include allAbove(small) {
-      &--selected &__suffix {
-        z-index: 2; // over check icon
-        background-color: inherit; // to "hide" the check icon
+    // Fallback for browsers without container query support
+    @supports not (container-type: inline-size) {
+      @include allAbove(small) {
+        &--selected &__suffix {
+          z-index: 2; // over check icon
+          background-color: inherit; // to "hide" the check icon
+        }
+        &:not(#{&}--selected) &__suffix#{&}__item:nth-of-type(n + 2) {
+          color: var(--color-black-80);
+        }
       }
-      &:not(#{&}--selected) &__suffix#{&}__item:nth-of-type(n + 2) {
-        color: var(--color-black-80);
+    }
+
+    // Use CSS Container Queries for component-based responsive design
+    @supports (container-type: inline-size) {
+      @container (min-width: 40em) {
+        &--selected &__suffix {
+          z-index: 2; // over check icon
+          background-color: inherit; // to "hide" the check icon
+        }
+        &:not(#{&}--selected) &__suffix#{&}__item:nth-of-type(n + 2) {
+          color: var(--color-black-80);
+        }
       }
     }
 

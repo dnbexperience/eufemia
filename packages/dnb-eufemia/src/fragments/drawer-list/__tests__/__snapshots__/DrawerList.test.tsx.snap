@@ -155,6 +155,7 @@ html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options, .dnb-
   color: inherit;
   outline: none;
   background-color: var(--color-white);
+  container-type: inline-size;
 }
 .dnb-drawer-list__option__inner {
   position: relative;
@@ -188,12 +189,24 @@ html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options, .dnb-
   word-break: break-word;
   font-size: inherit;
 }
-@media screen and (min-width: 40.00625em) {
-  .dnb-drawer-list__option__suffix {
-    grid-column: 2;
-    grid-row: 1/-1;
-    justify-self: end;
-    align-self: center;
+@supports not (container-type: inline-size) {
+  @media screen and (min-width: 40.00625em) {
+    .dnb-drawer-list__option__suffix {
+      grid-column: 2;
+      grid-row: 1/-1;
+      justify-self: end;
+      align-self: center;
+    }
+  }
+}
+@supports (container-type: inline-size) {
+  @container (min-width: 40em) {
+    .dnb-drawer-list__option__suffix {
+      grid-column: 2;
+      grid-row: 1/-1;
+      justify-self: end;
+      align-self: center;
+    }
   }
 }
 .dnb-drawer-list__option--ignore {
@@ -549,13 +562,26 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option--selected .dnb-drawer
 .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner::before {
   visibility: hidden;
 }
-@media screen and (min-width: 40.00625em) {
-  .dnb-drawer-list__option--selected .dnb-drawer-list__option__suffix {
-    z-index: 2;
-    background-color: inherit;
+@supports not (container-type: inline-size) {
+  @media screen and (min-width: 40.00625em) {
+    .dnb-drawer-list__option--selected .dnb-drawer-list__option__suffix {
+      z-index: 2;
+      background-color: inherit;
+    }
+    .dnb-drawer-list__option:not(.dnb-drawer-list__option--selected) .dnb-drawer-list__option__suffix.dnb-drawer-list__option__item:nth-of-type(n + 2) {
+      color: var(--color-black-80);
+    }
   }
-  .dnb-drawer-list__option:not(.dnb-drawer-list__option--selected) .dnb-drawer-list__option__suffix.dnb-drawer-list__option__item:nth-of-type(n + 2) {
-    color: var(--color-black-80);
+}
+@supports (container-type: inline-size) {
+  @container (min-width: 40em) {
+    .dnb-drawer-list__option--selected .dnb-drawer-list__option__suffix {
+      z-index: 2;
+      background-color: inherit;
+    }
+    .dnb-drawer-list__option:not(.dnb-drawer-list__option--selected) .dnb-drawer-list__option__suffix.dnb-drawer-list__option__item:nth-of-type(n + 2) {
+      color: var(--color-black-80);
+    }
   }
 }
 html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {

@@ -193,6 +193,9 @@
 
     background-color: var(--color-white);
 
+    // Enable container queries for responsive suffix positioning
+    container-type: inline-size;
+
     &__inner {
       position: relative;
       z-index: 1; // only to go over &__triangle
@@ -244,13 +247,26 @@
     }
 
     &__suffix {
-      // TODO: Use CSS Container Queries when available
-      @include allAbove(small) {
-        grid-column: 2;
-        grid-row: 1 / -1;
+      // Fallback for browsers without container query support
+      @supports not (container-type: inline-size) {
+        @include allAbove(small) {
+          grid-column: 2;
+          grid-row: 1 / -1;
 
-        justify-self: end;
-        align-self: center;
+          justify-self: end;
+          align-self: center;
+        }
+      }
+
+      // Use CSS Container Queries for component-based responsive design
+      @supports (container-type: inline-size) {
+        @container (min-width: 40em) {
+          grid-column: 2;
+          grid-row: 1 / -1;
+
+          justify-self: end;
+          align-self: center;
+        }
       }
     }
 
