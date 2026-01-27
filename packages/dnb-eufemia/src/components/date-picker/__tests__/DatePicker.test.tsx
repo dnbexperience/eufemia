@@ -1503,7 +1503,7 @@ describe('DatePicker component', () => {
 
     // Check labels
     expect(resetButton).toBeInTheDocument()
-    expect(resetButton).toHaveTextContent('Nullstill')
+    expect(resetButton).toHaveTextContent('Tilbakestill')
 
     expect(cancelButton).toBeInTheDocument()
     expect(cancelButton).toHaveTextContent('Avbryt')
@@ -2759,7 +2759,7 @@ describe('DatePicker component', () => {
     expect(
       document.querySelector('[data-testid="reset"]  .dnb-button__text')
         .textContent
-    ).toBe('Nulstil')
+    ).toBe('Gendan')
 
     expect(
       document.querySelector('[data-testid="submit"]  .dnb-button__text')
