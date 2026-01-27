@@ -89,7 +89,9 @@ export default class InputModeNumber {
 
     this.hasFocus = true
 
-    this._type = this.inputElement.type
+    const currentType = this.inputElement.type
+    this._type =
+      currentType && currentType !== 'undefined' ? currentType : 'text'
 
     if (this._type === 'number') {
       return // stop here
@@ -125,7 +127,10 @@ export default class InputModeNumber {
       return // stop here
     }
     try {
-      this.inputElement.type = this._type
+      // Ensure we never set type to undefined
+      const typeToRestore =
+        this._type && this._type !== 'undefined' ? this._type : 'text'
+      this.inputElement.type = typeToRestore
       this.inputElement.style.cssText = this._cssText // Because we did set a width, we need to reset the cssText
       this.inputElement.classList.remove('dnb-input-masked--hide-controls')
       // Only restore the previous value if no new value was entered
