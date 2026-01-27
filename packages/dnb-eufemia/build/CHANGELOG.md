@@ -3,6 +3,17 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.95.1](https://github.com/dnbexperience/eufemia/compare/v10.95.0...v10.95.1) (2026-01-27)
+
+
+### :bug: Bug Fixes
+
+* **AI:** improve initial docs guidance for MCP Server ([#6459](https://github.com/dnbexperience/eufemia/issues/6459)) ([e38e314](https://github.com/dnbexperience/eufemia/commit/e38e31481bb70205dbd235266024a1194ab11395))
+* **DateFormat:** add support for timezones ([#6457](https://github.com/dnbexperience/eufemia/issues/6457)) ([187fc65](https://github.com/dnbexperience/eufemia/commit/187fc6529b871598885ae8e09f5a2f8186599887))
+* **Forms:** minor locale improvements for PostalCode, Upload and Email fields ([#6455](https://github.com/dnbexperience/eufemia/issues/6455)) ([27f0d2b](https://github.com/dnbexperience/eufemia/commit/27f0d2bd702ff1dfc6e6da8fd9c69d46daabccbe))
+* **Iterate:** fix redundant rendering of `ItemNo` ([#6470](https://github.com/dnbexperience/eufemia/issues/6470)) ([62569a4](https://github.com/dnbexperience/eufemia/commit/62569a466366986e259780b76b808978938efdf0))
+* **PaymentCard:** add `/style/isolated` for style isolation import ([#6458](https://github.com/dnbexperience/eufemia/issues/6458)) ([64e644d](https://github.com/dnbexperience/eufemia/commit/64e644db3f9dc4dadacadbae363894d6c6da8ed8))
+
 ## [10.95.0](https://github.com/dnbexperience/eufemia/compare/v10.94.3...v10.95.0) (2026-01-26)
 
 
