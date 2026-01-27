@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.Count'
 description: '`Iterate.Count` is a helper component / function that returns the count of a data array or object.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.992Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:27.446Z
 checksum: 24a65aff8e8538a7914ffdfd1242ec2bf1593b2d10c2ebb27f733d47f345b138
 ---
 
@@ -169,20 +169,22 @@ render(<MyForm />)
 
 ```json
 {
-  "path": {
-    "doc": "The path (JSON Pointer) to the array or object to count.",
-    "type": "string",
-    "status": "required"
-  },
-  "id": {
-    "doc": "A Form.Handler or DataContext `id` for when called outside of the context.",
-    "type": "string",
-    "status": "optional"
-  },
-  "filter": {
-    "doc": "A filter function to filter the data before counting.",
-    "type": "string",
-    "status": "optional"
+  "props": {
+    "path": {
+      "doc": "The path (JSON Pointer) to the array or object to count.",
+      "type": "string",
+      "status": "required"
+    },
+    "id": {
+      "doc": "A Form.Handler or DataContext `id` for when called outside of the context.",
+      "type": "string",
+      "status": "optional"
+    },
+    "filter": {
+      "doc": "A filter function to filter the data before counting.",
+      "type": "string",
+      "status": "optional"
+    }
   }
 }
 ```

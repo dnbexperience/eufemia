@@ -1,8 +1,8 @@
 ---
 title: 'Flex Stack'
 description: '`Flex.Stack` is an outer block element that wraps content to ensure proper layout and spacing between form elements, larger regions and headings. It stretches its content horizontally (100%).'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:27.321Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:28.335Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -136,25 +136,27 @@ render(
 
 ```json
 {
-  "direction": {
-    "doc": "Defaults to `vertical`.",
-    "type": "string",
-    "status": "optional"
-  },
-  "align": {
-    "doc": "Defaults to `stretch`.",
-    "type": "string",
-    "status": "optional"
-  },
-  "[Flex.Container](/uilib/layout/flex/container/properties)": {
-    "doc": "Flex.Container properties.",
-    "type": "Various",
-    "status": "optional"
-  },
-  "[Space](/uilib/layout/space/properties)": {
-    "doc": "Spacing properties like `top` or `bottom` are supported.",
-    "type": ["string", "object"],
-    "status": "optional"
+  "props": {
+    "direction": {
+      "doc": "Defaults to `vertical`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "align": {
+      "doc": "Defaults to `stretch`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "[Flex.Container](/uilib/layout/flex/container/properties)": {
+      "doc": "Flex.Container properties.",
+      "type": "Various",
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": ["string", "object"],
+      "status": "optional"
+    }
   }
 }
 ```

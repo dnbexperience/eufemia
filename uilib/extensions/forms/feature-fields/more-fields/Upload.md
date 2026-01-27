@@ -1,8 +1,8 @@
 ---
 title: 'Field.Upload'
 description: '`Field.Upload` is a wrapper for the Upload component to make it easier to use inside a form.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:27.298Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:28.312Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -632,91 +632,256 @@ render(
 
 ```json
 {
-  "fileHandler": {
-    "doc": "File handler function that takes newly added files (`newFiles: UploadValue`) as a parameter and returns the processed files. The function can either be synchronous or asynchronous. It returns a promise (`Promise<UploadValue>`) containing the processed files when asynchronous.",
-    "type": "function",
-    "status": "optional"
-  },
-  "id": {
-    "doc": "Unique id used together with the `useUpload` hook to manage the files. Needed when wanting to connect with the `useUpload` hook.",
-    "type": ["string", "Function", "Object", "React.Context"],
-    "status": "optional"
-  },
-  "children": {
-    "doc": "Content to display below the `title` and `text`. Can be used to add custom content.",
-    "type": "React.ReactNode",
-    "status": "optional"
-  },
-  "variant": {
-    "doc": "Defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.",
-    "type": ["normal", "compact"],
-    "status": "optional"
-  },
-  "acceptedFileTypes": {
-    "doc": "List of accepted file types. Either as string or [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype). When providing a list of [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype), the accepted file types will be presented in a table(see [example](/uilib/components/upload/demos/#upload-with-file-max-size-based-on-file-type)).",
-    "type": ["Array<string>", "Array<AcceptedFileType>"],
-    "status": "required"
-  },
-  "filesAmountLimit": {
-    "doc": "Defines the amount of files the user can select and upload. Defaults to `100`.",
-    "type": "number",
-    "status": "optional"
-  },
-  "fileMaxSize": {
-    "doc": "Defines the max file size of each file in MB. Use either `0` or `false` to disable. Defaults to 5 MB.",
-    "type": ["number", "false"],
-    "status": "optional"
-  },
-  "download": {
-    "doc": "Causes the browser to treat all listed files as downloadable instead of opening them in a new browser tab or window. Defaults to `false`.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "allowDuplicates": {
-    "doc": "Allows uploading of duplicate files. Defaults to `false`.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "disableDragAndDrop": {
-    "doc": "Disables file drag and drop, by removing the drop zone. Defaults to `false`.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "buttonProps": {
-    "doc": "Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object, to customize the upload button behavior and appearance.",
-    "type": "ButtonProps",
-    "status": "optional"
-  },
-  "skeleton": {
-    "doc": "Skeleton should be applied when loading content.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "[Space](/uilib/layout/space/properties)": {
-    "doc": "Spacing properties like `top` or `bottom` are supported.",
-    "type": ["string", "object"],
-    "status": "optional"
+  "props": {
+    "fileHandler": {
+      "doc": "File handler function that takes newly added files (`newFiles: UploadValue`) as a parameter and returns the processed files. The function can either be synchronous or asynchronous. It returns a promise (`Promise<UploadValue>`) containing the processed files when asynchronous.",
+      "type": "function",
+      "status": "optional"
+    },
+    "id": {
+      "doc": "Unique id used together with the `useUpload` hook to manage the files. Needed when wanting to connect with the `useUpload` hook.",
+      "type": ["string", "Function", "Object", "React.Context"],
+      "status": "optional"
+    },
+    "children": {
+      "doc": "Content to display below the `title` and `text`. Can be used to add custom content.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "variant": {
+      "doc": "Defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.",
+      "type": ["normal", "compact"],
+      "status": "optional"
+    },
+    "acceptedFileTypes": {
+      "doc": "List of accepted file types. Either as string or [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype). When providing a list of [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype), the accepted file types will be presented in a table(see [example](/uilib/components/upload/demos/#upload-with-file-max-size-based-on-file-type)).",
+      "type": ["Array<string>", "Array<AcceptedFileType>"],
+      "status": "required"
+    },
+    "filesAmountLimit": {
+      "doc": "Defines the amount of files the user can select and upload. Defaults to `100`.",
+      "type": "number",
+      "status": "optional"
+    },
+    "fileMaxSize": {
+      "doc": "Defines the max file size of each file in MB. Use either `0` or `false` to disable. Defaults to 5 MB.",
+      "type": ["number", "false"],
+      "status": "optional"
+    },
+    "download": {
+      "doc": "Causes the browser to treat all listed files as downloadable instead of opening them in a new browser tab or window. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "allowDuplicates": {
+      "doc": "Allows uploading of duplicate files. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "disableDragAndDrop": {
+      "doc": "Disables file drag and drop, by removing the drop zone. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "buttonProps": {
+      "doc": "Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object, to customize the upload button behavior and appearance.",
+      "type": "ButtonProps",
+      "status": "optional"
+    },
+    "skeleton": {
+      "doc": "Skeleton should be applied when loading content.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": ["string", "object"],
+      "status": "optional"
+    }
   }
 }
 ```
 
 ### General properties
 
-<PropertiesTable
-props={FieldProperties}
-valueType={['Array<{ file, id }>']}
-omit={[
-'layout',
-'layoutOptions',
-'onBlurValidator',
-'onChangeValidator',
-'contentWidth',
-'labelSize',
-'labelDescriptionInline',
-'labelSrOnly',
-'labelSize',
-]}
-/>
+```json
+{
+  "props": {
+    "value": {
+      "doc": "Source data value for the field. Will take precedence over the path value given in the data context.",
+      "type": ["Array<{ file, id }>"],
+      "status": "optional"
+    },
+    "defaultValue": {
+      "doc": "Default source data value for the field. Will not take precedence over the path value given in the data context.",
+      "type": ["Array<{ file, id }>"],
+      "status": "optional"
+    },
+    "path": {
+      "doc": "JSON Pointer for where the data for the field is located in the source dataset (when using Form.Handler or DataContext). The `path` will also be set as the `name` attribute for the [string](/uilib/extensions/forms/base-fields/String/)-field.",
+      "type": "string",
+      "status": "optional"
+    },
+    "info": {
+      "doc": "Info message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
+      "type": ["React.Node", "Array<React.Node>", "function"],
+      "status": "optional"
+    },
+    "warning": {
+      "doc": "Warning message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
+      "type": ["React.Node", "Array<React.Node>", "function"],
+      "status": "optional"
+    },
+    "error": {
+      "doc": "Error message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
+      "type": [
+        "Error",
+        "FormError",
+        "Array<Error | FormError>",
+        "function"
+      ],
+      "status": "optional"
+    },
+    "disabled": {
+      "doc": "Set `true` to show the field but without the possibility of changing the value.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "emptyValue": {
+      "doc": "The value to use (in `onChange` events etc) when emptying the field. Makes it possible for instance to provide `undefined` instead of an empty string when clearing the content of a text input.",
+      "type": ["Array<{ file, id }>", "undefined"],
+      "status": "optional"
+    },
+    "required": {
+      "doc": "When set to `true`, the field will give an error if the value fails the required validation. When set to `false`, the field will not be required, but will add a \"(optional)\" suffix to the label.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "labelSuffix": {
+      "doc": "Will append an additional text to the label, like \"(optional)\". When using `inheritLabel`, the suffix will not be inherited. NB: The visual appearance of the `labelSuffix` may change in the future.",
+      "type": "React.Node",
+      "status": "optional"
+    },
+    "schema": {
+      "doc": "Custom JSON Schema for validating the value.",
+      "type": "object",
+      "status": "optional"
+    },
+    "validateInitially": {
+      "doc": "Set to `true` to show validation based errors initially (from given value-prop or source data) before the user interacts with the field.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "validateUnchanged": {
+      "doc": "Set to `true` to show validation based errors when the field is touched (like focusing a field and blurring) without having changed the value. Since the user did not introduce a new error, this will apply when the value was initially invalid based on validation.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "validateContinuously": {
+      "doc": "Set to `true` to show validation based errors continuously while writing, not just when blurring the field.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "errorMessages": {
+      "doc": "Custom error messages for each type of error, overriding default messages. The messages can be a React.ReactNode or a string.",
+      "type": "object",
+      "status": "optional"
+    },
+    "onChangeValidator": {
+      "doc": "Custom validator function where you can return `undefined`, `Error`, `FormError` or an Array with either several other validators or several `Error` or `FormError`. It is triggered on every change done by the user. The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }.",
+      "type": "function",
+      "status": "optional"
+    },
+    "onBlurValidator": {
+      "doc": "Custom validator function where you can return `undefined`, `Error`, `FormError` or an Array with either several other validators or several `Error` or `FormError`. It is triggered when the user leaves a field (e.g., blurring a text input or closing a dropdown). The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }.",
+      "type": "function",
+      "status": "optional"
+    },
+    "transformIn": {
+      "doc": "Transforms the `value` before its displayed in the field (e.g. input).",
+      "type": "function",
+      "status": "optional"
+    },
+    "transformOut": {
+      "doc": "Transforms the value before it gets forwarded to the form data object (context) or returned as the `onChange` value parameter. The first parameter is the internal value. Some fields do support a second parameter, like the SelectCountry, where the country object is given.",
+      "type": "function",
+      "status": "optional"
+    },
+    "label": {
+      "doc": "Label text displayed above the field. Most fields already have a default label, so check the field translations for an existing label entry. Only set `label` when you need to override the default.",
+      "type": "string",
+      "status": "optional"
+    },
+    "labelDescription": {
+      "doc": "A more discreet text displayed beside the label (i.e for \"(optional)\").",
+      "type": "string",
+      "status": "optional"
+    },
+    "labelDescriptionInline": {
+      "doc": "If true, the `labelDescription` will be displayed on the same line as the label.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "labelSrOnly": {
+      "doc": "Use `true` to make the label only readable by screen readers.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "labelSize": {
+      "doc": "Define the font-size of the label based on the [font-size](/uilib/typography/font-size/) table.",
+      "type": ["medium", "large"],
+      "status": "optional"
+    },
+    "help": {
+      "doc": "Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
+      "type": "object",
+      "status": "optional"
+    },
+    "hideHelpButton": {
+      "doc": "Set `true` when you render the inline help button outside the label (e.g. inside a checkbox suffix) so FieldBlock skips drawing the default label help button.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "layout": {
+      "doc": "Layout for the label and input. Can be `horizontal` or `vertical`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "layoutOptions": {
+      "doc": "Use this to set additional options for the `horizontal` layout. E.g. `{ width: \"medium\" }`. You can also use a custom width `{number}rem`. Instead of a width, you can use a min/max width. E.g. `{ minWidth: \"6rem\", maxWidth: \"12rem\" }`.",
+      "type": "object",
+      "status": "optional"
+    },
+    "width": {
+      "doc": "Will set the width for the whole block. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
+      "type": ["string", "false"],
+      "status": "optional"
+    },
+    "contentWidth": {
+      "doc": "Will set the width for its contents. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.",
+      "type": ["string", "false"],
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": ["string", "object"],
+      "status": "optional"
+    }
+  },
+  "valueType": ["Array<{ file, id }>"],
+  "omit": [
+    "layout",
+    "layoutOptions",
+    "onBlurValidator",
+    "onChangeValidator",
+    "contentWidth",
+    "labelSize",
+    "labelDescriptionInline",
+    "labelSrOnly",
+    "labelSize"
+  ]
+}
+```
 
 ## Translations
 
@@ -750,7 +915,7 @@ omit={[
     },
     "Upload.errorInvalidFiles": {
       "nb-NO": "Fjern alle filer som har feil.",
-      "en-GB": "Remove all files that have errors.",
+      "en-GB": "Remove all files with errors.",
       "sv-SE": "Ta bort alla filer som innehåller fel.",
       "da-DK": "Fjern alle filer, der indeholder fejl."
     },
@@ -840,20 +1005,22 @@ omit={[
 
 ```json
 {
-  "onChange": {
-    "doc": "Will be called on `files` changes made by the user. Access the files with `{ files }` (containing each a `fileItem`).",
-    "type": "function",
-    "status": "optional"
-  },
-  "onFileDelete": {
-    "doc": "Will be called once a file gets deleted by the user. Access the deleted file with `{ fileItem }`.",
-    "type": "function",
-    "status": "optional"
-  },
-  "onFileClick": {
-    "doc": "Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`. When providing this prop, the file will be rendered as a button instead of an anchor or plain text.",
-    "type": "function",
-    "status": "optional"
+  "props": {
+    "onChange": {
+      "doc": "Will be called on `files` changes made by the user. Access the files with `{ files }` (containing each a `fileItem`).",
+      "type": "function",
+      "status": "optional"
+    },
+    "onFileDelete": {
+      "doc": "Will be called once a file gets deleted by the user. Access the deleted file with `{ fileItem }`.",
+      "type": "function",
+      "status": "optional"
+    },
+    "onFileClick": {
+      "doc": "Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`. When providing this prop, the file will be rendered as a button instead of an anchor or plain text.",
+      "type": "function",
+      "status": "optional"
+    }
   }
 }
 ```

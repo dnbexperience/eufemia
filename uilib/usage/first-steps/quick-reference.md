@@ -1,8 +1,8 @@
 ---
 title: 'Quick Reference'
 description: 'A compact, practical guide for building with Eufemia: install, components, forms, and key conventions. AI-friendly.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:27.353Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:28.371Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -58,51 +58,6 @@ import {
 } from '@dnb/eufemia/shared'
 ```
 
-## Quick component reference
-
-```tsx
-// Buttons
-<Button text="Primary" />
-<Button variant="secondary" text="Cancel" />
-<Button variant="tertiary" icon="chevron_left" text="Back" />
-<Button icon={banking} text="With custom Icon" />
-
-// Inputs
-<Input label="My label"  />
-<Textarea label="My label" rows={4} />
-<Dropdown label="My label" data={options} />
-<DatePicker label="My label" show_input />
-
-// Layout
-<Flex.Stack>
-<Flex.Horizontal>
-<Card stack>
-
-// Feedback
-<FormStatus state="error">Error message</FormStatus>
-<Skeleton show={loading}><Content /></Skeleton>
-<Dialog title="Confirm">{content}</Dialog>
-
-// Utility
-<CopyOnClick value="text">Copy me</CopyOnClick>
-<AriaLive priority="high">{announcement}</AriaLive>
-```
-
-Tip: For tertiary buttons, an icon is recommended. If you need a text-only variant, see [Anchor](/uilib/components/anchor).
-
-## Icons
-
-```tsx
-import { Icon } from '@dnb/eufemia'
-import { calendar,  } from '@dnb/eufemia/icons'
-
-<Icon icon="bell" />
-<Icon icon={calendar} />
-<Button icon={calendar} text="Schedule" />
-```
-
-See [Icons](/icons/) for the full list and usage guidance.
-
 ## Key conventions
 
 1. Prefer [Flex](/uilib/layout/flex) and [Forms](/uilib/extensions/forms) over other layout and form solutions.
@@ -125,30 +80,6 @@ See [Icons](/icons/) for the full list and usage guidance.
 - [Theming](/uilib/usage/customisation/theming)
 - [Icons](/icons)
 
-## Form fields
-
-```tsx
-import { Form, Field } from '@dnb/eufemia/extensions/forms'
-
-function MyApp() {
-  return (
-    <Form.Handler onSubmit={(data) => {}}>
-      <Field.NationalIdentityNumber path="/ssn" required />
-      <Field.BankAccountNumber path="/account" required />
-      <Field.OrganizationNumber path="/orgNr" />
-      <Field.Currency path="/amount" currency="NOK" />
-      <Field.Email path="/email" />
-      <Field.PhoneNumber path="/phone" />
-      <Field.PostalCodeAndCity path="/address" />
-      <Field.Upload path="/documents" acceptedFileTypes={['pdf', 'png']} />
-      <Value.Email path="/email" />
-      <Value.String path="/summary" label="Summary" />
-      <Form.SubmitButton />
-    </Form.Handler>
-  )
-}
-```
-
 See [Forms](/uilib/extensions/forms) for validation, schema, and more fields.
 
 ## Forms essentials
@@ -162,46 +93,6 @@ See [Forms](/uilib/extensions/forms) for validation, schema, and more fields.
 - Most `Field.*` components have a corresponding `Value.*` component; you can mix fields and values in the same form.
 - For read-only summaries, use [Value.SummaryList](/uilib/extensions/forms/Value/SummaryList).
 - Validation schemas can be provided via Zod or [AJV JSON Schema](/uilib/extensions/forms/Connectors).
-
-### Standard form pattern
-
-```tsx
-import { Form, Field } from '@dnb/eufemia/extensions/forms'
-import { GlobalStatus, Button } from '@dnb/eufemia'
-
-function MyForm() {
-  return (
-    <Form.Handler onSubmit={async (data) => {}} required>
-      <GlobalStatus />
-      <Form.Card>
-        <Form.MainHeading>Transfer</Form.MainHeading>
-        <Field.BankAccountNumber path="/from" label="From" />
-        <Field.BankAccountNumber path="/to" label="To" />
-        <Field.Currency path="/amount" currency="NOK" />
-        <Field.Currency path="/amount" currency="NOK" required={false} />
-        <Form.ButtonRow>
-          <Form.SubmitButton text="Transfer" />
-          <Button variant="secondary" text="Cancel" />
-        </Form.ButtonRow>
-      </Form.Card>
-    </Form.Handler>
-  )
-}
-```
-
-### Form.Section (edit/view mode)
-
-```tsx
-<Form.Section>
-  <Form.Section.EditContainer>
-    <Field.Name.Last path="/name" />
-  </Form.Section.EditContainer>
-
-  <Form.Section.ViewContainer>
-    <Value.Name.Last path="/name" />
-  </Form.Section.ViewContainer>
-</Form.Section>
-```
 
 ## AI instructions and skills
 

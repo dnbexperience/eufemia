@@ -1,8 +1,8 @@
 ---
 title: 'v7.0'
 description: 'June, 4. 2020'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:25.573Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:25.945Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -64,7 +64,7 @@ We hope with that change we embrace [better accessibility](/uilib/usage/accessib
 ## New features
 
 - Icons inside of [Input](/uilib/components/input#input-icon) fields.
-- [Number](/uilib/components/number) got more useful properties, like `decimals="0"` and `currency_position="after"` and also a neat [copy & paste](/uilib/components/number#accessibility) feature, where a unformatted number gets copied, instead of the visual number. Also, Norwegian organization numbers (`org`) are now supported.
+- [Number](/uilib/components/number) got more useful properties, like `decimals="0"` and `currency_position="after"` and also a neat [copy & paste](/uilib/components/number#accessibility) feature, where an unformatted number gets copied, instead of the visual number. Also, Norwegian organization numbers (`org`) are now supported.
 - [Buttons](/uilib/components/button) now supports overflow text to wrap (break-word) by using `wrap="true"`.
 - [Modal](/uilib/components/modal#drawer-mode) has now a **Drawer** mode inside the Modal component `mode="drawer"`.
 - Also, the [Modal](/uilib/components/modal#drawer-mode) has now a dark background color and both open and close animation

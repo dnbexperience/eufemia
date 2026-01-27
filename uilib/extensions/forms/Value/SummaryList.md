@@ -1,8 +1,8 @@
 ---
 title: 'Value.SummaryList'
 description: '`Value.SummaryList` uses definition lists to semantically make content consumable for screen readers.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:27.176Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:28.185Z
 checksum: 92c6b89f079b833cdcf9297959702e4b70e744cbcd2f1718096b55836b2b7b84
 ---
 
@@ -604,35 +604,38 @@ render(
 
 ```json
 {
-  "layout": {
-    "doc": "Use `grid`, `horizontal` or `vertical`. Defaults to `vertical`.",
-    "type": "string",
-    "status": "optional"
+  "props": {
+    "layout": {
+      "doc": "Use `grid`, `horizontal` or `vertical`. Defaults to `vertical`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "inheritVisibility": {
+      "doc": "Use this property to propagate the `inheritVisibility` property to all nested values.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "inheritLabel": {
+      "doc": "Use this property to propagate the `inheritLabel` property to all nested values.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "transformLabel": {
+      "doc": "Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is a object containing the `convertJsxToString` function.",
+      "type": "function",
+      "status": "optional"
+    },
+    "children": {
+      "doc": "Contents.",
+      "type": "React.Node",
+      "status": "required"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": ["string", "object"],
+      "status": "optional"
+    }
   },
-  "inheritVisibility": {
-    "doc": "Use this property to propagate the `inheritVisibility` property to all nested values.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "inheritLabel": {
-    "doc": "Use this property to propagate the `inheritLabel` property to all nested values.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "transformLabel": {
-    "doc": "Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is a object containing the `convertJsxToString` function.",
-    "type": "function",
-    "status": "optional"
-  },
-  "children": {
-    "doc": "Contents.",
-    "type": "React.Node",
-    "status": "required"
-  },
-  "[Space](/uilib/layout/space/properties)": {
-    "doc": "Spacing properties like `top` or `bottom` are supported.",
-    "type": ["string", "object"],
-    "status": "optional"
-  }
+  "omit": ["label", "labelSrOnly"]
 }
 ```

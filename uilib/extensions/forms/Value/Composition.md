@@ -1,8 +1,8 @@
 ---
 title: 'Value.Composition'
 description: '`Value.Composition` combines two or more `Value.*` components into one.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:27.095Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:28.078Z
 checksum: af2bf29c5ffe27f01dc450b22520080d7fdbecb1580e2ed22b59dc70c7e8062f
 ---
 
@@ -266,30 +266,32 @@ render(
 
 ```json
 {
-  "label": {
-    "doc": "Field label to show above the displayed value.",
-    "type": "string",
-    "status": "optional"
-  },
-  "help": {
-    "doc": "Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
-    "type": "object",
-    "status": "optional"
-  },
-  "transformLabel": {
-    "doc": "Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is a object containing the `convertJsxToString` function.",
-    "type": "function",
-    "status": "optional"
-  },
-  "maxWidth": {
-    "doc": "Use `small`, `medium` or `large` for predefined standard max widths. Defaults to `auto`.",
-    "type": "string",
-    "status": "optional"
-  },
-  "gap": {
-    "doc": "The gap between the different value blocks. Can be `xx-small`, `x-small`, `small`, `medium`, `large` or `false`. Defaults to `xx-small`.",
-    "type": "string",
-    "status": "optional"
+  "props": {
+    "label": {
+      "doc": "Field label to show above the displayed value.",
+      "type": "string",
+      "status": "optional"
+    },
+    "help": {
+      "doc": "Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
+      "type": "object",
+      "status": "optional"
+    },
+    "transformLabel": {
+      "doc": "Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is a object containing the `convertJsxToString` function.",
+      "type": "function",
+      "status": "optional"
+    },
+    "maxWidth": {
+      "doc": "Use `small`, `medium` or `large` for predefined standard max widths. Defaults to `auto`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "gap": {
+      "doc": "The gap between the different value blocks. Can be `xx-small`, `x-small`, `small`, `medium`, `large` or `false`. Defaults to `xx-small`.",
+      "type": "string",
+      "status": "optional"
+    }
   }
 }
 ```

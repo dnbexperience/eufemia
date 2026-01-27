@@ -1,8 +1,8 @@
 ---
 title: 'Form.Section.EditContainer'
 description: '`Form.Section.EditContainer` enables users to toggle (with animation) the content of each item between the view and edit container.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.894Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:27.342Z
 checksum: 3a3c3d0e49e2c12b2e78849f5784f909f49e8d2aa76cad07a5714074d3a7b48a
 ---
 
@@ -113,20 +113,22 @@ render(
 
 ```json
 {
-  "title": {
-    "doc": "The title of the container.",
-    "type": "React.Node",
-    "status": "optional"
-  },
-  "variant": {
-    "doc": "Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.",
-    "type": "string",
-    "status": "optional"
-  },
-  "[FlexVertical](/uilib/layout/flex/container/properties)": {
-    "doc": "All Flex.Vertical properties.",
-    "type": "Various",
-    "status": "optional"
+  "props": {
+    "title": {
+      "doc": "The title of the container.",
+      "type": "React.Node",
+      "status": "optional"
+    },
+    "variant": {
+      "doc": "Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "[FlexVertical](/uilib/layout/flex/container/properties)": {
+      "doc": "All Flex.Vertical properties.",
+      "type": "Various",
+      "status": "optional"
+    }
   }
 }
 ```
@@ -169,15 +171,17 @@ render(
 
 ```json
 {
-  "onDone": {
-    "doc": "Callback for the done button.",
-    "type": "Function",
-    "status": "optional"
-  },
-  "onCancel": {
-    "doc": "Callback for the cancel button.",
-    "type": "Function",
-    "status": "optional"
+  "props": {
+    "onDone": {
+      "doc": "Callback for the done button.",
+      "type": "Function",
+      "status": "optional"
+    },
+    "onCancel": {
+      "doc": "Callback for the cancel button.",
+      "type": "Function",
+      "status": "optional"
+    }
   }
 }
 ```

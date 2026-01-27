@@ -1,8 +1,8 @@
 ---
 title: 'Skeleton'
 description: 'The Skeleton component is a visual building block helper.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.505Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:26.934Z
 checksum: de79945fb9971e14aefdad3f791c581254380e2cfc6bbb7f8e537bb73e30e9b9
 ---
 
@@ -260,40 +260,42 @@ render(
 
 ```json
 {
-  "show": {
-    "doc": "Use `true` to enable/show the skeleton for the component used inside. Defaults to `false`.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "figure": {
-    "doc": "Define a figure to use, like `article`. The wrapped content will be hidden while the skeleton figure is shown.",
-    "type": ["string", "React.Element", "function"],
-    "status": "optional"
-  },
-  "no_animation": {
-    "doc": "Use `true` to disable the animation.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "aria_busy": {
-    "doc": "Is used for screen reader text translation, defined in the translation files. You can set a custom text if needed.",
-    "type": "string",
-    "status": "optional"
-  },
-  "aria_ready": {
-    "doc": "Is used for screen reader text translation, defined in the translation files. You can set a custom text if needed.",
-    "type": "string",
-    "status": "optional"
-  },
-  "element": {
-    "doc": "Set any HTML element type you have to use. A couple of aria attributes will be set on this element while active. Defaults to `div`.",
-    "type": ["string", "React.Element"],
-    "status": "optional"
-  },
-  "[Space](/uilib/layout/space/properties)": {
-    "doc": "Spacing properties like `top` or `bottom` are supported.",
-    "type": ["string", "object"],
-    "status": "optional"
+  "props": {
+    "show": {
+      "doc": "Use `true` to enable/show the skeleton for the component used inside. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "figure": {
+      "doc": "Define a figure to use, like `article`. The wrapped content will be hidden while the skeleton figure is shown.",
+      "type": ["string", "React.Element", "function"],
+      "status": "optional"
+    },
+    "no_animation": {
+      "doc": "Use `true` to disable the animation.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "aria_busy": {
+      "doc": "Is used for screen reader text translation, defined in the translation files. You can set a custom text if needed.",
+      "type": "string",
+      "status": "optional"
+    },
+    "aria_ready": {
+      "doc": "Is used for screen reader text translation, defined in the translation files. You can set a custom text if needed.",
+      "type": "string",
+      "status": "optional"
+    },
+    "element": {
+      "doc": "Set any HTML element type you have to use. A couple of aria attributes will be set on this element while active. Defaults to `div`.",
+      "type": ["string", "React.Element"],
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": ["string", "object"],
+      "status": "optional"
+    }
   }
 }
 ```

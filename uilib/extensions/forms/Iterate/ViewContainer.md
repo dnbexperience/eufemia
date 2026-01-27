@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.ViewContainer'
 description: '`Iterate.ViewContainer` enables users to toggle (with animation) the content of each item between the view and edit container.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:27.031Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:27.486Z
 checksum: 3740fb2dd2daecacdcd46006f95723a17f40bf3c5b296b58cde948055a7d6676
 ---
 
@@ -121,30 +121,32 @@ When having two items in the Iterate.Array:
 
 ```json
 {
-  "title": {
-    "doc": "The title of the container.",
-    "type": "React.Node",
-    "status": "optional"
-  },
-  "variant": {
-    "doc": "Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.",
-    "type": "string",
-    "status": "optional"
-  },
-  "toolbar": {
-    "doc": "An alternative toolbar to be shown in the container.",
-    "type": "React.Node",
-    "status": "optional"
-  },
-  "toolbarVariant": {
-    "doc": "Use variants to render the toolbar differently. Currently there are the `minimumOneItem` and `custom` variants. See the info section for more info.",
-    "type": "string",
-    "status": "optional"
-  },
-  "[FlexVertical](/uilib/layout/flex/container/properties)": {
-    "doc": "All Flex.Vertical properties.",
-    "type": "Various",
-    "status": "optional"
+  "props": {
+    "title": {
+      "doc": "The title of the container.",
+      "type": "React.Node",
+      "status": "optional"
+    },
+    "variant": {
+      "doc": "Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "toolbar": {
+      "doc": "An alternative toolbar to be shown in the container.",
+      "type": "React.Node",
+      "status": "optional"
+    },
+    "toolbarVariant": {
+      "doc": "Use variants to render the toolbar differently. Currently there are the `minimumOneItem` and `custom` variants. See the info section for more info.",
+      "type": "string",
+      "status": "optional"
+    },
+    "[FlexVertical](/uilib/layout/flex/container/properties)": {
+      "doc": "All Flex.Vertical properties.",
+      "type": "Various",
+      "status": "optional"
+    }
   }
 }
 ```

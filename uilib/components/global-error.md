@@ -1,8 +1,8 @@
 ---
 title: 'GlobalError (404)'
 description: 'The GlobalError is a simple component to integrate where a 404 or 500 message has to be shown.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.325Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:26.746Z
 checksum: 4324f46f1ca330649e6d2284e2e49931506e145839e3e8f0c2ea7cc3bee65ee3
 ---
 
@@ -83,70 +83,72 @@ render(
 
 ```json
 {
-  "statusCode": {
-    "doc": "Defines a status code as a string. When `404` or `500` is given, predefined `text` and `title` will be shown. Defaults to `404`.",
-    "type": ["404", "500", "string"],
-    "status": "optional"
-  },
-  "status": {
-    "doc": "Defines a status code as a string. When `404` or `500` is given, predefined `text` and `title` will be shown. Defaults to `404`. This prop is deprecated and will be removed in v11, please use `statusCode` instead.",
-    "type": ["404", "500", "string"],
-    "status": "deprecated"
-  },
-  "title": {
-    "doc": "Overwrites the default title for the provided `statusCode`.",
-    "type": "React.ReactNode",
-    "status": "optional"
-  },
-  "text": {
-    "doc": "Overwrites the default text for the provided `statusCode`.",
-    "type": "React.ReactNode",
-    "status": "optional"
-  },
-  "code": {
-    "doc": "Overwrites the default error message code text `Feilmeldings-kode:`. . This prop is deprecated and will be removed in v11, please use `errorMessageCode` instead.",
-    "type": "React.ReactNode",
-    "status": "deprecated"
-  },
-  "errorMessageCode": {
-    "doc": "Overwrites the default error message code text `Feilmeldings-kode: %statusCode`.",
-    "type": "React.ReactNode",
-    "status": "optional"
-  },
-  "help": {
-    "doc": "Overwrites the default additional help text `Her er noen lenker som kanskje kan hjelpe:`. This text is only rendered when `links` are provided.",
-    "type": "React.ReactNode",
-    "status": "optional"
-  },
-  "links": {
-    "doc": "Provide an array with objects `{ text: \"Text\", url: \"https://...\" }` to display a list of anchor links.",
-    "type": ["Array<GlobalErrorLink>"],
-    "status": "optional"
-  },
-  "center": {
-    "doc": "If true, it will use `80vh` as the height and center its content.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "skeleton": {
-    "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "locale": {
-    "doc": "Set a [supported locale](/uilib/usage/customisation/localization/) if needed.",
-    "type": "string",
-    "status": "optional"
-  },
-  "children": {
-    "doc": "To display additional related content, like useful links etc.",
-    "type": "React.Node",
-    "status": "optional"
-  },
-  "[Space](/uilib/layout/space/properties)": {
-    "doc": "Spacing properties like `top` or `bottom` are supported.",
-    "type": ["string", "object"],
-    "status": "optional"
+  "props": {
+    "statusCode": {
+      "doc": "Defines a status code as a string. When `404` or `500` is given, predefined `text` and `title` will be shown. Defaults to `404`.",
+      "type": ["404", "500", "string"],
+      "status": "optional"
+    },
+    "status": {
+      "doc": "Defines a status code as a string. When `404` or `500` is given, predefined `text` and `title` will be shown. Defaults to `404`. This prop is deprecated and will be removed in v11, please use `statusCode` instead.",
+      "type": ["404", "500", "string"],
+      "status": "deprecated"
+    },
+    "title": {
+      "doc": "Overwrites the default title for the provided `statusCode`.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "text": {
+      "doc": "Overwrites the default text for the provided `statusCode`.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "code": {
+      "doc": "Overwrites the default error message code text `Feilmeldings-kode:`. . This prop is deprecated and will be removed in v11, please use `errorMessageCode` instead.",
+      "type": "React.ReactNode",
+      "status": "deprecated"
+    },
+    "errorMessageCode": {
+      "doc": "Overwrites the default error message code text `Feilmeldings-kode: %statusCode`.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "help": {
+      "doc": "Overwrites the default additional help text `Her er noen lenker som kanskje kan hjelpe:`. This text is only rendered when `links` are provided.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "links": {
+      "doc": "Provide an array with objects `{ text: \"Text\", url: \"https://...\" }` to display a list of anchor links.",
+      "type": ["Array<GlobalErrorLink>"],
+      "status": "optional"
+    },
+    "center": {
+      "doc": "If true, it will use `80vh` as the height and center its content.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "skeleton": {
+      "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "locale": {
+      "doc": "Set a [supported locale](/uilib/usage/customisation/localization/) if needed.",
+      "type": "string",
+      "status": "optional"
+    },
+    "children": {
+      "doc": "To display additional related content, like useful links etc.",
+      "type": "React.Node",
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": ["string", "object"],
+      "status": "optional"
+    }
   }
 }
 ```

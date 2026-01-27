@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.AnimatedContainer'
 description: '`Iterate.AnimatedContainer` can be used to animate items when they are added or removed.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.975Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:27.429Z
 checksum: e26a9cd2ef9add46be0be2b3722e39b9885b72d1bce7283500f4f6fc4969a44d
 ---
 
@@ -92,40 +92,42 @@ render(<MyForm />)
 
 ```json
 {
-  "title": {
-    "doc": "The title of the container.",
-    "type": "React.Node",
-    "status": "optional"
-  },
-  "titleWhenNew": {
-    "doc": "The title for a new item.",
-    "type": "React.Node",
-    "status": "optional"
-  },
-  "variant": {
-    "doc": "Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.",
-    "type": "string",
-    "status": "optional"
-  },
-  "toolbar": {
-    "doc": "An alternative toolbar to be shown in the container.",
-    "type": "React.Node",
-    "status": "optional"
-  },
-  "toolbarVariant": {
-    "doc": "Use variants to render the toolbar differently. Currently there are the `minimumOneItem` and `custom` variants. See the info section for more info.",
-    "type": "string",
-    "status": "optional"
-  },
-  "open": {
-    "doc": "If the container should be open or not. This is taken care of internally by default.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "[FlexVertical](/uilib/layout/flex/container/properties)": {
-    "doc": "All Flex.Vertical properties.",
-    "type": "Various",
-    "status": "optional"
+  "props": {
+    "title": {
+      "doc": "The title of the container.",
+      "type": "React.Node",
+      "status": "optional"
+    },
+    "titleWhenNew": {
+      "doc": "The title for a new item.",
+      "type": "React.Node",
+      "status": "optional"
+    },
+    "variant": {
+      "doc": "Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "toolbar": {
+      "doc": "An alternative toolbar to be shown in the container.",
+      "type": "React.Node",
+      "status": "optional"
+    },
+    "toolbarVariant": {
+      "doc": "Use variants to render the toolbar differently. Currently there are the `minimumOneItem` and `custom` variants. See the info section for more info.",
+      "type": "string",
+      "status": "optional"
+    },
+    "open": {
+      "doc": "If the container should be open or not. This is taken care of internally by default.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "[FlexVertical](/uilib/layout/flex/container/properties)": {
+      "doc": "All Flex.Vertical properties.",
+      "type": "Various",
+      "status": "optional"
+    }
   }
 }
 ```

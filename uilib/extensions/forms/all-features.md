@@ -1,7 +1,7 @@
 ---
 title: 'All features and APIs'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:27.257Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:28.256Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -79,7 +79,7 @@ This is useful if you want to use a custom schema keyword and `validate` functio
 
 #### Generate schema from fields
 
-You can also easily generate a Ajv schema from a set of fields (JSX), by using the `log` property on the `Tools.GenerateSchema` component. I will e.gc. console log the generated schema. More info about this feature can be found [on a separate page](/uilib/extensions/forms/Form/schema-validation/#generate-schema-from-fields)
+You can also easily generate an Ajv schema from a set of fields (JSX), by using the `log` property on the `Tools.GenerateSchema` component. It will e.g. console log the generated schema. More info about this feature can be found [on a separate page](/uilib/extensions/forms/Form/schema-validation/#generate-schema-from-fields)
 
 ## [Connectors](/uilib/extensions/forms/Connectors/)
 

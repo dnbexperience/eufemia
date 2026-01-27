@@ -1,8 +1,8 @@
 ---
 title: 'ESM / SSR'
 description: 'Eufemia uses ESM as their default module format. More info on this topic below.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:27.352Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:28.370Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -37,7 +37,7 @@ Because the package is published with `"type": "module"`, Node.js treats its `.j
 
 ### SSR
 
-In case you are using the `@dnb/eufemia` in a environment that cant use ESM, you can import or require everything from the `/cjs` subfolder:
+In case you are using the `@dnb/eufemia` in an environment that can't use ESM, you can import or require everything from the `/cjs` subfolder:
 
 ```js
 // Components

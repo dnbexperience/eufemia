@@ -1,8 +1,8 @@
 ---
 title: 'Form.SubmitIndicator'
 description: '`Form.SubmitIndicator` lets you show an indicator while async form operations are performed.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.947Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:27.398Z
 checksum: a39d076f906999737f2849a316a1da061f13658d996f615e37a75d8866950cba
 ---
 
@@ -143,30 +143,32 @@ render(
 
 ```json
 {
-  "state": {
-    "doc": "Provide `pending` to make the dots visible and `success` to show the checkmark icon.",
-    "type": "string",
-    "status": "required"
-  },
-  "showLabel": {
-    "doc": "If `true`, the label will be shown. Defaults to `false`.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "label": {
-    "doc": "Provide a label that will be shown next to the indicator.",
-    "type": "string",
-    "status": "optional"
-  },
-  "children": {
-    "doc": "If content is provided, the component will try to find out if the indicator needs to be put on a new row or not. This way it will animate the height nicely.",
-    "type": "React.Node",
-    "status": "optional"
-  },
-  "[Space](/uilib/layout/space/properties)": {
-    "doc": "Spacing properties like `top` or `bottom` are supported.",
-    "type": ["string", "object"],
-    "status": "optional"
+  "props": {
+    "state": {
+      "doc": "Provide `pending` to make the dots visible and `success` to show the checkmark icon.",
+      "type": "string",
+      "status": "required"
+    },
+    "showLabel": {
+      "doc": "If `true`, the label will be shown. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "label": {
+      "doc": "Provide a label that will be shown next to the indicator.",
+      "type": "string",
+      "status": "optional"
+    },
+    "children": {
+      "doc": "If content is provided, the component will try to find out if the indicator needs to be put on a new row or not. This way it will animate the height nicely.",
+      "type": "React.Node",
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": ["string", "object"],
+      "status": "optional"
+    }
   }
 }
 ```

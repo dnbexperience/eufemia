@@ -1,8 +1,8 @@
 ---
 title: 'Scroll View'
 description: 'ScrollView is a tiny helper component helping the user controlling overflowing content horizontally or vertically'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.318Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:26.739Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -65,15 +65,17 @@ render(
 
 ```json
 {
-  "interactive": {
-    "doc": "To make the content accessible to keyboard navigation. Use `true` or `auto`. Auto will detect if a scrollbar is visible and make the ScrollView accessible for keyboard navigation. Defaults to `false`.",
-    "type": ["boolean", "auto"],
-    "status": "optional"
-  },
-  "[Space](/uilib/layout/space/properties)": {
-    "doc": "Spacing properties like `top` or `bottom` are supported.",
-    "type": ["string", "object"],
-    "status": "optional"
+  "props": {
+    "interactive": {
+      "doc": "To make the content accessible to keyboard navigation. Use `true` or `auto`. Auto will detect if a scrollbar is visible and make the ScrollView accessible for keyboard navigation. Defaults to `false`.",
+      "type": ["boolean", "auto"],
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": ["string", "object"],
+      "status": "optional"
+    }
   }
 }
 ```

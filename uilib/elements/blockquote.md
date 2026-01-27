@@ -1,8 +1,8 @@
 ---
 title: 'Blockquote'
 description: 'The blockquote element is used to indicate the quotation of a large section of text from another source.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.609Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:27.040Z
 checksum: e341aee176a995e059958ae251b9c652f485687ac5e5fac027d3525f26fe4459
 ---
 
@@ -97,20 +97,22 @@ render(
 
 ```json
 {
-  "noBackground": {
-    "doc": "Hides the blockquote background by making it transparent.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "direction": {
-    "doc": "Determines the flow direction of the content inside of blockquote. Can be either `horizontal` or `vertical`. Defaults to `horizontal`.",
-    "type": "string",
-    "status": "optional"
-  },
-  "[Space](/uilib/layout/space/properties)": {
-    "doc": "Spacing properties like `top` or `bottom` are supported.",
-    "type": ["string", "object"],
-    "status": "optional"
+  "props": {
+    "noBackground": {
+      "doc": "Hides the blockquote background by making it transparent.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "direction": {
+      "doc": "Determines the flow direction of the content inside of blockquote. Can be either `horizontal` or `vertical`. Defaults to `horizontal`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": ["string", "object"],
+      "status": "optional"
+    }
   }
 }
 ```

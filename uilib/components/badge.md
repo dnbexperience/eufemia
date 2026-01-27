@@ -1,8 +1,8 @@
 ---
 title: 'Badge'
 description: 'The Badge component allows the user to focus on new or unread content or notifications.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.213Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:26.624Z
 checksum: 2c1982de052a9d5afd0ac34e55c13a93d11ef62bbd002fa16d2bec40fedc36e4
 ---
 
@@ -240,71 +240,73 @@ render(<Example />)
 
 ```json
 {
-  "content": {
-    "doc": "Content of the component.",
-    "type": ["string", "number", "React.ReactNode"],
-    "status": "optional"
-  },
-  "children": {
-    "doc": "Content to display the badge on top of.",
-    "type": "React.ReactNode",
-    "status": "optional"
-  },
-  "vertical": {
-    "doc": "Vertical positioning of the component. Options: `bottom` | `top`.",
-    "type": ["\"top\"", "\"bottom\""],
-    "status": "optional"
-  },
-  "horizontal": {
-    "doc": "Horizontal positioning of the component. Options: `left` | `right`.",
-    "type": ["\"left\"", "\"right\""],
-    "status": "optional"
-  },
-  "className": {
-    "doc": "Custom className for the component.",
-    "type": "string",
-    "status": "optional"
-  },
-  "skeleton": {
-    "doc": "Applies loading skeleton.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "variant": {
-    "doc": "Defines the visual appearance of the badge. There are two main variants `notification` and `information`. The `content` variant is just for placement purposes, and will require you to style the `content` all by yourself. Default variant is `information`.",
-    "type": ["\"information\"", "\"notification\"", "\"content\""],
-    "status": "optional"
-  },
-  "status": {
-    "doc": "Defines the status color of the `\"information\"` variant. Has no effect on other variants. Default is `\"default\"`.",
-    "type": [
-      "\"default\"",
-      "\"success\"",
-      "\"warning\"",
-      "\"error\"",
-      "\"neutral\""
-    ],
-    "status": "optional"
-  },
-  "subtle": {
-    "doc": "Applies subtle style to `\"information\"` variant. Has no effect on other variants. Default is `false`.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "hideBadge": {
-    "doc": "Removes the badge without removing children. Useful when Badge wraps content. Default is `false`.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "label": {
-    "doc": "The label description of the badge. Only required when passing a number as the badge content.",
-    "type": "React.ReactNode",
-    "status": "optional"
-  },
-  "[Space](/uilib/layout/space/properties)": {
-    "doc": "Spacing properties like `top` or `bottom` are supported.",
-    "type": ["string", "object"],
-    "status": "optional"
+  "props": {
+    "content": {
+      "doc": "Content of the component.",
+      "type": ["string", "number", "React.ReactNode"],
+      "status": "optional"
+    },
+    "children": {
+      "doc": "Content to display the badge on top of.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "vertical": {
+      "doc": "Vertical positioning of the component. Options: `bottom` | `top`.",
+      "type": ["\"top\"", "\"bottom\""],
+      "status": "optional"
+    },
+    "horizontal": {
+      "doc": "Horizontal positioning of the component. Options: `left` | `right`.",
+      "type": ["\"left\"", "\"right\""],
+      "status": "optional"
+    },
+    "className": {
+      "doc": "Custom className for the component.",
+      "type": "string",
+      "status": "optional"
+    },
+    "skeleton": {
+      "doc": "Applies loading skeleton.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "variant": {
+      "doc": "Defines the visual appearance of the badge. There are two main variants `notification` and `information`. The `content` variant is just for placement purposes, and will require you to style the `content` all by yourself. Default variant is `information`.",
+      "type": ["\"information\"", "\"notification\"", "\"content\""],
+      "status": "optional"
+    },
+    "status": {
+      "doc": "Defines the status color of the `\"information\"` variant. Has no effect on other variants. Default is `\"default\"`.",
+      "type": [
+        "\"default\"",
+        "\"success\"",
+        "\"warning\"",
+        "\"error\"",
+        "\"neutral\""
+      ],
+      "status": "optional"
+    },
+    "subtle": {
+      "doc": "Applies subtle style to `\"information\"` variant. Has no effect on other variants. Default is `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "hideBadge": {
+      "doc": "Removes the badge without removing children. Useful when Badge wraps content. Default is `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "label": {
+      "doc": "The label description of the badge. Only required when passing a number as the badge content.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": ["string", "object"],
+      "status": "optional"
+    }
   }
 }
 ```

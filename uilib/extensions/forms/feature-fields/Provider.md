@@ -1,8 +1,8 @@
 ---
 title: 'Field.Provider'
 description: '`Field.Provider` is a provider for forwarding fields properties, such as `required` or `disabled` to all nested field components.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:27.293Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:28.307Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -101,20 +101,22 @@ render(
 
 ```json
 {
-  "required": {
-    "doc": "When set to `true`, the field will give an error if the value fails the required validation. When set to `false`, the field will not be required, but will add a \"(optional)\" suffix to the label.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "disabled": {
-    "doc": "Set `true` to show the field but without the possibility of changing the value.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "locale": {
-    "doc": "Locale (language) to use for all nested Eufemia components.",
-    "type": "string",
-    "status": "optional"
+  "props": {
+    "required": {
+      "doc": "When set to `true`, the field will give an error if the value fails the required validation. When set to `false`, the field will not be required, but will add a \"(optional)\" suffix to the label.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "disabled": {
+      "doc": "Set `true` to show the field but without the possibility of changing the value.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "locale": {
+      "doc": "Locale (language) to use for all nested Eufemia components.",
+      "type": "string",
+      "status": "optional"
+    }
   }
 }
 ```

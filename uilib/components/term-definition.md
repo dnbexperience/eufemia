@@ -1,8 +1,8 @@
 ---
 title: 'TermDefinition'
 description: 'TermDefinition renders a compact, inline explanation for a word or phrase with an anchor-style trigger button.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.556Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:26.984Z
 checksum: 9dc75b9f1552ed9694083681def91b6897c9b323bcf260ef4fc1e0197d370d9e
 ---
 
@@ -155,26 +155,28 @@ render(
 
 ```json
 {
-  "children": {
-    "doc": "Term shown as the trigger. Typically a short word or phrase.",
-    "type": "React.ReactNode",
-    "status": "required"
-  },
-  "content": {
-    "doc": "Definition text that will be displayed inside.",
-    "type": "React.ReactNode",
-    "status": "required"
-  },
-  "placement": {
-    "doc": "Defines the preferred popover placement relative to the trigger.",
-    "type": ["top", "right", "bottom", "left"],
-    "defaultValue": "bottom",
-    "status": "optional"
-  },
-  "[Space](/uilib/layout/space/properties)": {
-    "doc": "Spacing properties like `left` or `right` are supported.",
-    "type": ["string", "object"],
-    "status": "optional"
+  "props": {
+    "children": {
+      "doc": "Term shown as the trigger. Typically a short word or phrase.",
+      "type": "React.ReactNode",
+      "status": "required"
+    },
+    "content": {
+      "doc": "Definition text that will be displayed inside.",
+      "type": "React.ReactNode",
+      "status": "required"
+    },
+    "placement": {
+      "doc": "Defines the preferred popover placement relative to the trigger.",
+      "type": ["top", "right", "bottom", "left"],
+      "defaultValue": "bottom",
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `left` or `right` are supported.",
+      "type": ["string", "object"],
+      "status": "optional"
+    }
   }
 }
 ```

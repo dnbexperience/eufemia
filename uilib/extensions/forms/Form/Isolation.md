@@ -1,8 +1,8 @@
 ---
 title: 'Form.Isolation'
 description: '`Form.Isolation` lets you isolate parts of your form so data and validations are not shared between the `Form.Handler` until you want to.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.852Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:27.299Z
 checksum: 1b679c8bfae5176229dd5e4389bc2603423d48f38734ad41264ef70e0043101e
 ---
 
@@ -590,105 +590,107 @@ render(
 
 ```json
 {
-  "path": {
-    "doc": "JSON Pointer to define the object key for all the generated nested field data. When provided, Form.Isolation will inherit schema validation from the parent Form.Handler for fields within this path.",
-    "type": "string",
-    "status": "optional"
-  },
-  "transformOnCommit": {
-    "doc": "Transform the data before it gets committed to the form. The first parameter is the isolated data object. The second parameter is the outer context data object (Form.Handler).",
-    "type": "function",
-    "status": "optional"
-  },
-  "commitHandleRef": {
-    "doc": "Provide a ref to a function that can be called from any location to commit the data to the form.",
-    "type": "React.RefObject",
-    "status": "optional"
-  },
-  "bubbleValidation": {
-    "doc": "Prevent the form from being submitted when there are fields with errors inside the Form.Isolation.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "preventUncommittedChanges": {
-    "doc": "Prevents uncommitted changes before the form is submitted. Will display an error message if user tries to submit without committing their changes.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "resetDataAfterCommit": {
-    "doc": "If set to `true`, the Form.Isolation will reset its data context after committing the data to the outer context.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "dataReference": {
-    "doc": "Provide a reference by using `Form.Isolation.createDataReference`.",
-    "type": "IsolationDataReference",
-    "status": "optional"
-  },
-  "defaultData": {
-    "doc": "Default source data is used only when no other source is provided and does not trigger updates after mount. Initializing fields with an empty value is optional. If you do, use the field's `emptyValue`, which is often `undefined`.",
-    "type": "object",
-    "status": "optional"
-  },
-  "data": {
-    "doc": "Dynamic source data used as both initial data, and updates internal data if changed after mount.",
-    "type": "object",
-    "status": "optional"
-  },
-  "id": {
-    "doc": "Unique id for connecting Form.Handler and helper tools such as Form.useData.",
-    "type": ["string", "Function", "Object", "React.Context"],
-    "status": "optional"
-  },
-  "schema": {
-    "doc": "JSON Schema for validation of the data set. IMPORTANT: When using JSON Schema validation, you MUST provide an `ajvInstance` prop.",
-    "type": "object",
-    "status": "optional"
-  },
-  "errorMessages": {
-    "doc": "Object containing error messages by either type of JSON Pointer path and type. The messages can be a React.ReactNode or a string.",
-    "type": "object",
-    "status": "optional"
-  },
-  "ajvInstance": {
-    "doc": "REQUIRED when using JSON Schema validation. Provide your own custom Ajv instance: import Ajv from \"@dnb/eufemia/extensions/forms\" and pass ajvInstance={makeAjvInstance()}. This ensures your bundle only includes AJV when you actually need it. More info in the [Schema validation](/uilib/extensions/forms/Form/schema-validation/#custom-ajv-instance-and-keywords) section.",
-    "type": "ajv",
-    "status": "optional"
-  },
-  "transformIn": {
-    "doc": "Mutate the data context (internally as well) based on your criteria: `({ path, value, data, props, internal }) => 'new value'`. It will iterate on each data entry (/path).",
-    "type": "function",
-    "status": "optional"
-  },
-  "transformOut": {
-    "doc": "Mutate the data before it enters onSubmit or onChange based on your criteria: `({ path, value, data, props, internal }) => 'new value'`. It will iterate on each data entry (/path).",
-    "type": "function",
-    "status": "optional"
-  },
-  "required": {
-    "doc": "Make all fields required.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "disabled": {
-    "doc": "Disable all fields.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "locale": {
-    "doc": "Locale (language) to use for all nested Eufemia components.",
-    "type": "string",
-    "status": "optional"
-  },
-  "countryCode": {
-    "doc": "Will change the country code for fields supporting `countryCode`. You can also set a path as the value, e.g. `/myCountryCodePath`.",
-    "type": ["ISO 3166-1 alpha-2", "Path/JSON Pointer"],
-    "status": "optional"
-  },
-  "children": {
-    "doc": "Contents.",
-    "type": "React.Node",
-    "status": "required"
+  "props": {
+    "path": {
+      "doc": "JSON Pointer to define the object key for all the generated nested field data. When provided, Form.Isolation will inherit schema validation from the parent Form.Handler for fields within this path.",
+      "type": "string",
+      "status": "optional"
+    },
+    "transformOnCommit": {
+      "doc": "Transform the data before it gets committed to the form. The first parameter is the isolated data object. The second parameter is the outer context data object (Form.Handler).",
+      "type": "function",
+      "status": "optional"
+    },
+    "commitHandleRef": {
+      "doc": "Provide a ref to a function that can be called from any location to commit the data to the form.",
+      "type": "React.RefObject",
+      "status": "optional"
+    },
+    "bubbleValidation": {
+      "doc": "Prevent the form from being submitted when there are fields with errors inside the Form.Isolation.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "preventUncommittedChanges": {
+      "doc": "Prevents uncommitted changes before the form is submitted. Will display an error message if user tries to submit without committing their changes.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "resetDataAfterCommit": {
+      "doc": "If set to `true`, the Form.Isolation will reset its data context after committing the data to the outer context.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "dataReference": {
+      "doc": "Provide a reference by using `Form.Isolation.createDataReference`.",
+      "type": "IsolationDataReference",
+      "status": "optional"
+    },
+    "defaultData": {
+      "doc": "Default source data is used only when no other source is provided and does not trigger updates after mount. Initializing fields with an empty value is optional. If you do, use the field's `emptyValue`, which is often `undefined`.",
+      "type": "object",
+      "status": "optional"
+    },
+    "data": {
+      "doc": "Dynamic source data used as both initial data, and updates internal data if changed after mount.",
+      "type": "object",
+      "status": "optional"
+    },
+    "id": {
+      "doc": "Unique id for connecting Form.Handler and helper tools such as Form.useData.",
+      "type": ["string", "Function", "Object", "React.Context"],
+      "status": "optional"
+    },
+    "schema": {
+      "doc": "JSON Schema for validation of the data set. IMPORTANT: When using JSON Schema validation, you MUST provide an `ajvInstance` prop.",
+      "type": "object",
+      "status": "optional"
+    },
+    "errorMessages": {
+      "doc": "Object containing error messages by either type of JSON Pointer path and type. The messages can be a React.ReactNode or a string.",
+      "type": "object",
+      "status": "optional"
+    },
+    "ajvInstance": {
+      "doc": "REQUIRED when using JSON Schema validation. Provide your own custom Ajv instance: import Ajv from \"@dnb/eufemia/extensions/forms\" and pass ajvInstance={makeAjvInstance()}. This ensures your bundle only includes AJV when you actually need it. More info in the [Schema validation](/uilib/extensions/forms/Form/schema-validation/#custom-ajv-instance-and-keywords) section.",
+      "type": "ajv",
+      "status": "optional"
+    },
+    "transformIn": {
+      "doc": "Mutate the data context (internally as well) based on your criteria: `({ path, value, data, props, internal }) => 'new value'`. It will iterate on each data entry (/path).",
+      "type": "function",
+      "status": "optional"
+    },
+    "transformOut": {
+      "doc": "Mutate the data before it enters onSubmit or onChange based on your criteria: `({ path, value, data, props, internal }) => 'new value'`. It will iterate on each data entry (/path).",
+      "type": "function",
+      "status": "optional"
+    },
+    "required": {
+      "doc": "Make all fields required.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "disabled": {
+      "doc": "Disable all fields.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "locale": {
+      "doc": "Locale (language) to use for all nested Eufemia components.",
+      "type": "string",
+      "status": "optional"
+    },
+    "countryCode": {
+      "doc": "Will change the country code for fields supporting `countryCode`. You can also set a path as the value, e.g. `/myCountryCodePath`.",
+      "type": ["ISO 3166-1 alpha-2", "Path/JSON Pointer"],
+      "status": "optional"
+    },
+    "children": {
+      "doc": "Contents.",
+      "type": "React.Node",
+      "status": "required"
+    }
   }
 }
 ```
@@ -721,25 +723,27 @@ render(
 
 ```json
 {
-  "onCommit": {
-    "doc": "Will be called on a nested form context commit – if validation has passed. The first parameter is the committed data object. The second parameter is an object containing a method to clear the internal data `{ clearData }`.",
-    "type": "function",
-    "status": "optional"
-  },
-  "onChange": {
-    "doc": "Will be called when a value of a field was changed by the user, with the data set (including the changed value) as argument. When an async function is provided, it will show an indicator on the current label during a field change. Related props: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`. You can return an error or an object with these keys `{ info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` in addition to { success: 'saved' } indicate the field was saved. Will emit unvalidated by default and validated when an async function is provided (like `onSubmit`). The second parameter is an object containing the `filterData`, `resetForm` and `clearData` functions.",
-    "type": "function",
-    "status": "optional"
-  },
-  "onPathChange": {
-    "doc": "Will be called when a value of a field was changed by the user, with the `path` (JSON Pointer) and new `value` as arguments. Can be an async function. Will emit unvalidated by default and validated when `onChange` is an async function.",
-    "type": "function",
-    "status": "optional"
-  },
-  "onClear": {
-    "doc": "Will be called when the form is cleared via `Form.clearData` or via the `onSubmit` event (or `onCommit`) argument `{ clearData }`.",
-    "type": "function",
-    "status": "optional"
+  "props": {
+    "onCommit": {
+      "doc": "Will be called on a nested form context commit – if validation has passed. The first parameter is the committed data object. The second parameter is an object containing a method to clear the internal data `{ clearData }`.",
+      "type": "function",
+      "status": "optional"
+    },
+    "onChange": {
+      "doc": "Will be called when a value of a field was changed by the user, with the data set (including the changed value) as argument. When an async function is provided, it will show an indicator on the current label during a field change. Related props: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`. You can return an error or an object with these keys `{ info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` in addition to { success: 'saved' } indicate the field was saved. Will emit unvalidated by default and validated when an async function is provided (like `onSubmit`). The second parameter is an object containing the `filterData`, `resetForm` and `clearData` functions.",
+      "type": "function",
+      "status": "optional"
+    },
+    "onPathChange": {
+      "doc": "Will be called when a value of a field was changed by the user, with the `path` (JSON Pointer) and new `value` as arguments. Can be an async function. Will emit unvalidated by default and validated when `onChange` is an async function.",
+      "type": "function",
+      "status": "optional"
+    },
+    "onClear": {
+      "doc": "Will be called when the form is cleared via `Form.clearData` or via the `onSubmit` event (or `onCommit`) argument `{ clearData }`.",
+      "type": "function",
+      "status": "optional"
+    }
   }
 }
 ```

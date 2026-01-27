@@ -1,8 +1,8 @@
 ---
 title: 'SkipContent'
 description: 'SkipContent gives users – using their keyboard for navigation – the option to skip over content which contains a large amount of interactive elements.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.509Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:26.938Z
 checksum: 7c98c8e5d60d0db423b6e5ad570d91048ff8cda443f07724825c4ba516792ad0
 ---
 
@@ -129,25 +129,27 @@ The following properties applies to `SkipContent.Return` as well.
 
 ```json
 {
-  "selector": {
-    "doc": "Define an existing HTML element selector to focus when the inner button got pressed.",
-    "type": "string",
-    "status": "required"
-  },
-  "text": {
-    "doc": "Define a clear message describing the choices the users has.",
-    "type": "React.ReactNode",
-    "status": "optional"
-  },
-  "children": {
-    "doc": "Define a clear message describing the choices the users has.",
-    "type": "React.ReactNode",
-    "status": "optional"
-  },
-  "focusDelay": {
-    "doc": "Defines the delay after the enter key has been pressed.",
-    "type": "number",
-    "status": "optional"
+  "props": {
+    "selector": {
+      "doc": "Define an existing HTML element selector to focus when the inner button got pressed.",
+      "type": "string",
+      "status": "required"
+    },
+    "text": {
+      "doc": "Define a clear message describing the choices the users has.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "children": {
+      "doc": "Define a clear message describing the choices the users has.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "focusDelay": {
+      "doc": "Defines the delay after the enter key has been pressed.",
+      "type": "number",
+      "status": "optional"
+    }
   }
 }
 ```

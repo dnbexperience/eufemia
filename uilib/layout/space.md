@@ -1,8 +1,8 @@
 ---
 title: 'Space'
 description: 'The Space component provides margins within the provided spacing patterns.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:27.330Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:28.345Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -454,30 +454,32 @@ These properties are available in many other components and elements.
 
 ```json
 {
-  "space": {
-    "doc": "Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.",
-    "type": ["object"],
-    "status": "optional"
-  },
-  "top": {
-    "doc": "Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.",
-    "type": ["string", "number", "boolean"],
-    "status": "optional"
-  },
-  "right": {
-    "doc": "Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.",
-    "type": ["string", "number", "boolean"],
-    "status": "optional"
-  },
-  "bottom": {
-    "doc": "Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.",
-    "type": ["string", "number", "boolean"],
-    "status": "optional"
-  },
-  "left": {
-    "doc": "Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.",
-    "type": ["string", "number", "boolean"],
-    "status": "optional"
+  "props": {
+    "space": {
+      "doc": "Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.",
+      "type": ["object"],
+      "status": "optional"
+    },
+    "top": {
+      "doc": "Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.",
+      "type": ["string", "number", "boolean"],
+      "status": "optional"
+    },
+    "right": {
+      "doc": "Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.",
+      "type": ["string", "number", "boolean"],
+      "status": "optional"
+    },
+    "bottom": {
+      "doc": "Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.",
+      "type": ["string", "number", "boolean"],
+      "status": "optional"
+    },
+    "left": {
+      "doc": "Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.",
+      "type": ["string", "number", "boolean"],
+      "status": "optional"
+    }
   }
 }
 ```
@@ -486,30 +488,32 @@ These properties are available in many other components and elements.
 
 ```json
 {
-  "element": {
-    "doc": "Defines the HTML element used. Defaults to `div`.",
-    "type": "React.Element",
-    "status": "optional"
-  },
-  "stretch": {
-    "doc": "If set to `true`, then the space element will be 100% in width.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "inline": {
-    "doc": "If set to `true`, then `display: inline-block;` is used, so the HTML elements get aligned horizontally. Defaults to `false`.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "innerSpace": {
-    "doc": "Will add a padding around the content. Supports also media query breakpoints like `{small: { top: 'medium' }}`.",
-    "type": ["object", "string", "number", "boolean"],
-    "status": "optional"
-  },
-  "no_collapse": {
-    "doc": "If set to `true`, then a wrapper with `display: flow-root;` is used. This way you avoid **Margin Collapsing**. Defaults to `false`. _Note:_ You can't use `inline={true}` in combination.",
-    "type": "boolean",
-    "status": "optional"
+  "props": {
+    "element": {
+      "doc": "Defines the HTML element used. Defaults to `div`.",
+      "type": "React.Element",
+      "status": "optional"
+    },
+    "stretch": {
+      "doc": "If set to `true`, then the space element will be 100% in width.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "inline": {
+      "doc": "If set to `true`, then `display: inline-block;` is used, so the HTML elements get aligned horizontally. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "innerSpace": {
+      "doc": "Will add a padding around the content. Supports also media query breakpoints like `{small: { top: 'medium' }}`.",
+      "type": ["object", "string", "number", "boolean"],
+      "status": "optional"
+    },
+    "no_collapse": {
+      "doc": "If set to `true`, then a wrapper with `display: flow-root;` is used. This way you avoid **Margin Collapsing**. Defaults to `false`. _Note:_ You can't use `inline={true}` in combination.",
+      "type": "boolean",
+      "status": "optional"
+    }
   }
 }
 ```

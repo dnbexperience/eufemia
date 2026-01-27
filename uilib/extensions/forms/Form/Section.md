@@ -1,8 +1,8 @@
 ---
 title: 'Form.Section'
 description: '`Form.Section` lets you compose blocks of fields and values to be reused in different contexts.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.910Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:27.358Z
 checksum: e125633052ef7908a2f0171cb864e12c3c898f9452212cab006b060b10d68116
 ---
 
@@ -1038,55 +1038,57 @@ render(
 
 ```json
 {
-  "path": {
-    "doc": "A path to the section (JSON Pointer). When defined, fields inside the section will get this path as a prefix of their own path.",
-    "type": "string",
-    "status": "optional"
-  },
-  "overwriteProps": {
-    "doc": "Overwrite field props for the section.",
-    "type": "object",
-    "status": "optional"
-  },
-  "translation": {
-    "doc": "Provide a translation for the section (e.g. `{'nb-NO': { MySection: { MyField: { label: 'Custom' }}}}`).",
-    "type": "object",
-    "status": "optional"
-  },
-  "required": {
-    "doc": "Makes all fields inside it required.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "validateInitially": {
-    "doc": "If set to `true`, the whole section will be validated initially. All fields will then automatically get `validateInitially` and show their error messages. Can be useful in combination with `containerMode=\"auto\"`.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "defaultData": {
-    "doc": "Provide default data to the section fields and values, in case the data context (Form.Handler) is not available.",
-    "type": "object",
-    "status": "optional"
-  },
-  "data": {
-    "doc": "Provide data to the section fields and values, in case the data context (Form.Handler) is not available.",
-    "type": "object",
-    "status": "optional"
-  },
-  "containerMode": {
-    "doc": "Defines the container mode. Can be `view`, `edit` or `auto`. When set to `auto`, the mode will initially be \"edit\" if fields contain errors. Defaults to `auto`.",
-    "type": "string",
-    "status": "optional"
-  },
-  "disableEditing": {
-    "doc": "If set to `true`, the section will stay in view mode and hide the edit toolbar.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "children": {
-    "doc": "All the fields and values inside the section.",
-    "type": "React.Node",
-    "status": "optional"
+  "props": {
+    "path": {
+      "doc": "A path to the section (JSON Pointer). When defined, fields inside the section will get this path as a prefix of their own path.",
+      "type": "string",
+      "status": "optional"
+    },
+    "overwriteProps": {
+      "doc": "Overwrite field props for the section.",
+      "type": "object",
+      "status": "optional"
+    },
+    "translation": {
+      "doc": "Provide a translation for the section (e.g. `{'nb-NO': { MySection: { MyField: { label: 'Custom' }}}}`).",
+      "type": "object",
+      "status": "optional"
+    },
+    "required": {
+      "doc": "Makes all fields inside it required.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "validateInitially": {
+      "doc": "If set to `true`, the whole section will be validated initially. All fields will then automatically get `validateInitially` and show their error messages. Can be useful in combination with `containerMode=\"auto\"`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "defaultData": {
+      "doc": "Provide default data to the section fields and values, in case the data context (Form.Handler) is not available.",
+      "type": "object",
+      "status": "optional"
+    },
+    "data": {
+      "doc": "Provide data to the section fields and values, in case the data context (Form.Handler) is not available.",
+      "type": "object",
+      "status": "optional"
+    },
+    "containerMode": {
+      "doc": "Defines the container mode. Can be `view`, `edit` or `auto`. When set to `auto`, the mode will initially be \"edit\" if fields contain errors. Defaults to `auto`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "disableEditing": {
+      "doc": "If set to `true`, the section will stay in view mode and hide the edit toolbar.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "children": {
+      "doc": "All the fields and values inside the section.",
+      "type": "React.Node",
+      "status": "optional"
+    }
   }
 }
 ```
@@ -1137,10 +1139,12 @@ render(
 
 ```json
 {
-  "onChange": {
-    "doc": "Will be called when a value of a field was changed by the user, with the data set (including the changed value) as argument.",
-    "type": "function",
-    "status": "optional"
+  "props": {
+    "onChange": {
+      "doc": "Will be called when a value of a field was changed by the user, with the data set (including the changed value) as argument.",
+      "type": "function",
+      "status": "optional"
+    }
   }
 }
 ```

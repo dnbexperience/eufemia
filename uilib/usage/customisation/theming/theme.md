@@ -1,8 +1,8 @@
 ---
 title: 'Theme'
 description: 'The Theme component is a helper component that lets you create nested theming solutions.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:27.349Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:28.366Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -218,35 +218,37 @@ render(
 
 ```json
 {
-  "name": {
-    "doc": "The name of a branding theme. Can be `ui` (universal identity), `eiendom`, `sbanken` or `carnegie`.",
-    "type": ["ui", "eiendom", "sbanken", "carnegie"],
-    "status": "optional"
-  },
-  "size": {
-    "doc": "Will define what sizes of components are used (WIP).",
-    "type": "basis",
-    "status": "optional"
-  },
-  "variant": {
-    "doc": "(WIP).",
-    "type": "string",
-    "status": "optional"
-  },
-  "propMapping": {
-    "doc": "Defines a specific CSS class so you get a declarative way of mapping CSS properties. A set of predefined maps will be available (WIP).",
-    "type": "string",
-    "status": "optional"
-  },
-  "contrastMode": {
-    "doc": "When a component supports a contrast style, it will be used instead for the dedicated area.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "darkMode": {
-    "doc": "When a component supports a dark mode style, it will be used instead for the dedicated area.",
-    "type": "boolean",
-    "status": "optional"
+  "props": {
+    "name": {
+      "doc": "The name of a branding theme. Can be `ui` (universal identity), `eiendom`, `sbanken` or `carnegie`.",
+      "type": ["ui", "eiendom", "sbanken", "carnegie"],
+      "status": "optional"
+    },
+    "size": {
+      "doc": "Will define what sizes of components are used (WIP).",
+      "type": "basis",
+      "status": "optional"
+    },
+    "variant": {
+      "doc": "(WIP).",
+      "type": "string",
+      "status": "optional"
+    },
+    "propMapping": {
+      "doc": "Defines a specific CSS class so you get a declarative way of mapping CSS properties. A set of predefined maps will be available (WIP).",
+      "type": "string",
+      "status": "optional"
+    },
+    "contrastMode": {
+      "doc": "When a component supports a contrast style, it will be used instead for the dedicated area.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "darkMode": {
+      "doc": "When a component supports a dark mode style, it will be used instead for the dedicated area.",
+      "type": "boolean",
+      "status": "optional"
+    }
   }
 }
 ```

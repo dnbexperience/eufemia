@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.RemoveButton'
 description: '`Iterate.RemoveButton` connects to the array of a surrounding Iterate.Array and removes the item when clicked.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:27.022Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:27.477Z
 checksum: f8ee112a21fc50920cdfd3cec2d68bd5c9db04abc522b7368dec8674cc28ddc9
 ---
 
@@ -109,15 +109,17 @@ render(
 
 ```json
 {
-  "showConfirmDialog": {
-    "doc": "Use `true` to show a confirmation dialog before removing the item.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "[Button](/uilib/components/button/properties)": {
-    "doc": "All button properties.",
-    "type": "Various",
-    "status": "optional"
+  "props": {
+    "showConfirmDialog": {
+      "doc": "Use `true` to show a confirmation dialog before removing the item.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "[Button](/uilib/components/button/properties)": {
+      "doc": "All button properties.",
+      "type": "Various",
+      "status": "optional"
+    }
   }
 }
 ```

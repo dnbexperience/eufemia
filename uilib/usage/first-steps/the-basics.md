@@ -1,7 +1,7 @@
 ---
 title: 'The Basics'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:27.354Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:28.372Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -57,7 +57,7 @@ Read about [how the styles are setup](/uilib/usage/customisation/styling) and [h
 
 ## Compiler
 
-With [Node.js](https://nodejs.org/) as our JavaScript runtime in place, we may use modern JavaScript syntax (ECMAScript 2015+) to write our application. There are many frameworks and libraries to build user interfaces. If we take [React JSX](https://reactjs.org/docs/add-react-to-a-website.html#optional-try-react-with-jsx) as an starting point, we basically [do this](/uilib/usage/first-steps/react):
+With [Node.js](https://nodejs.org/) as our JavaScript runtime in place, we may use modern JavaScript syntax (ECMAScript 2015+) to write our application. There are many frameworks and libraries to build user interfaces. If we take [React JSX](https://reactjs.org/docs/add-react-to-a-website.html#optional-try-react-with-jsx) as a starting point, we basically [do this](/uilib/usage/first-steps/react):
 
 ```tsx
 render(<Button text="Primary Button" />)

@@ -1,8 +1,8 @@
 ---
 title: 'Layout'
 description: 'To make it easier to build application layouts and form views in line with defined design sketches, there are a number of components for layout.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:27.332Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:28.347Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -24,9 +24,9 @@ To make it easier to build application layout and [form](/uilib/extensions/forms
 
 ## Deprecated layout components
 
-- **[FormSet](/uilib/layout/form-set)** is deprecated. Use [Flex](/uilib/layout/flex), the [Forms](/uilib/extensions/forms) extension and the Eufemia [Provider](/uilib/usage/customisation/provider-info) as an replacement.
+- **[FormSet](/uilib/layout/form-set)** is deprecated. Use [Flex](/uilib/layout/flex), the [Forms](/uilib/extensions/forms) extension and the Eufemia [Provider](/uilib/usage/customisation/provider-info) as a replacement.
 
-- **[FormRow](/uilib/layout/form-row)** is deprecated. Use [Flex](/uilib/layout/flex) and the [Forms](/uilib/extensions/forms) extension as an replacement.
+- **[FormRow](/uilib/layout/form-row)** is deprecated. Use [Flex](/uilib/layout/flex) and the [Forms](/uilib/extensions/forms) extension as a replacement.
 
 ## Units and responsiveness
 

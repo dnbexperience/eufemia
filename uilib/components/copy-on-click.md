@@ -1,8 +1,8 @@
 ---
 title: 'CopyOnClick'
 description: 'The CopyOnClick component allows users to copy text to their clipboard simply by clicking on it.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.247Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:26.665Z
 checksum: 8ea60c96f88632fc93f5e54467cbab676571cfcb8665066047ec0c4b27bfda71
 ---
 
@@ -113,30 +113,32 @@ render(
 
 ```json
 {
-  "showCursor": {
-    "doc": "Define if the copy cursor should be visible. Defaults to `true`.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "disabled": {
-    "doc": "If `true`, the copy functionality and copy cursor will be omitted. Defaults to `false`.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "copyContent": {
-    "doc": "Contents to copy. Used when the copied value should differ from the visually shown value(`children`).",
-    "type": "React.Node",
-    "status": "optional"
-  },
-  "tooltipContent": {
-    "doc": "The message shown in the tooltip when the content is copied. Defaults to the translation `CopyOnClick.clipboard_copy`.",
-    "type": "React.Node",
-    "status": "optional"
-  },
-  "children": {
-    "doc": "Contents.",
-    "type": "React.Node",
-    "status": "required"
+  "props": {
+    "showCursor": {
+      "doc": "Define if the copy cursor should be visible. Defaults to `true`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "disabled": {
+      "doc": "If `true`, the copy functionality and copy cursor will be omitted. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "copyContent": {
+      "doc": "Contents to copy. Used when the copied value should differ from the visually shown value(`children`).",
+      "type": "React.Node",
+      "status": "optional"
+    },
+    "tooltipContent": {
+      "doc": "The message shown in the tooltip when the content is copied. Defaults to the translation `CopyOnClick.clipboard_copy`.",
+      "type": "React.Node",
+      "status": "optional"
+    },
+    "children": {
+      "doc": "Contents.",
+      "type": "React.Node",
+      "status": "required"
+    }
   }
 }
 ```

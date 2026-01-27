@@ -1,8 +1,8 @@
 ---
 title: 'InfoCard'
 description: 'The InfoCard is used to give the user more information than a message box. It can also be used to give useful tips.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.363Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:26.785Z
 checksum: f6295c152a47dd0bea9fa6ad3b8f342db592822c333edb25d08c39ed5acf57a5
 ---
 
@@ -212,90 +212,92 @@ render(
 
 ```json
 {
-  "text": {
-    "doc": "The text content of the InfoCard, displayed/rendered in a paragraph. To fully customize the content, see `children` property.",
-    "type": "React.ReactNode",
-    "status": "optional"
-  },
-  "title": {
-    "doc": "The title of the InfoCard.",
-    "type": "React.ReactNode",
-    "status": "optional"
-  },
-  "centered": {
-    "doc": "Centers the content. Defaults to `false`.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "dropShadow": {
-    "doc": "Sets the drop shadow of the info card. Defaults to `true`.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "stretch": {
-    "doc": "Stretch the card to fill the container.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "className": {
-    "doc": "Custom className for the component root.",
-    "type": "string",
-    "status": "optional"
-  },
-  "icon": {
-    "doc": "Custom icon. Defaults to the `lightbulb` icon.",
-    "type": "React.ReactNode",
-    "status": "optional"
-  },
-  "imgProps": {
-    "doc": "[Image properties](/uilib/elements/image) applied to the `img` element if the component is used to display an image.",
-    "type": "ImgProps",
-    "status": "optional"
-  },
-  "alt": {
-    "doc": "Used in combination with `src` to provide an alt attribute for the image element.",
-    "type": "React.ReactNode",
-    "status": "optional"
-  },
-  "src": {
-    "doc": "Specifies the path to the image.",
-    "type": "string",
-    "status": "optional"
-  },
-  "skeleton": {
-    "doc": "If set to `true`, an overlaying skeleton with animation will be shown. Defaults to `false`.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "closeButtonText": {
-    "doc": "The close button text.",
-    "type": "React.ReactNode",
-    "status": "optional"
-  },
-  "closeButtonAttributes": {
-    "doc": "Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.",
-    "type": "ButtonProps",
-    "status": "optional"
-  },
-  "acceptButtonText": {
-    "doc": "The accept button text.",
-    "type": "React.ReactNode",
-    "status": "optional"
-  },
-  "acceptButtonAttributes": {
-    "doc": "Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.",
-    "type": "ButtonProps",
-    "status": "optional"
-  },
-  "children": {
-    "doc": "Can be used to add custom content, which is displayed/rendered between the `text` property and buttons.",
-    "type": "React.ReactNode",
-    "status": "optional"
-  },
-  "[Space](/uilib/layout/space/properties)": {
-    "doc": "Spacing properties like `top` or `bottom` are supported.",
-    "type": ["string", "object"],
-    "status": "optional"
+  "props": {
+    "text": {
+      "doc": "The text content of the InfoCard, displayed/rendered in a paragraph. To fully customize the content, see `children` property.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "title": {
+      "doc": "The title of the InfoCard.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "centered": {
+      "doc": "Centers the content. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "dropShadow": {
+      "doc": "Sets the drop shadow of the info card. Defaults to `true`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "stretch": {
+      "doc": "Stretch the card to fill the container.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "className": {
+      "doc": "Custom className for the component root.",
+      "type": "string",
+      "status": "optional"
+    },
+    "icon": {
+      "doc": "Custom icon. Defaults to the `lightbulb` icon.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "imgProps": {
+      "doc": "[Image properties](/uilib/elements/image) applied to the `img` element if the component is used to display an image.",
+      "type": "ImgProps",
+      "status": "optional"
+    },
+    "alt": {
+      "doc": "Used in combination with `src` to provide an alt attribute for the image element.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "src": {
+      "doc": "Specifies the path to the image.",
+      "type": "string",
+      "status": "optional"
+    },
+    "skeleton": {
+      "doc": "If set to `true`, an overlaying skeleton with animation will be shown. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "closeButtonText": {
+      "doc": "The close button text.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "closeButtonAttributes": {
+      "doc": "Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.",
+      "type": "ButtonProps",
+      "status": "optional"
+    },
+    "acceptButtonText": {
+      "doc": "The accept button text.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "acceptButtonAttributes": {
+      "doc": "Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.",
+      "type": "ButtonProps",
+      "status": "optional"
+    },
+    "children": {
+      "doc": "Can be used to add custom content, which is displayed/rendered between the `text` property and buttons.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": ["string", "object"],
+      "status": "optional"
+    }
   }
 }
 ```
@@ -304,15 +306,17 @@ render(
 
 ```json
 {
-  "onAccept": {
-    "doc": "Will be called when user clicks the accept button.",
-    "type": "function",
-    "status": "optional"
-  },
-  "onClose": {
-    "doc": "Will be called when user clicks the close button.",
-    "type": "function",
-    "status": "optional"
+  "props": {
+    "onAccept": {
+      "doc": "Will be called when user clicks the accept button.",
+      "type": "function",
+      "status": "optional"
+    },
+    "onClose": {
+      "doc": "Will be called when user clicks the close button.",
+      "type": "function",
+      "status": "optional"
+    }
   }
 }
 ```

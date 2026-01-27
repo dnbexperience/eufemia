@@ -1,8 +1,8 @@
 ---
 title: 'VisuallyHidden'
 description: 'VisuallyHidden has all the styles necessary to hide it from visual clients, but keep it for screen readers.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.602Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:27.032Z
 checksum: 28d243b62406799fd86da1f9d89208ecb4b4735e8ed07aff554b859e2b71065c
 ---
 
@@ -89,15 +89,17 @@ render(
 
 ```json
 {
-  "focusable": {
-    "doc": "Set to `true` to hide an element by default, but to display it when it’s focused (e.g. by a keyboard-only user) root. Defaults to `false`.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "element": {
-    "doc": "Custom root HTML element for the component. Defaults to `<span>`.",
-    "type": ["string", "React.Element"],
-    "status": "optional"
+  "props": {
+    "focusable": {
+      "doc": "Set to `true` to hide an element by default, but to display it when it’s focused (e.g. by a keyboard-only user) root. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "element": {
+      "doc": "Custom root HTML element for the component. Defaults to `<span>`.",
+      "type": ["string", "React.Element"],
+      "status": "optional"
+    }
   }
 }
 ```

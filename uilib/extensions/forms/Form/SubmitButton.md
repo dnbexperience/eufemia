@@ -1,8 +1,8 @@
 ---
 title: 'Form.SubmitButton'
 description: '`Form.SubmitButton` connects to the `Form.Handler` to submit the active state of the internal DataContext, triggering `onSubmit`.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.937Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:27.387Z
 checksum: 94297868c7fcb391480f7508ca2e4c349769a80809b5b456b395fddb66bb86b6
 ---
 
@@ -82,25 +82,27 @@ render(
 
 ```json
 {
-  "variant": {
-    "doc": "Use `send` to show the send icon, or `secondary` for secondary button styling.",
-    "type": "string",
-    "status": "optional"
-  },
-  "showIndicator": {
-    "doc": "Show the submit indicator.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "[Button](/uilib/components/button/properties)": {
-    "doc": "All button properties.",
-    "type": "Various",
-    "status": "optional"
-  },
-  "[Space](/uilib/layout/space/properties)": {
-    "doc": "Spacing properties like `top` or `bottom` are supported.",
-    "type": ["string", "object"],
-    "status": "optional"
+  "props": {
+    "variant": {
+      "doc": "Use `send` to show the send icon, or `secondary` for secondary button styling.",
+      "type": "string",
+      "status": "optional"
+    },
+    "showIndicator": {
+      "doc": "Show the submit indicator.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "[Button](/uilib/components/button/properties)": {
+      "doc": "All button properties.",
+      "type": "Various",
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": ["string", "object"],
+      "status": "optional"
+    }
   }
 }
 ```

@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.Array'
 description: '`Iterate.Array` works in many ways similar to field-components. It has a value-property that can receive an array or you can give it a path if you want it to retrieve an array from a surrounding DataContext. All children components of Iterate.Array are rendered once per item the array-value consists of.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.988Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:27.442Z
 checksum: 6f082af7a54a82076a4489c446ffb8acad486b7c8dc38119d5665dde0ae043a4
 ---
 
@@ -1195,110 +1195,112 @@ render(
 
 ```json
 {
-  "value": {
-    "doc": "The data to iterate over. Alternative you can use the `path` prop.",
-    "type": "array",
-    "status": "optional"
-  },
-  "path": {
-    "doc": "A path (JSON Pointer) to the array to iterate over.",
-    "type": "string",
-    "status": "optional"
-  },
-  "itemPath": {
-    "doc": "A path (JSON Pointer) to nested array items.",
-    "type": "string",
-    "status": "optional"
-  },
-  "required": {
-    "doc": "If the array is required. It does not automatically inherit the `required` property in the same way that `Field.*` components do. You may provide a custom error message to give the user a more useful message than the default one: `errorMessages={{ 'Field.errorRequired': 'Custom message' }}`",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "minItems": {
-    "doc": "The minimum amount of items required to iterate over.",
-    "type": "number",
-    "status": "optional"
-  },
-  "maxItems": {
-    "doc": "The maximum amount of items to iterate over before showing the error.",
-    "type": "number",
-    "status": "optional"
-  },
-  "limit": {
-    "doc": "Limit the number of rendered items to iterate over. Defaults to `undefined`.",
-    "type": "number",
-    "status": "optional"
-  },
-  "reverse": {
-    "doc": "When `true` it will reverse the order of the items.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "countPath": {
-    "doc": "A path (JSON Pointer) to the array length.",
-    "type": "string",
-    "status": "optional"
-  },
-  "countPathTransform": {
-    "doc": "Will transform the current value before it is displayed.",
-    "type": "function",
-    "status": "optional"
-  },
-  "countPathLimit": {
-    "doc": "Will limit the iterate amount by given \"countPathLimit\" value.",
-    "type": "number",
-    "status": "optional"
-  },
-  "withoutFlex": {
-    "doc": "When `true` it will omit the Flex.Stack wrapper so it can be used for tables and lists.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "animate": {
-    "doc": "When `true` it will animate the height of the items.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "placeholder": {
-    "doc": "Will be shown if the value or data context value is empty.",
-    "type": "React.Node",
-    "status": "optional"
-  },
-  "emptyValue": {
-    "doc": "Will be used to compare the value in order to show the placeholder.",
-    "type": "unknown",
-    "status": "optional"
-  },
-  "containerMode": {
-    "doc": "Defines the container mode for all nested containers. Can be `view`, `edit` or `auto`. When using `auto`, it will automatically open if there is an error in the container. When a new item is added, the item before it will change to `view` mode, if it had no validation errors. Defaults to `auto`.",
-    "type": "string",
-    "status": "optional"
-  },
-  "onChangeValidator": {
-    "doc": "Custom validator function where you can return `undefined`, `Error`, `FormError` or an Array with either several other validators or several `Error` or `FormError`. It is triggered on every change done by the user. The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }.",
-    "type": "function",
-    "status": "optional"
-  },
-  "validateInitially": {
-    "doc": "Set to `true` to show validation based errors initially (from given value-prop or source data) before the user interacts with the field.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "validateContinuously": {
-    "doc": "Set to `true` to show validation based errors continuously while writing, not just when blurring the field.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "children": {
-    "doc": "React.Node or a function so you can get the current value as the first function parameter, and the index as the second parameter as well as the array of internal items as the third parameter.",
-    "type": ["React.ReactNode", "function"],
-    "status": "optional"
-  },
-  "[Flex.Stack](/uilib/layout/flex/stack/properties)": {
-    "doc": "All Flex.Stack properties.",
-    "type": "Various",
-    "status": "optional"
+  "props": {
+    "value": {
+      "doc": "The data to iterate over. Alternative you can use the `path` prop.",
+      "type": "array",
+      "status": "optional"
+    },
+    "path": {
+      "doc": "A path (JSON Pointer) to the array to iterate over.",
+      "type": "string",
+      "status": "optional"
+    },
+    "itemPath": {
+      "doc": "A path (JSON Pointer) to nested array items.",
+      "type": "string",
+      "status": "optional"
+    },
+    "required": {
+      "doc": "If the array is required. It does not automatically inherit the `required` property in the same way that `Field.*` components do. You may provide a custom error message to give the user a more useful message than the default one: `errorMessages={{ 'Field.errorRequired': 'Custom message' }}`",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "minItems": {
+      "doc": "The minimum amount of items required to iterate over.",
+      "type": "number",
+      "status": "optional"
+    },
+    "maxItems": {
+      "doc": "The maximum amount of items to iterate over before showing the error.",
+      "type": "number",
+      "status": "optional"
+    },
+    "limit": {
+      "doc": "Limit the number of rendered items to iterate over. Defaults to `undefined`.",
+      "type": "number",
+      "status": "optional"
+    },
+    "reverse": {
+      "doc": "When `true` it will reverse the order of the items.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "countPath": {
+      "doc": "A path (JSON Pointer) to the array length.",
+      "type": "string",
+      "status": "optional"
+    },
+    "countPathTransform": {
+      "doc": "Will transform the current value before it is displayed.",
+      "type": "function",
+      "status": "optional"
+    },
+    "countPathLimit": {
+      "doc": "Will limit the iterate amount by given \"countPathLimit\" value.",
+      "type": "number",
+      "status": "optional"
+    },
+    "withoutFlex": {
+      "doc": "When `true` it will omit the Flex.Stack wrapper so it can be used for tables and lists.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "animate": {
+      "doc": "When `true` it will animate the height of the items.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "placeholder": {
+      "doc": "Will be shown if the value or data context value is empty.",
+      "type": "React.Node",
+      "status": "optional"
+    },
+    "emptyValue": {
+      "doc": "Will be used to compare the value in order to show the placeholder.",
+      "type": "unknown",
+      "status": "optional"
+    },
+    "containerMode": {
+      "doc": "Defines the container mode for all nested containers. Can be `view`, `edit` or `auto`. When using `auto`, it will automatically open if there is an error in the container. When a new item is added, the item before it will change to `view` mode, if it had no validation errors. Defaults to `auto`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "onChangeValidator": {
+      "doc": "Custom validator function where you can return `undefined`, `Error`, `FormError` or an Array with either several other validators or several `Error` or `FormError`. It is triggered on every change done by the user. The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }.",
+      "type": "function",
+      "status": "optional"
+    },
+    "validateInitially": {
+      "doc": "Set to `true` to show validation based errors initially (from given value-prop or source data) before the user interacts with the field.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "validateContinuously": {
+      "doc": "Set to `true` to show validation based errors continuously while writing, not just when blurring the field.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "children": {
+      "doc": "React.Node or a function so you can get the current value as the first function parameter, and the index as the second parameter as well as the array of internal items as the third parameter.",
+      "type": ["React.ReactNode", "function"],
+      "status": "optional"
+    },
+    "[Flex.Stack](/uilib/layout/flex/stack/properties)": {
+      "doc": "All Flex.Stack properties.",
+      "type": "Various",
+      "status": "optional"
+    }
   }
 }
 ```
@@ -1309,10 +1311,12 @@ render(
 
 ```json
 {
-  "onChange": {
-    "doc": "Will be called when a value of a field was changed by the user, with the data set (including the changed value) as argument.",
-    "type": "function",
-    "status": "optional"
+  "props": {
+    "onChange": {
+      "doc": "Will be called when a value of a field was changed by the user, with the data set (including the changed value) as argument.",
+      "type": "function",
+      "status": "optional"
+    }
   }
 }
 ```

@@ -1,8 +1,8 @@
 ---
 title: 'Grid Item'
 description: '`Grid.Item` is a building block for CSS Grid based layouts.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:27.327Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:28.342Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -189,15 +189,17 @@ render(
 
 ```json
 {
-  "span": {
-    "doc": "To place the item on the grid with numbers from 1 to 12 (`columns`). Needs always two values, a so called span (from - to) `span={[1, 6]}`. Accepts also `end` like so `span={[1, \"end\"]}` or `full` like so `span={\"full\"}`. You can also provide [Media Query](/uilib/usage/layout/media-queries/) types in an object like so like so `span={{ small: [1, 4], medium: [1, 6], large: [1, 12]}}`.",
-    "type": ["object", "array"],
-    "status": "optional"
-  },
-  "element": {
-    "doc": "Define the type of element. Defaults to `div`.",
-    "type": ["string", "React.Element"],
-    "status": "optional"
+  "props": {
+    "span": {
+      "doc": "To place the item on the grid with numbers from 1 to 12 (`columns`). Needs always two values, a so called span (from - to) `span={[1, 6]}`. Accepts also `end` like so `span={[1, \"end\"]}` or `full` like so `span={\"full\"}`. You can also provide [Media Query](/uilib/usage/layout/media-queries/) types in an object like so like so `span={{ small: [1, 4], medium: [1, 6], large: [1, 12]}}`.",
+      "type": ["object", "array"],
+      "status": "optional"
+    },
+    "element": {
+      "doc": "Define the type of element. Defaults to `div`.",
+      "type": ["string", "React.Element"],
+      "status": "optional"
+    }
   }
 }
 ```

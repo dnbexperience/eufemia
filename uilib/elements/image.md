@@ -1,8 +1,8 @@
 ---
 title: 'Image'
 description: 'Image element exists to have a future possibility to optimize and add features.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.621Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:27.053Z
 checksum: 9647918c23f999b9fff1dd2e6ce4ccf9a4006864cf96c10144ab80b1b732ecc5
 ---
 
@@ -111,35 +111,37 @@ render(<CustomImage />)
 
 ```json
 {
-  "skeleton": {
-    "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "imgClass": {
-    "doc": "Custom className on the `<img>`-element",
-    "type": "string",
-    "status": "optional"
-  },
-  "element": {
-    "doc": "Defines the Element Type, like `figure`.",
-    "type": ["HTMLElement", "string"],
-    "status": "optional"
-  },
-  "caption": {
-    "doc": "Use to define a caption for the image. Uses `<figcaption>`.",
-    "type": "string",
-    "status": "optional"
-  },
-  "loading": {
-    "doc": "Can either be `eager` or `lazy`. Defaults to `eager`.",
-    "type": "string",
-    "status": "optional"
-  },
-  "[Space](/uilib/layout/space/properties)": {
-    "doc": "Spacing properties like `top` or `bottom` are supported.",
-    "type": ["string", "object"],
-    "status": "optional"
+  "props": {
+    "skeleton": {
+      "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "imgClass": {
+      "doc": "Custom className on the `<img>`-element",
+      "type": "string",
+      "status": "optional"
+    },
+    "element": {
+      "doc": "Defines the Element Type, like `figure`.",
+      "type": ["HTMLElement", "string"],
+      "status": "optional"
+    },
+    "caption": {
+      "doc": "Use to define a caption for the image. Uses `<figcaption>`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "loading": {
+      "doc": "Can either be `eager` or `lazy`. Defaults to `eager`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": ["string", "object"],
+      "status": "optional"
+    }
   }
 }
 ```

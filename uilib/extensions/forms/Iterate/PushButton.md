@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.PushButton'
 description: '`Iterate.PushButton` builds on top of the same data flow logic as field components, but the only thing it changes in the value it receives or retrieves from source data is adding a new item to the array.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:27.003Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:27.457Z
 checksum: 197d8ae847f788628e541f64a96a84e035ec18e2b7161c0d972b31ccdbcac29f
 ---
 
@@ -118,25 +118,27 @@ render(
 
 ```json
 {
-  "path": {
-    "doc": "The path to the array to add the new item to.",
-    "type": "string",
-    "status": "required"
-  },
-  "itemPath": {
-    "doc": "The path to the item in a nested array, to add the new item to.",
-    "type": "string",
-    "status": "optional"
-  },
-  "pushValue": {
-    "doc": "The element to add to the array when the button is clicked. Can be a function to returns the push value.",
-    "type": "unknown",
-    "status": "optional"
-  },
-  "[Button](/uilib/components/button/properties)": {
-    "doc": "All button properties.",
-    "type": "Various",
-    "status": "optional"
+  "props": {
+    "path": {
+      "doc": "The path to the array to add the new item to.",
+      "type": "string",
+      "status": "required"
+    },
+    "itemPath": {
+      "doc": "The path to the item in a nested array, to add the new item to.",
+      "type": "string",
+      "status": "optional"
+    },
+    "pushValue": {
+      "doc": "The element to add to the array when the button is clicked. Can be a function to returns the push value.",
+      "type": "unknown",
+      "status": "optional"
+    },
+    "[Button](/uilib/components/button/properties)": {
+      "doc": "All button properties.",
+      "type": "Various",
+      "status": "optional"
+    }
   }
 }
 ```

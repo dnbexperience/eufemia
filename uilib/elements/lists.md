@@ -1,8 +1,8 @@
 ---
 title: 'Lists'
 description: 'Lists are used to specify lists of information.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.727Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:27.164Z
 checksum: 597b732809a09b344dd0a6a017235ff45068cc56d53a2cca843c880151107c4d
 ---
 
@@ -290,25 +290,27 @@ render(
 
 ```json
 {
-  "layout": {
-    "doc": "Sets the layout of the list. Can be `vertical`, `horizontal` or `grid`. Defaults to `vertical`.",
-    "type": "string",
-    "status": "optional"
-  },
-  "innerRef": {
-    "doc": "Send along a custom React Ref.",
-    "type": "React.RefObject",
-    "status": "optional"
-  },
-  "children": {
-    "doc": "Contents.",
-    "type": "React.Node",
-    "status": "optional"
-  },
-  "[Space](/uilib/layout/space/properties)": {
-    "doc": "Spacing properties like `top` or `bottom` are supported.",
-    "type": ["string", "object"],
-    "status": "optional"
+  "props": {
+    "layout": {
+      "doc": "Sets the layout of the list. Can be `vertical`, `horizontal` or `grid`. Defaults to `vertical`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "innerRef": {
+      "doc": "Send along a custom React Ref.",
+      "type": "React.RefObject",
+      "status": "optional"
+    },
+    "children": {
+      "doc": "Contents.",
+      "type": "React.Node",
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": ["string", "object"],
+      "status": "optional"
+    }
   }
 }
 ```
@@ -317,35 +319,37 @@ render(
 
 ```json
 {
-  "inside": {
-    "doc": "Defines the position of the marker.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "outside": {
-    "doc": "Defines the position of the marker (default).",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "nested": {
-    "doc": "Will ensure a nested structure of several lists.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "innerRef": {
-    "doc": "Send along a custom React Ref.",
-    "type": "React.RefObject",
-    "status": "optional"
-  },
-  "children": {
-    "doc": "Contents.",
-    "type": "React.Node",
-    "status": "optional"
-  },
-  "[Space](/uilib/layout/space/properties)": {
-    "doc": "Spacing properties like `top` or `bottom` are supported.",
-    "type": ["string", "object"],
-    "status": "optional"
+  "props": {
+    "inside": {
+      "doc": "Defines the position of the marker.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "outside": {
+      "doc": "Defines the position of the marker (default).",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "nested": {
+      "doc": "Will ensure a nested structure of several lists.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "innerRef": {
+      "doc": "Send along a custom React Ref.",
+      "type": "React.RefObject",
+      "status": "optional"
+    },
+    "children": {
+      "doc": "Contents.",
+      "type": "React.Node",
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": ["string", "object"],
+      "status": "optional"
+    }
   }
 }
 ```
@@ -354,35 +358,37 @@ render(
 
 ```json
 {
-  "inside": {
-    "doc": "Defines the position of the marker.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "outside": {
-    "doc": "Defines the position of the marker (default).",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "nested": {
-    "doc": "Will ensure a nested structure of several lists.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "innerRef": {
-    "doc": "Send along a custom React Ref.",
-    "type": "React.RefObject",
-    "status": "optional"
-  },
-  "children": {
-    "doc": "Contents.",
-    "type": "React.Node",
-    "status": "optional"
-  },
-  "[Space](/uilib/layout/space/properties)": {
-    "doc": "Spacing properties like `top` or `bottom` are supported.",
-    "type": ["string", "object"],
-    "status": "optional"
+  "props": {
+    "inside": {
+      "doc": "Defines the position of the marker.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "outside": {
+      "doc": "Defines the position of the marker (default).",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "nested": {
+      "doc": "Will ensure a nested structure of several lists.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "innerRef": {
+      "doc": "Send along a custom React Ref.",
+      "type": "React.RefObject",
+      "status": "optional"
+    },
+    "children": {
+      "doc": "Contents.",
+      "type": "React.Node",
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": ["string", "object"],
+      "status": "optional"
+    }
   }
 }
 ```

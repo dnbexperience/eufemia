@@ -1,8 +1,8 @@
 ---
 title: 'Wizard.Buttons'
 description: '`Wizard.Buttons` is a combination of PreviousButton and NextButton for navigating between steps/pages.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:27.235Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:28.231Z
 checksum: 4ea56087d0680bf07da056cf40e953588811b3ff8876526853e7bcc84fb35e61
 ---
 
@@ -84,10 +84,12 @@ render(
 
 ```json
 {
-  "[Form.ButtonRow](/uilib/extensions/forms/Form/ButtonRow/properties/)": {
-    "doc": "ButtonRow properties.",
-    "type": "Various",
-    "status": "optional"
+  "props": {
+    "[Form.ButtonRow](/uilib/extensions/forms/Form/ButtonRow/properties/)": {
+      "doc": "ButtonRow properties.",
+      "type": "Various",
+      "status": "optional"
+    }
   }
 }
 ```

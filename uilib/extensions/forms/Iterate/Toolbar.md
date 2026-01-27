@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.Toolbar'
 description: '`Iterate.Toolbar` is a helper component to be used within an `Iterate.AnimatedContainer` to add a toolbar to each item in the array.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:27.027Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:27.482Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -139,5 +139,7 @@ render(
 ## Properties
 
 ```json
-{}
+{
+  "props": {}
+}
 ```

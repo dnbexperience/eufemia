@@ -1,8 +1,8 @@
 ---
 title: 'Block.ChildrenWithAge'
 description: '`ChildrenWithAge` is a block for displaying children with age.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:27.273Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:28.274Z
 checksum: 193f3ea42ea5bdb75b5504c8ab5d79a4fab668b6f038069544d7ab9da5235031
 ---
 
@@ -186,25 +186,27 @@ render(
 
 ```json
 {
-  "mode": {
-    "doc": "`summary` for a `Value.*` version, `edit` for an editable field version. Defaults to `edit`.",
-    "type": "number",
-    "status": "optional"
-  },
-  "enableAdditionalQuestions": {
-    "doc": "[`joint-responsibility`, `daycare`]",
-    "type": "array",
-    "status": "optional"
-  },
-  "toWizardStep": {
-    "doc": "If defined, a `Wizard.EditButton` will be shown.",
-    "type": "number",
-    "status": "optional"
-  },
-  "[Space](/uilib/layout/space/properties)": {
-    "doc": "Spacing properties like `top` or `bottom` are supported.",
-    "type": ["string", "object"],
-    "status": "optional"
+  "props": {
+    "mode": {
+      "doc": "`summary` for a `Value.*` version, `edit` for an editable field version. Defaults to `edit`.",
+      "type": "number",
+      "status": "optional"
+    },
+    "enableAdditionalQuestions": {
+      "doc": "[`joint-responsibility`, `daycare`]",
+      "type": "array",
+      "status": "optional"
+    },
+    "toWizardStep": {
+      "doc": "If defined, a `Wizard.EditButton` will be shown.",
+      "type": "number",
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": ["string", "object"],
+      "status": "optional"
+    }
   }
 }
 ```

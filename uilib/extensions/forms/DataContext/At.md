@@ -1,8 +1,8 @@
 ---
 title: 'DataContext.At'
 description: '`DataContext.At` makes it possible to dig into a data set to set a pointer as the root for sub components, as well as iterate array-data.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.782Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:27.225Z
 checksum: 8a9587445730d13aaa069f93aa4a0e76d55c22df3e4141147ec1c2a767ed23ac
 ---
 
@@ -88,20 +88,22 @@ render(
 
 ```json
 {
-  "children": {
-    "doc": "Features with given path as root for the DataContext.",
-    "type": "React.ReactNode",
-    "status": "optional"
-  },
-  "path": {
-    "doc": "JSON Pointer path to where in the outer DataContext source to point at.",
-    "type": "string",
-    "status": "optional"
-  },
-  "iterate": {
-    "doc": "True to iterate elements at given path based on the source data, including the index in the outer path, instead of just rendering children once.",
-    "type": "boolean",
-    "status": "optional"
+  "props": {
+    "children": {
+      "doc": "Features with given path as root for the DataContext.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "path": {
+      "doc": "JSON Pointer path to where in the outer DataContext source to point at.",
+      "type": "string",
+      "status": "optional"
+    },
+    "iterate": {
+      "doc": "True to iterate elements at given path based on the source data, including the index in the outer path, instead of just rendering children once.",
+      "type": "boolean",
+      "status": "optional"
+    }
   }
 }
 ```

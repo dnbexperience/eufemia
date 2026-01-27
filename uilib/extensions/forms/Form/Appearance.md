@@ -1,8 +1,8 @@
 ---
 title: 'Form.Appearance'
 description: '`Form.Appearance` is a provider for theming form fields.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.794Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:27.238Z
 checksum: d6b11c80210b7884d976867f8565b1c0f77aa94c858afe0492294e0c643b9630
 ---
 
@@ -136,10 +136,12 @@ render(
 
 ```json
 {
-  "size": {
-    "doc": "The sizes you can choose is `default`, `medium` and `large`.",
-    "type": "string",
-    "status": "optional"
+  "props": {
+    "size": {
+      "doc": "The sizes you can choose is `default`, `medium` and `large`.",
+      "type": "string",
+      "status": "optional"
+    }
   }
 }
 ```

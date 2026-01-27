@@ -1,8 +1,8 @@
 ---
 title: 'Maintainability'
 description: 'The hard part of a living design system, like Eufemia, is not to create black holes and choosing ways to make maintainability hard and complex.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:25.566Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:25.937Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

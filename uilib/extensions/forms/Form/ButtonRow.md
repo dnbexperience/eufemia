@@ -1,8 +1,8 @@
 ---
 title: 'Form.ButtonRow'
 description: '`Form.ButtonRow` is a wrapper for horizontally separated buttons.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.798Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:27.243Z
 checksum: d981eefdb45eafd168f036ff6bd5cdd6fd3f57f1495fb8fa4f65863b174d1723
 ---
 
@@ -17,7 +17,7 @@ render(<Form.ButtonRow />)
 
 ## Description
 
-`Form.ButtonRow` is a wrapper for horizontally separated buttons.
+`Form.ButtonRow` is a wrapper for horizontally separated buttons. Use it when you place two or more buttons together; a single button can be rendered directly without a ButtonRow.
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
@@ -26,6 +26,7 @@ render(
     ...
     <Form.ButtonRow>
       <Form.SubmitButton />
+      <Button variant="secondary">Other button</Button>
     </Form.ButtonRow>
   </Form.Handler>
 )
@@ -64,15 +65,17 @@ render(
 
 ```json
 {
-  "children": {
-    "doc": "Buttons.",
-    "type": "React.ReactNode",
-    "status": "required"
-  },
-  "[Space](/uilib/layout/space/properties)": {
-    "doc": "Spacing properties like `top` or `bottom` are supported.",
-    "type": ["string", "object"],
-    "status": "optional"
+  "props": {
+    "children": {
+      "doc": "Buttons.",
+      "type": "React.ReactNode",
+      "status": "required"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": ["string", "object"],
+      "status": "optional"
+    }
   }
 }
 ```

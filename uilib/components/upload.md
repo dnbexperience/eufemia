@@ -1,8 +1,8 @@
 ---
 title: 'Upload'
 description: 'The Upload component should be used in scenarios where the user has to upload files. Files can be uploaded by clicking button. You also have the opportunity to add descriptive texts below the title where you could put max file size, allowed file formats etc.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.598Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:27.028Z
 checksum: 635cb11b451f4904eb69f12f651c3ccff8e75bee1895005031d7bb39b9f8a50c
 ---
 
@@ -835,75 +835,77 @@ render(<Component />)
 
 ```json
 {
-  "id": {
-    "doc": "Unique id used together with the `useUpload` hook to manage the files. Needed when wanting to connect with the `useUpload` hook.",
-    "type": ["string", "Function", "Object", "React.Context"],
-    "status": "optional"
-  },
-  "children": {
-    "doc": "Content to display below the `title` and `text`. Can be used to add custom content.",
-    "type": "React.ReactNode",
-    "status": "optional"
-  },
-  "variant": {
-    "doc": "Defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.",
-    "type": ["normal", "compact"],
-    "status": "optional"
-  },
-  "acceptedFileTypes": {
-    "doc": "List of accepted file types. Either as string or [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype). When providing a list of [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype), the accepted file types will be presented in a table(see [example](/uilib/components/upload/demos/#upload-with-file-max-size-based-on-file-type)).",
-    "type": ["Array<string>", "Array<AcceptedFileType>"],
-    "status": "required"
-  },
-  "filesAmountLimit": {
-    "doc": "Defines the amount of files the user can select and upload. Defaults to `100`.",
-    "type": "number",
-    "status": "optional"
-  },
-  "fileMaxSize": {
-    "doc": "Defines the max file size of each file in MB. Use either `0` or `false` to disable. Defaults to 5 MB.",
-    "type": ["number", "false"],
-    "status": "optional"
-  },
-  "title": {
-    "doc": "Custom text property. Replaces the default title. Can be disabled using `false`.",
-    "type": "string",
-    "status": "optional"
-  },
-  "text": {
-    "doc": "Custom text property. Replaces the default text. Can be disabled using `false`.",
-    "type": "string",
-    "status": "optional"
-  },
-  "download": {
-    "doc": "Causes the browser to treat all listed files as downloadable instead of opening them in a new browser tab or window. Defaults to `false`.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "allowDuplicates": {
-    "doc": "Allows uploading of duplicate files. Defaults to `false`.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "disableDragAndDrop": {
-    "doc": "Disables file drag and drop, by removing the drop zone. Defaults to `false`.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "buttonProps": {
-    "doc": "Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object, to customize the upload button behavior and appearance.",
-    "type": "ButtonProps",
-    "status": "optional"
-  },
-  "skeleton": {
-    "doc": "Skeleton should be applied when loading content.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "[Space](/uilib/layout/space/properties)": {
-    "doc": "Spacing properties like `top` or `bottom` are supported.",
-    "type": ["string", "object"],
-    "status": "optional"
+  "props": {
+    "id": {
+      "doc": "Unique id used together with the `useUpload` hook to manage the files. Needed when wanting to connect with the `useUpload` hook.",
+      "type": ["string", "Function", "Object", "React.Context"],
+      "status": "optional"
+    },
+    "children": {
+      "doc": "Content to display below the `title` and `text`. Can be used to add custom content.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "variant": {
+      "doc": "Defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.",
+      "type": ["normal", "compact"],
+      "status": "optional"
+    },
+    "acceptedFileTypes": {
+      "doc": "List of accepted file types. Either as string or [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype). When providing a list of [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype), the accepted file types will be presented in a table(see [example](/uilib/components/upload/demos/#upload-with-file-max-size-based-on-file-type)).",
+      "type": ["Array<string>", "Array<AcceptedFileType>"],
+      "status": "required"
+    },
+    "filesAmountLimit": {
+      "doc": "Defines the amount of files the user can select and upload. Defaults to `100`.",
+      "type": "number",
+      "status": "optional"
+    },
+    "fileMaxSize": {
+      "doc": "Defines the max file size of each file in MB. Use either `0` or `false` to disable. Defaults to 5 MB.",
+      "type": ["number", "false"],
+      "status": "optional"
+    },
+    "title": {
+      "doc": "Custom text property. Replaces the default title. Can be disabled using `false`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "text": {
+      "doc": "Custom text property. Replaces the default text. Can be disabled using `false`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "download": {
+      "doc": "Causes the browser to treat all listed files as downloadable instead of opening them in a new browser tab or window. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "allowDuplicates": {
+      "doc": "Allows uploading of duplicate files. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "disableDragAndDrop": {
+      "doc": "Disables file drag and drop, by removing the drop zone. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "buttonProps": {
+      "doc": "Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object, to customize the upload button behavior and appearance.",
+      "type": "ButtonProps",
+      "status": "optional"
+    },
+    "skeleton": {
+      "doc": "Skeleton should be applied when loading content.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": ["string", "object"],
+      "status": "optional"
+    }
   }
 }
 ```
@@ -914,45 +916,47 @@ The file item object is representing the files of the Upload component.
 
 ```json
 {
-  "file": {
-    "doc": "The file object. This is the same object as the one returned by the `File` API.",
-    "type": "File",
-    "status": "required"
-  },
-  "id": {
-    "doc": "Unique ID for the file item. This ID is generated by the component and is not user-defined.",
-    "type": "string",
-    "status": "required"
-  },
-  "exists": {
-    "doc": "Indicates if the file item already exists in the list of files. This is useful for distinguishing between new and existing files.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "isLoading": {
-    "doc": "Indicates if the file item is currently being loaded. This is useful for showing a loading state while the file is being processed.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "errorMessage": {
-    "doc": "Provide an error message to be displayed. This is useful for indicating issues with the file upload process.",
-    "type": "React.ReactNode",
-    "status": "optional"
-  },
-  "description": {
-    "doc": "Provide a description to be displayed. This is useful for providing additional information about the file.",
-    "type": "React.ReactNode",
-    "status": "optional"
-  },
-  "removeDeleteButton": {
-    "doc": "Set to `true` to remove the delete button from the file item. This is useful for preventing users from deleting files.",
-    "type": "boolean",
-    "status": "optional"
-  },
-  "deleteButtonProps": {
-    "doc": "Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.",
-    "type": "ButtonProps",
-    "status": "optional"
+  "props": {
+    "file": {
+      "doc": "The file object. This is the same object as the one returned by the `File` API.",
+      "type": "File",
+      "status": "required"
+    },
+    "id": {
+      "doc": "Unique ID for the file item. This ID is generated by the component and is not user-defined.",
+      "type": "string",
+      "status": "required"
+    },
+    "exists": {
+      "doc": "Indicates if the file item already exists in the list of files. This is useful for distinguishing between new and existing files.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "isLoading": {
+      "doc": "Indicates if the file item is currently being loaded. This is useful for showing a loading state while the file is being processed.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "errorMessage": {
+      "doc": "Provide an error message to be displayed. This is useful for indicating issues with the file upload process.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "description": {
+      "doc": "Provide a description to be displayed. This is useful for providing additional information about the file.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "removeDeleteButton": {
+      "doc": "Set to `true` to remove the delete button from the file item. This is useful for preventing users from deleting files.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "deleteButtonProps": {
+      "doc": "Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.",
+      "type": "ButtonProps",
+      "status": "optional"
+    }
   }
 }
 ```
@@ -967,15 +971,17 @@ The table is sorted descending by `maxFileSize`. Multiple `fileType` for the sam
 
 ```json
 {
-  "fileType": {
-    "doc": "The name of the accepted file type.",
-    "type": "string",
-    "status": "required"
-  },
-  "fileMaxSize": {
-    "doc": "Defines the max file size of the given file type in MB. Use either `0` or `false` to disable. If not provided, it defaults to the value of [Uploads](/uilib/components/upload/properties/#properties) `fileMaxSize` which defaults to 5 MB.",
-    "type": ["number", "false"],
-    "status": "optional"
+  "props": {
+    "fileType": {
+      "doc": "The name of the accepted file type.",
+      "type": "string",
+      "status": "required"
+    },
+    "fileMaxSize": {
+      "doc": "Defines the max file size of the given file type in MB. Use either `0` or `false` to disable. If not provided, it defaults to the value of [Uploads](/uilib/components/upload/properties/#properties) `fileMaxSize` which defaults to 5 MB.",
+      "type": ["number", "false"],
+      "status": "optional"
+    }
   }
 }
 ```
@@ -1014,7 +1020,7 @@ All translation keys listed in the translations table below, can be used as a co
     },
     "Upload.errorInvalidFiles": {
       "nb-NO": "Fjern alle filer som har feil.",
-      "en-GB": "Remove all files that have errors.",
+      "en-GB": "Remove all files with errors.",
       "sv-SE": "Ta bort alla filer som innehåller fel.",
       "da-DK": "Fjern alle filer, der indeholder fejl."
     },
@@ -1104,20 +1110,22 @@ All translation keys listed in the translations table below, can be used as a co
 
 ```json
 {
-  "onChange": {
-    "doc": "Will be called on `files` changes made by the user. Access the files with `{ files }` (containing each a `fileItem`).",
-    "type": "function",
-    "status": "optional"
-  },
-  "onFileDelete": {
-    "doc": "Will be called once a file gets deleted by the user. Access the deleted file with `{ fileItem }`.",
-    "type": "function",
-    "status": "optional"
-  },
-  "onFileClick": {
-    "doc": "Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`. When providing this prop, the file will be rendered as a button instead of an anchor or plain text.",
-    "type": "function",
-    "status": "optional"
+  "props": {
+    "onChange": {
+      "doc": "Will be called on `files` changes made by the user. Access the files with `{ files }` (containing each a `fileItem`).",
+      "type": "function",
+      "status": "optional"
+    },
+    "onFileDelete": {
+      "doc": "Will be called once a file gets deleted by the user. Access the deleted file with `{ fileItem }`.",
+      "type": "function",
+      "status": "optional"
+    },
+    "onFileClick": {
+      "doc": "Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`. When providing this prop, the file will be rendered as a button instead of an anchor or plain text.",
+      "type": "function",
+      "status": "optional"
+    }
   }
 }
 ```

@@ -1,8 +1,8 @@
 ---
 title: 'Span'
 description: 'Spans are inline-elements, used to define parts of text content.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.769Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:27.211Z
 checksum: 701d133ddb6c7ccf403a7d6763884e6c8b736ae9a3563f9fa68dd0ead96b28f5
 ---
 
@@ -81,71 +81,73 @@ render(
 
 ```json
 {
-  "element": {
-    "doc": "Defines the Element Type, like `p`.",
-    "type": ["HTMLElement", "string"],
-    "status": "optional"
-  },
-  "size": {
-    "doc": "Sets the font size, also sets the line-height if `lineHeight` prop is not set.",
-    "type": [
-      "'x-small'",
-      "'small'",
-      "'basis'",
-      "'medium'",
-      "'large'",
-      "'x-large'",
-      "'xx-large'"
-    ],
-    "status": "optional"
-  },
-  "lineHeight": {
-    "doc": "Sets the line height, will use same value as `size` if not set.",
-    "type": [
-      "'x-small'",
-      "'small'",
-      "'basis'",
-      "'medium'",
-      "'large'",
-      "'x-large'",
-      "'xx-large'"
-    ],
-    "status": "optional"
-  },
-  "align": {
-    "doc": "Sets the text alignment.",
-    "type": ["'center'", "'left'", "'right'"],
-    "status": "optional"
-  },
-  "family": {
-    "doc": "Sets the font family.",
-    "type": ["'basis'", "'heading'", "'monospace'"],
-    "status": "optional"
-  },
-  "weight": {
-    "doc": "Sets the font weight.",
-    "type": ["'regular'", "'medium'"],
-    "status": "optional"
-  },
-  "decoration": {
-    "doc": "Sets the font decoration.",
-    "type": "'underline'",
-    "status": "optional"
-  },
-  "slant": {
-    "doc": "Sets the font style.",
-    "type": "'italic'",
-    "status": "optional"
-  },
-  "proseMaxWidth": {
-    "doc": "Sets the maximum width based on character count. This will limit the text width to approximately the specified number of characters. Use `true` for a default value of 60ch.",
-    "type": ["number", "boolean"],
-    "status": "optional"
-  },
-  "[Space](/uilib/layout/space/properties)": {
-    "doc": "Spacing properties like `top` or `bottom` are supported.",
-    "type": ["string", "object"],
-    "status": "optional"
+  "props": {
+    "element": {
+      "doc": "Defines the Element Type, like `p`.",
+      "type": ["HTMLElement", "string"],
+      "status": "optional"
+    },
+    "size": {
+      "doc": "Sets the font size, also sets the line-height if `lineHeight` prop is not set.",
+      "type": [
+        "'x-small'",
+        "'small'",
+        "'basis'",
+        "'medium'",
+        "'large'",
+        "'x-large'",
+        "'xx-large'"
+      ],
+      "status": "optional"
+    },
+    "lineHeight": {
+      "doc": "Sets the line height, will use same value as `size` if not set.",
+      "type": [
+        "'x-small'",
+        "'small'",
+        "'basis'",
+        "'medium'",
+        "'large'",
+        "'x-large'",
+        "'xx-large'"
+      ],
+      "status": "optional"
+    },
+    "align": {
+      "doc": "Sets the text alignment.",
+      "type": ["'center'", "'left'", "'right'"],
+      "status": "optional"
+    },
+    "family": {
+      "doc": "Sets the font family.",
+      "type": ["'basis'", "'heading'", "'monospace'"],
+      "status": "optional"
+    },
+    "weight": {
+      "doc": "Sets the font weight.",
+      "type": ["'regular'", "'medium'"],
+      "status": "optional"
+    },
+    "decoration": {
+      "doc": "Sets the font decoration.",
+      "type": "'underline'",
+      "status": "optional"
+    },
+    "slant": {
+      "doc": "Sets the font style.",
+      "type": "'italic'",
+      "status": "optional"
+    },
+    "proseMaxWidth": {
+      "doc": "Sets the maximum width based on character count. This will limit the text width to approximately the specified number of characters. Use `true` for a default value of 60ch.",
+      "type": ["number", "boolean"],
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": ["string", "object"],
+      "status": "optional"
+    }
   }
 }
 ```

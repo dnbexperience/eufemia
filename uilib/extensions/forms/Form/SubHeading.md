@@ -1,8 +1,8 @@
 ---
 title: 'Form.SubHeading'
 description: '`Form.SubHeading` is a standardized sub heading for sections, ensuring default layout, spacing etc.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.933Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:27.383Z
 checksum: 2cc1c6355eb5efbe05e0862c6140463aae4b8c4816d6f27d9edfb3ee0c7a4c32
 ---
 
@@ -119,25 +119,27 @@ render(
 
 ```json
 {
-  "level": {
-    "doc": "Define a specific level value to ensure correct level hierarchy. Defaults to `3`.",
-    "type": "number",
-    "status": "optional"
-  },
-  "help": {
-    "doc": "Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
-    "type": "object",
-    "status": "optional"
-  },
-  "children": {
-    "doc": "Heading text / contents.",
-    "type": "React.Node",
-    "status": "optional"
-  },
-  "[Space](/uilib/layout/space/properties)": {
-    "doc": "Spacing properties like `top` or `bottom` are supported.",
-    "type": ["string", "object"],
-    "status": "optional"
+  "props": {
+    "level": {
+      "doc": "Define a specific level value to ensure correct level hierarchy. Defaults to `3`.",
+      "type": "number",
+      "status": "optional"
+    },
+    "help": {
+      "doc": "Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).",
+      "type": "object",
+      "status": "optional"
+    },
+    "children": {
+      "doc": "Heading text / contents.",
+      "type": "React.Node",
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": ["string", "object"],
+      "status": "optional"
+    }
   }
 }
 ```

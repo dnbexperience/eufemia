@@ -1,8 +1,8 @@
 ---
 title: 'Form.Section.Toolbar'
 description: '`Form.Section.Toolbar` is a helper component to be used within an `Form.Section.ViewContainer` and `Form.Section.EditContainer`.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.899Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:27.347Z
 checksum: c3f04873caf51183e6c06dbd3e430a12d720489dfc5ff74ccae0c9dc1e3934d5
 ---
 
@@ -77,10 +77,12 @@ render(
 
 ```json
 {
-  "[Space](/uilib/layout/space/properties)": {
-    "doc": "Spacing properties like `top` or `bottom` are supported.",
-    "type": "Various",
-    "status": "optional"
+  "props": {
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": "Various",
+      "status": "optional"
+    }
   }
 }
 ```
@@ -89,20 +91,22 @@ render(
 
 ```json
 {
-  "onEdit": {
-    "doc": "Callback for the edit button.",
-    "type": "Function",
-    "status": "optional"
-  },
-  "onDone": {
-    "doc": "Callback for the done button.",
-    "type": "Function",
-    "status": "optional"
-  },
-  "onCancel": {
-    "doc": "Callback for the cancel button.",
-    "type": "Function",
-    "status": "optional"
+  "props": {
+    "onEdit": {
+      "doc": "Callback for the edit button.",
+      "type": "Function",
+      "status": "optional"
+    },
+    "onDone": {
+      "doc": "Callback for the done button.",
+      "type": "Function",
+      "status": "optional"
+    },
+    "onCancel": {
+      "doc": "Callback for the cancel button.",
+      "type": "Function",
+      "status": "optional"
+    }
   }
 }
 ```

@@ -1,8 +1,8 @@
 ---
 title: 'Form.Section.ViewContainer'
 description: '`Form.Section.ViewContainer` enables users to toggle (with animation) the content of each item between the view and edit container.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:26.905Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:27.352Z
 checksum: f2112bfc04972b684d467ba2e5f91f06f6da274cf03b87794c1cf74003da252a
 ---
 
@@ -69,20 +69,22 @@ When the item (view and edit) container gets removed, the active element focus w
 
 ```json
 {
-  "title": {
-    "doc": "The title of the container.",
-    "type": "React.Node",
-    "status": "optional"
-  },
-  "variant": {
-    "doc": "Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.",
-    "type": "string",
-    "status": "optional"
-  },
-  "[FlexVertical](/uilib/layout/flex/container/properties)": {
-    "doc": "All Flex.Vertical properties.",
-    "type": "Various",
-    "status": "optional"
+  "props": {
+    "title": {
+      "doc": "The title of the container.",
+      "type": "React.Node",
+      "status": "optional"
+    },
+    "variant": {
+      "doc": "Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "[FlexVertical](/uilib/layout/flex/container/properties)": {
+      "doc": "All Flex.Vertical properties.",
+      "type": "Various",
+      "status": "optional"
+    }
   }
 }
 ```
@@ -107,10 +109,12 @@ When the item (view and edit) container gets removed, the active element focus w
 
 ```json
 {
-  "onEdit": {
-    "doc": "Callback for the edit button.",
-    "type": "Function",
-    "status": "optional"
+  "props": {
+    "onEdit": {
+      "doc": "Callback for the edit button.",
+      "type": "Function",
+      "status": "optional"
+    }
   }
 }
 ```

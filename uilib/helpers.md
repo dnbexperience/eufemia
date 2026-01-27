@@ -1,8 +1,8 @@
 ---
 title: 'Helpers'
 description: 'A couple of helper functions used inside of components and extensions.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:27.308Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:28.321Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -10,11 +10,11 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 
 ## Description
 
-All the [components](/uilib/components) do share a couple of common used helpers. Your application can also use these helpers, but it's totally optional.
+All the [components](/uilib/components) share a couple of commonly used helpers. Your application can also use these helpers, but it's optional.
 
 ## CSS properties
 
-### Animation Easing
+### Animation easing
 
 You can use the internal Eufemia easing function.
 

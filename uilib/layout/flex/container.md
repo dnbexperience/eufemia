@@ -1,8 +1,8 @@
 ---
 title: 'Flex Container'
 description: '`Flex.Container` is a building block for CSS Grid based layouts.'
-version: 10.95.0
-generatedAt: 2026-01-26T10:49:27.319Z
+version: 10.95.1
+generatedAt: 2026-01-27T13:53:28.333Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -344,116 +344,119 @@ render(
 
 ```json
 {
-  "direction": {
-    "doc": "Direction of sub components. Can be: `horizontal` or `vertical`.",
-    "type": ["'horizontal'", "'vertical'"],
-    "defaultValue": "'horizontal'",
-    "status": "optional"
+  "props": {
+    "direction": {
+      "doc": "Direction of sub components. Can be: `horizontal` or `vertical`.",
+      "type": ["'horizontal'", "'vertical'"],
+      "defaultValue": "'horizontal'",
+      "status": "optional"
+    },
+    "wrap": {
+      "doc": "Define if we should wrap contents if there is not enough space.",
+      "type": "boolean",
+      "defaultValue": "true",
+      "status": "optional"
+    },
+    "justify": {
+      "doc": "How to place sub components if there is space available in the container.",
+      "type": [
+        "'flex-start'",
+        "'flex-end'",
+        "'center'",
+        "'space-between'",
+        "'space-around'",
+        "'space-evenly'"
+      ],
+      "defaultValue": "'flex-start'",
+      "status": "optional"
+    },
+    "align": {
+      "doc": "How to align sub components.",
+      "type": [
+        "'flex-start'",
+        "'flex-end'",
+        "'center'",
+        "'stretch'",
+        "'baseline'"
+      ],
+      "defaultValue": "'flex-start'",
+      "status": "optional"
+    },
+    "divider": {
+      "doc": "How to separate sub components.",
+      "type": ["'space'", "'line'", "'line-framed'"],
+      "defaultValue": "'space'",
+      "status": "optional"
+    },
+    "sizeCount": {
+      "doc": "Define how many parts your layout should be divided in. Should be used in combination with a [Flex.Item](/uilib/layout/flex/item).",
+      "type": "number",
+      "defaultValue": "12",
+      "status": "optional"
+    },
+    "gap": {
+      "doc": "How much space between child items. Use `false` for no spacing. (If in vertical layout: if both `rowGap` and `gap` is set, `rowGap` will be used.)",
+      "type": [
+        "'xx-small'",
+        "'x-small'",
+        "'small'",
+        "'medium'",
+        "'large'",
+        "'x-large'",
+        "'xx-large'",
+        "false"
+      ],
+      "defaultValue": "'small'",
+      "status": "optional"
+    },
+    "rowGap": {
+      "doc": "How much space between rows. Use `false` for no row gap. (If in vertical layout: if both `rowGap` and `gap` is set, `rowGap` will be used.)",
+      "type": [
+        "'xx-small'",
+        "'x-small'",
+        "'small'",
+        "'medium'",
+        "'large'",
+        "'x-large'",
+        "'xx-large'",
+        "false"
+      ],
+      "defaultValue": "'small'",
+      "status": "optional"
+    },
+    "element": {
+      "doc": "Define the type of element.",
+      "type": ["string", "React.Element"],
+      "defaultValue": "'div'",
+      "status": "optional"
+    },
+    "innerRef": {
+      "doc": "Provide a React.Ref to accessing the inner HTML element.",
+      "type": "React.RefObject",
+      "defaultValue": "undefined",
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": "Various",
+      "status": "optional"
+    },
+    "spacing": {
+      "doc": "Deprecated, use `gap` instead. ~~How much space between sub components. Can be `false` for no spacing.~~",
+      "type": [
+        "'xx-small'",
+        "'x-small'",
+        "'small'",
+        "'medium'",
+        "'large'",
+        "'x-large'",
+        "'xx-large'",
+        "false"
+      ],
+      "defaultValue": "'small'",
+      "status": "deprecated"
+    }
   },
-  "wrap": {
-    "doc": "Define if we should wrap contents if there is not enough space.",
-    "type": "boolean",
-    "defaultValue": "true",
-    "status": "optional"
-  },
-  "justify": {
-    "doc": "How to place sub components if there is space available in the container.",
-    "type": [
-      "'flex-start'",
-      "'flex-end'",
-      "'center'",
-      "'space-between'",
-      "'space-around'",
-      "'space-evenly'"
-    ],
-    "defaultValue": "'flex-start'",
-    "status": "optional"
-  },
-  "align": {
-    "doc": "How to align sub components.",
-    "type": [
-      "'flex-start'",
-      "'flex-end'",
-      "'center'",
-      "'stretch'",
-      "'baseline'"
-    ],
-    "defaultValue": "'flex-start'",
-    "status": "optional"
-  },
-  "divider": {
-    "doc": "How to separate sub components.",
-    "type": ["'space'", "'line'", "'line-framed'"],
-    "defaultValue": "'space'",
-    "status": "optional"
-  },
-  "sizeCount": {
-    "doc": "Define how many parts your layout should be divided in. Should be used in combination with a [Flex.Item](/uilib/layout/flex/item).",
-    "type": "number",
-    "defaultValue": "12",
-    "status": "optional"
-  },
-  "gap": {
-    "doc": "How much space between child items. Use `false` for no spacing. (If in vertical layout: if both `rowGap` and `gap` is set, `rowGap` will be used.)",
-    "type": [
-      "'xx-small'",
-      "'x-small'",
-      "'small'",
-      "'medium'",
-      "'large'",
-      "'x-large'",
-      "'xx-large'",
-      "false"
-    ],
-    "defaultValue": "'small'",
-    "status": "optional"
-  },
-  "rowGap": {
-    "doc": "How much space between rows. Use `false` for no row gap. (If in vertical layout: if both `rowGap` and `gap` is set, `rowGap` will be used.)",
-    "type": [
-      "'xx-small'",
-      "'x-small'",
-      "'small'",
-      "'medium'",
-      "'large'",
-      "'x-large'",
-      "'xx-large'",
-      "false"
-    ],
-    "defaultValue": "'small'",
-    "status": "optional"
-  },
-  "element": {
-    "doc": "Define the type of element.",
-    "type": ["string", "React.Element"],
-    "defaultValue": "'div'",
-    "status": "optional"
-  },
-  "innerRef": {
-    "doc": "Provide a React.Ref to accessing the inner HTML element.",
-    "type": "React.RefObject",
-    "defaultValue": "undefined",
-    "status": "optional"
-  },
-  "[Space](/uilib/layout/space/properties)": {
-    "doc": "Spacing properties like `top` or `bottom` are supported.",
-    "type": "Various",
-    "status": "optional"
-  },
-  "spacing": {
-    "doc": "Deprecated, use `gap` instead. ~~How much space between sub components. Can be `false` for no spacing.~~",
-    "type": [
-      "'xx-small'",
-      "'x-small'",
-      "'small'",
-      "'medium'",
-      "'large'",
-      "'x-large'",
-      "'xx-large'",
-      "false"
-    ],
-    "defaultValue": "'small'",
-    "status": "deprecated"
-  }
+  "showDefaultValue": true
 }
 ```
