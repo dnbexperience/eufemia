@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../../shared/types'
 
 export const FieldBlockSharedProperties: PropertiesTableProps = {
   label: {
-    doc: 'Field label to show above / before the input feature.',
+    doc: 'Field label to show above the field. Many fields have a default label, so check the field translation for a label entry.',
     type: 'string',
     status: 'optional',
   },

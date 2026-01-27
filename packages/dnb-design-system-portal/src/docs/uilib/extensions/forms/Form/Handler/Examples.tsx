@@ -7,7 +7,7 @@ import {
   Tools,
 } from '@dnb/eufemia/src/extensions/forms'
 import { stop as stopIcon } from '@dnb/eufemia/src/icons'
-import { Button, Flex, P } from '@dnb/eufemia/src'
+import { Button, Flex } from '@dnb/eufemia/src'
 import { debounceAsync } from '@dnb/eufemia/src/shared/helpers/debounce'
 import { createRequest } from '../SubmitIndicator/Examples'
 
@@ -249,12 +249,7 @@ export const Autofill = () => {
             />
           </Form.Card>
 
-          <Form.Card>
-            <P>More information about this form.</P>
-            <Form.ButtonRow>
-              <Form.SubmitButton />
-            </Form.ButtonRow>
-          </Form.Card>
+          <Form.SubmitButton />
         </Flex.Stack>
       </Form.Handler>
     </ComponentBox>
