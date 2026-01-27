@@ -159,7 +159,7 @@ export const InComponents = () => (
 )
 
 export const ForTestingPurposes = () => (
-  <ComponentBox scope={{ useValueProps }}>
+  <ComponentBox scope={{ countries, getContent, useMemo, useState }}>
     {() => {
       const MyComponent = () => {
         const [value, setValue] = useState()
