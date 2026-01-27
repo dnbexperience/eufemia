@@ -55,7 +55,7 @@ type GetNextMode = {
   defaults: useHandleSortStateOptions
 }
 
-export function useHandleSortState(
+function useHandleSortState(
   config: useHandleSortStateConfig,
   defaults: useHandleSortStateOptions = {
     direction: 'off',

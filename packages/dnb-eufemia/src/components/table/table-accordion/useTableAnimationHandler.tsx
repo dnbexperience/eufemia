@@ -15,7 +15,7 @@ export type useTableAnimationHandlerProps = {
   trRef: React.RefObject<HTMLTableRowElement>
 }
 
-export function useTableAnimationHandler({
+function useTableAnimationHandler({
   contentRef,
   trRef,
   expanded,
