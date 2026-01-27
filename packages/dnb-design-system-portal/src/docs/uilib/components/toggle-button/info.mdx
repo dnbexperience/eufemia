@@ -18,6 +18,10 @@ The ToggleButton component is used to toggle on or off a limited number of choic
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/toggle-button)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/toggle-button)
 
+## Accessibility
+
+ToggleButton components use `role="button"` with `aria-pressed` to communicate their state to assistive technologies. When used in a group, navigation between buttons is possible using arrow keys, following standard toolbar interaction patterns.
+
 You can use the React component `<ToggleButton.Group>` to wrap several `ToggleButton` components. This makes it easier to handle the `onChange` event at a higher level, as well as several other [context-related properties](/uilib/components/toggle-button/properties).
 
 By default, the `ToggleButton.Group` is single-select, like a [Radio](/uilib/components/radio) button. However, you can easily enable `multiselect` as well.
