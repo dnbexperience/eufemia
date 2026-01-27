@@ -828,49 +828,16 @@ export function createDocsTools(
     return makeTextResult(JSON.stringify(blocks, null, 2))
   }
 
-  let initialReminderSent = false
-  const INITIAL_REMINDER = `
-Before implementing any Eufemia-based features, call mcp_eufemia_docs_entry to understand the docs structure, then use mcp_eufemia_docs_search and mcp_eufemia_docs_read to fetch relevant documentation.
-
-Always follow these guidelines when using the documentation:
-- Use the documentation exactly as provided.
-- Gather all required information from the documentation before using it as a reference.
-- Do not make assumptions or infer missing details unless explicitly instructed to do so.
-
-After calling any of these tools, you may call the most recently used tool again as needed to fully retrieve the originally requested information.
-`
-
-  function applyInitialReminder(result: ToolResult): ToolResult {
-    if (initialReminderSent) {
-      return result
-    }
-
-    result.content.push({
-      type: 'text',
-      text: INITIAL_REMINDER.trim(),
-    })
-
-    initialReminderSent = true
-    return result
-  }
-
   return {
-    docsEntry: async (input) =>
-      applyInitialReminder(await docsEntry(input)),
-    docsIndex: async (input) =>
-      applyInitialReminder(await docsIndex(input)),
-    docsList: async (input) => applyInitialReminder(await docsList(input)),
-    docsRead: async (input) => applyInitialReminder(await docsRead(input)),
-    docsSearch: async (input) =>
-      applyInitialReminder(await docsSearch(input)),
-    componentFind: async (input) =>
-      applyInitialReminder(await componentFind(input)),
-    componentDoc: async (input) =>
-      applyInitialReminder(await componentDoc(input)),
-    componentApi: async (input) =>
-      applyInitialReminder(await componentApi(input)),
-    componentProps: async (input) =>
-      applyInitialReminder(await componentProps(input)),
+    docsEntry,
+    docsIndex,
+    docsList,
+    docsRead,
+    docsSearch,
+    componentFind,
+    componentDoc,
+    componentApi,
+    componentProps,
     docsRoot,
   }
 }
@@ -885,7 +852,8 @@ async function main() {
     'docs_entry',
     {
       title: 'Docs entry',
-      description: 'Return docs/llm.md (AI entrypoint).',
+      description:
+        'IMPORTANT! Primary entrypoint to the Eufemia documentation. Before implementing any Eufemia-based features, call mcp_eufemia_docs_entry to understand the docs structure, and learn how to use the other MCP tools correctly; then use mcp_eufemia_docs_search and mcp_eufemia_docs_read to fetch relevant documentation. Always follow these guidelines when using the documentation: use the documentation exactly as provided; gather all required information from the documentation before using it as a reference; and do not make assumptions or infer missing details unless the documentation or user explicitly instructs you to do so.',
       inputSchema: EmptyInput.shape,
     },
     (input) => tools.docsEntry(input)
@@ -895,7 +863,8 @@ async function main() {
     'docs_index',
     {
       title: 'Docs index',
-      description: 'Return a JSON list of markdown docs.',
+      description:
+        'Return a JSON array of all known markdown and MDX documentation files under the docs root, without filtering. Use this when you need a complete, machine-readable overview of available docs paths (for example to cache, pre-index, or sanity-check the docs structure) rather than when you are looking for a specific document.',
       inputSchema: EmptyInput.shape,
     },
     (input) => tools.docsIndex(input)
@@ -905,7 +874,8 @@ async function main() {
     'docs_list',
     {
       title: 'List docs',
-      description: 'List docs (markdown files).',
+      description:
+        'List markdown and MDX documentation files under an optional prefix, returning a JSON array of relative paths. Use this when you know the high-level area of the docs (for example `/uilib/components/` or `/uilib/extensions/forms/`) and want to discover which specific files exist there, before choosing a concrete path to read with docs_read.',
       inputSchema: DocsListInput.shape,
     },
     (input) => tools.docsList(input)
@@ -916,7 +886,7 @@ async function main() {
     {
       title: 'Read docs file',
       description:
-        'Read a docs file by path. If a directory is provided, returns a directory listing and suggested file paths.',
+        'Read the raw markdown or MDX content of a single documentation file, given its path relative to the docs root (for example `/uilib/components/button.md`). If the path points to a directory instead of a file, the tool returns a structured JSON payload with an error code, a list of child entries, and suggested file paths you can try instead. Use this when you already know or have discovered a specific path and need the full document content.',
       inputSchema: DocsReadInput.shape,
     },
     (input) => tools.docsRead(input)
@@ -927,7 +897,7 @@ async function main() {
     {
       title: 'Search docs',
       description:
-        'Search across markdown docs (cached + bounded). Returns ranked matches with snippets.',
+        'Search across all markdown and MDX documentation using a free-text query, returning a JSON array of ranked matches with relevance scores and text snippets. Use this when you know what you are looking for conceptually (for example a component, feature, or concept name), but you do not know the exact file path yet. Prefer this after you have called the docs entry tool so you understand how the docs are structured.',
       inputSchema: DocsSearchInput.shape,
     },
     (input) => tools.docsSearch(input)
@@ -937,7 +907,8 @@ async function main() {
     'component_find',
     {
       title: 'Find component',
-      description: 'Resolve component doc/properties/events paths.',
+      description:
+        "Resolve the documentation paths for a single Eufemia component by its name (for example 'Button', 'Field.Address', or 'Value.Address'). Returns a JSON object that includes the doc, properties, and events paths plus existence flags. Use this when you are starting from a component name and need to know which documentation files to read or inspect next.",
       inputSchema: ComponentNameInput.shape,
     },
     (input) => tools.componentFind(input)
@@ -947,7 +918,8 @@ async function main() {
     'component_doc',
     {
       title: 'Component doc',
-      description: 'Return the markdown documentation for a component.',
+      description:
+        "Return the full markdown or MDX documentation for a single Eufemia component, identified by its name (for example 'Button' or 'Field.Address'). Use this when you need to read the human-facing docs for a component, including narrative text, examples, and API descriptions, rather than just the structured JSON blocks.",
       inputSchema: ComponentNameInput.shape,
     },
     (input) => tools.componentDoc(input)
@@ -957,7 +929,8 @@ async function main() {
     'component_api',
     {
       title: 'Component API',
-      description: 'Return JSON blocks extracted from component markdown.',
+      description:
+        'Extract and return all JSON code blocks from the component documentation markdown (for example structured API metadata embedded in ```json fences). Use this when you need a machine-readable representation of a component’s API or metadata, such as props or events, and you prefer to work with parsed JSON rather than free-form markdown.',
       inputSchema: ComponentNameInput.shape,
     },
     (input) => tools.componentApi(input)
@@ -968,7 +941,7 @@ async function main() {
     {
       title: 'Component props',
       description:
-        'Return JSON blocks for component properties/events (from doc).',
+        'Return the structured JSON blocks describing a component’s properties and events, as derived from its main documentation file. Use this when you specifically need the props- and events-level schema or configuration for a component, rather than the full documentation text, and want to drive code generation, validation, or other automated reasoning from that data.',
       inputSchema: ComponentNameInput.shape,
     },
     (input) => tools.componentProps(input)
