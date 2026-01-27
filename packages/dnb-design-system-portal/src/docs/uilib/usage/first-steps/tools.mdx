@@ -12,9 +12,19 @@ order: 3
 
 If your AI coding agent supports the Model Context Protocol (MCP), you can run a small local MCP server that exposes the packaged documentation from `/docs`.
 
+But first, make sure you have installed `@dnb/eufemia` in your project:
+
+```bash
+npm install @dnb/eufemia
+# or
+yarn add @dnb/eufemia
+# or
+pnpm add @dnb/eufemia
+```
+
 Run the server from your project (where `@dnb/eufemia` is installed):
 
-Example MCP config (e.g. `.vscode/mcp.json`):
+### Example MCP config (e.g. `.vscode/mcp.json`):
 
 ```json
 {
@@ -29,10 +39,16 @@ Example MCP config (e.g. `.vscode/mcp.json`):
 }
 ```
 
-CLI (Claude MCP):
+### Using Claude CLI with MCP:
 
 ```bash
 claude mcp add --transport stdio eufemia -- node node_modules/@dnb/eufemia/mcp/mcp-docs-server.js
+```
+
+### Using raicode CLI with MCP (using Claude):
+
+```bash
+raicode mcp add --transport stdio eufemia -- node node_modules/@dnb/eufemia/mcp/mcp-docs-server.js
 ```
 
 ### How to use
