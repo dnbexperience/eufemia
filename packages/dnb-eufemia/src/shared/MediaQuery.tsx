@@ -1,6 +1,6 @@
 import React from 'react'
 import { isTrue } from './component-helper'
-import Context, { ContextProps } from './Context'
+import Context from './Context'
 import {
   makeMediaQueryList,
   createMediaQueryListener,
@@ -17,88 +17,91 @@ export type { MediaQueryProps }
 
 export { onMediaQueryChange }
 
-export default class MediaQuery extends React.PureComponent<
-  MediaQueryProps,
-  MediaQueryState
-> {
-  static contextType = Context
-  listener: MediaQueryListener
-  context: ContextProps
+const MediaQuery: React.FC<MediaQueryProps> = (props) => {
+  const context = React.useContext(Context)
+  const listenerRef = React.useRef<MediaQueryListener>(null)
 
-  state = {
-    match: null,
-    mediaQueryList: null,
-  }
-
-  constructor(props: MediaQueryProps, context?: ContextProps) {
-    super(props)
+  const getInitialState = (): MediaQueryState => {
+    const state: MediaQueryState = {
+      match: null,
+      mediaQueryList: null,
+    }
 
     if (!isMatchMediaSupported() && isTrue(props.matchOnSSR)) {
-      this.state.match = true
+      state.match = true
     }
 
     if (isMatchMediaSupported()) {
       const { query, when, not } = props
       const { disabled, correctRange = true, log } = props
-      this.state.mediaQueryList = makeMediaQueryList(
+      state.mediaQueryList = makeMediaQueryList(
         { query, when, not },
         context?.breakpoints,
         { disabled, correctRange, log }
       )
 
-      if (this.state.mediaQueryList?.matches) {
-        this.state.match = true
+      if (state.mediaQueryList?.matches) {
+        state.match = true
       }
     }
+
+    return state
   }
 
-  componentDidMount() {
-    if (isMatchMediaSupported()) {
-      this.bindListener()
+  const [state, setState] =
+    React.useState<MediaQueryState>(getInitialState)
+
+  // Handle mount, updates, and cleanup
+  React.useEffect(() => {
+    // Cleanup existing listener
+    if (listenerRef.current) {
+      listenerRef.current()
+      listenerRef.current = null
     }
-  }
 
-  componentWillUnmount() {
-    if (this.listener) {
-      this.listener()
-      this.listener = null
+    if (!isMatchMediaSupported()) {
+      return
     }
-  }
 
-  componentDidUpdate(props) {
-    if (
-      this.props.query !== props.query ||
-      this.props.when !== props.when ||
-      this.props.not !== props.not
-    ) {
-      const mediaQueryList = makeMediaQueryList(
-        this.props,
-        this.context.breakpoints
-      )
-      this.setState(
-        {
-          match: mediaQueryList?.matches,
-          mediaQueryList,
-        },
-        this.bindListener
-      )
-    }
-  }
+    const { query, when, not, disabled, correctRange = true, log } = props
+    const mediaQueryList = makeMediaQueryList(
+      { query, when, not },
+      context?.breakpoints,
+      { disabled, correctRange, log }
+    )
 
-  bindListener = () => {
-    this.componentWillUnmount()
-    if (this.state.mediaQueryList) {
-      this.listener = createMediaQueryListener(
-        this.state.mediaQueryList,
+    setState({
+      match: mediaQueryList?.matches,
+      mediaQueryList,
+    })
+
+    // Bind listener
+    if (mediaQueryList) {
+      listenerRef.current = createMediaQueryListener(
+        mediaQueryList,
         (match) => {
-          this.setState({ match })
+          setState((prev) => ({ ...prev, match }))
         }
       )
     }
-  }
 
-  render() {
-    const { children } = this.props
-    return <>{this.state.match ? children : null}</>
-  }
+    return () => {
+      if (listenerRef.current) {
+        listenerRef.current()
+        listenerRef.current = null
+      }
+    }
+  }, [
+    props.query,
+    props.when,
+    props.not,
+    props.disabled,
+    props.correctRange,
+    props.log,
+    context?.breakpoints,
+  ])
+
+  return <>{state.match ? props.children : null}</>
 }
+
+export default MediaQuery
