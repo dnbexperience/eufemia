@@ -9,7 +9,7 @@ import { createSpacingClasses } from '../space/SpacingUtils'
 export type UploadFileLinkProps = UploadFileAnchorProps &
   UploadFileButtonProps
 
-export const UploadFileLink = (props: UploadFileLinkProps) => {
+const UploadFileLink = (props: UploadFileLinkProps) => {
   const { onClick, text, href, download, ...rest } = props
 
   if (!onClick && !href) {
