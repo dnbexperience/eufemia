@@ -211,7 +211,9 @@ export function StepIndicatorProvider(props: StepIndicatorProviderProps) {
   }
 
   // Filter out unwanted HTML attributes
-  Object.keys(contextValue).forEach((key) => {
+  // Cache Object.keys() result for performance
+  const contextValueKeys = Object.keys(contextValue)
+  contextValueKeys.forEach((key) => {
     if (key.startsWith('_')) {
       delete contextValue[key]
     }

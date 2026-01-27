@@ -216,7 +216,9 @@ export default function useMedia(
 
       const result = makeResult()
 
-      const hasChanged = Object.keys(result).some(
+      // Cache Object.keys() result for performance
+      const resultKeys = Object.keys(result)
+      const hasChanged = resultKeys.some(
         (key) => resultRef.current[key] !== result[key]
       )
       if (hasChanged) {
