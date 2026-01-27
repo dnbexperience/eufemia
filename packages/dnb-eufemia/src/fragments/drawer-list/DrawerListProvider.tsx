@@ -250,7 +250,8 @@ export default class DrawerListProvider extends React.PureComponent<
       let closestToTop = null,
         closestToBottom = null,
         tmpToTop,
-        tmpToBottom
+        tmpToBottom,
+        cachedCounts = null
 
       this.setOnScroll = () => {
         // TODO: BUG: doesn't run when direction changes or when search results change
@@ -263,12 +264,18 @@ export default class DrawerListProvider extends React.PureComponent<
           this.refreshScrollObserver()
         }
 
-        const counts = Object.keys(this.itemSpots)
+        // Cache Object.keys() result for performance - only recalculate when spots change
+        if (!cachedCounts || cachedCounts.length !== this.itemSpotsCount) {
+          cachedCounts = Object.keys(this.itemSpots)
+        }
         closestToBottom = findClosest(
-          counts,
+          cachedCounts,
           this._refUl.current.scrollTop + this._refUl.current.offsetHeight
         )
-        closestToTop = findClosest(counts, this._refUl.current.scrollTop)
+        closestToTop = findClosest(
+          cachedCounts,
+          this._refUl.current.scrollTop
+        )
         if (
           this.itemSpots[closestToTop] &&
           this.itemSpots[closestToTop].id !== tmpToTop

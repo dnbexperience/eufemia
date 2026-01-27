@@ -105,6 +105,7 @@ export const validateDOMAttributes = (props, params) => {
   // make sure we don't return a render prop as a DOM attribute
   if (params && typeof params === 'object') {
     for (const i in params) {
+      if (!Object.prototype.hasOwnProperty.call(params, i)) continue
       if (
         // is React
         typeof params[i] === 'function' &&
@@ -231,6 +232,8 @@ export const dispatchCustomElementEvent = (
         // 2. copy in our attributes if they are of "data-" type
         const attributes = { ...eventObject.attributes }
         for (const i in attributes) {
+          if (!Object.prototype.hasOwnProperty.call(attributes, i))
+            continue
           if (/^data-/.test(i)) {
             dataset[String(i).replace(/^data-/, '')] = attributes[i]
           }
@@ -238,6 +241,7 @@ export const dispatchCustomElementEvent = (
 
         // 3. and distribute them to the targets. Use the for method because of immutability
         for (const i in dataset) {
+          if (!Object.prototype.hasOwnProperty.call(dataset, i)) continue
           if (eventObject.event.currentTarget.dataset) {
             eventObject.event.currentTarget.dataset[i] = dataset[i]
           }
