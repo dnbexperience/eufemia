@@ -11,7 +11,6 @@ import {
   warn,
   isTrue,
   dispatchCustomElementEvent,
-  getClosestParent,
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import Button from '../button/Button'
@@ -416,217 +415,190 @@ export default class InfinityScroller extends React.PureComponent {
   }
 }
 
-class InteractionMarker extends React.PureComponent {
-  static propTypes = {
-    pageNumber: PropTypes.number.isRequired,
-    onVisible: PropTypes.func.isRequired,
-    markerElement: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func,
-      PropTypes.string,
-    ]),
-  }
-  static defaultProps = {
-    markerElement: null,
-  }
-  state = { isConnected: false }
+const InteractionMarker = ({
+  pageNumber,
+  onVisible,
+  markerElement = null,
+}) => {
+  const [isConnected, setIsConnected] = React.useState(false)
+  const intersectionObserverRef = React.useRef(null)
+  const _readyTimeoutRef = React.useRef(null)
+  const _isMountedRef = React.useRef(true)
 
-  constructor(props) {
-    super(props)
+  const callReady = React.useCallback(() => {
+    intersectionObserverRef.current?.disconnect()
+    intersectionObserverRef.current = null
+    clearTimeout(_readyTimeoutRef.current)
+    _readyTimeoutRef.current = setTimeout(() => {
+      if (_isMountedRef.current) {
+        setIsConnected(true)
+      }
+      onVisible(pageNumber)
+    }, 1) // because of re-render loop
+  }, [pageNumber, onVisible])
 
-    if (typeof props.markerElement === 'function') {
+  // Create observer if it doesn't exist
+  if (
+    !intersectionObserverRef.current &&
+    typeof IntersectionObserver !== 'undefined'
+  ) {
+    intersectionObserverRef.current = new IntersectionObserver(
+      (entries) => {
+        const [{ isIntersecting }] = entries
+        if (isIntersecting) {
+          callReady()
+        }
+      }
+    )
+  }
+
+  // Use callback ref to ensure we have the DOM node when we try to observe
+  const _ref = React.useCallback((node) => {
+    if (node && intersectionObserverRef.current) {
+      intersectionObserverRef.current.observe(node)
+    }
+  }, [])
+
+  React.useEffect(() => {
+    if (typeof markerElement === 'function') {
       warn(
         'Pagination: Please use a string or React element e.g. markerElement="tr"'
       )
     }
 
-    this._ref = React.createRef()
-
-    if (typeof IntersectionObserver !== 'undefined') {
-      this.intersectionObserver = new IntersectionObserver((entries) => {
-        const [{ isIntersecting }] = entries
-        if (isIntersecting) {
-          this.callReady()
-        }
-      })
-    } else {
+    if (typeof IntersectionObserver === 'undefined') {
       warn('Pagination is missing IntersectionObserver supported!')
     }
-  }
 
-  componentDidMount() {
-    if (this._ref.current) {
-      this._isMounted = true
-      this.intersectionObserver?.observe(this._ref.current)
-    }
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false
-    if (this.intersectionObserver) {
-      clearTimeout(this._readyTimeout)
-      this.intersectionObserver.disconnect()
-    }
-  }
-
-  callReady = () => {
-    this.intersectionObserver?.disconnect()
-    this.intersectionObserver = null
-    clearTimeout(this._readyTimeout)
-    this._readyTimeout = setTimeout(() => {
-      if (this._isMounted) {
-        this.setState({ isConnected: true })
+    return () => {
+      _isMountedRef.current = false
+      if (intersectionObserverRef.current) {
+        clearTimeout(_readyTimeoutRef.current)
+        intersectionObserverRef.current.disconnect()
+        intersectionObserverRef.current = null
       }
-      this.props.onVisible(this.props.pageNumber)
-    }, 1) // because of re-render loop
-  }
-
-  getContentHeight() {
-    let height = 0
-
-    try {
-      const sibling = getClosestParent('dnb-table', this._ref.current)
-      height = parseFloat(
-        window.getComputedStyle(sibling.querySelector('tbody')).height
-      )
-    } catch (e) {
-      //
     }
+  }, [])
 
-    return height
+  if (isConnected || !intersectionObserverRef.current) {
+    return null
   }
 
-  render() {
-    const { markerElement } = this.props
+  // NB: make sure we don't actually use the marker element,
+  // because it looks like React as troubles regarding handling ref during a re-render?
+  const Element =
+    markerElement && isTrElement(markerElement) ? 'tr' : 'div'
+  const ElementChild =
+    markerElement && isTrElement(markerElement) ? 'td' : 'div'
 
-    if (this.state.isConnected || !this.intersectionObserver) {
-      return null
-    }
-
-    // NB: make sure we don't actually use the marker element,
-    // because it looks like React as troubles regarding handling ref during a re-render?
-    const Element =
-      markerElement && isTrElement(markerElement) ? 'tr' : 'div'
-    const ElementChild =
-      markerElement && isTrElement(markerElement) ? 'td' : 'div'
-
-    return (
-      <Element className="dnb-pagination__marker dnb-table--ignore">
-        <ElementChild
-          className="dnb-pagination__marker__inner"
-          ref={this._ref}
-        >
-          {/* {this.props.pageNumber} */}
-        </ElementChild>
-      </Element>
-    )
-  }
+  return (
+    <Element className="dnb-pagination__marker dnb-table--ignore">
+      <ElementChild className="dnb-pagination__marker__inner" ref={_ref}>
+        {/* {pageNumber} */}
+      </ElementChild>
+    </Element>
+  )
 }
 
-export class InfinityLoadButton extends React.PureComponent {
-  static contextType = Context
-  static propTypes = {
-    element: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func,
-      PropTypes.string,
-    ]),
-    pressedElement: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func,
-    ]),
-    icon: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired,
-    text: PropTypes.string,
-    iconPosition: PropTypes.string,
-  }
-  static defaultProps = {
-    element: 'div',
-    pressedElement: null,
-    icon: 'arrow_down',
-    text: null,
-    iconPosition: 'left',
-  }
-  state = { isPressed: false }
-  onClickHandler = (e) => {
-    this.setState({ isPressed: true })
-    if (typeof this.props.onClick === 'function') {
-      this.props.onClick(e)
-    }
-  }
-  render() {
-    const { element, icon, text, iconPosition } = this.props
-    const Element = element
-    const ElementChild = isTrElement(Element) ? 'td' : 'div'
-
-    return this.state.isPressed ? (
-      this.props.pressedElement
-    ) : (
-      <Element>
-        <ElementChild className="dnb-pagination__loadbar">
-          <Button
-            size="medium"
-            icon={icon}
-            iconPosition={iconPosition}
-            text={
-              text || this.context.translation.Pagination.loadButtonText
-            }
-            variant="secondary"
-            onClick={this.onClickHandler}
-          />
-        </ElementChild>
-      </Element>
-    )
-  }
+InteractionMarker.propTypes = {
+  pageNumber: PropTypes.number.isRequired,
+  onVisible: PropTypes.func.isRequired,
+  markerElement: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.node,
+    PropTypes.func,
+    PropTypes.string,
+  ]),
 }
 
-class ScrollToElement extends React.PureComponent {
-  static propTypes = {
-    pageElement: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func,
-      PropTypes.string,
-    ]),
-  }
-  static defaultProps = {
-    pageElement: null,
+export const InfinityLoadButton = ({
+  element = 'div',
+  pressedElement = null,
+  icon = 'arrow_down',
+  onClick,
+  text = null,
+  iconPosition = 'left',
+}) => {
+  const [isPressed, setIsPressed] = React.useState(false)
+  const context = React.useContext(Context)
+
+  const onClickHandler = (e) => {
+    setIsPressed(true)
+    if (typeof onClick === 'function') {
+      onClick(e)
+    }
   }
 
-  constructor(props) {
-    super(props)
-    this._elementRef = React.createRef()
-  }
+  const Element = element
+  const ElementChild = isTrElement(Element) ? 'td' : 'div'
 
-  componentDidMount() {
+  return isPressed ? (
+    pressedElement
+  ) : (
+    <Element>
+      <ElementChild className="dnb-pagination__loadbar">
+        <Button
+          size="medium"
+          icon={icon}
+          iconPosition={iconPosition}
+          text={text || context.translation.Pagination.loadButtonText}
+          variant="secondary"
+          onClick={onClickHandler}
+        />
+      </ElementChild>
+    </Element>
+  )
+}
+
+InfinityLoadButton.propTypes = {
+  element: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.node,
+    PropTypes.func,
+    PropTypes.string,
+  ]),
+  pressedElement: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.node,
+    PropTypes.func,
+  ]),
+  icon: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  text: PropTypes.string,
+  iconPosition: PropTypes.string,
+}
+
+const ScrollToElement = ({ pageElement = null, ...props }) => {
+  const elementRef = React.useRef(null)
+
+  React.useEffect(() => {
     // Use ref instead of findDOMNode for React v19 compatibility
-    const elem = this._elementRef.current
-    this.scrollToPage(elem)
-  }
-
-  scrollToPage(element) {
-    if (element && typeof element.scrollIntoView === 'function') {
-      element.scrollIntoView({
+    const elem = elementRef.current
+    if (elem && typeof elem.scrollIntoView === 'function') {
+      elem.scrollIntoView({
         block: 'nearest',
         behavior: 'smooth',
       })
     }
+  }, [])
+
+  const Element = preparePageElement(pageElement || React.Fragment)
+
+  // If Element is React.Fragment, we need to wrap it in a div to attach the ref
+  if (Element === React.Fragment) {
+    return <div ref={elementRef} {...props} />
   }
 
-  render() {
-    const { pageElement, ...props } = this.props
-    const Element = preparePageElement(pageElement || React.Fragment)
+  return <Element ref={elementRef} {...props} />
+}
 
-    // If Element is React.Fragment, we need to wrap it in a div to attach the ref
-    if (Element === React.Fragment) {
-      return <div ref={this._elementRef} {...props} />
-    }
-
-    return <Element ref={this._elementRef} {...props} />
-  }
+ScrollToElement.propTypes = {
+  pageElement: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.node,
+    PropTypes.func,
+    PropTypes.string,
+  ]),
 }
 
 InfinityScroller._supportsSpacingProps = true
