@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 import {
@@ -20,7 +20,17 @@ import {
   GlobalStatus,
   Input,
 } from '../..'
-import { Anchor, Flex, Li, Ol, P, Section, Space } from '../../../'
+import {
+  Anchor,
+  CountryFlag,
+  Dropdown,
+  Flex,
+  Li,
+  Ol,
+  P,
+  Section,
+  Space,
+} from '../../../'
 import { Context, Provider } from '../../../shared'
 import { SubmitButton } from '../../input/Input'
 import { format } from '../../number-format/NumberUtils'
@@ -28,6 +38,7 @@ import {
   DrawerListData,
   DrawerListDataArray,
 } from '../../../fragments/DrawerList'
+import countries from '../../../extensions/forms/constants/countries'
 
 export default {
   title: 'Eufemia/Components/Autocomplete',
@@ -1102,5 +1113,42 @@ export const Memo = () => {
       <AutoComplete getInputIcon={getIconString} label="String" />
       <AutoComplete getInputIcon={getIconElement} label="Element" />
     </Flex.Vertical>
+  )
+}
+
+export const CountryFlagUsage = () => {
+  const [value, setValue] = useState()
+  const memoizedCountries = useMemo(() => {
+    return countries.map((country) => {
+      return {
+        selectedKey: country.iso,
+        selected_value: country.i18n.nb,
+        content: getContent(country.i18n.nb, country.iso),
+      }
+    })
+  }, [countries])
+
+  return (
+    <>
+      <Autocomplete
+        data={memoizedCountries}
+        value={value}
+        on_change={({ data }) => setValue(data?.selectedKey)}
+      />
+      <Dropdown
+        data={memoizedCountries}
+        value={value}
+        on_change={({ data }) => setValue(data?.selectedKey)}
+      />
+    </>
+  )
+}
+
+function getContent(countryName: string, countryCode: string) {
+  return (
+    <Flex.Horizontal align="center">
+      <CountryFlag iso={countryCode} size="medium" right="small" />
+      {countryName}
+    </Flex.Horizontal>
   )
 }
