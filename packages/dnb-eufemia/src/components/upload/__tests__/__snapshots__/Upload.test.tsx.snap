@@ -784,6 +784,7 @@ button .dnb-form-status__text {
 .dnb-upload__file-cell__text-container {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 }
 .dnb-upload__file-cell__text-container--loading {
   font-size: var(--font-size-basis);

@@ -101,6 +101,16 @@ describe.each(['ui', 'sbanken'])('Upload for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match focus when displaying a button', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="upload-on-file-click"]',
+      simulate: 'focus',
+      simulateSelector:
+        '[data-visual-test="upload-on-file-click"] .dnb-upload__file-cell:nth-child(1) button',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match when displaying text', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-file-empty-size"]',
@@ -118,6 +128,16 @@ describe.each(['ui', 'sbanken'])('Upload for %s', (themeName) => {
   it('have to match when file item has description', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-description"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match anchor focus', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="upload-description"]',
+      simulate: 'focus',
+      simulateSelector:
+        '[data-visual-test="upload-description"] .dnb-upload__file-cell:nth-child(3) a',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
