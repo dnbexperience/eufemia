@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { Link } from '../tags/Anchor'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Button, P, Span } from '@dnb/eufemia/src'
 import {
   liItemStyle,
@@ -34,9 +34,9 @@ export default function MenuCard(props: MenuCardProps) {
   }
 
   return (
-    <li className={classnames(liItemStyle, isSelected() && 'is-selected')}>
+    <li className={clsx(liItemStyle, isSelected() && 'is-selected')}>
       <Link
-        className={classnames(
+        className={clsx(
           linkStyle,
           'dnb-anchor--no-style',
           isSelected() && 'current-card'
