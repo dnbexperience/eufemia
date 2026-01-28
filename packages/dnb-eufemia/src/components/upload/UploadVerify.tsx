@@ -183,10 +183,12 @@ export function extendWithAbbreviation(
   abbreviations = { jpg: 'jpeg' }
 ) {
   const list = [...acceptedFileTypes]
+  const listSet = new Set(list)
 
   Object.entries(abbreviations).forEach(([type, abbr]) => {
-    if (list.some((t) => t === type) && !list.some((t) => t === abbr)) {
+    if (listSet.has(type) && !listSet.has(abbr)) {
       list.push(abbr)
+      listSet.add(abbr)
     }
   })
 

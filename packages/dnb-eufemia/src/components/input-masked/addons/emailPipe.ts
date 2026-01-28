@@ -10,6 +10,10 @@ const dotDot = '..'
 const emptyArray = []
 const allDotsRegExp = /\./g
 
+function createEmptyEmailRegex(placeholderChar: string) {
+  return new RegExp(`[^@\\s.${placeholderChar}]`)
+}
+
 export default function emailPipe(conformedValue, config) {
   const {
     currentCaretPosition,
@@ -25,7 +29,7 @@ export default function emailPipe(conformedValue, config) {
   const indexOfAtDot = value.indexOf(atDot)
 
   const emptyEmail =
-    rawValue.match(new RegExp(`[^@\\s.${placeholderChar}]`)) === null
+    rawValue.match(createEmptyEmailRegex(placeholderChar)) === null
 
   if (emptyEmail) {
     return emptyString
