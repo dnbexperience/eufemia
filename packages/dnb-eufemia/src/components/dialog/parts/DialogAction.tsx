@@ -1,5 +1,5 @@
 import React, { useCallback, useContext } from 'react'
-import classNames from 'clsx'
+import clsx from 'clsx'
 import Button from '../../button/Button'
 import Space from '../../space/Space'
 import { Context } from '../../../shared'
@@ -115,7 +115,7 @@ const DialogAction = ({
   return (
     <Space
       element="section"
-      className={classNames('dnb-dialog__actions', className)}
+      className={clsx('dnb-dialog__actions', className)}
       {...props}
     >
       {childrenWithCloseFunc}
