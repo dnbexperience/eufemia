@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Highlight, Prism } from 'prism-react-renderer'
 import Tag from './Tag'
 import { Button, Space } from '@dnb/eufemia/src/components'
@@ -60,7 +60,7 @@ const CodeBlock = ({
   if (((props && props.scope) || isReactLive) && language === 'jsx') {
     return (
       <div
-        className={classnames(
+        className={clsx(
           codeBlockStyle,
           createSkeletonClass('code', context.skeleton)
         )}
@@ -78,7 +78,7 @@ const CodeBlock = ({
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
           <div
-            className={classnames(
+            className={clsx(
               codeBlockStyle,
               createSkeletonClass('code', context.skeleton)
             )}
@@ -180,7 +180,7 @@ function LiveCode(props: LiveCodeProps) {
 
   return (
     <div
-      className={classnames(
+      className={clsx(
         liveCodeEditorStyle,
         background && whiteBackgroundStyle
       )}
@@ -212,7 +212,7 @@ function LiveCode(props: LiveCodeProps) {
           ))}
         {!global.IS_TEST && !hideCode && (
           <Space
-            className={classnames(
+            className={clsx(
               'dnb-live-editor',
               createSkeletonClass('code', context.skeleton)
             )}
@@ -248,7 +248,7 @@ function LiveCode(props: LiveCodeProps) {
 
         {!global.IS_TEST && !hideToolbar && (
           <Space
-            className={classnames(toolbarStyle, 'dnb-live-toolbar')}
+            className={clsx(toolbarStyle, 'dnb-live-toolbar')}
             style={{
               bottom: omitWrapper ? '-3.5rem' : 0,
             }}
