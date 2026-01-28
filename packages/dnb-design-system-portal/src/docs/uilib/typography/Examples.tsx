@@ -15,10 +15,10 @@ const Wrapper = styled.div`
   margin-bottom: 3rem;
 `
 
-const FontUsageExample = ({ typo_class, font_family }) => (
+const FontUsageExample = ({ typoClass, fontFamily }) => (
   <TypographyBox>
-    <h3 className={typo_class}>{font_family}</h3>
-    <p className={typo_class}>
+    <h3 className={typoClass}>{fontFamily}</h3>
+    <p className={typoClass}>
       Here is a paragraph with some nonsense{' '}
       <a href="/" className="dnb-anchor">
         Lorem Ipsum
@@ -39,26 +39,26 @@ export function FontWeightByThemeExample() {
       <Wrapper>
         {/* Regular */}
         <FontUsageExample
-          font_family="Roboto Regular"
-          typo_class="dnb-t__weight--regular"
+          fontFamily="Roboto Regular"
+          typoClass="dnb-t__weight--regular"
         />
 
         {/* Medium */}
         <FontUsageExample
-          font_family="Roboto Medium"
-          typo_class="dnb-t__weight--medium"
+          fontFamily="Roboto Medium"
+          typoClass="dnb-t__weight--medium"
         />
 
         {/* Bold */}
         <FontUsageExample
-          font_family="Roboto Bold"
-          typo_class="dnb-t__weight--bold"
+          fontFamily="Roboto Bold"
+          typoClass="dnb-t__weight--bold"
         />
 
         {/* Mono Regular */}
         <FontUsageExample
-          font_family="Monospace Regular"
-          typo_class="dnb-t__weight--regular dnb-t__family--monospace"
+          fontFamily="Monospace Regular"
+          typoClass="dnb-t__weight--regular dnb-t__family--monospace"
         />
       </Wrapper>
     )
@@ -67,26 +67,26 @@ export function FontWeightByThemeExample() {
     <Wrapper>
       {/* Regular */}
       <FontUsageExample
-        font_family="DNB Regular"
-        typo_class="dnb-t__weight--regular"
+        fontFamily="DNB Regular"
+        typoClass="dnb-t__weight--regular"
       />
 
       {/* Medium */}
       <FontUsageExample
-        font_family="DNB Medium"
-        typo_class="dnb-t__weight--medium"
+        fontFamily="DNB Medium"
+        typoClass="dnb-t__weight--medium"
       />
 
       {/* Bold */}
       <FontUsageExample
-        font_family="DNB Bold"
-        typo_class="dnb-t__weight--bold"
+        fontFamily="DNB Bold"
+        typoClass="dnb-t__weight--bold"
       />
 
       {/* Mono Regular */}
       <FontUsageExample
-        font_family="DNB Mono Regular"
-        typo_class="dnb-t__weight--regular dnb-t__family--monospace"
+        fontFamily="DNB Mono Regular"
+        typoClass="dnb-t__weight--regular dnb-t__family--monospace"
       />
     </Wrapper>
   )
