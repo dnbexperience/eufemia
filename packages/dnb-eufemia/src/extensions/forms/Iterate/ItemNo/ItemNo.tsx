@@ -5,12 +5,12 @@ import { convertJsxToString } from '../../../../shared/component-helper'
 function ItemNo({ children }) {
   const { index } = useItem()
 
-  children = useMemo(
+  const processedChildren = useMemo(
     () => replaceItemNo(children, index),
     [children, index]
   )
 
-  return <>{replaceItemNo(children, index)}</>
+  return <>{processedChildren}</>
 }
 
 export function replaceItemNo(
