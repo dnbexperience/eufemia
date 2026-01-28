@@ -485,7 +485,7 @@ class DropdownInstance extends React.PureComponent {
     } = props
 
     let { icon, iconPosition, align } = props
-    
+
     // Backward compatibility for alignDropdown
     if (props.alignDropdown !== undefined && align === undefined) {
       align = props.alignDropdown
@@ -513,11 +513,7 @@ class DropdownInstance extends React.PureComponent {
     // TODO: This is an temporary fix for now.
     // We believe this can be removed and replaced by placing the triangle based on,
     // calculating the position based on the dropdowns width.
-    if (
-      isTrue(independentWidth) &&
-      iconPosition !== 'left' &&
-      !align
-    ) {
+    if (isTrue(independentWidth) && iconPosition !== 'left' && !align) {
       align = 'right'
     }
 
