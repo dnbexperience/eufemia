@@ -32,7 +32,7 @@ export const DrawerListExampleInteractive = () => (
                 onChange={({ checked }) => setOpen(checked)}
               />
               <DrawerList
-                wrapper_element="#state-toggle-button"
+                wrapperElement="#state-toggle-button"
                 skipPortal
                 data={data}
                 open={open}
