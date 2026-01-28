@@ -89,7 +89,7 @@ export const SearchBarInput = () => {
       disableFilter
       fixedPosition
       size="medium"
-      alignAutocomplete="right"
+      align="right"
       placeholder="Search ..."
       label="Search the Eufemia documentation"
       labelSrOnly

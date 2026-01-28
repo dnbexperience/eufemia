@@ -16,7 +16,7 @@ import type {
 import type { GlobalStatusConfigObject } from '../GlobalStatus';
 export type DropdownData = DrawerListData;
 type DropdownTitle = string | React.ReactNode;
-type DropdownAlignDropdown = 'left' | 'right';
+type DropdownAlign = 'left' | 'right';
 type DropdownTriggerElement = ((...args: any[]) => any) | React.ReactNode;
 export interface DropdownProps {
   /**
@@ -83,7 +83,7 @@ export interface DropdownProps {
   /**
    * Use `right` to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `moreMenu`. Defaults to `left`.
    */
-  alignDropdown?: DropdownAlignDropdown;
+  align?: DropdownAlign;
   /**
    * Lets you provide a custom React element as the trigger HTML element.
    */
