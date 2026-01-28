@@ -28,7 +28,7 @@ export const ButtonProperties: PropertiesTableProps = {
   },
   size: {
     doc: 'The size of the button. For now there is `small`, `medium`, `default` and `large`.',
-    type: ['small', 'medium', 'default', 'large'],
+    type: ['default', 'small', 'medium', 'large'],
     status: 'optional',
   },
   icon: {
