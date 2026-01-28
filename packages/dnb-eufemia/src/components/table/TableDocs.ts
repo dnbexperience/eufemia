@@ -39,7 +39,7 @@ export const TableProperties: PropertiesTableProps = {
   },
   size: {
     doc: 'Spacing size inside the table header and data.',
-    type: [`'large'`, `'medium'`, `'small'`],
+    type: [`'large'`, `'small'`, `'medium'`],
     defaultValue: `'large'`,
     status: 'optional',
   },
