@@ -89,7 +89,7 @@ export const DropdownProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  alignDropdown: {
+  align: {
     doc: 'Use `right` to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `moreMenu`. Defaults to `left`.',
     type: ['left', 'right'],
     status: 'optional',

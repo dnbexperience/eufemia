@@ -116,7 +116,7 @@ export const AutocompleteProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  alignAutocomplete: {
+  align: {
     doc: 'Use `right` to change the options alignment direction. Defaults to `left`.',
     type: 'string',
     status: 'optional',
