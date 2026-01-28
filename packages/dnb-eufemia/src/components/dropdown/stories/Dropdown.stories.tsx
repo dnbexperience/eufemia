@@ -59,7 +59,7 @@ const RightAligned = styled.div`
 
 const direction = 'auto'
 const label = 'Label'
-const alignDropdown = 'right'
+const align = 'right'
 const iconPosition = 'right'
 const open = false
 
@@ -101,7 +101,7 @@ const DropdownStory = () => {
             size="small"
             independentWidth
             iconPosition="left"
-            alignDropdown="left"
+            align="left"
             variant="tertiary"
             title="Tertiary"
             data={[
@@ -150,7 +150,7 @@ const DropdownStory = () => {
           <Dropdown
             actionMenu
             iconPosition="right"
-            alignDropdown="right"
+            align="right"
             title="Action Menu"
             data={[
               <>
@@ -176,7 +176,7 @@ const DropdownStory = () => {
               </Link>,
               'Or to this one',
             ]}
-            alignDropdown="right"
+            align="right"
           />
           <Dropdown
             size="small"
@@ -206,7 +206,7 @@ const DropdownStory = () => {
             open={open}
             noAnimation
             direction={direction}
-            alignDropdown={alignDropdown}
+            align={align}
             iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
@@ -216,7 +216,7 @@ const DropdownStory = () => {
             size="small"
             open={open}
             direction={direction}
-            alignDropdown={alignDropdown}
+            align={align}
             iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
@@ -229,7 +229,7 @@ const DropdownStory = () => {
             open={open}
             noAnimation
             direction={direction}
-            alignDropdown={alignDropdown}
+            align={align}
             iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
@@ -239,7 +239,7 @@ const DropdownStory = () => {
             open={open}
             noAnimation
             direction={direction}
-            alignDropdown={alignDropdown}
+            align={align}
             iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
@@ -253,7 +253,7 @@ const DropdownStory = () => {
             open={open}
             noAnimation
             direction={direction}
-            alignDropdown={alignDropdown}
+            align={align}
             iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
@@ -264,7 +264,7 @@ const DropdownStory = () => {
             open={open}
             noAnimation
             direction={direction}
-            alignDropdown={alignDropdown}
+            align={align}
             iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
@@ -278,7 +278,7 @@ const DropdownStory = () => {
             open={open}
             noAnimation
             direction={direction}
-            alignDropdown={alignDropdown}
+            align={align}
             iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
@@ -288,7 +288,7 @@ const DropdownStory = () => {
             size="large"
             open={open}
             noAnimation
-            alignDropdown={alignDropdown}
+            align={align}
             iconPosition={iconPosition}
             direction={direction}
             label={label}
@@ -304,7 +304,7 @@ const DropdownStory = () => {
               label={label}
               noAnimation
               direction={direction}
-              alignDropdown={alignDropdown}
+              align={align}
               iconPosition={iconPosition}
               moreMenu={true}
               data={[
@@ -322,7 +322,7 @@ const DropdownStory = () => {
               label={label}
               noAnimation
               direction={direction}
-              alignDropdown={alignDropdown}
+              align={align}
               iconPosition={iconPosition}
               data={[
                 <Link key="item-1" href="/">
@@ -339,7 +339,7 @@ const DropdownStory = () => {
               label={label}
               noAnimation
               direction={direction}
-              alignDropdown={alignDropdown}
+              align={align}
               iconPosition={iconPosition}
               data={[
                 <Link key="item-1" href="/">
@@ -356,7 +356,7 @@ const DropdownStory = () => {
               label={label}
               noAnimation
               direction={direction}
-              alignDropdown={alignDropdown}
+              align={align}
               iconPosition={iconPosition}
               data={[
                 <Link key="item-1" href="/">
