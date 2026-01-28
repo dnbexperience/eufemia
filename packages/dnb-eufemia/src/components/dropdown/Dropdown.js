@@ -111,7 +111,7 @@ export default class Dropdown extends React.PureComponent {
       PropTypes.bool,
     ]),
     size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
-    alignDropdown: PropTypes.oneOf(['left', 'right']),
+    align: PropTypes.oneOf(['left', 'right']),
     triggerElement: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
     data: PropTypes.oneOfType([
       PropTypes.oneOfType([
@@ -202,7 +202,7 @@ export default class Dropdown extends React.PureComponent {
     actionMenu: false,
     independentWidth: false,
     size: 'default',
-    alignDropdown: null,
+    align: null,
     triggerElement: null,
     data: null,
     defaultValue: null,
@@ -457,7 +457,7 @@ class DropdownInstance extends React.PureComponent {
 
       title: _title,
       icon: _icon, // eslint-disable-line
-      alignDropdown: _align_dropdown, // eslint-disable-line
+      align: _align, // eslint-disable-line
       iconPosition: _iconPosition, // eslint-disable-line
       openOnFocus: _openOnFocus, // eslint-disable-line
       data: _data, // eslint-disable-line
@@ -483,7 +483,7 @@ class DropdownInstance extends React.PureComponent {
       ...attributes
     } = props
 
-    let { icon, iconPosition, alignDropdown } = props
+    let { icon, iconPosition, align } = props
 
     const handleAsMenu =
       isTrue(actionMenu) || isTrue(moreMenu) || isTrue(preventSelection)
@@ -495,20 +495,16 @@ class DropdownInstance extends React.PureComponent {
       icon = icon || (isTrue(moreMenu) ? 'more' : 'chevron_down')
     }
     if (isPopupMenu || isTrue(actionMenu)) {
-      if (iconPosition !== 'right' && alignDropdown !== 'right') {
+      if (iconPosition !== 'right' && align !== 'right') {
         iconPosition = 'left'
-        alignDropdown = 'left'
+        align = 'left'
       }
     }
     // TODO: This is an temporary fix for now.
     // We believe this can be removed and replaced by placing the triangle based on,
     // calculating the position based on the dropdowns width.
-    if (
-      isTrue(independentWidth) &&
-      iconPosition !== 'left' &&
-      !alignDropdown
-    ) {
-      alignDropdown = 'right'
+    if (isTrue(independentWidth) && iconPosition !== 'left' && !align) {
+      align = 'right'
     }
 
     const { id, selectedItem, direction, open } = this.context.drawerList
@@ -532,7 +528,7 @@ class DropdownInstance extends React.PureComponent {
           'dnb-dropdown--independent-width',
         size && `dnb-dropdown--${size}`,
         isTrue(stretch) && `dnb-dropdown--stretch`,
-        `dnb-dropdown--${alignDropdown || 'right'}`,
+        `dnb-dropdown--${align || 'right'}`,
         status && `dnb-dropdown__status--${statusState}`,
         showStatus && 'dnb-dropdown__form-status',
         'dnb-form-component',
@@ -686,7 +682,7 @@ class DropdownInstance extends React.PureComponent {
                   isTrue(independentWidth) || isPopupMenu || actionMenu
                 }
                 isPopup={isPopupMenu || actionMenu}
-                alignDrawer={alignDropdown || 'left'}
+                alignDrawer={align || 'left'}
                 fixedPosition={fixedPosition}
                 enableBodyLock={enableBodyLock}
                 disabled={disabled}
