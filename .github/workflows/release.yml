@@ -24,7 +24,7 @@ env:
   GH_EMAIL: ${{ secrets.GH_EMAIL }}
   GH_NAME: ${{ secrets.GH_NAME }}
   GH_TOKEN: ${{ secrets.GH_TOKEN }}
-  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
   FIGMA_ICONS_FILE: ${{ secrets.FIGMA_ICONS_FILE }}
   ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
@@ -49,6 +49,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: 'package.json'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Use node_modules cache
         uses: actions/cache@v4
