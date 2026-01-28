@@ -1743,7 +1743,7 @@ describe('Dropdown component', () => {
     ).toBeInTheDocument()
   })
 
-  it('should set alignDropdown to right as default', () => {
+  it('should set align to right as default', () => {
     render(<Dropdown />)
 
     expect(
@@ -1751,23 +1751,23 @@ describe('Dropdown component', () => {
     ).toBeInTheDocument()
   })
 
-  it('should set alignDropdown to right', () => {
-    render(<Dropdown alignDropdown="right" />)
+  it('should set align to right', () => {
+    render(<Dropdown align="right" />)
 
     expect(
       document.querySelector('.dnb-drawer-list--right')
     ).toBeInTheDocument()
   })
 
-  it('should set alignDropdown to left', () => {
-    render(<Dropdown alignDropdown="left" />)
+  it('should set align to left', () => {
+    render(<Dropdown align="left" />)
 
     expect(
       document.querySelector('.dnb-drawer-list--left')
     ).toBeInTheDocument()
   })
 
-  it('should set alignDropdown to right as default when independentWidth', () => {
+  it('should set align to right as default when independentWidth', () => {
     render(<Dropdown independentWidth />)
 
     expect(
@@ -1775,16 +1775,16 @@ describe('Dropdown component', () => {
     ).toBeInTheDocument()
   })
 
-  it('should set alignDropdown to right when independentWidth', () => {
-    render(<Dropdown independentWidth alignDropdown="right" />)
+  it('should set align to right when independentWidth', () => {
+    render(<Dropdown independentWidth align="right" />)
 
     expect(
       document.querySelector('.dnb-drawer-list--right')
     ).toBeInTheDocument()
   })
 
-  it('should set alignDropdown to left when independentWidth', () => {
-    render(<Dropdown independentWidth alignDropdown="left" />)
+  it('should set align to left when independentWidth', () => {
+    render(<Dropdown independentWidth align="left" />)
 
     expect(
       document.querySelector('.dnb-drawer-list--left')
