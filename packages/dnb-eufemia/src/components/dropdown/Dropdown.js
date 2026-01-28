@@ -458,7 +458,6 @@ class DropdownInstance extends React.PureComponent {
       title: _title,
       icon: _icon, // eslint-disable-line
       align: _align, // eslint-disable-line
-      alignDropdown: _align_dropdown, // eslint-disable-line
       iconPosition: _iconPosition, // eslint-disable-line
       openOnFocus: _openOnFocus, // eslint-disable-line
       data: _data, // eslint-disable-line
@@ -486,13 +485,9 @@ class DropdownInstance extends React.PureComponent {
 
     let { icon, iconPosition, align } = props
 
-    // Backward compatibility for alignDropdown
-    if (props.alignDropdown !== undefined && align === undefined) {
-      align = props.alignDropdown
-    }
     // Support context value
     if (align === null || align === undefined) {
-      align = _align || _align_dropdown
+      align = _align
     }
 
     const handleAsMenu =
