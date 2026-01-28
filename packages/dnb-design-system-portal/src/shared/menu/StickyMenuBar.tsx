@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { useStaticQuery, graphql } from 'gatsby'
 import { hamburger as hamburgerIcon } from '@dnb/eufemia/src/icons'
 import { close as closeIcon } from '@dnb/eufemia/src/icons/primary_icons'
@@ -55,7 +55,7 @@ export default function StickyMenuBar({
 
   return (
     <header
-      className={classnames(
+      className={clsx(
         headerStyle,
         hideSidebarToggleButton && hideSidebarToggleButtonStyle,
         'sticky-menu',
@@ -74,7 +74,7 @@ export default function StickyMenuBar({
             color="var(--color-black-80, #333)"
           />
           <span
-            className={classnames(
+            className={clsx(
               sloganStyle,
               createSkeletonClass('font', context.skeleton),
               'dnb-eufemia-logo'
