@@ -37,36 +37,15 @@
     .dnb-radio-group__shell {
       row-gap: 0;
     }
+
     .dnb-radio-group__fieldset {
       border-radius: 0.5rem;
       @include fakeBorder(var(--outline-color), var(--outline-width));
       background-color: var(--color-white);
     }
 
-    .dnb-radio {
-      justify-content: center;
-
-      padding: calc((var(--list-height) - 1.5rem) / 2) var(--list-padding);
-
-      // Clip await the width of 100vw in the .dnb-radio__input
-      overflow: clip;
-
-      // Make the whole area clickable
-      .dnb-radio__input {
-        appearance: none;
-        transform: none;
-
-        left: calc(var(--list-padding) * -1);
-        width: 100vw;
-        height: var(--list-height);
-      }
-
-      .dnb-form-label {
-        padding-left: var(--list-padding);
-      }
-
+    .dnb-list__item {
       // Separator
-      position: relative;
       &:not(:first-of-type)::before {
         content: '';
         position: absolute;
@@ -74,6 +53,32 @@
 
         background-color: var(--outline-color);
         height: var(--outline-width);
+      }
+
+      .dnb-radio {
+        justify-content: center;
+
+        padding: calc(
+            (var(--list-height) - 1.5rem) / 2
+          )
+          var(--list-padding);
+
+        // Clip await the width of 100vw in the .dnb-radio__input
+        overflow: clip;
+
+        // Make the whole area clickable
+        .dnb-radio__input {
+          appearance: none;
+          transform: none;
+
+          left: calc(var(--list-padding) * -1);
+          width: 100vw;
+          height: var(--list-height);
+        }
+
+        .dnb-form-label {
+          padding-left: var(--list-padding);
+        }
       }
     }
   }

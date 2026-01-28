@@ -1,0 +1,13 @@
+@import './../../../style/core/utilities.scss';
+
+.dnb-list {
+  &__children {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__item {
+    position: relative;
+  }
+}
+

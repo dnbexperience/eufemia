@@ -10,6 +10,7 @@ import {
   Radio,
   Autocomplete,
   HelpButton,
+  List,
 } from '../../../../components'
 import OptionField, { Props as OptionFieldProps } from '../Option'
 import { useFieldProps } from '../../hooks'
@@ -418,6 +419,19 @@ function Selection(props: Props) {
         additionalFieldBlockProps.contentWidth = width
       }
 
+      const renderedItems =
+        variant === 'radio-list' ? (
+          <List.Children>
+            {React.Children.map(items, (child, index) =>
+              child ? (
+                <List.Item key={child.key ?? index}>{child}</List.Item>
+              ) : null
+            )}
+          </List.Children>
+        ) : (
+          items
+        )
+
       return (
         <FieldBlock {...fieldBlockProps} {...additionalFieldBlockProps}>
           <Component.Group
@@ -430,7 +444,7 @@ function Selection(props: Props) {
             on_change={onChangeHandler}
             value={String(value ?? '')}
           >
-            {items}
+            {renderedItems}
           </Component.Group>
         </FieldBlock>
       )
