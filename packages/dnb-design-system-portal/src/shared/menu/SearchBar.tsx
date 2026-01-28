@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import algoliasearch from 'algoliasearch/lite'
 import { Autocomplete } from '@dnb/eufemia/src/components'
 import { navigate } from 'gatsby'
@@ -81,7 +81,7 @@ export const SearchBarInput = () => {
   return (
     <Autocomplete
       id="portal-search"
-      className={classnames(autocompleteStyle, 'portal-search')}
+      className={clsx(autocompleteStyle, 'portal-search')}
       mode="async"
       showClearButton
       noScrollAnimation

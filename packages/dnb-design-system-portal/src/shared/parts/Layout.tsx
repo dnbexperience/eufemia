@@ -5,7 +5,7 @@
 
 import React from 'react'
 import Anchor from '../tags/Anchor'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import StickyMenuBar from '../menu/StickyMenuBar'
 import packageJson from '../../../package.json' // needs resolveJsonModule in tsconfig
 import {
@@ -89,7 +89,7 @@ function Layout(props: LayoutProps) {
   const fs = fullscreen || isFullscreen()
 
   return (
-    <div className={classnames(portalStyle, fs && fullscreenStyle)}>
+    <div className={clsx(portalStyle, fs && fullscreenStyle)}>
       <a
         className="dnb-skip-link"
         href="#dnb-app-content"
@@ -144,7 +144,7 @@ const Content = ({
 
   return (
     <div
-      className={classnames(
+      className={clsx(
         contentStyle,
         'dnb-app-content',
         fullscreen && 'fullscreen-page',
@@ -160,7 +160,7 @@ const MainContent = ({ mainRef, ...props }) => (
   <main
     ref={mainRef}
     id="dnb-app-content"
-    className={classnames(
+    className={clsx(
       mainStyle,
       'dnb-no-focus',
       'dnb-spacing' // used so the portal elements uses their default space

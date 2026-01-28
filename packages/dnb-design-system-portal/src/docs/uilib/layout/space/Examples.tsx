@@ -8,7 +8,7 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import { Space, Input, Button, P, Code } from '@dnb/eufemia/src'
 import { Provider } from '@dnb/eufemia/src/shared'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   createSpacingClasses,
   createSpacingProperties,
@@ -48,7 +48,7 @@ export const Method3 = () => (
         createSpacingClasses,
         createSpacingProperties,
         removeSpaceProps,
-        classnames,
+        clsx,
       }}
       data-visual-test="spacing-method-form-row"
     >
@@ -61,7 +61,7 @@ export const Method3 = () => (
           const spacingClasses = createSpacingClasses(props)
           const spacingProperties = createSpacingProperties(props)
 
-          const cn = classnames(
+          const cn = clsx(
             'my-component',
             'dnb-space',
             spacingClasses,

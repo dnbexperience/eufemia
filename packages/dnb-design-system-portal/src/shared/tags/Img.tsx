@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Img as Image } from '@dnb/eufemia/src'
 
 type ImgProps = {
@@ -43,7 +43,7 @@ const Img = ({
 
   return (
     <Image
-      className={classnames('image-box', className)}
+      className={clsx('image-box', className)}
       alt={alt || caption}
       caption={caption}
       src={finalSrc as string}

@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import InlineImg from '../../../../../shared/tags/Img'
 import { Button, Icon } from '@dnb/eufemia/src/components'
 import { H2, H4, P, Hr, Code } from '@dnb/eufemia/src'
@@ -19,7 +19,7 @@ import {
 import { portalStyle } from '../../../../../shared/parts/Layout.module.scss'
 
 const LegacyCodeStyling = () => (
-  <div className={classnames(portalStyle, 'dnb-core-style')}>
+  <div className={clsx(portalStyle, 'dnb-core-style')}>
     <article className={LegacyCodeExample}>
       <h1>Example usage</h1>
       <p>
@@ -35,11 +35,7 @@ const LegacyCodeStyling = () => (
     </article>
     {/* Use of core style reset */}
     <article
-      className={classnames(
-        CoreStyleExample,
-        'dnb-core-style',
-        'dnb-dev-grid'
-      )}
+      className={clsx(CoreStyleExample, 'dnb-core-style', 'dnb-dev-grid')}
     >
       <Code>{'<div class="dnb-core-style">'}</Code>
       <H4>
@@ -58,7 +54,7 @@ const LegacyCodeStyling = () => (
 
     {/* Use of spacing */}
     <article
-      className={classnames(
+      className={clsx(
         SpacingExample,
         'dnb-core-style',
         'dnb-spacing',

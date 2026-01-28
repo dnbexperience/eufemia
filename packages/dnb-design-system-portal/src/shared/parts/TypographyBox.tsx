@@ -1,9 +1,9 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 export function TypographyBox({ children, className = null, ...props }) {
   return (
-    <div className={classnames('typography-box', className)} {...props}>
+    <div className={clsx('typography-box', className)} {...props}>
       {removeNestedParagraphs(children)}
     </div>
   )
