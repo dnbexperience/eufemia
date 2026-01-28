@@ -103,7 +103,7 @@
   "dependencies": {
     "@babel/runtime-corejs3": "7.28.4",
     "@modelcontextprotocol/sdk": "1.25.3",
-    "@navikt/fnrvalidator": "2.1.5",
+    "@navikt/fnrvalidator": "2.2.0",
     "@ungap/structured-clone": "1.2.0",
     "ajv": "8.17.1",
     "ajv-errors": "3.0.0",

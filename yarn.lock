@@ -4297,7 +4297,7 @@ __metadata:
     "@eslint/eslintrc": "npm:3.3.3"
     "@eslint/js": "npm:9.39.2"
     "@modelcontextprotocol/sdk": "npm:1.25.3"
-    "@navikt/fnrvalidator": "npm:2.1.5"
+    "@navikt/fnrvalidator": "npm:2.2.0"
     "@playwright/test": "npm:1.49.1"
     "@semantic-release/changelog": "npm:6.0.2"
     "@semantic-release/commit-analyzer": "npm:9.0.2"
@@ -6378,10 +6378,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/fnrvalidator@npm:2.1.5":
-  version: 2.1.5
-  resolution: "@navikt/fnrvalidator@npm:2.1.5"
-  checksum: 10/6004890b3046d957f117b8566d6b12bc254cb5417a6fa9dd800a807bbb78d6775165d8c2aba5f1c1561b499341d4e97d662589a9d708651ae59aee06411ce66d
+"@navikt/fnrvalidator@npm:2.2.0":
+  version: 2.2.0
+  resolution: "@navikt/fnrvalidator@npm:2.2.0"
+  checksum: 10/7877acc2f23aa99943c70ea3414028f8a2ce2239847cae68f80d81473b79836d8756cada273606d337b217e84b9168cac89fd6bb6d316d7532d9f17f5b7de4e7
   languageName: node
   linkType: hard
 
