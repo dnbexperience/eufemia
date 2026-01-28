@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { useValueProps } from '../../hooks'
 import { ValueProps } from '../../types'
 import ValueBlock from '../../ValueBlock'
@@ -81,7 +81,7 @@ function Upload(props: Props) {
 
   return (
     <ValueBlock
-      className={classnames('dnb-forms-value-upload', className)}
+      className={clsx('dnb-forms-value-upload', className)}
       {...rest}
     >
       {list}

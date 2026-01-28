@@ -874,7 +874,7 @@ describe('Field.Date', () => {
   })
 
   it('should support having the picker be open by default', () => {
-    render(<Field.Date opened />)
+    render(<Field.Date open />)
 
     expect(
       document.querySelector('.dnb-date-picker__calendar')
@@ -977,7 +977,7 @@ describe('Field.Date', () => {
     await userEvent.click(openButton)
 
     expect(document.querySelector('.dnb-date-picker')).toHaveClass(
-      'dnb-date-picker--opened'
+      'dnb-date-picker--open'
     )
 
     const resetButton = document.querySelector(
@@ -989,14 +989,14 @@ describe('Field.Date', () => {
     expect(onReset).toHaveBeenCalledWith(
       expect.objectContaining({
         date: undefined,
-        is_valid: false,
-        start_date: undefined,
-        end_date: undefined,
+        isValid: false,
+        startDate: undefined,
+        endDate: undefined,
       })
     )
 
     expect(document.querySelector('.dnb-date-picker')).not.toHaveClass(
-      'dnb-date-picker--opened'
+      'dnb-date-picker--open'
     )
 
     const [day, month, year]: Array<HTMLInputElement> = Array.from(
@@ -1135,13 +1135,13 @@ describe('Field.Date', () => {
   })
 
   it('should be able to set picker alignment', async () => {
-    const { rerender } = render(<Field.Date alignPicker="right" opened />)
+    const { rerender } = render(<Field.Date alignPicker="right" open />)
 
     expect(
       document.querySelector('.dnb-popover__arrow__arrow--right')
     ).toBeInTheDocument()
 
-    rerender(<Field.Date alignPicker="left" opened />)
+    rerender(<Field.Date alignPicker="left" open />)
     expect(
       document.querySelector('.dnb-popover__arrow__arrow--left')
     ).toBeInTheDocument()
@@ -1184,13 +1184,13 @@ describe('Field.Date', () => {
           },
           {
             title: 'Second week of October',
-            start_date: '2024-10-07',
-            end_date: '2024-10-13',
+            startDate: '2024-10-07',
+            endDate: '2024-10-13',
           },
           {
             title: 'Whole month of October',
-            start_date: '2024-10-01',
-            end_date: '2024-10-31',
+            startDate: '2024-10-01',
+            endDate: '2024-10-31',
           },
         ]}
       />
@@ -1407,25 +1407,25 @@ describe('Field.Date', () => {
     expect(onReset).toHaveBeenLastCalledWith(expect.anything())
   })
 
-  it('should support onShow event', async () => {
-    const onShow = jest.fn()
+  it('should support onOpen event', async () => {
+    const onOpen = jest.fn()
 
-    render(<Field.Date value="2024-10-31" onShow={onShow} />)
+    render(<Field.Date value="2024-10-31" onOpen={onOpen} />)
 
     await userEvent.click(
       document.querySelector('button.dnb-input__submit-button__button')
     )
 
-    expect(onShow).toHaveBeenCalledTimes(1)
-    expect(onShow).toHaveBeenLastCalledWith(
+    expect(onOpen).toHaveBeenCalledTimes(1)
+    expect(onOpen).toHaveBeenLastCalledWith(
       expect.objectContaining({ date: '2024-10-31' })
     )
   })
 
-  it('should support onHide event', async () => {
-    const onHide = jest.fn()
+  it('should support onClose event', async () => {
+    const onClose = jest.fn()
 
-    render(<Field.Date value="2024-10-31" onHide={onHide} />)
+    render(<Field.Date value="2024-10-31" onClose={onClose} />)
 
     await userEvent.click(
       document.querySelector('button.dnb-input__submit-button__button')
@@ -1439,8 +1439,8 @@ describe('Field.Date', () => {
       ).not.toBeInTheDocument()
     )
 
-    expect(onHide).toHaveBeenCalledTimes(1)
-    expect(onHide).toHaveBeenLastCalledWith(
+    expect(onClose).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveBeenLastCalledWith(
       expect.objectContaining({ date: '2024-10-31' })
     )
   })

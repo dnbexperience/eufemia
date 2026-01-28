@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import type { ComponentProps } from '../../types'
 import { Button } from '../../../../components'
 import { ButtonProps } from '../../../../components/button/Button'
@@ -16,7 +16,7 @@ function PreviousButton(props: Props) {
   const {
     className,
     variant = 'tertiary',
-    icon_position = 'left',
+    iconPosition = 'left',
     icon = 'chevron_left',
     children = translations.text,
   } = props
@@ -35,10 +35,10 @@ function PreviousButton(props: Props) {
   return (
     <ButtonRow>
       <Button
-        className={classnames('dnb-forms-previous-button', className)}
+        className={clsx('dnb-forms-previous-button', className)}
         onClick={handlePrevious}
         variant={variant}
-        icon_position={icon_position}
+        iconPosition={iconPosition}
         icon={icon}
         {...params}
         {...props}

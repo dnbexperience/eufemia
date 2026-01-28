@@ -8,7 +8,7 @@ import React, {
 import * as z from 'zod'
 import { Autocomplete } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   CountryISO,
   type CountryLang,
@@ -97,7 +97,7 @@ type EventValues = {
 function PhoneNumber(props: Props = {}) {
   const sharedContext = useContext(SharedContext)
   const {
-    label: defaultLabel,
+    numberLabel: defaultLabel,
     countryCodeLabel: defaultCountryCodeLabel,
     errorRequired,
   } = useTranslation().PhoneNumber
@@ -268,7 +268,6 @@ function PhoneNumber(props: Props = {}) {
     help,
     required,
     validateInitially,
-    continuousValidation,
     validateContinuously,
     validateUnchanged,
     omitCountryCodeField,
@@ -489,7 +488,7 @@ function PhoneNumber(props: Props = {}) {
 
   const compositionFieldProps: CompositionFieldProps = {
     id,
-    className: classnames('dnb-forms-field-phone-number', className),
+    className: clsx('dnb-forms-field-phone-number', className),
     width: 'stretch',
     label,
     labelDescription,
@@ -502,38 +501,38 @@ function PhoneNumber(props: Props = {}) {
     <CompositionField {...compositionFieldProps}>
       {!omitCountryCodeField && (
         <Autocomplete
-          className={classnames(
+          className={clsx(
             'dnb-forms-field-phone-number__country-code',
             countryCodeFieldClassName
           )}
           mode="async"
           placeholder={countryCodePlaceholder}
-          label_direction="vertical"
+          labelDirection="vertical"
           label={
             countryCodeLabel === false
               ? defaultCountryCodeLabel
               : countryCodeLabel ?? defaultCountryCodeLabel
           }
-          label_sr_only={countryCodeLabel === false ? true : undefined}
+          labelSrOnly={countryCodeLabel === false ? true : undefined}
           data={dataRef.current}
           value={countryCodeRef.current}
           status={hasError ? 'error' : undefined}
           disabled={disabled}
-          on_focus={handleCountryCodeFocus}
-          on_blur={handleOnBlur}
-          on_change={handleCountryCodeChange}
-          on_type={onTypeHandler}
-          independent_width
-          search_numbers
-          keep_selection
+          onFocus={handleCountryCodeFocus}
+          onBlur={handleOnBlur}
+          onChange={handleCountryCodeChange}
+          onType={onTypeHandler}
+          independentWidth
+          searchNumbers
+          keepSelection
           selectall
           autoComplete="tel-country-code"
-          no_animation={props.noAnimation}
+          noAnimation={props.noAnimation}
           size={size}
         />
       )}
       <StringField
-        className={classnames(
+        className={clsx(
           'dnb-forms-field-phone-number__number',
           numberFieldClassName
         )}
@@ -573,7 +572,7 @@ function PhoneNumber(props: Props = {}) {
         required={required}
         errorMessages={errorMessages}
         validateInitially={validateInitially}
-        validateContinuously={continuousValidation || validateContinuously}
+        validateContinuously={validateContinuously}
         validateUnchanged={validateUnchanged}
         inputMode="tel"
         size={size}
@@ -587,8 +586,8 @@ function makeObject(country: CountryType, lang: string) {
   const code = formatCountryCode(country.cdc)
   return {
     selectedKey: code,
-    selected_value: `${country.iso} (${code})`,
-    search_content: [code, name],
+    selectedValue: `${country.iso} (${code})`,
+    searchContent: [code, name],
     content: [name, code],
     country,
   }

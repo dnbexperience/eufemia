@@ -5,13 +5,13 @@
 
 import React from 'react'
 import Input from '../input/Input'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   useInputElement,
   useEventMapping,
   useFilteredProps,
   useLocalValue,
-} from './InputMaskedHooks'
+} from './hooks'
 
 export default function InputMaskedElement(): JSX.Element {
   const inputElement = useInputElement()
@@ -27,9 +27,9 @@ export default function InputMaskedElement(): JSX.Element {
     <Input
       {...htmlAttributes}
       {...events}
-      input_element={inputElement}
+      inputElement={inputElement}
       value={localValue}
-      className={classnames('dnb-input-masked', className)}
+      className={clsx('dnb-input-masked', className)}
     />
   )
 }

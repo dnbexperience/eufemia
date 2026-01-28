@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import type { ComponentProps } from '../../types'
 import Button, { ButtonProps } from '../../../../components/button/Button'
 import ButtonRow from '../../Form/ButtonRow'
@@ -22,7 +22,7 @@ function EditButton(props: Props) {
   const {
     className,
     variant = 'tertiary',
-    icon_position = 'left',
+    iconPosition = 'left',
     icon,
     toStep,
     children = translations.text,
@@ -39,11 +39,11 @@ function EditButton(props: Props) {
     <ButtonRow {...pickSpacingProps(props)}>
       <Hr space={0} />
       <Button
-        className={classnames('dnb-forms-edit-button', className)}
+        className={clsx('dnb-forms-edit-button', className)}
         variant={variant}
-        icon_position={icon_position}
+        iconPosition={iconPosition}
         icon={edit || icon}
-        on_click={handleClick}
+        onClick={handleClick}
         {...omitSpacingProps(rest)}
       >
         {children}

@@ -12,7 +12,6 @@ import {
   ToggleButton,
   Accordion,
   Button,
-  // Input,
   IconPrimary,
   Heading,
 } from '../..'
@@ -28,35 +27,6 @@ const TestStyles = styled.div`
     background-color: turquoise;
   }
 `
-
-// Accordion.Group.Store('group-id').saveState(true, 'remembered-state-2')
-// const getState = Accordion.Group.Store('group-id').getState(
-//   'remembered-state-2'
-// )
-// console.log('getState', getState)
-// /**
-//  * "getState" returns
-//  * - true if it is saved as expanded
-//  * - false if it is saved as not expanded
-//  * - null if it is not saved
-//  */
-
-// const getData = Accordion.Group.Store('group-id').getData()?.id
-// console.log('getData', getData)
-// /**
-//  * "getData" returns
-//  * - object with the "id" that is saved
-//  * - null if it is not saved
-//  */
-
-// console.log(
-//   'single-accordion',
-//   Accordion.Store('single-accordion').getData()?.expanded
-// )
-// console.log(
-//   'single-accordion',
-//   Accordion.Store('single-accordion').getState()
-// )
 
 const DidRender = ({ message }) => {
   React.useEffect(() => {
@@ -105,18 +75,18 @@ export const AccordionSandbox = () => {
       <Box>
         <Accordion
           expanded
-          remember_state
+          rememberState
           id="single-accordion"
           title="Accordion title"
           icon="bell"
-          icon_position="right"
+          iconPosition="right"
         >
-          remember_state Accordion content
+          rememberState Accordion content
         </Accordion>
       </Box>
 
       <Box>
-        <Accordion.Group expanded allow_close_all>
+        <Accordion.Group expanded allowCloseAll>
           <Accordion expanded={false}>
             <Accordion.Header>Accordion title 1</Accordion.Header>
             <Accordion.Content top="x-large">
@@ -170,7 +140,7 @@ export const AccordionSandbox = () => {
       <Box>
         <Accordion
           group="unique-id"
-          left_component={<IconPrimary icon="bell" />}
+          leftComponent={<IconPrimary icon="bell" />}
         >
           <Accordion.Header>Accordion title</Accordion.Header>
           <Accordion.Content>
@@ -209,20 +179,16 @@ function AccordionWithContainer() {
         left
         size="small"
         variant="signal"
-        on_click={() => setCount((s) => s + 1)}
+        onClick={() => setCount((s) => s + 1)}
       >
         Increment {count}
       </Button>
       <Accordion.Group
-        no_animation
+        noAnimation
         variant="outlined"
-        // prerender
-        // prevent_rerender
-        // prevent_rerender_conditional
-        single_container
-        remember_state
-        flush_remembered_state={flushCache}
-        // allow_close_all
+        singleContainer
+        rememberState
+        flushRememberedState={flushCache}
         id="group-id"
       >
         <Accordion
@@ -231,20 +197,14 @@ function AccordionWithContainer() {
           title="Title1"
           description="Description1"
           expanded={true}
-          // element="h2"
-          // heading
-          // heading={Heading}
-          // heading_level="3"
         >
           <Accordion.Header title="Title2" description="Description2">
-            {/* Title 3 string */}
             <Accordion.Header.Title key="title">
               Title 3
             </Accordion.Header.Title>
             <Accordion.Header.Description>
               Description 3
             </Accordion.Header.Description>
-            {/* <Accordion.Header.Icon key="icon" /> */}
           </Accordion.Header>
           <Accordion.Content
             left="xx-large"
@@ -269,18 +229,13 @@ function AccordionWithContainer() {
               left
               size="small"
               variant="signal"
-              on_click={() => setCount((s) => s + 1)}
+              onClick={() => setCount((s) => s + 1)}
             >
               Increment {count}
             </Button>
           </Accordion.Content>
         </Accordion>
-        <Accordion
-          bottom
-          icon_position="right"
-          id="remembered-state-2"
-          // top="x-large"
-        >
+        <Accordion bottom iconPosition="right" id="remembered-state-2">
           <Accordion.Header>
             <Accordion.Header.Container>
               <IconPrimary icon="bell" />
@@ -296,7 +251,7 @@ function AccordionWithContainer() {
           >
             <DidRender message="two" />
             <Button
-              on_click={() => {
+              onClick={() => {
                 flushCacheNow(!flushCache)
                 setTimeout(() => {
                   flushCacheNow(flushCache)
@@ -322,17 +277,13 @@ function AccordionWithContainer() {
               left
               size="small"
               variant="signal"
-              on_click={() => setCount((s) => s + 1)}
+              onClick={() => setCount((s) => s + 1)}
             >
               Increment {count}
             </Button>
           </Accordion.Content>
         </Accordion>
-        <Accordion
-          icon_position="right"
-          id="remembered-state-3"
-          // top="x-large"
-        >
+        <Accordion iconPosition="right" id="remembered-state-3">
           <Accordion.Header>
             <Accordion.Header.Container>
               <IconPrimary icon="bell" />
@@ -364,7 +315,7 @@ function AccordionWithContainer() {
               left
               size="small"
               variant="signal"
-              on_click={() => setCount((s) => s + 1)}
+              onClick={() => setCount((s) => s + 1)}
             >
               Increment {count}
             </Button>
@@ -384,7 +335,7 @@ function ChangingContent({ changeHeight, children }) {
     <>
       <ToggleButton
         checked={contentSize}
-        on_change={() => {
+        onChange={() => {
           changeContentSize((s) => !s)
         }}
         bottom

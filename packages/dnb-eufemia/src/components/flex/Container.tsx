@@ -1,5 +1,5 @@
 import React, { Fragment, useMemo } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Space, { SpaceProps } from '../space/Space'
 import { Hr } from '../../elements'
 import useMedia from '../../shared/useMedia'
@@ -27,8 +27,7 @@ type Gap =
 export type BasicProps = {
   direction?: 'horizontal' | 'vertical'
   wrap?: boolean
-  /** value `true` is deprecated, use `undefined` instead */
-  rowGap?: Gap | true
+  rowGap?: Gap
   sizeCount?: number
   justify?:
     | 'flex-start'
@@ -44,8 +43,6 @@ export type BasicProps = {
   divider?: 'space' | 'line' | 'line-framed'
   /** Spacing between items inside */
   gap?: Gap
-  /** @deprecated Use `gap` instead */
-  spacing?: Gap
   breakpoints?: MediaQueryBreakpoints
   queries?: UseMediaQueries
 }
@@ -63,7 +60,6 @@ const propNames: Array<keyof Props> = [
   'justify',
   'align',
   'divider',
-  'spacing',
   'gap',
 ]
 
@@ -81,18 +77,6 @@ export function pickFlexContainerProps<T extends Props>(
           !skip.includes(key as keyof Props)
       )
     ),
-  }
-}
-function handleDeprecatedProps({
-  spacing,
-  gap,
-  rowGap,
-  ...rest
-}: Props): Omit<Props, 'spacing'> & { rowGap?: Gap } {
-  return {
-    ...rest,
-    rowGap: rowGap === true ? undefined : rowGap,
-    gap: spacing ?? gap,
   }
 }
 
@@ -114,7 +98,7 @@ function FlexContainer(props: Props) {
     breakpoints,
     queries,
     ...rest
-  } = handleDeprecatedProps(props)
+  } = props
 
   const spacing = useMemo(
     () => (direction === 'vertical' ? rowGap : undefined) ?? gap,
@@ -224,7 +208,7 @@ function FlexContainer(props: Props) {
     return undefined
   }, [direction, rowGap])
 
-  const cn = classnames(
+  const cn = clsx(
     'dnb-flex-container',
     direction && `${n}--direction-${direction}`,
     justify && `${n}--justify-${justify}`,

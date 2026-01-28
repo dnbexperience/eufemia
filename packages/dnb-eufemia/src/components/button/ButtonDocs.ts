@@ -28,7 +28,7 @@ export const ButtonProperties: PropertiesTableProps = {
   },
   size: {
     doc: 'The size of the button. For now there is `small`, `medium`, `default` and `large`.',
-    type: ['small', 'medium', 'default', 'large'],
+    type: ['default', 'small', 'medium', 'large'],
     status: 'optional',
   },
   icon: {
@@ -36,12 +36,12 @@ export const ButtonProperties: PropertiesTableProps = {
     type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
-  icon_position: {
+  iconPosition: {
     doc: 'Position of icon inside the button. Set to `left` or `right`. Tertiary button variant also supports `top`. Defaults to `right` if not set.',
     type: ['left', 'right', 'top'],
     status: 'optional',
   },
-  icon_size: {
+  iconSize: {
     doc: 'Define icon width and height. Defaults to 16px.',
     type: 'string',
     status: 'optional',
@@ -86,7 +86,7 @@ export const ButtonProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  custom_content: {
+  customContent: {
     doc: 'If you need to inject completely custom markup (React Element) into the button component. You have then to handle alignment and styling by yourself.',
     type: 'React.ReactNode',
     status: 'optional',
@@ -106,12 +106,12 @@ export const ButtonProperties: PropertiesTableProps = {
     type: ['error', 'info', 'boolean'],
     status: 'optional',
   },
-  status_state: {
+  statusState: {
     doc: 'Defines the state of the status. Currently there are two statuses `[error, info]`. Defaults to `error`.',
     type: ['error', 'info'],
     status: 'optional',
   },
-  status_props: {
+  statusProps: {
     doc: 'Use an object to define additional FormStatus properties.',
     type: 'object',
     status: 'optional',
@@ -129,7 +129,7 @@ export const ButtonProperties: PropertiesTableProps = {
 }
 
 export const ButtonEvents: PropertiesTableProps = {
-  on_click: {
+  onClick: {
     doc: 'Will be called on a click event. Returns an object with the native event: `{ event }`.',
     type: 'function',
     status: 'optional',

@@ -7,7 +7,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   extendPropsWithContextInClassComponent,
   makeUniqueId,
@@ -43,9 +43,9 @@ export default class RadioGroup extends React.PureComponent {
       PropTypes.func,
       PropTypes.node,
     ]),
-    label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
-    label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    label_position: PropTypes.oneOf(['left', 'right']),
+    labelDirection: PropTypes.oneOf(['horizontal', 'vertical']),
+    labelSrOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    labelPosition: PropTypes.oneOf(['left', 'right']),
     title: PropTypes.string,
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -58,9 +58,9 @@ export default class RadioGroup extends React.PureComponent {
       PropTypes.func,
       PropTypes.node,
     ]),
-    status_state: PropTypes.string,
-    status_props: PropTypes.object,
-    status_no_animation: PropTypes.oneOfType([
+    statusState: PropTypes.string,
+    statusProps: PropTypes.object,
+    statusNoAnimation: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
     ]),
@@ -73,7 +73,7 @@ export default class RadioGroup extends React.PureComponent {
       PropTypes.func,
       PropTypes.node,
     ]),
-    layout_direction: PropTypes.oneOf(['column', 'row']),
+    layoutDirection: PropTypes.oneOf(['column', 'row']),
     vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     value: PropTypes.string,
     attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -87,14 +87,14 @@ export default class RadioGroup extends React.PureComponent {
       PropTypes.node,
     ]),
 
-    on_change: PropTypes.func,
+    onChange: PropTypes.func,
   }
 
   static defaultProps = {
     label: null,
-    label_direction: null,
-    label_sr_only: null,
-    label_position: null,
+    labelDirection: null,
+    labelSrOnly: null,
+    labelPosition: null,
     title: null,
     disabled: null,
     skeleton: null,
@@ -102,20 +102,20 @@ export default class RadioGroup extends React.PureComponent {
     name: null,
     size: null,
     status: null,
-    status_state: 'error',
-    status_props: null,
-    status_no_animation: null,
+    statusState: 'error',
+    statusProps: null,
+    statusNoAnimation: null,
     globalStatus: null,
     suffix: null,
     vertical: null,
-    layout_direction: 'row',
+    layoutDirection: 'row',
     value: undefined,
     attributes: null,
 
     className: null,
     children: null,
 
-    on_change: null,
+    onChange: null,
   }
 
   static parseChecked = (state) => /true|on/.test(String(state))
@@ -146,7 +146,7 @@ export default class RadioGroup extends React.PureComponent {
 
   onChangeHandler = ({ value, event }) => {
     this.setState({ value, _listenForPropChanges: false })
-    dispatchCustomElementEvent(this, 'on_change', {
+    dispatchCustomElementEvent(this, 'onChange', {
       value,
       event,
     })
@@ -157,25 +157,23 @@ export default class RadioGroup extends React.PureComponent {
     const props = extendPropsWithContextInClassComponent(
       this.props,
       RadioGroup.defaultProps,
-      // Deprecated – can be removed in v11
-      pickFormElementProps(this.context?.FormRow),
       pickFormElementProps(this.context?.formElement),
       this.context.RadioGroup
     )
 
     const {
       status,
-      status_state,
-      status_props,
-      status_no_animation,
+      statusState,
+      statusProps,
+      statusNoAnimation,
       globalStatus,
       suffix,
       label,
-      label_direction,
-      label_sr_only,
-      label_position,
+      labelDirection,
+      labelSrOnly,
+      labelPosition,
       vertical,
-      layout_direction,
+      layoutDirection,
       size,
       disabled,
       skeleton,
@@ -185,7 +183,7 @@ export default class RadioGroup extends React.PureComponent {
       name: _name, // eslint-disable-line
       value: _value, // eslint-disable-line
       children, // eslint-disable-line
-      on_change, // eslint-disable-line
+      onChange, // eslint-disable-line
 
       ...rest
     } = props
@@ -195,10 +193,10 @@ export default class RadioGroup extends React.PureComponent {
     const id = this._id
     const showStatus = getStatusState(status)
 
-    const classes = classnames(
+    const classes = clsx(
       'dnb-radio-group',
-      status && `dnb-radio-group__status--${status_state}`,
-      `dnb-radio-group--${layout_direction}`,
+      status && `dnb-radio-group__status--${statusState}`,
+      `dnb-radio-group--${layoutDirection}`,
       'dnb-form-component',
       createSpacingClasses(props),
       className
@@ -228,7 +226,7 @@ export default class RadioGroup extends React.PureComponent {
       value,
       size,
       disabled,
-      label_position,
+      labelPosition,
       onChange: this.onChangeHandler,
     }
 
@@ -245,7 +243,7 @@ export default class RadioGroup extends React.PureComponent {
           >
             <Flex.Container
               direction={
-                vertical || label_direction === 'vertical'
+                vertical || labelDirection === 'vertical'
                   ? 'vertical'
                   : 'horizontal'
               }
@@ -255,7 +253,7 @@ export default class RadioGroup extends React.PureComponent {
                 <FormLabel
                   element="legend"
                   id={legendId}
-                  srOnly={label_sr_only}
+                  srOnly={labelSrOnly}
                 >
                   {label}
                 </FormLabel>
@@ -285,12 +283,12 @@ export default class RadioGroup extends React.PureComponent {
                   globalStatus={globalStatus}
                   label={label}
                   text={status}
-                  state={status_state}
-                  text_id={id + '-status'} // used for "aria-describedby"
-                  width_selector={id + ', ' + legendId}
-                  no_animation={status_no_animation}
+                  state={statusState}
+                  textId={id + '-status'} // used for "aria-describedby"
+                  widthSelector={id + ', ' + legendId}
+                  noAnimation={statusNoAnimation}
                   skeleton={skeleton}
-                  {...status_props}
+                  {...statusProps}
                 />
               </Space>
             </Flex.Container>

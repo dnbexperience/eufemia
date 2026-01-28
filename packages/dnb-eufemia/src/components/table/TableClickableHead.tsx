@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import keycode from '../../shared/keycode'
 import useId from '../../shared/helpers/useId'
 import { emptySelectedText, hasSelectedText } from '../../shared/helpers'
@@ -26,8 +26,8 @@ export function TableClickableHead(allProps: TableClickableHeadProps) {
     className,
     disabled,
     onClick,
-    onOpened,
-    onClosed,
+    onOpen,
+    onClose,
 
     trIsOpen,
     trIsHover,
@@ -57,7 +57,7 @@ export function TableClickableHead(allProps: TableClickableHeadProps) {
   return (
     <tr
       tabIndex={clickable && !disabled ? 0 : undefined}
-      className={classnames(
+      className={clsx(
         className,
         clickable && 'dnb-table__tr--clickable',
         trIsOpen && 'dnb-table__tr--expanded',
@@ -168,7 +168,7 @@ export function TableClickableButtonTd(props: {
           {...(trIsOpen != null
             ? { 'aria-expanded': Boolean(trIsOpen) }
             : {})}
-          on_click={(event) => onClick(event, true)}
+          onClick={(event) => onClick(event, true)}
         />
       </span>
     </Td>

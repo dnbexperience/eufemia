@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useMemo, useRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import SharedContext from '../../../../shared/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import { LOCALE } from '../../../../shared/defaults'
@@ -239,7 +239,7 @@ function SelectCountry(props: Props) {
 
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
-    className: classnames('dnb-forms-field-select-country', className),
+    className: clsx('dnb-forms-field-select-country', className),
     label,
     width:
       width === 'stretch' || fieldBlockContext?.composition
@@ -254,23 +254,23 @@ function SelectCountry(props: Props) {
       <Autocomplete
         id={id}
         placeholder={placeholder}
-        input_icon={false}
+        inputIcon={false}
         data={dataRef.current}
         value={typeof value === 'string' ? value : null}
         disabled={disabled}
         size={size}
-        on_show={fillData}
-        on_focus={onFocusHandler}
-        on_blur={handleBlur}
-        on_change={handleCountryChange}
-        on_type={onTypeHandler}
+        onOpen={fillData}
+        onFocus={onFocusHandler}
+        onBlur={handleBlur}
+        onChange={handleCountryChange}
+        onType={onTypeHandler}
         stretch
         selectall
         status={hasError ? 'error' : undefined}
-        show_submit_button
-        keep_selection
+        showSubmitButton
+        keepSelection
         autoComplete={autoComplete ?? 'country-name'}
-        no_animation={noAnimation}
+        noAnimation={noAnimation}
         {...htmlAttributes}
       />
     </FieldBlock>

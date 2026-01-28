@@ -31,10 +31,10 @@ export const ProviderSandbox = () => {
             <NumberFormat>12345678</NumberFormat>
             <DatePicker
               left
-              opened
-              show_submit_button
-              show_cancel_button
-              show_reset_button
+              open
+              showSubmitButton
+              showCancelButton
+              showResetButton
             />
           </Section>
         </Provider>
@@ -53,7 +53,7 @@ const ChangeLocale = () => {
         label="Choose:"
         variant="radio"
         value={locale}
-        on_change={({ value: locale }) => {
+        onChange={({ value: locale }) => {
           setLocale(locale)
           update({ locale })
         }}
@@ -67,7 +67,7 @@ const ChangeLocale = () => {
         left
         value={locale}
         data={{ 'en-GB': 'English', 'nb-NO': 'Norsk', 'sv-SE': 'Svenska' }}
-        on_change={({ data: { selected_key: locale } }) => {
+        onChange={({ data: { selectedKey: locale } }) => {
           setLocale(locale)
         }}
       />

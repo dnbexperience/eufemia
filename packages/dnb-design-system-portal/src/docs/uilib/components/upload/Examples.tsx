@@ -302,7 +302,7 @@ export const UploadIsLoading = () => (
             <ToggleButton
               top="small"
               disabled={files.length < 1}
-              on_change={({ checked }) =>
+              onChange={({ checked }) =>
                 setFiles(
                   files.map((fileItem) => {
                     return { ...fileItem, isLoading: checked }
@@ -338,7 +338,7 @@ export const UploadErrorMessage = () => (
             <ToggleButton
               top="small"
               disabled={files.length < 1}
-              on_change={({ checked }) => {
+              onChange={({ checked }) => {
                 setFiles(
                   files.map((fileItem) => {
                     return {

@@ -39,7 +39,7 @@ export const TableProperties: PropertiesTableProps = {
   },
   size: {
     doc: 'Spacing size inside the table header and data.',
-    type: [`'large'`, `'medium'`, `'small'`],
+    type: [`'large'`, `'small'`, `'medium'`],
     defaultValue: `'large'`,
     status: 'optional',
   },
@@ -130,13 +130,13 @@ export const TrEventProperties: PropertiesTableProps = {
     defaultValue: 'undefined',
     status: 'optional',
   },
-  onOpened: {
+  onOpen: {
     doc: 'Will emit when table row is expanded. Returns an object with the table row as the target: `{ target }`.',
     type: '({ target }) => void',
     defaultValue: 'undefined',
     status: 'optional',
   },
-  onClosed: {
+  onClose: {
     doc: 'Will emit when table row is closed (after it was open). Returns an object with the table row as the target: `{ target }`.',
     type: '({ target }) => void',
     defaultValue: 'undefined',

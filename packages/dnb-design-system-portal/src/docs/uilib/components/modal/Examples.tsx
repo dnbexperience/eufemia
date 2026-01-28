@@ -37,14 +37,14 @@ export const ModalExampleStateOnly = () => (
             <Button
               id="custom-triggerer"
               text="Custom trigger Button"
-              on_click={() => setModalState((s) => !s)}
+              onClick={() => setModalState((s) => !s)}
             />
             <Modal
               title="Modal Title"
-              omit_trigger_button
-              open_state={modalIsActive}
-              labelled_by="custom-triggerer"
-              on_close={() => setModalState(false)}
+              omitTriggerButton
+              open={modalIsActive}
+              labelledBy="custom-triggerer"
+              onClose={() => setModalState(false)}
             >
               <ExampleCard>
                 <P>This Modal was opened by a custom trigger button.</P>
@@ -64,9 +64,9 @@ export const ModalExampleCloseByHandler = () => (
     <Modal
       title="Auto close"
       triggerAttributes={{ text: 'Click me' }}
-      align_content="center"
-      max_width="40rem"
-      close_modal={(close) => {
+      alignContent="center"
+      maxWidth="40rem"
+      closeModal={(close) => {
         const timeout = setTimeout(close, 3e3)
         return () => clearTimeout(timeout)
       }}

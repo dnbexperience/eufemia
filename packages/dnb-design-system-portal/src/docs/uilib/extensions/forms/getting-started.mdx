@@ -896,8 +896,8 @@ You can customize the internal translations in a flat structure (dot-notation):
 
 ```tsx
 {
-  'nb-NO': { 'PhoneNumber.label': 'Egendefinert' },
-  'en-GB': { 'PhoneNumber.label': 'Custom' },
+  'nb-NO': { 'PhoneNumber.numberLabel': 'Egendefinert' },
+  'en-GB': { 'PhoneNumber.numberLabel': 'Custom' },
 }
 ```
 
@@ -905,8 +905,8 @@ or an object based structure:
 
 ```tsx
 {
-  'nb-NO': { PhoneNumber: { label: 'Egendefinert' } },
-  'en-GB': { PhoneNumber: { label: 'Custom' } },
+  'nb-NO': { PhoneNumber: { numberLabel: 'Egendefinert' } },
+  'en-GB': { PhoneNumber: { numberLabel: 'Custom' } },
 }
 ```
 
@@ -922,8 +922,8 @@ You can find all available strings and keys in the properties tab of each field 
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
 
 const myTranslations = {
-  'nb-NO': { 'PhoneNumber.label': 'Egendefinert' },
-  'en-GB': { 'PhoneNumber.label': 'Custom' },
+  'nb-NO': { 'PhoneNumber.numberLabel': 'Egendefinert' },
+  'en-GB': { 'PhoneNumber.numberLabel': 'Custom' },
 }
 
 render(

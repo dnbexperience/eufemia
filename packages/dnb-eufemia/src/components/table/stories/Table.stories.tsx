@@ -38,14 +38,7 @@ export default {
 
 export const StickyBasicTable = () => {
   return (
-    <Table
-      // top="5rem"
-      // skeleton // toggle
-      border
-      outline
-      sticky="css-position"
-      // stickyOffset="2.5rem" // height of header
-    >
+    <Table border outline sticky="css-position">
       <caption className="dnb-sr-only">A Table Caption</caption>
       <thead>
         <Tr>
@@ -144,12 +137,7 @@ export const ContainerTable = () => {
       </TableContainer.Head>
 
       <TableContainer.Body>
-        <Table
-          fixed
-          border
-          sticky
-          // stickyOffset="2.5rem"
-        >
+        <Table fixed border sticky>
           <caption className="dnb-sr-only">Table One</caption>
           <thead>
             <Tr noWrap>
@@ -204,12 +192,7 @@ export const ContainerTable = () => {
           </tbody>
         </Table>
 
-        <Table
-          fixed
-          border
-          sticky
-          // stickyOffset="2.5rem"
-        >
+        <Table fixed border sticky>
           <caption className="dnb-sr-only">Table Two</caption>
           <thead>
             <Tr noWrap>
@@ -321,7 +304,7 @@ export const BasicTable = () => {
               active={sortState.column1.active}
             >
               <Th.SortButton
-                on_click={sortHandler.column1}
+                onClick={sortHandler.column1}
                 text="Column 1"
                 title="Sort table column"
               />
@@ -332,7 +315,7 @@ export const BasicTable = () => {
               active={sortState.column2.active}
             >
               <Th.SortButton
-                on_click={sortHandler.column2}
+                onClick={sortHandler.column2}
                 text="Column 2"
                 title="Sort table column"
               />
@@ -344,7 +327,7 @@ export const BasicTable = () => {
               active={sortState.column3.active}
             >
               <Th.SortButton
-                on_click={sortHandler.column3}
+                onClick={sortHandler.column3}
                 text="Column 3"
                 title="Sort table column"
               />
@@ -468,10 +451,9 @@ const ContentTr = ({
     <Tr
       expanded={expanded}
       disabled={disabled}
-      // noAnimation
       onClick={trClickHandler}
-      onOpened={trOpenHandler}
-      onClosed={trCloseHandler}
+      onOpen={trOpenHandler}
+      onClose={trCloseHandler}
       {...rest}
     >
       <Td>
@@ -512,9 +494,7 @@ const ContentTr = ({
         <span>some content</span>
       </Td>
 
-      <Td.AccordionContent
-      // noAnimation
-      >
+      <Td.AccordionContent>
         <Dl>
           <dt>Favorittfarge</dt>
           <dd>Grønn</dd>
@@ -523,8 +503,8 @@ const ContentTr = ({
             <Button
               variant="secondary"
               icon={shopping_cart}
-              icon_position="left"
-              on_click={buttonClickHandler}
+              iconPosition="left"
+              onClick={buttonClickHandler}
             >
               Taco
             </Button>
@@ -558,11 +538,7 @@ const TableContent = () => {
       {/* <caption>A Table Caption</caption> */}
       <thead>
         <Tr>
-          <Th
-            // colSpan={2}
-            sortable
-            active
-          >
+          <Th sortable active>
             <HeaderSortButton>Fond</HeaderSortButton>
           </Th>
           <Th sortable reversed>
@@ -584,11 +560,7 @@ const TableContent = () => {
       </thead>
 
       <tbody>
-        <ContentTr
-        // variant="even"
-        // disabled
-        // expanded
-        />
+        <ContentTr />
 
         {manyRows}
       </tbody>
@@ -606,53 +578,13 @@ const HeaderSortButton = ({ children }) => {
   )
 }
 
-export const TableDeprecatedAccordionProp = () => {
-  const [skeleton, setSkeleton] = React.useState(false)
-  return (
-    <main aria-label="main area">
-      <h1 className="dnb-sr-only">Table with accordion row</h1>
-      <ToggleButton
-        // size="small"
-        on_change={() => {
-          setSkeleton((s) => !s)
-        }}
-      >
-        Toggle Skeleton
-      </ToggleButton>
-
-      <Table.ScrollView top>
-        <Table
-          accordion
-          skeleton={skeleton}
-          outline
-          border
-          size="large"
-          sticky
-          // lang="no"
-        >
-          <TableContent />
-        </Table>
-      </Table.ScrollView>
-
-      <Global
-        styles={css`
-          html {
-            overflow: scroll;
-          }
-        `}
-      />
-    </main>
-  )
-}
-
 export const TableAccordionMode = () => {
   const [skeleton, setSkeleton] = React.useState(false)
   return (
     <main aria-label="main area">
       <h1 className="dnb-sr-only">Table with accordion row</h1>
       <ToggleButton
-        // size="small"
-        on_change={() => {
+        onChange={() => {
           setSkeleton((s) => !s)
         }}
       >
@@ -667,7 +599,6 @@ export const TableAccordionMode = () => {
           border
           size="large"
           sticky
-          // lang="no"
         >
           <TableContent />
         </Table>
@@ -690,8 +621,7 @@ export const TableNavigationMode = () => {
     <main aria-label="main area">
       <h1 className="dnb-sr-only">Table with accordion row</h1>
       <ToggleButton
-        // size="small"
-        on_change={() => {
+        onChange={() => {
           setSkeleton((s) => !s)
         }}
       >
@@ -706,7 +636,6 @@ export const TableNavigationMode = () => {
           border
           size="large"
           sticky
-          // lang="no"
         >
           <TableContent />
         </Table>
@@ -764,7 +693,6 @@ export function TableSort() {
         setRowData(mockData)
         break
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortState.column1.direction])
 
   React.useEffect(() => {
@@ -782,7 +710,6 @@ export function TableSort() {
         setRowData(mockData)
         break
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortState.column2.direction])
 
   return (
@@ -882,11 +809,7 @@ export const InCard = () => {
       <Tr>
         <Td colSpan={isLarge ? 4 : 2} aria-label={header.title}>
           <Flex.Horizontal justify={align}>
-            <Button
-              variant="tertiary"
-              icon={stopIcon}
-              icon_position="left"
-            >
+            <Button variant="tertiary" icon={stopIcon} iconPosition="left">
               Avvis signering
             </Button>
             <Button variant="secondary" icon={composeIcon}>
@@ -1385,12 +1308,7 @@ const tableData = [
 
 export function Overflow() {
   return (
-    <div
-    // style={{
-    //   padding: '2rem',
-    //   minHeight: '100vh',
-    // }}
-    >
+    <div>
       {/* <h1
         style={{
           color: '#007272',
@@ -1406,21 +1324,11 @@ export function Overflow() {
         top="6rem"
         style={{
           maxHeight: '400px',
-          // backgroundColor: '#ffffff',
           borderRadius: '8px',
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.5)',
         }}
       >
-        <Table
-          fixed
-          border
-          outline
-          mode="accordion"
-
-          // style={{
-          //   '--table-border-color': '#d6d6d6',
-          // }}
-        >
+        <Table fixed border outline mode="accordion">
           {/* <caption
             style={{
               color: '#707070',
@@ -1444,12 +1352,7 @@ export function Overflow() {
           </thead>
           <tbody>
             {tableData.map((item) => (
-              <Tr
-                key={item.id}
-                // style={{
-                //   borderBottom: '1px solid #e5e5e5',
-                // }}
-              >
+              <Tr key={item.id}>
                 <Td>{item.fact}</Td>
                 <Td>{item.category}</Td>
                 <Td>{item.location}</Td>
@@ -1467,18 +1370,16 @@ export function Overflow() {
 export function Accodion() {
   const AccordionTable = ({ id, showCheckbox = false, ...props }) => {
     const TdCheckbox = () => {
-      return <Checkbox label="Select row" label_sr_only />
+      return <Checkbox label="Select row" labelSrOnly />
     }
     const TdInput = () => {
-      return <Input label="Label" label_sr_only size={4} />
+      return <Input label="Label" labelSrOnly size={4} />
     }
     const Content = ({ shareId }) => {
       const ref = React.useRef()
-      // const { copy, CopyTooltip } = useCopyWithNotice()
       const shareHandler = () => {
         const url = new URL(location.href)
         url.hash = '#' + shareId
-        // copy(url.toString())
       }
       return (
         <>
@@ -1498,10 +1399,9 @@ export function Accodion() {
           <Button
             top
             variant="tertiary"
-            // icon={copyIcon}
-            icon_position="left"
-            on_click={shareHandler}
-            inner_ref={ref}
+            iconPosition="left"
+            onClick={shareHandler}
+            innerRef={ref}
           >
             Copy link to this row
           </Button>

@@ -36,8 +36,6 @@ export const PaginationTableMarker = () => (
     <InfinityPaginationTable tableItems={tableItems} />
   </Wrapper>
 )
-
-// create our items
 const tableItems = []
 for (let i = 1; i <= 60; i++) {
   tableItems.push({ ssn: i, text: String(i), expanded: false })
@@ -46,19 +44,13 @@ for (let i = 1; i <= 60; i++) {
 const InfinityPaginationTable = ({ tableItems, ...props }) => {
   const startupPage = 1 // what we start with
   const perPageCount = 10 // how many items per page
-
-  // create our Pagination instance
   const [{ InfinityMarker, endInfinity, resetInfinity }] =
     React.useState(createPagination)
   const [orderDirection, setOrderDirection] = React.useState('asc')
   const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
   const [currentPage, setCurrentPage] = React.useState(startupPage)
   const localStack = React.useRef({})
-
-  // ascending / descending
   tableItems = reorderDirection(tableItems, orderDirection)
-
-  // fill the stack as we go
   tableItems
     .filter((cur, idx) => {
       const floor = (currentPage - 1) * perPageCount
@@ -76,22 +68,15 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
     const index = tableItems.findIndex(({ ssn }) => ssn === _ssn)
     if (index > -1) {
       const item = tableItems[index]
-
-      // update only the current item
       tableItems[index] = {
         ...item,
         expanded: !item.expanded,
       }
       localStack.current[item.ssn] = tableItems[index]
-
-      // force rerender of this component
       forceRerender(new Date().getTime())
-
-      // set new height
       setHeight({ element, expanded: !item.expanded })
     }
   }
-  // set the startup height
   const onMounted = (items) => {
     items.forEach(({ element: { current: element }, expanded }) =>
       setHeight({ element, expanded, animation: false })
@@ -115,15 +100,11 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
             <Button
               size="small"
               icon="reset"
-              icon_position="left"
+              iconPosition="left"
               variant="secondary"
-              on_click={() => {
+              onClick={() => {
                 resetHandler()
-
-                // rerender our component to get back the default state
                 setOrderDirection('asc')
-
-                // call this, because currentPage and orderDirection could be the same
                 forceRerender(new Date().getTime())
               }}
             >
@@ -141,7 +122,7 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
               icon="arrow-down"
               text="Sortable"
               title="Sort table row"
-              on_click={() => {
+              onClick={() => {
                 resetHandler()
 
                 setOrderDirection((o) => (o === 'asc' ? 'desc' : 'asc'))
@@ -152,42 +133,40 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
       </thead>
       <tbody>
         <InfinityMarker
-          marker_element="tr"
-          fallback_element={({ className, ...props }) => (
+          markerElement="tr"
+          fallbackElement={({ className, ...props }) => (
             <TableRow className={className}>
               <TableData colSpan={2} {...props} />
             </TableRow>
           )} // in order to show the injected "indicator" and "load button" in the middle of the orw
           {...props}
-          min_wait_time={0}
-          startup_page={startupPage}
-          startup_count={2}
-          current_page={currentPage} // Mandatory
-          on_load={({ pageNumber }) => {
-            console.log('on_load: with page', pageNumber)
+          minWaitTime={0}
+          startupPage={startupPage}
+          startupCount={2}
+          currentPage={currentPage} // Mandatory
+          onLoad={({ pageNumber }) => {
+            console.log('onLoad: with page', pageNumber)
 
             if (pageNumber > tableItems.length / perPageCount) {
               endInfinity()
             } else {
-              // simulate server delay
               clearTimeout(serverDelayTimeout)
               serverDelayTimeout = setTimeout(
                 () => {
-                  // once we set current page, we force a rerender, and sync of data
                   setCurrentPage(pageNumber)
                 },
                 Math.ceil(Math.random() * 1e3)
               ) // simulate random delay
             }
           }}
-          on_startup={({ pageNumber }) => {
-            console.log('on_startup: with page', pageNumber)
+          onStartup={({ pageNumber }) => {
+            console.log('onStartup: with page', pageNumber)
           }}
-          on_change={({ pageNumber }) => {
-            console.log('on_change: with page', pageNumber)
+          onChange={({ pageNumber }) => {
+            console.log('onChange: with page', pageNumber)
           }}
-          on_end={({ pageNumber }) => {
-            console.log('on_end: with page', pageNumber)
+          onEnd={({ pageNumber }) => {
+            console.log('onEnd: with page', pageNumber)
           }}
         >
           <InfinityPagination
@@ -317,17 +296,12 @@ const setHeight = ({
     typeof window !== 'undefined' &&
     window.requestAnimationFrame
   ) {
-    // get tr element
     if (String(element.nodeName).toLowerCase() === 'td') {
       element = element.parentElement
     }
-
-    // get the new height
     const newHeight = expanded
       ? window.getComputedStyle(element)['max-height'] // maxHeight
       : element.scrollHeight
-
-    // make the animation
     window.requestAnimationFrame(() => {
       if (animation) {
         element.style.height = '1px'
@@ -345,8 +319,6 @@ const reorderDirection = (items, dir) =>
     const b = parseFloat(B)
     return (dir === 'asc' ? a > b : a < b) ? 1 : -1
   })
-
-// Page layout
 const Wrapper = styled(Section)`
   width: 100%;
   background: var(--color-white);

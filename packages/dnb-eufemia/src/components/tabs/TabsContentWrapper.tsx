@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   validateDOMAttributes,
   isTrue,
@@ -14,10 +14,10 @@ import HeightAnimation from '../height-animation/HeightAnimation'
 
 export default class ContentWrapper extends React.PureComponent<ContentWrapperProps> {
   static defaultProps = {
-    selected_key: null,
-    content_style: null,
+    selectedKey: null,
+    contentStyle: null,
     animate: null,
-    content_spacing: true,
+    contentSpacing: true,
     children: null,
   }
 
@@ -53,10 +53,10 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
     const {
       id,
       children,
-      selected_key: key,
-      content_style,
+      selectedKey: key,
+      contentStyle,
       animate,
-      content_spacing,
+      contentSpacing,
       ...rest
     } = this.props
 
@@ -66,10 +66,14 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
 
     const params = rest
 
-    if (key) {
+    // Use state.key if available (when linked with EventEmitter),
+    // otherwise fall back to selectedKey prop
+    const activeKey = this.state.key !== null ? this.state.key : key
+
+    if (activeKey) {
       params['aria-labelledby'] = combineLabelledBy(
         params,
-        `${id}-tab-${key}`
+        `${id}-tab-${activeKey}`
       )
     }
 
@@ -77,7 +81,12 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
 
     let content = children
     if (typeof children === 'function') {
-      content = children(this.state)
+      // If state.key is null but we have an activeKey, create a proper state object
+      const stateToPass =
+        this.state.key !== null
+          ? this.state
+          : { ...this.state, key: activeKey }
+      content = children(stateToPass)
     }
 
     return (
@@ -86,12 +95,12 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
         tabIndex="-1"
         id={`${id}-content`}
         element={
-          content_style
+          contentStyle
             ? React.forwardRef((props, ref) => {
                 return (
                   <Section
-                    spacing={content_style ? false : undefined}
-                    style_type={content_style ? content_style : undefined}
+                    spacing={contentStyle ? false : undefined}
+                    style_type={contentStyle ? contentStyle : undefined}
                     innerRef={ref}
                     {...props}
                   />
@@ -99,12 +108,12 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
               })
             : 'div'
         }
-        className={classnames(
+        className={clsx(
           'dnb-tabs__content',
           'dnb-no-focus',
-          content_spacing
+          contentSpacing
             ? `dnb-section--spacing-${
-                isTrue(content_spacing) ? 'large' : content_spacing
+                isTrue(contentSpacing) ? 'large' : contentSpacing
               }`
             : null,
           createSpacingClasses(rest)
@@ -133,9 +142,9 @@ export type ContentWrapperChildren =
 
 export interface ContentWrapperProps extends React.HTMLProps<HTMLElement> {
   id: string
-  selected_key?: ContentWrapperSelectedKey
-  content_style?: SectionStyleTypes | SectionVariants
+  selectedKey?: ContentWrapperSelectedKey
+  contentStyle?: SectionStyleTypes | SectionVariants
   animate?: boolean
-  content_spacing?: SectionSpacing
+  contentSpacing?: SectionSpacing
   children?: ContentWrapperChildren
 }

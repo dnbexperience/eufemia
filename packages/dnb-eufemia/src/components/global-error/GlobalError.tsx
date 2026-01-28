@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Context, { GetTranslationProps } from '../../shared/Context'
 import {
   processChildren,
@@ -13,7 +13,7 @@ import {
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Anchor from '../anchor/Anchor'
 import Skeleton, { SkeletonShow } from '../skeleton/Skeleton'
-import { H1, P, Code } from '../../elements'
+import { H1, P } from '../../elements'
 import type { SpacingProps } from '../../shared/types'
 
 export type GlobalErrorLink = {
@@ -29,14 +29,6 @@ export type GlobalErrorProps = {
   statusCode?: '404' | '500' | string
 
   /**
-   *
-   * When `404` or `500` is given, a predefined text will be shown.
-   * Defaults to `404`.
-   * @deprecated – Replaced with statusCode, status can be removed in v11.
-   */
-  status?: '404' | '500' | string
-
-  /**
    * Will overwrite the default title.
    */
   title?: React.ReactNode
@@ -50,12 +42,6 @@ export type GlobalErrorProps = {
    * Will overwrite the default error message code.
    */
   errorMessageCode?: React.ReactNode
-
-  /**
-   * Will overwrite the default error message code.
-   * @deprecated – Replaced with errorMessageCode, code can be removed in v11.
-   */
-  code?: React.ReactNode
 
   /**
    * Will overwrite the default additional help text.
@@ -101,8 +87,6 @@ export type GlobalErrorTranslation = {
 }
 
 const defaultProps = {
-  // deprecated – Replaced with statusCode, status can be removed in v11.
-  status: '404',
   statusCode: '404',
 }
 
@@ -119,14 +103,11 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
     defaultProps,
     context?.GlobalError,
     translation,
-    translation[
-      localProps.status || localProps.statusCode || defaultProps.statusCode
-    ],
+    translation[localProps.statusCode || defaultProps.statusCode],
     { skeleton: context?.skeleton }
   )
 
   const {
-    status,
     statusCode,
     skeleton,
     center,
@@ -134,16 +115,12 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
 
     title,
     help,
-    code,
     errorMessageCode,
     links,
     text,
 
     ...attributes
   } = allProps
-
-  // When status is deprecated, we just use the statusCode
-  const statusToUse = status !== defaultProps.status ? status : statusCode
 
   // Security: Always render text as children to prevent XSS attacks.
   // If formatting is needed, pass ReactNode instead of HTML strings.
@@ -152,9 +129,9 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
   }
 
   const params = {
-    className: classnames(
+    className: clsx(
       'dnb-global-error',
-      `dnb-global-error--${statusToUse}`,
+      `dnb-global-error--${statusCode}`,
       center && 'dnb-global-error--center',
       createSpacingClasses(attributes),
       className
@@ -164,9 +141,6 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
 
   const additionalContent = processChildren(allProps)
 
-  // deprecated – Replaced with errorMessageCode, code and the line below can be removed in v11.
-  const userProvidedCodeValue = Object.hasOwn(localProps, 'code')
-
   return (
     <Skeleton {...params} show={skeleton} element="section">
       <div className="dnb-global-error__inner">
@@ -175,17 +149,9 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
             {title}
           </H1>
           <P bottom {...textParams} />
-          {userProvidedCodeValue && code && (
+          {errorMessageCode && (
             <P bottom className="dnb-global-error__status">
-              {code} {statusToUse && <Code>{statusToUse}</Code>}
-            </P>
-          )}
-          {!userProvidedCodeValue && errorMessageCode && (
-            <P bottom className="dnb-global-error__status">
-              {String(errorMessageCode).replace(
-                '%statusCode',
-                statusToUse
-              )}
+              {String(errorMessageCode).replace('%statusCode', statusCode)}
             </P>
           )}
           {help && links?.length && (

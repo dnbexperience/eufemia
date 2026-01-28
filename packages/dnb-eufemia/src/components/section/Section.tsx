@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Context from '../../shared/Context'
 import {
   isTrue,
@@ -126,10 +126,6 @@ export type SectionProps = {
    * @deprecated in v11 use "background" prop instead
    */
   style_type?: SectionStyleTypes | string
-  /**
-   * @deprecated in v11 use "innerRef" prop instead
-   */
-  inner_ref?: React.RefObject<HTMLElement>
 }
 
 export type SectionAllProps = SectionProps &
@@ -183,17 +179,16 @@ export function SectionParams(
 
     spacing,
     style_type,
-    inner_ref,
 
     ...attributes
   } = props
 
   const internalRef = React.useRef<HTMLElement>()
-  const elementRef = innerRef || inner_ref || internalRef
+  const elementRef = innerRef || internalRef
 
   return Object.freeze({
     ...attributes,
-    className: classnames(
+    className: clsx(
       'dnb-section',
       `dnb-section--${variant ? variant : style_type || 'default'}`,
       spacing &&

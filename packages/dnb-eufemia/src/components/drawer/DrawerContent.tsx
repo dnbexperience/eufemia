@@ -4,7 +4,7 @@
  */
 
 import React, { useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   isTrue,
   findElementInChildren,
@@ -33,12 +33,15 @@ export default function DrawerContent({
   fullscreen = 'auto',
   noAnimation = false,
   noAnimationOnMobile = false,
-  minWidth: min_width = null,
-  maxWidth: max_width = null,
+  minWidth: minWidthProp = null,
+  maxWidth: maxWidthProp = null,
   ...rest
 }: DrawerContentProps): JSX.Element {
   const context = useContext(ModalContext)
-  const { minWidth, maxWidth } = checkMinMaxWidth(min_width, max_width)
+  const { minWidth, maxWidth } = checkMinMaxWidth(
+    minWidthProp,
+    maxWidthProp
+  )
   const content =
     modalContent ||
     getContent(
@@ -48,7 +51,7 @@ export default function DrawerContent({
     )
 
   const innerParams = {
-    className: classnames(
+    className: clsx(
       !isTrue(preventCoreStyle) && 'dnb-core-style',
 
       'dnb-drawer',

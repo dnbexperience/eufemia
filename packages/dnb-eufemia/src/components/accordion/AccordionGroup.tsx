@@ -5,7 +5,7 @@
 
 import React, { useContext, useEffect, useRef } from 'react'
 
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   isTrue,
   makeUniqueId,
@@ -38,7 +38,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
   }
 
   function onChangeHandler(event) {
-    dispatchCustomElementEvent(thisInstance, 'on_change', {
+    dispatchCustomElementEvent(thisInstance, 'onChange', {
       id: event.id,
       expanded: event.expanded,
       event,
@@ -55,16 +55,19 @@ const AccordionGroup = (props: AccordionGroupProps) => {
 
   const {
     expanded, // eslint-disable-line
-    expanded_id, // eslint-disable-line
+    expandedId, // eslint-disable-line
     prerender, // eslint-disable-line
-    prevent_rerender, // eslint-disable-line
-    single_container, // eslint-disable-line
+    preventRerender, // eslint-disable-line
+    singleContainer, // eslint-disable-line
     contentRef, // eslint-disable-line
-    allow_close_all, // eslint-disable-line
-    remember_state, // eslint-disable-line
-    flush_remembered_state, // eslint-disable-line
+    allowCloseAll, // eslint-disable-line
+    rememberState, // eslint-disable-line
+    flushRememberedState, // eslint-disable-line
+    noAnimation, // eslint-disable-line
+    iconSize, // eslint-disable-line
     disabled, // eslint-disable-line
     group, // eslint-disable-line
+    iconPosition, // eslint-disable-line
     onInit, // eslint-disable-line
     className,
 
@@ -88,9 +91,9 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     }
   }, [collapseAllHandleRef])
 
-  const classes = classnames(
+  const classes = clsx(
     'dnb-accordion-group',
-    isTrue(single_container) && 'dnb-accordion-group--single-container',
+    isTrue(singleContainer) && 'dnb-accordion-group--single-container',
     createSpacingClasses(extendedProps),
     className
   )
@@ -102,7 +105,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
   // also used for code markup simulation
   validateDOMAttributes(props, params)
 
-  if (!extendedProps?.group && isTrue(props.single_container)) {
+  if (!extendedProps?.group && isTrue(props.singleContainer)) {
     extendedProps.group = makeUniqueId()
   }
 

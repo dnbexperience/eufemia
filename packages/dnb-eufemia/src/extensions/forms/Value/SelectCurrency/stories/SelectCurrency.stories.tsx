@@ -10,16 +10,8 @@ export function SelectCurrencyValue() {
   return (
     <Form.Handler>
       <Flex.Stack>
-        <Field.SelectCurrency
-          path="/myCurrency"
-          value="NOK"
-          // defaultValue="NOK"
-        />
-        <Value.SelectCurrency
-          // label="Custom Label"
-          path="/myCurrency"
-          // defaultValue="NOK"
-        />
+        <Field.SelectCurrency path="/myCurrency" value="NOK" />
+        <Value.SelectCurrency path="/myCurrency" />
       </Flex.Stack>
     </Form.Handler>
   )

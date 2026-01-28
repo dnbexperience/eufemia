@@ -3,7 +3,7 @@
  *
  */
 
-import classnames from 'classnames'
+import clsx from 'clsx'
 import React, { useContext } from 'react'
 import Button, { ButtonProps } from '../button/Button'
 import Section from '../section/Section'
@@ -38,13 +38,15 @@ function StepIndicatorTriggerButton({
   const {
     stepsLabel,
     activeStep,
-    overview_title,
-    openState,
+    overviewTitle,
+    open,
     closeHandler,
     openHandler,
     skeleton,
     filterAttributes,
-    no_animation,
+    noAnimation,
+    stepTitle, // eslint-disable-line
+    ...contextWithoutDataRest
   } = contextWithoutData
 
   const item = data[activeStep || 0]
@@ -52,20 +54,20 @@ function StepIndicatorTriggerButton({
   const id = useId()
 
   const triggerParams = {
-    ...contextWithoutData,
-    className: classnames(
+    ...contextWithoutDataRest,
+    className: clsx(
       'dnb-step-indicator__trigger',
       createSkeletonClass('font', skeleton)
     ),
     'aria-live': 'polite',
-  } as React.HTMLProps<HTMLElement>
+  } as Omit<React.HTMLProps<HTMLElement>, 'onChange' | 'onClick'>
 
   const buttonParams = {
     ...rest,
-    className: classnames(
+    className: clsx(
       'dnb-step-indicator__trigger__button',
       `dnb-step-indicator__trigger__button--${
-        openState ? 'expanded' : 'collapsed'
+        open ? 'expanded' : 'collapsed'
       }`,
       className
     ),
@@ -87,7 +89,7 @@ function StepIndicatorTriggerButton({
   skeletonDOMAttributes(triggerParams, skeleton)
 
   // also used for code markup simulation
-  validateDOMAttributes(contextWithoutData, triggerParams)
+  validateDOMAttributes(contextWithoutDataRest, triggerParams)
 
   return (
     <Section
@@ -99,13 +101,13 @@ function StepIndicatorTriggerButton({
       }}
       roundedCorner={{
         small: false,
-        medium: [true, true, !openState, !openState],
-        large: [true, true, !openState, !openState],
+        medium: [true, true, !open, !open],
+        large: [true, true, !open, !open],
       }}
       outset={isNested ? true : undefined}
-      aria-label={overview_title}
+      aria-label={overviewTitle}
     >
-      <HeightAnimation animate={!no_animation}>
+      <HeightAnimation animate={!noAnimation}>
         <div {...(triggerParams as React.HTMLProps<HTMLDivElement>)}>
           <FormLabel
             aria-describedby={id}
@@ -118,18 +120,18 @@ function StepIndicatorTriggerButton({
           <Button
             {...buttonParams}
             onClick={() => {
-              if (openState) {
+              if (open) {
                 closeHandler()
               } else {
                 openHandler()
               }
             }}
-            aria-expanded={openState}
+            aria-expanded={open}
             aria-label={label} // To support NVDA properly
             wrap
             variant="tertiary"
             icon={chevron_down}
-            icon_position="right"
+            iconPosition="right"
           >
             {(typeof item === 'string' ? item : item && item.title) || ''}
           </Button>

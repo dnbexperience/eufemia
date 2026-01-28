@@ -8,7 +8,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   isTrue,
   makeUniqueId,
@@ -35,25 +35,25 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
 
   static defaultProps = {
     label: null,
-    label_direction: null,
-    label_sr_only: null,
+    labelDirection: null,
+    labelSrOnly: null,
     title: null,
     multiselect: null,
     variant: null,
-    left_component: null,
+    leftComponent: null,
     disabled: null,
     skeleton: null,
     id: null,
     name: null,
     size: null,
     status: null,
-    status_state: 'error',
-    status_props: null,
-    status_no_animation: null,
+    statusState: 'error',
+    statusProps: null,
+    statusNoAnimation: null,
     globalStatus: null,
     suffix: null,
     vertical: null,
-    layout_direction: 'row',
+    layoutDirection: 'row',
     value: undefined,
     values: undefined,
     attributes: null,
@@ -61,7 +61,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
     className: null,
     children: null,
 
-    on_change: null,
+    onChange: null,
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -120,7 +120,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
       _listenForPropChanges: false,
     })
 
-    dispatchCustomElementEvent(this, 'on_change', {
+    dispatchCustomElementEvent(this, 'onChange', {
       value,
       values,
       event,
@@ -133,26 +133,24 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
       this.props,
       ToggleButtonGroup.defaultProps,
       this.context.getTranslation(this.props).ToggleButton,
-      // Deprecated – can be removed in v11
-      pickFormElementProps(this.context?.FormRow),
       pickFormElementProps(this.context?.formElement),
       this.context.ToggleButtonGroup
     )
 
     const {
       status,
-      status_state,
-      status_props,
-      status_no_animation,
+      statusState,
+      statusProps,
+      statusNoAnimation,
       globalStatus,
       suffix,
-      label_direction,
-      label_sr_only,
+      labelDirection,
+      labelSrOnly,
       vertical,
-      layout_direction,
+      layoutDirection,
       label,
       variant,
-      left_component,
+      leftComponent,
       size,
       disabled,
       skeleton,
@@ -164,7 +162,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
       value: _value, // eslint-disable-line
       values: _values, // eslint-disable-line
       children, // eslint-disable-line
-      on_change, // eslint-disable-line
+      onChange, // eslint-disable-line
 
       ...rest
     } = props
@@ -174,11 +172,11 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
     const id = this._id
     const showStatus = getStatusState(status)
 
-    const classes = classnames(
+    const classes = clsx(
       'dnb-toggle-button-group',
-      status && `dnb-toggle-button-group__status--${status_state}`,
+      status && `dnb-toggle-button-group__status--${statusState}`,
       !label && 'dnb-toggle-button-group--no-label',
-      `dnb-toggle-button-group--${layout_direction}`,
+      `dnb-toggle-button-group--${layoutDirection}`,
       'dnb-form-component',
       createSpacingClasses(props),
       className
@@ -209,7 +207,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
       size,
       multiselect: isTrue(multiselect),
       variant,
-      left_component,
+      leftComponent,
       disabled,
       skeleton,
       setContext: (context) => {
@@ -240,7 +238,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
           >
             <Flex.Container
               direction={
-                vertical || label_direction === 'vertical'
+                vertical || labelDirection === 'vertical'
                   ? 'vertical'
                   : 'horizontal'
               }
@@ -250,7 +248,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
                 <FormLabel
                   element="legend"
                   id={id + '-label'}
-                  srOnly={label_sr_only}
+                  srOnly={labelSrOnly}
                 >
                   {label}
                 </FormLabel>
@@ -267,18 +265,18 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
                   id={id + '-form-status'}
                   globalStatus={globalStatus}
                   label={label}
-                  text_id={id + '-status'} // used for "aria-describedby"
+                  textId={id + '-status'} // used for "aria-describedby"
                   text={status}
-                  state={status_state}
-                  no_animation={status_no_animation}
+                  state={statusState}
+                  noAnimation={statusNoAnimation}
                   skeleton={skeleton}
-                  {...status_props}
+                  {...statusProps}
                 />
 
                 <span
-                  className={classnames(
+                  className={clsx(
                     'dnb-toggle-button-group__shell__children',
-                    `dnb-toggle-button-group__shell__children--${layout_direction}`
+                    `dnb-toggle-button-group__shell__children--${layoutDirection}`
                   )}
                 >
                   {children}
@@ -342,8 +340,8 @@ export interface ToggleButtonGroupProps
    * Use either the `label` property or provide a custom one.
    */
   label?: string | React.ReactNode
-  label_direction?: 'horizontal' | 'vertical'
-  label_sr_only?: boolean
+  labelDirection?: 'horizontal' | 'vertical'
+  labelSrOnly?: boolean
   /**
    * The `title` of the input - describing it a bit further for accessibility reasons.
    */
@@ -353,7 +351,7 @@ export interface ToggleButtonGroupProps
    */
   checked?: boolean
   variant?: ToggleButtonGroupVariant
-  left_component?: React.ReactNode
+  leftComponent?: React.ReactNode
   disabled?: boolean
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
@@ -367,12 +365,12 @@ export interface ToggleButtonGroupProps
   /**
    * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
    */
-  status_state?: FormStatusState
+  statusState?: FormStatusState
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: FormStatusProps
-  status_no_animation?: boolean
+  statusProps?: FormStatusProps
+  statusNoAnimation?: boolean
   /**
    * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
    */
@@ -382,7 +380,7 @@ export interface ToggleButtonGroupProps
    */
   suffix?: ToggleButtonGroupSuffix
   /**
-   * Defines the `value` as a string. Use it to get the value during the `on_change` event listener callback in the **ToggleButtonGroup**.
+   * Defines the `value` as a string. Use it to get the value during the `onChange` event listener callback in the **ToggleButtonGroup**.
    */
   value?: ToggleButtonGroupValue
   /**
@@ -392,17 +390,17 @@ export interface ToggleButtonGroupProps
   /**
    * Defines the layout direction of the ToggleButtonGroup. Set to `column` or `row`. Defaults to `row` if not set.
    */
-  layout_direction?: ToggleButtonGroupLayoutDirection
+  layoutDirection?: ToggleButtonGroupLayoutDirection
   /**
-   * Defines the `values` as a string. Use it to get the values during the `on_change` event listener callback in the **ToggleButtonGroup**.
+   * Defines the `values` as a string. Use it to get the values during the `onChange` event listener callback in the **ToggleButtonGroup**.
    */
   values?: ToggleButtonGroupValues
   attributes?: ToggleButtonGroupAttributes
   readOnly?: boolean
   className?: string
   children?: ToggleButtonGroupChildren
-  on_change?: (...args: any[]) => any
-  on_state_update?: (...args: any[]) => any
+  onChange?: (...args: any[]) => any
+  onStateUpdate?: (...args: any[]) => any
   // Additional properties that are used in tests and stories
   onChange?: (...args: any[]) => any
   top?: SpaceType

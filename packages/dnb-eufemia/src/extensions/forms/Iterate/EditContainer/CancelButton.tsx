@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Button, Dialog } from '../../../../components'
 import useTranslation from '../../hooks/useTranslation'
 import IterateItemContext from '../IterateItemContext'
@@ -97,9 +97,9 @@ export default function CancelButton(props: Props) {
 
   const triggerAttributes: ButtonProps = {
     variant: 'tertiary',
-    className: classnames('dnb-forms-iterate__cancel-button', className),
+    className: clsx('dnb-forms-iterate__cancel-button', className),
     icon: close,
-    icon_position: 'left',
+    iconPosition: 'left',
     text: cancelButton,
     ...rest,
   }
@@ -116,7 +116,7 @@ export default function CancelButton(props: Props) {
   }
 
   return (
-    <Button {...triggerAttributes} on_click={cancelHandler} {...rest} />
+    <Button {...triggerAttributes} onClick={cancelHandler} {...rest} />
   )
 }
 

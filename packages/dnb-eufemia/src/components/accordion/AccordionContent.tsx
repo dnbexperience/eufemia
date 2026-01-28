@@ -4,7 +4,7 @@
  */
 
 import React, { HTMLProps } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   warn,
   validateDOMAttributes,
@@ -36,10 +36,10 @@ export default function AccordionContent(props: AccordionContentProps) {
     id,
     expanded,
     prerender,
-    prevent_rerender,
-    single_container,
+    preventRerender,
+    singleContainer,
     disabled,
-    no_animation,
+    noAnimation,
     contentRef,
   } = context
 
@@ -53,9 +53,9 @@ export default function AccordionContent(props: AccordionContentProps) {
   }
 
   const setContainerHeight = () => {
-    const { single_container } = context
+    const { singleContainer } = context
 
-    if (single_container) {
+    if (singleContainer) {
       const contentElem = elementRef.current
       if (contentElem) {
         try {
@@ -66,7 +66,7 @@ export default function AccordionContent(props: AccordionContentProps) {
             contentElem
           ) as HTMLElement
 
-          if (no_animation) {
+          if (noAnimation) {
             containerElement.style.transitionDuration = '1ms'
           }
 
@@ -86,8 +86,8 @@ export default function AccordionContent(props: AccordionContentProps) {
     const {
       expanded,
       prerender,
-      prevent_rerender,
-      prevent_rerender_conditional,
+      preventRerender,
+      preventRerenderConditional,
     } = context
 
     let content = children
@@ -96,7 +96,7 @@ export default function AccordionContent(props: AccordionContentProps) {
       content = <p className="dnb-p">{content}</p>
     }
 
-    if (prevent_rerender) {
+    if (preventRerender) {
       /**
        * Ensure we do not render, if it is not expanded
        */
@@ -105,7 +105,7 @@ export default function AccordionContent(props: AccordionContentProps) {
       }
 
       // update the cache if children is not the same anymore
-      if (prevent_rerender_conditional && cacheRef.current !== content) {
+      if (preventRerenderConditional && cacheRef.current !== content) {
         cacheRef.current = content
       }
 
@@ -120,10 +120,10 @@ export default function AccordionContent(props: AccordionContentProps) {
   }
 
   React.useEffect(() => {
-    if (expanded && single_container) {
+    if (expanded && singleContainer) {
       setContainerHeight()
     }
-  }, [children, expanded, single_container, setContainerHeight])
+  }, [children, expanded, singleContainer, setContainerHeight])
 
   React.useState(() => {
     if (instance && Object.hasOwn(instance, 'current')) {
@@ -138,16 +138,16 @@ export default function AccordionContent(props: AccordionContentProps) {
   const content = renderContent()
 
   const wrapperParams = {
-    className: classnames('dnb-accordion__content', className),
+    className: clsx('dnb-accordion__content', className),
     ...rest,
   }
 
-  const keepInDOM = prerender || prevent_rerender
+  const keepInDOM = prerender || preventRerender
 
   const innerParams = {
     id: `${id}-content`,
     'aria-labelledby': `${id}-header`,
-    className: classnames(
+    className: clsx(
       'dnb-accordion__content__inner',
       createSpacingClasses(rest)
     ),
@@ -166,8 +166,7 @@ export default function AccordionContent(props: AccordionContentProps) {
   validateDOMAttributes(props, wrapperParams)
   validateDOMAttributes(null, innerParams)
 
-  const animate =
-    !no_animation && (single_container ? isSmallScreen : true)
+  const animate = !noAnimation && (singleContainer ? isSmallScreen : true)
 
   return (
     <HeightAnimation

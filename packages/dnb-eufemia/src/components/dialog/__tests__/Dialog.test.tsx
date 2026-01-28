@@ -83,25 +83,25 @@ describe('Dialog', () => {
   })
 
   it('will close by using callback method', () => {
-    const on_close = jest.fn()
-    const on_open = jest.fn()
+    const onClose = jest.fn()
+    const onOpen = jest.fn()
     render(
       <Dialog
         noAnimation
-        onOpen={on_open}
-        onClose={on_close}
+        onOpen={onOpen}
+        onClose={onClose}
         hideCloseButton
       >
         {({ close }) => (
-          <Button id="close-me" text="close" on_click={close} />
+          <Button id="close-me" text="close" onClick={close} />
         )}
       </Dialog>
     )
     fireEvent.click(document.querySelector('button'))
-    expect(on_open).toHaveBeenCalledTimes(1)
+    expect(onOpen).toHaveBeenCalledTimes(1)
 
     fireEvent.click(document.querySelector('button#close-me'))
-    expect(on_close).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveBeenCalledTimes(1)
   })
 
   it('will accept custom refs', () => {
@@ -111,7 +111,7 @@ describe('Dialog', () => {
     const MockComponent = () => {
       return (
         <Dialog
-          openState
+          open
           noAnimation
           contentRef={contentRef}
           scrollRef={scrollRef}
@@ -151,8 +151,8 @@ describe('Dialog', () => {
       <Provider value={{ locale: 'en-GB' }}>
         <Dialog
           noAnimation
-          openState
-          title={<Translation id="Modal.dialog_title" />}
+          open
+          title={<Translation id="Modal.dialogTitle" />}
         />
       </Provider>
     )
@@ -167,8 +167,8 @@ describe('Dialog', () => {
       <Provider value={{ locale: 'en-GB' }}>
         <Dialog
           noAnimation
-          openState
-          title={<Translation id="Modal.dialog_title" />}
+          open
+          title={<Translation id="Modal.dialogTitle" />}
         />
       </Provider>
     )
@@ -198,7 +198,7 @@ describe('Dialog', () => {
 
   it('should have correct role', () => {
     const { rerender } = render(
-      <Dialog {...props} openState={true}>
+      <Dialog {...props} open={true}>
         <button>button</button>
       </Dialog>
     )
@@ -212,7 +212,7 @@ describe('Dialog', () => {
     })
 
     rerender(
-      <Dialog {...props} openState={true} title="re-render">
+      <Dialog {...props} open={true} title="re-render">
         <button>button</button>
       </Dialog>
     )
@@ -228,7 +228,7 @@ describe('Dialog', () => {
     rerender(
       <Dialog
         {...props}
-        openState={true}
+        open={true}
         title="re-render"
         variant="confirmation"
       >
@@ -243,7 +243,7 @@ describe('Dialog', () => {
   it('omits action buttons when hideDecline or hideConfirm is given', () => {
     const props: DialogProps & DialogContentProps = {
       noAnimation: true,
-      openState: true,
+      open: true,
       variant: 'confirmation',
     }
     const { rerender } = render(<Dialog {...props} />)
@@ -264,7 +264,7 @@ describe('Dialog', () => {
 
   it('is closed by keyboardevent esc', () => {
     let testTriggeredBy = null
-    const on_close = jest.fn(
+    const onClose = jest.fn(
       ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
     )
 
@@ -272,35 +272,35 @@ describe('Dialog', () => {
       directDomReturn: false,
       noAnimation: true,
     }
-    render(<Dialog {...props} id="modal-dialog" onClose={on_close} />)
+    render(<Dialog {...props} id="modal-dialog" onClose={onClose} />)
 
     fireEvent.click(document.querySelector('button#modal-dialog'))
     fireEvent.keyDown(document.querySelector('div.dnb-dialog'), {
       key: 'Esc',
       keyCode: 27,
     })
-    expect(on_close).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveBeenCalledTimes(1)
     expect(testTriggeredBy).toBe('keyboard')
   })
 
   it('is closed by keyboardevent esc by window listener', async () => {
-    const on_close = jest.fn()
+    const onClose = jest.fn()
 
     const props: DialogProps & DialogContentProps = {
       directDomReturn: false,
       noAnimation: true,
     }
-    render(<Dialog {...props} id="modal-dialog" onClose={on_close} />)
+    render(<Dialog {...props} id="modal-dialog" onClose={onClose} />)
 
     fireEvent.click(document.querySelector('button#modal-dialog'))
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
     await waitFor(() => {
-      expect(on_close).toHaveBeenCalledTimes(1)
+      expect(onClose).toHaveBeenCalledTimes(1)
     })
   })
 
   it('moves focus to content by default when opened', async () => {
-    render(<Dialog noAnimation openState title="Title" />)
+    render(<Dialog noAnimation open title="Title" />)
 
     await waitFor(() => {
       const title = document.querySelector(
@@ -313,12 +313,7 @@ describe('Dialog', () => {
 
   it('respects focusSelector over close button', async () => {
     render(
-      <Dialog
-        noAnimation
-        openState
-        title="Title"
-        focusSelector="#focus-me"
-      >
+      <Dialog noAnimation open title="Title" focusSelector="#focus-me">
         <Dialog.Body>
           <input id="focus-me" />
         </Dialog.Body>
@@ -364,12 +359,12 @@ describe('Dialog', () => {
   })
 
   it('has support for nested Dialogs', async () => {
-    const on_open = {
+    const onOpen = {
       first: jest.fn(),
       second: jest.fn(),
       third: jest.fn(),
     }
-    const on_close = {
+    const onClose = {
       first: jest.fn(),
       second: jest.fn(),
       third: jest.fn(),
@@ -380,22 +375,22 @@ describe('Dialog', () => {
         <Dialog
           {...props}
           id="modal-first"
-          onOpen={on_open.first}
-          onClose={on_close.first}
+          onOpen={onOpen.first}
+          onClose={onClose.first}
         >
           <button id="content-first">content</button>
           <Dialog
             {...props}
             id="modal-second"
-            onOpen={on_open.second}
-            onClose={on_close.second}
+            onOpen={onOpen.second}
+            onClose={onClose.second}
           >
             <button id="content-second">content</button>
             <Dialog
               {...props}
               id="modal-third"
-              onOpen={on_open.third}
-              onClose={on_close.third}
+              onOpen={onOpen.third}
+              onClose={onClose.third}
             >
               <button id="content-third">content</button>
             </Dialog>
@@ -428,9 +423,9 @@ describe('Dialog', () => {
       document.documentElement.getAttribute('data-dnb-modal-active')
     ).toBe('modal-third')
 
-    expect(on_open.first).toHaveBeenCalledTimes(1)
-    expect(on_open.second).toHaveBeenCalledTimes(1)
-    expect(on_open.third).toHaveBeenCalledTimes(1)
+    expect(onOpen.first).toHaveBeenCalledTimes(1)
+    expect(onOpen.second).toHaveBeenCalledTimes(1)
+    expect(onOpen.third).toHaveBeenCalledTimes(1)
 
     expect(
       document.querySelectorAll('button.dnb-modal__close-button').length
@@ -463,9 +458,9 @@ describe('Dialog', () => {
     // Close the third one
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
     await waitFor(() => {
-      expect(on_close.first).toHaveBeenCalledTimes(0)
-      expect(on_close.second).toHaveBeenCalledTimes(0)
-      expect(on_close.third).toHaveBeenCalledTimes(1)
+      expect(onClose.first).toHaveBeenCalledTimes(0)
+      expect(onClose.second).toHaveBeenCalledTimes(0)
+      expect(onClose.third).toHaveBeenCalledTimes(1)
     })
 
     expect(
@@ -491,9 +486,9 @@ describe('Dialog', () => {
     // Close the second one
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
     await waitFor(() => {
-      expect(on_close.first).toHaveBeenCalledTimes(0)
-      expect(on_close.second).toHaveBeenCalledTimes(1)
-      expect(on_close.third).toHaveBeenCalledTimes(1)
+      expect(onClose.first).toHaveBeenCalledTimes(0)
+      expect(onClose.second).toHaveBeenCalledTimes(1)
+      expect(onClose.third).toHaveBeenCalledTimes(1)
     })
 
     expect(
@@ -512,9 +507,9 @@ describe('Dialog', () => {
     // Close the first one
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
     await waitFor(() => {
-      expect(on_close.first).toHaveBeenCalledTimes(1)
-      expect(on_close.second).toHaveBeenCalledTimes(1)
-      expect(on_close.third).toHaveBeenCalledTimes(1)
+      expect(onClose.first).toHaveBeenCalledTimes(1)
+      expect(onClose.second).toHaveBeenCalledTimes(1)
+      expect(onClose.third).toHaveBeenCalledTimes(1)
 
       expect(
         document.querySelector('#content-first')
@@ -537,7 +532,7 @@ describe('Dialog', () => {
         hideCloseButton
       >
         {({ close }) => (
-          <Button id="close-button" text="close" on_click={close} />
+          <Button id="close-button" text="close" onClick={close} />
         )}
       </Dialog>
     )
@@ -573,7 +568,7 @@ describe('Dialog', () => {
   })
 
   it('does not close with click on overlay for variant confirmation', async () => {
-    render(<Dialog {...props} variant="confirmation" openState="opened" />)
+    render(<Dialog {...props} variant="confirmation" open={true} />)
 
     fireEvent.click(document.querySelector('.dnb-modal__content'))
     expect(
@@ -601,7 +596,7 @@ describe('Dialog', () => {
         >
           <Dialog
             noAnimation
-            openState={isOpen}
+            open={isOpen}
             onClose={() => setIsOpen(false)}
             title="Test Dialog"
           >
@@ -710,7 +705,7 @@ describe('Dialog rootId', () => {
 describe('Dialog aria', () => {
   it('should validate with ARIA rules as a dialog', async () => {
     global.console.log = jest.fn()
-    const Comp = render(<Dialog {...props} openState={true} />)
+    const Comp = render(<Dialog {...props} open={true} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

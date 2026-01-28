@@ -5,7 +5,7 @@ import SharedContext, { InternalLocale } from '../../shared/Context'
 import { Li, Ol, Ul } from '../../elements'
 import { UlAllProps } from '../../elements/Ul'
 import { OlAllProps } from '../../elements/Ol'
-import classNames from 'classnames'
+import clsx from 'clsx'
 
 export type ListFormatProps = {
   /**
@@ -94,7 +94,7 @@ function ListFormat(
     return (
       <ListElement
         type={listType !== 'unstyled' ? listType : null}
-        className={classNames(
+        className={clsx(
           'dnb-list-format',
           listType === 'unstyled' && 'dnb-unstyled-list',
           className

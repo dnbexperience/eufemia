@@ -3,7 +3,7 @@ import { PropertiesTableProps } from '../../shared/types'
 export const TooltipProperties: PropertiesTableProps = {
   children: {
     doc: 'Provide a string or a React Element to be shown as the tooltip content.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   active: {
@@ -58,12 +58,12 @@ export const TooltipProperties: PropertiesTableProps = {
   },
   size: {
     doc: 'Defines the spacing size of the tooltip. Can be `large` or `basis`. Defaults to `basis`.',
-    type: ['large', 'basis'],
+    type: ['basis', 'large'],
     status: 'optional',
   },
   targetElement: {
     doc: 'Provide an element directly as a React Node or a React Ref that will be wrapped and rendered.',
-    type: ['React.Node', 'React.RefObject'],
+    type: ['React.ReactNode', 'React.RefObject'],
     status: 'optional',
   },
   targetSelector: {

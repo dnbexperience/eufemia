@@ -51,7 +51,7 @@ describe('P element', () => {
     it('renders as a paragraph inside Dialog even when the Dialog is wrapped by another paragraph', () => {
       render(
         <P>
-          <Dialog noAnimation openState title="Dialog title">
+          <Dialog noAnimation open title="Dialog title">
             <P>Dialog paragraph</P>
           </Dialog>
         </P>
@@ -66,7 +66,7 @@ describe('P element', () => {
     it('still renders nested paragraphs inside Dialog as spans', () => {
       render(
         <P>
-          <Dialog noAnimation openState title="Dialog title">
+          <Dialog noAnimation open title="Dialog title">
             <P>
               <P>Inner Paragraph</P>
             </P>
@@ -85,7 +85,7 @@ describe('P element', () => {
     it('renders as a paragraph inside Drawer even when the Drawer is wrapped by another paragraph', () => {
       render(
         <P>
-          <Drawer noAnimation openState title="Drawer title">
+          <Drawer noAnimation open title="Drawer title">
             <P>Drawer paragraph</P>
           </Drawer>
         </P>
@@ -100,7 +100,7 @@ describe('P element', () => {
     it('still renders nested paragraphs inside Drawer as spans', () => {
       render(
         <P>
-          <Drawer noAnimation openState title="Drawer title">
+          <Drawer noAnimation open title="Drawer title">
             <P>
               <P>Inner Paragraph</P>
             </P>
@@ -174,70 +174,6 @@ describe('P element', () => {
   it('should validate with ARIA rules as a p element', async () => {
     const Comp = render(<P {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
-  })
-
-  describe('deprecated behavior', () => {
-    it('can set className and modifier', () => {
-      render(<P className="my-class" modifier="my-modifier" />)
-      const element = document.querySelector('.dnb-p')
-
-      expect(Array.from(element.classList)).toEqual([
-        'dnb-p',
-        'dnb-p--my-modifier',
-        'my-class',
-      ])
-    })
-    it('has correct style when size and a modifier is defined', () => {
-      render(<P size="medium" modifier="medium" />)
-      const element = document.querySelector('.dnb-t__size--medium')
-
-      expect(Array.from(element.classList)).toEqual([
-        'dnb-p',
-        'dnb-t__line-height--medium',
-        'dnb-t__size--medium',
-        'dnb-t__weight--medium',
-      ])
-    })
-    it('has correct style when several modifiers are defined', () => {
-      render(<P modifier="medium small" />)
-      const element = document.querySelector('.dnb-t__size--small')
-
-      expect(Array.from(element.classList)).toEqual([
-        'dnb-p',
-        'dnb-t__line-height--small',
-        'dnb-t__size--small',
-        'dnb-t__weight--medium',
-      ])
-    })
-    it('has correct style when several modifiers conflict', () => {
-      render(<P modifier="medium bold x-small small" />)
-      const element = document.querySelector('.dnb-t__size--x-small')
-
-      expect(Array.from(element.classList)).toEqual([
-        'dnb-p',
-        'dnb-t__line-height--x-small',
-        'dnb-t__size--x-small',
-        'dnb-t__weight--bold',
-      ])
-    })
-    it('has correct style when medium is set to true', () => {
-      render(<P medium />)
-      const element = document.querySelector('.dnb-t__weight--medium')
-      expect(Array.from(element.classList)).toEqual([
-        'dnb-p',
-        'dnb-t__weight--medium',
-      ])
-    })
-
-    it('has correct style when bold is set to true', () => {
-      render(<P bold />)
-      const element = document.querySelector('.dnb-t__weight--bold')
-
-      expect(Array.from(element.classList)).toEqual([
-        'dnb-p',
-        'dnb-t__weight--bold',
-      ])
-    })
   })
 
   describe('proseMaxWidth', () => {

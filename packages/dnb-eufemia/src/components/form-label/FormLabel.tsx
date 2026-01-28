@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect, useRef } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   extendPropsWithContext,
   isTrue,
@@ -19,7 +19,6 @@ import {
   FormElementProps,
   pickFormElementProps,
 } from '../../shared/helpers/filterValidProps'
-import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 import { omitSpacingProps } from '../flex/utils'
 import Context from '../../shared/Context'
 import type {
@@ -47,13 +46,6 @@ export type FormLabelProps = {
    * For internal use only
    */
   labelDirection?: FormElementProps['labelDirection']
-
-  /** @deprecated use forId instead */
-  for_id?: string
-  /** @deprecated use srOnly instead */
-  sr_only?: boolean
-  /** @deprecated use "vertical" (or "labelDirection" for internal use) instead (was not documented before) */
-  label_direction?: FormElementProps['label_direction']
 }
 
 export type FormLabelAllProps = FormLabelProps &
@@ -64,15 +56,12 @@ export default function FormLabel(localProps: FormLabelAllProps) {
   const context = React.useContext(Context)
 
   // use only the props from context, who are available here anyway
-  const props = convertSnakeCaseProps(
-    extendPropsWithContext(
-      localProps,
-      null,
-      { skeleton: context?.skeleton },
-      pickFormElementProps(context?.FormRow), // Deprecated – can be removed in v11
-      pickFormElementProps(context?.formElement),
-      context?.FormLabel
-    )
+  const props = extendPropsWithContext(
+    localProps,
+    null,
+    { skeleton: context?.skeleton },
+    pickFormElementProps(context?.formElement),
+    context?.FormLabel
   )
 
   const nestedContent = props?.text || props?.children
@@ -106,7 +95,7 @@ export default function FormLabel(localProps: FormLabelAllProps) {
   )
 
   const params = {
-    className: classnames(
+    className: clsx(
       'dnb-form-label',
       (isTrue(vertical) || labelDirection === 'vertical') &&
         `dnb-form-label--vertical`,

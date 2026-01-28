@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useRef,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { HelpButtonProps } from './HelpButton'
 import HelpButtonInstance from './HelpButtonInstance'
 import HeightAnimation from '../HeightAnimation'
@@ -43,14 +43,14 @@ export type HelpButtonInlineProps = HelpButtonProps & {
   /**
    * If set to `true`, the content will get focus when the help content is opened.
    */
-  focusWhenOpen?: boolean
+  focusOnOpen?: boolean
 }
 
 export type HelpButtonInlineSharedStateDataProps = {
   isOpen: boolean
   isUserIntent?: boolean
   buttonRef?: React.RefObject<HTMLButtonElement>
-  focusWhenOpen?: boolean
+  focusOnOpen?: boolean
 }
 
 export default function HelpButtonInline(props: HelpButtonInlineProps) {
@@ -58,7 +58,7 @@ export default function HelpButtonInline(props: HelpButtonInlineProps) {
     contentId,
     size,
     help,
-    focusWhenOpen,
+    focusOnOpen,
     className,
     children,
     ...rest
@@ -78,10 +78,10 @@ export default function HelpButtonInline(props: HelpButtonInlineProps) {
       isOpen: !isOpen,
       isUserIntent: !isOpen,
       buttonRef,
-      focusWhenOpen,
+      focusOnOpen,
     })
     wasOpenRef.current = !isOpen
-  }, [focusWhenOpen, isOpen, update])
+  }, [focusOnOpen, isOpen, update])
 
   const onClickHandler = useCallback(
     ({ event }: { event: React.MouseEvent<HTMLButtonElement> }) => {
@@ -121,7 +121,7 @@ export default function HelpButtonInline(props: HelpButtonInlineProps) {
         title={!isOpen && !wasOpenRef.current ? title : undefined}
         {...rest}
         id={controlId}
-        className={classnames(
+        className={clsx(
           'dnb-help-button__inline',
           isOpen && 'dnb-help-button__inline--open',
           isUserIntent && 'dnb-help-button__inline--user-intent',
@@ -132,7 +132,7 @@ export default function HelpButtonInline(props: HelpButtonInlineProps) {
         aria-controls={`${controlId}-content`}
         aria-expanded={isOpen}
         aria-label={title}
-        on_click={onClickHandler}
+        onClick={onClickHandler}
         onKeyDown={onKeyDownHandler}
         innerRef={buttonRef}
       />
@@ -141,7 +141,7 @@ export default function HelpButtonInline(props: HelpButtonInlineProps) {
         <HelpButtonInlineContent
           contentId={controlId}
           help={help}
-          focusWhenOpen={focusWhenOpen}
+          focusOnOpen={focusOnOpen}
         >
           {children}
         </HelpButtonInlineContent>
@@ -159,7 +159,7 @@ export type HelpButtonInlineContentProps = SpacingProps & {
   breakout?: boolean
   outset?: boolean
   roundedCorner?: boolean
-  focusWhenOpen?: boolean
+  focusOnOpen?: boolean
 }
 
 export function HelpButtonInlineContent(
@@ -174,14 +174,14 @@ export function HelpButtonInlineContent(
     breakout = true,
     outset = true,
     roundedCorner,
-    focusWhenOpen: focusWhenOpenProp,
+    focusOnOpen: focusOnOpenProp,
     ...rest
   } = props
   const { data, update } =
     useSharedState<HelpButtonInlineSharedStateDataProps>(contentId)
   const {
     isOpen,
-    focusWhenOpen = focusWhenOpenProp,
+    focusOnOpen = focusOnOpenProp,
     isUserIntent,
     buttonRef,
   } = data || {}
@@ -202,12 +202,12 @@ export function HelpButtonInlineContent(
   const outsetFromLayout = outset && outsetProp
 
   useEffect(() => {
-    if (isOpen && isUserIntent && focusWhenOpen) {
+    if (isOpen && isUserIntent && focusOnOpen) {
       window.requestAnimationFrame(() => {
         innerRef.current?.focus({ preventScroll: true })
       })
     }
-  }, [focusWhenOpen, isOpen, isUserIntent])
+  }, [focusOnOpen, isOpen, isUserIntent])
 
   const onClose = useCallback(() => {
     update({ isOpen: false, isUserIntent: false })
@@ -244,7 +244,7 @@ export function HelpButtonInlineContent(
       <Dialog
         title={title}
         omitTriggerButton
-        openState={isOpen ?? open}
+        open={isOpen ?? open}
         onClose={onClose}
         noAnimation={noAnimation}
       >
@@ -254,7 +254,7 @@ export function HelpButtonInlineContent(
     )
   }
 
-  const focusParams = focusWhenOpen
+  const focusParams = focusOnOpen
     ? {
         'aria-label': convertJsxToString(title),
         className: 'dnb-no-focus',
@@ -269,7 +269,7 @@ export function HelpButtonInlineContent(
   return (
     <HeightAnimation
       element={element}
-      className={classnames('dnb-help-button__content', className)}
+      className={clsx('dnb-help-button__content', className)}
       open={isOpen ?? open ?? false}
     >
       <Section

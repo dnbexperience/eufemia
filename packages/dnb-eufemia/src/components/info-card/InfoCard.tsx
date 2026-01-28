@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 
 // Components
 import Button, { ButtonProps } from '../button/Button'
@@ -171,7 +171,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
             className="dnb-info-card__buttons__accept-button"
             variant="secondary"
             right={centered ? 'zero' : 'small'}
-            on_click={onAccept}
+            onClick={onAccept}
             text={acceptButtonText}
             {...acceptButtonAttributes}
           />
@@ -182,9 +182,9 @@ const InfoCard = (localProps: InfoCardAllProps) => {
             className="dnb-info-card__buttons__close-button"
             variant="tertiary"
             top="small"
-            on_click={onClose}
+            onClick={onClose}
             icon="close"
-            icon_position="left"
+            iconPosition="left"
             text={closeButtonText}
             {...closeButtonAttributes}
           />
@@ -219,7 +219,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
 
   return (
     <div
-      className={classnames(
+      className={clsx(
         'dnb-info-card',
         centered && 'dnb-info-card--centered',
         stretch && 'dnb-info-card--stretch',
@@ -242,7 +242,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
             <P
               className="dnb-info-card__title"
               size="small"
-              modifier="medium"
+              weight="medium"
               bottom="x-small"
             >
               {title}

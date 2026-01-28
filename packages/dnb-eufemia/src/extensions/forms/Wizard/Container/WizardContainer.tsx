@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useEffect,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Space } from '../../../../components'
 import { warn } from '../../../../shared/component-helper'
 import { isAsync } from '../../../../shared/helpers/isAsync'
@@ -75,16 +75,6 @@ export type Props = ComponentProps & {
   onStepChange?: OnStepChange
 
   /**
-   * The sidebar variant.
-   * @deprecated there is only one variant available. This props has no effect
-   */
-  variant?: 'sidebar' | 'drawer'
-  /**
-   * @deprecated there is no longer a sidebar. This prop does nothing.
-   */
-  sidebarId?: string
-
-  /**
    * If set to `true`, the wizard will not animate the steps.
    */
   noAnimation?: boolean
@@ -115,18 +105,6 @@ export type Props = ComponentProps & {
    * The children of the wizard container.
    */
   children: React.ReactNode
-
-  /**
-   * @deprecated Is enabled by default. You can disable it with "omitScrollManagement"
-   */
-  scrollTopOnStepChange?: boolean
-}
-
-function handleDeprecatedProps(
-  props: Props
-): Omit<Props, 'variant' | 'sidebarId'> {
-  const { variant, sidebarId, ...rest } = props
-  return rest
 }
 
 function WizardContainer(props: Props) {
@@ -146,7 +124,7 @@ function WizardContainer(props: Props) {
     validationMode,
     outset = true,
     ...rest
-  } = handleDeprecatedProps(props)
+  } = props
 
   const dataContext = useContext(DataContext)
   const {
@@ -476,9 +454,9 @@ function WizardContainer(props: Props) {
   }, [setActiveIndex])
 
   const handleChange = useCallback(
-    ({ current_step }) => {
+    ({ currentStep }) => {
       setActiveIndex(
-        current_step,
+        currentStep,
         mode === 'loose' ? { skipErrorCheck: true } : undefined
       )
     },
@@ -611,7 +589,7 @@ function WizardContainer(props: Props) {
   return (
     <WizardContext.Provider value={providerValue}>
       <Space
-        className={classnames('dnb-forms-wizard-layout', className)}
+        className={clsx('dnb-forms-wizard-layout', className)}
         innerRef={elementRef}
         {...rest}
       >

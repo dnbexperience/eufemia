@@ -63,7 +63,7 @@ render(<Pagination mode="infinity" />)
 
 #### Infinity scroller method #2
 
-Using the `on_change` event together with `setContent`.
+Using the `onChange` event together with `setContent`.
 
 ```jsx
 import { Pagination } from '@dnb/eufemia/components'
@@ -71,7 +71,7 @@ import { Pagination } from '@dnb/eufemia/components'
 render(
   <Pagination
     mode="infinity"
-    on_change={({ pageNumber, setContent }) => {
+    onChange={({ pageNumber, setContent }) => {
       setContent(pageNumber, ReactComponent)
     }}
   />
@@ -80,7 +80,7 @@ render(
 
 #### Infinity scroller method #3
 
-Using a `set_content_handler` handler.
+Using a `setContentHandler` handler.
 
 ```jsx
 import InfinityScroller from '@dnb/eufemia/components/pagination/InfinityScroller'
@@ -94,8 +94,8 @@ React.useEffect(() => {
 
 render(
   <InfinityScroller
-    set_content_handler={(fn) => (setContent = fn)}
-    on_change={({ pageNumber }) => {
+    setContentHandler={(fn) => (setContent = fn)}
+    onChange={({ pageNumber }) => {
       setLocalPage(pageNumber)
     }}
   />
@@ -106,9 +106,9 @@ render(
 
 Using a `InfinityMarker` only. See [code example on GitHub](https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/components/pagination/stories/PaginationTableMarker.stories.tsx).
 
-This method will basically add a load button on top, if `startup_page` or `current_page` is higher than `1` at the first render.
+This method will basically add a load button on top, if `startupPage` or `currentPage` is higher than `1` at the first render.
 
-Also, it adds an indicator at the bottom until next render, and as long as `page_count` has not reached the internal page count. But instead of setting `page_count` (total pages), you can pragmatically call `endInfinity()` instead.
+Also, it adds an indicator at the bottom until next render, and as long as `pageCount` has not reached the internal page count. But instead of setting `pageCount` (total pages), you can pragmatically call `endInfinity()` instead.
 
 ```jsx
 import { createPagination } from '@dnb/eufemia/components/Pagination'

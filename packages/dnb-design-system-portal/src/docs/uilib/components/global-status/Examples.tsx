@@ -25,14 +25,14 @@ export const GlobalInfoOverlayError = () => (
       items={[
         {
           text: 'List item',
-          status_anchor_url: '/uilib/components/global-status',
-          status_anchor_label: 'eksempel',
+          statusAnchorUrl: '/uilib/components/global-status',
+          statusAnchorLabel: 'eksempel',
         },
       ]}
       show={true}
       autoscroll={false}
-      no_animation={true}
-      omit_set_focus={true}
+      noAnimation={true}
+      omitSetFocus={true}
       id="demo-1"
     />
   </ComponentBox>
@@ -47,8 +47,8 @@ export const GlobalStatusInfo = () => (
       items={['Status text 1', 'Status text 2']}
       show={true}
       autoscroll={false}
-      no_animation={true}
-      omit_set_focus={true}
+      noAnimation={true}
+      omitSetFocus={true}
       id="demo-4"
     />
   </ComponentBox>
@@ -62,8 +62,8 @@ export const GlobalStatusWarning = () => (
       text="A string of text providing a warning or semi-urgent message of some kind to the user"
       show={true}
       autoscroll={false}
-      no_animation={true}
-      omit_set_focus={true}
+      noAnimation={true}
+      omitSetFocus={true}
       id="demo-5"
     />
   </ComponentBox>
@@ -77,8 +77,8 @@ export const GlobalInfoOverlaySuccess = () => (
       text="A string of text providing a success message of some kind to the user"
       show={true}
       autoscroll={false}
-      no_animation={true}
-      omit_set_focus={true}
+      noAnimation={true}
+      omitSetFocus={true}
       id="demo-6"
     />
   </ComponentBox>
@@ -93,8 +93,8 @@ export const GlobalInfoCustomIcon = () => (
       icon={<Icon icon={confetti_medium} />}
       show={true}
       autoscroll={false}
-      no_animation={true}
-      omit_set_focus={true}
+      noAnimation={true}
+      omitSetFocus={true}
       id="demo-icon"
     />
   </ComponentBox>
@@ -111,7 +111,7 @@ export const GlobalStatusCoupling = () => (
             placeholder="Write less than 5 chars and dismiss the focus to show the GlobalStatus ..."
             stretch
             status={errorMessage}
-            on_blur={({ value }) => {
+            onBlur={({ value }) => {
               setErrorMessage(
                 value.length <= 4 ? 'With a message shown' : null
               )
@@ -135,12 +135,12 @@ export const GlobalStatusAddRemoveItems = () => (
             <GlobalStatus
               id="custom-status"
               autoscroll={false}
-              on_close={() => toggleUpdateStatus(0)}
-              on_hide={() => toggleUpdateStatus(0)}
+              onClose={() => toggleUpdateStatus(0)}
+              onHide={() => toggleUpdateStatus(0)}
             />
             <Button
               text={`Show step #${count}`}
-              on_click={() => {
+              onClick={() => {
                 toggleUpdateStatus(count + 1)
                 if (count >= 3) {
                   toggleUpdateStatus(0)
@@ -152,21 +152,21 @@ export const GlobalStatusAddRemoveItems = () => (
               <>
                 <GlobalStatus.Add
                   id="custom-status"
-                  status_id="custom-id-1"
+                  statusId="custom-id-1"
                   title="New title"
                   text="First long info text ..."
                   item="Item from status #1"
-                  on_close={({ status_id }) => {
-                    console.log('on_close 1', status_id)
+                  onClose={({ statusId }) => {
+                    console.log('onClose 1', statusId)
                   }}
                 />
                 <GlobalStatus.Add
                   id="custom-status"
-                  status_id="custom-id-2"
+                  statusId="custom-id-2"
                   text="Second long info text ..."
                   item="Item from status #2"
-                  on_close={({ status_id }) => {
-                    console.log('on_close 2', status_id)
+                  onClose={({ statusId }) => {
+                    console.log('onClose 2', statusId)
                   }}
                 />
               </>
@@ -174,13 +174,13 @@ export const GlobalStatusAddRemoveItems = () => (
             {count === 2 && (
               <GlobalStatus.Remove
                 id="custom-status"
-                status_id="custom-id-2"
+                statusId="custom-id-2"
               />
             )}
             {count === 3 && (
               <GlobalStatus.Remove
                 id="custom-status"
-                status_id="custom-id-1"
+                statusId="custom-id-1"
               />
             )}
           </>
@@ -195,7 +195,7 @@ export const GlobalStatusScrolling = () => (
   <ComponentBox hideCode>
     <Button
       text="Scroll to main GlobalStatus"
-      on_click={() => {
+      onClick={() => {
         GlobalStatus.Update({
           id: 'main-status',
           text: 'Dui consectetur viverra aenean vestibulum ac tristique sem ligula condimentum',
@@ -251,7 +251,7 @@ export const GlobalStatusUpdate = () => (
               placeholder="Placeholder A"
               status={errorA}
               globalStatus={{ id: 'demo-2' }}
-              on_change={({ value }) => {
+              onChange={({ value }) => {
                 setErrorA(value)
               }}
             />
@@ -261,7 +261,7 @@ export const GlobalStatusUpdate = () => (
               placeholder="Placeholder B"
               status={errorB}
               globalStatus={{ id: 'demo-2' }}
-              on_change={({ value }) => {
+              onChange={({ value }) => {
                 setErrorB(value)
               }}
             />
@@ -287,23 +287,23 @@ export const GlobalStatusUpdate = () => (
               id: 'demo-2',
               title: 'New Title',
               text: 'New Text',
-              status_id: 'custom-item',
+              statusId: 'custom-item',
               show: false,
             })
 
             inst.current.update({
-              on_show: () => {
-                console.log('on_show')
+              onShow: () => {
+                console.log('onShow')
                 if (!isVisible) {
                   setVisibility(true)
                 }
               },
-              on_hide: () => {
-                console.log('on_hide')
+              onHide: () => {
+                console.log('onHide')
                 setVisibility(false)
               },
-              on_close: () => {
-                console.log('on_close')
+              onClose: () => {
+                console.log('onClose')
                 setVisibility(false)
               },
             })
@@ -322,7 +322,7 @@ export const GlobalStatusUpdate = () => (
               variant="checkbox"
               right
               checked={isVisible}
-              on_change={({ checked }) => {
+              onChange={({ checked }) => {
                 setVisibility(checked)
               }}
             />
@@ -331,7 +331,7 @@ export const GlobalStatusUpdate = () => (
               variant="tertiary"
               icon="reset"
               disabled={!(errorA || errorB)}
-              on_click={() => {
+              onClick={() => {
                 setErrorA(null)
                 setErrorB(null)
               }}
@@ -376,7 +376,7 @@ export const GlobalStatusInfoExampleManipulate1 = () => (
 
       const statusOne = GlobalStatus.create({
         id: 'other-global-status', // or main
-        status_id: 'custom-id-1',
+        statusId: 'custom-id-1',
         text: 'New Text',
         item: 'Item from status #1',
         title: 'New Title',
@@ -404,16 +404,16 @@ export const GlobalStatusInfoExampleManipulate2 = () => (
     {/* 2. later on, you can show a message */}
     <GlobalStatus.Add
       id="custom-id"
-      status_id="custom-id-1"
+      statusId="custom-id-1"
       title="New title"
       text="First long info text ..."
       item="Item from status #1"
-      on_close={({ status_id }) => {
-        console.log('on_close', status_id)
+      onClose={({ statusId }) => {
+        console.log('onClose', statusId)
       }}
     />
     {/* 3. and remove it again */}
-    <GlobalStatus.Remove id="custom-id" status_id="custom-id-1" />
+    <GlobalStatus.Remove id="custom-id" statusId="custom-id-1" />
   </ComponentBox>
 )
 
@@ -424,16 +424,16 @@ export const GlobalStatusInfoExampleManipulate3 = () => (
     {/* 2. later on, you can show a message */}
     <GlobalStatus.Add
       id="custom-status"
-      status_id="custom-id-1"
+      statusId="custom-id-1"
       title="New title"
       text="First long info text ..."
       item="Item from status #1"
-      on_close={({ status_id }) => {
-        console.log('on_close', status_id)
+      onClose={({ statusId }) => {
+        console.log('onClose', statusId)
       }}
     />
     {/* 3. and remove it again */}
-    <GlobalStatus.Remove id="custom-status" status_id="custom-id-1" />
+    <GlobalStatus.Remove id="custom-status" statusId="custom-id-1" />
   </ComponentBox>
 )
 
@@ -444,35 +444,35 @@ export const GlobalStatusExampleControllers = () => (
     {/* Manipulate the status later on. Every property is optional.*/}
     <GlobalStatus.Add
       id="custom-id"
-      status_id="status-1"
+      statusId="status-1"
       item="Item #1"
       text="New Text"
-      on_close={({ status_id }) => {
-        console.log('on_close', status_id)
+      onClose={({ statusId }) => {
+        console.log('onClose', statusId)
       }}
     />
     <GlobalStatus.Add
       id="custom-id"
-      status_id="status-2"
+      statusId="status-2"
       item="Item #2"
       text="New Text"
       title="New Title"
-      on_close={({ status_id }) => {
-        console.log('on_close', status_id)
+      onClose={({ statusId }) => {
+        console.log('onClose', statusId)
       }}
     />
     <GlobalStatus.Add
       id="custom-id"
-      status_id="status-3"
+      statusId="status-3"
       item="Item #3"
       text="Text #3"
-      on_close={({ status_id }) => {
-        console.log('on_close', status_id)
+      onClose={({ statusId }) => {
+        console.log('onClose', statusId)
       }}
     />
     {/* or update the status.*/}
     <GlobalStatus.Update id="custom-id" text="text" />
     {/* Later you can remove a resolved item.*/}
-    <GlobalStatus.Remove id="custom-id" status_id="status-3" />
+    <GlobalStatus.Remove id="custom-id" statusId="status-3" />
   </ComponentBox>
 )

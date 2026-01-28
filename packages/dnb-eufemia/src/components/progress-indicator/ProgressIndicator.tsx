@@ -10,7 +10,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Context, { ContextProps } from '../../shared/Context'
 import {
   isTrue,
@@ -18,7 +18,6 @@ import {
   dispatchCustomElementEvent,
   extendPropsWithContext,
 } from '../../shared/component-helper'
-import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import ProgressIndicatorCircular from './ProgressIndicatorCircular'
 import ProgressIndicatorLinear from './ProgressIndicatorLinear'
@@ -31,26 +30,8 @@ import {
   CustomSize,
 } from './types'
 
-// deprecated, can be removed in v11
-export type DeprecatedProgressIndicatorProps = {
-  /** @deprecated use `noAnimation`. */
-  no_animation?: boolean
-  /** @deprecated use `labelDirection`. */
-  label_direction?: string
-  /** @deprecated use `showDefaultLabel`. */
-  show_label?: boolean
-  /**  @deprecated use `onComplete`. */
-  on_complete?: (...args: any[]) => any
-}
-
-function ProgressIndicator(
-  props: ProgressIndicatorAllProps & DeprecatedProgressIndicatorProps
-) {
-  const undeprecatedProps = handleDeprecatedBehavior(props)
-  const allProps = updatePropsWithContext(
-    undeprecatedProps,
-    useContext(Context)
-  )
+function ProgressIndicator(props: ProgressIndicatorAllProps) {
+  const allProps = updatePropsWithContext(props, useContext(Context))
 
   const {
     type = 'circular',
@@ -58,8 +39,7 @@ function ProgressIndicator(
     noAnimation = false,
     onComplete,
     label,
-    children,
-    indicator_label,
+    indicatorLabel,
     labelDirection = 'horizontal',
     showDefaultLabel = false,
     className,
@@ -90,8 +70,8 @@ function ProgressIndicator(
       ? progress
       : undefined
 
-  const indicatorLabel =
-    label || children || (isTrue(showDefaultLabel) && indicator_label)
+  const usedIndicatorLabel =
+    label || (isTrue(showDefaultLabel) && indicatorLabel)
   const progressTitle = title || formatProgress(progressNumber)
 
   useEffect(() => {
@@ -120,7 +100,7 @@ function ProgressIndicator(
 
   return (
     <span
-      className={classnames(
+      className={clsx(
         'dnb-progress-indicator',
         visible && 'dnb-progress-indicator--visible',
         complete && 'dnb-progress-indicator--complete',
@@ -165,9 +145,9 @@ function ProgressIndicator(
           customColors={customColors}
         />
       )}
-      {indicatorLabel && (
+      {usedIndicatorLabel && (
         <span className="dnb-progress-indicator__label dnb-p">
-          {indicatorLabel}
+          {usedIndicatorLabel}
         </span>
       )}
     </span>
@@ -187,30 +167,6 @@ function updatePropsWithContext(
     localPropsFromContext,
     componentPropsFromContext
   )
-}
-
-/**
- * Support deprecated behavior by mutating the props.
- */
-function handleDeprecatedBehavior(
-  oldProps: ProgressIndicatorAllProps & DeprecatedProgressIndicatorProps
-): ProgressIndicatorAllProps {
-  // Rename deprecated props
-  // And indicator_label should still be snake case
-  const {
-    show_label: showDefaultLabel,
-    indicator_label,
-    ...propsToConvertToCamelCase
-  } = oldProps
-
-  // Merge deprecated props with new names (will not overwrite)
-  return {
-    showDefaultLabel,
-    indicator_label,
-    ...convertSnakeCaseProps(propsToConvertToCamelCase, {
-      overrideExistingValue: false,
-    }),
-  }
 }
 
 function formatProgress(progress) {

@@ -6,42 +6,37 @@
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Context from '../../shared/Context'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 
-export class PaginationIndicator extends React.PureComponent {
-  static contextType = Context
-  static propTypes = {
-    indicator_element: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func,
-      PropTypes.string,
-    ]),
-  }
-  static defaultProps = {
-    indicator_element: 'div',
-  }
-  render() {
-    const { indicator_element } = this.props
-    const Element = preparePageElement(indicator_element)
-    const ElementChild = isTrElement(Element) ? 'td' : 'div'
+export const PaginationIndicator = ({
+  indicatorElement = 'div',
+  ...props
+}) => {
+  const context = React.useContext(Context)
+  const Element = preparePageElement(indicatorElement)
+  const ElementChild = isTrElement(Element) ? 'td' : 'div'
 
-    return (
-      <Element>
-        <ElementChild className="dnb-pagination__indicator">
-          <div className="dnb-pagination__indicator__inner">
-            <ProgressIndicator />
-            {
-              this.context.getTranslation(this.props).Pagination
-                .is_loading_text
-            }
-          </div>
-        </ElementChild>
-      </Element>
-    )
-  }
+  return (
+    <Element>
+      <ElementChild className="dnb-pagination__indicator">
+        <div className="dnb-pagination__indicator__inner">
+          <ProgressIndicator />
+          {context.getTranslation(props).Pagination.isLoadingText}
+        </div>
+      </ElementChild>
+    </Element>
+  )
+}
+
+PaginationIndicator.propTypes = {
+  indicatorElement: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.node,
+    PropTypes.func,
+    PropTypes.string,
+  ]),
 }
 
 export class ContentObject {
@@ -105,7 +100,7 @@ export function preparePageElement(
     return React.forwardRef(({ className, children, ...props }, ref) => {
       const params = {
         ...props,
-        className: classnames(includeClassName, className),
+        className: clsx(includeClassName, className),
         ref,
       }
       return isTr ? (

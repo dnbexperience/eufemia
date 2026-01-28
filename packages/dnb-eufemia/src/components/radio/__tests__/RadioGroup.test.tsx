@@ -15,27 +15,27 @@ describe('Radio group component', () => {
   })
 
   it('has to set correct value using keys', () => {
-    const my_event = jest.fn()
+    const myEvent = jest.fn()
     render(
       <Radio.Group
         label="Label"
         name="group"
         id="group"
-        on_change={my_event}
+        onChange={myEvent}
       >
         <Radio id="radio-1" label="Radio 1" value="first" />
         <Radio id="radio-2" label="Radio 2" value="second" checked />
       </Radio.Group>
     )
     fireEvent.click(document.querySelectorAll('input')[0])
-    expect(my_event.mock.calls.length).toBe(1)
-    expect(my_event.mock.calls[0][0].value).toBe('first')
-    expect(my_event.mock.calls[0][0].event).toBeType('object')
+    expect(myEvent.mock.calls.length).toBe(1)
+    expect(myEvent.mock.calls[0][0].value).toBe('first')
+    expect(myEvent.mock.calls[0][0].event).toBeType('object')
 
     fireEvent.click(document.querySelectorAll('input')[1])
-    expect(my_event.mock.calls.length).toBe(2)
-    expect(my_event.mock.calls[1][0].value).toBe('second')
-    expect(my_event.mock.calls[1][0].event).toBeType('object')
+    expect(myEvent.mock.calls.length).toBe(2)
+    expect(myEvent.mock.calls[1][0].value).toBe('second')
+    expect(myEvent.mock.calls[1][0].event).toBeType('object')
   })
 
   it('will disable a single button within a group', () => {
@@ -108,7 +108,7 @@ describe('Radio group component', () => {
 
   it('should inherit formElement vertical label', () => {
     render(
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <Radio.Group label="Label" name="group" id="group">
           <Radio id="radio-1" label="Radio 1" value="first" />
           <Radio id="radio-2" label="Radio 2" value="second" checked />
@@ -178,7 +178,7 @@ describe('Radio group component', () => {
     ])
 
     rerender(
-      <Radio.Group label="Label" label_direction="vertical">
+      <Radio.Group label="Label" labelDirection="vertical">
         <Radio />
       </Radio.Group>
     )
@@ -285,7 +285,7 @@ describe('Radio ARIA', () => {
         label="Label"
         name="group"
         id="group"
-        on_change={jest.fn()}
+        onChange={jest.fn()}
       >
         <Radio id="radio-1" label="Radio 1" value="first" />
         <Radio id="radio-2" label="Radio 2" value="second" checked />
@@ -304,7 +304,7 @@ describe('Radio ARIA', () => {
 
   it('should validate with ARIA rules for Radio.Group without label', async () => {
     const Comp = render(
-      <Radio.Group name="group" id="group" on_change={jest.fn()}>
+      <Radio.Group name="group" id="group" onChange={jest.fn()}>
         <Radio id="radio-1" label="Radio 1" value="first" />
         <Radio id="radio-2" label="Radio 2" value="second" checked />
       </Radio.Group>

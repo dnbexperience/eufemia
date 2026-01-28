@@ -123,11 +123,6 @@
       margin: 0 -4px;
     }
 
-    // Edge fix
-    @include IS_EDGE() {
-      margin: 0 -5px;
-    }
-
     // Safari Mobile fix
     @include IS_SAFARI_MOBILE() {
       &:not(*:root) {
@@ -405,9 +400,6 @@
     &__shell {
       width: 100%;
     }
-  }
-  .dnb-form-row--horizontal &--stretch {
-    width: 100%;
   }
 
   &:not(&--vertical)[class*='__status'] {

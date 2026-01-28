@@ -18,6 +18,10 @@ The Slider component provides a visual indication of an adjustable value. A valu
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/slider)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/slider)
 
+## Accessibility
+
+The Slider uses a semantic `<input type="range">` element for the thumb control, ensuring keyboard accessibility. Arrow keys adjust the value, and Home/End keys jump to min/max values. The current value, minimum, and maximum are announced to screen readers via `aria-valuemin`, `aria-valuemax`, and `aria-valuenow`.
+
 ### Define a `min` and `max` value
 
 Keep in mind, you should most probably define your `min` and `max` value, because they are tied closely to your given value property.

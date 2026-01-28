@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { TableAccordionHead } from './table-accordion/TableAccordionHead'
 import { TableNavigationHead } from './table-navigation/TableNavigationHead'
 import { TableAccordionContentRow } from './table-accordion/TableAccordionContent'
@@ -48,13 +48,13 @@ export type TableTrProps = {
    * Will emit when table row is expanded.
    * Is part of the accordion feature and needs to be enabled with `mode="accordion"` prop in main Table.
    */
-  onOpened?: ({ target }: { target: HTMLTableRowElement }) => void
+  onOpen?: ({ target }: { target: HTMLTableRowElement }) => void
 
   /**
    * Will emit when table row is closed (after it was open)
    * Is part of the accordion feature and needs to be enabled with `mode="accordion"` prop in main Table.
    */
-  onClosed?: ({ target }: { target: HTMLTableRowElement }) => void
+  onClose?: ({ target }: { target: HTMLTableRowElement }) => void
 
   /**
    * The content of the component.
@@ -77,7 +77,7 @@ export default function Tr(
     variant,
   })
 
-  const className = classnames(
+  const className = clsx(
     'dnb-table__tr',
     currentVariant && `dnb-table__tr--${currentVariant}`,
     isLast && 'dnb-table__tr--last',
@@ -87,13 +87,7 @@ export default function Tr(
 
   const tableContext = React.useContext(TableContext)
 
-  // Deprecated – can be removed in v11
-  const deprecatedAccordionProp = tableContext?.allProps?.accordion
-
-  if (
-    deprecatedAccordionProp ||
-    tableContext?.allProps?.mode === 'accordion'
-  ) {
+  if (tableContext?.allProps?.mode == 'accordion') {
     return (
       <TableAccordionHead
         count={count}
@@ -111,8 +105,8 @@ export default function Tr(
     disabled, // eslint-disable-line @typescript-eslint/no-unused-vars
     noAnimation, // eslint-disable-line @typescript-eslint/no-unused-vars
     onClick, // eslint-disable-line @typescript-eslint/no-unused-vars
-    onOpened, // eslint-disable-line @typescript-eslint/no-unused-vars
-    onClosed, // eslint-disable-line @typescript-eslint/no-unused-vars
+    onOpen, // eslint-disable-line @typescript-eslint/no-unused-vars
+    onClose, // eslint-disable-line @typescript-eslint/no-unused-vars
     ...trProps
   } = restProps
 

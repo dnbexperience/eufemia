@@ -29,7 +29,7 @@ const CustomStyle = styled.div`
 
 const ref = React.createRef<HTMLInputElement>()
 const MagicOpen = (props) => {
-  const [opened, setOpened] = React.useState(false)
+  const [open, setOpen] = React.useState(false)
   const [selected, setSelected] = React.useState('C')
 
   const list = [
@@ -50,24 +50,21 @@ const MagicOpen = (props) => {
   return (
     <>
       <Input
-        on_focus={() => setOpened(true)}
+        onFocus={() => setOpen(true)}
         placeholder="Search for items ..."
         icon="chevron_down"
-        inner_ref={ref}
+        innerRef={ref}
       />
       <Drawer
-        wrapper_element={ref.current}
-        opened={opened}
-        // data={['A', 'B']}
-        on_select={(e) => {
-          // does not fire!
-          console.log('on_select', e)
+        wrapperElement={ref.current}
+        open={open}
+        onSelect={(e) => {
+          console.log('onSelect', e)
         }}
-        on_change={(e) => {
-          // does not fire!
-          console.log('on_change', e)
+        onChange={(e) => {
+          console.log('onChange', e)
         }}
-        on_hide={() => setOpened(false)}
+        onClose={() => setOpen(false)}
         {...props}
       >
         <DrawerList>
@@ -79,7 +76,7 @@ const MagicOpen = (props) => {
                   {...props}
                   selected={value === selected}
                   value={value}
-                  on_click={({ value }) => {
+                  onClick={({ value }) => {
                     setSelected(value)
                   }}
                 >
@@ -95,28 +92,24 @@ const MagicOpen = (props) => {
 }
 
 const DrawerListWithState = (props) => {
-  const [opened, setOpened] = React.useState(false)
-  // React.useState(() => {
-  //   setInterval(() => {
-  //     setOpened(o => !o)
-  //   }, 1e3)
-  // }, [])
+  const [open, setOpen] = React.useState(false)
+
   return (
     <>
       <ToggleButton
         id="ToggleButton"
         text="Toggle"
-        checked={opened}
-        icon={'chevron_' + (opened ? 'up' : 'down')}
-        icon_position="left"
-        on_change={({ checked }) => setOpened(checked)}
+        checked={open}
+        icon={'chevron_' + (open ? 'up' : 'down')}
+        iconPosition="left"
+        onChange={({ checked }) => setOpen(checked)}
       />
       <DrawerList
-        keep_open
+        keepOpen
         data={['A', 'B', 'C']}
-        opened={opened}
-        on_hide={() => setOpened(false)}
-        wrapper_element="#ToggleButton"
+        open={open}
+        onClose={() => setOpen(false)}
+        wrapperElement="#ToggleButton"
         {...props}
       />
     </>
@@ -127,7 +120,7 @@ const DrawerStory = () => {
   return (
     <Wrapper>
       <Box>
-        <Drawer opened no_animation prevent_close>
+        <Drawer open noAnimation preventClose>
           Empty
         </Drawer>
       </Box>

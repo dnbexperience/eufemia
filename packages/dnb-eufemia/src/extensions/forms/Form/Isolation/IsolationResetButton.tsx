@@ -1,5 +1,5 @@
 import React, { useCallback, useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Button, Dialog } from '../../../../components'
 import useTranslation from '../../hooks/useTranslation'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
@@ -64,11 +64,11 @@ export default function IsolationResetButton(props: Props) {
   }
 
   const triggerAttributes: ButtonProps = {
-    className: classnames('dnb-forms-isolate__reset-button', className),
+    className: clsx('dnb-forms-isolate__reset-button', className),
     text: textContent,
     variant: textContent ? 'tertiary' : 'secondary',
     icon: reset,
-    icon_position: 'left',
+    iconPosition: 'left',
     disabled:
       typeof hasContentChanged === 'boolean' ? !hasContentChanged : false,
     ...buttonProps,
@@ -95,7 +95,7 @@ export default function IsolationResetButton(props: Props) {
       ) : (
         <Button
           {...triggerAttributes}
-          on_click={handleClick}
+          onClick={handleClick}
           {...buttonProps}
         >
           {resetButton}

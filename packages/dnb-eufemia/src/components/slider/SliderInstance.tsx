@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { isTrue } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -58,7 +58,7 @@ export function SliderInstance() {
   } = allProps
 
   const mainParams = {
-    className: classnames(
+    className: clsx(
       'dnb-slider',
       isVertical && 'dnb-slider--vertical',
       disabled && 'dnb-slider__state--disabled',
@@ -101,10 +101,10 @@ export function SliderInstance() {
           show={showStatus}
           id={id + '-form-status'}
           globalStatus={globalStatus}
-          text_id={id + '-status'} // used for "aria-describedby"
+          textId={id + '-status'} // used for "aria-describedby"
           text={status}
           state={statusState}
-          no_animation={statusNoAnimation}
+          noAnimation={statusNoAnimation}
           skeleton={skeleton}
           {...statusProps}
         />
@@ -183,7 +183,7 @@ function SubtractButton() {
         '%s',
         humanNumber.aria || String(value)
       )}
-      on_click={onSubtractClickHandler}
+      onClick={onSubtractClickHandler}
       disabled={disabled}
       skeleton={skeleton}
       {...subtractParams}
@@ -218,7 +218,7 @@ function AddButton() {
         '%s',
         humanNumber.aria || String(value)
       )}
-      on_click={onAddClickHandler}
+      onClick={onAddClickHandler}
       disabled={disabled}
       skeleton={skeleton}
       {...addParams}

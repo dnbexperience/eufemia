@@ -18,7 +18,7 @@ import {
 } from './DateFormatUtils'
 import { format } from 'date-fns'
 import { SpacingProps } from '../space/types'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { createSpacingClasses } from '../space/SpacingUtils'
 import { SkeletonShow } from '../Skeleton'
 import Tooltip from '../Tooltip'
@@ -107,7 +107,7 @@ function DateFormat(props: DateFormatProps) {
 
   const attributes = useMemo(() => {
     const attrs = {
-      className: classnames(
+      className: clsx(
         'dnb-date-format',
         createSpacingClasses(props),
         createSkeletonClass('font', skeleton, context)

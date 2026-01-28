@@ -4,7 +4,7 @@
  */
 
 import React, { useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   isTrue,
   findElementInChildren,
@@ -33,8 +33,8 @@ export default function DialogContent({
   fullscreen,
   noAnimation = false,
   noAnimationOnMobile = false,
-  minWidth: min_width = null,
-  maxWidth: max_width = null,
+  minWidth: minWidthProp = null,
+  maxWidth: maxWidthProp = null,
   variant = 'information',
   confirmType = 'info',
   icon = null,
@@ -48,7 +48,10 @@ export default function DialogContent({
   ...rest
 }: DialogContentProps): JSX.Element {
   const context = useContext(ModalContext)
-  const { minWidth, maxWidth } = checkMinMaxWidth(min_width, max_width)
+  const { minWidth, maxWidth } = checkMinMaxWidth(
+    minWidthProp,
+    maxWidthProp
+  )
   const content =
     modalContent ||
     getContent(
@@ -62,7 +65,7 @@ export default function DialogContent({
   }
 
   const contentParams = {
-    className: classnames(
+    className: clsx(
       !isTrue(preventCoreStyle) && 'dnb-core-style',
 
       'dnb-dialog',
@@ -127,7 +130,7 @@ export default function DialogContent({
                 key="dialog-icon"
                 icon={icon}
                 aria-hidden
-                className={classnames(
+                className={clsx(
                   'dnb-dialog__icon__primary',
                   'dnb-dialog__icon--' + confirmType
                 )}
