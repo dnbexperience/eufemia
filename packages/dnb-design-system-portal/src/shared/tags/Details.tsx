@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Summary from './Summary'
 import { detailsBox, detailsBox__content } from './Details.module.scss'
 
@@ -15,7 +15,7 @@ const Details = ({
 }: React.HTMLAttributes<HTMLDetailsElement>) => {
   const [summary, ...rest] = React.Children.toArray(children)
   return (
-    <details {...props} className={classnames(className, detailsBox)}>
+    <details {...props} className={clsx(className, detailsBox)}>
       {React.isValidElement(summary) && summary.type === Summary ? (
         <>
           {summary}
