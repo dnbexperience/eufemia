@@ -140,6 +140,7 @@
     &__text-container {
       display: flex;
       flex-direction: column;
+      align-items: flex-start;
 
       &--loading {
         font-size: var(--font-size-basis);
