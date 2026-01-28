@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Highlight, Prism } from 'prism-react-renderer'
 import Tag from './Tag'
 import { Button } from '@dnb/eufemia/src/components'
@@ -59,7 +59,7 @@ const CodeBlock = ({
   if (((props && props.scope) || isReactLive) && language === 'jsx') {
     return (
       <div
-        className={classnames(
+        className={clsx(
           codeBlockStyle,
           createSkeletonClass('code', context.skeleton)
         )}
@@ -77,7 +77,7 @@ const CodeBlock = ({
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
           <div
-            className={classnames(
+            className={clsx(
               codeBlockStyle,
               createSkeletonClass('code', context.skeleton)
             )}
@@ -177,7 +177,7 @@ function LiveCode(props: LiveCodeProps) {
 
   return (
     <div
-      className={classnames(
+      className={clsx(
         liveCodeEditorStyle,
         background && whiteBackgroundStyle
       )}
@@ -203,7 +203,7 @@ function LiveCode(props: LiveCodeProps) {
         )}
         {!global.IS_TEST && !hideCode && (
           <div
-            className={classnames(
+            className={clsx(
               'dnb-live-editor',
               createSkeletonClass('code', context.skeleton)
             )}
@@ -237,7 +237,7 @@ function LiveCode(props: LiveCodeProps) {
         <LiveError className="dnb-form-status dnb-form-status__text dnb-form-status--error" />
 
         {!global.IS_TEST && !hideToolbar && (
-          <div className={classnames(toolbarStyle, 'dnb-live-toolbar')}>
+          <div className={clsx(toolbarStyle, 'dnb-live-toolbar')}>
             {props.hideCode && (
               <Button
                 className="toggle-button"

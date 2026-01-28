@@ -10,7 +10,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Anchor from '../tags/Anchor'
 import { useStaticQuery, graphql } from 'gatsby'
 import { SidebarMenuContext } from './SidebarMenuContext'
@@ -158,7 +158,7 @@ export default function SidebarLayout({
     <nav
       id="portal-sidebar-menu"
       aria-labelledby="toggle-sidebar-menu"
-      className={classnames(
+      className={clsx(
         navStyle,
         'dnb-scrollbar-appearance',
         isOpen && 'show-mobile-menu',
@@ -229,7 +229,7 @@ const ThemeBadge = ({ theme, ...props }: { theme: ThemeNames }) => {
   return (
     <span
       title={themeTitleTitle}
-      className={classnames(
+      className={clsx(
         'dnb-sidebar-menu__theme-badge',
         `dnb-sidebar-menu__theme-badge--${theme}`
       )}
@@ -237,7 +237,7 @@ const ThemeBadge = ({ theme, ...props }: { theme: ThemeNames }) => {
     >
       <span
         title={themeTitleTitle}
-        className={classnames('dnb-sidebar-menu__theme-badge__title')}
+        className={clsx('dnb-sidebar-menu__theme-badge__title')}
       >
         {themeTitle}
       </span>
@@ -342,7 +342,7 @@ function ListItem({
   return (
     <>
       <li
-        className={classnames(
+        className={clsx(
           'dnb-sidebar-menu',
           `l-${level}`,
           isActive && 'is-active', // use anchor hover style
@@ -374,7 +374,7 @@ function ListItem({
                 setIsExpanded(true)
               }
             }}
-            className={classnames(
+            className={clsx(
               'dnb-anchor',
               'dnb-anchor--no-underline',
               'dnb-anchor--no-radius',
@@ -388,9 +388,7 @@ function ListItem({
                 <Icon icon={graphics[icon]} size="medium" />
               )}
               <span
-                className={classnames(
-                  createSkeletonClass('font', skeleton)
-                )}
+                className={clsx(createSkeletonClass('font', skeleton))}
               >
                 {title}
               </span>
