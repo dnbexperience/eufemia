@@ -834,6 +834,21 @@ function PopoverContainer(props: PopoverContainerProps) {
     return null
   }
 
+  // Pre-compute className variations to avoid multiple .map() calls
+  const noAnimationClasses = noAnimation
+    ? baseClassNames.map((base) => `${base}--no-animation`)
+    : null
+  const fixedClasses = fixedPosition
+    ? baseClassNames.map((base) => `${base}--fixed`)
+    : null
+  const activeClasses = isActive
+    ? baseClassNames.map((base) => `${base}--active`)
+    : null
+  const hideClasses =
+    !isActive && wasActive
+      ? baseClassNames.map((base) => `${base}--hide`)
+      : null
+
   return (
     <span
       ref={elementRef}
@@ -845,13 +860,10 @@ function PopoverContainer(props: PopoverContainerProps) {
       }}
       className={classnames(
         attributes?.className,
-        noAnimation &&
-          baseClassNames.map((base) => `${base}--no-animation`),
-        fixedPosition && baseClassNames.map((base) => `${base}--fixed`),
-        isActive && baseClassNames.map((base) => `${base}--active`),
-        !isActive &&
-          wasActive &&
-          baseClassNames.map((base) => `${base}--hide`)
+        noAnimationClasses,
+        fixedClasses,
+        activeClasses,
+        hideClasses
       )}
       style={containerStyle}
     >

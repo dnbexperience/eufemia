@@ -1738,7 +1738,7 @@ describe('NumberFormat copy tooltip', () => {
     )
 
     if (!selection) {
-      throw new Error('selection element is missing')
+      throw new Error('Selection element is missing')
     }
 
     fireEvent.copy(selection)

@@ -28,3 +28,4 @@
 - Tests should always be written for new functionality and bug fixes.
 - Tests act as a contract to verify the intention of the functionality.
 - Write tests before implementing a fix - this ensures the test captures the expected behavior and verifies the fix works correctly.
+- Prefer document.querySelector over screen from @testing-library/react.

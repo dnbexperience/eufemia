@@ -13,16 +13,10 @@ export function filterProps<Props = FilterProps>(
   allowed: FilterPropsAllowed = null
 ) {
   if (Array.isArray(remove)) {
-    remove = remove.reduce((acc, key) => {
-      acc[key] = true
-      return acc
-    }, {})
+    remove = Object.fromEntries(remove.map((key) => [key, true]))
   }
   if (Array.isArray(allowed)) {
-    allowed = allowed.reduce((acc, key) => {
-      acc[key] = true
-      return acc
-    }, {})
+    allowed = Object.fromEntries(allowed.map((key) => [key, true]))
   }
 
   const isArray = Array.isArray(props)

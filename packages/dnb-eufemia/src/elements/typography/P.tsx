@@ -98,7 +98,10 @@ const handleDeprecatedProps = ({
       .forEach((modifier) => allModifiers.push(modifier))
   }
 
-  const remainingModifiers = allModifiers.filter(Boolean).filter((cur) => {
+  const remainingModifiers = allModifiers.filter((cur) => {
+    if (!cur) {
+      return false
+    }
     if (['x-small'].includes(cur)) {
       oldSize = 'x-small'
     } else if (['small'].includes(cur)) {

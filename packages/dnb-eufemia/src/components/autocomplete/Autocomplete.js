@@ -1376,67 +1376,72 @@ class AutocompleteInstance extends React.PureComponent {
         ? '' // when searching numbers, we don't care about word boundaries
         : '^|\\s'
 
+    // Pre-compile regex patterns for performance
+    const searchWordsData = searchWords.map((word, wordIndex) => {
+      const processedWord = searchNumbers
+        ? word.replace(/[^\p{L}\p{N}]+/gu, '')
+        : escapeRegexChars(word)
+      const wordBoundary = getWordBoundary(wordIndex)
+
+      return {
+        originalWord: word,
+        processedWord,
+        wordIndex,
+        // Pre-compile regex for filter phase
+        filterRegex: new RegExp(
+          wordIndex >= inWordIndex
+            ? `${processedWord}`
+            : `(${wordBoundary})${processedWord}`,
+          'i'
+        ),
+        // Pre-compile regex for scoring phase
+        scoreRegex: new RegExp(
+          `(${wordBoundary})${escapeRegexChars(word)}`,
+          'ig'
+        ),
+      }
+    })
+
+    // Pre-compile first word regex if needed
+    const firstWordRegex =
+      searchWords.length > 0
+        ? new RegExp(`^${escapeRegexChars(searchWords[0])}`, 'i')
+        : null
+
     const findSearchWords = (contentChunk) => {
       if (typeof contentChunk !== 'string') {
         return []
       }
 
-      return searchWords
-        .map((word, wordIndex) => ({ word, wordIndex }))
-        .filter(({ word, wordIndex }) => {
-          if (searchNumbers) {
-            // Remove all other chars, except numbers, so we can compare
-            word = word.replace(/[^\p{L}\p{N}]+/gu, '')
-          } else {
-            // To ensure we escape regex chars
-            word = escapeRegexChars(word)
-          }
-
-          const wordBoundary = getWordBoundary(wordIndex)
-
-          // if the uses reached word 3, then we go inside words as well
-          const regexWord = new RegExp(
-            wordIndex >= inWordIndex
-              ? `${word}`
-              : `(${wordBoundary})${word}`,
-            'i'
-          )
-
-          if (regexWord.test(contentChunk)) {
+      return searchWordsData
+        .filter(({ filterRegex, processedWord }) => {
+          if (filterRegex.test(contentChunk)) {
             return true
           }
 
           if (
             searchNumbers &&
-            regexWord.test(contentChunk.replace(/[^0-9]/g, ''))
+            filterRegex.test(contentChunk.replace(/[^0-9]/g, ''))
           ) {
             return true
           }
 
           return false
         })
-        .map(({ word, wordIndex }) => {
+        .map(({ originalWord, wordIndex, scoreRegex }) => {
           // Use 1 to ensure we never have 0, because we filter out words with 0 later
           let wordScore = 0
 
           // Check how ofter the current written word is inside the content,
           // and give a score for each one
-          wordScore += (
-            contentChunk.match(
-              new RegExp(
-                `(${getWordBoundary(wordIndex)})${escapeRegexChars(word)}`,
-                'ig'
-              )
-            ) || []
-          ).length
+          wordScore += (contentChunk.match(scoreRegex) || []).length
 
           // Give the first word extra points
-          if (wordIndex === 0) {
+          if (wordIndex === 0 && firstWordRegex) {
             // Check if the first chunk starts the first written word
-            const isFirstWord = new RegExp(
-              `^${escapeRegexChars(searchWords[0])}`,
-              'i'
-            ).test(contentChunk.split(' ')[0])
+            const isFirstWord = firstWordRegex.test(
+              contentChunk.split(' ')[0]
+            )
 
             // If yes, add the amount of possible words + 1
             if (isFirstWord) {
@@ -1445,7 +1450,7 @@ class AutocompleteInstance extends React.PureComponent {
           }
 
           return {
-            word,
+            word: originalWord,
             wordIndex,
             wordScore,
           }
@@ -1566,14 +1571,17 @@ class AutocompleteInstance extends React.PureComponent {
 
           if (segment.includes(strS)) {
             // to make sure we don't have several in a row
-            const normalized = segment
-              .replace(new RegExp(`(${strS})+`, 'g'), strS)
-              .replace(new RegExp(`(${strE})+`, 'g'), strE)
-              .replace(new RegExp(`(${strE}${strS})`, 'g'), '')
+            const startRepeatRegex = new RegExp(`(${strS})+`, 'g')
+            const endRepeatRegex = new RegExp(`(${strE})+`, 'g')
+            const adjacentRegex = new RegExp(`(${strE}${strS})`, 'g')
+            const splitRegex = new RegExp(`(${strS}|${strE})`, 'g')
 
-            const tokens = normalized
-              .split(new RegExp(`(${strS}|${strE})`, 'g'))
-              .filter(Boolean)
+            const normalized = segment
+              .replace(startRepeatRegex, strS)
+              .replace(endRepeatRegex, strE)
+              .replace(adjacentRegex, '')
+
+            const tokens = normalized.split(splitRegex).filter(Boolean)
 
             let isHighlighted = false
             let highlightIndex = 0
