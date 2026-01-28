@@ -27,8 +27,8 @@ export const ButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   size: {
-    doc: 'The size of the button. There is `small`, `medium`, `default` and `large`. The `tertiary` button officially supports only default and large. Changing the size mainly affects spacing, but the large tertiary button also has a larger font size.',
-    type: ['small', 'medium', 'default', 'large'],
+    doc: 'The size of the button. There is `default`, `small`, `medium`  and `large`. The `tertiary` button officially supports only default and large. Changing the size mainly affects spacing, but the large tertiary button also has a larger font size.',
+    type: ['default', 'small', 'medium', 'large'],
     status: 'optional',
   },
   icon: {
