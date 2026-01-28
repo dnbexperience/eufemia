@@ -66,7 +66,7 @@ export const StringProperties: PropertiesTableProps = {
   align: InputProperties.align,
   selectall: InputProperties.selectall,
   clear: InputProperties.clear,
-  keepPlaceholder: InputProperties.keep_placeholder,
+  keepPlaceholder: InputProperties.keepPlaceholder,
 
   // - Textarea props
   rows: {
