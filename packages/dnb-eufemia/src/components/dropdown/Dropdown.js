@@ -485,11 +485,6 @@ class DropdownInstance extends React.PureComponent {
 
     let { icon, iconPosition, align } = props
 
-    // Support context value
-    if (align === null || align === undefined) {
-      align = _align
-    }
-
     const handleAsMenu =
       isTrue(actionMenu) || isTrue(moreMenu) || isTrue(preventSelection)
 
