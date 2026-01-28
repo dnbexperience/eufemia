@@ -22,17 +22,17 @@ export const ButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   variant: {
-    doc: 'Defines the kind of button. Possible values are `primary`, `secondary`, `tertiary` and `signal`. Defaults to `primary` (or `secondary` if icon only).',
+    doc: 'Defines the kind of button. Possible values are `primary`, `secondary`, `tertiary` and `signal`. Defaults to `primary` (or `secondary` if icon only). The `tertiary` button is normally used together with an icon and officially supports only the default and large sizes.',
     type: ['primary', 'secondary', 'tertiary', 'signal'],
     status: 'optional',
   },
   size: {
-    doc: 'The size of the button. For now there is `small`, `medium`, `default` and `large`.',
+    doc: 'The size of the button. There is `small`, `medium`, `default` and `large`. The `tertiary` button officially supports only default and large. Changing the size mainly affects spacing, but the large tertiary button also has a larger font size.',
     type: ['small', 'medium', 'default', 'large'],
     status: 'optional',
   },
   icon: {
-    doc: 'To be included in the button. [Primary Icons](/icons/primary) can be set as a string (e.g. `icon="chevron_right"`), other icons should be set as React elements.',
+    doc: 'To be included in the button. [Primary Icons](/icons/primary) can be set as a string (e.g. `icon="chevron_right"`), other icons should be set as React elements. For the `tertiary` button an icon is basically required for accessibility reasons (unless you explicitly turn it off with `icon={false}`).',
     type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
