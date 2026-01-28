@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Drawer, Space, Tooltip } from '@dnb/eufemia/src/components'
 import { H2, P, Anchor } from '@dnb/eufemia/src'
 import ToggleGrid from './ToggleGrid'
@@ -32,7 +32,7 @@ export default function PortalToolsMenu({
       id="portal-tools"
       title="Portal Tools"
       triggerAttributes={{
-        className: classnames(
+        className: clsx(
           className,
           buttonStyle,
           hideWhenMediaLarge && 'hideWhenMediaLarge'
