@@ -61,7 +61,7 @@ export const DropdownProperties = {
   },
   size: {
     doc: 'Define the height of the Dropdown. Can be set to `small`, `default`, `medium` and `large`. Defaults to `default`.',
-    type: ['small', 'default', 'medium', 'large'],
+    type: ['default', 'small', 'medium', 'large'],
     status: 'optional',
   },
   open: {
