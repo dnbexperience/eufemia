@@ -292,7 +292,7 @@ export const DropdownActionMenu = () => (
       <Dropdown
         title="ActionMenu"
         actionMenu={true}
-        alignDropdown="left"
+        align="left"
         data={() => ({
           trash: (
             <>
@@ -321,7 +321,7 @@ export const DropdownTertiary = () => (
         direction="bottom"
         independentWidth={true}
         iconPosition="left"
-        alignDropdown="left"
+        align="left"
         data={data}
       />
     </ComponentBox>
@@ -339,7 +339,7 @@ export const DropdownTertiaryRight = () => (
         direction="bottom"
         independentWidth={true}
         iconPosition="right"
-        alignDropdown="right"
+        align="right"
         data={data}
       />
     </ComponentBox>
@@ -380,7 +380,7 @@ export const DropdownMoreMenu = () => {
         />
         <Dropdown
           preventSelection={true}
-          alignDropdown="right"
+          align="right"
           size="small"
           title={null}
           aria-label="Choose an item"
@@ -410,7 +410,7 @@ export const DropdownMoreMenu = () => {
         />
         <Dropdown
           preventSelection={true}
-          alignDropdown="right"
+          align="right"
           title={null}
           aria-label="Choose an item"
           data={() => ({
@@ -659,7 +659,7 @@ export const DropdownCustomWidth = () => (
             <CustomWidthThree
               label="Label"
               size="large"
-              alignDropdown="right"
+              align="right"
               data={data}
             />
             <CustomWidthFour

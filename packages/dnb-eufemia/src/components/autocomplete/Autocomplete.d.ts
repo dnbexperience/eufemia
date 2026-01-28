@@ -35,7 +35,9 @@ type AutocompleteInputIcon =
   | string
   | React.ReactNode
   | ((...args: any[]) => any);
-type AutocompleteAlignAutocomplete = 'left' | 'right';
+type AutocompleteAlign = 'left' | 'right';
+/** @deprecated Use AutocompleteAlign instead */
+type AutocompleteAlignAutocomplete = AutocompleteAlign;
 type AutocompleteInputElement =
   | ((...args: any[]) => any)
   | React.ReactNode;
@@ -182,6 +184,10 @@ export interface AutocompleteProps {
   submitElement?: React.ReactNode;
   /**
    * Use `right` to change the options alignment direction. Defaults to `left`.
+   */
+  align?: AutocompleteAlign;
+  /**
+   * @deprecated Use `align` instead
    */
   alignAutocomplete?: AutocompleteAlignAutocomplete;
   /**

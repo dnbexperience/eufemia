@@ -299,7 +299,7 @@ export const AutocompleteCustomWidth = () => (
             label="Label"
             labelSrOnly
             size="large"
-            alignAutocomplete="right"
+            align="right"
             iconPosition="right"
             inputIcon="bell"
             data={topMovies}
