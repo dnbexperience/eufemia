@@ -2394,11 +2394,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
       // Used by e.g. Iterate.Array
       if (updateContextDataInSync) {
-        // When an array is given (iterate), we don't want to overwrite the existing array
-        if (hasDefaultValue && hasValue) {
-          return // stop here, we don't want to overwrite the existing array
-        }
-
         if (Array.isArray(existingValue) && Array.isArray(valueToStore)) {
           if (valueToStore.length !== existingValue.length) {
             skipEqualCheck = true // in order to update the items

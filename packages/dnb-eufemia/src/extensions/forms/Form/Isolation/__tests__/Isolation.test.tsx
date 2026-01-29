@@ -2152,11 +2152,11 @@ describe('Form.Isolation', () => {
       )
 
       expect(innerContext.data).toEqual({
-        inner: [{ item: undefined }], // TODO: should be 'inner value'
-        outer: [{ item: undefined }], // TODO: should be 'outer value'
+        inner: [{ item: 'inner value' }],
+        outer: [{ item: 'outer value' }],
       })
       expect(outerContext.data).toEqual({
-        outer: [{ item: undefined }], // TODO: should be 'outer value'
+        outer: [{ item: 'outer value' }],
       })
     })
 
