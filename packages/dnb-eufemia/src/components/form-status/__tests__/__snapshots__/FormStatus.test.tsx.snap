@@ -100,7 +100,7 @@ exports[`FormStatus scss have to match default theme snapshot 1`] = `
   color: var(--color-fire-red);
   border: none;
 }
-.dnb-form-status--warn .dnb-form-status__shell {
+.dnb-form-status--warning .dnb-form-status__shell {
   background-color: var(--color-sand-yellow);
 }
 .dnb-form-status--info .dnb-form-status__shell {
@@ -118,7 +118,7 @@ exports[`FormStatus scss have to match default theme snapshot 1`] = `
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-form-status__variant--outlined.dnb-form-status--warn .dnb-form-status__shell {
+.dnb-form-status__variant--outlined.dnb-form-status--warning .dnb-form-status__shell {
   --border-color: var(--color-accent-yellow);
   --border-width: 0.0625rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
