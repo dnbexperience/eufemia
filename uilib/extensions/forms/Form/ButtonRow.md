@@ -1,8 +1,8 @@
 ---
 title: 'Form.ButtonRow'
 description: '`Form.ButtonRow` is a wrapper for horizontally separated buttons.'
-version: 10.95.1
-generatedAt: 2026-01-27T13:53:27.243Z
+version: 10.95.2
+generatedAt: 2026-01-29T08:35:58.923Z
 checksum: d981eefdb45eafd168f036ff6bd5cdd6fd3f57f1495fb8fa4f65863b174d1723
 ---
 

@@ -1,8 +1,8 @@
 ---
 title: 'Field.Toggle'
 description: '`Field.Toggle` is a base component for allowing the user to toggle between two different values in the target data point.'
-version: 10.95.1
-generatedAt: 2026-01-27T13:53:28.266Z
+version: 10.95.2
+generatedAt: 2026-01-29T08:35:59.394Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

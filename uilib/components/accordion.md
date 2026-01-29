@@ -1,8 +1,8 @@
 ---
 title: 'Accordion'
 description: 'The Accordion component is a combination of an accessible button (header area) and a content container.'
-version: 10.95.1
-generatedAt: 2026-01-27T13:53:26.560Z
+version: 10.95.2
+generatedAt: 2026-01-29T08:35:58.288Z
 checksum: 2594667b77e077ae25cda844fc055ac1c8feea700976c81701cbe97d7a7e10a6
 ---
 

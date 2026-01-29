@@ -1,8 +1,8 @@
 ---
 title: 'ProgressIndicator'
 description: 'The ProgressIndicator component is a waiting loader / spinner to show while other content is in progression.'
-version: 10.95.1
-generatedAt: 2026-01-27T13:53:26.897Z
+version: 10.95.2
+generatedAt: 2026-01-29T08:35:58.598Z
 checksum: 93b6f37f7b6c15ec345d58c93a83c4f52596c3df794509054b90a3e9c6a778ca
 ---
 

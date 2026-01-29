@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.PushButton'
 description: '`Iterate.PushButton` builds on top of the same data flow logic as field components, but the only thing it changes in the value it receives or retrieves from source data is adding a new item to the array.'
-version: 10.95.1
-generatedAt: 2026-01-27T13:53:27.457Z
+version: 10.95.2
+generatedAt: 2026-01-29T08:35:59.128Z
 checksum: 197d8ae847f788628e541f64a96a84e035ec18e2b7161c0d972b31ccdbcac29f
 ---
 

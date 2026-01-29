@@ -1,8 +1,8 @@
 ---
 title: 'AI and Tools'
 description: 'Code editor extensions, ESLint plugin, AI assistance and MCP server for Eufemia development.'
-version: 10.95.1
-generatedAt: 2026-01-27T13:53:28.373Z
+version: 10.95.2
+generatedAt: 2026-01-29T08:35:59.495Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -14,9 +14,19 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 
 If your AI coding agent supports the Model Context Protocol (MCP), you can run a small local MCP server that exposes the packaged documentation from `/docs`.
 
+But first, make sure you have installed `@dnb/eufemia` in your project:
+
+```bash
+npm install @dnb/eufemia
+# or
+yarn add @dnb/eufemia
+# or
+pnpm add @dnb/eufemia
+```
+
 Run the server from your project (where `@dnb/eufemia` is installed):
 
-Example MCP config (e.g. `.vscode/mcp.json`):
+### Example MCP config (e.g. `.vscode/mcp.json`):
 
 ```json
 {
@@ -31,10 +41,16 @@ Example MCP config (e.g. `.vscode/mcp.json`):
 }
 ```
 
-CLI (Claude MCP):
+### Using Claude CLI with MCP:
 
 ```bash
 claude mcp add --transport stdio eufemia -- node node_modules/@dnb/eufemia/mcp/mcp-docs-server.js
+```
+
+### Using raicode CLI with MCP (using Claude):
+
+```bash
+raicode mcp add --transport stdio eufemia -- node node_modules/@dnb/eufemia/mcp/mcp-docs-server.js
 ```
 
 ### How to use

@@ -1,8 +1,8 @@
 ---
 title: 'Form.Card'
 description: '`Form.Card` is a wrapper for the Card component to make it easier to use inside a form.'
-version: 10.95.1
-generatedAt: 2026-01-27T13:53:27.253Z
+version: 10.95.2
+generatedAt: 2026-01-29T08:35:58.932Z
 checksum: e2c835faa46550f07b7035374eaf42b4ceeedfbc1c00075484f0133cd3d7cb1d
 ---
 

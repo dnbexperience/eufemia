@@ -1,8 +1,8 @@
 ---
 title: 'Upload'
 description: 'The Upload component should be used in scenarios where the user has to upload files. Files can be uploaded by clicking button. You also have the opportunity to add descriptive texts below the title where you could put max file size, allowed file formats etc.'
-version: 10.95.1
-generatedAt: 2026-01-27T13:53:27.028Z
+version: 10.95.2
+generatedAt: 2026-01-29T08:35:58.723Z
 checksum: 635cb11b451f4904eb69f12f651c3ccff8e75bee1895005031d7bb39b9f8a50c
 ---
 
