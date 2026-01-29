@@ -194,7 +194,9 @@ export function parse(pointer: Extract<PointerPath, string>): PointerPath {
 /**
  * Builds a json pointer from a array of reference tokens
  */
-export function compile(refTokens: Extract<PointerPath, Array<string>>): string {
+export function compile(
+  refTokens: Extract<PointerPath, Array<string>>
+): string {
   if (refTokens.length === 0) {
     return ''
   }

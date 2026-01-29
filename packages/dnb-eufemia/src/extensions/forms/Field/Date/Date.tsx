@@ -380,7 +380,9 @@ function DateComponent(props: DateProps): React.ReactElement {
   )
 }
 
-export function parseRangeValue(value: DateProps['value']): Array<string | null> {
+export function parseRangeValue(
+  value: DateProps['value']
+): Array<string | null> {
   return (
     String(value)
       .split('|')
