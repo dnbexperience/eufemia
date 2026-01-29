@@ -673,9 +673,7 @@ class DropdownInstance extends React.PureComponent {
                 skipPortal={skipPortal}
                 preventSelection={handleAsMenu}
                 actionMenu={actionMenu}
-                arrowPosition={
-                  arrowPosition || iconPosition || 'right'
-                }
+                arrowPosition={arrowPosition || iconPosition || 'right'}
                 keepOpen={keepOpen}
                 preventClose={preventClose}
                 independentWidth={
