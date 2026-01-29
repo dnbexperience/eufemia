@@ -500,12 +500,6 @@ class DropdownInstance extends React.PureComponent {
         align = 'left'
       }
     }
-    // TODO: This is an temporary fix for now.
-    // We believe this can be removed and replaced by placing the triangle based on,
-    // calculating the position based on the dropdowns width.
-    if (isTrue(independentWidth) && iconPosition !== 'left' && !align) {
-      align = 'right'
-    }
 
     const { id, selectedItem, direction, open } = this.context.drawerList
     const showStatus = getStatusState(status)
