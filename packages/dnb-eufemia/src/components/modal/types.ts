@@ -258,7 +258,7 @@ export interface ModalContentProps {
   /**
    * Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.
    */
-  alignContent?: 'right' | 'left' | 'centered' | 'center'
+  alignContent?: 'left' | 'center' | 'centered' | 'right'
 
   /**
    * For `drawer` mode only. Defines the placement on what side the Drawer should be opened. Can be set to `left`, `right`, `top` and `bottom`. Defaults to `right`.

@@ -13,7 +13,7 @@ export type TextareaSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type TextareaAlign = 'left' | 'right';
+export type TextareaAlign = 'left' | 'center' | 'right';
 export type TextareaAutoresizeMaxRows = string | number;
 export type TextareaTextareaAttributes = string | Record<string, unknown>;
 export type TextareaRows = number | string;
