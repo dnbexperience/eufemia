@@ -77,7 +77,7 @@ export default class Textarea extends React.PureComponent {
     ]),
     placeholder: PropTypes.node,
     keepPlaceholder: PropTypes.bool,
-    align: PropTypes.oneOf(['left', 'right']),
+    align: PropTypes.oneOf(['left', 'center', 'right']),
     size: PropTypes.oneOf(['small', 'medium', 'large']),
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),

@@ -7,8 +7,8 @@ export const textareaProperties: PropertiesTableProps = {
     status: 'optional',
   },
   align: {
-    doc: 'Defines the `text-align` of the Textarea. Defaults to `left`.',
-    type: 'string',
+    doc: 'Defines the `text-align` of the Textarea. Can be `left`, `center`, or `right`. Defaults to `left`.',
+    type: ['left', 'center', 'right'],
     status: 'optional',
   },
   stretch: {
