@@ -13,19 +13,20 @@ function ItemNo({ children }) {
   return <>{processedChildren}</>
 }
 
+// Define regex at module level to avoid recreating on every call
+const TOKEN_REGEX = /\{itemN(r|o)\}/g // supports {itemNr} (deprecated) and {itemNo}
+
 export function replaceItemNo(
   children: React.ReactNode,
   index: number
 ): React.ReactNode {
-  const tokenRegex = /\{itemN(r|o)\}/g // supports {itemNr} (deprecated) and {itemNo}
-
   const replaceIn = (node: React.ReactNode): React.ReactNode => {
     if (node == null || node === false) return node
 
     if (typeof node === 'string') {
       // Fast path for strings
-      return tokenRegex.test(node)
-        ? node.replace(tokenRegex, String(index + 1))
+      return TOKEN_REGEX.test(node)
+        ? node.replace(TOKEN_REGEX, String(index + 1))
         : node
     }
 
@@ -48,7 +49,7 @@ export function replaceItemNo(
     // Fallback: try to convert to string if possible
     const text = convertJsxToString(node)
     if (text && text.includes('{itemN')) {
-      return text.replace(tokenRegex, String(index + 1))
+      return text.replace(TOKEN_REGEX, String(index + 1))
     }
     return node
   }

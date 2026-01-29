@@ -769,7 +769,7 @@ DrawerList.Options = React.memo(
   ),
   (prevProps, nextProps) => {
     if (!prevProps.cache_hash) {
-      return null
+      return false
     }
     return prevProps.cache_hash === nextProps.cache_hash
   }

@@ -13,8 +13,8 @@ export const pattern =
   `(?:xn--[A-Za-z0-9-]+|[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)\\.)+` +
   `(?:[A-Za-z]{2,}|xn--[A-Za-z0-9-]{2,})` +
   `|` +
-  // Single-label TLDs (e.g. xn--p1ai, com if you choose to allow it)
-  `(?:[A-Za-z]{2,}|xn--[A-Za-z0-9-]{2,})` +
+  // Single-label TLDs (only punycode, e.g. xn--p1ai)
+  `(?:xn--[A-Za-z0-9-]{2,})` +
   `|` +
   // IP literals
   `\\[(?:` +

@@ -230,6 +230,9 @@ describe('Field.Email', () => {
       'user@domain..com', // Consecutive dots in the domain
       'user@domain.c', // TLD too short
       'user@-domain.com', // Hyphen at the start of the domain
+      'user@domain', // No TLD
+      'user@.com', // No domain name
+      'user@com', // No dot in domain
 
       // Long values
       'hehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehe',

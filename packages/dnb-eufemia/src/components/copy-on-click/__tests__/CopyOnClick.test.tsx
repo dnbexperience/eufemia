@@ -180,7 +180,7 @@ describe('CopyOnClick', () => {
     const originalWrite = navigator.clipboard.writeText
     navigator.clipboard.writeText = jest
       .fn()
-      .mockRejectedValue(new Error('permission denied'))
+      .mockRejectedValue(new Error('Permission denied'))
 
     // Ensure fallback does not succeed
     document.execCommand = jest.fn(() => false)
