@@ -44,14 +44,14 @@ export const FormStatusWithStretch = () => (
     <FormStatus
       stretch={true}
       text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
-      state="warn"
+      state="warning"
     />
   </ComponentBox>
 )
 
 export const FormStatusWithWarn = () => (
   <ComponentBox data-visual-test="form-status-warn">
-    <FormStatus state="warn" variant="outlined">
+    <FormStatus state="warning" variant="outlined">
       Warningmessage. Take notice!
     </FormStatus>
   </ComponentBox>
@@ -193,8 +193,8 @@ export const FormStatusAllVariants = () => (
         <FormStatus text="Text" state="success" variant="outlined" />
       </Grid.Container>
       <Grid.Container columns={1}>
-        <FormStatus text="Text" state="warn" variant="flat" />
-        <FormStatus text="Text" state="warn" variant="outlined" />
+        <FormStatus text="Text" state="warning" variant="flat" />
+        <FormStatus text="Text" state="warning" variant="outlined" />
       </Grid.Container>
       <Grid.Container columns={1}>
         <FormStatus text="Text" state="error" variant="flat" />

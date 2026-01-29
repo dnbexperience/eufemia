@@ -12,7 +12,7 @@ export type FormStatusState =
   | boolean
   | string
   | 'error'
-  | 'warn'
+  | 'warning'
   | 'info'
   | 'success'
   | 'marketing';
