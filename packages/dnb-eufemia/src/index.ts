@@ -70,6 +70,7 @@ import IconPrimary from './components/icon-primary/IconPrimary'
 import InfoCard from './components/info-card/InfoCard'
 import Input from './components/input/Input'
 import InputMasked from './components/input-masked/InputMasked'
+import List from './components/list/List'
 import ListFormat from './components/list-format/ListFormat'
 import Logo from './components/logo/Logo'
 import Modal from './components/modal/Modal'
@@ -159,6 +160,7 @@ export {
   InfoCard,
   Input,
   InputMasked,
+  List,
   ListFormat,
   Logo,
   Modal,

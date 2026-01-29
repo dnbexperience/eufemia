@@ -43,6 +43,7 @@ import IconPrimary from './icon-primary/IconPrimary'
 import InfoCard from './info-card/InfoCard'
 import Input from './input/Input'
 import InputMasked from './input-masked/InputMasked'
+import List from './list/List'
 import ListFormat from './list-format/ListFormat'
 import Logo from './logo/Logo'
 import Modal from './modal/Modal'
@@ -105,6 +106,7 @@ export {
   InfoCard,
   Input,
   InputMasked,
+  List,
   ListFormat,
   Logo,
   Modal,
@@ -168,6 +170,7 @@ export const getComponents = () => {
     InfoCard,
     Input,
     InputMasked,
+    List,
     ListFormat,
     Logo,
     Modal,
