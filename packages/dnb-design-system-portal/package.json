@@ -11,7 +11,7 @@
     "build:ci": "yarn build:version && gatsby build --prefix-paths",
     "build:mini": "BUILD_MINI=1 gatsby build --prefix-paths",
     "build:version": "node ./scripts/version.js --new-version",
-    "build:visual-test": "SKIP_IMAGE_PROCESSING=1 IS_VISUAL_TEST=1 NODE_OPTIONS=--max-old-space-size=16384 gatsby build --no-uglify",
+    "build:visual-test": "IS_VISUAL_TEST=1 BUILD_MINI=1 NODE_OPTIONS=--max-old-space-size=16384 gatsby build --no-uglify",
     "clean": "gatsby clean",
     "lint": "eslint --quiet .",
     "lint:ci": "NODE_ENV=test yarn lint:js && yarn lint:styles && yarn prettier:check && yarn prettier:package",
