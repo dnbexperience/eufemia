@@ -4054,8 +4054,8 @@ describe('DatePicker component', () => {
     })
 
     // Verify alignOnTarget is 'right' when stretch is true
-    // When the change is present: alignPicker === 'right' || stretch ? 'right' : 'left'
-    // When reverted: alignPicker === 'right' ? 'right' : 'left'
+    // When the change is present: alignCalendar === 'right' || stretch ? 'right' : 'left'
+    // When reverted: alignCalendar === 'right' ? 'right' : 'left'
     expect(capturedAlignOnTarget).toBe('right')
 
     jest.restoreAllMocks()

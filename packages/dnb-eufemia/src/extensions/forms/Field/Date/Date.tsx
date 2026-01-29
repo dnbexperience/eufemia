@@ -94,7 +94,7 @@ export type DateProps = Omit<
     | 'shortcuts'
     | 'open'
     | 'direction'
-    | 'alignPicker'
+    | 'alignCalendar'
     | 'onDaysRender'
     | 'onType'
     | 'onOpen'
@@ -402,7 +402,7 @@ function DateComponent(props: DateProps): React.ReactElement {
         date={value}
         disabled={disabled}
         showInput={showInput}
-        alignPicker={
+        alignCalendar={
           showInput && (width === 'large' || width === 'stretch')
             ? 'right'
             : undefined
@@ -682,7 +682,7 @@ const datePickerPropKeys = [
   'shortcuts',
   'open',
   'direction',
-  'alignPicker',
+  'alignCalendar',
   'onDaysRender',
   'showInput',
   'onDaysRender',

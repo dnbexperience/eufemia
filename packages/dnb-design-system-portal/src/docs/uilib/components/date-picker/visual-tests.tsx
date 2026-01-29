@@ -11,8 +11,8 @@ import {
 export default function Page() {
   return (
     <>
-      <DatePickerAlignPickerRight />
-      <DatePickerAlignPickerRightWithInput />
+      <DatePickerAlignCalendarRight />
+      <DatePickerAlignCalendarRightWithInput />
       <DatePickerYearNavigationOpen />
       <DatePickerOnlyMonthOpen />
       <DatePickerScreenshotTestSizes />
@@ -107,14 +107,14 @@ const DatePickerOnlyMonthOpen = () => (
   </div>
 )
 
-const DatePickerAlignPickerRight = () => (
+const DatePickerAlignCalendarRight = () => (
   <div
-    data-visual-test="date-picker-align-picker-right"
+    data-visual-test="date-picker-align-calendar-right"
     style={{ width: '350px', height: '430px' }}
   >
     <Flex.Horizontal justify="flex-end" innerSpace>
       <DatePicker
-        alignPicker="right"
+        alignCalendar="right"
         open
         date="2025-05-20"
         onDaysRender={(days) => {
@@ -131,15 +131,15 @@ const DatePickerAlignPickerRight = () => (
   </div>
 )
 
-const DatePickerAlignPickerRightWithInput = () => (
+const DatePickerAlignCalendarRightWithInput = () => (
   <div
-    data-visual-test="date-picker-align-picker-right-with-input"
+    data-visual-test="date-picker-align-calendar-right-with-input"
     style={{ width: '350px', height: '430px' }}
   >
     <Flex.Horizontal justify="flex-end" innerSpace right>
       <DatePicker
         showInput
-        alignPicker="right"
+        alignCalendar="right"
         open
         date="2025-05-20"
         onDaysRender={(days) => {
