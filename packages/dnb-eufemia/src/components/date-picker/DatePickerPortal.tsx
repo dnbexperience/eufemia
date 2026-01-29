@@ -10,7 +10,7 @@ import { debounce } from '../../shared/helpers'
 
 type DatePickerPortalProps = React.HTMLProps<HTMLDivElement> & {
   skipPortal?: DatePickerProps['skipPortal']
-  alignment?: DatePickerProps['alignPicker']
+  alignment?: DatePickerProps['alignCalendar']
   targetElementRef?: React.RefObject<HTMLElement>
 }
 
