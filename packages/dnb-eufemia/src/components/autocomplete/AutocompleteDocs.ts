@@ -96,8 +96,8 @@ export const AutocompleteProperties = {
     type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
-  trianglePosition: {
-    doc: 'Position of icon arrow / triangle the drawer. Set to `left` or `right`. Defaults to `left`.',
+  arrowPosition: {
+    doc: 'Position of arrow on the popup drawer. Set to `left` or `right`. Defaults to `left`.',
     type: 'string',
     status: 'optional',
   },

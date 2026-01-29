@@ -3598,7 +3598,7 @@ button .dnb-form-status__text {
   white-space: nowrap;
   height: inherit;
 }
-.dnb-date-picker__triangle {
+.dnb-date-picker__arrow {
   pointer-events: none;
   position: absolute;
   top: calc(2px - var(--date-picker-input-height) / 2);
@@ -3609,7 +3609,7 @@ button .dnb-form-status__text {
   height: calc(var(--date-picker-input-height) / 2);
   overflow: hidden;
 }
-.dnb-date-picker__triangle::before {
+.dnb-date-picker__arrow::before {
   content: "";
   position: absolute;
   top: 0;
