@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.95.2](https://github.com/dnbexperience/eufemia/compare/v10.95.1...v10.95.2) (2026-01-29)
+
+
+### :bug: Bug Fixes
+
+* **Forms:** improve `Field.Email` validation to catch more invalid emails ([6328745](https://github.com/dnbexperience/eufemia/commit/6328745064901b68a3a465dad24d9dfd1b71ade2))
+
 ## [10.95.1](https://github.com/dnbexperience/eufemia/compare/v10.95.0...v10.95.1) (2026-01-27)
 
 
