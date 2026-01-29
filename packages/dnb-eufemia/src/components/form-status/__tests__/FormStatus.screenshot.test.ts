@@ -48,7 +48,8 @@ describe.each(['ui', 'sbanken'])('FormStatus for %s', (themeName) => {
   it('have to match the warning state', async () => {
     const screenshot = await makeScreenshot({
       style,
-      selector: '[data-visual-test="form-status-warn"] .dnb-form-status',
+      selector:
+        '[data-visual-test="form-status-warning"] .dnb-form-status',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

@@ -50,7 +50,7 @@ export const FormStatusWithStretch = () => (
 )
 
 export const FormStatusWithWarn = () => (
-  <ComponentBox data-visual-test="form-status-warn">
+  <ComponentBox data-visual-test="form-status-warning">
     <FormStatus state="warning" variant="outlined">
       Warningmessage. Take notice!
     </FormStatus>
