@@ -139,7 +139,6 @@ export default class GlobalStatus extends React.PureComponent {
           IconToLoad = InfoIcon
           break
         case 'warning':
-        case 'warn':
           IconToLoad = WarnIcon
           break
         case 'error':
