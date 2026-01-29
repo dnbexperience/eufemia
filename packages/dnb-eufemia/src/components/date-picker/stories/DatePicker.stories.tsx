@@ -173,13 +173,13 @@ export const DatePickerSandbox = () => (
             />
             <DatePicker
               label="Date Picker 2:"
-              alignPicker="right"
+              alignCalendar="right"
               date={new Date()}
             />
             <DatePicker
               label="Date Picker 3:"
               showInput
-              alignPicker="right"
+              alignCalendar="right"
               maskPlaceholder="dd/mm/yyyy"
               firstDay="sunday"
               returnFormat="dd/MM/yyyy"
@@ -462,11 +462,11 @@ export const ProviderLocaleExample = () => {
 export const DatePickerPositioning = () => {
   return (
     <Drawer fullscreen>
-      <DatePicker label="DatePicker" alignPicker="left" />
-      <DatePicker label="DatePicker" alignPicker="right" />
+      <DatePicker label="DatePicker" alignCalendar="left" />
+      <DatePicker label="DatePicker" alignCalendar="right" />
       <br />
-      <DatePicker label="DatePicker" showInput alignPicker="left" />
-      <DatePicker label="DatePicker" showInput alignPicker="right" />
+      <DatePicker label="DatePicker" showInput alignCalendar="left" />
+      <DatePicker label="DatePicker" showInput alignCalendar="right" />
     </Drawer>
   )
 }

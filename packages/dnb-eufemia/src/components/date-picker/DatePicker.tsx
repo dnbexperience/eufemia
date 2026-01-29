@@ -271,7 +271,7 @@ export type DatePickerProps = {
   /**
    * Use `right` to change the calendar alignment direction. Defaults to `left`.
    */
-  alignPicker?: 'left' | 'right'
+  alignCalendar?: 'left' | 'right'
   /**
    * Sets the alignment of the label. Defaults to `left`.
    */
@@ -390,7 +390,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     noAnimation,
     showInput,
     inline,
-    alignPicker,
+    alignCalendar,
     showSubmitButton,
     showCancelButton,
     range,
@@ -797,7 +797,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   focusOnOpen={!disableAutofocus}
                   focusOnOpenElement={focusCalendarTable}
                   alignOnTarget={
-                    alignPicker === 'right' || stretch ? 'right' : 'left'
+                    alignCalendar === 'right' || stretch ? 'right' : 'left'
                   }
                   horizontalOffset={showInput ? 8 : -8}
                   placement={
@@ -813,7 +813,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   noMaxWidth
                   portalRootClass="dnb-date-picker__portal"
                   arrowPosition={
-                    alignPicker === 'right' ? 'right' : 'left'
+                    alignCalendar === 'right' ? 'right' : 'left'
                   }
                   arrowPositionSelector={`#${id}`}
                 >
@@ -911,7 +911,7 @@ const NonAttributes = [
   'prevYear',
   'endMonth',
   'startMonth',
-  'alignPicker',
+  'alignCalendar',
   'preventClose',
   'selectedDateRange',
   'yearNavigation',

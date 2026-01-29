@@ -1135,13 +1135,13 @@ describe('Field.Date', () => {
   })
 
   it('should be able to set picker alignment', async () => {
-    const { rerender } = render(<Field.Date alignPicker="right" open />)
+    const { rerender } = render(<Field.Date alignCalendar="right" open />)
 
     expect(
       document.querySelector('.dnb-popover__arrow__arrow--right')
     ).toBeInTheDocument()
 
-    rerender(<Field.Date alignPicker="left" open />)
+    rerender(<Field.Date alignCalendar="left" open />)
     expect(
       document.querySelector('.dnb-popover__arrow__arrow--left')
     ).toBeInTheDocument()
@@ -2710,7 +2710,7 @@ describe('Field.Date', () => {
 
   describe('popover alignment', () => {
     it('should align popover to right when width is large and showInput is true', async () => {
-      let capturedAlignPicker: string | undefined
+      let capturedAlignCalendar: string | undefined
 
       const DatePickerModule = await import(
         '../../../../../components/date-picker/DatePicker'
@@ -2719,7 +2719,7 @@ describe('Field.Date', () => {
       jest
         .spyOn(DatePickerModule, 'default')
         .mockImplementation((props) => {
-          capturedAlignPicker = props.alignPicker
+          capturedAlignCalendar = props.alignCalendar
           // Return a simple div to avoid rendering the full DatePicker
           return React.createElement('div', {
             'data-testid': 'date-picker-mock',
@@ -2735,16 +2735,16 @@ describe('Field.Date', () => {
         />
       )
 
-      // Verify alignPicker is 'right' when width is large and showInput is true
-      // When the change is present: alignPicker should be 'right'
-      // When reverted: alignPicker should be undefined
-      expect(capturedAlignPicker).toBe('right')
+      // Verify alignCalendar is 'right' when width is large and showInput is true
+      // When the change is present: alignCalendar should be 'right'
+      // When reverted: alignCalendar should be undefined
+      expect(capturedAlignCalendar).toBe('right')
 
       jest.restoreAllMocks()
     })
 
     it('should align popover to right when width is stretch and showInput is true', async () => {
-      let capturedAlignPicker: string | undefined
+      let capturedAlignCalendar: string | undefined
 
       const DatePickerModule = await import(
         '../../../../../components/date-picker/DatePicker'
@@ -2753,7 +2753,7 @@ describe('Field.Date', () => {
       jest
         .spyOn(DatePickerModule, 'default')
         .mockImplementation((props) => {
-          capturedAlignPicker = props.alignPicker
+          capturedAlignCalendar = props.alignCalendar
           // Return a simple div to avoid rendering the full DatePicker
           return React.createElement('div', {
             'data-testid': 'date-picker-mock',
@@ -2769,16 +2769,16 @@ describe('Field.Date', () => {
         />
       )
 
-      // Verify alignPicker is 'right' when width is stretch and showInput is true
-      // When the change is present: alignPicker should be 'right'
-      // When reverted: alignPicker should be undefined
-      expect(capturedAlignPicker).toBe('right')
+      // Verify alignCalendar is 'right' when width is stretch and showInput is true
+      // When the change is present: alignCalendar should be 'right'
+      // When reverted: alignCalendar should be undefined
+      expect(capturedAlignCalendar).toBe('right')
 
       jest.restoreAllMocks()
     })
 
     it('should not align popover to right when width is large but showInput is false', async () => {
-      let capturedAlignPicker: string | undefined
+      let capturedAlignCalendar: string | undefined
 
       const DatePickerModule = await import(
         '../../../../../components/date-picker/DatePicker'
@@ -2787,7 +2787,7 @@ describe('Field.Date', () => {
       jest
         .spyOn(DatePickerModule, 'default')
         .mockImplementation((props) => {
-          capturedAlignPicker = props.alignPicker
+          capturedAlignCalendar = props.alignCalendar
           // Return a simple div to avoid rendering the full DatePicker
           return React.createElement('div', {
             'data-testid': 'date-picker-mock',
@@ -2803,14 +2803,14 @@ describe('Field.Date', () => {
         />
       )
 
-      // Verify alignPicker is undefined when showInput is false
-      expect(capturedAlignPicker).toBeUndefined()
+      // Verify alignCalendar is undefined when showInput is false
+      expect(capturedAlignCalendar).toBeUndefined()
 
       jest.restoreAllMocks()
     })
 
     it('should not align popover to right when width is small and showInput is true', async () => {
-      let capturedAlignPicker: string | undefined
+      let capturedAlignCalendar: string | undefined
 
       const DatePickerModule = await import(
         '../../../../../components/date-picker/DatePicker'
@@ -2819,7 +2819,7 @@ describe('Field.Date', () => {
       jest
         .spyOn(DatePickerModule, 'default')
         .mockImplementation((props) => {
-          capturedAlignPicker = props.alignPicker
+          capturedAlignCalendar = props.alignCalendar
           // Return a simple div to avoid rendering the full DatePicker
           return React.createElement('div', {
             'data-testid': 'date-picker-mock',
@@ -2835,8 +2835,8 @@ describe('Field.Date', () => {
         />
       )
 
-      // Verify alignPicker is undefined when width is small
-      expect(capturedAlignPicker).toBeUndefined()
+      // Verify alignCalendar is undefined when width is small
+      expect(capturedAlignCalendar).toBeUndefined()
 
       jest.restoreAllMocks()
     })
