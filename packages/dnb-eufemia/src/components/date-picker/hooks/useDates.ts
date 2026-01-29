@@ -16,6 +16,7 @@ export type DatePickerDateProps = {
 type UseDatesOptions = {
   dateFormat: string
   isRange: boolean
+  isSync?: boolean
 }
 
 export type DatePickerDates = {
@@ -30,7 +31,7 @@ export type DatePickerDates = {
 
 export default function useDates(
   dateProps: DatePickerDateProps,
-  { dateFormat, isRange = false }: UseDatesOptions
+  { dateFormat, isRange = false, isSync = true }: UseDatesOptions
 ) {
   const [previousDateProps, setPreviousDateProps] = useState(dateProps)
   const [dates, setDates] = useState<DatePickerDates>({
@@ -142,10 +143,19 @@ function mapDates(
     startDate ??
     new Date()
 
+  // Check if startMonth was explicitly provided (not just derived from startDate)
+  const hasExplicitStartMonth = typeof dateProps.startMonth !== 'undefined'
+
   const endMonth =
     convertStringToDate(dateProps.endMonth, {
       dateFormat: dateFormat,
-    }) ?? (isRange ? endDate ?? addMonths(startMonth, 1) : startMonth)
+    }) ??
+    (isRange
+      ? // If startMonth is explicitly provided, use it + 1 month; otherwise fallback to endDate
+        hasExplicitStartMonth
+        ? addMonths(startMonth, 1)
+        : endDate ?? addMonths(startMonth, 1)
+      : startMonth)
 
   const minDate = convertStringToDate(dateProps.minDate, {
     dateFormat,

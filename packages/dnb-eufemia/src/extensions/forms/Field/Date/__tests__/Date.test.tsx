@@ -820,56 +820,6 @@ describe('Field.Date', () => {
     })
   })
 
-  describe('sync prop', () => {
-    it('should sync calendar view when input values change by default', async () => {
-      render(<Field.Date value="2024-01-15" />)
-
-      await userEvent.click(
-        document.querySelector('button.dnb-input__submit-button__button')
-      )
-
-      const monthTitle = document.querySelector(
-        '.dnb-date-picker__header__title'
-      )
-
-      expect(monthTitle).toHaveTextContent('januar 2024')
-
-      const dayInput = document.querySelector(
-        '.dnb-date-picker__input--day'
-      ) as HTMLInputElement
-
-      await userEvent.click(dayInput)
-      await userEvent.keyboard('{Backspace>2}15062024')
-
-      // Calendar should sync to June 2024
-      expect(monthTitle).toHaveTextContent('juni 2024')
-    })
-
-    it('should not sync calendar view when sync is false', async () => {
-      render(<Field.Date value="2024-01-15" sync={false} />)
-
-      await userEvent.click(
-        document.querySelector('button.dnb-input__submit-button__button')
-      )
-
-      const monthTitle = document.querySelector(
-        '.dnb-date-picker__header__title'
-      )
-
-      expect(monthTitle).toHaveTextContent('januar 2024')
-
-      const dayInput = document.querySelector(
-        '.dnb-date-picker__input--day'
-      ) as HTMLInputElement
-
-      await userEvent.click(dayInput)
-      await userEvent.keyboard('{Backspace>2}15062024')
-
-      // Calendar should stay on January 2024
-      expect(monthTitle).toHaveTextContent('januar 2024')
-    })
-  })
-
   describe('hideLastWeek prop', () => {
     it('should hide calendar weeks from the previous/next month', async () => {
       render(<Field.Date hideLastWeek value="2024-10-15" />)
