@@ -793,7 +793,9 @@ describe('Field.Date', () => {
       )
 
       expect(monthTitle).toHaveTextContent('desember 2024')
-      expect(screen.getByLabelText('søndag 15. desember 2024'))
+      expect(
+        screen.getByLabelText('søndag 15. desember 2024')
+      ).toBeInTheDocument()
     })
 
     it('should display the specified month in range mode', async () => {
