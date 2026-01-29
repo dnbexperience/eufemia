@@ -167,14 +167,14 @@ export function has<T = JsonObject>(obj: T, pointer: PointerPath) {
 /**
  * Escapes a reference token
  */
-export function escape(str: string) {
+export function escape(str: string): string {
   return str.toString().replace(/~/g, '~0').replace(/\//g, '~1')
 }
 
 /**
  * Unescape a reference token
  */
-export function unescape(str: string) {
+export function unescape(str: string): string {
   return str.replace(/~1/g, '/').replace(/~0/g, '~')
 }
 
@@ -194,7 +194,7 @@ export function parse(pointer: Extract<PointerPath, string>): PointerPath {
 /**
  * Builds a json pointer from a array of reference tokens
  */
-export function compile(refTokens: Extract<PointerPath, Array<string>>) {
+export function compile(refTokens: Extract<PointerPath, Array<string>>): string {
   if (refTokens.length === 0) {
     return ''
   }

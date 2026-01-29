@@ -2883,7 +2883,7 @@ export interface ReturnAdditional<Value> {
   additionalArgs: ReceiveAdditionalEventArgs<Value>
 }
 
-function resolveValidatingState(state: SubmitStateWithValidating) {
+function resolveValidatingState(state: SubmitStateWithValidating): SubmitState {
   return state === 'validating' ? 'pending' : state
 }
 
@@ -2893,7 +2893,7 @@ export function checkForError(
     | FieldPropsGeneric['warning']
     | FieldPropsGeneric['info']
   >
-) {
+): boolean {
   return potentialErrors.some((error) => {
     return error instanceof Error || error instanceof FormError
   })
