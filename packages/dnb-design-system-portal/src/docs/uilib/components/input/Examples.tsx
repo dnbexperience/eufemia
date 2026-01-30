@@ -162,7 +162,7 @@ export const InputExampleStretched = () => (
             value="I stretch ..."
             stretch
             status="Status message"
-            statusState="warn"
+            statusState="warning"
           />
         </FieldBlock>
       </Provider>

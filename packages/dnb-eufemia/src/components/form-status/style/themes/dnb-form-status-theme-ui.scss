@@ -20,7 +20,7 @@
     }
   }
 
-  &--warn &__shell {
+  &--warning &__shell {
     background-color: var(--color-sand-yellow);
   }
 
@@ -39,7 +39,7 @@
   &__variant--outlined#{&}--error &__shell {
     @include fakeBorder(var(--color-fire-red));
   }
-  &__variant--outlined#{&}--warn &__shell {
+  &__variant--outlined#{&}--warning &__shell {
     @include fakeBorder(var(--color-accent-yellow));
   }
   &__variant--outlined#{&}--info &__shell {
