@@ -31,7 +31,7 @@ export type DatePickerDates = {
 
 export default function useDates(
   dateProps: DatePickerDateProps,
-  { dateFormat, isRange = false, isSync = true }: UseDatesOptions
+  { dateFormat, isRange = false }: UseDatesOptions
 ) {
   const [previousDateProps, setPreviousDateProps] = useState(dateProps)
   const [dates, setDates] = useState<DatePickerDates>({
