@@ -1,0 +1,69 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { List } from '@dnb/eufemia'
+```
+
+## Description
+
+`List` is a layout component for displaying rows of content. Use `List.Container` as the wrapper and `List.Item.Content`, `List.Item.Navigate`, or `List.Item.Accordion` for each row.
+
+- **List.Container** – Provides list context (e.g. variant) and wraps items in a vertical flex layout.
+- **List.Item.Content** – A single row with horizontal layout. Supports selected state, variant override, and loading states via `pending` (skeleton overlay) or `skeleton` (text placeholder).
+- **List.Item.Navigate** – Like Content but clickable (Enter/Space support) with a chevron icon. Use `iconPosition="left"` or `"right"` (default) to place the chevron. Supports `pending` to show a loading overlay and disable interaction.
+- **List.Item.Accordion** – Expandable row with `List.Item.Accordion.Header` and `List.Item.Accordion.Content`. Use `open` for initial state, `iconPosition="left"` or `"right"` for chevron placement, and optional `id` for ARIA. Supports `pending` to disable toggling.
+- **List.Item.Start**, **List.Item.Center**, **List.Item.End** – Slots inside Content/Navigate/Accordion for start, middle, and end.
+- **List.Item.Title** – Title slot (grows); **List.Item.Icon** – Icon slot (medium size).
+
+All item components support [Space](/uilib/layout/space/properties) props (`top`, `bottom`, etc.) and forward standard HTML attributes.
+
+## Relevant links
+
+- [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=47195-2954)
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/list)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/list)
+
+## Basic usage
+
+```jsx
+import { List } from '@dnb/eufemia'
+
+render(
+  <List.Container>
+    <List.Item.Content>Simple row</List.Item.Content>
+    <List.Item.Content selected>Selected row</List.Item.Content>
+    <List.Item.Content>
+      <List.Item.Start>Start</List.Item.Start>
+      <List.Item.Center>Center</List.Item.Center>
+      <List.Item.End>End</List.Item.End>
+    </List.Item.Content>
+    <List.Item.Navigate onClick={() => console.log('Clicked')}>
+      <List.Item.Title>Title</List.Item.Title>
+      <List.Item.End>Value</List.Item.End>
+    </List.Item.Navigate>
+    <List.Item.Accordion>
+      <List.Item.Accordion.Header>
+        <List.Item.Title>Expandable</List.Item.Title>
+      </List.Item.Accordion.Header>
+      <List.Item.Accordion.Content>
+        <p>Content when expanded.</p>
+      </List.Item.Accordion.Content>
+    </List.Item.Accordion>
+  </List.Container>
+)
+```
+
+## Loading states
+
+- **pending** – On `List.Item.Content` or `List.Item.Navigate`: shows a skeleton overlay and disables pointer events. On `List.Item.Navigate`, click and keyboard are disabled (`tabIndex={-1}`, `aria-disabled`). Use while data is loading.
+- **skeleton** – On `List.Item.Content` or `List.Item.Navigate`: applies skeleton font styling (text placeholder) without the full overlay. Use for a lighter loading indication.
+
+## Accessibility
+
+- **List.Item.Navigate** uses `role="button"` so assistive technologies announce it as a button. It is focusable (`tabIndex={0}`) and activates on Enter and Space. When `pending` is true, it is not focusable and has `aria-disabled="true"`. You can override the role via the `role` prop (e.g. `role="link"`).
+- **List.Item.Accordion** exposes full ARIA for expand/collapse: the header has `id`, `aria-controls`, and `aria-expanded`; the content region has `id`, `aria-labelledby`, `aria-hidden`, and `aria-expanded`. Pass an `id` prop for stable references, or leave it unset for an auto-generated id. When `pending` is true, the header is not focusable and has `aria-disabled="true"`.
+- Use `aria-label` or other ARIA attributes on the container or items when needed for screen readers.
