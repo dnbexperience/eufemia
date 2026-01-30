@@ -210,7 +210,7 @@ function Expiry(props: ExpiryProps = {}) {
   const status = hasError
     ? 'error'
     : warning
-    ? 'warn'
+    ? 'warning'
     : info
     ? 'info'
     : null
