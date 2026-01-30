@@ -366,7 +366,9 @@ export default UploadComponent
 
 UploadComponent._supportsSpacingProps = true
 
-export function transformFiles(value: UploadValue) {
+export function transformFiles(
+  value: UploadValue
+): UploadValue | undefined {
   if (Array.isArray(value)) {
     if (value.length === 0) {
       return undefined
