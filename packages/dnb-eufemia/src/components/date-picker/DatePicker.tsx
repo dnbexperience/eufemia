@@ -271,11 +271,11 @@ export type DatePickerProps = {
   /**
    * Use `right` to change the calendar alignment direction. Defaults to `left`.
    */
-  alignPicker?: 'left' | 'right'
+  alignPicker?: 'left' | 'center' | 'right'
   /**
    * Sets the alignment of the label. Defaults to `left`.
    */
-  labelAlignment?: 'left' | 'right'
+  labelAlignment?: 'left' | 'center' | 'right'
   /**
    * If set to `true`, the calendar will not be rendered inside a react portal. Defaults to `false`.
    */
