@@ -1104,25 +1104,6 @@ export default function Provider<Data extends JsonObject>(
       }
 
       if (path !== '/') {
-        // Ensure parent path exists as an array if the path indicates array access
-        const pathParts = path.split('/').filter(Boolean)
-        if (pathParts.length > 1) {
-          const parentPath = '/' + pathParts.slice(0, -1).join('/')
-          const lastPart = pathParts[pathParts.length - 1]
-
-          // If setting an array index, ensure parent is initialized as an array
-          if (lastPart.match(/^\d+$/)) {
-            if (!pointer.has(newData, parentPath)) {
-              pointer.set(newData, parentPath, [])
-            } else {
-              const parent = pointer.get(newData, parentPath)
-              if (!Array.isArray(parent)) {
-                pointer.set(newData, parentPath, [])
-              }
-            }
-          }
-        }
-
         pointer.set(newData, path, value)
       }
 

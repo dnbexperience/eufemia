@@ -182,6 +182,23 @@ function ArrayComponent(props: Props) {
     omitSectionPath,
   })
 
+  // Ensure the path exists as an array before children try to set values at numeric paths
+  useMountEffect(() => {
+    if (path && dataContext?.internalDataRef?.current) {
+      const currentValue = pointer.has(
+        dataContext.internalDataRef.current,
+        path
+      )
+        ? pointer.get(dataContext.internalDataRef.current, path)
+        : undefined
+
+      // If not already an array, initialize it as one
+      if (!Array.isArray(currentValue)) {
+        dataContext.updateDataValue?.(path, arrayValue)
+      }
+    }
+  })
+
   // - Call onChange on the data context, if the count value changes
   const countValueRef = useRef<number>(undefined)
   useUpdateEffect(() => {
