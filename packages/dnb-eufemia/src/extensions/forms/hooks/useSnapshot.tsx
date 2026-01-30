@@ -96,6 +96,9 @@ export default function useSnapshot(id?: SharedStateId) {
   }, [applySnapshot, createSnapshot, revertSnapshot])
 }
 
-function combineIdWithName(id: SnapshotId, name: SnapshotName = null) {
-  return name ? `${id}-${name}` : id
+function combineIdWithName(
+  id: SnapshotId,
+  name: SnapshotName = null
+): string {
+  return name ? `${id}-${name}` : String(id)
 }
