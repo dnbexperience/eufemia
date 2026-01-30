@@ -107,7 +107,7 @@ export type DateProps = Omit<
     | 'tooltip'
   >
 
-function DateComponent(props: DateProps) {
+function DateComponent(props: DateProps): React.ReactElement {
   const { errorRequired, label: defaultLabel } = useTranslation().Date
   const { locale } = useContext(SharedContext)
 
@@ -427,7 +427,9 @@ function DateComponent(props: DateProps) {
   )
 }
 
-export function parseRangeValue(value: DateProps['value']) {
+export function parseRangeValue(
+  value: DateProps['value']
+): Array<string | null> {
   return (
     String(value)
       .split('|')
@@ -448,7 +450,7 @@ function validateDateLimit({
   maxDate: DateProps['maxDate']
   isRange: DateProps['range']
   locale: ProviderProps['locale']
-}) {
+}): Array<FormError> {
   if ((!dates.minDate && !dates.maxDate) || !value) {
     return []
   }
@@ -609,7 +611,7 @@ function validateDate({
   invalidDate,
   invalidStartDate,
   invalidEndDate,
-}: InvalidDates) {
+}: InvalidDates): Array<FormError> {
   // Don't show error if the date is empty or contains only placeholder values
   if (invalidDate && !isEmptyOrPlaceholder(invalidDate)) {
     return [
@@ -694,7 +696,7 @@ const datePickerPropKeys = [
   'tooltip',
 ]
 
-function pickDatePickerProps(props: DateProps) {
+function pickDatePickerProps(props: DateProps): Partial<DatePickerProps> {
   const datePickerProps = Object.keys(props).reduce(
     (datePickerProps, key) => {
       if (datePickerPropKeys.includes(key)) {
@@ -703,7 +705,7 @@ function pickDatePickerProps(props: DateProps) {
 
       return datePickerProps
     },
-    {}
+    {} as Partial<DatePickerProps>
   )
 
   return datePickerProps

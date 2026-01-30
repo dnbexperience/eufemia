@@ -111,6 +111,6 @@ export default function useDataValue<Value>(
   }
 }
 
-function isPath(path: Path | unknown) {
+function isPath(path: Path | unknown): path is Path {
   return typeof path === 'string' && path.startsWith('/')
 }
