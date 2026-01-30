@@ -179,7 +179,7 @@ export const ProgressIndicatorCircularDialogExample = () => (
       spacing={false}
       maxWidth="12rem"
       fullscreen={false}
-      alignContent="centered"
+      alignContent="center-both"
       hideCloseButton
       triggerAttributes={{ text: 'Show' }}
       preventClose={false}
@@ -328,7 +328,7 @@ export const ProgressIndicatorLinearDialogExample = () => (
       spacing={false}
       maxWidth="12rem"
       fullscreen={false}
-      alignContent="centered"
+      alignContent="center-both"
       hideCloseButton
       triggerAttributes={{ text: 'Show' }}
       preventClose={false}

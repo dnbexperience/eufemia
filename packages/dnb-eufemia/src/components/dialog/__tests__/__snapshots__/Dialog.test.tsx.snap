@@ -992,11 +992,11 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
 .dnb-dialog--spacing.dnb-dialog--confirmation .dnb-dialog__inner {
   padding: calc(var(--dialog-spacing));
 }
-.dnb-dialog__align--centered .dnb-dialog__inner {
+.dnb-dialog__align--center-both .dnb-dialog__inner {
   align-items: center;
   justify-content: center;
 }
-.dnb-dialog__align--centered .dnb-dialog__title, .dnb-dialog__align--centered.dnb-dialog--confirmation .dnb-dialog__content {
+.dnb-dialog__align--center-both .dnb-dialog__title, .dnb-dialog__align--center-both.dnb-dialog--confirmation .dnb-dialog__content {
   text-align: center;
 }
 .dnb-dialog__content {

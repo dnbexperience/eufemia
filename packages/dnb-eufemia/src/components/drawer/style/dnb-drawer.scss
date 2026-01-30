@@ -73,7 +73,7 @@
     background-color: var(--modal-background-color, transparent);
   }
 
-  &__align--centered &__inner {
+  &__align--center-both &__inner {
     align-items: center;
     justify-content: center;
   }

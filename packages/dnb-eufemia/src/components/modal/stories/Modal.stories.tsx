@@ -81,7 +81,7 @@ export const ModalSandbox = () => (
       <Modal
         spacing={false}
         fullscreen={false}
-        alignContent="centered"
+        alignContent="center-both"
         hideCloseButton
         triggerAttributes={{ text: 'Show' }}
         maxWidth="12rem"
@@ -97,7 +97,7 @@ export const ModalSandbox = () => (
       <Modal
         spacing={false}
         fullscreen={false}
-        alignContent="centered"
+        alignContent="center-both"
         hideCloseButton
         triggerAttributes={{ icon: 'bell' }}
         maxWidth="12rem"

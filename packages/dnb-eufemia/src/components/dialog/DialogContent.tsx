@@ -61,7 +61,7 @@ export default function DialogContent({
     )
 
   if (alignContent === null) {
-    alignContent = variant === 'information' ? 'left' : 'centered'
+    alignContent = variant === 'information' ? 'left' : 'center-both'
   }
 
   const contentParams = {

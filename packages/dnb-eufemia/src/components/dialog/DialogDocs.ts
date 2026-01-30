@@ -62,7 +62,7 @@ export const DialogProperties: PropertiesTableProps = {
     status: 'optional',
   },
   alignContent: {
-    doc: 'Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.',
+    doc: 'Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `center-both`. If `center-both`, then the content will also be centered vertically. Defaults to `left`.',
     type: 'string',
     status: 'optional',
   },
