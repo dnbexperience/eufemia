@@ -54,8 +54,8 @@ export const DropdownProperties = {
     type: ['left', 'right'],
     status: 'optional',
   },
-  trianglePosition: {
-    doc: 'Position of arrow / triangle of the drawer. Set to `left` or `right`. Defaults to `right`.',
+  arrowPosition: {
+    doc: 'Position of arrow on the popup drawer. Set to `left` or `right`. Defaults to `right`.',
     type: ['left', 'right'],
     status: 'optional',
   },
