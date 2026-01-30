@@ -595,7 +595,7 @@ const DropdownStory = () => {
                 </span>
               </span>
             </li>
-            <li className="dnb-drawer-list__triangle" />
+            <li className="dnb-drawer-list__arrow" />
           </ul>
         </span>
       </Box>

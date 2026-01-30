@@ -119,9 +119,9 @@ export interface DrawerListProps {
    */
   cacheHash?: string
   /**
-   * Position of the arrow icon/triangle inside the drawer-list. Set to 'left' or 'right'. Defaults to 'left' if not set.
+   * Position of the arrow on the popup drawer. Set to 'left' or 'right'. Defaults to 'left' if not set.
    */
-  trianglePosition?: string
+  arrowPosition?: string
   /**
    * Defines if the options list should be scrollable (the `max-height` is set by default to `50vh`).
    */
@@ -322,7 +322,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
     )
 
     this.context.drawerList.setState({
-      trianglePosition: this.props.trianglePosition,
+      arrowPosition: this.props.arrowPosition,
     })
   }
   preventTab = (e) => {
@@ -384,7 +384,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       className,
       cacheHash: _cacheHash, // eslint-disable-line
       wrapperElement: _wrapperElement, // eslint-disable-line
-      trianglePosition: _trianglePosition, // eslint-disable-line
+      arrowPosition: _arrowPosition, // eslint-disable-line
       direction: _direction, // eslint-disable-line
       maxHeight: _maxHeight, // eslint-disable-line
       id: _id, // eslint-disable-line
@@ -432,7 +432,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       groups,
       open,
       hidden,
-      trianglePosition,
+      arrowPosition,
       direction,
       maxHeight,
       cacheHash,
@@ -465,8 +465,8 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
         open && 'dnb-drawer-list--open',
         hidden && 'dnb-drawer-list--hidden',
         `dnb-drawer-list--${direction}`,
-        trianglePosition &&
-          `dnb-drawer-list--triangle-position-${trianglePosition}`,
+        arrowPosition &&
+          `dnb-drawer-list--arrow-position-${arrowPosition}`,
         alignDrawer && `dnb-drawer-list--${alignDrawer}`,
         size && `dnb-drawer-list--${size}`,
         isTrue(actionMenu) && `dnb-drawer-list--action-menu`,
@@ -653,7 +653,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
               <span className="dnb-drawer-list__content">
                 {children}
                 <span
-                  className="dnb-drawer-list__triangle"
+                  className="dnb-drawer-list__arrow"
                   ref={_refTriangle}
                 />
               </span>
@@ -780,7 +780,7 @@ DrawerList.Options = React.memo(
           <E
             internalClass={false}
             as={hasGroups ? 'span' : 'li'}
-            className="dnb-drawer-list__triangle"
+            className="dnb-drawer-list__arrow"
             aria-hidden
             ref={triangleRef}
           />
