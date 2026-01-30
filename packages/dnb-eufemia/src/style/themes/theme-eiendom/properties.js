@@ -94,7 +94,6 @@ export default {
   '--color-emerald-green-50': '#89aaac',
   '--color-emerald-green-25': '#c4d4d6',
   '--color-emerald-green-10': '#e8eeef',
-  '--internal-color-background-selected-subtle': '#e4eed7',
   '--ca-font-family-heading': '"ArizonaFlare", var(--font-family-default)',
   '--ca-color-ocean-green': '#00343e',
   '--ca-color-burgundy-red': '#5c0022',
@@ -191,5 +190,6 @@ export default {
   '--shadow-sharp-y': '1px',
   '--shadow-sharp-blur-radius': '6px',
   '--shadow-sharp-color': 'rgb(0 0 0 / 16%)',
-  '--easing-default': 'cubic-bezier(0.42, 0, 0, 1)'
+  '--easing-default': 'cubic-bezier(0.42, 0, 0, 1)',
+  '--internal-color-background-selected-subtle': '#e4eed7'
 }; // prettier-ignore
