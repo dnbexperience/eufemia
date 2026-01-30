@@ -90,7 +90,7 @@ export function DatePickerCalendarNav({
     ({ nr, type: navigationType }: CalendarNavigationEvent) => {
       const handlerType = type === 'year' ? 'year' : 'month'
       const updatedViews = views.map((view) => {
-        if (view.nr === nr || (isLinkedCalendars && view.nr === 1)) {
+        if (view.nr === nr || isLinkedCalendars) {
           const month = dateHandlers[handlerType][navigationType](
             view.month,
             1
