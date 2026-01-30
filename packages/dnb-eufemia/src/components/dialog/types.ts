@@ -60,7 +60,7 @@ export type DialogContentProps = Omit<DialogActionProps, 'children'> & {
     | ((props: DialogContentProps) => React.ReactNode)
 
   /**
-   * Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.
+   * Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `center-both`. If `center-both`, then the content will also be centered vertically. Defaults to `left`.
    */
   alignContent?: ModalAlignContent
 

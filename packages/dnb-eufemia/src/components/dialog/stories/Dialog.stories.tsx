@@ -237,7 +237,7 @@ export const DialogSandbox = () => (
       <Dialog
         spacing={false}
         fullscreen={false}
-        alignContent="centered"
+        alignContent="center-both"
         hideCloseButton
         triggerAttributes={{ text: 'Show' }}
         maxWidth="12rem"
@@ -253,7 +253,7 @@ export const DialogSandbox = () => (
       <Dialog
         spacing={false}
         fullscreen={false}
-        alignContent="centered"
+        alignContent="center-both"
         hideCloseButton
         triggerAttributes={{ icon: 'bell' }}
         maxWidth="12rem"

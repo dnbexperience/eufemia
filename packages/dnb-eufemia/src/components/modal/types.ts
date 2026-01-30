@@ -4,7 +4,7 @@ import type { ButtonProps } from '../button/Button'
 import type { ModalRootProps } from './ModalRoot'
 
 export type ModalFullscreen = 'auto' | boolean
-export type ModalAlignContent = 'left' | 'center' | 'centered' | 'right'
+export type ModalAlignContent = 'left' | 'center' | 'center-both' | 'right'
 export type ModalContainerPlacement = 'left' | 'right' | 'top' | 'bottom'
 export type ModalTriggerVariant = 'primary' | 'secondary' | 'tertiary'
 export type ModalTriggerIconPosition = 'left' | 'right'
@@ -250,7 +250,7 @@ export type ModalContentProps = {
   fullscreen?: ModalFullscreen
 
   /**
-   * Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.
+   * Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `center-both`. If `center-both`, then the content will also be centered vertically. Defaults to `left`.
    */
   alignContent?: ModalAlignContent
 
