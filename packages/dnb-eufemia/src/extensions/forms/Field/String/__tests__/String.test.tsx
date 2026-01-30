@@ -1913,7 +1913,7 @@ describe('Field.String', () => {
       const ids = document.querySelectorAll(`#${describedBy}`)
       expect(ids).toHaveLength(1)
       expect(ids[0]).toBeInTheDocument()
-      expect(ids[0]).toHaveClass('dnb-form-status--warn')
+      expect(ids[0]).toHaveClass('dnb-form-status--warning')
       expect(ids[0]).toHaveTextContent('Warning message')
     })
 
