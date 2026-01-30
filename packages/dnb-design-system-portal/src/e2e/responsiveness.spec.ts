@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 
 test.describe('Responsiveness', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/uilib/')
+    await page.goto('/uilib/components/')
 
     // Check if app is mounted
     await page.waitForSelector('#eufemia-portal-root', {
