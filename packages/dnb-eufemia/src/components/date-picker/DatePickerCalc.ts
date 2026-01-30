@@ -237,19 +237,6 @@ function isPreviewCalc(
   )
 }
 
-export function correctV1Format(date: string) {
-  // for backwards compatibility
-  // TODO: Remove this in next major version
-  if (/YYYY/.test(date) && /DD/.test(date)) {
-    warn(
-      'You are using "YYYY-MM-DD" as the dateFormat or returnFormat? Please use "yyyy-MM-dd" instead!'
-    )
-    date = date.replace(/DD/, 'dd').replace(/YYYY/, 'yyyy')
-  }
-
-  return date
-}
-
 function parseHumanDate(
   input: string,
   humanDateFormats = ['dd.MM.yyyy', 'dd/MM/yyyy', 'yyyy-MM-dd']
@@ -283,7 +270,7 @@ export function convertStringToDate(
 
     // Check one more time if we can generate a valid date
     if (dateFormat && !isValid(dateObject)) {
-      dateObject = parseHumanDate(date, [correctV1Format(dateFormat)])
+      dateObject = parseHumanDate(date, [dateFormat])
     }
   } else {
     dateObject = toDate(date)
