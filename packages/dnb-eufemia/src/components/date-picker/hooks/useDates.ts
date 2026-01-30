@@ -142,10 +142,19 @@ function mapDates(
     startDate ??
     new Date()
 
+  // Check if startMonth was explicitly provided (not just derived from startDate)
+  const hasExplicitStartMonth = typeof dateProps.startMonth !== 'undefined'
+
   const endMonth =
     convertStringToDate(dateProps.endMonth, {
       dateFormat: dateFormat,
-    }) ?? (isRange ? endDate ?? addMonths(startMonth, 1) : startMonth)
+    }) ??
+    (isRange
+      ? // If startMonth is explicitly provided, use it + 1 month; otherwise fallback to endDate
+        hasExplicitStartMonth
+        ? addMonths(startMonth, 1)
+        : endDate ?? addMonths(startMonth, 1)
+      : startMonth)
 
   const minDate = convertStringToDate(dateProps.minDate, {
     dateFormat,
