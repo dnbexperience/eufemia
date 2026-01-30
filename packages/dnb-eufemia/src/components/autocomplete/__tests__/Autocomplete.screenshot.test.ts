@@ -11,7 +11,7 @@ import {
 describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/autocomplete/demos',
+    url: '/uilib/components/autocomplete/demos/',
     pageViewport: {
       height: 1024, // The height influences this test: data-visual-test="autocomplete-drawer-search"
     },
@@ -38,7 +38,7 @@ describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
 describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/autocomplete/demos',
+    url: '/uilib/components/autocomplete/demos/',
   })
 
   it('have to match different sizes', async () => {
@@ -122,7 +122,7 @@ describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
 describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/autocomplete/demos',
+    url: '/uilib/components/autocomplete/demos/',
     pageViewport: {
       width: 700,
     },
@@ -142,7 +142,7 @@ describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
 describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/autocomplete/visual-tests',
+    url: '/uilib/components/autocomplete/visual-tests/',
   })
 
   it('have to match disabled state', async () => {

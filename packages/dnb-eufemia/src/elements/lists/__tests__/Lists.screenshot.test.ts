@@ -10,7 +10,7 @@ import {
 
 describe('List', () => {
   setupPageScreenshot({
-    url: '/uilib/elements/lists',
+    url: '/uilib/elements/lists/',
   })
 
   it('have to match ul list', async () => {
@@ -82,7 +82,7 @@ describe('List', () => {
 })
 
 describe('Lists with skeleton', () => {
-  setupPageScreenshot({ url: '/uilib/elements/lists?skeleton' })
+  setupPageScreenshot({ url: '/uilib/elements/lists/?skeleton' })
 
   it('have to match ul list', async () => {
     const screenshot = await makeScreenshot({

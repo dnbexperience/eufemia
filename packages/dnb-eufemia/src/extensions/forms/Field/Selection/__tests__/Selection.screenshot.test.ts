@@ -5,7 +5,7 @@ import {
 
 describe('Selection', () => {
   setupPageScreenshot({
-    url: '/uilib/extensions/forms/base-fields/Selection/demos',
+    url: '/uilib/extensions/forms/base-fields/Selection/demos/',
   })
 
   describe('autocomplete', () => {

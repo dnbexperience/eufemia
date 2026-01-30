@@ -10,7 +10,7 @@ import {
 
 describe('Icon', () => {
   setupPageScreenshot({
-    url: '/uilib/components/icon/demos',
+    url: '/uilib/components/icon/demos/',
   })
 
   it('have to match default icons setup', async () => {
@@ -77,7 +77,7 @@ describe('Icon', () => {
 // eslint-disable-next-line jest/no-identical-title
 describe('Icon', () => {
   setupPageScreenshot({
-    url: '/uilib/components/icon/visual-tests',
+    url: '/uilib/components/icon/visual-tests/',
   })
 
   it('have to match responsive icons', async () => {

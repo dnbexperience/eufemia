@@ -11,7 +11,7 @@ import {
 describe('Drawer', () => {
   describe('large', () => {
     setupPageScreenshot({
-      url: '/uilib/components/drawer/demos',
+      url: '/uilib/components/drawer/demos/',
     })
 
     it('have to match default drawer trigger with title', async () => {
@@ -43,7 +43,7 @@ describe('Drawer', () => {
     }
 
     setupPageScreenshot({
-      url: '/uilib/components/drawer/demos',
+      url: '/uilib/components/drawer/demos/',
       pageViewport,
     })
 
@@ -162,7 +162,7 @@ describe('Drawer', () => {
 
   describe('small', () => {
     setupPageScreenshot({
-      url: '/uilib/components/drawer/demos',
+      url: '/uilib/components/drawer/demos/',
       pageViewport: {
         width: 640,
         height: 800,

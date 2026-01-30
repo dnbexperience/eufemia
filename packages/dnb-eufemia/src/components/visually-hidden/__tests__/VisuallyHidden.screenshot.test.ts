@@ -9,7 +9,7 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('VisuallyHidden', () => {
-  setupPageScreenshot({ url: '/uilib/components/visually-hidden/demos' })
+  setupPageScreenshot({ url: '/uilib/components/visually-hidden/demos/' })
 
   it('have to match VisuallyHidden default', async () => {
     const screenshot = await makeScreenshot({

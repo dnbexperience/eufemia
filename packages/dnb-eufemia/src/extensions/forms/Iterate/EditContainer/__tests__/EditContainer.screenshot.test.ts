@@ -6,7 +6,7 @@
 import { makeScreenshot } from '../../../../../core/jest/jestSetupScreenshots'
 
 describe('Iterate.EditContainer', () => {
-  const url = '/uilib/extensions/forms/Iterate/EditContainer/demos'
+  const url = '/uilib/extensions/forms/Iterate/EditContainer/demos/'
 
   it('have to match edit container with error', async () => {
     const screenshot = await makeScreenshot({

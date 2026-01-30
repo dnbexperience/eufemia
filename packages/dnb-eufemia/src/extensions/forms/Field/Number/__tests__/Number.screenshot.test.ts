@@ -11,7 +11,7 @@ import {
 describe.each(['ui', 'sbanken'])('Number field for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/extensions/forms/base-fields/Number',
+    url: '/uilib/extensions/forms/base-fields/Number/',
   })
 
   describe('with step control buttons', () => {
@@ -96,7 +96,7 @@ describe.each(['ui', 'sbanken'])('Number field for %s', (themeName) => {
 
 describe('Field.Number', () => {
   setupPageScreenshot({
-    url: '/uilib/extensions/forms/base-fields/Number',
+    url: '/uilib/extensions/forms/base-fields/Number/',
   })
 
   it('have to match widths', async () => {

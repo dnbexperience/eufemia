@@ -11,7 +11,7 @@ import {
 describe.each(['ui', 'sbanken'])('FormStatus for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/form-status/demos',
+    url: '/uilib/components/form-status/demos/',
   })
 
   const style = {

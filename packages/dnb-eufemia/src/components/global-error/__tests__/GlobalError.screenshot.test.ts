@@ -15,7 +15,7 @@ describe('GlobalError', () => {
 
   setupPageScreenshot({
     pageViewport,
-    url: '/uilib/components/global-error/demos',
+    url: '/uilib/components/global-error/demos/',
   })
 
   it('have to match the 404 status', async () => {

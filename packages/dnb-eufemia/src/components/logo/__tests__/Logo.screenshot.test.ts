@@ -11,7 +11,7 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe.each(['ui', 'sbanken'])('Logo for %s', (themeName) => {
-  setupPageScreenshot({ themeName, url: '/uilib/components/logo/demos' })
+  setupPageScreenshot({ themeName, url: '/uilib/components/logo/demos/' })
 
   it('have to match the default "Logo"', async () => {
     const screenshot = await makeScreenshot({
@@ -55,7 +55,7 @@ describe.each(['ui', 'sbanken'])('Logo for %s', (themeName) => {
 })
 
 describe.each(['carnegie'])('Logo for %s', (themeName) => {
-  setupPageScreenshot({ themeName, url: '/uilib/components/logo/demos' })
+  setupPageScreenshot({ themeName, url: '/uilib/components/logo/demos/' })
 
   it('have to match the default variant', async () => {
     const screenshot = await makeScreenshot({

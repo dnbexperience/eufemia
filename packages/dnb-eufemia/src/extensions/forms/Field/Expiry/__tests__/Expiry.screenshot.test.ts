@@ -11,7 +11,7 @@ import {
 describe.each(['ui', 'sbanken'])('Expiry field for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/extensions/forms/feature-fields/Expiry',
+    url: '/uilib/extensions/forms/feature-fields/Expiry/',
   })
 
   it('have to match the empty state', async () => {

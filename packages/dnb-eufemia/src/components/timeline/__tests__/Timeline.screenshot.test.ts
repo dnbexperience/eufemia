@@ -9,7 +9,7 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Timeline', () => {
-  setupPageScreenshot({ url: '/uilib/components/timeline/demos' })
+  setupPageScreenshot({ url: '/uilib/components/timeline/demos/' })
 
   it('have to match Timeline single completed', async () => {
     const screenshot = await makeScreenshot({

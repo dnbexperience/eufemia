@@ -10,7 +10,7 @@ import {
 
 describe('Image', () => {
   setupPageScreenshot({
-    url: '/uilib/elements/image',
+    url: '/uilib/elements/image/',
   })
 
   it('have to match default image element', async () => {

@@ -6,7 +6,7 @@
 import { makeScreenshot } from '../../../../../core/jest/jestSetupScreenshots'
 
 describe('Form.Section', () => {
-  const url = '/uilib/extensions/forms/Form/Section/demos'
+  const url = '/uilib/extensions/forms/Form/Section/demos/'
 
   it('have to match view container', async () => {
     const screenshot = await makeScreenshot({

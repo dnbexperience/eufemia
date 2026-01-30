@@ -13,7 +13,7 @@ const style = { width: '25rem' }
 describe.each(['ui', 'sbanken'])('GlobalStatus for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/global-status/demos',
+    url: '/uilib/components/global-status/demos/',
   })
 
   it('have to match the default state with custom content', async () => {

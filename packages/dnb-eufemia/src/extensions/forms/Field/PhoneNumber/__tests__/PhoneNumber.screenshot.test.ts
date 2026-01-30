@@ -3,7 +3,7 @@ import {
   setupPageScreenshot,
 } from '../../../../../core/jest/jestSetupScreenshots'
 
-const url = '/uilib/extensions/forms/feature-fields/PhoneNumber/demos'
+const url = '/uilib/extensions/forms/feature-fields/PhoneNumber/demos/'
 
 describe.each(['ui'])('PhoneNumber for %s', (themeName) => {
   setupPageScreenshot({

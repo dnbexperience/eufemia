@@ -13,7 +13,7 @@ describe.each(['ui', 'sbanken'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/switch/demos',
+      url: '/uilib/components/switch/demos/',
     })
 
     it('have to match switch in unchecked state', async () => {
@@ -67,7 +67,10 @@ describe.each(['ui', 'sbanken'])(
 // NB: Because of focus simulation and screenshotElement.press('Tab')
 // we have to run the two focus simulations in a separate run each
 describe.each(['ui', 'sbanken'])('Checked Switch for %s', (themeName) => {
-  setupPageScreenshot({ themeName, url: '/uilib/components/switch/demos' })
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/switch/demos/',
+  })
 
   it('have to match switch in checked state', async () => {
     const screenshot = await makeScreenshot({

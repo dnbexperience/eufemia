@@ -10,7 +10,7 @@ import {
 
 describe('Space', () => {
   setupPageScreenshot({
-    url: '/uilib/layout/space/demos',
+    url: '/uilib/layout/space/demos/',
   })
 
   it('have to match the spacing patterns', async () => {
@@ -74,7 +74,7 @@ describe('Space', () => {
 describe('Space', () => {
   it('have to match inner spacing on "small" breakpoint', async () => {
     const screenshot = await makeScreenshot({
-      url: '/uilib/layout/space/demos',
+      url: '/uilib/layout/space/demos/',
       pageViewport: {
         width: 400,
       },
@@ -85,7 +85,7 @@ describe('Space', () => {
 
   it('have to match inner spacing on "medium" breakpoint', async () => {
     const screenshot = await makeScreenshot({
-      url: '/uilib/layout/space/demos',
+      url: '/uilib/layout/space/demos/',
       pageViewport: {
         width: 800,
       },
@@ -96,7 +96,7 @@ describe('Space', () => {
 
   it('have to match inner spacing on "large" breakpoint', async () => {
     const screenshot = await makeScreenshot({
-      url: '/uilib/layout/space/demos',
+      url: '/uilib/layout/space/demos/',
       pageViewport: {
         width: 1000,
       },

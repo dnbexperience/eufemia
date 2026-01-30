@@ -11,7 +11,7 @@ import {
 describe.each(['ui', 'sbanken'])('Pagination for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/pagination/demos',
+    url: '/uilib/components/pagination/demos/',
   })
 
   it('have to match the default pagination bar', async () => {
@@ -142,7 +142,7 @@ describe.each(['ui', 'sbanken'])('Pagination for %s', (themeName) => {
 describe.each(['ui', 'sbanken'])('Pagination for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/pagination/demos',
+    url: '/uilib/components/pagination/demos/',
     pageViewport: {
       width: 500,
       height: 600,

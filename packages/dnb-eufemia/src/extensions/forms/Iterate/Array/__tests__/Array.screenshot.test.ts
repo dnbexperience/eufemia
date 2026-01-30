@@ -6,7 +6,7 @@
 import { makeScreenshot } from '../../../../../core/jest/jestSetupScreenshots'
 
 describe('Iterate.Array', () => {
-  const url = '/uilib/extensions/forms/Iterate/Array/demos'
+  const url = '/uilib/extensions/forms/Iterate/Array/demos/'
 
   it('have to match primitive element values', async () => {
     const screenshot = await makeScreenshot({

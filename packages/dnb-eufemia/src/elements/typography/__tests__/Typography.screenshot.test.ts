@@ -13,7 +13,7 @@ describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/typography',
+      url: '/uilib/typography/',
     })
 
     it('have to match all the typography variants', async () => {
@@ -28,7 +28,7 @@ describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
 describe.each(['sbanken'])('Typography mobile for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/typography',
+    url: '/uilib/typography/',
     pageViewport: {
       width: 400,
     },
