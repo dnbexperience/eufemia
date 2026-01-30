@@ -87,7 +87,7 @@ export default class Autocomplete extends React.PureComponent {
     icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     iconSize: PropTypes.string,
     iconPosition: PropTypes.oneOf(['left', 'right']),
-    trianglePosition: PropTypes.oneOf(['left', 'right']),
+    arrowPosition: PropTypes.oneOf(['left', 'right']),
     inputIcon: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
@@ -264,7 +264,7 @@ export default class Autocomplete extends React.PureComponent {
     icon: null,
     iconSize: null,
     iconPosition: 'left',
-    trianglePosition: null,
+    arrowPosition: null,
     inputIcon: 'loupe',
     label: null,
     labelDirection: null,
@@ -1865,7 +1865,7 @@ class AutocompleteInstance extends React.PureComponent {
       disabled,
       stretch,
       skeleton,
-      trianglePosition,
+      arrowPosition,
       iconPosition,
       skipPortal,
       independentWidth,
@@ -2156,7 +2156,7 @@ class AutocompleteInstance extends React.PureComponent {
                 noScrollAnimation={noScrollAnimation}
                 skipPortal={skipPortal}
                 preventSelection={preventSelection}
-                trianglePosition={trianglePosition || iconPosition}
+                arrowPosition={arrowPosition || iconPosition}
                 keepOpen={keepOpen}
                 preventClose={preventClose}
                 alignDrawer={align}
