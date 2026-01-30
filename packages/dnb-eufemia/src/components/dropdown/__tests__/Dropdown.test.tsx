@@ -200,13 +200,13 @@ describe('Dropdown component', () => {
         noAnimation
         data={mockData}
         status="status text"
-        statusState="warn"
+        statusState="warning"
         statusProps={{ stretch: true }}
       />
     )
 
     expect(document.querySelector('.dnb-form-status')).toHaveClass(
-      'dnb-form-status--warn dnb-form-status__size--default dnb-form-status--stretch dnb-form-status--has-content'
+      'dnb-form-status--warning dnb-form-status__size--default dnb-form-status--stretch dnb-form-status--has-content'
     )
   })
 
