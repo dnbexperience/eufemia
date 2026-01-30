@@ -226,7 +226,7 @@ export const StepIndicatorStatuses = () => (
         {
           title: 'Warning',
           status: 'Status message',
-          statusState: 'warn',
+          statusState: 'warning',
         },
         {
           title: 'Error',
