@@ -12,7 +12,7 @@ export type FormStatusState =
   | boolean
   | string
   | 'error'
-  | 'warn'
+  | 'warning'
   | 'info'
   | 'success'
   | 'marketing';
@@ -56,7 +56,7 @@ export interface FormStatusProps
    */
   iconSize?: IconSize;
   /**
-   * Defines the visual appearance of the status. These are the statuses `error`, `warn`, `info` and `marketing`. The default status is `error`.
+   * Defines the visual appearance of the status. These are the statuses `error`, `warning`, `info` and `marketing`. The default status is `error`.
    */
   state?: FormStatusState;
   /**

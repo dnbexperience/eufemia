@@ -453,7 +453,10 @@ export function convertStatusToStateOnly(status, state) {
 
 export function getStatusState(status) {
   return (
-    status && status !== 'error' && status !== 'warn' && status !== 'info'
+    status &&
+    status !== 'error' &&
+    status !== 'warning' &&
+    status !== 'info'
   )
 }
 

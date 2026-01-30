@@ -367,7 +367,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
       acc[type] = {
         id,
         label,
-        state: type === 'warning' ? 'warn' : type,
+        state: type,
         widthElement: contentsRef,
 
         // Enable animation only in the browser and not in tests
