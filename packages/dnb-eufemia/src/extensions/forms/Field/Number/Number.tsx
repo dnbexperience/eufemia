@@ -504,11 +504,11 @@ function NumberComponent(props: Props) {
   ])
 
   const ariaParams = showStepControls && {
-    role: 'spinbutton',
-    'aria-valuemin': String(minimum),
-    'aria-valuemax': String(maximum),
-    'aria-valuenow': String(value), // without it, VO will read an invalid value
-    'aria-valuetext': String(value), // without it, VO will read %
+    role: 'spinbutton' as const,
+    'aria-valuemin': minimum,
+    'aria-valuemax': maximum,
+    'aria-valuenow': value ?? 0, // without it, VO will read an invalid value
+    'aria-valuetext': String(value ?? ''), // without it, VO will read %
   }
 
   const inputProps: InputProps = {
@@ -535,7 +535,7 @@ function NumberComponent(props: Props) {
     stretch: Boolean(width),
     ...maskProps,
     ...htmlAttributes,
-    ...(ariaParams as any),
+    ...(ariaParams || {}),
   }
 
   if (showStepControls) {
