@@ -957,7 +957,7 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
   /** Sets the color on scroll overflow (at the bottom) */
   background-color: var(--modal-background-color, transparent);
 }
-.dnb-drawer__align--centered .dnb-drawer__inner {
+.dnb-drawer__align--center-both .dnb-drawer__inner {
   align-items: center;
   justify-content: center;
 }

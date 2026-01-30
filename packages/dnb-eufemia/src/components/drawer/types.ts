@@ -61,9 +61,9 @@ export type DrawerContentProps = {
   children?: ReactChildType
 
   /**
-   * Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.
+   * Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `center-both`. If `center-both`, then the content will also be centered vertically. Defaults to `left`.
    */
-  alignContent?: 'left' | 'right' | 'centered' | 'center'
+  alignContent?: 'left' | 'right' | 'center-both' | 'center'
 
   /**
    * If set to `true` then the drawer content will be shown as fullscreen, without showing the original content behind. Can be set to `false` to omit the auto fullscreen. Defaults to `auto`.

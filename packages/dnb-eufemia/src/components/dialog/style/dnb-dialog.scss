@@ -97,12 +97,12 @@
     padding: calc(var(--dialog-spacing)); // 2rem (32px)
   }
 
-  &__align--centered &__inner {
+  &__align--center-both &__inner {
     align-items: center;
     justify-content: center;
   }
-  &__align--centered &__title,
-  &__align--centered#{&}--confirmation &__content {
+  &__align--center-both &__title,
+  &__align--center-both#{&}--confirmation &__content {
     text-align: center;
   }
 
