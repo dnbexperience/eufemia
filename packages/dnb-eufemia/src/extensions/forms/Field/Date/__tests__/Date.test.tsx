@@ -780,7 +780,67 @@ describe('Field.Date', () => {
     })
   })
 
-  // TODO: Add test for month, sync and hideLastWeek prop when it's working again
+  describe('month prop', () => {
+    it('should display the specified month when opening the picker', async () => {
+      render(<Field.Date month="2024-12-01" value="2024-01-15" />)
+
+      await userEvent.click(
+        document.querySelector('button.dnb-input__submit-button__button')
+      )
+
+      const monthTitle = document.querySelector(
+        '.dnb-date-picker__header__title'
+      )
+
+      expect(monthTitle).toHaveTextContent('desember 2024')
+      expect(
+        screen.getByLabelText('søndag 15. desember 2024')
+      ).toBeInTheDocument()
+    })
+
+    it('should display the specified month in range mode', async () => {
+      render(
+        <Field.Date
+          month="2024-06-01"
+          value="2024-01-15|2024-02-20"
+          range
+        />
+      )
+
+      await userEvent.click(
+        document.querySelector('button.dnb-input__submit-button__button')
+      )
+
+      const [firstMonth, secondMonth] = Array.from(
+        document.querySelectorAll('.dnb-date-picker__header__title')
+      )
+
+      expect(firstMonth).toHaveTextContent('juni 2024')
+      expect(secondMonth).toHaveTextContent('juli 2024')
+    })
+  })
+
+  describe('hideLastWeek prop', () => {
+    it('should hide calendar weeks from the previous/next month', async () => {
+      render(<Field.Date hideLastWeek value="2024-10-15" />)
+
+      await userEvent.click(
+        document.querySelector('button.dnb-input__submit-button__button')
+      )
+
+      const calendarWeeks = document.querySelectorAll(
+        '.dnb-date-picker__calendar__week'
+      )
+
+      // Check that there are fewer weeks displayed
+      expect(calendarWeeks.length).toBeLessThan(6)
+
+      // Verify the last week is not present
+      expect(
+        document.querySelector('.dnb-date-picker__calendar__week--last')
+      ).not.toBeInTheDocument()
+    })
+  })
 
   it('should parse dates in specified format', async () => {
     render(<Field.Date value="01/10/2024" dateFormat="dd/MM/yyyy" />)
@@ -1161,14 +1221,6 @@ describe('Field.Date', () => {
 
     expect(
       calendar.querySelector('.dnb-date-picker__labels')
-    ).not.toBeInTheDocument()
-  })
-
-  it('should be able to hide calendar weeks from the previous month', () => {
-    render(<Field.Date hideLastWeek />)
-
-    expect(
-      document.querySelector('.dnb-date-picker__calendar__week--last')
     ).not.toBeInTheDocument()
   })
 
