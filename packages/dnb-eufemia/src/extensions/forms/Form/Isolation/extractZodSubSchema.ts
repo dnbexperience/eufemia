@@ -98,7 +98,7 @@ export function unwrap(t: z.ZodTypeAny | unknown): z.ZodTypeAny {
     : (t as z.ZodTypeAny)
 }
 
-export function decodePointerSegment(seg: string) {
+export function decodePointerSegment(seg: string): string {
   // JSON Pointer unescape: ~1 -> /, ~0 -> ~
   return seg.replace(/~1/g, '/').replace(/~0/g, '~')
 }
