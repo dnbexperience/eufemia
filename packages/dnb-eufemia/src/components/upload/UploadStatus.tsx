@@ -18,7 +18,7 @@ const UploadStatus = () => {
         500 /* delay the animation to avoid flickering while each file animates */
       }
     >
-      <FormStatus state="warn" shellSpace={{ top: 'small' }} stretch>
+      <FormStatus state="warning" shellSpace={{ top: 'small' }} stretch>
         {String(errorAmountLimit).replace(
           '%amount',
           String(filesAmountLimit)

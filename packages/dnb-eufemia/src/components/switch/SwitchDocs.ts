@@ -38,7 +38,7 @@ export const SwitchProperties: PropertiesTableProps = {
   },
   statusState: {
     doc: 'Defines the state of the status. Defaults to `error`.',
-    type: ['error', 'warn', 'info', 'success', 'marketing'],
+    type: ['error', 'warning', 'info', 'success', 'marketing'],
     status: 'optional',
   },
   statusProps: {
