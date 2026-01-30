@@ -16,7 +16,6 @@ export type DatePickerDateProps = {
 type UseDatesOptions = {
   dateFormat: string
   isRange: boolean
-  isSync?: boolean
 }
 
 export type DatePickerDates = {
