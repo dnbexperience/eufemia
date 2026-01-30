@@ -448,7 +448,6 @@ describe('DataContext.Provider', () => {
           props: expect.objectContaining({}),
           data: { bar: 'bar', foo: 'Include this value' },
           error: undefined,
-          internal: { error: undefined },
         })
         expect(barHandler).toHaveBeenLastCalledWith({
           path: '/bar',
@@ -457,7 +456,6 @@ describe('DataContext.Provider', () => {
           props: expect.objectContaining({}),
           data: { bar: 'bar', foo: 'Include this value' },
           error: undefined,
-          internal: { error: undefined },
         })
 
         rerender(
@@ -495,7 +493,6 @@ describe('DataContext.Provider', () => {
           props: expect.objectContaining({}),
           data: { bar: 'bar value', foo: 'Skip this value' },
           error: undefined,
-          internal: { error: undefined },
         })
         expect(barHandler).toHaveBeenLastCalledWith({
           path: '/bar',
@@ -505,7 +502,6 @@ describe('DataContext.Provider', () => {
           props: expect.objectContaining({}),
           data: { bar: 'bar value', foo: 'Skip this value' },
           error: undefined,
-          internal: { error: undefined },
         })
 
         expect(filteredData).toEqual({ bar: 'bar value' })
@@ -559,9 +555,6 @@ describe('DataContext.Provider', () => {
             value: 'Include this value',
           }),
           error: undefined,
-          internal: {
-            error: undefined,
-          },
         })
         expect(filterDataHandler).toHaveBeenNthCalledWith(2, {
           path: '/bar',
@@ -576,9 +569,6 @@ describe('DataContext.Provider', () => {
             value: 'bar',
           }),
           error: undefined,
-          internal: {
-            error: undefined,
-          },
         })
 
         rerender(
@@ -619,9 +609,6 @@ describe('DataContext.Provider', () => {
             value: 'Skip this value',
           }),
           error: undefined,
-          internal: {
-            error: undefined,
-          },
         })
         expect(filterDataHandler).toHaveBeenNthCalledWith(4, {
           path: '/bar',
@@ -636,9 +623,6 @@ describe('DataContext.Provider', () => {
             value: 'bar value',
           }),
           error: undefined,
-          internal: {
-            error: undefined,
-          },
         })
 
         expect(filteredData).toEqual({ bar: 'bar value' })
@@ -723,9 +707,6 @@ describe('DataContext.Provider', () => {
             value: 'Include this value',
           }),
           error: undefined,
-          internal: {
-            error: undefined,
-          },
         })
         expect(filterDataHandler).toHaveBeenNthCalledWith(2, {
           path: '/_bar',
@@ -737,9 +718,6 @@ describe('DataContext.Provider', () => {
             value: 'Exclude this value',
           }),
           error: undefined,
-          internal: {
-            error: undefined,
-          },
         })
         expect(filterDataHandler).toHaveBeenNthCalledWith(3, {
           path: '/nested/_baz',
@@ -749,9 +727,6 @@ describe('DataContext.Provider', () => {
           data,
           props: {},
           error: undefined,
-          internal: {
-            error: undefined,
-          },
         })
         expect(filterDataHandler).toHaveBeenNthCalledWith(4, {
           path: '/nested/baz',
@@ -761,9 +736,6 @@ describe('DataContext.Provider', () => {
           data,
           props: {},
           error: undefined,
-          internal: {
-            error: undefined,
-          },
         })
         expect(filterDataHandler).toHaveBeenNthCalledWith(5, {
           path: '/_nested/baz',
@@ -773,9 +745,6 @@ describe('DataContext.Provider', () => {
           data,
           props: {},
           error: undefined,
-          internal: {
-            error: undefined,
-          },
         })
       })
 
@@ -1979,7 +1948,7 @@ describe('DataContext.Provider', () => {
           '.dnb-forms-field-block .dnb-form-status'
         )
         expect(status).toHaveTextContent('onChangeField-warning')
-        expect(status).toHaveClass('dnb-form-status--warn')
+        expect(status).toHaveClass('dnb-form-status--warning')
       })
     })
 
@@ -3339,9 +3308,6 @@ describe('DataContext.Provider', () => {
               foo: 'foo',
             },
             error: new Error(nb.Field.errorRequired),
-            internal: {
-              error: new Error(nb.Field.errorRequired),
-            },
           },
         ])
 
@@ -3370,9 +3336,6 @@ describe('DataContext.Provider', () => {
               bar: undefined,
             },
             error: new Error(nb.Field.errorRequired),
-            internal: {
-              error: new Error(nb.Field.errorRequired),
-            },
           },
           {
             path: '/foo',
@@ -3386,9 +3349,6 @@ describe('DataContext.Provider', () => {
               foo: undefined,
             },
             error: new Error(nb.Field.errorRequired),
-            internal: {
-              error: new Error(nb.Field.errorRequired),
-            },
           },
         ])
 
@@ -3415,9 +3375,6 @@ describe('DataContext.Provider', () => {
               foo: 'foo',
             },
             error: new Error(nb.Field.errorRequired),
-            internal: {
-              error: new Error(nb.Field.errorRequired),
-            },
           },
         ])
       })
@@ -3489,148 +3446,6 @@ describe('DataContext.Provider', () => {
         expect(handleSubmitRequest).toHaveBeenCalledTimes(3)
         expect(handleSubmitRequest).toHaveBeenLastCalledWith()
       })
-    })
-
-    it('should revalidate with provided schema based on changes in external data using deprecated continuousValidation', () => {
-      const log = jest.spyOn(console, 'error').mockImplementation()
-
-      const schema: JSONSchema = {
-        type: 'object',
-        properties: {
-          myKey: {
-            type: 'string',
-          },
-        },
-      }
-      const validData = {
-        myKey: 'some-value',
-      }
-      const invalidData = {
-        myKey: 123,
-      }
-      const { rerender } = render(
-        <DataContext.Provider
-          schema={schema}
-          ajvInstance={makeAjvInstance()}
-          data={validData}
-        >
-          <Field.String
-            path="/myKey"
-            validateInitially
-            continuousValidation
-          />
-        </DataContext.Provider>
-      )
-      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-
-      rerender(
-        <DataContext.Provider
-          schema={schema}
-          ajvInstance={makeAjvInstance()}
-          data={invalidData}
-        >
-          <Field.String
-            path="/myKey"
-            validateInitially
-            continuousValidation
-          />
-        </DataContext.Provider>
-      )
-
-      expect(screen.queryByRole('alert')).toBeInTheDocument()
-
-      rerender(
-        <DataContext.Provider
-          schema={schema}
-          ajvInstance={makeAjvInstance()}
-          data={validData}
-        >
-          <Field.String
-            path="/myKey"
-            validateInitially
-            continuousValidation
-          />
-        </DataContext.Provider>
-      )
-
-      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-
-      log.mockRestore()
-    })
-
-    it('should revalidate correctly based on changes in provided schema using deprecated continuousValidation', () => {
-      const log = jest.spyOn(console, 'error').mockImplementation()
-
-      const schema1: JSONSchema = {
-        type: 'object',
-        properties: {
-          myKey: {
-            type: 'number',
-          },
-        },
-      }
-      const schema2: JSONSchema = {
-        type: 'object',
-        properties: {
-          myKey: {
-            type: 'string',
-          },
-        },
-      }
-      const data = {
-        myKey: 'some-value',
-      }
-      const { rerender } = render(
-        <DataContext.Provider
-          schema={schema1}
-          ajvInstance={makeAjvInstance()}
-          defaultData={data}
-        >
-          <Field.String
-            path="/myKey"
-            validateInitially
-            continuousValidation
-          />
-        </DataContext.Provider>
-      )
-      expect(screen.queryByRole('alert')).toBeInTheDocument()
-      expect(screen.queryByRole('alert')).toHaveTextContent(
-        'The field at path="/myKey" value (some-value) type must be number'
-      )
-
-      rerender(
-        <DataContext.Provider
-          schema={schema2}
-          ajvInstance={makeAjvInstance()}
-          defaultData={data}
-        >
-          <Field.String
-            path="/myKey"
-            validateInitially
-            continuousValidation
-          />
-        </DataContext.Provider>
-      )
-
-      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-
-      rerender(
-        <DataContext.Provider
-          schema={schema1}
-          ajvInstance={makeAjvInstance()}
-          defaultData={data}
-        >
-          <Field.String
-            path="/myKey"
-            validateInitially
-            continuousValidation
-          />
-        </DataContext.Provider>
-      )
-
-      expect(screen.queryByRole('alert')).toBeInTheDocument()
-
-      log.mockRestore()
     })
 
     it('should revalidate with provided schema based on changes in external data', () => {
@@ -4174,9 +3989,6 @@ describe('DataContext.Provider', () => {
       props: expect.objectContaining({
         disabled: true,
       }),
-      internal: {
-        error: undefined,
-      },
     })
     expect(filteredData).toEqual({})
 
@@ -4205,9 +4017,6 @@ describe('DataContext.Provider', () => {
       props: expect.objectContaining({
         disabled: false,
       }),
-      internal: {
-        error: undefined,
-      },
     })
     expect(filteredData).toEqual({
       myField: 'bar',
@@ -4951,9 +4760,6 @@ describe('DataContext.Provider', () => {
         props: expect.objectContaining({
           disabled: true,
         }),
-        internal: {
-          error: undefined,
-        },
       })
       expect(filteredData).toEqual({})
 
@@ -4995,9 +4801,6 @@ describe('DataContext.Provider', () => {
         props: expect.objectContaining({
           disabled: false,
         }),
-        internal: {
-          error: undefined,
-        },
       })
       expect(filteredData).toEqual({
         myField: 'bar',
@@ -5025,9 +4828,6 @@ describe('DataContext.Provider', () => {
         props: expect.objectContaining({
           disabled: true,
         }),
-        internal: {
-          error: undefined,
-        },
       })
       expect(filteredData).toEqual({ myField: 'bar' })
     })

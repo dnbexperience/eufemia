@@ -13,8 +13,6 @@ import {
   Dropdown,
   Button,
   FormLabel,
-  FormSet,
-  FormRow,
   NumberFormat,
   Drawer,
   GlobalStatus,
@@ -61,9 +59,9 @@ const RightAligned = styled.div`
 
 const direction = 'auto'
 const label = 'Label'
-const align_dropdown = 'right'
-const icon_position = 'right'
-const opened = false
+const align = 'right'
+const iconPosition = 'right'
+const open = false
 
 const DropdownStory = () => {
   const [data, setData] = React.useState(dropdownData)
@@ -101,9 +99,9 @@ const DropdownStory = () => {
         <RightAligned>
           <Dropdown
             size="small"
-            independent_width
-            icon_position="left"
-            align_dropdown="left"
+            independentWidth
+            iconPosition="left"
+            align="left"
             variant="tertiary"
             title="Tertiary"
             data={[
@@ -115,9 +113,7 @@ const DropdownStory = () => {
           />
           <Dropdown
             size="small"
-            independent_width
-            // icon_position="right"
-            // align_dropdown="right"
+            independentWidth
             variant="tertiary"
             title="Tertiary"
             data={[
@@ -132,7 +128,7 @@ const DropdownStory = () => {
       <Box>
         <RightAligned>
           <Dropdown
-            action_menu
+            actionMenu
             title="Action Menu"
             data={[
               <>
@@ -144,17 +140,17 @@ const DropdownStory = () => {
                 Download
               </>,
             ]}
-            on_hide={(e) => {
-              console.log('on_hide', e)
+            onClose={(e) => {
+              console.log('onClose', e)
             }}
-            on_select={(e) => {
-              console.log('on_select', e)
+            onSelect={(e) => {
+              console.log('onSelect', e)
             }}
           />
           <Dropdown
-            action_menu
-            icon_position="right"
-            align_dropdown="right"
+            actionMenu
+            iconPosition="right"
+            align="right"
             title="Action Menu"
             data={[
               <>
@@ -173,29 +169,24 @@ const DropdownStory = () => {
         <RightAligned>
           <Dropdown
             size="small"
-            // opened
-            more_menu
+            moreMenu
             data={[
               <Link key="item-1" href="/">
                 Go to this Link
               </Link>,
               'Or to this one',
             ]}
-            // skip_portal
-            align_dropdown="right"
+            align="right"
           />
           <Dropdown
             size="small"
-            // opened
-            more_menu
+            moreMenu
             data={[
               <Link key="item-1" href="/">
                 Go to this Link
               </Link>,
               'Or to this one',
             ]}
-            // skip_portal
-            // align_dropdown="right"
           />
         </RightAligned>
       </Box>
@@ -211,114 +202,111 @@ const DropdownStory = () => {
         <Box>
           <Dropdown
             size="small"
-            skip_portal
-            opened={opened}
-            no_animation
+            skipPortal
+            open={open}
+            noAnimation
             direction={direction}
-            align_dropdown={align_dropdown}
-            icon_position={icon_position}
+            align={align}
+            iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
             right
           />
           <Dropdown
             size="small"
-            opened={opened}
-            // no_animation
+            open={open}
             direction={direction}
-            align_dropdown={align_dropdown}
-            icon_position={icon_position}
+            align={align}
+            iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
             right
           />
         </Box>
-        <Box top={opened ? 'x-large x-large' : 0}>
+        <Box top={open ? 'x-large x-large' : 0}>
           <Dropdown
-            skip_portal
-            opened={opened}
-            no_animation
+            skipPortal
+            open={open}
+            noAnimation
             direction={direction}
-            align_dropdown={align_dropdown}
-            icon_position={icon_position}
+            align={align}
+            iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
             right
           />
           <Dropdown
-            opened={opened}
-            no_animation
+            open={open}
+            noAnimation
             direction={direction}
-            align_dropdown={align_dropdown}
-            icon_position={icon_position}
+            align={align}
+            iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
             right
           />
         </Box>
-        <Box top={opened ? 'x-large x-large' : 0}>
+        <Box top={open ? 'x-large x-large' : 0}>
           <Dropdown
             size="medium"
-            skip_portal
-            opened={opened}
-            no_animation
+            skipPortal
+            open={open}
+            noAnimation
             direction={direction}
-            align_dropdown={align_dropdown}
-            icon_position={icon_position}
+            align={align}
+            iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
             right
           />
           <Dropdown
             size="medium"
-            opened={opened}
-            no_animation
+            open={open}
+            noAnimation
             direction={direction}
-            align_dropdown={align_dropdown}
-            icon_position={icon_position}
+            align={align}
+            iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
             right
           />
         </Box>
-        <Box top={opened ? 'x-large x-large' : 0}>
+        <Box top={open ? 'x-large x-large' : 0}>
           <Dropdown
             size="large"
-            skip_portal
-            opened={opened}
-            no_animation
+            skipPortal
+            open={open}
+            noAnimation
             direction={direction}
-            align_dropdown={align_dropdown}
-            icon_position={icon_position}
+            align={align}
+            iconPosition={iconPosition}
             label={label}
             data={['A', 'B']}
             right
           />
           <Dropdown
             size="large"
-            opened={opened}
-            // opened
-            no_animation
-            align_dropdown={align_dropdown}
-            icon_position={icon_position}
+            open={open}
+            noAnimation
+            align={align}
+            iconPosition={iconPosition}
             direction={direction}
             label={label}
             data={['A', 'B']}
             right
           />
         </Box>
-        <Box top={opened ? 'x-large x-large' : 0}>
+        <Box top={open ? 'x-large x-large' : 0}>
           <Box>
             <Dropdown
               size="small"
-              opened={opened}
-              // opened
+              open={open}
               label={label}
-              no_animation
+              noAnimation
               direction={direction}
-              align_dropdown={align_dropdown}
-              icon_position={icon_position}
-              more_menu={true}
+              align={align}
+              iconPosition={iconPosition}
+              moreMenu={true}
               data={[
                 <Link key="item-1" href="/">
                   Go to this Link
@@ -326,16 +314,16 @@ const DropdownStory = () => {
                 'Or to this one',
               ]}
               right="x-large x-large"
-              skip_portal
+              skipPortal
             />
             <Dropdown
-              more_menu={true}
-              opened={opened}
+              moreMenu={true}
+              open={open}
               label={label}
-              no_animation
+              noAnimation
               direction={direction}
-              align_dropdown={align_dropdown}
-              icon_position={icon_position}
+              align={align}
+              iconPosition={iconPosition}
               data={[
                 <Link key="item-1" href="/">
                   Go to this Link
@@ -346,13 +334,13 @@ const DropdownStory = () => {
             />
             <Dropdown
               size="medium"
-              more_menu={true}
-              opened={opened}
+              moreMenu={true}
+              open={open}
               label={label}
-              no_animation
+              noAnimation
               direction={direction}
-              align_dropdown={align_dropdown}
-              icon_position={icon_position}
+              align={align}
+              iconPosition={iconPosition}
               data={[
                 <Link key="item-1" href="/">
                   Go to this Link
@@ -363,13 +351,13 @@ const DropdownStory = () => {
             />
             <Dropdown
               size="large"
-              more_menu
-              opened={opened}
+              moreMenu
+              open={open}
               label={label}
-              no_animation
+              noAnimation
               direction={direction}
-              align_dropdown={align_dropdown}
-              icon_position={icon_position}
+              align={align}
+              iconPosition={iconPosition}
               data={[
                 <Link key="item-1" href="/">
                   Go to this Link
@@ -388,9 +376,10 @@ const DropdownStory = () => {
         <DropdownStatesSync />
       </Box>
       <Box>
-        <FormRow
-          label="Vertical label_direction:"
-          label_direction="vertical"
+        <Provider
+          formElement={{
+            labelDirection: 'vertical',
+          }}
         >
           <Dropdown
             label="Vertical A (function):"
@@ -400,40 +389,35 @@ const DropdownStory = () => {
             }}
             right
             status="Status message"
-            on_change={({ attributes }) => {
-              console.log(
-                'on_change',
-                // event.currentTarget.dataset,
-                attributes
-              )
+            onChange={({ attributes }) => {
+              console.log('onChange', attributes)
             }}
             data-attr={123}
-            icon_position="left"
+            iconPosition="left"
           />
           <Dropdown
             title="Default option"
             label="Vertical B:"
-            // align_dropdown="right"
-            icon_position="left"
+            iconPosition="left"
             data={dropdownData}
           />
-        </FormRow>
+        </Provider>
       </Box>
       <Box>
-        <FormRow label="Vertical only:" vertical>
+        <Provider
+          formElement={{
+            labelDirection: 'vertical',
+          }}
+        >
           <Dropdown label="Vertical A:" data={dropdownData} />
           <Dropdown label="Vertical B:" data={dropdownData} top="small" />
-        </FormRow>
+        </Provider>
       </Box>
       <Box>
-        <FormSet
+        <Form.Handler
           onSubmit={(event) => {
             console.log('onSubmit', event)
           }}
-          on_submit={(event) => {
-            console.log('on_submit', event)
-          }}
-          prevent_submit
         >
           <select name="x" id="y">
             <option value="a">A</option>
@@ -443,14 +427,14 @@ const DropdownStory = () => {
             label="Label:"
             data={data}
             value={value}
-            on_state_update={(event) => {
-              console.log('on_state_update', event)
+            onStateUpdate={(event) => {
+              console.log('onStateUpdate', event)
             }}
-            on_change={({ data }) => {
-              console.log('on_change', data)
+            onChange={({ data }) => {
+              console.log('onChange', data)
             }}
-            on_select={({ data }) => {
-              console.log('on_select', data)
+            onSelect={({ data }) => {
+              console.log('onSelect', data)
             }}
           />
           <Button
@@ -458,10 +442,9 @@ const DropdownStory = () => {
             onClick={() => {
               const id = Math.random()
               dropdownData.unshift({
-                selected_value: `I'm New ${id}`,
+                selectedValue: `I'm New ${id}`,
                 content: `New content ${id}`,
               })
-              // setData(dropdownData)
               setData([...dropdownData])
             }}
           />
@@ -471,7 +454,6 @@ const DropdownStory = () => {
             onClick={() => {
               dropdownData = dropdownData.slice(1)
               setData(dropdownData)
-              // setData([...dropdownData])
             }}
           />
           <Button
@@ -483,23 +465,21 @@ const DropdownStory = () => {
               setSelectedItem(random(0, dropdownData.length - 1))
             }}
           />
-        </FormSet>
+        </Form.Handler>
       </Box>
       <Box>
         <Dropdown
           label="Label vertical:"
-          label_direction="vertical"
+          labelDirection="vertical"
           title={<>Custom title {'🔥'}</>}
           data={dropdownData}
-          on_change={({ data }) => {
-            console.log('on_change', data)
+          onChange={({ data }) => {
+            console.log('onChange', data)
           }}
-          on_select={({ data }) => {
-            console.log('on_select', data)
+          onSelect={({ data }) => {
+            console.log('onSelect', data)
           }}
           status="Status message"
-          // value={3}
-          // disabled
         />
         <p className="dnb-p">
           Eros semper blandit tellus mollis primis quisque platea
@@ -507,7 +487,7 @@ const DropdownStory = () => {
         </p>
       </Box>
       <Box>
-        <Provider formElement={{ label_direction: 'vertical' }}>
+        <Provider formElement={{ labelDirection: 'vertical' }}>
           <Dropdown label="Vertical:" data={dropdownData} />
         </Provider>
       </Box>
@@ -515,10 +495,9 @@ const DropdownStory = () => {
         <span className="dnb-p">Eros semper</span>
         <Dropdown
           label="Label:"
-          // direction="top"
           data={dropdownDataScrollable}
           value={4}
-          no_scroll_animation={true}
+          noScrollAnimation={true}
           status="Message to the user"
           right
         />
@@ -530,21 +509,21 @@ const DropdownStory = () => {
           data={dropdownData}
           id="text-dropdown-1"
           size="small"
-          icon_position="left"
+          iconPosition="left"
           bottom
           value={2}
         />
         <Dropdown
           data={dropdownData}
           size="medium"
-          icon_position="left"
+          iconPosition="left"
           bottom
           value={2}
         />
         <Dropdown
           data={dropdownData}
           size="large"
-          icon_position="left"
+          iconPosition="left"
           bottom
           value={2}
         />
@@ -616,7 +595,7 @@ const DropdownStory = () => {
                 </span>
               </span>
             </li>
-            <li className="dnb-drawer-list__triangle" />
+            <li className="dnb-drawer-list__arrow" />
           </ul>
         </span>
       </Box>
@@ -632,7 +611,7 @@ export const DropdownSandbox = () => (
 
 let dropdownData: DrawerListDataArray = [
   {
-    selected_value: 'Brukskonto - Kari Nordmann',
+    selectedValue: 'Brukskonto - Kari Nordmann',
     content: (
       <>
         {/* <Checkbox checked aria-hidden />  */}
@@ -651,7 +630,7 @@ let dropdownData: DrawerListDataArray = [
     ],
   },
   {
-    selected_value:
+    selectedValue:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     content: [
       <NumberFormat key={11345678962} ban>
@@ -661,7 +640,7 @@ let dropdownData: DrawerListDataArray = [
     ],
   },
   {
-    selected_value: (
+    selectedValue: (
       <React.Fragment key="cs-1">Custom selected {'🔥'}</React.Fragment>
     ),
     content: [
@@ -674,7 +653,7 @@ let dropdownData: DrawerListDataArray = [
 ]
 const dropdownDataScrollable = [
   {
-    selected_value: 'AA',
+    selectedValue: 'AA',
     content: 'A',
   },
   {
@@ -686,7 +665,7 @@ const dropdownDataScrollable = [
     ],
   },
   {
-    selected_value: 'CC',
+    selectedValue: 'CC',
     content: [
       <NumberFormat key={11345678962} ban>
         11345678962
@@ -695,7 +674,7 @@ const dropdownDataScrollable = [
     ],
   },
   {
-    selected_value: 'DD',
+    selectedValue: 'DD',
     content: [
       <NumberFormat key={15349648901} ban>
         15349648901
@@ -726,8 +705,6 @@ const dropdownDataScrollable = [
 ]
 
 const Flag = () => <>COUNTRY FLAG</> // These <> are Fragments, like React.Fragment
-
-// This component populates the dropdown and handles the reset if, and only if, the value is undefined
 function CurrencySelector({
   currencies,
   onChange,
@@ -741,16 +718,15 @@ function CurrencySelector({
       {...props}
       value={itemIndex}
       title={strings.currencyBlankLabel}
-      // eslint-disable-next-line camelcase
-      on_change={({ data: { selected_value }, event }) => {
+      onChange={({ data: { selectedValue }, event }) => {
         console.log('event', event)
         if (event && typeof event.persist === 'function') {
           event.persist()
         }
-        onChange(selected_value)
+        onChange(selectedValue)
       }}
       data={currencies.map((currency) => ({
-        selected_value: currency,
+        selectedValue: currency,
         content: (
           <>
             {currency} <Flag />
@@ -775,23 +751,21 @@ function DropdownStatesSync() {
   }
 
   return (
-    <Provider formElement={{ label_direction: 'vertical' }}>
+    <Provider formElement={{ labelDirection: 'vertical' }}>
       <Flex.Vertical>
         <>{JSON.stringify(state)}</>
         <Dropdown
           data={dropdownDataScrollable}
-          // value={0}
-          default_value={0}
+          defaultValue={0}
           title="Dropdown 1"
-          on_change={handleOnChange}
+          onChange={handleOnChange}
         />
         {/* <Dropdown
         top
         data={dropdownDataScrollable}
-        // value={1}
-        default_value={1}
+        defaultValue={1}
         title="Dropdown 2"
-        on_change={handleOnChange}
+        onChange={handleOnChange}
       /> */}
       </Flex.Vertical>
     </Provider>
@@ -799,8 +773,6 @@ function DropdownStatesSync() {
 }
 
 function CurrencyDropdown() {
-  // You can regard this as part of a state object that we eventually push to the backend iot conduct a Request for Quote in a Foreign Exchange (FX) transaction
-  // The string reps of the currencies are pulled from an API that provides valid currency pairs for specific FX instruments
   const [ccyPair, setCcyPair] = React.useState({
     base: 'EUR',
     terms: 'SEK',
@@ -809,8 +781,6 @@ function CurrencyDropdown() {
   React.useEffect(() => {
     console.log('ccyPair:', ccyPair)
   }, [ccyPair])
-
-  // Whenever a user selects a new base currency, the termscurrency select should be forced to reset.
   const handleBaseCurrencyChange = (base) =>
     setCcyPair((prev) => ({ ...prev, base, terms: undefined }))
   const handleTermsCurrencyChange = (terms) =>
@@ -839,8 +809,6 @@ function CurrencyDropdown() {
     </>
   )
 }
-
-// Mock currency data somewhat simplified
 const baseCurrencies = ['EUR', 'USD']
 
 const termsCurrencies = ['SEK', 'NOK']
@@ -850,10 +818,10 @@ const strings = {
 }
 
 const initialData = [
-  { selected_value: '1', content: '1' },
-  { selected_value: '2', content: '2' },
-  { selected_value: '3', content: '3' },
-  { selected_value: '4', content: '4' },
+  { selectedValue: '1', content: '1' },
+  { selectedValue: '2', content: '2' },
+  { selectedValue: '3', content: '3' },
+  { selectedValue: '4', content: '4' },
 ]
 
 function UpdateDataExample() {
@@ -869,17 +837,17 @@ function UpdateDataExample() {
             <Button
               key={i}
               size="small"
-              on_click={() => {
+              onClick={() => {
                 const updatedSelectedData = selectedData.filter(
-                  (data) => item?.selected_value !== data?.selected_value
+                  (data) => item?.selectedValue !== data?.selectedValue
                 )
                 setSelectedData(updatedSelectedData)
                 setChoiceData(
                   initialData.filter(
                     (data) =>
                       updatedSelectedData.findIndex(
-                        ({ selected_value: updatedValue }) =>
-                          updatedValue === data?.selected_value
+                        ({ selectedValue: updatedValue }) =>
+                          updatedValue === data?.selectedValue
                       ) === -1
                   )
                 )
@@ -893,23 +861,20 @@ function UpdateDataExample() {
 
       <Dropdown
         title="Choose an item"
-        prevent_selection
-        enable_body_lock
+        preventSelection
+        enableBodyLock
         data={choiceData}
-        on_change={({ data }) => {
+        onChange={({ data }) => {
           console.log('data', data)
           if (data) {
             setChoiceData(
               choiceData.filter((item) => {
-                return (
-                  data && item?.selected_value !== data?.selected_value
-                )
+                return data && item?.selectedValue !== data?.selectedValue
               })
             )
             if (
               selectedData.findIndex(
-                ({ selected_value }) =>
-                  selected_value === data.selected_value
+                ({ selectedValue }) => selectedValue === data.selectedValue
               ) === -1
             ) {
               setSelectedData([...selectedData, data])
@@ -923,35 +888,34 @@ function UpdateDataExample() {
 
 const filter1ToShow = [
   {
-    selected_key: 'key_1',
+    selectedKey: 'key_1',
     content: 'item_1',
   },
   {
-    selected_key: 'key_2',
+    selectedKey: 'key_2',
     content: 'item_2',
   },
 ]
 
 const filter2ToShow = [
   {
-    selected_key: 'key_3',
+    selectedKey: 'key_3',
     content: 'item_3',
   },
   {
-    selected_key: 'key_4',
+    selectedKey: 'key_4',
     content: 'item_4',
   },
 ]
 
 export function UpdateData() {
   const [value, setValue] = React.useState(null)
-  // const [count, increment] = React.useState(1)
   const [filtersToShow, setFiltersToShow] = React.useState(filter1ToShow)
   const [preventClose, setPreventClose] = React.useState(true)
 
   const onFilterChange = ({ value, data }) => {
     setValue(value)
-    if (data?.selected_key === 'key_1' || data?.selected_key === 'key_2') {
+    if (data?.selectedKey === 'key_1' || data?.selectedKey === 'key_2') {
       setFiltersToShow(filter2ToShow)
       setValue(null)
       setTimeout(() => {
@@ -962,7 +926,7 @@ export function UpdateData() {
     setPreventClose(false)
   }
 
-  const onShow = () => {
+  const onOpen = () => {
     setFiltersToShow(filter1ToShow)
     setPreventClose(true)
     setValue(null) // important, we have to change be
@@ -974,22 +938,22 @@ export function UpdateData() {
         top="10rem"
         data={filtersToShow}
         title={'Velg filter:'}
-        on_change={onFilterChange}
-        on_show={onShow}
+        onChange={onFilterChange}
+        onOpen={onOpen}
         value={value}
         size="large"
         direction="top"
-        prevent_close={preventClose}
+        preventClose={preventClose}
       />
       <Dropdown
         top="10rem"
         data={filtersToShow}
         title={'Velg filter:'}
-        on_change={onFilterChange}
-        on_show={onShow}
+        onChange={onFilterChange}
+        onOpen={onOpen}
         value={value}
         size="large"
-        prevent_close={preventClose}
+        preventClose={preventClose}
       />
     </>
   )
@@ -1012,7 +976,7 @@ export const GlobalStatusExample = () => {
 export const TypesExample = () => {
   interface MyInterface {
     content: string
-    selected_key: string
+    selectedKey: string
   }
 
   const myData: MyInterface[] = []
@@ -1027,7 +991,7 @@ export function InDialog() {
       alignContent="left"
       maxWidth="35rem"
       title="Ny melding"
-      openState
+      open
       noAnimation
     >
       <Form.Handler>
@@ -1065,8 +1029,8 @@ export function Title() {
       <Dropdown
         data={[
           {
-            selected_key: 'test',
-            selected_value: <>my value</>,
+            selectedKey: 'test',
+            selectedValue: <>my value</>,
             content: 'test',
           },
         ]}
@@ -1076,8 +1040,8 @@ export function Title() {
       <Dropdown
         data={[
           {
-            selected_key: 'test',
-            selected_value: <P>my value</P>,
+            selectedKey: 'test',
+            selectedValue: <P>my value</P>,
             content: 'test',
           },
         ]}
@@ -1087,8 +1051,8 @@ export function Title() {
       <Dropdown
         data={[
           {
-            selected_key: 'test',
-            selected_value: (
+            selectedKey: 'test',
+            selectedValue: (
               <>
                 <Icon icon={bank} />
                 Banking
@@ -1103,8 +1067,8 @@ export function Title() {
       <Dropdown
         data={[
           {
-            selected_key: 'test',
-            selected_value: <Icon icon={bank} />,
+            selectedKey: 'test',
+            selectedValue: <Icon icon={bank} />,
             content: 'test',
           },
         ]}
@@ -1114,8 +1078,8 @@ export function Title() {
       <Dropdown
         data={[
           {
-            selected_key: 'test',
-            selected_value: <NumberFormat>11345678962</NumberFormat>,
+            selectedKey: 'test',
+            selectedValue: <NumberFormat>11345678962</NumberFormat>,
             content: 'test',
           },
         ]}
@@ -1128,14 +1092,14 @@ export function Title() {
 export const DropdownIndependentWidth = () => (
   <Wrapper>
     <Dropdown
-      independent_width
+      independentWidth
       size="default"
       title="sadsadasd sad asdasdas das dasdas d"
       data={dropdownData}
     />
-    <Dropdown independent_width size="default" data={dropdownData} />
+    <Dropdown independentWidth size="default" data={dropdownData} />
     <Dropdown
-      independent_width
+      independentWidth
       size="default"
       title="s"
       data={dropdownData}

@@ -214,7 +214,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dropdown with independent_width opened with icon_position left', async () => {
+  it('have to match the dropdown with independentWidth opened with icon_position left', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-top': '16rem',
@@ -228,7 +228,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the dropdown with independent_width opened with icon_position right', async () => {
+  it('have to match the dropdown with independentWidth opened with icon_position right', async () => {
     const screenshot = await makeScreenshot({
       style: {
         'padding-top': '16rem',

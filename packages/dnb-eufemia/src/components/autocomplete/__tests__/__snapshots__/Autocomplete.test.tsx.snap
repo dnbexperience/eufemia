@@ -473,12 +473,6 @@ html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-w
   cursor: not-allowed;
   outline: none;
 }
-.dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
-  align-self: flex-start;
-}
-.dnb-form-row--horizontal .dnb-form-row__content .dnb-button__text {
-  white-space: nowrap;
-}
 .dnb-button + .dnb-form-status {
   margin-top: 0.5rem;
 }
@@ -894,9 +888,6 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 .dnb-input__input::-webkit-search-cancel-button {
   display: none;
 }
-.dnb-input__input::-ms-clear {
-  display: none;
-}
 .dnb-input ::-webkit-file-upload-button {
   cursor: pointer;
   outline: none;
@@ -911,12 +902,6 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 .dnb-input--password .dnb-input__placeholder, .dnb-input--password .dnb-input__input {
   margin-right: 2.5rem;
   padding-right: 0;
-}
-.dnb-input--password .dnb-input__placeholder::-ms-clear, .dnb-input--password .dnb-input__input::-ms-clear {
-  display: none;
-}
-.dnb-input--password .dnb-input__placeholder::-ms-reveal, .dnb-input--password .dnb-input__input::-ms-reveal {
-  display: none;
 }
 .dnb-input--password .dnb-input__placeholder {
   padding-right: 4rem;
@@ -939,7 +924,6 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 }
 .dnb-input__submit-button {
   position: relative;
-  align-self: center; /* IE needs this to stay centered */
 }
 .dnb-input__submit-button__button {
   border-radius: 0 var(--input-border-radius) var(--input-border-radius) 0;
@@ -1104,9 +1088,6 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
   width: auto;
 }
 .dnb-input--vertical.dnb-input--stretch .dnb-input__inner {
-  width: 100%;
-}
-.dnb-form-row--horizontal .dnb-input--stretch {
   width: 100%;
 }
 .dnb-input__icon {
@@ -1716,12 +1697,6 @@ html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-w
   cursor: not-allowed;
   outline: none;
 }
-.dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
-  align-self: flex-start;
-}
-.dnb-form-row--horizontal .dnb-form-row__content .dnb-button__text {
-  white-space: nowrap;
-}
 .dnb-button + .dnb-form-status {
   margin-top: 0.5rem;
 }
@@ -1937,33 +1912,33 @@ button .dnb-form-status__text {
   white-space: nowrap;
   text-overflow: inherit;
 }
-.dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
+.dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger {
   --border-color: var(--dropdown-foreground-color-error);
   --border-width: 0.0625rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover[disabled] {
+html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:hover[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
+html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:hover:not([disabled]) {
   color: var(--dropdown-foreground-color-error);
   --border-color: var(--dropdown-foreground-color-error);
   --border-width: var(--dropdown-error-border-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
+html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
   color: var(--dropdown-foreground-color-error);
 }
-.dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:active[disabled], html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:active[disabled] {
+.dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:active[disabled], html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:active[disabled] {
   cursor: not-allowed;
 }
-.dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:active:not([disabled]) {
+.dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:active:not([disabled]) {
   color: var(--dropdown-foreground-color-error);
   background-color: var(--dropdown-background-color-error-active);
 }
-.dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger, .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__icon {
+.dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger, .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__icon {
   color: var(--dropdown-foreground-color-error);
 }
 .dnb-dropdown > .dnb-form-status {
@@ -2099,9 +2074,6 @@ html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown
 .dnb-dropdown--vertical.dnb-dropdown--stretch .dnb-dropdown__inner {
   width: 100%;
 }
-.dnb-form-row--horizontal .dnb-dropdown--stretch {
-  width: 100%;
-}
 label + .dnb-dropdown[class*=__form-status] {
   vertical-align: top;
 }
@@ -2138,10 +2110,10 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
   }
 }
 
-.dnb-drawer-list--triangle-position-left .dnb-dropdown__list--tertiary .dnb-drawer-list__triangle {
+.dnb-drawer-list--arrow-position-left .dnb-dropdown__list--tertiary .dnb-drawer-list__arrow {
   margin-left: 0.5rem;
 }
-.dnb-drawer-list--triangle-position-right .dnb-dropdown__list--tertiary .dnb-drawer-list__triangle {
+.dnb-drawer-list--arrow-position-right .dnb-dropdown__list--tertiary .dnb-drawer-list__arrow {
   margin-right: 0.5rem;
 }
 
@@ -2532,7 +2504,7 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
 .dnb-autocomplete__input .dnb-input__input {
   width: 100%;
 }
-.dnb-autocomplete--opened .dnb-input__submit-button__button .dnb-icon {
+.dnb-autocomplete--open .dnb-input__submit-button__button .dnb-icon {
   transform: rotate(180deg);
   transform-origin: 50% 50%;
 }
@@ -2642,9 +2614,6 @@ html[data-visual-test] .dnb-autocomplete .dnb-input__submit-button__button .dnb-
 .dnb-autocomplete--vertical.dnb-autocomplete--stretch .dnb-autocomplete__inner {
   width: 100%;
 }
-.dnb-form-row--horizontal .dnb-autocomplete--stretch {
-  width: 100%;
-}
 label + .dnb-autocomplete[class*=__form-status] {
   vertical-align: top;
 }
@@ -2696,13 +2665,13 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
 .dnb-autocomplete__show-all .dnb-drawer-list__option__inner {
   color: var(--color-sea-green);
 }
-.dnb-autocomplete--opened .dnb-input .dnb-input__shell .dnb-input__shell, .dnb-autocomplete:not(.dnb-autocomplete__status--error) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
+.dnb-autocomplete--open .dnb-input .dnb-input__shell .dnb-input__shell, .dnb-autocomplete:not(.dnb-autocomplete__status--error) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
   --border-color: var(--color-sea-green);
   --border-width: 0.125rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-autocomplete--opened .dnb-input .dnb-input__shell .dnb-input__submit-button__button, .dnb-autocomplete:not(.dnb-autocomplete__status--error) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__submit-button__button {
+.dnb-autocomplete--open .dnb-input .dnb-input__shell .dnb-input__submit-button__button, .dnb-autocomplete:not(.dnb-autocomplete__status--error) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__submit-button__button {
   border-radius: 0;
   color: var(--color-white);
   background-color: var(--color-sea-green);
@@ -2714,7 +2683,7 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
 .dnb-autocomplete__shell, .dnb-autocomplete__input {
   border-radius: var(--autocomplete-border-radius);
 }
-.dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
+.dnb-autocomplete__status--error:not(.dnb-autocomplete--open) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
   --border-color: var(--color-fire-red);
   --border-width: 0.125rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);

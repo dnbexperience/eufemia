@@ -19,24 +19,24 @@ export const DrawerListExampleInteractive = () => (
     <ComponentBox scope={{ data }}>
       {() => {
         const DrawerListWithState = (props) => {
-          const [opened, setOpened] = React.useState(false)
+          const [open, setOpen] = React.useState(false)
 
           return (
             <>
               <ToggleButton
                 id="state-toggle-button"
                 text="Toggle"
-                checked={opened}
-                icon={`chevron_${opened ? 'up' : 'down'}`}
-                icon_position="left"
-                on_change={({ checked }) => setOpened(checked)}
+                checked={open}
+                icon={`chevron_${open ? 'up' : 'down'}`}
+                iconPosition="left"
+                onChange={({ checked }) => setOpen(checked)}
               />
               <DrawerList
-                wrapper_element="#state-toggle-button"
-                skip_portal
+                wrapperElement="#state-toggle-button"
+                skipPortal
                 data={data}
-                opened={opened}
-                on_hide={() => setOpened(false)}
+                open={open}
+                onClose={() => setOpen(false)}
                 {...props}
               />
             </>
@@ -97,7 +97,7 @@ export const DrawerListExampleOnlyToVisualize = () => (
               </span>
             </span>
           </li>
-          <li className="dnb-drawer-list__triangle" />
+          <li className="dnb-drawer-list__arrow" />
         </ul>
       </span>
     </ComponentBox>
@@ -108,19 +108,19 @@ export const DrawerListExampleDefault = () => (
   <Wrapper>
     <ComponentBox scope={{ data }}>
       <DrawerList
-        skip_portal
-        opened
-        prevent_close
-        triangle_position="left"
+        skipPortal
+        open
+        preventClose
+        arrowPosition="left"
         data={data}
         value={3}
-        on_change={({ data: selectedDataItem }) => {
-          console.log('on_change', selectedDataItem)
+        onChange={({ data: selectedDataItem }) => {
+          console.log('onChange', selectedDataItem)
         }}
-        on_show={() => {
-          console.log('on_show')
+        onOpen={() => {
+          console.log('onOpen')
         }}
-        observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
+        observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
       />
     </ComponentBox>
   </Wrapper>
@@ -130,9 +130,9 @@ export const DrawerListExampleDisabled = () => (
   <Wrapper>
     <ComponentBox data-visual-test="drawer-list-disabled">
       <DrawerList
-        skip_portal
-        opened
-        prevent_close
+        skipPortal
+        open
+        preventClose
         data={[
           {
             content: 'Item 1',
@@ -145,7 +145,7 @@ export const DrawerListExampleDisabled = () => (
             content: 'Item 3',
           },
         ]}
-        observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
+        observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
       />
     </ComponentBox>
   </Wrapper>
@@ -155,10 +155,10 @@ export const DrawerListExampleInlineStyling = () => (
   <Wrapper>
     <ComponentBox>
       <DrawerList
-        skip_portal
-        opened
-        prevent_close
-        observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
+        skipPortal
+        open
+        preventClose
+        observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
       >
         <DrawerList.Options>
           <DrawerList.Item
@@ -166,8 +166,8 @@ export const DrawerListExampleInlineStyling = () => (
             key="A"
             selected={false}
             value="A"
-            on_click={() => {
-              console.log('on_click')
+            onClick={() => {
+              console.log('onClick')
             }}
           >
             Item 1
@@ -190,9 +190,9 @@ export const DrawerListExampleInlineStylingData = () => (
   <Wrapper>
     <ComponentBox data-visual-test="drawer-list-inline-style">
       <DrawerList
-        skip_portal
-        opened
-        prevent_close
+        skipPortal
+        open
+        preventClose
         data={[
           {
             content:
@@ -210,7 +210,7 @@ export const DrawerListExampleInlineStylingData = () => (
             style: { hyphens: 'manual', color: 'blue' },
           },
         ]}
-        observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
+        observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
       />
     </ComponentBox>
   </Wrapper>
@@ -249,10 +249,10 @@ export const DrawerListExampleSingleItem = () => (
 
         return (
           <CustomWidth
-            skip_portal
-            opened
-            prevent_close
-            // more_menu
+            skipPortal
+            open
+            preventClose
+            // moreMenu
             right
             title="Choose an item"
             data={() => [
@@ -262,13 +262,13 @@ export const DrawerListExampleSingleItem = () => (
               'Or press on me',
               <CustomComponent key="custom" />,
             ]}
-            on_change={({ value }) => {
+            onChange={({ value }) => {
               console.log('More menu:', value)
             }}
             suffix={
               <HelpButton title="Modal Title">Modal content</HelpButton>
             }
-            observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
+            observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
           />
         )
       }}
@@ -290,14 +290,14 @@ export const DrawerListExampleMarkup = () => (
           const [selected, setSelected] = React.useState('C')
 
           return (
-            <CustomWidth skip_portal opened prevent_close>
+            <CustomWidth skipPortal open preventClose>
               <DrawerList.Options>
                 {list.map(({ value, ...props }, i) => (
                   <DrawerList.Item
                     key={i}
                     selected={value === selected}
                     value={value}
-                    on_click={({ value }) => setSelected(value)}
+                    onClick={({ value }) => setSelected(value)}
                     {...props}
                   >
                     {value}
@@ -333,21 +333,21 @@ const data = [
   // Every data item can, beside "content" - contain what ever
   {
     // (optional) can be what ever
-    selected_key: 'key_0',
+    selectedKey: 'key_0',
 
     // Item content as a string or array
     content: 'Item 1 Content',
   },
   {
-    selected_key: 'key_1',
+    selectedKey: 'key_1',
     content: ['Item 2 Value', 'Item 2 Content'],
   },
   {
-    selected_key: 'key_2',
+    selectedKey: 'key_2',
     content: ['Item 3 Content A', 'Item 3 Content B'],
   },
   {
-    selected_key: 'key_3',
+    selectedKey: 'key_3',
     content: ['Item 4 Content A', <>Custom Component</>],
   },
 ]
@@ -356,7 +356,7 @@ export const DrawerListExampleOptionsRender = () => (
   <Wrapper>
     <ComponentBox scope={{ data }} hidePreview hideToolbar>
       <DrawerList
-        options_render={({ Items, Item, data }) => (
+        optionsRender={({ Items, Item, data }) => (
           <>
             <Items />
             <Item>Addition</Item>
@@ -372,10 +372,10 @@ export const DrawerListGroups = () => (
   <Wrapper>
     <ComponentBox data-visual-test="drawer-list-groups">
       <DrawerList
-        skip_portal
-        opened
-        prevent_close
-        observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
+        skipPortal
+        open
+        preventClose
+        observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
         groups={[undefined, 'Pets', undefined, 'Cars']}
         data={[
           { groupIndex: 0, content: 'Default 1' },

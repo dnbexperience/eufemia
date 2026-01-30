@@ -7,9 +7,8 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
-import Context from '../../shared/Context'
-import useTheme from '../../shared/useTheme'
+import clsx from 'clsx'
+import { useTheme, Context } from '../../shared'
 import {
   isTrue,
   makeUniqueId,
@@ -53,11 +52,11 @@ export default class FormStatus extends React.PureComponent {
       PropTypes.func,
       PropTypes.node,
     ]),
-    icon_size: PropTypes.string,
+    iconSize: PropTypes.string,
     state: PropTypes.oneOfType([
       PropTypes.bool,
       PropTypes.string,
-      PropTypes.oneOf(['error', 'warn', 'info', 'marketing']),
+      PropTypes.oneOf(['error', 'warning', 'info', 'marketing']),
     ]),
     variant: PropTypes.oneOf(['flat', 'outlined']),
     size: PropTypes.oneOf(['default', 'large']),
@@ -66,10 +65,10 @@ export default class FormStatus extends React.PureComponent {
       message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     }),
     attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    text_id: PropTypes.string,
-    width_selector: PropTypes.string,
-    width_element: PropTypes.object,
-    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    textId: PropTypes.string,
+    widthSelector: PropTypes.string,
+    widthElement: PropTypes.object,
+    noAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     role: PropTypes.string,
@@ -92,15 +91,15 @@ export default class FormStatus extends React.PureComponent {
     globalStatus: null,
     label: null,
     icon: 'error',
-    icon_size: 'medium',
+    iconSize: 'medium',
     size: 'default',
     variant: null,
     state: 'error',
     attributes: null,
-    text_id: null,
-    width_selector: null,
-    width_element: null,
-    no_animation: null,
+    textId: null,
+    widthSelector: null,
+    widthElement: null,
+    noAnimation: null,
     skeleton: null,
     stretch: null,
     role: null,
@@ -123,14 +122,11 @@ export default class FormStatus extends React.PureComponent {
       case 'information':
         state = 'info'
         break
-      case 'warning':
-        state = 'warn'
-        break
     }
     return state
   }
 
-  static getIcon({ state, icon, icon_size }) {
+  static getIcon({ state, icon, iconSize }) {
     if (typeof icon !== 'string') {
       return icon
     }
@@ -142,7 +138,7 @@ export default class FormStatus extends React.PureComponent {
       case 'success':
         IconToLoad = InfoIcon
         break
-      case 'warn':
+      case 'warning':
         IconToLoad = WarnIcon
         break
       case 'marketing':
@@ -156,7 +152,7 @@ export default class FormStatus extends React.PureComponent {
     return (
       <Icon
         icon={<IconToLoad title={null} state={state} />}
-        size={icon_size}
+        size={iconSize}
         inheritColor={false}
       />
     )
@@ -183,7 +179,6 @@ export default class FormStatus extends React.PureComponent {
     this._globalStatus = GlobalStatusProvider.init(
       props?.globalStatus?.id ||
         context?.FormStatus?.globalStatus?.id ||
-        context?.FormRow?.globalStatus?.id || // Deprecated – can be removed in v11
         context?.formElement?.globalStatus?.id ||
         'main',
       (provider) => {
@@ -193,12 +188,12 @@ export default class FormStatus extends React.PureComponent {
             this.getProps(context)
           provider.add({
             state,
-            status_id: this.getStatusId(),
+            statusId: this.getStatusId(),
             item: {
-              item_id: this.state.id,
+              itemId: this.state.id,
               text: globalStatus?.message || text || children,
-              status_anchor_label: label,
-              status_anchor_url: true,
+              statusAnchorLabel: label,
+              statusAnchorUrl: true,
             },
             ...globalStatus,
           })
@@ -249,8 +244,8 @@ export default class FormStatus extends React.PureComponent {
 
   componentWillUnmount() {
     this._isMounted = false
-    const status_id = this.getStatusId()
-    this._globalStatus.remove(status_id)
+    const statusId = this.getStatusId()
+    this._globalStatus.remove(statusId)
     if (typeof window !== 'undefined') {
       window.removeEventListener('load', this.init)
       window.removeEventListener('resize', this.updateWidth)
@@ -271,19 +266,19 @@ export default class FormStatus extends React.PureComponent {
       this.fillCache()
 
       if (state === 'error') {
-        const status_id = this.getStatusId()
+        const statusId = this.getStatusId()
 
         if (isTrue(show)) {
           this._globalStatus.update(
-            status_id,
+            statusId,
             {
               state,
-              status_id,
+              statusId,
               item: {
-                item_id: this.state.id,
+                itemId: this.state.id,
                 text: globalStatus?.message || text || children,
-                status_anchor_label: label,
-                status_anchor_url: true,
+                statusAnchorLabel: label,
+                statusAnchorUrl: true,
               },
               ...globalStatus,
             },
@@ -292,8 +287,8 @@ export default class FormStatus extends React.PureComponent {
             }
           )
         } else if (!FormStatus.getContent(this.props)) {
-          const status_id = this.getStatusId()
-          this._globalStatus.remove(status_id)
+          const statusId = this.getStatusId()
+          this._globalStatus.remove(statusId)
         }
       }
 
@@ -308,8 +303,6 @@ export default class FormStatus extends React.PureComponent {
       this.props,
       FormStatus.defaultProps,
       { skeleton: context?.skeleton },
-      // Deprecated – can be removed in v11
-      pickFormElementProps(context?.FormRow),
       pickFormElementProps(context?.formElement),
       context?.FormStatus
     )
@@ -322,17 +315,17 @@ export default class FormStatus extends React.PureComponent {
   updateWidth = () => {
     // set max-width to this form-status, using the "linked mother"
     if (this._ref.current) {
-      const { width_element, width_selector } = this.props
+      const { widthElement, widthSelector } = this.props
       setMaxWidthToElement({
         element: this._ref.current,
-        widthElement: width_element && width_element.current,
-        widthSelector: width_selector,
+        widthElement: widthElement && widthElement.current,
+        widthSelector: widthSelector,
       })
     }
   }
 
   shouldAnimate() {
-    return this.props.no_animation === false
+    return this.props.noAnimation === false
   }
 
   isReadyToGetVisible(props = this.props) {
@@ -353,17 +346,19 @@ export default class FormStatus extends React.PureComponent {
       className,
       stretch,
       shellSpace,
-      text_id,
+      textId,
 
       show, // eslint-disable-line
-      no_animation, // eslint-disable-line
+      noAnimation, // eslint-disable-line
       label, // eslint-disable-line
-      status_id, // eslint-disable-line
+      statusId, // eslint-disable-line
       globalStatus, // eslint-disable-line
       id, // eslint-disable-line
       text, // eslint-disable-line
       icon, // eslint-disable-line
-      icon_size, // eslint-disable-line
+      iconSize, // eslint-disable-line
+      widthSelector, // eslint-disable-line
+      widthElement, // eslint-disable-line
       skeleton, // eslint-disable-line
       children, // eslint-disable-line
       role,
@@ -375,7 +370,7 @@ export default class FormStatus extends React.PureComponent {
     const iconToRender = FormStatus.getIcon({
       state,
       icon,
-      icon_size,
+      iconSize,
     })
 
     const contentToRender = FormStatus.getContent(this.props)
@@ -384,7 +379,7 @@ export default class FormStatus extends React.PureComponent {
       typeof contentToRender === 'string' && contentToRender.length > 0
 
     const params = {
-      className: classnames(
+      className: clsx(
         'dnb-form-status',
         state && `dnb-form-status--${state}`,
         `dnb-form-status__size--${size}`,
@@ -411,15 +406,15 @@ export default class FormStatus extends React.PureComponent {
     }
 
     const textParams = {
-      className: classnames(
+      className: clsx(
         'dnb-form-status__text',
         createSkeletonClass('font', skeleton, this.context)
       ),
-      id: !String(text_id).startsWith('null') ? text_id : null,
+      id: !String(textId).startsWith('null') ? textId : null,
     }
 
     const shellParams = {
-      className: classnames(
+      className: clsx(
         'dnb-form-status__shell',
         createSpacingClasses({ space: shellSpace })
       ),
@@ -638,7 +633,7 @@ function sumElementWidth({ widthElement, widthSelector }) {
   }
   try {
     // beside "selector" - which is straight forward, we
-    // also check if we can get an ID given by text_id
+    // also check if we can get an ID given by textId
     const ids = widthElement
       ? [widthElement]
       : widthSelector.split(/, |,/g)

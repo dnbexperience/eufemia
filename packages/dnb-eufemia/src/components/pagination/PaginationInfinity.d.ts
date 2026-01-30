@@ -23,9 +23,9 @@ export type InfinityLoadButtonPressedElement =
   | ((...args: any[]) => any);
 export interface InfinityLoadButtonProps {
   element?: InfinityLoadButtonElement;
-  pressed_element?: InfinityLoadButtonPressedElement;
+  pressedElement?: InfinityLoadButtonPressedElement;
   icon: string;
-  on_click: (...args: any[]) => any;
+  onClick: (...args: any[]) => any;
 }
 export class InfinityLoadButton extends React.Component<
   InfinityLoadButtonProps,

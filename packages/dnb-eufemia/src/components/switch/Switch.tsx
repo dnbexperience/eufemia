@@ -7,7 +7,7 @@ import React, {
   useReducer,
   useRef,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   validateDOMAttributes,
   getStatusState,
@@ -29,7 +29,6 @@ import FormStatus, {
   FormStatusState,
   FormStatusText,
 } from '../form-status/FormStatus'
-import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 import useId from '../../shared/helpers/useId'
 import { GlobalStatusConfigObject } from '../GlobalStatus'
 import { SkeletonShow } from '../Skeleton'
@@ -128,28 +127,7 @@ export type SwitchProps = {
   React.HTMLProps<HTMLElement>,
   'ref' | 'size' | 'onChange' | 'onClick' | 'innerRef' | 'label'
 > &
-  SpacingProps &
-  DeprecatedSwitchProps
-
-// deprecated, can be removed in v11
-type DeprecatedSwitchProps = {
-  /**  @deprecated use `labelPosition` */
-  label_position?: SwitchLabelPosition
-  /**  @deprecated use `labelSrOnly` */
-  label_sr_only?: boolean
-  /**  @deprecated use `statusState` */
-  status_state?: FormStatusState
-  /**  @deprecated use `statusProps` */
-  status_props?: Record<string, unknown>
-  /**  @deprecated use `onChange` */
-  on_change?: SwitchOnChange
-  /**  @deprecated use `onChangeEnd` */
-  on_change_end?: SwitchOnChange
-  /**  @deprecated use `onStateUpdate` */
-  on_state_update?: SwitchOnChange
-  /**  @deprecated use `statusNoAnimation` */
-  status_no_animation?: boolean
-}
+  SpacingProps
 
 const defaultProps = {
   statusState: 'error',
@@ -288,7 +266,7 @@ export default function Switch(props: SwitchProps) {
   const showStatus = useMemo(() => getStatusState(status), [status])
 
   const mainParams = {
-    className: classnames(
+    className: clsx(
       'dnb-switch',
       size && `dnb-switch--${size}`,
       status && `dnb-switch__status--${statusState}`,
@@ -356,11 +334,11 @@ export default function Switch(props: SwitchProps) {
             id={id + '-form-status'}
             globalStatus={globalStatus}
             label={label}
-            width_selector={id + ', ' + id + '-label'}
+            widthSelector={id + ', ' + id + '-label'}
             text={status}
             state={statusState}
             skeleton={skeleton}
-            no_animation={statusNoAnimation}
+            noAnimation={statusNoAnimation}
             {...statusProps}
           />
 
@@ -391,7 +369,7 @@ export default function Switch(props: SwitchProps) {
                 {...helperParams}
               />
               <span
-                className={classnames(
+                className={clsx(
                   'dnb-switch__button',
                   createSkeletonClass('shape', skeleton, context)
                 )}
@@ -420,11 +398,9 @@ export default function Switch(props: SwitchProps) {
 
   function extractPropsFromContext() {
     return extendPropsWithContext(
-      convertSnakeCaseProps(props),
+      props,
       defaultProps,
       { skeleton: context?.skeleton },
-      // Deprecated – can be removed in v11
-      pickFormElementProps(context?.FormRow),
       pickFormElementProps(context?.formElement),
       context.Switch
     )

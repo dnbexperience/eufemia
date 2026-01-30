@@ -1,5 +1,5 @@
 import React from 'react'
-import classNames from 'classnames'
+import clsx from 'clsx'
 import Anchor from '../../components/Anchor'
 import Button from '../button/Button'
 import Span from '../../elements/Span'
@@ -51,7 +51,7 @@ const UploadFileButton = (props: UploadFileButtonProps) => {
       icon={false}
       variant="tertiary"
       onClick={onClick}
-      className={classNames(spacingClasses)}
+      className={clsx(spacingClasses)}
     >
       {text}
     </Button>
@@ -74,7 +74,7 @@ const UploadFileAnchor = (props: UploadFileAnchorProps) => {
       target="_blank"
       href={href}
       download={download ? text : null}
-      className={classNames('dnb-anchor--no-launch-icon', spacingClasses)}
+      className={clsx('dnb-anchor--no-launch-icon', spacingClasses)}
       rel="noopener noreferrer"
     >
       {text}

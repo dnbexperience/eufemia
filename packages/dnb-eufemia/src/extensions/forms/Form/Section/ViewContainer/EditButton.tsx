@@ -29,8 +29,8 @@ export default function EditButton(props: Props) {
     <Button
       variant="tertiary"
       icon={edit}
-      icon_position="left"
-      on_click={editHandler}
+      iconPosition="left"
+      onClick={editHandler}
       {...props}
     >
       {translation.editButton}

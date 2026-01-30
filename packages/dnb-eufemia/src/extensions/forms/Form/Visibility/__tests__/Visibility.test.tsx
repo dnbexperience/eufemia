@@ -183,30 +183,6 @@ describe('Visibility', () => {
     })
   })
 
-  describe('pathValue', () => {
-    it('renders children when target path and value matches', () => {
-      render(
-        <Provider data={{ myPath: 'checked' }}>
-          <Visibility pathValue="/myPath" whenValue="checked">
-            Child
-          </Visibility>
-        </Provider>
-      )
-      expect(screen.getByText('Child')).toBeInTheDocument()
-    })
-
-    it('does not render children when target path not not value matches', () => {
-      render(
-        <Provider data={{ myPath: 'checked' }}>
-          <Visibility pathValue="/myPath" whenValue="not-checked">
-            Child
-          </Visibility>
-        </Provider>
-      )
-      expect(screen.queryByText('Child')).toBeNull()
-    })
-  })
-
   describe('visibleWhen', () => {
     it('should render children when hasValue matches', () => {
       render(
@@ -241,46 +217,6 @@ describe('Visibility', () => {
         </Provider>
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
-    })
-
-    it('should render children when withValue matches', () => {
-      const log = jest.spyOn(console, 'warn').mockImplementation()
-
-      render(
-        <Provider data={{ myPath: 'foo' }}>
-          <Visibility
-            visibleWhen={{
-              path: '/myPath',
-              withValue: (value) => value === 'foo',
-            }}
-          >
-            Child
-          </Visibility>
-        </Provider>
-      )
-      expect(screen.getByText('Child')).toBeInTheDocument()
-
-      log.mockRestore()
-    })
-
-    it('should not render children when withValue does not match', () => {
-      const log = jest.spyOn(console, 'warn').mockImplementation()
-
-      render(
-        <Provider data={{ myPath: 'foo' }}>
-          <Visibility
-            visibleWhen={{
-              path: '/myPath',
-              withValue: (value) => value === 'bar',
-            }}
-          >
-            Child
-          </Visibility>
-        </Provider>
-      )
-      expect(screen.queryByText('Child')).not.toBeInTheDocument()
-
-      log.mockRestore()
     })
 
     it('should run hasValue even when path not exists', () => {
@@ -932,9 +868,6 @@ describe('Visibility', () => {
         props: expect.objectContaining({
           path: '/isVisible',
         }),
-        internal: {
-          error: undefined,
-        },
       })
 
       await userEvent.click(document.querySelector('input'))
@@ -954,9 +887,6 @@ describe('Visibility', () => {
         props: expect.objectContaining({
           path: '/isVisible',
         }),
-        internal: {
-          error: undefined,
-        },
       })
     })
 

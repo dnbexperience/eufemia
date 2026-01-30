@@ -7,31 +7,31 @@ export const StepIndicatorProperties: PropertiesTableProps = {
     status: 'required',
   },
   data: {
-    doc: 'Defines the data/steps showing up in a JavaScript Array or JSON format like `[{title,is_current}]`. See below for properties of `STEP_DATA`.',
+    doc: 'Defines the data/steps showing up in a JavaScript Array or JSON format like `[{title,isCurrent}]`. See below for properties of `STEP_DATA`.',
     type: ['[Step Item](#step-item-properties)[]', 'string[]'],
     status: 'required',
   },
-  current_step: {
-    doc: 'Defines the initial step starting from 0. Also defines the furthest step visited when `mode="strict"`. Will update to the new step if changed (but will not trigger the `on_change` event). Defaults to `0`.',
+  currentStep: {
+    doc: 'Defines the initial step starting from 0. Also defines the furthest step visited when `mode="strict"`. Will update to the new step if changed (but will not trigger the `onChange` event). Defaults to `0`.',
     type: 'number',
     status: 'optional',
   },
-  overview_title: {
+  overviewTitle: {
     doc: 'The title shown inside the `<StepIndicatorModal />` supplemental screen reader text for the `<StepIndicatorTriggerButton />`. Defaults to `Steps Overview`.',
     type: 'string',
     status: 'optional',
   },
-  step_title: {
-    doc: 'Label for `<StepIndicatorTriggerButton />` and screen reader text for `<StepIndicatorItem />`. Must contain `%step` and `%count` to interpolate `current_step` and `stepCount` into the text. Defaults to `Step %step of %count`.',
+  stepTitle: {
+    doc: 'Label for `<StepIndicatorTriggerButton />` and screen reader text for `<StepIndicatorItem />`. Must contain `%step` and `%count` to interpolate `currentStep` and `stepCount` into the text. Defaults to `Step %step of %count`.',
     type: 'string',
     status: 'optional',
   },
-  hide_numbers: {
+  hideNumbers: {
     doc: 'Define whether to show automatically counted numbers or not. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  no_animation: {
+  noAnimation: {
     doc: 'If set to `true`, the height animation on step change and list expansion will be omitted. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
@@ -51,9 +51,9 @@ export const StepIndicatorProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  status_state: {
-    doc: 'The type of status shown when the `status` prop is set. Defaults to `warn`.',
-    type: `['warn', 'info', 'error']`,
+  statusState: {
+    doc: 'The type of status shown when the `status` prop is set. Defaults to `warning`.',
+    type: `['warning', 'info', 'error']`,
     status: 'optional',
   },
   skeleton: {
@@ -66,31 +66,16 @@ export const StepIndicatorProperties: PropertiesTableProps = {
     type: ['string', 'object'],
     status: 'optional',
   },
-  sidebar_id: {
-    doc: 'A unique string-based ID in order to bind together the main component and the sidebar (`<StepIndicator.Sidebar />`). Both have to get the same ID.',
-    type: 'string',
-    status: 'deprecated',
-  },
-  step_title_extended: {
-    doc: 'Descriptive label for `<StepIndicatorModal />`. Must contain `%step` and `%count` to interpolate `current_step` and `stepCount` into the text. Defaults to `You are on step %step of %count`.',
-    type: 'string',
-    status: 'deprecated',
-  },
-  on_item_render: {
-    doc: 'Deprecated, just use step item `title`. Callback function whose return is rendered inside each step instead of the default render. Has to return a React Node. Receives parameter `{ StepItem, element, attributes, props, context }`, where `props` also includes all props from the step object (like `title` or `status`) and the `<StepItem>` is a component that can be used to wrap your returned content.',
-    type: 'function',
-    status: 'deprecated',
-  },
 }
 
 export const StepIndicatorEvents: PropertiesTableProps = {
-  on_click: {
-    doc: 'Will be called when the user clicks on any clickable step in the list. Is called right before `on_change`. Receives parameter `{ event, item, current_step, currentStep }`.',
+  onClick: {
+    doc: 'Will be called when the user clicks on any clickable step in the list. Is called right before `onChange`. Receives parameter `{ event, item, currentStep, currentStep }`.',
     type: 'function',
     status: 'optional',
   },
-  on_change: {
-    doc: 'Will be called when the user changes step by clicking in the steps list (changing the `current_step` prop does not trigger the event). Receives parameter `{ event, item, current_step, currentStep }`.',
+  onChange: {
+    doc: 'Will be called when the user changes step by clicking in the steps list (changing the `currentStep` prop does not trigger the event). Receives parameter `{ event, item, currentStep, currentStep }`.',
     type: 'function',
     status: 'optional',
   },
@@ -102,8 +87,8 @@ export const StepIndicatorStepProperties: PropertiesTableProps = {
     type: ['string', 'React.ReactNode'],
     status: 'required',
   },
-  is_current: {
-    doc: 'If set to `true`, this item step will be set as the current selected step. This can be used instead of `current_step` on the main component.',
+  isCurrent: {
+    doc: 'If set to `true`, this item step will be set as the current selected step. This can be used instead of `currentStep` on the main component.',
     type: 'boolean',
     status: 'optional',
   },
@@ -122,21 +107,16 @@ export const StepIndicatorStepProperties: PropertiesTableProps = {
     type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
-  status_state: {
-    doc: 'In case the status state should be `info` or `error`. Defaults to `warn`.',
-    type: [`'warn'`, `'info'`, `'error'`],
+  statusState: {
+    doc: 'In case the status state should be `info` or `error`. Defaults to `warning`.',
+    type: [`'warning'`, `'info'`, `'error'`],
     status: 'optional',
-  },
-  on_render: {
-    doc: 'Deprecated, just use `title`. Callback function whose return is rendered inside the step instead of the default render (or `on_item_render`). Has to return a React Node. <br/> Receives parameter `{ StepItem, element, attributes, props, context }`, where `props` also includes all props in the step object (like `title` or `status`) and the `<StepItem>` is a component that can be used to wrap your returned content.',
-    type: 'function',
-    status: 'deprecated',
   },
 }
 
 export const StepIndicatorStepEvents: PropertiesTableProps = {
-  on_click: {
-    doc: "Called when user clicks the step. Is called right before the main component's `on_click`. Receives parameter `{ event, item, current_step, currentStep }`",
+  onClick: {
+    doc: "Called when user clicks the step. Is called right before the main component's `onClick`. Receives parameter `{ event, item, currentStep, currentStep }`",
     type: 'function',
     status: 'optional',
   },

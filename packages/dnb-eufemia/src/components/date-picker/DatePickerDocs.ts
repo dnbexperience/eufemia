@@ -75,7 +75,7 @@ export const DatePickerProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  opened: {
+  open: {
     doc: 'To open the date-picker by default. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
@@ -174,7 +174,7 @@ export const DatePickerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   labelDirection: {
-    doc: ' Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`.',
+    doc: ' Use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`.',
     type: ['vertical', 'horizontal'],
     status: 'optional',
   },
@@ -276,12 +276,12 @@ export const DatePickerEvents: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
-  onShow: {
+  onOpen: {
     doc: 'Will be called once date-picker is visible.',
     type: 'function',
     status: 'optional',
   },
-  onHide: {
+  onClose: {
     doc: 'Will be called once date-picker is hidden.',
     type: 'function',
     status: 'optional',

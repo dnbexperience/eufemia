@@ -2,11 +2,34 @@ import { Field, Form, Tools, Value, Wizard } from '../../..'
 import { Flex } from '../../../../../components'
 import { UploadFileNative } from '../../../../../components/Upload'
 import { P } from '../../../../../elements'
-import { createRequest } from '../../../Form/Handler/stories/FormHandler.stories'
 import { UploadValue } from '../Upload'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Upload',
+}
+
+const createRequest = () => {
+  let timeout: NodeJS.Timeout | null
+  let resolvePromise: ((value?: unknown) => void) | undefined
+
+  const fn = (
+    t: number
+  ): Promise<{ hasError: boolean; cancel?: boolean }> => {
+    return new Promise((resolve) => {
+      resolvePromise = resolve
+      timeout = setTimeout(() => {
+        resolve({ hasError: false })
+      }, t)
+    })
+  }
+
+  fn.cancel = () => {
+    resolvePromise?.({ hasError: true })
+    clearTimeout(timeout)
+    timeout = null
+  }
+
+  return fn
 }
 
 function createMockFile(name: string, size: number, type: string) {
@@ -51,7 +74,7 @@ export function Upload() {
   )
 }
 
-async function mockAsyncFileUpload__withoutPromises(
+async function mockAsyncFileUploadWithoutPromises(
   newFiles: UploadValue
 ): Promise<UploadValue> {
   const updatedFiles: UploadValue = []
@@ -99,7 +122,7 @@ export const WithAsyncFileHandler = () => {
           id="async_upload_context_id"
           path="/attachments"
           labelDescription="Upload multiple files at once to see the upload error message. This demo has been set up so that every other file in a batch will fail."
-          fileHandler={mockAsyncFileUpload__withoutPromises}
+          fileHandler={mockAsyncFileUploadWithoutPromises}
           required
         />
         <Form.SubmitButton />
@@ -193,8 +216,6 @@ const defaultValue = [
 ] satisfies DocumentMetadata[] as unknown as UploadValue
 
 const filesCache = new Map<string, File>()
-
-// To the Field (from e.g. defaultValue)
 const transformIn = (external?: DocumentMetadata[]) => {
   return (
     external?.map(({ id, fileName }) => {
@@ -204,8 +225,6 @@ const transformIn = (external?: DocumentMetadata[]) => {
     }) || []
   )
 }
-
-// From the Field (internal value) to the data context or event parameter
 const transformOut = (internal?: UploadValue) => {
   return (
     internal?.map(({ id, file }) => {
@@ -220,11 +239,7 @@ const transformOut = (internal?: UploadValue) => {
 
 export function TransformInAndOut() {
   return (
-    <Form.Handler
-    // defaultData={{
-    //   documents: defaultValue,
-    // }}
-    >
+    <Form.Handler>
       <Flex.Stack>
         <Field.Upload
           path="/documents"
@@ -470,7 +485,7 @@ export const WizardWithAsyncFileHandler = () => {
               id="async_upload_context_id"
               path="/attachments"
               labelDescription="Upload multiple files at once to see the upload error message. This demo has been set up so that every other file in a batch will fail."
-              fileHandler={mockAsyncFileUpload__withoutPromises}
+              fileHandler={mockAsyncFileUploadWithoutPromises}
             />
           </Form.Card>
 

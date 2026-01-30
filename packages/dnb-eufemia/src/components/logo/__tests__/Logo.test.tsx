@@ -5,7 +5,12 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import Logo, { CarnegieDefault, LogoProps } from '../Logo'
+import Logo, {
+  CarnegieDefault,
+  LogoProps,
+  SbankenDefault,
+  SbankenCompact,
+} from '../Logo'
 import { render } from '@testing-library/react'
 import Provider from '../../../shared/Provider'
 import Theme from '../../../shared/Theme'
@@ -24,15 +29,8 @@ describe('Logo component', () => {
     )
   })
 
-  it('should set correct class when size="inherit" is set', () => {
-    render(<Logo size="inherit" />)
-    expect(document.querySelector('.dnb-logo')).toHaveClass(
-      'dnb-logo--inherit-size'
-    )
-  })
-
-  it('should set height when size is number', () => {
-    render(<Logo size="48" />)
+  it('should set height when height is set', () => {
+    render(<Logo height="48" />)
     expect(document.querySelector('.dnb-logo svg')).toHaveAttribute(
       'height',
       '48'
@@ -52,7 +50,7 @@ describe('Logo component', () => {
   })
 
   it('should set correct Sbanken brand SVG', () => {
-    render(<Logo brand="sbanken" />)
+    render(<Logo svg={SbankenDefault} />)
     expect(document.querySelector('svg')).toMatchSnapshot()
   })
 
@@ -65,17 +63,17 @@ describe('Logo component', () => {
   })
 
   it('should have Sbanken title inside SVG', () => {
-    render(<Logo brand="sbanken" />)
+    render(<Logo svg={SbankenDefault} />)
     expect(document.querySelector('title').textContent).toBe(
       'Sbanken - et konsept fra DNB'
     )
     expect(
-      document.querySelector('.sbanken-logo').getAttribute('alt')
+      document.querySelector('[role="img"]').getAttribute('alt')
     ).toBe('Sbanken - et konsept fra DNB')
   })
 
   it('should set correct Sbanken brand SVG in compact variant', () => {
-    render(<Logo brand="sbanken" variant="compact" />)
+    render(<Logo svg={SbankenCompact} />)
     expect(document.querySelector('svg')).toMatchSnapshot()
   })
 
@@ -102,14 +100,13 @@ describe('Logo component', () => {
   })
 
   it('should inherit props from global provider', () => {
-    render(<Logo brand="sbanken" variant="compact" />)
+    render(<Logo svg={SbankenCompact} />)
     const refHTML = document.querySelector('svg').outerHTML
 
     render(
       <Provider
         Logo={{
-          brand: 'sbanken',
-          variant: 'compact',
+          svg: SbankenCompact,
         }}
       >
         <Logo />
@@ -121,12 +118,12 @@ describe('Logo component', () => {
   })
 
   it('should inherit props from theme provider', () => {
-    render(<Logo brand="sbanken" variant="compact" />)
+    render(<Logo svg={SbankenCompact} />)
     const refHTML = document.querySelector('svg').outerHTML
 
     render(
       <Theme name="sbanken">
-        <Logo variant="compact" />
+        <Logo svg={SbankenCompact} />
       </Theme>
     )
 
@@ -134,8 +131,8 @@ describe('Logo component', () => {
     expect(html).toBe(refHTML)
   })
 
-  it('should brand="ui" for backward compatibility', () => {
-    render(<Logo brand="ui" />)
+  it('should render the DNB logo by default', () => {
+    render(<Logo />)
     expect(document.querySelector('.dnb-logo')).toBeInTheDocument()
     expect(document.querySelector('.sbanken-logo')).not.toBeInTheDocument()
     expect(document.querySelector('title').textContent).toBe('DNB Logo')
@@ -152,6 +149,7 @@ describe('Logo component', () => {
     expect(attributes).not.toContain('top')
     expect(Array.from(element.classList)).toEqual([
       'dnb-logo',
+      'dnb-logo--ui',
       'dnb-space__top--large',
     ])
   })
@@ -161,12 +159,14 @@ describe('Logo component', () => {
 
     expect(Array.from(document.querySelector('span').classList)).toEqual([
       'dnb-logo',
+      'dnb-logo--ui',
     ])
 
-    rerender(<Logo brand="sbanken" />)
+    rerender(<Logo svg={SbankenDefault} />)
 
     expect(Array.from(document.querySelector('span').classList)).toEqual([
-      'sbanken-logo',
+      'dnb-logo',
+      'dnb-logo--sbanken',
     ])
   })
 
@@ -245,6 +245,58 @@ describe('Logo component', () => {
     expect(svg.querySelector('title')).toHaveTextContent('DNB Carnegie')
   })
 
+  it('should keep the original viewBox on the svg', () => {
+    const SvgFactory = (props) => (
+      <svg viewBox="0 0 10 10" {...props}>
+        <circle cx="5" cy="5" r="5" />
+      </svg>
+    )
+    render(<Logo height="96" svg={SvgFactory} />)
+
+    const svg = document.querySelector('svg')
+    expect(svg).toBeInTheDocument()
+    expect(svg).toHaveAttribute('viewBox', '0 0 10 10')
+    expect(svg).toHaveAttribute('height', '96')
+  })
+
+  it('should not forward non-DOM props to svg', () => {
+    const CustomSvg = (
+      props: React.SVGProps<SVGSVGElement> & {
+        propMapping?: unknown
+        darkMode?: boolean
+      }
+    ) => {
+      return (
+        <svg viewBox="0 0 10 10" {...props}>
+          <circle cx="5" cy="5" r="5" />
+        </svg>
+      )
+    }
+
+    // Provide a pre-constructed element with forbidden props present
+    const element = <CustomSvg propMapping={{ a: 1 }} darkMode />
+    render(<Logo svg={element} />)
+
+    const svg = document.querySelector('svg')
+    expect(svg).toBeInTheDocument()
+    expect(svg.hasAttribute('propMapping')).toBe(false)
+    expect(svg.hasAttribute('darkMode')).toBe(false)
+  })
+
+  it('should not forward non-DOM props when svg is a theme factory', () => {
+    const SvgFactory = (props) => (
+      <svg viewBox="0 0 10 10" {...props}>
+        <circle cx="5" cy="5" r="5" />
+      </svg>
+    )
+    render(<Logo svg={SvgFactory} />)
+
+    const svg = document.querySelector('svg')
+    expect(svg).toBeInTheDocument()
+    // Ensure known problematic keys are not present
+    expect(svg.hasAttribute('isUi')).toBe(false)
+  })
+
   describe('Logo accessibility', () => {
     it('should validate with ARIA rules', async () => {
       const Comp = render(<Logo aria-label="DNB Logo" />)
@@ -258,14 +310,4 @@ describe('Logo scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
-
-  it.each(['ui', 'sbanken'])(
-    'should match theme css for %s',
-    (themeName) => {
-      const css = loadScss(
-        require.resolve(`../style/themes/dnb-logo-theme-${themeName}.scss`)
-      )
-      expect(css).toMatchSnapshot()
-    }
-  )
 })

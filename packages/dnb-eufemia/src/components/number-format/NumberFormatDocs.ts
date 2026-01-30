@@ -22,12 +22,12 @@ export const NumberFormatProperties: PropertiesTableProps = {
     type: ['string', 'boolean'],
     status: 'optional',
   },
-  currency_display: {
+  currencyDisplay: {
     doc: 'Use either empty/false to hide the sign/name or use `code` (NOK), `name` (kroner), `symbol` (kr) or `narrowSymbol` (for a shorter symbol variant). Defaults to `narrowSymbol` when the locale is `no` else we default to `code`.',
     type: 'string',
     status: 'optional',
   },
-  currency_position: {
+  currencyPosition: {
     doc: 'Use either `before` or `after` to change/define the position of the currency. Defaults to `auto` (Browser API defaults, but with an exception, if the locale is `nb-NO` or `no`, use after as the default position).',
     type: 'string',
     status: 'optional',
@@ -67,19 +67,14 @@ export const NumberFormatProperties: PropertiesTableProps = {
     type: ['omit', 'half-even', 'half-up'],
     status: 'optional',
   },
-  omit_rounding: {
-    doc: 'Use `rounding="omit"` instead.',
-    type: 'boolean',
-    status: 'deprecated',
-  },
   prefix: {
     doc: 'Add a string or React component before the number, including white space.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   suffix: {
     doc: 'Appends a string or React component after the number, including white space.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   srLabel: {
@@ -92,17 +87,17 @@ export const NumberFormatProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  always_selectall: {
+  alwaysSelectall: {
     doc: 'Use `true` to always auto select all on the first click. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  copy_selection: {
+  copySelection: {
     doc: 'Use `false` to disable the auto copy feature. Defaults to `true`.',
     type: 'boolean',
     status: 'optional',
   },
-  clean_copy_value: {
+  cleanCopyValue: {
     doc: 'If set to `true` the copy&paste value will be provided without e.g. a currency sign or a percent sign. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
@@ -139,7 +134,7 @@ export const NumberFormatProperties: PropertiesTableProps = {
   },
   tooltip: {
     doc: 'Provide a string or a React Element to be shown as the tooltip content.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {

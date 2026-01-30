@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   convertJsxToString,
   extendPropsWithContext,
@@ -15,7 +15,7 @@ import Button, { ButtonProps } from '../button/Button'
 
 const defaultProps = {
   variant: 'secondary',
-  icon_position: 'left',
+  iconPosition: 'left',
 }
 
 export default function HelpButtonInstance(localProps: ButtonProps) {
@@ -28,10 +28,10 @@ export default function HelpButtonInstance(localProps: ButtonProps) {
     context.HelpButton
   )
 
-  const { size, icon, on_click, className, ...rest } = props
+  const { size, icon, onClick, className, ...rest } = props
 
   const params = {
-    className: classnames(
+    className: clsx(
       'dnb-help-button',
       createSpacingClasses(props),
       className
@@ -55,7 +55,7 @@ export default function HelpButtonInstance(localProps: ButtonProps) {
   if (isHelpButton) {
     if (!params['aria-roledescription']) {
       params['aria-roledescription'] =
-        context.getTranslation(props).HelpButton.aria_role
+        context.getTranslation(props).HelpButton.ariaRole
     }
   }
 
@@ -68,7 +68,7 @@ export default function HelpButtonInstance(localProps: ButtonProps) {
   }
 
   if (icon === 'information' && !size) {
-    params.icon_size = 'medium'
+    params.iconSize = 'medium'
   }
   if (params.title && !params.tooltip && params.tooltip !== false) {
     params.tooltip = params.title
@@ -77,5 +77,5 @@ export default function HelpButtonInstance(localProps: ButtonProps) {
     params.title = null
   }
 
-  return <Button on_click={on_click} {...params} />
+  return <Button onClick={onClick} {...params} />
 }

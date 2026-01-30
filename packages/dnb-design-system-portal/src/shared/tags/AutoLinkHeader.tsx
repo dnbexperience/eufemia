@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Anchor from './Anchor'
 import Heading, {
   HeadingAllProps,
@@ -56,7 +56,7 @@ const AutoLinkHeader = ({
     <Heading
       level={level}
       element={element}
-      className={classnames(anchorLinkStyle, className)}
+      className={clsx(anchorLinkStyle, className)}
       {...props}
     >
       <>

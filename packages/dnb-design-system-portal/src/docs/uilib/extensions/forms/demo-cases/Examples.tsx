@@ -181,7 +181,7 @@ export function PizzaDemo() {
         const MyForm = () => {
           // Routers like "react-router" are supported as well
           Wizard.useQueryLocator('my-wizard')
-          const { summaryTitle } = Form.useLocale().Step
+          const { summaryTitle } = Form.useTranslation().Step
 
           return (
             <Provider locale="en-GB">

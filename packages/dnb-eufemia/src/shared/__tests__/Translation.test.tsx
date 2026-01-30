@@ -8,18 +8,18 @@ import Provider from '../Provider'
 import nbNO from '../locales/nb-NO'
 import enGB from '../locales/en-GB'
 
-const given_nbNO = '{foo} ({bar} av {max})'
-const given_enGB = '{foo} ({bar} of {max})'
-const expected_nbNO = 'foo (bar av max)'
+const givenNbNO = '{foo} ({bar} av {max})'
+const givenEnGB = '{foo} ({bar} of {max})'
+const expectedNbNO = 'foo (bar av max)'
 
 describe('flatten translations', () => {
   const nbNO = {
-    'Modal.close_title': 'Steng',
-    'other.string': given_nbNO,
+    'Modal.closeTitle': 'Steng',
+    'other.string': givenNbNO,
   }
   const enGB = {
-    'Modal.close_title': 'Close',
-    'other.string': given_enGB,
+    'Modal.closeTitle': 'Close',
+    'other.string': givenEnGB,
   }
   const translations = {
     'nb-NO': nbNO,
@@ -42,11 +42,11 @@ describe('flatten translations', () => {
     )
 
     expect(document.querySelector('.Translation').textContent).toBe(
-      expected_nbNO
+      expectedNbNO
     )
     expect(
       document.querySelector('.TranslationIdAsChildren').textContent
-    ).toBe(expected_nbNO)
+    ).toBe(expectedNbNO)
   })
 
   it('should return given id if nothing found', () => {
@@ -106,12 +106,12 @@ describe('context.getTranslation', () => {
 
   it('should react on new lang prop and return other.string', () => {
     const nbNO = {
-      'Modal.close_title': 'Steng',
-      'HelpButton.other.string': given_nbNO,
+      'Modal.closeTitle': 'Steng',
+      'HelpButton.other.string': givenNbNO,
     }
     const enGB = {
-      'Modal.close_title': 'Close',
-      'HelpButton.other.string': given_enGB,
+      'Modal.closeTitle': 'Close',
+      'HelpButton.other.string': givenEnGB,
     }
     const translations = {
       'nb-NO': nbNO,
@@ -125,7 +125,7 @@ describe('context.getTranslation', () => {
     )
 
     expect(document.querySelector('p.other-string').textContent).toBe(
-      given_nbNO
+      givenNbNO
     )
 
     rerender(
@@ -135,7 +135,7 @@ describe('context.getTranslation', () => {
     )
 
     expect(document.querySelector('p.other-string').textContent).toBe(
-      given_enGB
+      givenEnGB
     )
   })
 })
@@ -308,20 +308,20 @@ describe('mergeTranslations', () => {
   it('should merge translations given flatten translations', () => {
     const nbNO = {
       'nb-NO': {
-        'Modal.close_title': 'Steng',
-        'HelpButton.other.string': given_nbNO,
+        'Modal.closeTitle': 'Steng',
+        'HelpButton.other.string': givenNbNO,
       },
     }
     const enGB = {
       'en-GB': {
-        'Modal.close_title': 'Close',
-        'HelpButton.other.string': given_enGB,
+        'Modal.closeTitle': 'Close',
+        'HelpButton.other.string': givenEnGB,
       },
     }
     const enGB_expected = {
       'en-GB': {
         foo: 'bar',
-        'Modal.close_title': 'Close',
+        'Modal.closeTitle': 'Close',
         'HelpButton.other.string': 'use this string here {foo}',
       },
     }
@@ -332,11 +332,11 @@ describe('mergeTranslations', () => {
       'en-GB': {
         foo: 'bar',
         'HelpButton.other.string': 'use this string here {foo}',
-        'Modal.close_title': 'Close',
+        'Modal.closeTitle': 'Close',
       },
       'nb-NO': {
         'HelpButton.other.string': '{foo} ({bar} av {max})',
-        'Modal.close_title': 'Steng',
+        'Modal.closeTitle': 'Steng',
       },
     })
   })

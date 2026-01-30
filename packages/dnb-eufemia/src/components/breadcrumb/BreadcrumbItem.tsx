@@ -17,10 +17,7 @@ import homeIcon from '../../icons/home'
 import { useMediaQuery } from '../../shared'
 import Context from '../../shared/Context'
 import type { SkeletonShow } from '../skeleton/Skeleton'
-import {
-  extendPropsWithContext,
-  filterProps,
-} from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/component-helper'
 
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
 const useLayoutEffect =
@@ -155,8 +152,8 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
             variant="tertiary"
             href={href}
             icon={iconToUse}
-            icon_position="left"
-            on_click={onClick}
+            iconPosition="left"
+            onClick={onClick}
             text={currentText}
             skeleton={skeleton}
             {...props}
@@ -181,11 +178,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
           </>
         )
       ) : (
-        <span
-          className="dnb-breadcrumb__item__span"
-          // TODO: Consider deprecating passing down props to span in v11
-          {...filterProps(props, (key) => !key.includes('-'))}
-        >
+        <span className="dnb-breadcrumb__item__span">
           <IconPrimary
             icon={iconToUse}
             className="dnb-breadcrumb__item__span__icon"

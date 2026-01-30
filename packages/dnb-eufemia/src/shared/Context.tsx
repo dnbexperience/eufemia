@@ -32,7 +32,6 @@ import type { DrawerProps } from '../components/drawer/types'
 import type { DialogProps } from '../components/dialog/types'
 import type { TooltipProps } from '../components/tooltip/types'
 import type { SectionProps } from '../components/section/Section'
-import type { FormRowProps } from '../components/form-row/FormRowHelpers'
 import type { UploadProps } from '../components/upload/types'
 import type { SkeletonProps, SkeletonShow } from '../components/Skeleton'
 import type { HelpButtonProps } from '../components/HelpButton'
@@ -44,7 +43,10 @@ import type { StepIndicatorProps } from '../components/StepIndicator'
 import type { FormLabelProps } from '../components/FormLabel'
 import type { InputProps } from '../components/Input'
 import type { InputMaskedProps } from '../components/InputMasked'
-import type { NumberFormatCurrency } from '../components/NumberFormat'
+import type {
+  NumberFormatCurrency,
+  NumberFormatAllProps,
+} from '../components/NumberFormat'
 import type { ProgressIndicatorProps } from '../components/progress-indicator/types'
 import type { FormStatusProps } from '../components/FormStatus'
 import type { LogoProps } from '../components/Logo'
@@ -100,14 +102,8 @@ export type ContextComponents = {
   ListFormat?: Partial<ListFormatProps>
 
   Switch?: Partial<SwitchProps>
-  // -- TODO: Not converted yet --
-  NumberFormat?: Record<string, unknown>
-  Pagination?: Record<string, unknown>
-
-  /**
-   * @deprecated – can be removed in v11
-   */
-  FormRow?: FormRowProps
+  NumberFormat?: Partial<NumberFormatAllProps>
+  Pagination?: Partial<AccordionProps>
 
   // Common props
   formElement?: FormElementProps
@@ -151,7 +147,7 @@ export type ContextProps = ContextComponents & {
   /**
    * Defines the currencyDisplay used by the NumberFormat component
    */
-  currency_display?: string
+  currencyDisplay?: string
 
   /**
    * Update any given provider/context properties
@@ -177,11 +173,6 @@ export type ContextProps = ContextComponents & {
    * Overwrite existing internal translation strings or define new strings via the Provider
    */
   translations?: Translations | TranslationCustomLocales
-
-  /**
-   * @deprecated Use `translations` instead
-   */
-  locales?: Translations | TranslationCustomLocales
 
   // -- For internal use --
   __context__?: Record<string, unknown>
@@ -253,10 +244,9 @@ export function prepareContext<Props>(
     delete props.__context__
   }
 
-  const translations: Translations =
-    props.translations || props.locales
-      ? extendDeep({}, defaultLocales, props.translations || props.locales)
-      : extendDeep({}, defaultLocales) // make a copy
+  const translations: Translations = props.translations
+    ? extendDeep({}, defaultLocales, props.translations)
+    : extendDeep({}, defaultLocales) // make a copy
 
   const localeWithFallback = handleLocaleFallbacks(
     props.locale || LOCALE,
@@ -266,7 +256,7 @@ export function prepareContext<Props>(
   /**
    * With "destructFlatTranslation" we add support for flat translations, defined like:
    * {
-   *    "Modal.close_title": "Lukk",
+   *    "Modal.closeTitle": "Lukk",
    * }
    */
   const translation = destructFlatTranslation(
@@ -286,22 +276,16 @@ export function prepareContext<Props>(
         context.translation as TranslationFlat
       )
       context.translations = newTranslations
-
-      if (context.locales) {
-        context.locales = context.translations
-      }
     },
     getTranslation: (localProps) => {
       if (localProps) {
         const locale = localProps.lang || localProps.locale
         if (
           locale &&
-          (context.translations || context.locales)[locale] &&
+          context.translations[locale] &&
           locale !== localeWithFallback
         ) {
-          return destructFlatTranslation(
-            (context.translations || context.locales)[locale]
-          )
+          return destructFlatTranslation(context.translations[locale])
         }
       }
       return context.translation || defaultLocales[LOCALE]
@@ -310,7 +294,6 @@ export function prepareContext<Props>(
     /**
      * Make sure we set this after props, since we update this one!
      */
-    locales: translations, // @deprecated – can be removed in v11
     translations,
     translation,
   } as Props & ContextProps
@@ -333,7 +316,7 @@ const Context = createContext<ContextProps>(
   prepareContext({
     locale: LOCALE,
     currency: CURRENCY,
-    currency_display: CURRENCY_DISPLAY,
+    currencyDisplay: CURRENCY_DISPLAY,
   })
 )
 

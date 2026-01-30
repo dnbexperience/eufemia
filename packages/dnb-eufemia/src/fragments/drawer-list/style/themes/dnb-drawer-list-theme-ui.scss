@@ -214,11 +214,11 @@
   }
 
   // error status
-  &__status--error:not(#{&}--opened) &__icon {
+  &__status--error:not(#{&}--open) &__icon {
     color: var(--color-fire-red);
   }
 
-  &__triangle::before {
+  &__arrow::before {
     border: none;
     background-color: var(--color-white);
 
@@ -226,42 +226,40 @@
   }
 
   // group title arrow
-  &--bottom:has(#{&}__group-title.closest-to-top) &__triangle,
-  &--top:has(#{&}__group-title.closest-to-bottom) &__triangle {
+  &--bottom:has(#{&}__group-title.closest-to-top) &__arrow,
+  &--top:has(#{&}__group-title.closest-to-bottom) &__arrow {
     &::before {
       background-color: var(--drawer-list-group-title-bg);
     }
   }
 
   // hover and focus arrow
-  &--bottom:has(#{&}__option.closest-to-top:hover) &__triangle::before,
-  &--top:has(#{&}__option.closest-to-bottom:hover) &__triangle::before,
+  &--bottom:has(#{&}__option.closest-to-top:hover) &__arrow::before,
+  &--top:has(#{&}__option.closest-to-bottom:hover) &__arrow::before,
   &--bottom:has(#{&}__option.closest-to-top#{&}__option--focus)
-    &__triangle::before,
+    &__arrow::before,
   &--top:has(#{&}__option.closest-to-bottom#{&}__option--focus)
-    &__triangle::before,
-  &--bottom &__option.closest-to-top:hover ~ &__triangle::before,
-  &--top &__option.closest-to-bottom:hover ~ &__triangle::before,
-  &--bottom
-    &__option.closest-to-top#{&}__option--focus
-    ~ &__triangle::before,
+    &__arrow::before,
+  &--bottom &__option.closest-to-top:hover ~ &__arrow::before,
+  &--top &__option.closest-to-bottom:hover ~ &__arrow::before,
+  &--bottom &__option.closest-to-top#{&}__option--focus ~ &__arrow::before,
   &--top
     &__option.closest-to-bottom#{&}__option--focus
-    ~ &__triangle::before {
+    ~ &__arrow::before {
     background-color: var(--color-mint-green-12);
   }
 
   // selected arrow
   &--bottom:has(#{&}__option.closest-to-top#{&}__option--selected)
-    &__triangle::before,
+    &__arrow::before,
   &--top:has(#{&}__option.closest-to-bottom#{&}__option--selected)
-    &__triangle::before,
+    &__arrow::before,
   &--bottom
     &__option.closest-to-top#{&}__option--selected
-    ~ &__triangle::before,
+    ~ &__arrow::before,
   &--top
     &__option.closest-to-bottom#{&}__option--selected
-    ~ &__triangle::before {
+    ~ &__arrow::before {
     background-color: var(--color-emerald-green);
   }
 

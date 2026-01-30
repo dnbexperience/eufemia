@@ -9,7 +9,7 @@ import type {
   Schema,
 } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import SharedContext from '../../../../shared/Context'
 import { parseISO, isValid, isBefore, isAfter, startOfDay } from 'date-fns'
@@ -55,11 +55,11 @@ export type DateProps = Omit<
   showInput?: DatePickerProps['showInput']
 
   /**
-   * If set to `true`, a cancel button will be shown. You can change the default text by using `cancel_button_text="Avbryt"` Defaults to `true`. If the `range` prop is `true`, then the cancel button is shown.
+   * If set to `true`, a cancel button will be shown. You can change the default text by using `cancelButtonText="Avbryt"` Defaults to `true`. If the `range` prop is `true`, then the cancel button is shown.
    */
   showCancelButton?: DatePickerProps['showCancelButton']
   /**
-   * If set to `true`, a reset button will be shown. You can change the default text by using `reset_button_text="Tilbakestill"` Defaults to `true`.
+   * If set to `true`, a reset button will be shown. You can change the default text by using `resetButtonText="Tilbakestill"` Defaults to `true`.
    */
   showResetButton?: DatePickerProps['showResetButton']
   onBlurValidator?: DateValidator | false
@@ -89,13 +89,13 @@ export type DateProps = Omit<
     | 'sync'
     | 'addonElement'
     | 'shortcuts'
-    | 'opened'
+    | 'open'
     | 'direction'
     | 'alignPicker'
     | 'onDaysRender'
     | 'onType'
-    | 'onShow'
-    | 'onHide'
+    | 'onOpen'
+    | 'onClose'
     | 'onSubmit'
     | 'onCancel'
     | 'onReset'
@@ -103,7 +103,7 @@ export type DateProps = Omit<
     | 'yearNavigation'
   >
 
-function DateComponent(props: DateProps) {
+function DateComponent(props: DateProps): React.ReactElement {
   const { errorRequired, label: defaultLabel } = useTranslation().Date
   const { locale } = useContext(SharedContext)
 
@@ -205,8 +205,8 @@ function DateComponent(props: DateProps) {
   const fromInput = useCallback(
     ({
       date,
-      start_date,
-      end_date,
+      startDate,
+      endDate,
       invalidDate,
       invalidStartDate,
       invalidEndDate,
@@ -218,7 +218,7 @@ function DateComponent(props: DateProps) {
         invalidEndDate,
       })
 
-      return props.range ? `${start_date}|${end_date}` : date
+      return props.range ? `${startDate}|${endDate}` : date
     },
     [props.range, setInvalidDates]
   )
@@ -271,9 +271,9 @@ function DateComponent(props: DateProps) {
     ) => {
       const reset = {
         date: undefined,
-        start_date: undefined,
-        end_date: undefined,
-        is_valid: false,
+        startDate: undefined,
+        endDate: undefined,
+        isValid: false,
       }
       handleChange(reset)
       setDisplayValue(undefined)
@@ -290,15 +290,15 @@ function DateComponent(props: DateProps) {
   }, [handleFocus, handleError])
   const onType = useCallback(
     (event: DatePickerEvent<React.ChangeEvent<HTMLInputElement>>) => {
-      const { date, start_date, end_date, ...rest } = event
+      const { date, startDate, endDate, ...rest } = event
 
       if (props.range) {
-        const parsedStartDate = parseISO(start_date)
-        const parsedEndDate = parseISO(end_date)
+        const parsedStartDate = parseISO(startDate)
+        const parsedEndDate = parseISO(endDate)
         if (isValid(parsedStartDate) || isValid(parsedEndDate)) {
           handleChange({
-            ...(isValid(parsedStartDate) && { start_date }),
-            ...(isValid(parsedEndDate) && { end_date }),
+            ...(isValid(parsedStartDate) && { startDate }),
+            ...(isValid(parsedEndDate) && { endDate }),
             ...rest,
           })
         }
@@ -342,7 +342,7 @@ function DateComponent(props: DateProps) {
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
     label: label ?? defaultLabel,
-    className: classnames('dnb-forms-field-string', className),
+    className: clsx('dnb-forms-field-string', className),
     width,
     ...pickSpacingProps(props),
   }
@@ -380,7 +380,9 @@ function DateComponent(props: DateProps) {
   )
 }
 
-export function parseRangeValue(value: DateProps['value']) {
+export function parseRangeValue(
+  value: DateProps['value']
+): Array<string | null> {
   return (
     String(value)
       .split('|')
@@ -401,7 +403,7 @@ function validateDateLimit({
   maxDate: DateProps['maxDate']
   isRange: DateProps['range']
   locale: ProviderProps['locale']
-}) {
+}): Array<FormError> {
   if ((!dates.minDate && !dates.maxDate) || !value) {
     return []
   }
@@ -507,7 +509,7 @@ function validateDate({
   invalidDate,
   invalidStartDate,
   invalidEndDate,
-}: InvalidDates) {
+}: InvalidDates): Array<FormError> {
   // Don't show error if the date is empty or contains only placeholder values
   if (invalidDate && !isEmptyOrPlaceholder(invalidDate)) {
     return [
@@ -556,7 +558,6 @@ const datePickerPropKeys = [
   'endMonth',
   'minDate',
   'maxDate',
-  'correctInvalidDate',
   'maskOrder',
   'maskPlaceholder',
   'dateFormat',
@@ -576,15 +577,15 @@ const datePickerPropKeys = [
   'sync',
   'addonElement',
   'shortcuts',
-  'opened',
+  'open',
   'direction',
   'alignPicker',
   'onDaysRender',
   'showInput',
   'onDaysRender',
   'onType',
-  'onShow',
-  'onHide',
+  'onOpen',
+  'onClose',
   'onSubmit',
   'onCancel',
   'onReset',
@@ -592,7 +593,7 @@ const datePickerPropKeys = [
   'yearNavigation',
 ]
 
-function pickDatePickerProps(props: DateProps) {
+function pickDatePickerProps(props: DateProps): Partial<DatePickerProps> {
   const datePickerProps = Object.keys(props).reduce(
     (datePickerProps, key) => {
       if (datePickerPropKeys.includes(key)) {
@@ -601,7 +602,7 @@ function pickDatePickerProps(props: DateProps) {
 
       return datePickerProps
     },
-    {}
+    {} as Partial<DatePickerProps>
   )
 
   return datePickerProps

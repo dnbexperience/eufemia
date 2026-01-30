@@ -45,8 +45,6 @@ export default function useVisibility(props?: Partial<Props>) {
         pathFalsy,
         pathTrue,
         pathFalse,
-        pathValue,
-        whenValue,
         inferData,
         filterData,
       }: Partial<Props> = propsRef.current
@@ -75,25 +73,17 @@ export default function useVisibility(props?: Partial<Props>) {
             return visibleWhenNot ? true : false
           }
           const result =
-            (visibleWhen.continuousValidation ||
-            visibleWhen.validateContinuously
+            (visibleWhen.validateContinuously
               ? true
               : item.isFocused !== true) && hasFieldError(path) === false
           return visibleWhenNot ? !result : result
         }
 
-        if ('hasValue' in visibleWhen || 'withValue' in visibleWhen) {
+        if ('hasValue' in visibleWhen) {
           const hasPath = pointer.has(data, path)
           const value = hasPath ? pointer.get(data, path) : undefined
 
-          if (visibleWhen?.['withValue']) {
-            console.warn(
-              'VisibleWhen: "withValue" is deprecated, use "hasValue" instead'
-            )
-          }
-
-          const hasValue =
-            visibleWhen?.['hasValue'] ?? visibleWhen?.['withValue']
+          const hasValue = visibleWhen?.['hasValue']
           const result =
             typeof hasValue === 'function'
               ? hasValue(value) === false
@@ -143,11 +133,6 @@ export default function useVisibility(props?: Partial<Props>) {
       }
 
       if (inferData && !inferData(data)) {
-        return false
-      }
-
-      // Deprecated can be removed in v11
-      if (pathValue && getValue(makeLocalPath(pathValue)) !== whenValue) {
         return false
       }
 

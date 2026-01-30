@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import useId from '../../../../shared/helpers/useId'
 import Heading from '../../../../components/heading/Heading'
 import HelpButtonInline, {
@@ -23,13 +23,13 @@ function MainHeading({ level, ...props }: Props) {
   return (
     <>
       <Heading
-        className={classnames(
+        className={clsx(
           'dnb-forms-main-heading',
           'dnb-card--auto-indent',
           className
         )}
         level={level || 2}
-        skip_correction
+        skipCorrection
         size="large"
         {...rest}
       >

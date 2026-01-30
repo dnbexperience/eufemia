@@ -84,7 +84,7 @@ export const VisibilityProperties: PropertiesTableProps = {
   },
   children: {
     doc: 'Contents.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'required',
   },
 }

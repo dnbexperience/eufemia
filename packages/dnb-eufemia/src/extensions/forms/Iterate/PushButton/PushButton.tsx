@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useMemo } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Button } from '../../../../components'
 import { ButtonProps } from '../../../../components/Button'
 import IterateItemContext from '../IterateItemContext'
@@ -108,11 +108,11 @@ function PushButton(props: Props) {
 
   return (
     <Button
-      className={classnames('dnb-forms-iterate-push-button', className)}
+      className={clsx('dnb-forms-iterate-push-button', className)}
       variant="secondary"
       icon={add}
-      icon_position="left"
-      on_click={handleClick}
+      iconPosition="left"
+      onClick={handleClick}
       {...buttonProps}
     >
       {content}

@@ -7,7 +7,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   isTrue,
   makeUniqueId,
@@ -56,25 +56,25 @@ export default class Dropdown extends React.PureComponent {
       PropTypes.node,
       PropTypes.func,
     ]),
-    icon_size: PropTypes.string,
-    icon_position: PropTypes.oneOf(['left', 'right']),
-    triangle_position: PropTypes.oneOf(['left', 'right']),
+    iconSize: PropTypes.string,
+    iconPosition: PropTypes.oneOf(['left', 'right']),
+    arrowPosition: PropTypes.oneOf(['left', 'right']),
     label: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
       PropTypes.node,
     ]),
-    label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
-    label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    labelDirection: PropTypes.oneOf(['horizontal', 'vertical']),
+    labelSrOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     status: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
       PropTypes.func,
       PropTypes.node,
     ]),
-    status_state: PropTypes.string,
-    status_props: PropTypes.object,
-    status_no_animation: PropTypes.oneOfType([
+    statusState: PropTypes.string,
+    statusProps: PropTypes.object,
+    statusNoAnimation: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
     ]),
@@ -92,27 +92,27 @@ export default class Dropdown extends React.PureComponent {
     scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     focusable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
-    max_height: PropTypes.number,
-    skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    portal_class: PropTypes.string,
-    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    no_scroll_animation: PropTypes.oneOfType([
+    maxHeight: PropTypes.number,
+    skipPortal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    portalClass: PropTypes.string,
+    noAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    noScrollAnimation: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
     ]),
-    prevent_selection: PropTypes.oneOfType([
+    preventSelection: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
     ]),
-    more_menu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    action_menu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    independent_width: PropTypes.oneOfType([
+    moreMenu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    actionMenu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    independentWidth: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
     ]),
     size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
-    align_dropdown: PropTypes.oneOf(['left', 'right']),
-    trigger_element: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+    align: PropTypes.oneOf(['left', 'right']),
+    triggerElement: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
     data: PropTypes.oneOfType([
       PropTypes.oneOfType([
         PropTypes.string,
@@ -128,12 +128,7 @@ export default class Dropdown extends React.PureComponent {
               PropTypes.string,
               PropTypes.number,
             ]),
-            /** @deprecated use `selectedKey` */
-            selected_key: PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.number,
-            ]),
-            selected_value: PropTypes.oneOfType([
+            selectedValue: PropTypes.oneOfType([
               PropTypes.string,
               PropTypes.node,
             ]),
@@ -146,15 +141,15 @@ export default class Dropdown extends React.PureComponent {
         ])
       ),
     ]),
-    default_value: PropTypes.oneOfType([
+    defaultValue: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,
     ]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    open_on_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    openOnFocus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    preventClose: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    keepOpen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -168,11 +163,11 @@ export default class Dropdown extends React.PureComponent {
       PropTypes.array,
     ]),
 
-    on_show: PropTypes.func,
-    on_hide: PropTypes.func,
-    on_change: PropTypes.func,
-    on_select: PropTypes.func,
-    on_state_update: PropTypes.func,
+    onOpen: PropTypes.func,
+    onClose: PropTypes.func,
+    onChange: PropTypes.func,
+    onSelect: PropTypes.func,
+    onStateUpdate: PropTypes.func,
   }
 
   static defaultProps = {
@@ -180,42 +175,42 @@ export default class Dropdown extends React.PureComponent {
     title: 'Option Menu',
     variant: 'secondary',
     icon: null,
-    icon_size: null,
-    icon_position: null,
-    triangle_position: null,
+    iconSize: null,
+    iconPosition: null,
+    arrowPosition: null,
     label: null,
-    label_direction: null,
-    label_sr_only: null,
+    labelDirection: null,
+    labelSrOnly: null,
     status: null,
-    status_state: 'error',
-    status_props: null,
-    status_no_animation: null,
+    statusState: 'error',
+    statusProps: null,
+    statusNoAnimation: null,
     globalStatus: null,
     innerRef: null,
     buttonRef: null,
     suffix: null,
     scrollable: true,
     focusable: false,
-    max_height: null,
+    maxHeight: null,
     direction: 'auto',
-    skip_portal: null,
-    portal_class: null,
-    no_animation: false,
-    no_scroll_animation: false,
-    prevent_selection: false,
-    more_menu: false,
-    action_menu: false,
-    independent_width: false,
+    skipPortal: null,
+    portalClass: null,
+    noAnimation: false,
+    noScrollAnimation: false,
+    preventSelection: false,
+    moreMenu: false,
+    actionMenu: false,
+    independentWidth: false,
     size: 'default',
-    align_dropdown: null,
-    trigger_element: null,
+    align: null,
+    triggerElement: null,
     data: null,
-    default_value: null,
+    defaultValue: null,
     value: 'initval',
-    open_on_focus: false,
-    prevent_close: false,
-    keep_open: false,
-    opened: false,
+    openOnFocus: false,
+    preventClose: false,
+    keepOpen: false,
+    open: false,
     disabled: null,
     stretch: null,
     skeleton: null,
@@ -223,18 +218,18 @@ export default class Dropdown extends React.PureComponent {
     className: null,
     children: null,
 
-    on_show: null,
-    on_hide: null,
+    onOpen: null,
+    onClose: null,
 
-    on_change: null,
-    on_select: null,
-    on_state_update: null,
+    onChange: null,
+    onSelect: null,
+    onStateUpdate: null,
   }
 
   render() {
     // generate ID here, so we can send it along the provider
     const id = this.props.id || makeUniqueId()
-    const { more_menu, action_menu, prevent_selection, children, data } =
+    const { moreMenu, actionMenu, preventSelection, children, data } =
       this.props
 
     return (
@@ -242,13 +237,13 @@ export default class Dropdown extends React.PureComponent {
         {...this.props}
         id={id}
         data={data || children}
-        opened={false}
+        open={false}
         tagName="dnb-dropdown"
-        ignore_events={false}
-        prevent_selection={
-          isTrue(more_menu) ||
-          isTrue(action_menu) ||
-          isTrue(prevent_selection)
+        ignoreEvents={false}
+        preventSelection={
+          isTrue(moreMenu) ||
+          isTrue(actionMenu) ||
+          isTrue(preventSelection)
         }
       >
         <DropdownInstance {...this.props} id={id} />
@@ -274,7 +269,7 @@ class DropdownInstance extends React.PureComponent {
   }
 
   componentDidMount() {
-    if (isTrue(this.props.opened)) {
+    if (isTrue(this.props.open)) {
       this.setVisible()
     }
   }
@@ -294,13 +289,13 @@ class DropdownInstance extends React.PureComponent {
   }
 
   onFocusHandler = () => {
-    if (isTrue(this.props.open_on_focus)) {
+    if (isTrue(this.props.openOnFocus)) {
       this.setVisible()
     }
   }
 
   onBlurHandler = () => {
-    if (isTrue(this.props.open_on_focus)) {
+    if (isTrue(this.props.openOnFocus)) {
       this.setHidden()
     }
   }
@@ -348,9 +343,9 @@ class DropdownInstance extends React.PureComponent {
     }
   }
 
-  onHideHandler = (args = {}) => {
+  onCloseHandler = (args = {}) => {
     const attributes = this.attributes || {}
-    const res = dispatchCustomElementEvent(this, 'on_hide', {
+    const res = dispatchCustomElementEvent(this, 'onClose', {
       ...args,
       attributes,
     })
@@ -371,7 +366,7 @@ class DropdownInstance extends React.PureComponent {
           if (args.preventHideFocus !== true) {
             element.focus({ preventScroll: true })
           }
-          dispatchCustomElementEvent(this, 'on_hide_focus', { element })
+          dispatchCustomElementEvent(this, 'onCloseFocus', { element })
         }
       } catch (e) {
         // do noting
@@ -380,9 +375,9 @@ class DropdownInstance extends React.PureComponent {
   }
 
   onSelectHandler = (args) => {
-    if (parseFloat(args.active_item) > -1) {
+    if (parseFloat(args.activeItem) > -1) {
       const attributes = this.attributes || {}
-      dispatchCustomElementEvent(this, 'on_select', {
+      dispatchCustomElementEvent(this, 'onSelect', {
         ...args,
         attributes,
       })
@@ -391,7 +386,7 @@ class DropdownInstance extends React.PureComponent {
 
   onChangeHandler = (args) => {
     const attributes = this.attributes || {}
-    dispatchCustomElementEvent(this, 'on_change', {
+    dispatchCustomElementEvent(this, 'onChange', {
       ...args,
       attributes,
     })
@@ -401,12 +396,12 @@ class DropdownInstance extends React.PureComponent {
     const { data } = this.context.drawerList
     if (data && data.length > 0) {
       const currentOptionData = getCurrentData(
-        this.context.drawerList.selected_item,
+        this.context.drawerList.selectedItem,
         data
       )
       if (currentOptionData) {
         title =
-          currentOptionData.selected_value ||
+          currentOptionData.selectedValue ||
           parseContentTitle(currentOptionData)
       }
     }
@@ -420,42 +415,40 @@ class DropdownInstance extends React.PureComponent {
       Dropdown.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).Dropdown,
-      // Deprecated – can be removed in v11
-      pickFormElementProps(this.context?.FormRow),
       pickFormElementProps(this.context?.formElement),
       this.context.Dropdown
     )
 
     const {
       label,
-      label_direction,
-      label_sr_only,
-      icon_size,
+      labelDirection,
+      labelSrOnly,
+      iconSize,
       size,
-      fixed_position,
-      enable_body_lock,
+      fixedPosition,
+      enableBodyLock,
       status,
-      status_state,
-      status_props,
-      status_no_animation,
+      statusState,
+      statusProps,
+      statusNoAnimation,
       globalStatus,
       suffix,
       scrollable,
       focusable,
-      keep_open,
-      prevent_close,
-      no_animation,
-      no_scroll_animation,
-      triangle_position,
-      skip_portal,
-      portal_class,
-      trigger_element: CustomTrigger,
-      more_menu,
-      action_menu,
-      independent_width,
-      prevent_selection,
-      max_height,
-      default_value,
+      keepOpen,
+      preventClose,
+      noAnimation,
+      noScrollAnimation,
+      arrowPosition,
+      skipPortal,
+      portalClass,
+      triggerElement: CustomTrigger,
+      moreMenu,
+      actionMenu,
+      independentWidth,
+      preventSelection,
+      maxHeight,
+      defaultValue,
       className,
       disabled,
       stretch,
@@ -464,73 +457,79 @@ class DropdownInstance extends React.PureComponent {
 
       title: _title,
       icon: _icon, // eslint-disable-line
-      align_dropdown: _align_dropdown, // eslint-disable-line
-      icon_position: _icon_position, // eslint-disable-line
+      align: _align, // eslint-disable-line
+      iconPosition: _iconPosition, // eslint-disable-line
+      openOnFocus: _openOnFocus, // eslint-disable-line
       data: _data, // eslint-disable-line
       children: _children, // eslint-disable-line
       direction: _direction, // eslint-disable-line
       id: _id, // eslint-disable-line
-      opened: _opened, // eslint-disable-line
+      open: _open, // eslint-disable-line
       value: _value, // eslint-disable-line
+      enableBodyLock: _enableBodyLock, // eslint-disable-line
+      listClass: _listClass, // eslint-disable-line
       buttonRef, // eslint-disable-line
       innerRef, // eslint-disable-line
+
+      onOpen: _onOpen, // eslint-disable-line
+      onClose: _onClose, // eslint-disable-line
+      onFocus: _onFocus, // eslint-disable-line
+      onChange: _onChange, // eslint-disable-line
+      onSelect: _onSelect, // eslint-disable-line
+      onStateUpdate: _onStateUpdate, // eslint-disable-line
+      onOpenFocus: _onOpenFocus, // eslint-disable-line
+      onCloseFocus: _onCloseFocus, // eslint-disable-line
 
       ...attributes
     } = props
 
-    let { icon, icon_position, align_dropdown } = props
+    let { icon, iconPosition, align } = props
 
     const handleAsMenu =
-      isTrue(action_menu) || isTrue(more_menu) || isTrue(prevent_selection)
+      isTrue(actionMenu) || isTrue(moreMenu) || isTrue(preventSelection)
 
     const title = this.getTitle(_title)
-    const isPopupMenu = isTrue(more_menu) || !title
+    const isPopupMenu = isTrue(moreMenu) || !title
 
     if (isPopupMenu) {
-      icon = icon || (isTrue(more_menu) ? 'more' : 'chevron_down')
+      icon = icon || (isTrue(moreMenu) ? 'more' : 'chevron_down')
     }
-    if (isPopupMenu || isTrue(action_menu)) {
-      if (icon_position !== 'right' && align_dropdown !== 'right') {
-        icon_position = 'left'
-        align_dropdown = 'left'
+    if (isPopupMenu || isTrue(actionMenu)) {
+      if (iconPosition !== 'right' && align !== 'right') {
+        iconPosition = 'left'
+        align = 'left'
       }
     }
     // TODO: This is an temporary fix for now.
     // We believe this can be removed and replaced by placing the triangle based on,
     // calculating the position based on the dropdowns width.
-    if (
-      isTrue(independent_width) &&
-      icon_position !== 'left' &&
-      !align_dropdown
-    ) {
-      align_dropdown = 'right'
+    if (isTrue(independentWidth) && iconPosition !== 'left' && !align) {
+      align = 'right'
     }
 
-    const { id, selected_item, direction, opened } =
-      this.context.drawerList
+    const { id, selectedItem, direction, open } = this.context.drawerList
     const showStatus = getStatusState(status)
 
-    // make it possible to grab the rest attributes and return it with all events
     Object.assign(
       this.context.drawerList.attributes,
       validateDOMAttributes(null, attributes)
     )
 
     const mainParams = {
-      className: classnames(
+      className: clsx(
         'dnb-dropdown',
         `dnb-dropdown--${direction}`,
-        opened && 'dnb-dropdown--opened',
-        label_direction && `dnb-dropdown--${label_direction}`,
-        `dnb-dropdown--icon-position-${icon_position || 'right'}`,
+        open && 'dnb-dropdown--open',
+        labelDirection && `dnb-dropdown--${labelDirection}`,
+        `dnb-dropdown--icon-position-${iconPosition || 'right'}`,
         isPopupMenu && 'dnb-dropdown--is-popup',
-        isTrue(action_menu) && `dnb-dropdown--action-menu`,
-        (isTrue(independent_width) || isTrue(action_menu)) &&
+        isTrue(actionMenu) && `dnb-dropdown--action-menu`,
+        (isTrue(independentWidth) || isTrue(actionMenu)) &&
           'dnb-dropdown--independent-width',
         size && `dnb-dropdown--${size}`,
         isTrue(stretch) && `dnb-dropdown--stretch`,
-        `dnb-dropdown--${align_dropdown || 'right'}`,
-        status && `dnb-dropdown__status--${status_state}`,
+        `dnb-dropdown--${align || 'right'}`,
+        status && `dnb-dropdown__status--${statusState}`,
         showStatus && 'dnb-dropdown__form-status',
         'dnb-form-component',
         createSpacingClasses(props),
@@ -539,14 +538,14 @@ class DropdownInstance extends React.PureComponent {
     }
 
     const triggerParams = {
-      className: classnames(
+      className: clsx(
         'dnb-dropdown__trigger',
-        opened && 'dnb-button--active'
+        open && 'dnb-button--active'
       ),
       id,
       disabled,
       'aria-haspopup': handleAsMenu ? true : 'listbox',
-      'aria-expanded': opened,
+      'aria-expanded': open,
       ...attributes,
       onFocus: this.onFocusHandler,
       onBlur: this.onBlurHandler,
@@ -554,7 +553,7 @@ class DropdownInstance extends React.PureComponent {
       onKeyDown: this.onTriggerKeyDownHandler,
     }
 
-    if (opened) {
+    if (open) {
       triggerParams['aria-controls'] = `${id}-ul`
     }
 
@@ -588,8 +587,8 @@ class DropdownInstance extends React.PureComponent {
             id={id + '-label'}
             forId={id}
             text={label}
-            labelDirection={label_direction}
-            srOnly={label_sr_only}
+            labelDirection={labelDirection}
+            srOnly={labelSrOnly}
             disabled={disabled}
             skeleton={skeleton}
             onClick={this.onClickHandler}
@@ -604,12 +603,12 @@ class DropdownInstance extends React.PureComponent {
             id={id + '-form-status'}
             globalStatus={globalStatus}
             label={label}
-            text_id={id + '-status'} // used for "aria-describedby"
+            textId={id + '-status'} // used for "aria-describedby"
             text={status}
-            state={status_state}
-            no_animation={status_no_animation}
+            state={statusState}
+            noAnimation={statusNoAnimation}
             skeleton={skeleton}
-            {...status_props}
+            {...statusProps}
           />
 
           <span className="dnb-dropdown__row">
@@ -622,7 +621,7 @@ class DropdownInstance extends React.PureComponent {
                   icon={false} // only to suppress the warning about the icon when tertiary variant is used
                   size={size === 'default' ? 'medium' : size}
                   innerRef={this._refButton}
-                  custom_content={
+                  customContent={
                     <>
                       {!isPopupMenu && (
                         <span className="dnb-dropdown__text dnb-button__text">
@@ -633,9 +632,9 @@ class DropdownInstance extends React.PureComponent {
                       )}
                       <span
                         aria-hidden
-                        className={classnames(
+                        className={clsx(
                           'dnb-dropdown__icon',
-                          parseFloat(selected_item) === 0 &&
+                          parseFloat(selectedItem) === 0 &&
                             'dnb-dropdown__icon--first'
                         )}
                       >
@@ -643,7 +642,7 @@ class DropdownInstance extends React.PureComponent {
                           <Icon
                             icon={icon || 'chevron_down'}
                             size={
-                              icon_size ||
+                              iconSize ||
                               (size === 'large' ? 'medium' : 'default')
                             }
                           />
@@ -660,39 +659,37 @@ class DropdownInstance extends React.PureComponent {
               <DrawerList
                 id={id}
                 role={handleAsMenu ? 'menu' : 'listbox'}
-                portal_class={portal_class}
-                list_class={classnames(
+                portalClass={portalClass}
+                listClass={clsx(
                   'dnb-dropdown__list',
                   variant === 'tertiary' && 'dnb-dropdown__list--tertiary'
                 )}
-                value={selected_item}
-                default_value={default_value}
+                value={selectedItem}
+                defaultValue={defaultValue}
                 scrollable={scrollable}
                 focusable={focusable}
-                no_animation={no_animation}
-                no_scroll_animation={no_scroll_animation}
-                skip_portal={skip_portal}
-                prevent_selection={handleAsMenu}
-                action_menu={action_menu}
-                triangle_position={
-                  triangle_position || icon_position || 'right'
+                noAnimation={noAnimation}
+                noScrollAnimation={noScrollAnimation}
+                skipPortal={skipPortal}
+                preventSelection={handleAsMenu}
+                actionMenu={actionMenu}
+                arrowPosition={arrowPosition || iconPosition || 'right'}
+                keepOpen={keepOpen}
+                preventClose={preventClose}
+                independentWidth={
+                  isTrue(independentWidth) || isPopupMenu || actionMenu
                 }
-                keep_open={keep_open}
-                prevent_close={prevent_close}
-                independent_width={
-                  isTrue(independent_width) || isPopupMenu || action_menu
-                }
-                is_popup={isPopupMenu || action_menu}
-                align_drawer={align_dropdown || 'left'}
-                fixed_position={fixed_position}
-                enable_body_lock={enable_body_lock}
+                isPopup={isPopupMenu || actionMenu}
+                alignDrawer={align || 'left'}
+                fixedPosition={fixedPosition}
+                enableBodyLock={enableBodyLock}
                 disabled={disabled}
-                max_height={max_height}
+                maxHeight={maxHeight}
                 direction={direction}
                 size={size}
-                on_change={this.onChangeHandler}
-                on_select={this.onSelectHandler}
-                on_hide={this.onHideHandler}
+                onChange={this.onChangeHandler}
+                onSelect={this.onSelectHandler}
+                onClose={this.onCloseHandler}
               />
             </span>
 

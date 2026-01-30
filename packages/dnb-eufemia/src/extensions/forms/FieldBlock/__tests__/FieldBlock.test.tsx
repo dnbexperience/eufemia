@@ -387,7 +387,7 @@ describe('FieldBlock', () => {
 
       return (
         <FieldBlock label="Label" forId="unique">
-          <Input id="unique" value={value} on_change={handleChange} />
+          <Input id="unique" value={value} onChange={handleChange} />
         </FieldBlock>
       )
     }
@@ -935,7 +935,7 @@ describe('FieldBlock', () => {
         const element = document.querySelector('.dnb-form-status')
 
         expect(element).toBeInTheDocument()
-        expect(element).toHaveClass('dnb-form-status--warn')
+        expect(element).toHaveClass('dnb-form-status--warning')
         expect(element).toHaveClass('dnb-height-animation--is-visible')
         expect(element).toHaveTextContent(blockWarning)
       })
@@ -950,7 +950,7 @@ describe('FieldBlock', () => {
         const element = document.querySelector('.dnb-form-status')
 
         expect(element).toBeInTheDocument()
-        expect(element).toHaveClass('dnb-form-status--warn')
+        expect(element).toHaveClass('dnb-form-status--warning')
         expect(element).toHaveClass('dnb-height-animation--is-visible')
         expect(element).toHaveTextContent(blockWarning)
       })

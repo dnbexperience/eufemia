@@ -466,12 +466,6 @@ html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-w
   cursor: not-allowed;
   outline: none;
 }
-.dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
-  align-self: flex-start;
-}
-.dnb-form-row--horizontal .dnb-form-row__content .dnb-button__text {
-  white-space: nowrap;
-}
 .dnb-button + .dnb-form-status {
   margin-top: 0.5rem;
 }
@@ -887,9 +881,6 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 .dnb-input__input::-webkit-search-cancel-button {
   display: none;
 }
-.dnb-input__input::-ms-clear {
-  display: none;
-}
 .dnb-input ::-webkit-file-upload-button {
   cursor: pointer;
   outline: none;
@@ -904,12 +895,6 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 .dnb-input--password .dnb-input__placeholder, .dnb-input--password .dnb-input__input {
   margin-right: 2.5rem;
   padding-right: 0;
-}
-.dnb-input--password .dnb-input__placeholder::-ms-clear, .dnb-input--password .dnb-input__input::-ms-clear {
-  display: none;
-}
-.dnb-input--password .dnb-input__placeholder::-ms-reveal, .dnb-input--password .dnb-input__input::-ms-reveal {
-  display: none;
 }
 .dnb-input--password .dnb-input__placeholder {
   padding-right: 4rem;
@@ -932,7 +917,6 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 }
 .dnb-input__submit-button {
   position: relative;
-  align-self: center; /* IE needs this to stay centered */
 }
 .dnb-input__submit-button__button {
   border-radius: 0 var(--input-border-radius) var(--input-border-radius) 0;
@@ -1097,9 +1081,6 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
   width: auto;
 }
 .dnb-input--vertical.dnb-input--stretch .dnb-input__inner {
-  width: 100%;
-}
-.dnb-form-row--horizontal .dnb-input--stretch {
   width: 100%;
 }
 .dnb-input__icon {

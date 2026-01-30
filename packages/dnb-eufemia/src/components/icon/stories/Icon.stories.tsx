@@ -70,14 +70,14 @@ export const IconSandbox = () => (
       <Button icon="add" variant="primary" />
     </Box>
     <Box>
-      <Button title="Click Me" on_click={showMe}>
+      <Button title="Click Me" onClick={showMe}>
         <IconPrimary icon="add" size="medium" />
       </Button>
     </Box>
     <Box>
       <Button
         title="Click Me"
-        on_click={showMe}
+        onClick={showMe}
         variant="tertiary"
         icon="add"
       />

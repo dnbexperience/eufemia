@@ -109,7 +109,7 @@ export function Selection() {
   )
 }
 
-export function FormsetReset() {
+export function FieldsetReset() {
   return (
     <Wrapper className={fieldsetReset}>
       <ComponentBox hideCode data-visual-test="helper-fieldset-reset">

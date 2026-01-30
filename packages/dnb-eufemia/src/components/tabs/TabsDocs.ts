@@ -1,7 +1,7 @@
 import { PropertiesTableProps } from '../../shared/types'
 
 export const TabsProperties: PropertiesTableProps = {
-  selected_key: {
+  selectedKey: {
     doc: 'In case one of the tabs should be opened by a `key`.',
     type: ['string', 'number'],
     status: 'optional',
@@ -11,12 +11,12 @@ export const TabsProperties: PropertiesTableProps = {
     type: ['left', 'center', 'right'],
     status: 'optional',
   },
-  content_style: {
+  contentStyle: {
     doc: 'To enable the visual helper `.dnb-section` on to the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.',
     type: ['divider', 'white', 'transparent'],
     status: 'optional',
   },
-  content_spacing: {
+  contentSpacing: {
     doc: 'To modify the `spacing` onto the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `large`.',
     type: [
       'boolean',
@@ -29,18 +29,18 @@ export const TabsProperties: PropertiesTableProps = {
     ],
     status: 'optional',
   },
-  tabs_style: {
+  tabsStyle: {
     doc: 'To enable the visual helper `.dnb-section` inside the tabs list. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.',
     type: ['divider', 'white', 'transparent'],
     status: 'optional',
   },
-  tabs_spacing: {
+  tabsSpacing: {
     doc: 'To modify the `spacing` inside the tab list. Defaults to `null`.',
     type: 'boolean',
     status: 'optional',
   },
-  tab_element: {
-    doc: "Define what HTML element should be used. You can provide e.g. `tab_element={GatsbyLink}` – you may then provide the `to` property inside every entry (`data={[{ to: ';url';, ... }]}`). Defaults to `<button>`.",
+  tabElement: {
+    doc: "Define what HTML element should be used. You can provide e.g. `tabElement={GatsbyLink}` – you may then provide the `to` property inside every entry (`data={[{ to: ';url';, ... }]}`). Defaults to `<button>`.",
     type: 'React.ReactNode',
     status: 'optional',
   },
@@ -64,7 +64,7 @@ export const TabsProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  prevent_rerender: {
+  preventRerender: {
     doc: 'If set to `true`, the Tabs content will stay in the DOM. The visibility will be handled by using the `hidden` and `aria-hidden` HTML attributes. Similar to `prerender`, but in contrast, the content will render once the user is activating a tab. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
@@ -74,12 +74,12 @@ export const TabsProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  no_border: {
+  noBorder: {
     doc: 'If set to `true`, the default horizontal border line under the tablist will be removed. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  nav_button_edge: {
+  navButtonEdge: {
     doc: 'If set to `true`, the navigation icons will have a straight border at their outside. This feature is meant to be used when the Tabs component goes all the way to the browser window. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
@@ -130,23 +130,23 @@ export const TabsDataObject: PropertiesTableProps = {
 }
 
 export const TabsEvents: PropertiesTableProps = {
-  on_change: {
-    doc: '(preferred) this event gets triggered once the tab changes its selected key. Returns `{ key, selected_key, focus_key, event }`.',
+  onChange: {
+    doc: '(preferred) this event gets triggered once the tab changes its selected key. Returns `{ key, selectedKey, focusKey, event }`.',
     type: 'function',
     status: 'optional',
   },
-  on_click: {
-    doc: 'This event gets triggered once the tab gets clicked. Returns `{ key, selected_key, focus_key, event }`.',
+  onClick: {
+    doc: 'This event gets triggered once the tab gets clicked. Returns `{ key, selectedKey, focusKey, event }`.',
     type: 'function',
     status: 'optional',
   },
-  on_focus: {
-    doc: 'This event gets triggered once the tab changes its focus key. Returns `{ key, selected_key, focus_key, event }`.',
+  onFocus: {
+    doc: 'This event gets triggered once the tab changes its focus key. Returns `{ key, selectedKey, focusKey, event }`.',
     type: 'function',
     status: 'optional',
   },
-  on_mouse_enter: {
-    doc: "This event gets triggered once the user';s mouse enters a tab (hover). Returns `{ key, selected_key, focus_key, event }`.",
+  onMouseEnter: {
+    doc: "This event gets triggered once the user';s mouse enters a tab (hover). Returns `{ key, selectedKey, focusKey, event }`.",
     type: 'function',
     status: 'optional',
   },

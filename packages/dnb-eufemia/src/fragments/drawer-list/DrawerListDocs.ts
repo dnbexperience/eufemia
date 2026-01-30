@@ -16,13 +16,13 @@ export const DrawerListProperties = {
     type: ['string', 'number'],
     status: 'optional',
   },
-  default_value: {
+  defaultValue: {
     doc: 'Define a startup value or handle a re-render without handling the state during the re-render by yourself. Defaults to `null`.',
     type: 'number',
     status: 'optional',
   },
-  triangle_position: {
-    doc: "Position of the arrow icon/triangle inside the drawer-list. Set to 'left' or 'right'. Defaults to 'left' if not set.",
+  arrowPosition: {
+    doc: "Position of the arrow on the popup drawer. Set to 'left' or 'right'. Defaults to 'left' if not set.",
     type: 'string',
     status: 'optional',
   },
@@ -31,12 +31,12 @@ export const DrawerListProperties = {
     type: 'string',
     status: 'optional',
   },
-  label_direction: {
+  labelDirection: {
     doc: "The direction of the label. If set to 'horizontal', the label will be positioned horizontally next to the input element. If set to 'vertical', the label will be positioned vertically above the input element.",
     type: 'string',
     status: 'optional',
   },
-  prevent_selection: {
+  preventSelection: {
     doc: 'If set to `true`, the DrawerList will then not make any permanent selection.',
     type: 'boolean',
     status: 'optional',
@@ -46,52 +46,52 @@ export const DrawerListProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  prevent_close: {
+  preventClose: {
     doc: 'If set to `true`, the DrawerList will not close on any events.',
     type: 'boolean',
     status: 'optional',
   },
-  keep_open: {
+  keepOpen: {
     doc: 'If set to `true`, the DrawerList will close on outside clicks, but not on selection.',
     type: 'boolean',
     status: 'optional',
   },
-  independent_width: {
+  independentWidth: {
     doc: 'If set to `true`, the DrawerList will handle its width and position independently of the parent/mother element.',
     type: 'boolean',
     status: 'optional',
   },
-  fixed_position: {
+  fixedPosition: {
     doc: 'If set to `true`, the DrawerList will be fixed in its scroll position by using CSS `position: fixed;`.',
     type: 'boolean',
     status: 'optional',
   },
-  enable_body_lock: {
+  enableBodyLock: {
     doc: 'If set to `true`, the HTML body will get locked from scrolling when the Dropdown is open.',
     type: 'boolean',
     status: 'optional',
   },
-  skip_keysearch: {
+  skipKeysearch: {
     doc: 'If set to `true`, search items by the first key will be ignored.',
     type: 'boolean',
     status: 'optional',
   },
-  ignore_events: {
+  ignoreEvents: {
     doc: 'If set to `true`, all keyboard and mouse events will be ignored.',
     type: 'boolean',
     status: 'optional',
   },
-  align_drawer: {
-    doc: "Use 'right' to change the options alignment direction. Makes only sense to use in combination with `prevent_selection` or `more_menu` - or if an independent width is used.",
+  alignDrawer: {
+    doc: "Use 'right' to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `moreMenu` - or if an independent width is used.",
     type: 'string',
     status: 'optional',
   },
-  list_class: {
+  listClass: {
     doc: 'Define an HTML class that will be set on the list, beside `dnb-drawer-list__list`.',
     type: 'string',
     status: 'optional',
   },
-  portal_class: {
+  portalClass: {
     doc: 'Define an HTML class that will be set on the DOM portal beside `dnb-drawer-list__portal__style`. Can be useful to handle e.g. a custom `z-index` in relation to a header.',
     type: 'string',
     status: 'optional',
@@ -101,53 +101,53 @@ export const DrawerListProperties = {
     type: 'boolean',
     status: 'optional',
   },
-  no_scroll_animation: {
+  noScrollAnimation: {
     doc: 'To disable scrolling animation.',
     type: 'boolean',
     status: 'optional',
   },
-  no_animation: {
+  noAnimation: {
     doc: 'To disable appear/disappear (show/hide) animation.',
     type: 'boolean',
     status: 'optional',
   },
-  skip_portal: {
+  skipPortal: {
     doc: 'To disable the React Portal behavior.',
     type: 'boolean',
     status: 'optional',
   },
-  min_height: {
+  minHeight: {
     doc: 'Defines the minimum height (in `rem`) of the options list.',
     type: 'string',
     status: 'optional',
   },
-  max_height: {
+  maxHeight: {
     doc: 'Defines the maximum height (in `rem`) of the options list.',
     type: 'string',
     status: 'optional',
   },
-  page_offset: {
+  pageOffset: {
     doc: 'Defines the available scrollable height. If scrolling should not change the height of the drawer-list, then set it to `0` (useful if the DrawerList is used in fixed positions on contrast to a scrollable page content).',
     type: 'string',
     status: 'optional',
   },
-  observer_element: {
+  observerElement: {
     doc: 'Set a HTML element, either as a selector or a DOM element. Can be used to send in an element which will be used to make the direction calculation on.',
     type: 'string',
     status: 'optional',
   },
-  cache_hash: {
-    doc: 'Set a `cache_hash` as a string to enable internal memorizing of the list to enhance rerendering performance. Components like Autocomplete are using this because of the huge data changes due to search and reorder.',
+  cacheHash: {
+    doc: 'Set a `cacheHash` as a string to enable internal memorizing of the list to enhance rerendering performance. Components like Autocomplete are using this because of the huge data changes due to search and reorder.',
     type: 'string',
     status: 'optional',
   },
-  wrapper_element: {
-    doc: "Has to be an HTML Element, or a selector for one, ideally a mother element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapper_element` will not trigger an outside click.",
+  wrapperElement: {
+    doc: "Has to be an HTML Element, or a selector for one, ideally a mother element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapperElement` will not trigger an outside click.",
     type: ['string', 'HTMLElement'],
     status: 'optional',
   },
-  options_render: {
-    doc: 'Has to be a function, returning the items again. See [example](/uilib/components/fragments/drawer-list#example-usage-of-options_render). This can be used to add additional options above the actual rendered list.',
+  optionsRender: {
+    doc: 'Has to be a function, returning the items again. See [example](/uilib/components/fragments/drawer-list#example-usage-of-optionsRender). This can be used to add additional options above the actual rendered list.',
     type: 'function',
     status: 'optional',
   },
@@ -159,27 +159,27 @@ export const DrawerListProperties = {
 } satisfies PropertiesTableProps
 
 export const DrawerListEvents = {
-  on_pre_change: {
-    doc: 'Will be called before `on_change`, this way you can return false to prevent selection and to prevent `on_change` execution.',
+  onPreChange: {
+    doc: 'Will be called before `onChange`, this way you can return false to prevent selection and to prevent `onChange` execution.',
     type: 'function',
     status: 'optional',
   },
-  on_change: {
+  onChange: {
     doc: 'Will be called on state changes made by the user.',
     type: 'function',
     status: 'optional',
   },
-  on_select: {
+  onSelect: {
     doc: 'Will be called once the user focuses or selects an item by a click or keyboard navigation.',
     type: 'function',
     status: 'optional',
   },
-  on_show: {
+  onOpen: {
     doc: 'Will be called once the user presses the drawer-list.',
     type: 'function',
     status: 'optional',
   },
-  on_hide: {
+  onClose: {
     doc: 'Will be called once the user presses the drawer-list again, or clicks somewhere else.',
     type: 'function',
     status: 'optional',
@@ -189,7 +189,7 @@ export const DrawerListEvents = {
 export const DrawerListItem = {
   content: {
     doc: 'Visual content in the list item',
-    type: ['string', 'React.node', '(string | React.Node)[]'],
+    type: ['string', 'React.node', '(string | React.ReactNode)[]'],
     status: 'optional',
   },
   disabled: {
@@ -207,19 +207,14 @@ export const DrawerListItem = {
     type: ['string', 'number'],
     status: 'optional',
   },
-  selected_value: {
+  selectedValue: {
     doc: 'Replaces the standard value output for selected item. Only used in some implementations (Dropdown, Autocomplete).',
-    type: ['string', 'React.Node'],
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
-  suffix_value: {
+  suffixValue: {
     doc: 'Content placed to the right in the list item.',
     type: ['string', 'React.node'],
     status: 'optional',
-  },
-  selected_key: {
-    doc: 'Use prop `selectedKey` instead',
-    type: ['string', 'number'],
-    status: 'deprecated',
   },
 } satisfies PropertiesTableProps

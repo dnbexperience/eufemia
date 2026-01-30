@@ -27,38 +27,38 @@ import locales from '../../../shared/locales/nb-NO'
 
 const nbNO = locales['nb-NO'].DrawerList
 
-// use no_animation so we don't need to wait
+// use noAnimation so we don't need to wait
 const mockProps: DropdownAllProps = {
-  skip_portal: true,
+  skipPortal: true,
 }
 const props: DropdownAllProps = {
   id: 'dropdown-id',
   value: 2,
-  skip_portal: true,
-  no_animation: true,
+  skipPortal: true,
+  noAnimation: true,
 }
 
 const mockData: DrawerListDataArray = [
   {
-    selected_value: 'Brukskonto - Kari Nordmann',
+    selectedValue: 'Brukskonto - Kari Nordmann',
     content: ['1234 56 78901', 'Brukskonto - Kari Nordmann'],
   },
   {
-    selected_value: 'Sparekonto - Ole Nordmann',
+    selectedValue: 'Sparekonto - Ole Nordmann',
     content: ['1234 56 78902', 'Sparekonto - Ole Nordmann'],
   },
   {
-    selected_value:
+    selectedValue:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
-    selected_key: 1,
+    selectedKey: 1,
     content: [
       '1134 56 78962',
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     ],
   },
   {
-    selected_value: 'Oppussing - Ole Nordmann',
-    selected_key: '0x',
+    selectedValue: 'Oppussing - Ole Nordmann',
+    selectedKey: '0x',
     content: ['1534 96 48901', 'Oppussing - Ole Nordmann'],
   },
   {
@@ -83,13 +83,13 @@ describe('Dropdown component', () => {
     expect(
       document.querySelector('.dnb-dropdown__text__inner').textContent
     ).toBe(
-      (mockData[props.value] as DrawerListDataArrayObject).selected_value
+      (mockData[props.value] as DrawerListDataArrayObject).selectedValue
     )
     expect(
       document.querySelector('.dnb-dropdown__trigger')
     ).toHaveAttribute(
       'title',
-      (mockData[props.value] as DrawerListDataArrayObject).selected_value
+      (mockData[props.value] as DrawerListDataArrayObject).selectedValue
     )
 
     keydown(32) // space
@@ -115,14 +115,14 @@ describe('Dropdown component', () => {
       document.querySelector('.dnb-dropdown__text__inner').textContent
     ).toBe(
       (mockData[(props.value as number) + 1] as DrawerListDataArrayObject)
-        .selected_value
+        .selectedValue
     )
     expect(
       document.querySelector('.dnb-dropdown__trigger')
     ).toHaveAttribute(
       'title',
       (mockData[(props.value as number) + 1] as DrawerListDataArrayObject)
-        .selected_value
+        .selectedValue
     )
   })
 
@@ -155,9 +155,7 @@ describe('Dropdown component', () => {
   })
 
   it('has correct state when opened prop is given', () => {
-    render(
-      <Dropdown skip_portal no_animation opened={true} data={mockData} />
-    )
+    render(<Dropdown skipPortal noAnimation open={true} data={mockData} />)
 
     expect(
       document.querySelector('button').getAttribute('aria-expanded')
@@ -169,12 +167,12 @@ describe('Dropdown component', () => {
     ).toBe('true')
   })
 
-  it('supports a trigger_element properly', () => {
+  it('supports a triggerElement properly', () => {
     render(
       <Dropdown
-        skip_portal
-        no_animation
-        trigger_element={(props) => <button {...props}>test</button>}
+        skipPortal
+        noAnimation
+        triggerElement={(props) => <button {...props}>test</button>}
         data={mockData}
       />
     )
@@ -198,29 +196,29 @@ describe('Dropdown component', () => {
   it('shows form-status with correct classes', () => {
     render(
       <Dropdown
-        skip_portal
-        no_animation
+        skipPortal
+        noAnimation
         data={mockData}
         status="status text"
-        status_state="warn"
-        status_props={{ stretch: true }}
+        statusState="warning"
+        statusProps={{ stretch: true }}
       />
     )
 
     expect(document.querySelector('.dnb-form-status')).toHaveClass(
-      'dnb-form-status--warn dnb-form-status__size--default dnb-form-status--stretch dnb-form-status--has-content'
+      'dnb-form-status--warning dnb-form-status__size--default dnb-form-status--stretch dnb-form-status--has-content'
     )
   })
 
-  it('will stay open when keep_open and a selection is made', () => {
-    const on_change = jest.fn()
+  it('will stay open when keepOpen and a selection is made', () => {
+    const onChange = jest.fn()
     render(
       <Dropdown
-        skip_portal
-        no_animation
-        opened={true}
-        keep_open={true}
-        on_change={on_change}
+        skipPortal
+        noAnimation
+        open={true}
+        keepOpen={true}
+        onChange={onChange}
         data={mockData}
       />
     )
@@ -234,12 +232,12 @@ describe('Dropdown component', () => {
     keydown(40) // down
     keydown(32) // space
 
-    expect(on_change).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
     expect(
       document.querySelector('.dnb-drawer-list__option--selected')
     ).toBeInTheDocument()
     expect(document.querySelector('.dnb-dropdown').classList).toContain(
-      'dnb-dropdown--opened'
+      'dnb-dropdown--open'
     )
 
     // close
@@ -247,19 +245,19 @@ describe('Dropdown component', () => {
 
     expect(
       document.querySelector('.dnb-dropdown').classList
-    ).not.toContain('dnb-dropdown--opened')
+    ).not.toContain('dnb-dropdown--open')
   })
 
-  it('will stay open when prevent_close is given, regardless', async () => {
-    const on_change = jest.fn()
-    const on_hide = jest.fn()
+  it('will stay open when preventClose is given, regardless', async () => {
+    const onChange = jest.fn()
+    const onClose = jest.fn()
     render(
       <Dropdown
-        prevent_close={true}
-        skip_portal
-        no_animation
-        on_change={on_change}
-        on_hide={on_hide}
+        preventClose={true}
+        skipPortal
+        noAnimation
+        onChange={onChange}
+        onClose={onClose}
         data={mockData}
       />
     )
@@ -273,28 +271,28 @@ describe('Dropdown component', () => {
     keydown(40) // down
     keydown(32) // space
 
-    expect(on_change).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
     expect(
       document.querySelector('.dnb-drawer-list__option--selected')
     ).toBeInTheDocument()
     expect(document.querySelector('.dnb-dropdown').classList).toContain(
-      'dnb-dropdown--opened'
+      'dnb-dropdown--open'
     )
 
     // try to close it
     keydown(27) // esc
 
     expect(document.querySelector('.dnb-dropdown').classList).toContain(
-      'dnb-dropdown--opened'
+      'dnb-dropdown--open'
     )
 
-    expect(on_hide).toHaveBeenCalledTimes(0)
+    expect(onClose).toHaveBeenCalledTimes(0)
   })
 
-  it('has valid on_select callback', () => {
-    const on_select = jest.fn()
+  it('has valid onSelect callback', () => {
+    const onSelect = jest.fn()
 
-    render(<Dropdown {...props} data={mockData} on_select={on_select} />)
+    render(<Dropdown {...props} data={mockData} onSelect={onSelect} />)
 
     // then simulate changes
     keydown(32) // space
@@ -306,12 +304,12 @@ describe('Dropdown component', () => {
     ).toBe(1)
 
     const notChangedItem = mockData[(props.value as number) + 1]
-    expect(on_select.mock.calls[0][0].data).toStrictEqual(notChangedItem)
+    expect(onSelect.mock.calls[0][0].data).toStrictEqual(notChangedItem)
 
     keydown(40) // down
 
     const selectedItem = mockData[(props.value as number) + 2]
-    expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
+    expect(onSelect.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
   })
 
   it('will select correct item on given numeric selectedKey', () => {
@@ -382,8 +380,8 @@ describe('Dropdown component', () => {
     }
   })
 
-  it('has no selected items on using prevent_selection', async () => {
-    const on_change = jest.fn()
+  it('has no selected items on using preventSelection', async () => {
+    const onChange = jest.fn()
     const title = 'custom title'
 
     const { rerender } = render(
@@ -392,8 +390,8 @@ describe('Dropdown component', () => {
         value={null}
         data={mockData}
         title={title}
-        on_change={on_change}
-        prevent_selection
+        onChange={onChange}
+        preventSelection
       />
     )
 
@@ -422,8 +420,8 @@ describe('Dropdown component', () => {
         value={null}
         data={mockData}
         title={title}
-        on_change={on_change}
-        prevent_selection={false}
+        onChange={onChange}
+        preventSelection={false}
       />
     )
 
@@ -446,9 +444,9 @@ describe('Dropdown component', () => {
         value={null}
         data={mockData}
         title={title}
-        on_change={on_change}
-        prevent_selection={false}
-        action_menu={true}
+        onChange={onChange}
+        preventSelection={false}
+        actionMenu={true}
       />
     )
 
@@ -471,9 +469,9 @@ describe('Dropdown component', () => {
         value={null}
         data={mockData}
         title={title}
-        on_change={on_change}
-        prevent_selection={true}
-        action_menu={false}
+        onChange={onChange}
+        preventSelection={true}
+        actionMenu={false}
       />
     )
 
@@ -484,11 +482,11 @@ describe('Dropdown component', () => {
         .getAttribute('data-testid')
     ).toBe('chevron down icon')
 
-    const event = on_change.mock.calls[0][0]
+    const event = onChange.mock.calls[0][0]
     const selectedItem = mockData[event.value]
     expect(event.value).toBe(1)
-    expect(event.selected_item).toBe(1)
-    expect(event.active_item).toBe(undefined)
+    expect(event.selectedItem).toBe(1)
+    expect(event.activeItem).toBe(undefined)
     expect(event.data).toStrictEqual(selectedItem)
 
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
@@ -504,9 +502,9 @@ describe('Dropdown component', () => {
         value={null}
         data={mockData}
         title={null}
-        on_change={on_change}
-        prevent_selection={true}
-        action_menu={false}
+        onChange={onChange}
+        preventSelection={true}
+        actionMenu={false}
       />
     )
 
@@ -532,7 +530,7 @@ describe('Dropdown component', () => {
     rerender(<Dropdown {...props} value={value} data={mockData} />)
 
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
-      (mockData[value] as DrawerListDataArrayObject).selected_value
+      (mockData[value] as DrawerListDataArrayObject).selectedValue
     )
 
     rerender(<Dropdown {...props} value={undefined} data={mockData} />)
@@ -545,7 +543,7 @@ describe('Dropdown component', () => {
     rerender(<Dropdown {...props} value={value} data={mockData} />)
 
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
-      (mockData[value] as DrawerListDataArrayObject).selected_value
+      (mockData[value] as DrawerListDataArrayObject).selectedValue
     )
 
     rerender(<Dropdown {...props} value={null} data={mockData} />)
@@ -557,17 +555,17 @@ describe('Dropdown component', () => {
 
   it('selects correct value and key', () => {
     const mockData = [
-      { selected_key: 'a', content: 'A value' },
-      { selected_key: 'b', content: 'B value' },
-      { selected_key: 'c', content: 'C value' },
-      { selected_key: 'id-123', content: '123 value' },
-      { selected_key: 'id-456', content: '456 value' },
+      { selectedKey: 'a', content: 'A value' },
+      { selectedKey: 'b', content: 'B value' },
+      { selectedKey: 'c', content: 'C value' },
+      { selectedKey: 'id-123', content: '123 value' },
+      { selectedKey: 'id-456', content: '456 value' },
     ]
 
-    const on_change = jest.fn()
+    const onChange = jest.fn()
 
     const { rerender } = render(
-      <Dropdown no_animation data={mockData} on_change={on_change} />
+      <Dropdown noAnimation data={mockData} onChange={onChange} />
     )
 
     // open first
@@ -586,13 +584,13 @@ describe('Dropdown component', () => {
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
       'A value'
     )
-    expect(on_change.mock.calls[0][0].data.selected_key).toBe('a')
+    expect(onChange.mock.calls[0][0].data.selectedKey).toBe('a')
 
     rerender(
       <Dropdown
-        no_animation
+        noAnimation
         data={mockData}
-        on_change={on_change}
+        onChange={onChange}
         value="b"
       />
     )
@@ -606,13 +604,13 @@ describe('Dropdown component', () => {
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
       'C value'
     )
-    expect(on_change.mock.calls[1][0].data.selected_key).toBe('c')
+    expect(onChange.mock.calls[1][0].data.selectedKey).toBe('c')
 
     rerender(
       <Dropdown
-        no_animation
+        noAnimation
         data={mockData}
-        on_change={on_change}
+        onChange={onChange}
         value="id-123"
       />
     )
@@ -626,13 +624,13 @@ describe('Dropdown component', () => {
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
       '456 value'
     )
-    expect(on_change.mock.calls[2][0].data.selected_key).toBe('id-456')
+    expect(onChange.mock.calls[2][0].data.selectedKey).toBe('id-456')
 
     rerender(
       <Dropdown
-        no_animation
+        noAnimation
         data={mockData}
-        on_change={on_change}
+        onChange={onChange}
         value={123}
       />
     )
@@ -642,7 +640,7 @@ describe('Dropdown component', () => {
     )
   })
 
-  it('has no selected items on using more_menu', () => {
+  it('has no selected items on using moreMenu', () => {
     const title = 'custom title'
     render(
       <Dropdown
@@ -650,7 +648,7 @@ describe('Dropdown component', () => {
         value={null}
         data={mockData}
         title={title}
-        more_menu
+        moreMenu
       />
     )
 
@@ -684,17 +682,17 @@ describe('Dropdown component', () => {
     ).toBeInTheDocument()
   })
 
-  it('has valid on_change callback', () => {
+  it('has valid onChange callback', () => {
     let selectedItem
-    const on_change = jest.fn()
-    const on_select = jest.fn()
+    const onChange = jest.fn()
+    const onSelect = jest.fn()
 
     render(
       <Dropdown
         {...props}
         data={mockData}
-        on_change={on_change}
-        on_select={on_select}
+        onChange={onChange}
+        onSelect={onSelect}
       />
     )
     // open first
@@ -704,21 +702,21 @@ describe('Dropdown component', () => {
     keydown(40) // down
 
     selectedItem = mockData[(props.value as number) + 1]
-    expect(on_select.mock.calls[0][0].data).toStrictEqual(selectedItem)
+    expect(onSelect.mock.calls[0][0].data).toStrictEqual(selectedItem)
 
     keydown(32) // space
 
     selectedItem = mockData[(props.value as number) + 1]
-    expect(on_change).toHaveBeenCalledTimes(1)
-    expect(on_select).toHaveBeenCalledTimes(2)
-    expect(on_change.mock.calls[0][0].data).toStrictEqual(selectedItem)
-    expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem)
-    expect(on_change).toHaveBeenCalledWith({
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onSelect).toHaveBeenCalledTimes(2)
+    expect(onChange.mock.calls[0][0].data).toStrictEqual(selectedItem)
+    expect(onSelect.mock.calls[1][0].data).toStrictEqual(selectedItem)
+    expect(onChange).toHaveBeenCalledWith({
       attributes: {},
       isTrusted: false,
       data: selectedItem,
       event: new KeyboardEvent('keydown', {}),
-      selected_item: (props.value as number) + 1,
+      selectedItem: (props.value as number) + 1,
       value: (props.value as number) + 1,
     })
 
@@ -730,20 +728,20 @@ describe('Dropdown component', () => {
     keydown(13) // enter
 
     selectedItem = mockData[(props.value as number) + 2]
-    expect(on_change.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
-    expect(on_select.mock.calls[3][0].data).toStrictEqual(selectedItem) // second call!
-    expect(on_change).toHaveBeenCalledTimes(2)
-    expect(on_select).toHaveBeenCalledTimes(4)
+    expect(onChange.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
+    expect(onSelect.mock.calls[3][0].data).toStrictEqual(selectedItem) // second call!
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onSelect).toHaveBeenCalledTimes(4)
   })
 
-  it('has valid on_change callback if object was given', () => {
-    const on_change = jest.fn()
+  it('has valid onChange callback if object was given', () => {
+    const onChange = jest.fn()
 
     render(
       <Dropdown
         {...props}
         data={{ 'en-GB': 'English', 'nb-NO': 'Norsk' }}
-        on_change={on_change}
+        onChange={onChange}
       />
     )
 
@@ -751,19 +749,18 @@ describe('Dropdown component', () => {
     keydown(40) // down
     keydown(32) // space
 
-    expect(on_change).toHaveBeenCalledWith({
+    expect(onChange).toHaveBeenCalledWith({
       attributes: {},
       isTrusted: false,
       data: {
         __id: 0,
         content: 'English',
         selectedKey: 'en-GB',
-        selected_key: 'en-GB',
         type: 'object',
         value: 'en-GB',
       },
       event: new KeyboardEvent('keydown', {}),
-      selected_item: 0,
+      selectedItem: 0,
       value: 'en-GB',
     })
 
@@ -771,22 +768,21 @@ describe('Dropdown component', () => {
     keydown(40) // down
     keydown(32) // space
 
-    expect(on_change).toHaveBeenLastCalledWith({
+    expect(onChange).toHaveBeenLastCalledWith({
       attributes: {},
       isTrusted: false,
       data: {
         content: 'Norsk',
         selectedKey: 'nb-NO',
-        selected_key: 'nb-NO',
         type: 'object',
         value: 'nb-NO',
       },
       event: new KeyboardEvent('keydown', {}),
-      selected_item: 1,
+      selectedItem: 1,
       value: 'nb-NO',
     })
 
-    expect(on_change).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenCalledTimes(2)
   })
 
   it('has correct "aria-expanded"', () => {
@@ -809,7 +805,7 @@ describe('Dropdown component', () => {
         .getAttribute('aria-expanded')
     ).toBe('true')
 
-    expect(elem.getAttribute('class')).toContain('dnb-dropdown--opened')
+    expect(elem.getAttribute('class')).toContain('dnb-dropdown--open')
   })
 
   it('has correct "role"', () => {
@@ -834,8 +830,8 @@ describe('Dropdown component', () => {
     ).toBe('listbox')
   })
 
-  it('has correct "aria-haspopup" when action_menu', () => {
-    render(<Dropdown {...props} data={mockData} action_menu />)
+  it('has correct "aria-haspopup" when actionMenu', () => {
+    render(<Dropdown {...props} data={mockData} actionMenu />)
 
     expect(
       document
@@ -845,8 +841,8 @@ describe('Dropdown component', () => {
     ).toBe('true')
   })
 
-  it('has correct "aria-haspopup" when more_menu', () => {
-    render(<Dropdown {...props} data={mockData} more_menu />)
+  it('has correct "aria-haspopup" when moreMenu', () => {
+    render(<Dropdown {...props} data={mockData} moreMenu />)
 
     expect(
       document
@@ -856,8 +852,8 @@ describe('Dropdown component', () => {
     ).toBe('true')
   })
 
-  it('has correct "aria-haspopup" when prevent_selection', () => {
-    render(<Dropdown {...props} data={mockData} prevent_selection />)
+  it('has correct "aria-haspopup" when preventSelection', () => {
+    render(<Dropdown {...props} data={mockData} preventSelection />)
 
     expect(
       document
@@ -868,13 +864,9 @@ describe('Dropdown component', () => {
   })
 
   it('has correct "role" in options', () => {
-    render(
-      <Dropdown skip_portal no_animation opened={true} data={mockData} />
-    )
+    render(<Dropdown skipPortal noAnimation open={true} data={mockData} />)
 
-    render(
-      <Dropdown skip_portal no_animation opened={true} data={mockData} />
-    )
+    render(<Dropdown skipPortal noAnimation open={true} data={mockData} />)
 
     expect(
       document
@@ -883,14 +875,14 @@ describe('Dropdown component', () => {
     ).toBe('listbox')
   })
 
-  it('has correct "role" in options when action_menu', () => {
+  it('has correct "role" in options when actionMenu', () => {
     render(
       <Dropdown
-        skip_portal
-        no_animation
-        opened={true}
+        skipPortal
+        noAnimation
+        open={true}
         data={mockData}
-        action_menu
+        actionMenu
       />
     )
 
@@ -901,14 +893,14 @@ describe('Dropdown component', () => {
     ).toBe('menu')
   })
 
-  it('has correct "role" in options when more_menu', () => {
+  it('has correct "role" in options when moreMenu', () => {
     render(
       <Dropdown
-        skip_portal
-        no_animation
-        opened={true}
+        skipPortal
+        noAnimation
+        open={true}
         data={mockData}
-        more_menu
+        moreMenu
       />
     )
 
@@ -919,14 +911,14 @@ describe('Dropdown component', () => {
     ).toBe('menu')
   })
 
-  it('has correct "role" in options when prevent_selection', () => {
+  it('has correct "role" in options when preventSelection', () => {
     render(
       <Dropdown
-        skip_portal
-        no_animation
-        opened={true}
+        skipPortal
+        noAnimation
+        open={true}
         data={mockData}
-        prevent_selection
+        preventSelection
       />
     )
 
@@ -963,14 +955,14 @@ describe('Dropdown component', () => {
   })
 
   it('has to return all additional attributes the event return', () => {
-    const on_show = jest.fn()
-    const on_hide = jest.fn()
+    const onOpen = jest.fn()
+    const onClose = jest.fn()
     const params = { 'data-attr': 'value' }
     render(
       <Dropdown
-        no_animation
-        on_show={on_show}
-        on_hide={on_hide}
+        noAnimation
+        onOpen={onOpen}
+        onClose={onClose}
         {...params}
         data={mockData}
       />
@@ -978,9 +970,9 @@ describe('Dropdown component', () => {
 
     open()
 
-    expect(on_show.mock.calls.length).toBe(1)
-    expect(on_show.mock.calls[0][0].attributes).toMatchObject(params)
-    expect(on_show).toHaveBeenCalledWith({
+    expect(onOpen.mock.calls.length).toBe(1)
+    expect(onOpen.mock.calls[0][0].attributes).toMatchObject(params)
+    expect(onOpen).toHaveBeenCalledWith({
       attributes: params,
       data: null,
       ulElement: null,
@@ -989,32 +981,32 @@ describe('Dropdown component', () => {
     // close
     dispatchKeyDown(27) // esc
 
-    expect(on_hide.mock.calls.length).toBe(1)
-    expect(on_hide.mock.calls[0][0].attributes).toMatchObject(params)
-    expect(on_hide).toHaveBeenCalledWith({
+    expect(onClose.mock.calls.length).toBe(1)
+    expect(onClose.mock.calls[0][0].attributes).toMatchObject(params)
+    expect(onClose).toHaveBeenCalledWith({
       isTrusted: false,
       attributes: params,
       data: null,
       event: new KeyboardEvent('keydown', {}),
     })
 
-    expect(on_show).toHaveBeenCalledTimes(1)
-    expect(on_hide).toHaveBeenCalledTimes(1)
+    expect(onOpen).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveBeenCalledTimes(1)
   })
 
   it('has to set correct focus during open and close', async () => {
-    const on_show = jest.fn()
-    const on_hide = jest.fn()
-    const on_show_focus = jest.fn()
-    const on_hide_focus = jest.fn()
+    const onOpen = jest.fn()
+    const onClose = jest.fn()
+    const onOpenFocus = jest.fn()
+    const onCloseFocus = jest.fn()
 
     render(
       <Dropdown
-        no_animation
-        on_show={on_show}
-        on_hide={on_hide}
-        on_show_focus={on_show_focus}
-        on_hide_focus={on_hide_focus}
+        noAnimation
+        onOpen={onOpen}
+        onClose={onClose}
+        onOpenFocus={onOpenFocus}
+        onCloseFocus={onCloseFocus}
         data={mockData}
       />
     )
@@ -1022,15 +1014,15 @@ describe('Dropdown component', () => {
     // 1. open the dropdown
     open()
 
-    expect(on_show).toHaveBeenCalledTimes(1)
-    expect(on_show).toHaveBeenCalledWith({
+    expect(onOpen).toHaveBeenCalledTimes(1)
+    expect(onOpen).toHaveBeenCalledWith({
       attributes: {},
       data: null,
       ulElement: null,
     })
 
-    expect(on_show_focus).toHaveBeenCalledTimes(1)
-    expect(on_show_focus.mock.calls[0][0].element).toBe(
+    expect(onOpenFocus).toHaveBeenCalledTimes(1)
+    expect(onOpenFocus.mock.calls[0][0].element).toBe(
       document.activeElement
     )
 
@@ -1040,29 +1032,29 @@ describe('Dropdown component', () => {
     // delay because we want to wait to have the DOM focus to be called
     await wait(1)
 
-    expect(on_hide).toHaveBeenCalledTimes(1)
-    expect(on_hide).toHaveBeenCalledWith({
+    expect(onClose).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveBeenCalledWith({
       attributes: {},
       isTrusted: false,
       event: new KeyboardEvent('keydown', {}),
       data: null,
     })
-    expect(on_hide_focus).toHaveBeenCalledTimes(1)
-    expect(on_hide_focus.mock.calls[0][0].element).toBe(
+    expect(onCloseFocus).toHaveBeenCalledTimes(1)
+    expect(onCloseFocus.mock.calls[0][0].element).toBe(
       document.querySelector('.dnb-button')
     )
   })
 
-  it('will prevent close if false gets returned from on_hide event', () => {
+  it('will prevent close if false gets returned from onClose event', () => {
     let preventClose = false
-    const on_hide = jest.fn(() => !preventClose)
-    render(<Dropdown no_animation on_hide={on_hide} data={mockData} />)
+    const onClose = jest.fn(() => !preventClose)
+    render(<Dropdown noAnimation onClose={onClose} data={mockData} />)
 
     // first open
     open()
 
     expect(document.querySelector('.dnb-dropdown').classList).toContain(
-      'dnb-dropdown--opened'
+      'dnb-dropdown--open'
     )
 
     act(() => {
@@ -1070,17 +1062,17 @@ describe('Dropdown component', () => {
       dispatchKeyDown(27) // esc
     })
 
-    expect(on_hide.mock.calls.length).toBe(1)
+    expect(onClose.mock.calls.length).toBe(1)
 
     expect(
       document.querySelector('.dnb-dropdown').classList
-    ).not.toContain('dnb-dropdown--opened')
+    ).not.toContain('dnb-dropdown--open')
 
     // reopen
     open()
 
     expect(document.querySelector('.dnb-dropdown').classList).toContain(
-      'dnb-dropdown--opened'
+      'dnb-dropdown--open'
     )
 
     preventClose = true
@@ -1090,18 +1082,18 @@ describe('Dropdown component', () => {
       dispatchKeyDown(27) // esc
     })
 
-    expect(on_hide.mock.calls.length).toBe(2)
+    expect(onClose.mock.calls.length).toBe(2)
 
     // we are still open
     expect(document.querySelector('.dnb-dropdown').classList).toContain(
-      'dnb-dropdown--opened'
+      'dnb-dropdown--open'
     )
   })
 
   it('keeps dialog open when Escape is pressed inside the dropdown', async () => {
     render(
-      <Dialog noAnimation openState title="Dialog">
-        <Dropdown data={mockData} skip_portal no_animation opened />
+      <Dialog noAnimation open title="Dialog">
+        <Dropdown data={mockData} skipPortal noAnimation open />
       </Dialog>
     )
 
@@ -1126,14 +1118,14 @@ describe('Dropdown component', () => {
 
   it('will not set focus on options when key down/up is pressed on first or last item', async () => {
     const { rerender } = render(
-      <Dropdown id="key-nav" no_animation data={mockData} />
+      <Dropdown id="key-nav" noAnimation data={mockData} />
     )
 
     // first open
     keydown(40) // down
 
     expect(document.querySelector('.dnb-dropdown').classList).toContain(
-      'dnb-dropdown--opened'
+      'dnb-dropdown--open'
     )
 
     expect(document.activeElement.classList).toContain(
@@ -1182,12 +1174,7 @@ describe('Dropdown component', () => {
     ).toContain('dnb-drawer-list__option--focus')
 
     rerender(
-      <Dropdown
-        id="key-nav"
-        no_animation
-        data={mockData}
-        direction="top"
-      />
+      <Dropdown id="key-nav" noAnimation data={mockData} direction="top" />
     )
 
     expect(
@@ -1226,7 +1213,7 @@ describe('Dropdown component', () => {
   it('will change the selected value when StrictMode is enabled', () => {
     render(
       <React.StrictMode>
-        <Dropdown no_animation data={mockData} value={props.value} />
+        <Dropdown noAnimation data={mockData} value={props.value} />
       </React.StrictMode>
     )
 
@@ -1241,7 +1228,7 @@ describe('Dropdown component', () => {
       document.querySelector('.dnb-dropdown__text__inner').textContent
     ).toBe(
       (mockData[(props.value as number) + 1] as DrawerListDataArrayObject)
-        .selected_value
+        .selectedValue
     )
   })
 
@@ -1250,7 +1237,7 @@ describe('Dropdown component', () => {
     expect(
       document.querySelector('.dnb-dropdown__text__inner').textContent
     ).toBe(
-      (mockData[props.value] as DrawerListDataArrayObject).selected_value
+      (mockData[props.value] as DrawerListDataArrayObject).selectedValue
     )
   })
 
@@ -1264,7 +1251,7 @@ describe('Dropdown component', () => {
     expect(
       document.querySelector('.dnb-dropdown__text__inner').textContent
     ).toBe(
-      (mockData[props.value] as DrawerListDataArrayObject).selected_value
+      (mockData[props.value] as DrawerListDataArrayObject).selectedValue
     )
   })
 
@@ -1284,9 +1271,7 @@ describe('Dropdown component', () => {
 
     expect(
       document.querySelector('.dnb-dropdown__text__inner').textContent
-    ).toBe(
-      (mockData[newValue] as DrawerListDataArrayObject).selected_value
-    )
+    ).toBe((mockData[newValue] as DrawerListDataArrayObject).selectedValue)
 
     open()
 
@@ -1307,7 +1292,7 @@ describe('Dropdown component', () => {
     ).toBe(title)
   })
 
-  it('should support title as `React.Node`', () => {
+  it('should support title as `React.ReactNode`', () => {
     const TitleAsChildren = ({ children }) => {
       return <span id="title-as-children">{children}</span>
     }
@@ -1349,7 +1334,7 @@ describe('Dropdown component', () => {
       document.querySelector('.dnb-dropdown__trigger')
     ).toHaveAttribute(
       'title',
-      (mockData[props.value] as DrawerListDataArrayObject).selected_value
+      (mockData[props.value] as DrawerListDataArrayObject).selectedValue
     )
   })
 
@@ -1363,7 +1348,7 @@ describe('Dropdown component', () => {
       document.querySelector('.dnb-dropdown__trigger')
     ).toHaveAttribute(
       'title',
-      (mockData[props.value] as DrawerListDataArrayObject).selected_value
+      (mockData[props.value] as DrawerListDataArrayObject).selectedValue
     )
   })
 
@@ -1385,7 +1370,7 @@ describe('Dropdown component', () => {
       document.querySelector('.dnb-dropdown__trigger')
     ).toHaveAttribute(
       'title',
-      (mockData[newValue] as DrawerListDataArrayObject).selected_value
+      (mockData[newValue] as DrawerListDataArrayObject).selectedValue
     )
 
     open()
@@ -1399,14 +1384,14 @@ describe('Dropdown component', () => {
     )
   })
 
-  it('supports Icon as selected_value', () => {
+  it('supports Icon as selectedValue', () => {
     render(
       <Dropdown
         {...props}
         data={[
           {
-            selected_key: 'banking',
-            selected_value: <Icon icon={bank} />,
+            selectedKey: 'banking',
+            selectedValue: <Icon icon={bank} />,
             content: <Icon icon={bank} />,
           },
         ]}
@@ -1418,14 +1403,14 @@ describe('Dropdown component', () => {
     ).toBe('bank icon')
   })
 
-  it('supports CountryFlag as selected_value', () => {
+  it('supports CountryFlag as selectedValue', () => {
     render(
       <Dropdown
         {...props}
         data={[
           {
-            selected_key: 'norway',
-            selected_value: <CountryFlag iso="NO" />,
+            selectedKey: 'norway',
+            selectedValue: <CountryFlag iso="NO" />,
             content: <CountryFlag iso="NO" />,
           },
         ]}
@@ -1445,14 +1430,14 @@ describe('Dropdown component', () => {
     ).toHaveAttribute('title', title)
   })
 
-  it('has correct title when passing a react fragment as selected_value', () => {
+  it('has correct title when passing a react fragment as selectedValue', () => {
     render(
       <Dropdown
         {...props}
         data={[
           {
-            selected_key: 'test',
-            selected_value: <>my value</>,
+            selectedKey: 'test',
+            selectedValue: <>my value</>,
             content: 'test',
           },
         ]}
@@ -1464,14 +1449,14 @@ describe('Dropdown component', () => {
     ).toHaveAttribute('title', 'my value')
   })
 
-  it('has correct title when passing a react fragment with an Icon as selected_value', () => {
+  it('has correct title when passing a react fragment with an Icon as selectedValue', () => {
     render(
       <Dropdown
         {...props}
         data={[
           {
-            selected_key: 'test',
-            selected_value: (
+            selectedKey: 'test',
+            selectedValue: (
               <>
                 <Icon icon={bank} />
                 Banking
@@ -1488,14 +1473,14 @@ describe('Dropdown component', () => {
     ).toHaveAttribute('title', 'Banking')
   })
 
-  it('has no title when passing an Icon as selected_value', () => {
+  it('has no title when passing an Icon as selectedValue', () => {
     render(
       <Dropdown
         {...props}
         data={[
           {
-            selected_key: 'test',
-            selected_value: <Icon icon={bank} />,
+            selectedKey: 'test',
+            selectedValue: <Icon icon={bank} />,
             content: 'test',
           },
         ]}
@@ -1507,14 +1492,14 @@ describe('Dropdown component', () => {
     ).not.toHaveAttribute('title')
   })
 
-  it('has correct title when passing a NumberFormat as selected_value', () => {
+  it('has correct title when passing a NumberFormat as selectedValue', () => {
     render(
       <Dropdown
         {...props}
         data={[
           {
-            selected_key: 'test',
-            selected_value: <NumberFormat>11345678962</NumberFormat>,
+            selectedKey: 'test',
+            selectedValue: <NumberFormat>11345678962</NumberFormat>,
             content: 'test',
           },
         ]}
@@ -1535,7 +1520,7 @@ describe('Dropdown component', () => {
   })
 
   it('should support empty data entry', () => {
-    render(<Dropdown skip_portal no_animation data={['']} />)
+    render(<Dropdown skipPortal noAnimation data={['']} />)
 
     expect(
       document.querySelector('button').getAttribute('aria-expanded')
@@ -1588,7 +1573,7 @@ describe('Dropdown component', () => {
 
   it('has correct trigger button aria attributes', () => {
     render(
-      <Dropdown data={mockData} {...mockProps} opened id="dropdown-id" />
+      <Dropdown data={mockData} {...mockProps} open id="dropdown-id" />
     )
 
     const elem = document.querySelector('.dnb-dropdown__trigger')
@@ -1720,21 +1705,21 @@ describe('Dropdown component', () => {
     const trigger = document.querySelector('.dnb-dropdown__trigger')
     const suffix = document.querySelector('.dnb-dropdown__suffix')
 
-    expect(dropdown).not.toHaveClass('dnb-dropdown--opened')
+    expect(dropdown).not.toHaveClass('dnb-dropdown--open')
     expect(trigger).toHaveAttribute('aria-expanded', 'false')
 
     await userEvent.click(trigger)
 
-    expect(dropdown).toHaveClass('dnb-dropdown--opened')
+    expect(dropdown).toHaveClass('dnb-dropdown--open')
     expect(trigger).toHaveAttribute('aria-expanded', 'true')
 
     await userEvent.click(suffix)
 
-    expect(dropdown).not.toHaveClass('dnb-dropdown--opened')
+    expect(dropdown).not.toHaveClass('dnb-dropdown--open')
     expect(trigger).not.toHaveAttribute('aria-expanded', 'true')
   })
 
-  it('should set icon_position to right as default', () => {
+  it('should set iconPosition to right as default', () => {
     render(<Dropdown />)
 
     expect(
@@ -1742,23 +1727,23 @@ describe('Dropdown component', () => {
     ).toBeInTheDocument()
   })
 
-  it('should set icon_position to left', () => {
-    render(<Dropdown icon_position="left" />)
+  it('should set iconPosition to left', () => {
+    render(<Dropdown iconPosition="left" />)
 
     expect(
       document.querySelector('.dnb-dropdown--icon-position-left')
     ).toBeInTheDocument()
   })
 
-  it('should set icon_position to right', () => {
-    render(<Dropdown icon_position="right" />)
+  it('should set iconPosition to right', () => {
+    render(<Dropdown iconPosition="right" />)
 
     expect(
       document.querySelector('.dnb-dropdown--icon-position-right')
     ).toBeInTheDocument()
   })
 
-  it('should set align_dropdown to right as default', () => {
+  it('should set align to right as default', () => {
     render(<Dropdown />)
 
     expect(
@@ -1766,40 +1751,40 @@ describe('Dropdown component', () => {
     ).toBeInTheDocument()
   })
 
-  it('should set align_dropdown to right', () => {
-    render(<Dropdown align_dropdown="right" />)
+  it('should set align to right', () => {
+    render(<Dropdown align="right" />)
 
     expect(
       document.querySelector('.dnb-drawer-list--right')
     ).toBeInTheDocument()
   })
 
-  it('should set align_dropdown to left', () => {
-    render(<Dropdown align_dropdown="left" />)
+  it('should set align to left', () => {
+    render(<Dropdown align="left" />)
 
     expect(
       document.querySelector('.dnb-drawer-list--left')
     ).toBeInTheDocument()
   })
 
-  it('should set align_dropdown to right as default when independent_width', () => {
-    render(<Dropdown independent_width />)
+  it('should set align to right as default when independentWidth', () => {
+    render(<Dropdown independentWidth />)
 
     expect(
       document.querySelector('.dnb-drawer-list--right')
     ).toBeInTheDocument()
   })
 
-  it('should set align_dropdown to right when independent_width', () => {
-    render(<Dropdown independent_width align_dropdown="right" />)
+  it('should set align to right when independentWidth', () => {
+    render(<Dropdown independentWidth align="right" />)
 
     expect(
       document.querySelector('.dnb-drawer-list--right')
     ).toBeInTheDocument()
   })
 
-  it('should set align_dropdown to left when independent_width', () => {
-    render(<Dropdown independent_width align_dropdown="left" />)
+  it('should set align to left when independentWidth', () => {
+    render(<Dropdown independentWidth align="left" />)
 
     expect(
       document.querySelector('.dnb-drawer-list--left')
@@ -1828,11 +1813,7 @@ describe('Dropdown component', () => {
 
     it('renders groups', async () => {
       render(
-        <Dropdown
-          no_animation={true}
-          data={dataProp}
-          groups={groupsProp}
-        />
+        <Dropdown noAnimation={true} data={dataProp} groups={groupsProp} />
       )
 
       const trigger = document.querySelector('.dnb-dropdown__trigger')
@@ -1885,7 +1866,7 @@ describe('Dropdown component', () => {
     it('uses default title for groups missing title', async () => {
       render(
         <Dropdown
-          no_animation={true}
+          noAnimation={true}
           data={dataProp}
           groups={[undefined, undefined, 'Third']}
         />
@@ -1921,7 +1902,7 @@ describe('Dropdown component', () => {
     it('adds group for items without group index', async () => {
       render(
         <Dropdown
-          no_animation={true}
+          noAnimation={true}
           data={[...dataProp, { content: 'Item without groupIndex' }]}
           groups={groupsProp}
         />
@@ -1951,7 +1932,7 @@ describe('Dropdown component', () => {
     it('keyboard navigation', async () => {
       const { rerender } = render(
         <Dropdown
-          no_animation
+          noAnimation
           data={dataProp}
           groups={groupsProp}
           direction="bottom"
@@ -1963,7 +1944,7 @@ describe('Dropdown component', () => {
       await wait(1)
 
       expect(document.querySelector('.dnb-dropdown').classList).toContain(
-        'dnb-dropdown--opened'
+        'dnb-dropdown--open'
       )
       expect(
         document.querySelector('.dnb-drawer-list').classList
@@ -2026,7 +2007,7 @@ describe('Dropdown component', () => {
 
       rerender(
         <Dropdown
-          no_animation
+          noAnimation
           data={dataProp}
           groups={groupsProp}
           direction="top"
@@ -2117,11 +2098,11 @@ describe('Dropdown markup', () => {
       label: 'label',
       id: 'dropdown-id',
       status: 'status',
-      status_state: 'error',
+      statusState: 'error',
       value: 2,
-      opened: true,
-      skip_portal: true,
-      no_animation: true,
+      open: true,
+      skipPortal: true,
+      noAnimation: true,
       variant: 'secondary',
     }
 

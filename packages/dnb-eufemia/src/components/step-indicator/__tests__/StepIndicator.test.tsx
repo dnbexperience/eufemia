@@ -16,9 +16,7 @@ import StepIndicator, {
   StepIndicatorData,
   StepIndicatorProps,
 } from '../StepIndicator'
-import Provider from '../../../shared/Provider'
 import MatchMediaMock from 'jest-matchmedia-mock'
-import { StepIndicatorSidebarProps } from '../StepIndicatorSidebar'
 
 const matchMedia = new MatchMediaMock()
 
@@ -46,103 +44,10 @@ const stepIndicatorListData: StepIndicatorData = [
   },
 ]
 
-describe('StepIndicator Sidebar', () => {
-  it('renders with empty props', () => {
-    const props = { sidebar_id: 'id' } as StepIndicatorSidebarProps
-    render(
-      <Provider StepIndicator={{ data: ['one', 'two', 'three'] }}>
-        <StepIndicator.Sidebar {...props} />
-      </Provider>
-    )
-
-    expect(
-      document.querySelector('.dnb-step-indicator__sidebar')
-    ).toBeInTheDocument()
-  })
-
-  // it('has to inherit Provider data for initial SSR render', () => {
-  //   render(
-  //     <Provider StepIndicator={{ data: ['one', 'two', 'three'] }}>
-  //       <StepIndicator.Sidebar
-  //         sidebar_id="unique-id-initial"
-  //         showInitialData
-  //       />
-  //     </Provider>
-  //   )
-
-  //   expect(screen.queryAllByRole('listitem')).toHaveLength(3)
-  // })
-
-  // it('has to use data prop for initial SSR render', () => {
-  //   render(
-  //     <StepIndicator.Sidebar
-  //       sidebar_id="unique-id-initial"
-  //       data={['one', 'two', 'three']}
-  //       showInitialData
-  //     />
-  //   )
-  //   expect(screen.queryAllByRole('listitem')).toHaveLength(3)
-  // })
-
-  // it('has to remove data from Sidebar when mounted', () => {
-  //   render(
-  //     <StepIndicator.Sidebar
-  //       sidebar_id="unique-id-initial"
-  //       data={['one', 'two', 'three']}
-  //     />
-  //   )
-  //   expect(screen.queryAllByRole('listitem')).toHaveLength(0)
-  // })
-
-  // it('has to show skeleton when no data is given to Sidebar', () => {
-  //   render(
-  //     <StepIndicator.Sidebar
-  //       sidebar_id="unique-id-initial"
-  //       showInitialData
-  //     />
-  //   )
-  //   expect(screen.queryAllByRole('listitem')).toHaveLength(1)
-
-  //   const element = document.querySelector('.dnb-button__text')
-
-  //   expect(Array.from(element.classList)).toEqual(
-  //     expect.arrayContaining(['dnb-skeleton--show-font'])
-  //   )
-  // })
-
-  // it('should support spacing props', () => {
-  //   render(
-  //     <StepIndicator.Sidebar
-  //       sidebar_id="unique-id-initial"
-  //       data={['one', 'two', 'three']}
-  //       showInitialData
-  //       top="large"
-  //     />
-  //   )
-
-  //   const element = document.querySelector('.dnb-step-indicator__sidebar')
-
-  //   expect(Array.from(element.classList)).toEqual(
-  //     expect.arrayContaining([
-  //       'dnb-step-indicator__sidebar',
-  //       'dnb-space__top--large',
-  //     ])
-  //   )
-  // })
-})
-
 describe('StepIndicator in general', () => {
   it('renders with empty props', () => {
-    const sidebar_id = 'unique-id-spacing'
-
-    const sidebarProps = { sidebar_id } as StepIndicatorSidebarProps
-    const stepIndicatorProps = { sidebar_id } as StepIndicatorProps
-    render(
-      <>
-        <StepIndicator.Sidebar {...sidebarProps} />
-        <StepIndicator {...stepIndicatorProps} />
-      </>
-    )
+    const stepIndicatorProps = {} as StepIndicatorProps
+    render(<StepIndicator {...stepIndicatorProps} />)
 
     expect(
       document.querySelector('.dnb-step-indicator-wrapper')
@@ -150,15 +55,12 @@ describe('StepIndicator in general', () => {
   })
 
   it('should support spacing props', () => {
-    const id = 'unique-id-spacing'
     render(
       <>
-        <StepIndicator.Sidebar sidebar_id={id} />
         <StepIndicator
           top="large"
-          current_step={1}
+          currentStep={1}
           mode="loose"
-          sidebar_id={id}
           data={stepIndicatorListData}
         />
       </>
@@ -174,10 +76,9 @@ describe('StepIndicator in general', () => {
   it('should support spacing props with no sidebar', () => {
     render(
       <StepIndicator
-        sidebar_id="unique-id-no-sidebar"
         top="large"
         mode="static"
-        current_step={1}
+        currentStep={1}
         data={stepIndicatorListData}
       />
     )
@@ -189,37 +90,13 @@ describe('StepIndicator in general', () => {
     )
   })
 
-  // eslint-disable-next-line jest/no-commented-out-tests, multiline-comment-style
-  /* 
-  it('should not add spacing props to dnb-step-indicator with no sidebar', async () => {
-    render(
-      <StepIndicator
-        sidebar_id="unique-id-no-sidebar"
-        top="large"
-        mode="static"
-        current_step={1}
-        data={stepIndicatorListData}
-      />
-    )
-    act(() => {
-      document.querySelector('button').click()
-    })
-
-    const element = document.querySelector('.dnb-step-indicator')
-
-    expect(Array.from(element.classList)).toEqual(['dnb-step-indicator'])
-  })
-  */
-
   it('should support aria-labelledby', () => {
     render(
       <>
-        <StepIndicator.Sidebar sidebar_id="unique-id-aria-labelledby" />
         <StepIndicator
           top="large"
-          current_step={1}
+          currentStep={1}
           mode="loose"
-          sidebar_id="unique-id-aria-labelledby"
           data={stepIndicatorListData}
           aria-labelledby="element"
         />
@@ -234,10 +111,9 @@ describe('StepIndicator in general', () => {
   it('should support aria-labelledby with no sidebar', () => {
     render(
       <StepIndicator
-        sidebar_id="unique-id-aria-labelledby-no-sidebar"
         top="large"
         mode="static"
-        current_step={1}
+        currentStep={1}
         data={stepIndicatorListData}
         aria-labelledby="element"
       />
@@ -306,7 +182,7 @@ describe('StepIndicator redesign', () => {
         <StepIndicator
           mode="loose"
           data={stepIndicatorListData}
-          hide_numbers
+          hideNumbers
           expandedInitially
         />
       </>
@@ -350,43 +226,33 @@ describe('StepIndicator redesign', () => {
 })
 
 describe('StepIndicator in loose mode', () => {
-  const renderComponent = (id, props = null) => {
+  const renderComponent = (props = null) => {
     return render(
-      <>
-        <StepIndicator.Sidebar sidebar_id={id} />
-        <StepIndicator
-          current_step={1}
-          mode="loose"
-          sidebar_id={id}
-          data={stepIndicatorListData}
-          expandedInitially
-          {...props}
-        />
-      </>
+      <StepIndicator
+        currentStep={1}
+        mode="loose"
+        data={stepIndicatorListData}
+        expandedInitially
+        {...props}
+      />
     )
   }
 
   it('has trigger button when mobile', () => {
     simulateSmallScreen()
 
-    renderComponent('unique-id-loose-mobile', { expandedInitially: false })
+    renderComponent({ expandedInitially: false })
     expect(screen.queryByRole('button')).toBeInTheDocument()
   })
 
   it('should keep the current step on re-render', () => {
-    const id = 'unique-id-loose-mobile'
-
     const { rerender } = render(
-      <>
-        <StepIndicator.Sidebar sidebar_id={id} />
-        <StepIndicator
-          current_step={1}
-          mode="loose"
-          sidebar_id={id}
-          data={stepIndicatorListData}
-          expandedInitially
-        />
-      </>
+      <StepIndicator
+        currentStep={1}
+        mode="loose"
+        data={stepIndicatorListData}
+        expandedInitially
+      />
     )
 
     expect(
@@ -400,15 +266,11 @@ describe('StepIndicator in loose mode', () => {
     simulateSmallScreen()
 
     rerender(
-      <>
-        <StepIndicator.Sidebar sidebar_id={id} />
-        <StepIndicator
-          current_step={1}
-          mode="loose"
-          sidebar_id={id}
-          data={stepIndicatorListData}
-        />
-      </>
+      <StepIndicator
+        currentStep={1}
+        mode="loose"
+        data={stepIndicatorListData}
+      />
     )
     expect(
       document.querySelector('.dnb-step-indicator__trigger').textContent
@@ -416,7 +278,7 @@ describe('StepIndicator in loose mode', () => {
   })
 
   it('has correct states on steps', () => {
-    renderComponent('unique-id-loose-states')
+    renderComponent()
     const items = document.querySelectorAll('li.dnb-step-indicator__item')
 
     expect(items.length).toBe(4)
@@ -431,9 +293,9 @@ describe('StepIndicator in loose mode', () => {
   })
 
   it('has correct state after change', () => {
-    const on_change = jest.fn()
-    renderComponent('unique-id-loose-simulate', {
-      on_change,
+    const onChange = jest.fn()
+    renderComponent({
+      onChange,
     })
     const items = document.querySelectorAll('li.dnb-step-indicator__item')
 
@@ -447,9 +309,9 @@ describe('StepIndicator in loose mode', () => {
 
     fireEvent.click(items[0].querySelector('button'))
 
-    expect(on_change).toHaveBeenCalledTimes(1)
-    expect(on_change.mock.calls[0][0].currentStep).toBe(0)
-    expect(typeof on_change.mock.calls[0][0].event.preventDefault).toBe(
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange.mock.calls[0][0].currentStep).toBe(0)
+    expect(typeof onChange.mock.calls[0][0].event.preventDefault).toBe(
       'function'
     )
 
@@ -462,8 +324,8 @@ describe('StepIndicator in loose mode', () => {
   })
 
   it('should have only one "current" at a time', () => {
-    renderComponent('unique-id-sidebar', {
-      current_step: null,
+    renderComponent({
+      currentStep: null,
       data: [
         {
           title: 'Step A',
@@ -473,7 +335,7 @@ describe('StepIndicator in loose mode', () => {
         },
         {
           title: 'Step C',
-          is_current: true,
+          isCurrent: true,
         },
       ],
     })
@@ -506,19 +368,9 @@ describe('StepIndicator in loose mode', () => {
     ).toBeInTheDocument()
   })
 
-  it('should react on is_current data prop change', () => {
+  it('should react on isCurrent data prop change', () => {
     const TestComp = (props) => {
-      return (
-        <>
-          <StepIndicator.Sidebar sidebar_id="unique-id-loose-simulate" />
-          <StepIndicator
-            mode="loose"
-            sidebar_id="unique-id-loose-simulate"
-            expandedInitially
-            {...props}
-          />
-        </>
-      )
+      return <StepIndicator mode="loose" expandedInitially {...props} />
     }
 
     const data1 = [
@@ -530,7 +382,7 @@ describe('StepIndicator in loose mode', () => {
       },
       {
         title: 'Step C',
-        is_current: true,
+        isCurrent: true,
       },
     ]
 
@@ -547,7 +399,7 @@ describe('StepIndicator in loose mode', () => {
       },
       {
         title: 'Step B',
-        is_current: true,
+        isCurrent: true,
       },
       {
         title: 'Step C',
@@ -562,26 +414,22 @@ describe('StepIndicator in loose mode', () => {
     ).toContain('2.Step BSteg 2 av 3')
   })
 
-  it('should react on current_step prop change', () => {
-    const TestComp = ({ id, ...props }) => {
+  it('should react on currentStep prop change', () => {
+    const TestComp = ({ ...props }) => {
       return (
-        <>
-          <StepIndicator.Sidebar sidebar_id={id} />
-          <StepIndicator
-            current_step={1}
-            mode="loose"
-            sidebar_id={id}
-            data={stepIndicatorListData}
-            expandedInitially
-            {...props}
-          />
-        </>
+        <StepIndicator
+          currentStep={1}
+          mode="loose"
+          data={stepIndicatorListData}
+          expandedInitially
+          {...props}
+        />
       )
     }
 
-    const { rerender } = render(<TestComp id="unique-id-loose-simulate" />)
+    const { rerender } = render(<TestComp />)
 
-    rerender(<TestComp id="unique-id-loose-simulate" current_step={2} />)
+    rerender(<TestComp currentStep={2} />)
 
     expect(
       document.querySelector('li.dnb-step-indicator__item--current')
@@ -592,9 +440,8 @@ describe('StepIndicator in loose mode', () => {
   it('should render button when no Sidebar was found', () => {
     const { rerender } = render(
       <StepIndicator
-        current_step={1}
+        currentStep={1}
         mode="loose"
-        sidebar_id="unique-id-loose-simulate"
         data={stepIndicatorListData}
       />
     )
@@ -611,9 +458,8 @@ describe('StepIndicator in loose mode', () => {
 
     rerender(
       <StepIndicator
-        current_step={1}
+        currentStep={1}
         mode="loose"
-        sidebar_id="unique-id-loose-simulate"
         data={stepIndicatorListData}
       />
     )
@@ -626,9 +472,9 @@ describe('StepIndicator in loose mode', () => {
     ).toContain('Step B')
   })
 
-  it('should have no current if current_step is not given', () => {
-    renderComponent('unique-id-loose-simulate', {
-      current_step: null,
+  it('should have no current if currentStep is not given', () => {
+    renderComponent({
+      currentStep: null,
     })
 
     expect(
@@ -637,39 +483,35 @@ describe('StepIndicator in loose mode', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const Comp = renderComponent('unique-id-loose-aria')
+    const Comp = renderComponent()
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
 
 describe('StepIndicator in strict mode', () => {
-  const renderComponent = (id, props = null) => {
+  const renderComponent = (props = null) => {
     return render(
-      <>
-        <StepIndicator.Sidebar sidebar_id={id} />
-        <StepIndicator
-          current_step={1}
-          mode="strict"
-          sidebar_id={id}
-          data={stepIndicatorListData}
-          expandedInitially
-          {...props}
-        />
-      </>
+      <StepIndicator
+        currentStep={1}
+        mode="strict"
+        data={stepIndicatorListData}
+        expandedInitially
+        {...props}
+      />
     )
   }
 
   it('has trigger button when mobile', () => {
     simulateSmallScreen()
 
-    renderComponent('unique-id-strict-mobile', {
+    renderComponent({
       expandedInitially: false,
     })
     expect(screen.queryByRole('button')).toBeInTheDocument()
   })
 
   it('has correct states on steps', () => {
-    renderComponent('unique-id-strict-states')
+    renderComponent()
     const items = document.querySelectorAll('li.dnb-step-indicator__item')
 
     expect(items.length).toBe(4)
@@ -685,9 +527,9 @@ describe('StepIndicator in strict mode', () => {
   })
 
   it('has correct state after change', () => {
-    const on_change = jest.fn()
-    renderComponent('unique-id-strict-simulate', {
-      on_change,
+    const onChange = jest.fn()
+    renderComponent({
+      onChange,
     })
     const items = document.querySelectorAll('li.dnb-step-indicator__item')
 
@@ -707,7 +549,7 @@ describe('StepIndicator in strict mode', () => {
         .click()
     })
 
-    expect(on_change).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
     expect(items[0].classList).toContain(
       'dnb-step-indicator__item--current'
     )
@@ -719,30 +561,26 @@ describe('StepIndicator in strict mode', () => {
 })
 
 describe('StepIndicator in static mode', () => {
-  const renderComponent = (id, props = null) => {
+  const renderComponent = (props = null) => {
     return render(
-      <>
-        <StepIndicator.Sidebar sidebar_id={id} />
-        <StepIndicator
-          current_step={1}
-          mode="static"
-          sidebar_id={id}
-          data={stepIndicatorListData}
-          expandedInitially
-          {...props}
-        />
-      </>
+      <StepIndicator
+        currentStep={1}
+        mode="static"
+        data={stepIndicatorListData}
+        expandedInitially
+        {...props}
+      />
     )
   }
   it('has trigger button when mobile', () => {
     simulateSmallScreen()
 
-    renderComponent('unique-id-static-mobile')
+    renderComponent()
     expect(screen.queryByRole('button')).toBeInTheDocument()
   })
 
   it('has correct states on steps', () => {
-    renderComponent('unique-id-static-states')
+    renderComponent()
 
     const items = document.querySelectorAll('li.dnb-step-indicator__item')
 
@@ -758,7 +596,7 @@ describe('StepIndicator in static mode', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const Comp = renderComponent('unique-id-static-aria')
+    const Comp = renderComponent()
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
@@ -766,15 +604,11 @@ describe('StepIndicator in static mode', () => {
 describe('StepIndicator ARIA', () => {
   it('should validate with ARIA rules', async () => {
     const Comp = render(
-      <>
-        <StepIndicator.Sidebar sidebar_id="unique-id-strict-aria" />
-        <StepIndicator
-          current_step={1}
-          mode="loose"
-          sidebar_id="unique-id-strict-aria"
-          data={stepIndicatorListData}
-        />
-      </>
+      <StepIndicator
+        currentStep={1}
+        mode="loose"
+        data={stepIndicatorListData}
+      />
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
@@ -784,7 +618,7 @@ describe('StepIndicator ARIA', () => {
       <StepIndicator
         mode="loose"
         data={stepIndicatorListData}
-        overview_title="Custom Overview Title"
+        overviewTitle="Custom Overview Title"
       />
     )
 
@@ -801,7 +635,7 @@ describe('StepIndicator ARIA', () => {
     expect(triggerDiv).toBeInTheDocument()
   })
 
-  it('should have default aria-label when overview_title is not provided', () => {
+  it('should have default aria-label when overviewTitle is not provided', () => {
     render(<StepIndicator mode="loose" data={stepIndicatorListData} />)
 
     // The aria-label is on the section element that contains the trigger

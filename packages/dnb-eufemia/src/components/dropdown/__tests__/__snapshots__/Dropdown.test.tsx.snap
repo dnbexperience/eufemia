@@ -556,12 +556,6 @@ html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-w
   cursor: not-allowed;
   outline: none;
 }
-.dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
-  align-self: flex-start;
-}
-.dnb-form-row--horizontal .dnb-form-row__content .dnb-button__text {
-  white-space: nowrap;
-}
 .dnb-button + .dnb-form-status {
   margin-top: 0.5rem;
 }
@@ -777,33 +771,33 @@ button .dnb-form-status__text {
   white-space: nowrap;
   text-overflow: inherit;
 }
-.dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
+.dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger {
   --border-color: var(--dropdown-foreground-color-error);
   --border-width: 0.0625rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover[disabled] {
+html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:hover[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
+html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:hover:not([disabled]) {
   color: var(--dropdown-foreground-color-error);
   --border-color: var(--dropdown-foreground-color-error);
   --border-width: var(--dropdown-error-border-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
+html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
   color: var(--dropdown-foreground-color-error);
 }
-.dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:active[disabled], html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:active[disabled] {
+.dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:active[disabled], html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:active[disabled] {
   cursor: not-allowed;
 }
-.dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:active:not([disabled]) {
+.dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:active:not([disabled]) {
   color: var(--dropdown-foreground-color-error);
   background-color: var(--dropdown-background-color-error-active);
 }
-.dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger, .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__icon {
+.dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger, .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__icon {
   color: var(--dropdown-foreground-color-error);
 }
 .dnb-dropdown > .dnb-form-status {
@@ -939,9 +933,6 @@ html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown
 .dnb-dropdown--vertical.dnb-dropdown--stretch .dnb-dropdown__inner {
   width: 100%;
 }
-.dnb-form-row--horizontal .dnb-dropdown--stretch {
-  width: 100%;
-}
 label + .dnb-dropdown[class*=__form-status] {
   vertical-align: top;
 }
@@ -978,10 +969,10 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
   }
 }
 
-.dnb-drawer-list--triangle-position-left .dnb-dropdown__list--tertiary .dnb-drawer-list__triangle {
+.dnb-drawer-list--arrow-position-left .dnb-dropdown__list--tertiary .dnb-drawer-list__arrow {
   margin-left: 0.5rem;
 }
-.dnb-drawer-list--triangle-position-right .dnb-dropdown__list--tertiary .dnb-drawer-list__triangle {
+.dnb-drawer-list--arrow-position-right .dnb-dropdown__list--tertiary .dnb-drawer-list__arrow {
   margin-right: 0.5rem;
 }"
 `;

@@ -167,7 +167,7 @@ export const AsyncChangeAndValidation = () => {
                     text="Stop async operations"
                     variant="tertiary"
                     icon={stopIcon}
-                    icon_position="left"
+                    iconPosition="left"
                     disabled={false}
                     onClick={cancelRequest}
                   />
@@ -261,8 +261,8 @@ export const Locale = () => {
     <ComponentBox>
       {() => {
         const myTranslations = {
-          'nb-NO': { PhoneNumber: { label: 'Egendefinert 🚀' } },
-          'en-GB': { PhoneNumber: { label: 'Custom 🚀' } },
+          'nb-NO': { PhoneNumber: { numberLabel: 'Egendefinert 🚀' } },
+          'en-GB': { PhoneNumber: { numberLabel: 'Custom 🚀' } },
         }
 
         const MyForm = () => {

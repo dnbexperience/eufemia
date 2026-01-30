@@ -995,7 +995,7 @@ describe('Popover', () => {
 
   it('keeps dialog open when Popover handles Escape locally', async () => {
     render(
-      <Dialog noAnimation openState={true} title="Dialog">
+      <Dialog noAnimation open={true} title="Dialog">
         <Popover
           noAnimation
           trigger={({ ref, ...rest }) => (

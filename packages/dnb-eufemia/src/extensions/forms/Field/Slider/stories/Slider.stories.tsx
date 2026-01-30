@@ -27,31 +27,22 @@ export function Slider() {
           <Field.Currency
             path="/myValue"
             width="stretch"
-            // decimals={0}
             decimalLimit={0}
           />
           <Field.Currency
             path="/mySecondValue"
             width="stretch"
-            // decimals={0}
             decimalLimit={0}
           />
         </Flex.Horizontal>
 
         <Field.Slider
           id="test"
-          // error={new Error('123')}
           paths={['/myValue', '/mySecondValue']}
           min="/minValue"
           max="/maxValue"
-          // onChange={console.log}
         />
-        {/* <Field.Slider
-          value={[300, 700]}
-          min={100}
-          max={1000}
-          onChange={console.log}
-        /> */}
+
         <Field.Slider
           label="Slider"
           help={{ content: 'Help text' }}
@@ -59,13 +50,6 @@ export function Slider() {
           min="/minValue"
           max="/maxValue"
         />
-        {/* <Field.Slider
-          label="Slider"
-          help={{ content: 'Help text' }}
-          path="/myValue"
-          min="/minValue"
-          max="/maxValue"
-        /> */}
       </Flex.Stack>
     </Form.Handler>
   )

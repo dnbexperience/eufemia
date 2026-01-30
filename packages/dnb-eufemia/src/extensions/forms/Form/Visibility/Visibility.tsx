@@ -27,37 +27,12 @@ export type VisibleWhen =
   | {
       path: Path
       isValid: boolean
-      /**
-       * @deprecated – Replaced with validateContinuously, continuousValidation can be removed in v11.
-       */
-      continuousValidation?: boolean
       validateContinuously?: boolean
     }
   | {
       itemPath: Path
       isValid: boolean
-      /**
-       * @deprecated – Replaced with validateContinuously, continuousValidation can be removed in v11.
-       */
-      continuousValidation?: boolean
       validateContinuously?: boolean
-    }
-
-  /**
-   * @deprecated Will be removed in v11!
-   */
-  | {
-      path: Path
-      /** @deprecated Use `hasValue` instead */
-      withValue: (value: unknown) => boolean
-    }
-  /**
-   * @deprecated  Will be removed in v11!
-   */
-  | {
-      itemPath: Path
-      /** @deprecated Use `hasValue` instead */
-      withValue: (value: unknown) => boolean
     }
 
 export type Props = {
@@ -91,11 +66,6 @@ export type Props = {
 
   /** For internal use only. Used by "Iterate.Visibility" */
   withinIterate?: boolean
-
-  /** @deprecated Use `visibleWhen` instead */
-  pathValue?: string
-  /** @deprecated Use `visibleWhen` instead */
-  whenValue?: unknown
 } & Pick<
   HeightAnimationAllProps,
   | 'onAnimationEnd'
@@ -114,8 +84,6 @@ function Visibility(props: Props) {
     pathFalsy,
     pathTrue,
     pathFalse,
-    pathValue,
-    whenValue,
     visibleWhen,
     visibleWhenNot,
     inferData,
@@ -146,8 +114,6 @@ function Visibility(props: Props) {
     pathFalsy,
     pathTrue,
     pathFalse,
-    pathValue,
-    whenValue,
     visibleWhen,
     visibleWhenNot,
     inferData,

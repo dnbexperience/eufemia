@@ -9,13 +9,7 @@ export function NestingWithLogic() {
   return (
     <Form.Handler>
       <Form.Card>
-        <Field.ArraySelection
-          // variant="checkbox"
-          // variant="button"
-          label="Make a selection"
-          path="/mySelection"
-          // defaultValue={['showInput']}
-        >
+        <Field.ArraySelection label="Make a selection" path="/mySelection">
           <Field.Option
             value="nothing"
             title="Nothing"

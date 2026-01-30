@@ -1,8 +1,8 @@
 ---
 title: 'v11'
-description: 'TBA'
+description: 'January 23, 2026'
+showTabs: true
 order: -11
-draft: true
 ---
 
 # v11
@@ -25,6 +25,10 @@ $ yarn add @dnb/eufemia@11
 $ pnpm add @dnb/eufemia@11
 ```
 
+## Summary of changes:
+
+- All **snake case** (`on_click`) events and properties has been converted to use **camel case** (`onClick`). The reason for previously using **snake case** was to support Web Components – but the support was discontinued in [v10](/uilib/about-the-lib/releases/eufemia/v10-info/).
+
 ## Components
 
 ### [Section](/uilib/components/section/)
@@ -42,21 +46,472 @@ $ pnpm add @dnb/eufemia@11
 2. Remove `spacing`. Use `innerSpace` instead.
 3. Replace `inner_ref` with `innerRef`.
 
+### [HelpButton](/uilib/components/help-button/)
+
+#### Translations
+
+- Replace `HelpButton.aria_role` with `HelpButton.ariaRole`.
+
+### [Autocomplete](/uilib/components/autocomplete/)
+
+#### Properties
+
+- Replace `selected_key` with `selectedKey`.
+- Replace `default_value` with `defaultValue`.
+- Replace `prevent_selection` with `preventSelection`.
+- Replace `prevent_close` with `preventClose`.
+- Replace `keep_open` with `keepOpen`.
+- Replace `independent_width` with `independentWidth`.
+- Replace `fixed_postion` with `fixedPosition`.
+- Replace `enable_body_lock` with `enableBodyLock`.
+- Replace `align_drawer` with `alignDrawer`.
+- Replace `list_class` with `listClass`.
+- Replace `portal_class` with `portalClass`.
+- Replace `no_scroll_animation` with `noScrollAnimation`.
+- Replace `skip_portal` with `skipPortal`.
+- Replace `min_height` with `minHeight`.
+- Replace `max_height` with `maxHeight`.
+- Replace `observer_element` with `observerElement`.
+- Replace `cache_hash` with `cacheHash`.
+- Replace `wrapper_element` with `wrapperElement`.
+- Replace `options_render` with `optionsRender`.
+- Replace `triangle_position` with `arrowPosition`.
+- Replace `skip_keysearch` with `skipKeysearch`.
+- Replace `page_offset` with `pageOffset`.
+- Replace `ignore_events` with `ignoreEvents`.
+- Replace `no_animation` with `noAnimation`.
+- Replace `label_direction` with `labelDirection`.
+- Replace `no_options` with `noOptions`.
+- Replace `show_all` with `showAll`.
+- Replace `aria_live_options` with `ariaLiveOptions`.
+- Replace `indicator_label` with `indicatorLabel`.
+- Replace `show_options_sr` with `showOptionsSr`.
+- Replace `selected_sr` with `selectedSr`.
+- Replace `submit_button_title` with `submitButtonTitle`.
+- Replace `submit_button_icon` with `submitButtonIcon`.
+- Replace `input_ref` with `inputRef`.
+- Replace `icon_size` with `iconSize`.
+- Replace `icon_position` with `iconPosition`.
+- Replace `input_icon` with `inputIcon`.
+- Replace `label_sr_only` with `labelSrOnly`.
+- Replace `keep_value` with `keepValue`.
+- Replace `keep_selection` with `keepSelection`.
+- Replace `keep_value_and_selection` with `keepValueAndSelection`.
+- Replace `show_clear_button` with `showClearButton`.
+- Replace `status_state` with `statusState`.
+- Replace `statusState`'s value `warn` with `warning`.
+- Replace `status_props` with `statusProps`.
+- Replace `status_no_animation` with `statusNoAnimation`.
+- Replace `disable_filter` with `disableFilter`.
+- Replace `disable_reorder` with `disableReorder`.
+- Replace `disable_highlighting` with `disableHighlighting`.
+- Replace `show_submit_button` with `showSubmitButton`.
+- Replace `submit_element` with `submitElement`.
+- Replace `align_autocomplete` with `align`.
+- Replace `input_element` with `inputElement`.
+- Replace `search_in_word_index` with `searchInWordIndex`.
+- Replace `search_numbers` with `searchNumbers`.
+- Replace `input_value` with `inputValue`.
+- Replace `open_on_focus` with `openOnFocus`.
+- Replace `drawer_class` with `drawerClass`.
+- Replace `prevent_focus` with `preventFocus`.
+- Replace `action_menu` with `actionMenu`.
+- Replace `is_popup` with `isPopup`.
+- Replace `opened` with `open`.
+
+#### Events
+
+- Replace `on_type` with `onType`.
+- Replace `on_focus` with `onFocus`.
+- Replace `on_blur` with `onBlur`.
+- Replace `on_change` with `onChange`.
+- Replace `on_select` with `onSelect`.
+- Replace `on_show` with `onOpen`.
+- Replace `on_hide` with `onClose`.
+
+#### Translations
+
+- Replace `Autocomplete.no_options` with `Autocomplete.noOptions`.
+- Replace `Autocomplete.show_all` with `Autocomplete.showAll`.
+- Replace `Autocomplete.aria_live_options` with `Autocomplete.ariaLiveOptions`.
+- Replace `Autocomplete.indicator_label` with `Autocomplete.indicatorLabel`.
+- Replace `Autocomplete.show_options_sr` with `Autocomplete.showOptionsSr`.
+- Replace `Autocomplete.selected_sr` with `Autocomplete.selectedSr`.
+- Replace `Autocomplete.submit_button_title` with `Autocomplete.submitButtonTitle`.
+
+#### Styling
+
+- Replace CSS class `dnb-autocomplete--opened` with `dnb-autocomplete--open`.
+
+#### DrawerListDataArrayObject
+
+- Replace `selected_value` with `selectedValue`.
+- Replace `suffix_value` with `suffixValue`.
+- Replace `search_content` with `searchContent`.
+- Replace `class_name` with `className`.
+
+### [Dropdown](/uilib/components/dropdown/)
+
+#### Properties
+
+- Replace `selected_key` with `selectedKey`.
+- Replace `default_value` with `defaultValue`.
+- Replace `prevent_selection` with `preventSelection`.
+- Replace `prevent_close` with `preventClose`.
+- Replace `keep_open` with `keepOpen`.
+- Replace `independent_width` with `independentWidth`.
+- Replace `fixed_postion` with `fixedPosition`.
+- Replace `enable_body_lock` with `enableBodyLock`.
+- Replace `align_drawer` with `alignDrawer`.
+- Replace `list_class` with `listClass`.
+- Replace `portal_class` with `portalClass`.
+- Replace `no_scroll_animation` with `noScrollAnimation`.
+- Replace `skip_portal` with `skipPortal`.
+- Replace `min_height` with `minHeight`.
+- Replace `max_height` with `maxHeight`.
+- Replace `observer_element` with `observerElement`.
+- Replace `cache_hash` with `cacheHash`.
+- Replace `wrapper_element` with `wrapperElement`.
+- Replace `options_render` with `optionsRender`.
+- Replace `triangle_position` with `arrowPosition`.
+- Replace `skip_keysearch` with `skipKeysearch`.
+- Replace `page_offset` with `pageOffset`.
+- Replace `ignore_events` with `ignoreEvents`.
+- Replace `no_animation` with `noAnimation`.
+- Replace `label_direction` with `labelDirection`.
+- Replace `icon_size` with `iconSize`.
+- Replace `icon_position` with `iconPosition`.
+- Replace `label_sr_only` with `labelSrOnly`.
+- Replace `status_state` with `statusState`.
+- Replace `statusState`'s value `warn` with `warning`.
+- Replace `status_props` with `statusProps`.
+- Replace `status_no_animation` with `statusNoAnimation`.
+- Replace `more_menu` with `moreMenu`.
+- Replace `align_dropdown` with `align`.
+- Replace `trigger_element` with `triggerElement`.
+- Replace `open_on_focus` with `openOnFocus`.
+- Replace `action_menu` with `actionMenu`.
+- Replace `is_popup` with `isPopup`.
+- Replace `prevent_focus` with `preventFocus`.
+- Replace `opened` with `open`.
+
+#### Events
+
+- Replace `on_change` with `onChange`.
+- Replace `on_select` with `onSelect`.
+- Replace `on_show` with `onOpen`.
+- Replace `on_hide` with `onClose`.
+- Replace `on_show_focus` with `onOpenFocus`.
+- Replace `on_hide_focus` with `onCloseFocus`.
+
+#### Styling
+
+- Replace CSS class `dnb-dropdown--opened` with `dnb-dropdown--open`.
+
+#### DrawerListDataArrayObject
+
+- Replace `selected_value` with `selectedValue`.
+- Replace `suffix_value` with `suffixValue`.
+- Replace `search_content` with `searchContent`.
+- Replace `class_name` with `className`.
+
+### [DrawerList](/uilib/components/fragments/drawer-list/)
+
+#### Properties
+
+- Replace type `DrawerListDataObjectUnion` with `DrawerListDataArrayItem`.
+- Replace type `DrawerListDataObject` with `DrawerListDataArrayObject`.
+- Replace `import { ItemContent } from '@dnb/eufemia/fragments/drawer-list/DrawerList'` with `import { ItemContent } from '@dnb/eufemia/fragments/drawer-list/DrawerListItem'`.
+- Replace `selected_key` with `selectedKey`.
+- Replace `default_value` with `defaultValue`.
+- Replace `prevent_selection` with `preventSelection`.
+- Replace `prevent_close` with `preventClose`.
+- Replace `keep_open` with `keepOpen`.
+- Replace `independent_width` with `independentWidth`.
+- Replace `fixed_postion` with `fixedPosition`.
+- Replace `enable_body_lock` with `enableBodyLock`.
+- Replace `align_drawer` with `alignDrawer`.
+- Replace `list_class` with `listClass`.
+- Replace `portal_class` with `portalClass`.
+- Replace `no_scroll_animation` with `noScrollAnimation`.
+- Replace `skip_portal` with `skipPortal`.
+- Replace `min_height` with `minHeight`.
+- Replace `max_height` with `maxHeight`.
+- Replace `observer_element` with `observerElement`.
+- Replace `cache_hash` with `cacheHash`.
+- Replace `wrapper_element` with `wrapperElement`.
+- Replace `options_render` with `optionsRender`.
+- Replace `triangle_position` with `arrowPosition`.
+- Replace `skip_keysearch` with `skipKeysearch`.
+- Replace `page_offset` with `pageOffset`.
+- Replace `ignore_events` with `ignoreEvents`.
+- Replace `no_animation` with `noAnimation`.
+- Replace `label_direction` with `labelDirection`.
+- Replace `action_menu` with `actionMenu`.
+- Replace `is_popup` with `isPopup`.
+- Replace `prevent_focus` with `preventFocus`.
+- Replace `opened` with `open`.
+- Remove `prepared_data`.
+
+#### Events
+
+- Replace `on_show` with `onOpen`.
+- Replace `on_hide` with `onClose`.
+- Replace `handle_dismiss_focus` with `handleDismissFocus`.
+- Replace `on_change` with `onChange`.
+- Replace `on_pre_change` with `onPreChange`.
+- Replace `on_resize` with `onResize`.
+- Replace `on_select` with `onSelect`.
+- Replace `on_state_update` with `onStateUpdate`.
+
+#### Styling
+
+- Replace CSS class `dnb-drawer-list--opened` with `dnb-drawer-list--open`.
+
+#### DrawerListDataArrayObject
+
+- Replace `selected_value` with `selectedValue`.
+- Replace `suffix_value` with `suffixValue`.
+- Replace `search_content` with `searchContent`.
+- Replace `class_name` with `className`.
+
 ### [Anchor](/uilib/components/anchor/)
 
 - When using icons in an Anchor (text link), use the `icon` property instead of inlining it.
+
+#### Properties
+
 - Find and remove `scrollToHashHandler`. Smooth hash scrolling is now supported by all major browsers.
+- Replace `inner_ref` with `innerRef`.
+
+### [Input](/uilib/components/input/)
+
+#### Properties
+
+- Replace `label_direction` with `labelDirection`.
+- Replace `label_sr_only` with `labelSrOnly`.
+- Replace `status_state` with `statusState`.
+- Replace `statusState`'s value `warn` with `warning`.
+- Replace `status_props` with `statusProps`.
+- Replace `status_no_animation` with `statusNoAnimation`.
+- Replace `input_state` with `inputState`.
+- Replace `submit_button_title` with `submitButtonTitle`.
+- Replace `clear_button_title` with `clearButtonTitle`.
+- Replace `keep_placeholder` with `keepPlaceholder`.
+- Replace `input_class` with `inputClass`.
+- Replace `input_attributes` with `inputAttributes`.
+- Replace `input_element` with `inputElement`.
+- Replace `icon_size` with `iconSize`.
+- Replace `icon_position` with `iconPosition`.
+- Replace `inner_ref` with `innerRef`.
+- Replace `inner_element` with `innerElement`.
+- Replace `submit_element` with `submitElement`.
+- Replace `submit_button_variant` with `submitButtonVariant`.
+- Replace `submit_button_icon` with `submitButtonIcon`.
+- Replace `submit_button_status` with `submitButtonStatus`.
+
+#### Events
+
+- Replace `on_change` with `onChange`.
+- Replace `on_focus` with `onFocus`.
+- Replace `on_key_down` with `onKeyDown`.
+- Replace `on_blur` with `onBlur`.
+- Replace `on_submit` with `onSubmit`.
+- Replace `on_submit_focus` with `onSubmitFocus`.
+- Replace `on_submit_blur` with `onSubmitBlur`.
+- Replace `on_clear` with `onClear`.
+- Replace `on_state_update` with `onStateUpdate`.
+
+#### Translations
+
+- Replace `Input.submit_button_title` with `Input.submitButtonTitle`.
+- Replace `Input.clear_button_title` with `Input.clearButtonTitle`.
+
+#### SubmitButton (do we need to document this, I don't see any docs of this, but it's exposed/exported)
+
+- Replace `icon_size` with `iconSize`.
+- Replace `status_state` with `statusState`.
+- Replace `statusState`'s value `warn` with `warning`.
+- Replace `status_props` with `statusProps`.
+
+### [InputMasked](/uilib/components/input-masked/)
+
+#### Properties
+
+- Replace `label_direction` with `labelDirection`.
+- Replace `number_mask` with `numberMask`.
+- Replace `currency_mask` with `currencyMask`.
+- Replace `mask_options` with `maskOptions`.
+- Replace `number_format` with `numberFormat`.
+- Replace `as_currency` with `asCurrency`.
+- Replace `as_number` with `asNumber`.
+- Replace `as_percent` with `asPercent`.
+- Replace `show_mask` with `showMask`.
+- Replace `show_guide` with `showGuide`.
+- Replace `keep_char_positions` with `keepCharPositions`.
+- Replace `placeholder_char` with `placeholderChar`.
+- Replace `inner_ref` with `innerRef`.
+- Replace `label_sr_only` with `labelSrOnly`.
+- Replace `status_state` with `statusState`.
+- Replace `statusState`'s value `warn` with `warning`.
+- Replace `status_props` with `statusProps`.
+- Replace `status_no_animation` with `statusNoAnimation`.
+- Replace `input_state` with `inputState`.
+- Replace `submit_button_title` with `submitButtonTitle`.
+- Replace `clear_button_title` with `clearButtonTitle`.
+- Replace `keep_placeholder` with `keepPlaceholder`.
+- Replace `input_class` with `inputClass`.
+- Replace `input_attributes` with `inputAttributes`.
+- Replace `input_element` with `inputElement`.
+- Replace `icon_size` with `iconSize`.
+- Replace `icon_position` with `iconPosition`.
+- Replace `inner_element` with `innerElement`.
+- Replace `submit_element` with `submitElement`.
+- Replace `submit_button_variant` with `submitButtonVariant`.
+- Replace `submit_button_icon` with `submitButtonIcon`.
+- Replace `submit_button_status` with `submitButtonStatus`.
+
+#### Events
+
+- Replace `on_change` with `onChange`.
+- Replace `on_submit` with `onSubmit`.
+- Replace `on_focus` with `onFocus`.
+- Replace `on_blur` with `onBlur`.
+- Replace `on_submit_focus` with `onSubmitFocus`.
+- Replace `on_submit_blur` with `onSubmitBlur`.
+- Replace `on_state_update` with `onStateUpdate`.
+
+### [MultiInputMask](/uilib/components/input-masked/)
+
+#### Properties
+
+- Replace `label_direction` with `labelDirection`.
 
 ### [FormLabel](/uilib/components/form-label/)
+
+#### Properties
 
 - Replace `for_id` with `forId`.
 - Replace `sr_only` with `srOnly`.
 
+### [Radio](/uilib/components/radio/)
+
+#### Properties
+
+- Replace `label_sr_only` with `labelSrOnly`.
+- Replace `label_position` with `labelPosition`.
+- Replace `status_state` with `statusState`.
+- Replace `statusState`'s value `warn` with `warning`.
+- Replace `status_props` with `statusProps`.
+- Replace `status_no_animation` with `statusNoAnimation`.
+- Replace `label_direction` with `labelDirection`.
+
+#### Events
+
+- Replace `on_change` with `onChange`.
+- Replace `on_state_update` with `onStateUpdate`.
+
+### [Radio.Group](/uilib/components/radio/)
+
+#### Properties
+
+- Replace `label_direction` with `labelDirection`.
+- Replace `label_sr_only` with `labelSrOnly`.
+- Replace `label_position` with `labelPosition`.
+- Replace `status_state` with `statusState`.
+- Replace `statusState`'s value `warn` with `warning`.
+- Replace `status_props` with `statusProps`.
+- Replace `status_no_animation` with `statusNoAnimation`.
+- Replace `layout_direction` with `layoutDirection`.
+
+#### Events
+
+- Replace `on_change` with `onChange`.
+- Replace `on_state_update` with `onStateUpdate`.
+
+### [Textarea](/uilib/components/textarea/)
+
+#### Properties
+
+- Replace `label_direction` with `labelDirection`.
+- Replace `label_sr_only` with `labelSrOnly`.
+- Replace `textarea_state` with `textareaState`.
+- Replace `status_state` with `statusState`.
+- Replace `statusState`'s value `warn` with `warning`.
+- Replace `status_props` with `statusProps`.
+- Replace `status_no_animation` with `statusNoAnimation`.
+- Replace `autoresize_max_rows` with `autoresizeMaxRows`.
+- Replace `textarea_class` with `textareaClass`.
+- Replace `textarea_attributes` with `textareaAttributes`.
+- Replace `inner_ref` with `innerRef`.
+- Replace `textarea_element` with `textareaElement`.
+
+#### Events
+
+- Replace `on_change` with `onChange`.
+- Replace `on_focus` with `onFocus`.
+- Replace `on_blur` with `onBlur`.
+- Replace `on_key_down` with `onKeyDown`.
+
+### [Accordion](/uilib/components/accordion/)
+
+#### Properties
+
+- Replace `expandBehaviour` with `expandBehavior`.
+- Replace `on_state_update` with `onStateUpdate`.
+- Replace `expanded_ssr` with `expandedSsr`.
+- Replace `heading_level` with `headingLevel`.
+- Replace `icon_size` with `iconSize`.
+- Replace `single_container` with `singleContainer`.
+- Replace `left_component` with `leftComponent`.
+- Replace `flush_remembered_state` with `flushRememberedState`.
+- Replace `on_change` with `onChange`.
+- Replace `icon_position` with `iconPosition`.
+- Replace `prevent_rerender_conditional` with `preventRerenderConditional`.
+- Replace `remember_state` with `rememberState`.
+- Replace `prevent_rerender` with `preventRerender`.
+- Replace `no_animation` with `noAnimation`.
+
+### [Accordion.Group](/uilib/components/accordion/)
+
+#### Properties
+
+- Replace `allow_close_all` with `allowCloseAll`.
+- Replace `expanded_id` with `expandedId`.
+
+### [Accordion.Provider](/uilib/components/accordion/)
+
+#### Properties
+
+- Replace `expanded_id` with `expandedId`.
+
 ### [Tag](/uilib/components/tag/)
+
+#### Events
 
 - Replace `onDelete` with `onClick`, and add `variant="removable"`.
 
+### [P](/uilib/elements/paragraph/)
+
+- Replace class `.dnb-p--medium` with `.dnb-t__weight--medium`
+- Replace class `.dnb-p--bold` with `.dnb-t__weight--bold`
+- Replace class `.dnb-p__size--xx-large` with `.dnb-t__size--xx-large` and `.dnb-t__line-height--xx-large`
+- Replace class `.dnb-p__size--x-large` with `.dnb-t__size--x-large` and `.dnb-t__line-height--x-large`
+- Replace class `.dnb-p__size--large` with `.dnb-t__size--large` and `.dnb-t__line-height--large`
+- Replace class `.dnb-p__size--basis` with `.dnb-t__size--basis` and `.dnb-t__line-height--basis`
+- Replace class `.dnb-p__size--medium` with `.dnb-t__size--medium` and `.dnb-t__line-height--medium`
+- Replace class `.dnb-p--small` or `.dnb-p__size--small` with `.dnb-t__size--small` and `.dnb-t__line-height--small`
+- Replace class `.dnb-p--x-small` or `.dnb-p__size--x-small` with `.dnb-t__size--x-small` and `.dnb-t__line-height--x-small`
+
+#### Properties
+
+- Replace `medium={true}` with `weight='medium'`.
+- Replace `bold={true}` with `weight='bold'`.
+- Replace `modifier` with appropriate `weight` and/or `size`.
+
 ### [Definition lists](/uilib/elements/lists/#definition-lists)
+
+#### Properties
 
 - Replace `direction` in `<Dl>` with `layout`.
 
@@ -72,36 +527,85 @@ For more context, see this [PR](https://github.com/dnbexperience/eufemia/pull/27
 
 ### [ProgressIndicator](/uilib/components/progress-indicator/)
 
+#### Properties
+
 - Replace `no_animation` with `noAnimation`.
+- Replace `indicator_label` with `indicatorLabel`.
 - Replace `label_direction` with `labelDirection`.
 - Replace `show_label` with `showDefaultLabel`.
 - Replace `on_complete` with `onComplete`.
 - Replace `class` with `className`.
 - Replace `children` with `label`.
 
+#### Translations
+
+- Replace translation `ProgressIndicator.indicator_label` with `ProgressInidicator.indicatorLabel`.
+
 ### [PaymentCard](/uilib/extensions/payment-card/)
 
-- Remove translation `text_card_number` as it's not supported anymore.
+#### Properties
+
+- Replace `product_code` with `productCode`.
+- Replace `card_number` with `cardNumber`.
+- Replace `card_status` with `cardStatus`.
+- Replace `raw_data` with `rawData`.
+
+#### Translations
+
+- Remove translation `PaymentCard.text_card_number` as it's not supported anymore.
+
+#### `cardStatus` property
+
+- Replace value `not_active` with `notActive`.
+- Replace value `order_in_process` with `orderInProcess`.
+- Replace value `new_order` with `newOrder`.
+
+#### Translations
+
+- Replace `PaymentCard.text_blocked` with `PaymentCard.textBlocked`.
+- Replace `PaymentCard.text_expired` with `PaymentCard.textExpired`.
+- Replace `PaymentCard.text_not_active` with `PaymentCard.textNotActive`.
+- Replace `PaymentCard.text_new_order` with `PaymentCard.textNewOrder`.
+- Replace `PaymentCard.text_order_in_process` with `PaymentCard.textOrderInProcess`.
+- Replace `PaymentCard.text_replaced` with `PaymentCard.textReplaced`.
+- Replace `PaymentCard.text_renewed` with `PaymentCard.textRenewed`.
+- Replace `PaymentCard.text_new` with `PaymentCard.textNew`.
+- Replace `PaymentCard.text_unknown` with `PaymentCard.textUnknown`.
 
 ### Divider ([Horizontal Rule](/uilib/elements/horizontal-rule/))
+
+#### Properties
 
 - Remove `light` and `medium` as they are not supported anymore.
 - Replace `fullscreen` with `breakout`.
 
+### [Card](/uilib/components/card/)
+
+#### Properties
+
+- Remove `spacing` property.
+
 ### [Checkbox](/uilib/components/checkbox/)
+
+#### Properties
 
 - Replace `label_position` with `labelPosition`.
 - Replace `label_sr_only` with `labelSrOnly`.
 - Replace `status_state` with `statusState`.
+- Replace `statusState`'s value `warn` with `warning`.
 - Replace `status_props` with `statusProps`.
+- Replace `status_no_animation` with `statusNoAnimation`.
 - Replace `on_change` with `onChange`.
 - Replace `children` with `label`.
 
 ### [Switch](/uilib/components/switch/)
 
+#### Properties
+
 - Replace `label_position` with `labelPosition`.
 - Replace `label_sr_only` with `labelSrOnly`.
 - Replace `status_state` with `statusState`.
+- Replace `statusState`'s value `warn` with `warning`.
 - Replace `status_props` with `statusProps`.
 - Replace `on_change` with `onChange`.
 - Replace `on_change_end` with `onChangeEnd`.
@@ -110,49 +614,360 @@ For more context, see this [PR](https://github.com/dnbexperience/eufemia/pull/27
 
 ### [Logo](/uilib/components/logo/)
 
+#### Properties
+
+- Remove `brand` prop. Import and use the desired SVG component directly (e.g., `DnbDefault`, `SbankenDefault`, `SbankenCompact`, `SbankenHorizontal`, `CarnegieDefault`, `EiendomDefault`).
+- Remove `variant` prop. Instead, import the specific variant directly (e.g., `SbankenCompact` instead of `brand="sbanken" variant="compact"`).
 - Remove `size`. Replace it with `height` if it contains a numeric value, and with `inheritSize` where `size='inherit'`.
 - Remove the following properties: `alt` and `ratio`.
 - Replace `inherit_color` with `inheritColor`.
 - Change `width` from number to string.
 - Change `height` from number to string.
 
+**Migration Example**:
+
+Before (v10):
+
+```tsx
+import { Logo } from '@dnb/eufemia'
+
+render(<Logo brand="sbanken" variant="compact" />)
+```
+
+After (v11):
+
+```tsx
+import { Logo, SbankenCompact } from '@dnb/eufemia/components/Logo'
+
+render(<Logo svg={SbankenCompact} />)
+```
+
+### [Icon](/uilib/components/icon/)
+
+#### Properties
+
+- Replace `inherit_color` with `inheritColor`.
+
 ### [Button](/uilib/components/button/)
 
-- Replace `class` with `className`.
+#### Properties
+
+- Replace `icon_position` with `iconPosition`.
+- Replace `icon_size` with `iconSize`.
+- Replace `status_state` with `statusState`.
+- Replace `statusState`'s value `warn` with `warning`.
+- Replace `status_props` with `statusProps`.
+- Replace `status_no_animation` with `statusNoAnimation`.
+- Replace `custom_content` with `customContent`.
+- Replace `inner_ref` with `innerRef`.
+
+#### Events
+
+- Replace `on_click` with `onClick`.
 
 ### [Modal](/uilib/components/modal/), [Dialog](/uilib/components/dialog/) and [Drawer](/uilib/components/drawer/)
 
+#### Properties
+
 - Replace `class` with `className`.
+- Replace `focus_selector` with `focusSelector`.
+- Replace `labelled_by` with `labelledBy`.
+- Replace `open_delay` with `openDelay`.
+- Replace `content_id` with `contentId`.
+- Replace `dialog_title` with `dialogTitle`.
+- Replace `close_title` with `closeTitle`.
+- Replace `hide_close_button` with `hideCloseButton`.
+- Replace `close_button_attributes` with `closeButtonAttributes`.
+- Replace `prevent_close` with `preventClose`.
+- Replace `prevent_core_style` with `preventCoreStyle`.
+- Replace `animation_duration` with `animationDuration`.
+- Replace `no_animation` with `noAnimation`.
+- Replace `no_animation_on_mobile` with `noAnimationOnMobile`.
+- Replace `min_width` with `minWidth`.
+- Replace `max_width` with `maxWidth`.
+- Replace `align_content` with `alignContent`.
+- Replace `container_placement` with `containerPlacement`.
+- Replace `vertical_alignment` with `verticalAlignment`.
+- Replace `open_state` with `openState`.
+- Replace `direct_dom_return` with `directDomReturn`.
+- Replace `root_id` with `rootId`.
+- Replace `omit_trigger_button` with `omitTriggerButton`.
+- Replace `on_open` with `onOpen`.
+- Replace `on_close` with `onClose`.
+- Replace `on_close_prevent` with `onClosePrevent`.
+- Replace `open_modal` with `openModal`.
+- Replace `close_modal` with `closeModal`.
+- Replace `trigger_attributes` with `triggerAttributes`.
+- Replace `overlay_class` with `overlayClass`.
+- Replace `content_class` with `contentClass`.
+- Replace `modal_content` with `modalContent`.
+- Replace `header_content` with `headerContent`.
+- Replace `bar_content` with `barContent`.
+- Replace `dialog_role` with `dialogRole`.
+- Replace `bypass_invalidation_selectors` with `bypassInvalidationSelectors`.
+- Replace `content_ref` with `contentRef`.
+- Replace `scroll_ref` with `scrollRef`.
+- Replace `prevent_overlay_close` with `preventOverlayClose`.
+- Replace `openState` with `open`.
+- Replace `openState="opened"` with `open={true}`.
+- Replace `openState="closed"` with `open={false}`.
+
+#### Translations
+
+- Replace `Modal.dialog_title` with `Modal.dialogTitle`.
+- Replace `Modal.close_title` with `Modal.closeTitle`.
+
+### [Modal.Header](/uilib/components/modal/), [Dialog.Header](/uilib/components/dialog/) and [Drawer.Header](/uilib/components/drawer/)
+
+#### Properties
+
+- Replace `title_class` with `titleClass`.
+
+### [ModalHeaderBar](/uilib/components/modal/), [Dialog.Navigation](/uilib/components/dialog/) and [Drawer.Navigation](/uilib/components/drawer/)
+
+#### Properties
+
+- Replace `shadow_class` with `shadowClass`.
+
+### [Heading](/uilib/components/heading/)
+
+#### Properties
+
+- Replace `debug_counter` with debugCounter`.
+- Replace `skip_correction` with skipCorrection`.
 
 ### [Table](/uilib/components/table/)
 
+#### Properties
+
 - Replace `accordion` with `mode="accordion"`.
+
+#### Events
+
+- Replace `onClosed` with `onClose`.
+- Replace `onOpened` with `onOpen`.
+
+#### TableClickableHead
+
+##### Events
+
+- Replace `on_click` with `onClick`.
+
+### [FormStatus](/uilib/components/form-status/)
+
+#### Properties
+
+- Replace `no_animation` with `noAnimation`.
+- Replace `icon_size` with `iconSize`.
+- Replace `text_id` with `textId`.
+- Replace `width_selector` with `widthSelector`.
+- Replace `width_element` with `widthElement`.
+- Replace `state`'s value `warn` with `warning`.
+
+### [Skeleton](/uilib/components/skeleton/)
+
+#### Properties
+
+- Replace `no_animation` with `noAnimation`.
+- Replace `aria_busy` with `ariaBusy`.
+- Replace `aria_ready` with `ariaReady`.
+
+#### Translations
+
+- Replace translation `Skeleton.aria_busy` with `Skeleton.ariaBusy`.
+- Replace translation `Skeleton.aria_ready` with `Skeleton.ariaReady`.
+
+### [Tabs](/uilib/components/tabs/)
+
+#### Properties
+
+- Replace `selected_key` with `selectedKey`.
+- Replace `content_style` with `contentStyle`.
+- Replace `content_spacing` with `contentSpacing`.
+- Replace `tab_element` with `tabElement`.
+- Replace `tabs_style` with `tabsStyle`.
+- Replace `tabs_spacing` with `tabsSpacing`.
+- Replace `nav_button_edge` with `navButtonEdge`.
+- Replace `preventRerender` with `preventRerender`.
+- Replace `on_change` with `onChange`.
+- Replace `on_click` with `onClick`.
+- Replace `on_mouse_enter` with `onMouseEnter`.
+- Replace `on_focus` with `onFocus`.
+- Replace `focus_key` with `focusKey`.
+- Replace `no_border` with `noBorder`.
 
 ### [Pagination](/uilib/components/pagination/)
 
-- Replace `place_maker_before_content` with `place_marker_before_content`.
+#### Properties
+
+- Replace `place_maker_before_content` with `placeMarkerBeforeContent`.
+- Replace `startup_page` with `startupPage`.
+- Replace `current_page` with `currentPage`.
+- Replace `page_count` with `pageCount`.
+- Replace `startup_count` with `startupCount`.
+- Replace `parallel_load_count` with `parallelLoadCount`.
+- Replace `min_wait_time` with `minWaitTime`.
+- Replace `use_load_button` with `useLoadButton`.
+- Replace `hide_progress_indicator` with `hideProgressIndicator`.
+- Replace `set_content_handler` with `setContentHandler`.
+- Replace `reset_content_handler` with `resetContentHandler`.
+- Replace `reset_pagination_handler` with `resetPaginationHandler`.
+- Replace `end_infinity_handler` with `endInfinityHandler`.
+- Replace `page_element` with `pageElement`.
+- Replace `fallback_element` with `fallbackElement`.
+- Replace `marker_element` with `markerElement`.
+- Replace `indicator_element` with `indicatorElement`.
+- Replace `button_title` with `buttonTitle`.
+- Replace `prev_title` with `prevTitle`.
+- Replace `next_title` with `nextTitle`.
+- Replace `more_pages` with `morePages`.
+- Replace `is_loading_text` with `isLoadingText`.
+- Replace `load_button_text` with `loadButton.text`.
+
+#### Events
+
+- Replace `on_change` with `onChange`.
+- Replace `on_startup` with `onStartup`.
+- Replace `on_load` with `onLoad`.
+- Replace `on_end` with `onEnd`.
+
+#### Translations
+
+- Replace `Pagination.button_title` with `Pagination.buttonTitle`.
+- Replace `Pagination.prev_title` with `Pagination.prevTitle`.
+- Replace `Pagination.next_title` with `Pagination.nextTitle`.
+- Replace `Pagination.more_pages` with `Pagination.morePages`.
+- Replace `Pagination.is_loading_text` with `Pagination.isLoadingText`.
+- Replace `Pagination.load_button_text` with `Pagination.loadButtonText`.
+
+#### InfinityLoadButton & InfinityLoadButtonProps
+
+- Replace `on_click` with `onClick`.
+
+### [Timeline](/uilib/components/timeline/)
+
+#### Translations
+
+- Replace `TimelineItem.alt_label_completed` with `TimelineItem.altLabelCompleted`.
+- Replace `TimelineItem.alt_label_current` with `TimelineItem.altLabelCurrent`.
+- Replace `TimelineItem.alt_label_upoming` with `TimelineItem.altLabelUpcoming`.
 
 ### [DatePicker](/uilib/components/date-picker/)
 
-- Find `correctInvalidDate` and remove it. You may rather use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) from Eufemia Forms when using `minDate` and `maxDate`.
+#### Properties
+
+- Find `correctInvalidDate` / `correct_invalid_date` and remove it. You may rather use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) from Eufemia Forms when using `minDate` and `maxDate`, as this has built in validation. Reason for removing this is because we believe it's not good UX, or best practice to automatically change the user input. This often leads to confusion, as what they typed in, magically changes for seemingly no reason. We believe it's better to inform them about the error and let them correct it themselves.
+- Replace `start_date` with `startDate`.
+- Replace `end_date` with `endDate`.
+- Replace `start_month` with `startMonth`.
+- Replace `end_month` with `endMonth`.
+- Replace `min_date` with `minDate`.
+- Replace `max_date` with `maxDate`.
+- Replace `mask_order` with `maskOrder`.
+- Replace `mask_placeholder` with `maskPlaceholder`.
+- Replace `date_format` with `dateFormat`.
+- Replace `return_format` with `returnFormat`.
+- Replace `hide_navigation` with `hideNavigation`.
+- Replace `hide_days` with `hideDays`.
+- Replace `only_month` with `onlyMonth`.
+- Replace `hide_last_week` with `hideLastWeek`.
+- Replace `disable_autofocus` with `disableAutofocus`.
+- Replace `enable_keyboard_nav` with `enableKeyboardNav`.
+- Replace `show_input` with `showInput`.
+- Replace `show_submit_button` with `showSubmitButton`.
+- Replace `show_cancel_button` with `showCancelButton`.
+- Replace `show_reset_button` with `showResetButton`.
+- Replace `submit_button_text` with `submitButtonText`.
+- Replace `cancel_button_text` with `cancelButtonText`.
+- Replace `reset_button_text` with `resetButtonText`.
+- Replace `reset_date` with `resetDate`.
+- Replace `first_day` with `firstDay`.
+- Replace `label_direction` with `labelDirection`.
+- Replace `label_sr_only` with `labelSrOnly`.
+- Replace `input_element` with `inputElement`.
+- Replace `addon_element` with `addonElement`.
+- Replace `status_state` with `statusState`.
+- Replace `statusState`'s value `warn` with `warning`.
+- Replace `status_props` with `statusProps`.
+- Replace `status_no_animation` with `statusNoAnimation`.
+- Replace `prevent_close` with `preventClose`.
+- Replace `no_animation` with `noAnimation`.
+- Replace `align_picker` with `alignPicker`.
+- Replace `on_days_render` with `onDaysRender`.
+- Replace `on_change` with `onChange`.
+- Replace `on_type` with `onType`.
+- Replace `on_show` with `onOpen`.
+- Replace `on_hide` with `onClose`.
+- Replace `on_submit` with `onSubmit`.
+- Replace `on_cancel` with `onCancel`.
+- Replace `on_reset` with `onReset`.
+- Replace `days_between` with `daysBetween`.
+- Replace `is_valid` with `isValid`.
+- Replace `is_valid_start_date` with `isValidStartDate`.
+- Replace `is_valid_end_date` with `isValidEndDate`.
+- Replace the `shortcuts` property `close_on_select` with `closeOnSelect`.
+- Replace `opened` with `open`.
+- `dateFormat` and `returnFormat` does no longer support the format `YYYY-MM-DD`, use `yyyy-MM-dd` instead.
+
+#### Styling
+
+- Replace CSS class `dnb-date-picker--opened` with `dnb-date-picker--open`.
 
 ### [NumberFormat](/uilib/components/number-format/)
 
+#### Properties
+
 - Replace `omit_rounding` with `rounding="omit"`.
+- Replace `currency_display` with `currencyDisplay`.
+- Replace `currency_position` with `currencyPosition`.
+- Replace `always_selectall` with `alwaysSelectall`.
+- Replace `copy_selection` with `copySelection`.
+- Replace `clean_copy_value` with `cleanCopyValue`.
 
-### [DrawerList](/uilib/components/fragments/drawer-list/)
+#### Translations
 
-- Replace type `DrawerListDataObjectUnion` with `DrawerListDataArrayItem`.
-- Replace type `DrawerListDataObject` with `DrawerListDataArrayObject`.
-- Replace `import { ItemContent } from '@dnb/eufemia/fragments/drawer-list/DrawerList'` with `import { ItemContent } from '@dnb/eufemia/fragments/drawer-list/DrawerListItem'`.
+- Replace `NumberFormat.clipboard_copy` with `NumberFormat.clipboardCopy`.
+- Replace `NumberFormat.not_available` with `NumberFormat.notAvailable`.
 
 ### [StepIndicator](/uilib/components/step-indicator/)
 
+#### Properties
+
 - Major redesign of component. There is now only one variant (instead of two).
+- Remove `StepIndicatorRenderCallback` type. Not needed anymore.
+
+#### Properties
+
 - Remove `on_item_render`. No longer has any other function than each step's `title` property.
 - Remove step item `on_render`. No longer has any other function than the `title` property.
 - Remove `sidebarId`. No longer has any sidebar. If an id is needed, use the `id` property.
 - Remove `step_title_extended`. Only `step_title` is needed.
+- Replace `is_current` with `isCurrent`.
+- Replace `status_state` with `statusState`.
+- Replace `statusState`'s value `warn` with `warning`.
+- Replace `current_step` with `currentStep`.
+- Replace `overview_title` with `overviewTitle`.
+- Replace `step_title` with `stepTitle`.
+- Replace `current_step` with `currentStep`.
+- Replace `hide_numbers` with `hideNumbers`.
+- Replace `no_animation` with `noAnimation`.
+
+#### Translations
+
+- Replace `StepIndicator.overview_title` with `StepIndicator.overviewTitle`.
+- Replace `StepIndicator.step_title` with `StepIndicator.stepTitle`.
+
+#### Events
+
+- Replace `on_change` with `onChange`.
+- Replace `on_click` with `onClick`.
+- Replace `data.on_click` with `data.onClick` for StepIndicatorItem.
+
+#### StepItemWrapperProps
+
+- Removed `number` as one can only change the render of content inside the button.
+- Removed `status` as one can only change the render of content inside the button.
+- Removed `hideNumbers` as can only hide numbers in main component.
 
 #### StepIndicator.Sidebar
 
@@ -160,19 +975,159 @@ For more context, see this [PR](https://github.com/dnbexperience/eufemia/pull/27
 
 ### [GlobalError](/uilib/components/global-error/)
 
+#### Properties
+
 - Replace `status` with `statusCode`.
 - Replace `code` with `errorMessageCode`.
 
+#### Translations
+
+- Replace translation `GlobalError.code` with `GlobalError.errorMessageCode`.
+
+### [ToggleButton](/uilib/components/toggle-button/)
+
+#### Properties
+
+- Replace `icon_position` with `iconPosition`.
+- Replace `icon_size` with `iconSize`.
+- Replace `status_state` with `statusState`.
+- Replace `statusState`'s value `warn` with `warning`.
+- Replace `status_props` with `statusProps`.
+- Replace `status_no_animation` with `statusNoAnimation`.
+- Replace `left_component` with `leftComponent`.
+
+#### Events
+
+- Replace `on_change` with `onChange`.
+- Replace `on_state_update` with `onStateUpdate`.
+
+### [ToggleButton.Group](/uilib/components/toggle-button/)
+
+#### Properties
+
+- Replace `status_state` with `statusState`.
+- Replace `statusState`'s value `warn` with `warning`.
+- Replace `status_props` with `statusProps`.
+- Replace `status_no_animation` with `statusNoAnimation`.
+- Replace `label_direction` with `labelDirection`.
+- Replace `label_sr_only` with `labelSrOnly`.
+- Replace `left_component` with `leftComponent`.
+- Replace `layout_direction` with `layoutDirection`.
+
+#### Events
+
+- Replace `on_change` with `onChange`.
+
+### [GlobalStatus](/uilib/components/global-status/)
+
+#### Properties
+
+- Replace `icon_size` with `iconSize`.
+- Replace `no_animation` with `noAnimation`.
+- Replace `hide_close_button` with `hideCloseButton`.
+- Replace `close_text` with `closeText`.
+- Replace `default_title` with `defaultTitle`.
+- Replace `status_anchor_text` with `statusAnchorText`.
+- Replace `omit_set_focus` with `omitSetFocus`.
+- Replace `omit_set_focus_on_update` with `omitSetFocusOnUpdate`.
+- Replace `status_id` with `statusId`.
+- Replace `status_anchor_url` with `statusAnchorUrl`.
+- Replace `status_anchor_label` with `statusAnchorLabel`.
+- Replace `status_id` with `statusId`.
+- Replace `buffer_delay` with `bufferDelay`.
+- Replace `on_close`'s `status_id` with `statusId`.
+
+#### Events
+
+- Replace `on_adjust` with `onAdjust`.
+- Replace `on_open` with `onOpen`.
+- Replace `on_show` with `onShow`.
+- Replace `on_hide` with `onHide`.
+- Replace `on_close` with `onClose`.
+
+#### Translations
+
+- Replace translation `GlobalStatus.close_text` with `GlobalStatus.closeText`.
+- Replace translation `GlobalStatus.default_title` with `GlobalStatus.defaultTitle`.
+- Replace translation `GlobalStatus.status_anchor_text` with `GlobalStatus.statusAnchorText`.
+
+#### GlobalStatusController
+
+- Replace `remove_on_unmount` with `removeOnUnmount`.
+
+#### GlobalStatus.create
+
+##### Properties
+
+- Replace `status_id` with `statusId`.
+
+##### Events
+
+- Replace `on_show` with `onShow`.
+- Replace `on_hide` with `onHide`.
+- Replace `on_close` with `onClose`.
+
+#### GlobalStatus.Remove
+
+##### Properties
+
+- Replace `status_id` with `statusId`.
+- Replace `buffer_delay` with `bufferDelay`.
+
+##### Events
+
+- Replace `on_show` with `onShow`.
+- Replace `on_hide` with `onHide`.
+- Replace `on_close` with `onClose`.
+
+#### GlobalStatus.Add
+
+##### Properties
+
+- Replace `status_id` with `statusId`.
+
+##### Events
+
+- Replace `on_show` with `onShow`.
+- Replace `on_hide` with `onHide`.
+- Replace `on_close` with `onClose`.
+
+#### GlobalStatus.Update
+
+##### Properties
+
+- Replace `status_id` with `statusId`.
+
+##### Events
+
+- Replace `on_show` with `onShow`.
+- Replace `on_hide` with `onHide`.
+- Replace `on_close` with `onClose`.
+
+### [CopyOnClick](/uilib/components/copy-on-click/)
+
+#### Translations
+
+- Replace `CopyOnClick.clipboard_copy` with `CopyOnClick.clipboardCopy`.
+
 ## Layout
 
+### [Space](/uilib/layout/space/)
+
+#### Properties
+
+- Replace `no_collapse` with `noCollapse`.
+
 ### [Flex](/uilib/layout/flex/)
+
+#### Properties
 
 - Replace `spacing` with `gap` on all Flex components.
 - `rowGap` no longer accepts value `true`. Replace `true` with `undefined` or remove the property to get the same behavior.
 
 ### Removal of FormRow and FormSet
 
-For more information on how to replace these, see [FormSet/FormRow deprecation](/uilib/layout/form-set-row-deprecation#deprecation).
+For more information on how to replace these, see [FormSet/FormRow deprecation](/uilib/about-the-lib/releases/eufemia/form-set-row-deprecation-v11#deprecation).
 
 - Replace `<FormRow>` with `<Flex.Horizontal align="baseline">`.
 - Replace `<FormRow vertical>` with `<Flex.Vertical>`.
@@ -180,21 +1135,114 @@ For more information on how to replace these, see [FormSet/FormRow deprecation](
 - Replace `FormRow=` with `formElement=`.
 - Replace `FormRow:` with `formElement:`.
 - Replace `import { includeValidProps } from '@dnb/eufemia/components/form-row/FormRowHelpers'` with `import { pickFormElementProps } from '@dnb/eufemia/shared/helpers/filterValidProps'`.
+- Replace `import { prepareFormRowContext } from '@dnb/eufemia/components/form-row/FormRowHelpers'` with `import { prepareFormElementContext } from '@dnb/eufemia/shared/helpers/filterValidProps'`.
 
-Docs: [FormRow](/uilib/layout/form-row/), [FormSet](/uilib/layout/form-set/)
+## Helpers
+
+### [Component helpers](/uilib/helpers/)
+
+#### Properties
+
+- Remove `extendGracefully`, it no longer exists.
 
 ## Eufemia Forms
 
 ### General
 
-- Replace `useError` with `useValidation`.
+- Replace `Form.useErrorMessage` with your error messages as an object in the `errorMessages` property (e.g., with a `useMemo` hook).
+- Replace `Form.useError` with `Form.useValidation`.
+- Replace `Form.useLocale` with `Form.useLocation`.
 - Replace `internal.error` with `error`.
 - Replace Form.Iterate label variable `{itemNr}` with `{itemNo}`.
 - Replace `Form.FieldProps` with `Field.Provider`.
 - Replace `<Card stack>...</Card>` with `<Form.Card>...</Form.Card>`.
 - Replace `<Card>...</Card>` with `<Form.Card>...</Form.Card>`.
+- Replace `StepsLayout` with `Wizard.Container`.
+- Replace `StepsLayout.Step` with `Wizard.Step`.
+- Replace `StepsLayout.NextButton` with `Wizard.Buttons`.
+- Replace `StepsLayout.PreviousButton` with `Wizard.Buttons`.
+- Replace `StepsLayout.Buttons` with `Wizard.Buttons`.
+- Replace `StepsLayout.useStep` with `Wizard.useStep`.
+- Replace `Iterate.ArrayPushButton` with `Iterate.PushButton`.
+- Replace `Iterate.ArrayRemoveElementButton` with `Iterate.RemoveButton`.
 
 Docs: [Eufemia Forms](/uilib/extensions/forms/)
+
+### Ajv no longer shipped by default
+
+**Breaking Change**: Ajv is no longer included as a dependency in Eufemia Forms v11. This reduces bundle size for applications that don't use JSON Schema validation.
+
+**Migration Required**: If you use JSON Schema validation with Ajv, you must:
+
+**Update your imports and usage**:
+
+Before (v10):
+
+```tsx
+import { Form, Field, JSONSchema } from '@dnb/eufemia/extensions/forms'
+
+const schema: JSONSchema = {
+  type: 'object',
+  properties: {
+    myField: { type: 'string', minLength: 3 },
+  },
+  required: ['myField'],
+}
+
+function MyApp() {
+  return (
+    <Form.Handler schema={schema}>
+      <Field.String path="/myField" label="Label" />
+    </Form.Handler>
+  )
+}
+```
+
+After (v11):
+
+```tsx
+import {
+  Form,
+  Field,
+  JSONSchema,
+  makeAjvInstance,
+} from '@dnb/eufemia/extensions/forms'
+
+const ajvInstance = makeAjvInstance()
+const schema: JSONSchema = {
+  type: 'object',
+  properties: {
+    myField: { type: 'string', minLength: 3 },
+  },
+  required: ['myField'],
+}
+
+function MyApp() {
+  return (
+    <Form.Handler schema={schema} ajvInstance={ajvInstance}>
+      <Field.String path="/myField" label="Label" />
+    </Form.Handler>
+  )
+}
+```
+
+**Alternative**: Consider using Zod schemas instead, which provide better TypeScript integration and are included by default:
+
+```tsx
+import { Form, Field, z } from '@dnb/eufemia/extensions/forms'
+
+const schema = z.object({
+  myField: z.string().min(3),
+})
+
+function MyApp() {
+  return (
+    <Form.Handler schema={schema}>
+      <Field.String path="/myField" label="Label" />
+    </Form.Handler>
+  )
+}
+```
 
 ### InputPassword moved to Field.Password
 
@@ -254,29 +1302,95 @@ See also: [Form error messages](/uilib/extensions/forms/Form/error-messages/), [
 
 - Replace `continuousValidation` with `validateContinuously`.
 - Replace `withValue` with `hasValue`.
+- Replace `pathValue` with using `visibleWhen`.
+- Replace `whenValue` with using `visibleWhen`.
 
 ### Every `Field.*` component
 
+#### Properties
+
 - Replace `continuousValidation` with `validateContinuously`.
+- Replace `validator` with `onChangeValidator`.
+- Replace `focusWhenOpen` with `focusOnOpen`.
 
 Docs: [All Fields](/uilib/extensions/forms/all-fields/)
 
+### [Field.Date](/uilib/extensions/forms/feature-fields/Date/)
+
+#### Properties
+
+- Replace `opened` with `open`.
+
+#### `onType` event
+
+- Replace `start_date` with `startDate`.
+- Replace `end_date` with `endDate`.
+- Replace `is_valid` with `isValid`.
+
+#### Styling
+
+- Replace CSS class `dnb-date-picker--opened` with `dnb-date-picker--open`.
+
+### [Field.PhoneNumber](/uilib/extensions/forms/feature-fields/PhoneNumber/)
+
+#### Translations
+
+- Replace `PhoneNumber.label` translation string with `PhoneNumber.numberLabel`.
+
 ### [Field.PostalCodeAndCity](/uilib/extensions/forms/feature-fields/PostalCodeAndCity/)
+
+#### Properties
 
 - Replace `country` with `countryCode`.
 
+### [Field.Selection](/uilib/extensions/forms/base-fields/Selection/)
+
+#### `autocompleteProps` property
+
+See docs about changed [Autocomplete properties](/uilib/about-the-lib/releases/eufemia/v11-info/#autocomplete)
+
+#### `dropdownProps` property
+
+See docs about changed [Dropdown properties](/uilib/about-the-lib/releases/eufemia/v11-info/#dropdown)
+
+#### `data` property
+
+- Replace `selected_value` with `selectedValue`.
+- Replace `suffix_value` with `suffixValue`.
+- Replace `search_content` with `searchContent`.
+- Replace `class_name` with `className`.
+
+### [Field.Password](/uilib/extensions/forms/feature-fields/more-fields/Password/)
+
+#### Properties
+
+- Replace property `show_password` with translation `Password.ariaLabelShow`.
+- Replace property `hide_password` with translation `Password.ariaLabelHide`.
+
+#### Events
+
+- Replace `on_show_password` with `onShowPassword`.
+- Replace `on_hide_password` with `onHidePassword`.
+
 ### [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/)
+
+#### Properties
 
 - Replace `requireCommit` with `preventUncommittedChanges`.
 
 ### [Wizard.Container](/uilib/extensions/forms/Wizard/Container/)
 
+#### Properties
+
 - Remove `variant`. No longer has any variants.
+- Remove `scrollTopOnStepChange`, as it's now enabled by default. You can disable it with `omitScrollManagement`.
 - Remove `sidebarId`. No longer has any sidebar. If an id is needed, use the `id` property.
 
 ### [Wizard.Step](/uilib/extensions/forms/Wizard/Step/)
 
+#### Properties
+
 - Replace `active` with `include`.
 - Replace `activeWhen` with `includeWhen`.
 
-_November 14, 2025_
+_January 23, 2026_

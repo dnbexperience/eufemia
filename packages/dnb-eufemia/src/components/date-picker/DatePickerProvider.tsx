@@ -12,7 +12,7 @@ import type {
 import { isValid, format, differenceInCalendarDays } from 'date-fns'
 
 import SharedContext from '../../shared/Context'
-import { correctV1Format, isDisabled } from './DatePickerCalc'
+import { isDisabled } from './DatePickerCalc'
 import DatePickerContext, {
   DatePickerContextValues,
 } from './DatePickerContext'
@@ -46,18 +46,17 @@ export type GetReturnObjectParams<E> = DatePickerDates &
     event?: E
   }
 
-// TODO: convert properties on event handler return objects to camelCase, constitutes a breaking change
 export type ReturnObject<E> = InvalidDates &
   PartialDates & {
     event?: E
     attributes?: Record<string, unknown>
-    days_between?: number
+    daysBetween?: number
     date?: string | null
-    start_date?: string | null
-    end_date?: string | null
-    is_valid?: boolean
-    is_valid_start_date?: boolean
-    is_valid_end_date?: boolean
+    startDate?: string | null
+    endDate?: string | null
+    isValid?: boolean
+    isValidStartDate?: boolean
+    isValidEndDate?: boolean
   }
 
 function DatePickerProvider(props: DatePickerProviderProps) {
@@ -84,12 +83,10 @@ function DatePickerProvider(props: DatePickerProviderProps) {
     onChange,
     setReturnObject,
     hidePicker,
-    // Deprecated – can be removed in v11
-    correctInvalidDate,
   } = props
 
   const returnFormat = useMemo(
-    () => correctV1Format(returnFormatProp || defaultReturnFormat),
+    () => returnFormatProp || defaultReturnFormat,
     [returnFormatProp, defaultReturnFormat]
   )
 
@@ -106,8 +103,6 @@ function DatePickerProvider(props: DatePickerProviderProps) {
     {
       dateFormat,
       isRange: range,
-      // Deprecated – can be removed in v11
-      shouldCorrectDate: correctInvalidDate,
     }
   )
 
@@ -155,21 +150,21 @@ function DatePickerProvider(props: DatePickerProviderProps) {
       if (range) {
         return {
           ...returnObject,
-          days_between:
+          daysBetween:
             startDateIsValid && endDateIsValid
               ? differenceInCalendarDays(endDate, startDate)
               : null,
-          start_date: startDateIsValid
+          startDate: startDateIsValid
             ? format(startDate, returnFormat)
             : null,
-          end_date: endDateIsValid ? format(endDate, returnFormat) : null,
-          is_valid_start_date:
+          endDate: endDateIsValid ? format(endDate, returnFormat) : null,
+          isValidStartDate:
             hasMinOrMaxDates &&
             startDateIsValid &&
             isDisabled(startDate, dates.minDate, dates.maxDate)
               ? false
               : startDateIsValid,
-          is_valid_end_date:
+          isValidEndDate:
             hasMinOrMaxDates &&
             endDateIsValid &&
             isDisabled(endDate, dates.minDate, dates.maxDate)
@@ -186,11 +181,8 @@ function DatePickerProvider(props: DatePickerProviderProps) {
         ...returnObject,
         date: startDateIsValid ? format(startDate, returnFormat) : null,
         partialDate: partialStartDate,
-        // Can be removed in v11, in favor to partialDate,
-        // to keep the naming logic the same as with date and invalidDate when not in range mode
-        partialStartDate,
         invalidDate: invalidStartDate,
-        is_valid:
+        isValid:
           hasMinOrMaxDates &&
           startDateIsValid &&
           isDisabled(startDate, dates.minDate, dates.maxDate)
@@ -204,7 +196,7 @@ function DatePickerProvider(props: DatePickerProviderProps) {
   const callOnChangeHandler = useCallback(
     <E,>(event: E & DatePickerDates) => {
       /**
-       * Prevent on_change to be fired twice if date not has actually changed
+       * Prevent onChange to be fired twice if date not has actually changed
        */
       if (
         lastEventCallCache &&

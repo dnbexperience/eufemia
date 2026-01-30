@@ -22,8 +22,8 @@ export const FormStatusProperties: PropertiesTableProps = {
     status: 'optional',
   },
   state: {
-    doc: 'Defines the visual appearance of the status. These are the statuses `error`, `warn`, `info` and `marketing`. The default status is `error`.',
-    type: ['error', 'warn', 'info', 'success', 'marketing'],
+    doc: 'Defines the visual appearance of the status. These are the statuses `error`, `warning`, `info` and `marketing`. The default status is `error`.',
+    type: ['error', 'warning', 'info', 'success', 'marketing'],
     status: 'optional',
   },
   size: {
@@ -36,8 +36,8 @@ export const FormStatusProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  icon_size: {
-    doc: 'The icon size of the icon shows. Defaults to `medium`.',
+  iconSize: {
+    doc: 'the icon size of the icon shows. Defaults to `medium`.',
     type: 'string',
     status: 'optional',
   },
@@ -56,7 +56,7 @@ export const FormStatusProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  no_animation: {
+  noAnimation: {
     doc: 'NB: Animation is disabled as of now. ~~use `true` to omit the animation on content visibility. Defaults to `false`.~~',
     type: 'boolean',
     status: 'optional',

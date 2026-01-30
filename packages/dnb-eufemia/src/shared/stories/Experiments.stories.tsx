@@ -37,7 +37,7 @@ export const ExperimentsSandbox = () => (
       <Box>
         <Provider
           formElement={{
-            label_direction: 'vertical',
+            labelDirection: 'vertical',
           }}
         >
           <PhoneRow label="Phone number">

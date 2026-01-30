@@ -155,7 +155,7 @@ describe('Portals', () => {
   it('have correct theme classes in dialog content', () => {
     render(
       <Theme name="eiendom" variant="soft" element={false}>
-        <Dialog noAnimation openState="opened">
+        <Dialog noAnimation open>
           content
         </Dialog>
       </Theme>
@@ -177,7 +177,7 @@ describe('Portals', () => {
   it('have correct theme classes in drawer content', () => {
     render(
       <Theme name="eiendom" variant="soft" element={false}>
-        <Drawer noAnimation openState="opened">
+        <Drawer noAnimation open>
           content
         </Drawer>
       </Theme>
@@ -200,7 +200,7 @@ describe('Portals', () => {
   it('have correct theme classes in dropdown', () => {
     render(
       <Theme name="eiendom" variant="soft" element={false}>
-        <Dropdown open no_animation data={['A', 'B']} />
+        <Dropdown open noAnimation data={['A', 'B']} />
       </Theme>
     )
 
@@ -219,7 +219,7 @@ describe('Portals', () => {
   it('have correct theme classes in autocomplete', () => {
     render(
       <Theme name="eiendom" variant="soft" element={false}>
-        <Autocomplete open no_animation data={['A', 'B']} />
+        <Autocomplete open noAnimation data={['A', 'B']} />
       </Theme>
     )
 
@@ -241,7 +241,7 @@ describe('Portals', () => {
         <button id="tooltip-target">Target</button>
         <Tooltip
           active
-          no_animation
+          noAnimation
           targetSelector="#tooltip-target"
           portalRootClass="eufemia-theme eufemia-theme__eiendom eufemia-theme__eiendom--soft"
         />

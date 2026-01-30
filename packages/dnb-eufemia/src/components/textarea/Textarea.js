@@ -7,7 +7,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import TextCounter from '../../fragments/text-counter/TextCounter'
@@ -51,18 +51,18 @@ export default class Textarea extends React.PureComponent {
       PropTypes.func,
       PropTypes.node,
     ]),
-    label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
-    label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    labelDirection: PropTypes.oneOf(['horizontal', 'vertical']),
+    labelSrOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     status: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
       PropTypes.func,
       PropTypes.node,
     ]),
-    textarea_state: PropTypes.string,
-    status_state: PropTypes.string,
-    status_props: PropTypes.object,
-    status_no_animation: PropTypes.oneOfType([
+    textareaState: PropTypes.string,
+    statusState: PropTypes.string,
+    statusProps: PropTypes.object,
+    statusNoAnimation: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
     ]),
@@ -77,7 +77,7 @@ export default class Textarea extends React.PureComponent {
     ]),
     placeholder: PropTypes.node,
     keepPlaceholder: PropTypes.bool,
-    align: PropTypes.oneOf(['left', 'right']),
+    align: PropTypes.oneOf(['left', 'center', 'right', 'justify']),
     size: PropTypes.oneOf(['small', 'medium', 'large']),
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -90,47 +90,44 @@ export default class Textarea extends React.PureComponent {
       PropTypes.number,
     ]),
     autoresize: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    autoresize_max_rows: PropTypes.oneOfType([
+    autoresizeMaxRows: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,
     ]),
-    textarea_class: PropTypes.string,
-    textarea_attributes: PropTypes.oneOfType([
+    textareaClass: PropTypes.string,
+    textareaAttributes: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.object,
     ]),
     readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     rows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     cols: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    inner_ref: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+    innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
 
     ...spacingPropTypes,
 
     className: PropTypes.string,
-    textarea_element: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.node,
-    ]),
+    textareaElement: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
-    on_change: PropTypes.func,
-    on_focus: PropTypes.func,
-    on_blur: PropTypes.func,
-    on_key_down: PropTypes.func,
-    on_state_update: PropTypes.func,
+    onChange: PropTypes.func,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
+    onKeyDown: PropTypes.func,
+    onStateUpdate: PropTypes.func,
   }
 
   static defaultProps = {
     value: 'initval',
     id: null,
     label: null,
-    label_direction: null,
-    label_sr_only: null,
+    labelDirection: null,
+    labelSrOnly: null,
     status: null,
-    textarea_state: null,
-    status_state: 'error',
-    status_props: null,
-    status_no_animation: null,
+    textareaState: null,
+    statusState: 'error',
+    statusProps: null,
+    statusNoAnimation: null,
     globalStatus: null,
     suffix: null,
     placeholder: null,
@@ -141,24 +138,24 @@ export default class Textarea extends React.PureComponent {
     disabled: null,
     skeleton: null,
     autoresize: null,
-    autoresize_max_rows: null,
+    autoresizeMaxRows: null,
     characterCounter: null,
-    textarea_class: null,
-    textarea_attributes: null,
+    textareaClass: null,
+    textareaAttributes: null,
     readOnly: false,
     rows: null,
     cols: null,
-    inner_ref: null,
+    innerRef: null,
 
     className: null,
-    textarea_element: null,
+    textareaElement: null,
     children: null,
 
-    on_change: null,
-    on_focus: null,
-    on_blur: null,
-    on_key_down: null,
-    on_state_update: null,
+    onChange: null,
+    onFocus: null,
+    onBlur: null,
+    onKeyDown: null,
+    onStateUpdate: null,
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -170,14 +167,14 @@ export default class Textarea extends React.PureComponent {
     ) {
       if (
         value !== state.value &&
-        typeof props.on_state_update === 'function'
+        typeof props.onStateUpdate === 'function'
       ) {
-        dispatchCustomElementEvent({ props }, 'on_state_update', { value })
+        dispatchCustomElementEvent({ props }, 'onStateUpdate', { value })
       }
       state.value = value
     }
-    if (props.textarea_state) {
-      state.textareaState = props.textarea_state
+    if (props.textareaState) {
+      state.textareaState = props.textareaState
     }
     state._value = props.value
     return state
@@ -211,8 +208,8 @@ export default class Textarea extends React.PureComponent {
     this._ref = React.createRef()
     this._id = props.id || makeUniqueId() // cause we need an id anyway
 
-    if (props.textarea_state) {
-      this.state.textareaState = props.textarea_state
+    if (props.textareaState) {
+      this.state.textareaState = props.textareaState
     }
 
     try {
@@ -238,10 +235,10 @@ export default class Textarea extends React.PureComponent {
   }
   componentDidMount() {
     const props = this.getProps()
-    if (props.inner_ref) {
-      typeof props.inner_ref === 'function'
-        ? props.inner_ref(this._ref.current)
-        : (props.inner_ref.current = this._ref.current)
+    if (props.innerRef) {
+      typeof props.innerRef === 'function'
+        ? props.innerRef(this._ref.current)
+        : (props.innerRef.current = this._ref.current)
     }
 
     if (isTrue(props.autoresize) && typeof window !== 'undefined') {
@@ -277,7 +274,7 @@ export default class Textarea extends React.PureComponent {
       value,
       textareaState: 'focus',
     })
-    dispatchCustomElementEvent(this, 'on_focus', { value, event })
+    dispatchCustomElementEvent(this, 'onFocus', { value, event })
   }
   onBlurHandler = (event) => {
     const { value } = event.target
@@ -285,7 +282,7 @@ export default class Textarea extends React.PureComponent {
       value,
       textareaState: Textarea.hasValue(value) ? 'dirty' : 'initial',
     })
-    dispatchCustomElementEvent(this, 'on_blur', { value, event })
+    dispatchCustomElementEvent(this, 'onBlur', { value, event })
   }
   onChangeHandler = (event) => {
     const { value } = event.target
@@ -299,7 +296,7 @@ export default class Textarea extends React.PureComponent {
 
     const rows = this.getRows(value)
 
-    const ret = dispatchCustomElementEvent(this, 'on_change', {
+    const ret = dispatchCustomElementEvent(this, 'onChange', {
       value,
       rows,
       event,
@@ -314,7 +311,7 @@ export default class Textarea extends React.PureComponent {
   onKeyDownHandler = (event) => {
     const rows = this.getRows()
     const { value } = event.target
-    dispatchCustomElementEvent(this, 'on_key_down', {
+    dispatchCustomElementEvent(this, 'onKeyDown', {
       value,
       rows,
       event,
@@ -357,7 +354,7 @@ export default class Textarea extends React.PureComponent {
       }
 
       const props = this.getProps()
-      const maxRows = parseFloat(props.autoresize_max_rows)
+      const maxRows = parseFloat(props.autoresizeMaxRows)
       if (maxRows > 0) {
         const maxHeight = maxRows * lineHeight
 
@@ -386,8 +383,6 @@ export default class Textarea extends React.PureComponent {
       Textarea.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).Textarea,
-      // Deprecated – can be removed in v11
-      pickFormElementProps(this.context?.FormRow),
       pickFormElementProps(this.context?.formElement),
       this.context.Textarea
     )
@@ -398,12 +393,12 @@ export default class Textarea extends React.PureComponent {
 
     const {
       label,
-      label_direction,
-      label_sr_only,
+      labelDirection,
+      labelSrOnly,
       status,
-      status_state,
-      status_props,
-      status_no_animation,
+      statusState,
+      statusProps,
+      statusNoAnimation,
       globalStatus,
       suffix,
       disabled,
@@ -413,17 +408,18 @@ export default class Textarea extends React.PureComponent {
       keepPlaceholder,
       align,
       size,
-      textarea_class,
+      textareaClass,
       readOnly,
-      textarea_attributes,
+      textareaAttributes,
       className,
       autoresize,
       characterCounter,
-      autoresize_max_rows, //eslint-disable-line
+      autoresizeMaxRows, //eslint-disable-line
       id: _id, //eslint-disable-line
       children, //eslint-disable-line
       value: _value, //eslint-disable-line
-      textarea_element: _textarea_element, //eslint-disable-line
+      textareaElement: _textareaElement, //eslint-disable-line
+      innerRef: _innerRef, //eslint-disable-line
 
       ...attributes
     } = props
@@ -435,19 +431,19 @@ export default class Textarea extends React.PureComponent {
     const hasValue = Textarea.hasValue(value)
 
     // pass along all props we wish to have as params
-    let { textarea_element: TextareaElement } = props
+    let { textareaElement: TextareaElement } = props
 
-    const textareaAttributes = textarea_attributes
-      ? typeof textarea_attributes === 'string'
-        ? JSON.parse(textarea_attributes)
-        : textarea_attributes
+    const usedTextareaAttributes = textareaAttributes
+      ? typeof textareaAttributes === 'string'
+        ? JSON.parse(textareaAttributes)
+        : textareaAttributes
       : {}
 
     const textareaParams = {
-      className: classnames(
+      className: clsx(
         'dnb-textarea__textarea',
         'dnb-input__border',
-        textarea_class
+        textareaClass
       ),
       role: 'textbox',
       value: hasValue ? value : '',
@@ -458,7 +454,7 @@ export default class Textarea extends React.PureComponent {
         ? convertJsxToString(placeholder)
         : undefined,
       ...attributes,
-      ...textareaAttributes,
+      ...usedTextareaAttributes,
       onChange: this.onChangeHandler,
       onFocus: this.onFocusHandler,
       onBlur: this.onBlurHandler,
@@ -479,19 +475,19 @@ export default class Textarea extends React.PureComponent {
     }
 
     const mainParams = {
-      className: classnames(
+      className: clsx(
         'dnb-textarea',
         `dnb-textarea--${textareaState}`,
         disabled && 'dnb-textarea--disabled',
         hasValue && 'dnb-textarea--has-content',
         align && `dnb-textarea__align--${align}`,
         size && `dnb-textarea__size--${size}`,
-        status && `dnb-textarea__status--${status_state}`,
+        status && `dnb-textarea__status--${statusState}`,
         autoresize && 'dnb-textarea__autoresize',
         !autoresize &&
           this.resizeModifier &&
           `dnb-textarea__resize--${this.resizeModifier}`,
-        label_direction && `dnb-textarea--${label_direction}`,
+        labelDirection && `dnb-textarea--${labelDirection}`,
         isTrue(stretch) && `dnb-textarea--stretch`,
         isTrue(keepPlaceholder) && `dnb-textarea--keep-placeholder`,
         'dnb-form-component',
@@ -502,14 +498,14 @@ export default class Textarea extends React.PureComponent {
     }
 
     const innerParams = {
-      className: classnames(
+      className: clsx(
         'dnb-textarea__inner',
         createSkeletonClass('shape', skeleton, this.context)
       ),
     }
 
     const shellParams = {
-      className: classnames('dnb-textarea__shell'),
+      className: clsx('dnb-textarea__shell'),
     }
 
     if (isTrue(disabled) || isTrue(skeleton)) {
@@ -533,8 +529,8 @@ export default class Textarea extends React.PureComponent {
 
     if (TextareaElement && typeof TextareaElement === 'function') {
       TextareaElement = TextareaElement(textareaParams, this._ref)
-    } else if (!TextareaElement && _textarea_element) {
-      TextareaElement = _textarea_element
+    } else if (!TextareaElement && _textareaElement) {
+      TextareaElement = _textareaElement
     }
 
     return (
@@ -544,8 +540,8 @@ export default class Textarea extends React.PureComponent {
             id={id + '-label'}
             forId={id}
             text={label}
-            labelDirection={label_direction}
-            srOnly={label_sr_only}
+            labelDirection={labelDirection}
+            srOnly={labelSrOnly}
             disabled={disabled}
             skeleton={skeleton}
           />
@@ -559,12 +555,12 @@ export default class Textarea extends React.PureComponent {
             id={id + '-form-status'}
             globalStatus={globalStatus}
             label={label}
-            text_id={id + '-status'} // used for "aria-describedby"
+            textId={id + '-status'} // used for "aria-describedby"
             text={status}
-            state={status_state}
-            no_animation={status_no_animation}
+            state={statusState}
+            noAnimation={statusNoAnimation}
             skeleton={skeleton}
-            {...status_props}
+            {...statusProps}
           />
 
           <span className="dnb-textarea__row">
@@ -577,7 +573,7 @@ export default class Textarea extends React.PureComponent {
                 placeholder &&
                 (textareaState !== 'focus' || keepPlaceholder) && (
                   <span
-                    className={classnames(
+                    className={clsx(
                       'dnb-textarea__placeholder',
                       align ? `dnb-textarea__align--${align}` : null
                     )}

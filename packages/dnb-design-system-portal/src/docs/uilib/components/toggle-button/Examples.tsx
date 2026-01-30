@@ -19,8 +19,8 @@ export const ToggleButtonChecked = () => (
       label="Label"
       text="Checked ToggleButton"
       checked
-      on_change={({ checked }) => {
-        console.log('on_change', checked)
+      onChange={({ checked }) => {
+        console.log('onChange', checked)
       }}
     />
   </ComponentBox>
@@ -31,8 +31,8 @@ export const ToggleButtonDefault = () => (
     <ToggleButton.Group
       label="ToggleButton Group"
       value="first"
-      on_change={({ value }) => {
-        console.log('on_change', value)
+      onChange={({ value }) => {
+        console.log('onChange', value)
       }}
     >
       <ToggleButton text="First" value="first" />
@@ -48,8 +48,8 @@ export const ToggleButtonMultiselect = () => (
       label="Multi-select"
       multiselect={true}
       values={['first', 'third']}
-      on_change={({ values }) => {
-        console.log('on_change', values)
+      onChange={({ values }) => {
+        console.log('onChange', values)
       }}
     >
       <ToggleButton text="First" value="first" />
@@ -63,11 +63,11 @@ export const ToggleButtonVertical = () => (
   <ComponentBox data-visual-test="toggle-button-group-vertical">
     <ToggleButton.Group
       label="Vertical Group"
-      layout_direction="column"
+      layoutDirection="column"
       multiselect={true}
       variant="checkbox"
-      on_change={({ values }) => {
-        console.log('on_change', values)
+      onChange={({ values }) => {
+        console.log('onChange', values)
       }}
     >
       <ToggleButton text="First" value="first" />
@@ -83,8 +83,8 @@ export const ToggleButtonStatus = () => (
       label="ToggleButton Group with status"
       status="Error message"
       multiselect={true}
-      on_change={({ values }) => {
-        console.log('on_change', values)
+      onChange={({ values }) => {
+        console.log('onChange', values)
       }}
     >
       <ToggleButton text="First" value="first" />
@@ -99,8 +99,8 @@ export const ToggleButtonStatusMessages = () => (
     <ToggleButton.Group
       label="ToggleButtons with status"
       variant="radio"
-      on_change={({ value }) => {
-        console.log('on_change', value)
+      onChange={({ value }) => {
+        console.log('onChange', value)
       }}
     >
       <ToggleButton text="First" value="first" status="error" />
@@ -114,7 +114,7 @@ export const ToggleButtonStatusMessages = () => (
         text="Third"
         value="third"
         status="Info message"
-        status_state="info"
+        statusState="info"
       />
     </ToggleButton.Group>
   </ComponentBox>

@@ -1,10 +1,10 @@
 import React, { useCallback, useContext, useMemo } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Props as FieldBlockProps } from '../../FieldBlock'
 import DataContext from '../../DataContext/Context'
 import StringField, { Props as StringFieldProps } from '../String'
 import CompositionField from '../Composition'
-import { CountryCode, Path } from '../../types'
+import { CountryCode } from '../../types'
 import useTranslation from '../../hooks/useTranslation'
 import useDataValue from '../../hooks/useDataValue'
 import { COUNTRY as defaultCountry } from '../../../../shared/defaults'
@@ -24,17 +24,6 @@ export type Props = Pick<
     /**
      * Defines which country the postal code and city is for.
      * Setting it to anything other than `no` will remove the default norwegian postal code pattern.
-     * You can also use the value of another field to define the country, by using a path value i.e. `/myCountryPath`.
-     * Default: `NO`
-     */
-    /**
-     * @deprecated – use countryCode instead. Will be removed in v11.
-     */
-    country?: Path | string
-
-    /**
-     * Defines which country the postal code and city is for.
-     * Setting it to anything other than `no` will remove the default norwegian postal code pattern.
      * You can also use the value of another field to define the countryCode, by using a path value i.e. `/myCountryCodePath`.
      * Default: `NO`
      */
@@ -51,13 +40,12 @@ function PostalCodeAndCity(props: Props) {
     city = {},
     help,
     width = 'large',
-    country,
     countryCode = countryCodeFromProvider ?? defaultCountry,
     size,
     ...compositionFieldProps
   } = props
 
-  const countryCodeValue = getSourceValue(country || countryCode)
+  const countryCodeValue = getSourceValue(countryCode)
 
   const handleCityDefaults = useCallback(
     (city: StringFieldProps) => {
@@ -118,7 +106,7 @@ function PostalCodeAndCity(props: Props) {
 
   return (
     <CompositionField
-      className={classnames(
+      className={clsx(
         'dnb-forms-field-postal-code-and-city',
         props.className
       )}
@@ -127,7 +115,7 @@ function PostalCodeAndCity(props: Props) {
     >
       <StringField
         size={size}
-        className={classnames(
+        className={clsx(
           'dnb-forms-field-postal-code-and-city__postal-code',
           postalCodeClassName
         )}
@@ -151,14 +139,14 @@ function PostalCodeAndCity(props: Props) {
         inputClassName="dnb-forms-field-postal-code-and-city__postal-code-input"
         inputMode="numeric"
         autoComplete="postal-code"
-        data-country-code={country || countryCode}
+        data-country-code={countryCode}
         {...postalCode}
       />
 
       <StringField
         help={help}
         size={size}
-        className={classnames(
+        className={clsx(
           'dnb-forms-field-postal-code-and-city__city',
           cityClassName
         )}

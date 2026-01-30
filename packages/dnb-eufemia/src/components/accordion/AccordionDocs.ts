@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const AccordionProperties: PropertiesTableProps = {
   id: {
-    doc: 'A unique `id` that will be used on the button element. If you use `remember_state`, an id is required.',
+    doc: 'A unique `id` that will be used on the button element. If you use `rememberState`, an id is required.',
     type: 'string',
     status: 'optional',
   },
@@ -16,22 +16,22 @@ export const AccordionProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  expanded_ssr: {
+  expandedSsr: {
     doc: "If set to `true` the accordion will be expanded during SSR. Can be potentially useful for SEO, although it will disturb client hydration, where React expects the same state. But that's mainly a technical aspect to consider.",
     type: 'boolean',
     status: 'optional',
   },
-  remember_state: {
+  rememberState: {
     doc: 'If set to `true`, it will remember a changed state initiated by the user. It requires a unique `id`. It will store the state in the local storage.',
     type: 'boolean',
     status: 'optional',
   },
-  flush_remembered_state: {
+  flushRememberedState: {
     doc: 'If set to `true`, the saved (remembered) state will be removed and the initial component state will be used and set.',
     type: 'boolean',
     status: 'optional',
   },
-  no_animation: {
+  noAnimation: {
     doc: 'If set to `true`, the open and close animation will be omitted.',
     type: 'boolean',
     status: 'optional',
@@ -46,17 +46,17 @@ export const AccordionProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  icon_position: {
+  iconPosition: {
     doc: 'Will set the placement of the icon. Defaults to `left`.',
     type: 'string',
     status: 'optional',
   },
-  icon_size: {
+  iconSize: {
     doc: 'Define a different icon size. Defaults to `medium` (1.5rem).',
     type: 'string',
     status: 'optional',
   },
-  left_component: {
+  leftComponent: {
     doc: 'Will add a React element on the left side of the `title`, inside `AccordionHeaderContainer`.',
     type: 'React.ReactNode',
     status: 'optional',
@@ -66,17 +66,17 @@ export const AccordionProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  prevent_rerender: {
+  preventRerender: {
     doc: "If set to `true` the accordion component will not re-render its content – can be useful for components you don't have control of storing the temporary state during an interaction.",
     type: 'boolean',
     status: 'optional',
   },
-  prevent_rerender_conditional: {
-    doc: 'Use this prop together with `prevent_rerender` – and if it is set to `true`, the accordion component will re-render if the children are a new React element and do not match the previous one anymore.',
+  preventRerenderConditional: {
+    doc: 'Use this prop together with `preventRerender` – and if it is set to `true`, the accordion component will re-render if the children are a new React element and do not match the previous one anymore.',
     type: 'boolean',
     status: 'optional',
   },
-  single_container: {
+  singleContainer: {
     doc: 'If set to `true`, a group of accordions will be wrapped to a sidebar looking menu for medium and larger screens.',
     type: 'boolean',
     status: 'optional',
@@ -87,11 +87,11 @@ export const AccordionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   heading: {
-    doc: 'If set to `true`, level 2 (h2) will be used. You can provide your own HTML heading (`h3`), or provide a `heading_level` property.',
+    doc: 'If set to `true`, level 2 (h2) will be used. You can provide your own HTML heading (`h3`), or provide a `headingLevel` property.',
     type: 'boolean',
     status: 'optional',
   },
-  heading_level: {
+  headingLevel: {
     doc: 'If `heading` is set to `true`, you can provide a numeric value to define a different heading level. Defaults to `2`.',
     type: 'boolean',
     status: 'optional',
@@ -129,22 +129,17 @@ export const AccordionProviderGroupProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  allow_close_all: {
+  allowCloseAll: {
     doc: 'If set to `true`, the group of accordions will allow all to close.',
     type: 'boolean',
     status: 'optional',
-  },
-  expandBehaviour: {
-    doc: 'Use `expandBehavior` instead.',
-    type: ['single', 'multiple'],
-    status: 'deprecated',
   },
   expandBehavior: {
     doc: 'Determines how many accordions can be expanded at once. Defaults to `single`.',
     type: ['single', 'multiple'],
     status: 'optional',
   },
-  expanded_id: {
+  expandedId: {
     doc: 'Define an `id` of a nested accordion that will get expanded.',
     type: 'string',
     status: 'optional',
@@ -157,7 +152,7 @@ export const AccordionProviderGroupProperties: PropertiesTableProps = {
 }
 
 export const AccordionEvents: PropertiesTableProps = {
-  on_change: {
+  onChange: {
     doc: 'Will be called by user click interaction. Returns an object with a boolean state `expanded` inside `{ expanded, id, event, ...event }`.',
     type: 'function',
     status: 'optional',

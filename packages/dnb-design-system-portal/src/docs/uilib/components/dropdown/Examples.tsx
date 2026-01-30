@@ -27,11 +27,7 @@ import type { DropdownAllProps } from '@dnb/eufemia/src/components/dropdown/Drop
 
 type VisibleWhenVisualTestReturn = Pick<
   DropdownAllProps,
-  | 'opened'
-  | 'prevent_close'
-  | 'independent_width'
-  | 'skip_portal'
-  | 'direction'
+  'open' | 'preventClose' | 'independentWidth' | 'skipPortal' | 'direction'
 >
 
 const Wrapper = styled.div`
@@ -67,26 +63,26 @@ const data = [
   // Every data item can, beside "content" - contain what ever
   {
     // (optional) can be what ever
-    selected_key: 'key_0',
+    selectedKey: 'key_0',
 
     // (optional) is show instead of "content", once selected
-    selected_value: 'Item 1 Value',
+    selectedValue: 'Item 1 Value',
 
     // Item content as a string or array
     content: 'Item 1 Content',
   },
   {
-    selected_key: 'key_1',
+    selectedKey: 'key_1',
     content: ['Item 2 Value', 'Item 2 Content'],
   },
   {
-    selected_key: 'key_2',
-    selected_value: 'Item 3 Value',
+    selectedKey: 'key_2',
+    selectedValue: 'Item 3 Value',
     content: ['Item 3 Content A', 'Item 3 Content B'],
   },
   {
-    selected_key: 'key_3',
-    selected_value: 'Item 4 Value',
+    selectedKey: 'key_3',
+    selectedValue: 'Item 4 Value',
     content: ['Item 4 Content A', <>Custom Component</>],
   },
 ]
@@ -103,26 +99,26 @@ export const DropdownFind = () => (
             content: 'B',
           },
           {
-            selected_value: (
-              <NumberFormat always_selectall ban>
+            selectedValue: (
+              <NumberFormat alwaysSelectall ban>
                 11345678962
               </NumberFormat>
             ),
             content: [
-              <NumberFormat key="ban-1" always_selectall ban>
+              <NumberFormat key="ban-1" alwaysSelectall ban>
                 11345678962
               </NumberFormat>,
               'C',
             ],
           },
           {
-            selected_value: (
-              <NumberFormat always_selectall ban>
+            selectedValue: (
+              <NumberFormat alwaysSelectall ban>
                 15349648901
               </NumberFormat>
             ),
             content: [
-              <NumberFormat key="ban-2" always_selectall ban>
+              <NumberFormat key="ban-2" alwaysSelectall ban>
                 15349648901
               </NumberFormat>,
               'D',
@@ -132,8 +128,8 @@ export const DropdownFind = () => (
             content: 'E',
           },
           {
-            selected_key: 'key_1',
-            selected_value: 'Find me by keypress',
+            selectedKey: 'key_1',
+            selectedValue: 'Find me by keypress',
             content: ['F', 'F', 'F', 'F'],
           },
           {
@@ -147,7 +143,7 @@ export const DropdownFind = () => (
         return (
           <Dropdown
             data={scrollableData}
-            value="key_1" // use either index (5) or selected_key: 'key_1'
+            value="key_1" // use either index (5) or selectedKey: 'key_1'
             label="Label"
           />
         )
@@ -164,39 +160,39 @@ export const DropdownNoValue = () => (
           // Every data item can, beside "content" - contain what ever
           {
             // (optional) can be what ever
-            selected_key: 'key_0',
+            selectedKey: 'key_0',
 
             // (optional) is show instead of "content", once selected
-            selected_value: 'Item 1 Value',
+            selectedValue: 'Item 1 Value',
 
             // Item content as a string or array
             content: 'Item 1 Content',
           },
           {
-            selected_key: 'key_1',
+            selectedKey: 'key_1',
             content: ['Item 2 Value', 'Item 2 Content'],
           },
           {
-            selected_value: (
-              <NumberFormat always_selectall ban>
+            selectedValue: (
+              <NumberFormat alwaysSelectall ban>
                 11345678962
               </NumberFormat>
             ),
             content: [
-              <NumberFormat key="ban" always_selectall ban>
+              <NumberFormat key="ban" alwaysSelectall ban>
                 11345678962
               </NumberFormat>,
               'Bank account number',
             ],
           },
           {
-            selected_key: 'key_2',
-            selected_value: 'Item 3 Value',
+            selectedKey: 'key_2',
+            selectedValue: 'Item 3 Value',
             content: ['Item 3 Content A', 'Item 3 Content B'],
           },
           {
-            selected_key: 'key_3',
-            selected_value: 'Item 4 Value',
+            selectedKey: 'key_3',
+            selectedValue: 'Item 4 Value',
             content: ['Item 4 Content A', <>Custom Component</>],
           },
         ]
@@ -206,8 +202,8 @@ export const DropdownNoValue = () => (
             data={data}
             label="Label"
             title="Please select a value"
-            on_change={({ data }) => {
-              console.log('on_change', data)
+            onChange={({ data }) => {
+              console.log('onChange', data)
             }}
           />
         )
@@ -272,15 +268,15 @@ export const DropdownIconLeft = () => (
     <ComponentBox scope={{ data }} data-visual-test="dropdown-left-icon">
       <Dropdown
         label="Label"
-        icon_position="left"
+        iconPosition="left"
         data={data}
         value={3}
-        skip_portal={true}
-        on_change={({ data: selectedDataItem }) => {
-          console.log('on_change', selectedDataItem)
+        skipPortal={true}
+        onChange={({ data: selectedDataItem }) => {
+          console.log('onChange', selectedDataItem)
         }}
-        on_show={() => {
-          console.log('on_show')
+        onOpen={() => {
+          console.log('onOpen')
         }}
       />
     </ComponentBox>
@@ -295,8 +291,8 @@ export const DropdownActionMenu = () => (
     >
       <Dropdown
         title="ActionMenu"
-        action_menu={true}
-        align_dropdown="left"
+        actionMenu={true}
+        align="left"
         data={() => ({
           trash: (
             <>
@@ -311,7 +307,7 @@ export const DropdownActionMenu = () => (
             </>
           ),
         })}
-        on_change={({ value }) => console.log('action:', value)}
+        onChange={({ value }) => console.log('action:', value)}
       />
     </ComponentBox>
   </Wrapper>
@@ -323,9 +319,9 @@ export const DropdownTertiary = () => (
       <Dropdown
         variant="tertiary"
         direction="bottom"
-        independent_width={true}
-        icon_position="left"
-        align_dropdown="left"
+        independentWidth={true}
+        iconPosition="left"
+        align="left"
         data={data}
       />
     </ComponentBox>
@@ -341,9 +337,9 @@ export const DropdownTertiaryRight = () => (
       <Dropdown
         variant="tertiary"
         direction="bottom"
-        independent_width={true}
-        icon_position="right"
-        align_dropdown="right"
+        independentWidth={true}
+        iconPosition="right"
+        align="right"
         data={data}
       />
     </ComponentBox>
@@ -358,7 +354,7 @@ export const DropdownMoreMenu = () => {
       return {}
     }
     return {
-      independent_width: true,
+      independentWidth: true,
       direction: 'bottom',
     }
   }
@@ -369,7 +365,7 @@ export const DropdownMoreMenu = () => {
         data-visual-test="dropdown-more_menu"
       >
         <Dropdown
-          more_menu={true}
+          moreMenu={true}
           size="small"
           title="Choose an item"
           data={() => [
@@ -383,8 +379,8 @@ export const DropdownMoreMenu = () => {
           {...visualTestProps(globalThis.IS_TEST)}
         />
         <Dropdown
-          prevent_selection={true}
-          align_dropdown="right"
+          preventSelection={true}
+          align="right"
           size="small"
           title={null}
           aria-label="Choose an item"
@@ -401,7 +397,7 @@ export const DropdownMoreMenu = () => {
           {...visualTestProps(globalThis.IS_TEST)}
         />
         <Dropdown
-          more_menu={true}
+          moreMenu={true}
           title="Choose an item"
           data={[
             <Link href="/" key="item-1">
@@ -413,8 +409,8 @@ export const DropdownMoreMenu = () => {
           right="small"
         />
         <Dropdown
-          prevent_selection={true}
-          align_dropdown="right"
+          preventSelection={true}
+          align="right"
           title={null}
           aria-label="Choose an item"
           data={() => ({
@@ -426,11 +422,11 @@ export const DropdownMoreMenu = () => {
             second: 'Or press on me',
             third: <>Custom component</>,
           })}
-          on_change={({ value }) => {
-            console.log('on_change', value)
+          onChange={({ value }) => {
+            console.log('onChange', value)
           }}
-          on_select={({ active_item }) => {
-            console.log('on_select', active_item)
+          onSelect={({ activeItem }) => {
+            console.log('onSelect', activeItem)
           }}
         />
       </ComponentBox>
@@ -443,8 +439,8 @@ export const DropdownIndependentWidthLeft = () => {
     <Wrapper>
       <ComponentBox data-visual-test="dropdown-independent_width_left">
         <Dropdown
-          independent_width={true}
-          icon_position="left"
+          independentWidth={true}
+          iconPosition="left"
           direction="top"
           title="Choose an item"
           data={() => [
@@ -466,8 +462,8 @@ export const DropdownIndependentWidthRight = () => {
     <Wrapper>
       <ComponentBox data-visual-test="dropdown-independent_width_right">
         <Dropdown
-          independent_width={true}
-          icon_position="right"
+          independentWidth={true}
+          iconPosition="right"
           direction="top"
           title="Choose an item"
           data={() => [
@@ -533,9 +529,9 @@ export const DropdownCustomEvent = () => {
       return {}
     }
     return {
-      prevent_close: true,
-      independent_width: true,
-      skip_portal: true,
+      preventClose: true,
+      independentWidth: true,
+      skipPortal: true,
       direction: 'bottom',
     }
   }
@@ -570,7 +566,7 @@ export const DropdownCustomEvent = () => {
 
           return (
             <Dropdown
-              action_menu
+              actionMenu
               right
               label="Label"
               title="Choose an item"
@@ -583,7 +579,7 @@ export const DropdownCustomEvent = () => {
                 second: 'Or press on me',
                 third: <CustomComponent key="item-2" />,
               })}
-              on_change={({ value }) => {
+              onChange={({ value }) => {
                 console.log('More menu:', value)
               }}
               suffix={
@@ -651,19 +647,19 @@ export const DropdownCustomWidth = () => (
             <CustomWidthOne
               label="Label"
               size="default"
-              icon_position="left"
+              iconPosition="left"
               data={data}
             />
             <CustomWidthTwo
               label="Label"
               size="small"
-              more_menu
+              moreMenu
               data={data}
             />
             <CustomWidthThree
               label="Label"
               size="large"
-              align_dropdown="right"
+              align="right"
               data={data}
             />
             <CustomWidthFour
@@ -687,7 +683,7 @@ export const DropdownStatusVertical = () => (
       <Dropdown
         data={data}
         label="Label"
-        label_direction="vertical"
+        labelDirection="vertical"
         status="Message to the user"
       />
     </ComponentBox>
@@ -711,7 +707,7 @@ export const DropdownListOpened = () => (
           <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
             <span className="dnb-drawer-list__option__inner">
               <span className="dnb-drawer-list__option__item item-nr-1">
-                <NumberFormat always_selectall key="n-1" ban>
+                <NumberFormat alwaysSelectall key="n-1" ban>
                   12345678902
                 </NumberFormat>
               </span>
@@ -723,7 +719,7 @@ export const DropdownListOpened = () => (
           <li className="dnb-drawer-list__option">
             <span className="dnb-drawer-list__option__inner">
               <span className="dnb-drawer-list__option__item item-nr-1">
-                <NumberFormat always_selectall key="n-2" ban>
+                <NumberFormat alwaysSelectall key="n-2" ban>
                   11345678962
                 </NumberFormat>
               </span>
@@ -735,7 +731,7 @@ export const DropdownListOpened = () => (
           <li className="dnb-drawer-list__option last-of-type">
             <span className="dnb-drawer-list__option__inner">
               <span className="dnb-drawer-list__option__item item-nr-1">
-                <NumberFormat always_selectall key="n-3" ban>
+                <NumberFormat alwaysSelectall key="n-3" ban>
                   15349648901
                 </NumberFormat>
               </span>
@@ -744,7 +740,7 @@ export const DropdownListOpened = () => (
               </span>
             </span>
           </li>
-          <li className="dnb-drawer-list__triangle" />
+          <li className="dnb-drawer-list__arrow" />
         </ul>
       </span>
     </ComponentBox>
@@ -822,8 +818,8 @@ export const DropdownCustomizedLook = () => {
           return (
             <Dropdown
               data={data}
-              action_menu
-              trigger_element={(props) => (
+              actionMenu
+              triggerElement={(props) => (
                 <button {...props} style={styles.customTrigger}>
                   <Icon icon={newspaper} /> Custom trigger{' '}
                   <Icon icon={chevron_down} />

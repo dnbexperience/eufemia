@@ -8,7 +8,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Context from '../../shared/Context'
 import {
   warn,
@@ -60,14 +60,14 @@ export type NumberFormatProps = {
   prefix?: NumberFormatPrefix
   suffix?: NumberFormatSuffix
   currency?: NumberFormatCurrency
-  currency_display?:
+  currencyDisplay?:
     | 'code'
     | 'name'
     | 'symbol'
     | 'narrowSymbol'
     | ''
     | false
-  currency_position?: NumberFormatCurrencyPosition
+  currencyPosition?: NumberFormatCurrencyPosition
   compact?: NumberFormatCompact
   ban?: boolean
   nin?: boolean
@@ -79,10 +79,9 @@ export type NumberFormatProps = {
   options?: NumberFormatOptions
   decimals?: NumberFormatDecimals
   selectall?: boolean
-  always_selectall?: boolean
-  copy_selection?: boolean
-  clean_copy_value?: boolean
-  omit_rounding?: boolean
+  alwaysSelectall?: boolean
+  copySelection?: boolean
+  cleanCopyValue?: boolean
   rounding?: 'omit' | 'half-even' | 'half-up'
   clean?: boolean
   srLabel?: React.ReactNode
@@ -106,6 +105,7 @@ export const COPY_TOOLTIP_TIMEOUT = 3000
 
 export default class NumberFormat extends React.PureComponent<NumberFormatAllProps> {
   static contextType = Context
+
   static defaultProps = {
     id: null,
     value: null,
@@ -113,8 +113,8 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     prefix: null,
     suffix: null,
     currency: null,
-    currency_display: null, // code, name, symbol
-    currency_position: null, // null, before, after
+    currencyDisplay: null, // code, name, symbol
+    currencyPosition: null, // null, before, after
     compact: null,
     ban: null,
     nin: null,
@@ -126,10 +126,9 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     options: null,
     decimals: null,
     selectall: true,
-    always_selectall: false,
-    copy_selection: true,
-    clean_copy_value: false,
-    omit_rounding: null,
+    alwaysSelectall: false,
+    copySelection: true,
+    cleanCopyValue: false,
     rounding: null,
     clean: null,
     srLabel: null,
@@ -176,7 +175,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
   showCopyTooltip = (message) => {
     const translations = this.context.getTranslation?.(this.props)
       ?.NumberFormat
-    const label = message || translations?.clipboard_copy
+    const label = message || translations?.clipboardCopy
 
     if (!label) {
       return
@@ -197,7 +196,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
 
   shortcutHandler = () => {
     const label = this.context.getTranslation(this.props)?.NumberFormat
-      .clipboard_copy
+      .clipboardCopy
     this.showCopyTooltip(label)
   }
 
@@ -214,7 +213,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
   onClickHandler = () => {
     if (
       (isTrue(this.props.selectall) ||
-        isTrue(this.props.always_selectall)) &&
+        isTrue(this.props.alwaysSelectall)) &&
       !hasSelectedText()
     ) {
       this.setFocus()
@@ -234,7 +233,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       this._selectionRef.current?.focus({ preventScroll: true })
       this.selectAll()
 
-      if (!isTrue(this.props.copy_selection)) {
+      if (!isTrue(this.props.copySelection)) {
         this.outsideClick = detectOutsideClick(
           this._ref.current,
           this.onBlurHandler
@@ -264,7 +263,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     }
     if (React.isValidElement(comp)) {
       return React.cloneElement(comp, {
-        className: classnames(comp.props.className, className),
+        className: clsx(comp.props.className, className),
       })
     }
     return <span className={className}>{comp}</span>
@@ -298,8 +297,8 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       suffix,
       children,
       currency,
-      currency_display,
-      currency_position,
+      currencyDisplay,
+      currencyPosition,
       compact,
       ban,
       nin,
@@ -313,15 +312,16 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       options,
       locale,
       decimals,
-      omit_rounding,
       rounding,
       clean,
       selectall,
-      copy_selection,
-      clean_copy_value,
+      copySelection,
+      cleanCopyValue,
       srLabel,
       element,
       className,
+
+      alwaysSelectall, // eslint-disable-line
       ..._rest
     } = props
     let rest = _rest
@@ -333,16 +333,16 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       value = children
     }
 
-    let currencyPosition = currency_position
-    if (currency_display === 'code' && !currencyPosition) {
-      currencyPosition = 'before'
+    let usedCurrencyPosition = currencyPosition
+    if (currencyDisplay === 'code' && !usedCurrencyPosition) {
+      usedCurrencyPosition = 'before'
     }
     const formatOptions = {
       locale,
       currency,
-      currency_display,
-      currency_position: currencyPosition,
-      omit_currency_sign: this.state.omitCurrencySign,
+      currencyDisplay,
+      currencyPosition: usedCurrencyPosition,
+      omitCurrencySign: this.state.omitCurrencySign,
       compact,
       ban,
       nin,
@@ -350,16 +350,15 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       org,
       percent,
       decimals,
-      omit_rounding: isTrue(omit_rounding),
       rounding,
       options,
       clean: isTrue(clean),
-      clean_copy_value: isTrue(clean_copy_value),
+      cleanCopyValue: isTrue(cleanCopyValue),
       returnAria: true,
       invalidAriaText:
         locale && locale !== this.context.locale
           ? null
-          : translations?.not_available,
+          : translations?.notAvailable,
     }
 
     // use only the props from context, who are available here anyway
@@ -417,7 +416,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     const attributes = {
       lang,
       ref: this._ref,
-      className: classnames(
+      className: clsx(
         'dnb-number-format',
         className,
         (isTrue(currency) || typeof currency === 'string') &&
@@ -437,7 +436,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     }
 
     const displayParams = {}
-    if (isTrue(selectall) || isTrue(copy_selection)) {
+    if (isTrue(selectall) || isTrue(copySelection)) {
       displayParams.onClick = this.onClickHandler
       displayParams.onContextMenu = this.onContextMenuHandler
     }
@@ -461,7 +460,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     return (
       <Element {...attributes}>
         <span
-          className={classnames(
+          className={clsx(
             'dnb-number-format__visible',
             createSkeletonClass('font', skeleton, this.context)
           )}
@@ -481,7 +480,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
           }
         />
 
-        {isTrue(copy_selection) && (
+        {isTrue(copySelection) && (
           <span
             className="dnb-number-format__selection dnb-no-focus"
             ref={this._selectionRef}

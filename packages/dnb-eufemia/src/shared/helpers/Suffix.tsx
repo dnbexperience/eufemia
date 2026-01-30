@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { createSkeletonClass } from '../../components/skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../../components/skeleton/Skeleton'
 
@@ -29,7 +29,7 @@ const Suffix = ({
   const content = (
     // The styles are as of now, set in @dnb/eufemia/src/style/components/imports.scss
     <span
-      className={classnames(
+      className={clsx(
         'dnb-suffix',
         !React.isValidElement(children) &&
           createSkeletonClass('font', skeleton, context),

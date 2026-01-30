@@ -218,7 +218,7 @@ export const DropdownDynamicOptions = () => (
                   size="medium"
                   right="x-small"
                   variant={numOptions === num ? 'primary' : 'secondary'}
-                  on_click={() => setNumOptions(num)}
+                  onClick={() => setNumOptions(num)}
                 >
                   {num} options
                 </Button>

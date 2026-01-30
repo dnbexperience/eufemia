@@ -1,5 +1,5 @@
 import React, { useCallback, useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { useTranslation } from '../../hooks'
 import DataContext from '../../DataContext/Context'
 import Button, { ButtonProps } from '../../../../components/button/Button'
@@ -27,9 +27,9 @@ function IsolationCommitButton(props: Props) {
   return (
     <Button
       variant="secondary"
-      className={classnames('dnb-forms-isolate__commit-button', className)}
+      className={clsx('dnb-forms-isolate__commit-button', className)}
       icon={check}
-      icon_position="left"
+      iconPosition="left"
       onClick={onClickHandler}
       {...rest}
     >

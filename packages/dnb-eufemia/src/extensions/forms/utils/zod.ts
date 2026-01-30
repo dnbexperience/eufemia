@@ -171,8 +171,13 @@ function getMessageValuesFromZodIssue(
       }
     }
     if (code === 'not_multiple_of') {
+      // Type guard: Zod's not_multiple_of issue may have multipleOf or multiple property
+      const issueWithMultiple = issue as z.core.$ZodIssue & {
+        multipleOf?: number
+        multiple?: number
+      }
       const multipleOf =
-        (issue as any)?.multipleOf ?? (issue as any)?.multiple
+        issueWithMultiple.multipleOf ?? issueWithMultiple.multiple
       if (typeof multipleOf === 'number') {
         return { multipleOf: String(multipleOf) }
       }

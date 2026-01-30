@@ -110,20 +110,20 @@ html:not([data-whatintent=touch]) .dnb-date-picker__day--start-date.dnb-date-pic
 html:not([data-whatintent=touch]) .dnb-date-picker__day--inactive .dnb-button[disabled] {
   cursor: default;
 }
-.dnb-date-picker--opened .dnb-input .dnb-input__shell, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
+.dnb-date-picker--open .dnb-input .dnb-input__shell, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
   --border-color: var(--color-sea-green);
   --border-width: 0.125rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-date-picker--opened .dnb-input .dnb-input__submit-button__button.dnb-button--secondary, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__submit-button__button.dnb-button--secondary {
+.dnb-date-picker--open .dnb-input .dnb-input__submit-button__button.dnb-button--secondary, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__submit-button__button.dnb-button--secondary {
   color: var(--color-white);
   background-color: var(--color-sea-green);
 }
-.dnb-date-picker--opened .dnb-input .dnb-input__submit-button__button.dnb-button--secondary::after, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__submit-button__button.dnb-button--secondary::after {
+.dnb-date-picker--open .dnb-input .dnb-input__submit-button__button.dnb-button--secondary::after, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__submit-button__button.dnb-button--secondary::after {
   background-color: inherit;
 }
-.dnb-date-picker__status--error:not(.dnb-date-picker--opened) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
+.dnb-date-picker__status--error:not(.dnb-date-picker--open) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
   --border-color: var(--color-fire-red);
   --border-width: 0.125rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
@@ -604,12 +604,6 @@ html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-w
   cursor: not-allowed;
   outline: none;
 }
-.dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
-  align-self: flex-start;
-}
-.dnb-form-row--horizontal .dnb-form-row__content .dnb-button__text {
-  white-space: nowrap;
-}
 .dnb-button + .dnb-form-status {
   margin-top: 0.5rem;
 }
@@ -1025,9 +1019,6 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 .dnb-input__input::-webkit-search-cancel-button {
   display: none;
 }
-.dnb-input__input::-ms-clear {
-  display: none;
-}
 .dnb-input ::-webkit-file-upload-button {
   cursor: pointer;
   outline: none;
@@ -1042,12 +1033,6 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 .dnb-input--password .dnb-input__placeholder, .dnb-input--password .dnb-input__input {
   margin-right: 2.5rem;
   padding-right: 0;
-}
-.dnb-input--password .dnb-input__placeholder::-ms-clear, .dnb-input--password .dnb-input__input::-ms-clear {
-  display: none;
-}
-.dnb-input--password .dnb-input__placeholder::-ms-reveal, .dnb-input--password .dnb-input__input::-ms-reveal {
-  display: none;
 }
 .dnb-input--password .dnb-input__placeholder {
   padding-right: 4rem;
@@ -1070,7 +1055,6 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 }
 .dnb-input__submit-button {
   position: relative;
-  align-self: center; /* IE needs this to stay centered */
 }
 .dnb-input__submit-button__button {
   border-radius: 0 var(--input-border-radius) var(--input-border-radius) 0;
@@ -1235,9 +1219,6 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
   width: auto;
 }
 .dnb-input--vertical.dnb-input--stretch .dnb-input__inner {
-  width: 100%;
-}
-.dnb-form-row--horizontal .dnb-input--stretch {
   width: 100%;
 }
 .dnb-input__icon {
@@ -1750,12 +1731,6 @@ html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-w
   cursor: not-allowed;
   outline: none;
 }
-.dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
-  align-self: flex-start;
-}
-.dnb-form-row--horizontal .dnb-form-row__content .dnb-button__text {
-  white-space: nowrap;
-}
 .dnb-button + .dnb-form-status {
   margin-top: 0.5rem;
 }
@@ -2269,12 +2244,6 @@ html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-w
 .dnb-button[disabled] {
   cursor: not-allowed;
   outline: none;
-}
-.dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
-  align-self: flex-start;
-}
-.dnb-form-row--horizontal .dnb-form-row__content .dnb-button__text {
-  white-space: nowrap;
 }
 .dnb-button + .dnb-form-status {
   margin-top: 0.5rem;
@@ -3629,28 +3598,6 @@ button .dnb-form-status__text {
   white-space: nowrap;
   height: inherit;
 }
-.dnb-date-picker__triangle {
-  pointer-events: none;
-  position: absolute;
-  top: calc(2px - var(--date-picker-input-height) / 2);
-  left: 0;
-  right: auto;
-  margin: 0 1.5rem;
-  width: calc(var(--date-picker-input-height) / 2);
-  height: calc(var(--date-picker-input-height) / 2);
-  overflow: hidden;
-}
-.dnb-date-picker__triangle::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: calc(var(--date-picker-input-height) / 2);
-  height: calc(var(--date-picker-input-height) / 2);
-  transform: translateY(60%) rotate(45deg);
-  border: 1px solid var(--color-black-border);
-  background-color: var(--color-white);
-}
 .dnb-date-picker__container {
   width: min-content;
   position: relative;
@@ -3688,16 +3635,10 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
   overflow: visible;
   white-space: nowrap;
 }
-@supports (-webkit-appearance: none) and (not (overflow: -webkit-marquee)) and (not (-ms-ime-align: auto)) and (not (-moz-appearance: none)) {
+@supports (-webkit-appearance: none) and (not (overflow: -webkit-marquee)) and (not (-moz-appearance: none)) {
   .dnb-date-picker__input,
   .dnb-date-picker .dnb-input__input.dnb-date-picker__input, .dnb-core-style .dnb-date-picker__input {
     margin: 0 -4px;
-  }
-}
-@supports (-ms-ime-align: auto) {
-  .dnb-date-picker__input,
-  .dnb-date-picker .dnb-input__input.dnb-date-picker__input, .dnb-core-style .dnb-date-picker__input {
-    margin: 0 -5px;
   }
 }
 @supports (-webkit-touch-callout: none) {
@@ -3937,9 +3878,6 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
   flex-grow: 1;
 }
 .dnb-date-picker--stretch .dnb-date-picker__inner, .dnb-date-picker--stretch .dnb-date-picker__shell {
-  width: 100%;
-}
-.dnb-form-row--horizontal .dnb-date-picker--stretch {
   width: 100%;
 }
 .dnb-date-picker:not(.dnb-date-picker--vertical)[class*=__status] {

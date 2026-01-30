@@ -136,7 +136,7 @@ export const ListSandbox = () => (
           </Dl>
         </Box>
         <Box>
-          <Dl direction="horizontal">
+          <Dl layout="horizontal">
             <Dl.Item>
               <Dt>Term</Dt>
               <Dd>Description</Dd>

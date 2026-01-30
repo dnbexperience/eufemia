@@ -33,22 +33,12 @@ const CustomStyle = styled.div`
 
 const myRef = React.createRef<HTMLInputElement>()
 
-// export default {
-//   title: 'Components'
-// }
-
 export const InputSandbox = () => {
-  // React.useEffect(() => {
-  //   console.log('myRef', myRef.current)
-  //   // console.log('myRef', Input, myRef.current)
-  //   // myRef.current.focus()
-  // })
-
   return (
     <CustomStyle>
       <Wrapper>
         <Box>
-          <Provider formElement={{ label_direction: 'vertical' }}>
+          <Provider formElement={{ labelDirection: 'vertical' }}>
             <Flex.Vertical>
               <Input value="Plain" />
               <Input value="Search" type="search" />
@@ -61,7 +51,7 @@ export const InputSandbox = () => {
               />
               <Input
                 placeholder="Placeholder Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
-                icon_position="right"
+                iconPosition="right"
                 icon="calendar"
                 align="right"
               />
@@ -74,7 +64,7 @@ export const InputSandbox = () => {
               <Input
                 size="medium"
                 placeholder="Placeholder"
-                icon_position="right"
+                iconPosition="right"
                 icon="calendar"
                 align="right"
               />
@@ -87,7 +77,7 @@ export const InputSandbox = () => {
               <Input
                 size="large"
                 placeholder="Placeholder"
-                icon_position="right"
+                iconPosition="right"
                 icon="calendar"
                 align="right"
               />
@@ -106,12 +96,12 @@ export const InputSandbox = () => {
         </Box>
         <Box>
           🚀
-          <Provider formElement={{ label_direction: 'vertical' }}>
+          <Provider formElement={{ labelDirection: 'vertical' }}>
             <Form.Handler>
               <FieldBlock label="Long label labwl Adipiscing mauris dis proin nec Condimentum egestas class blandit netus non a suscipit id urna:">
                 <Flex.Vertical>
                   <Input
-                    inner_ref={myRef}
+                    innerRef={myRef}
                     label="Input A:"
                     placeholder="Placeholder text"
                   />
@@ -126,7 +116,7 @@ export const InputSandbox = () => {
         <Box>
           <Provider
             formElement={{
-              label_direction: 'vertical',
+              labelDirection: 'vertical',
             }}
           >
             <FieldBlock label="Vertical label:">
@@ -146,7 +136,7 @@ export const InputSandbox = () => {
           </FieldBlock>
         </Box>
         <Box>
-          <Provider formElement={{ label_direction: 'vertical' }}>
+          <Provider formElement={{ labelDirection: 'vertical' }}>
             <FieldBlock label="Legend:">
               <Flex.Vertical>
                 <Input label="Vertical 1:" />
@@ -160,7 +150,7 @@ export const InputSandbox = () => {
             label="Vertical label:"
             value="Stretch me ..."
             stretch
-            label_direction="vertical"
+            labelDirection="vertical"
           />
         </Box>
         <Box>
@@ -168,8 +158,8 @@ export const InputSandbox = () => {
           <Input
             selectall
             label="Label:"
-            on_change={(event) => {
-              console.log('on_change', event)
+            onChange={(event) => {
+              console.log('onChange', event)
             }}
           >
             Input ...
@@ -209,7 +199,7 @@ export const InputSandbox = () => {
             type="search"
             align="right"
             stretch
-            submit_button_title="Custom search button title"
+            submitButtonTitle="Custom search button title"
             placeholder="Large input clear button with right aligned text"
           />
         </Box>
@@ -219,7 +209,7 @@ export const InputSandbox = () => {
             status="Error"
             label="Disabled search:"
             type="search"
-            submit_button_title="Custom search button title"
+            submitButtonTitle="Custom search button title"
             placeholder="Search text placeholder"
           />
         </Box>
@@ -241,7 +231,6 @@ export const InputSandbox = () => {
           <InputMasked
             label="Masked:"
             autocomplete="off"
-            // value="1000000"
             mask={[
               '+',
               /[4]/, // have to start with 4
@@ -260,24 +249,19 @@ export const InputSandbox = () => {
               /\d/,
               /\d/,
             ]}
-            show_mask={true}
+            showMask={true}
           />
         </Box>
         <Box>
           <form
             onSubmit={(event) => {
-              // console.log('onSubmit', event)
               event.preventDefault()
-              // event.persist()
             }}
           >
             <InputUpdate />
             <Button
               text="Submit"
               type="submit"
-              on_click={(event) => {
-                console.log('on_click', event)
-              }}
               onClick={(event) => {
                 console.log('onClick', event)
               }}
@@ -295,7 +279,7 @@ export const InputSandbox = () => {
           clear
             label="Small Input"
             size="small"
-            icon_size="small"
+            iconSize="small"
             bottom="small"
           />
         </Box>
@@ -363,11 +347,11 @@ const InputUpdate = () => {
   return (
     <Input
       label="Label:"
-      on_change={({ value }) => {
-        console.log('on_change', value)
+      onChange={({ value }) => {
+        console.log('onChange', value)
       }}
-      on_submit={({ value }) => {
-        console.log('on_submit', value)
+      onSubmit={({ value }) => {
+        console.log('onSubmit', value)
       }}
       value={initValue}
     />
@@ -380,12 +364,12 @@ const CustomInput = () => {
     <>
       <Input
         value={value}
-        on_change={({ value }) => {
-          console.log('on_change', value)
+        onChange={({ value }) => {
+          console.log('onChange', value)
           setValue(value)
         }}
-        on_state_update={({ value }) => {
-          console.warn('on_state_update', value)
+        onStateUpdate={({ value }) => {
+          console.warn('onStateUpdate', value)
           setValue(value)
         }}
         right
@@ -393,7 +377,7 @@ const CustomInput = () => {
       />
       <Button
         text="Reset"
-        on_click={() => {
+        onClick={() => {
           setValue('123')
         }}
       />
@@ -415,7 +399,7 @@ export function InputClearButton() {
           clear
           label="Small Input"
           size="small"
-          icon_size="small"
+          iconSize="small"
           bottom="small"
         />
       </Box>
@@ -479,8 +463,6 @@ export function ControlledInput() {
   const onChangeHandler = ({ value }) => {
     value = value.replace(/[^0-9]/g, '')
     setValue(value)
-    // return format(value)
-    // return false
   }
 
   const onChangeHandlerHtml = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -501,8 +483,8 @@ export function ControlledInput() {
         top
         left
         right
-        on_change={onChangeHandler}
-        on_key_down={onKeyDownHandler}
+        onChange={onChangeHandler}
+        onKeyDown={onKeyDownHandler}
         value={format(value).toString()}
         selectall
       />
@@ -534,14 +516,14 @@ export const OnSubmitTypeSearch = () => {
         <Input
           label="type: search"
           type="search"
-          on_submit={({ value }) => {
-            console.log('on_submit:', value)
+          onSubmit={({ value }) => {
+            console.log('onSubmit:', value)
           }}
-          on_submit_focus={({ value }) => {
-            console.log('on_submit_focus:', value)
+          onSubmitFocus={({ value }) => {
+            console.log('onSubmitFocus:', value)
           }}
-          on_submit_blur={({ value }) => {
-            console.log('on_submit_blur:', value)
+          onSubmitBlur={({ value }) => {
+            console.log('onSubmitBlur:', value)
           }}
         />
       </Box>

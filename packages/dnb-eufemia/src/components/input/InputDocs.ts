@@ -13,16 +13,16 @@ export const InputProperties: PropertiesTableProps = {
   },
   label: {
     doc: 'Prepends the Form Label component. If no ID is provided, a random ID is created.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
-  label_sr_only: {
+  labelSrOnly: {
     doc: 'Use `true` to make the label only readable by screen readers.',
     type: 'boolean',
     status: 'optional',
   },
-  label_direction: {
-    doc: 'Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`.',
+  labelDirection: {
+    doc: 'Use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`.',
     type: 'string',
     status: 'optional',
   },
@@ -31,12 +31,12 @@ export const InputProperties: PropertiesTableProps = {
     type: ['error', 'info', 'boolean'],
     status: 'optional',
   },
-  status_state: {
+  statusState: {
     doc: 'Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.',
     type: ['error', 'info'],
     status: 'optional',
   },
-  status_props: {
+  statusProps: {
     doc: 'Use an object to define additional FormStatus properties.',
     type: 'object',
     status: 'optional',
@@ -53,25 +53,25 @@ export const InputProperties: PropertiesTableProps = {
   },
   icon: {
     doc: 'Icon to show before or after the input / placeholder. Can be either a string defining a primary icon or a Component using an SVG icon of either 16px or 24px.',
-    type: ['string', 'React.Node'],
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
-  icon_position: {
+  iconPosition: {
     doc: 'Defines the position of icon inside the input. Set to `left` or `right`. Defaults to `left` if not set.',
     type: 'string',
     status: 'optional',
   },
-  icon_size: {
+  iconSize: {
     doc: 'The icon size of the icon shows. Defaults to `medium`.',
     type: 'string',
     status: 'optional',
   },
-  keep_placeholder: {
+  keepPlaceholder: {
     doc: 'Set to `true` in case the `placeholder` has to be kept during focus. By default, the placeholder disappears on focus.',
     type: 'boolean',
     status: 'optional',
   },
-  input_class: {
+  inputClass: {
     doc: 'In case we have to set a custom input class.',
     type: 'string',
     status: 'optional',
@@ -86,14 +86,14 @@ export const InputProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  submit_button_title: {
+  submitButtonTitle: {
     doc: 'Title attribute for the search/submit button. Only relevant when `type="search"`.',
     type: 'string',
     status: 'optional',
   },
   suffix: {
     doc: 'Text describing the content of the input more than the label. you can also send in a React component, so it gets wrapped inside the Input component.',
-    type: ['string', 'React.Node'],
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
   size: {
@@ -121,32 +121,32 @@ export const InputProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  input_attributes: {
-    doc: 'Provide the Input element with any attributes by using an Object `input_attributes={{size:\'2\'}}` or a JSON Object `input_attributes=\'{"size":"2"}\'`. **NB:** Keep in mind, that also every not listed component property will be sent along and set as an Input element attribute.',
+  inputAttributes: {
+    doc: 'Provide the Input element with any attributes by using an Object `inputAttributes={{size:\'2\'}}` or a JSON Object `inputAttributes=\'{"size":"2"}\'`. **NB:** Keep in mind, that also every not listed component property will be sent along and set as an Input element attribute.',
     type: 'object',
     status: 'optional',
   },
-  input_state: {
+  inputState: {
     doc: 'Defines a custom visual state of the input. Use it only if you have to simulate a custom state. Currently are three statuses `virgin` , `focus` and `dirty`. Defaults to `null`.',
     type: 'string',
     status: 'optional',
   },
-  submit_element: {
+  submitElement: {
     doc: 'Accepts a React element which will show up like the "submit button" would do on `type="search"`.',
     type: ['string', 'React.Element'],
     status: 'optional',
   },
-  inner_ref: {
-    doc: 'By providing a React.ref we can get the internally used input element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.',
+  innerRef: {
+    doc: 'By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.',
     type: 'React.RefObject',
     status: 'optional',
   },
-  input_element: {
-    doc: 'By providing a new component we can change the internally used element. Also supports a string only, like `input_element="input"`.',
+  inputElement: {
+    doc: 'By providing a new component we can change the internally used element. Also supports a string only, like `inputElement="input"`.',
     type: ['string', 'React.Element'],
     status: 'internal',
   },
-  inner_element: {
+  innerElement: {
     doc: 'By providing a new component to be rendered inside the "shell" – we can add a freely customizable internal element. Used by the Autocomplete component.',
     type: ['string', 'React.Element'],
     status: 'internal',
@@ -159,42 +159,42 @@ export const InputProperties: PropertiesTableProps = {
 }
 
 export const InputEvents: PropertiesTableProps = {
-  on_change: {
+  onChange: {
     doc: 'Will be called on value changes made by the user. Returns an object with the value as a string and the native event: `{ value, event }`.',
     type: 'function',
     status: 'optional',
   },
-  on_focus: {
+  onFocus: {
     doc: 'Will be called on focus set by the user. Returns `{ value, event }`.',
     type: 'function',
     status: 'optional',
   },
-  on_key_down: {
+  onKeyDown: {
     doc: 'Will be called on key down by the user. Returns `{ value, event }`.',
     type: 'function',
     status: 'optional',
   },
-  on_blur: {
+  onBlur: {
     doc: 'Will be called on blur set by the user. Returns `{ value, event }`.',
     type: 'function',
     status: 'optional',
   },
-  on_submit: {
+  onSubmit: {
     doc: 'Will be called on enter key press or submit button click. Returns `{ value, event }`.',
     type: 'function',
     status: 'optional',
   },
-  on_submit_focus: {
+  onSubmitFocus: {
     doc: 'Will be called on submit button focus. Only relevant when `type="search"`. Returns `{ value, event }`.',
     type: 'function',
     status: 'optional',
   },
-  on_submit_blur: {
+  onSubmitBlur: {
     doc: 'Will be called on submit button blur. Only relevant when `type="search"`. Returns `{ value, event }`.',
     type: 'function',
     status: 'optional',
   },
-  on_clear: {
+  onClear: {
     doc: 'Will be called on a clear button click. Returns `{ value, previousValue, event }`.',
     type: 'function',
     status: 'optional',

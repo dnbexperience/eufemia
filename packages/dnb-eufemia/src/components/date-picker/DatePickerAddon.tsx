@@ -8,13 +8,12 @@ import { convertStringToDate } from './DatePickerCalc'
 import Button from '../button/Button'
 import DatePickerContext from './DatePickerContext'
 
-// TODO: convert shortcut properties to camelCase, constitutes a breaking change - could be included in v11
 export type DatePickerShortcut = {
   title?: string
   date?: string | Date | ((...args: unknown[]) => Date)
-  start_date?: string | Date | ((...args: unknown[]) => Date)
-  end_date?: string | Date | ((...args: unknown[]) => Date)
-  close_on_select?: boolean
+  startDate?: string | Date | ((...args: unknown[]) => Date)
+  endDate?: string | Date | ((...args: unknown[]) => Date)
+  closeOnSelect?: boolean
 }
 
 export type DatePickerAddonProps = React.HTMLProps<HTMLElement> & {
@@ -39,8 +38,8 @@ function DatePickerAddon(props: DatePickerAddonProps) {
   const currentDates = useMemo(
     () => ({
       date: startDate,
-      start_date: startDate,
-      end_date: endDate,
+      startDate: startDate,
+      endDate: endDate,
     }),
     [startDate, endDate]
   )
@@ -74,21 +73,21 @@ function DatePickerAddon(props: DatePickerAddonProps) {
       shortcut: DatePickerShortcut
       event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
     }) => {
-      const start_date = shortcut.date || shortcut.start_date
-      const end_date = shortcut.end_date
+      const usedStartDate = shortcut.date || shortcut.startDate
+      const usedEndDate = shortcut.endDate
 
       const startDate =
-        typeof start_date === 'function'
-          ? start_date(currentDates)
-          : start_date
-          ? convertStringToDate(start_date)
+        typeof usedStartDate === 'function'
+          ? usedStartDate(currentDates)
+          : usedStartDate
+          ? convertStringToDate(usedStartDate)
           : null
 
       const endDate =
-        typeof end_date === 'function'
-          ? end_date(currentDates)
-          : end_date
-          ? convertStringToDate(end_date)
+        typeof usedEndDate === 'function'
+          ? usedEndDate(currentDates)
+          : usedEndDate
+          ? convertStringToDate(usedEndDate)
           : null
 
       callOnChange({
@@ -97,8 +96,8 @@ function DatePickerAddon(props: DatePickerAddonProps) {
         event,
       })
 
-      if (shortcut.close_on_select) {
-        hidePicker({ ...event, focusOnHide: true })
+      if (shortcut.closeOnSelect) {
+        hidePicker({ ...event, focusOnClose: true })
       }
     },
     [callOnChange, currentDates, hidePicker]

@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import classnames from 'classnames'
+import React, { useContext, useMemo } from 'react'
+import clsx from 'clsx'
 import { ErrorHandler } from '../../shared/error-helper'
 import {
   validateDOMAttributes,
@@ -86,9 +86,6 @@ export type IconProps = {
    */
   inheritColor?: boolean
 
-  /** @deprecated Use `inheritColor` instead */
-  inherit_color?: boolean
-
   /**
    * The alternative label (text version) of the icon. Defaults to the imported icon name.
    */
@@ -130,7 +127,6 @@ export default function Icon(localProps: IconAllProps) {
     context.Icon
   )
 
-  // Todo: rewrite prepareIcon to hook
   const {
     icon: iconProp,
     size,
@@ -138,7 +134,7 @@ export default function Icon(localProps: IconAllProps) {
     iconParams,
     alt,
     children,
-  } = prepareIcon(props, context)
+  } = usePrepareIcon(props, context)
   const icon = iconProp ?? children
 
   if (!icon) {
@@ -324,7 +320,15 @@ function prepareIconParams({
   return { params, sizeAsString }
 }
 
-export function prepareIcon(props: IconAllProps, context: ContextProps) {
+function prepareIconCore(
+  props: IconAllProps,
+  context: ContextProps,
+  cachedValues?: {
+    sizeAsString?: string
+    iconParams?: Record<string, unknown>
+    label?: string
+  }
+) {
   const {
     icon,
     size,
@@ -333,7 +337,6 @@ export function prepareIcon(props: IconAllProps, context: ContextProps) {
     border,
     color,
     inheritColor,
-    inherit_color,
     modifier,
     alt,
     title,
@@ -342,18 +345,21 @@ export function prepareIcon(props: IconAllProps, context: ContextProps) {
     ...attributes
   } = props
 
-  const { sizeAsString, iconParams } = calcSize({
-    icon,
-    size,
-    width,
-    height,
-  })
+  const { sizeAsString, iconParams } =
+    cachedValues ||
+    calcSize({
+      icon,
+      size,
+      width,
+      height,
+    })
 
   if (color) {
     iconParams.color = color
   }
 
-  const label = icon ? getIconNameFromComponent(icon) : null
+  const label =
+    cachedValues?.label ?? (icon ? getIconNameFromComponent(icon) : null)
 
   // some wrapper params
   // also used for code markup simulation
@@ -381,11 +387,11 @@ export function prepareIcon(props: IconAllProps, context: ContextProps) {
     delete wrapperParams['aria-label']
   }
 
-  wrapperParams.className = classnames(
+  wrapperParams.className = clsx(
     'dnb-icon',
     modifier && `dnb-icon--${modifier}`,
     border && 'dnb-icon--border',
-    (inheritColor ?? inherit_color) !== false && 'dnb-icon--inherit-color',
+    inheritColor !== false && 'dnb-icon--inherit-color',
     sizeAsString ? `dnb-icon--${sizeAsString}` : 'dnb-icon--default',
     createSkeletonClass(null, skeleton, context),
     createSpacingClasses(props),
@@ -417,6 +423,35 @@ export function prepareIcon(props: IconAllProps, context: ContextProps) {
     iconParams,
     wrapperParams,
   }
+}
+
+function usePrepareIcon(props: IconAllProps, context: ContextProps) {
+  const { icon, size, width, height } = props
+
+  const cachedCalcSize = calcSize({
+    icon,
+    size,
+    width,
+    height,
+  })
+
+  const label = useMemo(
+    () => (icon ? getIconNameFromComponent(icon) : null),
+    [icon]
+  )
+
+  return useMemo(
+    () =>
+      prepareIconCore(props, context, {
+        ...cachedCalcSize,
+        label,
+      }),
+    [props, context, cachedCalcSize, label]
+  )
+}
+
+export function prepareIcon(props: IconAllProps, context: ContextProps) {
+  return prepareIconCore(props, context)
 }
 
 export function prerenderIcon(

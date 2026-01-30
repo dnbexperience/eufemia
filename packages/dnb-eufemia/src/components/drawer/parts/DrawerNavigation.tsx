@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import ModalHeaderBar, {
   ModalHeaderBarProps,
 } from '../../modal/parts/ModalHeaderBar'
@@ -17,8 +17,8 @@ export default function DrawerNavigation({
   return (
     <ModalHeaderBar
       {...props}
-      className={classnames('dnb-drawer__navigation', className)}
-      shadow_class="dnb-drawer__navigation--sticky"
+      className={clsx('dnb-drawer__navigation', className)}
+      shadowClass="dnb-drawer__navigation--sticky"
     />
   )
 }

@@ -37,56 +37,12 @@ export const DrawerSandbox = () => (
 
     <Box>
       {/* <Button variant="tertiary" text="Button" /> */}
-      <Drawer
-        // noAnimation
-        // openState="opened"
-        // fullscreen
-        containerPlacement="right"
-        // align_content="right"
-        // align_content="center"
-        // drawer_offset={}
-        title="Original title"
-        // title={<span className="dnb-sr-only">Test</span>}
-        // min_width="20vw"
-        // max_width="40vw"
-        // overlay_class="overlay_class"
-        // content_class="content_class"
-        // class="inner_class"
-        // header_content={
-        //   <>
-        //     <P bottom>This is a lorem ipsum dolor</P>
-        //     <Button bottom size="large">
-        //       Lorem ipsum
-        //     </Button>
-        //     <Button bottom size="large" variant="secondary">
-        //       Dolor sit
-        //     </Button>
-        //     <FormStatus state="info">
-        //       This is a lorem ipsum dolor
-        //     </FormStatus>
-        //     <Tabs
-        //       id="unique-linked-id"
-        //       data={[
-        //         {
-        //           title: 'One',
-        //           key: 'one',
-        //         },
-        //         {
-        //           title: 'Two',
-        //           key: 'two',
-        //         },
-        //       ]}
-        //     >
-        //       content
-        //     </Tabs>
-        //   </>
-        // }
-      >
+      <Drawer containerPlacement="right" title="Original title">
         <Drawer.Navigation>
           <Button
             variant="tertiary"
             icon="chevron_left"
-            icon_position="left"
+            iconPosition="left"
             wrap
           >
             Tilbake ipsum Praesent rutrum
@@ -185,27 +141,14 @@ export const DrawerSandbox = () => (
     <Box>
       {/* <Button variant="tertiary" text="Button" /> */}
       <Drawer
-        // noAnimation
-        // openState="opened"
         triggerAttributes={{
           text: 'Drawer in Drawer',
           title: 'Tertiary test',
         }}
-
-        // fullscreen
-        // containerPlacement="left"
-        // alignContent="right"
-        // alignContent="center"
-        // title={<span className="dnb-sr-only">Test</span>}
-        // minWidth="20vw"
-        // maxWidth="40vw"
-        // overlayClass="overlay_class"
-        // contentClass="content_class"
-        // class="inner_class"
       >
         <Drawer.Body styleType="pistachio">
           Drawer.Body
-          <Drawer title="Title 2" openState="opened">
+          <Drawer title="Title 2" open={true}>
             New content 2 <Drawer title="Title 3">New content 3</Drawer>
           </Drawer>
           {/* <FillContent /> */}
@@ -225,12 +168,11 @@ function FillContent() {
       consectetur massa lobortis diam netus congue a nibh dolor faucibus
       vivamus taciti neque accumsan urna varius dis egestas
       <Dropdown
-        label_direction="vertical"
+        labelDirection="vertical"
         label="Dropdown"
         data={dropdownData}
         right
-        skip_portal
-        // direction="top"
+        skipPortal
       />
       montes tempus tortor mi aptent enim cursus venenatis cras ornare nisl
       pretium tincidunt et imperdiet sapien luctus vel volutpat risus dui
@@ -274,11 +216,10 @@ function FillContent() {
       nostra leo cum consequat sit ridiculus ad inceptos cras facilisis
       pretium natoque libero nulla interdum pellentesque viverra turpis
       <Dropdown
-        label_direction="vertical"
+        labelDirection="vertical"
         label="Dropdown"
         data={dropdownData}
         right
-        // direction="top"
       />
       vestibulum maecenas molestie dolor morbi vehicula ultrices diam quis
       velit etiam dictum feugiat sed lacinia placerat euismod magna sapien
@@ -346,11 +287,10 @@ function FillContent() {
       inceptos volutpat phasellus ornare nisi tortor lobortis ligula
       ultricies ante proin
       <Dropdown
-        label_direction="vertical"
+        labelDirection="vertical"
         label="Dropdown"
         data={dropdownData}
         right
-        // direction="top"
       />
     </P>
   )
@@ -377,7 +317,7 @@ export const DrawerContentParts = () => (
 
 const dropdownData = [
   {
-    selected_value: 'Brukskonto - Kari Nordmann',
+    selectedValue: 'Brukskonto - Kari Nordmann',
     content: <>Brukskonto - Kari Nordmann</>,
   },
   {
@@ -421,7 +361,7 @@ const dropdownData = [
     ],
   },
   {
-    selected_value:
+    selectedValue:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     content: [
       <NumberFormat key={15349648901} ban>
@@ -431,7 +371,7 @@ const dropdownData = [
     ],
   },
   {
-    selected_value: <>Custom selected {'🔥'}</>,
+    selectedValue: <>Custom selected {'🔥'}</>,
     content: [
       <NumberFormat key={15349648901} ban>
         15349648901
@@ -447,7 +387,7 @@ function CloseByCallback() {
       triggerAttributes={{ text: 'CloseByCallback' }}
       hideCloseButton
     >
-      {({ close }) => <Button text="Close by callback" on_click={close} />}
+      {({ close }) => <Button text="Close by callback" onClick={close} />}
     </Drawer>
   )
 }
@@ -535,7 +475,6 @@ const LargeListOfTrs = (): Array<React.ReactNode> => {
   const list: Array<React.ReactNode> = []
 
   for (let i = 0, l = 10000; i < l; ++i) {
-    // for (let i = 0, l = 4; i < l; ++i) {
     list.push(
       <tr key={i}>
         <td>Row {i} Column 1</td>

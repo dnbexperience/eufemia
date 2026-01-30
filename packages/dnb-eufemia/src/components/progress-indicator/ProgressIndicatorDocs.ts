@@ -39,7 +39,7 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   label: {
-    doc: 'Content of a custom label. (Overrides `indicator_label` and `showDefaultLabel`)',
+    doc: 'Content of a custom label. (Overrides `indicatorLabel` and `showDefaultLabel`)',
     type: 'React.ReactNode',
     defaultValue: 'undefined',
     status: 'optional',
@@ -62,7 +62,7 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
     defaultValue: 'false',
     status: 'optional',
   },
-  indicator_label: {
+  indicatorLabel: {
     doc: 'Use this to override the default label from text locales.',
     type: 'string',
     defaultValue: 'undefined',
@@ -115,37 +115,11 @@ export const CustomColorsData: PropertiesTableProps = {
   },
 }
 
-export const ProgressIndicatorDeprecatedProperties: PropertiesTableProps =
-  {
-    no_animation: {
-      doc: 'Use `noAnimation`.',
-      type: ' boolean',
-      status: 'deprecated',
-    },
-    label_direction: {
-      doc: 'Use `labelDirection`.',
-      type: 'string',
-      status: 'deprecated',
-    },
-    show_label: {
-      doc: 'Use `showDefaultLabel`.',
-      type: 'boolean',
-      status: 'deprecated',
-    },
-  }
-
 export const ProgressIndicatorEvents: PropertiesTableProps = {
   onComplete: {
     doc: "Will be called once it's no longer `visible`.",
     type: 'function',
     defaultValue: 'undefined',
     status: 'optional',
-  },
-}
-export const ProgressIndicatorDeprecatedEvents: PropertiesTableProps = {
-  on_complete: {
-    doc: 'Use `onComplete`.',
-    type: 'function',
-    status: 'deprecated',
   },
 }

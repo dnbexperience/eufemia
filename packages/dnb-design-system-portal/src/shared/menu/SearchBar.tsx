@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import algoliasearch from 'algoliasearch/lite'
 import { Autocomplete } from '@dnb/eufemia/src/components'
 import { navigate } from 'gatsby'
@@ -77,26 +77,26 @@ export const SearchBarInput = () => {
   return (
     <Autocomplete
       id="portal-search"
-      className={classnames(autocompleteStyle, 'portal-search')}
+      className={clsx(autocompleteStyle, 'portal-search')}
       mode="async"
-      show_clear_button
-      no_scroll_animation
-      prevent_selection
-      disable_filter
-      fixed_position
+      showClearButton
+      noScrollAnimation
+      preventSelection
+      disableFilter
+      fixedPosition
       size="medium"
-      align_autocomplete="right"
+      align="right"
       placeholder="Search ..."
       label="Search the Eufemia documentation"
-      label_sr_only
+      labelSrOnly
       status={status}
-      portal_class={portalClassStyle}
-      drawer_class={drawerClassStyle}
-      on_type={onTypeHandler}
-      on_change={onChangeHandler}
-      on_focus={onFocusHandler}
-      page_offset={0} // drawer-list property
-      options_render={({ Items, data }) => {
+      portalClass={portalClassStyle}
+      drawerClass={drawerClassStyle}
+      onType={onTypeHandler}
+      onChange={onChangeHandler}
+      onFocus={onFocusHandler}
+      pageOffset={0} // drawer-list property
+      optionsRender={({ Items, data }) => {
         return (
           <>
             <Items />

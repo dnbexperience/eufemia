@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import E, { ElementAllProps } from '../../elements/Element'
 import Context from '../../shared/Context'
 import {
@@ -12,7 +12,7 @@ import {
   extendPropsWithContext,
   isTrue,
 } from '../../shared/component-helper'
-import { getOffsetTop, warn } from '../../shared/helpers'
+import { getOffsetTop } from '../../shared/helpers'
 import IconPrimary from '../icon-primary/IconPrimary'
 import Tooltip from '../tooltip/Tooltip'
 import { launch as launchIcon } from '../../icons'
@@ -45,8 +45,6 @@ export type AnchorProps = {
   omitClass?: boolean
   innerRef?: React.RefObject<HTMLAnchorElement>
 
-  /** @deprecated use innerRef instead */
-  inner_ref?: React.RefObject<HTMLAnchorElement>
   /**
    * Removes default animation.
    * Default: `false`
@@ -107,12 +105,6 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     context?.getTranslation(localProps as AnchorAllProps).Anchor,
     context?.Anchor
   )
-
-  // deprecated: inner_ref is still needed to support Button's usage of Anchor
-  if (typeof allProps.inner_ref !== 'undefined') {
-    allProps.innerRef = allProps.inner_ref
-    delete allProps.inner_ref
-  }
 
   if (!allProps.innerRef) {
     allProps.innerRef = React.createRef()
@@ -201,9 +193,9 @@ export function AnchorInstance(localProps: AnchorAllProps) {
         as={as}
         id={id}
         internalClass={as !== 'button'}
-        className={classnames(
+        className={clsx(
           omitClass !== true &&
-            classnames(
+            clsx(
               'dnb-anchor',
               prefix && 'dnb-anchor--icon-left',
               suffix && 'dnb-anchor--icon-right',
@@ -255,39 +247,6 @@ Anchor._supportsSpacingProps = true
 
 export default Anchor
 
-/**
- * @deprecated – can be removed in v11
- */
-export function scrollToHashHandler(
-  event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-) {
-  warn('"scrollToHashHandler" is deprecated.')
-
-  const element = event.currentTarget as HTMLAnchorElement
-  const href = element.getAttribute('href')
-
-  if (typeof document === 'undefined' || !href.includes('#')) {
-    return // stop here
-  }
-
-  /**
-   * What happens here?
-   * When `scroll-behavior: smooth;` in CSS is set,
-   * Blink/Chromium wants the user to click two times in order to actually scroll to the anchor hash.
-   * The first click, sets the hash, the second one, scrolls to it.
-   * We want Chromium browsers to scroll to the element on the first click.
-   */
-  const isSamePath =
-    href.startsWith('#') ||
-    window.location.href.includes(element.pathname?.replace(/\/$/, ''))
-
-  // Only continue, when we are sure we are on the same page,
-  // because, the same ID may exists occasionally on the current page.
-  if (isSamePath) {
-    return scrollToHash(href)
-  }
-}
-
 export function scrollToHash(hash: string) {
   if (typeof document === 'undefined' || !hash || !hash.includes('#')) {
     return // stop here
@@ -322,7 +281,7 @@ export function pickIcon(icon, className?: string) {
   return icon?.props?.icon || icon?.props?.className?.includes('dnb-icon')
     ? React.cloneElement(icon, {
         key: 'button-icon-clone',
-        className: classnames(icon.props?.className, className),
+        className: clsx(icon.props?.className, className),
       })
     : null
 }

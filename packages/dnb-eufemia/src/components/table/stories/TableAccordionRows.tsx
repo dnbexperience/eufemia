@@ -34,8 +34,8 @@ const ContentTrAccordion = ({
       disabled={disabled}
       // noAnimation
       onClick={trClickHandler}
-      onOpened={trOpenHandler}
-      onClosed={trCloseHandler}
+      onOpen={trOpenHandler}
+      onClose={trCloseHandler}
       {...rest}
     >
       <Td>
@@ -183,7 +183,7 @@ const TableAccordionRows = () => {
       <ToggleButton
         bottom
         // size="small"
-        on_change={() => {
+        onChange={() => {
           setSkeleton((s) => !s)
         }}
       >
@@ -191,7 +191,7 @@ const TableAccordionRows = () => {
       </ToggleButton>
 
       <Table
-        accordion
+        mode="accordion"
         skeleton={skeleton}
         outline
         border

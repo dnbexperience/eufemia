@@ -5,7 +5,6 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import InputPassword from '@dnb/eufemia/src/components/input/InputPassword'
 import styled from '@emotion/styled'
 import { HelpButton, Span, Input, Flex, FormLabel } from '@dnb/eufemia/src'
 import { Field, FieldBlock, Form } from '@dnb/eufemia/src/extensions/forms'
@@ -38,10 +37,10 @@ export const InputExampleSearch = () => (
         label="Search"
         type="search"
         placeholder="Search text placeholder"
-        on_change={({ value }) => {
-          console.log('on_change', value)
+        onChange={({ value }) => {
+          console.log('onChange', value)
         }}
-        on_submit={({ value }) => {
+        onSubmit={({ value }) => {
           console.log('Submit:', value)
         }}
       />
@@ -57,8 +56,8 @@ export const InputExampleMedium = () => (
         type="search"
         stretch={true}
         value="Medium search value"
-        on_change={({ value }) => {
-          console.log('on_change', value)
+        onChange={({ value }) => {
+          console.log('onChange', value)
         }}
       />
     </ComponentBox>
@@ -71,15 +70,15 @@ export const InputExampleWithIcon = () => (
       <Input
         label="Input with icon"
         placeholder="Input"
-        label_direction="vertical"
+        labelDirection="vertical"
         icon="check"
         bottom
       />
       <Input
         label="Input with icon"
-        label_sr_only
+        labelSrOnly
         placeholder="Input with a placeholder"
-        icon_position="right"
+        iconPosition="right"
         icon="check"
         align="right"
       />
@@ -104,7 +103,7 @@ export const InputExampleFormStatus = () => (
     <ComponentBox>
       <Provider
         formElement={{
-          label_direction: 'vertical',
+          labelDirection: 'vertical',
         }}
       >
         <Flex.Vertical>
@@ -134,7 +133,7 @@ export const InputExampleSuffix = () => (
     <ComponentBox>
       <Input
         label={<Span className="dnb-p--lead">Fødselsnummer</Span>}
-        label_direction="vertical"
+        labelDirection="vertical"
         autocomplete="on"
         placeholder="Placeholder text"
         suffix={
@@ -142,8 +141,8 @@ export const InputExampleSuffix = () => (
             Some content
           </HelpButton>
         }
-        on_change={({ value }) => {
-          console.log('on_change', value)
+        onChange={({ value }) => {
+          console.log('onChange', value)
         }}
       />
     </ComponentBox>
@@ -153,7 +152,7 @@ export const InputExampleSuffix = () => (
 export const InputExampleStretched = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-stretch">
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <FieldBlock
           label="Long label labwl Adipiscing mauris dis proin nec"
           forId="input-id"
@@ -163,7 +162,7 @@ export const InputExampleStretched = () => (
             value="I stretch ..."
             stretch
             status="Status message"
-            status_state="warn"
+            statusState="warning"
           />
         </FieldBlock>
       </Provider>
@@ -179,10 +178,10 @@ export const InputExampleNumbers = () => (
         autocomplete="on"
         placeholder="Placeholder text"
         status="Numbers are using DNB Mono (monospace)"
-        status_state="info"
+        statusState="info"
         value="1234567890"
-        on_change={({ value }) => {
-          console.log('on_change', value)
+        onChange={({ value }) => {
+          console.log('onChange', value)
           return String(value).toUpperCase()
         }}
       />
@@ -205,39 +204,16 @@ export const InputExampleSubmit = () => (
             type="search"
             value="Input ..."
             selectall={true}
-            on_submit={(event) => {
-              console.log('Input.on_submit', event)
+            onSubmit={(event) => {
+              console.log('Input.onSubmit', event)
             }}
-            on_change={({ value }) => {
-              console.log('on_change:', value)
+            onChange={({ value }) => {
+              console.log('onChange:', value)
             }}
           />
           <Form.SubmitButton />
         </Flex.Horizontal>
       </Form.Handler>
-    </ComponentBox>
-  </Wrapper>
-)
-
-export const InputExamplePassword = () => (
-  <Wrapper>
-    <ComponentBox
-      scope={{ InputPassword }}
-      data-visual-test="input-password"
-    >
-      <InputPassword
-        label="Label"
-        placeholder="A placeholder text"
-        onChange={(value: string) => {
-          console.log('onChange:', value)
-        }}
-        onShowPassword={() => {
-          console.log('onShowPassword')
-        }}
-        onHidePassword={() => {
-          console.log('onHidePassword')
-        }}
-      />
     </ComponentBox>
   </Wrapper>
 )
@@ -258,7 +234,7 @@ export const InputScreenshotTests = () => {
   return (
     <Wrapper>
       <ComponentBox data-visual-test="input-align">
-        <Provider formElement={{ label_direction: 'vertical' }}>
+        <Provider formElement={{ labelDirection: 'vertical' }}>
           <FieldBlock label="Left aligned">
             <Flex.Vertical>
               <Input value="Plain" />
@@ -271,21 +247,21 @@ export const InputScreenshotTests = () => {
               />
               <Input
                 placeholder="Placeholder Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
-                icon_position="right"
+                iconPosition="right"
                 icon="calendar"
               />
               <Input size="medium" value="Value" icon="calendar" />
               <Input
                 size="medium"
                 placeholder="Placeholder"
-                icon_position="right"
+                iconPosition="right"
                 icon="calendar"
               />
               <Input size="large" value="Value" icon="calendar" />
               <Input
                 size="large"
                 placeholder="Placeholder"
-                icon_position="right"
+                iconPosition="right"
                 icon="calendar"
               />
             </Flex.Vertical>
@@ -313,7 +289,7 @@ export const InputScreenshotTests = () => {
               />
               <Input
                 placeholder="Placeholder Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
-                icon_position="right"
+                iconPosition="right"
                 icon="calendar"
                 align="right"
               />
@@ -326,7 +302,7 @@ export const InputScreenshotTests = () => {
               <Input
                 size="medium"
                 placeholder="Placeholder"
-                icon_position="right"
+                iconPosition="right"
                 icon="calendar"
                 align="right"
               />
@@ -339,7 +315,7 @@ export const InputScreenshotTests = () => {
               <Input
                 size="large"
                 placeholder="Placeholder"
-                icon_position="right"
+                iconPosition="right"
                 icon="calendar"
                 align="right"
               />

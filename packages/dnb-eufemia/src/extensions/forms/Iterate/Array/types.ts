@@ -27,7 +27,6 @@ export type Props = Omit<
     | 'emptyValue'
     | 'onChange'
     | 'validateInitially'
-    | 'continuousValidation'
     | 'validateContinuously'
     | 'schema'
   > & {

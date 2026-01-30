@@ -9,7 +9,6 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   ProgressIndicator,
   Button,
-  FormRow,
   Dialog,
   Flex,
   IconPrimary,
@@ -65,11 +64,12 @@ export const ProgressIndicatorCircularLabelInsideExample = () => (
       type="circular"
       labelDirection="inside"
       data-visual-test="progress-indicator-label-inside"
-    >
-      <span className="dnb-p dnb-t__weight--bold dnb-t__size--small">
-        {72}%
-      </span>
-    </ProgressIndicator>
+      label={
+        <span className="dnb-p dnb-t__weight--bold dnb-t__size--small">
+          {72}%
+        </span>
+      }
+    />
   </ComponentBox>
 )
 
@@ -163,7 +163,7 @@ export const ProgressIndicatorCircularRandomOnCompleteExample = () => (
             size="large"
             visible={visible}
             onComplete={() => {
-              console.log('on_complete_circular')
+              console.log('onCompleteCircular')
             }}
           />
         )
@@ -223,7 +223,6 @@ export const ProgressIndicatorLinearLabelVerticalExample = () => (
   <ComponentBox>
     <ProgressIndicator
       type="linear"
-      // label="Custom label ..."
       showDefaultLabel={true}
       labelDirection="vertical"
     />
@@ -247,7 +246,7 @@ export const ProgressIndicatorLinearRandomExample = () => (
       const ChangeValue = () => {
         const [value, setValue] = React.useState(50)
         return (
-          <FormRow centered>
+          <Flex.Horizontal align="center">
             <ProgressIndicator
               type="linear"
               progress={value}
@@ -261,7 +260,7 @@ export const ProgressIndicatorLinearRandomExample = () => (
             >
               Change
             </Button>
-          </FormRow>
+          </Flex.Horizontal>
         )
       }
 
@@ -313,7 +312,7 @@ export const ProgressIndicatorLinearRandomOnCompleteExample = () => (
             size="large"
             visible={visible}
             onComplete={() => {
-              console.log('on_complete_linear')
+              console.log('onCompleteLinear')
             }}
           />
         )
@@ -390,9 +389,8 @@ export const ProgressIndicatorCountdownExample = () => (
             title={`${current} av ${max}`}
             size="large"
             labelDirection="inside"
-          >
-            <MyCustomLabel aria-hidden>{current}</MyCustomLabel>
-          </ProgressIndicator>
+            label={<MyCustomLabel aria-hidden>{current}</MyCustomLabel>}
+          />
         )
       }
 
@@ -446,12 +444,13 @@ export const ProgressIndicatorCustomCountdown = () => (
               }}
               title={daysLeft + 'days left'}
               customCircleWidth="0.5rem"
-            >
-              <StyledText>
-                <StyledTitle>{daysLeft} d</StyledTitle>
-                left
-              </StyledText>
-            </ProgressIndicator>
+              label={
+                <StyledText>
+                  <StyledTitle>{daysLeft} d</StyledTitle>
+                  left
+                </StyledText>
+              }
+            />
           </DarkBackground>
         )
       }
@@ -486,11 +485,12 @@ export const ProgressIndicatorCustomHorizontal = () => (
                 line: 'var(--color-summer-green)',
                 shaft: 'var(--color-sea-green)',
               }}
-            >
-              <StyledText>
-                <NumberFormat percent value={75} /> done
-              </StyledText>
-            </ProgressIndicator>
+              label={
+                <StyledText>
+                  <NumberFormat percent value={75} /> done
+                </StyledText>
+              }
+            />
           </DarkBackground>
         )
       }

@@ -3,7 +3,7 @@ import { PropertiesTableProps } from '../../../../shared/types'
 export const ViewContainerProperties: PropertiesTableProps = {
   title: {
     doc: 'The title of the container.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   variant: {
@@ -13,7 +13,7 @@ export const ViewContainerProperties: PropertiesTableProps = {
   },
   toolbar: {
     doc: 'An alternative toolbar to be shown in the container.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   toolbarVariant: {

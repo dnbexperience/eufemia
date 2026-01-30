@@ -7,7 +7,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Context from '../../shared/Context'
 import {
   warn,
@@ -74,15 +74,10 @@ export default class Button extends React.PureComponent {
         ? this.props.innerRef(this._ref.current)
         : (this.props.innerRef.current = this._ref.current)
     }
-    if (this.props.inner_ref) {
-      typeof this.props.innerRef === 'function'
-        ? this.props.inner_ref(this._ref.current)
-        : (this.props.inner_ref.current = this._ref.current)
-    }
   }
 
   getOnClickHandler = (src) => (event) => {
-    const afterContent = dispatchCustomElementEvent(src, 'on_click', {
+    const afterContent = dispatchCustomElementEvent(src, 'onClick', {
       event,
     })
     if (afterContent && React.isValidElement(afterContent)) {
@@ -98,37 +93,33 @@ export default class Button extends React.PureComponent {
       this.props,
       Button.defaultProps,
       { skeleton: this.context?.skeleton },
-      // Deprecated – can be removed in v11
-      pickFormElementProps(this.context?.FormRow),
       pickFormElementProps(this.context?.formElement),
       this.context.Button
     )
 
     const {
-      class: classProp, // @deprecated – can be removed in v11
       className,
       variant,
       size,
       title,
-      custom_content,
+      customContent,
       tooltip,
       status,
-      status_state,
-      status_props,
-      status_no_animation,
+      statusState,
+      statusProps,
+      statusNoAnimation,
       globalStatus,
       id, // eslint-disable-line
       disabled,
       text: _text, // eslint-disable-line
       icon: _icon, // eslint-disable-line
-      icon_position,
-      icon_size,
+      iconPosition,
+      iconSize,
       wrap,
       bounding, // eslint-disable-line
       stretch,
       skeleton,
       element,
-      inner_ref, // eslint-disable-line
       innerRef, // eslint-disable-line
       ...attributes
     } = props
@@ -138,7 +129,7 @@ export default class Button extends React.PureComponent {
     let { text, icon } = props
     let usedVariant = variant
     let usedSize = size
-    let iconSize = icon_size
+    let usedIconSize = iconSize
     const content = Button.getContent(this.props)
 
     if (
@@ -159,8 +150,11 @@ export default class Button extends React.PureComponent {
       if (!usedVariant) {
         usedVariant = 'secondary'
       }
-      if (!iconSize && (usedSize === 'default' || usedSize === 'large')) {
-        iconSize = 'medium'
+      if (
+        !usedIconSize &&
+        (usedSize === 'default' || usedSize === 'large')
+      ) {
+        usedIconSize = 'medium'
       }
       if (!usedSize) {
         usedSize = 'medium'
@@ -173,8 +167,12 @@ export default class Button extends React.PureComponent {
         usedSize = 'default'
       }
     }
-    if (!iconSize && variant === 'tertiary' && icon_position === 'top') {
-      iconSize = 'medium'
+    if (
+      !usedIconSize &&
+      variant === 'tertiary' &&
+      iconPosition === 'top'
+    ) {
+      usedIconSize = 'medium'
     }
 
     const Element = element
@@ -189,26 +187,25 @@ export default class Button extends React.PureComponent {
       }
     }
 
-    const classes = classnames(
+    const classes = clsx(
       'dnb-button',
       `dnb-button--${usedVariant || 'primary'}`,
       usedSize && usedSize !== 'default' && `dnb-button--size-${usedSize}`,
       this.context?.theme?.darkBackground &&
         `dnb-button--on-dark-background`,
-      icon && `dnb-button--icon-position-${icon_position}`,
+      icon && `dnb-button--icon-position-${iconPosition}`,
       isTrue(stretch) && 'dnb-button--stretch',
-      icon && iconSize && `dnb-button--icon-size-${iconSize}`,
-      (text || content || custom_content) && 'dnb-button--has-text',
+      icon && usedIconSize && `dnb-button--icon-size-${usedIconSize}`,
+      (text || content || customContent) && 'dnb-button--has-text',
       icon && 'dnb-button--has-icon',
       wrap && 'dnb-button--wrap',
-      status && `dnb-button__status--${status_state}`,
+      status && `dnb-button__status--${statusState}`,
       createSkeletonClass(
         variant === 'tertiary' ? 'font' : 'shape',
         skeleton,
         this.context
       ),
       createSpacingClasses(props),
-      classProp, // @deprecated – can be removed in v11
       className,
       props.href || props.to ? '' : null, // dnb-anchor--no-underline dnb-anchor--no-hover
       Element === Anchor && 'dnb-anchor--no-style'
@@ -222,7 +219,7 @@ export default class Button extends React.PureComponent {
       ...attributes,
     }
 
-    if (props.on_click || props.onClick) {
+    if (props.onClick) {
       params.onClick = this.getOnClickHandler(props)
     }
 
@@ -263,9 +260,9 @@ export default class Button extends React.PureComponent {
           <ButtonContent
             {...this.props}
             icon={icon}
-            icon_size={iconSize}
+            iconSize={usedIconSize}
             content={text || content}
-            custom_content={custom_content}
+            customContent={customContent}
             isIconOnly={isIconOnly}
             skeleton={isTrue(skeleton)}
             iconElement={pickIcon(icon, 'dnb-button__icon')}
@@ -280,11 +277,11 @@ export default class Button extends React.PureComponent {
           globalStatus={globalStatus}
           label={text}
           text={status}
-          state={status_state}
-          text_id={this._id + '-status'} // used for "aria-describedby"
-          no_animation={status_no_animation}
+          state={statusState}
+          textId={this._id + '-status'} // used for "aria-describedby"
+          noAnimation={statusNoAnimation}
           skeleton={skeleton}
-          {...status_props}
+          {...statusProps}
         />
 
         {tooltip && this._ref && (
@@ -310,8 +307,8 @@ Button.propTypes = {
     PropTypes.node,
     PropTypes.func,
   ]),
-  icon_position: PropTypes.oneOf(['left', 'right', 'top']),
-  icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  iconPosition: PropTypes.oneOf(['left', 'right', 'top']),
+  iconSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   tooltip: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -323,9 +320,9 @@ Button.propTypes = {
     PropTypes.func,
     PropTypes.node,
   ]),
-  status_state: PropTypes.string,
-  status_props: PropTypes.object,
-  status_no_animation: PropTypes.oneOfType([
+  statusState: PropTypes.string,
+  statusProps: PropTypes.object,
+  statusNoAnimation: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool,
   ]),
@@ -342,19 +339,14 @@ Button.propTypes = {
     PropTypes.object,
     PropTypes.func,
   ]),
-  custom_content: PropTypes.node,
+  customContent: PropTypes.node,
   wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  inner_ref: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  className: PropTypes.string,
-  /**
-   * @deprecated – use className instead. Will be removed in v11.
-   */
-  class: PropTypes.string,
   innerRef: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  className: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -368,7 +360,7 @@ Button.propTypes = {
 
   ...spacingPropTypes,
 
-  on_click: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  onClick: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 }
 
 Button.defaultProps = {
@@ -378,14 +370,14 @@ Button.defaultProps = {
   size: null,
   title: null,
   icon: null,
-  icon_position: 'right',
-  icon_size: null,
+  iconPosition: 'right',
+  iconSize: null,
   href: null,
   target: null,
   rel: null,
   to: null,
   id: null,
-  custom_content: null,
+  customContent: null,
   wrap: null,
   bounding: null,
   stretch: null,
@@ -393,22 +385,16 @@ Button.defaultProps = {
   disabled: null,
   tooltip: null,
   status: null,
-  status_state: 'error',
-  status_props: null,
-  status_no_animation: null,
+  statusState: 'error',
+  statusProps: null,
+  statusNoAnimation: null,
   globalStatus: null,
-  inner_ref: null,
 
   className: null,
-  /**
-   * @deprecated – use className instead. Will be removed in v11.
-   */
-  class: null,
   innerRef: null,
   children: null,
   element: null,
 
-  on_click: null,
   onClick: null,
 }
 

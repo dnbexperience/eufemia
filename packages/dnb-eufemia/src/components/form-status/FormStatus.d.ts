@@ -12,7 +12,7 @@ export type FormStatusState =
   | boolean
   | string
   | 'error'
-  | 'warn'
+  | 'warning'
   | 'info'
   | 'success'
   | 'marketing';
@@ -54,9 +54,9 @@ export interface FormStatusProps
   /**
    * The icon size of the icon shows. Defaults to `medium`.
    */
-  icon_size?: IconSize;
+  iconSize?: IconSize;
   /**
-   * Defines the visual appearance of the status. These are the statuses `error`, `warn`, `info` and `marketing`. The default status is `error`.
+   * Defines the visual appearance of the status. These are the statuses `error`, `warning`, `info` and `marketing`. The default status is `error`.
    */
   state?: FormStatusState;
   /**
@@ -68,13 +68,13 @@ export interface FormStatusProps
    */
   size?: FormStatusSize;
   attributes?: FormStatusAttributes;
-  text_id?: string;
-  width_selector?: string;
-  width_element?: Record<string, unknown>;
+  textId?: string;
+  widthSelector?: string;
+  widthElement?: Record<string, unknown>;
   /**
    * NB: Animation is disabled as of now. ~~use `true` to omit the animation on content visibility. Defaults to `false`.~~
    */
-  no_animation?: boolean;
+  noAnimation?: boolean;
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */

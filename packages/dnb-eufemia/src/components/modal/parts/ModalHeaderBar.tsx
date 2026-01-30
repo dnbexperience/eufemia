@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { isTrue } from '../../../shared/component-helper'
 import Section from '../../section/Section'
 import ModalContext from '../ModalContext'
@@ -24,7 +24,7 @@ export interface ModalHeaderBarProps
    */
   className?: string
 
-  shadow_class?: string
+  shadowClass?: string
 }
 
 interface ModalHeaderBarState {
@@ -97,38 +97,38 @@ export default class ModalHeaderBar extends React.PureComponent<
       className = null,
       children = null,
       ref, //eslint-disable-line
-      shadow_class = null,
+      shadowClass = null,
       ...props
     } = this.props
     const { showShadow } = this.state
     const {
-      hide_close_button = false,
-      close_button_attributes,
+      hideCloseButton = false,
+      closeButtonAttributes,
       onCloseClickHandler,
-      close_title,
+      closeTitle,
     } = this.context
 
     return (
       <Section
         style_type="white"
-        className={classnames(
+        className={clsx(
           'dnb-modal__header__bar',
-          showShadow && shadow_class,
+          showShadow && shadowClass,
           className
         )}
-        inner_ref={this._ref}
+        innerRef={this._ref}
         {...props}
       >
         <div className="dnb-modal__header__bar__inner">
           {children as React.ReactNode}
         </div>
 
-        {!isTrue(hide_close_button) && (
+        {!isTrue(hideCloseButton) && (
           <div className="dnb-modal__header__bar__close">
             <CloseButton
-              on_click={onCloseClickHandler}
-              close_title={close_title}
-              {...close_button_attributes}
+              onClick={onCloseClickHandler}
+              closeTitle={closeTitle}
+              {...closeButtonAttributes}
             />
           </div>
         )}

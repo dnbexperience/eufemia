@@ -102,9 +102,7 @@ function NationalIdentityNumber(props: Props) {
   const {
     validate = true,
     omitMask,
-    // Deprecated – can be removed in v11
-    validator,
-    onChangeValidator = validator,
+    onChangeValidator,
     onBlurValidator = dnrAndFnrValidator,
     width,
     label: labelProp,
@@ -199,10 +197,7 @@ export function createMinimumAgeValidator(age: number) {
 
     if (!identificationNumberIs7DigitsOrMore) {
       return new FormError(
-        'NationalIdentityNumber.errorMinimumAgeValidatorLength',
-        {
-          validationRule: 'errorMinimumAgeValidatorLength', // "validationRule" Will be removed in future PR
-        }
+        'NationalIdentityNumber.errorMinimumAgeValidatorLength'
       )
     }
 
@@ -215,10 +210,7 @@ export function createMinimumAgeValidator(age: number) {
 
     return new FormError(
       'NationalIdentityNumber.errorMinimumAgeValidator',
-      {
-        validationRule: 'errorMinimumAgeValidator', // "validationRule" Will be removed in future PR
-        messageValues: { age: String(age) },
-      }
+      { messageValues: { age: String(age) } }
     )
   }
 }

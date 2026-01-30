@@ -3,22 +3,14 @@
  *
  */
 
-import React, { useState } from 'react'
+import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
 import {
   FormStatus,
   Input,
-  FormSet,
-  FormRow,
-  DatePicker,
   Switch,
-  Button,
-  ToggleButton,
-  Space,
-  Dialog,
-  HelpButton,
   GlobalStatus,
   Autocomplete,
   NumberFormat,
@@ -48,11 +40,6 @@ const SmallWidth = styled(Input)`
     text-align: center;
   }
 `
-// const CustomStatuSandbox = () => (
-//   <>
-//     My info <Link href="/">with a link</Link> and more text
-//   </>
-// )
 
 export const FormStatusSandbox = () => {
   return (
@@ -61,7 +48,7 @@ export const FormStatusSandbox = () => {
         <Input
           label="Input with custom status:"
           status={<CustomStatus />}
-          status_state="info"
+          statusState="info"
           value="Input value"
         />
       </Box>
@@ -78,7 +65,7 @@ export const FormStatusSandbox = () => {
           value="4"
           size={3}
           status="Adipiscing etiam laoreet et egestas dis massa quis dapibus nam diam est non curae ad hac dictumst"
-          status_state="warn"
+          statusState="warning"
         />
       </Box>
       <Box>
@@ -90,7 +77,7 @@ export const FormStatusSandbox = () => {
           platea rutrum eu condimentum erat risus lacinia viverra magnis
           lobortis nibh mollis suspendisse
         </FormStatus>
-        <FormStatus state="info" size="large" stretch icon_size="small">
+        <FormStatus state="info" size="large" stretch iconSize="small">
           Long info text Ipsum habitant enim ullamcorper elit sit elementum
           platea rutrum eu condimentum erat risus lacinia viverra magnis
           lobortis nibh mollis suspendisse
@@ -107,11 +94,7 @@ export const FormStatusSandbox = () => {
         </FormStatus>
       </Box>
       <Box>
-        <Input
-          label="Input label:"
-          // style={{ width: '200px' }}
-          status={<CustomStatus />}
-        >
+        <Input label="Input label:" status={<CustomStatus />}>
           Value
         </Input>
       </Box>
@@ -121,91 +104,6 @@ export const FormStatusSandbox = () => {
           label="Switch label"
           status="Long text with status vitae tortor metus nulla nunc habitasse adipiscing purus porttitor viverra"
         />
-      </Box>
-      <Box>
-        <FormSet
-          label_direction="vertical"
-          prevent_submit
-          on_submit={(event) => {
-            console.log('onSubmit', event)
-          }}
-        >
-          <FormRow
-            top="small"
-            label={
-              <Space element="span" className="dnb-h--large">
-                Legend:
-              </Space>
-            }
-          >
-            <DatePicker
-              show_input
-              right="small"
-              bottom="small"
-              status="Long text with status vitae tortor metus nulla nunc habitasse adipiscing purus porttitor viverra"
-            />
-            <Dialog right="small">Modal Content</Dialog>
-            <Button text="Submit" type="submit" />
-          </FormRow>
-        </FormSet>
-      </Box>
-    </Wrapper>
-  )
-}
-
-export const ToggleAnimation = () => {
-  const [status, setStatus] = React.useState(null)
-  const toggleStatus = () => {
-    setStatus((s) => (!s ? 'You have to fill in this field' : null))
-  }
-  const [showError, setShowError] = useState(false)
-
-  return (
-    <Wrapper>
-      <Box>
-        <FormSet
-          label_direction="vertical"
-          prevent_submit
-          on_submit={(event) => {
-            setShowError((v) => !v)
-            console.log('onSubmit', event)
-          }}
-        >
-          <FormRow
-            top="small"
-            label={
-              <Space element="span" className="dnb-h--large">
-                Legend:
-              </Space>
-            }
-          >
-            <DatePicker
-              show_input
-              right="small"
-              status={
-                showError &&
-                'Long text with status vitae tortor metus nulla nunc habitasse adipiscing purus porttitor viverra'
-              }
-              suffix={<HelpButton>Modal Content</HelpButton>}
-            />
-            <Button text="Submit" type="submit" top="small" />
-          </FormRow>
-        </FormSet>
-      </Box>
-      <Box>
-        <FormRow vertical={false}>
-          <Input
-            label="Input with status:"
-            status={status}
-            value="Input value"
-            suffix={<HelpButton>test</HelpButton>}
-            right
-            // size="small"
-          />
-          <ToggleButton top on_change={toggleStatus}>
-            Toggle
-          </ToggleButton>
-        </FormRow>
       </Box>
     </Wrapper>
   )
@@ -230,8 +128,8 @@ export const SuffixAndStretchedStatus = () => {
 
   const numbers: DrawerListDataArray = [
     {
-      selected_value: `Brukskonto (${ban})`,
-      suffix_value: (
+      selectedValue: `Brukskonto (${ban})`,
+      suffixValue: (
         <NumberFormat lang="nb" currency srLabel="Total:">
           {12345678}
         </NumberFormat>
@@ -239,8 +137,8 @@ export const SuffixAndStretchedStatus = () => {
       content: ['Brukskonto', ban],
     },
     {
-      selected_value: `BSU (${ban})`,
-      suffix_value: (
+      selectedValue: `BSU (${ban})`,
+      suffixValue: (
         <NumberFormat currency srLabel="Total:">
           {2223}
         </NumberFormat>
@@ -248,8 +146,8 @@ export const SuffixAndStretchedStatus = () => {
       content: ['BSU', ban],
     },
     {
-      selected_value: `Sparekonto (${ban})`,
-      suffix_value: (
+      selectedValue: `Sparekonto (${ban})`,
+      suffixValue: (
         <NumberFormat currency srLabel="Total:">
           {876555.5}
         </NumberFormat>
@@ -257,8 +155,8 @@ export const SuffixAndStretchedStatus = () => {
       content: ['Sparekonto', ban],
     },
     {
-      selected_value: `Brukskonto (${ban})`,
-      suffix_value: (
+      selectedValue: `Brukskonto (${ban})`,
+      suffixValue: (
         <NumberFormat currency srLabel="Total:">
           {34999.2}
         </NumberFormat>
@@ -270,14 +168,14 @@ export const SuffixAndStretchedStatus = () => {
   return (
     <Box>
       <Autocomplete
-        status_state="warn"
-        status_props={{ stretch: true }}
-        status="This is a long text to check whether status_props stretch works or not"
+        statusState="warning"
+        statusProps={{ stretch: true }}
+        status="This is a long text to check whether statusProps stretch works or not"
         label="Autocomplete with suffix and stretched status"
         data={numbers}
         size="medium"
-        show_submit_button
-        skip_portal
+        showSubmitButton
+        skipPortal
         stretch
         value={1}
       />

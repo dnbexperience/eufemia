@@ -8,7 +8,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import {
   warn,
   isTrue,
@@ -45,35 +45,35 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
   static defaultProps = {
     text: null,
     label: null,
-    label_direction: null,
-    label_sr_only: null,
+    labelDirection: null,
+    labelSrOnly: null,
     title: null,
     checked: undefined,
     variant: null,
     size: null,
-    left_component: null,
+    leftComponent: null,
     disabled: null,
     skeleton: null,
     id: null,
     status: null,
-    status_state: 'error',
-    status_props: null,
-    status_no_animation: null,
+    statusState: 'error',
+    statusProps: null,
+    statusNoAnimation: null,
     globalStatus: null,
     suffix: null,
     value: '',
     role: undefined,
     icon: null,
-    icon_position: 'right',
-    icon_size: null,
+    iconPosition: 'right',
+    iconSize: null,
     attributes: null,
     readOnly: false,
 
     className: null,
     children: null,
 
-    on_change: null,
-    on_state_update: null,
+    onChange: null,
+    onStateUpdate: null,
   }
 
   static parseChecked = (state) => /true|on/.test(String(state))
@@ -87,7 +87,7 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
     state._listenForPropChanges = true
 
     if (state.checked !== state.__checked) {
-      dispatchCustomElementEvent({ props }, 'on_state_update', {
+      dispatchCustomElementEvent({ props }, 'onStateUpdate', {
         checked: state.checked,
       })
     }
@@ -198,7 +198,7 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
         event,
       })
     }
-    dispatchCustomElementEvent(this, 'on_change', {
+    dispatchCustomElementEvent(this, 'onChange', {
       checked,
       value,
       event,
@@ -222,22 +222,20 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
             ToggleButton.defaultProps,
             contextProps,
             context.translation.ToggleButton,
-            // Deprecated – can be removed in v11
-            pickFormElementProps(context.FormRow),
             pickFormElementProps(context.formElement),
             context.ToggleButton
           )
 
           const {
             status,
-            status_state,
-            status_props,
-            status_no_animation,
+            statusState,
+            statusProps,
+            statusNoAnimation,
             globalStatus,
             suffix,
             label,
-            label_direction,
-            label_sr_only,
+            labelDirection,
+            labelSrOnly,
             text,
             title,
             readOnly,
@@ -245,10 +243,10 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
             disabled,
             skeleton,
             variant,
-            left_component,
+            leftComponent,
             icon,
-            icon_size,
-            icon_position,
+            iconSize,
+            iconPosition,
             value: propValue,
             role,
 
@@ -256,8 +254,8 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
             // group: _group, // eslint-disable-line
             checked: _checked, // eslint-disable-line
             children,
-            on_change, // eslint-disable-line
-            on_state_update, // eslint-disable-line
+            onChange, // eslint-disable-line
+            onStateUpdate, // eslint-disable-line
 
             ...rest
           } = props
@@ -292,11 +290,11 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
           const showStatus = getStatusState(status)
 
           const mainParams = {
-            className: classnames(
+            className: clsx(
               'dnb-toggle-button',
-              status && `dnb-toggle-button__status--${status_state}`,
+              status && `dnb-toggle-button__status--${statusState}`,
               checked && `dnb-toggle-button--checked`,
-              label_direction && `dnb-toggle-button--${label_direction}`,
+              labelDirection && `dnb-toggle-button--${labelDirection}`,
               createSpacingClasses(props),
               className
             ),
@@ -312,8 +310,8 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
             text: text || children,
             title,
             icon,
-            icon_size,
-            icon_position,
+            iconSize: iconSize,
+            iconPosition: iconPosition,
             [`aria-${
               role === 'radio' || role === 'checkbox'
                 ? 'checked'
@@ -337,8 +335,8 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
 
           if (status) {
             // do not send along the message, but only the status states
-            if (status_state === 'info') {
-              componentParams.status_state = 'info'
+            if (statusState === 'info') {
+              componentParams.statusState = 'info'
             } else {
               componentParams.status = 'error'
             }
@@ -355,23 +353,23 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
             buttonParams['aria-readonly'] = buttonParams.readOnly = true
           }
 
-          let leftComponent = null
+          let usedLeftComponent = null
           switch (variant) {
             case 'radio':
-              leftComponent = (
+              usedLeftComponent = (
                 <Radio id={`${id}-radio`} {...componentParams} />
               )
               break
 
             case 'checkbox':
-              leftComponent = (
+              usedLeftComponent = (
                 <Checkbox id={`${id}-checkbox`} {...componentParams} />
               )
               break
 
             case 'default':
             default:
-              leftComponent = left_component
+              usedLeftComponent = leftComponent
               break
           }
 
@@ -384,8 +382,8 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
                   text={label}
                   disabled={disabled}
                   skeleton={skeleton}
-                  labelDirection={label_direction}
-                  srOnly={label_sr_only}
+                  labelDirection={labelDirection}
+                  srOnly={labelSrOnly}
                 />
               )}
               <span className="dnb-toggle-button__inner">
@@ -394,12 +392,12 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
                   id={id + '-form-status'}
                   globalStatus={globalStatus}
                   label={label}
-                  text_id={id + '-status'} // used for "aria-describedby"
+                  textId={id + '-status'} // used for "aria-describedby"
                   text={status}
-                  state={status_state}
-                  no_animation={status_no_animation}
+                  state={statusState}
+                  noAnimation={statusNoAnimation}
                   skeleton={skeleton}
-                  {...status_props}
+                  {...statusProps}
                 />
 
                 <span className="dnb-toggle-button__shell">
@@ -408,10 +406,10 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
                   <Button
                     variant="secondary"
                     className="dnb-toggle-button__button"
-                    custom_content={
-                      leftComponent && (
+                    customContent={
+                      usedLeftComponent && (
                         <span className="dnb-toggle-button__component">
-                          {leftComponent}
+                          {usedLeftComponent}
                         </span>
                       )
                     }
@@ -490,8 +488,8 @@ export interface ToggleButtonProps
    * Use either the `label` property or provide a custom one.
    */
   label?: string | React.ReactNode
-  label_direction?: 'horizontal' | 'vertical'
-  label_sr_only?: boolean
+  labelDirection?: 'horizontal' | 'vertical'
+  labelSrOnly?: boolean
   /**
    * The `title` of the input - describing it a bit further for accessibility reasons.
    */
@@ -501,7 +499,7 @@ export interface ToggleButtonProps
    */
   checked?: boolean
   variant?: ToggleButtonVariant
-  left_component?: React.ReactNode
+  leftComponent?: React.ReactNode
   disabled?: boolean
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
@@ -515,12 +513,12 @@ export interface ToggleButtonProps
   /**
    * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
    */
-  status_state?: FormStatusState
+  statusState?: FormStatusState
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: FormStatusProps
-  status_no_animation?: boolean
+  statusProps?: FormStatusProps
+  statusNoAnimation?: boolean
   /**
    * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
    */
@@ -534,7 +532,7 @@ export interface ToggleButtonProps
    */
   tooltip?: ButtonTooltip
   /**
-   * Defines the `value` as a string. Use it to get the value during the `on_change` event listener callback in the **ToggleButtonGroup**.
+   * Defines the `value` as a string. Use it to get the value during the `onChange` event listener callback in the **ToggleButtonGroup**.
    */
   value?: ToggleButtonValue
   /**
@@ -548,19 +546,18 @@ export interface ToggleButtonProps
   /**
    * Position of the icon inside the toggle button. Set to `left` or `right`. Defaults to `right` if not set.
    */
-  icon_position?: ButtonIconPosition
+  iconPosition?: ButtonIconPosition
   /**
    * Define icon width and height. Defaults to `16px`.
    */
-  icon_size?: IconSize
+  iconSize?: IconSize
   attributes?: ToggleButtonAttributes
   readOnly?: boolean
   className?: string
   children?: ToggleButtonChildren
-  on_change?: (...args: any[]) => any
-  on_state_update?: (...args: any[]) => any
-  // Additional properties that are used in tests and stories
   onChange?: (...args: any[]) => any
+  onStateUpdate?: (...args: any[]) => any
+  // Additional properties that are used in tests and stories
   top?: SpaceType
   right?: SpaceType
   bottom?: SpaceType

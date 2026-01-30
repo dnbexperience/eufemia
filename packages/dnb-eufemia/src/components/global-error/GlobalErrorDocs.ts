@@ -6,11 +6,6 @@ export const GlobalErrorProperties: PropertiesTableProps = {
     type: ['404', '500', 'string'],
     status: 'optional',
   },
-  status: {
-    doc: 'Defines a status code as a string. When `404` or `500` is given, predefined `text` and `title` will be shown. Defaults to `404`. This prop is deprecated and will be removed in v11, please use `statusCode` instead.',
-    type: ['404', '500', 'string'],
-    status: 'deprecated',
-  },
   title: {
     doc: 'Overwrites the default title for the provided `statusCode`.',
     type: 'React.ReactNode',
@@ -20,11 +15,6 @@ export const GlobalErrorProperties: PropertiesTableProps = {
     doc: 'Overwrites the default text for the provided `statusCode`.',
     type: 'React.ReactNode',
     status: 'optional',
-  },
-  code: {
-    doc: 'Overwrites the default error message code text `Feilmeldings-kode:`. . This prop is deprecated and will be removed in v11, please use `errorMessageCode` instead.',
-    type: 'React.ReactNode',
-    status: 'deprecated',
   },
   errorMessageCode: {
     doc: 'Overwrites the default error message code text `Feilmeldings-kode: %statusCode`.',
@@ -58,7 +48,7 @@ export const GlobalErrorProperties: PropertiesTableProps = {
   },
   children: {
     doc: 'To display additional related content, like useful links etc.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {

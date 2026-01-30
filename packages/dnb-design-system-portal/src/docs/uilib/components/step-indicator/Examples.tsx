@@ -12,9 +12,9 @@ export const StepIndicatorStatic = () => (
   <ComponentBox data-visual-test="step-indicator-static">
     <StepIndicator
       mode="static"
-      current_step={1}
-      on_change={({ current_step }) => {
-        console.log('on_change', current_step)
+      currentStep={1}
+      onChange={({ currentStep }) => {
+        console.log('onChange', currentStep)
       }}
       data={[
         {
@@ -22,7 +22,7 @@ export const StepIndicatorStatic = () => (
         },
         {
           title: 'Ditt lån og egenkapital',
-          on_click: ({ current_step }) => console.log(current_step),
+          onClick: ({ currentStep }) => console.log(currentStep),
         },
         {
           title: 'Oppsummering',
@@ -36,9 +36,9 @@ export const StepIndicatorStrict = () => (
   <ComponentBox data-visual-test="step-indicator-strict">
     <StepIndicator
       mode="strict"
-      current_step={1}
-      on_change={({ current_step }) => {
-        console.log('on_change', current_step)
+      currentStep={1}
+      onChange={({ currentStep }) => {
+        console.log('onChange', currentStep)
       }}
       data={[
         {
@@ -46,8 +46,8 @@ export const StepIndicatorStrict = () => (
         },
         {
           title: 'Bestill eller erstatt',
-          on_click: ({ current_step }) =>
-            console.log('current_step:', current_step),
+          onClick: ({ currentStep }) =>
+            console.log('currentStep:', currentStep),
           status:
             'Du må velge bestill nytt kort eller erstatt kort for å kunne fullføre bestillingen din.',
         },
@@ -70,9 +70,9 @@ export const StepIndicatorLoose = () => (
             <Space stretch>
               <StepIndicator
                 mode="loose"
-                current_step={step}
-                on_change={({ current_step }) => {
-                  setStep(current_step)
+                currentStep={step}
+                onChange={({ currentStep }) => {
+                  setStep(currentStep)
                 }}
                 data={[
                   'Cum odio si bolig bla et ta',
@@ -84,7 +84,7 @@ export const StepIndicatorLoose = () => (
 
               <Button
                 variant="secondary"
-                on_click={() => {
+                onClick={() => {
                   setStep((step) => {
                     if (step >= 2) {
                       step = -1
@@ -114,8 +114,8 @@ export const StepIndicatorCustomized = () => (
             <StepIndicator
               mode="loose"
               data={data}
-              current_step={step}
-              on_change={({ current_step }) => setStep(current_step)}
+              currentStep={step}
+              onChange={({ currentStep }) => setStep(currentStep)}
               bottom
               {...props}
             />
@@ -130,7 +130,7 @@ export const StepIndicatorCustomized = () => (
           data={[
             {
               title: 'First',
-              is_current: true,
+              isCurrent: true,
             },
             {
               title: 'Second',
@@ -161,7 +161,7 @@ export const StepIndicatorTextOnly = () => (
     <StepIndicator
       expandedInitially
       mode="static"
-      current_step={1}
+      currentStep={1}
       data={[
         'Om din nye bolig',
         'Ditt lån og egenkapital',
@@ -188,9 +188,9 @@ export const StepIndicatorRouter = () => (
           <>
             <StepIndicator
               mode="loose"
-              current_step={currentStep - 1}
-              on_change={({ current_step }) => {
-                const step = current_step + 1
+              currentStep={currentStep - 1}
+              onChange={({ currentStep }) => {
+                const step = currentStep + 1
                 setCurrentStep(step)
                 history.push('?' + step)
               }}
@@ -218,7 +218,7 @@ export const StepIndicatorStatuses = () => (
   <ComponentBox data-visual-test="step-indicator-statuses">
     <StepIndicator
       mode="loose"
-      current_step={0}
+      currentStep={0}
       data={[
         {
           title: 'Current',
@@ -226,17 +226,17 @@ export const StepIndicatorStatuses = () => (
         {
           title: 'Warning',
           status: 'Status message',
-          status_state: 'warn',
+          statusState: 'warning',
         },
         {
           title: 'Error',
           status: 'Status message',
-          status_state: 'error',
+          statusState: 'error',
         },
         {
           title: 'Info',
           status: 'Status message',
-          status_state: 'info',
+          statusState: 'info',
         },
       ]}
     />
@@ -248,7 +248,7 @@ export const StepIndicatorSkeleton = () => (
     <StepIndicator
       mode="static"
       skeleton
-      current_step={1}
+      currentStep={1}
       expandedInitially
       data={[
         {
@@ -259,317 +259,6 @@ export const StepIndicatorSkeleton = () => (
         },
         {
           title: 'Oppsummering',
-        },
-      ]}
-    />
-  </ComponentBox>
-)
-
-/**
- * Examples below tests deprecated behavior
- */
-export const DeprecatedStepIndicatorStatic = () => (
-  <ComponentBox data-visual-test="step-indicator-static">
-    <StepIndicator
-      sidebar_id="unique-id-static"
-      mode="static"
-      current_step={1}
-      on_change={({ current_step }) => {
-        console.log('on_change', current_step)
-      }}
-      data={[
-        {
-          title: 'Om din nye bolig',
-        },
-        {
-          title: 'Ditt lån og egenkapital',
-          on_click: ({ current_step }) => console.log(current_step),
-        },
-        {
-          title: 'Oppsummering',
-        },
-      ]}
-    />
-  </ComponentBox>
-)
-
-export const DeprecatedStepIndicatorStrict = () => (
-  <ComponentBox data-visual-test="step-indicator-strict">
-    <StepIndicator.Sidebar sidebar_id="unique-id-strict" />
-    <StepIndicator
-      sidebar_id="unique-id-strict"
-      mode="strict"
-      current_step={1}
-      on_change={({ current_step }) => {
-        console.log('on_change', current_step)
-      }}
-      data={[
-        {
-          title: 'Velg mottaker',
-        },
-        {
-          title: 'Bestill eller erstatt',
-          on_click: ({ current_step }) =>
-            console.log('current_step:', current_step),
-          status:
-            'Du må velge bestill nytt kort eller erstatt kort for å kunne fullføre bestillingen din.',
-        },
-        {
-          title: 'Oppsummering',
-        },
-      ]}
-    />
-  </ComponentBox>
-)
-
-export const DeprecatedStepIndicatorLoose = () => (
-  <ComponentBox data-visual-test="step-indicator-loose">
-    {() => {
-      const InteractiveDemo = () => {
-        const [step, setStep] = React.useState(1)
-
-        return (
-          <div style={{ display: 'flex' }}>
-            <StepIndicator.Sidebar sidebar_id="unique-id-loose" />
-
-            <Space stretch>
-              <StepIndicator
-                sidebar_id="unique-id-loose"
-                mode="loose"
-                current_step={step}
-                on_change={({ current_step }) => {
-                  setStep(current_step)
-                }}
-                data={[
-                  'Cum odio si bolig bla et ta',
-                  'Auctor tortor vestibulum placerat bibendum sociis aliquam nunc sed venenatis massa eget duis',
-                  'Bibendum sociis',
-                ]}
-                bottom
-              />
-
-              <Button
-                variant="secondary"
-                on_click={() => {
-                  setStep((step) => {
-                    if (step >= 2) {
-                      step = -1
-                    }
-                    return step + 1
-                  })
-                }}
-              >
-                Next step
-              </Button>
-            </Space>
-          </div>
-        )
-      }
-      return <InteractiveDemo />
-    }}
-  </ComponentBox>
-)
-
-export const DeprecatedStepIndicatorCustomized = () => (
-  <ComponentBox>
-    {() => {
-      function CustomStepIndicator({ children, data, ...props }) {
-        const [step, setStep] = React.useState(0)
-        return (
-          <>
-            <StepIndicator
-              sidebar_id="unique-id-customized"
-              mode="loose"
-              data={data}
-              current_step={step}
-              on_change={({ current_step }) => setStep(current_step)}
-              {...props}
-            />
-            <Section style_type="lavender" spacing>
-              {children(step)}
-            </Section>
-          </>
-        )
-      }
-      return (
-        <CustomStepIndicator
-          data={[
-            {
-              title: 'First',
-              is_current: true,
-            },
-            {
-              title: 'Second',
-            },
-            {
-              title: 'Last',
-            },
-          ]}
-        >
-          {(step) => {
-            switch (step) {
-              case 0:
-                return <>Step One</>
-              case 1:
-                return <>Step Two</>
-              default:
-                return <>Fallback</>
-            }
-          }}
-        </CustomStepIndicator>
-      )
-    }}
-  </ComponentBox>
-)
-
-export const DeprecatedStepIndicatorSidebar = () => (
-  <ComponentBox data-visual-test="step-indicator-sidebar">
-    <StepIndicator
-      style={{ display: 'none' }}
-      sidebar_id="unique-id-sidebar"
-      mode="loose"
-      data={[
-        {
-          title: 'Om din nye bolig',
-        },
-        {
-          title: 'Ditt lån og egenkapital',
-        },
-        {
-          title: 'Oppsummering',
-          is_current: true,
-        },
-      ]}
-    />
-    <StepIndicator.Sidebar sidebar_id="unique-id-sidebar" top="large" />
-  </ComponentBox>
-)
-
-export const DeprecatedStepIndicatorTextOnly = () => (
-  <ComponentBox>
-    <StepIndicator
-      sidebar_id="unique-id-text"
-      mode="static"
-      current_step={1}
-      data={[
-        'Om din nye bolig',
-        'Ditt lån og egenkapital',
-        'Oppsummering',
-      ]}
-    />
-  </ComponentBox>
-)
-
-export const DeprecatedStepIndicatorCustomRenderer = () => (
-  <ComponentBox>
-    <StepIndicator
-      sidebar_id="unique-id-renderer"
-      mode="strict"
-      current_step={1}
-      on_change={({ current_step }) => {
-        console.log('on_change', current_step)
-      }}
-      on_item_render={({ StepItem }) => {
-        return <StepItem onClick={(e) => console.log(e)} />
-      }}
-      data={[
-        {
-          title: 'Om din nye bolig',
-        },
-        {
-          title: 'Ditt lån og egenkapital',
-          on_click: ({ current_step }) => console.log(current_step),
-          on_render: ({ StepItem }) => (
-            <StepItem onClick={(e) => console.log(e)} />
-          ),
-        },
-        {
-          title: 'Oppsummering',
-          /**
-           * We can also overwrite the states
-           * inactive: true
-           * is_current: true
-           */
-        },
-      ]}
-    />
-  </ComponentBox>
-)
-
-export const DeprecatedStepIndicatorRouter = () => (
-  <ComponentBox scope={{ createBrowserHistory }}>
-    {() => {
-      const StepIndicatorWithRouter = () => {
-        const [currentStep, setCurrentStep] = React.useState(1)
-        const [history, setInstance] = React.useState(null)
-        React.useEffect(() => {
-          const history = createBrowserHistory()
-          const step =
-            parseFloat(history.location.search?.replace(/[?]/, '')) || 1
-          setCurrentStep(step)
-          setInstance(history)
-        }, [])
-        return (
-          <>
-            <StepIndicator
-              sidebar_id="step-indicator-router"
-              mode="loose"
-              current_step={currentStep - 1}
-              on_change={({ current_step }) => {
-                const step = current_step + 1
-                setCurrentStep(step)
-                history.push(`?${step}`)
-              }}
-              data={[
-                {
-                  title: 'Om din nye bolig',
-                },
-                {
-                  title: 'Ditt lån og egenkapital',
-                },
-                {
-                  title: 'Oppsummering',
-                },
-              ]}
-              space
-            />
-            <StepIndicator.Sidebar
-              sidebar_id="step-indicator-router"
-              space
-            />
-          </>
-        )
-      }
-      return <StepIndicatorWithRouter />
-    }}
-  </ComponentBox>
-)
-
-export const DeprecatedStepIndicatorStatuses = () => (
-  <ComponentBox data-visual-test="step-indicator-statuses">
-    <StepIndicator.Sidebar sidebar_id="unique-id-statuses" />
-    <StepIndicator
-      sidebar_id="unique-id-statuses"
-      mode="loose"
-      current_step={0}
-      data={[
-        {
-          title: 'Current',
-        },
-        {
-          title: 'Warning',
-          status: 'Status message',
-          status_state: 'warn',
-        },
-        {
-          title: 'Error',
-          status: 'Status message',
-          status_state: 'error',
-        },
-        {
-          title: 'Info',
-          status: 'Status message',
-          status_state: 'info',
         },
       ]}
     />

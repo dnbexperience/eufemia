@@ -6,7 +6,7 @@ import React, {
   useReducer,
   useRef,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Isolation, { IsolationProps } from '../../Form/Isolation'
 import { extractZodSubSchema } from '../../Form/Isolation/extractZodSubSchema'
 import * as z from 'zod'
@@ -113,14 +113,6 @@ export type Props = (OnlyPathRequired | OnlyItemPathRequired) & {
   bubbleValidation?: boolean
 
   /**
-   * If the container should be committed before the form is submitted.
-   */
-  /**
-   * @deprecated – Replaced with preventUncommittedChanges, requireCommit will be removed in v11.
-   */
-  requireCommit?: boolean
-
-  /**
    * Prevents uncommitted changes before the form is submitted. Will display an error message if user tries to submit without committing their changes.
    */
   preventUncommittedChanges?: boolean
@@ -160,8 +152,7 @@ function PushContainer(props: AllProps) {
     defaultData: defaultDataProp,
     isolatedData,
     bubbleValidation,
-    preventUncommittedChanges = props?.requireCommit,
-    requireCommit, // eslint-disable-line @typescript-eslint/no-unused-vars
+    preventUncommittedChanges,
     dataReference,
     showResetButton,
     path,
@@ -436,7 +427,7 @@ function NewContainer({
               </Flex.Horizontal>
 
               {preventUncommittedChanges && showStatus && (
-                <FormStatus no_animation={false} show={hasContentChanged}>
+                <FormStatus noAnimation={false} show={hasContentChanged}>
                   {preventUncommittedChangesText}
                 </FormStatus>
               )}
@@ -455,10 +446,7 @@ function NewContainer({
         toolbar={toolbar}
         {...rest}
         // Add the class by default, because we don't get a "hasSubmitError" trigger
-        className={classnames(
-          'dnb-forms-section-block--error',
-          rest.className
-        )}
+        className={clsx('dnb-forms-section-block--error', rest.className)}
       >
         {children}
       </EditContainer>

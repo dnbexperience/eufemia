@@ -30,13 +30,13 @@ const data = [
   },
   {
     content: ['Main account', '1234 12 12345'],
-    selected_value: 'Main account (605,22 kr)',
-    suffix_value: '605,22 kr',
+    selectedValue: 'Main account (605,22 kr)',
+    suffixValue: '605,22 kr',
   },
   {
     content: ['Old account', <i>Closed</i>],
     disabled: true,
-    suffix_value: '0,00 kr',
+    suffixValue: '0,00 kr',
   },
 ]
 
@@ -48,13 +48,13 @@ const data = [
   ["Item 3", "Line 2", <span>Line 3</span>],
   {
     content: ['Main account', '1234 12 12345'],
-    selected_value: 'Main account (605,22 kr)',
-    suffix_value: '605,22 kr',
+    selectedValue: 'Main account (605,22 kr)',
+    suffixValue: '605,22 kr',
   },
   {
     content: ['Old account', <i>Closed</i>],
     disabled: true,
-    suffix_value: '0,00 kr',
+    suffixValue: '0,00 kr',
   },
 ]
 
@@ -103,15 +103,15 @@ The following is an overview of all the types that the `data` property accepts. 
 ```ts
 // The visual content that is shown in one DrawerList item.
 // An array can be used to define multiple lines.
-type CONTENT = string | React.Node | (string | React.Node)[]
+type CONTENT = string | React.ReactNode | (string | React.ReactNode)[]
 
 // An array item
 type ARRAY_OBJECT = {
   content: CONTENT
   disabled?: boolean
   selectedKey?: string | number
-  selected_value?: string | React.Node
-  suffix_value?: string | React.Node
+  selectedValue?: string | React.ReactNode
+  suffixValue?: string | React.ReactNode
   style?: React.CSSProperties
 }
 

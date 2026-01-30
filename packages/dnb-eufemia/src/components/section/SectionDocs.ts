@@ -52,7 +52,7 @@ export const SectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   innerRef: {
-    doc: 'By providing a React Ref we can get the internally used element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.',
+    doc: 'By providing a React Ref we can get the internally used element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.',
     type: 'React.RefObject',
     status: 'optional',
   },

@@ -8,7 +8,7 @@ import DrawerContent from './DrawerContent'
 import DrawerBody from './parts/DrawerBody'
 import DrawerHeader from './parts/DrawerHeader'
 import DrawerNavigation from './parts/DrawerNavigation'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Context from '../../shared/Context'
 import { DrawerProps, DrawerContentProps } from './types'
 import { removeUndefinedProps } from '../../shared/component-helper'
@@ -42,7 +42,7 @@ function Drawer({
   closeModal,
   preventClose,
   preventOverlayClose,
-  openState,
+  open,
   openDelay,
 
   omitTriggerButton,
@@ -83,7 +83,7 @@ function Drawer({
     noAnimationOnMobile,
     fullscreen,
     containerPlacement,
-    openState,
+    open,
     directDomReturn,
     rootId,
     onOpen,
@@ -119,7 +119,7 @@ function Drawer({
       {...context.Drawer}
       {...modalProps}
       fullscreen={false} // to avoid double fullscreen as it's handled in DrawerContent
-      contentClass={classnames('dnb-drawer__root', contentClass)}
+      contentClass={clsx('dnb-drawer__root', contentClass)}
     >
       <DrawerContent {...context.Drawer} {...drawerProps} />
     </Modal>

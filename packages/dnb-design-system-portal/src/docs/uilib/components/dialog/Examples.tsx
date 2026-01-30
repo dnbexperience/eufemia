@@ -93,8 +93,8 @@ export const DialogExampleDelayClose = () => (
       focusSelector=".dnb-input__input:first-of-type"
       preventClose
       hideCloseButton
-      onOpen={(e) => console.log('on_open', e)}
-      onClose={(e) => console.log('on_close', e)}
+      onOpen={(e) => console.log('onOpen', e)}
+      onClose={(e) => console.log('onClose', e)}
       onClosePrevent={({ close, triggeredBy }) => {
         console.log('triggeredBy', triggeredBy)
         const timeout = setTimeout(close, 500)
@@ -232,7 +232,7 @@ export const DialogConfirmLoggedOut = () => {
               <Button
                 id="custom-triggerer"
                 text="Manually trigger"
-                on_click={() => setOpen(true)}
+                onClick={() => setOpen(true)}
               />
               <Dialog
                 variant="confirmation"
@@ -241,7 +241,7 @@ export const DialogConfirmLoggedOut = () => {
                 description="For å fortsette må du logge inn igjen."
                 confirmText="Logg inn"
                 hideDecline
-                openState={open}
+                open={open}
                 onClose={({ triggeredBy }) => {
                   console.log('triggeredBy', triggeredBy)
 
@@ -287,14 +287,14 @@ export const DialogConfirmCookies = () => (
           variant="tertiary"
           text="Administrer"
           icon={edit}
-          icon_position="left"
-          on_click={({ close }) => {
+          iconPosition="left"
+          onClick={({ close }) => {
             close()
           }}
         />
         <Button
           text="Jeg godtar"
-          on_click={({ close }) => {
+          onClick={({ close }) => {
             close()
           }}
         />
@@ -387,14 +387,14 @@ export const DialogConfirmScrollableContent = () => {
                 <Button
                   variant="tertiary"
                   text="Administrer"
-                  icon_position="left"
-                  on_click={({ close }) => {
+                  iconPosition="left"
+                  onClick={({ close }) => {
                     close()
                   }}
                 />
                 <Button
                   text="Jeg godtar"
-                  on_click={({ close }) => {
+                  onClick={({ close }) => {
                     close()
                   }}
                 />

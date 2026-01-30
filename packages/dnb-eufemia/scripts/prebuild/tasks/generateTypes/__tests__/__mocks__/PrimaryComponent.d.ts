@@ -25,8 +25,8 @@ export interface PrimaryComponentProps {
   bottom?: PrimaryComponentBottom;
   left?: PrimaryComponentLeft;
   secondary?: PrimaryComponentSecondary;
-  secondary_foo?: PrimaryComponentSecondaryFoo;
-  secondary_spacing?: PrimaryComponentSecondarySpacing;
+  secondaryFoo?: PrimaryComponentSecondaryFoo;
+  secondarySpacing?: PrimaryComponentSecondarySpacing;
   children?: React.ReactNode;
 }
 export default class PrimaryComponent extends React.Component<

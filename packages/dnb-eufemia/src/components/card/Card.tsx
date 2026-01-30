@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Flex from '../flex/Flex'
 import { SectionParams, SectionProps } from '../section/Section'
 import { combineLabelledBy } from '../../shared/component-helper'
@@ -45,7 +45,6 @@ function Card(props: Props) {
     stack,
     direction,
     gap,
-    spacing,
     innerSpace,
     alignSelf = 'stretch',
     align,
@@ -77,7 +76,7 @@ function Card(props: Props) {
     : basisSpace
 
   const params = SectionParams({
-    className: classnames(
+    className: clsx(
       'dnb-card',
       className,
       responsive && 'dnb-card--responsive',
@@ -114,7 +113,7 @@ function Card(props: Props) {
           alignSelf={alignSelf}
           align={stack ? 'stretch' : align}
           wrap={!stack}
-          gap={gap ?? spacing ?? (stack ? 'medium' : false)}
+          gap={gap ?? (stack ? 'medium' : false)}
           rowGap={rowGap}
         >
           {title && (
