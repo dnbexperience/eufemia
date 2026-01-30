@@ -184,7 +184,13 @@ function ArrayComponent(props: Props) {
 
   // Ensure the path exists as an array before children try to set values at numeric paths
   useMountEffect(() => {
-    if (path && dataContext?.internalDataRef?.current) {
+    // Only run this if the array is using a defaultValue that needs to initialize the context
+    // Skip if data was already set by useFieldProps (which uses updateContextDataInSync)
+    if (
+      path &&
+      dataContext?.internalDataRef?.current &&
+      props.defaultValue !== undefined
+    ) {
       const currentValue = pointer.has(
         dataContext.internalDataRef.current,
         path
