@@ -56,7 +56,7 @@ export default class FormStatus extends React.PureComponent {
     state: PropTypes.oneOfType([
       PropTypes.bool,
       PropTypes.string,
-      PropTypes.oneOf(['error', 'warn', 'info', 'marketing']),
+      PropTypes.oneOf(['error', 'warning', 'info', 'marketing']),
     ]),
     variant: PropTypes.oneOf(['flat', 'outlined']),
     size: PropTypes.oneOf(['default', 'large']),
@@ -122,9 +122,6 @@ export default class FormStatus extends React.PureComponent {
       case 'information':
         state = 'info'
         break
-      case 'warning':
-        state = 'warn'
-        break
     }
     return state
   }
@@ -141,7 +138,7 @@ export default class FormStatus extends React.PureComponent {
       case 'success':
         IconToLoad = InfoIcon
         break
-      case 'warn':
+      case 'warning':
         IconToLoad = WarnIcon
         break
       case 'marketing':

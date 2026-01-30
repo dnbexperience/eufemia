@@ -121,7 +121,7 @@ export type StepIndicatorProps = Omit<
 
 function StepIndicator({
   status,
-  statusState = 'warn',
+  statusState = 'warning',
   data = stepIndicatorDefaultProps.data,
   skeleton = stepIndicatorDefaultProps.skeleton,
   currentStep = stepIndicatorDefaultProps.currentStep,
