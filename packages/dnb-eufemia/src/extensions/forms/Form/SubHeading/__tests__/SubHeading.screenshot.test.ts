@@ -5,7 +5,7 @@ import {
 
 describe('Form.SubHeading', () => {
   setupPageScreenshot({
-    url: '/uilib/extensions/forms/Form/SubHeading/demos',
+    url: '/uilib/extensions/forms/Form/SubHeading/demos/',
   })
 
   it('have to match above card', async () => {

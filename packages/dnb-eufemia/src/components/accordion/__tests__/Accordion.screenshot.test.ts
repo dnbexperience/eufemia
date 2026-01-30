@@ -11,7 +11,7 @@ import {
 describe.each(['ui', 'sbanken'])('Accordion for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/accordion/demos',
+    url: '/uilib/components/accordion/demos/',
   })
 
   it('have to match in closed state', async () => {

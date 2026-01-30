@@ -13,7 +13,7 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/button/demos',
+      url: '/uilib/components/button/demos/',
     })
 
     describe('primary', () => {
@@ -311,7 +311,7 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
 describe.each(['sbanken'])('Button for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/button/demos',
+    url: '/uilib/components/button/demos/',
   })
 
   it('have to match tertiary icon button', async () => {
@@ -377,7 +377,7 @@ describe.each(['sbanken'])('Button for %s', (themeName) => {
 describe.each(['ui'])('Button for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/button/visual-tests',
+    url: '/uilib/components/button/visual-tests/',
   })
 
   describe('primary', () => {
@@ -424,7 +424,7 @@ describe.each(['ui'])('Button for %s', (themeName) => {
 describe.each(['ui'])('Button for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/button/demos',
+    url: '/uilib/components/button/demos/',
   })
 
   describe('signal', () => {

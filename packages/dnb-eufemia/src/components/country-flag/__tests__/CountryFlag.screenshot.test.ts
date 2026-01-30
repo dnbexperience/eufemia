@@ -10,7 +10,7 @@ import {
 
 describe('CountryFlag', () => {
   setupPageScreenshot({
-    url: '/uilib/components/country-flag/demos',
+    url: '/uilib/components/country-flag/demos/',
   })
 
   it('have to match sizes', async () => {

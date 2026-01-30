@@ -14,7 +14,7 @@ describe.each(['ui', 'sbanken'])('Textarea for %s', (themeName) => {
   }
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/textarea/demos',
+    url: '/uilib/components/textarea/demos/',
   })
 
   it('have to match the "default" textarea style', async () => {

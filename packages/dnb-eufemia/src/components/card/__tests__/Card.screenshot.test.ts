@@ -11,7 +11,7 @@ import {
 describe.each(['ui', 'sbanken'])('Card for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/card/demos',
+    url: '/uilib/components/card/demos/',
   })
 
   it('have to match border', async () => {
@@ -106,7 +106,7 @@ describe.each(['ui', 'sbanken'])(
       pageViewport: {
         width: 400,
       },
-      url: '/uilib/components/card/demos',
+      url: '/uilib/components/card/demos/',
     }
 
     it('have to match border', async () => {
