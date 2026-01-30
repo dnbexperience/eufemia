@@ -241,7 +241,7 @@ describe('PushButton', () => {
       const element = document.querySelector('.dnb-form-status')
       expect(element).toBeInTheDocument()
       expect(element).toHaveTextContent('Du har nådd grensen på: 2')
-      expect(element).toHaveClass('dnb-form-status--warn')
+      expect(element).toHaveClass('dnb-form-status--warning')
       expect(document.querySelectorAll('i')).toHaveLength(2)
     })
 

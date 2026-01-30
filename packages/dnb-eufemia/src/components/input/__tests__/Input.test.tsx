@@ -426,13 +426,13 @@ describe('Input component', () => {
       <Input
         value="value"
         status="status text"
-        statusState="warn"
+        statusState="warning"
         statusProps={{ stretch: true }}
       />
     )
 
     expect(document.querySelector('.dnb-form-status')).toHaveClass(
-      'dnb-form-status--warn dnb-form-status__size--default dnb-form-status--stretch dnb-form-status--has-content dnb-form-status--has-content'
+      'dnb-form-status--warning dnb-form-status__size--default dnb-form-status--stretch dnb-form-status--has-content dnb-form-status--has-content'
     )
     expect(document.querySelector('.dnb-form-status')).toHaveClass(
       'dnb-height-animation--is-visible dnb-height-animation--is-in-dom'

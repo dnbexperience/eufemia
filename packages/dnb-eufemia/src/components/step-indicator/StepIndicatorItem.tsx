@@ -22,7 +22,7 @@ import { StepIndicatorMouseEvent } from './StepIndicator'
 import Context from '../../shared/Context'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 
-export type StepIndicatorStatusState = 'warn' | 'info' | 'error'
+export type StepIndicatorStatusState = 'warning' | 'info' | 'error'
 export type StepIndicatorItemProps = Omit<
   React.HTMLProps<HTMLElement>,
   'title' | 'data' | 'onClick'
@@ -59,7 +59,7 @@ export type StepIndicatorItemProps = Omit<
 }
 
 function StepIndicatorItem({
-  statusState: statusStateDefault = 'warn',
+  statusState: statusStateDefault = 'warning',
   inactive: inactiveDefault = false,
   disabled: disabledDefault = false,
   ...restOfProps
@@ -138,7 +138,7 @@ function StepIndicatorItem({
     inactive,
     disabled,
     status,
-    statusState = 'warn',
+    statusState = 'warning',
 
     onClick, // eslint-disable-line
   } = props
@@ -198,7 +198,7 @@ function StepIndicatorItem({
   const stateIcons: Record<StepIndicatorStatusState, IconIcon> = {
     info: InfoIcon,
     error: ErrorIcon,
-    warn: WarnIcon,
+    warning: WarnIcon,
   }
 
   return (
@@ -234,7 +234,7 @@ function StepIndicatorItem({
         >
           {status && !usedIsCurrent ? (
             <Icon
-              icon={stateIcons[statusState] || stateIcons.warn}
+              icon={stateIcons[statusState] || stateIcons.warning}
               className="dnb-step-indicator__item__icon"
               size="medium"
               inheritColor={false}
@@ -291,7 +291,7 @@ export function StepItemButton({
   children,
   className,
   status,
-  statusState = 'warn',
+  statusState = 'warning',
   innerRef,
   ...props
 }: StepItemButtonProps) {

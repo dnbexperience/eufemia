@@ -1948,7 +1948,7 @@ describe('DataContext.Provider', () => {
           '.dnb-forms-field-block .dnb-form-status'
         )
         expect(status).toHaveTextContent('onChangeField-warning')
-        expect(status).toHaveClass('dnb-form-status--warn')
+        expect(status).toHaveClass('dnb-form-status--warning')
       })
     })
 
