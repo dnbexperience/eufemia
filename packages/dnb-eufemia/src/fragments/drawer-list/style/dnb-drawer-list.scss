@@ -203,7 +203,7 @@
 
     &__inner {
       position: relative;
-      z-index: 1; // only to go over &__triangle
+      z-index: 1; // only to go over &__arrow
 
       display: grid;
 
@@ -277,7 +277,7 @@
   }
 
   // arrow
-  &__triangle {
+  &__arrow {
     position: absolute;
     top: calc(
       var(--drawer-list-focus-border-width) - var(--drawer-list-height) / 2
@@ -308,11 +308,11 @@
       background-color: var(--color-white);
     }
   }
-  &--triangle-position-left &__triangle {
+  &--arrow-position-left &__arrow {
     left: 0;
     right: auto;
   }
-  &--top &__triangle {
+  &--top &__arrow {
     top: auto;
     bottom: calc(
       var(--drawer-list-focus-border-width) - var(--drawer-list-height) / 2 -
@@ -397,7 +397,7 @@
   &--large#{&}--top &__list {
     bottom: var(--drawer-list-height--large);
   }
-  &--large &__triangle {
+  &--large &__arrow {
     margin: 0 1.25rem;
   }
   &--large#{&}--is-popup#{&}--left &__list {
