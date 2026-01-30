@@ -1085,9 +1085,8 @@ describe('Field.Date', () => {
       document.querySelectorAll('.dnb-date-picker__calendar')
     )
 
-    // TODO: Update to use left picker nav buttons when bug is fixed in DatePicker
     const rightNext = rightCalendar.querySelector('.dnb-date-picker__next')
-    const leftPrev = rightCalendar.querySelector('.dnb-date-picker__prev')
+    const leftPrev = leftCalendar.querySelector('.dnb-date-picker__prev')
 
     expect(
       rightCalendar.querySelector('.dnb-date-picker__header__title')
