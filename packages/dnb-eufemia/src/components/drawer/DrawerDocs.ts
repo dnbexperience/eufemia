@@ -52,8 +52,8 @@ export const DrawerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   alignContent: {
-    doc: 'Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.',
-    type: ['left', 'right', 'centered', 'center'],
+    doc: 'Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `centered` and `right`. If `centered`, then the content will also be centered vertically. Defaults to `left`.',
+    type: ['left', 'center', 'centered', 'right'],
     status: 'optional',
   },
   fullscreen: {
