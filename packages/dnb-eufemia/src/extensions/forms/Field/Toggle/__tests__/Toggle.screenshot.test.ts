@@ -6,7 +6,7 @@
 import { makeScreenshot } from '../../../../../core/jest/jestSetupScreenshots'
 
 describe('Field.Toggle', () => {
-  const url = '/uilib/extensions/forms/base-fields/Toggle/demos'
+  const url = '/uilib/extensions/forms/base-fields/Toggle/demos/'
 
   it('have to match buttons variant with help', async () => {
     const screenshot = await makeScreenshot({

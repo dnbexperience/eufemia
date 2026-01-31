@@ -11,7 +11,7 @@ import {
 describe.each(['ui', 'sbanken'])('DrawerList for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/fragments/drawer-list/demos',
+    url: '/uilib/components/fragments/drawer-list/demos/',
   })
 
   it('have to match the default drawer-list', async () => {

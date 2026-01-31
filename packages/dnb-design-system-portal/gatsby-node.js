@@ -4,7 +4,9 @@
  */
 
 const fs = require('fs').promises
+const { readFileSync, readdirSync } = require('fs')
 const path = require('path')
+const ts = require('typescript')
 const { isCI } = require('repo-utils')
 const { init } = require('./scripts/version.js')
 const { createFilePath } = require('gatsby-source-filesystem')
@@ -13,6 +15,25 @@ const {
   enableBuildStyleScope,
   enablePortalStyleScope,
 } = require('@dnb/eufemia/src/plugins/postcss-isolated-style-scope/config')
+
+const repoRoot = path.resolve(__dirname, '..', '..')
+const GENERAL_TEST_PAGES = ['/404', '/500']
+const normalizedGeneralTestPages = new Set(
+  GENERAL_TEST_PAGES.map((page) => normalizePagePath(page))
+)
+
+let visualTestPagesCache = null
+let e2eTestPagesCache = null
+
+const visualTestWhitelist =
+  process.env.IS_VISUAL_TEST === '1'
+    ? mergePageSets(normalizedGeneralTestPages, collectVisualTestPages())
+    : null
+
+const e2eTestWhitelist =
+  process.env.IS_E2E === '1'
+    ? mergePageSets(normalizedGeneralTestPages, collectE2eTestPages())
+    : null
 
 const PREBUILD_EXISTS = shouldUsePrebuild()
 const isMini = process.env.BUILD_MINI === '1'
@@ -155,32 +176,28 @@ const createdPages = []
 exports.onCreatePage = ({ page, actions }) => {
   const { deletePage } = actions
 
-  // Only build pages without "'/uilib'" when building for visual tests
-  if (process.env.IS_VISUAL_TEST === '1') {
-    if (
-      page.path !== '/' &&
-      !existsInPages(page.path, [
-        // General pages
-        '/404',
-        '/500',
+  const normalizedPagePath = normalizePagePath(page.path) || page.path
+  const testPageFilters = [
+    {
+      isEnabled: Boolean(visualTestWhitelist),
+      pages: visualTestWhitelist,
+    },
+    {
+      isEnabled: Boolean(e2eTestWhitelist),
+      pages: e2eTestWhitelist,
+    },
+  ]
 
-        // Playwright e2e tests
-        '/uilib',
-        '/uilib/components/button',
-        '/uilib/components',
-        '/uilib/extensions',
-        '/uilib/elements',
-      ]) &&
-      !existsInPages(page.componentPath, [
-        // Visual e2e tests
-        'visual-tests',
-        'demos.mdx',
-      ])
-    ) {
+  testPageFilters.forEach(({ isEnabled, pages }) => {
+    if (!isEnabled || !pages) {
+      return
+    }
+
+    if (normalizedPagePath !== '/' && !pages.has(normalizedPagePath)) {
       deletedPages.push(page.path)
       deletePage(page)
     }
-  }
+  })
 
   const filter = process.env.filter
 
@@ -190,17 +207,15 @@ exports.onCreatePage = ({ page, actions }) => {
 
   const pages = filter.split(/(,|\s)/)
 
-  if (!existsInPages(page.path, pages)) {
+  if (
+    !pages.some((p) => {
+      return page.path.replace(/[?#].*$/, '').includes(p)
+    })
+  ) {
     deletePage(page)
   } else {
     createdPages.push(page.path)
   }
-}
-
-function existsInPages(path, pages) {
-  return pages.some((p) => {
-    return path.includes(p)
-  })
 }
 
 async function createRedirects({ graphql, actions }) {
@@ -367,4 +382,267 @@ async function copyDirectory(src, dest) {
       await fs.copyFile(srcPath, destPath)
     }
   }
+}
+
+function collectVisualTestPages() {
+  if (visualTestPagesCache) {
+    return visualTestPagesCache
+  }
+
+  const testDir = path.join(repoRoot, 'packages', 'dnb-eufemia', 'src')
+  const screenshotFiles = collectTestFiles(testDir, (name) => {
+    return (
+      name.endsWith('.screenshot.test.ts') ||
+      name.endsWith('.screenshot.test.tsx') ||
+      name.endsWith('.screenshot.test.js') ||
+      name.endsWith('.screenshot.test.jsx')
+    )
+  })
+
+  const pages = new Set()
+  for (const file of screenshotFiles) {
+    const urls = extractSetupPageScreenshotUrls(file)
+    urls.forEach((value) => {
+      if (value) {
+        pages.add(value)
+      }
+    })
+  }
+
+  visualTestPagesCache = pages
+  return pages
+}
+
+function collectE2eTestPages() {
+  if (e2eTestPagesCache) {
+    return e2eTestPagesCache
+  }
+
+  const portalDir = path.join(__dirname, 'src', 'e2e')
+  const portalFiles = collectTestFiles(
+    portalDir,
+    (name) => name.endsWith('.spec.ts') || name.endsWith('.spec.tsx')
+  )
+
+  const componentRoot = path.join(
+    repoRoot,
+    'packages',
+    'dnb-eufemia',
+    'src'
+  )
+  const componentFiles = collectTestFiles(
+    componentRoot,
+    (name) =>
+      name.endsWith('.e2e.spec.ts') || name.endsWith('.e2e.spec.tsx')
+  )
+
+  const pages = new Set()
+  for (const file of [...portalFiles, ...componentFiles]) {
+    const urls = extractPageGotoUrls(file)
+    urls.forEach((value) => {
+      if (value) {
+        pages.add(value)
+      }
+    })
+  }
+
+  e2eTestPagesCache = pages
+  return pages
+}
+
+function collectTestFiles(baseDir, matcher) {
+  const found = []
+
+  function traverse(dir) {
+    let entries
+    try {
+      entries = readdirSync(dir, { withFileTypes: true })
+    } catch {
+      return
+    }
+
+    for (const entry of entries) {
+      if (entry.name === 'node_modules' || entry.name === '.git') {
+        continue
+      }
+
+      const entryPath = path.join(dir, entry.name)
+
+      if (entry.isDirectory()) {
+        traverse(entryPath)
+        continue
+      }
+
+      if (matcher(entry.name)) {
+        found.push(entryPath)
+      }
+    }
+  }
+
+  traverse(baseDir)
+  return found
+}
+
+function extractSetupPageScreenshotUrls(filePath) {
+  const pages = new Set()
+  const sourceFile = parseSourceFile(filePath)
+  const constants = collectStringConstants(sourceFile)
+
+  function visit(node) {
+    if (
+      ts.isCallExpression(node) &&
+      ts.isIdentifier(node.expression) &&
+      node.expression.text === 'setupPageScreenshot'
+    ) {
+      const [arg] = node.arguments
+      if (arg && ts.isObjectLiteralExpression(arg)) {
+        for (const prop of arg.properties) {
+          if (
+            ts.isPropertyAssignment(prop) &&
+            getPropertyName(prop.name) === 'url'
+          ) {
+            const value =
+              getLiteralValue(prop.initializer) ??
+              (ts.isIdentifier(prop.initializer)
+                ? constants.get(prop.initializer.text)
+                : null)
+
+            const normalized = normalizePagePath(value)
+            if (normalized && isPortalPath(normalized)) {
+              pages.add(normalized)
+            }
+          }
+        }
+      }
+    }
+
+    ts.forEachChild(node, visit)
+  }
+
+  visit(sourceFile)
+  return pages
+}
+
+function extractPageGotoUrls(filePath) {
+  const pages = new Set()
+  const sourceFile = parseSourceFile(filePath)
+  const constants = collectStringConstants(sourceFile)
+
+  function visit(node) {
+    if (
+      ts.isCallExpression(node) &&
+      ts.isPropertyAccessExpression(node.expression) &&
+      node.expression.name.text === 'goto'
+    ) {
+      const [arg] = node.arguments
+      const rawValue =
+        getLiteralValue(arg) ??
+        (ts.isIdentifier(arg) ? constants.get(arg.text) : null)
+
+      const normalized = normalizePagePath(rawValue)
+      if (normalized && isPortalPath(normalized)) {
+        pages.add(normalized)
+      }
+    }
+
+    ts.forEachChild(node, visit)
+  }
+
+  visit(sourceFile)
+  return pages
+}
+
+function parseSourceFile(filePath) {
+  const content = readFileSync(filePath, 'utf8')
+  let scriptKind = ts.ScriptKind.TS
+
+  if (filePath.endsWith('.tsx') || filePath.endsWith('.jsx')) {
+    scriptKind = ts.ScriptKind.TSX
+  } else if (filePath.endsWith('.js')) {
+    scriptKind = ts.ScriptKind.JS
+  }
+
+  return ts.createSourceFile(
+    filePath,
+    content,
+    ts.ScriptTarget.Latest,
+    true,
+    scriptKind
+  )
+}
+
+function collectStringConstants(sourceFile) {
+  const constants = new Map()
+
+  function visit(node) {
+    if (
+      ts.isVariableDeclaration(node) &&
+      ts.isIdentifier(node.name) &&
+      node.initializer
+    ) {
+      const literal = getLiteralValue(node.initializer)
+      if (literal) {
+        constants.set(node.name.text, literal)
+      }
+    }
+
+    ts.forEachChild(node, visit)
+  }
+
+  visit(sourceFile)
+  return constants
+}
+
+function getLiteralValue(node) {
+  if (!node) {
+    return null
+  }
+
+  if (
+    ts.isStringLiteral(node) ||
+    ts.isNoSubstitutionTemplateLiteral(node)
+  ) {
+    return node.text
+  }
+
+  return null
+}
+
+function getPropertyName(name) {
+  if (ts.isIdentifier(name) || ts.isStringLiteral(name)) {
+    return name.text
+  }
+
+  return null
+}
+
+function normalizePagePath(rawPath) {
+  if (typeof rawPath !== 'string') {
+    return null
+  }
+
+  const trimmed = rawPath.trim()
+  if (!trimmed) {
+    return null
+  }
+
+  const cleaned = trimmed.replace(/[?#].*$/, '').replace(/\/$/, '')
+  if (cleaned === '') {
+    return '/'
+  }
+
+  return cleaned.startsWith('/') ? cleaned : `/${cleaned}`
+}
+
+function isPortalPath(value) {
+  return typeof value === 'string' && value.startsWith('/')
+}
+
+function mergePageSets(baseSet, extraSet) {
+  const merged = new Set(baseSet)
+  if (extraSet) {
+    extraSet.forEach((page) => merged.add(page))
+  }
+
+  return merged
 }

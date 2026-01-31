@@ -16,7 +16,7 @@ const style = {
 describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/tooltip/demos',
+    url: '/uilib/components/tooltip/demos/',
   })
 
   it('have to match tooltip on button hover state', async () => {
@@ -333,7 +333,7 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
 describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/tooltip/demos',
+    url: '/uilib/components/tooltip/demos/',
   })
 
   it('have to match tooltip on button hover state when align right with long text', async () => {

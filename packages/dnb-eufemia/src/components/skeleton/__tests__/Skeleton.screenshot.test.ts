@@ -11,7 +11,7 @@ import {
 describe.each(['ui', 'sbanken'])('Skeleton for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/skeleton/demos',
+    url: '/uilib/components/skeleton/demos/',
   })
 
   it('have to match skeleton article figure', async () => {

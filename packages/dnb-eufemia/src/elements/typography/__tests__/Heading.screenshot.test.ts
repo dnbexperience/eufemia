@@ -10,7 +10,7 @@ import {
 
 describe('Heading', () => {
   setupPageScreenshot({
-    url: '/uilib/elements/heading',
+    url: '/uilib/elements/heading/',
   })
 
   it('matches prose max width', async () => {
@@ -30,7 +30,7 @@ describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/elements/heading',
+      url: '/uilib/elements/heading/',
     })
 
     it('have to match the default heading examples', async () => {
@@ -73,7 +73,7 @@ describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
 describe.each(['sbanken'])('Heading mobile for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/elements/heading',
+    url: '/uilib/elements/heading/',
     pageViewport: {
       width: 400,
     },

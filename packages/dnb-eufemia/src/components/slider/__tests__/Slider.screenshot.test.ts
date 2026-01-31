@@ -11,7 +11,7 @@ import {
 describe.each(['ui', 'sbanken'])('Slider for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/slider/demos',
+    url: '/uilib/components/slider/demos/',
   })
 
   it('have to match default slider', async () => {

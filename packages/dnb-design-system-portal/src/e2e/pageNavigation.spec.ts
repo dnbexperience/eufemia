@@ -24,7 +24,7 @@ test.describe('Page Navigation', () => {
         return // stop here
       }
 
-      await page.goto('/uilib')
+      await page.goto('/uilib/components/')
       await page.click('#portal-tools', { force: true })
       expect(await page.locator('#switch-grid').count()).toBe(0)
     })
@@ -34,7 +34,7 @@ test.describe('Page Navigation', () => {
         return // stop here
       }
 
-      await page.goto('/uilib/components/button')
+      await page.goto('/uilib/components/button/')
 
       const title = await page.title()
       expect(title).toContain('Button | Eufemia')
@@ -50,7 +50,7 @@ test.describe('Page Navigation', () => {
         return // stop here
       }
 
-      await page.goto('/uilib/components/button/demos')
+      await page.goto('/uilib/components/button/demos/')
 
       const title = await page.title()
       expect(title).toContain('Button → Demos | Eufemia')
@@ -66,7 +66,7 @@ test.describe('Page Navigation', () => {
         return // stop here
       }
 
-      await page.goto('/uilib/components')
+      await page.goto('/uilib/components/')
 
       const heading = await page.textContent('h1')
       expect(heading).toContain('Components')

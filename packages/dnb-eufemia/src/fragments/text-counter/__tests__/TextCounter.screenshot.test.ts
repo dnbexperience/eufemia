@@ -11,7 +11,7 @@ import {
 describe.each(['ui', 'sbanken'])('TextCounter for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/fragments/text-counter/demos',
+    url: '/uilib/components/fragments/text-counter/demos/',
   })
 
   it('have to character counter downwards', async () => {

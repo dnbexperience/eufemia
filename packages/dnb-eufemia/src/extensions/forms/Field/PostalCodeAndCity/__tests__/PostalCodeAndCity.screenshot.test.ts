@@ -4,7 +4,7 @@ import {
 } from '../../../../../core/jest/jestSetupScreenshots'
 
 const url =
-  '/uilib/extensions/forms/feature-fields/PostalCodeAndCity/demos'
+  '/uilib/extensions/forms/feature-fields/PostalCodeAndCity/demos/'
 
 describe.each(['ui'])('PostalCodeAndCity for %s', (themeName) => {
   setupPageScreenshot({

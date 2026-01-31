@@ -9,7 +9,7 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
-  setupPageScreenshot({ themeName, url: '/uilib/components/anchor' })
+  setupPageScreenshot({ themeName, url: '/uilib/components/anchor/' })
 
   it('have to match the preview states', async () => {
     const screenshot = await makeScreenshot({
@@ -341,7 +341,7 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
 describe.each(['ui', 'sbanken'])(
   'Anchor target blank for %s',
   (themeName) => {
-    setupPageScreenshot({ themeName, url: '/uilib/components/anchor' })
+    setupPageScreenshot({ themeName, url: '/uilib/components/anchor/' })
 
     it('have to match blank target anchor in heading', async () => {
       const screenshot = await makeScreenshot({
@@ -388,7 +388,7 @@ describe.each(['ui', 'sbanken'])(
 
 // Deprecated – can be removed in v11
 describe.each(['ui'])('Anchor legacy icon usage for %s', (themeName) => {
-  setupPageScreenshot({ themeName, url: '/uilib/components/anchor' })
+  setupPageScreenshot({ themeName, url: '/uilib/components/anchor/' })
 
   it('have to match anchor with legacy icon', async () => {
     const screenshot = await makeScreenshot({

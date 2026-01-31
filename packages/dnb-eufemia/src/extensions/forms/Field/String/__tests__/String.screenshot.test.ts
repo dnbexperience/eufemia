@@ -11,7 +11,7 @@ import {
 describe.each(['ui', 'sbanken'])('String field for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/extensions/forms/base-fields/String',
+    url: '/uilib/extensions/forms/base-fields/String/',
   })
 
   it('have to match widths', async () => {

@@ -11,7 +11,7 @@ import {
 describe.each(['ui', 'sbanken'])('Badge for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/badge/demos',
+    url: '/uilib/components/badge/demos/',
   })
 
   describe('variant', () => {

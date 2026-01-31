@@ -9,7 +9,7 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Tag', () => {
-  setupPageScreenshot({ url: '/uilib/components/tag/demos' })
+  setupPageScreenshot({ url: '/uilib/components/tag/demos/' })
 
   it('have to match Tag default', async () => {
     const screenshot = await makeScreenshot({

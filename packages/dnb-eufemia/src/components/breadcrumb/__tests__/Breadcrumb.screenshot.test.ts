@@ -11,7 +11,7 @@ import {
 describe.each(['ui', 'sbanken'])('Breadcrumb for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/breadcrumb/demos',
+    url: '/uilib/components/breadcrumb/demos/',
   })
 
   it('have to match Breadcrumb single', async () => {
@@ -98,7 +98,7 @@ describe.each(['ui', 'sbanken'])('Breadcrumb for %s', (themeName) => {
 
   describe('on small screen', () => {
     setupPageScreenshot({
-      url: '/uilib/components/breadcrumb/demos',
+      url: '/uilib/components/breadcrumb/demos/',
       themeName,
       pageViewport: {
         width: 700,

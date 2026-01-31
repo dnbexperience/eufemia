@@ -23,7 +23,7 @@ test.describe('Page Lists', () => {
     test.describe.configure({ retries: 3 })
 
     test.beforeEach(async ({ page }) => {
-      await page.goto('/uilib/components')
+      await page.goto('/uilib/components/')
 
       // Check if app is mounted
       await page
@@ -61,7 +61,7 @@ test.describe('Page Lists', () => {
 
   test.describe('of extensions', () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto('/uilib/extensions')
+      await page.goto('/uilib/extensions/')
 
       // Check if app is mounted
       await page
@@ -95,7 +95,7 @@ test.describe('Page Lists', () => {
 
   test.describe('of elements', () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto('/uilib/elements')
+      await page.goto('/uilib/elements/')
 
       // Check if app is mounted
       await page

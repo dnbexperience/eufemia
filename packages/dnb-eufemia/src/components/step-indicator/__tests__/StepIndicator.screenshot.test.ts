@@ -15,7 +15,7 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
       width: 1280,
       height: 1024,
     },
-    url: '/uilib/components/step-indicator/demos',
+    url: '/uilib/components/step-indicator/demos/',
   })
 
   it('have to match statuses', async () => {
@@ -111,7 +111,7 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
 describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/step-indicator/demos',
+    url: '/uilib/components/step-indicator/demos/',
     pageViewport: {
       width: 500,
       height: 600,
@@ -153,7 +153,7 @@ describe('deprecated', () => {
         width: 1280,
         height: 1024,
       },
-      url: '/uilib/components/step-indicator/deprecated-visual-tests',
+      url: '/uilib/components/step-indicator/deprecated-visual-tests/',
     })
 
     it('have to match statuses', async () => {
@@ -235,7 +235,7 @@ describe('deprecated', () => {
   describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/step-indicator/demos',
+      url: '/uilib/components/step-indicator/demos/',
       pageViewport: {
         width: 500,
         height: 600,

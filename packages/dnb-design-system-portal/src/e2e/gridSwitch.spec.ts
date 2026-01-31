@@ -11,7 +11,7 @@ test.afterEach(async ({ page }) => {
 
 test.describe('Grid', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/uilib?data-visual-test')
+    await page.goto('/uilib/components/?data-visual-test')
 
     // Check if app is mounted
     await page.waitForSelector('#eufemia-portal-root', {

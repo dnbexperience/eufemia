@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../../../core/jest/jestSetupScreenshots'
 
-const url = '/uilib/extensions/forms/Iterate/PushContainer/demos'
+const url = '/uilib/extensions/forms/Iterate/PushContainer/demos/'
 
 describe('PushContainer', () => {
   setupPageScreenshot({
