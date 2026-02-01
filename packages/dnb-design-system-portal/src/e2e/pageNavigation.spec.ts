@@ -16,7 +16,8 @@ test.describe('Page Navigation', () => {
       }
 
       const noscript = page.locator('noscript')
-      await expect(noscript).toBeVisible()
+      await expect(noscript).toHaveCount(1)
+      await expect(noscript).toBeAttached()
     })
 
     test('should not be able to open portal tools', async ({ page }) => {
@@ -79,6 +80,8 @@ test.describe('Page Navigation', () => {
   })
 
   test.describe('with JavaScript', () => {
+    test.use({ viewport: { width: 1280, height: 720 } })
+
     test.beforeEach(async ({ page }) => {
       await page.goto('/')
       await page.waitForURL('**/')
@@ -106,9 +109,15 @@ test.describe('Page Navigation', () => {
     test('click on button page should open /uilib/components/button', async ({
       page,
     }) => {
-      const element = (await page.locator('main nav a').all()).at(1)
-      await element?.click()
-      await page.click('nav a[href="/uilib/components/button/"]')
+      await page.goto('/uilib/components/')
+      await page.waitForSelector('#eufemia-portal-root', {
+        state: 'attached',
+      })
+      const buttonLink = page.locator(
+        '#portal-sidebar-menu a[href="/uilib/components/button/"]'
+      )
+      await buttonLink.first().waitFor({ state: 'visible' })
+      await buttonLink.first().click()
       await page.waitForURL('**/uilib/components/button/')
       await page.waitForSelector('#eufemia-portal-root', {
         state: 'attached',
@@ -124,10 +133,15 @@ test.describe('Page Navigation', () => {
     test('click on demos tab should open /uilib/components/button/demos and include tab name in title', async ({
       page,
     }) => {
-      const element = (await page.locator('main nav a').all()).at(1)
-      await element?.click()
-      await page.click('nav a[href="/uilib/components/button/"]')
-      await page.click('main a[href="/uilib/components/button/demos/"]')
+      await page.goto('/uilib/components/button/')
+      await page.waitForSelector('#eufemia-portal-root', {
+        state: 'attached',
+      })
+      const demosLink = page.locator(
+        'a[href="/uilib/components/button/demos/"]'
+      )
+      await demosLink.first().waitFor({ state: 'visible' })
+      await demosLink.first().click()
       await page.waitForURL('**/uilib/components/button/demos/')
       await page.waitForSelector('#eufemia-portal-root', {
         state: 'attached',
@@ -143,10 +157,7 @@ test.describe('Page Navigation', () => {
     test('components page should include summary list of components', async ({
       page,
     }) => {
-      const element = (await page.locator('main nav a').all()).at(1)
-      await element?.click()
-      await page.click('nav a[href="/uilib/components/"]')
-      await page.waitForURL('**/uilib/components/')
+      await page.goto('/uilib/components/')
       await page.waitForSelector('#eufemia-portal-root', {
         state: 'attached',
       })

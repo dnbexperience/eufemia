@@ -18,8 +18,36 @@ const {
 
 const repoRoot = path.resolve(__dirname, '..', '..')
 const GENERAL_TEST_PAGES = ['/404', '/500']
+const VISUAL_TEST_FALLBACK_PAGES = ['/visual-tests', '/demos']
+const E2E_TEST_FALLBACK_PAGES = [
+  '/',
+  '/design-system/',
+  '/uilib/components/',
+  '/uilib/extensions/',
+  '/uilib/elements/',
+  '/uilib/components/button/',
+  '/uilib/components/button/demos/',
+  '/uilib/components/textarea/demos/',
+  '/uilib/about-the-lib/',
+  '/uilib/components/card/',
+  '/uilib/typography/',
+  '/quickguide-designer/colors/',
+  '/quickguide-designer/fonts/',
+  '/contribute/getting-started/',
+]
+
 const normalizedGeneralTestPages = new Set(
   GENERAL_TEST_PAGES.map((page) => normalizePagePath(page))
+)
+const normalizedVisualFallbackPages = new Set(
+  VISUAL_TEST_FALLBACK_PAGES.map((page) => normalizePagePath(page)).filter(
+    Boolean
+  )
+)
+const normalizedE2eFallbackPages = new Set(
+  E2E_TEST_FALLBACK_PAGES.map((page) => normalizePagePath(page)).filter(
+    Boolean
+  )
 )
 
 let visualTestPagesCache = null
@@ -27,12 +55,24 @@ let e2eTestPagesCache = null
 
 const visualTestWhitelist =
   process.env.IS_VISUAL_TEST === '1'
-    ? mergePageSets(normalizedGeneralTestPages, collectVisualTestPages())
+    ? mergePageSets(
+        mergePageSets(
+          normalizedGeneralTestPages,
+          normalizedVisualFallbackPages
+        ),
+        collectVisualTestPages()
+      )
     : null
 
 const e2eTestWhitelist =
   process.env.IS_E2E === '1'
-    ? mergePageSets(normalizedGeneralTestPages, collectE2eTestPages())
+    ? mergePageSets(
+        mergePageSets(
+          normalizedGeneralTestPages,
+          normalizedE2eFallbackPages
+        ),
+        collectE2eTestPages()
+      )
     : null
 
 const PREBUILD_EXISTS = shouldUsePrebuild()

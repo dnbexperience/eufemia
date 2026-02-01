@@ -45,6 +45,9 @@ test.describe('Page Scroll', () => {
       '/contribute/getting-started/#style-dependencies'
     )
 
+    await page.waitForFunction(() => window.scrollY >= 2000, {
+      timeout: 5000,
+    })
     expect(
       await page.evaluate(() => window.scrollY)
     ).toBeGreaterThanOrEqual(2000)
