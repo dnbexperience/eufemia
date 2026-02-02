@@ -17,7 +17,7 @@ const {
 } = require('@dnb/eufemia/src/plugins/postcss-isolated-style-scope/config')
 
 const repoRoot = path.resolve(__dirname, '..', '..')
-const GENERAL_TEST_PAGES = ['/404', '/500']
+const GENERAL_TEST_PAGES = ['/404', '/404.html', '/500', '/500.html']
 const VISUAL_TEST_FALLBACK_PAGES = ['/visual-tests', '/demos']
 const E2E_TEST_FALLBACK_PAGES = [
   '/',
@@ -189,20 +189,19 @@ exports.createPages = async (params) => {
 }
 
 exports.onPostBuild = async (params) => {
-  if (isMini) {
-    return
-  }
-  await createRedirects(params)
+  if (!isMini) {
+    await createRedirects(params)
 
-  if (deletedPages.length) {
-    params.reporter.warn(
-      `❗️ These pages were deleted:\n${deletedPages
-        .map((page) => `├ ${page}`)
-        .join('\n')}\n\n`
-    )
+    if (deletedPages.length) {
+      params.reporter.warn(
+        `❗️ These pages were deleted:\n${deletedPages
+          .map((page) => `├ ${page}`)
+          .join('\n')}\n\n`
+      )
+    }
   }
 
-  // Copy the fonts folder
+  // Copy the fonts folder (also for mini/e2e build so /fonts/ is available when serving)
   const { program } = params.store.getState()
   const publicDir = path.join(program.directory, 'public', 'fonts')
   const rootPath = path.dirname(require.resolve('@dnb/eufemia'))
@@ -228,12 +227,23 @@ exports.onCreatePage = ({ page, actions }) => {
     },
   ]
 
+  // Never delete 404/500 pages so Gatsby can emit 404.html and 500.html (required by serve and tooling)
+  const isErrorPage =
+    normalizedPagePath === '/404' ||
+    normalizedPagePath === '/500' ||
+    page.path === '/404/' ||
+    page.path === '/500/'
+
   testPageFilters.forEach(({ isEnabled, pages }) => {
     if (!isEnabled || !pages) {
       return
     }
 
-    if (normalizedPagePath !== '/' && !pages.has(normalizedPagePath)) {
+    if (
+      !isErrorPage &&
+      normalizedPagePath !== '/' &&
+      !pages.has(normalizedPagePath)
+    ) {
       deletedPages.push(page.path)
       deletePage(page)
     }
