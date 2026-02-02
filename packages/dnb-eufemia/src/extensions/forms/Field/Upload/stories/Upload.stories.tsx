@@ -152,21 +152,21 @@ async function mockAsyncFileUpload(
   return updatedFiles
 }
 
+async function mockAsyncOnFileClick({ fileItem }) {
+  const request = createRequest()
+  console.log(
+    'making API request to fetch the url of the file: ' +
+      fileItem.file.name
+  )
+  await request(3000) // Simulate a request
+  window.open(
+    'https://eufemia.dnb.no/images/avatars/1501870.jpg',
+    '_blank'
+  )
+}
+
 export const AsyncEverything = () => {
   const acceptedFileTypes = ['jpg', 'pdf', 'png']
-
-  async function mockAsyncOnFileClick({ fileItem }) {
-    const request = createRequest()
-    console.log(
-      'making API request to fetch the url of the file: ' +
-        fileItem.file.name
-    )
-    await request(3000) // Simulate a request
-    window.open(
-      'https://eufemia.dnb.no/images/avatars/1501870.jpg',
-      '_blank'
-    )
-  }
 
   return (
     <Form.Handler onSubmit={async (form) => console.log(form)}>
@@ -488,8 +488,9 @@ export const IterateArrayUpload = () => {
           fileHandler={mockAsyncFileUpload}
           required
           onChange={(e) => {
-            console.log('local onChange - array', e)
+            console.log('onChange', e)
           }}
+          onFileDelete={mockAsyncFileRemoval}
         />
       </Iterate.Array>
       <Tools.Log />
