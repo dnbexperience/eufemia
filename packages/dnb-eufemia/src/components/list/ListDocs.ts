@@ -2,13 +2,13 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const ContainerProperties: PropertiesTableProps = {
   variant: {
-    doc: 'Visual variant of the list. Defaults to `basic`. Can be overridden per item via `List.Item.Content` or `List.Item.Navigate`.',
+    doc: 'Visual variant of the list. Defaults to `basic`. Can be overridden per item via `List.Item.Variant.Content` or `List.Item.Variant.Navigate`.',
     type: ["'basic'", 'string'],
     defaultValue: "'basic'",
     status: 'optional',
   },
   children: {
-    doc: 'List items. Use `List.Item.Content` or `List.Item.Navigate` as direct children.',
+    doc: 'List items. Use `List.Item.Variant.Content` or `List.Item.Variant.Navigate` as direct children.',
     type: 'React.Node',
     status: 'required',
   },
@@ -46,7 +46,7 @@ export const ItemContentProperties: PropertiesTableProps = {
     status: 'optional',
   },
   children: {
-    doc: 'Item content. Typically `List.Item.Start`, `List.Item.Center`, `List.Item.End`, or `List.Item.Title`.',
+    doc: 'Item content. Typically `List.Item.Layout.Start`, `List.Item.Layout.Center`, `List.Item.Layout.End`, or `List.Item.Layout.Title`.',
     type: 'React.Node',
     status: 'required',
   },
@@ -177,13 +177,13 @@ export const ItemAccordionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   children: {
-    doc: 'Use `List.Item.Accordion.Header` and `List.Item.Accordion.Content` as children.',
+    doc: 'Use `List.Item.Variant.Accordion.Header` and `List.Item.Variant.Accordion.Content` as children.',
     type: 'React.Node',
     status: 'required',
   },
-  '[List.Item.Content](/uilib/components/list/properties/#listitemcontent)':
+  '[List.Item.Variant.Content](/uilib/components/list/properties/#listitemvariantcontent)':
     {
-      doc: 'Inherits List.Item.Content properties (variant, pending, spacing, etc.).',
+      doc: 'Inherits List.Item.Variant.Content properties (variant, pending, spacing, etc.).',
       type: 'Various',
       status: 'optional',
     },
@@ -212,12 +212,12 @@ export const ItemNavigateProperties: PropertiesTableProps = {
     status: 'optional',
   },
   pending: {
-    doc: 'If set to `true`, an overlaying skeleton with animation will be shown (loading state). Inherited from List.Item.Content. Disables click and keyboard while active.',
+    doc: 'If set to `true`, an overlaying skeleton with animation will be shown (loading state). Inherited from List.Item.Variant.Content. Disables click and keyboard while active.',
     type: 'boolean',
     status: 'optional',
   },
   skeleton: {
-    doc: 'If set to `true`, applies skeleton font styling to the item (text placeholder). Inherited from List.Item.Content.',
+    doc: 'If set to `true`, applies skeleton font styling to the item (text placeholder). Inherited from List.Item.Variant.Content.',
     type: 'boolean',
     status: 'optional',
   },
@@ -233,13 +233,13 @@ export const ItemNavigateProperties: PropertiesTableProps = {
     status: 'optional',
   },
   children: {
-    doc: 'Content of the navigable item. Typically `List.Item.Icon`, `List.Item.Title`, and `List.Item.End`. A chevron icon is rendered at the end automatically.',
+    doc: 'Content of the navigable item. Typically `List.Item.Layout.Icon`, `List.Item.Layout.Title`, and `List.Item.Layout.End`. A chevron icon is rendered at the end automatically.',
     type: 'React.Node',
     status: 'required',
   },
-  '[List.Item.Content](/uilib/components/list/properties/#listitemcontent)':
+  '[List.Item.Variant.Content](/uilib/components/list/properties/#listitemvariantcontent)':
     {
-      doc: 'Inherits List.Item.Content properties (variant, selected, spacing, etc.).',
+      doc: 'Inherits List.Item.Variant.Content properties (variant, selected, spacing, etc.).',
       type: 'Various',
       status: 'optional',
     },
@@ -252,7 +252,7 @@ export const ItemNavigateProperties: PropertiesTableProps = {
 
 export const ListEvents: PropertiesTableProps = {
   onClick: {
-    doc: 'Fired when the user clicks or activates `List.Item.Navigate` (click or Enter/Space key). Receives the native event. Only applicable to `List.Item.Navigate`.',
+    doc: 'Fired when the user clicks or activates `List.Item.Variant.Navigate` (click or Enter/Space key). Receives the native event. Only applicable to `List.Item.Variant.Navigate`.',
     type: '(event: React.MouseEvent<HTMLDivElement>) => void',
     status: 'optional',
   },

@@ -16,7 +16,7 @@ import * as Examples from './Examples'
 
 ### Navigable item with href
 
-Use the `href` prop on `List.Item.Navigate` to render a native link. Use `target` and `rel` for external links (e.g. `target="_blank"` with `rel="noopener noreferrer"`).
+Use the `href` prop on `List.Item.Variant.Navigate` to render a native link. Use `target` and `rel` for external links (e.g. `target="_blank"` with `rel="noopener noreferrer"`).
 
 <Examples.NavigableItemWithHref />
 
@@ -28,7 +28,7 @@ List items containing [Anchor](/uilib/components/anchor) links.
 
 ### Accordion
 
-Expandable list items using `List.Item.Accordion` with `Header` and `Content`. Use the `open` prop to set the initial open state.
+Expandable list items using `List.Item.Variant.Accordion` with `Header` and `Content`. Use the `open` prop to set the initial open state.
 
 <Examples.Accordion />
 
@@ -52,24 +52,24 @@ Use the `separated` prop on `List.Container` to add row gap between list items.
 
 ### Pending state
 
-Use the `pending` prop on `List.Item.Content` or `List.Item.Navigate` to show a skeleton overlay. Click and keyboard are disabled while pending.
+Use the `pending` prop on `List.Item.Variant.Content` or `List.Item.Variant.Navigate` to show a skeleton overlay. Click and keyboard are disabled while pending.
 
 <Examples.PendingState />
 
 ### Progress indicator
 
-A single list item with a circular progress indicator in `List.Item.Start`.
+A single list item with a circular progress indicator in `List.Item.Layout.Start`.
 
 <Examples.ProgressIndicatorRow />
 
 ### Skeleton
 
-Use the `skeleton` prop on `List.Item.Content` or `List.Item.Navigate` to show a skeleton overlay while content is loading.
+Use the `skeleton` prop on `List.Item.Variant.Content` or `List.Item.Variant.Navigate` to show a skeleton overlay while content is loading.
 
 <Examples.SkeletonState />
 
 ### With avatar
 
-Use [Avatar](/uilib/components/avatar) in `List.Item.Start` as the left icon.
+Use [Avatar](/uilib/components/avatar) in `List.Item.Layout.Start` as the left icon.
 
 <Examples.WithAvatar />
