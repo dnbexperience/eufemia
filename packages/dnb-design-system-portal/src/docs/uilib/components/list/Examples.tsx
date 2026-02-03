@@ -20,13 +20,28 @@ import { fish_medium } from '@dnb/eufemia/src/icons'
 export const SimpleRows = () => {
   return (
     <ComponentBox>
-      <List.Container>
-        <List.Item.Variant.Content>List item 1</List.Item.Variant.Content>
+      {() => {
+        const myList = [
+          { name: 'List item 1', amount: 10000 },
+          { name: 'List item 2', amount: 5000 },
+          { name: 'List item 3', amount: 7500 },
+        ]
 
-        <List.Item.Variant.Content>List item 2</List.Item.Variant.Content>
-
-        <List.Item.Variant.Content>List item 3</List.Item.Variant.Content>
-      </List.Container>
+        return (
+          <List.Container>
+            {myList.map((account) => (
+              <List.Item.Variant.Content key={account.name}>
+                <List.Item.Layout.Title>
+                  {account.name}
+                </List.Item.Layout.Title>
+                <List.Item.Layout.End>
+                  <Value.Currency value={account.amount} />
+                </List.Item.Layout.End>
+              </List.Item.Variant.Content>
+            ))}
+          </List.Container>
+        )
+      }}
     </ComponentBox>
   )
 }
