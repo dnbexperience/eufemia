@@ -5,6 +5,7 @@
 
 import {
   Button,
+  Badge,
   Img,
   Section,
   ToggleButton,
@@ -484,6 +485,7 @@ export const UploadOnFileClick = () => (
             {
               file: createMockFile('1501870.jpg', 123, 'image/png'),
               id: '1',
+              description: 'Click the file name to open the image',
             },
             {
               file: createMockFile(
@@ -617,7 +619,7 @@ export const UploadDisabledDragAndDrop = () => (
 
 export const UploadDescription = () => (
   <ComponentBox
-    scope={{ createMockFile, createRequest }}
+    scope={{ createMockFile, createRequest, Badge }}
     data-visual-test="upload-description"
   >
     {() => {
@@ -640,9 +642,18 @@ export const UploadDescription = () => (
               id: '2',
             },
             {
-              file: createMockFile('123.jpg', 0, 'image/png'),
+              file: createMockFile('123.jpg', 123, 'image/png'),
               id: '3',
-              description: 'This is my description',
+              description: (
+                <>
+                  <Badge
+                    variant="information"
+                    status="positive"
+                    content="Status"
+                  />{' '}
+                  This is my description
+                </>
+              ),
             },
             {
               file: createMockFile('321.jpg', 0, 'image/png'),

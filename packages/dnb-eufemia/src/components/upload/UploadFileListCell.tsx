@@ -196,7 +196,11 @@ const UploadFileListCell = ({
     if (!description) {
       return null
     }
-    return <P className="dnb-upload__text">{description}</P>
+    return (
+      <P className="dnb-upload__text" top="xx-small" size="small">
+        {description}
+      </P>
+    )
   }
 
   function getWarning() {
