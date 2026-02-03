@@ -2334,6 +2334,8 @@ describe('Field.Upload', () => {
       let resolveFileHandler1: ((value: UploadValue) => void) | undefined
       let resolveFileHandler2: ((value: UploadValue) => void) | undefined
 
+      const onSubmit = jest.fn()
+
       const file1 = createMockFile('new-file-1.png', 100, 'image/png')
       const file2 = createMockFile('new-file-2.png', 100, 'image/png')
       const errorFile1 = createMockFile(
@@ -2368,6 +2370,7 @@ describe('Field.Upload', () => {
 
       render(
         <Form.Handler
+          onSubmit={onSubmit}
           defaultData={{
             myArray: [
               {
@@ -2434,12 +2437,49 @@ describe('Field.Upload', () => {
           screen.queryByText('error-file-2.strange.extension')
         ).toBeInTheDocument()
       })
+
+      // delete the first error file
+      fireEvent.click(
+        document
+          .querySelectorAll('.dnb-upload__file-cell')[1]
+          .querySelector('button')
+      )
+
+      // delete the second error file
+      fireEvent.click(
+        document
+          .querySelectorAll('.dnb-upload__file-cell')[2]
+          .querySelector('button')
+      )
+
+      await waitFor(() => {
+        expect(screen.queryByText('new-file-1.png')).toBeInTheDocument()
+        expect(
+          screen.queryByText('error-file-1.png')
+        ).not.toBeInTheDocument()
+        expect(screen.queryByText('new-file-2.png')).toBeInTheDocument()
+        expect(
+          screen.queryByText('error-file-2.strange.extension')
+        ).not.toBeInTheDocument()
+      })
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        {
+          myArray: [],
+        },
+        expect.anything()
+      )
     })
 
     it('should support async fileHandler and onFileDelete in Iterate.Array using Form.Handler defaultData', async () => {
       const asyncOnFileDelete = jest.fn(async () => {
         await wait(1)
       })
+
+      const onSubmit = jest.fn()
 
       let resolveFileHandler1: ((value: UploadValue) => void) | undefined
       let resolveFileHandler2: ((value: UploadValue) => void) | undefined
@@ -2474,6 +2514,7 @@ describe('Field.Upload', () => {
 
       render(
         <Form.Handler
+          onSubmit={onSubmit}
           defaultData={{
             myArrayWithDelete: [
               {
@@ -2554,27 +2595,15 @@ describe('Field.Upload', () => {
         expect(screen.queryByText('new-file-2.png')).toBeInTheDocument()
       })
 
-      // delete the second file
-      fireEvent.click(
-        document
-          .querySelectorAll('.dnb-upload__file-cell')[0]
-          .querySelector('button')
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        {
+          myArrayWithDelete: [],
+        },
+        expect.anything()
       )
-
-      await waitFor(() => {
-        expect(
-          document.querySelectorAll('.dnb-upload__file-cell').length
-        ).toBe(0)
-      })
-
-      await waitFor(() => {
-        expect(
-          screen.queryByText('new-file-1.png')
-        ).not.toBeInTheDocument()
-        expect(
-          screen.queryByText('new-file-2.png')
-        ).not.toBeInTheDocument()
-      })
     })
   })
 

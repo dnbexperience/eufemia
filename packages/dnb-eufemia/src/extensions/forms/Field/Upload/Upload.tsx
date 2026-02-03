@@ -25,6 +25,7 @@ import { useTranslation as useSharedTranslation } from '../../../../shared'
 import { SpacingProps } from '../../../../shared/types'
 import { FormError } from '../../utils'
 import { useIterateItemNo } from '../../Iterate/ItemNo/useIterateItemNo'
+import { useUploadIterateSupport } from './useUploadIterateSupport'
 
 export type { UploadFile, UploadFileNative }
 export type UploadValue = Array<UploadFile | UploadFileNative>
@@ -176,7 +177,16 @@ function UploadComponent(props: Props) {
   const filesRef = useRef<Array<UploadFile>>()
   const lastHandleChangeValueRef = useRef<string>()
   const lastHandleChangeCounterRef = useRef(0)
-  const knownFileRefsRef = useRef<Set<File>>(new Set())
+
+  // Iterate.Array support: prevent cross-instance contamination
+  const {
+    trackFile,
+    trackFiles,
+    mergeWithPending,
+    getPendingFiles,
+    shouldIgnoreEmptyUpdate,
+    filterCrossInstanceFiles,
+  } = useUploadIterateSupport()
 
   useEffect(() => {
     filesRef.current = files
@@ -185,50 +195,15 @@ function UploadComponent(props: Props) {
   // Helper to update files and notify parent
   const updateFiles = useCallback(
     (newFiles: UploadValue) => {
-      // Track File objects that we're setting
-      newFiles?.forEach((f) => {
-        if (f.file instanceof File) {
-          knownFileRefsRef.current.add(f.file)
-        }
-      })
+      // Track File objects for Iterate.Array support
+      trackFiles(newFiles)
 
       setFiles(newFiles)
       lastHandleChangeValueRef.current = getFileIdsKey(newFiles)
       lastHandleChangeCounterRef.current++
       handleChange(newFiles)
     },
-    [setFiles, handleChange]
-  )
-
-  // Helper: Check if file belongs to this instance
-  const isFileTracked = useCallback((file: File | undefined) => {
-    return file instanceof File && knownFileRefsRef.current.has(file)
-  }, [])
-
-  // Helper: Track file for this instance
-  const trackFile = useCallback((file: File | undefined) => {
-    if (file instanceof File) {
-      knownFileRefsRef.current.add(file)
-    }
-  }, [])
-
-  // Helper: Merge external files with pending files
-  const mergeWithPending = useCallback(
-    (externalFiles: UploadValue, pendingFiles: UploadFile[]) => {
-      if (!pendingFiles.length) {
-        return externalFiles
-      }
-
-      const externalIds = new Set(externalFiles?.map((f) => f.id) || [])
-      const missingInExternal = pendingFiles.filter(
-        (f) => !externalIds.has(f.id)
-      )
-
-      return missingInExternal.length
-        ? [...(externalFiles || []), ...missingInExternal]
-        : externalFiles
-    },
-    []
+    [setFiles, handleChange, trackFiles]
   )
 
   const syncExternalValue = useCallback(
@@ -252,42 +227,31 @@ function UploadComponent(props: Props) {
 
       // Check for files that need to be preserved (loading or error files)
       const currentFiles = filesRef.current || []
-      const pendingFiles = currentFiles.filter((f) => {
-        return isFileTracked(f.file) && (f.isLoading || f.errorMessage)
-      })
+      const pendingFiles = getPendingFiles(currentFiles)
 
       // In Iterate.Array: ignore empty updates from other instances
-      // When one instance clears its files, don't clear other instances' files
       const isIterateContext = Boolean(props.itemPath)
-      const hasTrackedFiles = knownFileRefsRef.current.size > 0
-      const isEmptyUpdate = !externalValue?.length
-
-      if (isIterateContext && hasTrackedFiles && isEmptyUpdate) {
+      if (shouldIgnoreEmptyUpdate(externalValue, isIterateContext)) {
         if (pendingFiles.length) {
           setFiles(pendingFiles)
         }
         return
       }
 
-      // Detect cross-instance contamination: external files that don't belong to us
-      const unknownFiles = externalValue?.filter(
-        (extFile) => extFile.file instanceof File && !isFileTracked(extFile.file)
+      // Filter cross-instance contamination in Iterate.Array context
+      const { filteredValue, hasUnknownFiles } = filterCrossInstanceFiles(
+        externalValue,
+        isIterateContext
       )
 
-      // Filter cross-instance contamination in Iterate.Array context
-      // This prevents files from one array element appearing in another
-      if (isIterateContext && unknownFiles?.length > 0 && hasTrackedFiles) {
-        const filteredValue = externalValue?.filter((extFile) =>
-          isFileTracked(extFile.file)
-        )
-
+      if (hasUnknownFiles) {
         // If all files were filtered out, ignore this update
         if (!filteredValue?.length && !pendingFiles.length) {
           return
         }
 
         // Track the filtered files
-        filteredValue?.forEach((f) => trackFile(f.file))
+        trackFiles(filteredValue)
 
         // Merge with pending files and apply
         setFiles(mergeWithPending(filteredValue, pendingFiles))
@@ -295,12 +259,20 @@ function UploadComponent(props: Props) {
       }
 
       // Track files from unfiltered external value
-      externalValue?.forEach((f) => trackFile(f.file))
+      trackFiles(externalValue)
 
       // Merge with pending files and apply
       setFiles(mergeWithPending(externalValue, pendingFiles))
     },
-    [setFiles, isFileTracked, trackFile, mergeWithPending]
+    [
+      setFiles,
+      getPendingFiles,
+      shouldIgnoreEmptyUpdate,
+      filterCrossInstanceFiles,
+      trackFiles,
+      mergeWithPending,
+      props.itemPath,
+    ]
   )
 
   useEffect(() => {

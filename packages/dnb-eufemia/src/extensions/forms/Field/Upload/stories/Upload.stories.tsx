@@ -467,6 +467,9 @@ export const IterateArrayUpload = () => {
 
   return (
     <Form.Handler
+      onSubmit={(data) => {
+        console.log('submitted data:', data)
+      }}
       defaultData={{
         listOfFiles: [
           {
@@ -493,6 +496,7 @@ export const IterateArrayUpload = () => {
           onFileDelete={mockAsyncFileRemoval}
         />
       </Iterate.Array>
+      <Form.SubmitButton />
       <Tools.Log />
     </Form.Handler>
   )
