@@ -175,6 +175,8 @@ function UploadComponent(props: Props) {
 
   const filesRef = useRef<Array<UploadFile>>()
   const lastHandleChangeValueRef = useRef<string>()
+  const lastHandleChangeCounterRef = useRef(0)
+  const knownFileRefsRef = useRef<Set<File>>(new Set())
 
   useEffect(() => {
     filesRef.current = files
@@ -183,11 +185,50 @@ function UploadComponent(props: Props) {
   // Helper to update files and notify parent
   const updateFiles = useCallback(
     (newFiles: UploadValue) => {
+      // Track File objects that we're setting
+      newFiles?.forEach((f) => {
+        if (f.file instanceof File) {
+          knownFileRefsRef.current.add(f.file)
+        }
+      })
+
       setFiles(newFiles)
       lastHandleChangeValueRef.current = getFileIdsKey(newFiles)
+      lastHandleChangeCounterRef.current++
       handleChange(newFiles)
     },
     [setFiles, handleChange]
+  )
+
+  // Helper: Check if file belongs to this instance
+  const isFileTracked = useCallback((file: File | undefined) => {
+    return file instanceof File && knownFileRefsRef.current.has(file)
+  }, [])
+
+  // Helper: Track file for this instance
+  const trackFile = useCallback((file: File | undefined) => {
+    if (file instanceof File) {
+      knownFileRefsRef.current.add(file)
+    }
+  }, [])
+
+  // Helper: Merge external files with pending files
+  const mergeWithPending = useCallback(
+    (externalFiles: UploadValue, pendingFiles: UploadFile[]) => {
+      if (!pendingFiles.length) {
+        return externalFiles
+      }
+
+      const externalIds = new Set(externalFiles?.map((f) => f.id) || [])
+      const missingInExternal = pendingFiles.filter(
+        (f) => !externalIds.has(f.id)
+      )
+
+      return missingInExternal.length
+        ? [...(externalFiles || []), ...missingInExternal]
+        : externalFiles
+    },
+    []
   )
 
   const syncExternalValue = useCallback(
@@ -195,7 +236,9 @@ function UploadComponent(props: Props) {
       const valueKey = getFileIdsKey(externalValue)
 
       // Skip echo updates (our own updates coming back)
-      if (lastHandleChangeValueRef.current === valueKey) return
+      if (lastHandleChangeValueRef.current === valueKey) {
+        return
+      }
 
       const hasLoadingInValue = externalValue?.some((f) => f.isLoading)
       const hasResolvedInCurrent = filesRef.current?.some(
@@ -203,33 +246,61 @@ function UploadComponent(props: Props) {
       )
 
       // Skip stale updates with loading files when we already have resolved files
-      if (hasLoadingInValue && hasResolvedInCurrent) return
-
-      // Check for files that need to be preserved (loading or error files)
-      const currentFiles = filesRef.current || []
-      const pendingFiles = currentFiles.filter(
-        (f) => f.isLoading || f.errorMessage
-      )
-
-      // Early return if no files to preserve
-      if (!pendingFiles.length) {
-        setFiles(externalValue)
+      if (hasLoadingInValue && hasResolvedInCurrent) {
         return
       }
 
-      // Merge: keep external files and append any pending files not in external value
-      const externalIds = new Set(externalValue?.map((f) => f.id) || [])
-      const missingInExternal = pendingFiles.filter(
-        (f) => !externalIds.has(f.id)
+      // Check for files that need to be preserved (loading or error files)
+      const currentFiles = filesRef.current || []
+      const pendingFiles = currentFiles.filter((f) => {
+        return isFileTracked(f.file) && (f.isLoading || f.errorMessage)
+      })
+
+      // In Iterate.Array: ignore empty updates from other instances
+      // When one instance clears its files, don't clear other instances' files
+      const isIterateContext = Boolean(props.itemPath)
+      const hasTrackedFiles = knownFileRefsRef.current.size > 0
+      const isEmptyUpdate = !externalValue?.length
+
+      if (isIterateContext && hasTrackedFiles && isEmptyUpdate) {
+        if (pendingFiles.length) {
+          setFiles(pendingFiles)
+        }
+        return
+      }
+
+      // Detect cross-instance contamination: external files that don't belong to us
+      const unknownFiles = externalValue?.filter(
+        (extFile) => extFile.file instanceof File && !isFileTracked(extFile.file)
       )
 
-      setFiles(
-        missingInExternal.length
-          ? [...(externalValue || []), ...missingInExternal]
-          : externalValue
-      )
+      // Filter cross-instance contamination in Iterate.Array context
+      // This prevents files from one array element appearing in another
+      if (isIterateContext && unknownFiles?.length > 0 && hasTrackedFiles) {
+        const filteredValue = externalValue?.filter((extFile) =>
+          isFileTracked(extFile.file)
+        )
+
+        // If all files were filtered out, ignore this update
+        if (!filteredValue?.length && !pendingFiles.length) {
+          return
+        }
+
+        // Track the filtered files
+        filteredValue?.forEach((f) => trackFile(f.file))
+
+        // Merge with pending files and apply
+        setFiles(mergeWithPending(filteredValue, pendingFiles))
+        return
+      }
+
+      // Track files from unfiltered external value
+      externalValue?.forEach((f) => trackFile(f.file))
+
+      // Merge with pending files and apply
+      setFiles(mergeWithPending(externalValue, pendingFiles))
     },
-    [setFiles]
+    [setFiles, isFileTracked, trackFile, mergeWithPending]
   )
 
   useEffect(() => {
@@ -263,6 +334,10 @@ function UploadComponent(props: Props) {
             ...file,
             isLoading: !file.errorMessage,
           }))
+
+          // Track new files immediately to prevent cross-instance contamination
+          newFilesLoading.forEach((f) => trackFile(f.file))
+
           const filesWithLoading = [
             ...filesRef.current,
             ...newFilesLoading,
@@ -286,6 +361,10 @@ function UploadComponent(props: Props) {
                 ...file,
                 isLoading: false,
               }
+
+              // Track the resolved file to prevent cross-instance contamination
+              trackFile(incomingFileObj.file)
+
               const foundIndex = newFilesLoading.findIndex(
                 (newFile) => newFile.isLoading
               )
@@ -326,6 +405,7 @@ function UploadComponent(props: Props) {
       setFiles,
       dataContext,
       updateFiles,
+      trackFile,
     ]
   )
 
