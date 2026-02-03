@@ -2468,7 +2468,26 @@ describe('Field.Upload', () => {
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
         {
-          myArray: [],
+          myArray: [
+            {
+              myFiles: [
+                expect.objectContaining({
+                  file: file1,
+                  id: 'server-id-1',
+                  exists: false,
+                }),
+              ],
+            },
+            {
+              myFiles: [
+                expect.objectContaining({
+                  file: file2,
+                  id: 'server-id-2',
+                  exists: false,
+                }),
+              ],
+            },
+          ],
         },
         expect.anything()
       )
@@ -2600,7 +2619,20 @@ describe('Field.Upload', () => {
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
         {
-          myArrayWithDelete: [],
+          myArrayWithDelete: [
+            {
+              myFiles: undefined,
+            },
+            {
+              myFiles: [
+                expect.objectContaining({
+                  file: file2,
+                  id: 'server-id-2',
+                  exists: false,
+                }),
+              ],
+            },
+          ],
         },
         expect.anything()
       )
