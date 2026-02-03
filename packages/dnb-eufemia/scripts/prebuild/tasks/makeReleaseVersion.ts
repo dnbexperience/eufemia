@@ -36,10 +36,13 @@ export async function makeReleaseVersion() {
     sha = execSync('git rev-parse --short HEAD')?.toString().trim()
   }
 
+  const buildDate = new Date().toISOString()
+
   const replace = (content: string) => {
     return content
       .replace(/__SHA__/g, sha || '__SHA__')
       .replace(/__VERSION__/g, version || '__VERSION__')
+      .replace(/__BUILD_DATE__/g, buildDate)
   }
 
   // JS – for handling Eufemia.version

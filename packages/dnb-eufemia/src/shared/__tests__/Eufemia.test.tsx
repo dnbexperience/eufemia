@@ -5,7 +5,7 @@ import { getSha, getVersion } from '../build-info/BuildInfo.js'
 import * as EufemiaImport from '../Eufemia'
 import '../component-helper'
 
-const { version, sha, init } = EufemiaImport
+const { version, sha, buildDate, init } = EufemiaImport
 
 jest.mock('../Eufemia', () => {
   const actual = jest.requireActual('../Eufemia')
@@ -22,6 +22,7 @@ jest.mock('../build-info/BuildInfo.js', () => {
     ...actual,
     getSha: jest.fn().mockImplementation(actual.getSha),
     getVersion: jest.fn().mockImplementation(actual.getVersion),
+    getBuildDate: jest.fn().mockImplementation(actual.getBuildDate),
   }
 })
 
@@ -108,6 +109,20 @@ describe('Eufemia', () => {
 
     it('should have sha getter', () => {
       expect(window.Eufemia?.sha).toBe(sha)
+    })
+  })
+
+  describe('Eufemia.buildDate', () => {
+    beforeEach(() => {
+      init()
+    })
+
+    it('should export buildDate constant', () => {
+      expect(buildDate).toBeDefined()
+    })
+
+    it('should have buildDate getter', () => {
+      expect(window.Eufemia?.buildDate).toBe(buildDate)
     })
   })
 
