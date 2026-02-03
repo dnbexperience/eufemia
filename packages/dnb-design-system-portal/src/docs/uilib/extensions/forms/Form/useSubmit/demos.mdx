@@ -1,0 +1,19 @@
+---
+showTabs: true
+---
+
+import * as Examples from './Examples'
+
+## Demos
+
+### Submit button outside the form
+
+The submit button is rendered outside `Form.Handler` and uses `Form.useSubmit()` to trigger submit. Validation and `onSubmit` run as when using [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton/) inside the form.
+
+<Examples.SubmitOutsideForm />
+
+### Async submit
+
+The `submit()` function returns a Promise. You can await it to show loading state or react to the result or errors:
+
+<Examples.AsyncSubmit />

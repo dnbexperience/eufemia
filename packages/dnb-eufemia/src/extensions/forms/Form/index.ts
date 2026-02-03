@@ -20,6 +20,7 @@ export { default as setData } from './data-context/setData'
 export { default as getData } from './data-context/getData'
 export { default as clearData } from './data-context/clearData'
 export { default as useValidation } from './data-context/useValidation'
+export { default as useSubmit } from './data-context/useSubmit'
 export { default as useTranslation } from '../hooks/useTranslation'
 export { default as useSnapshot } from '../hooks/useSnapshot'
 

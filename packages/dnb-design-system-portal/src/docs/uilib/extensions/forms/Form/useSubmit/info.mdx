@@ -1,0 +1,48 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+// Use Form.useSubmit
+```
+
+## Description
+
+The `Form.useSubmit` hook lets you trigger form submit from a component that is **outside** [Form.Handler](/uilib/extensions/forms/Form/Handler/). Give `Form.Handler` an `id` and pass the same `id` to `Form.useSubmit(id)`. This is useful when the submit button is placed in a modal footer, drawer, toolbar, or another part of the layout.
+
+The hook returns an object with a `submit` function. Calling `submit()` runs validation and, if valid, calls the form's `onSubmit` handler – the same flow as when using [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton/) inside the form.
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const formId = 'my-form'
+
+function ExternalSubmitButton() {
+  const { submit } = Form.useSubmit(formId)
+  return (
+    <button type="button" onClick={() => submit()}>
+      Submit
+    </button>
+  )
+}
+
+function MyForm() {
+  return (
+    <>
+      <Form.Handler id={formId} onSubmit={handleSubmit}>
+        <Field.Name.First path="/name" />
+      </Form.Handler>
+      <ExternalSubmitButton />
+    </>
+  )
+}
+```
+
+**Note:** The hook must be called with an `id` that matches a [Form.Handler](/uilib/extensions/forms/Form/Handler/) on the page. It throws if no handler with that `id` is found.
+
+## API
+
+- `submit(): Promise<EventStateObject | undefined>` – Triggers form submit (validation + `onSubmit`). Returns a Promise that resolves with the submit result or `undefined`.
