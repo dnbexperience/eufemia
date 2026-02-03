@@ -11,24 +11,25 @@
   }
 
   &--variant-basic {
-    --list-padding: 1rem;
-    --list-height: 4rem;
-    --rounded-corner: 1.5rem;
-    --row-gap: 0.5rem;
-    --outline-width: 0.0625rem;
-    --outline-inset: ; // leave empty for normal
-    --outline-color: var(--color-black-8);
-    --navigation-color: var(--color-sea-green);
-    --navigation-color--active: var(--color-emerald-green);
-    --icon-color: var(--navigation-color);
-    --pending-color: var(--color-black-3);
-    --list-background: var(--color-white);
-    --list-item-selected-background-color: var(
+    --item-padding: 1rem;
+    --item-height: 4rem;
+    --item-rounded-corner: 1.5rem;
+    --item-row-gap: 0.5rem;
+    --item-chevron-margin: 1rem;
+    --item-outline-width: 0.0625rem;
+    --item-outline-inset: ; // leave empty for normal
+    --item-outline-color: var(--color-black-8);
+    --item-navigation-color: var(--color-sea-green);
+    --item-navigation-color--active: var(--color-emerald-green);
+    --item-icon-color: var(--item-navigation-color);
+    --item-pending-color: var(--color-black-3);
+    --item-background: var(--color-white);
+    --item-selected-background-color: var(
       --internal-color-background-selected-subtle,
-      var(--list-background)
+      var(--item-background)
     );
 
-    border-radius: var(--rounded-corner);
+    border-radius: var(--item-rounded-corner);
   }
 
   &__item {
@@ -36,130 +37,182 @@
     z-index: 1;
     row-gap: 0;
 
-    @include fakeBorder(
-      var(--outline-color),
-      var(--outline-width),
-      var(--outline-inset)
-    );
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+
+      border-radius: inherit;
+      pointer-events: none;
+
+      @include fakeBorder(
+        var(--item-outline-color),
+        var(--item-outline-width),
+        var(--item-outline-inset)
+      );
+    }
 
     // Grid layout: each slot (start, icon, title, center, end) is placed by its
     // grid-area, so e.g. Item.End always goes in the end area even if "center" is
     // not used.
-    --list-item-grid-template-columns: auto auto minmax(0, 1fr)
-      minmax(0, 1fr) auto;
-    --list-item-grid-template-areas: 'start icon title center end';
+    --item-grid-template-columns: auto auto auto minmax(0, 1fr)
+      minmax(0, 1fr) auto auto;
+    --item-grid-template-areas: 'chevron-left start icon title center end chevron-right'
+      'addition addition addition addition addition addition addition';
 
     // On small screens, use 2-row layout so end wraps to a new line
     @include allBelow(small) {
-      --list-item-grid-template-areas: 'start icon title center'
-        'end end end end';
+      --item-grid-template-areas: 'chevron-left start icon title center chevron-right'
+        'chevron-left end end end end chevron-right'
+        'addition addition addition addition addition addition';
       &:has(#{&}__icon),
       &:has(.dnb-avatar) {
-        --list-item-grid-template-areas: 'start icon title center'
-          '. . end end';
+        --item-grid-template-areas: 'chevron-left start icon title center chevron-right'
+          'chevron-left . . end end chevron-right'
+          'addition addition addition addition addition addition';
       }
     }
 
     // On x-small screens, use 3-row layout so end wraps to a new line
     @include allBelow(x-small) {
-      --list-item-grid-template-areas: 'start icon title title'
-        'center center center center' 'end end end end';
+      --item-grid-template-areas: 'chevron-left start icon title title chevron-right'
+        'chevron-left center center center center chevron-right'
+        'chevron-left end end end end chevron-right'
+        'addition addition addition addition addition addition';
       &:has(#{&}__icon),
       &:has(.dnb-avatar) {
-        --list-item-grid-template-areas: 'start icon title title'
-          '. . center center' '. . end end';
+        --item-grid-template-areas: 'chevron-left start icon title title chevron-right'
+          'chevron-left . . center center chevron-right'
+          'chevron-left . . end end chevron-right'
+          'addition addition addition addition addition addition';
       }
     }
 
     // If no center is used, adjust the grid columns
     &:not(:has(#{&}__center)) {
-      --list-item-grid-template-columns: auto auto minmax(0, 1fr) auto;
+      --item-grid-template-columns: auto auto auto minmax(0, 1fr) auto auto;
     }
 
+    // Deal with the item layout
     &,
     &__accordion__header {
       display: grid;
       grid-template:
-        var(--list-item-grid-template-areas) /
-        var(--list-item-grid-template-columns);
+        var(--item-grid-template-areas) /
+        var(--item-grid-template-columns);
+      place-content: center; // Center vertically
+      align-items: center; // Center vertically
+
+      min-height: var(--item-height);
+      padding: calc(var(--item-padding)) 0;
     }
-    align-items: center;
-    min-height: var(--list-height);
+    &:has(#{&}__addition),
+    &:has(#{&}__addition) &__accordion__header {
+      padding-bottom: 0;
+    }
 
-    &:where(:not(#{&}__accordion)) {
-      &:has(.dnb-list__item__center),
-      &:has(.dnb-list__item__end) {
-        row-gap: var(--row-gap);
+    // On small screens, add row-gap when center or end is used
+    // so we have spacing between the rows
+    &:not(#{&}__accordion):has(#{&}__center),
+    &:not(#{&}__accordion):has(#{&}__end),
+    &__accordion__header:has(#{&}__center),
+    &__accordion__header:has(#{&}__end) {
+      @include allBelow(small) {
+        row-gap: var(--item-row-gap);
       }
-
-      // Accordion handles its own padding
-      padding: calc(var(--list-padding)) 0;
     }
 
     // Handle border radius
     border-radius: 0;
     &:first-of-type {
-      border-top-left-radius: var(--rounded-corner);
-      border-top-right-radius: var(--rounded-corner);
+      border-top-left-radius: var(--item-rounded-corner);
+      border-top-right-radius: var(--item-rounded-corner);
     }
     &:last-of-type {
-      border-bottom-left-radius: var(--rounded-corner);
-      border-bottom-right-radius: var(--rounded-corner);
+      border-bottom-left-radius: var(--item-rounded-corner);
+      border-bottom-right-radius: var(--item-rounded-corner);
     }
     .dnb-list--separated & {
-      border-radius: var(--rounded-corner);
+      border-radius: var(--item-rounded-corner);
     }
 
-    background-color: var(--list-background);
+    background-color: var(--item-background);
     &--selected {
-      background-color: var(--list-item-selected-background-color,);
-    }
-
-    &__title {
-      grid-area: title;
-
-      span {
-        cursor: text;
-      }
+      background-color: var(--item-selected-background-color,);
     }
 
     &__title,
+    &__icon,
     &__start,
     &__center,
     &__end,
-    &__icon {
+    &__addition {
       display: flex;
       align-items: center;
 
       z-index: 10; // above checkbox and radio click boundary
     }
 
-    &__start {
-      grid-area: start;
+    // Grid areas
+    &__title {
+      grid-area: title;
     }
-
     &__icon {
       grid-area: icon;
     }
-
+    &__start {
+      grid-area: start;
+    }
     &__center {
       grid-area: center;
     }
-
     &__end {
       grid-area: end;
       justify-self: start;
     }
+    &__addition {
+      grid-area: addition;
+      margin-top: var(--item-padding);
+      padding: var(--item-padding);
 
+      &.dnb-hr {
+        place-self: flex-start;
+
+        &.dnb-space__top--zero {
+          margin-top: var(--item-padding);
+        }
+      }
+    }
+    &:last-of-type:not(#{&}__accordion--open) &__addition {
+      border-bottom-left-radius: var(--item-rounded-corner);
+      border-bottom-right-radius: var(--item-rounded-corner);
+    }
+
+    // Deal with chevron
+    &__navigate--href a .dnb-anchor__launch-icon,
+    &__chevron {
+      display: flex;
+      grid-area: chevron-right;
+      margin-right: var(--item-chevron-margin);
+    }
+    &--chevron-left &__navigate--href a .dnb-anchor__launch-icon,
+    &--chevron-left &__chevron {
+      grid-area: chevron-left;
+      margin-right: 0;
+      margin-left: var(--item-chevron-margin);
+    }
+
+    // Handle form elements alignment
     .dnb-checkbox .dnb-form-label,
     .dnb-radio .dnb-radio__order .dnb-form-label {
-      padding-left: var(--list-padding);
+      padding-left: var(--item-padding);
     }
     // So the __end is aligned with checkbox/radio label on small screens
     &:has(.dnb-form-label) &__end {
       @include allBelow(small) {
         display: flex;
-        margin-left: calc(var(--list-padding) * 2 + 0.5rem);
+        margin-left: calc(var(--item-padding) * 2 + 0.5rem);
       }
     }
 
@@ -174,29 +227,17 @@
       --radio-bounding--medium: 100;
     }
 
-    &__chevron,
-    &__navigate--href a .dnb-anchor__launch-icon {
-      position: absolute;
-      top: 50%;
-      right: var(--list-padding);
-      transform: translateY(-50%);
-      transition: transform 400ms var(--easing-default);
-    }
-    &--icon-left &__chevron,
-    &--icon-left &__navigate--href a .dnb-anchor__launch-icon {
-      left: var(--list-padding);
-      right: auto;
-    }
     &:has(.dnb-anchor__launch-icon) &__chevron {
       display: none;
     }
 
     // Accordion chevron rotations
-    &__chevron:where(#{&}__accordion &__chevron) {
-      transform: translateY(-50%) rotate(90deg);
+    &__chevron:where(#{&}__accordion &__chevron) .dnb-icon {
+      transition: transform 400ms var(--easing-default);
+      transform: rotate(90deg);
     }
-    &__chevron:where(#{&}__accordion--open &__chevron) {
-      transform: translateY(-50%) rotate(270deg);
+    &__chevron:where(#{&}__accordion--open &__chevron) .dnb-icon {
+      transform: rotate(270deg);
     }
 
     &__navigate {
@@ -204,7 +245,7 @@
       outline: none;
 
       .dnb-icon {
-        color: var(--icon-color);
+        color: var(--item-icon-color);
       }
 
       // When href is set, the anchor wraps the slots; make it the grid container
@@ -213,10 +254,10 @@
       &--href a {
         display: grid;
         grid-template:
-          var(--list-item-grid-template-areas) /
-          var(--list-item-grid-template-columns);
-        // grid-column: 1 / -1;
-        // grid-row: 1 / -1;
+          var(--item-grid-template-areas) /
+          var(--item-grid-template-columns);
+        grid-column: 1 / -1; // Span full width
+        grid-row: 1 / -1; // Center vertically
         text-decoration: none;
         color: inherit;
       }
@@ -224,17 +265,17 @@
       // Handle navigate states
       &:hover,
       &:focus-visible {
-        --outline-color: var(--navigation-color);
-        --outline-width: 0.125rem;
+        --item-outline-color: var(--item-navigation-color);
+        --item-outline-width: 0.125rem;
         z-index: 2;
       }
       &:hover {
-        --outline-inset: inset;
+        --item-outline-inset: inset;
       }
       &:active {
-        --outline-color: var(--navigation-color--active);
-        --icon-color: var(--navigation-color--active);
-        --outline-width: 0.0625rem;
+        --item-outline-color: var(--item-navigation-color--active);
+        --item-icon-color: var(--item-navigation-color--active);
+        --item-outline-width: 0.0625rem;
         z-index: 2;
       }
     }
@@ -242,68 +283,45 @@
     // Handle accordion states
     &:has(#{&}__accordion__header:hover),
     &:has(#{&}__accordion__header:focus-visible) {
-      --outline-color: var(--navigation-color);
-      --outline-width: 0.125rem;
+      --item-outline-color: var(--item-navigation-color);
+      --item-outline-width: 0.125rem;
       z-index: 2;
     }
     &:has(#{&}__accordion__header:hover) {
-      --outline-inset: inset;
+      --item-outline-inset: inset;
     }
     &:has(#{&}__accordion__header:active) {
-      --outline-color: var(--navigation-color--active);
-      --icon-color: var(--navigation-color--active);
-      --outline-width: 0.0625rem;
+      --item-outline-color: var(--item-navigation-color--active);
+      --item-icon-color: var(--item-navigation-color--active);
+      --item-outline-width: 0.0625rem;
       z-index: 2;
     }
 
     &__accordion {
       display: flex;
-      width: 100%;
+      align-items: stretch;
+      padding: 0;
 
       .dnb-hr::after {
-        right: calc(-1 * var(--list-padding) * 2);
+        left: var(--item-outline-width);
+        right: var(--item-outline-width);
       }
 
       &__header {
         position: relative;
-        width: 100%;
-        min-height: var(--list-height);
-        padding: calc(var(--list-padding)) 0;
-
-        &:has(.dnb-list__item__center),
-        &:has(.dnb-list__item__end) {
-          row-gap: var(--row-gap);
-        }
-        &:has(.dnb-list__item__chevron) {
-          padding-right: 2rem;
-        }
-        .dnb-list__item--icon-left & {
-          padding-right: 0;
-          padding-left: 2rem;
-        }
 
         cursor: pointer;
         outline: none;
 
         .dnb-icon {
-          color: var(--icon-color);
+          color: var(--item-icon-color);
         }
       }
 
       &__content {
         display: flex;
         flex-direction: column;
-        width: 100%;
       }
-    }
-
-    // Place it after content accordion
-    &:not(#{&}__accordion):has(#{&}__chevron) {
-      padding-right: 2rem;
-    }
-    &--icon-left:not(#{&}__accordion):has(#{&}__chevron) {
-      padding-right: 0;
-      padding-left: 2rem;
     }
 
     &.dnb-skeleton .dnb-icon {
@@ -321,7 +339,7 @@
 
       background-image: repeating-linear-gradient(
         -45deg,
-        var(--pending-color) 1px 2px,
+        var(--item-pending-color) 1px 2px,
         transparent 0 6px
       );
     }

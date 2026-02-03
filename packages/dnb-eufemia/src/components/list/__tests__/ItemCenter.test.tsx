@@ -26,13 +26,6 @@ describe('ItemCenter', () => {
     expect(element.classList).toContain('my-center')
   })
 
-  it('has grow modifier for flex', () => {
-    render(<ItemCenter>Content</ItemCenter>)
-
-    const element = document.querySelector('.dnb-flex-item')
-    expect(element.classList).toContain('dnb-flex-item--grow')
-  })
-
   it('forwards custom HTML attributes', () => {
     render(
       <ItemCenter

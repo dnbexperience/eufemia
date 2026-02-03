@@ -449,7 +449,7 @@ describe('ItemAccordion', () => {
     const chevron = header.querySelector('.dnb-list__item__chevron')
 
     expect(chevron).toBeInTheDocument()
-    expect(header.className).not.toContain('dnb-list__item--icon-left')
+    expect(header.className).not.toContain('dnb-list__item--chevron-left')
   })
 
   it('renders chevron on the left when iconPosition is left', () => {
@@ -466,7 +466,7 @@ describe('ItemAccordion', () => {
     const chevron = header.querySelector('.dnb-list__item__chevron')
 
     expect(chevron).toBeInTheDocument()
-    expect(header.className).toContain('dnb-list__item--icon-left')
+    expect(header.className).toContain('dnb-list__item--chevron-left')
   })
 
   it('applies icon-left modifier class when iconPosition is left', () => {
@@ -481,7 +481,7 @@ describe('ItemAccordion', () => {
       '.dnb-list__item__accordion__header'
     )
 
-    expect(header.className).toContain('dnb-list__item--icon-left')
+    expect(header.className).toContain('dnb-list__item--chevron-left')
   })
 
   it('declares _supportsSpacingProps for flex layout', () => {

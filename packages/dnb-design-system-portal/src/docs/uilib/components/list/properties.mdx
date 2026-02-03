@@ -9,6 +9,7 @@ import {
   ItemCenterProperties,
   ItemEndProperties,
   ItemStartProperties,
+  ItemAdditionProperties,
   ItemTitleProperties,
   ItemIconProperties,
   ItemAccordionProperties,
@@ -19,34 +20,36 @@ import {
 
 <PropertiesTable props={ContainerProperties} />
 
-## List.Item.Variant.Content
+## List.Item.Basic
 
 <PropertiesTable props={ItemContentProperties} />
 
-## List.Item.Layout.Center
-
-<PropertiesTable props={ItemCenterProperties} />
-
-## List.Item.Layout.End
-
-<PropertiesTable props={ItemEndProperties} />
-
-## List.Item.Layout.Start
-
-<PropertiesTable props={ItemStartProperties} />
-
-## List.Item.Layout.Title
-
-<PropertiesTable props={ItemTitleProperties} />
-
-## List.Item.Layout.Icon
-
-<PropertiesTable props={ItemIconProperties} />
-
-## List.Item.Variant.Navigate
+## List.Item.Action
 
 <PropertiesTable props={ItemNavigateProperties} />
 
-## List.Item.Variant.Accordion
+## List.Item.Accordion
 
 <PropertiesTable props={ItemAccordionProperties} />
+
+## List.Cell.Start
+
+<PropertiesTable props={ItemStartProperties} />
+
+## List.Cell.Center
+
+<PropertiesTable props={ItemCenterProperties} />
+
+## List.Cell.End
+
+<PropertiesTable props={ItemEndProperties} />
+
+## List.Cell.Addition
+
+<PropertiesTable props={ItemAdditionProperties} />
+
+## List.Item.Basic / List.Item.Action (icon and title)
+
+<PropertiesTable props={ItemIconProperties} />
+
+<PropertiesTable props={ItemTitleProperties} />

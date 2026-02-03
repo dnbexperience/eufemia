@@ -1,8 +1,16 @@
 import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
-import { Avatar, Checkbox, List } from '../../../components'
+import {
+  Avatar,
+  Button,
+  Checkbox,
+  Flex,
+  List,
+  NumberFormat,
+} from '../../../components'
 import { Value } from '../../../extensions/forms'
 import { fish_medium } from '../../../icons'
+import { P } from '../../../elements'
 
 export default {
   title: 'Eufemia/Components/List',
@@ -11,185 +19,166 @@ export default {
 export function ListBasic() {
   return (
     <Wrapper>
-      <Box data-visual-test="list-slots">
+      <Box>
         <List.Container>
-          <List.Item.Variant.Content>
-            List item 1
-          </List.Item.Variant.Content>
-          <List.Item.Variant.Content selected>
-            List item 2
-          </List.Item.Variant.Content>
+          <List.Item.Basic>
+            <List.Cell.Start>Start</List.Cell.Start>
+            <List.Cell.Center>Center</List.Cell.Center>
+            <List.Cell.End>End</List.Cell.End>
+            <List.Cell.Addition>Addition</List.Cell.Addition>
+          </List.Item.Basic>
 
-          <List.Item.Variant.Content>
-            <List.Item.Layout.Start>Start</List.Item.Layout.Start>
-            <List.Item.Layout.Center>Center</List.Item.Layout.Center>
-            <List.Item.Layout.End>End</List.Item.Layout.End>
-          </List.Item.Variant.Content>
-
-          <List.Item.Variant.Navigate
+          <List.Item.Action
+            icon={fish_medium}
+            title="Title"
             onClick={() => console.log('Clicked')}
           >
-            <List.Item.Layout.Icon>{fish_medium}</List.Item.Layout.Icon>
-            <List.Item.Layout.Title>Title</List.Item.Layout.Title>
-            <List.Item.Layout.End>
+            <List.Cell.End>
               <Value.Currency value={1234} showEmpty />
-            </List.Item.Layout.End>
-          </List.Item.Variant.Navigate>
+            </List.Cell.End>
+          </List.Item.Action>
 
-          <List.Item.Variant.Navigate href="#section">
-            <List.Item.Layout.Icon>{fish_medium}</List.Item.Layout.Icon>
-            <List.Item.Layout.Title>
-              Link item (href)
-            </List.Item.Layout.Title>
-            <List.Item.Layout.End>
+          <List.Item.Action
+            icon={fish_medium}
+            title="Link item (href)"
+            href="#section"
+            target="_blank"
+          >
+            <List.Cell.End>
               <Value.Currency value={999} showEmpty />
-            </List.Item.Layout.End>
-          </List.Item.Variant.Navigate>
+            </List.Cell.End>
+          </List.Item.Action>
 
-          <List.Item.Variant.Content>
-            <List.Item.Layout.Start>
+          <List.Item.Basic>
+            <List.Cell.Start>
               <Checkbox label="Checkbox" />
-            </List.Item.Layout.Start>
-            <List.Item.Layout.End>
+            </List.Cell.Start>
+            <List.Cell.End>
               <Value.Currency value={1234} showEmpty />
-            </List.Item.Layout.End>
-          </List.Item.Variant.Content>
-        </List.Container>
-      </Box>
-
-      <Box data-visual-test="list-navigate">
-        <List.Container>
-          <List.Item.Variant.Navigate
-            onClick={() => console.log('Clicked')}
-          >
-            <List.Item.Layout.Icon>{fish_medium}</List.Item.Layout.Icon>
-            <List.Item.Layout.Title>Title</List.Item.Layout.Title>
-            <List.Item.Layout.End>
-              <Value.Currency value={1234} showEmpty />
-            </List.Item.Layout.End>
-          </List.Item.Variant.Navigate>
-        </List.Container>
-      </Box>
-
-      <Box data-visual-test="list-navigate-href">
-        <List.Container>
-          <List.Item.Variant.Navigate href="#section">
-            <List.Item.Layout.Icon>{fish_medium}</List.Item.Layout.Icon>
-            <List.Item.Layout.Title>
-              Link item (href)
-            </List.Item.Layout.Title>
-            <List.Item.Layout.End>
-              <Value.Currency value={999} showEmpty />
-            </List.Item.Layout.End>
-          </List.Item.Variant.Navigate>
-        </List.Container>
-      </Box>
-
-      <Box data-visual-test="list-form-elements">
-        <List.Container>
-          <List.Item.Variant.Content>
-            <List.Item.Layout.Start>
-              <Checkbox label="Checkbox" />
-            </List.Item.Layout.Start>
-            <List.Item.Layout.End>
-              <Value.Currency value={1234} showEmpty />
-            </List.Item.Layout.End>
-          </List.Item.Variant.Content>
-        </List.Container>
-      </Box>
-
-      <Box data-visual-test="list-pending">
-        <List.Container>
-          <List.Item.Variant.Navigate
-            pending
-            onClick={() => console.log('Clicked')}
-          >
-            <List.Item.Layout.Icon>{fish_medium}</List.Item.Layout.Icon>
-            <List.Item.Layout.Title>Pending</List.Item.Layout.Title>
-            <List.Item.Layout.End>
-              <Value.Currency value={1234} showEmpty />
-            </List.Item.Layout.End>
-          </List.Item.Variant.Navigate>
-
-          <List.Item.Variant.Navigate
-            skeleton
-            onClick={() => console.log('Clicked')}
-          >
-            <List.Item.Layout.Icon>{fish_medium}</List.Item.Layout.Icon>
-            <List.Item.Layout.Title>Skeleton</List.Item.Layout.Title>
-            <List.Item.Layout.End>
-              <Value.Currency value={1234} showEmpty />
-            </List.Item.Layout.End>
-          </List.Item.Variant.Navigate>
+            </List.Cell.End>
+          </List.Item.Basic>
         </List.Container>
       </Box>
 
       <Box>
         <List.Container>
-          <List.Item.Variant.Navigate
+          <List.Item.Action
+            icon={fish_medium}
+            title="Title"
+            onClick={() => console.log('Clicked')}
+          >
+            <List.Cell.End>
+              <Value.Currency value={1234} showEmpty />
+            </List.Cell.End>
+          </List.Item.Action>
+        </List.Container>
+      </Box>
+
+      <Box>
+        <List.Container>
+          <List.Item.Action
+            icon={fish_medium}
+            title="Link item (href)"
+            href="#section"
+          >
+            <List.Cell.End>
+              <Value.Currency value={999} showEmpty />
+            </List.Cell.End>
+          </List.Item.Action>
+        </List.Container>
+      </Box>
+
+      <Box>
+        <List.Container>
+          <List.Item.Basic>
+            <List.Cell.Start>
+              <Checkbox label="Checkbox" />
+            </List.Cell.Start>
+            <List.Cell.End>
+              <Value.Currency value={1234} showEmpty />
+            </List.Cell.End>
+          </List.Item.Basic>
+        </List.Container>
+      </Box>
+
+      <Box>
+        <List.Container>
+          <List.Item.Action
+            icon={fish_medium}
+            title="Pending"
+            pending
+            onClick={() => console.log('Clicked')}
+          >
+            <List.Cell.End>
+              <Value.Currency value={1234} showEmpty />
+            </List.Cell.End>
+          </List.Item.Action>
+
+          <List.Item.Action
+            icon={fish_medium}
+            title="Skeleton"
+            skeleton
+            onClick={() => console.log('Clicked')}
+          >
+            <List.Cell.End>
+              <Value.Currency value={1234} showEmpty />
+            </List.Cell.End>
+          </List.Item.Action>
+        </List.Container>
+      </Box>
+
+      <Box>
+        <List.Container>
+          <List.Item.Action
+            title="Title"
             iconPosition="left"
             onClick={() => console.log('Clicked')}
           >
-            <List.Item.Layout.Title>Title</List.Item.Layout.Title>
-            <List.Item.Layout.End>
+            <List.Cell.End>
               <Value.Currency value={1234} showEmpty />
-            </List.Item.Layout.End>
-          </List.Item.Variant.Navigate>
+            </List.Cell.End>
+          </List.Item.Action>
         </List.Container>
       </Box>
 
-      <Box data-visual-test="list-separated">
+      <Box>
         <List.Container separated>
-          <List.Item.Variant.Navigate
+          <List.Item.Action
+            icon={fish_medium}
+            title="Title"
             onClick={() => console.log('Clicked')}
           >
-            <List.Item.Layout.Icon>{fish_medium}</List.Item.Layout.Icon>
-            <List.Item.Layout.Title>Title</List.Item.Layout.Title>
-            <List.Item.Layout.End>
+            <List.Cell.End>
               <Value.Currency value={1234} showEmpty />
-            </List.Item.Layout.End>
-          </List.Item.Variant.Navigate>
+            </List.Cell.End>
+          </List.Item.Action>
 
-          <List.Item.Variant.Content>
-            <List.Item.Layout.Icon>{fish_medium}</List.Item.Layout.Icon>
-            <List.Item.Layout.Title>Title</List.Item.Layout.Title>
-            <List.Item.Layout.End>
+          <List.Item.Basic icon={fish_medium} title="Title">
+            <List.Cell.End>
               <Value.Currency value={1234} showEmpty />
-            </List.Item.Layout.End>
-          </List.Item.Variant.Content>
+            </List.Cell.End>
+          </List.Item.Basic>
         </List.Container>
       </Box>
 
-      <Box data-visual-test="list-accordion">
+      <Box>
         <List.Container>
-          <List.Item.Variant.Accordion>
-            <List.Item.Variant.Accordion.Header>
-              <List.Item.Layout.Icon>{fish_medium}</List.Item.Layout.Icon>
-              <List.Item.Layout.Title>Title</List.Item.Layout.Title>
-              <List.Item.Layout.End>
+          <List.Item.Accordion icon={fish_medium} title="Title">
+            <List.Item.Accordion.Header>
+              <List.Cell.End>
                 <Value.Currency value={1234} showEmpty />
-              </List.Item.Layout.End>
-            </List.Item.Variant.Accordion.Header>
+              </List.Cell.End>
+            </List.Item.Accordion.Header>
+            <List.Item.Accordion.Content>
+              <List.Cell.Start innerSpace>Content ...</List.Cell.Start>
+            </List.Item.Accordion.Content>
+          </List.Item.Accordion>
 
-            <List.Item.Variant.Accordion.Content>
-              <List.Item.Layout.Start innerSpace>
-                Content ...
-              </List.Item.Layout.Start>
-            </List.Item.Variant.Accordion.Content>
-          </List.Item.Variant.Accordion>
-
-          <List.Item.Variant.Accordion open iconPosition="left">
-            <List.Item.Variant.Accordion.Header>
-              {/* <List.Item.Layout.Icon>{fish_medium}</List.Item.Layout.Icon> */}
-              <List.Item.Layout.Title>Title</List.Item.Layout.Title>
-            </List.Item.Variant.Accordion.Header>
-
-            <List.Item.Variant.Accordion.Content>
-              <List.Item.Layout.Start innerSpace>
-                Content ...
-              </List.Item.Layout.Start>
-            </List.Item.Variant.Accordion.Content>
-          </List.Item.Variant.Accordion>
+          <List.Item.Accordion open iconPosition="left" title="Title">
+            <List.Item.Accordion.Content>
+              <List.Cell.Start innerSpace>Content ...</List.Cell.Start>
+            </List.Item.Accordion.Content>
+          </List.Item.Accordion>
         </List.Container>
       </Box>
     </Wrapper>
@@ -199,35 +188,87 @@ export function ListBasic() {
 export function ListAccordion() {
   return (
     <Wrapper>
-      <Box data-visual-test="list-accordion">
+      <Box>
         <List.Container>
-          <List.Item.Variant.Accordion>
-            <List.Item.Variant.Accordion.Header>
-              <List.Item.Layout.Icon>{fish_medium}</List.Item.Layout.Icon>
-              <List.Item.Layout.Title>Title</List.Item.Layout.Title>
-              <List.Item.Layout.End>
+          <List.Item.Action
+            icon={fish_medium}
+            title="Title"
+            onClick={() => console.log('Clicked')}
+          >
+            <List.Cell.End>
+              <Value.Currency value={1234} showEmpty />
+            </List.Cell.End>
+          </List.Item.Action>
+
+          <List.Item.Accordion icon={fish_medium} title="Title">
+            <List.Item.Accordion.Header>
+              <List.Cell.End>
                 <Value.Currency value={1234} showEmpty />
-              </List.Item.Layout.End>
-            </List.Item.Variant.Accordion.Header>
+              </List.Cell.End>
+            </List.Item.Accordion.Header>
+            <List.Item.Accordion.Content>
+              <List.Cell.Start innerSpace>Content ...</List.Cell.Start>
+            </List.Item.Accordion.Content>
+          </List.Item.Accordion>
 
-            <List.Item.Variant.Accordion.Content>
-              <List.Item.Layout.Start innerSpace>
-                Content ...
-              </List.Item.Layout.Start>
-            </List.Item.Variant.Accordion.Content>
-          </List.Item.Variant.Accordion>
+          <List.Item.Accordion open iconPosition="left" title="Title">
+            <List.Item.Accordion.Content>
+              <List.Cell.Start innerSpace>Content ...</List.Cell.Start>
+            </List.Item.Accordion.Content>
+          </List.Item.Accordion>
+        </List.Container>
+      </Box>
+    </Wrapper>
+  )
+}
 
-          <List.Item.Variant.Accordion open iconPosition="left">
-            <List.Item.Variant.Accordion.Header>
-              <List.Item.Layout.Title>Title</List.Item.Layout.Title>
-            </List.Item.Variant.Accordion.Header>
+export function ListAdditionWithButtons() {
+  return (
+    <Wrapper>
+      <Box>
+        <List.Container>
+          <List.Item.Basic title="Item with actions" icon={fish_medium}>
+            <List.Cell.End>
+              <NumberFormat currency value={1234} />
+            </List.Cell.End>
+            <List.Cell.Addition>
+              <Flex.Horizontal>
+                <Button text="Save" />
+                <Button variant="tertiary" text="Delete" />
+              </Flex.Horizontal>
+            </List.Cell.Addition>
+          </List.Item.Basic>
 
-            <List.Item.Variant.Accordion.Content>
-              <List.Item.Layout.Start innerSpace>
-                Content ...
-              </List.Item.Layout.Start>
-            </List.Item.Variant.Accordion.Content>
-          </List.Item.Variant.Accordion>
+          <List.Item.Action
+            icon={fish_medium}
+            title="Action item with button"
+          >
+            <List.Cell.End>
+              <Value.Currency value={5678} showEmpty />
+            </List.Cell.End>
+            <List.Cell.Addition>
+              <Button variant="secondary" text="Open" />
+            </List.Cell.Addition>
+          </List.Item.Action>
+
+          <List.Item.Accordion icon={fish_medium} title="Accordion title">
+            <List.Item.Accordion.Header>
+              <List.Cell.End>
+                <NumberFormat currency value={1234} />
+              </List.Cell.End>
+              <List.Cell.Addition>
+                <Button
+                  variant="tertiary"
+                  text="Next"
+                  icon="chevron_right"
+                />
+              </List.Cell.Addition>
+            </List.Item.Accordion.Header>
+
+            <List.Item.Accordion.Content innerSpace>
+              <P>Accordion content goes here.</P>
+            </List.Item.Accordion.Content>
+          </List.Item.Accordion>
         </List.Container>
       </Box>
     </Wrapper>
@@ -237,41 +278,32 @@ export function ListAccordion() {
 export function ListWithAvatar() {
   return (
     <Wrapper>
-      <Box data-visual-test="list-avatar">
+      <Box>
         <List.Container>
-          <List.Item.Variant.Content>
-            <List.Item.Layout.Start>
-              <Avatar size="small">A</Avatar>
-            </List.Item.Layout.Start>
-            <List.Item.Layout.Title>Alice Andersen</List.Item.Layout.Title>
-            <List.Item.Layout.End>
+          <List.Item.Basic title="Alice Andersen">
+            <List.Cell.Start>
+              <Avatar size="medium">A</Avatar>
+            </List.Cell.Start>
+            <List.Cell.End>
               <Value.Currency value={1234} showEmpty />
-            </List.Item.Layout.End>
-          </List.Item.Variant.Content>
+            </List.Cell.End>
+          </List.Item.Basic>
 
-          <List.Item.Variant.Navigate onClick={() => {}}>
-            <List.Item.Layout.Start>
-              <Avatar size="small">B</Avatar>
-            </List.Item.Layout.Start>
-            <List.Item.Layout.Title>Bob Berg</List.Item.Layout.Title>
-            <List.Item.Layout.End>
+          <List.Item.Action title="Bob Berg" onClick={() => {}}>
+            <List.Cell.Start>
+              <Avatar size="medium">B</Avatar>
+            </List.Cell.Start>
+            <List.Cell.End>
               <Value.Currency value={5678} showEmpty />
-            </List.Item.Layout.End>
-          </List.Item.Variant.Navigate>
+            </List.Cell.End>
+          </List.Item.Action>
 
-          <List.Item.Variant.Content>
-            <List.Item.Layout.Start>
-              <Avatar
-                size="small"
-                src="https://eufemia.dnb.no/images/avatars/1501870.jpg"
-                alt=""
-              />
-            </List.Item.Layout.Start>
-            <List.Item.Layout.Title>
-              Carol with image
-            </List.Item.Layout.Title>
-            <List.Item.Layout.End>Value</List.Item.Layout.End>
-          </List.Item.Variant.Content>
+          <List.Item.Basic title="Carol with image">
+            <List.Cell.Start>
+              <Avatar size="medium">C</Avatar>
+            </List.Cell.Start>
+            <List.Cell.End>Value</List.Cell.End>
+          </List.Item.Basic>
         </List.Container>
       </Box>
     </Wrapper>

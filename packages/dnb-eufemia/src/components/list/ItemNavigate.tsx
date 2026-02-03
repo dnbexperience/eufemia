@@ -1,9 +1,12 @@
 import classnames from 'classnames'
 import { ListVariant } from './ListContext'
 import ItemContent, { ItemContentProps } from './ItemContent'
-import React, { useCallback } from 'react'
+import React, { useCallback, useRef } from 'react'
 import IconPrimary from '../IconPrimary'
 import Anchor from '../Anchor'
+import ItemIcon from './ItemIcon'
+import ItemTitle from './ItemTitle'
+import type { IconIcon } from '../icon/Icon'
 
 export type ItemNavigateIconPosition = 'left' | 'right'
 
@@ -11,10 +14,12 @@ export type ItemNavigateProps = {
   variant?: ListVariant
   selected?: boolean
   iconPosition?: ItemNavigateIconPosition
+  icon?: IconIcon
+  title?: React.ReactNode
   href?: string
   target?: string
   rel?: string
-} & ItemContentProps
+} & Omit<ItemContentProps, 'title'>
 
 function ItemNavigate(props: ItemNavigateProps) {
   const {
@@ -25,6 +30,8 @@ function ItemNavigate(props: ItemNavigateProps) {
     selected,
     pending,
     iconPosition = 'right',
+    icon,
+    title,
     href,
     target,
     rel,
@@ -60,9 +67,24 @@ function ItemNavigate(props: ItemNavigateProps) {
     [handleClick]
   )
 
+  const anchorRef = useRef<HTMLAnchorElement>(null)
+
+  const handleLinkKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault()
+        if (!pending) {
+          anchorRef.current?.click()
+          onClick?.(event as unknown as React.MouseEvent<HTMLDivElement>)
+        }
+      }
+    },
+    [onClick, pending]
+  )
+
   const navigateClassName = classnames(
     'dnb-list__item__navigate',
-    iconPosition === 'left' && 'dnb-list__item--icon-left',
+    iconPosition === 'left' && 'dnb-list__item--chevron-left',
     href && 'dnb-list__item__navigate--href',
     className
   )
@@ -70,6 +92,8 @@ function ItemNavigate(props: ItemNavigateProps) {
   const content = (
     <>
       {iconPosition === 'left' && <ChevronIcon />}
+      {icon !== undefined && <ItemIcon>{icon}</ItemIcon>}
+      {title !== undefined && <ItemTitle>{title}</ItemTitle>}
       {children}
       {iconPosition === 'right' && <ChevronIcon />}
     </>
@@ -79,16 +103,20 @@ function ItemNavigate(props: ItemNavigateProps) {
     return (
       <ItemContent
         className={navigateClassName}
+        role="link"
+        tabIndex={pending ? -1 : 0}
+        aria-disabled={pending ? true : undefined}
+        onKeyDown={handleLinkKeyDown}
         pending={pending}
         {...rest}
       >
         <Anchor
           noStyle
+          ref={anchorRef}
           href={href}
           target={target}
           rel={rel}
-          aria-disabled={pending ? true : undefined}
-          tabIndex={pending ? -1 : undefined}
+          tabIndex={-1}
         >
           {content}
         </Anchor>
@@ -117,11 +145,11 @@ export default ItemNavigate
 
 export function ChevronIcon() {
   return (
-    <IconPrimary
-      className="dnb-list__item__chevron"
-      icon="chevron_right"
-    />
+    <div className="dnb-list__item__chevron">
+      <IconPrimary icon="chevron_right" />
+    </div>
   )
 }
+
 // To pretend that this component supports spacing props, so it doesn't get wrapped by Flex
 ChevronIcon._supportsSpacingProps = true

@@ -10,13 +10,19 @@ import * as Examples from './Examples'
 
 <Examples.RowsWithSlots />
 
+### Addition with buttons
+
+Use `List.Cell.Addition` to place actions such as [Button](/uilib/components/button) in the list row.
+
+<Examples.AdditionWithButtons />
+
 ### Navigable item
 
 <Examples.NavigableItem />
 
 ### Navigable item with href
 
-Use the `href` prop on `List.Item.Variant.Navigate` to render a native link. Use `target` and `rel` for external links (e.g. `target="_blank"` with `rel="noopener noreferrer"`).
+Use the `href` prop on `List.Item.Action` to render a native link. Use `target` and `rel` for external links (e.g. `target="_blank"` with `rel="noopener noreferrer"`).
 
 <Examples.NavigableItemWithHref />
 
@@ -28,9 +34,15 @@ List items containing [Anchor](/uilib/components/anchor) links.
 
 ### Accordion
 
-Expandable list items using `List.Item.Variant.Accordion` with `Header` and `Content`. Use the `open` prop to set the initial open state.
+Expandable list items using `List.Item.Accordion` with optional `icon` and `title` props and `List.Item.Accordion.Content` for the expandable section. Use the `open` prop to set the initial open state.
 
 <Examples.Accordion />
+
+### Responsive Grid Layout
+
+Using [Grid.Container](/uilib/layout/grid/container) with [Grid.Item](/uilib/layout/grid/item) for a 12-column responsive grid.
+
+<Examples.GridColumns />
 
 ### Dynamic list
 
@@ -52,24 +64,24 @@ Use the `separated` prop on `List.Container` to add row gap between list items.
 
 ### Pending state
 
-Use the `pending` prop on `List.Item.Variant.Content` or `List.Item.Variant.Navigate` to show a skeleton overlay. Click and keyboard are disabled while pending.
+Use the `pending` prop on `List.Item.Basic` or `List.Item.Action` to show a skeleton overlay. Click and keyboard are disabled while pending.
 
 <Examples.PendingState />
 
 ### Progress indicator
 
-A single list item with a circular progress indicator in `List.Item.Layout.Start`.
+A single list item with a circular progress indicator in `List.Cell.Start`.
 
 <Examples.ProgressIndicatorRow />
 
 ### Skeleton
 
-Use the `skeleton` prop on `List.Item.Variant.Content` or `List.Item.Variant.Navigate` to show a skeleton overlay while content is loading.
+Use the `skeleton` prop on `List.Item.Basic` or `List.Item.Action` to show a skeleton overlay while content is loading.
 
 <Examples.SkeletonState />
 
 ### With avatar
 
-Use [Avatar](/uilib/components/avatar) in `List.Item.Layout.Start` as the left icon.
+Use [Avatar](/uilib/components/avatar) in `List.Cell.Start` as the left content.
 
 <Examples.WithAvatar />

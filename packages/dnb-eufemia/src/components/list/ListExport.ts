@@ -1,2 +1,9 @@
-export { default as Container } from './Container'
-export { default as Item } from './Item'
+import Container from './Container'
+import Item from './Item'
+import Cell from './Cell'
+
+export { Container, Item, Cell }
+
+const List = { Container, Item, Cell }
+
+export default List

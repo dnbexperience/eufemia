@@ -10,11 +10,14 @@ import useId from '../../shared/helpers/useId'
 import { ListVariant } from './ListContext'
 import ItemContent, { ItemContentProps } from './ItemContent'
 import FlexItem from '../flex/Item'
+import type { IconIcon } from '../icon/Icon'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import Hr from '../../elements/Hr'
 import { ChevronIcon } from './ItemNavigate'
 import Space from '../space/Space'
 import { omitSpacingProps, pickSpacingProps } from '../flex/utils'
+import ItemIcon from './ItemIcon'
+import ItemTitle from './ItemTitle'
 
 export type ItemAccordionIconPosition = 'left' | 'right'
 
@@ -22,8 +25,10 @@ export type ItemAccordionProps = {
   variant?: ListVariant
   open?: boolean
   iconPosition?: ItemAccordionIconPosition
+  icon?: IconIcon
+  title?: React.ReactNode
   id?: string
-} & ItemContentProps
+} & Omit<ItemContentProps, 'title'>
 
 const ItemAccordionContext = createContext<{
   open?: boolean
@@ -31,6 +36,8 @@ const ItemAccordionContext = createContext<{
   pending?: boolean
   iconPosition?: ItemAccordionIconPosition
   accordionId: string
+  icon?: IconIcon
+  title?: React.ReactNode
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
   onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 }>(undefined)
@@ -44,12 +51,19 @@ function ItemAccordion(props: ItemAccordionProps) {
     pending,
     open = false,
     iconPosition = 'right',
+    icon,
+    title,
     id: idProp,
     ...rest
   } = props
 
   const [openState, setOpen] = useState(open)
   const accordionId = useId(idProp)
+  const childArray = React.Children.toArray(children)
+  const hasExplicitHeader = childArray.some(
+    (child) =>
+      React.isValidElement(child) && child.type === AccordionHeader
+  )
 
   useEffect(() => {
     setOpen(open)
@@ -63,6 +77,8 @@ function ItemAccordion(props: ItemAccordionProps) {
         pending,
         iconPosition,
         accordionId,
+        icon,
+        title,
         setOpen,
         onClick,
       }}
@@ -78,6 +94,7 @@ function ItemAccordion(props: ItemAccordionProps) {
         variant={variant}
         {...rest}
       >
+        {!hasExplicitHeader ? <AccordionHeader /> : null}
         {children}
       </ItemContent>
     </ItemAccordionContext.Provider>
@@ -99,6 +116,8 @@ function AccordionHeader(props: AccordionHeaderProps) {
     iconPosition,
     accordionId,
     openState,
+    icon,
+    title,
   } = useContext(ItemAccordionContext)
 
   const handleClick = useCallback(
@@ -127,7 +146,7 @@ function AccordionHeader(props: AccordionHeaderProps) {
     <FlexItem
       className={classnames(
         'dnb-list__item__accordion__header',
-        iconPosition === 'left' && 'dnb-list__item--icon-left',
+        iconPosition === 'left' && 'dnb-list__item--chevron-left',
         className
       )}
       id={`${accordionId}-header`}
@@ -141,6 +160,8 @@ function AccordionHeader(props: AccordionHeaderProps) {
       {...rest}
     >
       {iconPosition === 'left' && <ChevronIcon />}
+      {icon && <ItemIcon>{icon}</ItemIcon>}
+      {title !== undefined && <ItemTitle>{title}</ItemTitle>}
       {children}
       {iconPosition === 'right' && <ChevronIcon />}
     </FlexItem>

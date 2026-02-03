@@ -45,7 +45,7 @@ describe('ItemNavigate', () => {
     expect(element.getAttribute('role')).toBe('link')
   })
 
-  it('has tabIndex 0 for keyboard navigation', () => {
+  it('has tabIndex 0 for keyboard navigation when not pending', () => {
     render(<ItemNavigate>Content</ItemNavigate>)
 
     const element = document.querySelector('.dnb-list__item__navigate')
@@ -69,7 +69,7 @@ describe('ItemNavigate', () => {
     const chevron = element.querySelector('.dnb-list__item__chevron')
 
     expect(chevron).toBeInTheDocument()
-    expect(element.className).not.toContain('dnb-list__item--icon-left')
+    expect(element.className).not.toContain('dnb-list__item--chevron-left')
   })
 
   it('renders chevron on the left when iconPosition is left', () => {
@@ -79,7 +79,7 @@ describe('ItemNavigate', () => {
     const chevron = element.querySelector('.dnb-list__item__chevron')
 
     expect(chevron).toBeInTheDocument()
-    expect(element.className).toContain('dnb-list__item--icon-left')
+    expect(element.className).toContain('dnb-list__item--chevron-left')
   })
 
   it('applies icon-left modifier class when iconPosition is left', () => {
@@ -87,7 +87,7 @@ describe('ItemNavigate', () => {
 
     const element = document.querySelector('.dnb-list__item__navigate')
 
-    expect(element.className).toContain('dnb-list__item--icon-left')
+    expect(element.className).toContain('dnb-list__item--chevron-left')
   })
 
   it('calls onClick when clicked', () => {
@@ -269,11 +269,13 @@ describe('ItemNavigate', () => {
     it('applies --href modifier class when href is provided', () => {
       render(<ItemNavigate href="/path">Content</ItemNavigate>)
 
-      const anchor = document.querySelector(hrefSelector)
+      const listItem = document.querySelector(hrefSelector)
 
-      expect(anchor).toBeInTheDocument()
-      expect(anchor.classList).toContain('dnb-list__item__navigate')
-      expect(anchor.classList).toContain('dnb-list__item__navigate--href')
+      expect(listItem).toBeInTheDocument()
+      expect(listItem.classList).toContain('dnb-list__item__navigate')
+      expect(listItem.classList).toContain(
+        'dnb-list__item__navigate--href'
+      )
     })
 
     it('has correct href attribute', () => {
@@ -289,6 +291,14 @@ describe('ItemNavigate', () => {
       expect(anchor?.getAttribute('href')).toBe('https://example.com/page')
     })
 
+    it('has role="link" on list item when href is provided', () => {
+      render(<ItemNavigate href="/path">Content</ItemNavigate>)
+
+      const listItem = document.querySelector(hrefSelector)
+
+      expect(listItem.getAttribute('role')).toBe('link')
+    })
+
     it('allows role to be overridden when href is provided', () => {
       render(
         <ItemNavigate href="/path" role="button">
@@ -296,9 +306,70 @@ describe('ItemNavigate', () => {
         </ItemNavigate>
       )
 
-      const anchor = document.querySelector(hrefSelector)
+      const listItem = document.querySelector(hrefSelector)
 
-      expect(anchor.getAttribute('role')).toBe('button')
+      expect(listItem.getAttribute('role')).toBe('button')
+    })
+
+    it('has tabIndex 0 on list item when href and not pending', () => {
+      render(<ItemNavigate href="/path">Link content</ItemNavigate>)
+
+      const listItem = document.querySelector(hrefSelector)
+
+      expect(listItem?.getAttribute('tabindex')).toBe('0')
+    })
+
+    it('has tabIndex -1 on anchor when href (focus on list item)', () => {
+      render(<ItemNavigate href="/path">Link content</ItemNavigate>)
+
+      const container = document.querySelector(hrefSelector)
+      const anchor = container?.querySelector('a')
+
+      expect(anchor?.getAttribute('tabindex')).toBe('-1')
+    })
+
+    it('has tabIndex -1 on list item when href and pending', () => {
+      render(
+        <ItemNavigate href="/path" pending>
+          Link content
+        </ItemNavigate>
+      )
+
+      const listItem = document.querySelector(hrefSelector)
+
+      expect(listItem?.getAttribute('tabindex')).toBe('-1')
+    })
+
+    it('triggers anchor click when list item receives Enter key (href)', () => {
+      render(<ItemNavigate href="/path">Link content</ItemNavigate>)
+
+      const listItem = document.querySelector(hrefSelector)
+      const anchor = listItem?.querySelector('a')
+
+      expect(anchor).toBeInTheDocument()
+
+      const clickSpy = jest.spyOn(anchor as HTMLAnchorElement, 'click')
+
+      fireEvent.keyDown(listItem as Element, { key: 'Enter' })
+
+      expect(clickSpy).toHaveBeenCalled()
+      clickSpy.mockRestore()
+    })
+
+    it('triggers anchor click when list item receives Space key (href)', () => {
+      render(<ItemNavigate href="/path">Link content</ItemNavigate>)
+
+      const listItem = document.querySelector(hrefSelector)
+      const anchor = listItem?.querySelector('a')
+
+      expect(anchor).toBeInTheDocument()
+
+      const clickSpy = jest.spyOn(anchor as HTMLAnchorElement, 'click')
+
+      fireEvent.keyDown(listItem as Element, { key: ' ' })
+
+      expect(clickSpy).toHaveBeenCalled()
+      clickSpy.mockRestore()
     })
 
     it('supports target and rel when href is provided', () => {

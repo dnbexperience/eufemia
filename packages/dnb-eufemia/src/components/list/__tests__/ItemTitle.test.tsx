@@ -35,14 +35,6 @@ describe('ItemTitle', () => {
     expect(element.classList).toContain('my-title')
   })
 
-  it('has grow modifier for flex', () => {
-    render(<ItemTitle>Title</ItemTitle>)
-
-    const element = document.querySelector('.dnb-list__item__title')
-
-    expect(element.classList).toContain('dnb-flex-item--grow')
-  })
-
   it('forwards custom HTML attributes', () => {
     render(
       <ItemTitle

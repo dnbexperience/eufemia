@@ -2,14 +2,14 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const ContainerProperties: PropertiesTableProps = {
   variant: {
-    doc: 'Visual variant of the list. Defaults to `basic`. Can be overridden per item via `List.Item.Variant.Content` or `List.Item.Variant.Navigate`.',
-    type: ["'basic'", 'string'],
+    doc: 'Visual variant of the list. Defaults to `basic`. Can be overridden per item via `List.Item.Basic` or `List.Item.Action`.',
+    type: ["'basic'"],
     defaultValue: "'basic'",
     status: 'optional',
   },
   children: {
-    doc: 'List items. Use `List.Item.Variant.Content` or `List.Item.Variant.Navigate` as direct children.',
-    type: 'React.Node',
+    doc: 'List items. Use `List.Item.Basic`, `List.Item.Action`, or `List.Item.Accordion` as direct children.',
+    type: 'React.ReactNode',
     status: 'required',
   },
   '[Flex.Container](/uilib/layout/flex/container/properties)': {
@@ -27,7 +27,7 @@ export const ContainerProperties: PropertiesTableProps = {
 export const ItemContentProperties: PropertiesTableProps = {
   variant: {
     doc: 'Overrides the variant inherited from `List.Container`.',
-    type: ["'basic'", 'string'],
+    type: ["'basic'"],
     status: 'optional',
   },
   selected: {
@@ -45,9 +45,19 @@ export const ItemContentProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  icon: {
+    doc: 'Optional icon (e.g. `fish_medium` or an icon element). Rendered at the start of the row.',
+    type: 'IconIcon',
+    status: 'optional',
+  },
+  title: {
+    doc: 'Optional title. Rendered after the icon when provided.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
   children: {
-    doc: 'Item content. Typically `List.Item.Layout.Start`, `List.Item.Layout.Center`, `List.Item.Layout.End`, or `List.Item.Layout.Title`.',
-    type: 'React.Node',
+    doc: 'Item content. Typically `List.Cell.Start`, `List.Cell.Center`, `List.Cell.End`, or `List.Cell.Addition`.',
+    type: 'React.ReactNode',
     status: 'required',
   },
   '[Flex.Container](/uilib/layout/flex/container/properties)': {
@@ -65,7 +75,25 @@ export const ItemContentProperties: PropertiesTableProps = {
 export const ItemCenterProperties: PropertiesTableProps = {
   children: {
     doc: 'Center content of the list item. Grows to fill available space.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
+    status: 'required',
+  },
+  '[Flex.Item](/uilib/layout/flex/item/properties)': {
+    doc: 'Flex.Item properties. Uses `grow` by default.',
+    type: 'Various',
+    status: 'optional',
+  },
+  '[Space](/uilib/layout/space/properties)': {
+    doc: 'Spacing properties like `top` or `bottom` are supported.',
+    type: ['string', 'object'],
+    status: 'optional',
+  },
+}
+
+export const ItemAdditionProperties: PropertiesTableProps = {
+  children: {
+    doc: 'Additional content of the list item. Grows to fill available space.',
+    type: 'React.ReactNode',
     status: 'required',
   },
   '[Flex.Item](/uilib/layout/flex/item/properties)': {
@@ -89,7 +117,7 @@ export const ItemEndProperties: PropertiesTableProps = {
   },
   children: {
     doc: 'End content of the list item (e.g. value, action).',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'required',
   },
   '[Flex.Item](/uilib/layout/flex/item/properties)': {
@@ -107,7 +135,7 @@ export const ItemEndProperties: PropertiesTableProps = {
 export const ItemStartProperties: PropertiesTableProps = {
   children: {
     doc: 'Start content of the list item (e.g. icon, label).',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'required',
   },
   '[Flex.Item](/uilib/layout/flex/item/properties)': {
@@ -125,7 +153,7 @@ export const ItemStartProperties: PropertiesTableProps = {
 export const ItemTitleProperties: PropertiesTableProps = {
   children: {
     doc: 'Title text of the list item. Grows to fill available space.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'required',
   },
   '[Flex.Item](/uilib/layout/flex/item/properties)': {
@@ -176,17 +204,26 @@ export const ItemAccordionProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  icon: {
+    doc: 'Optional icon for the accordion header (e.g. `fish_medium`).',
+    type: 'IconIcon',
+    status: 'optional',
+  },
+  title: {
+    doc: 'Optional title for the accordion header.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
   children: {
-    doc: 'Use `List.Item.Variant.Accordion.Header` and `List.Item.Variant.Accordion.Content` as children.',
-    type: 'React.Node',
+    doc: 'Header cells (e.g. `List.Cell.Start`, `List.Cell.End`) and optionally `List.Item.Accordion.Content` for the expandable section.',
+    type: 'React.ReactNode',
     status: 'required',
   },
-  '[List.Item.Variant.Content](/uilib/components/list/properties/#listitemvariantcontent)':
-    {
-      doc: 'Inherits List.Item.Variant.Content properties (variant, pending, spacing, etc.).',
-      type: 'Various',
-      status: 'optional',
-    },
+  '[List.Item.Basic](/uilib/components/list/properties/#listitembasic)': {
+    doc: 'Inherits List.Item.Basic properties (variant, pending, spacing, etc.).',
+    type: 'Various',
+    status: 'optional',
+  },
 }
 
 export const ItemNavigateProperties: PropertiesTableProps = {
@@ -212,12 +249,12 @@ export const ItemNavigateProperties: PropertiesTableProps = {
     status: 'optional',
   },
   pending: {
-    doc: 'If set to `true`, an overlaying skeleton with animation will be shown (loading state). Inherited from List.Item.Variant.Content. Disables click and keyboard while active.',
+    doc: 'If set to `true`, an overlaying skeleton with animation will be shown (loading state). Disables click and keyboard while active.',
     type: 'boolean',
     status: 'optional',
   },
   skeleton: {
-    doc: 'If set to `true`, applies skeleton font styling to the item (text placeholder). Inherited from List.Item.Variant.Content.',
+    doc: 'If set to `true`, applies skeleton font styling to the item (text placeholder).',
     type: 'boolean',
     status: 'optional',
   },
@@ -232,17 +269,26 @@ export const ItemNavigateProperties: PropertiesTableProps = {
     type: '(event: React.MouseEvent<HTMLDivElement>) => void',
     status: 'optional',
   },
-  children: {
-    doc: 'Content of the navigable item. Typically `List.Item.Layout.Icon`, `List.Item.Layout.Title`, and `List.Item.Layout.End`. A chevron icon is rendered at the end automatically.',
-    type: 'React.Node',
-    status: 'required',
+  icon: {
+    doc: 'Optional icon for the action item (e.g. `fish_medium`).',
+    type: 'IconIcon',
+    status: 'optional',
   },
-  '[List.Item.Variant.Content](/uilib/components/list/properties/#listitemvariantcontent)':
-    {
-      doc: 'Inherits List.Item.Variant.Content properties (variant, selected, spacing, etc.).',
-      type: 'Various',
-      status: 'optional',
-    },
+  title: {
+    doc: 'Optional title for the action item.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  children: {
+    doc: 'Additional cells (e.g. `List.Cell.End` for value). A chevron icon is rendered at the end automatically.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  '[List.Item.Basic](/uilib/components/list/properties/#listitembasic)': {
+    doc: 'Inherits List.Item.Basic properties (variant, selected, spacing, etc.).',
+    type: 'Various',
+    status: 'optional',
+  },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
@@ -252,7 +298,7 @@ export const ItemNavigateProperties: PropertiesTableProps = {
 
 export const ListEvents: PropertiesTableProps = {
   onClick: {
-    doc: 'Fired when the user clicks or activates `List.Item.Variant.Navigate` (click or Enter/Space key). Receives the native event. Only applicable to `List.Item.Variant.Navigate`.',
+    doc: 'Fired when the user clicks or activates `List.Item.Action` (click or Enter/Space key). Receives the native event. Only applicable to `List.Item.Action`.',
     type: '(event: React.MouseEvent<HTMLDivElement>) => void',
     status: 'optional',
   },

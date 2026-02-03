@@ -6,7 +6,6 @@ import { ItemContentProps } from './ItemContent'
 function ItemTitle({ className, children, ...rest }: ItemContentProps) {
   return (
     <FlexItem
-      grow
       innerSpace={{ left: 'small' }}
       className={classnames('dnb-list__item__title', className)}
       {...rest}

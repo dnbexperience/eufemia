@@ -7,7 +7,10 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   Anchor,
   Avatar,
+  Button,
   Code,
+  Flex,
+  Grid,
   List,
   NumberFormat,
   P,
@@ -30,14 +33,11 @@ export const SimpleRows = () => {
         return (
           <List.Container>
             {myList.map((account) => (
-              <List.Item.Variant.Content key={account.name}>
-                <List.Item.Layout.Title>
-                  {account.name}
-                </List.Item.Layout.Title>
-                <List.Item.Layout.End>
+              <List.Item.Basic key={account.name} title={account.name}>
+                <List.Cell.End>
                   <Value.Currency value={account.amount} />
-                </List.Item.Layout.End>
-              </List.Item.Variant.Content>
+                </List.Cell.End>
+              </List.Item.Basic>
             ))}
           </List.Container>
         )
@@ -48,18 +48,83 @@ export const SimpleRows = () => {
 
 export const RowsWithSlots = () => {
   return (
-    <ComponentBox data-visual-test="list-slots">
+    <ComponentBox data-visual-test="list-slots" scope={{ fish_medium }}>
       <List.Container>
-        <List.Item.Variant.Content>
-          <List.Item.Layout.Start>Start</List.Item.Layout.Start>
-          <List.Item.Layout.Center>Center</List.Item.Layout.Center>
-          <List.Item.Layout.End>End</List.Item.Layout.End>
-        </List.Item.Variant.Content>
+        <List.Item.Basic>
+          <List.Cell.Start>Start</List.Cell.Start>
+          <List.Cell.Center>Center</List.Cell.Center>
+          <List.Cell.End>End</List.Cell.End>
+        </List.Item.Basic>
 
-        <List.Item.Variant.Content>
-          <List.Item.Layout.Start>Label</List.Item.Layout.Start>
-          <List.Item.Layout.End>Value</List.Item.Layout.End>
-        </List.Item.Variant.Content>
+        <List.Item.Basic title="Title" icon={fish_medium}>
+          <List.Cell.Start>Start</List.Cell.Start>
+          <List.Cell.Center>Center</List.Cell.Center>
+          <List.Cell.End>End</List.Cell.End>
+          <List.Cell.Addition
+            style={{ background: 'var(--color-sand-yellow)' }}
+          >
+            <P>Addition</P>
+          </List.Cell.Addition>
+        </List.Item.Basic>
+      </List.Container>
+    </ComponentBox>
+  )
+}
+
+export const AdditionWithButtons = () => {
+  return (
+    <ComponentBox data-visual-test="list-addition" scope={{ fish_medium }}>
+      <List.Container>
+        <List.Item.Basic title="Item with actions" icon={fish_medium}>
+          <List.Cell.End>
+            <NumberFormat currency value={1234} />
+          </List.Cell.End>
+          <List.Cell.Addition
+            style={{
+              background: 'var(--color-sand-yellow)',
+            }}
+          >
+            <Flex.Horizontal>
+              <Button text="Save" />
+              <Button variant="tertiary" text="Delete" />
+            </Flex.Horizontal>
+          </List.Cell.Addition>
+        </List.Item.Basic>
+
+        <List.Item.Action
+          icon={fish_medium}
+          title="Action item with button"
+        >
+          <List.Cell.End>
+            <Value.Currency value={5678} showEmpty />
+          </List.Cell.End>
+          <List.Cell.Addition>
+            <Button variant="secondary" text="Open" />
+          </List.Cell.Addition>
+        </List.Item.Action>
+
+        <List.Item.Accordion icon={fish_medium} title="Accordion title">
+          <List.Item.Accordion.Header>
+            <List.Cell.End>
+              <NumberFormat currency value={1234} />
+            </List.Cell.End>
+            <List.Cell.Addition
+              style={{
+                background: 'var(--color-sand-yellow)',
+              }}
+            >
+              <Button
+                variant="tertiary"
+                text="Next"
+                icon="chevron_right"
+              />
+            </List.Cell.Addition>
+          </List.Item.Accordion.Header>
+
+          <List.Item.Accordion.Content innerSpace>
+            <P>Accordion content goes here.</P>
+          </List.Item.Accordion.Content>
+        </List.Item.Accordion>
       </List.Container>
     </ComponentBox>
   )
@@ -69,15 +134,15 @@ export const NavigableItem = () => {
   return (
     <ComponentBox data-visual-test="list-navigate" scope={{ fish_medium }}>
       <List.Container>
-        <List.Item.Variant.Navigate onClick={() => console.log('Clicked')}>
-          <List.Item.Layout.Icon>{fish_medium}</List.Item.Layout.Icon>
-          <List.Item.Layout.Title>
-            Navigate to details
-          </List.Item.Layout.Title>
-          <List.Item.Layout.End>
+        <List.Item.Action
+          icon={fish_medium}
+          title="Navigate to details"
+          onClick={() => console.log('Clicked')}
+        >
+          <List.Cell.End>
             <NumberFormat currency value={1234} />
-          </List.Item.Layout.End>
-        </List.Item.Variant.Navigate>
+          </List.Cell.End>
+        </List.Item.Action>
       </List.Container>
     </ComponentBox>
   )
@@ -90,27 +155,27 @@ export const NavigableItemWithHref = () => {
       scope={{ fish_medium }}
     >
       <List.Container>
-        <List.Item.Variant.Navigate href="#details">
-          <List.Item.Layout.Icon>{fish_medium}</List.Item.Layout.Icon>
-          <List.Item.Layout.Title>Link to details</List.Item.Layout.Title>
-          <List.Item.Layout.End>
+        <List.Item.Action
+          icon={fish_medium}
+          title="Link to details"
+          href="#details"
+        >
+          <List.Cell.End>
             <NumberFormat currency value={1234} />
-          </List.Item.Layout.End>
-        </List.Item.Variant.Navigate>
+          </List.Cell.End>
+        </List.Item.Action>
 
-        <List.Item.Variant.Navigate
+        <List.Item.Action
+          icon={fish_medium}
+          title="External link (opens in new tab)"
           href="https://eufemia.dnb.no/"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <List.Item.Layout.Icon>{fish_medium}</List.Item.Layout.Icon>
-          <List.Item.Layout.Title>
-            External link (opens in new tab)
-          </List.Item.Layout.Title>
-          <List.Item.Layout.End>
+          <List.Cell.End>
             <NumberFormat currency value={5678} />
-          </List.Item.Layout.End>
-        </List.Item.Variant.Navigate>
+          </List.Cell.End>
+        </List.Item.Action>
       </List.Container>
     </ComponentBox>
   )
@@ -120,29 +185,18 @@ export const WithAnchor = () => {
   return (
     <ComponentBox scope={{ fish_medium }}>
       <List.Container>
-        <List.Item.Variant.Content>
-          <List.Item.Layout.Title>
-            <Anchor href="#">Link to page one</Anchor>
-          </List.Item.Layout.Title>
-        </List.Item.Variant.Content>
+        <List.Item.Basic
+          title={<Anchor href="#">Link to page one</Anchor>}
+        />
 
-        <List.Item.Variant.Content>
-          <List.Item.Layout.Icon>{fish_medium}</List.Item.Layout.Icon>
-          <List.Item.Layout.Title>
-            <Anchor href="#">Link with icon</Anchor>
-          </List.Item.Layout.Title>
-          <List.Item.Layout.End>
+        <List.Item.Basic
+          icon={fish_medium}
+          title={<Anchor href="#">Link with icon and end value</Anchor>}
+        >
+          <List.Cell.End>
             <NumberFormat currency value={1234} />
-          </List.Item.Layout.End>
-        </List.Item.Variant.Content>
-
-        <List.Item.Variant.Content>
-          <List.Item.Layout.Start>Label</List.Item.Layout.Start>
-          <List.Item.Layout.Center>
-            <Anchor href="#">Centered link</Anchor>
-          </List.Item.Layout.Center>
-          <List.Item.Layout.End>Value</List.Item.Layout.End>
-        </List.Item.Variant.Content>
+          </List.Cell.End>
+        </List.Item.Basic>
       </List.Container>
     </ComponentBox>
   )
@@ -152,41 +206,35 @@ export const WithAvatar = () => {
   return (
     <ComponentBox data-visual-test="list-avatar">
       <List.Container>
-        <List.Item.Variant.Content>
-          <List.Item.Layout.Start>
+        <List.Item.Basic title="Alice Andersen">
+          <List.Cell.Start>
             <Avatar size="medium">A</Avatar>
-          </List.Item.Layout.Start>
-          <List.Item.Layout.Title>Alice Andersen</List.Item.Layout.Title>
-          <List.Item.Layout.End>
+          </List.Cell.Start>
+          <List.Cell.End>
             <NumberFormat currency value={1234} />
-          </List.Item.Layout.End>
-        </List.Item.Variant.Content>
+          </List.Cell.End>
+        </List.Item.Basic>
 
-        <List.Item.Variant.Navigate onClick={() => {}}>
-          <List.Item.Layout.Start>
+        <List.Item.Action title="Bob Berg" onClick={() => {}}>
+          <List.Cell.Start>
             <Avatar size="medium">B</Avatar>
-          </List.Item.Layout.Start>
-          <List.Item.Layout.Title>Bob Berg</List.Item.Layout.Title>
-          <List.Item.Layout.End>
+          </List.Cell.Start>
+          <List.Cell.End>
             <Value.Currency value={5678} showEmpty />
-          </List.Item.Layout.End>
-        </List.Item.Variant.Navigate>
+          </List.Cell.End>
+        </List.Item.Action>
 
-        <List.Item.Variant.Accordion>
-          <List.Item.Variant.Accordion.Header>
-            <List.Item.Layout.Start>
+        <List.Item.Accordion title="Carol with image">
+          <List.Item.Accordion.Header>
+            <List.Cell.Start>
               <Avatar size="medium">C</Avatar>
-            </List.Item.Layout.Start>
-            <List.Item.Layout.Title>
-              Carol with image
-            </List.Item.Layout.Title>
-            <List.Item.Layout.End>Value</List.Item.Layout.End>
-          </List.Item.Variant.Accordion.Header>
-
-          <List.Item.Variant.Accordion.Content innerSpace>
+            </List.Cell.Start>
+            <List.Cell.End>Value</List.Cell.End>
+          </List.Item.Accordion.Header>
+          <List.Item.Accordion.Content innerSpace>
             <P>Content goes here.</P>
-          </List.Item.Variant.Accordion.Content>
-        </List.Item.Variant.Accordion>
+          </List.Item.Accordion.Content>
+        </List.Item.Accordion>
       </List.Container>
     </ComponentBox>
   )
@@ -196,15 +244,11 @@ export const SelectedState = () => {
   return (
     <ComponentBox>
       <List.Container>
-        <List.Item.Variant.Content>Normal row</List.Item.Variant.Content>
+        <List.Item.Basic>Normal row</List.Item.Basic>
 
-        <List.Item.Variant.Content selected>
-          Selected row
-        </List.Item.Variant.Content>
+        <List.Item.Basic selected>Selected row</List.Item.Basic>
 
-        <List.Item.Variant.Content>
-          Another normal row
-        </List.Item.Variant.Content>
+        <List.Item.Basic>Another normal row</List.Item.Basic>
       </List.Container>
     </ComponentBox>
   )
@@ -214,13 +258,15 @@ export const SkeletonState = () => {
   return (
     <ComponentBox scope={{ fish_medium }} background="white">
       <List.Container>
-        <List.Item.Variant.Navigate skeleton>
-          <List.Item.Layout.Icon>{fish_medium}</List.Item.Layout.Icon>
-          <List.Item.Layout.Title>Loading item…</List.Item.Layout.Title>
-          <List.Item.Layout.End>
+        <List.Item.Action
+          icon={fish_medium}
+          title="Loading item…"
+          skeleton
+        >
+          <List.Cell.End>
             <NumberFormat currency value={1234} />
-          </List.Item.Layout.End>
-        </List.Item.Variant.Navigate>
+          </List.Cell.End>
+        </List.Item.Action>
       </List.Container>
     </ComponentBox>
   )
@@ -230,13 +276,15 @@ export const PendingState = () => {
   return (
     <ComponentBox data-visual-test="list-pending" scope={{ fish_medium }}>
       <List.Container>
-        <List.Item.Variant.Navigate pending>
-          <List.Item.Layout.Icon>{fish_medium}</List.Item.Layout.Icon>
-          <List.Item.Layout.Title>Pending item ...</List.Item.Layout.Title>
-          <List.Item.Layout.End>
+        <List.Item.Action
+          icon={fish_medium}
+          title="Pending item ..."
+          pending
+        >
+          <List.Cell.End>
             <NumberFormat currency value={1234} />
-          </List.Item.Layout.End>
-        </List.Item.Variant.Navigate>
+          </List.Cell.End>
+        </List.Item.Action>
       </List.Container>
     </ComponentBox>
   )
@@ -246,15 +294,15 @@ export const ProgressIndicatorRow = () => {
   return (
     <ComponentBox>
       <List.Container>
-        <List.Item.Variant.Content>
-          <List.Item.Layout.Start>
+        <List.Item.Basic>
+          <List.Cell.Start>
             <ProgressIndicator
               size="medium"
               showDefaultLabel
               labelDirection="horizontal"
             />
-          </List.Item.Layout.Start>
-        </List.Item.Variant.Content>
+          </List.Cell.Start>
+        </List.Item.Basic>
       </List.Container>
     </ComponentBox>
   )
@@ -267,21 +315,17 @@ export const SeparatedLists = () => {
       scope={{ fish_medium }}
     >
       <List.Container separated>
-        <List.Item.Variant.Content>
-          <List.Item.Layout.Icon>{fish_medium}</List.Item.Layout.Icon>
-          <List.Item.Layout.Title>Title</List.Item.Layout.Title>
-          <List.Item.Layout.End>
+        <List.Item.Basic icon={fish_medium} title="Title 1">
+          <List.Cell.End>
             <Value.Currency value={1234} showEmpty />
-          </List.Item.Layout.End>
-        </List.Item.Variant.Content>
+          </List.Cell.End>
+        </List.Item.Basic>
 
-        <List.Item.Variant.Content>
-          <List.Item.Layout.Icon>{fish_medium}</List.Item.Layout.Icon>
-          <List.Item.Layout.Title>Title</List.Item.Layout.Title>
-          <List.Item.Layout.End>
-            <Value.Currency value={1234} showEmpty />
-          </List.Item.Layout.End>
-        </List.Item.Variant.Content>
+        <List.Item.Basic icon={fish_medium} title="Title 2">
+          <List.Cell.End>
+            <Value.Currency value={4567} showEmpty />
+          </List.Cell.End>
+        </List.Item.Basic>
       </List.Container>
     </ComponentBox>
   )
@@ -294,48 +338,40 @@ export const Accordion = () => {
       scope={{ fish_medium }}
     >
       <List.Container>
-        <List.Item.Variant.Accordion>
-          <List.Item.Variant.Accordion.Header>
-            <List.Item.Layout.Icon>{fish_medium}</List.Item.Layout.Icon>
-            <List.Item.Layout.Title>
-              Accordion title
-            </List.Item.Layout.Title>
-            <List.Item.Layout.End>
+        <List.Item.Accordion icon={fish_medium} title="Accordion title">
+          <List.Item.Accordion.Header>
+            <List.Cell.End>
               <NumberFormat currency value={1234} />
-            </List.Item.Layout.End>
-          </List.Item.Variant.Accordion.Header>
+            </List.Cell.End>
+          </List.Item.Accordion.Header>
 
-          <List.Item.Variant.Accordion.Content innerSpace>
+          <List.Item.Accordion.Content innerSpace>
             <P>Accordion content goes here.</P>
-          </List.Item.Variant.Accordion.Content>
-        </List.Item.Variant.Accordion>
+          </List.Item.Accordion.Content>
+        </List.Item.Accordion>
 
-        <List.Item.Variant.Accordion open>
-          <List.Item.Variant.Accordion.Header>
-            <List.Item.Layout.Title>
-              Opened by default
-            </List.Item.Layout.Title>
-          </List.Item.Variant.Accordion.Header>
-
-          <List.Item.Variant.Accordion.Content innerSpace>
+        <List.Item.Accordion open title="Opened by default">
+          <List.Item.Accordion.Content innerSpace>
             <P>This section is open initially.</P>
-          </List.Item.Variant.Accordion.Content>
-        </List.Item.Variant.Accordion>
+          </List.Item.Accordion.Content>
+        </List.Item.Accordion>
 
-        <List.Item.Variant.Accordion iconPosition="left">
-          <List.Item.Variant.Accordion.Header>
-            <List.Item.Layout.Title>
-              Chevron on the left
-            </List.Item.Layout.Title>
-          </List.Item.Variant.Accordion.Header>
-
-          <List.Item.Variant.Accordion.Content innerSpace>
+        <List.Item.Accordion
+          iconPosition="left"
+          title="Chevron on the left"
+        >
+          <List.Item.Accordion.Header>
+            <List.Cell.End>
+              <NumberFormat currency value={1234} />
+            </List.Cell.End>
+          </List.Item.Accordion.Header>
+          <List.Item.Accordion.Content innerSpace>
             <P>
               Use <Code>iconPosition="left"</Code> to place the chevron on
               the left.
             </P>
-          </List.Item.Variant.Accordion.Content>
-        </List.Item.Variant.Accordion>
+          </List.Item.Accordion.Content>
+        </List.Item.Accordion>
       </List.Container>
     </ComponentBox>
   )
@@ -348,34 +384,93 @@ export const WithFormElements = () => {
       data-visual-test="list-form-elements"
     >
       <List.Container>
-        <List.Item.Variant.Content>
-          <List.Item.Layout.Start>
+        <List.Item.Basic>
+          <List.Cell.Start>
             <Field.Boolean label="Checkbox" />
-          </List.Item.Layout.Start>
-          <List.Item.Layout.End>
+          </List.Cell.Start>
+          <List.Cell.End>
             <Value.Currency value={5678} showEmpty />
-          </List.Item.Layout.End>
-        </List.Item.Variant.Content>
+          </List.Cell.End>
+        </List.Item.Basic>
 
-        <List.Item.Variant.Content>
-          <List.Item.Layout.Start>
+        <List.Item.Basic>
+          <List.Cell.Start>
             <Radio label="Radio" />
-          </List.Item.Layout.Start>
-          <List.Item.Layout.End>
+          </List.Cell.Start>
+          <List.Cell.End>
             <NumberFormat currency value={1234} />
-          </List.Item.Layout.End>
-        </List.Item.Variant.Content>
+          </List.Cell.End>
+        </List.Item.Basic>
 
-        <List.Item.Variant.Navigate
+        <List.Item.Action
+          icon={fish_medium}
+          title="Item with icon"
           onClick={() => console.log('Navigate')}
         >
-          <List.Item.Layout.Icon>{fish_medium}</List.Item.Layout.Icon>
-          <List.Item.Layout.Title>Item with icon</List.Item.Layout.Title>
-          <List.Item.Layout.End>
+          <List.Cell.End>
             <Value.Currency value={1234} showEmpty />
-          </List.Item.Layout.End>
-        </List.Item.Variant.Navigate>
+          </List.Cell.End>
+        </List.Item.Action>
       </List.Container>
+    </ComponentBox>
+  )
+}
+
+export const GridColumns = () => {
+  return (
+    <ComponentBox scope={{ fish_medium }} background="white">
+      <Grid.Container
+        rowGap
+        columnGap
+        style={{
+          marginInline: 'auto',
+          maxInlineSize: 'var(--layout-medium)',
+        }}
+      >
+        <Grid.Item
+          span={{
+            small: 'full',
+            medium: [3, 6],
+            large: [5, 12],
+          }}
+        >
+          <List.Container>
+            <List.Item.Action
+              icon={fish_medium}
+              title="Navigate to details"
+            >
+              <List.Cell.End>
+                <NumberFormat currency value={1234} />
+              </List.Cell.End>
+            </List.Item.Action>
+
+            <List.Item.Action
+              icon={fish_medium}
+              title="Navigate to details"
+            >
+              <List.Cell.End>
+                <NumberFormat currency value={1234} />
+              </List.Cell.End>
+            </List.Item.Action>
+          </List.Container>
+        </Grid.Item>
+
+        <Grid.Item
+          span={{
+            small: 'full',
+            medium: [1, 2],
+            large: [1, 4],
+          }}
+          style={{
+            display: 'gid',
+            placeContent: 'center',
+            textAlign: 'center',
+            background: 'var(--color-sand-yellow)',
+          }}
+        >
+          <P>Second Grid Item</P>
+        </Grid.Item>
+      </Grid.Container>
     </ComponentBox>
   )
 }

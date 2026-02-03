@@ -6,7 +6,6 @@ import { ItemContentProps } from './ItemContent'
 function ItemCenter({ className, ...rest }: ItemContentProps) {
   return (
     <FlexItem
-      grow
       className={classnames(
         'dnb-list__item__center',
         'dnb-t__size--basis',
