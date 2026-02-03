@@ -2430,7 +2430,9 @@ describe('Field.Upload', () => {
         expect(screen.queryByText('new-file-1.png')).toBeInTheDocument()
         expect(screen.queryByText('error-file-1.png')).toBeInTheDocument()
         expect(screen.queryByText('new-file-2.png')).toBeInTheDocument()
-        expect(screen.queryByText('error-file-2.png')).toBeInTheDocument()
+        expect(
+          screen.queryByText('error-file-2.strange.extension')
+        ).toBeInTheDocument()
       })
     })
 
