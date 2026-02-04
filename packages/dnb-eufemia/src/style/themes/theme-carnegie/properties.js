@@ -13,7 +13,7 @@ export default {
   '--sb-font-size-basis': '1rem',
   '--sb-font-size-basis--em': '1em',
   '--sb-font-size-lead': 'var(--font-size-medium)',
-  '--sb-font-size-medium': '1.25rem', 
+  '--sb-font-size-medium': '1.25rem',
   '--sb-font-size-medium--plus': '1.625rem',
   '--sb-font-size-large': '2rem',
   '--sb-font-size-x-large': '2.375rem',
