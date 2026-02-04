@@ -242,4 +242,41 @@ describe('makeReleaseVersion', () => {
       expect.not.stringContaining(`test-sha`)
     )
   })
+
+  it('write buildDate (ISO) in BuildInfoData files', async () => {
+    const beforeCall = Date.now()
+    jest
+      .spyOn(getBranchName, 'default')
+      .mockImplementationOnce(() => 'release')
+    jest
+      .spyOn(getNextReleaseVersion, 'getNextReleaseVersion')
+      .mockImplementationOnce(async () => '1.0.0')
+
+    await makeReleaseVersion()
+
+    const afterCall = Date.now()
+
+    const jsCall = (fs.writeFile as unknown as jest.Mock).mock.calls.find(
+      (call) =>
+        call[0].includes('BuildInfoData.js') &&
+        call[1].includes('buildDate')
+    )
+    expect(jsCall).toBeDefined()
+    const jsContent = jsCall[1]
+    const buildDateMatch = jsContent.match(/buildDate = '([^']+)'/)
+    expect(buildDateMatch).toBeDefined()
+    const buildDate = buildDateMatch[1]
+    expect(buildDate).not.toBe('__BUILD_DATE__')
+    const buildDateMs = new Date(buildDate).getTime()
+    expect(buildDateMs).toBeGreaterThanOrEqual(beforeCall - 1000)
+    expect(buildDateMs).toBeLessThanOrEqual(afterCall + 1000)
+
+    const cjsCall = (fs.writeFile as unknown as jest.Mock).mock.calls.find(
+      (call) =>
+        call[0].includes('BuildInfoData.cjs') &&
+        call[1].includes('buildDate')
+    )
+    expect(cjsCall).toBeDefined()
+    expect(cjsCall[1]).toContain(`exports.buildDate = '${buildDate}'`)
+  })
 })

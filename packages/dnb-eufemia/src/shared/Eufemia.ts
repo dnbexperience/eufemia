@@ -1,13 +1,15 @@
-import { getVersion, getSha } from './build-info/BuildInfo'
+import { getVersion, getSha, getBuildDate } from './build-info/BuildInfo'
 
 export const version = getVersion()
 export const sha = getSha()
+export const buildDate = getBuildDate()
 
 declare global {
   interface Window {
     Eufemia?: {
       version?: string
       sha?: string
+      buildDate?: string
       shas?: Array<string>
       versions?: Array<{
         js: string
@@ -46,6 +48,10 @@ export function init() {
 
       get sha() {
         return sha
+      }
+
+      get buildDate() {
+        return buildDate
       }
 
       get shas(): Array<string> {

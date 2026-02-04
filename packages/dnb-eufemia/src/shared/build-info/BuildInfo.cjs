@@ -17,6 +17,10 @@ const getVersion = () => {
 const getSha = () => {
   return getInfo().sha
 }
+const getBuildDate = () => {
+  return getInfo().buildDate
+}
 
 exports.getVersion = getVersion
 exports.getSha = getSha
+exports.getBuildDate = getBuildDate
