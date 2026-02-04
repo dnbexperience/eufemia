@@ -66,12 +66,15 @@ exports[`Logo scss should match style dependencies css 1`] = `
   vertical-align: baseline;
   font-size: inherit;
   line-height: var(--line-height-xx-small--em);
-  height: 1em;
 }
 .dnb-logo svg,
 .sbanken-logo svg {
   fill: currentcolor;
   shape-rendering: geometricprecision;
+}
+.dnb-logo,
+.sbanken-logo {
+  height: 1em;
 }
 .dnb-logo--has-size,
 .sbanken-logo--has-size {
