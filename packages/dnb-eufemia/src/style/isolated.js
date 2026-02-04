@@ -5,5 +5,5 @@
  */
 
 import './dnb-ui-basis--isolated.min.css'
-import './themes/theme-ui/ui-theme-components--isolated.min.css'
-import './themes/theme-ui/ui-theme-basis--isolated.min.css'
+import './themes/ui/ui-theme-components--isolated.min.css'
+import './themes/ui/ui-theme-basis--isolated.min.css'
