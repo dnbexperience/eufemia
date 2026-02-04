@@ -6,9 +6,7 @@ describe('ItemFooter', () => {
   it('renders with children', () => {
     render(<ItemFooter>Footer content</ItemFooter>)
 
-    const footers = document.querySelectorAll(
-      '.dnb-list__item__footer'
-    )
+    const footers = document.querySelectorAll('.dnb-list__item__footer')
     const contentWrapper = footers[1]
 
     expect(contentWrapper).toBeInTheDocument()
@@ -18,9 +16,7 @@ describe('ItemFooter', () => {
   it('renders Hr and content wrapper with footer class', () => {
     render(<ItemFooter>Content</ItemFooter>)
 
-    const footers = document.querySelectorAll(
-      '.dnb-list__item__footer'
-    )
+    const footers = document.querySelectorAll('.dnb-list__item__footer')
 
     expect(footers.length).toBe(2)
     expect(footers[0].tagName).toBe('HR')
@@ -30,9 +26,7 @@ describe('ItemFooter', () => {
   it('merges custom className on content wrapper', () => {
     render(<ItemFooter className="my-footer">Content</ItemFooter>)
 
-    const footers = document.querySelectorAll(
-      '.dnb-list__item__footer'
-    )
+    const footers = document.querySelectorAll('.dnb-list__item__footer')
     const contentWrapper = footers[1]
 
     expect(contentWrapper.classList).toContain('dnb-list__item__footer')
@@ -51,14 +45,10 @@ describe('ItemFooter', () => {
       </ItemFooter>
     )
 
-    const footers = document.querySelectorAll(
-      '.dnb-list__item__footer'
-    )
+    const footers = document.querySelectorAll('.dnb-list__item__footer')
     const contentWrapper = footers[1]
 
-    expect(contentWrapper.getAttribute('data-testid')).toBe(
-      'item-footer'
-    )
+    expect(contentWrapper.getAttribute('data-testid')).toBe('item-footer')
     expect(contentWrapper.getAttribute('data-foo')).toBe('bar')
     expect(contentWrapper.getAttribute('aria-label')).toBe(
       'Footer section'
@@ -73,9 +63,7 @@ describe('ItemFooter', () => {
       </ItemFooter>
     )
 
-    const footers = document.querySelectorAll(
-      '.dnb-list__item__footer'
-    )
+    const footers = document.querySelectorAll('.dnb-list__item__footer')
     const contentWrapper = footers[1]
 
     expect(contentWrapper.classList).toContain('dnb-space__top--medium')

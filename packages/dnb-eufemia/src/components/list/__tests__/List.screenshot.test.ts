@@ -79,6 +79,22 @@ describe.each(['ui', 'sbanken'])('List for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match list overline', async () => {
+    const screenshot = await makeScreenshot({
+      style: { width: '30rem' },
+      selector: '[data-visual-test="list-overline"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match list subline', async () => {
+    const screenshot = await makeScreenshot({
+      style: { width: '30rem' },
+      selector: '[data-visual-test="list-subline"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe.each(['ui'])('List for %s on small viewport', (themeName) => {
@@ -110,6 +126,22 @@ describe.each(['ui'])('List for %s on small viewport', (themeName) => {
     const screenshot = await makeScreenshot({
       style: { width: '20rem' },
       selector: '[data-visual-test="list-form-elements"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match list overline', async () => {
+    const screenshot = await makeScreenshot({
+      style: { width: '20rem' },
+      selector: '[data-visual-test="list-overline"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match list subline', async () => {
+    const screenshot = await makeScreenshot({
+      style: { width: '20rem' },
+      selector: '[data-visual-test="list-subline"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

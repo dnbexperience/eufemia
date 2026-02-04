@@ -2,8 +2,10 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import {
   Avatar,
+  Badge,
   Button,
   Checkbox,
+  DateFormat,
   Flex,
   List,
   NumberFormat,
@@ -22,6 +24,7 @@ export function ListBasic() {
       <Box>
         <List.Container>
           <List.Item.Basic>
+            <List.Cell.Overline>Overline</List.Cell.Overline>
             <List.Cell.Start>Start</List.Cell.Start>
             <List.Cell.Center>Center</List.Cell.Center>
             <List.Cell.End>End</List.Cell.End>
@@ -307,5 +310,88 @@ export function ListWithAvatar() {
         </List.Container>
       </Box>
     </Wrapper>
+  )
+}
+
+export function ListOverline() {
+  const today = new Date()
+
+  return (
+    <List.Container>
+      <List.Item.Basic title="Title 1">
+        <List.Cell.Start fontSize="small">
+          <DateFormat
+            value={new Date()}
+            dateStyle="medium"
+            omitYearIfCurrentYear
+          />
+        </List.Cell.Start>
+        <List.Cell.End>
+          <Value.Currency value={1234} showEmpty />
+        </List.Cell.End>
+      </List.Item.Basic>
+
+      <List.Item.Action icon={fish_medium}>
+        <List.Cell.Title>
+          <List.Cell.Overline>
+            <DateFormat
+              value={today}
+              dateStyle="medium"
+              omitYearIfCurrentYear
+            />
+          </List.Cell.Overline>
+          Title 4
+        </List.Cell.Title>
+        <List.Cell.End>
+          <Value.Currency value={5678} showEmpty />
+        </List.Cell.End>
+      </List.Item.Action>
+    </List.Container>
+  )
+}
+
+export function ListSubline() {
+  return (
+    <List.Container>
+      <List.Item.Action icon={fish_medium}>
+        <List.Cell.Title>
+          <span>Item 1</span>
+          <List.Cell.Subline>
+            <DateFormat
+              value={new Date()}
+              dateStyle="medium"
+              omitYearIfCurrentYear
+            />
+          </List.Cell.Subline>
+        </List.Cell.Title>
+        <List.Cell.End>
+          <Value.Currency value={5678} showEmpty />
+        </List.Cell.End>
+      </List.Item.Action>
+
+      <List.Item.Accordion icon={fish_medium}>
+        <List.Item.Accordion.Header>
+          <List.Cell.Title>
+            <span>Item 2</span>
+            <List.Cell.Subline>Detail 1</List.Cell.Subline>
+            <List.Cell.Subline variant="description">
+              Detail 2
+            </List.Cell.Subline>
+            <List.Cell.Subline>
+              <Flex.Horizontal rowGap="x-small">
+                <Badge status="neutral" subtle content="Detail 3" />
+                <Badge status="neutral" subtle content="Detail 3" />
+              </Flex.Horizontal>
+            </List.Cell.Subline>
+          </List.Cell.Title>
+          <List.Cell.End>
+            <Value.Currency value={5678} showEmpty />
+          </List.Cell.End>
+        </List.Item.Accordion.Header>
+        <List.Item.Accordion.Content innerSpace>
+          <P>Accordion content goes here.</P>
+        </List.Item.Accordion.Content>
+      </List.Item.Accordion>
+    </List.Container>
   )
 }

@@ -6,7 +6,7 @@ import * as Examples from './Examples'
 
 ## Demos
 
-### Rows with Start, Center, End
+### Rows with cells like Start, Center, End, Title
 
 This example demonstrates different cell layouts and their placement.
 
@@ -33,6 +33,12 @@ List items containing [Anchor](/uilib/components/anchor) links.
 Expandable list items using `List.Item.Accordion` with optional `icon` and `title` props and `List.Item.Accordion.Content` for the expandable section. Use the `open` prop to set the initial open state.
 
 <Examples.Accordion />
+
+### With Badge
+
+Use [Badge](/uilib/components/badge) in `List.Cell.End` to show status or counts.
+
+<Examples.WithBadge />
 
 ### Footer with buttons
 
@@ -61,6 +67,12 @@ Use the `separated` prop on `List.Container` to add row gap between list items.
 Use [DateFormat](/uilib/components/date-format) in `List.Cell.Start` to show dates in the list row.
 
 <Examples.WithDateFormat />
+
+### With Subline
+
+Use `List.Cell.Subline` to add supporting text below the title. The `variant="description"` option uses smaller text for secondary information.
+
+<Examples.ListSubline />
 
 ### With form elements
 

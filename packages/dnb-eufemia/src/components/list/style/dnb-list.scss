@@ -16,6 +16,7 @@
     --item-rounded-corner: 1.5rem;
     --item-row-gap: 0.5rem;
     --item-chevron-margin: 1rem;
+    --item-chevron-height: 1.5rem;
     --item-outline-width: 0.0625rem;
     --item-outline-inset: ; // leave empty for normal
     --item-outline-color: var(--color-black-8);
@@ -66,10 +67,10 @@
       --item-grid-template-areas: 'chevron-left start icon title center chevron-right'
         'chevron-left end end end end chevron-right'
         'footer footer footer footer footer footer';
-      &:has(#{&}__icon),
-      &:has(.dnb-avatar) {
+      &:has(#{&}__start):has(#{&}__title),
+      &:has(#{&}__icon) {
         --item-grid-template-areas: 'chevron-left start icon title center chevron-right'
-          'chevron-left . . end end chevron-right'
+          'chevron-left . . end end .'
           'footer footer footer footer footer footer';
       }
     }
@@ -80,11 +81,10 @@
         'chevron-left center center center center chevron-right'
         'chevron-left end end end end chevron-right'
         'footer footer footer footer footer footer';
-      &:has(#{&}__icon),
-      &:has(.dnb-avatar) {
+      &:has(#{&}__start):has(#{&}__title),
+      &:has(#{&}__icon) {
         --item-grid-template-areas: 'chevron-left start icon title title chevron-right'
-          'chevron-left . . center center chevron-right'
-          'chevron-left . . end end chevron-right'
+          'chevron-left . . center center .' 'chevron-left . . end end .'
           'footer footer footer footer footer footer';
       }
     }
@@ -106,6 +106,27 @@
 
       min-height: var(--item-height);
       padding: calc(var(--item-padding)) 0;
+    }
+    &:has(#{&}__overline) &__center,
+    &:has(#{&}__overline) &__end {
+      @include allAbove(small) {
+        place-self: end;
+      }
+    }
+    &:has(#{&}__overline) &__icon,
+    &:has(#{&}__overline) &__chevron {
+      place-self: end;
+    }
+    &:has(#{&}__subline) &__center,
+    &:has(#{&}__subline) &__end {
+      @include allAbove(small) {
+        place-self: start;
+      }
+    }
+    &:has(#{&}__subline) &__title,
+    &:has(#{&}__subline) &__icon,
+    &:has(#{&}__subline) &__chevron {
+      place-self: start;
     }
     &:has(#{&}__footer),
     &:has(#{&}__footer) &__accordion__header {
@@ -147,14 +168,21 @@
     &__start,
     &__center,
     &__end,
+    &__overline,
+    &__subline,
     &__footer {
       display: flex;
       align-items: center;
 
       z-index: 10; // above checkbox and radio click boundary
     }
+    &__end &__subline {
+      @include allAbove(small) {
+        place-self: end;
+      }
+    }
 
-    // Grid areas
+    // Grid areas and specific styles for each slot
     &__title {
       grid-area: title;
       flex-direction: column;
@@ -191,12 +219,17 @@
       border-bottom-left-radius: var(--item-rounded-corner);
       border-bottom-right-radius: var(--item-rounded-corner);
     }
+    &__subline--description {
+      color: var(--color-black-55);
+    }
 
     // Deal with chevron
     &__navigate--href a .dnb-anchor__launch-icon,
     &__chevron {
       display: flex;
+      align-items: center;
       grid-area: chevron-right;
+      height: var(--item-chevron-height);
       margin-right: var(--item-chevron-margin);
     }
     &--chevron-left &__navigate--href a .dnb-anchor__launch-icon,

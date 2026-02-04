@@ -56,7 +56,7 @@ export const ItemContentProperties: PropertiesTableProps = {
     status: 'optional',
   },
   children: {
-    doc: 'Item content. Typically `List.Cell.Start`, `List.Cell.Center`, `List.Cell.End`, or `List.Cell.Footer`.',
+    doc: 'Item content. Typically `List.Cell.Start`, `List.Cell.Center`, `List.Cell.End`, `List.Cell.Overline`, `List.Cell.Subline`, or `List.Cell.Footer`.',
     type: 'React.ReactNode',
     status: 'required',
   },
@@ -80,6 +80,95 @@ export const ItemCenterProperties: PropertiesTableProps = {
   },
   '[Flex.Item](/uilib/layout/flex/item/properties)': {
     doc: 'Flex.Item properties. Uses `grow` by default.',
+    type: 'Various',
+    status: 'optional',
+  },
+  '[Space](/uilib/layout/space/properties)': {
+    doc: 'Spacing properties like `top` or `bottom` are supported.',
+    type: ['string', 'object'],
+    status: 'optional',
+  },
+}
+
+export const ItemTitleProperties: PropertiesTableProps = {
+  fontSize: {
+    doc: 'Font size of the title content. Defaults to `basis`. Use `small` for smaller text.',
+    type: ["'small'", "'basis'"],
+    defaultValue: "'basis'",
+    status: 'optional',
+  },
+  children: {
+    doc: 'Title content of the list item. Equivalent to using the `title` prop on `List.Item.Basic` or `List.Item.Action`. Can be combined with `List.Cell.Subline` for a subtitle.',
+    type: 'React.ReactNode',
+    status: 'required',
+  },
+  '[Flex.Item](/uilib/layout/flex/item/properties)': {
+    doc: 'Flex.Item properties. Uses innerSpace left small by default.',
+    type: 'Various',
+    status: 'optional',
+  },
+  '[Space](/uilib/layout/space/properties)': {
+    doc: 'Spacing properties like `top` or `bottom` are supported.',
+    type: ['string', 'object'],
+    status: 'optional',
+  },
+}
+
+export const ItemOverlineProperties: PropertiesTableProps = {
+  fontSize: {
+    doc: 'Font size of the overline content. Defaults to `x-small`.',
+    type: ["'basis'", "'small'", "'x-small'"],
+    defaultValue: "'x-small'",
+    status: 'optional',
+  },
+  fontWeight: {
+    doc: 'Font weight of the overline content. Defaults to `medium`.',
+    type: ["'regular'", "'medium'"],
+    defaultValue: "'medium'",
+    status: 'optional',
+  },
+  children: {
+    doc: 'Overline content of the list item, shown at the top above the main row. Pairs with List.Cell.Subline (below the title).',
+    type: 'React.ReactNode',
+    status: 'required',
+  },
+  '[Flex.Item](/uilib/layout/flex/item/properties)': {
+    doc: 'Flex.Item properties. Uses innerSpace left/right small by default.',
+    type: 'Various',
+    status: 'optional',
+  },
+  '[Space](/uilib/layout/space/properties)': {
+    doc: 'Spacing properties like `top` or `bottom` are supported.',
+    type: ['string', 'object'],
+    status: 'optional',
+  },
+}
+
+export const ItemSublineProperties: PropertiesTableProps = {
+  variant: {
+    doc: 'Visual variant. Use `description` for smaller, muted text style.',
+    type: ["'description'"],
+    status: 'optional',
+  },
+  fontSize: {
+    doc: 'Font size of the subline content. Defaults to `small`. When `variant="description"`, defaults to `x-small`.',
+    type: ["'basis'", "'small'", "'x-small'"],
+    defaultValue: "'small'",
+    status: 'optional',
+  },
+  fontWeight: {
+    doc: 'Font weight of the subline content. Defaults to `regular`.',
+    type: ["'regular'", "'medium'"],
+    defaultValue: "'regular'",
+    status: 'optional',
+  },
+  children: {
+    doc: 'Subline content of the list item, shown below the title. Pairs with List.Cell.Overline (above the row).',
+    type: 'React.ReactNode',
+    status: 'required',
+  },
+  '[Flex.Item](/uilib/layout/flex/item/properties)': {
+    doc: 'Flex.Item properties. Uses innerSpace left small by default.',
     type: 'Various',
     status: 'optional',
   },
@@ -191,7 +280,7 @@ export const ItemAccordionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   children: {
-    doc: 'Header cells (e.g. `List.Cell.Start`, `List.Cell.End`) and optionally `List.Item.Accordion.Content` for the expandable section.',
+    doc: 'Header cells (e.g. `List.Cell.Start`, `List.Cell.Overline`, `List.Cell.End`) and optionally `List.Item.Accordion.Content` for the expandable section.',
     type: 'React.ReactNode',
     status: 'required',
   },

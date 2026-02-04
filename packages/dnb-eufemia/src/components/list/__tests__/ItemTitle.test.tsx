@@ -12,7 +12,7 @@ describe('ItemTitle', () => {
     expect(element.textContent).toContain('Title text')
   })
 
-  it('has dnb-list__item__title class and wraps children in dnb-t__size--basis', () => {
+  it('has dnb-list__item__title class and wraps children with default fontSize basis', () => {
     render(<ItemTitle>Title</ItemTitle>)
 
     const element = document.querySelector('.dnb-list__item__title')
@@ -24,6 +24,29 @@ describe('ItemTitle', () => {
     expect(element.querySelector('.dnb-t__size--basis').textContent).toBe(
       'Title'
     )
+  })
+
+  it('supports fontSize prop with small value', () => {
+    render(<ItemTitle fontSize="small">Small Title</ItemTitle>)
+
+    const element = document.querySelector('.dnb-list__item__title')
+
+    expect(
+      element.querySelector('.dnb-t__size--small')
+    ).toBeInTheDocument()
+    expect(element.querySelector('.dnb-t__size--small').textContent).toBe(
+      'Small Title'
+    )
+  })
+
+  it('supports fontSize prop with basis value', () => {
+    render(<ItemTitle fontSize="basis">Basis Title</ItemTitle>)
+
+    const element = document.querySelector('.dnb-list__item__title')
+
+    expect(
+      element.querySelector('.dnb-t__size--basis')
+    ).toBeInTheDocument()
   })
 
   it('merges custom className', () => {

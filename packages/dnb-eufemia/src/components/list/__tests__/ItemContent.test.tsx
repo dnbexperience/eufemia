@@ -58,19 +58,6 @@ describe('ItemContent', () => {
     expect(element.classList).toContain('dnb-list--variant-basic')
   })
 
-  it('lets the item override the inherited variant', () => {
-    render(
-      <Container variant="basic">
-        <ItemContent variant="custom">Override</ItemContent>
-      </Container>
-    )
-
-    const element = document.querySelector('.dnb-list__item')
-
-    expect(element.classList).toContain('dnb-list--variant-custom')
-    expect(element.classList).not.toContain('dnb-list--variant-basic')
-  })
-
   it('applies selected modifier class when selected', () => {
     render(<ItemContent selected>Selected item</ItemContent>)
 

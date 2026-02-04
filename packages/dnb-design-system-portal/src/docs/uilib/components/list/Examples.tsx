@@ -7,6 +7,7 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   Anchor,
   Avatar,
+  Badge,
   Button,
   Code,
   DateFormat,
@@ -58,8 +59,17 @@ export const RowsWithSlots = () => {
         </List.Item.Basic>
 
         <List.Item.Basic title="Title" icon={fish_medium}>
-          <List.Cell.Start>Start</List.Cell.Start>
-          <List.Cell.Center>Center</List.Cell.Center>
+          <List.Cell.End>End</List.Cell.End>
+        </List.Item.Basic>
+
+        <List.Item.Basic>
+          <List.Cell.Title>
+            <List.Cell.Overline>Overline</List.Cell.Overline>
+            Title
+            <List.Cell.Subline variant="description">
+              Subline
+            </List.Cell.Subline>
+          </List.Cell.Title>
           <List.Cell.End>End</List.Cell.End>
           <List.Cell.Footer
             style={{ background: 'var(--color-sand-yellow)' }}
@@ -411,61 +421,145 @@ export const Accordion = () => {
 
 export const WithDateFormat = () => {
   return (
-    <ComponentBox>
-      {() => {
-        const today = new Date()
-        const dayOffsets = [1, 2, 3]
-        return (
-          <List.Container>
-            {dayOffsets.map((offset, index) => (
-              <List.Item.Basic key={offset} title={`Title ${index + 1}`}>
-                <List.Cell.Start fontSize="small">
-                  <DateFormat
-                    value={
-                      new Date(
-                        today.getFullYear(),
-                        today.getMonth(),
-                        today.getDate() - offset
-                      )
-                    }
-                    dateStyle="medium"
-                    omitYearIfCurrentYear
-                  />
-                </List.Cell.Start>
-                <List.Cell.End>
-                  <Value.Currency
-                    value={[1234, 5678, 9012][index]}
-                    showEmpty
-                  />
-                </List.Cell.End>
-              </List.Item.Basic>
-            ))}
+    <ComponentBox data-visual-test="list-overline">
+      <List.Container>
+        <List.Item.Basic title="In Basic Item">
+          <List.Cell.Start fontSize="small">
+            <DateFormat
+              value={new Date()}
+              dateStyle="medium"
+              omitYearIfCurrentYear
+            />
+          </List.Cell.Start>
+          <List.Cell.End>
+            <Value.Currency value={1234} showEmpty />
+          </List.Cell.End>
+        </List.Item.Basic>
 
-            <List.Item.Action>
-              <List.Cell.Start>
-                <Flex.Vertical gap={false}>
-                  <span
-                    style={{
-                      fontSize: 'var(--font-size-x-small)',
-                      fontWeight: 'var(--font-weight-medium)',
-                    }}
-                  >
-                    <DateFormat
-                      value={today}
-                      dateStyle="medium"
-                      omitYearIfCurrentYear
-                    />
-                  </span>
-                  Title 4
-                </Flex.Vertical>
-              </List.Cell.Start>
-              <List.Cell.End>
-                <Value.Currency value={5678} showEmpty />
-              </List.Cell.End>
-            </List.Item.Action>
-          </List.Container>
-        )
-      }}
+        <List.Item.Action>
+          <List.Cell.Title>
+            <List.Cell.Overline>
+              <DateFormat
+                value={new Date()}
+                dateStyle="medium"
+                omitYearIfCurrentYear
+              />
+            </List.Cell.Overline>
+            In Action Item
+          </List.Cell.Title>
+          <List.Cell.End>
+            <Value.Currency value={5678} showEmpty />
+          </List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Accordion>
+          <List.Item.Accordion.Header>
+            <List.Cell.Title>
+              <List.Cell.Overline>
+                <DateFormat
+                  value={new Date()}
+                  dateStyle="medium"
+                  omitYearIfCurrentYear
+                />
+              </List.Cell.Overline>
+              In Accordion Item
+            </List.Cell.Title>
+            <List.Cell.End>
+              <Value.Currency value={1234} showEmpty />
+            </List.Cell.End>
+          </List.Item.Accordion.Header>
+          <List.Item.Accordion.Content innerSpace>
+            <P>
+              Use <Code>chevronPosition="left"</Code> to place the chevron
+              on the left.
+            </P>
+          </List.Item.Accordion.Content>
+        </List.Item.Accordion>
+      </List.Container>
+    </ComponentBox>
+  )
+}
+
+export const ListSubline = () => {
+  return (
+    <ComponentBox data-visual-test="list-subline" scope={{ fish_medium }}>
+      <List.Container>
+        <List.Item.Action icon={fish_medium}>
+          <List.Cell.Title>
+            <span>Item 1</span>
+            <List.Cell.Subline>
+              <DateFormat
+                value={new Date()}
+                dateStyle="medium"
+                omitYearIfCurrentYear
+              />
+            </List.Cell.Subline>
+          </List.Cell.Title>
+          <List.Cell.End>
+            <Value.Currency value={5678} showEmpty />
+          </List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Accordion icon={fish_medium}>
+          <List.Item.Accordion.Header>
+            <List.Cell.Title>
+              <span>Item 2</span>
+              <List.Cell.Subline>Detail 1</List.Cell.Subline>
+              <List.Cell.Subline variant="description">
+                Detail 2
+              </List.Cell.Subline>
+              <List.Cell.Subline>
+                <Flex.Horizontal rowGap="x-small">
+                  <Badge status="neutral" subtle content="Detail 3" />
+                  <Badge status="neutral" subtle content="Detail 3" />
+                </Flex.Horizontal>
+              </List.Cell.Subline>
+            </List.Cell.Title>
+            <List.Cell.End>
+              <Value.Currency value={5678} showEmpty />
+            </List.Cell.End>
+          </List.Item.Accordion.Header>
+          <List.Item.Accordion.Content innerSpace>
+            <P>Accordion content goes here.</P>
+          </List.Item.Accordion.Content>
+        </List.Item.Accordion>
+
+        <List.Item.Action title="Title" icon={fish_medium}>
+          <List.Cell.End>
+            <Flex.Vertical gap={false}>
+              <Value.Currency value={5678} showEmpty />
+              <List.Cell.Subline variant="description">
+                Subline
+              </List.Cell.Subline>
+            </Flex.Vertical>
+          </List.Cell.End>
+        </List.Item.Action>
+      </List.Container>
+    </ComponentBox>
+  )
+}
+
+export const WithBadge = () => {
+  return (
+    <ComponentBox scope={{ fish_medium }}>
+      <List.Container>
+        <List.Item.Action title="In Action Item" icon={fish_medium}>
+          <List.Cell.End>
+            <Badge content="Badge" />
+          </List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Accordion title="In Accordion Item" icon={fish_medium}>
+          <List.Item.Accordion.Header>
+            <List.Cell.End>
+              <Badge content="Badge" />
+            </List.Cell.End>
+          </List.Item.Accordion.Header>
+          <List.Item.Accordion.Content innerSpace>
+            <P>Accordion content goes here.</P>
+          </List.Item.Accordion.Content>
+        </List.Item.Accordion>
+      </List.Container>
     </ComponentBox>
   )
 }
