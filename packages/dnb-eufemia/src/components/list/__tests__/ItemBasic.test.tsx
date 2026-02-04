@@ -54,22 +54,6 @@ describe('ItemBasic', () => {
     expect(titleWrapper.textContent).toContain('Item title')
   })
 
-  it('renders subtitle when subtitle prop is provided', () => {
-    render(
-      <ItemBasic title="Item title" subtitle="Subtitle">
-        Content
-      </ItemBasic>
-    )
-
-    const element = document.querySelector('.dnb-list__item')
-    const subtitleElement = element.querySelector(
-      '.dnb-list__item__subtitle'
-    )
-
-    expect(subtitleElement).toBeInTheDocument()
-    expect(subtitleElement.textContent).toBe('Subtitle')
-  })
-
   it('renders icon, title and children in order', () => {
     render(
       <ItemBasic icon={fish_medium} title="Title">

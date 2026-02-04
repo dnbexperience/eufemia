@@ -162,47 +162,6 @@ export const ItemStartProperties: PropertiesTableProps = {
   },
 }
 
-export const ItemTitleProperties: PropertiesTableProps = {
-  children: {
-    doc: 'Title text of the list item. Grows to fill available space.',
-    type: 'React.ReactNode',
-    status: 'required',
-  },
-  subtitle: {
-    doc: 'Optional subtitle text shown below the title.',
-    type: 'React.ReactNode',
-    status: 'optional',
-  },
-  '[Flex.Item](/uilib/layout/flex/item/properties)': {
-    doc: 'Flex.Item properties. Uses `grow` by default.',
-    type: 'Various',
-    status: 'optional',
-  },
-  '[Space](/uilib/layout/space/properties)': {
-    doc: 'Spacing properties like `top` or `bottom` are supported.',
-    type: ['string', 'object'],
-    status: 'optional',
-  },
-}
-
-export const ItemIconProperties: PropertiesTableProps = {
-  children: {
-    doc: 'Icon element. Use a [primary](/icons/primary) or [secondary](/icons/secondary) icon component (e.g. `fish_medium`). Rendered with size `medium`.',
-    type: 'IconIcon',
-    status: 'required',
-  },
-  '[Flex.Item](/uilib/layout/flex/item/properties)': {
-    doc: 'Flex.Item properties. Uses innerSpace left/right small by default.',
-    type: 'Various',
-    status: 'optional',
-  },
-  '[Space](/uilib/layout/space/properties)': {
-    doc: 'Spacing properties like `top` or `bottom` are supported.',
-    type: ['string', 'object'],
-    status: 'optional',
-  },
-}
-
 export const ItemAccordionProperties: PropertiesTableProps = {
   chevronPosition: {
     doc: 'Placement of the chevron icon. Defaults to `right`. Use `left` to show the chevron on the left side.',
