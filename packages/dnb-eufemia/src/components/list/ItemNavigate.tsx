@@ -16,6 +16,7 @@ export type ItemNavigateProps = {
   chevronPosition?: ItemNavigateIconPosition
   icon?: IconIcon
   title?: React.ReactNode
+  subtitle?: React.ReactNode
   href?: string
   target?: string
   rel?: string
@@ -32,6 +33,7 @@ function ItemNavigate(props: ItemNavigateProps) {
     chevronPosition = 'right',
     icon,
     title,
+    subtitle,
     href,
     target,
     rel,
@@ -93,7 +95,9 @@ function ItemNavigate(props: ItemNavigateProps) {
     <>
       {chevronPosition === 'left' && <ChevronIcon />}
       {icon !== undefined && <ItemIcon>{icon}</ItemIcon>}
-      {title !== undefined && <ItemTitle>{title}</ItemTitle>}
+      {title !== undefined && (
+        <ItemTitle subtitle={subtitle}>{title}</ItemTitle>
+      )}
       {children}
       {chevronPosition === 'right' && <ChevronIcon />}
     </>

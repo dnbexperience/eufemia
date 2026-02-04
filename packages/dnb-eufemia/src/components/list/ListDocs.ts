@@ -156,6 +156,11 @@ export const ItemTitleProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'required',
   },
+  subtitle: {
+    doc: 'Optional subtitle text shown below the title.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
   '[Flex.Item](/uilib/layout/flex/item/properties)': {
     doc: 'Flex.Item properties. Uses `grow` by default.',
     type: 'Various',

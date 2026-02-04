@@ -56,7 +56,11 @@ export const RowsWithSlots = () => {
           <List.Cell.End>End</List.Cell.End>
         </List.Item.Basic>
 
-        <List.Item.Basic title="Title" icon={fish_medium}>
+        <List.Item.Basic
+          title="Title"
+          subtitle="Subtitle"
+          icon={fish_medium}
+        >
           <List.Cell.Start>Start</List.Cell.Start>
           <List.Cell.Center>Center</List.Cell.Center>
           <List.Cell.End>End</List.Cell.End>
@@ -145,7 +149,6 @@ export const NavigableItem = () => {
         </List.Item.Action>
 
         <List.Item.Action
-          icon={fish_medium}
           chevronPosition="left"
           title="Navigate to details"
           onClick={() => console.log('Clicked')}

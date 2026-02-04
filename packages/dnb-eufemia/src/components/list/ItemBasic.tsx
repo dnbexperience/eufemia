@@ -8,17 +8,20 @@ import type { IconIcon } from '../icon/Icon'
 export type ItemBasicProps = {
   icon?: IconIcon
   title?: React.ReactNode
+  subtitle?: React.ReactNode
 } & Omit<ItemContentProps, 'title'>
 
 function ItemBasic(props: ItemBasicProps) {
-  const { icon, title, children, variant, ...rest } = props
+  const { icon, title, subtitle, children, variant, ...rest } = props
   const inheritedVariant = useContext(ListContext)?.variant
   const appliedVariant = variant ?? inheritedVariant
 
   return (
     <ItemContent variant={appliedVariant} {...rest}>
       {icon && <ItemIcon>{icon}</ItemIcon>}
-      {title !== undefined && <ItemTitle>{title}</ItemTitle>}
+      {title !== undefined && (
+        <ItemTitle subtitle={subtitle}>{title}</ItemTitle>
+      )}
       {children}
     </ItemContent>
   )

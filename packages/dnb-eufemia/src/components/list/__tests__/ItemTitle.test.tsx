@@ -71,4 +71,39 @@ describe('ItemTitle', () => {
   it('declares _supportsSpacingProps for flex layout', () => {
     expect(ItemTitle._supportsSpacingProps).toBe(true)
   })
+
+  it('renders subtitle when subtitle prop is provided', () => {
+    render(<ItemTitle subtitle="Subtitle">Title</ItemTitle>)
+
+    const titleElement = document.querySelector('.dnb-list__item__title')
+    const subtitleElement = document.querySelector(
+      '.dnb-list__item__subtitle'
+    )
+
+    expect(titleElement).toBeInTheDocument()
+    expect(subtitleElement).toBeInTheDocument()
+    expect(subtitleElement).toHaveClass('dnb-list__item__subtitle')
+    expect(subtitleElement).toHaveClass('dnb-t__size--small')
+    expect(subtitleElement.textContent).toBe('Subtitle')
+  })
+
+  it('adds --has-subtitle modifier when subtitle is provided', () => {
+    render(<ItemTitle subtitle="Subtitle">Title</ItemTitle>)
+
+    const element = document.querySelector('.dnb-list__item__title')
+
+    expect(element.classList).toContain(
+      'dnb-list__item__title--has-subtitle'
+    )
+  })
+
+  it('does not render subtitle element when subtitle is not provided', () => {
+    render(<ItemTitle>Title</ItemTitle>)
+
+    const subtitleElement = document.querySelector(
+      '.dnb-list__item__subtitle'
+    )
+
+    expect(subtitleElement).not.toBeInTheDocument()
+  })
 })
