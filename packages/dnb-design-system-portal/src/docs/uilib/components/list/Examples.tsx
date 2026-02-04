@@ -9,6 +9,7 @@ import {
   Avatar,
   Button,
   Code,
+  DateFormat,
   Flex,
   Grid,
   List,
@@ -408,6 +409,67 @@ export const Accordion = () => {
           </List.Item.Accordion.Content>
         </List.Item.Accordion>
       </List.Container>
+    </ComponentBox>
+  )
+}
+
+export const WithDateFormat = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const today = new Date()
+        const dayOffsets = [1, 2, 3]
+        return (
+          <List.Container>
+            {dayOffsets.map((offset, index) => (
+              <List.Item.Basic key={offset} title={`Title ${index + 1}`}>
+                <List.Cell.Start fontSize="small">
+                  <DateFormat
+                    value={
+                      new Date(
+                        today.getFullYear(),
+                        today.getMonth(),
+                        today.getDate() - offset
+                      )
+                    }
+                    dateStyle="medium"
+                    omitYearIfCurrentYear
+                  />
+                </List.Cell.Start>
+                <List.Cell.End>
+                  <Value.Currency
+                    value={[1234, 5678, 9012][index]}
+                    showEmpty
+                  />
+                </List.Cell.End>
+              </List.Item.Basic>
+            ))}
+
+            <List.Item.Action>
+              <List.Cell.Start>
+                <Flex.Vertical gap={false}>
+                  <span
+                    style={{
+                      fontSize: 'var(--font-size-x-small)',
+                      fontWeight: 'var(--font-weight-medium)',
+                    }}
+                  >
+                    <DateFormat
+                      value={today}
+                      dateStyle="medium"
+                      omitYearIfCurrentYear
+                    />
+                  </span>
+                  Title 4
+                </Flex.Vertical>
+              </List.Cell.Start>
+              <List.Cell.End>
+                <Value.Currency value={5678} showEmpty />
+              </List.Cell.End>
+            </List.Item.Action>
+          </List.Container>
+        )
+      }}
     </ComponentBox>
   )
 }

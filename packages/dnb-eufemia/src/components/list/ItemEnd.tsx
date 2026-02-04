@@ -3,17 +3,29 @@ import classnames from 'classnames'
 import FlexItem from '../flex/Item'
 import { ItemContentProps } from './ItemContent'
 
+/**
+ * Props for List.Cell.End (ItemEnd).
+ * Extends ItemContentProps and Flex.Item; supports spacing props.
+ */
 export type ItemEndProps = {
+  /** Font weight of the end content. Defaults to `medium`. */
   fontWeight?: 'regular' | 'medium'
+  /** Font size of the end content. Defaults to `basis`. */
+  fontSize?: 'small' | 'basis'
 } & ItemContentProps
 
 function ItemEnd(props: ItemEndProps) {
-  const { fontWeight = 'medium', className, ...rest } = props
+  const {
+    fontWeight = 'medium',
+    fontSize = 'basis',
+    className,
+    ...rest
+  } = props
   return (
     <FlexItem
       className={classnames(
         'dnb-list__item__end',
-        'dnb-t__size--basis',
+        fontSize && `dnb-t__size--${fontSize}`,
         fontWeight === 'medium' && 'dnb-t__weight--medium',
         className
       )}

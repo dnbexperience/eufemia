@@ -133,6 +133,12 @@ export const ItemEndProperties: PropertiesTableProps = {
 }
 
 export const ItemStartProperties: PropertiesTableProps = {
+  fontSize: {
+    doc: 'Font size of the start content. Defaults to `basis`. Use `small` for smaller text.',
+    type: ["'small'", "'basis'"],
+    defaultValue: "'basis'",
+    status: 'optional',
+  },
   children: {
     doc: 'Start content of the list item (e.g. icon, label).',
     type: 'React.ReactNode',

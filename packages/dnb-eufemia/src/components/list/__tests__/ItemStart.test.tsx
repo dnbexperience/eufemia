@@ -11,11 +11,26 @@ describe('ItemStart', () => {
     expect(element.textContent).toContain('Start content')
   })
 
-  it('has dnb-t__size--basis class', () => {
+  it('has dnb-t__size--basis class by default', () => {
     render(<ItemStart>Content</ItemStart>)
 
     const element = document.querySelector('.dnb-flex-item')
     expect(element.classList).toContain('dnb-t__size--basis')
+  })
+
+  it('applies fontSize="basis"', () => {
+    render(<ItemStart fontSize="basis">Content</ItemStart>)
+
+    const element = document.querySelector('.dnb-flex-item')
+    expect(element.classList).toContain('dnb-t__size--basis')
+  })
+
+  it('applies fontSize="small"', () => {
+    render(<ItemStart fontSize="small">Content</ItemStart>)
+
+    const element = document.querySelector('.dnb-flex-item')
+    expect(element.classList).toContain('dnb-t__size--small')
+    expect(element.classList).not.toContain('dnb-t__size--basis')
   })
 
   it('merges custom className', () => {
