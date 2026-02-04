@@ -187,7 +187,7 @@ export const ItemIconProperties: PropertiesTableProps = {
 }
 
 export const ItemAccordionProperties: PropertiesTableProps = {
-  iconPosition: {
+  chevronPosition: {
     doc: 'Placement of the chevron icon. Defaults to `right`. Use `left` to show the chevron on the left side.',
     type: ["'left'", "'right'"],
     defaultValue: "'right'",
@@ -242,7 +242,7 @@ export const ItemNavigateProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  iconPosition: {
+  chevronPosition: {
     doc: 'Placement of the chevron icon. Defaults to `right`. Use `left` to show the chevron on the left side.',
     type: ["'left'", "'right'"],
     defaultValue: "'right'",

@@ -79,11 +79,7 @@ export const AdditionWithButtons = () => {
           <List.Cell.End>
             <NumberFormat currency value={1234} />
           </List.Cell.End>
-          <List.Cell.Addition
-            style={{
-              background: 'var(--color-sand-yellow)',
-            }}
-          >
+          <List.Cell.Addition>
             <Flex.Horizontal>
               <Button text="Save" />
               <Button variant="tertiary" text="Delete" />
@@ -103,7 +99,11 @@ export const AdditionWithButtons = () => {
           </List.Cell.Addition>
         </List.Item.Action>
 
-        <List.Item.Accordion icon={fish_medium} title="Accordion title">
+        <List.Item.Accordion
+          icon={fish_medium}
+          chevronPosition="left"
+          title="Accordion title"
+        >
           <List.Item.Accordion.Header>
             <List.Cell.End>
               <NumberFormat currency value={1234} />
@@ -136,6 +136,17 @@ export const NavigableItem = () => {
       <List.Container>
         <List.Item.Action
           icon={fish_medium}
+          title="Navigate to details"
+          onClick={() => console.log('Clicked')}
+        >
+          <List.Cell.End>
+            <NumberFormat currency value={1234} />
+          </List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Action
+          icon={fish_medium}
+          chevronPosition="left"
           title="Navigate to details"
           onClick={() => console.log('Clicked')}
         >
@@ -357,7 +368,7 @@ export const Accordion = () => {
         </List.Item.Accordion>
 
         <List.Item.Accordion
-          iconPosition="left"
+          chevronPosition="left"
           title="Chevron on the left"
         >
           <List.Item.Accordion.Header>
@@ -367,8 +378,8 @@ export const Accordion = () => {
           </List.Item.Accordion.Header>
           <List.Item.Accordion.Content innerSpace>
             <P>
-              Use <Code>iconPosition="left"</Code> to place the chevron on
-              the left.
+              Use <Code>chevronPosition="left"</Code> to place the chevron
+              on the left.
             </P>
           </List.Item.Accordion.Content>
         </List.Item.Accordion>

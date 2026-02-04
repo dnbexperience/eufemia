@@ -435,7 +435,7 @@ describe('ItemAccordion', () => {
     )
   })
 
-  it('renders chevron on the right by default (iconPosition right)', () => {
+  it('renders chevron on the right by default (chevronPosition right)', () => {
     render(
       <ItemAccordion>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
@@ -452,9 +452,9 @@ describe('ItemAccordion', () => {
     expect(header.className).not.toContain('dnb-list__item--chevron-left')
   })
 
-  it('renders chevron on the left when iconPosition is left', () => {
+  it('renders chevron on the left when chevronPosition is left', () => {
     render(
-      <ItemAccordion iconPosition="left">
+      <ItemAccordion chevronPosition="left">
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
       </ItemAccordion>
@@ -469,9 +469,9 @@ describe('ItemAccordion', () => {
     expect(header.className).toContain('dnb-list__item--chevron-left')
   })
 
-  it('applies icon-left modifier class when iconPosition is left', () => {
+  it('applies icon-left modifier class when chevronPosition is left', () => {
     render(
-      <ItemAccordion iconPosition="left">
+      <ItemAccordion chevronPosition="left">
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
       </ItemAccordion>

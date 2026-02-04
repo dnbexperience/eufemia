@@ -13,7 +13,7 @@ export type ItemNavigateIconPosition = 'left' | 'right'
 export type ItemNavigateProps = {
   variant?: ListVariant
   selected?: boolean
-  iconPosition?: ItemNavigateIconPosition
+  chevronPosition?: ItemNavigateIconPosition
   icon?: IconIcon
   title?: React.ReactNode
   href?: string
@@ -29,7 +29,7 @@ function ItemNavigate(props: ItemNavigateProps) {
     variant,
     selected,
     pending,
-    iconPosition = 'right',
+    chevronPosition = 'right',
     icon,
     title,
     href,
@@ -84,18 +84,18 @@ function ItemNavigate(props: ItemNavigateProps) {
 
   const navigateClassName = classnames(
     'dnb-list__item__navigate',
-    iconPosition === 'left' && 'dnb-list__item--chevron-left',
+    chevronPosition === 'left' && 'dnb-list__item--chevron-left',
     href && 'dnb-list__item__navigate--href',
     className
   )
 
   const content = (
     <>
-      {iconPosition === 'left' && <ChevronIcon />}
+      {chevronPosition === 'left' && <ChevronIcon />}
       {icon !== undefined && <ItemIcon>{icon}</ItemIcon>}
       {title !== undefined && <ItemTitle>{title}</ItemTitle>}
       {children}
-      {iconPosition === 'right' && <ChevronIcon />}
+      {chevronPosition === 'right' && <ChevronIcon />}
     </>
   )
 

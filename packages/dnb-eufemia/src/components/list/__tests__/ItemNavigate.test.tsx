@@ -62,7 +62,7 @@ describe('ItemNavigate', () => {
     expect(element.querySelector('svg')).toBeInTheDocument()
   })
 
-  it('renders chevron on the right by default (iconPosition right)', () => {
+  it('renders chevron on the right by default (chevronPosition right)', () => {
     render(<ItemNavigate>Content</ItemNavigate>)
 
     const element = document.querySelector('.dnb-list__item__navigate')
@@ -72,8 +72,8 @@ describe('ItemNavigate', () => {
     expect(element.className).not.toContain('dnb-list__item--chevron-left')
   })
 
-  it('renders chevron on the left when iconPosition is left', () => {
-    render(<ItemNavigate iconPosition="left">Content</ItemNavigate>)
+  it('renders chevron on the left when chevronPosition is left', () => {
+    render(<ItemNavigate chevronPosition="left">Content</ItemNavigate>)
 
     const element = document.querySelector('.dnb-list__item__navigate')
     const chevron = element.querySelector('.dnb-list__item__chevron')
@@ -82,8 +82,8 @@ describe('ItemNavigate', () => {
     expect(element.className).toContain('dnb-list__item--chevron-left')
   })
 
-  it('applies icon-left modifier class when iconPosition is left', () => {
-    render(<ItemNavigate iconPosition="left">Content</ItemNavigate>)
+  it('applies icon-left modifier class when chevronPosition is left', () => {
+    render(<ItemNavigate chevronPosition="left">Content</ItemNavigate>)
 
     const element = document.querySelector('.dnb-list__item__navigate')
 

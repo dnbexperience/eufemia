@@ -131,7 +131,7 @@ export function ListBasic() {
         <List.Container>
           <List.Item.Action
             title="Title"
-            iconPosition="left"
+            chevronPosition="left"
             onClick={() => console.log('Clicked')}
           >
             <List.Cell.End>
@@ -174,7 +174,7 @@ export function ListBasic() {
             </List.Item.Accordion.Content>
           </List.Item.Accordion>
 
-          <List.Item.Accordion open iconPosition="left" title="Title">
+          <List.Item.Accordion open chevronPosition="left" title="Title">
             <List.Item.Accordion.Content>
               <List.Cell.Start innerSpace>Content ...</List.Cell.Start>
             </List.Item.Accordion.Content>
@@ -211,7 +211,7 @@ export function ListAccordion() {
             </List.Item.Accordion.Content>
           </List.Item.Accordion>
 
-          <List.Item.Accordion open iconPosition="left" title="Title">
+          <List.Item.Accordion open chevronPosition="left" title="Title">
             <List.Item.Accordion.Content>
               <List.Cell.Start innerSpace>Content ...</List.Cell.Start>
             </List.Item.Accordion.Content>

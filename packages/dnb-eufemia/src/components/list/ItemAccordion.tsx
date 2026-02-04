@@ -24,7 +24,7 @@ export type ItemAccordionIconPosition = 'left' | 'right'
 export type ItemAccordionProps = {
   variant?: ListVariant
   open?: boolean
-  iconPosition?: ItemAccordionIconPosition
+  chevronPosition?: ItemAccordionIconPosition
   icon?: IconIcon
   title?: React.ReactNode
   id?: string
@@ -34,7 +34,7 @@ const ItemAccordionContext = createContext<{
   open?: boolean
   openState: boolean
   pending?: boolean
-  iconPosition?: ItemAccordionIconPosition
+  chevronPosition?: ItemAccordionIconPosition
   accordionId: string
   icon?: IconIcon
   title?: React.ReactNode
@@ -50,7 +50,7 @@ function ItemAccordion(props: ItemAccordionProps) {
     variant,
     pending,
     open = false,
-    iconPosition = 'right',
+    chevronPosition = 'right',
     icon,
     title,
     id: idProp,
@@ -75,7 +75,7 @@ function ItemAccordion(props: ItemAccordionProps) {
         open,
         openState,
         pending,
-        iconPosition,
+        chevronPosition,
         accordionId,
         icon,
         title,
@@ -113,7 +113,7 @@ function AccordionHeader(props: AccordionHeaderProps) {
     setOpen,
     onClick,
     pending,
-    iconPosition,
+    chevronPosition,
     accordionId,
     openState,
     icon,
@@ -146,7 +146,7 @@ function AccordionHeader(props: AccordionHeaderProps) {
     <FlexItem
       className={classnames(
         'dnb-list__item__accordion__header',
-        iconPosition === 'left' && 'dnb-list__item--chevron-left',
+        chevronPosition === 'left' && 'dnb-list__item--chevron-left',
         className
       )}
       id={`${accordionId}-header`}
@@ -159,11 +159,11 @@ function AccordionHeader(props: AccordionHeaderProps) {
       onKeyDown={handleKeyDown}
       {...rest}
     >
-      {iconPosition === 'left' && <ChevronIcon />}
+      {chevronPosition === 'left' && <ChevronIcon />}
       {icon && <ItemIcon>{icon}</ItemIcon>}
       {title !== undefined && <ItemTitle>{title}</ItemTitle>}
       {children}
-      {iconPosition === 'right' && <ChevronIcon />}
+      {chevronPosition === 'right' && <ChevronIcon />}
     </FlexItem>
   )
 }
