@@ -23,10 +23,10 @@
     --item-navigation-color--active: var(--color-emerald-green);
     --item-icon-color: var(--item-navigation-color);
     --item-pending-color: var(--color-black-3);
-    --item-background: var(--color-white);
+    --item-background-color: var(--color-white);
     --item-selected-background-color: var(
       --internal-color-background-selected-subtle,
-      var(--item-background)
+      var(--item-background-color)
     );
 
     border-radius: var(--item-rounded-corner);
@@ -137,7 +137,7 @@
       border-radius: var(--item-rounded-corner);
     }
 
-    background-color: var(--item-background);
+    background-color: var(--item-background-color);
     &--selected {
       background-color: var(--item-selected-background-color,);
     }

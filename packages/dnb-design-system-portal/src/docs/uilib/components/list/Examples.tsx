@@ -268,6 +268,27 @@ export const SelectedState = () => {
   )
 }
 
+export const BackgroundColor = () => {
+  return (
+    <ComponentBox>
+      <List.Container>
+        <List.Item.Basic>Normal row</List.Item.Basic>
+
+        <List.Item.Basic
+          style={{
+            ['--item-background-color' as string]:
+              'var(--color-mint-green-12)',
+          }}
+        >
+          Custom background color (not selected)
+        </List.Item.Basic>
+
+        <List.Item.Basic>Another normal row</List.Item.Basic>
+      </List.Container>
+    </ComponentBox>
+  )
+}
+
 export const SkeletonState = () => {
   return (
     <ComponentBox scope={{ fish_medium }} background="white">
@@ -444,7 +465,7 @@ export const GridColumns = () => {
         <Grid.Item
           span={{
             small: 'full',
-            medium: [3, 6],
+            medium: [1, 4],
             large: [5, 12],
           }}
         >
@@ -472,7 +493,7 @@ export const GridColumns = () => {
         <Grid.Item
           span={{
             small: 'full',
-            medium: [1, 2],
+            medium: [5, 6],
             large: [1, 4],
           }}
           style={{
