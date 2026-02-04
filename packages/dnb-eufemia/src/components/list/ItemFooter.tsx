@@ -4,16 +4,16 @@ import FlexItem from '../flex/Item'
 import Hr from '../../elements/Hr'
 import { ItemContentProps } from './ItemContent'
 
-function ItemAddition({ className, children, ...rest }: ItemContentProps) {
+function ItemFooter({ className, children, ...rest }: ItemContentProps) {
   return (
     <>
       <Hr
         top={false}
         bottom={false}
-        className="dnb-list__item__addition"
+        className="dnb-list__item__footer"
       />
       <FlexItem
-        className={classnames('dnb-list__item__addition', className)}
+        className={classnames('dnb-list__item__footer', className)}
         {...rest}
       >
         {children}
@@ -21,6 +21,6 @@ function ItemAddition({ className, children, ...rest }: ItemContentProps) {
     </>
   )
 }
-ItemAddition._supportsSpacingProps = true
+ItemFooter._supportsSpacingProps = true
 
-export default ItemAddition
+export default ItemFooter

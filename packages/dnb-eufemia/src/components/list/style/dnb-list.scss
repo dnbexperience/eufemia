@@ -59,18 +59,18 @@
     --item-grid-template-columns: auto auto auto minmax(0, 1fr)
       minmax(0, 1fr) auto auto;
     --item-grid-template-areas: 'chevron-left start icon title center end chevron-right'
-      'addition addition addition addition addition addition addition';
+      'footer footer footer footer footer footer footer';
 
     // On small screens, use 2-row layout so end wraps to a new line
     @include allBelow(small) {
       --item-grid-template-areas: 'chevron-left start icon title center chevron-right'
         'chevron-left end end end end chevron-right'
-        'addition addition addition addition addition addition';
+        'footer footer footer footer footer footer';
       &:has(#{&}__icon),
       &:has(.dnb-avatar) {
         --item-grid-template-areas: 'chevron-left start icon title center chevron-right'
           'chevron-left . . end end chevron-right'
-          'addition addition addition addition addition addition';
+          'footer footer footer footer footer footer';
       }
     }
 
@@ -79,13 +79,13 @@
       --item-grid-template-areas: 'chevron-left start icon title title chevron-right'
         'chevron-left center center center center chevron-right'
         'chevron-left end end end end chevron-right'
-        'addition addition addition addition addition addition';
+        'footer footer footer footer footer footer';
       &:has(#{&}__icon),
       &:has(.dnb-avatar) {
         --item-grid-template-areas: 'chevron-left start icon title title chevron-right'
           'chevron-left . . center center chevron-right'
           'chevron-left . . end end chevron-right'
-          'addition addition addition addition addition addition';
+          'footer footer footer footer footer footer';
       }
     }
 
@@ -107,8 +107,8 @@
       min-height: var(--item-height);
       padding: calc(var(--item-padding)) 0;
     }
-    &:has(#{&}__addition),
-    &:has(#{&}__addition) &__accordion__header {
+    &:has(#{&}__footer),
+    &:has(#{&}__footer) &__accordion__header {
       padding-bottom: 0;
     }
 
@@ -147,7 +147,7 @@
     &__start,
     &__center,
     &__end,
-    &__addition {
+    &__footer {
       display: flex;
       align-items: center;
 
@@ -177,8 +177,8 @@
       grid-area: end;
       justify-self: start;
     }
-    &__addition {
-      grid-area: addition;
+    &__footer {
+      grid-area: footer;
       margin-top: var(--item-padding);
       padding: var(--item-padding);
 
@@ -190,7 +190,7 @@
         }
       }
     }
-    &:last-of-type:not(#{&}__accordion--open) &__addition {
+    &:last-of-type:not(#{&}__accordion--open) &__footer {
       border-bottom-left-radius: var(--item-rounded-corner);
       border-bottom-right-radius: var(--item-rounded-corner);
     }

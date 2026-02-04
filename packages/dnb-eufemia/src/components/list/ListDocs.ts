@@ -56,7 +56,7 @@ export const ItemContentProperties: PropertiesTableProps = {
     status: 'optional',
   },
   children: {
-    doc: 'Item content. Typically `List.Cell.Start`, `List.Cell.Center`, `List.Cell.End`, or `List.Cell.Addition`.',
+    doc: 'Item content. Typically `List.Cell.Start`, `List.Cell.Center`, `List.Cell.End`, or `List.Cell.Footer`.',
     type: 'React.ReactNode',
     status: 'required',
   },
@@ -90,9 +90,9 @@ export const ItemCenterProperties: PropertiesTableProps = {
   },
 }
 
-export const ItemAdditionProperties: PropertiesTableProps = {
+export const ItemFooterProperties: PropertiesTableProps = {
   children: {
-    doc: 'Additional content of the list item. Grows to fill available space.',
+    doc: 'Footer content of the list item. Grows to fill available space.',
     type: 'React.ReactNode',
     status: 'required',
   },
@@ -113,6 +113,12 @@ export const ItemEndProperties: PropertiesTableProps = {
     doc: 'Font weight of the end content. Defaults to `medium`.',
     type: ["'regular'", "'medium'"],
     defaultValue: "'medium'",
+    status: 'optional',
+  },
+  fontSize: {
+    doc: 'Font size of the end content. Defaults to `basis`. Use `small` for smaller text.',
+    type: ["'small'", "'basis'"],
+    defaultValue: "'basis'",
     status: 'optional',
   },
   children: {

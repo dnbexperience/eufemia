@@ -65,31 +65,31 @@ export const RowsWithSlots = () => {
           <List.Cell.Start>Start</List.Cell.Start>
           <List.Cell.Center>Center</List.Cell.Center>
           <List.Cell.End>End</List.Cell.End>
-          <List.Cell.Addition
+          <List.Cell.Footer
             style={{ background: 'var(--color-sand-yellow)' }}
           >
-            <P>Addition</P>
-          </List.Cell.Addition>
+            <P>Footer</P>
+          </List.Cell.Footer>
         </List.Item.Basic>
       </List.Container>
     </ComponentBox>
   )
 }
 
-export const AdditionWithButtons = () => {
+export const FooterWithButtons = () => {
   return (
-    <ComponentBox data-visual-test="list-addition" scope={{ fish_medium }}>
+    <ComponentBox data-visual-test="list-footer" scope={{ fish_medium }}>
       <List.Container>
         <List.Item.Basic title="Item with actions" icon={fish_medium}>
           <List.Cell.End>
             <NumberFormat currency value={1234} />
           </List.Cell.End>
-          <List.Cell.Addition>
+          <List.Cell.Footer>
             <Flex.Horizontal>
               <Button text="Save" />
               <Button variant="tertiary" text="Delete" />
             </Flex.Horizontal>
-          </List.Cell.Addition>
+          </List.Cell.Footer>
         </List.Item.Basic>
 
         <List.Item.Action
@@ -99,9 +99,9 @@ export const AdditionWithButtons = () => {
           <List.Cell.End>
             <Value.Currency value={5678} showEmpty />
           </List.Cell.End>
-          <List.Cell.Addition>
+          <List.Cell.Footer>
             <Button variant="secondary" text="Open" />
-          </List.Cell.Addition>
+          </List.Cell.Footer>
         </List.Item.Action>
 
         <List.Item.Accordion
@@ -113,7 +113,7 @@ export const AdditionWithButtons = () => {
             <List.Cell.End>
               <NumberFormat currency value={1234} />
             </List.Cell.End>
-            <List.Cell.Addition
+            <List.Cell.Footer
               style={{
                 background: 'var(--color-sand-yellow)',
               }}
@@ -123,7 +123,7 @@ export const AdditionWithButtons = () => {
                 text="Next"
                 icon="chevron_right"
               />
-            </List.Cell.Addition>
+            </List.Cell.Footer>
           </List.Item.Accordion.Header>
 
           <List.Item.Accordion.Content innerSpace>

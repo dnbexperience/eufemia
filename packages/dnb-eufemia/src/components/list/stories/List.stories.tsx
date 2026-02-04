@@ -25,7 +25,7 @@ export function ListBasic() {
             <List.Cell.Start>Start</List.Cell.Start>
             <List.Cell.Center>Center</List.Cell.Center>
             <List.Cell.End>End</List.Cell.End>
-            <List.Cell.Addition>Addition</List.Cell.Addition>
+            <List.Cell.Footer>Footer</List.Cell.Footer>
           </List.Item.Basic>
 
           <List.Item.Action
@@ -222,7 +222,7 @@ export function ListAccordion() {
   )
 }
 
-export function ListAdditionWithButtons() {
+export function ListFooterWithButtons() {
   return (
     <Wrapper>
       <Box>
@@ -231,12 +231,12 @@ export function ListAdditionWithButtons() {
             <List.Cell.End>
               <NumberFormat currency value={1234} />
             </List.Cell.End>
-            <List.Cell.Addition>
+            <List.Cell.Footer>
               <Flex.Horizontal>
                 <Button text="Save" />
                 <Button variant="tertiary" text="Delete" />
               </Flex.Horizontal>
-            </List.Cell.Addition>
+            </List.Cell.Footer>
           </List.Item.Basic>
 
           <List.Item.Action
@@ -246,9 +246,9 @@ export function ListAdditionWithButtons() {
             <List.Cell.End>
               <Value.Currency value={5678} showEmpty />
             </List.Cell.End>
-            <List.Cell.Addition>
+            <List.Cell.Footer>
               <Button variant="secondary" text="Open" />
-            </List.Cell.Addition>
+            </List.Cell.Footer>
           </List.Item.Action>
 
           <List.Item.Accordion icon={fish_medium} title="Accordion title">
@@ -256,13 +256,13 @@ export function ListAdditionWithButtons() {
               <List.Cell.End>
                 <NumberFormat currency value={1234} />
               </List.Cell.End>
-              <List.Cell.Addition>
+              <List.Cell.Footer>
                 <Button
                   variant="tertiary"
                   text="Next"
                   icon="chevron_right"
                 />
-              </List.Cell.Addition>
+              </List.Cell.Footer>
             </List.Item.Accordion.Header>
 
             <List.Item.Accordion.Content innerSpace>
