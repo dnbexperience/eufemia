@@ -41,6 +41,38 @@ describe('DateFormatUtils', () => {
 
       spy.mockRestore()
     })
+
+    it('omits year for any dateStyle when omitYearIfCurrentYear and date is in current year', () => {
+      const now = new Date('2025-06-15T12:00:00.000Z')
+      jest.useFakeTimers({ now: now.getTime() })
+
+      const dateInCurrentYear = '2025-02-04'
+      const dateOtherYear = '2024-02-04'
+
+      for (const dateStyle of [
+        'full',
+        'long',
+        'medium',
+        'short',
+      ] as const) {
+        const sameYear = formatDate(dateInCurrentYear, {
+          locale: 'en-GB',
+          options: { dateStyle },
+          omitYearIfCurrentYear: true,
+        })
+        expect(sameYear).not.toContain('2025')
+        expect(sameYear).toMatch(/\d{1,2}/)
+
+        const otherYear = formatDate(dateOtherYear, {
+          locale: 'en-GB',
+          options: { dateStyle },
+          omitYearIfCurrentYear: true,
+        })
+        expect(otherYear).toContain('2024')
+      }
+
+      jest.useRealTimers()
+    })
   })
 
   describe('formatDateRange', () => {

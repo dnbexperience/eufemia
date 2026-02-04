@@ -30,6 +30,8 @@ export type FormatDateOptions = {
   locale?: AnyLocale
   options?: Intl.DateTimeFormatOptions
   timeZone?: string
+  /** When true, omits the year if the date is in the current year (any dateStyle). */
+  omitYearIfCurrentYear?: boolean
 }
 
 type FormatDateInput = DateType | number | string
@@ -64,6 +66,7 @@ export function formatDate(
     locale = defaultLocale,
     options = { dateStyle: 'short' },
     timeZone,
+    omitYearIfCurrentYear,
   }: FormatDateOptions = {}
 ) {
   // Preserve original string for UTC detection
@@ -95,9 +98,59 @@ export function formatDate(
     finalOptions.timeZone = 'UTC'
   }
 
-  return typeof Intl !== 'undefined'
-    ? new Intl.DateTimeFormat(locale, finalOptions).format(date)
-    : date.toLocaleString(locale, finalOptions)
+  // Omit year when the date is in the current year (for any dateStyle)
+  const dateStyle = finalOptions.dateStyle
+  const sameYear =
+    dateStyle &&
+    omitYearIfCurrentYear &&
+    date.getFullYear() === new Date().getFullYear()
+
+  if (typeof Intl === 'undefined') {
+    return date.toLocaleString(locale, finalOptions)
+  }
+
+  if (sameYear) {
+    const dateOnlyOptionsByStyle: Record<
+      NonNullable<typeof dateStyle>,
+      Intl.DateTimeFormatOptions
+    > = {
+      full: { weekday: 'long', month: 'long', day: 'numeric' },
+      long: { month: 'long', day: 'numeric' },
+      medium: { month: 'short', day: 'numeric' },
+      short: { month: 'numeric', day: 'numeric' },
+    }
+
+    const dateOnlyOptions: Intl.DateTimeFormatOptions = {
+      ...dateOnlyOptionsByStyle[dateStyle],
+      ...(finalOptions.timeZone
+        ? { timeZone: finalOptions.timeZone }
+        : {}),
+    }
+
+    const datePart = new Intl.DateTimeFormat(
+      locale,
+      dateOnlyOptions
+    ).format(date)
+
+    if (finalOptions.timeStyle) {
+      const timeOnlyOptions: Intl.DateTimeFormatOptions = {
+        timeStyle: finalOptions.timeStyle,
+        ...(finalOptions.timeZone
+          ? { timeZone: finalOptions.timeZone }
+          : {}),
+      }
+
+      const timePart = new Intl.DateTimeFormat(
+        locale,
+        timeOnlyOptions
+      ).format(date)
+
+      return `${datePart}, ${timePart}`
+    }
+    return datePart
+  }
+
+  return new Intl.DateTimeFormat(locale, finalOptions).format(date)
 }
 
 export function formatDateRange(

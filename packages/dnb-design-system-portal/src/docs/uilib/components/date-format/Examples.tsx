@@ -6,7 +6,7 @@
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
-import { DateFormat, H4, P } from '@dnb/eufemia/src'
+import { DateFormat, H4, Hr, P } from '@dnb/eufemia/src'
 
 const Style = styled.div`
   p > .dnb-date-format {
@@ -42,6 +42,46 @@ export const DateStyles = () => (
     </ComponentBox>
   </Style>
 )
+
+export const OmitYearIfCurrentYear = () => {
+  return (
+    <Style>
+      <ComponentBox>
+        {() => {
+          const currentYear = new Date().getFullYear()
+          const dateInCurrentYear = `${currentYear}-02-04`
+          const dateInOtherYear = `${currentYear - 1}-02-04`
+
+          return (
+            <P>
+              <DateFormat
+                value={dateInCurrentYear}
+                dateStyle="medium"
+                omitYearIfCurrentYear
+              />
+              <DateFormat
+                value={dateInOtherYear}
+                dateStyle="medium"
+                omitYearIfCurrentYear
+              />
+              <Hr />
+              <DateFormat
+                value={dateInCurrentYear}
+                dateStyle="long"
+                omitYearIfCurrentYear
+              />
+              <DateFormat
+                value={dateInOtherYear}
+                dateStyle="long"
+                omitYearIfCurrentYear
+              />
+            </P>
+          )
+        }}
+      </ComponentBox>
+    </Style>
+  )
+}
 
 export const DateFormatInline = () => {
   return (

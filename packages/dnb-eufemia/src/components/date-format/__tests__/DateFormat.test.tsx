@@ -43,6 +43,57 @@ describe('DateFormat', () => {
       expect(dateFormat).toHaveTextContent('01.08.2025')
     })
 
+    it('should omit year for any dateStyle when omitYearIfCurrentYear and date is in current year', () => {
+      const now = new Date('2025-06-15T12:00:00.000Z')
+      jest.useFakeTimers({ now: now.getTime() })
+
+      const dateInCurrentYear = '2025-02-04'
+
+      const { rerender, container } = render(
+        <DateFormat
+          value={dateInCurrentYear}
+          dateStyle="full"
+          omitYearIfCurrentYear
+        />
+      )
+      for (const dateStyle of [
+        'full',
+        'long',
+        'medium',
+        'short',
+      ] as const) {
+        rerender(
+          <DateFormat
+            value={dateInCurrentYear}
+            dateStyle={dateStyle}
+            omitYearIfCurrentYear
+          />
+        )
+        const dateFormat = container.querySelector('.dnb-date-format')
+        expect(dateFormat?.textContent).not.toContain('2025')
+        expect(dateFormat?.textContent).toMatch(/\d{1,2}/)
+      }
+
+      jest.useRealTimers()
+    })
+
+    it('should include year when omitYearIfCurrentYear but date is in another year', () => {
+      const now = new Date('2025-06-15T12:00:00.000Z')
+      jest.useFakeTimers({ now: now.getTime() })
+
+      const { container } = render(
+        <DateFormat
+          value="2024-02-04"
+          dateStyle="medium"
+          omitYearIfCurrentYear
+        />
+      )
+      const dateFormat = container.querySelector('.dnb-date-format')
+      expect(dateFormat?.textContent).toContain('2024')
+
+      jest.useRealTimers()
+    })
+
     it('should include time when `timeStyle` is provided', () => {
       render(<DateFormat value="2025-08-01T14:30:00" timeStyle="short" />)
 
