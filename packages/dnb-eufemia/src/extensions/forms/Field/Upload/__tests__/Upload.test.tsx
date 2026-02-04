@@ -2385,6 +2385,7 @@ describe('Field.Upload', () => {
           <Iterate.Array path="/myArray">
             {(elementValue, index) => <FileHandlerWrapper id={index} />}
           </Iterate.Array>
+          <Form.SubmitButton />
         </Form.Handler>
       )
 
@@ -2419,6 +2420,7 @@ describe('Field.Upload', () => {
           exists: false,
         },
       ])
+
       await new Promise((resolve) => setTimeout(resolve, 50))
 
       resolveFileHandler2([
@@ -2463,45 +2465,56 @@ describe('Field.Upload', () => {
         ).not.toBeInTheDocument()
       })
 
+      // Check that no error files remain
+      expect(document.querySelectorAll('.dnb-form-status').length).toBe(0)
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(2)
+
+      // Check submit button is not disabled
+      const submitButton = document.querySelector('button[type="submit"]')
+      expect(submitButton).not.toBeDisabled()
+
       fireEvent.submit(document.querySelector('form'))
 
-      expect(onSubmit).toHaveBeenCalledTimes(1)
-      expect(onSubmit).toHaveBeenLastCalledWith(
-        {
-          myArray: [
-            {
-              myFiles: [
-                expect.objectContaining({
-                  file: file1,
-                  id: 'server-id-1',
-                  exists: false,
-                }),
-              ],
-            },
-            {
-              myFiles: [
-                expect.objectContaining({
-                  file: file2,
-                  id: 'server-id-2',
-                  exists: false,
-                }),
-              ],
-            },
-          ],
-        },
-        expect.anything()
-      )
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          {
+            myArray: [
+              {
+                myFiles: [
+                  expect.objectContaining({
+                    file: file1,
+                    id: 'server-id-1',
+                    exists: false,
+                  }),
+                ],
+              },
+              {
+                myFiles: [
+                  expect.objectContaining({
+                    file: file2,
+                    id: 'server-id-2',
+                    exists: false,
+                  }),
+                ],
+              },
+            ],
+          },
+          expect.anything()
+        )
+      })
     })
 
     it('should support async fileHandler and onFileDelete in Iterate.Array using Form.Handler defaultData', async () => {
-      const asyncOnFileDelete = jest.fn(async () => {
-        await wait(1)
-      })
-
       const onSubmit = jest.fn()
 
       let resolveFileHandler1: ((value: UploadValue) => void) | undefined
       let resolveFileHandler2: ((value: UploadValue) => void) | undefined
+
+      let resolveOnFileDeleteHandler1: ((value: void) => void) | undefined
+      let resolveOnFileDeleteHandler2: ((value: void) => void) | undefined
 
       const file1 = createMockFile('new-file-1.png', 100, 'image/png')
       const file2 = createMockFile('new-file-2.png', 100, 'image/png')
@@ -2520,13 +2533,29 @@ describe('Field.Upload', () => {
           })
       )
 
+      const asyncOnFileDeleteHandler1 = jest.fn(
+        () =>
+          new Promise<void>((resolve) => {
+            resolveOnFileDeleteHandler1 = resolve
+          })
+      )
+
+      const asyncOnFileDeleteHandler2 = jest.fn(
+        () =>
+          new Promise<void>((resolve) => {
+            resolveOnFileDeleteHandler2 = resolve
+          })
+      )
+
       const FileHandlerWrapper = ({ id }: { id: number }) => {
         const handler = id === 0 ? asyncFileHandler1 : asyncFileHandler2
+        const onFileDeleteHandler =
+          id === 0 ? asyncOnFileDeleteHandler1 : asyncOnFileDeleteHandler2
         return (
           <Field.Upload
             itemPath="/myFiles"
             fileHandler={handler}
-            onFileDelete={asyncOnFileDelete}
+            onFileDelete={onFileDeleteHandler}
           />
         )
       }
@@ -2548,6 +2577,7 @@ describe('Field.Upload', () => {
           <Iterate.Array path="/myArrayWithDelete">
             {(elementValue, index) => <FileHandlerWrapper id={index} />}
           </Iterate.Array>
+          <Form.SubmitButton />
         </Form.Handler>
       )
 
@@ -2591,14 +2621,6 @@ describe('Field.Upload', () => {
           .querySelector('button')
       )
 
-      await waitFor(() => {
-        expect(
-          document.querySelectorAll('.dnb-upload__file-cell').length
-        ).toBe(1)
-      })
-
-      await wait(50) // Give time for all async operations to settle
-
       resolveFileHandler2([
         {
           file: file2,
@@ -2606,6 +2628,8 @@ describe('Field.Upload', () => {
           exists: false,
         },
       ])
+
+      resolveOnFileDeleteHandler1()
 
       await waitFor(() => {
         expect(
@@ -2616,26 +2640,56 @@ describe('Field.Upload', () => {
 
       fireEvent.submit(document.querySelector('form'))
 
-      expect(onSubmit).toHaveBeenCalledTimes(1)
-      expect(onSubmit).toHaveBeenLastCalledWith(
-        {
-          myArrayWithDelete: [
-            {
-              myFiles: undefined,
-            },
-            {
-              myFiles: [
-                expect.objectContaining({
-                  file: file2,
-                  id: 'server-id-2',
-                  exists: false,
-                }),
-              ],
-            },
-          ],
-        },
-        expect.anything()
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          {
+            myArrayWithDelete: [
+              {
+                myFiles: undefined,
+              },
+              {
+                myFiles: [
+                  expect.objectContaining({
+                    file: file2,
+                    id: 'server-id-2',
+                    exists: false,
+                  }),
+                ],
+              },
+            ],
+          },
+          expect.anything()
+        )
+      })
+
+      // delete the last file
+      fireEvent.click(
+        document
+          .querySelectorAll('.dnb-upload__file-cell')[0]
+          .querySelector('button')
       )
+
+      resolveOnFileDeleteHandler2()
+
+      fireEvent.submit(document.querySelector('form'))
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(2)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          {
+            myArrayWithDelete: [
+              {
+                myFiles: undefined,
+              },
+              {
+                myFiles: undefined,
+              },
+            ],
+          },
+          expect.anything()
+        )
+      })
     })
   })
 

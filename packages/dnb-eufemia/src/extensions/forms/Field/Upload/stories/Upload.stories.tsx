@@ -478,9 +478,6 @@ export const IterateArrayUpload = () => {
           {
             files: undefined,
           },
-          {
-            files: undefined,
-          },
         ],
       }}
     >
@@ -489,11 +486,11 @@ export const IterateArrayUpload = () => {
           itemPath="/files"
           label="Required field with async fileHandler"
           fileHandler={mockAsyncFileUpload}
+          onFileDelete={mockAsyncFileRemoval}
           required
           onChange={(e) => {
             console.log('onChange', e)
           }}
-          onFileDelete={mockAsyncFileRemoval}
         />
       </Iterate.Array>
       <Form.SubmitButton />
