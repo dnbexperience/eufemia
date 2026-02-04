@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Skeleton scss has to match style dependencies css 1`] = `
 "/*
@@ -76,14 +76,14 @@ exports[`Skeleton scss has to match style dependencies css 1`] = `
 .dnb-skeleton--font pre *,
 .dnb-skeleton--font code,
 .dnb-skeleton--font code * {
-  --font-family-monospace: "DNBMonoSkeleton" !important;
+  --font-family-monospace: 'DNBMonoSkeleton' !important;
   font-family: var(--font-family-monospace) !important;
   font-style: unset !important;
   box-shadow: none !important;
 }
 .dnb-skeleton--font-only, .dnb-skeleton--font, .dnb-skeleton--font .dnb-skeleton--show-font, .dnb-skeleton--font .dnb-p {
   pointer-events: none;
-  --font-family-default: "DNBSkeleton" !important;
+  --font-family-default: 'DNBSkeleton' !important;
   font-family: var(--font-family-default) !important;
   font-style: unset !important;
 }

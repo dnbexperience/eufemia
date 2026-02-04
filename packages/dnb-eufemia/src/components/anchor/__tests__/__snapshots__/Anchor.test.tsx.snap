@@ -1,8 +1,7 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Anchor scss should match style dependencies css 1`] = `
-"@charset "UTF-8";
-/*
+"/*
 * Used for snapshot testing
 *
 */
@@ -92,11 +91,11 @@ h1 > .dnb-icon, h2 > .dnb-icon, h3 > .dnb-icon, h4 > .dnb-icon, h5 > .dnb-icon, 
 p > .dnb-icon {
   vertical-align: inherit;
 }
-.dnb-icon.dnb-skeleton {
-  color: var(--skeleton-color) !important;
-}
 .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
   content: none !important;
+}
+.dnb-icon.dnb-skeleton {
+  color: var(--skeleton-color) !important;
 }
 
 /*
@@ -121,6 +120,11 @@ p > .dnb-icon {
   --inner-space: 0;
   --tooltip-border-radius: 1rem;
   z-index: var(--tooltip-z-index);
+}
+.dnb-popover--inside-modal .dnb-tooltip {
+  z-index: calc(var(--modal-z-index) + var(--tooltip-z-index));
+}
+.dnb-tooltip {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -129,9 +133,6 @@ p > .dnb-icon {
   text-align: center;
   border-radius: var(--tooltip-border-radius);
   box-shadow: var(--shadow-default);
-}
-.dnb-popover--inside-modal .dnb-tooltip {
-  z-index: calc(var(--modal-z-index) + var(--tooltip-z-index));
 }
 .dnb-tooltip--large {
   padding: 0.25rem 0;
@@ -172,7 +173,7 @@ button.dnb-anchor {
 :where(:not(.dnb-anchor--no-style)).dnb-anchor {
   --anchor-underline-thickness: 0.0938rem;
   --anchor-icon-gutter: 0.25em;
-  --anchor-icon-separator: "⁠";
+  --anchor-icon-separator: '\\2060';
   --anchor-icon-position: translateY(-0.175em);
   display: inline;
   padding: 0.05575em 0;
@@ -182,7 +183,6 @@ button.dnb-anchor {
   text-decoration-thickness: var(--anchor-underline-thickness);
   text-underline-offset: 0.25em;
   border-radius: 0;
-  transition: box-shadow 200ms ease-in-out, border-radius 200ms ease-in-out, background 200ms ease-in-out;
 }
 sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor--no-style)).dnb-anchor {
   padding: 0 0.025em;
@@ -193,15 +193,17 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible {
   background-color: transparent;
   transition: none;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible, .dnb-section :where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible.dnb-anchor {
+  text-decoration: none;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible {
   outline: none;
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
   border-radius: 0.25em;
-}
-:where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible, .dnb-section :where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible.dnb-anchor {
-  text-decoration: none;
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
   border-radius: 0.25em;
@@ -225,6 +227,9 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:active, .dnb-section :where(:not(.dnb-anchor--no-style)).dnb-anchor:active.dnb-anchor {
   text-decoration: none;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor {
+  transition: box-shadow 200ms ease-in-out, border-radius 200ms ease-in-out, background 200ms ease-in-out;
 }
 [data-visual-test-wrapper] :where(:not(.dnb-anchor--no-style)).dnb-anchor {
   transition: none;
@@ -301,7 +306,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   :not(.dnb-anchor--no-style).dnb-anchor {
     --anchor-underline-thickness: 0.0938rem;
     --anchor-icon-gutter: 0.25em;
-    --anchor-icon-separator: "⁠";
+    --anchor-icon-separator: '\\2060';
     --anchor-icon-position: translateY(-0.175em);
     display: inline;
     padding: 0.05575em 0;
@@ -311,7 +316,6 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
     text-decoration-thickness: var(--anchor-underline-thickness);
     text-underline-offset: 0.25em;
     border-radius: 0;
-    transition: box-shadow 200ms ease-in-out, border-radius 200ms ease-in-out, background 200ms ease-in-out;
   }
   sup :not(.dnb-anchor--no-style).dnb-anchor, sub :not(.dnb-anchor--no-style).dnb-anchor {
     padding: 0 0.025em;
@@ -322,15 +326,17 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   :not(.dnb-anchor--no-style).dnb-anchor:focus-visible {
     background-color: transparent;
     transition: none;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:focus-visible, .dnb-section :not(.dnb-anchor--no-style).dnb-anchor:focus-visible.dnb-anchor {
+    text-decoration: none;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:focus-visible {
     outline: none;
     --border-color: var(--focus-ring-color);
     --border-width: var(--focus-ring-width);
     box-shadow: 0 0 0 var(--border-width) var(--border-color);
     border-color: transparent;
     border-radius: 0.25em;
-  }
-  :not(.dnb-anchor--no-style).dnb-anchor:focus-visible, .dnb-section :not(.dnb-anchor--no-style).dnb-anchor:focus-visible.dnb-anchor {
-    text-decoration: none;
   }
   :not(.dnb-anchor--no-style).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
     border-radius: 0.25em;
@@ -354,6 +360,9 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   }
   :not(.dnb-anchor--no-style).dnb-anchor:active, .dnb-section :not(.dnb-anchor--no-style).dnb-anchor:active.dnb-anchor {
     text-decoration: none;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor {
+    transition: box-shadow 200ms ease-in-out, border-radius 200ms ease-in-out, background 200ms ease-in-out;
   }
   [data-visual-test-wrapper] :not(.dnb-anchor--no-style).dnb-anchor {
     transition: none;
@@ -441,15 +450,17 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
 .dnb-anchor--focus {
   background-color: transparent;
   transition: none;
+}
+.dnb-anchor--focus, .dnb-section .dnb-anchor--focus.dnb-anchor {
+  text-decoration: none;
+}
+.dnb-anchor--focus {
   outline: none;
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
   border-radius: 0.25em;
-}
-.dnb-anchor--focus, .dnb-section .dnb-anchor--focus.dnb-anchor {
-  text-decoration: none;
 }
 
 .dnb-anchor--no-underline, .dnb-section .dnb-anchor--no-underline.dnb-anchor {
@@ -479,17 +490,16 @@ a.dnb-button {
 `;
 
 exports[`Anchor scss should match theme css for sbanken 1`] = `
-"@charset "UTF-8";
+"/*
+ * Anchor theme
+ *
+ */
 /*
  * Anchor mixins
  *
  */
 /*
  * Utilities
- */
-/*
- * Anchor theme
- *
  */
 :where(:not(.dnb-anchor--no-style)).dnb-anchor {
   --anchor-underline-thickness: 0.125rem;
@@ -538,7 +548,7 @@ exports[`Anchor scss should match theme css for sbanken 1`] = `
 }
 :where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor {
   --anchor-icon-gutter: 0.125em;
-  --anchor-icon-separator: " ";
+  --anchor-icon-separator: '\\00a0';
 }
 :where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left, :where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right {
   text-decoration-color: var(--sb-color-green-dark);
@@ -561,7 +571,7 @@ exports[`Anchor scss should match theme css for sbanken 1`] = `
 @supports not (selector(*:where(*))) {
   :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor {
     --anchor-icon-gutter: 0.125em;
-    --anchor-icon-separator: " ";
+    --anchor-icon-separator: '\\00a0';
   }
   :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-left, :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-right {
     text-decoration-color: var(--sb-color-green-dark);
@@ -631,7 +641,7 @@ exports[`Anchor scss should match theme css for sbanken 1`] = `
   }
   :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor {
     --anchor-icon-gutter: 0.125em;
-    --anchor-icon-separator: " ";
+    --anchor-icon-separator: '\\00a0';
   }
   :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left, :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right {
     text-decoration-color: var(--sb-color-green-dark);
@@ -654,7 +664,7 @@ exports[`Anchor scss should match theme css for sbanken 1`] = `
   @supports not (selector(*:where(*))) {
     :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor {
       --anchor-icon-gutter: 0.125em;
-      --anchor-icon-separator: " ";
+      --anchor-icon-separator: '\\00a0';
     }
     :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-left, :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-right {
       text-decoration-color: var(--sb-color-green-dark);
@@ -691,6 +701,11 @@ exports[`Anchor scss should match theme css for sbanken 1`] = `
 .dnb-anchor--focus {
   background-color: transparent;
   transition: none;
+}
+.dnb-anchor--focus, .dnb-section .dnb-anchor--focus.dnb-anchor {
+  text-decoration: none;
+}
+.dnb-anchor--focus {
   outline: none;
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
@@ -700,9 +715,6 @@ exports[`Anchor scss should match theme css for sbanken 1`] = `
   color: var(--sb-color-blue-dark);
   background-color: var(--sb-color-blue-light-3);
   border-radius: 0.25em;
-}
-.dnb-anchor--focus, .dnb-section .dnb-anchor--focus.dnb-anchor {
-  text-decoration: none;
 }
 
 .dnb-anchor--no-radius, .dnb-anchor--no-radius:hover, .dnb-anchor--no-radius:active, .dnb-anchor--no-radius:focus-visible {
@@ -716,15 +728,15 @@ exports[`Anchor scss should match theme css for sbanken 1`] = `
 
 exports[`Anchor scss should match theme css for ui 1`] = `
 "/*
+ * Anchor theme
+ *
+ */
+/*
  * Anchor mixins
  *
  */
 /*
  * Utilities
- */
-/*
- * Anchor theme
- *
  */
 :where(:not(.dnb-anchor--no-style)).dnb-anchor {
   --anchor-color: var(--anchor-color--default, var(--color-sea-green));

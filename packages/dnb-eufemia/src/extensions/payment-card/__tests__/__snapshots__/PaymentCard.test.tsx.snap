@@ -21,9 +21,9 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
  *
  */
 :root {
-  --sb-font-family-default: "Roboto", "Helvetica", "Arial", sans-serif;
-  --sb-font-family-heading: "MaisonNeueHeadings", "Roboto", "Helvetica",
-    "Arial", sans-serif;
+  --sb-font-family-default: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  --sb-font-family-heading: 'MaisonNeueHeadings', 'Roboto', 'Helvetica',
+    'Arial', sans-serif;
   --sb-font-weight-default: normal;
   --sb-font-weight-basis: normal;
   --sb-font-weight-regular: normal;
@@ -135,15 +135,6 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
    * Base styles for the card element including size, padding, color, and shadow.
    * This serves as the core design for all PaymentCard variations.
    */
-  /*
-   * Overlay styling used for additional content or status displayed over the card element.
-   * It centers the content and adapts the overlay design
-   * based on the card's background theme (light or dark).
-   */
-  /* Compact mode styling for PaymentCard component
-   * This defines the styles and visual appearance of the card in its compact variant.
-   * The compact variant is designed to be more concise, with reduced height and adjusted layouts.
-   */
 }
 .dnb-payment-card__card {
   width: 100%;
@@ -154,18 +145,6 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
   box-shadow: var(--shadow-default);
   transition: all 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
   user-select: none;
-  /*
-   * Design variations for different card types.
-   * Each modifier represents a unique card style and contains
-   * specific background and text color configurations.
-   */
-  /*
-   * Primary container for card content (e.g., numbers, text, holder name).
-   * Ensures content stretches to fit the card while preserving relative positioning.
-   */
-  /* Provider Icons Container
-   * Flex container to house provider logos (e.g., Visa, Mastercard, BankAxept).
-   * Includes a visual separator if two providers are present. */
 }
 .dnb-payment-card__card__wrapper {
   position: relative;
@@ -184,6 +163,13 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
 }
 .dnb-payment-card__card--blocked {
   opacity: 0.5;
+}
+.dnb-payment-card__card {
+  /*
+   * Design variations for different card types.
+   * Each modifier represents a unique card style and contains
+   * specific background and text color configurations.
+   */
 }
 .dnb-payment-card__card--design-default {
   background-color: var(--dnb-payment-bg-default);
@@ -232,6 +218,12 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
   background-color: var(--color-white);
   color: var(--sb-color-text);
 }
+.dnb-payment-card__card {
+  /*
+   * Primary container for card content (e.g., numbers, text, holder name).
+   * Ensures content stretches to fit the card while preserving relative positioning.
+   */
+}
 .dnb-payment-card__card__content {
   display: flex;
   height: 100%;
@@ -251,6 +243,11 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
   line-height: 1.188rem;
   padding-top: 6px;
 }
+.dnb-payment-card__card {
+  /* Provider Icons Container
+   * Flex container to house provider logos (e.g., Visa, Mastercard, BankAxept).
+   * Includes a visual separator if two providers are present. */
+}
 .dnb-payment-card__card__providers {
   display: flex;
   align-items: center;
@@ -262,18 +259,18 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
   background-color: currentcolor;
   transform: scale(0.5, 1);
 }
-.dnb-payment-card__card__top {
-  /*
-   * Normal mode: Card Type Text (Credit / Debit)
-   * Compact mode: Provider Icons
-   */
-}
 .dnb-payment-card__card__top__left {
   position: absolute;
   top: 0;
   left: 0;
   display: flex;
   align-items: center;
+}
+.dnb-payment-card__card__top {
+  /*
+   * Normal mode: Card Type Text (Credit / Debit)
+   * Compact mode: Provider Icons
+   */
 }
 .dnb-payment-card__card__top__right {
   position: absolute;
@@ -285,30 +282,29 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
    * Normal mode: Card Number
    * Compact mode: Hidden
    */
-  /*
-   * Normal mode: Provider Icons
-   * Compact mode: Hidden
-   */
 }
 .dnb-payment-card__card__bottom__left {
   position: absolute;
   bottom: 0;
   left: 0;
 }
+.dnb-payment-card__card__bottom {
+  /*
+   * Normal mode: Provider Icons
+   * Compact mode: Hidden
+   */
+}
 .dnb-payment-card__card__bottom__right {
   position: absolute;
   bottom: 0;
   right: 0;
 }
-.dnb-payment-card__overlay {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: inherit;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.dnb-payment-card {
+  /*
+   * Overlay styling used for additional content or status displayed over the card element.
+   * It centers the content and adapts the overlay design
+   * based on the card's background theme (light or dark).
+   */
 }
 .dnb-payment-card__overlay svg {
   width: 2rem;
@@ -320,6 +316,16 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
 }
 .dnb-payment-card__overlay svg.icon--stroke path {
   stroke: currentcolor;
+}
+.dnb-payment-card__overlay {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .dnb-payment-card__overlay__content {
   min-width: 6rem;
@@ -340,6 +346,12 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
 .dnb-payment-card__overlay__content--dark {
   background-color: var(--dnb-payment-overlay-bg-light);
   color: var(--color-black);
+}
+.dnb-payment-card {
+  /* Compact mode styling for PaymentCard component
+   * This defines the styles and visual appearance of the card in its compact variant.
+   * The compact variant is designed to be more concise, with reduced height and adjusted layouts.
+   */
 }
 .dnb-payment-card--compact .dnb-payment-card__card {
   height: 62px;

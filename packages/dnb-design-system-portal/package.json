@@ -106,7 +106,7 @@
     "react-markdown": "8.0.7",
     "remark-gfm": "1.0.0",
     "repo-utils": "workspace:*",
-    "sass": "1.62.0",
+    "sass": "1.97.2",
     "start-server-and-test": "2.0.1",
     "storybook-utils": "workspace:*",
     "stylelint": "15.9.0",
