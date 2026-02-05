@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../../../shared/types'
 
 export const SelectionProperties: PropertiesTableProps = {
   variant: {
-    doc: 'Choice of UI feature. Can be: `dropdown`, `autocomplete`, `button`, `radio`, `radio-list`.',
+    doc: 'Choice of UI feature. Can be: `dropdown`, `autocomplete`, `button`, `radio`.',
     type: 'string',
     status: 'optional',
   },

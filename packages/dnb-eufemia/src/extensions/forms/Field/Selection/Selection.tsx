@@ -79,7 +79,13 @@ export type Props = FieldProps<IOption['value']> & {
    * Defines the variant of the component.
    * Default: dropdown
    */
-  variant?: 'dropdown' | 'autocomplete' | 'radio' | 'radio-list' | 'button'
+  variant?:
+    | 'dropdown'
+    | 'autocomplete'
+    | 'radio'
+    // @deprecated `radio-list` is deprecated. Use the List component instead.
+    | 'radio-list'
+    | 'button'
 
   /**
    * The width of the component.

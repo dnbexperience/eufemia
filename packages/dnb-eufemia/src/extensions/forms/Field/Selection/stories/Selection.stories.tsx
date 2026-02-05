@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, Section } from '../../../../../components'
+import { Section } from '../../../../../components'
 import { Field, Form } from '../../..'
 
 export default {
@@ -192,56 +192,6 @@ export function TransformSelection() {
         <Field.Option value="bar" title="Baar!" text="Additional text" />
       </Field.Selection>
     </Form.Card>
-  )
-}
-
-export function SelectionRadioList() {
-  return (
-    <Flex.Stack>
-      <Field.Selection
-        variant="radio-list"
-        label="Medium label"
-        labelSize="medium"
-        onChange={(value) => console.log('onChange', value)}
-      >
-        <Field.Option label="First" value="first" />
-        <Field.Option label="Second" value="second" />
-        <Field.Option label="Third" value="third" />
-      </Field.Selection>
-
-      <Field.Selection
-        width="medium"
-        variant="radio-list"
-        label="medium"
-        onChange={(value) => console.log('onChange', value)}
-      >
-        <Field.Option label="First" value="first" />
-        <Field.Option label="Second" value="second" />
-        <Field.Option label="Third" value="third" />
-      </Field.Selection>
-
-      <Field.Selection
-        width="small"
-        variant="radio-list"
-        label="small"
-        onChange={(value) => console.log('onChange', value)}
-      >
-        <Field.Option label="First" value="first" />
-        <Field.Option label="Second" value="second" />
-        <Field.Option label="Third" value="third" />
-      </Field.Selection>
-
-      <Field.Selection
-        width="stretch"
-        variant="radio-list"
-        label="stretch"
-        onChange={(value) => console.log('onChange', value)}
-      >
-        <Field.Option label="First" value="first" />
-        <Field.Option label="Second" value="second" />
-        <Field.Option label="Third" value="third" />
-      </Field.Selection>
-    </Flex.Stack>
   )
 }
 

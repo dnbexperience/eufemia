@@ -98,21 +98,6 @@ describe('Selection', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
-    it('have to match radio-list-options-vertical', async () => {
-      const screenshot = await makeScreenshot({
-        style: {
-          width: '30rem',
-        },
-        selector:
-          '[data-visual-test="selection-radio-list-options-vertical"]',
-
-        simulate: 'hover',
-        simulateSelector:
-          '[data-visual-test="selection-radio-list-options-vertical"] .dnb-radio:nth-of-type(3)',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
     it('have to match radio-options-horizontal', async () => {
       const screenshot = await makeScreenshot({
         selector:
@@ -151,16 +136,6 @@ describe('Selection', () => {
         selector:
           '[data-visual-test="selection-radio-advanced-nesting-logic"]',
         recalculateHeightAfterSimulate: true,
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match radio-list-widths', async () => {
-      const screenshot = await makeScreenshot({
-        style: {
-          width: '30rem',
-        },
-        selector: '[data-visual-test="selection-radio-list-widths"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
