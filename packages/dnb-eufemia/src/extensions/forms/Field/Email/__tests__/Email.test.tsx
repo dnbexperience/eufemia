@@ -192,6 +192,11 @@ describe('Field.Email', () => {
       'firstname.lastname@example.co',
       'blåbærsyltetøy@domene.no',
 
+      // SMTPUTF8 - Unicode in domain (automatically converted to Punycode)
+      'user@café.com', // Will be converted to xn--caf-dma.com
+      'usér@exämple.com', // Unicode in both local and domain parts
+      'abc@blåbærsyltetøy.no', // Will be converted to xn--blbrsyltety-y8ao3x.no
+
       // IP address literal
       'user@[192.168.1.1]',
       'user@[255.255.255.255]',
@@ -238,13 +243,6 @@ describe('Field.Email', () => {
       // Long values
       'hehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehehe',
       '@longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglongdomain.com',
-
-      // Unicode - the regex we have does not take such addresses into account as of now
-      'user@café.com', // raw Unicode not supported by ASCII regex
-      'usér@exämple.com',
-
-      // Punycode conversion for domain not supported at this time, but may be in the future
-      'abc@blåbærsyltetøy.no',
 
       // The regex we have does not take such invalid addresses into account
       // 'user@[256.100.50.25]', // Invalid IPv4, 256 is out of range
