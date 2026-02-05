@@ -121,6 +121,137 @@ describe('DateFormat', () => {
       expect(dateFormat?.textContent).not.toContain('2024')
     })
 
+    it('should show year in tooltip when hideYear is true', async () => {
+      render(<DateFormat value="2025-08-01" dateStyle="long" hideYear />)
+
+      const timeElem = document.querySelector('.dnb-date-format')
+
+      // The displayed content should not contain the year
+      expect(timeElem?.textContent).not.toContain('2025')
+
+      // The tooltip should show on hover
+      fireEvent.mouseEnter(timeElem)
+
+      await waitFor(() => {
+        const tooltipId = timeElem.getAttribute('aria-describedby')
+        expect(tooltipId).toBeTruthy()
+      })
+
+      const tooltipId = timeElem.getAttribute('aria-describedby')
+      const tooltipElem = document.body.querySelector('#' + tooltipId)
+
+      // The tooltip should contain the year
+      expect(tooltipElem).toHaveTextContent('2025')
+      expect(tooltipElem).toHaveTextContent('fredag 1. august 2025')
+    })
+
+    it('should show year in tooltip when hideCurrentYear is true and date is in current year', async () => {
+      const now = new Date('2025-06-15T12:00:00.000Z')
+      jest.useFakeTimers({ now: now.getTime() })
+
+      render(
+        <DateFormat value="2025-08-01" dateStyle="long" hideCurrentYear />
+      )
+
+      const timeElem = document.querySelector('.dnb-date-format')
+
+      // The displayed content should not contain the year (since date is in current year)
+      expect(timeElem?.textContent).not.toContain('2025')
+
+      // The tooltip should show on hover
+      fireEvent.mouseEnter(timeElem)
+
+      await waitFor(() => {
+        const tooltipId = timeElem.getAttribute('aria-describedby')
+        expect(tooltipId).toBeTruthy()
+      })
+
+      const tooltipId = timeElem.getAttribute('aria-describedby')
+      const tooltipElem = document.body.querySelector('#' + tooltipId)
+
+      // The tooltip should contain the year
+      expect(tooltipElem).toHaveTextContent('2025')
+      expect(tooltipElem).toHaveTextContent('fredag 1. august 2025')
+
+      jest.useRealTimers()
+    })
+
+    it('should show year in tooltip when hideYear is true with timeStyle', async () => {
+      render(
+        <DateFormat
+          value="2025-08-01T14:30:00"
+          dateStyle="long"
+          timeStyle="short"
+          hideYear
+        />
+      )
+
+      const timeElem = document.querySelector('.dnb-date-format')
+
+      // The displayed content should not contain the year
+      expect(timeElem?.textContent).not.toContain('2025')
+      expect(timeElem?.textContent).toContain('14:30')
+
+      // The tooltip should show on hover
+      fireEvent.mouseEnter(timeElem)
+
+      await waitFor(() => {
+        const tooltipId = timeElem.getAttribute('aria-describedby')
+        expect(tooltipId).toBeTruthy()
+      })
+
+      const tooltipId = timeElem.getAttribute('aria-describedby')
+      const tooltipElem = document.body.querySelector('#' + tooltipId)
+
+      // The tooltip should contain the year and time
+      expect(tooltipElem).toHaveTextContent('2025')
+      expect(tooltipElem).toHaveTextContent('fredag 1. august 2025')
+      expect(tooltipElem).toHaveTextContent('14:30')
+    })
+
+    it.each([
+      ['hideYear', { hideYear: true }, false],
+      ['hideCurrentYear', { hideCurrentYear: true }, true],
+    ])(
+      'should always show the year in the tooltip when %s hides it',
+      async (_, extraProps, useFakeNow) => {
+        if (useFakeNow) {
+          const now = new Date('2025-06-15T12:00:00.000Z')
+          jest.useFakeTimers({ now: now.getTime() })
+        }
+
+        try {
+          render(
+            <DateFormat
+              value="2025-08-01"
+              dateStyle="long"
+              {...extraProps}
+            />
+          )
+
+          const timeElem = document.querySelector('.dnb-date-format')
+          expect(timeElem).toBeTruthy()
+
+          fireEvent.mouseEnter(timeElem)
+
+          await waitFor(() => {
+            const tooltipId = timeElem?.getAttribute('aria-describedby')
+            expect(tooltipId).toBeTruthy()
+          })
+
+          const tooltipId = timeElem?.getAttribute('aria-describedby')
+          const tooltipElem = document.body.querySelector('#' + tooltipId)
+
+          expect(tooltipElem).toHaveTextContent('2025')
+          expect(tooltipElem).toHaveTextContent('fredag 1. august 2025')
+        } finally {
+          if (useFakeNow) {
+            jest.useRealTimers()
+          }
+        }
+      }
+    )
+
     it('should include time when `timeStyle` is provided', () => {
       render(<DateFormat value="2025-08-01T14:30:00" timeStyle="short" />)
 
@@ -673,27 +804,32 @@ describe('DateFormat', () => {
       })
     })
 
-    it('tooltip content should match the absolute formatted date', async () => {
-      render(<DateFormat value="2025-08-01T14:30:00" relativeTime />)
+    it('tooltip content should match the full absolute formatted date', async () => {
+      render(
+        <DateFormat
+          value="2025-08-01T14:30:00"
+          relativeTime
+          timeStyle="short"
+        />
+      )
 
       const timeElem = document.querySelector('.dnb-date-format')
 
-      // When tooltip is inactive, aria-describedby should not be set
       expect(timeElem.getAttribute('aria-describedby')).toBeNull()
 
       fireEvent.mouseEnter(timeElem)
 
-      // Wait for tooltip to show
       await waitFor(() => {
         const tooltipId = timeElem.getAttribute('aria-describedby')
         expect(tooltipId).toBeTruthy()
       })
 
-      // When tooltip is active, aria-describedby should point to the tooltip id
       const tooltipId = timeElem.getAttribute('aria-describedby')
       const tooltipElem = document.body.querySelector('#' + tooltipId)
 
-      expect(tooltipElem).toHaveTextContent('1. august 2025 kl. 14:30')
+      expect(tooltipElem).toHaveTextContent(
+        'fredag 1. august 2025 kl. 14:30'
+      )
     })
 
     it('should respect locale for relative time', () => {
@@ -962,17 +1098,31 @@ describe('DateFormat', () => {
       expect(setTimeout).toHaveBeenCalledTimes(initialTimerCalls + 1)
     })
 
-    it('should not start timers when relativeTime is false', () => {
-      const pastDate = new Date('2025-01-15T13:30:00Z') // 1 hour before reference
+    it('should not start relative time update timers when relativeTime is false', () => {
+      const pastDate = new Date('2025-01-15T13:30:00Z')
       render(<DateFormat value={pastDate} relativeTime={false} />)
 
-      expect(setTimeout).not.toHaveBeenCalled()
+      const timerCalls = (
+        setTimeout as jest.MockedFunction<typeof setTimeout>
+      ).mock.calls
+
+      const hasRelativeTimeTimer = timerCalls.some(
+        ([, delay]) => typeof delay === 'number' && delay > 1000
+      )
+      expect(hasRelativeTimeTimer).toBe(false)
     })
 
-    it('should not start timers when date is invalid', () => {
+    it('should not start relative time update timers when date is invalid', () => {
       render(<DateFormat value="invalid-date" relativeTime />)
 
-      expect(setTimeout).not.toHaveBeenCalled()
+      const timerCalls = (
+        setTimeout as jest.MockedFunction<typeof setTimeout>
+      ).mock.calls
+
+      const hasRelativeTimeTimer = timerCalls.some(
+        ([, delay]) => typeof delay === 'number' && delay > 1000
+      )
+      expect(hasRelativeTimeTimer).toBe(false)
     })
 
     describe('relativeTimeReference', () => {

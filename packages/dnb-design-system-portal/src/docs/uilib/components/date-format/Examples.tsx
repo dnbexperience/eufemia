@@ -83,22 +83,6 @@ export const HideCurrentYear = () => {
   )
 }
 
-export const HideYear = () => {
-  return (
-    <Style>
-      <ComponentBox>
-        <P>
-          <DateFormat value="2025-02-04" dateStyle="medium" hideYear />
-          <DateFormat value="2024-02-04" dateStyle="medium" hideYear />
-          <Hr />
-          <DateFormat value="2025-02-04" dateStyle="long" hideYear />
-          <DateFormat value="2024-02-04" dateStyle="long" hideYear />
-        </P>
-      </ComponentBox>
-    </Style>
-  )
-}
-
 export const DateFormatInline = () => {
   return (
     <ComponentBox data-visual-test="date-format-date-inline">

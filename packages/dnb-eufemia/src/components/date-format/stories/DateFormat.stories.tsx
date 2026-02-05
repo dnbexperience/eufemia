@@ -35,7 +35,7 @@ const LocaleChanger = () => {
 export function DateFormatExamples() {
   return (
     <Provider>
-      <Card stack bottom="large">
+      <Card bottom="large">
         <DateFormat value="2025-08-01" dateStyle="full" />
         <DateFormat value="2025-08-01" dateStyle="long" />
         <DateFormat value="2025-08-01" dateStyle="medium" />
@@ -48,7 +48,7 @@ export function DateFormatExamples() {
 
 export function DateFormatInvalidValues() {
   return (
-    <Card stack>
+    <Card>
       <DateFormat dateStyle="full" value={null}>
         {''}
       </DateFormat>
@@ -94,7 +94,7 @@ export function RelativeTime() {
 
   return (
     <Provider>
-      <Card stack>
+      <Card>
         <P>
           Skrevet <DateFormat value={thirtySecondsAgo} relativeTime />
         </P>
@@ -153,7 +153,7 @@ export function RelativeTime() {
 
 export function Duration() {
   return (
-    <Card stack>
+    <Card>
       <P>
         <strong>Short durations:</strong>
       </P>
@@ -180,7 +180,7 @@ export function Duration() {
 
 export function DurationWithDateStyle() {
   return (
-    <Card stack>
+    <Card>
       <P>
         <strong>
           Duration formatting with different dateStyle options:
