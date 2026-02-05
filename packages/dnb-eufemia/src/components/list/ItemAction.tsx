@@ -8,12 +8,12 @@ import ItemIcon from './ItemIcon'
 import ItemTitle from './ItemTitle'
 import type { IconIcon } from '../icon/Icon'
 
-export type ItemNavigateIconPosition = 'left' | 'right'
+export type ItemActionIconPosition = 'left' | 'right'
 
-export type ItemNavigateProps = {
+export type ItemActionProps = {
   variant?: ListVariant
   selected?: boolean
-  chevronPosition?: ItemNavigateIconPosition
+  chevronPosition?: ItemActionIconPosition
   icon?: IconIcon
   title?: React.ReactNode
   href?: string
@@ -21,7 +21,7 @@ export type ItemNavigateProps = {
   rel?: string
 } & Omit<ItemContentProps, 'title'>
 
-function ItemNavigate(props: ItemNavigateProps) {
+function ItemAction(props: ItemActionProps) {
   const {
     className,
     onClick,
@@ -139,9 +139,9 @@ function ItemNavigate(props: ItemNavigateProps) {
     </ItemContent>
   )
 }
-ItemNavigate._supportsSpacingProps = true
+ItemAction._supportsSpacingProps = true
 
-export default ItemNavigate
+export default ItemAction
 
 export function ChevronIcon() {
   return (

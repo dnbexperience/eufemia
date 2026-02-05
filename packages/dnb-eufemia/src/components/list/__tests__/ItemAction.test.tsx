@@ -1,10 +1,10 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
-import ItemNavigate from '../ItemNavigate'
+import ItemAction from '../ItemAction'
 
-describe('ItemNavigate', () => {
+describe('ItemAction', () => {
   it('renders with children', () => {
-    render(<ItemNavigate>Navigate content</ItemNavigate>)
+    render(<ItemAction>Navigate content</ItemAction>)
 
     const element = document.querySelector('.dnb-list__item__navigate')
 
@@ -13,7 +13,7 @@ describe('ItemNavigate', () => {
   })
 
   it('has dnb-list__item__navigate and dnb-list__item classes', () => {
-    render(<ItemNavigate>Content</ItemNavigate>)
+    render(<ItemAction>Content</ItemAction>)
 
     const element = document.querySelector('.dnb-list__item__navigate')
 
@@ -22,7 +22,7 @@ describe('ItemNavigate', () => {
   })
 
   it('has dnb-t__size--basis class', () => {
-    render(<ItemNavigate>Content</ItemNavigate>)
+    render(<ItemAction>Content</ItemAction>)
 
     const element = document.querySelector('.dnb-list__item__navigate')
 
@@ -30,7 +30,7 @@ describe('ItemNavigate', () => {
   })
 
   it('has role="button" for accessibility', () => {
-    render(<ItemNavigate>Content</ItemNavigate>)
+    render(<ItemAction>Content</ItemAction>)
 
     const element = document.querySelector('.dnb-list__item__navigate')
 
@@ -38,7 +38,7 @@ describe('ItemNavigate', () => {
   })
 
   it('allows role to be overridden', () => {
-    render(<ItemNavigate role="link">Content</ItemNavigate>)
+    render(<ItemAction role="link">Content</ItemAction>)
 
     const element = document.querySelector('.dnb-list__item__navigate')
 
@@ -46,7 +46,7 @@ describe('ItemNavigate', () => {
   })
 
   it('has tabIndex 0 for keyboard navigation when not pending', () => {
-    render(<ItemNavigate>Content</ItemNavigate>)
+    render(<ItemAction>Content</ItemAction>)
 
     const element = document.querySelector('.dnb-list__item__navigate')
 
@@ -54,7 +54,7 @@ describe('ItemNavigate', () => {
   })
 
   it('renders IconPrimary chevron_right at the end', () => {
-    render(<ItemNavigate>Content</ItemNavigate>)
+    render(<ItemAction>Content</ItemAction>)
 
     const element = document.querySelector('.dnb-list__item__navigate')
 
@@ -63,7 +63,7 @@ describe('ItemNavigate', () => {
   })
 
   it('renders chevron on the right by default (chevronPosition right)', () => {
-    render(<ItemNavigate>Content</ItemNavigate>)
+    render(<ItemAction>Content</ItemAction>)
 
     const element = document.querySelector('.dnb-list__item__navigate')
     const chevron = element.querySelector('.dnb-list__item__chevron')
@@ -73,7 +73,7 @@ describe('ItemNavigate', () => {
   })
 
   it('renders chevron on the left when chevronPosition is left', () => {
-    render(<ItemNavigate chevronPosition="left">Content</ItemNavigate>)
+    render(<ItemAction chevronPosition="left">Content</ItemAction>)
 
     const element = document.querySelector('.dnb-list__item__navigate')
     const chevron = element.querySelector('.dnb-list__item__chevron')
@@ -83,7 +83,7 @@ describe('ItemNavigate', () => {
   })
 
   it('applies icon-left modifier class when chevronPosition is left', () => {
-    render(<ItemNavigate chevronPosition="left">Content</ItemNavigate>)
+    render(<ItemAction chevronPosition="left">Content</ItemAction>)
 
     const element = document.querySelector('.dnb-list__item__navigate')
 
@@ -93,7 +93,7 @@ describe('ItemNavigate', () => {
   it('calls onClick when clicked', () => {
     const handleClick = jest.fn()
 
-    render(<ItemNavigate onClick={handleClick}>Content</ItemNavigate>)
+    render(<ItemAction onClick={handleClick}>Content</ItemAction>)
 
     const element = document.querySelector('.dnb-list__item__navigate')
 
@@ -105,7 +105,7 @@ describe('ItemNavigate', () => {
   it('calls onClick when Enter key is pressed', () => {
     const handleClick = jest.fn()
 
-    render(<ItemNavigate onClick={handleClick}>Content</ItemNavigate>)
+    render(<ItemAction onClick={handleClick}>Content</ItemAction>)
 
     const element = document.querySelector('.dnb-list__item__navigate')
 
@@ -117,7 +117,7 @@ describe('ItemNavigate', () => {
   it('calls onClick when Space key is pressed', () => {
     const handleClick = jest.fn()
 
-    render(<ItemNavigate onClick={handleClick}>Content</ItemNavigate>)
+    render(<ItemAction onClick={handleClick}>Content</ItemAction>)
 
     const element = document.querySelector('.dnb-list__item__navigate')
 
@@ -127,7 +127,7 @@ describe('ItemNavigate', () => {
   })
 
   it('merges custom className', () => {
-    render(<ItemNavigate className="my-navigate">Content</ItemNavigate>)
+    render(<ItemAction className="my-navigate">Content</ItemAction>)
 
     const element = document.querySelector('.dnb-list__item__navigate')
 
@@ -137,14 +137,14 @@ describe('ItemNavigate', () => {
 
   it('forwards custom HTML attributes', () => {
     render(
-      <ItemNavigate
+      <ItemAction
         data-testid="item-navigate"
         data-foo="bar"
         aria-label="Navigate to item"
         id="navigate-id"
       >
         Content
-      </ItemNavigate>
+      </ItemAction>
     )
 
     const element = document.querySelector('.dnb-list__item__navigate')
@@ -157,9 +157,9 @@ describe('ItemNavigate', () => {
 
   it('supports spacing props and applies spacing classes', () => {
     render(
-      <ItemNavigate top="large" bottom="small">
+      <ItemAction top="large" bottom="small">
         Content
-      </ItemNavigate>
+      </ItemAction>
     )
 
     const element = document.querySelector('.dnb-list__item__navigate')
@@ -169,7 +169,7 @@ describe('ItemNavigate', () => {
   })
 
   it('applies skeleton font class when skeleton is true', () => {
-    render(<ItemNavigate skeleton>Content</ItemNavigate>)
+    render(<ItemAction skeleton>Content</ItemAction>)
 
     const element = document.querySelector('.dnb-list__item__navigate')
 
@@ -179,7 +179,7 @@ describe('ItemNavigate', () => {
 
   describe('pending', () => {
     it('applies pending modifier when pending is true', () => {
-      render(<ItemNavigate pending>Content</ItemNavigate>)
+      render(<ItemAction pending>Content</ItemAction>)
 
       const element = document.querySelector('.dnb-list__item__navigate')
 
@@ -190,7 +190,7 @@ describe('ItemNavigate', () => {
     })
 
     it('has aria-disabled and tabIndex -1 when pending', () => {
-      render(<ItemNavigate pending>Content</ItemNavigate>)
+      render(<ItemAction pending>Content</ItemAction>)
 
       const element = document.querySelector('.dnb-list__item__navigate')
 
@@ -202,9 +202,9 @@ describe('ItemNavigate', () => {
       const handleClick = jest.fn()
 
       render(
-        <ItemNavigate pending onClick={handleClick}>
+        <ItemAction pending onClick={handleClick}>
           Content
-        </ItemNavigate>
+        </ItemAction>
       )
 
       const element = document.querySelector('.dnb-list__item__navigate')
@@ -218,9 +218,9 @@ describe('ItemNavigate', () => {
       const handleClick = jest.fn()
 
       render(
-        <ItemNavigate pending onClick={handleClick}>
+        <ItemAction pending onClick={handleClick}>
           Content
-        </ItemNavigate>
+        </ItemAction>
       )
 
       const element = document.querySelector('.dnb-list__item__navigate')
@@ -234,9 +234,9 @@ describe('ItemNavigate', () => {
       const handleClick = jest.fn()
 
       render(
-        <ItemNavigate pending onClick={handleClick}>
+        <ItemAction pending onClick={handleClick}>
           Content
-        </ItemNavigate>
+        </ItemAction>
       )
 
       const element = document.querySelector('.dnb-list__item__navigate')
@@ -248,14 +248,14 @@ describe('ItemNavigate', () => {
   })
 
   it('declares _supportsSpacingProps for flex layout', () => {
-    expect(ItemNavigate._supportsSpacingProps).toBe(true)
+    expect(ItemAction._supportsSpacingProps).toBe(true)
   })
 
   describe('href', () => {
     const hrefSelector = '.dnb-list__item__navigate--href'
 
     it('renders an anchor when href is provided', () => {
-      render(<ItemNavigate href="/path">Link content</ItemNavigate>)
+      render(<ItemAction href="/path">Link content</ItemAction>)
 
       const container = document.querySelector(hrefSelector)
       const anchor = container?.querySelector('a')
@@ -267,7 +267,7 @@ describe('ItemNavigate', () => {
     })
 
     it('applies --href modifier class when href is provided', () => {
-      render(<ItemNavigate href="/path">Content</ItemNavigate>)
+      render(<ItemAction href="/path">Content</ItemAction>)
 
       const listItem = document.querySelector(hrefSelector)
 
@@ -280,9 +280,9 @@ describe('ItemNavigate', () => {
 
     it('has correct href attribute', () => {
       render(
-        <ItemNavigate href="https://example.com/page">
+        <ItemAction href="https://example.com/page">
           External link
-        </ItemNavigate>
+        </ItemAction>
       )
 
       const container = document.querySelector(hrefSelector)
@@ -292,7 +292,7 @@ describe('ItemNavigate', () => {
     })
 
     it('has role="link" on list item when href is provided', () => {
-      render(<ItemNavigate href="/path">Content</ItemNavigate>)
+      render(<ItemAction href="/path">Content</ItemAction>)
 
       const listItem = document.querySelector(hrefSelector)
 
@@ -301,9 +301,9 @@ describe('ItemNavigate', () => {
 
     it('allows role to be overridden when href is provided', () => {
       render(
-        <ItemNavigate href="/path" role="button">
+        <ItemAction href="/path" role="button">
           Content
-        </ItemNavigate>
+        </ItemAction>
       )
 
       const listItem = document.querySelector(hrefSelector)
@@ -312,7 +312,7 @@ describe('ItemNavigate', () => {
     })
 
     it('has tabIndex 0 on list item when href and not pending', () => {
-      render(<ItemNavigate href="/path">Link content</ItemNavigate>)
+      render(<ItemAction href="/path">Link content</ItemAction>)
 
       const listItem = document.querySelector(hrefSelector)
 
@@ -320,7 +320,7 @@ describe('ItemNavigate', () => {
     })
 
     it('has tabIndex -1 on anchor when href (focus on list item)', () => {
-      render(<ItemNavigate href="/path">Link content</ItemNavigate>)
+      render(<ItemAction href="/path">Link content</ItemAction>)
 
       const container = document.querySelector(hrefSelector)
       const anchor = container?.querySelector('a')
@@ -330,9 +330,9 @@ describe('ItemNavigate', () => {
 
     it('has tabIndex -1 on list item when href and pending', () => {
       render(
-        <ItemNavigate href="/path" pending>
+        <ItemAction href="/path" pending>
           Link content
-        </ItemNavigate>
+        </ItemAction>
       )
 
       const listItem = document.querySelector(hrefSelector)
@@ -341,7 +341,7 @@ describe('ItemNavigate', () => {
     })
 
     it('triggers anchor click when list item receives Enter key (href)', () => {
-      render(<ItemNavigate href="/path">Link content</ItemNavigate>)
+      render(<ItemAction href="/path">Link content</ItemAction>)
 
       const listItem = document.querySelector(hrefSelector)
       const anchor = listItem?.querySelector('a')
@@ -357,7 +357,7 @@ describe('ItemNavigate', () => {
     })
 
     it('triggers anchor click when list item receives Space key (href)', () => {
-      render(<ItemNavigate href="/path">Link content</ItemNavigate>)
+      render(<ItemAction href="/path">Link content</ItemAction>)
 
       const listItem = document.querySelector(hrefSelector)
       const anchor = listItem?.querySelector('a')
@@ -374,13 +374,9 @@ describe('ItemNavigate', () => {
 
     it('supports target and rel when href is provided', () => {
       render(
-        <ItemNavigate
-          href="/path"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <ItemAction href="/path" target="_blank" rel="noopener noreferrer">
           Content
-        </ItemNavigate>
+        </ItemAction>
       )
 
       const container = document.querySelector(hrefSelector)
@@ -391,7 +387,7 @@ describe('ItemNavigate', () => {
     })
 
     it('renders as button (no anchor) when href is not provided', () => {
-      render(<ItemNavigate>Content</ItemNavigate>)
+      render(<ItemAction>Content</ItemAction>)
 
       const element = document.querySelector('.dnb-list__item__navigate')
       const hrefElement = document.querySelector(hrefSelector)

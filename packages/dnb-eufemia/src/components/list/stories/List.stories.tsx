@@ -323,7 +323,7 @@ export function ListOverline() {
           <DateFormat
             value={new Date()}
             dateStyle="medium"
-            omitYearIfCurrentYear
+            hideCurrentYear
           />
         </List.Cell.Start>
         <List.Cell.End>
@@ -334,11 +334,7 @@ export function ListOverline() {
       <List.Item.Action icon={fish_medium}>
         <List.Cell.Title>
           <List.Cell.Overline>
-            <DateFormat
-              value={today}
-              dateStyle="medium"
-              omitYearIfCurrentYear
-            />
+            <DateFormat value={today} dateStyle="medium" hideCurrentYear />
           </List.Cell.Overline>
           Title 4
         </List.Cell.Title>
@@ -360,7 +356,7 @@ export function ListSubline() {
             <DateFormat
               value={new Date()}
               dateStyle="medium"
-              omitYearIfCurrentYear
+              hideCurrentYear
             />
           </List.Cell.Subline>
         </List.Cell.Title>

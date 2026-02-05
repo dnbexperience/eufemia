@@ -111,7 +111,6 @@ export const FooterWithButtons = () => {
         </List.Item.Action>
 
         <List.Item.Accordion
-          icon={fish_medium}
           chevronPosition="left"
           title="Accordion title"
         >
@@ -119,18 +118,14 @@ export const FooterWithButtons = () => {
             <List.Cell.End>
               <NumberFormat currency value={1234} />
             </List.Cell.End>
-            <List.Cell.Footer
-              style={{
-                background: 'var(--color-sand-yellow)',
-              }}
-            >
-              <Button
-                variant="tertiary"
-                text="Next"
-                icon="chevron_right"
-              />
-            </List.Cell.Footer>
           </List.Item.Accordion.Header>
+          <List.Cell.Footer
+            style={{
+              background: 'var(--color-sand-yellow)',
+            }}
+          >
+            <Button variant="tertiary" text="Next" icon="chevron_right" />
+          </List.Cell.Footer>
 
           <List.Item.Accordion.Content innerSpace>
             <P>Accordion content goes here.</P>
@@ -157,7 +152,7 @@ export const NavigableItem = () => {
 
         <List.Item.Action
           chevronPosition="left"
-          title="Navigate to details"
+          title="Left aligned chevron"
           onClick={() => console.log('Clicked')}
         >
           <List.Cell.End>
@@ -428,7 +423,7 @@ export const WithDateFormat = () => {
             <DateFormat
               value={new Date()}
               dateStyle="medium"
-              omitYearIfCurrentYear
+              hideCurrentYear
             />
           </List.Cell.Start>
           <List.Cell.End>
@@ -442,7 +437,7 @@ export const WithDateFormat = () => {
               <DateFormat
                 value={new Date()}
                 dateStyle="medium"
-                omitYearIfCurrentYear
+                hideCurrentYear
               />
             </List.Cell.Overline>
             In Action Item
@@ -459,7 +454,7 @@ export const WithDateFormat = () => {
                 <DateFormat
                   value={new Date()}
                   dateStyle="medium"
-                  omitYearIfCurrentYear
+                  hideCurrentYear
                 />
               </List.Cell.Overline>
               In Accordion Item
@@ -491,7 +486,7 @@ export const ListSubline = () => {
               <DateFormat
                 value={new Date()}
                 dateStyle="medium"
-                omitYearIfCurrentYear
+                hideCurrentYear
               />
             </List.Cell.Subline>
           </List.Cell.Title>
@@ -552,7 +547,14 @@ export const WithBadge = () => {
         <List.Item.Accordion title="In Accordion Item" icon={fish_medium}>
           <List.Item.Accordion.Header>
             <List.Cell.End>
-              <Badge content="Badge" />
+              <Flex.Horizontal>
+                <Badge
+                  content={3}
+                  label="Notifications"
+                  variant="notification"
+                />
+                <Value.Currency value={1234} showEmpty />
+              </Flex.Horizontal>
             </List.Cell.End>
           </List.Item.Accordion.Header>
           <List.Item.Accordion.Content innerSpace>

@@ -291,7 +291,7 @@ export const ItemAccordionProperties: PropertiesTableProps = {
   },
 }
 
-export const ItemNavigateProperties: PropertiesTableProps = {
+export const ItemActionProperties: PropertiesTableProps = {
   href: {
     doc: 'When set, renders as a native link (`<a>`) so the item navigates to the URL. Use for external or internal navigation. When not set, the item behaves as a button (use `onClick` for custom handling).',
     type: 'string',
@@ -361,7 +361,7 @@ export const ItemNavigateProperties: PropertiesTableProps = {
   },
 }
 
-export const ListEvents: PropertiesTableProps = {
+export const ItemActionEvents: PropertiesTableProps = {
   onClick: {
     doc: 'Fired when the user clicks or activates `List.Item.Action` (click or Enter/Space key). Receives the native event. Only applicable to `List.Item.Action`.',
     type: '(event: React.MouseEvent<HTMLDivElement>) => void',
