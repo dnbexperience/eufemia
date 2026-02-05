@@ -1,6 +1,11 @@
 import { PropertiesTableProps } from '../../shared/types'
 
 export const ContainerProperties: PropertiesTableProps = {
+  separated: {
+    doc: 'When `true`, adds row gap between items so each row keeps its own outline and border radius instead of running edge-to-edge.',
+    type: 'boolean',
+    status: 'optional',
+  },
   children: {
     doc: 'List items. Use `List.Item.Basic`, `List.Item.Action`, or `List.Item.Accordion` as direct children.',
     type: 'React.ReactNode',

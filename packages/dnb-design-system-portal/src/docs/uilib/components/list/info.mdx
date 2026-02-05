@@ -12,7 +12,7 @@ import { List } from '@dnb/eufemia'
 
 `List` is a layout component for displaying rows of content. Use `List.Container` as the wrapper and `List.Item.Basic`, `List.Item.Action`, or `List.Item.Accordion` for each row.
 
-- **List.Container** – Provides list context (e.g. variant) and wraps items in a vertical flex layout.
+- **List.Container** – Provides list context (e.g. variant) and wraps items in a vertical flex layout. Pass `separated` to insert gap between rows so each item gets its own rounding/outline instead of sharing borders.
 - **List.Item.Basic** – A single row with optional `icon` and `title` props and cell children. Supports selected state, variant override, and loading states via `pending` (skeleton overlay) or `skeleton` (text placeholder).
 - **List.Item.Action** – Clickable row with optional `icon` and `title` props (Enter/Space support) and a chevron icon. Use `chevronPosition="left"` or `"right"` (default) to place the chevron. Supports `pending` to show a loading overlay and disable interaction. Use `href` for navigation.
 - **List.Item.Accordion** – Expandable row with optional `icon` and `title` props and `List.Item.Accordion.Content` for the expandable section. Use `open` for initial state, `chevronPosition="left"` or `"right"` for chevron placement, and optional `id` for ARIA. Supports `pending` to disable toggling.
