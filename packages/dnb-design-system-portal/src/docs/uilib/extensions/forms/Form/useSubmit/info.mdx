@@ -45,4 +45,4 @@ function MyForm() {
 
 ## API
 
-- `submit(): Promise<EventStateObject | undefined>` – Triggers form submit (validation + `onSubmit`). Returns a Promise that resolves with the submit result or `undefined`.
+- `submit(): Promise<EventStateObject | undefined>` – Triggers form submit (validation + `onSubmit`). Returns a Promise that resolves with the `onSubmit` result, or `undefined` if validation fails or `onSubmit` returns nothing.
