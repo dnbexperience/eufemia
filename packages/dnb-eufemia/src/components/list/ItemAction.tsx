@@ -82,10 +82,10 @@ function ItemAction(props: ItemActionProps) {
     [onClick, pending]
   )
 
-  const navigateClassName = classnames(
-    'dnb-list__item__navigate',
+  const actionClassName = classnames(
+    'dnb-list__item__action',
     chevronPosition === 'left' && 'dnb-list__item--chevron-left',
-    href && 'dnb-list__item__navigate--href',
+    href && 'dnb-list__item__action--href',
     className
   )
 
@@ -102,7 +102,7 @@ function ItemAction(props: ItemActionProps) {
   if (href) {
     return (
       <ItemContent
-        className={navigateClassName}
+        className={actionClassName}
         role="link"
         tabIndex={pending ? -1 : 0}
         aria-disabled={pending ? true : undefined}
@@ -126,7 +126,7 @@ function ItemAction(props: ItemActionProps) {
 
   return (
     <ItemContent
-      className={navigateClassName}
+      className={actionClassName}
       role="button"
       tabIndex={pending ? -1 : 0}
       aria-disabled={pending ? true : undefined}

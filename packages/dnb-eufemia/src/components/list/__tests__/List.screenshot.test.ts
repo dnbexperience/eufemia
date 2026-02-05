@@ -22,35 +22,35 @@ describe.each(['ui', 'sbanken'])('List for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match navigate list', async () => {
+  it('have to match action list', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '30rem' },
-      selector: '[data-visual-test="list-navigate"]',
+      selector: '[data-visual-test="list-action"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match navigate list in hover state', async () => {
+  it('have to match action list in hover state', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '30rem' },
-      selector: '[data-visual-test="list-navigate"]',
+      selector: '[data-visual-test="list-action"]',
       simulate: 'hover',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match navigate list with href', async () => {
+  it('have to match action list with href', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '30rem' },
-      selector: '[data-visual-test="list-navigate-href"]',
+      selector: '[data-visual-test="list-action-href"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match navigate list with href in hover state', async () => {
+  it('have to match action list with href in hover state', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '30rem' },
-      selector: '[data-visual-test="list-navigate-href"]',
+      selector: '[data-visual-test="list-action-href"]',
       simulate: 'hover',
     })
     expect(screenshot).toMatchImageSnapshot()

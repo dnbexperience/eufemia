@@ -138,7 +138,7 @@ export const FooterWithButtons = () => {
 
 export const NavigableItem = () => {
   return (
-    <ComponentBox data-visual-test="list-navigate" scope={{ fish_medium }}>
+    <ComponentBox data-visual-test="list-action" scope={{ fish_medium }}>
       <List.Container>
         <List.Item.Action
           icon={fish_medium}
@@ -167,7 +167,7 @@ export const NavigableItem = () => {
 export const NavigableItemWithHref = () => {
   return (
     <ComponentBox
-      data-visual-test="list-navigate-href"
+      data-visual-test="list-action-href"
       scope={{ fish_medium }}
     >
       <List.Container>

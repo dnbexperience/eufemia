@@ -4,27 +4,27 @@ import ItemAction from '../ItemAction'
 
 describe('ItemAction', () => {
   it('renders with children', () => {
-    render(<ItemAction>Navigate content</ItemAction>)
+    render(<ItemAction>Action content</ItemAction>)
 
-    const element = document.querySelector('.dnb-list__item__navigate')
+    const element = document.querySelector('.dnb-list__item__action')
 
     expect(element).toBeInTheDocument()
-    expect(element.textContent).toContain('Navigate content')
+    expect(element.textContent).toContain('Action content')
   })
 
-  it('has dnb-list__item__navigate and dnb-list__item classes', () => {
+  it('has dnb-list__item__action and dnb-list__item classes', () => {
     render(<ItemAction>Content</ItemAction>)
 
-    const element = document.querySelector('.dnb-list__item__navigate')
+    const element = document.querySelector('.dnb-list__item__action')
 
-    expect(element.classList).toContain('dnb-list__item__navigate')
+    expect(element.classList).toContain('dnb-list__item__action')
     expect(element.classList).toContain('dnb-list__item')
   })
 
   it('has dnb-t__size--basis class', () => {
     render(<ItemAction>Content</ItemAction>)
 
-    const element = document.querySelector('.dnb-list__item__navigate')
+    const element = document.querySelector('.dnb-list__item__action')
 
     expect(element.classList).toContain('dnb-t__size--basis')
   })
@@ -32,7 +32,7 @@ describe('ItemAction', () => {
   it('has role="button" for accessibility', () => {
     render(<ItemAction>Content</ItemAction>)
 
-    const element = document.querySelector('.dnb-list__item__navigate')
+    const element = document.querySelector('.dnb-list__item__action')
 
     expect(element.getAttribute('role')).toBe('button')
   })
@@ -40,7 +40,7 @@ describe('ItemAction', () => {
   it('allows role to be overridden', () => {
     render(<ItemAction role="link">Content</ItemAction>)
 
-    const element = document.querySelector('.dnb-list__item__navigate')
+    const element = document.querySelector('.dnb-list__item__action')
 
     expect(element.getAttribute('role')).toBe('link')
   })
@@ -48,7 +48,7 @@ describe('ItemAction', () => {
   it('has tabIndex 0 for keyboard navigation when not pending', () => {
     render(<ItemAction>Content</ItemAction>)
 
-    const element = document.querySelector('.dnb-list__item__navigate')
+    const element = document.querySelector('.dnb-list__item__action')
 
     expect(element.getAttribute('tabindex')).toBe('0')
   })
@@ -56,7 +56,7 @@ describe('ItemAction', () => {
   it('renders IconPrimary chevron_right at the end', () => {
     render(<ItemAction>Content</ItemAction>)
 
-    const element = document.querySelector('.dnb-list__item__navigate')
+    const element = document.querySelector('.dnb-list__item__action')
 
     expect(element.querySelector('.dnb-icon')).toBeInTheDocument()
     expect(element.querySelector('svg')).toBeInTheDocument()
@@ -65,7 +65,7 @@ describe('ItemAction', () => {
   it('renders chevron on the right by default (chevronPosition right)', () => {
     render(<ItemAction>Content</ItemAction>)
 
-    const element = document.querySelector('.dnb-list__item__navigate')
+    const element = document.querySelector('.dnb-list__item__action')
     const chevron = element.querySelector('.dnb-list__item__chevron')
 
     expect(chevron).toBeInTheDocument()
@@ -75,7 +75,7 @@ describe('ItemAction', () => {
   it('renders chevron on the left when chevronPosition is left', () => {
     render(<ItemAction chevronPosition="left">Content</ItemAction>)
 
-    const element = document.querySelector('.dnb-list__item__navigate')
+    const element = document.querySelector('.dnb-list__item__action')
     const chevron = element.querySelector('.dnb-list__item__chevron')
 
     expect(chevron).toBeInTheDocument()
@@ -85,7 +85,7 @@ describe('ItemAction', () => {
   it('applies icon-left modifier class when chevronPosition is left', () => {
     render(<ItemAction chevronPosition="left">Content</ItemAction>)
 
-    const element = document.querySelector('.dnb-list__item__navigate')
+    const element = document.querySelector('.dnb-list__item__action')
 
     expect(element.className).toContain('dnb-list__item--chevron-left')
   })
@@ -95,7 +95,7 @@ describe('ItemAction', () => {
 
     render(<ItemAction onClick={handleClick}>Content</ItemAction>)
 
-    const element = document.querySelector('.dnb-list__item__navigate')
+    const element = document.querySelector('.dnb-list__item__action')
 
     fireEvent.click(element)
 
@@ -107,7 +107,7 @@ describe('ItemAction', () => {
 
     render(<ItemAction onClick={handleClick}>Content</ItemAction>)
 
-    const element = document.querySelector('.dnb-list__item__navigate')
+    const element = document.querySelector('.dnb-list__item__action')
 
     fireEvent.keyDown(element, { key: 'Enter' })
 
@@ -119,7 +119,7 @@ describe('ItemAction', () => {
 
     render(<ItemAction onClick={handleClick}>Content</ItemAction>)
 
-    const element = document.querySelector('.dnb-list__item__navigate')
+    const element = document.querySelector('.dnb-list__item__action')
 
     fireEvent.keyDown(element, { key: ' ' })
 
@@ -127,32 +127,32 @@ describe('ItemAction', () => {
   })
 
   it('merges custom className', () => {
-    render(<ItemAction className="my-navigate">Content</ItemAction>)
+    render(<ItemAction className="my-action">Content</ItemAction>)
 
-    const element = document.querySelector('.dnb-list__item__navigate')
+    const element = document.querySelector('.dnb-list__item__action')
 
-    expect(element.classList).toContain('dnb-list__item__navigate')
-    expect(element.classList).toContain('my-navigate')
+    expect(element.classList).toContain('dnb-list__item__action')
+    expect(element.classList).toContain('my-action')
   })
 
   it('forwards custom HTML attributes', () => {
     render(
       <ItemAction
-        data-testid="item-navigate"
+        data-testid="action-item"
         data-foo="bar"
-        aria-label="Navigate to item"
-        id="navigate-id"
+        aria-label="Action to item"
+        id="action-id"
       >
         Content
       </ItemAction>
     )
 
-    const element = document.querySelector('.dnb-list__item__navigate')
+    const element = document.querySelector('.dnb-list__item__action')
 
-    expect(element.getAttribute('data-testid')).toBe('item-navigate')
+    expect(element.getAttribute('data-testid')).toBe('action-item')
     expect(element.getAttribute('data-foo')).toBe('bar')
-    expect(element.getAttribute('aria-label')).toBe('Navigate to item')
-    expect(element.getAttribute('id')).toBe('navigate-id')
+    expect(element.getAttribute('aria-label')).toBe('Action to item')
+    expect(element.getAttribute('id')).toBe('action-id')
   })
 
   it('supports spacing props and applies spacing classes', () => {
@@ -162,7 +162,7 @@ describe('ItemAction', () => {
       </ItemAction>
     )
 
-    const element = document.querySelector('.dnb-list__item__navigate')
+    const element = document.querySelector('.dnb-list__item__action')
 
     expect(element.classList).toContain('dnb-space__top--large')
     expect(element.classList).toContain('dnb-space__bottom--small')
@@ -171,7 +171,7 @@ describe('ItemAction', () => {
   it('applies skeleton font class when skeleton is true', () => {
     render(<ItemAction skeleton>Content</ItemAction>)
 
-    const element = document.querySelector('.dnb-list__item__navigate')
+    const element = document.querySelector('.dnb-list__item__action')
 
     expect(element.classList).toContain('dnb-skeleton')
     expect(element.classList).toContain('dnb-skeleton--font')
@@ -181,7 +181,7 @@ describe('ItemAction', () => {
     it('applies pending modifier when pending is true', () => {
       render(<ItemAction pending>Content</ItemAction>)
 
-      const element = document.querySelector('.dnb-list__item__navigate')
+      const element = document.querySelector('.dnb-list__item__action')
 
       expect(element.classList).toContain('dnb-list__item--pending')
       expect(
@@ -192,7 +192,7 @@ describe('ItemAction', () => {
     it('has aria-disabled and tabIndex -1 when pending', () => {
       render(<ItemAction pending>Content</ItemAction>)
 
-      const element = document.querySelector('.dnb-list__item__navigate')
+      const element = document.querySelector('.dnb-list__item__action')
 
       expect(element.getAttribute('aria-disabled')).toBe('true')
       expect(element.getAttribute('tabindex')).toBe('-1')
@@ -207,7 +207,7 @@ describe('ItemAction', () => {
         </ItemAction>
       )
 
-      const element = document.querySelector('.dnb-list__item__navigate')
+      const element = document.querySelector('.dnb-list__item__action')
 
       fireEvent.click(element)
 
@@ -223,7 +223,7 @@ describe('ItemAction', () => {
         </ItemAction>
       )
 
-      const element = document.querySelector('.dnb-list__item__navigate')
+      const element = document.querySelector('.dnb-list__item__action')
 
       fireEvent.keyDown(element, { key: 'Enter' })
 
@@ -239,7 +239,7 @@ describe('ItemAction', () => {
         </ItemAction>
       )
 
-      const element = document.querySelector('.dnb-list__item__navigate')
+      const element = document.querySelector('.dnb-list__item__action')
 
       fireEvent.keyDown(element, { key: ' ' })
 
@@ -252,7 +252,7 @@ describe('ItemAction', () => {
   })
 
   describe('href', () => {
-    const hrefSelector = '.dnb-list__item__navigate--href'
+    const hrefSelector = '.dnb-list__item__action--href'
 
     it('renders an anchor when href is provided', () => {
       render(<ItemAction href="/path">Link content</ItemAction>)
@@ -272,10 +272,8 @@ describe('ItemAction', () => {
       const listItem = document.querySelector(hrefSelector)
 
       expect(listItem).toBeInTheDocument()
-      expect(listItem.classList).toContain('dnb-list__item__navigate')
-      expect(listItem.classList).toContain(
-        'dnb-list__item__navigate--href'
-      )
+      expect(listItem.classList).toContain('dnb-list__item__action')
+      expect(listItem.classList).toContain('dnb-list__item__action--href')
     })
 
     it('has correct href attribute', () => {
@@ -389,7 +387,7 @@ describe('ItemAction', () => {
     it('renders as button (no anchor) when href is not provided', () => {
       render(<ItemAction>Content</ItemAction>)
 
-      const element = document.querySelector('.dnb-list__item__navigate')
+      const element = document.querySelector('.dnb-list__item__action')
       const hrefElement = document.querySelector(hrefSelector)
 
       expect(element.tagName).toBe('LI')

@@ -224,7 +224,7 @@
     }
 
     // Deal with chevron
-    &__navigate--href a .dnb-anchor__launch-icon,
+    &__action--href a .dnb-anchor__launch-icon,
     &__chevron {
       display: flex;
       align-items: center;
@@ -232,7 +232,7 @@
       height: var(--item-chevron-height);
       margin-right: var(--item-chevron-margin);
     }
-    &--chevron-left &__navigate--href a .dnb-anchor__launch-icon,
+    &--chevron-left &__action--href a .dnb-anchor__launch-icon,
     &--chevron-left &__chevron {
       grid-area: chevron-left;
       margin-right: 0;
@@ -278,7 +278,7 @@
       transform: rotate(270deg);
     }
 
-    &__navigate {
+    &__action {
       cursor: pointer;
       outline: none;
 
@@ -300,7 +300,7 @@
         color: inherit;
       }
 
-      // Handle navigate states
+      // Handle action states
       &:hover,
       &:focus-visible {
         --item-outline-color: var(--item-navigation-color);
