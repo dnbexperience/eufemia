@@ -1,9 +1,9 @@
 ---
 title: 'ToggleButton'
 description: 'The ToggleButton component should be used to toggle on or off a limited number of choices.'
-version: 10.95.2
-generatedAt: 2026-01-29T08:35:58.710Z
-checksum: f50f67f95eb854b98659587f27b66b3e57d1dc5d1f97eb61321f8e7356afafef
+version: 10.96.0
+generatedAt: 2026-02-05T20:50:44.525Z
+checksum: bcd67e08de2bac75ce19c24668921bc7f13b3be6f6e353edbe904527ce2b9aa2
 ---
 
 # ToggleButton
@@ -265,7 +265,7 @@ render(
       "status": "optional"
     },
     "size": {
-      "doc": "The size of the button. For now there is `small`, `medium`, `default` and `large`.",
+      "doc": "The size of the button. There is `small`, `medium`, `default` and `large`. The `tertiary` button officially supports only default and large. Changing the size mainly affects spacing, but the large tertiary button also has a larger font size.",
       "type": ["small", "medium", "default", "large"],
       "status": "optional"
     },

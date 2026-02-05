@@ -1,9 +1,9 @@
 ---
 title: 'DateFormat'
 description: 'A ready to use DNB date formatter.'
-version: 10.95.2
-generatedAt: 2026-01-29T08:35:58.389Z
-checksum: 61e6a184f9aa22fbc1865be7804f84249f25e107f1a71fe223529c943a35bcab
+version: 10.96.0
+generatedAt: 2026-02-05T20:50:44.159Z
+checksum: bb2fb35cc775a9c00003a92f666a842814da9015d5117bfdcc1637684fd1f961
 ---
 
 # DateFormat
@@ -108,6 +108,52 @@ render(
         <DateFormat dateStyle="medium">2025-08-01</DateFormat>
         <DateFormat dateStyle="short">2025-08-01</DateFormat>
       </P>
+    </ComponentBox>
+  </Style>
+)
+```
+
+### Hide year when in current year
+
+Use `hideCurrentYear` to hide the year when the date is in the
+current year. Works with any `dateStyle`.
+
+Use `hideYear` to always hide the year from the formatted date,
+
+```tsx
+render(
+  <Style>
+    <ComponentBox>
+      {() => {
+        const currentYear = new Date().getFullYear()
+        const dateInCurrentYear = `${currentYear}-02-04`
+        const dateInOtherYear = `${currentYear - 1}-02-04`
+        return (
+          <P>
+            <DateFormat
+              value={dateInCurrentYear}
+              dateStyle="medium"
+              hideCurrentYear
+            />
+            <DateFormat
+              value={dateInOtherYear}
+              dateStyle="medium"
+              hideCurrentYear
+            />
+            <Hr />
+            <DateFormat
+              value={dateInCurrentYear}
+              dateStyle="long"
+              hideCurrentYear
+            />
+            <DateFormat
+              value={dateInOtherYear}
+              dateStyle="long"
+              hideCurrentYear
+            />
+          </P>
+        )
+      }}
     </ComponentBox>
   </Style>
 )
@@ -355,13 +401,23 @@ render(
       "type": ["long", "medium", "short", "full"],
       "status": "optional"
     },
+    "hideCurrentYear": {
+      "doc": "When `true`, the year is hidden if the date is in the current year, for any `dateStyle` (e.g. \"4. feb.\" instead of \"4. feb. 2025\"). Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "hideYear": {
+      "doc": "When `true`, the year is always hidden from the formatted date, for any `dateStyle`. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
     "timeStyle": {
       "doc": "Defines the style used to format the time. If provided, time is included in the output.",
       "type": ["long", "medium", "short", "full"],
       "status": "optional"
     },
     "dateTimeSeparator": {
-      "doc": "Custom separator used between date and time when both are rendered (e.g. \" - \"). Defaults to a comma.",
+      "doc": "Custom separator used between date and time when both are rendered (e.g. \" - \"). When not provided, uses the locale-appropriate separator (e.g. \" kl. \" for Norwegian, \" at \" for English).",
       "type": "string",
       "status": "optional"
     },

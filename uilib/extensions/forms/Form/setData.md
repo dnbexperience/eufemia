@@ -1,8 +1,8 @@
 ---
 title: 'Form.setData'
 description: '`Form.setData` lets you set or modify your form data outside of the form context.'
-version: 10.95.2
-generatedAt: 2026-01-29T08:35:59.088Z
+version: 10.96.0
+generatedAt: 2026-02-05T20:50:44.939Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

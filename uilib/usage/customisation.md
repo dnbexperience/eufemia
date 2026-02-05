@@ -1,8 +1,8 @@
 ---
 title: 'Customization'
 description: 'Customization and tools is a section dedicated to how to use and customize Eufemia in various situations.'
-version: 10.95.2
-generatedAt: 2026-01-29T08:35:59.490Z
+version: 10.96.0
+generatedAt: 2026-02-05T20:50:45.362Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

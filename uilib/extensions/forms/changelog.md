@@ -1,8 +1,8 @@
 ---
 title: 'Change log'
 description: 'Change log for the Eufemia Forms extension'
-version: 10.95.2
-generatedAt: 2026-01-29T08:35:59.404Z
+version: 10.96.0
+generatedAt: 2026-02-05T20:50:45.278Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -11,6 +11,10 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 Change log for the Eufemia Forms extension.
 
 Get more [details about releases](/uilib/releases) or have a look on all [release notes on GitHub](https://github.com/dnbexperience/eufemia/releases).
+
+## v10.96
+
+- Added [Form.useSubmit](/uilib/extensions/forms/Form/useSubmit/) to trigger form submit from outside [Form.Handler](/uilib/extensions/forms/Form/Handler/).
 
 ## v10.83.0
 

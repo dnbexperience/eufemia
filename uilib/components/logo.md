@@ -1,8 +1,8 @@
 ---
 title: 'Logo'
 description: 'A ready to use Logo component with the needed SVGs.'
-version: 10.95.2
-generatedAt: 2026-01-29T08:35:58.537Z
+version: 10.96.0
+generatedAt: 2026-02-05T20:50:44.337Z
 checksum: fe25a5898eabf812128ff8ca3e67a7c0258c549542d8de06bdb3577af6a64a10
 ---
 

@@ -1,9 +1,9 @@
 ---
 title: 'Button'
 description: 'The Button component should be used as the primary call-to-action in a form, or as a user interaction mechanism.'
-version: 10.95.2
-generatedAt: 2026-01-29T08:35:58.362Z
-checksum: 645a291f4bd74f6bc8be1d0815e533a6c6cc7067120767ff62377a423b90c256
+version: 10.96.0
+generatedAt: 2026-02-05T20:50:44.127Z
+checksum: 2b2083a3cf22f11c9c41ca0f1ca8a5a0bf0af172c6068190a33d267a0bab194b
 ---
 
 # Button
@@ -29,6 +29,8 @@ The Button component should be used as the **primary call-to-action** in a form,
 There should never be more than one `primary` button in a given context. The `secondary` and `tertiary` button variants do not have this constraint. A button should not be used when a link would suffice.
 
 The Button component comes in different sizes.
+
+#### Primary button sizes
 
 For the primary variant, the recommended sizes are `default` and `large`.
 
@@ -65,6 +67,8 @@ For the primary variant, the recommended sizes are `default` and `large`.
   left
 />
 ```
+
+#### Secondary button sizes
 
 For the secondary variant, the recommended sizes are `default` and `large`.
 
@@ -106,6 +110,8 @@ For the secondary variant, the recommended sizes are `default` and `large`.
 />
 ```
 
+#### Tertiary button sizes
+
 For the tertiary variant, the recommended size is `default`. A variant with `icon_position="top"` is also available.
 
 It is **not** recommended to use the tertiary button without an icon. Looking for a similar variant without an icon? Check out [Anchor](/uilib/components/anchor) instead.
@@ -140,6 +146,8 @@ It is **not** recommended to use the tertiary button without an icon. Looking fo
   left
 />
 ```
+
+#### Signal button sizes
 
 For the signal variant, the recommended sizes are `default` and `large`.
 
@@ -180,6 +188,8 @@ For the signal variant, the recommended sizes are `default` and `large`.
   left
 />
 ```
+
+#### Icon button sizes
 
 Icon buttons come in all sizes.
 
@@ -548,17 +558,17 @@ render(
       "status": "optional"
     },
     "variant": {
-      "doc": "Defines the kind of button. Possible values are `primary`, `secondary`, `tertiary` and `signal`. Defaults to `primary` (or `secondary` if icon only).",
+      "doc": "Defines the kind of button. Possible values are `primary`, `secondary`, `tertiary` and `signal`. Defaults to `primary` (or `secondary` if icon only). The `tertiary` button is normally used together with an icon and officially supports only the default and large sizes.",
       "type": ["primary", "secondary", "tertiary", "signal"],
       "status": "optional"
     },
     "size": {
-      "doc": "The size of the button. For now there is `small`, `medium`, `default` and `large`.",
+      "doc": "The size of the button. There is `small`, `medium`, `default` and `large`. The `tertiary` button officially supports only default and large. Changing the size mainly affects spacing, but the large tertiary button also has a larger font size.",
       "type": ["small", "medium", "default", "large"],
       "status": "optional"
     },
     "icon": {
-      "doc": "To be included in the button. [Primary Icons](/icons/primary) can be set as a string (e.g. `icon=\"chevron_right\"`), other icons should be set as React elements.",
+      "doc": "To be included in the button. [Primary Icons](/icons/primary) can be set as a string (e.g. `icon=\"chevron_right\"`), other icons should be set as React elements. For the `tertiary` button an icon is basically required for accessibility reasons (unless you explicitly turn it off with `icon={false}`).",
       "type": ["string", "React.ReactNode"],
       "status": "optional"
     },

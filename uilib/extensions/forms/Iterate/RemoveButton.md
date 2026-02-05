@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.RemoveButton'
 description: '`Iterate.RemoveButton` connects to the array of a surrounding Iterate.Array and removes the item when clicked.'
-version: 10.95.2
-generatedAt: 2026-01-29T08:35:59.146Z
+version: 10.96.0
+generatedAt: 2026-02-05T20:50:45.007Z
 checksum: f8ee112a21fc50920cdfd3cec2d68bd5c9db04abc522b7368dec8674cc28ddc9
 ---
 

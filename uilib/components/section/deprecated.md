@@ -1,6 +1,6 @@
 ---
-version: 10.95.2
-generatedAt: 2026-01-29T08:35:58.607Z
+version: 10.96.0
+generatedAt: 2026-02-05T20:50:44.426Z
 checksum: ec84dc16e718312ef1af443ead4f2bc8f3bbe35d1a14f99e0971ce4ac21ae5c4
 ---
 

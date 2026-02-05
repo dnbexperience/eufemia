@@ -1,7 +1,7 @@
 ---
 title: 'Importing CSS'
-version: 10.95.2
-generatedAt: 2026-01-29T08:35:59.486Z
+version: 10.96.0
+generatedAt: 2026-02-05T20:50:45.358Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -9,8 +9,10 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 
 To include the packages `dnb-ui-core`, `ui-theme-basis` and `ui-theme-components` in a [Node.js](https://nodejs.org) based environment (given you have a CSS loader in place), do this:
 
+**Style package structure:** The styles for [Eufemia Forms](/uilib/extensions/forms) (Field, Value, Form layout, Wizard, etc.) are included in **dnb-ui-components**, which is part of **ui-theme-components**. Importing `@dnb/eufemia/style` or the theme’s `ui-theme-components` therefore gives you both component and Forms styles.
+
 ```js
-// This includes the `dnb-ui-core`, `ui-theme-components` and`ui-theme-basis`
+// This includes the `dnb-ui-core`, `ui-theme-components` and `ui-theme-basis`
 import '@dnb/eufemia/style'
 ```
 

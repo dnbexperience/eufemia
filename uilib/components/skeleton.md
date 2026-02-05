@@ -1,8 +1,8 @@
 ---
 title: 'Skeleton'
 description: 'The Skeleton component is a visual building block helper.'
-version: 10.95.2
-generatedAt: 2026-01-29T08:35:58.633Z
+version: 10.96.0
+generatedAt: 2026-02-05T20:50:44.436Z
 checksum: de79945fb9971e14aefdad3f791c581254380e2cfc6bbb7f8e537bb73e30e9b9
 ---
 

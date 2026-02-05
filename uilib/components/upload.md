@@ -1,8 +1,8 @@
 ---
 title: 'Upload'
-description: 'The Upload component should be used in scenarios where the user has to upload files. Files can be uploaded by clicking button. You also have the opportunity to add descriptive texts below the title where you could put max file size, allowed file formats etc.'
-version: 10.95.2
-generatedAt: 2026-01-29T08:35:58.723Z
+description: 'The Upload component should be used in scenarios where the user has to upload files. Files can be uploaded by clicking a button. You also have the opportunity to add descriptive texts below the title where you could put max file size, allowed file formats etc.'
+version: 10.96.0
+generatedAt: 2026-02-05T20:50:44.542Z
 checksum: 635cb11b451f4904eb69f12f651c3ccff8e75bee1895005031d7bb39b9f8a50c
 ---
 
@@ -482,6 +482,7 @@ const Component = () => {
       {
         file: createMockFile('1501870.jpg', 123, 'image/png'),
         id: '1',
+        description: 'Click the file name to open the image',
       },
       {
         file: createMockFile(
@@ -570,9 +571,18 @@ const Component = () => {
         id: '2',
       },
       {
-        file: createMockFile('123.jpg', 0, 'image/png'),
+        file: createMockFile('123.jpg', 123, 'image/png'),
         id: '3',
-        description: 'This is my description',
+        description: (
+          <>
+            <Badge
+              variant="information"
+              status="positive"
+              content="Status"
+            />{' '}
+            This is my description
+          </>
+        ),
       },
       {
         file: createMockFile('321.jpg', 0, 'image/png'),

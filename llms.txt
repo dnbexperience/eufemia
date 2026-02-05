@@ -293,6 +293,8 @@ For any page (component, field, value, etc.):
 
 - [ListFormat](https://eufemia.dnb.no/uilib/components/list-format.md): A ready to use DNB list formatter.
 
+- [List](https://eufemia.dnb.no/uilib/components/list.md): List is a layout component for displaying rows of content, with optional start/center/end slots and a navigable item variant.
+
 - [Logo](https://eufemia.dnb.no/uilib/components/logo.md): A ready to use Logo component with the needed SVGs.
 
 - [Event-Table-Camel-Case](https://eufemia.dnb.no/uilib/components/modal/event-table-camel-case.md): Look into the documentation for more details.
@@ -351,7 +353,7 @@ For any page (component, field, value, etc.):
 
 - [Tooltip](https://eufemia.dnb.no/uilib/components/tooltip.md): The Tooltip component is primarily meant to enhance the UX for various and additional information.
 
-- [Upload](https://eufemia.dnb.no/uilib/components/upload.md): The Upload component should be used in scenarios where the user has to upload files. Files can be uploaded by clicking button. You also have the opportunity to add descriptive texts below the title where you could put max file size, allowed file formats etc.
+- [Upload](https://eufemia.dnb.no/uilib/components/upload.md): The Upload component should be used in scenarios where the user has to upload files. Files can be uploaded by clicking a button. You also have the opportunity to add descriptive texts below the title where you could put max file size, allowed file formats etc.
 
 - [VisuallyHidden](https://eufemia.dnb.no/uilib/components/visually-hidden.md): VisuallyHidden has all the styles necessary to hide it from visual clients, but keep it for screen readers.
 
@@ -416,6 +418,8 @@ For any page (component, field, value, etc.):
 - [Form.useData](https://eufemia.dnb.no/uilib/extensions/forms/Form/useData.md): `Form.useData` lets you access or modify your form data outside of the form context within your application.
 
 - [Form.useSnapshot](https://eufemia.dnb.no/uilib/extensions/forms/Form/useSnapshot.md): `Form.useSnapshot` lets you store data snapshots of your form data, either inside or outside of the form context.
+
+- [Form.useSubmit](https://eufemia.dnb.no/uilib/extensions/forms/Form/useSubmit.md): `Form.useSubmit` lets you trigger form submit from outside the form element, e.g. when the submit button is in a modal footer or toolbar.
 
 - [Form.useTranslation](https://eufemia.dnb.no/uilib/extensions/forms/Form/useTranslation.md): `Form.useTranslation` is a hook that returns the translations for the current locale.
 
@@ -633,5 +637,5 @@ For any page (component, field, value, etc.):
 
 - [Span](https://eufemia.dnb.no/uilib/elements/span.md): Spans are inline-elements, used to define parts of text content.
 
-Version: 10.95.2
-GeneratedAt: 2026-01-29T08:36:19.342Z
+Version: 10.96.0
+GeneratedAt: 2026-02-05T20:51:05.453Z

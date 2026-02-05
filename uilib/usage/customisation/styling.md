@@ -1,8 +1,8 @@
 ---
 title: 'CSS Styles'
 description: 'To ensure flexibility and the possibility of theming, the DNB CSS Styles area built as flexible packages you can import and combine.'
-version: 10.95.2
-generatedAt: 2026-01-29T08:35:59.487Z
+version: 10.96.0
+generatedAt: 2026-02-05T20:50:45.360Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -22,7 +22,7 @@ There are several packages you can use and combine.
 ## Theme Packages
 
 - **ui-theme-basis**: includes css variables, fonts, [optional class selectors for elements](/uilib/elements), [optional default spacing](#spacing), [default typography](/uilib/typography).
-- **ui-theme-components**: includes all the styles for [components](/uilib/components).
+- **ui-theme-components**: includes all the styles for [components](/uilib/components). It is built from **dnb-ui-components**, which in turn includes the styles for [Eufemia Forms](/uilib/extensions/forms) (Field, Value, Form layout, Wizard, etc.). When you import `@dnb/eufemia/style` or `ui-theme-components`, you get both component and Forms styles.
 
 ### Additional Theme Packages
 

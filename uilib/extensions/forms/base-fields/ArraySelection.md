@@ -1,8 +1,8 @@
 ---
 title: 'Field.ArraySelection'
 description: '`Field.ArraySelection` is a component for selecting between a fixed set of options using checkboxes or similar, that will produce a value in the form of an array containing the values of selected options.'
-version: 10.95.2
-generatedAt: 2026-01-29T08:35:59.385Z
+version: 10.96.0
+generatedAt: 2026-02-05T20:50:45.259Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
