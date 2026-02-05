@@ -4,9 +4,10 @@ import useTranslation from '../../hooks/useTranslation'
 
 export type Props = StringFieldProps
 
-const aText = `[A-Za-z0-9!#$%&'*+/=?^_\\x60{|}~-]+`
+// Allow Unicode characters in local part (before @)
+const aText = `[A-Za-z0-9!#$%&'*+/=?^_\\x60{|}~\\u0080-\\uFFFF-]+`
 export const pattern =
-  `^${aText}(?:\\.${aText})*@` + // Local part: RFC 5322 aText segments separated by dots
+  `^${aText}(?:\\.${aText})*@` + // Local part: RFC 5322 aText segments separated by dots, plus Unicode
   `(?:` +
   // Multi-label domain ending with a TLD (e.g. example.com, sub.example.co.uk)
   `(?:` +
