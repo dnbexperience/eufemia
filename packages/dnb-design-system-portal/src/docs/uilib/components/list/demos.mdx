@@ -1,0 +1,111 @@
+---
+showTabs: true
+---
+
+import * as Examples from './Examples'
+
+## Demos
+
+### Rows with cells like Start, Center, End, Title
+
+This example demonstrates different cell layouts and their placement.
+
+<Examples.RowsWithSlots />
+
+### Navigable item
+
+<Examples.NavigableItem />
+
+### Navigable item with href
+
+Use the `href` property on `List.Item.Action` to render a native link. Use `target` and `rel` for external links (e.g. `target="_blank"` with `rel="noopener noreferrer"`).
+
+<Examples.NavigableItemWithHref />
+
+### With anchor
+
+List items containing [Anchor](/uilib/components/anchor) links.
+
+<Examples.WithAnchor />
+
+### Accordion
+
+Expandable list items using `List.Item.Accordion` with optional `icon` and `title` propertys and `List.Item.Accordion.Content` for the expandable section. Use the `open` property to set the initial open state.
+
+<Examples.Accordion />
+
+### With Badge
+
+Use [Badge](/uilib/components/badge) in `List.Cell.End` to show status or counts.
+
+<Examples.WithBadge />
+
+### Footer with buttons
+
+Use `List.Cell.Footer` to place actions such as [Button](/uilib/components/button) in the list row.
+
+<Examples.FooterWithButtons />
+
+### Responsive Grid Layout
+
+Using [Grid.Container](/uilib/layout/grid/container) with [Grid.Item](/uilib/layout/grid/item) for a 12-column responsive grid.
+
+<Examples.GridColumns />
+
+### Separated lists
+
+Use the `separated` property on `List.Container` to add row gap between list items.
+
+<Examples.SeparatedLists />
+
+### Dynamic list
+
+<Examples.SimpleRows />
+
+### With DateFormat
+
+Use [DateFormat](/uilib/components/date-format) in `List.Cell.Start` to show dates in the list row.
+
+<Examples.WithDateFormat />
+
+### With Subline
+
+Use `List.Cell.Title.Subline` to add supporting text below the title. The `variant="description"` option uses smaller text for secondary information.
+
+<Examples.ListSubline />
+
+### With form elements
+
+<Examples.WithFormElements />
+
+### With avatar
+
+Use [Avatar](/uilib/components/avatar) in `List.Cell.Start` as the left content.
+
+<Examples.WithAvatar />
+
+### Selected state
+
+<Examples.SelectedState />
+
+### With custom background color
+
+<Examples.BackgroundColor />
+
+### Pending state
+
+Use the `pending` property on `List.Item.Basic` or `List.Item.Action` to show a skeleton overlay. Click and keyboard are disabled while pending.
+
+<Examples.PendingState />
+
+### Progress indicator
+
+A single list item with a circular progress indicator in `List.Cell.Start`.
+
+<Examples.ProgressIndicatorRow />
+
+### Skeleton
+
+Use the `skeleton` property on `List.Item.Basic`, `List.Item.Action` or `List.Item.Accordion` to show a skeleton overlay while content is loading.
+
+<Examples.SkeletonState />
