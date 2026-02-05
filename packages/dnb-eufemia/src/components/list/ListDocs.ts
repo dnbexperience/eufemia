@@ -1,21 +1,10 @@
 import { PropertiesTableProps } from '../../shared/types'
 
 export const ContainerProperties: PropertiesTableProps = {
-  variant: {
-    doc: 'Visual variant of the list. Defaults to `basic`. Can be overridden per item via `List.Item.Basic` or `List.Item.Action`.',
-    type: ["'basic'"],
-    defaultValue: "'basic'",
-    status: 'optional',
-  },
   children: {
     doc: 'List items. Use `List.Item.Basic`, `List.Item.Action`, or `List.Item.Accordion` as direct children.',
     type: 'React.ReactNode',
     status: 'required',
-  },
-  '[Flex.Container](/uilib/layout/flex/container/properties)': {
-    doc: 'Flex.Container properties (e.g. direction, wrap, gap).',
-    type: 'Various',
-    status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
@@ -25,11 +14,6 @@ export const ContainerProperties: PropertiesTableProps = {
 }
 
 export const ItemContentProperties: PropertiesTableProps = {
-  variant: {
-    doc: 'Overrides the variant inherited from `List.Container`.',
-    type: ["'basic'"],
-    status: 'optional',
-  },
   selected: {
     doc: 'When `true`, applies the selected state styling (e.g. background).',
     type: 'boolean',
@@ -60,11 +44,6 @@ export const ItemContentProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'required',
   },
-  '[Flex.Container](/uilib/layout/flex/container/properties)': {
-    doc: 'Flex.Container properties. Direction is fixed to horizontal, justify to space-between.',
-    type: 'Various',
-    status: 'optional',
-  },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
@@ -77,11 +56,6 @@ export const ItemCenterProperties: PropertiesTableProps = {
     doc: 'Center content of the list item. Grows to fill available space.',
     type: 'React.ReactNode',
     status: 'required',
-  },
-  '[Flex.Item](/uilib/layout/flex/item/properties)': {
-    doc: 'Flex.Item properties. Uses `grow` by default.',
-    type: 'Various',
-    status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
@@ -102,18 +76,12 @@ export const ItemTitleProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'required',
   },
-  '[Flex.Item](/uilib/layout/flex/item/properties)': {
-    doc: 'Flex.Item properties. Uses innerSpace left small by default.',
-    type: 'Various',
-    status: 'optional',
-  },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
   },
 }
-
 export const ItemOverlineProperties: PropertiesTableProps = {
   fontSize: {
     doc: 'Font size of the overline content. Defaults to `x-small`.',
@@ -131,11 +99,6 @@ export const ItemOverlineProperties: PropertiesTableProps = {
     doc: 'Overline content of the list item, shown at the top above the main row. Pairs with List.Cell.Subline (below the title).',
     type: 'React.ReactNode',
     status: 'required',
-  },
-  '[Flex.Item](/uilib/layout/flex/item/properties)': {
-    doc: 'Flex.Item properties. Uses innerSpace left/right small by default.',
-    type: 'Various',
-    status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
@@ -167,11 +130,6 @@ export const ItemSublineProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'required',
   },
-  '[Flex.Item](/uilib/layout/flex/item/properties)': {
-    doc: 'Flex.Item properties. Uses innerSpace left small by default.',
-    type: 'Various',
-    status: 'optional',
-  },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
@@ -184,11 +142,6 @@ export const ItemFooterProperties: PropertiesTableProps = {
     doc: 'Footer content of the list item. Grows to fill available space.',
     type: 'React.ReactNode',
     status: 'required',
-  },
-  '[Flex.Item](/uilib/layout/flex/item/properties)': {
-    doc: 'Flex.Item properties. Uses `grow` by default.',
-    type: 'Various',
-    status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
@@ -215,11 +168,6 @@ export const ItemEndProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'required',
   },
-  '[Flex.Item](/uilib/layout/flex/item/properties)': {
-    doc: 'Flex.Item properties. Uses innerSpace left/right small by default.',
-    type: 'Various',
-    status: 'optional',
-  },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
@@ -239,11 +187,6 @@ export const ItemStartProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'required',
   },
-  '[Flex.Item](/uilib/layout/flex/item/properties)': {
-    doc: 'Flex.Item properties. Uses innerSpace left/right small by default.',
-    type: 'Various',
-    status: 'optional',
-  },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
@@ -252,6 +195,16 @@ export const ItemStartProperties: PropertiesTableProps = {
 }
 
 export const ItemAccordionProperties: PropertiesTableProps = {
+  icon: {
+    doc: 'Optional icon for the accordion header (e.g. `fish_medium`).',
+    type: 'IconIcon',
+    status: 'optional',
+  },
+  title: {
+    doc: 'Optional title for the accordion header.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
   chevronPosition: {
     doc: 'Placement of the chevron icon. Defaults to `right`. Use `left` to show the chevron on the left side.',
     type: ["'left'", "'right'"],
@@ -262,21 +215,6 @@ export const ItemAccordionProperties: PropertiesTableProps = {
     doc: 'Initial open state. Defaults to `false`. The accordion can be toggled by the user via the header.',
     type: 'boolean',
     defaultValue: 'false',
-    status: 'optional',
-  },
-  id: {
-    doc: 'Unique id used for the header and content region (for `aria-controls`, `aria-labelledby`, etc.). Auto-generated if not provided.',
-    type: 'string',
-    status: 'optional',
-  },
-  icon: {
-    doc: 'Optional icon for the accordion header (e.g. `fish_medium`).',
-    type: 'IconIcon',
-    status: 'optional',
-  },
-  title: {
-    doc: 'Optional title for the accordion header.',
-    type: 'React.ReactNode',
     status: 'optional',
   },
   children: {
@@ -291,7 +229,48 @@ export const ItemAccordionProperties: PropertiesTableProps = {
   },
 }
 
+export const ItemAccordionHeaderProperties: PropertiesTableProps = {
+  children: {
+    doc: 'Header cells (e.g. `List.Cell.Start`, `List.Cell.Overline`, `List.Cell.End`). The chevron, icon, and title from the parent accordion are rendered automatically.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  '[List.Item.Basic](/uilib/components/list/properties/#listitembasic)': {
+    doc: 'Inherits List.Item.Basic properties (variant, pending, spacing, etc.).',
+    type: 'Various',
+    status: 'optional',
+  },
+  '[Space](/uilib/layout/space/properties)': {
+    doc: 'Spacing properties like `top` or `bottom` are supported.',
+    type: ['string', 'object'],
+    status: 'optional',
+  },
+}
+
+export const ItemAccordionContentProperties: PropertiesTableProps = {
+  children: {
+    doc: 'Content displayed inside the expandable accordion body.',
+    type: 'React.ReactNode',
+    status: 'required',
+  },
+  '[Space](/uilib/layout/space/properties)': {
+    doc: 'Spacing properties like `top` or `bottom` are supported.',
+    type: ['string', 'object'],
+    status: 'optional',
+  },
+}
+
 export const ItemActionProperties: PropertiesTableProps = {
+  title: {
+    doc: 'Optional title for the action item.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  icon: {
+    doc: 'Optional icon for the action item (e.g. `fish_medium`).',
+    type: 'IconIcon',
+    status: 'optional',
+  },
   href: {
     doc: 'When set, renders as a native link (`<a>`) so the item navigates to the URL. Use for external or internal navigation. When not set, the item behaves as a button (use `onClick` for custom handling).',
     type: 'string',
@@ -305,6 +284,11 @@ export const ItemActionProperties: PropertiesTableProps = {
   rel: {
     doc: 'Link rel (e.g. `noopener noreferrer` for external links). Only applicable when `href` is set.',
     type: 'string',
+    status: 'optional',
+  },
+  onClick: {
+    doc: 'Called when the user clicks or activates the item (Enter/Space key). Receives the native mouse event.',
+    type: '(event) => void',
     status: 'optional',
   },
   chevronPosition: {
@@ -321,27 +305,6 @@ export const ItemActionProperties: PropertiesTableProps = {
   skeleton: {
     doc: 'If set to `true`, applies skeleton font styling to the item (text placeholder).',
     type: 'boolean',
-    status: 'optional',
-  },
-  role: {
-    doc: 'ARIA role. Defaults to `button` so assistive technologies announce it as a button. Override if needed (e.g. `link`).',
-    type: 'string',
-    defaultValue: "'button'",
-    status: 'optional',
-  },
-  onClick: {
-    doc: 'Called when the user clicks or activates the item (Enter/Space key). Receives the native mouse event.',
-    type: '(event: React.MouseEvent<HTMLDivElement>) => void',
-    status: 'optional',
-  },
-  icon: {
-    doc: 'Optional icon for the action item (e.g. `fish_medium`).',
-    type: 'IconIcon',
-    status: 'optional',
-  },
-  title: {
-    doc: 'Optional title for the action item.',
-    type: 'React.ReactNode',
     status: 'optional',
   },
   children: {
@@ -364,7 +327,7 @@ export const ItemActionProperties: PropertiesTableProps = {
 export const ItemActionEvents: PropertiesTableProps = {
   onClick: {
     doc: 'Fired when the user clicks or activates `List.Item.Action` (click or Enter/Space key). Receives the native event. Only applicable to `List.Item.Action`.',
-    type: '(event: React.MouseEvent<HTMLDivElement>) => void',
+    type: '(event) => void',
     status: 'optional',
   },
 }
