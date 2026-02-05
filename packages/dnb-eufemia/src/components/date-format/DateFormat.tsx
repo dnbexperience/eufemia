@@ -15,6 +15,7 @@ import {
   parseDuration,
   formatDuration,
   isValidDuration,
+  getDateTimeSeparator,
 } from './DateFormatUtils'
 import { format } from 'date-fns'
 import { SpacingProps } from '../space/types'
@@ -36,6 +37,10 @@ type DateFormatProps = SpacingProps & {
   dateStyle?: Intl.DateTimeFormatOptions['dateStyle']
   timeStyle?: Intl.DateTimeFormatOptions['timeStyle']
   dateTimeSeparator?: string
+  /** When `true`, hides the year if the date is in the current year (any `dateStyle`). */
+  hideCurrentYear?: boolean
+  /** When `true`, always hides the year from the formatted date (any `dateStyle`). */
+  hideYear?: boolean
   relativeTimeStyle?: Intl.DateTimeFormatOptions['dateStyle']
   relativeTime?: boolean
   relativeTimeReference?: () => Date
@@ -59,6 +64,8 @@ function DateFormat(props: DateFormatProps) {
     dateStyle = 'long',
     timeStyle,
     dateTimeSeparator,
+    hideCurrentYear = false,
+    hideYear = false,
     relativeTimeStyle,
     skeleton,
     relativeTime = false,
@@ -152,22 +159,38 @@ function DateFormat(props: DateFormatProps) {
           ? convertJsxToString(children)
           : date
 
-      if (dateTimeSeparator && options?.timeStyle) {
+      // When timeStyle is provided, format date and time separately and join with separator
+      // Uses custom dateTimeSeparator if provided, otherwise uses locale-aware separator
+      if (options?.timeStyle) {
         const formattedDate = formatDate(originalValue, {
           locale,
           options: { dateStyle: options.dateStyle },
+          hideCurrentYear,
+          hideYear,
         })
         const formattedTime = formatDate(originalValue, {
           locale,
           options: { timeStyle: options.timeStyle },
         })
 
-        return `${formattedDate}${dateTimeSeparator}${formattedTime}`
+        // Use custom separator if provided, otherwise use locale-aware separator
+        const separator =
+          dateTimeSeparator !== undefined
+            ? dateTimeSeparator
+            : getDateTimeSeparator(
+                locale,
+                options.dateStyle,
+                options.timeStyle
+              )
+
+        return `${formattedDate}${separator}${formattedTime}`
       }
 
       return formatDate(originalValue, {
         locale,
         options,
+        hideCurrentYear,
+        hideYear,
       })
     },
     [
@@ -176,6 +199,8 @@ function DateFormat(props: DateFormatProps) {
       dateStyle,
       timeStyle,
       dateTimeSeparator,
+      hideCurrentYear,
+      hideYear,
       value,
       children,
     ]

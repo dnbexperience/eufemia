@@ -43,6 +43,84 @@ describe('DateFormat', () => {
       expect(dateFormat).toHaveTextContent('01.08.2025')
     })
 
+    it('should hide year for any dateStyle when hideCurrentYear and date is in current year', () => {
+      const now = new Date('2025-06-15T12:00:00.000Z')
+      jest.useFakeTimers({ now: now.getTime() })
+
+      const dateInCurrentYear = '2025-02-04'
+
+      const { rerender, container } = render(
+        <DateFormat
+          value={dateInCurrentYear}
+          dateStyle="full"
+          hideCurrentYear
+        />
+      )
+      for (const dateStyle of [
+        'full',
+        'long',
+        'medium',
+        'short',
+      ] as const) {
+        rerender(
+          <DateFormat
+            value={dateInCurrentYear}
+            dateStyle={dateStyle}
+            hideCurrentYear
+          />
+        )
+        const dateFormat = container.querySelector('.dnb-date-format')
+        expect(dateFormat?.textContent).not.toContain('2025')
+        expect(dateFormat?.textContent).toMatch(/\d{1,2}/)
+      }
+
+      jest.useRealTimers()
+    })
+
+    it('should include year when hideCurrentYear but date is in another year', () => {
+      const now = new Date('2025-06-15T12:00:00.000Z')
+      jest.useFakeTimers({ now: now.getTime() })
+
+      const { container } = render(
+        <DateFormat
+          value="2024-02-04"
+          dateStyle="medium"
+          hideCurrentYear
+        />
+      )
+      const dateFormat = container.querySelector('.dnb-date-format')
+      expect(dateFormat?.textContent).toContain('2024')
+
+      jest.useRealTimers()
+    })
+
+    it('should always hide year when hideYear is true', () => {
+      const { rerender, container } = render(
+        <DateFormat value="2025-02-04" dateStyle="full" hideYear />
+      )
+      for (const dateStyle of [
+        'full',
+        'long',
+        'medium',
+        'short',
+      ] as const) {
+        rerender(
+          <DateFormat value="2025-02-04" dateStyle={dateStyle} hideYear />
+        )
+        const dateFormat = container.querySelector('.dnb-date-format')
+        expect(dateFormat?.textContent).not.toContain('2025')
+        expect(dateFormat?.textContent).toMatch(/\d{1,2}/)
+      }
+    })
+
+    it('should hide year for dates in other years when hideYear is true', () => {
+      const { container } = render(
+        <DateFormat value="2024-02-04" dateStyle="medium" hideYear />
+      )
+      const dateFormat = container.querySelector('.dnb-date-format')
+      expect(dateFormat?.textContent).not.toContain('2024')
+    })
+
     it('should include time when `timeStyle` is provided', () => {
       render(<DateFormat value="2025-08-01T14:30:00" timeStyle="short" />)
 
@@ -65,6 +143,95 @@ describe('DateFormat', () => {
       const dateFormat = document.querySelector('.dnb-date-format')
 
       expect(dateFormat).toHaveTextContent('01/08/2025 - 14:30')
+    })
+
+    it('should use locale-aware separator when `dateTimeSeparator` is not provided', () => {
+      const { rerender } = render(
+        <DateFormat
+          value="2025-08-01T14:30:00"
+          locale="nb-NO"
+          dateStyle="long"
+          timeStyle="short"
+        />
+      )
+
+      const dateFormat = document.querySelector('.dnb-date-format')
+
+      // Norwegian uses " kl. " (klokken) as the separator
+      expect(dateFormat).toHaveTextContent('1. august 2025 kl. 14:30')
+
+      // British English uses " at " as the separator
+      rerender(
+        <DateFormat
+          value="2025-08-01T14:30:00"
+          locale="en-GB"
+          dateStyle="long"
+          timeStyle="short"
+        />
+      )
+      expect(dateFormat).toHaveTextContent('1 August 2025 at 14:30')
+
+      // US English uses " at " with different date format
+      rerender(
+        <DateFormat
+          value="2025-08-01T14:30:00"
+          locale="en-US"
+          dateStyle="long"
+          timeStyle="short"
+        />
+      )
+      expect(dateFormat).toHaveTextContent(/August 1, 2025 at 2:30\sPM/)
+    })
+
+    it('should use locale-aware separator with hideYear', () => {
+      const now = new Date('2025-06-15T12:00:00.000Z')
+      jest.useFakeTimers({ now: now.getTime() })
+
+      const { rerender } = render(
+        <DateFormat
+          value="2025-08-01T14:30:00"
+          locale="nb-NO"
+          dateStyle="long"
+          timeStyle="short"
+          hideYear
+        />
+      )
+
+      const dateFormat = document.querySelector('.dnb-date-format')
+
+      // Norwegian with hidden year still uses " kl. " separator
+      expect(dateFormat).toHaveTextContent('1. august kl. 14:30')
+
+      // British English with hidden year uses " at " separator
+      rerender(
+        <DateFormat
+          value="2025-08-01T14:30:00"
+          locale="en-GB"
+          dateStyle="long"
+          timeStyle="short"
+          hideYear
+        />
+      )
+      expect(dateFormat).toHaveTextContent('1 August at 14:30')
+
+      jest.useRealTimers()
+    })
+
+    it('should allow empty string as custom dateTimeSeparator', () => {
+      render(
+        <DateFormat
+          value="2025-08-01T14:30:00"
+          locale="en-GB"
+          dateStyle="short"
+          timeStyle="short"
+          dateTimeSeparator=""
+        />
+      )
+
+      const dateFormat = document.querySelector('.dnb-date-format')
+
+      // Empty separator joins date and time directly
+      expect(dateFormat).toHaveTextContent('01/08/202514:30')
     })
 
     it('should preserve UTC time when using timeStyle with UTC date input', () => {

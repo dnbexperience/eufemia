@@ -11,13 +11,23 @@ export const DateFormatProperties: PropertiesTableProps = {
     type: ['long', 'medium', 'short', 'full'],
     status: 'optional',
   },
+  hideCurrentYear: {
+    doc: 'When `true`, the year is hidden if the date is in the current year, for any `dateStyle` (e.g. "4. feb." instead of "4. feb. 2025"). Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  hideYear: {
+    doc: 'When `true`, the year is always hidden from the formatted date, for any `dateStyle`. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   timeStyle: {
     doc: 'Defines the style used to format the time. If provided, time is included in the output.',
     type: ['long', 'medium', 'short', 'full'],
     status: 'optional',
   },
   dateTimeSeparator: {
-    doc: 'Custom separator used between date and time when both are rendered (e.g. " - "). Defaults to a comma.',
+    doc: 'Custom separator used between date and time when both are rendered (e.g. " - "). When not provided, uses the locale-appropriate separator (e.g. " kl. " for Norwegian, " at " for English).',
     type: 'string',
     status: 'optional',
   },

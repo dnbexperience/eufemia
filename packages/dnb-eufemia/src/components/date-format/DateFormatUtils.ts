@@ -30,6 +30,10 @@ export type FormatDateOptions = {
   locale?: AnyLocale
   options?: Intl.DateTimeFormatOptions
   timeZone?: string
+  /** When true, hides the year if the date is in the current year (any dateStyle). */
+  hideCurrentYear?: boolean
+  /** When true, always hides the year from the formatted date (any dateStyle). */
+  hideYear?: boolean
 }
 
 type FormatDateInput = DateType | number | string
@@ -58,12 +62,54 @@ function isUTCDateString(dateValue: string): boolean {
   return false
 }
 
+/**
+ * Gets the locale-appropriate separator between date and time parts
+ * by using Intl.DateTimeFormat.formatToParts()
+ */
+export function getDateTimeSeparator(
+  locale: AnyLocale,
+  dateStyle: Intl.DateTimeFormatOptions['dateStyle'],
+  timeStyle: Intl.DateTimeFormatOptions['timeStyle']
+): string {
+  try {
+    const formatter = new Intl.DateTimeFormat(locale, {
+      dateStyle,
+      timeStyle,
+    })
+    const parts = formatter.formatToParts(new Date())
+
+    const datePartTypes = ['day', 'month', 'year', 'weekday']
+    const timePartTypes = ['hour', 'minute', 'second', 'dayPeriod']
+
+    for (let i = 0; i < parts.length; i++) {
+      if (parts[i].type === 'literal') {
+        const prevType = parts[i - 1]?.type
+        const nextType = parts[i + 1]?.type
+
+        // Found the literal between date parts and time parts
+        if (
+          datePartTypes.includes(prevType) &&
+          timePartTypes.includes(nextType)
+        ) {
+          return parts[i].value
+        }
+      }
+    }
+
+    return ', ' // Fallback
+  } catch {
+    return ', '
+  }
+}
+
 export function formatDate(
   dateValue: FormatDateInput,
   {
     locale = defaultLocale,
     options = { dateStyle: 'short' },
     timeZone,
+    hideCurrentYear,
+    hideYear,
   }: FormatDateOptions = {}
 ) {
   // Preserve original string for UTC detection
@@ -95,9 +141,65 @@ export function formatDate(
     finalOptions.timeZone = 'UTC'
   }
 
-  return typeof Intl !== 'undefined'
-    ? new Intl.DateTimeFormat(locale, finalOptions).format(date)
-    : date.toLocaleString(locale, finalOptions)
+  // Hide year: always hide when hideYear is true, or hide when hideCurrentYear is true and date is in current year
+  const dateStyle = finalOptions.dateStyle
+  const shouldHideYear =
+    dateStyle &&
+    (hideYear ||
+      (hideCurrentYear && date.getFullYear() === new Date().getFullYear()))
+
+  if (typeof Intl === 'undefined') {
+    return date.toLocaleString(locale, finalOptions)
+  }
+
+  if (shouldHideYear) {
+    const dateOnlyOptionsByStyle: Record<
+      NonNullable<typeof dateStyle>,
+      Intl.DateTimeFormatOptions
+    > = {
+      full: { weekday: 'long', month: 'long', day: 'numeric' },
+      long: { month: 'long', day: 'numeric' },
+      medium: { month: 'short', day: 'numeric' },
+      short: { month: 'numeric', day: 'numeric' },
+    }
+
+    const dateOnlyOptions: Intl.DateTimeFormatOptions = {
+      ...dateOnlyOptionsByStyle[dateStyle],
+      ...(finalOptions.timeZone
+        ? { timeZone: finalOptions.timeZone }
+        : {}),
+    }
+
+    const datePart = new Intl.DateTimeFormat(
+      locale,
+      dateOnlyOptions
+    ).format(date)
+
+    if (finalOptions.timeStyle) {
+      const timeOnlyOptions: Intl.DateTimeFormatOptions = {
+        timeStyle: finalOptions.timeStyle,
+        ...(finalOptions.timeZone
+          ? { timeZone: finalOptions.timeZone }
+          : {}),
+      }
+
+      const timePart = new Intl.DateTimeFormat(
+        locale,
+        timeOnlyOptions
+      ).format(date)
+
+      const separator = getDateTimeSeparator(
+        locale,
+        dateStyle,
+        finalOptions.timeStyle
+      )
+
+      return `${datePart}${separator}${timePart}`
+    }
+    return datePart
+  }
+
+  return new Intl.DateTimeFormat(locale, finalOptions).format(date)
 }
 
 export function formatDateRange(
