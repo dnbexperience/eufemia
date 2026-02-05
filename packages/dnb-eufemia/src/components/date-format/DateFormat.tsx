@@ -15,6 +15,7 @@ import {
   parseDuration,
   formatDuration,
   isValidDuration,
+  getDateTimeSeparator,
 } from './DateFormatUtils'
 import { format } from 'date-fns'
 import { SpacingProps } from '../space/types'
@@ -36,6 +37,10 @@ type DateFormatProps = SpacingProps & {
   dateStyle?: Intl.DateTimeFormatOptions['dateStyle']
   timeStyle?: Intl.DateTimeFormatOptions['timeStyle']
   dateTimeSeparator?: string
+  /** When `true`, hides the year if the date is in the current year (any `dateStyle`). */
+  hideCurrentYear?: boolean
+  /** When `true`, always hides the year from the formatted date (any `dateStyle`). */
+  hideYear?: boolean
   relativeTimeStyle?: Intl.DateTimeFormatOptions['dateStyle']
   relativeTime?: boolean
   relativeTimeReference?: () => Date
@@ -59,6 +64,8 @@ function DateFormat(props: DateFormatProps) {
     dateStyle = 'long',
     timeStyle,
     dateTimeSeparator,
+    hideCurrentYear = false,
+    hideYear = false,
     relativeTimeStyle,
     skeleton,
     relativeTime = false,
@@ -136,8 +143,12 @@ function DateFormat(props: DateFormatProps) {
         dateStyle,
         ...(timeStyle ? { timeStyle } : {}),
       },
+      hideYear: hideYearOverride,
+      hideCurrentYear: hideCurrentYearOverride,
     }: {
       options?: Intl.DateTimeFormatOptions
+      hideYear?: boolean
+      hideCurrentYear?: boolean
     } = {}) => {
       if (!date || isNaN(date.getTime())) {
         return // stop here
@@ -152,22 +163,46 @@ function DateFormat(props: DateFormatProps) {
           ? convertJsxToString(children)
           : date
 
-      if (dateTimeSeparator && options?.timeStyle) {
+      // When timeStyle is provided, format date and time separately and join with separator
+      // Uses custom dateTimeSeparator if provided, otherwise uses locale-aware separator
+      if (options?.timeStyle) {
         const formattedDate = formatDate(originalValue, {
           locale,
           options: { dateStyle: options.dateStyle },
+          hideCurrentYear:
+            hideCurrentYearOverride !== undefined
+              ? hideCurrentYearOverride
+              : hideCurrentYear,
+          hideYear:
+            hideYearOverride !== undefined ? hideYearOverride : hideYear,
         })
         const formattedTime = formatDate(originalValue, {
           locale,
           options: { timeStyle: options.timeStyle },
         })
 
-        return `${formattedDate}${dateTimeSeparator}${formattedTime}`
+        // Use custom separator if provided, otherwise use locale-aware separator
+        const separator =
+          dateTimeSeparator !== undefined
+            ? dateTimeSeparator
+            : getDateTimeSeparator(
+                locale,
+                options.dateStyle,
+                options.timeStyle
+              )
+
+        return `${formattedDate}${separator}${formattedTime}`
       }
 
       return formatDate(originalValue, {
         locale,
         options,
+        hideCurrentYear:
+          hideCurrentYearOverride !== undefined
+            ? hideCurrentYearOverride
+            : hideCurrentYear,
+        hideYear:
+          hideYearOverride !== undefined ? hideYearOverride : hideYear,
       })
     },
     [
@@ -176,6 +211,8 @@ function DateFormat(props: DateFormatProps) {
       dateStyle,
       timeStyle,
       dateTimeSeparator,
+      hideCurrentYear,
+      hideYear,
       value,
       children,
     ]
@@ -245,49 +282,51 @@ function DateFormat(props: DateFormatProps) {
   // Check if we have a valid date (not invalid Date object)
   const hasValidDate = date && !isNaN(date.getTime())
 
+  // Tooltip always shows the full date format
+  const tooltipContent = useMemo(() => {
+    if (!hasValidDate) {
+      return undefined
+    }
+
+    return getAbsoluteDateFormatted({
+      options: {
+        dateStyle: 'full',
+        ...(timeStyle ? { timeStyle } : {}),
+      },
+      hideYear: false,
+      hideCurrentYear: false,
+    })
+  }, [hasValidDate, getAbsoluteDateFormatted, timeStyle])
+
   // Always handle duration strings first if they exist
   if (durationValue !== undefined) {
     const originalDurationString = String(value || children)
-
     const hasAriaLabel = durationFormattedFull !== durationFormatted
-    return (
-      <time
-        {...attributes}
-        dateTime={originalDurationString}
-        aria-label={hasAriaLabel ? durationFormattedFull : undefined}
-      >
-        <span aria-hidden={hasAriaLabel}>{durationFormatted}</span>
-      </time>
-    )
-  }
+    const showTooltip = durationFormattedFull !== durationFormatted
 
-  // Handle relative time mode
-  if (relativeTime) {
-    // If we have a valid date, render relative time
-    if (hasValidDate) {
-      return (
-        <>
-          <time
-            dateTime={getAbsoluteDateTime('yyyy-MM-dd HH:mm:ss')}
-            {...attributes}
-            ref={ref}
-          >
-            {label}
-          </time>
+    return (
+      <>
+        <time
+          {...attributes}
+          dateTime={originalDurationString}
+          aria-label={hasAriaLabel ? durationFormattedFull : undefined}
+          ref={showTooltip ? ref : undefined}
+        >
+          <span aria-hidden={hasAriaLabel}>{durationFormatted}</span>
+        </time>
+        {showTooltip && (
           <Tooltip
             targetElement={ref}
-            tooltip={getAbsoluteDateFormatted({
-              options: {
-                dateStyle,
-                timeStyle: timeStyle || 'short',
-              },
-            })}
+            tooltip={durationFormattedFull}
+            triggerOffset={8}
           />
-        </>
-      )
-    }
+        )}
+      </>
+    )
+  }
 
-    // If relativeTime is true but no valid date, show invalid message
+  // Handle invalid dates
+  if (!hasValidDate) {
     return (
       <span className="dnb-date-format">
         {invalidDate.replace(
@@ -298,35 +337,56 @@ function DateFormat(props: DateFormatProps) {
     )
   }
 
-  // For non-relative time mode, check if we have valid content
-  if (!hasValidDate && !durationValue) {
+  // Handle relative time mode - always show tooltip (relative time differs from absolute)
+  if (relativeTime) {
+    const relativeTooltip = getAbsoluteDateFormatted({
+      options: {
+        dateStyle: 'full',
+        timeStyle: timeStyle || 'short',
+      },
+      hideYear: false,
+      hideCurrentYear: false,
+    })
+
     return (
-      <span className="dnb-date-format">
-        {invalidDate.replace(
-          '{value}',
-          getInvalidValue({ value, children })
-        )}
-      </span>
+      <>
+        <time
+          dateTime={getAbsoluteDateTime('yyyy-MM-dd HH:mm:ss')}
+          {...attributes}
+          ref={ref}
+        >
+          {label}
+        </time>
+        <Tooltip
+          targetElement={ref}
+          tooltip={relativeTooltip}
+          triggerOffset={8}
+        />
+      </>
     )
   }
 
-  // Default date rendering - only if we have a valid date
-  if (hasValidDate) {
-    return (
-      <time dateTime={getAbsoluteDateTime()} {...attributes}>
-        {getAbsoluteDateFormatted()}
-      </time>
-    )
-  }
+  // Default date rendering - only show tooltip if content differs
+  const displayedContent = getAbsoluteDateFormatted()
+  const showTooltip = tooltipContent && tooltipContent !== displayedContent
 
-  // Fallback for invalid dates when not in relative time mode
   return (
-    <span className="dnb-date-format">
-      {invalidDate.replace(
-        '{value}',
-        getInvalidValue({ value, children })
+    <>
+      <time
+        dateTime={getAbsoluteDateTime()}
+        {...attributes}
+        ref={showTooltip ? ref : undefined}
+      >
+        {displayedContent}
+      </time>
+      {showTooltip && (
+        <Tooltip
+          targetElement={ref}
+          tooltip={tooltipContent}
+          triggerOffset={8}
+        />
       )}
-    </span>
+    </>
   )
 }
 

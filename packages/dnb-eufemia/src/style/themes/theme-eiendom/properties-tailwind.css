@@ -95,7 +95,6 @@
   --color-emerald-green-50: #89aaac;
   --color-emerald-green-25: #c4d4d6;
   --color-emerald-green-10: #e8eeef;
-  --internal-color-background-selected-subtle: #e4eed7;
   --font-ca-heading: 'ArizonaFlare', var(--font-family-default);
   --color-ca-ocean-green: #00343e;
   --color-ca-burgundy-red: #5c0022;
@@ -193,4 +192,5 @@
   --shadow-sharp-blur-radius: 6px;
   --shadow-sharp-color: rgb(0 0 0 / 16%);
   --ease-default: cubic-bezier(0.42, 0, 0, 1);
+  --internal-color-background-selected-subtle: #e4eed7;
 }

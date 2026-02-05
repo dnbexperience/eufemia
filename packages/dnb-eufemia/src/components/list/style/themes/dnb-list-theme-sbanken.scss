@@ -1,0 +1,19 @@
+/**
+ * List Sbanken theme
+ *
+ */
+
+.dnb-list {
+  &--variant-basic {
+    --item-outline-color: var(--border-color, var(--sb-color-gray-light));
+    --item-background: var(--sb-color-white);
+    --item-selected-background-color: var(
+      --internal-color-background-selected-subtle,
+      var(--sb-color-gray-light)
+    );
+    --item-navigation-color: var(--sb-color-violet);
+    --item-navigation-color--active: var(--sb-color-purple-alternative);
+    --item-icon-color: var(--item-navigation-color);
+    --item-pending-color: var(--sb-color-gray-light-3);
+  }
+}

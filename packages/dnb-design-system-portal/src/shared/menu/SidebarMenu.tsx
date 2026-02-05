@@ -392,7 +392,7 @@ function ListItem({
                   createSkeletonClass('font', skeleton)
                 )}
               >
-                {title}
+                {title.replace(/^.*\./, '')}
               </span>
             </span>
             {theme === currentTheme && <ThemeBadge theme={theme} />}

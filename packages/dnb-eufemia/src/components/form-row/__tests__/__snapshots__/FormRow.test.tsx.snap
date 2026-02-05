@@ -22,11 +22,11 @@ exports[`FormRow scss should match style dependencies css 1`] = `
 /*
  * Utilities
  */
-.dnb-form-row {
-  align-items: baseline;
-}
 .dnb-form-row, .dnb-form-row.dnb-section {
   display: flex;
+}
+.dnb-form-row {
+  align-items: baseline;
 }
 .dnb-form-row__content {
   display: inline-flex;
@@ -85,11 +85,6 @@ exports[`FormRow scss should match style dependencies css 1`] = `
 .dnb-form-row__label-dummy {
   margin: 0;
 }
-.dnb-form-row__fieldset, .dnb-core-style .dnb-form-row__fieldset {
-  padding: 0;
-  border: none;
-  width: 100%;
-}
 .dnb-form-row__fieldset:not([class*=space__top]), .dnb-core-style .dnb-form-row__fieldset:not([class*=space__top]) {
   margin-top: 0;
 }
@@ -101,5 +96,10 @@ exports[`FormRow scss should match style dependencies css 1`] = `
 }
 .dnb-form-row__fieldset:not([class*=space__right]), .dnb-core-style .dnb-form-row__fieldset:not([class*=space__right]) {
   margin-right: 0;
+}
+.dnb-form-row__fieldset, .dnb-core-style .dnb-form-row__fieldset {
+  padding: 0;
+  border: none;
+  width: 100%;
 }"
 `;

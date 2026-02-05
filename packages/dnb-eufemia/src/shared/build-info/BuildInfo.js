@@ -2,7 +2,7 @@
  * This file will be transformed by makeReleaseVersion.ts
  */
 
-import { version, sha } from './BuildInfoData.js'
+import { version, sha, buildDate } from './BuildInfoData.js'
 
 export const getVersion = () => {
   return version
@@ -10,4 +10,8 @@ export const getVersion = () => {
 
 export const getSha = () => {
   return sha
+}
+
+export const getBuildDate = () => {
+  return buildDate
 }

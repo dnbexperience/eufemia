@@ -1,0 +1,385 @@
+@import './../../../style/core/utilities.scss';
+
+.dnb-list {
+  &__container {
+    container-type: inline-size;
+    container-name: list;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    list-style: none;
+  }
+
+  &--variant-basic {
+    --item-padding: 1rem;
+    --item-height: 4rem;
+    --item-rounded-corner: 1.5rem;
+    --item-row-gap: 0.5rem;
+    --item-chevron-margin: 1rem;
+    --item-chevron-height: 1.5rem;
+    --item-outline-width: 0.0625rem;
+    --item-outline-inset: ; // leave empty for normal
+    --item-outline-color: var(--color-black-8);
+    --item-navigation-color: var(--color-sea-green);
+    --item-navigation-color--active: var(--color-emerald-green);
+    --item-icon-color: var(--item-navigation-color);
+    --item-pending-color: var(--color-black-3);
+    --item-background-color: var(--color-white);
+    --item-selected-background-color: var(
+      --internal-color-background-selected-subtle,
+      var(--item-background-color)
+    );
+
+    border-radius: var(--item-rounded-corner);
+  }
+
+  &__item {
+    position: relative;
+    z-index: 1;
+    row-gap: 0;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+
+      border-radius: inherit;
+      pointer-events: none;
+
+      @include fakeBorder(
+        var(--item-outline-color),
+        var(--item-outline-width),
+        var(--item-outline-inset)
+      );
+    }
+
+    // Grid layout: each slot (start, icon, title, center, end) is placed by its
+    // grid-area, so e.g. Item.End always goes in the end area even if "center" is
+    // not used.
+    --item-grid-template-columns: auto auto auto minmax(0, 1fr)
+      minmax(0, 1fr) auto auto;
+    --item-grid-template-areas: 'chevron-left start icon title center end chevron-right'
+      'footer footer footer footer footer footer footer';
+
+    // On small screens, use 2-row layout so end wraps to a new line
+    @include allBelow(small) {
+      --item-grid-template-areas: 'chevron-left start icon title center chevron-right'
+        'chevron-left end end end end chevron-right'
+        'footer footer footer footer footer footer';
+      &:has(#{&}__start):has(#{&}__title),
+      &:has(#{&}__icon) {
+        --item-grid-template-areas: 'chevron-left start icon title center chevron-right'
+          'chevron-left . . end end .'
+          'footer footer footer footer footer footer';
+      }
+    }
+
+    // On x-small screens, use 3-row layout so end wraps to a new line
+    @include allBelow(x-small) {
+      --item-grid-template-areas: 'chevron-left start icon title title chevron-right'
+        'chevron-left center center center center chevron-right'
+        'chevron-left end end end end chevron-right'
+        'footer footer footer footer footer footer';
+      &:has(#{&}__start):has(#{&}__title),
+      &:has(#{&}__icon) {
+        --item-grid-template-areas: 'chevron-left start icon title title chevron-right'
+          'chevron-left . . center center .' 'chevron-left . . end end .'
+          'footer footer footer footer footer footer';
+      }
+    }
+
+    // If no center is used, adjust the grid columns
+    &:not(:has(#{&}__center)) {
+      --item-grid-template-columns: auto auto auto minmax(0, 1fr) auto auto;
+    }
+
+    // Deal with the item layout
+    &,
+    &__accordion__header {
+      display: grid;
+      grid-template:
+        var(--item-grid-template-areas) /
+        var(--item-grid-template-columns);
+      place-content: center; // Center vertically
+      align-items: center; // Center vertically
+
+      min-height: var(--item-height);
+      padding: calc(var(--item-padding)) 0;
+    }
+    &:has(#{&}__overline) &__center,
+    &:has(#{&}__overline) &__end {
+      @include allAbove(small) {
+        place-self: end;
+      }
+    }
+    &:has(#{&}__overline) &__icon,
+    &:has(#{&}__overline) &__chevron {
+      place-self: end;
+    }
+    &:has(#{&}__subline) &__center,
+    &:has(#{&}__subline) &__end {
+      @include allAbove(small) {
+        place-self: start;
+      }
+    }
+    &:has(#{&}__subline) &__title,
+    &:has(#{&}__subline) &__icon,
+    &:has(#{&}__subline) &__chevron {
+      place-self: start;
+    }
+    &:has(#{&}__footer),
+    &:has(#{&}__footer) &__accordion__header {
+      padding-bottom: 0;
+    }
+
+    // On small screens, add row-gap when center or end is used
+    // so we have spacing between the rows
+    &:not(#{&}__accordion):has(#{&}__center),
+    &:not(#{&}__accordion):has(#{&}__end),
+    &__accordion__header:has(#{&}__center),
+    &__accordion__header:has(#{&}__end) {
+      @include allBelow(small) {
+        row-gap: var(--item-row-gap);
+      }
+    }
+
+    // Handle border radius
+    border-radius: 0;
+    &:first-of-type {
+      border-top-left-radius: var(--item-rounded-corner);
+      border-top-right-radius: var(--item-rounded-corner);
+    }
+    &:last-of-type {
+      border-bottom-left-radius: var(--item-rounded-corner);
+      border-bottom-right-radius: var(--item-rounded-corner);
+    }
+    .dnb-list--separated & {
+      border-radius: var(--item-rounded-corner);
+    }
+
+    background-color: var(--item-background-color);
+    &--selected {
+      background-color: var(--item-selected-background-color,);
+    }
+
+    &__title,
+    &__icon,
+    &__start,
+    &__center,
+    &__end,
+    &__overline,
+    &__subline,
+    &__footer {
+      display: flex;
+      align-items: center;
+
+      z-index: 10; // above checkbox and radio click boundary
+    }
+    &__end &__subline {
+      @include allAbove(small) {
+        place-self: end;
+      }
+    }
+
+    // Grid areas and specific styles for each slot
+    &__title {
+      grid-area: title;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.125rem;
+    }
+    &__icon {
+      grid-area: icon;
+    }
+    &__start {
+      grid-area: start;
+    }
+    &__center {
+      grid-area: center;
+    }
+    &__end {
+      grid-area: end;
+      justify-self: start;
+    }
+    &__footer {
+      grid-area: footer;
+      margin-top: var(--item-padding);
+      padding: var(--item-padding);
+
+      &.dnb-hr {
+        place-self: flex-start;
+
+        &.dnb-space__top--zero {
+          margin-top: var(--item-padding);
+        }
+      }
+    }
+    &:last-of-type:not(#{&}__accordion--open) &__footer {
+      border-bottom-left-radius: var(--item-rounded-corner);
+      border-bottom-right-radius: var(--item-rounded-corner);
+    }
+    &__subline--description {
+      color: var(--color-black-55);
+    }
+
+    // Deal with chevron
+    &__action--href a .dnb-anchor__launch-icon,
+    &__chevron {
+      display: flex;
+      align-items: center;
+      grid-area: chevron-right;
+      height: var(--item-chevron-height);
+      margin-right: var(--item-chevron-margin);
+    }
+    &--chevron-left &__action--href a .dnb-anchor__launch-icon,
+    &--chevron-left &__chevron {
+      grid-area: chevron-left;
+      margin-right: 0;
+      margin-left: var(--item-chevron-margin);
+    }
+
+    // Handle form elements alignment
+    .dnb-checkbox .dnb-form-label,
+    .dnb-radio .dnb-radio__order .dnb-form-label {
+      padding-left: var(--item-padding);
+    }
+    // So the __end is aligned with checkbox/radio label on small screens
+    &:has(.dnb-form-label) &__end {
+      @include allBelow(small) {
+        display: flex;
+        margin-left: calc(var(--item-padding) * 2 + 0.5rem);
+      }
+    }
+
+    // Make the whole item clickable
+    &:has(.dnb-checkbox__input),
+    &:has(.dnb-radio__input) {
+      overflow: clip;
+      overflow-clip-margin: var(--item-outline-width);
+    }
+    .dnb-checkbox__input {
+      --checkbox-bounding--medium: 100;
+    }
+    .dnb-radio__input {
+      --radio-bounding--medium: 100;
+    }
+
+    &:has(.dnb-anchor__launch-icon) &__chevron {
+      display: none;
+    }
+
+    // Accordion chevron rotations
+    &__chevron:where(#{&}__accordion &__chevron) .dnb-icon {
+      transition: transform 400ms var(--easing-default);
+      transform: rotate(90deg);
+    }
+    &__chevron:where(#{&}__accordion--open &__chevron) .dnb-icon {
+      transform: rotate(270deg);
+    }
+
+    &__action {
+      cursor: pointer;
+      outline: none;
+
+      .dnb-icon {
+        color: var(--item-icon-color);
+      }
+
+      // When href is set, the anchor wraps the slots; make it the grid container
+      // so slots use the same grid as the onClick version. Span all rows so on
+      // small screens the anchor fills both rows and its grid can place end on row 2.
+      &--href a {
+        display: grid;
+        grid-template:
+          var(--item-grid-template-areas) /
+          var(--item-grid-template-columns);
+        grid-column: 1 / -1; // Span full width
+        grid-row: 1 / -1; // Center vertically
+        text-decoration: none;
+        color: inherit;
+      }
+
+      // Handle action states
+      &:hover,
+      &:focus-visible {
+        --item-outline-color: var(--item-navigation-color);
+        --item-outline-width: 0.125rem;
+        z-index: 2;
+      }
+      &:hover {
+        --item-outline-inset: inset;
+      }
+      &:active {
+        --item-outline-color: var(--item-navigation-color--active);
+        --item-icon-color: var(--item-navigation-color--active);
+        --item-outline-width: 0.0625rem;
+        z-index: 2;
+      }
+    }
+
+    // Handle accordion states
+    &:has(#{&}__accordion__header:hover),
+    &:has(#{&}__accordion__header:focus-visible) {
+      --item-outline-color: var(--item-navigation-color);
+      --item-outline-width: 0.125rem;
+      z-index: 2;
+    }
+    &:has(#{&}__accordion__header:hover) {
+      --item-outline-inset: inset;
+    }
+    &:has(#{&}__accordion__header:active) {
+      --item-outline-color: var(--item-navigation-color--active);
+      --item-icon-color: var(--item-navigation-color--active);
+      --item-outline-width: 0.0625rem;
+      z-index: 2;
+    }
+
+    &__accordion {
+      display: flex;
+      align-items: stretch;
+      padding: 0;
+
+      .dnb-hr::after {
+        left: var(--item-outline-width);
+        right: var(--item-outline-width);
+      }
+
+      &__header {
+        position: relative;
+
+        cursor: pointer;
+        outline: none;
+
+        .dnb-icon {
+          color: var(--item-icon-color);
+        }
+      }
+
+      &__content {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+
+    &.dnb-skeleton .dnb-icon {
+      color: var(--skeleton-color);
+    }
+
+    &--pending {
+      pointer-events: none;
+      overflow: clip;
+    }
+    &__pending {
+      position: absolute;
+      inset: 0;
+      z-index: -1; // Behind icons
+
+      background-image: repeating-linear-gradient(
+        -45deg,
+        var(--item-pending-color) 1px 2px,
+        transparent 0 6px
+      );
+    }
+  }
+}

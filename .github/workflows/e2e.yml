@@ -47,18 +47,18 @@ jobs:
     timeout-minutes: 40
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version-file: 'package.json'
 
       - name: Use node_modules cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: modules-cache
         with:
-          path: '**/node_modules'
+          path: node_modules
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-
 
@@ -66,7 +66,7 @@ jobs:
         run: yarn install --immutable
 
       - name: Use Playwright cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: playwright-cache
         with:
           path: |
@@ -95,7 +95,7 @@ jobs:
         run: yarn workspace @dnb/eufemia test:e2e:ci
 
       - name: Store Playwright artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: failure()
         with:
           name: playwright-develop-artifact

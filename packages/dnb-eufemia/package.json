@@ -102,7 +102,7 @@
   "typings": "./index.d.ts",
   "dependencies": {
     "@babel/runtime-corejs3": "7.28.4",
-    "@modelcontextprotocol/sdk": "1.25.3",
+    "@modelcontextprotocol/sdk": "1.26.0",
     "@navikt/fnrvalidator": "2.1.5",
     "@ungap/structured-clone": "1.2.0",
     "ajv": "8.17.1",
@@ -247,7 +247,7 @@
     "react-dom": "18.2.0",
     "react-to-typescript-definitions": "3.1.1",
     "repo-utils": "workspace:*",
-    "sass": "1.62.0",
+    "sass": "1.97.2",
     "sass-loader": "13.3.2",
     "semantic-release": "20.1.0",
     "simple-git": "3.27.0",
