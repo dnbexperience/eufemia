@@ -36,8 +36,10 @@ type DateFormatProps = SpacingProps & {
   dateStyle?: Intl.DateTimeFormatOptions['dateStyle']
   timeStyle?: Intl.DateTimeFormatOptions['timeStyle']
   dateTimeSeparator?: string
-  /** When `true`, omits the year if the date is in the current year (any `dateStyle`). */
-  omitYearIfCurrentYear?: boolean
+  /** When `true`, hides the year if the date is in the current year (any `dateStyle`). */
+  hideCurrentYear?: boolean
+  /** When `true`, always hides the year from the formatted date (any `dateStyle`). */
+  hideYear?: boolean
   relativeTimeStyle?: Intl.DateTimeFormatOptions['dateStyle']
   relativeTime?: boolean
   relativeTimeReference?: () => Date
@@ -61,7 +63,8 @@ function DateFormat(props: DateFormatProps) {
     dateStyle = 'long',
     timeStyle,
     dateTimeSeparator,
-    omitYearIfCurrentYear = false,
+    hideCurrentYear = false,
+    hideYear = false,
     relativeTimeStyle,
     skeleton,
     relativeTime = false,
@@ -159,7 +162,8 @@ function DateFormat(props: DateFormatProps) {
         const formattedDate = formatDate(originalValue, {
           locale,
           options: { dateStyle: options.dateStyle },
-          omitYearIfCurrentYear,
+          hideCurrentYear,
+          hideYear,
         })
         const formattedTime = formatDate(originalValue, {
           locale,
@@ -172,7 +176,8 @@ function DateFormat(props: DateFormatProps) {
       return formatDate(originalValue, {
         locale,
         options,
-        omitYearIfCurrentYear,
+        hideCurrentYear,
+        hideYear,
       })
     },
     [
@@ -181,7 +186,8 @@ function DateFormat(props: DateFormatProps) {
       dateStyle,
       timeStyle,
       dateTimeSeparator,
-      omitYearIfCurrentYear,
+      hideCurrentYear,
+      hideYear,
       value,
       children,
     ]

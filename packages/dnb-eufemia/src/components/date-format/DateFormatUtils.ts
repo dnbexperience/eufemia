@@ -30,8 +30,10 @@ export type FormatDateOptions = {
   locale?: AnyLocale
   options?: Intl.DateTimeFormatOptions
   timeZone?: string
-  /** When true, omits the year if the date is in the current year (any dateStyle). */
-  omitYearIfCurrentYear?: boolean
+  /** When true, hides the year if the date is in the current year (any dateStyle). */
+  hideCurrentYear?: boolean
+  /** When true, always hides the year from the formatted date (any dateStyle). */
+  hideYear?: boolean
 }
 
 type FormatDateInput = DateType | number | string
@@ -66,7 +68,8 @@ export function formatDate(
     locale = defaultLocale,
     options = { dateStyle: 'short' },
     timeZone,
-    omitYearIfCurrentYear,
+    hideCurrentYear,
+    hideYear,
   }: FormatDateOptions = {}
 ) {
   // Preserve original string for UTC detection
@@ -98,18 +101,18 @@ export function formatDate(
     finalOptions.timeZone = 'UTC'
   }
 
-  // Omit year when the date is in the current year (for any dateStyle)
+  // Hide year: always hide when hideYear is true, or hide when hideCurrentYear is true and date is in current year
   const dateStyle = finalOptions.dateStyle
-  const sameYear =
+  const shouldHideYear =
     dateStyle &&
-    omitYearIfCurrentYear &&
-    date.getFullYear() === new Date().getFullYear()
+    (hideYear ||
+      (hideCurrentYear && date.getFullYear() === new Date().getFullYear()))
 
   if (typeof Intl === 'undefined') {
     return date.toLocaleString(locale, finalOptions)
   }
 
-  if (sameYear) {
+  if (shouldHideYear) {
     const dateOnlyOptionsByStyle: Record<
       NonNullable<typeof dateStyle>,
       Intl.DateTimeFormatOptions

@@ -43,7 +43,7 @@ describe('DateFormat', () => {
       expect(dateFormat).toHaveTextContent('01.08.2025')
     })
 
-    it('should omit year for any dateStyle when omitYearIfCurrentYear and date is in current year', () => {
+    it('should hide year for any dateStyle when hideCurrentYear and date is in current year', () => {
       const now = new Date('2025-06-15T12:00:00.000Z')
       jest.useFakeTimers({ now: now.getTime() })
 
@@ -53,7 +53,7 @@ describe('DateFormat', () => {
         <DateFormat
           value={dateInCurrentYear}
           dateStyle="full"
-          omitYearIfCurrentYear
+          hideCurrentYear
         />
       )
       for (const dateStyle of [
@@ -66,7 +66,7 @@ describe('DateFormat', () => {
           <DateFormat
             value={dateInCurrentYear}
             dateStyle={dateStyle}
-            omitYearIfCurrentYear
+            hideCurrentYear
           />
         )
         const dateFormat = container.querySelector('.dnb-date-format')
@@ -77,7 +77,7 @@ describe('DateFormat', () => {
       jest.useRealTimers()
     })
 
-    it('should include year when omitYearIfCurrentYear but date is in another year', () => {
+    it('should include year when hideCurrentYear but date is in another year', () => {
       const now = new Date('2025-06-15T12:00:00.000Z')
       jest.useFakeTimers({ now: now.getTime() })
 
@@ -85,13 +85,40 @@ describe('DateFormat', () => {
         <DateFormat
           value="2024-02-04"
           dateStyle="medium"
-          omitYearIfCurrentYear
+          hideCurrentYear
         />
       )
       const dateFormat = container.querySelector('.dnb-date-format')
       expect(dateFormat?.textContent).toContain('2024')
 
       jest.useRealTimers()
+    })
+
+    it('should always hide year when hideYear is true', () => {
+      const { rerender, container } = render(
+        <DateFormat value="2025-02-04" dateStyle="full" hideYear />
+      )
+      for (const dateStyle of [
+        'full',
+        'long',
+        'medium',
+        'short',
+      ] as const) {
+        rerender(
+          <DateFormat value="2025-02-04" dateStyle={dateStyle} hideYear />
+        )
+        const dateFormat = container.querySelector('.dnb-date-format')
+        expect(dateFormat?.textContent).not.toContain('2025')
+        expect(dateFormat?.textContent).toMatch(/\d{1,2}/)
+      }
+    })
+
+    it('should hide year for dates in other years when hideYear is true', () => {
+      const { container } = render(
+        <DateFormat value="2024-02-04" dateStyle="medium" hideYear />
+      )
+      const dateFormat = container.querySelector('.dnb-date-format')
+      expect(dateFormat?.textContent).not.toContain('2024')
     })
 
     it('should include time when `timeStyle` is provided', () => {

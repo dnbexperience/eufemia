@@ -11,8 +11,13 @@ export const DateFormatProperties: PropertiesTableProps = {
     type: ['long', 'medium', 'short', 'full'],
     status: 'optional',
   },
-  omitYearIfCurrentYear: {
-    doc: 'When `true`, the year is omitted if the date is in the current year, for any `dateStyle` (e.g. "4. feb." instead of "4. feb. 2025"). Defaults to `false`.',
+  hideCurrentYear: {
+    doc: 'When `true`, the year is hidden if the date is in the current year, for any `dateStyle` (e.g. "4. feb." instead of "4. feb. 2025"). Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  hideYear: {
+    doc: 'When `true`, the year is always hidden from the formatted date, for any `dateStyle`. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

@@ -43,7 +43,7 @@ export const DateStyles = () => (
   </Style>
 )
 
-export const OmitYearIfCurrentYear = () => {
+export const HideCurrentYear = () => {
   return (
     <Style>
       <ComponentBox>
@@ -57,27 +57,43 @@ export const OmitYearIfCurrentYear = () => {
               <DateFormat
                 value={dateInCurrentYear}
                 dateStyle="medium"
-                omitYearIfCurrentYear
+                hideCurrentYear
               />
               <DateFormat
                 value={dateInOtherYear}
                 dateStyle="medium"
-                omitYearIfCurrentYear
+                hideCurrentYear
               />
               <Hr />
               <DateFormat
                 value={dateInCurrentYear}
                 dateStyle="long"
-                omitYearIfCurrentYear
+                hideCurrentYear
               />
               <DateFormat
                 value={dateInOtherYear}
                 dateStyle="long"
-                omitYearIfCurrentYear
+                hideCurrentYear
               />
             </P>
           )
         }}
+      </ComponentBox>
+    </Style>
+  )
+}
+
+export const HideYear = () => {
+  return (
+    <Style>
+      <ComponentBox>
+        <P>
+          <DateFormat value="2025-02-04" dateStyle="medium" hideYear />
+          <DateFormat value="2024-02-04" dateStyle="medium" hideYear />
+          <Hr />
+          <DateFormat value="2025-02-04" dateStyle="long" hideYear />
+          <DateFormat value="2024-02-04" dateStyle="long" hideYear />
+        </P>
       </ComponentBox>
     </Style>
   )
