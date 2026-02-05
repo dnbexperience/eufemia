@@ -77,7 +77,7 @@ jobs:
       - name: Deploy portal
         if: (github.ref == 'refs/heads/release' ||
           github.ref == 'refs/heads/portal')
-        uses: peaceiris/actions-gh-pages@v5
+        uses: peaceiris/actions-gh-pages@v4
         with:
           personal_token: ${{ secrets.GH_TOKEN }}
           publish_dir: ./packages/dnb-design-system-portal/public
