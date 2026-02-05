@@ -45,7 +45,7 @@ export const ItemContentProperties: PropertiesTableProps = {
     status: 'optional',
   },
   children: {
-    doc: 'Item content. Typically `List.Cell.Start`, `List.Cell.Center`, `List.Cell.End`, `List.Cell.Title` (use `List.Cell.Title.Overline`/`List.Cell.Title.Subline` for hero/sub-text), or the drop-in `List.Cell.Title.Overline`/`List.Cell.Title.Subline` components/`List.Cell.Footer`.',
+    doc: 'Item content. Typically `List.Cell.Start`, `List.Cell.Center`, `List.Cell.End`, `List.Cell.Title` (use `List.Cell.Title.Overline`/`List.Cell.Title.Subline` for overline/subline text), or the drop-in `List.Cell.Title.Overline`/`List.Cell.Title.Subline` components, or `List.Cell.Footer`.',
     type: 'React.ReactNode',
     status: 'required',
   },
@@ -101,7 +101,7 @@ export const ItemOverlineProperties: PropertiesTableProps = {
     status: 'optional',
   },
   children: {
-    doc: 'Overline content of the list item, shown above the main title row. Use via `List.Cell.Title.Overline` when nesting inside the title block (or drop-in as `List.Cell.Title.Overline`). Pairs with List.Cell.Title.Subline inside the block.',
+    doc: 'Overline content of the list item, shown above the main title row. Use via `List.Cell.Title.Overline` when nesting inside the title block (or drop-in as `List.Cell.Title.Overline`). Pairs with `List.Cell.Title.Subline` inside the block.',
     type: 'React.ReactNode',
     status: 'required',
   },
