@@ -3,6 +3,29 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.96.0](https://github.com/dnbexperience/eufemia/compare/v10.95.2...v10.96.0) (2026-02-05)
+
+
+### :memo: Documentation
+
+* **Forms:** document where styles are imported ([#6531](https://github.com/dnbexperience/eufemia/issues/6531)) ([16f0981](https://github.com/dnbexperience/eufemia/commit/16f0981f89bbdf33246cd9efcf3d14c31a16bfeb))
+* remove new badge for components older than a year ([#6528](https://github.com/dnbexperience/eufemia/issues/6528)) ([66e87f1](https://github.com/dnbexperience/eufemia/commit/66e87f1a454ec9547871d7ff3b3413efdc2fff7e))
+
+
+### :bug: Bug Fixes
+
+* **Field.Email:** support unicode in the local part (before @) ([#6543](https://github.com/dnbexperience/eufemia/issues/6543)) ([5149cfc](https://github.com/dnbexperience/eufemia/commit/5149cfc5bc7f3954c30b5b0f15bbf619ce8056bd))
+* **Upload:** reduce `description` size and filename hover width ([#6498](https://github.com/dnbexperience/eufemia/issues/6498)) ([fef4011](https://github.com/dnbexperience/eufemia/commit/fef40112e78f6f7da79964ef692f19494233bd2c))
+* **Wizard.useStep:** ensure `setActiveIndex` can always be called ([#6546](https://github.com/dnbexperience/eufemia/issues/6546)) ([86a3e8f](https://github.com/dnbexperience/eufemia/commit/86a3e8f0dfc66b30d26367e672409cbc7a88cc1c))
+
+
+### :sparkles: Features
+
+* **DateFormat:** add `hideCurrentYear` and `hideYear` property ([#6536](https://github.com/dnbexperience/eufemia/issues/6536)) ([f7fe82d](https://github.com/dnbexperience/eufemia/commit/f7fe82dc10816e2ee5c2d34672564cdbef0d7d18)), closes [#6520](https://github.com/dnbexperience/eufemia/issues/6520)
+* **DateFormat:** show Tooltip with more information ([#6545](https://github.com/dnbexperience/eufemia/issues/6545)) ([b8a6175](https://github.com/dnbexperience/eufemia/commit/b8a617555fcf47c573eeb8c41b05256b0d81dde0))
+* **Forms:** add `Form.useSubmit` for easy submit outside the context ([#6533](https://github.com/dnbexperience/eufemia/issues/6533)) ([164ad1d](https://github.com/dnbexperience/eufemia/commit/164ad1d0fe1a36f6e312b31b49ff76bb83b525c0))
+* **List:** add new component for displaying rows of content ([#6520](https://github.com/dnbexperience/eufemia/issues/6520)) ([eb3b31f](https://github.com/dnbexperience/eufemia/commit/eb3b31f1e2d9d69f0690e2f46760f9d57af7f0bf))
+
 ## [10.95.2](https://github.com/dnbexperience/eufemia/compare/v10.95.1...v10.95.2) (2026-01-29)
 
 
