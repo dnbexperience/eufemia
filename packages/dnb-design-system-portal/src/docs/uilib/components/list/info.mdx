@@ -15,9 +15,9 @@ import { List } from '@dnb/eufemia'
 - **List.Container** – Provides list context (e.g. variant) and wraps items in a vertical flex layout. Pass `separated` to insert gap between rows so each item gets its own rounding/outline instead of sharing borders.
 - **List.Item.Basic** – A single row with optional `icon` and `title` props and cell children. Supports selected state, variant override, and loading states via `pending` (skeleton overlay) or `skeleton` (text placeholder).
 - **List.Item.Action** – Clickable row with optional `icon` and `title` props (Enter/Space support) and a chevron icon. Use `chevronPosition="left"` or `"right"` (default) to place the chevron. Supports `pending` to show a loading overlay and disable interaction. Use `href` for navigation.
-- **List.Item.Accordion** – Expandable row with optional `icon` and `title` props and `List.Item.Accordion.Content` for the expandable section. Use `open` for initial state, `chevronPosition="left"` or `"right"` for chevron placement, and optional `id` for ARIA. Supports `pending` to disable toggling.
+- **List.Item.Accordion** – Expandable row with optional `icon` and `title` props and `List.Item.Accordion.Content` for the expandable section. Use `open` for initial state, `chevronPosition="left"` or `"right"` (default) for chevron placement, and optional `id` for ARIA. Supports `pending` to disable toggling.
 - **List.Cell.Start**, **List.Cell.Center**, **List.Cell.End**, **List.Cell.Footer** – Cell slots inside Basic/Action/Accordion for start, middle, end, and additional content.
-- **List.Cell.Title** – Title block that can contain `List.Cell.Title.Overline` and `List.Cell.Title.Subline`. Use the nested helpers for structured header text, even though the drop-in `List.Cell.Title.Overline`/`List.Cell.Title.Subline` components still exist for backwards compatibility.
+- **List.Cell.Title** – Title block that can contain `List.Cell.Title.Overline` and `List.Cell.Title.Subline`. Use the nested helpers for structured header text, even though the drop-in `List.Cell.Title.Overline`/`List.Cell.Title.Subline` components still exist for backward compatibility.
 
 All item components support [Space](/uilib/layout/space/properties) props (`top`, `bottom`, etc.) and forward standard HTML attributes.
 
