@@ -248,6 +248,24 @@ describe('List', () => {
       expect(await axeComponent(container)).toHaveNoViolations()
     })
 
+    it('action list with inline anchor wrapper has no axe violations', async () => {
+      const { container } = render(
+        <List.Container>
+          <List.Item.Action
+            title="Link row"
+            href="#section"
+            target="_blank"
+            rel="noopener noreferrer"
+            chevronPosition="left"
+          >
+            <List.Cell.End>Value</List.Cell.End>
+          </List.Item.Action>
+        </List.Container>
+      )
+
+      expect(await axeComponent(container)).toHaveNoViolations()
+    })
+
     it('accordion list has no axe violations', async () => {
       const { container } = render(
         <List.Container>
