@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import useStep from '../useStep'
@@ -386,6 +386,105 @@ describe('useStep', () => {
       )
 
       expect(output()).toHaveTextContent('{"totalSteps":3}')
+    })
+
+    it('queues setActiveIndex until the wizard registers', async () => {
+      const Consumer = () => {
+        const { activeIndex, setActiveIndex } = useStep(identifier)
+        const [show, setShow] = React.useState(false)
+        const queuedRef = React.useRef(false)
+
+        React.useEffect(() => {
+          if (queuedRef.current) {
+            return
+          }
+
+          queuedRef.current = true
+
+          setActiveIndex?.(2)
+          setShow(true)
+        }, [setActiveIndex, setShow])
+
+        return (
+          <>
+            <output data-active-index>
+              {typeof activeIndex === 'number' ? activeIndex : ''}
+            </output>
+            {show && (
+              <Wizard.Container id={identifier} mode="loose">
+                <Wizard.Step>
+                  <output>Step 1</output>
+                  <Wizard.Buttons />
+                </Wizard.Step>
+                <Wizard.Step>
+                  <output>Step 2</output>
+                  <Wizard.Buttons />
+                </Wizard.Step>
+                <Wizard.Step>
+                  <output>Step 3</output>
+                  <Wizard.Buttons />
+                </Wizard.Step>
+              </Wizard.Container>
+            )}
+          </>
+        )
+      }
+
+      render(<Consumer />)
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('[data-active-index]')
+        ).toHaveTextContent('2')
+      })
+    })
+
+    it('returns a callable setActiveIndex stub immediately', async () => {
+      const visibleOutput = () =>
+        document.querySelector(
+          '.dnb-forms-wizard-layout__contents output'
+        ) as HTMLElement
+      let setter: ReturnType<typeof useStep>['setActiveIndex']
+
+      const Consumer = () => {
+        const { setActiveIndex } = useStep(identifier)
+
+        React.useEffect(() => {
+          setter = setActiveIndex
+        }, [setActiveIndex])
+
+        return null
+      }
+
+      render(
+        <>
+          <Consumer />
+          <Wizard.Container id={identifier} mode="loose">
+            <Wizard.Step>
+              <output>Step 1</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+            <Wizard.Step>
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+            <Wizard.Step>
+              <output>Step 3</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </>
+      )
+
+      await waitFor(() => {
+        expect(typeof setter).toBe('function')
+      })
+
+      setter?.(2)
+
+      await waitFor(() => {
+        expect(visibleOutput()).toHaveTextContent('Step 3')
+      })
     })
   })
 
