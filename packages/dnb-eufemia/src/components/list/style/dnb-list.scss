@@ -252,9 +252,11 @@
       }
     }
 
+    // Make the whole item clickable
     &:has(.dnb-checkbox__input),
     &:has(.dnb-radio__input) {
-      overflow: hidden;
+      overflow: clip;
+      overflow-clip-margin: var(--item-outline-width);
     }
     .dnb-checkbox__input {
       --checkbox-bounding--medium: 100;
