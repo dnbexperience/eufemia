@@ -6,8 +6,8 @@ import { ItemContentProps } from './ItemContent'
 export type ItemSublineVariant = 'description'
 
 /**
- * Props for List.Cell.Subline (ItemSubline).
- * Secondary line under the title; pairs with List.Cell.Overline (above the row).
+ * Props for List.Cell.Title.Subline (ItemSubline).
+ * Secondary line under the title; pairs with List.Cell.Title.Overline (above the row).
  */
 export type ItemSublineProps = Omit<ItemContentProps, 'variant'> & {
   /** Visual variant. Use `description` for smaller, muted text. */

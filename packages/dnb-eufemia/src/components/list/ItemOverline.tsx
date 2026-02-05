@@ -4,8 +4,8 @@ import FlexItem from '../flex/Item'
 import { ItemContentProps } from './ItemContent'
 
 /**
- * Props for List.Cell.Overline (ItemOverline).
- * Secondary line above the main row; pairs with List.Cell.Subline (below title).
+ * Props for List.Cell.Title.Overline (ItemOverline).
+ * Secondary line above the main row; pairs with List.Cell.Title.Subline (below title).
  */
 export type ItemOverlineProps = ItemContentProps & {
   /** Font size of the overline content. Defaults to `x-small`. */

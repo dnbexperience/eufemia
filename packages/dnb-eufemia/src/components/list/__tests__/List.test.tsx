@@ -109,7 +109,12 @@ describe('List', () => {
     render(
       <List.Container>
         <List.Item.Basic title="Item with header and footer">
-          <List.Cell.Overline>Overline cell</List.Cell.Overline>
+          <List.Cell.Title>
+            <List.Cell.Title.Overline>
+              Overline cell
+            </List.Cell.Title.Overline>
+            Header text
+          </List.Cell.Title>
           <List.Cell.Center>Body</List.Cell.Center>
           <List.Cell.Footer>Footer cell</List.Cell.Footer>
         </List.Item.Basic>
@@ -125,7 +130,7 @@ describe('List', () => {
     render(
       <List.Container>
         <List.Item.Basic title="Title text">
-          <List.Cell.Subline>Subline text</List.Cell.Subline>
+          <List.Cell.Title.Subline>Subline text</List.Cell.Title.Subline>
           <List.Cell.End>Value</List.Cell.End>
         </List.Item.Basic>
       </List.Container>
@@ -141,7 +146,7 @@ describe('List', () => {
       <List.Container>
         <List.Item.Basic>
           <List.Cell.Title>Custom Title</List.Cell.Title>
-          <List.Cell.Subline>Description</List.Cell.Subline>
+          <List.Cell.Title.Subline>Description</List.Cell.Title.Subline>
           <List.Cell.End>123</List.Cell.End>
         </List.Item.Basic>
       </List.Container>
@@ -264,7 +269,10 @@ describe('List', () => {
       const { container } = render(
         <List.Container>
           <List.Item.Basic title="Item">
-            <List.Cell.Overline>Overline</List.Cell.Overline>
+            <List.Cell.Title>
+              <List.Cell.Title.Overline>Overline</List.Cell.Title.Overline>
+              Header
+            </List.Cell.Title>
             <List.Cell.Center>Body</List.Cell.Center>
             <List.Cell.Footer>Footer</List.Cell.Footer>
           </List.Item.Basic>

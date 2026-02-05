@@ -2,6 +2,8 @@ import React from 'react'
 import classnames from 'classnames'
 import FlexItem from '../flex/Item'
 import { ItemContentProps } from './ItemContent'
+import ItemOverline from './ItemOverline'
+import ItemSubline from './ItemSubline'
 
 /**
  * Props for List.Cell.Title (ItemTitle).
@@ -12,7 +14,7 @@ export type ItemTitleProps = ItemContentProps & {
   fontSize?: 'small' | 'basis'
 }
 
-function ItemTitle({
+function ItemTitleBase({
   className,
   fontSize = 'basis',
   children,
@@ -28,6 +30,15 @@ function ItemTitle({
     </FlexItem>
   )
 }
-ItemTitle._supportsSpacingProps = true
+ItemTitleBase._supportsSpacingProps = true
+
+type ItemTitleComponent = typeof ItemTitleBase & {
+  Overline: typeof ItemOverline
+  Subline: typeof ItemSubline
+}
+
+const ItemTitle = ItemTitleBase as ItemTitleComponent
+ItemTitle.Overline = ItemOverline
+ItemTitle.Subline = ItemSubline
 
 export default ItemTitle

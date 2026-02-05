@@ -24,7 +24,10 @@ export function ListBasic() {
       <Box>
         <List.Container>
           <List.Item.Basic>
-            <List.Cell.Overline>Overline</List.Cell.Overline>
+            <List.Cell.Title>
+              <List.Cell.Title.Overline>Overline</List.Cell.Title.Overline>
+              List row
+            </List.Cell.Title>
             <List.Cell.Start>Start</List.Cell.Start>
             <List.Cell.Center>Center</List.Cell.Center>
             <List.Cell.End>End</List.Cell.End>
@@ -333,9 +336,9 @@ export function ListOverline() {
 
       <List.Item.Action icon={fish_medium}>
         <List.Cell.Title>
-          <List.Cell.Overline>
+          <List.Cell.Title.Overline>
             <DateFormat value={today} dateStyle="medium" hideCurrentYear />
-          </List.Cell.Overline>
+          </List.Cell.Title.Overline>
           Title 4
         </List.Cell.Title>
         <List.Cell.End>
@@ -352,13 +355,13 @@ export function ListSubline() {
       <List.Item.Action icon={fish_medium}>
         <List.Cell.Title>
           <span>Item 1</span>
-          <List.Cell.Subline>
+          <List.Cell.Title.Subline>
             <DateFormat
               value={new Date()}
               dateStyle="medium"
               hideCurrentYear
             />
-          </List.Cell.Subline>
+          </List.Cell.Title.Subline>
         </List.Cell.Title>
         <List.Cell.End>
           <Value.Currency value={5678} showEmpty />
@@ -369,16 +372,16 @@ export function ListSubline() {
         <List.Item.Accordion.Header>
           <List.Cell.Title>
             <span>Item 2</span>
-            <List.Cell.Subline>Detail 1</List.Cell.Subline>
-            <List.Cell.Subline variant="description">
+            <List.Cell.Title.Subline>Detail 1</List.Cell.Title.Subline>
+            <List.Cell.Title.Subline variant="description">
               Detail 2
-            </List.Cell.Subline>
-            <List.Cell.Subline>
+            </List.Cell.Title.Subline>
+            <List.Cell.Title.Subline>
               <Flex.Horizontal rowGap="x-small">
                 <Badge status="neutral" subtle content="Detail 3" />
                 <Badge status="neutral" subtle content="Detail 3" />
               </Flex.Horizontal>
-            </List.Cell.Subline>
+            </List.Cell.Title.Subline>
           </List.Cell.Title>
           <List.Cell.End>
             <Value.Currency value={5678} showEmpty />
