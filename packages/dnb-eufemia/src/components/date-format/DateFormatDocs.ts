@@ -27,7 +27,7 @@ export const DateFormatProperties: PropertiesTableProps = {
     status: 'optional',
   },
   dateTimeSeparator: {
-    doc: 'Custom separator used between date and time when both are rendered (e.g. " - "). Defaults to a comma.',
+    doc: 'Custom separator used between date and time when both are rendered (e.g. " - "). When not provided, uses the locale-appropriate separator (e.g. " kl. " for Norwegian, " at " for English).',
     type: 'string',
     status: 'optional',
   },

@@ -7,6 +7,7 @@ import {
   parseDuration,
   formatDuration,
   isValidDuration,
+  getDateTimeSeparator,
   FormatDateOptions,
 } from '../DateFormatUtils'
 
@@ -100,6 +101,47 @@ describe('DateFormatUtils', () => {
         expect(otherYear).not.toContain('2024')
         expect(otherYear).toMatch(/\d{1,2}/)
       }
+    })
+  })
+
+  describe('getDateTimeSeparator', () => {
+    it('returns locale-appropriate separator for Norwegian', () => {
+      const separator = getDateTimeSeparator('nb-NO', 'long', 'short')
+      expect(separator).toBe(' kl. ')
+    })
+
+    it('returns locale-appropriate separator for British English', () => {
+      const separator = getDateTimeSeparator('en-GB', 'long', 'short')
+      expect(separator).toBe(' at ')
+    })
+
+    it('returns locale-appropriate separator for US English', () => {
+      const separator = getDateTimeSeparator('en-US', 'long', 'short')
+      expect(separator).toBe(' at ')
+    })
+
+    it('returns different separators based on dateStyle', () => {
+      const shortSeparator = getDateTimeSeparator(
+        'nb-NO',
+        'short',
+        'short'
+      )
+      const longSeparator = getDateTimeSeparator('nb-NO', 'long', 'short')
+
+      expect(shortSeparator).toBe(', ')
+      expect(longSeparator).toBe(' kl. ')
+    })
+
+    it('handles invalid locale by using browser fallback', () => {
+      const separator = getDateTimeSeparator('xx-XX', 'long', 'short')
+      expect(typeof separator).toBe('string')
+      expect(separator.length).toBeGreaterThan(0)
+    })
+
+    it('returns fallback separator when Intl fails', () => {
+      const separator = getDateTimeSeparator('en-GB', undefined, undefined)
+      expect(typeof separator).toBe('string')
+      expect(separator.length).toBeGreaterThan(0)
     })
   })
 

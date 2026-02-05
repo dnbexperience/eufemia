@@ -15,6 +15,7 @@ import {
   parseDuration,
   formatDuration,
   isValidDuration,
+  getDateTimeSeparator,
 } from './DateFormatUtils'
 import { format } from 'date-fns'
 import { SpacingProps } from '../space/types'
@@ -158,7 +159,9 @@ function DateFormat(props: DateFormatProps) {
           ? convertJsxToString(children)
           : date
 
-      if (dateTimeSeparator && options?.timeStyle) {
+      // When timeStyle is provided, format date and time separately and join with separator
+      // Uses custom dateTimeSeparator if provided, otherwise uses locale-aware separator
+      if (options?.timeStyle) {
         const formattedDate = formatDate(originalValue, {
           locale,
           options: { dateStyle: options.dateStyle },
@@ -170,7 +173,17 @@ function DateFormat(props: DateFormatProps) {
           options: { timeStyle: options.timeStyle },
         })
 
-        return `${formattedDate}${dateTimeSeparator}${formattedTime}`
+        // Use custom separator if provided, otherwise use locale-aware separator
+        const separator =
+          dateTimeSeparator !== undefined
+            ? dateTimeSeparator
+            : getDateTimeSeparator(
+                locale,
+                options.dateStyle,
+                options.timeStyle
+              )
+
+        return `${formattedDate}${separator}${formattedTime}`
       }
 
       return formatDate(originalValue, {

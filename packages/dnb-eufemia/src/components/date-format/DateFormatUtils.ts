@@ -62,6 +62,46 @@ function isUTCDateString(dateValue: string): boolean {
   return false
 }
 
+/**
+ * Gets the locale-appropriate separator between date and time parts
+ * by using Intl.DateTimeFormat.formatToParts()
+ */
+export function getDateTimeSeparator(
+  locale: AnyLocale,
+  dateStyle: Intl.DateTimeFormatOptions['dateStyle'],
+  timeStyle: Intl.DateTimeFormatOptions['timeStyle']
+): string {
+  try {
+    const formatter = new Intl.DateTimeFormat(locale, {
+      dateStyle,
+      timeStyle,
+    })
+    const parts = formatter.formatToParts(new Date())
+
+    const datePartTypes = ['day', 'month', 'year', 'weekday']
+    const timePartTypes = ['hour', 'minute', 'second', 'dayPeriod']
+
+    for (let i = 0; i < parts.length; i++) {
+      if (parts[i].type === 'literal') {
+        const prevType = parts[i - 1]?.type
+        const nextType = parts[i + 1]?.type
+
+        // Found the literal between date parts and time parts
+        if (
+          datePartTypes.includes(prevType) &&
+          timePartTypes.includes(nextType)
+        ) {
+          return parts[i].value
+        }
+      }
+    }
+
+    return ', ' // Fallback
+  } catch {
+    return ', '
+  }
+}
+
 export function formatDate(
   dateValue: FormatDateInput,
   {
@@ -148,7 +188,13 @@ export function formatDate(
         timeOnlyOptions
       ).format(date)
 
-      return `${datePart}, ${timePart}`
+      const separator = getDateTimeSeparator(
+        locale,
+        dateStyle,
+        finalOptions.timeStyle
+      )
+
+      return `${datePart}${separator}${timePart}`
     }
     return datePart
   }
