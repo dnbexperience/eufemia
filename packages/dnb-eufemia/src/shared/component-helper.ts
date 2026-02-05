@@ -583,7 +583,12 @@ export function defineNavigator(): void {
     }
 
     try {
-      if (!(typeof window !== 'undefined' && (window as unknown as { IS_TEST?: boolean }).IS_TEST)) {
+      if (
+        !(
+          typeof window !== 'undefined' &&
+          (window as unknown as { IS_TEST?: boolean }).IS_TEST
+        )
+      ) {
         if (navigator.platform.match(new RegExp(PLATFORM_MAC)) !== null) {
           document.documentElement.setAttribute('data-os', 'mac')
         } else if (
@@ -627,8 +632,11 @@ export const processChildren = (props: {
   if (
     typeof global !== 'undefined' &&
     'registeredElements' in global &&
-    Array.isArray((global as { registeredElements: unknown[] }).registeredElements) &&
-    (global as { registeredElements: unknown[] }).registeredElements.length > 0
+    Array.isArray(
+      (global as { registeredElements: unknown[] }).registeredElements
+    ) &&
+    (global as { registeredElements: unknown[] }).registeredElements
+      .length > 0
   ) {
     let cache: React.ReactElement | null = null
     Object.entries(props)
@@ -729,7 +737,10 @@ export class DetectOutsideClickClass {
       typeof document !== 'undefined' &&
       typeof window !== 'undefined'
     ) {
-      let ignoreElementsArray: (HTMLElement | React.RefObject<HTMLElement>)[]
+      let ignoreElementsArray: (
+        | HTMLElement
+        | React.RefObject<HTMLElement>
+      )[]
       if (!Array.isArray(ignoreElements)) {
         ignoreElementsArray = [ignoreElements]
       } else {
@@ -865,7 +876,9 @@ export const checkIfHasScrollbar = (elem: HTMLElement): boolean => {
 
 const overflowIsScrollable = (elem: HTMLElement): boolean => {
   const style =
-    typeof window !== 'undefined' ? window.getComputedStyle(elem) : ({} as CSSStyleDeclaration)
+    typeof window !== 'undefined'
+      ? window.getComputedStyle(elem)
+      : ({} as CSSStyleDeclaration)
   return /scroll|auto/i.test(
     (style.overflow || '') +
       (style.overflowX || '') +
