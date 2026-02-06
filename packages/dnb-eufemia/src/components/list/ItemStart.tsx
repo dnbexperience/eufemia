@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import FlexItem from '../flex/Item'
 import { ItemContentProps } from './ItemContent'
 
@@ -19,7 +19,7 @@ function ItemStart({
 }: ItemStartProps) {
   return (
     <FlexItem
-      className={classnames(
+      className={clsx(
         'dnb-list__item__start',
         fontSize && `dnb-t__size--${fontSize}`,
         className
