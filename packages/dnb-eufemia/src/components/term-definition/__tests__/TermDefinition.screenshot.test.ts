@@ -10,7 +10,7 @@ import {
 
 describe.each(['ui', 'sbanken'])('TermDefinition for %s', (themeName) => {
   setupPageScreenshot({
-    url: '/uilib/components/term-definition/demos',
+    url: '/uilib/components/term-definition/demos/',
     themeName,
   })
 

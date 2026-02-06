@@ -10,7 +10,7 @@ import {
 
 describe('CopyOnClick', () => {
   setupPageScreenshot({
-    url: '/uilib/components/copy-on-click/demos',
+    url: '/uilib/components/copy-on-click/demos/',
   })
 
   const style = {
@@ -38,7 +38,7 @@ describe('CopyOnClick in drawer', () => {
     height: 200,
   }
   setupPageScreenshot({
-    url: '/uilib/components/copy-on-click/screenshot-test',
+    url: '/uilib/components/copy-on-click/screenshot-test/',
     pageViewport,
   })
 

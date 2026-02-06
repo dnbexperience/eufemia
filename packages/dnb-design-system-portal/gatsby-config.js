@@ -175,7 +175,9 @@ const plugins = [
       omitScrollBehavior: true, // Ensure smooth scrolling with CSS `scroll-behavior: smooth;` is working
     },
   },
-  process.env.BUILD_MINI ? null : 'gatsby-plugin-eufemia-llm-metadata',
+  process.env.BUILD_MINI && process.env.IS_E2E !== '1'
+    ? null
+    : 'gatsby-plugin-eufemia-llm-metadata',
 ].filter(Boolean)
 
 if (currentBranch === 'release' && !isMini) {

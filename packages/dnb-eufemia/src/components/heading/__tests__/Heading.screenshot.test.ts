@@ -13,7 +13,7 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/heading/demos',
+      url: '/uilib/components/heading/demos/',
     })
 
     it('have to match default headings', async () => {
@@ -42,7 +42,7 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
 describe.each(['sbanken'])('Heading mobile for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/heading/demos',
+    url: '/uilib/components/heading/demos/',
     pageViewport: {
       width: 400,
     },

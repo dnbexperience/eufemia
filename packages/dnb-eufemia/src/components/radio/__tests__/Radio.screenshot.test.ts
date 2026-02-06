@@ -12,7 +12,7 @@ describe.each(['ui', 'sbanken'])('Radio for %s', (themeName) => {
   describe('unchecked', () => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/radio/demos',
+      url: '/uilib/components/radio/demos/',
     })
 
     it('have to match radio in unchecked state', async () => {
@@ -63,7 +63,7 @@ describe.each(['ui', 'sbanken'])('Radio for %s', (themeName) => {
   describe('checked', () => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/radio/demos',
+      url: '/uilib/components/radio/demos/',
     })
 
     it('have to match radio in checked state', async () => {

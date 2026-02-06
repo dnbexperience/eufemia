@@ -5,7 +5,7 @@ import {
 
 describe('Form.MainHeading', () => {
   setupPageScreenshot({
-    url: '/uilib/extensions/forms/Form/MainHeading/demos',
+    url: '/uilib/extensions/forms/Form/MainHeading/demos/',
   })
 
   it('have to match above stack', async () => {

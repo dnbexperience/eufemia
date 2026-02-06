@@ -6,7 +6,7 @@
 import { makeScreenshot } from '../../../../../core/jest/jestSetupScreenshots'
 
 describe('Form.Handler', () => {
-  const url = '/uilib/extensions/forms/Form/Handler/demos'
+  const url = '/uilib/extensions/forms/Form/Handler/demos/'
 
   it('have to match required and optional fields', async () => {
     const screenshot = await makeScreenshot({

@@ -11,7 +11,7 @@ import {
 describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/input-masked/demos',
+    url: '/uilib/components/input-masked/demos/',
   })
   const style = {
     width: '200px', // make sure our input gets an explicit width, because of mac/linux rendering differences

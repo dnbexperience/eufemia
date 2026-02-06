@@ -11,7 +11,7 @@ import {
 describe.each(['ui', 'sbanken'])('FormLabel for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/form-label/demos',
+    url: '/uilib/components/form-label/demos/',
   })
 
   it('have to match default form-label', async () => {
