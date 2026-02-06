@@ -12,7 +12,7 @@ export const SelectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   transformSelection: {
-    doc: 'Transform the displayed selection for Dropdown and Autocomplete variant. Use it to display a different value than the one in the data set. The first parameter is the props of the Option component or data item. You can return a React.ReactNode that will be displayed in the selection.',
+    doc: 'Transform the displayed selection for Dropdown and Autocomplete variant. Use it to display a different value than the one in the data set. The first parameter is the properties of the Option component or data item. You can return a React.ReactNode that will be displayed in the selection.',
     type: 'function',
     status: 'optional',
   },
@@ -42,12 +42,12 @@ export const SelectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   autocompleteProps: {
-    doc: 'Forward any additional props (camelCase) to the [Autocomplete](/uilib/components/autocomplete/) component. `onType` will additionally provide the `value` parameter with `emptyValue` support in addition to the internal `dataContext`.',
+    doc: 'Forward any additional properties (camelCase) to the [Autocomplete](/uilib/components/autocomplete/) component. `onType` will additionally provide the `value` parameter with `emptyValue` support in addition to the internal `dataContext`.',
     type: 'object',
     status: 'optional',
   },
   dropdownProps: {
-    doc: 'Forward any additional props (camelCase) to the [Dropdown](/uilib/components/dropdown/) component.',
+    doc: 'Forward any additional properties (camelCase) to the [Dropdown](/uilib/components/dropdown/) component.',
     type: 'object',
     status: 'optional',
   },
