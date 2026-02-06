@@ -134,6 +134,11 @@ const plugins = [
         sbanken: { name: 'Sbanken (WIP)' },
         carnegie: { name: 'DNB Carnegie (WIP)' },
       },
+      themeMatchers: [
+        /\/themes\/[^/]*theme-([^/.]*)[/.]/,
+        // Also match the new `themes/<name>/...` layout so the generated UI files are picked up.
+        /\/themes\/([^/]+)\//,
+      ],
       filesGlobs:
         enableBuildStyleScope() || enablePortalStyleScope()
           ? shouldUsePrebuild()
