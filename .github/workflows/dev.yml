@@ -65,16 +65,3 @@ jobs:
 
       - name: Publish to StackBlitz
         run: yarn workspace eufemia-starter remove-src && yarn dlx pkg-pr-new publish './packages/dnb-eufemia/build' --template './packages/eufemia-starter' --packageManager=yarn
-
-      - name: Slack
-        uses: 8398a7/action-slack@v3
-        with:
-          channel: '#eufemia-dev'
-          status: ${{ job.status }}
-          fields: author,ref,workflow,job,took
-          job_name: Publish to StackBlitz
-          github_base_url: https://github.com/
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-        if: ${{ always() && !github.event.pull_request.head.repo.fork }}
-        continue-on-error: true
