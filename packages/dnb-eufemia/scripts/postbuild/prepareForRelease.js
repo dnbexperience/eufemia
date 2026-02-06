@@ -48,6 +48,25 @@ export default async function prepareForRelease() {
   )
   await fs.writeFile(dest, formattedPackageJson)
   log.info('Prepared package.json for release:', filepath, '->', dest)
+
+  // Create .releaserc.json in build directory for semantic-release
+  const sourcePackageJson = JSON.parse(packageString)
+  if (sourcePackageJson.release) {
+    const releaseRcPath = path.resolve(
+      packpath.self(),
+      'build',
+      '.releaserc.json'
+    )
+    const formattedReleaseRc = await prettier.format(
+      JSON.stringify(sourcePackageJson.release),
+      {
+        ...prettierrc,
+        filepath: releaseRcPath,
+      }
+    )
+    await fs.writeFile(releaseRcPath, formattedReleaseRc)
+    log.info('Created .releaserc.json in build directory:', releaseRcPath)
+  }
 }
 
 // export for testing
