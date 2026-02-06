@@ -1,8 +1,8 @@
-import React from 'react'
 import { render } from '@testing-library/react'
+import React from 'react'
 import { axeComponent } from '../../../core/jest/jestSetup'
-import Card from '../../card/Card'
 import { P } from '../../../elements'
+import Card from '../../card/Card'
 
 describe('Card', () => {
   it('should forward HTML attributes', () => {
@@ -506,6 +506,87 @@ describe('Card', () => {
       'aria-labelledby',
       '123 ' + element.querySelector('.dnb-card__title').getAttribute('id')
     )
+  })
+
+  describe('variant prop', () => {
+    it('should apply dnb-card--nested class when variant="nested"', () => {
+      render(
+        <Card variant="nested">
+          <P>Nested variant card</P>
+        </Card>
+      )
+
+      const element = document.querySelector('.dnb-card')
+      expect(element).toHaveClass('dnb-card--nested')
+    })
+
+    it('should not apply dnb-card--nested class when variant="default"', () => {
+      render(
+        <Card variant="default">
+          <P>Default variant card</P>
+        </Card>
+      )
+
+      const element = document.querySelector('.dnb-card')
+      expect(element).not.toHaveClass('dnb-card--nested')
+    })
+
+    it('should not apply dnb-card--nested class when no variant is provided', () => {
+      render(
+        <Card>
+          <P>Card without variant</P>
+        </Card>
+      )
+
+      const element = document.querySelector('.dnb-card')
+      expect(element).not.toHaveClass('dnb-card--nested')
+    })
+
+    it('should apply nested variant inside nested card', () => {
+      render(
+        <Card>
+          <Card variant="nested">
+            <P>Nested card with nested variant</P>
+          </Card>
+        </Card>
+      )
+
+      const nestedCard = document.querySelectorAll('.dnb-card')[1]
+      expect(nestedCard).toHaveClass('dnb-card--nested')
+    })
+
+    it('should allow default variant to override nested card styling', () => {
+      render(
+        <Card>
+          <Card variant="default">
+            <P>Nested card with default variant</P>
+          </Card>
+        </Card>
+      )
+
+      const nestedCard = document.querySelectorAll('.dnb-card')[1]
+      expect(nestedCard).not.toHaveClass('dnb-card--nested')
+    })
+
+    it('should match snapshot with variant nested', () => {
+      const { container } = render(
+        <Card variant="nested">
+          <P>Card with nested variant</P>
+        </Card>
+      )
+
+      expect(container.firstChild).toMatchSnapshot()
+    })
+
+    it('should match snapshot with variant default', () => {
+      const { container } = render(
+        <Card variant="default">
+          <P>Card with default variant</P>
+        </Card>
+      )
+
+      expect(container.firstChild).toMatchSnapshot()
+    })
   })
 
   describe('Card accessibility', () => {

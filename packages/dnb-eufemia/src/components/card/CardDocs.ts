@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const CardProperties: PropertiesTableProps = {
   outset: {
@@ -34,6 +34,11 @@ export const CardProperties: PropertiesTableProps = {
   filled: {
     doc: 'Define if the Card should get the same background color as the outline border.',
     type: 'boolean',
+    status: 'optional',
+  },
+  variant: {
+    doc: 'Define the visual variant of the Card. Use `nested` to apply nested card styling (thinner border, lighter color). Defaults to `default`.',
+    type: ['string', '`nested`', '`default`'],
     status: 'optional',
   },
   outline: {

@@ -1,16 +1,16 @@
-import React, { useContext } from 'react'
 import classnames from 'classnames'
-import Flex from '../flex/Flex'
-import { SectionParams, SectionProps } from '../section/Section'
+import type React from 'react'
+import { useContext } from 'react'
 import { combineLabelledBy } from '../../shared/component-helper'
-import CardContext from './CardContext'
-import Space from '../Space'
 import useId from '../../shared/helpers/useId'
-
-import type { BasicProps as FlexContainerProps } from '../flex/Container'
-import type { BasicProps as FlexItemProps } from '../flex/Item'
 import type { SpaceTypeMedia } from '../../shared/types'
 import type { SpaceProps } from '../Space'
+import Space from '../Space'
+import type { BasicProps as FlexContainerProps } from '../flex/Container'
+import Flex from '../flex/Flex'
+import type { BasicProps as FlexItemProps } from '../flex/Item'
+import { SectionParams, type SectionProps } from '../section/Section'
+import CardContext from './CardContext'
 
 export type Props = {
   /**
@@ -27,6 +27,11 @@ export type Props = {
    * Define if the Card should get the same background color as the outline border
    */
   filled?: boolean
+
+  /**
+   * Define the visual variant of the Card. Use `"nested"` to apply nested card styling (thinner border, lighter color)
+   */
+  variant?: 'nested' | 'default'
 } & FlexContainerProps &
   Pick<
     SectionProps,
@@ -53,6 +58,7 @@ function Card(props: Props) {
     rowGap,
     responsive = !nestedContext?.isNested,
     filled,
+    variant,
     outset,
     title,
     children,
@@ -82,6 +88,7 @@ function Card(props: Props) {
       className,
       responsive && 'dnb-card--responsive',
       filled && 'dnb-card--filled',
+      variant === 'nested' && 'dnb-card--nested',
       !innerSpace && innerSpace != null && 'dnb-card--no-inner-space'
     ),
     breakout: responsive ? trueWhenSmall : false,

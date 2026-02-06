@@ -1,4 +1,3 @@
-import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   Button,
   Card,
@@ -13,6 +12,7 @@ import {
   Tr,
 } from '@dnb/eufemia/src'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
 
 export const Default = () => {
   return (
@@ -39,6 +39,25 @@ export const NestedCards = () => {
           </Card>
         </Card>
       </Card>
+    </ComponentBox>
+  )
+}
+
+export const NestedVariant = () => {
+  return (
+    <ComponentBox data-visual-test="layout-card-variant-nested">
+      <Flex.Stack>
+        <Card variant="nested">
+          <P>
+            This card uses variant="nested" to get the nested appearance
+            (thinner border, lighter color) without being inside another
+            card.
+          </P>
+        </Card>
+        <Card>
+          <P>This is a regular card for comparison.</P>
+        </Card>
+      </Flex.Stack>
     </ComponentBox>
   )
 }

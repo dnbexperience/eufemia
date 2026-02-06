@@ -3,12 +3,10 @@
  *
  */
 
-import React from 'react'
-
-import { Field, Form } from '../../../extensions/forms'
+import { Box, Wrapper } from 'storybook-utils/helpers'
 import { Card, Flex, Grid, Section, Space } from '../../'
-import { Wrapper, Box } from 'storybook-utils/helpers'
 import { H2, P } from '../../../elements'
+import { Field, Form } from '../../../extensions/forms'
 
 export default {
   title: 'Eufemia/Components/Card',
@@ -216,5 +214,62 @@ export const WithOutset = () => {
         <P>Nested card</P>
       </Section>
     </Space>
+  )
+}
+
+export const WithVariant = () => {
+  return (
+    <Wrapper>
+      <Box>
+        <Flex.Stack>
+          <Card variant="default" stack>
+            <H2>Default Variant</H2>
+            <P>
+              This card uses variant="default" which is the standard
+              appearance.
+            </P>
+          </Card>
+
+          <Card variant="nested" stack>
+            <H2>Nested Variant</H2>
+            <P>
+              This card uses variant="nested" to get the nested appearance
+              (thinner border, lighter color).
+            </P>
+          </Card>
+        </Flex.Stack>
+      </Box>
+    </Wrapper>
+  )
+}
+
+export const WithVariantInNestedCard = () => {
+  return (
+    <Wrapper>
+      <Box>
+        <Card stack>
+          <H2>Parent Card</H2>
+          <P>This is a parent card with default styling.</P>
+
+          <Card variant="default" stack>
+            <H2>Child Card with variant="default"</H2>
+            <P>
+              This nested card uses variant="default" to override the
+              automatic nested styling and get the standard appearance.
+            </P>
+          </Card>
+
+          <Card stack>
+            <H2>Child Card without variant</H2>
+            <P>This nested card gets automatic nested styling.</P>
+          </Card>
+
+          <Card variant="nested" stack>
+            <H2>Child Card with variant="nested"</H2>
+            <P>This explicitly uses the nested variant.</P>
+          </Card>
+        </Card>
+      </Box>
+    </Wrapper>
   )
 }

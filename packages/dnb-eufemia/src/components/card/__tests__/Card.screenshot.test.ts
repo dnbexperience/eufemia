@@ -79,6 +79,13 @@ describe.each(['ui', 'sbanken'])('Card for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match variant nested', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="layout-card-variant-nested"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match outset', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="layout-card-outset"]',

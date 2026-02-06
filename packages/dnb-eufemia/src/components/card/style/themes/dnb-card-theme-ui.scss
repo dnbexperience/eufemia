@@ -6,8 +6,9 @@
 }
 
 .dnb-card {
-  // Nested Cards
-  & .dnb-card {
+  // Nested Cards and nested variant
+  & .dnb-card,
+  &--nested {
     --card-outline-color: var(--color-black-8);
     --outline-width: 0.0625rem;
     --rounded-corner: 0.375rem;
