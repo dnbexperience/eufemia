@@ -35,11 +35,11 @@
     "lint:styles": "yarn workspace @dnb/eufemia lint:styles && yarn workspace dnb-design-system-portal lint:styles"
   },
   "resolutions": {
-    "lmdb": "3.4.2",
-    "msgpackr": "1.11.5",
+    "lmdb": "3.5.1",
+    "msgpackr": "1.11.8",
     "jest-environment-jsdom/jsdom": "20.0.3",
-    "gatsby/socket.io": "4.6.1",
-    "gatsby/browserslist": "4.21.4"
+    "gatsby/socket.io": "4.8.3",
+    "gatsby/browserslist": "4.28.1"
   },
   "engines": {
     "node": ">=24.x",
