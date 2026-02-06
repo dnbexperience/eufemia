@@ -12,7 +12,7 @@ export const DrawerListProperties = {
     status: 'optional',
   },
   value: {
-    doc: 'Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` prop (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).',
+    doc: 'Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` property (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).',
     type: ['string', 'number'],
     status: 'optional',
   },
@@ -198,7 +198,7 @@ export const DrawerListItem = {
     status: 'optional',
   },
   groupIndex: {
-    doc: 'What group index in the `groups` prop this item belongs to.',
+    doc: 'What group index in the `groups` property this item belongs to.',
     type: 'number',
     status: 'optional',
   },

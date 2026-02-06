@@ -22,7 +22,7 @@ export const DateFormatProperties: PropertiesTableProps = {
     status: 'optional',
   },
   relativeTime: {
-    doc: 'If set to `true`, actual dates will be formatted as relative time (e.g., "2 hours ago"). ISO 8601 duration strings (e.g., "PT1H") are automatically detected and formatted without this prop. Defaults to `false`.',
+    doc: 'If set to `true`, actual dates will be formatted as relative time (e.g., "2 hours ago"). ISO 8601 duration strings (e.g., "PT1H") are automatically detected and formatted without this property. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

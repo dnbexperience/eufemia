@@ -9,7 +9,7 @@ export const SelectCurrencyProperties: PropertiesTableProps = {
     status: 'optional',
   },
   filterCurrencies: {
-    doc: 'Use this prop to filter out certain currencies. The function receives the currency object and should return a boolean. Returning `false` will omit the currency.',
+    doc: 'Use this property to filter out certain currencies. The function receives the currency object and should return a boolean. Returning `false` will omit the currency.',
     type: 'function',
     status: 'optional',
   },
