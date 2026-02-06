@@ -7,7 +7,7 @@ export const BreadcrumbProperties: PropertiesTableProps = {
     status: 'optional',
   },
   children: {
-    doc: 'Content of the component. Can be used instead of property `data`, by adding Breadcrumbitem children `<Breadcrumb.Item {...props} />`.',
+    doc: 'Content of the component. Can be used instead of property `data`, by adding Breadcrumbitem children `<Breadcrumb.Item {...properties} />`.',
     type: 'React.ReactNode',
     status: 'optional',
   },

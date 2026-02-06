@@ -7,7 +7,7 @@ export const SectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   overwriteProps: {
-    doc: 'Overwrite field props for the section.',
+    doc: 'Overwrite field properties for the section.',
     type: 'object',
     status: 'optional',
   },

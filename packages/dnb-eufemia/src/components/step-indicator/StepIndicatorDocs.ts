@@ -52,7 +52,7 @@ export const StepIndicatorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   statusState: {
-    doc: 'The type of status shown when the `status` prop is set. Defaults to `warning`.',
+    doc: 'The type of status shown when the `status` property is set. Defaults to `warning`.',
     type: `['warning', 'info', 'error']`,
     status: 'optional',
   },
@@ -75,7 +75,7 @@ export const StepIndicatorEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onChange: {
-    doc: 'Will be called when the user changes step by clicking in the steps list (changing the `currentStep` prop does not trigger the event). Receives parameter `{ event, item, currentStep, currentStep }`.',
+    doc: 'Will be called when the user changes step by clicking in the steps list (changing the `currentStep` property does not trigger the event). Receives parameter `{ event, item, currentStep, currentStep }`.',
     type: 'function',
     status: 'optional',
   },
