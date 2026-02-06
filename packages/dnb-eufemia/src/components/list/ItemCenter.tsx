@@ -1,12 +1,12 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import FlexItem from '../flex/Item'
 import { ItemContentProps } from './ItemContent'
 
 function ItemCenter({ className, ...rest }: ItemContentProps) {
   return (
     <FlexItem
-      className={classnames(
+      className={clsx(
         'dnb-list__item__center',
         'dnb-t__size--basis',
         className
