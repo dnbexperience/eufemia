@@ -12,7 +12,7 @@ export const AnchorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   to: {
-    doc: 'Use this prop only if you are using a router Link component as the `element` that uses the `to` property to declare the navigation url.',
+    doc: 'Use this property only if you are using a router Link component as the `element` that uses the `to` property to declare the navigation url.',
     type: 'string',
     status: 'optional',
   },

@@ -17,7 +17,7 @@ import {
 
 ### Importing a logo
 
-To use a logo, the svg must be imported and handed to the `Logo` components throught the `svg` prop.
+To use a logo, the svg must be imported and handed to the `Logo` components through the `svg` property.
 
 ```jsx
 import {
@@ -38,7 +38,7 @@ If no svg is provided, the `DnbDefault` logo is used by default:
 
 ### Change logo based on theme
 
-The `svg` prop can also accept a function that returns a logo svg based on the current [theme](/uilib/usage/customisation/theming/theme/) props.
+The `svg` property can also accept a function that returns a logo svg based on the current [theme](/uilib/usage/customisation/theming/theme/) props.
 
 ```tsx
 import type { ThemeProps } from '@dnb/eufemia/shared/Theme'
@@ -56,7 +56,7 @@ By default the logo will use the inherited `font-size` to set its height.
 
 #### Alternative inherited height
 
-You can chose to let the height be set by the inherited `height` instead by setting the `inheritSize` prop.
+You can chose to let the height be set by the inherited `height` instead by setting the `inheritSize` property.
 
 <LogoInheritHeightExample />
 

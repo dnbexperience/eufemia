@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const PopoverProperties: PropertiesTableProps = {
   children: {
-    doc: 'Alternative content prop. Accepts nodes or a render function that receives the same helpers as `content`.',
+    doc: 'Alternative content property. Accepts nodes or a render function that receives the same helpers as `content`.',
     type: [
       'React.ReactNode',
       '({ close, open, toggle, id }) => React.ReactNode',
@@ -109,7 +109,7 @@ export const PopoverProperties: PropertiesTableProps = {
     status: 'optional',
   },
   hideArrow: {
-    doc: 'Hide the arrow element from the popover. When `true`, the arrow will not be rendered regardless of the `arrowPosition` prop.',
+    doc: 'Hide the arrow element from the popover. When `true`, the arrow will not be rendered regardless of the `arrowPosition` property.',
     type: 'boolean',
     defaultValue: 'false',
     status: 'optional',

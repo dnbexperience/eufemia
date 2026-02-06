@@ -7,7 +7,7 @@ export const TimelineProperties: PropertiesTableProps = {
     status: 'optional',
   },
   children: {
-    doc: 'Content of the component. Can be used instead of property `data`, by adding [Timeline Item](/uilib/components/timeline/properties#timelineitem-properties) as children `<Timeline.Item {...props} />`.',
+    doc: 'Content of the component. Can be used instead of property `data`, by adding [Timeline Item](/uilib/components/timeline/properties#timelineitem-properties) as children `<Timeline.Item {...properties} />`.',
     type: 'React.ReactNode',
     status: 'optional',
   },
