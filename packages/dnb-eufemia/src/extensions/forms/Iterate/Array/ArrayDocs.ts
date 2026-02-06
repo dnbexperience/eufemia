@@ -3,7 +3,7 @@ import { DataValueWritePropsProperties } from '../../hooks/DataValueWritePropsDo
 
 export const ArrayProperties: PropertiesTableProps = {
   value: {
-    doc: 'The data to iterate over. Alternative you can use the `path` prop.',
+    doc: 'The data to iterate over. Alternative you can use the `path` property.',
     type: 'array',
     status: 'optional',
   },
