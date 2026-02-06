@@ -87,7 +87,7 @@ export const textareaProperties: PropertiesTableProps = {
     status: 'optional',
   },
   textareaState: {
-    doc: 'To control the visual focus state as a prop, like `focus` or `blur`.',
+    doc: 'To control the visual focus state as a property, like `focus` or `blur`.',
     type: 'string',
     status: 'optional',
   },
