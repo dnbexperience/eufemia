@@ -5757,6 +5757,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@harperfast/extended-iterable@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "@harperfast/extended-iterable@npm:1.0.3"
+  checksum: 10/39ccf64e0358bb37e43b03a9392a708d3acdc2f2f71a95009a8d21e5203de1fe32b7eb8ff64b4d4dcbbc005e976226d4360cfced091018d618f26e5a94344110
+  languageName: node
+  linkType: hard
+
 "@hono/node-server@npm:^1.19.9":
   version: 1.19.9
   resolution: "@hono/node-server@npm:1.19.9"
@@ -6640,51 +6647,51 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lmdb/lmdb-darwin-arm64@npm:3.4.2":
-  version: 3.4.2
-  resolution: "@lmdb/lmdb-darwin-arm64@npm:3.4.2"
+"@lmdb/lmdb-darwin-arm64@npm:3.5.1":
+  version: 3.5.1
+  resolution: "@lmdb/lmdb-darwin-arm64@npm:3.5.1"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@lmdb/lmdb-darwin-x64@npm:3.4.2":
-  version: 3.4.2
-  resolution: "@lmdb/lmdb-darwin-x64@npm:3.4.2"
+"@lmdb/lmdb-darwin-x64@npm:3.5.1":
+  version: 3.5.1
+  resolution: "@lmdb/lmdb-darwin-x64@npm:3.5.1"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@lmdb/lmdb-linux-arm64@npm:3.4.2":
-  version: 3.4.2
-  resolution: "@lmdb/lmdb-linux-arm64@npm:3.4.2"
+"@lmdb/lmdb-linux-arm64@npm:3.5.1":
+  version: 3.5.1
+  resolution: "@lmdb/lmdb-linux-arm64@npm:3.5.1"
   conditions: os=linux & cpu=arm64
   languageName: node
   linkType: hard
 
-"@lmdb/lmdb-linux-arm@npm:3.4.2":
-  version: 3.4.2
-  resolution: "@lmdb/lmdb-linux-arm@npm:3.4.2"
+"@lmdb/lmdb-linux-arm@npm:3.5.1":
+  version: 3.5.1
+  resolution: "@lmdb/lmdb-linux-arm@npm:3.5.1"
   conditions: os=linux & cpu=arm
   languageName: node
   linkType: hard
 
-"@lmdb/lmdb-linux-x64@npm:3.4.2":
-  version: 3.4.2
-  resolution: "@lmdb/lmdb-linux-x64@npm:3.4.2"
+"@lmdb/lmdb-linux-x64@npm:3.5.1":
+  version: 3.5.1
+  resolution: "@lmdb/lmdb-linux-x64@npm:3.5.1"
   conditions: os=linux & cpu=x64
   languageName: node
   linkType: hard
 
-"@lmdb/lmdb-win32-arm64@npm:3.4.2":
-  version: 3.4.2
-  resolution: "@lmdb/lmdb-win32-arm64@npm:3.4.2"
+"@lmdb/lmdb-win32-arm64@npm:3.5.1":
+  version: 3.5.1
+  resolution: "@lmdb/lmdb-win32-arm64@npm:3.5.1"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@lmdb/lmdb-win32-x64@npm:3.4.2":
-  version: 3.4.2
-  resolution: "@lmdb/lmdb-win32-x64@npm:3.4.2"
+"@lmdb/lmdb-win32-x64@npm:3.5.1":
+  version: 3.5.1
+  resolution: "@lmdb/lmdb-win32-x64@npm:3.5.1"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -9932,13 +9939,6 @@ __metadata:
   version: 2.1.1
   resolution: "@types/configstore@npm:2.1.1"
   checksum: 10/5bdbdbf8c265223cd53108df0cd466b2ef7e18339767daa40cb2b30a1d209cdb30186dcb3738da91abe7814f128ad362e46ff96edbec21d0a0f2e854143f78b9
-  languageName: node
-  linkType: hard
-
-"@types/cookie@npm:^0.4.1":
-  version: 0.4.1
-  resolution: "@types/cookie@npm:0.4.1"
-  checksum: 10/427c9220217d3d74f3e5d53d68cd39502f3bbebdb1af4ecf0d05076bcbe9ddab299ad6369fe0f517389296ba4ca49ddf9a8c22f68e5e9eb8ae6d0076cfab90b2
   languageName: node
   linkType: hard
 
@@ -13587,17 +13587,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"browserslist@npm:4.21.4":
-  version: 4.21.4
-  resolution: "browserslist@npm:4.21.4"
+"browserslist@npm:4.28.1, browserslist@npm:^4.25.2, browserslist@npm:^4.28.0":
+  version: 4.28.1
+  resolution: "browserslist@npm:4.28.1"
   dependencies:
-    caniuse-lite: "npm:^1.0.30001400"
-    electron-to-chromium: "npm:^1.4.251"
-    node-releases: "npm:^2.0.6"
-    update-browserslist-db: "npm:^1.0.9"
+    baseline-browser-mapping: "npm:^2.9.0"
+    caniuse-lite: "npm:^1.0.30001759"
+    electron-to-chromium: "npm:^1.5.263"
+    node-releases: "npm:^2.0.27"
+    update-browserslist-db: "npm:^1.2.0"
   bin:
     browserslist: cli.js
-  checksum: 10/8d12915f0eb4804ff6e276d7db85a8dde15325f3acd1bc4d6e18f41763984797b8e718d9d04a8b9c092cf034ca886328fdf3b06c9ab2ee064dd3d10962f1da99
+  checksum: 10/64f2a97de4bce8473c0e5ae0af8d76d1ead07a5b05fc6bc87b848678bb9c3a91ae787b27aa98cdd33fc00779607e6c156000bed58fefb9cf8e4c5a183b994cdb
   languageName: node
   linkType: hard
 
@@ -13640,21 +13641,6 @@ __metadata:
   bin:
     browserslist: cli.js
   checksum: 10/11fda105e803d891311a21a1f962d83599319165faf471c2d70e045dff82a12128f5b50b1fcba665a2352ad66147aaa248a9d2355a80aadc3f53375eb3de2e48
-  languageName: node
-  linkType: hard
-
-"browserslist@npm:^4.25.2, browserslist@npm:^4.28.0":
-  version: 4.28.1
-  resolution: "browserslist@npm:4.28.1"
-  dependencies:
-    baseline-browser-mapping: "npm:^2.9.0"
-    caniuse-lite: "npm:^1.0.30001759"
-    electron-to-chromium: "npm:^1.5.263"
-    node-releases: "npm:^2.0.27"
-    update-browserslist-db: "npm:^1.2.0"
-  bin:
-    browserslist: cli.js
-  checksum: 10/64f2a97de4bce8473c0e5ae0af8d76d1ead07a5b05fc6bc87b848678bb9c3a91ae787b27aa98cdd33fc00779607e6c156000bed58fefb9cf8e4c5a183b994cdb
   languageName: node
   linkType: hard
 
@@ -14038,7 +14024,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001400, caniuse-lite@npm:^1.0.30001464, caniuse-lite@npm:^1.0.30001503, caniuse-lite@npm:^1.0.30001688, caniuse-lite@npm:^1.0.30001702, caniuse-lite@npm:^1.0.30001718, caniuse-lite@npm:^1.0.30001759":
+"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001464, caniuse-lite@npm:^1.0.30001503, caniuse-lite@npm:^1.0.30001688, caniuse-lite@npm:^1.0.30001702, caniuse-lite@npm:^1.0.30001718, caniuse-lite@npm:^1.0.30001759":
   version: 1.0.30001762
   resolution: "caniuse-lite@npm:1.0.30001762"
   checksum: 10/d60a589180198ac759fa1775e521862f03503286cc9354144adcd88e76d275f03b2b6e9cab1c606790eee9d6af5cedbedb048ec652f5ff77a2b229992b7c4845
@@ -15214,7 +15200,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cookie@npm:^0.7.1":
+"cookie@npm:^0.7.1, cookie@npm:~0.7.2":
   version: 0.7.2
   resolution: "cookie@npm:0.7.2"
   checksum: 10/24b286c556420d4ba4e9bc09120c9d3db7d28ace2bd0f8ccee82422ce42322f73c8312441271e5eefafbead725980e5996cc02766dbb89a90ac7f5636ede608f
@@ -15225,13 +15211,6 @@ __metadata:
   version: 1.1.1
   resolution: "cookie@npm:1.1.1"
   checksum: 10/85538153054791155cf4d38d2e807e3b9382d71bf71d92fc46fca348515ea574049d0d9ef8eb84d2d54a681ad1d7a7316b1989b901dace50a6c0f4c3858dbdb2
-  languageName: node
-  linkType: hard
-
-"cookie@npm:~0.4.1":
-  version: 0.4.2
-  resolution: "cookie@npm:0.4.2"
-  checksum: 10/2e1de9fdedca54881eab3c0477aeb067f281f3155d9cfee9d28dfb252210d09e85e9d175c0a60689661feb9e35e588515352f2456bc1f8e8db4267e05fd70137
   languageName: node
   linkType: hard
 
@@ -16028,7 +16007,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:^4.4.0, debug@npm:^4.4.3":
+"debug@npm:^4.4.0, debug@npm:^4.4.3, debug@npm:~4.4.1":
   version: 4.4.3
   resolution: "debug@npm:4.4.3"
   dependencies:
@@ -16871,7 +16850,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-to-chromium@npm:^1.4.251, electron-to-chromium@npm:^1.4.431":
+"electron-to-chromium@npm:^1.4.431":
   version: 1.4.442
   resolution: "electron-to-chromium@npm:1.4.442"
   checksum: 10/14c223afb0d698203f15f470d3baf56d1cd6d62ec87e6dd269ab11d82edc22255184cc77e2ed0ae62bc3560b91399725a56fdcddf9d932a9e59fa059238a1694
@@ -16999,13 +16978,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"engine.io-parser@npm:~5.0.3":
-  version: 5.0.7
-  resolution: "engine.io-parser@npm:5.0.7"
-  checksum: 10/c5cf6efc572f9c7231c67c69946e2cdd8e3dc870f692ddae73e62794915719ee0fd4cd3973349ef30c2f957111c7b7eebe0b61fef9e1d9f9634fb58fafbd05f2
-  languageName: node
-  linkType: hard
-
 "engine.io-parser@npm:~5.2.1":
   version: 5.2.1
   resolution: "engine.io-parser@npm:5.2.1"
@@ -17013,21 +16985,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"engine.io@npm:~6.4.1":
-  version: 6.4.2
-  resolution: "engine.io@npm:6.4.2"
+"engine.io@npm:~6.6.0":
+  version: 6.6.5
+  resolution: "engine.io@npm:6.6.5"
   dependencies:
-    "@types/cookie": "npm:^0.4.1"
     "@types/cors": "npm:^2.8.12"
     "@types/node": "npm:>=10.0.0"
     accepts: "npm:~1.3.4"
     base64id: "npm:2.0.0"
-    cookie: "npm:~0.4.1"
+    cookie: "npm:~0.7.2"
     cors: "npm:~2.8.5"
-    debug: "npm:~4.3.1"
-    engine.io-parser: "npm:~5.0.3"
-    ws: "npm:~8.11.0"
-  checksum: 10/70b1c16d5118c12f4d9ce39094d0165f8dba973853229fc90cb58a21958c17a3d65a8ff273c05d6fccadca61834366c7a482c08af24fdecae13baf59a1d8c095
+    debug: "npm:~4.4.1"
+    engine.io-parser: "npm:~5.2.1"
+    ws: "npm:~8.18.3"
+  checksum: 10/d48f8c4240185c018c4d5608fa1641dbd640c10dda7ae24cdca57c5e6938e47bead110f1435925822923444590d2b63c7aebe43149fe9978714fee960923a23b
   languageName: node
   linkType: hard
 
@@ -25620,17 +25591,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lmdb@npm:3.4.2":
-  version: 3.4.2
-  resolution: "lmdb@npm:3.4.2"
+"lmdb@npm:3.5.1":
+  version: 3.5.1
+  resolution: "lmdb@npm:3.5.1"
   dependencies:
-    "@lmdb/lmdb-darwin-arm64": "npm:3.4.2"
-    "@lmdb/lmdb-darwin-x64": "npm:3.4.2"
-    "@lmdb/lmdb-linux-arm": "npm:3.4.2"
-    "@lmdb/lmdb-linux-arm64": "npm:3.4.2"
-    "@lmdb/lmdb-linux-x64": "npm:3.4.2"
-    "@lmdb/lmdb-win32-arm64": "npm:3.4.2"
-    "@lmdb/lmdb-win32-x64": "npm:3.4.2"
+    "@harperfast/extended-iterable": "npm:^1.0.3"
+    "@lmdb/lmdb-darwin-arm64": "npm:3.5.1"
+    "@lmdb/lmdb-darwin-x64": "npm:3.5.1"
+    "@lmdb/lmdb-linux-arm": "npm:3.5.1"
+    "@lmdb/lmdb-linux-arm64": "npm:3.5.1"
+    "@lmdb/lmdb-linux-x64": "npm:3.5.1"
+    "@lmdb/lmdb-win32-arm64": "npm:3.5.1"
+    "@lmdb/lmdb-win32-x64": "npm:3.5.1"
     msgpackr: "npm:^1.11.2"
     node-addon-api: "npm:^6.1.0"
     node-gyp: "npm:latest"
@@ -25654,7 +25626,7 @@ __metadata:
       optional: true
   bin:
     download-lmdb-prebuilds: bin/download-prebuilds.js
-  checksum: 10/abf7a606f7bc9c115fe47cf6ccb3c4f3d6aef3d423676e322b70855f751b4bdbe1f6fc55a94ea5602c933e53f7cde1947bfc79968d8c3baa84d94fa424642eae
+  checksum: 10/d5d18ba40f9408a08e31aa59ba0411cc2690e16cd2ec24b14a1b3fa36b780ddde39e56d309c94e6b31d06e9aa52d145f779d15d501b3576c1a2fc4f9c60ae69f
   languageName: node
   linkType: hard
 
@@ -27822,15 +27794,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"msgpackr@npm:1.11.5":
-  version: 1.11.5
-  resolution: "msgpackr@npm:1.11.5"
+"msgpackr@npm:1.11.8":
+  version: 1.11.8
+  resolution: "msgpackr@npm:1.11.8"
   dependencies:
     msgpackr-extract: "npm:^3.0.2"
   dependenciesMeta:
     msgpackr-extract:
       optional: true
-  checksum: 10/8d1db85d355bbe87428ae91a161dad4e67647761f4266d8ac06abe29e1fbae976aec4cc9435d32a1a4240d10bf01294dc2a00cec1c94409b77c4749f9bc9feb5
+  checksum: 10/f37666bddca024958f1dc3fa5f53909f6c0001ef3632e7e86c4e769cf99270c1a35cc6b0818cc5f6c3a493bd4b7920f9e4aff5af2719fea03db9581d43f379b3
   languageName: node
   linkType: hard
 
@@ -28186,7 +28158,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-releases@npm:^2.0.12, node-releases@npm:^2.0.6":
+"node-releases@npm:^2.0.12":
   version: 2.0.12
   resolution: "node-releases@npm:2.0.12"
   checksum: 10/5b376582d1e348132aeb2c7c14990ca2d6d8687bd57fec912fd7f4e09abb44464fc72503ab2a29804613a7654d7a18f45a69506d249f79dba48fb1258df75c0b
@@ -34635,7 +34607,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"socket.io-parser@npm:~4.2.1, socket.io-parser@npm:~4.2.4":
+"socket.io-parser@npm:~4.2.4":
   version: 4.2.4
   resolution: "socket.io-parser@npm:4.2.4"
   dependencies:
@@ -34645,17 +34617,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"socket.io@npm:4.6.1":
-  version: 4.6.1
-  resolution: "socket.io@npm:4.6.1"
+"socket.io@npm:4.8.3":
+  version: 4.8.3
+  resolution: "socket.io@npm:4.8.3"
   dependencies:
     accepts: "npm:~1.3.4"
     base64id: "npm:~2.0.0"
-    debug: "npm:~4.3.2"
-    engine.io: "npm:~6.4.1"
+    cors: "npm:~2.8.5"
+    debug: "npm:~4.4.1"
+    engine.io: "npm:~6.6.0"
     socket.io-adapter: "npm:~2.5.2"
-    socket.io-parser: "npm:~4.2.1"
-  checksum: 10/5388ee122528d19f9adbfc8eb91b92785bd70e5a09b3b605d7e9cc7aa061abd9453724e9a4380e293a1c35f0b8dc1febc5012905f3ec311f9bf219aefd2a7e16
+    socket.io-parser: "npm:~4.2.4"
+  checksum: 10/ccd3eb0d191b3338056b678e676407a0dc565ab2a49a1aefd4b0771bd1d95d71cb564d3766040346669144c8a3b425bede54e0aad8102aa6c7d91dacb7c6992f
   languageName: node
   linkType: hard
 
@@ -37677,7 +37650,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"update-browserslist-db@npm:^1.0.11, update-browserslist-db@npm:^1.0.9":
+"update-browserslist-db@npm:^1.0.11":
   version: 1.0.11
   resolution: "update-browserslist-db@npm:1.0.11"
   dependencies:
@@ -39081,7 +39054,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:^8.11.0":
+"ws@npm:^8.11.0, ws@npm:~8.18.3":
   version: 8.18.3
   resolution: "ws@npm:8.18.3"
   peerDependencies:
