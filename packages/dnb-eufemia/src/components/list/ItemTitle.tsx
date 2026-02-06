@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import FlexItem from '../flex/Item'
 import { ItemContentProps } from './ItemContent'
 import ItemOverline from './ItemOverline'
@@ -23,7 +23,7 @@ function ItemTitleBase({
   return (
     <FlexItem
       innerSpace={{ left: 'small' }}
-      className={classnames('dnb-list__item__title', className)}
+      className={clsx('dnb-list__item__title', className)}
       {...rest}
     >
       <span className={`dnb-t__size--${fontSize}`}>{children}</span>

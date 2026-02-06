@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import FlexItem from '../flex/Item'
 import { ItemContentProps } from './ItemContent'
 
@@ -23,7 +23,7 @@ function ItemOverline({
 }: ItemOverlineProps) {
   return (
     <FlexItem
-      className={classnames(
+      className={clsx(
         'dnb-list__item__overline',
         fontSize && `dnb-t__size--${fontSize}`,
         fontWeight === 'medium' && 'dnb-t__weight--medium',
