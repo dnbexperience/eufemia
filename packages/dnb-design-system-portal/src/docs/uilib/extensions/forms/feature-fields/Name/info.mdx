@@ -86,7 +86,7 @@ The validation happens on blur, internally using the `onBlurValidator` [property
   - Matches the name pattern (starts and ends with a letter, no consecutive hyphens or spaces).
 
 - **`companyValidator`**: Validates company names for `Field.Name.Company`. It checks that the company name:
-  - Is at least 3 characters long (default, can be customized via `minLength` prop).
+  - Is at least 3 characters long (default, can be customized via `minLength` property).
   - Matches the company pattern (starts and ends with a letter or number, no consecutive hyphens, spaces, or dots).
 
 You can extend the validation by providing your own `onBlurValidator` function. Access the internal validator through the `validators` parameter and combine it with your custom validation. This allows you to add additional validation rules while keeping the default validation intact.
