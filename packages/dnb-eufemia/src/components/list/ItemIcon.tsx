@@ -1,5 +1,5 @@
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import FlexItem from '../flex/Item'
 import Icon, { type IconIcon } from '../icon/Icon'
 import { ItemContentProps } from './ItemContent'
@@ -13,7 +13,7 @@ function ItemIcon({
 }) {
   return (
     <FlexItem
-      className={classnames('dnb-list__item__icon', className)}
+      className={clsx('dnb-list__item__icon', className)}
       innerSpace={{ left: 'small' }}
       {...rest}
     >
