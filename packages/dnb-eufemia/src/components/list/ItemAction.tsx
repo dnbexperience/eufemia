@@ -1,4 +1,4 @@
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { ListVariant } from './ListContext'
 import ItemContent, { ItemContentProps } from './ItemContent'
 import React, { useCallback, useRef } from 'react'
@@ -82,7 +82,7 @@ function ItemAction(props: ItemActionProps) {
     [onClick, pending]
   )
 
-  const actionClassName = classnames(
+  const actionClassName = clsx(
     'dnb-list__item__action',
     chevronPosition === 'left' && 'dnb-list__item--chevron-left',
     href && 'dnb-list__item__action--href',
