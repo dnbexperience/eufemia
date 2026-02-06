@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import Button, { type ButtonProps } from '../../components/button/Button'
 import useTranslation from '../../shared/useTranslation'
 import SubmitIndicator from '../forms/Form/SubmitIndicator'
@@ -50,7 +50,7 @@ export default function VippsWalletButton({
     <Button
       {...props}
       variant="primary"
-      className={classnames('dnb-vipps-wallet-button', className)}
+      className={clsx('dnb-vipps-wallet-button', className)}
       disabled={props.disabled || pending}
     >
       {buttonText} <VippsLogo />

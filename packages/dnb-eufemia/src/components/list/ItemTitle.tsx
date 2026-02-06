@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import FlexItem, { type Props as FlexItemProps } from '../flex/Item'
 import ItemOverline from './ItemOverline'
 import ItemSubline from './ItemSubline'
@@ -36,7 +36,7 @@ function ItemTitleBase({
   const content = (
     <FlexItem
       innerSpace={{ left: 'small' }}
-      className={classnames(
+      className={clsx(
         'dnb-list__item__title',
         appliedSkeleton && createSkeletonClass('font', true),
         className
@@ -44,7 +44,7 @@ function ItemTitleBase({
       {...rest}
     >
       <span
-        className={classnames(
+        className={clsx(
           `dnb-t__size--${fontSize}`,
           fontWeight === 'medium' && 'dnb-t__weight--medium'
         )}

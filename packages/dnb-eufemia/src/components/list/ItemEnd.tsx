@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import FlexItem, { type Props as FlexItemProps } from '../flex/Item'
 import { ListContext } from './ListContext'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
@@ -34,7 +34,7 @@ function ItemEnd(props: ItemEndProps) {
 
   const content = (
     <FlexItem
-      className={classnames(
+      className={clsx(
         'dnb-list__item__end',
         fontSize && `dnb-t__size--${fontSize}`,
         fontWeight === 'medium' && 'dnb-t__weight--medium',

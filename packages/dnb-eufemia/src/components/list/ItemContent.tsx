@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { ListVariant, ListContext } from './ListContext'
 import FlexContainer, { Props as FlexProps } from '../flex/Container'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
@@ -40,7 +40,7 @@ function ItemContent(props: ItemContentProps) {
       justify="space-between"
       wrap={false}
       gap={false}
-      className={classnames(
+      className={clsx(
         'dnb-list__item',
         'dnb-t__size--basis',
         appliedVariant && `dnb-list--variant-${appliedVariant}`,

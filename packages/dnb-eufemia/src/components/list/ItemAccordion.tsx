@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import useId from '../../shared/helpers/useId'
 import { ListVariant, ListContext } from './ListContext'
 import ItemContent, { ItemContentProps } from './ItemContent'
@@ -121,7 +121,7 @@ function ItemAccordion(props: ItemAccordionProps) {
       }}
     >
       <ItemContent
-        className={classnames(
+        className={clsx(
           'dnb-list__item__accordion',
           openState && 'dnb-list__item__accordion--open',
           className
@@ -187,7 +187,7 @@ function AccordionHeader(props: AccordionHeaderProps) {
 
   const content = (
     <FlexItem
-      className={classnames(
+      className={clsx(
         'dnb-list__item__accordion__header',
         chevronPosition === 'left' && 'dnb-list__item--chevron-left',
         inheritedSkeleton && createSkeletonClass('font', true),
@@ -245,7 +245,7 @@ function AccordionContent(props: ItemContentProps) {
 
   const content = (
     <FlexItem
-      className={classnames(
+      className={clsx(
         'dnb-list__item__accordion__content',
         inheritedSkeleton && createSkeletonClass('font', true),
         className
