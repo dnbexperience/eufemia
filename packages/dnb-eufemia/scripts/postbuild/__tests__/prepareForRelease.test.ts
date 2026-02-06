@@ -348,26 +348,25 @@ describe('release config', () => {
     const exists = await fs.pathExists(releaseRcPath)
     expect(exists).toBe(true)
 
-    if (exists) {
-      const releaseRc = await fs.readJson(releaseRcPath)
+    // Read and verify the configuration
+    const releaseRc = await fs.readJson(releaseRcPath)
 
-      // Verify it has the plugins array
-      expect(releaseRc).toHaveProperty('plugins')
-      expect(Array.isArray(releaseRc.plugins)).toBe(true)
+    // Verify it has the plugins array
+    expect(releaseRc).toHaveProperty('plugins')
+    expect(Array.isArray(releaseRc.plugins)).toBe(true)
 
-      // Verify npm plugin has provenance config
-      const npmPlugin = releaseRc.plugins.find(
-        (plugin) =>
-          Array.isArray(plugin) && plugin[0] === '@semantic-release/npm'
-      )
-      expect(npmPlugin).toBeTruthy()
+    // Verify npm plugin has provenance config
+    const npmPlugin = releaseRc.plugins.find(
+      (plugin) =>
+        Array.isArray(plugin) && plugin[0] === '@semantic-release/npm'
+    )
+    expect(npmPlugin).toBeTruthy()
 
-      const npmConfig = Array.isArray(npmPlugin) ? npmPlugin[1] : undefined
-      expect(npmConfig).toMatchObject({
-        npmPublish: true,
-        pkgRoot: '.',
-        provenance: true,
-      })
-    }
+    const npmConfig = Array.isArray(npmPlugin) ? npmPlugin[1] : undefined
+    expect(npmConfig).toMatchObject({
+      npmPublish: true,
+      pkgRoot: '.',
+      provenance: true,
+    })
   })
 })
