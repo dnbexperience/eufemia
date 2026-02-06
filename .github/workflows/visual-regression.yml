@@ -110,16 +110,3 @@ jobs:
       - name: Run visual tests info
         if: failure()
         run: echo '\n\n👉 Download the diff files as a ZIP file. \nIt is called "visual-test-artifact" and you find it in the test "Summary" under "Artifacts".\n\n\n'
-
-      - name: Slack
-        uses: 8398a7/action-slack@v3
-        with:
-          channel: '#eufemia-dev'
-          status: ${{ job.status }}
-          fields: author,ref,workflow,job,took
-          job_name: Run visual regression tests
-          github_base_url: https://github.com/
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-        if: ${{ always() && !github.event.pull_request.head.repo.fork }}
-        continue-on-error: true
