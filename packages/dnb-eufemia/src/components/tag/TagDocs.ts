@@ -63,7 +63,7 @@ export const TagGroupProperties: PropertiesTableProps = {
     status: 'required',
   },
   children: {
-    doc: 'Content of the component. Can be used instead of the `data`-property, by adding Tag elements as children `<Tag {...props} />`.',
+    doc: 'Content of the component. Can be used instead of the `data`-property, by adding Tag elements as children `<Tag {...properties} />`.',
     type: 'React.ReactNode',
     status: 'optional',
   },

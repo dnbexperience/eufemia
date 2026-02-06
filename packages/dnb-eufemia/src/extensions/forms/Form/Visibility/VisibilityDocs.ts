@@ -48,7 +48,7 @@ export const VisibilityProperties: PropertiesTableProps = {
     status: 'optional',
   },
   visible: {
-    doc: 'Control visibility directly using the `visible` prop. When used alongside other conditions, the `visible` prop takes precedence.',
+    doc: 'Control visibility directly using the `visible` property. When used alongside other conditions, the `visible` property takes precedence.',
     type: 'boolean',
     status: 'optional',
   },
@@ -73,7 +73,7 @@ export const VisibilityProperties: PropertiesTableProps = {
     status: 'optional',
   },
   fieldPropsWhenHidden: {
-    doc: 'When visibility is hidden, and `keepInDOM` is true, pass these props to the children.',
+    doc: 'When visibility is hidden, and `keepInDOM` is true, pass these properties to the children.',
     type: 'various',
     status: 'optional',
   },
