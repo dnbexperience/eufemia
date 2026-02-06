@@ -17,7 +17,7 @@ export const ProviderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   schema: {
-    doc: 'JSON Schema for validation of the data set. IMPORTANT: When using JSON Schema validation, you MUST provide an `ajvInstance` prop.',
+    doc: 'JSON Schema for validation of the data set. IMPORTANT: When using JSON Schema validation, you MUST provide an `ajvInstance` property.',
     type: 'object',
     status: 'optional',
   },
@@ -52,12 +52,12 @@ export const ProviderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   transformIn: {
-    doc: "Mutate the data context (internally as well) based on your criteria: `({ path, value, data, props, internal }) => 'new value'`. It will iterate on each data entry (/path).",
+    doc: "Mutate the data context (internally as well) based on your criteria: `({ path, value, data, properties, internal }) => 'new value'`. It will iterate on each data entry (/path).",
     type: 'function',
     status: 'optional',
   },
   transformOut: {
-    doc: "Mutate the data before it enters onSubmit or onChange based on your criteria: `({ path, value, data, props, internal }) => 'new value'`. It will iterate on each data entry (/path).",
+    doc: "Mutate the data before it enters onSubmit or onChange based on your criteria: `({ path, value, data, properties, internal }) => 'new value'`. It will iterate on each data entry (/path).",
     type: 'function',
     status: 'optional',
   },
@@ -95,7 +95,7 @@ export const ProviderProperties: PropertiesTableProps = {
 
 export const ProviderEvents: PropertiesTableProps = {
   onChange: {
-    doc: "Will be called when a value of a field was changed by the user, with the data set (including the changed value) as argument. When an async function is provided, it will show an indicator on the current label during a field change. Related props: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`. You can return an error or an object with these keys `{ info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` in addition to { success: 'saved' } indicate the field was saved. Will emit unvalidated by default and validated when an async function is provided (like `onSubmit`). The second parameter is an object containing the `filterData`, `resetForm` and `clearData` functions.",
+    doc: "Will be called when a value of a field was changed by the user, with the data set (including the changed value) as argument. When an async function is provided, it will show an indicator on the current label during a field change. Related properties: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`. You can return an error or an object with these keys `{ info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` in addition to { success: 'saved' } indicate the field was saved. Will emit unvalidated by default and validated when an async function is provided (like `onSubmit`). The second parameter is an object containing the `filterData`, `resetForm` and `clearData` functions.",
     type: 'function',
     status: 'optional',
   },
@@ -105,12 +105,12 @@ export const ProviderEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onSubmit: {
-    doc: "Will be called (on validation success) when the user submit the form (i.e by clicking a [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton) component inside), with the data set as argument. When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for minimum 1 second. Related props: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`. You can return an error or an object with these keys `{ status: 'pending', info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` to be shown in a [FormStatus](/uilib/components/form-status). Will only emit when every validation has passed. The second parameter is an object containing the `filterData`, `reduceToVisibleFields`, `transformData`, `resetForm` and `clearData` functions.",
+    doc: "Will be called (on validation success) when the user submit the form (i.e by clicking a [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton) component inside), with the data set as argument. When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for minimum 1 second. Related properties: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`. You can return an error or an object with these keys `{ status: 'pending', info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` to be shown in a [FormStatus](/uilib/components/form-status). Will only emit when every validation has passed. The second parameter is an object containing the `filterData`, `reduceToVisibleFields`, `transformData`, `resetForm` and `clearData` functions.",
     type: 'function',
     status: 'optional',
   },
   onSubmitRequest: {
-    doc: 'Will be called when the user tries to submit, but errors stop the data from being submitted. The first parameter is an object containing the `getErrors` method, returning an array with field errors. Each error object contains the `path`, `error` and `props` of the field. You can use this to log the errors before the form is submitted.',
+    doc: 'Will be called when the user tries to submit, but errors stop the data from being submitted. The first parameter is an object containing the `getErrors` method, returning an array with field errors. Each error object contains the `path`, `error` and `properties` of the field. You can use this to log the errors before the form is submitted.',
     type: 'function',
     status: 'optional',
   },
