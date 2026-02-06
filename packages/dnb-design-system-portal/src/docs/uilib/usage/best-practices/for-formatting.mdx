@@ -1,0 +1,134 @@
+---
+title: 'Best Practices for formatting'
+description: 'Compare the canonical number, currency and date layouts that the components produce for each locale.'
+order: 1
+---
+
+import { DateFormat, NumberFormat } from '@dnb/eufemia/src/components'
+
+# Formatting reference
+
+This page shows the canonical number, currency and date layouts that the components produce for each locale.
+
+For detailed prop lists, see the [NumberFormat](/uilib/components/number-format) component and the [DateFormat](/uilib/components/date-format) component.
+
+The formatting helpers power several `Value.*` components:
+
+- [Value.Number](/uilib/extensions/forms/Value/Number/)
+- [Value.Currency](/uilib/extensions/forms/Value/Currency/)
+- [Value.Date](/uilib/extensions/forms/Value/Date/)
+- [Value.DateOfBirth](/uilib/extensions/forms/Value/DateOfBirth/)
+- [Value.PhoneNumber](/uilib/extensions/forms/Value/PhoneNumber/)
+- [Value.BankAccountNumber](/uilib/extensions/forms/Value/BankAccountNumber/)
+- [Value.NationalIdentityNumber](/uilib/extensions/forms/Value/NationalIdentityNumber/)
+- [Value.OrganizationNumber](/uilib/extensions/forms/Value/OrganizationNumber/)
+
+---
+
+## Phone number
+
+- <NumberFormat phone value="99999999" />
+
+## Bank account number
+
+- <NumberFormat ban value="12340001358" />
+
+## National identification number
+
+- <NumberFormat nin value="18089212345" />
+
+## Organization number
+
+- <NumberFormat org value="123456789" />
+
+## Numbers
+
+| Variation    | `nb-NO`                                                         | `en-GB`                                                         | `sv-SE`                                                         | `da-DK`                                                         |
+| ------------ | --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- |
+| Default      | <NumberFormat locale="nb-NO" value={1234567.89} />              | <NumberFormat locale="en-GB" value={1234567.89} />              | <NumberFormat locale="sv-SE" value={1234567.89} />              | <NumberFormat locale="da-DK" value={1234567.89} />              |
+| `decimals=0` | <NumberFormat locale="nb-NO" value={1234567.89} decimals={0} /> | <NumberFormat locale="en-GB" value={1234567.89} decimals={0} /> | <NumberFormat locale="sv-SE" value={1234567.89} decimals={0} /> | <NumberFormat locale="da-DK" value={1234567.89} decimals={0} /> |
+| `decimals=3` | <NumberFormat locale="nb-NO" value={1234567.89} decimals={3} /> | <NumberFormat locale="en-GB" value={1234567.89} decimals={3} /> | <NumberFormat locale="sv-SE" value={1234567.89} decimals={3} /> | <NumberFormat locale="da-DK" value={1234567.89} decimals={3} /> |
+
+### Compact
+
+| Style   | `nb-NO`                                                                        | `en-GB`                                                                        | `sv-SE`                                                                        | `da-DK`                                                                        |
+| ------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| `short` | <NumberFormat locale="nb-NO" compact decimals={1} value={123456} />            | <NumberFormat locale="en-GB" compact decimals={1} value={123456} />            | <NumberFormat locale="sv-SE" compact decimals={1} value={123456} />            | <NumberFormat locale="da-DK" compact decimals={1} value={123456} />            |
+| `long`  | <NumberFormat locale="nb-NO" compact="long" decimals={2} value={1234567.89} /> | <NumberFormat locale="en-GB" compact="long" decimals={2} value={1234567.89} /> | <NumberFormat locale="sv-SE" compact="long" decimals={2} value={1234567.89} /> | <NumberFormat locale="da-DK" compact="long" decimals={2} value={1234567.89} /> |
+
+## Percentage
+
+| Style          | `nb-NO`                                                        | `en-GB`                                                        | `sv-SE`                                                        | `da-DK`                                                        |
+| -------------- | -------------------------------------------------------------- | -------------------------------------------------------------- | -------------------------------------------------------------- | -------------------------------------------------------------- |
+| Default        | <NumberFormat locale="nb-NO" percent value={12.34} />          | <NumberFormat locale="en-GB" percent value={12.34} />          | <NumberFormat locale="sv-SE" percent value={12.34} />          | <NumberFormat locale="da-DK" percent value={12.34} />          |
+| `decimals={3}` | <NumberFormat locale="nb-NO" percent decimals={3} value={3} /> | <NumberFormat locale="en-GB" percent decimals={3} value={3} /> | <NumberFormat locale="sv-SE" percent decimals={3} value={3} /> | <NumberFormat locale="da-DK" percent decimals={3} value={3} /> |
+
+## Amount and Currency
+
+| Variation                        | `nb-NO`                                                                               | `en-GB`                                                                               | `sv-SE`                                                                               | `da-DK`                                                                               |
+| -------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Default                          | <NumberFormat currency locale="nb-NO" value={-1358} />                                | <NumberFormat currency locale="en-GB" value={-1358} />                                | <NumberFormat currency locale="sv-SE" value={-1358} />                                | <NumberFormat currency locale="da-DK" value={-1358} />                                |
+| `currencyDisplay="code"`         | <NumberFormat currency locale="nb-NO" value={-1358} currencyDisplay="code" />         | <NumberFormat currency locale="en-GB" value={-1358} currencyDisplay="code" />         | <NumberFormat currency locale="sv-SE" value={-1358} currencyDisplay="code" />         | <NumberFormat currency locale="da-DK" value={-1358} currencyDisplay="code" />         |
+| `currencyDisplay="name"`         | <NumberFormat currency locale="nb-NO" value={-1358} currencyDisplay="name" />         | <NumberFormat currency locale="en-GB" value={-1358} currencyDisplay="name" />         | <NumberFormat currency locale="sv-SE" value={-1358} currencyDisplay="name" />         | <NumberFormat currency locale="da-DK" value={-1358} currencyDisplay="name" />         |
+| `currencyDisplay="symbol"`       | <NumberFormat currency locale="nb-NO" value={-1358} currencyDisplay="symbol" />       | <NumberFormat currency locale="en-GB" value={-1358} currencyDisplay="symbol" />       | <NumberFormat currency locale="sv-SE" value={-1358} currencyDisplay="symbol" />       | <NumberFormat currency locale="da-DK" value={-1358} currencyDisplay="symbol" />       |
+| `currencyDisplay="narrowSymbol"` | <NumberFormat currency locale="nb-NO" value={-1358} currencyDisplay="narrowSymbol" /> | <NumberFormat currency locale="en-GB" value={-1358} currencyDisplay="narrowSymbol" /> | <NumberFormat currency locale="sv-SE" value={-1358} currencyDisplay="narrowSymbol" /> | <NumberFormat currency locale="da-DK" value={-1358} currencyDisplay="narrowSymbol" /> |
+| `currencyDisplay={false}`        | <NumberFormat currency locale="nb-NO" value={-1358} currencyDisplay={false} />        | <NumberFormat currency locale="en-GB" value={-1358} currencyDisplay={false} />        | <NumberFormat currency locale="sv-SE" value={-1358} currencyDisplay={false} />        | <NumberFormat currency locale="da-DK" value={-1358} currencyDisplay={false} />        |
+| `currencyPosition="before"`      | <NumberFormat currency locale="nb-NO" value={-1358} currencyPosition="before" />      | <NumberFormat currency locale="en-GB" value={-1358} currencyPosition="before" />      | <NumberFormat currency locale="sv-SE" value={-1358} currencyPosition="before" />      | <NumberFormat currency locale="da-DK" value={-1358} currencyPosition="before" />      |
+| `currencyPosition="after"`       | <NumberFormat currency locale="nb-NO" value={-1358} currencyPosition="after" />       | <NumberFormat currency locale="en-GB" value={-1358} currencyPosition="after" />       | <NumberFormat currency locale="sv-SE" value={-1358} currencyPosition="after" />       | <NumberFormat currency locale="da-DK" value={-1358} currencyPosition="after" />       |
+| `decimals={0}`                   | <NumberFormat currency locale="nb-NO" value={-1358} decimals={0} />                   | <NumberFormat currency locale="en-GB" value={-1358} decimals={0} />                   | <NumberFormat currency locale="sv-SE" value={-1358} decimals={0} />                   | <NumberFormat currency locale="da-DK" value={-1358} decimals={0} />                   |
+| `decimals={3}`                   | <NumberFormat currency locale="nb-NO" value={-1358} decimals={3} />                   | <NumberFormat currency locale="en-GB" value={-1358} decimals={3} />                   | <NumberFormat currency locale="sv-SE" value={-1358} decimals={3} />                   | <NumberFormat currency locale="da-DK" value={-1358} decimals={3} />                   |
+
+## Date
+
+| Style    | `nb-NO`                                                             | `en-GB`                                                             | `sv-SE`                                                             | `da-DK`                                                             |
+| -------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `full`   | <DateFormat locale="nb-NO" value="2026-01-30" dateStyle="full" />   | <DateFormat locale="en-GB" value="2026-01-30" dateStyle="full" />   | <DateFormat locale="sv-SE" value="2026-01-30" dateStyle="full" />   | <DateFormat locale="da-DK" value="2026-01-30" dateStyle="full" />   |
+| `long`   | <DateFormat locale="nb-NO" value="2026-01-30" dateStyle="long" />   | <DateFormat locale="en-GB" value="2026-01-30" dateStyle="long" />   | <DateFormat locale="sv-SE" value="2026-01-30" dateStyle="long" />   | <DateFormat locale="da-DK" value="2026-01-30" dateStyle="long" />   |
+| `medium` | <DateFormat locale="nb-NO" value="2026-01-30" dateStyle="medium" /> | <DateFormat locale="en-GB" value="2026-01-30" dateStyle="medium" /> | <DateFormat locale="sv-SE" value="2026-01-30" dateStyle="medium" /> | <DateFormat locale="da-DK" value="2026-01-30" dateStyle="medium" /> |
+| `short`  | <DateFormat locale="nb-NO" value="2026-01-30" dateStyle="short" />  | <DateFormat locale="en-GB" value="2026-01-30" dateStyle="short" />  | <DateFormat locale="sv-SE" value="2026-01-30" dateStyle="short" />  | <DateFormat locale="da-DK" value="2026-01-30" dateStyle="short" />  |
+
+## Date + time
+
+| Style    | `nb-NO`                                                                                     | `en-GB`                                                                                     | `sv-SE`                                                                                     | `da-DK`                                                                                     |
+| -------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `full`   | <DateFormat locale="nb-NO" value="2026-01-30T09:12" dateStyle="full" timeStyle="short" />   | <DateFormat locale="en-GB" value="2026-01-30T09:12" dateStyle="full" timeStyle="short" />   | <DateFormat locale="sv-SE" value="2026-01-30T09:12" dateStyle="full" timeStyle="short" />   | <DateFormat locale="da-DK" value="2026-01-30T09:12" dateStyle="full" timeStyle="short" />   |
+| `long`   | <DateFormat locale="nb-NO" value="2026-01-30T09:12" dateStyle="long" timeStyle="short" />   | <DateFormat locale="en-GB" value="2026-01-30T09:12" dateStyle="long" timeStyle="short" />   | <DateFormat locale="sv-SE" value="2026-01-30T09:12" dateStyle="long" timeStyle="short" />   | <DateFormat locale="da-DK" value="2026-01-30T09:12" dateStyle="long" timeStyle="short" />   |
+| `medium` | <DateFormat locale="nb-NO" value="2026-01-30T09:12" dateStyle="medium" timeStyle="short" /> | <DateFormat locale="en-GB" value="2026-01-30T09:12" dateStyle="medium" timeStyle="short" /> | <DateFormat locale="sv-SE" value="2026-01-30T09:12" dateStyle="medium" timeStyle="short" /> | <DateFormat locale="da-DK" value="2026-01-30T09:12" dateStyle="medium" timeStyle="short" /> |
+| `short`  | <DateFormat locale="nb-NO" value="2026-01-30T09:12" dateStyle="short" timeStyle="short" />  | <DateFormat locale="en-GB" value="2026-01-30T09:12" dateStyle="short" timeStyle="short" />  | <DateFormat locale="sv-SE" value="2026-01-30T09:12" dateStyle="short" timeStyle="short" />  | <DateFormat locale="da-DK" value="2026-01-30T09:12" dateStyle="short" timeStyle="short" />  |
+
+## Date without year
+
+The component always includes the year unless `hideYear` or `hideCurrentYear` is set.
+
+| Style    | `nb-NO`                                                                      | `en-GB`                                                                      | `sv-SE`                                                                      | `da-DK`                                                                      |
+| -------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `full`   | <DateFormat locale="nb-NO" value="2026-01-30" dateStyle="full" hideYear />   | <DateFormat locale="en-GB" value="2026-01-30" dateStyle="full" hideYear />   | <DateFormat locale="sv-SE" value="2026-01-30" dateStyle="full" hideYear />   | <DateFormat locale="da-DK" value="2026-01-30" dateStyle="full" hideYear />   |
+| `long`   | <DateFormat locale="nb-NO" value="2026-01-30" dateStyle="long" hideYear />   | <DateFormat locale="en-GB" value="2026-01-30" dateStyle="long" hideYear />   | <DateFormat locale="sv-SE" value="2026-01-30" dateStyle="long" hideYear />   | <DateFormat locale="da-DK" value="2026-01-30" dateStyle="long" hideYear />   |
+| `medium` | <DateFormat locale="nb-NO" value="2026-01-30" dateStyle="medium" hideYear /> | <DateFormat locale="en-GB" value="2026-01-30" dateStyle="medium" hideYear /> | <DateFormat locale="sv-SE" value="2026-01-30" dateStyle="medium" hideYear /> | <DateFormat locale="da-DK" value="2026-01-30" dateStyle="medium" hideYear /> |
+| `short`  | <DateFormat locale="nb-NO" value="2026-01-30" dateStyle="short" hideYear />  | <DateFormat locale="en-GB" value="2026-01-30" dateStyle="short" hideYear />  | <DateFormat locale="sv-SE" value="2026-01-30" dateStyle="short" hideYear />  | <DateFormat locale="da-DK" value="2026-01-30" dateStyle="short" hideYear />  |
+
+## Date without year + time
+
+| Style    | `nb-NO`                                                                                              | `en-GB`                                                                                              | `sv-SE`                                                                                              | `da-DK`                                                                                              |
+| -------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `full`   | <DateFormat locale="nb-NO" value="2026-01-30T09:12" dateStyle="full" timeStyle="short" hideYear />   | <DateFormat locale="en-GB" value="2026-01-30T09:12" dateStyle="full" timeStyle="short" hideYear />   | <DateFormat locale="sv-SE" value="2026-01-30T09:12" dateStyle="full" timeStyle="short" hideYear />   | <DateFormat locale="da-DK" value="2026-01-30T09:12" dateStyle="full" timeStyle="short" hideYear />   |
+| `long`   | <DateFormat locale="nb-NO" value="2026-01-30T09:12" dateStyle="long" timeStyle="short" hideYear />   | <DateFormat locale="en-GB" value="2026-01-30T09:12" dateStyle="long" timeStyle="short" hideYear />   | <DateFormat locale="sv-SE" value="2026-01-30T09:12" dateStyle="long" timeStyle="short" hideYear />   | <DateFormat locale="da-DK" value="2026-01-30T09:12" dateStyle="long" timeStyle="short" hideYear />   |
+| `medium` | <DateFormat locale="nb-NO" value="2026-01-30T09:12" dateStyle="medium" timeStyle="short" hideYear /> | <DateFormat locale="en-GB" value="2026-01-30T09:12" dateStyle="medium" timeStyle="short" hideYear /> | <DateFormat locale="sv-SE" value="2026-01-30T09:12" dateStyle="medium" timeStyle="short" hideYear /> | <DateFormat locale="da-DK" value="2026-01-30T09:12" dateStyle="medium" timeStyle="short" hideYear /> |
+| `short`  | <DateFormat locale="nb-NO" value="2026-01-30T09:12" dateStyle="short" timeStyle="short" hideYear />  | <DateFormat locale="en-GB" value="2026-01-30T09:12" dateStyle="short" timeStyle="short" hideYear />  | <DateFormat locale="sv-SE" value="2026-01-30T09:12" dateStyle="short" timeStyle="short" hideYear />  | <DateFormat locale="da-DK" value="2026-01-30T09:12" dateStyle="short" timeStyle="short" hideYear />  |
+
+## Relative time
+
+All examples below use the same reference point (`2026-02-06T12:00:00Z`) so the labels stay stable.
+
+| Description | `nb-NO`                                                                                                                                | `en-GB`                                                                                                                                | `sv-SE`                                                                                                                                | `da-DK`                                                                                                                                |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Just now    | <DateFormat locale="nb-NO" relativeTime relativeTimeReference={() => new Date('2026-02-06T12:00:00Z')} value="2026-02-06T11:59:30Z" /> | <DateFormat locale="en-GB" relativeTime relativeTimeReference={() => new Date('2026-02-06T12:00:00Z')} value="2026-02-06T11:59:30Z" /> | <DateFormat locale="sv-SE" relativeTime relativeTimeReference={() => new Date('2026-02-06T12:00:00Z')} value="2026-02-06T11:59:30Z" /> | <DateFormat locale="da-DK" relativeTime relativeTimeReference={() => new Date('2026-02-06T12:00:00Z')} value="2026-02-06T11:59:30Z" /> |
+| In past     | <DateFormat locale="nb-NO" relativeTime relativeTimeReference={() => new Date('2026-02-06T12:00:00Z')} value="2026-02-06T11:00:00Z" /> | <DateFormat locale="en-GB" relativeTime relativeTimeReference={() => new Date('2026-02-06T12:00:00Z')} value="2026-02-06T11:00:00Z" /> | <DateFormat locale="sv-SE" relativeTime relativeTimeReference={() => new Date('2026-02-06T12:00:00Z')} value="2026-02-06T11:00:00Z" /> | <DateFormat locale="da-DK" relativeTime relativeTimeReference={() => new Date('2026-02-06T12:00:00Z')} value="2026-02-06T11:00:00Z" /> |
+| In future   | <DateFormat locale="nb-NO" relativeTime relativeTimeReference={() => new Date('2026-02-06T12:00:00Z')} value="2026-02-06T15:00:00Z" /> | <DateFormat locale="en-GB" relativeTime relativeTimeReference={() => new Date('2026-02-06T12:00:00Z')} value="2026-02-06T15:00:00Z" /> | <DateFormat locale="sv-SE" relativeTime relativeTimeReference={() => new Date('2026-02-06T12:00:00Z')} value="2026-02-06T15:00:00Z" /> | <DateFormat locale="da-DK" relativeTime relativeTimeReference={() => new Date('2026-02-06T12:00:00Z')} value="2026-02-06T15:00:00Z" /> |
+
+## Duration strings
+
+| Duration    | `nb-NO`                                         | `en-GB`                                         | `sv-SE`                                         | `da-DK`                                         |
+| ----------- | ----------------------------------------------- | ----------------------------------------------- | ----------------------------------------------- | ----------------------------------------------- |
+| `PT2H30M`   | <DateFormat locale="nb-NO" value="PT2H30M" />   | <DateFormat locale="en-GB" value="PT2H30M" />   | <DateFormat locale="sv-SE" value="PT2H30M" />   | <DateFormat locale="da-DK" value="PT2H30M" />   |
+| `P1DT2H30M` | <DateFormat locale="nb-NO" value="P1DT2H30M" /> | <DateFormat locale="en-GB" value="P1DT2H30M" /> | <DateFormat locale="sv-SE" value="P1DT2H30M" /> | <DateFormat locale="da-DK" value="P1DT2H30M" /> |
