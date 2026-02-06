@@ -72,7 +72,7 @@ export const FieldBlockProperties: PropertiesTableProps = {
     status: 'optional',
   },
   labelHeight: {
-    doc: 'Defines the height of an component (size prop), so the label can be aligned correctly. Can be `default`, `small`, `medium`, `large`.',
+    doc: 'Defines the height of an component (size property), so the label can be aligned correctly. Can be `default`, `small`, `medium`, `large`.',
     type: 'string',
     status: 'optional',
   },
