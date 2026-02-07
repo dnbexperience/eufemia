@@ -2,11 +2,15 @@
 
 .dnb-list {
   &__container {
-    container-type: inline-size;
-    container-name: list;
     display: flex;
     flex-direction: column;
+
+    container-type: inline-size;
+    container-name: list;
+
+    margin: 0; // reset UL margin
     padding: 0;
+
     list-style: none;
   }
 
