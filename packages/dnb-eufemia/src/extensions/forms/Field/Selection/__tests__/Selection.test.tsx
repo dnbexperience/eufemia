@@ -269,6 +269,49 @@ describe('variants', () => {
       expect(options[1].textContent).toBe('title b')
     })
 
+    it('supports render prop children with current value', async () => {
+      function Component() {
+        const [value, setValue] = React.useState('foo')
+
+        return (
+          <Field.Selection
+            variant="radio"
+            value={value}
+            onChange={(nextValue) => {
+              setValue(String(nextValue ?? ''))
+            }}
+          >
+            {({ value }) => {
+              return (
+                <>
+                  <Field.Option
+                    value="foo"
+                    title={value === 'foo' ? 'Foo selected' : 'Foo'}
+                  />
+                  <Field.Option
+                    value="bar"
+                    title={value === 'bar' ? 'Bar selected' : 'Bar'}
+                  />
+                </>
+              )
+            }}
+          </Field.Selection>
+        )
+      }
+
+      render(<Component />)
+
+      let options = document.querySelectorAll('.dnb-radio')
+      expect(options[0].textContent).toBe('Foo selected')
+      expect(options[1].textContent).toBe('Bar')
+
+      await userEvent.click(document.querySelectorAll('input')[1])
+
+      options = document.querySelectorAll('.dnb-radio')
+      expect(options[0].textContent).toBe('Foo')
+      expect(options[1].textContent).toBe('Bar selected')
+    })
+
     it('renders help', () => {
       render(
         <Field.Selection variant="radio">

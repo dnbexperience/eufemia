@@ -93,6 +93,48 @@ describe('ArraySelection', () => {
       expect(options[1].textContent).toBe('title b')
     })
 
+    it('supports render prop children with current values', async () => {
+      function Component() {
+        const [value, setValue] = React.useState<Array<string>>(['foo'])
+
+        return (
+          <Field.ArraySelection
+            value={value}
+            onChange={(nextValue) => {
+              setValue((nextValue as Array<string>) ?? [])
+            }}
+          >
+            {({ value }) => {
+              return (
+                <>
+                  <Field.Option
+                    value="foo"
+                    title={value?.includes('foo') ? 'Foo selected' : 'Foo'}
+                  />
+                  <Field.Option
+                    value="bar"
+                    title={value?.includes('bar') ? 'Bar selected' : 'Bar'}
+                  />
+                </>
+              )
+            }}
+          </Field.ArraySelection>
+        )
+      }
+
+      render(<Component />)
+
+      let options = document.querySelectorAll('.dnb-checkbox')
+      expect(options[0].textContent).toBe('Foo selected')
+      expect(options[1].textContent).toBe('Bar')
+
+      await userEvent.click(document.querySelectorAll('input')[1])
+
+      options = document.querySelectorAll('.dnb-checkbox')
+      expect(options[0].textContent).toBe('Foo selected')
+      expect(options[1].textContent).toBe('Bar selected')
+    })
+
     it('handles selection correctly', () => {
       const handleChange = jest.fn()
       render(
