@@ -68,6 +68,10 @@ export type Data = Array<
   } & Partial<DrawerListDataArrayObjectStrict>
 >
 
+type RenderSelectionChildren = (params: {
+  value: IOption['value']
+}) => React.ReactNode
+
 export type Props = FieldProps<IOption['value']> & {
   /**
    * Defines the variant of the component.
@@ -130,7 +134,7 @@ export type Props = FieldProps<IOption['value']> & {
   /**
    * The content of the component.
    */
-  children?: React.ReactNode
+  children?: React.ReactNode | RenderSelectionChildren
 }
 
 const validDrawerListProps = [
@@ -304,6 +308,10 @@ function Selection(props: Props) {
     dropdownProps,
   } = useFieldProps(props)
 
+  const renderedChildren = useMemo(() => {
+    return resolveChildren(children, value)
+  }, [children, value])
+
   const { getValueByPath } = useDataValue()
   let dataList = data
   if (dataPath) {
@@ -394,7 +402,7 @@ function Selection(props: Props) {
         info,
         warning,
         htmlAttributes,
-        children,
+        children: renderedChildren,
         dataList,
         hasError,
         iterateOverItems: ({ value: v, label }) => {
@@ -439,7 +447,7 @@ function Selection(props: Props) {
     case 'autocomplete':
     case 'dropdown': {
       const data = renderDropdownItems(dataList, transformSelection)
-        .concat(makeOptions(children, transformSelection))
+        .concat(makeOptions(renderedChildren, transformSelection))
         .filter(Boolean)
       const displayValue = data.find((item) => item.selectedKey === value)
         ?.content
@@ -509,6 +517,17 @@ function Selection(props: Props) {
   }
 }
 
+function resolveChildren(
+  children: Props['children'],
+  value: Props['value']
+) {
+  if (typeof children === 'function') {
+    return children({ value })
+  }
+
+  return children
+}
+
 type OptionProps = React.ComponentProps<
   (props: {
     value: Props['value']
@@ -538,12 +557,12 @@ function renderRadioItems({
   info: Props['info']
   warning: Props['warning']
   htmlAttributes: Props['htmlAttributes']
-  children: Props['children']
+  children: React.ReactNode
   dataList: Data
   hasError: ReturnAdditional<Props['value']>['hasError']
   iterateOverItems?: (item: {
     value: Props['value']
-    label: Props['children']
+    label: React.ReactNode
   }) => void
 }) {
   const optionsCount =

@@ -30,9 +30,12 @@ type OptionProps = React.ComponentProps<
 >
 
 type OptionValue = string | number
+type RenderArraySelectionChildren = (params: {
+  value: Props['value']
+}) => React.ReactNode
 
 export type Props = FieldProps<Array<OptionValue> | undefined> & {
-  children?: React.ReactNode
+  children?: React.ReactNode | RenderArraySelectionChildren
   variant?: 'checkbox' | 'button' | 'checkbox-button'
   optionsLayout?: 'horizontal' | 'vertical'
   /**
@@ -81,6 +84,9 @@ function ArraySelection(props: Props) {
     children,
     label,
   } = useFieldProps(props)
+  const renderedChildren = useMemo(() => {
+    return resolveChildren(children, value)
+  }, [children, value])
 
   const { getValueByPath } = useDataValue()
   const dataList = dataPath ? getValueByPath(dataPath) : data
@@ -115,7 +121,7 @@ function ArraySelection(props: Props) {
     emptyValue,
     htmlAttributes,
     dataList,
-    children,
+    children: renderedChildren,
     value,
     disabled,
     size,
@@ -146,6 +152,17 @@ function ArraySelection(props: Props) {
   }
 }
 
+function resolveChildren(
+  children: Props['children'],
+  value: Props['value']
+) {
+  if (typeof children === 'function') {
+    return children({ value })
+  }
+
+  return children
+}
+
 export function useCheckboxOrToggleOptions({
   id,
   path,
@@ -171,13 +188,13 @@ export function useCheckboxOrToggleOptions({
   emptyValue?: Props['emptyValue']
   htmlAttributes?: Props['htmlAttributes']
   dataList?: Props['data']
-  children?: Props['children']
+  children?: React.ReactNode
   value?: Props['value']
   disabled?: Props['disabled']
   size?: Props['size']
   hasError?: ReturnAdditional<Props['value']>['hasError']
   handleChange?: ReturnAdditional<Props['value']>['handleChange']
-  handleActiveData?: (item: { labels: Array<Props['children']> }) => void
+  handleActiveData?: (item: { labels: React.ReactNode[] }) => void
 }) {
   const { setFieldInternals } = useContext(DataContext)
   const optionsCount = useMemo(
