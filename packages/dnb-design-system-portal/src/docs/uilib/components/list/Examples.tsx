@@ -17,7 +17,6 @@ import {
   NumberFormat,
   P,
   ProgressIndicator,
-  Radio,
 } from '@dnb/eufemia/src'
 import { Field, Value } from '@dnb/eufemia/src/extensions/forms'
 import { fish_medium } from '@dnb/eufemia/src/icons'
@@ -568,39 +567,84 @@ export const WithBadge = () => {
 
 export const WithFormElements = () => {
   return (
-    <ComponentBox
-      scope={{ fish_medium }}
-      data-visual-test="list-form-elements"
-    >
-      <List.Container>
-        <List.Item.Basic>
-          <List.Cell.Start>
-            <Field.Boolean label="Checkbox" />
-          </List.Cell.Start>
-          <List.Cell.End>
-            <Value.Currency value={5678} showEmpty />
-          </List.Cell.End>
-        </List.Item.Basic>
+    <ComponentBox data-visual-test="list-form-elements">
+      {() => {
+        const options = [
+          { value: 'foo', title: 'Foo!', amount: 1234 },
+          { value: 'bar', title: 'Baar!', amount: 5678 },
+          { value: 'baz', title: 'Baz!', amount: 9999 },
+        ]
 
-        <List.Item.Basic>
-          <List.Cell.Start>
-            <Radio label="Radio" />
-          </List.Cell.Start>
-          <List.Cell.End>
-            <NumberFormat currency value={1234} />
-          </List.Cell.End>
-        </List.Item.Basic>
+        return (
+          <Flex.Stack>
+            <Field.Selection
+              label="Single choice"
+              variant="radio"
+              value="bar"
+            >
+              {({ value: selectedValue }) => {
+                return (
+                  <List.Container>
+                    {options.map(({ value, title, amount }) => {
+                      return (
+                        <List.Item.Basic
+                          key={value}
+                          selected={value === selectedValue}
+                        >
+                          <List.Cell.Title>
+                            <Field.Option
+                              key={value}
+                              value={value}
+                              title={title}
+                            />
+                          </List.Cell.Title>
+                          <List.Cell.End>
+                            <Value.Currency value={amount} />
+                          </List.Cell.End>
+                        </List.Item.Basic>
+                      )
+                    })}
+                  </List.Container>
+                )
+              }}
+            </Field.Selection>
 
-        <List.Item.Action
-          icon={fish_medium}
-          title="Item with icon"
-          onClick={() => console.log('Navigate')}
-        >
-          <List.Cell.End>
-            <Value.Currency value={1234} showEmpty />
-          </List.Cell.End>
-        </List.Item.Action>
-      </List.Container>
+            <Field.ArraySelection
+              label="Multiple choice"
+              variant="checkbox"
+              value={['bar']}
+            >
+              {({ value = [] }) => {
+                return (
+                  <List.Container>
+                    {options.map(
+                      ({ value: optionValue, title, amount }) => {
+                        return (
+                          <List.Item.Basic
+                            key={optionValue}
+                            selected={value.includes(optionValue)}
+                          >
+                            <List.Cell.Title>
+                              <Field.Option
+                                key={optionValue}
+                                value={optionValue}
+                                title={title}
+                              />
+                            </List.Cell.Title>
+                            <List.Cell.End>
+                              <Value.Currency value={amount} />
+                            </List.Cell.End>
+                          </List.Item.Basic>
+                        )
+                      }
+                    )}
+                  </List.Container>
+                )
+              }}
+            </Field.ArraySelection>
+          </Flex.Stack>
+        )
+      }}
     </ComponentBox>
   )
 }
