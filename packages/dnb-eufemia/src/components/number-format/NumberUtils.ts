@@ -654,7 +654,18 @@ export const formatNumber = (
 }
 
 function replaceNaNWithDash(number) {
-  return String(number).replace(/NaN/, ABSENT_VALUE_FORMAT)
+  const string = String(number)
+  const replaced = string.replace(/NaN/, ABSENT_VALUE_FORMAT)
+
+  if (!/NaN/.test(string)) {
+    return replaced
+  }
+
+  const escapedDash = escapeRegexChars(ABSENT_VALUE_FORMAT)
+  return replaced.replace(
+    new RegExp(`([^\\s])${escapedDash}`, 'g'),
+    `$1 ${ABSENT_VALUE_FORMAT}`
+  )
 }
 
 function isAbsent(value) {
