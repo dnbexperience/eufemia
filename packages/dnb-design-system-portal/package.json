@@ -5,6 +5,15 @@
   "description": "DNB Design System Portal",
   "license": "SEE LICENSE IN LICENSE FILE",
   "author": "DNB Team & Tobias Høegh",
+  "homepage": "https://eufemia.dnb.no",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dnbexperience/eufemia.git",
+    "directory": "packages/dnb-design-system-portal"
+  },
+  "bugs": {
+    "url": "https://github.com/dnbexperience/eufemia/issues"
+  },
   "main": "src/docs/index.js",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=--max-old-space-size=16384 gatsby build",
