@@ -12,8 +12,8 @@ describe('useIsomorphicLayoutEffect', () => {
 
   it('should use useEffect during SSR', () => {
     const originalWindow = global.window
-    // @ts-ignore - Simulate SSR environment
-    delete global.window
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    delete (global as any).window
 
     // Re-import to get SSR version
     jest.resetModules()
