@@ -15,8 +15,6 @@ const detectOS = (ua) => {
 }
 
 let lockedNum = 0
-let initialClientY = 0
-let initialClientX = 0
 let callbackUnlock = null
 let documentListenerAdded = false
 
@@ -70,15 +68,10 @@ const setOverflowHiddenIOS = (targetElement) => {
       : [targetElement]
     elementArray.forEach((element) => {
       if (element && lockedElements.indexOf(element) === -1) {
-        element.ontouchstart = (event) => {
-          initialClientY = event.targetTouches[0].clientY
-          initialClientX = event.targetTouches[0].clientX
-        }
         element.ontouchmove = (event) => {
           if (event.targetTouches.length !== 1) {
             return // stop here
           }
-          handleScroll(event, element)
         }
         lockedElements.push(element)
       }
@@ -167,53 +160,6 @@ const preventDefault = (event) => {
   }
 
   event.preventDefault()
-}
-
-// Deprecated – this function can be removed as soon as we do not need to support iOS < 14
-const handleScroll = (event, targetElement) => {
-  try {
-    if (targetElement) {
-      const {
-        scrollTop,
-        scrollLeft,
-        scrollWidth,
-        scrollHeight,
-        clientWidth,
-        clientHeight,
-      } = targetElement
-      const clientX = event.targetTouches[0].clientX - initialClientX
-      const clientY = event.targetTouches[0].clientY - initialClientY
-      const isVertical = Math.abs(clientY) > Math.abs(clientX)
-      const isOnTop = clientY > 0 && scrollTop === 0
-      const isOnLeft = clientX > 0 && scrollLeft === 0
-      const isOnRight =
-        clientX < 0 && scrollLeft + clientWidth + 1 >= scrollWidth
-      const isOnBottom =
-        clientY < 0 && scrollTop + clientHeight + 1 >= scrollHeight
-      if (
-        (isVertical && (isOnTop || isOnBottom)) ||
-        (!isVertical && (isOnLeft || isOnRight))
-      ) {
-        const hasScrollbar = isChildOfElement(
-          event.target,
-          targetElement,
-          checkIfHasScrollbar
-        )
-
-        if (hasScrollbar && hasScrollbar !== targetElement) {
-          return true
-        }
-
-        return event.cancelable && event.preventDefault()
-      }
-    }
-
-    event.stopPropagation()
-
-    return true
-  } catch (e) {
-    warn(e)
-  }
 }
 
 const checkTargetElement = (targetElement) => {
