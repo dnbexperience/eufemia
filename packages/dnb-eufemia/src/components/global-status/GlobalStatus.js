@@ -586,7 +586,7 @@ export default class GlobalStatus extends React.PureComponent {
 
     const wrapperParams = {
       id,
-      className: classnames(
+      className: clsx(
         'dnb-global-status__wrapper',
         'dnb-no-focus',
         createSkeletonClass('font', skeleton, this.context),
