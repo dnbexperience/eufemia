@@ -104,17 +104,6 @@ describe('extendErrorMessagesWithTranslationMessages', () => {
       'NumberField.errorExclusiveMinimum': 'Below exclusive minimum',
       'NumberField.errorExclusiveMaximum': 'Above exclusive maximum',
       'NumberField.errorMultipleOf': 'Not a multiple of',
-
-      /** @deprecated – can be removed in v11 */
-      required: 'Field is required',
-      pattern: 'Pattern is incorrect',
-      minLength: 'Too short',
-      maxLength: 'Too long',
-      minimum: 'Below minimum',
-      maximum: 'Above maximum',
-      exclusiveMinimum: 'Below exclusive minimum',
-      exclusiveMaximum: 'Above exclusive maximum',
-      multipleOf: 'Not a multiple of',
     })
 
     expect(mockMessages).toEqual({})
@@ -122,15 +111,15 @@ describe('extendErrorMessagesWithTranslationMessages', () => {
 
   it('should not overwrite existing messages', () => {
     const customMessages = {
-      required: 'Custom required message',
+      'Field.errorRequired': 'Custom required message',
     }
     const messages = extendErrorMessagesWithTranslationMessages(
       customMessages,
       mockTranslation
     )
 
-    expect(messages.required).toBe('Custom required message') // should not be overwritten
-    expect(messages.pattern).toBe('Pattern is incorrect') // default translation
+    expect(messages['Field.errorRequired']).toBe('Custom required message') // should not be overwritten
+    expect(messages['Field.errorPattern']).toBe('Pattern is incorrect') // default translation
   })
 
   it('should add translation messages for missing fields', () => {
@@ -143,6 +132,6 @@ describe('extendErrorMessagesWithTranslationMessages', () => {
     )
 
     expect(result['Field.errorRequired']).toBe('Already exists')
-    expect(result.required).toBe('Already exists')
+    expect(result['Field.errorPattern']).toBe('Pattern is incorrect')
   })
 })
