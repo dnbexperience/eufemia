@@ -13,14 +13,14 @@
  * for modern browsers via the build system.
  */
 
+import structuredClonePolyfill from '@ungap/structured-clone'
+
 // Use native structuredClone if available, otherwise use polyfill
-const cloneFunction: typeof structuredClone =
+const cloneFunction =
   typeof structuredClone !== 'undefined'
     ? structuredClone
     : // Polyfill for older browsers (iOS 13.1-15.3, Safari < 15.4)
-      // This import will be included only when needed via babel-plugin-polyfill-corejs3
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      require('@ungap/structured-clone')
+      structuredClonePolyfill
 
 export { cloneFunction as structuredClone }
 export default cloneFunction
