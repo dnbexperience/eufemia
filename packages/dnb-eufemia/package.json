@@ -7,7 +7,8 @@
   "homepage": "https://eufemia.dnb.no/uilib",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dnbexperience/eufemia.git"
+    "url": "https://github.com/dnbexperience/eufemia.git",
+    "directory": "packages/dnb-eufemia"
   },
   "bugs": {
     "url": "https://github.com/dnbexperience/eufemia/issues"
