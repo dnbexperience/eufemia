@@ -15,7 +15,7 @@ import {
   Wizard,
 } from '../../..'
 import * as z from 'zod'
-import { ContextState, FilterData } from '../../../DataContext'
+import { ContextState } from '../../../DataContext'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
