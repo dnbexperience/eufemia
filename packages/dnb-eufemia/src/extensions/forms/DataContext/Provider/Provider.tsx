@@ -870,6 +870,7 @@ export default function Provider<Data extends JsonObject>(
   const setSharedData = sharedData.set
   const extendSharedData = sharedData.extend
   const extendAttachment = sharedAttachments.extend
+  const rerenderUseDataHook = sharedAttachments.data?.rerenderUseDataHook
 
   const cacheRef = useRef({
     data,
@@ -1590,6 +1591,7 @@ export default function Provider<Data extends JsonObject>(
     hasErrors,
     hasFieldError,
     id,
+    rerenderUseDataHook,
     setData,
     setShowAllErrors,
     setSubmitState,
