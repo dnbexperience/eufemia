@@ -135,6 +135,50 @@ describe('ArraySelection', () => {
       expect(options[1].textContent).toBe('Bar selected')
     })
 
+    it('supports render prop children with options from dataPath', () => {
+      let receivedOptions = []
+
+      render(
+        <Form.Handler
+          data={{
+            myList: [
+              { value: 'foo', title: 'Foo!', amount: 100 },
+              { value: 'bar', title: 'Bar!', amount: 200 },
+            ],
+          }}
+        >
+          <Field.ArraySelection dataPath="/myList">
+            {({ options = [] }) => {
+              receivedOptions = options
+
+              return options.map(({ value, title, amount }) => {
+                return (
+                  <Field.Option
+                    key={value}
+                    value={value}
+                    title={`${title} ${amount}`}
+                  />
+                )
+              })
+            }}
+          </Field.ArraySelection>
+        </Form.Handler>
+      )
+
+      const options = Array.from(
+        document.querySelectorAll('.dnb-checkbox')
+      )
+
+      expect(options).toHaveLength(2)
+      expect(options[0]).toHaveTextContent('Foo! 100')
+      expect(options[1]).toHaveTextContent('Bar! 200')
+
+      expect(receivedOptions).toEqual([
+        { value: 'foo', title: 'Foo!', amount: 100 },
+        { value: 'bar', title: 'Bar!', amount: 200 },
+      ])
+    })
+
     it('handles selection correctly', () => {
       const handleChange = jest.fn()
       render(

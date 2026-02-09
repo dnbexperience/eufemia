@@ -14,8 +14,8 @@ export const arraySelectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   children: {
-    doc: 'For providing `<Field.Option>` components.',
-    type: 'React.Node',
+    doc: 'For providing `<Field.Option>` components. Can also be a render function that receives `{ value, options }`, where `options` are from `data` or `dataPath` and may include additional custom properties.',
+    type: ['React.ReactNode', 'function'],
     status: 'optional',
   },
   size: {
@@ -29,7 +29,7 @@ export const arraySelectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   dataPath: {
-    doc: 'The path to the context data (Form.Handler). The context data object needs to have a `value` and a `title` property. The generated options will be placed above given JSX based children.',
+    doc: 'The path to the context data (Form.Handler). The context data object needs to have a `value` and a `title` property. The generated options will be placed above given JSX based children. When `children` is a function, the generated options are instead provided as `options` to the function.',
     type: 'string',
     status: 'optional',
   },
