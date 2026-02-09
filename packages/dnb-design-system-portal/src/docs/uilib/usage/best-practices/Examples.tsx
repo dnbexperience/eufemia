@@ -22,6 +22,9 @@ export const PhoneNumber = () => (
       <Li>
         <NumberFormat phone value="99999999" />
       </Li>
+      <Li>
+        <NumberFormat phone value="+4799999999" />
+      </Li>
     </Ul>
   </ComponentBox>
 )
