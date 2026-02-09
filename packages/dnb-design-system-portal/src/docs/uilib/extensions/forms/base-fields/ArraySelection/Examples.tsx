@@ -321,13 +321,13 @@ export const CheckboxWithListComposition = () => (
                   key={optionValue}
                   selected={value.includes(optionValue)}
                 >
-                  <List.Cell.Title>
+                  <List.Cell.Start>
                     <Field.Option
                       key={optionValue}
                       value={optionValue}
                       title={title}
                     />
-                  </List.Cell.Title>
+                  </List.Cell.Start>
                   <List.Cell.End>
                     <Value.Currency value={amount} />
                   </List.Cell.End>
