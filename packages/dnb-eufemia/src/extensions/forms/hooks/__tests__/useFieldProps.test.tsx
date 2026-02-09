@@ -1417,9 +1417,6 @@ describe('useFieldProps', () => {
           validateRequired,
           errorMessages: {
             'Field.errorRequired': 'Show this message',
-
-            /** @deprecated – can be removed in v11 */
-            required: 'Show this message',
           },
           onChange,
           onBlur,
