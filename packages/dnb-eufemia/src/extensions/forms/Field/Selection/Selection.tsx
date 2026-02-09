@@ -299,7 +299,7 @@ function Selection(props: Props) {
     disabled,
     size,
     emptyValue,
-    width = 'large',
+    width,
     htmlAttributes,
     setHasFocus,
     handleChange,
@@ -430,7 +430,7 @@ function Selection(props: Props) {
       if (!size) {
         additionalFieldBlockProps.labelHeight = 'small'
       }
-      if (variant === 'radio-list') {
+      if (width) {
         additionalFieldBlockProps.contentWidth = width
       }
 
@@ -484,7 +484,7 @@ function Selection(props: Props) {
       }
 
       const specificFieldBlockProps: FieldBlockProps = {
-        contentWidth: width,
+        contentWidth: width ?? 'large',
       }
 
       return (

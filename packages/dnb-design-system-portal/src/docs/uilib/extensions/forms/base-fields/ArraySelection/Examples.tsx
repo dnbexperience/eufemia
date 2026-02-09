@@ -316,6 +316,7 @@ export const CheckboxWithListComposition = () => (
         variant="checkbox"
         path="/selection"
         dataPath="/myDataPath"
+        width="large"
       >
         {({ value = [], options }) => {
           return (

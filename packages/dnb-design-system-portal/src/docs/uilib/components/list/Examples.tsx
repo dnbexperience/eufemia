@@ -587,6 +587,7 @@ export const WithFormElements = () => {
                 variant="radio"
                 path="/mySelection"
                 dataPath="/myDataPath"
+                width="large"
               >
                 {({ value: selectedValue, options = [] }) => {
                   return (
@@ -616,6 +617,7 @@ export const WithFormElements = () => {
                 variant="checkbox"
                 path="/myArraySelection"
                 dataPath="/myDataPath"
+                width="large"
               >
                 {({ value = [], options = [] }) => {
                   return (

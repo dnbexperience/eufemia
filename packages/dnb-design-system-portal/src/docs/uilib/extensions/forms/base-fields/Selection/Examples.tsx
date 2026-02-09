@@ -581,6 +581,7 @@ export const RadioWithListComposition = () => (
         variant="radio"
         path="/selection"
         dataPath="/myDataPath"
+        width="large"
       >
         {({ value: selectedValue, options = [] }) => {
           return (
