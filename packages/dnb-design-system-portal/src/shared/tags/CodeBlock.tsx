@@ -90,11 +90,13 @@ const CodeBlock = ({
                   key: i,
                 })
                 return (
-                  <div key={key} {...lineProps}>
+                  <div key={String(key)} {...lineProps}>
                     {line.map((token, tokenKey) => {
                       const { key: tokenKeyProp, ...tokenProps } =
                         getTokenProps({ token, key: tokenKey })
-                      return <span key={tokenKeyProp} {...tokenProps} />
+                      return (
+                        <span key={String(tokenKeyProp)} {...tokenProps} />
+                      )
                     })}
                   </div>
                 )

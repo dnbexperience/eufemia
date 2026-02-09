@@ -171,5 +171,5 @@ export type ButtonProps = {
   SpacingProps;
 export default class Button extends React.Component<ButtonProps, any> {
   static defaultProps: object;
-  render(): JSX.Element;
+  render(): React.ReactElement;
 }
