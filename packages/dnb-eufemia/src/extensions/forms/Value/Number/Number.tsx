@@ -7,16 +7,14 @@ import { omitSpacingProps } from '../../../../components/flex/utils'
 import NumberFormat, {
   NumberFormatProps,
 } from '../../../../components/NumberFormat'
-import { IncludeCamelCase } from '../../../../shared/helpers/withCamelCaseProps'
+
 import { SpacingProps } from '../../../../shared/types'
 
 export type Props = Omit<ValueProps<number>, 'defaultValue'> &
-  IncludeCamelCase<
-    Omit<
-      NumberFormatProps,
-      keyof SpacingProps
-      // spacing props is handled by ValueBlock
-    >
+  Omit<
+    NumberFormatProps,
+    keyof SpacingProps
+    // spacing props is handled by ValueBlock
   > &
   Partial<{
     defaultValue?: number | string
