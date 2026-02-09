@@ -1075,16 +1075,16 @@ describe('Visibility', () => {
         </Provider>
       )
 
-      expect(collectResult).toEqual([false, false, false])
+      expect(collectResult).toEqual([false, false])
 
       fireEvent.focus(document.querySelector('input'))
       fireEvent.change(document.querySelector('input'), {
         target: { value: '2' },
       })
-      expect(collectResult).toEqual([false, false, false, false])
+      expect(collectResult).toEqual([false, false, false])
 
       fireEvent.blur(document.querySelector('input'))
-      expect(collectResult).toEqual([false, false, false, false, true])
+      expect(collectResult).toEqual([false, false, false, true])
     })
 
     it('should support fields without focus and blur events', async () => {
@@ -1108,15 +1108,15 @@ describe('Visibility', () => {
         </Provider>
       )
 
-      expect(collectResult).toEqual([false, false, false])
+      expect(collectResult).toEqual([false, false])
 
       await userEvent.click(document.querySelector('input'))
-      expect(collectResult).toEqual([false, false, false, true])
+      expect(collectResult).toEqual([false, false, true])
 
       // Should have no effect
       fireEvent.focus(document.querySelector('input'))
       fireEvent.blur(document.querySelector('input'))
-      expect(collectResult).toEqual([false, false, false, true])
+      expect(collectResult).toEqual([false, false, true])
     })
   })
 
