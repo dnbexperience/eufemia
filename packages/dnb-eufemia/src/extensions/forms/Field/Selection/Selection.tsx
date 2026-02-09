@@ -60,16 +60,18 @@ type IOption = {
 }
 export type Data = Array<
   {
-    value: string
+    value: number | string
     title: React.ReactNode
     text?: React.ReactNode
     disabled?: boolean
     style?: React.CSSProperties
+    [key: string]: any
   } & Partial<DrawerListDataArrayObjectStrict>
 >
 
 type RenderSelectionChildren = (params: {
   value: IOption['value']
+  options: Props['data']
 }) => React.ReactNode
 
 export type Props = FieldProps<IOption['value']> & {
@@ -308,15 +310,15 @@ function Selection(props: Props) {
     dropdownProps,
   } = useFieldProps(props)
 
-  const renderedChildren = useMemo(() => {
-    return resolveChildren(children, value)
-  }, [children, value])
-
   const { getValueByPath } = useDataValue()
   let dataList = data
   if (dataPath) {
     dataList = getValueByPath(dataPath)
   }
+  const hasRenderPropChildren = typeof children === 'function'
+  const renderedChildren = useMemo(() => {
+    return resolveChildren(children, value, dataList)
+  }, [children, dataList, value])
 
   const handleDrawerListChange = useCallback(
     ({ data, value }) => {
@@ -403,7 +405,7 @@ function Selection(props: Props) {
         warning,
         htmlAttributes,
         children: renderedChildren,
-        dataList,
+        dataList: hasRenderPropChildren ? undefined : dataList,
         hasError,
         iterateOverItems: ({ value: v, label }) => {
           if (v === value) {
@@ -446,7 +448,10 @@ function Selection(props: Props) {
 
     case 'autocomplete':
     case 'dropdown': {
-      const data = renderDropdownItems(dataList, transformSelection)
+      const data = renderDropdownItems(
+        hasRenderPropChildren ? undefined : dataList,
+        transformSelection
+      )
         .concat(makeOptions(renderedChildren, transformSelection))
         .filter(Boolean)
       const displayValue = data.find((item) => item.selectedKey === value)
@@ -519,10 +524,11 @@ function Selection(props: Props) {
 
 function resolveChildren(
   children: Props['children'],
-  value: Props['value']
+  value: Props['value'],
+  options: Props['data']
 ) {
   if (typeof children === 'function') {
-    return children({ value })
+    return children({ value, options })
   }
 
   return children
@@ -558,7 +564,7 @@ function renderRadioItems({
   warning: Props['warning']
   htmlAttributes: Props['htmlAttributes']
   children: React.ReactNode
-  dataList: Data
+  dataList?: Data
   hasError: ReturnAdditional<Props['value']>['hasError']
   iterateOverItems?: (item: {
     value: Props['value']

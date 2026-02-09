@@ -32,6 +32,7 @@ type OptionProps = React.ComponentProps<
 type OptionValue = string | number
 type RenderArraySelectionChildren = (params: {
   value: Props['value']
+  options: Props['data']
 }) => React.ReactNode
 
 export type Props = FieldProps<Array<OptionValue> | undefined> & {
@@ -84,12 +85,13 @@ function ArraySelection(props: Props) {
     children,
     label,
   } = useFieldProps(props)
-  const renderedChildren = useMemo(() => {
-    return resolveChildren(children, value)
-  }, [children, value])
 
   const { getValueByPath } = useDataValue()
   const dataList = dataPath ? getValueByPath(dataPath) : data
+  const hasRenderPropChildren = typeof children === 'function'
+  const renderedChildren = useMemo(() => {
+    return resolveChildren(children, value, dataList)
+  }, [children, dataList, value])
 
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
@@ -120,7 +122,7 @@ function ArraySelection(props: Props) {
     warning,
     emptyValue,
     htmlAttributes,
-    dataList,
+    dataList: hasRenderPropChildren ? undefined : dataList,
     children: renderedChildren,
     value,
     disabled,
@@ -154,10 +156,11 @@ function ArraySelection(props: Props) {
 
 function resolveChildren(
   children: Props['children'],
-  value: Props['value']
+  value: Props['value'],
+  options: Props['data']
 ) {
   if (typeof children === 'function') {
-    return children({ value })
+    return children({ value, options })
   }
 
   return children
