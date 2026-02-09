@@ -908,17 +908,13 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     const { prevent_rerender, prerender } = this.props
 
     if (isTrue(prerender)) {
-      this._cache = Object.entries(data).reduce(
-        /* eslint-disable-next-line */
-        (acc, [idx, cur]) => {
-          acc[cur.key] = {
-            ...cur,
-            content: this.getContent(cur.key),
-          }
-          return acc
-        },
-        {}
-      )
+      this._cache = Object.entries(data).reduce((acc, [_idx, cur]) => {
+        acc[cur.key] = {
+          ...cur,
+          content: this.getContent(cur.key),
+        }
+        return acc
+      }, {})
     } else if (isTrue(prevent_rerender)) {
       this._cache = {
         ...(this._cache || {}),

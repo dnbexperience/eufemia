@@ -31,8 +31,7 @@ export type MultiInputMaskInput<T extends string> = {
 } & Omit<React.HTMLProps<HTMLInputElement>, 'onChange' | 'ref'>
 
 export type MultiInputMaskValue<T extends string> = {
-  // eslint-disable-next-line no-unused-vars
-  [K in T]: string
+  [_K in T]: string
 }
 
 export type MultiInputMaskProps<T extends string> = {
