@@ -34,8 +34,6 @@ import { getFileTypeFromExtension } from './UploadVerify'
 import UploadFileLink from './UploadFileListLink'
 import { ProgressIndicatorAllProps } from '../progress-indicator/types'
 
-// Will be deprecated - and then default to only showing the file icon,
-// and not file icon per file extension type
 export const fileExtensionImages = {
   png,
   jpg,
