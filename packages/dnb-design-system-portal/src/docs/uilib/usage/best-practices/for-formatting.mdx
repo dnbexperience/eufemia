@@ -1,0 +1,86 @@
+---
+title: 'Best Practices for formatting numbers'
+description: 'Compare the canonical number, currency and date layouts that the components produce for each locale.'
+order: 1
+---
+
+import * as Examples from './Examples'
+
+# Formatting reference
+
+This page shows the canonical number, currency and date layouts that the components produce for each locale.
+
+For detailed prop lists, see the [NumberFormat](/uilib/components/number-format) component and the [DateFormat](/uilib/components/date-format) component.
+
+The formatting helpers power several `Value.*` components:
+
+- [Value.Number](/uilib/extensions/forms/Value/Number/)
+- [Value.Currency](/uilib/extensions/forms/Value/Currency/)
+- [Value.Date](/uilib/extensions/forms/Value/Date/)
+- [Value.DateOfBirth](/uilib/extensions/forms/Value/DateOfBirth/)
+- [Value.PhoneNumber](/uilib/extensions/forms/Value/PhoneNumber/)
+- [Value.BankAccountNumber](/uilib/extensions/forms/Value/BankAccountNumber/)
+- [Value.NationalIdentityNumber](/uilib/extensions/forms/Value/NationalIdentityNumber/)
+- [Value.OrganizationNumber](/uilib/extensions/forms/Value/OrganizationNumber/)
+
+---
+
+## Phone number
+
+<Examples.PhoneNumber />
+
+## Bank account number
+
+<Examples.BankAccountNumber />
+
+## National identification number
+
+<Examples.NationalIdentificationNumber />
+
+## Organization number
+
+<Examples.OrganizationNumber />
+
+## Numbers
+
+<Examples.Numbers />
+
+### Compact
+
+<Examples.NumbersCompact />
+
+## Percentage
+
+<Examples.Percentage />
+
+## Amount and Currency
+
+<Examples.AmountAndCurrency />
+
+## Date
+
+<Examples.DateStyles />
+
+## Date + time
+
+<Examples.DateAndTime />
+
+## Date without year
+
+The component always includes the year unless `hideYear` or `hideCurrentYear` is set.
+
+<Examples.DateWithoutYear />
+
+## Date without year + time
+
+<Examples.DateWithoutYearAndTime />
+
+## Relative time
+
+All examples below use the same reference point (`2026-02-06T12:00:00Z`) so the labels stay stable.
+
+<Examples.RelativeTime />
+
+## Duration strings
+
+<Examples.DurationStrings />
