@@ -2,7 +2,7 @@
  * Tests for useIsomorphicLayoutEffect
  */
 
-import { useEffect, useLayoutEffect } from 'react'
+import { useLayoutEffect } from 'react'
 import { useIsomorphicLayoutEffect } from '../useIsomorphicLayoutEffect'
 
 describe('useIsomorphicLayoutEffect', () => {
@@ -20,8 +20,9 @@ describe('useIsomorphicLayoutEffect', () => {
     const {
       useIsomorphicLayoutEffect: ssrVersion,
     } = require('../useIsomorphicLayoutEffect')
+    const { useEffect: reactUseEffect } = require('react')
 
-    expect(ssrVersion).toBe(useEffect)
+    expect(ssrVersion).toBe(reactUseEffect)
 
     // Restore window
     global.window = originalWindow
