@@ -15,9 +15,7 @@ import type { Path, FieldProps, OnChange, Schema } from '../../types'
 import type { JsonObject } from '../../utils/json-pointer'
 import type { SharedFieldBlockProps } from '../../FieldBlock'
 
-// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
-const useLayoutEffect =
-  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
+import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
 
 export type OverwritePropsDefaults = {
   [key: Path]:
