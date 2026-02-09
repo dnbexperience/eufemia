@@ -41,12 +41,7 @@ import { clearedArray } from '../../hooks/useFieldProps'
 
 import type { ContainerMode, ElementChild, Props, Value } from './types'
 import type { Identifier } from '../../types'
-
-/**
- * Deprecated, as it is supported by all major browsers and Node.js >=v18
- * So its a question of time, when we will remove this polyfill
- */
-import structuredClone from '@ungap/structured-clone'
+import { structuredClone } from '../../../../shared/helpers/structuredClone'
 
 export type * from './types'
 

@@ -33,12 +33,7 @@ import {
 import IsolatedContainer, { isolationError } from './IsolatedContainer'
 import IsolationContext from './IsolationContext'
 import type { OnCommit, Path } from '../../types'
-
-/**
- * Deprecated, as it is supported by all major browsers and Node.js >=v18
- * So it's a question of time, when we will remove this polyfill
- */
-import structuredClone from '@ungap/structured-clone'
+import { structuredClone } from '../../../../shared/helpers/structuredClone'
 
 export type IsolationProviderProps<Data extends JsonObject> = {
   /**

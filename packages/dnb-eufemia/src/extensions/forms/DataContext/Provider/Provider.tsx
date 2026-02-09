@@ -61,12 +61,7 @@ import DataContext, {
   DataPathHandlerParameters,
   SectionSchemaRegistration,
 } from '../Context'
-
-/**
- * Deprecated, as it is supported by all major browsers and Node.js >=v18
- * So its a question of time, when we will remove this polyfill
- */
-import structuredClone from '@ungap/structured-clone'
+import { structuredClone } from '../../../../shared/helpers/structuredClone'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
 
