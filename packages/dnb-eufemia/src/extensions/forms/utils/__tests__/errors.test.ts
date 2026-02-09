@@ -111,15 +111,15 @@ describe('extendErrorMessagesWithTranslationMessages', () => {
 
   it('should not overwrite existing messages', () => {
     const customMessages = {
-      required: 'Custom required message',
+      'Field.errorRequired': 'Custom required message',
     }
     const messages = extendErrorMessagesWithTranslationMessages(
       customMessages,
       mockTranslation
     )
 
-    expect(messages.required).toBe('Custom required message') // should not be overwritten
-    expect(messages.pattern).toBe('Pattern is incorrect') // default translation
+    expect(messages['Field.errorRequired']).toBe('Custom required message') // should not be overwritten
+    expect(messages['Field.errorPattern']).toBe('Pattern is incorrect') // default translation
   })
 
   it('should add translation messages for missing fields', () => {
@@ -132,6 +132,6 @@ describe('extendErrorMessagesWithTranslationMessages', () => {
     )
 
     expect(result['Field.errorRequired']).toBe('Already exists')
-    expect(result.required).toBe('Already exists')
+    expect(result['Field.errorPattern']).toBe('Pattern is incorrect')
   })
 })

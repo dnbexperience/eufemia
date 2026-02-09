@@ -49,15 +49,6 @@ export function extendErrorMessagesWithTranslationMessages(
       if (!messages[ajvKey]) {
         const keys = translationKey.split('.')
 
-        /**
-         * For backward compatibility.
-         * Because we removed ajv keys in the fields, we now always set all the messages here instead.
-         *
-         * @deprecated – can be removed in v11
-         */
-        messages[ajvKey] =
-          messages[translationKey] ?? translation[keys[0]]?.[keys[1]]
-
         messages[translationKey] =
           messages[translationKey] ?? translation[keys[0]]?.[keys[1]]
       }
