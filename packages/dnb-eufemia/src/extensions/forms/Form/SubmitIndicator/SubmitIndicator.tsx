@@ -9,10 +9,7 @@ import {
 } from '../../../../components/flex/utils'
 import useTranslation from '../../hooks/useTranslation'
 import { convertJsxToString } from '../../../../shared/component-helper'
-
-// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
-const useLayoutEffect =
-  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
+import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
 
 export type Props = {
   state: SubmitState

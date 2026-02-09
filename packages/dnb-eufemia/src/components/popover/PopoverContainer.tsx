@@ -14,9 +14,7 @@ import type {
   PopoverTargetElementObject,
 } from './types'
 import { getClosestScrollViewElement } from '../../shared/component-helper'
-
-const useLayoutEffect =
-  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
+import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 
 type PopoverContainerProps = {
   baseClassNames?: string[]
