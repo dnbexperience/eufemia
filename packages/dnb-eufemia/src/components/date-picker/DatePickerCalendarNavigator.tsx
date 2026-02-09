@@ -173,8 +173,7 @@ export type CalendarNavButtonProps = {
 }
 
 type NavButtonDisabledHandlerMap = {
-  // eslint-disable-next-line no-unused-vars
-  [T in CalendarNavigationDateType]: typeof isSameMonth
+  [_T in CalendarNavigationDateType]: typeof isSameMonth
 }
 
 const navButtonDisabledHandlers: NavButtonDisabledHandlerMap = {
