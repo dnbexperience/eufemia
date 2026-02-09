@@ -409,9 +409,11 @@ describe('PushContainer', () => {
       // which is inside a requestAnimationFrame.
       await new Promise((resolve) => requestAnimationFrame(resolve))
 
-      expect(
-        document.querySelector('.dnb-forms-iterate__reset-button')
-      ).toBeDisabled()
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-forms-iterate__reset-button')
+        ).toBeDisabled()
+      })
 
       await userEvent.click(screen.getByText('Ola Nordmann'))
       expect(screen.getByLabelText('Ola Nordmann')).toBeChecked()
