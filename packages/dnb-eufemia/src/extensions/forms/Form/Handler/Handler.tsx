@@ -33,7 +33,6 @@ const allowedProviderContextProps: Array<
   'ajvInstance',
   'errorMessages',
   'globalStatusId',
-  'filterSubmitData',
   'transformIn',
   'transformOut',
   'onChange',
