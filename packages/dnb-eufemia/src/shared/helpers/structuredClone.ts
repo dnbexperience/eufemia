@@ -17,8 +17,8 @@ import structuredClonePolyfill from '@ungap/structured-clone'
 
 // Use native structuredClone if available, otherwise use polyfill
 const cloneFunction =
-  typeof globalThis.structuredClone !== 'undefined'
-    ? globalThis.structuredClone
+  typeof globalThis['structuredClone'] !== 'undefined'
+    ? globalThis['structuredClone']
     : // Polyfill for older browsers (iOS 13.1-15.3, Safari < 15.4)
       structuredClonePolyfill
 
