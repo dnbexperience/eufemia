@@ -566,39 +566,45 @@ export const RadioWithAPath = () => (
 
 export const RadioWithListComposition = () => (
   <ComponentBox>
-    <Field.Selection label="Select an option" variant="radio" value="bar">
-      {({ value: selectedValue }) => {
-        const options = [
+    <Form.Handler
+      defaultData={{
+        selection: 'bar',
+        myDataPath: [
           { value: 'foo', title: 'Foo!', amount: 1234 },
           { value: 'bar', title: 'Baar!', amount: 5678 },
           { value: 'baz', title: 'Baz!', amount: 9999 },
-        ]
-
-        return (
-          <List.Container>
-            {options.map(({ value, title, amount }) => {
-              return (
-                <List.Item.Basic
-                  key={value}
-                  selected={value === selectedValue}
-                >
-                  <List.Cell.Start>
-                    <Field.Option
-                      key={value}
-                      value={value}
-                      title={title}
-                    />
-                  </List.Cell.Start>
-                  <List.Cell.End>
-                    <Value.Currency value={amount} />
-                  </List.Cell.End>
-                </List.Item.Basic>
-              )
-            })}
-          </List.Container>
-        )
+        ],
       }}
-    </Field.Selection>
+    >
+      <Field.Selection
+        label="Select an option"
+        variant="radio"
+        path="/selection"
+        dataPath="/myDataPath"
+      >
+        {({ value: selectedValue, options = [] }) => {
+          return (
+            <List.Container>
+              {options.map(({ value, title, amount }) => {
+                return (
+                  <List.Item.Basic
+                    key={value}
+                    selected={value === selectedValue}
+                  >
+                    <List.Cell.Start>
+                      <Field.Option value={value} title={title} />
+                    </List.Cell.Start>
+                    <List.Cell.End>
+                      <Value.Currency value={amount} />
+                    </List.Cell.End>
+                  </List.Item.Basic>
+                )
+              })}
+            </List.Container>
+          )
+        }}
+      </Field.Selection>
+    </Form.Handler>
   </ComponentBox>
 )
 
