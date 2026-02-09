@@ -4,6 +4,15 @@
   "description": "DNB Eufemia Design System Starter Project",
   "license": "SEE LICENSE IN LICENSE FILE",
   "author": "DNB Team & Tobias Høegh",
+  "homepage": "https://eufemia.dnb.no",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dnbexperience/eufemia.git",
+    "directory": "packages/eufemia-starter"
+  },
+  "bugs": {
+    "url": "https://github.com/dnbexperience/eufemia/issues"
+  },
   "version": "1.0.0",
   "type": "module",
   "scripts": {
