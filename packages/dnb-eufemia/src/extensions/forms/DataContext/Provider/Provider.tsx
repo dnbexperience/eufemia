@@ -121,10 +121,6 @@ export type Props<Data extends JsonObject> =
      */
     errorMessages?: GlobalErrorMessagesWithPaths
     /**
-     * @deprecated Use the `filterData` in the second event parameter in the `onSubmit` or `onChange` events.
-     */
-    filterSubmitData?: FilterData
-    /**
      * Transform the data context (internally as well) based on your criteria: `({ path, value, data, props, internal }) => 'new value'`. It will iterate on each data entry (/path).
      */
     transformIn?: TransformData
@@ -242,7 +238,6 @@ export default function Provider<Data extends JsonObject>(
     ajvInstance,
     transformIn,
     transformOut,
-    filterSubmitData,
     countryCode,
     locale,
     translations,
@@ -1052,9 +1047,6 @@ export default function Provider<Data extends JsonObject>(
       if (id) {
         // Will ensure that Form.getData() gets the correct data
         extendSharedData(newData, { preventSyncOfSameInstance: true })
-        if (filterSubmitData) {
-          rerenderUseDataHook?.()
-        }
       }
 
       if (sessionStorageId && typeof window !== 'undefined') {
@@ -1067,10 +1059,8 @@ export default function Provider<Data extends JsonObject>(
     },
     [
       extendSharedData,
-      filterSubmitData,
       id,
       mutateDataHandler,
-      rerenderUseDataHook,
       sessionStorageId,
       storeInSession,
       transformIn,
@@ -1397,18 +1387,10 @@ export default function Provider<Data extends JsonObject>(
       ? mutateDataHandler(data, transformOut)
       : data
 
-    // @deprecated – can be removed in v11 (use only mutatedData instead)
-    const filteredData = filterSubmitData
-      ? filterDataHandler(mutatedData, filterSubmitData)
-      : mutatedData
+    const filteredData = mutatedData
 
     return filteredData
-  }, [
-    filterDataHandler,
-    filterSubmitData,
-    mutateDataHandler,
-    transformOut,
-  ])
+  }, [mutateDataHandler, transformOut])
 
   const getSubmitParams = useCallback(() => {
     const reduceToVisibleFields: VisibleDataHandler<Data> = (
@@ -1601,15 +1583,11 @@ export default function Provider<Data extends JsonObject>(
         },
         { preventSyncOfSameInstance: true }
       )
-      if (filterSubmitData) {
-        rerenderUseDataHook?.()
-      }
     }
   }, [
     clearData,
     extendAttachment,
     filterDataHandler,
-    filterSubmitData,
     hasErrors,
     hasFieldError,
     id,
