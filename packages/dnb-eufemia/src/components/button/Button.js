@@ -168,7 +168,7 @@ export default class Button extends React.PureComponent {
 
       // Warn if icon-only button lacks accessible label
       if (
-        process.env.NODE_ENV !== 'production' &&
+        process.env.NODE_ENV === 'development' &&
         !title &&
         !attributes['aria-label']
       ) {

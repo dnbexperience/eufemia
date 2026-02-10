@@ -393,6 +393,45 @@ describe('Button component', () => {
     expect(global.console.log).toHaveBeenCalled()
   })
 
+  it('will warn when icon-only button has no title or aria-label', () => {
+    process.env.NODE_ENV = 'development'
+    global.console.log = jest.fn()
+    render(<Button icon="bell" />)
+    expect(global.console.log).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      expect.stringContaining(
+        'Icon-only Button requires either a "title" or "aria-label"'
+      )
+    )
+  })
+
+  it('will not warn when icon-only button has a title', () => {
+    process.env.NODE_ENV = 'development'
+    global.console.log = jest.fn()
+    render(<Button icon="bell" title="Bell" />)
+    expect(global.console.log).not.toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      expect.stringContaining(
+        'Icon-only Button requires either a "title" or "aria-label"'
+      )
+    )
+  })
+
+  it('will not warn when icon-only button has an aria-label', () => {
+    process.env.NODE_ENV = 'development'
+    global.console.log = jest.fn()
+    render(<Button icon="bell" aria-label="Bell" />)
+    expect(global.console.log).not.toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      expect.stringContaining(
+        'Icon-only Button requires either a "title" or "aria-label"'
+      )
+    )
+  })
+
   it('has no size when only setting text', () => {
     render(<Button text="Button" />)
     expect(
