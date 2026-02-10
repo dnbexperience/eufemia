@@ -17,7 +17,6 @@ export type DrawerAllProps = DrawerProps & DrawerContentProps
 
 function Drawer({
   id,
-  rootId,
   contentId,
   focusSelector,
   labelledBy,
@@ -85,7 +84,6 @@ function Drawer({
     containerPlacement,
     open,
     directDomReturn,
-    rootId,
     onOpen,
     onClose,
     onClosePrevent,
