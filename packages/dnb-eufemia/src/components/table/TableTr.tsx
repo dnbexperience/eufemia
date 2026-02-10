@@ -126,7 +126,7 @@ function useHandleTrVariant({ variant }) {
    * Handle odd/even
    */
   const countRef = tableContext?.trCountRef.current
-  const increment = () => {
+  const increment = React.useCallback(() => {
     if (typeof countRef === 'undefined') {
       return 0
     }
@@ -139,7 +139,7 @@ function useHandleTrVariant({ variant }) {
     }
 
     return countRef.count
-  }
+  }, [countRef, variant])
 
   const [count, setCount] = React.useState(() => {
     // SSR Support
@@ -152,7 +152,7 @@ function useHandleTrVariant({ variant }) {
   React.useEffect(() => {
     // SSR will not execute useEffect
     setCount(increment())
-  }, [tableContext?.rerenderAlias]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [tableContext?.rerenderAlias, increment])
 
   /**
    * Find out the current odd/even when "accordionContent" is used.
@@ -195,7 +195,7 @@ export function useHandleOddEven({ children }) {
       forceRerender()
     }
     isMounted.current = true
-  }, [children]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [children, forceRerender])
 
   return { trCountRef, rerenderAlias, setRerenderAlias }
 }
