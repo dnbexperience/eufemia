@@ -6,11 +6,6 @@ export const ModalProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  rootId: {
-    doc: 'Defaults to `root`, so the element id will be `dnb-modal-root`.',
-    type: 'string',
-    status: 'deprecated',
-  },
   contentId: {
     doc: 'Defines an unique identifier to a modal. Use it in case you have to refer in some way to the modal content.',
     type: 'string',

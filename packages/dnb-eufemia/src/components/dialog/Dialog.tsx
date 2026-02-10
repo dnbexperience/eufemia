@@ -30,7 +30,6 @@ function Dialog(localProps: DialogProps & DialogContentProps) {
 
   const {
     id,
-    rootId,
     contentId,
     focusSelector,
     labelledBy,
@@ -115,7 +114,6 @@ function Dialog(localProps: DialogProps & DialogContentProps) {
     fullscreen: currentFullscreen,
     open,
     directDomReturn,
-    rootId,
     onOpen,
     onClose,
     onClosePrevent,
