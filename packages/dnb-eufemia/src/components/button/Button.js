@@ -364,7 +364,7 @@ Button.propTypes = {
 }
 
 Button.defaultProps = {
-  type: null, // set the type because of the anchor/href situation – can be made more smart in future
+  type: null, // defaults to 'button' to prevent accidental form submissions (except when used as Anchor)
   text: null,
   variant: null,
   size: null,
