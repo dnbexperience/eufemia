@@ -212,8 +212,13 @@ const InfinityPagination = ({
   onMounted,
   ...props
 }) => {
-  const mountedItems = []
-  React.useEffect(() => onMounted && onMounted(mountedItems), []) // eslint-disable-line
+  const mountedItems = React.useMemo(() => [], [items])
+
+  React.useEffect(() => {
+    if (onMounted && mountedItems.length > 0) {
+      onMounted(mountedItems)
+    }
+  }, [onMounted, mountedItems])
 
   return items.map((item) => {
     const params = {
