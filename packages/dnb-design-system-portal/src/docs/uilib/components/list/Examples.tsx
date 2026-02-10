@@ -420,7 +420,7 @@ export const WithDateFormat = () => {
         <List.Item.Basic title="In Basic Item">
           <List.Cell.Start fontSize="small">
             <DateFormat
-              value={new Date()}
+              value={new Date('2026-02-07')}
               dateStyle="medium"
               hideCurrentYear
             />
@@ -434,7 +434,7 @@ export const WithDateFormat = () => {
           <List.Cell.Title>
             <List.Cell.Title.Overline>
               <DateFormat
-                value={new Date()}
+                value={new Date('2026-02-07')}
                 dateStyle="medium"
                 hideCurrentYear
               />
@@ -451,7 +451,7 @@ export const WithDateFormat = () => {
             <List.Cell.Title>
               <List.Cell.Title.Overline>
                 <DateFormat
-                  value={new Date()}
+                  value={new Date('2026-02-07')}
                   dateStyle="medium"
                   hideCurrentYear
                 />
@@ -483,7 +483,7 @@ export const ListSubline = () => {
             <span>Item 1</span>
             <List.Cell.Title.Subline>
               <DateFormat
-                value={new Date()}
+                value={new Date('2026-02-07')}
                 dateStyle="medium"
                 hideCurrentYear
               />
