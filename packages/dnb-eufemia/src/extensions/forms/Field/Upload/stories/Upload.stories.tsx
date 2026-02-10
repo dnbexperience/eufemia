@@ -90,7 +90,7 @@ async function mockAsyncFileUploadWithoutPromises(
       const mockResponse = {
         ok: (parseFloat(index) + 2) % 2 === 0, // Every other request will fail
         json: async () => ({
-          server_generated_id: `${file.file.name}_${crypto.randomUUID()}`,
+          serverGeneratedId: `${file.file.name}_${crypto.randomUUID()}`,
         }),
       }
 
@@ -101,7 +101,7 @@ async function mockAsyncFileUploadWithoutPromises(
       const data = await mockResponse.json()
       updatedFiles.push({
         ...file,
-        id: data.server_generated_id,
+        id: data.serverGeneratedId,
       })
     } catch (error: any) {
       updatedFiles.push({

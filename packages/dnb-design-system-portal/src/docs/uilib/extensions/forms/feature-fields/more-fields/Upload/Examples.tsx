@@ -182,7 +182,7 @@ export const WithAsyncFileHandler = () => {
               const mockResponse = {
                 ok: (parseFloat(index) + 2) % 2 === 0, // Every other request will fail
                 json: async () => ({
-                  server_generated_id:
+                  serverGeneratedId:
                     file.file.name + '_' + crypto.randomUUID(),
                 }),
               }
@@ -194,7 +194,7 @@ export const WithAsyncFileHandler = () => {
               const data = await mockResponse.json()
               updatedFiles.push({
                 ...file,
-                id: data.server_generated_id,
+                id: data.serverGeneratedId,
               })
             } catch (error) {
               updatedFiles.push({
@@ -259,9 +259,9 @@ export const WithAsyncOnFileDelete = () => {
           )
           await request(3000) // Simulate a request
           const mockResponse = {
-            successful_removal: Math.random() < 0.5, // Randomly fails to remove the file
+            successfulRemoval: Math.random() < 0.5, // Randomly fails to remove the file
           }
-          if (!mockResponse.successful_removal) {
+          if (!mockResponse.successfulRemoval) {
             throw new Error('Unable to remove this file')
           }
         }
