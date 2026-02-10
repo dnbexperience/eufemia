@@ -779,9 +779,9 @@ export { SubmitButton }
 const InputIcon = React.memo(
   (props) => <IconPrimary {...props} />,
   ({ icon: prev }, { icon: next }) => {
-    // Always re-render for string icons
+    // Memoize string icons when they are the same
     if (typeof prev === 'string' && typeof next === 'string') {
-      return false
+      return prev === next
     }
 
     // Check if it's a ProgressIndicator (React element)

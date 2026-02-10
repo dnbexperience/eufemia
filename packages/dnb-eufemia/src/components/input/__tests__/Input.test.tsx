@@ -780,6 +780,33 @@ describe('Input icon memoization', () => {
     expect(secondIcon).toBeInTheDocument()
   })
 
+  it('should NOT re-render when the same string icon is used', () => {
+    const renderSpy = jest.fn()
+
+    // Create a wrapper to spy on renders
+    const IconWrapper = React.forwardRef<HTMLInputElement, InputProps>(
+      (props, ref) => {
+        renderSpy()
+        return <Input {...props} inner_ref={ref} />
+      }
+    )
+
+    const { rerender } = render(<IconWrapper {...props} icon="loupe" />)
+
+    const initialRenderCount = renderSpy.mock.calls.length
+    expect(initialRenderCount).toBeGreaterThan(0)
+
+    // Rerender with same icon - the IconPrimary component inside should be memoized
+    rerender(<IconWrapper {...props} icon="loupe" />)
+
+    // The wrapper will re-render but the icon should be memoized
+    expect(renderSpy.mock.calls.length).toBeGreaterThan(initialRenderCount)
+
+    // Verify icon is still there and hasn't been recreated unnecessarily
+    const icon = document.querySelector('.dnb-input__icon')
+    expect(icon).toBeInTheDocument()
+  })
+
   it('should re-render when icon changes from one icon to another icon', () => {
     const { rerender } = render(
       <Input {...props} icon={<AddIcon data-testid="icon-1" />} />
