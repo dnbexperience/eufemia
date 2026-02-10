@@ -403,16 +403,6 @@ export function LabelSrOnly() {
           <Field.Option value="medium" title="Medium" />
           <Field.Option value="large" title="Large" />
         </Field.Selection>
-        <Field.Selection
-          variant="radio-list"
-          label="label"
-          path="/size"
-          labelSrOnly
-        >
-          <Field.Option value="default" title="Default" />
-          <Field.Option value="medium" title="Medium" />
-          <Field.Option value="large" title="Large" />
-        </Field.Selection>
         <Field.String label="label" value="Foo" labelSrOnly />
         <Field.String
           label="label"

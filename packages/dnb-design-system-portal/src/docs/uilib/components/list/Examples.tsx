@@ -17,9 +17,8 @@ import {
   NumberFormat,
   P,
   ProgressIndicator,
-  Radio,
 } from '@dnb/eufemia/src'
-import { Field, Value } from '@dnb/eufemia/src/extensions/forms'
+import { Field, Form, Value } from '@dnb/eufemia/src/extensions/forms'
 import { fish_medium } from '@dnb/eufemia/src/icons'
 
 export const SimpleRows = () => {
@@ -421,7 +420,7 @@ export const WithDateFormat = () => {
         <List.Item.Basic title="In Basic Item">
           <List.Cell.Start fontSize="small">
             <DateFormat
-              value={new Date()}
+              value={new Date('2026-02-07')}
               dateStyle="medium"
               hideCurrentYear
             />
@@ -435,7 +434,7 @@ export const WithDateFormat = () => {
           <List.Cell.Title>
             <List.Cell.Title.Overline>
               <DateFormat
-                value={new Date()}
+                value={new Date('2026-02-07')}
                 dateStyle="medium"
                 hideCurrentYear
               />
@@ -452,7 +451,7 @@ export const WithDateFormat = () => {
             <List.Cell.Title>
               <List.Cell.Title.Overline>
                 <DateFormat
-                  value={new Date()}
+                  value={new Date('2026-02-07')}
                   dateStyle="medium"
                   hideCurrentYear
                 />
@@ -484,7 +483,7 @@ export const ListSubline = () => {
             <span>Item 1</span>
             <List.Cell.Title.Subline>
               <DateFormat
-                value={new Date()}
+                value={new Date('2026-02-07')}
                 dateStyle="medium"
                 hideCurrentYear
               />
@@ -568,39 +567,89 @@ export const WithBadge = () => {
 
 export const WithFormElements = () => {
   return (
-    <ComponentBox
-      scope={{ fish_medium }}
-      data-visual-test="list-form-elements"
-    >
-      <List.Container>
-        <List.Item.Basic>
-          <List.Cell.Start>
-            <Field.Boolean label="Checkbox" />
-          </List.Cell.Start>
-          <List.Cell.End>
-            <Value.Currency value={5678} showEmpty />
-          </List.Cell.End>
-        </List.Item.Basic>
+    <ComponentBox data-visual-test="list-form-elements">
+      {() => {
+        return (
+          <Form.Handler
+            defaultData={{
+              mySelection: 'bar',
+              myArraySelection: ['bar'],
+              myDataPath: [
+                { value: 'foo', title: 'Foo!', amount: 1234 },
+                { value: 'bar', title: 'Baar!', amount: 5678 },
+                { value: 'baz', title: 'Baz!', amount: 9999 },
+              ],
+            }}
+          >
+            <Flex.Stack>
+              <Field.Selection
+                label="Single choice"
+                variant="radio"
+                path="/mySelection"
+                dataPath="/myDataPath"
+                width="large"
+              >
+                {({ value: selectedValue, options = [] }) => {
+                  return (
+                    <List.Container>
+                      {options.map(({ value, title, amount }) => {
+                        return (
+                          <List.Item.Basic
+                            key={value}
+                            selected={value === selectedValue}
+                          >
+                            <List.Cell.Start>
+                              <Field.Option value={value} title={title} />
+                            </List.Cell.Start>
+                            <List.Cell.End>
+                              <Value.Currency value={amount} />
+                            </List.Cell.End>
+                          </List.Item.Basic>
+                        )
+                      })}
+                    </List.Container>
+                  )
+                }}
+              </Field.Selection>
 
-        <List.Item.Basic>
-          <List.Cell.Start>
-            <Radio label="Radio" />
-          </List.Cell.Start>
-          <List.Cell.End>
-            <NumberFormat currency value={1234} />
-          </List.Cell.End>
-        </List.Item.Basic>
-
-        <List.Item.Action
-          icon={fish_medium}
-          title="Item with icon"
-          onClick={() => console.log('Navigate')}
-        >
-          <List.Cell.End>
-            <Value.Currency value={1234} showEmpty />
-          </List.Cell.End>
-        </List.Item.Action>
-      </List.Container>
+              <Field.ArraySelection
+                label="Multiple choice"
+                variant="checkbox"
+                path="/myArraySelection"
+                dataPath="/myDataPath"
+                width="large"
+              >
+                {({ value = [], options = [] }) => {
+                  return (
+                    <List.Container>
+                      {options.map(
+                        ({ value: optionValue, title, amount }) => {
+                          return (
+                            <List.Item.Basic
+                              key={optionValue}
+                              selected={value.includes(optionValue)}
+                            >
+                              <List.Cell.Start>
+                                <Field.Option
+                                  value={optionValue}
+                                  title={title}
+                                />
+                              </List.Cell.Start>
+                              <List.Cell.End>
+                                <Value.Currency value={amount} />
+                              </List.Cell.End>
+                            </List.Item.Basic>
+                          )
+                        }
+                      )}
+                    </List.Container>
+                  )
+                }}
+              </Field.ArraySelection>
+            </Flex.Stack>
+          </Form.Handler>
+        )
+      }}
     </ComponentBox>
   )
 }

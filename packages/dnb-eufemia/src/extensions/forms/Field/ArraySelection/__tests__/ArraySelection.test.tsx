@@ -1282,4 +1282,110 @@ describe('ArraySelection', () => {
       })
     }
   )
+
+  describe('width', () => {
+    it.each(['small', 'medium', 'large'] as const)(
+      'should support width="%s" for checkbox variant',
+      (width) => {
+        render(
+          <Field.ArraySelection width={width}>
+            <Field.Option value="foo">Foo</Field.Option>
+          </Field.ArraySelection>
+        )
+
+        const contents = document.querySelector(
+          '.dnb-forms-field-block__contents'
+        )
+        expect(contents.classList).toContain(
+          `dnb-forms-field-block__contents--width-${width}`
+        )
+      }
+    )
+
+    it.each(['small', 'medium', 'large'] as const)(
+      'should support width="%s" for button variant',
+      (width) => {
+        render(
+          <Field.ArraySelection variant="button" width={width}>
+            <Field.Option value="foo">Foo</Field.Option>
+          </Field.ArraySelection>
+        )
+
+        const contents = document.querySelector(
+          '.dnb-forms-field-block__contents'
+        )
+        expect(contents.classList).toContain(
+          `dnb-forms-field-block__contents--width-${width}`
+        )
+      }
+    )
+
+    it.each(['small', 'medium', 'large'] as const)(
+      'should support width="%s" for checkbox-button variant',
+      (width) => {
+        render(
+          <Field.ArraySelection variant="checkbox-button" width={width}>
+            <Field.Option value="foo">Foo</Field.Option>
+          </Field.ArraySelection>
+        )
+
+        const contents = document.querySelector(
+          '.dnb-forms-field-block__contents'
+        )
+        expect(contents.classList).toContain(
+          `dnb-forms-field-block__contents--width-${width}`
+        )
+      }
+    )
+
+    it('should support "stretch" width', () => {
+      render(
+        <Field.ArraySelection width="stretch">
+          <Field.Option value="foo">Foo</Field.Option>
+        </Field.ArraySelection>
+      )
+
+      const contents = document.querySelector(
+        '.dnb-forms-field-block__contents'
+      )
+      expect(contents.classList).toContain(
+        'dnb-forms-field-block__contents--width-stretch'
+      )
+    })
+
+    it('should support custom width', () => {
+      render(
+        <Field.ArraySelection width="4rem">
+          <Field.Option value="foo">Foo</Field.Option>
+        </Field.ArraySelection>
+      )
+
+      const mainElement = document.querySelector('.dnb-forms-field-block')
+      const contents = mainElement.querySelector(
+        '.dnb-forms-field-block__contents'
+      )
+
+      expect(contents.classList).toContain(
+        'dnb-forms-field-block__contents--width-custom'
+      )
+      expect(mainElement).toHaveStyle(
+        '--dnb-forms-field-block-content-width: 4rem;'
+      )
+    })
+
+    it('should not set content width when width is false', () => {
+      render(
+        <Field.ArraySelection width={false}>
+          <Field.Option value="foo">Foo</Field.Option>
+        </Field.ArraySelection>
+      )
+
+      const contents = document.querySelector(
+        '.dnb-forms-field-block__contents'
+      )
+      expect(contents.className).not.toMatch(
+        /dnb-forms-field-block__contents--width/
+      )
+    })
+  })
 })

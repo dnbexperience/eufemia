@@ -2,7 +2,10 @@ import React, { useCallback, useContext, useMemo } from 'react'
 import classnames from 'classnames'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import { Checkbox, HelpButton, ToggleButton } from '../../../../components'
-import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
+import FieldBlock, {
+  Props as FieldBlockProps,
+  FieldBlockWidth,
+} from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import { checkForError, ReturnAdditional } from '../../hooks/useFieldProps'
 import { DefaultErrorMessages, FieldProps, Path } from '../../types'
@@ -39,6 +42,12 @@ export type Props = FieldProps<Array<OptionValue> | undefined> & {
   children?: React.ReactNode | RenderArraySelectionChildren
   variant?: 'checkbox' | 'button' | 'checkbox-button'
   optionsLayout?: 'horizontal' | 'vertical'
+
+  /**
+   * The width of the component.
+   */
+  width?: FieldBlockWidth
+
   /**
    * The path to the context data (Form.Handler).
    * The context data object needs to have a `value` and a `title` property.
@@ -78,6 +87,7 @@ function ArraySelection(props: Props) {
     warning,
     disabled,
     size,
+    width,
     emptyValue,
     htmlAttributes,
     handleChange,
@@ -112,6 +122,9 @@ function ArraySelection(props: Props) {
   }
   if (!size) {
     fieldBlockProps.labelHeight = 'small'
+  }
+  if (width) {
+    fieldBlockProps.contentWidth = width
   }
 
   const options = useCheckboxOrToggleOptions({

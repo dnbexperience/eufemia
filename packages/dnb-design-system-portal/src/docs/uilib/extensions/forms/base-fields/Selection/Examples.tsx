@@ -1,7 +1,7 @@
 import * as React from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Button, Flex, Section } from '@dnb/eufemia/src'
-import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
+import { Button, Flex, List, Section } from '@dnb/eufemia/src'
+import { Field, Form, Value } from '@dnb/eufemia/src/extensions/forms'
 
 // - Dropdown
 
@@ -419,73 +419,6 @@ export const RadioLabel = () => (
   </ComponentBox>
 )
 
-export const RadioList = () => (
-  <ComponentBox data-visual-test="selection-radio-list-options-vertical">
-    <Field.Selection
-      variant="radio-list"
-      label="Label text"
-      onChange={(value) => console.log('onChange', value)}
-    >
-      <Field.Option value="foo" title="Foo!" />
-      <Field.Option value="bar" title="Baar!" />
-      <Field.Option value="baz" title="Bazz!" />
-    </Field.Selection>
-  </ComponentBox>
-)
-
-export const RadioListWidths = () => {
-  return (
-    <ComponentBox hideCode data-visual-test="selection-radio-list-widths">
-      <Flex.Stack>
-        <Field.Selection
-          label="Default width (property omitted)"
-          value="bar"
-          variant="radio-list"
-        >
-          <Field.Option value="foo" title="Foo!" />
-          <Field.Option value="bar" title="Baar!" />
-        </Field.Selection>
-        <Field.Selection
-          label="Small selection with a long label"
-          value="bar"
-          variant="radio-list"
-          width="small"
-        >
-          <Field.Option value="foo" title="Foo!" />
-          <Field.Option value="bar" title="Baar!" />
-        </Field.Selection>
-        <Field.Selection
-          label="Medium"
-          value="bar"
-          variant="radio-list"
-          width="medium"
-        >
-          <Field.Option value="foo" title="Foo!" />
-          <Field.Option value="bar" title="Baar!" />
-        </Field.Selection>
-        <Field.Selection
-          label="Large"
-          value="bar"
-          variant="radio-list"
-          width="large"
-        >
-          <Field.Option value="foo" title="Foo!" />
-          <Field.Option value="bar" title="Baar!" />
-        </Field.Selection>
-        <Field.Selection
-          label="Stretch"
-          value="bar"
-          variant="radio-list"
-          width="stretch"
-        >
-          <Field.Option value="foo" title="Foo!" />
-          <Field.Option value="bar" title="Baar!" />
-        </Field.Selection>
-      </Flex.Stack>
-    </ComponentBox>
-  )
-}
-
 export const RadioOptionSelected = () => (
   <ComponentBox data-visual-test="selection-radio-vertical">
     <Field.Selection
@@ -626,6 +559,51 @@ export const RadioWithAPath = () => (
         dataPath="/example/list"
       >
         <Field.Option value="foo">Fooo</Field.Option>
+      </Field.Selection>
+    </Form.Handler>
+  </ComponentBox>
+)
+
+export const RadioWithListComposition = () => (
+  <ComponentBox>
+    <Form.Handler
+      defaultData={{
+        selection: 'bar',
+        myDataPath: [
+          { value: 'foo', title: 'Foo!', amount: 1234 },
+          { value: 'bar', title: 'Baar!', amount: 5678 },
+          { value: 'baz', title: 'Baz!', amount: 9999 },
+        ],
+      }}
+    >
+      <Field.Selection
+        label="Select an option"
+        variant="radio"
+        path="/selection"
+        dataPath="/myDataPath"
+        width="large"
+      >
+        {({ value: selectedValue, options = [] }) => {
+          return (
+            <List.Container>
+              {options.map(({ value, title, amount }) => {
+                return (
+                  <List.Item.Basic
+                    key={value}
+                    selected={value === selectedValue}
+                  >
+                    <List.Cell.Start>
+                      <Field.Option value={value} title={title} />
+                    </List.Cell.Start>
+                    <List.Cell.End>
+                      <Value.Currency value={amount} />
+                    </List.Cell.End>
+                  </List.Item.Basic>
+                )
+              })}
+            </List.Container>
+          )
+        }}
       </Field.Selection>
     </Form.Handler>
   </ComponentBox>

@@ -1,6 +1,6 @@
 import React from 'react'
-import { Flex, Section } from '../../../../../components'
-import { Field, Form } from '../../..'
+import { List, Section } from '../../../../../components'
+import { Field, Form, Value } from '../../..'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Selection',
@@ -195,56 +195,6 @@ export function TransformSelection() {
   )
 }
 
-export function SelectionRadioList() {
-  return (
-    <Flex.Stack>
-      <Field.Selection
-        variant="radio-list"
-        label="Medium label"
-        labelSize="medium"
-        onChange={(value) => console.log('onChange', value)}
-      >
-        <Field.Option label="First" value="first" />
-        <Field.Option label="Second" value="second" />
-        <Field.Option label="Third" value="third" />
-      </Field.Selection>
-
-      <Field.Selection
-        width="medium"
-        variant="radio-list"
-        label="medium"
-        onChange={(value) => console.log('onChange', value)}
-      >
-        <Field.Option label="First" value="first" />
-        <Field.Option label="Second" value="second" />
-        <Field.Option label="Third" value="third" />
-      </Field.Selection>
-
-      <Field.Selection
-        width="small"
-        variant="radio-list"
-        label="small"
-        onChange={(value) => console.log('onChange', value)}
-      >
-        <Field.Option label="First" value="first" />
-        <Field.Option label="Second" value="second" />
-        <Field.Option label="Third" value="third" />
-      </Field.Selection>
-
-      <Field.Selection
-        width="stretch"
-        variant="radio-list"
-        label="stretch"
-        onChange={(value) => console.log('onChange', value)}
-      >
-        <Field.Option label="First" value="first" />
-        <Field.Option label="Second" value="second" />
-        <Field.Option label="Third" value="third" />
-      </Field.Selection>
-    </Flex.Stack>
-  )
-}
-
 export function SelectionAutocompleteAriaRequired() {
   return (
     <Field.Selection
@@ -284,6 +234,56 @@ export function SelectionAriaRequired() {
     >
       <Field.Option value="foo">Foo</Field.Option>
       <Field.Option value="bar">Bar</Field.Option>
+    </Field.Selection>
+  )
+}
+
+export function RadioListProposalUsingList() {
+  const options = [
+    {
+      value: 'foo',
+      title: 'Foo!',
+      amount: 1234,
+    },
+    {
+      value: 'bar',
+      title: 'Baar!',
+      amount: 5678,
+    },
+    {
+      value: 'baz',
+      title: 'Baz!',
+      amount: 9999,
+    },
+  ]
+
+  return (
+    <Field.Selection label="Select an option" variant="radio" value="bar">
+      {({ value: selectedValue }) => {
+        return (
+          <List.Container>
+            {options.map(({ value, title, amount }) => {
+              return (
+                <List.Item.Basic
+                  key={value}
+                  selected={value === selectedValue}
+                >
+                  <List.Cell.Start>
+                    <Field.Option
+                      key={value}
+                      value={value}
+                      title={title}
+                    />
+                  </List.Cell.Start>
+                  <List.Cell.End>
+                    <Value.Currency value={amount} />
+                  </List.Cell.End>
+                </List.Item.Basic>
+              )
+            })}
+          </List.Container>
+        )
+      }}
     </Field.Selection>
   )
 }

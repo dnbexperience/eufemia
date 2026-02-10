@@ -79,7 +79,13 @@ export type Props = FieldProps<IOption['value']> & {
    * Defines the variant of the component.
    * Default: dropdown
    */
-  variant?: 'dropdown' | 'autocomplete' | 'radio' | 'radio-list' | 'button'
+  variant?:
+    | 'dropdown'
+    | 'autocomplete'
+    | 'radio'
+    // @deprecated `radio-list` is deprecated. Use the List component instead.
+    | 'radio-list'
+    | 'button'
 
   /**
    * The width of the component.
@@ -293,7 +299,7 @@ function Selection(props: Props) {
     disabled,
     size,
     emptyValue,
-    width = 'large',
+    width,
     htmlAttributes,
     setHasFocus,
     handleChange,
@@ -424,7 +430,7 @@ function Selection(props: Props) {
       if (!size) {
         additionalFieldBlockProps.labelHeight = 'small'
       }
-      if (variant === 'radio-list') {
+      if (width) {
         additionalFieldBlockProps.contentWidth = width
       }
 
@@ -478,7 +484,7 @@ function Selection(props: Props) {
       }
 
       const specificFieldBlockProps: FieldBlockProps = {
-        contentWidth: width,
+        contentWidth: width ?? 'large',
       }
 
       return (

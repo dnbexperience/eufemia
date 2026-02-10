@@ -1,5 +1,6 @@
-import { Section } from '../../../../../components'
-import { Field, Form } from '../../..'
+import React from 'react'
+import { List, Section } from '../../../../../components'
+import { Field, Form, Value } from '../../..'
 
 export default {
   title: 'Eufemia/Extensions/Forms/ArraySelection',
@@ -118,6 +119,50 @@ export function SelectUpToThree() {
           maxItems: 'You can only select up to three',
         }}
       />
+    </Form.Card>
+  )
+}
+
+export function CheckboxListProposalUsingList() {
+  const options = [
+    { value: 'foo', title: 'Foo!', amount: 1234 },
+    { value: 'bar', title: 'Baar!', amount: 5678 },
+    { value: 'baz', title: 'Baz!', amount: 9999 },
+  ]
+
+  return (
+    <Form.Card>
+      <Field.ArraySelection
+        label="Select one or more options"
+        variant="checkbox"
+        value={['bar']}
+      >
+        {({ value = [] }) => {
+          return (
+            <List.Container>
+              {options.map(({ value: optionValue, title, amount }) => {
+                return (
+                  <List.Item.Basic
+                    key={optionValue}
+                    selected={value.includes(optionValue)}
+                  >
+                    <List.Cell.Title>
+                      <Field.Option
+                        key={optionValue}
+                        value={optionValue}
+                        title={title}
+                      />
+                    </List.Cell.Title>
+                    <List.Cell.End>
+                      <Value.Currency value={amount} />
+                    </List.Cell.End>
+                  </List.Item.Basic>
+                )
+              })}
+            </List.Container>
+          )
+        }}
+      </Field.ArraySelection>
     </Form.Card>
   )
 }

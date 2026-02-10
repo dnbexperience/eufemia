@@ -1,6 +1,6 @@
-import { Flex, Section } from '@dnb/eufemia/src'
+import { Flex, List, Section } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
+import { Field, Form, Value } from '@dnb/eufemia/src/extensions/forms'
 
 // Checkbox
 
@@ -298,6 +298,55 @@ export const CheckboxWithData = () => {
     </ComponentBox>
   )
 }
+
+export const CheckboxWithListComposition = () => (
+  <ComponentBox>
+    <Form.Handler
+      defaultData={{
+        selection: ['bar'],
+        myDataPath: [
+          { value: 'foo', title: 'Foo!', amount: 1234 },
+          { value: 'bar', title: 'Baar!', amount: 5678 },
+          { value: 'baz', title: 'Baz!', amount: 9999 },
+        ],
+      }}
+    >
+      <Field.ArraySelection
+        label="Select one or more options"
+        variant="checkbox"
+        path="/selection"
+        dataPath="/myDataPath"
+        width="large"
+      >
+        {({ value = [], options }) => {
+          return (
+            <List.Container>
+              {options.map(({ value: optionValue, title, amount }) => {
+                return (
+                  <List.Item.Basic
+                    key={optionValue}
+                    selected={value.includes(optionValue)}
+                  >
+                    <List.Cell.Start>
+                      <Field.Option
+                        key={optionValue}
+                        value={optionValue}
+                        title={title}
+                      />
+                    </List.Cell.Start>
+                    <List.Cell.End>
+                      <Value.Currency value={amount} />
+                    </List.Cell.End>
+                  </List.Item.Basic>
+                )
+              })}
+            </List.Container>
+          )
+        }}
+      </Field.ArraySelection>
+    </Form.Handler>
+  </ComponentBox>
+)
 
 // Button
 
