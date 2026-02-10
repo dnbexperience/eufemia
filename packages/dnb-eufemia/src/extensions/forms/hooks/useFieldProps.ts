@@ -944,10 +944,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   additionalArgsRef.current.validators = exportValidators
   additionalArgsRef.current.props = props
   const additionalArgs = useMemo(() => {
-    const args: ReceiveAdditionalEventArgs<Value> = {
-      /** Deprecated – can be removed in v11 */
-      ...combinedErrorMessages,
-
+    const args = {
       errorMessages: combinedErrorMessages,
       ...additionalArgsRef.current,
       connectWithPath: (path) => {
@@ -956,7 +953,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       connectWithItemPath: (itemPath) => {
         return handleConnectWithPath(makeIteratePath(itemPath))
       },
-    }
+    } as ReceiveAdditionalEventArgs<Value>
 
     return args
   }, [combinedErrorMessages, handleConnectWithPath, makeIteratePath])
