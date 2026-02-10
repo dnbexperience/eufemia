@@ -7,6 +7,9 @@ import {
 import DataContext, { ContextState } from '../../DataContext/Context'
 import type { EventStateObject } from '../../types'
 
+const invalidUseSubmitErrorMessage =
+  'Form.useSubmit needs to run inside Form.Handler or have a valid id'
+
 export type UseSubmitReturn = {
   /**
    * Triggers form submit. Runs validation and calls the form's onSubmit when valid.
@@ -32,19 +35,19 @@ export default function useSubmit(id?: SharedStateId): UseSubmitReturn {
   )
   const dataContext = useContext(DataContext)
 
-  const context = id ? get() : dataContext
-
-  if (!context?.hasContext) {
-    throw new Error(
-      'Form.useSubmit needs to run inside Form.Handler or have a valid id'
-    )
+  if (!id && !dataContext?.hasContext) {
+    throw new Error(invalidUseSubmitErrorMessage)
   }
 
-  const { handleSubmit } = context
-
   const submit = useCallback(() => {
-    return handleSubmit?.() ?? Promise.resolve(undefined)
-  }, [handleSubmit])
+    const context = id ? get() : dataContext
+
+    if (!context?.hasContext) {
+      return Promise.reject(new Error(invalidUseSubmitErrorMessage))
+    }
+
+    return context.handleSubmit?.() ?? Promise.resolve(undefined)
+  }, [dataContext, get, id])
 
   return useMemo(() => ({ submit }), [submit])
 }
