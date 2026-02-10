@@ -175,11 +175,6 @@ export interface ModalContentProps {
   id?: string
 
   /**
-   * The id used internal in the modal/drawer root element. Defaults to `root`, so the element id will be `dnb-modal-root`.
-   */
-  rootId?: string
-
-  /**
    * The ID of the trigger component, describing the modal/drawer content. Defaults to the internal `trigger`, so make sure you define the trigger title.
    */
   labelledBy?: string
