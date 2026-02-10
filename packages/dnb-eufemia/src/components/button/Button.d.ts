@@ -65,7 +65,7 @@ export type ButtonProps = {
    */
   text?: ButtonText;
   /**
-   * The type HTML attribute. Defaults to `button` for legacy reasons.
+   * The type HTML attribute. Defaults to `button` to prevent accidental form submissions.
    */
   type?: string;
   /**
