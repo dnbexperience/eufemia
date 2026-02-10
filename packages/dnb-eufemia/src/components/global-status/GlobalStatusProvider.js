@@ -14,7 +14,7 @@ import {
 
 export class GlobalStatusProviderItem {
   constructor(id, props = null) {
-    this.internal_id = id
+    this.internalId = id
     if (props) {
       this.add(props)
     }
@@ -171,7 +171,7 @@ export class GlobalStatusProviderItem {
   // to remove this provider item
   unbind() {
     this.empty()
-    GlobalStatusProvider.remove(this.internal_id)
+    GlobalStatusProvider.remove(this.internalId)
   }
 
   isReady() {

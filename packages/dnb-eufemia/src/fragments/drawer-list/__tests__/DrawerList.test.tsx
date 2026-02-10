@@ -1139,12 +1139,12 @@ describe('DrawerList component', () => {
     it('should refresh scroll observer when data changes', async () => {
       const initialData = Array.from({ length: 10 }, (_, i) => ({
         content: `Item ${i + 1}`,
-        selected_key: `item-${i}`,
+        selectedKey: `item-${i}`,
       }))
 
       const updatedData = Array.from({ length: 15 }, (_, i) => ({
         content: `Updated Item ${i + 1}`,
-        selected_key: `item-${i}`,
+        selectedKey: `item-${i}`,
       }))
 
       const { rerender } = render(

@@ -26,7 +26,7 @@ const CloseButton: React.FC<CloseButtonProps> = (props) => {
     size = 'default',
     iconPosition = 'left',
     className = null,
-    ...button_props
+    ...buttonProps
   } = extendPropsWithContextInClassComponent(
     props,
     {
@@ -47,7 +47,7 @@ const CloseButton: React.FC<CloseButtonProps> = (props) => {
       size={size}
       iconPosition={iconPosition}
       className={clsx('dnb-modal__close-button', className)}
-      {...button_props}
+      {...buttonProps}
     />
   )
 }
