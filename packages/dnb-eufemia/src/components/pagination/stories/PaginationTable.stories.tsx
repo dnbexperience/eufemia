@@ -213,10 +213,13 @@ const InfinityPagination = ({
   endInfinity,
   ...props
 }) => {
-  const mountedItems = []
-  if (onMounted) {
-    React.useEffect(() => onMounted && onMounted(mountedItems), []) // eslint-disable-line
-  }
+  const mountedItems = React.useMemo(() => [], [items.length])
+
+  React.useEffect(() => {
+    if (onMounted && mountedItems.length > 0) {
+      onMounted(mountedItems)
+    }
+  }, [onMounted, mountedItems])
 
   items = items.filter((cur, idx) => {
     const floor = (currentPage - 1) * perPageCount
