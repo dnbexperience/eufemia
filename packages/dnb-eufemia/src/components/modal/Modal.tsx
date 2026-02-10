@@ -107,7 +107,6 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
     verticalAlignment: null,
     open: null,
     directDomReturn: false,
-    rootId: 'root',
     omitTriggerButton: false,
 
     className: null,
@@ -433,7 +432,6 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
     )
 
     const {
-      rootId = 'root',
       contentId = null,
       disabled = null,
       labelledBy = null,
@@ -521,7 +519,6 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
               <ModalRoot
                 {...rest}
                 id={this._id}
-                rootId={rootId}
                 contentId={contentId || `dnb-modal-${this._id}`}
                 labelledBy={labelledBy}
                 focusSelector={focusSelector}
