@@ -14,12 +14,12 @@ describe('Suffix', () => {
     const inputValue = 'Input Value'
     const inputLabel = 'Input Label'
     const modalContent = 'Modal Content'
-    let more_info: string
+    let moreInfo: string
 
     render(
       <Context.Consumer>
         {(context) => {
-          more_info = context.translation.HelpButton.title
+          moreInfo = context.translation.HelpButton.title
           return (
             <Input
               label={inputLabel}
@@ -36,7 +36,7 @@ describe('Suffix', () => {
       document
         .querySelector('button.dnb-modal__trigger')
         .getAttribute('aria-label')
-    ).toBe(more_info)
+    ).toBe(moreInfo)
   })
 
   it('has skeleton wrapper when children is a string', () => {
