@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const ButtonProperties: PropertiesTableProps = {
   type: {
-    doc: 'The type HTML attribute. Defaults to `button` for legacy reasons.',
+    doc: 'The type HTML attribute. Defaults to `button` to prevent accidental form submissions.',
     type: ['button', 'reset', 'submit'],
     status: 'optional',
   },
