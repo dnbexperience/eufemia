@@ -118,7 +118,7 @@ describe('isRequestingLocaleSupport', () => {
 
   it('should return false when props do not include any enableNumberMaskWhen keys', () => {
     const props = {
-      as_something: true,
+      asSomething: true,
     }
     const result = isRequestingLocaleSupport(props)
     expect(result).toBe(false)
@@ -141,7 +141,7 @@ describe('isRequestingNumberMask', () => {
 
   it('should return false when props do not include any enableNumberMaskWhen keys', () => {
     const props = {
-      as_something: true,
+      asSomething: true,
     }
     const result = isRequestingNumberMask(props)
     expect(result).toBe(false)
