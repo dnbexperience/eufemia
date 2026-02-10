@@ -315,6 +315,53 @@ describe('createSpacingProperties', () => {
     })
   })
 
+  it('should support inline and block shorthand', () => {
+    expect(
+      createSpacingProperties({
+        innerSpace: { inline: 'small', block: 'large' },
+      })
+    ).toEqual({
+      '--space-b-l': '2rem',
+      '--space-l-l': '1rem',
+      '--space-r-l': '1rem',
+      '--space-t-l': '2rem',
+      '--space-b-m': '2rem',
+      '--space-l-m': '1rem',
+      '--space-r-m': '1rem',
+      '--space-t-m': '2rem',
+      '--space-b-s': '2rem',
+      '--space-l-s': '1rem',
+      '--space-r-s': '1rem',
+      '--space-t-s': '2rem',
+    })
+  })
+
+  it('should let explicit directions override inline and block shorthand', () => {
+    expect(
+      createSpacingProperties({
+        innerSpace: {
+          inline: 'small',
+          block: 'large',
+          left: 'medium',
+          top: false,
+        },
+      })
+    ).toEqual({
+      '--space-b-l': '2rem',
+      '--space-l-l': '1.5rem',
+      '--space-r-l': '1rem',
+      '--space-t-l': '0',
+      '--space-b-m': '2rem',
+      '--space-l-m': '1.5rem',
+      '--space-r-m': '1rem',
+      '--space-t-m': '0',
+      '--space-b-s': '2rem',
+      '--space-l-s': '1.5rem',
+      '--space-r-s': '1rem',
+      '--space-t-s': '0',
+    })
+  })
+
   it('should return properties with zero', () => {
     expect(
       createSpacingProperties({ innerSpace: { right: false } })
