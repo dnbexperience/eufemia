@@ -173,7 +173,7 @@ export default class Button extends React.PureComponent {
         !attributes['aria-label']
       ) {
         warn(
-          'Icon-only Button requires either a "title" or "aria-label" prop for accessibility. This helps screen reader users understand the button\'s purpose.'
+          'Icon-only Button requires either a "title" or "aria-label" prop for accessibility.'
         )
       }
     } else if (content) {
