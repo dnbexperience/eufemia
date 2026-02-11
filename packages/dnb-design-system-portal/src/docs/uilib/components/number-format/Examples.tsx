@@ -217,7 +217,7 @@ export const NumberSignDisplay = () => (
         <NumberFormat signDisplay="always" value={-1234} />
         <NumberFormat signDisplay="always" value={0} />
       </P>
-      <H3>exceptZero</H3>
+      <H3>signDisplay="exceptZero"</H3>
       <P>
         <NumberFormat signDisplay="exceptZero" value={1234} />
         <NumberFormat signDisplay="exceptZero" value={-1234} />
