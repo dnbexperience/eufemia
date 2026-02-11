@@ -126,7 +126,13 @@ function UploadFileItem(
 
   const handleFileClickAsync = async (uploadFile: UploadFile) => {
     setLoading(true)
-    await onFileClick({ fileItem: uploadFile })
+
+    try {
+      await onFileClick({ fileItem: uploadFile })
+    } catch (error) {
+      // stop here
+    }
+
     setLoading(false)
   }
 
