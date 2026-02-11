@@ -72,6 +72,11 @@ export const NumberFormatProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'deprecated',
   },
+  signDisplay: {
+    doc: 'When to display the sign for the number. Use `auto` (default) for negative numbers only, `always` to always display sign, `exceptZero` for positive and negative numbers but not zero, `negative` for negative numbers only including negative zero, or `never` to never display sign.',
+    type: ['auto', 'always', 'exceptZero', 'negative', 'never'],
+    status: 'optional',
+  },
   prefix: {
     doc: 'Add a string or React component before the number, including white space.',
     type: 'React.Node',
