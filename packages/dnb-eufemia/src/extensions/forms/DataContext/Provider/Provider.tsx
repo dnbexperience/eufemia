@@ -590,6 +590,11 @@ export default function Provider<Data extends JsonObject>(
       } else {
         delete fieldErrorRef.current[path]
       }
+
+      Promise.resolve().then(() => {
+        syncAttachmentsRef.current()
+      })
+
       for (const item of fieldEventListenersRef.current) {
         const { type, callback } = item
         if (type === 'onSetFieldError') {
@@ -609,6 +614,9 @@ export default function Provider<Data extends JsonObject>(
         // The state for the target value was changed
         fieldStateRef.current[path] = fieldState
         forceUpdate()
+        Promise.resolve().then(() => {
+          syncAttachmentsRef.current()
+        })
       }
     },
     []
@@ -866,16 +874,17 @@ export default function Provider<Data extends JsonObject>(
   // - Shared state
   const sharedData = useSharedState<Data>(id)
   const sharedAttachments = useSharedState<SharedAttachments<Data>>(
-    createReferenceKey(id, 'attachments')
+    id ? createReferenceKey(id, 'attachments') : undefined
   )
   const sharedDataContext = useSharedState<ContextState>(
-    createReferenceKey(id, 'data-context')
+    id ? createReferenceKey(id, 'data-context') : undefined
   )
 
   const setSharedData = sharedData.set
   const extendSharedData = sharedData.extend
   const extendAttachment = sharedAttachments.extend
   const rerenderUseDataHook = sharedAttachments.data?.rerenderUseDataHook
+  const syncAttachmentsRef = useRef<() => void>(() => null)
 
   const cacheRef = useRef({
     data,
@@ -1205,10 +1214,22 @@ export default function Provider<Data extends JsonObject>(
   // - Mounted fields
   const setMountedFieldState = useCallback(
     (path: Path, state: MountState) => {
+      const currentState = mountedFieldsRef.current.get(path) || {}
       mountedFieldsRef.current.set(path, {
-        ...mountedFieldsRef.current.get(path),
+        ...currentState,
         ...state,
       })
+
+      const hasChanges = (
+        Object.keys(state) as Array<keyof MountState>
+      ).some((key) => {
+        return currentState[key] !== state[key]
+      })
+      if (hasChanges) {
+        Promise.resolve().then(() => {
+          syncAttachmentsRef.current()
+        })
+      }
 
       for (const itm of fieldEventListenersRef.current) {
         if (itm.type === 'onMount' && itm.path === path) {
@@ -1456,6 +1477,27 @@ export default function Provider<Data extends JsonObject>(
     transformOut,
     visibleDataHandler,
   ])
+
+  syncAttachmentsRef.current = () => {
+    if (id) {
+      extendAttachment(
+        {
+          visibleDataHandler,
+          filterDataHandler,
+          hasErrors,
+          hasFieldError,
+          setShowAllErrors,
+          setSubmitState,
+          clearData,
+          setData,
+          updateDataValue,
+          fieldConnectionsRef,
+          internalDataRef,
+        },
+        { preventSyncOfSameInstance: true }
+      )
+    }
+  }
 
   /**
    * Request to submit the whole form
@@ -1781,13 +1823,10 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
     timeout?: NodeJS.Timeout | null
   }>({})
 
-  const setState = useCallback(
-    (state: SubmitState) => {
-      stateRef.current = state
-      forceUpdate()
-    },
-    [forceUpdate]
-  )
+  const setState = useCallback((state: SubmitState) => {
+    stateRef.current = state
+    forceUpdate()
+  }, [])
 
   const clear = useCallback(() => {
     for (const key in timeoutRef.current) {
