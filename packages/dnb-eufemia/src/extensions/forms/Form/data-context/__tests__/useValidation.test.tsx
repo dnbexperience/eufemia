@@ -62,6 +62,38 @@ describe('useValidation', () => {
         expect(result.current.hasErrors()).toBe(false)
       })
 
+      it('should rerender when used outside of the form context', async () => {
+        const MockComponent = () => {
+          const { hasErrors } = useValidation(identifier)
+
+          return (
+            <output>{JSON.stringify({ hasError: hasErrors() })}</output>
+          )
+        }
+
+        render(
+          <>
+            <Form.Handler id={identifier}>
+              <Field.String path="/foo" required />
+            </Form.Handler>
+            <MockComponent />
+          </>
+        )
+
+        const input = document.querySelector('input')
+        const output = document.querySelector('output')
+
+        await waitFor(() => {
+          expect(output).toHaveTextContent('{"hasError":true}')
+        })
+
+        await userEvent.type(input, 'foo')
+
+        await waitFor(() => {
+          expect(output).toHaveTextContent('{"hasError":false}')
+        })
+      })
+
       describe('with context', () => {
         const MockComponent = () => {
           const { hasErrors } = useValidation()
