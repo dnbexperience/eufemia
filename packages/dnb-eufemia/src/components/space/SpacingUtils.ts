@@ -13,11 +13,23 @@ import type {
   SpaceTypesPositiveRemValuesType,
   SpaceStringTypes,
   SpaceTypeMedia,
-  SpaceTypeAll,
   SpacingElementProps,
 } from './types'
 
 type SpaceNumber = number
+type InnerSpacingElementProps = SpacingElementProps & {
+  inline?: SpaceType
+  block?: SpaceType
+}
+type InnerSpaceTypeAll = SpaceType | InnerSpacingElementProps
+type InnerSpaceTypeMedia = {
+  small?: InnerSpaceTypeAll
+  medium?: InnerSpaceTypeAll
+  large?: InnerSpaceTypeAll
+}
+type InnerSpacingProps = Omit<SpacingProps, 'innerSpace'> & {
+  innerSpace?: InnerSpaceTypeAll | InnerSpaceTypeMedia
+}
 
 export const spacingDefaultProps: SpacingProps = {
   space: null,
@@ -75,7 +87,7 @@ export const calc = (...types: Array<SpaceType>) => {
  * @returns { '--space-b-l': '2rem', '--space-t-l': '1rem' }
  */
 export const createSpacingProperties = (
-  props: SpacingProps
+  props: InnerSpacingProps
 ): React.CSSProperties => {
   if (props?.innerSpace) {
     return computeProperties(props.innerSpace)
@@ -93,33 +105,37 @@ function hasMediaSize(media: SpaceTypeMedia) {
   )
 }
 
-function hasSize(space: SpacingElementProps) {
+function hasSize(space: InnerSpacingElementProps) {
   const keys = Object.keys(space)
   return (
     keys.includes('top') ||
     keys.includes('right') ||
     keys.includes('bottom') ||
-    keys.includes('left')
+    keys.includes('left') ||
+    keys.includes('inline') ||
+    keys.includes('block')
   )
 }
 
-function computeProperties(space: SpaceTypeAll | SpaceTypeMedia) {
+function computeProperties(
+  space: InnerSpaceTypeAll | InnerSpaceTypeMedia
+) {
   if (!hasMediaSize(space as SpaceTypeMedia)) {
     space = {
       small: space,
       medium: space,
       large: space,
-    } as SpaceTypeMedia
+    } as InnerSpaceTypeMedia
   }
 
   const result = {}
 
-  for (const size in space as SpaceTypeMedia) {
-    const value = space?.[size] as SpaceType | SpacingElementProps
+  for (const size in space as InnerSpaceTypeMedia) {
+    const value = space?.[size] as SpaceType | InnerSpacingElementProps
     const props = transformToAll(value)
 
-    for (const key in props as SpaceTypeMedia) {
-      if (isValidSpaceProp(key)) {
+    for (const key in props as InnerSpaceTypeMedia) {
+      if (isValidInnerSpaceProp(key)) {
         const cur = props[key]
         const name = `--space-${key[0]}-${size[0]}`
 
@@ -137,19 +153,39 @@ function computeProperties(space: SpaceTypeAll | SpaceTypeMedia) {
   return result as React.CSSProperties
 }
 
-function transformToAll(value: SpaceType | SpacingElementProps) {
+function transformToAll(value: SpaceType | InnerSpacingElementProps) {
   let result = value
 
-  if (!hasSize(value as SpacingElementProps)) {
+  if (!hasSize(value as InnerSpacingElementProps)) {
     result = {
       top: value,
       right: value,
       bottom: value,
       left: value,
-    } as SpacingElementProps
+    } as InnerSpacingElementProps
   }
 
-  return result as SpacingElementProps
+  return expandInnerSpaceShorthand(result as InnerSpacingElementProps)
+}
+
+function expandInnerSpaceShorthand(space: InnerSpacingElementProps) {
+  const result = { ...space }
+
+  if (typeof result.inline !== 'undefined') {
+    result.left = result.left ?? result.inline
+    result.right = result.right ?? result.inline
+  }
+
+  if (typeof result.block !== 'undefined') {
+    result.top = result.top ?? result.block
+    result.bottom = result.bottom ?? result.block
+  }
+
+  return result
+}
+
+function isValidInnerSpaceProp(propName: string) {
+  return ['top', 'right', 'bottom', 'left'].includes(propName)
 }
 
 /**
