@@ -150,6 +150,67 @@ export const Numbers = () => (
               />
             </Td>
           </Tr>
+          <Tr noWrap>
+            <Td>Negative value</Td>
+            <Td>
+              <NumberFormat locale="nb-NO" value={-1234567.89} />
+            </Td>
+            <Td>
+              <NumberFormat locale="en-GB" value={-1234567.89} />
+            </Td>
+            <Td>
+              <NumberFormat locale="sv-SE" value={-1234567.89} />
+            </Td>
+            <Td>
+              <NumberFormat locale="da-DK" value={-1234567.89} />
+            </Td>
+          </Tr>
+          <Tr noWrap>
+            <Td>Sign display (except zero)</Td>
+            <Td>
+              <NumberFormat
+                locale="nb-NO"
+                signDisplay="exceptZero"
+                value={1234567.89}
+              />
+            </Td>
+            <Td>
+              <NumberFormat
+                locale="en-GB"
+                signDisplay="exceptZero"
+                value={1234567.89}
+              />
+            </Td>
+            <Td>
+              <NumberFormat
+                locale="sv-SE"
+                signDisplay="exceptZero"
+                value={1234567.89}
+              />
+            </Td>
+            <Td>
+              <NumberFormat
+                locale="da-DK"
+                signDisplay="exceptZero"
+                value={1234567.89}
+              />
+            </Td>
+          </Tr>
+          <Tr noWrap>
+            <Td>Invalid input</Td>
+            <Td>
+              <NumberFormat locale="nb-NO">invalid</NumberFormat>
+            </Td>
+            <Td>
+              <NumberFormat locale="en-GB">invalid</NumberFormat>
+            </Td>
+            <Td>
+              <NumberFormat locale="sv-SE">invalid</NumberFormat>
+            </Td>
+            <Td>
+              <NumberFormat locale="da-DK">invalid</NumberFormat>
+            </Td>
+          </Tr>
         </tbody>
       </Table>
     </Table.ScrollView>
