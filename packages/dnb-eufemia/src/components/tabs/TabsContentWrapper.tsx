@@ -9,7 +9,7 @@ import {
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Section from '../section/Section'
-import EventEmitter from '../../shared/helpers/EventEmitter'
+import { createSharedState } from '../../shared/helpers/useSharedState'
 import HeightAnimation from '../height-animation/HeightAnimation'
 
 export default class ContentWrapper extends React.PureComponent<ContentWrapperProps> {
@@ -27,25 +27,28 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
     super(props)
 
     if (props.id) {
-      this._eventEmitter = EventEmitter.createInstance(props.id)
-      this.state = this._eventEmitter.get()
+      this._sharedState = createSharedState(props.id)
+      this.state = this._sharedState.get() || { key: null }
     }
   }
 
   componentDidMount() {
-    if (this.props.id && this._eventEmitter) {
-      this._eventEmitter.listen((params) => {
-        if (this._eventEmitter && params.key !== this.state.key) {
+    if (this.props.id && this._sharedState) {
+      this._subscriber = () => {
+        const params = this._sharedState.get()
+        if (this._sharedState && params?.key !== this.state.key) {
           this.setState(params)
         }
-      })
+      }
+      this._sharedState.subscribe(this._subscriber)
     }
   }
 
   componentWillUnmount() {
-    if (this._eventEmitter) {
-      this._eventEmitter.remove()
-      this._eventEmitter = null
+    if (this._sharedState && this._subscriber) {
+      this._sharedState.unsubscribe(this._subscriber)
+      this._sharedState = null
+      this._subscriber = null
     }
   }
 
@@ -66,7 +69,7 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
 
     const params = rest
 
-    // Use state.key if available (when linked with EventEmitter),
+    // Use state.key if available (when linked with shared state),
     // otherwise fall back to selectedKey prop
     const activeKey = this.state.key !== null ? this.state.key : key
 
