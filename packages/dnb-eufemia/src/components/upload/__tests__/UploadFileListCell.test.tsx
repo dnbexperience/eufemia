@@ -486,25 +486,6 @@ describe('UploadFileListCell', () => {
   })
 
   describe('Link behavior', () => {
-    it('should respect explicit disableLink property', () => {
-      const fileName = 'disabled-file.png'
-
-      render(
-        <UploadFileListCell
-          {...defaultProps}
-          download={true}
-          uploadFile={{
-            file: createMockFile(fileName, 100, 'image/png'),
-            disableLink: true,
-          }}
-        />
-      )
-
-      const fileLink = screen.queryByText(fileName)
-      expect(fileLink.tagName).toBe('SPAN')
-      expect(fileLink).toHaveClass('dnb-span')
-    })
-
     it('should disable href when disableLink is true', () => {
       const fileName = 'no-href-file.png'
 
