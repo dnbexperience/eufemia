@@ -223,7 +223,7 @@ export const NumberSignDisplay = () => (
         <NumberFormat signDisplay="exceptZero" value={-1234} />
         <NumberFormat signDisplay="exceptZero" value={0} />
       </P>
-      <H3>never</H3>
+      <H3>signDisplay="never"</H3>
       <P>
         <NumberFormat signDisplay="never" value={1234} />
         <NumberFormat signDisplay="never" value={-1234} />
