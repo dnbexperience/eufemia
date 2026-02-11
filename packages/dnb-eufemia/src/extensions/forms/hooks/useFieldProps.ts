@@ -2332,18 +2332,25 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   useUpdateEffect(() => {
     if (previousLocaleRef.current !== locale) {
       previousLocaleRef.current = locale
+      const hasValidationError =
+        hasError() || fieldStateRef.current === 'error'
+      const hasVisibleError = revealErrorRef.current === true
+      const shouldRevalidateOnLocaleChange =
+        changedRef.current ||
+        hasValidationError ||
+        hasVisibleError ||
+        validateInitially ||
+        validateUnchanged
 
-      if (prerenderFieldProps || valueEqualsEmptyValue(valueRef.current)) {
+      if (
+        prerenderFieldProps ||
+        (valueEqualsEmptyValue(valueRef.current) &&
+          !shouldRevalidateOnLocaleChange)
+      ) {
         return // stop here
       }
 
-      if (
-        onBlurValidatorRef.current &&
-        (changedRef.current ||
-          hasError() ||
-          validateInitially ||
-          validateUnchanged)
-      ) {
+      if (onBlurValidatorRef.current && shouldRevalidateOnLocaleChange) {
         addToPool(
           'onBlurValidator',
           async () => await startOnBlurValidatorProcess(),
