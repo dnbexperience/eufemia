@@ -69,6 +69,7 @@ import { isAsync } from '../../../shared/helpers/isAsync'
 import useTranslation from './useTranslation'
 import useExternalValue from './useExternalValue'
 import useDataValue from './useDataValue'
+import SharedContext from '../../../shared/Context'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../shared/helpers/useIsomorphicLayoutEffect'
 
@@ -199,6 +200,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const handleFieldAsVisible = isVisible || keepInDOM
 
   const { getValueByPath, getSourceValue } = useDataValue()
+  const { locale } = useContext(SharedContext)
   const translation = useTranslation()
   const { formatMessage } = translation
   const translationRef = useRef(translation)
@@ -803,7 +805,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
 
     return extendedErrorMessages
-  }, [contextErrorMessages, errorMessages, identifier])
+  }, [contextErrorMessages, errorMessages, identifier, locale])
 
   /**
    * Prepare error from validation logic with correct error messages based on props
@@ -888,6 +890,18 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
     return contextErrorRef.current
   }, [dataContextErrors, identifier, prepareError])
+
+  // Re-prepare local error when locale changes
+  useUpdateEffect(() => {
+    if (localErrorRef.current) {
+      const originalMessage = localErrorRef.current?.message
+      const repreparedError = prepareError(localErrorRef.current)
+      if (repreparedError && repreparedError.message !== originalMessage) {
+        localErrorRef.current = repreparedError
+        forceUpdate()
+      }
+    }
+  }, [locale])
 
   // If the error is a type error, we want to show it even if the field has not been used
   if (
