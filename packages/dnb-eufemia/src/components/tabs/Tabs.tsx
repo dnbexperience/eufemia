@@ -31,7 +31,7 @@ import Button from '../button/Button'
 import whatInput from 'what-input'
 import CustomContent from './TabsCustomContent'
 import ContentWrapper from './TabsContentWrapper'
-import EventEmitter from '../../shared/helpers/EventEmitter'
+import { createSharedState } from '../../shared/helpers/useSharedState'
 import { DynamicElement } from '../../shared/types'
 import { ButtonProps } from '../Button'
 import { AnchorAllProps } from '../Anchor'
@@ -361,8 +361,8 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     this._tablistRef = React.createRef()
 
     if (props.id) {
-      this._eventEmitter = EventEmitter.createInstance(props.id)
-      this._eventEmitter.set(this.getEventArgs({ selectedKey }))
+      this._sharedState = createSharedState(props.id)
+      this._sharedState.set(this.getEventArgs({ selectedKey }))
     }
   }
 
@@ -378,9 +378,8 @@ export default class Tabs extends React.PureComponent<TabsProps> {
   componentWillUnmount() {
     this._isMounted = false
     this.resetWhatInput()
-    if (this._eventEmitter) {
-      this._eventEmitter.remove()
-      this._eventEmitter = null
+    if (this._sharedState) {
+      this._sharedState = null
     }
     if (typeof window !== 'undefined') {
       window.removeEventListener('resize', this.onResizeHandler)
@@ -424,15 +423,15 @@ export default class Tabs extends React.PureComponent<TabsProps> {
 
   componentDidUpdate(props) {
     if (
-      this._eventEmitter &&
+      this._sharedState &&
       (this.props.selectedKey !== props.selectedKey ||
         this.props.data !== props.data)
     ) {
       this.onResizeHandler()
 
-      if (this._eventEmitter) {
+      if (this._sharedState) {
         const selectedKey = this.state.selectedKey
-        this._eventEmitter.update(this.getEventArgs({ selectedKey }))
+        this._sharedState.update(this.getEventArgs({ selectedKey }))
       }
     }
   }
@@ -872,8 +871,8 @@ export default class Tabs extends React.PureComponent<TabsProps> {
       }
     }
 
-    if (this._eventEmitter) {
-      this._eventEmitter.update(this.getEventArgs({ event, selectedKey }))
+    if (this._sharedState) {
+      this._sharedState.update(this.getEventArgs({ event, selectedKey }))
     }
   }
 
@@ -1088,7 +1087,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
 
     const content = this.renderContent()
 
-    if (!this._eventEmitter && !content) {
+    if (!this._sharedState && !content) {
       warn(`No content was given to the Tabs component!
 Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outside of the Tabs component</Tabs.Content>
 `)
