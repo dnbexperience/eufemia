@@ -211,23 +211,23 @@ export const NumberSpacing = () => (
 export const NumberSignDisplay = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-sign-display">
+      <H3>always</H3>
       <P>
         <NumberFormat signDisplay="always" value={1234} />
         <NumberFormat signDisplay="always" value={-1234} />
         <NumberFormat signDisplay="always" value={0} />
       </P>
+      <H3>exceptZero</H3>
       <P>
         <NumberFormat signDisplay="exceptZero" value={1234} />
         <NumberFormat signDisplay="exceptZero" value={-1234} />
         <NumberFormat signDisplay="exceptZero" value={0} />
       </P>
+      <H3>never</H3>
       <P>
         <NumberFormat signDisplay="never" value={1234} />
         <NumberFormat signDisplay="never" value={-1234} />
-      </P>
-      <P>
-        <NumberFormat signDisplay="always" currency value={1234} />
-        <NumberFormat signDisplay="always" percent value={12.34} />
+        <NumberFormat signDisplay="never" value={0} />
       </P>
     </ComponentBox>
   </Style>
