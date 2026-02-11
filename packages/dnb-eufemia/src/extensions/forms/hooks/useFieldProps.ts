@@ -765,6 +765,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }, [setErrorState])
 
   const errorMessagesCacheRef = useRef({
+    locale: null,
     errorMessages: null,
     extendedErrorMessages: null,
   })
@@ -773,6 +774,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     // in case "errorMessages" is not wrapped in useMemo.
     const cache = errorMessagesCacheRef.current
     if (
+      cache.locale === locale &&
       errorMessages &&
       cache.extendedErrorMessages &&
       // We compare the "errorMessages" object with the cached version.
@@ -800,6 +802,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       )
 
     errorMessagesCacheRef.current = {
+      locale,
       errorMessages,
       extendedErrorMessages,
     }
