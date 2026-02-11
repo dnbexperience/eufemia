@@ -68,6 +68,7 @@ import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared
 export type SharedAttachments<Data = unknown> = {
   visibleDataHandler?: VisibleDataHandler<Data>
   filterDataHandler?: FilterDataHandler<Data>
+  validationVersion?: number
   hasErrors?: ContextState['hasErrors']
   hasFieldError?: ContextState['hasFieldError']
   setShowAllErrors?: ContextState['setShowAllErrors']
@@ -417,6 +418,8 @@ export default function Provider<Data extends JsonObject>(
   // - States (e.g. error) reported by fields, based on their direct validation rules
   const fieldErrorRef = useRef<Record<Path, Error>>({})
   const fieldStateRef = useRef<Record<Path, SubmitState>>({})
+  const validationVersionRef = useRef(0)
+  const bumpValidationVersionRef = useRef<() => void>(() => null)
 
   // - Data
   const initialData = useMemo<Data>(() => {
@@ -592,9 +595,7 @@ export default function Provider<Data extends JsonObject>(
         delete fieldErrorRef.current[path]
       }
 
-      Promise.resolve().then(() => {
-        syncAttachmentsRef.current()
-      })
+      bumpValidationVersionRef.current()
 
       for (const item of fieldEventListenersRef.current) {
         const { type, callback } = item
@@ -615,9 +616,7 @@ export default function Provider<Data extends JsonObject>(
         // The state for the target value was changed
         fieldStateRef.current[path] = fieldState
         forceUpdate()
-        Promise.resolve().then(() => {
-          syncAttachmentsRef.current()
-        })
+        bumpValidationVersionRef.current()
       }
     },
     []
@@ -885,7 +884,15 @@ export default function Provider<Data extends JsonObject>(
   const extendSharedData = sharedData.extend
   const extendAttachment = sharedAttachments.extend
   const rerenderUseDataHook = sharedAttachments.data?.rerenderUseDataHook
-  const syncAttachmentsRef = useRef<() => void>(() => null)
+  bumpValidationVersionRef.current = () => {
+    if (id) {
+      validationVersionRef.current += 1
+      extendAttachment(
+        { validationVersion: validationVersionRef.current },
+        { preventSyncOfSameInstance: true }
+      )
+    }
+  }
   const hasHydratedFieldErrorRef = useRef(false)
 
   if (!hasHydratedFieldErrorRef.current) {
@@ -1237,7 +1244,7 @@ export default function Provider<Data extends JsonObject>(
       })
       if (hasChanges) {
         Promise.resolve().then(() => {
-          syncAttachmentsRef.current()
+          bumpValidationVersionRef.current()
         })
       }
 
@@ -1488,28 +1495,6 @@ export default function Provider<Data extends JsonObject>(
     visibleDataHandler,
   ])
 
-  syncAttachmentsRef.current = () => {
-    if (id) {
-      extendAttachment(
-        {
-          visibleDataHandler,
-          filterDataHandler,
-          hasErrors,
-          hasFieldError,
-          setShowAllErrors,
-          setSubmitState,
-          clearData,
-          setData,
-          updateDataValue,
-          fieldConnectionsRef,
-          fieldErrorRef,
-          internalDataRef,
-        },
-        { preventSyncOfSameInstance: true }
-      )
-    }
-  }
-
   /**
    * Request to submit the whole form
    */
@@ -1642,6 +1627,7 @@ export default function Provider<Data extends JsonObject>(
         {
           visibleDataHandler,
           filterDataHandler,
+          validationVersion: validationVersionRef.current,
           hasErrors,
           hasFieldError,
           setShowAllErrors,
