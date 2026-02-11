@@ -891,18 +891,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     return contextErrorRef.current
   }, [dataContextErrors, identifier, prepareError])
 
-  // Re-prepare local error when locale changes
-  useUpdateEffect(() => {
-    if (localErrorRef.current) {
-      const originalMessage = localErrorRef.current?.message
-      const repreparedError = prepareError(localErrorRef.current)
-      if (repreparedError && repreparedError.message !== originalMessage) {
-        localErrorRef.current = repreparedError
-        forceUpdate()
-      }
-    }
-  }, [locale])
-
   // If the error is a type error, we want to show it even if the field has not been used
   if (
     localErrorRef.current?.['ajvKeyword'] === 'type' ||
