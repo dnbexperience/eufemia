@@ -376,7 +376,7 @@ html[data-whatinput=keyboard] .dnb-tabs__content:focus::before {
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-tabs .dnb-badge {
+.dnb-tabs__button__title > .dnb-badge {
   position: absolute;
   top: auto;
   margin-left: 0.25rem;
