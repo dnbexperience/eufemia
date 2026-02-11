@@ -2286,6 +2286,29 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     validateValue()
   }, [validateValue])
 
+  useEffect(() => {
+    if (prerenderFieldProps || !dataContext?.id) {
+      return // stop here
+    }
+
+    const sharedAttachments = createSharedState<{
+      fieldStatusRef?: React.MutableRefObject<
+        Record<Identifier, EventStateObjectWithSuccess>
+      >
+    }>(createReferenceKey(dataContext.id, 'attachments')).get?.()
+
+    const status = sharedAttachments?.fieldStatusRef?.current?.[identifier]
+    if (status) {
+      void setEventResult(status)
+    }
+  }, [
+    dataContext?.id,
+    identifier,
+    locale,
+    prerenderFieldProps,
+    setEventResult,
+  ])
+
   useUpdateEffect(() => {
     if (finalSchema) {
       if (hasZodSchema) {
