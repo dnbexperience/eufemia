@@ -69,7 +69,6 @@ import { isAsync } from '../../../shared/helpers/isAsync'
 import useTranslation from './useTranslation'
 import useExternalValue from './useExternalValue'
 import useDataValue from './useDataValue'
-import SharedContext from '../../../shared/Context'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../shared/helpers/useIsomorphicLayoutEffect'
 
@@ -200,7 +199,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const handleFieldAsVisible = isVisible || keepInDOM
 
   const { getValueByPath, getSourceValue } = useDataValue()
-  const { locale } = useContext(SharedContext)
   const translation = useTranslation()
   const { formatMessage } = translation
   const translationRef = useRef(translation)
