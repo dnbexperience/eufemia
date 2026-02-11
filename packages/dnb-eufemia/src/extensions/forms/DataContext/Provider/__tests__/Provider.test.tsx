@@ -4069,6 +4069,62 @@ describe('DataContext.Provider', () => {
       expect(screen.queryByRole('alert')).toHaveTextContent(errorRequired)
     })
 
+    it('should keep field validation when locale changes in SharedProvider', () => {
+      const onSubmit = jest.fn()
+
+      const { rerender } = render(
+        <SharedProvider locale="nb-NO">
+          <Form.Handler
+            onSubmit={onSubmit}
+            ajvInstance={makeAjvInstance()}
+            data={{ myValue: 'a' }}
+            schema={{
+              type: 'object',
+              properties: {
+                myValue: {
+                  type: 'string',
+                  minLength: 2,
+                },
+              },
+            }}
+          >
+            <Field.String path="/myValue" validateInitially />
+          </Form.Handler>
+        </SharedProvider>
+      )
+
+      fireEvent.submit(document.querySelector('form'))
+      expect(onSubmit).toHaveBeenCalledTimes(0)
+
+      rerender(
+        <SharedProvider locale="en-GB">
+          <Form.Handler
+            onSubmit={onSubmit}
+            ajvInstance={makeAjvInstance()}
+            data={{ myValue: 'a' }}
+            schema={{
+              type: 'object',
+              properties: {
+                myValue: {
+                  type: 'string',
+                  minLength: 2,
+                },
+              },
+            }}
+          >
+            <Field.String path="/myValue" validateInitially />
+          </Form.Handler>
+        </SharedProvider>
+      )
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+
+      fireEvent.submit(document.querySelector('form'))
+      expect(onSubmit).toHaveBeenCalledTimes(0)
+    })
+
     it('should use a random number as the value of "showAllErrors" when setShowAllErrors with true is called', async () => {
       let dataContext = null
 

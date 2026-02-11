@@ -94,6 +94,140 @@ describe('useValidation', () => {
         })
       })
 
+      it('should keep validation state when locale changes', async () => {
+        const onSubmit = jest.fn()
+
+        const { rerender } = render(
+          <Form.Handler id={identifier} locale="nb-NO" onSubmit={onSubmit}>
+            <Field.String path="/foo" required />
+          </Form.Handler>
+        )
+
+        const { result } = renderHook(() => useValidation(identifier))
+
+        expect(result.current.hasErrors()).toBe(true)
+
+        fireEvent.submit(document.querySelector('form'))
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+
+        rerender(
+          <Form.Handler id={identifier} locale="en-GB" onSubmit={onSubmit}>
+            <Field.String path="/foo" required />
+          </Form.Handler>
+        )
+
+        await waitFor(() => {
+          expect(result.current.hasErrors()).toBe(true)
+        })
+
+        fireEvent.submit(document.querySelector('form'))
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+      })
+
+      it('should keep field status error when locale changes', async () => {
+        const onSubmit = jest.fn()
+
+        const { rerender } = render(
+          <Form.Handler
+            id={identifier}
+            locale="nb-NO"
+            onSubmit={onSubmit}
+            data={{ foo: 'value' }}
+          >
+            <Field.String path="/foo" />
+          </Form.Handler>
+        )
+
+        const { result } = renderHook(() => useValidation(identifier))
+
+        act(() => {
+          result.current.setFieldStatus('/foo', {
+            error: new Error('Error message'),
+          })
+        })
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('Error message')
+        })
+
+        fireEvent.submit(document.querySelector('form'))
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+
+        rerender(
+          <Form.Handler
+            id={identifier}
+            locale="en-GB"
+            onSubmit={onSubmit}
+            data={{ foo: 'value' }}
+          >
+            <Field.String path="/foo" />
+          </Form.Handler>
+        )
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('Error message')
+        })
+
+        fireEvent.submit(document.querySelector('form'))
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+      })
+
+      it('should keep field status error when form remounts due to locale switch', async () => {
+        const onSubmit = jest.fn()
+
+        const { result } = renderHook(() => useValidation(identifier))
+
+        const { rerender } = render(
+          <div key="nb-NO">
+            <Form.Handler
+              id={identifier}
+              locale="nb-NO"
+              onSubmit={onSubmit}
+              data={{ foo: 'value' }}
+            >
+              <Field.String path="/foo" />
+            </Form.Handler>
+          </div>
+        )
+
+        act(() => {
+          result.current.setFieldStatus('/foo', {
+            error: new Error('Error message'),
+          })
+        })
+
+        await waitFor(() => {
+          expect(result.current.hasErrors()).toBe(true)
+        })
+
+        fireEvent.submit(document.querySelector('form'))
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+
+        rerender(
+          <div key="en-GB">
+            <Form.Handler
+              id={identifier}
+              locale="en-GB"
+              onSubmit={onSubmit}
+              data={{ foo: 'value' }}
+            >
+              <Field.String path="/foo" />
+            </Form.Handler>
+          </div>
+        )
+
+        await waitFor(() => {
+          expect(result.current.hasErrors()).toBe(true)
+        })
+
+        fireEvent.submit(document.querySelector('form'))
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+      })
+
       describe('with context', () => {
         const MockComponent = () => {
           const { hasErrors } = useValidation()
