@@ -315,11 +315,11 @@ describe('Decimals format', () => {
 
     it('should work with currency', () => {
       expect(format(1234, { currency: true, signDisplay: 'always' })).toBe(
-        '+1\u00A0234,00\u00A0kr'
+        '+1\u00A0234,00 kr'
       )
       expect(
         format(-1234, { currency: true, signDisplay: 'always' })
-      ).toBe('-1\u00A0234,00\u00A0kr')
+      ).toBe('-1\u00A0234,00 kr')
     })
 
     it('should work with percent', () => {

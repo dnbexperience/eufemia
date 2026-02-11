@@ -1077,13 +1077,13 @@ describe('NumberFormat component', () => {
     it('should support "auto" (default)', () => {
       const { rerender } = render(<NumberFormat value={1234} />)
       expect(
-        document.querySelector('.dnb-number-format')
-      ).toHaveTextContent('1\u00A0234')
+        document.querySelector('.dnb-number-format').textContent
+      ).toBe('1\u00A0234')
 
       rerender(<NumberFormat value={-1234} />)
       expect(
-        document.querySelector('.dnb-number-format')
-      ).toHaveTextContent('-1\u00A0234')
+        document.querySelector('.dnb-number-format').textContent
+      ).toBe('-1\u00A0234')
     })
 
     it('should support "always"', () => {
@@ -1091,18 +1091,18 @@ describe('NumberFormat component', () => {
         <NumberFormat signDisplay="always" value={1234} />
       )
       expect(
-        document.querySelector('.dnb-number-format')
-      ).toHaveTextContent('+1\u00A0234')
+        document.querySelector('.dnb-number-format').textContent
+      ).toBe('+1\u00A0234')
 
       rerender(<NumberFormat signDisplay="always" value={-1234} />)
       expect(
-        document.querySelector('.dnb-number-format')
-      ).toHaveTextContent('-1\u00A0234')
+        document.querySelector('.dnb-number-format').textContent
+      ).toBe('-1\u00A0234')
 
       rerender(<NumberFormat signDisplay="always" value={0} />)
       expect(
-        document.querySelector('.dnb-number-format')
-      ).toHaveTextContent('+0')
+        document.querySelector('.dnb-number-format').textContent
+      ).toBe('+0')
     })
 
     it('should support "exceptZero"', () => {
@@ -1110,13 +1110,13 @@ describe('NumberFormat component', () => {
         <NumberFormat signDisplay="exceptZero" value={1234} />
       )
       expect(
-        document.querySelector('.dnb-number-format')
-      ).toHaveTextContent('+1\u00A0234')
+        document.querySelector('.dnb-number-format').textContent
+      ).toBe('+1\u00A0234')
 
       rerender(<NumberFormat signDisplay="exceptZero" value={-1234} />)
       expect(
-        document.querySelector('.dnb-number-format')
-      ).toHaveTextContent('-1\u00A0234')
+        document.querySelector('.dnb-number-format').textContent
+      ).toBe('-1\u00A0234')
 
       rerender(<NumberFormat signDisplay="exceptZero" value={0} />)
       expect(
@@ -1129,27 +1129,27 @@ describe('NumberFormat component', () => {
         <NumberFormat signDisplay="never" value={1234} />
       )
       expect(
-        document.querySelector('.dnb-number-format')
-      ).toHaveTextContent('1\u00A0234')
+        document.querySelector('.dnb-number-format').textContent
+      ).toBe('1\u00A0234')
 
       rerender(<NumberFormat signDisplay="never" value={-1234} />)
       expect(
-        document.querySelector('.dnb-number-format')
-      ).toHaveTextContent('1\u00A0234')
+        document.querySelector('.dnb-number-format').textContent
+      ).toBe('1\u00A0234')
     })
 
     it('should work with currency', () => {
       render(<NumberFormat signDisplay="always" currency value={1234} />)
       expect(
-        document.querySelector('.dnb-number-format')
-      ).toHaveTextContent('+1\u00A0234,00\u00A0kr')
+        document.querySelector('.dnb-number-format').textContent
+      ).toBe('+1\u00A0234,00 kr')
     })
 
     it('should work with percent', () => {
       render(<NumberFormat signDisplay="always" percent value={12.34} />)
       expect(
-        document.querySelector('.dnb-number-format')
-      ).toHaveTextContent('+12,34\u00A0%')
+        document.querySelector('.dnb-number-format').textContent
+      ).toBe('+12,34\u00A0%')
     })
   })
 
