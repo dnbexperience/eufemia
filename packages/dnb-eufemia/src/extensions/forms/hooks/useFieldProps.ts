@@ -60,6 +60,7 @@ import SnapshotContext from '../Form/Snapshot/SnapshotContext'
 import useProcessManager from './useProcessManager'
 import usePath from './usePath'
 import {
+  createReferenceKey,
   createSharedState,
   useSharedState,
 } from '../../../shared/helpers/useSharedState'
@@ -232,6 +233,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     fieldDisplayValueRef,
     existingFieldsRef,
     fieldInternalsRef,
+    mountedFieldsRef,
     sectionSchemaPathsRef,
     prerenderFieldProps,
     hasContext: hasDataContext,
@@ -2205,14 +2207,34 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       return // stop here, we don't want to set the state of the field
     }
 
+    const mountedFields = mountedFieldsRef?.current
+
     // Unmount procedure.
     return () => {
-      setFieldErrorDataContext?.(identifier, undefined)
-      setFieldErrorBoundary?.(identifier, undefined)
+      Promise.resolve().then(() => {
+        const isMounted =
+          mountedFields?.get?.(identifier)?.isMounted === true
+        const sharedAttachments = dataContext?.id
+          ? createSharedState<{
+              fieldConnectionsRef?: ContextState['fieldConnectionsRef']
+            }>(createReferenceKey(dataContext.id, 'attachments')).get?.()
+          : undefined
+        const hasFieldConnection = Boolean(
+          sharedAttachments?.fieldConnectionsRef?.current?.[identifier]
+        )
+
+        if (!isMounted && !hasFieldConnection) {
+          setFieldErrorDataContext?.(identifier, undefined)
+          setFieldErrorBoundary?.(identifier, undefined)
+        }
+      })
+
       localErrorRef.current = undefined
     }
   }, [
     identifier,
+    dataContext?.id,
+    mountedFieldsRef,
     prerenderFieldProps,
     setFieldErrorBoundary,
     setFieldErrorDataContext,

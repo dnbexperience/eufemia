@@ -77,6 +77,7 @@ export type SharedAttachments<Data = unknown> = {
   clearData?: () => void
   setData?: ContextState['setData']
   fieldConnectionsRef?: ContextState['fieldConnectionsRef']
+  fieldErrorRef?: ContextState['fieldErrorRef']
   internalDataRef?: ContextState['internalDataRef']
 }
 
@@ -885,6 +886,15 @@ export default function Provider<Data extends JsonObject>(
   const extendAttachment = sharedAttachments.extend
   const rerenderUseDataHook = sharedAttachments.data?.rerenderUseDataHook
   const syncAttachmentsRef = useRef<() => void>(() => null)
+  const hasHydratedFieldErrorRef = useRef(false)
+
+  if (!hasHydratedFieldErrorRef.current) {
+    const sharedFieldErrorRef = sharedAttachments.data?.fieldErrorRef
+    if (sharedFieldErrorRef?.current) {
+      fieldErrorRef.current = sharedFieldErrorRef.current
+      hasHydratedFieldErrorRef.current = true
+    }
+  }
 
   const cacheRef = useRef({
     data,
@@ -1492,6 +1502,7 @@ export default function Provider<Data extends JsonObject>(
           setData,
           updateDataValue,
           fieldConnectionsRef,
+          fieldErrorRef,
           internalDataRef,
         },
         { preventSyncOfSameInstance: true }
@@ -1639,6 +1650,7 @@ export default function Provider<Data extends JsonObject>(
           setData,
           updateDataValue,
           fieldConnectionsRef,
+          fieldErrorRef,
           internalDataRef,
         },
         { preventSyncOfSameInstance: true }
