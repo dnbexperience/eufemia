@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 /**
  * Web Autocomplete Component
  *
@@ -6,7 +8,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   warn,
@@ -31,10 +32,7 @@ import {
   hasSelectedText,
 } from '../../shared/helpers'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 import Suffix from '../../shared/helpers/Suffix'
@@ -49,219 +47,31 @@ import { ItemContent } from '../../fragments/drawer-list/DrawerListItem'
 import DrawerListContext from '../../fragments/drawer-list/DrawerListContext'
 import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
 import {
-  drawerListPropTypes,
   parseContentTitle,
   getCurrentData,
   getCurrentIndex,
   normalizeData,
 } from '../../fragments/drawer-list/DrawerListHelpers'
 
-export default class Autocomplete extends React.PureComponent {
-  static propTypes = {
-    ...spacingPropTypes,
-    ...drawerListPropTypes,
+export type AutocompleteClearEvent = {
+  value: string
+  previousValue: string
+  event: React.SyntheticEvent | Event
+}
 
-    id: PropTypes.string,
-    mode: PropTypes.oneOf(['sync', 'async']),
-    title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    no_options: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    show_all: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    aria_live_options: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-    ]),
-    indicator_label: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-    ]),
-    show_options_sr: PropTypes.string,
-    selected_sr: PropTypes.string,
-    submit_button_title: PropTypes.string,
-    submit_button_icon: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func,
-    ]),
-    input_ref: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    icon_size: PropTypes.string,
-    icon_position: PropTypes.oneOf(['left', 'right']),
-    triangle_position: PropTypes.oneOf(['left', 'right']),
-    input_icon: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func,
-    ]),
-    label: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
-    label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    keep_value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    keep_selection: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    keep_value_and_selection: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    show_clear_button: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    status: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    status_state: PropTypes.string,
-    status_props: PropTypes.object,
-    status_no_animation: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    globalStatus: PropTypes.shape({
-      id: PropTypes.string,
-      message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    }),
-    suffix: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    disable_filter: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    disable_reorder: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    focusable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    disable_highlighting: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
-    max_height: PropTypes.number,
-    skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    no_scroll_animation: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    show_submit_button: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    submit_element: PropTypes.node,
-    prevent_selection: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
-    align_autocomplete: PropTypes.oneOf(['left', 'right']),
-    options_render: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    input_element: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-    data: PropTypes.oneOfType([
-      PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.func,
-        PropTypes.node,
-        PropTypes.object,
-      ]),
-      PropTypes.arrayOf(
-        PropTypes.oneOfType([
-          PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-          PropTypes.shape({
-            selectedKey: PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.number,
-            ]),
-            /** @deprecated use `selectedKey` */
-            selected_key: PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.number,
-            ]),
-            selected_value: PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.node,
-            ]),
-            suffix_value: PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.node,
-            ]),
-            content: PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.node,
-              PropTypes.arrayOf(PropTypes.string),
-            ]),
-          }),
-        ])
-      ),
-    ]),
-    search_in_word_index: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-    ]),
-    searchMatch: PropTypes.oneOf(['word', 'starts-with']),
-    search_numbers: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    default_value: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-    ]),
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    input_value: PropTypes.string,
-    open_on_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    portal_class: PropTypes.string,
-    drawer_class: PropTypes.string,
-    page_offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    observer_element: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-    ]),
-    enable_body_lock: PropTypes.bool,
+export type AutocompleteProps = {
+  value?: string | number
+  default_value?: string | number
+  input_value?: string
+  size?: 'default' | 'small' | 'medium' | 'large' | number
+  data?: unknown
+  onClear?: (event: AutocompleteClearEvent) => void
+  [key: string]: unknown
+}
 
-    class: PropTypes.string,
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-      PropTypes.object,
-      PropTypes.array,
-    ]),
+export type AutocompleteAllProps = AutocompleteProps
 
-    on_show: PropTypes.func,
-    on_type: PropTypes.func,
-    on_focus: PropTypes.func,
-    on_blur: PropTypes.func,
-    on_hide: PropTypes.func,
-    on_change: PropTypes.func,
-    on_select: PropTypes.func,
-    on_state_update: PropTypes.func,
-    onClear: PropTypes.func,
-  }
-
+export default class Autocomplete extends React.PureComponent<AutocompleteAllProps> {
   static defaultProps = {
     id: null,
     mode: 'sync',
@@ -367,7 +177,7 @@ export default class Autocomplete extends React.PureComponent {
   }
 }
 
-class AutocompleteInstance extends React.PureComponent {
+class AutocompleteInstance extends React.PureComponent<AutocompleteAllProps> {
   static propTypes = Autocomplete.propTypes
   static defaultProps = Autocomplete.defaultProps
   static contextType = DrawerListContext

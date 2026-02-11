@@ -1089,7 +1089,6 @@ export const Memo = () => {
         value={value}
         data={['Up', 'Right', 'Down', 'Left']}
         onChange={(e) => {
-          // @ts-expect-error - onChange event structure differs from actual on_change prop
           setValue(e.value)
         }}
         input_icon={getInputIcon(value)}
