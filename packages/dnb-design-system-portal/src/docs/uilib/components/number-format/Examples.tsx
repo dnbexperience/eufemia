@@ -208,6 +208,31 @@ export const NumberSpacing = () => (
   </Style>
 )
 
+export const NumberSignDisplay = () => (
+  <Style>
+    <ComponentBox data-visual-test="number-format-sign-display">
+      <P>
+        <NumberFormat signDisplay="always" value={1234} />
+        <NumberFormat signDisplay="always" value={-1234} />
+        <NumberFormat signDisplay="always" value={0} />
+      </P>
+      <P>
+        <NumberFormat signDisplay="exceptZero" value={1234} />
+        <NumberFormat signDisplay="exceptZero" value={-1234} />
+        <NumberFormat signDisplay="exceptZero" value={0} />
+      </P>
+      <P>
+        <NumberFormat signDisplay="never" value={1234} />
+        <NumberFormat signDisplay="never" value={-1234} />
+      </P>
+      <P>
+        <NumberFormat signDisplay="always" currency value={1234} />
+        <NumberFormat signDisplay="always" percent value={12.34} />
+      </P>
+    </ComponentBox>
+  </Style>
+)
+
 export const NumberMonospace = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-monospace">
