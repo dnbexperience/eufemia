@@ -211,7 +211,7 @@ export const NumberSpacing = () => (
 export const NumberSignDisplay = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-sign-display">
-      <H3>always</H3>
+      <H3>signDisplay="always"</H3>
       <P>
         <NumberFormat signDisplay="always" value={1234} />
         <NumberFormat signDisplay="always" value={-1234} />
