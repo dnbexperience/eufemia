@@ -293,6 +293,62 @@ describe('useValidation', () => {
         })
       })
 
+      it('should keep hasErrors after locale switch', async () => {
+        const MockComponent = () => {
+          const [norwegian, setNorwegian] = useState(true)
+          const { hasErrors } = useValidation(identifier)
+
+          return (
+            <SharedProvider locale={norwegian ? 'nb-NO' : 'en-GB'}>
+              <Form.Handler id={identifier}>
+                <Field.Number minimum={2} />
+
+                <Field.Date path="/date" />
+
+                <Button
+                  id="change-locale"
+                  onClick={() => setNorwegian(!norwegian)}
+                />
+              </Form.Handler>
+
+              <output>
+                {JSON.stringify({
+                  hasErrors: hasErrors(),
+                })}
+              </output>
+            </SharedProvider>
+          )
+        }
+
+        render(<MockComponent />)
+
+        const dayInput = document.querySelector(
+          '.dnb-date-picker__input--day'
+        ) as HTMLInputElement
+
+        await userEvent.click(dayInput)
+        dayInput.setSelectionRange(0, 0)
+        await userEvent.keyboard('13131313')
+        await userEvent.click(document.body)
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status--error')
+          ).toBeInTheDocument()
+        })
+
+        const output = document.querySelector('output')
+        expect(output).toHaveTextContent('"hasErrors":true')
+
+        await userEvent.click(
+          document.querySelector('button#change-locale')
+        )
+
+        await waitFor(() => {
+          expect(output).toHaveTextContent('"hasErrors":true')
+        })
+      })
+
       describe('with context', () => {
         const MockComponent = () => {
           const { hasErrors } = useValidation()
