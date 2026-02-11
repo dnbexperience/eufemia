@@ -25,8 +25,10 @@ import {
 } from '../../..'
 import sharedGB from '../../../../../shared/locales/en-GB'
 import nbNO from '../../../constants/locales/nb-NO'
+import enGB from '../../../constants/locales/en-GB'
 
 const nb = nbNO['nb-NO']
+const en = enGB['en-GB']
 
 const syncValidatorReturningUndefined = () => undefined
 
@@ -1509,6 +1511,28 @@ describe('Field.String', () => {
 
         expect(collectCustomMessage).toBe(customMessage)
         expect(collectDeprecatedMessage).toBe(nb.Field.errorRequired)
+      })
+
+      it('should update required error message when changing locale in Provider', async () => {
+        const { rerender } = render(
+          <SharedProvider locale="nb-NO">
+            <Field.String required validateInitially />
+          </SharedProvider>
+        )
+
+        expect(
+          document.querySelector('.dnb-form-status__text')
+        ).toHaveTextContent(nb.Field.errorRequired)
+
+        rerender(
+          <SharedProvider locale="en-GB">
+            <Field.String required validateInitially />
+          </SharedProvider>
+        )
+
+        expect(
+          document.querySelector('.dnb-form-status__text')
+        ).toHaveTextContent(en.Field.errorRequired)
       })
     })
   })

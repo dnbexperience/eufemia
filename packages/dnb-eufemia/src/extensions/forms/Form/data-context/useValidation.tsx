@@ -57,13 +57,14 @@ export default function useValidation(
   )
 
   // Field status
-  const { getFieldConnections } = useConnections(id)
+  const { getFieldConnections, setFieldStatusCache } = useConnections(id)
   const setFieldStatus = useCallback(
     (path: Path, status: EventStateObject) => {
+      setFieldStatusCache(path, status)
       const connections = getFieldConnections()
       connections?.[path]?.setEventResult?.(status)
     },
-    [getFieldConnections]
+    [getFieldConnections, setFieldStatusCache]
   )
 
   return useMemo(
@@ -74,6 +75,7 @@ export default function useValidation(
 
 type UseConnectionsSharedState = {
   fieldConnectionsRef: ContextState['fieldConnectionsRef']
+  fieldStatusRef: React.MutableRefObject<Record<Path, EventStateObject>>
 }
 
 function useConnections(id: SharedStateId = undefined) {
@@ -99,5 +101,18 @@ function useConnections(id: SharedStateId = undefined) {
     return connections?.current
   }, [fieldConnectionsRef, get, id, sharedFieldConnectionsRef])
 
-  return useMemo(() => ({ getFieldConnections }), [getFieldConnections])
+  const setFieldStatusCache = useCallback(
+    (path: Path, status: EventStateObject) => {
+      const attachments = get()
+      if (attachments?.fieldStatusRef?.current) {
+        attachments.fieldStatusRef.current[path] = status
+      }
+    },
+    [get]
+  )
+
+  return useMemo(
+    () => ({ getFieldConnections, setFieldStatusCache }),
+    [getFieldConnections, setFieldStatusCache]
+  )
 }

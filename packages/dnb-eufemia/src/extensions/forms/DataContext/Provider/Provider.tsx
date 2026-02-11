@@ -78,6 +78,7 @@ export type SharedAttachments<Data = unknown> = {
   clearData?: () => void
   setData?: ContextState['setData']
   fieldConnectionsRef?: ContextState['fieldConnectionsRef']
+  fieldStatusRef?: React.MutableRefObject<Record<Path, EventStateObject>>
   fieldErrorRef?: ContextState['fieldErrorRef']
   internalDataRef?: ContextState['internalDataRef']
 }
@@ -826,6 +827,7 @@ export default function Provider<Data extends JsonObject>(
   const fieldConnectionsRef = useRef<
     Record<Path, Record<string, unknown>>
   >({})
+  const fieldStatusRef = useRef<Record<Path, EventStateObject>>({})
   const setFieldConnection = useCallback(
     (path: Path, connections: Record<string, unknown>) => {
       fieldConnectionsRef.current[path] = connections
@@ -1636,6 +1638,7 @@ export default function Provider<Data extends JsonObject>(
           setData,
           updateDataValue,
           fieldConnectionsRef,
+          fieldStatusRef,
           fieldErrorRef,
           internalDataRef,
         },

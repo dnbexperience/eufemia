@@ -763,6 +763,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }, [setErrorState])
 
   const errorMessagesCacheRef = useRef({
+    locale: null,
     errorMessages: null,
     extendedErrorMessages: null,
   })
@@ -771,6 +772,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     // in case "errorMessages" is not wrapped in useMemo.
     const cache = errorMessagesCacheRef.current
     if (
+      cache.locale === locale &&
       errorMessages &&
       cache.extendedErrorMessages &&
       // We compare the "errorMessages" object with the cached version.
@@ -798,12 +800,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       )
 
     errorMessagesCacheRef.current = {
+      locale,
       errorMessages,
       extendedErrorMessages,
     }
 
     return extendedErrorMessages
-  }, [contextErrorMessages, errorMessages, identifier])
+  }, [contextErrorMessages, errorMessages, identifier, locale])
 
   /**
    * Prepare error from validation logic with correct error messages based on props
@@ -2282,6 +2285,29 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   useEffect(() => {
     validateValue()
   }, [validateValue])
+
+  useEffect(() => {
+    if (prerenderFieldProps || !dataContext?.id) {
+      return // stop here
+    }
+
+    const sharedAttachments = createSharedState<{
+      fieldStatusRef?: React.MutableRefObject<
+        Record<Identifier, EventStateObjectWithSuccess>
+      >
+    }>(createReferenceKey(dataContext.id, 'attachments')).get?.()
+
+    const status = sharedAttachments?.fieldStatusRef?.current?.[identifier]
+    if (status) {
+      void setEventResult(status)
+    }
+  }, [
+    dataContext?.id,
+    identifier,
+    locale,
+    prerenderFieldProps,
+    setEventResult,
+  ])
 
   useUpdateEffect(() => {
     if (finalSchema) {
