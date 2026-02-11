@@ -59,6 +59,7 @@ import WizardStepContext from '../Wizard/Step/StepContext'
 import SnapshotContext from '../Form/Snapshot/SnapshotContext'
 import useProcessManager from './useProcessManager'
 import usePath from './usePath'
+import SharedContext from '../../../shared/Context'
 import {
   createReferenceKey,
   createSharedState,
@@ -185,6 +186,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const { startProcess } = useProcessManager()
   const id = useId(props.id)
   const dataContext = useContext(DataContext)
+  const { locale: sharedLocale } = useContext(SharedContext) || {}
   const fieldBlockContext = useContext(FieldBlockContext)
   const iterateItemContext = useContext(IterateItemContext)
   const sectionContext = useContext(SectionContext)
@@ -239,6 +241,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     hasContext: hasDataContext,
   } = dataContext || {}
   const onChangeContext = dataContext?.props?.onChange
+  const locale = dataContext?.props?.locale ?? sharedLocale
 
   const disabled = disabledProp ?? props.readOnly
   const inFieldBlock = Boolean(
@@ -1973,6 +1976,23 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     ]
   )
 
+  // Some fields (e.g. dates) may create new Date instances during locale/value transforms.
+  // Compare by timestamp for Date values so "empty" checks are stable across rerenders.
+  const valueEqualsEmptyValue = useCallback(
+    (value: unknown) => {
+      if (value === emptyValue) {
+        return true
+      }
+
+      if (value instanceof Date && emptyValue instanceof Date) {
+        return value.getTime() === emptyValue.getTime()
+      }
+
+      return false
+    },
+    [emptyValue]
+  )
+
   const setDisplayValue: ReturnAdditional<Value>['setDisplayValue'] =
     useCallback(
       (value, options) => {
@@ -1984,12 +2004,19 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           return // stop here
         }
 
-        fieldDisplayValueRef.current[fieldPath] =
-          valueRef.current === (emptyValue as unknown as Value)
-            ? { type }
-            : { value, type }
+        fieldDisplayValueRef.current[fieldPath] = valueEqualsEmptyValue(
+          valueRef.current
+        )
+          ? { type }
+          : { value, type }
       },
-      [identifier, emptyValue, fieldDisplayValueRef, itemPath, path]
+      [
+        identifier,
+        fieldDisplayValueRef,
+        itemPath,
+        path,
+        valueEqualsEmptyValue,
+      ]
     )
 
   const handleChange = useCallback(
@@ -2289,15 +2316,61 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       externalValueDidChangeRef.current = false
 
       // Hide error when the external value has changed, but is the same as the empty value.
-      // @ts-expect-error - emptyValue may not be directly comparable to valueRef.current
-      if (!validateContinuously && valueRef.current === emptyValue) {
+      if (
+        !validateContinuously &&
+        valueEqualsEmptyValue(valueRef.current)
+      ) {
         hideError()
       }
 
       validateValue()
       forceUpdate()
     }
-  }, [externalValueDeps, emptyValue, validateContinuously]) // Keep "externalValue" in the dependency list, so it will be updated when it changes
+  }, [externalValueDeps, validateContinuously, valueEqualsEmptyValue]) // Keep "externalValue" in the dependency list, so it will be updated when it changes
+
+  const previousLocaleRef = useRef(locale)
+  useUpdateEffect(() => {
+    if (previousLocaleRef.current !== locale) {
+      previousLocaleRef.current = locale
+
+      if (prerenderFieldProps || valueEqualsEmptyValue(valueRef.current)) {
+        return // stop here
+      }
+
+      if (
+        onBlurValidatorRef.current &&
+        (changedRef.current ||
+          hasError() ||
+          validateInitially ||
+          validateUnchanged)
+      ) {
+        addToPool(
+          'onBlurValidator',
+          async () => await startOnBlurValidatorProcess(),
+          isAsync(onBlurValidatorRef.current)
+        )
+
+        runPool(() => {
+          revealError()
+          forceUpdate()
+        })
+
+        return // stop here
+      }
+    }
+  }, [
+    addToPool,
+    forceUpdate,
+    hasError,
+    locale,
+    prerenderFieldProps,
+    revealError,
+    runPool,
+    startOnBlurValidatorProcess,
+    validateInitially,
+    validateUnchanged,
+    valueEqualsEmptyValue,
+  ])
 
   useEffect(() => {
     // Check against the local error state,

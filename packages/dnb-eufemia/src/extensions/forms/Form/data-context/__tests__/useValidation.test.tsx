@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useReducer, useState } from 'react'
 import {
   act,
   fireEvent,
@@ -10,6 +10,7 @@ import userEvent from '@testing-library/user-event'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import { Field, Form } from '../../..'
 import { Button } from '../../../../../components'
+import SharedProvider from '../../../../../shared/Provider'
 import useValidation from '../useValidation'
 
 describe('useValidation', () => {
@@ -226,6 +227,70 @@ describe('useValidation', () => {
 
         fireEvent.submit(document.querySelector('form'))
         expect(onSubmit).toHaveBeenCalledTimes(0)
+      })
+
+      it('should keep date minDate validation after locale switch', async () => {
+        const minDate = '2030-01-01'
+
+        const MockComponent = () => {
+          const [norwegian, setNorwegian] = useState(true)
+          const [, forceUpdate] = useReducer((value) => value + 1, 0)
+          const [date, setDate] = useState<string | undefined>('')
+          const { hasErrors } = useValidation(identifier)
+
+          return (
+            <SharedProvider locale={norwegian ? 'nb-NO' : 'en-GB'}>
+              <Form.Handler id={identifier}>
+                <Field.Date
+                  minDate={minDate}
+                  onChange={(value) => setDate(value)}
+                  layout="horizontal"
+                />
+
+                <Button
+                  id="change-locale"
+                  onClick={() => setNorwegian(!norwegian)}
+                />
+
+                <Button id="rerender" onClick={forceUpdate} />
+              </Form.Handler>
+
+              <output>
+                {JSON.stringify({ hasErrors: hasErrors(), date })}
+              </output>
+            </SharedProvider>
+          )
+        }
+
+        render(<MockComponent />)
+
+        const dayInput = document.querySelector(
+          '.dnb-date-picker__input--day'
+        ) as HTMLInputElement
+
+        await userEvent.click(dayInput)
+        dayInput.setSelectionRange(0, 0)
+        await userEvent.keyboard('31122029')
+        await userEvent.click(document.body)
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status--error')
+          ).toBeInTheDocument()
+        })
+
+        await userEvent.click(document.querySelector('button#rerender'))
+
+        const output = document.querySelector('output')
+        expect(output).toHaveTextContent('"hasErrors":true')
+
+        await userEvent.click(
+          document.querySelector('button#change-locale')
+        )
+
+        await waitFor(() => {
+          expect(output).toHaveTextContent('"hasErrors":true')
+        })
       })
 
       describe('with context', () => {
