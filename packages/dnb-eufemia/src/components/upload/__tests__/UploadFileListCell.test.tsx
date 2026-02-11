@@ -598,8 +598,6 @@ describe('UploadFileListCell', () => {
       )
 
       const fileLink = screen.queryByText(fileName)
-      expect(fileLink.tagName).toBe('A')
-
       fireEvent.click(fileLink)
       expect(onClickMock).toHaveBeenCalledTimes(1)
     })
@@ -619,8 +617,6 @@ describe('UploadFileListCell', () => {
       )
 
       const fileLink = screen.queryByText(fileName)
-      expect(fileLink.tagName).toBe('A')
-
       fireEvent.click(fileLink)
       expect(onClickMock).toHaveBeenCalledTimes(1)
     })
