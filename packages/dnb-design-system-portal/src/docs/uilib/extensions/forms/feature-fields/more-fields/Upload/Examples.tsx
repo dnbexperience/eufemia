@@ -359,6 +359,7 @@ export const WithFileItemOptions = () => {
                     description: 'My description',
                     errorMessage: 'My error message',
                     removeDeleteButton: true,
+                    disableLink: true,
                   },
                 ],
               }}
