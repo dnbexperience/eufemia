@@ -200,6 +200,7 @@ export const WithAsyncFileHandler = () => {
               updatedFiles.push({
                 ...file,
                 errorMessage: error.message,
+                disableLink: true,
               })
             }
           }

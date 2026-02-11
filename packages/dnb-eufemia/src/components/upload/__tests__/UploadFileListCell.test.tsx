@@ -484,4 +484,183 @@ describe('UploadFileListCell', () => {
       expect(focus).toHaveBeenCalledWith({ preventScroll: true })
     })
   })
+
+  describe('Link behavior', () => {
+    it('should respect explicit disableLink property', () => {
+      const fileName = 'disabled-file.png'
+
+      render(
+        <UploadFileListCell
+          {...defaultProps}
+          download={true}
+          uploadFile={{
+            file: createMockFile(fileName, 100, 'image/png'),
+            disableLink: true,
+          }}
+        />
+      )
+
+      const fileLink = screen.queryByText(fileName)
+      expect(fileLink.tagName).toBe('SPAN')
+      expect(fileLink).toHaveClass('dnb-span')
+    })
+
+    it('should disable href when disableLink is true', () => {
+      const fileName = 'no-href-file.png'
+
+      render(
+        <UploadFileListCell
+          {...defaultProps}
+          uploadFile={{
+            file: createMockFile(fileName, 100, 'image/png'),
+            disableLink: true,
+          }}
+        />
+      )
+
+      const fileLink = screen.queryByText(fileName)
+      expect(fileLink.tagName).toBe('SPAN')
+      expect(fileLink).not.toHaveAttribute('href')
+    })
+
+    it('should enable href when disableLink is false', () => {
+      const fileName = 'with-href-file.png'
+
+      render(
+        <UploadFileListCell
+          {...defaultProps}
+          uploadFile={{
+            file: createMockFile(fileName, 100, 'image/png'),
+            disableLink: false,
+          }}
+        />
+      )
+
+      const fileLink = screen.queryByText(fileName)
+      expect(fileLink.tagName).toBe('A')
+      expect(fileLink).toHaveAttribute('href', 'url')
+    })
+
+    it('should disable download attribute when disableLink is true', () => {
+      const fileName = 'no-download-file.png'
+
+      render(
+        <UploadFileListCell
+          {...defaultProps}
+          download={true}
+          uploadFile={{
+            file: createMockFile(fileName, 100, 'image/png'),
+            disableLink: true,
+          }}
+        />
+      )
+
+      const fileLink = screen.queryByText(fileName)
+      expect(fileLink.tagName).toBe('SPAN')
+      expect(fileLink).not.toHaveAttribute('download')
+    })
+
+    it('should enable download attribute when disableLink is false', () => {
+      const fileName = 'with-download-file.png'
+
+      render(
+        <UploadFileListCell
+          {...defaultProps}
+          download={true}
+          uploadFile={{
+            file: createMockFile(fileName, 100, 'image/png'),
+            disableLink: false,
+          }}
+        />
+      )
+
+      const fileLink = screen.queryByText(fileName)
+      expect(fileLink.tagName).toBe('A')
+      expect(fileLink).toHaveAttribute('download')
+    })
+
+    it('should disable onClick when disableLink is true', () => {
+      const fileName = 'no-click-file.png'
+      const onClickMock = jest.fn()
+
+      render(
+        <UploadFileListCell
+          {...defaultProps}
+          onClick={onClickMock}
+          uploadFile={{
+            file: createMockFile(fileName, 100, 'image/png'),
+            disableLink: true,
+          }}
+        />
+      )
+
+      const fileLink = screen.queryByText(fileName)
+      expect(fileLink.tagName).toBe('SPAN')
+
+      fireEvent.click(fileLink)
+      expect(onClickMock).not.toHaveBeenCalled()
+    })
+
+    it('should enable onClick when disableLink is false', () => {
+      const fileName = 'with-click-file.png'
+      const onClickMock = jest.fn()
+
+      render(
+        <UploadFileListCell
+          {...defaultProps}
+          onClick={onClickMock}
+          uploadFile={{
+            file: createMockFile(fileName, 100, 'image/png'),
+            disableLink: false,
+          }}
+        />
+      )
+
+      const fileLink = screen.queryByText(fileName)
+      expect(fileLink.tagName).toBe('A')
+
+      fireEvent.click(fileLink)
+      expect(onClickMock).toHaveBeenCalledTimes(1)
+    })
+
+    it('should enable onClick by default when disableLink is not set', () => {
+      const fileName = 'default-click-file.png'
+      const onClickMock = jest.fn()
+
+      render(
+        <UploadFileListCell
+          {...defaultProps}
+          onClick={onClickMock}
+          uploadFile={{
+            file: createMockFile(fileName, 100, 'image/png'),
+          }}
+        />
+      )
+
+      const fileLink = screen.queryByText(fileName)
+      expect(fileLink.tagName).toBe('A')
+
+      fireEvent.click(fileLink)
+      expect(onClickMock).toHaveBeenCalledTimes(1)
+    })
+
+    it('should render link with all attributes when disableLink is not set', () => {
+      const fileName = 'default-file.png'
+
+      render(
+        <UploadFileListCell
+          {...defaultProps}
+          download={true}
+          uploadFile={{
+            file: createMockFile(fileName, 100, 'image/png'),
+          }}
+        />
+      )
+
+      const fileLink = screen.queryByText(fileName)
+      expect(fileLink.tagName).toBe('A')
+      expect(fileLink).toHaveAttribute('href', 'url')
+      expect(fileLink).toHaveAttribute('download')
+    })
+  })
 })
