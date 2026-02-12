@@ -61,7 +61,7 @@ export default async function makeMainStyle() {
   // this way we avoid cross "includePaths" and the result is:
   // Now a custom theme can overwrite existing CSS Custom Properties
   const listWithThemesToProcess = await globby(
-    './src/style/themes/theme-*/*-theme-*.scss'
+    './src/style/themes/*/*-theme-*.scss'
   )
   await asyncForEach(listWithThemesToProcess, async (themeFile) => {
     // in order to keep the folder structure, we have to add these asterisks

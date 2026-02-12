@@ -20,11 +20,11 @@ describe('makePropertiesFile', () => {
     const path = await import('path')
 
     global.ui = fs.readFileSync(
-      path.resolve('src/style/themes/theme-ui/properties.js'),
+      path.resolve('src/style/themes/ui/properties.js'),
       'utf-8'
     )
     global.sbanken = fs.readFileSync(
-      path.resolve('src/style/themes/theme-sbanken/properties.js'),
+      path.resolve('src/style/themes/sbanken/properties.js'),
       'utf-8'
     )
   })
@@ -112,19 +112,15 @@ describe('makePropertiesFile', () => {
       const path = await import('path')
 
       uiTailwindResult = fs.readFileSync(
-        path.resolve('src/style/themes/theme-ui/properties-tailwind.css'),
+        path.resolve('src/style/themes/ui/properties-tailwind.css'),
         'utf-8'
       )
       sbankenTailwindResult = fs.readFileSync(
-        path.resolve(
-          'src/style/themes/theme-sbanken/properties-tailwind.css'
-        ),
+        path.resolve('src/style/themes/sbanken/properties-tailwind.css'),
         'utf-8'
       )
       eiendomTailwindResult = fs.readFileSync(
-        path.resolve(
-          'src/style/themes/theme-eiendom/properties-tailwind.css'
-        ),
+        path.resolve('src/style/themes/eiendom/properties-tailwind.css'),
         'utf-8'
       )
     })

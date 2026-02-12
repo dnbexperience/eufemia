@@ -4,4 +4,4 @@
  * This is an example of how to make a custom theme
  */
 
-import '../theme-carnegie/carnegie-theme-basis.scss'
+import './carnegie-theme-basis.scss'

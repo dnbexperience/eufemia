@@ -1,7 +1,7 @@
-import propertiesSbanken from '@dnb/eufemia/src/style/themes/theme-sbanken/properties'
-import propertiesUi from '@dnb/eufemia/src/style/themes/theme-ui/properties'
-import propertiesEiendom from '@dnb/eufemia/src/style/themes/theme-eiendom/properties'
-import propertiesCarnegie from '@dnb/eufemia/src/style/themes/theme-carnegie/properties'
+import propertiesSbanken from '@dnb/eufemia/src/style/themes/sbanken/properties'
+import propertiesUi from '@dnb/eufemia/src/style/themes/ui/properties'
+import propertiesEiendom from '@dnb/eufemia/src/style/themes/eiendom/properties'
+import propertiesCarnegie from '@dnb/eufemia/src/style/themes/carnegie/properties'
 
 import { ThemeNames } from '@dnb/eufemia/shared'
 import { basicComponents } from '../../../shared/tags'

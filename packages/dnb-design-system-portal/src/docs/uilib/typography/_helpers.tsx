@@ -1,8 +1,8 @@
 import { useTheme } from '@dnb/eufemia/shared'
 
-import propertiesSbanken from '@dnb/eufemia/src/style/themes/theme-sbanken/properties'
-import propertiesUi from '@dnb/eufemia/src/style/themes/theme-ui/properties'
-import propertiesEiendom from '@dnb/eufemia/src/style/themes/theme-eiendom/properties'
+import propertiesSbanken from '@dnb/eufemia/src/style/themes/sbanken/properties'
+import propertiesUi from '@dnb/eufemia/src/style/themes/ui/properties'
+import propertiesEiendom from '@dnb/eufemia/src/style/themes/eiendom/properties'
 
 const properties = {
   sbanken: propertiesSbanken,

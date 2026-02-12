@@ -44,7 +44,7 @@ It will use that fallback theme as a basis, but use your new theme styles instea
 
 Define a fallback inside a theme set:
 
-- `dnb-eufemia/src/style/themes/theme-sbanken/sbanken-theme-components.scss`
+- `dnb-eufemia/src/style/themes/sbanken/sbanken-theme-components.scss`
 
 ```scss
 /**
@@ -68,13 +68,13 @@ and as soon as e.g. `dnb-button-theme-sbanken.scss` exists – it will be used i
 
 There is one **Main Theme File**, that includes all properties and element styles:
 
-- `dnb-eufemia/src/style/themes/theme-ui/ui-theme-basis.scss`
+- `dnb-eufemia/src/style/themes/ui/ui-theme-basis.scss`
 
 ### Creating a new main theme
 
 First, duplicate or create new SCSS files:
 
-- `dnb-eufemia/src/style/themes/theme-<YOUR-THEME>/<YOUR-THEME>-theme-basis.scss`
+- `dnb-eufemia/src/style/themes/<YOUR-THEME>/<YOUR-THEME>-theme-basis.scss`
 
 Do the same with every component (button etc.) you want to customize:
 
@@ -173,7 +173,7 @@ $ yarn link "@dnb/eufemia"
 import { Button } from 'dnb-eufemia/components'
 
 // See the "src" in the path?
-import 'dnb-eufemia/src/style/themes/theme-ui/ui-theme-[MY THEME].scss'
+import 'dnb-eufemia/src/style/themes/ui/ui-theme-[MY THEME].scss'
 ```
 
 **6.** Don't forget to add `"@dnb/eufemia": "*"` with the respective version (alongside React) to your dependencies:

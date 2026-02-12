@@ -5,4 +5,4 @@
  *
  */
 
-import '../theme-eiendom/eiendom-theme-basis.scss'
+import './eiendom-theme-basis.scss'
