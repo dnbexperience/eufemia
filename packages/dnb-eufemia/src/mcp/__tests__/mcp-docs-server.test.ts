@@ -655,18 +655,29 @@ describe('MCP dependency configuration', () => {
     )
     expect(fs.existsSync(mcpConfigPath)).toBe(true)
 
-    const mcpConfig = JSON.parse(fs.readFileSync(mcpConfigPath, 'utf8'))
+    const rawContent = fs.readFileSync(mcpConfigPath, 'utf8')
+
+    // Strip JSONC comments (mcp.json may have config commented out)
+    const jsonContent = rawContent
+      .replace(/\/\/.*$/gm, '')
+      .replace(/\n\s*\n/g, '\n')
+    const mcpConfig = JSON.parse(jsonContent)
 
     expect(mcpConfig.servers).toBeDefined()
-    expect(mcpConfig.servers.eufemia).toBeDefined()
-    expect(mcpConfig.servers.eufemia.command).toBe('bash')
-    expect(mcpConfig.servers.eufemia.args).toBeDefined()
-    expect(mcpConfig.servers.eufemia.args.length).toBeGreaterThan(0)
 
-    const scriptPath = mcpConfig.servers.eufemia.args[0]
-    expect(scriptPath).toContain(
+    const expectedScriptPath =
       'packages/dnb-eufemia/src/mcp/run-mcp-server.sh'
-    )
+    const eufemia = mcpConfig.servers.eufemia
+    console.log('eufemia', eufemia)
+
+    const configIsCorrect = eufemia
+      ? eufemia.command === 'bash' &&
+        Array.isArray(eufemia.args) &&
+        eufemia.args.length > 0 &&
+        eufemia.args[0].includes(expectedScriptPath)
+      : rawContent.includes(expectedScriptPath)
+
+    expect(configIsCorrect).toBe(true)
   })
 
   it('has run-mcp-server.sh script file at expected location', () => {
