@@ -2330,7 +2330,9 @@ describe('variants', () => {
           document.querySelectorAll('[role="option"]')[0]
         )
 
-        expect(input).toHaveValue('Foo')
+        await waitFor(() => {
+          expect(input).toHaveValue('Foo')
+        })
 
         await userEvent.click(input)
 

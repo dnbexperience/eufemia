@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 /**
  * Web Autocomplete Component
  *
@@ -9,6 +7,23 @@
 
 import React from 'react'
 import clsx from 'clsx'
+import type {
+  DrawerListProps,
+  DrawerListData,
+  DrawerListOptionsRender,
+  DrawerListSuffix,
+  DrawerListDataArrayObject,
+} from '../../fragments/DrawerList'
+import type { ButtonIconPosition } from '../Button'
+import type {
+  FormStatusProps,
+  FormStatusState,
+  FormStatusText,
+} from '../FormStatus'
+import type { GlobalStatusConfigObject } from '../GlobalStatus'
+import type { IconIcon, IconSize } from '../Icon'
+import type { SkeletonShow } from '../Skeleton'
+import type { SpacingProps } from '../space/types'
 import {
   warn,
   isTrue,
@@ -53,15 +68,319 @@ import {
   normalizeData,
 } from '../../fragments/drawer-list/DrawerListHelpers'
 
+type AutocompleteMode = 'sync' | 'async'
+type AutocompleteAlign = 'left' | 'right'
+type FormLabelLabelDirection = 'horizontal' | 'vertical'
+type AutocompleteTitle = string | React.ReactNode
+type AutocompletePlaceholder = string | React.ReactNode
+type AutocompleteNoOptions = React.ReactNode
+type AutocompleteShowAll = string | React.ReactNode
+type AutocompleteAriaLiveOptions = string | React.ReactNode
+type AutocompleteIndicatorLabel = string | React.ReactNode
+type AutocompleteSubmitButtonIcon =
+  | string
+  | React.ReactNode
+  | ((...args: any[]) => any)
+type AutocompleteInputRef =
+  | ((...args: any[]) => any)
+  | React.MutableRefObject<HTMLInputElement | undefined>
+type AutocompleteInputIcon =
+  | string
+  | React.ReactNode
+  | ((...args: any[]) => any)
+type AutocompleteInputElement = ((...args: any[]) => any) | React.ReactNode
+type AutocompleteSearchInWordIndex = string | number
+type AutocompleteSearchMatch = 'word' | 'starts-with'
+
+export type AutocompleteData = DrawerListData
+export type AutocompleteOptionsRender = DrawerListOptionsRender
+
 export type AutocompleteClearEvent = {
   value: string
   previousValue: string
   event: React.SyntheticEvent | Event
 }
+export type AutocompleteEventMethods = {
+  attributes: Record<string, unknown>
+  dataList: DrawerListData
+  updateData: (data: DrawerListData) => void
+  revalidateSelectedItem: () => void
+  revalidateInputValue: () => void
+  resetSelectedItem: () => void
+  clearInputValue: () => void
+  showAllItems: () => void
+  setVisible: () => void
+  resetInputValue: () => void
+  setHidden: () => void
+  emptyData: () => void
+  focusInput: () => void
+  setInputValue: (value: string) => void
+  showNoOptionsItem: () => void
+  showIndicatorItem: () => void
+  showIndicator: () => void
+  hideIndicator: () => void
+  setMode: (mode: 'sync' | 'async') => void
+  debounce: (
+    func: (...args: any[]) => any,
+    props?: Record<string, unknown>,
+    wait?: number
+  ) => void
+}
+export type AutocompleteTypeEvent = {
+  value: string
+  event: React.ChangeEvent<HTMLInputElement>
+  data?: DrawerListDataArrayObject | string | null
+} & AutocompleteEventMethods
+export type AutocompleteFocusEvent = {
+  value: string
+  event: React.FocusEvent<HTMLInputElement>
+} & AutocompleteEventMethods
+export type AutocompleteBlurEvent = {
+  value?: string
+  event?: React.FocusEvent<HTMLInputElement>
+  data?: DrawerListDataArrayObject | string | null
+  selectedItem?: number | string
+} & AutocompleteEventMethods
 
-export type AutocompleteProps = Record<string, any>
+export type AutocompleteChangeEvent = {
+  value?: string
+  event?: React.FocusEvent<HTMLInputElement>
+  data: DrawerListDataArrayObject | string | null
+  selectedItem?: number | string
+} & AutocompleteEventMethods
+export type AutocompleteSelectEvent = {
+  active_item: number | string
+  selected_item?: number | string | null
+  value: string | number
+  data: DrawerListDataArrayObject | string | null
+  event: React.SyntheticEvent
+} & AutocompleteEventMethods
 
-export type AutocompleteAllProps = AutocompleteProps
+export type AutocompleteProps = {
+  /**
+   * If set to `async`, it prevents showing the "no options" message during typing / filtering. Defaults to `sync`.
+   */
+  mode?: AutocompleteMode
+  /**
+   * Give a title to let the user know what they have to do.
+   */
+  title?: AutocompleteTitle
+  /**
+   * Pre-filled placeholder text in the input.
+   */
+  placeholder?: AutocompletePlaceholder
+  /**
+   * Text shown in the "no options" item. If set to `false`, the list will not be rendered when there are no options.
+   */
+  noOptions?: AutocompleteNoOptions
+  /**
+   * Text that lets a user unravel all the available options.
+   */
+  showAll?: AutocompleteShowAll
+  /**
+   * Text read out by screen readers to announce number of options.
+   */
+  ariaLiveOptions?: AutocompleteAriaLiveOptions
+  /**
+   * Text shown on indicator item.
+   */
+  indicatorLabel?: AutocompleteIndicatorLabel
+  /**
+   * Screen-reader title for the button that opens options.
+   */
+  showOptionsSr?: string
+  /**
+   * Label used to announce the selected item for screen readers.
+   */
+  selectedSr?: string
+  /**
+   * If set to `true`, the whole input value gets selected on focus.
+   */
+  selectall?: boolean
+  /**
+   * Title on submit button.
+   */
+  submitButtonTitle?: string
+  /**
+   * The icon used in the submit button.
+   */
+  submitButtonIcon?: AutocompleteSubmitButtonIcon
+  /**
+   * React ref for access to the input DOM element.
+   */
+  inputRef?: AutocompleteInputRef
+  /**
+   * Icon to be included in the autocomplete input.
+   */
+  icon?: IconIcon
+  /**
+   * Change icon size.
+   */
+  iconSize?: IconSize
+  /**
+   * Icon position inside autocomplete.
+   */
+  iconPosition?: ButtonIconPosition
+  /**
+   * Same as `icon`.
+   */
+  inputIcon?: AutocompleteInputIcon
+  /**
+   * Prepends the form label.
+   */
+  label?: React.ReactNode
+  /**
+   * Set `vertical` to change label layout direction.
+   */
+  labelDirection?: FormLabelLabelDirection
+  /**
+   * Makes label readable by screen readers only.
+   */
+  labelSrOnly?: boolean
+  /**
+   * Keep typed value on blur even when invalid.
+   */
+  keepValue?: boolean
+  /**
+   * Keep selected item on blur when input value is empty.
+   */
+  keepSelection?: boolean
+  /**
+   * Keep typed value and selected item on blur.
+   */
+  keepValueAndSelection?: boolean
+  /**
+   * Show clear button inside input.
+   */
+  showClearButton?: boolean
+  /**
+   * Status message text.
+   */
+  status?: FormStatusText
+  /**
+   * Status variant.
+   */
+  statusState?: FormStatusState
+  /**
+   * Additional FormStatus props.
+   */
+  statusProps?: FormStatusProps
+  statusNoAnimation?: boolean
+  /**
+   * GlobalStatus configuration object.
+   */
+  globalStatus?: GlobalStatusConfigObject
+  /**
+   * Keep highlighting but disable filtering.
+   */
+  disableFilter?: boolean
+  /**
+   * Disable reordering of search results.
+   */
+  disableReorder?: boolean
+  /**
+   * Disable highlighting but keep filtering.
+   */
+  disableHighlighting?: boolean
+  /**
+   * Show autocomplete submit/toggle button.
+   */
+  showSubmitButton?: boolean
+  /**
+   * Replace submit button with a custom element.
+   */
+  submitElement?: React.ReactNode
+  /**
+   * Change options alignment.
+   */
+  align?: AutocompleteAlign
+  /**
+   * Provide a custom input element.
+   */
+  inputElement?: AutocompleteInputElement
+  /**
+   * Threshold deciding from which word to search inside words.
+   */
+  searchInWordIndex?: AutocompleteSearchInWordIndex
+  /**
+   * Search matching mode.
+   */
+  searchMatch?: AutocompleteSearchMatch
+  /**
+   * Better number searching/filtering behavior.
+   */
+  searchNumbers?: boolean
+  /**
+   * Auto-open list on focus.
+   */
+  openOnFocus?: boolean
+  disabled?: boolean
+  /**
+   * Stretch to full available width.
+   */
+  stretch?: boolean
+  /**
+   * Show skeleton loading overlay.
+   */
+  skeleton?: SkeletonShow
+  /**
+   * Additional content rendered as suffix.
+   */
+  suffix?: DrawerListSuffix
+  /**
+   * Custom class for internal drawer list.
+   */
+  drawerClass?: string
+  /**
+   * Selected value.
+   */
+  value?: string | number
+  /**
+   * Initial selected value.
+   */
+  defaultValue?: string | number
+  /**
+   * Controlled input value.
+   */
+  inputValue?: string
+  size?: DrawerListProps['size']
+  data?: any
+  /**
+   * Will be called once the Autocomplete shows up.
+   */
+  onOpen?: (event: AutocompleteTypeEvent) => void
+  /**
+   * Will be called once the Autocomplete gets closed.
+   */
+  onClose?: (event: AutocompleteTypeEvent) => void
+  onType?: (event: AutocompleteTypeEvent) => void
+  onFocus?: (event: AutocompleteFocusEvent) => void
+  onBlur?: (event: AutocompleteBlurEvent) => void
+  onChange?: (event: AutocompleteChangeEvent) => void
+  onSelect?: (event: AutocompleteSelectEvent) => void
+  onClear?: (event: AutocompleteClearEvent) => void
+}
+
+export type AutocompleteAllProps = AutocompleteProps &
+  DrawerListProps &
+  SpacingProps &
+  Omit<
+    React.HTMLProps<HTMLElement>,
+    | 'ref'
+    | 'size'
+    | 'label'
+    | 'title'
+    | 'placeholder'
+    | 'data'
+    | 'children'
+    | 'onChange'
+    | 'onFocus'
+    | 'onOpen'
+    | 'onClose'
+    | 'onSelect'
+    | 'onResize'
+    | 'onBlur'
+  >
 
 export default class Autocomplete extends React.PureComponent<AutocompleteAllProps> {
   static HorizontalItem: ({
@@ -74,7 +393,9 @@ export default class Autocomplete extends React.PureComponent<AutocompleteAllPro
 
   _id: string
 
-  static defaultProps = {
+  static defaultProps: Partial<AutocompleteAllProps> & {
+    mode: AutocompleteMode
+  } = {
     id: null,
     mode: 'sync',
     title: 'Option Menu',
@@ -152,38 +473,59 @@ export default class Autocomplete extends React.PureComponent<AutocompleteAllPro
     onBlur: null,
     onChange: null,
     onSelect: null,
-    onStateUpdate: null,
     onClear: null,
     inputElement: null,
   }
 
-  constructor(props) {
+  constructor(props: AutocompleteAllProps) {
     super(props)
 
     this._id = props.id || makeUniqueId()
   }
   render() {
+    const providerProps = {
+      ...this.props,
+      id: this._id,
+      data: this.props.data || this.props.children,
+      open: null,
+      tagName: 'dnb-autocomplete',
+      ignoreEvents: false,
+      preventFocus: true,
+      skipKeysearch: true,
+    } as Partial<DrawerListProps>
+
     return (
-      <DrawerListProvider
-        {...this.props}
-        id={this._id}
-        data={this.props.data || this.props.children}
-        open={null}
-        tagName="dnb-autocomplete"
-        ignoreEvents={false}
-        preventFocus
-        skipKeysearch
-      >
+      <DrawerListProvider {...providerProps}>
         <AutocompleteInstance {...this.props} id={this._id} />
       </DrawerListProvider>
     )
   }
 }
 
-class AutocompleteInstance extends React.PureComponent {
-  static propTypes = Autocomplete.propTypes
+class AutocompleteInstance extends React.PureComponent<
+  AutocompleteAllProps,
+  Record<string, any>
+> {
   static defaultProps = Autocomplete.defaultProps
   static contextType = DrawerListContext
+
+  context: React.ContextType<typeof DrawerListContext>
+  attributes: Record<string, unknown>
+  _cacheMemory: Record<string, unknown>
+  _props: Record<string, any>
+  _ref: React.RefObject<HTMLElement>
+  _refShell: React.RefObject<HTMLSpanElement>
+  _refInput: React.RefObject<any>
+  _selectTimeout: ReturnType<typeof setTimeout>
+  _focusTimeout: ReturnType<typeof setTimeout>
+  _blurTimeout: ReturnType<typeof setTimeout>
+  showAllTimeout: ReturnType<typeof setTimeout>
+  __preventFiringBlurEvent: boolean | null
+  dbf: Record<string, (...args: any[]) => any>
+  isTouchDevice: boolean
+  skipFilter: boolean
+  skipReorder: boolean
+  wasVisible: boolean
 
   static parseDataItem(dataItem) {
     const searchWord = parseContentTitle(
@@ -213,7 +555,10 @@ class AutocompleteInstance extends React.PureComponent {
     })
   }
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(
+    props: AutocompleteAllProps,
+    state: Record<string, any>
+  ) {
     if (state._listenForPropChanges) {
       state.disableHighlighting = isTrue(props.disableHighlighting)
 
@@ -258,18 +603,19 @@ class AutocompleteInstance extends React.PureComponent {
     return state
   }
 
-  constructor(props, context) {
+  constructor(props: AutocompleteAllProps, context?: any) {
     super(props)
 
     this.attributes = {}
     this.state = this.state || {}
-    this.state._listenForPropChanges = true
-    this.state.mode = props.mode
-    this.state.prevData = props.data // only to compare against new data
-    this.state.updateData = this.updateData // only so we can call setData
+    const state = this.state as Record<string, any>
+    state._listenForPropChanges = true
+    state.mode = props.mode
+    state.prevData = props.data // only to compare against new data
+    state.updateData = this.updateData // only so we can call setData
 
     if (context.drawerList && context.drawerList.currentTitle) {
-      this.state.inputValue = context.drawerList.currentTitle
+      state.inputValue = context.drawerList.currentTitle
     }
 
     this._ref = React.createRef()
@@ -359,7 +705,7 @@ class AutocompleteInstance extends React.PureComponent {
     })
   }
 
-  setVisibleByContext = (options = {}, onStateComplete = null) => {
+  setVisibleByContext = (options: any = {}, onStateComplete = null) => {
     const skipFilter = this.state.showAllNextTime
     if (skipFilter) {
       this.setState({
@@ -448,7 +794,7 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   runFilterToHighlight = (
-    { fillDataIfEmpty = false, ...options } = {},
+    { fillDataIfEmpty = false, ...options }: any = {},
     value = this.state.inputValue
   ) => {
     // do not filter or highlight if the current selected item is the same as the input value
@@ -528,7 +874,7 @@ class AutocompleteInstance extends React.PureComponent {
     this.context.drawerList.setData(
       () => [],
       () => {
-        this.setSearchIndex({ overwriteSearchIndex: true })
+        this.setSearchIndex({ overwriteSearchIndex: true }, null)
         this.resetActiveItem()
         this.totalReset()
       },
@@ -661,7 +1007,7 @@ class AutocompleteInstance extends React.PureComponent {
 
   hasDatasetChanged = (rawData) => {
     const { selectedItem } = this.context.drawerList
-    if (parseFloat(selectedItem) > -1) {
+    if (parseFloat(String(selectedItem)) > -1) {
       const newItem = rawData?.[selectedItem]
       const oldItem = this.context.drawerList.originalData[selectedItem]
       if (newItem?.selectedKey !== oldItem?.selectedKey) {
@@ -808,7 +1154,7 @@ class AutocompleteInstance extends React.PureComponent {
         const { value } = event.target
         this.setVisibleByContext({ value })
       } else {
-        this.setSearchIndex()
+        this.setSearchIndex({}, null)
       }
 
       if (isTrue(keepValueAndSelection)) {
@@ -988,7 +1334,7 @@ class AutocompleteInstance extends React.PureComponent {
         this.dbf = this.dbf || {}
         return (
           this.dbf[key] ||
-          (this.dbf[key] = debounce(func, wait, { context: this }))
+          (this.dbf[key] = debounce(func, wait, { context: this } as any))
         )(props)
       },
     }
@@ -997,7 +1343,7 @@ class AutocompleteInstance extends React.PureComponent {
   hasInjectedDataItem = (data = this.context.drawerList.data) => {
     const lastItem = data.slice(-1)[0]
     return lastItem
-      ? lastItem.showAll || lastItem.__id === 'noOptions'
+      ? lastItem.showAll || String(lastItem.__id) === 'noOptions'
       : false
   }
 
@@ -1011,7 +1357,7 @@ class AutocompleteInstance extends React.PureComponent {
       const first = data[0]
       if (
         !first.showAll &&
-        !['noOptions', 'indicator'].includes(first.__id)
+        !['noOptions', 'indicator'].includes(String(first.__id))
       ) {
         return true
       }
@@ -1020,11 +1366,11 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   hasSelectedItem = () => {
-    return parseFloat(this.context.drawerList.selectedItem) > -1
+    return parseFloat(String(this.context.drawerList.selectedItem)) > -1
   }
 
   hasActiveItem = () => {
-    return parseFloat(this.context.drawerList.activeItem) > -1
+    return parseFloat(String(this.context.drawerList.activeItem)) > -1
   }
 
   hasFilterActive = (data = this.context.drawerList.data) => {
@@ -1038,8 +1384,8 @@ class AutocompleteInstance extends React.PureComponent {
     {
       overwriteSearchIndex = false,
       data = this.context.drawerList.originalData,
-    } = {},
-    cb
+    }: any = {},
+    cb: ((...args: any[]) => void) | null = null
   ) {
     this._cacheMemory = {}
 
@@ -1086,7 +1432,10 @@ class AutocompleteInstance extends React.PureComponent {
       cacheHash: 'all',
     })
 
-    this.runFilterToHighlight({ skipFilter: true, fillDataIfEmpty: true })
+    this.runFilterToHighlight({
+      skipFilter: true,
+      fillDataIfEmpty: true,
+    } as any)
   }
 
   showAllItems = () => {
@@ -1145,7 +1494,7 @@ class AutocompleteInstance extends React.PureComponent {
       searchIndex = this.state.searchIndex,
       searchNumbers = isTrue(this.props.searchNumbers),
       inWordIndex = parseFloat(
-        this.props.searchInWordIndex ?? (this.skipFilter ? 1 : 3)
+        String(this.props.searchInWordIndex ?? (this.skipFilter ? 1 : 3))
       ) - 1,
       disableHighlighting = false,
       skipFilter = false,
@@ -1169,9 +1518,12 @@ class AutocompleteInstance extends React.PureComponent {
     let searchWords = rawValue.split(/\s+/g).filter(Boolean)
 
     if (startsWithMatch) {
+      // @ts-expect-error Unicode property escapes are supported at runtime here
       const hasLetters = /[\p{L}]/u.test(rawValue)
+      // @ts-expect-error Unicode property escapes are supported at runtime here
       const hasNumbers = /[\p{N}]/u.test(rawValue)
       if (startsWithMatch && searchNumbers && hasNumbers && !hasLetters) {
+        // @ts-expect-error Unicode property escapes are supported at runtime here
         const normalizedNumeric = rawValue.replace(/[^\p{N}]+/gu, '')
         searchWords = normalizedNumeric ? [normalizedNumeric] : []
       }
@@ -1187,7 +1539,8 @@ class AutocompleteInstance extends React.PureComponent {
     // Pre-compile regex patterns for performance
     const searchWordsData = searchWords.map((word, wordIndex) => {
       const processedWord = searchNumbers
-        ? word.replace(/[^\p{L}\p{N}]+/gu, '')
+        ? // @ts-expect-error Unicode property escapes are supported at runtime here
+          word.replace(/[^\p{L}\p{N}]+/gu, '')
         : escapeRegexChars(word)
       const wordBoundary = getWordBoundary(wordIndex)
 
@@ -1269,11 +1622,12 @@ class AutocompleteInstance extends React.PureComponent {
     const strE = '\uFFFF'
 
     searchIndex = searchIndex.map((item, i) => {
-      const listOfFoundWords = findSearchWords(item.contentChunk, i)
+      const listOfFoundWords = findSearchWords(item.contentChunk)
 
       // Check if ALL search words are purely numeric (no letters)
       const allWordsAreNumeric = searchNumbers
-        ? searchWords.every((word) => /^[\p{N}\s.,]+$/u.test(word))
+        ? // @ts-expect-error Unicode property escapes are supported at runtime here
+          searchWords.every((word) => /^[\p{N}\s.,]+$/u.test(word))
         : false
 
       // When searching numbers with multiple numeric terms, ensure ALL search words are found (AND logic)
@@ -1339,6 +1693,7 @@ class AutocompleteInstance extends React.PureComponent {
 
               if (searchNumbers) {
                 // Remove all other chars, except numbers and letters, so we can match complete sequences
+                // @ts-expect-error Unicode property escapes are supported at runtime here
                 const cleanedWord = word.replace(/[^\p{L}\p{N}]+/gu, '')
                 if (cleanedWord) {
                   // Highlight the complete sequence wherever it appears as a contiguous block
@@ -1603,7 +1958,7 @@ class AutocompleteInstance extends React.PureComponent {
       let newString = null
 
       if (count > 0) {
-        newString = String(ariaLiveOptions).replace('%s', count)
+        newString = String(ariaLiveOptions).replace('%s', String(count))
       } else {
         newString = noOptions
       }
@@ -1639,9 +1994,9 @@ class AutocompleteInstance extends React.PureComponent {
     const props = (this._props = extendPropsWithContextInClassComponent(
       this.props,
       Autocomplete.defaultProps,
-      this.context.getTranslation(this.props).Autocomplete,
-      pickFormElementProps(this.context?.formElement),
-      this.context.Autocomplete
+      (this.context as any).getTranslation(this.props as any).Autocomplete,
+      pickFormElementProps((this.context as any)?.formElement),
+      (this.context as any).Autocomplete
     ))
 
     const {
@@ -1712,12 +2067,6 @@ class AutocompleteInstance extends React.PureComponent {
       openOnFocus: _openOnFocus, // eslint-disable-line
       disableReorder: _disableReorder, // eslint-disable-line
       disableFilter: _disableFilter, // eslint-disable-line
-
-      indicator_label, // eslint-disable-line
-      no_options, // eslint-disable-line
-      show_all, // eslint-disable-line
-      aria_live_options, // eslint-disable-line
-      disable_highlighting, // eslint-disable-line
       indicatorLabel: _indicatorLabel, // eslint-disable-line
       noOptions: _noOptions, // eslint-disable-line
       showAll: _showAll, // eslint-disable-line
@@ -1732,7 +2081,6 @@ class AutocompleteInstance extends React.PureComponent {
       onClose: _onClose, // eslint-disable-line
       onChange: _onChange, // eslint-disable-line
       onSelect: _onSelect, // eslint-disable-line
-      onStateUpdate: _onStateUpdate, // eslint-disable-line
 
       ...attributes
     } = props
@@ -1778,16 +2126,17 @@ class AutocompleteInstance extends React.PureComponent {
       className: 'dnb-autocomplete__input',
       id,
       value: inputValue,
+      placeholder: undefined,
       autoCapitalize: 'none',
-      spellCheck: 'false',
+      spellCheck: false,
       autoCorrect: 'off',
       autoComplete,
 
       // ARIA
       role: 'combobox', // we need combobox twice to make it properly work on VO
-      'aria-autocomplete': 'both', // list, both
+      'aria-autocomplete': 'both' as const, // list, both
       'aria-controls': isExpanded ? `${id}-ul` : undefined,
-      'aria-haspopup': 'listbox',
+      'aria-haspopup': 'listbox' as const,
       'aria-expanded': isExpanded, // is needed for semantics
       // 'aria-roledescription': 'autocomplete', // is not needed by now
 
@@ -1803,7 +2152,7 @@ class AutocompleteInstance extends React.PureComponent {
       ...attributes,
     }
 
-    if (!(parseFloat(selectedItem) > -1)) {
+    if (!(parseFloat(String(selectedItem)) > -1)) {
       inputParams.placeholder = placeholder || title
       if (!(IS_WIN && IS_EDGE)) {
         inputParams['aria-placeholder'] = undefined
@@ -1830,7 +2179,7 @@ class AutocompleteInstance extends React.PureComponent {
       ...customInputParams
     } = inputParams
 
-    let submitButton = false
+    let submitButton: React.ReactNode = false
     const triggerParams = {
       id: id + '-submit-button',
       disabled,
@@ -1838,7 +2187,7 @@ class AutocompleteInstance extends React.PureComponent {
       onKeyDown: this.onTriggerKeyDownHandler,
       onSubmit: this.toggleVisible,
       onMouseDown: this.reserveActivityHandler,
-      'aria-haspopup': 'listbox',
+      'aria-haspopup': 'listbox' as const,
       'aria-expanded': isExpanded,
       'aria-label': !hidden ? submitButtonTitle : undefined,
       tooltip: showSubmitButton ? submitButtonTitle : null,
@@ -1850,10 +2199,10 @@ class AutocompleteInstance extends React.PureComponent {
     } else if (isTrue(showSubmitButton)) {
       submitButton = (
         <SubmitButton
-          icon={submitButtonIcon}
+          icon={submitButtonIcon as any}
           iconSize={iconSize || (size === 'large' ? 'medium' : 'default')}
           variant="secondary"
-          size={size === 'default' ? 'medium' : size}
+          size={size === 'default' ? 'medium' : (size as any)}
           type="button"
           status={status}
           statusState={statusState}
@@ -1915,7 +2264,10 @@ class AutocompleteInstance extends React.PureComponent {
           <span className="dnb-autocomplete__row">
             <span {...shellParams}>
               {CustomInput ? (
-                <CustomInput {...customInputParams} />
+                React.createElement(
+                  CustomInput as React.ElementType,
+                  customInputParams
+                )
               ) : (
                 <Input
                   icon={
@@ -1924,7 +2276,7 @@ class AutocompleteInstance extends React.PureComponent {
                         size={size === 'large' ? 'medium' : 'small'}
                       />
                     ) : (
-                      inputIcon
+                      (inputIcon as any)
                     )
                   }
                   iconSize={
@@ -1962,7 +2314,7 @@ class AutocompleteInstance extends React.PureComponent {
               {!submitButton && (
                 <span className="dnb-sr-only">
                   <button
-                    tabIndex="-1"
+                    tabIndex={-1}
                     type="button" // is needed, else a form will submit
                     onClick={this.toggleVisibleAndFocusOptions}
                   >

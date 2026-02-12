@@ -19,7 +19,10 @@ import FieldBlock, {
   FieldBlockWidth,
 } from '../../FieldBlock'
 import useTranslation from '../../hooks/useTranslation'
-import { AutocompleteAllProps } from '../../../../components/autocomplete/Autocomplete'
+import {
+  AutocompleteAllProps,
+  AutocompleteBlurEvent,
+} from '../../../../components/autocomplete/Autocomplete'
 
 export type CountryFilterSet =
   | 'Scandinavia'
@@ -180,8 +183,12 @@ function SelectCountry(props: Props) {
   }, [lang, countries, filter, ccFilter, value, updateValue])
 
   const handleCountryChange = useCallback(
-    ({ data }: { data: { selectedKey: string } }) => {
-      const newValue = data?.selectedKey
+    (event: AutocompleteBlurEvent) => {
+      const data = event.data
+      const newValue =
+        data && typeof data === 'object' && 'selectedKey' in data
+          ? (data as { selectedKey: string }).selectedKey
+          : undefined
       const country = getCountryObjectByIso(newValue)
       if (country?.iso) {
         handleChange(country.iso, country)

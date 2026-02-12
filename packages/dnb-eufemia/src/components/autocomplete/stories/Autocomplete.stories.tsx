@@ -103,7 +103,8 @@ export function UpdateEachOther() {
         label="selectedA"
         data={selectedAccountsA}
         value={indexA}
-        onChange={({ data: account }) => {
+        onChange={(event) => {
+          const account = event.data
           setSelectedA(account?.selectedKey)
           setSelectedAccountsB(
             accounts.filter(({ selectedKey }) => {
@@ -117,7 +118,8 @@ export function UpdateEachOther() {
         label="selectedB"
         data={selectedAccountsB}
         value={indexB}
-        onChange={({ data: account }) => {
+        onChange={(event) => {
+          const account = event.data
           setSelectedB(account?.selectedKey)
           setSelectedAccountsA(
             accounts.filter(({ selectedKey }) => {
@@ -230,8 +232,8 @@ export const AutocompleteSandbox = () => {
           showSubmitButton={true}
           showClearButton
           submitElement={<SubmitButton icon="bell" />}
-          onChange={({ data }) => {
-            console.log('onChange', data)
+          onChange={(event) => {
+            console.log('onChange', event.data)
           }}
         >
           {() => topMovies}
@@ -727,20 +729,23 @@ function UpdateDataExample() {
         preventSelection
         title="Choose an item"
         data={choiceData}
-        onChange={({ data, setInputValue }) => {
-          setChoiceData(
-            choiceData.filter(
-              (item) => item.selectedValue !== data.selectedValue
+        onChange={(event) => {
+          const { data, setInputValue } = event
+          if (data) {
+            setChoiceData(
+              choiceData.filter(
+                (item) => item.selectedValue !== data.selectedValue
+              )
             )
-          )
-          if (
-            selectedData.findIndex(
-              ({ selectedValue }) => selectedValue === data.selectedValue
-            ) === -1
-          ) {
-            setSelectedData([...selectedData, data])
+            if (
+              selectedData.findIndex(
+                ({ selectedValue }) => selectedValue === data.selectedValue
+              ) === -1
+            ) {
+              setSelectedData([...selectedData, data])
+            }
           }
-          setInputValue(null)
+          setInputValue?.('')
         }}
       />
     </>
@@ -888,9 +893,9 @@ export const AsyncSearchExample = () => {
           onType={onTypeHandler}
           noScrollAnimation={true}
           placeholder="Search ..."
-          onChange={({ data }) => {
-            console.log('onChange', data)
-            setOnChangeValue(data?.content)
+          onChange={(event) => {
+            console.log('onChange', event.data)
+            setOnChangeValue(event.data?.content)
           }}
         />
         <P top>Value from onChange: {onChangeValue || '–'}</P>
