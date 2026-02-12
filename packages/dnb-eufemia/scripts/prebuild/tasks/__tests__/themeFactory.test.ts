@@ -147,8 +147,8 @@ describe('runFactory', () => {
     jest
       .spyOn(globby, 'default')
       .mockResolvedValueOnce([
-        './src/style/themes/theme-ui/ui-theme-components.scss',
-        './src/style/themes/theme-sbanken/sbanken-theme-components.scss',
+        './src/style/themes/ui/ui-theme-components.scss',
+        './src/style/themes/sbanken/sbanken-theme-components.scss',
       ])
 
     const result = await getThemeContent({
@@ -157,16 +157,16 @@ describe('runFactory', () => {
     })
     expect(fs.mkdir).toHaveBeenCalledTimes(2)
     expect(fs.writeFile).toHaveBeenCalledTimes(2)
-    expect(fs.mkdir).toHaveBeenNthCalledWith(1, './theme-sbanken')
-    expect(fs.mkdir).toHaveBeenNthCalledWith(2, './theme-ui')
+    expect(fs.mkdir).toHaveBeenNthCalledWith(1, './sbanken')
+    expect(fs.mkdir).toHaveBeenNthCalledWith(2, './ui')
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
-      './theme-sbanken/sbanken-theme-components.scss',
+      './sbanken/sbanken-theme-components.scss',
       expect.any(String)
     )
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       2,
-      './theme-ui/ui-theme-components.scss',
+      './ui/ui-theme-components.scss',
       expect.any(String)
     )
     expect(result).toMatchInlineSnapshot(`
