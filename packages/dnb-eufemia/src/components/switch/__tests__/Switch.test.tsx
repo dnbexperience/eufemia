@@ -149,12 +149,12 @@ describe('Switch component', () => {
     expect(attributes).toEqual(['class'])
     expect(inputAttributes).toEqual([
       'id',
-      'name',
-      'type',
       'role',
       'aria-checked',
       'class',
+      'type',
       'value',
+      'name',
     ])
     expect(Array.from(element.classList)).toEqual([
       'dnb-switch',
