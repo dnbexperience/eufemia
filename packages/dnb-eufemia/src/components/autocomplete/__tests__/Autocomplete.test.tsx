@@ -2928,8 +2928,8 @@ describe('Autocomplete component', () => {
           data={mockData}
           showSubmitButton
           onType={onTypeHandler}
-          onChange={({ value }) => {
-            setValue(value)
+          onChange={(event) => {
+            setValue(event.value)
           }}
         />
       )
@@ -3407,8 +3407,8 @@ describe('Autocomplete component', () => {
           data={allData}
           value={value}
           mode="async"
-          onChange={({ data }) => {
-            setValue(data?.selectedKey)
+          onChange={(event) => {
+            setValue(event.data?.selectedKey)
           }}
           onFocus={({ updateData }) => {
             updateData(data)

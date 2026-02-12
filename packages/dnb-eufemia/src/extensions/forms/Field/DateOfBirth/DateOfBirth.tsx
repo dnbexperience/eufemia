@@ -378,9 +378,9 @@ function DateOfBirth(props: Props) {
   }, [locale])
 
   const onBlurAutocomplete = useCallback(
-    ({ value }) => {
+    (event: { value?: string }) => {
       // If the value is a number, find the corresponding month
-      const nr = parseFloat(value)
+      const nr = parseFloat(event.value ?? '')
       if (!isNaN(nr)) {
         const monthValue = months.find((m) => parseFloat(m.value) === nr)
           ?.value
@@ -390,7 +390,8 @@ function DateOfBirth(props: Props) {
         callOnChange({ month })
       } else {
         // If the value is a month name, find the corresponding value
-        const monthValue = months.find((m) => m.title === value)?.value
+        const monthValue = months.find((m) => m.title === event.value)
+          ?.value
         if (monthValue) {
           monthRef.current = monthValue
           forceUpdate()
