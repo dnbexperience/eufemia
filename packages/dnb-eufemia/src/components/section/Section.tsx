@@ -15,6 +15,7 @@ import type {
   ResponsiveProp,
   SpacingProps,
 } from '../../shared/types'
+import type { InnerSpaceType } from '../space/types'
 import Space from '../space/Space'
 import { getColor } from '../../shared/helpers'
 
@@ -132,8 +133,12 @@ export type SectionProps = {
   inner_ref?: React.RefObject<HTMLElement>
 }
 
+type SectionSpacingProps = Omit<SpacingProps, 'innerSpace'> & {
+  innerSpace?: InnerSpaceType
+}
+
 export type SectionAllProps = SectionProps &
-  SpacingProps &
+  SectionSpacingProps &
   Omit<React.HTMLProps<HTMLElement>, 'ref'>
 
 type SectionReturnParams = Record<string, unknown> & {

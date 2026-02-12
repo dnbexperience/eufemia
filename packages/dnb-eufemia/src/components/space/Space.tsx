@@ -28,6 +28,7 @@ import type {
   SpacingProps,
 } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
+import type { InnerSpaceType } from './types'
 
 export { spacingPropTypes }
 
@@ -67,7 +68,7 @@ export type SpaceProps = {
    * Default: null
    */
   innerRef?: React.RefObject<HTMLElement>
-} & SpacingProps
+} & Omit<SpacingProps, 'innerSpace'> & { innerSpace?: InnerSpaceType }
 
 export type SpaceAllProps = SpaceProps &
   Omit<React.HTMLProps<HTMLElement>, 'ref'>
