@@ -7,6 +7,7 @@ import React from 'react'
 import clsx from 'clsx'
 import algoliasearch from 'algoliasearch/lite'
 import { Autocomplete } from '@dnb/eufemia/src/components'
+import type { AutocompleteChangeEvent } from '@dnb/eufemia/src/components/autocomplete/Autocomplete'
 import { navigate } from 'gatsby'
 import Anchor from '../tags/Anchor'
 import {
@@ -51,15 +52,21 @@ export const SearchBarInput = () => {
     showIndicator()
   }
 
-  const onChangeHandler = ({ data, emptyData, setHidden, event }) => {
+  const onChangeHandler = ({
+    data,
+    emptyData,
+    setHidden,
+    event,
+  }: AutocompleteChangeEvent) => {
     try {
-      if (!data?.hit?.slug) {
-        return
+      const hit = typeof data === 'object' && 'hit' in data && data.hit
+      if (!hit?.slug) {
+        return // stop here
       }
 
       handleSearchResultNavigation({
-        event,
-        slug: data.hit.slug,
+        event: event as unknown as SearchResultNavigationArgs['event'],
+        slug: hit.slug,
         setHidden,
         emptyData,
       })
