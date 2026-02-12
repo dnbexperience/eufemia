@@ -854,16 +854,22 @@ Eufemia provides forms translations for the following locales:
 
 ### Add additional translations
 
+For `sv-SE` and `da-DK`, remember to import the locale files and merge them with `mergeTranslations` before passing them to `Form.Handler`.
+
 ```js
 import { mergeTranslations } from '@dnb/eufemia/shared'
 import { Form } from '@dnb/eufemia/src/extensions/forms'
 import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
 import svSE_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/sv-SE'
-// or import danish translations, like so:
 import daDK_forms from '@dnb/eufemia/extensions/forms/constants/locales/da-DK'
 import daDK_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/da-DK'
 
-const translations = mergeTranslations(svSE_forms, svSE_forms_countries)
+const translations = mergeTranslations(
+  svSE_forms,
+  svSE_forms_countries, // if needed
+  daDK_forms, // if needed
+  daDK_forms_countries // if needed
+)
 
 render(
   <Form.Handler translations={translations} locale="sv-SE">
@@ -880,8 +886,13 @@ If so, you can use the `mergeTranslations` function from `@dnb/eufemia/shared` t
 import { Provider, mergeTranslations } from '@dnb/eufemia/shared'
 import svSE from '@dnb/eufemia/shared/locales/sv-SE'
 import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
+import svSE_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/sv-SE'
 
-const translations = mergeTranslations(svSE, svSE_forms)
+const translations = mergeTranslations(
+  svSE,
+  svSE_forms,
+  svSE_forms_countries // if needed
+)
 
 render(
   <Provider translations={translations} locale="sv-SE">

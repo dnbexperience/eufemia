@@ -49,6 +49,21 @@ import svSE_forms_countries from '@dnb/eufemia/extensions/forms/constants/locale
 import daDK from '@dnb/eufemia/shared/locales/da-DK'
 import daDK_forms from '@dnb/eufemia/extensions/forms/constants/locales/da-DK'
 import daDK_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/da-DK'
+
+Use `mergeTranslations` to combine the forms translations (and country translations when needed) before you pass them to `Form.Handler` or `Provider`.
+
+import { mergeTranslations } from '@dnb/eufemia/shared'
+import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
+import svSE_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/sv-SE'
+import daDK_forms from '@dnb/eufemia/extensions/forms/constants/locales/da-DK'
+import daDK_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/da-DK'
+
+const translations = mergeTranslations(
+  svSE,
+  svSE_forms,
+  svSE_forms_countries, // if needed
+  // etc. for other locales you want to add
+)
 ```
 
 ## How to set the locale
@@ -568,7 +583,26 @@ Eufemia provides forms translations for the following locales:
 
 **Note:** Only `nb-NO` and `en-GB` are included by default.
 
-To support other locales such as `sv-SE` or `da-DK`, you can provide translations for fields and values in a few different ways.
+To support other locales such as `sv-SE` or `da-DK`, you need to import and merge the locale translations yourself.
+
+Use `mergeTranslations` to combine the forms translations (and country translations when needed) before you pass them to `Form.Handler` or `Provider`.
+
+```js
+import { mergeTranslations } from '@dnb/eufemia/shared'
+import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
+import svSE_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/sv-SE'
+import daDK_forms from '@dnb/eufemia/extensions/forms/constants/locales/da-DK'
+import daDK_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/da-DK'
+
+const translations = mergeTranslations(
+  svSE_forms,
+  svSE_forms_countries, // if needed
+  daDK_forms, // if needed
+  daDK_forms_countries // if needed
+)
+```
+
+You can provide the merged translations for fields and values in a few different ways.
 
 #### Form.Handler
 
