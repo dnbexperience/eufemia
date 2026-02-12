@@ -186,7 +186,7 @@ export interface ModalContentProps {
   labelled_by?: string
 
   /**
-   * The Modal handles the first focus – automatically. How ever, you can defined a custom focus selector the will be used instead `focus_selector=".css-selector"`.
+   * The Modal handles the first focus – automatically. However, you can defined a custom focus selector the will be used instead `focus_selector=".css-selector"`.
    */
   focus_selector?: string
 

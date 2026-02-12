@@ -162,7 +162,7 @@
   }
 
   // Some browsers change the background color so users can see the difference between "autofill" and "user input".
-  // How ever; the background color change does look not good because of the padding we have.
+  // However; the background color change does look not good because of the padding we have.
   &__textarea:autofill {
     box-shadow: 0 0 0 10em
       var(--textarea-background-color, var(--color-white)) inset;
