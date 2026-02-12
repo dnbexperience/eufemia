@@ -105,7 +105,7 @@ const UploadFileListCell = ({
     description,
     removeDeleteButton,
     deleteButtonProps,
-    disableLink,
+    removeLink,
   } = uploadFile
   const hasWarning = errorMessage != null
 
@@ -163,9 +163,9 @@ const UploadFileListCell = ({
       <div className="dnb-upload__file-cell__text-container">
         <UploadFileLink
           text={file.name}
-          href={disableLink ? null : imageUrl}
-          download={disableLink ? false : download}
-          onClick={disableLink ? undefined : onClick}
+          href={removeLink ? null : imageUrl}
+          download={removeLink ? false : download}
+          onClick={removeLink ? undefined : onClick}
           bottom={0}
         />
         {getDescription()}

@@ -486,7 +486,7 @@ describe('UploadFileListCell', () => {
   })
 
   describe('Link behavior', () => {
-    it('should disable href when disableLink is true', () => {
+    it('should remove href when removeLink is true', () => {
       const fileName = 'no-href-file.png'
 
       render(
@@ -494,7 +494,7 @@ describe('UploadFileListCell', () => {
           {...defaultProps}
           uploadFile={{
             file: createMockFile(fileName, 100, 'image/png'),
-            disableLink: true,
+            removeLink: true,
           }}
         />
       )
@@ -504,7 +504,7 @@ describe('UploadFileListCell', () => {
       expect(fileLink).not.toHaveAttribute('href')
     })
 
-    it('should enable href when disableLink is false', () => {
+    it('should enable href when removeLink is false', () => {
       const fileName = 'with-href-file.png'
 
       render(
@@ -512,7 +512,7 @@ describe('UploadFileListCell', () => {
           {...defaultProps}
           uploadFile={{
             file: createMockFile(fileName, 100, 'image/png'),
-            disableLink: false,
+            removeLink: false,
           }}
         />
       )
@@ -522,7 +522,7 @@ describe('UploadFileListCell', () => {
       expect(fileLink).toHaveAttribute('href', 'url')
     })
 
-    it('should disable download attribute when disableLink is true', () => {
+    it('should remove download attribute when removeLink is true', () => {
       const fileName = 'no-download-file.png'
 
       render(
@@ -531,7 +531,7 @@ describe('UploadFileListCell', () => {
           download={true}
           uploadFile={{
             file: createMockFile(fileName, 100, 'image/png'),
-            disableLink: true,
+            removeLink: true,
           }}
         />
       )
@@ -541,7 +541,7 @@ describe('UploadFileListCell', () => {
       expect(fileLink).not.toHaveAttribute('download')
     })
 
-    it('should enable download attribute when disableLink is false', () => {
+    it('should enable download attribute when removeLink is false', () => {
       const fileName = 'with-download-file.png'
 
       render(
@@ -550,7 +550,7 @@ describe('UploadFileListCell', () => {
           download={true}
           uploadFile={{
             file: createMockFile(fileName, 100, 'image/png'),
-            disableLink: false,
+            removeLink: false,
           }}
         />
       )
@@ -560,7 +560,7 @@ describe('UploadFileListCell', () => {
       expect(fileLink).toHaveAttribute('download')
     })
 
-    it('should disable onClick when disableLink is true', () => {
+    it('should remove onClick when removeLink is true', () => {
       const fileName = 'no-click-file.png'
       const onClickMock = jest.fn()
 
@@ -570,7 +570,7 @@ describe('UploadFileListCell', () => {
           onClick={onClickMock}
           uploadFile={{
             file: createMockFile(fileName, 100, 'image/png'),
-            disableLink: true,
+            removeLink: true,
           }}
         />
       )
@@ -582,7 +582,7 @@ describe('UploadFileListCell', () => {
       expect(onClickMock).not.toHaveBeenCalled()
     })
 
-    it('should enable onClick when disableLink is false', () => {
+    it('should enable onClick when removeLink is false', () => {
       const fileName = 'with-click-file.png'
       const onClickMock = jest.fn()
 
@@ -592,7 +592,7 @@ describe('UploadFileListCell', () => {
           onClick={onClickMock}
           uploadFile={{
             file: createMockFile(fileName, 100, 'image/png'),
-            disableLink: false,
+            removeLink: false,
           }}
         />
       )
@@ -602,7 +602,7 @@ describe('UploadFileListCell', () => {
       expect(onClickMock).toHaveBeenCalledTimes(1)
     })
 
-    it('should enable onClick by default when disableLink is not set', () => {
+    it('should enable onClick by default when removeLink is not set', () => {
       const fileName = 'default-click-file.png'
       const onClickMock = jest.fn()
 
@@ -621,7 +621,7 @@ describe('UploadFileListCell', () => {
       expect(onClickMock).toHaveBeenCalledTimes(1)
     })
 
-    it('should render link with all attributes when disableLink is not set', () => {
+    it('should render link with all attributes when removeLink is not set', () => {
       const fileName = 'default-file.png'
 
       render(

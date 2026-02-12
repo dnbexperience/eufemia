@@ -200,7 +200,7 @@ export const WithAsyncFileHandler = () => {
               updatedFiles.push({
                 ...file,
                 errorMessage: error.message,
-                disableLink: true,
+                removeLink: true,
               })
             }
           }
@@ -359,7 +359,7 @@ export const WithFileItemOptions = () => {
                     description: 'My description',
                     errorMessage: 'My error message',
                     removeDeleteButton: true,
-                    disableLink: true,
+                    removeLink: true,
                   },
                 ],
               }}
