@@ -150,13 +150,13 @@ describe('Radio component', () => {
 
     expect(attributes).toEqual(['class'])
     expect(inputAttributes).toEqual([
-      'type',
       'id',
       'class',
       'aria-checked',
       'disabled',
       'role',
       'aria-label',
+      'type',
       'value',
     ])
     expect(Array.from(element.classList)).toEqual([
