@@ -477,3 +477,65 @@ export const Width = () => {
     </ComponentBox>
   )
 }
+
+export const WithOnValidationError = () => {
+  return (
+    <ComponentBox scope={{ createRequest }}>
+      {() => {
+        function mockValidationErrorHandler(
+          invalidFiles: UploadValue
+        ): UploadValue {
+          return invalidFiles.map((file) => ({
+            ...file,
+            removeLink: true,
+            description:
+              'This file cannot be uploaded due to validation failure',
+          }))
+        }
+
+        async function mockFileHandler(
+          validFiles: UploadValue
+        ): Promise<UploadValue> {
+          const updatedFiles: UploadValue = []
+
+          for (const file of validFiles) {
+            const request = createRequest()
+            await request(2000) // Simulate upload
+
+            updatedFiles.push({
+              ...file,
+              id: `server_${crypto.randomUUID()}`,
+            })
+          }
+
+          return updatedFiles
+        }
+
+        async function mockFileDelete({ fileItem }) {
+          const request = createRequest()
+          console.log('Deleting file:', fileItem.file.name)
+          await request(1000) // Simulate delete
+        }
+
+        return (
+          <Form.Handler onSubmit={(data) => console.log('onSubmit', data)}>
+            <Flex.Stack>
+              <Field.Upload
+                path="/myFiles"
+                fileMaxSize={1}
+                acceptedFileTypes={['jpg', 'pdf', 'png']}
+                label="Upload documents"
+                labelDescription="Try uploading files larger than 1 MB or unsupported file types (e.g., .docx) to see validation error handling."
+                onValidationError={mockValidationErrorHandler}
+                fileHandler={mockFileHandler}
+                onFileDelete={mockFileDelete}
+              />
+              <Form.SubmitButton />
+              <Tools.Log />
+            </Flex.Stack>
+          </Form.Handler>
+        )
+      }}
+    </ComponentBox>
+  )
+}
