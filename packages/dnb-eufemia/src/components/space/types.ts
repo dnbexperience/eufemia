@@ -100,6 +100,22 @@ export type SpaceTypeMedia = {
   large?: SpaceTypeAll
 }
 
+export type InnerSpacingElementProps = SpacingElementProps & {
+  inline?: SpaceType
+  block?: SpaceType
+}
+
+export type InnerSpaceTypeMedia = {
+  small?: SpaceType | InnerSpacingElementProps
+  medium?: SpaceType | InnerSpacingElementProps
+  large?: SpaceType | InnerSpacingElementProps
+}
+
+export type InnerSpaceType =
+  | SpaceType
+  | InnerSpacingElementProps
+  | InnerSpaceTypeMedia
+
 export type SpacingProps = SpacingElementProps & {
   space?: SpaceTypeAll
   innerSpace?: SpaceTypeAll | SpaceTypeMedia
