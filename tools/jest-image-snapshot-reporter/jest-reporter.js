@@ -130,7 +130,7 @@ class JestReporter {
       <meta charset="utf-8" />
       <title>Jest Image Snapshot Report</title>
       <link rel="stylesheet" href="https://unpkg.com/@dnb/eufemia@9.46.2/style/dnb-ui-core.min.css" />
-      <link rel="stylesheet" href="https://unpkg.com/@dnb/eufemia@9.46.2/style/themes/theme-ui/dnb-theme-ui.min.css" />
+      <link rel="stylesheet" href="https://unpkg.com/@dnb/eufemia@9.46.2/style/themes/ui/dnb-theme-ui.min.css" />
 
       <style>
         ol {

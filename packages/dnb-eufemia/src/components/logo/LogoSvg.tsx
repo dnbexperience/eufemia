@@ -1,7 +1,7 @@
 import React from 'react'
 import { ThemeNames } from '../../shared'
-import sbankenProperites from '../../style/themes/theme-sbanken/properties'
-import carnegieProperites from '../../style/themes/theme-carnegie/properties'
+import sbankenProperites from '../../style/themes/sbanken/properties'
+import carnegieProperites from '../../style/themes/carnegie/properties'
 
 // For internal use only
 export type LogoType =

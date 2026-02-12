@@ -46,7 +46,7 @@ export const insertBelowAdvice = `
 `
 
 const baseGlob = '**/src/style/themes/**/*.scss'
-const baseMatch = /\/themes\/theme-(.*)\//
+const baseMatch = /\/themes\/(.*)\//
 const processToNamesIgnoreList = [
   '!**/__tests__/',
   '!**/stories/',
@@ -183,7 +183,7 @@ export async function runFactory({
     }
 
     await asyncForEach(themesWithRelatedFiles, async ({ name, files }) => {
-      const file = `${scssOutputPath}/theme-${name}/${name}-theme-${targetFile}.scss`
+      const file = `${scssOutputPath}/${name}/${name}-theme-${targetFile}.scss`
 
       let fileContent = ''
 
