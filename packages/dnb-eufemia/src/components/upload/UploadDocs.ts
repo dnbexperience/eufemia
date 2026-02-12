@@ -145,4 +145,9 @@ export const FileItemProperties: PropertiesTableProps = {
     type: 'ButtonProps',
     status: 'optional',
   },
+  removeLink: {
+    doc: 'Set to `true` to remove the link for the file item. This is useful for preventing users from opening the file.',
+    type: 'boolean',
+    status: 'optional',
+  },
 }
