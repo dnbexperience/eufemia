@@ -1,8 +1,8 @@
 ---
 title: 'DatePicker'
 description: 'The DatePicker component should be used whenever the user is to enter a single date or a date period.'
-version: 10.96.0
-generatedAt: 2026-02-05T20:50:44.173Z
+version: 10.97.0
+generatedAt: 2026-02-12T08:28:51.303Z
 checksum: c3e47755867381a7ff26debf4e3ef67c6fb5bc06acf6c08868731cbe12d78af7
 ---
 

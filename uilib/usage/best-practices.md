@@ -1,16 +1,17 @@
 ---
 title: 'Best Practices'
-version: 10.96.0
-generatedAt: 2026-02-05T20:50:45.354Z
+version: 10.97.0
+generatedAt: 2026-02-12T08:28:52.946Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
 # Best Practices
 
-Following the best practices for web frontend development increases the chances of getting styling right, while also improving the quality, consistency, and user experience of the product.
+Adopting best practices for web frontend development improves styling quality, consistency, and user experience.
 
-For details, have a look at the submenu for all the "best practices" topics:
+Explore these topics:
 
+- [Best Practices for formatting numbers](/uilib/usage/best-practices/for-formatting)
 - [Best Practices for styling](/uilib/usage/best-practices/for-styling)
 - [Best Practices for JavaScript](/uilib/usage/best-practices/for-javascript)
 - [Best Practices for typography](/uilib/usage/best-practices/for-typography)

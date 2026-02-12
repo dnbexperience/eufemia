@@ -1,8 +1,8 @@
 ---
 title: 'Value.Upload'
 description: '`Value.Upload` is a value component for displaying a list of files.'
-version: 10.96.0
-generatedAt: 2026-02-05T20:50:45.201Z
+version: 10.97.0
+generatedAt: 2026-02-12T08:28:52.806Z
 checksum: adc00d6c075c1ed111082ea109c2ba4dcd3db8f148e6bc34ed075297e62f7bff
 ---
 

@@ -1,8 +1,8 @@
 ---
 title: 'Value.Number'
 description: '`Value.Number` is a base component for displaying values of the type `number`.'
-version: 10.96.0
-generatedAt: 2026-02-05T20:50:45.127Z
+version: 10.97.0
+generatedAt: 2026-02-12T08:28:52.733Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -29,6 +29,8 @@ render(<Value.Number />)
 ```
 
 It inherits all the properties from the [NumberFormat](/uilib/components/number-format/) component. All snake_case properties are converted to camelCase.
+
+For a locale-by-locale reference that pairs these components with their rendered output, see [Best Practices for formatting numbers](/uilib/usage/best-practices/for-formatting/).
 
 ## Relevant links
 

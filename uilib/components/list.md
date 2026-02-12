@@ -1,8 +1,8 @@
 ---
 title: 'List'
 description: 'List is a layout component for displaying rows of content, with optional start/center/end slots and a navigable item variant.'
-version: 10.96.0
-generatedAt: 2026-02-05T20:50:44.332Z
+version: 10.97.0
+generatedAt: 2026-02-12T08:28:51.975Z
 checksum: b4857e09dad88230fd9cf09c5c5bf42acd8c3ea607a33b3147eea5f4f530105a
 ---
 
@@ -472,7 +472,7 @@ render(
     <List.Item.Basic title="In Basic Item">
       <List.Cell.Start fontSize="small">
         <DateFormat
-          value={new Date()}
+          value={new Date('2026-02-07')}
           dateStyle="medium"
           hideCurrentYear
         />
@@ -486,7 +486,7 @@ render(
       <List.Cell.Title>
         <List.Cell.Title.Overline>
           <DateFormat
-            value={new Date()}
+            value={new Date('2026-02-07')}
             dateStyle="medium"
             hideCurrentYear
           />
@@ -503,7 +503,7 @@ render(
         <List.Cell.Title>
           <List.Cell.Title.Overline>
             <DateFormat
-              value={new Date()}
+              value={new Date('2026-02-07')}
               dateStyle="medium"
               hideCurrentYear
             />
@@ -537,7 +537,7 @@ render(
         <span>Item 1</span>
         <List.Cell.Title.Subline>
           <DateFormat
-            value={new Date()}
+            value={new Date('2026-02-07')}
             dateStyle="medium"
             hideCurrentYear
           />
@@ -588,37 +588,97 @@ render(
 
 ### With form elements
 
+Use [Field.Selection](/uilib/extensions/forms/base-fields/Selection/) and [Field.ArraySelection](/uilib/extensions/forms/base-fields/ArraySelection/) render prop children to compose list rows and `selected` state.
+
+Place them inside `List.Cell.Start` to align them to the left side of the list row.
+
 ```tsx
 render(
-  <List.Container>
-    <List.Item.Basic>
-      <List.Cell.Start>
-        <Field.Boolean label="Checkbox" />
-      </List.Cell.Start>
-      <List.Cell.End>
-        <Value.Currency value={5678} showEmpty />
-      </List.Cell.End>
-    </List.Item.Basic>
+  <Form.Handler
+    defaultData={{
+      mySelection: 'bar',
+      myArraySelection: ['bar'],
+      myDataPath: [
+        {
+          value: 'foo',
+          title: 'Foo!',
+          amount: 1234,
+        },
+        {
+          value: 'bar',
+          title: 'Baar!',
+          amount: 5678,
+        },
+        {
+          value: 'baz',
+          title: 'Baz!',
+          amount: 9999,
+        },
+      ],
+    }}
+  >
+    <Flex.Stack>
+      <Field.Selection
+        label="Single choice"
+        variant="radio"
+        path="/mySelection"
+        dataPath="/myDataPath"
+        width="large"
+      >
+        {({ value: selectedValue, options = [] }) => {
+          return (
+            <List.Container>
+              {options.map(({ value, title, amount }) => {
+                return (
+                  <List.Item.Basic
+                    key={value}
+                    selected={value === selectedValue}
+                  >
+                    <List.Cell.Start>
+                      <Field.Option value={value} title={title} />
+                    </List.Cell.Start>
+                    <List.Cell.End>
+                      <Value.Currency value={amount} />
+                    </List.Cell.End>
+                  </List.Item.Basic>
+                )
+              })}
+            </List.Container>
+          )
+        }}
+      </Field.Selection>
 
-    <List.Item.Basic>
-      <List.Cell.Start>
-        <Radio label="Radio" />
-      </List.Cell.Start>
-      <List.Cell.End>
-        <NumberFormat currency value={1234} />
-      </List.Cell.End>
-    </List.Item.Basic>
-
-    <List.Item.Action
-      icon={fish_medium}
-      title="Item with icon"
-      onClick={() => console.log('Navigate')}
-    >
-      <List.Cell.End>
-        <Value.Currency value={1234} showEmpty />
-      </List.Cell.End>
-    </List.Item.Action>
-  </List.Container>
+      <Field.ArraySelection
+        label="Multiple choice"
+        variant="checkbox"
+        path="/myArraySelection"
+        dataPath="/myDataPath"
+        width="large"
+      >
+        {({ value = [], options = [] }) => {
+          return (
+            <List.Container>
+              {options.map(({ value: optionValue, title, amount }) => {
+                return (
+                  <List.Item.Basic
+                    key={optionValue}
+                    selected={value.includes(optionValue)}
+                  >
+                    <List.Cell.Start>
+                      <Field.Option value={optionValue} title={title} />
+                    </List.Cell.Start>
+                    <List.Cell.End>
+                      <Value.Currency value={amount} />
+                    </List.Cell.End>
+                  </List.Item.Basic>
+                )
+              })}
+            </List.Container>
+          )
+        }}
+      </Field.ArraySelection>
+    </Flex.Stack>
+  </Form.Handler>
 )
 ```
 

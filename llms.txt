@@ -171,6 +171,8 @@ For any page (component, field, value, etc.):
 
 - [Accessibility](https://eufemia.dnb.no/uilib/usage/accessibility.md): Look into the documentation for more details.
 
+- [Best Practices for formatting numbers](https://eufemia.dnb.no/uilib/usage/best-practices/for-formatting.md): Compare the canonical number, currency and date layouts that the components produce for each locale.
+
 - [Best Practices for JavaScript and JSX](https://eufemia.dnb.no/uilib/usage/best-practices/for-javascript.md): Look into the documentation for more details.
 
 - [Best Practices for styling](https://eufemia.dnb.no/uilib/usage/best-practices/for-styling.md): Look into the documentation for more details.
@@ -637,5 +639,5 @@ For any page (component, field, value, etc.):
 
 - [Span](https://eufemia.dnb.no/uilib/elements/span.md): Spans are inline-elements, used to define parts of text content.
 
-Version: 10.96.0
-GeneratedAt: 2026-02-05T20:51:05.453Z
+Version: 10.97.0
+GeneratedAt: 2026-02-12T08:29:11.590Z

@@ -1,8 +1,8 @@
 ---
 title: 'Form.Section'
 description: '`Form.Section` lets you compose blocks of fields and values to be reused in different contexts.'
-version: 10.96.0
-generatedAt: 2026-02-05T20:50:44.878Z
+version: 10.97.0
+generatedAt: 2026-02-12T08:28:52.477Z
 checksum: e125633052ef7908a2f0171cb864e12c3c898f9452212cab006b060b10d68116
 ---
 

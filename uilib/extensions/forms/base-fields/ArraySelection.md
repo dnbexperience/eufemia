@@ -1,8 +1,8 @@
 ---
 title: 'Field.ArraySelection'
 description: '`Field.ArraySelection` is a component for selecting between a fixed set of options using checkboxes or similar, that will produce a value in the form of an array containing the values of selected options.'
-version: 10.96.0
-generatedAt: 2026-02-05T20:50:45.259Z
+version: 10.97.0
+generatedAt: 2026-02-12T08:28:52.846Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -439,6 +439,71 @@ render(
 )
 ```
 
+#### Checkbox with List composition
+
+Use render prop children to compose each option with [List](/uilib/components/list) and set selected state from the current field values.
+
+```tsx
+render(
+  <Form.Handler
+    defaultData={{
+      selection: ['bar'],
+      myDataPath: [
+        {
+          value: 'foo',
+          title: 'Foo!',
+          amount: 1234,
+        },
+        {
+          value: 'bar',
+          title: 'Baar!',
+          amount: 5678,
+        },
+        {
+          value: 'baz',
+          title: 'Baz!',
+          amount: 9999,
+        },
+      ],
+    }}
+  >
+    <Field.ArraySelection
+      label="Select one or more options"
+      variant="checkbox"
+      path="/selection"
+      dataPath="/myDataPath"
+      width="large"
+    >
+      {({ value = [], options }) => {
+        return (
+          <List.Container>
+            {options.map(({ value: optionValue, title, amount }) => {
+              return (
+                <List.Item.Basic
+                  key={optionValue}
+                  selected={value.includes(optionValue)}
+                >
+                  <List.Cell.Start>
+                    <Field.Option
+                      key={optionValue}
+                      value={optionValue}
+                      title={title}
+                    />
+                  </List.Cell.Start>
+                  <List.Cell.End>
+                    <Value.Currency value={amount} />
+                  </List.Cell.End>
+                </List.Item.Basic>
+              )
+            })}
+          </List.Container>
+        )
+      }}
+    </Field.ArraySelection>
+  </Form.Handler>
+)
+```
+
 ---
 
 ### Button variant demos
@@ -818,8 +883,8 @@ render(
       "status": "optional"
     },
     "children": {
-      "doc": "For providing `<Field.Option>` components.",
-      "type": "React.Node",
+      "doc": "For providing `<Field.Option>` components. Can also be a render function that receives `{ value, options }`, where `options` are from `data` or `dataPath` and may include additional custom properties.",
+      "type": ["React.ReactNode", "function"],
       "status": "optional"
     },
     "size": {
@@ -833,7 +898,7 @@ render(
       "status": "optional"
     },
     "dataPath": {
-      "doc": "The path to the context data (Form.Handler). The context data object needs to have a `value` and a `title` property. The generated options will be placed above given JSX based children.",
+      "doc": "The path to the context data (Form.Handler). The context data object needs to have a `value` and a `title` property. The generated options will be placed above given JSX based children. When `children` is a function, the generated options are instead provided as `options` to the function.",
       "type": "string",
       "status": "optional"
     }

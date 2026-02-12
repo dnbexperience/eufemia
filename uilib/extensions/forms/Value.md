@@ -1,8 +1,8 @@
 ---
 title: 'Value'
 description: '`Value` components can be used to summarize any kind of data.'
-version: 10.96.0
-generatedAt: 2026-02-05T20:50:45.228Z
+version: 10.97.0
+generatedAt: 2026-02-12T08:28:52.818Z
 checksum: f5bf69aeee94faebbfc244489084fb8cb5016612f2bdc3507d62f802627d3fef
 ---
 

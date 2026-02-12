@@ -1,9 +1,9 @@
 ---
 title: 'Upload'
 description: 'The Upload component should be used in scenarios where the user has to upload files. Files can be uploaded by clicking a button. You also have the opportunity to add descriptive texts below the title where you could put max file size, allowed file formats etc.'
-version: 10.96.0
-generatedAt: 2026-02-05T20:50:44.542Z
-checksum: 635cb11b451f4904eb69f12f651c3ccff8e75bee1895005031d7bb39b9f8a50c
+version: 10.97.0
+generatedAt: 2026-02-12T08:28:52.175Z
+checksum: dec521d56ae56a604f0804b3d6fe98c9cdc68d86c7d9278a973175d4346a8003
 ---
 
 # Upload
@@ -965,6 +965,11 @@ The file item object is representing the files of the Upload component.
     "deleteButtonProps": {
       "doc": "Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.",
       "type": "ButtonProps",
+      "status": "optional"
+    },
+    "removeLink": {
+      "doc": "Set to `true` to remove the link for the file item. This is useful for preventing users from opening the file.",
+      "type": "boolean",
       "status": "optional"
     }
   }

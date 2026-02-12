@@ -1,8 +1,8 @@
 ---
 title: 'Field.Selection'
 description: '`Field.Selection` is a wrapper component for selecting between options using a dropdown or similar user experiences.'
-version: 10.96.0
-generatedAt: 2026-02-05T20:50:45.265Z
+version: 10.97.0
+generatedAt: 2026-02-12T08:28:52.851Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -112,22 +112,6 @@ render(
   >
     <Field.Option value="foo" title="Foo!" />
     <Field.Option value="bar" title="Baar!" />
-  </Field.Selection>
-)
-```
-
-#### Radio button list variant
-
-```tsx
-render(
-  <Field.Selection
-    variant="radio-list"
-    label="Label text"
-    onChange={(value) => console.log('onChange', value)}
-  >
-    <Field.Option value="foo" title="Foo!" />
-    <Field.Option value="bar" title="Baar!" />
-    <Field.Option value="baz" title="Bazz!" />
   </Field.Selection>
 )
 ```
@@ -725,6 +709,67 @@ render(
 )
 ```
 
+#### Radio with List composition
+
+Use render prop children to compose each option with [List](/uilib/components/list) and set selected state from the current field value.
+
+```tsx
+render(
+  <Form.Handler
+    defaultData={{
+      selection: 'bar',
+      myDataPath: [
+        {
+          value: 'foo',
+          title: 'Foo!',
+          amount: 1234,
+        },
+        {
+          value: 'bar',
+          title: 'Baar!',
+          amount: 5678,
+        },
+        {
+          value: 'baz',
+          title: 'Baz!',
+          amount: 9999,
+        },
+      ],
+    }}
+  >
+    <Field.Selection
+      label="Select an option"
+      variant="radio"
+      path="/selection"
+      dataPath="/myDataPath"
+      width="large"
+    >
+      {({ value: selectedValue, options = [] }) => {
+        return (
+          <List.Container>
+            {options.map(({ value, title, amount }) => {
+              return (
+                <List.Item.Basic
+                  key={value}
+                  selected={value === selectedValue}
+                >
+                  <List.Cell.Start>
+                    <Field.Option value={value} title={title} />
+                  </List.Cell.Start>
+                  <List.Cell.End>
+                    <Value.Currency value={amount} />
+                  </List.Cell.End>
+                </List.Item.Basic>
+              )
+            })}
+          </List.Container>
+        )
+      }}
+    </Field.Selection>
+  </Form.Handler>
+)
+```
+
 #### Radio nesting other fields with logic
 
 You can nest other fields and show them based on your desired logic.
@@ -871,59 +916,6 @@ render(
 
     <Form.SubmitButton />
   </Form.Handler>
-)
-```
-
-#### Radio list variant widths
-
-```tsx
-render(
-  <Flex.Stack>
-    <Field.Selection
-      label="Default width (property omitted)"
-      value="bar"
-      variant="radio-list"
-    >
-      <Field.Option value="foo" title="Foo!" />
-      <Field.Option value="bar" title="Baar!" />
-    </Field.Selection>
-    <Field.Selection
-      label="Small selection with a long label"
-      value="bar"
-      variant="radio-list"
-      width="small"
-    >
-      <Field.Option value="foo" title="Foo!" />
-      <Field.Option value="bar" title="Baar!" />
-    </Field.Selection>
-    <Field.Selection
-      label="Medium"
-      value="bar"
-      variant="radio-list"
-      width="medium"
-    >
-      <Field.Option value="foo" title="Foo!" />
-      <Field.Option value="bar" title="Baar!" />
-    </Field.Selection>
-    <Field.Selection
-      label="Large"
-      value="bar"
-      variant="radio-list"
-      width="large"
-    >
-      <Field.Option value="foo" title="Foo!" />
-      <Field.Option value="bar" title="Baar!" />
-    </Field.Selection>
-    <Field.Selection
-      label="Stretch"
-      value="bar"
-      variant="radio-list"
-      width="stretch"
-    >
-      <Field.Option value="foo" title="Foo!" />
-      <Field.Option value="bar" title="Baar!" />
-    </Field.Selection>
-  </Flex.Stack>
 )
 ```
 
@@ -1177,7 +1169,7 @@ render(
 {
   "props": {
     "variant": {
-      "doc": "Choice of UI feature. Can be: `dropdown`, `autocomplete`, `button`, `radio`, `radio-list`.",
+      "doc": "Choice of UI feature. Can be: `dropdown`, `autocomplete`, `button`, `radio`.",
       "type": "string",
       "status": "optional"
     },
@@ -1187,7 +1179,7 @@ render(
       "status": "optional"
     },
     "transformSelection": {
-      "doc": "Transform the displayed selection for Dropdown and Autocomplete variant. Use it to display a different value than the one in the data set. The first parameter is the props of the Option component or data item. You can return a React.Node that will be displayed in the selection.",
+      "doc": "Transform the displayed selection for Dropdown and Autocomplete variant. Use it to display a different value than the one in the data set. The first parameter is the props of the Option component or data item. You can return a React.ReactNode that will be displayed in the selection.",
       "type": "function",
       "status": "optional"
     },
@@ -1212,7 +1204,7 @@ render(
       "status": "optional"
     },
     "dataPath": {
-      "doc": "The path to the context data (Form.Handler). The context data object needs to have a `value` and a `title` property. The generated options will be placed above given JSX based children.",
+      "doc": "The path to the context data (Form.Handler). The context data object needs to have a `value` and a `title` property. The generated options will be placed above given JSX based children. When `children` is a function, the generated options are instead provided as `options` to the function.",
       "type": "string",
       "status": "optional"
     },
@@ -1232,8 +1224,8 @@ render(
       "status": "optional"
     },
     "children": {
-      "doc": "For providing [Field.Option](/uilib/extensions/forms/base-fields/Option/) components, and other children.",
-      "type": "React.Node",
+      "doc": "For providing [Field.Option](/uilib/extensions/forms/base-fields/Option/) components and other children. Can also be a render function that receives `{ value, options }`, where `options` are from `data` or `dataPath` and may include additional custom properties.",
+      "type": ["React.ReactNode", "function"],
       "status": "optional"
     }
   }

@@ -1,8 +1,8 @@
 ---
 title: 'DateFormat'
 description: 'A ready to use DNB date formatter.'
-version: 10.96.0
-generatedAt: 2026-02-05T20:50:44.159Z
+version: 10.97.0
+generatedAt: 2026-02-12T08:28:51.291Z
 checksum: bb2fb35cc775a9c00003a92f666a842814da9015d5117bfdcc1637684fd1f961
 ---
 
@@ -22,6 +22,8 @@ Good reasons to use this component:
 
 - Makes the date formatting uniform for all DNB applications.
 - Makes dates accessible to screen readers.
+
+For a quick overview of all supported date and number formats per locale, see [Best Practices for formatting numbers](/uilib/usage/best-practices/for-formatting/).
 
 Good to know:
 

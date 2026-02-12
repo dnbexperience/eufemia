@@ -1,8 +1,8 @@
 ---
 title: 'Form.useTranslation'
 description: '`Form.useTranslation` is a hook that returns the translations for the current locale.'
-version: 10.96.0
-generatedAt: 2026-02-05T20:50:44.942Z
+version: 10.97.0
+generatedAt: 2026-02-12T08:28:52.551Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -267,7 +267,12 @@ function MyApp() {
 
 ```tsx
 const MyField = () => {
-  const { Custom, formatMessage } = Form.useTranslation()
+  type Translation = {
+    Custom: {
+      translation: string
+    }
+  }
+  const { Custom, formatMessage } = Form.useTranslation<Translation>()
   const myTranslation = formatMessage(Custom.translation, {
     myKey: 'value!',
   })
@@ -297,7 +302,12 @@ render(<MyForm />)
 
 ```tsx
 const MyField = () => {
-  const { formatMessage } = Form.useTranslation()
+  type Translation = {
+    Custom: {
+      translation: string
+    }
+  }
+  const { formatMessage } = Form.useTranslation<Translation>()
   const myTranslation = formatMessage('Custom.translation', {
     myKey: 'value!',
   })

@@ -1,8 +1,8 @@
 ---
 title: 'NumberFormat'
 description: 'A ready to use DNB number formatter.'
-version: 10.96.0
-generatedAt: 2026-02-05T20:50:44.371Z
+version: 10.97.0
+generatedAt: 2026-02-12T08:28:52.009Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -17,6 +17,8 @@ import { NumberFormat } from '@dnb/eufemia'
 ## Description
 
 A ready-to-use DNB number formatter. Use it wherever you have to display a number, a currency value, a phone number, etc.
+
+For a complete locale comparison, see [Best Practices for formatting numbers](/uilib/usage/best-practices/for-formatting/).
 
 ## Relevant links
 
@@ -434,6 +436,37 @@ render(
       <span>text</span> <NumberFormat value="1234" currency left right />
       <span>text</span> <NumberFormat value="5678" currency left right />
       <span>text</span>
+    </ComponentBox>
+  </Style>
+)
+```
+
+### Sign display
+
+Control when to display the sign for numbers using the `signDisplay` property. Options include `always`, `exceptZero`, `negative`, and `never`.
+
+```tsx
+render(
+  <Style>
+    <ComponentBox data-visual-test="number-format-sign-display">
+      <H3>signDisplay="always"</H3>
+      <P>
+        <NumberFormat signDisplay="always" value={1234} />
+        <NumberFormat signDisplay="always" value={-1234} />
+        <NumberFormat signDisplay="always" value={0} />
+      </P>
+      <H3>signDisplay="exceptZero"</H3>
+      <P>
+        <NumberFormat signDisplay="exceptZero" value={1234} />
+        <NumberFormat signDisplay="exceptZero" value={-1234} />
+        <NumberFormat signDisplay="exceptZero" value={0} />
+      </P>
+      <H3>signDisplay="never"</H3>
+      <P>
+        <NumberFormat signDisplay="never" value={1234} />
+        <NumberFormat signDisplay="never" value={-1234} />
+        <NumberFormat signDisplay="never" value={0} />
+      </P>
     </ComponentBox>
   </Style>
 )

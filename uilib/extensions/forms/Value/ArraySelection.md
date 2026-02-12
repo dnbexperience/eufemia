@@ -1,8 +1,8 @@
 ---
 title: 'Value.ArraySelection'
 description: '`Value.ArraySelection` is a wrapper component for displaying string values, with user experience tailored for an array of selected values.'
-version: 10.96.0
-generatedAt: 2026-02-05T20:50:45.058Z
+version: 10.97.0
+generatedAt: 2026-02-12T08:28:52.647Z
 checksum: f12df0403993f342663e615901d7bfd301426d2474518338f5240f45e61f8d41
 ---
 

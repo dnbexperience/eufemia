@@ -1,8 +1,8 @@
 ---
 title: 'Space'
 description: 'The Space component provides margins within the provided spacing patterns.'
-version: 10.96.0
-generatedAt: 2026-02-05T20:50:45.338Z
+version: 10.97.0
+generatedAt: 2026-02-12T08:28:52.918Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -505,7 +505,7 @@ These properties are available in many other components and elements.
       "status": "optional"
     },
     "innerSpace": {
-      "doc": "Will add a padding around the content. Supports also media query breakpoints like `{small: { top: 'medium' }}`.",
+      "doc": "Will add a padding around the content. Supports also media query breakpoints like `{small: { top: 'medium' }}` and shorthand directions `inline`/`block`.",
       "type": ["object", "string", "number", "boolean"],
       "status": "optional"
     },

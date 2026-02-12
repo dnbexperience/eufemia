@@ -1,8 +1,8 @@
 ---
 title: 'Value.Currency'
 description: '`Value.Currency` is a wrapper component for displaying number values, with user experience tailored for currency values.'
-version: 10.96.0
-generatedAt: 2026-02-05T20:50:45.108Z
+version: 10.97.0
+generatedAt: 2026-02-12T08:28:52.715Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -25,6 +25,8 @@ There is a corresponding [Field.Currency](/uilib/extensions/forms/feature-fields
 import { Value } from '@dnb/eufemia/extensions/forms'
 render(<Value.Currency />)
 ```
+
+See [Best Practices for formatting numbers](/uilib/usage/best-practices/for-formatting/) for the canonical locale-specific examples that back up this component.
 
 ## Relevant links
 
