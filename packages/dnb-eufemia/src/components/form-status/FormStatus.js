@@ -28,8 +28,8 @@ import {
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
-import ui from '../../style/themes/theme-ui/properties'
-import sbanken from '../../style/themes/theme-sbanken/properties'
+import ui from '../../style/themes/ui/properties'
+import sbanken from '../../style/themes/sbanken/properties'
 
 const properties = { ui, sbanken }
 
