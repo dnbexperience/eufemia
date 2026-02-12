@@ -3,7 +3,7 @@ import {
   setupPageScreenshot,
 } from '../../../../../core/jest/jestSetupScreenshots'
 
-const url = '/uilib/extensions/forms/feature-fields/DateOfBirth/demos'
+const url = '/uilib/extensions/forms/feature-fields/DateOfBirth/demos/'
 
 describe.each(['ui'])('DateOfBirth for %s', (themeName) => {
   setupPageScreenshot({

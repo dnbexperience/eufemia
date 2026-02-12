@@ -59,7 +59,9 @@ import WizardStepContext from '../Wizard/Step/StepContext'
 import SnapshotContext from '../Form/Snapshot/SnapshotContext'
 import useProcessManager from './useProcessManager'
 import usePath from './usePath'
+import SharedContext from '../../../shared/Context'
 import {
+  createReferenceKey,
   createSharedState,
   useSharedState,
 } from '../../../shared/helpers/useSharedState'
@@ -68,9 +70,7 @@ import useTranslation from './useTranslation'
 import useExternalValue from './useExternalValue'
 import useDataValue from './useDataValue'
 
-// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
-const useLayoutEffect =
-  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
+import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../shared/helpers/useIsomorphicLayoutEffect'
 
 type SubmitStateWithValidating = SubmitState | 'validating'
 type AsyncProcesses =
@@ -186,6 +186,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const { startProcess } = useProcessManager()
   const id = useId(props.id)
   const dataContext = useContext(DataContext)
+  const { locale: sharedLocale } = useContext(SharedContext) || {}
   const fieldBlockContext = useContext(FieldBlockContext)
   const iterateItemContext = useContext(IterateItemContext)
   const sectionContext = useContext(SectionContext)
@@ -234,11 +235,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     fieldDisplayValueRef,
     existingFieldsRef,
     fieldInternalsRef,
+    mountedFieldsRef,
     sectionSchemaPathsRef,
     prerenderFieldProps,
     hasContext: hasDataContext,
   } = dataContext || {}
   const onChangeContext = dataContext?.props?.onChange
+  const locale = dataContext?.props?.locale ?? sharedLocale
 
   const disabled = disabledProp ?? props.readOnly
   const inFieldBlock = Boolean(
@@ -760,6 +763,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }, [setErrorState])
 
   const errorMessagesCacheRef = useRef({
+    locale: null,
     errorMessages: null,
     extendedErrorMessages: null,
   })
@@ -768,6 +772,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     // in case "errorMessages" is not wrapped in useMemo.
     const cache = errorMessagesCacheRef.current
     if (
+      cache.locale === locale &&
       errorMessages &&
       cache.extendedErrorMessages &&
       // We compare the "errorMessages" object with the cached version.
@@ -795,12 +800,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       )
 
     errorMessagesCacheRef.current = {
+      locale,
       errorMessages,
       extendedErrorMessages,
     }
 
     return extendedErrorMessages
-  }, [contextErrorMessages, errorMessages, identifier])
+  }, [contextErrorMessages, errorMessages, identifier, locale])
 
   /**
    * Prepare error from validation logic with correct error messages based on props
@@ -1973,6 +1979,23 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     ]
   )
 
+  // Some fields (e.g. dates) may create new Date instances during locale/value transforms.
+  // Compare by timestamp for Date values so "empty" checks are stable across rerenders.
+  const valueEqualsEmptyValue = useCallback(
+    (value: unknown) => {
+      if (value === emptyValue) {
+        return true
+      }
+
+      if (value instanceof Date && emptyValue instanceof Date) {
+        return value.getTime() === emptyValue.getTime()
+      }
+
+      return false
+    },
+    [emptyValue]
+  )
+
   const setDisplayValue: ReturnAdditional<Value>['setDisplayValue'] =
     useCallback(
       (value, options) => {
@@ -1984,12 +2007,19 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           return // stop here
         }
 
-        fieldDisplayValueRef.current[fieldPath] =
-          valueRef.current === (emptyValue as unknown as Value)
-            ? { type }
-            : { value, type }
+        fieldDisplayValueRef.current[fieldPath] = valueEqualsEmptyValue(
+          valueRef.current
+        )
+          ? { type }
+          : { value, type }
       },
-      [identifier, emptyValue, fieldDisplayValueRef, itemPath, path]
+      [
+        identifier,
+        fieldDisplayValueRef,
+        itemPath,
+        path,
+        valueEqualsEmptyValue,
+      ]
     )
 
   const handleChange = useCallback(
@@ -2207,14 +2237,34 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       return // stop here, we don't want to set the state of the field
     }
 
+    const mountedFields = mountedFieldsRef?.current
+
     // Unmount procedure.
     return () => {
-      setFieldErrorDataContext?.(identifier, undefined)
-      setFieldErrorBoundary?.(identifier, undefined)
+      Promise.resolve().then(() => {
+        const isMounted =
+          mountedFields?.get?.(identifier)?.isMounted === true
+        const sharedAttachments = dataContext?.id
+          ? createSharedState<{
+              fieldConnectionsRef?: ContextState['fieldConnectionsRef']
+            }>(createReferenceKey(dataContext.id, 'attachments')).get?.()
+          : undefined
+        const hasFieldConnection = Boolean(
+          sharedAttachments?.fieldConnectionsRef?.current?.[identifier]
+        )
+
+        if (!isMounted && !hasFieldConnection) {
+          setFieldErrorDataContext?.(identifier, undefined)
+          setFieldErrorBoundary?.(identifier, undefined)
+        }
+      })
+
       localErrorRef.current = undefined
     }
   }, [
     identifier,
+    dataContext?.id,
+    mountedFieldsRef,
     prerenderFieldProps,
     setFieldErrorBoundary,
     setFieldErrorDataContext,
@@ -2235,6 +2285,29 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   useEffect(() => {
     validateValue()
   }, [validateValue])
+
+  useEffect(() => {
+    if (prerenderFieldProps || !dataContext?.id) {
+      return // stop here
+    }
+
+    const sharedAttachments = createSharedState<{
+      fieldStatusRef?: React.MutableRefObject<
+        Record<Identifier, EventStateObjectWithSuccess>
+      >
+    }>(createReferenceKey(dataContext.id, 'attachments')).get?.()
+
+    const status = sharedAttachments?.fieldStatusRef?.current?.[identifier]
+    if (status) {
+      void setEventResult(status)
+    }
+  }, [
+    dataContext?.id,
+    identifier,
+    locale,
+    prerenderFieldProps,
+    setEventResult,
+  ])
 
   useUpdateEffect(() => {
     if (finalSchema) {
@@ -2269,15 +2342,68 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       externalValueDidChangeRef.current = false
 
       // Hide error when the external value has changed, but is the same as the empty value.
-      // @ts-expect-error - emptyValue may not be directly comparable to valueRef.current
-      if (!validateContinuously && valueRef.current === emptyValue) {
+      if (
+        !validateContinuously &&
+        valueEqualsEmptyValue(valueRef.current)
+      ) {
         hideError()
       }
 
       validateValue()
       forceUpdate()
     }
-  }, [externalValueDeps, emptyValue, validateContinuously]) // Keep "externalValue" in the dependency list, so it will be updated when it changes
+  }, [externalValueDeps, validateContinuously, valueEqualsEmptyValue]) // Keep "externalValue" in the dependency list, so it will be updated when it changes
+
+  const previousLocaleRef = useRef(locale)
+  useUpdateEffect(() => {
+    if (previousLocaleRef.current !== locale) {
+      previousLocaleRef.current = locale
+      const hasValidationError =
+        hasError() || fieldStateRef.current === 'error'
+      const hasVisibleError = revealErrorRef.current === true
+      const shouldRevalidateOnLocaleChange =
+        changedRef.current ||
+        hasValidationError ||
+        hasVisibleError ||
+        validateInitially ||
+        validateUnchanged
+
+      if (
+        prerenderFieldProps ||
+        (valueEqualsEmptyValue(valueRef.current) &&
+          !shouldRevalidateOnLocaleChange)
+      ) {
+        return // stop here
+      }
+
+      if (onBlurValidatorRef.current && shouldRevalidateOnLocaleChange) {
+        addToPool(
+          'onBlurValidator',
+          async () => await startOnBlurValidatorProcess(),
+          isAsync(onBlurValidatorRef.current)
+        )
+
+        runPool(() => {
+          revealError()
+          forceUpdate()
+        })
+
+        return // stop here
+      }
+    }
+  }, [
+    addToPool,
+    forceUpdate,
+    hasError,
+    locale,
+    prerenderFieldProps,
+    revealError,
+    runPool,
+    startOnBlurValidatorProcess,
+    validateInitially,
+    validateUnchanged,
+    valueEqualsEmptyValue,
+  ])
 
   useEffect(() => {
     // Check against the local error state,

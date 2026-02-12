@@ -10,7 +10,7 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('PaymentCard', () => {
-  setupPageScreenshot({ url: '/uilib/extensions/payment-card/demos' })
+  setupPageScreenshot({ url: '/uilib/extensions/payment-card/demos/' })
 
   it('have to match a basic card', async () => {
     const screenshot = await makeScreenshot({

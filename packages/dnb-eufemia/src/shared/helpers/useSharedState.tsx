@@ -7,10 +7,7 @@ import React, {
 } from 'react'
 import useMounted from './useMounted'
 import useMountEffect from './useMountEffect'
-
-// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
-const useLayoutEffect =
-  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
+import { useIsomorphicLayoutEffect as useLayoutEffect } from './useIsomorphicLayoutEffect'
 
 export type SharedStateId =
   | string

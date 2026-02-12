@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../../../shared/types'
 
 export const SelectionProperties: PropertiesTableProps = {
   variant: {
-    doc: 'Choice of UI feature. Can be: `dropdown`, `autocomplete`, `button`, `radio`, `radio-list`.',
+    doc: 'Choice of UI feature. Can be: `dropdown`, `autocomplete`, `button`, `radio`.',
     type: 'string',
     status: 'optional',
   },
@@ -12,7 +12,7 @@ export const SelectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   transformSelection: {
-    doc: 'Transform the displayed selection for Dropdown and Autocomplete variant. Use it to display a different value than the one in the data set. The first parameter is the props of the Option component or data item. You can return a React.Node that will be displayed in the selection.',
+    doc: 'Transform the displayed selection for Dropdown and Autocomplete variant. Use it to display a different value than the one in the data set. The first parameter is the props of the Option component or data item. You can return a React.ReactNode that will be displayed in the selection.',
     type: 'function',
     status: 'optional',
   },
@@ -37,7 +37,7 @@ export const SelectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   dataPath: {
-    doc: 'The path to the context data (Form.Handler). The context data object needs to have a `value` and a `title` property. The generated options will be placed above given JSX based children.',
+    doc: 'The path to the context data (Form.Handler). The context data object needs to have a `value` and a `title` property. The generated options will be placed above given JSX based children. When `children` is a function, the generated options are instead provided as `options` to the function.',
     type: 'string',
     status: 'optional',
   },
@@ -57,8 +57,8 @@ export const SelectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   children: {
-    doc: 'For providing [Field.Option](/uilib/extensions/forms/base-fields/Option/) components, and other children.',
-    type: 'React.Node',
+    doc: 'For providing [Field.Option](/uilib/extensions/forms/base-fields/Option/) components and other children. Can also be a render function that receives `{ value, options }`, where `options` are from `data` or `dataPath` and may include additional custom properties.',
+    type: ['React.ReactNode', 'function'],
     status: 'optional',
   },
 }

@@ -174,6 +174,52 @@ describe('Selection', () => {
     // getByText instead of getByPlaceholderText since eufemia adds placeholder as tag, not placeholder-attribute
     expect(screen.getByText('Select something')).toBeInTheDocument()
   })
+
+  it('supports render prop children with options from dataPath in dropdown', async () => {
+    let receivedOptions = []
+
+    render(
+      <Form.Handler
+        data={{
+          myList: [
+            { value: 'foo', title: 'Foo!', amount: 100 },
+            { value: 'bar', title: 'Bar!', amount: 200 },
+          ],
+        }}
+      >
+        <Field.Selection dataPath="/myList">
+          {({ options = [] }) => {
+            receivedOptions = options
+
+            return options.map(({ value, title, amount }) => {
+              return (
+                <Field.Option
+                  key={value}
+                  value={value}
+                  title={`${title} ${amount}`}
+                />
+              )
+            })
+          }}
+        </Field.Selection>
+      </Form.Handler>
+    )
+
+    await userEvent.click(screen.getByRole('combobox'))
+
+    const options = Array.from(
+      document.querySelectorAll('[role="option"]')
+    )
+
+    expect(options).toHaveLength(2)
+    expect(options[0]).toHaveTextContent('Foo! 100')
+    expect(options[1]).toHaveTextContent('Bar! 200')
+
+    expect(receivedOptions).toEqual([
+      { value: 'foo', title: 'Foo!', amount: 100 },
+      { value: 'bar', title: 'Bar!', amount: 200 },
+    ])
+  })
 })
 
 describe('variants', () => {
@@ -267,6 +313,91 @@ describe('variants', () => {
 
       expect(options[0].textContent).toBe('title a')
       expect(options[1].textContent).toBe('title b')
+    })
+
+    it('supports render prop children with current value', async () => {
+      function Component() {
+        const [value, setValue] = React.useState('foo')
+
+        return (
+          <Field.Selection
+            variant="radio"
+            value={value}
+            onChange={(nextValue) => {
+              setValue(String(nextValue ?? ''))
+            }}
+          >
+            {({ value }) => {
+              return (
+                <>
+                  <Field.Option
+                    value="foo"
+                    title={value === 'foo' ? 'Foo selected' : 'Foo'}
+                  />
+                  <Field.Option
+                    value="bar"
+                    title={value === 'bar' ? 'Bar selected' : 'Bar'}
+                  />
+                </>
+              )
+            }}
+          </Field.Selection>
+        )
+      }
+
+      render(<Component />)
+
+      let options = document.querySelectorAll('.dnb-radio')
+      expect(options[0].textContent).toBe('Foo selected')
+      expect(options[1].textContent).toBe('Bar')
+
+      await userEvent.click(document.querySelectorAll('input')[1])
+
+      options = document.querySelectorAll('.dnb-radio')
+      expect(options[0].textContent).toBe('Foo')
+      expect(options[1].textContent).toBe('Bar selected')
+    })
+
+    it('supports render prop children with options from dataPath', () => {
+      let receivedOptions = []
+
+      render(
+        <Form.Handler
+          data={{
+            myList: [
+              { value: 'foo', title: 'Foo!', amount: 100 },
+              { value: 'bar', title: 'Bar!', amount: 200 },
+            ],
+          }}
+        >
+          <Field.Selection variant="radio" dataPath="/myList">
+            {({ options = [] }) => {
+              receivedOptions = options
+
+              return options.map(({ value, title, amount }) => {
+                return (
+                  <Field.Option
+                    key={value}
+                    value={value}
+                    title={`${title} ${amount}`}
+                  />
+                )
+              })
+            }}
+          </Field.Selection>
+        </Form.Handler>
+      )
+
+      const options = Array.from(document.querySelectorAll('.dnb-radio'))
+
+      expect(options).toHaveLength(2)
+      expect(options[0]).toHaveTextContent('Foo! 100')
+      expect(options[1]).toHaveTextContent('Bar! 200')
+
+      expect(receivedOptions).toEqual([
+        { value: 'foo', title: 'Foo!', amount: 100 },
+        { value: 'bar', title: 'Bar!', amount: 200 },
+      ])
     })
 
     it('renders help', () => {
@@ -2852,5 +2983,144 @@ describe('makeOptions', () => {
     expect(result).toEqual([
       { content: ['Foo', 'Text'], selectedKey: 'foo' },
     ])
+  })
+})
+
+describe('Selection width', () => {
+  it('should default to "large" width', () => {
+    render(
+      <Field.Selection>
+        <Field.Option value="foo">Foo</Field.Option>
+      </Field.Selection>
+    )
+
+    const contents = document.querySelector(
+      '.dnb-forms-field-block__contents'
+    )
+    expect(contents.classList).toContain(
+      'dnb-forms-field-block__contents--width-large'
+    )
+  })
+
+  it.each(['small', 'medium', 'large'] as const)(
+    'should support width="%s" for dropdown variant',
+    (width) => {
+      render(
+        <Field.Selection width={width}>
+          <Field.Option value="foo">Foo</Field.Option>
+        </Field.Selection>
+      )
+
+      const contents = document.querySelector(
+        '.dnb-forms-field-block__contents'
+      )
+      expect(contents.classList).toContain(
+        `dnb-forms-field-block__contents--width-${width}`
+      )
+    }
+  )
+
+  it.each(['small', 'medium', 'large'] as const)(
+    'should support width="%s" for autocomplete variant',
+    (width) => {
+      render(
+        <Field.Selection variant="autocomplete" width={width}>
+          <Field.Option value="foo">Foo</Field.Option>
+        </Field.Selection>
+      )
+
+      const contents = document.querySelector(
+        '.dnb-forms-field-block__contents'
+      )
+      expect(contents.classList).toContain(
+        `dnb-forms-field-block__contents--width-${width}`
+      )
+    }
+  )
+
+  it.each(['small', 'medium', 'large'] as const)(
+    'should support width="%s" for radio variant',
+    (width) => {
+      render(
+        <Field.Selection variant="radio" width={width}>
+          <Field.Option value="foo">Foo</Field.Option>
+        </Field.Selection>
+      )
+
+      const contents = document.querySelector(
+        '.dnb-forms-field-block__contents'
+      )
+      expect(contents.classList).toContain(
+        `dnb-forms-field-block__contents--width-${width}`
+      )
+    }
+  )
+
+  it.each(['small', 'medium', 'large'] as const)(
+    'should support width="%s" for button variant',
+    (width) => {
+      render(
+        <Field.Selection variant="button" width={width}>
+          <Field.Option value="foo">Foo</Field.Option>
+        </Field.Selection>
+      )
+
+      const contents = document.querySelector(
+        '.dnb-forms-field-block__contents'
+      )
+      expect(contents.classList).toContain(
+        `dnb-forms-field-block__contents--width-${width}`
+      )
+    }
+  )
+
+  it('should support "stretch" width', () => {
+    render(
+      <Field.Selection width="stretch">
+        <Field.Option value="foo">Foo</Field.Option>
+      </Field.Selection>
+    )
+
+    const contents = document.querySelector(
+      '.dnb-forms-field-block__contents'
+    )
+    expect(contents.classList).toContain(
+      'dnb-forms-field-block__contents--width-stretch'
+    )
+  })
+
+  it('should support custom width', () => {
+    render(
+      <Field.Selection width="4rem">
+        <Field.Option value="foo">Foo</Field.Option>
+      </Field.Selection>
+    )
+
+    const mainElement = document.querySelector('.dnb-forms-field-block')
+    const contents = mainElement.querySelector(
+      '.dnb-forms-field-block__contents'
+    )
+
+    expect(contents.classList).toContain(
+      'dnb-forms-field-block__contents--width-custom'
+    )
+    expect(mainElement).toHaveStyle(
+      '--dnb-forms-field-block-content-width: 4rem;'
+    )
+  })
+
+  it('should not set content width when width is false', () => {
+    render(
+      <Field.Selection width={false}>
+        <Field.Option value="foo">Foo</Field.Option>
+      </Field.Selection>
+    )
+
+    const contents = document.querySelector(
+      '.dnb-forms-field-block__contents'
+    )
+    expect(contents.className).not.toMatch(
+      /dnb-forms-field-block__contents--width/
+    )
   })
 })

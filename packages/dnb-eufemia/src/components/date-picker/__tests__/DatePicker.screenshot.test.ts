@@ -10,7 +10,7 @@ import {
 
 describe('DatePicker', () => {
   setupPageScreenshot({
-    url: '/uilib/components/date-picker/visual-tests',
+    url: '/uilib/components/date-picker/visual-tests/',
   })
 
   it('have to match the input fields', async () => {

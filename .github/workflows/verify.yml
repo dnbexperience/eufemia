@@ -85,19 +85,6 @@ jobs:
       - name: Run dependency checks
         run: yarn workspace @dnb/eufemia test:deps
 
-      - name: Slack
-        uses: 8398a7/action-slack@v3
-        with:
-          channel: '#eufemia-dev'
-          status: ${{ job.status }}
-          fields: author,ref,workflow,job,took
-          job_name: Run tests and checks
-          github_base_url: https://github.com/
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-        if: ${{ always() && !github.event.pull_request.head.repo.fork }}
-        continue-on-error: true
-
   build-check:
     name: Run build tests
 
@@ -135,16 +122,3 @@ jobs:
 
       - name: Postbuild Library
         run: yarn workspace @dnb/eufemia postbuild:ci
-
-      - name: Slack
-        uses: 8398a7/action-slack@v3
-        with:
-          channel: '#eufemia-dev'
-          status: ${{ job.status }}
-          fields: author,ref,workflow,job,took
-          job_name: Run build tests
-          github_base_url: https://github.com/
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-        if: ${{ always() && !github.event.pull_request.head.repo.fork }}
-        continue-on-error: true

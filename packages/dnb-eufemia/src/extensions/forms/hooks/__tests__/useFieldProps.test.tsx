@@ -36,7 +36,9 @@ import { spyOnEufemiaWarn, wait } from '../../../../core/jest/jestSetup'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
 
 import nbNO from '../../constants/locales/nb-NO'
+import enGB from '../../constants/locales/en-GB'
 const nb = nbNO['nb-NO']
+const en = enGB['en-GB']
 
 function getError(error: FieldPropsGeneric['error']) {
   return error as Error | FormError
@@ -1349,6 +1351,45 @@ describe('useFieldProps', () => {
         expect(getError(result.current.error).message).toBe(
           'Update the message'
         )
+      })
+
+      it('should update required error message when locale changes', async () => {
+        const MockComponent = () => {
+          const props = useFieldProps({
+            value: undefined,
+            required: true,
+            validateInitially: true,
+          })
+          return (
+            <div data-testid="error-message">
+              {getError(props.error)?.message}
+            </div>
+          )
+        }
+
+        const { rerender } = render(
+          <Provider locale="nb-NO">
+            <MockComponent />
+          </Provider>
+        )
+
+        await waitFor(() => {
+          expect(screen.getByTestId('error-message').textContent).toBe(
+            nb.Field.errorRequired
+          )
+        })
+
+        rerender(
+          <Provider locale="en-GB">
+            <MockComponent />
+          </Provider>
+        )
+
+        await waitFor(() => {
+          expect(screen.getByTestId('error-message').textContent).toBe(
+            en.Field.errorRequired
+          )
+        })
       })
 
       it('should render error message given as JSX', () => {

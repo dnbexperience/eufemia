@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
 import React from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Form } from '@dnb/eufemia/src/extensions/forms'
@@ -9,7 +7,11 @@ export const CustomTranslations = () => {
     <ComponentBox>
       {() => {
         const MyField = () => {
-          const { Custom, formatMessage } = Form.useTranslation()
+          type Translation = {
+            Custom: { translation: string }
+          }
+          const { Custom, formatMessage } =
+            Form.useTranslation<Translation>()
 
           const myTranslation = formatMessage(Custom.translation, {
             myKey: 'value!',
@@ -45,7 +47,10 @@ export const GetTranslation = () => {
     <ComponentBox>
       {() => {
         const MyField = () => {
-          const { formatMessage } = Form.useTranslation()
+          type Translation = {
+            Custom: { translation: string }
+          }
+          const { formatMessage } = Form.useTranslation<Translation>()
 
           const myTranslation = formatMessage('Custom.translation', {
             myKey: 'value!',

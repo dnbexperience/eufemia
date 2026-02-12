@@ -2,7 +2,10 @@ import React, { useCallback, useContext, useMemo } from 'react'
 import classnames from 'classnames'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import { Checkbox, HelpButton, ToggleButton } from '../../../../components'
-import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
+import FieldBlock, {
+  Props as FieldBlockProps,
+  FieldBlockWidth,
+} from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import { checkForError, ReturnAdditional } from '../../hooks/useFieldProps'
 import { DefaultErrorMessages, FieldProps, Path } from '../../types'
@@ -30,11 +33,21 @@ type OptionProps = React.ComponentProps<
 >
 
 type OptionValue = string | number
+type RenderArraySelectionChildren = (params: {
+  value: Props['value']
+  options: Props['data']
+}) => React.ReactNode
 
 export type Props = FieldProps<Array<OptionValue> | undefined> & {
-  children?: React.ReactNode
+  children?: React.ReactNode | RenderArraySelectionChildren
   variant?: 'checkbox' | 'button' | 'checkbox-button'
   optionsLayout?: 'horizontal' | 'vertical'
+
+  /**
+   * The width of the component.
+   */
+  width?: FieldBlockWidth
+
   /**
    * The path to the context data (Form.Handler).
    * The context data object needs to have a `value` and a `title` property.
@@ -74,6 +87,7 @@ function ArraySelection(props: Props) {
     warning,
     disabled,
     size,
+    width,
     emptyValue,
     htmlAttributes,
     handleChange,
@@ -84,6 +98,10 @@ function ArraySelection(props: Props) {
 
   const { getValueByPath } = useDataValue()
   const dataList = dataPath ? getValueByPath(dataPath) : data
+  const hasRenderPropChildren = typeof children === 'function'
+  const renderedChildren = useMemo(() => {
+    return resolveChildren(children, value, dataList)
+  }, [children, dataList, value])
 
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
@@ -105,6 +123,9 @@ function ArraySelection(props: Props) {
   if (!size) {
     fieldBlockProps.labelHeight = 'small'
   }
+  if (width) {
+    fieldBlockProps.contentWidth = width
+  }
 
   const options = useCheckboxOrToggleOptions({
     id,
@@ -114,8 +135,8 @@ function ArraySelection(props: Props) {
     warning,
     emptyValue,
     htmlAttributes,
-    dataList,
-    children,
+    dataList: hasRenderPropChildren ? undefined : dataList,
+    children: renderedChildren,
     value,
     disabled,
     size,
@@ -146,6 +167,18 @@ function ArraySelection(props: Props) {
   }
 }
 
+function resolveChildren(
+  children: Props['children'],
+  value: Props['value'],
+  options: Props['data']
+) {
+  if (typeof children === 'function') {
+    return children({ value, options })
+  }
+
+  return children
+}
+
 export function useCheckboxOrToggleOptions({
   id,
   path,
@@ -171,13 +204,13 @@ export function useCheckboxOrToggleOptions({
   emptyValue?: Props['emptyValue']
   htmlAttributes?: Props['htmlAttributes']
   dataList?: Props['data']
-  children?: Props['children']
+  children?: React.ReactNode
   value?: Props['value']
   disabled?: Props['disabled']
   size?: Props['size']
   hasError?: ReturnAdditional<Props['value']>['hasError']
   handleChange?: ReturnAdditional<Props['value']>['handleChange']
-  handleActiveData?: (item: { labels: Array<Props['children']> }) => void
+  handleActiveData?: (item: { labels: React.ReactNode[] }) => void
 }) {
   const { setFieldInternals } = useContext(DataContext)
   const optionsCount = useMemo(

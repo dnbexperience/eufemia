@@ -24,6 +24,20 @@ describe('Value.Currency', () => {
       expect(document.querySelector('.dnb-form-label')).toBeNull()
     })
 
+    it('renders placeholder when showEmpty is true', () => {
+      const { rerender } = render(<Value.Currency showEmpty />)
+
+      expect(
+        document.querySelector('.dnb-forms-value-number')
+      ).toHaveTextContent('- kr')
+
+      rerender(<Value.Currency showEmpty locale="en-GB" />)
+
+      expect(
+        document.querySelector('.dnb-forms-value-number')
+      ).toHaveTextContent('NOK –')
+    })
+
     it('renders value and label', () => {
       render(<Value.Currency label="Label" value={42} />)
       expect(

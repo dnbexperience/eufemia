@@ -180,4 +180,38 @@ describe('Form.useSubmit', () => {
       expect.any(Object)
     )
   })
+
+  it('should support id when hook runs before Form.Handler mounts', async () => {
+    const onSubmit = jest.fn()
+    const formId = 'deferred-form-id'
+
+    const OutsideHookBeforeHandler = () => {
+      const { submit } = Form.useSubmit(formId)
+
+      return (
+        <>
+          <button type="button" onClick={() => submit()}>
+            Submit
+          </button>
+          <Form.Handler id={formId} onSubmit={onSubmit}>
+            <Field.String path="/name" value="Alex" />
+          </Form.Handler>
+        </>
+      )
+    }
+
+    render(<OutsideHookBeforeHandler />)
+
+    const button = document.querySelector('button')
+
+    await act(async () => {
+      fireEvent.click(button)
+    })
+
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenCalledWith(
+      expect.objectContaining({ name: 'Alex' }),
+      expect.any(Object)
+    )
+  })
 })

@@ -11,7 +11,7 @@ describe.each(['ui', 'sbanken'])(
         width: 800,
       },
       themeName,
-      url: '/uilib/extensions/forms/base-fields/ArraySelection/demos',
+      url: '/uilib/extensions/forms/base-fields/ArraySelection/demos/',
     })
 
     describe('checkbox', () => {

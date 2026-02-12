@@ -6,7 +6,10 @@
 import packpath from 'packpath'
 import fs from 'fs-extra'
 import path from 'path'
-import { buildExportsMap, cleanupPackage } from '../prepareForRelease'
+import prepareForRelease, {
+  buildExportsMap,
+  cleanupPackage,
+} from '../prepareForRelease'
 
 describe('cleanupPackage', () => {
   it('gets prepared properly and have the expected props', async () => {
@@ -321,6 +324,42 @@ describe('release config', () => {
         Array.isArray(plugin) && plugin[0] === '@semantic-release/npm'
     )
 
+    expect(npmPlugin).toBeTruthy()
+
+    const npmConfig = Array.isArray(npmPlugin) ? npmPlugin[1] : undefined
+    expect(npmConfig).toMatchObject({
+      npmPublish: true,
+      pkgRoot: '.',
+      provenance: true,
+    })
+  })
+
+  it('creates .releaserc.json with provenance config in build directory', async () => {
+    const buildDir = path.resolve(packpath.self(), 'build')
+
+    // Ensure build directory exists
+    await fs.ensureDir(buildDir)
+
+    // Run prepareForRelease
+    await prepareForRelease()
+
+    // Check if .releaserc.json was created
+    const releaseRcPath = path.join(buildDir, '.releaserc.json')
+    const exists = await fs.pathExists(releaseRcPath)
+    expect(exists).toBe(true)
+
+    // Read and verify the configuration
+    const releaseRc = await fs.readJson(releaseRcPath)
+
+    // Verify it has the plugins array
+    expect(releaseRc).toHaveProperty('plugins')
+    expect(Array.isArray(releaseRc.plugins)).toBe(true)
+
+    // Verify npm plugin has provenance config
+    const npmPlugin = releaseRc.plugins.find(
+      (plugin) =>
+        Array.isArray(plugin) && plugin[0] === '@semantic-release/npm'
+    )
     expect(npmPlugin).toBeTruthy()
 
     const npmConfig = Array.isArray(npmPlugin) ? npmPlugin[1] : undefined

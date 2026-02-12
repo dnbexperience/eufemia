@@ -5,7 +5,7 @@
 
 import { makeScreenshot } from '../../../../../core/jest/jestSetupScreenshots'
 
-const url = '/uilib/extensions/forms/Form/Card/demos'
+const url = '/uilib/extensions/forms/Form/Card/demos/'
 
 describe('Form.Card', () => {
   it('have to match outset', async () => {

@@ -16,10 +16,8 @@ import { FormStatusIconTypes } from '../FormStatus'
 
 export const DefaultIconSize = 16
 export const DefaultIconSizes = {
-  // small: 8, // currently not in use
   default: 16,
   medium: 24,
-  // large: 32 // currently not in use
 } as const
 export const ListDefaultIconSizes: Array<
   [ValidIconType, ValidIconNumericSize]

@@ -26,7 +26,7 @@ const sections = {
 describe.each(['ui', 'sbanken'])('Section for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/section/demos',
+    url: '/uilib/components/section/demos/',
   })
 
   test.each(sections[themeName])(
@@ -55,7 +55,7 @@ const deprecatedStyles = [
 describe.each(['ui'])('Section for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/section/deprecated',
+    url: '/uilib/components/section/deprecated/',
   })
 
   test.each(deprecatedStyles)(
@@ -72,7 +72,7 @@ describe.each(['ui'])('Section for %s', (themeName) => {
 describe('Responsive', () => {
   it('have to match section on "small" size', async () => {
     const screenshot = await makeScreenshot({
-      url: '/uilib/components/section/demos',
+      url: '/uilib/components/section/demos/',
       pageViewport: {
         width: 400,
       },
@@ -83,7 +83,7 @@ describe('Responsive', () => {
 
   it('have to match section on "medium" size', async () => {
     const screenshot = await makeScreenshot({
-      url: '/uilib/components/section/demos',
+      url: '/uilib/components/section/demos/',
       pageViewport: {
         width: 800,
       },
@@ -94,7 +94,7 @@ describe('Responsive', () => {
 
   it('have to match section on "large" size', async () => {
     const screenshot = await makeScreenshot({
-      url: '/uilib/components/section/demos',
+      url: '/uilib/components/section/demos/',
       pageViewport: {
         width: 1000,
       },

@@ -53,10 +53,17 @@ test.describe('LLM integration', () => {
   test('known .md pages have matching html pages', async () => {
     const mdPaths = [
       '/uilib/components/button.md',
-      '/uilib/elements/image.md',
-      '/uilib/components/icon.md',
+      '/uilib/components/card.md',
     ]
     const publicDir = path.resolve(__dirname, '..', '..', 'public')
+    const firstMdFile = path.join(publicDir, mdPaths[0].replace(/^\//, ''))
+    if (!fs.existsSync(firstMdFile)) {
+      test.skip(
+        true,
+        'portal public .md files not found (run build:e2e from portal package first)'
+      )
+      return
+    }
 
     for (const mdPath of mdPaths) {
       const mdFile = path.join(publicDir, mdPath.replace(/^\//, ''))

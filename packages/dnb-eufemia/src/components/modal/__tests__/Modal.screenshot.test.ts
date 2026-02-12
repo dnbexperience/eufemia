@@ -6,7 +6,7 @@
 import { makeScreenshot } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Modal', () => {
-  const url = '/uilib/components/modal/demos'
+  const url = '/uilib/components/modal/demos/'
 
   it('have to match the default modal trigger button', async () => {
     const screenshot = await makeScreenshot({

@@ -16,7 +16,7 @@ generatePackages([
 
 describe('Elements without classes', () => {
   setupPageScreenshot({
-    url: '/uilib/elements/elements-without-classes',
+    url: '/uilib/elements/elements-without-classes/',
   })
 
   it('have to match all the typography variants', async () => {

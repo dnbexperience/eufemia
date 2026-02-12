@@ -24,7 +24,6 @@ test.describe('Fonts', () => {
     for await (const font of fonts) {
       const url = `/fonts/${font}`
       const response = await page.request.get(url)
-      console.log('response', response)
       expect(response.status()).toBe(200)
       expect(response.headers()['content-type']).toContain('font') // Ensure it's a font file
     }

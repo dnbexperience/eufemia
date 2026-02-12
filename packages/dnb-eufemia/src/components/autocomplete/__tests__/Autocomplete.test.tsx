@@ -951,7 +951,7 @@ describe('Autocomplete component', () => {
       { timeout: 2000 }
     )
 
-    // eslint-disable-next-line
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Mocking global property for test
     Object.defineProperty(helpers, 'IS_MAC', {
       value: false,
     })

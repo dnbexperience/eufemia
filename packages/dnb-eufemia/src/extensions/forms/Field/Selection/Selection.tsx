@@ -60,20 +60,32 @@ type IOption = {
 }
 export type Data = Array<
   {
-    value: string
+    value: number | string
     title: React.ReactNode
     text?: React.ReactNode
     disabled?: boolean
     style?: React.CSSProperties
+    [key: string]: any
   } & Partial<DrawerListDataArrayObjectStrict>
 >
+
+type RenderSelectionChildren = (params: {
+  value: IOption['value']
+  options: Props['data']
+}) => React.ReactNode
 
 export type Props = FieldProps<IOption['value']> & {
   /**
    * Defines the variant of the component.
    * Default: dropdown
    */
-  variant?: 'dropdown' | 'autocomplete' | 'radio' | 'radio-list' | 'button'
+  variant?:
+    | 'dropdown'
+    | 'autocomplete'
+    | 'radio'
+    // @deprecated `radio-list` is deprecated. Use the List component instead.
+    | 'radio-list'
+    | 'button'
 
   /**
    * The width of the component.
@@ -130,7 +142,7 @@ export type Props = FieldProps<IOption['value']> & {
   /**
    * The content of the component.
    */
-  children?: React.ReactNode
+  children?: React.ReactNode | RenderSelectionChildren
 }
 
 const validDrawerListProps = [
@@ -287,7 +299,7 @@ function Selection(props: Props) {
     disabled,
     size,
     emptyValue,
-    width = 'large',
+    width,
     htmlAttributes,
     setHasFocus,
     handleChange,
@@ -309,6 +321,10 @@ function Selection(props: Props) {
   if (dataPath) {
     dataList = getValueByPath(dataPath)
   }
+  const hasRenderPropChildren = typeof children === 'function'
+  const renderedChildren = useMemo(() => {
+    return resolveChildren(children, value, dataList)
+  }, [children, dataList, value])
 
   const handleDrawerListChange = useCallback(
     ({ data, value }) => {
@@ -394,8 +410,8 @@ function Selection(props: Props) {
         info,
         warning,
         htmlAttributes,
-        children,
-        dataList,
+        children: renderedChildren,
+        dataList: hasRenderPropChildren ? undefined : dataList,
         hasError,
         iterateOverItems: ({ value: v, label }) => {
           if (v === value) {
@@ -414,7 +430,7 @@ function Selection(props: Props) {
       if (!size) {
         additionalFieldBlockProps.labelHeight = 'small'
       }
-      if (variant === 'radio-list') {
+      if (width) {
         additionalFieldBlockProps.contentWidth = width
       }
 
@@ -438,8 +454,11 @@ function Selection(props: Props) {
 
     case 'autocomplete':
     case 'dropdown': {
-      const data = renderDropdownItems(dataList, transformSelection)
-        .concat(makeOptions(children, transformSelection))
+      const data = renderDropdownItems(
+        hasRenderPropChildren ? undefined : dataList,
+        transformSelection
+      )
+        .concat(makeOptions(renderedChildren, transformSelection))
         .filter(Boolean)
       const displayValue = data.find((item) => item.selectedKey === value)
         ?.content
@@ -465,7 +484,7 @@ function Selection(props: Props) {
       }
 
       const specificFieldBlockProps: FieldBlockProps = {
-        contentWidth: width,
+        contentWidth: width ?? 'large',
       }
 
       return (
@@ -509,6 +528,18 @@ function Selection(props: Props) {
   }
 }
 
+function resolveChildren(
+  children: Props['children'],
+  value: Props['value'],
+  options: Props['data']
+) {
+  if (typeof children === 'function') {
+    return children({ value, options })
+  }
+
+  return children
+}
+
 type OptionProps = React.ComponentProps<
   (props: {
     value: Props['value']
@@ -538,12 +569,12 @@ function renderRadioItems({
   info: Props['info']
   warning: Props['warning']
   htmlAttributes: Props['htmlAttributes']
-  children: Props['children']
-  dataList: Data
+  children: React.ReactNode
+  dataList?: Data
   hasError: ReturnAdditional<Props['value']>['hasError']
   iterateOverItems?: (item: {
     value: Props['value']
-    label: Props['children']
+    label: React.ReactNode
   }) => void
 }) {
   const optionsCount =

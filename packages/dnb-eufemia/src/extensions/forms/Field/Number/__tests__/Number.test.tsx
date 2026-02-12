@@ -1663,6 +1663,28 @@ describe('Field.Number', () => {
           document.querySelector('.dnb-form-status')
         ).not.toBeInTheDocument()
       })
+
+      it('should update required error message when changing locale in Provider', async () => {
+        const { rerender } = render(
+          <SharedProvider locale="nb-NO">
+            <Field.Number required validateInitially />
+          </SharedProvider>
+        )
+
+        expect(
+          document.querySelector('.dnb-form-status__text')
+        ).toHaveTextContent(nb.Field.errorRequired)
+
+        rerender(
+          <SharedProvider locale="en-GB">
+            <Field.Number required validateInitially />
+          </SharedProvider>
+        )
+
+        expect(
+          document.querySelector('.dnb-form-status__text')
+        ).toHaveTextContent(en.Field.errorRequired)
+      })
     })
 
     describe('validation based on minimum-prop', () => {

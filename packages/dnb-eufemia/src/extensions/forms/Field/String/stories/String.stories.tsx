@@ -1,6 +1,7 @@
 import React from 'react'
 import { Field, Form, FormError, Tools } from '../../..'
-import { Flex } from '../../../../../components'
+import { Button, Flex, ToggleButton } from '../../../../../components'
+import { Provider } from '../..'
 
 export default {
   title: 'Eufemia/Extensions/Forms/String',
@@ -171,5 +172,45 @@ export function OnStatusChange() {
       // validateInitially
       required
     />
+  )
+}
+
+export const UpdateLocaleInProviderForAllFields = () => {
+  const [locale, setLocale] = React.useState('nb-NO')
+  return (
+    <Form.Handler>
+      <ToggleButton.Group
+        value={locale}
+        onChange={({ value }) => {
+          setLocale(value)
+        }}
+      >
+        <ToggleButton value="nb-NO" className="nb-NO">
+          Norsk
+        </ToggleButton>
+        <ToggleButton value="en-GB" className="en-GB">
+          GB
+        </ToggleButton>
+      </ToggleButton.Group>
+      <Provider locale={locale}>
+        <Field.String required />
+        <Field.Number required />
+        <Field.Currency required />
+        <Field.BankAccountNumber required />
+        <Field.Date required />
+        <Field.Email required />
+        <Field.Upload required />
+        <Field.Expiry required />
+        <Field.NationalIdentityNumber required />
+        <Field.OrganizationNumber required />
+        <Field.PhoneNumber required />
+        <Field.PostalCodeAndCity
+          postalCode={{ required: true }}
+          city={{ required: true }}
+        />
+        <Field.SelectCountry required />
+        <Button type="submit">Submit</Button>
+      </Provider>
+    </Form.Handler>
   )
 }

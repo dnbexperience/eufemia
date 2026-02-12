@@ -63,6 +63,15 @@ export interface formatOptionParams {
    * - If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.
    */
   rounding?: 'omit' | 'half-even' | 'half-up'
+  /**
+   * When to display the sign for the number.
+   * - `auto` (default): sign display for negative numbers only.
+   * - `always`: always display sign.
+   * - `exceptZero`: sign display for positive and negative numbers, but not zero.
+   * - `negative`: sign display for negative numbers only, including negative zero.
+   * - `never`: never display sign.
+   */
+  signDisplay?: 'auto' | 'always' | 'exceptZero' | 'negative' | 'never'
   /** phone type */
   phone?: boolean
   /** org type */
@@ -152,6 +161,7 @@ export const format = (
     decimals = null,
     omit_rounding = null, // @deprecated – can be removed in v11
     rounding = null,
+    signDisplay = null,
     options = null,
     returnAria = false,
     invalidAriaText = null,
@@ -182,6 +192,10 @@ export const format = (
     (typeof options === 'string' && options[0] === '{'
       ? JSON.parse(options)
       : options) || {}
+
+  if (signDisplay) {
+    opts.signDisplay = signDisplay
+  }
 
   if (parseFloat(decimals) >= 0) {
     value = formatDecimals(
@@ -654,7 +668,18 @@ export const formatNumber = (
 }
 
 function replaceNaNWithDash(number) {
-  return String(number).replace(/NaN/, ABSENT_VALUE_FORMAT)
+  const string = String(number)
+  const replaced = string.replace(/NaN/, ABSENT_VALUE_FORMAT)
+
+  if (!/NaN/.test(string)) {
+    return replaced
+  }
+
+  const escapedDash = escapeRegexChars(ABSENT_VALUE_FORMAT)
+  return replaced.replace(
+    new RegExp(`([^\\s])${escapedDash}`, 'g'),
+    `$1 ${ABSENT_VALUE_FORMAT}`
+  )
 }
 
 function isAbsent(value) {

@@ -33,10 +33,16 @@ describe('Field.SelectCurrency', () => {
       simulateSelector:
         '[data-visual-test="select-currency-opened"] .dnb-autocomplete .dnb-input',
       simulate: 'click',
-      waitAfterSimulateSelector:
-        '[data-visual-test="select-currency-opened"] .dnb-autocomplete--opened',
       style: {
         height: '30rem',
+      },
+      executeBeforeSimulate: async () => {
+        const element = document.querySelector(
+          '[data-visual-test="select-currency-opened"]'
+        )
+        element.scrollIntoView({
+          behavior: 'auto',
+        })
       },
     })
     expect(screenshot).toMatchImageSnapshot()

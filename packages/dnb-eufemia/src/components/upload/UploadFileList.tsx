@@ -96,7 +96,12 @@ function UploadFileList() {
       })
     )
 
-    await onFileClick({ fileItem: uploadFile })
+    try {
+      await onFileClick({ fileItem: uploadFile })
+    } catch (error) {
+      // stop here
+    }
+
     updateFiles(
       updateFile(uploadFile, {
         isLoading: false,

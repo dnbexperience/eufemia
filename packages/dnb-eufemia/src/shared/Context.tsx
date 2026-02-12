@@ -229,11 +229,10 @@ export type TranslationFlat = Partial<
 
 export type TranslationFlatToObject<T> = T extends Record<string, unknown>
   ? {
-      // eslint-disable-next-line
-      [K in keyof T as K extends `${infer First}.${infer Rest}`
+      // Mapped type to transform dot-notation keys to nested objects
+      [K in keyof T as K extends `${infer First}.${string}`
         ? First
-        : // eslint-disable-next-line
-          K]: K extends `${infer First}.${infer Rest}`
+        : K]: K extends `${string}.${infer Rest}`
         ? TranslationFlatToObject<Record<Rest, T[K]>>
         : T[K]
     }

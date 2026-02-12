@@ -284,6 +284,63 @@ describe('Decimals format', () => {
     })
   })
 
+  describe('signDisplay', () => {
+    it('auto (default)', () => {
+      expect(format(1234)).toBe('1\u00A0234')
+      expect(format(-1234)).toBe('-1\u00A0234')
+      expect(format(0)).toBe('0')
+    })
+
+    it('always', () => {
+      expect(format(1234, { signDisplay: 'always' })).toBe('+1\u00A0234')
+      expect(format(-1234, { signDisplay: 'always' })).toBe('-1\u00A0234')
+      expect(format(0, { signDisplay: 'always' })).toBe('+0')
+    })
+
+    it('exceptZero', () => {
+      expect(format(1234, { signDisplay: 'exceptZero' })).toBe(
+        '+1\u00A0234'
+      )
+      expect(format(-1234, { signDisplay: 'exceptZero' })).toBe(
+        '-1\u00A0234'
+      )
+      expect(format(0, { signDisplay: 'exceptZero' })).toBe('0')
+    })
+
+    it('never', () => {
+      expect(format(1234, { signDisplay: 'never' })).toBe('1\u00A0234')
+      expect(format(-1234, { signDisplay: 'never' })).toBe('1\u00A0234')
+      expect(format(0, { signDisplay: 'never' })).toBe('0')
+    })
+
+    it('should work with currency', () => {
+      expect(format(1234, { currency: true, signDisplay: 'always' })).toBe(
+        '+1\u00A0234,00 kr'
+      )
+      expect(
+        format(-1234, { currency: true, signDisplay: 'always' })
+      ).toBe('-1\u00A0234,00 kr')
+    })
+
+    it('should work with percent', () => {
+      expect(format(12.34, { percent: true, signDisplay: 'always' })).toBe(
+        '+12,34\u00A0%'
+      )
+      expect(
+        format(-12.34, { percent: true, signDisplay: 'always' })
+      ).toBe('−12,34\u00A0%')
+    })
+
+    it('should work with decimals', () => {
+      expect(format(1234.56, { decimals: 2, signDisplay: 'always' })).toBe(
+        '+1\u00A0234,56'
+      )
+      expect(
+        format(-1234.56, { decimals: 2, signDisplay: 'always' })
+      ).toBe('-1\u00A0234,56')
+    })
+  })
+
   it('should handle omit currency sign', () => {
     expect(
       format(num, {

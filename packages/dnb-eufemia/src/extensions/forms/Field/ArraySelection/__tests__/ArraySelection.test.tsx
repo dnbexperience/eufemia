@@ -93,6 +93,92 @@ describe('ArraySelection', () => {
       expect(options[1].textContent).toBe('title b')
     })
 
+    it('supports render prop children with current values', async () => {
+      function Component() {
+        const [value, setValue] = React.useState<Array<string>>(['foo'])
+
+        return (
+          <Field.ArraySelection
+            value={value}
+            onChange={(nextValue) => {
+              setValue((nextValue as Array<string>) ?? [])
+            }}
+          >
+            {({ value }) => {
+              return (
+                <>
+                  <Field.Option
+                    value="foo"
+                    title={value?.includes('foo') ? 'Foo selected' : 'Foo'}
+                  />
+                  <Field.Option
+                    value="bar"
+                    title={value?.includes('bar') ? 'Bar selected' : 'Bar'}
+                  />
+                </>
+              )
+            }}
+          </Field.ArraySelection>
+        )
+      }
+
+      render(<Component />)
+
+      let options = document.querySelectorAll('.dnb-checkbox')
+      expect(options[0].textContent).toBe('Foo selected')
+      expect(options[1].textContent).toBe('Bar')
+
+      await userEvent.click(document.querySelectorAll('input')[1])
+
+      options = document.querySelectorAll('.dnb-checkbox')
+      expect(options[0].textContent).toBe('Foo selected')
+      expect(options[1].textContent).toBe('Bar selected')
+    })
+
+    it('supports render prop children with options from dataPath', () => {
+      let receivedOptions = []
+
+      render(
+        <Form.Handler
+          data={{
+            myList: [
+              { value: 'foo', title: 'Foo!', amount: 100 },
+              { value: 'bar', title: 'Bar!', amount: 200 },
+            ],
+          }}
+        >
+          <Field.ArraySelection dataPath="/myList">
+            {({ options = [] }) => {
+              receivedOptions = options
+
+              return options.map(({ value, title, amount }) => {
+                return (
+                  <Field.Option
+                    key={value}
+                    value={value}
+                    title={`${title} ${amount}`}
+                  />
+                )
+              })
+            }}
+          </Field.ArraySelection>
+        </Form.Handler>
+      )
+
+      const options = Array.from(
+        document.querySelectorAll('.dnb-checkbox')
+      )
+
+      expect(options).toHaveLength(2)
+      expect(options[0]).toHaveTextContent('Foo! 100')
+      expect(options[1]).toHaveTextContent('Bar! 200')
+
+      expect(receivedOptions).toEqual([
+        { value: 'foo', title: 'Foo!', amount: 100 },
+        { value: 'bar', title: 'Bar!', amount: 200 },
+      ])
+    })
+
     it('handles selection correctly', () => {
       const handleChange = jest.fn()
       render(
@@ -1196,4 +1282,110 @@ describe('ArraySelection', () => {
       })
     }
   )
+
+  describe('width', () => {
+    it.each(['small', 'medium', 'large'] as const)(
+      'should support width="%s" for checkbox variant',
+      (width) => {
+        render(
+          <Field.ArraySelection width={width}>
+            <Field.Option value="foo">Foo</Field.Option>
+          </Field.ArraySelection>
+        )
+
+        const contents = document.querySelector(
+          '.dnb-forms-field-block__contents'
+        )
+        expect(contents.classList).toContain(
+          `dnb-forms-field-block__contents--width-${width}`
+        )
+      }
+    )
+
+    it.each(['small', 'medium', 'large'] as const)(
+      'should support width="%s" for button variant',
+      (width) => {
+        render(
+          <Field.ArraySelection variant="button" width={width}>
+            <Field.Option value="foo">Foo</Field.Option>
+          </Field.ArraySelection>
+        )
+
+        const contents = document.querySelector(
+          '.dnb-forms-field-block__contents'
+        )
+        expect(contents.classList).toContain(
+          `dnb-forms-field-block__contents--width-${width}`
+        )
+      }
+    )
+
+    it.each(['small', 'medium', 'large'] as const)(
+      'should support width="%s" for checkbox-button variant',
+      (width) => {
+        render(
+          <Field.ArraySelection variant="checkbox-button" width={width}>
+            <Field.Option value="foo">Foo</Field.Option>
+          </Field.ArraySelection>
+        )
+
+        const contents = document.querySelector(
+          '.dnb-forms-field-block__contents'
+        )
+        expect(contents.classList).toContain(
+          `dnb-forms-field-block__contents--width-${width}`
+        )
+      }
+    )
+
+    it('should support "stretch" width', () => {
+      render(
+        <Field.ArraySelection width="stretch">
+          <Field.Option value="foo">Foo</Field.Option>
+        </Field.ArraySelection>
+      )
+
+      const contents = document.querySelector(
+        '.dnb-forms-field-block__contents'
+      )
+      expect(contents.classList).toContain(
+        'dnb-forms-field-block__contents--width-stretch'
+      )
+    })
+
+    it('should support custom width', () => {
+      render(
+        <Field.ArraySelection width="4rem">
+          <Field.Option value="foo">Foo</Field.Option>
+        </Field.ArraySelection>
+      )
+
+      const mainElement = document.querySelector('.dnb-forms-field-block')
+      const contents = mainElement.querySelector(
+        '.dnb-forms-field-block__contents'
+      )
+
+      expect(contents.classList).toContain(
+        'dnb-forms-field-block__contents--width-custom'
+      )
+      expect(mainElement).toHaveStyle(
+        '--dnb-forms-field-block-content-width: 4rem;'
+      )
+    })
+
+    it('should not set content width when width is false', () => {
+      render(
+        <Field.ArraySelection width={false}>
+          <Field.Option value="foo">Foo</Field.Option>
+        </Field.ArraySelection>
+      )
+
+      const contents = document.querySelector(
+        '.dnb-forms-field-block__contents'
+      )
+      expect(contents.className).not.toMatch(
+        /dnb-forms-field-block__contents--width/
+      )
+    })
+  })
 })

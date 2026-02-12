@@ -15,6 +15,7 @@ import {
   NumberOrganization,
   NumberLocales,
   NumberSpacing,
+  NumberSignDisplay,
   NumberProvider,
   NumberMonospace,
 } from 'Docs/uilib/components/number-format/Examples'
@@ -72,6 +73,12 @@ By using `selectall={false}` you disable the auto-select all feature.
 The NumberFormat uses `display: inline-block;` in order to make the [spacing system](/uilib/layout/space) to work.
 
 <NumberSpacing />
+
+### Sign display
+
+Control when to display the sign for numbers using the `signDisplay` property. Options include `always`, `exceptZero`, `negative`, and `never`.
+
+<NumberSignDisplay />
 
 ### Using the Provider with NumberFormat
 

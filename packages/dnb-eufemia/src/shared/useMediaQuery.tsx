@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useRef, useState } from 'react'
+import { useContext, useMemo, useRef, useState } from 'react'
 import { isTrue } from './component-helper'
 import Context from './Context'
 import {
@@ -10,10 +10,7 @@ import type {
   MediaQueryProps,
   MediaQueryListener,
 } from './MediaQueryUtils'
-
-// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
-const useLayoutEffect =
-  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
+import { useIsomorphicLayoutEffect as useLayoutEffect } from './helpers/useIsomorphicLayoutEffect'
 
 export type { MediaQueryProps }
 

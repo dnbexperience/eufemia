@@ -61,20 +61,14 @@ import DataContext, {
   DataPathHandlerParameters,
   SectionSchemaRegistration,
 } from '../Context'
+import { structuredClone } from '../../../../shared/helpers/structuredClone'
 
-/**
- * Deprecated, as it is supported by all major browsers and Node.js >=v18
- * So its a question of time, when we will remove this polyfill
- */
-import structuredClone from '@ungap/structured-clone'
-
-// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
-const useLayoutEffect =
-  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
+import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
 
 export type SharedAttachments<Data = unknown> = {
   visibleDataHandler?: VisibleDataHandler<Data>
   filterDataHandler?: FilterDataHandler<Data>
+  validationVersion?: number
   hasErrors?: ContextState['hasErrors']
   hasFieldError?: ContextState['hasFieldError']
   setShowAllErrors?: ContextState['setShowAllErrors']
@@ -84,6 +78,8 @@ export type SharedAttachments<Data = unknown> = {
   clearData?: () => void
   setData?: ContextState['setData']
   fieldConnectionsRef?: ContextState['fieldConnectionsRef']
+  fieldStatusRef?: React.MutableRefObject<Record<Path, EventStateObject>>
+  fieldErrorRef?: ContextState['fieldErrorRef']
   internalDataRef?: ContextState['internalDataRef']
 }
 
@@ -423,6 +419,8 @@ export default function Provider<Data extends JsonObject>(
   // - States (e.g. error) reported by fields, based on their direct validation rules
   const fieldErrorRef = useRef<Record<Path, Error>>({})
   const fieldStateRef = useRef<Record<Path, SubmitState>>({})
+  const validationVersionRef = useRef(0)
+  const bumpValidationVersionRef = useRef<() => void>(() => null)
 
   // - Data
   const initialData = useMemo<Data>(() => {
@@ -597,6 +595,9 @@ export default function Provider<Data extends JsonObject>(
       } else {
         delete fieldErrorRef.current[path]
       }
+
+      bumpValidationVersionRef.current()
+
       for (const item of fieldEventListenersRef.current) {
         const { type, callback } = item
         if (type === 'onSetFieldError') {
@@ -616,6 +617,7 @@ export default function Provider<Data extends JsonObject>(
         // The state for the target value was changed
         fieldStateRef.current[path] = fieldState
         forceUpdate()
+        bumpValidationVersionRef.current()
       }
     },
     []
@@ -825,6 +827,7 @@ export default function Provider<Data extends JsonObject>(
   const fieldConnectionsRef = useRef<
     Record<Path, Record<string, unknown>>
   >({})
+  const fieldStatusRef = useRef<Record<Path, EventStateObject>>({})
   const setFieldConnection = useCallback(
     (path: Path, connections: Record<string, unknown>) => {
       fieldConnectionsRef.current[path] = connections
@@ -873,16 +876,34 @@ export default function Provider<Data extends JsonObject>(
   // - Shared state
   const sharedData = useSharedState<Data>(id)
   const sharedAttachments = useSharedState<SharedAttachments<Data>>(
-    createReferenceKey(id, 'attachments')
+    id ? createReferenceKey(id, 'attachments') : undefined
   )
   const sharedDataContext = useSharedState<ContextState>(
-    createReferenceKey(id, 'data-context')
+    id ? createReferenceKey(id, 'data-context') : undefined
   )
 
   const setSharedData = sharedData.set
   const extendSharedData = sharedData.extend
   const extendAttachment = sharedAttachments.extend
   const rerenderUseDataHook = sharedAttachments.data?.rerenderUseDataHook
+  bumpValidationVersionRef.current = () => {
+    if (id) {
+      validationVersionRef.current += 1
+      extendAttachment(
+        { validationVersion: validationVersionRef.current },
+        { preventSyncOfSameInstance: true }
+      )
+    }
+  }
+  const hasHydratedFieldErrorRef = useRef(false)
+
+  if (!hasHydratedFieldErrorRef.current) {
+    const sharedFieldErrorRef = sharedAttachments.data?.fieldErrorRef
+    if (sharedFieldErrorRef?.current) {
+      fieldErrorRef.current = sharedFieldErrorRef.current
+      hasHydratedFieldErrorRef.current = true
+    }
+  }
 
   const cacheRef = useRef({
     data,
@@ -1212,10 +1233,22 @@ export default function Provider<Data extends JsonObject>(
   // - Mounted fields
   const setMountedFieldState = useCallback(
     (path: Path, state: MountState) => {
+      const currentState = mountedFieldsRef.current.get(path) || {}
       mountedFieldsRef.current.set(path, {
-        ...mountedFieldsRef.current.get(path),
+        ...currentState,
         ...state,
       })
+
+      const hasChanges = (
+        Object.keys(state) as Array<keyof MountState>
+      ).some((key) => {
+        return currentState[key] !== state[key]
+      })
+      if (hasChanges) {
+        Promise.resolve().then(() => {
+          bumpValidationVersionRef.current()
+        })
+      }
 
       for (const itm of fieldEventListenersRef.current) {
         if (itm.type === 'onMount' && itm.path === path) {
@@ -1596,6 +1629,7 @@ export default function Provider<Data extends JsonObject>(
         {
           visibleDataHandler,
           filterDataHandler,
+          validationVersion: validationVersionRef.current,
           hasErrors,
           hasFieldError,
           setShowAllErrors,
@@ -1604,6 +1638,8 @@ export default function Provider<Data extends JsonObject>(
           setData,
           updateDataValue,
           fieldConnectionsRef,
+          fieldStatusRef,
+          fieldErrorRef,
           internalDataRef,
         },
         { preventSyncOfSameInstance: true }
@@ -1788,13 +1824,10 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
     timeout?: NodeJS.Timeout | null
   }>({})
 
-  const setState = useCallback(
-    (state: SubmitState) => {
-      stateRef.current = state
-      forceUpdate()
-    },
-    [forceUpdate]
-  )
+  const setState = useCallback((state: SubmitState) => {
+    stateRef.current = state
+    forceUpdate()
+  }, [])
 
   const clear = useCallback(() => {
     for (const key in timeoutRef.current) {

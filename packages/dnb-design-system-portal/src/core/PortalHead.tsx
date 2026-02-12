@@ -32,14 +32,35 @@ export function HeadComponents({
   description?: string | null
   pathname?: string
 }) {
+  const formattedTitle = title ? formatTitle(title) : 'Eufemia'
+  const siteUrl = 'https://eufemia.dnb.no'
+  const fullUrl = pathname ? `${siteUrl}${pathname}` : siteUrl
+  const ogImage = `${siteUrl}/dnb/android-chrome-512x512.png`
+  const defaultDescription =
+    'Eufemia Design System is the go-to place for all who has to design, develop and make digital WEB applications for DNB.'
+
   return (
     <>
-      <title id="head-title">{title ? formatTitle(title) : ''}</title>
+      <title id="head-title">{formattedTitle}</title>
       <meta
         id="head-description"
         name="description"
-        content={description}
+        content={description || defaultDescription}
       />
+
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="Eufemia" />
+      <meta property="og:title" content={formattedTitle} />
+      <meta
+        property="og:description"
+        content={description || defaultDescription}
+      />
+      <meta property="og:url" content={fullUrl} />
+      <meta property="og:image" content={ogImage} />
+      <meta property="og:image:width" content="512" />
+      <meta property="og:image:height" content="512" />
+      <meta property="og:image:alt" content="Eufemia Design System" />
+
       {pathname === '/' ? (
         <>
           <link

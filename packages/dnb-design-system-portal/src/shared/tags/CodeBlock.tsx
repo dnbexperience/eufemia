@@ -7,7 +7,7 @@ import React from 'react'
 import classnames from 'classnames'
 import { Highlight, Prism } from 'prism-react-renderer'
 import Tag from './Tag'
-import { Button } from '@dnb/eufemia/src/components'
+import { Button, Space } from '@dnb/eufemia/src/components'
 import { makeUniqueId } from '@dnb/eufemia/src/shared/component-helper'
 import { Context } from '@dnb/eufemia/src/shared'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
@@ -38,6 +38,7 @@ export type CodeSectionProps = {
   language?: string
   className?: string
   background?: 'grid' | 'white'
+  omitWrapper?: boolean
   children: string | React.ReactNode | (() => React.ReactNode)
   tabMode?: 'focus' | 'indentation'
   'data-visual-test'?: string
@@ -165,11 +166,12 @@ class LiveCode extends React.PureComponent<LiveCodeProps, LiveCodeProps> {
       noFragments = true,
       language = 'jsx',
       background,
+      omitWrapper,
 
       code: _code, // eslint-disable-line
       hideToolbar: _hideToolbar, // eslint-disable-line
       hideCode: _hideCode, // eslint-disable-line
-      hidePreview: _hidePreview, // eslint-disable-line
+      omitWrapper: _omitWrapper, // eslint-disable-line
       'data-visual-test': visualTest, // eslint-disable-line
 
       ...props
@@ -202,21 +204,28 @@ class LiveCode extends React.PureComponent<LiveCodeProps, LiveCodeProps> {
           noInline={noInline}
           {...props}
         >
-          {!hidePreview && (
-            <div className="example-box">
+          {!hidePreview &&
+            (omitWrapper ? (
               <LivePreview
                 className="dnb-live-preview"
                 data-visual-test={visualTest}
               />
-            </div>
-          )}
+            ) : (
+              <div className="example-box">
+                <LivePreview
+                  className="dnb-live-preview"
+                  data-visual-test={visualTest}
+                />
+              </div>
+            ))}
           {!global.IS_TEST && !hideCode && (
-            <div
+            <Space
               className={classnames(
                 'dnb-live-editor',
                 createSkeletonClass('code', this.context.skeleton)
               )}
-              ref={this._editorElementRef}
+              top={omitWrapper}
+              innerRef={this._editorElementRef}
             >
               <span className="dnb-sr-only">Code Editor</span>
               <LiveEditor
@@ -242,13 +251,18 @@ class LiveCode extends React.PureComponent<LiveCodeProps, LiveCodeProps> {
                   }
                 }}
               />
-            </div>
+            </Space>
           )}
 
           <LiveError className="dnb-form-status dnb-form-status__text dnb-form-status--error" />
 
           {!global.IS_TEST && !hideToolbar && (
-            <div className={classnames(toolbarStyle, 'dnb-live-toolbar')}>
+            <Space
+              className={classnames(toolbarStyle, 'dnb-live-toolbar')}
+              style={{
+                bottom: omitWrapper ? '-3.5rem' : 0,
+              }}
+            >
               {this.props.hideCode && (
                 <Button
                   className="toggle-button"
@@ -271,7 +285,7 @@ class LiveCode extends React.PureComponent<LiveCodeProps, LiveCodeProps> {
                   size="medium"
                 />
               )}
-            </div>
+            </Space>
           )}
         </LiveProvider>
       </div>

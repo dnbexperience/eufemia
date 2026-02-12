@@ -1950,6 +1950,51 @@ describe('Upload', () => {
       })
     })
 
+    it('will stop loading spinner when onFileClick promise rejects', async () => {
+      const id = 'onFileClick-reject'
+      const onFileClick = jest.fn(async () => {
+        await wait(1)
+        throw new Error('File click failed')
+      })
+
+      render(
+        <Upload {...defaultProps} id={id} onFileClick={onFileClick} />
+      )
+
+      const inputElement = document.querySelector(
+        '.dnb-upload__file-input'
+      )
+      const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+      fireEvent.change(inputElement, {
+        target: { files: [file1] },
+      })
+
+      const fileButton = document.querySelector(
+        '.dnb-upload__file-cell button'
+      )
+
+      expect(
+        document.querySelectorAll('.dnb-progress-indicator').length
+      ).toBe(0)
+
+      fireEvent.click(fileButton)
+
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('.dnb-progress-indicator').length
+        ).toBe(1)
+      })
+
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('.dnb-progress-indicator').length
+        ).toBe(0)
+      })
+
+      expect(onFileClick).toHaveBeenCalledTimes(1)
+    })
+
     it('will call onFileDelete when file gets removed', async () => {
       const id = 'onFileDelete-sync'
       const onFileDelete = jest.fn()

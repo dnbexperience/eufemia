@@ -11,7 +11,7 @@ import {
 describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/dialog/demos',
+    url: '/uilib/components/dialog/demos/',
     pageViewport: {
       width: 700,
       height: 600,
@@ -186,7 +186,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
   describe('scrollable content', () => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/dialog/demos',
+      url: '/uilib/components/dialog/demos/',
       pageViewport: {
         width: 400,
         height: 400,
@@ -226,7 +226,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
   describe('scrollable content in variant info', () => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/dialog/demos',
+      url: '/uilib/components/dialog/demos/',
       pageViewport: {
         width: 375,
         height: 667, // Set viewport size to iPhone 6 dimensions
