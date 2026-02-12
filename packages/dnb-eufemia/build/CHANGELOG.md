@@ -3,6 +3,39 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.97.0](https://github.com/dnbexperience/eufemia/compare/v10.96.0...v10.97.0) (2026-02-12)
+
+
+### :memo: Documentation
+
+* add best practices page for number formatting ([#6564](https://github.com/dnbexperience/eufemia/issues/6564)) ([f808ad3](https://github.com/dnbexperience/eufemia/commit/f808ad350313edc36680b0e9ae69047c4a90bab9))
+
+
+### :zap: Refactoring
+
+* **Form.useValidation:** prevent faulty status when changing locale ([#6603](https://github.com/dnbexperience/eufemia/issues/6603)) ([9423aab](https://github.com/dnbexperience/eufemia/commit/9423aab9d3f1798a55c7770306d94e2425b39e30)), closes [#6601](https://github.com/dnbexperience/eufemia/issues/6601)
+
+
+### :bug: Bug Fixes
+
+* **Form.useSubmit:** make it work properly outside of Form.Handler ([#6592](https://github.com/dnbexperience/eufemia/issues/6592)) ([40e691d](https://github.com/dnbexperience/eufemia/commit/40e691d76d7b6622deb3fffdee87ecc369c4ed00))
+* **Form.useValidation:** make hook reactive ([#6599](https://github.com/dnbexperience/eufemia/issues/6599)) ([0d7e165](https://github.com/dnbexperience/eufemia/commit/0d7e16532bec334f6828ef59ba4e74ffee7be7ea))
+* **Form.useValidation:** prevent faulty status when changing locale ([#6601](https://github.com/dnbexperience/eufemia/issues/6601)) ([d2cfb45](https://github.com/dnbexperience/eufemia/commit/d2cfb45611b40e5f64e77e7770fa72f93b552eeb))
+* **Forms:** should update required error message when locale changes ([#6602](https://github.com/dnbexperience/eufemia/issues/6602)) ([7d35900](https://github.com/dnbexperience/eufemia/commit/7d359009e5d330fcf883d61387a528e2353b065f))
+* **List:** reset browser given margin on ul element ([#6567](https://github.com/dnbexperience/eufemia/issues/6567)) ([299c344](https://github.com/dnbexperience/eufemia/commit/299c34406409e41d3badaa3e99471223bc5880b7))
+* **Tabs:** ensure Badge styles do not effect content styles ([#6606](https://github.com/dnbexperience/eufemia/issues/6606)) ([f285b0f](https://github.com/dnbexperience/eufemia/commit/f285b0f21dd439b363de64fb9b921ac37a7e57ff))
+* **Upload:** stop loading spinner when rejecting promise ([#6607](https://github.com/dnbexperience/eufemia/issues/6607)) ([2869a1e](https://github.com/dnbexperience/eufemia/commit/2869a1e33e4823a382a92ddd70d99ec28e1621c4))
+* **Value.Currency:** fix correct empty placeholder when locale is en-GB ([#6565](https://github.com/dnbexperience/eufemia/issues/6565)) ([e9e33d0](https://github.com/dnbexperience/eufemia/commit/e9e33d0dee48d76350fb62a7df46a81f4a11f032))
+
+
+### :sparkles: Features
+
+* **Field.Selection:** deprecate `radio-list` in favor of the new List component ([#6570](https://github.com/dnbexperience/eufemia/issues/6570)) ([ff77078](https://github.com/dnbexperience/eufemia/commit/ff770784d4a460cddb3b171b9a9de2a76b4221eb))
+* **Forms:** add support for children given in a function to `Field.Selection` and `Field.ArraySelection` ([#6568](https://github.com/dnbexperience/eufemia/issues/6568)) ([8df1fd2](https://github.com/dnbexperience/eufemia/commit/8df1fd28259193f4d262b963f72cd58951ac6bb3))
+* **NumberFormat:** add when to display the sign for the number (`signDisplay`) ([#6604](https://github.com/dnbexperience/eufemia/issues/6604)) ([cfc4479](https://github.com/dnbexperience/eufemia/commit/cfc44798a22693702aff20f63b71b2bced1741f8))
+* **Space:** add `inline` and `block` support to `innerSpace` ([#6595](https://github.com/dnbexperience/eufemia/issues/6595)) ([91ae029](https://github.com/dnbexperience/eufemia/commit/91ae02903edeb844d76a9ff386e81d9e56eae329))
+* **Upload:** remove link for files by using `removeLink` ([#6608](https://github.com/dnbexperience/eufemia/issues/6608)) ([ef29eeb](https://github.com/dnbexperience/eufemia/commit/ef29eeb5cb0bc5cfab5569f0c0d224e7b0b228b7))
+
 ## [10.96.0](https://github.com/dnbexperience/eufemia/compare/v10.95.2...v10.96.0) (2026-02-05)
 
 
