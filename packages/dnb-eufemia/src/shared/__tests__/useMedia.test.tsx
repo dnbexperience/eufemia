@@ -438,7 +438,7 @@ describe('useMedia', () => {
         })
       )
 
-      expect(count).toBe(24)
+      expect(count).toBe(20)
     })
 
     it('will return correct key based on size', async () => {
