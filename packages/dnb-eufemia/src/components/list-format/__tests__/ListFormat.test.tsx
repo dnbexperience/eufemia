@@ -591,49 +591,17 @@ describe('listFormat', () => {
   })
 
   it('accepts array with jsx values', () => {
-    expect(
-      listFormat([
-        <>A</>,
-        <>
-          <b>B</b>
-        </>,
-        <>C</>,
-        'D',
-        123,
-      ])
-    ).toMatchInlineSnapshot(`
-      [
-        "",
-        <React.Fragment>
-          <React.Fragment>
-            A
-          </React.Fragment>
-        </React.Fragment>,
-        ", ",
-        <React.Fragment>
-          <React.Fragment>
-            <b>
-              B
-            </b>
-          </React.Fragment>
-        </React.Fragment>,
-        ", ",
-        <React.Fragment>
-          <React.Fragment>
-            C
-          </React.Fragment>
-        </React.Fragment>,
-        ", ",
-        <React.Fragment>
-          D
-        </React.Fragment>,
-        " og ",
-        <React.Fragment>
-          123
-        </React.Fragment>,
-        "",
-      ]
-    `)
+    const result = listFormat([
+      <>A</>,
+      <>
+        <b>B</b>
+      </>,
+      <>C</>,
+      'D',
+      123,
+    ])
+    const { container } = render(result as any)
+    expect(container).toHaveTextContent('A, B, C, D og 123')
   })
 
   it('accepts array with jsx values with keys', () => {
