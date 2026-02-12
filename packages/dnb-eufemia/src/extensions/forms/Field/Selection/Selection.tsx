@@ -56,6 +56,15 @@ type RenderSelectionChildren = (params: {
   options: Props['data']
 }) => React.ReactNode
 
+type DrawerListChangeParams = {
+  data?: DrawerListDataArrayObjectStrict | string | null
+  value?: IOption['value']
+}
+
+type DrawerListVisibilityParams = {
+  data?: DrawerListDataArrayObjectStrict | string | null
+}
+
 export type Props = FieldProps<IOption['value']> & {
   /**
    * Defines the variant of the component.
@@ -173,8 +182,9 @@ function Selection(props: Props) {
   }, [children, dataList, value])
 
   const handleDrawerListChange = useCallback(
-    ({ data, value }) => {
-      const selectedKey = data?.selectedKey ?? value
+    ({ data, value }: DrawerListChangeParams) => {
+      const selectedKey =
+        typeof data === 'object' && data ? data.selectedKey : value
       handleChange?.(
         !selectedKey || selectedKey === clearValue
           ? emptyValue
@@ -196,15 +206,21 @@ function Selection(props: Props) {
   // due to `useCallback` usage will have no effect, leading to useFieldProps's handleFocus and handleBlur sending out old
   // copies of value as arguments.
   const handleShow = useCallback(
-    ({ data }) => {
-      setHasFocus(true, data?.selectedKey)
+    ({ data }: DrawerListVisibilityParams) => {
+      setHasFocus(
+        true,
+        typeof data === 'object' && data ? data.selectedKey : undefined
+      )
     },
     [setHasFocus]
   )
 
   const handleHide = useCallback(
-    ({ data }) => {
-      setHasFocus(false, data?.selectedKey)
+    ({ data }: DrawerListVisibilityParams) => {
+      setHasFocus(
+        false,
+        typeof data === 'object' && data ? data.selectedKey : undefined
+      )
     },
     [setHasFocus]
   )
