@@ -3,4 +3,4 @@
  *
  */
 
-import '../theme-ui/ui-theme-basis.scss'
+import './ui-theme-basis.scss'

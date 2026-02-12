@@ -25,7 +25,7 @@ import {
 } from 'react-live-ssr' // we use this temporary version of until ssr is supported https://github.com/FormidableLabs/react-live/pull/322
 
 // this theme is replaced my a css one
-import prismTheme from '@dnb/eufemia/src/style/themes/theme-ui/prism/dnb-prism-theme'
+import prismTheme from '@dnb/eufemia/src/style/themes/ui/prism/dnb-prism-theme'
 
 export type CodeSectionProps = {
   scope?: Record<string, unknown>

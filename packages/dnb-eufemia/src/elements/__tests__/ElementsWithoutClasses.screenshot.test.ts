@@ -10,9 +10,7 @@ import {
 
 import { generatePackages } from 'dnb-design-system-portal/scripts/compile-css-packages.cjs'
 
-generatePackages([
-  '@dnb/eufemia/src/style/themes/theme-ui/ui-theme-tags.scss',
-])
+generatePackages(['@dnb/eufemia/src/style/themes/ui/ui-theme-tags.scss'])
 
 describe('Elements without classes', () => {
   setupPageScreenshot({
