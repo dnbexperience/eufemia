@@ -29,10 +29,10 @@ There are several packages you can use and combine.
 
 ### Additional Theme Packages
 
-- **ui-theme-properties**: includes only the CSS Custom Properties. You can find this package inside `/style/themes/theme-ui/`.
+- **ui-theme-properties**: includes only the CSS Custom Properties. You can find this package inside `/style/themes/ui/`.
   - There is also a [JavaScript file containing](/uilib/usage/customisation/styling#a-list-of-all-css-properties-variables) the same properties.
 - **ui-theme-extensions**: includes all the styles (and themes) for [extensions](/uilib/extensions) (not shown in the [Diagram](#css-structure-diagram)).
-- **ui-theme-fonts**: includes only the `@font-face` and properties. You can find this package inside `/style/themes/theme-ui/`.
+- **ui-theme-fonts**: includes only the `@font-face` and properties. You can find this package inside `/style/themes/ui/`.
 - **ui-theme-tags**: this package will force styles on all HTML tags like `<h1>` instead of CSS classes like `.dnb-h--xx-large`.
   - **NB:** requires a `.dnb-core-style` [wrapper class](/uilib/usage/customisation/styling#core-style).
   - Use it carefully because this will affect existing styles as well.
@@ -132,10 +132,10 @@ To work with HTML elements without declaring them with individual CSS classes (l
 
 ```diff
 import '@dnb/eufemia/style/dnb-ui-core.min.css'
-import '@dnb/eufemia/style/themes/theme-ui/ui-theme-basis.min.css'
+import '@dnb/eufemia/style/themes/ui/ui-theme-basis.min.css'
 
-- import '@dnb/eufemia/style/themes/theme-ui/ui-theme-components.min.css'
-+ import '@dnb/eufemia/style/themes/theme-ui/ui-theme-tags.min.css'
+- import '@dnb/eufemia/style/themes/ui/ui-theme-components.min.css'
++ import '@dnb/eufemia/style/themes/ui/ui-theme-tags.min.css'
 ```
 
 ```html
@@ -150,12 +150,12 @@ import '@dnb/eufemia/style/themes/theme-ui/ui-theme-basis.min.css'
 
 ## A list of all CSS properties (variables)
 
-Beside the portal documentation with related tables and additional information, you may have a look at the [CSS file](https://unpkg.com/browse/@dnb/eufemia@latest/style/themes/theme-ui/ui-theme-properties.css) containing the custom properties (CSS variables), as well as a [JavaScript file](https://unpkg.com/browse/@dnb/eufemia@latest/style/themes/theme-ui/properties.js) that is auto-generated from the CSS data.
+Beside the portal documentation with related tables and additional information, you may have a look at the [CSS file](https://unpkg.com/browse/@dnb/eufemia@latest/style/themes/ui/ui-theme-properties.css) containing the custom properties (CSS variables), as well as a [JavaScript file](https://unpkg.com/browse/@dnb/eufemia@latest/style/themes/ui/properties.js) that is auto-generated from the CSS data.
 
 ### Access CSS properties (variables) in JavaScript
 
 ```js
-import properties from '@dnb/eufemia/style/themes/theme-ui/properties.js'
+import properties from '@dnb/eufemia/style/themes/ui/properties.js'
 
 const seaGreenColor = properties['--color-sea-green']
 const basisFontSize = properties['--font-size-basis']
@@ -179,16 +179,15 @@ You can import the pre-generated `properties-tailwind.css` files that contain al
 
 /* Import Eufemia styles */
 @import '@dnb/eufemia/style/dnb-ui-core.min.css' layer(eufemia);
-@import '@dnb/eufemia/style/themes/theme-ui/ui-theme-components.min.css'
-  layer(eufemia);
-@import '@dnb/eufemia/style/themes/theme-ui/ui-theme-basis.min.css' layer(eufemia);
+@import '@dnb/eufemia/style/themes/ui/ui-theme-components.min.css' layer(eufemia);
+@import '@dnb/eufemia/style/themes/ui/ui-theme-basis.min.css' layer(eufemia);
 
 /* Import Tailwind base, theme and utilities layers */
 @import 'tailwindcss/theme.css' layer(theme);
 @import 'tailwindcss/utilities.css' layer(utilities);
 
 /* Import Eufemia properties in Tailwind format */
-@import '@dnb/eufemia/style/themes/theme-ui/properties-tailwind.css' layer(utilities);
+@import '@dnb/eufemia/style/themes/ui/properties-tailwind.css' layer(utilities);
 ```
 
 ### Tailwind-Compatible CSS Variables

@@ -3,5 +3,5 @@
  *
  */
 
-import '../theme-ui/ui-theme-components.scss'
-import '../theme-ui/ui-theme-basis.scss'
+import './ui-theme-components.scss'
+import './ui-theme-basis.scss'

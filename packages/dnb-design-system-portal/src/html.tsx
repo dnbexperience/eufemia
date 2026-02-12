@@ -9,7 +9,7 @@ import React from 'react'
 import { withPrefix } from 'gatsby' // use it like this: withPrefix('/safari-pinned-tab.svg')
 
 // load properties
-import properties from '@dnb/eufemia/src/style/themes/theme-ui/properties'
+import properties from '@dnb/eufemia/src/style/themes/ui/properties'
 import type { ReactNode, HTMLAttributes } from 'react'
 
 const mainColor = properties['--color-sea-green']
