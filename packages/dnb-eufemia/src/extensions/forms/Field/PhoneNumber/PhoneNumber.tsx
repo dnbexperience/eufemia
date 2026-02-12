@@ -30,6 +30,7 @@ import {
 } from '../SelectCountry'
 import useTranslation from '../../hooks/useTranslation'
 import { DrawerListDataArrayItem } from '../../../../fragments/DrawerList'
+import { AutocompleteBlurEvent } from '../../../../components/Autocomplete'
 
 export type AdditionalArgs = {
   phoneNumber: string
@@ -388,14 +389,18 @@ function PhoneNumber(props: Props = {}) {
   }, [value, props.value, lang, updateCurrentDataSet])
 
   const handleCountryCodeChange = useCallback(
-    ({
-      data,
-    }: {
-      data: { selectedKey: string; country: CountryType }
-    }) => {
+    (event: AutocompleteBlurEvent) => {
+      const data = event.data
+      const dataObj =
+        data && typeof data === 'object' && 'selectedKey' in data
+          ? (data as unknown as {
+              selectedKey: string
+              country: CountryType
+            })
+          : undefined
       const countryCode = (countryCodeRef.current =
-        data?.selectedKey?.trim() || emptyValue)
-      currentCountryRef.current = data?.country
+        dataObj?.selectedKey?.trim() || emptyValue)
+      currentCountryRef.current = dataObj?.country
 
       // If the phone number is more than 8 digits, and the country code is the default one (+47),
       // we truncate the phone number to 8 digits.
