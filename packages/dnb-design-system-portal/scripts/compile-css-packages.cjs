@@ -32,8 +32,8 @@ exports.generatePackages = generatePackages
 if (require.main === module) {
   generatePackages([
     '@dnb/eufemia/src/style/dnb-ui-core.scss',
-    '@dnb/eufemia/src/style/themes/theme-ui/ui-theme-basis.scss',
-    '@dnb/eufemia/src/style/themes/theme-ui/ui-theme-tags.scss',
+    '@dnb/eufemia/src/style/themes/ui/ui-theme-basis.scss',
+    '@dnb/eufemia/src/style/themes/ui/ui-theme-tags.scss',
   ])
 }
 
@@ -47,7 +47,7 @@ if (require.main === module) {
  *  runGeneratePackages({
  *    app,
  *    page: '/uilib/elements/elements-without-classes',
- *    packages: ['@dnb/eufemia/src/style/themes/theme-ui/ui-theme-tags.scss'],
+ *    packages: ['@dnb/eufemia/src/style/themes/ui/ui-theme-tags.scss'],
  *  })
  * }
  */
