@@ -43,6 +43,12 @@ export type NumberFormatCurrency = string | boolean
 export type NumberFormatCurrencyPosition = 'auto' | 'before' | 'after'
 export type NumberFormatCompact = 'short' | 'long' | boolean
 export type NumberFormatLink = 'tel' | 'sms'
+export type NumberFormatSignDisplay =
+  | 'auto'
+  | 'always'
+  | 'exceptZero'
+  | 'negative'
+  | 'never'
 export type NumberFormatOptions = Record<string, unknown> | string
 export type NumberFormatDecimals = number | string
 export type NumberFormatElement = string
@@ -84,7 +90,7 @@ export type NumberFormatProps = {
   clean_copy_value?: boolean
   omit_rounding?: boolean
   rounding?: 'omit' | 'half-even' | 'half-up'
-  signDisplay?: 'auto' | 'always' | 'exceptZero' | 'negative' | 'never'
+  signDisplay?: NumberFormatSignDisplay
   clean?: boolean
   srLabel?: React.ReactNode
   element?: NumberFormatElement
