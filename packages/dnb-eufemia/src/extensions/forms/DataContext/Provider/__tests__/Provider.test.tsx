@@ -52,6 +52,13 @@ describe('DataContext.Provider', () => {
     identifier = makeUniqueId()
   })
 
+  it('should throw error if props are missing', () => {
+    expect(() => {
+      // @ts-expect-error purposely missing props
+      render(<DataContext.Provider />)
+    }).toThrow('DataContext.Provider: props are required')
+  })
+
   it('should throw error when nested', () => {
     const log = jest.spyOn(console, 'error').mockImplementation()
 

@@ -215,6 +215,9 @@ const isArrayJsonPointer = /^\/\d+(\/|$)/
 export default function Provider<Data extends JsonObject>(
   props: Props<Data>
 ) {
+  if (!props) {
+    throw new Error('DataContext.Provider: props are required')
+  }
   const [, forceUpdate] = useReducer(() => ({}), {})
 
   const {
