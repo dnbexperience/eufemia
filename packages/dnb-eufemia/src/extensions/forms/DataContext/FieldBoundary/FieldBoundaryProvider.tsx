@@ -15,7 +15,7 @@ export default function FieldBoundaryProvider(props: Props) {
   const { showErrors = undefined, onPathError = null, children } = props
   const [, forceUpdate] = useReducer(() => ({}), {})
   const dataContext = useContext(DataContext)
-  if (!dataContext) {
+  if (!dataContext.hasContext) {
     throw new Error('FieldBoundaryProvider: DataContext is missing')
   }
   const { showAllErrors } = dataContext
