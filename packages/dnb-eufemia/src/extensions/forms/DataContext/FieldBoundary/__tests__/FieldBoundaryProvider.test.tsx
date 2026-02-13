@@ -9,6 +9,31 @@ import { Field, Form } from '../../..'
 import userEvent from '@testing-library/user-event'
 
 describe('FieldBoundaryProvider', () => {
+  it('should throw if DataContext is missing', () => {
+    expect(() => {
+      render(<FieldBoundaryProvider>child</FieldBoundaryProvider>)
+    }).toThrow('FieldBoundaryProvider: DataContext is missing')
+  })
+
+  it('should throw if setFieldError called without path', () => {
+    // Setup with context
+    const contextRef: React.MutableRefObject<FieldBoundaryContextState> =
+      React.createRef()
+    const ContextConsumer = () => {
+      contextRef.current = useContext(FieldBoundaryContext)
+      return null
+    }
+    render(
+      <Provider>
+        <FieldBoundaryProvider>
+          <ContextConsumer />
+        </FieldBoundaryProvider>
+      </Provider>
+    )
+    expect(() => {
+      contextRef.current.setFieldError(undefined, new Error('test'))
+    }).toThrow('setFieldError: path is required')
+  })
   it('should render children', () => {
     const { getByText } = render(
       <FieldBoundaryProvider>content</FieldBoundaryProvider>

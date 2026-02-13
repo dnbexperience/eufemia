@@ -14,7 +14,11 @@ export type Props = {
 export default function FieldBoundaryProvider(props: Props) {
   const { showErrors = undefined, onPathError = null, children } = props
   const [, forceUpdate] = useReducer(() => ({}), {})
-  const { showAllErrors } = useContext(DataContext)
+  const dataContext = useContext(DataContext)
+  if (!dataContext) {
+    throw new Error('FieldBoundaryProvider: DataContext is missing')
+  }
+  const { showAllErrors } = dataContext
 
   const onPathErrorRef = useRef(onPathError)
   onPathErrorRef.current = onPathError
@@ -28,13 +32,18 @@ export default function FieldBoundaryProvider(props: Props) {
   const hasSubmitError = showAllErrors && hasError
 
   const setFieldError = useCallback((path: Path, error: Error) => {
+    if (!path) {
+      throw new Error('setFieldError: path is required')
+    }
     if (error) {
       errorsRef.current[path] = !!error
     } else {
       delete errorsRef.current?.[path]
     }
     forceUpdate()
-    onPathErrorRef.current?.(path, error)
+    if (typeof onPathErrorRef.current === 'function') {
+      onPathErrorRef.current(path, error)
+    }
   }, [])
 
   const hasVisibleErrorRef = useRef<Map<Path, boolean>>(new Map())
