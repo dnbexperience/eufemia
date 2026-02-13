@@ -50,7 +50,7 @@ export const useCallEvent = ({
     // Android issue: https://bugs.chromium.org/p/chromium/issues/detail?id=118639
     if (
       name === 'onKeyDown' &&
-      (event.which === 229 || keyCode === 'Unidentified')
+      (event.isComposing || keyCode === 'Unidentified')
     ) {
       isUnidentified = true
     }
