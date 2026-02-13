@@ -203,8 +203,14 @@
       grid-area: center;
     }
     &__end {
+      flex-direction: column;
       grid-area: end;
       justify-self: start;
+      align-items: flex-end;
+
+      @include allBelow(small) {
+        align-items: flex-start;
+      }
     }
     &__footer {
       grid-area: footer;
