@@ -8,9 +8,7 @@
 
 import React from 'react'
 import { cleanNumber } from '../../number-format/NumberUtils'
-import {
-  dispatchCustomElementEvent,
-} from '../../../shared/component-helper'
+import { dispatchCustomElementEvent } from '../../../shared/component-helper'
 import { safeSetSelection } from '../text-mask/createTextMaskInputElement'
 import { isNumber } from '../text-mask/utilities'
 import InputMaskedContext from '../InputMaskedContext'

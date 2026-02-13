@@ -276,7 +276,6 @@ describe('Dialog', () => {
 
     fireEvent.click(document.querySelector('button#modal-dialog'))
     fireEvent.keyDown(document.querySelector('div.dnb-dialog'), {
-      key: 'Esc',
       key: 'Escape',
     })
     expect(onClose).toHaveBeenCalledTimes(1)
@@ -342,7 +341,6 @@ describe('Dialog', () => {
 
     // Close with ESC
     fireEvent.keyDown(document.querySelector('div.dnb-dialog'), {
-      key: 'Esc',
       key: 'Escape',
     })
 

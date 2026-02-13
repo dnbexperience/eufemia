@@ -319,7 +319,6 @@ describe('InputMasked component', () => {
 
     fireEvent.keyDown(document.querySelector('input'), {
       key: '0',
-      key: '0',
       target: {
         value: newValue,
         selectionStart: 0, // set it to be a leading zero
@@ -354,7 +353,6 @@ describe('InputMasked component', () => {
     )
 
     fireEvent.keyDown(document.querySelector('input'), {
-      key: '0',
       key: '0',
       target: {
         value: newValue,
@@ -611,7 +609,6 @@ describe('InputMasked component', () => {
 
       fireEvent.keyDown(document.querySelector('input'), {
         key: '0',
-        key: '0',
         target: {
           value: newValue,
           selectionStart: 5, // can be wherever, but not 4
@@ -624,7 +621,6 @@ describe('InputMasked component', () => {
       expect(onKeyDown.mock.calls[0][0].numberValue).toBe(1234.56)
 
       fireEvent.keyDown(document.querySelector('input'), {
-        key: '0',
         key: '0',
         target: {
           value: newValue,
@@ -648,7 +644,6 @@ describe('InputMasked component', () => {
 
       fireEvent.keyDown(document.querySelector('input'), {
         key: '0',
-        key: '0',
         target: {
           value: newValue,
           selectionStart: 4, // set it to be a leading zero
@@ -671,7 +666,6 @@ describe('InputMasked component', () => {
       )
 
       fireEvent.keyDown(document.querySelector('input'), {
-        key: ',',
         key: ',',
         target: {
           value: '',
@@ -917,7 +911,6 @@ describe('InputMasked component', () => {
       )
 
       fireEvent.keyDown(document.querySelector('input'), {
-        key: '0',
         key: '0',
         target: {
           value: '0 kr',
@@ -2284,7 +2277,6 @@ describe('inputmode', () => {
     })
 
     fireEvent.keyDown(document.querySelector('input'), {
-      key: ',',
       key: 'Unidentified',
       target: {
         value: '1234.5',

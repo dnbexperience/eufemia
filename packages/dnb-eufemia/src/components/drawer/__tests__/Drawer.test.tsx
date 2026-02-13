@@ -210,7 +210,6 @@ describe('Drawer', () => {
 
     fireEvent.click(document.querySelector('button#modal-drawer'))
     fireEvent.keyDown(document.querySelector('div.dnb-drawer'), {
-      key: 'Esc',
       key: 'Escape',
     })
 
@@ -278,7 +277,6 @@ describe('Drawer', () => {
 
     // Close with ESC
     fireEvent.keyDown(document.querySelector('div.dnb-drawer'), {
-      key: 'Esc',
       key: 'Escape',
     })
 

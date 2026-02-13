@@ -177,12 +177,11 @@ export default class Radio extends React.PureComponent {
         }
         this.onChangeHandler(event)
       }
-      }
     } else {
       // else we only use the native support, and don't want space support
       // because only arrow keys has to be used
       switch (key) {
-        case 'space': {
+        case ' ': {
           event.preventDefault()
           break
         }
