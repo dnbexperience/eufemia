@@ -3,8 +3,6 @@
  *
  */
 
-import { runCssVersionMismatchWarning } from './helpers/runCssVersionMismatchWarning'
-
 // For backward compatibility
 export { debounce, debounceAsync } from './helpers/debounce'
 
@@ -412,6 +410,3 @@ export function getColor(value) {
       : value
     : undefined
 }
-
-// Run the version mismatch warning one time
-runCssVersionMismatchWarning()
