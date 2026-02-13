@@ -16,7 +16,6 @@ import {
   getStatusState,
   combineDescribedBy,
   dispatchCustomElementEvent,
-  keycode,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
@@ -164,25 +163,20 @@ export default class Radio extends React.PureComponent {
   }
 
   onKeyDownHandler = (event) => {
-    const key = keycode(event)
+    const key = event.key
     // only have key support if there is only a single radio
     if (this.isInNoGroup()) {
-      switch (key) {
-        case 'enter':
-          this.onChangeHandler(event)
-          break
+      if (key === 'Enter') {
+        this.onChangeHandler(event)
       }
     } else if (this.isContextGroupOrSingle()) {
-      switch (key) {
-        case 'space':
-        case 'enter': {
-          const { value } = this.context
-          if (value !== null && typeof value !== 'undefined') {
-            event.preventDefault()
-          }
-          this.onChangeHandler(event)
-          break
+      if (key === 'Enter' || key === ' ') {
+        const { value } = this.context
+        if (value !== null && typeof value !== 'undefined') {
+          event.preventDefault()
         }
+        this.onChangeHandler(event)
+      }
       }
     } else {
       // else we only use the native support, and don't want space support

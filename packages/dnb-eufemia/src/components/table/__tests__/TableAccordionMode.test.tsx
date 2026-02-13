@@ -327,7 +327,7 @@ describe('Table using mode="accordion" prop', () => {
 
     // open
     const enterKey = createEvent.keyDown(trElement, {
-      keyCode: 13, // enter
+      key: 'Enter',
     })
     enterKey.preventDefault = jest.fn()
     fireEvent(trElement, enterKey)
@@ -364,7 +364,7 @@ describe('Table using mode="accordion" prop', () => {
 
     // open
     const enterKey = createEvent.keyDown(trElement, {
-      keyCode: 13, // enter
+      key: 'Enter',
     })
     enterKey.preventDefault = jest.fn()
     fireEvent(trElement, enterKey)
@@ -457,13 +457,13 @@ describe('Table using mode="accordion" prop', () => {
     // Simulate keyboard usage
     jest.spyOn(document, 'activeElement', 'get').mockReturnValue(inputElem)
 
-    fireEvent.keyDown(inputElem, { keyCode: 13 }) // enter
+    fireEvent.keyDown(inputElem, { key: 'Enter' })
 
     expect(Array.from(trElement.classList)).not.toContain(
       'dnb-table__tr--expanded'
     )
 
-    fireEvent.keyDown(inputElem, { keyCode: 32 }) // space
+    fireEvent.keyDown(inputElem, { key: ' ' })
 
     expect(Array.from(trElement.classList)).not.toContain(
       'dnb-table__tr--expanded'
@@ -473,13 +473,13 @@ describe('Table using mode="accordion" prop', () => {
       .spyOn(document, 'activeElement', 'get')
       .mockReturnValue(labelElement)
 
-    fireEvent.keyDown(labelElement, { keyCode: 13 }) // enter
+    fireEvent.keyDown(labelElement, { key: 'Enter' })
 
     expect(Array.from(trElement.classList)).not.toContain(
       'dnb-table__tr--expanded'
     )
 
-    fireEvent.keyDown(labelElement, { keyCode: 32 }) // space
+    fireEvent.keyDown(labelElement, { key: ' ' })
 
     expect(Array.from(trElement.classList)).not.toContain(
       'dnb-table__tr--expanded'
@@ -734,7 +734,7 @@ describe('Table using mode="accordion" prop', () => {
 
     // open
     const enterKey = createEvent.keyDown(trElement, {
-      keyCode: 13, // enter
+      key: 'Enter',
     })
     enterKey.preventDefault = jest.fn()
     fireEvent(trElement, enterKey)
@@ -749,7 +749,7 @@ describe('Table using mode="accordion" prop', () => {
 
     // close
     const spaceKey = createEvent.keyDown(trElement, {
-      keyCode: 32, // space
+      key: ' ',
     })
     spaceKey.preventDefault = jest.fn()
     fireEvent(trElement, spaceKey)

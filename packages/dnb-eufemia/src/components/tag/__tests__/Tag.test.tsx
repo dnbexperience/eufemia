@@ -452,12 +452,10 @@ describe('Tag', () => {
 
       fireEvent.keyUp(screen.getByRole('button'), {
         key: 'Backspace',
-        keyCode: 'Backspace',
       })
 
       fireEvent.keyUp(screen.getByRole('button'), {
         key: 'Delete',
-        keyCode: 'Delete',
       })
 
       expect(onClick).toHaveBeenCalledTimes(2)

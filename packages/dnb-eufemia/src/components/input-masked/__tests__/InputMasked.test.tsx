@@ -319,7 +319,7 @@ describe('InputMasked component', () => {
 
     fireEvent.keyDown(document.querySelector('input'), {
       key: '0',
-      keyCode: 48, // zero
+      key: '0',
       target: {
         value: newValue,
         selectionStart: 0, // set it to be a leading zero
@@ -355,7 +355,7 @@ describe('InputMasked component', () => {
 
     fireEvent.keyDown(document.querySelector('input'), {
       key: '0',
-      keyCode: 48, // zero
+      key: '0',
       target: {
         value: newValue,
         selectionStart: 0, // set it to be a leading zero
@@ -514,7 +514,7 @@ describe('InputMasked component', () => {
     const setSelectionRange = jest.fn()
     const preventDefault = jest.fn()
 
-    const simulate = ({ name, value, selectionPosition, keyCode }) => {
+    const simulate = ({ name, value, selectionPosition, key }) => {
       fireEvent[name](document.querySelector('input'), {
         target: {
           value,
@@ -523,7 +523,7 @@ describe('InputMasked component', () => {
           setSelectionRange,
         },
         preventDefault,
-        keyCode,
+        key,
       })
     }
 
@@ -541,7 +541,7 @@ describe('InputMasked component', () => {
       name: 'keyDown',
       value,
       selectionPosition,
-      keyCode: 46, // delete
+      key: 'Delete',
     })
     expect(setSelectionRange).toHaveBeenCalledTimes(1)
     expect(setSelectionRange).toHaveBeenCalledWith(
@@ -611,7 +611,7 @@ describe('InputMasked component', () => {
 
       fireEvent.keyDown(document.querySelector('input'), {
         key: '0',
-        keyCode: 48, // zero
+        key: '0',
         target: {
           value: newValue,
           selectionStart: 5, // can be wherever, but not 4
@@ -625,7 +625,7 @@ describe('InputMasked component', () => {
 
       fireEvent.keyDown(document.querySelector('input'), {
         key: '0',
-        keyCode: 48, // zero
+        key: '0',
         target: {
           value: newValue,
           selectionStart: 4, // set it to be a leading zero
@@ -648,7 +648,7 @@ describe('InputMasked component', () => {
 
       fireEvent.keyDown(document.querySelector('input'), {
         key: '0',
-        keyCode: 48, // zero
+        key: '0',
         target: {
           value: newValue,
           selectionStart: 4, // set it to be a leading zero
@@ -672,7 +672,7 @@ describe('InputMasked component', () => {
 
       fireEvent.keyDown(document.querySelector('input'), {
         key: ',',
-        keyCode: 188, // comma
+        key: ',',
         target: {
           value: '',
           selectionStart: 0, // set it to be a leading zero
@@ -896,9 +896,9 @@ describe('InputMasked component', () => {
         />
       )
 
-      const keyCode = 188 // comma
+      const key = ','
       fireEvent.keyDown(document.querySelector('input'), {
-        keyCode,
+        key,
         target: {
           value: '',
         },
@@ -918,7 +918,7 @@ describe('InputMasked component', () => {
 
       fireEvent.keyDown(document.querySelector('input'), {
         key: '0',
-        keyCode: 48, // zero
+        key: '0',
         target: {
           value: '0 kr',
         },
@@ -1062,7 +1062,7 @@ describe('InputMasked component with currencyMask', () => {
     })
 
     fireEvent.keyDown(document.querySelector('input'), {
-      keyCode: 8,
+      key: 'Backspace',
     })
 
     expect(document.querySelector('input').value).toBe('')
@@ -1249,9 +1249,9 @@ describe('InputMasked component asNumber', () => {
     const elem = document.querySelector('input')
 
     const pressDotAndUseItAsComma = ({ value }) => {
-      const keyCode = 190 // dot
+      const key = '.'
       fireEvent.keyDown(document.querySelector('input'), {
-        keyCode,
+        key,
         target: {
           value,
           selectionStart: 6,
@@ -1286,9 +1286,9 @@ describe('InputMasked component asNumber', () => {
     })
 
     const pressDotAndUseItAsComma = () => {
-      const keyCode = 188 // comma
+      const key = ','
       fireEvent.keyDown(document.querySelector('input'), {
-        keyCode,
+        key,
         ...event,
       })
     }
@@ -1311,9 +1311,9 @@ describe('InputMasked component asNumber', () => {
     })
 
     const pressDotAndUseItAsComma = () => {
-      const keyCode = 188 // comma
+      const key = ','
       fireEvent.keyDown(document.querySelector('input'), {
-        keyCode,
+        key,
         ...event,
       })
     }
@@ -1626,9 +1626,9 @@ describe('InputMasked component asCurrency', () => {
     })
 
     const pressDotAndUseItAsComma = () => {
-      const keyCode = 188 // comma
+      const key = ','
       fireEvent.keyDown(document.querySelector('input'), {
-        keyCode,
+        key,
         ...event,
       })
     }
@@ -1653,9 +1653,9 @@ describe('InputMasked component asCurrency', () => {
     })
 
     const pressDotAndUseItAsComma = () => {
-      const keyCode = 188 // comma
+      const key = ','
       fireEvent.keyDown(document.querySelector('input'), {
-        keyCode,
+        key,
         ...event,
       })
     }
@@ -2285,7 +2285,7 @@ describe('inputmode', () => {
 
     fireEvent.keyDown(document.querySelector('input'), {
       key: ',',
-      keyCode: 229, // unidentified, while 188 would have worked fine
+      key: 'Unidentified',
       target: {
         value: '1234.5',
       },

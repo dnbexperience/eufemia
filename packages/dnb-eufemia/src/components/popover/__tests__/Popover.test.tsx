@@ -458,7 +458,7 @@ describe('Popover', () => {
     popover?.dispatchEvent(
       new KeyboardEvent('keydown', {
         key: 'Escape',
-        keyCode: 27,
+        key: 'Escape',
         bubbles: true,
       })
     )
@@ -967,7 +967,7 @@ describe('Popover', () => {
     popover?.dispatchEvent(
       new KeyboardEvent('keydown', {
         key: 'Escape',
-        keyCode: 27,
+        key: 'Escape',
         bubbles: true,
       })
     )
@@ -1051,7 +1051,7 @@ describe('Popover', () => {
     popover?.dispatchEvent(
       new KeyboardEvent('keydown', {
         key: 'Escape',
-        keyCode: 27,
+        key: 'Escape',
         bubbles: true,
       })
     )
@@ -1071,7 +1071,7 @@ describe('Popover', () => {
     }
 
     document.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'Escape', keyCode: 27 })
+      new KeyboardEvent('keydown', { key: 'Escape' })
     )
 
     await waitFor(() =>
@@ -1417,7 +1417,7 @@ describe('Popover', () => {
       popover?.dispatchEvent(
         new KeyboardEvent('keydown', {
           key: 'Escape',
-          keyCode: 27,
+          key: 'Escape',
           bubbles: true,
         })
       )
@@ -1462,7 +1462,7 @@ describe('Popover', () => {
     popover?.dispatchEvent(
       new KeyboardEvent('keydown', {
         key: 'Escape',
-        keyCode: 27,
+        key: 'Escape',
         bubbles: true,
       })
     )
@@ -1861,7 +1861,7 @@ describe('Popover', () => {
         popover?.dispatchEvent(
           new KeyboardEvent('keydown', {
             key: 'Escape',
-            keyCode: 27,
+            key: 'Escape',
             bubbles: true,
             cancelable: true,
           })

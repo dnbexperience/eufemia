@@ -457,8 +457,7 @@ describe('"dispatchCustomElementEvent" should', () => {
       },
     }
 
-    const keyCode = 13
-    const event = new KeyboardEvent('keydown', { keyCode })
+    const event = new KeyboardEvent('keydown', { key: 'Enter' })
     const data = { foo: 'bar' }
     const eventObject = { event, data }
     dispatchCustomElementEvent(instance, 'my_event', eventObject)

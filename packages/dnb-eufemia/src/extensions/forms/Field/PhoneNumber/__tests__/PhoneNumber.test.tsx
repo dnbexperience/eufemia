@@ -551,7 +551,7 @@ describe('Field.PhoneNumber', () => {
     fireEvent.focus(codeElement)
     fireEvent.keyDown(codeElement, {
       key: 'Enter',
-      keyCode: 13,
+      key: 'Enter',
     })
     fireEvent.change(codeElement, { target: { value: '+47' } })
     fireEvent.click(firstItemElement())
@@ -589,7 +589,7 @@ describe('Field.PhoneNumber', () => {
     await userEvent.type(phoneInput, '123')
     fireEvent.keyDown(ccInput, {
       key: 'Enter',
-      keyCode: 13,
+      key: 'Enter',
     })
 
     const scandinavia = countries()
@@ -607,7 +607,7 @@ describe('Field.PhoneNumber', () => {
     await userEvent.type(phoneInput, '123')
     fireEvent.keyDown(ccInput, {
       key: 'Enter',
-      keyCode: 13,
+      key: 'Enter',
     })
 
     expect(nordic).toHaveLength(7)
@@ -627,7 +627,7 @@ describe('Field.PhoneNumber', () => {
     await userEvent.type(phoneInput, '123')
     fireEvent.keyDown(ccInput, {
       key: 'Enter',
-      keyCode: 13,
+      key: 'Enter',
     })
 
     expect(europe).toHaveLength(52)
@@ -714,7 +714,7 @@ describe('Field.PhoneNumber', () => {
       fireEvent.focus(codeElement)
       fireEvent.keyDown(codeElement, {
         key: 'Enter',
-        keyCode: 13,
+        key: 'Enter',
       })
 
       expect(
@@ -1101,7 +1101,7 @@ describe('Field.PhoneNumber', () => {
     fireEvent.focus(codeElement)
     fireEvent.keyDown(codeElement, {
       key: 'Enter',
-      keyCode: 13,
+      key: 'Enter',
     })
     fireEvent.change(codeElement, { target: { value: '+41' } })
     fireEvent.click(firstItemElement())
@@ -1153,7 +1153,7 @@ describe('Field.PhoneNumber', () => {
     fireEvent.focus(codeElement)
     fireEvent.keyDown(codeElement, {
       key: 'Enter',
-      keyCode: 13,
+      key: 'Enter',
     })
     fireEvent.change(codeElement, { target: { value: '+41' } })
     fireEvent.click(firstItemElement())
@@ -1497,7 +1497,7 @@ describe('Field.PhoneNumber', () => {
     fireEvent.focus(codeElement)
     fireEvent.keyDown(codeElement, {
       key: 'Enter',
-      keyCode: 13,
+      key: 'Enter',
     })
 
     await waitFor(() => {
@@ -1525,7 +1525,7 @@ describe('Field.PhoneNumber', () => {
     fireEvent.focus(codeElement)
     fireEvent.keyDown(codeElement, {
       key: 'Enter',
-      keyCode: 13,
+      key: 'Enter',
     })
 
     await waitFor(() => {
@@ -1550,7 +1550,7 @@ describe('Field.PhoneNumber', () => {
     fireEvent.focus(codeElement)
     fireEvent.keyDown(codeElement, {
       key: 'Enter',
-      keyCode: 13,
+      key: 'Enter',
     })
 
     await waitFor(() => {
@@ -1583,7 +1583,7 @@ describe('Field.PhoneNumber', () => {
     fireEvent.focus(codeElement)
     fireEvent.keyDown(codeElement, {
       key: 'Enter',
-      keyCode: 13,
+      key: 'Enter',
     })
 
     await waitFor(() => {
@@ -1610,7 +1610,7 @@ describe('Field.PhoneNumber', () => {
     fireEvent.focus(codeElement)
     fireEvent.keyDown(codeElement, {
       key: 'Enter',
-      keyCode: 13,
+      key: 'Enter',
     })
 
     await waitFor(() => {

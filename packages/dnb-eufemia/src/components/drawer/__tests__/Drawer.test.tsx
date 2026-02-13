@@ -211,7 +211,7 @@ describe('Drawer', () => {
     fireEvent.click(document.querySelector('button#modal-drawer'))
     fireEvent.keyDown(document.querySelector('div.dnb-drawer'), {
       key: 'Esc',
-      keyCode: 27,
+      key: 'Escape',
     })
 
     expect(onClose).toHaveBeenCalledTimes(1)
@@ -228,7 +228,7 @@ describe('Drawer', () => {
     render(<Drawer {...props} id="modal-drawer" onClose={onClose} />)
 
     fireEvent.click(document.querySelector('button#modal-drawer'))
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
     await waitFor(() => {
       expect(onClose).toHaveBeenCalledTimes(1)
     })
@@ -279,7 +279,7 @@ describe('Drawer', () => {
     // Close with ESC
     fireEvent.keyDown(document.querySelector('div.dnb-drawer'), {
       key: 'Esc',
-      keyCode: 27,
+      key: 'Escape',
     })
 
     // Trigger gets focus with data-autofocus set
@@ -392,7 +392,7 @@ describe('Drawer', () => {
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the third one
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
     await waitFor(() => {
       expect(onClose.first).toHaveBeenCalledTimes(0)
       expect(onClose.second).toHaveBeenCalledTimes(0)
@@ -420,7 +420,7 @@ describe('Drawer', () => {
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the second one
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
     await waitFor(() => {
       expect(onClose.first).toHaveBeenCalledTimes(0)
       expect(onClose.second).toHaveBeenCalledTimes(1)
@@ -441,7 +441,7 @@ describe('Drawer', () => {
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the first one
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
     await waitFor(() => {
       expect(onClose.first).toHaveBeenCalledTimes(1)
       expect(onClose.second).toHaveBeenCalledTimes(1)

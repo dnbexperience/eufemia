@@ -277,7 +277,7 @@ describe('Dialog', () => {
     fireEvent.click(document.querySelector('button#modal-dialog'))
     fireEvent.keyDown(document.querySelector('div.dnb-dialog'), {
       key: 'Esc',
-      keyCode: 27,
+      key: 'Escape',
     })
     expect(onClose).toHaveBeenCalledTimes(1)
     expect(testTriggeredBy).toBe('keyboard')
@@ -293,7 +293,7 @@ describe('Dialog', () => {
     render(<Dialog {...props} id="modal-dialog" onClose={onClose} />)
 
     fireEvent.click(document.querySelector('button#modal-dialog'))
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
     await waitFor(() => {
       expect(onClose).toHaveBeenCalledTimes(1)
     })
@@ -343,7 +343,7 @@ describe('Dialog', () => {
     // Close with ESC
     fireEvent.keyDown(document.querySelector('div.dnb-dialog'), {
       key: 'Esc',
-      keyCode: 27,
+      key: 'Escape',
     })
 
     // Trigger gets focus with data-autofocus set
@@ -456,7 +456,7 @@ describe('Dialog', () => {
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the third one
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
     await waitFor(() => {
       expect(onClose.first).toHaveBeenCalledTimes(0)
       expect(onClose.second).toHaveBeenCalledTimes(0)
@@ -484,7 +484,7 @@ describe('Dialog', () => {
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the second one
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
     await waitFor(() => {
       expect(onClose.first).toHaveBeenCalledTimes(0)
       expect(onClose.second).toHaveBeenCalledTimes(1)
@@ -505,7 +505,7 @@ describe('Dialog', () => {
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the first one
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
     await waitFor(() => {
       expect(onClose.first).toHaveBeenCalledTimes(1)
       expect(onClose.second).toHaveBeenCalledTimes(1)
@@ -575,7 +575,7 @@ describe('Dialog', () => {
       document.querySelector('.dnb-dialog__inner')
     ).toBeInTheDocument()
 
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
     await waitFor(() => {
       expect(
         document.querySelector('.dnb-dialog__inner')
