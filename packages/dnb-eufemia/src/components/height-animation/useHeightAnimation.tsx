@@ -244,7 +244,7 @@ function useOpenClose({ open, instRef, isInitialRenderRef, targetRef }) {
     if (globalThis.bypassTime === -1 || isTest) {
       run()
     } else {
-      window.requestAnimationFrame?.(run)
+      window.requestAnimationFrame(run)
     }
   }, [isInitialRenderRef, isTest])
 }

@@ -729,24 +729,18 @@ GlobalStatus.Update = GlobalStatus.create
 GlobalStatus.Add = GlobalStatusController
 GlobalStatus.Remove = GlobalStatusController.Remove
 
-const isElementVisible = (elem, callback, delayFallback = 1e3) => {
-  if (typeof IntersectionObserver !== 'undefined') {
-    const intersectionObserver = new IntersectionObserver((entries) => {
-      const [entry] = entries
-      if (entry.isIntersecting) {
-        intersectionObserver.unobserve(elem)
-        if (typeof callback === 'function') {
-          callback(elem)
-        }
+const isElementVisible = (elem, callback) => {
+  const intersectionObserver = new IntersectionObserver((entries) => {
+    const [entry] = entries
+    if (entry.isIntersecting) {
+      intersectionObserver.unobserve(elem)
+      if (typeof callback === 'function') {
+        callback(elem)
       }
-    })
-    // start observing
-    intersectionObserver.observe(elem)
-  } else {
-    if (typeof callback === 'function') {
-      return setTimeout(() => callback(elem), delayFallback)
     }
-  }
+  })
+  // start observing
+  intersectionObserver.observe(elem)
   return null
 }
 

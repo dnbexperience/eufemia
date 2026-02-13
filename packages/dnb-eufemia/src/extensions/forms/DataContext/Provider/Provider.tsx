@@ -956,7 +956,7 @@ export default function Provider<Data extends JsonObject>(
     forceUpdate()
     onClear?.()
 
-    requestAnimationFrame?.(() => {
+    requestAnimationFrame(() => {
       isEmptyDataRef.current = false
     }) // Delay so the field validation error message are not shown
   }, [emptyData, id, onClear, setSharedData])
