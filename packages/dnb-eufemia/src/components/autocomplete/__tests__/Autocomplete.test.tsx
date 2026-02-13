@@ -1448,7 +1448,6 @@ describe('Autocomplete component', () => {
 
     fireEvent.keyDown(submitButton, {
       key: 'Enter',
-      key: 'Enter',
     })
 
     expect(elem.classList).toContain('dnb-autocomplete--open')
@@ -2556,7 +2555,6 @@ describe('Autocomplete component', () => {
 
     fireEvent.keyDown(inputElement, {
       key: 'Enter',
-      key: 'Enter',
     })
 
     inputElement.focus()
@@ -3400,7 +3398,6 @@ describe('Autocomplete component', () => {
     fireEvent.focus(inputElement)
     fireEvent.keyDown(inputElement, {
       key: 'Enter',
-      key: 'Enter',
     })
 
     expect(
@@ -3423,7 +3420,6 @@ describe('Autocomplete component', () => {
     expect(mainElement().classList).toContain('dnb-autocomplete--open')
 
     fireEvent.keyDown(inputElement, {
-      key: 'Enter',
       key: 'Enter',
     })
 
@@ -3861,7 +3857,6 @@ describe('Autocomplete component', () => {
 
       fireEvent.keyDown(inputElement, {
         key: 'Enter',
-        key: 'Enter',
       })
 
       expect(document.querySelector('.dnb-input')).toHaveAttribute(
@@ -3870,7 +3865,6 @@ describe('Autocomplete component', () => {
       )
 
       fireEvent.keyDown(inputElement, {
-        key: 'Enter',
         key: 'Enter',
       })
     })
