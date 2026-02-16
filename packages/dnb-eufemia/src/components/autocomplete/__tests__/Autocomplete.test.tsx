@@ -112,7 +112,7 @@ describe('Autocomplete component', () => {
     expect(input).toHaveAttribute('aria-expanded', 'true')
     expect(input).toHaveAttribute('name', 'autocomplete-id')
 
-    keyDownOnInput(27) // esc
+    keyDownOnInput('Escape')
 
     expect(input).not.toHaveAttribute('aria-controls')
     expect(input).toHaveAttribute('aria-expanded', 'false')
@@ -320,7 +320,7 @@ describe('Autocomplete component', () => {
       assertInputValue()
 
       // open
-      keyDownOnInput(40) // down
+      keyDownOnInput('ArrowDown')
 
       expect(
         document
@@ -406,19 +406,19 @@ describe('Autocomplete component', () => {
       document.querySelectorAll('.dnb-drawer-list__option')[1].classList
     ).toContain('dnb-drawer-list__option--focus')
 
-    keyDownOnInput(38) // up
+    keyDownOnInput('ArrowUp')
 
     expect(
       document.querySelectorAll('.dnb-drawer-list__option')[0].classList
     ).toContain('dnb-drawer-list__option--focus')
 
-    keyDownOnInput(38) // up
+    keyDownOnInput('ArrowUp')
 
     expect(
       document.querySelectorAll('.dnb-drawer-list__option')[2].classList
     ).toContain('dnb-drawer-list__option--focus')
 
-    keyDownOnInput(40) // down
+    keyDownOnInput('ArrowDown')
 
     expect(
       document.querySelectorAll('.dnb-drawer-list__option')[0].classList
@@ -448,7 +448,7 @@ describe('Autocomplete component', () => {
           .getAttribute('id')
       ).toBe(`option-${id}-0`)
 
-      keyDownOnInput(40) // down
+      keyDownOnInput('ArrowDown')
 
       expect(
         document
@@ -855,7 +855,7 @@ describe('Autocomplete component', () => {
 
     // simulate changes - press down arrow to select first item
     await act(async () => {
-      keyDownOnInput(40) // down
+      keyDownOnInput('ArrowDown')
     })
 
     // Wait for active_item to be set in drawerList context
@@ -880,7 +880,7 @@ describe('Autocomplete component', () => {
 
     // simulate changes
     await act(async () => {
-      keyDownOnInput(40) // down
+      keyDownOnInput('ArrowDown')
     })
 
     // Wait for active_item to be set in drawerList context
@@ -903,7 +903,7 @@ describe('Autocomplete component', () => {
 
     // simulate changes
     await act(async () => {
-      keyDownOnInput(40) // down
+      keyDownOnInput('ArrowDown')
     })
 
     // Wait for active_item to be set in drawerList context
@@ -925,7 +925,7 @@ describe('Autocomplete component', () => {
     )
 
     act(() => {
-      dispatchKeyDown(13) // enter
+      dispatchKeyDown('Enter')
     })
 
     await waitFor(
@@ -939,7 +939,7 @@ describe('Autocomplete component', () => {
     // simulate changes
     toggle()
     act(() => {
-      keyDownOnInput(38) // up
+      keyDownOnInput('ArrowUp')
     })
     await wait(10)
 
@@ -958,7 +958,7 @@ describe('Autocomplete component', () => {
 
     // simulate changes
     act(() => {
-      keyDownOnInput(38) // up
+      keyDownOnInput('ArrowUp')
     })
 
     // When IS_MAC is false, the VoiceOver AriaLive is hidden, so check the count one
@@ -1277,14 +1277,14 @@ describe('Autocomplete component', () => {
     ).not.toBeInTheDocument()
 
     // then simulate changes
-    keyDownOnInput(40) // down
+    keyDownOnInput('ArrowDown')
 
     expect(optionElements()[0].classList).toContain(
       'dnb-drawer-list__option--focus'
     )
 
     // then simulate changes
-    keyDownOnInput(40) // down
+    keyDownOnInput('ArrowDown')
 
     expect(optionElements()[1].classList).toContain(
       'dnb-drawer-list__option--focus'
@@ -1324,7 +1324,7 @@ describe('Autocomplete component', () => {
 
     // remove selection and reset the order and open again
     // aria-selected should now be on place 1
-    keyDownOnInput(27) // esc
+    keyDownOnInput('Escape')
     toggle()
 
     elem = optionElements()[1]
@@ -1403,7 +1403,7 @@ describe('Autocomplete component', () => {
   it('has correct "aria-expanded"', () => {
     render(<Autocomplete {...props} data={mockData} />)
 
-    keyDownOnInput(13) // enter
+    keyDownOnInput('Enter')
 
     const elem = document.querySelector('.dnb-autocomplete')
     expect(
@@ -1448,7 +1448,6 @@ describe('Autocomplete component', () => {
 
     fireEvent.keyDown(submitButton, {
       key: 'Enter',
-      keyCode: 13,
     })
 
     expect(elem.classList).toContain('dnb-autocomplete--open')
@@ -1527,7 +1526,7 @@ describe('Autocomplete component', () => {
       ulElement: null,
     })
 
-    keyDownOnInput(27) // esc
+    keyDownOnInput('Escape')
     expect(onClose).toHaveBeenCalledTimes(1)
     expect(onClose.mock.calls[0][0].attributes).toMatchObject(params)
     expect(onClose.mock.calls[0][0].event).toEqual(
@@ -1550,7 +1549,7 @@ describe('Autocomplete component', () => {
       document.querySelector('.dnb-autocomplete').classList
     ).toContain('dnb-autocomplete--open')
 
-    keyDownOnInput(27) // esc
+    keyDownOnInput('Escape')
 
     expect(
       document.querySelector('.dnb-autocomplete').classList
@@ -1940,9 +1939,9 @@ describe('Autocomplete component', () => {
 
     const openAndSelectNext = () => {
       // then simulate changes
-      keyDownOnInput(40) // down
+      keyDownOnInput('ArrowDown')
       act(() => {
-        dispatchKeyDown(13) // enter
+        dispatchKeyDown('Enter')
       })
     }
 
@@ -2141,7 +2140,7 @@ describe('Autocomplete component', () => {
       await userEvent.type(inputElement, 'cc')
 
       // Make first item active
-      keyDownOnInput(40) // down
+      keyDownOnInput('ArrowDown')
 
       expect(inputElement.value).toBe('cc')
       expect(focusElement()).toBeInTheDocument()
@@ -2155,7 +2154,7 @@ describe('Autocomplete component', () => {
       await userEvent.type(inputElement, 'cc')
 
       // Make first item active
-      keyDownOnInput(40) // down
+      keyDownOnInput('ArrowDown')
 
       expect(focusElement()).toBeInTheDocument()
       expect(selectedElement()).not.toBeInTheDocument()
@@ -2190,8 +2189,8 @@ describe('Autocomplete component', () => {
 
       await userEvent.type(inputElement, 'cc')
 
-      keyDownOnInput(40) // down
-      dispatchKeyDown(13) // enter
+      keyDownOnInput('ArrowDown')
+      dispatchKeyDown('Enter')
 
       fireEvent.blur(inputElement)
 
@@ -2266,7 +2265,7 @@ describe('Autocomplete component', () => {
       })
 
       // Make first item active
-      keyDownOnInput(40) // down
+      keyDownOnInput('ArrowDown')
 
       expect(focusElement()).toBeInTheDocument()
 
@@ -2280,7 +2279,7 @@ describe('Autocomplete component', () => {
 
       expect(focusElement()).not.toBeInTheDocument()
 
-      keyDownOnInput(40) // down
+      keyDownOnInput('ArrowDown')
 
       expect(focusElement()).toBeInTheDocument()
 
@@ -2294,8 +2293,8 @@ describe('Autocomplete component', () => {
         target: { value: 'cc' },
       })
 
-      keyDownOnInput(40) // activate
-      dispatchKeyDown(13) // enter
+      keyDownOnInput('ArrowDown')
+      dispatchKeyDown('Enter')
 
       fireEvent.blur(inputElement)
 
@@ -2363,7 +2362,7 @@ describe('Autocomplete component', () => {
       })
 
       // Make first item active
-      keyDownOnInput(40) // down
+      keyDownOnInput('ArrowDown')
 
       expect(focusElement()).toBeInTheDocument()
       expect(inputElement.value).toBe('cc')
@@ -2379,7 +2378,7 @@ describe('Autocomplete component', () => {
 
       expect(focusElement()).not.toBeInTheDocument()
 
-      keyDownOnInput(40) // down
+      keyDownOnInput('ArrowDown')
 
       expect(focusElement()).toBeInTheDocument()
 
@@ -2394,8 +2393,8 @@ describe('Autocomplete component', () => {
         target: { value: 'cc' },
       })
 
-      keyDownOnInput(40) // activate
-      dispatchKeyDown(13) // enter
+      keyDownOnInput('ArrowDown')
+      dispatchKeyDown('Enter')
 
       fireEvent.blur(inputElement)
 
@@ -2456,7 +2455,7 @@ describe('Autocomplete component', () => {
       })
 
       // Make first item active
-      keyDownOnInput(40) // down
+      keyDownOnInput('ArrowDown')
 
       expect(focusElement()).toBeInTheDocument()
       expect(inputElement.value).toBe('cc')
@@ -2472,7 +2471,7 @@ describe('Autocomplete component', () => {
 
       expect(focusElement()).not.toBeInTheDocument()
 
-      keyDownOnInput(40) // down
+      keyDownOnInput('ArrowDown')
 
       expect(focusElement()).toBeInTheDocument()
 
@@ -2487,8 +2486,8 @@ describe('Autocomplete component', () => {
         target: { value: 'cc' },
       })
 
-      keyDownOnInput(40) // activate
-      dispatchKeyDown(13) // enter
+      keyDownOnInput('ArrowDown')
+      dispatchKeyDown('Enter')
 
       fireEvent.blur(inputElement)
 
@@ -2556,7 +2555,6 @@ describe('Autocomplete component', () => {
 
     fireEvent.keyDown(inputElement, {
       key: 'Enter',
-      keyCode: 13,
     })
 
     inputElement.focus()
@@ -2617,7 +2615,7 @@ describe('Autocomplete component', () => {
     ).toContain('dnb-autocomplete--open')
 
     // close
-    keyDownOnInput(27) // esc
+    keyDownOnInput('Escape')
 
     expect(
       document.querySelector('.dnb-autocomplete').classList
@@ -2702,7 +2700,7 @@ describe('Autocomplete component', () => {
 
     act(() => {
       // close
-      dispatchKeyDown(27)
+      dispatchKeyDown('Escape')
     })
     expect(onClose).toHaveBeenCalledTimes(1)
 
@@ -2721,7 +2719,7 @@ describe('Autocomplete component', () => {
 
     // close again, but with false returned
     act(() => {
-      dispatchKeyDown(27)
+      dispatchKeyDown('Escape')
     })
     expect(onClose).toHaveBeenCalledTimes(2)
 
@@ -2766,7 +2764,7 @@ describe('Autocomplete component', () => {
       <Autocomplete data={mockData} {...mockProps} />
     )
 
-    keyDownOnInput(40) // down
+    keyDownOnInput('ArrowDown')
 
     fireEvent.change(document.querySelector('.dnb-input__input'), {
       target: { value: 'aa' },
@@ -2806,7 +2804,7 @@ describe('Autocomplete component', () => {
       />
     )
 
-    keyDownOnInput(40) // down
+    keyDownOnInput('ArrowDown')
 
     fireEvent.change(document.querySelector('.dnb-input__input'), {
       target: { value: 'aa' },
@@ -3006,7 +3004,7 @@ describe('Autocomplete component', () => {
     toggle()
 
     // then simulate changes
-    keyDownOnInput(40) // down
+    keyDownOnInput('ArrowDown')
 
     expect(
       (document.querySelector('.dnb-input__input') as HTMLInputElement)
@@ -3147,13 +3145,14 @@ describe('Autocomplete component', () => {
 
     render(<Autocomplete {...mockProps} data={mockData} />)
 
-    fireEvent.focus(document.querySelector('input'))
+    const inputElement = document.querySelector('input')
+    fireEvent.focus(inputElement)
 
-    // focus the first item
-    keyDownOnInput(40) // down
+    // Open the dropdown and focus the first item
+    keyDownOnInput('ArrowDown')
 
-    // focus the second item
-    keyDownOnInput(40) // down
+    // Move focus to the second item (with anchors)
+    keyDownOnInput('ArrowDown')
 
     await userEvent.tab()
 
@@ -3161,6 +3160,7 @@ describe('Autocomplete component', () => {
       'first-anchor'
     )
 
+    // Now tab to the second anchor
     await userEvent.tab()
 
     expect(Array.from(document.activeElement.classList)).toContain(
@@ -3176,7 +3176,7 @@ describe('Autocomplete component', () => {
     document.querySelector('input').focus()
 
     // open
-    keyDownOnInput(40) // down
+    keyDownOnInput('ArrowDown')
 
     expect(document.activeElement.tagName).toBe('INPUT')
   })
@@ -3400,7 +3400,6 @@ describe('Autocomplete component', () => {
     fireEvent.focus(inputElement)
     fireEvent.keyDown(inputElement, {
       key: 'Enter',
-      keyCode: 13,
     })
 
     expect(
@@ -3424,7 +3423,6 @@ describe('Autocomplete component', () => {
 
     fireEvent.keyDown(inputElement, {
       key: 'Enter',
-      keyCode: 13,
     })
 
     expect(inputElement.value).toEqual('CH (+41)')
@@ -3572,7 +3570,7 @@ describe('Autocomplete component', () => {
       expect(onBlur).toHaveBeenCalledTimes(0)
 
       fireEvent.blur(inputElement())
-      keyDownOnInput(13) // enter
+      keyDownOnInput('Enter')
 
       expect(mainElement().classList).not.toContain(
         'dnb-autocomplete--open'
@@ -3593,9 +3591,9 @@ describe('Autocomplete component', () => {
       render(<Autocomplete data={mockData} {...mockProps} />)
 
       fireEvent.focus(inputElement())
-      keyDownOnInput(13) // enter
-      keyDownOnInput(40) // down
-      keyDownOnInput(13) // enter
+      keyDownOnInput('Enter')
+      keyDownOnInput('ArrowDown')
+      keyDownOnInput('Enter')
 
       fireEvent.blur(inputElement())
 
@@ -3630,7 +3628,7 @@ describe('Autocomplete component', () => {
         )
 
       fireEvent.focus(inputElement())
-      keyDownOnInput(13) // enter
+      keyDownOnInput('Enter')
 
       expect(mainElement().classList).toContain('dnb-autocomplete--open')
 
@@ -3669,7 +3667,7 @@ describe('Autocomplete component', () => {
       )
 
       fireEvent.focus(inputElement())
-      keyDownOnInput(13) // enter
+      keyDownOnInput('Enter')
 
       expect(mainElement().classList).toContain('dnb-autocomplete--open')
 
@@ -3681,7 +3679,7 @@ describe('Autocomplete component', () => {
       expect(focusElement()).not.toBeInTheDocument()
       expect(selectedElement()).not.toBeInTheDocument()
 
-      keyDownOnInput(13) // enter
+      keyDownOnInput('Enter')
 
       expect(mainElement().classList).not.toContain(
         'dnb-autocomplete--open'
@@ -3722,8 +3720,8 @@ describe('Autocomplete component', () => {
       )
 
       fireEvent.focus(inputElement())
-      keyDownOnInput(13) // enter
-      keyDownOnInput(40) // down
+      keyDownOnInput('Enter')
+      keyDownOnInput('ArrowDown')
 
       expect(mainElement().classList).toContain('dnb-autocomplete--open')
       expect(optionElement()).toBeInTheDocument()
@@ -3731,7 +3729,7 @@ describe('Autocomplete component', () => {
       expect(selectedElement()).not.toBeInTheDocument()
 
       fireEvent.keyDown(listElement(), {
-        keyCode: 13, // enter
+        key: 'Enter',
       })
 
       expect(mainElement().classList).not.toContain(
@@ -3739,14 +3737,14 @@ describe('Autocomplete component', () => {
       )
       expect(inputElement()).toHaveValue('AA c')
 
-      keyDownOnInput(13) // enter
+      keyDownOnInput('Enter')
 
       expect(mainElement().classList).toContain('dnb-autocomplete--open')
       expect(optionElement()).toBeInTheDocument()
       expect(focusElement()).toBeInTheDocument()
       expect(selectedElement()).toBeInTheDocument()
 
-      keyDownOnInput(13) // enter
+      keyDownOnInput('Enter')
 
       expect(mainElement().classList).not.toContain(
         'dnb-autocomplete--open'
@@ -3786,8 +3784,8 @@ describe('Autocomplete component', () => {
       )
 
       fireEvent.focus(inputElement())
-      keyDownOnInput(13) // enter
-      keyDownOnInput(40) // down
+      keyDownOnInput('Enter')
+      keyDownOnInput('ArrowDown')
 
       expect(mainElement().classList).toContain('dnb-autocomplete--open')
       expect(optionElement()).toBeInTheDocument()
@@ -3805,14 +3803,14 @@ describe('Autocomplete component', () => {
       expect(inputComponent()).toHaveAttribute('data-input-state', 'focus')
       expect(inputElement()).toHaveValue('AA c')
 
-      keyDownOnInput(13) // enter
+      keyDownOnInput('Enter')
 
       expect(mainElement().classList).toContain('dnb-autocomplete--open')
       expect(optionElement()).toBeInTheDocument()
       expect(focusElement()).toBeInTheDocument()
       expect(selectedElement()).toBeInTheDocument()
 
-      keyDownOnInput(13) // enter
+      keyDownOnInput('Enter')
 
       await wait(1)
 
@@ -3861,7 +3859,6 @@ describe('Autocomplete component', () => {
 
       fireEvent.keyDown(inputElement, {
         key: 'Enter',
-        keyCode: 13,
       })
 
       expect(document.querySelector('.dnb-input')).toHaveAttribute(
@@ -3871,7 +3868,6 @@ describe('Autocomplete component', () => {
 
       fireEvent.keyDown(inputElement, {
         key: 'Enter',
-        keyCode: 13,
       })
     })
   })
@@ -4043,10 +4039,10 @@ describe('Autocomplete component', () => {
     )
 
     // Move focus to list and select with Enter, like other tests do
-    keyDownOnInput(13) // enter
-    keyDownOnInput(40) // down
+    keyDownOnInput('Enter')
+    keyDownOnInput('ArrowDown')
     const list = document.querySelector('.dnb-autocomplete__list')
-    fireEvent.keyDown(list, { keyCode: 13 }) // enter selects
+    fireEvent.keyDown(list, { key: 'Enter' }) // selects
 
     // Ensure it is selected and drawer is closed
     expect(input.value).toBe('The Shawshank Redemption')
@@ -4358,7 +4354,7 @@ describe('Autocomplete markup', () => {
       `option-${props.id}-0`
     )
 
-    keyDownOnInput(40) // down
+    keyDownOnInput('ArrowDown')
 
     // active descendant is still the first item as that is focused now
     await waitFor(() => {
@@ -4370,7 +4366,7 @@ describe('Autocomplete markup', () => {
       )
     })
 
-    keyDownOnInput(40) // down
+    keyDownOnInput('ArrowDown')
 
     // active descendant is now the second item as that is focused now
     await waitFor(() => {
@@ -4398,16 +4394,16 @@ describe('Autocomplete scss', () => {
   })
 })
 
-const keyDownOnInput = (keyCode) => {
+const keyDownOnInput = (key) => {
   fireEvent.keyDown(document.querySelector('.dnb-input__input'), {
-    keyCode,
+    key,
   })
 }
 
-const dispatchKeyDown = (keyCode) => {
+const dispatchKeyDown = (key) => {
   document.dispatchEvent(
     new KeyboardEvent('keydown', {
-      keyCode,
+      key,
     })
   )
 }
