@@ -17,6 +17,8 @@ export const PLATFORM_IOS = 'iOS|iPhone|iPad|iPod'
 export let IS_EDGE = false
 export let IS_IOS = false
 export let IS_SAFARI = false
+export let IS_FIREFOX = false
+export let IS_CHROME = false
 export let IS_WIN = false
 export let IS_MAC = false
 export let IS_ANDROID = false
@@ -53,13 +55,26 @@ export const isSafari = () =>
     /safari/i.test(navigator?.userAgent) &&
     !/chrome/i.test(navigator?.userAgent))
 
+export const isFirefox = () =>
+  (IS_FIREFOX =
+    typeof navigator !== 'undefined' &&
+    /firefox/i.test(navigator?.userAgent))
+
+export const isChrome = () =>
+  (IS_CHROME =
+    typeof navigator !== 'undefined' &&
+    /chrome/i.test(navigator?.userAgent) &&
+    !/edg/i.test(navigator?.userAgent))
+
 export const isEdge = () =>
   (IS_EDGE =
-    typeof navigator !== 'undefined' && /edge/i.test(navigator?.userAgent))
+    typeof navigator !== 'undefined' && /edg/i.test(navigator?.userAgent))
 
 isEdge()
 isiOS()
 isSafari()
+isFirefox()
+isChrome()
 isWin()
 isAndroid()
 isMac()

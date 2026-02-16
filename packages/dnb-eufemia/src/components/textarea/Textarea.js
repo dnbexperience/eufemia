@@ -33,6 +33,14 @@ import {
   skeletonDOMAttributes,
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
+import {
+  IS_FIREFOX,
+  IS_EDGE,
+  IS_CHROME,
+  IS_WIN,
+  IS_MAC,
+  IS_SAFARI,
+} from '../../shared/helpers'
 
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
@@ -212,26 +220,12 @@ export default class Textarea extends React.PureComponent {
       this.state.textareaState = props.textareaState
     }
 
-    try {
-      if (typeof navigator !== 'undefined') {
-        this.resizeModifier =
-          /Firefox|Edg/.test(navigator.userAgent) ||
-          (/Chrome/.test(navigator.userAgent) &&
-            /Win/.test(navigator.platform))
-            ? 'large'
-            : false
-
-        if (!this.resizeModifier) {
-          this.resizeModifier =
-            /Safari|Chrome/.test(navigator.userAgent) &&
-            /Mac/.test(navigator.platform)
-              ? 'medium'
-              : false
-        }
-      }
-    } catch (error) {
-      console.error(error)
-    }
+    this.resizeModifier =
+      IS_FIREFOX || IS_EDGE || (IS_CHROME && IS_WIN)
+        ? 'large'
+        : (IS_SAFARI || IS_CHROME) && IS_MAC
+        ? 'medium'
+        : false
   }
   componentDidMount() {
     const props = this.getProps()

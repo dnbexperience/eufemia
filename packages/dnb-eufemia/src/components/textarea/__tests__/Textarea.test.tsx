@@ -9,6 +9,7 @@ import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import Textarea, { TextareaProps } from '../Textarea'
 import userEvent from '@testing-library/user-event'
 import { Provider } from '../../../shared'
+import * as helpers from '../../../shared/helpers'
 import enGB from '../../../shared/locales/en-GB'
 import nbNO from '../../../shared/locales/nb-NO'
 
@@ -473,49 +474,68 @@ describe('Textarea component', () => {
   describe('sets the resize-- modifier class based on the user agent', () => {
     const textarea = () => document.querySelector('.dnb-textarea')
 
+    const setHelpers = (overrides: Partial<Record<string, boolean>>) => {
+      const defaults = {
+        IS_FIREFOX: false,
+        IS_EDGE: false,
+        IS_CHROME: false,
+        IS_WIN: false,
+        IS_MAC: false,
+        IS_SAFARI: false,
+      }
+
+      const values = { ...defaults, ...overrides }
+
+      for (const [key, value] of Object.entries(values)) {
+        Object.defineProperty(helpers, key, {
+          value,
+          writable: true,
+        })
+      }
+    }
+
+    afterEach(() => {
+      setHelpers({})
+    })
+
     it('Firefox will get "large"', () => {
-      jest.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Firefox')
+      setHelpers({ IS_FIREFOX: true })
       render(<Textarea />)
       expect(textarea()).toHaveClass('dnb-textarea__resize--large')
     })
 
     it('Edge will get "large"', () => {
-      jest.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Edg')
+      setHelpers({ IS_EDGE: true })
       render(<Textarea />)
       expect(textarea()).toHaveClass('dnb-textarea__resize--large')
     })
 
     it('Chrome on Windows will get "large"', () => {
-      jest.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Chrome')
-      jest.spyOn(navigator, 'platform', 'get').mockReturnValue('Win')
+      setHelpers({ IS_CHROME: true, IS_WIN: true })
       render(<Textarea />)
       expect(textarea()).toHaveClass('dnb-textarea__resize--large')
     })
 
     it('Chrome on Mac will get "medium"', () => {
-      jest.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Chrome')
-      jest.spyOn(navigator, 'platform', 'get').mockReturnValue('Mac')
+      setHelpers({ IS_CHROME: true, IS_MAC: true })
       render(<Textarea />)
       expect(textarea()).toHaveClass('dnb-textarea__resize--medium')
     })
 
     it('Safari on Mac will get "medium"', () => {
-      jest.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Safari')
-      jest.spyOn(navigator, 'platform', 'get').mockReturnValue('Mac')
+      setHelpers({ IS_SAFARI: true, IS_MAC: true })
       render(<Textarea />)
       expect(textarea()).toHaveClass('dnb-textarea__resize--medium')
     })
 
     it('Safari on Mac with autoresize will not get "medium"', () => {
-      jest.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Safari')
-      jest.spyOn(navigator, 'platform', 'get').mockReturnValue('Mac')
+      setHelpers({ IS_SAFARI: true, IS_MAC: true })
       render(<Textarea autoresize />)
       expect(textarea()).not.toHaveClass('dnb-textarea__resize--medium')
     })
 
     it('Other browsers and platforms will not get "medium" or "large"', () => {
-      jest.spyOn(navigator, 'userAgent', 'get').mockReturnValue('foo')
-      jest.spyOn(navigator, 'platform', 'get').mockReturnValue('bar')
+      setHelpers({})
       render(<Textarea />)
       expect(textarea()).not.toHaveClass('dnb-textarea__resize--medium')
       expect(textarea()).not.toHaveClass('dnb-textarea__resize--large')
