@@ -21,7 +21,7 @@ function ProgressIndicatorLine(props: ProgressIndicatorLinearAllProps) {
     size,
     title,
     progress,
-    visible,
+    show,
     onComplete,
     callOnCompleteHandler,
     customColors,
@@ -33,9 +33,9 @@ function ProgressIndicatorLine(props: ProgressIndicatorLinearAllProps) {
     typeof onComplete === 'function' &&
     typeof callOnCompleteHandler === 'function'
 
-  const [visibleCurrent, visiblePrev] = usePrevious(visible)
+  const [showCurrent, showPrev] = usePrevious(show)
 
-  if (onCompleteIsFn && !visibleCurrent && visiblePrev) {
+  if (onCompleteIsFn && !showCurrent && showPrev) {
     callOnCompleteHandler()
   }
 
