@@ -16,7 +16,6 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent,
   extendPropsWithContextInClassComponent,
-  keycode,
 } from '../../shared/component-helper'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import {
@@ -296,12 +295,9 @@ export default class GlobalStatus extends React.PureComponent {
   }
 
   onKeyDownHandler = (e) => {
-    switch (keycode(e)) {
-      case 'escape':
-      case 'esc':
-        e.preventDefault()
-        this.closeHandler()
-        break
+    if (e.key === 'Escape') {
+      e.preventDefault()
+      this.closeHandler()
     }
   }
 
@@ -376,14 +372,14 @@ export default class GlobalStatus extends React.PureComponent {
 
   gotoItem = (event, item) => {
     event.persist()
-    const keyCode = keycode(event)
+    const key = event.key
     if (
       (item.itemId &&
         typeof document !== 'undefined' &&
         typeof window !== 'undefined' &&
-        keyCode === 'space') ||
-      keyCode === 'enter' ||
-      typeof keyCode === 'undefined'
+        key === ' ') ||
+      key === 'Enter' ||
+      key === undefined
     ) {
       event.preventDefault()
       try {

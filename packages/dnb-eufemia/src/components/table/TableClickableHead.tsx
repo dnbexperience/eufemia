@@ -1,6 +1,5 @@
 import React from 'react'
 import clsx from 'clsx'
-import keycode from '../../shared/keycode'
 import useId from '../../shared/helpers/useId'
 import { emptySelectedText, hasSelectedText } from '../../shared/helpers'
 import Button from '../button/Button'
@@ -81,9 +80,9 @@ export function TableClickableHead(allProps: TableClickableHeadProps) {
   function onKeydownHandler(
     event: React.KeyboardEvent<HTMLTableRowElement>
   ) {
-    switch (keycode(event.nativeEvent)) {
-      case 'space':
-      case 'enter':
+    switch (event.key) {
+      case ' ':
+      case 'Enter':
         {
           const target = event.target as HTMLElement
           if (
