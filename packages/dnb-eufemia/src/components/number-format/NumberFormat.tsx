@@ -519,7 +519,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
 
         {this.state.copyTooltipActive && (
           <Tooltip
-            active={this.state.copyTooltipActive}
+            open={this.state.copyTooltipActive}
             targetElement={this._ref}
             showDelay={0}
             hideDelay={0}
