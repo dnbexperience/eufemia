@@ -22,6 +22,18 @@ const defaultDesign = {
   backgroundImage: visaDefault,
 }
 
+const creditIllustration = {
+  name: 'creditIllustration',
+  cardStyle: 'card--design-pluss',
+  bankLogo: DNB.Colored(properties['--color-white']),
+  visa: Visa.Colored(properties['--color-white']),
+  mastercard: Mastercard.Default,
+  bankAxept: BankAxept.White,
+  saga: Saga.None,
+  privateBanking: PB.None,
+  backgroundImage: visaPluss,
+}
+
 const pluss = {
   name: 'Pluss',
   cardStyle: 'card--design-pluss',
@@ -47,6 +59,18 @@ const young = {
 
 const myFirst = {
   name: 'My first',
+  cardStyle: 'card--design-my-first',
+  bankLogo: DNB.Colored(properties['--color-emerald-green']),
+  visa: Visa.Colored(properties['--color-black']),
+  mastercard: Mastercard.Default,
+  bankAxept: BankAxept.Black,
+  saga: Saga.None,
+  privateBanking: PB.None,
+  backgroundImage: myFirstImg,
+}
+
+const myFirstIllustration = {
+  name: 'My first', 
   cardStyle: 'card--design-my-first',
   bankLogo: DNB.Colored(properties['--color-emerald-green']),
   visa: Visa.Colored(properties['--color-black']),
@@ -195,9 +219,11 @@ export default Designs
 
 export {
   defaultDesign,
+  creditIllustration,
   pluss,
   young,
   myFirst,
+  myFirstIllustration,
   youth,
   gold,
   saga,

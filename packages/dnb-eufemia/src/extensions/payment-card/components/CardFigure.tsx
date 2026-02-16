@@ -103,6 +103,7 @@ function CardFigure({
                 <CardTypeText
                   isCredit={data.bankAxept === BankAxeptType.Credit}
                   skeleton={skeleton}
+                  noCardType={data.productCode.includes('illustration')}
                 />
               )}
             </div>

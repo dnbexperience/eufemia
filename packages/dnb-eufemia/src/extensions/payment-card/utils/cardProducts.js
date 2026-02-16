@@ -450,6 +450,24 @@ const cardData = [
     cardType: CardType.Visa,
     bankAxept: BankAxeptType.BankAxept,
   },
+  {
+    productCode: 'VX1-illustration',
+    productName: 'Mitt første kort',
+    displayName: 'Mitt første kort',
+    cardDesign: myFirst,
+    productType: ProductType.None,
+    cardType: CardType.Visa,
+    bankAxept: BankAxeptType.BankAxept,
+  },
+    {
+    productCode: 'creditIllustration',
+    productName: 'Kreditt illustrasjon',
+    displayName: 'Kreditt illustrasjon',
+    cardDesign: defaultDesign,
+    productType: ProductType.None,
+    cardType: CardType.Mastercard,
+    bankAxept: BankAxeptType.Credit,
+  },
 ]
 
 export default cardData

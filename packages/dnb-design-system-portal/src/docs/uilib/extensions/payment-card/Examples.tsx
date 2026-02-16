@@ -151,3 +151,21 @@ export const PaymentCardCompactExample = () => (
     />
   </ComponentBox>
 )
+
+export const PaymentCardIllustrationsExample = () => (
+  <ComponentBox
+    scope={{ PaymentCard }}
+    data-visual-test="payment-card-illustration"
+  >
+    <H4>VX1 Illustration</H4>
+    <PaymentCard
+      product_code="VX1-illustration"
+      card_number="••••••••••••1234"
+    />
+    <H4>Credit Illustration</H4>
+    <PaymentCard
+      product_code="creditIllustration"
+      card_number="••••••••••••1234"
+    />
+  </ComponentBox>
+)

@@ -6,10 +6,11 @@ import P from '../../../elements/P'
 interface CardTypeTextProps {
   isCredit: boolean
   skeleton: boolean
+  noCardType?: boolean
 }
 
-const CardTypeText = ({ isCredit, skeleton }: CardTypeTextProps) => {
-  const cardType = isCredit ? 'Credit' : 'Debit'
+const CardTypeText = ({ isCredit, skeleton, noCardType }: CardTypeTextProps) => {
+  const cardTypeText = isCredit ? 'Credit' : 'Debit'
   return (
     <span
       className={classnames(
@@ -17,7 +18,7 @@ const CardTypeText = ({ isCredit, skeleton }: CardTypeTextProps) => {
         createSkeletonClass('font', skeleton)
       )}
     >
-      <P className={'dnb-payment-card__card__type-text'}>{cardType}</P>
+      {<P className={'dnb-payment-card__card__type-text'}>{noCardType ? '' : cardTypeText}</P>}
     </span>
   )
 }
