@@ -6,7 +6,7 @@ export const TooltipProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  active: {
+  open: {
     doc: 'Controls visibility. When provided, Tooltip is controlled and ignores DOM events (hover/focus/touch). `true` keeps it visible; `false` keeps it hidden.',
     type: 'boolean',
     status: 'optional',

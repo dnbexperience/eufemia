@@ -26,13 +26,13 @@ type TooltipWithEventsProps = {
   target: TooltipProps['targetElement']
   attributes?: React.HTMLAttributes<HTMLElement>
   targetRefreshKey?: TooltipProps['targetRefreshKey']
-  forceActive?: TooltipProps['forceActive']
+  forceOpen?: TooltipProps['forceOpen']
 }
 
 function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   const { children, attributes, ...restProps } = props
   const {
-    active,
+    open,
     target,
     skipPortal,
     noAnimation,
@@ -48,12 +48,12 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     size,
     keepInDOM = false,
     targetRefreshKey,
-    forceActive,
+    forceOpen,
   } = restProps
 
   const { internalId, isControlled } = useContext(TooltipContext)
 
-  const [isActive, setIsActive] = useState(active)
+  const [isOpen, setIsOpen] = useState(open)
   const [isOverlayHovered, setOverlayHovered] = useState(false)
 
   const delayTimeout = useRef<NodeJS.Timeout>()
@@ -82,7 +82,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       }
 
       const run = () => {
-        setIsActive(true)
+        setIsOpen(true)
       }
 
       if (noAnimation || globalThis.IS_TEST) {
@@ -110,7 +110,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
 
   const onMouseLeave = useCallback(
     (e: MouseEvent) => {
-      if (active) {
+      if (open) {
         return // stop here, because it is set to true by the original prop
       }
 
@@ -126,7 +126,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       clearTimers()
 
       const run = () => {
-        setIsActive(false)
+        setIsOpen(false)
       }
 
       if (skipPortal) {
@@ -138,7 +138,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         run()
       }
     },
-    [active, hideDelay, skipPortal]
+    [open, hideDelay, skipPortal]
   )
 
   const addEvents = useCallback(
@@ -176,12 +176,10 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     [onFocus, onMouseEnter, onMouseLeave]
   )
 
-  const overlayActive = Boolean(
-    isActive || isOverlayHovered || forceActive
-  )
+  const overlayOpen = Boolean(isOpen || isOverlayHovered || forceOpen)
 
   // const fallbackDescriptionId = `${internalId}-sr`
-  const describedById = overlayActive ? internalId : null
+  const describedById = overlayOpen ? internalId : null
 
   /**
    * Get our "target"
@@ -222,9 +220,9 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
 
   useEffect(() => {
     if (isControlled) {
-      setIsActive(active)
+      setIsOpen(open)
     }
-  }, [active, isControlled])
+  }, [open, isControlled])
 
   useEffect(() => {
     const targetElement = getRefElement(cloneRef)
@@ -316,7 +314,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         )}
         theme="dark"
         id={internalId}
-        open={overlayActive}
+        open={overlayOpen}
         targetElement={cloneRef}
         arrowEdgeOffset={4}
         hideDelay={hideDelay}
@@ -349,7 +347,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       </Popover>
 
       <AriaLive element="span" priority="low">
-        {overlayActive ? children : null}
+        {overlayOpen ? children : null}
       </AriaLive>
 
       {componentWrapper}
