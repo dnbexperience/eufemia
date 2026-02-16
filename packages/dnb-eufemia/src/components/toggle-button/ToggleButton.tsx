@@ -18,7 +18,6 @@ import {
   getStatusState,
   combineDescribedBy,
   dispatchCustomElementEvent,
-  keycode,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
@@ -142,18 +141,14 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
   }
 
   onKeyDownHandler = (event) => {
-    switch (keycode(event)) {
-      case 'enter':
-        this.onClickHandler({ event })
-        break
+    if (event.key === 'Enter') {
+      this.onClickHandler({ event })
     }
   }
 
   onKeyUpHandler = (event) => {
-    switch (keycode(event)) {
-      case 'enter':
-        this.onClickHandler({ event })
-        break
+    if (event.key === 'Enter') {
+      this.onClickHandler({ event })
     }
   }
 

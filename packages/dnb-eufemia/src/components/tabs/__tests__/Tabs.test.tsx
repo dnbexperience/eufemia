@@ -93,12 +93,12 @@ describe('Tabs component', () => {
     )
 
     fireEvent.keyDown(document.querySelector('.dnb-tabs__tabs__tablist'), {
-      keyCode: 39, // right
+      key: 'ArrowRight',
     })
     expect(onFocus).toHaveBeenCalledTimes(1)
 
     fireEvent.keyDown(document.querySelector('.dnb-tabs__tabs__tablist'), {
-      keyCode: 39, // right
+      key: 'ArrowRight',
     })
     expect(onFocus).toHaveBeenCalledTimes(2)
   })
@@ -354,7 +354,6 @@ describe('A single Tab component', () => {
 
     fireEvent.keyDown(document.querySelector('div[role="tablist"]'), {
       key: 'ArrowRight',
-      keyCode: 39, // right
     })
     fireEvent.click(document.querySelector('button[data-tab-key="third"]'))
 

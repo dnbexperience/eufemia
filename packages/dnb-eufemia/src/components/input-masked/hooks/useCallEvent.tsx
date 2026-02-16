@@ -8,10 +8,7 @@
 
 import React from 'react'
 import { cleanNumber } from '../../number-format/NumberUtils'
-import {
-  keycode,
-  dispatchCustomElementEvent,
-} from '../../../shared/component-helper'
+import { dispatchCustomElementEvent } from '../../../shared/component-helper'
 import { safeSetSelection } from '../text-mask/createTextMaskInputElement'
 import { isNumber } from '../text-mask/utilities'
 import InputMaskedContext from '../InputMaskedContext'
@@ -48,12 +45,12 @@ export const useCallEvent = ({
     >
     value = value || event.target.value
     const selStart = event.target.selectionStart
-    let keyCode = keycode(event)
+    let keyCode = event.key
 
     // Android issue: https://bugs.chromium.org/p/chromium/issues/detail?id=118639
     if (
       name === 'onKeyDown' &&
-      (event.which === 229 || keyCode === undefined)
+      (event.isComposing || keyCode === 'Unidentified')
     ) {
       isUnidentified = true
     }
@@ -184,7 +181,7 @@ export const useCallEvent = ({
 
       // move cursor to right if key is delete and char at selection is thousand separator
       if (
-        keyCode === 'delete' &&
+        keyCode === 'Delete' &&
         charAtSelection === (maskParams.thousandsSeparatorSymbol || ' ')
       ) {
         safeSetSelection(event.target, selStart + 1)

@@ -199,7 +199,6 @@ describe('Input component', () => {
     // additional native event test
     fireEvent.keyDown(document.querySelector('input'), {
       key: 'Space',
-      keyCode: 84, // space
     })
     expect(onKeyDown.mock.calls.length).toBe(1)
   })
@@ -516,7 +515,6 @@ describe('Input component', () => {
 
     fireEvent.keyDown(document.querySelector('input'), {
       key: 'Enter',
-      keyCode: 13, // enter
     })
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit.mock.calls[0][0].value).toBe('value')

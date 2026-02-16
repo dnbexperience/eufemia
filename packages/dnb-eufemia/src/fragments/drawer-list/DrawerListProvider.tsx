@@ -15,7 +15,6 @@ import {
   detectOutsideClick,
   dispatchCustomElementEvent,
   getClosestParent,
-  keycode,
   DetectOutsideClickClass,
 } from '../../shared/component-helper'
 import {
@@ -767,9 +766,9 @@ export default class DrawerListProvider extends React.PureComponent<
   }
 
   onKeyDownHandler = (e) => {
-    const key = keycode(e)
+    const key = e.key
 
-    if (/command|alt|shift|ctrl/.test(key)) {
+    if (/Meta|Alt|Shift|Control/.test(key)) {
       this.setMetaKey(e)
     }
 
@@ -804,7 +803,7 @@ export default class DrawerListProvider extends React.PureComponent<
       } catch (e) {
         warn(e)
       }
-      if (!isSameDrawer && key !== 'tab') {
+      if (!isSameDrawer && key !== 'Tab') {
         return // stop here
       }
     }
@@ -813,7 +812,7 @@ export default class DrawerListProvider extends React.PureComponent<
       return // stop here
     }
 
-    if (isTrue(this.state.ignoreEvents) && key !== 'tab') {
+    if (isTrue(this.state.ignoreEvents) && key !== 'Tab') {
       return // stop here
     }
 
@@ -826,7 +825,7 @@ export default class DrawerListProvider extends React.PureComponent<
     const total = this.state.data && this.state.data.length - 1
 
     switch (key) {
-      case 'up':
+      case 'ArrowUp':
         {
           e.preventDefault()
 
@@ -834,7 +833,7 @@ export default class DrawerListProvider extends React.PureComponent<
         }
         break
 
-      case 'down':
+      case 'ArrowDown':
         {
           e.preventDefault()
 
@@ -842,24 +841,24 @@ export default class DrawerListProvider extends React.PureComponent<
         }
         break
 
-      case 'page up':
-      case 'home':
+      case 'PageUp':
+      case 'Home':
         {
           e.preventDefault()
           activeItem = this.getFirstItem() ?? 0
         }
         break
 
-      case 'page down':
-      case 'end':
+      case 'PageDown':
+      case 'End':
         {
           e.preventDefault()
           activeItem = this.getLastItem() ?? total
         }
         break
 
-      case 'enter':
-      case 'space':
+      case 'Enter':
+      case ' ':
         {
           if (e.target.tagName === 'A') {
             e.target.dispatchEvent(new MouseEvent('click'))
@@ -872,7 +871,7 @@ export default class DrawerListProvider extends React.PureComponent<
 
           if (
             isTrue(this.props.skipKeysearch)
-              ? activeItem > -1 && key !== 'space'
+              ? activeItem > -1 && key !== ' '
               : true
           ) {
             e.preventDefault()
@@ -887,8 +886,7 @@ export default class DrawerListProvider extends React.PureComponent<
         }
         break
 
-      case 'escape':
-      case 'esc':
+      case 'Escape':
         {
           this.setHidden({ event: e })
           e.preventDefault()
@@ -896,7 +894,7 @@ export default class DrawerListProvider extends React.PureComponent<
         }
         break
 
-      case 'tab':
+      case 'Tab':
         {
           if (activeItem > -1) {
             // If there is an active item
@@ -994,7 +992,7 @@ export default class DrawerListProvider extends React.PureComponent<
 
       default:
         {
-          const searchIndex = this.findItemByValue(keycode(e))
+          const searchIndex = this.findItemByValue(e.key)
           if (searchIndex > -1) {
             // Only change position if we find a result
             activeItem = searchIndex
@@ -1131,7 +1129,7 @@ export default class DrawerListProvider extends React.PureComponent<
         this._refUl.current,
       ],
       () => this.setHidden({ preventHideFocus: true }),
-      { includedKeys: ['tab'] }
+      { includedKeys: ['Tab'] }
     )
 
     if (typeof document !== 'undefined') {

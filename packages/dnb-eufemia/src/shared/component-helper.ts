@@ -5,7 +5,6 @@
 
 import React from 'react'
 
-import keycode from './keycode'
 import whatInput from 'what-input'
 import { warn } from './helpers'
 import { getClosestParent } from './helpers/getClosest'
@@ -21,7 +20,7 @@ export {
 export { assignPropsWithContext } from './helpers/assignPropsWithContext'
 export { filterProps } from './helpers/filterProps'
 
-export { keycode, getClosestParent, warn }
+export { getClosestParent, warn }
 
 init()
 

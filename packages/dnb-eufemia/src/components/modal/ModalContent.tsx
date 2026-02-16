@@ -18,7 +18,6 @@ import {
   combineLabelledBy,
   combineDescribedBy,
   dispatchCustomElementEvent,
-  keycode,
 } from '../../shared/component-helper'
 import ModalContext from './ModalContext'
 import { IS_IOS, IS_SAFARI, IS_MAC, isAndroid } from '../../shared/helpers'
@@ -394,19 +393,14 @@ export default class ModalContent extends React.PureComponent<
   }
 
   onKeyDownHandler = (event) => {
-    switch (keycode(event)) {
-      case 'escape':
-      case 'esc': {
-        const mostCurrent = getModalRoot(-1)
+    if (event.key === 'Escape') {
+      const mostCurrent = getModalRoot(-1)
 
-        if (mostCurrent === this) {
-          event.preventDefault()
-          this.closeModalContent(event, {
-            triggeredBy: 'keyboard',
-          })
-        }
-
-        break
+      if (mostCurrent === this) {
+        event.preventDefault()
+        this.closeModalContent(event, {
+          triggeredBy: 'keyboard',
+        })
       }
     }
   }

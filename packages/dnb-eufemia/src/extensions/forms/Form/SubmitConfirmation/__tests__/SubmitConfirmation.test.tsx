@@ -494,7 +494,7 @@ describe('Form.SubmitConfirmation', () => {
 
       await act(async () => {
         document.dispatchEvent(
-          new KeyboardEvent('keydown', { keyCode: 27 })
+          new KeyboardEvent('keydown', { key: 'Escape' })
         )
       })
       await waitFor(() => {

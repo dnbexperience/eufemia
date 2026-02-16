@@ -259,7 +259,7 @@ describe('Modal component', () => {
     })
     expect(testTriggeredBy).toBe(null)
 
-    await userEvent.keyboard('{esc}')
+    await userEvent.keyboard('{Escape}')
     expect(onClose).toHaveBeenCalledTimes(1)
     expect(testTriggeredBy).toBe('keyboard')
   })
@@ -280,8 +280,7 @@ describe('Modal component', () => {
     })
 
     fireEvent.keyDown(document.querySelector('div.dnb-dialog'), {
-      key: 'Esc',
-      keyCode: 27,
+      key: 'Escape',
     })
 
     // and check the class of that element
@@ -311,8 +310,7 @@ describe('Modal component', () => {
     // Selection range is not enforced anymore
 
     fireEvent.keyDown(document.querySelector('div.dnb-dialog'), {
-      key: 'Esc',
-      keyCode: 27,
+      key: 'Escape',
     })
 
     rerender(
@@ -501,8 +499,7 @@ describe('Modal component', () => {
     fireEvent.click(document.querySelector('button'))
 
     fireEvent.keyDown(document.querySelector('div.dnb-dialog'), {
-      key: 'Esc',
-      keyCode: 27,
+      key: 'Escape',
     })
 
     expect(document.activeElement.getAttribute('data-autofocus')).toBe(
@@ -532,8 +529,7 @@ describe('Modal component', () => {
     await userEvent.click(trigger)
     // using fireEvent instead of userEvent as userEvent.keyboard({'Escape'}) does not work
     fireEvent.keyDown(document.querySelector('div.dnb-dialog'), {
-      key: 'Esc',
-      keyCode: 27,
+      key: 'Escape',
     })
 
     await waitFor(() => {
@@ -747,7 +743,7 @@ describe('Modal component', () => {
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the third one
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
     await waitFor(() => {
       expect(onClose.first).toHaveBeenCalledTimes(0)
       expect(onClose.second).toHaveBeenCalledTimes(0)
@@ -775,7 +771,7 @@ describe('Modal component', () => {
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the second one
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
     await waitFor(() => {
       expect(onClose.first).toHaveBeenCalledTimes(0)
       expect(onClose.second).toHaveBeenCalledTimes(1)
@@ -796,7 +792,7 @@ describe('Modal component', () => {
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the first one
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
     await waitFor(() => {
       expect(onClose.first).toHaveBeenCalledTimes(1)
       expect(onClose.second).toHaveBeenCalledTimes(1)
@@ -929,8 +925,7 @@ describe('Modal component', () => {
 
     document.dispatchEvent(
       new KeyboardEvent('keydown', {
-        key: 'esc',
-        keyCode: 27, // esc
+        key: 'Escape',
       })
     )
 
@@ -962,8 +957,7 @@ describe('Modal component', () => {
     // trigger the esc key
     document.dispatchEvent(
       new KeyboardEvent('keydown', {
-        key: 'esc',
-        keyCode: 27, // esc
+        key: 'Escape',
       })
     )
 
@@ -1041,7 +1035,7 @@ describe('Modal component', () => {
 
     // trigger the close on the overlay
     fireEvent.keyDown(contentElement, {
-      keyCode: 23,
+      key: 'a',
       target,
       currentTarget,
     })
@@ -1564,7 +1558,7 @@ describe('Modal component', () => {
         document.querySelector('div.dnb-modal-root__inner')
       ).toBeInTheDocument()
     })
-    await userEvent.keyboard('{esc}')
+    await userEvent.keyboard('{Escape}')
     await waitFor(() => {
       expect(
         document.querySelector('div.dnb-modal-root__inner')
@@ -1796,7 +1790,7 @@ describe('Modal component', () => {
       fireEvent.click(document.querySelector('.dnb-modal__trigger'))
       expect(onClose).toHaveBeenCalledTimes(0)
 
-      await userEvent.keyboard('{esc}')
+      await userEvent.keyboard('{Escape}')
       expect(onClose).toHaveBeenCalledTimes(1)
       expect(onClose).toHaveBeenCalledWith(
         expect.objectContaining({

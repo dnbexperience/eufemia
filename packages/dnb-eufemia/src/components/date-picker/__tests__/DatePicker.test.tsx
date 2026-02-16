@@ -2644,7 +2644,7 @@ describe('DatePicker component', () => {
     dayElem.setSelectionRange(2, 2)
 
     // and simulate a right keydown
-    fireEvent.keyDown(dayElem, { key: 'Right', keyCode: 39 })
+    fireEvent.keyDown(dayElem, { key: 'ArrowRight' })
 
     // and check the class of that element
     await waitFor(() => {
@@ -2654,7 +2654,7 @@ describe('DatePicker component', () => {
     })
 
     // and simulate a left keydown
-    fireEvent.keyDown(monthElem, { key: 'Left', keyCode: 37 })
+    fireEvent.keyDown(monthElem, { key: 'ArrowLeft' })
 
     // and check the class of that element
     await waitFor(() => {

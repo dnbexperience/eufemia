@@ -202,13 +202,13 @@ describe('DrawerList component', () => {
 
       render(<DrawerList {...disabledOptionProps} onSelect={onSelect} />)
 
-      keydown(40) // down
+      keydown('ArrowDown')
       await waitFor(() => {
         expect(onSelect).toHaveBeenCalledTimes(1)
         expect(onSelect.mock.calls[0][0].activeItem).toBe(0)
       })
 
-      keydown(40) // down
+      keydown('ArrowDown')
       await waitFor(() => {
         // onSelect is called when navigating to disabled item
         expect(onSelect).toHaveBeenCalledTimes(2)
@@ -216,7 +216,7 @@ describe('DrawerList component', () => {
         expect(onSelect.mock.calls[1][0].data.disabled).toBe(true)
       })
 
-      keydown(40) // down
+      keydown('ArrowDown')
       await waitFor(() => {
         // navigates to next item
         expect(onSelect).toHaveBeenCalledTimes(3)
@@ -236,8 +236,8 @@ describe('DrawerList component', () => {
         />
       )
 
-      keydown(40) // down
-      keydown(40) // down
+      keydown('ArrowDown')
+      keydown('ArrowDown')
       await waitFor(() => {
         // verify item is disabled
         expect(onSelect).toHaveBeenCalledTimes(2)
@@ -245,7 +245,7 @@ describe('DrawerList component', () => {
         expect(onSelect.mock.calls[1][0].data.disabled).toBe(true)
       })
 
-      keydown(13) // enter
+      keydown('Enter')
       await waitFor(() => {
         // onChange and onSelect is not called when attempting to chose a disabled item
         expect(onChange).toHaveBeenCalledTimes(0)
@@ -320,13 +320,13 @@ describe('DrawerList component', () => {
       document.querySelector('.dnb-drawer-list__option--focus')
     ).toBeInTheDocument()
 
-    keydown(83) // S
+    keydown('s')
 
     await waitFor(() => {
       expect(getFocusedItemIndex()).toBe(1)
     })
 
-    keydown(70) // F
+    keydown('f')
 
     await waitFor(() => {
       expect(getFocusedItemIndex()).toBe(2)
@@ -341,19 +341,19 @@ describe('DrawerList component', () => {
       document.querySelector('.dnb-drawer-list__option--focus')
     ).toBeInTheDocument()
 
-    keydown(83) // S
+    keydown('s')
 
     await waitFor(() => {
       expect(getFocusedItemIndex()).toBe(1)
     })
 
-    keydown(69) // E
+    keydown('e')
 
     await waitFor(() => {
       expect(getFocusedItemIndex()).toBe(1)
     })
 
-    keydown(17) // ctrl
+    keydown('Control')
 
     await waitFor(() => {
       expect(getFocusedItemIndex()).toBe(1)
@@ -366,13 +366,13 @@ describe('DrawerList component', () => {
     expect(getFocusedItemIndex()).toBe(-1)
     expect(isListFocused()).toBe(false)
 
-    keydown(40) // down
+    keydown('ArrowDown')
 
     await waitFor(() => {
       expect(getFocusedItemIndex()).toBe(0)
     })
 
-    keydown(38) // up
+    keydown('ArrowUp')
 
     await waitFor(() => {
       expect(isListFocused()).toBe(false)
@@ -381,7 +381,7 @@ describe('DrawerList component', () => {
       expect(getFocusedItemIndex()).toBe(6)
     })
 
-    keydown(40) // down
+    keydown('ArrowDown')
 
     await waitFor(() => {
       expect(isListFocused()).toBe(false)
@@ -397,19 +397,19 @@ describe('DrawerList component', () => {
     expect(getFocusedItemIndex()).toBe(2)
     expect(isListFocused()).toBe(false)
 
-    keydown(38) // up
+    keydown('ArrowUp')
 
     await waitFor(() => {
       expect(getFocusedItemIndex()).toBe(1)
     })
 
-    keydown(38) // up
+    keydown('ArrowUp')
 
     await waitFor(() => {
       expect(getFocusedItemIndex()).toBe(0)
     })
 
-    keydown(38) // up
+    keydown('ArrowUp')
 
     await waitFor(() => {
       expect(isListFocused()).toBe(false)
@@ -419,7 +419,7 @@ describe('DrawerList component', () => {
       expect(getFocusedItemIndex()).toBe(6)
     })
 
-    keydown(40) // down
+    keydown('ArrowDown')
 
     await waitFor(() => {
       expect(isListFocused()).toBe(false)
@@ -451,8 +451,8 @@ describe('DrawerList component', () => {
     expect(getFocusedItemIndex()).toBe(-1)
 
     // focus the second item
-    keydown(40) // down
-    keydown(40) // down
+    keydown('ArrowDown')
+    keydown('ArrowDown')
 
     await waitFor(() => {
       expect(getFocusedItemIndex()).toBe(1)
@@ -502,7 +502,7 @@ describe('DrawerList component', () => {
     expect(getSelectedItemIndex()).toBe(1)
 
     // focus the second item
-    keydown(40) // down
+    keydown('ArrowDown')
 
     await waitFor(() => {
       expect(getFocusedItemIndex()).toBe(2)
@@ -543,7 +543,7 @@ describe('DrawerList component', () => {
     )
 
     // select the current
-    keydown(32) // space
+    keydown(' ')
 
     const notChangedItem = mockData[props.value]
     await waitFor(() => {
@@ -571,7 +571,7 @@ describe('DrawerList component', () => {
         open={true}
       />
     )
-    keydown(40) // down
+    keydown('ArrowDown')
     await waitFor(() => {
       expect(onSelect.mock.calls[1][0].selectedItem).toBe(undefined)
       expect(onSelect.mock.calls[1][0].activeItem).toBe(3)
@@ -621,7 +621,7 @@ describe('DrawerList component', () => {
           .getAttribute('id')
       ).toBe(`option-${id}-0`)
 
-      keydown(40) // down
+      keydown('ArrowDown')
 
       expect(
         document
@@ -751,8 +751,8 @@ describe('DrawerList component', () => {
     )
 
     // then simulate changes
-    keydown(40) // down
-    keydown(32) // space
+    keydown('ArrowDown')
+    keydown(' ')
 
     await waitFor(() => {
       const selectedItem = mockData[(props.value as number) + 1]
@@ -782,8 +782,8 @@ describe('DrawerList component', () => {
     )
 
     // then simulate changes
-    keydown(40) // down
-    keydown(13) // enter
+    keydown('ArrowDown')
+    keydown('Enter')
 
     await waitFor(() => {
       const selectedItem = mockData[(props.value as number) + 2]
@@ -805,9 +805,9 @@ describe('DrawerList component', () => {
     )
 
     // then simulate changes
-    keydown(40) // down
-    keydown(38) // up
-    keydown(32) // space
+    keydown('ArrowDown')
+    keydown('ArrowUp')
+    keydown(' ')
 
     await waitFor(() => {
       expect(onChange).toHaveBeenCalledTimes(0)
@@ -851,7 +851,7 @@ describe('DrawerList component', () => {
       'dnb-drawer-list--scroll',
     ])
 
-    keydown(27) // esc
+    keydown('Escape')
     expect(onClose.mock.calls.length).toBe(1)
 
     await waitFor(() => {
@@ -904,18 +904,18 @@ describe('DrawerList component', () => {
     )
 
     // then simulate changes
-    keydown(40) // down
+    keydown('ArrowDown')
     await waitFor(() => {
       expect(onSelect.mock.calls[0][0].activeItem).toBe(0)
     })
 
-    keydown(13) // enter
+    keydown('Enter')
     await waitFor(() => {
       expect(onChange.mock.calls[0][0].value).toBe('a')
     })
 
     // then open again
-    keydown(32) // space
+    keydown(' ')
     await waitFor(() => {
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(onSelect).toHaveBeenCalledTimes(2)
@@ -998,7 +998,7 @@ describe('DrawerList component', () => {
     expect(onOpen.mock.calls.length).toBe(1)
     expect(onOpen.mock.calls[0][0].attributes).toMatchObject(params)
 
-    keydown(27) // esc
+    keydown('Escape')
     expect(onClose.mock.calls.length).toBe(1)
     expect(onClose.mock.calls[0][0].attributes).toMatchObject(params)
   })
@@ -1425,7 +1425,7 @@ describe('DrawerList markup', () => {
       `option-${props.id}-0`
     )
 
-    keydown(40) // down
+    keydown('ArrowDown')
 
     await waitFor(() => {
       expect(ul.getAttribute('aria-activedescendant')).toEqual(
@@ -1433,7 +1433,7 @@ describe('DrawerList markup', () => {
       )
     })
 
-    keydown(38) // up
+    keydown('ArrowUp')
 
     await waitFor(() => {
       expect(ul.getAttribute('aria-activedescendant')).toEqual(
@@ -1441,7 +1441,7 @@ describe('DrawerList markup', () => {
       )
     })
 
-    keydown(38) // up
+    keydown('ArrowUp')
 
     await waitFor(() => {
       expect(ul.getAttribute('aria-activedescendant')).toEqual(
@@ -1449,7 +1449,7 @@ describe('DrawerList markup', () => {
       )
     })
 
-    keydown(40) // down
+    keydown('ArrowDown')
 
     await waitFor(() => {
       expect(ul.getAttribute('aria-activedescendant')).toEqual(
@@ -1457,7 +1457,7 @@ describe('DrawerList markup', () => {
       )
     })
 
-    keydown(40) // down
+    keydown('ArrowDown')
 
     await waitFor(() => {
       expect(ul.getAttribute('aria-activedescendant')).toEqual(
@@ -1465,7 +1465,7 @@ describe('DrawerList markup', () => {
       )
     })
 
-    keydown(40) // down
+    keydown('ArrowDown')
 
     await waitFor(() => {
       expect(ul.getAttribute('aria-activedescendant')).toEqual(
@@ -1561,8 +1561,8 @@ describe('DrawerList scss', () => {
   })
 })
 
-const keydown = (keyCode) => {
+const keydown = (key) => {
   act(() => {
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode }))
+    document.dispatchEvent(new KeyboardEvent('keydown', { key }))
   })
 }

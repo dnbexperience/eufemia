@@ -291,10 +291,10 @@ describe('ToggleButton component', () => {
 
     const element = document.querySelector('button')
 
-    fireEvent.keyDown(element, { keyCode: 13 }) // enter
+    fireEvent.keyDown(element, { key: 'Enter' })
     expect(onChange).toHaveBeenCalledTimes(1)
 
-    fireEvent.keyUp(element, { keyCode: 13 }) // enter
+    fireEvent.keyUp(element, { key: 'Enter' })
     expect(onChange).toHaveBeenCalledTimes(2)
   })
 
