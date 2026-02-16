@@ -45,7 +45,7 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
     className,
     title,
     progress,
-    visible = true,
+    show = true,
     customColors,
     customCircleWidth,
     style,
@@ -82,10 +82,10 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
   }, [])
 
   useEffect(() => {
-    if (visible) {
+    if (show) {
       setCompleteState(false)
     }
-  }, [visible])
+  }, [show])
 
   const callOnCompleteHandler = useCallback(() => {
     completeTimeout.current = setTimeout(() => {
@@ -102,7 +102,7 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
     <span
       className={clsx(
         'dnb-progress-indicator',
-        visible && 'dnb-progress-indicator--visible',
+        show && 'dnb-progress-indicator--show',
         complete && 'dnb-progress-indicator--complete',
         type === 'linear' && 'dnb-progress-indicator--full-width',
         labelDirection && `dnb-progress-indicator--${labelDirection}`,
@@ -125,7 +125,7 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
         <ProgressIndicatorCircular
           size={sizeVariant}
           progress={progressNumber}
-          visible={visible}
+          show={show}
           onComplete={onComplete}
           callOnCompleteHandler={callOnCompleteHandler}
           title={progressTitle?.toString()}
@@ -138,7 +138,7 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
         <ProgressIndicatorLinear
           size={sizeVariant}
           progress={progressNumber}
-          visible={visible}
+          show={show}
           onComplete={onComplete}
           callOnCompleteHandler={callOnCompleteHandler}
           title={progressTitle?.toString()}

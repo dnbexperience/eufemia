@@ -698,11 +698,11 @@ html[data-visual-test] .dnb-progress-indicator__linear__bar2-animation {
   animation-duration: 0ms;
   animation-iteration-count: 0;
 }
-.dnb-progress-indicator, .dnb-progress-indicator--visible {
+.dnb-progress-indicator, .dnb-progress-indicator--show {
   opacity: 0;
   animation: progress-indicator-fade-in 200ms ease-out 1 forwards;
 }
-.dnb-progress-indicator--complete:not(.dnb-progress-indicator--visible) {
+.dnb-progress-indicator--complete:not(.dnb-progress-indicator--show) {
   animation: progress-indicator-fade-out 600ms ease-out 1 forwards;
 }
 @media (prefers-reduced-motion: reduce) {

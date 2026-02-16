@@ -149,10 +149,10 @@ export const ProgressIndicatorCircularRandomOnCompleteExample = () => (
       const Example = () => {
         const random = (min, max) =>
           Math.floor(Math.random() * (max - min + 1)) + min
-        const [visible, setVisible] = React.useState(true)
+        const [show, setShow] = React.useState(true)
         React.useEffect(() => {
           const timer = setInterval(
-            () => setVisible(!visible),
+            () => setShow(!show),
             random(2400, 4200)
           )
           return () => clearTimeout(timer)
@@ -161,7 +161,7 @@ export const ProgressIndicatorCircularRandomOnCompleteExample = () => (
           <ProgressIndicator
             type="circular"
             size="large"
-            visible={visible}
+            show={show}
             onComplete={() => {
               console.log('onCompleteCircular')
             }}
@@ -298,10 +298,10 @@ export const ProgressIndicatorLinearRandomOnCompleteExample = () => (
       const Example = () => {
         const random = (min, max) =>
           Math.floor(Math.random() * (max - min + 1)) + min
-        const [visible, setVisible] = React.useState(true)
+        const [show, setShow] = React.useState(true)
         React.useEffect(() => {
           const timer = setInterval(
-            () => setVisible(!visible),
+            () => setShow(!show),
             random(2400, 4200)
           )
           return () => clearTimeout(timer)
@@ -310,7 +310,7 @@ export const ProgressIndicatorLinearRandomOnCompleteExample = () => (
           <ProgressIndicator
             type="linear"
             size="large"
-            visible={visible}
+            show={show}
             onComplete={() => {
               console.log('onCompleteLinear')
             }}
