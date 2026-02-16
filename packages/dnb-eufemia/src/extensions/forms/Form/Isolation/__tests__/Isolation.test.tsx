@@ -1444,7 +1444,6 @@ describe('Form.Isolation', () => {
     {
       const enterKey = createEvent.keyDown(isolatedString, {
         key: 'Enter',
-        keyCode: 13,
       })
       enterKey.preventDefault = jest.fn()
       fireEvent(isolatedString, enterKey)
@@ -1454,7 +1453,6 @@ describe('Form.Isolation', () => {
     {
       const enterKey = createEvent.keyDown(isolatedNumber, {
         key: 'Enter',
-        keyCode: 13,
       })
       enterKey.preventDefault = jest.fn()
       fireEvent(isolatedNumber, enterKey)
@@ -1464,7 +1462,6 @@ describe('Form.Isolation', () => {
     {
       const enterKey = createEvent.keyDown(regular, {
         key: 'Enter',
-        keyCode: 13,
       })
       enterKey.preventDefault = jest.fn()
       fireEvent(regular, enterKey)
@@ -1495,7 +1492,6 @@ describe('Form.Isolation', () => {
     {
       const enterKey = createEvent.keyDown(isolatedString, {
         key: 'Enter',
-        keyCode: 13,
       })
       fireEvent(isolatedString, enterKey)
       expect(onSubmit).toHaveBeenCalledTimes(0)
@@ -1505,7 +1501,6 @@ describe('Form.Isolation', () => {
     {
       const enterKey = createEvent.keyDown(isolatedNumber, {
         key: 'Enter',
-        keyCode: 13,
       })
       fireEvent(isolatedNumber, enterKey)
       expect(onSubmit).toHaveBeenCalledTimes(0)
@@ -1515,7 +1510,6 @@ describe('Form.Isolation', () => {
     {
       const enterKey = createEvent.keyDown(regular, {
         key: 'Enter',
-        keyCode: 13,
       })
       fireEvent(regular, enterKey)
       expect(onSubmit).toHaveBeenCalledTimes(0)
@@ -1640,7 +1634,6 @@ describe('Form.Isolation', () => {
     {
       const enterKey = createEvent.keyDown(regular, {
         key: 'Enter',
-        keyCode: 13,
       })
       fireEvent(regular.querySelector('input'), enterKey)
     }
@@ -1650,7 +1643,6 @@ describe('Form.Isolation', () => {
     {
       const enterKey = createEvent.keyDown(isolated, {
         key: 'Enter',
-        keyCode: 13,
       })
       fireEvent(isolated.querySelector('input'), enterKey)
     }
@@ -1714,7 +1706,6 @@ describe('Form.Isolation', () => {
     {
       const enterKey = createEvent.keyDown(regular, {
         key: 'Enter',
-        keyCode: 13,
       })
       fireEvent(regular.querySelector('input'), enterKey)
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
@@ -1727,7 +1718,6 @@ describe('Form.Isolation', () => {
     {
       const enterKey = createEvent.keyDown(isolated, {
         key: 'Enter',
-        keyCode: 13,
       })
       fireEvent(isolated.querySelector('input'), enterKey)
       expect(isolated.querySelector('.dnb-form-status')).toHaveTextContent(
