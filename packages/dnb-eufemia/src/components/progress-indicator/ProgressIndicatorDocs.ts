@@ -7,8 +7,8 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
     defaultValue: 'undefined',
     status: 'optional',
   },
-  visible: {
-    doc: 'Defines the visibility of the progress. Toggling the `visible` property to `false` will force a fade-out animation.',
+  show: {
+    doc: 'Defines the visibility of the progress. Toggling the `show` property to `false` will force a fade-out animation.',
     type: 'boolean',
     defaultValue: 'true',
     status: 'optional',

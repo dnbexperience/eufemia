@@ -15,9 +15,9 @@ export function isValidSize(
 
 export type ProgressIndicatorProps = {
   /**
-   * Defines the visibility of the progress. Toggling the `visible` property to `false` will force a fade-out animation. Defaults to `true`.
+   * Defines the visibility of the progress. Toggling the `show` property to `false` will force a fade-out animation. Defaults to `true`.
    */
-  visible?: boolean
+  show?: boolean
   /**
    * Defines the type. Defaults to `circular`.
    */
@@ -88,7 +88,7 @@ export type ProgressIndicatorProps = {
 export type ProgressIndicatorAnimationProps = Pick<
   ProgressIndicatorProps,
   | 'size'
-  | 'visible'
+  | 'show'
   | 'progress'
   | 'onComplete'
   | 'customColors'
@@ -97,7 +97,7 @@ export type ProgressIndicatorAnimationProps = Pick<
   size?: ValidSizes | 'custom-size'
   progress?: number
   /**
-   * Callback when animation ends because `visible` is set to false
+   * Callback when animation ends because `show` is set to false
    */
   callOnCompleteHandler?: (...args: any[]) => any
 }
