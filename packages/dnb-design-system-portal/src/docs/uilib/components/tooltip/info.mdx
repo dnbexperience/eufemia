@@ -36,11 +36,11 @@ To enhance accessibility for touch devices, we add `tabindex="0"` and a `touchst
 
 The Eufemia [Anchor](/uilib/components/anchor) and [Button](/uilib/components/button) components display a Tooltip when the URL target is set to `_blank` to improve accessibility by informing users that a new window will open (out of context).
 
-## Controlled active
+## Controlled open
 
-When you pass the `active` property, the Tooltip becomes controlled:
+When you pass the `open` property, the Tooltip becomes controlled:
 
-- `active={true}`: The Tooltip stays visible and ignores DOM events (hover, focus, touch). It will not auto-hide on `mouseleave`.
-- `active={false}`: The Tooltip stays hidden and ignores DOM events. It will not auto-show on `mouseenter` or focus.
+- `open={true}`: The Tooltip stays visible and ignores DOM events (hover, focus, touch). It will not auto-hide on `mouseleave`.
+- `open={false}`: The Tooltip stays hidden and ignores DOM events. It will not auto-show on `mouseenter` or focus.
 
-To use the built-in hover/focus/touch behavior, omit the `active` property and let the component manage visibility internally.
+To use the built-in hover/focus/touch behavior, omit the `open` property and let the component manage visibility internally.

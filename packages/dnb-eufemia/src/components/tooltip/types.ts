@@ -16,7 +16,10 @@ export type TooltipSize = 'basis' | 'large'
 export type TooltipProps = {
   id?: string
   size?: TooltipSize
-  active?: boolean
+  /**
+   * Controls visibility. When provided, Tooltip is controlled and ignores DOM events (hover/focus/touch). `true` keeps it visible; `false` keeps it hidden.
+   */
+  open?: boolean
   position?: TooltipPosition
   arrow?: TooltipArrow
   align?: TooltipAlign
@@ -45,7 +48,7 @@ export type TooltipProps = {
   /**
    * Forces the tooltip to stay open even when the hover state changes.
    */
-  forceActive?: boolean
+  forceOpen?: boolean
   tooltip?: React.ReactNode
   className?: string
   children?: React.ReactNode
