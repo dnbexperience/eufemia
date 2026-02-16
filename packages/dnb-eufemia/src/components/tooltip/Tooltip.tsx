@@ -37,7 +37,7 @@ function Tooltip(localProps: TooltipAllProps) {
     noAnimation, // eslint-disable-line
     showDelay, // eslint-disable-line
     hideDelay, // eslint-disable-line
-    active, // eslint-disable-line
+    open, // eslint-disable-line
     position, // eslint-disable-line
     arrow, // eslint-disable-line
     align, // eslint-disable-line
@@ -45,14 +45,14 @@ function Tooltip(localProps: TooltipAllProps) {
     omitDescribedBy, // eslint-disable-line
     contentRef, // eslint-disable-line
     triggerOffset, // eslint-disable-line
-    forceActive, // eslint-disable-line
+    forceOpen, // eslint-disable-line
     ...attributeProps
   } = props
 
   const targetSource = targetElement || targetSelector
   const target = useTooltipTarget(targetElement, targetSelector)
   const internalId = useId(id)
-  const [isControlled] = useState(() => typeof active === 'boolean')
+  const [isControlled] = useState(() => typeof open === 'boolean')
 
   if (targetSource && !target) {
     return null
@@ -69,7 +69,7 @@ function Tooltip(localProps: TooltipAllProps) {
       <TooltipWithEvents
         target={target}
         attributes={attributes}
-        forceActive={forceActive}
+        forceOpen={forceOpen}
         {...props}
       >
         {children}
