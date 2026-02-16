@@ -304,12 +304,6 @@ export type AutocompleteProps = {
   onSelect?: (...args: any[]) => any
   onStateUpdate?: (...args: any[]) => any
   onClear?: (event: AutocompleteClearEvent) => void
-  // Legacy aliases, still consumed internally
-  indicator_label?: AutocompleteIndicatorLabel
-  no_options?: AutocompleteNoOptions
-  show_all?: AutocompleteShowAll
-  aria_live_options?: AutocompleteAriaLiveOptions
-  disable_highlighting?: boolean
 }
 
 export type AutocompleteAllProps = AutocompleteProps &
@@ -2020,11 +2014,6 @@ class AutocompleteInstance extends React.PureComponent<
       disableReorder: _disableReorder, // eslint-disable-line
       disableFilter: _disableFilter, // eslint-disable-line
 
-      indicator_label, // eslint-disable-line
-      no_options, // eslint-disable-line
-      show_all, // eslint-disable-line
-      aria_live_options, // eslint-disable-line
-      disable_highlighting, // eslint-disable-line
       indicatorLabel: _indicatorLabel, // eslint-disable-line
       noOptions: _noOptions, // eslint-disable-line
       showAll: _showAll, // eslint-disable-line
