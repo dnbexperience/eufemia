@@ -155,7 +155,7 @@ describe('Circular ProgressIndicator component', () => {
     expect(Array.from(indicator.classList)).toEqual([
       'dnb-progress-indicator',
       'dnb-space__top--large',
-      'dnb-progress-indicator--visible',
+      'dnb-progress-indicator--show',
       'dnb-progress-indicator--horizontal',
       'dnb-progress-indicator--default',
     ])
@@ -441,7 +441,7 @@ describe('Linear ProgressIndicator component', () => {
     expect(Array.from(indicator.classList)).toEqual([
       'dnb-progress-indicator',
       'dnb-space__top--large',
-      'dnb-progress-indicator--visible',
+      'dnb-progress-indicator--show',
       'dnb-progress-indicator--horizontal',
       'dnb-progress-indicator--default',
       'dnb-progress-indicator--full-width',
