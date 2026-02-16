@@ -15,7 +15,7 @@ function ProgressIndicatorCircular(
 ) {
   const {
     size,
-    visible,
+    show,
     progress,
     onComplete,
     callOnCompleteHandler,
@@ -26,7 +26,7 @@ function ProgressIndicatorCircular(
     ...rest
   } = props
   const keepAnimatingRef = useRef(true)
-  const visibleRef = useRef(false)
+  const showRef = useRef(false)
   const useAnimationFrame = typeof onComplete === 'function' || IS_EDGE
   const _refDark = useRef<SVGSVGElement>(null)
   const _refLight = useRef<SVGSVGElement>(null)
@@ -53,8 +53,8 @@ function ProgressIndicatorCircular(
   }, [])
 
   useEffect(() => {
-    visibleRef.current = visible
-  }, [visible])
+    showRef.current = show
+  }, [show])
 
   const doAnimation = (
     element: SVGSVGElement,
@@ -80,7 +80,7 @@ function ProgressIndicatorCircular(
       ms = timestamp - start
 
       if (animate1) {
-        if (!visibleRef.current && prog < 20) {
+        if (!showRef.current && prog < 20) {
           prog = min
         }
         if (setProg) {
@@ -98,13 +98,13 @@ function ProgressIndicatorCircular(
           if (animateOnStart && typeof callback === 'function') {
             callback()
           }
-        } else if (visibleRef.current && ms % 1e3 > 950) {
+        } else if (showRef.current && ms % 1e3 > 950) {
           // startAnimationFirstTime() // will not start completely from scratch
           stopNextRound = false
         }
       } else {
         // make sure we stop next round
-        stopNextRound = !visibleRef.current && prog === min
+        stopNextRound = !showRef.current && prog === min
         animate1 = true
         completeCalled = false
       }
