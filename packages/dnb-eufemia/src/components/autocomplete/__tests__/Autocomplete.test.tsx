@@ -1841,6 +1841,39 @@ describe('Autocomplete component', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('should allow showing "no-options" via showNoOptionsItem in async mode', async () => {
+    const onTypeHandler = ({ value, updateData, showNoOptionsItem }) => {
+      if (value === 'x') {
+        updateData([])
+        showNoOptionsItem()
+      }
+    }
+
+    render(
+      <Autocomplete
+        {...mockProps}
+        mode="async"
+        data={mockData}
+        no_options="No options"
+        on_type={onTypeHandler}
+      />
+    )
+
+    const inputElement = document.querySelector('input')
+
+    await userEvent.type(inputElement, 'x')
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-autocomplete__no-options')
+      ).toBeInTheDocument()
+    })
+
+    expect(
+      document.querySelector('.dnb-autocomplete__no-options')
+    ).toHaveTextContent('No options')
+  })
+
   it('should support inline styling', () => {
     render(<Autocomplete data={[]} style={{ color: 'red' }} />)
 
