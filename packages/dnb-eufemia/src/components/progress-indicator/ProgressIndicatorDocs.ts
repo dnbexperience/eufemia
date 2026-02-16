@@ -7,8 +7,8 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
     defaultValue: 'undefined',
     status: 'optional',
   },
-  visible: {
-    doc: 'Defines the visibility of the progress. Toggling the `visible` property to `false` will force a fade-out animation.',
+  show: {
+    doc: 'Defines the visibility of the progress. Toggling the `show` property to `false` will force a fade-out animation.',
     type: 'boolean',
     defaultValue: 'true',
     status: 'optional',
@@ -117,7 +117,7 @@ export const CustomColorsData: PropertiesTableProps = {
 
 export const ProgressIndicatorEvents: PropertiesTableProps = {
   onComplete: {
-    doc: "Will be called once it's no longer `visible`.",
+    doc: "Will be called once it's no longer visible (show=false).",
     type: 'function',
     defaultValue: 'undefined',
     status: 'optional',

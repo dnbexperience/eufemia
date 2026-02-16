@@ -259,11 +259,11 @@
   }
 
   &,
-  &--visible {
+  &--show {
     opacity: 0;
     animation: progress-indicator-fade-in 200ms ease-out 1 forwards;
   }
-  &--complete:not(#{&}--visible) {
+  &--complete:not(#{&}--show) {
     animation: progress-indicator-fade-out 600ms ease-out 1 forwards;
   }
 

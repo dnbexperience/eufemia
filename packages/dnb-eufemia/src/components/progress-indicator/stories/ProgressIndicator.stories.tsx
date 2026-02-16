@@ -47,15 +47,15 @@ export const ProgressIndicatorLabel = () => (
 )
 
 const ProgressIndicatorCircular = () => {
-  const [visible, setVisible] = React.useState(true)
+  const [show, setShow] = React.useState(true)
   React.useEffect(() => {
-    const timer = setInterval(() => setVisible(!visible), 3400)
+    const timer = setInterval(() => setShow(!show), 3400)
     return () => clearInterval(timer)
   })
   return (
     <ProgressIndicator
       size="large"
-      visible={visible}
+      show={show}
       onComplete={() => {
         console.log('onComplete')
       }}
