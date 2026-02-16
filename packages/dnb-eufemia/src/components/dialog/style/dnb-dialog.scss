@@ -165,6 +165,21 @@
     justify-content: space-between;
   }
 
+  // Use shared sticky navigation mixin
+  @include stickyNavigationBar('dnb-dialog');
+
+  // Dialog-specific spacing for sticky navigation
+  &--spacing &__navigation.dnb-section {
+    margin: var(--spacing-medium) 0;
+  }
+
+  // Dialog-specific shadow height override
+  & &__navigation--sticky {
+    &::before {
+      margin: 0 -2rem;
+    }
+  }
+
   // Animation in
   html:not([data-visual-test]) & {
     animation: show-modal var(--modal-animation-duration) ease-out;
