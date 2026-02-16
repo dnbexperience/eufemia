@@ -19,7 +19,7 @@ export const TooltipExampleDefault = () => (
 export const TooltipExampleActive = () => (
   <ComponentBox>
     <Button
-      tooltip={<Tooltip active>Basic Tooltip</Tooltip>}
+      tooltip={<Tooltip open>Basic Tooltip</Tooltip>}
       text="Active"
     />
   </ComponentBox>
@@ -28,7 +28,7 @@ export const TooltipExampleActive = () => (
 export const TooltipExampleLinked = () => (
   <ComponentBox>
     <button className="target-1">Show the Tooltip</button>
-    <Tooltip id="unique" active targetSelector=".target-1">
+    <Tooltip id="unique" open targetSelector=".target-1">
       Tooltip linked
     </Tooltip>
   </ComponentBox>

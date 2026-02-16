@@ -37,7 +37,7 @@ export const TooltipSandbox = () => {
 
         <hr />
 
-        <Tooltip id="unique-1" active targetSelector=".target-1">
+        <Tooltip id="unique-1" open targetSelector=".target-1">
           Tooltip
         </Tooltip>
 
@@ -109,7 +109,7 @@ export const TooltipSandbox = () => {
         </P>
       </Box>
       <Box>
-        <Tooltip skipPortal active>
+        <Tooltip skipPortal open>
           Tooltip
         </Tooltip>
       </Box>

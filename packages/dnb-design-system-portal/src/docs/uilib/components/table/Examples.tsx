@@ -48,7 +48,7 @@ function useCopyWithNotice() {
   const CopyTooltip = useCallback(
     ({ target }) => {
       return (
-        <Tooltip active={active} targetElement={target}>
+        <Tooltip open={active} targetElement={target}>
           {NumberFormat.clipboardCopy}
         </Tooltip>
       )
