@@ -15,7 +15,6 @@ import {
   getStatusState,
   combineDescribedBy,
   extendPropsWithContext,
-  keycode,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -272,10 +271,8 @@ function Checkbox(localProps: CheckboxProps) {
 
   const onKeyDownHandler = useCallback(
     (event: KeyboardEvent & OnChangeParams['event']) => {
-      switch (keycode(event)) {
-        case 'enter':
-          handleChange(event)
-          break
+      if (event.key === 'Enter') {
+        handleChange(event)
       }
     },
     [handleChange]

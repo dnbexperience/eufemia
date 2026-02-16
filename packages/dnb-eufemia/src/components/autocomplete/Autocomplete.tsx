@@ -37,7 +37,6 @@ import {
   convertJsxToString,
   escapeRegexChars,
   getClosestParent,
-  keycode,
 } from '../../shared/component-helper'
 import {
   IS_MAC,
@@ -1079,30 +1078,29 @@ class AutocompleteInstance extends React.PureComponent<
   }
 
   onInputKeyDownHandler = ({ event: e }) => {
-    const key = keycode(e)
+    const key = e.key
 
     switch (key) {
-      case 'page up':
-      case 'page down':
-      case 'home':
-      case 'end':
-      case 'down':
-      case 'up':
+      case 'PageUp':
+      case 'PageDown':
+      case 'Home':
+      case 'End':
+      case 'ArrowDown':
+      case 'ArrowUp':
         e.preventDefault() // has to be there for VO, one the drawer is closed
         break
     }
 
     switch (key) {
-      case 'up':
-      case 'down':
+      case 'ArrowUp':
+      case 'ArrowDown':
         if (!this.context.drawerList.open) {
           this.setVisible()
         }
 
         break
 
-      case 'escape':
-      case 'esc':
+      case 'Escape':
         this.setState({
           showAllNextTime: true,
           _listenForPropChanges: false,
@@ -1110,7 +1108,7 @@ class AutocompleteInstance extends React.PureComponent<
 
         break
 
-      case 'enter':
+      case 'Enter':
         e.preventDefault()
 
         if (!this.context.drawerList.open && this.hasFilterActive()) {
@@ -1173,7 +1171,7 @@ class AutocompleteInstance extends React.PureComponent<
 
   reserveActivityHandler = (event = null) => {
     this.__preventFiringBlurEvent = Boolean(
-      event.key === 'enter' ||
+      event.key === 'Enter' ||
         (event?.currentTarget
           ? getClosestParent('dnb-drawer-list', event.currentTarget) ||
             getClosestParent(
@@ -1261,11 +1259,11 @@ class AutocompleteInstance extends React.PureComponent<
   }
 
   onTriggerKeyDownHandler = (e) => {
-    const key = keycode(e)
+    const key = e.key
 
     switch (key) {
-      case 'space':
-      case 'enter':
+      case ' ':
+      case 'Enter':
         {
           this.setVisible()
         }
@@ -1273,12 +1271,12 @@ class AutocompleteInstance extends React.PureComponent<
     }
 
     switch (key) {
-      case 'space':
-      case 'enter':
-      case 'page up':
-      case 'page down':
-      case 'down':
-      case 'up':
+      case ' ':
+      case 'Enter':
+      case 'PageUp':
+      case 'PageDown':
+      case 'ArrowDown':
+      case 'ArrowUp':
         {
           e.preventDefault()
           this.focusInput()

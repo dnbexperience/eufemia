@@ -73,7 +73,7 @@ mockImplementationForDirectionObserver()
 
 describe('Dropdown component', () => {
   afterEach(() => {
-    dispatchKeyDown(27) // esc
+    dispatchKeyDown('Escape')
   })
 
   it('has correct value on keydown "ArrowDown" and "Enter"', () => {
@@ -92,7 +92,7 @@ describe('Dropdown component', () => {
       (mockData[props.value] as DrawerListDataArrayObject).selectedValue
     )
 
-    keydown(32) // space
+    keydown(' ')
 
     elem = document.querySelectorAll('.dnb-drawer-list__option')[
       props.value
@@ -100,8 +100,8 @@ describe('Dropdown component', () => {
     expect(elem.classList).toContain('dnb-drawer-list__option--focus')
     expect(elem.classList).toContain('dnb-drawer-list__option--selected')
 
-    keydown(40) // down
-    keydown(13) // enter
+    keydown('ArrowDown')
+    keydown('Enter')
 
     open()
 
@@ -129,13 +129,13 @@ describe('Dropdown component', () => {
   it('has correct value on key search', () => {
     const { rerender } = render(<Dropdown {...props} data={mockData} />)
 
-    keydown(32) // space
+    keydown(' ')
 
     expect(
       document.querySelector('.dnb-drawer-list__option--focus')
     ).toBeInTheDocument()
 
-    keydown(83) // S
+    keydown('s')
 
     // force rerender
     rerender(<Dropdown {...props} data={mockData} />)
@@ -144,7 +144,7 @@ describe('Dropdown component', () => {
       document.querySelectorAll('.dnb-drawer-list__option')[1].classList
     ).toContain('dnb-drawer-list__option--focus')
 
-    keydown(70) // F
+    keydown('f')
 
     // force rerender
     rerender(<Dropdown {...props} data={mockData} />)
@@ -228,9 +228,9 @@ describe('Dropdown component', () => {
     ).not.toBeInTheDocument()
 
     // then simulate changes
-    keydown(40) // down
-    keydown(40) // down
-    keydown(32) // space
+    keydown('ArrowDown')
+    keydown('ArrowDown')
+    keydown(' ')
 
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(
@@ -241,7 +241,7 @@ describe('Dropdown component', () => {
     )
 
     // close
-    keydown(27) // esc
+    keydown('Escape')
 
     expect(
       document.querySelector('.dnb-dropdown').classList
@@ -267,9 +267,9 @@ describe('Dropdown component', () => {
     ).not.toBeInTheDocument()
 
     // then simulate changes
-    keydown(40) // down
-    keydown(40) // down
-    keydown(32) // space
+    keydown('ArrowDown')
+    keydown('ArrowDown')
+    keydown(' ')
 
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(
@@ -280,7 +280,7 @@ describe('Dropdown component', () => {
     )
 
     // try to close it
-    keydown(27) // esc
+    keydown('Escape')
 
     expect(document.querySelector('.dnb-dropdown').classList).toContain(
       'dnb-dropdown--open'
@@ -295,8 +295,8 @@ describe('Dropdown component', () => {
     render(<Dropdown {...props} data={mockData} onSelect={onSelect} />)
 
     // then simulate changes
-    keydown(32) // space
-    keydown(40) // down
+    keydown(' ')
+    keydown('ArrowDown')
 
     expect(
       document.querySelectorAll('.dnb-drawer-list__option--selected')
@@ -306,7 +306,7 @@ describe('Dropdown component', () => {
     const notChangedItem = mockData[(props.value as number) + 1]
     expect(onSelect.mock.calls[0][0].data).toStrictEqual(notChangedItem)
 
-    keydown(40) // down
+    keydown('ArrowDown')
 
     const selectedItem = mockData[(props.value as number) + 2]
     expect(onSelect.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
@@ -335,8 +335,8 @@ describe('Dropdown component', () => {
       expect(selectedElement.textContent).toBe('Twenty')
     }
 
-    keydown(38) // up
-    keydown(32) // space
+    keydown('ArrowUp')
+    keydown(' ')
     open()
 
     {
@@ -367,8 +367,8 @@ describe('Dropdown component', () => {
       expect(selectedElement.textContent).toBe('Thirty')
     }
 
-    keydown(38) // up
-    keydown(32) // space
+    keydown('ArrowUp')
+    keydown(' ')
     open()
 
     {
@@ -403,9 +403,9 @@ describe('Dropdown component', () => {
     ).not.toBeInTheDocument()
 
     // then simulate changes
-    keydown(40) // down
-    keydown(40) // down
-    keydown(32) // space
+    keydown('ArrowDown')
+    keydown('ArrowDown')
+    keydown(' ')
 
     // open again, to be able to evaluate
     open()
@@ -427,9 +427,9 @@ describe('Dropdown component', () => {
 
     // open again
     open()
-    keydown(40) // down
-    keydown(40) // down
-    keydown(32) // space
+    keydown('ArrowDown')
+    keydown('ArrowDown')
+    keydown(' ')
 
     // open again, to be able to evaluate
     open()
@@ -452,9 +452,9 @@ describe('Dropdown component', () => {
 
     // open again
     open()
-    keydown(40) // down
-    keydown(40) // down
-    keydown(32) // space
+    keydown('ArrowDown')
+    keydown('ArrowDown')
+    keydown(' ')
 
     // open again, to be able to evaluate
     open()
@@ -573,8 +573,8 @@ describe('Dropdown component', () => {
 
     const openAndSelectNext = () => {
       // then simulate changes
-      keydown(40) // down
-      keydown(13) // enter
+      keydown('ArrowDown')
+      keydown('Enter')
       // open again, to be able to evaluate
       open()
     }
@@ -656,9 +656,9 @@ describe('Dropdown component', () => {
     open()
 
     // then simulate changes
-    keydown(40) // down
-    keydown(40) // down
-    keydown(32) // space
+    keydown('ArrowDown')
+    keydown('ArrowDown')
+    keydown(' ')
 
     // open first
     open()
@@ -699,12 +699,12 @@ describe('Dropdown component', () => {
     open()
 
     // then simulate changes
-    keydown(40) // down
+    keydown('ArrowDown')
 
     selectedItem = mockData[(props.value as number) + 1]
     expect(onSelect.mock.calls[0][0].data).toStrictEqual(selectedItem)
 
-    keydown(32) // space
+    keydown(' ')
 
     selectedItem = mockData[(props.value as number) + 1]
     expect(onChange).toHaveBeenCalledTimes(1)
@@ -724,8 +724,8 @@ describe('Dropdown component', () => {
     open()
 
     // then simulate changes
-    keydown(40) // down
-    keydown(13) // enter
+    keydown('ArrowDown')
+    keydown('Enter')
 
     selectedItem = mockData[(props.value as number) + 2]
     expect(onChange.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
@@ -746,8 +746,8 @@ describe('Dropdown component', () => {
     )
 
     open()
-    keydown(40) // down
-    keydown(32) // space
+    keydown('ArrowDown')
+    keydown(' ')
 
     expect(onChange).toHaveBeenCalledWith({
       attributes: {},
@@ -765,8 +765,8 @@ describe('Dropdown component', () => {
     })
 
     open()
-    keydown(40) // down
-    keydown(32) // space
+    keydown('ArrowDown')
+    keydown(' ')
 
     expect(onChange).toHaveBeenLastCalledWith({
       attributes: {},
@@ -979,7 +979,7 @@ describe('Dropdown component', () => {
     })
 
     // close
-    dispatchKeyDown(27) // esc
+    dispatchKeyDown('Escape')
 
     expect(onClose.mock.calls.length).toBe(1)
     expect(onClose.mock.calls[0][0].attributes).toMatchObject(params)
@@ -1026,8 +1026,8 @@ describe('Dropdown component', () => {
       document.activeElement
     )
 
-    // 2. close the dropdown with tab
-    keydown(9) // tab – because JSDOM does not support keyboard handling, so we cannot check document.activeElement
+    // 2. close the dropdown with tab – because JSDOM does not support keyboard handling, so we cannot check document.activeElement
+    keydown('Tab')
 
     // delay because we want to wait to have the DOM focus to be called
     await wait(1)
@@ -1059,7 +1059,7 @@ describe('Dropdown component', () => {
 
     act(() => {
       // close
-      dispatchKeyDown(27) // esc
+      dispatchKeyDown('Escape')
     })
 
     expect(onClose.mock.calls.length).toBe(1)
@@ -1079,7 +1079,7 @@ describe('Dropdown component', () => {
 
     act(() => {
       // close again, but with false returned
-      dispatchKeyDown(27) // esc
+      dispatchKeyDown('Escape')
     })
 
     expect(onClose.mock.calls.length).toBe(2)
@@ -1122,7 +1122,7 @@ describe('Dropdown component', () => {
     )
 
     // first open
-    keydown(40) // down
+    keydown('ArrowDown')
 
     expect(document.querySelector('.dnb-dropdown').classList).toContain(
       'dnb-dropdown--open'
@@ -1132,7 +1132,7 @@ describe('Dropdown component', () => {
       'dnb-drawer-list__options'
     )
 
-    keydown(40) // down
+    keydown('ArrowDown')
 
     // delay because we want to wait to have the DOM focus to be called
     await wait(1)
@@ -1147,7 +1147,7 @@ describe('Dropdown component', () => {
       document.querySelectorAll('li.dnb-drawer-list__option')[0].classList
     ).toContain('dnb-drawer-list__option--focus')
 
-    keydown(38) // up
+    keydown('ArrowUp')
     await wait(1)
 
     expect(document.activeElement.classList).not.toContain(
@@ -1162,7 +1162,7 @@ describe('Dropdown component', () => {
     )
 
     // then simulate changes
-    keydown(40) // down
+    keydown('ArrowDown')
     await wait(1)
 
     expect(document.activeElement.classList).not.toContain(
@@ -1182,7 +1182,7 @@ describe('Dropdown component', () => {
     ).toContain('dnb-drawer-list__option--focus')
 
     // then simulate changes
-    keydown(38) // up
+    keydown('ArrowUp')
     await wait(1)
 
     expect(document.activeElement.classList).not.toContain(
@@ -1195,7 +1195,7 @@ describe('Dropdown component', () => {
     ).toContain('dnb-drawer-list__option--focus')
 
     // then simulate changes
-    keydown(40) // down
+    keydown('ArrowDown')
     await wait(1)
 
     expect(document.activeElement.classList).not.toContain(
@@ -1221,8 +1221,8 @@ describe('Dropdown component', () => {
     open()
 
     // then simulate changes
-    keydown(40) // down
-    keydown(13) // enter
+    keydown('ArrowDown')
+    keydown('Enter')
 
     expect(
       document.querySelector('.dnb-dropdown__text__inner').textContent
@@ -1246,7 +1246,7 @@ describe('Dropdown component', () => {
     open()
 
     // then simulate changes
-    keydown(40) // down
+    keydown('ArrowDown')
 
     expect(
       document.querySelector('.dnb-dropdown__text__inner').textContent
@@ -1343,7 +1343,7 @@ describe('Dropdown component', () => {
     open()
 
     // then simulate changes
-    keydown(40) // down
+    keydown('ArrowDown')
     expect(
       document.querySelector('.dnb-dropdown__trigger')
     ).toHaveAttribute(
@@ -1526,7 +1526,7 @@ describe('Dropdown component', () => {
       document.querySelector('button').getAttribute('aria-expanded')
     ).toBe('false')
 
-    keydown(32) // space
+    keydown(' ')
 
     expect(
       document.querySelector('button').getAttribute('aria-expanded')
@@ -1582,7 +1582,7 @@ describe('Dropdown component', () => {
     expect(elem).toHaveAttribute('aria-controls', 'dropdown-id-ul')
     expect(elem).toHaveAttribute('aria-expanded', 'true')
 
-    keydown(27) // esc
+    keydown('Escape')
 
     expect(elem).toHaveAttribute('aria-haspopup', 'listbox')
     expect(elem).not.toHaveAttribute('aria-controls', 'dropdown-id-ul')
@@ -1940,7 +1940,7 @@ describe('Dropdown component', () => {
       )
 
       // first open
-      keydown(40) // down
+      keydown('ArrowDown')
       await wait(1)
 
       expect(document.querySelector('.dnb-dropdown').classList).toContain(
@@ -1954,7 +1954,7 @@ describe('Dropdown component', () => {
         'dnb-drawer-list__options'
       )
 
-      keydown(40) // down
+      keydown('ArrowDown')
 
       // delay because we want to wait to have the DOM focus to be called
       await wait(1)
@@ -1971,7 +1971,7 @@ describe('Dropdown component', () => {
       ).toContain('dnb-drawer-list__option--focus')
 
       // then simulate changes
-      keydown(38) // up
+      keydown('ArrowUp')
 
       // delay because we want to wait to have the DOM focus to be called
       await wait(1)
@@ -1989,7 +1989,7 @@ describe('Dropdown component', () => {
       )
 
       // then simulate changes
-      keydown(40) // down
+      keydown('ArrowDown')
       await wait(1)
 
       expect(document.activeElement.classList).not.toContain(
@@ -2024,7 +2024,7 @@ describe('Dropdown component', () => {
       ).toContain('dnb-drawer-list__option--focus')
 
       // then simulate changes
-      keydown(38) // up
+      keydown('ArrowUp')
       await wait(1)
 
       expect(document.activeElement.classList).not.toContain(
@@ -2037,7 +2037,7 @@ describe('Dropdown component', () => {
       ).toContain('dnb-drawer-list__option--focus')
 
       // then simulate changes
-      keydown(40) // down
+      keydown('ArrowDown')
       // delay because we want to wait to have the DOM focus to be called
       await wait(1)
 
@@ -2051,7 +2051,7 @@ describe('Dropdown component', () => {
       ).toContain('dnb-drawer-list__option--focus')
 
       // then simulate changes
-      keydown(38) // up
+      keydown('ArrowUp')
 
       options = document.querySelectorAll('li.dnb-drawer-list__option')
       expect(
@@ -2059,7 +2059,7 @@ describe('Dropdown component', () => {
       ).toContain('dnb-drawer-list__option--focus')
 
       // then simulate changes
-      keydown(38) // up
+      keydown('ArrowUp')
 
       options = document.querySelectorAll('li.dnb-drawer-list__option')
       expect(
@@ -2067,7 +2067,7 @@ describe('Dropdown component', () => {
       ).toContain('dnb-drawer-list__option--focus')
 
       // then simulate changes
-      keydown(33) // pageUp
+      keydown('PageUp')
 
       expect(
         document.querySelectorAll('li.dnb-drawer-list__option')[0]
@@ -2075,7 +2075,7 @@ describe('Dropdown component', () => {
       ).toContain('dnb-drawer-list__option--focus')
 
       // then simulate changes
-      keydown(38) // up
+      keydown('ArrowUp')
       // delay because we want to wait to have the DOM focus to be called
       await wait(1)
 
@@ -2128,11 +2128,11 @@ describe('Dropdown scss', () => {
   })
 })
 
-const keydown = (keyCode) => {
+const keydown = (key) => {
   fireEvent.keyDown(
     document.querySelector('button.dnb-dropdown__trigger'),
     {
-      keyCode,
+      key,
     }
   )
 }
@@ -2141,10 +2141,10 @@ const open = () => {
   fireEvent.click(document.querySelector('button.dnb-dropdown__trigger'))
 }
 
-const dispatchKeyDown = (keyCode) => {
+const dispatchKeyDown = (key) => {
   document.dispatchEvent(
     new KeyboardEvent('keydown', {
-      keyCode,
+      key,
     })
   )
 }

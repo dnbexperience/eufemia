@@ -11,7 +11,6 @@ import {
   isTrue,
   extendPropsWithContextInClassComponent,
   validateDOMAttributes,
-  keycode,
   warn,
 } from '../../shared/component-helper'
 import type { SpacingProps } from '../../shared/types'
@@ -326,16 +325,16 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
     })
   }
   preventTab = (e) => {
-    switch (keycode(e)) {
-      case 'tab':
+    switch (e.key) {
+      case 'Tab':
         if (!this.context.drawerList.hasFocusOnElement) {
           e.preventDefault()
           this.context.drawerList.setHidden()
         }
         break
 
-      case 'page down':
-      case 'page up':
+      case 'PageDown':
+      case 'PageUp':
         e.preventDefault()
         break
     }

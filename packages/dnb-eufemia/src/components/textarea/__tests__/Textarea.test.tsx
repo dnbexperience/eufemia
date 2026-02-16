@@ -111,7 +111,6 @@ describe('Textarea component', () => {
 
     // additional native event test
     fireEvent.keyDown(document.querySelector('textarea'), {
-      keyCode: 84, // space,
       key: 'Space',
     })
     await waitFor(() => {
