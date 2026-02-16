@@ -87,12 +87,12 @@
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            0.9215686321258545,
-            0.9215686321258545,
-            0.9215686321258545
+            0,
+            0,
+            0
           ],
-          "alpha": 1,
-          "hex": "#EBEBEB"
+          "alpha": 0.05000000074505806,
+          "hex": "#000000"
         },
         "$extensions": {
           "com.figma.variableId": "VariableID:55036:11711",
@@ -101,8 +101,8 @@
             "SHAPE_FILL"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:fbf121f2d836ddf02ee03a8bffc0e8a5d5148ae3/3341:80",
-            "targetVariableName": "Carnegie/Greyscale/100",
+            "targetVariableId": "VariableID:f9701d39b786424fce60f7aea4ab00547523e73c/5459:11",
+            "targetVariableName": "Carnegie/Greyscale/1000/5",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -114,12 +114,12 @@
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            0.2823529541492462,
-            0.2823529541492462,
-            0.29019609093666077
+            0,
+            0,
+            0
           ],
           "alpha": 1,
-          "hex": "#48484A"
+          "hex": "#000000"
         },
         "$extensions": {
           "com.figma.variableId": "VariableID:53777:708",
@@ -128,8 +128,8 @@
             "SHAPE_FILL"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:766b9bd4a60490bdaf0ff930942f2944de3527a3/3341:74",
-            "targetVariableName": "Carnegie/Greyscale/700",
+            "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/3341:70",
+            "targetVariableName": "Carnegie/Greyscale/1000",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -141,12 +141,12 @@
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            0.800000011920929,
-            0.800000011920929,
-            0.800000011920929
+            0,
+            0,
+            0
           ],
-          "alpha": 1,
-          "hex": "#CCCCCC"
+          "alpha": 0.10000000149011612,
+          "hex": "#000000"
         },
         "$extensions": {
           "com.figma.variableId": "VariableID:55036:11713",
@@ -155,8 +155,8 @@
             "SHAPE_FILL"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:d2ced02c1c4ce7d4936841279aa0d225c1ed11ec/3341:79",
-            "targetVariableName": "Carnegie/Greyscale/200",
+            "targetVariableId": "VariableID:f245f101a1ff9981cddc6ef5bfdbae2b1d81dfab/5459:13",
+            "targetVariableName": "Carnegie/Greyscale/1000/10",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -182,8 +182,8 @@
             "SHAPE_FILL"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:df6f47e13fdd4c9db05213cc34b7230e772da1a7/3458:162",
-            "targetVariableName": "Carnegie/Blue utility/600",
+            "targetVariableId": "VariableID:df6f47e13fdd4c9db05213cc34b7230e772da1a7/5481:62",
+            "targetVariableName": "Carnegie/Blue/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -209,8 +209,8 @@
             "SHAPE_FILL"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:940125b24d466d56479286e386bb1ccef61b5611/3458:167",
-            "targetVariableName": "Carnegie/Blue utility/100",
+            "targetVariableId": "VariableID:940125b24d466d56479286e386bb1ccef61b5611/5481:67",
+            "targetVariableName": "Carnegie/Blue/100",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -330,12 +330,12 @@
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            0.2823529541492462,
-            0.2823529541492462,
-            0.29019609093666077
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
           ],
           "alpha": 1,
-          "hex": "#48484A"
+          "hex": "#333333"
         },
         "$extensions": {
           "com.figma.variableId": "VariableID:56487:17070",
@@ -344,8 +344,8 @@
             "SHAPE_FILL"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:766b9bd4a60490bdaf0ff930942f2944de3527a3/3341:74",
-            "targetVariableName": "Carnegie/Greyscale/700",
+            "targetVariableId": "VariableID:a2e8c4f27f4f50b8965e01c3ac01d4f836354c59/3341:73",
+            "targetVariableName": "Carnegie/Greyscale/800",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -415,7 +415,7 @@
             0,
             0
           ],
-          "alpha": 1,
+          "alpha": 0.30000001192092896,
           "hex": "#000000"
         },
         "$extensions": {
@@ -425,8 +425,8 @@
             "SHAPE_FILL"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/3341:70",
-            "targetVariableName": "Carnegie/Greyscale/1000",
+            "targetVariableId": "VariableID:b472f18179ab446282a9cfcfa058469bfa528751/5447:66",
+            "targetVariableName": "Carnegie/Greyscale/1000/30",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -465,12 +465,12 @@
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            0.2823529541492462,
-            0.2823529541492462,
-            0.29019609093666077
+            0,
+            0,
+            0
           ],
-          "alpha": 1,
-          "hex": "#48484A"
+          "alpha": 0.5,
+          "hex": "#000000"
         },
         "$extensions": {
           "com.figma.variableId": "VariableID:55977:3877",
@@ -479,8 +479,8 @@
             "SHAPE_FILL"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:766b9bd4a60490bdaf0ff930942f2944de3527a3/3341:74",
-            "targetVariableName": "Carnegie/Greyscale/700",
+            "targetVariableId": "VariableID:c806e6a76d9ad25c958081198c3316b2417a4b84/5458:7",
+            "targetVariableName": "Carnegie/Greyscale/1000/50",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -830,8 +830,8 @@
             "SHAPE_FILL"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:2e2b5b366990ea6cfc16803758f41ffe11b1a3e2/3458:168",
-            "targetVariableName": "Carnegie/Blue utility/50",
+            "targetVariableId": "VariableID:2e2b5b366990ea6cfc16803758f41ffe11b1a3e2/5481:68",
+            "targetVariableName": "Carnegie/Blue/50",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -857,8 +857,8 @@
             "SHAPE_FILL"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:aa80e244cf894230da8539976f50ad85c99d971a/3458:60",
-            "targetVariableName": "Carnegie/Cold Green/600",
+            "targetVariableId": "VariableID:aa80e244cf894230da8539976f50ad85c99d971a/5481:4",
+            "targetVariableName": "Carnegie/ColdGreen/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -884,8 +884,8 @@
             "SHAPE_FILL"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:bde376ba3ee513ac64b4fab7b1bb0df51c21740b/3458:146",
-            "targetVariableName": "Carnegie/Green utility/50",
+            "targetVariableId": "VariableID:bde376ba3ee513ac64b4fab7b1bb0df51c21740b/5481:22",
+            "targetVariableName": "Carnegie/Green/50",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -911,8 +911,8 @@
             "SHAPE_FILL"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:12f24b34c6b753bcc239aab1796cf39df5eae6de/3458:139",
-            "targetVariableName": "Carnegie/Green utility/700",
+            "targetVariableId": "VariableID:12f24b34c6b753bcc239aab1796cf39df5eae6de/5481:15",
+            "targetVariableName": "Carnegie/Green/700",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -938,8 +938,8 @@
             "SHAPE_FILL"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:bde376ba3ee513ac64b4fab7b1bb0df51c21740b/3458:146",
-            "targetVariableName": "Carnegie/Green utility/50",
+            "targetVariableId": "VariableID:bde376ba3ee513ac64b4fab7b1bb0df51c21740b/5481:22",
+            "targetVariableName": "Carnegie/Green/50",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -965,8 +965,8 @@
             "SHAPE_FILL"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:7cf0e8c452c05056a06fa08ead39b3db17897a2a/3458:152",
-            "targetVariableName": "Carnegie/Yellow utility/500",
+            "targetVariableId": "VariableID:7cf0e8c452c05056a06fa08ead39b3db17897a2a/5481:28",
+            "targetVariableName": "Carnegie/Yellow/500",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -992,8 +992,8 @@
             "SHAPE_FILL"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:7fadd7537df85c5ad5eae08f103243b783b4e191/3458:157",
-            "targetVariableName": "Carnegie/Yellow utility/50",
+            "targetVariableId": "VariableID:7fadd7537df85c5ad5eae08f103243b783b4e191/5481:33",
+            "targetVariableName": "Carnegie/Yellow/50",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -1019,8 +1019,8 @@
             "SHAPE_FILL"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/3458:173",
-            "targetVariableName": "Carnegie/Red utility/600",
+            "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/5481:50",
+            "targetVariableName": "Carnegie/Red/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -1046,8 +1046,8 @@
             "SHAPE_FILL"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:2de8e4757924f0cbd399cb36d2d88b486e49b212/3458:179",
-            "targetVariableName": "Carnegie/Red utility/50",
+            "targetVariableId": "VariableID:2de8e4757924f0cbd399cb36d2d88b486e49b212/5481:56",
+            "targetVariableName": "Carnegie/Red/50",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -1100,8 +1100,8 @@
             "SHAPE_FILL"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:2e2b5b366990ea6cfc16803758f41ffe11b1a3e2/3458:168",
-            "targetVariableName": "Carnegie/Blue utility/50",
+            "targetVariableId": "VariableID:2e2b5b366990ea6cfc16803758f41ffe11b1a3e2/5481:68",
+            "targetVariableName": "Carnegie/Blue/50",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -1206,8 +1206,8 @@
             "TEXT_FILL"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:df6f47e13fdd4c9db05213cc34b7230e772da1a7/3458:162",
-            "targetVariableName": "Carnegie/Blue utility/600",
+            "targetVariableId": "VariableID:df6f47e13fdd4c9db05213cc34b7230e772da1a7/5481:62",
+            "targetVariableName": "Carnegie/Blue/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -1358,32 +1358,6 @@
         },
         "$extensions": {
           "com.figma.variableId": "VariableID:53690:1344",
-          "com.figma.scopes": [
-            "TEXT_FILL"
-          ],
-          "com.figma.aliasData": {
-            "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/3341:83",
-            "targetVariableName": "Carnegie/Greyscale/0",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
-            "targetVariableSetName": "Colors"
-          },
-          "com.figma.isOverride": true
-        }
-      },
-      "Action-Alternative-Ondark": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "srgb",
-          "components": [
-            1,
-            1,
-            1
-          ],
-          "alpha": 1,
-          "hex": "#FFFFFF"
-        },
-        "$extensions": {
-          "com.figma.variableId": "VariableID:56059:1901",
           "com.figma.scopes": [
             "TEXT_FILL"
           ],
@@ -1613,7 +1587,7 @@
             1,
             1
           ],
-          "alpha": 0.800000011920929,
+          "alpha": 1,
           "hex": "#FFFFFF"
         },
         "$extensions": {
@@ -1622,8 +1596,8 @@
             "TEXT_FILL"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:4271618ec8d667324598897247f501d8a2d7e529/3465:31",
-            "targetVariableName": "Carnegie/Greyscale/0/80",
+            "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/3341:83",
+            "targetVariableName": "Carnegie/Greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -1700,8 +1674,8 @@
             "TEXT_FILL"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/3458:173",
-            "targetVariableName": "Carnegie/Red utility/600",
+            "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/5481:50",
+            "targetVariableName": "Carnegie/Red/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -1726,8 +1700,8 @@
             "TEXT_FILL"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:90e742619c18601e63f2485d750bb6187961aa71/3458:197",
-            "targetVariableName": "Carnegie/Orange utility/600",
+            "targetVariableId": "VariableID:90e742619c18601e63f2485d750bb6187961aa71/5481:38",
+            "targetVariableName": "Carnegie/Orange/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -1752,8 +1726,8 @@
             "TEXT_FILL"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:bbdecc4ed1e645b3d233a13bf204e3a2cdd38c96/3458:149",
-            "targetVariableName": "Carnegie/Yellow utility/800",
+            "targetVariableId": "VariableID:bbdecc4ed1e645b3d233a13bf204e3a2cdd38c96/5481:25",
+            "targetVariableName": "Carnegie/Yellow/800",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -1778,8 +1752,8 @@
             "TEXT_FILL"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:7cf0e8c452c05056a06fa08ead39b3db17897a2a/3458:152",
-            "targetVariableName": "Carnegie/Yellow utility/500",
+            "targetVariableId": "VariableID:7cf0e8c452c05056a06fa08ead39b3db17897a2a/5481:28",
+            "targetVariableName": "Carnegie/Yellow/500",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -1804,8 +1778,8 @@
             "TEXT_FILL"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:12f24b34c6b753bcc239aab1796cf39df5eae6de/3458:139",
-            "targetVariableName": "Carnegie/Green utility/700",
+            "targetVariableId": "VariableID:12f24b34c6b753bcc239aab1796cf39df5eae6de/5481:15",
+            "targetVariableName": "Carnegie/Green/700",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -1830,8 +1804,8 @@
             "TEXT_FILL"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:f88c50802ab59c0619985065cdb4ded79a364102/3458:140",
-            "targetVariableName": "Carnegie/Green utility/600",
+            "targetVariableId": "VariableID:f88c50802ab59c0619985065cdb4ded79a364102/5481:16",
+            "targetVariableName": "Carnegie/Green/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -1940,8 +1914,8 @@
             "STROKE"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:df6f47e13fdd4c9db05213cc34b7230e772da1a7/3458:162",
-            "targetVariableName": "Carnegie/Blue utility/600",
+            "targetVariableId": "VariableID:df6f47e13fdd4c9db05213cc34b7230e772da1a7/5481:62",
+            "targetVariableName": "Carnegie/Blue/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -2399,8 +2373,8 @@
             "STROKE"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/3458:173",
-            "targetVariableName": "Carnegie/Red utility/600",
+            "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/5481:50",
+            "targetVariableName": "Carnegie/Red/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -2636,8 +2610,8 @@
             "STROKE"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:df6f47e13fdd4c9db05213cc34b7230e772da1a7/3458:162",
-            "targetVariableName": "Carnegie/Blue utility/600",
+            "targetVariableId": "VariableID:df6f47e13fdd4c9db05213cc34b7230e772da1a7/5481:62",
+            "targetVariableName": "Carnegie/Blue/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -2662,8 +2636,8 @@
             "STROKE"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:940125b24d466d56479286e386bb1ccef61b5611/3458:167",
-            "targetVariableName": "Carnegie/Blue utility/100",
+            "targetVariableId": "VariableID:940125b24d466d56479286e386bb1ccef61b5611/5481:67",
+            "targetVariableName": "Carnegie/Blue/100",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -3026,8 +3000,8 @@
             "STROKE"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:aa80e244cf894230da8539976f50ad85c99d971a/3458:60",
-            "targetVariableName": "Carnegie/Cold Green/600",
+            "targetVariableId": "VariableID:aa80e244cf894230da8539976f50ad85c99d971a/5481:4",
+            "targetVariableName": "Carnegie/ColdGreen/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -3052,8 +3026,8 @@
             "STROKE"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:12f24b34c6b753bcc239aab1796cf39df5eae6de/3458:139",
-            "targetVariableName": "Carnegie/Green utility/700",
+            "targetVariableId": "VariableID:12f24b34c6b753bcc239aab1796cf39df5eae6de/5481:15",
+            "targetVariableName": "Carnegie/Green/700",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -3078,8 +3052,8 @@
             "STROKE"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:7cf0e8c452c05056a06fa08ead39b3db17897a2a/3458:152",
-            "targetVariableName": "Carnegie/Yellow utility/500",
+            "targetVariableId": "VariableID:7cf0e8c452c05056a06fa08ead39b3db17897a2a/5481:28",
+            "targetVariableName": "Carnegie/Yellow/500",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -3104,8 +3078,8 @@
             "STROKE"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/3458:173",
-            "targetVariableName": "Carnegie/Red utility/600",
+            "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/5481:50",
+            "targetVariableName": "Carnegie/Red/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
             "targetVariableSetName": "Colors"
           },
@@ -3683,8 +3657,8 @@
               "ALL_SCOPES"
             ],
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:9a7037c3ab15b1dcb39776a4af69fee303878a75/3458:65",
-              "targetVariableName": "Carnegie/Cold Green/100",
+              "targetVariableId": "VariableID:9a7037c3ab15b1dcb39776a4af69fee303878a75/5481:9",
+              "targetVariableName": "Carnegie/ColdGreen/100",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
               "targetVariableSetName": "Colors"
             },
@@ -3709,8 +3683,8 @@
               "ALL_SCOPES"
             ],
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:974fc2df153c89ec4060d9e497fe5a9862998f16/3458:145",
-              "targetVariableName": "Carnegie/Green utility/100",
+              "targetVariableId": "VariableID:974fc2df153c89ec4060d9e497fe5a9862998f16/5481:21",
+              "targetVariableName": "Carnegie/Green/100",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
               "targetVariableSetName": "Colors"
             },
@@ -3735,8 +3709,8 @@
               "ALL_SCOPES"
             ],
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:6c2c8538c62924a180dad1b3d54a40099f299545/3458:63",
-              "targetVariableName": "Carnegie/Cold Green/300",
+              "targetVariableId": "VariableID:6c2c8538c62924a180dad1b3d54a40099f299545/5481:7",
+              "targetVariableName": "Carnegie/ColdGreen/300",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
               "targetVariableSetName": "Colors"
             },
@@ -3761,8 +3735,8 @@
               "ALL_SCOPES"
             ],
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:6c2c8538c62924a180dad1b3d54a40099f299545/3458:63",
-              "targetVariableName": "Carnegie/Cold Green/300",
+              "targetVariableId": "VariableID:6c2c8538c62924a180dad1b3d54a40099f299545/5481:7",
+              "targetVariableName": "Carnegie/ColdGreen/300",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
               "targetVariableSetName": "Colors"
             },
@@ -3787,8 +3761,8 @@
               "ALL_SCOPES"
             ],
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:8a1c0f06e698f26331f25abd15955a2f5d6370b8/3458:61",
-              "targetVariableName": "Carnegie/Cold Green/500",
+              "targetVariableId": "VariableID:8a1c0f06e698f26331f25abd15955a2f5d6370b8/5481:5",
+              "targetVariableName": "Carnegie/ColdGreen/500",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
               "targetVariableSetName": "Colors"
             },
@@ -3813,8 +3787,8 @@
               "ALL_SCOPES"
             ],
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:8a1c0f06e698f26331f25abd15955a2f5d6370b8/3458:61",
-              "targetVariableName": "Carnegie/Cold Green/500",
+              "targetVariableId": "VariableID:8a1c0f06e698f26331f25abd15955a2f5d6370b8/5481:5",
+              "targetVariableName": "Carnegie/ColdGreen/500",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
               "targetVariableSetName": "Colors"
             },
@@ -3839,8 +3813,8 @@
               "ALL_SCOPES"
             ],
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:61815eacc9cd20941ac95a12dd5cea656503097c/3458:59",
-              "targetVariableName": "Carnegie/Cold Green/700",
+              "targetVariableId": "VariableID:61815eacc9cd20941ac95a12dd5cea656503097c/5481:3",
+              "targetVariableName": "Carnegie/ColdGreen/700",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
               "targetVariableSetName": "Colors"
             },
@@ -3865,8 +3839,8 @@
               "ALL_SCOPES"
             ],
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:61815eacc9cd20941ac95a12dd5cea656503097c/3458:59",
-              "targetVariableName": "Carnegie/Cold Green/700",
+              "targetVariableId": "VariableID:61815eacc9cd20941ac95a12dd5cea656503097c/5481:3",
+              "targetVariableName": "Carnegie/ColdGreen/700",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
               "targetVariableSetName": "Colors"
             },
@@ -3891,8 +3865,8 @@
               "ALL_SCOPES"
             ],
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:eed2549e38dc9f2115e3edaee9cbfe7acb70da1e/3458:56",
-              "targetVariableName": "Carnegie/Cold Green/950",
+              "targetVariableId": "VariableID:eed2549e38dc9f2115e3edaee9cbfe7acb70da1e/5481:0",
+              "targetVariableName": "Carnegie/ColdGreen/950",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
               "targetVariableSetName": "Colors"
             },
@@ -3917,8 +3891,8 @@
               "ALL_SCOPES"
             ],
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:eed2549e38dc9f2115e3edaee9cbfe7acb70da1e/3458:56",
-              "targetVariableName": "Carnegie/Cold Green/950",
+              "targetVariableId": "VariableID:eed2549e38dc9f2115e3edaee9cbfe7acb70da1e/5481:0",
+              "targetVariableName": "Carnegie/ColdGreen/950",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
               "targetVariableSetName": "Colors"
             },
@@ -4003,8 +3977,8 @@
                 "SHAPE_FILL"
               ],
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/3458:173",
-                "targetVariableName": "Carnegie/Red utility/600",
+                "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/5481:50",
+                "targetVariableName": "Carnegie/Red/600",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
                 "targetVariableSetName": "Colors"
               },
@@ -4030,8 +4004,8 @@
                 "SHAPE_FILL"
               ],
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/3458:173",
-                "targetVariableName": "Carnegie/Red utility/600",
+                "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/5481:50",
+                "targetVariableName": "Carnegie/Red/600",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
                 "targetVariableSetName": "Colors"
               },
@@ -4057,8 +4031,8 @@
                 "SHAPE_FILL"
               ],
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:2de8e4757924f0cbd399cb36d2d88b486e49b212/3458:179",
-                "targetVariableName": "Carnegie/Red utility/50",
+                "targetVariableId": "VariableID:2de8e4757924f0cbd399cb36d2d88b486e49b212/5481:56",
+                "targetVariableName": "Carnegie/Red/50",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
                 "targetVariableSetName": "Colors"
               },
@@ -4084,8 +4058,8 @@
                 "SHAPE_FILL"
               ],
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:08d3914002f721e0549e9da5e588c93a6b8567c5/3458:172",
-                "targetVariableName": "Carnegie/Red utility/700",
+                "targetVariableId": "VariableID:08d3914002f721e0549e9da5e588c93a6b8567c5/5481:49",
+                "targetVariableName": "Carnegie/Red/700",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
                 "targetVariableSetName": "Colors"
               },
@@ -4111,8 +4085,8 @@
                 "SHAPE_FILL"
               ],
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:ba6886ab368e102f31fee761ab3788b17e4a416c/3458:178",
-                "targetVariableName": "Carnegie/Red utility/100",
+                "targetVariableId": "VariableID:ba6886ab368e102f31fee761ab3788b17e4a416c/5481:55",
+                "targetVariableName": "Carnegie/Red/100",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
                 "targetVariableSetName": "Colors"
               },
@@ -4425,8 +4399,8 @@
                 "TEXT_FILL"
               ],
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/3458:173",
-                "targetVariableName": "Carnegie/Red utility/600",
+                "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/5481:50",
+                "targetVariableName": "Carnegie/Red/600",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
                 "targetVariableSetName": "Colors"
               },
@@ -4451,8 +4425,8 @@
                 "TEXT_FILL"
               ],
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/3458:173",
-                "targetVariableName": "Carnegie/Red utility/600",
+                "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/5481:50",
+                "targetVariableName": "Carnegie/Red/600",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
                 "targetVariableSetName": "Colors"
               },
@@ -4477,8 +4451,8 @@
                 "TEXT_FILL"
               ],
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:08d3914002f721e0549e9da5e588c93a6b8567c5/3458:172",
-                "targetVariableName": "Carnegie/Red utility/700",
+                "targetVariableId": "VariableID:08d3914002f721e0549e9da5e588c93a6b8567c5/5481:49",
+                "targetVariableName": "Carnegie/Red/700",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
                 "targetVariableSetName": "Colors"
               },
@@ -4668,8 +4642,8 @@
                 "STROKE"
               ],
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/3458:173",
-                "targetVariableName": "Carnegie/Red utility/600",
+                "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/5481:50",
+                "targetVariableName": "Carnegie/Red/600",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
                 "targetVariableSetName": "Colors"
               },
@@ -4695,8 +4669,8 @@
                 "STROKE"
               ],
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/3458:173",
-                "targetVariableName": "Carnegie/Red utility/600",
+                "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/5481:50",
+                "targetVariableName": "Carnegie/Red/600",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
                 "targetVariableSetName": "Colors"
               },
@@ -4722,8 +4696,8 @@
                 "STROKE"
               ],
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:08d3914002f721e0549e9da5e588c93a6b8567c5/3458:172",
-                "targetVariableName": "Carnegie/Red utility/700",
+                "targetVariableId": "VariableID:08d3914002f721e0549e9da5e588c93a6b8567c5/5481:49",
+                "targetVariableName": "Carnegie/Red/700",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
                 "targetVariableSetName": "Colors"
               },
@@ -4763,12 +4737,12 @@
             "$value": {
               "colorSpace": "srgb",
               "components": [
-                0.38823530077934265,
-                0.38823530077934265,
-                0.4000000059604645
+                0,
+                0,
+                0
               ],
               "alpha": 1,
-              "hex": "#636366"
+              "hex": "#000000"
             },
             "$extensions": {
               "com.figma.variableId": "VariableID:55036:12977",
@@ -4776,8 +4750,8 @@
                 "STROKE"
               ],
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:72e8d120c2c6e70e1414bb0c4e91975e19ce6bda/3341:75",
-                "targetVariableName": "Carnegie/Greyscale/600",
+                "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/3341:70",
+                "targetVariableName": "Carnegie/Greyscale/1000",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
                 "targetVariableSetName": "Colors"
               },
@@ -4802,8 +4776,8 @@
                 "STROKE"
               ],
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/3458:173",
-                "targetVariableName": "Carnegie/Red utility/600",
+                "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/5481:50",
+                "targetVariableName": "Carnegie/Red/600",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
                 "targetVariableSetName": "Colors"
               },
@@ -4828,8 +4802,8 @@
                 "STROKE"
               ],
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/3458:173",
-                "targetVariableName": "Carnegie/Red utility/600",
+                "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/5481:50",
+                "targetVariableName": "Carnegie/Red/600",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
                 "targetVariableSetName": "Colors"
               },
@@ -4854,8 +4828,8 @@
                 "STROKE"
               ],
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:08d3914002f721e0549e9da5e588c93a6b8567c5/3458:172",
-                "targetVariableName": "Carnegie/Red utility/700",
+                "targetVariableId": "VariableID:08d3914002f721e0549e9da5e588c93a6b8567c5/5481:49",
+                "targetVariableName": "Carnegie/Red/700",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
                 "targetVariableSetName": "Colors"
               },
@@ -4951,7 +4925,7 @@
           }
         }
       },
-      "Screen dimmer": {
+      "Dimmer": {
         "Background": {
           "$type": "color",
           "$value": {
@@ -5039,7 +5013,7 @@
   },
   "Font": {
     "Size": {
-      "Heading xx-large": {
+      "Heading-xx-large": {
         "$type": "number",
         "$value": 48,
         "$extensions": {
@@ -5056,7 +5030,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Heading x-large": {
+      "Heading-x-large": {
         "$type": "number",
         "$value": 34,
         "$extensions": {
@@ -5073,7 +5047,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Heading large": {
+      "Heading-large": {
         "$type": "number",
         "$value": 26,
         "$extensions": {
@@ -5090,7 +5064,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text lead": {
+      "Text-lead": {
         "$type": "number",
         "$value": 20,
         "$extensions": {
@@ -5107,7 +5081,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text basis": {
+      "Text-basis": {
         "$type": "number",
         "$value": 18,
         "$extensions": {
@@ -5124,7 +5098,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text basis (Medium)": {
+      "Text-basis-medium": {
         "$type": "number",
         "$value": 18,
         "$extensions": {
@@ -5141,7 +5115,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text small": {
+      "Text-small": {
         "$type": "number",
         "$value": 16,
         "$extensions": {
@@ -5158,7 +5132,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text small (Medium)": {
+      "Text-small-medium": {
         "$type": "number",
         "$value": 16,
         "$extensions": {
@@ -5175,7 +5149,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text x-small": {
+      "Text-x-small": {
         "$type": "number",
         "$value": 14,
         "$extensions": {
@@ -5192,7 +5166,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text x-small (Medium)": {
+      "Text-x-small-Medium": {
         "$type": "number",
         "$value": 14,
         "$extensions": {
@@ -5211,7 +5185,7 @@
       }
     },
     "Height": {
-      "Heading xx-large": {
+      "Heading-xx-large": {
         "$type": "number",
         "$value": 56,
         "$extensions": {
@@ -5228,7 +5202,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Heading x-large": {
+      "Heading-x-large": {
         "$type": "number",
         "$value": 40,
         "$extensions": {
@@ -5245,7 +5219,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Heading large": {
+      "Heading-large": {
         "$type": "number",
         "$value": 32,
         "$extensions": {
@@ -5262,7 +5236,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text lead": {
+      "Text-lead": {
         "$type": "number",
         "$value": 24,
         "$extensions": {
@@ -5279,7 +5253,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text basis": {
+      "Text-basis": {
         "$type": "number",
         "$value": 24,
         "$extensions": {
@@ -5296,7 +5270,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text basis (Medium)": {
+      "Text-basis-medium": {
         "$type": "number",
         "$value": 24,
         "$extensions": {
@@ -5313,7 +5287,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text small": {
+      "Text-small": {
         "$type": "number",
         "$value": 20,
         "$extensions": {
@@ -5330,7 +5304,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text small (Medium)": {
+      "Text-small-medium": {
         "$type": "number",
         "$value": 20,
         "$extensions": {
@@ -5347,7 +5321,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text x-small": {
+      "Text-x-small": {
         "$type": "number",
         "$value": 20,
         "$extensions": {
@@ -5364,7 +5338,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text x-small (Medium)": {
+      "Text-x-small-medium": {
         "$type": "number",
         "$value": 20,
         "$extensions": {
@@ -5613,7 +5587,7 @@
           "CORNER_RADIUS"
         ],
         "com.figma.aliasData": {
-          "targetVariableId": "VariableID:ba519417fad53369a44ad55bf1eec67a4cc7eaca/3375:50",
+          "targetVariableId": "VariableID:ba519417fad53369a44ad55bf1eec67a4cc7eaca/5484:69",
           "targetVariableName": "Size/0",
           "targetVariableSetId": "VariableCollectionId:fdb352a465b863aaf7567ea04748cb7e057d7b63/3375:8",
           "targetVariableSetName": "Size"
@@ -5630,7 +5604,7 @@
           "CORNER_RADIUS"
         ],
         "com.figma.aliasData": {
-          "targetVariableId": "VariableID:ba519417fad53369a44ad55bf1eec67a4cc7eaca/3375:50",
+          "targetVariableId": "VariableID:ba519417fad53369a44ad55bf1eec67a4cc7eaca/5484:69",
           "targetVariableName": "Size/0",
           "targetVariableSetId": "VariableCollectionId:fdb352a465b863aaf7567ea04748cb7e057d7b63/3375:8",
           "targetVariableSetName": "Size"
@@ -5691,15 +5665,15 @@
     },
     "Radius-xl": {
       "$type": "number",
-      "$value": 4,
+      "$value": 24,
       "$extensions": {
         "com.figma.variableId": "VariableID:59977:17820",
         "com.figma.scopes": [
           "CORNER_RADIUS"
         ],
         "com.figma.aliasData": {
-          "targetVariableId": "VariableID:6fed70ddd873b36cd222f9f3bc09b3258aed7b62/3375:42",
-          "targetVariableName": "Size/4",
+          "targetVariableId": "VariableID:15445f4260ed07f0a3756ee199f4b358bbead938/3375:45",
+          "targetVariableName": "Size/24",
           "targetVariableSetId": "VariableCollectionId:fdb352a465b863aaf7567ea04748cb7e057d7b63/3375:8",
           "targetVariableSetName": "Size"
         },
