@@ -6,7 +6,9 @@
   --token-color-background-action-hover: var(--sbanken-purple-700);
   --token-color-background-action-hover-subtle: var(--sbanken-purple-100);
   --token-color-background-action-pressed: var(--sbanken-purple-950);
-  --token-color-background-action-pressed-subtle: var(--sbanken-purple-200);
+  --token-color-background-action-pressed-subtle: var(
+    --sbanken-purple-200
+  );
   --token-color-background-action-focus: var(--sbanken-blue-600);
   --token-color-background-action-focus-subtle: var(--sbanken-blue-100);
   --token-color-background-action-disabled: var(--sbanken-grey-400);
@@ -20,12 +22,16 @@
   );
   --token-color-background-action-ondark: var(--sbanken-green-300);
   --token-color-background-action-hover-ondark: var(--sbanken-green-300);
-  --token-color-background-action-hover-subtle-ondark: var(--dnb-green-900);
+  --token-color-background-action-hover-subtle-ondark: var(
+    --dnb-green-900
+  );
   --token-color-background-action-pressed-ondark: var(--sbanken-green-400);
   --token-color-background-action-pressed-subtle-ondark: var(
     --sbanken-green-950
   );
-  --token-color-background-action-dissabled-ondark: var(--sbanken-grey-600);
+  --token-color-background-action-dissabled-ondark: var(
+    --sbanken-grey-600
+  );
   --token-color-background-action-alternative: var(--sbanken-grey-500);
   --token-color-background-action-alternative-hover-subtle: var(
     --sbanken-grey-100
@@ -33,7 +39,9 @@
   --token-color-background-selected: var(--sbanken-purple-950);
   --token-color-background-selected-subtle: var(--sbanken-purple-100);
   --token-color-background-selected-ondark: var(--sbanken-green-100);
-  --token-color-background-selected-subtle-ondark: var(--sbanken-green-900);
+  --token-color-background-selected-subtle-ondark: var(
+    --sbanken-green-900
+  );
   --token-color-background-neutral: var(--sbanken-grey-0);
   --token-color-background-neutral-solid: var(--sbanken-grey-0);
   --token-color-background-neutral-subtle: var(--sbanken-grey-100);
@@ -64,7 +72,6 @@
   --token-color-text-action-hover-ondark: var(--sbanken-green-300);
   --token-color-text-action-pressed-ondark: var(--sbanken-green-400);
   --token-color-text-action-disabled-ondark: var(--sbanken-grey-500);
-  --token-color-text-action-alternative-ondark: var(--sbanken-grey-0);
   --token-color-text-neutral: var(--sbanken-purple-1000);
   --token-color-text-neutral-solid: var(--sbanken-purple-1000);
   --token-color-text-neutral-alternative: var(--sbanken-grey-600);
@@ -157,7 +164,9 @@
   --token-color-decorative-third-bold-solid: var(--sbanken-purple-700);
   --token-color-decorative-third-intense: var(--sbanken-purple-900);
   --token-color-decorative-third-intense-solid: var(--sbanken-purple-900);
-  --token-color-component-button-background-action: var(--sbanken-purple-900);
+  --token-color-component-button-background-action: var(
+    --sbanken-purple-900
+  );
   --token-color-component-button-background-action-hover: var(
     --sbanken-purple-900
   );
@@ -184,16 +193,24 @@
     --sbanken-purple-1000
   );
   --token-color-component-button-text-action: var(--sbanken-purple-900);
-  --token-color-component-button-text-action-hover: var(--sbanken-purple-900);
-  --token-color-component-button-text-action-inverse: var(--sbanken-green-300);
+  --token-color-component-button-text-action-hover: var(
+    --sbanken-purple-900
+  );
+  --token-color-component-button-text-action-inverse: var(
+    --sbanken-green-300
+  );
   --token-color-component-button-text-action-hover-inverse: var(
     --sbanken-green-300
   );
-  --token-color-component-button-text-action-ondark: var(--sbanken-green-300);
+  --token-color-component-button-text-action-ondark: var(
+    --sbanken-green-300
+  );
   --token-color-component-button-text-action-hover-ondark: var(
     --sbanken-green-300
   );
-  --token-color-component-button-text-action-disabled: var(--sbanken-grey-0);
+  --token-color-component-button-text-action-disabled: var(
+    --sbanken-grey-0
+  );
   --token-color-component-button-text-neutral-destructive: var(
     --sbanken-grey-0
   );
@@ -211,8 +228,12 @@
     --sbanken-purple-1000
   );
   --token-color-component-button-icon-action: var(--sbanken-purple-900);
-  --token-color-component-button-icon-action-hover: var(--sbanken-purple-900);
-  --token-color-component-button-icon-action-disabled: var(--sbanken-grey-0);
+  --token-color-component-button-icon-action-hover: var(
+    --sbanken-purple-900
+  );
+  --token-color-component-button-icon-action-disabled: var(
+    --sbanken-grey-0
+  );
   --token-color-component-button-icon-neutral-destructive: var(
     --sbanken-grey-0
   );
@@ -226,7 +247,9 @@
     --sbanken-orange-500
   );
   --token-color-component-button-stroke-action: var(--sbanken-purple-900);
-  --token-color-component-button-stroke-action-hover: var(--sbanken-purple-900);
+  --token-color-component-button-stroke-action-hover: var(
+    --sbanken-purple-900
+  );
   --token-color-component-button-stroke-action-destructive: var(
     --sbanken-orange-700
   );
@@ -239,13 +262,19 @@
   --token-color-component-button-stroke-selected_wip: var(
     --sbanken-purple-700-40
   );
-  --token-color-component-tooltip-background-neutral: var(--sbanken-grey-800);
+  --token-color-component-tooltip-background-neutral: var(
+    --sbanken-grey-800
+  );
   --token-color-component-table-background-neutral-alternative: var(
     --sbanken-grey-25
   );
-  --token-color-component-screen_dimmer-background: var(--sbanken-grey-1000-30);
+  --token-color-component-screen_dimmer-background: var(
+    --sbanken-grey-1000-30
+  );
   --token-color-component-switch-action-disabled-ondark: var(
     --sbanken-purple-1000
   );
-  --token-color-component-progressbar-neutral-onsubtle: var(--sbanken-grey-300);
+  --token-color-component-progressbar-neutral-onsubtle: var(
+    --sbanken-grey-300
+  );
 }
