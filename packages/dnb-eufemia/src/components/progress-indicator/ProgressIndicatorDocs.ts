@@ -117,7 +117,7 @@ export const CustomColorsData: PropertiesTableProps = {
 
 export const ProgressIndicatorEvents: PropertiesTableProps = {
   onComplete: {
-    doc: "Will be called once it's no longer `visible`.",
+    doc: "Will be called once it's no longer visible (show=false).",
     type: 'function',
     defaultValue: 'undefined',
     status: 'optional',

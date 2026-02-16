@@ -59,7 +59,7 @@ export type ProgressIndicatorProps = {
    */
   title?: string
   /**
-   * Will be called once it's no longer `visible`.
+   * Will be called once it's no longer visible (show=false).
    */
   onComplete?: (...args: any[]) => any
   /**
