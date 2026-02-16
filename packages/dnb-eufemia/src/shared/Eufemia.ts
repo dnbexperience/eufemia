@@ -1,4 +1,5 @@
 import { getVersion, getSha, getBuildDate } from './build-info/BuildInfo'
+import { runCssVersionMismatchWarning } from './helpers/runCssVersionMismatchWarning'
 
 export const version = getVersion()
 export const sha = getSha()
@@ -87,5 +88,7 @@ export function init() {
     }
 
     window.Eufemia = new Eufemia()
+
+    runCssVersionMismatchWarning()
   }
 }
