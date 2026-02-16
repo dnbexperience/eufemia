@@ -17,7 +17,6 @@ import {
   combineDescribedBy,
   combineLabelledBy,
   dispatchCustomElementEvent,
-  keycode,
   convertJsxToString,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -315,29 +314,28 @@ class DropdownInstance extends React.PureComponent {
   }
 
   onTriggerKeyDownHandler = (e) => {
-    switch (keycode(e)) {
-      case 'enter':
-      case 'space':
+    switch (e.key) {
+      case 'Enter':
+      case ' ':
         e.preventDefault()
         this.setVisible()
         break
 
-      case 'up':
-      case 'down':
+      case 'ArrowUp':
+      case 'ArrowDown':
         e.preventDefault()
         this.setVisible()
 
         break
 
-      case 'escape':
-      case 'esc':
+      case 'Escape':
         this.setHidden()
         break
 
-      case 'home':
-      case 'end':
-      case 'page down':
-      case 'page up':
+      case 'Home':
+      case 'End':
+      case 'PageDown':
+      case 'PageUp':
         e.preventDefault()
         break
     }

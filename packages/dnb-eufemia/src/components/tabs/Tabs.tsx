@@ -19,7 +19,6 @@ import {
   getClosestParent,
   filterProps,
   combineLabelledBy,
-  keycode,
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import type { SpacingProps } from '../space/types'
@@ -538,24 +537,24 @@ export default class Tabs extends React.PureComponent<TabsProps> {
   }
 
   onTablistKeyDownHandler = (e) => {
-    switch (keycode(e)) {
-      case 'up':
-      case 'page up':
-      case 'left':
+    switch (e.key) {
+      case 'ArrowUp':
+      case 'PageUp':
+      case 'ArrowLeft':
         e.preventDefault()
         this.focusPrevTab(e)
         break
-      case 'down':
-      case 'page down':
-      case 'right':
+      case 'ArrowDown':
+      case 'PageDown':
+      case 'ArrowRight':
         e.preventDefault()
         this.focusNextTab(e)
         break
-      case 'home':
+      case 'Home':
         e.preventDefault()
         this.focusFirstTab(e)
         break
-      case 'end':
+      case 'End':
         e.preventDefault()
         this.focusLastTab(e)
         break
@@ -696,15 +695,13 @@ export default class Tabs extends React.PureComponent<TabsProps> {
   }
 
   onKeyDownHandler = (event) => {
-    switch (keycode(event)) {
-      case 'enter':
-        try {
-          const elem = document.getElementById(`${this._id}-content`)
-          elem.focus({ preventScroll: true })
-        } catch (e) {
-          this.warnAboutMissingContainer()
-        }
-        break
+    if (event.key === 'Enter') {
+      try {
+        const elem = document.getElementById(`${this._id}-content`)
+        elem.focus({ preventScroll: true })
+      } catch (e) {
+        this.warnAboutMissingContainer()
+      }
     }
   }
 
