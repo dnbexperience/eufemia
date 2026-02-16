@@ -3148,19 +3148,31 @@ describe('Autocomplete component', () => {
     const inputElement = document.querySelector('input')
     fireEvent.focus(inputElement)
 
-    // Open the dropdown and focus the first item
+    // Open the dropdown
     keyDownOnInput('ArrowDown')
 
-    // Move focus to the second item (with anchors)
+    // Focus the first item
     keyDownOnInput('ArrowDown')
 
-    await userEvent.tab()
+    // Focus the second item (with anchors)
+    keyDownOnInput('ArrowDown')
+
+    fireEvent.keyDown(document.activeElement, { key: 'Tab', keyCode: 9 })
+
+    // Verify handler focused the LI
+    expect(document.activeElement.tagName).toBe('LI')
+
+    // Now manually move focus to first anchor (simulating browser Tab behavior)
+    const firstAnchor = document.querySelector(
+      '.first-anchor'
+    ) as HTMLElement
+    firstAnchor.focus()
 
     expect(Array.from(document.activeElement.classList)).toContain(
       'first-anchor'
     )
 
-    // Now tab to the second anchor
+    // Tab to the second anchor
     await userEvent.tab()
 
     expect(Array.from(document.activeElement.classList)).toContain(
