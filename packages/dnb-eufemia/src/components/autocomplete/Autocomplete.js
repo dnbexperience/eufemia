@@ -594,7 +594,9 @@ class AutocompleteInstance extends React.PureComponent {
     if (value?.length > 0) {
       // show the "no_options" message
       if (count === 0) {
-        this.showNoOptionsItem()
+        if (this.state.mode !== 'async') {
+          this.showNoOptionsItem()
+        }
       } else if (count > 0) {
         this.context.drawerList.setData(this.wrapWithShowAll(data))
         this.context.drawerList.setState({
@@ -759,9 +761,6 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   showNoOptionsItem = () => {
-    if (this.state.mode === 'async') {
-      return
-    }
     this.resetActiveItem()
     this.ignoreEvents()
     this.context.drawerList.setData(
@@ -904,7 +903,9 @@ class AutocompleteInstance extends React.PureComponent {
               const filteredData =
                 this.runFilterWithSideEffects(typedInputValue)
               if (this.countData(filteredData) === 0) {
-                this.showNoOptionsItem()
+                if (this.state.mode !== 'async') {
+                  this.showNoOptionsItem()
+                }
               }
             } else {
               this.resetActiveItem()

@@ -26,6 +26,7 @@ export const SearchBarInput = () => {
     setHidden,
     showIndicator,
     hideIndicator,
+    showNoOptionsItem,
     updateData,
     debounce,
   }) => {
@@ -36,6 +37,9 @@ export const SearchBarInput = () => {
           .then(({ hits }) => {
             updateData(makeHitsHumanFriendly({ hits, setHidden }))
             hideIndicator()
+            if (hits?.length === 0) {
+              showNoOptionsItem()
+            }
           })
           .catch((err) => {
             setStatus(err.message || err)

@@ -123,6 +123,7 @@ export const AutocompleteDynamicallyUpdatedData = () => (
           showIndicator,
           hideIndicator,
           updateData,
+          showNoOptionsItem,
           debounce,
           /* ... */
         }) => {
@@ -133,11 +134,36 @@ export const AutocompleteDynamicallyUpdatedData = () => (
             ({ value }) => {
               console.log('debounced value:', value)
 
+              const normalizedValue = value.trim().toLowerCase()
+
+              const filteredData = topMovies.filter(({ content }) => {
+                if (typeof content === 'string') {
+                  return content.toLowerCase().includes(normalizedValue)
+                }
+
+                if (Array.isArray(content)) {
+                  return content
+                    .filter((part) => typeof part === 'string')
+                    .join(' ')
+                    .toLowerCase()
+                    .includes(normalizedValue)
+                }
+
+                return false
+              })
+
+              const newData =
+                normalizedValue.length > 0 ? filteredData : topMovies
+
               // simulate server delay
               const timeout = setTimeout(() => {
                 // update the drawerList
-                updateData(topMovies)
+                updateData(newData)
                 hideIndicator()
+
+                if (newData.length === 0) {
+                  showNoOptionsItem()
+                }
               }, 600)
 
               // cancel invocation method
