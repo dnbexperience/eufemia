@@ -165,6 +165,11 @@ export default class GlobalStatus extends React.PureComponent {
       ])
     }
 
+    // Make sure the state is updated based on state prop, since PureComponent does shallow comparisons in react 19
+    if (props.state !== state.globalStatus?.state) {
+      state.globalStatus.state = props.state
+    }
+
     state._items = props.items
 
     return state
@@ -240,7 +245,9 @@ export default class GlobalStatus extends React.PureComponent {
     this.provider.empty()
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, newProps) {
+    console.log('prevProps ', prevProps)
+    console.log('newProps', newProps)
     if (prevProps.show !== this.props.show) {
       if (isTrue(this.props.show)) {
         this.setVisible()
