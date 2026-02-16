@@ -5,6 +5,7 @@ import { Field } from '@dnb/eufemia/src/extensions/forms'
 
 export const languageDisplayNames = {
   'nb-NO': { label: 'Norsk' },
+  'en-NO': { label: 'English (NO)' },
   'sv-SE': { label: 'Svenska' },
   'da-DK': { label: 'Dansk' },
   'en-GB': { label: 'English (GB)' },
