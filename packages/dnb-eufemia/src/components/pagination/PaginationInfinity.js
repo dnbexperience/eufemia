@@ -443,16 +443,12 @@ class InteractionMarker extends React.PureComponent {
 
     this._ref = React.createRef()
 
-    if (typeof IntersectionObserver !== 'undefined') {
-      this.intersectionObserver = new IntersectionObserver((entries) => {
-        const [{ isIntersecting }] = entries
-        if (isIntersecting) {
-          this.callReady()
-        }
-      })
-    } else {
-      warn('Pagination is missing IntersectionObserver supported!')
-    }
+    this.intersectionObserver = new IntersectionObserver((entries) => {
+      const [{ isIntersecting }] = entries
+      if (isIntersecting) {
+        this.callReady()
+      }
+    })
   }
 
   componentDidMount() {

@@ -69,11 +69,7 @@ export default class ModalHeaderBar extends React.PureComponent<
   }
 
   observeHeader() {
-    if (
-      typeof window !== 'undefined' &&
-      typeof IntersectionObserver !== 'undefined' &&
-      this._ref.current
-    ) {
+    if (typeof window !== 'undefined' && this._ref.current) {
       const marginTop = -this._ref.current.clientHeight
       this.intersectionObserver = new IntersectionObserver(
         (entries) => {

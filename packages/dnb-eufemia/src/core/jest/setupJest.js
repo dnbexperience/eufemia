@@ -40,6 +40,26 @@ if (typeof window !== 'undefined') {
   window.getComputedStyle = (...args) => getComputedStyle(...args)
 }
 
+// jsdom does not provide IntersectionObserver or ResizeObserver.
+// All target browsers support these APIs, so we mock them globally.
+if (typeof window !== 'undefined') {
+  if (!window.IntersectionObserver) {
+    window.IntersectionObserver = jest.fn().mockImplementation(() => ({
+      observe: jest.fn(),
+      unobserve: jest.fn(),
+      disconnect: jest.fn(),
+    }))
+  }
+
+  if (!window.ResizeObserver) {
+    window.ResizeObserver = jest.fn().mockImplementation(() => ({
+      observe: jest.fn(),
+      unobserve: jest.fn(),
+      disconnect: jest.fn(),
+    }))
+  }
+}
+
 const originalError = console.error
 export function bypassActWarning() {
   // this is just a little hack to silence a warning that we'll get until we

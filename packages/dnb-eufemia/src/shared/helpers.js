@@ -181,30 +181,24 @@ export function scrollToLocationHashId({
             const top = totalOffset - offset
 
             try {
-              if (typeof IntersectionObserver !== 'undefined') {
-                const intersectionObserver = new IntersectionObserver(
-                  (entries) => {
-                    const [entry] = entries
-                    if (entry.isIntersecting) {
-                      intersectionObserver.unobserve(elem)
-                      if (typeof onCompletion === 'function') {
-                        onCompletion(elem)
-                      }
+              const intersectionObserver = new IntersectionObserver(
+                (entries) => {
+                  const [entry] = entries
+                  if (entry.isIntersecting) {
+                    intersectionObserver.unobserve(elem)
+                    if (typeof onCompletion === 'function') {
+                      onCompletion(elem)
                     }
                   }
-                )
-                // start observing
-                intersectionObserver.observe(elem)
-              }
+                }
+              )
+              // start observing
+              intersectionObserver.observe(elem)
 
-              if (window.scrollTo) {
-                window.scrollTo({
-                  top,
-                  behavior: 'smooth',
-                })
-              } else {
-                window.scrollTop = top
-              }
+              window.scrollTo({
+                top,
+                behavior: 'smooth',
+              })
             } catch (e) {
               warn('Error on scrollToLocationHashId:', e)
             }

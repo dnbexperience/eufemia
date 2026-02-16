@@ -212,7 +212,7 @@ export default class DrawerListProvider extends React.PureComponent<
         this.props.data !== prevProps.data
       ) {
         // Use requestAnimationFrame to ensure DOM has updated
-        window?.requestAnimationFrame?.(() => {
+        window.requestAnimationFrame(() => {
           this.refreshScrollObserver()
           // Trigger scroll event to update arrow indicators
           this.setOnScroll?.()
@@ -472,8 +472,7 @@ export default class DrawerListProvider extends React.PureComponent<
       }
 
       // React v18 needs a delay to make the calculation during first render
-      window?.requestAnimationFrame?.(this.correctHiddenView) ||
-        this.correctHiddenView()
+      window.requestAnimationFrame(this.correctHiddenView)
     }
 
     // debounce
