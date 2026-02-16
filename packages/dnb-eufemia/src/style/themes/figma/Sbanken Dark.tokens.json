@@ -1370,32 +1370,6 @@
           "com.figma.isOverride": true
         }
       },
-      "Action-Alternative-Ondark": {
-        "$type": "color",
-        "$value": {
-          "colorSpace": "srgb",
-          "components": [
-            1,
-            1,
-            1
-          ],
-          "alpha": 1,
-          "hex": "#FFFFFF"
-        },
-        "$extensions": {
-          "com.figma.variableId": "VariableID:56059:1901",
-          "com.figma.scopes": [
-            "TEXT_FILL"
-          ],
-          "com.figma.aliasData": {
-            "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/2155:9",
-            "targetVariableName": "Sbanken/Grey/0",
-            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222",
-            "targetVariableSetName": "Colors"
-          },
-          "com.figma.isOverride": true
-        }
-      },
       "Action-Hover-OnDark": {
         "$type": "color",
         "$value": {
@@ -4951,7 +4925,7 @@
           }
         }
       },
-      "Screen dimmer": {
+      "Dimmer": {
         "Background": {
           "$type": "color",
           "$value": {
@@ -5039,7 +5013,7 @@
   },
   "Font": {
     "Size": {
-      "Heading xx-large": {
+      "Heading-xx-large": {
         "$type": "number",
         "$value": 48,
         "$extensions": {
@@ -5056,7 +5030,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Heading x-large": {
+      "Heading-x-large": {
         "$type": "number",
         "$value": 34,
         "$extensions": {
@@ -5073,7 +5047,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Heading large": {
+      "Heading-large": {
         "$type": "number",
         "$value": 26,
         "$extensions": {
@@ -5090,7 +5064,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text lead": {
+      "Text-lead": {
         "$type": "number",
         "$value": 20,
         "$extensions": {
@@ -5107,7 +5081,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text basis": {
+      "Text-basis": {
         "$type": "number",
         "$value": 18,
         "$extensions": {
@@ -5124,7 +5098,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text basis (Medium)": {
+      "Text-basis-medium": {
         "$type": "number",
         "$value": 18,
         "$extensions": {
@@ -5141,7 +5115,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text small": {
+      "Text-small": {
         "$type": "number",
         "$value": 16,
         "$extensions": {
@@ -5158,7 +5132,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text small (Medium)": {
+      "Text-small-medium": {
         "$type": "number",
         "$value": 16,
         "$extensions": {
@@ -5175,7 +5149,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text x-small": {
+      "Text-x-small": {
         "$type": "number",
         "$value": 14,
         "$extensions": {
@@ -5192,7 +5166,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text x-small (Medium)": {
+      "Text-x-small-Medium": {
         "$type": "number",
         "$value": 14,
         "$extensions": {
@@ -5211,7 +5185,7 @@
       }
     },
     "Height": {
-      "Heading xx-large": {
+      "Heading-xx-large": {
         "$type": "number",
         "$value": 56,
         "$extensions": {
@@ -5228,7 +5202,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Heading x-large": {
+      "Heading-x-large": {
         "$type": "number",
         "$value": 40,
         "$extensions": {
@@ -5245,7 +5219,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Heading large": {
+      "Heading-large": {
         "$type": "number",
         "$value": 32,
         "$extensions": {
@@ -5262,7 +5236,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text lead": {
+      "Text-lead": {
         "$type": "number",
         "$value": 24,
         "$extensions": {
@@ -5279,7 +5253,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text basis": {
+      "Text-basis": {
         "$type": "number",
         "$value": 24,
         "$extensions": {
@@ -5296,7 +5270,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text basis (Medium)": {
+      "Text-basis-medium": {
         "$type": "number",
         "$value": 24,
         "$extensions": {
@@ -5313,7 +5287,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text small": {
+      "Text-small": {
         "$type": "number",
         "$value": 20,
         "$extensions": {
@@ -5330,7 +5304,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text small (Medium)": {
+      "Text-small-medium": {
         "$type": "number",
         "$value": 20,
         "$extensions": {
@@ -5347,7 +5321,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text x-small": {
+      "Text-x-small": {
         "$type": "number",
         "$value": 20,
         "$extensions": {
@@ -5364,7 +5338,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text x-small (Medium)": {
+      "Text-x-small-medium": {
         "$type": "number",
         "$value": 20,
         "$extensions": {
@@ -5613,7 +5587,7 @@
           "CORNER_RADIUS"
         ],
         "com.figma.aliasData": {
-          "targetVariableId": "VariableID:ba519417fad53369a44ad55bf1eec67a4cc7eaca/3375:50",
+          "targetVariableId": "VariableID:ba519417fad53369a44ad55bf1eec67a4cc7eaca/5484:69",
           "targetVariableName": "Size/0",
           "targetVariableSetId": "VariableCollectionId:fdb352a465b863aaf7567ea04748cb7e057d7b63/3375:8",
           "targetVariableSetName": "Size"

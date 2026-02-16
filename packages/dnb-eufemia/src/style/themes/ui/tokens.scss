@@ -64,10 +64,10 @@
   --token-color-text-action-pressed-inverse: var(--dnb-coldgreen-400);
   --token-color-text-selected: var(--dnb-coldgreen-800);
   --token-color-text-action-ondark: var(--dnb-coldgreen-300);
-  --token-color-text-action-alternative-ondark: var(--dnb-greyscale-0);
   --token-color-text-action-hover-ondark: var(--dnb-coldgreen-300);
   --token-color-text-action-pressed-ondark: var(--dnb-coldgreen-400);
   --token-color-text-action-disabled-ondark: var(--dnb-greyscale-400);
+  --token-color-text-action-alternative-ondark: var(--dnb-greyscale-0);
   --token-color-text-neutral: var(--dnb-greyscale-800);
   --token-color-text-neutral-solid: var(--dnb-greyscale-800);
   --token-color-text-neutral-alternative: var(--dnb-greyscale-500);
@@ -264,9 +264,7 @@
   --token-color-component-table-background-neutral-alternative: var(
     --dnb-greyscale-25
   );
-  --token-color-component-screen_dimmer-background: var(
-    --dnb-greyscale-1000-30
-  );
+  --token-color-component-dimmer-background: var(--dnb-greyscale-1000-30);
   --token-color-component-switch-action-disabled-ondark: var(
     --dnb-greyscale-800
   );

@@ -68,10 +68,10 @@
   --token-color-text-action-pressed-inverse: var(--sbanken-green-400);
   --token-color-text-selected: var(--sbanken-purple-950);
   --token-color-text-action-ondark: var(--sbanken-green-300);
-  --token-color-text-action-alternative-ondark: var(--sbanken-grey-0);
   --token-color-text-action-hover-ondark: var(--sbanken-green-300);
   --token-color-text-action-pressed-ondark: var(--sbanken-green-400);
   --token-color-text-action-disabled-ondark: var(--sbanken-grey-500);
+  --token-color-text-action-alternative-ondark: var(--sbanken-grey-0);
   --token-color-text-neutral: var(--sbanken-purple-1000);
   --token-color-text-neutral-solid: var(--sbanken-purple-1000);
   --token-color-text-neutral-alternative: var(--sbanken-grey-600);
@@ -268,9 +268,7 @@
   --token-color-component-table-background-neutral-alternative: var(
     --sbanken-grey-25
   );
-  --token-color-component-screen_dimmer-background: var(
-    --sbanken-grey-1000-30
-  );
+  --token-color-component-dimmer-background: var(--sbanken-grey-1000-30);
   --token-color-component-switch-action-disabled-ondark: var(
     --sbanken-purple-1000
   );
