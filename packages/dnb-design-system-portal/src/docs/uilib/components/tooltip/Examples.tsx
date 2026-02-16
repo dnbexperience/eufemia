@@ -16,12 +16,9 @@ export const TooltipExampleDefault = () => (
   </ComponentBox>
 )
 
-export const TooltipExampleActive = () => (
+export const TooltipExampleOpen = () => (
   <ComponentBox>
-    <Button
-      tooltip={<Tooltip open>Basic Tooltip</Tooltip>}
-      text="Active"
-    />
+    <Button tooltip={<Tooltip open>Basic Tooltip</Tooltip>} text="Open" />
   </ComponentBox>
 )
 
