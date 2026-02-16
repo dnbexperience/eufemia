@@ -50,13 +50,13 @@ describe('Tooltip', () => {
   const getMainElem = () => document.body.querySelector('.dnb-tooltip')
 
   it('should not have aria-hidden when active', async () => {
-    render(<Tooltip active />)
+    render(<Tooltip open />)
 
     expect(getMainElem()).not.toHaveAttribute('aria-hidden', 'true')
   })
 
   it('should have role="tooltip" attribute when active', async () => {
-    render(<Tooltip active />)
+    render(<Tooltip open />)
 
     const tooltip = getMainElem()
     expect(tooltip).toBeInTheDocument()
@@ -64,7 +64,7 @@ describe('Tooltip', () => {
   })
 
   it('should set role="tooltip" on the tooltip element, not the portal wrapper', async () => {
-    render(<Tooltip active />)
+    render(<Tooltip open />)
 
     const portal = document.querySelector('.dnb-tooltip__portal')
     const tooltip = document.querySelector('.dnb-tooltip')
@@ -76,11 +76,11 @@ describe('Tooltip', () => {
   })
 
   it('should have role="tooltip" when tooltip becomes active', async () => {
-    const { rerender } = render(<Tooltip active={false} />)
+    const { rerender } = render(<Tooltip open={false} />)
 
     expect(document.querySelector('.dnb-tooltip')).not.toBeInTheDocument()
 
-    rerender(<Tooltip active />)
+    rerender(<Tooltip open />)
 
     await waitFor(() => {
       const tooltip = getMainElem()
@@ -91,7 +91,7 @@ describe('Tooltip', () => {
 
   it('should set size class', () => {
     render(
-      <Tooltip active size="large">
+      <Tooltip open size="large">
         Tooltip
       </Tooltip>
     )
@@ -115,8 +115,8 @@ describe('Tooltip', () => {
           </button>
           {mounted && (
             <>
-              <Tooltip active>Tooltip 1</Tooltip>
-              <Tooltip active>Tooltip 2</Tooltip>
+              <Tooltip open>Tooltip 1</Tooltip>
+              <Tooltip open>Tooltip 2</Tooltip>
             </>
           )}
         </>
@@ -138,7 +138,7 @@ describe('Tooltip', () => {
 
   it('should set fixed position class', () => {
     render(
-      <Tooltip active fixedPosition>
+      <Tooltip open fixedPosition>
         Tooltip
       </Tooltip>
     )
@@ -150,7 +150,7 @@ describe('Tooltip', () => {
 
   it('should set position class', () => {
     render(
-      <Tooltip active position="right">
+      <Tooltip open position="right">
         Tooltip
       </Tooltip>
     )
@@ -167,7 +167,7 @@ describe('Tooltip', () => {
 
   it('should set arrow class', () => {
     render(
-      <Tooltip active arrow="right">
+      <Tooltip open arrow="right">
         Tooltip
       </Tooltip>
     )
@@ -196,13 +196,13 @@ describe('Tooltip', () => {
     )
 
     it('should validate with ARIA rules as a tooltip', async () => {
-      const Component = render(<Tooltip active />)
+      const Component = render(<Tooltip open />)
       expect(await axeComponent(Component)).toHaveNoViolations()
     })
 
     it('should merge style prop', () => {
       render(
-        <Tooltip active style={{ zIndex: 10 }}>
+        <Tooltip open style={{ zIndex: 10 }}>
           Tooltip
         </Tooltip>
       )
@@ -232,7 +232,7 @@ describe('Tooltip', () => {
     })
 
     it('creates a React Portal', () => {
-      render(<Tooltip active />)
+      render(<Tooltip open />)
 
       expect(
         document.body.querySelectorAll('.dnb-tooltip__portal')
@@ -243,7 +243,7 @@ describe('Tooltip', () => {
     })
 
     it('renders tooltip content from tooltip prop without children', async () => {
-      render(<Tooltip active tooltip="Tooltip prop content" />)
+      render(<Tooltip open tooltip="Tooltip prop content" />)
 
       await waitFor(() => {
         expect(getMainElem()).toHaveTextContent('Tooltip prop content')
@@ -252,7 +252,7 @@ describe('Tooltip', () => {
 
     describe('skipPortal', () => {
       it('will skip React Portal', () => {
-        render(<Tooltip skipPortal active />)
+        render(<Tooltip skipPortal open />)
 
         expect(
           document.body.querySelectorAll('.dnb-tooltip__portal')
@@ -260,7 +260,7 @@ describe('Tooltip', () => {
       })
 
       it('will not have aria-hidden', () => {
-        render(<Tooltip skipPortal active />)
+        render(<Tooltip skipPortal open />)
 
         expect(getMainElem()).not.toHaveAttribute('aria-hidden')
       })
@@ -293,8 +293,8 @@ describe('Tooltip', () => {
         })
       })
 
-      it('remains active when forceActive is true', async () => {
-        render(<Tooltip forceActive active={false} />)
+      it('remains open when forceOpen is true', async () => {
+        render(<Tooltip forceOpen open={false} />)
 
         await waitFor(() => {
           expect(getMainElem().classList).toContain('dnb-tooltip--active')
@@ -304,13 +304,13 @@ describe('Tooltip', () => {
 
     describe('keepInDOM', () => {
       it('should remove tooltip from DOM when inactive by default', async () => {
-        const { rerender } = render(<Tooltip active />)
+        const { rerender } = render(<Tooltip open />)
 
         await waitFor(() => document.querySelector('.dnb-tooltip'), {
           timeout: 3000,
         })
 
-        rerender(<Tooltip active={false} />)
+        rerender(<Tooltip open={false} />)
 
         await waitFor(() => {
           expect(
@@ -320,7 +320,7 @@ describe('Tooltip', () => {
       })
 
       it('should keep tooltip in DOM when keepInDOM is true even when inactive', async () => {
-        const { rerender } = render(<Tooltip keepInDOM active />)
+        const { rerender } = render(<Tooltip keepInDOM open />)
 
         const tooltipElement = await waitFor(
           () => document.querySelector('.dnb-tooltip'),
@@ -328,7 +328,7 @@ describe('Tooltip', () => {
         )
         expect(tooltipElement).toBeInTheDocument()
 
-        rerender(<Tooltip keepInDOM active={false} />)
+        rerender(<Tooltip keepInDOM open={false} />)
 
         await waitFor(() => {
           expect(
@@ -339,7 +339,7 @@ describe('Tooltip', () => {
 
       it('should keep inline tooltip when keepInDOM is true and skipPortal is true', async () => {
         const { rerender } = render(
-          <Tooltip keepInDOM skipPortal={true} active />
+          <Tooltip keepInDOM skipPortal={true} open />
         )
 
         const tooltipElement = await waitFor(
@@ -348,7 +348,7 @@ describe('Tooltip', () => {
         )
         expect(tooltipElement).toBeInTheDocument()
 
-        rerender(<Tooltip keepInDOM skipPortal={true} active={false} />)
+        rerender(<Tooltip keepInDOM skipPortal={true} open={false} />)
 
         expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
         expect(
@@ -358,7 +358,7 @@ describe('Tooltip', () => {
 
       it('should unmount inline tooltip when keepInDOM is false and skipPortal is true', async () => {
         const { rerender } = render(
-          <Tooltip keepInDOM={false} skipPortal={true} active />
+          <Tooltip keepInDOM={false} skipPortal={true} open />
         )
 
         await waitFor(() => document.querySelector('.dnb-tooltip'), {
@@ -366,7 +366,7 @@ describe('Tooltip', () => {
         })
 
         rerender(
-          <Tooltip keepInDOM={false} skipPortal={true} active={false} />
+          <Tooltip keepInDOM={false} skipPortal={true} open={false} />
         )
 
         await waitFor(() => {
@@ -393,7 +393,7 @@ describe('Tooltip', () => {
 
       it('uses span element for AriaLive to avoid DOM nesting issues', () => {
         render(
-          <Tooltip showDelay={0} hideDelay={0} active>
+          <Tooltip showDelay={0} hideDelay={0} open>
             Tooltip content
           </Tooltip>
         )
@@ -474,7 +474,7 @@ describe('Tooltip', () => {
 
     describe('portalRootClass', () => {
       it('should apply portalRootClass to the portal root element', () => {
-        render(<Tooltip active portalRootClass="custom-portal-class" />)
+        render(<Tooltip open portalRootClass="custom-portal-class" />)
 
         const portalRoot = document.querySelector(
           '.dnb-tooltip__portal.custom-portal-class'
@@ -483,7 +483,7 @@ describe('Tooltip', () => {
       })
 
       it('should not affect styling when not provided', () => {
-        render(<Tooltip active />)
+        render(<Tooltip open />)
 
         const portalRoot = document.querySelector('.dnb-tooltip__portal')
         expect(Array.from(portalRoot.classList)).toEqual(
@@ -496,7 +496,7 @@ describe('Tooltip', () => {
 
       it('should work with multiple class names', () => {
         render(
-          <Tooltip active portalRootClass="class-one class-two custom" />
+          <Tooltip open portalRootClass="class-one class-two custom" />
         )
 
         const portalRoot = document.querySelector(
@@ -508,21 +508,21 @@ describe('Tooltip', () => {
       })
     })
 
-    it('should show when active prop is true', async () => {
+    it('should show when open prop is true', async () => {
       const Tooltip = () => {
-        const [active, setActive] = React.useState(false)
+        const [isOpen, setIsOpen] = React.useState(false)
 
         return (
           <OriginalTooltip
             {...defaultProps}
-            active={active}
+            open={isOpen}
             targetElement={
               <button
                 onMouseEnter={() => {
-                  setActive(true)
+                  setIsOpen(true)
                 }}
                 onMouseLeave={() => {
-                  setActive(false)
+                  setIsOpen(false)
                 }}
               >
                 Text
@@ -583,7 +583,7 @@ describe('Tooltip', () => {
     })
 
     it('should set fixed class', () => {
-      render(<Tooltip fixedPosition active />)
+      render(<Tooltip fixedPosition open />)
 
       expect(Array.from(getMainElem().classList)).toEqual(
         expect.arrayContaining([
@@ -629,16 +629,16 @@ describe('Tooltip', () => {
     })
 
     it('should validate with ARIA rules as a tooltip', async () => {
-      const Component = render(<Tooltip active />)
+      const Component = render(<Tooltip open />)
       expect(await axeComponent(Component)).toHaveNoViolations()
     })
 
-    it('should ignore DOM events when active initially is true (controlled)', async () => {
-      render(<Tooltip active />)
+    it('should ignore DOM events when open initially is true (controlled)', async () => {
+      render(<Tooltip open />)
 
       const buttonElem = document.querySelector('button')
 
-      // Initially active due to controlled prop
+      // Initially open due to controlled prop
       expect(getMainElem().classList).toContain('dnb-tooltip--active')
 
       // DOM events should not change visibility when controlled
@@ -654,12 +654,12 @@ describe('Tooltip', () => {
       expect(getMainElem().classList).not.toContain('dnb-tooltip--hide')
     })
 
-    it('should ignore DOM events when active initially is false (controlled)', async () => {
-      render(<Tooltip active={false} />)
+    it('should ignore DOM events when open initially is false (controlled)', async () => {
+      render(<Tooltip open={false} />)
 
       const buttonElem = document.querySelector('button')
 
-      // Initially not active due to controlled prop
+      // Initially not open due to controlled prop
       expect(document.querySelector('.dnb-tooltip')).toBeNull()
 
       // DOM events should not change visibility when controlled
@@ -677,7 +677,7 @@ describe('Tooltip', () => {
     describe('omitDescribedBy', () => {
       it('should set aria-describedby on target element by default', () => {
         render(
-          <Tooltip active showDelay={0}>
+          <Tooltip open showDelay={0}>
             Tooltip content
           </Tooltip>
         )
@@ -691,7 +691,7 @@ describe('Tooltip', () => {
 
       it('should set aria-describedby even when omitDescribedBy is true (prop is ignored)', () => {
         render(
-          <Tooltip active showDelay={0} omitDescribedBy>
+          <Tooltip open showDelay={0} omitDescribedBy>
             Tooltip content
           </Tooltip>
         )
@@ -710,7 +710,7 @@ describe('Tooltip', () => {
             <button id="test-button">Button</button>
             <OriginalTooltip
               {...defaultProps}
-              active
+              open
               showDelay={0}
               omitDescribedBy
               targetSelector="#test-button"
@@ -734,7 +734,7 @@ describe('Tooltip', () => {
 
         render(
           <Tooltip
-            active
+            open
             showDelay={0}
             omitDescribedBy
             targetElement={buttonWithAria}
@@ -796,7 +796,7 @@ describe('Tooltip', () => {
       expect(document.body.querySelectorAll('#' + id).length).toBe(1)
     })
 
-    it('has to have active class on focus', async () => {
+    it('has to have open class on focus', async () => {
       render(
         <NumberFormat
           tooltip={
@@ -1023,7 +1023,7 @@ describe('Tooltip', () => {
         <OriginalTooltip
           id="tooltip-offset"
           {...defaultProps}
-          active
+          open
           triggerOffset={20}
           targetElement={<button />}
         >

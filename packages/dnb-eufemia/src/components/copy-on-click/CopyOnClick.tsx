@@ -97,7 +97,7 @@ const CopyOnClick = ({
       {...params}
     >
       {children}
-      <Tooltip active={active} targetElement={ref}>
+      <Tooltip open={active} targetElement={ref}>
         {message}
       </Tooltip>
     </Span>
