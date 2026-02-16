@@ -542,7 +542,7 @@ describe('GlobalStatus component', () => {
     expect(onClose).toHaveBeenCalledTimes(0)
 
     // Close with key
-    keydown(27) // esc
+    keydown('Escape')
 
     expect(onHide).toHaveBeenCalledTimes(1)
 
@@ -589,7 +589,7 @@ describe('GlobalStatus component', () => {
 
     expect(onClose).toHaveBeenCalledTimes(0)
 
-    keydownWithKeyName('Escape')
+    keydown('Escape')
 
     expect(onHide).toHaveBeenCalledTimes(1)
 
@@ -1031,18 +1031,7 @@ const refresh = async () => {
   await wait(1)
 }
 
-const keydown = (keyCode) => {
-  document.dispatchEvent(new KeyboardEvent('keydown', { keyCode }))
-
-  fireEvent.keyDown(
-    document.querySelector('.dnb-global-status__wrapper'),
-    {
-      keyCode,
-    }
-  )
-}
-
-const keydownWithKeyName = (key: string) => {
+const keydown = (key: string) => {
   const eventInit = { key }
 
   document.dispatchEvent(new KeyboardEvent('keydown', eventInit))
