@@ -4,16 +4,22 @@
   --token-color-background-page-background: var(--carnegie-greyscale-0);
   --token-color-background-action: var(--carnegie-greyscale-1000);
   --token-color-background-action-hover: var(--carnegie-greyscale-800);
-  --token-color-background-action-hover-subtle: var(--carnegie-greyscale-100);
+  --token-color-background-action-hover-subtle: var(
+    --carnegie-greyscale-100
+  );
   --token-color-background-action-pressed: var(--carnegie-greyscale-700);
-  --token-color-background-action-pressed-subtle: var(--carnegie-greyscale-200);
+  --token-color-background-action-pressed-subtle: var(
+    --carnegie-greyscale-200
+  );
   --token-color-background-action-focus: var(--carnegie-blue_utility-600);
   --token-color-background-action-focus-subtle: var(
     --carnegie-blue_utility-100
   );
   --token-color-background-action-disabled: var(--carnegie-greyscale-200);
   --token-color-background-action-inverse: var(--carnegie-greyscale-300);
-  --token-color-background-action-hover-inverse: var(--carnegie-greyscale-300);
+  --token-color-background-action-hover-inverse: var(
+    --carnegie-greyscale-300
+  );
   --token-color-background-action-hover-subtle-inverse: var(
     --carnegie-greyscale-1000
   );
@@ -21,18 +27,24 @@
     --carnegie-greyscale-700
   );
   --token-color-background-action-ondark: var(--carnegie-greyscale-0);
-  --token-color-background-action-hover-ondark: var(--carnegie-greyscale-0);
+  --token-color-background-action-hover-ondark: var(
+    --carnegie-greyscale-0
+  );
   --token-color-background-action-hover-subtle-ondark: var(
     --carnegie-greyscale-1000
   );
-  --token-color-background-action-pressed-ondark: var(--carnegie-greyscale-0);
+  --token-color-background-action-pressed-ondark: var(
+    --carnegie-greyscale-0
+  );
   --token-color-background-action-pressed-subtle-ondark: var(
     --carnegie-greyscale-700
   );
   --token-color-background-action-dissabled-ondark: var(
     --carnegie-greyscale-700
   );
-  --token-color-background-action-alternative: var(--carnegie-greyscale-1000);
+  --token-color-background-action-alternative: var(
+    --carnegie-greyscale-1000
+  );
   --token-color-background-action-alternative-hover-subtle: var(
     --carnegie-greyscale-100
   );
@@ -47,17 +59,25 @@
   --token-color-background-neutral-subtle: var(--carnegie-greyscale-50);
   --token-color-background-neutral-base: var(--carnegie-greyscale-100);
   --token-color-background-neutral-bold: var(--carnegie-greyscale-200);
-  --token-color-background-neutral-alternative: var(--carnegie-blue_utility-50);
+  --token-color-background-neutral-alternative: var(
+    --carnegie-blue_utility-50
+  );
   --token-color-background-info: var(--carnegie-cold_green-600);
   --token-color-background-info-subtle: var(--carnegie-green_utility-50);
   --token-color-background-positive: var(--carnegie-green_utility-700);
-  --token-color-background-positive-subtle: var(--carnegie-green_utility-50);
+  --token-color-background-positive-subtle: var(
+    --carnegie-green_utility-50
+  );
   --token-color-background-warning: var(--carnegie-yellow_utility-500);
-  --token-color-background-warning-subtle: var(--carnegie-yellow_utility-50);
+  --token-color-background-warning-subtle: var(
+    --carnegie-yellow_utility-50
+  );
   --token-color-background-error: var(--carnegie-red_utility-600);
   --token-color-background-error-subtle: var(--carnegie-red_utility-50);
   --token-color-background-marketing: var(--carnegie-greyscale-800);
-  --token-color-background-marketing-subtle: var(--carnegie-blue_utility-50);
+  --token-color-background-marketing-subtle: var(
+    --carnegie-blue_utility-50
+  );
   --token-color-text-action: var(--carnegie-greyscale-1000);
   --token-color-text-action-hover: var(--carnegie-greyscale-1000);
   --token-color-text-action-pressed: var(--carnegie-greyscale-1000);
@@ -68,11 +88,12 @@
   --token-color-text-action-pressed-inverse: var(--carnegie-greyscale-0);
   --token-color-text-selected: var(--carnegie-greyscale-800);
   --token-color-text-action-ondark: var(--carnegie-greyscale-0);
-  --token-color-text-action-alternative-ondark: var(--carnegie-greyscale-0);
+  --token-color-text-action-alternative-ondark: var(
+    --carnegie-greyscale-0
+  );
   --token-color-text-action-hover-ondark: var(--carnegie-greyscale-0);
   --token-color-text-action-pressed-ondark: var(--carnegie-greyscale-0);
   --token-color-text-action-disabled-ondark: var(--carnegie-greyscale-400);
-  --token-color-text-action-alternative-ondark: var(--carnegie-greyscale-0);
   --token-color-text-neutral: var(--carnegie-greyscale-1000);
   --token-color-text-neutral-solid: var(--carnegie-greyscale-1000);
   --token-color-text-neutral-alternative: var(--carnegie-greyscale-500);
@@ -81,9 +102,13 @@
   --token-color-text-neutral-subtle: var(--carnegie-greyscale-200);
   --token-color-text-neutral-subtle-solid: var(--carnegie-greyscale-200);
   --token-color-text-destructive: var(--carnegie-red_utility-600);
-  --token-color-text-destructive-inverse: var(--carnegie-orange_utility-600);
+  --token-color-text-destructive-inverse: var(
+    --carnegie-orange_utility-600
+  );
   --token-color-text-warning-bold: var(--carnegie-yellow_utility-800);
-  --token-color-text-warning-bold-inverse: var(--carnegie-yellow_utility-500);
+  --token-color-text-warning-bold-inverse: var(
+    --carnegie-yellow_utility-500
+  );
   --token-color-text-positive: var(--carnegie-green_utility-700);
   --token-color-text-positive-inverse: var(--carnegie-green_utility-600);
   --token-color-icon-action: var(--carnegie-greyscale-1000);
@@ -97,10 +122,14 @@
   --token-color-icon-selected: var(--carnegie-greyscale-1000);
   --token-color-icon-selected-ondark: var(--carnegie-greyscale-100);
   --token-color-icon-action-ondark: var(--carnegie-greyscale-0);
-  --token-color-icon-action-alternative-ondark: var(--carnegie-greyscale-0);
+  --token-color-icon-action-alternative-ondark: var(
+    --carnegie-greyscale-0
+  );
   --token-color-icon-action-hover-ondark: var(--carnegie-greyscale-0);
   --token-color-icon-action-pressed-ondark: var(--carnegie-greyscale-0);
-  --token-color-icon-action-dissabled-ondark: var(--carnegie-greyscale-400);
+  --token-color-icon-action-dissabled-ondark: var(
+    --carnegie-greyscale-400
+  );
   --token-color-icon-neutral: var(--carnegie-greyscale-1000);
   --token-color-icon-neutral-inverse: var(--carnegie-greyscale-0);
   --token-color-icon-neutral-ondark: var(--carnegie-greyscale-0);
@@ -114,17 +143,25 @@
   --token-color-stroke-action-pressed: var(--carnegie-greyscale-700);
   --token-color-stroke-action-inverse: var(--carnegie-greyscale-0);
   --token-color-stroke-action-hover-inverse: var(--carnegie-greyscale-0);
-  --token-color-stroke-action-pressed-inverse: var(--carnegie-greyscale-400);
+  --token-color-stroke-action-pressed-inverse: var(
+    --carnegie-greyscale-400
+  );
   --token-color-stroke-action-focus: var(--carnegie-blue_utility-600);
-  --token-color-stroke-action-focus-subtle: var(--carnegie-blue_utility-100);
+  --token-color-stroke-action-focus-subtle: var(
+    --carnegie-blue_utility-100
+  );
   --token-color-stroke-action-disabled: var(--carnegie-greyscale-200);
   --token-color-stroke-selected: var(--carnegie-greyscale-1000);
   --token-color-stroke-selected-ondark: var(--carnegie-greyscale-300);
   --token-color-stroke-action-ondark: var(--carnegie-greyscale-0);
-  --token-color-stroke-action-alternative-ondark: var(--carnegie-greyscale-200);
+  --token-color-stroke-action-alternative-ondark: var(
+    --carnegie-greyscale-200
+  );
   --token-color-stroke-action-hover-ondark: var(--carnegie-greyscale-0);
   --token-color-stroke-action-pressed-ondark: var(--carnegie-greyscale-0);
-  --token-color-stroke-action-disabled-ondark: var(--carnegie-greyscale-600);
+  --token-color-stroke-action-disabled-ondark: var(
+    --carnegie-greyscale-600
+  );
   --token-color-stroke-neutral: var(--carnegie-beige-300);
   --token-color-stroke-neutral-ondark: var(--carnegie-greyscale-0);
   --token-color-stroke-neutral-subtle: var(--carnegie-beige-200);
@@ -146,25 +183,41 @@
   --token-color-decorative-first-intense: var(--carnegie-beige-950);
   --token-color-decorative-first-intense-solid: var(--carnegie-beige-950);
   --token-color-decorative-second-muted: var(--carnegie-burgundy-100);
-  --token-color-decorative-second-muted-solid: var(--carnegie-burgundy-100);
+  --token-color-decorative-second-muted-solid: var(
+    --carnegie-burgundy-100
+  );
   --token-color-decorative-second-subtle: var(--carnegie-burgundy-300);
-  --token-color-decorative-second-subtle-solid: var(--carnegie-burgundy-300);
+  --token-color-decorative-second-subtle-solid: var(
+    --carnegie-burgundy-300
+  );
   --token-color-decorative-second-base: var(--carnegie-burgundy-500);
   --token-color-decorative-second-base-solid: var(--carnegie-burgundy-500);
   --token-color-decorative-second-bold: var(--carnegie-burgundy-900);
   --token-color-decorative-second-bold-solid: var(--carnegie-burgundy-900);
   --token-color-decorative-second-intense: var(--carnegie-burgundy-950);
-  --token-color-decorative-second-intense-solid: var(--carnegie-burgundy-950);
+  --token-color-decorative-second-intense-solid: var(
+    --carnegie-burgundy-950
+  );
   --token-color-decorative-third-muted: var(--carnegie-cold_green-100);
-  --token-color-decorative-third-muted-solid: var(--carnegie-green_utility-100);
+  --token-color-decorative-third-muted-solid: var(
+    --carnegie-green_utility-100
+  );
   --token-color-decorative-third-subtle: var(--carnegie-cold_green-300);
-  --token-color-decorative-third-subtle-solid: var(--carnegie-cold_green-300);
+  --token-color-decorative-third-subtle-solid: var(
+    --carnegie-cold_green-300
+  );
   --token-color-decorative-third-base: var(--carnegie-cold_green-500);
-  --token-color-decorative-third-base-solid: var(--carnegie-cold_green-500);
+  --token-color-decorative-third-base-solid: var(
+    --carnegie-cold_green-500
+  );
   --token-color-decorative-third-bold: var(--carnegie-cold_green-700);
-  --token-color-decorative-third-bold-solid: var(--carnegie-cold_green-700);
+  --token-color-decorative-third-bold-solid: var(
+    --carnegie-cold_green-700
+  );
   --token-color-decorative-third-intense: var(--carnegie-cold_green-950);
-  --token-color-decorative-third-intense-solid: var(--carnegie-cold_green-950);
+  --token-color-decorative-third-intense-solid: var(
+    --carnegie-cold_green-950
+  );
   --token-color-component-button-background-action: var(
     --carnegie-greyscale-1000
   );
@@ -193,7 +246,9 @@
   --token-color-component-button-text-neutral-ondark: var(
     --carnegie-greyscale-1000
   );
-  --token-color-component-button-text-action: var(--carnegie-greyscale-1000);
+  --token-color-component-button-text-action: var(
+    --carnegie-greyscale-1000
+  );
   --token-color-component-button-text-action-hover: var(
     --carnegie-greyscale-1000
   );
@@ -228,7 +283,9 @@
   --token-color-component-button-icon-neutral-ondark: var(
     --carnegie-greyscale-1000
   );
-  --token-color-component-button-icon-action: var(--carnegie-greyscale-1000);
+  --token-color-component-button-icon-action: var(
+    --carnegie-greyscale-1000
+  );
   --token-color-component-button-icon-action-hover: var(
     --carnegie-greyscale-1000
   );
@@ -247,7 +304,9 @@
   --token-color-component-button-icon-action-destructive-pressed: var(
     --carnegie-red_utility-700
   );
-  --token-color-component-button-stroke-action: var(--carnegie-greyscale-1000);
+  --token-color-component-button-stroke-action: var(
+    --carnegie-greyscale-1000
+  );
   --token-color-component-button-stroke-action-hover: var(
     --carnegie-greyscale-600
   );
@@ -260,7 +319,9 @@
   --token-color-component-button-stroke-action-destructive-pressed: var(
     --carnegie-red_utility-700
   );
-  --token-color-component-button-stroke-selected_wip: var(--carnegie-beige-700);
+  --token-color-component-button-stroke-selected_wip: var(
+    --carnegie-beige-700
+  );
   --token-color-component-tooltip-background-neutral: var(
     --carnegie-greyscale-800
   );
