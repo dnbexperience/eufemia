@@ -5,7 +5,6 @@
  */
 
 import React from 'react'
-import keycode from '../keycode'
 import {
   warn,
   PLATFORM_MAC,
@@ -165,8 +164,7 @@ export class DetectOutsideClickClass {
       document.addEventListener('mousedown', this.handleClickOutside)
 
       this.keydownCallback = (event) => {
-        const keyCode = keycode(event)
-        if (keyCode === 'esc') {
+        if (event.key === 'Escape') {
           window.removeEventListener('keydown', this.keydownCallback)
           if (typeof onSuccess === 'function') {
             onSuccess({ event })
@@ -175,13 +173,12 @@ export class DetectOutsideClickClass {
       }
       window.addEventListener('keydown', this.keydownCallback)
 
-      // e.g. includedKeys = ['tab']
+      // e.g. includedKeys = ['Tab']
       if (options.includedKeys) {
         // use keyup so we get the correct new target
         this.keyupCallback = (event) => {
-          const keyCode = keycode(event)
           if (
-            options.includedKeys.includes(keyCode) &&
+            options.includedKeys.includes(event.key) &&
             typeof this.handleClickOutside === 'function'
           ) {
             this.handleClickOutside(event, () => {

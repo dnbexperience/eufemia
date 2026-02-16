@@ -458,7 +458,6 @@ describe('Popover', () => {
     popover?.dispatchEvent(
       new KeyboardEvent('keydown', {
         key: 'Escape',
-        keyCode: 27,
         bubbles: true,
       })
     )
@@ -967,7 +966,6 @@ describe('Popover', () => {
     popover?.dispatchEvent(
       new KeyboardEvent('keydown', {
         key: 'Escape',
-        keyCode: 27,
         bubbles: true,
       })
     )
@@ -1051,7 +1049,6 @@ describe('Popover', () => {
     popover?.dispatchEvent(
       new KeyboardEvent('keydown', {
         key: 'Escape',
-        keyCode: 27,
         bubbles: true,
       })
     )
@@ -1070,9 +1067,7 @@ describe('Popover', () => {
       fireEvent.focus(dialogContent)
     }
 
-    document.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'Escape', keyCode: 27 })
-    )
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
 
     await waitFor(() =>
       expect(document.documentElement).not.toHaveAttribute(
@@ -1417,7 +1412,6 @@ describe('Popover', () => {
       popover?.dispatchEvent(
         new KeyboardEvent('keydown', {
           key: 'Escape',
-          keyCode: 27,
           bubbles: true,
         })
       )
@@ -1462,7 +1456,6 @@ describe('Popover', () => {
     popover?.dispatchEvent(
       new KeyboardEvent('keydown', {
         key: 'Escape',
-        keyCode: 27,
         bubbles: true,
       })
     )
@@ -1861,7 +1854,6 @@ describe('Popover', () => {
         popover?.dispatchEvent(
           new KeyboardEvent('keydown', {
             key: 'Escape',
-            keyCode: 27,
             bubbles: true,
             cancelable: true,
           })
