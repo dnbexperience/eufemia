@@ -1122,7 +1122,7 @@ class AutocompleteInstance extends React.PureComponent<
 
   reserveActivityHandler = (event = null) => {
     this.__preventFiringBlurEvent = Boolean(
-      event.key === 'enter' ||
+      event.key === 'Enter' ||
         (event?.currentTarget
           ? getClosestParent('dnb-drawer-list', event.currentTarget) ||
             getClosestParent(

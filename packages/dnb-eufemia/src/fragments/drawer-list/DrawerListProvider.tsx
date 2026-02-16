@@ -1129,7 +1129,7 @@ export default class DrawerListProvider extends React.PureComponent<
         this._refUl.current,
       ],
       () => this.setHidden({ preventHideFocus: true }),
-      { includedKeys: ['Tab'] }
+      { includedKeys: ['tab'] }
     )
 
     if (typeof document !== 'undefined') {
