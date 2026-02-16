@@ -82,7 +82,7 @@ type AutocompleteSubmitButtonIcon =
   | ((...args: any[]) => any)
 type AutocompleteInputRef =
   | ((...args: any[]) => any)
-  | React.MutableRefObject<HTMLInputElement | undefined>
+  | React.RefObject<HTMLInputElement | undefined>
 type AutocompleteInputIcon =
   | string
   | React.ReactNode
@@ -2056,6 +2056,8 @@ class AutocompleteInstance extends React.PureComponent<
       data: _data, // eslint-disable-line
       children: _children, // eslint-disable-line
       direction: _direction, // eslint-disable-line
+      pageOffset: _pageOffset, // eslint-disable-line
+      observerElement: _observerElement, // eslint-disable-line
       id: _id, // eslint-disable-line
       open: _open, // eslint-disable-line
       value: _value, // eslint-disable-line
