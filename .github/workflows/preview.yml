@@ -1,0 +1,49 @@
+name: Deploy Preview
+
+on:
+  push:
+    branches:
+      - '**'
+      - '!**--skip-ci'
+      - '!**--visual-reports'
+      - '!wip/**'
+      - '!experiments/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+jobs:
+  deploy-preview:
+    name: Build and deploy (branch preview)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version-file: 'package.json'
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Build
+        run: yarn workspace dnb-design-system-portal build:mini
+
+      - name: Deploy to Cloudflare Pages (branch preview)
+        run: yarn workspace dnb-design-system-portal wrangler pages deploy ./public --project-name eufemia --branch "${GITHUB_REF_NAME}"
