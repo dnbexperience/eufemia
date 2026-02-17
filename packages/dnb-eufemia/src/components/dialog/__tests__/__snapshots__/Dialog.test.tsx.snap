@@ -1088,10 +1088,13 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
   color: transparent;
 }
 .dnb-dialog--spacing .dnb-dialog__navigation.dnb-section {
-  margin: var(--spacing-medium) 0;
+  margin: 0;
+}
+.dnb-dialog--spacing .dnb-dialog__navigation.dnb-section + .dnb-dialog__title {
+  margin-top: var(--spacing-medium);
 }
 .dnb-dialog .dnb-dialog__navigation--sticky::before {
-  margin: 0 -2rem;
+  box-shadow: var(--shadow-default-x) var(--shadow-default-y) 8px -8px var(--shadow-default-color);
 }
 html:not([data-visual-test]) .dnb-dialog {
   animation: show-modal var(--modal-animation-duration) ease-out;
