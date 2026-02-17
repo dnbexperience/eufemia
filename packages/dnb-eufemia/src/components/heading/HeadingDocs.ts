@@ -74,11 +74,6 @@ export const HeadingProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  proseMaxWidth: {
-    doc: 'Sets the maximum width based on character count. This will limit the text width to approximately the specified number of characters. Use `true` for a default value of 60ch.',
-    type: ['number', 'boolean'],
-    status: 'optional',
-  },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],

@@ -37,8 +37,8 @@ export const AccordionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   variant: {
-    doc: 'Defines the used styling. `Outlined`, `filled`, or `plain` (no styling). Defaults to `outlined`.',
-    type: ['outlined', 'filled', 'plain'],
+    doc: 'Defines the used styling. `Outlined`, `filled`, `plain` (no styling), or `default`. Defaults to `outlined`.',
+    type: ['default', 'outlined', 'filled', 'plain'],
     status: 'optional',
   },
   icon: {
@@ -93,7 +93,7 @@ export const AccordionProperties: PropertiesTableProps = {
   },
   headingLevel: {
     doc: 'If `heading` is set to `true`, you can provide a numeric value to define a different heading level. Defaults to `2`.',
-    type: 'boolean',
+    type: ['1', '2', '3', '4', '5', '6'],
     status: 'optional',
   },
   disabled: {

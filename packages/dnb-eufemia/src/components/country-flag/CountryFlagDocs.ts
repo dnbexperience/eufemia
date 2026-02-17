@@ -12,8 +12,8 @@ export const CountryFlagProperties: PropertiesTableProps = {
     status: 'optional',
   },
   shape: {
-    doc: 'The shape of the component. Can be `round` or `square`. Defaults to `round`.',
-    type: 'string',
+    doc: 'The shape of the component. Can be `round` or `square`. No default shape is applied if omitted.',
+    type: ['round', 'square'],
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {

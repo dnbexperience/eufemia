@@ -43,7 +43,7 @@ export const AutocompleteProperties = {
   },
   searchInWordIndex: {
     doc: 'This gives you the possibility to change the threshold number, which defines from what word on we search "inside words". Defaults to `3`.',
-    type: 'boolean',
+    type: ['string', 'number'],
     status: 'optional',
   },
   searchMatch: {
@@ -188,7 +188,7 @@ export const AutocompleteProperties = {
   },
   skipPortal: {
     doc: 'Set to `true` to disable the React Portal behavior. Defaults to `false`.',
-    type: 'string',
+    type: 'boolean',
     status: 'optional',
   },
   status: {
