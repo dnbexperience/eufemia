@@ -5,7 +5,7 @@ export const defaultProps = {
   fileMaxSize: 5,
   filesAmountLimit: 100,
   download: false,
-  variant: 'normal',
+  variant: 'default',
 }
 
 export const UploadContext = createContext<UploadContextProps>(null)

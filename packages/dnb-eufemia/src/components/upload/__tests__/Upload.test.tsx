@@ -2166,6 +2166,14 @@ describe('Upload', () => {
     })
   })
 
+  it('should have default variant class when no variant is specified', () => {
+    render(<Upload {...defaultProps} />)
+
+    expect(
+      document.querySelector('.dnb-upload--default')
+    ).toBeInTheDocument()
+  })
+
   describe('Compact variant', () => {
     it('renders the title', () => {
       render(<Upload {...defaultProps} variant="compact" />)
