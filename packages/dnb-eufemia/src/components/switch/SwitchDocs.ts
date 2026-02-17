@@ -23,7 +23,7 @@ export const SwitchProperties: PropertiesTableProps = {
   },
   labelSrOnly: {
     doc: 'Use `true` to make the label only readable by screen readers.',
-    type: 'string',
+    type: 'boolean',
     status: 'optional',
   },
   size: {

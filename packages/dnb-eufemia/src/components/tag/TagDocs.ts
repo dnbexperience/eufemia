@@ -2,8 +2,8 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const TagEvents: PropertiesTableProps = {
   onClick: {
-    doc: 'Will be called on a click event. Returns an object with the native event: `{ event }`.',
-    type: 'function',
+    doc: 'Will be called on a click event. Returns the native event.',
+    type: 'React.MouseEventHandler',
     status: 'optional',
   },
 }
