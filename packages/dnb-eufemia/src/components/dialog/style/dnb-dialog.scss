@@ -176,7 +176,7 @@
   // Dialog-specific shadow height override
   & &__navigation--sticky {
     &::before {
-      margin: 0 -2rem;
+      box-shadow: var(--shadow-default-x) var(--shadow-default-y) 8px -8px var(--shadow-default-color);
     }
   }
 
