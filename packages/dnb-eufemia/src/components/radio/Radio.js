@@ -170,8 +170,7 @@ export default class Radio extends React.PureComponent {
         this.onChangeHandler(event)
       }
     } else if (this.isContextGroupOrSingle()) {
-      // Space key sends ' ' in browsers but 'Space' in userEvent.keyboard('{Space}')
-      if (key === 'Enter' || key === ' ' || key === 'Space') {
+      if (key === 'Enter' || key === ' ') {
         const { value } = this.context
         if (value !== null && typeof value !== 'undefined') {
           event.preventDefault()
@@ -181,12 +180,8 @@ export default class Radio extends React.PureComponent {
     } else {
       // else we only use the native support, and don't want space support
       // because only arrow keys has to be used
-      switch (key) {
-        case ' ':
-        case 'Space': {
-          event.preventDefault()
-          break
-        }
+      if (key === ' ') {
+        event.preventDefault()
       }
     }
     dispatchCustomElementEvent(this, 'onKeyDown', { event })
