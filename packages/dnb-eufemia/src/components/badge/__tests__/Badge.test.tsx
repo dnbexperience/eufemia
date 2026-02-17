@@ -243,24 +243,24 @@ describe('Badge', () => {
   describe('status and subtle props', () => {
     it('applies status class correctly', () => {
       const { rerender } = render(
-        <Badge content="test" status="positive" />
+        <Badge content="test" status="success" />
       )
       let element = document.querySelector('.dnb-badge')
-      expect(element).toHaveClass('dnb-badge--status-positive')
+      expect(element).toHaveClass('dnb-badge--status-success')
 
       rerender(<Badge content="test" status="warning" />)
       element = document.querySelector('.dnb-badge')
       expect(element).toHaveClass('dnb-badge--status-warning')
 
-      rerender(<Badge content="test" status="negative" />)
+      rerender(<Badge content="test" status="error" />)
       element = document.querySelector('.dnb-badge')
-      expect(element).toHaveClass('dnb-badge--status-negative')
+      expect(element).toHaveClass('dnb-badge--status-error')
     })
 
     it('applies subtle class when subtle prop is true', () => {
-      render(<Badge content="test" status="positive" subtle />)
+      render(<Badge content="test" status="success" subtle />)
       const element = document.querySelector('.dnb-badge')
-      expect(element).toHaveClass('dnb-badge--status-positive')
+      expect(element).toHaveClass('dnb-badge--status-success')
       expect(element).toHaveClass('dnb-badge--subtle')
     })
 
@@ -269,12 +269,12 @@ describe('Badge', () => {
         <Badge
           content="test"
           variant="notification"
-          status="positive"
+          status="success"
           subtle
         />
       )
       const element = document.querySelector('.dnb-badge')
-      expect(element).not.toHaveClass('dnb-badge--status-positive')
+      expect(element).not.toHaveClass('dnb-badge--status-success')
       expect(element).not.toHaveClass('dnb-badge--subtle')
       expect(element).toHaveClass('dnb-badge--variant-notification')
     })

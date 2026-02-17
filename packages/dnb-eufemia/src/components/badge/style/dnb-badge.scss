@@ -112,7 +112,7 @@
     );
   }
 
-  &--status-positive {
+  &--status-success {
     --badge-information-bg: var(--figma-color-background-positive);
     --badge-information-color: var(--figma-color-text-neutral-inverse);
 
@@ -135,7 +135,7 @@
     --badge-information-subtle-border: var(--figma-color-stroke-warning);
   }
 
-  &--status-negative {
+  &--status-error {
     --badge-information-bg: var(--figma-color-background-error);
     --badge-information-color: var(--figma-color-text-neutral-inverse);
 

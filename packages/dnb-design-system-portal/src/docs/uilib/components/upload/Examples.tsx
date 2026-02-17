@@ -648,7 +648,7 @@ export const UploadDescription = () => (
                 <>
                   <Badge
                     variant="information"
-                    status="positive"
+                    status="success"
                     content="Status"
                   />{' '}
                   This is my description

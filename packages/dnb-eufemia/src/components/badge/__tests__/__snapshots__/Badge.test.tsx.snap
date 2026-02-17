@@ -144,7 +144,7 @@ exports[`Badge scss should match style dependencies css 1`] = `
     --figma-color-stroke-neutral-bold
   );
 }
-.dnb-badge--status-positive {
+.dnb-badge--status-success {
   --badge-information-bg: var(--figma-color-background-positive);
   --badge-information-color: var(--figma-color-text-neutral-inverse);
   --badge-information-subtle-bg: var(
@@ -161,7 +161,7 @@ exports[`Badge scss should match style dependencies css 1`] = `
   --badge-information-subtle-color: var(--figma-color-text-warning-bold);
   --badge-information-subtle-border: var(--figma-color-stroke-warning);
 }
-.dnb-badge--status-negative {
+.dnb-badge--status-error {
   --badge-information-bg: var(--figma-color-background-error);
   --badge-information-color: var(--figma-color-text-neutral-inverse);
   --badge-information-subtle-bg: var(
