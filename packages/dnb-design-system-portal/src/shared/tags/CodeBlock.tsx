@@ -162,12 +162,18 @@ function LiveCode(props: LiveCodeProps) {
 
   const { hideToolbar, hideCode, hidePreview } = state
 
-  const codeToUse = React.useMemo(
-    () => (typeof props.code === 'string' ? prepareCode(props.code) : ''),
-    [props.code]
-  )
+  const codeToUse = React.useMemo(() => {
+    const code =
+      typeof props.code === 'string' ? prepareCode(props.code) : ''
 
-  if (codeToUse.trim().length === 0) {
+    if (code.trim().length === 0) {
+      return null
+    }
+
+    return code
+  }, [props.code])
+
+  if (codeToUse === null) {
     return <span>No Code provided</span>
   }
 

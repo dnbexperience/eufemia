@@ -160,6 +160,23 @@ describe('CodeBlock', () => {
     expect(container.textContent).toContain('No Code provided')
   })
 
+  it('should not show "No Code provided" when user clears the editor', () => {
+    const { container } = render(
+      <CodeBlock reactLive scope={{}} language="jsx">
+        {'<div>Hello</div>'}
+      </CodeBlock>
+    )
+
+    expect(container.textContent).not.toContain('No Code provided')
+
+    // Simulate user clearing all code in the live editor
+    act(() => {
+      mockLiveEditorOnChange?.('')
+    })
+
+    expect(container.textContent).not.toContain('No Code provided')
+  })
+
   it('should not feed edited code back to LiveProvider, avoiding a feedback loop', () => {
     const initialCode = '<div>Hello</div>'
 
