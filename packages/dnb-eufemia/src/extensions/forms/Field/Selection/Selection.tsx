@@ -70,13 +70,7 @@ export type Props = FieldProps<IOption['value']> & {
    * Defines the variant of the component.
    * Default: dropdown
    */
-  variant?:
-    | 'dropdown'
-    | 'autocomplete'
-    | 'radio'
-    // @deprecated `radio-list` is deprecated. Use the List component instead.
-    | 'radio-list'
-    | 'button'
+  variant?: 'dropdown' | 'autocomplete' | 'radio' | 'button'
 
   /**
    * The width of the component.
@@ -257,12 +251,9 @@ function Selection(props: Props) {
 
   switch (variant) {
     case 'radio':
-    case 'radio-list':
     case 'button': {
       const Component = (
-        variant === 'radio' || variant === 'radio-list'
-          ? Radio
-          : ToggleButton
+        variant === 'radio' ? Radio : ToggleButton
       ) as typeof Radio & typeof ToggleButton
 
       const items = renderRadioItems({
@@ -284,10 +275,7 @@ function Selection(props: Props) {
 
       const additionalFieldBlockProps: FieldBlockProps = {
         asFieldset: React.Children.count(items) > 1,
-        fieldsetRole:
-          variant === 'radio' || variant === 'radio-list'
-            ? 'radiogroup'
-            : 'group',
+        fieldsetRole: variant === 'radio' ? 'radiogroup' : 'group',
       }
       if (!size) {
         additionalFieldBlockProps.labelHeight = 'small'
@@ -442,20 +430,14 @@ function renderRadioItems({
     iterateOverItems?.({ value, label })
 
     const Component = (
-      variant === 'radio' || variant === 'radio-list'
-        ? Radio
-        : ToggleButton
+      variant === 'radio' ? Radio : ToggleButton
     ) as typeof Radio & typeof ToggleButton
 
     return (
       <Component
         id={optionsCount === 1 ? id : undefined}
         key={`option-${i}-${id}`}
-        label={
-          variant === 'radio' || variant === 'radio-list'
-            ? label
-            : undefined
-        }
+        label={variant === 'radio' ? label : undefined}
         text={variant === 'button' ? label : undefined}
         role="radio"
         value={String(value ?? valueProp) || undefined}
