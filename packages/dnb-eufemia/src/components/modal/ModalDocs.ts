@@ -118,7 +118,7 @@ export const ModalProperties: PropertiesTableProps = {
   },
   bypassInvalidationSelectors: {
     doc: "Define an array with HTML class selectors (`['.element-selector']`) which should not get invalidated when the modal opens/closes. Use this in order to let some parts of your site still be accessible by screen readers.",
-    type: 'boolean',
+    type: 'Array<string>',
     status: 'optional',
   },
   scrollRef: {

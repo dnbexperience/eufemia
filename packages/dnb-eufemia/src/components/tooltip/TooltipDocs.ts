@@ -47,13 +47,13 @@ export const TooltipProperties: PropertiesTableProps = {
     status: 'optional',
   },
   showDelay: {
-    doc: 'Define the delay until the tooltip should show up after the initial hover / active state.',
-    type: 'boolean',
+    doc: 'Define the delay (in milliseconds) until the tooltip should show up after the initial hover / active state. Defaults to `300`.',
+    type: 'number',
     status: 'optional',
   },
   hideDelay: {
-    doc: 'Define the delay until the tooltip should disappear up after initial visibility.',
-    type: 'boolean',
+    doc: 'Define the delay (in milliseconds) until the tooltip should disappear after initial visibility. Defaults to `500`.',
+    type: 'number',
     status: 'optional',
   },
   size: {
