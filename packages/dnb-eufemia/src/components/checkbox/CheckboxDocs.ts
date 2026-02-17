@@ -23,12 +23,12 @@ export const CheckboxProperties: PropertiesTableProps = {
   },
   labelSrOnly: {
     doc: 'Use `true` to make the label only readable by screen readers.',
-    type: 'string',
+    type: 'boolean',
     status: 'optional',
   },
   size: {
     doc: 'The size of the checkbox. For now there is "medium" (default) and "large".',
-    type: ['string', 'number'],
+    type: ['default', 'medium', 'large'],
     status: 'optional',
   },
   indeterminate: {

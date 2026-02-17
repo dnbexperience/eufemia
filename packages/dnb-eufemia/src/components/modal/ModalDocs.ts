@@ -23,7 +23,7 @@ export const ModalProperties: PropertiesTableProps = {
   },
   fullscreen: {
     doc: 'If set to `true` then the modal content will be shown as fullscreen, without showing the original content behind. Can be set to `false` to omit the auto fullscreen. Defaults to `auto`.',
-    type: 'boolean',
+    type: ['boolean', 'string'],
     status: 'optional',
   },
   open: {
@@ -149,11 +149,6 @@ export const ModalProperties: PropertiesTableProps = {
   hideCloseButton: {
     doc: 'If true, the close button will not be shown.',
     type: 'boolean',
-    status: 'optional',
-  },
-  class: {
-    doc: 'Give the inner content wrapper a class name (maps to `dnb-modal__content__inner`).',
-    type: 'string',
     status: 'optional',
   },
   className: {
