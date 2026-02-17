@@ -4836,7 +4836,7 @@
               "com.figma.isOverride": true
             }
           },
-          "Selected WIP": {
+          "Selected-WIP": {
             "$type": "color",
             "$value": {
               "colorSpace": "srgb",
@@ -5357,7 +5357,7 @@
       }
     },
     "Weight": {
-      "Heading xx-large": {
+      "Heading-xx-large": {
         "$type": "string",
         "$value": "Book Sbanken",
         "$extensions": {
@@ -5375,7 +5375,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Heading x-large": {
+      "Heading-x-large": {
         "$type": "string",
         "$value": "Book Sbanken",
         "$extensions": {
@@ -5393,7 +5393,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Heading large": {
+      "Heading-large": {
         "$type": "string",
         "$value": "Book Sbanken",
         "$extensions": {
@@ -5411,7 +5411,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text lead": {
+      "Text-lead": {
         "$type": "string",
         "$value": "Demi Sbanken",
         "$extensions": {
@@ -5429,7 +5429,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text basis": {
+      "Text-basis": {
         "$type": "string",
         "$value": "Regular",
         "$extensions": {
@@ -5447,7 +5447,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text basis (Medium)": {
+      "Text-basis-medium": {
         "$type": "string",
         "$value": "Medium",
         "$extensions": {
@@ -5465,7 +5465,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text small": {
+      "Text-small": {
         "$type": "string",
         "$value": "Regular",
         "$extensions": {
@@ -5483,7 +5483,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text small (Medium)": {
+      "Text-small-medium": {
         "$type": "string",
         "$value": "Medium",
         "$extensions": {
@@ -5501,7 +5501,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text x-small": {
+      "Text-x-small": {
         "$type": "string",
         "$value": "Regular",
         "$extensions": {
@@ -5519,7 +5519,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Text x-small (Medium)": {
+      "Text-x-small-medium": {
         "$type": "string",
         "$value": "Medium",
         "$extensions": {
