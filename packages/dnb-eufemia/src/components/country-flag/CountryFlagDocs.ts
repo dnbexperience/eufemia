@@ -13,7 +13,7 @@ export const CountryFlagProperties: PropertiesTableProps = {
   },
   shape: {
     doc: 'The shape of the component. Can be `round` or `square`. Defaults to `round`.',
-    type: 'string',
+    type: ['round', 'square'],
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {

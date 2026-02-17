@@ -31,7 +31,7 @@ export const SpaceGlobalProperties: PropertiesTableProps = {
 export const SpaceProperties: PropertiesTableProps = {
   element: {
     doc: 'Defines the HTML element used. Defaults to `div`.',
-    type: 'React.Element',
+    type: ['string', 'React.Element'],
     status: 'optional',
   },
   stretch: {

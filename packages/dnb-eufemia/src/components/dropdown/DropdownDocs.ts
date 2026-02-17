@@ -31,7 +31,7 @@ export const DropdownProperties = {
   },
   value: {
     doc: 'Define a preselected data entry (index). More info down below.',
-    type: 'number',
+    type: ['string', 'number'],
     status: 'optional',
   },
   variant: {
