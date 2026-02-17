@@ -19,7 +19,7 @@ export function injectTooltipSemantic(params) {
 
 export const defaultProps = {
   id: null,
-  size: 'basis',
+  size: 'default',
   open: null,
   position: 'top',
   arrow: 'center',
