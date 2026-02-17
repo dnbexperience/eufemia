@@ -145,12 +145,12 @@ export const BadgeStatus = () => (
       <Badge content="default (subtle)" status="default" subtle />
       <Badge content="neutral" status="neutral" />
       <Badge content="neutral (subtle)" status="neutral" subtle />
-      <Badge content="positive" status="positive" />
-      <Badge content="positive (subtle)" status="positive" subtle />
+      <Badge content="success" status="success" />
+      <Badge content="success (subtle)" status="success" subtle />
       <Badge content="warning" status="warning" />
       <Badge content="warning (subtle)" status="warning" subtle />
-      <Badge content="negative" status="negative" />
-      <Badge content="negative (subtle)" status="negative" subtle />
+      <Badge content="error" status="error" />
+      <Badge content="error (subtle)" status="error" subtle />
     </Grid.Container>
   </ComponentBox>
 )
