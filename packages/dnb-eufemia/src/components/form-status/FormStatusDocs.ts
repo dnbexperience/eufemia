@@ -42,8 +42,8 @@ export const FormStatusProperties: PropertiesTableProps = {
     status: 'optional',
   },
   variant: {
-    doc: 'As of now, there is the `flat` and the `outlined` variant. Defaults to `flat`.',
-    type: ['flat', 'outlined'],
+    doc: 'As of now, there is the `plain` and the `outlined` variant. Defaults to `plain`.',
+    type: ['plain', 'outlined'],
     status: 'optional',
   },
   stretch: {
