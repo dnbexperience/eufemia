@@ -34,7 +34,7 @@ export const TableProperties: PropertiesTableProps = {
   stickyOffset: {
     doc: 'Defines the offset (top) in `rem` from where the header should start to stick. You may define your app header height here, if you have a sticky header on your page.',
     type: ['string', 'number'],
-    defaultValue: 'false',
+    defaultValue: '0',
     status: 'optional',
   },
   size: {
@@ -95,7 +95,7 @@ export const TrProperties: PropertiesTableProps = {
   noWrap: {
     doc: 'If set to `true`, the inherited header text will not wrap to new lines.',
     type: 'boolean',
-    defaultValue: 'true',
+    defaultValue: 'false',
     status: 'optional',
   },
   expanded: {

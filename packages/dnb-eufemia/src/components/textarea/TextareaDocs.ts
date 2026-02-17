@@ -28,17 +28,17 @@ export const textareaProperties: PropertiesTableProps = {
   },
   label: {
     doc: 'Prepends the Form Label component. If no ID is provided, a random ID is created.',
-    type: 'string',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   labelDirection: {
     doc: 'Use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`.',
-    type: 'string',
+    type: ['horizontal', 'vertical'],
     status: 'optional',
   },
   suffix: {
     doc: 'Text describing the content of the Textarea more than the label. You can also send in a React component, so it gets wrapped inside the Textarea component.',
-    type: 'string',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   labelSrOnly: {
@@ -63,7 +63,7 @@ export const textareaProperties: PropertiesTableProps = {
   },
   size: {
     doc: 'The sizes you can choose for 1 row is `small` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `small`.',
-    type: 'string',
+    type: ['small', 'medium', 'large'],
     status: 'optional',
   },
   status: {
@@ -72,8 +72,8 @@ export const textareaProperties: PropertiesTableProps = {
     status: 'optional',
   },
   statusState: {
-    doc: 'Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.',
-    type: ['error', 'info'],
+    doc: 'Defines the state of the status. Defaults to `error`.',
+    type: ['error', 'warning', 'info', 'success', 'marketing'],
     status: 'optional',
   },
   statusProps: {

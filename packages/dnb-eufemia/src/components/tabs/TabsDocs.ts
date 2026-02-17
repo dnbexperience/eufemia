@@ -17,7 +17,7 @@ export const TabsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   contentSpacing: {
-    doc: 'To modify the `spacing` onto the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `large`.',
+    doc: 'To modify the `spacing` onto the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `true`.',
     type: [
       'boolean',
       'x-small',

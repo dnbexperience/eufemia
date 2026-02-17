@@ -75,7 +75,7 @@ export const RadioGroupProperties: PropertiesTableProps = {
     status: 'optional',
   },
   layoutDirection: {
-    doc: 'Define the layout direction of the Radio buttons. Can be either `column` or `row`. Defaults to `column`.',
+    doc: 'Define the layout direction of the Radio buttons. Can be either `column` or `row`. Defaults to `row`.',
     type: ['column', 'row'],
     status: 'optional',
   },
