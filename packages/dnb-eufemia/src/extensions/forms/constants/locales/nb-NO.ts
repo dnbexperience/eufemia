@@ -48,7 +48,7 @@ export default {
     InfoOverlayError: {
       title: 'Beklager, noe gikk galt',
       description:
-        'Prøv igjen eller ta kontakt med oss om feilen vedstår.',
+        'Prøv igjen eller ta kontakt med oss om feilen vedvarer.',
       cancelButton: 'Tilbake',
       retryButton: 'Prøv igjen',
       retryingText: 'Prøver på nytt...',
@@ -121,8 +121,8 @@ export default {
     },
     StreetAddress: {
       label: 'Gateadresse',
-      errorRequired: 'Du må fylle inn en gateaddresse.',
-      errorPattern: 'Ugyldig gateaddresse. Skriv inn en gateaddresse.',
+      errorRequired: 'Du må fylle inn en gateadresse.',
+      errorPattern: 'Ugyldig gateadresse. Skriv inn en gateadresse.',
       suggestionPlaceholder: 'Skriv inn adressen',
     },
     Date: {
