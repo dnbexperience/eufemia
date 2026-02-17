@@ -174,7 +174,7 @@ export const runFactory = ({
     }
   })
 
-const transformFigmaAlias = (alias: Record<string, any>) => {
+export const transformFigmaAlias = (alias: Record<string, any>) => {
   const figmaVariableName = alias.targetVariableName
   // const figmaVariableSetId = alias.targetVariableSetId
   // TODO: use is to verify the correct supported sets are used instead of name.
@@ -192,7 +192,7 @@ const transformFigmaAlias = (alias: Record<string, any>) => {
   }
 }
 
-const transformFigmaValue = (value: Record<string, any>) => {
+export const transformFigmaValue = (value: Record<string, any>) => {
   if (value['$type'] === 'number' || value['$type'] === 'string') {
     return undefined // Exclude numbers, font-family and font weight
   }
@@ -218,7 +218,7 @@ const transformFigmaValue = (value: Record<string, any>) => {
   }
 }
 
-const transformFigmaKey = (
+export const transformFigmaKey = (
   key: string,
   replaceCallback: (s: string) => void = () => {}
 ) => {
@@ -234,7 +234,7 @@ const transformFigmaKey = (
   return transformedKey
 }
 
-const transformFigmaPath = (path: string[]) => {
+export const transformFigmaPath = (path: string[]) => {
   const replacedCaracters = []
   const logReplace = (s) => {
     replacedCaracters.push(s)
@@ -253,11 +253,11 @@ const transformFigmaPath = (path: string[]) => {
   return transformedPath
 }
 
-const transformNamespace = (namespace?: string) =>
+export const transformNamespace = (namespace?: string) =>
   TOKEN_CSS_PREFIX + (namespace ? namespace + TOKEN_GROUP_SEPARATOR : '')
 
 /** Recursively generates CSS variables from a Figma export json */
-const generateCSSVariablesFromFigmaExport = (
+export const generateCSSVariablesFromFigmaExport = (
   value: Record<string, any> | string | number,
   /** string placed first in the css variable: `--namespace-color-blue-500` */
   namespace?: string,

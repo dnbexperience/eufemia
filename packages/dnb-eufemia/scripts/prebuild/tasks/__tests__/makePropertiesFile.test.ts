@@ -1,9 +1,21 @@
 import { convertVariablesToTailwindFormat } from '../tailwindTransform'
 
+import {
+  transformFigmaAlias,
+  transformFigmaValue,
+  transformFigmaKey,
+  transformFigmaPath,
+  transformNamespace,
+} from '../makePropertiesFile'
+
 describe('makePropertiesFile', () => {
   const global = {
     ui: null,
     sbanken: null,
+    sbankenTokens: null,
+    uiTokens: null,
+    carnegieTokens: null,
+    foundation: null,
   }
 
   beforeAll(async () => {
@@ -27,6 +39,173 @@ describe('makePropertiesFile', () => {
       path.resolve('src/style/themes/sbanken/properties.js'),
       'utf-8'
     )
+
+    global.sbankenTokens = fs.readFileSync(
+      path.resolve('src/style/themes/sbanken/tokens.scss'),
+      'utf-8'
+    )
+    global.uiTokens = fs.readFileSync(
+      path.resolve('src/style/themes/ui/tokens.scss'),
+      'utf-8'
+    )
+    global.carnegieTokens = fs.readFileSync(
+      path.resolve('src/style/themes/carnegie/tokens.scss'),
+      'utf-8'
+    )
+    global.foundation = fs.readFileSync(
+      path.resolve('src/style/themes/all-foundation.scss'),
+      'utf-8'
+    )
+  })
+  describe('Tokens snapshots for', () => {
+    it('sbanken', () => {
+      expect(global.sbankenTokens).toMatchSnapshot()
+    })
+    it('ui', () => {
+      expect(global.uiTokens).toMatchSnapshot()
+    })
+    it('carnegie', () => {
+      expect(global.carnegieTokens).toMatchSnapshot()
+    })
+    it('foundation', () => {
+      expect(global.foundation).toMatchSnapshot()
+    })
+  })
+
+  describe('Figma file generation', () => {
+    describe('transformFigmaAlias', () => {
+      it('generates css var', () => {
+        const val = {
+          targetVariableName: 'DNB/ColdGreen/600',
+          targetVariableSetName: 'Colors',
+        }
+
+        const result = transformFigmaAlias(val)
+        expect(result).toEqual('var(--dnb-coldgreen-600)')
+      })
+      it('checks set name', () => {
+        const val = {
+          targetVariableName: 'DNB/ColdGreen/600',
+          targetVariableSetName: 'Nonsense',
+        }
+
+        const result = transformFigmaAlias(val)
+        expect(result).toBeUndefined()
+      })
+    })
+
+    describe('transformFigmaValue', () => {
+      it('generates alias', () => {
+        const val = {
+          $type: 'color',
+          $value: {
+            alpha: 1,
+            hex: '#007272',
+          },
+          $extensions: {
+            'com.figma.aliasData': {
+              targetVariableName: 'DNB/ColdGreen/600',
+              targetVariableSetName: 'Colors',
+            },
+          },
+        }
+
+        const result = transformFigmaValue(val)
+        expect(result).toEqual('var(--dnb-coldgreen-600)')
+      })
+      it('generates color hex', () => {
+        const val = {
+          $type: 'color',
+          $value: {
+            alpha: 1,
+            hex: '#007272',
+          },
+        }
+
+        const result = transformFigmaValue(val)
+        expect(result).toEqual('#007272')
+      })
+      it('generates color alpha', () => {
+        const val = {
+          $type: 'color',
+          $value: {
+            alpha: 0.412345,
+            hex: '#007272',
+          },
+        }
+
+        const result = transformFigmaValue(val)
+        expect(result).toEqual('rgba(#007272, 0.41)')
+      })
+      it('throw error on unknown type', () => {
+        const val = {
+          $type: 'nonsense',
+          $value: 'Medium',
+        }
+
+        expect(() => transformFigmaValue(val)).toThrow()
+      })
+      it('skip string and number', () => {
+        expect(
+          transformFigmaValue({
+            $type: 'string',
+            $value: 'Medium',
+          })
+        ).toBeUndefined()
+
+        expect(
+          transformFigmaValue({
+            $type: 'number',
+            $value: 42,
+          })
+        ).toBeUndefined()
+      })
+    })
+
+    describe('transformFigmaKey', () => {
+      it('transforms unsupported characters', () => {
+        const result = transformFigmaKey('Font Size (Medium) onDark')
+        expect(result).toEqual('font_size__medium__ondark')
+      })
+      it('runs callback on each unsupported character', () => {
+        const callback = jest.fn()
+
+        const result = transformFigmaKey(
+          'Font Size (Medium) onDark',
+          callback
+        )
+        expect(callback).toHaveBeenCalledTimes(5)
+
+        expect(callback).toHaveBeenNthCalledWith(1, ' ')
+        expect(callback).toHaveBeenNthCalledWith(2, ' ')
+        expect(callback).toHaveBeenNthCalledWith(3, '(')
+        expect(callback).toHaveBeenNthCalledWith(4, ')')
+        expect(callback).toHaveBeenNthCalledWith(5, ' ')
+        expect(result).toEqual('font_size__medium__ondark')
+      })
+    })
+
+    describe('transformFigmaPath', () => {
+      it('transforms normally', () => {
+        const result = transformFigmaPath(['Colors', 'Primary', 'Dark'])
+        expect(result).toEqual('colors-primary-dark')
+      })
+      it('transforms each key', () => {
+        const result = transformFigmaPath(['Colo*rs', 'Prima?ry', 'Da(rk'])
+        expect(result).toEqual('colo_rs-prima_ry-da_rk')
+      })
+    })
+
+    describe('transformNamespace', () => {
+      it('transforms normally', () => {
+        const result = transformNamespace('token')
+        expect(result).toEqual('--token-')
+      })
+      it('transforms undefined', () => {
+        const result = transformNamespace(undefined)
+        expect(result).toEqual('--')
+      })
+    })
   })
 
   describe('Properties for ui', () => {
