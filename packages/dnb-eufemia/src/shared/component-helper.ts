@@ -5,7 +5,6 @@
 
 import React from 'react'
 
-import whatInput from 'what-input'
 import { warn } from './helpers'
 import { getClosestParent } from './helpers/getClosest'
 import { init } from './Eufemia'
@@ -25,7 +24,6 @@ export { getClosestParent, warn }
 init()
 
 // run component helper functions
-whatInput.specificKeys([9])
 defineNavigator()
 
 /** @private */

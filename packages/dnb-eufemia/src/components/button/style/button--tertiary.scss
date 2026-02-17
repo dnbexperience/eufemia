@@ -58,12 +58,12 @@
 
       // underline
       .dnb-button__text::after {
-        html[data-whatintent='touch'] & {
+        @media (hover: none) {
           transition: none;
           visibility: visible;
           opacity: 1;
         }
-        html:not([data-whatintent='touch']) & {
+        @media (hover: hover) {
           visibility: hidden;
         }
       }
@@ -145,11 +145,8 @@
       }
     }
 
-    // stylelint-disable-next-line
-    html[data-whatinput='keyboard']
-		// webkit fix
-		  &:hover:focus
-		  .dnb-button__text::after {
+    // webkit fix
+    &:hover:focus-visible .dnb-button__text::after {
       visibility: hidden;
     }
   }

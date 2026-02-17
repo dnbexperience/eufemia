@@ -398,16 +398,12 @@
 
   // General
   &__input:not([disabled]):focus-visible ~ &__button {
-    html[data-whatinput='keyboard'] & {
-      border: none;
-      background-color: var(--checkbox-color-background--focus);
-    }
+    border: none;
+    background-color: var(--checkbox-color-background--focus);
   }
 
   &__input:not([disabled]):focus-visible ~ &__gfx {
-    html[data-whatinput='keyboard'] & {
-      color: var(--checkbox-color-gfx--focus);
-    }
+    color: var(--checkbox-color-gfx--focus);
   }
 
   &__input:not([disabled]):focus-visible ~ &__button &__focus,
@@ -456,22 +452,20 @@
     color: var(--checkbox-color-gfx--error);
   }
 
-  &__status--error &__input:not([disabled]):focus ~ &__button,
-  &__status--error &__input:not([disabled]):focus:hover ~ &__button {
-    html[data-whatinput='keyboard'] & {
-      border: none;
-      background-color: var(--checkbox-color-background--error-contrast);
-      @include fakeBorder(
-        var(--checkbox-color-border--error),
-        calc(var(--checkbox-border-width--hover))
-      );
-    }
+  &__status--error &__input:not([disabled]):focus-visible ~ &__button,
+  &__status--error
+    &__input:not([disabled]):focus-visible:hover
+    ~ &__button {
+    border: none;
+    background-color: var(--checkbox-color-background--error-contrast);
+    @include fakeBorder(
+      var(--checkbox-color-border--error),
+      calc(var(--checkbox-border-width--hover))
+    );
   }
 
-  &__status--error &__input:not([disabled]):focus:hover ~ &__gfx {
-    html[data-whatinput='keyboard'] & {
-      color: var(--checkbox-color-gfx--error-contrast);
-    }
+  &__status--error &__input:not([disabled]):focus-visible:hover ~ &__gfx {
+    color: var(--checkbox-color-gfx--error-contrast);
   }
 
   // On

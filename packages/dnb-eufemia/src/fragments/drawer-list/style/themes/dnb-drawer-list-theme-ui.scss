@@ -166,9 +166,7 @@
     }
 
     // show focus border when using keyboard
-    html[data-whatinput='keyboard']
-      &--selected#{&}--focus
-      &__inner::before {
+    &--selected#{&}--focus &__inner::before {
       visibility: visible;
 
       @include fakeBorder(

@@ -281,7 +281,7 @@
     transition: padding 1s var(--easing-default);
   }
 
-  html[data-whatinput='keyboard'] &__button__snap {
+  &__button__snap {
     &:first-of-type.focus {
       // add space so the focus ring is visible within our overflow
       .dnb-tabs__button:focus {

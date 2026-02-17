@@ -12,22 +12,21 @@
   box-shadow: var(--shadow-sharp);
 }
 
-// Uses html:not([data-whatintent='touch'] )
-// classes on <html> element
-// based on js touch device test
+// Uses @media (hover: hover) to detect non-touch devices
 @mixin hover() {
-  html:not([data-whatintent='touch']) &:hover {
-    &[disabled] {
-      cursor: not-allowed;
-    }
-    &:not([disabled]) {
-      @content;
+  @media (hover: hover) {
+    &:hover {
+      &[disabled] {
+        cursor: not-allowed;
+      }
+      &:not([disabled]) {
+        @content;
+      }
     }
   }
 }
 @mixin active() {
-  &:active,
-  html:not([data-whatintent='touch']) &:active {
+  &:active {
     &[disabled] {
       cursor: not-allowed;
     }
@@ -39,7 +38,7 @@
 }
 
 @mixin focus-visible() {
-  html:not([data-whatintent='touch']) &:focus-visible {
+  &:focus-visible {
     &[disabled] {
       cursor: not-allowed;
     }
@@ -51,8 +50,7 @@
 }
 
 @mixin focus() {
-  &:focus,
-  html:not([data-whatintent='touch']) &:focus {
+  &:focus {
     &[disabled] {
       cursor: not-allowed;
     }
@@ -70,12 +68,28 @@
 }
 
 @mixin whatInput($whatinput: null) {
-  html[data-whatinput='#{$whatinput}'] & {
+  @if $whatinput == 'keyboard' {
+    &:focus-visible {
+      @content;
+    }
+  } @else if $whatinput == 'mouse' {
+    &:focus:not(:focus-visible) {
+      @content;
+    }
+  } @else {
     @content;
   }
 }
 @mixin whatInputNot($whatinput: null) {
-  html:not([data-whatinput='#{$whatinput}']) & {
+  @if $whatinput == 'keyboard' {
+    &:focus:not(:focus-visible) {
+      @content;
+    }
+  } @else if $whatinput == 'mouse' {
+    &:focus-visible {
+      @content;
+    }
+  } @else {
     @content;
   }
 }
@@ -88,30 +102,16 @@
 ) {
   outline: none;
 
-  @if $whatinput == null {
-    $whatinput: 'keyboard';
-  }
   @if $color == null {
     $color: var(--focus-ring-color);
   }
 
-  @if $whatinput == 'always' {
-    @include fakeBorder(
-      $color,
-      var(--focus-ring-width),
-      $inset,
-      $extendShadow: $extendShadow
-    );
-  } @else {
-    @include whatInput($whatinput) {
-      @include fakeBorder(
-        $color,
-        var(--focus-ring-width),
-        $inset,
-        $extendShadow: $extendShadow
-      );
-    }
-  }
+  @include fakeBorder(
+    $color,
+    var(--focus-ring-width),
+    $inset,
+    $extendShadow: $extendShadow
+  );
 }
 
 @mixin removeFocusRing($whatinput: null, $replace: none) {
@@ -119,9 +119,11 @@
 
   @if $whatinput == null {
     box-shadow: $replace;
-  }
-
-  html[data-whatinput='#{$whatinput}'] & {
+  } @else if $whatinput == 'keyboard' {
+    &:focus-visible {
+      box-shadow: $replace;
+    }
+  } @else {
     box-shadow: $replace;
   }
 }

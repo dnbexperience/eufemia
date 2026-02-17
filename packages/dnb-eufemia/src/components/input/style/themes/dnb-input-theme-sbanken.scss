@@ -84,17 +84,15 @@
       --input-button-border-color: var(--input-border-color--active);
       --input-button-border-radius: var(--input-border-radius--active);
 
-      html[data-whatinput='keyboard'] & {
+      &:has(:focus-visible) {
         --input-button-border-color: var(--input-border-color--focus);
         --input-button-border-width: var(--input-border-width--focus);
       }
 
-      &.dnb-input__status--error {
-        html[data-whatinput='keyboard'] & {
-          --input-button-border-color: var(
-            --input-border-color__error--focus
-          );
-        }
+      &.dnb-input__status--error:has(:focus-visible) {
+        --input-button-border-color: var(
+          --input-border-color__error--focus
+        );
       }
     }
 

@@ -257,8 +257,8 @@
       @include focusRing();
     }
 
-    html[data-whatinput='mouse'] &:not([disabled]):focus,
-    html[data-whatinput='mouse'] &:not([disabled]):active {
+    &:not([disabled]):focus:not(:focus-visible),
+    &:not([disabled]):active:not(:focus-visible) {
       box-shadow: none;
       color: inherit;
       border: none;

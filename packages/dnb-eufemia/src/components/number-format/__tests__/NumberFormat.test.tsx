@@ -841,8 +841,18 @@ describe('NumberFormat component', () => {
   })
 
   it('should not call setFocus on touch devices', async () => {
-    // Simulate touch device
-    document.documentElement.setAttribute('data-whatintent', 'touch')
+    // Simulate touch device via matchMedia
+    const originalMatchMedia = window.matchMedia
+    window.matchMedia = jest.fn().mockImplementation((query) => ({
+      matches: query === '(hover: none)',
+      media: query,
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+    }))
+    Object.defineProperty(window, 'ontouchstart', {
+      value: jest.fn(),
+      configurable: true,
+    })
 
     render(<NumberFormat selectall value={1234568} />)
 
@@ -871,7 +881,8 @@ describe('NumberFormat component', () => {
     focusSpy.mockRestore()
 
     // Clean up
-    document.documentElement.removeAttribute('data-whatintent')
+    delete (window as any).ontouchstart
+    window.matchMedia = originalMatchMedia
   })
 
   it('should not call setFocus when text is already selected', async () => {

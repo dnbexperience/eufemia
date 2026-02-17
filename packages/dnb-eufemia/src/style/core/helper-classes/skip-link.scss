@@ -105,6 +105,8 @@
 .dnb-skip-link:focus {
   @include skipLink();
 }
-html[data-whatintent='touch'] .dnb-skip-link {
-  display: none;
+@media (hover: none) {
+  .dnb-skip-link {
+    display: none;
+  }
 }

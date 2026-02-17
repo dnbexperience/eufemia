@@ -16,14 +16,12 @@ import {
  * Check if device is touch device or not
  */
 export function isTouchDevice() {
-  if (typeof document !== 'undefined') {
-    let intent = false
-    try {
-      intent = document.documentElement.getAttribute('data-whatintent')
-    } catch (e) {
-      //
-    }
-    return intent === 'touch'
+  if (typeof window !== 'undefined') {
+    return (
+      'ontouchstart' in window ||
+      navigator.maxTouchPoints > 0 ||
+      window.matchMedia?.('(hover: none)')?.matches === true
+    )
   }
   return false
 }

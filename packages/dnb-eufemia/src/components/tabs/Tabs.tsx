@@ -27,7 +27,6 @@ import {
   skeletonDOMAttributes,
 } from '../skeleton/SkeletonHelper'
 import Button from '../button/Button'
-import whatInput from 'what-input'
 import CustomContent from './TabsCustomContent'
 import ContentWrapper from './TabsContentWrapper'
 import { createSharedState } from '../../shared/helpers/useSharedState'
@@ -797,11 +796,11 @@ export default class Tabs extends React.PureComponent<TabsProps> {
   }
 
   setWhatInput() {
-    whatInput.specificKeys([9, 37, 39, 33, 34, 35, 36])
+    // No-op: :focus-visible handles keyboard detection natively
   }
 
   resetWhatInput() {
-    whatInput.specificKeys([9])
+    // No-op: :focus-visible handles keyboard detection natively
   }
 
   setFocusOnTabButton = () => {

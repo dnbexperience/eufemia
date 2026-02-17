@@ -45,13 +45,42 @@ afterAll(() => {
 })
 
 describe('"isTouchDevice" should', () => {
-  it('return false if what-input did not run', () => {
+  it('return false if not a touch device', () => {
+    const originalOntouchstart = window.ontouchstart
+    const originalMaxTouchPoints = navigator.maxTouchPoints
+    delete window.ontouchstart
+    Object.defineProperty(navigator, 'maxTouchPoints', {
+      value: 0,
+      configurable: true,
+    })
+    window.matchMedia = jest.fn().mockReturnValue({ matches: false })
+
     expect(isTouchDevice()).toBe(false)
+
+    window.ontouchstart = originalOntouchstart
+    Object.defineProperty(navigator, 'maxTouchPoints', {
+      value: originalMaxTouchPoints,
+      configurable: true,
+    })
   })
-  it('return true if device is touch', () => {
-    document.documentElement.setAttribute('data-whatintent', 'touch')
+  it('return true if device has ontouchstart', () => {
+    Object.defineProperty(window, 'ontouchstart', {
+      value: jest.fn(),
+      configurable: true,
+    })
     expect(isTouchDevice()).toBe(true)
-    document.documentElement.removeAttribute('data-whatintent')
+    delete window.ontouchstart
+  })
+  it('return true if device has maxTouchPoints', () => {
+    Object.defineProperty(navigator, 'maxTouchPoints', {
+      value: 2,
+      configurable: true,
+    })
+    expect(isTouchDevice()).toBe(true)
+    Object.defineProperty(navigator, 'maxTouchPoints', {
+      value: 0,
+      configurable: true,
+    })
   })
 })
 

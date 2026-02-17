@@ -444,23 +444,23 @@ button .dnb-form-status__text {
   text-align: inherit;
   line-height: inherit;
 }
-html:not([data-whatintent=touch]) .dnb-button--reset:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-button--reset:hover:not([disabled]) {
-  box-shadow: none;
-  border: none;
+@media (hover: hover) {
+  .dnb-button--reset:hover[disabled] {
+    cursor: not-allowed;
+  }
+  .dnb-button--reset:hover:not([disabled]) {
+    box-shadow: none;
+    border: none;
+  }
 }
 .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
   outline: none;
-}
-html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):active {
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):active {
+.dnb-button--reset:not([disabled]):focus:not(:focus-visible), .dnb-button--reset:not([disabled]):active:not(:focus-visible) {
   box-shadow: none;
   color: inherit;
   border: none;
@@ -733,8 +733,6 @@ button .dnb-form-status__text {
 .dnb-slider__marker:focus {
   outline: none;
   outline: none;
-}
-html[data-whatinput=keyboard] .dnb-slider__marker:focus {
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
@@ -871,8 +869,6 @@ html[data-visual-test] .dnb-slider__thumb, html[data-visual-test] .dnb-slider__l
 }
 .dnb-slider__button-helper:not(:disabled):focus ~ .dnb-button {
   outline: none;
-}
-html[data-whatinput=keyboard] .dnb-slider__button-helper:not(:disabled):focus ~ .dnb-button {
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);

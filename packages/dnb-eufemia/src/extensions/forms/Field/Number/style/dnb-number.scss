@@ -37,8 +37,7 @@
           // Remove original border outline
           &,
           &:hover,
-          &:focus-within,
-          html[data-whatinput='keyboard'] &:focus-within {
+          &:focus-within {
             box-shadow: none;
           }
         }

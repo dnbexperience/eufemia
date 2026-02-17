@@ -444,23 +444,23 @@ button .dnb-form-status__text {
   text-align: inherit;
   line-height: inherit;
 }
-html:not([data-whatintent=touch]) .dnb-button--reset:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-button--reset:hover:not([disabled]) {
-  box-shadow: none;
-  border: none;
+@media (hover: hover) {
+  .dnb-button--reset:hover[disabled] {
+    cursor: not-allowed;
+  }
+  .dnb-button--reset:hover:not([disabled]) {
+    box-shadow: none;
+    border: none;
+  }
 }
 .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
   outline: none;
-}
-html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):active {
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):active {
+.dnb-button--reset:not([disabled]):focus:not(:focus-visible), .dnb-button--reset:not([disabled]):active:not(:focus-visible) {
   box-shadow: none;
   color: inherit;
   border: none;
@@ -881,13 +881,13 @@ button .dnb-form-status__text {
   --b-width: var(--input-border-width__error--hover);
   --b-inset: var(--input-border-inset--hover);
 }
-html[data-whatinput=keyboard] .dnb-input__border:focus-within {
+.dnb-input__border:focus-within:has(:focus-visible) {
   --b-color: var(--input-border-color--focus);
   --b-width: var(--input-border-width--focus);
   --b-inset: var(--input-border-inset--focus);
   --b-radius: var(--input-border-radius--focus);
 }
-html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus-within {
+.dnb-input__status--error .dnb-input__border:focus-within:has(:focus-visible) {
   --b-color: var(--input-border-color__error--focus);
   --b-width: var(--input-border-width--focus);
   --b-inset: var(--input-border-inset--focus);
@@ -1050,8 +1050,10 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 .dnb-input--clear.dnb-input__submit-element .dnb-button .dnb-button__icon {
   margin: auto;
 }
-html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .dnb-button:not(.dnb-button--has-text):hover[disabled] {
-  cursor: default;
+@media (hover: hover) {
+  .dnb-input--clear.dnb-input__submit-element .dnb-button:not(.dnb-button--has-text):hover[disabled] {
+    cursor: default;
+  }
 }
 .dnb-input--small .dnb-input--clear.dnb-input__submit-element .dnb-button {
   width: 1rem;
@@ -1210,17 +1212,19 @@ exports[`Input scss have to match default theme snapshot 1`] = `
   -webkit-text-fill-color: currentcolor;
   background-color: var(--color-black-3);
 }
-html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text,
-[disabled]):hover, html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text,
-[disabled]):hover::after, html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text,
-[disabled]):focus-visible, html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text,
-[disabled]):focus-visible::after {
-  background-color: var(--color-fire-red);
-}
-html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text,
-[disabled]):hover:active, html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text,
-[disabled]):focus-visible:active {
-  color: var(--color-white);
+@media (hover: hover) {
+  .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text,
+  [disabled]):hover, .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text,
+  [disabled]):hover::after, .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text,
+  [disabled]):focus-visible, .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text,
+  [disabled]):focus-visible::after {
+    background-color: var(--color-fire-red);
+  }
+  .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text,
+  [disabled]):hover:active, .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text,
+  [disabled]):focus-visible:active {
+    color: var(--color-white);
+  }
 }
 .dnb-input__icon {
   color: var(--color-sea-green);

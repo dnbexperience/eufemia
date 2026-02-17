@@ -167,13 +167,13 @@
     --b-width: var(--input-border-width__error--hover);
     --b-inset: var(--input-border-inset--hover);
   }
-  html[data-whatinput='keyboard'] &__border:focus-within {
+  &__border:focus-within:has(:focus-visible) {
     --b-color: var(--input-border-color--focus);
     --b-width: var(--input-border-width--focus);
     --b-inset: var(--input-border-inset--focus);
     --b-radius: var(--input-border-radius--focus);
   }
-  html[data-whatinput='keyboard'] &__status--error &__border:focus-within {
+  &__status--error &__border:focus-within:has(:focus-visible) {
     --b-color: var(--input-border-color__error--focus);
     --b-width: var(--input-border-width--focus);
     --b-inset: var(--input-border-inset--focus);
@@ -390,9 +390,10 @@
         margin: auto;
       }
 
-      html:not([data-whatintent='touch'])
+      @media (hover: hover) {
         &:not(.dnb-button--has-text):hover[disabled] {
-        cursor: default;
+          cursor: default;
+        }
       }
     }
   }
