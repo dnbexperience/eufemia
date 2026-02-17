@@ -249,6 +249,19 @@ export const CombineErrorMessages = () => {
   )
 }
 
+export const StatusPositionAbove = () => {
+  return (
+    <ComponentBox data-visual-test="forms-field-block-status-position-above">
+      <Field.String
+        label="Field with status above"
+        warning="Warning message"
+        info="Info message"
+        statusPosition="above"
+      />
+    </ComponentBox>
+  )
+}
+
 export const InlineHelpButtonVerticalLabel = () => {
   return (
     <ComponentBox data-visual-test="forms-field-block-help-button-vertical-label">

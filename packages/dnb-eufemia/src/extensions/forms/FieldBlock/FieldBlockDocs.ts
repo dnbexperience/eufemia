@@ -36,6 +36,11 @@ export const FieldBlockSharedProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  statusPosition: {
+    doc: 'Controls where status messages (`error`, `warning`, `info`) are visually shown. Use `below` (default) or `above`.',
+    type: ['"below"', '"above"'],
+    status: 'optional',
+  },
   layout: {
     doc: 'Layout for the label and input. Can be `horizontal` or `vertical`.',
     type: 'string',
