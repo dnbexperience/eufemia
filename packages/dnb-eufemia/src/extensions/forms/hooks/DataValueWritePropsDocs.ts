@@ -17,12 +17,12 @@ export const DataValueWritePropsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   info: {
-    doc: "Info message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
+    doc: 'Info message shown below / after the field by default. Use `statusPosition="above"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => \'Your message\', { showInitially: true })`',
     type: ['React.Node', 'Array<React.Node>', 'function'],
     status: 'optional',
   },
   warning: {
-    doc: "Warning message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
+    doc: 'Warning message shown below / after the field by default. Use `statusPosition="above"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => \'Your message\', { showInitially: true })`',
     type: ['React.Node', 'Array<React.Node>', 'function'],
     status: 'optional',
   },
