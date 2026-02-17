@@ -124,10 +124,10 @@ describe('Checkbox component', () => {
       })
     )
 
-    userEvent.type(checkbox, '{Space}')
+    await userEvent.type(checkbox, ' ')
 
     expect(checkbox.checked).toBe(false)
-    expect(onClick).toHaveBeenCalledTimes(2)
+    expect(onClick).toHaveBeenCalledTimes(4)
     expect(onClick).toHaveBeenLastCalledWith(
       expect.objectContaining({
         target: expect.objectContaining({
@@ -136,10 +136,10 @@ describe('Checkbox component', () => {
       })
     )
 
-    userEvent.type(checkbox, '{Space}')
+    await userEvent.type(checkbox, ' ')
 
     expect(checkbox.checked).toBe(false)
-    expect(onClick).toHaveBeenCalledTimes(2)
+    expect(onClick).toHaveBeenCalledTimes(6)
     expect(onClick).toHaveBeenLastCalledWith(
       expect.objectContaining({
         target: expect.objectContaining({

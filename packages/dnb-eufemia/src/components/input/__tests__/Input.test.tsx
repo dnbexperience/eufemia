@@ -198,7 +198,7 @@ describe('Input component', () => {
 
     // additional native event test
     fireEvent.keyDown(document.querySelector('input'), {
-      key: 'Space',
+      key: ' ',
     })
     expect(onKeyDown.mock.calls.length).toBe(1)
   })

@@ -111,7 +111,7 @@ describe('Textarea component', () => {
 
     // additional native event test
     fireEvent.keyDown(document.querySelector('textarea'), {
-      key: 'Space',
+      key: ' ',
     })
     await waitFor(() => {
       expect(onKeyDown.mock.calls.length).toBe(10)

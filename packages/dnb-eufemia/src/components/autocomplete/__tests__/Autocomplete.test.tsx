@@ -3572,7 +3572,7 @@ describe('Autocomplete component', () => {
         <Autocomplete onBlur={onBlur} data={mockData} {...mockProps} />
       )
 
-      await userEvent.type(inputElement(), '{Space}')
+      await userEvent.type(inputElement(), ' ')
 
       expect(mainElement().classList).toContain('dnb-autocomplete--open')
       expect(optionElement()).toBeInTheDocument()

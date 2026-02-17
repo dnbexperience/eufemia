@@ -254,7 +254,7 @@ export default function Switch(props: SwitchProps) {
 
   const onKeyDownHandler = useCallback(
     (event: KeyboardEvent) => {
-      switch (event.code) {
+      switch (event.key) {
         case 'Enter':
           onChangeHandler(event)
           break
