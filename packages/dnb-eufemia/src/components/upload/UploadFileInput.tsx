@@ -75,7 +75,7 @@ const UploadFileInput = ({
     <div className="dnb-upload__file-input-area">
       {filesAmountLimit !== files?.length && (
         <Button
-          top={variant === 'normal' ? 'medium' : undefined}
+          top={variant === 'default' ? 'medium' : undefined}
           id={`${sharedId}-input`}
           className="dnb-upload__file-input-button"
           icon={FolderIcon}

@@ -12,8 +12,8 @@ export const UploadProperties: PropertiesTableProps = {
     status: 'optional',
   },
   variant: {
-    doc: 'Defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.',
-    type: ['normal', 'compact'],
+    doc: 'Defines the appearance. Use one of these: `default` or `compact`. Defaults to `default`.',
+    type: ['default', 'compact'],
     status: 'optional',
   },
   acceptedFileTypes: {
