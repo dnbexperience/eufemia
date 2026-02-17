@@ -93,7 +93,7 @@ export const AccordionProperties: PropertiesTableProps = {
   },
   headingLevel: {
     doc: 'If `heading` is set to `true`, you can provide a numeric value to define a different heading level. Defaults to `2`.',
-    type: 'boolean',
+    type: ['1', '2', '3', '4', '5', '6'],
     status: 'optional',
   },
   disabled: {
