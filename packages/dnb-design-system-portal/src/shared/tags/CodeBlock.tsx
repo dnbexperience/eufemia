@@ -167,15 +167,11 @@ function LiveCode(props: LiveCodeProps) {
       typeof props.code === 'string' ? prepareCode(props.code) : ''
 
     if (code.trim().length === 0) {
-      return null
+      return 'No Code provided'
     }
 
     return code
   }, [props.code])
-
-  if (codeToUse === null) {
-    return <span>No Code provided</span>
-  }
 
   return (
     <div
