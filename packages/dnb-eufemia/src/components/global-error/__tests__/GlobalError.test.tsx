@@ -64,7 +64,7 @@ describe('GlobalError', () => {
       document.querySelector('.dnb-global-error__inner__content')
         .textContent
     ).toMatchInlineSnapshot(
-      `"Sorry, a technical error happened!The service is not working properly at the moment. Try again later.Error code: 500"`
+      `"Sorry, a technical error occurred!The service is not working properly at the moment. Try again later.Error code: 500"`
     )
   })
 
@@ -122,7 +122,7 @@ describe('GlobalError', () => {
         document.querySelector('.dnb-global-error__inner__content')
           .textContent
       ).toMatchInlineSnapshot(
-        `"Sorry, a technical error happened!The service is not working properly at the moment. Try again later.Error code: 500"`
+        `"Sorry, a technical error occurred!The service is not working properly at the moment. Try again later.Error code: 500"`
       )
     })
 

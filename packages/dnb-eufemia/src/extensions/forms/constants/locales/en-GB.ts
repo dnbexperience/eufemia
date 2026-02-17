@@ -179,7 +179,7 @@ export default {
         'Invalid D number. Enter a valid d-number with 11 digits.',
       errorMinimumAgeValidator: 'Must be at least {age} years of age.',
       errorMinimumAgeValidatorLength:
-        'Invalid birth of date. Enter a valid birth of date (incl. century digit) with 7 digits.',
+        'Invalid date of birth. Enter a valid date of birth (incl. century digit) with 7 digits.',
     },
     OrganizationNumber: {
       label: 'Organisation number',
@@ -193,7 +193,7 @@ export default {
       errorRequired: 'You must enter an account number.',
       errorBankAccountNumber: 'Invalid account number.',
       errorBankAccountNumberLength:
-        'Invalid account number. Enter a valid organisation number with 11 digits.',
+        'Invalid account number. Enter a valid account number with 11 digits.',
     },
     DateOfBirth: {
       label: 'Date of birth',
