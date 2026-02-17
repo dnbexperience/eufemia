@@ -21,6 +21,7 @@ import {
   isWin,
   isMac,
   isLinux,
+  getPlatformString,
   warn,
 } from '../helpers'
 
@@ -211,18 +212,68 @@ describe('"scrollToLocationHashId" should', () => {
 })
 
 describe('platform', () => {
+  it('"getPlatformString" should prefer userAgentData.platform', () => {
+    platformGetter.mockReturnValue('MacIntel')
+    Object.defineProperty(navigator, 'userAgentData', {
+      value: { platform: 'macOS' },
+      configurable: true,
+    })
+
+    expect(getPlatformString()).toBe('macOS')
+
+    Object.defineProperty(navigator, 'userAgentData', {
+      value: undefined,
+      configurable: true,
+    })
+
+    expect(getPlatformString()).toBe('MacIntel')
+  })
+
   it('"isMac" should result in true', () => {
     platformGetter.mockReturnValue('Mac')
     expect(isMac()).toBe(true)
   })
+
+  it('"isMac" should detect macOS from userAgentData', () => {
+    platformGetter.mockReturnValue('')
+    Object.defineProperty(navigator, 'userAgentData', {
+      value: { platform: 'macOS' },
+      configurable: true,
+    })
+
+    expect(isMac()).toBe(true)
+
+    Object.defineProperty(navigator, 'userAgentData', {
+      value: undefined,
+      configurable: true,
+    })
+  })
+
   it('"isWin" should result in true', () => {
     platformGetter.mockReturnValue('Win')
     expect(isWin()).toBe(true)
   })
+
+  it('"isWin" should detect Windows from userAgentData', () => {
+    platformGetter.mockReturnValue('')
+    Object.defineProperty(navigator, 'userAgentData', {
+      value: { platform: 'Windows' },
+      configurable: true,
+    })
+
+    expect(isWin()).toBe(true)
+
+    Object.defineProperty(navigator, 'userAgentData', {
+      value: undefined,
+      configurable: true,
+    })
+  })
+
   it('"isLinux" should result in true', () => {
     platformGetter.mockReturnValue('Linux')
     expect(isLinux()).toBe(true)
   })
+
   it('"isiOS" should result in true', () => {
     platformGetter.mockReturnValue('iPhone')
     expect(isiOS()).toBe(true)

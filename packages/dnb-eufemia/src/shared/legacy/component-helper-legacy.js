@@ -10,6 +10,7 @@ import {
   PLATFORM_MAC,
   PLATFORM_WIN,
   PLATFORM_LINUX,
+  getPlatformString,
 } from '../helpers'
 
 /**
@@ -40,15 +41,13 @@ export function defineNavigator() {
 
     try {
       if (!(typeof window !== 'undefined' && window.IS_TEST)) {
-        if (navigator.platform.match(new RegExp(PLATFORM_MAC)) !== null) {
+        const platform = getPlatformString()
+
+        if (platform.match(new RegExp(PLATFORM_MAC)) !== null) {
           document.documentElement.setAttribute('data-os', 'mac')
-        } else if (
-          navigator.platform.match(new RegExp(PLATFORM_WIN)) !== null
-        ) {
+        } else if (platform.match(new RegExp(PLATFORM_WIN)) !== null) {
           document.documentElement.setAttribute('data-os', 'win')
-        } else if (
-          navigator.platform.match(new RegExp(PLATFORM_LINUX)) !== null
-        ) {
+        } else if (platform.match(new RegExp(PLATFORM_LINUX)) !== null) {
           document.documentElement.setAttribute('data-os', 'linux')
         }
       } else {

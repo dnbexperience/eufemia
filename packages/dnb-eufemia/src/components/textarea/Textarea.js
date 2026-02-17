@@ -214,17 +214,19 @@ export default class Textarea extends React.PureComponent {
 
     try {
       if (typeof navigator !== 'undefined') {
+        const platform =
+          navigator.userAgentData?.platform || navigator.platform || ''
+
         this.resizeModifier =
           /Firefox|Edg/.test(navigator.userAgent) ||
-          (/Chrome/.test(navigator.userAgent) &&
-            /Win/.test(navigator.platform))
+          (/Chrome/.test(navigator.userAgent) && /Win/.test(platform))
             ? 'large'
             : false
 
         if (!this.resizeModifier) {
           this.resizeModifier =
             /Safari|Chrome/.test(navigator.userAgent) &&
-            /Mac/.test(navigator.platform)
+            /Mac/.test(platform)
               ? 'medium'
               : false
         }

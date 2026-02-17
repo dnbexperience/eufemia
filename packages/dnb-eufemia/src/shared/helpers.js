@@ -20,15 +20,27 @@ export let IS_MAC = false
 export let IS_ANDROID = false
 export let IS_LINUX = false
 
+/**
+ * Returns the platform string using the modern userAgentData API
+ * with a fallback to the deprecated navigator.platform.
+ */
+export function getPlatformString() {
+  if (typeof navigator === 'undefined') {
+    return ''
+  }
+
+  return navigator.userAgentData?.platform || navigator.platform || ''
+}
+
 export const isMac = () =>
   (IS_MAC =
     typeof navigator !== 'undefined' &&
-    new RegExp(PLATFORM_MAC, 'i').test(navigator?.platform))
+    new RegExp(PLATFORM_MAC, 'i').test(getPlatformString()))
 
 export const isWin = () =>
   (IS_WIN =
     typeof navigator !== 'undefined' &&
-    new RegExp(PLATFORM_WIN, 'i').test(navigator?.platform))
+    new RegExp(PLATFORM_WIN, 'i').test(getPlatformString()))
 
 export const isAndroid = () =>
   (IS_ANDROID =
@@ -38,12 +50,12 @@ export const isAndroid = () =>
 export const isLinux = () =>
   (IS_LINUX =
     typeof navigator !== 'undefined' &&
-    new RegExp(PLATFORM_LINUX, 'i').test(navigator?.platform))
+    new RegExp(PLATFORM_LINUX, 'i').test(getPlatformString()))
 
 export const isiOS = () =>
   (IS_IOS =
     typeof navigator !== 'undefined' &&
-    new RegExp(PLATFORM_IOS, 'i').test(navigator?.platform))
+    new RegExp(PLATFORM_IOS, 'i').test(getPlatformString()))
 
 export const isSafari = () =>
   (IS_SAFARI =
