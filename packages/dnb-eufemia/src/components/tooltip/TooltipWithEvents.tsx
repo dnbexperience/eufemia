@@ -310,7 +310,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         className={clsx(
           attributeClassName,
           'dnb-tooltip',
-          size && `dnb-tooltip--${size}`
+          size && size !== 'default' && `dnb-tooltip--${size}`
         )}
         theme="dark"
         id={internalId}
