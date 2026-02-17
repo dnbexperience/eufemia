@@ -229,10 +229,8 @@
     justify-content: space-between;
   }
 
-  // Use shared sticky navigation mixin
-  @include stickyNavigationBar('dnb-drawer');
+  @include modalStickyNav('dnb-drawer');
 
-  // Drawer-specific spacing for sticky navigation
   &--spacing &__navigation.dnb-section {
     margin: var(--drawer-spacing) 0;
     @include drawerSpacing();
