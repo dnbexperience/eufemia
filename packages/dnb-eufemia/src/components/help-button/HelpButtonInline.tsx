@@ -94,7 +94,7 @@ export default function HelpButtonInline(props: HelpButtonInlineProps) {
   const onKeyDownHandler = useCallback(
     (event: React.KeyboardEvent<HTMLButtonElement>) => {
       if (event.currentTarget === event.target) {
-        switch (event.key.trim() || event.code) {
+        switch (event.key) {
           case 'Escape':
             if (isOpen) {
               event.preventDefault()
@@ -216,13 +216,9 @@ export function HelpButtonInlineContent(
   const onKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLButtonElement>) => {
       if (event.currentTarget === event.target) {
-        // Firefox returns a whitespace (" ") on event.key when pressing space,
-        // therefore using .trim() can help normalize this.
-        // While userEvent.keyboard('{Space}') might return 'Unknown' on event.code,
-        // making a direct comparison less reliable across all platforms.
-        switch (event.key.trim() || event.code) {
+        switch (event.key) {
           case 'Enter':
-          case 'Space':
+          case ' ':
           case 'Escape':
             event.preventDefault()
             event.stopPropagation() // To make Modal/Dialog/Drawer not close as well
