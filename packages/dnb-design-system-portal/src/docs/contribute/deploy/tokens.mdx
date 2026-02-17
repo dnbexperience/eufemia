@@ -1,0 +1,75 @@
+---
+title: 'Figma tokens'
+---
+
+# Figma tokens
+
+Figma tokens are exported manually from the figma files and converted to css tokens in the build process. We only export colors for now. No sizes or typography.
+
+## Overview
+
+- Figma variables are not automatically updated.
+- We only export colors. Sizes and strings (typography) are skipped for now.
+- We only export the Foundation colors and light themes (DNB, Sbanken, Carnegie)
+
+## How to update
+
+### 1. Exporting Figma tokens
+
+We currently export the Figma variable collections for:
+
+- "Foundation" collection "Colors" (`Mode 1.tokens 5.json`)
+- "💻 Eufemia - Web" collection "Brand" with modes:
+  - "DNB Light" (`DNB Light.tokens.json`)
+  - "Sbanken Light" (`Sbanken Light.tokens.json`)
+  - "DNB Carnegie Light" (`DNB Carnegie Light.tokens.json`)
+
+These files are manually exported from Figma and placed in the `packages/dnb-eufemia/src/style/themes/figma` folder.
+
+Exporting is done by right clicking the collection name in Figma's variables table and clicking "Export Modes".
+
+### 2. Generate CSS files
+
+The CSS files are automatically generated during the "Prebuild" step by the `makePropertiesFile.ts` script (`packages/dnb-eufemia/scripts/prebuild/tasks/makePropertiesFile.ts`).
+
+#### Generate locally (manual)
+
+To generate the files manually you can run the command `yarn workspace @dnb/eufemia make-properties`.
+
+## Naming conventions/transforms
+
+Since Figma has different rules and limitations than CSS we have established some naming conventions to avoid errors.
+
+- only use alphanumeric characters. (a-z and 0-9)
+- Variables are not case-sensitive. (`onDark` and `ondark` are considered the same variable)
+- We use dashes (`-`) to separate groups and words.
+
+## How to use
+
+The css variables are imported in the `style/themes/XX/XX-theme-basis.scss` file and are therefore par of each themes basis import:
+
+```
+import '@dnb/eufemia/style/'
+import '@dnb/eufemia/style/themes/ui'
+import '@dnb/eufemia/style/themes/ui/basis'
+
+```
+
+### Transforms
+
+During the CSS generation, figma variables are converted to lower case. And groups are separated by dashes (`-`).
+(Any unsupported character is replaced by the placeholder character `_` and logs a warning in the console. These should be fixed in Figma.)
+
+We also add the prefix `token` to the variables from the `Brand` collection.
+
+### Example
+
+Figma variable: `Color/Dimmer/Action-Pressed-Subtle-OnDark`
+
+CSS-variable: `--token-color-dimmer-action-pressed-subtle-ondark`
+
+### Potential issues
+
+Even following all the rules, we still risk naming overlap since groups and words use the same separator in CSS `Color/Action/Pressed` and `Color/Action-Pressed` would map to the same variable.
+
+But these will at least be caught on build.
