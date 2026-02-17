@@ -106,43 +106,33 @@ type LiveCodeProps = {
   noFragments?: boolean
 } & Omit<CodeSectionProps, 'children'>
 
+function prepareCode(code: string) {
+  code = String(code).trim()
+  if (
+    /data-visual-test|visualTestProp/.test(code) &&
+    // remove test attribute only if: we run live, and are not not test
+    !globalThis.IS_TEST
+  ) {
+    code = code.replace(/\s+data-visual-test="[^"]*"/g, '') // remove test data
+    code = code.replace(/ +{\.+visualTestProp.*}\n/g, '') // remove test data
+  }
+  return code
+}
+
 function LiveCode(props: LiveCodeProps) {
   const context = React.useContext(Context)
   const editorElementRef = React.useRef<HTMLDivElement>(null)
   const idRef = React.useRef(makeUniqueId())
 
-  const prepareCode = React.useCallback((code: string) => {
-    code = String(code).trim()
-    if (
-      /data-visual-test|visualTestProp/.test(code) &&
-      // remove test attribute only if: we run live, and are not not test
-      !globalThis.IS_TEST
-    ) {
-      code = code.replace(/\s+data-visual-test="[^"]*"/g, '') // remove test data
-      code = code.replace(/ +{\.+visualTestProp.*}\n/g, '') // remove test data
-    }
-    return code
-  }, [])
-
   const [state, setState] = React.useState(() => {
-    const { code, hideToolbar, hideCode, hidePreview } = props
+    const { hideToolbar, hideCode, hidePreview } = props
     return {
-      code,
       hideToolbar,
       hideCode,
       hidePreview,
       tabMode: 'focus' as const,
     }
   })
-
-  React.useEffect(() => {
-    if (props.code !== state.code) {
-      setState((prev) => ({
-        ...prev,
-        code: prepareCode(props.code),
-      }))
-    }
-  }, [props.code, state.code, prepareCode])
 
   const toggleCode = () => {
     setState((prev) => ({ ...prev, hideCode: !prev.hideCode }))
@@ -170,13 +160,18 @@ function LiveCode(props: LiveCodeProps) {
     ...restProps
   } = props
 
-  const { code, hideToolbar, hideCode, hidePreview } = state
+  const { hideToolbar, hideCode, hidePreview } = state
 
-  const codeToUse = typeof code === 'string' ? prepareCode(code) : ''
+  const codeToUse = React.useMemo(() => {
+    const code =
+      typeof props.code === 'string' ? prepareCode(props.code) : ''
 
-  if (codeToUse.trim().length === 0) {
-    return <span>No Code provided</span>
-  }
+    if (code.trim().length === 0) {
+      return 'No Code provided'
+    }
+
+    return code
+  }, [props.code])
 
   return (
     <div
@@ -225,9 +220,6 @@ function LiveCode(props: LiveCodeProps) {
               id={idRef.current}
               tabMode={state.tabMode}
               className="dnb-live-editor__editable dnb-pre"
-              onChange={(code) => {
-                setState((prev) => ({ ...prev, code }))
-              }}
               onFocus={() => {
                 if (editorElementRef.current) {
                   editorElementRef.current.classList.add('dnb-pre--focus')
