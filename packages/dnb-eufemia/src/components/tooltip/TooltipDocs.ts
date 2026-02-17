@@ -57,8 +57,8 @@ export const TooltipProperties: PropertiesTableProps = {
     status: 'optional',
   },
   size: {
-    doc: 'Defines the spacing size of the tooltip. Can be `large` or `basis`. Defaults to `basis`.',
-    type: ['basis', 'large'],
+    doc: 'Defines the spacing size of the tooltip. Can be `large` or `default`. Defaults to `default`.',
+    type: ['default', 'large'],
     status: 'optional',
   },
   targetElement: {
