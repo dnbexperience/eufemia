@@ -3,8 +3,8 @@ import { toCamelCase } from '../../shared/component-helper'
 
 export const NumberFormatProperties: PropertiesTableProps = {
   value: {
-    doc: 'A number.',
-    type: 'number',
+    doc: 'A number or a string containing a number.',
+    type: ['number', 'string'],
     status: 'required',
   },
   locale: {
@@ -84,7 +84,7 @@ export const NumberFormatProperties: PropertiesTableProps = {
   },
   srLabel: {
     doc: 'Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.',
-    type: 'string',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   selectall: {

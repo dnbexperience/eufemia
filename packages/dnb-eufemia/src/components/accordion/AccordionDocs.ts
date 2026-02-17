@@ -37,8 +37,8 @@ export const AccordionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   variant: {
-    doc: 'Defines the used styling. `Outlined`, `filled`, or `plain` (no styling). Defaults to `outlined`.',
-    type: ['outlined', 'filled', 'plain'],
+    doc: 'Defines the used styling. `Outlined`, `filled`, `plain` (no styling), or `default`. Defaults to `outlined`.',
+    type: ['default', 'outlined', 'filled', 'plain'],
     status: 'optional',
   },
   icon: {
