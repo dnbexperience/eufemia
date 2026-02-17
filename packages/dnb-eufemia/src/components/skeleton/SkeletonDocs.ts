@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const SkeletonProperties: PropertiesTableProps = {
   show: {
-    doc: 'Use `true` to enable/show the skeleton for the component used inside. Defaults to `null`.',
+    doc: 'Use `true` to enable/show the skeleton for the component used inside. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
