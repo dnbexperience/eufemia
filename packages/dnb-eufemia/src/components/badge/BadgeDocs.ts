@@ -38,7 +38,13 @@ export const BadgeProperties: PropertiesTableProps = {
   },
   status: {
     doc: 'Defines the status color of the `"information"` variant. Has no effect on other variants. Default is `"default"`.',
-    type: ['"default"', '"success"', '"warning"', '"error"', '"neutral"'],
+    type: [
+      '"default"',
+      '"positive"',
+      '"warning"',
+      '"negative"',
+      '"neutral"',
+    ],
     status: 'optional',
   },
   subtle: {

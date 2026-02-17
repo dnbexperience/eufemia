@@ -106,10 +106,10 @@ export type SliderProps = {
   /**  will be called on state changes made by the user. The callback `value` and `rawValue` is a number `{ value, rawValue, event }`. But if the prop `numberFormat` is given, then it will return an additional `number` with the given format `{ value, number, rawValue, event }`. */
   onChange?: (props: onChangeEventProps) => void
 
-  /** will be called once the user stops dragging. Returns `{ event }`. */
+  /** Will be called once the user starts dragging. Returns `{ event }`. */
   onDragStart?: (props: { event: MouseEvent | TouchEvent }) => void
 
-  /** will be called once the user starts dragging. Returns `{ event }`. */
+  /** Will be called once the user stops dragging. Returns `{ event }`. */
   onDragEnd?: (props: { event: MouseEvent | TouchEvent }) => void
 
   children?: React.ReactChild
