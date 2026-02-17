@@ -32,7 +32,7 @@ export const FormStatusProperties: PropertiesTableProps = {
     status: 'optional',
   },
   icon: {
-    doc: 'The `icon` show before the status text. Defaults to `exclamation`.',
+    doc: 'The `icon` show before the status text. Defaults to `error`.',
     type: 'React.ReactNode',
     status: 'optional',
   },

@@ -22,8 +22,8 @@ export const FormLabelProperties: PropertiesTableProps = {
     status: 'optional',
   },
   size: {
-    doc: 'Define one of the following [heading sizes](/uilib/elements/heading/): `medium` or `large`.',
-    type: ['medium', 'large'],
+    doc: 'Define one of the following [heading sizes](/uilib/elements/heading/): `basis`, `medium` or `large`.',
+    type: ['basis', 'medium', 'large'],
     status: 'optional',
   },
   skeleton: {

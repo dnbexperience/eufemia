@@ -17,7 +17,7 @@ export const ToggleButtonGroupProperties: PropertiesTableProps = {
     status: 'optional',
   },
   layoutDirection: {
-    doc: 'Define the layout direction of the ToggleButton buttons. Can be either `column` or `row`. Defaults to `column`.',
+    doc: 'Define the layout direction of the ToggleButton buttons. Can be either `column` or `row`. Defaults to `row`.',
     type: ['column', 'row'],
     status: 'optional',
   },

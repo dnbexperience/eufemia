@@ -150,7 +150,7 @@ export const DatePickerProperties: PropertiesTableProps = {
   },
   labelAlignment: {
     doc: 'Sets the alignment of the label. Defaults to `left`.',
-    type: ['left', 'right'],
+    type: ['left', 'center', 'right'],
     status: 'optional',
   },
   onlyMonth: {
