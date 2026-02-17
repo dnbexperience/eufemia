@@ -1,44 +1,4 @@
 {
-  "800": {
-    "$type": "color",
-    "$value": {
-      "colorSpace": "srgb",
-      "components": [
-        0.22745098173618317,
-        0.22745098173618317,
-        0.2862745225429535
-      ],
-      "alpha": 1,
-      "hex": "#3A3A49"
-    },
-    "$extensions": {
-      "com.figma.variableId": "VariableID:3285:737",
-      "com.figma.scopes": [
-        "ALL_SCOPES"
-      ],
-      "com.figma.isOverride": true
-    }
-  },
-  "800 2": {
-    "$type": "color",
-    "$value": {
-      "colorSpace": "srgb",
-      "components": [
-        0.22745098173618317,
-        0.22745098173618317,
-        0.2862745225429535
-      ],
-      "alpha": 1,
-      "hex": "#3A3A49"
-    },
-    "$extensions": {
-      "com.figma.variableId": "VariableID:3285:741",
-      "com.figma.scopes": [
-        "ALL_SCOPES"
-      ],
-      "com.figma.isOverride": true
-    }
-  },
   "DNB": {
     "ColdGreen": {
       "50": {
