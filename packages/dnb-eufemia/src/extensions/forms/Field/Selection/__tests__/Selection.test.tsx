@@ -735,7 +735,7 @@ describe('variants', () => {
       expect(radioButtons[2]).not.toBeChecked()
 
       await userEvent.tab()
-      await userEvent.keyboard('{Space}')
+      await userEvent.keyboard(' ')
       expect(radioButtons[0]).toBeChecked()
       expect(radioButtons[1]).not.toBeChecked()
       expect(radioButtons[2]).not.toBeChecked()
