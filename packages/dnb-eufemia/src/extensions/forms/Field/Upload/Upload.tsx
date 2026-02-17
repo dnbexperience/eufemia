@@ -152,7 +152,7 @@ function UploadComponent(props: Props) {
   const {
     title = sharedTr.title,
     text = sharedTr.text,
-    variant = 'normal',
+    variant = 'default',
     acceptedFileTypes = ['pdf', 'png', 'jpg', 'jpeg'],
     filesAmountLimit = 100,
     fileMaxSize = 5,
