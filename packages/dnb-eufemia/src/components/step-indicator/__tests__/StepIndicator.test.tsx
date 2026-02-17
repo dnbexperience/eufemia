@@ -73,7 +73,7 @@ describe('StepIndicator in general', () => {
     )
   })
 
-  it('should support spacing props with no sidebar', () => {
+  it('should support spacing props in static mode', () => {
     render(
       <StepIndicator
         top="large"
@@ -108,7 +108,7 @@ describe('StepIndicator in general', () => {
     expect(element.getAttribute('aria-labelledby')).toBe('element')
   })
 
-  it('should support aria-labelledby with no sidebar', () => {
+  it('should support aria-labelledby in static mode', () => {
     render(
       <StepIndicator
         top="large"
@@ -437,7 +437,7 @@ describe('StepIndicator in loose mode', () => {
     ).toContain('3.Step CSteg 3 av 4')
   })
 
-  it('should render button when no Sidebar was found', () => {
+  it('should render trigger button', () => {
     const { rerender } = render(
       <StepIndicator
         currentStep={1}
