@@ -1142,16 +1142,19 @@ exports[`Button scss has to match theme css for ui 1`] = `
 .dnb-button--primary:focus[disabled] {
   cursor: not-allowed;
 }
-.dnb-button--primary:focus:not([disabled]):focus-visible {
-  color: var(--color-sea-green);
-  background-color: var(--color-white);
-}
 .dnb-button--primary:focus:not([disabled]) {
   outline: none;
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
+}
+.dnb-button--primary:focus-visible[disabled] {
+  cursor: not-allowed;
+}
+.dnb-button--primary:focus-visible:not([disabled]) {
+  color: var(--color-sea-green);
+  background-color: var(--color-white);
 }
 .dnb-button--primary:active[disabled] {
   cursor: not-allowed;
@@ -1196,16 +1199,19 @@ exports[`Button scss has to match theme css for ui 1`] = `
 .dnb-button--secondary:focus[disabled] {
   cursor: not-allowed;
 }
-.dnb-button--secondary:focus:not([disabled]):focus-visible {
-  color: var(--color-sea-green);
-  background-color: var(--color-white);
-}
 .dnb-button--secondary:focus:not([disabled]) {
   outline: none;
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
+}
+.dnb-button--secondary:focus-visible[disabled] {
+  cursor: not-allowed;
+}
+.dnb-button--secondary:focus-visible:not([disabled]) {
+  color: var(--color-sea-green);
+  background-color: var(--color-white);
 }
 .dnb-button--secondary:active[disabled] {
   cursor: not-allowed;
@@ -1252,16 +1258,19 @@ exports[`Button scss has to match theme css for ui 1`] = `
 .dnb-button--secondary:not(.dnb-button--has-text):focus[disabled] {
   cursor: not-allowed;
 }
-.dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]):focus-visible {
-  color: var(--color-emerald-green);
-  background-color: var(--color-white);
-}
 .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
   outline: none;
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
+}
+.dnb-button--secondary:not(.dnb-button--has-text):focus-visible[disabled] {
+  cursor: not-allowed;
+}
+.dnb-button--secondary:not(.dnb-button--has-text):focus-visible:not([disabled]) {
+  color: var(--color-emerald-green);
+  background-color: var(--color-white);
 }
 .dnb-button--secondary:not(.dnb-button--has-text):active[disabled] {
   cursor: not-allowed;
@@ -1374,16 +1383,19 @@ exports[`Button scss has to match theme css for ui 1`] = `
 .dnb-button--signal:focus[disabled] {
   cursor: not-allowed;
 }
-.dnb-button--signal:focus:not([disabled]):focus-visible {
-  color: var(--color-ocean-green);
-  background-color: var(--color-accent-yellow);
-}
 .dnb-button--signal:focus:not([disabled]) {
   outline: none;
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
+}
+.dnb-button--signal:focus-visible[disabled] {
+  cursor: not-allowed;
+}
+.dnb-button--signal:focus-visible:not([disabled]) {
+  color: var(--color-ocean-green);
+  background-color: var(--color-accent-yellow);
 }
 .dnb-button--signal:active[disabled] {
   cursor: not-allowed;

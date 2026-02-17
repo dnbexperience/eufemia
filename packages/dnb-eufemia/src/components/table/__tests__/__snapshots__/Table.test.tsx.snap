@@ -818,14 +818,14 @@ html:not([data-visual-test]) .dnb-table > thead > tr > th.dnb-table--sortable .d
 .dnb-table__tr--clickable.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):hover .dnb-table__td {
   background-color: var(--color-white);
 }
-.dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus td::before:focus-visible {
+.dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus-visible td::before {
   border-color: var(--focus-ring-color);
   border-width: var(--focus-ring-width);
 }
-.dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus td:first-of-type::before {
+.dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus-visible td:first-of-type::before {
   left: 0;
 }
-.dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus td:last-of-type::before {
+.dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus-visible td:last-of-type::before {
   right: 0;
 }
 .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled):active td::before {
@@ -851,10 +851,10 @@ html:not([data-visual-test]) .dnb-table > thead > tr > th.dnb-table--sortable .d
   border: none;
   border-top: var(--table-accordion-border);
 }
-.dnb-table__tr--clickable.dnb-table__tr.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus:not(:focus-visible) {
+.dnb-table__tr--clickable.dnb-table__tr.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):not(:active):not(:hover):not(:focus-visible) {
   background-color: var(--table-accordion-header-background);
 }
-.dnb-table__tr--clickable.dnb-table__tr.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus:not(:focus-visible) td::before {
+.dnb-table__tr--clickable.dnb-table__tr.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):not(:active):not(:hover):not(:focus-visible) td::before {
   border: none;
   border-top: var(--table-accordion-border);
 }

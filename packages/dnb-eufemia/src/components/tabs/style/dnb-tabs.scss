@@ -272,31 +272,29 @@
 
     &:first-of-type {
       padding-left: 0;
+
+      &.focus {
+        // add space so the focus ring is visible within our overflow
+        .dnb-tabs__button:focus {
+          margin-left: 0.5rem;
+        }
+      }
     }
     &:last-of-type {
       padding-right: 0.5rem;
+
+      &.focus {
+        // add space so the focus ring is visible within our overflow
+        /* stylelint-disable */
+        .dnb-tabs__button:focus {
+          margin-right: 0.5rem;
+        }
+        /* stylelint-enable */
+      }
     }
 
     will-change: padding;
     transition: padding 1s var(--easing-default);
-  }
-
-  &__button__snap {
-    &:first-of-type.focus {
-      // add space so the focus ring is visible within our overflow
-      .dnb-tabs__button:focus {
-        margin-left: 0.5rem;
-      }
-    }
-
-    &:last-of-type.focus {
-      // add space so the focus ring is visible within our overflow
-      /* stylelint-disable */
-      .dnb-tabs__button:focus {
-        margin-right: 0.5rem;
-      }
-      /* stylelint-enable */
-    }
   }
 
   &__cached {

@@ -306,15 +306,11 @@ html:not([data-visual-test]) .dnb-tabs__tabs__tablist {
 .dnb-tabs__button__snap:first-of-type {
   padding-left: 0;
 }
-.dnb-tabs__button__snap:last-of-type {
-  padding-right: 0.5rem;
-}
-.dnb-tabs__button__snap {
-  will-change: padding;
-  transition: padding 1s var(--easing-default);
-}
 .dnb-tabs__button__snap:first-of-type.focus .dnb-tabs__button:focus {
   margin-left: 0.5rem;
+}
+.dnb-tabs__button__snap:last-of-type {
+  padding-right: 0.5rem;
 }
 .dnb-tabs__button__snap:last-of-type.focus {
   /* stylelint-disable */
@@ -324,6 +320,10 @@ html:not([data-visual-test]) .dnb-tabs__tabs__tablist {
 }
 .dnb-tabs__button__snap:last-of-type.focus {
   /* stylelint-enable */
+}
+.dnb-tabs__button__snap {
+  will-change: padding;
+  transition: padding 1s var(--easing-default);
 }
 .dnb-tabs__cached {
   opacity: 1;
