@@ -124,7 +124,7 @@ export const SeaGreen = () => (
   <ComponentBox hideCode data-visual-test="section-sea-green">
     <Section
       innerSpace={{ top: 'large', bottom: 'large' }}
-      style_type="sea-green"
+      backgroundColor="sea-green"
     >
       <P space={0}>
         Visual Section: <Anchor href="#">sea-green</Anchor>
@@ -137,7 +137,7 @@ export const EmeraldGreen = () => (
   <ComponentBox hideCode data-visual-test="section-emerald-green">
     <Section
       innerSpace={{ top: 'medium', bottom: 'medium' }}
-      style_type="emerald-green"
+      backgroundColor="emerald-green"
     >
       <P space={0}>
         Visual Section: <Anchor href="#">emerald-green</Anchor>
@@ -203,7 +203,7 @@ export const FireRed = () => (
   <ComponentBox hideCode data-visual-test="section-fire-red">
     <Section
       innerSpace={{ top: 'large', bottom: 'large' }}
-      style_type="fire-red"
+      backgroundColor="fire-red"
     >
       <P space={0}>
         Visual Section: <Anchor href="#">fire-red</Anchor>
