@@ -168,9 +168,14 @@
   // Use shared sticky navigation mixin
   @include stickyNavigationBar('dnb-dialog');
 
-  // Dialog-specific spacing for sticky navigation
+  // Remove default margins from navigation to avoid extra spacing when no title
   &--spacing &__navigation.dnb-section {
-    margin: var(--spacing-medium) 0;
+    margin: 0;
+  }
+
+  // Only add spacing between navigation and title when title exists
+  &--spacing &__navigation.dnb-section + &__title {
+    margin-top: var(--spacing-medium);
   }
 
   // Dialog-specific shadow height override
