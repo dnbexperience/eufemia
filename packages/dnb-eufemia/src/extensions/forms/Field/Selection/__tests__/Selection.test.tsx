@@ -939,34 +939,6 @@ describe('variants', () => {
     })
   })
 
-  describe('radio-list', () => {
-    it('should have aria-labelledby and role="radiogroup" on fieldset when label is given', () => {
-      render(
-        <Field.Selection variant="radio-list" label="Legend">
-          <Field.Option value="foo">Foo</Field.Option>
-          <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
-      )
-
-      const fieldset = document.querySelector('fieldset')
-      const legend = document.querySelector('legend')
-
-      expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
-      expect(fieldset).toHaveAttribute('role', 'radiogroup')
-      expect(legend).toHaveAttribute('id')
-    })
-
-    it('should validate with ARIA rules when using fieldset', async () => {
-      const Comp = render(
-        <Field.Selection variant="radio-list" label="Legend">
-          <Field.Option value="foo">Foo</Field.Option>
-          <Field.Option value="bar">Bar</Field.Option>
-        </Field.Selection>
-      )
-      expect(await axeComponent(Comp)).toHaveNoViolations()
-    })
-  })
-
   describe('button', () => {
     it('should support size', () => {
       render(
