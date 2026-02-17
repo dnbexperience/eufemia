@@ -1066,6 +1066,33 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
   flex-direction: row;
   justify-content: space-between;
 }
+.dnb-dialog--spacing .dnb-dialog__navigation.dnb-section {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 99;
+}
+.dnb-dialog--spacing .dnb-dialog__navigation.dnb-section.dnb-dialog__navigation--sticky {
+  z-index: 2999;
+}
+.dnb-dialog .dnb-dialog__navigation--sticky::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-shadow: var(--shadow-default);
+}
+.dnb-dialog .dnb-dialog__navigation:not(.dnb-dialog__navigation--sticky)::after {
+  color: transparent;
+}
+.dnb-dialog--spacing .dnb-dialog__navigation.dnb-section {
+  margin: var(--spacing-medium) 0;
+}
+.dnb-dialog .dnb-dialog__navigation--sticky::before {
+  margin: 0 -2rem;
+}
 html:not([data-visual-test]) .dnb-dialog {
   animation: show-modal var(--modal-animation-duration) ease-out;
 }
