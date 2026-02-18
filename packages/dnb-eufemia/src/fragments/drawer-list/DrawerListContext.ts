@@ -7,6 +7,7 @@ import React from 'react'
 import type { DrawerListProviderProps } from './DrawerListProvider'
 import { ContextProps } from '../../shared/Context'
 import {
+  DrawerListData,
   DrawerListDataAll,
   DrawerListGroupTitles,
   DrawerListInternalData,
@@ -25,9 +26,9 @@ export type DrawerListContextState = Omit<
   currentTitle?: string
   isOpen?: boolean
   /** used internally */
-  _data?: any
+  _data?: DrawerListData
   /** used internally */
-  _value?: any
+  _value?: string | number
   /** used internally to have a backup to look up what we got in the first place (array vs object) */
   rawData?: DrawerListDataAll
   /** the id of the current active-descendant for screen readers */
