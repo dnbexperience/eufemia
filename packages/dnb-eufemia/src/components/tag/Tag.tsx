@@ -101,7 +101,9 @@ export const defaultProps = {
 }
 
 const Tag = (
-  localProps: TagProps & SpacingProps & React.HTMLProps<HTMLElement>
+  localProps: TagProps &
+    SpacingProps &
+    Omit<React.HTMLProps<HTMLElement>, 'onClick'>
 ) => {
   // Every component should have a context
   const context = React.useContext(Context)
