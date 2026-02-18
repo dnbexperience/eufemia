@@ -47,7 +47,7 @@ import type { SpacingProps } from '../../shared/types'
 import type {
   DrawerListProps,
   DrawerListData,
-  DrawerListDataAll,
+  DrawerListInternalData,
 } from './DrawerList'
 
 export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
@@ -56,7 +56,7 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
     hasFocusOnElement?: boolean
     setData?: (
       data: DrawerListData,
-      cb?: () => void,
+      cb?: (data: DrawerListInternalData) => void,
       {
         overwriteOriginalData,
       }?: {
