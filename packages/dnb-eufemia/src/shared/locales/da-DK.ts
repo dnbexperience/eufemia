@@ -111,7 +111,7 @@ export default {
       ariaRole: 'Hjælp-knap',
     },
     Input: {
-      submitButtonTitle: 'Send ind knap',
+      submitButtonTitle: 'Indsend',
       clearButtonTitle: 'Nulstil',
     },
     Pagination: {

@@ -52,6 +52,14 @@ describe.each(['ui', 'sbanken'])('FieldBlock for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match status position above', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="forms-field-block-status-position-above"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match vertical help-button', async () => {
     const screenshot = await makeScreenshot({
       selector:

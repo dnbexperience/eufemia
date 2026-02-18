@@ -63,7 +63,7 @@ export default {
         text: 'Are you sure you have entered the correct address? Or have we messed with the links?',
       },
       500: {
-        title: 'Sorry, a technical error happened!',
+        title: 'Sorry, a technical error occurred!',
         text: 'The service is not working properly at the moment. Try again later.',
       },
       errorMessageCode: 'Error code: %statusCode',
@@ -96,7 +96,7 @@ export default {
     },
     Dialog: {
       declineText: 'Cancel',
-      confirmText: 'Approve',
+      confirmText: 'Confirm',
     },
     CopyOnClick: {
       clipboardCopy: 'Copied',

@@ -91,7 +91,7 @@ export default {
       indicatorLabel: 'Hämtar data ...',
     },
     Modal: {
-      dialogTitle: 'Separat Fönster',
+      dialogTitle: 'Separat fönster',
       closeTitle: 'Stäng',
     },
     Dialog: {
@@ -110,7 +110,7 @@ export default {
       ariaRole: 'Hjälp-knapp',
     },
     Input: {
-      submitButtonTitle: 'Skicka knapp',
+      submitButtonTitle: 'Skicka',
       clearButtonTitle: 'Återställ',
     },
     Pagination: {
@@ -127,7 +127,7 @@ export default {
     },
     StepIndicator: {
       overviewTitle: 'Stegöversikt',
-      stepTitle: 'Steg %step av %count',
+      stepTitle: 'Steg %step av %count:',
     },
     Slider: {
       addTitle: 'Öka (%s)',

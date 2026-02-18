@@ -120,6 +120,10 @@ export type SharedFieldBlockProps = {
    * Hide the help button that is normally rendered beside the label.
    */
   hideHelpButton?: boolean
+  /**
+   * Controls where status messages (error, warning, info) are visually shown.
+   */
+  statusPosition?: 'below' | 'above'
 }
 
 export type Props<Value = unknown> = SharedFieldBlockProps &
@@ -174,6 +178,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
     labelHeight,
     help,
     hideHelpButton,
+    statusPosition,
     asFieldset,
     required,
     info,
@@ -463,6 +468,8 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
         hasCustomContentWidth ? 'custom' : contentWidth
       }`,
     labelHeight && `dnb-forms-field-block--label-height-${labelHeight}`,
+    statusPosition === 'above' &&
+      'dnb-forms-field-block--status-position-above',
     composition && 'dnb-forms-field-block__composition',
     composition &&
       `dnb-forms-field-block__composition--${

@@ -1031,6 +1031,32 @@ describe('FieldBlock', () => {
       })
     })
 
+    describe('statusPosition prop', () => {
+      it('should add status position class on FieldBlock', () => {
+        render(
+          <FieldBlock info={blockInfo} statusPosition="above">
+            content
+          </FieldBlock>
+        )
+
+        const element = document.querySelector('.dnb-forms-field-block')
+
+        expect(element).toHaveClass(
+          'dnb-forms-field-block--status-position-above'
+        )
+      })
+
+      it('should forward statusPosition in Field.String', () => {
+        render(<Field.String info={blockInfo} statusPosition="above" />)
+
+        const element = document.querySelector('.dnb-forms-field-block')
+
+        expect(element).toHaveClass(
+          'dnb-forms-field-block--status-position-above'
+        )
+      })
+    })
+
     describe('summarize errors', () => {
       it('should summarize errors in one FormStatus component', () => {
         const MockComponent = () => {
