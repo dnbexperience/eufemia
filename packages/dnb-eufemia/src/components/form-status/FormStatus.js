@@ -58,7 +58,7 @@ export default class FormStatus extends React.PureComponent {
       PropTypes.string,
       PropTypes.oneOf(['error', 'warning', 'info', 'marketing']),
     ]),
-    variant: PropTypes.oneOf(['flat', 'outlined']),
+    variant: PropTypes.oneOf(['plain', 'outlined']),
     size: PropTypes.oneOf(['default', 'large']),
     globalStatus: PropTypes.shape({
       id: PropTypes.string,

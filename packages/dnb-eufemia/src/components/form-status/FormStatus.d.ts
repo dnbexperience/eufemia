@@ -16,7 +16,7 @@ export type FormStatusState =
   | 'info'
   | 'success'
   | 'marketing';
-export type FormStatusVariant = 'flat' | 'outlined';
+export type FormStatusVariant = 'plain' | 'outlined';
 export type FormStatusSize = 'default' | 'large';
 export type FormStatusAttributes = string | Record<string, unknown>;
 export type FormStatusChildren =
@@ -60,7 +60,7 @@ export interface FormStatusProps
    */
   state?: FormStatusState;
   /**
-   * As of now, there is the `flat` and the `outlined` variant. Defaults to `flat`.
+   * As of now, there is the `plain` and the `outlined` variant. Defaults to `plain`.
    */
   variant?: FormStatusVariant;
   /**
