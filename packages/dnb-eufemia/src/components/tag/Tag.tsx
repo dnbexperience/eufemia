@@ -67,14 +67,14 @@ export interface TagProps {
    * Handle the click event on 'tag' element
    * Default: null
    */
-  onClick?: React.MouseEventHandler<HTMLButtonElement>
+  onClick?: (args: { event: React.MouseEvent<HTMLButtonElement> }) => void
 
   /**
    * Handle the delete event on 'tag' element
    * Default: null
    * @deprecated Use `onClick` instead. With `variant='removable'`
    */
-  onDelete?: React.MouseEventHandler<HTMLButtonElement>
+  onDelete?: (args: { event: React.MouseEvent<HTMLButtonElement> }) => void
 
   /**
    * Handle the delete event on 'tag' element
