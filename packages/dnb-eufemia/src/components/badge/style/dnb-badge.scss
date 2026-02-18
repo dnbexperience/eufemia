@@ -40,7 +40,7 @@
   }
 
   &--variant-information {
-    --badge-information-color: var(--figma-color-text-neutral);
+    --badge-information-color: var(--token-color-text-neutral);
     padding: 0.125rem 0.5rem;
     border-radius: 0.5rem;
     background-color: var(--badge-information-bg);
@@ -89,61 +89,61 @@
   }
 
   &--status-default {
-    --badge-information-bg: var(--figma-color-decorative-first-subtle);
+    --badge-information-bg: var(--token-color-decorative-first-subtle);
 
     // subtle
     --badge-information-subtle-bg: var(
-      --figma-color-decorative-first-muted
+      --token-color-decorative-first-muted
     );
     --badge-information-subtle-border: var(
-      --figma-color-decorative-first-subtle
+      --token-color-decorative-first-subtle
     );
   }
 
   &--status-neutral {
-    --badge-information-bg: var(--figma-color-background-neutral-bold);
+    --badge-information-bg: var(--token-color-background-neutral-bold);
 
     // subtle
     --badge-information-subtle-bg: var(
-      --figma-color-background-neutral-subtle
+      --token-color-background-neutral-subtle
     );
     --badge-information-subtle-border: var(
-      --figma-color-stroke-neutral-bold
+      --token-color-stroke-neutral-bold
     );
   }
 
   &--status-positive {
-    --badge-information-bg: var(--figma-color-background-positive);
-    --badge-information-color: var(--figma-color-text-neutral-inverse);
+    --badge-information-bg: var(--token-color-background-positive);
+    --badge-information-color: var(--token-color-text-neutral-inverse);
 
     // subtle
     --badge-information-subtle-bg: var(
-      --figma-color-background-positive-subtle
+      --token-color-background-positive-subtle
     );
-    --badge-information-subtle-color: var(--figma-color-text-positive);
-    --badge-information-subtle-border: var(--figma-color-stroke-positive);
+    --badge-information-subtle-color: var(--token-color-text-positive);
+    --badge-information-subtle-border: var(--token-color-stroke-positive);
   }
 
   &--status-warning {
-    --badge-information-bg: var(--figma-color-background-warning);
+    --badge-information-bg: var(--token-color-background-warning);
 
     // subtle
     --badge-information-subtle-bg: var(
-      --figma-color-background-warning-subtle
+      --token-color-background-warning-subtle
     );
-    --badge-information-subtle-color: var(--figma-color-text-warning-bold);
-    --badge-information-subtle-border: var(--figma-color-stroke-warning);
+    --badge-information-subtle-color: var(--token-color-text-warning-bold);
+    --badge-information-subtle-border: var(--token-color-stroke-warning);
   }
 
   &--status-negative {
-    --badge-information-bg: var(--figma-color-background-error);
-    --badge-information-color: var(--figma-color-text-neutral-inverse);
+    --badge-information-bg: var(--token-color-background-error);
+    --badge-information-color: var(--token-color-text-neutral-inverse);
 
     // subtle
     --badge-information-subtle-bg: var(
-      --figma-color-background-error-subtle
+      --token-color-background-error-subtle
     );
-    --badge-information-subtle-color: var(--figma-color-text-destructive);
-    --badge-information-subtle-border: var(--figma-color-stroke-error);
+    --badge-information-subtle-color: var(--token-color-text-destructive);
+    --badge-information-subtle-border: var(--token-color-stroke-error);
   }
 }
