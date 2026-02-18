@@ -366,14 +366,14 @@ export const WithFileItemOptions = () => {
             >
               <Field.Upload
                 path="/myFiles"
-                fileHandler={mockFileHandler}
+                fileHandler={fileHandler}
                 required
               />
             </Form.Handler>
           )
         }
 
-        function mockFileHandler(newFiles: UploadValue) {
+        function fileHandler(newFiles: UploadValue) {
           return newFiles.map((file) => {
             file.errorMessage = 'File has a problem'
             file.description = 'File description'
@@ -482,7 +482,7 @@ export const WithOnValidationError = () => {
   return (
     <ComponentBox scope={{ createRequest }}>
       {() => {
-        function mockValidationErrorHandler(
+        function validationErrorHandler(
           invalidFiles: UploadValue
         ): UploadValue {
           return invalidFiles.map((file) => ({
@@ -493,7 +493,7 @@ export const WithOnValidationError = () => {
           }))
         }
 
-        async function mockFileHandler(
+        async function fileHandler(
           validFiles: UploadValue
         ): Promise<UploadValue> {
           const updatedFiles: UploadValue = []
@@ -511,7 +511,7 @@ export const WithOnValidationError = () => {
           return updatedFiles
         }
 
-        async function mockFileDelete({ fileItem }) {
+        async function onFileDelete({ fileItem }) {
           const request = createRequest()
           console.log('Deleting file:', fileItem.file.name)
           await request(1000) // Simulate delete
@@ -526,9 +526,9 @@ export const WithOnValidationError = () => {
                 acceptedFileTypes={['jpg', 'pdf', 'png']}
                 label="Upload documents"
                 labelDescription="Try uploading files larger than 1 MB or unsupported file types (e.g., .docx) to see validation error handling."
-                onValidationError={mockValidationErrorHandler}
-                fileHandler={mockFileHandler}
-                onFileDelete={mockFileDelete}
+                onValidationError={validationErrorHandler}
+                fileHandler={fileHandler}
+                onFileDelete={onFileDelete}
               />
               <Form.SubmitButton />
               <Tools.Log />
