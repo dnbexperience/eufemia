@@ -118,7 +118,7 @@ function DatePickerFooter({
     !showCancelButton &&
     !showResetButton
   ) {
-    return <></>
+    return null
   }
 
   return (

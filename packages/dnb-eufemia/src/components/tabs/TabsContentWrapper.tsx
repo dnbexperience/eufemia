@@ -61,7 +61,7 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
     } = this.props
 
     if (!children) {
-      return <></>
+      return null
     }
 
     const params = rest

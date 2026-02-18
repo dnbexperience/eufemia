@@ -17,7 +17,7 @@ const CardTypeText = ({ isCredit, skeleton }: CardTypeTextProps) => {
         createSkeletonClass('font', skeleton)
       )}
     >
-      <P className={'dnb-payment-card__card__type-text'}>{cardType}</P>
+      <P className="dnb-payment-card__card__type-text">{cardType}</P>
     </span>
   )
 }

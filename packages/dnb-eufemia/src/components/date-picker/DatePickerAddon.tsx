@@ -136,7 +136,7 @@ function DatePickerAddon(props: DatePickerAddonProps) {
   )
 
   if (!hasShortcuts && !renderElement) {
-    return <></>
+    return null
   }
 
   return (

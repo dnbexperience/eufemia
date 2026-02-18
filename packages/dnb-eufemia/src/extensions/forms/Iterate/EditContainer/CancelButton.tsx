@@ -81,7 +81,7 @@ export default function CancelButton(props: Props) {
   const wasNew = useWasNew({ isNew, containerMode })
 
   if (containerMode === 'edit' && arrayValue?.length === 0) {
-    return <></>
+    return null
   }
 
   if (wasNew) {

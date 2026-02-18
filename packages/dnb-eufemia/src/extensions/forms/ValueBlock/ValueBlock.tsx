@@ -168,7 +168,7 @@ function ValueBlock(localProps: Props) {
     isComposition && 'dnb-forms-value-block__composition--horizontal'
 
   if (hide) {
-    return <></>
+    return null
   }
 
   if (summaryListContext && !isCompositionInContextWithoutLabel) {
