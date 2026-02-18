@@ -41,10 +41,7 @@ export type TooltipProps = {
    */
   portalRootClass?: string
   targetSelector?: string
-  targetElement?:
-    | React.ReactNode
-    | React.RefObject<unknown>
-    | HTMLElement
+  targetElement?: React.ReactNode | React.RefObject<unknown> | HTMLElement
   /**
    * Forces the tooltip to stay open even when the hover state changes.
    */

@@ -242,14 +242,17 @@ function FlexContainer(props: Props) {
 function wrapChildren(props: Props, children: React.ReactNode) {
   return React.Children.toArray(children).map((child) => {
     if (
-      React.isValidElement(child) &&
+      React.isValidElement<any>(child) &&
       child.type['_supportsSpacingProps'] === 'children'
     ) {
-      const { key, ...childProps } = child.props
+      const childElement = child as React.ReactElement<any>
+      const { key, ...childProps } = childElement.props || {}
       return React.cloneElement(
-        child,
+        childElement,
         { key, ...childProps },
-        <FlexContainer {...props}>{child.props.children}</FlexContainer>
+        <FlexContainer {...props}>
+          {childElement.props.children}
+        </FlexContainer>
       )
     }
 

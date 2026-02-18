@@ -157,7 +157,8 @@ function WizardContainer(props: Props) {
   const bypassOnNavigation = validationMode === 'bypassOnNavigation'
 
   // - Handle shared state
-  const sharedStateRef = useRef<SharedStateReturn<WizardContextState>>(undefined)
+  const sharedStateRef =
+    useRef<SharedStateReturn<WizardContextState>>(undefined)
   sharedStateRef.current = useSharedState<WizardContextState>(
     hasContext && id ? createReferenceKey(id, 'wizard') : undefined
   )

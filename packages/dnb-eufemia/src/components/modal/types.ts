@@ -3,8 +3,6 @@ import type { CloseButtonProps } from './parts/CloseButton'
 import type { ButtonProps } from '../button/Button'
 import type { ModalRootProps } from './ModalRoot'
 
-export type ReactChildType = React.ReactNode | ((...args: any[]) => any)
-
 export type ModalFullscreen = 'auto' | boolean
 export type ModalAlignContent = 'left' | 'center' | 'centered' | 'right'
 export type ModalContainerPlacement = 'left' | 'right' | 'top' | 'bottom'
@@ -16,6 +14,7 @@ export type ModalTriggerVariant =
 export type ModalTriggerIconPosition = 'left' | 'right'
 export type ModalContentMinWidth = string | number
 export type ModalContentMaxWidth = string | number
+export type ModalOpenState = boolean
 
 export type TriggeredBy =
   | 'handler'
@@ -68,7 +67,7 @@ export interface ModalProps extends ModalRootProps {
   /**
    * The content which will appear when triggering the modal/drawer.
    */
-  children?: ReactChildType
+  children?: React.ReactNode | ((props: ModalProps) => React.ReactNode)
 
   /**
    * Omits default showing trigger button
@@ -124,7 +123,7 @@ export interface ModalProps extends ModalRootProps {
   /**
    * Provide a custom trigger component. Like trigger={<Anchor href="/" />}. It will set the focus on it when the modal/drawer gets closed.
    */
-  trigger?: ReactChildType
+  trigger?: React.ElementType
 
   /**
    * Send along custom HTML attributes or properties to the trigger button.
@@ -134,7 +133,7 @@ export interface ModalProps extends ModalRootProps {
   /**
    * The content which will appear when triggering the modal/drawer.
    */
-  modalContent?: ReactChildType
+  modalContent?: React.ReactNode | ((props: ModalProps) => React.ReactNode)
 
   /**
    * If true, the drawer will not open in a new DOM but directly in current DOM. Defaults to `false`.
@@ -153,20 +152,24 @@ export interface ModalProps extends ModalRootProps {
 }
 
 export interface ModalContentProps {
+  open?: boolean
+
   /**
    * The content which will appear when triggering the modal/drawer.
    */
-  modalContent?: ReactChildType
+  modalContent?:
+    | React.ReactNode
+    | ((props: ModalContentProps) => React.ReactNode)
 
   /**
    * The content which will appear in the bar, above the header, and side-by-side the close button.
    */
-  barContent?: ReactChildType
+  barContent?: React.ReactNode
 
   /**
    * The content which will appear in the header of the modal/drawer the modal/drawer.
    */
-  headerContent?: ReactChildType
+  headerContent?: React.ReactNode
   hide?: boolean
 
   /**
@@ -294,7 +297,9 @@ export interface ModalContentProps {
   /**
    * The content which will appear when triggering the modal/drawer.
    */
-  children?: ReactChildType
+  children?:
+    | React.ReactNode
+    | ((props: ModalContentProps) => React.ReactNode)
 
   /**
    * The displayed text for the 'close' button. Defaults to `Lukk`.

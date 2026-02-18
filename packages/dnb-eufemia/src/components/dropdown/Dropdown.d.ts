@@ -145,6 +145,6 @@ export default class Dropdown extends React.Component<
     children
   }: {
     children: React.ReactNode;
-  }) => JSX.Element;
-  render(): JSX.Element;
+  }) => React.JSX.Element;
+  render(): React.JSX.Element;
 }

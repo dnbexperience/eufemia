@@ -11,5 +11,5 @@ export class PaginationIndicator extends React.Component<
   PaginationIndicatorProps,
   any
 > {
-  render(): JSX.Element;
+  render(): React.JSX.Element;
 }

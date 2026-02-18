@@ -67,6 +67,16 @@ import {
   normalizeData,
 } from '../../fragments/drawer-list/DrawerListHelpers'
 
+const SubmitButtonComponent = SubmitButton as unknown as React.ElementType
+const FormStatusComponent = FormStatus as unknown as React.ElementType
+const InputComponent = Input as unknown as React.ElementType
+
+export type AutocompleteClearEvent = {
+  value: string
+  previousValue: string
+  event: React.SyntheticEvent | Event
+}
+
 type AutocompleteMode = 'sync' | 'async'
 type AutocompleteAlign = 'left' | 'right'
 type FormLabelLabelDirection = 'horizontal' | 'vertical'
@@ -94,11 +104,6 @@ type AutocompleteSearchMatch = 'word' | 'starts-with'
 export type AutocompleteData = DrawerListData
 export type AutocompleteOptionsRender = DrawerListOptionsRender
 
-export type AutocompleteClearEvent = {
-  value: string
-  previousValue: string
-  event: React.SyntheticEvent | Event
-}
 export type AutocompleteEventMethods = {
   attributes: Record<string, unknown>
   dataList: DrawerListData
@@ -386,7 +391,7 @@ export default class Autocomplete extends React.PureComponent<AutocompleteAllPro
     children,
   }: {
     children: React.ReactNode
-  }) => JSX.Element
+  }) => React.JSX.Element
   static _formElement: boolean
   static _supportsSpacingProps: boolean
 
@@ -2198,7 +2203,7 @@ class AutocompleteInstance extends React.PureComponent<
       submitButton = React.cloneElement(submitElement, triggerParams)
     } else if (isTrue(showSubmitButton)) {
       submitButton = (
-        <SubmitButton
+        <SubmitButtonComponent
           icon={submitButtonIcon as any}
           iconSize={iconSize || (size === 'large' ? 'medium' : 'default')}
           variant="secondary"
@@ -2247,7 +2252,7 @@ class AutocompleteInstance extends React.PureComponent<
         >
           <AlignmentHelper />
 
-          <FormStatus
+          <FormStatusComponent
             show={showStatus}
             id={id + '-form-status'}
             globalStatus={globalStatus}
@@ -2269,7 +2274,7 @@ class AutocompleteInstance extends React.PureComponent<
                   customInputParams
                 )
               ) : (
-                <Input
+                <InputComponent
                   icon={
                     visibleIndicator ? (
                       <ProgressIndicator

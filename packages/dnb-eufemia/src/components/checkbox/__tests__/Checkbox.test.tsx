@@ -365,7 +365,7 @@ describe('Checkbox component', () => {
     let ref: React.RefObject<HTMLInputElement>
 
     function MockComponent() {
-      ref = React.useRef()
+      ref = React.useRef<HTMLInputElement | null>(null)
       return <Checkbox id="unique" innerRef={ref} />
     }
 

@@ -175,7 +175,7 @@ describe('Switch component', () => {
     let ref: React.RefObject<HTMLInputElement>
 
     function MockComponent() {
-      ref = React.useRef()
+      ref = React.useRef<HTMLInputElement | null>(null)
       return <Switch {...props} innerRef={ref} />
     }
 

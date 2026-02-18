@@ -183,7 +183,7 @@ export default class Pagination extends React.Component<
   any
 > {
   static defaultProps: object;
-  render(): JSX.Element;
+  render(): React.JSX.Element;
 }
 type PaginationInstanceStartupPage = string | number;
 type PaginationInstanceCurrentPage = string | number;
@@ -367,7 +367,7 @@ declare class PaginationInstance extends React.Component<
   any
 > {
   static defaultProps: object;
-  render(): JSX.Element;
+  render(): React.JSX.Element;
 }
 type InfinityMarkerStartupPage = string | number;
 type InfinityMarkerCurrentPage = string | number;
@@ -546,7 +546,7 @@ export class InfinityMarker extends React.Component<
   any
 > {
   static defaultProps: object;
-  render(): JSX.Element;
+  render(): React.JSX.Element;
 }
 type PaginationContentChildren =
   | React.ReactNode
@@ -559,10 +559,10 @@ interface PaginationContentProps {
 }
 declare const PaginationContent: (
   props: PaginationContentProps
-) => JSX.Element;
+) => React.JSX.Element;
 export type CreatePaginationReturn = {
-  Pagination: (props?: Record<string, unknown>) => JSX.Element;
-  InfinityMarker: (props?: Record<string, unknown>) => JSX.Element;
+  Pagination: (props?: Record<string, unknown>) => React.JSX.Element;
+  InfinityMarker: (props?: Record<string, unknown>) => JReact.SX.Element;
   setContent: (pageNumber: number, content: React.ReactNode) => void;
   resetContent: () => void;
   resetInfinity: () => void;

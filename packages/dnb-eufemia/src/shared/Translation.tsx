@@ -33,12 +33,12 @@ const TranslationImpl = <T = TranslationCustomLocales,>({
 
 type TranslationFn = <T = TranslationCustomLocales>(
   props: TranslationProps<T>
-) => JSX.Element
+) => React.JSX.Element
 
 export type TranslationComponent = TranslationFn & {
   withTypes: <T = TranslationCustomLocales>() => (
     props: TranslationProps<T>
-  ) => JSX.Element
+  ) => React.JSX.Element
 }
 
 const Translation = TranslationImpl as unknown as TranslationComponent

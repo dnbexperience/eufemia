@@ -244,14 +244,18 @@ export function parseContentTitle(
     if (preferSelectedValue) {
       ret = String(
         convertJsxToString(dataItem.selectedValue, separator, (word) => {
+          const element = word as React.ReactElement<any>
           const nestedChildren =
-            !word.props.children &&
-            word?.type !== Icon &&
-            word?.type !== CountryFlag &&
-            typeof word?.type === 'function' &&
-            (word.type as () => React.ReactElement)()
+            !element.props.children &&
+            element?.type !== Icon &&
+            element?.type !== CountryFlag &&
+            typeof element?.type === 'function' &&
+            (element.type as () => React.ReactElement)()
 
-          return nestedChildren?.props?.children ? nestedChildren : word
+          return (nestedChildren as React.ReactElement<any>)?.props
+            ?.children
+            ? nestedChildren
+            : element
         })
       )
     } else if (!onlyNumericRegex.test(dataItem.selectedValue as string)) {

@@ -122,5 +122,5 @@ export interface TextareaProps
 }
 export default class Textarea extends React.Component<TextareaProps, any> {
   static defaultProps: object;
-  render(): JSX.Element;
+  render(): React.JSX.Element;
 }

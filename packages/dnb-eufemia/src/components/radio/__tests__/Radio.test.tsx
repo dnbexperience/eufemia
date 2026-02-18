@@ -184,7 +184,7 @@ describe('Radio ARIA', () => {
     let ref: React.RefObject<HTMLInputElement>
 
     function MockComponent() {
-      ref = React.useRef()
+      ref = React.useRef<HTMLInputElement | null>(null)
       return <Radio {...props} innerRef={ref} />
     }
 

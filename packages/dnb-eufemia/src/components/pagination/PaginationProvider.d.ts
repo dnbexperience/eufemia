@@ -38,5 +38,5 @@ export default class PaginationProvider extends React.Component<
   any
 > {
   static defaultProps: object;
-  render(): JSX.Element;
+  render(): React.JSX.Element;
 }

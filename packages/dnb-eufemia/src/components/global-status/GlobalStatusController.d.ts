@@ -10,7 +10,7 @@ export default class GlobalStatusController extends React.Component<
   any
 > {
   static defaultProps: object;
-  render(): JSX.Element;
+  render(): React.JSX.Element;
 }
 export interface GlobalStatusRemoveProps {
   id?: string;
@@ -21,7 +21,7 @@ export class GlobalStatusRemove extends React.Component<
   any
 > {
   static defaultProps: object;
-  render(): JSX.Element;
+  render(): React.JSX.Element;
 }
 export interface GlobalStatusInterceptorProps
   extends React.HTMLProps<HTMLElement> {
@@ -32,6 +32,6 @@ export class GlobalStatusInterceptor extends React.Component<
   any
 > {
   static defaultProps: object;
-  render(): JSX.Element;
+  render(): React.JSX.Element;
   add: (props: { statusId: string; item?: GlobalStatusItem }) => void;
 }

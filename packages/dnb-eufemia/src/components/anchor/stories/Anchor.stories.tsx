@@ -12,7 +12,7 @@ export default {
 }
 
 export const AnchorSandbox = () => {
-  const ref = React.useRef()
+  const ref = React.useRef<HTMLAnchorElement | null>(null)
   React.useEffect(() => {
     console.log('ref', ref.current)
   }, [])

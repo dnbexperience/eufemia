@@ -128,7 +128,7 @@ export default class PaymentCard extends React.Component<
   any
 > {
   static defaultProps: object;
-  render(): JSX.Element;
+  render(): React.JSX.Element;
 }
 type CardDataReturn = Omit<PaymentCardRawData, 'cardDesign'> & {
   cardDesign: CardDesign;

@@ -173,7 +173,7 @@ export interface InputProps
 }
 export default class Input extends React.Component<InputProps, any> {
   static defaultProps: object;
-  render(): JSX.Element;
+  render(): React.JSX.Element;
 }
 export interface SubmitButtonProps
   extends React.HTMLProps<HTMLButtonElement> {
@@ -220,5 +220,5 @@ export interface SubmitButtonProps
 }
 export class SubmitButton extends React.Component<SubmitButtonProps, any> {
   static defaultProps: object;
-  render(): JSX.Element;
+  render(): React.JSX.Element;
 }

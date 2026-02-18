@@ -41,7 +41,7 @@ export type PortalRootProviderProps =
 
 export function PortalRootProvider(
   props: PortalRootProviderProps
-): JSX.Element | null {
+): React.JSX.Element | null {
   const { id, insideSelector, beforeSelector, children } = props
 
   const value = useMemo(
@@ -56,7 +56,7 @@ export function PortalRootProvider(
   )
 }
 
-function PortalRoot(props: PortalRootProps = {}): JSX.Element {
+function PortalRoot(props: PortalRootProps = {}): React.JSX.Element {
   const {
     id: idProp,
     insideSelector: insideSelectorProp,
@@ -116,7 +116,7 @@ function PortalRoot(props: PortalRootProps = {}): JSX.Element {
       if (typeof innerRef === 'function') {
         innerRef(localRef.current)
       } else {
-        const ref = innerRef as React.RefObject<HTMLElement>
+        const ref = innerRef as React.MutableRefObject<HTMLElement | null>
         ref.current = localRef.current
       }
     }

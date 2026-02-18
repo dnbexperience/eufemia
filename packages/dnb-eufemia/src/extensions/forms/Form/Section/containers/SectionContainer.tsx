@@ -26,7 +26,7 @@ export type Props = {
   mode: ContainerMode
   open?: boolean | undefined
   ariaLabel?: string
-  omitFocusManagementRef?: React.RefObject<boolean>
+  omitFocusManagementRef?: React.MutableRefObject<boolean | undefined>
 } & SectionContainerProps
 
 function SectionContainer(props: Props & FlexContainerProps) {

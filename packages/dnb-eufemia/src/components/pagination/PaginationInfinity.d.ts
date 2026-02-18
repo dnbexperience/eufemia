@@ -10,7 +10,7 @@ export default class InfinityScroller extends React.Component<
   InfinityScrollerProps,
   any
 > {
-  render(): JSX.Element;
+  render(): React.JSX.Element;
 }
 export type InfinityLoadButtonElement =
   | Record<string, unknown>
@@ -31,5 +31,5 @@ export class InfinityLoadButton extends React.Component<
   InfinityLoadButtonProps,
   any
 > {
-  render(): JSX.Element;
+  render(): React.JSX.Element;
 }

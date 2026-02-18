@@ -120,7 +120,7 @@ function IsolationProvider<Data extends JsonObject>(
   const [, forceUpdate] = useReducer(() => ({}), {})
   const internalDataRef = useRef<Data>(undefined)
   const localDataRef = useRef<Partial<Data>>({})
-  const dataContextRef = useRef<ContextState>(null)
+  const dataContextRef = useRef<ContextState | null>(null)
   const outerContext = useContext(DataContext)
   const { path: pathSection } = useContext(SectionContext) || {}
   const { handlePathChange: handlePathChangeOuter, data: dataOuter } =
@@ -324,7 +324,9 @@ function IsolationProvider<Data extends JsonObject>(
             dataContextRef.current = dataContext
 
             if (commitHandleRef) {
-              commitHandleRef.current = dataContext?.handleSubmit
+              const mutableCommitHandleRef =
+                commitHandleRef as React.MutableRefObject<() => void>
+              mutableCommitHandleRef.current = dataContext?.handleSubmit
             }
 
             return <IsolatedContainer>{children} </IsolatedContainer>

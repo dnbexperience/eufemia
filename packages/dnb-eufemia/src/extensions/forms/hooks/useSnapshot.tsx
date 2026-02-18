@@ -7,7 +7,9 @@ import { SnapshotId, SnapshotName } from '../Form/Snapshot'
 import useData from '../Form/data-context/useData'
 
 export default function useSnapshot(id?: SharedStateId) {
-  const internalSnapshotsRef = useRef<Map<SnapshotId, JsonObject>>()
+  const internalSnapshotsRef = useRef<
+    Map<SnapshotId, JsonObject> | undefined
+  >(undefined)
   if (!internalSnapshotsRef.current) {
     internalSnapshotsRef.current = new Map()
   }

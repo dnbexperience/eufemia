@@ -45,6 +45,6 @@ export default class Skeleton extends React.Component<SkeletonProps, any> {
     children
   }: {
     children: React.ReactNode;
-  }) => JSX.Element;
-  render(): JSX.Element;
+  }) => React.JSX.Element;
+  render(): React.JSX.Element;
 }

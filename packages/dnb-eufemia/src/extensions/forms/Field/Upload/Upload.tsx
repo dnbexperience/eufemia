@@ -172,7 +172,7 @@ function UploadComponent(props: Props) {
     required: props.required,
   })
 
-  const filesRef = useRef<Array<UploadFile>>()
+  const filesRef = useRef<Array<UploadFile> | undefined>(undefined)
 
   useMemo(() => {
     filesRef.current = files

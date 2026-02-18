@@ -34,14 +34,16 @@ export function getSpaceValue(
   type: Start | End,
   element: React.ReactNode
 ): SpaceType | undefined {
-  if (!React.isValidElement(element)) {
+  if (!React.isValidElement<Record<string, any>>(element)) {
     return
   }
 
+  const elementProps = (element as React.ReactElement<any>).props || {}
+
   return (
-    element.props?.[type] ??
-    (typeof element.props?.space === 'object'
-      ? element.props.space[type]
+    elementProps?.[type] ??
+    (typeof elementProps?.space === 'object'
+      ? elementProps.space[type]
       : undefined)
   )
 }
@@ -66,7 +68,7 @@ export function isHeadingElement(
  * @returns The spacing variant (true, false or "children") of the element, or undefined if it does not support spacing props.
  */
 export function getSpaceVariant(element: React.ReactNode) {
-  if (React.isValidElement(element)) {
+  if (React.isValidElement<Record<string, any>>(element)) {
     if (element?.type === Fragment) {
       return 'children'
     }
@@ -77,7 +79,7 @@ export function getSpaceVariant(element: React.ReactNode) {
     }
 
     const keys = ['space', 'top', 'right', 'bottom', 'left']
-    const props = element?.props ?? {}
+    const props = (element as React.ReactElement<any>)?.props ?? {}
     if (keys.some((key) => key in props)) {
       return true
     }
@@ -108,7 +110,7 @@ export function renderWithSpacing(
 
   if (variant === 'children') {
     return React.Children.toArray(element).map(
-      (child: React.ReactElement) => {
+      (child: React.ReactElement<any>) => {
         const children = child?.props?.children
         const { key: childKey, ...childProps } = child?.props || {}
 

@@ -36,7 +36,9 @@ export default function FormElement(props: Props) {
   if (!dataContext.hasElementRef) {
     dataContext.hasElementRef = hasElementRef
   }
-  dataContext.hasElementRef.current = true
+  const mutableHasElementRef =
+    dataContext.hasElementRef as React.MutableRefObject<boolean>
+  mutableHasElementRef.current = true
 
   const onSubmitHandler = useCallback(
     (event: React.SyntheticEvent<HTMLFormElement>) => {

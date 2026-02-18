@@ -225,7 +225,7 @@ export interface ContextState {
   submitState: Partial<EventStateObject>
   prerenderFieldProps?: boolean
   decoupleForm?: boolean
-  hasElementRef?: React.RefObject<boolean>
+  hasElementRef?: React.MutableRefObject<boolean>
   restHandlerProps?: Record<string, unknown>
   setActiveSubmitButtonId?: (id?: string) => void
   registerSectionSchema?: (

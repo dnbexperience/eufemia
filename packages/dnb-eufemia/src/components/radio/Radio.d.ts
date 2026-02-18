@@ -85,5 +85,5 @@ export interface RadioProps
 export default class Radio extends React.Component<RadioProps, any> {
   static defaultProps: object;
   static Group = RadioGroup;
-  render(): JSX.Element;
+  render(): React.JSX.Element;
 }

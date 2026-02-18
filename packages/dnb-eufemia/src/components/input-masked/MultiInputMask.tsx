@@ -215,9 +215,7 @@ function MultiInputMask<T extends string>({
   }
 
   // Utilities
-  function getInputRef(ref?: {
-    inputRef?: RefObject<HTMLInputElement>
-  }) {
+  function getInputRef(ref?: { inputRef?: RefObject<HTMLInputElement> }) {
     const inputRef = ref?.inputRef
 
     if (inputRef && !inputRefs.current.includes(inputRef)) {
@@ -314,7 +312,7 @@ function MultiInputMaskInput<T extends string>({
         showMask
         keepCharPositions={false} // so we can overwrite next value, if it already exists
         aria-label={label}
-        ref={getInputRef}
+        ref={getInputRef as unknown as React.Ref<TextMask>}
         onKeyDown={onKeyDown}
         onBlur={onBlur}
         onFocus={({ target, ...event }) => {
