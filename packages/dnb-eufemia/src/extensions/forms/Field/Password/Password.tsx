@@ -3,7 +3,6 @@ import React, {
   useRef,
   useState,
   ElementRef,
-  MutableRefObject,
   useCallback,
   useMemo,
   RefObject,
@@ -119,9 +118,11 @@ function Password({
   }, [
     idToUse,
     hidden,
-    sharedContext.skeleton,
-    disabled,
+    translations.ariaLabelShow,
+    translations.ariaLabelHide,
     size,
+    disabled,
+    sharedContext.skeleton,
     toggleVisibility,
   ])
 
