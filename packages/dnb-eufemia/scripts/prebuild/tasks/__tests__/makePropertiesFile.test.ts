@@ -61,12 +61,15 @@ describe('makePropertiesFile', () => {
     it('sbanken', () => {
       expect(global.sbankenTokens).toMatchSnapshot()
     })
+
     it('ui', () => {
       expect(global.uiTokens).toMatchSnapshot()
     })
+
     it('carnegie', () => {
       expect(global.carnegieTokens).toMatchSnapshot()
     })
+
     it('foundation', () => {
       expect(global.foundation).toMatchSnapshot()
     })
@@ -83,6 +86,7 @@ describe('makePropertiesFile', () => {
         const result = transformFigmaAlias(val)
         expect(result).toEqual('var(--dnb-coldgreen-600)')
       })
+
       it('checks set name', () => {
         const val = {
           targetVariableName: 'DNB/ColdGreen/600',
@@ -113,6 +117,7 @@ describe('makePropertiesFile', () => {
         const result = transformFigmaValue(val)
         expect(result).toEqual('var(--dnb-coldgreen-600)')
       })
+
       it('generates color hex', () => {
         const val = {
           $type: 'color',
@@ -125,18 +130,46 @@ describe('makePropertiesFile', () => {
         const result = transformFigmaValue(val)
         expect(result).toEqual('#007272')
       })
-      it('generates color alpha', () => {
+
+      it('rounds color alpha', () => {
         const val = {
           $type: 'color',
           $value: {
-            alpha: 0.412345,
+            alpha: 0.47999998927116394,
             hex: '#007272',
           },
         }
 
         const result = transformFigmaValue(val)
-        expect(result).toEqual('rgba(#007272, 0.41)')
+        expect(result).toEqual('rgba(#007272, 0.48)')
       })
+
+      it('rounds alpha to 6 decimals', () => {
+        const val = {
+          $type: 'color',
+          $value: {
+            alpha: 0.0123456,
+            hex: '#007272',
+          },
+        }
+
+        const result = transformFigmaValue(val)
+        expect(result).toEqual('rgba(#007272, 0.012346)')
+      })
+
+      it('removes trailing zeroes in alpha', () => {
+        const val = {
+          $type: 'color',
+          $value: {
+            alpha: 0.06250001,
+            hex: '#007272',
+          },
+        }
+
+        const result = transformFigmaValue(val)
+        expect(result).toEqual('rgba(#007272, 0.0625)')
+      })
+
       it('throw error on unknown type', () => {
         const val = {
           $type: 'nonsense',
@@ -145,6 +178,7 @@ describe('makePropertiesFile', () => {
 
         expect(() => transformFigmaValue(val)).toThrow()
       })
+
       it('skip string and number', () => {
         expect(
           transformFigmaValue({
@@ -167,6 +201,7 @@ describe('makePropertiesFile', () => {
         const result = transformFigmaKey('Font Size (Medium) onDark')
         expect(result).toEqual('font_size__medium__ondark')
       })
+
       it('runs callback on each unsupported character', () => {
         const callback = jest.fn()
 
@@ -190,6 +225,7 @@ describe('makePropertiesFile', () => {
         const result = transformFigmaPath(['Colors', 'Primary', 'Dark'])
         expect(result).toEqual('colors-primary-dark')
       })
+
       it('transforms each key', () => {
         const result = transformFigmaPath(['Colo*rs', 'Prima?ry', 'Da(rk'])
         expect(result).toEqual('colo_rs-prima_ry-da_rk')
@@ -201,6 +237,7 @@ describe('makePropertiesFile', () => {
         const result = transformNamespace('token')
         expect(result).toEqual('--token-')
       })
+
       it('transforms undefined', () => {
         const result = transformNamespace(undefined)
         expect(result).toEqual('--')

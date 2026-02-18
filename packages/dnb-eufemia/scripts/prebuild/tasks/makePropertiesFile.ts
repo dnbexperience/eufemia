@@ -207,7 +207,9 @@ export const transformFigmaValue = (value: Record<string, any>) => {
     const hex = value['$value']['hex']
 
     try {
-      return alpha === 1 ? hex : `rgba(${hex}, ${alpha.toPrecision(2)})`
+      return alpha === 1
+        ? hex
+        : `rgba(${hex}, ${parseFloat(alpha.toFixed(6))})`
     } catch (e) {
       console.log(value)
       throw e
