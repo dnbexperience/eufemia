@@ -44,7 +44,7 @@ export default function IconPrimary(localProps: IconAllProps) {
   })
 
   if (!IconContainer) {
-    return <></>
+    return null
   }
 
   return (

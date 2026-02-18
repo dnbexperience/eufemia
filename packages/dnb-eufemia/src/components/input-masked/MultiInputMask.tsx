@@ -310,8 +310,8 @@ function MultiInputMaskInput<T extends string>({
         mask={mask}
         value={value ?? ''}
         placeholderChar={placeholderCharacter}
-        guide={true}
-        showMask={true}
+        guide
+        showMask
         keepCharPositions={false} // so we can overwrite next value, if it already exists
         aria-label={label}
         ref={getInputRef}

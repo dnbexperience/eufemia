@@ -46,7 +46,7 @@ export default function Toolbar({
   }
 
   if (React.Children.count(children) === 0) {
-    return <></>
+    return null
   }
 
   return (

@@ -615,7 +615,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                         size="medium"
                         variant="secondary"
                         text={day.date.getDate()}
-                        bounding={true}
+                        bounding
                         disabled={handleAsDisabled}
                         tabIndex={handleAsDisabled ? 0 : -1} // fix for NVDA
                         aria-disabled={handleAsDisabled}

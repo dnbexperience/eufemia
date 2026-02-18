@@ -186,7 +186,7 @@ function Step(props: Props): JSX.Element {
   }
 
   if (include === false) {
-    return <></>
+    return null
   }
 
   if (
@@ -195,7 +195,7 @@ function Step(props: Props): JSX.Element {
       visibleWhen: includeWhen,
     })
   ) {
-    return <></>
+    return null
   }
 
   const fieldProps =
@@ -243,10 +243,10 @@ function Step(props: Props): JSX.Element {
     }
 
     // Another step is active
-    return <></>
+    return null
   }
 
-  return <>{childrenWithFlex}</>
+  return childrenWithFlex
 }
 
 Step._supportsSpacingProps = true
