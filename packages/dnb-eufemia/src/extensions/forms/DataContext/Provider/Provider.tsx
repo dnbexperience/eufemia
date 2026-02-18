@@ -1676,7 +1676,7 @@ export default function Provider<Data extends JsonObject>(
   const disabled =
     typeof rest?.['disabled'] === 'boolean'
       ? rest?.['disabled']
-      : (formState === 'pending') === true
+      : formState === 'pending'
       ? true
       : undefined
   const contextErrorMessages =
