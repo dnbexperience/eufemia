@@ -44,33 +44,40 @@ import {
 } from '../../components/modal/bodyScrollLock'
 
 import type { SpacingProps } from '../../shared/types'
-import type { DrawerListProps } from './DrawerList'
+import type {
+  DrawerListProps,
+  DrawerListData,
+  DrawerListInternalData,
+} from './DrawerList'
 
 export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
   Omit<React.HTMLProps<HTMLElement>, 'data' | 'role' | 'size' | 'value'> &
   SpacingProps & {
     hasFocusOnElement?: boolean
     setData?: (
-      data: any,
-      cb?: any,
+      data: DrawerListData,
+      cb?: (data: DrawerListInternalData) => void,
       {
         overwriteOriginalData,
       }?: {
         overwriteOriginalData?: boolean
       }
     ) => DrawerListProvider
-    setState?: (state: any, cb?: any) => void
+    setState?: (
+      state: Partial<DrawerListContextState>,
+      cb?: () => void
+    ) => void
     setWrapperElement?: (
       wrapperElement?: string | HTMLElement
     ) => DrawerListProvider
-    setHidden?: (args?: any[], onStateComplete?: any) => void
+    setHidden?: (args?: unknown[], onStateComplete?: () => void) => void
     selectItemAndClose?: (
-      itemToSelect: any,
+      itemToSelect: string | number,
       args?: {
         fireSelectEvent?: boolean
-        event: any
+        event: React.SyntheticEvent | Event
       }
-    ) => any
+    ) => void
     selectedItem?: string | number
     activeItem?: string | number
     showFocusRing?: boolean
@@ -80,31 +87,31 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
     addObservers?: () => void
     removeObservers?: () => void
     setVisible?: (
-      args?: Record<string, any>,
-      onStateComplete?: any
+      args?: Record<string, unknown>,
+      onStateComplete?: () => void
     ) => void
-    toggleVisible?: (...args: any[]) => void
+    toggleVisible?: (...args: unknown[]) => void
     selectItem?: (
-      itemToSelect: any,
+      itemToSelect: string | number,
       args?: {
         fireSelectEvent?: boolean
-        event?: any
+        event?: React.SyntheticEvent | Event
         closeOnSelection?: boolean
       }
-    ) => any
+    ) => void
     scrollToItem?: (
-      activeItem: any,
+      activeItem: string | number,
       opt?: {
         scrollTo?: boolean
-        element?: any
+        element?: HTMLElement
       }
     ) => void
     setActiveItemAndScrollToIt?: (
-      activeItem: any,
+      activeItem: string | number,
       args?: {
         fireSelectEvent?: boolean
         scrollTo?: boolean
-        event?: any
+        event?: React.SyntheticEvent | Event
       }
     ) => void
     _refShell?: React.RefObject<HTMLSpanElement>
@@ -156,10 +163,10 @@ export default class DrawerListProvider extends React.PureComponent<
   changedOrderFor: string
   searchCache: Record<string, { i: number }[]>
   meta: {
-    cmd: any
-    ctrl: any
-    shift: any
-    alt: any
+    cmd: boolean
+    ctrl: boolean
+    shift: boolean
+    alt: boolean
   }
   outsideClick: DetectOutsideClickClass
 
