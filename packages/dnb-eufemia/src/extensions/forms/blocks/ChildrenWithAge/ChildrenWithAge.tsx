@@ -195,7 +195,7 @@ function SummaryContainer({
 
   return (
     <Form.Card {...spacingProps}>
-      {<Lead>{tr.ChildrenWithAge.hasChildren.title}</Lead>}
+      <Lead>{tr.ChildrenWithAge.hasChildren.title}</Lead>
 
       <Value.SummaryList>
         <Value.Boolean

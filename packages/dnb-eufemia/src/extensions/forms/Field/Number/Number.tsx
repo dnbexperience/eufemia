@@ -542,9 +542,9 @@ function NumberComponent(props: Props) {
     return (
       <FieldBlock {...fieldBlockProps} asFieldset={false}>
         <span className="dnb-input__border dnb-input__border--root">
-          {<Button {...decreaseProps} />}
+          <Button {...decreaseProps} />
           <InputMasked {...inputProps} />
-          {<Button {...increaseProps} />}
+          <Button {...increaseProps} />
         </span>
       </FieldBlock>
     )
