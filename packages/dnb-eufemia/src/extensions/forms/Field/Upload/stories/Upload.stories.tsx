@@ -152,19 +152,6 @@ async function mockAsyncFileUpload(
   return updatedFiles
 }
 
-async function mockAsyncOnFileClick({ fileItem }) {
-  const request = createRequest()
-  console.log(
-    'making API request to fetch the url of the file: ' +
-      fileItem.file.name
-  )
-  await request(3000) // Simulate a request
-  window.open(
-    'https://eufemia.dnb.no/images/avatars/1501870.jpg',
-    '_blank'
-  )
-}
-
 export const AsyncEverything = () => {
   async function mockAsyncOnFileClick({ fileItem }) {
     const request = createRequest()
