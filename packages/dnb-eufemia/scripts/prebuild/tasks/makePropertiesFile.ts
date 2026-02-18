@@ -174,6 +174,24 @@ export const runFactory = ({
     }
   })
 
+type FigmaValue = {
+  $type: string
+  $value: any
+  $extensions?: Record<string, any>
+}
+
+type FigmaGroup = {
+  $root?: FigmaValue
+} & {
+  [K in string as K extends '$root' ? never : K]: FigmaData
+}
+
+type FigmaData = FigmaValue | FigmaGroup
+
+const isFigmaValue = (item: FigmaData): item is FigmaValue => {
+  return typeof (item as any).$value !== 'undefined'
+}
+
 export const transformFigmaAlias = (alias: Record<string, any>) => {
   const figmaVariableName = alias.targetVariableName
   // TODO: use is to verify the correct supported sets are used instead of name.
@@ -191,7 +209,7 @@ export const transformFigmaAlias = (alias: Record<string, any>) => {
   }
 }
 
-export const transformFigmaValue = (value: Record<string, any>) => {
+export const transformFigmaValue = (value: FigmaValue) => {
   if (value['$type'] === 'number' || value['$type'] === 'string') {
     return undefined // Exclude numbers, font-family and font weight
   }
@@ -259,7 +277,7 @@ export const transformNamespace = (namespace?: string) =>
 
 /** Recursively generates CSS variables from a Figma export json */
 const generateCSSVariablesFromFigmaExport = (
-  value: Record<string, any> | string | number,
+  value: FigmaData | string | number,
   /** string placed first in the css variable: `--namespace-color-blue-500` */
   namespace?: string,
   path: string[] = []
@@ -267,7 +285,7 @@ const generateCSSVariablesFromFigmaExport = (
   if (typeof value == 'string' || typeof value === 'number') {
     return ''
   }
-  if (Object.hasOwn(value, '$type')) {
+  if (isFigmaValue(value)) {
     const val = transformFigmaValue(value)
     return val
       ? `${transformNamespace(namespace)}${transformFigmaPath(
@@ -296,7 +314,7 @@ const makeDesignTokenSCSS = async (
   /** prefix that is added to the start of the css variable name */
   namespace: string
 ) => {
-  const json = JSON.parse(
+  const json: FigmaGroup = JSON.parse(
     fs.readFileSync(path.resolve(inputPath), 'utf-8')
   )
   log.info(`  Generating SCSS file: ${outputPath}`)
