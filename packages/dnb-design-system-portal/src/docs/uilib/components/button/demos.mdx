@@ -19,6 +19,7 @@ import {
   ButtonIcon,
   ButtonHasDarkBackground,
   SvgInButton,
+  WithVippsWalletButton,
 } from 'Docs/uilib/components/button/Examples'
 
 ## Demos
@@ -96,6 +97,19 @@ This is, as all of the demos, only an example of how to achieve various needs, a
 **NB:** Ensure you add an `aria-label` on the SVG for accessibility reasons.
 
 <SvgInButton />
+
+### Vipps Wallet Button
+
+To import `VippsWalletButton` by path, including its extra styles:
+
+```tsx
+import VippsWalletButton from '@dnb/eufemia/components/button/custom/vipps-wallet-button/VippsWalletButton'
+import '@dnb/eufemia/components/button/custom/vipps-wallet-button/style/dnb-vipps-wallet-button.min.css'
+```
+
+The label text is translated internally and follows `Provider` locale: `nb-NO`: `Legg til i`, `en-GB`: `Add to`, `sv-SE`: `Lägg till i`, `da-DK`: `Tilføj til`.
+
+<WithVippsWalletButton />
 
 <VisibleWhenVisualTest>
 

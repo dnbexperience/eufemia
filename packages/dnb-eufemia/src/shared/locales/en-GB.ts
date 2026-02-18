@@ -110,6 +110,9 @@ export default {
       title: 'Help text',
       aria_role: 'Help button',
     },
+    VippsWalletButton: {
+      text: 'Add to',
+    },
     Skeleton: {
       aria_busy: 'In progress ...',
       aria_ready: 'Ready to interact',
