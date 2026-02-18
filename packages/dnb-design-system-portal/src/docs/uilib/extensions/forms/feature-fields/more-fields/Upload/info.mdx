@@ -49,6 +49,35 @@ The `required` property will validate if there are valid files present. If there
 
 If there are invalid files, the `onSubmit` event will not be called and a validation error will be shown.
 
+### Handling validation errors
+
+Files are automatically validated for file size and file type based on the `fileMaxSize` and `acceptedFileTypes` properties. When files fail these validations, they receive an `errorMessage` property.
+
+You can customize how these invalid files are displayed using the `onValidationError` callback:
+
+```tsx
+<Field.Upload
+  fileMaxSize={5}
+  onValidationError={(invalidFiles) => {
+    return invalidFiles.map((file) => ({
+      ...file,
+      removeLink: true, // Remove download link
+      removeDeleteButton: true, // Remove delete button
+      description: 'Cannot be uploaded due to validation error',
+    }))
+  }}
+/>
+```
+
+**How it works:** The component splits newly uploaded files into two groups based on the presence of an `errorMessage` property:
+
+- Files **with** `errorMessage` → sent to `onValidationError` (if defined)
+- Files **without** `errorMessage` → sent to `fileHandler` (if defined)
+
+The `errorMessage` is typically set by built-in validation (file size or file type checks), but can also be set manually. The two callbacks are mutually exclusive and only process newly added files.
+
+**Important:** If `fileHandler` returns a file with an `errorMessage`, that file is already in the upload list and won't trigger `onValidationError` again. Handle errors from `fileHandler` within the `fileHandler` function itself by returning files with the `errorMessage` property set.
+
 The `onChange` event handler will return an array with [file item objects](/uilib/components/upload/properties/#fileitem) containing the file object and some additional properties – regardless of the validity of the file.
 
 For error handling of invalid files, you can refer to the [Upload](/uilib/components/upload/) component for more details.

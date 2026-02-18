@@ -61,6 +61,7 @@ export type Props = Omit<
     fileHandler?: (
       newFiles: UploadValue
     ) => UploadValue | Promise<UploadValue>
+    onValidationError?: (invalidFiles: UploadValue) => UploadValue | void
     width?: 'large' | 'stretch'
   }
 
@@ -129,6 +130,7 @@ function UploadComponent(props: Props) {
     handleFocus,
     handleBlur,
     fileHandler,
+    onValidationError,
     dataContext,
     ...rest
   } = useFieldProps(preparedProps, {
@@ -254,6 +256,7 @@ function UploadComponent(props: Props) {
     [
       identifier,
       fileHandler,
+      onValidationError,
       handleChange,
       setFieldInternals,
       setFieldState,
@@ -261,12 +264,54 @@ function UploadComponent(props: Props) {
     ]
   )
 
+  const processValidationErrors = useCallback(
+    (
+      files: UploadValue,
+      existingFiles: UploadValue
+    ): UploadValue | undefined => {
+      if (!files || !onValidationError) {
+        return files
+      }
+
+      const existingFileIds = existingFiles?.map((file) => file.id) ?? []
+
+      const newFiles = files.filter(
+        (file) => !existingFileIds.includes(file.id)
+      )
+
+      const newInvalidFiles = newFiles.filter((file) => file.errorMessage)
+
+      if (newInvalidFiles.length === 0) {
+        return files
+      }
+
+      // Allow user to customize invalid files
+      const processedInvalidFiles =
+        onValidationError(newInvalidFiles) || newInvalidFiles
+
+      // Merge processed files back into changeValue
+      return files.map((file) => {
+        const processedFile = processedInvalidFiles.find(
+          (processed) =>
+            processed.id === file.id ||
+            (processed.file && processed.file === file.file)
+        )
+
+        return processedFile || file
+      })
+    },
+    [onValidationError]
+  )
+
   const changeHandler = useCallback(
     ({ files }: { files: UploadValue }) => {
-      const changeValue = files?.length === 0 ? undefined : files
+      let changeValue = files?.length === 0 ? undefined : files
+
       // Prevents the form-status from showing up
       handleBlur()
       handleFocus()
+
+      changeValue = processValidationErrors(changeValue, filesRef.current)
 
       if (fileHandler) {
         handleChangeAsync(changeValue)
@@ -274,7 +319,14 @@ function UploadComponent(props: Props) {
         handleChange(changeValue)
       }
     },
-    [handleBlur, handleFocus, fileHandler, handleChangeAsync, handleChange]
+    [
+      handleBlur,
+      handleFocus,
+      fileHandler,
+      processValidationErrors,
+      handleChangeAsync,
+      handleChange,
+    ]
   )
 
   const width = widthProp as FieldBlockWidth

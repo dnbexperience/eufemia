@@ -1409,18 +1409,22 @@ describe('Field.Upload', () => {
         },
       })
 
-      expect(
-        document.querySelectorAll('.dnb-upload__file-cell').length
-      ).toBe(3)
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell').length
+        ).toBe(3)
 
-      expect(document.querySelectorAll('.dnb-form-status').length).toBe(2)
+        expect(document.querySelectorAll('.dnb-form-status').length).toBe(
+          2
+        )
 
-      expect(
-        document.querySelectorAll('.dnb-progress-indicator').length
-      ).toBe(1)
+        expect(
+          document.querySelectorAll('.dnb-progress-indicator').length
+        ).toBe(1)
 
-      expect(screen.queryByText('error-1.png')).toBeInTheDocument()
-      expect(screen.queryByText('success-1.png')).not.toBeInTheDocument()
+        expect(screen.queryByText('error-1.png')).toBeInTheDocument()
+        expect(screen.queryByText('success-1.png')).not.toBeInTheDocument()
+      })
 
       resolveFileHandler([
         {
@@ -2526,6 +2530,659 @@ describe('Field.Upload', () => {
           },
         ],
       })
+    })
+  })
+
+  describe('onValidationError', () => {
+    it('should call onValidationError for files exceeding fileMaxSize', async () => {
+      const onValidationError = jest.fn((files) => files)
+      const file = createMockFile(
+        'large-file.png',
+        10 * BYTES_IN_A_MEGA_BYTE,
+        'image/png'
+      )
+
+      render(
+        <Field.Upload
+          fileMaxSize={5}
+          onValidationError={onValidationError}
+        />
+      )
+
+      const element = getRootElement()
+
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
+
+      await waitFor(() => {
+        expect(onValidationError).toHaveBeenCalledTimes(1)
+      })
+
+      const invalidFiles = onValidationError.mock.calls[0][0]
+      expect(invalidFiles).toHaveLength(1)
+      expect(invalidFiles[0].file.name).toBe('large-file.png')
+      expect(invalidFiles[0].errorMessage).toBe(
+        nbShared.Upload.errorLargeFile.replace('%size', '5')
+      )
+    })
+
+    it('should call onValidationError for unsupported file types', async () => {
+      const onValidationError = jest.fn((files) => files)
+      const file = createMockFile('document.docx', 100, 'application/docx')
+
+      render(
+        <Field.Upload
+          acceptedFileTypes={['pdf', 'png']}
+          onValidationError={onValidationError}
+        />
+      )
+
+      const element = getRootElement()
+
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
+
+      await waitFor(() => {
+        expect(onValidationError).toHaveBeenCalledTimes(1)
+      })
+
+      const invalidFiles = onValidationError.mock.calls[0][0]
+      expect(invalidFiles).toHaveLength(1)
+      expect(invalidFiles[0].file.name).toBe('document.docx')
+      expect(invalidFiles[0].errorMessage).toBe(
+        nbShared.Upload.errorUnsupportedFile
+      )
+    })
+
+    it('should call onValidationError before onChange', async () => {
+      const callOrder: string[] = []
+      const onValidationError = jest.fn((files) => {
+        callOrder.push('onValidationError')
+        return files.map((file) => ({
+          ...file,
+          description: 'Modified by validation handler',
+        }))
+      })
+      const onChange = jest.fn((value) => {
+        callOrder.push('onChange')
+      })
+      const file = createMockFile(
+        'large-file.png',
+        10 * BYTES_IN_A_MEGA_BYTE,
+        'image/png'
+      )
+
+      render(
+        <Field.Upload
+          fileMaxSize={5}
+          onValidationError={onValidationError}
+          onChange={onChange}
+        />
+      )
+
+      const element = getRootElement()
+
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
+
+      await waitFor(() => {
+        expect(onValidationError).toHaveBeenCalledTimes(1)
+        expect(onChange).toHaveBeenCalledTimes(1)
+      })
+
+      // Verify execution order
+      expect(callOrder).toEqual(['onValidationError', 'onChange'])
+
+      // Verify onChange received the modified files from onValidationError
+      const changeValue = onChange.mock.calls[0][0]
+      expect(changeValue).toBeDefined()
+      expect(changeValue[0].description).toBe(
+        'Modified by validation handler'
+      )
+    })
+
+    it('should allow setting removeLink on files with validation errors', async () => {
+      const onValidationError = jest.fn((files) => {
+        return files.map((file) => ({
+          ...file,
+          removeLink: true,
+        }))
+      })
+
+      const file = createMockFile(
+        'large-file.png',
+        10 * BYTES_IN_A_MEGA_BYTE,
+        'image/png'
+      )
+
+      render(
+        <Field.Upload
+          fileMaxSize={5}
+          onValidationError={onValidationError}
+        />
+      )
+
+      const element = getRootElement()
+
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
+
+      await waitFor(() => {
+        expect(onValidationError).toHaveBeenCalledTimes(1)
+        const fileNameElement = document.querySelector(
+          '.dnb-upload__file-cell__text-container span'
+        )
+        expect(fileNameElement.tagName).toBe('SPAN')
+        expect(fileNameElement).not.toHaveAttribute('href')
+      })
+    })
+
+    it('should allow setting multiple custom properties on invalid files', async () => {
+      const onValidationError = jest.fn((files) => {
+        return files.map((file) => ({
+          ...file,
+          removeLink: true,
+          removeDeleteButton: true,
+          description: 'This file cannot be uploaded',
+        }))
+      })
+
+      const file = createMockFile(
+        'large-file.png',
+        10 * BYTES_IN_A_MEGA_BYTE,
+        'image/png'
+      )
+
+      render(
+        <Field.Upload
+          fileMaxSize={5}
+          onValidationError={onValidationError}
+        />
+      )
+
+      const element = getRootElement()
+
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
+
+      await waitFor(
+        () => {
+          expect(onValidationError).toHaveBeenCalledTimes(1)
+        },
+        { timeout: 2000 }
+      )
+
+      await waitFor(
+        () => {
+          const fileCell = document.querySelector('.dnb-upload__file-cell')
+          expect(fileCell).toBeInTheDocument()
+          expect(fileCell).toHaveTextContent(
+            'This file cannot be uploaded'
+          )
+        },
+        { timeout: 2000 }
+      )
+
+      await waitFor(
+        () => {
+          const fileCell = document.querySelector('.dnb-upload__file-cell')
+          const button = fileCell.querySelector('button')
+          expect(button).not.toBeInTheDocument()
+        },
+        { timeout: 2000 }
+      )
+    })
+
+    it('should work with both sync onValidationError and async fileHandler', async () => {
+      const onValidationError = jest.fn((files) => {
+        return files.map((file) => ({
+          ...file,
+          removeLink: true,
+        }))
+      })
+
+      const fileHandler = jest.fn((files) => {
+        return Promise.resolve(
+          files.map((file) => ({
+            ...file,
+            id: 'server-id',
+          }))
+        )
+      })
+
+      const validFile = createMockFile('valid.png', 100, 'image/png')
+      const invalidFile = createMockFile(
+        'large-file.png',
+        10 * BYTES_IN_A_MEGA_BYTE,
+        'image/png'
+      )
+
+      render(
+        <Field.Upload
+          fileMaxSize={5}
+          fileHandler={fileHandler}
+          onValidationError={onValidationError}
+        />
+      )
+
+      const element = getRootElement()
+
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [validFile, invalidFile],
+        },
+      })
+
+      await waitFor(() => {
+        expect(fileHandler).toHaveBeenCalledTimes(1)
+        expect(onValidationError).toHaveBeenCalledTimes(1)
+
+        // fileHandler should only receive valid files
+        const validFiles = fileHandler.mock.calls[0][0]
+        expect(validFiles).toHaveLength(1)
+        expect(validFiles[0].file.name).toBe('valid.png')
+
+        // onValidationError should only receive invalid files
+        const invalidFiles = onValidationError.mock.calls[0][0]
+        expect(invalidFiles).toHaveLength(1)
+        expect(invalidFiles[0].file.name).toBe('large-file.png')
+
+        // Both files should be displayed
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell')
+        ).toHaveLength(2)
+      })
+    })
+
+    it('should handle only invalid files without fileHandler', async () => {
+      const onValidationError = jest.fn((files) => {
+        return files.map((file) => ({
+          ...file,
+          removeLink: true,
+        }))
+      })
+
+      const invalidFile = createMockFile(
+        'large-file.png',
+        10 * BYTES_IN_A_MEGA_BYTE,
+        'image/png'
+      )
+
+      render(
+        <Field.Upload
+          fileMaxSize={5}
+          onValidationError={onValidationError}
+        />
+      )
+
+      const element = getRootElement()
+
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [invalidFile],
+        },
+      })
+
+      await waitFor(() => {
+        expect(onValidationError).toHaveBeenCalledTimes(1)
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell')
+        ).toHaveLength(1)
+      })
+    })
+
+    it('should handle onValidationError returning void (undefined)', async () => {
+      const onValidationError = jest.fn()
+
+      const file = createMockFile(
+        'large-file.png',
+        10 * BYTES_IN_A_MEGA_BYTE,
+        'image/png'
+      )
+
+      render(
+        <Field.Upload
+          fileMaxSize={5}
+          onValidationError={onValidationError}
+        />
+      )
+
+      const element = getRootElement()
+
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
+
+      await waitFor(() => {
+        expect(onValidationError).toHaveBeenCalledTimes(1)
+      })
+
+      await waitFor(() => {
+        // Should still display the file with original error
+        const fileCell = document.querySelector('.dnb-upload__file-cell')
+        expect(fileCell).toBeInTheDocument()
+        expect(fileCell).toHaveTextContent('large-file.png')
+        expect(fileCell).toHaveTextContent(
+          nbShared.Upload.errorLargeFile.replace('%size', '5')
+        )
+      })
+    })
+
+    it('should not call onValidationError when all files are valid', async () => {
+      const onValidationError = jest.fn((files) => files)
+      const file = createMockFile('valid.png', 100, 'image/png')
+
+      render(
+        <Field.Upload
+          fileMaxSize={5}
+          onValidationError={onValidationError}
+        />
+      )
+
+      const element = getRootElement()
+
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
+
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell')
+        ).toHaveLength(1)
+      })
+
+      expect(onValidationError).not.toHaveBeenCalled()
+    })
+
+    it('should work with onFileDelete on files modified by onValidationError', async () => {
+      const onValidationError = jest.fn((files) => {
+        return files.map((file) => ({
+          ...file,
+          removeLink: true,
+          description: 'Cannot upload',
+        }))
+      })
+
+      const onFileDelete = jest.fn()
+
+      const file = createMockFile(
+        'large-file.png',
+        10 * BYTES_IN_A_MEGA_BYTE,
+        'image/png'
+      )
+
+      render(
+        <Field.Upload
+          fileMaxSize={5}
+          onValidationError={onValidationError}
+          onFileDelete={onFileDelete}
+        />
+      )
+
+      const element = getRootElement()
+
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
+
+      await waitFor(() => {
+        expect(onValidationError).toHaveBeenCalledTimes(1)
+      })
+
+      // Delete the file
+      const deleteButton = document.querySelector(
+        '.dnb-upload__file-cell button'
+      )
+      fireEvent.click(deleteButton)
+
+      await waitFor(() => {
+        expect(onFileDelete).toHaveBeenCalledTimes(1)
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell')
+        ).toHaveLength(0)
+      })
+    })
+
+    it('should support deleteButtonProps on files with validation errors', async () => {
+      const onValidationError = jest.fn((files) => {
+        return files.map((file) => ({
+          ...file,
+          deleteButtonProps: {
+            icon: 'exclamation',
+            text: 'Remove invalid file',
+          },
+        }))
+      })
+
+      const file = createMockFile(
+        'large-file.png',
+        10 * BYTES_IN_A_MEGA_BYTE,
+        'image/png'
+      )
+
+      render(
+        <Field.Upload
+          fileMaxSize={5}
+          onValidationError={onValidationError}
+        />
+      )
+
+      const element = getRootElement()
+
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
+
+      await waitFor(() => {
+        expect(onValidationError).toHaveBeenCalledTimes(1)
+      })
+
+      await waitFor(() => {
+        const deleteButton = document.querySelector(
+          '.dnb-upload__file-cell button'
+        )
+        expect(deleteButton).toBeInTheDocument()
+        expect(deleteButton).toHaveTextContent('Remove invalid file')
+        expect(
+          deleteButton.querySelector('[data-testid="exclamation icon"]')
+        ).toBeInTheDocument()
+      })
+    })
+
+    it('should be mutually exclusive with fileHandler - only invalid files trigger onValidationError', async () => {
+      const onValidationError = jest.fn((files) => {
+        return files.map((file) => ({
+          ...file,
+          description: 'Validation failed',
+        }))
+      })
+
+      const fileHandler = jest.fn((files) => {
+        return files.map((file) => ({
+          ...file,
+          id: `server_${file.file.name}`,
+        }))
+      })
+
+      const validFile = createMockFile('valid.png', 100, 'image/png')
+      const invalidFile = createMockFile(
+        'invalid.png',
+        10 * BYTES_IN_A_MEGA_BYTE,
+        'image/png'
+      )
+
+      render(
+        <Field.Upload
+          fileMaxSize={5}
+          onValidationError={onValidationError}
+          fileHandler={fileHandler}
+        />
+      )
+
+      const element = getRootElement()
+
+      // Upload both valid and invalid files together
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [validFile, invalidFile],
+        },
+      })
+
+      await waitFor(() => {
+        expect(onValidationError).toHaveBeenCalledTimes(1)
+        expect(fileHandler).toHaveBeenCalledTimes(1)
+      })
+
+      // Verify onValidationError received only the invalid file
+      expect(onValidationError).toHaveBeenCalledWith([
+        expect.objectContaining({
+          file: invalidFile,
+          errorMessage: expect.any(String),
+        }),
+      ])
+
+      // Verify fileHandler received only the valid file
+      expect(fileHandler).toHaveBeenCalledWith([
+        expect.objectContaining({
+          file: validFile,
+        }),
+      ])
+      // Verify the valid file has no errorMessage
+      expect(fileHandler.mock.calls[0][0][0]).not.toHaveProperty(
+        'errorMessage'
+      )
+
+      // Verify both files are displayed
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell')
+        ).toHaveLength(2)
+        expect(screen.queryByText('valid.png')).toBeInTheDocument()
+        expect(screen.queryByText('invalid.png')).toBeInTheDocument()
+      })
+    })
+
+    it('should trigger onValidationError for files with errorMessage set via value prop', async () => {
+      const onValidationError = jest.fn((files) => {
+        return files.map((file) => ({
+          ...file,
+          description: 'Error handled by onValidationError',
+        }))
+      })
+
+      const onChange = jest.fn()
+
+      render(
+        <Form.Handler>
+          <Field.Upload
+            path="/myFiles"
+            onValidationError={onValidationError}
+            onChange={onChange}
+          />
+        </Form.Handler>
+      )
+
+      const element = getRootElement()
+
+      // Create a mock file with custom errorMessage using a custom validation approach
+      // We'll use acceptedFileTypes to trigger a validation error
+      const invalidTypeFile = createMockFile(
+        'document.txt',
+        100,
+        'text/plain'
+      )
+
+      // Upload a file with wrong type
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [invalidTypeFile],
+        },
+      })
+
+      await waitFor(() => {
+        expect(onValidationError).toHaveBeenCalledTimes(1)
+      })
+
+      // Verify the callback received a file with errorMessage
+      const receivedFiles = onValidationError.mock.calls[0][0]
+      expect(receivedFiles[0]).toHaveProperty('errorMessage')
+      expect(receivedFiles[0].errorMessage).toBeTruthy()
+
+      await waitFor(() => {
+        const fileCell = document.querySelector('.dnb-upload__file-cell')
+        expect(fileCell).toBeInTheDocument()
+        expect(fileCell).toHaveTextContent('document.txt')
+        expect(fileCell).toHaveTextContent(
+          'Error handled by onValidationError'
+        )
+      })
+    })
+
+    it('should NOT trigger onValidationError when fileHandler returns file with errorMessage', async () => {
+      const onValidationError = jest.fn((files) => files)
+
+      const fileHandler = jest.fn((files) => {
+        // Simulate fileHandler returning file with error
+        return files.map((file) => ({
+          ...file,
+          id: 'server-id',
+          errorMessage: 'Server validation failed',
+        }))
+      })
+
+      const validFile = createMockFile('valid.png', 100, 'image/png')
+
+      render(
+        <Field.Upload
+          onValidationError={onValidationError}
+          fileHandler={fileHandler}
+        />
+      )
+
+      const element = getRootElement()
+
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [validFile],
+        },
+      })
+
+      await waitFor(() => {
+        expect(fileHandler).toHaveBeenCalledTimes(1)
+      })
+
+      await waitFor(() => {
+        const fileCell = document.querySelector('.dnb-upload__file-cell')
+        expect(fileCell).toBeInTheDocument()
+        expect(fileCell).toHaveTextContent('Server validation failed')
+      })
+
+      // onValidationError should NOT be called because the file was valid when first uploaded
+      // The errorMessage was added by fileHandler, but that file is now existing, not new
+      expect(onValidationError).not.toHaveBeenCalled()
     })
   })
 

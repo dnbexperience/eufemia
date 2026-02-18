@@ -366,14 +366,14 @@ export const WithFileItemOptions = () => {
             >
               <Field.Upload
                 path="/myFiles"
-                fileHandler={mockFileHandler}
+                fileHandler={fileHandler}
                 required
               />
             </Form.Handler>
           )
         }
 
-        function mockFileHandler(newFiles: UploadValue) {
+        function fileHandler(newFiles: UploadValue) {
           return newFiles.map((file) => {
             file.errorMessage = 'File has a problem'
             file.description = 'File description'
@@ -474,6 +474,68 @@ export const Width = () => {
           <Field.Upload path="/myFiles" width="stretch" label="stretch" />
         </Form.Card>
       </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const WithOnValidationError = () => {
+  return (
+    <ComponentBox scope={{ createRequest }}>
+      {() => {
+        function validationErrorHandler(
+          invalidFiles: UploadValue
+        ): UploadValue {
+          return invalidFiles.map((file) => ({
+            ...file,
+            removeLink: true,
+            description:
+              'This file cannot be uploaded due to validation failure',
+          }))
+        }
+
+        async function fileHandler(
+          validFiles: UploadValue
+        ): Promise<UploadValue> {
+          const updatedFiles: UploadValue = []
+
+          for (const file of validFiles) {
+            const request = createRequest()
+            await request(2000) // Simulate upload
+
+            updatedFiles.push({
+              ...file,
+              id: `server_${crypto.randomUUID()}`,
+            })
+          }
+
+          return updatedFiles
+        }
+
+        async function onFileDelete({ fileItem }) {
+          const request = createRequest()
+          console.log('Deleting file:', fileItem.file.name)
+          await request(1000) // Simulate delete
+        }
+
+        return (
+          <Form.Handler onSubmit={(data) => console.log('onSubmit', data)}>
+            <Flex.Stack>
+              <Field.Upload
+                path="/myFiles"
+                fileMaxSize={1}
+                acceptedFileTypes={['jpg', 'pdf', 'png']}
+                label="Upload documents"
+                labelDescription="Try uploading files larger than 1 MB or unsupported file types (e.g., .docx) to see validation error handling."
+                onValidationError={validationErrorHandler}
+                fileHandler={fileHandler}
+                onFileDelete={onFileDelete}
+              />
+              <Form.SubmitButton />
+              <Tools.Log />
+            </Flex.Stack>
+          </Form.Handler>
+        )
+      }}
     </ComponentBox>
   )
 }

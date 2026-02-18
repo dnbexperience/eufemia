@@ -497,3 +497,153 @@ export const WizardWithAsyncFileHandler = () => {
     </Form.Handler>
   )
 }
+
+export const WithOnValidationErrorSimple = () => {
+  return (
+    <Form.Handler onSubmit={async (form) => console.log(form)}>
+      <Flex.Stack>
+        <Field.Upload
+          path="/myFiles"
+          fileMaxSize={1}
+          acceptedFileTypes={['jpg', 'pdf', 'png']}
+          labelDescription="Try uploading files larger than 1 MB or unsupported file types. Invalid files will have customized appearance."
+          onValidationError={(invalidFiles) => {
+            return invalidFiles.map((file) => ({
+              ...file,
+              removeLink: true,
+              description: 'This file cannot be uploaded',
+            }))
+          }}
+        />
+        <Form.SubmitButton />
+        <Tools.Log />
+      </Flex.Stack>
+    </Form.Handler>
+  )
+}
+
+export const WithOnValidationError = () => {
+  function syncValidationErrorHandler(
+    invalidFiles: UploadValue
+  ): UploadValue {
+    return invalidFiles.map((file) => ({
+      ...file,
+      removeLink: true,
+      description: 'File validation failed - cannot be uploaded',
+    }))
+  }
+
+  async function mockAsyncFileHandler(
+    validFiles: UploadValue
+  ): Promise<UploadValue> {
+    const updatedFiles: UploadValue = []
+
+    for (const file of validFiles) {
+      const formData = new FormData()
+      formData.append('file', file.file, file.file.name)
+
+      const request = createRequest()
+      await request(3000) // Simulate upload request
+
+      const mockResponse = {
+        ok: true,
+        json: async () => ({
+          server_generated_id: `server_${
+            file.file.name
+          }_${crypto.randomUUID()}`,
+        }),
+      }
+
+      const data = await mockResponse.json()
+      updatedFiles.push({
+        ...file,
+        id: data.server_generated_id,
+      })
+    }
+
+    return updatedFiles
+  }
+
+  async function mockAsyncFileDelete({ fileItem }) {
+    const request = createRequest()
+    console.log('Deleting file: ' + fileItem.file.name)
+    await request(2000) // Simulate delete request
+  }
+
+  return (
+    <Form.Handler onSubmit={async (form) => console.log(form)}>
+      <Flex.Stack>
+        <Field.Upload
+          path="/myFiles"
+          fileMaxSize={1}
+          acceptedFileTypes={['jpg', 'pdf', 'png']}
+          labelDescription="Try uploading files larger than 1 MB or unsupported file types to see validation error handling. Valid files will be uploaded."
+          onValidationError={syncValidationErrorHandler}
+          fileHandler={mockAsyncFileHandler}
+          onFileDelete={mockAsyncFileDelete}
+        />
+        <Form.SubmitButton />
+        <Tools.Log />
+      </Flex.Stack>
+    </Form.Handler>
+  )
+}
+
+export const WithOnValidationErrorAndAlwaysFailingUpload = () => {
+  function syncValidationErrorHandler(
+    invalidFiles: UploadValue
+  ): UploadValue {
+    return invalidFiles.map((file) => ({
+      ...file,
+      removeLink: true,
+      removeDeleteButton: true,
+      description: 'This file failed validation and cannot be uploaded',
+    }))
+  }
+
+  async function mockAsyncFileHandlerAlwaysFails(
+    validFiles: UploadValue
+  ): Promise<UploadValue> {
+    const updatedFiles: UploadValue = []
+
+    for (const file of validFiles) {
+      const formData = new FormData()
+      formData.append('file', file.file, file.file.name)
+
+      const request = createRequest()
+      await request(2000) // Simulate upload attempt
+
+      // Always fail upload
+      updatedFiles.push({
+        ...file,
+        errorMessage: 'Upload failed: Server rejected this file',
+      })
+    }
+
+    return updatedFiles
+  }
+
+  async function mockAsyncFileDelete({ fileItem }) {
+    const request = createRequest()
+    console.log('Deleting file: ' + fileItem.file.name)
+    await request(1500) // Simulate delete request
+  }
+
+  return (
+    <Form.Handler onSubmit={async (form) => console.log(form)}>
+      <Flex.Stack>
+        <Field.Upload
+          path="/myFiles"
+          fileMaxSize={1}
+          acceptedFileTypes={['jpg', 'pdf', 'png']}
+          labelDescription="All uploads will fail. Files larger than 1 MB or unsupported types trigger validation errors (no delete button). Valid files that fail upload can still be deleted."
+          onValidationError={syncValidationErrorHandler}
+          fileHandler={mockAsyncFileHandlerAlwaysFails}
+          onFileDelete={mockAsyncFileDelete}
+        />
+        <Form.SubmitButton />
+        <Tools.Log />
+      </Flex.Stack>
+    </Form.Handler>
+  )
+}
