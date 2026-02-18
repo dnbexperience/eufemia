@@ -72,13 +72,13 @@ export default function useVisibility(props?: Partial<Props>) {
         if ('isValid' in visibleWhen) {
           const item = mountedFieldsRef.current.get(path)
           if (!item || item.isMounted !== true) {
-            return visibleWhenNot ? true : false
+            return Boolean(visibleWhenNot)
           }
           const result =
             (visibleWhen.continuousValidation ||
             visibleWhen.validateContinuously
               ? true
-              : item.isFocused !== true) && hasFieldError(path) === false
+              : item.isFocused !== true) && !hasFieldError(path)
           return visibleWhenNot ? !result : result
         }
 
@@ -129,16 +129,10 @@ export default function useVisibility(props?: Partial<Props>) {
         return false
       }
 
-      if (
-        pathTruthy &&
-        Boolean(getValue(makeLocalPath(pathTruthy))) === false
-      ) {
+      if (pathTruthy && !Boolean(getValue(makeLocalPath(pathTruthy)))) {
         return false
       }
-      if (
-        pathFalsy &&
-        Boolean(getValue(makeLocalPath(pathFalsy))) === true
-      ) {
+      if (pathFalsy && Boolean(getValue(makeLocalPath(pathFalsy)))) {
         return false
       }
 
