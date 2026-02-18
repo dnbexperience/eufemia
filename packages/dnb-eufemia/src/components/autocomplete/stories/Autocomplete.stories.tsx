@@ -141,11 +141,11 @@ export function onBlur() {
       // on_change={({ data }) => {
       //   console.log('on_change', data)
       // }}
-      on_focus={({ value }) => {
-        console.log('on_focus', value)
+      on_focus={({ event }) => {
+        console.log('on_focus', event)
       }}
-      on_blur={({ value }) => {
-        console.log('on_blur', value)
+      on_blur={({ event }) => {
+        console.log('on_blur', event)
       }}
     />
   )
@@ -426,7 +426,7 @@ export const AutocompleteSandbox = () => {
             showIndicatorItem,
             setMode,
           }) => {
-            if (!(dataList.length > 0)) {
+            if (!(Array.isArray(dataList) && dataList.length > 0)) {
               showIndicatorItem()
               setTimeout(() => {
                 updateData(topMovies)
