@@ -185,7 +185,7 @@ export const FormStatusAllVariants = () => (
       rowGap="small"
     >
       <Grid.Container columns={1}>
-        <FormStatus text="Text" state="info" variant="flat" />
+        <FormStatus text="Text" state="info" variant="plain" />
         <FormStatus text="Text" state="info" variant="outlined" />
       </Grid.Container>
       <Grid.Container columns={1}>
@@ -193,11 +193,11 @@ export const FormStatusAllVariants = () => (
         <FormStatus text="Text" state="success" variant="outlined" />
       </Grid.Container>
       <Grid.Container columns={1}>
-        <FormStatus text="Text" state="warning" variant="flat" />
+        <FormStatus text="Text" state="warning" variant="plain" />
         <FormStatus text="Text" state="warning" variant="outlined" />
       </Grid.Container>
       <Grid.Container columns={1}>
-        <FormStatus text="Text" state="error" variant="flat" />
+        <FormStatus text="Text" state="error" variant="plain" />
         <FormStatus text="Text" state="error" variant="outlined" />
       </Grid.Container>
       <Grid.Container columns={1}>
