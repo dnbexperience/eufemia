@@ -1842,6 +1842,112 @@ describe('Field.Upload', () => {
       })
     })
 
+    it('should keep delete spinner when upload completes for another file', async () => {
+      const supportedFile = createMockFile(
+        'supported.png',
+        100,
+        'image/png'
+      )
+      const unsupportedFile = createMockFile(
+        'unsupported.png',
+        BYTES_IN_A_MEGA_BYTE * 10,
+        'image/png'
+      )
+
+      let resolveFileHandler: ((value: UploadValue) => void) | undefined
+      const fileHandler = jest.fn(
+        () =>
+          new Promise<UploadValue>((resolve) => {
+            resolveFileHandler = resolve
+          })
+      )
+
+      let resolveDelete: (() => void) | undefined
+      const asyncOnFileDelete = jest.fn(async () => {
+        await new Promise<void>((resolve) => {
+          resolveDelete = resolve
+        })
+      })
+
+      render(
+        <Field.Upload
+          fileMaxSize={1}
+          fileHandler={fileHandler}
+          onFileDelete={asyncOnFileDelete}
+        />
+      )
+
+      const element = getRootElement()
+
+      // Drop both files simultaneously — one supported, one too large
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [supportedFile, unsupportedFile],
+        },
+      })
+
+      // The supported file shows a spinner (uploading), the unsupported file shows an error
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell').length
+        ).toBe(2)
+
+        // One spinner for the uploading file
+        expect(
+          document.querySelectorAll('.dnb-progress-indicator').length
+        ).toBe(1)
+
+        // One error for the unsupported file
+        expect(document.querySelectorAll('.dnb-form-status').length).toBe(
+          1
+        )
+      })
+
+      // Click delete on the unsupported file (second file cell)
+      fireEvent.click(
+        document
+          .querySelectorAll('.dnb-upload__file-cell')[1]
+          .querySelector('button')
+      )
+
+      // Now both files should show spinners: uploading + deleting
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('.dnb-progress-indicator').length
+        ).toBe(2)
+      })
+
+      // The supported file's upload completes
+      resolveFileHandler([
+        {
+          file: supportedFile,
+          id: 'server_generated_id',
+          exists: false,
+        },
+      ])
+
+      // After upload completes, the delete spinner should still be visible
+      await waitFor(() => {
+        // Upload spinner gone, but delete spinner should remain
+        expect(
+          document.querySelectorAll('.dnb-progress-indicator').length
+        ).toBe(1)
+      })
+
+      // Resolve the delete
+      resolveDelete()
+
+      // After delete completes, the unsupported file should be removed
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell').length
+        ).toBe(1)
+        expect(
+          document.querySelectorAll('.dnb-progress-indicator').length
+        ).toBe(0)
+      })
+    })
+
     it('should block form submission while async file handler is pending', async () => {
       const file = createMockFile('fileName.png', 100, 'image/png')
       let resolveFileHandler: ((value: UploadValue) => void) | undefined
