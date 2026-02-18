@@ -2436,6 +2436,115 @@ describe('Field.Upload', () => {
   })
 
   describe('Iterate.Array with async handlers', () => {
+    it('should keep first iterate item files after second item async upload resolves', async () => {
+      const queuedResolvers: Array<(value: UploadValue) => void> = []
+
+      const sharedAsyncFileHandler = jest.fn(
+        () =>
+          new Promise<UploadValue>((resolve) => {
+            queuedResolvers.push(resolve)
+          })
+      )
+
+      const onSubmit = jest.fn()
+      let latestData = null
+
+      const firstItemFile = createMockFile(
+        'first-item-file.png',
+        100,
+        'image/png'
+      )
+      const secondItemFile = createMockFile(
+        'second-item-file.png',
+        100,
+        'image/png'
+      )
+
+      render(
+        <Form.Handler
+          onSubmit={onSubmit}
+          onChange={(data) => {
+            latestData = data
+          }}
+          defaultData={{
+            listOfFiles: [
+              {
+                files: undefined,
+              },
+              {
+                files: undefined,
+              },
+            ],
+          }}
+        >
+          <Iterate.Array path="/listOfFiles">
+            <Field.Upload
+              itemPath="/files"
+              fileHandler={sharedAsyncFileHandler}
+              required
+            />
+          </Iterate.Array>
+          <Form.SubmitButton />
+        </Form.Handler>
+      )
+
+      fireEvent.drop(document.querySelectorAll('input')[0], {
+        dataTransfer: {
+          files: [firstItemFile],
+        },
+      })
+
+      fireEvent.drop(document.querySelectorAll('input')[1], {
+        dataTransfer: {
+          files: [secondItemFile],
+        },
+      })
+
+      await waitFor(() => {
+        expect(queuedResolvers.length).toBe(2)
+      })
+
+      queuedResolvers[0]([
+        {
+          file: firstItemFile,
+          id: 'first-item-server-id',
+          exists: false,
+        },
+      ])
+
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell').length
+        ).toBe(2)
+        expect(document.querySelector('.dnb-anchor')).toHaveTextContent(
+          'first-item-file.png'
+        )
+      })
+
+      queuedResolvers[1]([
+        {
+          file: secondItemFile,
+          id: 'second-item-server-id',
+          exists: false,
+        },
+      ])
+
+      await waitFor(() => {
+        expect(latestData?.listOfFiles?.[0]?.files?.[0]?.file?.name).toBe(
+          'first-item-file.png'
+        )
+        expect(latestData?.listOfFiles?.[1]?.files?.[0]?.file?.name).toBe(
+          'second-item-file.png'
+        )
+        expect(
+          screen.queryByText('first-item-file.png')
+        ).toBeInTheDocument()
+        expect(
+          screen.queryByText('second-item-file.png')
+        ).toBeInTheDocument()
+      })
+    })
+
     it('should support async fileHandler in Iterate.Array using Form.Handler defaultData', async () => {
       let resolveFileHandler1: ((value: UploadValue) => void) | undefined
       let resolveFileHandler2: ((value: UploadValue) => void) | undefined
