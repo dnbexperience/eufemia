@@ -150,8 +150,6 @@ async function mockAsyncFileUpload(
 }
 
 export const AsyncEverything = () => {
-  const acceptedFileTypes = ['jpg', 'pdf', 'png']
-
   async function mockAsyncOnFileClick({ fileItem }) {
     const request = createRequest()
     console.log(
@@ -173,7 +171,6 @@ export const AsyncEverything = () => {
           onFileClick={mockAsyncOnFileClick}
           fileHandler={mockAsyncFileUpload}
           id="upload-example-async"
-          acceptedFileTypes={acceptedFileTypes}
         />
       </Flex.Stack>
     </Form.Handler>

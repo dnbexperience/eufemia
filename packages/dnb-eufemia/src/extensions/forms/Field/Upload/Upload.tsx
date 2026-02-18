@@ -216,6 +216,8 @@ function UploadComponent(props: Props) {
             handleChange(existingFiles)
           } else {
             // merge incoming files into existing order of newFiles.
+            const updatedByResponse = new Set<number>()
+
             incomingFiles.forEach((file) => {
               const incomingFileObj = {
                 ...file,
@@ -226,9 +228,31 @@ function UploadComponent(props: Props) {
               )
               if (foundIndex >= 0) {
                 newFilesLoading[foundIndex] = incomingFileObj
+                updatedByResponse.add(foundIndex)
               } else {
                 // if there's more files incoming than there's files loading (edge case), add them to end of array.
                 newFilesLoading.push(incomingFileObj)
+              }
+            })
+
+            // Preserve current isLoading state for files not updated by the upload response.
+            // This prevents overwriting loading states set by concurrent operations (e.g., async delete).
+            newFilesLoading.forEach((file, index) => {
+              if (updatedByResponse.has(index)) {
+                return // stop here
+              }
+
+              const currentFile = filesRef.current?.find(
+                (f) =>
+                  (f.id && f.id === file.id) ||
+                  (f.file && f.file === file.file)
+              )
+
+              if (currentFile?.isLoading) {
+                newFilesLoading[index] = {
+                  ...file,
+                  isLoading: true,
+                }
               }
             })
 
