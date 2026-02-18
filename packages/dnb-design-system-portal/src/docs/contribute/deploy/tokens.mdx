@@ -1,20 +1,20 @@
 ---
-title: 'Figma tokens'
+title: 'Design tokens'
 ---
 
-# Figma tokens
+# Design tokens
 
-Figma tokens are exported manually from the figma files and converted to css tokens in the build process. We only export colors for now. No sizes or typography.
+The design tokens are exported manually from Figma and converted to CSS variables in the build process. We only export colors for now. No sizes or typography.
 
 ## Overview
 
-- Figma variables are not automatically updated.
+- Design tokens are not automatically exported from Figma.
 - We only export colors. Sizes and strings (typography) are skipped for now.
 - We only export the Foundation colors and light themes (DNB, Sbanken, Carnegie)
 
 ## How to update
 
-### 1. Exporting Figma tokens
+### 1. Exporting design tokens
 
 We currently export the Figma variable collections for:
 
@@ -46,7 +46,7 @@ Since Figma has different rules and limitations than CSS we have established som
 
 ## How to use
 
-The css variables are imported in the `style/themes/XX/XX-theme-basis.scss` file and are therefore par of each themes basis import:
+The css variables are imported in the `style/themes/*/*-theme-basis.scss` file and are therefore par of each themes basis import:
 
 ```
 import '@dnb/eufemia/style/'
@@ -57,7 +57,7 @@ import '@dnb/eufemia/style/themes/ui/basis'
 
 ### Transforms
 
-During the CSS generation, figma variables are converted to lower case. And groups are separated by dashes (`-`).
+During the CSS generation, Figma variables are converted to lower case. And groups are separated by dashes (`-`).
 (Any unsupported character is replaced by the placeholder character `_` and logs a warning in the console. These should be fixed in Figma.)
 
 We also add the prefix `token` to the variables from the `Brand` collection.
@@ -66,7 +66,7 @@ We also add the prefix `token` to the variables from the `Brand` collection.
 
 Figma variable: `Color/Dimmer/Action-Pressed-Subtle-OnDark`
 
-CSS-variable: `--token-color-dimmer-action-pressed-subtle-ondark`
+CSS variable: `--token-color-dimmer-action-pressed-subtle-ondark`
 
 ### Potential issues
 

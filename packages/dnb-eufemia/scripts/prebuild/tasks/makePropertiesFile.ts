@@ -27,7 +27,7 @@ const ROOT_DIR = packpath.self()
 
 export default async function makePropertiesFile() {
   await runFactory()
-  await runFigmaFactory()
+  await runDesignTokenFactory()
 
   log.succeed(
     '> PrePublish: "makePropertiesFile" creating properties file done'
@@ -176,10 +176,9 @@ export const runFactory = ({
 
 export const transformFigmaAlias = (alias: Record<string, any>) => {
   const figmaVariableName = alias.targetVariableName
-  // const figmaVariableSetId = alias.targetVariableSetId
   // TODO: use is to verify the correct supported sets are used instead of name.
   // Need to figure out if set ID works as expected.
-  //  "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222"
+  // example id: "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222"
   const figmaVariableSetName = alias.targetVariableSetName
 
   if (figmaVariableSetName === 'Colors') {
@@ -257,7 +256,7 @@ export const transformNamespace = (namespace?: string) =>
   TOKEN_CSS_PREFIX + (namespace ? namespace + TOKEN_GROUP_SEPARATOR : '')
 
 /** Recursively generates CSS variables from a Figma export json */
-export const generateCSSVariablesFromFigmaExport = (
+const generateCSSVariablesFromFigmaExport = (
   value: Record<string, any> | string | number,
   /** string placed first in the css variable: `--namespace-color-blue-500` */
   namespace?: string,
@@ -287,7 +286,7 @@ export const generateCSSVariablesFromFigmaExport = (
   }
 }
 
-const makeFigmaSCSS = async (
+const makeDesignTokenSCSS = async (
   /** Root path to Figma JSON export file */
   inputPath: string,
   /** Root path for the generated SCSS file */
@@ -321,7 +320,7 @@ const makeFigmaSCSS = async (
   await promises.writeFile(outputPath, stylelintResult.output)
 }
 
-export const runFigmaFactory = async () => {
+const runDesignTokenFactory = async () => {
   log.start('> PrePublish: transforming figma variables to SCSS')
 
   const files = [
@@ -353,6 +352,6 @@ export const runFigmaFactory = async () => {
   )
 
   files.forEach(async (file) => {
-    await makeFigmaSCSS(file.in, file.out, file.prefix)
+    await makeDesignTokenSCSS(file.in, file.out, file.prefix)
   })
 }
