@@ -21,6 +21,16 @@ export const DropdownEvents = {
     type: 'function',
     status: 'optional',
   },
+  on_show_focus: {
+    doc: 'Will be called when focus is set on an item inside the opened drawer list. Returns `{ element }` with the focused DOM element.',
+    type: 'function',
+    status: 'optional',
+  },
+  on_hide_focus: {
+    doc: 'Will be called when focus is moved back to the trigger button after the drawer list closes. Returns `{ element }` with the focused DOM element.',
+    type: 'function',
+    status: 'optional',
+  },
 } satisfies PropertiesTableProps
 
 export const DropdownProperties = {
