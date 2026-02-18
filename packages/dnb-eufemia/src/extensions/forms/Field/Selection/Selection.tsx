@@ -267,6 +267,8 @@ const validDropdownProps = [
   'on_select',
   'on_show',
   'on_hide',
+  'on_show_focus',
+  'on_hide_focus',
 ] as const satisfies ReadonlyArray<
   KeysWithUnderscore<typeof DropdownProperties & typeof DropdownEvents>
 >
