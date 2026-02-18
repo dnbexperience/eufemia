@@ -351,7 +351,9 @@ const runDesignTokenFactory = async () => {
     `> PrePublish: "makePropertiesFile" Generating Figma sass files:`
   )
 
-  files.forEach(async (file) => {
-    await makeDesignTokenSCSS(file.in, file.out, file.prefix)
-  })
+  await Promise.all(
+    files.map(async (file) =>
+      makeDesignTokenSCSS(file.in, file.out, file.prefix)
+    )
+  )
 }
