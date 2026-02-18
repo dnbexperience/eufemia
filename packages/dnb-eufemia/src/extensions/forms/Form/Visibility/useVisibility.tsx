@@ -129,10 +129,10 @@ export default function useVisibility(props?: Partial<Props>) {
         return false
       }
 
-      if (pathTruthy && !Boolean(getValue(makeLocalPath(pathTruthy)))) {
+      if (pathTruthy && !getValue(makeLocalPath(pathTruthy))) {
         return false
       }
-      if (pathFalsy && Boolean(getValue(makeLocalPath(pathFalsy)))) {
+      if (pathFalsy && getValue(makeLocalPath(pathFalsy))) {
         return false
       }
 
