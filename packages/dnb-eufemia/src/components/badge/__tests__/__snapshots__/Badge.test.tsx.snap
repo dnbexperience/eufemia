@@ -4,52 +4,7 @@ exports[`Badge scss should match default theme snapshot 1`] = `
 "/*
 * Badge theme
 *
-*/
-/* 
- * WIP: Figma design tokens for the badge component
- *
- * Exactly how design tokens from figma will be integrated is still not decided. So this file
- * is just a temporary solution that separates design tokens from the rest of the styles.
- * These colors should eventually end up being properly defined design variables.
- *
- * Pending design pattern:
- * - Point the figma variable to existing css variables from \`properties.scss\` where possible.
- * - Name the variable with a \`--figma-\` prefix followed by kebab case figma token name.
- *   - E.g. "Color/Stroke/Neutral-Bold\` -> "--figma-color-stroke-neutral-bold"
- *   - Using dashes in figma "folders" might be an issue i.e. "Neutral-Bold" above.
- *     - Perhaps we should also use underscores, or camel case? 
- *       - "--figma-color-stroke-neutral_bold"
- *       - "--figma_color_stroke_neutral-bold"
- *       - "--figma-color-stroke-neutralBold"
- * - Name the figma primitive used by the token in a comment.
- */
-/*
- * Badge design tokens
- *
- * These are the figma design variables used by the "information" variant of the badge component.
- * The naming, prefix, location, and anything else is subject to change.
- */
-.dnb-badge {
-  --figma-color-decorative-first-subtle: var(--color-mint-green);
-  --figma-color-decorative-first-muted: #d8f3ec;
-  --figma-color-background-neutral-bold: var(--color-black-20);
-  --figma-color-background-neutral-subtle: var(--color-black-3);
-  --figma-color-stroke-neutral-bold: var(--color-black-20);
-  --figma-color-text-neutral: var(--color-black-80);
-  --figma-color-text-neutral-inverse: var(--color-white);
-  --figma-color-background-positive: var(--color-success-green);
-  --figma-color-text-positive: var(--color-success-green);
-  --figma-color-background-positive-subtle: #ebf4f2;
-  --figma-color-stroke-positive: var(--color-success-green);
-  --figma-color-background-warning: var(--color-accent-yellow);
-  --figma-color-text-warning-bold: #805b0e;
-  --figma-color-background-warning-subtle: var(--color-sand-yellow);
-  --figma-color-stroke-warning: var(--color-accent-yellow);
-  --figma-color-background-error: #d52525;
-  --figma-color-text-destructive: #d52525;
-  --figma-color-background-error-subtle: #fceeee;
-  --figma-color-stroke-error: #d52525;
-}"
+*/"
 `;
 
 exports[`Badge scss should match style dependencies css 1`] = `
@@ -94,7 +49,7 @@ exports[`Badge scss should match style dependencies css 1`] = `
   border-radius: 0.75rem;
 }
 .dnb-badge--variant-information {
-  --badge-information-color: var(--figma-color-text-neutral);
+  --badge-information-color: var(--token-color-text-neutral);
   padding: 0.125rem 0.5rem;
   border-radius: 0.5rem;
   background-color: var(--badge-information-bg);
@@ -127,47 +82,47 @@ exports[`Badge scss should match style dependencies css 1`] = `
   transform: translateY(25%);
 }
 .dnb-badge--status-default {
-  --badge-information-bg: var(--figma-color-decorative-first-subtle);
+  --badge-information-bg: var(--token-color-decorative-first-subtle);
   --badge-information-subtle-bg: var(
-    --figma-color-decorative-first-muted
+    --token-color-decorative-first-muted
   );
   --badge-information-subtle-border: var(
-    --figma-color-decorative-first-subtle
+    --token-color-decorative-first-subtle
   );
 }
 .dnb-badge--status-neutral {
-  --badge-information-bg: var(--figma-color-background-neutral-bold);
+  --badge-information-bg: var(--token-color-background-neutral-bold);
   --badge-information-subtle-bg: var(
-    --figma-color-background-neutral-subtle
+    --token-color-background-neutral-subtle
   );
   --badge-information-subtle-border: var(
-    --figma-color-stroke-neutral-bold
+    --token-color-stroke-neutral-bold
   );
 }
 .dnb-badge--status-positive {
-  --badge-information-bg: var(--figma-color-background-positive);
-  --badge-information-color: var(--figma-color-text-neutral-inverse);
+  --badge-information-bg: var(--token-color-background-positive);
+  --badge-information-color: var(--token-color-text-neutral-inverse);
   --badge-information-subtle-bg: var(
-    --figma-color-background-positive-subtle
+    --token-color-background-positive-subtle
   );
-  --badge-information-subtle-color: var(--figma-color-text-positive);
-  --badge-information-subtle-border: var(--figma-color-stroke-positive);
+  --badge-information-subtle-color: var(--token-color-text-positive);
+  --badge-information-subtle-border: var(--token-color-stroke-positive);
 }
 .dnb-badge--status-warning {
-  --badge-information-bg: var(--figma-color-background-warning);
+  --badge-information-bg: var(--token-color-background-warning);
   --badge-information-subtle-bg: var(
-    --figma-color-background-warning-subtle
+    --token-color-background-warning-subtle
   );
-  --badge-information-subtle-color: var(--figma-color-text-warning-bold);
-  --badge-information-subtle-border: var(--figma-color-stroke-warning);
+  --badge-information-subtle-color: var(--token-color-text-warning);
+  --badge-information-subtle-border: var(--token-color-stroke-warning);
 }
 .dnb-badge--status-negative {
-  --badge-information-bg: var(--figma-color-background-error);
-  --badge-information-color: var(--figma-color-text-neutral-inverse);
+  --badge-information-bg: var(--token-color-background-error);
+  --badge-information-color: var(--token-color-text-neutral-inverse);
   --badge-information-subtle-bg: var(
-    --figma-color-background-error-subtle
+    --token-color-background-error-subtle
   );
-  --badge-information-subtle-color: var(--figma-color-text-destructive);
-  --badge-information-subtle-border: var(--figma-color-stroke-error);
+  --badge-information-subtle-color: var(--token-color-text-destructive);
+  --badge-information-subtle-border: var(--token-color-stroke-error);
 }"
 `;
