@@ -1393,9 +1393,9 @@ describe('Modal component', () => {
 
     fireEvent.click(document.querySelector('button#modal-trigger'))
 
-    // For some reason, in JSDOM, the second open does not work properly.
-    // "this.isClosing" is still true at that point. Hard to find the reason. A delay does not help at all.
-    // expect(document.querySelector('div.dnb-modal__content')).toBeInTheDocument()
+    expect(
+      document.querySelector('div.dnb-modal__content')
+    ).toBeInTheDocument()
   })
 
   it('should open and close by using external state only', async () => {
