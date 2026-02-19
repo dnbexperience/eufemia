@@ -9,7 +9,7 @@ export const SwitchProperties: PropertiesTableProps = {
   title: {
     doc: 'The `title` of the input - describing it a bit further for accessibility reasons.',
     type: 'string',
-    status: 'required',
+    status: 'optional',
   },
   label: {
     doc: 'Use either the `label` property or provide a custom one.',

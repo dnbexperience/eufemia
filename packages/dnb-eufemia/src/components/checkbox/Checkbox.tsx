@@ -104,6 +104,7 @@ export type CheckboxProps = {
   suffix?: React.ReactNode
   value?: string
   element?: React.ElementType
+  /** @deprecated Use spread props instead. */
   attributes?: CheckboxAttributes
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.

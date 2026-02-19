@@ -4,13 +4,13 @@ import { ButtonProperties } from '../button/ButtonDocs'
 export const ToggleButtonProperties: PropertiesTableProps = {
   value: {
     doc: 'Defines the `value`. Use it to get the value during the `onChange` event listener callback in the **ToggleButtonGroup**.',
-    type: ['string', 'number'],
-    status: 'required',
+    type: ['string', 'number', 'object', 'Array'],
+    status: 'optional',
   },
   text: {
     doc: 'The text shown in the ToggleButton.',
     type: ['string', 'React.ReactNode'],
-    status: 'required',
+    status: 'optional',
   },
   checked: {
     doc: 'Determine whether the ToggleButton is checked or not. The default will be `false`.',

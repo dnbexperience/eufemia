@@ -43,7 +43,7 @@ export const GlobalStatusProperties: PropertiesTableProps = {
   },
   show: {
     doc: 'Set to `true` or `false` to manually make the global status visible. Defaults to `true`.',
-    type: 'boolean',
+    type: ['boolean', 'auto'],
     status: 'optional',
   },
   autoclose: {

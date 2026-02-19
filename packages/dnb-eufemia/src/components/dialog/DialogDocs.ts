@@ -3,22 +3,22 @@ import { PropertiesTableProps } from '../../shared/types'
 export const DialogProperties: PropertiesTableProps = {
   variant: {
     doc: 'The dialog variant. Can either be `information` or `confirmation`. Defaults to `information`.',
-    type: 'string',
+    type: ['information', 'confirmation'],
     status: 'optional',
   },
   title: {
     doc: 'The dialog title. Displays on the very top of the content.',
-    type: 'string',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   minWidth: {
     doc: "The minimum Dialog content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem` (average width is set to `60vw`).",
-    type: 'string',
+    type: ['string', 'number'],
     status: 'optional',
   },
   maxWidth: {
     doc: 'The maximum Dialog content width, defined by a CSS width value like `20rem`. Defaults to `60rem` (average width is set to `60vw`).',
-    type: 'string',
+    type: ['string', 'number'],
     status: 'optional',
   },
   className: {
@@ -53,7 +53,7 @@ export const DialogProperties: PropertiesTableProps = {
   },
   description: {
     doc: 'A description will be positioned below the title, but before the content. Used for Dialog variant `confirmation` to further describe what the actions will do.',
-    type: 'string',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   verticalAlignment: {
@@ -68,7 +68,7 @@ export const DialogProperties: PropertiesTableProps = {
   },
   fullscreen: {
     doc: 'If set to `true` then the dialog content will be shown as fullscreen, without showing the original content behind. Can be set to `false` to omit the auto fullscreen. Defaults to `auto`.',
-    type: 'boolean',
+    type: ['boolean', 'auto'],
     status: 'optional',
   },
   icon: {
@@ -78,17 +78,17 @@ export const DialogProperties: PropertiesTableProps = {
   },
   confirmType: {
     doc: 'For variant confirmation, the dialog is either an informational (`info`) or a warning (`warning`) message. Defaults to `info`.',
-    type: 'string',
+    type: ['info', 'warning'],
     status: 'optional',
   },
   declineText: {
     doc: 'For dialog actions, give a custom text for the decline button.',
-    type: 'string',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   confirmText: {
     doc: 'For dialog actions, give a custom text for the confirmation button.',
-    type: 'string',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   hideDecline: {

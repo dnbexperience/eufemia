@@ -218,7 +218,7 @@ export const AutocompleteProperties = {
   },
   labelDirection: {
     doc: 'Use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`.',
-    type: 'React.ReactNode',
+    type: ['horizontal', 'vertical'],
     status: 'optional',
   },
   labelSrOnly: {

@@ -47,17 +47,17 @@ export const TabsProperties: PropertiesTableProps = {
   '[data](/uilib/components/tabs/properties/#data-object)': {
     doc: 'Defines the data structure to load as an object.',
     type: 'object',
-    status: 'required',
+    status: 'optional',
   },
   children: {
     doc: "The content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.",
     type: ['React.ReactNode', 'object'],
-    status: 'required',
+    status: 'optional',
   },
   content: {
     doc: "The content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.",
     type: ['React.ReactNode', 'object'],
-    status: 'required',
+    status: 'optional',
   },
   prerender: {
     doc: 'If set to `true`, the Tabs content will pre-render all contents. The visibility will be handled by using the `hidden` and `aria-hidden` HTML attributes. Defaults to `false`.',
