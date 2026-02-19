@@ -487,7 +487,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Action-Dissabled-OnDark": {
+      "Action-Disabled-OnDark": {
         "$type": "color",
         "$value": {
           "colorSpace": "srgb",
@@ -2192,7 +2192,7 @@
           "com.figma.isOverride": true
         }
       },
-      "Action-Dissabled-OnDark": {
+      "Action-Disabled-OnDark": {
         "$type": "color",
         "$value": {
           "colorSpace": "srgb",

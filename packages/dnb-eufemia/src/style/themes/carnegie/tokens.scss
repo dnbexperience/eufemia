@@ -37,7 +37,7 @@
   --token-color-background-action-pressed-subtle-ondark: var(
     --carnegie-greyscale-1000-50
   );
-  --token-color-background-action-dissabled-ondark: var(
+  --token-color-background-action-disabled-ondark: var(
     --carnegie-greyscale-700
   );
   --token-color-background-action-alternative: var(
@@ -113,9 +113,7 @@
   );
   --token-color-icon-action-hover-ondark: var(--carnegie-greyscale-0);
   --token-color-icon-action-pressed-ondark: var(--carnegie-greyscale-0);
-  --token-color-icon-action-dissabled-ondark: var(
-    --carnegie-greyscale-400
-  );
+  --token-color-icon-action-disabled-ondark: var(--carnegie-greyscale-400);
   --token-color-icon-neutral: var(--carnegie-greyscale-1000);
   --token-color-icon-neutral-inverse: var(--carnegie-greyscale-0);
   --token-color-icon-neutral-ondark: var(--carnegie-greyscale-0);
