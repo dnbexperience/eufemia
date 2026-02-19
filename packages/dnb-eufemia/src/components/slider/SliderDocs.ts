@@ -140,12 +140,12 @@ export const SliderEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onDragStart: {
-    doc: 'Will be called once the user stops dragging. Returns `{ event }`.',
+    doc: 'Will be called once the user starts dragging. Returns `{ event }`.',
     type: 'function',
     status: 'optional',
   },
   onDragEnd: {
-    doc: 'Will be called once the user starts dragging. Returns `{ event }`.',
+    doc: 'Will be called once the user stops dragging. Returns `{ event }`.',
     type: 'function',
     status: 'optional',
   },
