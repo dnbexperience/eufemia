@@ -15,7 +15,9 @@ import Upload, {
   UploadFileNative,
   UploadProps,
 } from '../../../../components/Upload'
-import useUpload from '../../../../components/upload/useUpload'
+import useUpload, {
+  isFileEqual,
+} from '../../../../components/upload/useUpload'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import HelpButtonInline, {
   HelpButtonInlineContent,
@@ -176,9 +178,61 @@ function UploadComponent(props: Props) {
     filesRef.current = files
   }, [files])
 
+  const isSameUploadFile = useCallback(
+    (
+      fileA: UploadFile | UploadFileNative,
+      fileB: UploadFile | UploadFileNative
+    ) => {
+      if (!fileA || !fileB) {
+        return false
+      }
+
+      if (fileA.id && fileB.id && fileA.id === fileB.id) {
+        return true
+      }
+
+      return isFileEqual(fileA.file, fileB.file)
+    },
+    []
+  )
+
+  const isPendingOrErrorFile = useCallback(
+    (file: UploadFile | UploadFileNative) => {
+      return Boolean(file?.isLoading || file?.errorMessage)
+    },
+    []
+  )
+
   useEffect(() => {
-    setFiles(value)
-  }, [setFiles, value])
+    const externalFiles = value ?? []
+    const localFiles = filesRef.current ?? []
+
+    const mergedExternalFiles = externalFiles.map((externalFile) => {
+      if (!externalFile?.isLoading) {
+        return externalFile
+      }
+
+      const localResolvedFile = localFiles.find(
+        (localFile) =>
+          isSameUploadFile(localFile, externalFile) &&
+          !localFile?.isLoading
+      )
+
+      return localResolvedFile || externalFile
+    })
+
+    const filesToPreserve = localFiles.filter((localFile) => {
+      if (!isPendingOrErrorFile(localFile)) {
+        return false
+      }
+
+      return !mergedExternalFiles.some((externalFile) =>
+        isSameUploadFile(externalFile, localFile)
+      )
+    })
+
+    setFiles([...mergedExternalFiles, ...filesToPreserve])
+  }, [isPendingOrErrorFile, isSameUploadFile, setFiles, value])
 
   const handleChangeAsync = useCallback(
     async (files: UploadValue) => {
