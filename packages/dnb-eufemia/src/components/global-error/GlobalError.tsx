@@ -188,12 +188,12 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
               )}
             </P>
           )}
-          {help && links?.length && (
+          {help && links?.length > 0 && (
             <P top="medium" bottom>
               {help}
             </P>
           )}
-          {help && links?.length && (
+          {help && links?.length > 0 && (
             <P bottom="large" className="dnb-global-error__links">
               {links.map(({ text, url }) => {
                 return (

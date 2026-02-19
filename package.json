@@ -42,7 +42,7 @@
     "gatsby/browserslist": "4.21.4"
   },
   "engines": {
-    "node": ">=18.x",
+    "node": ">=24.x",
     "yarn": ">=4.0.0"
   },
   "volta": {

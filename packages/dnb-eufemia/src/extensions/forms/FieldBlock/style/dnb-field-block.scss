@@ -185,12 +185,40 @@ fieldset.dnb-forms-field-block {
     grid-area: status;
 
     .dnb-form-status__shell {
-      margin-top: 0.5rem; // set margin-top on shell, so we can animate the height
+      margin-top: var(
+        --field-block-status-margin-top,
+        0.5rem
+      ); // set margin-top on shell, so we can animate the height
+      margin-bottom: var(--field-block-status-margin-bottom, 0);
       max-width: var(--prose-max-width); // to enhance readability
     }
 
     @include allBelow(xx-small) {
       width: 90%;
+    }
+  }
+
+  &--status-position-above &__grid {
+    grid-template-areas:
+      'label'
+      'help'
+      'status'
+      'contents'
+      'indicator';
+  }
+
+  &--status-position-above {
+    --field-block-status-margin-top: 0;
+    --field-block-status-margin-bottom: 0.5rem;
+  }
+
+  &--status-position-above &__grid#{&}--layout-horizontal {
+    @include allAbove(small) {
+      grid-template-areas:
+        'label status'
+        '. contents'
+        '. help'
+        '. indicator';
     }
   }
 

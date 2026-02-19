@@ -24,7 +24,7 @@ export interface ModalHeaderBarProps
    */
   className?: string
 
-  shadow_class?: string
+  shadowClass?: string
 }
 
 interface ModalHeaderBarState {
@@ -75,6 +75,18 @@ export default class ModalHeaderBar extends React.PureComponent<
       this._ref.current
     ) {
       const marginTop = -this._ref.current.clientHeight
+
+      // Find the scroll container (look for .dnb-scroll-view ancestor)
+      let scrollRoot = null
+      let element = this._ref.current.parentElement
+      while (element) {
+        if (element.classList?.contains('dnb-scroll-view')) {
+          scrollRoot = element
+          break
+        }
+        element = element.parentElement
+      }
+
       this.intersectionObserver = new IntersectionObserver(
         (entries) => {
           const [entry] = entries
@@ -83,6 +95,7 @@ export default class ModalHeaderBar extends React.PureComponent<
           })
         },
         {
+          root: scrollRoot,
           rootMargin: `${marginTop}px 0px 0px 0px`,
           threshold: 0.001,
         }
@@ -97,7 +110,7 @@ export default class ModalHeaderBar extends React.PureComponent<
       className = null,
       children = null,
       ref, //eslint-disable-line
-      shadow_class = null,
+      shadowClass = null,
       ...props
     } = this.props
     const { showShadow } = this.state
@@ -113,7 +126,7 @@ export default class ModalHeaderBar extends React.PureComponent<
         style_type="white"
         className={classnames(
           'dnb-modal__header__bar',
-          showShadow && shadow_class,
+          showShadow && shadowClass,
           className
         )}
         inner_ref={this._ref}

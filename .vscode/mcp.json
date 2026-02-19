@@ -1,13 +1,15 @@
 {
   "servers": {
-    "eufemia": {
-      "command": "bash",
-      "args": [
-        "${workspaceFolder}/packages/dnb-eufemia/src/mcp/run-mcp-server.sh"
-      ],
-      "env": {
-        "EUFEMIA_DOCS_ROOT": "${workspaceFolder}/packages/dnb-eufemia/build/docs"
-      }
-    }
+    // Commented out to avoid MCP server being activated by default
+    // This is only useful for development purposes
+    // "eufemia": {
+    //   "command": "bash",
+    //   "args": [
+    //     "${workspaceFolder}/packages/dnb-eufemia/src/mcp/run-mcp-server.sh"
+    //   ],
+    //   "env": {
+    //     "EUFEMIA_DOCS_ROOT": "${workspaceFolder}/packages/dnb-eufemia/build/docs"
+    //   }
+    // }
   }
 }

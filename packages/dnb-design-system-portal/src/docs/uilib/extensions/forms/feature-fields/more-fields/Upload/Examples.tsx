@@ -4,11 +4,15 @@ import {
   Field,
   Form,
   FormError,
+  Iterate,
   Tools,
   Value,
 } from '@dnb/eufemia/src/extensions/forms'
 import { createMockFile } from '../../../../../../../docs/uilib/components/upload/Examples'
-import { UploadValue } from '@dnb/eufemia/src/extensions/forms/Field/Upload'
+import {
+  UploadFile,
+  UploadValue,
+} from '@dnb/eufemia/src/extensions/forms/Field/Upload'
 import { createRequest } from '../../../Form/SubmitIndicator/Examples'
 
 export const BasicUsage = () => {
@@ -366,14 +370,14 @@ export const WithFileItemOptions = () => {
             >
               <Field.Upload
                 path="/myFiles"
-                fileHandler={mockFileHandler}
+                fileHandler={fileHandler}
                 required
               />
             </Form.Handler>
           )
         }
 
-        function mockFileHandler(newFiles: UploadValue) {
+        function fileHandler(newFiles: UploadValue) {
           return newFiles.map((file) => {
             file.errorMessage = 'File has a problem'
             file.description = 'File description'
@@ -474,6 +478,168 @@ export const Width = () => {
           <Field.Upload path="/myFiles" width="stretch" label="stretch" />
         </Form.Card>
       </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const WithOnValidationError = () => {
+  return (
+    <ComponentBox scope={{ createRequest }}>
+      {() => {
+        function validationErrorHandler(
+          invalidFiles: UploadValue
+        ): UploadValue {
+          return invalidFiles.map((file) => ({
+            ...file,
+            removeLink: true,
+            description:
+              'This file cannot be uploaded due to validation failure',
+          }))
+        }
+
+        async function fileHandler(
+          validFiles: UploadValue
+        ): Promise<UploadValue> {
+          const updatedFiles: UploadValue = []
+
+          for (const file of validFiles) {
+            const request = createRequest()
+            await request(2000) // Simulate upload
+
+            updatedFiles.push({
+              ...file,
+              id: `server_${crypto.randomUUID()}`,
+            })
+          }
+
+          return updatedFiles
+        }
+
+        async function onFileDelete({ fileItem }) {
+          const request = createRequest()
+          console.log('Deleting file:', fileItem.file.name)
+          await request(1000) // Simulate delete
+        }
+
+        return (
+          <Form.Handler onSubmit={(data) => console.log('onSubmit', data)}>
+            <Flex.Stack>
+              <Field.Upload
+                path="/myFiles"
+                fileMaxSize={1}
+                acceptedFileTypes={['jpg', 'pdf', 'png']}
+                label="Upload documents"
+                labelDescription="Try uploading files larger than 1 MB or unsupported file types (e.g., .docx) to see validation error handling."
+                onValidationError={validationErrorHandler}
+                fileHandler={fileHandler}
+                onFileDelete={onFileDelete}
+              />
+              <Form.SubmitButton />
+              <Tools.Log />
+            </Flex.Stack>
+          </Form.Handler>
+        )
+      }}
+    </ComponentBox>
+  )
+}
+
+export const WithIterateArray = () => {
+  return (
+    <ComponentBox scope={{ createRequest }}>
+      {() => {
+        async function mockAsyncFileUpload(
+          newFiles: UploadFile[]
+        ): Promise<UploadFile[]> {
+          const updatedFiles: UploadFile[] = []
+
+          for (const [, file] of Object.entries(newFiles)) {
+            const formData = new FormData()
+            formData.append('file', file.file, file.file.name)
+
+            const request = createRequest()
+            await request(8000) // Simulate a request
+
+            try {
+              const mockResponse = {
+                ok: true,
+                json: async () => ({
+                  server_generated_id:
+                    file.file.name + '_' + crypto.randomUUID(),
+                }),
+              }
+
+              const data = await mockResponse.json()
+              updatedFiles.push({
+                ...file,
+                id: data.server_generated_id,
+              })
+            } catch (error) {
+              updatedFiles.push({
+                ...file,
+                errorMessage: error.message,
+              })
+            }
+          }
+
+          return updatedFiles
+        }
+
+        async function mockAsyncOnFileClick({ fileItem }) {
+          const request = createRequest()
+          console.log(
+            'making API request to fetch the url of the file: ' +
+              fileItem.file.name
+          )
+          await request(3000) // Simulate a request
+          window.open(
+            'https://eufemia.dnb.no/images/avatars/1501870.jpg',
+            '_blank'
+          )
+        }
+
+        async function mockAsyncFileRemoval({ fileItem }) {
+          const request = createRequest()
+          console.log(
+            'Making API request to remove: ' + fileItem.file.name
+          )
+          await request(3000) // Simulate a request
+        }
+
+        return (
+          <Form.Handler
+            onSubmit={(data) => {
+              console.log('submitted data:', data)
+            }}
+            defaultData={{
+              listOfFiles: [
+                {
+                  files: undefined,
+                },
+                {
+                  files: undefined,
+                },
+              ],
+            }}
+          >
+            <Iterate.Array path="/listOfFiles">
+              <Field.Upload
+                itemPath="/files"
+                label="Required field with async fileHandler"
+                onFileDelete={mockAsyncFileRemoval}
+                onFileClick={mockAsyncOnFileClick}
+                fileHandler={mockAsyncFileUpload}
+                required
+                onChange={(e) => {
+                  console.log('onChange', e)
+                }}
+              />
+            </Iterate.Array>
+            <Form.SubmitButton />
+            <Tools.Log />
+          </Form.Handler>
+        )
+      }}
     </ComponentBox>
   )
 }

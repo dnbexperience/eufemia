@@ -1,0 +1,42 @@
+/*
+ * VippsWalletButton component
+ *
+ */
+
+@import '../../../style/core/utilities.scss';
+
+.dnb-vipps-wallet-button.dnb-button--primary {
+  --vipps-primary-color: #ff5b24;
+  --vipps-primary-color--active: #eb5320;
+
+  background-color: var(--vipps-primary-color);
+  font-weight: var(--font-weight-medium);
+
+  svg {
+    padding-left: 0.125rem;
+
+    path {
+      fill: var(--color-white);
+    }
+  }
+
+  @include focus() {
+    background-color: var(--vipps-primary-color);
+    color: var(--color-white);
+  }
+
+  @include hover() {
+    background-color: var(--vipps-primary-color);
+    color: var(--color-white);
+
+    --border-color: var(--vipps-primary-color);
+  }
+
+  @include active() {
+    background-color: var(--vipps-primary-color--active);
+  }
+
+  &[disabled] {
+    background-color: var(--color-black-20);
+  }
+}

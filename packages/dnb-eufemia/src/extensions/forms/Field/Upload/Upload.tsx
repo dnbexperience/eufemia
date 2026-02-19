@@ -15,7 +15,9 @@ import Upload, {
   UploadFileNative,
   UploadProps,
 } from '../../../../components/Upload'
-import useUpload from '../../../../components/upload/useUpload'
+import useUpload, {
+  isFileEqual,
+} from '../../../../components/upload/useUpload'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import HelpButtonInline, {
   HelpButtonInlineContent,
@@ -61,6 +63,7 @@ export type Props = Omit<
     fileHandler?: (
       newFiles: UploadValue
     ) => UploadValue | Promise<UploadValue>
+    onValidationError?: (invalidFiles: UploadValue) => UploadValue | void
     width?: 'large' | 'stretch'
   }
 
@@ -129,6 +132,7 @@ function UploadComponent(props: Props) {
     handleFocus,
     handleBlur,
     fileHandler,
+    onValidationError,
     dataContext,
     ...rest
   } = useFieldProps(preparedProps, {
@@ -174,9 +178,61 @@ function UploadComponent(props: Props) {
     filesRef.current = files
   }, [files])
 
+  const isSameUploadFile = useCallback(
+    (
+      fileA: UploadFile | UploadFileNative,
+      fileB: UploadFile | UploadFileNative
+    ) => {
+      if (!fileA || !fileB) {
+        return false
+      }
+
+      if (fileA.id && fileB.id && fileA.id === fileB.id) {
+        return true
+      }
+
+      return isFileEqual(fileA.file, fileB.file)
+    },
+    []
+  )
+
+  const isPendingOrErrorFile = useCallback(
+    (file: UploadFile | UploadFileNative) => {
+      return Boolean(file?.isLoading || file?.errorMessage)
+    },
+    []
+  )
+
   useEffect(() => {
-    setFiles(value)
-  }, [setFiles, value])
+    const externalFiles = value ?? []
+    const localFiles = filesRef.current ?? []
+
+    const mergedExternalFiles = externalFiles.map((externalFile) => {
+      if (!externalFile?.isLoading) {
+        return externalFile
+      }
+
+      const localResolvedFile = localFiles.find(
+        (localFile) =>
+          isSameUploadFile(localFile, externalFile) &&
+          !localFile?.isLoading
+      )
+
+      return localResolvedFile || externalFile
+    })
+
+    const filesToPreserve = localFiles.filter((localFile) => {
+      if (!isPendingOrErrorFile(localFile)) {
+        return false
+      }
+
+      return !mergedExternalFiles.some((externalFile) =>
+        isSameUploadFile(externalFile, localFile)
+      )
+    })
+
+    setFiles([...mergedExternalFiles, ...filesToPreserve])
+  }, [isPendingOrErrorFile, isSameUploadFile, setFiles, value])
 
   const handleChangeAsync = useCallback(
     async (files: UploadValue) => {
@@ -214,6 +270,8 @@ function UploadComponent(props: Props) {
             handleChange(existingFiles)
           } else {
             // merge incoming files into existing order of newFiles.
+            const updatedByResponse = new Set<number>()
+
             incomingFiles.forEach((file) => {
               const incomingFileObj = {
                 ...file,
@@ -224,9 +282,31 @@ function UploadComponent(props: Props) {
               )
               if (foundIndex >= 0) {
                 newFilesLoading[foundIndex] = incomingFileObj
+                updatedByResponse.add(foundIndex)
               } else {
                 // if there's more files incoming than there's files loading (edge case), add them to end of array.
                 newFilesLoading.push(incomingFileObj)
+              }
+            })
+
+            // Preserve current isLoading state for files not updated by the upload response.
+            // This prevents overwriting loading states set by concurrent operations (e.g., async delete).
+            newFilesLoading.forEach((file, index) => {
+              if (updatedByResponse.has(index)) {
+                return // stop here
+              }
+
+              const currentFile = filesRef.current?.find(
+                (f) =>
+                  (f.id && f.id === file.id) ||
+                  (f.file && f.file === file.file)
+              )
+
+              if (currentFile?.isLoading) {
+                newFilesLoading[index] = {
+                  ...file,
+                  isLoading: true,
+                }
               }
             })
 
@@ -254,6 +334,7 @@ function UploadComponent(props: Props) {
     [
       identifier,
       fileHandler,
+      onValidationError,
       handleChange,
       setFieldInternals,
       setFieldState,
@@ -261,12 +342,54 @@ function UploadComponent(props: Props) {
     ]
   )
 
+  const processValidationErrors = useCallback(
+    (
+      files: UploadValue,
+      existingFiles: UploadValue
+    ): UploadValue | undefined => {
+      if (!files || !onValidationError) {
+        return files
+      }
+
+      const existingFileIds = existingFiles?.map((file) => file.id) ?? []
+
+      const newFiles = files.filter(
+        (file) => !existingFileIds.includes(file.id)
+      )
+
+      const newInvalidFiles = newFiles.filter((file) => file.errorMessage)
+
+      if (newInvalidFiles.length === 0) {
+        return files
+      }
+
+      // Allow user to customize invalid files
+      const processedInvalidFiles =
+        onValidationError(newInvalidFiles) || newInvalidFiles
+
+      // Merge processed files back into changeValue
+      return files.map((file) => {
+        const processedFile = processedInvalidFiles.find(
+          (processed) =>
+            processed.id === file.id ||
+            (processed.file && processed.file === file.file)
+        )
+
+        return processedFile || file
+      })
+    },
+    [onValidationError]
+  )
+
   const changeHandler = useCallback(
     ({ files }: { files: UploadValue }) => {
-      const changeValue = files?.length === 0 ? undefined : files
+      let changeValue = files?.length === 0 ? undefined : files
+
       // Prevents the form-status from showing up
       handleBlur()
       handleFocus()
+
+      changeValue = processValidationErrors(changeValue, filesRef.current)
 
       if (fileHandler) {
         handleChangeAsync(changeValue)
@@ -274,7 +397,14 @@ function UploadComponent(props: Props) {
         handleChange(changeValue)
       }
     },
-    [handleBlur, handleFocus, fileHandler, handleChangeAsync, handleChange]
+    [
+      handleBlur,
+      handleFocus,
+      fileHandler,
+      processValidationErrors,
+      handleChangeAsync,
+      handleChange,
+    ]
   )
 
   const width = widthProp as FieldBlockWidth

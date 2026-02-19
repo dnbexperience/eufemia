@@ -1036,9 +1036,9 @@ function setCursorPosition(
 function InputElement({ className, value, ...props }: TextMaskProps) {
   return (
     <TextMask
-      guide={true}
+      guide
       inputMode="numeric"
-      showMask={true}
+      showMask
       keepCharPositions={false} // so we can overwrite next value, if it already exists
       autoComplete="off"
       autoCapitalize="none"

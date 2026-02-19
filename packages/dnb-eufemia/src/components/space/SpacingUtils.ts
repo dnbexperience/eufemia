@@ -12,23 +12,14 @@ import type {
   SpaceTypesPositiveValuesType,
   SpaceTypesPositiveRemValuesType,
   SpaceStringTypes,
-  SpaceTypeMedia,
-  SpacingElementProps,
+  InnerSpacingElementProps,
+  InnerSpaceType,
+  InnerSpaceTypeMedia,
 } from './types'
 
 type SpaceNumber = number
-type InnerSpacingElementProps = SpacingElementProps & {
-  inline?: SpaceType
-  block?: SpaceType
-}
-type InnerSpaceTypeAll = SpaceType | InnerSpacingElementProps
-type InnerSpaceTypeMedia = {
-  small?: InnerSpaceTypeAll
-  medium?: InnerSpaceTypeAll
-  large?: InnerSpaceTypeAll
-}
 type InnerSpacingProps = Omit<SpacingProps, 'innerSpace'> & {
-  innerSpace?: InnerSpaceTypeAll | InnerSpaceTypeMedia
+  innerSpace?: InnerSpaceType
 }
 
 export const spacingDefaultProps: SpacingProps = {
@@ -96,7 +87,7 @@ export const createSpacingProperties = (
   return {}
 }
 
-function hasMediaSize(media: SpaceTypeMedia) {
+function hasMediaSize(media: InnerSpaceTypeMedia) {
   const keys = Object.keys(media)
   return (
     keys.includes('small') ||
@@ -117,10 +108,8 @@ function hasSize(space: InnerSpacingElementProps) {
   )
 }
 
-function computeProperties(
-  space: InnerSpaceTypeAll | InnerSpaceTypeMedia
-) {
-  if (!hasMediaSize(space as SpaceTypeMedia)) {
+function computeProperties(space: InnerSpaceType) {
+  if (!hasMediaSize(space as InnerSpaceTypeMedia)) {
     space = {
       small: space,
       medium: space,

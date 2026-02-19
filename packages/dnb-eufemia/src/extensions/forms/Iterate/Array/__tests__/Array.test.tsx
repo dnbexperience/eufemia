@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as Iterate from '../..'
@@ -2222,6 +2222,59 @@ describe('Iterate.Array', () => {
   })
 
   describe('itemPath', () => {
+    it('should preserve sibling values when stale iterate item callbacks are called out of order', async () => {
+      let latestData = null
+      const changeItemValue: Array<(value: string) => void> = []
+
+      function CaptureItemChange(props: { index: number }) {
+        const { handleChange } = useContext(IterateItemContext)
+
+        useEffect(() => {
+          changeItemValue[props.index] = (value) => {
+            handleChange(`/${props.index}/name`, value)
+          }
+        }, [props.index, handleChange])
+
+        return null
+      }
+
+      render(
+        <Form.Handler
+          data={{
+            items: [{ name: '' }, { name: '' }],
+          }}
+          onChange={(data) => {
+            latestData = data
+          }}
+        >
+          <Iterate.Array path="/items">
+            {(value, index) => {
+              return <CaptureItemChange index={index} />
+            }}
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      await waitFor(() => {
+        expect(changeItemValue.length).toBe(2)
+      })
+
+      const staleSecondItemChange = changeItemValue[1]
+
+      changeItemValue[0]('first')
+
+      await waitFor(() => {
+        expect(latestData?.items?.[0]?.name).toBe('first')
+      })
+
+      staleSecondItemChange('second')
+
+      await waitFor(() => {
+        expect(latestData?.items?.[0]?.name).toBe('first')
+        expect(latestData?.items?.[1]?.name).toBe('second')
+      })
+    })
+
     it('should iterate over the values given in data context', () => {
       const onSubmit = jest.fn()
       let collectedContext = null

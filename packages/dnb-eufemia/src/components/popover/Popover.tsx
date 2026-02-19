@@ -628,11 +628,11 @@ export default function Popover(props: PopoverProps) {
         ref={contentWrapperRef}
       >
         {title && (
-          <span className={'dnb-popover__title'}>
+          <span className="dnb-popover__title">
             <strong className="dnb-h--basis">{title}</strong>
           </span>
         )}
-        <span className={'dnb-popover__body'}>{userContent}</span>
+        <span className="dnb-popover__body">{userContent}</span>
       </span>
 
       {closeButton}

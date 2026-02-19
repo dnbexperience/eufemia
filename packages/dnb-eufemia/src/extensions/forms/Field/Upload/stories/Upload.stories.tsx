@@ -1,6 +1,9 @@
-import { Field, Form, Tools, Value, Wizard } from '../../..'
+import { Field, Form, Iterate, Tools, Value, Wizard } from '../../..'
 import { Flex } from '../../../../../components'
-import { UploadFileNative } from '../../../../../components/Upload'
+import {
+  UploadFile,
+  UploadFileNative,
+} from '../../../../../components/Upload'
 import { P } from '../../../../../elements'
 import { createRequest } from '../../../Form/Handler/stories/FormHandler.stories'
 import { UploadValue } from '../Upload'
@@ -150,8 +153,6 @@ async function mockAsyncFileUpload(
 }
 
 export const AsyncEverything = () => {
-  const acceptedFileTypes = ['jpg', 'pdf', 'png']
-
   async function mockAsyncOnFileClick({ fileItem }) {
     const request = createRequest()
     console.log(
@@ -173,7 +174,6 @@ export const AsyncEverything = () => {
           onFileClick={mockAsyncOnFileClick}
           fileHandler={mockAsyncFileUpload}
           id="upload-example-async"
-          acceptedFileTypes={acceptedFileTypes}
         />
       </Flex.Stack>
     </Form.Handler>
@@ -424,13 +424,143 @@ export const RequiredProperty = () => {
   )
 }
 
-export const DisabledProperty = () => {
+export const IterateArrayUpload = () => {
+  async function mockAsyncFileUpload(
+    newFiles: UploadFile[]
+  ): Promise<any> {
+    const updatedFiles: UploadFile[] = []
+
+    for (const [, file] of Object.entries(newFiles)) {
+      const formData = new FormData()
+      formData.append('file', file.file, file.file.name)
+
+      const request = createRequest()
+      await request(8000) // Simulate a request
+
+      try {
+        const mockResponse = {
+          ok: true,
+          json: async () => ({
+            server_generated_id:
+              file.file.name + '_' + crypto.randomUUID(),
+          }),
+        }
+
+        const data = await mockResponse.json()
+        updatedFiles.push({
+          ...file,
+          id: data.server_generated_id,
+        })
+      } catch (error) {
+        updatedFiles.push({
+          ...file,
+          errorMessage: error.message,
+        })
+      }
+    }
+
+    return updatedFiles
+  }
+
   return (
-    <Form.Handler onSubmit={async (form) => console.log(form)}>
-      <Flex.Stack>
-        <Field.Upload disabled />
-        <Tools.Log />
-      </Flex.Stack>
+    <Form.Handler
+      onSubmit={(data) => {
+        console.log('submitted data:', data)
+      }}
+      defaultData={{
+        listOfFiles: [
+          {
+            files: undefined,
+          },
+          {
+            files: undefined,
+          },
+        ],
+      }}
+    >
+      <Iterate.Array path="/listOfFiles">
+        <Field.Upload
+          itemPath="/files"
+          label="Required field with async fileHandler"
+          fileHandler={mockAsyncFileUpload}
+          onFileDelete={mockAsyncFileRemoval}
+          required
+          onChange={(e) => {
+            console.log('onChange', e)
+          }}
+        />
+      </Iterate.Array>
+      <Form.SubmitButton />
+      <Tools.Log />
+    </Form.Handler>
+  )
+}
+
+export const TwoAsyncUploads = () => {
+  async function mockAsyncFileUpload(
+    newFiles: UploadFile[]
+  ): Promise<any> {
+    const updatedFiles: UploadFile[] = []
+
+    for (const [, file] of Object.entries(newFiles)) {
+      const formData = new FormData()
+      formData.append('file', file.file, file.file.name)
+
+      const request = createRequest()
+      await request(8000) // Simulate a request
+
+      try {
+        const mockResponse = {
+          ok: true,
+          json: async () => ({
+            server_generated_id:
+              file.file.name + '_' + crypto.randomUUID(),
+          }),
+        }
+
+        const data = await mockResponse.json()
+        updatedFiles.push({
+          ...file,
+          id: data.server_generated_id,
+        })
+      } catch (error) {
+        updatedFiles.push({
+          ...file,
+          errorMessage: error.message,
+        })
+      }
+    }
+
+    return updatedFiles
+  }
+
+  return (
+    <Form.Handler
+      defaultData={{
+        files: undefined,
+        files1: undefined,
+      }}
+    >
+      <Field.Upload
+        path="/files"
+        label="Required field with async fileHandler #1"
+        fileHandler={mockAsyncFileUpload}
+        required
+        onChange={(e) => {
+          console.log('local onChange #1', e)
+        }}
+      />
+      <Field.Upload
+        path="/files1"
+        label="Required field with async fileHandler #2"
+        fileHandler={mockAsyncFileUpload}
+        required
+        onChange={(e) => {
+          console.log('local onChange #2', e)
+        }}
+      />
+
+      <Tools.Log />
     </Form.Handler>
   )
 }
@@ -494,6 +624,156 @@ export const WizardWithAsyncFileHandler = () => {
           </Form.ButtonRow>
         </Wizard.Step>
       </Wizard.Container>
+    </Form.Handler>
+  )
+}
+
+export const WithOnValidationErrorSimple = () => {
+  return (
+    <Form.Handler onSubmit={async (form) => console.log(form)}>
+      <Flex.Stack>
+        <Field.Upload
+          path="/myFiles"
+          fileMaxSize={1}
+          acceptedFileTypes={['jpg', 'pdf', 'png']}
+          labelDescription="Try uploading files larger than 1 MB or unsupported file types. Invalid files will have customized appearance."
+          onValidationError={(invalidFiles) => {
+            return invalidFiles.map((file) => ({
+              ...file,
+              removeLink: true,
+              description: 'This file cannot be uploaded',
+            }))
+          }}
+        />
+        <Form.SubmitButton />
+        <Tools.Log />
+      </Flex.Stack>
+    </Form.Handler>
+  )
+}
+
+export const WithOnValidationError = () => {
+  function syncValidationErrorHandler(
+    invalidFiles: UploadValue
+  ): UploadValue {
+    return invalidFiles.map((file) => ({
+      ...file,
+      removeLink: true,
+      description: 'File validation failed - cannot be uploaded',
+    }))
+  }
+
+  async function mockAsyncFileHandler(
+    validFiles: UploadValue
+  ): Promise<UploadValue> {
+    const updatedFiles: UploadValue = []
+
+    for (const file of validFiles) {
+      const formData = new FormData()
+      formData.append('file', file.file, file.file.name)
+
+      const request = createRequest()
+      await request(3000) // Simulate upload request
+
+      const mockResponse = {
+        ok: true,
+        json: async () => ({
+          server_generated_id: `server_${
+            file.file.name
+          }_${crypto.randomUUID()}`,
+        }),
+      }
+
+      const data = await mockResponse.json()
+      updatedFiles.push({
+        ...file,
+        id: data.server_generated_id,
+      })
+    }
+
+    return updatedFiles
+  }
+
+  async function mockAsyncFileDelete({ fileItem }) {
+    const request = createRequest()
+    console.log('Deleting file: ' + fileItem.file.name)
+    await request(2000) // Simulate delete request
+  }
+
+  return (
+    <Form.Handler onSubmit={async (form) => console.log(form)}>
+      <Flex.Stack>
+        <Field.Upload
+          path="/myFiles"
+          fileMaxSize={1}
+          acceptedFileTypes={['jpg', 'pdf', 'png']}
+          labelDescription="Try uploading files larger than 1 MB or unsupported file types to see validation error handling. Valid files will be uploaded."
+          onValidationError={syncValidationErrorHandler}
+          fileHandler={mockAsyncFileHandler}
+          onFileDelete={mockAsyncFileDelete}
+        />
+        <Form.SubmitButton />
+        <Tools.Log />
+      </Flex.Stack>
+    </Form.Handler>
+  )
+}
+
+export const WithOnValidationErrorAndAlwaysFailingUpload = () => {
+  function syncValidationErrorHandler(
+    invalidFiles: UploadValue
+  ): UploadValue {
+    return invalidFiles.map((file) => ({
+      ...file,
+      removeLink: true,
+      removeDeleteButton: true,
+      description: 'This file failed validation and cannot be uploaded',
+    }))
+  }
+
+  async function mockAsyncFileHandlerAlwaysFails(
+    validFiles: UploadValue
+  ): Promise<UploadValue> {
+    const updatedFiles: UploadValue = []
+
+    for (const file of validFiles) {
+      const formData = new FormData()
+      formData.append('file', file.file, file.file.name)
+
+      const request = createRequest()
+      await request(2000) // Simulate upload attempt
+
+      // Always fail upload
+      updatedFiles.push({
+        ...file,
+        errorMessage: 'Upload failed: Server rejected this file',
+      })
+    }
+
+    return updatedFiles
+  }
+
+  async function mockAsyncFileDelete({ fileItem }) {
+    const request = createRequest()
+    console.log('Deleting file: ' + fileItem.file.name)
+    await request(1500) // Simulate delete request
+  }
+
+  return (
+    <Form.Handler onSubmit={async (form) => console.log(form)}>
+      <Flex.Stack>
+        <Field.Upload
+          path="/myFiles"
+          fileMaxSize={1}
+          acceptedFileTypes={['jpg', 'pdf', 'png']}
+          labelDescription="All uploads will fail. Files larger than 1 MB or unsupported types trigger validation errors (no delete button). Valid files that fail upload can still be deleted."
+          onValidationError={syncValidationErrorHandler}
+          fileHandler={mockAsyncFileHandlerAlwaysFails}
+          onFileDelete={mockAsyncFileDelete}
+        />
+        <Form.SubmitButton />
+        <Tools.Log />
+      </Flex.Stack>
     </Form.Handler>
   )
 }

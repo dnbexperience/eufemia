@@ -14,6 +14,7 @@ import reactHooksPlugin from 'eslint-plugin-react-hooks'
 import securityPlugin from 'eslint-plugin-security'
 import tsParser from '@typescript-eslint/parser'
 import tsPlugin from '@typescript-eslint/eslint-plugin'
+import docsTypesPlugin from './scripts/eslint/plugins/docs-types/index.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -322,6 +323,16 @@ export default [
     files: ['**/*.stories.{ts,tsx,js,jsx}'],
     rules: {
       'no-console': 'off',
+    },
+  },
+  {
+    files: ['**/*Docs.{ts,tsx}'],
+    plugins: {
+      'docs-types': docsTypesPlugin,
+    },
+    rules: {
+      'docs-types/warn-supported-types': 'warn',
+      'docs-types/validate-supported-types': 'warn',
     },
   },
 ]

@@ -121,3 +121,41 @@
     animation-iteration-count: 1 !important;
   }
 }
+
+// Mixin for sticky navigation bar with drop shadow
+// Used by Dialog and Drawer components
+@mixin modalStickyNav() {
+  // Sticky navigation bar
+  &--spacing &__navigation.dnb-section {
+    position: sticky;
+    top: 0;
+    left: 0; // prevent horizontal scroll when content is wider
+    z-index: 99; // below dropdowns and date-pickers
+  }
+
+  // Elevated z-index when scrolled (sticky)
+  &--spacing &__navigation.dnb-section#{&}__navigation--sticky {
+    z-index: 2999; // above dropdowns and date-pickers, below modal
+  }
+
+  // Drop shadow appears when sticky and scrolled
+  & &__navigation--sticky {
+    &::before {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      @include defaultDropShadow();
+    }
+  }
+
+  // Remove shadow when not sticky
+  & &__navigation:not(#{&}__navigation--sticky) {
+    &::after {
+      color: transparent;
+    }
+  }
+}

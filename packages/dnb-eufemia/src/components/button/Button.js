@@ -165,6 +165,17 @@ export default class Button extends React.PureComponent {
       if (!usedSize) {
         usedSize = 'medium'
       }
+
+      // Warn if icon-only button lacks accessible label
+      if (
+        process.env.NODE_ENV === 'development' &&
+        !title &&
+        !attributes['aria-label']
+      ) {
+        warn(
+          'Icon-only Button requires either a "title" or "aria-label" prop for accessibility.'
+        )
+      }
     } else if (content) {
       if (!usedVariant) {
         usedVariant = 'primary'

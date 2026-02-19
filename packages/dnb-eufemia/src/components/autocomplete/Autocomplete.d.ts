@@ -2,6 +2,7 @@ import * as React from 'react';
 import type {
   DrawerListProps,
   DrawerListData,
+  DrawerListDataArrayObject,
   DrawerListOptionsRender
 } from '../../fragments/DrawerList';
 import type { ButtonIconPosition } from '../Button';
@@ -46,6 +47,51 @@ export type AutocompleteClearEvent = {
   previousValue: string;
   event: React.SyntheticEvent | Event;
 };
+export type AutocompleteEventMethods = {
+  attributes: Record<string, unknown>;
+  dataList: DrawerListData;
+  updateData: (data: DrawerListData) => void;
+  revalidateSelectedItem: () => void;
+  revalidateInputValue: () => void;
+  resetSelectedItem: () => void;
+  clearInputValue: () => void;
+  showAllItems: () => void;
+  setVisible: () => void;
+  resetInputValue: () => void;
+  setHidden: () => void;
+  emptyData: () => void;
+  focusInput: () => void;
+  setInputValue: (value: string) => void;
+  showNoOptionsItem: () => void;
+  showIndicatorItem: () => void;
+  showIndicator: () => void;
+  hideIndicator: () => void;
+  setMode: (mode: 'sync' | 'async') => void;
+  debounce: (
+    func: (...args: any[]) => any,
+    props?: Record<string, unknown>,
+    wait?: number
+  ) => void;
+};
+export type AutocompleteTypeEvent = {
+  value: string;
+  event: React.ChangeEvent<HTMLInputElement>;
+} & AutocompleteEventMethods;
+export type AutocompleteFocusEvent = {
+  value: string;
+  event: React.FocusEvent<HTMLInputElement>;
+} & AutocompleteEventMethods;
+export type AutocompleteBlurEvent = {
+  value: string;
+  event: React.FocusEvent<HTMLInputElement>;
+} & AutocompleteEventMethods;
+export type AutocompleteSelectEvent = {
+  active_item: number | string;
+  selected_item?: number | string | null;
+  value: string | number;
+  data: DrawerListDataArrayObject | string | null;
+  event: React.SyntheticEvent;
+} & AutocompleteEventMethods;
 export interface AutocompleteProps {
   /**
    * If set to `async`, it prevents showing the "no options" message during typing / filtering. Defaults to `sync`.
@@ -225,11 +271,10 @@ export interface AutocompleteProps {
    * Define a custom class for the internal drawer-list. This makes it possible more easily customize the drawer-list style with styled-components and the `css` style method. Defaults to `null`.
    */
   drawer_class?: string;
-  on_type?: (...args: any[]) => any;
-  on_focus?: (...args: any[]) => any;
-  on_blur?: (...args: any[]) => any;
-  on_select?: (...args: any[]) => any;
-  on_state_update?: (...args: any[]) => any;
+  on_type?: (event: AutocompleteTypeEvent) => void;
+  on_focus?: (event: AutocompleteFocusEvent) => void;
+  on_blur?: (event: AutocompleteBlurEvent) => void;
+  on_select?: (event: AutocompleteSelectEvent) => void;
   onClear?: (event: AutocompleteClearEvent) => void;
 }
 export type AutocompleteAllProps = AutocompleteProps &

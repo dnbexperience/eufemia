@@ -13,6 +13,7 @@ export default function DialogNavigation({
     <ModalHeaderBar
       {...props}
       className={classnames('dnb-dialog__navigation', className)}
+      shadowClass="dnb-dialog__navigation--sticky"
     />
   )
 }

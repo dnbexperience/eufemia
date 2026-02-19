@@ -973,7 +973,7 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
     To make the Drawer scroll, we use .dnb-scroll-view
   */
   width: 100%;
-  height: calc(100% - var(--header-height, 0));
+  min-height: calc(100% - var(--header-height, 0));
   /** Sets the color on scroll overflow (at the bottom) */
   background-color: var(--modal-background-color, transparent);
 }
@@ -1138,6 +1138,23 @@ html:not([data-visual-test]) .dnb-drawer--hide.dnb-drawer--bottom {
   top: 0;
   left: 0;
   z-index: 99;
+}
+.dnb-drawer--spacing .dnb-drawer__navigation.dnb-section.dnb-drawer__navigation--sticky {
+  z-index: 2999;
+}
+.dnb-drawer .dnb-drawer__navigation--sticky::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-shadow: var(--shadow-default);
+}
+.dnb-drawer .dnb-drawer__navigation:not(.dnb-drawer__navigation--sticky)::after {
+  color: transparent;
+}
+.dnb-drawer--spacing .dnb-drawer__navigation.dnb-section {
   margin: var(--drawer-spacing) 0;
   padding: 0 var(--drawer-spacing);
 }
@@ -1155,21 +1172,6 @@ html:not([data-visual-test]) .dnb-drawer--hide.dnb-drawer--bottom {
   .dnb-drawer--spacing .dnb-drawer__navigation.dnb-section {
     padding: 0 calc(var(--drawer-spacing) / 2);
   }
-}
-.dnb-drawer--spacing .dnb-drawer__navigation.dnb-section.dnb-drawer__navigation--sticky {
-  z-index: 2999;
-}
-.dnb-drawer .dnb-drawer__navigation--sticky::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  box-shadow: var(--shadow-default);
-}
-.dnb-drawer .dnb-drawer__navigation:not(.dnb-drawer__navigation--sticky)::after {
-  color: transparent;
 }
 @media screen and (max-width: 40em) {
   .dnb-drawer--no-animation-on-mobile {

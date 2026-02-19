@@ -422,6 +422,22 @@ describe('createSpacingProperties', () => {
       createSpacingProperties({ innerSpace: { small: { right: 0 } } })
     ).toEqual({ '--space-r-s': '0' })
     expect(
+      createSpacingProperties({
+        innerSpace: { small: { block: 'large' } },
+      })
+    ).toEqual({
+      '--space-b-s': '2rem',
+      '--space-t-s': '2rem',
+    })
+    expect(
+      createSpacingProperties({
+        innerSpace: { small: { inline: 'x-small' } },
+      })
+    ).toEqual({
+      '--space-l-s': '0.5rem',
+      '--space-r-s': '0.5rem',
+    })
+    expect(
       createSpacingProperties({ innerSpace: { small: { right: null } } })
     ).toEqual({})
     expect(

@@ -16,7 +16,7 @@ import { NumberFormat } from '@dnb/eufemia'
 
 A ready-to-use DNB number formatter. Use it wherever you have to display a number, a currency value, a phone number, etc.
 
-For a complete locale comparison, see [Best Practices for formatting numbers](/uilib/usage/best-practices/for-formatting/).
+For a complete locale comparison, see [Best Practices for number formatting](/uilib/usage/best-practices/for-formatting/).
 
 ## Relevant links
 
@@ -70,6 +70,29 @@ Here are the available options for the `rounding` property:
 - `omit`: Truncate decimals without rounding.
 - `half-even`: Round to the nearest even number.
 - `half-up` (default): Round up if the fractional part is 0.5 or greater; otherwise, round down.
+
+## Handling en-NO
+
+`en-NO` (English – Norway) is a valid BCP 47 locale and is commonly sent by devices configured with English language and Norway region.
+
+If region-aware formatting is supported, accept en-NO and use it for date, time, and number formatting.
+
+If only specific English locales are supported (e.g. en-GB), explicitly map en-NO to the closest supported locale.
+
+Locale handling must be explicit and consistent across the application.
+
+## Value Components
+
+The formatting helpers power several `Value.*` components:
+
+- [Value.Number](/uilib/extensions/forms/Value/Number/)
+- [Value.Currency](/uilib/extensions/forms/Value/Currency/)
+- [Value.Date](/uilib/extensions/forms/Value/Date/)
+- [Value.DateOfBirth](/uilib/extensions/forms/Value/DateOfBirth/)
+- [Value.PhoneNumber](/uilib/extensions/forms/Value/PhoneNumber/)
+- [Value.BankAccountNumber](/uilib/extensions/forms/Value/BankAccountNumber/)
+- [Value.NationalIdentityNumber](/uilib/extensions/forms/Value/NationalIdentityNumber/)
+- [Value.OrganizationNumber](/uilib/extensions/forms/Value/OrganizationNumber/)
 
 ## Provider
 

@@ -194,11 +194,6 @@ function ArrayComponent(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [countValue])
 
-  useEffect(() => {
-    // Update inside the useEffect, to support React.StrictMode
-    valueCountRef.current = arrayValue || []
-  }, [arrayValue])
-
   const idsRef = useRef<Array<Identifier>>([])
   const isNewRef = useRef<Record<string, boolean>>({})
   const modesRef = useRef<
@@ -212,6 +207,7 @@ function ArrayComponent(props: Props) {
     >
   >({})
   const valueCountRef = useRef(arrayValue)
+  const arrayValueRef = useRef(arrayValue)
   const containerRef = useRef<HTMLDivElement>()
   const hadPushRef = useRef<boolean>()
   const innerRefs = useRef<
@@ -221,6 +217,12 @@ function ArrayComponent(props: Props) {
   const omitFlex = withoutFlex ?? (summaryListContext || valueBlockContext)
 
   const { getNextContainerMode } = useSwitchContainerMode()
+
+  useEffect(() => {
+    // Update inside the useEffect, to support React.StrictMode
+    valueCountRef.current = arrayValue || []
+    arrayValueRef.current = arrayValue || []
+  }, [arrayValue])
 
   const arrayItems = useMemo(() => {
     const list = Array.isArray(arrayValue) ? arrayValue : []
@@ -271,7 +273,9 @@ function ArrayComponent(props: Props) {
           }
         },
         handleChange: (path, value) => {
-          const newArrayValue = structuredClone(arrayValue)
+          const newArrayValue = structuredClone(
+            arrayValueRef.current || []
+          )
 
           // Make sure we have a new object reference,
           // else two new objects will be the same
@@ -282,7 +286,7 @@ function ArrayComponent(props: Props) {
         },
         handlePush: (element) => {
           hadPushRef.current = true
-          handleChange([...(arrayValue || []), element])
+          handleChange([...(arrayValueRef.current || []), element])
         },
         handleRemove: ({ keepItems = false } = {}) => {
           if (keepItems) {
@@ -294,7 +298,9 @@ function ArrayComponent(props: Props) {
 
         // - Called after animation end
         fulfillRemove: () => {
-          const newArrayValue = structuredClone(arrayValue)
+          const newArrayValue = structuredClone(
+            arrayValueRef.current || []
+          )
           newArrayValue.splice(index, 1)
           handleChange(
             newArrayValue.length === 0 ? clearedArray : newArrayValue
@@ -310,7 +316,9 @@ function ArrayComponent(props: Props) {
         // - Called when cancel button press
         restoreOriginalValue: (value) => {
           if (value) {
-            const newArrayValue = structuredClone(arrayValue)
+            const newArrayValue = structuredClone(
+              arrayValueRef.current || []
+            )
             newArrayValue[index] = value
             handleChange(newArrayValue)
           }

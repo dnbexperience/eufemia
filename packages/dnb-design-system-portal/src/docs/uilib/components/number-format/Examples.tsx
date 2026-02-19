@@ -211,23 +211,35 @@ export const NumberSpacing = () => (
 export const NumberSignDisplay = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-sign-display">
+      <H3>signDisplay="auto"</H3>
+      <P>
+        <NumberFormat signDisplay="auto" value={1234} />
+        <NumberFormat signDisplay="auto" value={-1234} />
+        <NumberFormat signDisplay="auto" value={0} />
+      </P>
       <H3>signDisplay="always"</H3>
       <P>
         <NumberFormat signDisplay="always" value={1234} />
         <NumberFormat signDisplay="always" value={-1234} />
         <NumberFormat signDisplay="always" value={0} />
       </P>
-      <H3>signDisplay="exceptZero"</H3>
-      <P>
-        <NumberFormat signDisplay="exceptZero" value={1234} />
-        <NumberFormat signDisplay="exceptZero" value={-1234} />
-        <NumberFormat signDisplay="exceptZero" value={0} />
-      </P>
       <H3>signDisplay="never"</H3>
       <P>
         <NumberFormat signDisplay="never" value={1234} />
         <NumberFormat signDisplay="never" value={-1234} />
         <NumberFormat signDisplay="never" value={0} />
+      </P>
+      <H3>signDisplay="negative"</H3>
+      <P>
+        <NumberFormat signDisplay="negative" value={1234} />
+        <NumberFormat signDisplay="negative" value={-1234} />
+        <NumberFormat signDisplay="negative" value={0} />
+      </P>
+      <H3>signDisplay="exceptZero"</H3>
+      <P>
+        <NumberFormat signDisplay="exceptZero" value={1234} />
+        <NumberFormat signDisplay="exceptZero" value={-1234} />
+        <NumberFormat signDisplay="exceptZero" value={0} />
       </P>
     </ComponentBox>
   </Style>

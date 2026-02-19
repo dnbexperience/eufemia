@@ -15,6 +15,7 @@
   --dialog-spacing: 2rem; // should reflect --spacing-large
   --dialog-spacing-minus: -2rem; // should reflect --spacing-large
   --dialog-radius: 0.5rem;
+  --dialog-padding: calc(var(--dialog-spacing) * 1.75);
 
   position: relative;
   border-radius: var(--dialog-radius);
@@ -39,7 +40,7 @@
     flex-direction: column;
 
     width: 100%;
-    height: 100%;
+    min-height: 100%;
   }
 
   &--information {
@@ -70,8 +71,8 @@
   }
 
   &--spacing#{&}--information &__inner {
-    padding-left: calc(var(--dialog-spacing) * 1.75); // 3.5rem (56px)
-    padding-right: calc(var(--dialog-spacing) * 1.75); // 3.5rem (56px)
+    padding-left: var(--dialog-padding); // 3.5rem (56px)
+    padding-right: var(--dialog-padding); // 3.5rem (56px)
 
     @include allBelow(large) {
       padding-left: calc(var(--dialog-spacing)); // 2rem (32px)
@@ -163,6 +164,38 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+  }
+
+  @include modalStickyNav();
+
+  // Remove default margins from navigation to avoid extra spacing when no title
+  &--spacing &__navigation.dnb-section {
+    margin: 0;
+  }
+
+  // Only add spacing between navigation and title when title exists
+  &--spacing &__navigation.dnb-section + &__title {
+    margin-top: var(--spacing-medium);
+  }
+
+  // Dialog-specific shadow height override
+  & &__navigation--sticky {
+    &::before {
+      left: calc(-1 * var(--dialog-padding));
+      right: calc(-1 * var(--dialog-padding));
+      box-shadow: var(--shadow-default-x) var(--shadow-default-y) 8px 0
+        var(--shadow-default-color);
+
+      @include allBelow(large) {
+        left: calc(-1 * var(--dialog-spacing));
+        right: calc(-1 * var(--dialog-spacing));
+      }
+
+      @include allBelow(small) {
+        left: calc(-1 * var(--dialog-spacing) / 2);
+        right: calc(-1 * var(--dialog-spacing) / 2);
+      }
+    }
   }
 
   // Animation in

@@ -59,8 +59,8 @@ export const ResponsiveInnerSpace = () => (
   <ComponentBox hideCode>
     <Section
       innerSpace={{
-        small: { top: 'small', bottom: 'small' },
-        medium: true,
+        small: { block: 'small', inline: 'x-small' },
+        medium: { block: 'medium', inline: 'small' },
         large: false,
       }}
       backgroundColor="pistachio"

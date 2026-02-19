@@ -520,12 +520,10 @@ export const ListSubline = () => {
 
         <List.Item.Action title="Title" icon={fish_medium}>
           <List.Cell.End>
-            <Flex.Vertical gap={false}>
-              <Value.Currency value={5678} showEmpty />
-              <List.Cell.Title.Subline variant="description">
-                Subline
-              </List.Cell.Title.Subline>
-            </Flex.Vertical>
+            <Value.Currency value={5678} showEmpty />
+            <List.Cell.Title.Subline variant="description">
+              Subline
+            </List.Cell.Title.Subline>
           </List.Cell.End>
         </List.Item.Action>
       </List.Container>

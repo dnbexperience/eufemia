@@ -66,6 +66,16 @@ The `fileHandler` property supports a synchronous function, and can be used for 
 
 <Examples.WithFileSizeValidation />
 
+### With validation error handler
+
+The `onValidationError` property can be used to handle files that fail built-in validation (file size or file type). This allows you to customize the appearance and behavior of invalid files, such as removing the download link or adding custom descriptions:
+
+<Examples.WithOnValidationError />
+
+### With Iterate.Array
+
+<Examples.WithIterateArray />
+
 <VisibleWhenVisualTest>
   <Examples.Width />
   <Examples.WithHelpWithoutLabelDescription />

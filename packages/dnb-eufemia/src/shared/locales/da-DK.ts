@@ -110,7 +110,7 @@ export default {
       aria_role: 'Hjælp-knap',
     },
     Input: {
-      submit_button_title: 'Send ind knap',
+      submit_button_title: 'Indsend',
       clear_button_title: 'Nulstil',
     },
     Pagination: {

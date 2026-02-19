@@ -7,6 +7,7 @@ import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { bell_medium as Bell, question } from '@dnb/eufemia/src/icons'
 import { Button, IconPrimary, Section } from '@dnb/eufemia/src'
+import { VippsLogo } from '@dnb/eufemia/src/extensions/vipps-wallet-button/VippsWalletButton'
 import { VisibilityByTheme, Theme } from '@dnb/eufemia/src/shared'
 
 export const ButtonPrimary = () => (
@@ -563,5 +564,17 @@ export const ButtonHasDarkBackground = () => (
         </Button>
       </Theme.Provider>
     </Section>
+  </ComponentBox>
+)
+
+export const SvgInButton = () => (
+  <ComponentBox hideCode scope={{ VippsLogo }}>
+    {() => {
+      return (
+        <Button variant="secondary">
+          Button with SVG <VippsLogo />
+        </Button>
+      )
+    }}
   </ComponentBox>
 )

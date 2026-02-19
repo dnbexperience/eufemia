@@ -1,4 +1,5 @@
-import React from "react";
+import React from 'react'
+
 import {
   refresh_medium as Refresh,
   clock_medium as Expired,
@@ -6,15 +7,17 @@ import {
   padlock_medium as Blocked,
   question_medium as QuestionMark,
   shopping_cart_medium as Cart,
-  confetti_medium as Confetti
+  confetti_medium as Confetti,
+  stop_medium as Stop,
+  reset_medium as Reset,
 } from "../../../../icons";
 
 const statusIconMap = {
-  renewed: {Icon: Refresh, className: "icon--fill"},
+  renewed: {Icon: Reset, className: "icon--fill"},
   replaced: {Icon: Refresh, className: "icon--fill"},
   new: {Icon: Confetti, className: "icon--fill"},
   expired: {Icon: Expired, className: "icon--stroke"},
-  not_active: {Icon: Expired, className: "icon--stroke"},
+  not_active: {Icon: Stop, className: "icon--stroke"},
   blocked: {Icon: Blocked, className: "icon--stroke"},
   new_order: {Icon: Cart, className: "icon--stroke"},
   order_in_process: {Icon: Envelope, className: "icon--stroke"},

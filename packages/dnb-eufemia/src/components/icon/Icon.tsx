@@ -147,7 +147,7 @@ export default function Icon(localProps: IconAllProps) {
 
   // make sure we return an empty span if we couldn't get the icon
   if (!IconContainer) {
-    return <></>
+    return null
   }
 
   return (

@@ -67,7 +67,7 @@
     */
 
     width: 100%;
-    height: calc(100% - var(--header-height, 0));
+    min-height: calc(100% - var(--header-height, 0));
 
     /** Sets the color on scroll overflow (at the bottom) */
     background-color: var(--modal-background-color, transparent);
@@ -229,40 +229,11 @@
     justify-content: space-between;
   }
 
+  @include modalStickyNav();
+
   &--spacing &__navigation.dnb-section {
-    position: sticky;
-    top: 0;
-    left: 0; // when content is wider, we don't want the bar to scroll horizontal
-    z-index: 99; // below #dropdown and #date-picker
-
-    // on large screens
     margin: var(--drawer-spacing) 0;
-
     @include drawerSpacing();
-  }
-  &--spacing &__navigation.dnb-section#{&}__navigation--sticky {
-    z-index: 2999; // above #dropdown and #date-picker and below #modal
-  }
-
-  // is this correct?
-  & &__navigation--sticky {
-    &::before {
-      content: '';
-      position: absolute;
-      z-index: -1;
-      left: 0;
-      right: 0;
-      bottom: 0;
-
-      @include defaultDropShadow();
-    }
-  }
-
-  // is this correct?
-  & &__navigation:not(#{&}__navigation--sticky) {
-    &::after {
-      color: transparent;
-    }
   }
 
   @include allBelow(small) {
