@@ -108,7 +108,7 @@ export const ModalProperties: PropertiesTableProps = {
   },
   dialogTitle: {
     doc: 'The aria label of the dialog when no labelledBy and no title is given. Defaults to `Vindu`.',
-    type: ['string', 'React.ReactNode'],
+    type: 'string',
     status: 'optional',
   },
   directDomReturn: {
@@ -139,6 +139,51 @@ export const ModalProperties: PropertiesTableProps = {
   spacing: {
     doc: 'If set to `false` then the modal content will be shown without any spacing. Defaults to `true`.',
     type: 'boolean',
+    status: 'optional',
+  },
+  title: {
+    doc: 'The modal/drawer title. Displays on the very top of the content.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  modalContent: {
+    doc: 'The content which will appear when triggering the modal/drawer. Alternative to `children`.',
+    type: ['React.ReactNode', 'function'],
+    status: 'optional',
+  },
+  barContent: {
+    doc: 'The content which will appear in the bar, above the header, and side-by-side the close button.',
+    type: ['React.ReactNode', 'function'],
+    status: 'optional',
+  },
+  headerContent: {
+    doc: 'The content which will appear in the header of the modal/drawer.',
+    type: ['React.ReactNode', 'function'],
+    status: 'optional',
+  },
+  minWidth: {
+    doc: "The minimum Modal content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem`.",
+    type: ['string', 'number'],
+    status: 'optional',
+  },
+  maxWidth: {
+    doc: 'The maximum Modal content width, defined by a CSS width value like `20rem`. Defaults to `60rem`.',
+    type: ['string', 'number'],
+    status: 'optional',
+  },
+  alignContent: {
+    doc: 'Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.',
+    type: ['left', 'center', 'centered', 'right'],
+    status: 'optional',
+  },
+  containerPlacement: {
+    doc: 'For `drawer` mode only. Defines the placement on what side the Drawer should be opened. Defaults to `right`.',
+    type: ['left', 'right', 'top', 'bottom'],
+    status: 'optional',
+  },
+  verticalAlignment: {
+    doc: 'Define the vertical alignment of the container. Defaults to `center`.',
+    type: ['top', 'center'],
     status: 'optional',
   },
   closeTitle: {

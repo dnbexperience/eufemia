@@ -110,6 +110,41 @@ export const DatePickerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  submitButtonText: {
+    doc: 'Custom text for the submit button. Defaults to `Ok`.',
+    type: 'string',
+    status: 'optional',
+  },
+  cancelButtonText: {
+    doc: 'Custom text for the cancel button. Defaults to `Avbryt`.',
+    type: 'string',
+    status: 'optional',
+  },
+  resetButtonText: {
+    doc: 'Custom text for the reset button. Defaults to `Tilbakestill`.',
+    type: 'string',
+    status: 'optional',
+  },
+  resetDate: {
+    doc: 'If set to `true`, the date will be reset when the reset button is clicked. Defaults to `true`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  preventClose: {
+    doc: 'If set to `true`, the date picker will not close after a date is selected. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  noAnimation: {
+    doc: 'If set to `true`, no open/close animation will be shown. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  direction: {
+    doc: 'Defines the direction of the date picker popup. Defaults to `auto`.',
+    type: ['auto', 'top', 'bottom'],
+    status: 'optional',
+  },
   link: {
     doc: 'Link both calendars, once to the user is navigating between months. Only meant to use if the range is set to `true`. Defaults to `false`.',
     type: 'boolean',
@@ -230,7 +265,7 @@ export const DatePickerProperties: PropertiesTableProps = {
   },
   tooltip: {
     doc: 'Provide a short Tooltip content that shows up on the picker button.',
-    type: 'string',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   skeleton: {

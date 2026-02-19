@@ -106,6 +106,7 @@ export interface TextareaProps
    */
   autoresizeMaxRows?: TextareaAutoresizeMaxRows;
   textareaClass?: string;
+  /** @deprecated Use spread props instead. */
   textareaAttributes?: TextareaTextareaAttributes;
   readOnly?: boolean;
   rows?: TextareaRows;
@@ -121,6 +122,7 @@ export interface TextareaProps
   onFocus?: (...args: any[]) => any;
   onBlur?: (...args: any[]) => any;
   onKeyDown?: (...args: any[]) => any;
+  /** @deprecated Use `onChange` instead. */
   onStateUpdate?: (...args: any[]) => any;
 }
 export default class Textarea extends React.Component<TextareaProps, any> {
