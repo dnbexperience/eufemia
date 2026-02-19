@@ -68,8 +68,8 @@ describe('ModalHeaderBar', () => {
     expect(observe).toHaveBeenCalledTimes(1)
   })
 
-  it('should apply shadow_class when content is scrolled', () => {
-    renderWithContext(<ModalHeaderBar shadow_class="my-shadow-class" />)
+  it('should apply shadowClass when content is scrolled', () => {
+    renderWithContext(<ModalHeaderBar shadowClass="my-shadow-class" />)
 
     const section = document.querySelector('.dnb-modal__header__bar')
 
@@ -82,8 +82,8 @@ describe('ModalHeaderBar', () => {
     expect(section.classList.contains('my-shadow-class')).toBe(true)
   })
 
-  it('should remove shadow_class when scrolled back to top', () => {
-    renderWithContext(<ModalHeaderBar shadow_class="my-shadow-class" />)
+  it('should remove shadowClass when scrolled back to top', () => {
+    renderWithContext(<ModalHeaderBar shadowClass="my-shadow-class" />)
 
     const section = document.querySelector('.dnb-modal__header__bar')
 
@@ -100,7 +100,7 @@ describe('ModalHeaderBar', () => {
     expect(section.classList.contains('my-shadow-class')).toBe(false)
   })
 
-  it('should not apply any shadow class when shadow_class is not provided', () => {
+  it('should not apply any shadow class when shadowClass is not provided', () => {
     renderWithContext(<ModalHeaderBar />)
 
     const section = document.querySelector('.dnb-modal__header__bar')
@@ -123,7 +123,7 @@ describe('ModalHeaderBar', () => {
 
     render(
       <ModalContext.Provider value={defaultContext}>
-        <ModalHeaderBar shadow_class="sticky-class" />
+        <ModalHeaderBar shadowClass="sticky-class" />
       </ModalContext.Provider>,
       { container: wrapper }
     )
