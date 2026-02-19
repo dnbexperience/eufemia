@@ -229,7 +229,7 @@
     justify-content: space-between;
   }
 
-  @include modalStickyNav('dnb-drawer');
+  @include modalStickyNav();
 
   &--spacing &__navigation.dnb-section {
     margin: var(--drawer-spacing) 0;

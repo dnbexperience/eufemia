@@ -124,7 +124,7 @@
 
 // Mixin for sticky navigation bar with drop shadow
 // Used by Dialog and Drawer components
-@mixin modalStickyNav($component-class) {
+@mixin modalStickyNav() {
   // Sticky navigation bar
   &--spacing &__navigation.dnb-section {
     position: sticky;

@@ -165,7 +165,7 @@
     justify-content: space-between;
   }
 
-  @include modalStickyNav('dnb-dialog');
+  @include modalStickyNav();
 
   // Remove default margins from navigation to avoid extra spacing when no title
   &--spacing &__navigation.dnb-section {
