@@ -318,11 +318,13 @@ const makeDesignTokenSCSS = async (
   /** Root path for the generated SCSS file */
   outputPath: string,
   /** prefix that is added to the start of the css variable name */
-  namespace: string
+  namespace: string,
+  /** Optional filter function that transforms the source before generating */
+  filter: (json: FigmaGroup) => FigmaGroup = (json) => json
 ) => {
   try {
-    const json: FigmaGroup = JSON.parse(
-      fs.readFileSync(path.resolve(inputPath), 'utf-8')
+    const json: FigmaGroup = filter(
+      JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8'))
     )
 
     let scssContent =
@@ -358,8 +360,18 @@ const runDesignTokenFactory = async () => {
   const files = [
     {
       in: './src/style/themes/figma/Mode 1.tokens 5.json',
-      out: './src/style/themes/all-foundation.scss',
-      prefix: undefined,
+      out: './src/style/themes/ui/foundation.scss',
+      filter: (json) => ({ DNB: json.DNB }),
+    },
+    {
+      in: './src/style/themes/figma/Mode 1.tokens 5.json',
+      out: './src/style/themes/sbanken/foundation.scss',
+      filter: (json) => ({ Sbanken: json.Sbanken }),
+    },
+    {
+      in: './src/style/themes/figma/Mode 1.tokens 5.json',
+      out: './src/style/themes/carnegie/foundation.scss',
+      filter: (json) => ({ Carnegie: json.Carnegie }),
     },
     {
       in: './src/style/themes/figma/DNB Light.tokens.json',
@@ -385,7 +397,7 @@ const runDesignTokenFactory = async () => {
 
   await Promise.all(
     files.map(async (file) =>
-      makeDesignTokenSCSS(file.in, file.out, file.prefix)
+      makeDesignTokenSCSS(file.in, file.out, file.prefix, file.filter)
     )
   )
 }

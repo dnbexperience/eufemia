@@ -12,10 +12,12 @@ describe('makePropertiesFile', () => {
   const global = {
     ui: null,
     sbanken: null,
-    sbankenTokens: null,
     uiTokens: null,
+    sbankenTokens: null,
     carnegieTokens: null,
-    foundation: null,
+    uiFoundation: null,
+    sbankenFoundation: null,
+    carnegieFoundation: null,
   }
 
   beforeAll(async () => {
@@ -40,38 +42,45 @@ describe('makePropertiesFile', () => {
       'utf-8'
     )
 
+    global.uiTokens = fs.readFileSync(
+      path.resolve('src/style/themes/ui/tokens.scss'),
+      'utf-8'
+    )
+    global.uiFoundation = fs.readFileSync(
+      path.resolve('src/style/themes/ui/foundation.scss'),
+      'utf-8'
+    )
     global.sbankenTokens = fs.readFileSync(
       path.resolve('src/style/themes/sbanken/tokens.scss'),
       'utf-8'
     )
-    global.uiTokens = fs.readFileSync(
-      path.resolve('src/style/themes/ui/tokens.scss'),
+    global.sbankenFoundation = fs.readFileSync(
+      path.resolve('src/style/themes/sbanken/foundation.scss'),
       'utf-8'
     )
     global.carnegieTokens = fs.readFileSync(
       path.resolve('src/style/themes/carnegie/tokens.scss'),
       'utf-8'
     )
-    global.foundation = fs.readFileSync(
-      path.resolve('src/style/themes/all-foundation.scss'),
+    global.carnegieFoundation = fs.readFileSync(
+      path.resolve('src/style/themes/carnegie/foundation.scss'),
       'utf-8'
     )
   })
   describe('Tokens snapshots for', () => {
-    it('sbanken', () => {
-      expect(global.sbankenTokens).toMatchSnapshot()
-    })
-
     it('ui', () => {
       expect(global.uiTokens).toMatchSnapshot()
+      expect(global.uiFoundation).toMatchSnapshot()
+    })
+
+    it('sbanken', () => {
+      expect(global.sbankenTokens).toMatchSnapshot()
+      expect(global.sbankenFoundation).toMatchSnapshot()
     })
 
     it('carnegie', () => {
       expect(global.carnegieTokens).toMatchSnapshot()
-    })
-
-    it('foundation', () => {
-      expect(global.foundation).toMatchSnapshot()
+      expect(global.carnegieFoundation).toMatchSnapshot()
     })
   })
 
