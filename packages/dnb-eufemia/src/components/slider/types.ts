@@ -112,7 +112,7 @@ export type SliderProps = {
   /** Will be called once the user stops dragging. Returns `{ event }`. */
   onDragEnd?: (props: { event: MouseEvent | TouchEvent }) => void
 
-  children?: React.ReactChild
+  children?: React.ReactNode
 }
 
 export type SliderAllProps = SliderProps &
