@@ -169,6 +169,7 @@ export interface InputProps
   onBlur?: (...args: any[]) => any;
   onSubmitFocus?: (...args: any[]) => any;
   onSubmitBlur?: (...args: any[]) => any;
+  /** @deprecated Use `onChange` instead. */
   onStateUpdate?: (...args: any[]) => any;
   onClear?: (...args: any[]) => any;
 }

@@ -546,11 +546,13 @@ export interface ToggleButtonProps
    * Define icon width and height. Defaults to `16px`.
    */
   iconSize?: IconSize
+  /** @deprecated Use spread props instead. */
   attributes?: ToggleButtonAttributes
   readOnly?: boolean
   className?: string
   children?: ToggleButtonChildren
   onChange?: (...args: any[]) => any
+  /** @deprecated Use `onChange` instead. */
   onStateUpdate?: (...args: any[]) => any
   // Additional properties that are used in tests and stories
   top?: SpaceType
