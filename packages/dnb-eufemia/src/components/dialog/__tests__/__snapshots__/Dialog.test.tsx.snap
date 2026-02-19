@@ -928,6 +928,7 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
   --dialog-spacing: 2rem;
   --dialog-spacing-minus: -2rem;
   --dialog-radius: 0.5rem;
+  --dialog-padding: calc(var(--dialog-spacing) * 1.75);
   position: relative;
   border-radius: var(--dialog-radius);
   box-shadow: var(--shadow-default);
@@ -983,8 +984,8 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
   padding-bottom: calc(var(--dialog-spacing) * 2);
 }
 .dnb-dialog--spacing.dnb-dialog--information .dnb-dialog__inner {
-  padding-left: calc(var(--dialog-spacing) * 1.75);
-  padding-right: calc(var(--dialog-spacing) * 1.75);
+  padding-left: var(--dialog-padding);
+  padding-right: var(--dialog-padding);
 }
 @media screen and (max-width: 72em) {
   .dnb-dialog--spacing.dnb-dialog--information .dnb-dialog__inner {
@@ -1094,7 +1095,21 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
   margin-top: var(--spacing-medium);
 }
 .dnb-dialog .dnb-dialog__navigation--sticky::before {
-  box-shadow: var(--shadow-default-x) var(--shadow-default-y) 8px -8px var(--shadow-default-color);
+  left: calc(-1 * var(--dialog-padding));
+  right: calc(-1 * var(--dialog-padding));
+  box-shadow: var(--shadow-default-x) var(--shadow-default-y) 8px 0 var(--shadow-default-color);
+}
+@media screen and (max-width: 72em) {
+  .dnb-dialog .dnb-dialog__navigation--sticky::before {
+    left: calc(-1 * var(--dialog-spacing));
+    right: calc(-1 * var(--dialog-spacing));
+  }
+}
+@media screen and (max-width: 40em) {
+  .dnb-dialog .dnb-dialog__navigation--sticky::before {
+    left: calc(-1 * var(--dialog-spacing) / 2);
+    right: calc(-1 * var(--dialog-spacing) / 2);
+  }
 }
 html:not([data-visual-test]) .dnb-dialog {
   animation: show-modal var(--modal-animation-duration) ease-out;
