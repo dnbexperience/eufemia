@@ -7,10 +7,7 @@ import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { bell_medium as Bell, question } from '@dnb/eufemia/src/icons'
 import { Button, IconPrimary, Section } from '@dnb/eufemia/src'
-import VippsWalletButton, {
-  VippsLogo,
-} from '@dnb/eufemia/src/components/button/custom/vipps-wallet-button/VippsWalletButton'
-import '@dnb/eufemia/src/components/button/custom/vipps-wallet-button/style/dnb-vipps-wallet-button.scss'
+import { VippsLogo } from '@dnb/eufemia/src/extensions/vipps-wallet-button/VippsWalletButton'
 import { VisibilityByTheme, Theme } from '@dnb/eufemia/src/shared'
 
 export const ButtonPrimary = () => (
@@ -579,16 +576,5 @@ export const SvgInButton = () => (
         </Button>
       )
     }}
-  </ComponentBox>
-)
-
-export const WithVippsWalletButton = () => (
-  <ComponentBox
-    hideCode
-    scope={{
-      VippsWalletButton,
-    }}
-  >
-    <VippsWalletButton data-visual-test="button-vipps-wallet" />
   </ComponentBox>
 )

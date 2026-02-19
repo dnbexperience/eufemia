@@ -5,16 +5,42 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import Button, { type ButtonProps } from '../../Button'
-import useTranslation from '../../../../shared/useTranslation'
+import Button, { type ButtonProps } from '../../components/button/Button'
+import useTranslation from '../../shared/useTranslation'
 
 export type VippsWalletButtonProps = Omit<ButtonProps, 'variant'>
+
+const messages = {
+  'nb-NO': {
+    VippsWalletButton: {
+      text: 'Legg til i',
+    },
+  },
+  'en-GB': {
+    VippsWalletButton: {
+      text: 'Add to',
+    },
+  },
+  'sv-SE': {
+    VippsWalletButton: {
+      text: 'Lägg till i',
+    },
+  },
+  'da-DK': {
+    VippsWalletButton: {
+      text: 'Tilføj til',
+    },
+  },
+}
 
 export default function VippsWalletButton({
   className,
   ...props
 }: VippsWalletButtonProps) {
-  const { VippsWalletButton: translation } = useTranslation()
+  const {
+    VippsWalletButton: translation = messages['nb-NO'].VippsWalletButton,
+  } = useTranslation({ messages })
+  const buttonText = translation?.text
 
   return (
     <Button
@@ -22,7 +48,7 @@ export default function VippsWalletButton({
       variant="primary"
       className={classnames('dnb-vipps-wallet-button', className)}
     >
-      {translation.text} <VippsLogo />
+      {buttonText} <VippsLogo />
     </Button>
   )
 }

@@ -109,9 +109,6 @@ export default {
       title: 'Hjelpetekst',
       aria_role: 'Hjelp-knapp',
     },
-    VippsWalletButton: {
-      text: 'Legg til i',
-    },
     Input: {
       submit_button_title: 'Send',
       clear_button_title: 'Nullstill',

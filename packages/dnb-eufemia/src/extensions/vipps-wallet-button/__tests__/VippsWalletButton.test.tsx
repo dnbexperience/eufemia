@@ -6,7 +6,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import VippsWalletButton from '../VippsWalletButton'
-import { Provider } from '../../../../../shared'
+import { Provider } from '../../../shared'
 
 describe('VippsWalletButton', () => {
   it('renders as a primary button by default', () => {

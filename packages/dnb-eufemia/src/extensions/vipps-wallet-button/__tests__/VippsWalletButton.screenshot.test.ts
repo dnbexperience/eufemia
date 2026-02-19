@@ -6,24 +6,24 @@
 import {
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../../../core/jest/jestSetupScreenshots'
+} from '../../../core/jest/jestSetupScreenshots'
 
 describe.each(['ui'])('VippsWalletButton for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/button/demos/',
+    url: '/uilib/extensions/vipps-wallet-button/',
   })
 
   it('have to match default state', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="button-vipps-wallet"]',
+      selector: '[data-visual-test="vipps-wallet-button"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
   it('have to match hover state', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="button-vipps-wallet"]',
+      selector: '[data-visual-test="vipps-wallet-button"]',
       simulate: 'hover',
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -31,7 +31,7 @@ describe.each(['ui'])('VippsWalletButton for %s', (themeName) => {
 
   it('have to match active state', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="button-vipps-wallet"]',
+      selector: '[data-visual-test="vipps-wallet-button"]',
       simulate: 'active',
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -39,7 +39,7 @@ describe.each(['ui'])('VippsWalletButton for %s', (themeName) => {
 
   it('have to match focus state', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="button-vipps-wallet"]',
+      selector: '[data-visual-test="vipps-wallet-button"]',
       simulate: 'focus',
     })
     expect(screenshot).toMatchImageSnapshot()

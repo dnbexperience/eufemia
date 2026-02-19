@@ -109,9 +109,6 @@ export default {
       title: 'Hjælpetekst',
       aria_role: 'Hjælp-knap',
     },
-    VippsWalletButton: {
-      text: 'Tilføj til',
-    },
     Input: {
       submit_button_title: 'Indsend',
       clear_button_title: 'Nulstil',
