@@ -87,14 +87,13 @@ describe('makePropertiesFile', () => {
         expect(result).toEqual('var(--dnb-coldgreen-600)')
       })
 
-      it('checks set name', () => {
+      it('error on unsupported variable set', () => {
         const val = {
           targetVariableName: 'DNB/ColdGreen/600',
           targetVariableSetName: 'Nonsense',
         }
 
-        const result = transformFigmaAlias(val)
-        expect(result).toBeUndefined()
+        expect(() => transformFigmaAlias(val)).toThrow()
       })
     })
 
@@ -197,11 +196,6 @@ describe('makePropertiesFile', () => {
     })
 
     describe('transformFigmaKey', () => {
-      it('transforms unsupported characters', () => {
-        const result = transformFigmaKey('Font Size (Medium) onDark')
-        expect(result).toEqual('font_size__medium__ondark')
-      })
-
       it('runs callback on each unsupported character', () => {
         const callback = jest.fn()
 
@@ -216,7 +210,7 @@ describe('makePropertiesFile', () => {
         expect(callback).toHaveBeenNthCalledWith(3, '(')
         expect(callback).toHaveBeenNthCalledWith(4, ')')
         expect(callback).toHaveBeenNthCalledWith(5, ' ')
-        expect(result).toEqual('font_size__medium__ondark')
+        expect(result).toEqual('font size (medium) ondark')
       })
     })
 
@@ -226,9 +220,16 @@ describe('makePropertiesFile', () => {
         expect(result).toEqual('colors-primary-dark')
       })
 
-      it('transforms each key', () => {
-        const result = transformFigmaPath(['Colo*rs', 'Prima?ry', 'Da(rk'])
-        expect(result).toEqual('colo_rs-prima_ry-da_rk')
+      it('error on unsupported characters', () => {
+        let err
+        try {
+          transformFigmaPath(['Colo*rs', 'Prima?ry', 'Da(rk'])
+        } catch (e) {
+          err = e
+        }
+        expect(err.message).toEqual(
+          'Unsupported characters "*", "?", "(" in variable: "Colo*rs/Prima?ry/Da(rk"'
+        )
       })
     })
 

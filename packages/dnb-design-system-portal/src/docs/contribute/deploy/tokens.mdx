@@ -58,7 +58,8 @@ import '@dnb/eufemia/style/themes/ui/basis'
 ### Transforms
 
 During the CSS generation, Figma variables are converted to lower case. And groups are separated by dashes (`-`).
-(Any unsupported character is replaced by the placeholder character `_` and logs a warning in the console. These should be fixed in Figma.)
+
+Only characters `a-z` `A-Z` `0-9`. and `-` are supported. Any unsupported characters will throw an error.
 
 We also add the prefix `token` to the variables from the `Brand` collection.
 
