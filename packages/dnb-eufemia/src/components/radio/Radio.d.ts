@@ -41,7 +41,7 @@ export interface RadioProps
   checked?: boolean;
   disabled?: boolean;
   id?: string;
-  element?: React.ReactNode;
+  element?: React.ElementType;
   /**
    * Use a unique group identifier to define the Radio buttons that belongs together.
    */
@@ -62,7 +62,7 @@ export interface RadioProps
    * Use an object to define additional FormStatus properties.
    */
   statusProps?: FormStatusProps;
-  statusNoAnimation?: RadioStatusNoAnimation;
+  statusNoAnimation?: boolean;
   /**
    * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
    */
@@ -72,12 +72,14 @@ export interface RadioProps
    * Defines the `value` as a string. Use it to get the value during the `onChange` event listener callback in the **RadioGroup**.
    */
   value?: string;
+  /** @deprecated Use spread props instead. */
   attributes?: RadioAttributes;
   skeleton?: SkeletonShow;
   readOnly?: boolean;
   className?: string;
   children?: RadioChildren;
   onChange?: (...args: any[]) => any;
+  /** @deprecated Use `onChange` instead. */
   onStateUpdate?: (...args: any[]) => any;
   /**
    * By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.

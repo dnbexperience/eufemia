@@ -18,7 +18,7 @@ export const RadioProperties: PropertiesTableProps = {
   },
   size: {
     doc: 'The size of the Radio button. For now there is **medium** (default) and **large**.',
-    type: ['medium', 'large'],
+    type: ['default', 'medium', 'large'],
     status: 'optional',
   },
   label: {
@@ -81,7 +81,7 @@ export const RadioGroupProperties: PropertiesTableProps = {
   },
   size: {
     doc: 'The size of the Radio button. For now there is **medium** (default) and **large**.',
-    type: ['medium', 'large'],
+    type: ['default', 'medium', 'large'],
     status: 'optional',
   },
   status: {

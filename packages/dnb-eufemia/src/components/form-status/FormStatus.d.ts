@@ -26,7 +26,7 @@ export type FormStatusChildren =
 export interface FormStatusProps
   extends Omit<
       React.HTMLProps<HTMLElement>,
-      'ref' | 'label ' | 'value' | 'onFocus' | 'onBlur'
+      'ref' | 'label' | 'value' | 'onFocus' | 'onBlur'
     >,
     SpacingProps {
   id?: string;

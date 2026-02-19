@@ -46,7 +46,7 @@ export const DropdownProperties = {
   },
   variant: {
     doc: 'Defines the kind of dropdown. Possible values are `primary`, `secondary`, `tertiary` and `signal`. Defaults to `secondary`.',
-    type: ['primary', 'secondary', 'tertiary', 'signal'],
+    type: ['primary', 'secondary', 'tertiary', 'signal', 'unstyled'],
     status: 'optional',
   },
   icon: {

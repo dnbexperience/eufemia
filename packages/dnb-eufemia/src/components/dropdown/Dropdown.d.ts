@@ -11,7 +11,8 @@ import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import type {
   DrawerListProps,
-  DrawerListData
+  DrawerListData,
+  DrawerListSuffix
 } from '../../fragments/DrawerList';
 import type { GlobalStatusConfigObject } from '../GlobalStatus';
 export type DropdownData = DrawerListData;

@@ -38,7 +38,7 @@ export const HeightAnimationProperties: PropertiesTableProps = {
   },
   element: {
     doc: 'Custom HTML element for the component. Defaults to `div` HTML Element.',
-    type: 'string',
+    type: ['string', 'React.ElementType'],
     status: 'optional',
   },
   innerRef: {
