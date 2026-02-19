@@ -3,6 +3,47 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.98.0](https://github.com/dnbexperience/eufemia/compare/v10.97.0...v10.98.0) (2026-02-19)
+
+
+### :memo: Documentation
+
+* **Accordion:** improve `on_change` ([#6696](https://github.com/dnbexperience/eufemia/issues/6696)) ([0a701f1](https://github.com/dnbexperience/eufemia/commit/0a701f1f3cd39f95fd28da360773f0a77b757cd1))
+* add `en-NO` with examples to relevant documentation ([#6644](https://github.com/dnbexperience/eufemia/issues/6644)) ([0a86c43](https://github.com/dnbexperience/eufemia/commit/0a86c4380ed0f824199c52f5daadd84cd041c05f))
+* **Badge:** correct status values ([#6670](https://github.com/dnbexperience/eufemia/issues/6670)) ([8631989](https://github.com/dnbexperience/eufemia/commit/863198941c07a115ee31d2e110bacad502fbe04a))
+* **Button:** add example using SVG inside a button ([#6647](https://github.com/dnbexperience/eufemia/issues/6647)) ([a73e63a](https://github.com/dnbexperience/eufemia/commit/a73e63a30cd8edb5990e24c59cf4b68fbd2faf8d))
+* **Forms:** improve documentation on forms best practices and getting started ([#6659](https://github.com/dnbexperience/eufemia/issues/6659)) ([2625a7f](https://github.com/dnbexperience/eufemia/commit/2625a7ff447cc901ea34b1900f42ae0ca865e516))
+* improve translation docs on how to use `sv_SE` ([#6620](https://github.com/dnbexperience/eufemia/issues/6620)) ([5a48fcb](https://github.com/dnbexperience/eufemia/commit/5a48fcbed5ed31be382af604a19c158bc95c930b))
+* **Slider:** improve docs for `onDragStart` & `onDragEnd` ([#6695](https://github.com/dnbexperience/eufemia/issues/6695)) ([00db3c2](https://github.com/dnbexperience/eufemia/commit/00db3c22a07cea23a29bcb85cd063a58b9561716))
+* **Switch:** improve `onChange` & `onChangeEnd` ([#6693](https://github.com/dnbexperience/eufemia/issues/6693)) ([74529a5](https://github.com/dnbexperience/eufemia/commit/74529a52a5a11707cbfcefc4a05f183b8a665f0d))
+* **Tabs:** improve `on_change`, `on_click` & `on_focus` ([#6692](https://github.com/dnbexperience/eufemia/issues/6692)) ([842b4d2](https://github.com/dnbexperience/eufemia/commit/842b4d2abb49dc9bc898b85710196a94eefd8907))
+
+
+### :bug: Bug Fixes
+
+* **Autocomplete:** make `showNoOptionsItem` callable during async mode ([#6646](https://github.com/dnbexperience/eufemia/issues/6646)) ([ca7549e](https://github.com/dnbexperience/eufemia/commit/ca7549e4707a0419d75b53df3549f165d16dd4cf))
+* **Drawer:** improve sticky header on iPhone ([#6703](https://github.com/dnbexperience/eufemia/issues/6703)) ([30f3422](https://github.com/dnbexperience/eufemia/commit/30f342235bbdd16171c04ab1aa8442600ce5d79d))
+* **Field.Upload:** async `fileHandler` and `onFileDelete` should work in `Iterate.Array` ([#6684](https://github.com/dnbexperience/eufemia/issues/6684)) ([faf7930](https://github.com/dnbexperience/eufemia/commit/faf7930d50dcc93781c57a497b6abea0e5f79d34)), closes [#6156](https://github.com/dnbexperience/eufemia/issues/6156)
+* **Field.Upload:** prevents async delete from having their loading states overwritten ([#6689](https://github.com/dnbexperience/eufemia/issues/6689)) ([4ab6657](https://github.com/dnbexperience/eufemia/commit/4ab66577612ee152d468724996901b5a48f8187e))
+* **Forms:** upgrade ajv from to v8.18.0 ([#6636](https://github.com/dnbexperience/eufemia/issues/6636)) ([40b4ea9](https://github.com/dnbexperience/eufemia/commit/40b4ea9212b36341bf175b954e981c44f28f4021))
+* **GlobalStatus:** improve event types ([#6694](https://github.com/dnbexperience/eufemia/issues/6694)) ([1ee4f07](https://github.com/dnbexperience/eufemia/commit/1ee4f07449a0e3093a2598c4bfff73283796910a))
+* **List:** ensure Item.End flex column alignmnet ([#6634](https://github.com/dnbexperience/eufemia/issues/6634)) ([69131d5](https://github.com/dnbexperience/eufemia/commit/69131d54fa7823b268e6a17dd7db773d0cbdea13))
+* **Space:** support `inline` and `block` for responsive `innerSpace` ([#6621](https://github.com/dnbexperience/eufemia/issues/6621)) ([1979458](https://github.com/dnbexperience/eufemia/commit/1979458be35f607916bad7b689aeb4b2aed264f5)), closes [#6595](https://github.com/dnbexperience/eufemia/issues/6595)
+
+
+### :sparkles: Features
+
+* add `VippsWalletButton` extension ([#6690](https://github.com/dnbexperience/eufemia/issues/6690)) ([1ad467e](https://github.com/dnbexperience/eufemia/commit/1ad467ea1cd08627281f4823202b5a415d4b4672))
+* **Autocomplete:** type events ([#6687](https://github.com/dnbexperience/eufemia/issues/6687)) ([747e909](https://github.com/dnbexperience/eufemia/commit/747e9090dd334f3ef53766d9fae7e74e58de61ec))
+* **Autocomplete:** type events ([#6691](https://github.com/dnbexperience/eufemia/issues/6691)) ([158f311](https://github.com/dnbexperience/eufemia/commit/158f311ff7420c433b16d6573aa582fae6668e31))
+* **Eufemia:** warn when old version is used ([#6639](https://github.com/dnbexperience/eufemia/issues/6639)) ([f224978](https://github.com/dnbexperience/eufemia/commit/f224978c5aabe7c7b9724ffc77ef865905ac224a))
+* **Field.Upload:** add `onValidationError` event ([#6616](https://github.com/dnbexperience/eufemia/issues/6616)) ([e9cc4d2](https://github.com/dnbexperience/eufemia/commit/e9cc4d25cf50d1b5803b2c658effc414565ef53b))
+* **Forms:** add `statusPosition="above"` to all Field.* components ([#6666](https://github.com/dnbexperience/eufemia/issues/6666)) ([d5a4b92](https://github.com/dnbexperience/eufemia/commit/d5a4b92c9ba3a9e1a78bf6d378d086d08e9b121c))
+* improve translations ([#6674](https://github.com/dnbexperience/eufemia/issues/6674)) ([c67e8b0](https://github.com/dnbexperience/eufemia/commit/c67e8b0e57e9fc63893a806d46f95ee06f2c401d))
+* **Modal, Dialog, Drawer:** add sticky close button for Dialog component ([#6649](https://github.com/dnbexperience/eufemia/issues/6649)) ([1cc5ebb](https://github.com/dnbexperience/eufemia/commit/1cc5ebb51845c208e70120d5636fdbd68afe0c2b))
+* **PaymentCard:** use stop icon for `not_active`, reset icon for `renewed` ([#6622](https://github.com/dnbexperience/eufemia/issues/6622)) ([f67b88d](https://github.com/dnbexperience/eufemia/commit/f67b88d7add9140783d2288f42fafbf16298a7e4))
+* **Tag:** improve typing of `onClick` & `onDelete` events ([#6698](https://github.com/dnbexperience/eufemia/issues/6698)) ([731d13b](https://github.com/dnbexperience/eufemia/commit/731d13b78d6b7f425fb5e754422d97f80771410d))
+
 ## [10.97.0](https://github.com/dnbexperience/eufemia/compare/v10.96.0...v10.97.0) (2026-02-12)
 
 
