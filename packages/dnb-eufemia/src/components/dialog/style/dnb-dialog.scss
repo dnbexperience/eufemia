@@ -15,6 +15,7 @@
   --dialog-spacing: 2rem; // should reflect --spacing-large
   --dialog-spacing-minus: -2rem; // should reflect --spacing-large
   --dialog-radius: 0.5rem;
+  --dialog-padding: calc(var(--dialog-spacing) * 1.75);
 
   position: relative;
   border-radius: var(--dialog-radius);
@@ -70,8 +71,8 @@
   }
 
   &--spacing#{&}--information &__inner {
-    padding-left: calc(var(--dialog-spacing) * 1.75); // 3.5rem (56px)
-    padding-right: calc(var(--dialog-spacing) * 1.75); // 3.5rem (56px)
+    padding-left: var(--dialog-padding); // 3.5rem (56px)
+    padding-right: var(--dialog-padding); // 3.5rem (56px)
 
     @include allBelow(large) {
       padding-left: calc(var(--dialog-spacing)); // 2rem (32px)
@@ -180,6 +181,8 @@
   // Dialog-specific shadow height override
   & &__navigation--sticky {
     &::before {
+      left: calc(-1 * (var(--dialog-padding) + 8px));
+      right: calc(-1 * (var(--dialog-padding) + 8px));
       box-shadow: var(--shadow-default-x) var(--shadow-default-y) 8px -8px var(--shadow-default-color);
     }
   }
