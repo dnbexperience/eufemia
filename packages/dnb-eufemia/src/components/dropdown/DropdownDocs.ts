@@ -26,7 +26,7 @@ export const DropdownEvents = {
     type: 'function',
     status: 'optional',
   },
-  onHideFocus: {
+  onCloseFocus: {
     doc: 'Will be called when focus is moved back to the trigger button after the drawer list closes. Returns `{ element }` with the focused DOM element.',
     type: 'function',
     status: 'optional',
