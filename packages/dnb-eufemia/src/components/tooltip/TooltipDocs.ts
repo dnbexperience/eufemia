@@ -3,7 +3,7 @@ import { PropertiesTableProps } from '../../shared/types'
 export const TooltipProperties: PropertiesTableProps = {
   children: {
     doc: 'Provide a string or a React Element to be shown as the tooltip content.',
-    type: 'React.Node',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   active: {
@@ -48,12 +48,12 @@ export const TooltipProperties: PropertiesTableProps = {
   },
   showDelay: {
     doc: 'Define the delay until the tooltip should show up after the initial hover / active state.',
-    type: 'boolean',
+    type: 'number',
     status: 'optional',
   },
   hideDelay: {
     doc: 'Define the delay until the tooltip should disappear up after initial visibility.',
-    type: 'boolean',
+    type: 'number',
     status: 'optional',
   },
   size: {
@@ -63,7 +63,7 @@ export const TooltipProperties: PropertiesTableProps = {
   },
   targetElement: {
     doc: 'Provide an element directly as a React Node or a React Ref that will be wrapped and rendered.',
-    type: ['React.Node', 'React.RefObject'],
+    type: ['React.ReactNode', 'React.RefObject'],
     status: 'optional',
   },
   targetSelector: {

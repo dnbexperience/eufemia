@@ -8,17 +8,17 @@ export const DialogProperties: PropertiesTableProps = {
   },
   title: {
     doc: 'The dialog title. Displays on the very top of the content.',
-    type: 'string',
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
   minWidth: {
     doc: "The minimum Dialog content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem` (average width is set to `60vw`).",
-    type: 'string',
+    type: ['string', 'number'],
     status: 'optional',
   },
   maxWidth: {
     doc: 'The maximum Dialog content width, defined by a CSS width value like `20rem`. Defaults to `60rem` (average width is set to `60vw`).',
-    type: 'string',
+    type: ['string', 'number'],
     status: 'optional',
   },
   className: {
@@ -53,7 +53,7 @@ export const DialogProperties: PropertiesTableProps = {
   },
   description: {
     doc: 'A description will be positioned below the title, but before the content. Used for Dialog variant `confirmation` to further describe what the actions will do.',
-    type: 'string',
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
   verticalAlignment: {
@@ -68,7 +68,7 @@ export const DialogProperties: PropertiesTableProps = {
   },
   fullscreen: {
     doc: 'If set to `true` then the dialog content will be shown as fullscreen, without showing the original content behind. Can be set to `false` to omit the auto fullscreen. Defaults to `auto`.',
-    type: 'boolean',
+    type: ['boolean', 'string'],
     status: 'optional',
   },
   icon: {

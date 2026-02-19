@@ -8,7 +8,7 @@ export const AccordionProperties: PropertiesTableProps = {
   },
   title: {
     doc: 'A title as a string or React element. It will be used as the button text.',
-    type: 'string',
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
   expanded: {
@@ -37,8 +37,8 @@ export const AccordionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   variant: {
-    doc: 'Defines the used styling. `Outlined`, `filled`, or `plain` (no styling). Defaults to `outlined`.',
-    type: ['outlined', 'filled', 'plain'],
+    doc: 'Defines the used styling. `outlined`, `filled`, or `plain` (no styling). Defaults to `outlined`.',
+    type: ['default', 'outlined', 'filled', 'plain'],
     status: 'optional',
   },
   icon: {
@@ -93,7 +93,7 @@ export const AccordionProperties: PropertiesTableProps = {
   },
   heading_level: {
     doc: 'If `heading` is set to `true`, you can provide a numeric value to define a different heading level. Defaults to `2`.',
-    type: 'boolean',
+    type: ['1', '2', '3', '4', '5', '6'],
     status: 'optional',
   },
   disabled: {
@@ -108,7 +108,7 @@ export const AccordionProperties: PropertiesTableProps = {
   },
   contentRef: {
     doc: 'Send along a custom React Ref for `.dnb-accordion__content`.',
-    type: 'function',
+    type: 'React.MutableRefObject',
     status: 'optional',
   },
   collapseAllHandleRef: {

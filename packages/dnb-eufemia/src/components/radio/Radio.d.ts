@@ -41,7 +41,7 @@ export interface RadioProps
   checked?: boolean;
   disabled?: boolean;
   id?: string;
-  element?: React.ReactNode;
+  element?: React.ElementType;
   /**
    * Use a unique group identifier to define the Radio buttons that belongs together.
    */
@@ -62,7 +62,7 @@ export interface RadioProps
    * Use an object to define additional FormStatus properties.
    */
   status_props?: FormStatusProps;
-  status_no_animation?: RadioStatusNoAnimation;
+  status_no_animation?: boolean;
   /**
    * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
    */

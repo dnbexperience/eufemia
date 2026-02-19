@@ -18,7 +18,7 @@ export const AutocompleteProperties = {
   },
   title: {
     doc: 'Give a title to let the user know what they have to do. Defaults to `Skriv og få alternativer`.',
-    type: 'React.Node',
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
   disable_filter: {
@@ -43,7 +43,7 @@ export const AutocompleteProperties = {
   },
   search_in_word_index: {
     doc: 'This gives you the possibility to change the threshold number, which defines from what word on we search "inside words". Does not work together with `search_numbers`. Defaults to `3`.',
-    type: 'boolean',
+    type: ['string', 'number'],
     status: 'optional',
   },
   searchMatch: {
@@ -188,7 +188,7 @@ export const AutocompleteProperties = {
   },
   skip_portal: {
     doc: 'Set to `true` to disable the React Portal behavior. Defaults to `false`.',
-    type: 'string',
+    type: 'boolean',
     status: 'optional',
   },
   status: {
@@ -218,7 +218,7 @@ export const AutocompleteProperties = {
   },
   label_direction: {
     doc: 'Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`.',
-    type: 'React.Node',
+    type: ['horizontal', 'vertical'],
     status: 'optional',
   },
   label_sr_only: {

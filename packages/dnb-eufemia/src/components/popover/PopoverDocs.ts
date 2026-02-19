@@ -205,6 +205,11 @@ export const PopoverProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  noMaxWidth: {
+    doc: 'Disable the max-width constraint on the popover content. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   fixedPosition: {
     doc: 'Use fixed positioning so the popover follows the viewport instead of the page scroll.',
     type: 'boolean',

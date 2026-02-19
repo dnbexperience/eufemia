@@ -4,7 +4,7 @@ import { toCamelCase } from '../../shared/component-helper'
 export const NumberFormatProperties: PropertiesTableProps = {
   value: {
     doc: 'A number.',
-    type: 'number',
+    type: ['number', 'string'],
     status: 'required',
   },
   locale: {

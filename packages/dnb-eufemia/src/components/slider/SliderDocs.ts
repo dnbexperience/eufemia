@@ -43,7 +43,7 @@ export const SliderProperties: PropertiesTableProps = {
   },
   multiThumbBehavior: {
     doc: 'Use either `omit`, `push` or `swap`. This property only works for two (range) or more thumb buttons, while `omit` will stop the thumb from swapping, `push` will push its nearest thumb along. Defaults to `swap`.',
-    type: 'string',
+    type: ['swap', 'omit', 'push'],
     status: 'optional',
   },
   thumbTitle: {
@@ -63,7 +63,7 @@ export const SliderProperties: PropertiesTableProps = {
   },
   numberFormat: {
     doc: 'Will extend the return object with a `number` property (from `onChange` event). You can use all the options from the [NumberFormat](/uilib/components/number-format/properties) component. It also will use that formatted number in the increase/decrease buttons. If it has to represent a currency, then use e.g. `numberFormat={{ currency: true, decimals: 0 }}`.',
-    type: 'object',
+    type: ['object', 'function'],
     status: 'optional',
   },
   tooltip: {
@@ -78,12 +78,12 @@ export const SliderProperties: PropertiesTableProps = {
   },
   label: {
     doc: 'Prepends the Form Label component. If no ID is provided, a random ID is created.',
-    type: 'string',
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
   labelDirection: {
     doc: 'Use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`.',
-    type: 'string',
+    type: ['vertical', 'horizontal'],
     status: 'optional',
   },
   labelSrOnly: {
@@ -106,14 +106,14 @@ export const SliderProperties: PropertiesTableProps = {
     type: 'object',
     status: 'optional',
   },
-  globalStatusId: {
-    doc: 'The `status_id` used for the target [GlobalStatus](/uilib/components/global-status).',
-    type: 'string',
+  globalStatus: {
+    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
+    type: 'object',
     status: 'optional',
   },
   suffix: {
     doc: 'Text describing the content of the Slider more than the label. You can also send in a React component, so it gets wrapped inside the Slider component.',
-    type: 'string',
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
   skeleton: {

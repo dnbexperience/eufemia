@@ -3,7 +3,7 @@ import { PropertiesTableProps } from '../../shared/types'
 export const InputProperties: PropertiesTableProps = {
   value: {
     doc: 'The content value of the input.',
-    type: 'string',
+    type: ['string', 'number'],
     status: 'optional',
   },
   align: {

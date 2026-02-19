@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
-import type { SpacingProps } from '../space/types';
+import type { SpacingProps, SpaceTypeAll } from '../space/types';
 import PaginationBar from './PaginationBar';
 import { ButtonIconPosition } from '../Button';
 type PaginationStartupPage = string | number;
@@ -591,11 +591,12 @@ declare const PaginationContent: (
 export type CreatePaginationReturn = {
   Pagination: (props?: Record<string, unknown>) => JSX.Element;
   InfinityMarker: (props?: Record<string, unknown>) => void;
-  setContent: (pageNumber: number, content: React.ReactDom) => void;
+  setContent: (pageNumber: number, content: React.ReactNode) => void;
   resetContent: () => void;
   resetInfinity: () => void;
   endInfinity: () => void;
 };
-export const createPagination = (initProps?: Record<string, unknown>) =>
-  CreatePaginationReturn;
+export const createPagination: (
+  initProps?: Record<string, unknown>
+) => CreatePaginationReturn;
 export { PaginationBar as Bar };

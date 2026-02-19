@@ -28,7 +28,7 @@ export const textareaProperties: PropertiesTableProps = {
   },
   label: {
     doc: 'Prepends the Form Label component. If no ID is provided, a random ID is created.',
-    type: 'string',
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
   label_direction: {
@@ -38,7 +38,7 @@ export const textareaProperties: PropertiesTableProps = {
   },
   suffix: {
     doc: 'Text describing the content of the Textarea more than the label. You can also send in a React component, so it gets wrapped inside the Textarea component.',
-    type: 'string',
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
   label_sr_only: {
@@ -53,7 +53,7 @@ export const textareaProperties: PropertiesTableProps = {
   },
   autoresize_max_rows: {
     doc: 'Set a number to define how many rows the Textarea can auto grow.',
-    type: 'number',
+    type: ['string', 'number'],
     status: 'optional',
   },
   characterCounter: {

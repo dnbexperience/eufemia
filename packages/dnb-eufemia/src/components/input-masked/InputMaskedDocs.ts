@@ -13,7 +13,7 @@ export const inputMaskedProperties: PropertiesTableProps = {
   },
   as_currency: {
     doc: 'Set to `true` to use `NOK` or give it a currency code e.g. `USD` to automatically set a currency mask based on the given or inherited locale.',
-    type: 'boolean',
+    type: ['string', 'boolean'],
     status: 'optional',
   },
   mask_options: {

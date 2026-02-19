@@ -64,7 +64,7 @@ export interface InfoCardProps {
    */
   src?: string
   /**
-   * Image src, will replace the 'icon' with the image
+   * The text content of the InfoCard, displayed/rendered in a paragraph.
    * Default: null
    */
   text?: React.ReactNode

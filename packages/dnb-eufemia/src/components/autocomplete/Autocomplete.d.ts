@@ -3,7 +3,8 @@ import type {
   DrawerListProps,
   DrawerListData,
   DrawerListDataArrayObject,
-  DrawerListOptionsRender
+  DrawerListOptionsRender,
+  DrawerListSuffix
 } from '../../fragments/DrawerList';
 import type { ButtonIconPosition } from '../Button';
 import type { FormLabelLabelDirection } from '../FormLabel';

@@ -32,7 +32,7 @@ export type TooltipProps = IncludeSnakeCase<{
   skipPortal?: boolean
   noAnimation?: boolean
   showDelay?: number
-  hideDelay: number
+  hideDelay?: number
   /**
    * Optional className added to the Tooltip portal root element.
    * Has effect only when not using skipPortal.

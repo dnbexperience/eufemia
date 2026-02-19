@@ -33,12 +33,12 @@ export const LogoProperties: PropertiesTableProps = {
   },
   width: {
     doc: 'Define the width of the logo.',
-    type: 'string',
+    type: ['string', 'number'],
     status: 'optional',
   },
   height: {
     doc: 'Define the height of the logo.',
-    type: 'string',
+    type: ['string', 'number'],
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {

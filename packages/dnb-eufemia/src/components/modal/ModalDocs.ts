@@ -40,7 +40,7 @@ export const ModalProperties: PropertiesTableProps = {
   },
   fullscreen: {
     doc: 'If set to `true` then the modal content will be shown as fullscreen, without showing the original content behind. Can be set to `false` to omit the auto fullscreen. Defaults to `auto`.',
-    type: 'boolean',
+    type: ['boolean', 'auto'],
     status: 'optional',
   },
   openState: {
@@ -125,7 +125,7 @@ export const ModalProperties: PropertiesTableProps = {
   },
   dialogTitle: {
     doc: 'The aria label of the dialog when no labelledBy and no title is given. Defaults to `Vindu`.',
-    type: ['string', 'React.ReactNode'],
+    type: 'string',
     status: 'optional',
   },
   directDomReturn: {
@@ -135,7 +135,7 @@ export const ModalProperties: PropertiesTableProps = {
   },
   bypassInvalidationSelectors: {
     doc: "Define an array with HTML class selectors (`['.element-selector']`) which should not get invalidated when the modal opens/closes. Use this in order to let some parts of your site still be accessible by screen readers.",
-    type: 'boolean',
+    type: 'Array<string>',
     status: 'optional',
   },
   scrollRef: {

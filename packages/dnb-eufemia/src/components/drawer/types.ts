@@ -74,7 +74,7 @@ export type DrawerContentProps = {
   /**
    * Defines the placement on what side the Drawer should be opened. Can be set to `left`, `right`, `top` and `bottom`. Defaults to `right`.
    */
-  containerPlacement?: string
+  containerPlacement?: 'left' | 'right' | 'top' | 'bottom'
 
   /**
    * If set to `true`, no open/close animation will be shown. Defaults to false.
