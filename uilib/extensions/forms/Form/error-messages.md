@@ -1,8 +1,8 @@
 ---
 title: 'Form.ErrorMessages'
 description: 'Error messages in Eufemia Forms are used to provide feedback to users when there are issues with their input.'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:52.546Z
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:28.312Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

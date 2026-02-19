@@ -1,9 +1,9 @@
 ---
-title: 'Payment Card'
+title: 'PaymentCard'
 description: 'The Payment Card component is used to display payment card information in a standardized format.'
 ---
 
-# Payment Card
+# PaymentCard
 
 ## Import
 

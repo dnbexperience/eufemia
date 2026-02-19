@@ -171,7 +171,7 @@ For any page (component, field, value, etc.):
 
 - [Accessibility](https://eufemia.dnb.no/uilib/usage/accessibility.md): Look into the documentation for more details.
 
-- [Best Practices for formatting numbers](https://eufemia.dnb.no/uilib/usage/best-practices/for-formatting.md): Compare the canonical number, currency and date layouts that the components produce for each locale.
+- [Best Practices for number formatting](https://eufemia.dnb.no/uilib/usage/best-practices/for-formatting.md): Compare the canonical number, currency and date layouts that the components produce for each locale.
 
 - [Best Practices for JavaScript and JSX](https://eufemia.dnb.no/uilib/usage/best-practices/for-javascript.md): Look into the documentation for more details.
 
@@ -267,11 +267,11 @@ For any page (component, field, value, etc.):
 
 - [FormStatus (Messageboxes)](https://eufemia.dnb.no/uilib/components/form-status.md): The FormStatus is a simple component meant for displaying the status of a form (errors, messages, etc.).
 
-- [Drawer List](https://eufemia.dnb.no/uilib/components/fragments/drawer-list.md): The DrawerList component is a fragment inside other components.
+- [DrawerList](https://eufemia.dnb.no/uilib/components/fragments/drawer-list.md): The DrawerList component is a fragment inside other components.
 
-- [Scroll View](https://eufemia.dnb.no/uilib/components/fragments/scroll-view.md): ScrollView is a tiny helper component helping the user controlling overflowing content horizontally or vertically
+- [ScrollView](https://eufemia.dnb.no/uilib/components/fragments/scroll-view.md): ScrollView is a tiny helper component helping the user controlling overflowing content horizontally or vertically
 
-- [Text Counter](https://eufemia.dnb.no/uilib/components/fragments/text-counter.md): The TextCounter is a component designed to provide real-time character count feedback in text input fields.
+- [TextCounter](https://eufemia.dnb.no/uilib/components/fragments/text-counter.md): The TextCounter is a component designed to provide real-time character count feedback in text input fields.
 
 - [Fragments](https://eufemia.dnb.no/uilib/components/fragments.md): Fragments are small, low-level and reusable parts used inside other components.
 
@@ -617,6 +617,8 @@ For any page (component, field, value, etc.):
 
 - [Forms for applications](https://eufemia.dnb.no/uilib/extensions/forms.md): Forms is reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.
 
+- [VippsWalletButton](https://eufemia.dnb.no/uilib/extensions/vipps-wallet-button.md): A branded Vipps wallet call-to-action button extension.
+
 ## Elements
 
 - [Blockquote](https://eufemia.dnb.no/uilib/elements/blockquote.md): The blockquote element is used to indicate the quotation of a large section of text from another source.
@@ -639,5 +641,5 @@ For any page (component, field, value, etc.):
 
 - [Span](https://eufemia.dnb.no/uilib/elements/span.md): Spans are inline-elements, used to define parts of text content.
 
-Version: 10.97.0
-GeneratedAt: 2026-02-12T08:29:11.590Z
+Version: 10.98.0
+GeneratedAt: 2026-02-19T21:37:47.639Z

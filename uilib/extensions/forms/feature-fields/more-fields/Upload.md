@@ -1,8 +1,8 @@
 ---
 title: 'Field.Upload'
 description: '`Field.Upload` is a wrapper for the Upload component to make it easier to use inside a form.'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:52.887Z
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:28.646Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -55,6 +55,35 @@ The `required` property will validate if there are valid files present. If there
 
 If there are invalid files, the `onSubmit` event will not be called and a validation error will be shown.
 
+### Handling validation errors
+
+Files are automatically validated for file size and file type based on the `fileMaxSize` and `acceptedFileTypes` properties. When files fail these validations, they receive an `errorMessage` property.
+
+You can customize how these invalid files are displayed using the `onValidationError` callback:
+
+```tsx
+<Field.Upload
+  fileMaxSize={5}
+  onValidationError={(invalidFiles) => {
+    return invalidFiles.map((file) => ({
+      ...file,
+      removeLink: true, // Remove download link
+      removeDeleteButton: true, // Remove delete button
+      description: 'Cannot be uploaded due to validation error',
+    }))
+  }}
+/>
+```
+
+**How it works:** The component splits newly uploaded files into two groups based on the presence of an `errorMessage` property:
+
+- Files **with** `errorMessage` → sent to `onValidationError` (if defined)
+- Files **without** `errorMessage` → sent to `fileHandler` (if defined)
+
+The `errorMessage` is typically set by built-in validation (file size or file type checks), but can also be set manually. The two callbacks are mutually exclusive and only process newly added files.
+
+**Important:** If `fileHandler` returns a file with an `errorMessage`, that file is already in the upload list and won't trigger `onValidationError` again. Handle errors from `fileHandler` within the `fileHandler` function itself by returning files with the `errorMessage` property set.
+
 The `onChange` event handler will return an array with [file item objects](/uilib/components/upload/properties/#fileitem) containing the file object and some additional properties – regardless of the validity of the file.
 
 For error handling of invalid files, you can refer to the [Upload](/uilib/components/upload/) component for more details.
@@ -81,8 +110,25 @@ render(<Field.Upload value={files} />)
 
 ## About the `fileHandler` property
 
-The `fileHandler` is a handler function that supports both an asynchronous and synchronous function. It takes newly added files as a parameter and returns processed files (a promise when asynchronous).
-The component will automatically handle asynchronous loading states during the upload process. This feature is useful for tasks like uploading files to a virus checker, which returns a new file ID if the file passes the check. To indicate a failed upload, set the `errorMessage` on the specific [file item object](/uilib/components/upload/properties/#fileitem) with the desired message to display next to the file in the upload list.
+The `fileHandler` is a handler function that supports both asynchronous and synchronous operations. It receives **only newly added valid files** as a parameter and returns the processed files (or a Promise when asynchronous).
+
+### Which files are passed to the handler?
+
+- **Only newly added files**: Files that were just uploaded by the user.
+- **Only valid files**: Files that do not have validation errors such as file size and file type (files with `errorMessage` are excluded).
+- **Not existing files**: Files that were previously uploaded and already exist in the list are not included.
+
+### What should be returned?
+
+Return an array of [file item objects](/uilib/components/upload/properties/#fileitem) with the same or modified properties:
+
+- **Set a new `id`**: Typically from a server response after uploading (e.g., `id: data.server_generated_id`).
+- **Add `errorMessage`**: To indicate upload failure and display an error message next to the file.
+- **Modify other properties**: Such as `description`, `removeDeleteButton`, `removeLink`, etc.
+
+### Automatic loading state handling
+
+The component automatically handles asynchronous loading states during the upload process, displaying a spinner next to each file while the `fileHandler` is processing.
 
 ```js
 async function virusCheck(newFiles) {
@@ -495,15 +541,11 @@ const MyForm = () => {
         ],
       }}
     >
-      <Field.Upload
-        path="/myFiles"
-        fileHandler={mockFileHandler}
-        required
-      />
+      <Field.Upload path="/myFiles" fileHandler={fileHandler} required />
     </Form.Handler>
   )
 }
-function mockFileHandler(newFiles: UploadValue) {
+function fileHandler(newFiles: UploadValue) {
   return newFiles.map((file) => {
     file.errorMessage = 'File has a problem'
     file.description = 'File description'
@@ -567,6 +609,142 @@ render(
     </Form.Card>
 
     <Form.SubmitButton />
+  </Form.Handler>
+)
+```
+
+### With validation error handler
+
+The `onValidationError` property can be used to handle files that fail built-in validation (file size or file type). This allows you to customize the appearance and behavior of invalid files, such as removing the download link or adding custom descriptions:
+
+```tsx
+function validationErrorHandler(invalidFiles: UploadValue): UploadValue {
+  return invalidFiles.map((file) => ({
+    ...file,
+    removeLink: true,
+    description: 'This file cannot be uploaded due to validation failure',
+  }))
+}
+async function fileHandler(validFiles: UploadValue): Promise<UploadValue> {
+  const updatedFiles: UploadValue = []
+  for (const file of validFiles) {
+    const request = createRequest()
+    await request(2000) // Simulate upload
+
+    updatedFiles.push({
+      ...file,
+      id: `server_${crypto.randomUUID()}`,
+    })
+  }
+  return updatedFiles
+}
+async function onFileDelete({ fileItem }) {
+  const request = createRequest()
+  console.log('Deleting file:', fileItem.file.name)
+  await request(1000) // Simulate delete
+}
+render(
+  <Form.Handler onSubmit={(data) => console.log('onSubmit', data)}>
+    <Flex.Stack>
+      <Field.Upload
+        path="/myFiles"
+        fileMaxSize={1}
+        acceptedFileTypes={['jpg', 'pdf', 'png']}
+        label="Upload documents"
+        labelDescription="Try uploading files larger than 1 MB or unsupported file types (e.g., .docx) to see validation error handling."
+        onValidationError={validationErrorHandler}
+        fileHandler={fileHandler}
+        onFileDelete={onFileDelete}
+      />
+      <Form.SubmitButton />
+      <Tools.Log />
+    </Flex.Stack>
+  </Form.Handler>
+)
+```
+
+### With Iterate.Array
+
+```tsx
+async function mockAsyncFileUpload(
+  newFiles: UploadFile[]
+): Promise<UploadFile[]> {
+  const updatedFiles: UploadFile[] = []
+  for (const [, file] of Object.entries(newFiles)) {
+    const formData = new FormData()
+    formData.append('file', file.file, file.file.name)
+    const request = createRequest()
+    await request(8000) // Simulate a request
+
+    try {
+      const mockResponse = {
+        ok: true,
+        json: async () => ({
+          server_generated_id: file.file.name + '_' + crypto.randomUUID(),
+        }),
+      }
+      const data = await mockResponse.json()
+      updatedFiles.push({
+        ...file,
+        id: data.server_generated_id,
+      })
+    } catch (error) {
+      updatedFiles.push({
+        ...file,
+        errorMessage: error.message,
+      })
+    }
+  }
+  return updatedFiles
+}
+async function mockAsyncOnFileClick({ fileItem }) {
+  const request = createRequest()
+  console.log(
+    'making API request to fetch the url of the file: ' +
+      fileItem.file.name
+  )
+  await request(3000) // Simulate a request
+  window.open(
+    'https://eufemia.dnb.no/images/avatars/1501870.jpg',
+    '_blank'
+  )
+}
+async function mockAsyncFileRemoval({ fileItem }) {
+  const request = createRequest()
+  console.log('Making API request to remove: ' + fileItem.file.name)
+  await request(3000) // Simulate a request
+}
+render(
+  <Form.Handler
+    onSubmit={(data) => {
+      console.log('submitted data:', data)
+    }}
+    defaultData={{
+      listOfFiles: [
+        {
+          files: undefined,
+        },
+        {
+          files: undefined,
+        },
+      ],
+    }}
+  >
+    <Iterate.Array path="/listOfFiles">
+      <Field.Upload
+        itemPath="/files"
+        label="Required field with async fileHandler"
+        onFileDelete={mockAsyncFileRemoval}
+        onFileClick={mockAsyncOnFileClick}
+        fileHandler={mockAsyncFileUpload}
+        required
+        onChange={(e) => {
+          console.log('onChange', e)
+        }}
+      />
+    </Iterate.Array>
+    <Form.SubmitButton />
+    <Tools.Log />
   </Form.Handler>
 )
 ```
@@ -636,7 +814,12 @@ render(
 {
   "props": {
     "fileHandler": {
-      "doc": "File handler function that takes newly added files (`newFiles: UploadValue`) as a parameter and returns the processed files. The function can either be synchronous or asynchronous. It returns a promise (`Promise<UploadValue>`) containing the processed files when asynchronous.",
+      "doc": "File handler function that receives only newly added valid files (files without validation errors) as a parameter (`newFiles: UploadValue`) and returns the processed files. Existing files that were already uploaded are not included. The function can either be synchronous or asynchronous. It returns a promise (`Promise<UploadValue>`) containing the processed files when asynchronous. You can modify the returned files by setting a new `id` (e.g., from server response), adding an `errorMessage` to indicate upload failure, or modifying other properties.",
+      "type": "function",
+      "status": "optional"
+    },
+    "onValidationError": {
+      "doc": "Validation error handler function that receives newly added files with an `errorMessage` property. This is typically triggered by built-in validation failures (file size or file type), but will be called for any new file that has an `errorMessage` set. Use this to customize how invalid files are displayed, such as removing the download link, removing the delete button, or adding custom descriptions. The function is synchronous and should return the modified files. Executes before `onChange` and `fileHandler`, allowing you to process validation errors before they reach other handlers. **Note:** Only processes new files - if `fileHandler` returns a file with `errorMessage`, that file is already in the list and won't trigger `onValidationError` again.",
       "type": "function",
       "status": "optional"
     },
@@ -725,12 +908,12 @@ render(
       "status": "optional"
     },
     "info": {
-      "doc": "Info message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
+      "doc": "Info message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
       "type": ["React.Node", "Array<React.Node>", "function"],
       "status": "optional"
     },
     "warning": {
-      "doc": "Warning message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
+      "doc": "Warning message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
       "type": ["React.Node", "Array<React.Node>", "function"],
       "status": "optional"
     },
@@ -842,6 +1025,11 @@ render(
     "hideHelpButton": {
       "doc": "Set `true` when you render the inline help button outside the label (e.g. inside a checkbox suffix) so FieldBlock skips drawing the default label help button.",
       "type": "boolean",
+      "status": "optional"
+    },
+    "statusPosition": {
+      "doc": "Controls where status messages (`error`, `warning`, `info`) are visually shown. Use `below` (default) or `above`.",
+      "type": ["\"below\"", "\"above\""],
       "status": "optional"
     },
     "layout": {

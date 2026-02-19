@@ -1,8 +1,8 @@
 ---
 title: 'Field.NationalIdentityNumber'
 description: '`Field.NationalIdentityNumber` is a wrapper component for the input of strings, with user experience tailored for national identity number values.'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:52.878Z
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:28.638Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -507,12 +507,12 @@ render(
       "status": "optional"
     },
     "info": {
-      "doc": "Info message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
+      "doc": "Info message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
       "type": ["React.Node", "Array<React.Node>", "function"],
       "status": "optional"
     },
     "warning": {
-      "doc": "Warning message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
+      "doc": "Warning message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
       "type": ["React.Node", "Array<React.Node>", "function"],
       "status": "optional"
     },
@@ -626,6 +626,11 @@ render(
       "type": "boolean",
       "status": "optional"
     },
+    "statusPosition": {
+      "doc": "Controls where status messages (`error`, `warning`, `info`) are visually shown. Use `below` (default) or `above`.",
+      "type": ["\"below\"", "\"above\""],
+      "status": "optional"
+    },
     "layout": {
       "doc": "Layout for the label and input. Can be `horizontal` or `vertical`.",
       "type": "string",
@@ -729,7 +734,7 @@ render(
     },
     "NationalIdentityNumber.errorMinimumAgeValidatorLength": {
       "nb-NO": "Ugyldig fødselsdato. Skriv inn en gyldig fødselsdato (inkl. århundresiffer) med 7 siffer.",
-      "en-GB": "Invalid birth of date. Enter a valid birth of date (incl. century digit) with 7 digits.",
+      "en-GB": "Invalid date of birth. Enter a valid date of birth (incl. century digit) with 7 digits.",
       "sv-SE": "Ogiltigt födelsedatum. Ange ett giltigt födelsedatum (inkl. århundradessiffra) med 7 siffror.",
       "da-DK": "Ugyldig fødselsdato. Indtast en gyldig fødselsdato (inkl. århundredetal) med 7 cifre."
     },

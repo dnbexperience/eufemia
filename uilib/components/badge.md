@@ -1,9 +1,9 @@
 ---
 title: 'Badge'
 description: 'The Badge component allows the user to focus on new or unread content or notifications.'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:51.245Z
-checksum: 2c1982de052a9d5afd0ac34e55c13a93d11ef62bbd002fa16d2bec40fedc36e4
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:27.549Z
+checksum: f2fdffcad5009ed5d60a6064a09adc13c2a32c7e624a3646ffdaebeeb43face9
 ---
 
 # Badge
@@ -280,9 +280,9 @@ render(<Example />)
       "doc": "Defines the status color of the `\"information\"` variant. Has no effect on other variants. Default is `\"default\"`.",
       "type": [
         "\"default\"",
-        "\"success\"",
+        "\"positive\"",
         "\"warning\"",
-        "\"error\"",
+        "\"negative\"",
         "\"neutral\""
       ],
       "status": "optional"

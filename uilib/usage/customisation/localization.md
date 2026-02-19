@@ -1,7 +1,7 @@
 ---
 title: 'Locale / Translation'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:52.948Z
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:28.691Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -48,6 +48,21 @@ import svSE_forms_countries from '@dnb/eufemia/extensions/forms/constants/locale
 import daDK from '@dnb/eufemia/shared/locales/da-DK'
 import daDK_forms from '@dnb/eufemia/extensions/forms/constants/locales/da-DK'
 import daDK_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/da-DK'
+
+Use `mergeTranslations` to combine the forms translations (and country translations when needed) before you pass them to `Form.Handler` or `Provider`.
+
+import { mergeTranslations } from '@dnb/eufemia/shared'
+import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
+import svSE_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/sv-SE'
+import daDK_forms from '@dnb/eufemia/extensions/forms/constants/locales/da-DK'
+import daDK_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/da-DK'
+
+const translations = mergeTranslations(
+  svSE,
+  svSE_forms,
+  svSE_forms_countries, // if needed
+  // etc. for other locales you want to add
+)
 ```
 
 ## How to set the locale
@@ -116,6 +131,7 @@ const ChangeLocale = () => {
   return (
     <Field.Selection value={locale} onChange={(value) => setLocale(value)}>
       <Field.Option value="nb-NO" title="Norsk" />
+      <Field.Option value="en-NO" title="English (NO)" />
       <Field.Option value="sv-SE" title="Svenska" />
       <Field.Option value="da-DK" title="Dansk" />
       <Field.Option value="en-GB" title="English (GB)" />
@@ -567,7 +583,26 @@ Eufemia provides forms translations for the following locales:
 
 **Note:** Only `nb-NO` and `en-GB` are included by default.
 
-To support other locales such as `sv-SE` or `da-DK`, you can provide translations for fields and values in a few different ways.
+To support other locales such as `sv-SE` or `da-DK`, you need to import and merge the locale translations yourself.
+
+Use `mergeTranslations` to combine the forms translations (and country translations when needed) before you pass them to `Form.Handler` or `Provider`.
+
+```js
+import { mergeTranslations } from '@dnb/eufemia/shared'
+import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
+import svSE_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/sv-SE'
+import daDK_forms from '@dnb/eufemia/extensions/forms/constants/locales/da-DK'
+import daDK_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/da-DK'
+
+const translations = mergeTranslations(
+  svSE_forms,
+  svSE_forms_countries, // if needed
+  daDK_forms, // if needed
+  daDK_forms_countries // if needed
+)
+```
+
+You can provide the merged translations for fields and values in a few different ways.
 
 #### Form.Handler
 
@@ -590,7 +625,7 @@ render(
 
 #### Global translations
 
-How ever, instead of providing the forms translations per form, you can also provide them globally using the `Provider` component:
+However, instead of providing the forms translations per form, you can also provide them globally using the `Provider` component:
 
 ```js
 import { Provider, mergeTranslations } from '@dnb/eufemia/shared'

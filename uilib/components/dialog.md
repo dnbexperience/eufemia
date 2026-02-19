@@ -1,8 +1,8 @@
 ---
 title: 'Dialog'
 description: 'The Dialog component is a Modal variation that appears at the center of the screen.'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:51.313Z
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:27.620Z
 checksum: 6146c02e2ec2d9b56850e52773452480f012e0218157924a5c1255deac391a7a
 ---
 
@@ -438,7 +438,7 @@ const MockComponent = () => {
           }}
         />
         <Button
-          text="Jeg godtar"
+          text="Jeg godtar alle"
           on_click={({ close }) => {
             close()
           }}
@@ -455,6 +455,9 @@ const MockComponent = () => {
   const scrollRef = React.useRef(null)
   return (
     <Dialog
+      triggerAttributes={{
+        text: 'Show information dialog with sticky header',
+      }}
       variant="information"
       scrollRef={scrollRef}
       onOpen={() => {
@@ -467,60 +470,53 @@ const MockComponent = () => {
         }
       }}
     >
-      Newline
-      <br />
-      Newline
-      <br />
-      Newline
-      <br />
-      Newline
-      <br />
-      Newline
-      <br />
-      Newline
-      <br />
-      Newline
-      <br />
-      Newline
-      <br />
-      Newline
-      <br />
-      Newline
-      <br />
-      Newline
-      <br />
-      Newline
-      <br />
-      Newline
-      <br />
-      Newline
-      <br />
-      Newline
-      <br />
-      Newline
-      <br />
-      Newline
-      <br />
-      Newline
-      <br />
-      Newline
-      <br />
-      Newline
-      <br />
-      Newline
-      <br />
-      Newline
-      <br />
-      Newline
-      <br />
-      Newline
-      <br />
-      Newline
-      <br />
-      Newline
-      <br />
-      <br />
-      Last line
+      <Form.Handler>
+        <Flex.Stack>
+          <Form.MainHeading>Opprett en bedriftskonto</Form.MainHeading>
+          <P>
+            For å opprette en bedriftskonto trenger vi litt informasjon om
+            virksomheten din. Fyll ut feltene nedenfor, så tar vi kontakt
+            innen to virkedager.
+          </P>
+
+          <Form.Card>
+            <Form.SubHeading>Kontaktinformasjon</Form.SubHeading>
+            <Field.String label="Fullt navn" path="/name" />
+            <Field.Email path="/email" />
+            <Field.PhoneNumber path="/phone" />
+          </Form.Card>
+
+          <Form.Card>
+            <Form.SubHeading>Bedriftsinformasjon</Form.SubHeading>
+            <Field.Name.Company path="/companyName" />
+            <Field.OrganizationNumber path="/orgNumber" />
+            <Field.String label="Adresse" path="/address" />
+            <Field.PostalCodeAndCity
+              postalCode={{
+                path: '/postalCode',
+              }}
+              city={{
+                path: '/city',
+              }}
+            />
+          </Form.Card>
+
+          <Form.Card>
+            <Form.SubHeading>Tilleggsinformasjon</Form.SubHeading>
+            <Field.String
+              label="Beskriv behovet ditt"
+              path="/description"
+              multiline
+              rows={3}
+            />
+            <Field.Boolean
+              label="Jeg godtar vilkårene for bruk"
+              path="/terms"
+              variant="checkbox"
+            />
+          </Form.Card>
+        </Flex.Stack>
+      </Form.Handler>
     </Dialog>
   )
 }
@@ -666,7 +662,7 @@ See the table below:
   "entries": {
     "Dialog.confirmText": {
       "nb-NO": "Godta",
-      "en-GB": "Approve",
+      "en-GB": "Confirm",
       "sv-SE": "Godkänn",
       "da-DK": "Godkend"
     },
@@ -685,7 +681,7 @@ See the table below:
     "Modal.dialog_title": {
       "nb-NO": "Separat Vindu",
       "en-GB": "Dialog Window",
-      "sv-SE": "Separat Fönster",
+      "sv-SE": "Separat fönster",
       "da-DK": "Separat vindue"
     }
   }

@@ -1,9 +1,9 @@
 ---
 title: 'Tabs'
 description: 'Tabs are a set of buttons which allow navigation between content that is related and on the same level of hierarchy.'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:52.115Z
-checksum: 050a6426a7c98e9b5a1c95124f81416b828b9b0017858283e3018a5b6393c5c0
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:27.895Z
+checksum: 6bb7f0f5a749fc0a6c7931b7d7c511f026564dec3bb855b828f847a100a75ae1
 ---
 
 # Tabs
@@ -653,22 +653,22 @@ The current Tab content can be a `string`, a function returning content or a `Re
 {
   "props": {
     "on_change": {
-      "doc": "(preferred) this event gets triggered once the tab changes its selected key. Returns `{ key, selected_key, focus_key, event }`.",
+      "doc": "(preferred) this event gets triggered once the tab changes its selected key. Returns `{ key, selected_key, focus_key, title, event }`.",
       "type": "function",
       "status": "optional"
     },
     "on_click": {
-      "doc": "This event gets triggered once the tab gets clicked. Returns `{ key, selected_key, focus_key, event }`.",
+      "doc": "This event gets triggered once the tab gets clicked. Returns `{ key, selected_key, focus_key, title, event }`.",
       "type": "function",
       "status": "optional"
     },
     "on_focus": {
-      "doc": "This event gets triggered once the tab changes its focus key. Returns `{ key, selected_key, focus_key, event }`.",
+      "doc": "This event gets triggered once the tab changes its focus key. Returns `{ key, selected_key, focus_key, title, event }`.",
       "type": "function",
       "status": "optional"
     },
     "on_mouse_enter": {
-      "doc": "This event gets triggered once the user';s mouse enters a tab (hover). Returns `{ key, selected_key, focus_key, event }`.",
+      "doc": "This event gets triggered once the user's mouse enters a tab (hover). Returns `{ key, selected_key, focus_key, title, event }`.",
       "type": "function",
       "status": "optional"
     }

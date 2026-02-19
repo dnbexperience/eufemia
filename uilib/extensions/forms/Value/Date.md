@@ -1,8 +1,8 @@
 ---
 title: 'Value.Date'
 description: '`Value.Date` is a wrapper component for displaying string values, with user experience tailored for date values.'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:52.720Z
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:28.471Z
 checksum: 87a6463a7c2f4c484c99dc36fc95c0965b2ee12f23460d46e9e5c85ea1e8a453
 ---
 
@@ -26,7 +26,7 @@ import { Value } from '@dnb/eufemia/extensions/forms'
 render(<Value.Date />)
 ```
 
-Check the [Best Practices for formatting numbers](/uilib/usage/best-practices/for-formatting/) page to see how its locale examples align with what this component renders.
+Check the [Best Practices for number formatting](/uilib/usage/best-practices/for-formatting/) page to see how its locale examples align with what this component renders.
 
 ## Relevant links
 

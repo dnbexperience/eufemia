@@ -1,8 +1,8 @@
 ---
 title: 'Form.InfoOverlay'
 description: '`Form.InfoOverlay` is used to display an informational message that fully covers the available space.'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:52.409Z
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:28.193Z
 checksum: 6e90f6df8fe801afc91d57e5fe885bcd8737cdca36e2ab0124c816c50948376f
 ---
 
@@ -310,7 +310,7 @@ render(
       "da-DK": "Tilbage"
     },
     "InfoOverlayError.description": {
-      "nb-NO": "Prøv igjen eller ta kontakt med oss om feilen vedstår.",
+      "nb-NO": "Prøv igjen eller ta kontakt med oss om feilen vedvarer.",
       "en-GB": "Please try again or contact us.",
       "sv-SE": "Försök igen eller kontakta oss om felet kvarstår.",
       "da-DK": "Prøv igen eller kontakt os, hvis fejlen fortsætter."

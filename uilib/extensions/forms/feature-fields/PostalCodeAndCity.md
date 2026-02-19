@@ -1,8 +1,8 @@
 ---
 title: 'Field.PostalCodeAndCity'
 description: '`Field.PostalCodeAndCity` is a wrapper component for input of two separate values with user experience tailored for postal code and city values.'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:52.881Z
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:28.641Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -340,6 +340,11 @@ render(
     "hideHelpButton": {
       "doc": "Set `true` when you render the inline help button outside the label (e.g. inside a checkbox suffix) so FieldBlock skips drawing the default label help button.",
       "type": "boolean",
+      "status": "optional"
+    },
+    "statusPosition": {
+      "doc": "Controls where status messages (`error`, `warning`, `info`) are visually shown. Use `below` (default) or `above`.",
+      "type": ["\"below\"", "\"above\""],
       "status": "optional"
     },
     "layout": {

@@ -1,27 +1,16 @@
 ---
-title: 'Best Practices for formatting numbers'
+title: 'Best Practices for number formatting'
 description: 'Compare the canonical number, currency and date layouts that the components produce for each locale.'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:52.942Z
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:28.685Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
-# Formatting reference
+# Number formatting reference
 
 This page shows the canonical number, currency and date layouts that the components produce for each locale.
 
 For detailed prop lists, see the [NumberFormat](/uilib/components/number-format) component and the [DateFormat](/uilib/components/date-format) component.
-
-The formatting helpers power several `Value.*` components:
-
-- [Value.Number](/uilib/extensions/forms/Value/Number/)
-- [Value.Currency](/uilib/extensions/forms/Value/Currency/)
-- [Value.Date](/uilib/extensions/forms/Value/Date/)
-- [Value.DateOfBirth](/uilib/extensions/forms/Value/DateOfBirth/)
-- [Value.PhoneNumber](/uilib/extensions/forms/Value/PhoneNumber/)
-- [Value.BankAccountNumber](/uilib/extensions/forms/Value/BankAccountNumber/)
-- [Value.NationalIdentityNumber](/uilib/extensions/forms/Value/NationalIdentityNumber/)
-- [Value.OrganizationNumber](/uilib/extensions/forms/Value/OrganizationNumber/)
 
 ---
 
@@ -86,6 +75,7 @@ render(
         <Tr noWrap>
           <Th>Variation</Th>
           <Th>nb-NO</Th>
+          <Th>en-NO</Th>
           <Th>en-GB</Th>
           <Th>sv-SE</Th>
           <Th>da-DK</Th>
@@ -96,6 +86,9 @@ render(
           <Td>Default</Td>
           <Td>
             <NumberFormat locale="nb-NO" value={1234567.89} />
+          </Td>
+          <Td>
+            <NumberFormat locale="en-NO" value={1234567.89} />
           </Td>
           <Td>
             <NumberFormat locale="en-GB" value={1234567.89} />
@@ -113,6 +106,9 @@ render(
             <NumberFormat locale="nb-NO" value={1234567.89} decimals={0} />
           </Td>
           <Td>
+            <NumberFormat locale="en-NO" value={1234567.89} decimals={0} />
+          </Td>
+          <Td>
             <NumberFormat locale="en-GB" value={1234567.89} decimals={0} />
           </Td>
           <Td>
@@ -126,6 +122,9 @@ render(
           <Td>3 decimals</Td>
           <Td>
             <NumberFormat locale="nb-NO" value={1234567.89} decimals={3} />
+          </Td>
+          <Td>
+            <NumberFormat locale="en-NO" value={1234567.89} decimals={3} />
           </Td>
           <Td>
             <NumberFormat locale="en-GB" value={1234567.89} decimals={3} />
@@ -143,6 +142,9 @@ render(
             <NumberFormat locale="nb-NO" value={-1234567.89} />
           </Td>
           <Td>
+            <NumberFormat locale="en-NO" value={-1234567.89} />
+          </Td>
+          <Td>
             <NumberFormat locale="en-GB" value={-1234567.89} />
           </Td>
           <Td>
@@ -157,6 +159,13 @@ render(
           <Td>
             <NumberFormat
               locale="nb-NO"
+              signDisplay="exceptZero"
+              value={1234567.89}
+            />
+          </Td>
+          <Td>
+            <NumberFormat
+              locale="en-NO"
               signDisplay="exceptZero"
               value={1234567.89}
             />
@@ -189,6 +198,9 @@ render(
             <NumberFormat locale="nb-NO">invalid</NumberFormat>
           </Td>
           <Td>
+            <NumberFormat locale="en-NO">invalid</NumberFormat>
+          </Td>
+          <Td>
             <NumberFormat locale="en-GB">invalid</NumberFormat>
           </Td>
           <Td>
@@ -214,6 +226,7 @@ render(
         <Tr noWrap>
           <Th>Style</Th>
           <Th>nb-NO</Th>
+          <Th>en-NO</Th>
           <Th>en-GB</Th>
           <Th>sv-SE</Th>
           <Th>da-DK</Th>
@@ -225,6 +238,14 @@ render(
           <Td>
             <NumberFormat
               locale="nb-NO"
+              compact
+              decimals={1}
+              value={123456}
+            />
+          </Td>
+          <Td>
+            <NumberFormat
+              locale="en-NO"
               compact
               decimals={1}
               value={123456}
@@ -260,6 +281,14 @@ render(
           <Td>
             <NumberFormat
               locale="nb-NO"
+              compact="long"
+              decimals={2}
+              value={1234567.89}
+            />
+          </Td>
+          <Td>
+            <NumberFormat
+              locale="en-NO"
               compact="long"
               decimals={2}
               value={1234567.89}
@@ -306,6 +335,7 @@ render(
         <Tr noWrap>
           <Th>Style</Th>
           <Th>nb-NO</Th>
+          <Th>en-NO</Th>
           <Th>en-GB</Th>
           <Th>sv-SE</Th>
           <Th>da-DK</Th>
@@ -316,6 +346,9 @@ render(
           <Td>Default</Td>
           <Td>
             <NumberFormat locale="nb-NO" percent value={12.34} />
+          </Td>
+          <Td>
+            <NumberFormat locale="en-NO" percent value={12.34} />
           </Td>
           <Td>
             <NumberFormat locale="en-GB" percent value={12.34} />
@@ -331,6 +364,9 @@ render(
           <Td>3 decimals</Td>
           <Td>
             <NumberFormat locale="nb-NO" percent decimals={3} value={3} />
+          </Td>
+          <Td>
+            <NumberFormat locale="en-NO" percent decimals={3} value={3} />
           </Td>
           <Td>
             <NumberFormat locale="en-GB" percent decimals={3} value={3} />
@@ -358,6 +394,7 @@ render(
         <Tr noWrap>
           <Th>Variation</Th>
           <Th>nb-NO</Th>
+          <Th>en-NO</Th>
           <Th>en-GB</Th>
           <Th>sv-SE</Th>
           <Th>da-DK</Th>
@@ -368,6 +405,9 @@ render(
           <Td>Default</Td>
           <Td>
             <NumberFormat currency locale="nb-NO" value={-1358} />
+          </Td>
+          <Td>
+            <NumberFormat currency locale="en-NO" value={-1358} />
           </Td>
           <Td>
             <NumberFormat currency locale="en-GB" value={-1358} />
@@ -385,6 +425,14 @@ render(
             <NumberFormat
               currency
               locale="nb-NO"
+              value={-1358}
+              currency_display="symbol"
+            />
+          </Td>
+          <Td>
+            <NumberFormat
+              currency
+              locale="en-NO"
               value={-1358}
               currency_display="symbol"
             />
@@ -427,6 +475,14 @@ render(
           <Td>
             <NumberFormat
               currency="EUR"
+              locale="en-NO"
+              value={-1358}
+              currency_display="narrowSymbol"
+            />
+          </Td>
+          <Td>
+            <NumberFormat
+              currency="EUR"
               locale="en-GB"
               value={-1358}
               currency_display="narrowSymbol"
@@ -455,6 +511,14 @@ render(
             <NumberFormat
               currency
               locale="nb-NO"
+              value={-1358}
+              currency_display="name"
+            />
+          </Td>
+          <Td>
+            <NumberFormat
+              currency
+              locale="en-NO"
               value={-1358}
               currency_display="name"
             />
@@ -497,6 +561,14 @@ render(
           <Td>
             <NumberFormat
               currency
+              locale="en-NO"
+              value={-1358}
+              currency_display="code"
+            />
+          </Td>
+          <Td>
+            <NumberFormat
+              currency
               locale="en-GB"
               value={-1358}
               currency_display="code"
@@ -532,6 +604,14 @@ render(
           <Td>
             <NumberFormat
               currency
+              locale="en-NO"
+              value={-1358}
+              decimals={0}
+            />
+          </Td>
+          <Td>
+            <NumberFormat
+              currency
               locale="en-GB"
               value={-1358}
               decimals={0}
@@ -560,6 +640,14 @@ render(
             <NumberFormat
               currency
               locale="nb-NO"
+              value={-1358}
+              decimals={3}
+            />
+          </Td>
+          <Td>
+            <NumberFormat
+              currency
+              locale="en-NO"
               value={-1358}
               decimals={3}
             />
@@ -605,6 +693,7 @@ render(
         <Tr noWrap>
           <Th>Style</Th>
           <Th>nb-NO</Th>
+          <Th>en-NO</Th>
           <Th>en-GB</Th>
           <Th>sv-SE</Th>
           <Th>da-DK</Th>
@@ -616,6 +705,13 @@ render(
           <Td>
             <DateFormat
               locale="nb-NO"
+              value="2026-01-30"
+              dateStyle="full"
+            />
+          </Td>
+          <Td>
+            <DateFormat
+              locale="en-NO"
               value="2026-01-30"
               dateStyle="full"
             />
@@ -653,6 +749,13 @@ render(
           </Td>
           <Td>
             <DateFormat
+              locale="en-NO"
+              value="2026-01-30"
+              dateStyle="long"
+            />
+          </Td>
+          <Td>
+            <DateFormat
               locale="en-GB"
               value="2026-01-30"
               dateStyle="long"
@@ -684,6 +787,13 @@ render(
           </Td>
           <Td>
             <DateFormat
+              locale="en-NO"
+              value="2026-01-30"
+              dateStyle="medium"
+            />
+          </Td>
+          <Td>
+            <DateFormat
               locale="en-GB"
               value="2026-01-30"
               dateStyle="medium"
@@ -709,6 +819,13 @@ render(
           <Td>
             <DateFormat
               locale="nb-NO"
+              value="2026-01-30"
+              dateStyle="short"
+            />
+          </Td>
+          <Td>
+            <DateFormat
+              locale="en-NO"
               value="2026-01-30"
               dateStyle="short"
             />
@@ -751,6 +868,7 @@ render(
         <Tr noWrap>
           <Th>Style</Th>
           <Th>nb-NO</Th>
+          <Th>en-NO</Th>
           <Th>en-GB</Th>
           <Th>sv-SE</Th>
           <Th>da-DK</Th>
@@ -762,6 +880,14 @@ render(
           <Td>
             <DateFormat
               locale="nb-NO"
+              value="2026-01-30T09:12"
+              dateStyle="full"
+              timeStyle="short"
+            />
+          </Td>
+          <Td>
+            <DateFormat
+              locale="en-NO"
               value="2026-01-30T09:12"
               dateStyle="full"
               timeStyle="short"
@@ -804,6 +930,14 @@ render(
           </Td>
           <Td>
             <DateFormat
+              locale="en-NO"
+              value="2026-01-30T09:12"
+              dateStyle="long"
+              timeStyle="short"
+            />
+          </Td>
+          <Td>
+            <DateFormat
               locale="en-GB"
               value="2026-01-30T09:12"
               dateStyle="long"
@@ -839,6 +973,14 @@ render(
           </Td>
           <Td>
             <DateFormat
+              locale="en-NO"
+              value="2026-01-30T09:12"
+              dateStyle="medium"
+              timeStyle="short"
+            />
+          </Td>
+          <Td>
+            <DateFormat
               locale="en-GB"
               value="2026-01-30T09:12"
               dateStyle="medium"
@@ -867,6 +1009,14 @@ render(
           <Td>
             <DateFormat
               locale="nb-NO"
+              value="2026-01-30T09:12"
+              dateStyle="short"
+              timeStyle="short"
+            />
+          </Td>
+          <Td>
+            <DateFormat
+              locale="en-NO"
               value="2026-01-30T09:12"
               dateStyle="short"
               timeStyle="short"
@@ -915,6 +1065,7 @@ render(
         <Tr noWrap>
           <Th>Style</Th>
           <Th>nb-NO</Th>
+          <Th>en-NO</Th>
           <Th>en-GB</Th>
           <Th>sv-SE</Th>
           <Th>da-DK</Th>
@@ -926,6 +1077,14 @@ render(
           <Td>
             <DateFormat
               locale="nb-NO"
+              value="2026-01-30"
+              dateStyle="full"
+              hideYear
+            />
+          </Td>
+          <Td>
+            <DateFormat
+              locale="en-NO"
               value="2026-01-30"
               dateStyle="full"
               hideYear
@@ -968,6 +1127,14 @@ render(
           </Td>
           <Td>
             <DateFormat
+              locale="en-NO"
+              value="2026-01-30"
+              dateStyle="long"
+              hideYear
+            />
+          </Td>
+          <Td>
+            <DateFormat
               locale="en-GB"
               value="2026-01-30"
               dateStyle="long"
@@ -1003,6 +1170,14 @@ render(
           </Td>
           <Td>
             <DateFormat
+              locale="en-NO"
+              value="2026-01-30"
+              dateStyle="medium"
+              hideYear
+            />
+          </Td>
+          <Td>
+            <DateFormat
               locale="en-GB"
               value="2026-01-30"
               dateStyle="medium"
@@ -1031,6 +1206,14 @@ render(
           <Td>
             <DateFormat
               locale="nb-NO"
+              value="2026-01-30"
+              dateStyle="short"
+              hideYear
+            />
+          </Td>
+          <Td>
+            <DateFormat
+              locale="en-NO"
               value="2026-01-30"
               dateStyle="short"
               hideYear
@@ -1077,6 +1260,7 @@ render(
         <Tr noWrap>
           <Th>Style</Th>
           <Th>nb-NO</Th>
+          <Th>en-NO</Th>
           <Th>en-GB</Th>
           <Th>sv-SE</Th>
           <Th>da-DK</Th>
@@ -1088,6 +1272,15 @@ render(
           <Td>
             <DateFormat
               locale="nb-NO"
+              value="2026-01-30T09:12"
+              dateStyle="full"
+              timeStyle="short"
+              hideYear
+            />
+          </Td>
+          <Td>
+            <DateFormat
+              locale="en-NO"
               value="2026-01-30T09:12"
               dateStyle="full"
               timeStyle="short"
@@ -1135,6 +1328,15 @@ render(
           </Td>
           <Td>
             <DateFormat
+              locale="en-NO"
+              value="2026-01-30T09:12"
+              dateStyle="long"
+              timeStyle="short"
+              hideYear
+            />
+          </Td>
+          <Td>
+            <DateFormat
               locale="en-GB"
               value="2026-01-30T09:12"
               dateStyle="long"
@@ -1174,6 +1376,15 @@ render(
           </Td>
           <Td>
             <DateFormat
+              locale="en-NO"
+              value="2026-01-30T09:12"
+              dateStyle="medium"
+              timeStyle="short"
+              hideYear
+            />
+          </Td>
+          <Td>
+            <DateFormat
               locale="en-GB"
               value="2026-01-30T09:12"
               dateStyle="medium"
@@ -1205,6 +1416,15 @@ render(
           <Td>
             <DateFormat
               locale="nb-NO"
+              value="2026-01-30T09:12"
+              dateStyle="short"
+              timeStyle="short"
+              hideYear
+            />
+          </Td>
+          <Td>
+            <DateFormat
+              locale="en-NO"
               value="2026-01-30T09:12"
               dateStyle="short"
               timeStyle="short"
@@ -1257,6 +1477,7 @@ render(
         <Tr noWrap>
           <Th>Description</Th>
           <Th>nb-NO</Th>
+          <Th>en-NO</Th>
           <Th>en-GB</Th>
           <Th>sv-SE</Th>
           <Th>da-DK</Th>
@@ -1268,6 +1489,16 @@ render(
           <Td>
             <DateFormat
               locale="nb-NO"
+              relativeTime
+              relativeTimeReference={() =>
+                new Date('2026-02-06T12:00:00Z')
+              }
+              value="2026-02-06T11:59:30Z"
+            />
+          </Td>
+          <Td>
+            <DateFormat
+              locale="en-NO"
               relativeTime
               relativeTimeReference={() =>
                 new Date('2026-02-06T12:00:00Z')
@@ -1320,6 +1551,16 @@ render(
           </Td>
           <Td>
             <DateFormat
+              locale="en-NO"
+              relativeTime
+              relativeTimeReference={() =>
+                new Date('2026-02-06T12:00:00Z')
+              }
+              value="2026-02-06T11:00:00Z"
+            />
+          </Td>
+          <Td>
+            <DateFormat
               locale="en-GB"
               relativeTime
               relativeTimeReference={() =>
@@ -1354,6 +1595,16 @@ render(
           <Td>
             <DateFormat
               locale="nb-NO"
+              relativeTime
+              relativeTimeReference={() =>
+                new Date('2026-02-06T12:00:00Z')
+              }
+              value="2026-02-06T15:00:00Z"
+            />
+          </Td>
+          <Td>
+            <DateFormat
+              locale="en-NO"
               relativeTime
               relativeTimeReference={() =>
                 new Date('2026-02-06T12:00:00Z')
@@ -1408,6 +1659,7 @@ render(
         <Tr noWrap>
           <Th>Duration</Th>
           <Th>nb-NO</Th>
+          <Th>en-NO</Th>
           <Th>en-GB</Th>
           <Th>sv-SE</Th>
           <Th>da-DK</Th>
@@ -1418,6 +1670,9 @@ render(
           <Td>PT2H30M</Td>
           <Td>
             <DateFormat locale="nb-NO" value="PT2H30M" />
+          </Td>
+          <Td>
+            <DateFormat locale="en-NO" value="PT2H30M" />
           </Td>
           <Td>
             <DateFormat locale="en-GB" value="PT2H30M" />
@@ -1433,6 +1688,9 @@ render(
           <Td>P1DT2H30M</Td>
           <Td>
             <DateFormat locale="nb-NO" value="P1DT2H30M" />
+          </Td>
+          <Td>
+            <DateFormat locale="en-NO" value="P1DT2H30M" />
           </Td>
           <Td>
             <DateFormat locale="en-GB" value="P1DT2H30M" />

@@ -1,8 +1,8 @@
 ---
 title: 'NumberFormat'
 description: 'A ready to use DNB number formatter.'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:52.009Z
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:27.790Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -18,7 +18,7 @@ import { NumberFormat } from '@dnb/eufemia'
 
 A ready-to-use DNB number formatter. Use it wherever you have to display a number, a currency value, a phone number, etc.
 
-For a complete locale comparison, see [Best Practices for formatting numbers](/uilib/usage/best-practices/for-formatting/).
+For a complete locale comparison, see [Best Practices for number formatting](/uilib/usage/best-practices/for-formatting/).
 
 ## Relevant links
 
@@ -72,6 +72,29 @@ Here are the available options for the `rounding` property:
 - `omit`: Truncate decimals without rounding.
 - `half-even`: Round to the nearest even number.
 - `half-up` (default): Round up if the fractional part is 0.5 or greater; otherwise, round down.
+
+## Handling en-NO
+
+`en-NO` (English – Norway) is a valid BCP 47 locale and is commonly sent by devices configured with English language and Norway region.
+
+If region-aware formatting is supported, accept en-NO and use it for date, time, and number formatting.
+
+If only specific English locales are supported (e.g. en-GB), explicitly map en-NO to the closest supported locale.
+
+Locale handling must be explicit and consistent across the application.
+
+## Value Components
+
+The formatting helpers power several `Value.*` components:
+
+- [Value.Number](/uilib/extensions/forms/Value/Number/)
+- [Value.Currency](/uilib/extensions/forms/Value/Currency/)
+- [Value.Date](/uilib/extensions/forms/Value/Date/)
+- [Value.DateOfBirth](/uilib/extensions/forms/Value/DateOfBirth/)
+- [Value.PhoneNumber](/uilib/extensions/forms/Value/PhoneNumber/)
+- [Value.BankAccountNumber](/uilib/extensions/forms/Value/BankAccountNumber/)
+- [Value.NationalIdentityNumber](/uilib/extensions/forms/Value/NationalIdentityNumber/)
+- [Value.OrganizationNumber](/uilib/extensions/forms/Value/OrganizationNumber/)
 
 ## Provider
 
@@ -449,23 +472,35 @@ Control when to display the sign for numbers using the `signDisplay` property. O
 render(
   <Style>
     <ComponentBox data-visual-test="number-format-sign-display">
+      <H3>signDisplay="auto"</H3>
+      <P>
+        <NumberFormat signDisplay="auto" value={1234} />
+        <NumberFormat signDisplay="auto" value={-1234} />
+        <NumberFormat signDisplay="auto" value={0} />
+      </P>
       <H3>signDisplay="always"</H3>
       <P>
         <NumberFormat signDisplay="always" value={1234} />
         <NumberFormat signDisplay="always" value={-1234} />
         <NumberFormat signDisplay="always" value={0} />
       </P>
-      <H3>signDisplay="exceptZero"</H3>
-      <P>
-        <NumberFormat signDisplay="exceptZero" value={1234} />
-        <NumberFormat signDisplay="exceptZero" value={-1234} />
-        <NumberFormat signDisplay="exceptZero" value={0} />
-      </P>
       <H3>signDisplay="never"</H3>
       <P>
         <NumberFormat signDisplay="never" value={1234} />
         <NumberFormat signDisplay="never" value={-1234} />
         <NumberFormat signDisplay="never" value={0} />
+      </P>
+      <H3>signDisplay="negative"</H3>
+      <P>
+        <NumberFormat signDisplay="negative" value={1234} />
+        <NumberFormat signDisplay="negative" value={-1234} />
+        <NumberFormat signDisplay="negative" value={0} />
+      </P>
+      <H3>signDisplay="exceptZero"</H3>
+      <P>
+        <NumberFormat signDisplay="exceptZero" value={1234} />
+        <NumberFormat signDisplay="exceptZero" value={-1234} />
+        <NumberFormat signDisplay="exceptZero" value={0} />
       </P>
     </ComponentBox>
   </Style>

@@ -1,8 +1,8 @@
 ---
 title: 'Input'
 description: 'The Input component is an umbrella component for all inputs which share the same style as the classic text input field.'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:51.928Z
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:27.724Z
 checksum: d4e0105ff52d99ebc19fd8699b68ec6b4c20fa81c4d9cbf5c8049278ad3d11dd
 ---
 
@@ -649,8 +649,8 @@ render(
     "Input.submit_button_title": {
       "nb-NO": "Send",
       "en-GB": "Submit button",
-      "sv-SE": "Skicka knapp",
-      "da-DK": "Send ind knap"
+      "sv-SE": "Skicka",
+      "da-DK": "Indsend"
     }
   }
 }

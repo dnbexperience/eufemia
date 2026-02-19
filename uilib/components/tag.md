@@ -1,9 +1,9 @@
 ---
 title: 'Tag'
 description: 'The Tag component is a compact element for displaying discrete information.'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:52.122Z
-checksum: 78045c01041fd2536a36c495e423cca5761572785f4dd1540387b5fb57a86dd9
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:27.901Z
+checksum: 03185114c64e502a2d3b8cefeffb8fac51ce07ce5811667d91f455b6fc2e92d3
 ---
 
 # Tag
@@ -323,9 +323,9 @@ render(
       "status": "optional"
     },
     "onDelete": {
-      "doc": "Will be called on a click event. Returns an object with the native event: `{ event }`. This property does not support icon and will be ignored if `onClick`is defined.",
+      "doc": "Deprecated: use `onClick` with `variant=\"removable\"` instead. Will be called on a click event. Returns an object with the native event: `{ event }`. This property does not support icon and will be ignored if `onClick`is defined.",
       "type": "function",
-      "status": "optional"
+      "status": "deprecated"
     }
   }
 }

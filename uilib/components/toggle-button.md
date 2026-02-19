@@ -1,8 +1,8 @@
 ---
 title: 'ToggleButton'
 description: 'The ToggleButton component should be used to toggle on or off a limited number of choices.'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:52.159Z
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:27.936Z
 checksum: bcd67e08de2bac75ce19c24668921bc7f13b3be6f6e353edbe904527ce2b9aa2
 ---
 

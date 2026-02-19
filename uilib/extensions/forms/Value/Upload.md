@@ -1,8 +1,8 @@
 ---
 title: 'Value.Upload'
 description: '`Value.Upload` is a value component for displaying a list of files.'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:52.806Z
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:28.570Z
 checksum: adc00d6c075c1ed111082ea109c2ba4dcd3db8f148e6bc34ed075297e62f7bff
 ---
 
@@ -438,7 +438,7 @@ render(
 
 ### Display files as non-clickable
 
-When file size is 0 or not given (`new File([], name, { type })`), the file is displayed as a span instead of an anchor. How ever, when `onFileClick` is given, the file will be clickable as a button.
+When file size is 0 or not given (`new File([], name, { type })`), the file is displayed as a span instead of an anchor. However, when `onFileClick` is given, the file will be clickable as a button.
 
 ```tsx
 render(

@@ -1,8 +1,8 @@
 ---
 title: 'Getting started'
 description: 'Forms is reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:52.890Z
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:28.648Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -1003,16 +1003,22 @@ Eufemia provides forms translations for the following locales:
 
 ### Add additional translations
 
+For `sv-SE` and `da-DK`, remember to import the locale files and merge them with `mergeTranslations` before passing them to `Form.Handler`.
+
 ```js
 import { mergeTranslations } from '@dnb/eufemia/shared'
 import { Form } from '@dnb/eufemia/src/extensions/forms'
 import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
 import svSE_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/sv-SE'
-// or import danish translations, like so:
 import daDK_forms from '@dnb/eufemia/extensions/forms/constants/locales/da-DK'
 import daDK_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/da-DK'
 
-const translations = mergeTranslations(svSE_forms, svSE_forms_countries)
+const translations = mergeTranslations(
+  svSE_forms,
+  svSE_forms_countries, // if needed
+  daDK_forms, // if needed
+  daDK_forms_countries // if needed
+)
 
 render(
   <Form.Handler translations={translations} locale="sv-SE">
@@ -1029,8 +1035,13 @@ If so, you can use the `mergeTranslations` function from `@dnb/eufemia/shared` t
 import { Provider, mergeTranslations } from '@dnb/eufemia/shared'
 import svSE from '@dnb/eufemia/shared/locales/sv-SE'
 import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
+import svSE_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/sv-SE'
 
-const translations = mergeTranslations(svSE, svSE_forms)
+const translations = mergeTranslations(
+  svSE,
+  svSE_forms,
+  svSE_forms_countries // if needed
+)
 
 render(
   <Provider translations={translations} locale="sv-SE">
@@ -1146,7 +1157,9 @@ When building your application forms, preferably use the following layout compon
 - [Form.Card](/uilib/extensions/forms/Form/Card/) with the stack property `<Form.Card>...</Form.Card>` for the default card outline of forms.
 - [Form.Appearance](/uilib/extensions/forms/Form/Appearance/) for changing sizes (height) of e.g. input fields.
 
-## Best practices
+## Best practices on forms (accessibility, usability, and performance)
+
+When building forms, there are some best practices to keep in mind to ensure that your forms are accessible, usable, and performant. Read more about these best practices in the dedicated documentation on
 
 - [Best practices on Forms](/uilib/extensions/forms/best-practices-on-forms/).
 

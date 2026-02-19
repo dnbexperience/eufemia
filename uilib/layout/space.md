@@ -1,8 +1,8 @@
 ---
 title: 'Space'
 description: 'The Space component provides margins within the provided spacing patterns.'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:52.918Z
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:28.676Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -247,6 +247,8 @@ For "padding" inside the space component, you can use the property `innerSpace`.
 It supports the same API as the `space` property.
 
 But in addition it supports [media query breakpoints](/uilib/usage/layout/media-queries), such as `small`, `medium` and `large`.
+
+For `innerSpace` object values, you can also use `block` and `inline` shorthand.
 
 ```tsx
 render(

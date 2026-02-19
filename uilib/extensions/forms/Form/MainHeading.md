@@ -1,8 +1,8 @@
 ---
 title: 'Form.MainHeading'
 description: '`Form.MainHeading` is a standardized main heading for sections, ensuring default layout, spacing etc.'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:52.457Z
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:28.243Z
 checksum: 852178e7769f20736f67a3e4db9a97d5e10326cd12425eeff6aed85ea0fd6c56
 ---
 

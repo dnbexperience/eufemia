@@ -1,8 +1,8 @@
 ---
 title: 'List'
 description: 'List is a layout component for displaying rows of content, with optional start/center/end slots and a navigable item variant.'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:51.975Z
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:27.756Z
 checksum: b4857e09dad88230fd9cf09c5c5bf42acd8c3ea607a33b3147eea5f4f530105a
 ---
 
@@ -574,12 +574,10 @@ render(
 
     <List.Item.Action title="Title" icon={fish_medium}>
       <List.Cell.End>
-        <Flex.Vertical gap={false}>
-          <Value.Currency value={5678} showEmpty />
-          <List.Cell.Title.Subline variant="description">
-            Subline
-          </List.Cell.Title.Subline>
-        </Flex.Vertical>
+        <Value.Currency value={5678} showEmpty />
+        <List.Cell.Title.Subline variant="description">
+          Subline
+        </List.Cell.Title.Subline>
       </List.Cell.End>
     </List.Item.Action>
   </List.Container>

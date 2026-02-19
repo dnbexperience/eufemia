@@ -1,9 +1,9 @@
 ---
 title: 'Slider'
 description: 'The Slider component provides a visual indication of adjustable value.'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:52.067Z
-checksum: f962c02dfdf8b9986edf3875f46b8b75f6bf0c977952312f887d4e925be43d8c
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:27.863Z
+checksum: 063d40b44a17f000836c5c7acc2c1da6182dce75618e319ab84fc580426e5848
 ---
 
 # Slider
@@ -450,12 +450,12 @@ render(
       "status": "optional"
     },
     "onDragStart": {
-      "doc": "Will be called once the user stops dragging. Returns `{ event }`.",
+      "doc": "Will be called once the user starts dragging. Returns `{ event }`.",
       "type": "function",
       "status": "optional"
     },
     "onDragEnd": {
-      "doc": "Will be called once the user starts dragging. Returns `{ event }`.",
+      "doc": "Will be called once the user stops dragging. Returns `{ event }`.",
       "type": "function",
       "status": "optional"
     }

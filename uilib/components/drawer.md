@@ -1,8 +1,8 @@
 ---
 title: 'Drawer'
 description: 'The Drawer component is a Modal variation that appears as a side panel at any chosen side of the page.'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:51.332Z
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:27.636Z
 checksum: 8953eeeb2cb867c589fb63b790f1712d76c5101e998194e31f21f9ce479c2da0
 ---
 
@@ -546,7 +546,7 @@ See the table below:
     "Modal.dialog_title": {
       "nb-NO": "Separat Vindu",
       "en-GB": "Dialog Window",
-      "sv-SE": "Separat Fönster",
+      "sv-SE": "Separat fönster",
       "da-DK": "Separat vindue"
     }
   }

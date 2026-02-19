@@ -1,9 +1,9 @@
 ---
 title: 'Accordion'
 description: 'The Accordion component is a combination of an accessible button (header area) and a content container.'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:51.185Z
-checksum: 2594667b77e077ae25cda844fc055ac1c8feea700976c81701cbe97d7a7e10a6
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:27.487Z
+checksum: 17d32bff06aa0a1144cac7759f71ff44eb9a84708834186bbb3726838166981c
 ---
 
 # Accordion
@@ -549,7 +549,7 @@ These properties can send along with the `Accordion.Provider` or `Accordion.Grou
 {
   "props": {
     "on_change": {
-      "doc": "Will be called by user click interaction. Returns an object with a boolean state `expanded` inside `{ expanded, id, event, ...event }`.",
+      "doc": "Will be called by user click interaction. Returns an object with a boolean state `expanded` inside `{ expanded, event }`.",
       "type": "function",
       "status": "optional"
     }

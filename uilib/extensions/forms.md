@@ -1,8 +1,8 @@
 ---
 title: 'Forms for applications'
 description: 'Forms is reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:52.891Z
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:28.649Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -124,9 +124,11 @@ render(<MyForm />)
 
 More details in the [getting started](/uilib/extensions/forms/getting-started/) section.
 
-### Best practices
+### Best practices on forms (accessibility, usability, and performance)
 
-Read more about [best practices on forms](/uilib/extensions/forms/best-practices-on-forms/).
+When building forms, there are some best practices to keep in mind to ensure that your forms are accessible, usable, and performant. Read more about these best practices in the dedicated documentation on
+
+- [Best practices on forms](/uilib/extensions/forms/best-practices-on-forms/).
 
 ## Create your own component
 

@@ -1,8 +1,8 @@
 ---
 title: 'Field.Address'
 description: '`Field.Address` is a wrapper component for the input of strings, with user experience tailored for postal and street addresses.'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:52.870Z
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:28.631Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -315,12 +315,12 @@ render(
       "status": "optional"
     },
     "info": {
-      "doc": "Info message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
+      "doc": "Info message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
       "type": ["React.Node", "Array<React.Node>", "function"],
       "status": "optional"
     },
     "warning": {
-      "doc": "Warning message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
+      "doc": "Warning message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
       "type": ["React.Node", "Array<React.Node>", "function"],
       "status": "optional"
     },
@@ -434,6 +434,11 @@ render(
       "type": "boolean",
       "status": "optional"
     },
+    "statusPosition": {
+      "doc": "Controls where status messages (`error`, `warning`, `info`) are visually shown. Use `below` (default) or `above`.",
+      "type": ["\"below\"", "\"above\""],
+      "status": "optional"
+    },
     "layout": {
       "doc": "Layout for the label and input. Can be `horizontal` or `vertical`.",
       "type": "string",
@@ -524,13 +529,13 @@ render(
       "da-DK": "Postadresse"
     },
     "StreetAddress.errorPattern": {
-      "nb-NO": "Ugyldig gateaddresse. Skriv inn en gateaddresse.",
+      "nb-NO": "Ugyldig gateadresse. Skriv inn en gateadresse.",
       "en-GB": "Invalid street address. Enter a valid street address.",
       "sv-SE": "Ogiltig gatuadress. Ange en gatuadress.",
       "da-DK": "Ugyldig gadeadresse. Indtast en gadeadresse."
     },
     "StreetAddress.errorRequired": {
-      "nb-NO": "Du må fylle inn en gateaddresse.",
+      "nb-NO": "Du må fylle inn en gateadresse.",
       "en-GB": "You must enter a street address.",
       "sv-SE": "Du måste fylla i en gatuadress.",
       "da-DK": "Du skal udfylde en gadeadresse."

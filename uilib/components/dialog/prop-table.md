@@ -1,6 +1,6 @@
 ---
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:51.304Z
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:27.612Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -265,7 +265,7 @@ See the table below:
   "entries": {
     "Dialog.confirmText": {
       "nb-NO": "Godta",
-      "en-GB": "Approve",
+      "en-GB": "Confirm",
       "sv-SE": "Godkänn",
       "da-DK": "Godkend"
     },
@@ -284,7 +284,7 @@ See the table below:
     "Modal.dialog_title": {
       "nb-NO": "Separat Vindu",
       "en-GB": "Dialog Window",
-      "sv-SE": "Separat Fönster",
+      "sv-SE": "Separat fönster",
       "da-DK": "Separat vindue"
     }
   }

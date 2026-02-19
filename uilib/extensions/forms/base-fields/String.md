@@ -1,8 +1,8 @@
 ---
 title: 'Field.String'
 description: '`Field.String` is the base component for receiving user input where the target data is of type `string`.'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:52.852Z
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:28.614Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -797,12 +797,12 @@ render(
       "status": "optional"
     },
     "info": {
-      "doc": "Info message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
+      "doc": "Info message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
       "type": ["React.Node", "Array<React.Node>", "function"],
       "status": "optional"
     },
     "warning": {
-      "doc": "Warning message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
+      "doc": "Warning message shown below / after the field by default. Use `statusPosition=\"above\"` to show status messages above the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
       "type": ["React.Node", "Array<React.Node>", "function"],
       "status": "optional"
     },
@@ -914,6 +914,11 @@ render(
     "hideHelpButton": {
       "doc": "Set `true` when you render the inline help button outside the label (e.g. inside a checkbox suffix) so FieldBlock skips drawing the default label help button.",
       "type": "boolean",
+      "status": "optional"
+    },
+    "statusPosition": {
+      "doc": "Controls where status messages (`error`, `warning`, `info`) are visually shown. Use `below` (default) or `above`.",
+      "type": ["\"below\"", "\"above\""],
       "status": "optional"
     },
     "layout": {

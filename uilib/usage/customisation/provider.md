@@ -1,7 +1,7 @@
 ---
 title: 'Provider / Context'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:52.949Z
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:28.692Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -90,6 +90,7 @@ const ChangeLocale = () => {
   return (
     <Field.Selection value={locale} onChange={(value) => setLocale(value)}>
       <Field.Option value="nb-NO" title="Norsk" />
+      <Field.Option value="en-NO" title="English (NO)" />
       <Field.Option value="sv-SE" title="Svenska" />
       <Field.Option value="da-DK" title="Dansk" />
       <Field.Option value="en-GB" title="English (GB)" />
@@ -136,6 +137,7 @@ const ChangeLocale = () => {
       onChange={(value) => setCurrentLocale(value)}
     >
       <Field.Option value="nb-NO" title="Norsk" />
+      <Field.Option value="en-NO" title="English (NO)" />
       <Field.Option value="en-GB" title="English (GB)" />
     </Field.Selection>
   )

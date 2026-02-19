@@ -1,9 +1,9 @@
 ---
 title: 'Switch'
 description: 'The Switch component (toggle) is a digital on/off switch.'
-version: 10.97.0
-generatedAt: 2026-02-12T08:28:52.084Z
-checksum: 87b50de014cb38e6cab99ba5291d7060534e3863e478afda9e5132689c31a3a0
+version: 10.98.0
+generatedAt: 2026-02-19T21:37:27.877Z
+checksum: 7c7a0ef0f32b39b4176d94edfe09807bb87fe5466f8d7a90bf1531615a5c1188
 ---
 
 # Switch
@@ -185,12 +185,12 @@ render(<Switch checked disabled label="Disabled" />)
   "props": {
     "onChange": {
       "doc": "Will be called on state changes made by the user.",
-      "type": "({ checked: boolean; event: ChangeEvent }) => void",
+      "type": "({ checked: boolean; event }) => void",
       "status": "optional"
     },
     "onChangeEnd": {
       "doc": "Will be called on state changes made by the user, but with a delay. This way the user sees the animation before e.g. an error will be removed. Returns a boolean { checked, event }.",
-      "type": "({ checked: boolean; event: ChangeEvent }) => void",
+      "type": "({ checked: boolean; event }) => void",
       "status": "optional"
     },
     "onClick": {
