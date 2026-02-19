@@ -25,10 +25,15 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  pull-requests: read
+
 env:
   GH_EMAIL: ${{ secrets.GH_EMAIL }}
   GH_NAME: ${{ secrets.GH_NAME }}
   GH_TOKEN: ${{ secrets.GH_TOKEN }}
+  GITHUB_TOKEN: ${{ github.token }}
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
   FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
   FIGMA_ICONS_FILE: ${{ secrets.FIGMA_ICONS_FILE }}
@@ -68,6 +73,82 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --immutable
+
+      - name: Resolve changed files
+        uses: actions/github-script@v7
+        with:
+          script: |
+            let changedFiles = []
+
+            if (context.eventName === 'pull_request') {
+              const pullNumber = context.payload.pull_request?.number
+
+              if (!pullNumber) {
+                core.warning('No pull request number found. VISUAL_TEST_CHANGED_FILES was not set.')
+                return
+              }
+
+              const files = await github.paginate(
+                github.rest.pulls.listFiles,
+                {
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: pullNumber,
+                  per_page: 100,
+                }
+              )
+
+              changedFiles = files
+                .map((file) => file.filename)
+                .filter(Boolean)
+            } else if (context.eventName === 'push') {
+              const head = context.payload.after || context.sha
+              const defaultBranch =
+                context.payload.repository?.default_branch || 'main'
+
+              if (!head) {
+                core.warning('Missing push head SHA. VISUAL_TEST_CHANGED_FILES was not set.')
+                return
+              }
+
+              try {
+                const comparison = await github.rest.repos.compareCommitsWithBasehead({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  basehead: `${defaultBranch}...${head}`,
+                })
+
+                changedFiles = (comparison.data.files || [])
+                  .map((file) => file.filename)
+                  .filter(Boolean)
+              } catch {
+                const base = context.payload.before
+
+                if (!base) {
+                  core.warning('Missing push base SHA. VISUAL_TEST_CHANGED_FILES was not set.')
+                  return
+                }
+
+                const comparison = await github.rest.repos.compareCommits({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  base,
+                  head,
+                })
+
+                changedFiles = (comparison.data.files || [])
+                  .map((file) => file.filename)
+                  .filter(Boolean)
+              }
+            } else {
+              core.warning(`Unsupported event: ${context.eventName}`)
+              return
+            }
+
+            core.exportVariable(
+              'VISUAL_TEST_CHANGED_FILES',
+              changedFiles.join('\n')
+            )
 
       - name: Use Playwright cache
         uses: actions/cache@v5
