@@ -147,6 +147,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
      * Define a different icon size. Defaults to `medium` (1.5rem).
      */
     iconSize?: IconSize
+    /** @deprecated Use spread props instead. */
     attributes?: AccordionAttributes
     className?: string
     children?: React.ReactNode
@@ -154,6 +155,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
      * Will be called by user click interaction. Returns an object with a boolean state `expanded` inside `{ expanded, id, event, ...event }`.
      */
     onChange?: (...args: any[]) => any
+    /** @deprecated Use `onChange` instead. */
     onStateUpdate?: (...args: any[]) => any
   }
 

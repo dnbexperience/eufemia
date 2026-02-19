@@ -71,7 +71,7 @@ export type ButtonProps = {
   /**
    * Required if there is no text in the button. If `text` and `children` are undefined, setting the `title` property will automatically set `aria-label` with the same value.
    */
-  title?: React.ReactNode;
+  title?: string;
   /**
    * Defines the kind of button. Possible values are `primary`, `secondary`, `tertiary` and `signal`. Defaults to `primary` (or `secondary` if icon only).
    */

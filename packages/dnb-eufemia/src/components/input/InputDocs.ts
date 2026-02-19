@@ -3,7 +3,7 @@ import { PropertiesTableProps } from '../../shared/types'
 export const InputProperties: PropertiesTableProps = {
   value: {
     doc: 'The content value of the input.',
-    type: 'string',
+    type: ['string', 'number'],
     status: 'optional',
   },
   align: {
@@ -48,7 +48,7 @@ export const InputProperties: PropertiesTableProps = {
   },
   placeholder: {
     doc: 'The placeholder which shows up once the input value is empty.',
-    type: 'string',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   icon: {

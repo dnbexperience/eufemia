@@ -8,7 +8,7 @@ export const CheckboxProperties: PropertiesTableProps = {
   },
   title: {
     doc: 'The `title` of the input - describing it a bit further for accessibility reasons.',
-    type: 'ReactNode',
+    type: 'string',
     status: 'optional',
   },
   label: {
