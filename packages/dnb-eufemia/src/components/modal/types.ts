@@ -14,7 +14,6 @@ export type ModalTriggerVariant =
 export type ModalTriggerIconPosition = 'left' | 'right'
 export type ModalContentMinWidth = string | number
 export type ModalContentMaxWidth = string | number
-export type ModalOpenState = boolean
 
 export type TriggeredBy =
   | 'handler'
