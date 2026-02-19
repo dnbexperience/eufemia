@@ -16,12 +16,14 @@ import {
   Anchor,
   Button,
   Dialog,
+  Flex,
   ProgressIndicator,
   FormStatus,
   Breadcrumb,
   P,
   Input,
 } from '@dnb/eufemia/src'
+import { Form, Field } from '@dnb/eufemia/src/extensions/forms'
 
 export const DialogExampleDefault = () => (
   <ComponentBox data-visual-test="dialog-default">
@@ -393,7 +395,7 @@ export const DialogConfirmScrollableContent = () => {
                   }}
                 />
                 <Button
-                  text="Jeg godtar"
+                  text="Jeg godtar alle"
                   on_click={({ close }) => {
                     close()
                   }}
@@ -417,6 +419,9 @@ export const DialogInformationScrollableContent = () => {
           const scrollRef = React.useRef(null)
           return (
             <Dialog
+              triggerAttributes={{
+                text: 'Show information dialog with sticky header',
+              }}
               variant="information"
               scrollRef={scrollRef}
               onOpen={() => {
@@ -429,60 +434,51 @@ export const DialogInformationScrollableContent = () => {
                 }
               }}
             >
-              Newline
-              <br />
-              Newline
-              <br />
-              Newline
-              <br />
-              Newline
-              <br />
-              Newline
-              <br />
-              Newline
-              <br />
-              Newline
-              <br />
-              Newline
-              <br />
-              Newline
-              <br />
-              Newline
-              <br />
-              Newline
-              <br />
-              Newline
-              <br />
-              Newline
-              <br />
-              Newline
-              <br />
-              Newline
-              <br />
-              Newline
-              <br />
-              Newline
-              <br />
-              Newline
-              <br />
-              Newline
-              <br />
-              Newline
-              <br />
-              Newline
-              <br />
-              Newline
-              <br />
-              Newline
-              <br />
-              Newline
-              <br />
-              Newline
-              <br />
-              Newline
-              <br />
-              <br />
-              Last line
+              <Form.Handler>
+                <Flex.Stack>
+                  <Form.MainHeading>
+                    Opprett en bedriftskonto
+                  </Form.MainHeading>
+                  <P>
+                    For å opprette en bedriftskonto trenger vi litt
+                    informasjon om virksomheten din. Fyll ut feltene
+                    nedenfor, så tar vi kontakt innen to virkedager.
+                  </P>
+
+                  <Form.Card>
+                    <Form.SubHeading>Kontaktinformasjon</Form.SubHeading>
+                    <Field.String label="Fullt navn" path="/name" />
+                    <Field.Email path="/email" />
+                    <Field.PhoneNumber path="/phone" />
+                  </Form.Card>
+
+                  <Form.Card>
+                    <Form.SubHeading>Bedriftsinformasjon</Form.SubHeading>
+                    <Field.Name.Company path="/companyName" />
+                    <Field.OrganizationNumber path="/orgNumber" />
+                    <Field.String label="Adresse" path="/address" />
+                    <Field.PostalCodeAndCity
+                      postalCode={{ path: '/postalCode' }}
+                      city={{ path: '/city' }}
+                    />
+                  </Form.Card>
+
+                  <Form.Card>
+                    <Form.SubHeading>Tilleggsinformasjon</Form.SubHeading>
+                    <Field.String
+                      label="Beskriv behovet ditt"
+                      path="/description"
+                      multiline
+                      rows={3}
+                    />
+                    <Field.Boolean
+                      label="Jeg godtar vilkårene for bruk"
+                      path="/terms"
+                      variant="checkbox"
+                    />
+                  </Form.Card>
+                </Flex.Stack>
+              </Form.Handler>
             </Dialog>
           )
         }
