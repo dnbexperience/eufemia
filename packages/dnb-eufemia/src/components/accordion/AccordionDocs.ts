@@ -8,7 +8,12 @@ export const AccordionProperties: PropertiesTableProps = {
   },
   title: {
     doc: 'A title as a string or React element. It will be used as the button text.',
-    type: 'string',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  description: {
+    doc: 'A description that appears below the title inside the accordion header.',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   expanded: {
@@ -88,7 +93,7 @@ export const AccordionProperties: PropertiesTableProps = {
   },
   heading: {
     doc: 'If set to `true`, level 2 (h2) will be used. You can provide your own HTML heading (`h3`), or provide a `headingLevel` property.',
-    type: 'boolean',
+    type: ['boolean', 'React.ReactNode'],
     status: 'optional',
   },
   headingLevel: {
@@ -108,7 +113,7 @@ export const AccordionProperties: PropertiesTableProps = {
   },
   contentRef: {
     doc: 'Send along a custom React Ref for `.dnb-accordion__content`.',
-    type: 'function',
+    type: 'React.RefObject',
     status: 'optional',
   },
   collapseAllHandleRef: {

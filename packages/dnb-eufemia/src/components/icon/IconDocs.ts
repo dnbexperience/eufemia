@@ -4,7 +4,7 @@ export const IconProperties: PropertiesTableProps = {
   icon: {
     doc: 'A React SVG Component.',
     type: 'React.ReactNode',
-    status: 'required',
+    status: 'optional',
   },
   title: {
     doc: 'Use a title to provide extra information about the icon used.',

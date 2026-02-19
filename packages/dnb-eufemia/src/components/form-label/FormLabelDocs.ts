@@ -4,7 +4,7 @@ export const FormLabelProperties: PropertiesTableProps = {
   forId: {
     doc: 'The same unique `id` like the linked HTML element has.',
     type: 'string',
-    status: 'required',
+    status: 'optional',
   },
   text: {
     doc: 'The `text` of the label. You can use `children` as well.',

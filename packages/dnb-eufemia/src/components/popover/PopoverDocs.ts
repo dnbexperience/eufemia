@@ -15,7 +15,7 @@ export const PopoverProperties: PropertiesTableProps = {
       'React.ReactNode',
       '({ close, open, toggle, id }) => React.ReactNode',
     ],
-    status: 'required',
+    status: 'optional',
   },
   title: {
     doc: 'Optional heading shown above the body content. Matches the typography used in TermDefinition.',
@@ -219,6 +219,11 @@ export const PopoverProperties: PropertiesTableProps = {
   contentRef: {
     doc: 'Ref forwarded to the popover content element.',
     type: 'React.MutableRefObject<HTMLSpanElement>',
+    status: 'optional',
+  },
+  noMaxWidth: {
+    doc: 'If set to `true`, the popover will not have a max-width limitation.',
+    type: 'boolean',
     status: 'optional',
   },
   omitDescribedBy: {
