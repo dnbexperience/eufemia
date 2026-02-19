@@ -78,9 +78,11 @@ export type AutocompleteTypeEvent = {
   event: React.ChangeEvent<HTMLInputElement>;
 } & AutocompleteEventMethods;
 export type AutocompleteFocusEvent = {
+  value: string;
   event: React.FocusEvent<HTMLInputElement>;
 } & AutocompleteEventMethods;
 export type AutocompleteBlurEvent = {
+  value: string;
   event: React.FocusEvent<HTMLInputElement>;
 } & AutocompleteEventMethods;
 export type AutocompleteSelectEvent = {
