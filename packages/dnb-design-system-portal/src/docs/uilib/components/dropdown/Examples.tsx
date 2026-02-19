@@ -100,12 +100,12 @@ export const DropdownFind = () => (
           },
           {
             selectedValue: (
-              <NumberFormat alwaysSelectall ban>
+              <NumberFormat alwaysSelectAll ban>
                 11345678962
               </NumberFormat>
             ),
             content: [
-              <NumberFormat key="ban-1" alwaysSelectall ban>
+              <NumberFormat key="ban-1" alwaysSelectAll ban>
                 11345678962
               </NumberFormat>,
               'C',
@@ -113,12 +113,12 @@ export const DropdownFind = () => (
           },
           {
             selectedValue: (
-              <NumberFormat alwaysSelectall ban>
+              <NumberFormat alwaysSelectAll ban>
                 15349648901
               </NumberFormat>
             ),
             content: [
-              <NumberFormat key="ban-2" alwaysSelectall ban>
+              <NumberFormat key="ban-2" alwaysSelectAll ban>
                 15349648901
               </NumberFormat>,
               'D',
@@ -174,12 +174,12 @@ export const DropdownNoValue = () => (
           },
           {
             selectedValue: (
-              <NumberFormat alwaysSelectall ban>
+              <NumberFormat alwaysSelectAll ban>
                 11345678962
               </NumberFormat>
             ),
             content: [
-              <NumberFormat key="ban" alwaysSelectall ban>
+              <NumberFormat key="ban" alwaysSelectAll ban>
                 11345678962
               </NumberFormat>,
               'Bank account number',
@@ -707,7 +707,7 @@ export const DropdownListOpened = () => (
           <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
             <span className="dnb-drawer-list__option__inner">
               <span className="dnb-drawer-list__option__item item-nr-1">
-                <NumberFormat alwaysSelectall key="n-1" ban>
+                <NumberFormat alwaysSelectAll key="n-1" ban>
                   12345678902
                 </NumberFormat>
               </span>
@@ -719,7 +719,7 @@ export const DropdownListOpened = () => (
           <li className="dnb-drawer-list__option">
             <span className="dnb-drawer-list__option__inner">
               <span className="dnb-drawer-list__option__item item-nr-1">
-                <NumberFormat alwaysSelectall key="n-2" ban>
+                <NumberFormat alwaysSelectAll key="n-2" ban>
                   11345678962
                 </NumberFormat>
               </span>
@@ -731,7 +731,7 @@ export const DropdownListOpened = () => (
           <li className="dnb-drawer-list__option last-of-type">
             <span className="dnb-drawer-list__option__inner">
               <span className="dnb-drawer-list__option__item item-nr-1">
-                <NumberFormat alwaysSelectall key="n-3" ban>
+                <NumberFormat alwaysSelectAll key="n-3" ban>
                   15349648901
                 </NumberFormat>
               </span>

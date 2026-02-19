@@ -156,7 +156,7 @@ export const InputSandbox = () => {
         <Box>
           Text
           <Input
-            selectall
+            selectAll
             label="Label:"
             onChange={(event) => {
               console.log('onChange', event)
@@ -486,7 +486,7 @@ export function ControlledInput() {
         onChange={onChangeHandler}
         onKeyDown={onKeyDownHandler}
         value={format(value).toString()}
-        selectall
+        selectAll
       />
       <input
         onChange={onChangeHandlerHtml}

@@ -265,7 +265,7 @@ function SelectCountry(props: Props) {
         onChange={handleCountryChange}
         onType={onTypeHandler}
         stretch
-        selectall
+        selectAll
         status={hasError ? 'error' : undefined}
         showSubmitButton
         keepSelection

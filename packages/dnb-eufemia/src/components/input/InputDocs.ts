@@ -101,7 +101,7 @@ export const InputProperties: PropertiesTableProps = {
     type: ['string', 'number'],
     status: 'optional',
   },
-  selectall: {
+  selectAll: {
     doc: 'If set to `true`, then the whole input value gets selected on the entry focus. A second click will place the cursor on the wanted position.',
     type: 'boolean',
     status: 'optional',
