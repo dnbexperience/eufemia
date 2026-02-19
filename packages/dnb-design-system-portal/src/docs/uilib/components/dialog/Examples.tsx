@@ -419,6 +419,9 @@ export const DialogInformationScrollableContent = () => {
           const scrollRef = React.useRef(null)
           return (
             <Dialog
+              triggerAttributes={{
+                text: 'Show information dialog with sticky header',
+              }}
               variant="information"
               scrollRef={scrollRef}
               onOpen={() => {
