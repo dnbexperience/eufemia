@@ -973,7 +973,7 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
     To make the Drawer scroll, we use .dnb-scroll-view
   */
   width: 100%;
-  height: calc(100% - var(--header-height, 0));
+  min-height: calc(100% - var(--header-height, 0));
   /** Sets the color on scroll overflow (at the bottom) */
   background-color: var(--modal-background-color, transparent);
 }
