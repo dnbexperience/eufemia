@@ -151,8 +151,6 @@ export interface ModalProps extends ModalRootProps {
 }
 
 export interface ModalContentProps {
-  open?: boolean
-
   /**
    * The content which will appear when triggering the modal/drawer.
    */
@@ -311,7 +309,7 @@ export interface ModalContentProps {
   dialogRole?: 'dialog' | 'alertdialog' | 'region'
   contentRef?: React.RefObject<HTMLElement>
   scrollRef?: React.RefObject<HTMLElement>
-  openState?: ModalOpenState
+  open?: boolean
   modalContentCloseRef?: React.RefObject<any>
 }
 
