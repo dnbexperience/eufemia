@@ -46,12 +46,12 @@ export const textareaProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  autoresize: {
+  autoResize: {
     doc: 'Use `true` to make the Textarea grow and shrink depending on how many lines the user has filled.',
     type: 'boolean',
     status: 'optional',
   },
-  autoresizeMaxRows: {
+  autoResizeMaxRows: {
     doc: 'Set a number to define how many rows the Textarea can auto grow.',
     type: 'number',
     status: 'optional',
