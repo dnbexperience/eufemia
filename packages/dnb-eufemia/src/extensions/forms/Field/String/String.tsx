@@ -42,7 +42,7 @@ export type Props = FieldProps<string, undefined | string> & {
   // - Input props
   type?: InputProps['type']
   align?: InputProps['align']
-  selectall?: InputProps['selectall']
+  selectAll?: InputProps['selectAll']
   clear?: boolean
   mask?: InputMaskedProps['mask']
   leftIcon?: string
@@ -201,7 +201,7 @@ function StringComponent(props: Props) {
     clear,
     align,
     size,
-    selectall,
+    selectAll,
     keepPlaceholder,
 
     // - Textarea props
@@ -290,7 +290,7 @@ function StringComponent(props: Props) {
     clear,
     size,
     align,
-    selectall,
+    selectAll,
     icon: leftIcon ?? rightIcon,
     iconPosition: rightIcon && !leftIcon ? 'right' : undefined,
     submitElement: submitElement,
