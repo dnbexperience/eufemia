@@ -233,18 +233,8 @@ describe('Accordion group component', () => {
         value="second"
         data-prop="group-value"
       >
-        <Accordion
-          id="accordion-1"
-          value="first"
-          data-prop="value-1"
-          attributes={{ 'data-attr': 'value' }}
-        />
-        <Accordion
-          id="accordion-2"
-          value="second"
-          data-prop="value-2"
-          attributes={{ 'data-attr': 'value' }}
-        />
+        <Accordion id="accordion-1" value="first" data-prop="value-1" />
+        <Accordion id="accordion-2" value="second" data-prop="value-2" />
       </Accordion.Group>
     )
 
