@@ -56,7 +56,6 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
     layoutDirection: 'row',
     value: undefined,
     values: undefined,
-    attributes: null,
 
     className: null,
     children: null,
@@ -395,12 +394,10 @@ export interface ToggleButtonGroupProps
    * Defines the `values` as a string. Use it to get the values during the `onChange` event listener callback in the **ToggleButtonGroup**.
    */
   values?: ToggleButtonGroupValues
-  attributes?: ToggleButtonGroupAttributes
   readOnly?: boolean
   className?: string
   children?: ToggleButtonGroupChildren
   onChange?: (...args: any[]) => any
-  onStateUpdate?: (...args: any[]) => any
   // Additional properties that are used in tests and stories
   onChange?: (...args: any[]) => any
   top?: SpaceType

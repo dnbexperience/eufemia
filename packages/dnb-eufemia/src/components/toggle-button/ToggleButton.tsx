@@ -65,14 +65,12 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
     icon: null,
     iconPosition: 'right',
     iconSize: null,
-    attributes: null,
     readOnly: false,
 
     className: null,
     children: null,
 
     onChange: null,
-    onStateUpdate: null,
   }
 
   static parseChecked = (state) => /true|on/.test(String(state))
@@ -84,12 +82,6 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
       }
     }
     state._listenForPropChanges = true
-
-    if (state.checked !== state.__checked) {
-      dispatchCustomElementEvent({ props }, 'onStateUpdate', {
-        checked: state.checked,
-      })
-    }
 
     state._checked = props.checked
     state.__checked = state.checked
@@ -250,7 +242,6 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
             checked: _checked, // eslint-disable-line
             children,
             onChange, // eslint-disable-line
-            onStateUpdate, // eslint-disable-line
 
             ...rest
           } = props
@@ -546,14 +537,10 @@ export interface ToggleButtonProps
    * Define icon width and height. Defaults to `16px`.
    */
   iconSize?: IconSize
-  /** @deprecated Use spread props instead. */
-  attributes?: ToggleButtonAttributes
   readOnly?: boolean
   className?: string
   children?: ToggleButtonChildren
   onChange?: (...args: any[]) => any
-  /** @deprecated Use `onChange` instead. */
-  onStateUpdate?: (...args: any[]) => any
   // Additional properties that are used in tests and stories
   top?: SpaceType
   right?: SpaceType
