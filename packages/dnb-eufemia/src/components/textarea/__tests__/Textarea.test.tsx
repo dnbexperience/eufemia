@@ -186,8 +186,8 @@ describe('Textarea component', () => {
     expect(document.querySelector('textarea').value).toBe('children')
   })
 
-  it('has correct size attribute (chars length) on textarea by using textareaAttributes', () => {
-    render(<Textarea textareaAttributes={{ size: 2 }} />)
+  it('has correct size attribute (chars length) on textarea by using spread props', () => {
+    render(<Textarea size={2} />)
     expect(document.querySelector('textarea').getAttribute('size')).toBe(
       '2'
     )
