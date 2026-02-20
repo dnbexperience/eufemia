@@ -95,7 +95,7 @@ export interface TextareaProps
   /**
    * Use `true` to make the Textarea grow and shrink depending on how many lines the user has filled.
    */
-  autoresize?: boolean;
+  autoResize?: boolean;
   /**
    * Use a number to define the displayed max length. You can also use an object defining the [TextCounter](uilib/components/fragments/text-counter/) `variant` or properties. Please avoid using `maxLength` for accessibility reasons.
    */
@@ -103,7 +103,7 @@ export interface TextareaProps
   /**
    * Set a number to define how many rows the Textarea can auto grow.
    */
-  autoresizeMaxRows?: TextareaAutoresizeMaxRows;
+  autoResizeMaxRows?: TextareaAutoresizeMaxRows;
   textareaClass?: string;
   readOnly?: boolean;
   rows?: TextareaRows;

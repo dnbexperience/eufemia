@@ -236,9 +236,9 @@ describe('Textarea component', () => {
     )
   })
 
-  it('should accept props like autoresize via provider', () => {
+  it('should accept props like autoResize via provider', () => {
     render(
-      <Provider Textarea={{ autoresize: true }}>
+      <Provider Textarea={{ autoResize: true }}>
         <Textarea />
       </Provider>
     )
@@ -247,8 +247,8 @@ describe('Textarea component', () => {
     )
   })
 
-  it('will correctly auto resize if prop autoresize is used', async () => {
-    render(<Textarea rows={1} autoresize={true} autoresizeMaxRows={4} />)
+  it('will correctly auto resize if prop autoResize is used', async () => {
+    render(<Textarea rows={1} autoResize={true} autoResizeMaxRows={4} />)
 
     const elem = document.querySelector('textarea')
 
@@ -512,10 +512,10 @@ describe('Textarea component', () => {
       expect(textarea()).toHaveClass('dnb-textarea__resize--medium')
     })
 
-    it('Safari on Mac with autoresize will not get "medium"', () => {
+    it('Safari on Mac with autoResize will not get "medium"', () => {
       jest.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Safari')
       jest.spyOn(navigator, 'platform', 'get').mockReturnValue('Mac')
-      render(<Textarea autoresize />)
+      render(<Textarea autoResize />)
       expect(textarea()).not.toHaveClass('dnb-textarea__resize--medium')
     })
 

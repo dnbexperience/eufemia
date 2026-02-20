@@ -15,7 +15,7 @@ export const StringAndLabelStretch = () => {
         path="/moreInfo"
         label="Her kan du gi oss andre opplysninger som du tror kan være relevante for søknaden. Ønsker du for eksempel fastrente eller rammelån, kan du skrive det her."
         multiline
-        autoresize
+        autoResize
         maxLength={250}
         characterCounter={{
           max: 250,

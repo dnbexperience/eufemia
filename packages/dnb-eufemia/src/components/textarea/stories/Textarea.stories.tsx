@@ -76,8 +76,8 @@ export const TextareaSandbox = () => (
         label="Autogrow:"
         rows={1}
         stretch
-        autoresize={true}
-        autoresizeMaxRows={4}
+        autoResize={true}
+        autoResizeMaxRows={4}
         placeholder="Placeholder"
         onKeyDown={({ rows, event }) => {
           if (rows >= 4 && event.key === 'Enter') {
