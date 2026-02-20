@@ -193,6 +193,13 @@ describe('Textarea component', () => {
     )
   })
 
+  it('has correct attributes on textarea by using spread props', () => {
+    render(<Textarea {...({ wrap: 'hard' } as Record<string, unknown>)} />)
+    expect(document.querySelector('textarea').getAttribute('wrap')).toBe(
+      'hard'
+    )
+  })
+
   it('has to have a prop value like value', () => {
     const { rerender } = render(
       <Textarea {...props} value={null}>

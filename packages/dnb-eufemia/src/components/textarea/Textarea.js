@@ -434,6 +434,7 @@ export default class Textarea extends React.PureComponent {
         ? convertJsxToString(placeholder)
         : undefined,
       ...attributes,
+      ...(typeof size === 'number' ? { size } : {}),
       onChange: this.onChangeHandler,
       onFocus: this.onFocusHandler,
       onBlur: this.onBlurHandler,
@@ -460,7 +461,7 @@ export default class Textarea extends React.PureComponent {
         disabled && 'dnb-textarea--disabled',
         hasValue && 'dnb-textarea--has-content',
         align && `dnb-textarea__align--${align}`,
-        size && `dnb-textarea__size--${size}`,
+        typeof size === 'string' && `dnb-textarea__size--${size}`,
         status && `dnb-textarea__status--${statusState}`,
         autoresize && 'dnb-textarea__autoresize',
         !autoresize &&
