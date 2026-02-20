@@ -84,8 +84,8 @@ export type NumberFormatProps = {
   monospace?: boolean
   options?: NumberFormatOptions
   decimals?: NumberFormatDecimals
-  selectall?: boolean
-  alwaysSelectall?: boolean
+  selectAll?: boolean
+  alwaysSelectAll?: boolean
   copySelection?: boolean
   cleanCopyValue?: boolean
   rounding?: 'omit' | 'half-even' | 'half-up'
@@ -132,8 +132,8 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     monospace: false,
     options: null,
     decimals: null,
-    selectall: true,
-    alwaysSelectall: false,
+    selectAll: true,
+    alwaysSelectAll: false,
     copySelection: true,
     cleanCopyValue: false,
     rounding: null,
@@ -219,8 +219,8 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
 
   onClickHandler = () => {
     if (
-      (isTrue(this.props.selectall) ||
-        isTrue(this.props.alwaysSelectall)) &&
+      (isTrue(this.props.selectAll) ||
+        isTrue(this.props.alwaysSelectAll)) &&
       !hasSelectedText()
     ) {
       this.setFocus()
@@ -322,14 +322,14 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       rounding,
       signDisplay,
       clean,
-      selectall,
+      selectAll,
       copySelection,
       cleanCopyValue,
       srLabel,
       element,
       className,
 
-      alwaysSelectall, // eslint-disable-line
+      alwaysSelectAll, // eslint-disable-line
       ..._rest
     } = props
     let rest = _rest
@@ -430,7 +430,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
         className,
         (isTrue(currency) || typeof currency === 'string') &&
           'dnb-number-format--currency',
-        isTrue(selectall) && 'dnb-number-format--selectall',
+        isTrue(selectAll) && 'dnb-number-format--select-all',
         this.state.selected && 'dnb-number-format--selected',
         link && 'dnb-anchor',
         monospace && 'dnb-number-format--monospace',
@@ -445,7 +445,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     }
 
     const displayParams = {}
-    if (isTrue(selectall) || isTrue(copySelection)) {
+    if (isTrue(selectAll) || isTrue(copySelection)) {
       displayParams.onClick = this.onClickHandler
       displayParams.onContextMenu = this.onContextMenuHandler
     }

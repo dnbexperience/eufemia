@@ -83,7 +83,7 @@ export const inputPropTypes = {
     PropTypes.node,
   ]),
   align: PropTypes.oneOf(['left', 'center', 'right']),
-  selectall: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  selectAll: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -156,7 +156,7 @@ export default class Input extends React.PureComponent {
     keepPlaceholder: null,
     suffix: null,
     align: null,
-    selectall: null,
+    selectAll: null,
     stretch: null,
     disabled: null,
     skeleton: null,
@@ -244,7 +244,7 @@ export default class Input extends React.PureComponent {
     // make sure we trigger getDerivedStateFromProps on startup
   }
   componentWillUnmount() {
-    clearTimeout(this._selectallTimeout)
+    clearTimeout(this._selectAllTimeout)
   }
   componentDidMount() {
     this.updateInputValue()
@@ -270,9 +270,9 @@ export default class Input extends React.PureComponent {
 
     dispatchCustomElementEvent(this, 'onFocus', { value, event })
 
-    if (isTrue(this.props.selectall) && this._ref.current) {
-      clearTimeout(this._selectallTimeout)
-      this._selectallTimeout = setTimeout(() => {
+    if (isTrue(this.props.selectAll) && this._ref.current) {
+      clearTimeout(this._selectAllTimeout)
+      this._selectAllTimeout = setTimeout(() => {
         try {
           this._ref.current.select()
         } catch (e) {
@@ -380,7 +380,7 @@ export default class Input extends React.PureComponent {
       id: _id, //eslint-disable-line
       children, //eslint-disable-line
       value: _value, //eslint-disable-line
-      selectall, //eslint-disable-line
+      selectAll, //eslint-disable-line
       inputElement: _input_element, //eslint-disable-line
       innerRef: _innerRef, //eslint-disable-line
       inputState: _inputState, //eslint-disable-line

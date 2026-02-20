@@ -93,7 +93,7 @@ function BasicNumberMask() {
   return (
     <InputMasked
       label="numberMask"
-      // selectall
+      // selectAll
       value={floatVal}
       // placeholder="En placeholder"
       numberMask
@@ -112,7 +112,7 @@ function BasicCurrencyMask() {
   return (
     <InputMasked
       label="currencyMask"
-      // selectall
+      // selectAll
       value={floatVal}
       // placeholder="En placeholder"
       currencyMask={{

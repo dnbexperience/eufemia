@@ -354,7 +354,7 @@ function Selection(props: Props) {
                   ? undefined
                   : data
               }
-              selectall
+              selectAll
             />
           ) : (
             <Dropdown {...sharedProps} {...dropdownProps} />
