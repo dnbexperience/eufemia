@@ -52,8 +52,6 @@ export type AccordionIcon =
       expanded?: IconIcon
     }
 
-export type AccordionAttributes = string | Record<string, unknown>
-
 export type AccordionIconPosition = ButtonIconPosition
 
 export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
@@ -147,16 +145,12 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
      * Define a different icon size. Defaults to `medium` (1.5rem).
      */
     iconSize?: IconSize
-    /** @deprecated Use spread props instead. */
-    attributes?: AccordionAttributes
     className?: string
     children?: React.ReactNode
     /**
      * Will be called by user click interaction. Returns an object with a boolean state `expanded` inside `{ expanded, id, event, ...event }`.
      */
     onChange?: (...args: any[]) => any
-    /** @deprecated Use `onChange` instead. */
-    onStateUpdate?: (...args: any[]) => any
   }
 
 function Accordion({
@@ -363,7 +357,6 @@ function Accordion({
               iconPosition, // eslint-disable-line
               iconSize, // eslint-disable-line
               onChange, // eslint-disable-line
-              onStateUpdate, // eslint-disable-line
 
               contentRef, // eslint-disable-line
 
