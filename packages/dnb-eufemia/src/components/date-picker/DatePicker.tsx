@@ -928,4 +928,5 @@ function filterOutNonAttributes(props: DatePickerProps) {
 
 export default DatePicker
 
+DatePicker._formElement = true
 DatePicker._supportsSpacingProps = true
