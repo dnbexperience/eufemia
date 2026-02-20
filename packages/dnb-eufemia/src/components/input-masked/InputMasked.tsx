@@ -189,7 +189,6 @@ export interface InputMaskedProps
   submitButtonStatus?: string
   className?: string
   children?: InputMaskedChildren
-  onStateUpdate?: (...args: unknown[]) => unknown
 }
 
 function InputMasked(props: InputMaskedProps) {
