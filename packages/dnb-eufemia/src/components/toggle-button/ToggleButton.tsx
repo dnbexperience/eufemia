@@ -111,7 +111,7 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
         // with a possible custom set "checked" state
       } else if (ToggleButton.parseChecked(props.checked)) {
         if (context.setContext) {
-          if (context.multiselect) {
+          if (context.multiSelect) {
             context.setContext((tmp) => {
               return {
                 values:
@@ -152,7 +152,7 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
 
     // only select a value once
     if (
-      !isTrue(this.context.multiselect) &&
+      !isTrue(this.context.multiSelect) &&
       this.props.value === this.context.value
     ) {
       return
@@ -249,7 +249,7 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
           let { checked } = this.state
 
           if (
-            !isTrue(this.context.multiselect) &&
+            !isTrue(this.context.multiSelect) &&
             typeof this.context.value !== 'undefined'
           ) {
             const contextValue = this.context.value
@@ -260,7 +260,7 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
               checked = propValue === contextValue
             }
           } else if (
-            isTrue(this.context.multiselect) &&
+            isTrue(this.context.multiSelect) &&
             typeof this.context.values !== 'undefined'
           ) {
             const contextValues = this.context.values

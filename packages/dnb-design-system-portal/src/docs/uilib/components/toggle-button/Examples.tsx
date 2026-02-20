@@ -46,7 +46,7 @@ export const ToggleButtonMultiselect = () => (
   <ComponentBox data-visual-test="toggle-button-group-multiselect">
     <ToggleButton.Group
       label="Multi-select"
-      multiselect={true}
+      multiSelect={true}
       values={['first', 'third']}
       onChange={({ values }) => {
         console.log('onChange', values)
@@ -64,7 +64,7 @@ export const ToggleButtonVertical = () => (
     <ToggleButton.Group
       label="Vertical Group"
       layoutDirection="column"
-      multiselect={true}
+      multiSelect={true}
       variant="checkbox"
       onChange={({ values }) => {
         console.log('onChange', values)
@@ -82,7 +82,7 @@ export const ToggleButtonStatus = () => (
     <ToggleButton.Group
       label="ToggleButton Group with status"
       status="Error message"
-      multiselect={true}
+      multiSelect={true}
       onChange={({ values }) => {
         console.log('onChange', values)
       }}

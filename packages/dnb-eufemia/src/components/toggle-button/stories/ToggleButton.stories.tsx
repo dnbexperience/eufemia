@@ -31,7 +31,7 @@ function ToggleButtonGroup() {
   return (
     <>
       <ToggleButton.Group
-        multiselect
+        multiSelect
         onChange={({ values }) => {
           console.log('values', values)
         }}
@@ -229,7 +229,7 @@ export const ToggleButtonSandbox = () => (
               console.log('onChange', value, values, event)
             }}
             status="Error message"
-            multiselect={true}
+            multiSelect={true}
           >
             <ToggleButton text="First" value="first" />
             <ToggleButton text="Second" value="second" checked />
@@ -390,7 +390,7 @@ export function MultiselectRerender() {
         label="Vertical Group:"
         variant="checkbox"
         value={'second'}
-        multiselect={true}
+        multiSelect={true}
         values={values}
         onChange={({ values }) => {
           console.log('onChange', values)

@@ -38,7 +38,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
     labelDirection: null,
     labelSrOnly: null,
     title: null,
-    multiselect: null,
+    multiSelect: null,
     variant: null,
     leftComponent: null,
     disabled: null,
@@ -102,10 +102,10 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
   }
 
   onChangeHandler = ({ value, event }) => {
-    const { multiselect } = this.props
+    const { multiSelect } = this.props
     const values = this.state.values || []
 
-    if (isTrue(multiselect)) {
+    if (isTrue(multiSelect)) {
       if (!values.includes(value)) {
         values.push(value)
       } else {
@@ -155,7 +155,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
       skeleton,
       className,
 
-      multiselect,
+      multiSelect,
       id: _id, // eslint-disable-line
       name: _name, // eslint-disable-line
       value: _value, // eslint-disable-line
@@ -204,7 +204,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
       value,
       values,
       size,
-      multiselect: isTrue(multiselect),
+      multiSelect: isTrue(multiSelect),
       variant,
       leftComponent,
       disabled,
@@ -403,7 +403,7 @@ export interface ToggleButtonGroupProps
   right?: SpaceType
   bottom?: SpaceType
   left?: SpaceType
-  multiselect?: boolean
+  multiSelect?: boolean
   name?: string
   vertical?: boolean
 }

@@ -7,11 +7,11 @@ export const ToggleButtonGroupProperties: PropertiesTableProps = {
     status: 'optional',
   },
   values: {
-    doc: 'Defines the pre-selected ToggleButton buttons in `multiselect` mode. The values have to match the one provided in the ToggleButton buttons. Use array, either as JS or JSON string.',
+    doc: 'Defines the pre-selected ToggleButton buttons in `multiSelect` mode. The values have to match the one provided in the ToggleButton buttons. Use array, either as JS or JSON string.',
     type: 'array',
     status: 'optional',
   },
-  multiselect: {
+  multiSelect: {
     doc: "Defines if the ToggleButton's should act as a multi-selectable list of toggle buttons. Defaults to `false`.",
     type: 'boolean',
     status: 'optional',
@@ -85,7 +85,7 @@ export const ToggleButtonGroupProperties: PropertiesTableProps = {
 
 export const ToggleButtonGroupEvents: PropertiesTableProps = {
   onChange: {
-    doc: 'Will be called once a ToggleButton button changes the state. Returns an object `{ value, values, event }`. <br /><br /> **NB**: `values` is only available if `multiselect` is used / true.',
+    doc: 'Will be called once a ToggleButton button changes the state. Returns an object `{ value, values, event }`. <br /><br /> **NB**: `values` is only available if `multiSelect` is used / true.',
     type: 'function',
     status: 'optional',
   },

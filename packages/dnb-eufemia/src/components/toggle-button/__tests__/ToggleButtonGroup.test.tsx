@@ -236,14 +236,14 @@ describe('ToggleButton group component', () => {
     })
   })
 
-  it('has multiselect "onChange" event which will trigger on a button click', () => {
+  it('has multiSelect "onChange" event which will trigger on a button click', () => {
     const myEvent = jest.fn()
     render(
       <ToggleButton.Group
         id="group"
         onChange={myEvent}
         values={['second']}
-        multiselect={true}
+        multiSelect={true}
       >
         <ToggleButton
           id="toggle-button-1"
@@ -320,7 +320,7 @@ describe('ToggleButton group component', () => {
           <button id="deselect-all" onClick={deselectAll}>
             deselect
           </button>
-          <ToggleButton.Group id="group" multiselect values={values}>
+          <ToggleButton.Group id="group" multiSelect values={values}>
             <ToggleButton
               variant="checkbox"
               id="toggle-button-1"
@@ -360,7 +360,7 @@ describe('ToggleButton group component', () => {
   it('will let their items to be check/uncheck by its siblings', () => {
     const TestComp = () => {
       return (
-        <ToggleButton.Group id="group" multiselect={true}>
+        <ToggleButton.Group id="group" multiSelect={true}>
           <ToggleButton
             variant="checkbox"
             id="toggle-button-1"
