@@ -568,7 +568,7 @@ export type CreatePaginationReturn = {
   resetInfinity: () => void;
   endInfinity: () => void;
 };
-export const createPagination: (
+export declare const createPagination: (
   initProps?: Record<string, unknown>
 ) => CreatePaginationReturn;
 export { PaginationBar as Bar };
