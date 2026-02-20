@@ -72,12 +72,12 @@ export type GlobalErrorAllProps = GlobalErrorProps &
 
 export type GlobalErrorTranslationContent = {
   /**
-   * Defining a `title` will overwrite the default provided by `status_content`.
+   * Defining a `title` will overwrite the default provided by the `statusCode` translation.
    */
   title?: React.ReactNode
 
   /**
-   * Defining a `text` will overwrite the default provided by `status_content`.
+   * Defining a `text` will overwrite the default provided by the `statusCode` translation.
    */
   text?: React.ReactNode
 }
