@@ -335,7 +335,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 
 ## v10.54
 
-- Deprecated Ajv `validationRule` in [FormError](/uilib/extensions/forms/Form/error-messages/info/#error-messages) and deprecated `errorMessages` keys like `pattern` in favor of Eufemia translation keys like `Field.errorPattern`. For a migration guide, take a look at [release notes for the future major release, v11](/uilib/about-the-lib/releases/eufemia/v11-info/#forms-error-handling).
+- Deprecated Ajv `validationRule` in [FormError](/uilib/extensions/forms/Form/error-messages/) and deprecated `errorMessages` keys like `pattern` in favor of Eufemia translation keys like `Field.errorPattern`. For a migration guide, take a look at [release notes for the future major release, v11](/uilib/about-the-lib/releases/eufemia/v11-info/#error-handling).
 - Added [docs](/uilib/extensions/forms/about-fields/#empty-value) about `emptyValue`.
 - Added `transformData` to the `onSubmit` event listener of [Form.Handler](/uilib/extensions/forms/Form/Handler/).
 - Added `onDone`, `onCancel` and `onEdit` events to [Form.Section](/uilib/extensions/forms/Form/Section/) containers.
@@ -393,7 +393,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 - Added [Value.Provider](/uilib/extensions/forms/Value/Provider/) to propagate value properties down to [Value components](/uilib/extensions/forms/Value/components/) (e.g. `inheritVisibility`).
 - Deprecated [Form.useError](/uilib/extensions/forms/Form/useError/) and replaced with [Form.useValidation](/uilib/extensions/forms/Form/useValidation/).
 - Deprecated `omit_rounding` in [Value.Number](/uilib/extensions/forms/Value/Number/) and [Value.Currency](/uilib/extensions/forms/Value/Currency/), replaced with `rounding="omit"`.
-- Deprecated [Form.FieldProps](/uilib/extensions/forms/Form/FieldProps/) and replaced with [Field.Provider](/uilib/extensions/forms/feature-fields/Provider/).
+- Deprecated Form.FieldProps and replaced with [Field.Provider](/uilib/extensions/forms/feature-fields/Provider/).
 - Fixed error throwing when using [Iterate.useCount hook](/uilib/extensions/forms/Iterate/Count/) or [useData hook](/uilib/extensions/forms/Form/useData/) in [Wizard](/uilib/extensions/forms/Wizard/) without form id.
 - Fixed so the deprecated `itemNr` still works in the [Iterate.ViewContainer](/uilib/extensions/forms/Iterate/ViewContainer/).
 - Fixed so [Field.Toggle](/uilib/extensions/forms/base-fields/Toggle/) does not render invisible label when not providing any label.
@@ -438,7 +438,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 
 ## v10.38
 
-- Added support for nesting fields inside of [Form.Section](/uilib/extensions/forms/Form/Section/) and [Form.ArraySelection](/uilib/extensions/forms/Form/ArraySelection/).
+- Added support for nesting fields inside of [Form.Section](/uilib/extensions/forms/Form/Section/) and [Form.ArraySelection](/uilib/extensions/forms/base-fields/ArraySelection/).
 
 ## v10.36
 
@@ -459,7 +459,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 
 ## v10.32
 
-- Added [Field.Slider](/uilib/extensions/forms/Field/Slider/) component.
+- Added [Field.Slider](/uilib/extensions/forms/feature-fields/more-fields/Slider/) component.
 
 ## v10.31
 

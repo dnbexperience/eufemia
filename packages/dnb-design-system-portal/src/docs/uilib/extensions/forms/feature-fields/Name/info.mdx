@@ -70,7 +70,7 @@ All name fields have the following validation rules:
   - For `Field.Name.First` and `Field.Name.Last`: Names must start and end with a letter, and cannot contain consecutive hyphens or spaces. Only letters, spaces, and hyphens are allowed.
   - For `Field.Name.Company`: Must start and end with a letter or number, and cannot contain consecutive hyphens, spaces, or dots. Letters, numbers, punctuation marks, spaces, and dots are allowed in between.
 
-The validation happens on blur, internally using the `onBlurValidator` [property](/uilib/extensions/forms/feature-fields/Name/properties/#field-specific-properties).
+The validation happens on blur, internally using the `onBlurValidator` [property](/uilib/extensions/forms/feature-fields/Name/properties/#general-properties).
 
 **Note**: The validation patterns are tailored to Norwegian name and company name requirements. If you need support for additional characters or different validation rules, you can extend the validation using the `onBlurValidator` property. See the [Validators](#validators) section below for more information.
 
