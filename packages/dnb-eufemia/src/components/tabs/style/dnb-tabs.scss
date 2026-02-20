@@ -131,9 +131,13 @@
 
   // Tab Button
   &__button,
-  .dnb-core-style & &__button {
+  .dnb-core-style &__button {
     position: relative;
     z-index: 1;
+
+    &:has(.dnb-badge) {
+      margin-right: 1.5rem;
+    }
 
     user-select: none;
 
@@ -279,6 +283,10 @@
 
     will-change: padding;
     transition: padding 1s var(--easing-default);
+  }
+
+  &__button__snap:has(.dnb-badge) {
+    margin-right: -0.5rem;
   }
 
   html[data-whatinput='keyboard'] &__button__snap {
