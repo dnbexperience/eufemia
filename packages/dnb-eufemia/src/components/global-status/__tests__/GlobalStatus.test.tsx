@@ -26,11 +26,11 @@ const items = [
   { id: 'id-2', text: 'item #2' },
 ]
 const show = true
-const autoscroll = false
+const autoScroll = false
 
 const props: GlobalStatusProps = {
   show,
-  autoscroll,
+  autoScroll,
   items,
   text,
 }
@@ -90,16 +90,16 @@ describe('GlobalStatus component', () => {
   })
 
   it('should have correct attributes like "aria-live"', async () => {
-    const { rerender } = render(<GlobalStatus autoscroll={false} />)
+    const { rerender } = render(<GlobalStatus autoScroll={false} />)
     expect(document.querySelector('[aria-live]')).toBeInTheDocument()
 
-    rerender(<GlobalStatus autoscroll={false} show={true} />)
+    rerender(<GlobalStatus autoScroll={false} show={true} />)
 
     expect(
       document.querySelector('[aria-live="assertive"]')
     ).toBeInTheDocument()
 
-    rerender(<GlobalStatus autoscroll={false} show={false} />)
+    rerender(<GlobalStatus autoScroll={false} show={false} />)
 
     expect(
       document.querySelector('.dnb-global-status__wrapper')
@@ -113,7 +113,7 @@ describe('GlobalStatus component', () => {
     render(
       <>
         <GlobalStatus
-          autoscroll={false}
+          autoScroll={false}
           id="custom-status-update"
           text={startupText}
           items={['item#1']}
@@ -160,7 +160,7 @@ describe('GlobalStatus component', () => {
     const newText = 'new text'
     const newItems = ['Item3', 'Item4']
 
-    render(<GlobalStatus autoscroll={false} id="custom-status-update" />)
+    render(<GlobalStatus autoScroll={false} id="custom-status-update" />)
 
     render(
       <GlobalStatus.Add
@@ -219,7 +219,7 @@ describe('GlobalStatus component', () => {
     const newText = 'new text'
     const newItems = ['Item3', 'Item4']
 
-    render(<GlobalStatus autoscroll={false} id="custom-status-remove" />)
+    render(<GlobalStatus autoScroll={false} id="custom-status-remove" />)
 
     expect(document.querySelector('.dnb-global-status').innerHTML).toBe('')
 
@@ -351,7 +351,7 @@ describe('GlobalStatus component', () => {
 
     render(
       <>
-        <GlobalStatus id="my-form" autoscroll={false} />
+        <GlobalStatus id="my-form" autoScroll={false} />
         <Form.Handler globalStatusId="my-form">
           <FormField1 />
           <FormField2 />
@@ -526,7 +526,7 @@ describe('GlobalStatus component', () => {
       <>
         <GlobalStatus
           id="esc-test"
-          autoscroll={false}
+          autoScroll={false}
           onHide={onHide}
           onClose={onClose}
         />
@@ -575,7 +575,7 @@ describe('GlobalStatus component', () => {
       <>
         <GlobalStatus
           id="escape-name-test"
-          autoscroll={false}
+          autoScroll={false}
           onHide={onHide}
           onClose={onClose}
         />
@@ -649,7 +649,7 @@ describe('GlobalStatus component', () => {
     }
     render(
       <>
-        <GlobalStatus id="main-to-be-empty" autoscroll={false} />
+        <GlobalStatus id="main-to-be-empty" autoScroll={false} />
         <ToggleStatus />
       </>
     )
@@ -690,7 +690,7 @@ describe('GlobalStatus component', () => {
       React.PropsWithChildren<unknown>
     >(({ children }, ref) => <span ref={ref}>{children}</span>)
 
-    render(<GlobalStatus autoscroll={false} id="custom-status-element" />)
+    render(<GlobalStatus autoScroll={false} id="custom-status-element" />)
 
     const provider = new GlobalStatusInterceptor({
       id: 'custom-status-element',
@@ -752,7 +752,7 @@ describe('GlobalStatus component', () => {
       <>
         <GlobalStatus
           id="main-to-be-empty"
-          autoscroll={false}
+          autoScroll={false}
           statusAnchorText={<span>custom anchor text</span>}
         />
         <ToggleStatus />
@@ -781,9 +781,9 @@ describe('GlobalStatus component', () => {
 
     render(
       <GlobalStatus
-        autoclose={true}
-        autoscroll={false}
-        id="custom-status-autoclose"
+        autoClose={true}
+        autoScroll={false}
+        id="custom-status-autoClose"
         onOpen={onOpen}
         onClose={onClose}
         onHide={onHide}
@@ -792,8 +792,8 @@ describe('GlobalStatus component', () => {
 
     render(
       <GlobalStatus.Add
-        id="custom-status-autoclose"
-        statusId="status-autoclose-1"
+        id="custom-status-autoClose"
+        statusId="status-autoClose-1"
         text="text only"
         onClose={jest.fn()}
       />
@@ -812,8 +812,8 @@ describe('GlobalStatus component', () => {
 
     render(
       <GlobalStatus.Add
-        id="custom-status-autoclose"
-        statusId="status-autoclose-2"
+        id="custom-status-autoClose"
+        statusId="status-autoClose-2"
         text="text only"
         items={['foo']}
         onClose={jest.fn()}
@@ -826,8 +826,8 @@ describe('GlobalStatus component', () => {
 
     render(
       <GlobalStatus.Remove
-        id="custom-status-autoclose"
-        statusId="status-autoclose-1"
+        id="custom-status-autoClose"
+        statusId="status-autoClose-1"
         bufferDelay={0}
       />
     )
@@ -838,8 +838,8 @@ describe('GlobalStatus component', () => {
 
     render(
       <GlobalStatus.Remove
-        id="custom-status-autoclose"
-        statusId="status-autoclose-2"
+        id="custom-status-autoClose"
+        statusId="status-autoClose-2"
         bufferDelay={0}
       />
     )
@@ -855,8 +855,8 @@ describe('GlobalStatus component', () => {
 
     render(
       <GlobalStatus.Add
-        id="custom-status-autoclose"
-        statusId="status-autoclose-1"
+        id="custom-status-autoClose"
+        statusId="status-autoClose-1"
         items={['foo']}
         onClose={jest.fn()}
         text="text"
@@ -874,7 +874,7 @@ describe('GlobalStatus component', () => {
     const { rerender } = render(
       <GlobalStatus
         show={false}
-        autoscroll={false}
+        autoScroll={false}
         id="custom-status-show"
       />
     )
@@ -890,7 +890,7 @@ describe('GlobalStatus component', () => {
     rerender(
       <GlobalStatus
         show={true}
-        autoscroll={false}
+        autoScroll={false}
         id="custom-status-show"
       />
     )
@@ -918,7 +918,7 @@ describe('GlobalStatus component', () => {
     rerender(
       <GlobalStatus
         show="auto"
-        autoscroll={false}
+        autoScroll={false}
         id="custom-status-show"
       />
     )

@@ -62,8 +62,8 @@ export default class GlobalStatus extends React.PureComponent {
     iconSize: PropTypes.string,
     state: PropTypes.oneOf(['error', 'info', 'warning', 'success']),
     show: PropTypes.oneOf(['auto', true, false, 'true', 'false']),
-    autoscroll: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    autoclose: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    autoScroll: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    autoClose: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     noAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     closeText: PropTypes.node,
@@ -106,8 +106,8 @@ export default class GlobalStatus extends React.PureComponent {
     iconSize: 'medium',
     state: 'error',
     show: 'auto',
-    autoscroll: true,
-    autoclose: true,
+    autoScroll: true,
+    autoClose: true,
     noAnimation: false,
     closeText: 'Lukk',
     hideCloseButton: false,
@@ -205,7 +205,7 @@ export default class GlobalStatus extends React.PureComponent {
 
       // make sure to show the new status, inc. scroll
       if (
-        (isTrue(this.props.autoclose) &&
+        (isTrue(this.props.autoClose) &&
           this._hadContent &&
           !this.hasContent(globalStatus) &&
           !isTrue(this.props.show)) ||
@@ -338,7 +338,7 @@ export default class GlobalStatus extends React.PureComponent {
   async scrollToStatus(isDone = null) {
     if (
       typeof window === 'undefined' ||
-      isTrue(this.state.globalStatus.autoscroll) === false
+      isTrue(this.state.globalStatus.autoScroll) === false
     ) {
       return // stop here
     }
@@ -573,10 +573,10 @@ export default class GlobalStatus extends React.PureComponent {
       id,
       item, // eslint-disable-line
       items, // eslint-disable-line
-      autoclose, // eslint-disable-line
+      autoClose, // eslint-disable-line
       show, // eslint-disable-line
       delay,
-      autoscroll, // eslint-disable-line
+      autoScroll, // eslint-disable-line
       text, // eslint-disable-line
       omitSetFocus, // eslint-disable-line
       omitSetFocusOnUpdate, // eslint-disable-line
