@@ -195,7 +195,7 @@ export type AutocompleteProps = {
   /**
    * If set to `true`, the whole input value gets selected on focus.
    */
-  selectall?: boolean
+  selectAll?: boolean
   /**
    * Title on submit button.
    */
