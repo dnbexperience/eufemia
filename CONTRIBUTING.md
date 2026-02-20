@@ -12,11 +12,11 @@ Install [Node.js](https://nodejs.org) and [yarn](https://yarnpkg.com).
 
 1. Clone this repo to your local machine:
 
-    `git clone https://github.com/dnbexperience/eufemia.git`
+   `git clone https://github.com/dnbexperience/eufemia.git`
 
 1. Change directory into the directory and install dependencies:
 
-    `cd eufemia && yarn install`
+   `cd eufemia && yarn install`
 
 ## Use `main` and the _GitHub Flow_
 
@@ -25,4 +25,4 @@ Install [Node.js](https://nodejs.org) and [yarn](https://yarnpkg.com).
 
 ## Releases
 
-The CI will handle new releases once the changes (by a Pull Request) gets merged from `origin/main` into the `origin/release` branch.
+The CI will handle new releases once the changes (by a Pull Request) are merged from `origin/main` into the `origin/release` branch.

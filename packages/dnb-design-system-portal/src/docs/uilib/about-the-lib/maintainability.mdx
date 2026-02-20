@@ -1,6 +1,6 @@
 ---
 title: 'Maintainability'
-description: 'The hard part of a living design system, like Eufemia, is not to create black holes and choosing ways to make maintainability hard and complex.'
+description: 'The hard part of a living design system, like Eufemia, is not creating black holes and choosing ways that make maintainability hard and complex.'
 order: 3
 ---
 
@@ -8,7 +8,7 @@ order: 3
 
 The hard part of a living design system, like Eufemia, is to avoid creating black holes and choosing ways to make maintainability hard and complex.
 
-To make this more understandable, follow along this detailed explanation about the hard part of DNB UX's vision of maintaining future changes to accessibility, including design, diversity of thinking, future user experience evolution, alongside DNB brand changes.
+To make this more understandable, follow along with this detailed explanation about the hard part of DNB UX's vision of maintaining future changes to accessibility, including design, diversity of thinking, future user experience evolution, alongside DNB brand changes.
 
 ## Integration
 
@@ -24,15 +24,15 @@ Some systems are low-level systems (like a naming system) and some are high-leve
 
 ## Using the building blocks
 
-Using the building blocks (sub-systems) as they are meant to be used, is an important part of using Eufemia. It is in fact a key factor of helping Eufemia to future develop and avoid friction and unexpected behavior changes.
+Using the building blocks (sub-systems) as they are meant to be used is an important part of using Eufemia. It is in fact a key factor in helping Eufemia further develop and avoid friction and unexpected behavior changes.
 
 ### Color system usage
 
-As an example, we can look at the color system, which provides colors in the form of both CSS variables and JavaScript variables. Re-using these variables is an important part of using Eufemia. Once you have to declare a color in your code, make sure to use custom properties for that. It makes code both readable, maintainable, and easier to change in the future.
+As an example, we can look at the color system, which provides colors in the form of both CSS variables and JavaScript variables. Reusing these variables is an important part of using Eufemia. Once you have to declare a color in your code, make sure to use custom properties for that. It makes code readable, maintainable, and easier to change in the future.
 
 ## Adapter pattern
 
-In order to both serve ready to use components and make them as flexible as possible to be used, there are a couple of different concepts Eufemia is following:
+In order to both serve ready-to-use components and make them as flexible as possible to be used, there are a couple of different concepts Eufemia is following:
 
 - Helper pattern
 - Property pattern (Web Components)
@@ -40,12 +40,12 @@ In order to both serve ready to use components and make them as flexible as poss
 - Render property pattern
 - Hooks pattern
 
-It will vary when and where these extensions are used. And some extensions, like the property pattern, is used by almost every component.
+It will vary when and where these extensions are used. And some extensions, like the property pattern, are used by almost every component.
 
-Overall, the reuse of existing adapters and APIs and using components for what they are designed for to be used, will allow Eufemia to further develop and be maintainable.
+Overall, the reuse of existing adapters and APIs and using components for what they are designed for will allow Eufemia to further develop and be maintainable.
 
 ## The declarative paradigm
 
-HTML and CSS is by nature declarative. But once they are used together, they quickly and certainly lead to imperative programming styles, especially when JavaScript comes in to the picture.
+HTML and CSS are by nature declarative. But once they are used together, they quickly and certainly lead to imperative programming styles, especially when JavaScript comes into the picture.
 
 We want to avoid creating applications with imperative programming styles, because of its nature to make code hard to read and maintain. We encourage everyone to write code as declarative and functional as possible. Parts that belong together, should naturally be kept close to each other, but still as small independent, encapsulated blocks.
