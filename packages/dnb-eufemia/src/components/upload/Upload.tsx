@@ -9,7 +9,7 @@ import {
   extendPropsWithContext,
   makeUniqueId,
 } from '../../shared/component-helper'
-import { pickFormElementProps } from '../../shared/helpers/filterProps'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import useId from '../../shared/helpers/useId'
 import HeightAnimation from '../height-animation/HeightAnimation'
 
