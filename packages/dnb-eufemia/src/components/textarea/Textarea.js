@@ -95,10 +95,6 @@ export default class Textarea extends React.PureComponent {
       PropTypes.number,
     ]),
     textareaClass: PropTypes.string,
-    textareaAttributes: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object,
-    ]),
     readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     rows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     cols: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -114,7 +110,6 @@ export default class Textarea extends React.PureComponent {
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
     onKeyDown: PropTypes.func,
-    onStateUpdate: PropTypes.func,
   }
 
   static defaultProps = {
@@ -141,7 +136,6 @@ export default class Textarea extends React.PureComponent {
     autoresizeMaxRows: null,
     characterCounter: null,
     textareaClass: null,
-    textareaAttributes: null,
     readOnly: false,
     rows: null,
     cols: null,
@@ -155,7 +149,6 @@ export default class Textarea extends React.PureComponent {
     onFocus: null,
     onBlur: null,
     onKeyDown: null,
-    onStateUpdate: null,
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -165,12 +158,6 @@ export default class Textarea extends React.PureComponent {
       value !== state.value &&
       value !== state._value
     ) {
-      if (
-        value !== state.value &&
-        typeof props.onStateUpdate === 'function'
-      ) {
-        dispatchCustomElementEvent({ props }, 'onStateUpdate', { value })
-      }
       state.value = value
     }
     if (props.textareaState) {
@@ -410,7 +397,6 @@ export default class Textarea extends React.PureComponent {
       size,
       textareaClass,
       readOnly,
-      textareaAttributes,
       className,
       autoresize,
       characterCounter,
@@ -433,12 +419,6 @@ export default class Textarea extends React.PureComponent {
     // pass along all props we wish to have as params
     let { textareaElement: TextareaElement } = props
 
-    const usedTextareaAttributes = textareaAttributes
-      ? typeof textareaAttributes === 'string'
-        ? JSON.parse(textareaAttributes)
-        : textareaAttributes
-      : {}
-
     const textareaParams = {
       className: clsx(
         'dnb-textarea__textarea',
@@ -454,7 +434,7 @@ export default class Textarea extends React.PureComponent {
         ? convertJsxToString(placeholder)
         : undefined,
       ...attributes,
-      ...usedTextareaAttributes,
+      ...(typeof size === 'number' ? { size } : {}),
       onChange: this.onChangeHandler,
       onFocus: this.onFocusHandler,
       onBlur: this.onBlurHandler,
@@ -481,7 +461,7 @@ export default class Textarea extends React.PureComponent {
         disabled && 'dnb-textarea--disabled',
         hasValue && 'dnb-textarea--has-content',
         align && `dnb-textarea__align--${align}`,
-        size && `dnb-textarea__size--${size}`,
+        typeof size === 'string' && `dnb-textarea__size--${size}`,
         status && `dnb-textarea__status--${statusState}`,
         autoresize && 'dnb-textarea__autoresize',
         !autoresize &&

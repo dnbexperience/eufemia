@@ -15,7 +15,6 @@ export type TextareaSuffix =
   | React.ReactNode;
 export type TextareaAlign = 'left' | 'center' | 'right' | 'justify';
 export type TextareaAutoresizeMaxRows = string | number;
-export type TextareaTextareaAttributes = string | Record<string, unknown>;
 export type TextareaRows = number | string;
 export type TextareaCols = number | string;
 export type TextareaTextareaElement =
@@ -106,8 +105,6 @@ export interface TextareaProps
    */
   autoresizeMaxRows?: TextareaAutoresizeMaxRows;
   textareaClass?: string;
-  /** @deprecated Use spread props instead. */
-  textareaAttributes?: TextareaTextareaAttributes;
   readOnly?: boolean;
   rows?: TextareaRows;
   cols?: TextareaCols;
@@ -122,8 +119,6 @@ export interface TextareaProps
   onFocus?: (...args: any[]) => any;
   onBlur?: (...args: any[]) => any;
   onKeyDown?: (...args: any[]) => any;
-  /** @deprecated Use `onChange` instead. */
-  onStateUpdate?: (...args: any[]) => any;
 }
 export default class Textarea extends React.Component<TextareaProps, any> {
   static defaultProps: object;
