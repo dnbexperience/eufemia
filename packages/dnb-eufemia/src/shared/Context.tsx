@@ -54,6 +54,7 @@ import type { IconProps } from '../components/Icon'
 import type { ListFormatProps } from '../components/list-format/ListFormat'
 import type { IconPrimaryProps } from '../components/IconPrimary'
 import { SwitchProps } from '../components/Switch'
+import type { TermDefinitionProps } from '../components/term-definition/TermDefinition'
 
 import type { FormElementProps } from './helpers/filterValidProps'
 import type { ThemeProps } from './Theme'
@@ -104,6 +105,7 @@ export type ContextComponents = {
   Switch?: Partial<SwitchProps>
   NumberFormat?: Partial<NumberFormatAllProps>
   Pagination?: Partial<AccordionProps>
+  TermDefinition?: Partial<TermDefinitionProps>
 
   // Common props
   formElement?: FormElementProps
