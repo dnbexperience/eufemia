@@ -30,7 +30,7 @@ export const GlobalInfoOverlayError = () => (
         },
       ]}
       show={true}
-      autoscroll={false}
+      autoScroll={false}
       noAnimation={true}
       omitSetFocus={true}
       id="demo-1"
@@ -46,7 +46,7 @@ export const GlobalStatusInfo = () => (
       text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
       items={['Status text 1', 'Status text 2']}
       show={true}
-      autoscroll={false}
+      autoScroll={false}
       noAnimation={true}
       omitSetFocus={true}
       id="demo-4"
@@ -61,7 +61,7 @@ export const GlobalStatusWarning = () => (
       title="Custom warning title ..."
       text="A string of text providing a warning or semi-urgent message of some kind to the user"
       show={true}
-      autoscroll={false}
+      autoScroll={false}
       noAnimation={true}
       omitSetFocus={true}
       id="demo-5"
@@ -76,7 +76,7 @@ export const GlobalInfoOverlaySuccess = () => (
       title="Custom success title ..."
       text="A string of text providing a success message of some kind to the user"
       show={true}
-      autoscroll={false}
+      autoScroll={false}
       noAnimation={true}
       omitSetFocus={true}
       id="demo-6"
@@ -92,7 +92,7 @@ export const GlobalInfoCustomIcon = () => (
     <GlobalStatus
       icon={<Icon icon={confetti_medium} />}
       show={true}
-      autoscroll={false}
+      autoScroll={false}
       noAnimation={true}
       omitSetFocus={true}
       id="demo-icon"
@@ -134,7 +134,7 @@ export const GlobalStatusAddRemoveItems = () => (
           <>
             <GlobalStatus
               id="custom-status"
-              autoscroll={false}
+              autoScroll={false}
               onClose={() => toggleUpdateStatus(0)}
               onHide={() => toggleUpdateStatus(0)}
             />

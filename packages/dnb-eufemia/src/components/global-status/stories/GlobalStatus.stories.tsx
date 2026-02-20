@@ -159,7 +159,7 @@ export const GlobalStatuseSandbox = () => (
       <GlobalStatus
         show
         noAnimation
-        autoscroll={false}
+        autoScroll={false}
         state="info"
         title="Custom Title"
         id="custom-id"
@@ -248,7 +248,7 @@ const InputWithError = () => {
           </Provider>
         </FieldBlock>
       </Form.Handler>
-      <GlobalStatus id="form-status" autoscroll={false} top="small" />
+      <GlobalStatus id="form-status" autoScroll={false} top="small" />
     </Provider>
   )
 }
@@ -272,7 +272,7 @@ const ModalExample = () => (
     <div className="dnb-core-style">
       <GlobalStatus
         id="modal"
-        autoscroll={false}
+        autoScroll={false}
         onClose={(props) => {
           console.log('onClose', props)
         }}
@@ -353,7 +353,7 @@ const NestedSections = () => (
         id="default-1"
         show
         noAnimation
-        autoscroll={false}
+        autoScroll={false}
         onClose={(props) => {
           console.log('onClose', props)
         }}
@@ -410,7 +410,7 @@ const DemoAnimation = () => {
         text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
         items={['Status text 1', 'Status text 2']}
         show={showDemo}
-        autoscroll={false}
+        autoScroll={false}
         id="demo-3"
       />
     </>
@@ -556,7 +556,7 @@ export const AsFigmaGlobalStatus = () => {
           state="info"
           title="Kortet vil bli sendt til adresse: Osloveien 68b, 1234 Oslo"
           show={true}
-          autoscroll={false}
+          autoScroll={false}
           noAnimation={true}
           omitSetFocus={true}
           id="demo-1"
@@ -566,7 +566,7 @@ export const AsFigmaGlobalStatus = () => {
         <GlobalStatus
           title="Custom Title"
           show={true}
-          autoscroll={false}
+          autoScroll={false}
           noAnimation={true}
           omitSetFocus={true}
           id="demo-1"
@@ -586,7 +586,7 @@ export const AsFigmaGlobalStatus = () => {
             },
           ]}
           show={true}
-          autoscroll={false}
+          autoScroll={false}
           noAnimation={true}
           omitSetFocus={true}
           id="demo-1"
@@ -604,7 +604,7 @@ export const AsFigmaGlobalStatus = () => {
             },
           ]}
           show={true}
-          autoscroll={false}
+          autoScroll={false}
           noAnimation={true}
           omitSetFocus={true}
           id="demo-1"
@@ -673,7 +673,7 @@ export const GlobalStatusExample = () => (
         },
       ]}
       show={true}
-      autoscroll={false}
+      autoScroll={false}
       noAnimation={true}
       omitSetFocus={true}
       id="demo-1"
