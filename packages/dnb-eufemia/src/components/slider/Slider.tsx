@@ -15,15 +15,23 @@ export * from './types'
 // Export the extensions
 export { default as SliderMarker } from './SliderMarker'
 
-function Slider(localProps: SliderAllProps) {
+function Slider(
+  localProps: SliderAllProps,
+  ref: React.ForwardedRef<HTMLSpanElement>
+) {
   return (
-    <SliderProvider {...localProps}>
+    <SliderProvider {...localProps} innerRef={ref}>
       <SliderInstance />
     </SliderProvider>
   )
 }
 
-Slider._formElement = true
-Slider._supportsSpacingProps = true
+const SliderWithRef = React.forwardRef(Slider)
+SliderWithRef.displayName = 'Slider'
 
-export default Slider
+// @ts-expect-error - Adding custom property to component
+SliderWithRef._formElement = true
+// @ts-expect-error - Adding custom property to component
+SliderWithRef._supportsSpacingProps = true
+
+export default SliderWithRef

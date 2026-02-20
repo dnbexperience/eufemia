@@ -148,9 +148,18 @@ const defaultProps = {
   element: 'section',
 }
 
-export default function Section(localProps: SectionAllProps) {
+function Section(localProps: SectionAllProps) {
   return <Space {...SectionParams(localProps)} />
 }
+
+const SectionWithRef = React.forwardRef<HTMLElement, SectionAllProps>(
+  (props, ref) => {
+    return <Section {...props} innerRef={ref || props.innerRef} />
+  }
+)
+SectionWithRef.displayName = 'Section'
+
+export { SectionWithRef as default }
 
 export function SectionParams(
   localProps: SectionAllProps
@@ -270,5 +279,9 @@ function computeStyle<T extends boolean | string | number | boolean[]>(
   return result
 }
 
+// @ts-expect-error - Adding custom property to component
+SectionWithRef._name = 'Section'
+// @ts-expect-error - Adding custom property to component
+SectionWithRef._supportsSpacingProps = true
 Section._name = 'Section'
 Section._supportsSpacingProps = true

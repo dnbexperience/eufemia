@@ -139,9 +139,14 @@ export type HeadingAllProps = HeadingProps &
   SpacingProps
 
 export default function Heading(props: HeadingAllProps) {
+  return <HeadingInstance {...props} />
+}
+
+function HeadingInstance(props: HeadingAllProps & { innerRef?: React.Ref<HTMLElement> }) {
   const context = React.useContext(Context)
   const headingContext = React.useContext(HeadingContext)
-  const _ref = React.useRef()
+  const internalRef = React.useRef()
+  const _ref = props.innerRef || internalRef
 
   const {
     text,
@@ -159,6 +164,7 @@ export default function Heading(props: HeadingAllProps) {
     size: _size, // eslint-disable-line
     skeleton: _skeleton, // eslint-disable-line
     element: _element, // eslint-disable-line
+    innerRef, // eslint-disable-line
     className,
     children,
     ...rest
@@ -316,6 +322,13 @@ export default function Heading(props: HeadingAllProps) {
 
 type HeadingStaticProps = Omit<HeadingAllProps, 'ref' | 'size'>
 
+const HeadingWithRef = React.forwardRef<HTMLElement, HeadingAllProps>(
+  (props, ref) => {
+    return <HeadingInstance {...props} innerRef={ref} />
+  }
+)
+HeadingWithRef.displayName = 'Heading'
+
 Heading.Level = HeadingProvider
 Heading.Increase = (props: HeadingStaticProps) => (
   <HeadingProvider increase {...props} />
@@ -338,6 +351,21 @@ Heading.setNextLevel = setNextLevel
 
 Heading._isHeadingElement = true
 Heading._supportsSpacingProps = true
+
+// @ts-expect-error - Adding custom property to component
+HeadingWithRef._isHeadingElement = true
+// @ts-expect-error - Adding custom property to component
+HeadingWithRef._supportsSpacingProps = true
+HeadingWithRef['Level'] = HeadingProvider
+HeadingWithRef['Increase'] = Heading.Increase
+HeadingWithRef['Decrease'] = Heading.Decrease
+HeadingWithRef['Up'] = Heading.Up
+HeadingWithRef['Down'] = Heading.Down
+HeadingWithRef['Reset'] = Heading.Reset
+HeadingWithRef['resetLevels'] = resetLevels
+HeadingWithRef['setNextLevel'] = setNextLevel
+
+export { HeadingWithRef }
 
 // Interceptor to reset leveling
 export { resetAllLevels, resetLevels, setNextLevel }

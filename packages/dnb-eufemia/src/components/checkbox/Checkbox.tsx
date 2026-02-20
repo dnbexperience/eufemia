@@ -419,7 +419,15 @@ function Checkbox(localProps: CheckboxProps) {
   )
 }
 
-export default Checkbox
+const CheckboxWithRef = React.forwardRef<HTMLInputElement, CheckboxProps>(
+  (props, ref) => {
+    return <Checkbox {...props} innerRef={ref || props.innerRef} />
+  }
+)
+CheckboxWithRef.displayName = 'Checkbox'
 
-// Mark as form element for FieldBlock
+// @ts-expect-error - Adding custom property to component
+CheckboxWithRef._formElement = true
 Checkbox._formElement = true
+
+export default CheckboxWithRef

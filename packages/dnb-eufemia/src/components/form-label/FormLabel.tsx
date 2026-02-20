@@ -52,7 +52,7 @@ export type FormLabelAllProps = FormLabelProps &
   React.HTMLAttributes<HTMLLabelElement> &
   SpacingProps
 
-export default function FormLabel(localProps: FormLabelAllProps) {
+function FormLabel(localProps: FormLabelAllProps) {
   const context = React.useContext(Context)
 
   // use only the props from context, who are available here anyway
@@ -65,8 +65,12 @@ export default function FormLabel(localProps: FormLabelAllProps) {
   )
 
   const nestedContent = props?.text || props?.children
+  const nestedType = nestedContent?.['type']
   const nestedNode =
-    nestedContent?.['type'] === FormLabel ? nestedContent?.['type'] : null
+    nestedType === FormLabel ||
+    nestedType?.displayName === 'FormLabel'
+      ? nestedType
+      : null
   const nestedElement = nestedNode
     ? () => React.createElement(nestedNode, nestedContent['props'])
     : null
@@ -211,5 +215,18 @@ export default function FormLabel(localProps: FormLabelAllProps) {
   return <Element {...params}>{content}</Element>
 }
 
+const FormLabelWithRef = React.forwardRef<HTMLElement, FormLabelAllProps>(
+  (props, ref) => {
+    return <FormLabel {...props} innerRef={ref || props.innerRef} />
+  }
+)
+FormLabelWithRef.displayName = 'FormLabel'
+
+// @ts-expect-error - Adding custom property to component
+FormLabelWithRef._formElement = true
+// @ts-expect-error - Adding custom property to component
+FormLabelWithRef._supportsSpacingProps = true
 FormLabel._formElement = true
 FormLabel._supportsSpacingProps = true
+
+export default FormLabelWithRef

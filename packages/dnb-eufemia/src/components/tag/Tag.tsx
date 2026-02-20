@@ -93,9 +93,10 @@ export const defaultProps = {
   omitOnKeyUpDeleteEvent: false,
 }
 
-const Tag = (
-  localProps: TagProps & SpacingProps & React.HTMLProps<HTMLElement>
-) => {
+const Tag = React.forwardRef<
+  HTMLElement,
+  TagProps & SpacingProps & React.HTMLProps<HTMLElement>
+>((localProps, ref) => {
   // Every component should have a context
   const context = React.useContext(Context)
   const tagGroupContext = React.useContext(TagGroupContext)
@@ -185,9 +186,12 @@ const Tag = (
       }
       {...additionalButtonParams}
       {...(props as any)}
+      innerRef={ref}
     />
   )
-}
+})
+
+Tag.displayName = 'Tag'
 
 const getIcon = (title: string) => (
   <IconPrimary

@@ -49,6 +49,7 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
     customColors,
     customCircleWidth,
     style,
+    innerRef,
     ...rest
   } = allProps
 
@@ -100,6 +101,7 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
 
   return (
     <span
+      ref={innerRef}
       className={clsx(
         'dnb-progress-indicator',
         show && 'dnb-progress-indicator--show',
@@ -179,6 +181,16 @@ function formatProgress(progress) {
   return null
 }
 
-export default ProgressIndicator
+const ProgressIndicatorWithRef = React.forwardRef<
+  HTMLSpanElement,
+  ProgressIndicatorAllProps
+>((props, ref) => {
+  return <ProgressIndicator {...props} innerRef={ref} />
+})
+ProgressIndicatorWithRef.displayName = 'ProgressIndicator'
+// @ts-expect-error - Adding custom property to component
+ProgressIndicatorWithRef._supportsSpacingProps = true
+
+export default ProgressIndicatorWithRef
 
 ProgressIndicator._supportsSpacingProps = true

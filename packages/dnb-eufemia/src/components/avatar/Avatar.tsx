@@ -111,7 +111,10 @@ export const defaultProps = {
   skeleton: false,
 }
 
-const Avatar = (localProps: AvatarProps & SpacingProps) => {
+const Avatar = React.forwardRef<
+  HTMLSpanElement,
+  AvatarProps & SpacingProps
+>((localProps, ref) => {
   // Every component should have a context
   const context = React.useContext(Context)
   const avatarGroupContext = React.useContext(AvatarGroupContext)
@@ -190,6 +193,7 @@ const Avatar = (localProps: AvatarProps & SpacingProps) => {
 
   return (
     <span
+      ref={ref}
       className={clsx(
         'dnb-avatar',
         `dnb-avatar--${variant || 'primary'}`,
@@ -207,7 +211,9 @@ const Avatar = (localProps: AvatarProps & SpacingProps) => {
       {children}
     </span>
   )
-}
+})
+
+Avatar.displayName = 'Avatar'
 
 Avatar.Group = AvatarGroup
 

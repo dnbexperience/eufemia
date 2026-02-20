@@ -114,7 +114,7 @@ export type IconAllProps = IconProps &
   SpacingProps &
   Omit<React.HTMLProps<HTMLElement>, 'size' | 'children'>
 
-export default function Icon(localProps: IconAllProps) {
+function Icon(localProps: IconAllProps) {
   const context = useContext(Context)
 
   // use only the props from context, who are available here anyway
@@ -132,6 +132,7 @@ export default function Icon(localProps: IconAllProps) {
     iconParams,
     alt,
     children,
+    innerRef,
   } = usePrepareIcon(props, context)
   const icon = iconProp ?? children
 
@@ -147,7 +148,7 @@ export default function Icon(localProps: IconAllProps) {
   }
 
   return (
-    <span {...wrapperParams}>
+    <span ref={innerRef} {...wrapperParams}>
       <IconContainer {...iconParams} />
     </span>
   )
@@ -340,6 +341,7 @@ function prepareIconCore(
     title,
     skeleton,
     className,
+    innerRef, // eslint-disable-line
     ...attributes
   } = props
 
@@ -506,4 +508,14 @@ function getIcon(props) {
   return processChildren(props)
 }
 
+const IconWithRef = React.forwardRef<HTMLSpanElement, IconAllProps>(
+  (props, ref) => {
+    return <Icon {...props} innerRef={ref} />
+  }
+)
+IconWithRef.displayName = 'Icon'
+// @ts-expect-error - Adding custom property to component
+IconWithRef._supportsSpacingProps = true
 Icon._supportsSpacingProps = true
+
+export default IconWithRef

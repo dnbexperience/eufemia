@@ -51,7 +51,7 @@ export const buttonVariantPropType = {
 /**
  * The button component should be used as the call-to-action in a form, or as a user interaction mechanism. Generally speaking, a button should not be used when a link would do the trick. Exceptions are made at times when it is used as a navigation element in the action-nav element.
  */
-export default class Button extends React.PureComponent {
+class Button extends React.PureComponent {
   static contextType = Context
 
   static getContent(props) {
@@ -411,3 +411,12 @@ Button.defaultProps = {
 
 Button._formElement = true
 Button._supportsSpacingProps = true
+
+const ButtonWithRef = React.forwardRef((props, ref) => {
+  return <Button {...props} innerRef={ref || props.innerRef} />
+})
+ButtonWithRef.displayName = 'Button'
+ButtonWithRef._formElement = true
+ButtonWithRef._supportsSpacingProps = true
+
+export default ButtonWithRef

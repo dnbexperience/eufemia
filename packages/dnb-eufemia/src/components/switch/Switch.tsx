@@ -134,7 +134,7 @@ const defaultProps = {
   statusState: 'error',
 }
 
-export default function Switch(props: SwitchProps) {
+function Switch(props: SwitchProps) {
   const context = useContext(Context)
 
   const allProps = extractPropsFromContext()
@@ -407,3 +407,12 @@ export default function Switch(props: SwitchProps) {
     )
   }
 }
+
+const SwitchWithRef = React.forwardRef<HTMLInputElement, SwitchProps>(
+  (props, ref) => {
+    return <Switch {...props} innerRef={ref || props.innerRef} />
+  }
+)
+SwitchWithRef.displayName = 'Switch'
+
+export default SwitchWithRef

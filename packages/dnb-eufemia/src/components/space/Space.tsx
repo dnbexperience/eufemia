@@ -75,7 +75,7 @@ export type SpaceAllProps = SpaceProps &
 
 const defaultProps = {}
 
-export default function Space(localProps: SpaceAllProps) {
+function Space(localProps: SpaceAllProps) {
   const context = React.useContext<ContextProps & SpacingProps>(Context)
 
   // consume the space context
@@ -142,6 +142,17 @@ export default function Space(localProps: SpaceAllProps) {
 }
 
 Space._supportsSpacingProps = true
+
+const SpaceWithRef = React.forwardRef<HTMLElement, SpaceAllProps>(
+  (props, ref) => {
+    return <Space {...props} innerRef={ref || props.innerRef} />
+  }
+)
+SpaceWithRef.displayName = 'Space'
+// @ts-expect-error - Adding custom property to component
+SpaceWithRef._supportsSpacingProps = true
+
+export default SpaceWithRef
 
 function Element({
   element,

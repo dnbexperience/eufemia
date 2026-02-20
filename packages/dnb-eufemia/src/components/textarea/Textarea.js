@@ -40,7 +40,7 @@ import Suffix from '../../shared/helpers/Suffix'
 /**
  * The textarea component is an umbrella component for all textareas which share the same style as the classic `text` textarea field.
  */
-export default class Textarea extends React.PureComponent {
+class Textarea extends React.PureComponent {
   static contextType = Context
 
   static propTypes = {
@@ -616,3 +616,12 @@ export default class Textarea extends React.PureComponent {
 
 Textarea._formElement = true
 Textarea._supportsSpacingProps = true
+
+const TextareaWithRef = React.forwardRef((props, ref) => {
+  return <Textarea {...props} innerRef={ref || props.innerRef} />
+})
+TextareaWithRef.displayName = 'Textarea'
+TextareaWithRef._formElement = true
+TextareaWithRef._supportsSpacingProps = true
+
+export default TextareaWithRef

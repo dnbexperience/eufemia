@@ -130,7 +130,7 @@ export const inputPropTypes = {
   onClear: PropTypes.func,
 }
 
-export default class Input extends React.PureComponent {
+class Input extends React.PureComponent {
   static contextType = Context
 
   static propTypes = {
@@ -818,3 +818,12 @@ InputIcon.propTypes = {
 
 Input._formElement = true
 Input._supportsSpacingProps = true
+
+const InputWithRef = React.forwardRef((props, ref) => {
+  return <Input {...props} innerRef={ref || props.innerRef} />
+})
+InputWithRef.displayName = 'Input'
+InputWithRef._formElement = true
+InputWithRef._supportsSpacingProps = true
+
+export default InputWithRef

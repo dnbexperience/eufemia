@@ -84,7 +84,7 @@ export type BadgeProps = {
 
 type BadgeAndSpacingProps = BadgeProps &
   SpacingProps &
-  Omit<React.HTMLProps<HTMLElement>, 'content' | 'label'>
+  Omit<React.HTMLProps<HTMLElement>, 'content' | 'label' | 'ref'>
 
 type BadgeElemProps = BadgeAndSpacingProps & { context: ContextProps }
 
@@ -102,7 +102,10 @@ export const defaultProps: BadgeAndSpacingProps = {
   hideBadge: false,
 }
 
-function Badge(localProps: BadgeAndSpacingProps) {
+function Badge(
+  localProps: BadgeAndSpacingProps,
+  ref: React.ForwardedRef<HTMLSpanElement>
+) {
   // Every component should have a context
   const context = React.useContext(Context)
 
@@ -118,7 +121,7 @@ function Badge(localProps: BadgeAndSpacingProps) {
 
   if (children) {
     return (
-      <BadgeRoot className={clsx(spacingClasses)}>
+      <BadgeRoot className={clsx(spacingClasses)} ref={ref}>
         {children}
         <BadgeElem context={context} {...allProps} className={className} />
       </BadgeRoot>
@@ -137,12 +140,14 @@ function Badge(localProps: BadgeAndSpacingProps) {
 function BadgeRoot({
   children,
   className,
+  ref,
 }: {
   children: React.ReactNode
   className?: string
+  ref?: React.ForwardedRef<HTMLSpanElement>
 }) {
   return (
-    <span className={clsx('dnb-badge__root', className)}>{children}</span>
+    <span ref={ref} className={clsx('dnb-badge__root', className)}>{children}</span>
   )
 }
 
@@ -224,6 +229,10 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
   )
 })
 
-Badge._supportsSpacingProps = true
+const BadgeWithRef = React.forwardRef(Badge)
+BadgeWithRef.displayName = 'Badge'
 
-export default Badge
+// @ts-expect-error - Adding custom property to component
+BadgeWithRef._supportsSpacingProps = true
+
+export default BadgeWithRef
