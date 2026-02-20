@@ -46,12 +46,12 @@ export const GlobalStatusProperties: PropertiesTableProps = {
     type: ['boolean', 'auto'],
     status: 'optional',
   },
-  autoclose: {
+  autoClose: {
     doc: 'Set to `true` to automatically close the global status if there are no more left items in the provider stack. Defaults to `true`.',
     type: 'boolean',
     status: 'optional',
   },
-  autoscroll: {
+  autoScroll: {
     doc: 'Set to `true` to automatically scroll the page to the appeared global status. Defaults to `true`.',
     type: 'boolean',
     status: 'optional',
