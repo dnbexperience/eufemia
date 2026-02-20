@@ -87,12 +87,12 @@ export const NumberFormatProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  selectall: {
+  selectAll: {
     doc: 'Use `false` to disable the auto select all on the first click. Defaults to `true`.',
     type: 'boolean',
     status: 'optional',
   },
-  alwaysSelectall: {
+  alwaysSelectAll: {
     doc: 'Use `true` to always auto select all on the first click. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',

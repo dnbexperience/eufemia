@@ -84,7 +84,7 @@ exports[`NumberFormat scss has to match style dependencies css 1`] = `
 .dnb-number-format.dnb-anchor {
   cursor: pointer;
 }
-.dnb-number-format--selectall {
+.dnb-number-format--select-all {
   cursor: text;
 }
 .dnb-number-format__visible {

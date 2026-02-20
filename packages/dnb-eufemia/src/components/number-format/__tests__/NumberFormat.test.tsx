@@ -812,8 +812,8 @@ describe('NumberFormat component', () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
-  it('should not select all if selectall is false', async () => {
-    render(<NumberFormat selectall={false} value={1234568} />)
+  it('should not select all if selectAll is false', async () => {
+    render(<NumberFormat selectAll={false} value={1234568} />)
 
     const comp = document.querySelector('.dnb-number-format')
     const number = document.querySelector('.dnb-number-format__visible')
@@ -821,7 +821,7 @@ describe('NumberFormat component', () => {
       '.dnb-number-format__selection'
     )
 
-    expect(comp).not.toHaveClass('dnb-number-format--selectall')
+    expect(comp).not.toHaveClass('dnb-number-format--select-all')
 
     await userEvent.click(number)
 
@@ -830,7 +830,7 @@ describe('NumberFormat component', () => {
   })
 
   it('calls focus with preventScroll when selecting', async () => {
-    render(<NumberFormat selectall value={1234568} />)
+    render(<NumberFormat selectAll value={1234568} />)
 
     const number = document.querySelector('.dnb-number-format__visible')
     const selection = document.querySelector(
@@ -854,7 +854,7 @@ describe('NumberFormat component', () => {
     // Simulate touch device
     document.documentElement.setAttribute('data-whatintent', 'touch')
 
-    render(<NumberFormat selectall value={1234568} />)
+    render(<NumberFormat selectAll value={1234568} />)
 
     const comp = document.querySelector('.dnb-number-format')
     const number = document.querySelector('.dnb-number-format__visible')
@@ -885,7 +885,7 @@ describe('NumberFormat component', () => {
   })
 
   it('should not call setFocus when text is already selected', async () => {
-    render(<NumberFormat selectall value={1234568} />)
+    render(<NumberFormat selectAll value={1234568} />)
 
     const comp = document.querySelector('.dnb-number-format')
     const number = document.querySelector('.dnb-number-format__visible')
@@ -1024,7 +1024,7 @@ describe('NumberFormat component', () => {
     })
 
     it('should clear existing timeout when context menu is triggered multiple times', async () => {
-      render(<NumberFormat selectall value={1234568} />)
+      render(<NumberFormat selectAll value={1234568} />)
 
       const comp = document.querySelector('.dnb-number-format')
       const number = document.querySelector('.dnb-number-format__visible')
