@@ -9,6 +9,7 @@ import {
   extendPropsWithContext,
   makeUniqueId,
 } from '../../shared/component-helper'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import useId from '../../shared/helpers/useId'
 import HeightAnimation from '../height-animation/HeightAnimation'
 
@@ -42,6 +43,7 @@ const Upload = (localProps: UploadAllProps) => {
     localProps,
     defaultProps,
     { skeleton: context?.skeleton },
+    pickFormElementProps(context?.formElement),
     translations,
     context.Upload
   )
