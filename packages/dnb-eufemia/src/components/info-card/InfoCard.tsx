@@ -125,9 +125,14 @@ const InfoCard = (localProps: InfoCardAllProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
 
-  const allProps = extendPropsWithContext(localProps, defaultProps, {
-    skeleton: context?.skeleton,
-  })
+  const allProps = extendPropsWithContext(
+    localProps,
+    defaultProps,
+    {
+      skeleton: context?.skeleton,
+    },
+    context?.InfoCard
+  )
 
   // Extract additional props from global context
   const {
