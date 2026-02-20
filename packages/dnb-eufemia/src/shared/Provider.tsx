@@ -37,10 +37,7 @@ export default function Provider<Props>(
   const [localContext, setLocalContext] = useState(null)
 
   // Destructure children out so we can track only the context-relevant props.
-  const {
-    children,
-    ...restProps
-  } = localProps
+  const { children, ...restProps } = localProps
 
   // Memoize restProps with a shallow comparison so the useMemo below
   // only recomputes when an actual prop value changes — not on every
@@ -102,11 +99,7 @@ export default function Provider<Props>(
     setCurrentLocale,
   ])
 
-  return (
-    <Context.Provider value={value}>
-      {children}
-    </Context.Provider>
-  )
+  return <Context.Provider value={value}>{children}</Context.Provider>
 }
 
 /**
@@ -141,7 +134,10 @@ function shallowEqual(
   }
 
   for (const key of keysA) {
-    if (!Object.prototype.hasOwnProperty.call(b, key) || a[key] !== b[key]) {
+    if (
+      !Object.prototype.hasOwnProperty.call(b, key) ||
+      a[key] !== b[key]
+    ) {
       return false
     }
   }
