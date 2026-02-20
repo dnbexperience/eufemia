@@ -81,7 +81,7 @@ export type DrawerContentProps = {
   noAnimation?: boolean
 
   /**
-   * Same as `no_animation`, but gets triggered only if the viewport width is less than `40em`. Defaults to false.
+   * Same as `noAnimation`, but gets triggered only if the viewport width is less than `40em`. Defaults to false.
    */
   noAnimationOnMobile?: boolean
 } & Omit<ScrollViewAllProps, 'children'>

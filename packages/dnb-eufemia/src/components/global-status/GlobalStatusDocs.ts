@@ -77,7 +77,7 @@ export const GlobalStatusProperties: PropertiesTableProps = {
     status: 'optional',
   },
   statusAnchorText: {
-    doc: 'Defines the anchor text showing up after every item, in case there is a `status_id` defined. Defaults to `Gå til %s`. The `%s` represents the optional and internal handled label addition.',
+    doc: 'Defines the anchor text showing up after every item, in case there is a `statusId` defined. Defaults to `Gå til %s`. The `%s` represents the optional and internal handled label addition.',
     type: 'React.ReactNode',
     status: 'optional',
   },
