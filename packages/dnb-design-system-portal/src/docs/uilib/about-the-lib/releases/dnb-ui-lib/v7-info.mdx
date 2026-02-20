@@ -63,11 +63,11 @@ We hope with that change we embrace [better accessibility](/uilib/usage/accessib
 
 ## New features
 
-- Icons inside of [Input](/uilib/components/input#input-icon) fields.
-- [Number](/uilib/components/number) got more useful properties, like `decimals="0"` and `currency_position="after"` and also a neat [copy & paste](/uilib/components/number#accessibility) feature, where an unformatted number gets copied, instead of the visual number. Also, Norwegian organization numbers (`org`) are now supported.
+- Icons inside of [Input](/uilib/components/input/demos#input-with-icon) fields.
+- [Number](/uilib/components/number-format) got more useful properties, like `decimals="0"` and `currency_position="after"` and also a neat [copy & paste](/uilib/components/number-format#accessibility) feature, where an unformatted number gets copied, instead of the visual number. Also, Norwegian organization numbers (`org`) are now supported.
 - [Buttons](/uilib/components/button) now supports overflow text to wrap (break-word) by using `wrap="true"`.
-- [Modal](/uilib/components/modal#drawer-mode) has now a **Drawer** mode inside the Modal component `mode="drawer"`.
-- Also, the [Modal](/uilib/components/modal#drawer-mode) has now a dark background color and both open and close animation
+- [Modal](/uilib/components/drawer/) has now a **Drawer** mode inside the Modal component `mode="drawer"`.
+- Also, the [Modal](/uilib/components/drawer/) has now a dark background color and both open and close animation
 - Expose [new helper functions](/uilib/helpers/functions#general-helpers) like, `isSafari`, `isiOS`, `isMac`, `isWin` and `isLinux` (beside `isIE11`,`isEdge`) in the shared helpers file: `import { isLinux } from 'dnb-ui-lib/shared/helpers'`. They are available as constants as well: `IS_IE11`, `IS_EDGE`, `IS_IOS`, `IS_MAC`, `IS_WIN` and `IS_LINUX`.
 
 ```jsx
@@ -79,12 +79,12 @@ We hope with that change we embrace [better accessibility](/uilib/usage/accessib
 />
 ```
 
-- [Dropdown](/uilib/components/dropdown) now also works fine inside of a [Modal](/uilib/components/modal#drawer-mode), taking the height of the Modal as the viewport reference.
+- [Dropdown](/uilib/components/dropdown) now also works fine inside of a [Modal](/uilib/components/drawer/), taking the height of the Modal as the viewport reference.
 - **ESM** (mjs) [bundles](/uilib/usage/first-steps/bundles) to load directly in to modern browsers.
 
 ### Table (new features)
 
-- Sticky [Table](/uilib/elements/tables#table-with-sticky-header) header.
+- Sticky [Table](/uilib/components/table/demos#table-with-sticky-header) header.
 - Sortable [table](/uilib/elements/tables) header buttons supports now word-wrap by using `wrap="true"`.
 - [Table](/uilib/elements/tables) headers supports now `small` font-size (`.dnb-table--small`) as well as `right` and `center` aligned headers.
 
