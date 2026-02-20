@@ -42,7 +42,6 @@ import CheckIcon from './CheckIcon'
 
 export type CheckboxLabelPosition = 'left' | 'right'
 export type CheckboxSize = 'default' | 'medium' | 'large'
-export type CheckboxAttributes = string | Record<string, unknown>
 export type OnChangeParams = {
   checked: boolean
   event: React.ChangeEvent<HTMLInputElement>
@@ -104,8 +103,6 @@ export type CheckboxProps = {
   suffix?: React.ReactNode
   value?: string
   element?: React.ElementType
-  /** @deprecated Use spread props instead. */
-  attributes?: CheckboxAttributes
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
