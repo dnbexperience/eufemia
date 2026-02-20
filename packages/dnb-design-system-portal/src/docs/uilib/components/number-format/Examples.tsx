@@ -8,6 +8,7 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import { Provider } from '@dnb/eufemia/src/shared'
 import NumberFormat from '@dnb/eufemia/src/components/NumberFormat'
+import HeroFormat from '@dnb/eufemia/src/components/HeroFormat'
 import P from '@dnb/eufemia/src/elements/P'
 import H3 from '@dnb/eufemia/src/elements/H3'
 
@@ -80,6 +81,19 @@ export const NumberCurrency = () => (
           invalid
         </NumberFormat>
       </P>
+    </ComponentBox>
+  </Style>
+)
+
+export const NumberHeroStyleAmount = () => (
+  <Style>
+    <ComponentBox>
+      <HeroFormat.Amount
+        value={12345}
+        currency="NOK"
+        suffix="/mnd"
+        signDisplay="always"
+      />
     </ComponentBox>
   </Style>
 )

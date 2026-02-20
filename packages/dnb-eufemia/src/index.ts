@@ -65,6 +65,7 @@ import Grid from './components/grid/Grid'
 import Heading from './components/heading/Heading'
 import HeightAnimation from './components/height-animation/HeightAnimation'
 import HelpButton from './components/help-button/HelpButton'
+import HeroFormat from './components/hero-format/HeroFormat'
 import Icon from './components/icon/Icon'
 import IconPrimary from './components/icon-primary/IconPrimary'
 import InfoCard from './components/info-card/InfoCard'
@@ -155,6 +156,7 @@ export {
   Heading,
   HeightAnimation,
   HelpButton,
+  HeroFormat,
   Icon,
   IconPrimary,
   InfoCard,

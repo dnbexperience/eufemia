@@ -1,0 +1,37 @@
+/*
+ * HeroFormat Component
+ *
+ */
+
+@import '../../../style/core/utilities.scss';
+
+.dnb-hero-format {
+  display: inline-flex;
+  white-space: nowrap;
+
+  // Use "data-text" so Chrome does not copy the HTML as content, when pasting it in Outlook etc.
+  .dnb-sr-only::before {
+    content: attr(data-text);
+  }
+
+  &__content {
+    display: inline-flex;
+    align-items: baseline;
+  }
+
+  // Amount
+  &__amount,
+  &__sign {
+    font-weight: var(--font-weight-medium);
+  }
+  &__sign {
+    margin-inline-end: 0.2em;
+  }
+  &__currency {
+    margin-inline-start: 0.2em;
+  }
+  &__prefix,
+  &__suffix {
+    white-space: normal;
+  }
+}
