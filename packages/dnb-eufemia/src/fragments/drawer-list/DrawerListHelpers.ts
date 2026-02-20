@@ -10,7 +10,6 @@ import PropTypes from 'prop-types'
 import {
   isTrue,
   makeUniqueId,
-  dispatchCustomElementEvent,
   convertJsxToString,
 } from '../../shared/component-helper'
 import { spacingPropTypes } from '../../components/space/SpacingHelper'
@@ -135,7 +134,6 @@ export const drawerListPropTypes = {
   onPreChange: PropTypes.func,
   onResize: PropTypes.func,
   onSelect: PropTypes.func,
-  onStateUpdate: PropTypes.func,
 }
 
 export const drawerListDefaultProps = {
@@ -181,7 +179,6 @@ export const drawerListDefaultProps = {
   onPreChange: null,
   onResize: null,
   onSelect: null,
-  onStateUpdate: null,
   optionsRender: null,
 }
 
@@ -523,14 +520,6 @@ export const prepareDerivedState = (
       state.selectedItem = null
     } else {
       state.selectedItem = getCurrentIndex(props.value, state.originalData)
-    }
-
-    if (typeof props.onStateUpdate === 'function') {
-      dispatchCustomElementEvent({ props }, 'onStateUpdate', {
-        selectedItem: state.selectedItem,
-        value: getSelectedItemValue(state.selectedItem, state),
-        data: getEventData(state.selectedItem, state.data),
-      })
     }
   }
 
