@@ -301,7 +301,6 @@ export type AutocompleteProps = {
   onBlur?: (...args: any[]) => any
   onChange?: (...args: any[]) => any
   onSelect?: (...args: any[]) => any
-  onStateUpdate?: (...args: any[]) => any
   onClear?: (event: AutocompleteClearEvent) => void
 }
 
@@ -417,7 +416,6 @@ export default class Autocomplete extends React.PureComponent<AutocompleteAllPro
     onBlur: null,
     onChange: null,
     onSelect: null,
-    onStateUpdate: null,
     onClear: null,
     inputElement: null,
   }
@@ -2026,7 +2024,6 @@ class AutocompleteInstance extends React.PureComponent<
       onClose: _onClose, // eslint-disable-line
       onChange: _onChange, // eslint-disable-line
       onSelect: _onSelect, // eslint-disable-line
-      onStateUpdate: _onStateUpdate, // eslint-disable-line
 
       ...attributes
     } = props
