@@ -126,7 +126,6 @@ export const inputPropTypes = {
   onBlur: PropTypes.func,
   onSubmitFocus: PropTypes.func,
   onSubmitBlur: PropTypes.func,
-  onStateUpdate: PropTypes.func,
   onClear: PropTypes.func,
 }
 
@@ -189,7 +188,6 @@ export default class Input extends React.PureComponent {
     onBlur: null,
     onSubmitFocus: null,
     onSubmitBlur: null,
-    onStateUpdate: null,
     onClear: null,
   }
 
@@ -200,12 +198,6 @@ export default class Input extends React.PureComponent {
       value !== state.value &&
       value !== state._value
     ) {
-      if (
-        value !== state.value &&
-        typeof props.onStateUpdate === 'function'
-      ) {
-        dispatchCustomElementEvent({ props }, 'onStateUpdate', { value })
-      }
       state.value = value
     }
     if (props.inputState) {
@@ -394,7 +386,6 @@ export default class Input extends React.PureComponent {
       inputState: _inputState, //eslint-disable-line
 
       onSubmit, //eslint-disable-line
-      onStateUpdate, //eslint-disable-line
       onClear, //eslint-disable-line
 
       ...inputSubmitButtonAttributes
