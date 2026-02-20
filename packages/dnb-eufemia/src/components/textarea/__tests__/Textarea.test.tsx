@@ -187,7 +187,7 @@ describe('Textarea component', () => {
   })
 
   it('has correct size attribute (chars length) on textarea by using spread props', () => {
-    render(<Textarea size={2} />)
+    render(<Textarea {...({ size: 2 } as Record<string, unknown>)} />)
     expect(document.querySelector('textarea').getAttribute('size')).toBe(
       '2'
     )
