@@ -260,6 +260,41 @@ describe('ItemAccordion', () => {
     expect(contentRegion.getAttribute('aria-expanded')).toBe('true')
   })
 
+  describe('keepInDOM', () => {
+    it('should keep content in DOM when closed and keepInDOM is true', () => {
+      render(
+        <ItemAccordion keepInDOM>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>
+            <span data-testid="accordion-content">Content body</span>
+          </ItemAccordion.Content>
+        </ItemAccordion>
+      )
+
+      const content = document.querySelector(
+        '[data-testid="accordion-content"]'
+      )
+      expect(content).toBeInTheDocument()
+      expect(content).toHaveTextContent('Content body')
+    })
+
+    it('should not have content in DOM when closed and keepInDOM is false', () => {
+      render(
+        <ItemAccordion>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>
+            <span data-testid="accordion-content">Content body</span>
+          </ItemAccordion.Content>
+        </ItemAccordion>
+      )
+
+      const content = document.querySelector(
+        '[data-testid="accordion-content"]'
+      )
+      expect(content).not.toBeInTheDocument()
+    })
+  })
+
   it('uses custom id when id prop is provided', () => {
     render(
       <ItemAccordion id="my-accordion">
