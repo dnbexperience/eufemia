@@ -186,6 +186,11 @@ export const AutocompleteProperties = {
     type: 'boolean',
     status: 'optional',
   },
+  scrollable: {
+    doc: 'Defines if the options list should be scrollable (the `max-height` is set by default to `50vh`). Defaults to `true`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   skipPortal: {
     doc: 'Set to `true` to disable the React Portal behavior. Defaults to `false`.',
     type: 'boolean',
