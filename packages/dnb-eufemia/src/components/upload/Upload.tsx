@@ -161,6 +161,7 @@ const Upload = (localProps: UploadAllProps) => {
         <UploadWrapper
           className={clsx(
             'dnb-upload',
+            'dnb-form-component',
             variant && `dnb-upload--${variant}`,
             spacingClasses,
             className
