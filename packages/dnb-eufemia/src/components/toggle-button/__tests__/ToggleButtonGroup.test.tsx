@@ -109,14 +109,14 @@ describe('ToggleButton group component', () => {
           text="ToggleButton 1"
           value="first"
           data-prop="value-1"
-          attributes={{ 'data-attr': 'value' }}
+          data-attr="value"
         />
         <ToggleButton
           id="toggle-button-2"
           text="ToggleButton 2"
           value="second"
           data-prop="value-2"
-          attributes={{ 'data-attr': 'value' }}
+          data-attr="value"
         />
       </ToggleButton.Group>
     )
