@@ -457,7 +457,6 @@ export type ToggleButtonValue =
   | number
   | Record<string, unknown>
   | any[]
-export type ToggleButtonAttributes = string | Record<string, unknown>
 export type ToggleButtonChildren = string | ((...args: any[]) => any)
 
 export interface ToggleButtonProps
@@ -538,10 +537,6 @@ export interface ToggleButtonProps
    */
   iconSize?: IconSize
   readOnly?: boolean
-  /**
-   * Provide additional attributes that get spread on the button element via `validateDOMAttributes`.
-   */
-  attributes?: ToggleButtonAttributes
   className?: string
   children?: ToggleButtonChildren
   onChange?: (...args: any[]) => any

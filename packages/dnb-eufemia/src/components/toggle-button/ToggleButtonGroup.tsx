@@ -326,7 +326,6 @@ export type ToggleButtonGroupValue =
   | Record<string, unknown>
   | any[]
 export type ToggleButtonGroupValues = string | any[]
-export type ToggleButtonGroupAttributes = string | Record<string, unknown>
 export type ToggleButtonGroupChildren =
   | string
   | ((...args: any[]) => any)
