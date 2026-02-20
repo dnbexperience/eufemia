@@ -74,7 +74,7 @@ export const StringProperties: PropertiesTableProps = {
     type: 'number',
     status: 'optional',
   },
-  autoresizeMaxRows: {
+  autoResizeMaxRows: {
     doc: 'To be used together with `multiline`. Set how many rows of text can be shown at max. Defaults to `6`.',
     type: 'number',
     status: 'optional',
@@ -84,7 +84,7 @@ export const StringProperties: PropertiesTableProps = {
     type: ['number', 'object'],
     status: 'optional',
   },
-  autoresize: {
+  autoResize: {
     doc: 'To be used together with `multiline`. Set true to expand when writing longer texts. Defaults to `true`.',
     type: 'boolean',
     status: 'optional',
