@@ -368,10 +368,6 @@ const CustomInput = () => {
           console.log('onChange', value)
           setValue(value)
         }}
-        onStateUpdate={({ value }) => {
-          console.warn('onStateUpdate', value)
-          setValue(value)
-        }}
         right
         suffix={<HelpButton>123</HelpButton>}
       />
