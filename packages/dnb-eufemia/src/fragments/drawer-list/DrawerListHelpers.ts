@@ -521,8 +521,9 @@ export const prepareDerivedState = (
     } else {
       state.selectedItem = getCurrentIndex(props.value, state.originalData)
     }
+  }
 
-    // activeItem can be -1, so we check for -2
+  // activeItem can be -1, so we check for -2
   if (
     !(
       state.activeItem !== null &&
