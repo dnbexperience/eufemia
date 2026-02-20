@@ -171,7 +171,7 @@ export interface InputMaskedProps
   keepPlaceholder?: boolean
   suffix?: InputMaskedSuffix
   align?: InputMaskedAlign
-  selectall?: boolean
+  selectAll?: boolean
   stretch?: boolean
   disabled?: boolean
   skeleton?: SkeletonShow

@@ -110,7 +110,7 @@ export interface InputProps
   /**
    * If set to `true`, then the whole input value gets selected on the entry focus. A second click will place the cursor on the wanted position.
    */
-  selectall?: boolean;
+  selectAll?: boolean;
   /**
    * If set to `true`, then the input field will be 100% in `width`.
    */
