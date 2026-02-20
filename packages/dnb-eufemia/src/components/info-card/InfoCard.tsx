@@ -127,7 +127,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
 
   const allProps = extendPropsWithContext(localProps, defaultProps, {
     skeleton: context?.skeleton,
-  })
+  }, context?.InfoCard)
 
   // Extract additional props from global context
   const {
