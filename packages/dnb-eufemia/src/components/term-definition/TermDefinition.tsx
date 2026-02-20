@@ -2,7 +2,7 @@
  * Web TermDefinition Component
  */
 
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useContext, useRef, useState } from 'react'
 import clsx from 'clsx'
 import Popover from '../popover/Popover'
 import useId from '../../shared/helpers/useId'
@@ -12,6 +12,8 @@ import {
   createSpacingClasses,
   removeSpaceProps,
 } from '../space/SpacingHelper'
+import Context from '../../shared/Context'
+import { extendPropsWithContext } from '../../shared/component-helper'
 
 export type TermDefinitionProps = {
   /**
@@ -36,13 +38,30 @@ type TermDefinitionAllProps = TermDefinitionProps &
   SpacingProps &
   React.HTMLAttributes<HTMLSpanElement>
 
-export default function TermDefinition({
-  children,
-  content,
-  className,
-  placement = 'bottom',
-  ...rest
-}: TermDefinitionAllProps) {
+const defaultProps: Partial<TermDefinitionAllProps> = {
+  placement: 'bottom',
+}
+
+export default function TermDefinition(
+  localProps: TermDefinitionAllProps
+) {
+  const context = useContext(Context)
+
+  const allProps = extendPropsWithContext(
+    localProps,
+    defaultProps,
+    { skeleton: context?.skeleton },
+    context?.TermDefinition
+  )
+
+  const {
+    children,
+    content,
+    className,
+    placement,
+    ...rest
+  } = allProps
+
   const [active, setActive] = useState(false)
   const triggerRef = useRef<HTMLSpanElement | null>(null)
   const id = useId()
