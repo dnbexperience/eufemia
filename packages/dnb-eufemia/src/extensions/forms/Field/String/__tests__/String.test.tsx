@@ -181,13 +181,13 @@ describe('Field.String', () => {
       )
     })
 
-    it('support Textarea props such as "autoresizeMaxRows"', async () => {
+    it('support Textarea props such as "autoResizeMaxRows"', async () => {
       render(
         <Field.String
           multiline
-          autoresize
+          autoResize
           rows={1}
-          autoresizeMaxRows={4}
+          autoResizeMaxRows={4}
         />
       )
 
