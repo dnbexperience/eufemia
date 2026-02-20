@@ -64,7 +64,7 @@ export const StringProperties: PropertiesTableProps = {
     doc: `${InputProperties.size.doc} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`,
   },
   align: InputProperties.align,
-  selectall: InputProperties.selectall,
+  selectAll: InputProperties.selectAll,
   clear: InputProperties.clear,
   keepPlaceholder: InputProperties.keepPlaceholder,
 

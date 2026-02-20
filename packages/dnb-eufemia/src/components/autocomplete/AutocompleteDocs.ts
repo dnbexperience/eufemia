@@ -151,7 +151,7 @@ export const AutocompleteProperties = {
     type: 'string',
     status: 'optional',
   },
-  selectall: {
+  selectAll: {
     doc: 'If set to `true`, then the whole input value gets selected on the entry focus. A second click will place the cursor on the wanted position.',
     type: 'boolean',
     status: 'optional',

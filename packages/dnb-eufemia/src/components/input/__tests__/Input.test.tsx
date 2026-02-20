@@ -357,8 +357,8 @@ describe('Input component', () => {
     ).toBeInTheDocument()
   })
 
-  it('will select the whole input when selectall is set', async () => {
-    render(<Input selectall={true} value="1234" />)
+  it('will select the whole input when selectAll is set', async () => {
+    render(<Input selectAll={true} value="1234" />)
 
     const select = jest.fn()
     document.querySelector('input').select = select

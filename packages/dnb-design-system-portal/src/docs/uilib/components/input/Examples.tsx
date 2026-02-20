@@ -203,7 +203,7 @@ export const InputExampleSubmit = () => (
             id="search"
             type="search"
             value="Input ..."
-            selectall={true}
+            selectAll={true}
             onSubmit={(event) => {
               console.log('Input.onSubmit', event)
             }}

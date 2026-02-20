@@ -120,7 +120,7 @@ export const SliderExampleHorizontalSync = () => (
               />
               <Input
                 align="center"
-                selectall
+                selectAll
                 value={String(value)}
                 onChange={({ value }) => setValue(value)}
               />
