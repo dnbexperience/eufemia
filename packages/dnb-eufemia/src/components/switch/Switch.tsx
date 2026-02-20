@@ -116,8 +116,6 @@ export type SwitchProps = {
    */
   onClick?: (args: SwitchOnClickParams) => void
   onChangeEnd?: SwitchOnChange
-  /** @deprecated Use `onChange` instead. */
-  onStateUpdate?: SwitchOnChange
   /**
    * By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.
    */
