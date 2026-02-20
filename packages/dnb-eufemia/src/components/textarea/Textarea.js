@@ -89,8 +89,8 @@ export default class Textarea extends React.PureComponent {
       }),
       PropTypes.number,
     ]),
-    autoresize: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    autoresizeMaxRows: PropTypes.oneOfType([
+    autoResize: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    autoResizeMaxRows: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,
     ]),
@@ -132,8 +132,8 @@ export default class Textarea extends React.PureComponent {
     stretch: null,
     disabled: null,
     skeleton: null,
-    autoresize: null,
-    autoresizeMaxRows: null,
+    autoResize: null,
+    autoResizeMaxRows: null,
     characterCounter: null,
     textareaClass: null,
     readOnly: false,
@@ -228,7 +228,7 @@ export default class Textarea extends React.PureComponent {
         : (props.innerRef.current = this._ref.current)
     }
 
-    if (isTrue(props.autoresize) && typeof window !== 'undefined') {
+    if (isTrue(props.autoResize) && typeof window !== 'undefined') {
       this.setAutosize()
       try {
         // eslint-disable-next-line compat/compat
@@ -275,9 +275,9 @@ export default class Textarea extends React.PureComponent {
     const { value } = event.target
 
     const props = this.getProps()
-    const autoresize = isTrue(props.autoresize)
+    const autoResize = isTrue(props.autoResize)
 
-    if (autoresize) {
+    if (autoResize) {
       this.prepareAutosize()
     }
 
@@ -290,7 +290,7 @@ export default class Textarea extends React.PureComponent {
     })
     if (ret !== false) {
       this.setState({ value })
-      if (autoresize) {
+      if (autoResize) {
         this.setAutosize(rows)
       }
     }
@@ -341,7 +341,7 @@ export default class Textarea extends React.PureComponent {
       }
 
       const props = this.getProps()
-      const maxRows = parseFloat(props.autoresizeMaxRows)
+      const maxRows = parseFloat(props.autoResizeMaxRows)
       if (maxRows > 0) {
         const maxHeight = maxRows * lineHeight
 
@@ -398,9 +398,9 @@ export default class Textarea extends React.PureComponent {
       textareaClass,
       readOnly,
       className,
-      autoresize,
+      autoResize,
       characterCounter,
-      autoresizeMaxRows, //eslint-disable-line
+      autoResizeMaxRows, //eslint-disable-line
       id: _id, //eslint-disable-line
       children, //eslint-disable-line
       value: _value, //eslint-disable-line
@@ -463,8 +463,8 @@ export default class Textarea extends React.PureComponent {
         align && `dnb-textarea__align--${align}`,
         typeof size === 'string' && `dnb-textarea__size--${size}`,
         status && `dnb-textarea__status--${statusState}`,
-        autoresize && 'dnb-textarea__autoresize',
-        !autoresize &&
+        autoResize && 'dnb-textarea__autoresize',
+        !autoResize &&
           this.resizeModifier &&
           `dnb-textarea__resize--${this.resizeModifier}`,
         labelDirection && `dnb-textarea--${labelDirection}`,
