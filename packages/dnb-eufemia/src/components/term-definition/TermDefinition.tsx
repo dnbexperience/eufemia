@@ -54,13 +54,7 @@ export default function TermDefinition(
     context?.TermDefinition
   )
 
-  const {
-    children,
-    content,
-    className,
-    placement,
-    ...rest
-  } = allProps
+  const { children, content, className, placement, ...rest } = allProps
 
   const [active, setActive] = useState(false)
   const triggerRef = useRef<HTMLSpanElement | null>(null)
