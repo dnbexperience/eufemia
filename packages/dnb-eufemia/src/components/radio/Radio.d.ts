@@ -18,7 +18,6 @@ export type RadioSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type RadioAttributes = string | Record<string, unknown>;
 export type RadioChildren = string | ((...args: any[]) => any);
 export interface RadioProps
   extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
