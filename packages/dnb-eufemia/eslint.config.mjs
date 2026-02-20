@@ -12,6 +12,7 @@ import prettierPlugin from 'eslint-plugin-prettier'
 import reactPlugin from 'eslint-plugin-react'
 import reactHooksPlugin from 'eslint-plugin-react-hooks'
 import securityPlugin from 'eslint-plugin-security'
+import testingLibraryPlugin from 'eslint-plugin-testing-library'
 import tsParser from '@typescript-eslint/parser'
 import tsPlugin from '@typescript-eslint/eslint-plugin'
 import docsTypesPlugin from './scripts/eslint/plugins/docs-types/index.js'
@@ -305,8 +306,10 @@ export default [
     files: ['**/__tests__/**'],
     plugins: {
       jest: jestPlugin,
+      'testing-library': testingLibraryPlugin,
     },
     rules: {
+      ...testingLibraryPlugin.configs['flat/react'].rules,
       'no-console': 'off',
       'compat/compat': 'off',
       '@typescript-eslint/no-require-imports': 'off',

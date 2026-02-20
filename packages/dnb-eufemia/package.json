@@ -213,6 +213,7 @@
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "7.0.1",
     "eslint-plugin-security": "3.0.1",
+    "eslint-plugin-testing-library": "7.16.0",
     "figma-js": "1.14.0",
     "fontmin": "0.9.9",
     "fs-extra": "10.0.0",
