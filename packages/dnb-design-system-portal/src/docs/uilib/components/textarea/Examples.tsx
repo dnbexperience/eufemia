@@ -60,7 +60,7 @@ export const CharacterCounter = () => (
       <Textarea
         label="Count characters"
         labelDirection="vertical"
-        autoresize
+        autoResize
         value="Textarea value\nNewline"
         status="Message to the user"
         characterCounter={40}
@@ -88,8 +88,8 @@ export const Autoresize = () => (
       <Textarea
         label="Autogrow"
         rows={1}
-        autoresize={true}
-        autoresizeMaxRows={4}
+        autoResize={true}
+        autoResizeMaxRows={4}
         placeholder="Placeholder"
         onKeyDown={({ rows, event }) => {
           if (rows >= 4 && event.key === 'Enter') {
