@@ -98,7 +98,7 @@ export default [
     },
     settings: {
       react: {
-        version: '>=16.12',
+        version: 'detect',
       },
     },
     rules: {
