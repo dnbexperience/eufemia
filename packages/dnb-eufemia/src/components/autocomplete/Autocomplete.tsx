@@ -2059,7 +2059,7 @@ class AutocompleteInstance extends React.PureComponent<
       id: _id, // eslint-disable-line
       open: _open, // eslint-disable-line
       value: _value, // eslint-disable-line
-      inputValue: _input_value, // eslint-disable-line
+      inputValue: _inputValue, // eslint-disable-line
       enableBodyLock: _enableBodyLock, // eslint-disable-line
       listClass: _listClass, // eslint-disable-line
       openOnFocus: _openOnFocus, // eslint-disable-line
