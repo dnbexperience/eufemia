@@ -50,6 +50,7 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
   static Bar = ModalHeaderBar
   static Header = ModalHeader
   static Content = ModalInner
+  static _supportsSpacingProps = true
 
   static getContent(props) {
     if (typeof props.modalContent === 'string') {
@@ -545,5 +546,3 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
 export { CloseButton, Modal as OriginalComponent }
 
 export default Modal
-
-Modal._supportsSpacingProps = true
