@@ -52,8 +52,6 @@ export type AccordionIcon =
       expanded?: IconIcon
     }
 
-export type AccordionAttributes = string | Record<string, unknown>
-
 export type AccordionIconPosition = ButtonIconPosition
 
 export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
