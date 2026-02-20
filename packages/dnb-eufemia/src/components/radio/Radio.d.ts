@@ -18,7 +18,6 @@ export type RadioSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type RadioAttributes = string | Record<string, unknown>;
 export type RadioChildren = string | ((...args: any[]) => any);
 export interface RadioProps
   extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
@@ -72,15 +71,12 @@ export interface RadioProps
    * Defines the `value` as a string. Use it to get the value during the `onChange` event listener callback in the **RadioGroup**.
    */
   value?: string;
-  /** @deprecated Use spread props instead. */
-  attributes?: RadioAttributes;
   skeleton?: SkeletonShow;
   readOnly?: boolean;
   className?: string;
   children?: RadioChildren;
   onChange?: (...args: any[]) => any;
-  /** @deprecated Use `onChange` instead. */
-  onStateUpdate?: (...args: any[]) => any;
+
   /**
    * By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.
    */
