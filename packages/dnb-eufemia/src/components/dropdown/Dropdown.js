@@ -166,7 +166,6 @@ export default class Dropdown extends React.PureComponent {
     onClose: PropTypes.func,
     onChange: PropTypes.func,
     onSelect: PropTypes.func,
-    onStateUpdate: PropTypes.func,
   }
 
   static defaultProps = {
@@ -222,7 +221,6 @@ export default class Dropdown extends React.PureComponent {
 
     onChange: null,
     onSelect: null,
-    onStateUpdate: null,
   }
 
   render() {
@@ -474,7 +472,6 @@ class DropdownInstance extends React.PureComponent {
       onFocus: _onFocus, // eslint-disable-line
       onChange: _onChange, // eslint-disable-line
       onSelect: _onSelect, // eslint-disable-line
-      onStateUpdate: _onStateUpdate, // eslint-disable-line
       onOpenFocus: _onOpenFocus, // eslint-disable-line
       onCloseFocus: _onCloseFocus, // eslint-disable-line
 

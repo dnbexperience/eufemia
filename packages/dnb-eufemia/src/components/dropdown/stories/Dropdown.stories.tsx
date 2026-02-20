@@ -427,9 +427,6 @@ const DropdownStory = () => {
             label="Label:"
             data={data}
             value={value}
-            onStateUpdate={(event) => {
-              console.log('onStateUpdate', event)
-            }}
             onChange={({ data }) => {
               console.log('onChange', data)
             }}
