@@ -37,7 +37,6 @@ const propsToFilterOut = {
   onPreChange: null,
   onResize: null,
   onSelect: null,
-  onStateUpdate: null,
   onKeyDown: null,
   optionsRender: null,
   wrapperElement: null,
@@ -242,7 +241,6 @@ export interface DrawerListProps {
   onPreChange?: (...args: any[]) => any
   onResize?: (...args: any[]) => any
   onSelect?: (...args: any[]) => any
-  onStateUpdate?: (...args: any[]) => any
 }
 
 // Internal data structures
@@ -405,7 +403,6 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       onPreChange: _onPreChange,
       onResize: _onResize,
       onSelect: _onSelect,
-      onStateUpdate: _onStateUpdate,
       onKeyDown: _onKeyDown,
 
       ...attributes
