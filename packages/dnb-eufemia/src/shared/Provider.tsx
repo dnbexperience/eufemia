@@ -3,7 +3,13 @@
  *
  */
 
-import React, { useCallback, useContext, useMemo, useState } from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import Context, {
   prepareContext,
   ContextProps,
@@ -30,6 +36,17 @@ export default function Provider<Props>(
   const nestedContext = useContext(Context)
   const [localContext, setLocalContext] = useState(null)
 
+  // Destructure children out so we can track only the context-relevant props.
+  const {
+    children,
+    ...restProps
+  } = localProps
+
+  // Memoize restProps with a shallow comparison so the useMemo below
+  // only recomputes when an actual prop value changes — not on every
+  // parent render that creates a new props object reference.
+  const stableRestProps = useShallowMemo(restProps)
+
   const updateCurrent = useCallback((props: ContextProps) => {
     setLocalContext({ __context__: props })
   }, [])
@@ -54,17 +71,12 @@ export default function Provider<Props>(
   )
 
   const value = useMemo(() => {
-    const {
-      children, // eslint-disable-line @typescript-eslint/no-unused-vars
-      ...rest
-    } = localProps
-
     const preparedContext = {
       // Make copy to avoid extending the root context
       ...prepareContext(
         mergeContextWithProps(nestedContext, {
           ...localContext,
-          ...rest,
+          ...stableRestProps,
         })
       ),
     }
@@ -81,7 +93,7 @@ export default function Provider<Props>(
 
     return preparedContext
   }, [
-    localProps,
+    stableRestProps,
     nestedContext,
     localContext,
     update,
@@ -92,9 +104,49 @@ export default function Provider<Props>(
 
   return (
     <Context.Provider value={value}>
-      {localProps.children}
+      {children}
     </Context.Provider>
   )
+}
+
+/**
+ * Returns a memoized version of `obj` that only changes its reference
+ * when one of its own (shallow) values actually changes.
+ * This prevents unnecessary useMemo recomputations when a parent
+ * creates a new props object on every render.
+ */
+function useShallowMemo<T extends Record<string, unknown>>(obj: T): T {
+  const ref = useRef(obj)
+
+  if (!shallowEqual(ref.current, obj)) {
+    ref.current = obj
+  }
+
+  return ref.current
+}
+
+function shallowEqual(
+  a: Record<string, unknown>,
+  b: Record<string, unknown>
+): boolean {
+  if (a === b) {
+    return true
+  }
+
+  const keysA = Object.keys(a)
+  const keysB = Object.keys(b)
+
+  if (keysA.length !== keysB.length) {
+    return false
+  }
+
+  for (const key of keysA) {
+    if (!Object.prototype.hasOwnProperty.call(b, key) || a[key] !== b[key]) {
+      return false
+    }
+  }
+
+  return true
 }
 
 type MergeContextProps = {
