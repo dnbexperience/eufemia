@@ -538,6 +538,10 @@ export interface ToggleButtonProps
    */
   iconSize?: IconSize
   readOnly?: boolean
+  /**
+   * Provide additional attributes that get spread on the button element via `validateDOMAttributes`.
+   */
+  attributes?: ToggleButtonAttributes
   className?: string
   children?: ToggleButtonChildren
   onChange?: (...args: any[]) => any
