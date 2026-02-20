@@ -407,3 +407,5 @@ export default function Switch(props: SwitchProps) {
     )
   }
 }
+
+Switch._supportsSpacingProps = true

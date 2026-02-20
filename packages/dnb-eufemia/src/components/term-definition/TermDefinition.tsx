@@ -135,3 +135,5 @@ export default function TermDefinition({
     </>
   )
 }
+
+TermDefinition._supportsSpacingProps = true

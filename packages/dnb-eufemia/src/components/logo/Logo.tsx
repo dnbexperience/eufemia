@@ -203,3 +203,5 @@ function renderCustomSvg(
 }
 
 export default Logo
+
+Logo._supportsSpacingProps = true

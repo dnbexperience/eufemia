@@ -545,3 +545,5 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
 export { CloseButton, Modal as OriginalComponent }
 
 export default Modal
+
+Modal._supportsSpacingProps = true

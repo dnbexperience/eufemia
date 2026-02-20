@@ -423,3 +423,4 @@ export default Checkbox
 
 // Mark as form element for FieldBlock
 Checkbox._formElement = true
+Checkbox._supportsSpacingProps = true
