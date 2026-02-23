@@ -858,7 +858,7 @@ describe('Autocomplete component', () => {
       keyDownOnInput('ArrowDown')
     })
 
-    // Wait for active_item to be set in drawerList context
+    // Wait for activeItem to be set in drawerList context
     await waitFor(() => {
       const input = document.querySelector('.dnb-input__input')
       expect(input).toHaveAttribute(
@@ -867,7 +867,7 @@ describe('Autocomplete component', () => {
       )
     })
 
-    // Wait for component to re-render with new active_item and aria-live to update
+    // Wait for component to re-render with new activeItem and aria-live to update
     // The useAriaLive hook uses setTimeout even with delay=0 in test mode
     await waitFor(
       () => {
@@ -883,7 +883,7 @@ describe('Autocomplete component', () => {
       keyDownOnInput('ArrowDown')
     })
 
-    // Wait for active_item to be set in drawerList context
+    // Wait for activeItem to be set in drawerList context
     await waitFor(() => {
       const input = document.querySelector('.dnb-input__input')
       expect(input).toHaveAttribute(
@@ -892,7 +892,7 @@ describe('Autocomplete component', () => {
       )
     })
 
-    // Wait for component to re-render with new active_item and aria-live to update
+    // Wait for component to re-render with new activeItem and aria-live to update
     await waitFor(
       () => {
         const ariaLive = getVoiceOverAriaLive()
@@ -906,7 +906,7 @@ describe('Autocomplete component', () => {
       keyDownOnInput('ArrowDown')
     })
 
-    // Wait for active_item to be set in drawerList context
+    // Wait for activeItem to be set in drawerList context
     await waitFor(() => {
       const input = document.querySelector('.dnb-input__input')
       expect(input).toHaveAttribute(
@@ -915,7 +915,7 @@ describe('Autocomplete component', () => {
       )
     })
 
-    // Wait for component to re-render with new active_item and aria-live to update
+    // Wait for component to re-render with new activeItem and aria-live to update
     await waitFor(
       () => {
         const ariaLive = getVoiceOverAriaLive()
