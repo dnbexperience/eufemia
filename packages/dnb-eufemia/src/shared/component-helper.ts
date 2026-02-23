@@ -248,21 +248,6 @@ export const dispatchCustomElementEvent = (
   return ret
 }
 
-export const toCamelCase = (s) =>
-  s
-    .split(/_/g)
-    .reduce(
-      (acc, cur, i) =>
-        acc +
-        (i === 0
-          ? cur
-          : cur.replace(
-              /(\w)(\w*)/g,
-              (g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase()
-            )),
-      ''
-    )
-
 // transform my_component to MyComponent
 export const toPascalCase = (s) =>
   s
@@ -276,10 +261,6 @@ export const toPascalCase = (s) =>
         ),
       ''
     )
-
-// transform MyComponent to my_component
-export const toSnakeCase = (str) =>
-  str.replace(/\B[A-Z]/g, (letter) => `_${letter}`).toLowerCase()
 
 // transform MyComponent to my-component
 export const toKebabCase = (str) =>
