@@ -10,7 +10,6 @@ import Context from '../../shared/Context'
 import {
   warn,
   isTrue,
-  roundToNearest,
   getClosestScrollViewElement,
   detectOutsideClick,
   dispatchCustomElementEvent,
@@ -445,8 +444,10 @@ export default class DrawerListProvider extends React.PureComponent<
           maxHeight = vh
         }
 
-        // convert px to rem
-        maxHeight = roundToNearest(maxHeight, 8) / 16
+        // convert px to rem – round to nearest 8px
+        const diff = maxHeight % 8
+        maxHeight =
+          (diff > 4 ? maxHeight - diff + 8 : maxHeight - diff) / 16
       }
 
       return { direction, maxHeight }

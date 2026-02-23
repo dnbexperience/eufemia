@@ -345,12 +345,6 @@ export const isChildOfElement = (element, target, callback = null) => {
   return element
 }
 
-// Round number to nearest target number
-export const roundToNearest = (num, target) => {
-  const diff = num % target
-  return diff > target / 2 ? num - diff + target : num - diff
-}
-
 export const getClosestScrollViewElement = (currentElement) => {
   return getClosestParent('.dnb-scroll-view', currentElement)
 }
