@@ -138,7 +138,7 @@ export const validateDOMAttributes = (
         // we don't want NULL values
         params[i] === null ||
         // we don't want if there are any characters except "a-z", "A-Z" or "-"
-        // Removes things like "on_change"
+        // Removes non-standard DOM attribute names (e.g. containing underscores)
         notOnlyAZOrHyphenRegex.test(i)
         // (typeof params[i] !== 'string' && /[^a-z-]/i.test(i))
       ) {
@@ -238,36 +238,16 @@ export const dispatchCustomElementEvent = (
 
   const props = (src && src.props) || src
 
-  // call the default snake case event
-  if (eventName.includes('_')) {
-    if (typeof props[eventName] === 'function') {
-      const r = props[eventName].apply(src, [eventObject])
-      if (typeof r !== 'undefined') {
-        ret = r
-      }
-    }
-
-    // call Synthetic React event camelCase naming events
-    eventName = toCamelCase(eventName)
-    if (typeof props[eventName] === 'function') {
-      const r = props[eventName].apply(src, [eventObject])
-      if (typeof r !== 'undefined') {
-        ret = r
-      }
-    }
-  } else {
-    if (typeof props[eventName] === 'function') {
-      const r = props[eventName].apply(src, [eventObject])
-      if (typeof r !== 'undefined') {
-        ret = r
-      }
+  if (typeof props[eventName] === 'function') {
+    const r = props[eventName].apply(src, [eventObject])
+    if (typeof r !== 'undefined') {
+      ret = r
     }
   }
 
   return ret
 }
 
-// transform on_click to onClick
 export const toCamelCase = (s) =>
   s
     .split(/_/g)
