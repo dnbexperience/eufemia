@@ -17,7 +17,6 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent,
   getClosestParent,
-  filterProps,
   combineLabelledBy,
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -997,7 +996,12 @@ export default class Tabs extends React.PureComponent<TabsProps> {
 
   TabsWrapperHandler = ({ children, ...rest }) => {
     const { className, class: _className } = this.props
-    const { ...attributes } = filterProps(this.props, Tabs.defaultProps)
+    const defaultPropKeys = Object.keys(Tabs.defaultProps)
+    const attributes = Object.fromEntries(
+      Object.entries(this.props).filter(
+        ([key]) => !defaultPropKeys.includes(key)
+      )
+    )
 
     const params = {
       ...attributes,

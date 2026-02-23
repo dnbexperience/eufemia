@@ -49,21 +49,6 @@ import { toKebabCase } from '@dnb/eufemia/shared/component-helper'
 toKebabCase(String) // returns String
 ```
 
-### filterProps
-
-Filters out unwanted entries from either an object or array.
-
-```js
-import { filterProps } from '@dnb/eufemia/shared/component-helper'
-
-filterProps(props: Object|Array, remove*: Object|Array|Function, allowed*: Object|Array|Function) // returns Object|Array
-```
-
-#### \* Optional values (defaults)
-
-- remove = _null_
-- allowed = _null_
-
 ### makeUniqueId
 
 Creates a truly unique hash.

@@ -18,7 +18,6 @@ export {
   extendPropsWithContextInClassComponent,
 } from './helpers/extendPropsWithContext'
 export { assignPropsWithContext } from './helpers/assignPropsWithContext'
-export { filterProps } from './helpers/filterProps'
 
 export { getClosestParent, warn }
 
