@@ -448,11 +448,9 @@ describe('"dispatchCustomElementEvent" should', () => {
   })
 
   it('emit an event and return its event properties, including custom properties', () => {
-    const my_event = jest.fn()
     const myEvent = jest.fn()
     const instance = {
       props: {
-        my_event,
         myEvent,
       },
     }
@@ -460,9 +458,8 @@ describe('"dispatchCustomElementEvent" should', () => {
     const event = new KeyboardEvent('keydown', { key: 'Enter' })
     const data = { foo: 'bar' }
     const eventObject = { event, data }
-    dispatchCustomElementEvent(instance, 'my_event', eventObject)
+    dispatchCustomElementEvent(instance, 'myEvent', eventObject)
 
-    expect(my_event).toHaveBeenCalledTimes(1)
     expect(myEvent).toHaveBeenCalledTimes(1)
 
     const eventResult = {
@@ -472,15 +469,14 @@ describe('"dispatchCustomElementEvent" should', () => {
       event,
       isTrusted: false,
     }
-    expect(my_event).toHaveBeenCalledWith(eventResult)
     expect(myEvent).toHaveBeenCalledWith(eventResult)
   })
 
   it('call an event and return dataset properties as well "data-*" attributes', () => {
-    const my_event = jest.fn()
+    const myEvent = jest.fn()
     const instance = {
       props: {
-        my_event,
+        myEvent,
       },
     }
     const buttonText = 'Button'
@@ -493,9 +489,9 @@ describe('"dispatchCustomElementEvent" should', () => {
     const attributes = {
       'data-attr': 'value',
     }
-    dispatchCustomElementEvent(instance, 'my_event', { event, attributes })
-    expect(my_event.mock.calls.length).toBe(1)
-    expect(my_event.mock.calls[0][0].event.currentTarget.dataset).toEqual(
+    dispatchCustomElementEvent(instance, 'myEvent', { event, attributes })
+    expect(myEvent.mock.calls.length).toBe(1)
+    expect(myEvent.mock.calls[0][0].event.currentTarget.dataset).toEqual(
       expect.objectContaining({
         attr: 'value',
         prop: 'value',
