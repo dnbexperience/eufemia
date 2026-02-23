@@ -40,7 +40,7 @@ export interface TagGroupProps {
   skeleton?: SkeletonShow
 }
 
-export const defaultProps = {
+const defaultProps: Partial<TagGroupProps> = {
   label: null,
   className: null,
   children: null,

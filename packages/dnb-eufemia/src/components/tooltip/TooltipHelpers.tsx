@@ -17,7 +17,7 @@ export function injectTooltipSemantic(params) {
   return params
 }
 
-export const defaultProps = {
+export const defaultProps: Partial<TooltipAllProps> = {
   id: null,
   size: 'default',
   open: null,
