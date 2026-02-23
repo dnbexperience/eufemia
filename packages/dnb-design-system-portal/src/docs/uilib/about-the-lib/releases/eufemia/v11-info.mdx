@@ -1475,6 +1475,21 @@ See docs about changed [Dropdown properties](/uilib/about-the-lib/releases/eufem
 
 - Replace `filterSubmitData` with rather using the `filterData` in the second event parameter in the `onSubmit` or `onChange` events.
 
+## Helpers
+
+### Removed CSS helper classes
+
+- Removed `dnb-scrollbar-appearance` CSS class. It was unused internally and had incomplete browser support. Use the SCSS mixin `scrollbarAppearance()` directly if needed.
+- Removed `dnb-drop-shadow` and `dnb-sharp-drop-shadow` CSS classes. They were unused internally. Use the CSS custom properties `--shadow-default` and `--shadow-sharp` directly instead, or the SCSS mixins `defaultDropShadow()` / `sharpDropShadow()`.
+
+### Removed helper functions
+
+- Removed `filterProps` from `@dnb/eufemia/shared/component-helper`. It was barely used internally. Use standard JavaScript object destructuring or filtering instead.
+- Removed `scrollToLocationHashId` from `@dnb/eufemia/shared/helpers`. It was not used by any Eufemia component.
+- Removed `setPageFocusElement` from `@dnb/eufemia/shared/helpers`. It was not used by any Eufemia component. Use `applyPageFocus` with a CSS selector directly instead.
+- Removed `checkIfHasScrollbar` from the public API (`@dnb/eufemia/shared/component-helper`). It is still available internally but no longer exported for consumer use.
+- Removed `isTrue` from `@dnb/eufemia/shared/component-helper`. This was an outdated pattern from before TypeScript adoption. Use standard JavaScript truthiness checks (`Boolean(value)` or `!!value`) instead.
+
 ## Theming
 
 - Replace import from path `style/themes/theme-ui/` with `style/themes/ui/`
