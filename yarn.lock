@@ -14324,13 +14324,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"command-exists@npm:^1.2.4":
-  version: 1.2.9
-  resolution: "command-exists@npm:1.2.9"
-  checksum: 10/46fb3c4d626ca5a9d274f8fe241230817496abc34d12911505370b7411999e183c11adff7078dd8a03ec4cf1391290facda40c6a4faac8203ae38c985eaedd63
-  languageName: node
-  linkType: hard
-
 "commander@npm:14.0.3":
   version: 14.0.3
   resolution: "commander@npm:14.0.3"
