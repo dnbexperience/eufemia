@@ -7,7 +7,6 @@ import React, { useEffect, useRef, forwardRef } from 'react'
 import * as CSS from 'csstype'
 import clsx from 'clsx'
 import { validateDOMAttributes } from '../../shared/component-helper'
-import { IS_EDGE } from '../../shared/helpers'
 import { ProgressIndicatorCircularAllProps } from './types'
 
 function ProgressIndicatorCircular(
@@ -27,7 +26,7 @@ function ProgressIndicatorCircular(
   } = props
   const keepAnimatingRef = useRef(true)
   const showRef = useRef(false)
-  const useAnimationFrame = typeof onComplete === 'function' || IS_EDGE
+  const useAnimationFrame = typeof onComplete === 'function'
   const _refDark = useRef<SVGSVGElement>(null)
   const _refLight = useRef<SVGSVGElement>(null)
   const _startupTimeout = useRef<NodeJS.Timeout>(undefined)
