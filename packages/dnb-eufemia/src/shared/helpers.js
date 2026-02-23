@@ -18,7 +18,6 @@ export let IS_SAFARI = false
 export let IS_WIN = false
 export let IS_MAC = false
 export let IS_ANDROID = false
-export let IS_LINUX = false
 
 export const isMac = () =>
   (IS_MAC =
@@ -34,11 +33,6 @@ export const isAndroid = () =>
   (IS_ANDROID =
     typeof navigator !== 'undefined' &&
     new RegExp(PLATFORM_ANDROID, 'i').test(navigator?.userAgent))
-
-export const isLinux = () =>
-  (IS_LINUX =
-    typeof navigator !== 'undefined' &&
-    new RegExp(PLATFORM_LINUX, 'i').test(navigator?.platform))
 
 export const isiOS = () =>
   (IS_IOS =
@@ -61,7 +55,6 @@ isSafari()
 isWin()
 isAndroid()
 isMac()
-isLinux()
 
 const pageFocusElements = {}
 export function setPageFocusElement(selectorOrElement, key = 'default') {
