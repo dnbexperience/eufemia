@@ -13,7 +13,6 @@ import {
   validateDOMAttributes,
   processChildren,
   dispatchCustomElementEvent,
-  toPascalCase,
   toKebabCase,
   toCapitalized,
   checkIfHasScrollbar,
@@ -522,12 +521,6 @@ describe('"findElementInChildren" should', () => {
       return cur.type === 'h2'
     })
     expect(h2Element.type).toBe('h2')
-  })
-})
-
-describe('"toPascalCase" should', () => {
-  it('transform a snake case event name to a React event case', () => {
-    expect(toPascalCase('my_component')).toBe('MyComponent')
   })
 })
 

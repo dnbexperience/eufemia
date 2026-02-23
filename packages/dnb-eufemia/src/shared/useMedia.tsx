@@ -18,7 +18,11 @@ import type {
   MediaQueryBreakpoints,
   MediaQueryOptions,
 } from './MediaQueryUtils'
-import { toPascalCase } from './component-helper'
+const toPascalCase = (s: string) =>
+  s
+    .split(/_/g)
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+    .join('')
 
 const makeLayoutEffect = () => {
   // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85

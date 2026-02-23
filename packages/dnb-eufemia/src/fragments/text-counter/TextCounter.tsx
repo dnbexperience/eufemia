@@ -1,6 +1,5 @@
 import React, { useContext, useMemo, useRef } from 'react'
 import clsx from 'clsx'
-import { toPascalCase } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import AriaLive from '../../components/AriaLive'
 import Icon from '../../components/icon/Icon'
@@ -41,7 +40,9 @@ export default function TextCounter(localProps: TextCounterProps) {
     const count =
       variant === 'down' || isExceeded ? Math.abs(max - length) : length
     const key = `character${
-      isExceeded ? 'Exceeded' : toPascalCase(variant)
+      isExceeded
+        ? 'Exceeded'
+        : variant.charAt(0).toUpperCase() + variant.slice(1)
     }`
 
     return context
