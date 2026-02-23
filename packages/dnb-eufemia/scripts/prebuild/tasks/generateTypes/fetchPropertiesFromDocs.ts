@@ -10,8 +10,10 @@ import { asyncForEach } from '../../../tools'
 import {
   toKebabCase,
   toPascalCase,
-  toSnakeCase,
 } from '../../../../src/shared/component-helper'
+
+const toSnakeCase = (str: string) =>
+  str.replace(/\B[A-Z]/g, (letter) => `_${letter}`).toLowerCase()
 
 const TS_ROOT_DIR = path.resolve(
   path.dirname(require.resolve('@dnb/eufemia/package.json')),
