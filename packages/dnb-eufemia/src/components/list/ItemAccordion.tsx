@@ -24,6 +24,10 @@ export type ItemAccordionIconPosition = 'left' | 'right'
 export type ItemAccordionProps = {
   variant?: ListVariant
   open?: boolean
+  /**
+   * When true, keeps the accordion content in the DOM when closed. Defaults to false.
+   */
+  keepInDOM?: boolean
   chevronPosition?: ItemAccordionIconPosition
   icon?: IconIcon
   title?: React.ReactNode
@@ -34,6 +38,7 @@ const ItemAccordionContext = createContext<{
   open?: boolean
   openState: boolean
   pending?: boolean
+  keepInDOM?: boolean
   chevronPosition?: ItemAccordionIconPosition
   accordionId: string
   icon?: IconIcon
@@ -50,6 +55,7 @@ function ItemAccordion(props: ItemAccordionProps) {
     variant,
     pending,
     open = false,
+    keepInDOM = false,
     chevronPosition = 'right',
     icon,
     title,
@@ -75,6 +81,7 @@ function ItemAccordion(props: ItemAccordionProps) {
         open,
         openState,
         pending,
+        keepInDOM,
         chevronPosition,
         accordionId,
         icon,
@@ -172,7 +179,9 @@ AccordionHeader._supportsSpacingProps = true
 
 function AccordionContent(props: ItemContentProps) {
   const { className, children, ...rest } = props
-  const { openState, accordionId } = useContext(ItemAccordionContext)
+  const { openState, accordionId, keepInDOM } = useContext(
+    ItemAccordionContext
+  )
 
   const spacingProps = pickSpacingProps(rest)
 
@@ -188,7 +197,7 @@ function AccordionContent(props: ItemContentProps) {
       aria-expanded={openState}
       {...omitSpacingProps(rest)}
     >
-      <HeightAnimation open={openState}>
+      <HeightAnimation open={openState} keepInDOM={keepInDOM}>
         <Hr bottom={false} />
         <Space {...spacingProps}>{children}</Space>
       </HeightAnimation>
