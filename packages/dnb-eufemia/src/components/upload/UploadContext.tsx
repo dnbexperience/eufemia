@@ -1,7 +1,7 @@
 import { createContext } from 'react'
 import { UploadContextProps } from './types'
 
-export const defaultProps = {
+export const defaultProps: Partial<UploadContextProps> = {
   fileMaxSize: 5,
   filesAmountLimit: 100,
   download: false,

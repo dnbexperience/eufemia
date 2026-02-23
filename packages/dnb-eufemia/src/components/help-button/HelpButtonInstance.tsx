@@ -13,7 +13,7 @@ import Context from '../../shared/Context'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Button, { ButtonProps } from '../button/Button'
 
-const defaultProps = {
+const defaultProps: Partial<ButtonProps> = {
   variant: 'secondary',
   iconPosition: 'left',
 }

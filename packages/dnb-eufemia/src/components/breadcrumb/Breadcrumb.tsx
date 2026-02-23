@@ -137,7 +137,7 @@ export type BreadcrumbProps = {
   onToggle?: (isCollapsed: boolean) => void
 }
 
-export const defaultProps = {
+const defaultProps: Partial<BreadcrumbProps> = {
   skeleton: false,
   navText: 'Back',
   goBackText: 'Back',
