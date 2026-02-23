@@ -65,9 +65,7 @@ isLinux()
 
 export function applyPageFocus(selector = 'default', callback = null) {
   try {
-    let element = /^[.#]/.test(selector)
-      ? selector
-      : null
+    let element = /^[.#]/.test(selector) ? selector : null
     if (typeof element === 'string' && typeof document !== 'undefined') {
       element = document.querySelector(element)
     } else if (!element && typeof document !== 'undefined') {
