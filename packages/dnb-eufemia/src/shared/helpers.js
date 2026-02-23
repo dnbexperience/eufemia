@@ -236,17 +236,6 @@ export function scrollToLocationHashId({
   }
 }
 
-export function insertElementBeforeSelection(elem) {
-  try {
-    const selection = window.getSelection()
-    const range = selection.getRangeAt(0)
-    range.cloneRange().insertNode(elem)
-    selection.addRange(range) // Restore the original selection - this is a Safari fix!
-  } catch (e) {
-    //
-  }
-}
-
 export function getSelectedText() {
   try {
     return window.getSelection().toString()
