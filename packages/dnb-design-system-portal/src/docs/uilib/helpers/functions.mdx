@@ -148,33 +148,6 @@ instance.revert()
 
 ## General helpers
 
-### scrollToLocationHashId
-
-Enhance the native anchor scroll handling by providing additional features like a custom offset.
-
-```js
-import { scrollToLocationHashId } from '@dnb/eufemia/shared/helpers'
-
-// in case there is a #hash in the url
-const elem = scrollToLocationHashId({
-  offset: 100,
-  delay: 100,
-  onCompletion: (elem) => {
-    try {
-      elem.classList.add('focus')
-    } catch (e) {
-      //
-    }
-  },
-}) // returns HTMLElement
-```
-
-#### \* Optional values (defaults)
-
-- offset = _0_
-- delay = _null_
-- onCompletion = _null_
-
 ### getOffsetTop
 
 Get the HTML Element offset to the top of the browser window, minus `offset`.

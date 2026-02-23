@@ -15,7 +15,7 @@ import {
 import ToggleGrid, { GridActivator } from '../menu/ToggleGrid'
 import {
   setPageFocusElement,
-  scrollToLocationHashId,
+  getOffsetTop,
 } from '@dnb/eufemia/src/shared/helpers'
 import { P, Logo, GlobalStatus } from '@dnb/eufemia/src'
 import './PortalStyle.scss'
@@ -28,6 +28,88 @@ import {
   fullscreenStyle,
 } from './Layout.module.scss'
 import SidebarMenu from '../menu/SidebarMenu'
+
+function scrollToLocationHashId({
+  offset = 0,
+  delay = null,
+  onCompletion = null,
+}: {
+  offset?: number
+  delay?: number | null
+  onCompletion?: ((elem: HTMLElement) => void) | null
+} = {}) {
+  if (
+    typeof document !== 'undefined' &&
+    typeof window !== 'undefined' &&
+    window.location
+  ) {
+    try {
+      let _timeout: ReturnType<typeof setTimeout>
+      const id = String(window.location.hash).replace('#', '')
+
+      if (id.length > 0) {
+        const elem = document.getElementById(id)
+
+        const handleScroll = () => {
+          const runScroll = () => {
+            const totalOffset = getOffsetTop(elem)
+
+            if (totalOffset <= 0) {
+              return // stop here
+            }
+
+            const top = totalOffset - offset
+
+            try {
+              if (typeof IntersectionObserver !== 'undefined') {
+                const intersectionObserver = new IntersectionObserver(
+                  (entries) => {
+                    const [entry] = entries
+                    if (entry.isIntersecting) {
+                      intersectionObserver.unobserve(elem)
+                      if (typeof onCompletion === 'function') {
+                        onCompletion(elem)
+                      }
+                    }
+                  }
+                )
+                intersectionObserver.observe(elem)
+              }
+
+              if (window.scrollTo) {
+                window.scrollTo({ top, behavior: 'smooth' })
+              }
+            } catch (e) {
+              // ignore scroll errors
+            }
+          }
+
+          if (delay > 0) {
+            clearTimeout(_timeout)
+            _timeout = setTimeout(runScroll, delay)
+          } else {
+            runScroll()
+          }
+        }
+
+        if (elem instanceof HTMLElement) {
+          window.addEventListener('beforeunload', () =>
+            clearTimeout(_timeout)
+          )
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', handleScroll)
+          } else {
+            handleScroll()
+          }
+        }
+
+        return elem
+      }
+    } catch (e) {
+      // ignore scroll errors
+    }
+  }
+}
 
 export function scrollToAnimation() {
   // if url hash is defined, scroll to the id
