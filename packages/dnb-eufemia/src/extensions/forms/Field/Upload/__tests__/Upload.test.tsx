@@ -1427,7 +1427,7 @@ describe('Field.Upload', () => {
       resolveFileHandler([
         {
           file: successFile1,
-          id: 'server_generated_id',
+          id: 'serverGeneratedId',
           exists: false,
         },
       ])
@@ -1460,7 +1460,7 @@ describe('Field.Upload', () => {
               resolve([
                 {
                   file,
-                  id: 'server_generated_id',
+                  id: 'serverGeneratedId',
                   exists: false,
                 },
               ]),
@@ -1506,7 +1506,7 @@ describe('Field.Upload', () => {
           {
             exists: false,
             file: file,
-            id: 'server_generated_id',
+            id: 'serverGeneratedId',
             isLoading: false,
             name: 'fileName-1.png',
           },
@@ -1573,12 +1573,12 @@ describe('Field.Upload', () => {
               resolve([
                 {
                   file: newFile1,
-                  id: 'server_generated_id_1',
+                  id: 'serverGeneratedId_1',
                   exists: false,
                 },
                 {
                   file: newFile2,
-                  id: 'server_generated_id_2',
+                  id: 'serverGeneratedId_2',
                   exists: false,
                 },
               ]),
@@ -1694,7 +1694,7 @@ describe('Field.Upload', () => {
               resolve([
                 {
                   file: files[id],
-                  id: 'server_generated_id_' + id,
+                  id: 'serverGeneratedId_' + id,
                   exists: false,
                 },
               ]),
@@ -1922,7 +1922,7 @@ describe('Field.Upload', () => {
       resolveFileHandler([
         {
           file: supportedFile,
-          id: 'server_generated_id',
+          id: 'serverGeneratedId',
           exists: false,
         },
       ])
@@ -2131,7 +2131,7 @@ describe('Field.Upload', () => {
             resolve([
               {
                 file: successFile,
-                id: 'server_generated_id',
+                id: 'serverGeneratedId',
                 exists: false,
               },
               {
