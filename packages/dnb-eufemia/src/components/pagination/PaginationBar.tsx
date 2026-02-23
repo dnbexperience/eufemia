@@ -72,7 +72,7 @@ type PaginationBarContext = {
   updatePageContent: (currentPageInternal: number) => void
 }
 
-const defaultProps = {
+const defaultProps: Partial<PaginationBarProps> = {
   buttonTitle: null,
   prevTitle: null,
   nextTitle: null,

@@ -63,7 +63,7 @@ export type BreadcrumbItemProps = {
 } & (AnchorAllProps & Omit<ButtonProps, 'variant'>) &
   DataAttributeTypes
 
-const defaultProps = {
+const defaultProps: Partial<BreadcrumbItemProps> = {
   text: null,
   href: null,
   icon: null,
