@@ -262,10 +262,6 @@ export const toPascalCase = (s) =>
       ''
     )
 
-// transform MyComponent to my-component
-export const toKebabCase = (str) =>
-  str.replace(/\B[A-Z]/g, (letter) => `-${letter}`).toLowerCase()
-
 export function toCapitalized(str) {
   return typeof str === 'string'
     ? str

@@ -1,7 +1,9 @@
 import fs from 'fs'
 import path from 'path'
 import globby from 'globby'
-import { toKebabCase } from '../shared/component-helper'
+
+const toKebabCase = (str: string) =>
+  str.replace(/\B[A-Z]/g, (letter) => `-${letter}`).toLowerCase()
 
 describe('Style Import References', () => {
   const ignoreList = new Set<string>(['icon-primary'])

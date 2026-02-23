@@ -1,4 +1,7 @@
-import { isTrue, toKebabCase } from './component-helper'
+import { isTrue } from './component-helper'
+
+const toKebabCase = (str: string) =>
+  str.replace(/\B[A-Z]/g, (letter) => `-${letter}`).toLowerCase()
 import { warn } from './helpers'
 
 export type MediaQuerySizes =
