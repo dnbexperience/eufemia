@@ -1,10 +1,22 @@
-import {
-  warn,
-  isChildOfElement,
-  checkIfHasScrollbar,
-} from '../../shared/component-helper'
+import { warn, checkIfHasScrollbar } from '../../shared/component-helper'
 
 const isServer = () => typeof window === 'undefined'
+
+const findScrollableParent = (element, target, callback) => {
+  try {
+    let current = element
+    while (current && current !== target) {
+      if (callback(current)) {
+        return current
+      }
+      current = current.parentElement
+    }
+  } catch (e) {
+    //
+  }
+  return target
+}
+
 const detectOS = (ua) => {
   ua = ua || navigator.userAgent
   const ipad = /(iPad).*OS\s([\d_]+)/.test(ua)
@@ -159,7 +171,7 @@ const setOverflowHiddenAndroid = () => {
 
 const preventDefault = (event) => {
   const found = lockedElements.find((targetElement) => {
-    return isChildOfElement(event.target, targetElement)
+    return targetElement.contains(event.target)
   })
 
   if (found || !event.cancelable) {
@@ -194,7 +206,7 @@ const handleScroll = (event, targetElement) => {
         (isVertical && (isOnTop || isOnBottom)) ||
         (!isVertical && (isOnLeft || isOnRight))
       ) {
-        const hasScrollbar = isChildOfElement(
+        const hasScrollbar = findScrollableParent(
           event.target,
           targetElement,
           checkIfHasScrollbar

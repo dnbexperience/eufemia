@@ -309,48 +309,6 @@ export const matchAll = (string, regex) => {
   return matches
 }
 
-/**
- * Check if an element exists in its children
- * If it finds it, the child "element" of target will be returned.
- *
- * @param {HTMLElement} element The DOM Element to find
- * @param {HTMLElement} target The DOM Element that should contain "element"
- * @param {function} callback (optional)
- * @returns {HTMLElement | null} Returns the found child of all existing dom elements inside of "target"
- */
-export const isChildOfElement = (element, target, callback = null) => {
-  try {
-    const contains = (element) => {
-      if (callback) {
-        const res = callback(element)
-        if (res) {
-          return element
-        }
-      }
-      return element && element === target
-    }
-
-    if (contains(element)) {
-      return element
-    }
-
-    while (
-      (element = element && element.parentElement) &&
-      !contains(element)
-    );
-  } catch (e) {
-    //
-  }
-
-  return element
-}
-
-// Round number to nearest target number
-export const roundToNearest = (num, target) => {
-  const diff = num % target
-  return diff > target / 2 ? num - diff + target : num - diff
-}
-
 export const getClosestScrollViewElement = (currentElement) => {
   return getClosestParent('.dnb-scroll-view', currentElement)
 }

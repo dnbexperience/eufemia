@@ -1198,6 +1198,8 @@ The following functions have been removed from `@dnb/eufemia/shared/component-he
 
 - `toCamelCase` – Converted snake_case strings to camelCase.
 - `toSnakeCase` – Converted PascalCase strings to snake_case.
+- `isChildOfElement` – DOM traversal helper. Use native `Element.contains()` or walk the DOM manually.
+- `roundToNearest` – Trivial math helper. Inline the logic: `const diff = num % target; return diff > target / 2 ? num - diff + target : num - diff`.
 
 #### Removed HOCs and conversion utilities
 
