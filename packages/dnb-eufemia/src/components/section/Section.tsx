@@ -17,7 +17,16 @@ import type {
 } from '../../shared/types'
 import type { InnerSpaceType } from '../space/types'
 import Space from '../space/Space'
-import { getColor } from '../../shared/helpers'
+
+function getColor(value: string | undefined) {
+  if (!value) {
+    return undefined
+  }
+  if (String(value).includes('--')) {
+    return value
+  }
+  return !/#|var/.test(value) ? `var(--color-${value})` : value
+}
 
 export type SectionVariants = 'error' | 'info' | 'warning' | 'success'
 

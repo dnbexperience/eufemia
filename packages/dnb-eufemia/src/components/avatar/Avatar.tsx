@@ -22,7 +22,16 @@ import {
 
 // Internal
 import AvatarGroup, { AvatarGroupContext } from './AvatarGroup'
-import { getColor } from '../../shared/helpers'
+
+function getColor(value: string | undefined) {
+  if (!value) {
+    return undefined
+  }
+  if (String(value).includes('--')) {
+    return value
+  }
+  return !/#|var/.test(value) ? `var(--color-${value})` : value
+}
 
 export type AvatarSizes = 'small' | 'medium' | 'large' | 'x-large'
 export type AvatarVariants = 'primary' | 'secondary' | 'tertiary'
