@@ -73,7 +73,7 @@ export type SpaceProps = {
 export type SpaceAllProps = SpaceProps &
   Omit<React.HTMLProps<HTMLElement>, 'ref'>
 
-const defaultProps = {}
+const defaultProps: Partial<SpaceAllProps> = {}
 
 export default function Space(localProps: SpaceAllProps) {
   const context = React.useContext<ContextProps & SpacingProps>(Context)

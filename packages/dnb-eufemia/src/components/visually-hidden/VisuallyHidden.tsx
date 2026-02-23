@@ -23,7 +23,7 @@ export interface VisuallyHiddenProps {
 export type VisuallyHiddenAllProps = VisuallyHiddenProps &
   React.HTMLProps<HTMLSpanElement>
 
-export const defaultProps = {
+const defaultProps: Partial<VisuallyHiddenAllProps> = {
   focusable: false,
   element: 'span',
 }

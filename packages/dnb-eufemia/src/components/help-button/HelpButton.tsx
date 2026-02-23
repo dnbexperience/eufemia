@@ -10,7 +10,7 @@ import HelpButtonInstance from './HelpButtonInstance'
 import type { ButtonProps } from '../button/Button'
 import { extendPropsWithContext } from '../../shared/component-helper'
 
-const defaultProps = {
+const defaultProps: Partial<HelpButtonProps> = {
   variant: 'secondary',
   iconPosition: 'left',
 }

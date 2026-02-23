@@ -144,7 +144,7 @@ type SectionReturnParams = Record<string, unknown> & {
   style: React.CSSProperties
 }
 
-const defaultProps = {
+const defaultProps: Partial<SectionAllProps> = {
   element: 'section',
 }
 

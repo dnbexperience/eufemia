@@ -86,7 +86,7 @@ export type GlobalErrorTranslation = {
   500?: GlobalErrorTranslationContent
 }
 
-const defaultProps = {
+const defaultProps: Partial<GlobalErrorAllProps> = {
   statusCode: '404',
 }
 
