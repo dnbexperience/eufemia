@@ -2,10 +2,10 @@
  * Jest Setup for Screenshot testing
  */
 
-import prettier from 'prettier'
 import fs from 'fs-extra'
 import path from 'path'
 import ora from 'ora'
+import prettier from 'prettier'
 import { isCI } from 'repo-utils'
 import { slugify, makeUniqueId } from '../../shared/component-helper'
 import { configureToMatchImageSnapshot } from 'jest-image-snapshot'
@@ -134,7 +134,7 @@ async function applyPageSettings(
 }
 
 // Helper function to handle page navigation
-async function navigateToPage({
+export async function navigateToPage({
   page,
   url,
   themeName,
@@ -191,7 +191,7 @@ async function handleRetrySetup({
   await page.waitForTimeout(100)
 }
 
-export const makeScreenshot = async (
+export const makeSnapshot = async (
   {
     page = global.page,
     url = null,
@@ -203,7 +203,7 @@ export const makeScreenshot = async (
     selector,
     style = null,
     rootClassName = null,
-    addWrapper = true,
+    addWrapper = false,
     executeBeforeSimulate = null,
     executeBeforeScreenshot = null,
     simulate = null,
@@ -219,7 +219,7 @@ export const makeScreenshot = async (
     measureElement = null,
     matchConfig = null,
     recalculateHeightAfterSimulate = false,
-    snap = false,
+    onlyMakePageReady = true,
   }: {
     page?: Page
     url?: string
@@ -238,7 +238,7 @@ export const makeScreenshot = async (
     /**
      * Set to `false` to skip adding a wrapper. Used when the wrapper styling ruins the screenshot.
      *
-     * Default: `true`
+     * Default: `false`
      */
     addWrapper?: boolean
     executeBeforeSimulate?: () => void
@@ -275,9 +275,25 @@ export const makeScreenshot = async (
      * Default `false`
      */
     recalculateHeightAfterSimulate?: boolean
-    snap?: boolean
+    /** only ready the page, but do for snapshot */
+    onlyMakePageReady?: boolean
   } = { selector: undefined }
 ) => {
+  if (onlyMakePageReady) {
+    const element = await handleElement({
+      page,
+      selector,
+      style,
+      styleSelector,
+      rootClassName,
+    })
+    const snapshot = await takeSnapshot({
+      page,
+      screenshotElement: element,
+      screenshotSelector,
+    })
+    return snapshot
+  }
   const effectivePageViewport = pageViewport || global.pageViewport || null
 
   // Handle retry attempts with complete page reset
@@ -314,14 +330,12 @@ export const makeScreenshot = async (
     styleSelector,
     rootClassName,
   })
-
   const screenshotElement = await handleWrapper({
     page,
     selector,
     wrapperStyle,
     addWrapper,
     element,
-    snap,
   })
 
   if (executeBeforeSimulate) {
@@ -362,11 +376,10 @@ export const makeScreenshot = async (
     await page.mouse.move(0, 0) // reset after click simulations, because the mouse still hovers
   }
 
-  const screenshot = await takeScreenshot({
+  const snapshot = await takeSnapshot({
     page,
     screenshotElement,
     screenshotSelector,
-    snap,
   })
 
   if (simulateAfter) {
@@ -404,7 +417,7 @@ export const makeScreenshot = async (
     await page.waitForTimeout(waitBeforeFinish)
   }
 
-  return screenshot
+  return snapshot
 }
 
 export const setMatchConfig = (matchConfig) => {
@@ -416,7 +429,7 @@ export const setMatchConfig = (matchConfig) => {
   expect.extend({ toMatchImageSnapshot })
 }
 
-export const setupPageScreenshot = (
+export const setupPageSnapshot = (
   {
     page = global.page,
     url,
@@ -428,13 +441,6 @@ export const setupPageScreenshot = (
     matchConfig = null,
   } = { url: undefined }
 ) => {
-  if (matchConfig) {
-    // The cleanup happens in "setupJestScreenshot"
-    beforeEach(() => {
-      setMatchConfig(matchConfig)
-    }, timeout)
-  }
-
   beforeAll(async () => {
     global.pageViewport = pageViewport
     await navigateToPage({
@@ -623,24 +629,99 @@ async function handleMeasureOfElement({ page, measureElement, selector }) {
     }
   }
 }
+const gen = async (element) => {
+  const r = await global.page.evaluate(
+    ({ element }) => {
+      const root = element
+      if (!root) return null
 
-async function takeScreenshot({
+      const clone = root.cloneNode(true)
+      const originalElements = [root, ...root.querySelectorAll('*')]
+      const cloneElements = [clone, ...clone.querySelectorAll('*')]
+
+      // Helper to get default styles for a tag type (e.g., 'div', 'span')
+      const defaultStylesCache = {}
+      const getDefaultStyles = (tagName) => {
+        if (defaultStylesCache[tagName]) return defaultStylesCache[tagName]
+        const temp = document.createElement(tagName)
+        document.body.appendChild(temp)
+        const styles = window.getComputedStyle(temp)
+        const styleObj = {}
+        for (let i = 0; i < styles.length; i++) {
+          const prop = styles[i]
+          styleObj[prop] = styles.getPropertyValue(prop)
+        }
+        document.body.removeChild(temp)
+        defaultStylesCache[tagName] = styleObj
+        return styleObj
+      }
+
+      originalElements.forEach((origEl, index) => {
+        const computed = window.getComputedStyle(origEl)
+        const defaults = getDefaultStyles(origEl.tagName)
+        const customStyles = []
+
+        // Only keep styles that differ from the browser default
+        Object.keys(defaults).forEach((prop, index) => {
+          const val = computed.getPropertyValue(prop)
+          if (val !== defaults[prop]) {
+            customStyles[index] = `${prop}: ${val};`
+          }
+        })
+
+        if (customStyles!.length > 0) {
+          const styleString =
+            '\n' + customStyles.filter(Boolean).join('\n')
+
+          cloneElements[index].setAttribute(
+            'data-snapshot-style',
+            styleString
+          )
+        }
+      })
+      return clone.outerHTML
+    },
+    {
+      element,
+    }
+  )
+  return r
+}
+
+const snapshotString = async ({ selector }) => {
+  // await global.page.waitForSelector(selector) // this is only needed once per page load. And it adds ~15ms to each test. So how can we run this only when needed?
+  const string = await gen(selector)
+
+  const r = String(
+    await prettier.format(string, {
+      filepath: 'file.html',
+      parser: 'html',
+      singleQuote: true,
+      tabWidth: 2,
+      useTabs: false,
+      printWidth: 75,
+      bracketSpacing: true,
+      semi: false,
+      bracketSameLine: false,
+      singleAttributePerLine: true,
+    })
+  )
+
+  return r
+}
+async function takeSnapshot({
   page,
   screenshotElement,
   screenshotSelector,
-  snap,
 }) {
   if (screenshotSelector) {
     await page.waitForSelector(screenshotSelector, { visible: true })
     screenshotElement = await page.$(screenshotSelector)
   }
-  if (snap) {
-    return await snapshotString({
-      selector: screenshotElement,
-    })
-  } else {
-    return await screenshotElement.screenshot()
-  }
+
+  return await snapshotString({
+    selector: screenshotElement,
+  })
 }
 
 async function handleSimulation({
@@ -783,7 +864,6 @@ async function handleWrapper({
   wrapperStyle,
   addWrapper,
   element,
-  snap,
 }) {
   // now we wrap the element and apply a padding to it
   // the reason is because on some styles we have a shadow around,
@@ -874,18 +954,7 @@ async function handleWrapper({
     )
 
     await page.waitForSelector(`[data-visual-test-id="${wrapperId}"]`)
-    const wrapper = await page.$(`[data-visual-test-id="${wrapperId}"]`)
-    if (snap) {
-      await page.evaluate(
-        ({ wrapper }) => {
-          wrapper.setAttribute('data-visual-test-id', 0)
-        },
-        {
-          wrapper,
-        }
-      )
-    }
-    return wrapper
+    return await page.$(`[data-visual-test-id="${wrapperId}"]`)
   }
 
   return element
@@ -939,84 +1008,3 @@ const makeStyles = (style) =>
     .filter(([k, v]) => k && v)
     .map(([k, v]) => `${k}: ${v}`)
     .join(';')
-
-const gen = async (element) => {
-  const r = await global.page.evaluate(
-    ({ element }) => {
-      const root = element
-      if (!root) return null
-
-      const clone = root.cloneNode(true)
-      const originalElements = [root, ...root.querySelectorAll('*')]
-      const cloneElements = [clone, ...clone.querySelectorAll('*')]
-
-      // Helper to get default styles for a tag type (e.g., 'div', 'span')
-      const defaultStylesCache = {}
-      const getDefaultStyles = (tagName) => {
-        if (defaultStylesCache[tagName]) return defaultStylesCache[tagName]
-        const temp = document.createElement(tagName)
-        document.body.appendChild(temp)
-        const styles = window.getComputedStyle(temp)
-        const styleObj = {}
-        for (let i = 0; i < styles.length; i++) {
-          const prop = styles[i]
-          styleObj[prop] = styles.getPropertyValue(prop)
-        }
-        document.body.removeChild(temp)
-        defaultStylesCache[tagName] = styleObj
-        return styleObj
-      }
-
-      originalElements.forEach((origEl, index) => {
-        const computed = window.getComputedStyle(origEl)
-        const defaults = getDefaultStyles(origEl.tagName)
-        const customStyles = []
-
-        // Only keep styles that differ from the browser default
-        Object.keys(defaults).forEach((prop, index) => {
-          const val = computed.getPropertyValue(prop)
-          if (val !== defaults[prop]) {
-            customStyles[index] = `${prop}: ${val};`
-          }
-        })
-
-        if (customStyles!.length > 0) {
-          const styleString =
-            '\n' + customStyles.filter(Boolean).join('\n')
-
-          cloneElements[index].setAttribute(
-            'data-snapshot-style',
-            styleString
-          )
-        }
-      })
-      return clone.outerHTML
-    },
-    {
-      element,
-    }
-  )
-  return r
-}
-
-const snapshotString = async ({ selector }) => {
-  // await global.page.waitForSelector(selector) // this is only needed once per page load. And it adds ~15ms to each test. So how can we run this only when needed?
-  const string = await gen(selector)
-
-  const r = String(
-    await prettier.format(string, {
-      filepath: 'file.html',
-      parser: 'html',
-      singleQuote: true,
-      tabWidth: 2,
-      useTabs: false,
-      printWidth: 75,
-      bracketSpacing: true,
-      semi: false,
-      bracketSameLine: false,
-      singleAttributePerLine: true,
-    })
-  )
-
-  return r
-}
