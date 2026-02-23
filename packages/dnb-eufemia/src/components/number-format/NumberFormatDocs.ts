@@ -1,5 +1,4 @@
 import { PropertiesTableProps } from '../../shared/types'
-import { toCamelCase } from '../../shared/component-helper'
 
 export const NumberFormatProperties: PropertiesTableProps = {
   value: {
@@ -148,11 +147,3 @@ export const NumberFormatProperties: PropertiesTableProps = {
     status: 'optional',
   },
 }
-
-export const NumberFormatPropertiesCamelCase: PropertiesTableProps =
-  Object.fromEntries(
-    Object.entries(NumberFormatProperties).map(([k, v]) => [
-      toCamelCase(k),
-      v,
-    ])
-  )

@@ -3,7 +3,6 @@ import remarkGfm from 'remark-gfm'
 import styled from '@emotion/styled'
 import { Table, Td, Th, Tr } from '@dnb/eufemia/src'
 import { PropertiesTableProps } from '@dnb/eufemia/src/shared/types'
-import { toCamelCase } from '@dnb/eufemia/src/shared/component-helper'
 import { basicComponents } from '../tags'
 
 const components = {
@@ -83,19 +82,16 @@ export const FormattedCode = ({
 export default function PropertiesTable({
   props,
   valueType = 'string',
-  camelCase,
   omit,
   pick,
   showDefaultValue = false,
 }: {
   props: PropertiesTableProps
   valueType?: unknown
-  camelCase?: boolean
   omit?: string[]
   pick?: string[]
   showDefaultValue: boolean
 }) {
-  const keys = Object.keys(props || {})
   const tableRows = Object.entries(props || {}).map(([key, props]) => {
     if (!props) {
       return null
@@ -115,7 +111,7 @@ export default function PropertiesTable({
             variant="prop"
             strikethrough={status === 'deprecated'}
           >
-            {camelCase ? toCamelCase(key) : key}
+            {key}
           </FormattedCode>
         </Td>
         <Td className="type">
@@ -172,7 +168,7 @@ export default function PropertiesTable({
             components={components}
             remarkPlugins={[remarkGfm]}
           >
-            {camelCase ? convertToCamelCase(doc, keys) : doc}
+            {doc}
           </ReactMarkdown>
         </Td>
       </Tr>
@@ -219,14 +215,6 @@ function typeWithoutArray(type: string) {
     return type.slice(6, -1)
   }
   return type
-}
-
-// Replace existing properties inside a string. Use the keys from the props object to find and replace the values
-function convertToCamelCase(doc: string, keys: string[]) {
-  keys.forEach((key) => {
-    doc = doc.replace(new RegExp(key, 'g'), toCamelCase(key))
-  })
-  return doc
 }
 
 export function formatIfMarkdown(name: string): React.ReactNode | string {

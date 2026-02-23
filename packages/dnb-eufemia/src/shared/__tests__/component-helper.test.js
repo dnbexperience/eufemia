@@ -14,8 +14,6 @@ import {
   processChildren,
   dispatchCustomElementEvent,
   toPascalCase,
-  toCamelCase,
-  toSnakeCase,
   toKebabCase,
   toCapitalized,
   checkIfHasScrollbar,
@@ -530,18 +528,6 @@ describe('"findElementInChildren" should', () => {
 describe('"toPascalCase" should', () => {
   it('transform a snake case event name to a React event case', () => {
     expect(toPascalCase('my_component')).toBe('MyComponent')
-  })
-})
-
-describe('"toCamelCase" should', () => {
-  it('transform a snake case event name to a React event case', () => {
-    expect(toCamelCase('my_event_is_long')).toBe('myEventIsLong')
-  })
-})
-
-describe('"toSnakeCase" should', () => {
-  it('transform a camel case event name to snake case', () => {
-    expect(toSnakeCase('MyEventIsLong')).toBe('my_event_is_long')
   })
 })
 

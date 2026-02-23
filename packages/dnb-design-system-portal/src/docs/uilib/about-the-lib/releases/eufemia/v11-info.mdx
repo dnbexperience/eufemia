@@ -1192,6 +1192,31 @@ For more information on how to replace these, see [FormSet/FormRow deprecation](
 
 - Remove `extendGracefully`, it no longer exists.
 
+#### Removed helper functions
+
+The following functions have been removed from `@dnb/eufemia/shared/component-helper`:
+
+- `toCamelCase` – Converted snake_case strings to camelCase.
+- `toSnakeCase` – Converted PascalCase strings to snake_case.
+
+#### Removed HOCs and conversion utilities
+
+The following Higher-Order Components (HOCs), conversion functions, and types have been removed:
+
+- `withCamelCaseProps` – HOC that converted snake_case props to camelCase.
+- `withSnakeCaseProps` – HOC that converted camelCase props to snake_case.
+- `classWithSnakeCaseProps` – Class-based HOC that converted camelCase props to snake_case.
+- `convertCamelCasePropsToSnakeCase` – Converted camelCase props to snake_case.
+- `convertSnakeCaseProps` – Converted snake_case props to camelCase.
+
+The following TypeScript types have also been removed:
+
+- `ToCamelCase`, `ToCamelCasePartial`, `ToCamelCaseFlat`, `ToCamelCasePartialFlat`, `IncludeCamelCase`
+- `ToSnakeCase`, `ToSnakeCasePartial`, `IncludeSnakeCase`
+- `AssertNoMissing`, `KeysWithUnderscore`
+
+These were previously used to support dual snake_case/camelCase prop naming. Since v11 uses camelCase exclusively, they are no longer needed.
+
 ## Eufemia Forms
 
 ### General
