@@ -83,8 +83,8 @@ export const NumberFormatProperties: PropertiesTableProps = {
     status: 'optional',
   },
   suffix: {
-    doc: 'Appends a string or React component after the number, including white space.',
-    type: 'React.Node',
+    doc: 'Appends a string or React component after the number, including white space. When the suffix is a string starting with `/`, no space is added (e.g. `suffix="/mnd"` renders "123/mnd").',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   srLabel: {

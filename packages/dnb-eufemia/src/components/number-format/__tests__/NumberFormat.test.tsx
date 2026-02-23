@@ -514,6 +514,16 @@ describe('NumberFormat component', () => {
     ).toBe('prefix 123 456 789,5 suffix')
   })
 
+  it('omits space before suffix when suffix starts with slash', () => {
+    render(<Component value={123} suffix="/mnd" />)
+    expect(document.querySelector(displaySelector).textContent).toBe(
+      '123/mnd'
+    )
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('123/mnd')
+  })
+
   it('attaches the helper class names when prefix/suffix are elements', () => {
     render(
       <Component
