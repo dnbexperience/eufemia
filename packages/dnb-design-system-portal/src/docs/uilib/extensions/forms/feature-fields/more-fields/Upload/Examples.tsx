@@ -564,7 +564,7 @@ export const WithIterateArray = () => {
               const mockResponse = {
                 ok: true,
                 json: async () => ({
-                  server_generated_id:
+                  serverGeneratedId:
                     file.file.name + '_' + crypto.randomUUID(),
                 }),
               }
@@ -572,7 +572,7 @@ export const WithIterateArray = () => {
               const data = await mockResponse.json()
               updatedFiles.push({
                 ...file,
-                id: data.server_generated_id,
+                id: data.serverGeneratedId,
               })
             } catch (error) {
               updatedFiles.push({
