@@ -24,7 +24,7 @@ import type {
   ThumbStateEnums,
 } from './types'
 
-const defaultProps = {
+const defaultProps: Partial<SliderAllProps> = {
   statusState: 'error',
   min: 0,
   max: 100,

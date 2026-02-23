@@ -71,7 +71,7 @@ export interface AvatarGroupProps
   color?: string
 }
 
-export const defaultProps = {
+const defaultProps: Partial<AvatarGroupProps> = {
   label: null,
   className: null,
   maxElements: 4,

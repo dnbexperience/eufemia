@@ -128,7 +128,7 @@ export type SwitchProps = {
 > &
   SpacingProps
 
-const defaultProps = {
+const defaultProps: Partial<SwitchProps> = {
   statusState: 'error',
 }
 
