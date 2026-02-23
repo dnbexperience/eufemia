@@ -156,8 +156,8 @@ async function mockAsyncFileUpload(
     const mockResponse = {
       ok: false, // Fails virus check
       json: async () => ({
-        server_generated_id:
-          'server_generated_id' +
+        serverGeneratedId:
+          'serverGeneratedId' +
           '_' +
           file.file.name +
           '_' +
@@ -168,7 +168,7 @@ async function mockAsyncFileUpload(
     const data = await mockResponse.json()
     updatedFiles.push({
       ...file,
-      id: data.server_generated_id,
+      id: data.serverGeneratedId,
     })
   }
 
@@ -456,15 +456,14 @@ export const IterateArrayUpload = () => {
         const mockResponse = {
           ok: true,
           json: async () => ({
-            server_generated_id:
-              file.file.name + '_' + crypto.randomUUID(),
+            serverGeneratedId: file.file.name + '_' + crypto.randomUUID(),
           }),
         }
 
         const data = await mockResponse.json()
         updatedFiles.push({
           ...file,
-          id: data.server_generated_id,
+          id: data.serverGeneratedId,
         })
       } catch (error) {
         updatedFiles.push({
@@ -528,15 +527,14 @@ export const TwoAsyncUploads = () => {
         const mockResponse = {
           ok: true,
           json: async () => ({
-            server_generated_id:
-              file.file.name + '_' + crypto.randomUUID(),
+            serverGeneratedId: file.file.name + '_' + crypto.randomUUID(),
           }),
         }
 
         const data = await mockResponse.json()
         updatedFiles.push({
           ...file,
-          id: data.server_generated_id,
+          id: data.serverGeneratedId,
         })
       } catch (error) {
         updatedFiles.push({
@@ -693,7 +691,7 @@ export const WithOnValidationError = () => {
       const mockResponse = {
         ok: true,
         json: async () => ({
-          server_generated_id: `server_${
+          serverGeneratedId: `server_${
             file.file.name
           }_${crypto.randomUUID()}`,
         }),
@@ -702,7 +700,7 @@ export const WithOnValidationError = () => {
       const data = await mockResponse.json()
       updatedFiles.push({
         ...file,
-        id: data.server_generated_id,
+        id: data.serverGeneratedId,
       })
     }
 
