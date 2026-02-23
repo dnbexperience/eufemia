@@ -208,6 +208,13 @@ export const transformFigmaAlias = (alias: Record<string, any>) => {
   }
 }
 
+const hexAsRgb = (hex: string) => {
+  return `${parseInt(hex.substring(1, 3), 16)} ${parseInt(
+    hex.substring(3, 5),
+    16
+  )} ${parseInt(hex.substring(5, 7), 16)}`
+}
+
 export const transformFigmaValue = (value: FigmaValue) => {
   if (value['$type'] === 'number' || value['$type'] === 'string') {
     return undefined // Exclude numbers, font-family and font weight
@@ -225,42 +232,32 @@ export const transformFigmaValue = (value: FigmaValue) => {
 
     return alpha === 1
       ? hex
-      : `rgba(${hex}, ${parseFloat(alpha.toFixed(6))})`
+      : `rgba(${hexAsRgb(hex)} / ${parseFloat(alpha.toFixed(6))})`
   } else {
     throw new Error(`Unsupported $type: ${value['$type']}`)
   }
 }
-
-export const transformFigmaKey = (
-  key: string,
-  replaceCallback: (char: string) => void = (char) => {}
-) => {
-  const transformedKey = key
-    .replaceAll(/[^a-zA-Z-0-9]/g, (char) => {
-      replaceCallback(char)
-      return char
-    })
-    .toLowerCase()
-
-  return transformedKey
-}
-
+/**
+ * Takes an array of figma groups and transforms them into the path part of the css variable
+ *
+ * `[ "Color", "Background", "Primary" ]` -> `"color-background-primary"`
+ */
 export const transformFigmaPath = (path: string[]) => {
-  const replacedCaracters = []
-  const logReplace = (char) => {
-    replacedCaracters.push(char)
-  }
+  const unsupportedCharacters = []
 
   const cleanPath = path.filter(Boolean)
 
   const transformedPath = cleanPath
-    .map((s) => transformFigmaKey(s, logReplace))
+    .map((group) => {
+      unsupportedCharacters.push(...(group.match(/[^a-zA-Z-0-9]/g) ?? []))
+      return group.toLowerCase()
+    })
     .join(TOKEN_GROUP_SEPARATOR)
 
-  if (replacedCaracters.length > 0) {
-    const errorMessage = `Unsupported characters "${replacedCaracters.join(
-      '", "'
-    )}" in variable: "${cleanPath.join('/')}"`
+  if (unsupportedCharacters.length > 0) {
+    const errorMessage = `Unsupported characters [ '${unsupportedCharacters.join(
+      "', '"
+    )}' ] in variable: "${cleanPath.join('/')}"`
     log.fail(errorMessage)
     throw new Error(errorMessage)
   }

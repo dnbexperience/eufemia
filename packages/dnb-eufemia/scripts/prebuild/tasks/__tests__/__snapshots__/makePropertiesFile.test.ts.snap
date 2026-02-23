@@ -783,7 +783,7 @@ exports[`makePropertiesFile Tokens snapshots for carnegie 2`] = `
   --carnegie-orange-300: #fb9;
   --carnegie-orange-400: #ff9866;
   --carnegie-orange-500: #ff7633;
-  --carnegie-orange-600-40: rgba(#ec612a, 0.4);
+  --carnegie-orange-600-40: rgba(236 97 42 / 40%);
   --carnegie-orange-600: #ff5400;
   --carnegie-orange-700: #cc4300;
   --carnegie-orange-800: #993200;
@@ -795,7 +795,7 @@ exports[`makePropertiesFile Tokens snapshots for carnegie 2`] = `
   --carnegie-red-300: #fbacac;
   --carnegie-red-400: #f68888;
   --carnegie-red-500: #ed4c4c;
-  --carnegie-red-600-40: rgba(#d52525, 0.4);
+  --carnegie-red-600-40: rgba(213 37 37 / 40%);
   --carnegie-red-600: #d52525;
   --carnegie-red-700: #b21e1e;
   --carnegie-red-800: #7a1313;
@@ -812,7 +812,7 @@ exports[`makePropertiesFile Tokens snapshots for carnegie 2`] = `
   --carnegie-blue-800: #153f7f;
   --carnegie-blue-900: #16315a;
   --carnegie-blue-950: #152640;
-  --carnegie-greyscale-0-80: rgba(#fff, 0.8);
+  --carnegie-greyscale-0-80: rgba(255 255 255 / 80%);
   --carnegie-greyscale-0: #fff;
   --carnegie-greyscale-25: #fafafa;
   --carnegie-greyscale-50: #f8f8f8;
@@ -826,10 +826,10 @@ exports[`makePropertiesFile Tokens snapshots for carnegie 2`] = `
   --carnegie-greyscale-800: #333;
   --carnegie-greyscale-900: #2c2c2e;
   --carnegie-greyscale-950: #1c1c1e;
-  --carnegie-greyscale-1000-5: rgba(#000, 0.05);
-  --carnegie-greyscale-1000-10: rgba(#000, 0.1);
-  --carnegie-greyscale-1000-30: rgba(#000, 0.3);
-  --carnegie-greyscale-1000-50: rgba(#000, 0.5);
+  --carnegie-greyscale-1000-5: rgba(0 0 0 / 5%);
+  --carnegie-greyscale-1000-10: rgba(0 0 0 / 10%);
+  --carnegie-greyscale-1000-30: rgba(0 0 0 / 30%);
+  --carnegie-greyscale-1000-50: rgba(0 0 0 / 50%);
   --carnegie-greyscale-1000: #000;
 }
 "
@@ -1122,22 +1122,22 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 2`] = `
   --sbanken-purple-50: #fbf9ff;
   --sbanken-purple-100: #f1ebff;
   --sbanken-purple-200: #e0d0ff;
-  --sbanken-purple-300-40: rgba(#d2baff, 0.4);
+  --sbanken-purple-300-40: rgba(210 186 255 / 40%);
   --sbanken-purple-300: #d2baff;
   --sbanken-purple-400: #be99ff;
   --sbanken-purple-500: #9761f1;
   --sbanken-purple-600: #7129e2;
-  --sbanken-purple-700-40: rgba(#4e08bc, 0.4);
+  --sbanken-purple-700-40: rgba(78 8 188 / 40%);
   --sbanken-purple-700: #4e08bc;
   --sbanken-purple-800: #302480;
-  --sbanken-purple-900-40: rgba(#222163, 0.4);
+  --sbanken-purple-900-40: rgba(34 33 99 / 40%);
   --sbanken-purple-900: #222163;
   --sbanken-purple-950: #1c1b4e;
   --sbanken-purple-1000: #18172a;
   --sbanken-green-50: #f4fffb;
   --sbanken-green-100: #e5fff7;
   --sbanken-green-200: #c8f6e5;
-  --sbanken-green-300-40: rgba(#92eecd, 0.4);
+  --sbanken-green-300-40: rgba(146 238 205 / 40%);
   --sbanken-green-300: #92eecd;
   --sbanken-green-400: #64d7b4;
   --sbanken-green-500: #37b992;
@@ -1162,10 +1162,10 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 2`] = `
   --sbanken-orange-200: #ffd7d5;
   --sbanken-orange-300: #ffaeae;
   --sbanken-orange-400: #ff817b;
-  --sbanken-orange-500-40: rgba(#ff5b44, 0.4);
+  --sbanken-orange-500-40: rgba(255 91 68 / 40%);
   --sbanken-orange-500: #ff5b44;
   --sbanken-orange-600: #ff361b;
-  --sbanken-orange-700-40: rgba(#df280f, 0.4);
+  --sbanken-orange-700-40: rgba(223 40 15 / 40%);
   --sbanken-orange-700: #df280f;
   --sbanken-orange-800: #a02615;
   --sbanken-orange-900: #591703;
@@ -1192,7 +1192,7 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 2`] = `
   --sbanken-blue-800: #0b3a8d;
   --sbanken-blue-900: #032c75;
   --sbanken-blue-950: #021a45;
-  --sbanken-grey-0-30: rgba(#fff, 0.3);
+  --sbanken-grey-0-30: rgba(255 255 255 / 30%);
   --sbanken-grey-0: #fff;
   --sbanken-grey-25: #fcfcfd;
   --sbanken-grey-50: #f9f9fd;
@@ -1203,13 +1203,13 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 2`] = `
   --sbanken-grey-500: #9090a3;
   --sbanken-grey-600: #666578;
   --sbanken-grey-700: #4a4a5b;
-  --sbanken-grey-800-60: rgba(#3a3a4a, 0.6);
+  --sbanken-grey-800-60: rgba(58 58 74 / 60%);
   --sbanken-grey-800: #3a3a4a;
   --sbanken-grey-900: #21202d;
   --sbanken-grey-950: #161620;
-  --sbanken-grey-1000-20: rgba(#000, 0.2);
-  --sbanken-grey-1000-30: rgba(#000, 0.3);
-  --sbanken-grey-1000-48: rgba(#000, 0.48);
+  --sbanken-grey-1000-20: rgba(0 0 0 / 20%);
+  --sbanken-grey-1000-30: rgba(0 0 0 / 30%);
+  --sbanken-grey-1000-48: rgba(0 0 0 / 48%);
   --sbanken-grey-1000: #000;
 }
 "
@@ -1498,21 +1498,21 @@ exports[`makePropertiesFile Tokens snapshots for ui 2`] = `
 
 :root {
   --dnb-coldgreen-50: #f4fbf9;
-  --dnb-coldgreen-100-40: rgba(#ddf2ec, 0.4);
+  --dnb-coldgreen-100-40: rgba(221 242 236 / 40%);
   --dnb-coldgreen-100: #d8f3ec;
   --dnb-coldgreen-200: #bce8dc;
-  --dnb-coldgreen-300-40: rgba(#a5e1d2, 0.4);
+  --dnb-coldgreen-300-40: rgba(165 225 210 / 40%);
   --dnb-coldgreen-300: #a5e1d2;
   --dnb-coldgreen-400: #5cbdad;
   --dnb-coldgreen-500: #4a948d;
-  --dnb-coldgreen-600-40: rgba(#007272, 0.4);
+  --dnb-coldgreen-600-40: rgba(0 114 114 / 40%);
   --dnb-coldgreen-600: #007272;
-  --dnb-coldgreen-700-40: rgba(#14555a, 0.4);
+  --dnb-coldgreen-700-40: rgba(20 85 90 / 40%);
   --dnb-coldgreen-700: #14555a;
-  --dnb-coldgreen-800-40: rgba(#08454d, 0.4);
+  --dnb-coldgreen-800-40: rgba(8 69 77 / 40%);
   --dnb-coldgreen-800: #08454d;
   --dnb-coldgreen-900: #023939;
-  --dnb-coldgreen-950-40: rgba(#00343e, 0.4);
+  --dnb-coldgreen-950-40: rgba(0 52 62 / 40%);
   --dnb-coldgreen-950: #00343e;
   --dnb-warmgreen-50: #f2f4ec;
   --dnb-warmgreen-100: #e4eed7;
@@ -1542,7 +1542,7 @@ exports[`makePropertiesFile Tokens snapshots for ui 2`] = `
   --dnb-red-300: #fbacac;
   --dnb-red-400: #f68888;
   --dnb-red-500: #ed4c4c;
-  --dnb-red-600-40: rgba(#d52525, 0.4);
+  --dnb-red-600-40: rgba(213 37 37 / 40%);
   --dnb-red-600: #d52525;
   --dnb-red-700: #b21e1e;
   --dnb-red-800: #7a1313;
@@ -1554,7 +1554,7 @@ exports[`makePropertiesFile Tokens snapshots for ui 2`] = `
   --dnb-orange-300: #fb9;
   --dnb-orange-400: #ff9866;
   --dnb-orange-500: #ff7633;
-  --dnb-orange-600-40: rgba(#ec612a, 0.4);
+  --dnb-orange-600-40: rgba(236 97 42 / 40%);
   --dnb-orange-600: #ff5400;
   --dnb-orange-700: #cc4300;
   --dnb-orange-800: #993200;
@@ -1574,11 +1574,11 @@ exports[`makePropertiesFile Tokens snapshots for ui 2`] = `
   --dnb-gold-50: #f9f4e9;
   --dnb-gold-100: #f6ecd3;
   --dnb-gold-200: #ebe1c0;
-  --dnb-gold-300-40: rgba(#d8c583, 0.4);
+  --dnb-gold-300-40: rgba(216 197 131 / 40%);
   --dnb-gold-300: #d8c583;
   --dnb-gold-400: #caab51;
   --dnb-gold-500: #a3882a;
-  --dnb-gold-600-40: rgba(#87701d, 0.4);
+  --dnb-gold-600-40: rgba(135 112 29 / 40%);
   --dnb-gold-600: #87701d;
   --dnb-gold-700: #685419;
   --dnb-gold-800: #4e3f13;
@@ -1606,8 +1606,8 @@ exports[`makePropertiesFile Tokens snapshots for ui 2`] = `
   --dnb-purple-800: #2c2c7d;
   --dnb-purple-900: #23195a;
   --dnb-purple-950: #1d1740;
-  --dnb-greyscale-0-30: rgba(#fff, 0.3);
-  --dnb-greyscale-0-40: rgba(#fff, 0.4);
+  --dnb-greyscale-0-30: rgba(255 255 255 / 30%);
+  --dnb-greyscale-0-40: rgba(255 255 255 / 40%);
   --dnb-greyscale-0: #fff;
   --dnb-greyscale-25: #fafafa;
   --dnb-greyscale-50: #f8f8f8;
@@ -1618,14 +1618,14 @@ exports[`makePropertiesFile Tokens snapshots for ui 2`] = `
   --dnb-greyscale-500: #737373;
   --dnb-greyscale-600: #636366;
   --dnb-greyscale-700: #48484a;
-  --dnb-greyscale-800-40: rgba(#333, 0.4);
-  --dnb-greyscale-800-60: rgba(#333, 0.6);
+  --dnb-greyscale-800-40: rgba(51 51 51 / 40%);
+  --dnb-greyscale-800-60: rgba(51 51 51 / 60%);
   --dnb-greyscale-800: #333;
   --dnb-greyscale-900: #2c2c2e;
   --dnb-greyscale-950: #1c1c1e;
-  --dnb-greyscale-1000-20: rgba(#000, 0.2);
-  --dnb-greyscale-1000-30: rgba(#000, 0.3);
-  --dnb-greyscale-1000-48: rgba(#000, 0.48);
+  --dnb-greyscale-1000-20: rgba(0 0 0 / 20%);
+  --dnb-greyscale-1000-30: rgba(0 0 0 / 30%);
+  --dnb-greyscale-1000-48: rgba(0 0 0 / 48%);
   --dnb-greyscale-1000: #000;
 }
 "

@@ -3,7 +3,6 @@ import { convertVariablesToTailwindFormat } from '../tailwindTransform'
 import {
   transformFigmaAlias,
   transformFigmaValue,
-  transformFigmaKey,
   transformFigmaPath,
   transformNamespace,
 } from '../makePropertiesFile'
@@ -149,7 +148,7 @@ describe('makePropertiesFile', () => {
         }
 
         const result = transformFigmaValue(val)
-        expect(result).toEqual('rgba(#007272, 0.48)')
+        expect(result).toEqual('rgba(0 114 114 / 0.48)')
       })
 
       it('rounds alpha to 6 decimals', () => {
@@ -162,7 +161,7 @@ describe('makePropertiesFile', () => {
         }
 
         const result = transformFigmaValue(val)
-        expect(result).toEqual('rgba(#007272, 0.012346)')
+        expect(result).toEqual('rgba(0 114 114 / 0.012346)')
       })
 
       it('removes trailing zeroes in alpha', () => {
@@ -175,7 +174,7 @@ describe('makePropertiesFile', () => {
         }
 
         const result = transformFigmaValue(val)
-        expect(result).toEqual('rgba(#007272, 0.0625)')
+        expect(result).toEqual('rgba(0 114 114 / 0.0625)')
       })
 
       it('throw error on unknown type', () => {
@@ -204,25 +203,6 @@ describe('makePropertiesFile', () => {
       })
     })
 
-    describe('transformFigmaKey', () => {
-      it('runs callback on each unsupported character', () => {
-        const callback = jest.fn()
-
-        const result = transformFigmaKey(
-          'Font Size (Medium) onDark',
-          callback
-        )
-        expect(callback).toHaveBeenCalledTimes(5)
-
-        expect(callback).toHaveBeenNthCalledWith(1, ' ')
-        expect(callback).toHaveBeenNthCalledWith(2, ' ')
-        expect(callback).toHaveBeenNthCalledWith(3, '(')
-        expect(callback).toHaveBeenNthCalledWith(4, ')')
-        expect(callback).toHaveBeenNthCalledWith(5, ' ')
-        expect(result).toEqual('font size (medium) ondark')
-      })
-    })
-
     describe('transformFigmaPath', () => {
       it('transforms normally', () => {
         const result = transformFigmaPath(['Colors', 'Primary', 'Dark'])
@@ -232,12 +212,12 @@ describe('makePropertiesFile', () => {
       it('error on unsupported characters', () => {
         let err
         try {
-          transformFigmaPath(['Colo*rs', 'Prima?ry', 'Da(rk'])
+          transformFigmaPath(['Colo*rs', 'Pri ma?ry', 'Da(rk'])
         } catch (e) {
           err = e
         }
         expect(err.message).toEqual(
-          'Unsupported characters "*", "?", "(" in variable: "Colo*rs/Prima?ry/Da(rk"'
+          `Unsupported characters [ '*', ' ', '?', '(' ] in variable: "Colo*rs/Pri ma?ry/Da(rk"`
         )
       })
     })
