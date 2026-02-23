@@ -18,8 +18,8 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import Context from '../../shared/Context'
 import AccordionGroupContext from './AccordionProviderContext'
 
-import type { GroupProps } from './Accordion'
-import { accordionDefaultProps } from './Accordion'
+import type { GroupProps } from './AccordionTypes'
+import { accordionDefaultProps } from './AccordionTypes'
 
 export type AccordionGroupProps = React.HTMLProps<HTMLElement> &
   GroupProps & {

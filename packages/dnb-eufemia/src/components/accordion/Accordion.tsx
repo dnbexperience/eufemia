@@ -36,6 +36,10 @@ import AccordionProviderContext from './AccordionProviderContext'
 import Context from '../../shared/Context'
 
 import { AccordionStore, Store, rememberWarning } from './AccordionStore'
+import { accordionDefaultProps, type GroupProps } from './AccordionTypes'
+
+export type { GroupProps } from './AccordionTypes'
+export { accordionDefaultProps } from './AccordionTypes'
 
 export type AccordionVariant = 'plain' | 'default' | 'outlined' | 'filled'
 
@@ -429,28 +433,6 @@ function Accordion({
     </Context.Consumer>
   )
 }
-
-export type GroupProps = AccordionProps & {
-  allowCloseAll?: boolean
-  /**
-   * Determines how many accordions can be expanded at once.
-   * Default: `single`
-   */
-  expandBehavior?: 'single' | 'multiple'
-  /**
-   * ref handle to collapse all expanded accordions. Send in a ref and use `.current()` to collapse all accordions.
-   *
-   * Default: `undefined`
-   */
-  expandedId?: string
-  collapseAllHandleRef?: React.MutableRefObject<() => void>
-}
-
-export const accordionDefaultProps: Partial<AccordionProps & GroupProps> =
-  {
-    variant: 'outlined',
-    iconSize: 'medium',
-  }
 
 const Group = ({ expandBehavior = 'single', ...props }: GroupProps) => {
   if (props.rememberState && !props.id) {
