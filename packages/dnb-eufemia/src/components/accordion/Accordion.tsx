@@ -446,10 +446,11 @@ export type GroupProps = AccordionProps & {
   collapseAllHandleRef?: React.MutableRefObject<() => void>
 }
 
-export const accordionDefaultProps: Partial<AccordionProps & GroupProps> = {
-  variant: 'outlined',
-  iconSize: 'medium',
-}
+export const accordionDefaultProps: Partial<AccordionProps & GroupProps> =
+  {
+    variant: 'outlined',
+    iconSize: 'medium',
+  }
 
 const Group = ({ expandBehavior = 'single', ...props }: GroupProps) => {
   if (props.rememberState && !props.id) {
