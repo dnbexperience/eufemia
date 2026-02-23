@@ -266,20 +266,6 @@ export const toPascalCase = (s) =>
 export const toKebabCase = (str) =>
   str.replace(/\B[A-Z]/g, (letter) => `-${letter}`).toLowerCase()
 
-export function toCapitalized(str) {
-  return typeof str === 'string'
-    ? str
-        .toLowerCase()
-        .split('')
-        .map((char, index, arr) =>
-          index === 0 || arr[index - 1] === ' ' || arr[index - 1] === '-'
-            ? char.toUpperCase()
-            : char
-        )
-        .join('')
-    : str
-}
-
 export const makeUniqueId = (prefix = 'id-', length = 8) =>
   prefix +
   String(

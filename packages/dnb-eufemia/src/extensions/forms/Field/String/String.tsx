@@ -21,7 +21,18 @@ import FieldBlock, {
 } from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import { toCapitalized } from '../../../../shared/component-helper'
+
+function toCapitalized(str: string) {
+  return str
+    .toLowerCase()
+    .split('')
+    .map((char, index, arr) =>
+      index === 0 || arr[index - 1] === ' ' || arr[index - 1] === '-'
+        ? char.toUpperCase()
+        : char
+    )
+    .join('')
+}
 import type { TextCounterProps } from '../../../../fragments/TextCounter'
 import type { FieldProps, Schema } from '../../types'
 

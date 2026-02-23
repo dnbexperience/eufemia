@@ -15,7 +15,6 @@ import {
   dispatchCustomElementEvent,
   toPascalCase,
   toKebabCase,
-  toCapitalized,
   checkIfHasScrollbar,
   detectOutsideClick,
   makeUniqueId,
@@ -534,38 +533,6 @@ describe('"toPascalCase" should', () => {
 describe('"toKebabCase" should', () => {
   it('transform a camel case event name to kebab case', () => {
     expect(toKebabCase('MyEventIsLong')).toBe('my-event-is-long')
-  })
-})
-
-describe('"toCapitalized" should', () => {
-  let replaceSpy
-  beforeEach(() => {
-    replaceSpy = jest.spyOn(String.prototype, 'replace')
-  })
-  afterEach(() => {
-    replaceSpy.mockRestore()
-  })
-
-  it('capitalize the first letter of every word', () => {
-    expect(toCapitalized('first word æøå')).toBe('First Word Æøå')
-  })
-  it('capitalize the first letter of every word even if there is a space', () => {
-    expect(toCapitalized(' first word  æøå')).toBe(' First Word  Æøå')
-  })
-  it('capitalize the first letter after a dash', () => {
-    expect(toCapitalized('first-word')).toBe('First-Word')
-  })
-  it('capitalize supports non string values', () => {
-    expect(toCapitalized(undefined)).toBeUndefined()
-  })
-  it('should not use replace with lookbehind regexp to support older browsers', () => {
-    replaceSpy.mockImplementationOnce(() => 'First Word')
-    expect(String.prototype.replace).toHaveBeenCalledTimes(0)
-    expect(toCapitalized('first word')).toBe('First Word')
-    expect(
-      String(String.prototype.replace.mock.calls?.[0]?.[0])
-    ).not.toContain('?<=')
-    expect(String.prototype.replace).toHaveBeenCalledTimes(0)
   })
 })
 

@@ -20,11 +20,19 @@ import TextMask, { TextMaskProps } from '../input-masked/TextMask'
 import Button from '../button/Button'
 import Input, { SubmitButton } from '../input/Input'
 import type { InputInputElement, InputSize } from '../Input'
-import {
-  warn,
-  validateDOMAttributes,
-  toCapitalized,
-} from '../../shared/component-helper'
+import { warn, validateDOMAttributes } from '../../shared/component-helper'
+
+function toCapitalized(str: string) {
+  return str
+    .toLowerCase()
+    .split('')
+    .map((char, index, arr) =>
+      index === 0 || arr[index - 1] === ' ' || arr[index - 1] === '-'
+        ? char.toUpperCase()
+        : char
+    )
+    .join('')
+}
 import { IS_ANDROID, IS_IOS } from '../../shared/helpers'
 import { convertStringToDate } from './DatePickerCalc'
 import DatePickerContext from './DatePickerContext'
