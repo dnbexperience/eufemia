@@ -92,7 +92,7 @@ export type TableAllProps = TableProps &
   LocaleProps &
   SpacingProps
 
-export const defaultProps = {
+const defaultProps: Partial<TableAllProps> = {
   size: 'large',
   variant: 'generic',
 }

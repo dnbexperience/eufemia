@@ -36,7 +36,6 @@ import AccordionProviderContext from './AccordionProviderContext'
 import Context from '../../shared/Context'
 
 import { AccordionStore, Store, rememberWarning } from './AccordionStore'
-import { accordionDefaultProps } from './defaultProps'
 
 export type AccordionVariant = 'plain' | 'default' | 'outlined' | 'filled'
 
@@ -445,6 +444,11 @@ export type GroupProps = AccordionProps & {
    */
   expandedId?: string
   collapseAllHandleRef?: React.MutableRefObject<() => void>
+}
+
+export const accordionDefaultProps: Partial<AccordionProps & GroupProps> = {
+  variant: 'outlined',
+  iconSize: 'medium',
 }
 
 const Group = ({ expandBehavior = 'single', ...props }: GroupProps) => {

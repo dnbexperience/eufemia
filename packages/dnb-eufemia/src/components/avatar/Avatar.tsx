@@ -105,7 +105,7 @@ export interface AvatarProps
   color?: string
 }
 
-export const defaultProps = {
+const defaultProps: Partial<AvatarProps> = {
   size: 'medium',
   variant: 'primary',
   skeleton: false,

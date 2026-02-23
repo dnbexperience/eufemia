@@ -88,7 +88,7 @@ export interface TagProps {
   addIconTitle?: string
 }
 
-export const defaultProps = {
+const defaultProps: Partial<TagProps> = {
   skeleton: null,
   omitOnKeyUpDeleteEvent: false,
 }
