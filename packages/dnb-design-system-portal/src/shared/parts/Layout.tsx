@@ -14,7 +14,6 @@ import {
 } from '../menu/SidebarMenuContext'
 import ToggleGrid, { GridActivator } from '../menu/ToggleGrid'
 import {
-  setPageFocusElement,
   scrollToLocationHashId,
 } from '@dnb/eufemia/src/shared/helpers'
 import { P, Logo, GlobalStatus } from '@dnb/eufemia/src'
@@ -58,9 +57,6 @@ function Layout(props: LayoutProps) {
   const { fullscreen, location, hideSidebar, children } = props
 
   React.useEffect(() => {
-    // gets applied on "onRouteUpdate"
-    setPageFocusElement('.dnb-app-content h1:nth-of-type(1)', 'content')
-
     scrollToAnimation()
   }, [])
 

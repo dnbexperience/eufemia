@@ -7,7 +7,6 @@ import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
 
 import {
-  setPageFocusElement,
   applyPageFocus,
   scrollToLocationHashId,
   copyToClipboard,
@@ -47,15 +46,12 @@ describe('"applyPageFocus" should', () => {
       <button class="focus-button">My Button</button>
       `
     )
-
-    setPageFocusElement('.focus-content', 'content')
   })
 
   it('set a focus on the given element', () => {
     expect(document.activeElement.tagName).toBe('BODY')
 
-    setPageFocusElement('.focus-content', 'content')
-    applyPageFocus('content')
+    applyPageFocus('.focus-content')
 
     const focusElement = document.querySelector('.focus-content')
     expect(focusElement === document.activeElement).toBe(true)
