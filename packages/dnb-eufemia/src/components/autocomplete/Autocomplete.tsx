@@ -148,8 +148,8 @@ export type AutocompleteChangeEvent = {
   selectedItem?: number | string
 } & AutocompleteEventMethods
 export type AutocompleteSelectEvent = {
-  active_item: number | string
-  selected_item?: number | string | null
+  activeItem: number | string
+  selectedItem?: number | string | null
   value: string | number
   data: DrawerListDataArrayObject | string | null
   event: React.SyntheticEvent
