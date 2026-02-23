@@ -12,7 +12,6 @@ import {
 } from './bodyScrollLock'
 import {
   warn,
-  isTrue,
   makeUniqueId,
   InteractionInvalidation,
   combineLabelledBy,
@@ -120,7 +119,7 @@ export default class ModalContent extends React.PureComponent<
       id,
     })
 
-    if (isTrue(noAnimation) || process.env.NODE_ENV === 'test') {
+    if (noAnimation || process.env.NODE_ENV === 'test') {
       this.lockBody() // forces browser to re-paint
     } else {
       this._lockTimeout = setTimeout(this.lockBody, timeoutDuration * 1.2) // a little over --modal-animation-duration
@@ -337,7 +336,7 @@ export default class ModalContent extends React.PureComponent<
             warn(e)
           }
         },
-        isTrue(noAnimation) ? 0 : timeoutDuration || 0
+        noAnimation ? 0 : timeoutDuration || 0
       ) // with this delay, the user can press esc without an focus action first
     }
   }
@@ -384,7 +383,7 @@ export default class ModalContent extends React.PureComponent<
 
     const { preventOverlayClose } = this.props
 
-    if (!isTrue(preventOverlayClose)) {
+    if (!preventOverlayClose) {
       this.closeModalContent(event, {
         triggeredBy: 'overlay',
         ifIsLatest: false,
@@ -500,7 +499,7 @@ export default class ModalContent extends React.PureComponent<
 
       className: clsx(
         'dnb-modal__content',
-        isTrue(fullscreen)
+        fullscreen
           ? 'dnb-modal__content--fullscreen'
           : fullscreen === 'auto' && 'dnb-modal__content--auto-fullscreen',
         containerPlacement
@@ -555,8 +554,8 @@ export default class ModalContent extends React.PureComponent<
           className={clsx(
             'dnb-modal__overlay',
             hide && 'dnb-modal__overlay--hide',
-            isTrue(noAnimation) && 'dnb-modal__overlay--no-animation',
-            isTrue(noAnimationOnMobile) &&
+            noAnimation && 'dnb-modal__overlay--no-animation',
+            noAnimationOnMobile &&
               'dnb-modal__overlay--no-animation-on-mobile',
             overlayClass
           )}

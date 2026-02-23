@@ -5,7 +5,6 @@
 
 import React from 'react'
 import clsx from 'clsx'
-import { isTrue } from '../../../shared/component-helper'
 import Section from '../../section/Section'
 import ModalContext from '../ModalContext'
 import CloseButton from './CloseButton'
@@ -136,7 +135,7 @@ export default class ModalHeaderBar extends React.PureComponent<
           {children as React.ReactNode}
         </div>
 
-        {!isTrue(hideCloseButton) && (
+        {!hideCloseButton && (
           <div className="dnb-modal__header__bar__close">
             <CloseButton
               onClick={onCloseClickHandler}

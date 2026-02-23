@@ -10,7 +10,6 @@ import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import {
   warn,
-  isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
   validateDOMAttributes,
@@ -237,7 +236,7 @@ export default class Input extends React.PureComponent {
         context.formElement.useId()) ||
       makeUniqueId() // cause we need an id anyway
 
-    if (isTrue(props.clear) && props.iconPosition === 'right') {
+    if (props.clear && props.iconPosition === 'right') {
       warn('You cannot have a clear button and iconPosition="right"')
     }
 
@@ -270,7 +269,7 @@ export default class Input extends React.PureComponent {
 
     dispatchCustomElementEvent(this, 'onFocus', { value, event })
 
-    if (isTrue(this.props.selectAll) && this._ref.current) {
+    if (this.props.selectAll && this._ref.current) {
       clearTimeout(this._selectAllTimeout)
       this._selectAllTimeout = setTimeout(() => {
         try {
@@ -399,7 +398,7 @@ export default class Input extends React.PureComponent {
 
     let { value, focusState, inputState } = this.state
 
-    if (isTrue(disabled) || isTrue(skeleton)) {
+    if (disabled || skeleton) {
       inputState = 'disabled'
     }
     const sizeIsNumber = parseFloat(size) > 0
@@ -423,7 +422,7 @@ export default class Input extends React.PureComponent {
         size && !sizeIsNumber && `dnb-input--${size}`,
         hasSubmitButton && 'dnb-input--has-submit-element',
         innerElement && 'dnb-input--has-inner-element',
-        isTrue(clear) && 'dnb-input--has-clear-button',
+        clear && 'dnb-input--has-clear-button',
         align && `dnb-input__align--${align}`,
         status && `dnb-input__status--${statusState}`,
         disabled && 'dnb-input--disabled',
@@ -431,8 +430,8 @@ export default class Input extends React.PureComponent {
         icon && 'dnb-input--has-icon',
         icon && usedIconSize && `dnb-input--icon-size-${usedIconSize}`,
         labelDirection && `dnb-input--${labelDirection}`,
-        isTrue(stretch) && `dnb-input--stretch`,
-        isTrue(keepPlaceholder) && 'dnb-input--keep-placeholder',
+        stretch && `dnb-input--stretch`,
+        keepPlaceholder && 'dnb-input--keep-placeholder',
         'dnb-form-component',
         createSpacingClasses(props),
         className
@@ -459,7 +458,7 @@ export default class Input extends React.PureComponent {
       autoComplete: autocomplete,
       type,
       id,
-      disabled: isTrue(disabled),
+      disabled: disabled,
       name: id,
       'aria-placeholder': placeholder
         ? convertJsxToString(placeholder)
@@ -571,7 +570,7 @@ export default class Input extends React.PureComponent {
                 </span>
               )}
 
-              {isTrue(clear) && iconPosition !== 'right' && (
+              {clear && iconPosition !== 'right' && (
                 <span className="dnb-input--clear dnb-input__submit-element">
                   <InputSubmitButton
                     aria-hidden={!hasValue}
@@ -585,7 +584,7 @@ export default class Input extends React.PureComponent {
                     icon="close"
                     iconSize={size === 'small' ? 'small' : undefined}
                     skeleton={skeleton}
-                    disabled={isTrue(disabled) || !hasValue}
+                    disabled={disabled || !hasValue}
                     onClick={this.clearValue}
                   />
                 </span>
@@ -613,8 +612,8 @@ export default class Input extends React.PureComponent {
                     }
                     title={submitButtonTitle}
                     variant={submitButtonVariant}
-                    disabled={isTrue(disabled)}
-                    skeleton={isTrue(skeleton)}
+                    disabled={disabled}
+                    skeleton={skeleton}
                     size={size}
                     onSubmit={onSubmit}
                     {...statusProps}

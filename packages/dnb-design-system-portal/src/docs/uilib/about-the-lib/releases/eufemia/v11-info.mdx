@@ -1196,6 +1196,7 @@ For more information on how to replace these, see [FormSet/FormRow deprecation](
 
 The following functions have been removed from `@dnb/eufemia/shared/component-helper`:
 
+- `isTrue` – Checked if a value was truthy by comparing `String(value) === 'true' || String(value) === '1'`. Replace with direct boolean checks (e.g. `value === true` or simply `value`).
 - `toCamelCase` – Converted snake_case strings to camelCase.
 - `toSnakeCase` – Converted PascalCase strings to snake_case.
 - `matchAll` – Polyfill for `String.matchAll()`. Use the native `String.matchAll()` instead.

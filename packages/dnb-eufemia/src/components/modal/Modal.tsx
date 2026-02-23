@@ -9,7 +9,6 @@ import { SuffixContext } from '../../shared/helpers/Suffix'
 import Context, { ContextProps } from '../../shared/Context'
 import {
   warn,
-  isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
   processChildren,
@@ -141,12 +140,12 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
     if (props.open !== state._open) {
       if (props.open === true) {
         state.hide = false
-        if (isTrue(state.noAnimation)) {
+        if (state.noAnimation) {
           state.modalActive = true
         }
       } else if (props.open === false) {
         state.hide = true
-        if (isTrue(state.noAnimation)) {
+        if (state.noAnimation) {
           state.modalActive = false
         }
       }
@@ -244,7 +243,7 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
         )
       }
 
-      if (modalActive === false && !isTrue(noAnimation)) {
+      if (modalActive === false && !noAnimation) {
         this.setState({
           hide: true,
         })
@@ -260,7 +259,7 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
       const { noAnimation } = this.state
       const delay =
         typeof openDelay === 'string' ? parseFloat(openDelay) : openDelay
-      if (delay > 0 && !isTrue(noAnimation)) {
+      if (delay > 0 && !noAnimation) {
         this._openTimeout = setTimeout(toggleNow, delay) // custom delay
       } else {
         toggleNow()
@@ -349,7 +348,7 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
 
     const { preventClose = false } = this.props
 
-    if (isTrue(preventClose)) {
+    if (preventClose) {
       const id = this._id
       dispatchCustomElementEvent(this, 'onClosePrevent', {
         id,
@@ -468,7 +467,7 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
         ...triggerAttributes,
       } as ButtonProps
 
-      if (isTrue(disabled)) {
+      if (disabled) {
         usedTriggerAttributes.disabled = true
       }
 
@@ -499,7 +498,7 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
 
       return (
         <>
-          {TriggerButton && !isTrue(omitTriggerButton) && (
+          {TriggerButton && !omitTriggerButton && (
             <TriggerButton
               {...usedTriggerAttributes}
               id={this._id}

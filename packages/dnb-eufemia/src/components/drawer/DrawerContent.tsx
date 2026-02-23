@@ -5,10 +5,7 @@
 
 import React, { useContext } from 'react'
 import clsx from 'clsx'
-import {
-  isTrue,
-  findElementInChildren,
-} from '../../shared/component-helper'
+import { findElementInChildren } from '../../shared/component-helper'
 import { getOffsetTop, warn } from '../../shared/helpers'
 import ScrollView from '../../fragments/scroll-view/ScrollView'
 import DrawerHeader from './parts/DrawerHeader'
@@ -52,17 +49,17 @@ export default function DrawerContent({
 
   const innerParams = {
     className: clsx(
-      !isTrue(preventCoreStyle) && 'dnb-core-style',
+      !preventCoreStyle && 'dnb-core-style',
 
       'dnb-drawer',
-      isTrue(spacing) && 'dnb-drawer--spacing',
+      spacing && 'dnb-drawer--spacing',
       alignContent && `dnb-drawer__align--${alignContent}`,
-      isTrue(fullscreen)
+      fullscreen
         ? `dnb-drawer--fullscreen`
         : fullscreen === 'auto' && `dnb-drawer--auto-fullscreen`,
-      isTrue(context?.hide) && `dnb-drawer--hide`,
-      isTrue(noAnimation) && `dnb-drawer--no-animation`,
-      isTrue(noAnimationOnMobile) && `dnb-drawer--no-animation-on-mobile`,
+      context?.hide && `dnb-drawer--hide`,
+      noAnimation && `dnb-drawer--no-animation`,
+      noAnimationOnMobile && `dnb-drawer--no-animation-on-mobile`,
 
       `dnb-drawer--${containerPlacement || 'right'}`,
       className

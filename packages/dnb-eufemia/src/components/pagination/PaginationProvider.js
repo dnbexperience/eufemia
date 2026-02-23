@@ -8,10 +8,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Context from '../../shared/Context'
-import {
-  isTrue,
-  dispatchCustomElementEvent,
-} from '../../shared/component-helper'
+import { dispatchCustomElementEvent } from '../../shared/component-helper'
 import {
   ContentObject,
   // , detectScrollDirection // NB: We do currently not use scroll direction handling
@@ -89,10 +86,10 @@ export default class PaginationProvider extends React.PureComponent {
 
     state.parallelLoadCount = parseFloat(props.parallelLoadCount) || 1
     state.minTime = parseFloat(props.minWaitTime) || 0
-    state.placeMakerBeforeContent = isTrue(props.placeMarkerBeforeContent)
+    state.placeMakerBeforeContent = props.placeMarkerBeforeContent
 
     // reset pagination, like the resetInfinity method
-    if (props.useMarkerOnly && isTrue(props.resetPaginationHandler)) {
+    if (props.useMarkerOnly && props.resetPaginationHandler) {
       state.lowerPage = undefined
       state.upperPage = undefined
     }
@@ -114,7 +111,7 @@ export default class PaginationProvider extends React.PureComponent {
     }
 
     // reset content, like the resetContent method
-    if (isTrue(props.resetContentHandler)) {
+    if (props.resetContentHandler) {
       state.items = []
       state.pageCountInternal = parseFloat(props.pageCount) || 1
     }

@@ -5,7 +5,6 @@
  */
 
 import React from 'react'
-import { isTrue } from '../../../shared/component-helper'
 import InputMaskedContext from '../InputMaskedContext'
 import { invisibleSpace } from '../InputMaskedUtils'
 import { useMask } from './useMask'
@@ -25,7 +24,7 @@ export const useMaskParams = () => {
   const mask = useMask()
   const maskParams = useNumberMaskParams() || {}
 
-  maskParams.showMask = !placeholder && isTrue(showMask)
+  maskParams.showMask = !placeholder && showMask
 
   // Revalidated placeholder char to a zero width space
   maskParams.placeholderChar = placeholderChar
@@ -40,8 +39,8 @@ export const useMaskParams = () => {
     maskParams.showMask = mask.showMask
   }
 
-  maskParams.showGuide = isTrue(showGuide)
-  maskParams.keepCharPositions = isTrue(keepCharPositions)
+  maskParams.showGuide = showGuide
+  maskParams.keepCharPositions = keepCharPositions
 
   return maskParams
 }

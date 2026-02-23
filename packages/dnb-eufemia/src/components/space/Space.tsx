@@ -6,7 +6,6 @@
 import React from 'react'
 import clsx from 'clsx'
 import {
-  isTrue,
   extendPropsWithContext,
   validateDOMAttributes,
 } from '../../shared/component-helper'
@@ -112,8 +111,8 @@ export default function Space(localProps: SpaceAllProps) {
   const params = {
     className: clsx(
       'dnb-space',
-      isTrue(stretch) && 'dnb-space--stretch',
-      isTrue(inline) && 'dnb-space--inline',
+      stretch && 'dnb-space--stretch',
+      inline && 'dnb-space--inline',
       createSkeletonClass(null, skeleton), // do not send along context
       createSpacingClasses({ top, right, bottom, left, space }),
       className
@@ -166,7 +165,7 @@ function Element({
     </ElementDynamic>
   )
 
-  if (isTrue(noCollapse)) {
+  if (noCollapse) {
     const R =
       ElementDynamic === 'span' || isInline(element as string)
         ? 'span'

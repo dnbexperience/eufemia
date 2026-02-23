@@ -178,18 +178,6 @@ export function extendDeep(target = {}, ...sources) {
   return target
 }
 
-// check if value is "truthy"
-export const isTrue = (value) => {
-  if (
-    value !== null &&
-    typeof value !== 'undefined' &&
-    (String(value) === 'true' || String(value) === '1')
-  ) {
-    return true
-  }
-  return false
-}
-
 export const dispatchCustomElementEvent = (
   src,
   eventName,

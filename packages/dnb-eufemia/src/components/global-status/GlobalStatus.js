@@ -11,7 +11,6 @@ import clsx from 'clsx'
 import Context from '../../shared/Context'
 import {
   warn,
-  isTrue,
   makeUniqueId,
   validateDOMAttributes,
   dispatchCustomElementEvent,
@@ -187,7 +186,7 @@ export default class GlobalStatus extends React.PureComponent {
       this.provider.init(props)
 
     // and make it visible from start, if needed
-    if (isTrue(props.show)) {
+    if (props.show) {
       this.state.isActive = true
     }
 
@@ -205,18 +204,16 @@ export default class GlobalStatus extends React.PureComponent {
 
       // make sure to show the new status, inc. scroll
       if (
-        (isTrue(this.props.autoClose) &&
+        (this.props.autoClose &&
           this._hadContent &&
           !this.hasContent(globalStatus) &&
-          !isTrue(this.props.show)) ||
-        (typeof globalStatus.show !== 'undefined' &&
-          !isTrue(globalStatus.show))
+          !this.props.show) ||
+        (typeof globalStatus.show !== 'undefined' && !globalStatus.show)
       ) {
         this.setHidden()
       } else if (
-        isTrue(this.props.show) ||
-        (typeof globalStatus.show !== 'undefined' &&
-          isTrue(globalStatus.show))
+        this.props.show ||
+        (typeof globalStatus.show !== 'undefined' && globalStatus.show)
       ) {
         this._hadContent = this.hasContent(globalStatus)
 
@@ -253,7 +250,7 @@ export default class GlobalStatus extends React.PureComponent {
     }
 
     if (prevProps.show !== this.props.show) {
-      if (isTrue(this.props.show)) {
+      if (this.props.show) {
         this.setVisible()
       } else {
         this.setHidden()
@@ -275,7 +272,7 @@ export default class GlobalStatus extends React.PureComponent {
   }
 
   isPassive = () => {
-    return this.props.show !== 'auto' && isTrue(this.props.show) === false
+    return this.props.show !== 'auto' && this.props.show === false
   }
 
   setVisible = () => {
@@ -308,7 +305,7 @@ export default class GlobalStatus extends React.PureComponent {
     ) {
       this.initialActiveElement = document.activeElement
     }
-    if (this._wrapperRef.current && !isTrue(this.props.omitSetFocus)) {
+    if (this._wrapperRef.current && !this.props.omitSetFocus) {
       this._wrapperRef.current.focus({ preventScroll: true })
     }
   }
@@ -338,7 +335,7 @@ export default class GlobalStatus extends React.PureComponent {
   async scrollToStatus(isDone = null) {
     if (
       typeof window === 'undefined' ||
-      isTrue(this.state.globalStatus.autoScroll) === false
+      this.state.globalStatus.autoScroll === false
     ) {
       return // stop here
     }
@@ -459,7 +456,7 @@ export default class GlobalStatus extends React.PureComponent {
           .replace(/[: ]$/g, '')
       }
 
-      const useAutolink = item.itemId && isTrue(item.statusAnchorUrl)
+      const useAutolink = item.itemId && item.statusAnchorUrl === true
 
       return (
         <li key={i}>
@@ -507,7 +504,7 @@ export default class GlobalStatus extends React.PureComponent {
         break
 
       case 'adjusted':
-        if (!isTrue(this.props.omitSetFocusOnUpdate)) {
+        if (!this.props.omitSetFocusOnUpdate) {
           this.setFocus()
         }
 
@@ -619,7 +616,7 @@ export default class GlobalStatus extends React.PureComponent {
     })
     const titleToRender =
       title || fallbackProps.title || fallbackProps.defaultTitle
-    const noAnimationUsed = isTrue(noAnimation)
+    const noAnimationUsed = noAnimation
     const itemsToRender = props.items || []
     const contentToRender = props.text || props.children
 
@@ -656,7 +653,7 @@ export default class GlobalStatus extends React.PureComponent {
                 {iconToRender}
               </span>
               {titleToRender}
-              {!isTrue(hideCloseButton) && (
+              {!hideCloseButton && (
                 <Button
                   text={closeText}
                   title={closeText}

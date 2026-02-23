@@ -9,7 +9,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import {
-  isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
   validateDOMAttributes,
@@ -237,11 +236,7 @@ export default class Dropdown extends React.PureComponent {
         open={false}
         tagName="dnb-dropdown"
         ignoreEvents={false}
-        preventSelection={
-          isTrue(moreMenu) ||
-          isTrue(actionMenu) ||
-          isTrue(preventSelection)
-        }
+        preventSelection={moreMenu || actionMenu || preventSelection}
       >
         <DropdownInstance {...this.props} id={id} />
       </DrawerListProvider>
@@ -266,7 +261,7 @@ class DropdownInstance extends React.PureComponent {
   }
 
   componentDidMount() {
-    if (isTrue(this.props.open)) {
+    if (this.props.open) {
       this.setVisible()
     }
   }
@@ -286,19 +281,19 @@ class DropdownInstance extends React.PureComponent {
   }
 
   onFocusHandler = () => {
-    if (isTrue(this.props.openOnFocus)) {
+    if (this.props.openOnFocus) {
       this.setVisible()
     }
   }
 
   onBlurHandler = () => {
-    if (isTrue(this.props.openOnFocus)) {
+    if (this.props.openOnFocus) {
       this.setHidden()
     }
   }
 
   onClickHandler = () => {
-    if (isTrue(this.props.disabled)) {
+    if (this.props.disabled) {
       return // stop here
     }
     if (
@@ -480,16 +475,15 @@ class DropdownInstance extends React.PureComponent {
 
     let { icon, iconPosition, align } = props
 
-    const handleAsMenu =
-      isTrue(actionMenu) || isTrue(moreMenu) || isTrue(preventSelection)
+    const handleAsMenu = actionMenu || moreMenu || preventSelection
 
     const title = this.getTitle(_title)
-    const isPopupMenu = isTrue(moreMenu) || !title
+    const isPopupMenu = moreMenu || !title
 
     if (isPopupMenu) {
-      icon = icon || (isTrue(moreMenu) ? 'more' : 'chevron_down')
+      icon = icon || (moreMenu ? 'more' : 'chevron_down')
     }
-    if (isPopupMenu || isTrue(actionMenu)) {
+    if (isPopupMenu || actionMenu) {
       if (iconPosition !== 'right' && align !== 'right') {
         iconPosition = 'left'
         align = 'left'
@@ -498,7 +492,7 @@ class DropdownInstance extends React.PureComponent {
     // TODO: This is an temporary fix for now.
     // We believe this can be removed and replaced by placing the triangle based on,
     // calculating the position based on the dropdowns width.
-    if (isTrue(independentWidth) && iconPosition !== 'left' && !align) {
+    if (independentWidth && iconPosition !== 'left' && !align) {
       align = 'right'
     }
 
@@ -518,11 +512,11 @@ class DropdownInstance extends React.PureComponent {
         labelDirection && `dnb-dropdown--${labelDirection}`,
         `dnb-dropdown--icon-position-${iconPosition || 'right'}`,
         isPopupMenu && 'dnb-dropdown--is-popup',
-        isTrue(actionMenu) && `dnb-dropdown--action-menu`,
-        (isTrue(independentWidth) || isTrue(actionMenu)) &&
+        actionMenu && `dnb-dropdown--action-menu`,
+        (independentWidth || actionMenu) &&
           'dnb-dropdown--independent-width',
         size && `dnb-dropdown--${size}`,
-        isTrue(stretch) && `dnb-dropdown--stretch`,
+        stretch && `dnb-dropdown--stretch`,
         `dnb-dropdown--${align || 'right'}`,
         status && `dnb-dropdown__status--${statusState}`,
         showStatus && 'dnb-dropdown__form-status',
@@ -672,7 +666,7 @@ class DropdownInstance extends React.PureComponent {
                 keepOpen={keepOpen}
                 preventClose={preventClose}
                 independentWidth={
-                  isTrue(independentWidth) || isPopupMenu || actionMenu
+                  independentWidth || isPopupMenu || actionMenu
                 }
                 isPopup={isPopupMenu || actionMenu}
                 alignDrawer={align || 'left'}

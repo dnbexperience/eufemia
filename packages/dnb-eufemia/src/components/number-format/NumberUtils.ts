@@ -11,11 +11,7 @@ import {
   CURRENCY_DISPLAY,
   CURRENCY_FALLBACK_DISPLAY,
 } from '../../shared/defaults'
-import {
-  warn,
-  isTrue,
-  escapeRegexChars,
-} from '../../shared/component-helper'
+import { warn, escapeRegexChars } from '../../shared/component-helper'
 import { IS_MAC, IS_WIN } from '../../shared/helpers'
 import locales from '../../shared/locales'
 
@@ -180,7 +176,7 @@ export const format = (
     }
   }
 
-  if (isTrue(clean)) {
+  if (clean) {
     value = cleanNumber(value)
   }
 
@@ -197,15 +193,15 @@ export const format = (
     value = formatDecimals(value, decimals, rounding, opts)
   } else if (
     typeof opts.maximumFractionDigits === 'undefined' &&
-    !isTrue(percent) &&
-    !isTrue(currency)
+    !percent &&
+    !currency
   ) {
     // if no decimals are set, opts.maximumFractionDigits is set
     // why do we this? because the ".toLocaleString" will else use 3 as the default
     opts.maximumFractionDigits = 20
   }
 
-  if (isTrue(phone)) {
+  if (phone) {
     type = 'phone'
     const { number: _number, aria: _aria } = formatPhone(value, locale)
 
@@ -214,26 +210,26 @@ export const format = (
     }
     display = _number
     aria = _aria
-  } else if (isTrue(ban)) {
+  } else if (ban) {
     type = 'ban' // Bank Account Number
     const { number: _number, aria: _aria } = formatBAN(value, locale)
 
     display = _number
     aria = _aria
-  } else if (isTrue(nin)) {
+  } else if (nin) {
     type = 'nin' // National Identification Number
     const { number: _number, aria: _aria } = formatNIN(value, locale)
 
     display = _number
     aria = _aria
-  } else if (isTrue(org)) {
+  } else if (org) {
     type = 'org' // organization number
 
     const { number: _number, aria: _aria } = formatORG(value, locale)
 
     display = _number
     aria = _aria
-  } else if (isTrue(percent)) {
+  } else if (percent) {
     if (decimals === null) {
       if (typeof opts.maximumFractionDigits === 'undefined') {
         decimals = countDecimals(value)
@@ -246,11 +242,11 @@ export const format = (
     }
 
     display = formatNumber(value / 100, locale, opts)
-  } else if (isTrue(currency) || typeof currency === 'string') {
+  } else if (currency === true || typeof currency === 'string') {
     type = 'currency'
 
     opts.currency =
-      opts.currency || (isTrue(currency) ? CURRENCY : currency)
+      opts.currency || (currency === true ? CURRENCY : currency)
 
     handleCompactBeforeDisplay({ value, locale, compact, decimals, opts })
 
@@ -284,7 +280,7 @@ export const format = (
 
     let formatter = undefined
 
-    if (isTrue(omitCurrencySign)) {
+    if (omitCurrencySign) {
       formatter = (item) => {
         switch (item.type) {
           case 'literal':
@@ -1138,10 +1134,10 @@ function handleCompactBeforeDisplay({
   opts.notation = 'compact'
 
   // For numbers under 1M we do
-  if (isTrue(compact) && locale && /(no|nb|nn)$/i.test(locale)) {
+  if (compact === true && locale && /(no|nb|nn)$/i.test(locale)) {
     opts.compactDisplay = Math.abs(value) < 1000000 ? 'long' : 'short'
   } else {
-    opts.compactDisplay = !isTrue(compact) ? compact : 'short'
+    opts.compactDisplay = compact !== true ? compact : 'short'
   }
 
   if (typeof opts.maximumSignificantDigits === 'undefined') {

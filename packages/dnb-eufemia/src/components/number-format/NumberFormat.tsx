@@ -12,7 +12,6 @@ import clsx from 'clsx'
 import Context from '../../shared/Context'
 import {
   warn,
-  isTrue,
   makeUniqueId,
   validateDOMAttributes,
   convertJsxToString,
@@ -219,8 +218,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
 
   onClickHandler = () => {
     if (
-      (isTrue(this.props.selectAll) ||
-        isTrue(this.props.alwaysSelectAll)) &&
+      (this.props.selectAll || this.props.alwaysSelectAll) &&
       !hasSelectedText()
     ) {
       this.setFocus()
@@ -240,7 +238,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       this._selectionRef.current?.focus({ preventScroll: true })
       this.selectAll()
 
-      if (!isTrue(this.props.copySelection)) {
+      if (!this.props.copySelection) {
         this.outsideClick = detectOutsideClick(
           this._ref.current,
           this.onBlurHandler
@@ -361,8 +359,8 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       rounding,
       signDisplay,
       options,
-      clean: isTrue(clean),
-      cleanCopyValue: isTrue(cleanCopyValue),
+      clean: clean,
+      cleanCopyValue: cleanCopyValue,
       returnAria: true,
       invalidAriaText:
         locale && locale !== this.context.locale
@@ -382,7 +380,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       }
 
       // only replace if the prop is "true" and not actually a currency
-      if (useContext.currency && isTrue(currency)) {
+      if (useContext.currency && currency === true) {
         formatOptions.options = formatOptions.options
           ? { ...formatOptions.options }
           : {}
@@ -428,9 +426,9 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       className: clsx(
         'dnb-number-format',
         className,
-        (isTrue(currency) || typeof currency === 'string') &&
+        (currency === true || typeof currency === 'string') &&
           'dnb-number-format--currency',
-        isTrue(selectAll) && 'dnb-number-format--select-all',
+        selectAll && 'dnb-number-format--select-all',
         this.state.selected && 'dnb-number-format--selected',
         link && 'dnb-anchor',
         monospace && 'dnb-number-format--monospace',
@@ -445,7 +443,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     }
 
     const displayParams = {}
-    if (isTrue(selectAll) || isTrue(copySelection)) {
+    if (selectAll || copySelection) {
       displayParams.onClick = this.onClickHandler
       displayParams.onContextMenu = this.onContextMenuHandler
     }
@@ -454,7 +452,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     skeletonDOMAttributes(attributes, skeleton, this.context)
 
     if (link) {
-      if (isTrue(link)) {
+      if (link) {
         link = 'tel'
       }
       return (
@@ -489,7 +487,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
           }
         />
 
-        {isTrue(copySelection) && (
+        {copySelection && (
           <span
             className="dnb-number-format__selection dnb-no-focus"
             ref={this._selectionRef}

@@ -12,7 +12,6 @@ import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import TextCounter from '../../fragments/text-counter/TextCounter'
 import {
-  isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
   validateDOMAttributes,
@@ -228,7 +227,7 @@ export default class Textarea extends React.PureComponent {
         : (props.innerRef.current = this._ref.current)
     }
 
-    if (isTrue(props.autoResize) && typeof window !== 'undefined') {
+    if (props.autoResize && typeof window !== 'undefined') {
       this.setAutosize()
       try {
         // eslint-disable-next-line compat/compat
@@ -275,7 +274,7 @@ export default class Textarea extends React.PureComponent {
     const { value } = event.target
 
     const props = this.getProps()
-    const autoResize = isTrue(props.autoResize)
+    const autoResize = props.autoResize
 
     if (autoResize) {
       this.prepareAutosize()
@@ -429,7 +428,7 @@ export default class Textarea extends React.PureComponent {
       value: hasValue ? value : '',
       id,
       name: id,
-      disabled: isTrue(disabled) || isTrue(skeleton),
+      disabled: disabled || skeleton,
       'aria-placeholder': placeholder
         ? convertJsxToString(placeholder)
         : undefined,
@@ -468,8 +467,8 @@ export default class Textarea extends React.PureComponent {
           this.resizeModifier &&
           `dnb-textarea__resize--${this.resizeModifier}`,
         labelDirection && `dnb-textarea--${labelDirection}`,
-        isTrue(stretch) && `dnb-textarea--stretch`,
-        isTrue(keepPlaceholder) && `dnb-textarea--keep-placeholder`,
+        stretch && `dnb-textarea--stretch`,
+        keepPlaceholder && `dnb-textarea--keep-placeholder`,
         'dnb-form-component',
         createSkeletonClass(null, skeleton),
         createSpacingClasses(props),
@@ -488,7 +487,7 @@ export default class Textarea extends React.PureComponent {
       className: clsx('dnb-textarea__shell'),
     }
 
-    if (isTrue(disabled) || isTrue(skeleton)) {
+    if (disabled || skeleton) {
       shellParams['aria-disabled'] = true
     }
 

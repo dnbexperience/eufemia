@@ -10,7 +10,6 @@ import Context from '../../shared/Context'
 import {
   makeUniqueId,
   extendPropsWithContext,
-  isTrue,
 } from '../../shared/component-helper'
 import { getOffsetTop } from '../../shared/helpers'
 import IconPrimary from '../icon-primary/IconPrimary'
@@ -134,7 +133,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
   const attributes = rest as ElementAllProps & { to: string | undefined }
   const internalId = id || 'id' + makeUniqueId()
   const as = element || 'a'
-  const isDisabled = isTrue(disabled)
+  const isDisabled = disabled
   const hasNoHover = noHover || isDisabled
   const hasNoAnimation = noAnimation || isDisabled
   const hasNoUnderline = noUnderline || isDisabled
