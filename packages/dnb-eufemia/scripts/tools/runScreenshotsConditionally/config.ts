@@ -13,6 +13,12 @@ export const GLOBAL_VISUAL_FILES = new Set([
 // Shared style/test infra paths are cross-cutting; selective mapping is too error-prone here.
 export const GLOBAL_VISUAL_PATH_PREFIXES = ['src/style/', 'src/core/jest/']
 
+// Source paths that should not influence visual screenshot selection.
+export const NON_VISUAL_SOURCE_PATH_PREFIXES = []
+
+// Source files that should not trigger visual dependency expansion.
+export const NON_VISUAL_SOURCE_FILES = new Set([])
+
 // Protected branches always run full suite to maximize confidence before broad consumption.
 export const CI_ALWAYS_RUN_BRANCHES = ['main', 'beta']
 
