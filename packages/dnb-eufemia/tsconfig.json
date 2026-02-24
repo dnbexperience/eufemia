@@ -9,7 +9,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "lib": ["es2022", "dom"],
-    "types": ["node", "jest"],
+    "types": ["node", "jest", "react", "react-dom"],
     "outDir": "./build",
     "rootDir": ".",
     "baseUrl": "."

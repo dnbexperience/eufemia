@@ -316,10 +316,10 @@ describe('Card', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref: React.RefObject<HTMLInputElement>
+    let ref: React.RefObject<HTMLDivElement>
 
     function MockComponent() {
-      ref = React.useRef()
+      ref = React.useRef<HTMLDivElement | null>(null)
       return (
         <Card innerRef={ref} element="div">
           Content

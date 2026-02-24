@@ -43,7 +43,9 @@
     "msgpackr": "1.11.8",
     "jest-environment-jsdom/jsdom": "20.0.3",
     "gatsby/socket.io": "4.8.3",
-    "gatsby/browserslist": "4.28.1"
+    "gatsby/browserslist": "4.28.1",
+    "@types/react": "19.2.8",
+    "@types/react-dom": "19.2.3"
   },
   "engines": {
     "node": ">=24.x",

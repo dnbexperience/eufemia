@@ -84,7 +84,7 @@ export type TableProps = {
    *
    * Default: `undefined`
    */
-  collapseAllHandleRef?: React.MutableRefObject<() => void>
+  collapseAllHandleRef?: React.RefObject<() => void>
 } & StickyTableHeaderProps
 
 export type TableAllProps = TableProps &
@@ -132,7 +132,9 @@ const Table = (componentProps: TableAllProps) => {
 
   useEffect(() => {
     if (collapseAllHandleRef) {
-      collapseAllHandleRef.current = () => {
+      const mutableCollapseAllHandleRef =
+        collapseAllHandleRef as React.MutableRefObject<() => void>
+      mutableCollapseAllHandleRef.current = () => {
         collapseTrCallbacks.current.forEach((callback) => callback())
       }
     }

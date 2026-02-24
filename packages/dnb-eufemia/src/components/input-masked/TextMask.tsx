@@ -120,7 +120,7 @@ export default class TextMask extends React.PureComponent<TextMaskProps> {
     }
   }
 
-  render(): JSX.Element {
+  render(): React.JSX.Element {
     const {
       inputElement,
       inputRef, // eslint-disable-line

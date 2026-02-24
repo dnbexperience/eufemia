@@ -1593,7 +1593,7 @@ describe('Dropdown component', () => {
     let ref: React.RefObject<HTMLButtonElement>
 
     function MockComponent() {
-      ref = React.useRef()
+      ref = React.useRef<HTMLButtonElement | null>(null)
       return <Dropdown {...props} buttonRef={ref} />
     }
 
@@ -1620,10 +1620,10 @@ describe('Dropdown component', () => {
   })
 
   it('gets valid innerRef element', () => {
-    let ref: React.RefObject<HTMLButtonElement>
+    let ref: React.RefObject<HTMLSpanElement>
 
     function MockComponent() {
-      ref = React.useRef()
+      ref = React.useRef<HTMLSpanElement | null>(null)
       return <Dropdown {...props} innerRef={ref} />
     }
 

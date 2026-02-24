@@ -91,7 +91,7 @@ function Thumb({ value, currentIndex }: ThumbProps) {
   }
 
   const thumbParams = attributes as Record<string, unknown>
-  const elemRef = React.useRef<HTMLElement>()
+  const elemRef = React.useRef<HTMLElement>(undefined)
   const [forceActive, setForceActive] = React.useState(false)
   validateDOMAttributes(allProps, thumbParams) // because we send along rest attributes
 

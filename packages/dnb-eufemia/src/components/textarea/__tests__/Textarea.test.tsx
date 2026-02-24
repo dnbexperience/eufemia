@@ -326,7 +326,7 @@ describe('Textarea component', () => {
     let ref: React.RefObject<HTMLTextAreaElement>
 
     function MockComponent() {
-      ref = React.useRef()
+      ref = React.useRef<HTMLTextAreaElement | null>(null)
       return <Textarea {...props} innerRef={ref} />
     }
 

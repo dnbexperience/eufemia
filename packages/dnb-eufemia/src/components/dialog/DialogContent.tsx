@@ -46,7 +46,7 @@ export default function DialogContent({
   declineText,
   confirmText,
   ...rest
-}: DialogContentProps): JSX.Element {
+}: DialogContentProps): React.JSX.Element {
   const context = useContext(ModalContext)
   const { minWidth, maxWidth } = checkMinMaxWidth(
     minWidthProp,

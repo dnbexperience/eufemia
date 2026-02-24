@@ -173,6 +173,8 @@ describe('DateFormat', () => {
       expect(tooltipElem).toHaveTextContent('2025')
       expect(tooltipElem).toHaveTextContent('fredag 1. august 2025')
 
+      // Flush all pending timers and React updates before switching back to real timers
+      jest.runOnlyPendingTimers()
       jest.useRealTimers()
     })
 

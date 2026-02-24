@@ -57,10 +57,10 @@ It's also possible to use accordion to expand the table with more rows.
 You can collapse all expanded rows by sending a ref to the `collapseAllHandleRef` property and calling the `.current()` function on your ref.
 
 ```jsx
-const myTableCollapseAll = React.useRef<() => void>()
+const myTableCollapseAll = React.useRef<(() => void) | undefined>(undefined)
 
 return (
-  <button onClick={() => myTableCollapseAll.current()}>
+  <button onClick={() => myTableCollapseAll.current?.()}>
     Close all rows
   </button>
 

@@ -8,7 +8,7 @@ export type ListAllPropsReturn<Data> = {
 }
 export type ListAllPropsProps<Data> = {
   log?: boolean
-  generateRef?: React.MutableRefObject<() => ListAllPropsReturn<Data>>
+  generateRef?: React.RefObject<() => ListAllPropsReturn<Data>>
   filterData?: FilterData
   children: React.ReactNode
 }
@@ -105,7 +105,10 @@ export default function ListAllProps<Data extends JsonObject = JsonObject>(
     }
 
     if (generateRef) {
-      generateRef.current = generate
+      const mutableGenerateRef = generateRef as React.MutableRefObject<
+        () => ListAllPropsReturn<Data>
+      >
+      mutableGenerateRef.current = generate
     }
   }
 

@@ -1376,7 +1376,7 @@ export function Accodion() {
       return <Input label="Label" labelSrOnly size={4} />
     }
     const Content = ({ shareId }) => {
-      const ref = React.useRef()
+      const ref = React.useRef<HTMLButtonElement | null>(null)
       const shareHandler = () => {
         const url = new URL(location.href)
         url.hash = '#' + shareId

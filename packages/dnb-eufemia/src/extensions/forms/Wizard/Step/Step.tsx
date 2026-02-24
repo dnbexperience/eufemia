@@ -54,7 +54,7 @@ export type Props = ComponentProps &
     prerenderFieldProps?: boolean
   }
 
-function Step(props: Props): JSX.Element {
+function Step(props: Props): React.JSX.Element {
   const {
     id,
     className,
@@ -183,7 +183,7 @@ function Step(props: Props): JSX.Element {
   if (prerenderFieldProps) {
     return (
       <WizardStepContext.Provider value={{ index }}>
-        {childrenWithFieldProvider as JSX.Element}
+        {childrenWithFieldProvider as React.JSX.Element}
       </WizardStepContext.Provider>
     )
   }

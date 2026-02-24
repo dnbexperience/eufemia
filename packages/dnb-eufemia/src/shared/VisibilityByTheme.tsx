@@ -45,7 +45,7 @@ export default function VisibilityByTheme({
     }
   }
 
-  return children as JSX.Element
+  return children as React.JSX.Element
 
   function match(theme: ThemeProps) {
     return (themeItem: ThemeItem) => {

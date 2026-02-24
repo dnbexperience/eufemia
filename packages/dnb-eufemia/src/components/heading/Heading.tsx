@@ -141,7 +141,7 @@ export type HeadingAllProps = HeadingProps &
 export default function Heading(props: HeadingAllProps) {
   const context = React.useContext(Context)
   const headingContext = React.useContext(HeadingContext)
-  const _ref = React.useRef()
+  const _ref = React.useRef(undefined)
 
   const {
     text,
@@ -282,7 +282,7 @@ export default function Heading(props: HeadingAllProps) {
 
   const Element = element as
     | string
-    | ((props: React.HTMLProps<HTMLElement>) => JSX.Element) // typecasting to avoid typescript parser error ts(2590)
+    | ((props: React.HTMLProps<HTMLElement>) => React.JSX.Element) // typecasting to avoid typescript parser error ts(2590)
 
   return (
     <Element

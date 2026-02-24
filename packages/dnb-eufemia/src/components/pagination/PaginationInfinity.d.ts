@@ -6,12 +6,8 @@ export interface InfinityScrollerProps
   extends React.HTMLProps<HTMLElement> {
   children?: InfinityScrollerChildren;
 }
-export default class InfinityScroller extends React.Component<
-  InfinityScrollerProps,
-  any
-> {
-  render(): JSX.Element;
-}
+declare const InfinityScroller: React.ComponentClass<InfinityScrollerProps>;
+export default InfinityScroller;
 export type InfinityLoadButtonElement =
   | Record<string, unknown>
   | React.ReactNode
@@ -27,9 +23,4 @@ export interface InfinityLoadButtonProps {
   icon: string;
   onClick: (...args: any[]) => any;
 }
-export class InfinityLoadButton extends React.Component<
-  InfinityLoadButtonProps,
-  any
-> {
-  render(): JSX.Element;
-}
+export declare const InfinityLoadButton: React.ComponentClass<InfinityLoadButtonProps>;

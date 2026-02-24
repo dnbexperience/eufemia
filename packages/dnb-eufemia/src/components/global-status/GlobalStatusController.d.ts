@@ -5,33 +5,24 @@ export interface GlobalStatusControllerProps
   statusId?: string;
   removeOnUnmount?: boolean;
 }
-export default class GlobalStatusController extends React.Component<
-  GlobalStatusControllerProps,
-  any
-> {
-  static defaultProps: object;
-  render(): JSX.Element;
-}
+declare const GlobalStatusController: React.ComponentClass<GlobalStatusControllerProps> & {
+  defaultProps: object;
+};
+export default GlobalStatusController;
 export interface GlobalStatusRemoveProps {
   id?: string;
   statusId: string;
 }
-export class GlobalStatusRemove extends React.Component<
-  GlobalStatusRemoveProps,
-  any
-> {
-  static defaultProps: object;
-  render(): JSX.Element;
-}
+export declare const GlobalStatusRemove: React.ComponentClass<GlobalStatusRemoveProps> & {
+  defaultProps: object;
+};
 export interface GlobalStatusInterceptorProps
   extends React.HTMLProps<HTMLElement> {
   id?: string;
 }
-export class GlobalStatusInterceptor extends React.Component<
-  GlobalStatusInterceptorProps,
-  any
-> {
-  static defaultProps: object;
-  render(): JSX.Element;
-  add: (props: { statusId: string; item?: GlobalStatusItem }) => void;
+export declare class GlobalStatusInterceptor {
+  constructor(props: GlobalStatusInterceptorProps);
+  add(props: Record<string, unknown>): void;
+  update(props: Record<string, unknown>): void;
+  remove(): void;
 }

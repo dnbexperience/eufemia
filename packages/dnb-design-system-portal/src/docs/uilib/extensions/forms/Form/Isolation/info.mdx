@@ -90,7 +90,7 @@ You can either use the `Form.Isolation.CommitButton` or provide a custom ref han
 import { Form, Field, JSONSchema } from '@dnb/eufemia/extensions/forms'
 
 function MyForm() {
-  const commitHandleRef = React.useRef<() => void>()
+  const commitHandleRef = React.useRef<(() => void) | undefined>(undefined)
 
   return (
     <Form.Handler>

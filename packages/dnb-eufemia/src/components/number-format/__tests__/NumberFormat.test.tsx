@@ -1821,7 +1821,7 @@ describe('NumberFormat copy tooltip', () => {
     jest.useRealTimers()
   })
 
-  it('shows the tooltip from the NumberFormat copy handler', () => {
+  it('shows the tooltip from the NumberFormat copy handler', async () => {
     const { container } = render(<Component value={1234} />)
     const selection = container.querySelector<HTMLSpanElement>(
       '.dnb-number-format__selection'
@@ -1834,7 +1834,7 @@ describe('NumberFormat copy tooltip', () => {
     fireEvent.copy(selection)
 
     const tooltip = document.querySelector('.dnb-tooltip')
-    expect(tooltip).not.toBeNull()
+    expect(tooltip).toBeInTheDocument()
     expect(tooltip).toHaveClass('dnb-tooltip--active')
     expect(
       document.querySelector('.dnb-tooltip__content')?.textContent
@@ -1842,6 +1842,10 @@ describe('NumberFormat copy tooltip', () => {
 
     jest.advanceTimersByTime(COPY_TOOLTIP_TIMEOUT)
 
-    expect(document.querySelector('.dnb-tooltip--active')).toBeNull()
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-tooltip--active')
+      ).not.toBeInTheDocument()
+    })
   })
 })

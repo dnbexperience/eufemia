@@ -9,13 +9,12 @@ import { findElementInChildren } from '../../../shared/component-helper'
 import Section, { SectionProps } from '../../section/Section'
 import ModalContext from '../ModalContext'
 import H1 from '../../../elements/H1'
-import { ReactChildType } from '../types'
 
 export interface ModalHeaderProps extends Omit<SectionProps, 'children'> {
   /**
    * The content which will appear when triggering the modal/drawer.
    */
-  children?: ReactChildType
+  children?: React.ReactNode
 
   /**
    * The modal/drawer title. Displays on the very top of the content.

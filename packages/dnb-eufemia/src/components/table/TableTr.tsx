@@ -128,6 +128,9 @@ function useHandleTrVariant({ variant }) {
    * Handle odd/even
    */
   const countRef = tableContext?.trCountRef.current
+  const lastRenderAliasRef = React.useRef(undefined)
+  const hasIncrementedRef = React.useRef(false)
+
   const increment = React.useCallback(() => {
     if (typeof countRef === 'undefined') {
       return 0
@@ -146,6 +149,7 @@ function useHandleTrVariant({ variant }) {
   const [count, setCount] = React.useState(() => {
     // SSR Support
     if (typeof window === 'undefined') {
+      hasIncrementedRef.current = true
       return increment()
     }
   })
@@ -153,7 +157,15 @@ function useHandleTrVariant({ variant }) {
   // StrictMode support
   React.useEffect(() => {
     // SSR will not execute useEffect
-    setCount(increment())
+    if (lastRenderAliasRef.current !== tableContext?.rerenderAlias) {
+      lastRenderAliasRef.current = tableContext?.rerenderAlias
+      hasIncrementedRef.current = false
+    }
+
+    if (!hasIncrementedRef.current) {
+      hasIncrementedRef.current = true
+      setCount(increment())
+    }
   }, [tableContext?.rerenderAlias, increment])
 
   /**

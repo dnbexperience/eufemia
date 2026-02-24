@@ -10,14 +10,13 @@ import Section from '../../section/Section'
 import ModalContext from '../ModalContext'
 import CloseButton from './CloseButton'
 import { SectionProps } from '../../Section'
-import { ReactChildType } from '../types'
 
 export interface ModalHeaderBarProps
   extends Omit<SectionProps, 'children'> {
   /**
    * The content which will appear when triggering the modal/drawer.
    */
-  children?: ReactChildType
+  children?: React.ReactNode
 
   /**
    * Give the inner content wrapper a class name (maps to `dnb-modal__content__inner`).

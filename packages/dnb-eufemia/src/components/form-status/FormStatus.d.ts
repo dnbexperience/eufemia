@@ -97,34 +97,33 @@ export interface FormStatusProps
    */
   children?: FormStatusChildren;
 }
-export default class FormStatus extends React.Component<
-  FormStatusProps,
-  any
-> {
-  static defaultProps: object;
-  render(): JSX.Element;
-}
+declare const FormStatus: React.ComponentClass<FormStatusProps> & {
+  defaultProps: object;
+};
+export default FormStatus;
 export interface ErrorIconProps {
   /**
    * The `title` attribute in the status.
    */
   title?: string;
 }
-export declare const ErrorIcon: (props: ErrorIconProps) => JSX.Element;
+export declare const ErrorIcon: (
+  props: ErrorIconProps
+) => React.JSX.Element;
 export interface WarnIconProps {
   /**
    * The `title` attribute in the status.
    */
   title?: string;
 }
-export declare const WarnIcon: (props: WarnIconProps) => JSX.Element;
+export declare const WarnIcon: (props: WarnIconProps) => React.JSX.Element;
 export interface InfoIconProps {
   /**
    * The `title` attribute in the status.
    */
   title?: string;
 }
-export declare const InfoIcon: (props: InfoIconProps) => JSX.Element;
+export declare const InfoIcon: (props: InfoIconProps) => React.JSX.Element;
 export interface MarketingIconProps {
   /**
    * The `title` attribute in the status.
@@ -133,7 +132,7 @@ export interface MarketingIconProps {
 }
 export declare const MarketingIcon: (
   props: MarketingIconProps
-) => JSX.Element;
+) => React.JSX.Element;
 export type FormStatusIconTypes =
   | typeof ErrorIcon
   | typeof WarnIcon

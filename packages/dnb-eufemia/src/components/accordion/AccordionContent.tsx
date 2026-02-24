@@ -24,7 +24,7 @@ export type AccordionContentProps = Omit<
   'onAnimationStart' | 'onAnimationEnd' | 'children'
 > &
   SpacingProps & {
-    instance?: React.MutableRefObject<unknown>
+    instance?: React.RefObject<unknown>
     className?: string
     children?: React.ReactNode | ((...args: any[]) => any)
   }
@@ -127,7 +127,10 @@ export default function AccordionContent(props: AccordionContentProps) {
 
   React.useState(() => {
     if (instance && Object.hasOwn(instance, 'current')) {
-      instance.current = { setContainerHeight }
+      const mutableInstance = instance as React.MutableRefObject<unknown>
+      mutableInstance.current = {
+        setContainerHeight,
+      }
     }
   })
 

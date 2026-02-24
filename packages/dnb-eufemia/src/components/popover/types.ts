@@ -16,7 +16,7 @@ export type PopoverTargetElementObject = {
 
 export type PopoverTargetElement =
   | React.ReactNode
-  | React.MutableRefObject<unknown>
+  | React.RefObject<unknown>
   | HTMLElement
   | PopoverTargetElementObject
 
@@ -52,7 +52,7 @@ type PopoverOverlayProps = Omit<
 >
 
 export type TriggerAttributes = React.HTMLAttributes<HTMLElement> & {
-  ref?: React.MutableRefObject<HTMLElement> & React.Ref<HTMLElement>
+  ref?: React.RefObject<HTMLElement> & React.Ref<HTMLElement>
 }
 
 type PopoverPropsBase = {
@@ -84,7 +84,7 @@ type PopoverPropsBase = {
    */
   arrowEdgeOffset?: number
   fixedPosition?: boolean
-  contentRef?: React.MutableRefObject<HTMLSpanElement>
+  contentRef?: React.RefObject<HTMLSpanElement>
   /**
    * Skip rendering the popover in a React Portal.
    * When `true`, the popover renders inline in the DOM tree instead of being portaled to document.body.

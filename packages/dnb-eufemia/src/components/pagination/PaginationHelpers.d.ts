@@ -7,9 +7,4 @@ export type PaginationIndicatorIndicatorElement =
 export interface PaginationIndicatorProps {
   indicatorElement?: PaginationIndicatorIndicatorElement;
 }
-export class PaginationIndicator extends React.Component<
-  PaginationIndicatorProps,
-  any
-> {
-  render(): JSX.Element;
-}
+export declare const PaginationIndicator: React.FC<PaginationIndicatorProps>;

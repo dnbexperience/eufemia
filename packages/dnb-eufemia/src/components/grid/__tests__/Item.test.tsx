@@ -104,36 +104,36 @@ describe('Grid.Item', () => {
       document.querySelectorAll('.dnb-grid-item')
 
     expect(elements[0].style['_values']).toEqual({
-      '--large-c-s': '1',
-      '--large-c-e': '13',
-      '--medium-c-s': '1',
-      '--medium-c-e': '3',
+      '--large-c-s': 1,
+      '--large-c-e': 13,
+      '--medium-c-s': 1,
+      '--medium-c-e': 3,
       '--small-c-s': '1',
       '--small-c-e': '-1',
     })
     expect(elements[1].style['_values']).toEqual({
-      '--large-c-e': '5',
-      '--large-c-s': '1',
-      '--medium-c-e': '5',
-      '--medium-c-s': '3',
+      '--large-c-e': 5,
+      '--large-c-s': 1,
+      '--medium-c-e': 5,
+      '--medium-c-s': 3,
       '--small-c-e': '-1',
-      '--small-c-s': '1',
+      '--small-c-s': 1,
     })
     expect(elements[2].style['_values']).toEqual({
-      '--large-c-e': '9',
-      '--large-c-s': '5',
-      '--medium-c-e': '5',
-      '--medium-c-s': '3',
-      '--small-c-e': '3',
-      '--small-c-s': '1',
+      '--large-c-e': 9,
+      '--large-c-s': 5,
+      '--medium-c-e': 5,
+      '--medium-c-s': 3,
+      '--small-c-e': 3,
+      '--small-c-s': 1,
     })
     expect(elements[3].style['_values']).toEqual({
-      '--large-c-e': '13',
-      '--large-c-s': '9',
-      '--medium-c-e': '5',
-      '--medium-c-s': '3',
-      '--small-c-e': '5',
-      '--small-c-s': '3',
+      '--large-c-e': 13,
+      '--large-c-s': 9,
+      '--medium-c-e': 5,
+      '--medium-c-s': 3,
+      '--small-c-e': 5,
+      '--small-c-s': 3,
     })
   })
 
@@ -186,36 +186,36 @@ describe('Grid.Item', () => {
       document.querySelectorAll('.dnb-grid-item')
 
     expect(elements[0].style['_values']).toEqual({
-      '--large-c-e': '13',
-      '--large-c-s': '1',
-      '--medium-c-e': '3',
-      '--medium-c-s': '1',
+      '--large-c-e': 13,
+      '--large-c-s': 1,
+      '--medium-c-e': 3,
+      '--medium-c-s': 1,
       '--small-c-e': '-1',
       '--small-c-s': '1',
     })
     expect(elements[1].style['_values']).toEqual({
-      '--large-c-e': '5',
-      '--large-c-s': '1',
+      '--large-c-e': 5,
+      '--large-c-s': 1,
       '--medium-c-e': '-1',
       '--medium-c-s': '1',
-      '--small-c-e': '5',
-      '--small-c-s': '2',
+      '--small-c-e': 5,
+      '--small-c-s': 2,
     })
     expect(elements[2].style['_values']).toEqual({
-      '--large-c-e': '9',
-      '--large-c-s': '5',
-      '--medium-c-e': '7',
-      '--medium-c-s': '3',
-      '--small-c-e': '5',
-      '--small-c-s': '3',
+      '--large-c-e': 9,
+      '--large-c-s': 5,
+      '--medium-c-e': 7,
+      '--medium-c-s': 3,
+      '--small-c-e': 5,
+      '--small-c-s': 3,
     })
     expect(elements[3].style['_values']).toEqual({
-      '--large-c-e': '13',
-      '--large-c-s': '9',
-      '--medium-c-e': '7',
-      '--medium-c-s': '3',
+      '--large-c-e': 13,
+      '--large-c-s': 9,
+      '--medium-c-e': 7,
+      '--medium-c-s': 3,
       '--small-c-e': '-1',
-      '--small-c-s': '4',
+      '--small-c-s': 4,
     })
   })
 
@@ -232,20 +232,20 @@ describe('Grid.Item', () => {
       document.querySelectorAll('.dnb-grid-item')
 
     expect(elements[0].style['_values']).toEqual({
-      '--small-c-s': '1',
-      '--small-c-e': '7',
-      '--large-c-s': '1',
-      '--large-c-e': '7',
-      '--medium-c-s': '1',
-      '--medium-c-e': '7',
+      '--small-c-s': 1,
+      '--small-c-e': 7,
+      '--large-c-s': 1,
+      '--large-c-e': 7,
+      '--medium-c-s': 1,
+      '--medium-c-e': 7,
     })
     expect(elements[1].style['_values']).toEqual({
-      '--small-c-s': '7',
-      '--small-c-e': '13',
-      '--large-c-s': '7',
-      '--large-c-e': '13',
-      '--medium-c-s': '7',
-      '--medium-c-e': '13',
+      '--small-c-s': 7,
+      '--small-c-e': 13,
+      '--large-c-s': 7,
+      '--large-c-e': 13,
+      '--medium-c-s': 7,
+      '--medium-c-e': 13,
     })
   })
 

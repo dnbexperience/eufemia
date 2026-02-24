@@ -409,9 +409,11 @@ describe('PushContainer', () => {
       // which is inside a requestAnimationFrame.
       await new Promise((resolve) => requestAnimationFrame(resolve))
 
-      expect(
-        document.querySelector('.dnb-forms-iterate__reset-button')
-      ).toBeDisabled()
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-forms-iterate__reset-button')
+        ).toBeDisabled()
+      })
 
       await userEvent.click(screen.getByText('Ola Nordmann'))
       expect(screen.getByLabelText('Ola Nordmann')).toBeChecked()
@@ -1452,7 +1454,9 @@ describe('PushContainer', () => {
         expect(output()).toHaveTextContent('Step 1')
 
         await userEvent.click(nextButton())
-        expect(output()).toHaveTextContent('Step 2')
+        await waitFor(() => {
+          expect(output()).toHaveTextContent('Step 2')
+        })
 
         expect(
           document.querySelector('.dnb-forms-iterate__open-button')
@@ -1462,13 +1466,19 @@ describe('PushContainer', () => {
         ).not.toHaveClass('dnb-height-animation--is-visible')
 
         await userEvent.click(nextButton())
-        expect(output()).toHaveTextContent('Step 2')
+        await waitFor(() => {
+          expect(output()).toHaveTextContent('Step 2')
+        })
 
         await userEvent.click(previousButton())
-        expect(output()).toHaveTextContent('Step 1')
+        await waitFor(() => {
+          expect(output()).toHaveTextContent('Step 1')
+        })
 
         await userEvent.click(nextButton())
-        expect(output()).toHaveTextContent('Step 2')
+        await waitFor(() => {
+          expect(output()).toHaveTextContent('Step 2')
+        })
 
         expect(
           document.querySelector('.dnb-forms-section-edit-block')
@@ -1517,7 +1527,9 @@ describe('PushContainer', () => {
         expect(output()).toHaveTextContent('Step 1')
 
         await userEvent.click(nextButton())
-        expect(output()).toHaveTextContent('Step 2')
+        await waitFor(() => {
+          expect(output()).toHaveTextContent('Step 2')
+        })
 
         expect(
           document.querySelector('.dnb-forms-iterate__open-button')
@@ -1527,13 +1539,19 @@ describe('PushContainer', () => {
         ).not.toHaveClass('dnb-height-animation--is-visible')
 
         await userEvent.click(nextButton())
-        expect(output()).toHaveTextContent('Step 2')
+        await waitFor(() => {
+          expect(output()).toHaveTextContent('Step 2')
+        })
 
         await userEvent.click(previousButton())
-        expect(output()).toHaveTextContent('Step 1')
+        await waitFor(() => {
+          expect(output()).toHaveTextContent('Step 1')
+        })
 
         await userEvent.click(nextButton())
-        expect(output()).toHaveTextContent('Step 2')
+        await waitFor(() => {
+          expect(output()).toHaveTextContent('Step 2')
+        })
 
         expect(
           document.querySelector('.dnb-forms-section-edit-block')
@@ -1541,10 +1559,14 @@ describe('PushContainer', () => {
 
         await userEvent.clear(document.querySelector('input'))
         await userEvent.type(document.querySelector('input'), 'a')
-        expect(document.querySelector('input').value).toBe('a')
+        await waitFor(() => {
+          expect(document.querySelector('input').value).toBe('a')
+        })
 
         await userEvent.click(nextButton())
-        expect(output()).toHaveTextContent('Step 3')
+        await waitFor(() => {
+          expect(output()).toHaveTextContent('Step 3')
+        })
       })
     })
   })
@@ -1743,11 +1765,15 @@ describe('PushContainer', () => {
 
         await userEvent.click(nextButton())
 
-        expect(output()).toHaveTextContent('Step 2')
+        await waitFor(() => {
+          expect(output()).toHaveTextContent('Step 2')
+        })
 
         await userEvent.click(previousButton())
 
-        expect(output()).toHaveTextContent('Step 1')
+        await waitFor(() => {
+          expect(output()).toHaveTextContent('Step 1')
+        })
 
         await userEvent.click(
           document.querySelector('.dnb-forms-iterate__open-button')
@@ -1815,17 +1841,17 @@ describe('PushContainer', () => {
           document.querySelector('.dnb-dialog .dnb-button--primary')
         )
 
-        await waitFor(() => {
+        await waitFor(async () => {
           expect(nextButton()).not.toBeDisabled()
+          await userEvent.click(nextButton())
+          expect(output()).toHaveTextContent('Step 2')
         })
-
-        await userEvent.click(nextButton())
-
-        expect(output()).toHaveTextContent('Step 2')
 
         await userEvent.click(previousButton())
 
-        expect(output()).toHaveTextContent('Step 1')
+        await waitFor(() => {
+          expect(output()).toHaveTextContent('Step 1')
+        })
 
         await userEvent.click(
           document.querySelector('.dnb-forms-iterate__open-button')

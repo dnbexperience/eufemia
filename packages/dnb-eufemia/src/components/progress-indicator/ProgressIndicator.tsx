@@ -59,8 +59,8 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
     CustomSize,
   ] = isValidSize(size) ? [size, undefined] : ['custom-size', size]
 
-  const completeTimeout = useRef<NodeJS.Timeout>()
-  const fadeOutTimeout = useRef<NodeJS.Timeout>()
+  const completeTimeout = useRef<NodeJS.Timeout>(undefined)
+  const fadeOutTimeout = useRef<NodeJS.Timeout>(undefined)
   const [complete, setCompleteState] = useState(false)
 
   const progressNumber =

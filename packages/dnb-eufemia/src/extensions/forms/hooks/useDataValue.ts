@@ -16,7 +16,7 @@ export default function useDataValue<Value>(
   pathProp?: Path | undefined,
   value?: Value
 ) {
-  const dataContextRef = useRef<ContextState>()
+  const dataContextRef = useRef<ContextState>(undefined)
   dataContextRef.current = useContext(DataContext)
   const iterateItemContext = useContext(IterateItemContext)
 

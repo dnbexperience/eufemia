@@ -67,6 +67,12 @@ import {
   normalizeData,
 } from '../../fragments/drawer-list/DrawerListHelpers'
 
+export type AutocompleteClearEvent = {
+  value: string
+  previousValue: string
+  event: React.SyntheticEvent | Event
+}
+
 type AutocompleteMode = 'sync' | 'async'
 type AutocompleteAlign = 'left' | 'right'
 type FormLabelLabelDirection = 'horizontal' | 'vertical'
@@ -82,7 +88,7 @@ type AutocompleteSubmitButtonIcon =
   | ((...args: any[]) => any)
 type AutocompleteInputRef =
   | ((...args: any[]) => any)
-  | React.MutableRefObject<HTMLInputElement | undefined>
+  | React.RefObject<HTMLInputElement | undefined>
 type AutocompleteInputIcon =
   | string
   | React.ReactNode
@@ -94,11 +100,6 @@ type AutocompleteSearchMatch = 'word' | 'starts-with'
 export type AutocompleteData = DrawerListData
 export type AutocompleteOptionsRender = DrawerListOptionsRender
 
-export type AutocompleteClearEvent = {
-  value: string
-  previousValue: string
-  event: React.SyntheticEvent | Event
-}
 export type AutocompleteEventMethods = {
   attributes: Record<string, unknown>
   dataList: DrawerListData
@@ -386,7 +387,7 @@ export default class Autocomplete extends React.PureComponent<AutocompleteAllPro
     children,
   }: {
     children: React.ReactNode
-  }) => JSX.Element
+  }) => React.JSX.Element
   static _formElement: boolean
   static _supportsSpacingProps: boolean
 
@@ -2056,6 +2057,8 @@ class AutocompleteInstance extends React.PureComponent<
       data: _data, // eslint-disable-line
       children: _children, // eslint-disable-line
       direction: _direction, // eslint-disable-line
+      pageOffset: _pageOffset, // eslint-disable-line
+      observerElement: _observerElement, // eslint-disable-line
       id: _id, // eslint-disable-line
       open: _open, // eslint-disable-line
       value: _value, // eslint-disable-line

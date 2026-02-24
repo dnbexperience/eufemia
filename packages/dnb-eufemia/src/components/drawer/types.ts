@@ -1,6 +1,5 @@
 import { ScrollViewAllProps } from '../../fragments/ScrollView'
 import { ModalPropTypes } from '../modal/Modal'
-import { ReactChildType } from '../modal/types'
 
 export type DrawerProps = {
   /**
@@ -43,22 +42,26 @@ export type DrawerContentProps = {
   /**
    * The content which will appear in the navigation, above the header, and side-by-side the close button.
    */
-  navContent?: ReactChildType
+  navContent?: React.ReactNode
 
   /**
    * The content which will appear in the header of the drawer.
    */
-  headerContent?: ReactChildType
+  headerContent?: React.ReactNode
 
   /**
    * The content which will appear when triggering the drawer.
    */
-  modalContent?: ReactChildType
+  modalContent?:
+    | React.ReactNode
+    | ((props: DrawerContentProps) => React.ReactNode)
 
   /**
    * The content which will appear when triggering the modal/drawer.
    */
-  children?: ReactChildType
+  children?:
+    | React.ReactNode
+    | ((props: DrawerContentProps) => React.ReactNode)
 
   /**
    * Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.

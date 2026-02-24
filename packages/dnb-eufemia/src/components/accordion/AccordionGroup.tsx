@@ -83,7 +83,9 @@ const AccordionGroup = (props: AccordionGroupProps) => {
 
   useEffect(() => {
     if (collapseAllHandleRef) {
-      collapseAllHandleRef.current = () => {
+      const mutableCollapseAllHandleRef =
+        collapseAllHandleRef as React.MutableRefObject<() => void>
+      mutableCollapseAllHandleRef.current = () => {
         collapseAccordionCallbacks.current.forEach((callback) =>
           callback()
         )

@@ -494,7 +494,7 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
       ) as string
 
       const TriggerButton = trigger
-        ? (trigger as () => JSX.Element)
+        ? (trigger as () => React.JSX.Element)
         : HelpButtonInstance
 
       return (
