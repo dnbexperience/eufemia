@@ -21,7 +21,7 @@ export default function DoneButton(props: Props) {
   const { setShowError } = useContext(ToolbarContext) || {}
 
   const { doneButton } = useTranslation().IterateEditContainer
-  const valueBackupRef = useRef<unknown>()
+  const valueBackupRef = useRef<unknown>(undefined)
 
   useEffect(() => {
     if (containerMode === 'edit' && !valueBackupRef.current) {

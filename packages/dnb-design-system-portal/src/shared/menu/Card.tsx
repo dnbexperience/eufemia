@@ -18,7 +18,9 @@ type MenuCardProps = {
   url: string
   title: React.ReactNode
   about: React.ReactNode
-  icon: (props?: React.HTMLAttributes<JSX.Element>) => JSX.Element
+  icon: (
+    props?: React.HTMLAttributes<React.JSX.Element>
+  ) => React.JSX.Element
 }
 
 export default function MenuCard(props: MenuCardProps) {

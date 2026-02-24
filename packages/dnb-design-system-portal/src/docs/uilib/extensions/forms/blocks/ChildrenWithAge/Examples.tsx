@@ -119,8 +119,8 @@ export function WithToolbar({ children }) {
       },
     }
   }, [filterData, filterDataPaths])
-  const generatePropsRef = useRef<GeneratePropsRef>()
-  const generateSchemaRef = useRef<GenerateSchemaRef>()
+  const generatePropsRef = useRef<GeneratePropsRef>(undefined)
+  const generateSchemaRef = useRef<GenerateSchemaRef>(undefined)
 
   return (
     <Flex.Stack top="large">

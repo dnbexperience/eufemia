@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { SpaceType, SpacingProps } from '../../shared/types'
 import Space from '../space/Space'
 import {
@@ -121,11 +121,12 @@ export function renderWithSpacing(
     return React.Children.toArray(element).map(
       (child: React.ReactElement) => {
         const children = child?.props?.children
+        const { key: childKey, ...childProps } = child?.props || {}
 
         return React.Children.toArray(children).map((element, i) => {
           return React.cloneElement(
             child,
-            { key: i, ...child?.props },
+            { key: childKey || i, ...childProps },
             wrapWithSpace({ element, spaceProps, wrapInSpace })
           )
         })
@@ -184,7 +185,7 @@ function cloneIntrinsicElementWithSpacing(
 
   return React.cloneElement(element as React.ReactElement, {
     key: spaceProps.key,
-    className: classnames(
+    className: clsx(
       element.props?.className,
       ...createSpacingClasses(spaceProps),
       className

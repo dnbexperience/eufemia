@@ -53,7 +53,7 @@ type LayoutProps = {
 }
 
 function Layout(props: LayoutProps) {
-  const mainRef = React.useRef<HTMLElement>()
+  const mainRef = React.useRef<HTMLElement>(undefined)
 
   const { fullscreen, location, hideSidebar, children } = props
 

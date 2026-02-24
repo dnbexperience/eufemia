@@ -178,13 +178,10 @@ export interface PaginationProps
   onLoad?: (...args: any[]) => any;
   onEnd?: (...args: any[]) => any;
 }
-export default class Pagination extends React.Component<
-  PaginationProps,
-  any
-> {
-  static defaultProps: object;
-  render(): JSX.Element;
-}
+declare const Pagination: React.ComponentClass<PaginationProps> & {
+  defaultProps: object;
+};
+export default Pagination;
 type PaginationInstanceStartupPage = string | number;
 type PaginationInstanceCurrentPage = string | number;
 type PaginationInstancePageCount = string | number;
@@ -362,13 +359,9 @@ interface PaginationInstanceProps extends SpacingProps {
    */
   onEnd?: (...args: any[]) => any;
 }
-declare class PaginationInstance extends React.Component<
-  PaginationInstanceProps,
-  any
-> {
-  static defaultProps: object;
-  render(): JSX.Element;
-}
+declare const PaginationInstance: React.ComponentClass<PaginationInstanceProps> & {
+  defaultProps: object;
+};
 type InfinityMarkerStartupPage = string | number;
 type InfinityMarkerCurrentPage = string | number;
 type InfinityMarkerPageCount = string | number;
@@ -541,13 +534,9 @@ interface InfinityMarkerProps extends SpacingProps {
    */
   onEnd?: (...args: any[]) => any;
 }
-export class InfinityMarker extends React.Component<
-  InfinityMarkerProps,
-  any
-> {
-  static defaultProps: object;
-  render(): JSX.Element;
-}
+export declare const InfinityMarker: React.ComponentClass<InfinityMarkerProps> & {
+  defaultProps: object;
+};
 type PaginationContentChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
@@ -559,10 +548,10 @@ interface PaginationContentProps {
 }
 declare const PaginationContent: (
   props: PaginationContentProps
-) => JSX.Element;
+) => React.JSX.Element;
 export type CreatePaginationReturn = {
-  Pagination: (props?: Record<string, unknown>) => JSX.Element;
-  InfinityMarker: (props?: Record<string, unknown>) => JSX.Element;
+  Pagination: (props?: Record<string, unknown>) => React.JSX.Element;
+  InfinityMarker: (props?: Record<string, unknown>) => JReact.SX.Element;
   setContent: (pageNumber: number, content: React.ReactNode) => void;
   resetContent: () => void;
   resetInfinity: () => void;

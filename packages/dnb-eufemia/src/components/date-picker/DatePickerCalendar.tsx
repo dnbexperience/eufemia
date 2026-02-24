@@ -92,7 +92,7 @@ export type DatePickerCalendarProps = Omit<
   ) => void
   onKeyDown?: (
     event: React.KeyboardEvent<HTMLTableElement | HTMLButtonElement>,
-    tableRef: React.MutableRefObject<HTMLTableElement>,
+    tableRef: React.RefObject<HTMLTableElement>,
     nr: number
   ) => void
   /**
@@ -169,7 +169,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     onlyMonth,
   } = props
 
-  const tableRef = useRef<React.ElementRef<'table'>>()
+  const tableRef = useRef<React.ElementRef<'table'> | null>(null)
   const days = useRef<Record<string, Array<CalendarDay>>>({})
   const cache = useRef<Record<string, CalendarDay[][]>>({})
 

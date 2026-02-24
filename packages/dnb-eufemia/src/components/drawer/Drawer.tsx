@@ -60,7 +60,7 @@ function Drawer({
   space,
 
   ...props
-}: DrawerAllProps): JSX.Element {
+}: DrawerAllProps): React.JSX.Element {
   const context = useContext(Context)
 
   const modalProps = removeUndefinedProps({

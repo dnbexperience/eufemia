@@ -50,7 +50,9 @@ export default function useStep(
   const pendingSetActiveIndexCallsRef = useRef<
     Array<Parameters<SetActiveIndexHandler>>
   >([])
-  const setActiveIndexRef = useRef<SetActiveIndexHandler>()
+  const setActiveIndexRef = useRef<SetActiveIndexHandler | undefined>(
+    undefined
+  )
 
   const setActiveIndexFromHook = useCallback<SetActiveIndexHandler>(
     (index, options) => {

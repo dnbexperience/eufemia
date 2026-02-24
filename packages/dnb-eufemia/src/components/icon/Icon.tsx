@@ -42,14 +42,14 @@ export type ValidIconNumericSize = DefaultIconSizes[keyof DefaultIconSizes]
 type IconType =
   | string
   | React.ReactElement<SVGElement>
-  | ((props?: unknown) => JSX.Element)
+  | ((props?: unknown) => React.JSX.Element)
   | false
 
 /** For external usage */
 export type IconIcon =
   | IconType
   | FormStatusIconTypes
-  | ((props?: unknown) => JSX.Element)
+  | ((props?: unknown) => React.JSX.Element)
 
 export type IconSize =
   | ValidIconNumericSize

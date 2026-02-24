@@ -24,7 +24,7 @@ test.describe('Colors for UI', () => {
   test('table should have correct color', async ({ page }) => {
     await expect(
       page.locator('.dnb-table__scroll-view table tbody tr td').first()
-    ).toHaveCSS('color', 'rgb(0, 114, 114)')
+    ).toHaveCSS('background-color', 'rgb(0, 114, 114)')
 
     const lastCellText = await page.textContent(
       '.dnb-table__scroll-view table tbody tr td:last-of-type'
@@ -48,7 +48,7 @@ test.describe('Colors for Sbanken', () => {
   test('table should have correct color', async ({ page }) => {
     await expect(
       page.locator('.dnb-table__scroll-view table tbody tr td').first()
-    ).toHaveCSS('color', 'rgb(28, 27, 78)')
+    ).toHaveCSS('background-color', 'rgb(28, 27, 78)')
 
     const lastCellText = await page.textContent(
       '.dnb-table__scroll-view table tbody tr td:last-of-type'

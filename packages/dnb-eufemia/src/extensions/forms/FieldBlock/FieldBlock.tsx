@@ -198,9 +198,9 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
   const hasCustomWidth = /\d(rem)$/.test(String(width))
   const hasCustomContentWidth = /\d(rem)$/.test(String(contentWidth))
 
-  const infoRef = useRef<UseFieldProps['info']>()
-  const warningRef = useRef<UseFieldProps['warning']>()
-  const errorRef = useRef<UseFieldProps['error']>()
+  const infoRef = useRef<UseFieldProps['info']>(undefined)
+  const warningRef = useRef<UseFieldProps['warning']>(undefined)
+  const errorRef = useRef<UseFieldProps['error']>(undefined)
 
   const blockId = useId(props.id)
   const [salt, forceUpdate] = useReducer(() => ({}), {})
@@ -680,7 +680,7 @@ function useEnableFieldset({
     if (label && !result && !nestedFieldBlockContext) {
       let count = 0
 
-      findElementInChildren(children, (child: React.ReactElement) => {
+      findElementInChildren(children, (child: React.ReactElement<any>) => {
         if (
           child?.props?.label ||
           child?.type?.['_formElement'] === true
@@ -767,7 +767,7 @@ function isFragment(fragment: React.ReactNode) {
 
 function fragmentHasChildren(fragment: React.ReactNode) {
   return (
-    React.isValidElement(fragment) &&
+    React.isValidElement<{ children?: React.ReactNode }>(fragment) &&
     React.Children.count(fragment.props.children) > 0
   )
 }
@@ -776,7 +776,7 @@ function fragmentHasOnlyUndefinedChildren(fragment: React.ReactNode) {
   const isUndefined = (child) => child === undefined
 
   return (
-    React.isValidElement(fragment) &&
+    React.isValidElement<{ children?: React.ReactNode }>(fragment) &&
     React.Children.toArray(fragment.props.children).every(isUndefined)
   )
 }

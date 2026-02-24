@@ -80,7 +80,9 @@ export default class ModalContent extends React.PureComponent<
     this._scrollRef = this.props.scrollRef || React.createRef()
     this._overlayClickRef = React.createRef()
     if (this.props.modalContentCloseRef) {
-      this.props.modalContentCloseRef.current = this.setModalContentState
+      const mutableModalContentCloseRef = this.props
+        .modalContentCloseRef as React.MutableRefObject<any>
+      mutableModalContentCloseRef.current = this.setModalContentState
     }
 
     // NB: The ""._id" is used in the __modalStack as "last._id"

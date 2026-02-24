@@ -108,7 +108,7 @@ const UploadFileListCell = ({
   const hasWarning = errorMessage != null
 
   const imageUrl = file?.size > 0 ? URL.createObjectURL(file) : null
-  const cellRef = useRef<HTMLLIElement>()
+  const cellRef = useRef<HTMLLIElement>(undefined)
   const exists = useExistsHighlight(id, file)
   const isDuplicate = !allowDuplicates && exists
 
@@ -215,7 +215,7 @@ export default UploadFileListCell
 function useExistsHighlight(id: string, file: File) {
   const { internalFiles } = useUpload(id)
   const [exists, updateExists] = React.useState(false)
-  const timerRef = React.useRef<NodeJS.Timer>()
+  const timerRef = React.useRef<NodeJS.Timer>(undefined)
 
   const clearTimers = () => {
     clearTimeout(timerRef.current)

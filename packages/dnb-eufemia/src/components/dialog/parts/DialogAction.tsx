@@ -69,7 +69,7 @@ const DialogAction = ({
 }: DialogActionAllProps) => {
   const { translation, Button: ButtonContext } = useContext(Context)
   const { close } = useContext(ModalContext)
-  let childrenWithCloseFunc: Array<React.ReactChild>
+  let childrenWithCloseFunc: React.ReactNode
 
   const onConfirmHandler = useCallback(
     (event) => {
@@ -92,19 +92,21 @@ const DialogAction = ({
 
   if (children) {
     childrenWithCloseFunc = React.Children.map(children, (child) => {
-      if (child.type === Button) {
+      if (React.isValidElement<any>(child) && child.type === Button) {
+        const childElement = child as React.ReactElement<any>
+
         return React.cloneElement(
-          child,
+          childElement,
           {
-            ...child.props,
+            ...(childElement.props || {}),
             onClick: (event) => {
-              dispatchCustomElementEvent(child.props, 'onClick', {
+              dispatchCustomElementEvent(childElement.props, 'onClick', {
                 event,
                 close,
               })
             },
           },
-          child.props.children
+          childElement.props.children
         )
       } else {
         return child

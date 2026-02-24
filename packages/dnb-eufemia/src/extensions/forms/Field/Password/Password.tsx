@@ -3,9 +3,9 @@ import React, {
   useRef,
   useState,
   ElementRef,
-  MutableRefObject,
   useCallback,
   useMemo,
+  RefObject,
 } from 'react'
 import clsx from 'clsx'
 import SharedContext from '../../../../shared/Context'
@@ -40,7 +40,7 @@ export type PasswordProps = Omit<StringFieldProps, 'innerRef'> & {
   /**
    * ElementRef passed on to the password input element.
    */
-  innerRef?: MutableRefObject<HTMLInputElement>
+  innerRef?: RefObject<HTMLInputElement>
 }
 
 function Password({
@@ -118,9 +118,11 @@ function Password({
   }, [
     idToUse,
     hidden,
-    sharedContext.skeleton,
-    disabled,
+    translations.ariaLabelShow,
+    translations.ariaLabelHide,
     size,
+    disabled,
+    sharedContext.skeleton,
     toggleVisibility,
   ])
 

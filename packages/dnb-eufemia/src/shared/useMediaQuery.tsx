@@ -47,7 +47,7 @@ export default function useMediaQuery(props: MediaQueryProps) {
 
   const [match, matchUpdate] = useState(matches)
 
-  const listenerRef = useRef<MediaQueryListener>()
+  const listenerRef = useRef<MediaQueryListener>(undefined)
   useLayoutEffect(() => {
     if (disabled) {
       return // stop here

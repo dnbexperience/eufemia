@@ -1,7 +1,7 @@
 import React from 'react'
 import SharedContext from '../../shared/Context'
 import ModalContent from './ModalContent'
-import { ModalContentProps, ReactChildType } from './types'
+import { ModalContentProps } from './types'
 import PortalRoot from '../PortalRoot'
 
 declare global {
@@ -20,7 +20,9 @@ export interface ModalRootProps extends ModalContentProps {
   /**
    * The content which will appear when triggering the modal/drawer.
    */
-  children?: ReactChildType
+  children?:
+    | React.ReactNode
+    | ((props: ModalContentProps) => React.ReactNode)
 
   /** For internal use only */
   modalContentCloseRef?: React.RefObject<any>

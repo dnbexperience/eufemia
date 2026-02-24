@@ -4,7 +4,7 @@ import { useRef, useCallback } from 'react'
  * Keep track of possible parallel processes to avoid issues
  */
 export default function useProcessManager() {
-  const tokenRef = useRef<number>()
+  const tokenRef = useRef<number>(undefined)
 
   const startProcess = useCallback(() => {
     const processToken = Math.floor(Math.random() * 100000)

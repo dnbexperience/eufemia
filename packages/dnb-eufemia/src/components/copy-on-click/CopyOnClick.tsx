@@ -27,7 +27,7 @@ const CopyOnClick = ({
   ...props
 }: CopyOnClickAllProps) => {
   const ref = useRef<HTMLSpanElement>(null)
-  const timeoutRef = useRef<NodeJS.Timeout>()
+  const timeoutRef = useRef<NodeJS.Timeout>(undefined)
   const [active, setActive] = React.useState(false)
 
   useEffect(() => {

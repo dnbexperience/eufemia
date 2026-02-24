@@ -29,7 +29,7 @@ type OptionProps = React.ComponentProps<
     children: React.ReactNode
     handleSelect: () => void
     size?: ToggleButtonProps['size'] | CheckboxProps['size']
-  }) => JSX.Element
+  }) => React.JSX.Element
 >
 
 type OptionValue = string | number

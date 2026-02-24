@@ -8,11 +8,13 @@ let instance: InputModeNumber = null
 const MockComponent = (
   props: React.InputHTMLAttributes<HTMLInputElement>
 ) => {
-  const elementRef = useRef()
+  const elementRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
     instance = new InputModeNumber()
-    instance.setElement(elementRef.current)
+    if (elementRef.current) {
+      instance.setElement(elementRef.current)
+    }
 
     return () => {
       instance.remove()

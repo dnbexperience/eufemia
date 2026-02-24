@@ -189,18 +189,13 @@ export type GlobalStatusInterceptor = {
   update: (props: GlobalStatusInterceptorUpdateEvents) => void;
   remove: () => void;
 };
-export default class GlobalStatus extends React.Component<
-  GlobalStatusProps,
-  any
-> {
-  static defaultProps: object;
-  static create: (
-    props: GlobalStatusInterceptorProps
-  ) => GlobalStatusInterceptor;
-  static Add: (props: GlobalStatusAddProps) => JSX.Element;
-  static Update: (
+declare const GlobalStatus: React.ComponentClass<GlobalStatusProps> & {
+  defaultProps: object;
+  create: (props: GlobalStatusInterceptorProps) => GlobalStatusInterceptor;
+  Add: (props: GlobalStatusAddProps) => React.JSX.Element;
+  Update: (
     props: GlobalStatusUpdateProps
-  ) => JSX.Element & GlobalStatusInterceptor;
-  static Remove: (props: GlobalStatusRemoveProps) => JSX.Element;
-  render(): JSX.Element;
-}
+  ) => React.JSX.Element & GlobalStatusInterceptor;
+  Remove: (props: GlobalStatusRemoveProps) => React.JSX.Element;
+};
+export default GlobalStatus;

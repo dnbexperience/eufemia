@@ -85,7 +85,7 @@ function InfoOverlay(props: Props) {
     )
 
   // To keep the content visible while hiding it with the HightAnimation
-  const currentContentRef = useRef<InfoOverlayContent>()
+  const currentContentRef = useRef<InfoOverlayContent>(undefined)
   if (content) {
     currentContentRef.current = content
   }

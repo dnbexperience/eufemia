@@ -8,7 +8,7 @@ export type IsolatedStyleScopeProps = {
   scopeHash?: string | 'auto'
   disableCoreStyleWrapper?: boolean
   uniqueKey?: string | false
-  innerRef?: React.MutableRefObject<HTMLDivElement>
+  innerRef?: React.RefObject<HTMLDivElement>
   children: React.ReactNode
   style?: React.CSSProperties & {
     [key: `--${string}`]: string | number
@@ -43,7 +43,7 @@ export default function IsolatedStyleScope(
     style,
   } = props
 
-  const localRef = useRef<HTMLDivElement>()
+  const localRef = useRef<HTMLDivElement>(undefined)
   const scopeElementRef = innerRef || localRef
 
   // Determine the generated scope hash for this instance

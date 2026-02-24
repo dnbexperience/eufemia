@@ -68,7 +68,7 @@ function HeightAnimation({
   onAnimationEnd = null,
   ...rest
 }: HeightAnimationAllProps) {
-  const elementRef = useRef<HTMLElement>()
+  const elementRef = useRef<HTMLElement>(undefined)
   const targetRef = innerRef || elementRef
 
   const {

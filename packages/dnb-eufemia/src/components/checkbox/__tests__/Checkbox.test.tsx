@@ -339,12 +339,12 @@ describe('Checkbox component', () => {
     expect(attributes).toEqual(['class'])
     expect(inputAttributes).toEqual([
       'id',
-      'name',
-      'type',
       'class',
       'disabled',
       'aria-disabled',
+      'type',
       'value',
+      'name',
     ])
     expect(Array.from(element.classList)).toEqual([
       'dnb-checkbox',
@@ -365,7 +365,7 @@ describe('Checkbox component', () => {
     let ref: React.RefObject<HTMLInputElement>
 
     function MockComponent() {
-      ref = React.useRef()
+      ref = React.useRef<HTMLInputElement | null>(null)
       return <Checkbox id="unique" innerRef={ref} />
     }
 

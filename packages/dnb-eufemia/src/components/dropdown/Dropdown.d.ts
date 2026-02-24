@@ -136,15 +136,12 @@ export type DropdownAllProps = DropdownProps &
     | 'onSelect'
     | 'onResize'
   >;
-export default class Dropdown extends React.Component<
-  DropdownAllProps,
-  any
-> {
-  static defaultProps: object;
-  static HorizontalItem: ({
+declare const Dropdown: React.ComponentClass<DropdownAllProps> & {
+  defaultProps: object;
+  HorizontalItem: ({
     children
   }: {
     children: React.ReactNode;
-  }) => JSX.Element;
-  render(): JSX.Element;
-}
+  }) => React.JSX.Element;
+};
+export default Dropdown;
