@@ -26,8 +26,8 @@ export const AmountProperties: PropertiesTableProps = {
     'options',
     'clean',
   ]),
-  numberSize: {
-    doc: 'Typography size for the main number and the currency sign.',
+  mainSize: {
+    doc: 'Typography size for the main content.',
     type: [
       '"x-small"',
       '"small"',
@@ -40,8 +40,8 @@ export const AmountProperties: PropertiesTableProps = {
     defaultValue: 'x-large',
     status: 'optional',
   },
-  currencySize: {
-    doc: 'Typography size for currency sign and affixes (`prefix` and `suffix`).',
+  auxiliarySize: {
+    doc: 'Typography size for secondary content like currency sign and affixes (`prefix` and `suffix`).',
     type: [
       '"x-small"',
       '"small"',
@@ -53,6 +53,32 @@ export const AmountProperties: PropertiesTableProps = {
     ],
     defaultValue: 'x-small',
     status: 'optional',
+  },
+  numberSize: {
+    doc: 'Deprecated: use `mainSize`.',
+    type: [
+      '"x-small"',
+      '"small"',
+      '"basis"',
+      '"medium"',
+      '"large"',
+      '"x-large"',
+      '"xx-large"',
+    ],
+    status: 'deprecated',
+  },
+  currencySize: {
+    doc: 'Deprecated: use `auxiliarySize`.',
+    type: [
+      '"x-small"',
+      '"small"',
+      '"basis"',
+      '"medium"',
+      '"large"',
+      '"x-large"',
+      '"xx-large"',
+    ],
+    status: 'deprecated',
   },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',

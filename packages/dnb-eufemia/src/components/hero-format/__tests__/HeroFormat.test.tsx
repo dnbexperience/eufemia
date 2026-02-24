@@ -94,13 +94,13 @@ describe('HeroFormat', () => {
     expect(suffix.textContent).toBe('/mnd')
   })
 
-  it('supports custom numberSize and currencySize', () => {
+  it('supports custom mainSize and auxiliarySize', () => {
     render(
       <HeroFormat.Amount
         value={12345.67}
         currency="NOK"
-        numberSize="xx-large"
-        currencySize="basis"
+        mainSize="xx-large"
+        auxiliarySize="basis"
         prefix="From"
       />
     )
@@ -114,6 +114,23 @@ describe('HeroFormat', () => {
     expect(currency.classList).toContain('dnb-t__size--basis')
     expect(currency.classList).not.toContain('dnb-t__size--x-small')
     expect(prefix.classList).toContain('dnb-t__size--basis')
+  })
+
+  it('supports deprecated numberSize and currencySize aliases', () => {
+    render(
+      <HeroFormat.Amount
+        value={12345.67}
+        currency="NOK"
+        numberSize="xx-large"
+        currencySize="basis"
+      />
+    )
+
+    const amount = document.querySelector('.dnb-hero-format__amount')
+    const currency = document.querySelector('.dnb-hero-format__currency')
+
+    expect(amount.classList).toContain('dnb-t__size--xx-large')
+    expect(currency.classList).toContain('dnb-t__size--basis')
   })
 
   it('uses children as the value', () => {

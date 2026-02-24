@@ -29,14 +29,14 @@ export const AmountSizes = () => (
       <HeroFormat.Amount
         value={12345}
         currency="NOK"
-        numberSize="xx-large"
-        currencySize="basis"
+        mainSize="xx-large"
+        auxiliarySize="basis"
       />
       <HeroFormat.Amount
         value={12345}
         currency="NOK"
-        numberSize="large"
-        currencySize="x-small"
+        mainSize="large"
+        auxiliarySize="x-small"
       />
     </Flex.Stack>
   </ComponentBox>

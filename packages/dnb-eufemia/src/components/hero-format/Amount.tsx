@@ -25,9 +25,13 @@ export type AmountProps = Omit<NumberFormatProps, 'children'> & {
   element?: keyof JSX.IntrinsicElements
   currencyDisplay?: NumberFormatProps['currency_display']
   currencyPosition?: NumberFormatProps['currency_position']
-  /** Typography size for the main number. Defaults to `x-large`. */
+  /** Typography size for the main content. Defaults to `x-large`. */
+  mainSize?: TypographySize
+  /** Typography size for secondary content like affixes. Defaults to `x-small`. */
+  auxiliarySize?: TypographySize
+  /** @deprecated Use `mainSize` instead. */
   numberSize?: TypographySize
-  /** Typography size for currency sign and affixes. Defaults to `x-small`. */
+  /** @deprecated Use `auxiliarySize` instead. */
   currencySize?: TypographySize
 } & SpacingProps
 
@@ -83,6 +87,8 @@ function Amount(props: AmountProps) {
     prefix = null,
     suffix = null,
     srLabel = null,
+    mainSize = null,
+    auxiliarySize = null,
     numberSize = 'x-large',
     currencySize = 'x-small',
     id = null,
@@ -112,6 +118,8 @@ function Amount(props: AmountProps) {
   const usedCurrencyDisplay = currencyDisplay ?? currency_display ?? null
   const usedCurrencyPosition =
     currencyPosition ?? currency_position ?? 'auto'
+  const usedMainSize = mainSize ?? numberSize
+  const usedAuxiliarySize = auxiliarySize ?? currencySize
 
   const formatted = useNumberFormat(rawValue, {
     locale: resolvedLocale,
@@ -203,13 +211,13 @@ function Amount(props: AmountProps) {
 
   const currencyClass = clsx(
     'dnb-hero-format__currency',
-    `dnb-t__size--${currencySize}`,
-    `dnb-t__line-height--${currencySize}`
+    `dnb-t__size--${usedAuxiliarySize}`,
+    `dnb-t__line-height--${usedAuxiliarySize}`
   )
   const amountClass = clsx(
     'dnb-hero-format__amount',
-    `dnb-t__size--${numberSize}`,
-    `dnb-t__line-height--${numberSize}`
+    `dnb-t__size--${usedMainSize}`,
+    `dnb-t__line-height--${usedMainSize}`
   )
 
   let content = (
@@ -219,8 +227,8 @@ function Amount(props: AmountProps) {
           <span
             className={clsx(
               'dnb-hero-format__sign',
-              `dnb-t__size--${numberSize}`,
-              `dnb-t__line-height--${numberSize}`
+              `dnb-t__size--${usedMainSize}`,
+              `dnb-t__line-height--${usedMainSize}`
             )}
           >
             {renderSign}
@@ -251,8 +259,8 @@ function Amount(props: AmountProps) {
       prefix,
       clsx(
         'dnb-hero-format__prefix',
-        `dnb-t__size--${currencySize}`,
-        `dnb-t__line-height--${currencySize}`
+        `dnb-t__size--${usedAuxiliarySize}`,
+        `dnb-t__line-height--${usedAuxiliarySize}`
       )
     )
     content = (
@@ -268,8 +276,8 @@ function Amount(props: AmountProps) {
       suffix,
       clsx(
         'dnb-hero-format__suffix',
-        `dnb-t__size--${currencySize}`,
-        `dnb-t__line-height--${currencySize}`
+        `dnb-t__size--${usedAuxiliarySize}`,
+        `dnb-t__line-height--${usedAuxiliarySize}`
       )
     )
     const suffixSpace =
