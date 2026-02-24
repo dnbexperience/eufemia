@@ -54,7 +54,7 @@ export default function DrawerContent({
       'dnb-drawer',
       spacing && 'dnb-drawer--spacing',
       alignContent && `dnb-drawer__align--${alignContent}`,
-      fullscreen
+      fullscreen === true
         ? `dnb-drawer--fullscreen`
         : fullscreen === 'auto' && `dnb-drawer--auto-fullscreen`,
       context?.hide && `dnb-drawer--hide`,

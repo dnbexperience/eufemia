@@ -186,7 +186,7 @@ export default class GlobalStatus extends React.PureComponent {
       this.provider.init(props)
 
     // and make it visible from start, if needed
-    if (props.show) {
+    if (props.show === true) {
       this.state.isActive = true
     }
 
@@ -207,12 +207,12 @@ export default class GlobalStatus extends React.PureComponent {
         (this.props.autoClose &&
           this._hadContent &&
           !this.hasContent(globalStatus) &&
-          !this.props.show) ||
+          this.props.show !== true) ||
         (typeof globalStatus.show !== 'undefined' && !globalStatus.show)
       ) {
         this.setHidden()
       } else if (
-        this.props.show ||
+        this.props.show === true ||
         (typeof globalStatus.show !== 'undefined' && globalStatus.show)
       ) {
         this._hadContent = this.hasContent(globalStatus)
@@ -250,7 +250,7 @@ export default class GlobalStatus extends React.PureComponent {
     }
 
     if (prevProps.show !== this.props.show) {
-      if (this.props.show) {
+      if (this.props.show === true) {
         this.setVisible()
       } else {
         this.setHidden()
@@ -272,7 +272,7 @@ export default class GlobalStatus extends React.PureComponent {
   }
 
   isPassive = () => {
-    return this.props.show !== 'auto' && this.props.show === false
+    return this.props.show !== 'auto' && this.props.show !== true
   }
 
   setVisible = () => {

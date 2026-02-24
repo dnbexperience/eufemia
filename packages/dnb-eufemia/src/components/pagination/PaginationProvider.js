@@ -89,7 +89,7 @@ export default class PaginationProvider extends React.PureComponent {
     state.placeMakerBeforeContent = props.placeMarkerBeforeContent
 
     // reset pagination, like the resetInfinity method
-    if (props.useMarkerOnly && props.resetPaginationHandler) {
+    if (props.useMarkerOnly && props.resetPaginationHandler === true) {
       state.lowerPage = undefined
       state.upperPage = undefined
     }
@@ -111,7 +111,7 @@ export default class PaginationProvider extends React.PureComponent {
     }
 
     // reset content, like the resetContent method
-    if (props.resetContentHandler) {
+    if (props.resetContentHandler === true) {
       state.items = []
       state.pageCountInternal = parseFloat(props.pageCount) || 1
     }

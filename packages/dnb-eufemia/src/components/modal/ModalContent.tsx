@@ -499,7 +499,7 @@ export default class ModalContent extends React.PureComponent<
 
       className: clsx(
         'dnb-modal__content',
-        fullscreen
+        fullscreen === true
           ? 'dnb-modal__content--fullscreen'
           : fullscreen === 'auto' && 'dnb-modal__content--auto-fullscreen',
         containerPlacement

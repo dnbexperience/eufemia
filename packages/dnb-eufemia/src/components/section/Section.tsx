@@ -193,7 +193,8 @@ export function SectionParams(
     className: clsx(
       'dnb-section',
       `dnb-section--${variant ? variant : style_type || 'default'}`,
-      spacing && `dnb-section--spacing-${spacing ? 'large' : spacing}`,
+      spacing &&
+        `dnb-section--spacing-${spacing === true ? 'large' : spacing}`,
       className
     ),
     style: {

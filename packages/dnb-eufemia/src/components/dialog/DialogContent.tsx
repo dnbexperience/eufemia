@@ -71,7 +71,7 @@ export default function DialogContent({
       variant && `dnb-dialog--${variant}`,
       spacing && 'dnb-dialog--spacing',
       alignContent && `dnb-dialog__align--${alignContent}`,
-      fullscreen
+      fullscreen === true
         ? `dnb-dialog--fullscreen`
         : fullscreen === 'auto' && `dnb-dialog--auto-fullscreen`,
       context?.hide && `dnb-dialog--hide`,

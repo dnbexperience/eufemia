@@ -24,7 +24,7 @@ export const useMaskParams = () => {
   const mask = useMask()
   const maskParams = useNumberMaskParams() || {}
 
-  maskParams.showMask = !placeholder && showMask
+  maskParams.showMask = !placeholder && showMask === true
 
   // Revalidated placeholder char to a zero width space
   maskParams.placeholderChar = placeholderChar
@@ -39,8 +39,8 @@ export const useMaskParams = () => {
     maskParams.showMask = mask.showMask
   }
 
-  maskParams.showGuide = showGuide
-  maskParams.keepCharPositions = keepCharPositions
+  maskParams.showGuide = showGuide !== false
+  maskParams.keepCharPositions = keepCharPositions === true
 
   return maskParams
 }
