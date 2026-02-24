@@ -14,7 +14,6 @@ import {
   getSelectedElement,
   hasSelectedText,
   getSelectedText,
-  isEdge,
   isiOS,
   isSafari,
   isWin,
@@ -232,10 +231,6 @@ describe('platform', () => {
 })
 
 describe('user agent', () => {
-  it('"isEdge" should result in true', () => {
-    userAgentGetter.mockReturnValue('Edge')
-    expect(isEdge()).toBe(true)
-  })
   it('"isSafari" should result in true', () => {
     userAgentGetter.mockReturnValue('Safari')
     expect(isSafari()).toBe(true)
