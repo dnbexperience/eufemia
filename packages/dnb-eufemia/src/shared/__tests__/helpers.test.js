@@ -14,7 +14,6 @@ import {
   getSelectedElement,
   hasSelectedText,
   getSelectedText,
-  insertElementBeforeSelection,
   isEdge,
   isiOS,
   isSafari,
@@ -262,14 +261,6 @@ describe('selection related methods', () => {
   })
   it('hasSelectedText should be true', () => {
     expect(hasSelectedText()).toBe(true)
-  })
-  it('insertElementBeforeSelection should be true', () => {
-    const elem = document.createElement('div')
-    insertElementBeforeSelection(elem)
-    expect(
-      window.getSelection().getRangeAt(1).getElement() instanceof
-        HTMLElement
-    ).toBe(true)
   })
 })
 
