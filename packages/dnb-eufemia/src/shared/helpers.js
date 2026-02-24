@@ -12,7 +12,6 @@ export const PLATFORM_ANDROID = 'Android'
 export const PLATFORM_LINUX = 'Linux'
 export const PLATFORM_IOS = 'iOS|iPhone|iPad|iPod'
 
-export let IS_EDGE = false
 export let IS_IOS = false
 export let IS_SAFARI = false
 export let IS_WIN = false
@@ -51,11 +50,6 @@ export const isSafari = () =>
     /safari/i.test(navigator?.userAgent) &&
     !/chrome/i.test(navigator?.userAgent))
 
-export const isEdge = () =>
-  (IS_EDGE =
-    typeof navigator !== 'undefined' && /edge/i.test(navigator?.userAgent))
-
-isEdge()
 isiOS()
 isSafari()
 isWin()
