@@ -2142,6 +2142,9 @@ class AutocompleteInstance extends React.PureComponent<
       inputParams.placeholder = placeholder || title
     }
 
+    // aria-placeholder is not allowed on combobox role, clear it
+    inputParams['aria-placeholder'] = undefined
+
     // Handling of activedescendant – required by NVDA
     if (isExpanded) {
       inputParams['aria-activedescendant'] =

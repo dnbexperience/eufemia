@@ -452,12 +452,6 @@ export default class Input extends React.PureComponent {
         : inputAttributes
       : {}
 
-    // aria-placeholder is only allowed on textbox/searchbox roles,
-    // not on combobox (e.g. Autocomplete)
-    const hasComboboxRole =
-      attributes?.role === 'combobox' ||
-      usedInputAttributes?.role === 'combobox'
-
     const inputParams = {
       className: clsx('dnb-input__input', inputClass),
       autoComplete: autocomplete,
@@ -465,10 +459,9 @@ export default class Input extends React.PureComponent {
       id,
       disabled: disabled,
       name: id,
-      'aria-placeholder':
-        !hasComboboxRole && placeholder
-          ? convertJsxToString(placeholder)
-          : undefined,
+      'aria-placeholder': placeholder
+        ? convertJsxToString(placeholder)
+        : undefined,
       ...attributes,
       ...usedInputAttributes,
       onChange: this.onChangeHandler,
