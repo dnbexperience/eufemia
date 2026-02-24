@@ -13,9 +13,7 @@ import {
   SidebarMenuContext,
 } from '../menu/SidebarMenuContext'
 import ToggleGrid, { GridActivator } from '../menu/ToggleGrid'
-import {
-  scrollToLocationHashId,
-} from '@dnb/eufemia/src/shared/helpers'
+import { scrollToLocationHashId } from '@dnb/eufemia/src/shared/helpers'
 import { P, Logo, GlobalStatus } from '@dnb/eufemia/src'
 import './PortalStyle.scss'
 import {
