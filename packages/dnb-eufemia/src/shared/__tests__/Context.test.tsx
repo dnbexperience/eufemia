@@ -141,4 +141,59 @@ describe('Context', () => {
     expect(translation).not.toBeUndefined()
     expect(translation.DatePicker.month).toBe('måned')
   })
+
+  it('should preserve all translations when Provider supplies partial translations', () => {
+    const { unmount } = render(
+      <Provider
+        locale="sv-SE"
+        translations={{
+          'sv-SE': {
+            DatePicker: {
+              day: 'dag',
+              month: 'månad',
+            },
+          },
+        }}
+      >
+        <Context.Consumer>
+          {(context) => {
+            const translation = context.getTranslation({
+              locale: 'sv-SE',
+            })
+
+            return (
+              <>
+                <p data-testid="datepicker-month">
+                  {translation.DatePicker.month}
+                </p>
+                <p data-testid="helpbutton-title">
+                  {translation.HelpButton.title}
+                </p>
+              </>
+            )
+          }}
+        </Context.Consumer>
+      </Provider>
+    )
+
+    expect(screen.getByTestId('datepicker-month')).toHaveTextContent(
+      'månad'
+    )
+    expect(screen.getByTestId('helpbutton-title')).toHaveTextContent(
+      titleNb
+    )
+
+    unmount()
+
+    // After unmounting the Provider with partial translations,
+    // a component using the default context should still have
+    // all translations intact
+    render(<HelpButton>content</HelpButton>)
+
+    const helpButton = document.querySelector('.dnb-help-button')
+    expect(helpButton.getAttribute('aria-roledescription')).toBe(
+      'Hjelp-knapp'
+    )
+    expect(helpButton.getAttribute('aria-label')).toBe(titleNb)
+  })
 })
