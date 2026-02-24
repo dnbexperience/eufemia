@@ -18,7 +18,7 @@ const lintWithRule = async ({
     codeFilename,
     customSyntax: 'postcss-scss',
     config: {
-      plugins: [tokenNamePolicyPlugin as any],
+      plugins: [tokenNamePolicyPlugin],
       rules: {
         [tokenNamePolicyPlugin.ruleName]: [
           true,
@@ -232,6 +232,25 @@ describe('token-name-policy stylelint rule', () => {
     expect(errors).toHaveLength(0)
   })
 
+  it('flags Sass rgba(#hex, alpha) usage', async () => {
+    const errors = await lintWithRule({
+      code: '.dnb-button { background: rgba(#000, 0.4); }',
+      codeFilename: '/repo/src/components/button/style/dnb-button.scss',
+    })
+
+    expect(errors).toHaveLength(1)
+    expect(errors[0].text).toContain('Use CSS channel notation')
+  })
+
+  it('allows CSS rgba channel notation usage', async () => {
+    const errors = await lintWithRule({
+      code: '.dnb-button { background: rgba(0 0 0 / 40%); }',
+      codeFilename: '/repo/src/components/button/style/dnb-button.scss',
+    })
+
+    expect(errors).toHaveLength(0)
+  })
+
   it('flags when current brand tokens are missing tokens from other brands', async () => {
     const temp = makeTempTokenFiles()
 
@@ -277,8 +296,14 @@ describe('token-name-policy stylelint rule', () => {
         ':root { --token-color-text-neutral: #111; --token-color-text-action: #222; }\n'
 
       fs.writeFileSync(path.join(temp.rootDir, temp.files.ui), content)
-      fs.writeFileSync(path.join(temp.rootDir, temp.files.sbanken), content)
-      fs.writeFileSync(path.join(temp.rootDir, temp.files.carnegie), content)
+      fs.writeFileSync(
+        path.join(temp.rootDir, temp.files.sbanken),
+        content
+      )
+      fs.writeFileSync(
+        path.join(temp.rootDir, temp.files.carnegie),
+        content
+      )
 
       const errors = await lintWithRule({
         code: content,
@@ -290,9 +315,7 @@ describe('token-name-policy stylelint rule', () => {
       })
 
       expect(
-        errors.some((e) =>
-          e.text.includes('All brand tokens.scss files')
-        )
+        errors.some((e) => e.text.includes('All brand tokens.scss files'))
       ).toBe(false)
     } finally {
       temp.cleanup()

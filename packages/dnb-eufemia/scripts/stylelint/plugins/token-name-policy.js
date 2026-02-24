@@ -59,6 +59,9 @@ const DEFAULT_POLICY = {
 
   // Allowed foundation-like prefixes that are intentionally used outside tokens.scss.
   allowedFoundationReferencePrefixes: ['--dnb-payment-', '--dnb-forms-'],
+
+  // Prevent Sass-style rgba(#hex, alpha) and require CSS channel-based rgba/rgb syntax.
+  disallowSassHexRgba: true,
 }
 
 const RULE_NAME = 'eufemia/token-name-policy'
@@ -71,6 +74,7 @@ const TOKEN_REFERENCE_REGEX = /var\(\s*(--token-[a-z0-9-]+)\s*\)/gi
 const GENERIC_VAR_REFERENCE_REGEX = /var\(\s*(--[a-z0-9-]+)\s*\)/gi
 const SINGLE_VAR_REFERENCE_REGEX = /var\(\s*(--[a-z0-9-]+)\s*\)/i
 const SINGLE_TOKEN_REFERENCE_REGEX = /var\(\s*(--token-[a-z0-9-]+)\s*\)/i
+const SASS_HEX_RGBA_REGEX = /rgba\(\s*#/i
 const escapeRegExp = (value) => {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
@@ -116,6 +120,8 @@ const messages = stylelint.utils.ruleMessages(RULE_NAME, {
     `Unexpected token reference "${ref}" outside tokens.scss. The token was not found in theme token files.`,
   missingTokenAcrossBrands: (prop, theme) =>
     `Missing token "${prop}" in "${theme}" tokens.scss. All brand tokens.scss files must contain the same tokens.`,
+  sassHexRgba: (value) =>
+    `Unexpected Sass rgba hex usage "${value}". Use CSS channel notation, e.g. rgba(0 0 0 / 40%).`,
 })
 
 const normalizePath = (filePath) => {
@@ -278,6 +284,9 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
     const allowedFoundationReferencePrefixes =
       secondaryOptions.allowedFoundationReferencePrefixes ||
       DEFAULT_POLICY.allowedFoundationReferencePrefixes
+    const disallowSassHexRgba =
+      secondaryOptions.disallowSassHexRgba ??
+      DEFAULT_POLICY.disallowSassHexRgba
     const themePrefixes = {
       ...DEFAULT_POLICY.themePrefixes,
       ...(secondaryOptions.themePrefixes || {}),
@@ -322,7 +331,7 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
           if (!currentFileVariables.has(variable)) {
             stylelint.utils.report({
               result,
-              RULE_NAME,
+              ruleName: RULE_NAME,
               node: root,
               message: messages.missingTokenAcrossBrands(variable, theme),
             })
@@ -332,12 +341,21 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
     }
 
     root.walkDecls((decl) => {
+      if (disallowSassHexRgba && SASS_HEX_RGBA_REGEX.test(decl.value)) {
+        stylelint.utils.report({
+          result,
+          ruleName: RULE_NAME,
+          node: decl,
+          message: messages.sassHexRgba(decl.value),
+        })
+      }
+
       if (decl.prop && decl.prop.startsWith('--')) {
         for (const suffix of disallowedSuffixes) {
           if (decl.prop.endsWith(suffix)) {
             stylelint.utils.report({
               result,
-              RULE_NAME,
+              ruleName: RULE_NAME,
               node: decl,
               message: messages.disallowedSuffix(decl.prop, suffix),
             })
@@ -351,7 +369,7 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
         ) {
           stylelint.utils.report({
             result,
-            RULE_NAME,
+            ruleName: RULE_NAME,
             node: decl,
             message: messages.wrongTokenDeclarationPrefix(
               decl.prop,
@@ -367,7 +385,7 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
           if (!allowedTokenCategories.includes(tokenCategory)) {
             stylelint.utils.report({
               result,
-              RULE_NAME,
+              ruleName: RULE_NAME,
               node: decl,
               message: messages.wrongTokenCategory(
                 decl.prop,
@@ -383,7 +401,7 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
             ) {
               stylelint.utils.report({
                 result,
-                RULE_NAME,
+                ruleName: RULE_NAME,
                 node: decl,
                 message: messages.wrongTokenColorCategory(
                   decl.prop,
@@ -402,7 +420,7 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
               ) {
                 stylelint.utils.report({
                   result,
-                  RULE_NAME,
+                  ruleName: RULE_NAME,
                   node: decl,
                   message: messages.wrongTokenColorSemantic(
                     decl.prop,
@@ -428,7 +446,7 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
       ) {
         stylelint.utils.report({
           result,
-          RULE_NAME,
+          ruleName: RULE_NAME,
           node: decl,
           message: messages.wrongPrefix(decl.prop, expectedPrefix, theme),
         })
@@ -448,7 +466,7 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
           ) {
             stylelint.utils.report({
               result,
-              RULE_NAME,
+              ruleName: RULE_NAME,
               node: decl,
               message: messages.wrongReferencePrefix(
                 variableReference,
@@ -476,7 +494,7 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
           ) {
             stylelint.utils.report({
               result,
-              RULE_NAME,
+              ruleName: RULE_NAME,
               node: decl,
               message:
                 messages.forbiddenFoundationReferenceOutsideTokens(
@@ -508,7 +526,7 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
             ) {
               stylelint.utils.report({
                 result,
-                RULE_NAME,
+                ruleName: RULE_NAME,
                 node: decl,
                 message:
                   messages.unknownTokenReferenceOutsideTokens(
@@ -523,9 +541,9 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
   }
 }
 
-ruleFunction.RULE_NAME = RULE_NAME
+ruleFunction.ruleName = RULE_NAME
 ruleFunction.messages = messages
 
 module.exports = stylelint.createPlugin(RULE_NAME, ruleFunction)
-module.exports.RULE_NAME = RULE_NAME
+module.exports.ruleName = RULE_NAME
 module.exports.messages = messages
