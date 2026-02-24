@@ -52,10 +52,7 @@ export interface RadioGroupProps
   children?: RadioGroupChildren;
   onChange?: (...args: any[]) => any;
 }
-export default class RadioGroup extends React.Component<
-  RadioGroupProps,
-  any
-> {
-  static defaultProps: object;
-  render(): React.JSX.Element;
-}
+declare const RadioGroup: React.ComponentClass<RadioGroupProps> & {
+  defaultProps: object;
+};
+export default RadioGroup;

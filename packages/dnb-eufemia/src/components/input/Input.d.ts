@@ -171,10 +171,10 @@ export interface InputProps
   onSubmitBlur?: (...args: any[]) => any;
   onClear?: (...args: any[]) => any;
 }
-export default class Input extends React.Component<InputProps, any> {
-  static defaultProps: object;
-  render(): React.JSX.Element;
-}
+declare const Input: React.ComponentClass<InputProps> & {
+  defaultProps: object;
+};
+export default Input;
 export interface SubmitButtonProps
   extends React.HTMLProps<HTMLButtonElement> {
   id?: string;
@@ -218,7 +218,6 @@ export interface SubmitButtonProps
   onSubmitFocus?: (...args: any[]) => any;
   onSubmitBlur?: (...args: any[]) => any;
 }
-export class SubmitButton extends React.Component<SubmitButtonProps, any> {
-  static defaultProps: object;
-  render(): React.JSX.Element;
-}
+export declare const SubmitButton: React.ForwardRefExoticComponent<
+  SubmitButtonProps & React.RefAttributes<HTMLElement>
+>;

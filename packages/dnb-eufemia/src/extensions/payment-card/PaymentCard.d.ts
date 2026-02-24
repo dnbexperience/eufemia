@@ -123,13 +123,10 @@ export interface PaymentCardProps
   className?: string;
   children?: PaymentCardChildren;
 }
-export default class PaymentCard extends React.Component<
-  PaymentCardProps,
-  any
-> {
-  static defaultProps: object;
-  render(): React.JSX.Element;
-}
+declare const PaymentCard: React.FC<PaymentCardProps> & {
+  defaultProps: object;
+};
+export default PaymentCard;
 type CardDataReturn = Omit<PaymentCardRawData, 'cardDesign'> & {
   cardDesign: CardDesign;
 };

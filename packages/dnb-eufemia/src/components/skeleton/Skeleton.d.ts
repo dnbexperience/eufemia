@@ -39,12 +39,12 @@ export interface SkeletonProps
   className?: string;
   children?: SkeletonChildren;
 }
-export default class Skeleton extends React.Component<SkeletonProps, any> {
-  static defaultProps: object;
-  static Exclude: ({
+declare const Skeleton: React.FC<SkeletonProps> & {
+  defaultProps: object;
+  Exclude: ({
     children
   }: {
     children: React.ReactNode;
   }) => React.JSX.Element;
-  render(): React.JSX.Element;
-}
+};
+export default Skeleton;

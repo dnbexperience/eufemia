@@ -67,10 +67,6 @@ import {
   normalizeData,
 } from '../../fragments/drawer-list/DrawerListHelpers'
 
-const SubmitButtonComponent = SubmitButton as unknown as React.ElementType
-const FormStatusComponent = FormStatus as unknown as React.ElementType
-const InputComponent = Input as unknown as React.ElementType
-
 export type AutocompleteClearEvent = {
   value: string
   previousValue: string
@@ -2203,7 +2199,7 @@ class AutocompleteInstance extends React.PureComponent<
       submitButton = React.cloneElement(submitElement, triggerParams)
     } else if (isTrue(showSubmitButton)) {
       submitButton = (
-        <SubmitButtonComponent
+        <SubmitButton
           icon={submitButtonIcon as any}
           iconSize={iconSize || (size === 'large' ? 'medium' : 'default')}
           variant="secondary"
@@ -2252,7 +2248,7 @@ class AutocompleteInstance extends React.PureComponent<
         >
           <AlignmentHelper />
 
-          <FormStatusComponent
+          <FormStatus
             show={showStatus}
             id={id + '-form-status'}
             globalStatus={globalStatus}
@@ -2274,7 +2270,7 @@ class AutocompleteInstance extends React.PureComponent<
                   customInputParams
                 )
               ) : (
-                <InputComponent
+                <Input
                   icon={
                     visibleIndicator ? (
                       <ProgressIndicator

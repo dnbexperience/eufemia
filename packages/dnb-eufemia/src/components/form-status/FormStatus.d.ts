@@ -97,13 +97,10 @@ export interface FormStatusProps
    */
   children?: FormStatusChildren;
 }
-export default class FormStatus extends React.Component<
-  FormStatusProps,
-  any
-> {
-  static defaultProps: object;
-  render(): React.JSX.Element;
-}
+declare const FormStatus: React.ComponentClass<FormStatusProps> & {
+  defaultProps: object;
+};
+export default FormStatus;
 export interface ErrorIconProps {
   /**
    * The `title` attribute in the status.
