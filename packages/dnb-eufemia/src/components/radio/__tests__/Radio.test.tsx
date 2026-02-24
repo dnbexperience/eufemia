@@ -150,13 +150,13 @@ describe('Radio component', () => {
 
     expect(attributes).toEqual(['class'])
     expect(inputAttributes).toEqual([
-      'type',
       'id',
       'class',
       'aria-checked',
       'disabled',
       'role',
       'aria-label',
+      'type',
       'value',
     ])
     expect(Array.from(element.classList)).toEqual([
@@ -184,7 +184,7 @@ describe('Radio ARIA', () => {
     let ref: React.RefObject<HTMLInputElement>
 
     function MockComponent() {
-      ref = React.useRef()
+      ref = React.useRef<HTMLInputElement | null>(null)
       return <Radio {...props} innerRef={ref} />
     }
 

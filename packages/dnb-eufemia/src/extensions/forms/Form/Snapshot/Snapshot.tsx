@@ -1,10 +1,8 @@
 import React, { useCallback, useContext, useEffect, useRef } from 'react'
-import SnapshotContext, {
-  SnapshotContextState,
-  SnapshotMap,
-} from './SnapshotContext'
+import SnapshotContext, { SnapshotContextState } from './SnapshotContext'
 import DataContext from '../../DataContext/Context'
 import { SharedStateId } from '../../../../shared/helpers/useSharedState'
+import { Path } from '../../types'
 
 export type SnapshotId = SharedStateId | number
 export type SnapshotName = string
@@ -18,7 +16,9 @@ function SnapshotProvider(props: SnapshotProps) {
   const { name, children } = props
 
   const { snapshotsRef } = useContext(DataContext) || {}
-  const mountedFieldsRef: SnapshotMap = useRef()
+  const mountedFieldsRef = useRef<Map<Path, unknown> | undefined>(
+    undefined
+  )
   if (!mountedFieldsRef.current) {
     mountedFieldsRef.current = new Map()
   }

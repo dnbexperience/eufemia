@@ -56,9 +56,9 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   const [isOpen, setIsOpen] = useState(open)
   const [isOverlayHovered, setOverlayHovered] = useState(false)
 
-  const delayTimeout = useRef<NodeJS.Timeout>()
-  const overlayDelayTimeout = useRef<NodeJS.Timeout>()
-  const cloneRef = useRef<HTMLElement>()
+  const delayTimeout = useRef<NodeJS.Timeout>(undefined)
+  const overlayDelayTimeout = useRef<NodeJS.Timeout>(undefined)
+  const cloneRef = useRef<HTMLElement>(undefined)
   const previousDescribedByIdRef = useRef<string | null>(null)
 
   const clearTimers = () => {
@@ -185,8 +185,8 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
    * Get our "target"
    */
   const componentWrapper = useMemo(() => {
-    if (isValidElement(target)) {
-      return cloneElement(target, {
+    if (isValidElement<any>(target)) {
+      return cloneElement(target as React.ReactElement<any>, {
         ref: cloneRef,
         'aria-describedby': combineDescribedBy(
           target.props['aria-describedby'],

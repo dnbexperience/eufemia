@@ -16,15 +16,17 @@ const StyledTable = styled(TableElement)`
 export function OmitTableProperties({ children }) {
   const omitProperties = globalThis.omitTableProperties || []
 
-  return recursiveMap(children, (child: React.ReactElement) => {
-    if (child.type === 'tr') {
-      const firstTd = getFirstChild(child)
+  return recursiveMap(children, (child: React.ReactNode) => {
+    if (React.isValidElement(child) && child.type === 'tr') {
+      const firstTd = getFirstChild(child as ChildWithChildren)
 
-      if (firstTd.type === 'td') {
-        const tdContent = getFirstChild(firstTd)
-        const name = getFirstChild(tdContent)
+      if (React.isValidElement(firstTd) && firstTd.type === 'td') {
+        const tdContent = getFirstChild(firstTd as ChildWithChildren)
+        const name = React.isValidElement(tdContent)
+          ? getFirstChild(tdContent as ChildWithChildren)
+          : tdContent
 
-        if (omitProperties.includes(name)) {
+        if (omitProperties.includes(String(name))) {
           return null
         }
       }
@@ -37,13 +39,15 @@ export function OmitTableProperties({ children }) {
 export default function Table({ children }) {
   // make sure we get the table children
   children =
-    recursiveFind(children, (child: React.ReactElement) =>
-      child.type === 'table' ? child.props.children : false
+    recursiveFind(children, (child) =>
+      child.type === 'table'
+        ? (child.props as { children?: React.ReactNode }).children
+        : false
     ) || children
 
   children = recursiveMap(
     children,
-    (child: React.ReactElement, isValid: boolean) => {
+    (child: React.ReactNode, isValid: boolean) => {
       if (!isValid && typeof child === 'string') {
         const checkChild = String(child).trim()
         if (checkChild.length === 0) {
@@ -51,8 +55,8 @@ export default function Table({ children }) {
         }
       }
 
-      if (child.type === 'td') {
-        const tdChildren = getChildren(child)
+      if (React.isValidElement(child) && child.type === 'td') {
+        const tdChildren = getChildren(child as ChildWithChildren)
         if (tdChildren?.length === 1) {
           const text = String(tdChildren?.[0])
           if (
@@ -80,27 +84,42 @@ export default function Table({ children }) {
   )
 }
 
-function getFirstChild(children: ChildrenWithChildren) {
-  return children.props.children.at(0)
+type ChildWithChildren = React.ReactElement<{
+  children?: React.ReactNode
+}>
+
+function getFirstChild(
+  children: ChildWithChildren
+): React.ReactNode | undefined {
+  const c = children.props?.children
+  return Array.isArray(c) ? c[0] : c
 }
 
-function getChildren(children: ChildrenWithChildren) {
+function getChildren(children: ChildWithChildren) {
   return recursiveMap(children.props.children, (child) => child)
 }
 
-type ChildrenWithChildren = {
-  props: { children: ChildrenWithChildren & React.ReactNode }
-} & React.ReactNode
-
-function recursiveFind(children: ChildrenWithChildren, func) {
+function recursiveFind(
+  children: React.ReactNode,
+  func: (child: ChildWithChildren) => unknown
+) {
   let found = null
   if (children) {
-    React.Children.forEach(children, (child: ChildrenWithChildren) => {
-      found = func(child)
+    React.Children.forEach(children, (child) => {
+      if (!React.isValidElement(child)) {
+        return
+      }
+      found = func(child as ChildWithChildren)
       if (found) {
         return found
-      } else if (child.props && child.props.children) {
-        found = recursiveFind(child.props.children, func)
+      } else if (
+        child.props &&
+        (child.props as { children?: React.ReactNode }).children
+      ) {
+        found = recursiveFind(
+          (child.props as { children: React.ReactNode }).children,
+          func
+        )
         if (found) {
           return found
         }
@@ -111,24 +130,27 @@ function recursiveFind(children: ChildrenWithChildren, func) {
 }
 
 function recursiveMap(
-  children: ChildrenWithChildren,
-  func = null
-): Array<React.ReactElement & { type: { name: string } }> {
+  children: React.ReactNode,
+  func:
+    | ((child: React.ReactNode, isValid: boolean) => React.ReactNode)
+    | null = null
+): React.ReactNode[] {
   return React.Children.map(children, (child: React.ReactNode) => {
     if (!React.isValidElement(child)) {
       return func ? func(child, false) : child
     }
 
-    if (child.props.children) {
+    const childWithChildren = child as ChildWithChildren
+    if (childWithChildren.props.children) {
       child = React.cloneElement(
-        child,
-        null,
-        recursiveMap(child.props.children, func)
-      )
+        childWithChildren,
+        {},
+        recursiveMap(childWithChildren.props.children, func)
+      ) as ChildWithChildren
     }
 
     return func ? func(child, true) : child
-  })
+  }) as React.ReactNode[]
 }
 
 function prepareStyleWithSameColor(hex: string) {

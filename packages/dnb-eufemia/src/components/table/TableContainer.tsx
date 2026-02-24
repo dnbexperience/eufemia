@@ -39,7 +39,7 @@ export default function TableContainer(props: TableContainerAllProps) {
 
   const ScrollView = TableScrollView as (
     props: InternalTableContainerTableScrollView
-  ) => JSX.Element
+  ) => React.JSX.Element
 
   const isArray = Array.isArray(children)
   const content = isArray ? children : [children]

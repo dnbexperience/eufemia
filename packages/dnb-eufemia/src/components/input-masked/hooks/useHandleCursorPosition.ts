@@ -1,7 +1,7 @@
-import { MutableRefObject, useEffect, useRef } from 'react'
+import { RefObject, useEffect, useRef } from 'react'
 
 function useHandleCursorPosition(
-  inputRefs: MutableRefObject<HTMLInputElement>[],
+  inputRefs: RefObject<HTMLInputElement>[],
   keysToHandle?: RegExp | { [inputId: string]: RegExp[] }
 ) {
   const inputList = useRef(refsToInputList(inputRefs))
@@ -59,7 +59,7 @@ function useHandleCursorPosition(
 }
 
 // Helpers
-function refsToInputList(inputRefs: MutableRefObject<HTMLInputElement>[]) {
+function refsToInputList(inputRefs: RefObject<HTMLInputElement>[]) {
   return inputRefs.map((ref) => ref.current).filter(Boolean)
 }
 

@@ -13,7 +13,7 @@ import {
   useLocalValue,
 } from './hooks'
 
-export default function InputMaskedElement(): JSX.Element {
+export default function InputMaskedElement(): React.JSX.Element {
   const inputElement = useInputElement()
   const { localValue, setLocalValue } = useLocalValue()
   const events = useEventMapping({ setLocalValue })

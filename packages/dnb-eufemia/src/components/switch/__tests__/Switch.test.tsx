@@ -149,12 +149,12 @@ describe('Switch component', () => {
     expect(attributes).toEqual(['class'])
     expect(inputAttributes).toEqual([
       'id',
-      'name',
-      'type',
       'role',
       'aria-checked',
       'class',
+      'type',
       'value',
+      'name',
     ])
     expect(Array.from(element.classList)).toEqual([
       'dnb-switch',
@@ -175,7 +175,7 @@ describe('Switch component', () => {
     let ref: React.RefObject<HTMLInputElement>
 
     function MockComponent() {
-      ref = React.useRef()
+      ref = React.useRef<HTMLInputElement | null>(null)
       return <Switch {...props} innerRef={ref} />
     }
 

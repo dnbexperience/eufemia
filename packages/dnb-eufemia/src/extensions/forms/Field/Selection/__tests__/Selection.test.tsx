@@ -2716,7 +2716,11 @@ describe('event handlers', () => {
   it('calls onChange when selecting a different options', async () => {
     const onChange = jest.fn()
     render(
-      <Field.Selection value="bar" onChange={onChange}>
+      <Field.Selection
+        value="bar"
+        onChange={onChange}
+        dropdownProps={{ noAnimation: true }}
+      >
         <Field.Option value="foo">Foo</Field.Option>
         <Field.Option value="bar">Bar</Field.Option>
       </Field.Selection>
@@ -2747,7 +2751,11 @@ describe('event handlers', () => {
   it('calls onFocus when opening the dropdown with selected value as argument', async () => {
     const onFocus = jest.fn()
     render(
-      <Field.Selection value="bar" onFocus={onFocus}>
+      <Field.Selection
+        value="bar"
+        onFocus={onFocus}
+        dropdownProps={{ noAnimation: true }}
+      >
         <Field.Option value="foo">Foo</Field.Option>
         <Field.Option value="bar">Bar</Field.Option>
       </Field.Selection>
@@ -2765,7 +2773,11 @@ describe('event handlers', () => {
   it('calls onBlur when selecting the options so the dropdown closes with selected value as argument', async () => {
     const onBlur = jest.fn()
     render(
-      <Field.Selection value="bar" onBlur={onBlur}>
+      <Field.Selection
+        value="bar"
+        onBlur={onBlur}
+        dropdownProps={{ noAnimation: true }}
+      >
         <Field.Option value="foo">Foo</Field.Option>
         <Field.Option value="bar">Bar</Field.Option>
       </Field.Selection>

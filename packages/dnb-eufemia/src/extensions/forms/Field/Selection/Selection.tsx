@@ -385,7 +385,7 @@ type OptionProps = React.ComponentProps<
     title: React.ReactNode
     children: React.ReactNode
     size?: ToggleButtonProps['size'] | RadioProps['size']
-  }) => JSX.Element
+  }) => React.JSX.Element
 >
 
 function renderRadioItems({

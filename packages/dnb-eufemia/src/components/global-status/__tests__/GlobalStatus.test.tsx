@@ -988,6 +988,105 @@ describe('GlobalStatus component', () => {
     const Comp = render(<GlobalStatus {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
+
+  it('should update state class when state prop changes while items remain the same', () => {
+    const fixedItems = [{ id: 'id-1', text: 'item #1' }]
+
+    const { rerender } = render(
+      <GlobalStatus
+        show
+        autoScroll={false}
+        noAnimation
+        state="error"
+        items={fixedItems}
+      />
+    )
+
+    const element = document.querySelector('.dnb-global-status')
+    expect(element).toHaveClass('dnb-global-status--error')
+
+    rerender(
+      <GlobalStatus
+        show
+        autoScroll={false}
+        noAnimation
+        state="info"
+        items={fixedItems}
+      />
+    )
+
+    expect(element).toHaveClass('dnb-global-status--info')
+    expect(element).not.toHaveClass('dnb-global-status--error')
+  })
+
+  it('should reflect dynamic locale changes from Provider context', () => {
+    const { rerender } = render(
+      <Provider locale="en-GB">
+        <GlobalStatus show autoScroll={false} noAnimation text="Test" />
+      </Provider>
+    )
+
+    const titleElement = document.querySelector(
+      '.dnb-global-status__title'
+    )
+    const closeButton = document.querySelector(
+      '.dnb-global-status__close-button'
+    )
+
+    expect(titleElement.textContent).toContain('An error has occurred')
+    expect(closeButton.textContent).toContain('Close')
+
+    rerender(
+      <Provider locale="nb-NO">
+        <GlobalStatus show autoScroll={false} noAnimation text="Test" />
+      </Provider>
+    )
+
+    expect(titleElement.textContent).toContain('En feil har skjedd')
+    expect(closeButton.textContent).toContain('Lukk')
+  })
+
+  it('should reflect dynamic state prop changes combined with locale changes', () => {
+    const { rerender } = render(
+      <Provider locale="en-GB">
+        <GlobalStatus
+          show
+          autoScroll={false}
+          noAnimation
+          state="error"
+          text="Test"
+        />
+      </Provider>
+    )
+
+    const element = document.querySelector('.dnb-global-status')
+    const titleElement = document.querySelector(
+      '.dnb-global-status__title'
+    )
+    const closeButton = document.querySelector(
+      '.dnb-global-status__close-button'
+    )
+
+    expect(element).toHaveClass('dnb-global-status--error')
+    expect(titleElement.textContent).toContain('An error has occurred')
+    expect(closeButton.textContent).toContain('Close')
+
+    rerender(
+      <Provider locale="nb-NO">
+        <GlobalStatus
+          show
+          autoScroll={false}
+          noAnimation
+          state="info"
+          text="Test"
+        />
+      </Provider>
+    )
+
+    expect(element).toHaveClass('dnb-global-status--info')
+    expect(element).not.toHaveClass('dnb-global-status--error')
+    expect(closeButton.textContent).toContain('Lukk')
+  })
 })
 
 describe('GlobalStatus scss', () => {

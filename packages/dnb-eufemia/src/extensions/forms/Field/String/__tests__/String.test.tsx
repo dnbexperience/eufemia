@@ -1649,7 +1649,7 @@ describe('Field.String', () => {
     let ref: React.RefObject<HTMLInputElement>
 
     const MockComponent = () => {
-      ref = React.useRef()
+      ref = React.useRef<HTMLInputElement | null>(null)
       return <Field.String id={id} innerRef={ref} />
     }
 

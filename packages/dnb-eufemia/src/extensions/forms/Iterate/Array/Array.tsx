@@ -177,8 +177,31 @@ function ArrayComponent(props: Props) {
     omitSectionPath,
   })
 
+  // Ensure the path exists as an array before children try to set values at numeric paths
+  useMountEffect(() => {
+    // Only run this if the array is using a defaultValue that needs to initialize the context
+    // Skip if data was already set by useFieldProps (which uses updateContextDataInSync)
+    if (
+      path &&
+      dataContext?.internalDataRef?.current &&
+      props.defaultValue !== undefined
+    ) {
+      const currentValue = pointer.has(
+        dataContext.internalDataRef.current,
+        path
+      )
+        ? pointer.get(dataContext.internalDataRef.current, path)
+        : undefined
+
+      // If not already an array, initialize it as one
+      if (!Array.isArray(currentValue)) {
+        dataContext.updateDataValue?.(path, arrayValue)
+      }
+    }
+  })
+
   // - Call onChange on the data context, if the count value changes
-  const countValueRef = useRef<number>()
+  const countValueRef = useRef<number>(undefined)
   useUpdateEffect(() => {
     if (countPath) {
       if (
@@ -208,8 +231,8 @@ function ArrayComponent(props: Props) {
   >({})
   const valueCountRef = useRef(arrayValue)
   const arrayValueRef = useRef(arrayValue)
-  const containerRef = useRef<HTMLDivElement>()
-  const hadPushRef = useRef<boolean>()
+  const containerRef = useRef<HTMLDivElement>(undefined)
+  const hadPushRef = useRef<boolean>(undefined)
   const innerRefs = useRef<
     Record<string, React.RefObject<HTMLDivElement>>
   >({})

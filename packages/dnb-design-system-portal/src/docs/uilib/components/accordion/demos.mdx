@@ -75,10 +75,10 @@ Accordion can be disabled, though is not exactly defined what the use case is.
 You can collapse all expanded accordions by sending a ref to the `collapseAllHandleRef` property and calling the `.current()` function on your ref.
 
 ```tsx
-const myCollapseAllRef = React.useRef<() => void>()
+const myCollapseAllRef = React.useRef<(() => void) | undefined>(undefined)
 
 return (
-  <button onClick={() => myCloseAllRef.current()}>
+  <button onClick={() => myCloseAllRef.current?.()}>
     Close all accordions
   </button>
 

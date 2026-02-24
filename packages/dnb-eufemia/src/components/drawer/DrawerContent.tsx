@@ -36,7 +36,7 @@ export default function DrawerContent({
   minWidth: minWidthProp = null,
   maxWidth: maxWidthProp = null,
   ...rest
-}: DrawerContentProps): JSX.Element {
+}: DrawerContentProps): React.JSX.Element {
   const context = useContext(ModalContext)
   const { minWidth, maxWidth } = checkMinMaxWidth(
     minWidthProp,

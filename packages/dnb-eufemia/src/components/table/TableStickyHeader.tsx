@@ -20,7 +20,7 @@ export const useStickyHeader = ({
   sticky,
   stickyOffset,
 }: StickyTableHeaderProps) => {
-  const elementRef = React.useRef<HTMLTableElement>()
+  const elementRef = React.useRef<HTMLTableElement>(undefined)
 
   React.useEffect(() => {
     if (sticky) {

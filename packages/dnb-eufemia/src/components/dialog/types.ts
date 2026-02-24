@@ -1,7 +1,6 @@
 import { ModalPropTypes } from '../modal/Modal'
 import { IconIcon } from '../Icon'
 import { DialogActionProps } from './parts/DialogAction'
-import { ReactChildType } from '../modal/types'
 import React from 'react'
 
 export interface DialogProps extends ModalPropTypes {
@@ -41,17 +40,19 @@ export interface DialogContentProps
   /**
    * The content which will appear in the navigation, above the header, and side-by-side the close button.
    */
-  navContent?: ReactChildType
+  navContent?: React.ReactNode
 
   /**
    * The content which will appear in the header of the dialog.
    */
-  headerContent?: ReactChildType
+  headerContent?: React.ReactNode
 
   /**
    * The content which will appear when triggering the dialog.
    */
-  modalContent?: ReactChildType
+  modalContent?:
+    | React.ReactNode
+    | ((props: DialogContentProps) => React.ReactNode)
 
   /**
    * Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.
@@ -96,5 +97,7 @@ export interface DialogContentProps
   /**
    * The content of the modal.
    */
-  children?: ReactChildType
+  children?:
+    | React.ReactNode
+    | ((props: DialogContentProps) => React.ReactNode)
 }

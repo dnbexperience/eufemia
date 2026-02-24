@@ -6,7 +6,7 @@ type PushContainerContext = {
   path: Path
   itemPath: Path
   entries?: Array<unknown>
-  commitHandleRef: React.MutableRefObject<() => void>
+  commitHandleRef: React.RefObject<() => void>
   switchContainerMode?: (mode: ContainerMode) => void
 }
 

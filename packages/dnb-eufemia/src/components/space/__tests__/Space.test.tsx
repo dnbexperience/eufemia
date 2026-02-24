@@ -25,10 +25,10 @@ describe('Space component', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref: React.RefObject<HTMLDivElement>
+    let ref: React.RefObject<HTMLElement>
 
     function MockComponent(props) {
-      ref = React.useRef()
+      ref = React.useRef<HTMLElement | null>(null)
       return <Space {...props} innerRef={ref} />
     }
 
