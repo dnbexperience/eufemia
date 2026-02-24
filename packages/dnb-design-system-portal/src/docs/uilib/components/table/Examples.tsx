@@ -43,7 +43,7 @@ import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
 function useCopyWithNotice() {
   const [active, setActive] = useState(false)
   const { NumberFormat } = useTranslation()
-  const timeoutRef = useRef<NodeJS.Timeout>()
+  const timeoutRef = useRef<NodeJS.Timeout>(undefined)
 
   const CopyTooltip = useCallback(
     ({ target }) => {
@@ -743,7 +743,7 @@ export const Accordion = () => (
           return <Input label="Label" labelSrOnly size={4} />
         }
         const Content = ({ shareId }) => {
-          const ref = React.useRef()
+          const ref = React.useRef(undefined)
           const { copy, CopyTooltip } = useCopyWithNotice()
 
           const shareHandler = () => {
@@ -862,7 +862,7 @@ export const AccordionMixed = () => (
           return <Input label="Label" labelSrOnly size={4} />
         }
         const Content = ({ shareId }) => {
-          const ref = React.useRef()
+          const ref = React.useRef(undefined)
           const { copy, CopyTooltip } = useCopyWithNotice()
 
           const shareHandler = () => {

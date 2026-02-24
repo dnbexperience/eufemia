@@ -13,6 +13,8 @@ This page lists the changes introduced in v11. It focuses on breaking changes, r
 
 v11 of @dnb/eufemia contains _breaking changes_. As a migration process, you can simply search and replace:
 
+> Important: Upgrading to v11 requires React and React DOM v19 ([React 19 Upgrade Guide](https://react.dev/blog/2024/04/25/react-19-upgrade-guide)).
+
 ## Install
 
 To upgrade to @dnb/eufemia v11 with NPM, use:
@@ -745,6 +747,10 @@ render(<Logo svg={SbankenCompact} />)
 
 - Replace `Modal.dialog_title` with `Modal.dialogTitle`.
 - Replace `Modal.close_title` with `Modal.closeTitle`.
+
+#### Opening and closing a modal
+
+- If you rely on opening and closing a modal by mounting and unmounting the component (legacy behavior), you should change to using the `open` property instead.
 
 ### [Modal.Header](/uilib/components/modal/), [Dialog.Header](/uilib/components/dialog/) and [Drawer.Header](/uilib/components/drawer/)
 

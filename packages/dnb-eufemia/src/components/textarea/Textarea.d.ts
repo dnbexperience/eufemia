@@ -120,7 +120,7 @@ export interface TextareaProps
   onBlur?: (...args: any[]) => any;
   onKeyDown?: (...args: any[]) => any;
 }
-export default class Textarea extends React.Component<TextareaProps, any> {
-  static defaultProps: object;
-  render(): JSX.Element;
-}
+declare const Textarea: React.ComponentClass<TextareaProps> & {
+  defaultProps: object;
+};
+export default Textarea;

@@ -28,7 +28,7 @@ export default {
   title: 'Eufemia/Components/GlobalStatus',
 }
 
-const LabelComponent = (): JSX.Element => {
+const LabelComponent = (): React.JSX.Element => {
   return <>my label</>
 }
 

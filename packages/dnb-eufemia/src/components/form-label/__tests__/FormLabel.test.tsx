@@ -155,10 +155,10 @@ describe('FormLabel component', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref: React.RefObject<HTMLInputElement>
+    let ref: React.RefObject<HTMLLabelElement>
 
     function MockComponent() {
-      ref = React.useRef()
+      ref = React.useRef<HTMLLabelElement | null>(null)
       return <FormLabel innerRef={ref}>content</FormLabel>
     }
 
@@ -170,12 +170,12 @@ describe('FormLabel component', () => {
 
   describe('nested', () => {
     it('gets valid ref element', () => {
-      let refA: React.RefObject<HTMLInputElement>
-      let refB: React.RefObject<HTMLInputElement>
+      let refA: React.RefObject<HTMLElement>
+      let refB: React.RefObject<HTMLElement>
 
       function MockComponent() {
-        refA = React.useRef()
-        refB = React.useRef()
+        refA = React.useRef<HTMLElement | null>(null)
+        refB = React.useRef<HTMLElement | null>(null)
         return (
           <FormLabel
             innerRef={refA}
@@ -190,7 +190,7 @@ describe('FormLabel component', () => {
 
       render(<MockComponent />)
 
-      expect(refA.current).toBeUndefined()
+      expect(refA.current).toBeNull()
       expect(refB.current instanceof HTMLLegendElement).toBe(true)
       expect(refB.current.tagName).toBe('LEGEND')
     })

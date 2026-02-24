@@ -70,7 +70,7 @@ describe('Input component', () => {
     let ref: React.RefObject<HTMLInputElement>
 
     function MockComponent() {
-      ref = React.useRef()
+      ref = React.useRef<HTMLInputElement | null>(null)
       return <Input {...props} innerRef={ref} />
     }
 

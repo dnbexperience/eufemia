@@ -46,7 +46,11 @@ export function bypassActWarning() {
   // upgrade to 16.9. See also: https://github.com/facebook/react/pull/14853
   beforeAll(() => {
     console.error = (...args) => {
-      if (/Warning.*not wrapped in act/.test(args[0])) {
+      const msg = String(args[0] ?? '')
+      if (
+        /not wrapped in act/.test(msg) ||
+        /component suspended inside an `act` scope/.test(msg)
+      ) {
         return
       }
       originalError.call(console, ...args)

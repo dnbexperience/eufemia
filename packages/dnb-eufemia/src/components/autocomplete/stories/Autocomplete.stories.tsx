@@ -961,7 +961,7 @@ export const Memo = () => {
     getInputIcon,
     label,
   }: {
-    getInputIcon: (value: number | undefined) => string | JSX.Element
+    getInputIcon: (value: number | undefined) => string | React.JSX.Element
     label: string
   }) {
     const [value, setValue] = useState()

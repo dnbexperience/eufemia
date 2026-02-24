@@ -23,7 +23,7 @@ function NextButton(props: Props) {
 
   const { prerenderFieldProps } = useContext(DataContext)
   if (prerenderFieldProps) {
-    return null as JSX.Element
+    return null as React.JSX.Element
   }
 
   return (

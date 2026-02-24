@@ -87,10 +87,10 @@ describe('Flex.Item', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref: React.RefObject<HTMLInputElement>
+    let ref: React.RefObject<HTMLElement>
 
     function MockComponent() {
-      ref = React.useRef()
+      ref = React.useRef<HTMLElement | null>(null)
       return (
         <Flex.Container>
           <Flex.Item innerRef={ref} element="section">

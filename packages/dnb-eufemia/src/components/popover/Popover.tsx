@@ -95,13 +95,13 @@ export default function Popover(props: PopoverProps) {
     onOpenChange,
   })
 
-  const triggerRef = useRef<HTMLElement>(null)
-  const tooltipRef = useRef<HTMLSpanElement>(null)
-  const contentWrapperRef = useRef<HTMLSpanElement>(null)
+  const triggerRef = useRef<HTMLElement | null>(null)
+  const tooltipRef = useRef<HTMLSpanElement | null>(null)
+  const contentWrapperRef = useRef<HTMLSpanElement | null>(null)
   const previousTargetElementRef =
-    useRef<PopoverResolvedTargetElement>(null)
-  const focusRestoreAnimationRef = useRef<number>(null)
-  const touchStartTargetRef = useRef<EventTarget>(null)
+    useRef<PopoverResolvedTargetElement | null>(null)
+  const focusRestoreAnimationRef = useRef<number | null>(null)
+  const touchStartTargetRef = useRef<EventTarget | null>(null)
   const touchMovedRef = useRef(false)
 
   const tooltipId = useId(idProp)
@@ -485,7 +485,9 @@ export default function Popover(props: PopoverProps) {
       if (typeof triggerAttrRef === 'function') {
         triggerAttrRef(node)
       } else if ('current' in triggerAttrRef) {
-        triggerAttrRef.current = node
+        const mutableTriggerAttrRef =
+          triggerAttrRef as React.MutableRefObject<HTMLElement | null>
+        mutableTriggerAttrRef.current = node
       }
     },
     [triggerAttrRef]

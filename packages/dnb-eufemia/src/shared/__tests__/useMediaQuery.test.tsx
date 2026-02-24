@@ -184,7 +184,7 @@ describe('useMediaQuery', () => {
       { wrapper }
     )
 
-    expect(window.matchMedia).toHaveBeenCalledTimes(4)
+    expect(window.matchMedia).toHaveBeenCalledTimes(3)
     expect(resultA.current).toBe(true)
 
     jest
@@ -200,7 +200,7 @@ describe('useMediaQuery', () => {
       { wrapper }
     )
 
-    expect(window.matchMedia).toHaveBeenCalledTimes(4)
+    expect(window.matchMedia).toHaveBeenCalledTimes(3)
     expect(resultB.current).toBe(false)
   })
 })

@@ -24,7 +24,7 @@ function Selection(props: Props) {
 
       if (!list) {
         list = fieldProp?.children as Array<
-          Omit<JSX.Element, 'props'> & { props: Data[number] }
+          Omit<React.JSX.Element, 'props'> & { props: Data[number] }
         >
       }
 
