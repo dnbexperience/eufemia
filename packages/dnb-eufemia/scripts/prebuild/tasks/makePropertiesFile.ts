@@ -240,6 +240,9 @@ export const transformFigmaAlias = (alias: Record<string, any>) => {
 }
 
 const hexAsRgb = (hex: string) => {
+  if (hex.length !== 7) {
+    throw new Error(`Can't parse hex string: ${hex}`)
+  }
   return `${parseInt(hex.substring(1, 3), 16)} ${parseInt(
     hex.substring(3, 5),
     16

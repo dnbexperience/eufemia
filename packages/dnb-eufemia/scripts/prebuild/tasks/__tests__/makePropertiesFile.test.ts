@@ -206,6 +206,17 @@ describe('makePropertiesFile', () => {
         expect(result).toEqual('rgba(0 114 114 / 0.0625)')
       })
 
+      it('throw error on bad hex string', () => {
+        const val = {
+          $type: 'color' as const,
+          $value: {
+            alpha: 0.06250001,
+            hex: '#fff',
+          },
+        }
+        expect(() => transformFigmaValue(val)).toThrow()
+      })
+
       it('throw error on unknown type', () => {
         const val = {
           $type: 'nonsense',
