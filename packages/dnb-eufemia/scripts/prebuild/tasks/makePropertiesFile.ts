@@ -207,6 +207,12 @@ type FigmaExport = {
   [K in string as K extends '$root' ? never : K]: FigmaData
 }
 
+const foundationPrefixMap = {
+  ui: { css: 'dnb', figma: 'dnb' },
+  sbanken: { css: 'sbanken', figma: 'sbanken' },
+  carnegie: { css: 'carnegie', figma: 'dnbcarnegie' },
+}
+
 export const transformFigmaAlias = (alias: Record<string, any>) => {
   const figmaVariableName = alias.targetVariableName
   // TODO: use is to verify the correct supported sets are used instead of name.
@@ -432,12 +438,6 @@ const makeDesignTokenSCSS = async (
     log.fail(`Failed to generate SCSS file: ${outputPath}`)
     throw e
   }
-}
-
-const foundationPrefixMap = {
-  ui: { css: 'dnb', figma: 'dnb' },
-  sbanken: { css: 'sbanken', figma: 'sbanken' },
-  carnegie: { css: 'carnegie', figma: 'dnbcarnegie' },
 }
 
 const runDesignTokenFactory = async () => {
