@@ -24,6 +24,7 @@ export function TableClickableHead(allProps: TableClickableHeadProps) {
     children,
     className,
     disabled,
+    expanded,
     onClick,
     onOpen,
     onClose,
