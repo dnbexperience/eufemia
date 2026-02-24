@@ -310,8 +310,10 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
     const shouldValidateTokenReferences =
       Boolean(expectedPrefix) && isTokensFile(filePath)
     const shouldValidateTokenDeclarationPrefix = isTokensFile(filePath)
+    const shouldValidateHasAllTokensAsOtherBrands =
+      Boolean(expectedPrefix) && isTokensFile(filePath)
 
-    if (shouldValidateTokenDeclarationPrefix) {
+    if (shouldValidateHasAllTokensAsOtherBrands) {
       const normalizedFilePath = path.resolve(filePath)
       const hasCurrentTokenFile =
         tokenVariablesByFile.has(normalizedFilePath)
