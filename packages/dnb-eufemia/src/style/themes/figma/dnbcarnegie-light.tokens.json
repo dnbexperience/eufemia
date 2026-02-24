@@ -4918,7 +4918,7 @@
             ],
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:b9540b7d108771cd545fccbf79563af9c01f8026/5552:1669",
-              "targetVariableName": "dnb/greyscale/1000/30",
+              "targetVariableName": "dnbcarnegie/greyscale/1000/30",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             },

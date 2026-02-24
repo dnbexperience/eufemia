@@ -713,7 +713,9 @@ exports[`makePropertiesFile Tokens snapshots for carnegie 1`] = `
   --token-color-component-table-background-neutral-alternative: var(
     --carnegie-greyscale-25
   );
-  --token-color-component-dimmer-background: var(--dnb-greyscale-1000-30);
+  --token-color-component-dimmer-background: var(
+    --carnegie-greyscale-1000-30
+  );
   --token-color-component-switch-action-disabled-ondark: var(
     --carnegie-greyscale-800
   );
@@ -807,7 +809,7 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 1`] = `
   --token-color-background-action-ondark: var(--sbanken-green-300);
   --token-color-background-action-hover-ondark: var(--sbanken-green-300);
   --token-color-background-action-hover-subtle-ondark: var(
-    --dnb-green-900
+    --sbanken-green-900
   );
   --token-color-background-action-pressed-ondark: var(--sbanken-green-400);
   --token-color-background-action-pressed-subtle-ondark: var(
