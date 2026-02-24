@@ -37,13 +37,7 @@ import {
   escapeRegexChars,
   getClosestParent,
 } from '../../shared/component-helper'
-import {
-  IS_MAC,
-  IS_WIN,
-  IS_EDGE,
-  debounce,
-  hasSelectedText,
-} from '../../shared/helpers'
+import { IS_MAC, debounce, hasSelectedText } from '../../shared/helpers'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
@@ -2146,10 +2140,10 @@ class AutocompleteInstance extends React.PureComponent<
 
     if (!(parseFloat(String(selectedItem)) > -1)) {
       inputParams.placeholder = placeholder || title
-      if (!(IS_WIN && IS_EDGE)) {
-        inputParams['aria-placeholder'] = undefined
-      }
     }
+
+    // aria-placeholder is not allowed on combobox role, clear it
+    inputParams['aria-placeholder'] = undefined
 
     // Handling of activedescendant – required by NVDA
     if (isExpanded) {
