@@ -21,6 +21,8 @@ const prettierrc = JSON.parse(
 
 const TOKEN_GROUP_SEPARATOR = '-'
 const TOKEN_CSS_PREFIX = '--'
+const CSS_VARIABLE_REFERENCE_REGEX = /var\(\s*(--[a-z0-9-]+)\s*\)/gi
+const CSS_VARIABLE_DECLARATION_REGEX = /^\s*(--[a-z0-9-]+)\s*:/i
 
 const ROOT_DIR = packpath.self()
 
@@ -267,6 +269,44 @@ export const transformFigmaPath = (path: string[]) => {
 export const transformNamespace = (namespace?: string) =>
   TOKEN_CSS_PREFIX + (namespace ? namespace + TOKEN_GROUP_SEPARATOR : '')
 
+export const extractReferencedCssVariables = (content: string) => {
+  const variables = new Set<string>()
+  let match: RegExpExecArray | null
+  const regex = new RegExp(CSS_VARIABLE_REFERENCE_REGEX)
+
+  while ((match = regex.exec(content)) !== null) {
+    const variableName = match[1]
+
+    if (variableName) {
+      variables.add(variableName)
+    }
+  }
+
+  return variables
+}
+
+const keepOnlyReferencedVariableDeclarations = (
+  content: string,
+  referencedVariables: Set<string>
+) => {
+  return content
+    .split('\n')
+    .filter((line) => {
+      const variableDeclarationMatch = line.match(
+        CSS_VARIABLE_DECLARATION_REGEX
+      )
+
+      if (!variableDeclarationMatch) {
+        return true
+      }
+
+      const variableName = variableDeclarationMatch[1]
+
+      return referencedVariables.has(variableName)
+    })
+    .join('\n')
+}
+
 /** Recursively generates CSS variables from a Figma export json */
 const generateCSSVariablesFromFigmaExport = (
   value: FigmaData | string | number,
@@ -315,9 +355,12 @@ const makeDesignTokenSCSS = async (
   /** Root path for the generated SCSS file */
   outputPath: string,
   /** prefix that is added to the start of the css variable name */
-  namespace: string,
+  namespace?: string,
   /** Optional filter function that transforms the source before generating */
-  filter: (json: FigmaGroup) => FigmaGroup = (json) => json
+  filter: (json: FigmaGroup) => FigmaGroup = (json) => json,
+  options: {
+    referencedVariables?: Set<string>
+  } = {}
 ) => {
   try {
     const json: FigmaGroup = filter(
@@ -329,6 +372,13 @@ const makeDesignTokenSCSS = async (
     scssContent += generateCSSVariablesFromFigmaExport(json, namespace)
 
     scssContent += '}\n'
+
+    if (options.referencedVariables) {
+      scssContent = keepOnlyReferencedVariableDeclarations(
+        scssContent,
+        options.referencedVariables
+      )
+    }
 
     const prettierResult = String(
       await prettier.format(scssContent, {
@@ -354,37 +404,56 @@ const makeDesignTokenSCSS = async (
 const runDesignTokenFactory = async () => {
   log.start('> PrePublish: transforming figma variables to SCSS')
 
-  const files = [
+  const tokenFiles: Array<{
+    theme: string
+    in: string
+    out: string
+    prefix: string
+  }> = [
     {
-      in: './src/style/themes/figma/Mode 1.tokens 5.json',
-      out: './src/style/themes/ui/foundation.scss',
-      filter: (json) => ({ DNB: json.DNB }),
-    },
-    {
-      in: './src/style/themes/figma/Mode 1.tokens 5.json',
-      out: './src/style/themes/sbanken/foundation.scss',
-      filter: (json) => ({ Sbanken: json.Sbanken }),
-    },
-    {
-      in: './src/style/themes/figma/Mode 1.tokens 5.json',
-      out: './src/style/themes/carnegie/foundation.scss',
-      filter: (json) => ({ Carnegie: json.Carnegie }),
-    },
-    {
+      theme: 'ui',
       in: './src/style/themes/figma/DNB Light.tokens.json',
       out: './src/style/themes/ui/tokens.scss',
       prefix: 'token',
     },
 
     {
+      theme: 'sbanken',
       in: './src/style/themes/figma/Sbanken Light.tokens.json',
       out: './src/style/themes/sbanken/tokens.scss',
       prefix: 'token',
     },
     {
+      theme: 'carnegie',
       in: './src/style/themes/figma/DNB Carnegie Light.tokens.json',
       out: './src/style/themes/carnegie/tokens.scss',
       prefix: 'token',
+    },
+  ]
+
+  const foundationFiles: Array<{
+    theme: string
+    in: string
+    out: string
+    filter: (json: FigmaGroup) => FigmaGroup
+  }> = [
+    {
+      theme: 'ui',
+      in: './src/style/themes/figma/Mode 1.tokens 5.json',
+      out: './src/style/themes/ui/foundation.scss',
+      filter: (json) => ({ DNB: json.DNB }),
+    },
+    {
+      theme: 'sbanken',
+      in: './src/style/themes/figma/Mode 1.tokens 5.json',
+      out: './src/style/themes/sbanken/foundation.scss',
+      filter: (json) => ({ Sbanken: json.Sbanken }),
+    },
+    {
+      theme: 'carnegie',
+      in: './src/style/themes/figma/Mode 1.tokens 5.json',
+      out: './src/style/themes/carnegie/foundation.scss',
+      filter: (json) => ({ Carnegie: json.Carnegie }),
     },
   ]
 
@@ -393,8 +462,31 @@ const runDesignTokenFactory = async () => {
   )
 
   await Promise.all(
-    files.map(async (file) =>
-      makeDesignTokenSCSS(file.in, file.out, file.prefix, file.filter)
+    tokenFiles.map(async (file) =>
+      makeDesignTokenSCSS(file.in, file.out, file.prefix)
+    )
+  )
+
+  const referencedVariablesEntries: Array<[string, Set<string>]> =
+    await Promise.all(
+      tokenFiles.map(async (file) => {
+        const tokensContent = await promises.readFile(file.out, 'utf-8')
+        return [
+          file.theme,
+          extractReferencedCssVariables(tokensContent),
+        ] as [string, Set<string>]
+      })
+    )
+
+  const referencedVariablesByTheme = new Map<string, Set<string>>(
+    referencedVariablesEntries
+  )
+
+  await Promise.all(
+    foundationFiles.map(async (file) =>
+      makeDesignTokenSCSS(file.in, file.out, undefined, file.filter, {
+        referencedVariables: referencedVariablesByTheme.get(file.theme),
+      })
     )
   )
 }

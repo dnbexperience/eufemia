@@ -1,6 +1,7 @@
 import { convertVariablesToTailwindFormat } from '../tailwindTransform'
 
-import {
+import makePropertiesFile, {
+  extractReferencedCssVariables,
   transformFigmaAlias,
   transformFigmaValue,
   transformFigmaPath,
@@ -20,14 +21,7 @@ describe('makePropertiesFile', () => {
   }
 
   beforeAll(async () => {
-    const { execSync } = await import('child_process')
-    execSync(
-      'babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/tasks/makePropertiesFile.ts',
-      {
-        cwd: process.cwd(),
-        stdio: 'pipe',
-      }
-    )
+    await makePropertiesFile()
 
     const fs = await import('fs')
     const path = await import('path')
@@ -84,6 +78,22 @@ describe('makePropertiesFile', () => {
   })
 
   describe('Figma file generation', () => {
+    describe('extractReferencedCssVariables', () => {
+      it('extracts css variables from var() usage', () => {
+        const result = extractReferencedCssVariables(`
+          --token-color-primary: var(--dnb-coldgreen-600);
+          --token-color-secondary: var(--dnb-greyscale-100);
+          --token-color-tertiary: var( --dnb-green-700 );
+        `)
+
+        expect(Array.from(result)).toEqual([
+          '--dnb-coldgreen-600',
+          '--dnb-greyscale-100',
+          '--dnb-green-700',
+        ])
+      })
+    })
+
     describe('transformFigmaAlias', () => {
       it('generates css var', () => {
         const val = {
@@ -302,16 +312,7 @@ describe('makePropertiesFile', () => {
     let uiTailwindResult, sbankenTailwindResult, eiendomTailwindResult
 
     beforeAll(async () => {
-      // Generate the Tailwind CSS files by running the actual make-properties script
-      // This will create the properties-tailwind.css files
-      const { execSync } = await import('child_process')
-      execSync(
-        'babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/tasks/makePropertiesFile.ts',
-        {
-          cwd: process.cwd(),
-          stdio: 'pipe',
-        }
-      )
+      await makePropertiesFile()
 
       // Read the generated files
       const fs = await import('fs')
@@ -404,6 +405,55 @@ describe('makePropertiesFile', () => {
         expect(sbankenTailwindResult).not.toMatch(/var\(--sb-[a-zA-Z-]+\)/)
         expect(eiendomTailwindResult).not.toMatch(/var\(--sb-[a-zA-Z-]+\)/)
       })
+    })
+  })
+
+  describe('Foundation only contains referenced variables', () => {
+    it('includes only variables used by tokens for ui', () => {
+      const tokenVariables = extractReferencedCssVariables(global.uiTokens)
+      const foundationVariables = new Set(
+        [...global.uiFoundation.matchAll(/^\s*(--[a-z0-9-]+)\s*:/gim)].map(
+          (match) => match[1]
+        )
+      )
+
+      for (const variable of Array.from(foundationVariables)) {
+        expect(tokenVariables.has(variable)).toBe(true)
+      }
+    })
+
+    it('includes only variables used by tokens for sbanken', () => {
+      const tokenVariables = extractReferencedCssVariables(
+        global.sbankenTokens
+      )
+      const foundationVariables = new Set(
+        [
+          ...global.sbankenFoundation.matchAll(
+            /^\s*(--[a-z0-9-]+)\s*:/gim
+          ),
+        ].map((match) => match[1])
+      )
+
+      for (const variable of Array.from(foundationVariables)) {
+        expect(tokenVariables.has(variable)).toBe(true)
+      }
+    })
+
+    it('includes only variables used by tokens for carnegie', () => {
+      const tokenVariables = extractReferencedCssVariables(
+        global.carnegieTokens
+      )
+      const foundationVariables = new Set(
+        [
+          ...global.carnegieFoundation.matchAll(
+            /^\s*(--[a-z0-9-]+)\s*:/gim
+          ),
+        ].map((match) => match[1])
+      )
+
+      for (const variable of Array.from(foundationVariables)) {
+        expect(tokenVariables.has(variable)).toBe(true)
+      }
     })
   })
 })
