@@ -16,7 +16,6 @@ import {
   validateDOMAttributes,
   processChildren,
   getStatusState,
-  convertStatusToStateOnly,
   combineDescribedBy,
   dispatchCustomElementEvent,
   convertJsxToString,
@@ -601,10 +600,9 @@ export default class Input extends React.PureComponent {
                     id={id + '-submit-button'}
                     value={hasValue ? value : ''}
                     icon={submitButtonIcon}
-                    status={convertStatusToStateOnly(
-                      submitButtonStatus || status,
-                      statusState
-                    )}
+                    status={
+                      submitButtonStatus || status ? statusState : null
+                    }
                     statusState={statusState}
                     iconSize={
                       size === 'medium' || size === 'large'
