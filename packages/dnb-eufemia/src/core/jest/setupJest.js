@@ -41,27 +41,3 @@ if (typeof window !== 'undefined') {
   const { getComputedStyle } = window
   window.getComputedStyle = (...args) => getComputedStyle(...args)
 }
-
-const originalError = console.error
-export function bypassActWarning() {
-  // Silence React "not wrapped in act" and Suspense scope warnings in tests
-  beforeAll(() => {
-    console.error = (...args) => {
-      const msg = String(args[0] ?? '')
-      if (
-        /not wrapped in act/.test(msg) ||
-        /component suspended inside an `act` scope/.test(msg)
-      ) {
-        return
-      }
-      originalError.call(console, ...args)
-    }
-  })
-
-  afterAll(() => {
-    console.error = originalError
-  })
-}
-
-// Called globally because it uses beforeAll / afterAll
-bypassActWarning()
