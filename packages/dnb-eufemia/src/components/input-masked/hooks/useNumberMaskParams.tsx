@@ -5,10 +5,7 @@
  */
 
 import React from 'react'
-import {
-  isTrue,
-  extendPropsWithContext,
-} from '../../../shared/component-helper'
+import { extendPropsWithContext } from '../../../shared/component-helper'
 import { getCurrencySymbol } from '../../number-format/NumberUtils'
 import InputMaskedContext from '../InputMaskedContext'
 
@@ -37,12 +34,13 @@ export const useNumberMaskParams = () => {
   const { asNumber, asPercent, asCurrency, value } = props
 
   maskOptions = fromJSON(maskOptions) as any
-  numberMask = isTrue(numberMask) ? {} : (fromJSON(numberMask) as any)
-  currencyMask = isTrue(currencyMask)
-    ? {}
-    : (fromJSON(currencyMask, {
-        currency: currencyMask,
-      }) as any)
+  numberMask = numberMask === true ? {} : (fromJSON(numberMask) as any)
+  currencyMask =
+    currencyMask === true
+      ? {}
+      : (fromJSON(currencyMask, {
+          currency: currencyMask,
+        }) as any)
   if (!currencyMask?.currency) {
     delete currencyMask.currency
   }
@@ -51,7 +49,7 @@ export const useNumberMaskParams = () => {
     const thousandsSeparatorSymbol = handleThousandsSeparator(locale)
     const decimalSymbol = handleDecimalSeparator(locale)
 
-    if (isTrue(asNumber) || isTrue(asPercent)) {
+    if (asNumber || asPercent) {
       numberMask = extendPropsWithContext(numberMask, null, {
         decimalSymbol,
         thousandsSeparatorSymbol,
@@ -78,7 +76,7 @@ export const useNumberMaskParams = () => {
       numberMask,
     })
 
-    if (isTrue(asPercent)) {
+    if (asPercent) {
       maskParams = handlePercentMask({ props, locale, maskParams })
     }
   } else if (currencyMask) {

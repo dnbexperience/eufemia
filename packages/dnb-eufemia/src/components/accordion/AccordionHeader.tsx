@@ -400,8 +400,8 @@ export const AccordionHeader = ({
 
   let Element = 'div'
 
-  // (String(heading) === 'true' || String(heading) === '1') extracted from isTrue function
-  if (heading && (String(heading) === 'true' || String(heading) === '1')) {
+  // Check if heading is set to true (use default heading element)
+  if (heading === true) {
     headerParams.role = 'heading'
     headerParams['aria-level'] = headingLevel ? Number(headingLevel) : 2
   } else if (heading) {

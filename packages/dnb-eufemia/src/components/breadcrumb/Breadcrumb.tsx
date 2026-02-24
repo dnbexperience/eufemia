@@ -26,7 +26,6 @@ import type { SkeletonShow } from '../skeleton/Skeleton'
 import BreadcrumbItem, { BreadcrumbItemProps } from './BreadcrumbItem'
 import {
   convertJsxToString,
-  isTrue,
   validateDOMAttributes,
   extendPropsWithContext,
 } from '../../shared/component-helper'
@@ -233,7 +232,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
 
   validateDOMAttributes(allProps, props)
 
-  const innerSpace = isTrue(spacing) ? 'small' : spacing
+  const innerSpace = spacing === true ? 'small' : spacing
 
   const overrideSbankenSectionColor =
     useTheme()?.isSbanken && collapsedStyleType === 'info'

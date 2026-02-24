@@ -10,7 +10,6 @@ import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import { useTheme, Context } from '../../shared'
 import {
-  isTrue,
   makeUniqueId,
   validateDOMAttributes,
   processChildren,
@@ -109,7 +108,7 @@ export default class FormStatus extends React.PureComponent {
 
   static getContent(props) {
     if (props.text) {
-      if (isTrue(props.text)) {
+      if (props.text === true) {
         return null
       }
       return props.text
@@ -268,7 +267,7 @@ export default class FormStatus extends React.PureComponent {
       if (state === 'error') {
         const statusId = this.getStatusId()
 
-        if (isTrue(show)) {
+        if (show) {
           this._globalStatus.update(
             statusId,
             {
@@ -329,9 +328,7 @@ export default class FormStatus extends React.PureComponent {
   }
 
   isReadyToGetVisible(props = this.props) {
-    return isTrue(props.show) && FormStatus.getContent(props)
-      ? true
-      : false
+    return props.show && FormStatus.getContent(props) ? true : false
   }
 
   render() {
