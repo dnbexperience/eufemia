@@ -3,6 +3,8 @@ import path from 'node:path'
 import { log } from '../../lib'
 import {
   CI_ALWAYS_RUN_BRANCHES,
+  NON_VISUAL_SOURCE_FILES,
+  NON_VISUAL_SOURCE_PATH_PREFIXES,
   PORTAL_DOCS_REPO_PREFIX,
   RUN_ALL_COMMIT_FLAG,
 } from './config'
@@ -243,7 +245,19 @@ export async function runScreenshotsTests() {
 
   const sourceChanges = packageRelativeEntries
     .map((entry) => entry.packagePath)
-    .filter((packagePath) => packagePath.startsWith('src/'))
+    .filter((packagePath) => {
+      if (!packagePath.startsWith('src/')) {
+        return false
+      }
+
+      if (NON_VISUAL_SOURCE_FILES.has(packagePath)) {
+        return false
+      }
+
+      return !NON_VISUAL_SOURCE_PATH_PREFIXES.some((prefix) => {
+        return packagePath.startsWith(prefix)
+      })
+    })
   const hasPortalDocsChanges = changedFiles.some((filePath) => {
     return filePath.startsWith(PORTAL_DOCS_REPO_PREFIX)
   })

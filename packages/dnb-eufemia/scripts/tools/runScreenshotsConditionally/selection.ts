@@ -3,6 +3,8 @@ import {
   DEFAULT_IMPACTED_THRESHOLD,
   GLOBAL_VISUAL_FILES,
   GLOBAL_VISUAL_PATH_PREFIXES,
+  NON_VISUAL_SOURCE_FILES,
+  NON_VISUAL_SOURCE_PATH_PREFIXES,
   PACKAGE_PREFIX,
 } from './config'
 import { normalizePath } from './context'
@@ -296,7 +298,19 @@ export function analyzeSelection({
 
   const sourceChanges = packageRelativeFiles
     .map((entry) => entry.packagePath)
-    .filter((packagePath) => packagePath.startsWith('src/'))
+    .filter((packagePath) => {
+      if (!packagePath.startsWith('src/')) {
+        return false
+      }
+
+      if (NON_VISUAL_SOURCE_FILES.has(packagePath)) {
+        return false
+      }
+
+      return !NON_VISUAL_SOURCE_PATH_PREFIXES.some((prefix) => {
+        return packagePath.startsWith(prefix)
+      })
+    })
 
   if (sourceChanges.length === 0 && portalDocsImpactedTests.length === 0) {
     return {

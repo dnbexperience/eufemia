@@ -41,18 +41,6 @@ async function tryRunGitCommand(
   }
 }
 
-async function hasGitRef(
-  context: RunnerContext,
-  refName: string
-): Promise<boolean> {
-  const result = await tryRunGitCommand(context, [
-    'rev-parse',
-    '--verify',
-    refName,
-  ])
-  return result !== null
-}
-
 async function getVersionBranchRefs(
   context: RunnerContext
 ): Promise<string[]> {
@@ -70,6 +58,25 @@ async function getVersionBranchRefs(
   } catch {
     return []
   }
+}
+
+async function getCommitTimestamp(
+  context: RunnerContext,
+  commitRef: string
+): Promise<number | null> {
+  const output = await tryRunGitCommand(context, [
+    'show',
+    '-s',
+    '--format=%ct',
+    commitRef,
+  ])
+
+  if (!output) {
+    return null
+  }
+
+  const timestamp = Number(output)
+  return Number.isFinite(timestamp) ? timestamp : null
 }
 
 export async function getLatestCommitMessage(
@@ -136,25 +143,56 @@ async function getChangedFilesFromBranchBase(
   context: RunnerContext
 ): Promise<string[]> {
   const versionRefs = await getVersionBranchRefs(context)
+  const explicitBaseRef = process.env[BASE_REF_ENV_VAR]
+  const githubBaseRefs = [
+    process.env.GITHUB_BASE_REF
+      ? `origin/${process.env.GITHUB_BASE_REF}`
+      : null,
+    process.env.GITHUB_BASE_REF || null,
+  ]
+
+  if (explicitBaseRef) {
+    const explicitRefs = Array.from(
+      new Set(
+        [
+          explicitBaseRef,
+          explicitBaseRef.startsWith('origin/')
+            ? explicitBaseRef.slice('origin/'.length)
+            : `origin/${explicitBaseRef}`,
+        ].filter(Boolean) as string[]
+      )
+    )
+
+    for (const refName of explicitRefs) {
+      const mergeBase = await tryRunGitCommand(context, [
+        'merge-base',
+        refName,
+        'HEAD',
+      ])
+      if (!mergeBase) {
+        continue
+      }
+
+      return getChangedFilesFromRange(context, `${mergeBase}...HEAD`)
+    }
+
+    return []
+  }
+
   const refs = Array.from(
     new Set(
       [
-        process.env[BASE_REF_ENV_VAR],
-        process.env.GITHUB_BASE_REF
-          ? `origin/${process.env.GITHUB_BASE_REF}`
-          : null,
-        process.env.GITHUB_BASE_REF || null,
-        ...DEFAULT_BRANCH_BASE_REFS,
+        ...githubBaseRefs,
         ...versionRefs,
+        ...DEFAULT_BRANCH_BASE_REFS,
       ].filter(Boolean) as string[]
     )
   )
 
-  for (const refName of refs) {
-    if (!(await hasGitRef(context, refName))) {
-      continue
-    }
+  let bestMergeBase: string | null = null
+  let bestMergeBaseTimestamp = -1
 
+  for (const refName of refs) {
     const mergeBase = await tryRunGitCommand(context, [
       'merge-base',
       refName,
@@ -164,17 +202,22 @@ async function getChangedFilesFromBranchBase(
       continue
     }
 
-    const files = await getChangedFilesFromRange(
-      context,
-      `${mergeBase}...HEAD`
-    )
+    const timestamp = await getCommitTimestamp(context, mergeBase)
+    if (timestamp === null) {
+      continue
+    }
 
-    if (files.length > 0) {
-      return files
+    if (timestamp > bestMergeBaseTimestamp) {
+      bestMergeBase = mergeBase
+      bestMergeBaseTimestamp = timestamp
     }
   }
 
-  return []
+  if (!bestMergeBase) {
+    return []
+  }
+
+  return getChangedFilesFromRange(context, `${bestMergeBase}...HEAD`)
 }
 
 function getChangedFilesFromEnvironment(): string[] {
