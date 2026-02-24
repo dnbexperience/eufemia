@@ -455,7 +455,7 @@ exports[`makePropertiesFile Tokens snapshots for carnegie 1`] = `
     --carnegie-greyscale-1000
   );
   --token-color-background-neutral: var(--carnegie-greyscale-0);
-  --token-color-background-neutral-solid: var(--carnegie-greyscale-0);
+  --token-color-background-neutral-static: var(--carnegie-greyscale-0);
   --token-color-background-neutral-subtle: var(--carnegie-greyscale-50);
   --token-color-background-neutral-base: var(--carnegie-greyscale-100);
   --token-color-background-neutral-bold: var(--carnegie-greyscale-200);
@@ -487,22 +487,22 @@ exports[`makePropertiesFile Tokens snapshots for carnegie 1`] = `
     --carnegie-greyscale-0
   );
   --token-color-text-neutral: var(--carnegie-greyscale-1000);
-  --token-color-text-neutral-solid: var(--carnegie-greyscale-1000);
+  --token-color-text-neutral-onlight: var(--carnegie-greyscale-1000);
   --token-color-text-neutral-alternative: var(--carnegie-greyscale-500);
   --token-color-text-neutral-inverse: var(--carnegie-greyscale-0);
   --token-color-text-neutral-ondark: var(--carnegie-greyscale-0);
   --token-color-text-neutral-subtle: var(--carnegie-greyscale-200);
-  --token-color-text-neutral-subtle-solid: var(--carnegie-greyscale-200);
+  --token-color-text-neutral-subtle-ondark: var(--carnegie-greyscale-200);
   --token-color-text-destructive: var(--carnegie-red-600);
   --token-color-text-destructive-inverse: var(--carnegie-orange-600);
-  --token-color-text-warning-bold: var(--carnegie-yellow-800);
-  --token-color-text-warning-bold-inverse: var(--carnegie-yellow-500);
+  --token-color-text-warning: var(--carnegie-yellow-800);
+  --token-color-text-warning-inverse: var(--carnegie-yellow-500);
   --token-color-text-positive: var(--carnegie-green-700);
   --token-color-text-positive-inverse: var(--carnegie-green-600);
   --token-color-icon-action: var(--carnegie-greyscale-1000);
   --token-color-icon-action-hover: var(--carnegie-greyscale-1000);
   --token-color-icon-action-pressed: var(--carnegie-greyscale-1000);
-  --token-color-icon-action-focused: var(--carnegie-blue-600);
+  --token-color-icon-action-focus: var(--carnegie-blue-600);
   --token-color-icon-action-disabled: var(--carnegie-greyscale-200);
   --token-color-icon-action-inverse: var(--carnegie-greyscale-0);
   --token-color-icon-action-hover-inverse: var(--carnegie-greyscale-0);
@@ -519,7 +519,6 @@ exports[`makePropertiesFile Tokens snapshots for carnegie 1`] = `
   --token-color-icon-neutral: var(--carnegie-greyscale-1000);
   --token-color-icon-neutral-inverse: var(--carnegie-greyscale-0);
   --token-color-icon-neutral-ondark: var(--carnegie-greyscale-0);
-  --token-color-icon-neutral-solid: var(--carnegie-greyscale-1000);
   --token-color-icon-neutral-alternative: var(--carnegie-greyscale-500);
   --token-color-icon-destructive: var(--carnegie-red-600);
   --token-color-icon-marketing: var(--carnegie-greyscale-800);
@@ -557,43 +556,51 @@ exports[`makePropertiesFile Tokens snapshots for carnegie 1`] = `
   --token-color-stroke-error: var(--carnegie-red-600);
   --token-color-stroke-marketing: var(--carnegie-greyscale-800);
   --token-color-decorative-first-muted: var(--carnegie-beige-50);
-  --token-color-decorative-first-muted-solid: var(--carnegie-beige-50);
+  --token-color-decorative-first-muted-static: var(--carnegie-beige-50);
   --token-color-decorative-first-subtle: var(--carnegie-beige-200);
-  --token-color-decorative-first-subtle-solid: var(--carnegie-beige-200);
+  --token-color-decorative-first-subtle-static: var(--carnegie-beige-200);
   --token-color-decorative-first-base: var(--carnegie-beige-500);
-  --token-color-decorative-first-base-solid: var(--carnegie-beige-500);
+  --token-color-decorative-first-base-static: var(--carnegie-beige-500);
   --token-color-decorative-first-bold: var(--carnegie-beige-800);
-  --token-color-decorative-first-bold-solid: var(--carnegie-beige-800);
+  --token-color-decorative-first-bold-static: var(--carnegie-beige-800);
   --token-color-decorative-first-intense: var(--carnegie-beige-950);
-  --token-color-decorative-first-intense-solid: var(--carnegie-beige-950);
+  --token-color-decorative-first-intense-static: var(--carnegie-beige-950);
   --token-color-decorative-second-muted: var(--carnegie-burgundy-100);
-  --token-color-decorative-second-muted-solid: var(
+  --token-color-decorative-second-muted-static: var(
     --carnegie-burgundy-100
   );
   --token-color-decorative-second-subtle: var(--carnegie-burgundy-300);
-  --token-color-decorative-second-subtle-solid: var(
+  --token-color-decorative-second-subtle-static: var(
     --carnegie-burgundy-300
   );
   --token-color-decorative-second-base: var(--carnegie-burgundy-500);
-  --token-color-decorative-second-base-solid: var(--carnegie-burgundy-500);
+  --token-color-decorative-second-base-static: var(
+    --carnegie-burgundy-500
+  );
   --token-color-decorative-second-bold: var(--carnegie-burgundy-900);
-  --token-color-decorative-second-bold-solid: var(--carnegie-burgundy-900);
+  --token-color-decorative-second-bold-static: var(
+    --carnegie-burgundy-900
+  );
   --token-color-decorative-second-intense: var(--carnegie-burgundy-950);
-  --token-color-decorative-second-intense-solid: var(
+  --token-color-decorative-second-intense-static: var(
     --carnegie-burgundy-950
   );
   --token-color-decorative-third-muted: var(--carnegie-coldgreen-100);
-  --token-color-decorative-third-muted-solid: var(--carnegie-green-100);
+  --token-color-decorative-third-muted-static: var(--carnegie-green-100);
   --token-color-decorative-third-subtle: var(--carnegie-coldgreen-300);
-  --token-color-decorative-third-subtle-solid: var(
+  --token-color-decorative-third-subtle-static: var(
     --carnegie-coldgreen-300
   );
   --token-color-decorative-third-base: var(--carnegie-coldgreen-500);
-  --token-color-decorative-third-base-solid: var(--carnegie-coldgreen-500);
+  --token-color-decorative-third-base-static: var(
+    --carnegie-coldgreen-500
+  );
   --token-color-decorative-third-bold: var(--carnegie-coldgreen-700);
-  --token-color-decorative-third-bold-solid: var(--carnegie-coldgreen-700);
+  --token-color-decorative-third-bold-static: var(
+    --carnegie-coldgreen-700
+  );
   --token-color-decorative-third-intense: var(--carnegie-coldgreen-950);
-  --token-color-decorative-third-intense-solid: var(
+  --token-color-decorative-third-intense-static: var(
     --carnegie-coldgreen-950
   );
   --token-color-component-button-background-action: var(
@@ -697,7 +704,7 @@ exports[`makePropertiesFile Tokens snapshots for carnegie 1`] = `
   --token-color-component-button-stroke-action-destructive-pressed: var(
     --carnegie-red-700
   );
-  --token-color-component-button-stroke-selected-wip: var(
+  --token-color-component-button-stroke-selected: var(
     --carnegie-beige-700
   );
   --token-color-component-tooltip-background-neutral: var(
@@ -778,7 +785,7 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 1`] = `
 "/* This file is auto generated by makePropertiesFile.ts */
 
 :root {
-  --token-color-background-page-background: var(--sbanken-grey-0);
+  --token-color-background-page-background: var(--sbanken-greyscale-0);
   --token-color-background-action: var(--sbanken-purple-700);
   --token-color-background-action-hover: var(--sbanken-purple-700);
   --token-color-background-action-hover-subtle: var(--sbanken-purple-100);
@@ -788,7 +795,7 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 1`] = `
   );
   --token-color-background-action-focus: var(--sbanken-blue-600);
   --token-color-background-action-focus-subtle: var(--sbanken-blue-100);
-  --token-color-background-action-disabled: var(--sbanken-grey-400);
+  --token-color-background-action-disabled: var(--sbanken-greyscale-400);
   --token-color-background-action-inverse: var(--sbanken-green-300);
   --token-color-background-action-hover-inverse: var(--sbanken-green-300);
   --token-color-background-action-hover-subtle-inverse: var(
@@ -806,10 +813,14 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 1`] = `
   --token-color-background-action-pressed-subtle-ondark: var(
     --sbanken-green-950
   );
-  --token-color-background-action-disabled-ondark: var(--sbanken-grey-600);
-  --token-color-background-action-alternative: var(--sbanken-grey-500);
+  --token-color-background-action-disabled-ondark: var(
+    --sbanken-greyscale-600
+  );
+  --token-color-background-action-alternative: var(
+    --sbanken-greyscale-500
+  );
   --token-color-background-action-alternative-hover-subtle: var(
-    --sbanken-grey-100
+    --sbanken-greyscale-100
   );
   --token-color-background-selected: var(--sbanken-purple-950);
   --token-color-background-selected-subtle: var(--sbanken-purple-100);
@@ -817,12 +828,14 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 1`] = `
   --token-color-background-selected-subtle-ondark: var(
     --sbanken-green-900
   );
-  --token-color-background-neutral: var(--sbanken-grey-0);
-  --token-color-background-neutral-solid: var(--sbanken-grey-0);
-  --token-color-background-neutral-subtle: var(--sbanken-grey-100);
-  --token-color-background-neutral-base: var(--sbanken-grey-100);
-  --token-color-background-neutral-bold: var(--sbanken-grey-300);
-  --token-color-background-neutral-alternative: var(--sbanken-grey-100);
+  --token-color-background-neutral: var(--sbanken-greyscale-0);
+  --token-color-background-neutral-static: var(--sbanken-greyscale-0);
+  --token-color-background-neutral-subtle: var(--sbanken-greyscale-100);
+  --token-color-background-neutral-base: var(--sbanken-greyscale-100);
+  --token-color-background-neutral-bold: var(--sbanken-greyscale-300);
+  --token-color-background-neutral-alternative: var(
+    --sbanken-greyscale-100
+  );
   --token-color-background-info: var(--sbanken-green-600);
   --token-color-background-info-subtle: var(--sbanken-green-50);
   --token-color-background-positive: var(--sbanken-green-700);
@@ -837,7 +850,7 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 1`] = `
   --token-color-text-action-hover: var(--sbanken-purple-700);
   --token-color-text-action-pressed: var(--sbanken-purple-900);
   --token-color-text-action-focus: var(--sbanken-blue-600);
-  --token-color-text-action-disabled: var(--sbanken-grey-300);
+  --token-color-text-action-disabled: var(--sbanken-greyscale-300);
   --token-color-text-action-inverse: var(--sbanken-green-300);
   --token-color-text-action-hover-inverse: var(--sbanken-green-300);
   --token-color-text-action-pressed-inverse: var(--sbanken-green-400);
@@ -845,45 +858,44 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 1`] = `
   --token-color-text-action-ondark: var(--sbanken-green-300);
   --token-color-text-action-hover-ondark: var(--sbanken-green-300);
   --token-color-text-action-pressed-ondark: var(--sbanken-green-400);
-  --token-color-text-action-disabled-ondark: var(--sbanken-grey-500);
-  --token-color-text-action-alternative-ondark: var(--sbanken-grey-0);
+  --token-color-text-action-disabled-ondark: var(--sbanken-greyscale-500);
+  --token-color-text-action-alternative-ondark: var(--sbanken-greyscale-0);
   --token-color-text-neutral: var(--sbanken-purple-1000);
-  --token-color-text-neutral-solid: var(--sbanken-purple-1000);
-  --token-color-text-neutral-alternative: var(--sbanken-grey-600);
-  --token-color-text-neutral-inverse: var(--sbanken-grey-0);
-  --token-color-text-neutral-ondark: var(--sbanken-grey-0);
-  --token-color-text-neutral-subtle: var(--sbanken-grey-600);
-  --token-color-text-neutral-subtle-solid: var(--sbanken-grey-200);
+  --token-color-text-neutral-onlight: var(--sbanken-purple-1000);
+  --token-color-text-neutral-alternative: var(--sbanken-greyscale-600);
+  --token-color-text-neutral-inverse: var(--sbanken-greyscale-0);
+  --token-color-text-neutral-ondark: var(--sbanken-greyscale-0);
+  --token-color-text-neutral-subtle: var(--sbanken-greyscale-600);
+  --token-color-text-neutral-subtle-ondark: var(--sbanken-greyscale-200);
   --token-color-text-destructive: var(--sbanken-orange-800);
   --token-color-text-destructive-inverse: var(--sbanken-orange-500);
-  --token-color-text-warning-bold: var(--sbanken-yellow-800);
-  --token-color-text-warning-bold-inverse: var(--sbanken-yellow-600);
+  --token-color-text-warning: var(--sbanken-yellow-800);
+  --token-color-text-warning-inverse: var(--sbanken-yellow-600);
   --token-color-text-positive: var(--sbanken-green-700);
   --token-color-text-positive-inverse: var(--sbanken-green-600);
   --token-color-icon-action: var(--sbanken-purple-700);
   --token-color-icon-action-hover: var(--sbanken-purple-700);
   --token-color-icon-action-pressed: var(--sbanken-purple-900);
-  --token-color-icon-action-focused: var(--sbanken-blue-600);
-  --token-color-icon-action-disabled: var(--sbanken-grey-300);
+  --token-color-icon-action-focus: var(--sbanken-blue-600);
+  --token-color-icon-action-disabled: var(--sbanken-greyscale-300);
   --token-color-icon-action-inverse: var(--sbanken-green-300);
   --token-color-icon-action-hover-inverse: var(--sbanken-green-300);
   --token-color-icon-action-pressed-inverse: var(--sbanken-green-300);
   --token-color-icon-selected: var(--sbanken-purple-950);
   --token-color-icon-selected-ondark: var(--sbanken-green-400);
   --token-color-icon-action-ondark: var(--sbanken-green-300);
-  --token-color-icon-action-alternative-ondark: var(--sbanken-grey-0);
+  --token-color-icon-action-alternative-ondark: var(--sbanken-greyscale-0);
   --token-color-icon-action-hover-ondark: var(--sbanken-green-300);
   --token-color-icon-action-pressed-ondark: var(--sbanken-green-400);
-  --token-color-icon-action-disabled-ondark: var(--sbanken-grey-500);
+  --token-color-icon-action-disabled-ondark: var(--sbanken-greyscale-500);
   --token-color-icon-neutral: var(--sbanken-purple-1000);
-  --token-color-icon-neutral-inverse: var(--sbanken-grey-0);
-  --token-color-icon-neutral-ondark: var(--sbanken-grey-0);
-  --token-color-icon-neutral-solid: var(--sbanken-purple-1000);
-  --token-color-icon-neutral-alternative: var(--sbanken-grey-600);
+  --token-color-icon-neutral-inverse: var(--sbanken-greyscale-0);
+  --token-color-icon-neutral-ondark: var(--sbanken-greyscale-0);
+  --token-color-icon-neutral-alternative: var(--sbanken-greyscale-600);
   --token-color-icon-destructive: var(--sbanken-orange-700);
   --token-color-icon-marketing: var(--sbanken-purple-900);
   --token-color-stroke-action: var(--sbanken-purple-700);
-  --token-color-stroke-action-alternative: var(--sbanken-grey-500);
+  --token-color-stroke-action-alternative: var(--sbanken-greyscale-500);
   --token-color-stroke-action-hover: var(--sbanken-purple-700);
   --token-color-stroke-action-pressed: var(--sbanken-purple-950);
   --token-color-stroke-action-inverse: var(--sbanken-green-300);
@@ -891,54 +903,58 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 1`] = `
   --token-color-stroke-action-pressed-inverse: var(--sbanken-green-500);
   --token-color-stroke-action-focus: var(--sbanken-blue-600);
   --token-color-stroke-action-focus-subtle: var(--sbanken-blue-100);
-  --token-color-stroke-action-disabled: var(--sbanken-grey-300);
+  --token-color-stroke-action-disabled: var(--sbanken-greyscale-300);
   --token-color-stroke-selected: var(--sbanken-purple-950);
   --token-color-stroke-selected-ondark: var(--sbanken-green-100);
   --token-color-stroke-action-ondark: var(--sbanken-green-300);
-  --token-color-stroke-action-alternative-ondark: var(--sbanken-grey-400);
+  --token-color-stroke-action-alternative-ondark: var(
+    --sbanken-greyscale-400
+  );
   --token-color-stroke-action-hover-ondark: var(--sbanken-green-300);
   --token-color-stroke-action-pressed-ondark: var(--sbanken-green-400);
-  --token-color-stroke-action-disabled-ondark: var(--sbanken-grey-600);
+  --token-color-stroke-action-disabled-ondark: var(
+    --sbanken-greyscale-600
+  );
   --token-color-stroke-neutral: var(--sbanken-purple-900);
-  --token-color-stroke-neutral-ondark: var(--sbanken-grey-0);
-  --token-color-stroke-neutral-subtle: var(--sbanken-grey-300);
-  --token-color-stroke-neutral-bold: var(--sbanken-grey-300);
-  --token-color-stroke-neutral-alternative: var(--sbanken-grey-300);
+  --token-color-stroke-neutral-ondark: var(--sbanken-greyscale-0);
+  --token-color-stroke-neutral-subtle: var(--sbanken-greyscale-300);
+  --token-color-stroke-neutral-bold: var(--sbanken-greyscale-300);
+  --token-color-stroke-neutral-alternative: var(--sbanken-greyscale-300);
   --token-color-stroke-info: var(--sbanken-green-600);
   --token-color-stroke-positive: var(--sbanken-green-700);
   --token-color-stroke-warning: var(--sbanken-yellow-600);
   --token-color-stroke-error: var(--sbanken-red-700);
   --token-color-stroke-marketing: var(--sbanken-purple-900);
   --token-color-decorative-first-muted: var(--sbanken-purple-100);
-  --token-color-decorative-first-muted-solid: var(--sbanken-purple-100);
+  --token-color-decorative-first-muted-static: var(--sbanken-purple-100);
   --token-color-decorative-first-subtle: var(--sbanken-purple-300);
-  --token-color-decorative-first-subtle-solid: var(--sbanken-purple-300);
+  --token-color-decorative-first-subtle-static: var(--sbanken-purple-300);
   --token-color-decorative-first-base: var(--sbanken-purple-600);
-  --token-color-decorative-first-base-solid: var(--sbanken-purple-600);
+  --token-color-decorative-first-base-static: var(--sbanken-purple-600);
   --token-color-decorative-first-bold: var(--sbanken-purple-700);
-  --token-color-decorative-first-bold-solid: var(--sbanken-purple-700);
+  --token-color-decorative-first-bold-static: var(--sbanken-purple-700);
   --token-color-decorative-first-intense: var(--sbanken-purple-900);
-  --token-color-decorative-first-intense-solid: var(--sbanken-purple-900);
+  --token-color-decorative-first-intense-static: var(--sbanken-purple-900);
   --token-color-decorative-second-muted: var(--sbanken-green-100);
-  --token-color-decorative-second-muted-solid: var(--sbanken-green-100);
+  --token-color-decorative-second-muted-static: var(--sbanken-green-100);
   --token-color-decorative-second-subtle: var(--sbanken-green-300);
-  --token-color-decorative-second-subtle-solid: var(--sbanken-green-300);
+  --token-color-decorative-second-subtle-static: var(--sbanken-green-300);
   --token-color-decorative-second-base: var(--sbanken-green-500);
-  --token-color-decorative-second-base-solid: var(--sbanken-green-500);
+  --token-color-decorative-second-base-static: var(--sbanken-green-500);
   --token-color-decorative-second-bold: var(--sbanken-green-700);
-  --token-color-decorative-second-bold-solid: var(--sbanken-green-700);
+  --token-color-decorative-second-bold-static: var(--sbanken-green-700);
   --token-color-decorative-second-intense: var(--sbanken-green-900);
-  --token-color-decorative-second-intense-solid: var(--sbanken-green-900);
+  --token-color-decorative-second-intense-static: var(--sbanken-green-900);
   --token-color-decorative-third-muted: var(--sbanken-purple-50);
-  --token-color-decorative-third-muted-solid: var(--sbanken-purple-50);
+  --token-color-decorative-third-muted-static: var(--sbanken-purple-50);
   --token-color-decorative-third-subtle: var(--sbanken-purple-300);
-  --token-color-decorative-third-subtle-solid: var(--sbanken-purple-300);
+  --token-color-decorative-third-subtle-static: var(--sbanken-purple-300);
   --token-color-decorative-third-base: var(--sbanken-purple-500);
-  --token-color-decorative-third-base-solid: var(--sbanken-purple-500);
+  --token-color-decorative-third-base-static: var(--sbanken-purple-500);
   --token-color-decorative-third-bold: var(--sbanken-purple-700);
-  --token-color-decorative-third-bold-solid: var(--sbanken-purple-700);
+  --token-color-decorative-third-bold-static: var(--sbanken-purple-700);
   --token-color-decorative-third-intense: var(--sbanken-purple-900);
-  --token-color-decorative-third-intense-solid: var(--sbanken-purple-900);
+  --token-color-decorative-third-intense-static: var(--sbanken-purple-900);
   --token-color-component-button-background-action: var(
     --sbanken-purple-900
   );
@@ -960,7 +976,7 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 1`] = `
   --token-color-component-button-background-action-destructive-pressed-subtle: var(
     --sbanken-red-200
   );
-  --token-color-component-button-text-neutral: var(--sbanken-grey-0);
+  --token-color-component-button-text-neutral: var(--sbanken-greyscale-0);
   --token-color-component-button-text-neutral-inverse: var(
     --sbanken-purple-1000
   );
@@ -984,10 +1000,10 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 1`] = `
     --sbanken-green-300
   );
   --token-color-component-button-text-action-disabled: var(
-    --sbanken-grey-0
+    --sbanken-greyscale-0
   );
   --token-color-component-button-text-neutral-destructive: var(
-    --sbanken-grey-0
+    --sbanken-greyscale-0
   );
   --token-color-component-button-text-action-destructive: var(
     --sbanken-orange-700
@@ -998,7 +1014,7 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 1`] = `
   --token-color-component-button-text-action-destructive-pressed: var(
     --sbanken-orange-500
   );
-  --token-color-component-button-icon-neutral: var(--sbanken-grey-0);
+  --token-color-component-button-icon-neutral: var(--sbanken-greyscale-0);
   --token-color-component-button-icon-neutral-ondark: var(
     --sbanken-purple-1000
   );
@@ -1007,10 +1023,10 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 1`] = `
     --sbanken-purple-900
   );
   --token-color-component-button-icon-action-disabled: var(
-    --sbanken-grey-0
+    --sbanken-greyscale-0
   );
   --token-color-component-button-icon-neutral-destructive: var(
-    --sbanken-grey-0
+    --sbanken-greyscale-0
   );
   --token-color-component-button-icon-action-destructive: var(
     --sbanken-orange-700
@@ -1034,21 +1050,23 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 1`] = `
   --token-color-component-button-stroke-action-destructive-pressed: var(
     --sbanken-orange-500
   );
-  --token-color-component-button-stroke-selected-wip: var(
+  --token-color-component-button-stroke-selected: var(
     --sbanken-purple-700-40
   );
   --token-color-component-tooltip-background-neutral: var(
-    --sbanken-grey-800
+    --sbanken-greyscale-800
   );
   --token-color-component-table-background-neutral-alternative: var(
-    --sbanken-grey-25
+    --sbanken-greyscale-25
   );
-  --token-color-component-dimmer-background: var(--sbanken-grey-1000-30);
+  --token-color-component-dimmer-background: var(
+    --sbanken-greyscale-1000-30
+  );
   --token-color-component-switch-action-disabled-ondark: var(
     --sbanken-purple-1000
   );
   --token-color-component-progressbar-neutral-onsubtle: var(
-    --sbanken-grey-300
+    --sbanken-greyscale-300
   );
 }
 "
@@ -1089,16 +1107,16 @@ exports[`makePropertiesFile Tokens snapshots for sbanken 2`] = `
   --sbanken-yellow-800: #816209;
   --sbanken-blue-100: #ebf6ff;
   --sbanken-blue-600: #005cff;
-  --sbanken-grey-0: #fff;
-  --sbanken-grey-25: #fcfcfd;
-  --sbanken-grey-100: #f2f2f7;
-  --sbanken-grey-200: #ebebf1;
-  --sbanken-grey-300: #d9d9e4;
-  --sbanken-grey-400: #c0c0d1;
-  --sbanken-grey-500: #9090a3;
-  --sbanken-grey-600: #666578;
-  --sbanken-grey-800: #3a3a4a;
-  --sbanken-grey-1000-30: rgba(0 0 0 / 30%);
+  --sbanken-greyscale-0: #fff;
+  --sbanken-greyscale-25: #fcfcfd;
+  --sbanken-greyscale-100: #f2f2f7;
+  --sbanken-greyscale-200: #ebebf1;
+  --sbanken-greyscale-300: #d9d9e4;
+  --sbanken-greyscale-400: #c0c0d1;
+  --sbanken-greyscale-500: #9090a3;
+  --sbanken-greyscale-600: #666578;
+  --sbanken-greyscale-800: #3a3a4a;
+  --sbanken-greyscale-1000-30: rgba(0 0 0 / 30%);
 }
 "
 `;
@@ -1145,7 +1163,7 @@ exports[`makePropertiesFile Tokens snapshots for ui 1`] = `
   --token-color-background-selected-ondark: var(--dnb-coldgreen-100);
   --token-color-background-selected-subtle-ondark: var(--dnb-green-900);
   --token-color-background-neutral: var(--dnb-greyscale-0);
-  --token-color-background-neutral-solid: var(--dnb-greyscale-0);
+  --token-color-background-neutral-static: var(--dnb-greyscale-0);
   --token-color-background-neutral-subtle: var(--dnb-greyscale-50);
   --token-color-background-neutral-base: var(--dnb-greyscale-100);
   --token-color-background-neutral-bold: var(--dnb-greyscale-200);
@@ -1175,22 +1193,22 @@ exports[`makePropertiesFile Tokens snapshots for ui 1`] = `
   --token-color-text-action-disabled-ondark: var(--dnb-greyscale-400);
   --token-color-text-action-alternative-ondark: var(--dnb-greyscale-0);
   --token-color-text-neutral: var(--dnb-greyscale-800);
-  --token-color-text-neutral-solid: var(--dnb-greyscale-800);
+  --token-color-text-neutral-onlight: var(--dnb-greyscale-800);
   --token-color-text-neutral-alternative: var(--dnb-greyscale-500);
   --token-color-text-neutral-inverse: var(--dnb-greyscale-0);
   --token-color-text-neutral-ondark: var(--dnb-greyscale-0);
   --token-color-text-neutral-subtle: var(--dnb-greyscale-200);
-  --token-color-text-neutral-subtle-solid: var(--dnb-greyscale-200);
+  --token-color-text-neutral-subtle-ondark: var(--dnb-greyscale-200);
   --token-color-text-destructive: var(--dnb-red-600);
   --token-color-text-destructive-inverse: var(--dnb-orange-600);
-  --token-color-text-warning-bold: var(--dnb-yellow-800);
-  --token-color-text-warning-bold-inverse: var(--dnb-yellow-500);
+  --token-color-text-warning: var(--dnb-yellow-800);
+  --token-color-text-warning-inverse: var(--dnb-yellow-500);
   --token-color-text-positive: var(--dnb-green-700);
   --token-color-text-positive-inverse: var(--dnb-green-600);
   --token-color-icon-action: var(--dnb-coldgreen-600);
   --token-color-icon-action-hover: var(--dnb-coldgreen-600);
   --token-color-icon-action-pressed: var(--dnb-coldgreen-700);
-  --token-color-icon-action-focused: var(--dnb-blue-600);
+  --token-color-icon-action-focus: var(--dnb-blue-600);
   --token-color-icon-action-disabled: var(--dnb-greyscale-200);
   --token-color-icon-action-inverse: var(--dnb-coldgreen-300);
   --token-color-icon-action-hover-inverse: var(--dnb-coldgreen-300);
@@ -1205,7 +1223,6 @@ exports[`makePropertiesFile Tokens snapshots for ui 1`] = `
   --token-color-icon-neutral: var(--dnb-greyscale-800);
   --token-color-icon-neutral-inverse: var(--dnb-greyscale-0);
   --token-color-icon-neutral-ondark: var(--dnb-greyscale-0);
-  --token-color-icon-neutral-solid: var(--dnb-greyscale-800);
   --token-color-icon-neutral-alternative: var(--dnb-greyscale-500);
   --token-color-icon-destructive: var(--dnb-red-600);
   --token-color-icon-marketing: var(--dnb-greyscale-800);
@@ -1237,35 +1254,35 @@ exports[`makePropertiesFile Tokens snapshots for ui 1`] = `
   --token-color-stroke-error: var(--dnb-red-600);
   --token-color-stroke-marketing: var(--dnb-greyscale-800);
   --token-color-decorative-first-muted: var(--dnb-coldgreen-100);
-  --token-color-decorative-first-muted-solid: var(--dnb-coldgreen-100);
+  --token-color-decorative-first-muted-static: var(--dnb-coldgreen-100);
   --token-color-decorative-first-subtle: var(--dnb-coldgreen-300);
-  --token-color-decorative-first-subtle-solid: var(--dnb-coldgreen-300);
+  --token-color-decorative-first-subtle-static: var(--dnb-coldgreen-300);
   --token-color-decorative-first-base: var(--dnb-coldgreen-500);
-  --token-color-decorative-first-base-solid: var(--dnb-coldgreen-500);
+  --token-color-decorative-first-base-static: var(--dnb-coldgreen-500);
   --token-color-decorative-first-bold: var(--dnb-coldgreen-700);
-  --token-color-decorative-first-bold-solid: var(--dnb-coldgreen-700);
+  --token-color-decorative-first-bold-static: var(--dnb-coldgreen-700);
   --token-color-decorative-first-intense: var(--dnb-coldgreen-950);
-  --token-color-decorative-first-intense-solid: var(--dnb-coldgreen-950);
+  --token-color-decorative-first-intense-static: var(--dnb-coldgreen-950);
   --token-color-decorative-second-muted: var(--dnb-green-100);
-  --token-color-decorative-second-muted-solid: var(--dnb-green-100);
+  --token-color-decorative-second-muted-static: var(--dnb-green-100);
   --token-color-decorative-second-subtle: var(--dnb-green-300);
-  --token-color-decorative-second-subtle-solid: var(--dnb-green-300);
+  --token-color-decorative-second-subtle-static: var(--dnb-green-300);
   --token-color-decorative-second-base: var(--dnb-green-500);
-  --token-color-decorative-second-base-solid: var(--dnb-green-500);
+  --token-color-decorative-second-base-static: var(--dnb-green-500);
   --token-color-decorative-second-bold: var(--dnb-green-700);
-  --token-color-decorative-second-bold-solid: var(--dnb-green-700);
+  --token-color-decorative-second-bold-static: var(--dnb-green-700);
   --token-color-decorative-second-intense: var(--dnb-green-900);
-  --token-color-decorative-second-intense-solid: var(--dnb-green-900);
+  --token-color-decorative-second-intense-static: var(--dnb-green-900);
   --token-color-decorative-third-muted: var(--dnb-warmgreen-50);
-  --token-color-decorative-third-muted-solid: var(--dnb-warmgreen-50);
+  --token-color-decorative-third-muted-static: var(--dnb-warmgreen-50);
   --token-color-decorative-third-subtle: var(--dnb-warmgreen-300);
-  --token-color-decorative-third-subtle-solid: var(--dnb-warmgreen-300);
+  --token-color-decorative-third-subtle-static: var(--dnb-warmgreen-300);
   --token-color-decorative-third-base: var(--dnb-warmgreen-500);
-  --token-color-decorative-third-base-solid: var(--dnb-warmgreen-500);
+  --token-color-decorative-third-base-static: var(--dnb-warmgreen-500);
   --token-color-decorative-third-bold: var(--dnb-warmgreen-700);
-  --token-color-decorative-third-bold-solid: var(--dnb-warmgreen-700);
+  --token-color-decorative-third-bold-static: var(--dnb-warmgreen-700);
   --token-color-decorative-third-intense: var(--dnb-warmgreen-900);
-  --token-color-decorative-third-intense-solid: var(--dnb-warmgreen-900);
+  --token-color-decorative-third-intense-static: var(--dnb-warmgreen-900);
   --token-color-component-button-background-action: var(
     --dnb-coldgreen-600
   );
@@ -1361,7 +1378,7 @@ exports[`makePropertiesFile Tokens snapshots for ui 1`] = `
   --token-color-component-button-stroke-action-destructive-pressed: var(
     --dnb-red-700
   );
-  --token-color-component-button-stroke-selected-wip: var(
+  --token-color-component-button-stroke-selected: var(
     --dnb-coldgreen-700-40
   );
   --token-color-component-tooltip-background-neutral: var(

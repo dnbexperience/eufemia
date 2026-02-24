@@ -4,7 +4,7 @@ title: 'Design tokens'
 
 # Design tokens
 
-The design tokens are exported manually from Figma and converted to CSS variables in the build process. We only export colors for now. No sizes or typography.
+The design tokens are exported manually from Figma and converted to CSS variables with the `make-properties` script. We only export colors for now. No sizes or typography.
 
 ## Overview
 
@@ -71,6 +71,6 @@ CSS variable: `--token-color-dimmer-action-pressed-subtle-ondark`
 
 ### Potential issues
 
-Even following all the rules, we still risk naming overlap since groups and words use the same separator in CSS `Color/Action/Pressed` and `Color/Action-Pressed` would map to the same variable.
+Even following all the rules, we still risk naming overlap since groups and words use the same separator in CSS `color/action/pressed` and `color/action-pressed` would map to the same variable.
 
 But these will at least be caught on build.

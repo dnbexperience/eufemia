@@ -97,18 +97,37 @@ describe('makePropertiesFile', () => {
     describe('transformFigmaAlias', () => {
       it('generates css var', () => {
         const val = {
-          targetVariableName: 'DNB/ColdGreen/600',
-          targetVariableSetName: 'Colors',
+          targetVariableName: 'dnb/ColdGreen/600',
+          targetVariableSetName: 'colors',
         }
 
         const result = transformFigmaAlias(val)
         expect(result).toEqual('var(--dnb-coldgreen-600)')
       })
 
+      it('transforms prefix', () => {
+        const val = {
+          targetVariableName: 'dnbcarnegie/ColdGreen/600',
+          targetVariableSetName: 'colors',
+        }
+
+        const result = transformFigmaAlias(val)
+        expect(result).toEqual('var(--carnegie-coldgreen-600)')
+      })
+
       it('error on unsupported variable set', () => {
         const val = {
-          targetVariableName: 'DNB/ColdGreen/600',
+          targetVariableName: 'dnb/ColdGreen/600',
           targetVariableSetName: 'Nonsense',
+        }
+
+        expect(() => transformFigmaAlias(val)).toThrow()
+      })
+
+      it('error on unsupported theme prefix set', () => {
+        const val = {
+          targetVariableName: 'nonsense/ColdGreen/600',
+          targetVariableSetName: 'colors',
         }
 
         expect(() => transformFigmaAlias(val)).toThrow()
@@ -125,8 +144,8 @@ describe('makePropertiesFile', () => {
           },
           $extensions: {
             'com.figma.aliasData': {
-              targetVariableName: 'DNB/ColdGreen/600',
-              targetVariableSetName: 'Colors',
+              targetVariableName: 'dnb/ColdGreen/600',
+              targetVariableSetName: 'colors',
             },
           },
         }

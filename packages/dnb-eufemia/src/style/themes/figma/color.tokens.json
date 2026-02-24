@@ -1,6 +1,6 @@
 {
-  "DNB": {
-    "ColdGreen": {
+  "dnb": {
+    "coldgreen": {
       "50": {
         "$type": "color",
         "$value": {
@@ -351,7 +351,7 @@
         }
       }
     },
-    "WarmGreen": {
+    "warmgreen": {
       "50": {
         "$type": "color",
         "$value": {
@@ -573,7 +573,7 @@
         }
       }
     },
-    "Green": {
+    "green": {
       "50": {
         "$type": "color",
         "$value": {
@@ -795,7 +795,7 @@
         }
       }
     },
-    "Red": {
+    "red": {
       "50": {
         "$type": "color",
         "$value": {
@@ -1039,7 +1039,7 @@
         }
       }
     },
-    "Orange": {
+    "orange": {
       "50": {
         "$type": "color",
         "$value": {
@@ -1283,7 +1283,7 @@
         }
       }
     },
-    "Yellow": {
+    "yellow": {
       "50": {
         "$type": "color",
         "$value": {
@@ -1505,7 +1505,7 @@
         }
       }
     },
-    "Gold": {
+    "gold": {
       "50": {
         "$type": "color",
         "$value": {
@@ -1771,7 +1771,7 @@
         }
       }
     },
-    "Blue": {
+    "blue": {
       "50": {
         "$type": "color",
         "$value": {
@@ -1993,7 +1993,7 @@
         }
       }
     },
-    "Purple": {
+    "purple": {
       "50": {
         "$type": "color",
         "$value": {
@@ -2215,7 +2215,7 @@
         }
       }
     },
-    "Greyscale": {
+    "greyscale": {
       "0": {
         "30": {
           "$type": "color",
@@ -2646,8 +2646,8 @@
       }
     }
   },
-  "Sbanken": {
-    "Purple": {
+  "sbanken": {
+    "purple": {
       "50": {
         "$type": "color",
         "$value": {
@@ -2955,7 +2955,7 @@
         }
       }
     },
-    "Green": {
+    "green": {
       "50": {
         "$type": "color",
         "$value": {
@@ -3199,7 +3199,7 @@
         }
       }
     },
-    "Red": {
+    "red": {
       "50": {
         "$type": "color",
         "$value": {
@@ -3421,7 +3421,7 @@
         }
       }
     },
-    "Orange": {
+    "orange": {
       "50": {
         "$type": "color",
         "$value": {
@@ -3687,7 +3687,7 @@
         }
       }
     },
-    "Yellow": {
+    "yellow": {
       "50": {
         "$type": "color",
         "$value": {
@@ -3909,7 +3909,7 @@
         }
       }
     },
-    "Blue": {
+    "blue": {
       "50": {
         "$type": "color",
         "$value": {
@@ -4131,7 +4131,7 @@
         }
       }
     },
-    "Grey": {
+    "greyscale": {
       "0": {
         "30": {
           "$type": "color",
@@ -4522,8 +4522,8 @@
       }
     }
   },
-  "Carnegie": {
-    "ColdGreen": {
+  "dnbcarnegie": {
+    "coldgreen": {
       "50": {
         "$type": "color",
         "$value": {
@@ -4767,7 +4767,7 @@
         }
       }
     },
-    "Green": {
+    "green": {
       "50": {
         "$type": "color",
         "$value": {
@@ -4989,7 +4989,7 @@
         }
       }
     },
-    "Burgundy": {
+    "burgundy": {
       "50": {
         "$type": "color",
         "$value": {
@@ -5211,7 +5211,7 @@
         }
       }
     },
-    "Beige": {
+    "beige": {
       "50": {
         "$type": "color",
         "$value": {
@@ -5434,7 +5434,7 @@
         }
       }
     },
-    "Yellow": {
+    "yellow": {
       "50": {
         "$type": "color",
         "$value": {
@@ -5656,7 +5656,7 @@
         }
       }
     },
-    "Orange": {
+    "orange": {
       "50": {
         "$type": "color",
         "$value": {
@@ -5900,7 +5900,7 @@
         }
       }
     },
-    "Red": {
+    "red": {
       "50": {
         "$type": "color",
         "$value": {
@@ -6144,7 +6144,7 @@
         }
       }
     },
-    "Blue": {
+    "blue": {
       "50": {
         "$type": "color",
         "$value": {
@@ -6366,7 +6366,7 @@
         }
       }
     },
-    "Greyscale": {
+    "greyscale": {
       "0": {
         "80": {
           "$type": "color",
@@ -6754,6 +6754,6 @@
     }
   },
   "$extensions": {
-    "com.figma.modeName": "Mode 1"
+    "com.figma.modeName": "color"
   }
 }

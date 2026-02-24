@@ -39,7 +39,7 @@
   --token-color-background-selected-ondark: var(--dnb-coldgreen-100);
   --token-color-background-selected-subtle-ondark: var(--dnb-green-900);
   --token-color-background-neutral: var(--dnb-greyscale-0);
-  --token-color-background-neutral-solid: var(--dnb-greyscale-0);
+  --token-color-background-neutral-static: var(--dnb-greyscale-0);
   --token-color-background-neutral-subtle: var(--dnb-greyscale-50);
   --token-color-background-neutral-base: var(--dnb-greyscale-100);
   --token-color-background-neutral-bold: var(--dnb-greyscale-200);
@@ -69,22 +69,22 @@
   --token-color-text-action-disabled-ondark: var(--dnb-greyscale-400);
   --token-color-text-action-alternative-ondark: var(--dnb-greyscale-0);
   --token-color-text-neutral: var(--dnb-greyscale-800);
-  --token-color-text-neutral-solid: var(--dnb-greyscale-800);
+  --token-color-text-neutral-onlight: var(--dnb-greyscale-800);
   --token-color-text-neutral-alternative: var(--dnb-greyscale-500);
   --token-color-text-neutral-inverse: var(--dnb-greyscale-0);
   --token-color-text-neutral-ondark: var(--dnb-greyscale-0);
   --token-color-text-neutral-subtle: var(--dnb-greyscale-200);
-  --token-color-text-neutral-subtle-solid: var(--dnb-greyscale-200);
+  --token-color-text-neutral-subtle-ondark: var(--dnb-greyscale-200);
   --token-color-text-destructive: var(--dnb-red-600);
   --token-color-text-destructive-inverse: var(--dnb-orange-600);
-  --token-color-text-warning-bold: var(--dnb-yellow-800);
-  --token-color-text-warning-bold-inverse: var(--dnb-yellow-500);
+  --token-color-text-warning: var(--dnb-yellow-800);
+  --token-color-text-warning-inverse: var(--dnb-yellow-500);
   --token-color-text-positive: var(--dnb-green-700);
   --token-color-text-positive-inverse: var(--dnb-green-600);
   --token-color-icon-action: var(--dnb-coldgreen-600);
   --token-color-icon-action-hover: var(--dnb-coldgreen-600);
   --token-color-icon-action-pressed: var(--dnb-coldgreen-700);
-  --token-color-icon-action-focused: var(--dnb-blue-600);
+  --token-color-icon-action-focus: var(--dnb-blue-600);
   --token-color-icon-action-disabled: var(--dnb-greyscale-200);
   --token-color-icon-action-inverse: var(--dnb-coldgreen-300);
   --token-color-icon-action-hover-inverse: var(--dnb-coldgreen-300);
@@ -99,7 +99,6 @@
   --token-color-icon-neutral: var(--dnb-greyscale-800);
   --token-color-icon-neutral-inverse: var(--dnb-greyscale-0);
   --token-color-icon-neutral-ondark: var(--dnb-greyscale-0);
-  --token-color-icon-neutral-solid: var(--dnb-greyscale-800);
   --token-color-icon-neutral-alternative: var(--dnb-greyscale-500);
   --token-color-icon-destructive: var(--dnb-red-600);
   --token-color-icon-marketing: var(--dnb-greyscale-800);
@@ -131,35 +130,35 @@
   --token-color-stroke-error: var(--dnb-red-600);
   --token-color-stroke-marketing: var(--dnb-greyscale-800);
   --token-color-decorative-first-muted: var(--dnb-coldgreen-100);
-  --token-color-decorative-first-muted-solid: var(--dnb-coldgreen-100);
+  --token-color-decorative-first-muted-static: var(--dnb-coldgreen-100);
   --token-color-decorative-first-subtle: var(--dnb-coldgreen-300);
-  --token-color-decorative-first-subtle-solid: var(--dnb-coldgreen-300);
+  --token-color-decorative-first-subtle-static: var(--dnb-coldgreen-300);
   --token-color-decorative-first-base: var(--dnb-coldgreen-500);
-  --token-color-decorative-first-base-solid: var(--dnb-coldgreen-500);
+  --token-color-decorative-first-base-static: var(--dnb-coldgreen-500);
   --token-color-decorative-first-bold: var(--dnb-coldgreen-700);
-  --token-color-decorative-first-bold-solid: var(--dnb-coldgreen-700);
+  --token-color-decorative-first-bold-static: var(--dnb-coldgreen-700);
   --token-color-decorative-first-intense: var(--dnb-coldgreen-950);
-  --token-color-decorative-first-intense-solid: var(--dnb-coldgreen-950);
+  --token-color-decorative-first-intense-static: var(--dnb-coldgreen-950);
   --token-color-decorative-second-muted: var(--dnb-green-100);
-  --token-color-decorative-second-muted-solid: var(--dnb-green-100);
+  --token-color-decorative-second-muted-static: var(--dnb-green-100);
   --token-color-decorative-second-subtle: var(--dnb-green-300);
-  --token-color-decorative-second-subtle-solid: var(--dnb-green-300);
+  --token-color-decorative-second-subtle-static: var(--dnb-green-300);
   --token-color-decorative-second-base: var(--dnb-green-500);
-  --token-color-decorative-second-base-solid: var(--dnb-green-500);
+  --token-color-decorative-second-base-static: var(--dnb-green-500);
   --token-color-decorative-second-bold: var(--dnb-green-700);
-  --token-color-decorative-second-bold-solid: var(--dnb-green-700);
+  --token-color-decorative-second-bold-static: var(--dnb-green-700);
   --token-color-decorative-second-intense: var(--dnb-green-900);
-  --token-color-decorative-second-intense-solid: var(--dnb-green-900);
+  --token-color-decorative-second-intense-static: var(--dnb-green-900);
   --token-color-decorative-third-muted: var(--dnb-warmgreen-50);
-  --token-color-decorative-third-muted-solid: var(--dnb-warmgreen-50);
+  --token-color-decorative-third-muted-static: var(--dnb-warmgreen-50);
   --token-color-decorative-third-subtle: var(--dnb-warmgreen-300);
-  --token-color-decorative-third-subtle-solid: var(--dnb-warmgreen-300);
+  --token-color-decorative-third-subtle-static: var(--dnb-warmgreen-300);
   --token-color-decorative-third-base: var(--dnb-warmgreen-500);
-  --token-color-decorative-third-base-solid: var(--dnb-warmgreen-500);
+  --token-color-decorative-third-base-static: var(--dnb-warmgreen-500);
   --token-color-decorative-third-bold: var(--dnb-warmgreen-700);
-  --token-color-decorative-third-bold-solid: var(--dnb-warmgreen-700);
+  --token-color-decorative-third-bold-static: var(--dnb-warmgreen-700);
   --token-color-decorative-third-intense: var(--dnb-warmgreen-900);
-  --token-color-decorative-third-intense-solid: var(--dnb-warmgreen-900);
+  --token-color-decorative-third-intense-static: var(--dnb-warmgreen-900);
   --token-color-component-button-background-action: var(
     --dnb-coldgreen-600
   );
@@ -255,7 +254,7 @@
   --token-color-component-button-stroke-action-destructive-pressed: var(
     --dnb-red-700
   );
-  --token-color-component-button-stroke-selected-wip: var(
+  --token-color-component-button-stroke-selected: var(
     --dnb-coldgreen-700-40
   );
   --token-color-component-tooltip-background-neutral: var(

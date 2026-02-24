@@ -53,7 +53,7 @@
     --carnegie-greyscale-1000
   );
   --token-color-background-neutral: var(--carnegie-greyscale-0);
-  --token-color-background-neutral-solid: var(--carnegie-greyscale-0);
+  --token-color-background-neutral-static: var(--carnegie-greyscale-0);
   --token-color-background-neutral-subtle: var(--carnegie-greyscale-50);
   --token-color-background-neutral-base: var(--carnegie-greyscale-100);
   --token-color-background-neutral-bold: var(--carnegie-greyscale-200);
@@ -85,22 +85,22 @@
     --carnegie-greyscale-0
   );
   --token-color-text-neutral: var(--carnegie-greyscale-1000);
-  --token-color-text-neutral-solid: var(--carnegie-greyscale-1000);
+  --token-color-text-neutral-onlight: var(--carnegie-greyscale-1000);
   --token-color-text-neutral-alternative: var(--carnegie-greyscale-500);
   --token-color-text-neutral-inverse: var(--carnegie-greyscale-0);
   --token-color-text-neutral-ondark: var(--carnegie-greyscale-0);
   --token-color-text-neutral-subtle: var(--carnegie-greyscale-200);
-  --token-color-text-neutral-subtle-solid: var(--carnegie-greyscale-200);
+  --token-color-text-neutral-subtle-ondark: var(--carnegie-greyscale-200);
   --token-color-text-destructive: var(--carnegie-red-600);
   --token-color-text-destructive-inverse: var(--carnegie-orange-600);
-  --token-color-text-warning-bold: var(--carnegie-yellow-800);
-  --token-color-text-warning-bold-inverse: var(--carnegie-yellow-500);
+  --token-color-text-warning: var(--carnegie-yellow-800);
+  --token-color-text-warning-inverse: var(--carnegie-yellow-500);
   --token-color-text-positive: var(--carnegie-green-700);
   --token-color-text-positive-inverse: var(--carnegie-green-600);
   --token-color-icon-action: var(--carnegie-greyscale-1000);
   --token-color-icon-action-hover: var(--carnegie-greyscale-1000);
   --token-color-icon-action-pressed: var(--carnegie-greyscale-1000);
-  --token-color-icon-action-focused: var(--carnegie-blue-600);
+  --token-color-icon-action-focus: var(--carnegie-blue-600);
   --token-color-icon-action-disabled: var(--carnegie-greyscale-200);
   --token-color-icon-action-inverse: var(--carnegie-greyscale-0);
   --token-color-icon-action-hover-inverse: var(--carnegie-greyscale-0);
@@ -117,7 +117,6 @@
   --token-color-icon-neutral: var(--carnegie-greyscale-1000);
   --token-color-icon-neutral-inverse: var(--carnegie-greyscale-0);
   --token-color-icon-neutral-ondark: var(--carnegie-greyscale-0);
-  --token-color-icon-neutral-solid: var(--carnegie-greyscale-1000);
   --token-color-icon-neutral-alternative: var(--carnegie-greyscale-500);
   --token-color-icon-destructive: var(--carnegie-red-600);
   --token-color-icon-marketing: var(--carnegie-greyscale-800);
@@ -155,43 +154,51 @@
   --token-color-stroke-error: var(--carnegie-red-600);
   --token-color-stroke-marketing: var(--carnegie-greyscale-800);
   --token-color-decorative-first-muted: var(--carnegie-beige-50);
-  --token-color-decorative-first-muted-solid: var(--carnegie-beige-50);
+  --token-color-decorative-first-muted-static: var(--carnegie-beige-50);
   --token-color-decorative-first-subtle: var(--carnegie-beige-200);
-  --token-color-decorative-first-subtle-solid: var(--carnegie-beige-200);
+  --token-color-decorative-first-subtle-static: var(--carnegie-beige-200);
   --token-color-decorative-first-base: var(--carnegie-beige-500);
-  --token-color-decorative-first-base-solid: var(--carnegie-beige-500);
+  --token-color-decorative-first-base-static: var(--carnegie-beige-500);
   --token-color-decorative-first-bold: var(--carnegie-beige-800);
-  --token-color-decorative-first-bold-solid: var(--carnegie-beige-800);
+  --token-color-decorative-first-bold-static: var(--carnegie-beige-800);
   --token-color-decorative-first-intense: var(--carnegie-beige-950);
-  --token-color-decorative-first-intense-solid: var(--carnegie-beige-950);
+  --token-color-decorative-first-intense-static: var(--carnegie-beige-950);
   --token-color-decorative-second-muted: var(--carnegie-burgundy-100);
-  --token-color-decorative-second-muted-solid: var(
+  --token-color-decorative-second-muted-static: var(
     --carnegie-burgundy-100
   );
   --token-color-decorative-second-subtle: var(--carnegie-burgundy-300);
-  --token-color-decorative-second-subtle-solid: var(
+  --token-color-decorative-second-subtle-static: var(
     --carnegie-burgundy-300
   );
   --token-color-decorative-second-base: var(--carnegie-burgundy-500);
-  --token-color-decorative-second-base-solid: var(--carnegie-burgundy-500);
+  --token-color-decorative-second-base-static: var(
+    --carnegie-burgundy-500
+  );
   --token-color-decorative-second-bold: var(--carnegie-burgundy-900);
-  --token-color-decorative-second-bold-solid: var(--carnegie-burgundy-900);
+  --token-color-decorative-second-bold-static: var(
+    --carnegie-burgundy-900
+  );
   --token-color-decorative-second-intense: var(--carnegie-burgundy-950);
-  --token-color-decorative-second-intense-solid: var(
+  --token-color-decorative-second-intense-static: var(
     --carnegie-burgundy-950
   );
   --token-color-decorative-third-muted: var(--carnegie-coldgreen-100);
-  --token-color-decorative-third-muted-solid: var(--carnegie-green-100);
+  --token-color-decorative-third-muted-static: var(--carnegie-green-100);
   --token-color-decorative-third-subtle: var(--carnegie-coldgreen-300);
-  --token-color-decorative-third-subtle-solid: var(
+  --token-color-decorative-third-subtle-static: var(
     --carnegie-coldgreen-300
   );
   --token-color-decorative-third-base: var(--carnegie-coldgreen-500);
-  --token-color-decorative-third-base-solid: var(--carnegie-coldgreen-500);
+  --token-color-decorative-third-base-static: var(
+    --carnegie-coldgreen-500
+  );
   --token-color-decorative-third-bold: var(--carnegie-coldgreen-700);
-  --token-color-decorative-third-bold-solid: var(--carnegie-coldgreen-700);
+  --token-color-decorative-third-bold-static: var(
+    --carnegie-coldgreen-700
+  );
   --token-color-decorative-third-intense: var(--carnegie-coldgreen-950);
-  --token-color-decorative-third-intense-solid: var(
+  --token-color-decorative-third-intense-static: var(
     --carnegie-coldgreen-950
   );
   --token-color-component-button-background-action: var(
@@ -295,7 +302,7 @@
   --token-color-component-button-stroke-action-destructive-pressed: var(
     --carnegie-red-700
   );
-  --token-color-component-button-stroke-selected-wip: var(
+  --token-color-component-button-stroke-selected: var(
     --carnegie-beige-700
   );
   --token-color-component-tooltip-background-neutral: var(

@@ -183,11 +183,13 @@ type FigmaValue = {
 
 type FigmaGroup = {
   $root?: FigmaValue
-} & {
-  [K in string as K extends '$root' ? never : K]: FigmaData
-}
+} & FigmaExport
 
 type FigmaData = FigmaValue | FigmaGroup
+
+type FigmaExport = {
+  [K in string as K extends '$root' ? never : K]: FigmaData
+}
 
 const isFigmaValue = (item: FigmaData): item is FigmaValue => {
   return typeof (item as any).$value !== 'undefined'
@@ -200,8 +202,23 @@ export const transformFigmaAlias = (alias: Record<string, any>) => {
   // example id: "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222"
   const figmaVariableSetName = alias.targetVariableSetName
 
-  if (figmaVariableSetName === 'Colors') {
+  if (figmaVariableSetName === 'colors') {
     const path = figmaVariableName.split('/')
+
+    let newPrefix = undefined
+    Object.values(foundationPrefixMap).forEach((prefix) => {
+      // TODO: perhaps we should be even more strict and ensure that the prefix is from the correct theme
+      if (path[0] === prefix.figma) {
+        newPrefix = prefix.css
+      }
+    })
+
+    if (newPrefix === undefined) {
+      const errorMessage = `Unsupported theme prefix: ${path[0]} for variable ${figmaVariableName}`
+      log.fail(errorMessage)
+      throw new Error(errorMessage)
+    }
+    path[0] = newPrefix
     return `var(${transformNamespace()}${transformFigmaPath(path)})` // Including transform namespace as we might want to be able to apply that in the future
   } else {
     const errorMessage = `Unsupported variable set: ${figmaVariableSetName} for variable ${figmaVariableName}`
@@ -357,13 +374,13 @@ const makeDesignTokenSCSS = async (
   /** prefix that is added to the start of the css variable name */
   namespace?: string,
   /** Optional filter function that transforms the source before generating */
-  filter: (json: FigmaGroup) => FigmaGroup = (json) => json,
+  filter: (json: FigmaExport) => FigmaData = (json) => json,
   options: {
     referencedVariables?: Set<string>
   } = {}
 ) => {
   try {
-    const json: FigmaGroup = filter(
+    const json: FigmaData = filter(
       JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8'))
     )
 
@@ -401,6 +418,12 @@ const makeDesignTokenSCSS = async (
   }
 }
 
+const foundationPrefixMap = {
+  ui: { css: 'dnb', figma: 'dnb' },
+  sbanken: { css: 'sbanken', figma: 'sbanken' },
+  carnegie: { css: 'carnegie', figma: 'dnbcarnegie' },
+}
+
 const runDesignTokenFactory = async () => {
   log.start('> PrePublish: transforming figma variables to SCSS')
 
@@ -412,20 +435,20 @@ const runDesignTokenFactory = async () => {
   }> = [
     {
       theme: 'ui',
-      in: './src/style/themes/figma/DNB Light.tokens.json',
+      in: './src/style/themes/figma/dnb-light.tokens.json',
       out: './src/style/themes/ui/tokens.scss',
       prefix: 'token',
     },
 
     {
       theme: 'sbanken',
-      in: './src/style/themes/figma/Sbanken Light.tokens.json',
+      in: './src/style/themes/figma/sbanken-light.tokens.json',
       out: './src/style/themes/sbanken/tokens.scss',
       prefix: 'token',
     },
     {
       theme: 'carnegie',
-      in: './src/style/themes/figma/DNB Carnegie Light.tokens.json',
+      in: './src/style/themes/figma/dnbcarnegie-light.tokens.json',
       out: './src/style/themes/carnegie/tokens.scss',
       prefix: 'token',
     },
@@ -435,25 +458,29 @@ const runDesignTokenFactory = async () => {
     theme: string
     in: string
     out: string
-    filter: (json: FigmaGroup) => FigmaGroup
+    prefix: string
+    filter: (json: FigmaExport) => FigmaData
   }> = [
     {
       theme: 'ui',
-      in: './src/style/themes/figma/Mode 1.tokens 5.json',
+      in: './src/style/themes/figma/color.tokens.json',
       out: './src/style/themes/ui/foundation.scss',
-      filter: (json) => ({ DNB: json.DNB }),
+      filter: (json) => json[foundationPrefixMap.ui.figma],
+      prefix: foundationPrefixMap.ui.css,
     },
     {
       theme: 'sbanken',
-      in: './src/style/themes/figma/Mode 1.tokens 5.json',
+      in: './src/style/themes/figma/color.tokens.json',
       out: './src/style/themes/sbanken/foundation.scss',
-      filter: (json) => ({ Sbanken: json.Sbanken }),
+      filter: (json) => json[foundationPrefixMap.sbanken.figma],
+      prefix: foundationPrefixMap.sbanken.css,
     },
     {
       theme: 'carnegie',
-      in: './src/style/themes/figma/Mode 1.tokens 5.json',
+      in: './src/style/themes/figma/color.tokens.json',
       out: './src/style/themes/carnegie/foundation.scss',
-      filter: (json) => ({ Carnegie: json.Carnegie }),
+      filter: (json) => json[foundationPrefixMap.carnegie.figma],
+      prefix: foundationPrefixMap.carnegie.css,
     },
   ]
 
@@ -484,7 +511,7 @@ const runDesignTokenFactory = async () => {
 
   await Promise.all(
     foundationFiles.map(async (file) =>
-      makeDesignTokenSCSS(file.in, file.out, undefined, file.filter, {
+      makeDesignTokenSCSS(file.in, file.out, file.prefix, file.filter, {
         referencedVariables: referencedVariablesByTheme.get(file.theme),
       })
     )
