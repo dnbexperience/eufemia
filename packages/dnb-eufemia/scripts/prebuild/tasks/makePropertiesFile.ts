@@ -175,11 +175,27 @@ export const runFactory = ({
     }
   })
 
-type FigmaValue = {
+type FigmaValueBase = {
   $type: string
-  $value: any
-  $extensions?: Record<string, any>
+  $value: unknown
+  $extensions?: Record<string, unknown>
 }
+
+interface FigmaValueColor extends FigmaValueBase {
+  $type: 'color'
+  $value: { alpha: number; hex: string }
+}
+
+interface FigmaValueString extends FigmaValueBase {
+  $type: 'string'
+  $value: string
+}
+interface FigmaValueNumber extends FigmaValueBase {
+  $type: 'number'
+  $value: number
+}
+
+type FigmaValue = FigmaValueColor | FigmaValueNumber | FigmaValueString
 
 type FigmaGroup = {
   $root?: FigmaValue
@@ -189,10 +205,6 @@ type FigmaData = FigmaValue | FigmaGroup
 
 type FigmaExport = {
   [K in string as K extends '$root' ? never : K]: FigmaData
-}
-
-const isFigmaValue = (item: FigmaData): item is FigmaValue => {
-  return typeof (item as any).$value !== 'undefined'
 }
 
 export const transformFigmaAlias = (alias: Record<string, any>) => {
@@ -235,7 +247,7 @@ const hexAsRgb = (hex: string) => {
 }
 
 export const transformFigmaValue = (value: FigmaValue) => {
-  if (value['$type'] === 'number' || value['$type'] === 'string') {
+  if (value.$type === 'string' || value.$type === 'number') {
     return undefined // Exclude numbers, font-family and font weight
   }
 
@@ -244,16 +256,16 @@ export const transformFigmaValue = (value: FigmaValue) => {
   if (alias) {
     return transformFigmaAlias(alias)
   }
-
-  if (value['$type'] === 'color') {
-    const alpha = value['$value']['alpha']
-    const hex = value['$value']['hex']
+  if (value.$type === 'color') {
+    const alpha = value.$value.alpha
+    const hex = value.$value.hex
 
     return alpha === 1
       ? hex
       : `rgba(${hexAsRgb(hex)} / ${parseFloat(alpha.toFixed(6))})`
   } else {
-    throw new Error(`Unsupported $type: ${value['$type']}`)
+    // @ts-expect-error: we are expecting a bad value
+    throw new Error(`Unsupported $type: ${value.$type}`)
   }
 }
 /**
@@ -335,7 +347,8 @@ const generateCSSVariablesFromFigmaExport = (
     if (typeof value == 'string' || typeof value === 'number') {
       return ''
     }
-    if (isFigmaValue(value)) {
+
+    if (typeof value.$type === 'string') {
       const val = transformFigmaValue(value)
       return val
         ? `${transformNamespace(namespace)}${transformFigmaPath(

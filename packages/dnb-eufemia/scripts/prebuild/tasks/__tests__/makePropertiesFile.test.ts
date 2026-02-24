@@ -137,7 +137,7 @@ describe('makePropertiesFile', () => {
     describe('transformFigmaValue', () => {
       it('generates alias', () => {
         const val = {
-          $type: 'color',
+          $type: 'color' as const,
           $value: {
             alpha: 1,
             hex: '#007272',
@@ -156,7 +156,7 @@ describe('makePropertiesFile', () => {
 
       it('generates color hex', () => {
         const val = {
-          $type: 'color',
+          $type: 'color' as const,
           $value: {
             alpha: 1,
             hex: '#007272',
@@ -169,7 +169,7 @@ describe('makePropertiesFile', () => {
 
       it('rounds color alpha', () => {
         const val = {
-          $type: 'color',
+          $type: 'color' as const,
           $value: {
             alpha: 0.47999998927116394,
             hex: '#007272',
@@ -182,7 +182,7 @@ describe('makePropertiesFile', () => {
 
       it('rounds alpha to 6 decimals', () => {
         const val = {
-          $type: 'color',
+          $type: 'color' as const,
           $value: {
             alpha: 0.0123456,
             hex: '#007272',
@@ -195,7 +195,7 @@ describe('makePropertiesFile', () => {
 
       it('removes trailing zeroes in alpha', () => {
         const val = {
-          $type: 'color',
+          $type: 'color' as const,
           $value: {
             alpha: 0.06250001,
             hex: '#007272',
@@ -211,7 +211,7 @@ describe('makePropertiesFile', () => {
           $type: 'nonsense',
           $value: 'Medium',
         }
-
+        // @ts-expect-error: we are testing a bad value
         expect(() => transformFigmaValue(val)).toThrow()
       })
 
