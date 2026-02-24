@@ -13,7 +13,6 @@ import React, {
 import clsx from 'clsx'
 import Context, { ContextProps } from '../../shared/Context'
 import {
-  isTrue,
   validateDOMAttributes,
   dispatchCustomElementEvent,
   extendPropsWithContext,
@@ -70,8 +69,7 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
       ? progress
       : undefined
 
-  const usedIndicatorLabel =
-    label || (isTrue(showDefaultLabel) && indicatorLabel)
+  const usedIndicatorLabel = label || (showDefaultLabel && indicatorLabel)
   const progressTitle = title || formatProgress(progressNumber)
 
   useEffect(() => {
@@ -107,7 +105,7 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
         type === 'linear' && 'dnb-progress-indicator--full-width',
         labelDirection && `dnb-progress-indicator--${labelDirection}`,
         sizeVariant && `dnb-progress-indicator--${sizeVariant}`,
-        isTrue(noAnimation) && 'dnb-progress-indicator--no-animation',
+        noAnimation && 'dnb-progress-indicator--no-animation',
         createSpacingClasses(allProps),
         className
       )}

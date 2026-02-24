@@ -12,7 +12,6 @@ import Context from '../../shared/Context'
 import {
   warn,
   makeUniqueId,
-  isTrue,
   extendPropsWithContextInClassComponent,
   validateDOMAttributes,
   processChildren,
@@ -205,7 +204,7 @@ export default class Button extends React.PureComponent {
       this.context?.theme?.darkBackground &&
         `dnb-button--on-dark-background`,
       icon && `dnb-button--icon-position-${iconPosition}`,
-      isTrue(stretch) && 'dnb-button--stretch',
+      stretch && 'dnb-button--stretch',
       icon && usedIconSize && `dnb-button--icon-size-${usedIconSize}`,
       (text || content || customContent) && 'dnb-button--has-text',
       icon && 'dnb-button--has-icon',
@@ -226,7 +225,7 @@ export default class Button extends React.PureComponent {
       className: classes,
       title,
       id: this._id,
-      disabled: isTrue(disabled),
+      disabled: disabled,
       ...attributes,
     }
 
@@ -275,7 +274,7 @@ export default class Button extends React.PureComponent {
             content={text || content}
             customContent={customContent}
             isIconOnly={isIconOnly}
-            skeleton={isTrue(skeleton)}
+            skeleton={skeleton}
             iconElement={pickIcon(icon, 'dnb-button__icon')}
           />
         </Element>

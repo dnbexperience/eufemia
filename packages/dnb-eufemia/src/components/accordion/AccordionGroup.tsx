@@ -7,7 +7,6 @@ import React, { useContext, useEffect, useRef } from 'react'
 
 import clsx from 'clsx'
 import {
-  isTrue,
   makeUniqueId,
   extendPropsWithContext,
   validateDOMAttributes,
@@ -95,7 +94,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
 
   const classes = clsx(
     'dnb-accordion-group',
-    isTrue(singleContainer) && 'dnb-accordion-group--single-container',
+    singleContainer && 'dnb-accordion-group--single-container',
     createSpacingClasses(extendedProps),
     className
   )
@@ -107,7 +106,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
   // also used for code markup simulation
   validateDOMAttributes(props, params)
 
-  if (!extendedProps?.group && isTrue(props.singleContainer)) {
+  if (!extendedProps?.group && props.singleContainer) {
     extendedProps.group = makeUniqueId()
   }
 

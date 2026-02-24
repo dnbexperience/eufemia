@@ -5,7 +5,7 @@
 
 import React from 'react'
 import clsx from 'clsx'
-import { convertJsxToString, isTrue } from '../../shared/component-helper'
+import { convertJsxToString } from '../../shared/component-helper'
 import type { SkeletonShow } from './Skeleton'
 import type { ContextProps } from '../../shared/Context'
 
@@ -32,7 +32,7 @@ export const skeletonDOMAttributes = (
   skeleton: SkeletonShow,
   context?: SkeletonContextProps
 ) => {
-  if (isTrue(skeleton) || (skeleton !== false && context?.skeleton)) {
+  if (skeleton || (skeleton !== false && context?.skeleton)) {
     params.disabled = true
     params['aria-disabled'] = true
     params['aria-label'] = context?.translation?.Skeleton?.ariaBusy
@@ -47,7 +47,7 @@ export const createSkeletonClass = (
   context?: SkeletonContextProps,
   className = null
 ) => {
-  if (isTrue(skeleton) || (skeleton !== false && context?.skeleton)) {
+  if (skeleton || (skeleton !== false && context?.skeleton)) {
     return clsx(
       className,
       'dnb-skeleton',

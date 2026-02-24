@@ -8,7 +8,6 @@
 import React, { useContext } from 'react'
 import clsx from 'clsx'
 import {
-  isTrue,
   extendPropsWithContextInClassComponent,
   validateDOMAttributes,
   warn,
@@ -467,13 +466,12 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
           `dnb-drawer-list--arrow-position-${arrowPosition}`,
         alignDrawer && `dnb-drawer-list--${alignDrawer}`,
         size && `dnb-drawer-list--${size}`,
-        isTrue(actionMenu) && `dnb-drawer-list--action-menu`,
-        isTrue(isPopup) && 'dnb-drawer-list--is-popup',
-        (isTrue(independentWidth) || isTrue(actionMenu)) &&
+        actionMenu && `dnb-drawer-list--action-menu`,
+        isPopup && 'dnb-drawer-list--is-popup',
+        (independentWidth || actionMenu) &&
           'dnb-drawer-list--independent-width',
-        isTrue(scrollable) && 'dnb-drawer-list--scroll',
-        isTrue(noScrollAnimation) &&
-          'dnb-drawer-list--no-scroll-animation',
+        scrollable && 'dnb-drawer-list--scroll',
+        noScrollAnimation && 'dnb-drawer-list--no-scroll-animation',
         createSpacingClasses(props),
         className
       ),
@@ -489,7 +487,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       // hidden: hidden !== false,
       className: clsx(
         'dnb-drawer-list__list',
-        isTrue(noAnimation) && 'dnb-drawer-list__list--no-animation',
+        noAnimation && 'dnb-drawer-list__list--no-animation',
         listClass
       ),
     }
@@ -512,7 +510,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
         this.context.drawerList.ariaActiveDescendant
     }
 
-    if (isTrue(focusable)) {
+    if (focusable) {
       ulParams.tabIndex = 0
     }
 
@@ -526,7 +524,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       validateDOMAttributes(null, attributes)
     )
 
-    const ignoreEventsBoolean = isTrue(ignoreEvents)
+    const ignoreEventsBoolean = ignoreEvents
 
     const GroupItems = () =>
       renderData
@@ -674,8 +672,8 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
           rootRef={_refRoot}
           open={hidden === false}
           includeOwnerWidth={alignDrawer === 'right'}
-          independentWidth={isTrue(independentWidth)}
-          fixedPosition={isTrue(fixedPosition)}
+          independentWidth={independentWidth}
+          fixedPosition={fixedPosition}
           className={getThemeClasses(this.context?.theme, portalClass)}
           skipPortal={skipPortal}
         >

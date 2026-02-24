@@ -1,4 +1,4 @@
-import { isTrue, toKebabCase } from './component-helper'
+import { toKebabCase } from './component-helper'
 import { warn } from './helpers'
 
 export type MediaQuerySizes =
@@ -211,7 +211,7 @@ export function buildQuery(
     }
   }
 
-  if (isTrue(not)) {
+  if (not) {
     query = reverseQuery(String(query))
   }
 

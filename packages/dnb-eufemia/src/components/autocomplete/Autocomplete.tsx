@@ -26,7 +26,6 @@ import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../space/types'
 import {
   warn,
-  isTrue,
   isTouchDevice,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
@@ -560,7 +559,7 @@ class AutocompleteInstance extends React.PureComponent<
     state: Record<string, any>
   ) {
     if (state._listenForPropChanges) {
-      state.disableHighlighting = isTrue(props.disableHighlighting)
+      state.disableHighlighting = props.disableHighlighting
 
       if (props.inputValue !== 'initval') {
         state.inputValue = props.inputValue
@@ -624,15 +623,15 @@ class AutocompleteInstance extends React.PureComponent<
 
     this.isTouchDevice = isTouchDevice()
 
-    this.skipFilter = isTrue(props.disableFilter)
-    this.skipReorder = isTrue(props.disableReorder)
+    this.skipFilter = props.disableFilter
+    this.skipReorder = props.disableReorder
 
     // Initialize wasVisible to track if component was previously open
     this.wasVisible = false
   }
 
   componentDidMount() {
-    if (isTrue(this.props.open)) {
+    if (this.props.open) {
       this.runFilterToHighlight({ fillDataIfEmpty: true })
       this.setVisible()
     }
@@ -682,12 +681,12 @@ class AutocompleteInstance extends React.PureComponent<
     if (typeof args.hasFilter === 'undefined') {
       args.hasFilter = false
     }
-    if (isTrue(this.props.disabled)) {
+    if (this.props.disabled) {
       return // stop here
     }
     if (
       !args.hasFilter &&
-      !isTrue(this.props.preventClose) &&
+      !this.props.preventClose &&
       !this.context.drawerList.hidden &&
       this.context.drawerList.isOpen
     ) {
@@ -768,13 +767,9 @@ class AutocompleteInstance extends React.PureComponent<
         }
       }
     } else {
-      if (
-        !isTrue(keepValue) &&
-        !isTrue(keepSelection) &&
-        !isTrue(keepValueAndSelection)
-      ) {
+      if (!keepValue && !keepSelection && !keepValueAndSelection) {
         this.totalReset()
-      } else if (isTrue(keepValue)) {
+      } else if (keepValue) {
         this.resetSelectedItem()
       }
 
@@ -896,8 +891,8 @@ class AutocompleteInstance extends React.PureComponent<
     const { inputValue, keepValue, keepValueAndSelection } = this.props
 
     if (
-      isTrue(keepValue) ||
-      isTrue(keepValueAndSelection) ||
+      keepValue ||
+      keepValueAndSelection ||
       (inputValue !== 'initval' && inputValue.length > 0)
     ) {
       return // stop here
@@ -1149,14 +1144,14 @@ class AutocompleteInstance extends React.PureComponent<
     const { openOnFocus, keepValueAndSelection } = this.props
 
     if (!this.state.hasFocus) {
-      if (isTrue(openOnFocus) && this.hasValidData()) {
+      if (openOnFocus && this.hasValidData()) {
         const { value } = event.target
         this.setVisibleByContext({ value })
       } else {
         this.setSearchIndex({}, null)
       }
 
-      if (isTrue(keepValueAndSelection)) {
+      if (keepValueAndSelection) {
         this.showAll()
       }
 
@@ -1187,7 +1182,7 @@ class AutocompleteInstance extends React.PureComponent<
         () => {
           this.__preventFiringBlurEvent = false
         },
-        isTrue(this.props.noAnimation) ? 1 : DrawerList.blurDelay
+        this.props.noAnimation ? 1 : DrawerList.blurDelay
       )
     }
   }
@@ -1215,30 +1210,26 @@ class AutocompleteInstance extends React.PureComponent<
       hasFocus: false,
     })
 
-    if (!isTrue(keepValue) && !isTrue(keepValueAndSelection)) {
+    if (!keepValue && !keepValueAndSelection) {
       this.setState({
         typedInputValue: null,
         _listenForPropChanges: false,
       })
     }
 
-    if (!isTrue(preventSelection)) {
+    if (!preventSelection) {
       const existingValue = this.state.inputValue
 
       this.resetInputValue()
 
       const resetAfterClose = () => {
-        if (
-          !isTrue(keepValue) ||
-          !existingValue ||
-          this.hasSelectedItem()
-        ) {
+        if (!keepValue || !existingValue || this.hasSelectedItem()) {
           this.resetActiveItem()
         }
         this.resetFilter()
       }
 
-      if (isTrue(noAnimation)) {
+      if (noAnimation) {
         resetAfterClose()
       } else {
         clearTimeout(this._blurTimeout)
@@ -1249,7 +1240,7 @@ class AutocompleteInstance extends React.PureComponent<
       }
     }
 
-    if (isTrue(openOnFocus)) {
+    if (openOnFocus) {
       this.setHidden()
     }
 
@@ -1491,7 +1482,7 @@ class AutocompleteInstance extends React.PureComponent<
     {
       data = null, // rawData
       searchIndex = this.state.searchIndex,
-      searchNumbers = isTrue(this.props.searchNumbers),
+      searchNumbers = this.props.searchNumbers,
       inWordIndex = parseFloat(
         String(this.props.searchInWordIndex ?? (this.skipFilter ? 1 : 3))
       ) - 1,
@@ -1906,8 +1897,8 @@ class AutocompleteInstance extends React.PureComponent<
 
     const { preventSelection, keepOpen } = this.props
 
-    if (!isTrue(preventSelection)) {
-      if (!isTrue(keepOpen)) {
+    if (!preventSelection) {
+      if (!keepOpen) {
         this.setState({
           skipFocusDuringChange: true,
           disableHighlighting: true,
@@ -2109,7 +2100,7 @@ class AutocompleteInstance extends React.PureComponent<
         align && `dnb-autocomplete--${align}`,
         visibleIndicator && 'dnb-autocomplete--show-indicator',
         size && `dnb-autocomplete--${size}`,
-        isTrue(stretch) && `dnb-autocomplete--stretch`,
+        stretch && `dnb-autocomplete--stretch`,
         status && `dnb-autocomplete__status--${statusState}`,
         showStatus && 'dnb-autocomplete__form-status',
         'dnb-form-component',
@@ -2197,7 +2188,7 @@ class AutocompleteInstance extends React.PureComponent<
 
     if (submitElement && React.isValidElement(submitElement)) {
       submitButton = React.cloneElement(submitElement, triggerParams)
-    } else if (isTrue(showSubmitButton)) {
+    } else if (showSubmitButton) {
       submitButton = (
         <SubmitButton
           icon={submitButtonIcon as any}
@@ -2304,7 +2295,7 @@ class AutocompleteInstance extends React.PureComponent<
                   inputState={
                     this.state.skipFocusDuringChange ? 'focus' : undefined
                   } // because of the short blur / focus during select
-                  clear={isTrue(showClearButton)}
+                  clear={showClearButton}
                   onClear={onClear}
                   ref={this._refInput}
                   {...inputParams}

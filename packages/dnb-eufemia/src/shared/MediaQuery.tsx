@@ -1,5 +1,4 @@
 import React from 'react'
-import { isTrue } from './component-helper'
 import Context from './Context'
 import {
   makeMediaQueryList,
@@ -27,7 +26,7 @@ const MediaQuery: React.FC<MediaQueryProps> = (props) => {
       mediaQueryList: null,
     }
 
-    if (!isMatchMediaSupported() && isTrue(props.matchOnSSR)) {
+    if (!isMatchMediaSupported() && props.matchOnSSR) {
       state.match = true
     }
 

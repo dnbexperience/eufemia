@@ -6,7 +6,6 @@
 import React, { useContext } from 'react'
 import clsx from 'clsx'
 import {
-  isTrue,
   findElementInChildren,
   validateDOMAttributes,
 } from '../../shared/component-helper'
@@ -66,18 +65,18 @@ export default function DialogContent({
 
   const contentParams = {
     className: clsx(
-      !isTrue(preventCoreStyle) && 'dnb-core-style',
+      !preventCoreStyle && 'dnb-core-style',
 
       'dnb-dialog',
       variant && `dnb-dialog--${variant}`,
-      isTrue(spacing) && 'dnb-dialog--spacing',
+      spacing && 'dnb-dialog--spacing',
       alignContent && `dnb-dialog__align--${alignContent}`,
-      isTrue(fullscreen)
+      fullscreen === true
         ? `dnb-dialog--fullscreen`
         : fullscreen === 'auto' && `dnb-dialog--auto-fullscreen`,
-      isTrue(context?.hide) && `dnb-dialog--hide`,
-      isTrue(noAnimation) && `dnb-dialog--no-animation`,
-      isTrue(noAnimationOnMobile) && `dnb-dialog--no-animation-on-mobile`,
+      context?.hide && `dnb-dialog--hide`,
+      noAnimation && `dnb-dialog--no-animation`,
+      noAnimationOnMobile && `dnb-dialog--no-animation-on-mobile`,
       className
     ),
     style: (minWidth || maxWidth) && { minWidth, maxWidth },
