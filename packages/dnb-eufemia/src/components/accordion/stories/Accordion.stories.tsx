@@ -166,9 +166,15 @@ export const AccordionSandbox = () => {
 }
 
 function AccordionWithContainer() {
-  const ref1 = React.useRef()
-  const ref2 = React.useRef()
-  const ref3 = React.useRef()
+  const ref1 = React.useRef<{ setContainerHeight?: () => void } | null>(
+    null
+  )
+  const ref2 = React.useRef<{ setContainerHeight?: () => void } | null>(
+    null
+  )
+  const ref3 = React.useRef<{ setContainerHeight?: () => void } | null>(
+    null
+  )
   const [changeHeight] = React.useState(() => ({ ref1, ref2, ref3 }))
   const [flushCache, flushCacheNow] = React.useState(false)
   const [count, setCount] = React.useState(1)
@@ -329,7 +335,7 @@ function AccordionWithContainer() {
 function ChangingContent({ changeHeight, children }) {
   const [contentSize, changeContentSize] = React.useState(false)
   React.useLayoutEffect(() => {
-    changeHeight.current.setContainerHeight()
+    changeHeight.current?.setContainerHeight?.()
   }, [changeHeight, contentSize])
   return (
     <>

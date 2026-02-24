@@ -84,13 +84,23 @@ const CodeBlock = ({
             )}
           >
             <Tag as="pre" className={className} css={style}>
-              {cleanTokens(tokens).map((line, i) => (
-                <div key={i} {...getLineProps({ line, key: i })}>
-                  {line.map((token, key) => (
-                    <span key={key} {...getTokenProps({ token, key })} />
-                  ))}
-                </div>
-              ))}
+              {cleanTokens(tokens).map((line, i) => {
+                const { key, ...lineProps } = getLineProps({
+                  line,
+                  key: i,
+                })
+                return (
+                  <div key={String(key)} {...lineProps}>
+                    {line.map((token, tokenKey) => {
+                      const { key: tokenKeyProp, ...tokenProps } =
+                        getTokenProps({ token, key: tokenKey })
+                      return (
+                        <span key={String(tokenKeyProp)} {...tokenProps} />
+                      )
+                    })}
+                  </div>
+                )
+              })}
             </Tag>
           </div>
         )}

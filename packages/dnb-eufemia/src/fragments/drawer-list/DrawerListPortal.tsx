@@ -45,10 +45,10 @@ function DrawerListPortal({
   const portalRef =
     innerRef && typeof innerRef !== 'function' ? innerRef : localRef
 
-  const setPosition = useRef<() => void>()
-  const positionTimeout = useRef<NodeJS.Timeout>()
-  const customElem = useRef<Element | Window>()
-  const resizeObserver = useRef<ResizeObserver>()
+  const setPosition = useRef<() => void>(undefined)
+  const positionTimeout = useRef<NodeJS.Timeout>(undefined)
+  const customElem = useRef<Element | Window>(undefined)
+  const resizeObserver = useRef<ResizeObserver>(undefined)
 
   const init = useCallback(() => {
     setIsMounted(true)

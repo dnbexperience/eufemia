@@ -32,7 +32,7 @@ export function replaceItemNo(
     ))
   }
 
-  if (isValidElement(node)) {
+  if (isValidElement<{ children?: React.ReactNode }>(node)) {
     // Recursively process children while preserving element and props
     const { children: childProps, ...rest } = node.props || {}
     const nextChildren = replaceItemNo(childProps, index)

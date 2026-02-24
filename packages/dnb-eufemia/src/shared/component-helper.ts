@@ -346,21 +346,23 @@ export function convertJsxToString(
   elements: React.ReactNode | React.ReactNode[],
   separator: string = undefined,
   transformWord: (
-    element: React.ReactElement
-  ) => React.ReactElement<unknown> = undefined
+    element: React.ReactElement<any>
+  ) => React.ReactElement<any> = undefined
 ): string {
   if (!Array.isArray(elements)) {
     elements = [elements]
   }
 
   const process = (word: React.ReactNode) => {
-    if (React.isValidElement(word)) {
+    if (React.isValidElement<any>(word)) {
+      let element = word as React.ReactElement<any>
+
       if (transformWord) {
-        word = transformWord(word)
+        element = transformWord(element)
       }
 
-      if (Array.isArray(word.props.children)) {
-        word = word.props.children.reduce((acc, word) => {
+      if (Array.isArray(element.props.children)) {
+        word = element.props.children.reduce((acc, word) => {
           if (typeof word !== 'string') {
             word = process(word)
           }
@@ -369,8 +371,8 @@ export function convertJsxToString(
           }
           return acc
         }, '')
-      } else if (word.props.children) {
-        word = word.props.children
+      } else if (element.props.children) {
+        word = element.props.children
         if (typeof word !== 'string') {
           word = process(word)
         }

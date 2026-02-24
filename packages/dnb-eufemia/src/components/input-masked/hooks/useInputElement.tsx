@@ -39,7 +39,7 @@ export const useInputElement = () => {
   }, [innerRef, isFn, ref])
 
   // Create the actual input element
-  const inputElementRef = React.useRef<JSX.Element>(
+  const inputElementRef = React.useRef<React.JSX.Element>(
     <input ref={ref as React.Ref<HTMLInputElement>} />
   )
 

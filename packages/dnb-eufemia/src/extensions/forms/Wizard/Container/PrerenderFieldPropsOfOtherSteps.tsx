@@ -92,8 +92,8 @@ function usePrerenderState() {
 }
 
 function useEffectPromise() {
-  const promiseRef = useRef<Promise<void>>()
-  const resolveRef = useRef<() => void>()
+  const promiseRef = useRef<Promise<void> | undefined>(undefined)
+  const resolveRef = useRef<(() => void) | null>(null)
 
   const effectPromise = useCallback(() => {
     promiseRef.current = new Promise((resolve) => {

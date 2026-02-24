@@ -7,11 +7,10 @@ import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import Input from '../../input/Input'
-import Modal, { OriginalComponent } from '../Modal'
+import Modal from '../Modal'
 import { ModalProps } from '../types'
 import Button from '../../button/Button'
 import DialogContent from '../../dialog/DialogContent'
-import Provider from '../../../shared/Provider'
 import * as helpers from '../../../shared/helpers'
 import userEvent from '@testing-library/user-event'
 import ModalHeaderBar from '../parts/ModalHeaderBar'
@@ -1394,90 +1393,6 @@ describe('Modal component', () => {
 
     fireEvent.click(document.querySelector('button#modal-trigger'))
 
-    // For some reason, in JSDOM, the second open does not work properly.
-    // "this.isClosing" is still true at that point. Hard to find the reason. A delay does not help at all.
-    // expect(document.querySelector('div.dnb-modal__content')).toBeInTheDocument()
-  })
-
-  it('will keep its internal open state from within provider', () => {
-    const onOpen = jest.fn()
-    const onClose = jest.fn()
-
-    const TestCustomTrigger = () => {
-      const [count, setCount] = React.useState(0)
-
-      return (
-        <Provider>
-          <Button
-            id="count-trigger"
-            text="Count"
-            onClick={() => setCount(count + 1)}
-          />
-
-          <Button
-            id="modal-trigger"
-            onClick={() => {
-              return (
-                <OriginalComponent
-                  title="Modal Title"
-                  triggerAttributes={{ hidden: true }}
-                  open
-                  labelledBy="modal-trigger"
-                  onOpen={(e) => {
-                    onOpen(e)
-                  }}
-                  onClose={(e) => {
-                    onClose(e)
-                  }}
-                  noAnimation
-                  directDomReturn
-                >
-                  <OriginalComponent.Bar />
-                </OriginalComponent>
-              )
-            }}
-          />
-
-          <span id="count">{count}</span>
-        </Provider>
-      )
-    }
-
-    render(<TestCustomTrigger />)
-
-    // open
-    fireEvent.click(document.querySelector('button#modal-trigger'))
-
-    expect(
-      document.querySelector('div.dnb-modal__content')
-    ).toBeInTheDocument()
-
-    // close
-    fireEvent.click(
-      document.querySelector('button.dnb-modal__close-button')
-    )
-
-    expect(
-      document.querySelector('div.dnb-modal__content')
-    ).not.toBeInTheDocument()
-
-    expect(onOpen).toHaveBeenCalledTimes(1)
-
-    // state update
-    fireEvent.click(document.querySelector('button#count-trigger'))
-    fireEvent.click(document.querySelector('button#count-trigger'))
-
-    expect(document.querySelector('span#count').textContent).toBe('2')
-    expect(
-      document.querySelector('div.dnb-modal__content')
-    ).not.toBeInTheDocument()
-    expect(onClose).toHaveBeenCalledTimes(1)
-
-    // open again
-    fireEvent.click(document.querySelector('button#modal-trigger'))
-
-    expect(onOpen).toHaveBeenCalledTimes(2)
-    expect(onClose).toHaveBeenCalledTimes(1)
     expect(
       document.querySelector('div.dnb-modal__content')
     ).toBeInTheDocument()

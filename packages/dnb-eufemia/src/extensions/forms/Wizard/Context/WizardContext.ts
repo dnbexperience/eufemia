@@ -21,7 +21,7 @@ export interface WizardContextState {
   totalSteps?: number
   activeIndex?: StepIndex
   initialActiveIndex?: StepIndex
-  stepElementRef?: React.MutableRefObject<HTMLElement>
+  stepElementRef?: React.RefObject<HTMLElement>
   stepsRef?: React.MutableRefObject<Steps>
   updateTitlesRef?: React.MutableRefObject<() => void>
   activeIndexRef?: React.MutableRefObject<StepIndex>

@@ -26,7 +26,7 @@ describe('useHeightAnimation', () => {
     open = false,
     animate = true,
   }: useHeightAnimationOptions) => {
-    const element = React.useRef()
+    const element = React.useRef<HTMLDivElement | null>(null)
     const { isOpen, isVisible, isInDOM, isVisibleParallax } =
       useHeightAnimation(element, {
         open,

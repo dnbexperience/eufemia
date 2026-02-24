@@ -158,16 +158,23 @@ export default class GlobalStatus extends React.PureComponent {
   }
 
   static getDerivedStateFromProps(props, state) {
+    let globalStatus = state.globalStatus
+
     if (state._items !== props.items) {
-      state.globalStatus = GlobalStatusProvider.combineMessages([
+      globalStatus = GlobalStatusProvider.combineMessages([
         state.globalStatus,
         props,
       ])
     }
 
-    state._items = props.items
+    if (props.state !== globalStatus?.state) {
+      globalStatus = { ...globalStatus, state: props.state }
+    }
 
-    return state
+    return {
+      globalStatus,
+      _items: props.items,
+    }
   }
 
   state = {
@@ -241,17 +248,6 @@ export default class GlobalStatus extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps !== this.props) {
-      const globalStatus = extendPropsWithContextInClassComponent(
-        this.props,
-        GlobalStatus.defaultProps,
-        this.context.globalStatus
-      )
-      this.setState({
-        globalStatus,
-      })
-    }
-
     if (prevProps.show !== this.props.show) {
       if (isTrue(this.props.show)) {
         this.setVisible()
@@ -597,7 +593,6 @@ export default class GlobalStatus extends React.PureComponent {
 
     const wrapperParams = {
       id,
-      key: 'global-status',
       className: clsx(
         'dnb-global-status__wrapper',
         'dnb-no-focus',
@@ -693,7 +688,7 @@ export default class GlobalStatus extends React.PureComponent {
     )
 
     return (
-      <div {...wrapperParams} ref={this._wrapperRef}>
+      <div {...wrapperParams} ref={this._wrapperRef} key="global-status">
         <section {...params}>
           <HeightAnimation
             className="dnb-global-status__shell"
