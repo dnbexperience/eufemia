@@ -11,7 +11,6 @@ import clsx from 'clsx'
 import {
   extendPropsWithContextInClassComponent,
   validateDOMAttributes,
-  isTrue,
 } from '../../shared/component-helper'
 import { LOCALE } from '../../shared/defaults'
 import Space from '../space/Space'
@@ -51,7 +50,7 @@ function Skeleton(props) {
 
       let newString = null
 
-      if (isTrue(props.show)) {
+      if (props.show) {
         newString = ariaBusy
       } else {
         newString = ariaReady
@@ -96,15 +95,13 @@ function Skeleton(props) {
   } = extendedProps
 
   const showSkeleton =
-    typeof show === 'boolean' || typeof show === 'string'
-      ? isTrue(show)
-      : skeleton
+    typeof show === 'boolean' || typeof show === 'string' ? show : skeleton
 
   const params = {
     className: clsx(
       figure ? 'dnb-skeleton__figure' : 'dnb-skeleton__root',
-      isTrue(showSkeleton) && 'dnb-skeleton',
-      isTrue(noAnimation) && 'dnb-skeleton--no-animation',
+      showSkeleton && 'dnb-skeleton',
+      noAnimation && 'dnb-skeleton--no-animation',
       createSpacingClasses(extendedProps),
       className
     ),

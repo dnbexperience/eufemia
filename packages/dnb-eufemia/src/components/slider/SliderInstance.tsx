@@ -5,7 +5,6 @@
 
 import React from 'react'
 import clsx from 'clsx'
-import { isTrue } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import {
@@ -64,7 +63,7 @@ export function SliderInstance() {
       disabled && 'dnb-slider__state--disabled',
       shouldAnimate && 'dnb-slider__state--animate',
       !showButtons && 'dnb-slider--no-buttons',
-      isTrue(stretch) && 'dnb-slider--stretch',
+      stretch && 'dnb-slider--stretch',
       label && labelDirection && `dnb-slider__label--${labelDirection}`,
       showStatus && 'dnb-slider__form-status',
       status && `dnb-slider__status--${statusState}`,

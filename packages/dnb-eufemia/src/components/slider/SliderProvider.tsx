@@ -1,7 +1,6 @@
 import React from 'react'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import {
-  isTrue,
   makeUniqueId,
   dispatchCustomElementEvent,
   getStatusState,
@@ -97,10 +96,8 @@ export function SliderProvider(localProps: SliderAllProps) {
   const thumbIndex = React.useRef<number>(-1)
   const [shouldAnimate, updateAnimateState] =
     React.useState<boolean>(false)
-  const [isVertical] = React.useState(isTrue(_vertical))
-  const [isReverse] = React.useState(
-    isVertical ? !isTrue(_reverse) : isTrue(_reverse)
-  )
+  const [isVertical] = React.useState(_vertical)
+  const [isReverse] = React.useState(isVertical ? !_reverse : _reverse)
   const isMulti = Array.isArray(value)
   const setThumbIndex = (index: number) => {
     if (!isNaN(index)) {
@@ -130,7 +127,7 @@ export function SliderProvider(localProps: SliderAllProps) {
     event: MouseEvent | TouchEvent,
     rawValue: number
   ) => {
-    if (disabled || isTrue(skeleton)) {
+    if (disabled || skeleton) {
       return
     }
 
@@ -228,7 +225,7 @@ export function SliderProvider(localProps: SliderAllProps) {
   }
 
   const showStatus = getStatusState(status)
-  const showButtons = !isMulti && !isTrue(hideButtons)
+  const showButtons = !isMulti && !hideButtons
   const values = (isMulti ? value : [value]) as Array<number>
 
   return (

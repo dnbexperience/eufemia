@@ -8,7 +8,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
-  isTrue,
   makeUniqueId,
   convertJsxToString,
 } from '../../shared/component-helper'
@@ -447,7 +446,7 @@ export function prepareStartupState(
         : undefined)
   )
   const data = getData(props)
-  const open = props.open !== null ? isTrue(props.open) : null
+  const open = props.open !== null ? props.open : null
 
   const state: DrawerListContextState = {
     id: props.id || makeUniqueId(),
@@ -501,7 +500,7 @@ export const prepareDerivedState = (
     state.originalData = getData(props)
   }
 
-  state.skipPortal = isTrue(props.skipPortal)
+  state.skipPortal = props.skipPortal
 
   if (typeof props.wrapperElement === 'string') {
     if (typeof document !== 'undefined') {
@@ -518,7 +517,7 @@ export const prepareDerivedState = (
 
   if (
     state.selectedItem !== props.value &&
-    (state._value !== props.value || isTrue(props.preventSelection))
+    (state._value !== props.value || props.preventSelection)
   ) {
     if (props.value === 'initval') {
       state.selectedItem = null

@@ -9,7 +9,6 @@ import React from 'react'
 import Context from '../../shared/Context'
 import {
   warn,
-  isTrue,
   roundToNearest,
   getClosestScrollViewElement,
   detectOutsideClick,
@@ -189,16 +188,16 @@ export default class DrawerListProvider extends React.PureComponent<
   }
 
   componentDidMount() {
-    if (isTrue(this.props.open)) {
+    if (this.props.open) {
       this.setVisible()
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.open !== null && this.props.open !== prevProps.open) {
-      if (isTrue(this.props.open)) {
+      if (this.props.open) {
         this.setVisible()
-      } else if (isTrue(this.props.open) === false) {
+      } else if (this.props.open === false) {
         this.setHidden()
       }
     }
@@ -354,8 +353,8 @@ export default class DrawerListProvider extends React.PureComponent<
       direction: directionProp,
     } = this.props
 
-    const useBodyLock = isTrue(enableBodyLock)
-    const isScrollable = isTrue(scrollable)
+    const useBodyLock = enableBodyLock
+    const isScrollable = scrollable
     const customMinHeight = parseFloat(minHeight as string) * 16
     const customMaxHeight = parseFloat(maxHeight as string) || 0
 
@@ -560,7 +559,7 @@ export default class DrawerListProvider extends React.PureComponent<
   // this gives us the possibility to quickly search for an item
   // by simply pressing any alphabetical key
   findItemByValue(value) {
-    if (isTrue(this.props.skipKeysearch)) {
+    if (this.props.skipKeysearch) {
       return
     }
 
@@ -640,7 +639,7 @@ export default class DrawerListProvider extends React.PureComponent<
               ulElement.scrollTop = top
             }
 
-            if (!isTrue(this.props.preventFocus) && liElement) {
+            if (!this.props.preventFocus && liElement) {
               liElement.focus()
               dispatchCustomElementEvent(this, 'onOpenFocus', {
                 element: liElement,
@@ -700,7 +699,7 @@ export default class DrawerListProvider extends React.PureComponent<
           }
         }
 
-        if (isTrue(this.props.noAnimation)) {
+        if (this.props.noAnimation) {
           scrollTo = false
         }
 
@@ -793,9 +792,9 @@ export default class DrawerListProvider extends React.PureComponent<
     // stop here if the focus is not set
     // and the drawer is opened by default
     if (
-      isTrue(this.props.preventClose)
+      this.props.preventClose
       // TODO: Has to be worked on better!
-      // !isTrue(this.props.preventFocus)
+      // !this.props.preventFocus
     ) {
       let isSameDrawer = false
       try {
@@ -819,7 +818,7 @@ export default class DrawerListProvider extends React.PureComponent<
       return // stop here
     }
 
-    if (isTrue(this.state.ignoreEvents) && key !== 'Tab') {
+    if (this.state.ignoreEvents && key !== 'Tab') {
       return // stop here
     }
 
@@ -877,7 +876,7 @@ export default class DrawerListProvider extends React.PureComponent<
             this.getCurrentActiveItem() ?? this.getCurrentSelectedItem()
 
           if (
-            isTrue(this.props.skipKeysearch)
+            this.props.skipKeysearch
               ? activeItem > -1 && key !== ' '
               : true
           ) {
@@ -988,7 +987,7 @@ export default class DrawerListProvider extends React.PureComponent<
 
             // We may consider to close the list and set the focus it the handler
             // but also, in portal mode, we want to prevent to start the focus from the top of the page
-            else if (isTrue(this.props.preventClose)) {
+            else if (this.props.preventClose) {
               activeItem = -1
             }
           }
@@ -1204,7 +1203,7 @@ export default class DrawerListProvider extends React.PureComponent<
         this.setActiveState(true)
       }
 
-      if (isTrue(this.props.noAnimation)) {
+      if (this.props.noAnimation) {
         // our tests want no delay!
         if (process?.env.NODE_ENV === 'test') {
           animationDelayHandler()
@@ -1239,7 +1238,7 @@ export default class DrawerListProvider extends React.PureComponent<
 
     // If a user clicks on a second drawer list
     // we ensure we first close it, before we open it
-    if (DrawerListProvider.isOpen && !isTrue(this.props.noAnimation)) {
+    if (DrawerListProvider.isOpen && !this.props.noAnimation) {
       clearTimeout(this._hideTimeout)
       this._hideTimeout = setTimeout(
         handleSingleComponentCheck,
@@ -1251,7 +1250,7 @@ export default class DrawerListProvider extends React.PureComponent<
   }
 
   setHidden = (args = {}, onStateComplete = null) => {
-    if (!this.state.open || isTrue(this.props.preventClose)) {
+    if (!this.state.open || this.props.preventClose) {
       if (typeof onStateComplete === 'function') {
         onStateComplete(false)
       }
@@ -1293,7 +1292,7 @@ export default class DrawerListProvider extends React.PureComponent<
         this.setActiveState(false)
       }
 
-      if (isTrue(this.props.noAnimation)) {
+      if (this.props.noAnimation) {
         delayHandler()
       } else {
         clearTimeout(this._hideTimeout)
@@ -1448,12 +1447,12 @@ export default class DrawerListProvider extends React.PureComponent<
         })
       }
 
-      if (closeOnSelection && !isTrue(keepOpen)) {
+      if (closeOnSelection && !keepOpen) {
         this.setHidden()
       }
     }
 
-    if (isTrue(preventSelection)) {
+    if (preventSelection) {
       onSelectionIsComplete()
     } else {
       this.setState(
