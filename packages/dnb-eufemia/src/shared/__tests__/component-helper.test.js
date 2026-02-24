@@ -23,7 +23,6 @@ import {
   slugify,
   roundToNearest,
   findElementInChildren,
-  matchAll,
   convertJsxToString,
   escapeRegexChars,
   removeUndefinedProps,
@@ -624,21 +623,6 @@ describe('"roundToNearest" should', () => {
   })
   it('round to 0 if too much under is given', () => {
     expect(roundToNearest(7, 16)).toEqual(0)
-  })
-})
-
-describe('"matchAll" should', () => {
-  it('match correct parts from a string', () => {
-    const content = `
-      color: var(--color-one);
-      background-color: var(--color-two);
-    `
-    expect(matchAll(content, /var\(([^)]*)\)/g)).toEqual(
-      expect.arrayContaining([
-        expect.arrayContaining(['var(--color-one)', '--color-one']),
-        expect.arrayContaining(['var(--color-two)', '--color-two']),
-      ])
-    )
   })
 })
 

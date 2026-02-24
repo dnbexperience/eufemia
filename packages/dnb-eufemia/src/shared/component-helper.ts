@@ -296,19 +296,6 @@ export const slugify = (s) =>
     .replace(/[\s_-]+/g, '-')
     .replace(/^-+|-+$/g, '')
 
-// NB: in future we can use String.matchAll() instead
-export const matchAll = (string, regex) => {
-  if (typeof string.matchAll === 'function') {
-    return Array.from(string.matchAll(regex))
-  }
-  const matches = []
-  let match
-  while ((match = regex.exec(string))) {
-    matches.push(match)
-  }
-  return matches
-}
-
 /**
  * Check if an element exists in its children
  * If it finds it, the child "element" of target will be returned.
