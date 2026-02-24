@@ -11,7 +11,6 @@ import React from 'react'
 import clsx from 'clsx'
 import {
   warn,
-  isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
   validateDOMAttributes,
@@ -145,14 +144,14 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
   }
 
   onClickHandler = ({ event }) => {
-    if (isTrue(this.props.readOnly)) {
+    if (this.props.readOnly) {
       return event.preventDefault()
     }
     event.persist()
 
     // only select a value once
     if (
-      !isTrue(this.context.multiselect) &&
+      !this.context.multiselect &&
       this.props.value === this.context.value
     ) {
       return
@@ -249,7 +248,7 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
           let { checked } = this.state
 
           if (
-            !isTrue(this.context.multiselect) &&
+            !this.context.multiselect &&
             typeof this.context.value !== 'undefined'
           ) {
             const contextValue = this.context.value
@@ -260,7 +259,7 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
               checked = propValue === contextValue
             }
           } else if (
-            isTrue(this.context.multiselect) &&
+            this.context.multiselect &&
             typeof this.context.values !== 'undefined'
           ) {
             const contextValues = this.context.values

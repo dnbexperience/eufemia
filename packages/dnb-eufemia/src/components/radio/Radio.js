@@ -9,7 +9,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import {
-  isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
   validateDOMAttributes,
@@ -179,7 +178,7 @@ export default class Radio extends React.PureComponent {
 
   onChangeHandler = (_event) => {
     const event = _event
-    if (isTrue(this.props.readOnly)) {
+    if (this.props.readOnly) {
       return event.preventDefault()
     }
     const value = event.target.value
@@ -211,7 +210,7 @@ export default class Radio extends React.PureComponent {
     typeof this.context.value === 'undefined' && !this.props.group
 
   onClickHandler = (event) => {
-    if (isTrue(this.props.readOnly)) {
+    if (this.props.readOnly) {
       return event.preventDefault()
     }
     // only have click support if there are more plain radio
@@ -302,7 +301,7 @@ export default class Radio extends React.PureComponent {
               checked = this.context.value === value
             }
             group = this.context.name
-            if (isTrue(this.context.disabled) && disabled !== false) {
+            if (this.context.disabled && disabled !== false) {
               disabled = true
             }
           } else if (typeof rest.name !== 'undefined') {
@@ -399,7 +398,7 @@ export default class Radio extends React.PureComponent {
                         aria-checked={
                           this.isPlainGroup() ? undefined : checked
                         }
-                        disabled={isTrue(disabled)}
+                        disabled={disabled}
                         ref={this._refInput}
                         {...inputParams}
                         onChange={this.onChangeHandler}

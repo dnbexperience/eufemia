@@ -10,7 +10,6 @@ import clsx from 'clsx'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
 import {
-  isTrue,
   validateDOMAttributes,
   extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
@@ -108,7 +107,7 @@ function PaymentCard(props) {
               </figcaption>
               <CardFigure
                 id={id}
-                skeleton={isTrue(skeleton)}
+                skeleton={skeleton}
                 compact={variant === 'compact'}
                 data={cardData}
                 cardStatus={cardStatus}

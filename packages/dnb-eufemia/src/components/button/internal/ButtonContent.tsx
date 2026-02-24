@@ -1,6 +1,5 @@
 import React from 'react'
 import AlignmentHelper from '../../../shared/AlignmentHelper'
-import { isTrue } from '../../../shared/component-helper'
 import IconPrimary from '../../icon-primary/IconPrimary'
 import type { IconIcon, IconSize } from '../../icon/Icon'
 
@@ -29,7 +28,7 @@ export default function ButtonContent({
 }: ButtonContentProps) {
   return (
     <>
-      {isTrue(bounding) && (
+      {bounding && (
         <span key="button-bounding" className="dnb-button__bounding" />
       )}
 

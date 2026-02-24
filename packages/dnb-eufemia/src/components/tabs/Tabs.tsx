@@ -11,7 +11,6 @@ import Context from '../../shared/Context'
 import {
   warn,
   slugify,
-  isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
   validateDOMAttributes,
@@ -593,7 +592,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
 
   handleVerticalScroll = () => {
     if (
-      isTrue(this.props.scroll) &&
+      this.props.scroll &&
       this._tablistRef.current &&
       typeof this._tablistRef.current.scrollIntoView === 'function'
     ) {
@@ -900,7 +899,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     const { selectedKey, data } = this.state
     const { preventRerender, prerender } = this.props
 
-    if (isTrue(prerender)) {
+    if (prerender) {
       this._cache = Object.entries(data).reduce((acc, [_idx, cur]) => {
         acc[cur.key] = {
           ...cur,
@@ -908,7 +907,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
         }
         return acc
       }, {})
-    } else if (isTrue(preventRerender)) {
+    } else if (preventRerender) {
       this._cache = {
         ...(this._cache || {}),
         [selectedKey]: { content: this.getContent(selectedKey) },
@@ -939,7 +938,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
   renderContent() {
     const { preventRerender, prerender } = this.props
 
-    if (isTrue(preventRerender) || isTrue(prerender)) {
+    if (preventRerender || prerender) {
       return this.renderCachedContent()
     }
 
@@ -1038,7 +1037,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
           tabsStyle ? `dnb-section dnb-section--${tabsStyle}` : null,
           tabsSpacing
             ? `dnb-section--spacing-${
-                isTrue(tabsSpacing) ? 'large' : tabsSpacing
+                tabsSpacing === true ? 'large' : tabsSpacing
               }`
             : null,
           hasScrollbar && 'dnb-tabs--has-scrollbar',
@@ -1121,7 +1120,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
         // itemParams['aria-current'] = isSelected // has best support on NVDA
         // itemParams['aria-selected'] = isSelected // has best support on VO
 
-        if (isTrue(disabled)) {
+        if (disabled) {
           itemParams.disabled = true
           itemParams['aria-disabled'] = true
         }

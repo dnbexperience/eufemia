@@ -9,7 +9,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   warn,
-  isTrue,
   dispatchCustomElementEvent,
   getClosestParent,
 } from '../../shared/component-helper'
@@ -31,8 +30,8 @@ export default class InfinityScroller extends React.PureComponent {
 
   constructor(props, context) {
     super(props)
-    this.hideIndicator = isTrue(context.pagination.hideProgressIndicator)
-    this.useLoadButton = isTrue(context.pagination.useLoadButton)
+    this.hideIndicator = context.pagination.hideProgressIndicator
+    this.useLoadButton = context.pagination.useLoadButton
     this.lastElement = React.createRef()
     this.callOnUnmount = []
   }

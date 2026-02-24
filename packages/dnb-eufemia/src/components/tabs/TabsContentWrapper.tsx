@@ -4,7 +4,6 @@ import React from 'react'
 import clsx from 'clsx'
 import {
   validateDOMAttributes,
-  isTrue,
   combineLabelledBy,
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -116,7 +115,7 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
           'dnb-no-focus',
           contentSpacing
             ? `dnb-section--spacing-${
-                isTrue(contentSpacing) ? 'large' : contentSpacing
+                contentSpacing === true ? 'large' : contentSpacing
               }`
             : null,
           createSpacingClasses(rest)

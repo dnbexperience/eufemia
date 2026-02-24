@@ -10,7 +10,6 @@
 import React from 'react'
 import clsx from 'clsx'
 import {
-  isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
   validateDOMAttributes,
@@ -105,7 +104,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
     const { multiselect } = this.props
     const values = this.state.values || []
 
-    if (isTrue(multiselect)) {
+    if (multiselect) {
       if (!values.includes(value)) {
         values.push(value)
       } else {
@@ -204,7 +203,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
       value,
       values,
       size,
-      multiselect: isTrue(multiselect),
+      multiselect: multiselect,
       variant,
       leftComponent,
       disabled,
