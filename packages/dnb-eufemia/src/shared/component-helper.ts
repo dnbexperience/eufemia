@@ -394,10 +394,6 @@ export function convertJsxToString(
     .trim()
 }
 
-export function convertStatusToStateOnly(status, state) {
-  return status ? state : null
-}
-
 export function getStatusState(status) {
   return (
     status &&
