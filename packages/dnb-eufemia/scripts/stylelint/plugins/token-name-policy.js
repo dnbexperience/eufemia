@@ -58,7 +58,11 @@ const DEFAULT_POLICY = {
   themesDirRelativePath: 'src/style/themes',
 
   // Allowed foundation-like prefixes that are intentionally used outside tokens.scss.
-  allowedFoundationReferencePrefixes: ['--dnb-payment-', '--dnb-forms-'],
+  allowedFoundationReferencePrefixes: [
+    '--dnb-payment-',
+    '--dnb-forms-',
+    '--dnb-sidebar-',
+  ],
 
   // Prevent Sass-style rgba(#hex, alpha) and require CSS channel-based rgba/rgb syntax.
   disallowSassHexRgba: true,
