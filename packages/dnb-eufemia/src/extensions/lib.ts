@@ -12,10 +12,11 @@
 // import all the available components
 import Forms from './forms/Forms'
 import PaymentCard from './payment-card/PaymentCard'
+import VippsWalletButton from './vipps-wallet-button/VippsWalletButton'
 
 // define / export all the available components
-export { Forms, PaymentCard }
+export { Forms, PaymentCard, VippsWalletButton }
 
 export const getExtensions = () => {
-  return { Forms, PaymentCard }
+  return { Forms, PaymentCard, VippsWalletButton }
 }
