@@ -158,21 +158,23 @@ export default class GlobalStatus extends React.PureComponent {
   }
 
   static getDerivedStateFromProps(props, state) {
+    let globalStatus = state.globalStatus
+
     if (state._items !== props.items) {
-      state.globalStatus = GlobalStatusProvider.combineMessages([
+      globalStatus = GlobalStatusProvider.combineMessages([
         state.globalStatus,
         props,
       ])
     }
 
-    // Make sure the state is updated based on state prop, since PureComponent does shallow comparisons in react 19
-    if (props.state !== state.globalStatus?.state) {
-      state.globalStatus.state = props.state
+    if (props.state !== globalStatus?.state) {
+      globalStatus = { ...globalStatus, state: props.state }
     }
 
-    state._items = props.items
-
-    return state
+    return {
+      globalStatus,
+      _items: props.items,
+    }
   }
 
   state = {
@@ -245,7 +247,7 @@ export default class GlobalStatus extends React.PureComponent {
     this.provider.empty()
   }
 
-  componentDidUpdate(prevProps, newProps) {
+  componentDidUpdate(prevProps) {
     if (prevProps.show !== this.props.show) {
       if (isTrue(this.props.show)) {
         this.setVisible()
