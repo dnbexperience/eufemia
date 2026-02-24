@@ -1150,7 +1150,9 @@ describe('DataContext.Provider', () => {
 
         await userEvent.click(button)
 
-        await wait(100)
+        await act(async () => {
+          await wait(100)
+        })
 
         expect(eventsStart).toEqual([
           'onChangeValidator',

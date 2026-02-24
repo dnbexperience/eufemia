@@ -9,7 +9,7 @@ import {
   loadScss,
   mockClipboard,
 } from '../../../core/jest/jestSetup'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { LOCALE } from '../../../shared/defaults'
 import { isMac } from '../../../shared/helpers'
@@ -1896,7 +1896,9 @@ describe('NumberFormat copy tooltip', () => {
   })
 
   afterEach(() => {
-    jest.runOnlyPendingTimers()
+    act(() => {
+      jest.runOnlyPendingTimers()
+    })
     jest.useRealTimers()
   })
 
@@ -1919,7 +1921,9 @@ describe('NumberFormat copy tooltip', () => {
       document.querySelector('.dnb-tooltip__content')?.textContent
     ).toContain(en.clipboardCopy)
 
-    jest.advanceTimersByTime(COPY_TOOLTIP_TIMEOUT)
+    act(() => {
+      jest.advanceTimersByTime(COPY_TOOLTIP_TIMEOUT)
+    })
 
     await waitFor(() => {
       expect(

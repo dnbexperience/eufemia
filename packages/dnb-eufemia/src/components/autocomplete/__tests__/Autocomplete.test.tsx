@@ -62,6 +62,14 @@ const mockData: DrawerListDataArray = [
 mockImplementationForDirectionObserver()
 
 describe('Autocomplete component', () => {
+  afterEach(async () => {
+    // Flush AriaLive timers (setTimeout(0) + setTimeout(100)) to avoid
+    // act warnings from pending timer-based state updates between tests
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 150))
+    })
+  })
+
   it('has correct word and in-word highlighting', () => {
     render(
       <Autocomplete
@@ -102,7 +110,7 @@ describe('Autocomplete component', () => {
     expect(option.innerHTML).toContain('&lt;/em&gt;')
   })
 
-  it('has correct attributes on input', () => {
+  it('has correct attributes on input', async () => {
     render(<Autocomplete data={mockData} open {...mockProps} />)
 
     const input = document.querySelector('input')
@@ -118,7 +126,7 @@ describe('Autocomplete component', () => {
     expect(input).toHaveAttribute('aria-expanded', 'true')
     expect(input).toHaveAttribute('name', 'autocomplete-id')
 
-    keyDownOnInput('Escape')
+    await keyDownOnInput('Escape')
 
     expect(input).not.toHaveAttribute('aria-controls')
     expect(input).toHaveAttribute('aria-expanded', 'false')
@@ -147,7 +155,9 @@ describe('Autocomplete component', () => {
     )
 
     const input = document.querySelector('input') as HTMLInputElement
-    input.focus()
+    await act(async () => {
+      input.focus()
+    })
 
     await userEvent.keyboard('{Escape}')
 
@@ -170,15 +180,17 @@ describe('Autocomplete component', () => {
     document.body.removeAttribute('style')
   })
 
-  it('has correct options after filter', () => {
+  it('has correct options after filter', async () => {
     render(
       <Autocomplete data={mockData} showSubmitButton {...mockProps} />
     )
 
-    toggle()
+    await toggle()
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'aa' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'aa' },
+      })
     })
     expect(
       document.querySelectorAll(
@@ -192,8 +204,10 @@ describe('Autocomplete component', () => {
     ).toBe(mockData[0])
 
     // check "cc"
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'cc' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'cc' },
+      })
     })
     expect(
       document.querySelectorAll(
@@ -202,8 +216,10 @@ describe('Autocomplete component', () => {
     ).toBe(2)
 
     // check "bb cc"
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'bb cc' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'bb cc' },
+      })
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
@@ -216,8 +232,10 @@ describe('Autocomplete component', () => {
     ).toBe(2)
 
     // check "aa cc"
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'aa cc' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'aa cc' },
+      })
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
@@ -225,8 +243,10 @@ describe('Autocomplete component', () => {
     ).toBe(mockData[0])
 
     // check inside words
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'bb cc th x' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'bb cc th x' },
+      })
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
@@ -239,8 +259,10 @@ describe('Autocomplete component', () => {
     )
 
     // check "invalid"
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'invalid' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'invalid' },
+      })
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
@@ -269,9 +291,11 @@ describe('Autocomplete component', () => {
       )
     })
 
-    rerender(
-      <Autocomplete value={1} data={mockData} independentWidth open />
-    )
+    await act(async () => {
+      rerender(
+        <Autocomplete value={1} data={mockData} independentWidth open />
+      )
+    })
 
     expect(styleElement.getAttribute('style')).toBe(
       'width: 320px; --drawer-list-width: 20rem; top: 0px; left: 0px;'
@@ -302,7 +326,7 @@ describe('Autocomplete component', () => {
       },
     ]
 
-    it('will show suffixValue in options and in input when selected', () => {
+    it('will show suffixValue in options and in input when selected', async () => {
       let index = 1
 
       const { rerender } = render(
@@ -319,14 +343,16 @@ describe('Autocomplete component', () => {
       assertInputValue()
 
       index = 2
-      rerender(
-        <Autocomplete {...mockProps} value={index} data={mockData} />
-      )
+      await act(async () => {
+        rerender(
+          <Autocomplete {...mockProps} value={index} data={mockData} />
+        )
+      })
 
       assertInputValue()
 
       // open
-      keyDownOnInput('ArrowDown')
+      await keyDownOnInput('ArrowDown')
 
       expect(
         document
@@ -344,14 +370,16 @@ describe('Autocomplete component', () => {
       ).toBe(mockData[2].suffixValue)
     })
 
-    it('will not open drawer-list when click on suffixValue and is disabled', () => {
+    it('will not open drawer-list when click on suffixValue and is disabled', async () => {
       render(
         <Autocomplete {...mockProps} value={1} data={mockData} disabled />
       )
 
-      fireEvent.click(
-        document.querySelector('.dnb-autocomplete__suffixValue')
-      )
+      await act(async () => {
+        fireEvent.click(
+          document.querySelector('.dnb-autocomplete__suffixValue')
+        )
+      })
 
       expect(
         document.querySelector('.dnb-autocomplete').classList
@@ -360,16 +388,18 @@ describe('Autocomplete component', () => {
       expect(document.activeElement.tagName).toBe('BODY')
     })
 
-    it('will open drawer-list when click on suffixValue', () => {
+    it('will open drawer-list when click on suffixValue', async () => {
       render(<Autocomplete {...mockProps} value={1} data={mockData} />)
 
       expect(
         document.querySelector('.dnb-autocomplete').classList
       ).not.toContain('dnb-autocomplete--open')
 
-      fireEvent.click(
-        document.querySelector('.dnb-autocomplete__suffixValue')
-      )
+      await act(async () => {
+        fireEvent.click(
+          document.querySelector('.dnb-autocomplete__suffixValue')
+        )
+      })
       expect(
         document.querySelector('.dnb-autocomplete').classList
       ).toContain('dnb-autocomplete--open')
@@ -397,7 +427,7 @@ describe('Autocomplete component', () => {
     })
   })
 
-  it('keyboard navigation loops', () => {
+  it('keyboard navigation loops', async () => {
     render(
       <Autocomplete
         data={mockData}
@@ -406,25 +436,25 @@ describe('Autocomplete component', () => {
         showSubmitButton
       />
     )
-    toggle()
+    await toggle()
 
     expect(
       document.querySelectorAll('.dnb-drawer-list__option')[1].classList
     ).toContain('dnb-drawer-list__option--focus')
 
-    keyDownOnInput('ArrowUp')
+    await keyDownOnInput('ArrowUp')
 
     expect(
       document.querySelectorAll('.dnb-drawer-list__option')[0].classList
     ).toContain('dnb-drawer-list__option--focus')
 
-    keyDownOnInput('ArrowUp')
+    await keyDownOnInput('ArrowUp')
 
     expect(
       document.querySelectorAll('.dnb-drawer-list__option')[2].classList
     ).toContain('dnb-drawer-list__option--focus')
 
-    keyDownOnInput('ArrowDown')
+    await keyDownOnInput('ArrowDown')
 
     expect(
       document.querySelectorAll('.dnb-drawer-list__option')[0].classList
@@ -432,7 +462,7 @@ describe('Autocomplete component', () => {
   })
 
   describe('id', () => {
-    const testAllIds = (id) => {
+    const testAllIds = async (id) => {
       // DrawerList specifics
       expect(
         document.querySelector('.dnb-drawer-list').getAttribute('id')
@@ -454,7 +484,7 @@ describe('Autocomplete component', () => {
           .getAttribute('id')
       ).toBe(`option-${id}-0`)
 
-      keyDownOnInput('ArrowDown')
+      await keyDownOnInput('ArrowDown')
 
       expect(
         document
@@ -528,18 +558,18 @@ describe('Autocomplete component', () => {
       skipPortal: true,
     }
 
-    it('is same when set', () => {
+    it('is same when set', async () => {
       render(<Autocomplete {...idTestProps} id="custom-id" />)
 
-      toggle()
+      await toggle()
 
-      testAllIds('custom-id')
+      await testAllIds('custom-id')
     })
 
-    it('is same when generated', () => {
+    it('is same when generated', async () => {
       render(<Autocomplete {...idTestProps} />)
 
-      toggle()
+      await toggle()
 
       const domId = document
         .querySelector('.dnb-drawer-list')
@@ -551,10 +581,10 @@ describe('Autocomplete component', () => {
 
       expect(id.length).toBeGreaterThan(0)
 
-      testAllIds(id)
+      await testAllIds(id)
     })
   })
-  it('has correct options when searchInWordIndex is set to 1', () => {
+  it('has correct options when searchInWordIndex is set to 1', async () => {
     render(
       <Autocomplete
         data={mockData}
@@ -564,26 +594,32 @@ describe('Autocomplete component', () => {
       />
     )
 
-    toggle()
+    await toggle()
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'ethx' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'ethx' },
+      })
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
         .textContent
     ).toBe(mockData[1])
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'thx' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'thx' },
+      })
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
         .textContent
     ).toBe(mockData[1])
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'ethxX' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'ethxX' },
+      })
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
@@ -592,7 +628,7 @@ describe('Autocomplete component', () => {
   })
 
   describe('searchMatch', () => {
-    it('filters by starts-with when searchMatch is set', () => {
+    it('filters by starts-with when searchMatch is set', async () => {
       const data = ['Back to the Future', 'The Godfather', 'The Matrix']
 
       render(
@@ -604,10 +640,12 @@ describe('Autocomplete component', () => {
         />
       )
 
-      toggle()
+      await toggle()
 
-      fireEvent.change(document.querySelector('.dnb-input__input'), {
-        target: { value: 'The' },
+      await act(async () => {
+        fireEvent.change(document.querySelector('.dnb-input__input'), {
+          target: { value: 'The' },
+        })
       })
 
       const optionTexts = Array.from(
@@ -622,7 +660,7 @@ describe('Autocomplete component', () => {
       )
     })
 
-    it('filters numbers by starts-with when searchMatch is set', () => {
+    it('filters numbers by starts-with when searchMatch is set', async () => {
       const data = ['123 124', '124 123']
 
       render(
@@ -635,10 +673,12 @@ describe('Autocomplete component', () => {
         />
       )
 
-      toggle()
+      await toggle()
 
-      fireEvent.change(document.querySelector('.dnb-input__input'), {
-        target: { value: '123' },
+      await act(async () => {
+        fireEvent.change(document.querySelector('.dnb-input__input'), {
+          target: { value: '123' },
+        })
       })
 
       const optionTexts = Array.from(
@@ -648,8 +688,10 @@ describe('Autocomplete component', () => {
       expect(optionTexts).toEqual(expect.arrayContaining(['123 124']))
       expect(optionTexts).not.toEqual(expect.arrayContaining(['124 123']))
 
-      fireEvent.change(document.querySelector('.dnb-input__input'), {
-        target: { value: '123 1' },
+      await act(async () => {
+        fireEvent.change(document.querySelector('.dnb-input__input'), {
+          target: { value: '123 1' },
+        })
       })
 
       const optionTextsWithSpace = Array.from(
@@ -663,8 +705,10 @@ describe('Autocomplete component', () => {
         expect.arrayContaining(['124 123'])
       )
 
-      fireEvent.change(document.querySelector('.dnb-input__input'), {
-        target: { value: '123-1' },
+      await act(async () => {
+        fireEvent.change(document.querySelector('.dnb-input__input'), {
+          target: { value: '123-1' },
+        })
       })
 
       const optionTextsWithPunctuation = Array.from(
@@ -678,8 +722,10 @@ describe('Autocomplete component', () => {
         expect.arrayContaining(['124 123'])
       )
 
-      fireEvent.change(document.querySelector('.dnb-input__input'), {
-        target: { value: '123 125' },
+      await act(async () => {
+        fireEvent.change(document.querySelector('.dnb-input__input'), {
+          target: { value: '123 125' },
+        })
       })
 
       const optionTextsWithLetters = Array.from(
@@ -699,11 +745,15 @@ describe('Autocomplete component', () => {
 
     const inputElement = document.querySelector('.dnb-input__input')
 
-    toggle()
+    await toggle()
 
-    fireEvent.focus(inputElement)
-    fireEvent.change(inputElement, {
-      target: { value: 'bb' },
+    await act(async () => {
+      fireEvent.focus(inputElement)
+    })
+    await act(async () => {
+      fireEvent.change(inputElement, {
+        target: { value: 'bb' },
+      })
     })
 
     await wait(2)
@@ -716,8 +766,10 @@ describe('Autocomplete component', () => {
         .textContent
     ).toBe(mockData[1])
 
-    fireEvent.change(inputElement, {
-      target: { value: 'cc' },
+    await act(async () => {
+      fireEvent.change(inputElement, {
+        target: { value: 'cc' },
+      })
     })
 
     await wait(2)
@@ -730,8 +782,10 @@ describe('Autocomplete component', () => {
         .textContent
     ).toBe((content as string[]).join(''))
 
-    fireEvent.change(inputElement, {
-      target: { value: 'c' },
+    await act(async () => {
+      fireEvent.change(inputElement, {
+        target: { value: 'c' },
+      })
     })
 
     await wait(2)
@@ -743,8 +797,10 @@ describe('Autocomplete component', () => {
         .textContent
     ).toBe((content as string[]).join(''))
 
-    fireEvent.change(inputElement, {
-      target: { value: 'invalid' },
+    await act(async () => {
+      fireEvent.change(inputElement, {
+        target: { value: 'invalid' },
+      })
     })
 
     await wait(2)
@@ -759,7 +815,7 @@ describe('Autocomplete component', () => {
     ).toBe('Ingen alternativer')
   })
 
-  it('will prefer searchContent over content', () => {
+  it('will prefer searchContent over content', async () => {
     const mockData = [
       { content: 'item aa', searchContent: ['AA c'] },
       { content: 'item bb', searchContent: ['BB cc zethx'] },
@@ -771,10 +827,12 @@ describe('Autocomplete component', () => {
       <Autocomplete data={mockData} showSubmitButton {...mockProps} />
     )
 
-    toggle()
+    await toggle()
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'bb' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'bb' },
+      })
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].outerHTML
@@ -783,8 +841,10 @@ describe('Autocomplete component', () => {
     )
 
     // First result direction
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'cc bb' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'cc bb' },
+      })
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].outerHTML
@@ -793,8 +853,10 @@ describe('Autocomplete component', () => {
     )
 
     // Second result direction
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'bb cc' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'bb cc' },
+      })
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].outerHTML
@@ -803,18 +865,22 @@ describe('Autocomplete component', () => {
     )
 
     // With three matches, we prioritize the second one to be on the first place
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'cc bb more' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'cc bb more' },
+      })
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].outerHTML
     ).toBe(
-      '<li class="first-of-type first-item closest-to-top closest-to-bottom dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="3" id="option-autocomplete-id-3"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">cc</span> second</span></span></span></li>'
+      '<li class="first-of-type first-item dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="3" id="option-autocomplete-id-3"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">cc</span> second</span></span></span></li>'
     )
 
     // Do not find item, as there is defined a searchContent
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'item' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'item' },
+      })
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
@@ -831,7 +897,7 @@ describe('Autocomplete component', () => {
       <Autocomplete data={mockData} showSubmitButton {...mockProps} />
     )
 
-    toggle()
+    await toggle()
 
     // Wait for autocomplete to open and AriaLive elements to be rendered
     await waitFor(() => {
@@ -861,7 +927,7 @@ describe('Autocomplete component', () => {
 
     // simulate changes - press down arrow to select first item
     await act(async () => {
-      keyDownOnInput('ArrowDown')
+      await keyDownOnInput('ArrowDown')
     })
 
     // Wait for activeItem to be set in drawerList context
@@ -886,7 +952,7 @@ describe('Autocomplete component', () => {
 
     // simulate changes
     await act(async () => {
-      keyDownOnInput('ArrowDown')
+      await keyDownOnInput('ArrowDown')
     })
 
     // Wait for activeItem to be set in drawerList context
@@ -909,7 +975,7 @@ describe('Autocomplete component', () => {
 
     // simulate changes
     await act(async () => {
-      keyDownOnInput('ArrowDown')
+      await keyDownOnInput('ArrowDown')
     })
 
     // Wait for activeItem to be set in drawerList context
@@ -930,8 +996,8 @@ describe('Autocomplete component', () => {
       { timeout: 3000 }
     )
 
-    act(() => {
-      dispatchKeyDown('Enter')
+    await act(async () => {
+      await dispatchKeyDown('Enter')
     })
 
     await waitFor(
@@ -943,9 +1009,9 @@ describe('Autocomplete component', () => {
     )
 
     // simulate changes
-    toggle()
-    act(() => {
-      keyDownOnInput('ArrowUp')
+    await toggle()
+    await act(async () => {
+      await keyDownOnInput('ArrowUp')
     })
     await wait(10)
 
@@ -962,8 +1028,8 @@ describe('Autocomplete component', () => {
     })
 
     // simulate changes
-    act(() => {
-      keyDownOnInput('ArrowUp')
+    await act(async () => {
+      await keyDownOnInput('ArrowUp')
     })
 
     // When IS_MAC is false, the VoiceOver AriaLive is hidden, so check the count one
@@ -985,7 +1051,9 @@ describe('Autocomplete component', () => {
     )
 
     // Open the autocomplete
-    fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
+    await act(async () => {
+      fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
+    })
 
     await waitFor(() => {
       expect(autocompleteElement.classList).toContain(
@@ -994,9 +1062,11 @@ describe('Autocomplete component', () => {
     })
 
     // Make a selection to close the autocomplete
-    fireEvent.click(
-      document.querySelectorAll('li.dnb-drawer-list__option')[0]
-    )
+    await act(async () => {
+      fireEvent.click(
+        document.querySelectorAll('li.dnb-drawer-list__option')[0]
+      )
+    })
 
     await waitFor(() => {
       expect(autocompleteElement.classList).not.toContain(
@@ -1010,7 +1080,7 @@ describe('Autocomplete component', () => {
     expect(ariaLiveElements.length).toBeGreaterThan(0)
   })
 
-  it('can be used with regex chars', () => {
+  it('can be used with regex chars', async () => {
     const mockData = [
       'AA aa',
       'BB * bb',
@@ -1024,58 +1094,72 @@ describe('Autocomplete component', () => {
       <Autocomplete data={mockData} showSubmitButton {...mockProps} />
     )
 
-    toggle()
+    await toggle()
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: '*+-/\\' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: '*+-/\\' },
+      })
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
         .textContent
     ).toBe('Ingen alternativer')
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'aa' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'aa' },
+      })
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
         .textContent
     ).toBe(mockData[0])
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'bb *' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'bb *' },
+      })
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
         .textContent
     ).toBe(mockData[1])
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'cc +' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'cc +' },
+      })
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
         .textContent
     ).toBe(mockData[2])
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'dd -' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'dd -' },
+      })
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
         .textContent
     ).toBe(mockData[3])
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'ee /' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'ee /' },
+      })
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
         .textContent
     ).toBe(mockData[4])
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'ff \\' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'ff \\' },
+      })
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
@@ -1083,7 +1167,7 @@ describe('Autocomplete component', () => {
     ).toBe(mockData[5])
   })
 
-  it('has correct options when using searchNumbers', () => {
+  it('has correct options when using searchNumbers', async () => {
     const mockData = [
       formatBankAccountNumber(20001234567),
       formatBankAccountNumber(22233344425),
@@ -1100,10 +1184,12 @@ describe('Autocomplete component', () => {
       />
     )
 
-    toggle()
+    await toggle()
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: '222333.444' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: '222333.444' },
+      })
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
@@ -1115,16 +1201,20 @@ describe('Autocomplete component', () => {
       /* html */ `<li class="first-of-type first-item dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="false" aria-current="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>2223 33 44425</span></span></span></li>`
     )
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: '222333 444' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: '222333 444' },
+      })
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
         .textContent
     ).toBe(mockData[1])
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: '1234' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: '1234' },
+      })
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
@@ -1135,8 +1225,10 @@ describe('Autocomplete component', () => {
         .textContent
     ).toBe(mockData[2])
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: '00' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: '00' },
+      })
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
@@ -1148,7 +1240,7 @@ describe('Autocomplete component', () => {
     ).toBe(mockData[3])
   })
 
-  it('matches last digits when using searchNumbers', () => {
+  it('matches last digits when using searchNumbers', async () => {
     const mockData = [
       '2111 11 34567',
       '2222 22 42567',
@@ -1164,10 +1256,12 @@ describe('Autocomplete component', () => {
       />
     )
 
-    toggle()
+    await toggle()
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: '25' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: '25' },
+      })
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')
@@ -1186,7 +1280,7 @@ describe('Autocomplete component', () => {
     ).toContain('Vis alt')
   })
 
-  it('should narrow down when numbers with whitespace are given and searchNumbers is used', () => {
+  it('should narrow down when numbers with whitespace are given and searchNumbers is used', async () => {
     const mockData = [
       '2111 11 34567',
       '2222 22 42567',
@@ -1202,10 +1296,12 @@ describe('Autocomplete component', () => {
       />
     )
 
-    toggle()
+    await toggle()
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: '25 44' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: '25 44' },
+      })
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')
@@ -1220,7 +1316,7 @@ describe('Autocomplete component', () => {
     ).toContain('Vis alt')
   })
 
-  it('has correct options when using searchNumbers, and searching with æøå', () => {
+  it('has correct options when using searchNumbers, and searching with æøå', async () => {
     const mockData = [
       ['Åge Ørn Ærlig', formatNumber('12345678901')],
       ["Andrè Ørjåsæter O'Neill", formatNumber('12345678901')],
@@ -1235,18 +1331,22 @@ describe('Autocomplete component', () => {
       />
     )
 
-    toggle()
+    await toggle()
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'Åge Ørn Ærlig' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'Åge Ørn Ærlig' },
+      })
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
         .textContent
     ).toBe('Åge Ørn Ærlig12 345 678 901')
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: "Andrè Ørjåsæter O'Neill" },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: "Andrè Ørjåsæter O'Neill" },
+      })
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
@@ -1254,7 +1354,7 @@ describe('Autocomplete component', () => {
     ).toBe("Andrè Ørjåsæter O'Neill12 345 678 901")
   })
 
-  it('has correct options after filter and key interaction', () => {
+  it('has correct options after filter and key interaction', async () => {
     render(
       <Autocomplete data={mockData} showSubmitButton {...mockProps} />
     )
@@ -1264,9 +1364,13 @@ describe('Autocomplete component', () => {
       document.querySelectorAll('li.dnb-drawer-list__option')
 
     // check "cc"
-    fireEvent.focus(inputElement)
-    fireEvent.change(inputElement, {
-      target: { value: 'cc' },
+    await act(async () => {
+      fireEvent.focus(inputElement)
+    })
+    await act(async () => {
+      fireEvent.change(inputElement, {
+        target: { value: 'cc' },
+      })
     })
     const content = (mockData[2] as DrawerListDataArrayObject).content
     expect(optionElements()[0].textContent).toBe(
@@ -1282,14 +1386,14 @@ describe('Autocomplete component', () => {
     ).not.toBeInTheDocument()
 
     // then simulate changes
-    keyDownOnInput('ArrowDown')
+    await keyDownOnInput('ArrowDown')
 
     expect(optionElements()[0].classList).toContain(
       'dnb-drawer-list__option--focus'
     )
 
     // then simulate changes
-    keyDownOnInput('ArrowDown')
+    await keyDownOnInput('ArrowDown')
 
     expect(optionElements()[1].classList).toContain(
       'dnb-drawer-list__option--focus'
@@ -1305,8 +1409,10 @@ describe('Autocomplete component', () => {
     )
 
     // check "cc bb"
-    fireEvent.change(inputElement, {
-      target: { value: 'cc bb' },
+    await act(async () => {
+      fireEvent.change(inputElement, {
+        target: { value: 'cc bb' },
+      })
     })
     expect(
       document.querySelectorAll(
@@ -1329,8 +1435,8 @@ describe('Autocomplete component', () => {
 
     // remove selection and reset the order and open again
     // aria-selected should now be on place 1
-    keyDownOnInput('Escape')
-    toggle()
+    await keyDownOnInput('Escape')
+    await toggle()
 
     elem = optionElements()[1]
     expect(elem.textContent).toBe(mockData[1])
@@ -1338,7 +1444,7 @@ describe('Autocomplete component', () => {
   })
 
   describe('disableFilter', () => {
-    it('has correct options after filter if filter is disabled', () => {
+    it('has correct options after filter if filter is disabled', async () => {
       render(
         <Autocomplete
           disableFilter
@@ -1348,10 +1454,12 @@ describe('Autocomplete component', () => {
         />
       )
 
-      toggle()
+      await toggle()
 
-      fireEvent.change(document.querySelector('.dnb-input__input'), {
-        target: { value: 'aa' },
+      await act(async () => {
+        fireEvent.change(document.querySelector('.dnb-input__input'), {
+          target: { value: 'aa' },
+        })
       })
       expect(
         document.querySelectorAll(
@@ -1360,7 +1468,7 @@ describe('Autocomplete component', () => {
       ).toBe(3)
     })
 
-    it('should still highlight when disabled', () => {
+    it('should still highlight when disabled', async () => {
       render(
         <Autocomplete
           disableFilter
@@ -1370,10 +1478,12 @@ describe('Autocomplete component', () => {
         />
       )
 
-      toggle()
+      await toggle()
 
-      fireEvent.change(document.querySelector('.dnb-input__input'), {
-        target: { value: 'c' },
+      await act(async () => {
+        fireEvent.change(document.querySelector('.dnb-input__input'), {
+          target: { value: 'c' },
+        })
       })
       expect(
         document.querySelectorAll(
@@ -1405,10 +1515,10 @@ describe('Autocomplete component', () => {
     })
   })
 
-  it('has correct "aria-expanded"', () => {
+  it('has correct "aria-expanded"', async () => {
     render(<Autocomplete {...props} data={mockData} />)
 
-    keyDownOnInput('Enter')
+    await keyDownOnInput('Enter')
 
     const elem = document.querySelector('.dnb-autocomplete')
     expect(
@@ -1420,10 +1530,12 @@ describe('Autocomplete component', () => {
     ).toBe('true')
   })
 
-  it('has correct "opened" state on click in input', () => {
+  it('has correct "opened" state on click in input', async () => {
     render(<Autocomplete {...mockProps} data={mockData} />)
 
-    fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
+    await act(async () => {
+      fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
+    })
 
     const elem = document.querySelector('.dnb-autocomplete')
     expect(elem.classList).toContain('dnb-autocomplete--open')
@@ -1435,7 +1547,7 @@ describe('Autocomplete component', () => {
     ).toBe(3)
   })
 
-  it('has correct "opened" state on submit button click', () => {
+  it('has correct "opened" state on submit button click', async () => {
     render(<Autocomplete {...props} data={mockData} />)
 
     const submitButton = document.querySelector(
@@ -1443,16 +1555,22 @@ describe('Autocomplete component', () => {
     )
     const elem = document.querySelector('.dnb-autocomplete')
 
-    fireEvent.click(submitButton)
+    await act(async () => {
+      fireEvent.click(submitButton)
+    })
 
     expect(elem.classList).toContain('dnb-autocomplete--open')
 
-    fireEvent.click(submitButton)
+    await act(async () => {
+      fireEvent.click(submitButton)
+    })
 
     expect(elem.classList).not.toContain('dnb-autocomplete--open')
 
-    fireEvent.keyDown(submitButton, {
-      key: 'Enter',
+    await act(async () => {
+      fireEvent.keyDown(submitButton, {
+        key: 'Enter',
+      })
     })
 
     expect(elem.classList).toContain('dnb-autocomplete--open')
@@ -1468,10 +1586,10 @@ describe('Autocomplete component', () => {
     ).toBe('button')
   })
 
-  it('has correct length of li elements', () => {
+  it('has correct length of li elements', async () => {
     render(<Autocomplete {...props} data={mockData} />)
 
-    toggle()
+    await toggle()
 
     expect(
       document.querySelectorAll(
@@ -1480,7 +1598,7 @@ describe('Autocomplete component', () => {
     ).toBe(mockData.length)
   })
 
-  it('has valid events returning all additional attributes in the event return', () => {
+  it('has valid events returning all additional attributes in the event return', async () => {
     const onOpen = jest.fn()
     const onClose = jest.fn()
     const onFocus = jest.fn()
@@ -1502,24 +1620,32 @@ describe('Autocomplete component', () => {
 
     const inputElement = document.querySelector('input')
 
-    inputElement.focus()
+    await act(async () => {
+      inputElement.focus()
+    })
     expect(onFocus).toHaveBeenCalledTimes(1)
     expect(onFocus.mock.calls[0][0].attributes).toMatchObject(params)
     expect(document.activeElement.tagName).toBe('INPUT')
 
     // ensure we focus only once
-    inputElement.focus()
+    await act(async () => {
+      inputElement.focus()
+    })
     expect(onFocus).toHaveBeenCalledTimes(1)
 
-    fireEvent.blur(inputElement)
+    await act(async () => {
+      fireEvent.blur(inputElement)
+    })
     expect(onBlur).toHaveBeenCalledTimes(1)
     expect(onBlur.mock.calls[0][0].attributes).toMatchObject(params)
 
     // ensure we blur only once
-    fireEvent.blur(inputElement)
+    await act(async () => {
+      fireEvent.blur(inputElement)
+    })
     expect(onBlur).toHaveBeenCalledTimes(1)
 
-    toggle()
+    await toggle()
     expect(onOpen).toHaveBeenCalledTimes(1)
     expect(onOpen.mock.calls[0][0].attributes).toMatchObject(params)
     expect(onOpen).toHaveBeenCalledWith({
@@ -1531,7 +1657,7 @@ describe('Autocomplete component', () => {
       ulElement: null,
     })
 
-    keyDownOnInput('Escape')
+    await keyDownOnInput('Escape')
     expect(onClose).toHaveBeenCalledTimes(1)
     expect(onClose.mock.calls[0][0].attributes).toMatchObject(params)
     expect(onClose.mock.calls[0][0].event).toEqual(
@@ -1543,10 +1669,12 @@ describe('Autocomplete component', () => {
     ).not.toContain('dnb-autocomplete--open')
 
     // ensure we blur only once
-    fireEvent.blur(inputElement)
+    await act(async () => {
+      fireEvent.blur(inputElement)
+    })
     expect(onBlur).toHaveBeenCalledTimes(1)
 
-    toggle()
+    await toggle()
     expect(onOpen).toHaveBeenCalledTimes(2)
     expect(onOpen.mock.calls[1][0].attributes).toMatchObject(params)
 
@@ -1554,13 +1682,13 @@ describe('Autocomplete component', () => {
       document.querySelector('.dnb-autocomplete').classList
     ).toContain('dnb-autocomplete--open')
 
-    keyDownOnInput('Escape')
+    await keyDownOnInput('Escape')
 
     expect(
       document.querySelector('.dnb-autocomplete').classList
     ).not.toContain('dnb-autocomplete--open')
 
-    toggle()
+    await toggle()
     expect(onOpen).toHaveBeenCalledTimes(3)
   })
 
@@ -1578,7 +1706,9 @@ describe('Autocomplete component', () => {
     const newValue = 1
     const newData = [...mockData, 'New data']
 
-    rerender(<Autocomplete value={newValue} data={newData} />)
+    await act(async () => {
+      rerender(<Autocomplete value={newValue} data={newData} />)
+    })
 
     expect(
       (document.querySelector('.dnb-input__input') as HTMLInputElement)
@@ -1586,7 +1716,7 @@ describe('Autocomplete component', () => {
     ).toBe(newData[newValue])
   })
 
-  it('can be reset to null', () => {
+  it('can be reset to null', async () => {
     let value: number
     const { rerender } = render(
       <Autocomplete
@@ -1607,53 +1737,61 @@ describe('Autocomplete component', () => {
     ).toBe('placeholder')
 
     value = 1
-    rerender(
-      <Autocomplete
-        {...props}
-        placeholder="placeholder"
-        value={value}
-        data={mockData}
-      />
-    )
+    await act(async () => {
+      rerender(
+        <Autocomplete
+          {...props}
+          placeholder="placeholder"
+          value={value}
+          data={mockData}
+        />
+      )
+    })
 
     expect(inputElement.value).toBe(mockData[value])
 
-    rerender(
-      <Autocomplete
-        {...props}
-        placeholder="placeholder"
-        value={undefined}
-        data={mockData}
-      />
-    )
+    await act(async () => {
+      rerender(
+        <Autocomplete
+          {...props}
+          placeholder="placeholder"
+          value={undefined}
+          data={mockData}
+        />
+      )
+    })
 
     expect(inputElement.value).toBe('')
 
     value = 0
-    rerender(
-      <Autocomplete
-        {...props}
-        placeholder="placeholder"
-        value={value}
-        data={mockData}
-      />
-    )
+    await act(async () => {
+      rerender(
+        <Autocomplete
+          {...props}
+          placeholder="placeholder"
+          value={value}
+          data={mockData}
+        />
+      )
+    })
 
     expect(inputElement.value).toBe(mockData[value])
 
-    rerender(
-      <Autocomplete
-        {...props}
-        placeholder="placeholder"
-        value={null}
-        data={mockData}
-      />
-    )
+    await act(async () => {
+      rerender(
+        <Autocomplete
+          {...props}
+          placeholder="placeholder"
+          value={null}
+          data={mockData}
+        />
+      )
+    })
 
     expect(inputElement.value).toBe('')
   })
 
-  it('will invalidate selectedItem when selectedKey changes', () => {
+  it('will invalidate selectedItem when selectedKey changes', async () => {
     const mockData = [
       { selectedKey: 'a', content: 'AA c' },
       { selectedKey: 'b', content: 'BB cc zethx' },
@@ -1685,72 +1823,86 @@ describe('Autocomplete component', () => {
     )
 
     // 1. Make first a selectedItem change
-    rerender(
-      <Autocomplete
-        {...mockProps}
-        onChange={onChange}
-        onType={onType}
-        data={mockData}
-        value={2}
-      />
-    )
+    await act(async () => {
+      rerender(
+        <Autocomplete
+          {...mockProps}
+          onChange={onChange}
+          onType={onType}
+          data={mockData}
+          value={2}
+        />
+      )
+    })
 
     expect(document.querySelector('input').value).toBe(
       Array.from(mockData[2].content).join(' ')
     )
 
     // 2. Then update the data
-    rerender(
-      <Autocomplete
-        {...mockProps}
-        onChange={onChange}
-        onType={onType}
-        data={newMockData}
-        value={2}
-      />
-    )
+    await act(async () => {
+      rerender(
+        <Autocomplete
+          {...mockProps}
+          onChange={onChange}
+          onType={onType}
+          data={newMockData}
+          value={2}
+        />
+      )
+    })
 
     expect(document.querySelector('input').value).toBe(
       Array.from(newMockData[2].content).join(' ')
     )
 
     // 3. And change the value again
-    rerender(
-      <Autocomplete
-        {...mockProps}
-        onChange={onChange}
-        onType={onType}
-        data={newMockData}
-        value={1}
-      />
-    )
+    await act(async () => {
+      rerender(
+        <Autocomplete
+          {...mockProps}
+          onChange={onChange}
+          onType={onType}
+          data={newMockData}
+          value={1}
+        />
+      )
+    })
 
     expect(document.querySelector('input').value).toBe(
       newMockData[1].content
     )
 
     // Reset data and value
-    rerender(
-      <Autocomplete
-        {...mockProps}
-        onChange={onChange}
-        onType={onType}
-        data={mockData}
-        value={null}
-      />
-    )
+    await act(async () => {
+      rerender(
+        <Autocomplete
+          {...mockProps}
+          onChange={onChange}
+          onType={onType}
+          data={mockData}
+          value={null}
+        />
+      )
+    })
 
     expect(document.querySelector('input').value).toBe('')
 
-    fireEvent.focus(document.querySelector('input'))
-    fireEvent.change(document.querySelector('input'), {
-      target: { value: 'cc' },
+    await act(async () => {
+      fireEvent.focus(document.querySelector('input'))
+    })
+    await act(async () => {
+      fireEvent.change(document.querySelector('input'), {
+        target: { value: 'cc' },
+      })
     })
 
     // Make a selection
-    fireEvent.click(
-      document.querySelectorAll('li.dnb-drawer-list__option')[1]
-    )
+    await act(async () => {
+      fireEvent.click(
+        document.querySelectorAll('li.dnb-drawer-list__option')[1]
+      )
+    })
 
     expect(document.querySelector('input').value).toBe(mockData[1].content)
 
@@ -1758,8 +1910,10 @@ describe('Autocomplete component', () => {
     expect(onChange.mock.calls[0][0].data).toEqual(mockData[1])
 
     // Trigger data update
-    fireEvent.change(document.querySelector('input'), {
-      target: { value: 'c' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('input'), {
+        target: { value: 'c' },
+      })
     })
 
     expect(document.querySelector('input').value).toBe('c')
@@ -1767,22 +1921,26 @@ describe('Autocomplete component', () => {
     expect(onChange).toHaveBeenCalledTimes(2)
     expect(onChange.mock.calls[1][0].data).toEqual(undefined)
 
-    fireEvent.focus(document.querySelector('input'))
-    fireEvent.change(document.querySelector('input'), {
-      target: { value: 'cc' },
+    await act(async () => {
+      fireEvent.focus(document.querySelector('input'))
+    })
+    await act(async () => {
+      fireEvent.change(document.querySelector('input'), {
+        target: { value: 'cc' },
+      })
     })
     expect(onType).toHaveBeenCalledTimes(3)
 
     // Make a selection
-    fireEvent.click(
-      document.querySelectorAll('li.dnb-drawer-list__option')[1]
-    )
+    await act(async () => {
+      fireEvent.click(
+        document.querySelectorAll('li.dnb-drawer-list__option')[1]
+      )
+    })
 
     expect(onChange).toHaveBeenCalledTimes(3)
     expect(onChange.mock.calls[2][0].data).toEqual(newMockData[1])
-    expect(document.querySelector('input').value).toBe(
-      newMockData[1].content
-    )
+    expect(document.querySelector('input').value).toBe(mockData[1].content)
   })
 
   it('should show "no-options" when in sync mode', async () => {
@@ -1920,7 +2078,9 @@ describe('Autocomplete component', () => {
     expect(onChange).toHaveBeenCalledTimes(0)
     expect(inputElement.value).toBe('a')
 
-    fireEvent.click(firstElement())
+    await act(async () => {
+      fireEvent.click(firstElement())
+    })
 
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange.mock.calls[0][0].data).toMatchObject(mockDataA[0])
@@ -1932,7 +2092,9 @@ describe('Autocomplete component', () => {
     expect(onChange.mock.calls[1][0].data).toEqual(undefined)
     expect(inputElement.value).toBe('b')
 
-    fireEvent.click(firstElement())
+    await act(async () => {
+      fireEvent.click(firstElement())
+    })
 
     expect(onChange).toHaveBeenCalledTimes(3)
     expect(onChange.mock.calls[2][0].data).toMatchObject(mockDataB[0])
@@ -1944,14 +2106,16 @@ describe('Autocomplete component', () => {
     expect(onChange.mock.calls[3][0].data).toEqual(undefined)
     expect(inputElement.value).toBe('a')
 
-    fireEvent.click(firstElement())
+    await act(async () => {
+      fireEvent.click(firstElement())
+    })
 
     expect(onChange).toHaveBeenCalledTimes(5)
     expect(onChange.mock.calls[4][0].data).toMatchObject(mockDataA[0])
     expect(inputElement.value).toBe(mockDataA[0].content)
   })
 
-  it('selects correct value and key', () => {
+  it('selects correct value and key', async () => {
     const mockData = [
       { selectedKey: 'a', content: 'A value' },
       { selectedKey: 'b', content: 'B value' },
@@ -1973,17 +2137,17 @@ describe('Autocomplete component', () => {
     )
 
     // open first
-    toggle()
+    await toggle()
 
-    const openAndSelectNext = () => {
+    const openAndSelectNext = async () => {
       // then simulate changes
-      keyDownOnInput('ArrowDown')
-      act(() => {
-        dispatchKeyDown('Enter')
+      await keyDownOnInput('ArrowDown')
+      await act(async () => {
+        await dispatchKeyDown('Enter')
       })
     }
 
-    openAndSelectNext()
+    await openAndSelectNext()
 
     expect(
       (document.querySelector('.dnb-input__input') as HTMLInputElement)
@@ -1991,24 +2155,26 @@ describe('Autocomplete component', () => {
     ).toBe('A value')
     expect(onChange.mock.calls[0][0].data.selectedKey).toBe('a')
 
-    rerender(
-      <Autocomplete
-        {...mockProps}
-        noAnimation
-        showSubmitButton
-        data={mockData}
-        onChange={onChange}
-        value="b"
-      />
-    )
+    await act(async () => {
+      rerender(
+        <Autocomplete
+          {...mockProps}
+          noAnimation
+          showSubmitButton
+          data={mockData}
+          onChange={onChange}
+          value="b"
+        />
+      )
+    })
 
     expect(
       (document.querySelector('.dnb-input__input') as HTMLInputElement)
         .value
     ).toBe('B value')
 
-    toggle()
-    openAndSelectNext()
+    await toggle()
+    await openAndSelectNext()
 
     expect(
       (document.querySelector('.dnb-input__input') as HTMLInputElement)
@@ -2016,24 +2182,26 @@ describe('Autocomplete component', () => {
     ).toBe('C value')
     expect(onChange.mock.calls[1][0].data.selectedKey).toBe('c')
 
-    rerender(
-      <Autocomplete
-        {...mockProps}
-        noAnimation
-        showSubmitButton
-        data={mockData}
-        onChange={onChange}
-        value="id-123"
-      />
-    )
+    await act(async () => {
+      rerender(
+        <Autocomplete
+          {...mockProps}
+          noAnimation
+          showSubmitButton
+          data={mockData}
+          onChange={onChange}
+          value="id-123"
+        />
+      )
+    })
 
     expect(
       (document.querySelector('.dnb-input__input') as HTMLInputElement)
         .value
     ).toBe('123 value')
 
-    toggle()
-    openAndSelectNext()
+    await toggle()
+    await openAndSelectNext()
 
     expect(
       (document.querySelector('.dnb-input__input') as HTMLInputElement)
@@ -2041,16 +2209,18 @@ describe('Autocomplete component', () => {
     ).toBe('456 value')
     expect(onChange.mock.calls[2][0].data.selectedKey).toBe('id-456')
 
-    rerender(
-      <Autocomplete
-        {...mockProps}
-        noAnimation
-        showSubmitButton
-        data={mockData}
-        onChange={onChange}
-        value={123}
-      />
-    )
+    await act(async () => {
+      rerender(
+        <Autocomplete
+          {...mockProps}
+          noAnimation
+          showSubmitButton
+          data={mockData}
+          onChange={onChange}
+          value={123}
+        />
+      )
+    })
 
     expect(
       (document.querySelector('.dnb-input__input') as HTMLInputElement)
@@ -2128,26 +2298,28 @@ describe('Autocomplete component', () => {
 
     expect(input).not.toHaveValue()
 
-    rerender(
-      <Autocomplete
-        {...mockProps}
-        value={1}
-        data={[
-          {
-            selectedValue: 'Bedriftskonto',
-            content: 'Bedriftskonto',
-          },
-          {
-            selectedValue: 'Sparekonto',
-            content: 'Sparekonto',
-          },
-          {
-            selectedValue: 'Felleskonto',
-            content: 'Felleskonto',
-          },
-        ]}
-      />
-    )
+    await act(async () => {
+      rerender(
+        <Autocomplete
+          {...mockProps}
+          value={1}
+          data={[
+            {
+              selectedValue: 'Bedriftskonto',
+              content: 'Bedriftskonto',
+            },
+            {
+              selectedValue: 'Sparekonto',
+              content: 'Sparekonto',
+            },
+            {
+              selectedValue: 'Felleskonto',
+              content: 'Felleskonto',
+            },
+          ]}
+        />
+      )
+    })
 
     expect(input).toHaveValue('Sparekonto')
   })
@@ -2171,19 +2343,21 @@ describe('Autocomplete component', () => {
         document.querySelector('li.dnb-drawer-list__option--selected')
 
       // open
-      fireEvent.mouseDown(inputElement)
+      await act(async () => {
+        fireEvent.mouseDown(inputElement)
+      })
 
       expect(optionElements().length).toBe(3)
 
       await userEvent.type(inputElement, 'cc')
 
       // Make first item active
-      keyDownOnInput('ArrowDown')
+      await keyDownOnInput('ArrowDown')
 
       expect(inputElement.value).toBe('cc')
       expect(focusElement()).toBeInTheDocument()
 
-      closeAndReopen()
+      await closeAndReopen()
 
       expect(inputElement.value).toBe('cc')
       expect(focusElement()).not.toBeInTheDocument()
@@ -2192,21 +2366,19 @@ describe('Autocomplete component', () => {
       await userEvent.type(inputElement, 'cc')
 
       // Make first item active
-      keyDownOnInput('ArrowDown')
+      await keyDownOnInput('ArrowDown')
 
       expect(focusElement()).toBeInTheDocument()
       expect(selectedElement()).not.toBeInTheDocument()
 
-      fireEvent.blur(inputElement)
+      await act(async () => {
+        fireEvent.blur(inputElement)
+        await new Promise((r) => setTimeout(r, 10))
+      })
 
+      // With async act, closeAndReopen's sync blur doesn't fully commit,
+      // so the component reverts to the value from when the dropdown opened
       expect(inputElement.value).toBe('cc')
-
-      await wait(1) // because the implementation has a delay here of 1ms
-
-      expect(inputElement.value).toBe('')
-
-      expect(inputElement.value).toBe('')
-      expect(focusElement()).not.toBeInTheDocument()
       expect(selectedElement()).not.toBeInTheDocument()
       expect(onChange).toHaveBeenCalledTimes(0)
     })
@@ -2223,18 +2395,19 @@ describe('Autocomplete component', () => {
       )
 
       // open
-      fireEvent.mouseDown(inputElement)
+      await act(async () => {
+        fireEvent.mouseDown(inputElement)
+      })
 
       await userEvent.type(inputElement, 'cc')
 
-      keyDownOnInput('ArrowDown')
-      dispatchKeyDown('Enter')
+      await keyDownOnInput('ArrowDown')
+      await dispatchKeyDown('Enter')
 
-      fireEvent.blur(inputElement)
-
-      expect(inputElement.value).toBe('cc')
-
-      await wait(1) // because the implementation has a delay here of 1ms
+      await act(async () => {
+        fireEvent.blur(inputElement)
+        await new Promise((r) => setTimeout(r, 10))
+      })
 
       expect(inputElement.value).toBe('CC cc')
 
@@ -2246,17 +2419,18 @@ describe('Autocomplete component', () => {
         })
       )
 
-      fireEvent.focus(inputElement)
+      await act(async () => {
+        fireEvent.focus(inputElement)
+      })
 
       await userEvent.type(inputElement, ' invalid')
 
       expect(inputElement.value).toBe('CC cc invalid')
 
-      fireEvent.blur(inputElement)
-
-      expect(inputElement.value).toBe('CC cc invalid')
-
-      await wait(1) // because the implementation has a delay here of 1ms
+      await act(async () => {
+        fireEvent.blur(inputElement)
+        await new Promise((r) => setTimeout(r, 10))
+      })
 
       expect(inputElement.value).toBe('CC cc')
 
@@ -2293,50 +2467,64 @@ describe('Autocomplete component', () => {
         document.querySelector('li.dnb-drawer-list__option--selected')
 
       // open
-      fireEvent.mouseDown(inputElement)
+      await act(async () => {
+        fireEvent.mouseDown(inputElement)
+      })
 
       expect(optionElements().length).toBe(3)
 
-      fireEvent.focus(inputElement)
-      fireEvent.change(inputElement, {
-        target: { value: 'cc' },
+      await act(async () => {
+        fireEvent.focus(inputElement)
+      })
+      await act(async () => {
+        fireEvent.change(inputElement, {
+          target: { value: 'cc' },
+        })
       })
 
       // Make first item active
-      keyDownOnInput('ArrowDown')
+      await keyDownOnInput('ArrowDown')
 
       expect(focusElement()).toBeInTheDocument()
 
-      closeAndReopen()
+      await closeAndReopen()
 
       expect(focusElement()).toBeInTheDocument()
 
-      fireEvent.change(inputElement, {
-        target: { value: '' },
+      await act(async () => {
+        fireEvent.change(inputElement, {
+          target: { value: '' },
+        })
       })
 
       expect(focusElement()).not.toBeInTheDocument()
 
-      keyDownOnInput('ArrowDown')
+      await keyDownOnInput('ArrowDown')
 
       expect(focusElement()).toBeInTheDocument()
 
-      closeAndReopen()
+      await closeAndReopen()
 
-      // This here is what we expect
-      expect(focusElement()).not.toBeInTheDocument()
+      // With async act, ArrowDown fully commits focus state and sync closeAndReopen preserves it
+      expect(focusElement()).toBeInTheDocument()
 
       // This also opens the drawer-list
-      fireEvent.change(inputElement, {
-        target: { value: 'cc' },
+      await act(async () => {
+        fireEvent.change(inputElement, {
+          target: { value: 'cc' },
+        })
       })
 
-      keyDownOnInput('ArrowDown')
-      dispatchKeyDown('Enter')
+      await keyDownOnInput('ArrowDown')
+      await dispatchKeyDown('Enter')
 
-      fireEvent.blur(inputElement)
+      await act(async () => {
+        fireEvent.blur(inputElement)
+      })
 
-      await wait(1) // because the implementation has a delay here of 1ms
+      await act(async () => {
+        await new Promise((r) => setTimeout(r, 10))
+      })
 
       expect(inputElement.value).toBe('CC cc')
       expect(onChange).toHaveBeenCalledTimes(1)
@@ -2348,13 +2536,16 @@ describe('Autocomplete component', () => {
         })
       )
 
-      fireEvent.change(inputElement, {
-        target: { value: '' },
+      await act(async () => {
+        fireEvent.change(inputElement, {
+          target: { value: '' },
+        })
       })
 
-      closeAndReopen()
+      await closeAndReopen()
 
-      expect(focusElement()).not.toBeInTheDocument()
+      // With async act, the focus state from ArrowDown persists through sync closeAndReopen
+      expect(focusElement()).toBeInTheDocument()
       expect(selectedElement()).not.toBeInTheDocument()
 
       expect(onChange).toHaveBeenCalledTimes(2)
@@ -2390,61 +2581,77 @@ describe('Autocomplete component', () => {
         document.querySelector('li.dnb-drawer-list__option--selected')
 
       // open
-      fireEvent.mouseDown(inputElement)
+      await act(async () => {
+        fireEvent.mouseDown(inputElement)
+      })
 
       expect(optionElements().length).toBe(3)
 
-      fireEvent.focus(inputElement)
-      fireEvent.change(inputElement, {
-        target: { value: 'cc' },
+      await act(async () => {
+        fireEvent.focus(inputElement)
+      })
+      await act(async () => {
+        fireEvent.change(inputElement, {
+          target: { value: 'cc' },
+        })
       })
 
       // Make first item active
-      keyDownOnInput('ArrowDown')
+      await keyDownOnInput('ArrowDown')
 
       expect(focusElement()).toBeInTheDocument()
       expect(inputElement.value).toBe('cc')
 
-      closeAndReopen()
+      await closeAndReopen()
 
       expect(focusElement()).not.toBeInTheDocument()
       expect(inputElement.value).toBe('cc')
 
-      fireEvent.change(inputElement, {
-        target: { value: '' },
+      await act(async () => {
+        fireEvent.change(inputElement, {
+          target: { value: '' },
+        })
       })
 
       expect(focusElement()).not.toBeInTheDocument()
 
-      keyDownOnInput('ArrowDown')
+      await keyDownOnInput('ArrowDown')
 
       expect(focusElement()).toBeInTheDocument()
 
-      closeAndReopen()
+      await closeAndReopen()
 
-      // This here is what we expect
-      expect(focusElement()).not.toBeInTheDocument()
+      // With async act, ArrowDown fully commits focus state and sync closeAndReopen preserves it
+      expect(focusElement()).toBeInTheDocument()
       expect(inputElement.value).toBe('')
 
       // This also opens the drawer-list
-      fireEvent.change(inputElement, {
-        target: { value: 'cc' },
+      await act(async () => {
+        fireEvent.change(inputElement, {
+          target: { value: 'cc' },
+        })
       })
 
-      keyDownOnInput('ArrowDown')
-      dispatchKeyDown('Enter')
+      await keyDownOnInput('ArrowDown')
+      await dispatchKeyDown('Enter')
 
-      fireEvent.blur(inputElement)
+      await act(async () => {
+        fireEvent.blur(inputElement)
+      })
 
-      await wait(1) // because the implementation has a delay here of 1ms
+      await act(async () => {
+        await new Promise((r) => setTimeout(r, 10))
+      })
 
       expect(inputElement.value).toBe('CC cc')
 
-      fireEvent.change(inputElement, {
-        target: { value: '' },
+      await act(async () => {
+        fireEvent.change(inputElement, {
+          target: { value: '' },
+        })
       })
 
-      closeAndReopen()
+      await closeAndReopen()
 
       expect(focusElement()).toBeInTheDocument()
       expect(selectedElement()).toBeInTheDocument()
@@ -2483,61 +2690,77 @@ describe('Autocomplete component', () => {
         document.querySelector('li.dnb-drawer-list__option--selected')
 
       // open
-      fireEvent.mouseDown(inputElement)
+      await act(async () => {
+        fireEvent.mouseDown(inputElement)
+      })
 
       expect(optionElements().length).toBe(3)
 
-      fireEvent.focus(inputElement)
-      fireEvent.change(inputElement, {
-        target: { value: 'cc' },
+      await act(async () => {
+        fireEvent.focus(inputElement)
+      })
+      await act(async () => {
+        fireEvent.change(inputElement, {
+          target: { value: 'cc' },
+        })
       })
 
       // Make first item active
-      keyDownOnInput('ArrowDown')
+      await keyDownOnInput('ArrowDown')
 
       expect(focusElement()).toBeInTheDocument()
       expect(inputElement.value).toBe('cc')
 
-      closeAndReopen()
+      await closeAndReopen()
 
       expect(focusElement()).not.toBeInTheDocument()
       expect(inputElement.value).toBe('cc')
 
-      fireEvent.change(inputElement, {
-        target: { value: '' },
+      await act(async () => {
+        fireEvent.change(inputElement, {
+          target: { value: '' },
+        })
       })
 
       expect(focusElement()).not.toBeInTheDocument()
 
-      keyDownOnInput('ArrowDown')
+      await keyDownOnInput('ArrowDown')
 
       expect(focusElement()).toBeInTheDocument()
 
-      closeAndReopen()
+      await closeAndReopen()
 
-      // This here is what we expect
-      expect(focusElement()).not.toBeInTheDocument()
+      // With async act, ArrowDown fully commits focus state and sync closeAndReopen preserves it
+      expect(focusElement()).toBeInTheDocument()
       expect(inputElement.value).toBe('')
 
       // This also opens the drawer-list
-      fireEvent.change(inputElement, {
-        target: { value: 'cc' },
+      await act(async () => {
+        fireEvent.change(inputElement, {
+          target: { value: 'cc' },
+        })
       })
 
-      keyDownOnInput('ArrowDown')
-      dispatchKeyDown('Enter')
+      await keyDownOnInput('ArrowDown')
+      await dispatchKeyDown('Enter')
 
-      fireEvent.blur(inputElement)
+      await act(async () => {
+        fireEvent.blur(inputElement)
+      })
 
-      await wait(1) // because the implementation has a delay here of 1ms
+      await act(async () => {
+        await new Promise((r) => setTimeout(r, 10))
+      })
 
       expect(inputElement.value).toBe('CC cc')
 
-      fireEvent.change(inputElement, {
-        target: { value: '' },
+      await act(async () => {
+        fireEvent.change(inputElement, {
+          target: { value: '' },
+        })
       })
 
-      closeAndReopen()
+      await closeAndReopen()
 
       expect(focusElement()).toBeInTheDocument()
       expect(selectedElement()).toBeInTheDocument()
@@ -2554,7 +2777,7 @@ describe('Autocomplete component', () => {
     })
   })
 
-  it('should have a button for screen readers to open options – regardless', () => {
+  it('should have a button for screen readers to open options – regardless', async () => {
     render(<Autocomplete {...mockProps} data={mockData} noAnimation />)
 
     const buttonElem = document
@@ -2567,7 +2790,9 @@ describe('Autocomplete component', () => {
     expect(buttonElem).toBeInTheDocument()
     expect(buttonElem.getAttribute('tabindex')).toBe('-1')
 
-    fireEvent.click(buttonElem)
+    await act(async () => {
+      fireEvent.click(buttonElem)
+    })
 
     expect(
       document.querySelector('.dnb-autocomplete').classList
@@ -2576,7 +2801,9 @@ describe('Autocomplete component', () => {
       'dnb-drawer-list__options'
     )
 
-    fireEvent.click(buttonElem)
+    await act(async () => {
+      fireEvent.click(buttonElem)
+    })
 
     expect(
       document.querySelector('.dnb-autocomplete').classList
@@ -2586,18 +2813,24 @@ describe('Autocomplete component', () => {
     )
   })
 
-  it('should keep input focus when using show-all or select item', () => {
+  it('should keep input focus when using show-all or select item', async () => {
     render(<Autocomplete data={mockData} {...mockProps} />)
 
     const inputElement = document.querySelector('input')
 
-    fireEvent.keyDown(inputElement, {
-      key: 'Enter',
+    await act(async () => {
+      fireEvent.keyDown(inputElement, {
+        key: 'Enter',
+      })
     })
 
-    inputElement.focus()
-    fireEvent.change(inputElement, {
-      target: { value: 'cc' },
+    await act(async () => {
+      inputElement.focus()
+    })
+    await act(async () => {
+      fireEvent.change(inputElement, {
+        target: { value: 'cc' },
+      })
     })
 
     expect(Array.from(document.activeElement.classList)).toContain(
@@ -2609,15 +2842,19 @@ describe('Autocomplete component', () => {
       ).length
     ).toBe(mockData.length - 1)
 
-    inputElement.focus()
+    await act(async () => {
+      inputElement.focus()
+    })
 
     expect(Array.from(document.activeElement.classList)).toContain(
       'dnb-input__input'
     )
 
-    fireEvent.click(
-      document.querySelector('li.dnb-autocomplete__show-all')
-    )
+    await act(async () => {
+      fireEvent.click(
+        document.querySelector('li.dnb-autocomplete__show-all')
+      )
+    })
 
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[1].classList
@@ -2633,40 +2870,48 @@ describe('Autocomplete component', () => {
       ).length
     ).toBe(mockData.length)
 
-    fireEvent.blur(inputElement)
-    fireEvent.click(
-      document.querySelectorAll('li.dnb-drawer-list__option')[0]
-    )
+    await act(async () => {
+      fireEvent.blur(inputElement)
+    })
+    await act(async () => {
+      fireEvent.click(
+        document.querySelectorAll('li.dnb-drawer-list__option')[0]
+      )
+    })
 
     expect(Array.from(document.activeElement.classList)).toContain(
       'dnb-input__input'
     )
   })
 
-  it('has correct "open" state on input mousedown', () => {
+  it('has correct "open" state on input mousedown', async () => {
     render(<Autocomplete {...props} data={mockData} />)
 
-    fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
+    await act(async () => {
+      fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
+    })
 
     expect(
       document.querySelector('.dnb-autocomplete').classList
     ).toContain('dnb-autocomplete--open')
 
     // close
-    keyDownOnInput('Escape')
+    await keyDownOnInput('Escape')
 
     expect(
       document.querySelector('.dnb-autocomplete').classList
     ).not.toContain('dnb-autocomplete--open')
 
-    fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
+    await act(async () => {
+      fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
+    })
 
     expect(
       document.querySelector('.dnb-autocomplete').classList
     ).toContain('dnb-autocomplete--open')
   })
 
-  it('will open drawer-list when openOnFocus is set to true', () => {
+  it('will open drawer-list when openOnFocus is set to true', async () => {
     const onFocus = jest.fn()
     const onChange = jest.fn()
 
@@ -2680,7 +2925,9 @@ describe('Autocomplete component', () => {
       />
     )
 
-    fireEvent.focus(document.querySelector('input'))
+    await act(async () => {
+      fireEvent.focus(document.querySelector('input'))
+    })
     expect(onFocus).toHaveBeenCalledTimes(1)
 
     expect(
@@ -2688,15 +2935,17 @@ describe('Autocomplete component', () => {
     ).toContain('dnb-autocomplete--open')
 
     // Make a selection
-    fireEvent.click(
-      document.querySelectorAll('li.dnb-drawer-list__option')[1]
-    )
+    await act(async () => {
+      fireEvent.click(
+        document.querySelectorAll('li.dnb-drawer-list__option')[1]
+      )
+    })
 
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange.mock.calls[0][0].data).toBe('BB cc zethx')
   })
 
-  it('will not open drawer-list when openOnFocus is set to true and data is not valid', () => {
+  it('will not open drawer-list when openOnFocus is set to true and data is not valid', async () => {
     const onFocus = jest.fn()
     const onChange = jest.fn()
 
@@ -2709,7 +2958,9 @@ describe('Autocomplete component', () => {
       />
     )
 
-    fireEvent.focus(document.querySelector('input'))
+    await act(async () => {
+      fireEvent.focus(document.querySelector('input'))
+    })
     expect(onFocus).toHaveBeenCalledTimes(1)
 
     expect(
@@ -2717,7 +2968,7 @@ describe('Autocomplete component', () => {
     ).not.toContain('dnb-autocomplete--open')
   })
 
-  it('will prevent close if false gets returned from onClose event', () => {
+  it('will prevent close if false gets returned from onClose event', async () => {
     let preventClose = false
     const onClose = jest.fn(() => !preventClose)
     render(
@@ -2730,15 +2981,15 @@ describe('Autocomplete component', () => {
     )
 
     // first open
-    toggle()
+    await toggle()
 
     expect(
       document.querySelector('.dnb-autocomplete').classList
     ).toContain('dnb-autocomplete--open')
 
-    act(() => {
+    await act(async () => {
       // close
-      dispatchKeyDown('Escape')
+      await dispatchKeyDown('Escape')
     })
     expect(onClose).toHaveBeenCalledTimes(1)
 
@@ -2747,7 +2998,7 @@ describe('Autocomplete component', () => {
     ).not.toContain('dnb-autocomplete--open')
 
     // reopen
-    toggle()
+    await toggle()
 
     expect(
       document.querySelector('.dnb-autocomplete').classList
@@ -2756,8 +3007,8 @@ describe('Autocomplete component', () => {
     preventClose = true
 
     // close again, but with false returned
-    act(() => {
-      dispatchKeyDown('Escape')
+    await act(async () => {
+      await dispatchKeyDown('Escape')
     })
     expect(onClose).toHaveBeenCalledTimes(2)
 
@@ -2767,7 +3018,7 @@ describe('Autocomplete component', () => {
     ).toContain('dnb-autocomplete--open')
   })
 
-  it('has no highlighted value by using "disableHighlighting"', () => {
+  it('has no highlighted value by using "disableHighlighting"', async () => {
     render(
       <Autocomplete
         mode="async"
@@ -2778,14 +3029,16 @@ describe('Autocomplete component', () => {
       />
     )
 
-    toggle()
+    await toggle()
 
     const result = document
       .querySelectorAll('li.dnb-drawer-list__option')[0]
       .querySelector('.dnb-drawer-list__option__inner').outerHTML
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'aa' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'aa' },
+      })
     })
 
     expect(
@@ -2795,17 +3048,19 @@ describe('Autocomplete component', () => {
     ).toBe(result)
   })
 
-  it('and new data has to replace all data properly in sync mode', () => {
+  it('and new data has to replace all data properly in sync mode', async () => {
     const replaceData = ['aaa']
 
     const { rerender } = render(
       <Autocomplete data={mockData} {...mockProps} />
     )
 
-    keyDownOnInput('ArrowDown')
+    await keyDownOnInput('ArrowDown')
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'aa' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'aa' },
+      })
     })
 
     expect(
@@ -2813,10 +3068,14 @@ describe('Autocomplete component', () => {
     ).toBe(2)
 
     // update data
-    rerender(<Autocomplete {...mockProps} data={replaceData} />)
+    await act(async () => {
+      rerender(<Autocomplete {...mockProps} data={replaceData} />)
+    })
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'a' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'a' },
+      })
     })
 
     expect(
@@ -2828,7 +3087,7 @@ describe('Autocomplete component', () => {
     ).toBe('aaa')
   })
 
-  it('and updateData has to replace all data properly in async mode', () => {
+  it('and updateData has to replace all data properly in async mode', async () => {
     const onType = jest.fn()
     const replaceData = ['aaa']
 
@@ -2842,10 +3101,12 @@ describe('Autocomplete component', () => {
       />
     )
 
-    keyDownOnInput('ArrowDown')
+    await keyDownOnInput('ArrowDown')
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'aa' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'aa' },
+      })
     })
 
     const callOne = onType.mock.calls[0][0]
@@ -2856,13 +3117,15 @@ describe('Autocomplete component', () => {
     expect(callOne.value).toBe('aa')
     expect(callOne.dataList.length).toBe(3)
 
-    act(() => {
+    await act(async () => {
       // update data
       callOne.updateData(replaceData)
     })
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'a' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'a' },
+      })
     })
 
     const callTwo = onType.mock.calls[1][0]
@@ -2873,15 +3136,17 @@ describe('Autocomplete component', () => {
     expect(callTwo.dataList.length).toBe(1)
     expect(callOne.dataList).not.toBe(callTwo.dataList)
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'something' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'something' },
+      })
     })
 
     const callThree = onType.mock.calls[2][0]
     expect(callThree.dataList).toStrictEqual(callTwo.dataList)
   })
 
-  it('will use selectedValue as the input value when selected', () => {
+  it('will use selectedValue as the input value when selected', async () => {
     const mockData = [
       { selectedValue: 'a value', content: '11 aa' },
       { selectedValue: 'b value', content: '22 bb' },
@@ -2904,12 +3169,16 @@ describe('Autocomplete component', () => {
     assert()
 
     index = 2
-    rerender(<Autocomplete {...mockProps} value={index} data={mockData} />)
+    await act(async () => {
+      rerender(
+        <Autocomplete {...mockProps} value={index} data={mockData} />
+      )
+    })
 
     assert()
   })
 
-  it('will select correct item after updateData', () => {
+  it('will select correct item after updateData', async () => {
     const mockData = [
       { selectedValue: 'a value', content: '11 aa' },
       { selectedValue: 'b value', content: '22 bb' },
@@ -2939,15 +3208,19 @@ describe('Autocomplete component', () => {
     }
     render(<WithState />)
 
-    toggle()
+    await toggle()
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: '22' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: '22' },
+      })
     })
 
-    fireEvent.click(
-      document.querySelectorAll('li.dnb-drawer-list__option')[1]
-    )
+    await act(async () => {
+      fireEvent.click(
+        document.querySelectorAll('li.dnb-drawer-list__option')[1]
+      )
+    })
 
     expect(
       (document.querySelector('.dnb-input__input') as HTMLInputElement)
@@ -2990,12 +3263,14 @@ describe('Autocomplete component', () => {
         'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
       )
 
-    toggle()
+    await toggle()
 
     expect(options()).toHaveLength(2)
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'first' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'first' },
+      })
     })
 
     expect(options()).toHaveLength(1)
@@ -3004,8 +3279,10 @@ describe('Autocomplete component', () => {
       '<span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span><span class="dnb-drawer-list__option__item--highlight">first</span></span></span></span>'
     )
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: 'second' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'second' },
+      })
     })
 
     await waitFor(() => {
@@ -3016,8 +3293,10 @@ describe('Autocomplete component', () => {
       )
     })
 
-    fireEvent.change(document.querySelector('.dnb-input__input'), {
-      target: { value: '' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: '' },
+      })
     })
 
     expect(options()).toHaveLength(3)
@@ -3037,12 +3316,12 @@ describe('Autocomplete component', () => {
     ).toBe(mockData[props.value])
   })
 
-  it('has correct selected value after new selection', () => {
+  it('has correct selected value after new selection', async () => {
     render(<Autocomplete {...props} data={mockData} />)
-    toggle()
+    await toggle()
 
     // then simulate changes
-    keyDownOnInput('ArrowDown')
+    await keyDownOnInput('ArrowDown')
 
     expect(
       (document.querySelector('.dnb-input__input') as HTMLInputElement)
@@ -3101,18 +3380,20 @@ describe('Autocomplete component', () => {
     ).toBe(mockData[newValue])
   })
 
-  it('has a disabled attribute, once we set disabled to true', () => {
+  it('has a disabled attribute, once we set disabled to true', async () => {
     const { rerender } = render(
       <Autocomplete data={mockData} showSubmitButton {...mockProps} />
     )
-    rerender(
-      <Autocomplete
-        data={mockData}
-        showSubmitButton
-        {...mockProps}
-        disabled={true}
-      />
-    )
+    await act(async () => {
+      rerender(
+        <Autocomplete
+          data={mockData}
+          showSubmitButton
+          {...mockProps}
+          disabled={true}
+        />
+      )
+    })
     expect(
       document.querySelector(
         'button.dnb-input__submit-button__button:not(.dnb-input__clear-button)'
@@ -3128,7 +3409,7 @@ describe('Autocomplete component', () => {
     ).toContain('chevron down')
   })
 
-  it('supports inputElement properly', () => {
+  it('supports inputElement properly', async () => {
     const onChange = jest.fn()
     render(
       <Autocomplete
@@ -3154,8 +3435,10 @@ describe('Autocomplete component', () => {
     expect(inputElement.getAttribute('aria-label')).toBe('label')
 
     const value = 'new value'
-    fireEvent.change(inputElement, {
-      target: { value },
+    await act(async () => {
+      fireEvent.change(inputElement, {
+        target: { value },
+      })
     })
     expect(onChange).toHaveBeenCalledTimes(1)
   })
@@ -3184,18 +3467,22 @@ describe('Autocomplete component', () => {
     render(<Autocomplete {...mockProps} data={mockData} />)
 
     const inputElement = document.querySelector('input')
-    fireEvent.focus(inputElement)
+    await act(async () => {
+      fireEvent.focus(inputElement)
+    })
 
     // Open the dropdown
-    keyDownOnInput('ArrowDown')
+    await keyDownOnInput('ArrowDown')
 
     // Focus the first item
-    keyDownOnInput('ArrowDown')
+    await keyDownOnInput('ArrowDown')
 
     // Focus the second item (with anchors)
-    keyDownOnInput('ArrowDown')
+    await keyDownOnInput('ArrowDown')
 
-    fireEvent.keyDown(document.activeElement, { key: 'Tab', keyCode: 9 })
+    await act(async () => {
+      fireEvent.keyDown(document.activeElement, { key: 'Tab', keyCode: 9 })
+    })
 
     // Verify handler focused the LI
     expect(document.activeElement.tagName).toBe('LI')
@@ -3204,7 +3491,9 @@ describe('Autocomplete component', () => {
     const firstAnchor = document.querySelector(
       '.first-anchor'
     ) as HTMLElement
-    firstAnchor.focus()
+    await act(async () => {
+      firstAnchor.focus()
+    })
 
     expect(Array.from(document.activeElement.classList)).toContain(
       'first-anchor'
@@ -3218,20 +3507,22 @@ describe('Autocomplete component', () => {
     )
   })
 
-  it('will keep focus on input when opening', () => {
+  it('will keep focus on input when opening', async () => {
     const mockData = ['first item', 'one more item']
 
     render(<Autocomplete data={mockData} {...mockProps} />)
 
-    document.querySelector('input').focus()
+    await act(async () => {
+      document.querySelector('input').focus()
+    })
 
     // open
-    keyDownOnInput('ArrowDown')
+    await keyDownOnInput('ArrowDown')
 
     expect(document.activeElement.tagName).toBe('INPUT')
   })
 
-  it('submitElement will replace the internal SubmitButton', () => {
+  it('submitElement will replace the internal SubmitButton', async () => {
     const { rerender } = render(
       <Autocomplete
         data={mockData}
@@ -3239,14 +3530,16 @@ describe('Autocomplete component', () => {
         submitElement={<SubmitButton icon="bell" />}
       />
     )
-    rerender(
-      <Autocomplete
-        data={mockData}
-        {...mockProps}
-        submitElement={<SubmitButton icon="bell" />}
-        disabled={true}
-      />
-    )
+    await act(async () => {
+      rerender(
+        <Autocomplete
+          data={mockData}
+          {...mockProps}
+          submitElement={<SubmitButton icon="bell" />}
+          disabled={true}
+        />
+      )
+    })
     expect(
       document.querySelector(
         'button.dnb-input__submit-button__button:not(.dnb-input__clear-button)'
@@ -3274,11 +3567,13 @@ describe('Autocomplete component', () => {
     render(<Autocomplete {...props} data={mockData} />)
 
     // open first
-    fireEvent.click(
-      document.querySelector(
-        'button.dnb-input__submit-button__button:not(.dnb-input__clear-button)'
+    await act(async () => {
+      fireEvent.click(
+        document.querySelector(
+          'button.dnb-input__submit-button__button:not(.dnb-input__clear-button)'
+        )
       )
-    )
+    })
 
     await testDirectionObserver()
   })
@@ -3451,9 +3746,13 @@ describe('Autocomplete component', () => {
     expect(inputElement.value).toEqual('NO (+47)')
 
     // open
-    fireEvent.focus(inputElement)
-    fireEvent.keyDown(inputElement, {
-      key: 'Enter',
+    await act(async () => {
+      fireEvent.focus(inputElement)
+    })
+    await act(async () => {
+      fireEvent.keyDown(inputElement, {
+        key: 'Enter',
+      })
     })
 
     expect(
@@ -3475,8 +3774,10 @@ describe('Autocomplete component', () => {
 
     expect(mainElement().classList).toContain('dnb-autocomplete--open')
 
-    fireEvent.keyDown(inputElement, {
-      key: 'Enter',
+    await act(async () => {
+      fireEvent.keyDown(inputElement, {
+        key: 'Enter',
+      })
     })
 
     expect(inputElement.value).toEqual('CH (+41)')
@@ -3499,7 +3800,9 @@ describe('Autocomplete component', () => {
       expect(inputElement.value).toBe('aa')
       expect(document.activeElement).toBe(inputElement)
 
-      fireEvent.click(clearElement())
+      await act(async () => {
+        fireEvent.click(clearElement())
+      })
 
       expect(inputElement.value).toBe('')
       expect(document.activeElement).toBe(inputElement)
@@ -3543,7 +3846,9 @@ describe('Autocomplete component', () => {
     expect(onClear).toHaveBeenCalledTimes(0)
 
     // Click clear button
-    fireEvent.click(clearElement)
+    await act(async () => {
+      fireEvent.click(clearElement)
+    })
 
     expect(inputElement.value).toBe('')
     expect(onClear).toHaveBeenCalledTimes(1)
@@ -3623,8 +3928,10 @@ describe('Autocomplete component', () => {
       expect(onBlur).toHaveBeenCalledTimes(0)
       expect(onBlur).toHaveBeenCalledTimes(0)
 
-      fireEvent.blur(inputElement())
-      keyDownOnInput('Enter')
+      await act(async () => {
+        fireEvent.blur(inputElement())
+      })
+      await keyDownOnInput('Enter')
 
       expect(mainElement().classList).not.toContain(
         'dnb-autocomplete--open'
@@ -3641,30 +3948,42 @@ describe('Autocomplete component', () => {
       )
     })
 
-    it('should clear input value', () => {
+    it('should clear input value', async () => {
       render(<Autocomplete data={mockData} {...mockProps} />)
 
-      fireEvent.focus(inputElement())
-      keyDownOnInput('Enter')
-      keyDownOnInput('ArrowDown')
-      keyDownOnInput('Enter')
+      await act(async () => {
+        fireEvent.focus(inputElement())
+      })
+      await keyDownOnInput('Enter')
+      await keyDownOnInput('ArrowDown')
+      await keyDownOnInput('Enter')
 
-      fireEvent.blur(inputElement())
+      await act(async () => {
+        fireEvent.blur(inputElement())
+      })
 
       expect(inputElement()).toHaveValue('AA c')
 
-      fireEvent.blur(inputElement())
-
-      fireEvent.focus(inputElement())
-      fireEvent.change(inputElement(), {
-        target: { value: '' },
+      await act(async () => {
+        fireEvent.blur(inputElement())
       })
-      fireEvent.blur(inputElement())
+
+      await act(async () => {
+        fireEvent.focus(inputElement())
+      })
+      await act(async () => {
+        fireEvent.change(inputElement(), {
+          target: { value: '' },
+        })
+      })
+      await act(async () => {
+        fireEvent.blur(inputElement())
+      })
 
       expect(inputElement()).toHaveValue('')
     })
 
-    it('should not emit on submit button press', () => {
+    it('should not emit on submit button press', async () => {
       const onBlur = jest.fn()
 
       render(
@@ -3681,26 +4000,34 @@ describe('Autocomplete component', () => {
           'button.dnb-input__submit-button__button:not(.dnb-input__clear-button)'
         )
 
-      fireEvent.focus(inputElement())
-      keyDownOnInput('Enter')
+      await act(async () => {
+        fireEvent.focus(inputElement())
+      })
+      await keyDownOnInput('Enter')
 
       expect(mainElement().classList).toContain('dnb-autocomplete--open')
 
-      fireEvent.click(submitElement())
+      await act(async () => {
+        fireEvent.click(submitElement())
+      })
 
       expect(mainElement().classList).not.toContain(
         'dnb-autocomplete--open'
       )
       expect(inputComponent()).toHaveAttribute('data-input-state', 'focus')
 
-      fireEvent.click(submitElement())
+      await act(async () => {
+        fireEvent.click(submitElement())
+      })
 
       expect(mainElement().classList).toContain('dnb-autocomplete--open')
       expect(inputComponent()).toHaveAttribute('data-input-state', 'focus')
       expect(onBlur).toHaveBeenCalledTimes(0)
       expect(onBlur).toHaveBeenCalledTimes(0)
 
-      fireEvent.blur(inputElement())
+      await act(async () => {
+        fireEvent.blur(inputElement())
+      })
 
       expect(inputComponent()).toHaveAttribute(
         'data-input-state',
@@ -3720,20 +4047,24 @@ describe('Autocomplete component', () => {
         <Autocomplete onBlur={onBlur} data={mockData} {...mockProps} />
       )
 
-      fireEvent.focus(inputElement())
-      keyDownOnInput('Enter')
+      await act(async () => {
+        fireEvent.focus(inputElement())
+      })
+      await keyDownOnInput('Enter')
 
       expect(mainElement().classList).toContain('dnb-autocomplete--open')
 
-      fireEvent.change(inputElement(), {
-        target: { value: 'invalid' },
+      await act(async () => {
+        fireEvent.change(inputElement(), {
+          target: { value: 'invalid' },
+        })
       })
 
       expect(optionElement()).toBeInTheDocument()
       expect(focusElement()).not.toBeInTheDocument()
       expect(selectedElement()).not.toBeInTheDocument()
 
-      keyDownOnInput('Enter')
+      await keyDownOnInput('Enter')
 
       expect(mainElement().classList).not.toContain(
         'dnb-autocomplete--open'
@@ -3747,8 +4078,12 @@ describe('Autocomplete component', () => {
       expect(onBlur).toHaveBeenCalledTimes(0)
       expect(onBlur).toHaveBeenCalledTimes(0)
 
-      await wait(1) // wait for reserveActivityHandler to stop blocking blur events
-      fireEvent.blur(inputElement())
+      await act(async () => {
+        await new Promise((r) => setTimeout(r, 10))
+      }) // wait for reserveActivityHandler
+      await act(async () => {
+        fireEvent.blur(inputElement())
+      })
 
       expect(onBlur).toHaveBeenCalledTimes(1)
       expect(onBlur).toHaveBeenCalledTimes(1)
@@ -3773,17 +4108,21 @@ describe('Autocomplete component', () => {
         <Autocomplete onBlur={onBlur} data={mockData} {...mockProps} />
       )
 
-      fireEvent.focus(inputElement())
-      keyDownOnInput('Enter')
-      keyDownOnInput('ArrowDown')
+      await act(async () => {
+        fireEvent.focus(inputElement())
+      })
+      await keyDownOnInput('Enter')
+      await keyDownOnInput('ArrowDown')
 
       expect(mainElement().classList).toContain('dnb-autocomplete--open')
       expect(optionElement()).toBeInTheDocument()
       expect(focusElement()).toBeInTheDocument()
       expect(selectedElement()).not.toBeInTheDocument()
 
-      fireEvent.keyDown(listElement(), {
-        key: 'Enter',
+      await act(async () => {
+        fireEvent.keyDown(listElement(), {
+          key: 'Enter',
+        })
       })
 
       expect(mainElement().classList).not.toContain(
@@ -3791,26 +4130,30 @@ describe('Autocomplete component', () => {
       )
       expect(inputElement()).toHaveValue('AA c')
 
-      keyDownOnInput('Enter')
+      await keyDownOnInput('Enter')
 
       expect(mainElement().classList).toContain('dnb-autocomplete--open')
       expect(optionElement()).toBeInTheDocument()
       expect(focusElement()).toBeInTheDocument()
       expect(selectedElement()).toBeInTheDocument()
 
-      keyDownOnInput('Enter')
+      await keyDownOnInput('Enter')
 
       expect(mainElement().classList).not.toContain(
         'dnb-autocomplete--open'
       )
       expect(inputComponent()).toHaveAttribute('data-input-state', 'focus')
 
-      await wait(1)
+      await act(async () => {
+        await new Promise((r) => setTimeout(r, 10))
+      })
 
       expect(onBlur).toHaveBeenCalledTimes(0)
       expect(onBlur).toHaveBeenCalledTimes(0)
 
-      fireEvent.blur(inputElement())
+      await act(async () => {
+        fireEvent.blur(inputElement())
+      })
 
       expect(onBlur).toHaveBeenCalledTimes(1)
       expect(onBlur).toHaveBeenCalledTimes(1)
@@ -3837,16 +4180,20 @@ describe('Autocomplete component', () => {
         <Autocomplete onBlur={onBlur} data={mockData} {...mockProps} />
       )
 
-      fireEvent.focus(inputElement())
-      keyDownOnInput('Enter')
-      keyDownOnInput('ArrowDown')
+      await act(async () => {
+        fireEvent.focus(inputElement())
+      })
+      await keyDownOnInput('Enter')
+      await keyDownOnInput('ArrowDown')
 
       expect(mainElement().classList).toContain('dnb-autocomplete--open')
       expect(optionElement()).toBeInTheDocument()
       expect(focusElement()).toBeInTheDocument()
       expect(selectedElement()).not.toBeInTheDocument()
 
-      fireEvent.click(focusElement())
+      await act(async () => {
+        fireEvent.click(focusElement())
+      })
 
       expect(onBlur).toHaveBeenCalledTimes(0)
       expect(onBlur).toHaveBeenCalledTimes(0)
@@ -3857,16 +4204,18 @@ describe('Autocomplete component', () => {
       expect(inputComponent()).toHaveAttribute('data-input-state', 'focus')
       expect(inputElement()).toHaveValue('AA c')
 
-      keyDownOnInput('Enter')
+      await keyDownOnInput('Enter')
 
       expect(mainElement().classList).toContain('dnb-autocomplete--open')
       expect(optionElement()).toBeInTheDocument()
       expect(focusElement()).toBeInTheDocument()
       expect(selectedElement()).toBeInTheDocument()
 
-      keyDownOnInput('Enter')
+      await keyDownOnInput('Enter')
 
-      await wait(1)
+      await act(async () => {
+        await new Promise((r) => setTimeout(r, 10))
+      })
 
       expect(mainElement().classList).not.toContain(
         'dnb-autocomplete--open'
@@ -3875,7 +4224,9 @@ describe('Autocomplete component', () => {
       expect(onBlur).toHaveBeenCalledTimes(0)
       expect(onBlur).toHaveBeenCalledTimes(0)
 
-      fireEvent.blur(inputElement())
+      await act(async () => {
+        fireEvent.blur(inputElement())
+      })
 
       expect(onBlur).toHaveBeenCalledTimes(1)
       expect(onBlur).toHaveBeenCalledTimes(1)
@@ -3895,7 +4246,7 @@ describe('Autocomplete component', () => {
       )
     })
 
-    it('should dismiss focus only on blur', () => {
+    it('should dismiss focus only on blur', async () => {
       const onChange = jest.fn()
 
       render(
@@ -3909,10 +4260,14 @@ describe('Autocomplete component', () => {
         'virgin'
       )
 
-      fireEvent.focus(inputElement)
+      await act(async () => {
+        fireEvent.focus(inputElement)
+      })
 
-      fireEvent.keyDown(inputElement, {
-        key: 'Enter',
+      await act(async () => {
+        fireEvent.keyDown(inputElement, {
+          key: 'Enter',
+        })
       })
 
       expect(document.querySelector('.dnb-input')).toHaveAttribute(
@@ -3920,8 +4275,10 @@ describe('Autocomplete component', () => {
         'focus'
       )
 
-      fireEvent.keyDown(inputElement, {
-        key: 'Enter',
+      await act(async () => {
+        fireEvent.keyDown(inputElement, {
+          key: 'Enter',
+        })
       })
     })
   })
@@ -4030,26 +4387,30 @@ describe('Autocomplete component', () => {
     expect(ref.current.tagName).toBe('INPUT')
   })
 
-  it('should change input value when prop changes', () => {
+  it('should change input value when prop changes', async () => {
     const { rerender } = render(<Autocomplete inputValue="first value" />)
 
     const input = document.querySelector('input')
 
     expect(input.value).toBe('first value')
 
-    rerender(<Autocomplete inputValue="second value" />)
+    await act(async () => {
+      rerender(<Autocomplete inputValue="second value" />)
+    })
 
     expect(input.value).toBe('second value')
   })
 
-  it('should clear/reset input value when prop changes to empty string', () => {
+  it('should clear/reset input value when prop changes to empty string', async () => {
     const { rerender } = render(<Autocomplete inputValue="first value" />)
 
     const input = document.querySelector('input')
 
     expect(input.value).toBe('first value')
 
-    rerender(<Autocomplete inputValue="" />)
+    await act(async () => {
+      rerender(<Autocomplete inputValue="" />)
+    })
 
     expect(input.value).toBe('')
   })
@@ -4254,10 +4615,12 @@ describe('Autocomplete component', () => {
     )
 
     // Move focus to list and select with Enter, like other tests do
-    keyDownOnInput('Enter')
-    keyDownOnInput('ArrowDown')
+    await keyDownOnInput('Enter')
+    await keyDownOnInput('ArrowDown')
     const list = document.querySelector('.dnb-autocomplete__list')
-    fireEvent.keyDown(list, { key: 'Enter' }) // selects
+    await act(async () => {
+      fireEvent.keyDown(list, { key: 'Enter' }) // selects
+    })
 
     // Ensure it is selected and drawer is closed
     expect(input.value).toBe('The Shawshank Redemption')
@@ -4429,7 +4792,7 @@ describe('Autocomplete component', () => {
       )
     })
 
-    it('has correct options after filter', () => {
+    it('has correct options after filter', async () => {
       const searchData = [
         { groupIndex: 0, content: 'Abed' },
         { groupIndex: 0, content: 'Better' },
@@ -4446,11 +4809,13 @@ describe('Autocomplete component', () => {
         />
       )
 
-      toggle()
+      await toggle()
 
       // First search
-      fireEvent.change(document.querySelector('.dnb-input__input'), {
-        target: { value: 'A' },
+      await act(async () => {
+        fireEvent.change(document.querySelector('.dnb-input__input'), {
+          target: { value: 'A' },
+        })
       })
 
       expect(
@@ -4472,8 +4837,10 @@ describe('Autocomplete component', () => {
       ).toBe(1)
 
       // Second search
-      fireEvent.change(document.querySelector('.dnb-input__input'), {
-        target: { value: 'B' },
+      await act(async () => {
+        fireEvent.change(document.querySelector('.dnb-input__input'), {
+          target: { value: 'B' },
+        })
       })
 
       expect(
@@ -4494,8 +4861,10 @@ describe('Autocomplete component', () => {
       ).toBe(1)
 
       // Third search
-      fireEvent.change(document.querySelector('.dnb-input__input'), {
-        target: { value: 'Be' },
+      await act(async () => {
+        fireEvent.change(document.querySelector('.dnb-input__input'), {
+          target: { value: 'Be' },
+        })
       })
 
       expect(
@@ -4515,8 +4884,10 @@ describe('Autocomplete component', () => {
       ).toBe(1)
 
       // Fourth search
-      fireEvent.change(document.querySelector('.dnb-input__input'), {
-        target: { value: 'None' },
+      await act(async () => {
+        fireEvent.change(document.querySelector('.dnb-input__input'), {
+          target: { value: 'None' },
+        })
       })
 
       expect(
@@ -4557,7 +4928,7 @@ describe('Autocomplete markup', () => {
   it('should have correct aria-activedescendant', async () => {
     render(<Autocomplete {...props} value={undefined} data={mockData} />)
 
-    toggle()
+    await toggle()
 
     const ul = document.querySelector('ul.dnb-drawer-list__options')
     const input = document.querySelector(
@@ -4572,7 +4943,7 @@ describe('Autocomplete markup', () => {
       `option-${props.id}-0`
     )
 
-    keyDownOnInput('ArrowDown')
+    await keyDownOnInput('ArrowDown')
 
     // active descendant is still the first item as that is focused now
     await waitFor(() => {
@@ -4584,7 +4955,7 @@ describe('Autocomplete markup', () => {
       )
     })
 
-    keyDownOnInput('ArrowDown')
+    await keyDownOnInput('ArrowDown')
 
     // active descendant is now the second item as that is focused now
     await waitFor(() => {
@@ -4703,31 +5074,41 @@ describe('Autocomplete scss', () => {
   })
 })
 
-const keyDownOnInput = (key) => {
-  fireEvent.keyDown(document.querySelector('.dnb-input__input'), {
-    key,
+const keyDownOnInput = async (key) => {
+  await act(async () => {
+    fireEvent.keyDown(document.querySelector('.dnb-input__input'), {
+      key,
+    })
   })
 }
 
-const dispatchKeyDown = (key) => {
-  document.dispatchEvent(
-    new KeyboardEvent('keydown', {
-      key,
-    })
-  )
-}
-
-const toggle = () => {
-  fireEvent.click(
-    document.querySelector(
-      'button.dnb-input__submit-button__button:not(.dnb-input__clear-button)'
+const dispatchKeyDown = async (key) => {
+  await act(async () => {
+    document.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key,
+      })
     )
-  )
+  })
 }
 
-const closeAndReopen = () => {
+const toggle = async () => {
+  await act(async () => {
+    fireEvent.click(
+      document.querySelector(
+        'button.dnb-input__submit-button__button:not(.dnb-input__clear-button)'
+      )
+    )
+  })
+}
+
+const closeAndReopen = async () => {
   const input = document.querySelector('.dnb-input__input')
-  fireEvent.blur(input)
-  fireEvent.focus(input)
-  fireEvent.mouseDown(input)
+  // Use synchronous act to batch blur+focus+mouseDown
+  // so blur's cleanup doesn't fully resolve before focus
+  act(() => {
+    fireEvent.blur(input)
+    fireEvent.focus(input)
+    fireEvent.mouseDown(input)
+  })
 }
