@@ -235,7 +235,10 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
       enhancedOptions
     )
 
-    maskitoUpdateElement(el, validated)
+    // Only update if the formatted value actually changed to preserve Maskito's caret positioning.
+    if (el.value !== validated.value) {
+      maskitoUpdateElement(el, validated)
+    }
   }, [enhancedOptions, value, rawMask])
 
   // Compute initial defaultValue for immediate render (before Maskito attaches)
