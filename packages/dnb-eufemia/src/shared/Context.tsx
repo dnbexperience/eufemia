@@ -271,10 +271,12 @@ export function prepareContext<Props>(
   const context = {
     ...props,
     updateTranslation: (locale, newTranslations) => {
-      context.translation =
-        newTranslations[locale] || newTranslations[LOCALE]
       context.translation = destructFlatTranslation(
-        context.translation as TranslationFlat
+        extendDeep(
+          {},
+          defaultLocales[LOCALE],
+          newTranslations[locale] || newTranslations[LOCALE]
+        ) as TranslationFlat
       )
       context.translations = newTranslations
     },
@@ -286,7 +288,13 @@ export function prepareContext<Props>(
           context.translations[locale] &&
           locale !== localeWithFallback
         ) {
-          return destructFlatTranslation(context.translations[locale])
+          return destructFlatTranslation(
+            extendDeep(
+              {},
+              defaultLocales[LOCALE],
+              context.translations[locale]
+            )
+          )
         }
       }
       return context.translation || defaultLocales[LOCALE]
