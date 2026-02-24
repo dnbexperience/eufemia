@@ -246,7 +246,6 @@ export default class GlobalStatus extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps, newProps) {
-    console.log('prevProps ', prevProps)
     console.log('newProps', newProps)
     if (prevProps.show !== this.props.show) {
       if (isTrue(this.props.show)) {
