@@ -4,7 +4,6 @@
  */
 
 import React from 'react'
-import { isTrue } from '../../shared/component-helper'
 
 import HeadingContext, { HeadingContextProps } from './HeadingContext'
 import {
@@ -62,11 +61,11 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
       counter: state.counter,
       ref: props,
       level: parseFloat(String(props.level)),
-      inherit: isTrue(props.inherit),
+      inherit: props.inherit,
       reset: props.reset,
-      increase: isTrue(props.increase) || isTrue(props.up),
-      decrease: isTrue(props.decrease) || isTrue(props.down),
-      bypassChecks: isTrue(state.newProps.skipCorrection),
+      increase: props.increase || props.up,
+      decrease: props.decrease || props.down,
+      bypassChecks: state.newProps.skipCorrection,
       source: props.text || props.children,
       debug: state.newProps.debug,
     })
@@ -94,8 +93,7 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
         counter: state.counter,
         level,
         bypassChecks:
-          isTrue(props.skipCorrection) ||
-          isTrue(state.context.heading?.skipCorrection),
+          props.skipCorrection || state.context.heading?.skipCorrection,
         source: props.text || props.children, // only for debugging
         debug: props.debug || state.context.heading?.debug,
       })

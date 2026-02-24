@@ -7,7 +7,6 @@ import React, { useEffect, useRef } from 'react'
 import clsx from 'clsx'
 import {
   extendPropsWithContext,
-  isTrue,
   validateDOMAttributes,
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -97,7 +96,7 @@ export default function FormLabel(localProps: FormLabelAllProps) {
   const params = {
     className: clsx(
       'dnb-form-label',
-      (isTrue(vertical) || labelDirection === 'vertical') &&
+      (vertical || labelDirection === 'vertical') &&
         `dnb-form-label--vertical`,
       srOnly && 'dnb-sr-only',
       size && `dnb-h--${size}`,

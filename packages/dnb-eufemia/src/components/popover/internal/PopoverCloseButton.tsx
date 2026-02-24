@@ -1,7 +1,6 @@
 import React from 'react'
 import clsx from 'clsx'
 import Context from '../../../shared/Context'
-import { isTrue } from '../../../shared/component-helper'
 import { createSpacingClasses } from '../../space/SpacingHelper'
 import { createSkeletonClass } from '../../skeleton/SkeletonHelper'
 import type { IconIcon, IconSize } from '../../icon/Icon'
@@ -108,8 +107,8 @@ export default function PopoverCloseButton({
       `dnb-button--icon-size-${resolvedIconSize}`,
     hasContent && 'dnb-button--has-text',
     hasIcon && 'dnb-button--has-icon',
-    isTrue(stretch) && 'dnb-button--stretch',
-    isTrue(wrap) && 'dnb-button--wrap',
+    stretch && 'dnb-button--stretch',
+    wrap && 'dnb-button--wrap',
     createSkeletonClass(
       resolvedVariant === 'tertiary' ? 'font' : 'shape',
       skeleton,
@@ -135,7 +134,7 @@ export default function PopoverCloseButton({
         content={content}
         icon={icon}
         iconSize={resolvedIconSize}
-        skeleton={isTrue(skeleton)}
+        skeleton={skeleton}
         isIconOnly={isIconOnly}
         iconElement={iconElement}
       />

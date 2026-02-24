@@ -8,7 +8,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import GlobalStatusProvider from './GlobalStatusProvider'
-import { isTrue } from '../../shared/component-helper'
 
 export class GlobalStatusInterceptor {
   constructor(props) {
@@ -96,7 +95,7 @@ class GlobalStatusController extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    if (this.state.provider && isTrue(this.props.removeOnUnmount)) {
+    if (this.state.provider && this.props.removeOnUnmount) {
       this.state.provider.remove(this.state.statusId)
       /**
        * For now, do not unbind, because of re-render issues

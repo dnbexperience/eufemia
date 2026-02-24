@@ -6,10 +6,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
-import {
-  isTrue,
-  extendPropsWithContext,
-} from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import type {
   DynamicElement,
   ResponsiveProp,
@@ -197,7 +194,7 @@ export function SectionParams(
       'dnb-section',
       `dnb-section--${variant ? variant : style_type || 'default'}`,
       spacing &&
-        `dnb-section--spacing-${isTrue(spacing) ? 'large' : spacing}`,
+        `dnb-section--spacing-${spacing === true ? 'large' : spacing}`,
       className
     ),
     style: {

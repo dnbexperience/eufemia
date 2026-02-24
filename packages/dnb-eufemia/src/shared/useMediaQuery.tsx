@@ -1,5 +1,4 @@
 import { useContext, useMemo, useRef, useState } from 'react'
-import { isTrue } from './component-helper'
 import Context from './Context'
 import {
   makeMediaQueryList,
@@ -31,7 +30,7 @@ export default function useMediaQuery(props: MediaQueryProps) {
       return false // stop here
     }
 
-    return isTrue(matchOnSSR) && !isMatchMediaSupported()
+    return matchOnSSR && !isMatchMediaSupported()
   }, [disabled, matchOnSSR])
 
   const mediaQueryList = useRef(

@@ -5,10 +5,7 @@
 
 import React from 'react'
 import clsx from 'clsx'
-import {
-  isTrue,
-  validateDOMAttributes,
-} from '../../shared/component-helper'
+import { validateDOMAttributes } from '../../shared/component-helper'
 import '../../shared/helpers'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import HeadingContext, { HeadingContextProps } from './HeadingContext'
@@ -194,13 +191,13 @@ export default function Heading(props: HeadingAllProps) {
       counter: state.counter,
       ref: props, // Do that only to make sure we run the correction only if props has changed
       level: parseFloat(String(props.level)),
-      inherit: isTrue(props.inherit),
+      inherit: props.inherit,
       reset: props.reset,
-      increase: isTrue(props.increase) || isTrue(props.up),
-      decrease: isTrue(props.decrease) || isTrue(props.down),
+      increase: props.increase || props.up,
+      decrease: props.decrease || props.down,
       bypassChecks:
-        isTrue(props.skipCorrection) ||
-        isTrue(state.headingContext?.heading?.skipCorrection),
+        props.skipCorrection ||
+        state.headingContext?.heading?.skipCorrection,
       source: props.text || props.children, // only for debugging
       debug: props.debug || state.headingContext?.heading?.debug,
     })
@@ -236,8 +233,8 @@ export default function Heading(props: HeadingAllProps) {
         isRerender: true,
         level,
         bypassChecks:
-          isTrue(props.skipCorrection) ||
-          isTrue(state.headingContext?.heading?.skipCorrection),
+          props.skipCorrection ||
+          state.headingContext?.heading?.skipCorrection,
         source: props.text || props.children, // only for debugging
         debug: props.debug || state.headingContext?.heading?.debug,
       })
