@@ -4917,7 +4917,7 @@
               "FRAME_FILL"
             ],
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:b9540b7d108771cd545fccbf79563af9c01f8026/5552:1669",
+              "targetVariableId": "VariableID:b472f18179ab446282a9cfcfa058469bfa528751/5552:2075",
               "targetVariableName": "dnbcarnegie/greyscale/1000/30",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
@@ -5332,7 +5332,7 @@
     "weight": {
       "heading-xx-large": {
         "$type": "string",
-        "$value": "Medium",
+        "$value": "Regular",
         "$extensions": {
           "com.figma.variableId": "VariableID:53718:3926",
           "com.figma.scopes": [
@@ -5340,8 +5340,8 @@
           ],
           "com.figma.type": "string",
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:21df6617f4f4afcdfd60d3211bafd6a6c22a90dd/5552:1050",
-            "targetVariableName": "Font/Weight/Medium",
+            "targetVariableId": "VariableID:1364872f02b610d6ff638d1c621197e705cd4d44/5552:1049",
+            "targetVariableName": "Font/Weight/Regular",
             "targetVariableSetId": "VariableCollectionId:d00e91884fb9b3877858490e6b8fd6fcb0c60111/5552:1045",
             "targetVariableSetName": "typography"
           },
@@ -5350,7 +5350,7 @@
       },
       "heading-x-large": {
         "$type": "string",
-        "$value": "Medium",
+        "$value": "Regular",
         "$extensions": {
           "com.figma.variableId": "VariableID:53718:3927",
           "com.figma.scopes": [
@@ -5358,8 +5358,8 @@
           ],
           "com.figma.type": "string",
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:21df6617f4f4afcdfd60d3211bafd6a6c22a90dd/5552:1050",
-            "targetVariableName": "Font/Weight/Medium",
+            "targetVariableId": "VariableID:1364872f02b610d6ff638d1c621197e705cd4d44/5552:1049",
+            "targetVariableName": "Font/Weight/Regular",
             "targetVariableSetId": "VariableCollectionId:d00e91884fb9b3877858490e6b8fd6fcb0c60111/5552:1045",
             "targetVariableSetName": "typography"
           },
@@ -5368,7 +5368,7 @@
       },
       "heading-large": {
         "$type": "string",
-        "$value": "Medium",
+        "$value": "Regular",
         "$extensions": {
           "com.figma.variableId": "VariableID:53718:3928",
           "com.figma.scopes": [
@@ -5376,8 +5376,8 @@
           ],
           "com.figma.type": "string",
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:21df6617f4f4afcdfd60d3211bafd6a6c22a90dd/5552:1050",
-            "targetVariableName": "Font/Weight/Medium",
+            "targetVariableId": "VariableID:1364872f02b610d6ff638d1c621197e705cd4d44/5552:1049",
+            "targetVariableName": "Font/Weight/Regular",
             "targetVariableSetId": "VariableCollectionId:d00e91884fb9b3877858490e6b8fd6fcb0c60111/5552:1045",
             "targetVariableSetName": "typography"
           },

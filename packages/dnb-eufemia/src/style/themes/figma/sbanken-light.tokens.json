@@ -411,12 +411,12 @@
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            0.05098039284348488,
-            0.27450981736183167,
-            0.21568627655506134
+            0.08627451211214066,
+            0.20392157137393951,
+            0.1764705926179886
           ],
           "alpha": 1,
-          "hex": "#0D4637"
+          "hex": "#16342D"
         },
         "$extensions": {
           "com.figma.variableId": "VariableID:55977:3792",
@@ -425,7 +425,7 @@
             "SHAPE_FILL"
           ],
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:18ee9796e97e12b0ccabcf41e6a3bb7c621bb11f/5552:1573",
+            "targetVariableId": "VariableID:b677f25b770f831b41df2521e876991e41ebc7af/5552:1783",
             "targetVariableName": "sbanken/green/900",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"

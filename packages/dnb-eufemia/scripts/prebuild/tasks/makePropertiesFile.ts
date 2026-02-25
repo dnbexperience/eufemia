@@ -23,6 +23,13 @@ const TOKEN_GROUP_SEPARATOR = '-'
 const TOKEN_CSS_PREFIX = '--'
 const CSS_VARIABLE_REFERENCE_REGEX = /var\(\s*(--[a-z0-9-]+)\s*\)/gi
 const CSS_VARIABLE_DECLARATION_REGEX = /^\s*(--[a-z0-9-]+)\s*:/i
+const TOKEN_SETS = {
+  colors: {
+    fileName: 'color.tokens.json',
+    targetVariableSetId:
+      'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080',
+  },
+}
 
 const ROOT_DIR = packpath.self()
 
@@ -175,25 +182,34 @@ export const runFactory = ({
     }
   })
 
+type FigmaAlias = {
+  targetVariableName: string
+  targetVariableSetId: string
+  targetVariableSetName: string
+}
+
 type FigmaValueBase = {
   $type: string
   $value: unknown
-  $extensions?: Record<string, unknown>
+  $extensions?: {
+    'com.figma.aliasData'?: FigmaAlias
+  }
 }
 
-interface FigmaValueColor extends FigmaValueBase {
+type FigmaValueColor = {
   $type: 'color'
   $value: { alpha: number; hex: string }
-}
+} & FigmaValueBase
 
-interface FigmaValueString extends FigmaValueBase {
+type FigmaValueString = {
   $type: 'string'
   $value: string
-}
-interface FigmaValueNumber extends FigmaValueBase {
+} & FigmaValueBase
+
+type FigmaValueNumber = {
   $type: 'number'
   $value: number
-}
+} & FigmaValueBase
 
 type FigmaValue = FigmaValueColor | FigmaValueNumber | FigmaValueString
 
@@ -201,10 +217,10 @@ type FigmaGroup = {
   $root?: FigmaValue
 } & FigmaExport
 
-type FigmaData = FigmaValue | FigmaGroup
+type FigmaNode = FigmaValue | FigmaGroup
 
 type FigmaExport = {
-  [K in string as K extends '$root' ? never : K]: FigmaData
+  [x: string]: FigmaNode
 }
 
 const foundationPrefixMap = {
@@ -213,14 +229,12 @@ const foundationPrefixMap = {
   carnegie: { css: 'carnegie', figma: 'dnbcarnegie' },
 }
 
-export const transformFigmaAlias = (alias: Record<string, any>) => {
+export const transformFigmaAlias = (alias: FigmaAlias) => {
   const figmaVariableName = alias.targetVariableName
-  // TODO: use is to verify the correct supported sets are used instead of name.
-  // Need to figure out if set ID works as expected.
-  // example id: "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/2155:222"
-  const figmaVariableSetName = alias.targetVariableSetName
 
-  if (figmaVariableSetName === 'colors') {
+  if (
+    alias.targetVariableSetId === TOKEN_SETS.colors.targetVariableSetId
+  ) {
     const path = figmaVariableName.split('/')
 
     let newPrefix = undefined
@@ -239,7 +253,7 @@ export const transformFigmaAlias = (alias: Record<string, any>) => {
     path[0] = newPrefix
     return `var(${transformNamespace()}${transformFigmaPath(path)})` // Including transform namespace as we might want to be able to apply that in the future
   } else {
-    const errorMessage = `Unsupported variable set: ${figmaVariableSetName} for variable ${figmaVariableName}`
+    const errorMessage = `Unsupported variable set: ${alias.targetVariableSetName} for variable ${figmaVariableName}`
     log.fail(errorMessage)
     throw new Error(errorMessage)
   }
@@ -347,7 +361,7 @@ const keepOnlyReferencedVariableDeclarations = (
 
 /** Recursively generates CSS variables from a Figma export json */
 const generateCSSVariablesFromFigmaExport = (
-  value: FigmaData | string | number,
+  value: FigmaNode | string | number,
   /** string placed first in the css variable: `--namespace-color-blue-500` */
   namespace?: string,
   path: string[] = []
@@ -396,13 +410,13 @@ const makeDesignTokenSCSS = async (
   /** prefix that is added to the start of the css variable name */
   namespace?: string,
   /** Optional filter function that transforms the source before generating */
-  filter: (json: FigmaExport) => FigmaData = (json) => json,
+  filter: (json: FigmaExport) => FigmaNode = (json) => json,
   options: {
     referencedVariables?: Set<string>
   } = {}
 ) => {
   try {
-    const json: FigmaData = filter(
+    const json = filter(
       JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8'))
     )
 
@@ -475,25 +489,25 @@ const runDesignTokenFactory = async () => {
     in: string
     out: string
     prefix: string
-    filter: (json: FigmaExport) => FigmaData
+    filter: (json: FigmaExport) => FigmaNode
   }> = [
     {
       theme: 'ui',
-      in: './src/style/themes/figma/color.tokens.json',
+      in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
       out: './src/style/themes/ui/foundation.scss',
       filter: (json) => json[foundationPrefixMap.ui.figma],
       prefix: foundationPrefixMap.ui.css,
     },
     {
       theme: 'sbanken',
-      in: './src/style/themes/figma/color.tokens.json',
+      in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
       out: './src/style/themes/sbanken/foundation.scss',
       filter: (json) => json[foundationPrefixMap.sbanken.figma],
       prefix: foundationPrefixMap.sbanken.css,
     },
     {
       theme: 'carnegie',
-      in: './src/style/themes/figma/color.tokens.json',
+      in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
       out: './src/style/themes/carnegie/foundation.scss',
       filter: (json) => json[foundationPrefixMap.carnegie.figma],
       prefix: foundationPrefixMap.carnegie.css,
