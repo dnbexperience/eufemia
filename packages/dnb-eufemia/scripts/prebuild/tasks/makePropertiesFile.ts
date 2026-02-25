@@ -7,15 +7,35 @@ import gulp from 'gulp'
 import rename from 'gulp-rename'
 import transform from 'gulp-transform'
 import prettier from 'prettier'
+import stylelint from 'stylelint'
 import packpath from 'packpath'
 import { log } from '../../lib'
 import { transformSass } from './transformUtils'
 import { convertVariablesToTailwindFormat } from './tailwindTransform'
+import fs, { promises } from 'fs'
+import path from 'path'
+
+const prettierrc = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')
+)
+
+const TOKEN_GROUP_SEPARATOR = '-'
+const TOKEN_CSS_PREFIX = '--'
+const CSS_VARIABLE_REFERENCE_REGEX = /var\(\s*(--[a-z0-9-]+)\s*\)/gi
+const CSS_VARIABLE_DECLARATION_REGEX = /^\s*(--[a-z0-9-]+)\s*:/i
+const TOKEN_SETS = {
+  colors: {
+    fileName: 'color.tokens.json',
+    targetVariableSetId:
+      'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080',
+  },
+}
 
 const ROOT_DIR = packpath.self()
 
 export default async function makePropertiesFile() {
   await runFactory()
+  await runDesignTokenFactory()
 
   log.succeed(
     '> PrePublish: "makePropertiesFile" creating properties file done'
@@ -161,3 +181,369 @@ export const runFactory = ({
       reject(e)
     }
   })
+
+type FigmaAlias = {
+  targetVariableName: string
+  targetVariableSetId: string
+  targetVariableSetName: string
+}
+
+type FigmaValueBase = {
+  $type: string
+  $value: unknown
+  $extensions?: {
+    'com.figma.aliasData'?: FigmaAlias
+  }
+}
+
+type FigmaValueColor = {
+  $type: 'color'
+  $value: { alpha: number; hex: string }
+} & FigmaValueBase
+
+type FigmaValueString = {
+  $type: 'string'
+  $value: string
+} & FigmaValueBase
+
+type FigmaValueNumber = {
+  $type: 'number'
+  $value: number
+} & FigmaValueBase
+
+type FigmaValue = FigmaValueColor | FigmaValueNumber | FigmaValueString
+
+type FigmaGroup = {
+  $root?: FigmaValue
+} & FigmaExport
+
+type FigmaNode = FigmaValue | FigmaGroup
+
+type FigmaExport = {
+  [x: string]: FigmaNode
+}
+
+const foundationPrefixMap = {
+  ui: { css: 'dnb', figma: 'dnb' },
+  sbanken: { css: 'sbanken', figma: 'sbanken' },
+  carnegie: { css: 'carnegie', figma: 'dnbcarnegie' },
+}
+
+export const transformFigmaAlias = (alias: FigmaAlias) => {
+  const figmaVariableName = alias.targetVariableName
+
+  if (
+    alias.targetVariableSetId === TOKEN_SETS.colors.targetVariableSetId
+  ) {
+    const path = figmaVariableName.split('/')
+
+    let newPrefix = undefined
+    Object.values(foundationPrefixMap).forEach((prefix) => {
+      // TODO: perhaps we should be even more strict and ensure that the prefix is from the correct theme
+      if (path[0] === prefix.figma) {
+        newPrefix = prefix.css
+      }
+    })
+
+    if (newPrefix === undefined) {
+      const errorMessage = `Unsupported theme prefix: ${path[0]} for variable ${figmaVariableName}`
+      log.fail(errorMessage)
+      throw new Error(errorMessage)
+    }
+    path[0] = newPrefix
+    return `var(${transformNamespace()}${transformFigmaPath(path)})` // Including transform namespace as we might want to be able to apply that in the future
+  } else {
+    const errorMessage = `Unsupported variable set: ${alias.targetVariableSetName} for variable ${figmaVariableName}`
+    log.fail(errorMessage)
+    throw new Error(errorMessage)
+  }
+}
+
+const hexAsRgb = (hex: string) => {
+  if (hex.length !== 7) {
+    throw new Error(`Can't parse hex string: ${hex}`)
+  }
+  return `${parseInt(hex.substring(1, 3), 16)} ${parseInt(
+    hex.substring(3, 5),
+    16
+  )} ${parseInt(hex.substring(5, 7), 16)}`
+}
+
+export const transformFigmaValue = (value: FigmaValue) => {
+  if (value.$type === 'string' || value.$type === 'number') {
+    return undefined // Exclude numbers, font-family and font weight
+  }
+
+  const alias = value?.$extensions?.['com.figma.aliasData']
+
+  if (alias) {
+    return transformFigmaAlias(alias)
+  }
+  if (value.$type === 'color') {
+    const alpha = value.$value.alpha
+    const hex = value.$value.hex
+
+    return alpha === 1
+      ? hex
+      : `rgba(${hexAsRgb(hex)} / ${parseFloat(alpha.toFixed(6))})`
+  } else {
+    // @ts-expect-error: we are expecting a bad value
+    throw new Error(`Unsupported $type: ${value.$type}`)
+  }
+}
+/**
+ * Takes an array of figma groups and transforms them into the path part of the css variable
+ *
+ * `[ "Color", "Background", "Primary" ]` -> `"color-background-primary"`
+ */
+export const transformFigmaPath = (path: string[]) => {
+  const unsupportedCharacters = []
+
+  const cleanPath = path.filter(Boolean)
+
+  const transformedPath = cleanPath
+    .map((group) => {
+      unsupportedCharacters.push(...(group.match(/[^a-zA-Z-0-9]/g) ?? []))
+      return group.toLowerCase()
+    })
+    .join(TOKEN_GROUP_SEPARATOR)
+
+  if (unsupportedCharacters.length > 0) {
+    const errorMessage = `Unsupported characters [ '${unsupportedCharacters.join(
+      "', '"
+    )}' ] in variable: "${cleanPath.join('/')}"`
+    log.fail(errorMessage)
+    throw new Error(errorMessage)
+  }
+  return transformedPath
+}
+
+export const transformNamespace = (namespace?: string) =>
+  TOKEN_CSS_PREFIX + (namespace ? namespace + TOKEN_GROUP_SEPARATOR : '')
+
+export const extractReferencedCssVariables = (content: string) => {
+  const variables = new Set<string>()
+  let match: RegExpExecArray | null
+  const regex = new RegExp(CSS_VARIABLE_REFERENCE_REGEX)
+
+  while ((match = regex.exec(content)) !== null) {
+    const variableName = match[1]
+
+    if (variableName) {
+      variables.add(variableName)
+    }
+  }
+
+  return variables
+}
+
+const keepOnlyReferencedVariableDeclarations = (
+  content: string,
+  referencedVariables: Set<string>
+) => {
+  return content
+    .split('\n')
+    .filter((line) => {
+      const variableDeclarationMatch = line.match(
+        CSS_VARIABLE_DECLARATION_REGEX
+      )
+
+      if (!variableDeclarationMatch) {
+        return true
+      }
+
+      const variableName = variableDeclarationMatch[1]
+
+      return referencedVariables.has(variableName)
+    })
+    .join('\n')
+}
+
+/** Recursively generates CSS variables from a Figma export json */
+const generateCSSVariablesFromFigmaExport = (
+  value: FigmaNode | string | number,
+  /** string placed first in the css variable: `--namespace-color-blue-500` */
+  namespace?: string,
+  path: string[] = []
+) => {
+  try {
+    if (typeof value == 'string' || typeof value === 'number') {
+      return ''
+    }
+
+    if (typeof value.$type === 'string') {
+      const val = transformFigmaValue(value)
+      return val
+        ? `${transformNamespace(namespace)}${transformFigmaPath(
+            path
+          )}: ${val};\n`
+        : ''
+    } else {
+      let result = ''
+      for (const [key, val] of Object.entries(value)) {
+        const newPath = key === '$root' ? path : [...path, key]
+        result += generateCSSVariablesFromFigmaExport(
+          val,
+          namespace,
+          newPath
+        )
+      }
+      return result
+    }
+  } catch (e) {
+    if (!e.recursionContext) {
+      e.recursionContext = {
+        path,
+        namespace,
+        value,
+      }
+    }
+    throw e
+  }
+}
+
+const makeDesignTokenSCSS = async (
+  /** Root path to Figma JSON export file */
+  inputPath: string,
+  /** Root path for the generated SCSS file */
+  outputPath: string,
+  /** prefix that is added to the start of the css variable name */
+  namespace?: string,
+  /** Optional filter function that transforms the source before generating */
+  filter: (json: FigmaExport) => FigmaNode = (json) => json,
+  options: {
+    referencedVariables?: Set<string>
+  } = {}
+) => {
+  try {
+    const json = filter(
+      JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8'))
+    )
+
+    let scssContent =
+      '/* This file is auto generated by makePropertiesFile.ts */\n\n:root {\n'
+    scssContent += generateCSSVariablesFromFigmaExport(json, namespace)
+
+    scssContent += '}\n'
+
+    if (options.referencedVariables) {
+      scssContent = keepOnlyReferencedVariableDeclarations(
+        scssContent,
+        options.referencedVariables
+      )
+    }
+
+    const prettierResult = String(
+      await prettier.format(scssContent, {
+        filepath: '*.scss',
+        ...prettierrc,
+      })
+    )
+
+    const stylelintResult = await stylelint.lint({
+      code: prettierResult,
+      fix: true,
+    })
+
+    await promises.writeFile(outputPath, stylelintResult.output)
+
+    log.info(`Generated SCSS file: ${outputPath}`)
+  } catch (e) {
+    log.fail(`Failed to generate SCSS file: ${outputPath}`)
+    throw e
+  }
+}
+
+const runDesignTokenFactory = async () => {
+  log.start('> PrePublish: transforming figma variables to SCSS')
+
+  const tokenFiles: Array<{
+    theme: string
+    in: string
+    out: string
+    prefix: string
+  }> = [
+    {
+      theme: 'ui',
+      in: './src/style/themes/figma/dnb-light.tokens.json',
+      out: './src/style/themes/ui/tokens.scss',
+      prefix: 'token',
+    },
+
+    {
+      theme: 'sbanken',
+      in: './src/style/themes/figma/sbanken-light.tokens.json',
+      out: './src/style/themes/sbanken/tokens.scss',
+      prefix: 'token',
+    },
+    {
+      theme: 'carnegie',
+      in: './src/style/themes/figma/dnbcarnegie-light.tokens.json',
+      out: './src/style/themes/carnegie/tokens.scss',
+      prefix: 'token',
+    },
+  ]
+
+  const foundationFiles: Array<{
+    theme: string
+    in: string
+    out: string
+    prefix: string
+    filter: (json: FigmaExport) => FigmaNode
+  }> = [
+    {
+      theme: 'ui',
+      in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
+      out: './src/style/themes/ui/foundation.scss',
+      filter: (json) => json[foundationPrefixMap.ui.figma],
+      prefix: foundationPrefixMap.ui.css,
+    },
+    {
+      theme: 'sbanken',
+      in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
+      out: './src/style/themes/sbanken/foundation.scss',
+      filter: (json) => json[foundationPrefixMap.sbanken.figma],
+      prefix: foundationPrefixMap.sbanken.css,
+    },
+    {
+      theme: 'carnegie',
+      in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
+      out: './src/style/themes/carnegie/foundation.scss',
+      filter: (json) => json[foundationPrefixMap.carnegie.figma],
+      prefix: foundationPrefixMap.carnegie.css,
+    },
+  ]
+
+  log.info(
+    `> PrePublish: "makePropertiesFile" Generating Figma sass files:`
+  )
+
+  await Promise.all(
+    tokenFiles.map(async (file) =>
+      makeDesignTokenSCSS(file.in, file.out, file.prefix)
+    )
+  )
+
+  const referencedVariablesEntries: Array<[string, Set<string>]> =
+    await Promise.all(
+      tokenFiles.map(async (file) => {
+        const tokensContent = await promises.readFile(file.out, 'utf-8')
+        return [
+          file.theme,
+          extractReferencedCssVariables(tokensContent),
+        ] as [string, Set<string>]
+      })
+    )
+
+  const referencedVariablesByTheme = new Map<string, Set<string>>(
+    referencedVariablesEntries
+  )
+
+  await Promise.all(
+    foundationFiles.map(async (file) =>
+      makeDesignTokenSCSS(file.in, file.out, file.prefix, file.filter, {
+        referencedVariables: referencedVariablesByTheme.get(file.theme),
+      })
+    )
+  )
+}

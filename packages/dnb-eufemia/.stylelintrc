@@ -3,7 +3,10 @@
     "stylelint-config-recommended",
     "stylelint-config-standard-scss"
   ],
-  "plugins": ["stylelint-scss"],
+  "plugins": [
+    "stylelint-scss",
+    "./scripts/stylelint/plugins/token-name-policy"
+  ],
   "rules": {
     "scss/at-import-partial-extension": "always",
     "scss/at-mixin-argumentless-call-parentheses": "always",
@@ -28,6 +31,16 @@
     "selector-class-pattern": null,
     "selector-id-pattern": null,
     "number-max-precision": null,
-    "no-invalid-position-at-import-rule": null
+    "no-invalid-position-at-import-rule": null,
+    "eufemia/token-name-policy": [
+      true,
+      {
+        "themePrefixes": {
+          "ui": "dnb",
+          "sbanken": "sbanken",
+          "carnegie": "carnegie"
+        }
+      }
+    ]
   }
 }
