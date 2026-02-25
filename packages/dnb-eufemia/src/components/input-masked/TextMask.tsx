@@ -483,6 +483,23 @@ function createMaskitoNumberOptions(mp: {
     return [left, max] as [number, number]
   })
 
+  // Clear the value when only prefix/postfix remain (no numeric content)
+  const clearEmptyPostprocessor = (elementState: any) => {
+    const value = elementState.value
+    const withoutAffixes = value
+      .slice(
+        prefix ? prefix.length : 0,
+        value.length - (postfixToUse ? postfixToUse.length : 0)
+      )
+      .trim()
+
+    if (withoutAffixes === '' || withoutAffixes === ',') {
+      return { ...elementState, value: '', selection: [0, 0] }
+    }
+
+    return elementState
+  }
+
   // If suffix starts with comma, add a postprocessor to insert it before the postfix
   const postprocessors = suffixStartsWithComma
     ? [
@@ -499,8 +516,9 @@ function createMaskitoNumberOptions(mp: {
             prefix + valueWithoutAffixes + ',' + postfixToUse
           return { ...elementState, value: newValue }
         },
+        clearEmptyPostprocessor,
       ]
-    : base.postprocessors
+    : [...(base.postprocessors || []), clearEmptyPostprocessor]
 
   const plugins = [...(base.plugins || []), caretGuard]
 
