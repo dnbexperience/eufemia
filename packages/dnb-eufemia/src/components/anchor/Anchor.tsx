@@ -42,7 +42,7 @@ export type AnchorProps = {
   iconPosition?: 'left' | 'right'
   skeleton?: SkeletonShow
   omitClass?: boolean
-  innerRef?: React.RefObject<HTMLAnchorElement>
+  innerRef?: React.Ref<HTMLAnchorElement>
 
   /**
    * Removes default animation.
@@ -109,6 +109,8 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     allProps.innerRef = React.createRef()
   }
 
+  const tooltipRef = React.useRef<HTMLAnchorElement>(null)
+
   const {
     id,
     element,
@@ -118,7 +120,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     icon,
     iconPosition = 'left',
     omitClass,
-    innerRef,
+    innerRef: innerRefProp,
     targetBlankTitle,
     noAnimation,
     noHover,
@@ -164,6 +166,21 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     ))
 
   const prefix = iconPosition === 'left' && iconNode
+
+  const innerRef = React.useCallback(
+    (elem: HTMLAnchorElement | null) => {
+      tooltipRef.current = elem
+
+      if (typeof innerRefProp === 'function') {
+        innerRefProp(elem)
+      } else if (innerRefProp) {
+        ;(
+          innerRefProp as React.MutableRefObject<HTMLAnchorElement | null>
+        ).current = elem
+      }
+    },
+    [innerRefProp]
+  )
 
   if (isDisabled) {
     attributes.disabled = true
@@ -225,7 +242,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
         <Tooltip
           showDelay={100}
           id={internalId + '-tooltip'}
-          targetElement={innerRef}
+          targetElement={tooltipRef}
           tooltip={tooltip}
         >
           {allProps.title || targetBlankTitle}
@@ -238,7 +255,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
 function Anchor({
   ref,
   ...props
-}: AnchorAllProps & { ref?: React.RefObject<HTMLAnchorElement> }) {
+}: AnchorAllProps & { ref?: React.Ref<HTMLAnchorElement> }) {
   return <AnchorInstance innerRef={ref} {...props} />
 }
 
