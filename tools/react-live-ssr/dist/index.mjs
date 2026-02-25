@@ -52,9 +52,293 @@ var __async = (__this, __arguments, generator) => {
 
 // src/components/Editor/index.tsx
 import { Highlight, Prism, themes } from "prism-react-renderer";
-import { useEffect, useRef, useState } from "react";
-import { useEditable } from "use-editable";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { jsx, jsxs } from "react/jsx-runtime";
+
+// -- useEditable: inline replacement for use-editable package --
+var _ue_observerSettings = {
+  characterData: true,
+  characterDataOldValue: true,
+  childList: true,
+  subtree: true
+};
+var _ue_getCurrentRange = () => window.getSelection().getRangeAt(0);
+var _ue_setCurrentRange = (range) => {
+  const selection = window.getSelection();
+  selection.removeAllRanges();
+  selection.addRange(range);
+};
+var _ue_isUndoRedoKey = (event) =>
+  (event.metaKey || event.ctrlKey) && !event.altKey && event.code === "KeyZ";
+var _ue_toString = (element) => {
+  const queue = [element.firstChild];
+  let content = "";
+  let node;
+  while ((node = queue.pop())) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      content += node.textContent;
+    } else if (node.nodeType === Node.ELEMENT_NODE && node.nodeName === "BR") {
+      content += "\n";
+    }
+    if (node.nextSibling) queue.push(node.nextSibling);
+    if (node.firstChild) queue.push(node.firstChild);
+  }
+  if (content[content.length - 1] !== "\n") content += "\n";
+  return content;
+};
+var _ue_setStart = (range, node, offset) => {
+  if (offset < node.textContent.length) range.setStart(node, offset);
+  else range.setStartAfter(node);
+};
+var _ue_setEnd = (range, node, offset) => {
+  if (offset < node.textContent.length) range.setEnd(node, offset);
+  else range.setEndAfter(node);
+};
+var _ue_getPosition = (element) => {
+  const range = _ue_getCurrentRange();
+  const extent = !range.collapsed ? range.toString().length : 0;
+  const untilRange = document.createRange();
+  untilRange.setStart(element, 0);
+  untilRange.setEnd(range.startContainer, range.startOffset);
+  let content = untilRange.toString();
+  const position = content.length;
+  const lines = content.split("\n");
+  const line = lines.length - 1;
+  content = lines[line];
+  return { position, extent, content, line };
+};
+var _ue_makeRange = (element, start, end) => {
+  if (start <= 0) start = 0;
+  if (!end || end < 0) end = start;
+  const range = document.createRange();
+  const queue = [element.firstChild];
+  let current = 0;
+  let node;
+  let position = start;
+  while ((node = queue[queue.length - 1])) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const length = node.textContent.length;
+      if (current + length >= position) {
+        const offset = position - current;
+        if (position === start) {
+          _ue_setStart(range, node, offset);
+          if (end !== start) { position = end; continue; }
+          else break;
+        } else {
+          _ue_setEnd(range, node, offset);
+          break;
+        }
+      }
+      current += node.textContent.length;
+    } else if (node.nodeType === Node.ELEMENT_NODE && node.nodeName === "BR") {
+      if (current + 1 >= position) {
+        if (position === start) {
+          _ue_setStart(range, node, 0);
+          if (end !== start) { position = end; continue; }
+          else break;
+        } else {
+          _ue_setEnd(range, node, 0);
+          break;
+        }
+      }
+      current++;
+    }
+    queue.pop();
+    if (node.nextSibling) queue.push(node.nextSibling);
+    if (node.firstChild) queue.push(node.firstChild);
+  }
+  return range;
+};
+var useEditable = (elementRef, onChange, opts) => {
+  if (!opts) opts = {};
+  const unblock = useState([])[1];
+  const state = useState(() => {
+    const s = {
+      observer: null,
+      disconnected: false,
+      onChange,
+      queue: [],
+      history: [],
+      historyAt: -1,
+      position: null
+    };
+    if (typeof MutationObserver !== "undefined") {
+      s.observer = new MutationObserver((batch) => { s.queue.push(...batch); });
+    }
+    return s;
+  })[0];
+  var _ue_editInsert = (element, append, deleteOffset) => {
+    let range = _ue_getCurrentRange();
+    range.deleteContents();
+    range.collapse();
+    const position = _ue_getPosition(element);
+    const offset = deleteOffset || 0;
+    const start = position.position + (offset < 0 ? offset : 0);
+    const end = position.position + (offset > 0 ? offset : 0);
+    range = _ue_makeRange(element, start, end);
+    range.deleteContents();
+    if (append) range.insertNode(document.createTextNode(append));
+    _ue_setCurrentRange(_ue_makeRange(element, start + append.length));
+  };
+  var _ue_editUpdate = (element, content) => {
+    const position = _ue_getPosition(element);
+    const prevContent = _ue_toString(element);
+    position.position += content.length - prevContent.length;
+    state.position = position;
+    state.onChange(content, position);
+  };
+  if (typeof navigator !== "object") return;
+  useLayoutEffect(() => {
+    state.onChange = onChange;
+    if (!elementRef.current || opts.disabled) return;
+    state.disconnected = false;
+    state.observer.observe(elementRef.current, _ue_observerSettings);
+    if (state.position) {
+      const { position, extent } = state.position;
+      _ue_setCurrentRange(_ue_makeRange(elementRef.current, position, position + extent));
+    }
+    return () => { state.observer.disconnect(); };
+  });
+  useLayoutEffect(() => {
+    if (!elementRef.current || opts.disabled) {
+      state.history.length = 0;
+      state.historyAt = -1;
+      return;
+    }
+    const element = elementRef.current;
+    if (state.position) {
+      element.focus();
+      const { position, extent } = state.position;
+      _ue_setCurrentRange(_ue_makeRange(element, position, position + extent));
+    }
+    const prevWhiteSpace = element.style.whiteSpace;
+    const prevContentEditable = element.contentEditable;
+    let hasPlaintextSupport = true;
+    try { element.contentEditable = "plaintext-only"; }
+    catch (_error) { element.contentEditable = "true"; hasPlaintextSupport = false; }
+    if (prevWhiteSpace !== "pre") element.style.whiteSpace = "pre-wrap";
+    if (opts.indentation) {
+      element.style.tabSize = element.style.MozTabSize = "" + opts.indentation;
+    }
+    const indentPattern = " ".repeat(opts.indentation || 0);
+    const indentRe = new RegExp("^(?:" + indentPattern + ")");
+    const blanklineRe = new RegExp("^(?:" + indentPattern + ")*(" + indentPattern + ")$");
+    let _trackStateTimestamp = 0;
+    const trackState = (ignoreTimestamp) => {
+      if (!elementRef.current || !state.position) return;
+      const content = _ue_toString(element);
+      const position = _ue_getPosition(element);
+      const timestamp = new Date().valueOf();
+      const lastEntry = state.history[state.historyAt];
+      if ((!ignoreTimestamp && timestamp - _trackStateTimestamp < 500) ||
+          (lastEntry && lastEntry[1] === content)) {
+        _trackStateTimestamp = timestamp;
+        return;
+      }
+      const at = ++state.historyAt;
+      state.history[at] = [position, content];
+      state.history.splice(at + 1);
+      if (at > 500) { state.historyAt--; state.history.shift(); }
+    };
+    const disconnect = () => { state.observer.disconnect(); state.disconnected = true; };
+    const flushChanges = () => {
+      state.queue.push(...state.observer.takeRecords());
+      const position = _ue_getPosition(element);
+      if (state.queue.length) {
+        disconnect();
+        const content = _ue_toString(element);
+        state.position = position;
+        let mutation;
+        let i = 0;
+        while ((mutation = state.queue.pop())) {
+          if (mutation.oldValue !== null) mutation.target.textContent = mutation.oldValue;
+          for (i = mutation.removedNodes.length - 1; i >= 0; i--)
+            mutation.target.insertBefore(mutation.removedNodes[i], mutation.nextSibling);
+          for (i = mutation.addedNodes.length - 1; i >= 0; i--)
+            if (mutation.addedNodes[i].parentNode)
+              mutation.target.removeChild(mutation.addedNodes[i]);
+        }
+        state.onChange(content, position);
+      }
+    };
+    const onKeyDown = (event) => {
+      if (event.defaultPrevented || event.target !== element) return;
+      if (state.disconnected) { event.preventDefault(); return unblock([]); }
+      if (_ue_isUndoRedoKey(event)) {
+        event.preventDefault();
+        let history;
+        if (!event.shiftKey) {
+          const at = --state.historyAt;
+          history = state.history[at];
+          if (!history) state.historyAt = 0;
+        } else {
+          const at = ++state.historyAt;
+          history = state.history[at];
+          if (!history) state.historyAt = state.history.length - 1;
+        }
+        if (history) { disconnect(); state.position = history[0]; state.onChange(history[1], history[0]); }
+        return;
+      } else { trackState(); }
+      if (event.key === "Enter") {
+        event.preventDefault();
+        const position = _ue_getPosition(element);
+        const match = /\S/g.exec(position.content);
+        const index = match ? match.index : position.content.length;
+        const text = "\n" + position.content.slice(0, index);
+        _ue_editInsert(element, text);
+      } else if ((!hasPlaintextSupport || opts.indentation) && event.key === "Backspace") {
+        event.preventDefault();
+        const range = _ue_getCurrentRange();
+        if (!range.collapsed) { _ue_editInsert(element, "", 0); }
+        else {
+          const position = _ue_getPosition(element);
+          const match = blanklineRe.exec(position.content);
+          _ue_editInsert(element, "", match ? -match[1].length : -1);
+        }
+      } else if (opts.indentation && event.key === "Tab") {
+        event.preventDefault();
+        const position = _ue_getPosition(element);
+        const start = position.position - position.content.length;
+        const content = _ue_toString(element);
+        const newContent = event.shiftKey
+          ? content.slice(0, start) + position.content.replace(indentRe, "") + content.slice(start + position.content.length)
+          : content.slice(0, start) + (opts.indentation ? " ".repeat(opts.indentation) : "\t") + content.slice(start);
+        _ue_editUpdate(element, newContent);
+      }
+      if (event.repeat) flushChanges();
+    };
+    const onKeyUp = (event) => {
+      if (event.defaultPrevented || event.isComposing) return;
+      if (!_ue_isUndoRedoKey(event)) trackState();
+      flushChanges();
+      element.focus();
+    };
+    const onSelect = (event) => {
+      state.position = window.getSelection().rangeCount && event.target === element
+        ? _ue_getPosition(element) : null;
+    };
+    const onPaste = (event) => {
+      event.preventDefault();
+      trackState(true);
+      _ue_editInsert(element, event.clipboardData.getData("text/plain"));
+      trackState(true);
+      flushChanges();
+    };
+    document.addEventListener("selectstart", onSelect);
+    window.addEventListener("keydown", onKeyDown);
+    element.addEventListener("paste", onPaste);
+    element.addEventListener("keyup", onKeyUp);
+    return () => {
+      document.removeEventListener("selectstart", onSelect);
+      window.removeEventListener("keydown", onKeyDown);
+      element.removeEventListener("paste", onPaste);
+      element.removeEventListener("keyup", onKeyUp);
+      element.style.whiteSpace = prevWhiteSpace;
+      element.contentEditable = prevContentEditable;
+    };
+  }, [elementRef.current, opts.disabled, opts.indentation]);
+};
+// -- end useEditable --
 var CodeEditor = (props) => {
   const _a = props, {
     code: origCode,
