@@ -25,24 +25,20 @@ describe('useReachRouter', () => {
   const mockUrl = (
     { search } = { search: 'existing-query=foo&bar=baz' }
   ) => {
-    Object.defineProperty(window, 'location', {
-      value: {
-        href: `http://localhost/?${search}`,
-        search,
-      },
-      writable: true,
-    })
+    window.history.replaceState({}, '', `http://localhost/?${search}`)
 
+    const realReplaceState = window.history.replaceState.bind(
+      window.history
+    )
     window.history.pushState = jest.fn((data, unused, url) => {
-      window.location.search = new URL(url).searchParams.toString()
+      realReplaceState(data, unused, url)
     })
   }
   const getHookMock = () => {
     const forceUpdateRef: React.MutableRefObject<() => void> = createRef()
 
     const navigate = jest.fn((href) => {
-      const { searchParams } = new URL(href)
-      window.location.search = searchParams.toString()
+      window.history.replaceState({}, '', href)
     })
     const useLocation = jest.fn(() => {
       const [, fU] = useReducer(() => ({}), {})
@@ -96,27 +92,27 @@ describe('useReachRouter', () => {
     )
 
     expect(output()).toHaveTextContent('{"activeIndex":0,"index":null}')
-    expect(window.location.search).toBe('existing-query=foo&bar=baz')
+    expect(window.location.search).toBe('?existing-query=foo&bar=baz')
 
     await userEvent.click(nextButton())
 
     expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
     expect(window.location.search).toBe(
-      `existing-query=foo&bar=baz&${identifier}-step=1`
+      `?existing-query=foo&bar=baz&${identifier}-step=1`
     )
 
     await userEvent.click(nextButton())
 
     expect(output()).toHaveTextContent('{"activeIndex":2,"index":2}')
     expect(window.location.search).toBe(
-      `existing-query=foo&bar=baz&${identifier}-step=2`
+      `?existing-query=foo&bar=baz&${identifier}-step=2`
     )
 
     await userEvent.click(previousButton())
 
     expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
     expect(window.location.search).toBe(
-      `existing-query=foo&bar=baz&${identifier}-step=1`
+      `?existing-query=foo&bar=baz&${identifier}-step=1`
     )
   })
 
@@ -152,7 +148,7 @@ describe('useReachRouter', () => {
     )
 
     expect(output()).toHaveTextContent('{"activeIndex":0,"index":null}')
-    expect(window.location.search).toBe('existing-query=foo&bar=baz')
+    expect(window.location.search).toBe('?existing-query=foo&bar=baz')
     expect(window.history.pushState).toHaveBeenCalledTimes(0)
 
     visitStep(1)
@@ -160,7 +156,7 @@ describe('useReachRouter', () => {
 
     expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
     expect(window.location.search).toBe(
-      `existing-query=foo&bar=baz&${identifier}-step=1`
+      `?existing-query=foo&bar=baz&${identifier}-step=1`
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},
@@ -173,7 +169,7 @@ describe('useReachRouter', () => {
 
     expect(output()).toHaveTextContent('{"activeIndex":2,"index":2}')
     expect(window.location.search).toBe(
-      `existing-query=foo&bar=baz&${identifier}-step=2`
+      `?existing-query=foo&bar=baz&${identifier}-step=2`
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},
@@ -186,7 +182,7 @@ describe('useReachRouter', () => {
 
     expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
     expect(window.location.search).toBe(
-      `existing-query=foo&bar=baz&${identifier}-step=1`
+      `?existing-query=foo&bar=baz&${identifier}-step=1`
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},

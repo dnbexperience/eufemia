@@ -87,7 +87,7 @@ For the Portal, `build:mini` (`BUILD_MINI=1`) also skips some Gatsby plugins and
 
 ### Jest
 
-- jsdom [v21](https://github.com/jsdom/jsdom/releases/tag/21.0.0) changed `window`, `document`, `location`, and top properties of Window to be non-configurable, which made it impossible to mock `window.location` in Jest. While there are workarounds, we decided to use v20 instead of the latest (`"jest-environment-jsdom/jsdom": "20.0.3"`).
+- Jest 30 with `jest-environment-jsdom` bundles jsdom v26, which resolved the `window.location` mocking issue from jsdom v21.
 
 ### Babel
 

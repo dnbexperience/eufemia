@@ -31,19 +31,13 @@ describe('useNextRouter', () => {
   const mockUrl = (
     { search } = { search: 'existing-query=foo&bar=baz' }
   ) => {
-    Object.defineProperty(window, 'location', {
-      value: {
-        pathname: 'http://localhost/',
-        href: `http://localhost/?${search}`,
-        search,
-      },
-      writable: true,
-    })
+    window.history.replaceState({}, '', `http://localhost/?${search}`)
 
+    const realReplaceState = window.history.replaceState.bind(
+      window.history
+    )
     window.history.pushState = jest.fn((data, unused, url) => {
-      url = new URL(url)
-      window.location.href = url.toString()
-      window.location.search = url.searchParams.toString()
+      realReplaceState(data, unused, url)
     })
   }
   const getHookMock = () => {
@@ -51,8 +45,7 @@ describe('useNextRouter', () => {
 
     const useRouter = jest.fn(() => {
       const push = useCallback((href) => {
-        const url = new URL(href)
-        window.location.search = url.searchParams.toString()
+        window.history.replaceState({}, '', href)
         forceUpdateRef.current()
       }, [])
 
@@ -121,20 +114,20 @@ describe('useNextRouter', () => {
     )
 
     expect(output()).toHaveTextContent('{"activeIndex":0,"index":null}')
-    expect(window.location.search).toBe('existing-query=foo&bar=baz')
+    expect(window.location.search).toBe('?existing-query=foo&bar=baz')
 
     await userEvent.click(nextButton())
 
     expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
     expect(window.location.search).toBe(
-      `existing-query=foo&bar=baz&${identifier}-step=1`
+      `?existing-query=foo&bar=baz&${identifier}-step=1`
     )
 
     await userEvent.click(previousButton())
 
     expect(output()).toHaveTextContent('{"activeIndex":0,"index":null}')
     expect(window.location.search).toBe(
-      `existing-query=foo&bar=baz&${identifier}-step=0`
+      `?existing-query=foo&bar=baz&${identifier}-step=0`
     )
   })
 
@@ -171,7 +164,7 @@ describe('useNextRouter', () => {
     )
 
     expect(output()).toHaveTextContent('{"activeIndex":0,"index":null}')
-    expect(window.location.search).toBe('existing-query=foo&bar=baz')
+    expect(window.location.search).toBe('?existing-query=foo&bar=baz')
     expect(window.history.pushState).toHaveBeenCalledTimes(0)
 
     visitStep(1)
@@ -179,7 +172,7 @@ describe('useNextRouter', () => {
 
     expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
     expect(window.location.search).toBe(
-      `existing-query=foo&bar=baz&${identifier}-step=1`
+      `?existing-query=foo&bar=baz&${identifier}-step=1`
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},
@@ -192,7 +185,7 @@ describe('useNextRouter', () => {
 
     expect(output()).toHaveTextContent('{"activeIndex":0,"index":null}')
     expect(window.location.search).toBe(
-      `existing-query=foo&bar=baz&${identifier}-step=0`
+      `?existing-query=foo&bar=baz&${identifier}-step=0`
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},

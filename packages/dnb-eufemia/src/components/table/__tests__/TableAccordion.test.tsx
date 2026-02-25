@@ -700,16 +700,10 @@ describe('TableAccordion', () => {
   })
 
   it('should have expanded accordion content when id matches location hash', () => {
-    global.window = Object.create(window)
     const hash = '#unique-id-1'
-    const href = `https://url.tld/${hash}`
+    const href = `http://localhost/${hash}`
 
-    Object.defineProperty(window, 'location', {
-      value: {
-        href,
-        hash,
-      },
-    })
+    window.history.replaceState({}, '', href)
 
     render(
       <Table mode="accordion">
@@ -1666,16 +1660,10 @@ describe('TableAccordion', () => {
     })
 
     it('should have expanded accordion content when id matches location hash', () => {
-      global.window = Object.create(window)
       const hash = '#unique-id-1'
-      const href = `https://url.tld/${hash}`
+      const href = `http://localhost/${hash}`
 
-      Object.defineProperty(window, 'location', {
-        value: {
-          href,
-          hash,
-        },
-      })
+      window.history.replaceState({}, '', href)
 
       render(
         <Table accordion>
