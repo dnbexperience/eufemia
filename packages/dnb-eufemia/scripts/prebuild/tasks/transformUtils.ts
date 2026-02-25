@@ -56,6 +56,8 @@ export const transformSass =
     const sassResult = sass.renderSync({
       file: file.path,
       includePaths: [importPath1, importPath2], // use loadPaths for new API
+      // TODO: Remove silenceDeprecations before v11 release and migrate to Sass module system (@use/@forward)
+      silenceDeprecations: ['import', 'global-builtin'],
       ...config,
     })
 
