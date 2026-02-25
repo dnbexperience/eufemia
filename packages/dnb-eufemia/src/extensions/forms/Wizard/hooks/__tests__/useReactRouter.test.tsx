@@ -27,18 +27,13 @@ describe('useReactRouter', () => {
   const mockUrl = (
     { search } = { search: 'existing-query=foo&bar=baz' }
   ) => {
-    Object.defineProperty(window, 'location', {
-      value: {
-        href: `http://localhost/?${search}`,
-        search,
-      },
-      writable: true,
-    })
+    window.history.replaceState({}, '', `http://localhost/?${search}`)
 
+    const realReplaceState = window.history.replaceState.bind(
+      window.history
+    )
     window.history.pushState = jest.fn((data, unused, url) => {
-      url = new URL(url)
-      window.location.href = url.toString()
-      window.location.search = url.searchParams.toString()
+      realReplaceState(data, unused, url)
     })
   }
   const getHookMock = () => {
@@ -55,7 +50,9 @@ describe('useReactRouter', () => {
       stepIndex = index
       const searchParams = new URLSearchParams(window.location.search)
       searchParams.set(key, index)
-      window.location.search = searchParams.toString()
+      const url = new URL(window.location.href)
+      url.search = searchParams.toString()
+      window.history.replaceState({}, '', url.toString())
     })
     const searchParams = { get, set }
     const setSearchParams = jest.fn()
@@ -133,14 +130,14 @@ describe('useReactRouter', () => {
 
     expect(output()).toHaveTextContent('{"activeIndex":0,"index":null}')
     expect(set).toHaveBeenCalledTimes(0)
-    expect(window.location.search).toBe('existing-query=foo&bar=baz')
+    expect(window.location.search).toBe('?existing-query=foo&bar=baz')
 
     await userEvent.click(nextButton())
 
     expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
     expect(set).toHaveBeenLastCalledWith(`${identifier}-step`, 1)
     expect(window.location.search).toBe(
-      `existing-query=foo&bar=baz&${identifier}-step=1`
+      `?existing-query=foo&bar=baz&${identifier}-step=1`
     )
 
     await userEvent.click(nextButton())
@@ -148,7 +145,7 @@ describe('useReactRouter', () => {
     expect(output()).toHaveTextContent('{"activeIndex":2,"index":2}')
     expect(set).toHaveBeenLastCalledWith(`${identifier}-step`, 2)
     expect(window.location.search).toBe(
-      `existing-query=foo&bar=baz&${identifier}-step=2`
+      `?existing-query=foo&bar=baz&${identifier}-step=2`
     )
 
     await userEvent.click(previousButton())
@@ -156,7 +153,7 @@ describe('useReactRouter', () => {
     expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
     expect(set).toHaveBeenLastCalledWith(`${identifier}-step`, 1)
     expect(window.location.search).toBe(
-      `existing-query=foo&bar=baz&${identifier}-step=1`
+      `?existing-query=foo&bar=baz&${identifier}-step=1`
     )
 
     expect(setSearchParams).toHaveBeenCalledTimes(3)
@@ -193,7 +190,7 @@ describe('useReactRouter', () => {
     )
 
     expect(output()).toHaveTextContent('{"activeIndex":0,"index":null}')
-    expect(window.location.search).toBe('existing-query=foo&bar=baz')
+    expect(window.location.search).toBe('?existing-query=foo&bar=baz')
     expect(window.history.pushState).toHaveBeenCalledTimes(0)
 
     visitStep(1)
@@ -201,7 +198,7 @@ describe('useReactRouter', () => {
 
     expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
     expect(window.location.search).toBe(
-      `existing-query=foo&bar=baz&${identifier}-step=1`
+      `?existing-query=foo&bar=baz&${identifier}-step=1`
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},
@@ -214,7 +211,7 @@ describe('useReactRouter', () => {
 
     expect(output()).toHaveTextContent('{"activeIndex":2,"index":2}')
     expect(window.location.search).toBe(
-      `existing-query=foo&bar=baz&${identifier}-step=2`
+      `?existing-query=foo&bar=baz&${identifier}-step=2`
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},
@@ -227,7 +224,7 @@ describe('useReactRouter', () => {
 
     expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
     expect(window.location.search).toBe(
-      `existing-query=foo&bar=baz&${identifier}-step=1`
+      `?existing-query=foo&bar=baz&${identifier}-step=1`
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},

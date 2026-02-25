@@ -41,7 +41,6 @@
   "resolutions": {
     "lmdb": "3.5.1",
     "msgpackr": "1.11.8",
-    "jest-environment-jsdom/jsdom": "20.0.3",
     "gatsby/socket.io": "4.8.3",
     "gatsby/browserslist": "4.28.1",
     "@types/react": "19.2.8",

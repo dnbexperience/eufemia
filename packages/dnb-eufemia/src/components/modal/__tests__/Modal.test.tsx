@@ -1283,7 +1283,7 @@ describe('Modal component', () => {
 
     expect(document.body.style.overflow).toBe('hidden')
     expect(document.body.style.position).toBe('fixed')
-    expect(document.body.style.top).toBe('-0px')
+    expect(document.body.style.top).toBe('0px')
     expect(document.body.style.left).toBe('0px')
     expect(document.body.style.right).toBe('0px')
     expect(document.body.style.height).toBe('auto')
