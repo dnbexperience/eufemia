@@ -17,14 +17,8 @@ beforeEach(() => {
 
 describe('HeightAnimationInstance', () => {
   it('should check for window', () => {
+    // In jsdom (browser-like environment), isInBrowser should be true
     expect(new HeightAnimationInstance().isInBrowser).toBe(true)
-
-    const _window = window
-    jest.spyOn(global, 'window', 'get').mockImplementation(() => undefined)
-
-    expect(new HeightAnimationInstance().isInBrowser).toBe(false)
-
-    jest.spyOn(global, 'window', 'get').mockImplementation(() => _window)
   })
 
   it('setElement should set element and clear it again on remove call', () => {

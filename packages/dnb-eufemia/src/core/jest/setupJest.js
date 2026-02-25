@@ -9,7 +9,9 @@ import { toBeType } from 'jest-tobetype'
 
 // To cleanup axe test leftovers from a test run before the current one
 beforeEach(() => {
-  document.body.innerHTML = ''
+  if (typeof document !== 'undefined') {
+    document.body.innerHTML = ''
+  }
 })
 
 expect.extend({ toBeType })
