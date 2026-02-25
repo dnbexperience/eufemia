@@ -103,7 +103,15 @@ const plugins = [
       ignore: ignoreAsPage,
     },
   },
-  'gatsby-plugin-sass',
+  {
+    resolve: 'gatsby-plugin-sass',
+    options: {
+      sassOptions: {
+        // TODO: Remove silenceDeprecations before v11 release and migrate to Sass module system (@use/@forward)
+        silenceDeprecations: ['import', 'global-builtin'],
+      },
+    },
+  },
   'gatsby-plugin-emotion',
   {
     resolve: 'gatsby-plugin-babel-react-live',

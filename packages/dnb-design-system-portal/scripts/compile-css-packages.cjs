@@ -19,7 +19,12 @@ function generatePackages(convertFiles) {
     const includePaths = []
 
     const file = require.resolve(filePath)
-    const result = sass.renderSync({ file, includePaths })
+    const result = sass.renderSync({
+      file,
+      includePaths,
+      // TODO: Remove silenceDeprecations before v11 release and migrate to Sass module system (@use/@forward)
+      silenceDeprecations: ['import', 'global-builtin'],
+    })
     const name = path.basename(filePath).replace('.scss', '')
     const dest = path.resolve(__dirname, `../public/${name}.css`)
 
