@@ -3,3 +3,4 @@
 .cache/
 **/icons-meta.json
 **/sbanken/fonts.scss
+**/style/themes/figma/*.json
