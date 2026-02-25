@@ -56,7 +56,7 @@ export const transformSass =
     const sassResult = sass.compile(file.path, {
       loadPaths: [importPath1, importPath2],
       // TODO: Remove silenceDeprecations before v11 release and migrate to Sass module system (@use/@forward)
-      silenceDeprecations: ['import', 'global-builtin'],
+      silenceDeprecations: ['import'],
       ...config,
     })
 
