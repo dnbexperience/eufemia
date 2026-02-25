@@ -2648,9 +2648,12 @@ describe('Wizard.Container', () => {
 
       await userEvent.type(document.querySelector('input'), 'foo')
 
-      // Wait for validation to settle after typing
+      // Wait for validation to fully settle after typing - check both
+      // that the step indicator shows only 1 error and that the current
+      // step's inline field error has been resolved
       await waitFor(() => {
         expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(1)
+        expect(content().querySelector('.dnb-form-status')).toBeNull()
       })
 
       // Go to Step 2
