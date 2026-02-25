@@ -5,7 +5,6 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { createBrowserHistory } from 'history'
 import { StepIndicator, Space, Button, Section } from '@dnb/eufemia/src'
 
 export const StepIndicatorStatic = () => (
@@ -172,18 +171,17 @@ export const StepIndicatorTextOnly = () => (
 )
 
 export const StepIndicatorRouter = () => (
-  <ComponentBox scope={{ createBrowserHistory }}>
+  <ComponentBox>
     {() => {
       const StepIndicatorWithRouter = () => {
         const [currentStep, setCurrentStep] = React.useState(1)
-        const [history, setInstance] = React.useState(null)
+
         React.useEffect(() => {
-          const history = createBrowserHistory()
           const step =
-            parseFloat(history.location.search?.replace(/[?]/, '')) || 1
+            parseFloat(window.location.search?.replace(/[?]/, '')) || 1
           setCurrentStep(step)
-          setInstance(history)
         }, [])
+
         return (
           <>
             <StepIndicator
@@ -192,7 +190,7 @@ export const StepIndicatorRouter = () => (
               onChange={({ currentStep }) => {
                 const step = currentStep + 1
                 setCurrentStep(step)
-                history.push('?' + step)
+                window.history.pushState({}, '', '?' + step)
               }}
               data={[
                 {
