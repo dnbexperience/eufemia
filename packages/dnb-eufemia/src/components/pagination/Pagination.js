@@ -289,20 +289,18 @@ export class InfinityMarker extends React.PureComponent {
   }
 }
 
-const PaginationContent = React.forwardRef(
-  ({ children, ...props }, ref) => {
-    return (
-      <div
-        className="dnb-pagination__content dnb-no-focus"
-        tabIndex="-1"
-        {...props}
-        ref={ref}
-      >
-        {children}
-      </div>
-    )
-  }
-)
+function PaginationContent({ children, ref, ...props }) {
+  return (
+    <div
+      className="dnb-pagination__content dnb-no-focus"
+      tabIndex="-1"
+      {...props}
+      ref={ref}
+    >
+      {children}
+    </div>
+  )
+}
 PaginationContent.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
     .isRequired,

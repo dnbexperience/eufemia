@@ -12,6 +12,6 @@ describe('ESM components library package', () => {
   })
 
   it('has to have a Anchor Component', () => {
-    expect(Anchor).toBeType('object')
+    expect(Anchor).toBeType('function')
   })
 })
