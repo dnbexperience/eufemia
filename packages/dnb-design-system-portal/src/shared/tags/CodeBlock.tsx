@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import classnames from 'classnames'
+import clsx from 'clsx'
 import { Highlight, Prism } from 'prism-react-renderer'
 import Tag from './Tag'
 import { Button, Space } from '@dnb/eufemia/src/components'
@@ -25,8 +25,7 @@ import {
 } from 'react-live-ssr' // we use this temporary version of until ssr is supported https://github.com/FormidableLabs/react-live/pull/322
 
 // this theme is replaced my a css one
-import prismTheme from '@dnb/eufemia/src/style/themes/theme-ui/prism/dnb-prism-theme'
-import { ContextProps } from '@dnb/eufemia/src/shared/Context'
+import prismTheme from '@dnb/eufemia/src/style/themes/ui/prism/dnb-prism-theme'
 
 export type CodeSectionProps = {
   scope?: Record<string, unknown>
@@ -61,7 +60,7 @@ const CodeBlock = ({
   if (((props && props.scope) || isReactLive) && language === 'jsx') {
     return (
       <div
-        className={classnames(
+        className={clsx(
           codeBlockStyle,
           createSkeletonClass('code', context.skeleton)
         )}
@@ -79,19 +78,29 @@ const CodeBlock = ({
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
           <div
-            className={classnames(
+            className={clsx(
               codeBlockStyle,
               createSkeletonClass('code', context.skeleton)
             )}
           >
             <Tag as="pre" className={className} css={style}>
-              {cleanTokens(tokens).map((line, i) => (
-                <div key={i} {...getLineProps({ line, key: i })}>
-                  {line.map((token, key) => (
-                    <span key={key} {...getTokenProps({ token, key })} />
-                  ))}
-                </div>
-              ))}
+              {cleanTokens(tokens).map((line, i) => {
+                const { key, ...lineProps } = getLineProps({
+                  line,
+                  key: i,
+                })
+                return (
+                  <div key={String(key)} {...lineProps}>
+                    {line.map((token, tokenKey) => {
+                      const { key: tokenKeyProp, ...tokenProps } =
+                        getTokenProps({ token, key: tokenKey })
+                      return (
+                        <span key={String(tokenKeyProp)} {...tokenProps} />
+                      )
+                    })}
+                  </div>
+                )
+              })}
             </Tag>
           </div>
         )}
@@ -107,190 +116,172 @@ type LiveCodeProps = {
   noFragments?: boolean
 } & Omit<CodeSectionProps, 'children'>
 
-class LiveCode extends React.PureComponent<LiveCodeProps, LiveCodeProps> {
-  static contextType = Context
+function prepareCode(code: string) {
+  code = String(code).trim()
+  if (
+    /data-visual-test|visualTestProp/.test(code) &&
+    // remove test attribute only if: we run live, and are not not test
+    !globalThis.IS_TEST
+  ) {
+    code = code.replace(/\s+data-visual-test="[^"]*"/g, '') // remove test data
+    code = code.replace(/ +{\.+visualTestProp.*}\n/g, '') // remove test data
+  }
+  return code
+}
 
-  context!: ContextProps
+function LiveCode(props: LiveCodeProps) {
+  const context = React.useContext(Context)
+  const editorElementRef = React.useRef<HTMLDivElement>(null)
+  const idRef = React.useRef(makeUniqueId())
 
-  _editorElementRef: React.RefObject<HTMLDivElement> = null
-  _id: string = null
-
-  constructor(props: LiveCodeProps) {
-    super(props)
-    const { code, hideToolbar, hideCode, hidePreview } = props
-
-    this.state = {
-      code,
+  const [state, setState] = React.useState(() => {
+    const { hideToolbar, hideCode, hidePreview } = props
+    return {
       hideToolbar,
       hideCode,
       hidePreview,
-      tabMode: 'focus',
+      tabMode: 'focus' as const,
+    }
+  })
+
+  const toggleCode = () => {
+    setState((prev) => ({ ...prev, hideCode: !prev.hideCode }))
+  }
+
+  const togglePreview = () => {
+    setState((prev) => ({ ...prev, hidePreview: !prev.hidePreview }))
+  }
+
+  const {
+    scope = {},
+    noInline,
+    noFragments = true,
+    language = 'jsx',
+    background,
+    omitWrapper,
+
+    code: _code, // eslint-disable-line
+    hideToolbar: _hideToolbar, // eslint-disable-line
+    hideCode: _hideCode, // eslint-disable-line
+    hidePreview: _hidePreview, // eslint-disable-line
+    omitWrapper: _omitWrapper, // eslint-disable-line
+    'data-visual-test': visualTest, // eslint-disable-line
+
+    ...restProps
+  } = props
+
+  const { hideToolbar, hideCode, hidePreview } = state
+
+  const codeToUse = React.useMemo(() => {
+    const code =
+      typeof props.code === 'string' ? prepareCode(props.code) : ''
+
+    if (code.trim().length === 0) {
+      return 'No Code provided'
     }
 
-    this._editorElementRef = React.createRef()
-    this._id = makeUniqueId()
-  }
-
-  toggleCode = () => {
-    this.setState(() => ({ hideCode: !this.state.hideCode }))
-  }
-  togglePreview = () => {
-    this.setState(() => ({ hidePreview: !this.state.hidePreview }))
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.code !== prevProps.code) {
-      this.setState({
-        code: this.prepareCode(this.props.code),
-      })
-    }
-  }
-
-  prepareCode(code: string) {
-    code = String(code).trim()
-    if (
-      /data-visual-test|visualTestProp/.test(code) &&
-      // remove test attribute only if: we run live, and are not not test
-      !globalThis.IS_TEST
-    ) {
-      code = code.replace(/\s+data-visual-test="[^"]*"/g, '') // remove test data
-      code = code.replace(/ +{\.+visualTestProp.*}\n/g, '') // remove test data
-    }
     return code
-  }
+  }, [props.code])
 
-  render() {
-    const {
-      scope = {},
-      noInline,
-      noFragments = true,
-      language = 'jsx',
-      background,
-      omitWrapper,
-
-      code: _code, // eslint-disable-line
-      hideToolbar: _hideToolbar, // eslint-disable-line
-      hideCode: _hideCode, // eslint-disable-line
-      omitWrapper: _omitWrapper, // eslint-disable-line
-      'data-visual-test': visualTest, // eslint-disable-line
-
-      ...props
-    } = this.props
-
-    const { code, hideToolbar, hideCode, hidePreview } = this.state
-
-    const codeToUse =
-      typeof code === 'string' ? this.prepareCode(code) : ''
-
-    if (codeToUse.trim().length === 0) {
-      return <span>No Code provided</span>
-    }
-
-    return (
-      <div
-        className={classnames(
-          liveCodeEditorStyle,
-          background && whiteBackgroundStyle
-        )}
+  return (
+    <div
+      className={clsx(
+        liveCodeEditorStyle,
+        background && whiteBackgroundStyle
+      )}
+    >
+      <LiveProvider
+        theme={prismTheme}
+        code={codeToUse}
+        scope={scope}
+        language={language}
+        transformCode={(code: string) =>
+          !noInline && noFragments ? `<>${code}</>` : code
+        }
+        noInline={noInline}
+        {...restProps}
       >
-        <LiveProvider
-          theme={prismTheme}
-          code={codeToUse}
-          scope={scope}
-          language={language}
-          transformCode={(code: string) =>
-            !noInline && noFragments ? `<>${code}</>` : code
-          }
-          noInline={noInline}
-          {...props}
-        >
-          {!hidePreview &&
-            (omitWrapper ? (
+        {!hidePreview &&
+          (omitWrapper ? (
+            <LivePreview
+              className="dnb-live-preview"
+              data-visual-test={visualTest}
+            />
+          ) : (
+            <div className="example-box">
               <LivePreview
                 className="dnb-live-preview"
                 data-visual-test={visualTest}
               />
-            ) : (
-              <div className="example-box">
-                <LivePreview
-                  className="dnb-live-preview"
-                  data-visual-test={visualTest}
-                />
-              </div>
-            ))}
-          {!global.IS_TEST && !hideCode && (
-            <Space
-              className={classnames(
-                'dnb-live-editor',
-                createSkeletonClass('code', this.context.skeleton)
-              )}
-              top={omitWrapper}
-              innerRef={this._editorElementRef}
-            >
-              <span className="dnb-sr-only">Code Editor</span>
-              <LiveEditor
-                prism={Prism}
-                id={this._id}
-                tabMode={this.state.tabMode}
-                className="dnb-live-editor__editable dnb-pre"
-                onChange={(code) => {
-                  this.setState({ code })
-                }}
-                onFocus={() => {
-                  if (this._editorElementRef.current) {
-                    this._editorElementRef.current.classList.add(
-                      'dnb-pre--focus'
-                    )
-                  }
-                }}
-                onBlur={() => {
-                  if (this._editorElementRef.current) {
-                    this._editorElementRef.current.classList.remove(
-                      'dnb-pre--focus'
-                    )
-                  }
-                }}
-              />
-            </Space>
-          )}
-
-          <LiveError className="dnb-form-status dnb-form-status__text dnb-form-status--error" />
-
-          {!global.IS_TEST && !hideToolbar && (
-            <Space
-              className={classnames(toolbarStyle, 'dnb-live-toolbar')}
-              style={{
-                bottom: omitWrapper ? '-3.5rem' : 0,
+            </div>
+          ))}
+        {!global.IS_TEST && !hideCode && (
+          <Space
+            className={clsx(
+              'dnb-live-editor',
+              createSkeletonClass('code', context.skeleton)
+            )}
+            top={omitWrapper}
+            innerRef={editorElementRef}
+          >
+            <span className="dnb-sr-only">Code Editor</span>
+            <LiveEditor
+              prism={Prism}
+              id={idRef.current}
+              tabMode={state.tabMode}
+              className="dnb-live-editor__editable dnb-pre"
+              onFocus={() => {
+                if (editorElementRef.current) {
+                  editorElementRef.current.classList.add('dnb-pre--focus')
+                }
               }}
-            >
-              {this.props.hideCode && (
-                <Button
-                  className="toggle-button"
-                  on_click={this.toggleCode}
-                  variant="secondary"
-                  text="Code"
-                  title="Toggle Code Snippet"
-                  icon={`arrow-${hideCode ? 'down' : 'up'}`}
-                  size="medium"
-                />
-              )}
-              {this.props.hidePreview && (
-                <Button
-                  className="toggle-button"
-                  on_click={this.togglePreview}
-                  variant="secondary"
-                  text="Preview"
-                  title="Toggle Preview"
-                  icon={`arrow-${!hidePreview ? 'down' : 'up'}`}
-                  size="medium"
-                />
-              )}
-            </Space>
-          )}
-        </LiveProvider>
-      </div>
-    )
-  }
+              onBlur={() => {
+                if (editorElementRef.current) {
+                  editorElementRef.current.classList.remove(
+                    'dnb-pre--focus'
+                  )
+                }
+              }}
+            />
+          </Space>
+        )}
+
+        <LiveError className="dnb-form-status dnb-form-status__text dnb-form-status--error" />
+
+        {!global.IS_TEST && !hideToolbar && (
+          <Space
+            className={clsx(toolbarStyle, 'dnb-live-toolbar')}
+            style={{
+              bottom: omitWrapper ? '-3.5rem' : 0,
+            }}
+          >
+            {props.hideCode && (
+              <Button
+                className="toggle-button"
+                onClick={toggleCode}
+                variant="secondary"
+                text="Code"
+                title="Toggle Code Snippet"
+                icon={`arrow-${hideCode ? 'down' : 'up'}`}
+                size="medium"
+              />
+            )}
+            {props.hidePreview && (
+              <Button
+                className="toggle-button"
+                onClick={togglePreview}
+                variant="secondary"
+                text="Preview"
+                title="Toggle Preview"
+                icon={`arrow-${!hidePreview ? 'down' : 'up'}`}
+                size="medium"
+              />
+            )}
+          </Space>
+        )}
+      </LiveProvider>
+    </div>
+  )
 }
 
 /** Removes the last token from a code example if it's empty. */
