@@ -207,13 +207,15 @@ describe('Selection', () => {
 
     await userEvent.click(screen.getByRole('combobox'))
 
-    const options = Array.from(
-      document.querySelectorAll('[role="option"]')
-    )
+    await waitFor(() => {
+      const options = Array.from(
+        document.querySelectorAll('[role="option"]')
+      )
 
-    expect(options).toHaveLength(2)
-    expect(options[0]).toHaveTextContent('Foo! 100')
-    expect(options[1]).toHaveTextContent('Bar! 200')
+      expect(options).toHaveLength(2)
+      expect(options[0]).toHaveTextContent('Foo! 100')
+      expect(options[1]).toHaveTextContent('Bar! 200')
+    })
 
     expect(receivedOptions).toEqual([
       { value: 'foo', title: 'Foo!', amount: 100 },

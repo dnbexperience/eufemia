@@ -26,18 +26,13 @@ describe('useQueryLocator', () => {
   const mockUrl = (
     { search } = { search: 'existing-query=foo&bar=baz' }
   ) => {
-    Object.defineProperty(window, 'location', {
-      value: {
-        href: `http://localhost/?${search}`,
-        search,
-      },
-      writable: true,
-    })
+    window.history.replaceState({}, '', `http://localhost/?${search}`)
 
+    const realReplaceState = window.history.replaceState.bind(
+      window.history
+    )
     window.history.pushState = jest.fn((data, unused, url) => {
-      url = new URL(url)
-      window.location.href = url.toString()
-      window.location.search = url.searchParams.toString()
+      realReplaceState(data, unused, url)
     })
 
     popstateListener = jest.fn()
@@ -93,14 +88,14 @@ describe('useQueryLocator', () => {
     )
 
     expect(output()).toHaveTextContent('{"activeIndex":0,"index":null}')
-    expect(window.location.search).toBe('existing-query=foo&bar=baz')
+    expect(window.location.search).toBe('?existing-query=foo&bar=baz')
     expect(window.history.pushState).toHaveBeenCalledTimes(0)
 
     await userEvent.click(nextButton())
 
     expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
     expect(window.location.search).toBe(
-      `existing-query=foo&bar=baz&${identifier}-step=1`
+      `?existing-query=foo&bar=baz&${identifier}-step=1`
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},
@@ -112,7 +107,7 @@ describe('useQueryLocator', () => {
 
     expect(output()).toHaveTextContent('{"activeIndex":2,"index":2}')
     expect(window.location.search).toBe(
-      `existing-query=foo&bar=baz&${identifier}-step=2`
+      `?existing-query=foo&bar=baz&${identifier}-step=2`
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},
@@ -124,7 +119,7 @@ describe('useQueryLocator', () => {
 
     expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
     expect(window.location.search).toBe(
-      `existing-query=foo&bar=baz&${identifier}-step=1`
+      `?existing-query=foo&bar=baz&${identifier}-step=1`
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},
@@ -160,14 +155,14 @@ describe('useQueryLocator', () => {
     )
 
     expect(output()).toHaveTextContent('{"activeIndex":0,"index":null}')
-    expect(window.location.search).toBe('existing-query=foo&bar=baz')
+    expect(window.location.search).toBe('?existing-query=foo&bar=baz')
     expect(window.history.pushState).toHaveBeenCalledTimes(0)
 
     await userEvent.click(nextButton())
 
     expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
     expect(window.location.search).toBe(
-      `existing-query=foo&bar=baz&step=1`
+      `?existing-query=foo&bar=baz&step=1`
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},
@@ -179,7 +174,7 @@ describe('useQueryLocator', () => {
 
     expect(output()).toHaveTextContent('{"activeIndex":2,"index":2}')
     expect(window.location.search).toBe(
-      `existing-query=foo&bar=baz&step=2`
+      `?existing-query=foo&bar=baz&step=2`
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},
@@ -191,7 +186,7 @@ describe('useQueryLocator', () => {
 
     expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
     expect(window.location.search).toBe(
-      `existing-query=foo&bar=baz&step=1`
+      `?existing-query=foo&bar=baz&step=1`
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},
@@ -214,14 +209,14 @@ describe('useQueryLocator', () => {
     )
 
     expect(output()).toHaveTextContent('{"activeIndex":0,"index":null}')
-    expect(window.location.search).toBe('existing-query=foo&bar=baz')
+    expect(window.location.search).toBe('?existing-query=foo&bar=baz')
     expect(window.history.pushState).toHaveBeenCalledTimes(0)
 
     visitStep(1)
 
     expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
     expect(window.location.search).toBe(
-      `existing-query=foo&bar=baz&${identifier}-step=1`
+      `?existing-query=foo&bar=baz&${identifier}-step=1`
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},
@@ -233,7 +228,7 @@ describe('useQueryLocator', () => {
 
     expect(output()).toHaveTextContent('{"activeIndex":2,"index":2}')
     expect(window.location.search).toBe(
-      `existing-query=foo&bar=baz&${identifier}-step=2`
+      `?existing-query=foo&bar=baz&${identifier}-step=2`
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},
@@ -245,7 +240,7 @@ describe('useQueryLocator', () => {
 
     expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
     expect(window.location.search).toBe(
-      `existing-query=foo&bar=baz&${identifier}-step=1`
+      `?existing-query=foo&bar=baz&${identifier}-step=1`
     )
     expect(window.history.pushState).toHaveBeenCalledWith(
       {},
