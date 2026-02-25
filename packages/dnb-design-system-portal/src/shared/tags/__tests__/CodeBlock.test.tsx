@@ -15,7 +15,7 @@ jest.mock('../CodeBlock.module.scss', () => ({
 
 // Mock prism theme
 jest.mock(
-  '@dnb/eufemia/src/style/themes/ui/prism/dnb-prism-theme',
+  '@dnb/eufemia/src/style/themes/theme-ui/prism/dnb-prism-theme',
   () => ({
     plain: { color: '#000', backgroundColor: '#fff' },
     styles: [],
