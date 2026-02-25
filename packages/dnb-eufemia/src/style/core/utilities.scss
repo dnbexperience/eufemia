@@ -3,6 +3,7 @@
  */
 
 @use 'sass:map';
+@use 'sass:string';
 
 @import '../../components/space/style/space-mixins.scss';
 
@@ -302,22 +303,12 @@ $breakpoint-offset: 0;
 // @include allAbove(medium){ styles go here.. }
 // $offset and $list are needed to provide global customization options
 @mixin allAbove($size, $offset: $breakpoint-offset, $list: $breakpoints) {
-  $resolved: $size;
-  @if map-has-key($list, $size) {
-    $resolved: map.get($list, $size);
-  }
-
-  @media screen and (min-width: ($resolved + $offset + 0.00625)) {
+  @media screen and (min-width: (if(map.has-key($list, $size), map.get($list, $size), $size) + $offset + 0.00625)) {
     @content;
   }
 }
 @mixin allBelow($size, $offset: $breakpoint-offset, $list: $breakpoints) {
-  $resolved: $size;
-  @if map-has-key($list, $size) {
-    $resolved: map.get($list, $size);
-  }
-
-  @media screen and (max-width: ($resolved + $offset)) {
+  @media screen and (max-width: (if(map.has-key($list, $size), map.get($list, $size), $size) + $offset)) {
     @content;
   }
 }
@@ -382,9 +373,9 @@ $breakpoint-offset: 0;
   $index: string.index($string, $search);
 
   @if $index {
-    @return str-slice($string, 1, $index - 1) + $replace +
+    @return string.slice($string, 1, $index - 1) + $replace +
       str-replace(
-        str-slice($string, $index + str-length($search)),
+        string.slice($string, $index + string.length($search)),
         $search,
         $replace
       );

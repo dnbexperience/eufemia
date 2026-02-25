@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 @import '@dnb/eufemia/src/style/core/utilities.scss';
 @import './PortalStyle.mixins.scss';
 
@@ -12,7 +14,7 @@
   .dnb-app-content:not(.fullscreen-page) {
     .dnb-app-content > div:first-of-type {
       @include allAbove(x-large) {
-        max-width: map-get($breakpoints, x-large);
+        max-width: map.get($breakpoints, x-large);
       }
     }
   }

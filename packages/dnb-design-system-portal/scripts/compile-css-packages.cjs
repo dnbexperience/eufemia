@@ -22,7 +22,7 @@ function generatePackages(convertFiles) {
     const result = sass.compile(file, {
       loadPaths: includePaths,
       // TODO: Remove silenceDeprecations before v11 release and migrate to Sass module system (@use/@forward)
-      silenceDeprecations: ['import', 'global-builtin'],
+      silenceDeprecations: ['import'],
     })
     const name = path.basename(filePath).replace('.scss', '')
     const dest = path.resolve(__dirname, `../public/${name}.css`)
