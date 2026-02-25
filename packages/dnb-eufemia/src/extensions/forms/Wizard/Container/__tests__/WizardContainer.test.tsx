@@ -2651,7 +2651,9 @@ describe('Wizard.Container', () => {
       // Go to Step 2
       await userEvent.click(nextButton())
 
-      expect(currentIndex).toBe(1)
+      await waitFor(() => {
+        expect(currentIndex).toBe(1)
+      })
     })
 
     it('should remove the prerendered steps from the DOM after submitting the form', async () => {
