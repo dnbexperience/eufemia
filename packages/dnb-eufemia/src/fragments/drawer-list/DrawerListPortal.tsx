@@ -243,11 +243,13 @@ function DrawerListPortal({
   return null
 }
 
-export default React.forwardRef(
-  (
-    props: Omit<DrawerListPortalProps, 'innerRef'>,
-    ref: React.ForwardedRef<HTMLSpanElement>
-  ) => {
-    return <DrawerListPortal innerRef={ref} {...props} />
-  }
-)
+function DrawerListPortalWithRef({
+  ref,
+  ...props
+}: Omit<DrawerListPortalProps, 'innerRef'> & {
+  ref?: React.ForwardedRef<HTMLSpanElement>
+}) {
+  return <DrawerListPortal innerRef={ref} {...props} />
+}
+
+export default DrawerListPortalWithRef
