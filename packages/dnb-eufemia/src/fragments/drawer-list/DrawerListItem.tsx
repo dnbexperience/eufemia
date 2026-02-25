@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import React from 'react'
 import clsx from 'clsx'
 import { DrawerListDataArrayObject } from './DrawerList'
 
@@ -26,9 +26,10 @@ export type DrawerListItemProps = Omit<
   }) => void
 }
 
-export const DrawerListItem = forwardRef(function DrawerListItem(
-  props: DrawerListItemProps,
-  ref: React.ForwardedRef<HTMLLIElement>
+export function DrawerListItem(
+  props: DrawerListItemProps & {
+    ref?: React.ForwardedRef<HTMLLIElement>
+  }
 ) {
   const {
     onClick,
@@ -40,6 +41,7 @@ export const DrawerListItem = forwardRef(function DrawerListItem(
     active = null, // eslint-disable-line
     value = null, // eslint-disable-line
     disabled, // eslint-disable-line
+    ref,
     ...rest
   } = props
 
@@ -87,7 +89,7 @@ export const DrawerListItem = forwardRef(function DrawerListItem(
       </span>
     </li>
   )
-})
+}
 
 export type ItemContentChildren =
   | React.ReactNode

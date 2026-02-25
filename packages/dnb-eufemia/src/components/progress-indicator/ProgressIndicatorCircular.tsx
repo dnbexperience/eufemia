@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useEffect, useRef, forwardRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import * as CSS from 'csstype'
 import clsx from 'clsx'
 import { validateDOMAttributes } from '../../shared/component-helper'
@@ -190,18 +190,17 @@ function ProgressIndicatorCircular(
   )
 }
 
-const Circle = forwardRef(function Circle(
-  {
-    customColor,
-    customWidth,
-    className,
-    ...rest
-  }: React.HTMLProps<SVGSVGElement> & {
-    customColor?: CSS.Property.BackgroundColor
-    customWidth?: CSS.Property.StrokeWidth
-  },
-  ref: React.RefObject<SVGSVGElement>
-) {
+function Circle({
+  customColor,
+  customWidth,
+  className,
+  ref,
+  ...rest
+}: React.HTMLProps<SVGSVGElement> & {
+  customColor?: CSS.Property.BackgroundColor
+  customWidth?: CSS.Property.StrokeWidth
+  ref?: React.RefObject<SVGSVGElement>
+}) {
   const correctedCustomWidth = correctPercentageStrokeWidth(customWidth)
   return (
     <svg
@@ -228,7 +227,7 @@ const Circle = forwardRef(function Circle(
       />
     </svg>
   )
-})
+}
 /**
  *
  * @param progress number between 0-100
