@@ -756,7 +756,9 @@ describe('Autocomplete component', () => {
       })
     })
 
-    await wait(2)
+    await act(async () => {
+      await wait(2)
+    })
 
     const nodes = document.querySelectorAll('.dnb-sr-only')
 
@@ -772,7 +774,9 @@ describe('Autocomplete component', () => {
       })
     })
 
-    await wait(2)
+    await act(async () => {
+      await wait(2)
+    })
 
     const nodes1 = document.querySelectorAll('.dnb-sr-only')
     expect(nodes1[nodes1.length - 1].textContent).toBe('2 alternativer')
@@ -788,7 +792,9 @@ describe('Autocomplete component', () => {
       })
     })
 
-    await wait(2)
+    await act(async () => {
+      await wait(2)
+    })
 
     const nodes2 = document.querySelectorAll('.dnb-sr-only')
     expect(nodes2[nodes2.length - 1].textContent).toBe('3 alternativer')
@@ -803,7 +809,9 @@ describe('Autocomplete component', () => {
       })
     })
 
-    await wait(2)
+    await act(async () => {
+      await wait(2)
+    })
 
     const nodes3 = document.querySelectorAll('.dnb-sr-only')
     expect(nodes3[nodes3.length - 1].textContent).toBe(
@@ -1013,7 +1021,9 @@ describe('Autocomplete component', () => {
     await act(async () => {
       await keyDownOnInput('ArrowUp')
     })
-    await wait(10)
+    await act(async () => {
+      await wait(10)
+    })
 
     await waitFor(
       () => {
@@ -4906,6 +4916,13 @@ describe('Autocomplete component', () => {
 })
 
 describe('Autocomplete markup', () => {
+  afterEach(async () => {
+    // Flush AriaLive timers to avoid act warnings between tests
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 150))
+    })
+  })
+
   it('should validate with ARIA rules', async () => {
     const snapshotProps: AutocompleteAllProps = {
       label: 'Autocomplete Label:',
@@ -4921,6 +4938,11 @@ describe('Autocomplete markup', () => {
     const result = render(
       <Autocomplete {...snapshotProps} data={mockData} />
     )
+
+    // Flush AriaLive timers before axeComponent runs asynchronously
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 150))
+    })
 
     expect(await axeComponent(result)).toHaveNoViolations()
   })

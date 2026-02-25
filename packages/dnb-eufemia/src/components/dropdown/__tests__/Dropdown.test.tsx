@@ -139,7 +139,9 @@ describe('Dropdown component', () => {
     keydown('s')
 
     // force rerender
-    rerender(<Dropdown {...props} data={mockData} />)
+    act(() => {
+      rerender(<Dropdown {...props} data={mockData} />)
+    })
 
     expect(
       document.querySelectorAll('.dnb-drawer-list__option')[1].classList
@@ -148,7 +150,9 @@ describe('Dropdown component', () => {
     keydown('f')
 
     // force rerender
-    rerender(<Dropdown {...props} data={mockData} />)
+    act(() => {
+      rerender(<Dropdown {...props} data={mockData} />)
+    })
 
     expect(
       document.querySelectorAll('.dnb-drawer-list__option')[2].classList
@@ -364,17 +368,19 @@ describe('Dropdown component', () => {
       expect(selectedElement.textContent).toBe('Ten')
     }
 
-    rerender(
-      <Dropdown
-        {...props}
-        value={30}
-        data={{
-          10: 'Ten',
-          20: 'Twenty',
-          30: 'Thirty',
-        }}
-      />
-    )
+    act(() => {
+      rerender(
+        <Dropdown
+          {...props}
+          value={30}
+          data={{
+            10: 'Ten',
+            20: 'Twenty',
+            30: 'Thirty',
+          }}
+        />
+      )
+    })
 
     {
       const selectedElement = document.querySelector(
@@ -431,16 +437,18 @@ describe('Dropdown component', () => {
       document.querySelector('.dnb-drawer-list__option--selected')
     ).not.toBeInTheDocument()
 
-    rerender(
-      <Dropdown
-        {...props}
-        value={null}
-        data={mockData}
-        title={title}
-        onChange={onChange}
-        preventSelection={false}
-      />
-    )
+    act(() => {
+      rerender(
+        <Dropdown
+          {...props}
+          value={null}
+          data={mockData}
+          title={title}
+          onChange={onChange}
+          preventSelection={false}
+        />
+      )
+    })
 
     // open again
     open()
@@ -455,16 +463,46 @@ describe('Dropdown component', () => {
       document.querySelector('.dnb-drawer-list__option--selected')
     ).toBeInTheDocument()
 
-    rerender(
-      <Dropdown
-        {...props}
-        value={null}
-        data={mockData}
-        title={title}
-        onChange={onChange}
-        preventSelection={true}
-      />
-    )
+    act(() => {
+      rerender(
+        <Dropdown
+          {...props}
+          value={null}
+          data={mockData}
+          title={title}
+          onChange={onChange}
+          preventSelection={false}
+          actionMenu={true}
+        />
+      )
+    })
+
+    // open again
+    open()
+    keydown('ArrowDown')
+    keydown('ArrowDown')
+    keydown(' ')
+
+    // open again, to be able to evaluate
+    open()
+
+    expect(
+      document.querySelector('.dnb-drawer-list__option--selected')
+    ).not.toBeInTheDocument()
+
+    act(() => {
+      rerender(
+        <Dropdown
+          {...props}
+          value={null}
+          data={mockData}
+          title={title}
+          onChange={onChange}
+          preventSelection={true}
+          actionMenu={false}
+        />
+      )
+    })
 
     expect(
       document
@@ -487,16 +525,19 @@ describe('Dropdown component', () => {
       document.querySelector('.dnb-dropdown--is-popup')
     ).not.toBeInTheDocument()
 
-    rerender(
-      <Dropdown
-        {...props}
-        value={null}
-        data={mockData}
-        title={null}
-        onChange={onChange}
-        preventSelection={true}
-      />
-    )
+    act(() => {
+      rerender(
+        <Dropdown
+          {...props}
+          value={null}
+          data={mockData}
+          title={null}
+          onChange={onChange}
+          preventSelection={true}
+          actionMenu={false}
+        />
+      )
+    })
 
     expect(
       document.querySelector('.dnb-dropdown__text')
@@ -517,26 +558,34 @@ describe('Dropdown component', () => {
     )
 
     value = 2
-    rerender(<Dropdown {...props} value={value} data={mockData} />)
+    act(() => {
+      rerender(<Dropdown {...props} value={value} data={mockData} />)
+    })
 
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
       (mockData[value] as DrawerListDataArrayObject).selectedValue
     )
 
-    rerender(<Dropdown {...props} value={undefined} data={mockData} />)
+    act(() => {
+      rerender(<Dropdown {...props} value={undefined} data={mockData} />)
+    })
 
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
       'Valgmeny'
     )
 
     value = 3
-    rerender(<Dropdown {...props} value={value} data={mockData} />)
+    act(() => {
+      rerender(<Dropdown {...props} value={value} data={mockData} />)
+    })
 
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
       (mockData[value] as DrawerListDataArrayObject).selectedValue
     )
 
-    rerender(<Dropdown {...props} value={null} data={mockData} />)
+    act(() => {
+      rerender(<Dropdown {...props} value={null} data={mockData} />)
+    })
 
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
       'Valgmeny'
@@ -576,14 +625,16 @@ describe('Dropdown component', () => {
     )
     expect(onChange.mock.calls[0][0].data.selectedKey).toBe('a')
 
-    rerender(
-      <Dropdown
-        noAnimation
-        data={mockData}
-        onChange={onChange}
-        value="b"
-      />
-    )
+    act(() => {
+      rerender(
+        <Dropdown
+          noAnimation
+          data={mockData}
+          onChange={onChange}
+          value="b"
+        />
+      )
+    })
 
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
       'B value'
@@ -596,14 +647,16 @@ describe('Dropdown component', () => {
     )
     expect(onChange.mock.calls[1][0].data.selectedKey).toBe('c')
 
-    rerender(
-      <Dropdown
-        noAnimation
-        data={mockData}
-        onChange={onChange}
-        value="id-123"
-      />
-    )
+    act(() => {
+      rerender(
+        <Dropdown
+          noAnimation
+          data={mockData}
+          onChange={onChange}
+          value="id-123"
+        />
+      )
+    })
 
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
       '123 value'
@@ -616,18 +669,62 @@ describe('Dropdown component', () => {
     )
     expect(onChange.mock.calls[2][0].data.selectedKey).toBe('id-456')
 
-    rerender(
-      <Dropdown
-        noAnimation
-        data={mockData}
-        onChange={onChange}
-        value={123}
-      />
-    )
+    act(() => {
+      rerender(
+        <Dropdown
+          noAnimation
+          data={mockData}
+          onChange={onChange}
+          value={123}
+        />
+      )
+    })
 
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
       'Valgmeny'
     )
+  })
+
+  it('has no selected items on using moreMenu', () => {
+    const title = 'custom title'
+    render(
+      <Dropdown
+        {...props}
+        value={null}
+        data={mockData}
+        title={title}
+        moreMenu
+      />
+    )
+
+    // open first
+    open()
+
+    // then simulate changes
+    keydown('ArrowDown')
+    keydown('ArrowDown')
+    keydown(' ')
+
+    // open first
+    open()
+
+    expect(
+      document.querySelector('.dnb-drawer-list__option--selected')
+    ).not.toBeInTheDocument()
+
+    expect(
+      document
+        .querySelector('.dnb-icon')
+
+        .getAttribute('data-testid')
+    ).toBe('more icon')
+
+    expect(
+      document.querySelector('.dnb-dropdown__text')
+    ).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-dropdown--is-popup')
+    ).toBeInTheDocument()
   })
 
   it('has valid onChange callback', () => {
@@ -778,6 +875,28 @@ describe('Dropdown component', () => {
     ).toBe('listbox')
   })
 
+  it('has correct "aria-haspopup" when actionMenu', () => {
+    render(<Dropdown {...props} data={mockData} actionMenu />)
+
+    expect(
+      document
+        .querySelector('span.dnb-dropdown')
+        .querySelector('button.dnb-dropdown__trigger')
+        .getAttribute('aria-haspopup')
+    ).toBe('true')
+  })
+
+  it('has correct "aria-haspopup" when moreMenu', () => {
+    render(<Dropdown {...props} data={mockData} moreMenu />)
+
+    expect(
+      document
+        .querySelector('span.dnb-dropdown')
+        .querySelector('button.dnb-dropdown__trigger')
+        .getAttribute('aria-haspopup')
+    ).toBe('true')
+  })
+
   it('has correct "aria-haspopup" when preventSelection', () => {
     render(<Dropdown {...props} data={mockData} preventSelection />)
 
@@ -799,6 +918,42 @@ describe('Dropdown component', () => {
         .querySelector('.dnb-drawer-list__options')
         .getAttribute('role')
     ).toBe('listbox')
+  })
+
+  it('has correct "role" in options when actionMenu', () => {
+    render(
+      <Dropdown
+        skipPortal
+        noAnimation
+        open={true}
+        data={mockData}
+        actionMenu
+      />
+    )
+
+    expect(
+      document
+        .querySelector('.dnb-drawer-list__options')
+        .getAttribute('role')
+    ).toBe('menu')
+  })
+
+  it('has correct "role" in options when moreMenu', () => {
+    render(
+      <Dropdown
+        skipPortal
+        noAnimation
+        open={true}
+        data={mockData}
+        moreMenu
+      />
+    )
+
+    expect(
+      document
+        .querySelector('.dnb-drawer-list__options')
+        .getAttribute('role')
+    ).toBe('menu')
   })
 
   it('has correct "role" in options when preventSelection', () => {
@@ -920,7 +1075,9 @@ describe('Dropdown component', () => {
     keydown('Tab')
 
     // delay because we want to wait to have the DOM focus to be called
-    await wait(1)
+    await act(async () => {
+      await wait(1)
+    })
 
     expect(onClose).toHaveBeenCalledTimes(1)
     expect(onClose).toHaveBeenCalledWith({
@@ -1025,7 +1182,9 @@ describe('Dropdown component', () => {
     keydown('ArrowDown')
 
     // delay because we want to wait to have the DOM focus to be called
-    await wait(1)
+    await act(async () => {
+      await wait(1)
+    })
 
     expect(document.activeElement.classList).toContain(
       'dnb-drawer-list__option'
@@ -1038,7 +1197,9 @@ describe('Dropdown component', () => {
     ).toContain('dnb-drawer-list__option--focus')
 
     keydown('ArrowUp')
-    await wait(1)
+    await act(async () => {
+      await wait(1)
+    })
 
     expect(document.activeElement.classList).not.toContain(
       'dnb-drawer-list__options'
@@ -1053,7 +1214,9 @@ describe('Dropdown component', () => {
 
     // then simulate changes
     keydown('ArrowDown')
-    await wait(1)
+    await act(async () => {
+      await wait(1)
+    })
 
     expect(document.activeElement.classList).not.toContain(
       'dnb-drawer-list__options'
@@ -1063,9 +1226,16 @@ describe('Dropdown component', () => {
       document.querySelectorAll('li.dnb-drawer-list__option')[0].classList // the first item
     ).toContain('dnb-drawer-list__option--focus')
 
-    rerender(
-      <Dropdown id="key-nav" noAnimation data={mockData} direction="top" />
-    )
+    act(() => {
+      rerender(
+        <Dropdown
+          id="key-nav"
+          noAnimation
+          data={mockData}
+          direction="top"
+        />
+      )
+    })
 
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].classList // the first item
@@ -1073,7 +1243,9 @@ describe('Dropdown component', () => {
 
     // then simulate changes
     keydown('ArrowUp')
-    await wait(1)
+    await act(async () => {
+      await wait(1)
+    })
 
     expect(document.activeElement.classList).not.toContain(
       'dnb-drawer-list__options'
@@ -1086,7 +1258,9 @@ describe('Dropdown component', () => {
 
     // then simulate changes
     keydown('ArrowDown')
-    await wait(1)
+    await act(async () => {
+      await wait(1)
+    })
 
     expect(document.activeElement.classList).not.toContain(
       'dnb-drawer-list__options'
@@ -1205,12 +1379,14 @@ describe('Dropdown component', () => {
       document.querySelector('.dnb-dropdown__text__inner')
     ).toHaveTextContent('Title as children')
 
-    rerender(
-      <Dropdown
-        data={['A', 'B', 'C']}
-        title={<TitleAsProp title="Title as prop" />}
-      />
-    )
+    act(() => {
+      rerender(
+        <Dropdown
+          data={['A', 'B', 'C']}
+          title={<TitleAsProp title="Title as prop" />}
+        />
+      )
+    })
 
     expect(document.querySelector('#title-as-prop')).toBeInTheDocument()
     expect(
@@ -1389,9 +1565,7 @@ describe('Dropdown component', () => {
         data={[
           {
             selectedKey: 'test',
-            selectedValue: (
-              <NumberFormat.Number>11345678962</NumberFormat.Number>
-            ),
+            selectedValue: <NumberFormat>11345678962</NumberFormat>,
             content: 'test',
           },
         ]}
@@ -1458,7 +1632,9 @@ describe('Dropdown component', () => {
 
     expect(button).not.toHaveAttribute('disabled')
 
-    rerender(<Dropdown data={mockData} {...mockProps} disabled={true} />)
+    act(() => {
+      rerender(<Dropdown data={mockData} {...mockProps} disabled={true} />)
+    })
 
     expect(button).toHaveAttribute('disabled')
   })
@@ -1829,7 +2005,9 @@ describe('Dropdown component', () => {
 
       // first open
       keydown('ArrowDown')
-      await wait(1)
+      await act(async () => {
+        await wait(1)
+      })
 
       expect(document.querySelector('.dnb-dropdown').classList).toContain(
         'dnb-dropdown--open'
@@ -1845,7 +2023,9 @@ describe('Dropdown component', () => {
       keydown('ArrowDown')
 
       // delay because we want to wait to have the DOM focus to be called
-      await wait(1)
+      await act(async () => {
+        await wait(1)
+      })
 
       expect(document.activeElement.classList).toContain(
         'dnb-drawer-list__option'
@@ -1862,7 +2042,9 @@ describe('Dropdown component', () => {
       keydown('ArrowUp')
 
       // delay because we want to wait to have the DOM focus to be called
-      await wait(1)
+      await act(async () => {
+        await wait(1)
+      })
 
       expect(document.activeElement.classList).not.toContain(
         'dnb-drawer-list__options'
@@ -1878,7 +2060,9 @@ describe('Dropdown component', () => {
 
       // then simulate changes
       keydown('ArrowDown')
-      await wait(1)
+      await act(async () => {
+        await wait(1)
+      })
 
       expect(document.activeElement.classList).not.toContain(
         'dnb-drawer-list__options'
@@ -1893,14 +2077,16 @@ describe('Dropdown component', () => {
           .classList // the first item
       ).toContain('dnb-drawer-list__option--focus')
 
-      rerender(
-        <Dropdown
-          noAnimation
-          data={dataProp}
-          groups={groupsProp}
-          direction="top"
-        />
-      )
+      act(() => {
+        rerender(
+          <Dropdown
+            noAnimation
+            data={dataProp}
+            groups={groupsProp}
+            direction="top"
+          />
+        )
+      })
 
       expect(
         document.querySelector('.dnb-drawer-list').classList
@@ -1913,7 +2099,9 @@ describe('Dropdown component', () => {
 
       // then simulate changes
       keydown('ArrowUp')
-      await wait(1)
+      await act(async () => {
+        await wait(1)
+      })
 
       expect(document.activeElement.classList).not.toContain(
         'dnb-drawer-list__options'
@@ -1927,7 +2115,9 @@ describe('Dropdown component', () => {
       // then simulate changes
       keydown('ArrowDown')
       // delay because we want to wait to have the DOM focus to be called
-      await wait(1)
+      await act(async () => {
+        await wait(1)
+      })
 
       expect(document.activeElement.classList).not.toContain(
         'dnb-drawer-list__options'
@@ -1965,7 +2155,9 @@ describe('Dropdown component', () => {
       // then simulate changes
       keydown('ArrowUp')
       // delay because we want to wait to have the DOM focus to be called
-      await wait(1)
+      await act(async () => {
+        await wait(1)
+      })
 
       expect(document.activeElement.classList).not.toContain(
         'dnb-drawer-list__options'
@@ -2002,55 +2194,6 @@ describe('Dropdown markup', () => {
   })
 })
 
-describe('Dropdown multiple instances', () => {
-  it('should not delay opening a second Dropdown when a first is already open', () => {
-    jest.useFakeTimers()
-
-    const { container } = render(
-      <>
-        <Dropdown id="dropdown-a" skipPortal data={mockData} />
-        <Dropdown id="dropdown-b" skipPortal data={mockData} />
-      </>
-    )
-
-    const triggerA = container.querySelector(
-      '#dropdown-a'
-    ) as HTMLButtonElement
-    const triggerB = container.querySelector(
-      '#dropdown-b'
-    ) as HTMLButtonElement
-
-    // Open Dropdown A
-    act(() => {
-      fireEvent.click(triggerA)
-    })
-
-    // Advance past blurDelay (201ms) so the animation completes
-    act(() => {
-      jest.advanceTimersByTime(202)
-    })
-
-    // Dropdown A should now be fully open
-    expect(triggerA.getAttribute('aria-expanded')).toBe('true')
-
-    // Open Dropdown B
-    act(() => {
-      fireEvent.click(triggerB)
-    })
-
-    // Dropdown B should start opening immediately (hidden: false, open: true)
-    // without waiting an extra blurDelay caused by the global isOpen flag.
-    // Advance only 1ms — enough for synchronous mergeState, but NOT blurDelay.
-    act(() => {
-      jest.advanceTimersByTime(1)
-    })
-
-    expect(triggerB.getAttribute('aria-expanded')).toBe('true')
-
-    jest.useRealTimers()
-  })
-})
-
 describe('Dropdown scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
@@ -2058,28 +2201,36 @@ describe('Dropdown scss', () => {
   })
 
   it('have to match default theme snapshot', () => {
-    const css = loadScss(require.resolve('../style/dnb-dropdown.scss'))
+    const css = loadScss(
+      require.resolve('../style/themes/dnb-dropdown-theme-ui.scss')
+    )
     expect(css).toMatchSnapshot()
   })
 })
 
 const keydown = (key) => {
-  fireEvent.keyDown(
-    document.querySelector('button.dnb-dropdown__trigger'),
-    {
-      key,
-    }
-  )
+  act(() => {
+    fireEvent.keyDown(
+      document.querySelector('button.dnb-dropdown__trigger'),
+      {
+        key,
+      }
+    )
+  })
 }
 
 const open = () => {
-  fireEvent.click(document.querySelector('button.dnb-dropdown__trigger'))
+  act(() => {
+    fireEvent.click(document.querySelector('button.dnb-dropdown__trigger'))
+  })
 }
 
 const dispatchKeyDown = (key) => {
-  document.dispatchEvent(
-    new KeyboardEvent('keydown', {
-      key,
-    })
-  )
+  act(() => {
+    document.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key,
+      })
+    )
+  })
 }

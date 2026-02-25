@@ -1,3 +1,5 @@
+import { act } from '@testing-library/react'
+
 export function mockImplementationForDirectionObserver() {
   beforeAll(() => {
     window.resizeTo = function resizeTo({
@@ -52,7 +54,9 @@ export async function testDirectionObserver() {
   window.resizeTo({
     height: 640, // change innerHeight
   })
-  await wait(100)
+  await act(async () => {
+    await wait(100)
+  })
 
   expect(
     document.querySelector('.dnb-drawer-list--bottom')
@@ -66,7 +70,9 @@ export async function testDirectionObserver() {
   window.scrollTo({
     top: -640,
   })
-  await wait(100)
+  await act(async () => {
+    await wait(100)
+  })
 
   expect(
     document.querySelector('.dnb-drawer-list--top')

@@ -119,10 +119,12 @@ describe('useFieldProps', () => {
         })
       })
 
-      rerender({
-        onStatusChange,
-        warning: 'updated warning',
-        error: initialError,
+      act(() => {
+        rerender({
+          onStatusChange,
+          warning: 'updated warning',
+          error: initialError,
+        })
       })
 
       await waitFor(() => {
@@ -182,9 +184,11 @@ describe('useFieldProps', () => {
         })
       })
 
-      rerender({
-        onStatusChange,
-        info: 'updated info',
+      act(() => {
+        rerender({
+          onStatusChange,
+          info: 'updated info',
+        })
       })
 
       await waitFor(() => {
@@ -265,9 +269,11 @@ describe('useFieldProps', () => {
         })
       })
 
-      rerender({
-        onStatusChange,
-        error: undefined,
+      act(() => {
+        rerender({
+          onStatusChange,
+          error: undefined,
+        })
       })
 
       await waitFor(() => {
@@ -347,7 +353,9 @@ describe('useFieldProps', () => {
       })
 
       // Change to invalid value (empty when required)
-      rerender({ value: '' })
+      act(() => {
+        rerender({ value: '' })
+      })
 
       // Wait for validation to process and error to appear
       await waitFor(() => {
@@ -363,7 +371,9 @@ describe('useFieldProps', () => {
       onStatusChange.mockClear()
 
       // Change back to valid value
-      rerender({ value: 'valid again' })
+      act(() => {
+        rerender({ value: 'valid again' })
+      })
 
       // Wait for error to clear
       await waitFor(() => {
@@ -399,7 +409,9 @@ describe('useFieldProps', () => {
       })
 
       // Set error prop
-      rerender({ error: error1 })
+      act(() => {
+        rerender({ error: error1 })
+      })
 
       // Wait for onStatusChange to be called with error
       await waitFor(() => {
@@ -412,7 +424,9 @@ describe('useFieldProps', () => {
       })
 
       // Change to different error
-      rerender({ error: error2 })
+      act(() => {
+        rerender({ error: error2 })
+      })
 
       await waitFor(() => {
         expect(onStatusChange).toHaveBeenCalledTimes(2)
@@ -424,7 +438,9 @@ describe('useFieldProps', () => {
       })
 
       // Clear error
-      rerender({ error: undefined })
+      act(() => {
+        rerender({ error: undefined })
+      })
 
       await waitFor(() => {
         expect(onStatusChange).toHaveBeenCalledTimes(3)
@@ -461,7 +477,9 @@ describe('useFieldProps', () => {
       })
 
       // Change to valid value
-      rerender({ value: 'valid value' })
+      act(() => {
+        rerender({ value: 'valid value' })
+      })
 
       // Wait for validation to pass and hideError to be called
       await waitFor(() => {
@@ -470,7 +488,9 @@ describe('useFieldProps', () => {
       })
 
       // Change back to invalid value - error should appear again
-      rerender({ value: '' })
+      act(() => {
+        rerender({ value: '' })
+      })
 
       // Error should appear again
       // so that subsequent errors can be revealed correctly
@@ -479,7 +499,9 @@ describe('useFieldProps', () => {
       })
 
       // Change to valid again
-      rerender({ value: 'valid again' })
+      act(() => {
+        rerender({ value: 'valid again' })
+      })
 
       await waitFor(() => {
         expect(result.current.hasError).toBeFalsy()
@@ -735,7 +757,9 @@ describe('useFieldProps', () => {
         foo: givenValue,
       })
 
-      rerender({ path: '/foo', defaultValue: 'new value' })
+      act(() => {
+        rerender({ path: '/foo', defaultValue: 'new value' })
+      })
 
       expect(result.current.dataContext.data).toEqual({
         foo: givenValue,
@@ -757,7 +781,9 @@ describe('useFieldProps', () => {
 
       expect(result.current.value).toBe(defaultValue)
 
-      rerender({ defaultValue: changedValue })
+      act(() => {
+        rerender({ defaultValue: changedValue })
+      })
 
       expect(result.current.value).toBe(defaultValue)
     })
@@ -1058,11 +1084,13 @@ describe('useFieldProps', () => {
         expect(result.current.error).toBeUndefined()
       })
 
-      rerender({
-        value: 'invalid',
-        schema: {
-          type: 'string',
-        },
+      act(() => {
+        rerender({
+          value: 'invalid',
+          schema: {
+            type: 'string',
+          },
+        })
       })
 
       act(() => {
@@ -1260,7 +1288,9 @@ describe('useFieldProps', () => {
         'A formatted error message'
       )
 
-      rerender({ error: undefined })
+      act(() => {
+        rerender({ error: undefined })
+      })
 
       expect(
         document.querySelector('.dnb-form-status')
@@ -1291,7 +1321,9 @@ describe('useFieldProps', () => {
         'A formatted error message'
       )
 
-      rerender({ error: undefined })
+      act(() => {
+        rerender({ error: undefined })
+      })
 
       expect(
         document.querySelector('.dnb-form-status')
@@ -1325,7 +1357,9 @@ describe('useFieldProps', () => {
           `<ul class="dnb-ul"><li class="dnb-li">First <strong>formatted</strong> error message</li><li class="dnb-li">Second <strong>formatted</strong> error message</li></ul>`
       )
 
-      rerender({ error: undefined })
+      act(() => {
+        rerender({ error: undefined })
+      })
 
       expect(
         document.querySelector('.dnb-form-status')
@@ -1372,11 +1406,13 @@ describe('useFieldProps', () => {
           'Show this message'
         )
 
-        rerender({
-          ...props,
-          errorMessages: {
-            'Field.errorRequired': 'Update the message',
-          },
+        act(() => {
+          rerender({
+            ...props,
+            errorMessages: {
+              'Field.errorRequired': 'Update the message',
+            },
+          })
         })
 
         expect(getError(result.current.error).message).toBe(
@@ -1410,11 +1446,13 @@ describe('useFieldProps', () => {
           )
         })
 
-        rerender(
-          <Provider locale="en-GB">
-            <MockComponent />
-          </Provider>
-        )
+        act(() => {
+          rerender(
+            <Provider locale="en-GB">
+              <MockComponent />
+            </Provider>
+          )
+        })
 
         await waitFor(() => {
           expect(screen.getByTestId('error-message').textContent).toBe(
@@ -1455,7 +1493,9 @@ describe('useFieldProps', () => {
           document.querySelector('.dnb-form-status').textContent
         ).toBe('A formatted error message')
 
-        rerender({ error: undefined, errorMessages })
+        act(() => {
+          rerender({ error: undefined, errorMessages })
+        })
 
         expect(
           document.querySelector('.dnb-form-status')
@@ -1553,9 +1593,11 @@ describe('useFieldProps', () => {
 
         expect(result.current.error).toBeInstanceOf(Error)
 
-        rerender({
-          disabled: true,
-        } as any)
+        act(() => {
+          rerender({
+            disabled: true,
+          } as any)
+        })
 
         expect(result.current.error).toBeUndefined()
       })
@@ -1575,9 +1617,11 @@ describe('useFieldProps', () => {
 
         expect(result.current.error).toBeInstanceOf(Error)
 
-        rerender({
-          readOnly: true,
-        } as any)
+        act(() => {
+          rerender({
+            readOnly: true,
+          } as any)
+        })
 
         expect(result.current.error).toBeUndefined()
       })
@@ -1707,9 +1751,11 @@ describe('useFieldProps', () => {
 
       expect(result.current.fieldState).toBe(undefined)
 
-      rerender({
-        onChange,
-        value: '456',
+      act(() => {
+        rerender({
+          onChange,
+          value: '456',
+        })
       })
 
       expect(result.current.fieldState).toBe(undefined)
@@ -1927,10 +1973,12 @@ describe('useFieldProps', () => {
         expect(result.current.disabled).toBeUndefined()
       })
 
-      rerender({
-        onChange,
-        onChangeValidator: undefined,
-        onBlurValidator,
+      act(() => {
+        rerender({
+          onChange,
+          onChangeValidator: undefined,
+          onBlurValidator,
+        })
       })
 
       result.current.handleChange('789')
@@ -2857,26 +2905,34 @@ describe('useFieldProps', () => {
 
       expect(result.current.htmlAttributes).toEqual({})
 
-      rerender({ info: 'info' })
+      act(() => {
+        rerender({ info: 'info' })
+      })
 
       expect(result.current.htmlAttributes).toEqual({
         'aria-describedby': expect.stringMatching(/id-.*-form-status/),
       })
 
-      rerender({ warning: 'warning' })
+      act(() => {
+        rerender({ warning: 'warning' })
+      })
 
       expect(result.current.htmlAttributes).toEqual({
         'aria-describedby': expect.stringMatching(/id-.*-form-status/),
       })
 
-      rerender({ error: new Error('error') })
+      act(() => {
+        rerender({ error: new Error('error') })
+      })
 
       expect(result.current.htmlAttributes).toEqual({
         'aria-describedby': expect.stringMatching(/id-.*-form-status/),
         'aria-invalid': 'true',
       })
 
-      rerender({})
+      act(() => {
+        rerender({})
+      })
 
       expect(result.current.htmlAttributes).toEqual({})
     })
@@ -3496,11 +3552,13 @@ describe('useFieldProps', () => {
 
     expect(hasOuterError).toBeTruthy()
 
-    rerender(
-      <FieldBlock>
-        <MockComponent />
-      </FieldBlock>
-    )
+    act(() => {
+      rerender(
+        <FieldBlock>
+          <MockComponent />
+        </FieldBlock>
+      )
+    })
 
     expect(hasOuterError).toBeFalsy()
   })
@@ -3548,7 +3606,9 @@ describe('useFieldProps', () => {
 
     expect(result.current.autoComplete).toBe('on')
 
-    rerender({ autoComplete: 'something' })
+    act(() => {
+      rerender({ autoComplete: 'something' })
+    })
 
     expect(result.current.autoComplete).toBe('something')
   })
@@ -3618,10 +3678,12 @@ describe('useFieldProps', () => {
       { id: expect.any(String), props }
     )
 
-    rerender({
-      ...props,
-      value: 'new value',
-      emptyValue: 'new empty value',
+    act(() => {
+      rerender({
+        ...props,
+        value: 'new value',
+        emptyValue: 'new empty value',
+      })
     })
 
     expect(setFieldInternalsDataContext).toHaveBeenCalledTimes(3)
@@ -3694,7 +3756,9 @@ describe('useFieldProps', () => {
 
     const form = document.querySelector('form')
 
-    fireEvent.submit(form)
+    act(() => {
+      fireEvent.submit(form)
+    })
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenLastCalledWith(
       { foo: first },
@@ -3707,7 +3771,9 @@ describe('useFieldProps', () => {
       result.current.handleChange(second)
     })
 
-    fireEvent.submit(form)
+    act(() => {
+      fireEvent.submit(form)
+    })
     expect(onSubmit).toHaveBeenCalledTimes(2)
     expect(onSubmit).toHaveBeenLastCalledWith(
       { foo: second },
@@ -3719,7 +3785,9 @@ describe('useFieldProps', () => {
       result.current.handleChange(undefined)
     })
 
-    fireEvent.submit(form)
+    act(() => {
+      fireEvent.submit(form)
+    })
     expect(onSubmit).toHaveBeenCalledTimes(3)
     expect(onSubmit).toHaveBeenLastCalledWith(
       { foo: first },
@@ -3820,10 +3888,12 @@ describe('useFieldProps', () => {
         expect(result.current.error).toBeInstanceOf(Error)
       })
 
-      rerender({
-        onChangeValidator: () => undefined,
-        value: 'bar',
-        validateInitially: true,
+      act(() => {
+        rerender({
+          onChangeValidator: () => undefined,
+          value: 'bar',
+          validateInitially: true,
+        })
       })
 
       await waitFor(() => {
@@ -3872,9 +3942,11 @@ describe('useFieldProps', () => {
           expect(result.current.disabled).toBeUndefined()
         })
 
-        rerender({
-          onChangeValidator,
-          value: '456',
+        act(() => {
+          rerender({
+            onChangeValidator,
+            value: '456',
+          })
         })
 
         expect(result.current.fieldState).toBe('pending')
@@ -3954,12 +4026,14 @@ describe('useFieldProps', () => {
           expect(sharedResult.current.get().disabled).toBeUndefined()
         })
 
-        rerender({
-          onChangeValidator: validator,
-          onBlurValidator: undefined,
-          value: '456',
-          info: 'Info message changed',
-          warning: 'Warning message changed',
+        act(() => {
+          rerender({
+            onChangeValidator: validator,
+            onBlurValidator: undefined,
+            value: '456',
+            info: 'Info message changed',
+            warning: 'Warning message changed',
+          })
         })
 
         expect(sharedResult.current.get()).toEqual({
@@ -3986,12 +4060,14 @@ describe('useFieldProps', () => {
           expect(sharedResult.current.get().disabled).toBeUndefined()
         })
 
-        rerender({
-          onChangeValidator: undefined,
-          onBlurValidator: validator,
-          value: '456',
-          info: 'Info message changed',
-          warning: 'Warning message changed',
+        act(() => {
+          rerender({
+            onChangeValidator: undefined,
+            onBlurValidator: validator,
+            value: '456',
+            info: 'Info message changed',
+            warning: 'Warning message changed',
+          })
         })
 
         await validateBlur(result)
@@ -4051,9 +4127,11 @@ describe('useFieldProps', () => {
           expect(result.current.error).toBeInstanceOf(Error)
         })
 
-        rerender({
-          onChangeValidator,
-          value: '456',
+        act(() => {
+          rerender({
+            onChangeValidator,
+            value: '456',
+          })
         })
 
         expect(result.current.fieldState).toBe('pending')
@@ -4096,10 +4174,12 @@ describe('useFieldProps', () => {
           expect(result.current.error).toBeInstanceOf(Error)
         })
 
-        rerender({
-          onChangeValidator,
-          value: '456',
-          disabled: true,
+        act(() => {
+          rerender({
+            onChangeValidator,
+            value: '456',
+            disabled: true,
+          })
         })
 
         expect(result.current.fieldState).toBeUndefined()
@@ -4222,7 +4302,11 @@ describe('useFieldProps', () => {
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-        fireEvent.submit(document.querySelector('form'))
+        act(() => {
+          act(() => {
+            fireEvent.submit(document.querySelector('form'))
+          })
+        })
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -4261,7 +4345,11 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        fireEvent.submit(document.querySelector('form'))
+        act(() => {
+          act(() => {
+            fireEvent.submit(document.querySelector('form'))
+          })
+        })
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -4300,7 +4388,11 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        fireEvent.submit(document.querySelector('form'))
+        act(() => {
+          act(() => {
+            fireEvent.submit(document.querySelector('form'))
+          })
+        })
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -4343,7 +4435,11 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        fireEvent.submit(document.querySelector('form'))
+        act(() => {
+          act(() => {
+            fireEvent.submit(document.querySelector('form'))
+          })
+        })
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -4534,7 +4630,11 @@ describe('useFieldProps', () => {
           )
 
           // Show error message
-          fireEvent.submit(document.querySelector('form'))
+          act(() => {
+            act(() => {
+              fireEvent.submit(document.querySelector('form'))
+            })
+          })
 
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -4598,7 +4698,11 @@ describe('useFieldProps', () => {
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-        fireEvent.submit(document.querySelector('form'))
+        act(() => {
+          act(() => {
+            fireEvent.submit(document.querySelector('form'))
+          })
+        })
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -4642,8 +4746,11 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        fireEvent.submit(document.querySelector('form'))
-
+        act(() => {
+          act(() => {
+            fireEvent.submit(document.querySelector('form'))
+          })
+        })
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
@@ -4686,7 +4793,11 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        fireEvent.submit(document.querySelector('form'))
+        act(() => {
+          act(() => {
+            fireEvent.submit(document.querySelector('form'))
+          })
+        })
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -4734,7 +4845,11 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        fireEvent.submit(document.querySelector('form'))
+        act(() => {
+          act(() => {
+            fireEvent.submit(document.querySelector('form'))
+          })
+        })
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -4937,7 +5052,11 @@ describe('useFieldProps', () => {
           )
 
           // Show error message
-          fireEvent.submit(document.querySelector('form'))
+          act(() => {
+            act(() => {
+              fireEvent.submit(document.querySelector('form'))
+            })
+          })
 
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -5266,13 +5385,21 @@ describe('useFieldProps', () => {
         const input = document.querySelector('input')
 
         await userEvent.type(input, '123')
-        fireEvent.blur(input)
+        act(() => {
+          act(() => {
+            fireEvent.blur(input)
+          })
+        })
 
         expect(onBlurValidator).toHaveBeenCalledTimes(1)
         expect(document.querySelector('.dnb-form-status')).toBeNull()
 
         await userEvent.type(input, '4')
-        fireEvent.blur(input)
+        act(() => {
+          act(() => {
+            fireEvent.blur(input)
+          })
+        })
 
         expect(onBlurValidator).toHaveBeenCalledTimes(2)
         await waitFor(() => {
@@ -5312,12 +5439,20 @@ describe('useFieldProps', () => {
         const input = document.querySelector('input')
 
         await userEvent.type(input, '123')
-        fireEvent.blur(input)
+        act(() => {
+          act(() => {
+            fireEvent.blur(input)
+          })
+        })
 
         expect(document.querySelector('.dnb-form-status')).toBeNull()
 
         await userEvent.type(input, '4')
-        fireEvent.blur(input)
+        act(() => {
+          act(() => {
+            fireEvent.blur(input)
+          })
+        })
 
         expect(exportedValidator).toHaveBeenCalledTimes(2)
         expect(myValidator).toHaveBeenCalledTimes(2)
@@ -5328,7 +5463,11 @@ describe('useFieldProps', () => {
         })
 
         await userEvent.type(input, '{Backspace}4')
-        fireEvent.blur(input)
+        act(() => {
+          act(() => {
+            fireEvent.blur(input)
+          })
+        })
 
         expect(exportedValidator).toHaveBeenCalledTimes(3)
         expect(myValidator).toHaveBeenCalledTimes(3)
@@ -5369,12 +5508,20 @@ describe('useFieldProps', () => {
         const input = document.querySelector('input')
 
         await userEvent.type(input, '123')
-        fireEvent.blur(input)
+        act(() => {
+          act(() => {
+            fireEvent.blur(input)
+          })
+        })
 
         expect(document.querySelector('.dnb-form-status')).toBeNull()
 
         await userEvent.type(input, '4')
-        fireEvent.blur(input)
+        act(() => {
+          act(() => {
+            fireEvent.blur(input)
+          })
+        })
 
         expect(exportedValidator).toHaveBeenCalledTimes(1)
         expect(myValidator).toHaveBeenCalledTimes(4)
@@ -5385,7 +5532,11 @@ describe('useFieldProps', () => {
         })
 
         await userEvent.type(input, '{Backspace}4')
-        fireEvent.blur(input)
+        act(() => {
+          act(() => {
+            fireEvent.blur(input)
+          })
+        })
 
         expect(exportedValidator).toHaveBeenCalledTimes(2)
         expect(myValidator).toHaveBeenCalledTimes(6)
@@ -5738,7 +5889,11 @@ describe('useFieldProps', () => {
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-        fireEvent.submit(document.querySelector('form'))
+        act(() => {
+          act(() => {
+            fireEvent.submit(document.querySelector('form'))
+          })
+        })
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -5779,7 +5934,11 @@ describe('useFieldProps', () => {
 
         // Make a change to the input with the validator
         await userEvent.type(inputWithOnBlurValidator, '2')
-        fireEvent.blur(inputWithOnBlurValidator)
+        act(() => {
+          act(() => {
+            fireEvent.blur(inputWithOnBlurValidator)
+          })
+        })
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -5818,7 +5977,11 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        fireEvent.submit(document.querySelector('form'))
+        act(() => {
+          act(() => {
+            fireEvent.submit(document.querySelector('form'))
+          })
+        })
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -5858,7 +6021,11 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        fireEvent.submit(document.querySelector('form'))
+        act(() => {
+          act(() => {
+            fireEvent.submit(document.querySelector('form'))
+          })
+        })
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -6039,7 +6206,11 @@ describe('useFieldProps', () => {
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-        fireEvent.submit(document.querySelector('form'))
+        act(() => {
+          act(() => {
+            fireEvent.submit(document.querySelector('form'))
+          })
+        })
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -6086,7 +6257,11 @@ describe('useFieldProps', () => {
 
         // Make a change to the input with the validator
         await userEvent.type(inputWithOnBlurValidator, '2')
-        fireEvent.blur(inputWithOnBlurValidator)
+        act(() => {
+          act(() => {
+            fireEvent.blur(inputWithOnBlurValidator)
+          })
+        })
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -6131,7 +6306,11 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        fireEvent.submit(document.querySelector('form'))
+        act(() => {
+          act(() => {
+            fireEvent.submit(document.querySelector('form'))
+          })
+        })
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -6177,7 +6356,11 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        fireEvent.submit(document.querySelector('form'))
+        act(() => {
+          act(() => {
+            fireEvent.submit(document.querySelector('form'))
+          })
+        })
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -6393,7 +6576,11 @@ describe('useFieldProps', () => {
           </Form.Handler>
         )
 
-        fireEvent.submit(document.querySelector('form'))
+        act(() => {
+          act(() => {
+            fireEvent.submit(document.querySelector('form'))
+          })
+        })
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toHaveTextContent('foo')
@@ -6420,7 +6607,11 @@ describe('useFieldProps', () => {
           input,
           '{Backspace}bar' // remove one letter from bar, so the bar validator should return undefined
         )
-        fireEvent.blur(input)
+        act(() => {
+          act(() => {
+            fireEvent.blur(input)
+          })
+        })
         await waitFor(() => {
           // Here we should not see the bar validator called
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -6432,7 +6623,11 @@ describe('useFieldProps', () => {
         expect(internalValidators).toHaveBeenCalledTimes(0)
 
         await userEvent.type(input, ' baz')
-        fireEvent.blur(input)
+        act(() => {
+          act(() => {
+            fireEvent.blur(input)
+          })
+        })
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toHaveTextContent('baz')
@@ -6718,9 +6913,11 @@ describe('useFieldProps', () => {
         expect(result.current.error).toBeInstanceOf(Error)
       })
 
-      rerender({
-        onBlurValidator,
-        value: '456',
+      act(() => {
+        rerender({
+          onBlurValidator,
+          value: '456',
+        })
       })
 
       expect(result.current.fieldState).toBe('error')
@@ -6767,9 +6964,11 @@ describe('useFieldProps', () => {
         expect(result.current.disabled).toBeUndefined()
       })
 
-      rerender({
-        onBlurValidator,
-        value: '456',
+      act(() => {
+        rerender({
+          onBlurValidator,
+          value: '456',
+        })
       })
 
       expect(result.current.fieldState).toBe('complete')
@@ -7014,9 +7213,11 @@ describe('useFieldProps', () => {
         false
       )
 
-      rerender({
-        path: '/foo',
-        required: true,
+      act(() => {
+        rerender({
+          path: '/foo',
+          required: true,
+        })
       })
 
       revealError()
@@ -7100,7 +7301,11 @@ describe('useFieldProps', () => {
       expect(fieldBoundaryContextError).toBe(false)
       expect(hasInvalidStepsState()).toBe(false)
 
-      fireEvent.submit(document.querySelector('form'))
+      act(() => {
+        act(() => {
+          fireEvent.submit(document.querySelector('form'))
+        })
+      })
 
       expect(dataContextError).toBe(true)
       expect(fieldBoundaryContextError).toBe(true)
@@ -7299,7 +7504,9 @@ describe('useFieldProps', () => {
         isPreMounted: true,
       })
 
-      rerender({ path: '/bar' })
+      act(() => {
+        rerender({ path: '/bar' })
+      })
 
       expect(setMountedFieldState).toHaveBeenCalledTimes(5)
       expect(setMountedFieldState).toHaveBeenNthCalledWith(3, '/bar', {
