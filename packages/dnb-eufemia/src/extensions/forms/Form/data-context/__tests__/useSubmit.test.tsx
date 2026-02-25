@@ -27,6 +27,19 @@ describe('Form.useSubmit', () => {
     expect(typeof result.current.submit).toBe('function')
   })
 
+  it('should not throw when using an id that has never been mounted', async () => {
+    const { result } = renderHook(() => useSubmit('never-mounted-id'))
+
+    let submitPromise!: ReturnType<typeof result.current.submit>
+    expect(() => {
+      submitPromise = result.current.submit()
+    }).not.toThrow()
+
+    await expect(submitPromise).rejects.toThrow(
+      'Form.useSubmit needs to run inside Form.Handler or have a valid id'
+    )
+  })
+
   it('should trigger onSubmit when submit is called', async () => {
     const onSubmit = jest.fn()
 

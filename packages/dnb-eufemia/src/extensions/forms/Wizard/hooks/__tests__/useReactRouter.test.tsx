@@ -1,5 +1,5 @@
 import React, { createRef, useCallback, useReducer, useRef } from 'react'
-import { act, render } from '@testing-library/react'
+import { act, render, renderHook } from '@testing-library/react'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import useReactRouter from '../useReactRouter'
 import useStep from '../useStep'
@@ -86,6 +86,19 @@ describe('useReactRouter', () => {
     url.searchParams.set(`${identifier}-step`, String(index))
     window.history.pushState({}, '', url.toString())
   }
+
+  it('should not throw when using an id that has never been mounted', () => {
+    mockUrl()
+
+    const { useSearchParams } = getHookMock()
+    const { result } = renderHook(() =>
+      useReactRouter(identifier, { useSearchParams })
+    )
+
+    expect(() => {
+      result.current.getIndex()
+    }).not.toThrow()
+  })
 
   it('should update the URL query parameter on step change', async () => {
     mockUrl()

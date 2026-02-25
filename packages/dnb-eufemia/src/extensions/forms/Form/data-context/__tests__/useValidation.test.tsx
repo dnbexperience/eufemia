@@ -20,6 +20,17 @@ describe('useValidation', () => {
     identifier = makeUniqueId()
   })
 
+  it('should not throw when using an id that has never been mounted', () => {
+    const { result } = renderHook(() => useValidation(identifier))
+
+    expect(() => {
+      result.current.hasErrors()
+      result.current.hasFieldError('/foo')
+      result.current.setFormError(new Error('Error'))
+      result.current.setFieldStatus('/foo', { error: null })
+    }).not.toThrow()
+  })
+
   describe('hasErrors', () => {
     describe('with id', () => {
       it('should return false when no errors where present', () => {
