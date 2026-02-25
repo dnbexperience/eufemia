@@ -12,6 +12,6 @@ describe('UMD Web Elements package', () => {
   })
 
   it('has to have a Blockquote Component', () => {
-    expect(dnbElements.Blockquote).toBeType('object')
+    expect(dnbElements.Blockquote).toBeType('function')
   })
 })

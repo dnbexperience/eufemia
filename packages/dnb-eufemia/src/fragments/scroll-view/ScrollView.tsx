@@ -123,11 +123,12 @@ function useInteractive({ interactive, children, ref }) {
   }
 }
 
-const ScrollViewWithRef = React.forwardRef(
-  (props: ScrollViewAllProps, ref) => {
-    return <ScrollView {...props} innerRef={props.innerRef || ref} />
-  }
-)
+function ScrollViewWithRef({
+  ref,
+  ...props
+}: ScrollViewAllProps & { ref?: React.ForwardedRef<unknown> }) {
+  return <ScrollView {...props} innerRef={props.innerRef || ref} />
+}
 
 ScrollView._supportsSpacingProps = true
 ScrollViewWithRef['_supportsSpacingProps'] = true

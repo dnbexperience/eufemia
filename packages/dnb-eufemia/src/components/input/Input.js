@@ -763,9 +763,9 @@ class InputSubmitButton extends React.PureComponent {
   }
 }
 
-const SubmitButton = React.forwardRef((props, ref) => (
-  <InputSubmitButton innerRef={ref} {...props} />
-))
+function SubmitButton({ ref, ...props }) {
+  return <InputSubmitButton innerRef={ref} {...props} />
+}
 
 export { SubmitButton }
 

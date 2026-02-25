@@ -745,45 +745,41 @@ export type DrawerListOptionsProps = React.HTMLProps<HTMLUListElement> & {
 }
 // DrawerList List
 DrawerList.Options = React.memo(
-  React.forwardRef(
-    (
-      props: DrawerListOptionsProps,
-      ref: React.ForwardedRef<HTMLUListElement | HTMLSpanElement>
-    ) => {
-      const {
-        children,
-        className,
-        triangleRef,
-        cacheHash, // eslint-disable-line
-        showFocusRing = false,
-        hasGroups = false,
-        ...rest
-      } = props
-
-      return (
+  ({
+    children,
+    className,
+    triangleRef,
+    cacheHash, // eslint-disable-line
+    showFocusRing = false,
+    hasGroups = false,
+    ref,
+    ...rest
+  }: DrawerListOptionsProps & {
+    ref?: React.ForwardedRef<HTMLUListElement | HTMLSpanElement>
+  }) => {
+    return (
+      <E
+        internalClass={false}
+        as={hasGroups ? 'span' : 'ul'}
+        className={clsx(
+          'dnb-drawer-list__options',
+          showFocusRing && 'dnb-drawer-list__options--focusring',
+          className
+        )}
+        {...rest}
+        ref={ref}
+      >
+        {children}
         <E
           internalClass={false}
-          as={hasGroups ? 'span' : 'ul'}
-          className={clsx(
-            'dnb-drawer-list__options',
-            showFocusRing && 'dnb-drawer-list__options--focusring',
-            className
-          )}
-          {...rest}
-          ref={ref}
-        >
-          {children}
-          <E
-            internalClass={false}
-            as={hasGroups ? 'span' : 'li'}
-            className="dnb-drawer-list__arrow"
-            aria-hidden
-            ref={triangleRef}
-          />
-        </E>
-      )
-    }
-  ),
+          as={hasGroups ? 'span' : 'li'}
+          className="dnb-drawer-list__arrow"
+          aria-hidden
+          ref={triangleRef}
+        />
+      </E>
+    )
+  },
   (prevProps, nextProps) => {
     if (!prevProps.cacheHash) {
       return false
