@@ -35,30 +35,29 @@ describe('Wizard.Buttons', () => {
 
     await waitFor(() => {
       expect(output()).toHaveTextContent('Step 2')
+      expect(getButtons()).toHaveLength(2)
     })
-    expect(getButtons()).toHaveLength(2)
 
     await userEvent.click(getButtons()[1])
 
     await waitFor(() => {
       expect(output()).toHaveTextContent('Step 3')
+      expect(getButtons()).toHaveLength(1)
+      expect(getButtons()[0]).toHaveClass('dnb-forms-previous-button')
     })
-    expect(getButtons()).toHaveLength(1)
-    expect(getButtons()[0]).toHaveClass('dnb-forms-previous-button')
 
     await userEvent.click(getButtons()[0])
 
     await waitFor(() => {
       expect(output()).toHaveTextContent('Step 2')
     })
-    expect(getButtons()).toHaveLength(2)
 
     await userEvent.click(getButtons()[0])
 
     await waitFor(() => {
       expect(output()).toHaveTextContent('Step 1')
+      expect(getButtons()).toHaveLength(1)
+      expect(getButtons()[0]).toHaveClass('dnb-forms-next-button')
     })
-    expect(getButtons()).toHaveLength(1)
-    expect(getButtons()[0]).toHaveClass('dnb-forms-next-button')
   })
 })
