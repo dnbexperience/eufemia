@@ -4,7 +4,6 @@
  */
 
 import React, { Suspense } from 'react'
-import { createBrowserHistory } from 'history'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import Context from '@dnb/eufemia/src/shared/Context'
 import {
@@ -172,7 +171,6 @@ export const SkeletonInfoCustom = () => (
     hidePreview
     hideToolbar
     scope={{
-      createBrowserHistory,
       skeletonDOMAttributes,
       createSkeletonClass,
       Context,
