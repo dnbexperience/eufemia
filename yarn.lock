@@ -34615,8 +34615,8 @@ __metadata:
     "@emotion/react": 11.11.0
     "@emotion/styled": 11.11.0
     clsx: 2.1.1
-    react: 18.2.0
-    react-dom: 18.2.0
+    react: ^19
+    react-dom: ^19
   languageName: unknown
   linkType: soft
 
