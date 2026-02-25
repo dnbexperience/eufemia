@@ -237,13 +237,11 @@ describe('DateFormat', () => {
             })
           } else {
             await userEvent.hover(timeElem)
-
-            await waitFor(() => {
-              expect(
-                timeElem?.getAttribute('aria-describedby')
-              ).toBeTruthy()
-            })
           }
+
+          await waitFor(() => {
+            expect(timeElem?.getAttribute('aria-describedby')).toBeTruthy()
+          })
 
           const tooltipId = timeElem?.getAttribute('aria-describedby')
           const tooltipElem = document.body.querySelector('#' + tooltipId)
