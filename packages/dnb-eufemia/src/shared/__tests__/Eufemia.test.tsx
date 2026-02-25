@@ -45,15 +45,7 @@ describe('Eufemia', () => {
       expect(window.Eufemia).toBeDefined()
     })
 
-    it('should not initialize Eufemia when window is undefined', () => {
-      const originalWindow = global.window
-      delete global.window
-
-      init()
-      expect(global.window).toBeUndefined()
-
-      global.window = originalWindow
-    })
+    // SSR test (window undefined) is in Eufemia.ssr.test.ts using @jest-environment node
   })
 
   describe('Eufemia "versions" and "shas"', () => {
