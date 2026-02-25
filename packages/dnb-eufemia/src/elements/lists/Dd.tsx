@@ -12,8 +12,11 @@ export type DdProps = {
   children: React.ReactNode
 }
 
-const Dd = React.forwardRef((props: DdProps & SpacingProps, ref) => (
-  <E as="dd" innerRef={ref} {...props} />
-))
+function Dd({
+  ref,
+  ...props
+}: DdProps & SpacingProps & { ref?: React.Ref<HTMLElement> }) {
+  return <E as="dd" innerRef={ref} {...props} />
+}
 
 export default Dd

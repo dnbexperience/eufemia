@@ -21,16 +21,14 @@ type BlockquoteProps = SpacingProps &
     direction?: 'horizontal' | 'vertical'
   }
 
-const Blockquote = React.forwardRef(
-  (
-    {
-      noBackground,
-      direction = 'horizontal',
-      className,
-      ...props
-    }: BlockquoteProps,
-    ref
-  ) => (
+function Blockquote({
+  noBackground,
+  direction = 'horizontal',
+  className,
+  ref,
+  ...props
+}: BlockquoteProps & { ref?: React.Ref<HTMLQuoteElement> }) {
+  return (
     <E
       as="blockquote"
       skeletonMethod="font"
@@ -43,7 +41,7 @@ const Blockquote = React.forwardRef(
       {...props}
     />
   )
-)
+}
 
 // @ts-expect-error - Adding custom property to component for spacing detection
 Blockquote._supportsSpacingProps = true

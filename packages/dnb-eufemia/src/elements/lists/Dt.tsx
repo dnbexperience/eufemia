@@ -9,8 +9,11 @@ import E from '../Element'
 
 export type DtProps = React.AllHTMLAttributes<HTMLDListElement>
 
-const Dt = React.forwardRef((props: DtProps & SpacingProps, ref) => (
-  <E as="dt" innerRef={ref} {...props} />
-))
+function Dt({
+  ref,
+  ...props
+}: DtProps & SpacingProps & { ref?: React.Ref<HTMLDListElement> }) {
+  return <E as="dt" innerRef={ref} {...props} />
+}
 
 export default Dt

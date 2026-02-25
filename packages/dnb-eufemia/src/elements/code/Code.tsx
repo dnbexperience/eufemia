@@ -9,9 +9,12 @@ import E from '../Element'
 
 type CodeProps = SpacingProps & React.HTMLAttributes<HTMLElement>
 
-const Code = React.forwardRef((props: CodeProps, ref) => (
-  <E as="code" innerRef={ref} {...props} />
-))
+function Code({
+  ref,
+  ...props
+}: CodeProps & { ref?: React.Ref<HTMLElement> }) {
+  return <E as="code" innerRef={ref} {...props} />
+}
 
 // @ts-expect-error - Adding custom property to component for spacing detection
 Code._supportsSpacingProps = true

@@ -98,7 +98,7 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
         id={`${id}-content`}
         element={
           contentStyle
-            ? React.forwardRef((props, ref) => {
+            ? ({ ref, ...props }) => {
                 return (
                   <Section
                     spacing={contentStyle ? false : undefined}
@@ -107,7 +107,7 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
                     {...props}
                   />
                 )
-              })
+              }
             : 'div'
         }
         className={clsx(

@@ -235,11 +235,12 @@ export function AnchorInstance(localProps: AnchorAllProps) {
   )
 }
 
-const Anchor = React.forwardRef(
-  (props: AnchorAllProps, ref: React.RefObject<HTMLAnchorElement>) => {
-    return <AnchorInstance innerRef={ref} {...props} />
-  }
-)
+function Anchor({
+  ref,
+  ...props
+}: AnchorAllProps & { ref?: React.RefObject<HTMLAnchorElement> }) {
+  return <AnchorInstance innerRef={ref} {...props} />
+}
 
 // @ts-expect-error - Adding custom property to component for spacing detection
 Anchor._supportsSpacingProps = true
