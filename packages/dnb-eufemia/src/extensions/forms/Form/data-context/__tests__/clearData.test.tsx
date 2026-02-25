@@ -4,6 +4,12 @@ import userEvent from '@testing-library/user-event'
 import { Field, Form } from '../../..'
 
 describe('Form.clearData', () => {
+  it('should not throw when clearing an id that has never been mounted', () => {
+    expect(() => {
+      act(() => Form.clearData('never-mounted-id'))
+    }).not.toThrow()
+  })
+
   it('should clear a form with an id', () => {
     render(
       <Form.Handler id="unique-id" data={{ myString: 'my string' }}>

@@ -9,5 +9,5 @@ export default function clearData(id: SharedStateId) {
   const sharedAttachments = createSharedState<SharedAttachments<unknown>>(
     createReferenceKey(id, 'attachments')
   )
-  sharedAttachments.data.clearData?.()
+  sharedAttachments.data?.clearData?.()
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, waitFor } from '@testing-library/react'
+import { render, renderHook, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import useStep from '../useStep'
@@ -20,6 +20,16 @@ describe('useStep', () => {
   beforeEach(() => {
     identifier = makeUniqueId()
   })
+
+  it('should not throw when using an id that has never been mounted', () => {
+    const { result } = renderHook(() => useStep(identifier))
+
+    expect(() => {
+      result.current.setFormError?.(new Error('Error'))
+      result.current.setActiveIndex?.(1)
+    }).not.toThrow()
+  })
+
   const nextButton = () => {
     return document.querySelector('.dnb-forms-next-button')
   }
