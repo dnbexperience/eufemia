@@ -11,7 +11,7 @@
 
 - Write code in logical blocks.
 - Keep blank lines between logical blocks to ensure better readability.
-- Follow existing Prettier and ESLint configurations.
+- Follow existing Prettier and ESLint configurations, and run them on files after making changes.
 - Use TypeScript for type safety.
 - Use React Hooks over class components.
 - Use camelCase for functions and variables.
