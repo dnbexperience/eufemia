@@ -178,9 +178,7 @@ export const StepIndicatorRouter = () => (
 
         React.useEffect(() => {
           const step =
-            parseFloat(
-              window.location.search?.replace(/[?]/, '')
-            ) || 1
+            parseFloat(window.location.search?.replace(/[?]/, '')) || 1
           setCurrentStep(step)
         }, [])
 
