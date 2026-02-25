@@ -13,12 +13,9 @@ function Div({
   ref,
   ...props
 }: DivProps & { ref?: React.Ref<HTMLElement> }) {
-  return (
-    <E as="div" skeletonMethod="shape" innerRef={ref} {...props} />
-  )
+  return <E as="div" skeletonMethod="shape" innerRef={ref} {...props} />
 }
 
-// @ts-expect-error - Adding custom property to component for spacing detection
 Div._supportsSpacingProps = true
 
 export default Div

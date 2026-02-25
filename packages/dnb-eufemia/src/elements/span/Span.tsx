@@ -15,7 +15,6 @@ function Span({
   return <Typography element="span" innerRef={ref} {...props} />
 }
 
-// @ts-expect-error - Adding custom property to component for spacing detection
 Span._supportsSpacingProps = true
 
 export default Span

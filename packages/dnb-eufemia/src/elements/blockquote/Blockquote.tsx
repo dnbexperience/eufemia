@@ -43,7 +43,6 @@ function Blockquote({
   )
 }
 
-// @ts-expect-error - Adding custom property to component for spacing detection
 Blockquote._supportsSpacingProps = true
 
 export default Blockquote

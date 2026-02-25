@@ -242,7 +242,6 @@ function Anchor({
   return <AnchorInstance innerRef={ref} {...props} />
 }
 
-// @ts-expect-error - Adding custom property to component for spacing detection
 Anchor._supportsSpacingProps = true
 
 export default Anchor
