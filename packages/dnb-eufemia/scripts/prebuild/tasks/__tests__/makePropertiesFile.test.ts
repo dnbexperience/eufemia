@@ -1,20 +1,27 @@
 import { convertVariablesToTailwindFormat } from '../tailwindTransform'
 
+import makePropertiesFile, {
+  extractReferencedCssVariables,
+  transformFigmaAlias,
+  transformFigmaValue,
+  transformFigmaPath,
+  transformNamespace,
+} from '../makePropertiesFile'
+
 describe('makePropertiesFile', () => {
   const global = {
     ui: null,
     sbanken: null,
+    uiTokens: null,
+    sbankenTokens: null,
+    carnegieTokens: null,
+    uiFoundation: null,
+    sbankenFoundation: null,
+    carnegieFoundation: null,
   }
 
   beforeAll(async () => {
-    const { execSync } = await import('child_process')
-    execSync(
-      'babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/tasks/makePropertiesFile.ts',
-      {
-        cwd: process.cwd(),
-        stdio: 'pipe',
-      }
-    )
+    await makePropertiesFile()
 
     const fs = await import('fs')
     const path = await import('path')
@@ -27,6 +34,254 @@ describe('makePropertiesFile', () => {
       path.resolve('src/style/themes/sbanken/properties.js'),
       'utf-8'
     )
+
+    global.uiTokens = fs.readFileSync(
+      path.resolve('src/style/themes/ui/tokens.scss'),
+      'utf-8'
+    )
+    global.uiFoundation = fs.readFileSync(
+      path.resolve('src/style/themes/ui/foundation.scss'),
+      'utf-8'
+    )
+    global.sbankenTokens = fs.readFileSync(
+      path.resolve('src/style/themes/sbanken/tokens.scss'),
+      'utf-8'
+    )
+    global.sbankenFoundation = fs.readFileSync(
+      path.resolve('src/style/themes/sbanken/foundation.scss'),
+      'utf-8'
+    )
+    global.carnegieTokens = fs.readFileSync(
+      path.resolve('src/style/themes/carnegie/tokens.scss'),
+      'utf-8'
+    )
+    global.carnegieFoundation = fs.readFileSync(
+      path.resolve('src/style/themes/carnegie/foundation.scss'),
+      'utf-8'
+    )
+  })
+  describe('Tokens snapshots for', () => {
+    it('ui', () => {
+      expect(global.uiTokens).toMatchSnapshot()
+      expect(global.uiFoundation).toMatchSnapshot()
+    })
+
+    it('sbanken', () => {
+      expect(global.sbankenTokens).toMatchSnapshot()
+      expect(global.sbankenFoundation).toMatchSnapshot()
+    })
+
+    it('carnegie', () => {
+      expect(global.carnegieTokens).toMatchSnapshot()
+      expect(global.carnegieFoundation).toMatchSnapshot()
+    })
+  })
+
+  describe('Figma file generation', () => {
+    describe('extractReferencedCssVariables', () => {
+      it('extracts css variables from var() usage', () => {
+        const result = extractReferencedCssVariables(`
+          --token-color-primary: var(--dnb-coldgreen-600);
+          --token-color-secondary: var(--dnb-greyscale-100);
+          --token-color-tertiary: var( --dnb-green-700 );
+        `)
+
+        expect(Array.from(result)).toEqual([
+          '--dnb-coldgreen-600',
+          '--dnb-greyscale-100',
+          '--dnb-green-700',
+        ])
+      })
+    })
+
+    describe('transformFigmaAlias', () => {
+      it('generates css var', () => {
+        const val = {
+          targetVariableName: 'dnb/ColdGreen/600',
+          targetVariableSetId:
+            'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080',
+          targetVariableSetName: 'colors',
+        }
+
+        const result = transformFigmaAlias(val)
+        expect(result).toEqual('var(--dnb-coldgreen-600)')
+      })
+
+      it('transforms prefix', () => {
+        const val = {
+          targetVariableName: 'dnbcarnegie/ColdGreen/600',
+          targetVariableSetId:
+            'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080',
+          targetVariableSetName: 'colors',
+        }
+
+        const result = transformFigmaAlias(val)
+        expect(result).toEqual('var(--carnegie-coldgreen-600)')
+      })
+
+      it('error on unsupported variable set', () => {
+        const val = {
+          targetVariableName: 'dnb/ColdGreen/600',
+          targetVariableSetId: 'VariableCollectionId:nonsense/5552:1080',
+          targetVariableSetName: 'nonsense',
+        }
+
+        expect(() => transformFigmaAlias(val)).toThrow()
+      })
+
+      it('error on unsupported theme prefix set', () => {
+        const val = {
+          targetVariableName: 'nonsense/ColdGreen/600',
+          targetVariableSetId:
+            'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080',
+          targetVariableSetName: 'colors',
+        }
+
+        expect(() => transformFigmaAlias(val)).toThrow()
+      })
+    })
+
+    describe('transformFigmaValue', () => {
+      it('generates alias', () => {
+        const val = {
+          $type: 'color' as const,
+          $value: {
+            alpha: 1,
+            hex: '#007272',
+          },
+          $extensions: {
+            'com.figma.aliasData': {
+              targetVariableName: 'dnb/ColdGreen/600',
+              targetVariableSetId:
+                'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080',
+              targetVariableSetName: 'colors',
+            },
+          },
+        }
+
+        const result = transformFigmaValue(val)
+        expect(result).toEqual('var(--dnb-coldgreen-600)')
+      })
+
+      it('generates color hex', () => {
+        const val = {
+          $type: 'color' as const,
+          $value: {
+            alpha: 1,
+            hex: '#007272',
+          },
+        }
+
+        const result = transformFigmaValue(val)
+        expect(result).toEqual('#007272')
+      })
+
+      it('rounds color alpha', () => {
+        const val = {
+          $type: 'color' as const,
+          $value: {
+            alpha: 0.47999998927116394,
+            hex: '#007272',
+          },
+        }
+
+        const result = transformFigmaValue(val)
+        expect(result).toEqual('rgba(0 114 114 / 0.48)')
+      })
+
+      it('rounds alpha to 6 decimals', () => {
+        const val = {
+          $type: 'color' as const,
+          $value: {
+            alpha: 0.0123456,
+            hex: '#007272',
+          },
+        }
+
+        const result = transformFigmaValue(val)
+        expect(result).toEqual('rgba(0 114 114 / 0.012346)')
+      })
+
+      it('removes trailing zeroes in alpha', () => {
+        const val = {
+          $type: 'color' as const,
+          $value: {
+            alpha: 0.06250001,
+            hex: '#007272',
+          },
+        }
+
+        const result = transformFigmaValue(val)
+        expect(result).toEqual('rgba(0 114 114 / 0.0625)')
+      })
+
+      it('throw error on bad hex string', () => {
+        const val = {
+          $type: 'color' as const,
+          $value: {
+            alpha: 0.06250001,
+            hex: '#fff',
+          },
+        }
+        expect(() => transformFigmaValue(val)).toThrow()
+      })
+
+      it('throw error on unknown type', () => {
+        const val = {
+          $type: 'nonsense',
+          $value: 'Medium',
+        }
+        // @ts-expect-error: we are testing a bad value
+        expect(() => transformFigmaValue(val)).toThrow()
+      })
+
+      it('skip string and number', () => {
+        expect(
+          transformFigmaValue({
+            $type: 'string',
+            $value: 'Medium',
+          })
+        ).toBeUndefined()
+
+        expect(
+          transformFigmaValue({
+            $type: 'number',
+            $value: 42,
+          })
+        ).toBeUndefined()
+      })
+    })
+
+    describe('transformFigmaPath', () => {
+      it('transforms normally', () => {
+        const result = transformFigmaPath(['Colors', 'Primary', 'Dark'])
+        expect(result).toEqual('colors-primary-dark')
+      })
+
+      it('error on unsupported characters', () => {
+        let err
+        try {
+          transformFigmaPath(['Colo*rs', 'Pri ma?ry', 'Da(rk'])
+        } catch (e) {
+          err = e
+        }
+        expect(err.message).toEqual(
+          `Unsupported characters [ '*', ' ', '?', '(' ] in variable: "Colo*rs/Pri ma?ry/Da(rk"`
+        )
+      })
+    })
+
+    describe('transformNamespace', () => {
+      it('transforms normally', () => {
+        const result = transformNamespace('token')
+        expect(result).toEqual('--token-')
+      })
+
+      it('transforms undefined', () => {
+        const result = transformNamespace(undefined)
+        expect(result).toEqual('--')
+      })
+    })
   })
 
   describe('Properties for ui', () => {
@@ -96,16 +351,7 @@ describe('makePropertiesFile', () => {
     let uiTailwindResult, sbankenTailwindResult, eiendomTailwindResult
 
     beforeAll(async () => {
-      // Generate the Tailwind CSS files by running the actual make-properties script
-      // This will create the properties-tailwind.css files
-      const { execSync } = await import('child_process')
-      execSync(
-        'babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/tasks/makePropertiesFile.ts',
-        {
-          cwd: process.cwd(),
-          stdio: 'pipe',
-        }
-      )
+      await makePropertiesFile()
 
       // Read the generated files
       const fs = await import('fs')
@@ -198,6 +444,55 @@ describe('makePropertiesFile', () => {
         expect(sbankenTailwindResult).not.toMatch(/var\(--sb-[a-zA-Z-]+\)/)
         expect(eiendomTailwindResult).not.toMatch(/var\(--sb-[a-zA-Z-]+\)/)
       })
+    })
+  })
+
+  describe('Foundation only contains referenced variables', () => {
+    it('includes only variables used by tokens for ui', () => {
+      const tokenVariables = extractReferencedCssVariables(global.uiTokens)
+      const foundationVariables = new Set(
+        [...global.uiFoundation.matchAll(/^\s*(--[a-z0-9-]+)\s*:/gim)].map(
+          (match) => match[1]
+        )
+      )
+
+      for (const variable of Array.from(foundationVariables)) {
+        expect(tokenVariables.has(variable)).toBe(true)
+      }
+    })
+
+    it('includes only variables used by tokens for sbanken', () => {
+      const tokenVariables = extractReferencedCssVariables(
+        global.sbankenTokens
+      )
+      const foundationVariables = new Set(
+        [
+          ...global.sbankenFoundation.matchAll(
+            /^\s*(--[a-z0-9-]+)\s*:/gim
+          ),
+        ].map((match) => match[1])
+      )
+
+      for (const variable of Array.from(foundationVariables)) {
+        expect(tokenVariables.has(variable)).toBe(true)
+      }
+    })
+
+    it('includes only variables used by tokens for carnegie', () => {
+      const tokenVariables = extractReferencedCssVariables(
+        global.carnegieTokens
+      )
+      const foundationVariables = new Set(
+        [
+          ...global.carnegieFoundation.matchAll(
+            /^\s*(--[a-z0-9-]+)\s*:/gim
+          ),
+        ].map((match) => match[1])
+      )
+
+      for (const variable of Array.from(foundationVariables)) {
+        expect(tokenVariables.has(variable)).toBe(true)
+      }
     })
   })
 })
