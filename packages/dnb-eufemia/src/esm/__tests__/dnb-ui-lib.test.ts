@@ -11,6 +11,6 @@ describe('ESM main library package', () => {
     expect(Button).toBeType('function')
   })
   it('has to have a Anchor Element', () => {
-    expect(Anchor).toBeType('object')
+    expect(Anchor).toBeType('function')
   })
 })
