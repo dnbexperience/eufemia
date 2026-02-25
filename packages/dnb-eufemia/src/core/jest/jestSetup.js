@@ -23,7 +23,7 @@ export const loadScss = (file, options = {}) => {
       loadPaths: [importPath1, importPath2],
       sourceMap: false,
       // TODO: Remove silenceDeprecations before v11 release and migrate to Sass module system (@use/@forward)
-      silenceDeprecations: ['import', 'global-builtin'],
+      silenceDeprecations: ['import'],
       ...options,
     })
 

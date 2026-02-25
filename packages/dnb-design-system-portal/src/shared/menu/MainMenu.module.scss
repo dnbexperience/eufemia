@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 @import '@dnb/eufemia/src/style/core/utilities.scss';
 
 .navStyle {
@@ -5,7 +7,7 @@
   align-items: center;
   justify-content: center;
 
-  @media screen and (max-width: map-get($breakpoints, small)),
+  @media screen and (max-width: map.get($breakpoints, small)),
     (max-height: 55em) {
     height: auto;
   }
