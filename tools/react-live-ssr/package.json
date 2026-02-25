@@ -11,8 +11,7 @@
   "module": "dist/index.mjs",
   "dependencies": {
     "prism-react-renderer": "2.0.5",
-    "sucrase": "3.31.0",
-    "use-editable": "2.3.3"
+    "sucrase": "3.31.0"
   },
   "volta": {
     "extends": "../../package.json"
