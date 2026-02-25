@@ -79,7 +79,7 @@ describe('DataContext.Provider', () => {
   })
 
   describe('props', () => {
-    it('should provide value from defaultData but ignore changes', () => {
+    it('should provide value from defaultData but ignore changes', async () => {
       const { rerender } = render(
         <DataContext.Provider defaultData={{ foo: 'original' }}>
           <Field.String path="/foo" />
@@ -90,7 +90,7 @@ describe('DataContext.Provider', () => {
 
       expect(input).toHaveValue('original')
 
-      act(() => {
+      await act(async () => {
         rerender(
           <DataContext.Provider defaultData={{ foo: 'changed' }}>
             <Field.String path="/foo" />
@@ -114,7 +114,7 @@ describe('DataContext.Provider', () => {
 
       expect(input).toHaveValue('')
 
-      act(() => {
+      await act(async () => {
         fireEvent.submit(document.querySelector('form'))
       })
 
@@ -130,7 +130,7 @@ describe('DataContext.Provider', () => {
 
       expect(input).toHaveValue('value')
 
-      act(() => {
+      await act(async () => {
         fireEvent.submit(document.querySelector('form'))
       })
 
@@ -142,7 +142,7 @@ describe('DataContext.Provider', () => {
       expect(Object.keys(onSubmit.mock.calls[1][0])).toHaveLength(1)
     })
 
-    it('should provide value from data and update based on changes', () => {
+    it('should provide value from data and update based on changes', async () => {
       const { rerender } = render(
         <DataContext.Provider data={{ foo: 'original' }}>
           <Field.String path="/foo" />
@@ -153,7 +153,7 @@ describe('DataContext.Provider', () => {
 
       expect(input).toHaveValue('original')
 
-      act(() => {
+      await act(async () => {
         rerender(
           <DataContext.Provider data={{ foo: 'changed' }}>
             <Field.String path="/foo" />
@@ -164,7 +164,7 @@ describe('DataContext.Provider', () => {
       expect(input).toHaveValue('changed')
     })
 
-    it('should handle path change', () => {
+    it('should handle path change', async () => {
       const { rerender } = render(
         <DataContext.Provider data={{ foo: 'original' }}>
           <Field.String path="/foo" />
@@ -175,7 +175,7 @@ describe('DataContext.Provider', () => {
 
       expect(input).toHaveValue('original')
 
-      act(() => {
+      await act(async () => {
         rerender(
           <DataContext.Provider data={{ fooBar: 'changed' }}>
             <Field.String path="/fooBar" />
@@ -186,7 +186,7 @@ describe('DataContext.Provider', () => {
       expect(input).toHaveValue('changed')
     })
 
-    it('should call "onChange" on internal value change', () => {
+    it('should call "onChange" on internal value change', async () => {
       const onChange = jest.fn()
 
       const { rerender } = render(
@@ -200,7 +200,7 @@ describe('DataContext.Provider', () => {
 
       const element = document.querySelector('input')
 
-      act(() => {
+      await act(async () => {
         fireEvent.change(element, {
           target: { value: 'New Value' },
         })
@@ -212,7 +212,7 @@ describe('DataContext.Provider', () => {
         expect.anything()
       )
 
-      act(() => {
+      await act(async () => {
         rerender(
           <DataContext.Provider
             data={{ fooBar: 'changed-value' }}
@@ -223,7 +223,7 @@ describe('DataContext.Provider', () => {
         )
       })
 
-      act(() => {
+      await act(async () => {
         fireEvent.change(element, {
           target: { value: 'Second Value' },
         })
@@ -264,7 +264,7 @@ describe('DataContext.Provider', () => {
         expect.anything()
       )
 
-      act(() => {
+      await act(async () => {
         fireEvent.change(element, {
           target: { value: 'New Value' },
         })
@@ -281,7 +281,7 @@ describe('DataContext.Provider', () => {
       )
     })
 
-    it('should work without any data provided, using an empty object as default when pointing to an object subkey', () => {
+    it('should work without any data provided, using an empty object as default when pointing to an object subkey', async () => {
       const onChange = jest.fn()
 
       render(
@@ -292,7 +292,7 @@ describe('DataContext.Provider', () => {
 
       const element = document.querySelector('input')
 
-      act(() => {
+      await act(async () => {
         fireEvent.change(element, {
           target: { value: 'New Value' },
         })
@@ -305,7 +305,7 @@ describe('DataContext.Provider', () => {
       )
     })
 
-    it('should work without any data provided, using an empty array as default when pointing to an array index subkey', () => {
+    it('should work without any data provided, using an empty array as default when pointing to an array index subkey', async () => {
       const onChange = jest.fn()
 
       render(
@@ -316,7 +316,7 @@ describe('DataContext.Provider', () => {
 
       const element = document.querySelector('input')
 
-      act(() => {
+      await act(async () => {
         fireEvent.change(element, {
           target: { value: 'New Value' },
         })
@@ -329,7 +329,7 @@ describe('DataContext.Provider', () => {
       )
     })
 
-    it('should call async "onPathChange" on path change', () => {
+    it('should call async "onPathChange" on path change', async () => {
       const onPathChange = jest.fn(async () => null)
 
       const { rerender } = render(
@@ -343,7 +343,7 @@ describe('DataContext.Provider', () => {
 
       const element = document.querySelector('input')
 
-      act(() => {
+      await act(async () => {
         fireEvent.change(element, {
           target: { value: 'New Value' },
         })
@@ -352,7 +352,7 @@ describe('DataContext.Provider', () => {
       expect(onPathChange).toHaveBeenCalledTimes(1)
       expect(onPathChange).toHaveBeenLastCalledWith('/foo', 'New Value')
 
-      act(() => {
+      await act(async () => {
         rerender(
           <DataContext.Provider
             data={{ fooBar: 'changed' }}
@@ -363,7 +363,7 @@ describe('DataContext.Provider', () => {
         )
       })
 
-      act(() => {
+      await act(async () => {
         fireEvent.change(element, {
           target: { value: 'Second Value' },
         })
@@ -375,7 +375,7 @@ describe('DataContext.Provider', () => {
         'Second Value'
       )
 
-      act(() => {
+      await act(async () => {
         fireEvent.change(element, {
           target: { value: '' },
         })
@@ -411,7 +411,7 @@ describe('DataContext.Provider', () => {
 
         await userEvent.type(element, '{Backspace>3}')
 
-        act(() => {
+        await act(async () => {
           rerender(
             <DataContext.Provider onChange={onChangeSync}>
               <Field.String path="/foo" required minLength={3} />
@@ -500,7 +500,7 @@ describe('DataContext.Provider', () => {
           error: undefined,
         })
 
-        act(() => {
+        await act(async () => {
           rerender(
             <DataContext.Provider onSubmit={onSubmit}>
               <Field.String path="/foo" value="Skip this value" disabled />
@@ -617,7 +617,7 @@ describe('DataContext.Provider', () => {
           error: undefined,
         })
 
-        act(() => {
+        await act(async () => {
           rerender(
             <DataContext.Provider onSubmit={onSubmit}>
               <Field.String path="/foo" value="Skip this value" disabled />
@@ -890,7 +890,7 @@ describe('DataContext.Provider', () => {
 
         render(<MockForm />)
 
-        act(() => {
+        await act(async () => {
           fireEvent.submit(document.querySelector('form'))
         })
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -905,7 +905,7 @@ describe('DataContext.Provider', () => {
 
         await userEvent.click(screen.getByText('Toggle'))
 
-        act(() => {
+        await act(async () => {
           fireEvent.submit(document.querySelector('form'))
         })
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -916,7 +916,7 @@ describe('DataContext.Provider', () => {
 
         await userEvent.click(screen.getByText('More'))
 
-        act(() => {
+        await act(async () => {
           fireEvent.submit(document.querySelector('form'))
         })
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -930,7 +930,7 @@ describe('DataContext.Provider', () => {
 
         await userEvent.click(screen.getByText('Less'))
 
-        act(() => {
+        await act(async () => {
           fireEvent.submit(document.querySelector('form'))
         })
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -941,7 +941,7 @@ describe('DataContext.Provider', () => {
 
         await userEvent.click(screen.getByText('Toggle'))
 
-        act(() => {
+        await act(async () => {
           fireEvent.submit(document.querySelector('form'))
         })
         expect(onSubmit).toHaveBeenLastCalledWith(
@@ -1068,7 +1068,7 @@ describe('DataContext.Provider', () => {
 
       const buttonElement = document.querySelector('button')
 
-      act(() => {
+      await act(async () => {
         fireEvent.click(buttonElement)
       })
 
@@ -1275,7 +1275,7 @@ describe('DataContext.Provider', () => {
       })
 
       // Use fireEvent over userEvent, because of its sync nature
-      act(() => {
+      await act(async () => {
         fireEvent.change(input, {
           target: { value: 'onChangeValidator-error' },
         })
@@ -1299,7 +1299,7 @@ describe('DataContext.Provider', () => {
       })
 
       // Use fireEvent over userEvent, because of its sync nature
-      act(() => {
+      await act(async () => {
         fireEvent.change(input, {
           target: { value: 'onBlurValidator-error' },
         })
@@ -1323,13 +1323,13 @@ describe('DataContext.Provider', () => {
       })
 
       // Use fireEvent over userEvent, because of its sync nature
-      act(() => {
+      await act(async () => {
         fireEvent.change(input, {
           target: { value: '' },
         })
       })
 
-      act(() => {
+      await act(async () => {
         fireEvent.blur(input)
       })
 
@@ -1413,7 +1413,7 @@ describe('DataContext.Provider', () => {
         return new Error('My error')
       }
 
-      act(() => {
+      await act(async () => {
         rerender(
           <DataContext.Provider>
             <UseContext result={result} />
@@ -1464,7 +1464,7 @@ describe('DataContext.Provider', () => {
         return new Error('My error')
       }
 
-      act(() => {
+      await act(async () => {
         rerender(
           <DataContext.Provider>
             <UseContext result={result} />
@@ -1498,7 +1498,7 @@ describe('DataContext.Provider', () => {
 
       expect(result.current.formState).toBeUndefined()
 
-      act(() => {
+      await act(async () => {
         fireEvent.click(submitButton)
       })
 
@@ -1524,7 +1524,7 @@ describe('DataContext.Provider', () => {
 
       expect(result.current.formState).toBeUndefined()
 
-      act(() => {
+      await act(async () => {
         fireEvent.click(submitButton)
       })
 
@@ -1586,7 +1586,7 @@ describe('DataContext.Provider', () => {
       })
 
       // 2. start the async submit
-      act(() => {
+      await act(async () => {
         fireEvent.click(buttonElement)
       })
 
@@ -1685,7 +1685,7 @@ describe('DataContext.Provider', () => {
         )
 
       // Use fireEvent over userEvent, because of its sync nature
-      act(() => {
+      await act(async () => {
         fireEvent.change(inputElement, {
           target: { value: '1' },
         })
@@ -1697,7 +1697,7 @@ describe('DataContext.Provider', () => {
       })
 
       await userEvent.type(inputElement, '{Backspace}')
-      act(() => {
+      await act(async () => {
         fireEvent.blur(inputElement)
       })
 
@@ -1708,7 +1708,7 @@ describe('DataContext.Provider', () => {
       })
 
       // Use fireEvent over userEvent, because of its sync nature
-      act(() => {
+      await act(async () => {
         fireEvent.change(inputElement, {
           target: { value: '2' },
         })
@@ -1721,7 +1721,7 @@ describe('DataContext.Provider', () => {
       })
 
       // Use fireEvent over userEvent, because of its sync nature
-      act(() => {
+      await act(async () => {
         fireEvent.change(inputElement, {
           target: { value: 'valid' },
         })
@@ -1881,7 +1881,7 @@ describe('DataContext.Provider', () => {
       const input = document.querySelector('input')
 
       // Use fireEvent over userEvent, because of its sync nature
-      act(() => {
+      await act(async () => {
         fireEvent.change(input, {
           target: { value: '123' },
         })
@@ -1924,7 +1924,7 @@ describe('DataContext.Provider', () => {
       const input = document.querySelector('input')
 
       // Use fireEvent over userEvent, because of its sync nature
-      act(() => {
+      await act(async () => {
         fireEvent.change(input, {
           target: { value: 'onChangeForm-error' },
         })
@@ -1938,7 +1938,7 @@ describe('DataContext.Provider', () => {
       })
 
       // Use fireEvent over userEvent, because of its sync nature
-      act(() => {
+      await act(async () => {
         fireEvent.change(input, {
           target: { value: 'onChangeField-error' },
         })
@@ -1984,7 +1984,7 @@ describe('DataContext.Provider', () => {
       const input = document.querySelector('input')
 
       // Use fireEvent over userEvent, because of its sync nature
-      act(() => {
+      await act(async () => {
         fireEvent.change(input, {
           target: { value: 'onChangeForm-info' },
         })
@@ -1999,7 +1999,7 @@ describe('DataContext.Provider', () => {
       })
 
       // Use fireEvent over userEvent, because of its sync nature
-      act(() => {
+      await act(async () => {
         fireEvent.change(input, {
           target: { value: 'onChangeField-warning' },
         })
@@ -2048,7 +2048,7 @@ describe('DataContext.Provider', () => {
       const input = document.querySelector('input')
 
       // Use fireEvent over userEvent, because of its sync nature
-      act(() => {
+      await act(async () => {
         fireEvent.change(input, {
           target: { value: 'onChangeForm-error' },
         })
@@ -2064,7 +2064,7 @@ describe('DataContext.Provider', () => {
       })
 
       // Use fireEvent over userEvent, because of its sync nature
-      act(() => {
+      await act(async () => {
         fireEvent.change(input, {
           target: { value: 'onChangeField-error' },
         })
@@ -2125,7 +2125,7 @@ describe('DataContext.Provider', () => {
       const input = document.querySelector('input')
 
       // Use fireEvent over userEvent, because of its sync nature
-      act(() => {
+      await act(async () => {
         fireEvent.change(input, {
           target: { value: 'invalid' },
         })
@@ -2140,7 +2140,7 @@ describe('DataContext.Provider', () => {
       })
 
       // Use fireEvent over userEvent, because of its sync nature
-      act(() => {
+      await act(async () => {
         fireEvent.change(input, {
           target: { value: 'valid' },
         })
@@ -2239,7 +2239,7 @@ describe('DataContext.Provider', () => {
     const inputElement = document.querySelector('input')
     const submitButton = document.querySelector('button')
 
-    act(() => {
+    await act(async () => {
       fireEvent.change(inputElement, {
         target: { value: 'New Value' },
       })
@@ -2255,7 +2255,7 @@ describe('DataContext.Provider', () => {
       expect(scrollTo).toHaveBeenCalledTimes(1)
     })
 
-    act(() => {
+    await act(async () => {
       rerender(
         <DataContext.Provider
           data={{ fooBar: 'changed' }}
@@ -2268,7 +2268,7 @@ describe('DataContext.Provider', () => {
       )
     })
 
-    act(() => {
+    await act(async () => {
       fireEvent.change(inputElement, {
         target: { value: 'Second Value' },
       })
@@ -2585,7 +2585,7 @@ describe('DataContext.Provider', () => {
 
           // Invoke the error
           await userEvent.type(input, 'x{Backspace}')
-          act(() => {
+          await act(async () => {
             fireEvent.blur(input)
           })
 
@@ -2596,7 +2596,7 @@ describe('DataContext.Provider', () => {
             document.querySelector('.dnb-global-status__title')
           ).toBeNull()
 
-          act(() => {
+          await act(async () => {
             fireEvent.click(submitButton)
           })
 
@@ -2611,7 +2611,7 @@ describe('DataContext.Provider', () => {
           })
 
           await userEvent.type(input, 'foo')
-          act(() => {
+          await act(async () => {
             fireEvent.blur(input)
           })
 
@@ -2653,7 +2653,7 @@ describe('DataContext.Provider', () => {
 
           // Invoke the error
           await userEvent.type(input, 'x{Backspace}')
-          act(() => {
+          await act(async () => {
             fireEvent.blur(input)
           })
 
@@ -2664,7 +2664,7 @@ describe('DataContext.Provider', () => {
             document.querySelector('.dnb-global-status__title')
           ).toBeNull()
 
-          act(() => {
+          await act(async () => {
             fireEvent.click(submitButton)
           })
 
@@ -2683,7 +2683,7 @@ describe('DataContext.Provider', () => {
           ).toHaveTextContent(nb.Field.errorRequired + 'Gå til')
 
           await userEvent.type(input, 'foo')
-          act(() => {
+          await act(async () => {
             fireEvent.blur(input)
           })
 
@@ -2720,7 +2720,7 @@ describe('DataContext.Provider', () => {
 
           // Invoke the error
           await userEvent.type(input, 'x{Backspace}')
-          act(() => {
+          await act(async () => {
             fireEvent.blur(input)
           })
 
@@ -2798,7 +2798,7 @@ describe('DataContext.Provider', () => {
           nb.Field.errorRequired
         )
 
-        act(() => {
+        await act(async () => {
           rerender(
             <DataContext.Provider
               schema={schema}
@@ -2811,7 +2811,7 @@ describe('DataContext.Provider', () => {
         })
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-        act(() => {
+        await act(async () => {
           rerender(
             <DataContext.Provider
               schema={schema}
@@ -2827,7 +2827,7 @@ describe('DataContext.Provider', () => {
           nb.Field.errorRequired
         )
 
-        act(() => {
+        await act(async () => {
           rerender(
             <DataContext.Provider
               schema={schema}
@@ -2843,7 +2843,7 @@ describe('DataContext.Provider', () => {
           'Du må skrive inn en gyldig verdi.'
         )
 
-        act(() => {
+        await act(async () => {
           rerender(
             <DataContext.Provider
               schema={schema}
@@ -2857,7 +2857,7 @@ describe('DataContext.Provider', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
 
-      it('should handle errors from inner components and outer provider interchangeably', () => {
+      it('should handle errors from inner components and outer provider interchangeably', async () => {
         const schema: JSONSchema = {
           type: 'object',
           properties: {
@@ -2879,7 +2879,7 @@ describe('DataContext.Provider', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Change value so field component and provider both have errors
-        act(() => {
+        await act(async () => {
           rerender(
             <DataContext.Provider
               schema={schema}
@@ -2893,7 +2893,7 @@ describe('DataContext.Provider', () => {
         expect(screen.queryByRole('alert')).toBeInTheDocument()
 
         // Change value so only provider has errors (ensuring removed field error does not remove provider error)
-        act(() => {
+        await act(async () => {
           rerender(
             <DataContext.Provider
               schema={schema}
@@ -2907,7 +2907,7 @@ describe('DataContext.Provider', () => {
         expect(screen.queryByRole('alert')).toBeInTheDocument()
 
         // Change value so only field component has error
-        act(() => {
+        await act(async () => {
           rerender(
             <DataContext.Provider
               schema={schema}
@@ -2921,7 +2921,7 @@ describe('DataContext.Provider', () => {
         expect(screen.queryByRole('alert')).toBeInTheDocument()
 
         // Change value back to one with no errors again
-        act(() => {
+        await act(async () => {
           rerender(
             <DataContext.Provider
               schema={schema}
@@ -3018,14 +3018,14 @@ describe('DataContext.Provider', () => {
         const inputElement = document.querySelector('input')
         const submitButton = document.querySelector('button')
 
-        act(() => {
+        await act(async () => {
           fireEvent.change(inputElement, {
             target: { value: '1' },
           })
         })
         await userEvent.click(submitButton)
 
-        act(() => {
+        await act(async () => {
           rerender(
             <DataContext.Provider
               data={{ foo: 'changed' }}
@@ -3058,19 +3058,19 @@ describe('DataContext.Provider', () => {
     })
 
     describe('disabled and readOnly', () => {
-      it('should skip required validation on disabled fields', () => {
+      it('should skip required validation on disabled fields', async () => {
         const { rerender } = render(<TestField value="" required />)
 
         expect(screen.queryByRole('alert')).toBeInTheDocument()
 
-        act(() => {
+        await act(async () => {
           rerender(<TestField value="value" required disabled />)
         })
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
 
-      it('should skip schema validation on disabled fields', () => {
+      it('should skip schema validation on disabled fields', async () => {
         const schema: JSONSchema = {
           type: 'object',
           required: ['myField'],
@@ -3087,7 +3087,7 @@ describe('DataContext.Provider', () => {
 
         expect(screen.queryByRole('alert')).toBeInTheDocument()
 
-        act(() => {
+        await act(async () => {
           rerender(
             <DataContext.Provider
               schema={schema}
@@ -3101,19 +3101,19 @@ describe('DataContext.Provider', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
 
-      it('should skip required validation on readOnly fields', () => {
+      it('should skip required validation on readOnly fields', async () => {
         const { rerender } = render(<TestField value="" required />)
 
         expect(screen.queryByRole('alert')).toBeInTheDocument()
 
-        act(() => {
+        await act(async () => {
           rerender(<TestField value="value" required readOnly />)
         })
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
 
-      it('should skip schema validation on readOnly fields', () => {
+      it('should skip schema validation on readOnly fields', async () => {
         const schema: JSONSchema = {
           type: 'object',
           required: ['myField'],
@@ -3130,7 +3130,7 @@ describe('DataContext.Provider', () => {
 
         expect(screen.queryByRole('alert')).toBeInTheDocument()
 
-        act(() => {
+        await act(async () => {
           rerender(
             <DataContext.Provider
               schema={schema}
@@ -3166,7 +3166,7 @@ describe('DataContext.Provider', () => {
           document.querySelector('.dnb-form-status')
         ).toBeInTheDocument()
 
-        act(() => {
+        await act(async () => {
           rerender(
             <DataContext.Provider onSubmit={onSubmit}>
               <Field.Number path="/foo" error={undefined} />
@@ -3200,7 +3200,7 @@ describe('DataContext.Provider', () => {
         const inputElement = document.querySelector('input')
         const submitButton = document.querySelector('button')
 
-        act(() => {
+        await act(async () => {
           fireEvent.change(inputElement, {
             target: { value: '1' },
           })
@@ -3208,7 +3208,7 @@ describe('DataContext.Provider', () => {
         await userEvent.click(submitButton)
         expect(onSubmit).toHaveBeenCalledTimes(0)
 
-        act(() => {
+        await act(async () => {
           fireEvent.change(inputElement, {
             target: { value: '12' },
           })
@@ -3216,7 +3216,7 @@ describe('DataContext.Provider', () => {
         await userEvent.click(submitButton)
         expect(onSubmit).toHaveBeenCalledTimes(0)
 
-        act(() => {
+        await act(async () => {
           fireEvent.change(inputElement, {
             target: { value: '123' },
           })
@@ -3233,7 +3233,7 @@ describe('DataContext.Provider', () => {
           expect(onSubmit).toHaveBeenCalledTimes(1)
         })
 
-        act(() => {
+        await act(async () => {
           rerender(
             <DataContext.Provider
               data={{ fooBar: 'changed' }}
@@ -3245,7 +3245,7 @@ describe('DataContext.Provider', () => {
           )
         })
 
-        act(() => {
+        await act(async () => {
           fireEvent.change(inputElement, {
             target: { value: 'Second Value' },
           })
@@ -3279,7 +3279,7 @@ describe('DataContext.Provider', () => {
         const inputElement = document.querySelector('input')
         const submitButton = document.querySelector('button')
 
-        act(() => {
+        await act(async () => {
           fireEvent.change(inputElement, {
             target: { value: '1' },
           })
@@ -3289,7 +3289,7 @@ describe('DataContext.Provider', () => {
         expect(onSubmitRequest).toHaveBeenCalledTimes(1)
         expect(onSubmitRequest).toHaveBeenCalledWith(expect.anything())
 
-        act(() => {
+        await act(async () => {
           rerender(
             <DataContext.Provider
               data={{ fooBar: 'changed' }}
@@ -3336,7 +3336,7 @@ describe('DataContext.Provider', () => {
         const inputElement = document.querySelector('input')
         const submitButton = document.querySelector('button')
 
-        act(() => {
+        await act(async () => {
           fireEvent.change(inputElement, {
             target: { value: '1' },
           })
@@ -3346,7 +3346,7 @@ describe('DataContext.Provider', () => {
         expect(onSubmitRequest).toHaveBeenCalledTimes(1)
         expect(onSubmitRequest).toHaveBeenCalledWith(expect.anything())
 
-        act(() => {
+        await act(async () => {
           rerender(
             <DataContext.Provider
               data={{ foo: 'changed' }}
@@ -3389,7 +3389,7 @@ describe('DataContext.Provider', () => {
           document.querySelector('.dnb-form-status')
         ).toBeInTheDocument()
 
-        act(() => {
+        await act(async () => {
           rerender(
             <DataContext.Provider onSubmitRequest={onSubmitRequest}>
               <Field.Number path="/foo" error={undefined} />
@@ -3838,7 +3838,7 @@ describe('DataContext.Provider', () => {
       })
     })
 
-    it('should revalidate with provided schema based on changes in external data', () => {
+    it('should revalidate with provided schema based on changes in external data', async () => {
       const log = jest.spyOn(console, 'error').mockImplementation()
 
       const schema: JSONSchema = {
@@ -3870,7 +3870,7 @@ describe('DataContext.Provider', () => {
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-      act(() => {
+      await act(async () => {
         rerender(
           <DataContext.Provider
             schema={schema}
@@ -3888,7 +3888,7 @@ describe('DataContext.Provider', () => {
 
       expect(screen.queryByRole('alert')).toBeInTheDocument()
 
-      act(() => {
+      await act(async () => {
         rerender(
           <DataContext.Provider
             schema={schema}
@@ -3909,7 +3909,7 @@ describe('DataContext.Provider', () => {
       log.mockRestore()
     })
 
-    it('should revalidate correctly based on changes in provided schema', () => {
+    it('should revalidate correctly based on changes in provided schema', async () => {
       const log = jest.spyOn(console, 'error').mockImplementation()
 
       const schema1: JSONSchema = {
@@ -3949,7 +3949,7 @@ describe('DataContext.Provider', () => {
         'The field at path="/myKey" value (some-value) type must be number'
       )
 
-      act(() => {
+      await act(async () => {
         rerender(
           <DataContext.Provider
             schema={schema2}
@@ -3967,7 +3967,7 @@ describe('DataContext.Provider', () => {
 
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-      act(() => {
+      await act(async () => {
         rerender(
           <DataContext.Provider
             schema={schema1}
@@ -4066,7 +4066,7 @@ describe('DataContext.Provider', () => {
         },
       } as const
 
-      act(() => {
+      await act(async () => {
         rerender(
           <DataContext.Provider
             schema={providerSchema}
@@ -4096,7 +4096,7 @@ describe('DataContext.Provider', () => {
         },
       } as const
 
-      act(() => {
+      await act(async () => {
         rerender(
           <DataContext.Provider
             schema={providerSharedSchema}
@@ -4110,7 +4110,7 @@ describe('DataContext.Provider', () => {
       const input = document.querySelector('input')
 
       await userEvent.type(input, '1')
-      act(() => {
+      await act(async () => {
         fireEvent.blur(input)
       })
 
@@ -4119,7 +4119,7 @@ describe('DataContext.Provider', () => {
       )
 
       await userEvent.type(input, '1234')
-      act(() => {
+      await act(async () => {
         fireEvent.blur(input)
       })
 
@@ -4128,7 +4128,7 @@ describe('DataContext.Provider', () => {
       )
     })
 
-    it('should accept custom ajv instance with custom error messages', () => {
+    it('should accept custom ajv instance with custom error messages', async () => {
       const ajv = makeAjvInstance(
         new Ajv({
           strict: true,
@@ -4163,7 +4163,7 @@ describe('DataContext.Provider', () => {
         'Message in schema'
       )
 
-      act(() => {
+      await act(async () => {
         rerender(
           <DataContext.Provider
             ajvInstance={ajv}
@@ -4185,7 +4185,7 @@ describe('DataContext.Provider', () => {
         'Message in schema'
       )
 
-      act(() => {
+      await act(async () => {
         rerender(
           <DataContext.Provider
             ajvInstance={ajv}
@@ -4207,7 +4207,7 @@ describe('DataContext.Provider', () => {
         'Message in provider'
       )
 
-      act(() => {
+      await act(async () => {
         rerender(
           <DataContext.Provider
             ajvInstance={ajv}
@@ -4232,7 +4232,7 @@ describe('DataContext.Provider', () => {
         'Message in provider for just one field'
       )
 
-      act(() => {
+      await act(async () => {
         rerender(
           <DataContext.Provider
             ajvInstance={ajv}
@@ -4298,7 +4298,7 @@ describe('DataContext.Provider', () => {
       expect(screen.queryByRole('alert')).toHaveTextContent(errorRequired)
     })
 
-    it('should keep field validation when locale changes in SharedProvider', () => {
+    it('should keep field validation when locale changes in SharedProvider', async () => {
       const onSubmit = jest.fn()
 
       const { rerender } = render(
@@ -4322,12 +4322,12 @@ describe('DataContext.Provider', () => {
         </SharedProvider>
       )
 
-      act(() => {
+      await act(async () => {
         fireEvent.submit(document.querySelector('form'))
       })
       expect(onSubmit).toHaveBeenCalledTimes(0)
 
-      act(() => {
+      await act(async () => {
         rerender(
           <SharedProvider locale="en-GB">
             <Form.Handler
@@ -4354,7 +4354,7 @@ describe('DataContext.Provider', () => {
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
 
-      act(() => {
+      await act(async () => {
         fireEvent.submit(document.querySelector('form'))
       })
       expect(onSubmit).toHaveBeenCalledTimes(0)
@@ -4399,7 +4399,7 @@ describe('DataContext.Provider', () => {
 
       expect(dataContext).toMatchObject({ showAllErrors: false })
 
-      act(() => {
+      await act(async () => {
         fireEvent.submit(document.querySelector('form'))
       })
       expect(dataContext).toMatchObject({
@@ -4408,7 +4408,7 @@ describe('DataContext.Provider', () => {
 
       await userEvent.click(document.querySelector('button#show'))
 
-      act(() => {
+      await act(async () => {
         fireEvent.submit(document.querySelector('form'))
       })
       expect(dataContext).toMatchObject({
@@ -4417,7 +4417,7 @@ describe('DataContext.Provider', () => {
 
       await userEvent.click(document.querySelector('button#hide'))
 
-      act(() => {
+      await act(async () => {
         fireEvent.submit(document.querySelector('form'))
       })
       expect(dataContext).toMatchObject({
@@ -4426,7 +4426,7 @@ describe('DataContext.Provider', () => {
 
       await userEvent.click(document.querySelector('button#show'))
 
-      act(() => {
+      await act(async () => {
         fireEvent.submit(document.querySelector('form'))
       })
       expect(dataContext).toMatchObject({
@@ -4435,7 +4435,7 @@ describe('DataContext.Provider', () => {
     })
   })
 
-  it('should run filterData with correct data in onSubmit', () => {
+  it('should run filterData with correct data in onSubmit', async () => {
     const id = 'disabled-fields'
     const filterDataHandler = jest.fn(({ props }) => {
       if (props.disabled === true) {
@@ -4456,7 +4456,7 @@ describe('DataContext.Provider', () => {
     )
 
     const form = document.querySelector('form')
-    act(() => {
+    await act(async () => {
       fireEvent.submit(form)
     })
 
@@ -4480,7 +4480,7 @@ describe('DataContext.Provider', () => {
     })
     expect(filteredData).toEqual({})
 
-    act(() => {
+    await act(async () => {
       rerender(
         <Form.Handler id={id} onSubmit={onSubmit}>
           <Field.String path="/myField" disabled={false} value="bar" />
@@ -4488,7 +4488,7 @@ describe('DataContext.Provider', () => {
       )
     })
 
-    act(() => {
+    await act(async () => {
       fireEvent.submit(form)
     })
 
@@ -4535,21 +4535,23 @@ describe('DataContext.Provider', () => {
   })
 
   describe('with useData', () => {
-    it('should set Provider data', () => {
+    it('should set Provider data', async () => {
       const props = { foo: 'bar' }
       renderHook(() => Form.useData(identifier, props))
 
-      render(
-        <DataContext.Provider id={identifier}>
-          <Field.String path="/foo" />
-        </DataContext.Provider>
-      )
+      await act(async () => {
+        render(
+          <DataContext.Provider id={identifier}>
+            <Field.String path="/foo" />
+          </DataContext.Provider>
+        )
+      })
 
       const inputElement = document.querySelector('input')
       expect(inputElement).toHaveValue('bar')
     })
 
-    it('should contain data on first render, when nested', () => {
+    it('should contain data on first render, when nested', async () => {
       const initialData = { foo: 'bar' }
       const nestedMockData = []
 
@@ -4559,20 +4561,26 @@ describe('DataContext.Provider', () => {
         return <Field.String path="/foo" />
       }
 
-      render(
-        <DataContext.Provider id={identifier} data={initialData}>
-          <NestedMock />
-        </DataContext.Provider>
-      )
+      await act(async () => {
+        render(
+          <DataContext.Provider id={identifier} data={initialData}>
+            <NestedMock />
+          </DataContext.Provider>
+        )
+      })
 
-      expect(nestedMockData).toHaveLength(2)
-      expect(nestedMockData).toEqual([initialData, initialData])
+      expect(nestedMockData).toHaveLength(3)
+      expect(nestedMockData).toEqual([
+        initialData,
+        initialData,
+        initialData,
+      ])
 
       const inputElement = document.querySelector('input')
       expect(inputElement).toHaveValue('bar')
     })
 
-    it('should contain data on first render, when nested and in side car', () => {
+    it('should contain data on first render, when nested and in side car', async () => {
       const log = spyOnEufemiaWarn()
 
       const initialData = { foo: 'bar' }
@@ -4591,20 +4599,26 @@ describe('DataContext.Provider', () => {
         return <Field.String path="/foo" />
       }
 
-      render(
-        <>
-          <SidecarMock />
-          <DataContext.Provider id={identifier} data={initialData}>
-            <NestedMock />
-          </DataContext.Provider>
-        </>
-      )
+      await act(async () => {
+        render(
+          <>
+            <SidecarMock />
+            <DataContext.Provider id={identifier} data={initialData}>
+              <NestedMock />
+            </DataContext.Provider>
+          </>
+        )
+      })
 
       expect(sidecarMockData).toHaveLength(2)
       expect(sidecarMockData).toEqual([undefined, initialData])
 
-      expect(nestedMockData).toHaveLength(2)
-      expect(nestedMockData).toEqual([initialData, initialData])
+      expect(nestedMockData).toHaveLength(3)
+      expect(nestedMockData).toEqual([
+        initialData,
+        initialData,
+        initialData,
+      ])
 
       const [sidecar, nested] = Array.from(
         document.querySelectorAll('input')
@@ -4637,15 +4651,17 @@ describe('DataContext.Provider', () => {
         return <Field.String path="/fieldB" />
       }
 
-      render(
-        <>
-          <SidecarMock />
-          <DataContext.Provider id={identifier}>
-            <Field.String path="/fieldA" />
-            <NestedMock />
-          </DataContext.Provider>
-        </>
-      )
+      await act(async () => {
+        render(
+          <>
+            <SidecarMock />
+            <DataContext.Provider id={identifier}>
+              <Field.String path="/fieldA" />
+              <NestedMock />
+            </DataContext.Provider>
+          </>
+        )
+      })
 
       expect(sidecarMockData).toHaveLength(2)
       expect(sidecarMockData).toEqual([
@@ -4653,9 +4669,10 @@ describe('DataContext.Provider', () => {
         { fieldA: 'updated A', fieldB: 'updated B' },
       ])
 
-      expect(nestedMockData).toHaveLength(2)
+      expect(nestedMockData).toHaveLength(3)
       expect(nestedMockData).toEqual([
         undefined,
+        { fieldA: 'updated A', fieldB: 'updated B' },
         { fieldA: 'updated A', fieldB: 'updated B' },
       ])
 
@@ -4686,21 +4703,25 @@ describe('DataContext.Provider', () => {
         return <Field.String path="/foo" />
       }
 
-      render(
-        <>
-          <SidecarMock />
-          <DataContext.Provider id={identifier} data={initialData}>
-            <NestedMock />
-          </DataContext.Provider>
-        </>,
-        { wrapper: StrictMode }
-      )
+      await act(async () => {
+        render(
+          <>
+            <SidecarMock />
+            <DataContext.Provider id={identifier} data={initialData}>
+              <NestedMock />
+            </DataContext.Provider>
+          </>,
+          { wrapper: StrictMode }
+        )
+      })
 
       expect(sidecarMockData).toHaveLength(2)
       expect(sidecarMockData).toEqual([undefined, undefined])
 
-      expect(nestedMockData).toHaveLength(4)
+      expect(nestedMockData).toHaveLength(6)
       expect(nestedMockData).toEqual([
+        initialData,
+        initialData,
         initialData,
         initialData,
         initialData,
@@ -4716,7 +4737,7 @@ describe('DataContext.Provider', () => {
       log.mockRestore()
     })
 
-    it('should set Provider data when sessionStorageId was given', () => {
+    it('should set Provider data when sessionStorageId was given', async () => {
       window.sessionStorage.setItem(
         'session-id',
         JSON.stringify({
@@ -4724,14 +4745,16 @@ describe('DataContext.Provider', () => {
         })
       )
 
-      render(
-        <DataContext.Provider
-          id={identifier}
-          sessionStorageId="session-id"
-        >
-          <Field.String path="/foo" />
-        </DataContext.Provider>
-      )
+      await act(async () => {
+        render(
+          <DataContext.Provider
+            id={identifier}
+            sessionStorageId="session-id"
+          >
+            <Field.String path="/foo" />
+          </DataContext.Provider>
+        )
+      })
 
       const { result } = renderHook(() =>
         Form.useData(identifier, { other: 'value' })
@@ -4746,7 +4769,7 @@ describe('DataContext.Provider', () => {
       )
     })
 
-    it('should update Provider data on hook "set" call', () => {
+    it('should update Provider data on hook "set" call', async () => {
       const { result } = renderHook(() =>
         Form.useData(identifier, { foo: 'bar' })
       )
@@ -4761,25 +4784,27 @@ describe('DataContext.Provider', () => {
 
       expect(inputElement).toHaveValue('bar')
 
-      act(() => {
+      await act(async () => {
         result.current.set({ foo: 'bar-changed' })
       })
 
       expect(inputElement).toHaveValue('bar-changed')
     })
 
-    it('should merge data when Provider has data', () => {
+    it('should merge data when Provider has data', async () => {
       renderHook(() => Form.useData(identifier, { foo: 'changed' }))
 
-      render(
-        <DataContext.Provider
-          id={identifier}
-          data={{ foo: 'has data', other: 'data' }}
-        >
-          <Field.String path="/foo" />
-          <Field.String path="/other" />
-        </DataContext.Provider>
-      )
+      await act(async () => {
+        render(
+          <DataContext.Provider
+            id={identifier}
+            data={{ foo: 'has data', other: 'data' }}
+          >
+            <Field.String path="/foo" />
+            <Field.String path="/other" />
+          </DataContext.Provider>
+        )
+      })
 
       const [foo, other] = Array.from(document.querySelectorAll('input'))
 
@@ -4787,7 +4812,7 @@ describe('DataContext.Provider', () => {
       expect(other).toHaveValue('data')
     })
 
-    it('should use data only from the first hook render', () => {
+    it('should use data only from the first hook render', async () => {
       const { result } = renderHook(() =>
         Form.useData(identifier, { foo: 'first data set' })
       )
@@ -4810,7 +4835,7 @@ describe('DataContext.Provider', () => {
 
       expect(first).toHaveValue('first data set')
 
-      act(() => {
+      await act(async () => {
         result.current.set({ foo: 'changed' })
       })
 
@@ -4818,7 +4843,7 @@ describe('DataContext.Provider', () => {
       expect(second).toHaveValue('data')
     })
 
-    it('should initially set data when Provider has no data', () => {
+    it('should initially set data when Provider has no data', async () => {
       renderHook(() => Form.useData(identifier, { foo: 'bar' }))
 
       const { rerender } = render(
@@ -4831,7 +4856,7 @@ describe('DataContext.Provider', () => {
 
       expect(inputElement).toHaveValue('bar')
 
-      act(() => {
+      await act(async () => {
         rerender(
           <DataContext.Provider id={identifier} data={{ foo: 'changed' }}>
             <Field.String path="/foo" />
@@ -4842,7 +4867,7 @@ describe('DataContext.Provider', () => {
       expect(inputElement).toHaveValue('changed')
     })
 
-    it('should return "update" method that lets you update the data', () => {
+    it('should return "update" method that lets you update the data', async () => {
       const { result } = renderHook(() =>
         Form.useData(identifier, { foo: 'bar' })
       )
@@ -4858,7 +4883,7 @@ describe('DataContext.Provider', () => {
 
       expect(inputElement).toHaveValue('bar')
 
-      act(() => {
+      await act(async () => {
         update('/foo', (value) => {
           return 'foo ' + value
         })
@@ -4867,7 +4892,7 @@ describe('DataContext.Provider', () => {
       expect(inputElement).toHaveValue('foo bar')
     })
 
-    it('should return "set" method that lets you update the data', () => {
+    it('should return "set" method that lets you update the data', async () => {
       const { result } = renderHook(() =>
         Form.useData(identifier, { foo: 'bar' })
       )
@@ -4883,14 +4908,14 @@ describe('DataContext.Provider', () => {
 
       expect(inputElement).toHaveValue('bar')
 
-      act(() => {
+      await act(async () => {
         set({ foo: 'foo bar' })
       })
 
       expect(inputElement).toHaveValue('foo bar')
     })
 
-    it('should initial data via the "set" method', () => {
+    it('should initial data via the "set" method', async () => {
       const { result } = renderHook(() => Form.useData(identifier))
       const { set } = result.current
 
@@ -4904,7 +4929,7 @@ describe('DataContext.Provider', () => {
 
       expect(inputElement).toHaveValue('')
 
-      act(() => {
+      await act(async () => {
         set({ foo: 'bar' })
       })
 
@@ -4952,7 +4977,7 @@ describe('DataContext.Provider', () => {
       expect(buttonElement).toHaveTextContent('2')
       expect(countRender).toBe(2)
 
-      act(() => {
+      await act(async () => {
         rerender(<MockComponent />)
       })
 
@@ -5004,7 +5029,7 @@ describe('DataContext.Provider', () => {
       expect(buttonElement).toHaveTextContent('2')
       expect(countRender).toBe(2)
 
-      act(() => {
+      await act(async () => {
         rerender(<MockComponent />)
       })
 
@@ -5059,7 +5084,7 @@ describe('DataContext.Provider', () => {
       expect(countRender).toBe(3)
     })
 
-    it('should update data via useEffect when data is given in useData', () => {
+    it('should update data via useEffect when data is given in useData', async () => {
       let countRender = 0
 
       const MockComponent = () => {
@@ -5078,7 +5103,9 @@ describe('DataContext.Provider', () => {
         )
       }
 
-      render(<MockComponent />)
+      await act(async () => {
+        render(<MockComponent />)
+      })
 
       const inputElement = document.querySelector('input')
       const labelElement = document.querySelector('label')
@@ -5110,7 +5137,9 @@ describe('DataContext.Provider', () => {
         )
       }
 
-      render(<MockComponent />)
+      await act(async () => {
+        render(<MockComponent />)
+      })
 
       const inputElement = document.querySelector('input')
       const labelElement = document.querySelector('label')
@@ -5163,7 +5192,7 @@ describe('DataContext.Provider', () => {
 
       expect(output).toHaveTextContent('{"count":1}')
 
-      act(() => {
+      await act(async () => {
         fireEvent.change(input, {
           target: { value: '12' },
         })
@@ -5184,7 +5213,7 @@ describe('DataContext.Provider', () => {
         )
       })
 
-      act(() => {
+      await act(async () => {
         fireEvent.change(input, {
           target: { value: '123' },
         })
@@ -5216,7 +5245,7 @@ describe('DataContext.Provider', () => {
       })
     })
 
-    it('should make filterData available in the hook', () => {
+    it('should make filterData available in the hook', async () => {
       const id = 'disabled-fields-hook'
       const filterDataHandler = jest.fn(({ props }) => {
         if (props.disabled === true) {
@@ -5241,7 +5270,7 @@ describe('DataContext.Provider', () => {
       )
 
       const form = document.querySelector('form')
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
 
@@ -5274,11 +5303,11 @@ describe('DataContext.Provider', () => {
       })
       expect(filteredData).toEqual({})
 
-      act(() => {
+      await act(async () => {
         result.current.set({ myField: 'bar' })
       })
 
-      act(() => {
+      await act(async () => {
         rerender(
           <Form.Handler id={id} onSubmit={onSubmit}>
             <Field.String path="/myField" disabled={false} />
@@ -5286,7 +5315,7 @@ describe('DataContext.Provider', () => {
         )
       })
 
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
 
@@ -5321,7 +5350,7 @@ describe('DataContext.Provider', () => {
         myField: 'bar',
       })
 
-      act(() => {
+      await act(async () => {
         rerender(
           <Form.Handler id={id} onSubmit={onSubmit}>
             <Field.String path="/myField" disabled={true} />
@@ -5383,7 +5412,7 @@ describe('DataContext.Provider', () => {
         expect(output).toHaveTextContent('{"foo":"bar"}')
       })
 
-      it('should set data to context', () => {
+      it('should set data to context', async () => {
         const data = { foo: 'bar' }
         const { rerender } = render(
           <DataContext.Provider data={data}>
@@ -5394,7 +5423,7 @@ describe('DataContext.Provider', () => {
         const output = document.querySelector('output')
         expect(output).toHaveTextContent('{"foo":"bar"}')
 
-        act(() => {
+        await act(async () => {
           rerender(
             <DataContext.Provider data={data}>
               <MockComponent
@@ -5409,7 +5438,7 @@ describe('DataContext.Provider', () => {
         expect(output).toHaveTextContent('{"foo":"changed"}')
       })
 
-      it('should update data to context', () => {
+      it('should update data to context', async () => {
         const data = { foo: 'bar' }
         const { rerender } = render(
           <DataContext.Provider data={data}>
@@ -5420,7 +5449,7 @@ describe('DataContext.Provider', () => {
         const output = document.querySelector('output')
         expect(output).toHaveTextContent('{"foo":"bar"}')
 
-        act(() => {
+        await act(async () => {
           rerender(
             <DataContext.Provider data={data}>
               <MockComponent updatePath="/foo" updateValue="changed" />
@@ -5463,7 +5492,7 @@ describe('DataContext.Provider', () => {
   })
 
   describe('required={false}', () => {
-    it('should add optional label', () => {
+    it('should add optional label', async () => {
       const { rerender } = render(
         <DataContext.Provider required>
           <Field.String label="Foo" />
@@ -5482,7 +5511,7 @@ describe('DataContext.Provider', () => {
       )
       expect(third).toHaveTextContent('Baz')
 
-      act(() => {
+      await act(async () => {
         rerender(
           <DataContext.Provider required>
             <Field.String label="Foo" required={false} />
@@ -5594,7 +5623,7 @@ describe('DataContext.Provider', () => {
   })
 
   describe('required', () => {
-    it('should make all fields required', () => {
+    it('should make all fields required', async () => {
       const { rerender } = render(
         <DataContext.Provider required data={{ foo: 'original' }}>
           <Field.String path="/foo" value="foo" />
@@ -5610,7 +5639,7 @@ describe('DataContext.Provider', () => {
       expect(second).toHaveAttribute('aria-required', 'true')
       expect(third).toHaveAttribute('aria-required', 'true')
 
-      act(() => {
+      await act(async () => {
         rerender(
           <DataContext.Provider data={{ foo: 'changed' }}>
             <Field.String path="/foo" value="foo" />
@@ -5690,7 +5719,7 @@ describe('DataContext.Provider', () => {
     )
 
     const form = document.querySelector('form')
-    act(() => {
+    await act(async () => {
       fireEvent.submit(form)
     })
 
@@ -5701,7 +5730,7 @@ describe('DataContext.Provider', () => {
     })
     expect(changeData).toEqual(null)
 
-    act(() => {
+    await act(async () => {
       fireEvent.change(document.querySelector('input'), {
         target: { value: 'baz' },
       })
@@ -5716,12 +5745,12 @@ describe('DataContext.Provider', () => {
       myPath: 'My Value',
     })
 
-    act(() => {
+    await act(async () => {
       fireEvent.change(document.querySelector('input'), {
         target: { value: 'foo' },
       })
     })
-    act(() => {
+    await act(async () => {
       fireEvent.blur(document.querySelector('input'))
     })
     expect(document.querySelector('input')).toHaveValue('transformed')
@@ -5757,7 +5786,7 @@ describe('DataContext.Provider', () => {
     )
 
     const form = document.querySelector('form')
-    act(() => {
+    await act(async () => {
       fireEvent.submit(form)
     })
 
@@ -5799,7 +5828,7 @@ describe('DataContext.Provider', () => {
     )
 
     const stringField = document.querySelector('input')
-    act(() => {
+    await act(async () => {
       fireEvent.change(stringField, { target: { value: 'bar' } })
     })
 
@@ -5845,7 +5874,7 @@ describe('DataContext.Provider', () => {
       }
     )
 
-    act(() => {
+    await act(async () => {
       fireEvent.change(stringField, { target: { value: 'bar 2' } })
     })
 
@@ -5911,11 +5940,11 @@ describe('DataContext.Provider', () => {
     )
 
     const stringField = document.querySelector('input')
-    act(() => {
+    await act(async () => {
       fireEvent.change(stringField, { target: { value: 'bar' } })
     })
 
-    act(() => {
+    await act(async () => {
       fireEvent.submit(document.querySelector('form'))
     })
 
@@ -5942,7 +5971,7 @@ describe('DataContext.Provider', () => {
     await userEvent.tab()
     await userEvent.keyboard('{ArrowDown}')
 
-    act(() => {
+    await act(async () => {
       fireEvent.submit(document.querySelector('form'))
     })
 
@@ -5969,7 +5998,7 @@ describe('DataContext.Provider', () => {
     await userEvent.tab()
     await userEvent.keyboard('{Enter}')
 
-    act(() => {
+    await act(async () => {
       fireEvent.submit(document.querySelector('form'))
     })
 
@@ -6021,7 +6050,7 @@ describe('DataContext.Provider', () => {
       </Form.Handler>
     )
 
-    act(() => {
+    await act(async () => {
       fireEvent.submit(document.querySelector('form'))
     })
 
@@ -6039,11 +6068,11 @@ describe('DataContext.Provider', () => {
     })
 
     const stringField = document.querySelector('input')
-    act(() => {
+    await act(async () => {
       fireEvent.change(stringField, { target: { value: 'bar value' } })
     })
 
-    act(() => {
+    await act(async () => {
       fireEvent.submit(document.querySelector('form'))
     })
 
@@ -6089,7 +6118,7 @@ describe('DataContext.Provider', () => {
       const form = document.querySelector('form')
       const button = document.querySelector('button')
 
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       expect(submitData).toEqual({
@@ -6097,7 +6126,7 @@ describe('DataContext.Provider', () => {
       })
 
       await userEvent.click(button)
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       expect(submitData).toEqual({
@@ -6106,7 +6135,7 @@ describe('DataContext.Provider', () => {
       })
 
       await userEvent.click(button)
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       expect(submitData).toEqual({
@@ -6114,7 +6143,7 @@ describe('DataContext.Provider', () => {
       })
 
       await userEvent.click(button)
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       expect(submitData).toEqual({
@@ -6168,14 +6197,14 @@ describe('DataContext.Provider', () => {
 
       expect(output().textContent).toBe('Step 1')
 
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       await waitFor(() => {
         expect(output().textContent).toBe('Step 2')
       })
 
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       expect(submitData).toEqual({
@@ -6183,7 +6212,7 @@ describe('DataContext.Provider', () => {
       })
 
       await userEvent.click(button())
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       expect(submitData).toEqual({
@@ -6192,7 +6221,7 @@ describe('DataContext.Provider', () => {
       })
 
       await userEvent.click(button())
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       expect(submitData).toEqual({
@@ -6200,7 +6229,7 @@ describe('DataContext.Provider', () => {
       })
 
       await userEvent.click(button())
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       expect(submitData).toEqual({
@@ -6265,7 +6294,7 @@ describe('DataContext.Provider', () => {
         expect(output().textContent).toBe('Step 2')
       })
 
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       await waitFor(() => {
@@ -6286,7 +6315,7 @@ describe('DataContext.Provider', () => {
         expect(output().textContent).toBe('Step 2')
       })
 
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       await waitFor(() => {
@@ -6305,7 +6334,7 @@ describe('DataContext.Provider', () => {
         expect(output().textContent).toBe('Step 2')
       })
 
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       await waitFor(() => {
@@ -6349,7 +6378,7 @@ describe('DataContext.Provider', () => {
       const form = document.querySelector('form')
       const button = document.querySelector('button')
 
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       expect(submitData).toEqual({
@@ -6357,7 +6386,7 @@ describe('DataContext.Provider', () => {
       })
 
       await userEvent.click(button)
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       expect(submitData).toEqual({
@@ -6366,7 +6395,7 @@ describe('DataContext.Provider', () => {
       })
 
       await userEvent.click(button)
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       expect(submitData).toEqual({
@@ -6374,7 +6403,7 @@ describe('DataContext.Provider', () => {
       })
 
       await userEvent.click(button)
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       expect(submitData).toEqual({
@@ -6418,7 +6447,7 @@ describe('DataContext.Provider', () => {
       const form = document.querySelector('form')
       const button = document.querySelector('button')
 
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       expect(submitData).toEqual({
@@ -6426,7 +6455,7 @@ describe('DataContext.Provider', () => {
       })
 
       await userEvent.click(button)
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       expect(submitData).toEqual({
@@ -6435,7 +6464,7 @@ describe('DataContext.Provider', () => {
       })
 
       await userEvent.click(button)
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       expect(submitData).toEqual({
@@ -6443,7 +6472,7 @@ describe('DataContext.Provider', () => {
       })
 
       await userEvent.click(button)
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       expect(submitData).toEqual({
@@ -6481,13 +6510,13 @@ describe('DataContext.Provider', () => {
       const form = document.querySelector('form')
       const button = document.querySelector('button')
 
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       expect(submitData).toEqual({})
 
       await userEvent.click(button)
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       expect(submitData).toEqual({
@@ -6495,13 +6524,13 @@ describe('DataContext.Provider', () => {
       })
 
       await userEvent.click(button)
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       expect(submitData).toEqual({})
 
       await userEvent.click(button)
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       expect(submitData).toEqual({
@@ -6542,13 +6571,13 @@ describe('DataContext.Provider', () => {
       const form = document.querySelector('form')
       const button = document.querySelector('button')
 
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       expect(submitData).toEqual({})
 
       await userEvent.click(button)
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       expect(submitData).toEqual({
@@ -6556,13 +6585,13 @@ describe('DataContext.Provider', () => {
       })
 
       await userEvent.click(button)
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       expect(submitData).toEqual({})
 
       await userEvent.click(button)
-      act(() => {
+      await act(async () => {
         fireEvent.submit(form)
       })
       expect(submitData).toEqual({

@@ -104,7 +104,7 @@ describe('Form.useData', () => {
     expect(collectData).toEqual({ foo: 'bar' })
   })
 
-  it('should return "getValue" method that lets you get a single path value', () => {
+  it('should return "getValue" method that lets you get a single path value', async () => {
     const props = {
       deep: {
         key: 'value',
@@ -114,7 +114,7 @@ describe('Form.useData', () => {
 
     expect(result.current.getValue('/deep/key')).toEqual('value')
 
-    act(() => {
+    await act(async () => {
       result.current.update('/deep/key', 'changed')
     })
 
@@ -127,13 +127,13 @@ describe('Form.useData', () => {
     expect(result.current.getValue('/does-not-exist')).toBe(undefined)
   })
 
-  it('should return "update" method that lets you update the data', () => {
+  it('should return "update" method that lets you update the data', async () => {
     const props = { key: 'value' }
     const { result } = renderHook(() => useData(identifier, props))
 
     expect(result.current.data).toEqual({ key: 'value' })
 
-    act(() => {
+    await act(async () => {
       result.current.update('/key', (value) => {
         return 'changed ' + value
       })
@@ -142,7 +142,7 @@ describe('Form.useData', () => {
     expect(result.current.data).toEqual({ key: 'changed value' })
   })
 
-  it('should get data with a string as the id', () => {
+  it('should get data with a string as the id', async () => {
     const { result } = renderHook(() => useData(identifier), {
       wrapper: ({ children }) => (
         <>
@@ -156,13 +156,15 @@ describe('Form.useData', () => {
       ),
     })
 
+    await act(async () => {})
+
     expect(result.current.data).toEqual({
       foo: 'foo',
       bar: 'bar',
     })
   })
 
-  it('should get data with a function reference as the id', () => {
+  it('should get data with a function reference as the id', async () => {
     const myId = () => null
     const { result } = renderHook(() => useData(myId), {
       wrapper: ({ children }) => (
@@ -177,13 +179,15 @@ describe('Form.useData', () => {
       ),
     })
 
+    await act(async () => {})
+
     expect(result.current.data).toEqual({
       foo: 'foo',
       bar: 'bar',
     })
   })
 
-  it('should get data with an object reference as the id', () => {
+  it('should get data with an object reference as the id', async () => {
     const myId = {}
     const { result } = renderHook(() => useData(myId), {
       wrapper: ({ children }) => (
@@ -198,13 +202,15 @@ describe('Form.useData', () => {
       ),
     })
 
+    await act(async () => {})
+
     expect(result.current.data).toEqual({
       foo: 'foo',
       bar: 'bar',
     })
   })
 
-  it('should get data with a React Context as the id', () => {
+  it('should get data with a React Context as the id', async () => {
     const myId = createContext(null)
     const { result } = renderHook(() => useData(myId), {
       wrapper: ({ children }) => (
@@ -219,6 +225,8 @@ describe('Form.useData', () => {
       ),
     })
 
+    await act(async () => {})
+
     expect(result.current.data).toEqual({
       foo: 'foo',
       bar: 'bar',
@@ -226,7 +234,7 @@ describe('Form.useData', () => {
   })
 
   describe('remove', () => {
-    it('should remove the data', () => {
+    it('should remove the data', async () => {
       const { result } = renderHook(() => useData(), {
         wrapper: ({ children }) => (
           <Provider>
@@ -242,7 +250,7 @@ describe('Form.useData', () => {
         bar: 'bar',
       })
 
-      act(() => {
+      await act(async () => {
         result.current.remove('/foo')
       })
 
@@ -253,7 +261,7 @@ describe('Form.useData', () => {
       expect(result.current.data).toHaveProperty('foo')
     })
 
-    it('should remove the data when id is given', () => {
+    it('should remove the data when id is given', async () => {
       const { result } = renderHook(() => useData(identifier), {
         wrapper: ({ children }) => (
           <Provider id={identifier}>
@@ -269,7 +277,7 @@ describe('Form.useData', () => {
         bar: 'bar',
       })
 
-      act(() => {
+      await act(async () => {
         result.current.remove('/foo')
       })
 
@@ -279,7 +287,7 @@ describe('Form.useData', () => {
       expect(result.current.data).not.toHaveProperty('foo')
     })
 
-    it('should remove data with handler id', () => {
+    it('should remove data with handler id', async () => {
       const { result } = renderHook(() => useData(identifier), {
         wrapper: ({ children }) => (
           <>
@@ -298,7 +306,7 @@ describe('Form.useData', () => {
         bar: 'bar',
       })
 
-      act(() => {
+      await act(async () => {
         result.current.remove('/foo')
       })
 
@@ -463,7 +471,7 @@ describe('Form.useData', () => {
     })
   })
 
-  it('"update" should re-render when value has changed', () => {
+  it('"update" should re-render when value has changed', async () => {
     let rerendered = 0
     const MockComponent = () => {
       useData(identifier)
@@ -483,7 +491,7 @@ describe('Form.useData', () => {
     expect(result.current.data).toEqual({ key: 'value' })
     expect(rerendered).toBe(2)
 
-    act(() => {
+    await act(async () => {
       result.current.update('/key', (value) => {
         return 'changed ' + value
       })
@@ -492,14 +500,14 @@ describe('Form.useData', () => {
     expect(rerendered).toBe(3)
     expect(result.current.data).toEqual({ key: 'changed value' })
 
-    act(() => {
+    await act(async () => {
       result.current.update('/key', 'changed value')
     })
 
     expect(rerendered).toBe(3)
     expect(result.current.data).toEqual({ key: 'changed value' })
 
-    act(() => {
+    await act(async () => {
       result.current.update('/key', () => {
         return 'changed value'
       })
@@ -510,7 +518,7 @@ describe('Form.useData', () => {
   })
 
   describe('update', () => {
-    it('should sync two hooks by using "update"', () => {
+    it('should sync two hooks by using "update"', async () => {
       const props = { key: 'value' }
 
       const { result: A } = renderHook(() => useData(identifier))
@@ -519,7 +527,7 @@ describe('Form.useData', () => {
       expect(A.current.data).toEqual({ key: 'value' })
       expect(B.current.data).toEqual({ key: 'value' })
 
-      act(() => {
+      await act(async () => {
         B.current.update('/key', (value) => {
           return 'changed ' + value
         })
@@ -529,7 +537,7 @@ describe('Form.useData', () => {
       expect(B.current.data).toEqual({ key: 'changed value' })
     })
 
-    it('should support update without a function', () => {
+    it('should support update without a function', async () => {
       const props = { key: 'value' }
 
       const { result: A } = renderHook(() => useData(identifier))
@@ -538,7 +546,7 @@ describe('Form.useData', () => {
       expect(A.current.data).toEqual({ key: 'value' })
       expect(B.current.data).toEqual({ key: 'value' })
 
-      act(() => {
+      await act(async () => {
         B.current.update('/key', 'new value')
       })
 
@@ -546,7 +554,7 @@ describe('Form.useData', () => {
       expect(B.current.data).toEqual({ key: 'new value' })
     })
 
-    it('should update data with handler id', () => {
+    it('should update data with handler id', async () => {
       const { result } = renderHook(() => useData(identifier), {
         wrapper: ({ children }) => (
           <>
@@ -565,7 +573,7 @@ describe('Form.useData', () => {
         bar: 'bar',
       })
 
-      act(() => {
+      await act(async () => {
         result.current.update('/foo', 'updated')
       })
 
@@ -714,7 +722,9 @@ describe('Form.useData', () => {
         document.querySelector('.dnb-form-status')
       ).not.toBeInTheDocument()
 
-      fireEvent.submit(document.querySelector('form'))
+      await act(async () => {
+        fireEvent.submit(document.querySelector('form'))
+      })
       expect(
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
@@ -771,7 +781,9 @@ describe('Form.useData', () => {
         document.querySelector('.dnb-form-status')
       ).not.toBeInTheDocument()
 
-      fireEvent.submit(document.querySelector('form'))
+      await act(async () => {
+        fireEvent.submit(document.querySelector('form'))
+      })
       expect(
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
@@ -931,7 +943,7 @@ describe('Form.useData', () => {
       })
     })
 
-    it('should reduce array size when updating with a smaller array', () => {
+    it('should reduce array size when updating with a smaller array', async () => {
       type MyData = {
         beneficialOwners: {
           addedOwners: Array<{
@@ -944,7 +956,7 @@ describe('Form.useData', () => {
       const { result } = renderHook(() => useData<MyData>(identifier))
 
       // Initialize with 3 items
-      act(() => {
+      await act(async () => {
         result.current.update('/beneficialOwners/addedOwners', [
           { id: 1, name: 'Owner 1' },
           { id: 2, name: 'Owner 2' },
@@ -966,7 +978,7 @@ describe('Form.useData', () => {
       ).toBe(3)
 
       // Reduce to 1 item
-      act(() => {
+      await act(async () => {
         result.current.update('/beneficialOwners/addedOwners', [
           { id: 1, name: 'Owner 1' },
         ])
@@ -983,7 +995,7 @@ describe('Form.useData', () => {
       })
     })
 
-    it('should increase array size correctly', () => {
+    it('should increase array size correctly', async () => {
       type MyData = {
         beneficialOwners: {
           addedOwners: Array<{
@@ -996,7 +1008,7 @@ describe('Form.useData', () => {
       const { result } = renderHook(() => useData<MyData>(identifier))
 
       // Initialize with 1 item
-      act(() => {
+      await act(async () => {
         result.current.update('/beneficialOwners/addedOwners', [
           { id: 1, name: 'Owner 1' },
         ])
@@ -1007,7 +1019,7 @@ describe('Form.useData', () => {
       ).toBe(1)
 
       // Increase to 3 items
-      act(() => {
+      await act(async () => {
         result.current.update('/beneficialOwners/addedOwners', [
           { id: 1, name: 'Owner 1' },
           { id: 2, name: 'Owner 2' },
@@ -1075,7 +1087,7 @@ describe('Form.useData', () => {
         ).toBe(3)
       })
 
-      act(() => {
+      await act(async () => {
         result.current.update('/beneficialOwners/addedOwners', [
           { name: 'Owner 1' },
         ])
@@ -1094,7 +1106,7 @@ describe('Form.useData', () => {
       })
       expect(document.querySelectorAll('input').length).toBe(1)
 
-      act(() => {
+      await act(async () => {
         result.current.update('/beneficialOwners/addedOwners', [
           { name: 'Eier 1' },
           { name: 'Eier 2' },
@@ -1121,11 +1133,11 @@ describe('Form.useData', () => {
     })
   })
 
-  it('should rerender when shared state calls "set"', () => {
+  it('should rerender when shared state calls "set"', async () => {
     const { result: A } = renderHook(() => useData(identifier))
     const { result: B } = renderHook(() => useData(identifier))
 
-    act(() => {
+    await act(async () => {
       B.current.set({ foo: 'bar' })
     })
 
@@ -1133,12 +1145,12 @@ describe('Form.useData', () => {
   })
 
   describe('initial data', () => {
-    it('should be able to update/set data even if no initial data was given', () => {
+    it('should be able to update/set data even if no initial data was given', async () => {
       const { result } = renderHook(() => useData(identifier))
 
       expect(result.current.data).toEqual(undefined)
 
-      act(() => {
+      await act(async () => {
         result.current.update('/key', () => {
           return 'my value'
         })
@@ -1189,7 +1201,7 @@ describe('Form.useData', () => {
     })
   })
 
-  it('should update data on second hook when using "set"', () => {
+  it('should update data on second hook when using "set"', async () => {
     const { result: A } = renderHook(() =>
       useData(identifier, { initial: 'data' })
     )
@@ -1197,14 +1209,14 @@ describe('Form.useData', () => {
 
     expect(A.current.data).toEqual({ initial: 'data' })
 
-    act(() => {
+    await act(async () => {
       B.current.set({ foo: 'bar' })
     })
 
     expect(A.current.data).toEqual({ foo: 'bar' })
   })
 
-  it('should replace data with "set"', () => {
+  it('should replace data with "set"', async () => {
     type Data = {
       initial?: string
       foo?: string
@@ -1220,14 +1232,14 @@ describe('Form.useData', () => {
     expect(B.current.data).toEqual({ initial: 'data' })
 
     // Change A
-    act(() => {
+    await act(async () => {
       A.current.set({ foo: 'bar' })
     })
 
     expect(A.current.data).toEqual({ foo: 'bar' })
     expect(B.current.data).toEqual({ foo: 'bar' })
 
-    act(() => {
+    await act(async () => {
       A.current.set({ baz: 'new' })
     })
 
@@ -1235,14 +1247,14 @@ describe('Form.useData', () => {
     expect(B.current.data).toEqual({ baz: 'new' })
 
     // Change B
-    act(() => {
+    await act(async () => {
       B.current.set({ foo: 'bar' })
     })
 
     expect(A.current.data).toEqual({ foo: 'bar' })
     expect(B.current.data).toEqual({ foo: 'bar' })
 
-    act(() => {
+    await act(async () => {
       B.current.set({ baz: 'new' })
     })
 
@@ -1266,7 +1278,7 @@ describe('Form.useData', () => {
     })
   })
 
-  it('should return filterData to filter fields with handler', () => {
+  it('should return filterData to filter fields with handler', async () => {
     const { result } = renderHook(() => useData(identifier), {
       wrapper: ({ children }) => (
         <Provider
@@ -1280,6 +1292,8 @@ describe('Form.useData', () => {
         </Provider>
       ),
     })
+
+    await act(async () => {})
 
     const filterDisabled: FilterData = jest.fn(({ props }) => {
       return props.disabled !== true
@@ -1299,7 +1313,7 @@ describe('Form.useData', () => {
     })
   })
 
-  it('should return filterData to filter fields with paths', () => {
+  it('should return filterData to filter fields with paths', async () => {
     type Data = {
       field1: string
       field2: string
@@ -1319,8 +1333,10 @@ describe('Form.useData', () => {
       ),
     })
 
-    fireEvent.change(document.querySelector('input'), {
-      target: { value: 'foo' },
+    await act(async () => {
+      fireEvent.change(document.querySelector('input'), {
+        target: { value: 'foo' },
+      })
     })
 
     expect(
@@ -1392,8 +1408,10 @@ describe('Form.useData', () => {
         field3: 'baz',
       })
 
-      fireEvent.change(field1, {
-        target: { value: 'hide me' },
+      await act(async () => {
+        fireEvent.change(field1, {
+          target: { value: 'hide me' },
+        })
       })
 
       expect(
@@ -1403,8 +1421,10 @@ describe('Form.useData', () => {
         field3: 'baz',
       })
 
-      fireEvent.change(field1, {
-        target: { value: 'something else' },
+      await act(async () => {
+        fireEvent.change(field1, {
+          target: { value: 'something else' },
+        })
       })
 
       expect(
@@ -1415,8 +1435,10 @@ describe('Form.useData', () => {
         field3: 'baz',
       })
 
-      fireEvent.change(field2, {
-        target: { value: 'hide me' },
+      await act(async () => {
+        fireEvent.change(field2, {
+          target: { value: 'hide me' },
+        })
       })
 
       expect(

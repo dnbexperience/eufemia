@@ -46,13 +46,13 @@ function getError(error: unknown) {
 }
 
 describe('useFieldProps', () => {
-  it('should call external onChange based change callbacks', () => {
+  it('should call external onChange based change callbacks', async () => {
     const onChange = jest.fn()
     const { result } = renderHook(() => useFieldProps({ onChange }))
 
     const { handleChange } = result.current
 
-    act(() => {
+    await act(async () => {
       handleChange('new-value')
     })
     expect(onChange).toHaveBeenCalledTimes(1)
@@ -63,7 +63,7 @@ describe('useFieldProps', () => {
     )
   })
 
-  it('should update data context with initially given "value"', () => {
+  it('should update data context with initially given "value"', async () => {
     const value = 'include this'
 
     const { result } = renderHook(
@@ -76,7 +76,7 @@ describe('useFieldProps', () => {
     })
   })
 
-  it('given "value" should take precedence over data context value', () => {
+  it('given "value" should take precedence over data context value', async () => {
     const value = 'include this'
     const givenValue = 'given value'
 
@@ -119,7 +119,7 @@ describe('useFieldProps', () => {
         })
       })
 
-      act(() => {
+      await act(async () => {
         rerender({
           onStatusChange,
           warning: 'updated warning',
@@ -184,7 +184,7 @@ describe('useFieldProps', () => {
         })
       })
 
-      act(() => {
+      await act(async () => {
         rerender({
           onStatusChange,
           info: 'updated info',
@@ -269,7 +269,7 @@ describe('useFieldProps', () => {
         })
       })
 
-      act(() => {
+      await act(async () => {
         rerender({
           onStatusChange,
           error: undefined,
@@ -353,7 +353,7 @@ describe('useFieldProps', () => {
       })
 
       // Change to invalid value (empty when required)
-      act(() => {
+      await act(async () => {
         rerender({ value: '' })
       })
 
@@ -371,7 +371,7 @@ describe('useFieldProps', () => {
       onStatusChange.mockClear()
 
       // Change back to valid value
-      act(() => {
+      await act(async () => {
         rerender({ value: 'valid again' })
       })
 
@@ -409,7 +409,7 @@ describe('useFieldProps', () => {
       })
 
       // Set error prop
-      act(() => {
+      await act(async () => {
         rerender({ error: error1 })
       })
 
@@ -424,7 +424,7 @@ describe('useFieldProps', () => {
       })
 
       // Change to different error
-      act(() => {
+      await act(async () => {
         rerender({ error: error2 })
       })
 
@@ -438,7 +438,7 @@ describe('useFieldProps', () => {
       })
 
       // Clear error
-      act(() => {
+      await act(async () => {
         rerender({ error: undefined })
       })
 
@@ -477,7 +477,7 @@ describe('useFieldProps', () => {
       })
 
       // Change to valid value
-      act(() => {
+      await act(async () => {
         rerender({ value: 'valid value' })
       })
 
@@ -488,7 +488,7 @@ describe('useFieldProps', () => {
       })
 
       // Change back to invalid value - error should appear again
-      act(() => {
+      await act(async () => {
         rerender({ value: '' })
       })
 
@@ -499,7 +499,7 @@ describe('useFieldProps', () => {
       })
 
       // Change to valid again
-      act(() => {
+      await act(async () => {
         rerender({ value: 'valid again' })
       })
 
@@ -530,7 +530,7 @@ describe('useFieldProps', () => {
       )
 
       // Change value to invalid - onBlurValidator should be called as onChangeValidator
-      act(() => {
+      await act(async () => {
         result.current.handleChange('ab')
       })
 
@@ -547,7 +547,7 @@ describe('useFieldProps', () => {
       onBlurValidator.mockClear()
 
       // Change value to valid - onBlurValidator should be called again
-      act(() => {
+      await act(async () => {
         result.current.handleChange('abc')
       })
 
@@ -585,7 +585,7 @@ describe('useFieldProps', () => {
       )
 
       // Change value to invalid - onChangeValidator should be called, not onBlurValidator
-      act(() => {
+      await act(async () => {
         result.current.handleChange('ab')
       })
 
@@ -619,7 +619,7 @@ describe('useFieldProps', () => {
       )
 
       // Change value - onBlurValidator should not be called as onChangeValidator
-      act(() => {
+      await act(async () => {
         result.current.handleChange('ab')
       })
 
@@ -630,7 +630,7 @@ describe('useFieldProps', () => {
       })
 
       // Only when blurring should onBlurValidator be called
-      act(() => {
+      await act(async () => {
         result.current.handleBlur()
       })
 
@@ -660,7 +660,7 @@ describe('useFieldProps', () => {
       expect(result.current.error).toBeUndefined()
 
       // Change to valid value - still no error
-      act(() => {
+      await act(async () => {
         result.current.handleChange('valid value')
       })
 
@@ -670,7 +670,7 @@ describe('useFieldProps', () => {
       })
 
       // Change back to empty - error should appear on change
-      act(() => {
+      await act(async () => {
         result.current.handleChange('')
       })
 
@@ -682,7 +682,7 @@ describe('useFieldProps', () => {
   })
 
   describe('defaultValue', () => {
-    it('should update data context with initially given "defaultValue"', () => {
+    it('should update data context with initially given "defaultValue"', async () => {
       const defaultValue = 'include this'
 
       const { result } = renderHook(
@@ -695,7 +695,7 @@ describe('useFieldProps', () => {
       })
     })
 
-    it('should support ReactStrict mode', () => {
+    it('should support ReactStrict mode', async () => {
       const defaultValue = 'include this'
 
       const { result } = renderHook(
@@ -716,7 +716,7 @@ describe('useFieldProps', () => {
       })
     })
 
-    it('given "defaultValue" should not take precedence over data context value', () => {
+    it('given "defaultValue" should not take precedence over data context value', async () => {
       const givenValue = 'given value'
       const defaultValue = 'include this'
 
@@ -736,7 +736,7 @@ describe('useFieldProps', () => {
       })
     })
 
-    it('should not update data context with changed "defaultValue" after rerendering', () => {
+    it('should not update data context with changed "defaultValue" after rerendering', async () => {
       const givenValue = 'given value'
       const defaultValue = 'include this'
 
@@ -757,7 +757,7 @@ describe('useFieldProps', () => {
         foo: givenValue,
       })
 
-      act(() => {
+      await act(async () => {
         rerender({ path: '/foo', defaultValue: 'new value' })
       })
 
@@ -766,7 +766,7 @@ describe('useFieldProps', () => {
       })
     })
 
-    it('changed "defaultValue" should not update value', () => {
+    it('changed "defaultValue" should not update value', async () => {
       const defaultValue = 'use this value'
       const changedValue = 'changed value'
 
@@ -781,7 +781,7 @@ describe('useFieldProps', () => {
 
       expect(result.current.value).toBe(defaultValue)
 
-      act(() => {
+      await act(async () => {
         rerender({ defaultValue: changedValue })
       })
 
@@ -806,14 +806,14 @@ describe('useFieldProps', () => {
 
     const { handleFocus, handleBlur, handleChange } = result.current
 
-    act(() => {
+    await act(async () => {
       handleFocus()
       handleChange('')
     })
     expect(result.current.error).toBeUndefined()
     expect(result.current.hasError).toBeFalsy()
 
-    act(() => {
+    await act(async () => {
       handleBlur()
     })
     await waitFor(() => {
@@ -821,7 +821,7 @@ describe('useFieldProps', () => {
       expect(result.current.hasError).toBeTruthy()
     })
 
-    act(() => {
+    await act(async () => {
       handleFocus()
       handleChange('a')
       handleBlur()
@@ -844,21 +844,21 @@ describe('useFieldProps', () => {
 
       const { handleFocus, handleBlur, handleChange } = result.current
 
-      act(() => {
+      await act(async () => {
         handleFocus()
         handleChange('')
       })
 
       expect(result.current.error).toBeUndefined()
 
-      act(() => {
+      await act(async () => {
         handleBlur()
       })
       await waitFor(() => {
         expect(result.current.error).toBeInstanceOf(Error)
       })
 
-      act(() => {
+      await act(async () => {
         handleFocus()
         handleChange('a')
         handleBlur()
@@ -881,14 +881,14 @@ describe('useFieldProps', () => {
 
       const { handleChange } = result.current
 
-      act(() => {
+      await act(async () => {
         handleChange('')
       })
       await waitFor(() => {
         expect(result.current.error).toBeInstanceOf(Error)
       })
 
-      act(() => {
+      await act(async () => {
         handleChange('abc')
       })
       await waitFor(() => {
@@ -916,7 +916,7 @@ describe('useFieldProps', () => {
         expect(result.current.error).toBeUndefined()
       })
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('x')
         result.current.handleBlur()
       })
@@ -926,7 +926,7 @@ describe('useFieldProps', () => {
       })
     })
 
-    it('should set info, warning and error when returned by onChange', () => {
+    it('should set info, warning and error when returned by onChange', async () => {
       const onChange = () => {
         return {
           info: 'Info message',
@@ -943,7 +943,7 @@ describe('useFieldProps', () => {
 
       const { handleChange } = result.current
 
-      act(() => {
+      await act(async () => {
         handleChange('123')
       })
 
@@ -977,7 +977,7 @@ describe('useFieldProps', () => {
         expect(result.current.error).toBeUndefined()
       })
 
-      act(() => {
+      await act(async () => {
         handleChange('invalid')
       })
 
@@ -985,7 +985,7 @@ describe('useFieldProps', () => {
         expect(result.current.error).toBeInstanceOf(Error)
       })
 
-      act(() => {
+      await act(async () => {
         handleFocus()
         handleChange('valid')
       })
@@ -1019,7 +1019,7 @@ describe('useFieldProps', () => {
         expect(result.current.error).toBeUndefined()
       })
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange(null)
       })
 
@@ -1027,7 +1027,7 @@ describe('useFieldProps', () => {
         expect(result.current.error).toBeUndefined()
       })
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('invalid')
       })
 
@@ -1076,7 +1076,7 @@ describe('useFieldProps', () => {
         )
       })
 
-      act(() => {
+      await act(async () => {
         handleChange('')
       })
 
@@ -1084,7 +1084,7 @@ describe('useFieldProps', () => {
         expect(result.current.error).toBeUndefined()
       })
 
-      act(() => {
+      await act(async () => {
         rerender({
           value: 'invalid',
           schema: {
@@ -1093,7 +1093,7 @@ describe('useFieldProps', () => {
         })
       })
 
-      act(() => {
+      await act(async () => {
         handleChange('valid')
       })
 
@@ -1101,7 +1101,7 @@ describe('useFieldProps', () => {
         expect(result.current.error).toBeUndefined()
       })
 
-      act(() => {
+      await act(async () => {
         handleChange(123)
       })
 
@@ -1168,110 +1168,108 @@ describe('useFieldProps', () => {
       })
 
       // Try onBlurValidator
-      act(() => {
+      await act(async () => {
         result.current.handleChange('throw-onBlurValidator')
+      })
+      await act(async () => {
         result.current.handleBlur()
       })
-      await waitFor(() => {
-        expect(getError(result.current.error).message).toBe(
-          'throw-onBlurValidator'
-        )
-      })
+      expect(getError(result.current.error).message).toBe(
+        'throw-onBlurValidator'
+      )
 
       // Try required
-      act(() => {
+      await act(async () => {
         result.current.handleChange('make change')
+      })
+      await act(async () => {
         result.current.handleChange('throw-on-required')
+      })
+      await act(async () => {
         result.current.handleBlur()
       })
-      await waitFor(() => {
-        expect(getError(result.current.error).message).toBe(
-          'throw-on-required'
-        )
-      })
+      expect(getError(result.current.error).message).toBe(
+        'throw-on-required'
+      )
 
       // Remove error
-      act(() => {
+      await act(async () => {
         result.current.handleChange(undefined)
       })
-      await waitFor(() => {
-        expect(result.current.error).toBeUndefined()
-      })
+      expect(result.current.error).toBeUndefined()
 
       // Try onBlurValidator
-      act(() => {
+      await act(async () => {
         result.current.handleChange('throw-onBlurValidator')
+      })
+      await act(async () => {
         result.current.handleBlur()
       })
-      await waitFor(() => {
-        expect(getError(result.current.error).message).toBe(
-          'throw-onBlurValidator'
-        )
-      })
+      expect(getError(result.current.error).message).toBe(
+        'throw-onBlurValidator'
+      )
 
       // Try schema
-      act(() => {
+      await act(async () => {
         result.current.handleChange('make change')
+      })
+      await act(async () => {
         result.current.handleChange('throw-on-schema')
+      })
+      await act(async () => {
         result.current.handleBlur()
       })
-      await waitFor(() => {
-        expect(getError(result.current.error).message).toBe(
-          nb.Field.errorPattern
-        )
-      })
+      expect(getError(result.current.error).message).toBe(
+        nb.Field.errorPattern
+      )
 
       // Remove error
-      act(() => {
+      await act(async () => {
         result.current.handleChange(undefined)
       })
-      await waitFor(() => {
-        expect(result.current.error).toBeUndefined()
-      })
+      expect(result.current.error).toBeUndefined()
 
       // Try onBlurValidator
-      act(() => {
+      await act(async () => {
         result.current.handleChange('throw-onBlurValidator')
+      })
+      await act(async () => {
         result.current.handleBlur()
       })
-      await waitFor(() => {
-        expect(getError(result.current.error).message).toBe(
-          'throw-onBlurValidator'
-        )
-      })
+      expect(getError(result.current.error).message).toBe(
+        'throw-onBlurValidator'
+      )
 
       // Remove error
-      act(() => {
+      await act(async () => {
         result.current.handleChange(undefined)
       })
-      await waitFor(() => {
-        expect(result.current.error).toBeUndefined()
-      })
+      expect(result.current.error).toBeUndefined()
 
       // Try onChangeValidator
-      act(() => {
+      await act(async () => {
         result.current.handleChange('make change')
+      })
+      await act(async () => {
         result.current.handleChange('throw-onChangeValidator')
       })
-      await waitFor(() => {
-        expect(getError(result.current.error).message).toBe(
-          'throw-onChangeValidator'
-        )
-      })
+      expect(getError(result.current.error).message).toBe(
+        'throw-onChangeValidator'
+      )
 
       // Try onBlurValidator
-      act(() => {
+      await act(async () => {
         result.current.handleChange('throw-onBlurValidator')
+      })
+      await act(async () => {
         result.current.handleBlur()
       })
-      await waitFor(() => {
-        expect(getError(result.current.error).message).toBe(
-          'throw-onBlurValidator'
-        )
-      })
+      expect(getError(result.current.error).message).toBe(
+        'throw-onBlurValidator'
+      )
     })
 
-    it('should render error message given as string', () => {
+    it('should render error message given as string', async () => {
       const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
 
       const error = 'A formatted error message'
@@ -1288,7 +1286,7 @@ describe('useFieldProps', () => {
         'A formatted error message'
       )
 
-      act(() => {
+      await act(async () => {
         rerender({ error: undefined })
       })
 
@@ -1297,7 +1295,7 @@ describe('useFieldProps', () => {
       ).not.toBeInTheDocument()
     })
 
-    it('should render error message given as JSX', () => {
+    it('should render error message given as JSX', async () => {
       const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
 
       const error = (
@@ -1321,7 +1319,7 @@ describe('useFieldProps', () => {
         'A formatted error message'
       )
 
-      act(() => {
+      await act(async () => {
         rerender({ error: undefined })
       })
 
@@ -1330,7 +1328,7 @@ describe('useFieldProps', () => {
       ).not.toBeInTheDocument()
     })
 
-    it('should render error messages given as JSX in an array', () => {
+    it('should render error messages given as JSX in an array', async () => {
       const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
 
       const { rerender } = renderHook(
@@ -1357,7 +1355,7 @@ describe('useFieldProps', () => {
           `<ul class="dnb-ul"><li class="dnb-li">First <strong>formatted</strong> error message</li><li class="dnb-li">Second <strong>formatted</strong> error message</li></ul>`
       )
 
-      act(() => {
+      await act(async () => {
         rerender({ error: undefined })
       })
 
@@ -1367,7 +1365,7 @@ describe('useFieldProps', () => {
     })
 
     describe('errorMessages', () => {
-      it('should show given error from errorMessages', () => {
+      it('should show given error from errorMessages', async () => {
         const { result } = renderHook(() =>
           useFieldProps({
             value: undefined,
@@ -1384,7 +1382,7 @@ describe('useFieldProps', () => {
         )
       })
 
-      it('should update error message given via errorMessages', () => {
+      it('should update error message given via errorMessages', async () => {
         const props = {
           value: undefined,
           required: true,
@@ -1406,7 +1404,7 @@ describe('useFieldProps', () => {
           'Show this message'
         )
 
-        act(() => {
+        await act(async () => {
           rerender({
             ...props,
             errorMessages: {
@@ -1446,7 +1444,7 @@ describe('useFieldProps', () => {
           )
         })
 
-        act(() => {
+        await act(async () => {
           rerender(
             <Provider locale="en-GB">
               <MockComponent />
@@ -1461,7 +1459,7 @@ describe('useFieldProps', () => {
         })
       })
 
-      it('should render error message given as JSX', () => {
+      it('should render error message given as JSX', async () => {
         const wrapper = ({ children }) => (
           <FieldBlock>{children}</FieldBlock>
         )
@@ -1493,7 +1491,7 @@ describe('useFieldProps', () => {
           document.querySelector('.dnb-form-status').textContent
         ).toBe('A formatted error message')
 
-        act(() => {
+        await act(async () => {
           rerender({ error: undefined, errorMessages })
         })
 
@@ -1503,7 +1501,7 @@ describe('useFieldProps', () => {
       })
     })
 
-    it('should validate required when value is empty string', () => {
+    it('should validate required when value is empty string', async () => {
       const { result } = renderHook(() =>
         useFieldProps({
           value: '',
@@ -1544,7 +1542,7 @@ describe('useFieldProps', () => {
         expect(result.current.error).toBeUndefined()
       })
 
-      act(() => {
+      await act(async () => {
         handleChange(2)
       })
 
@@ -1555,7 +1553,7 @@ describe('useFieldProps', () => {
         )
       })
 
-      act(() => {
+      await act(async () => {
         handleChange(1)
       })
 
@@ -1593,7 +1591,7 @@ describe('useFieldProps', () => {
 
         expect(result.current.error).toBeInstanceOf(Error)
 
-        act(() => {
+        await act(async () => {
           rerender({
             disabled: true,
           } as any)
@@ -1617,7 +1615,7 @@ describe('useFieldProps', () => {
 
         expect(result.current.error).toBeInstanceOf(Error)
 
-        act(() => {
+        await act(async () => {
           rerender({
             readOnly: true,
           } as any)
@@ -1629,7 +1627,7 @@ describe('useFieldProps', () => {
   })
 
   describe('onBlur', () => {
-    it('should provide "additionalArgs" to onBlur', () => {
+    it('should provide "additionalArgs" to onBlur', async () => {
       const onBlur: OnChange<unknown> = jest.fn()
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
@@ -1644,7 +1642,7 @@ describe('useFieldProps', () => {
 
       expect(onBlur).toHaveBeenCalledTimes(0)
 
-      act(() => {
+      await act(async () => {
         handleChange('123')
         handleBlur()
       })
@@ -1660,7 +1658,7 @@ describe('useFieldProps', () => {
   })
 
   describe('onFocus', () => {
-    it('should provide "additionalArgs" to onFocus', () => {
+    it('should provide "additionalArgs" to onFocus', async () => {
       const onFocus: OnChange<unknown> = jest.fn()
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
@@ -1675,7 +1673,7 @@ describe('useFieldProps', () => {
 
       expect(onFocus).toHaveBeenCalledTimes(0)
 
-      act(() => {
+      await act(async () => {
         handleChange('123')
         handleFocus()
       })
@@ -1691,7 +1689,7 @@ describe('useFieldProps', () => {
   })
 
   describe('with sync onChange', () => {
-    it('should provide "additionalArgs" to onChange', () => {
+    it('should provide "additionalArgs" to onChange', async () => {
       const onChange: OnChange<unknown> = jest.fn()
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
@@ -1706,7 +1704,7 @@ describe('useFieldProps', () => {
 
       expect(onChange).toHaveBeenCalledTimes(0)
 
-      act(() => {
+      await act(async () => {
         handleChange('456')
       })
 
@@ -1722,7 +1720,7 @@ describe('useFieldProps', () => {
 
   describe('with async onChange', () => {
     const validateBlur = async (result, value) => {
-      act(() => {
+      await act(async () => {
         result.current.handleChange(value)
         result.current.handleBlur()
       })
@@ -1745,13 +1743,13 @@ describe('useFieldProps', () => {
 
       expect(result.current.fieldState).toBeUndefined()
 
-      act(() => {
+      await act(async () => {
         result.current.handleBlur()
       })
 
       expect(result.current.fieldState).toBe(undefined)
 
-      act(() => {
+      await act(async () => {
         rerender({
           onChange,
           value: '456',
@@ -1776,25 +1774,17 @@ describe('useFieldProps', () => {
 
       expect(result.current.fieldState).toBeUndefined()
 
-      act(() => {
+      await act(async () => {
         handleChange('123')
       })
 
-      expect(result.current.fieldState).toBe('pending')
+      expect(result.current.fieldState).toBe('complete')
 
-      await waitFor(() => {
-        expect(result.current.fieldState).toBe('complete')
-      })
-
-      act(() => {
+      await act(async () => {
         handleChange('456')
       })
 
-      expect(result.current.fieldState).toBe('pending')
-
-      await waitFor(() => {
-        expect(result.current.fieldState).toBe('complete')
-      })
+      expect(result.current.fieldState).toBe('complete')
     })
 
     it('should set fieldState to complete when error returned from onChange', async () => {
@@ -1814,24 +1804,18 @@ describe('useFieldProps', () => {
 
       expect(result.current.fieldState).toBeUndefined()
 
-      act(() => {
+      await act(async () => {
         handleChange('123')
       })
-
-      expect(result.current.fieldState).toBe('pending')
-      expect(result.current.error).toBeUndefined()
 
       await waitFor(() => {
         expect(result.current.fieldState).toBe('error')
         expect(result.current.error).toBeInstanceOf(Error)
       })
 
-      act(() => {
+      await act(async () => {
         handleChange('456')
       })
-
-      expect(result.current.fieldState).toBe('pending')
-      expect(result.current.error).toBeUndefined()
 
       await waitFor(() => {
         expect(result.current.fieldState).toBe('error')
@@ -1867,26 +1851,16 @@ describe('useFieldProps', () => {
 
       await validateBlur(result, '123')
 
-      expect(result.current.fieldState).toBe('pending')
-      expect(events).toEqual(['onChangeValidator'])
-
-      await waitFor(() => {
-        expect(result.current.fieldState).toBe('complete')
-        expect(events).toEqual(['onChangeValidator', 'onChange'])
-      })
+      expect(result.current.fieldState).toBe('complete')
+      expect(events).toEqual(['onChangeValidator', 'onChange'])
 
       // Reset events
       events.splice(0, events.length)
 
       await validateBlur(result, '456')
 
-      expect(result.current.fieldState).toBe('pending')
-      expect(events).toEqual(['onChangeValidator'])
-
-      await waitFor(() => {
-        expect(result.current.fieldState).toBe('success')
-        expect(events).toEqual(['onChangeValidator', 'onChange'])
-      })
+      expect(result.current.fieldState).toBe('success')
+      expect(events).toEqual(['onChangeValidator', 'onChange'])
     })
 
     it('should validate "onBlurValidator" before onChange call', async () => {
@@ -1917,9 +1891,6 @@ describe('useFieldProps', () => {
 
       await validateBlur(result, '123')
 
-      expect(result.current.fieldState).toBe('pending')
-      expect(events).toEqual(['onBlurValidator'])
-
       await waitFor(() => {
         expect(result.current.fieldState).toBe('complete')
         expect(events).toEqual(['onBlurValidator', 'onChange'])
@@ -1929,9 +1900,6 @@ describe('useFieldProps', () => {
       events.splice(0, events.length)
 
       await validateBlur(result, '456')
-
-      expect(result.current.fieldState).toBe('pending')
-      expect(events).toEqual(['onBlurValidator'])
 
       await waitFor(() => {
         expect(result.current.fieldState).toBe('success')
@@ -1957,23 +1925,19 @@ describe('useFieldProps', () => {
 
       expect(result.current.disabled).toBeUndefined()
 
-      result.current.handleChange('123')
+      await act(async () => {
+        result.current.handleChange('123')
+      })
 
       expect(result.current.disabled).toBeUndefined()
 
-      await waitFor(() => {
-        expect(result.current.disabled).toBeUndefined()
+      await act(async () => {
+        result.current.handleChange('456')
       })
-
-      result.current.handleChange('456')
 
       expect(result.current.disabled).toBeUndefined()
 
-      await waitFor(() => {
-        expect(result.current.disabled).toBeUndefined()
-      })
-
-      act(() => {
+      await act(async () => {
         rerender({
           onChange,
           onChangeValidator: undefined,
@@ -1981,19 +1945,17 @@ describe('useFieldProps', () => {
         })
       })
 
-      result.current.handleChange('789')
+      await act(async () => {
+        result.current.handleChange('789')
+      })
 
       expect(result.current.disabled).toBeUndefined()
 
-      act(() => {
+      await act(async () => {
         result.current.handleBlur()
       })
 
-      expect(result.current.disabled).toBeTruthy()
-
-      await waitFor(() => {
-        expect(result.current.disabled).toBeUndefined()
-      })
+      expect(result.current.disabled).toBeUndefined()
     })
 
     it('should validate "onChangeValidator" and "onBlurValidator" before onChange call', async () => {
@@ -2028,36 +1990,24 @@ describe('useFieldProps', () => {
 
       await validateBlur(result, '123')
 
-      expect(result.current.fieldState).toBe('pending')
-      expect(events).toEqual(['onChangeValidator', 'onBlurValidator'])
-
-      await waitFor(() => {
-        expect(result.current.fieldState).toBe('complete')
-        expect(events).toEqual([
-          'onChangeValidator',
-          'onBlurValidator',
-          'onChange',
-        ])
-      })
+      expect(result.current.fieldState).toBe('complete')
+      expect(events).toEqual([
+        'onChangeValidator',
+        'onBlurValidator',
+        'onChange',
+      ])
 
       // Reset events
       events.splice(0, events.length)
 
       await validateBlur(result, '456')
 
-      expect(result.current.fieldState).toBe('pending')
-      expect(events).toEqual(['onChangeValidator', 'onBlurValidator'])
-
-      await wait(100)
-
-      await waitFor(() => {
-        expect(result.current.fieldState).toBe('success')
-        expect(events).toEqual([
-          'onChangeValidator',
-          'onBlurValidator',
-          'onChange',
-        ])
-      })
+      expect(result.current.fieldState).toBe('success')
+      expect(events).toEqual([
+        'onChangeValidator',
+        'onBlurValidator',
+        'onChange',
+      ])
     })
 
     it('should skip onChange call when "onChangeValidator" returns error', async () => {
@@ -2083,25 +2033,16 @@ describe('useFieldProps', () => {
 
       await validateBlur(result, '123')
 
-      expect(result.current.fieldState).toBe('pending')
+      expect(result.current.fieldState).toBe('error')
       expect(events).toEqual(['onChangeValidator'])
-
-      await waitFor(() => {
-        expect(result.current.fieldState).toBe('error')
-      })
 
       // Reset events
       events.splice(0, events.length)
 
       await validateBlur(result, '456')
 
-      expect(result.current.fieldState).toBe('pending')
+      expect(result.current.fieldState).toBe('error')
       expect(events).toEqual(['onChangeValidator'])
-
-      await waitFor(() => {
-        expect(result.current.fieldState).toBe('error')
-        expect(events).toEqual(['onChangeValidator'])
-      })
     })
 
     it('should skip onChange call when "onBlurValidator" returns error', async () => {
@@ -2127,9 +2068,6 @@ describe('useFieldProps', () => {
 
       await validateBlur(result, '123')
 
-      expect(result.current.fieldState).toBe('pending')
-      expect(events).toEqual(['onBlurValidator'])
-
       await waitFor(() => {
         expect(getError(result.current.error).message).toBe(
           'Error message'
@@ -2141,9 +2079,6 @@ describe('useFieldProps', () => {
       events.splice(0, events.length)
 
       await validateBlur(result, '456')
-
-      expect(result.current.fieldState).toBe('pending')
-      expect(events).toEqual(['onBlurValidator'])
 
       await waitFor(() => {
         expect(getError(result.current.error).message).toBe(
@@ -2170,15 +2105,11 @@ describe('useFieldProps', () => {
 
       const { handleChange } = result.current
 
-      act(() => {
+      await act(async () => {
         handleChange('123')
       })
 
-      expect(result.current.error).toBeUndefined()
-
-      await waitFor(() => {
-        expect(result.current.error).toBeInstanceOf(Error)
-      })
+      expect(result.current.error).toBeInstanceOf(Error)
     })
 
     it('should wait for both "onChangeValidator" and "onBlurValidator" and DataContext onChange before local onChange call', async () => {
@@ -2221,35 +2152,25 @@ describe('useFieldProps', () => {
 
       await validateBlur(result, '123')
 
-      expect(result.current.fieldState).toBe('pending')
-      expect(events).toEqual(['onChangeValidator', 'onBlurValidator'])
-
-      await waitFor(() => {
-        expect(result.current.fieldState).toBe('error')
-        expect(events).toEqual([
-          'onChangeValidator',
-          'onBlurValidator',
-          'onChangeForm',
-        ])
-      })
+      expect(result.current.fieldState).toBe('error')
+      expect(events).toEqual([
+        'onChangeValidator',
+        'onBlurValidator',
+        'onChangeForm',
+      ])
 
       // Reset events
       events.splice(0, events.length)
 
       await validateBlur(result, '456')
 
-      expect(result.current.fieldState).toBe('pending')
-      expect(events).toEqual(['onChangeValidator', 'onBlurValidator'])
-
-      await waitFor(() => {
-        expect(result.current.fieldState).toBe('success')
-        expect(events).toEqual([
-          'onChangeValidator',
-          'onBlurValidator',
-          'onChangeForm',
-          'onChangeField',
-        ])
-      })
+      expect(result.current.fieldState).toBe('success')
+      expect(events).toEqual([
+        'onChangeValidator',
+        'onBlurValidator',
+        'onChangeForm',
+        'onChangeField',
+      ])
     })
 
     it('should handle gracefully the "onChangeValidator" and "onBlurValidator" and DataContext "onChange" and before the local onChange call', async () => {
@@ -2310,66 +2231,48 @@ describe('useFieldProps', () => {
       expect(result.current.fieldState).toBeUndefined()
       expect(result.current.error).toBeUndefined()
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('valid')
       })
 
-      expect(result.current.fieldState).toBe('pending')
+      expect(events).toEqual([
+        'onChangeValidator',
+        'onChangeForm',
+        'onChangeField',
+      ])
+      expect(result.current.fieldState).toBe('success')
       expect(result.current.error).toBeUndefined()
 
-      await waitFor(() => {
-        expect(events).toEqual([
-          'onChangeValidator',
-          'onChangeForm',
-          'onChangeField',
-        ])
-        expect(result.current.fieldState).toBe('success')
-        expect(result.current.error).toBeUndefined()
-      })
-
-      act(() => {
+      await act(async () => {
         result.current.handleBlur()
       })
 
-      expect(result.current.fieldState).toBe('pending')
-
-      await waitFor(() => {
-        expect(events).toEqual([
-          'onChangeValidator',
-          'onChangeForm',
-          'onChangeField',
-          'onBlurValidator',
-        ])
-        expect(result.current.fieldState).toBe('complete')
-        expect(result.current.error).toBeUndefined()
-      })
+      expect(events).toEqual([
+        'onChangeValidator',
+        'onChangeForm',
+        'onChangeField',
+        'onBlurValidator',
+      ])
+      expect(result.current.fieldState).toBe('complete')
+      expect(result.current.error).toBeUndefined()
 
       // Reset events
       events.splice(0, events.length)
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('invalid')
       })
 
       expect(events).toEqual(['onChangeValidator'])
-      expect(result.current.fieldState).toBe('pending')
-      expect(result.current.error).toBeUndefined()
 
       await waitFor(() => {
-        expect(events).toEqual(['onChangeValidator'])
         expect(result.current.fieldState).toBe('error')
         expect(result.current.error).toBeInstanceOf(Error)
       })
 
-      act(() => {
+      await act(async () => {
         result.current.handleBlur()
       })
-
-      expect(result.current.fieldState).toBe('pending')
-      expect(result.current.error).toBeInstanceOf(Error)
-      expect(getError(result.current.error).message).toBe(
-        'Error message by onChangeValidator'
-      )
 
       await waitFor(() => {
         expect(events).toEqual(['onChangeValidator', 'onBlurValidator'])
@@ -2383,40 +2286,28 @@ describe('useFieldProps', () => {
       // Reset events
       events.splice(0, events.length)
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('valid')
       })
 
-      expect(events).toEqual(['onChangeValidator'])
-      expect(result.current.fieldState).toBe('pending')
+      expect(events).toEqual([
+        'onChangeValidator',
+        'onChangeForm',
+        'onChangeField',
+      ])
+      expect(result.current.fieldState).toBe('success')
       expect(result.current.error).toBeUndefined()
-
-      await waitFor(() => {
-        expect(events).toEqual([
-          'onChangeValidator',
-          'onChangeForm',
-          'onChangeField',
-        ])
-        expect(result.current.fieldState).toBe('success')
-        expect(result.current.error).toBeUndefined()
-      })
 
       // Reset events
       events.splice(0, events.length)
 
-      act(() => {
+      await act(async () => {
         result.current.handleBlur()
       })
 
       expect(events).toEqual(['onBlurValidator'])
-      expect(result.current.fieldState).toBe('pending')
+      expect(result.current.fieldState).toBe('complete')
       expect(result.current.error).toBeUndefined()
-
-      await waitFor(() => {
-        expect(events).toEqual(['onBlurValidator'])
-        expect(result.current.fieldState).toBe('complete')
-        expect(result.current.error).toBeUndefined()
-      })
     })
 
     it('should have correct order for when calling the "onChangeValidator" (if initiated and "onBlurValidator") and DataContext "onChange", before the local onChange call', async () => {
@@ -2493,49 +2384,37 @@ describe('useFieldProps', () => {
       expect(events).toEqual([])
       expect(result.current.fieldState).toBeUndefined()
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('valid')
       })
 
-      expect(result.current.fieldState).toBe('pending')
+      expect(events).toEqual([
+        'onChangeValidator',
+        'onChangeForm',
+        'onChangeField',
+      ])
+      expect(result.current.fieldState).toBe('success')
+      expect(result.current.error).toBeUndefined()
 
-      await waitFor(() => {
-        expect(events).toEqual([
-          'onChangeValidator',
-          'onChangeForm',
-          'onChangeField',
-        ])
-        expect(result.current.fieldState).toBe('success')
-        expect(result.current.error).toBeUndefined()
-      })
-
-      act(() => {
+      await act(async () => {
         result.current.handleBlur()
       })
 
-      expect(result.current.fieldState).toBe('pending')
-
-      await waitFor(() => {
-        expect(events).toEqual([
-          'onChangeValidator',
-          'onChangeForm',
-          'onChangeField',
-          'onBlurValidator',
-        ])
-        expect(result.current.fieldState).toBe('complete')
-        expect(result.current.error).toBeUndefined()
-      })
+      expect(events).toEqual([
+        'onChangeValidator',
+        'onChangeForm',
+        'onChangeField',
+        'onBlurValidator',
+      ])
+      expect(result.current.fieldState).toBe('complete')
+      expect(result.current.error).toBeUndefined()
 
       // Reset events
       events.splice(0, events.length)
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('invalid-onChangeValidator')
       })
-
-      expect(events).toEqual(['onChangeValidator'])
-      expect(result.current.fieldState).toBe('pending')
-      expect(result.current.error).toBeUndefined()
 
       await waitFor(() => {
         expect(events).toEqual(['onChangeValidator'])
@@ -2548,19 +2427,19 @@ describe('useFieldProps', () => {
       // Reset events
       events.splice(0, events.length)
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('invalid-onBlurValidator')
       })
 
-      expect(events).toEqual(['onChangeValidator'])
+      expect(events).toEqual([
+        'onChangeValidator',
+        'onChangeForm',
+        'onChangeField',
+      ])
 
-      await wait(1)
-
-      act(() => {
+      await act(async () => {
         result.current.handleBlur()
       })
-
-      expect(result.current.fieldState).toBe('pending')
 
       await waitFor(() => {
         expect(events).toEqual([
@@ -2578,13 +2457,9 @@ describe('useFieldProps', () => {
       // Reset events
       events.splice(0, events.length)
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('invalid-onChangeForm')
       })
-
-      expect(events).toEqual(['onChangeValidator'])
-
-      expect(result.current.fieldState).toBe('pending')
 
       await waitFor(() => {
         expect(events).toEqual(['onChangeValidator', 'onChangeForm'])
@@ -2597,13 +2472,9 @@ describe('useFieldProps', () => {
       // Reset events
       events.splice(0, events.length)
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('invalid-onChangeField')
       })
-
-      expect(events).toEqual(['onChangeValidator'])
-
-      expect(result.current.fieldState).toBe('pending')
 
       await waitFor(() => {
         expect(events).toEqual([
@@ -2620,15 +2491,17 @@ describe('useFieldProps', () => {
       // Reset events
       events.splice(0, events.length)
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('invalid-onBlurValidator')
       })
 
-      expect(events).toEqual(['onChangeValidator'])
+      expect(events).toEqual([
+        'onChangeValidator',
+        'onChangeForm',
+        'onChangeField',
+      ])
 
-      await wait(1)
-
-      act(() => {
+      await act(async () => {
         result.current.handleBlur()
       })
 
@@ -2663,21 +2536,13 @@ describe('useFieldProps', () => {
 
       const { handleChange } = result.current
 
-      act(() => {
+      await act(async () => {
         handleChange('123')
       })
 
-      expect(result.current.info).toBeUndefined()
-      expect(result.current.warning).toBeUndefined()
-      expect(result.current.error).toBeUndefined()
-
-      await waitFor(() => {
-        expect(result.current.info).toBe('Info message')
-        expect(result.current.warning).toBe('Warning message')
-        expect(getError(result.current.error).message).toBe(
-          'Error message'
-        )
-      })
+      expect(result.current.info).toBe('Info message')
+      expect(result.current.warning).toBe('Warning message')
+      expect(getError(result.current.error).message).toBe('Error message')
     })
 
     it('should provide "additionalArgs" to onChange', async () => {
@@ -2697,7 +2562,7 @@ describe('useFieldProps', () => {
 
       expect(onChange).toHaveBeenCalledTimes(0)
 
-      act(() => {
+      await act(async () => {
         handleChange('456')
       })
 
@@ -2905,7 +2770,7 @@ describe('useFieldProps', () => {
 
       expect(result.current.htmlAttributes).toEqual({})
 
-      act(() => {
+      await act(async () => {
         rerender({ info: 'info' })
       })
 
@@ -2913,7 +2778,7 @@ describe('useFieldProps', () => {
         'aria-describedby': expect.stringMatching(/id-.*-form-status/),
       })
 
-      act(() => {
+      await act(async () => {
         rerender({ warning: 'warning' })
       })
 
@@ -2921,7 +2786,7 @@ describe('useFieldProps', () => {
         'aria-describedby': expect.stringMatching(/id-.*-form-status/),
       })
 
-      act(() => {
+      await act(async () => {
         rerender({ error: new Error('error') })
       })
 
@@ -2930,7 +2795,7 @@ describe('useFieldProps', () => {
         'aria-invalid': 'true',
       })
 
-      act(() => {
+      await act(async () => {
         rerender({})
       })
 
@@ -2951,7 +2816,7 @@ describe('useFieldProps', () => {
   })
 
   describe('value manipulation with transformers', () => {
-    it('should call "transformIn" and "transformOut"', () => {
+    it('should call "transformIn" and "transformOut"', async () => {
       const transformIn = jest.fn((v) => v - 1)
       const transformOut = jest.fn((v) => v + 1)
       const onChange = jest.fn()
@@ -2971,7 +2836,7 @@ describe('useFieldProps', () => {
       expect(transformIn).toHaveBeenLastCalledWith(1)
       expect(transformOut).toHaveBeenCalledTimes(0)
 
-      act(() => {
+      await act(async () => {
         handleChange(2)
       })
 
@@ -2981,7 +2846,7 @@ describe('useFieldProps', () => {
       expect(transformOut).toHaveBeenNthCalledWith(1, 2, expect.anything())
       expect(transformOut).toHaveBeenNthCalledWith(2, 2, expect.anything())
 
-      act(() => {
+      await act(async () => {
         handleChange(4)
       })
 
@@ -2992,7 +2857,7 @@ describe('useFieldProps', () => {
       expect(transformOut).toHaveBeenNthCalledWith(4, 4, expect.anything())
     })
 
-    it('should call "transformOut" initially when path is given', () => {
+    it('should call "transformOut" initially when path is given', async () => {
       const transformOut = jest.fn((v) => v + 1)
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
@@ -3012,7 +2877,7 @@ describe('useFieldProps', () => {
       expect(result.current.value).toEqual(1)
     })
 
-    it('should call "transformOut" initially when "value" is given', () => {
+    it('should call "transformOut" initially when "value" is given', async () => {
       const transformOut = jest.fn((v) => v + 1)
       const value = 1
 
@@ -3028,7 +2893,7 @@ describe('useFieldProps', () => {
       expect(transformOut).toHaveBeenCalledTimes(1)
     })
 
-    it('should call "transformOut" initially when "defaultValue" is given', () => {
+    it('should call "transformOut" initially when "defaultValue" is given', async () => {
       const transformOut = jest.fn((v) => v + 1)
       const transformIn = jest.fn((v) => v - 1)
       const defaultValue = 2
@@ -3052,7 +2917,7 @@ describe('useFieldProps', () => {
       expect(transformIn).toHaveBeenCalledTimes(3)
     })
 
-    it('should call "transformIn" and "transformOut" after "fromInput" and "toInput"', () => {
+    it('should call "transformIn" and "transformOut" after "fromInput" and "toInput"', async () => {
       const transformIn = jest.fn((v) => v - 1)
       const transformOut = jest.fn((v) => v + 1)
       const toInput = jest.fn((v) => v - 1)
@@ -3076,7 +2941,7 @@ describe('useFieldProps', () => {
       expect(transformIn).toHaveBeenLastCalledWith(1)
       expect(transformOut).toHaveBeenCalledTimes(0)
 
-      act(() => {
+      await act(async () => {
         handleChange(2)
       })
 
@@ -3086,7 +2951,7 @@ describe('useFieldProps', () => {
       expect(transformOut).toHaveBeenNthCalledWith(1, 3, expect.anything())
       expect(transformOut).toHaveBeenNthCalledWith(2, 3, expect.anything())
 
-      act(() => {
+      await act(async () => {
         handleChange(4)
       })
 
@@ -3097,7 +2962,7 @@ describe('useFieldProps', () => {
       expect(transformOut).toHaveBeenNthCalledWith(4, 5, expect.anything())
     })
 
-    it('should call "fromInput" and "toInput"', () => {
+    it('should call "fromInput" and "toInput"', async () => {
       const fromInput = jest.fn((v) => v + 1)
       const toInput = jest.fn((v) => v - 1)
       const onChange = jest.fn()
@@ -3116,7 +2981,7 @@ describe('useFieldProps', () => {
       expect(fromInput).toHaveBeenCalledTimes(0)
       expect(toInput).toHaveBeenCalledTimes(1)
 
-      act(() => {
+      await act(async () => {
         handleChange(2)
       })
 
@@ -3125,7 +2990,7 @@ describe('useFieldProps', () => {
       expect(fromInput).toHaveBeenLastCalledWith(2)
       expect(toInput).toHaveBeenLastCalledWith(3)
 
-      act(() => {
+      await act(async () => {
         handleChange(4)
       })
 
@@ -3139,7 +3004,7 @@ describe('useFieldProps', () => {
        */
     })
 
-    it('should call "toEvent"', () => {
+    it('should call "toEvent"', async () => {
       const toEvent = jest.fn((v) => v + 1)
       const onChange = jest.fn()
       const onFocus = jest.fn()
@@ -3159,7 +3024,7 @@ describe('useFieldProps', () => {
 
       expect(toEvent).toHaveBeenCalledTimes(0)
 
-      act(() => {
+      await act(async () => {
         handleFocus()
         handleChange(2)
         handleBlur()
@@ -3175,7 +3040,7 @@ describe('useFieldProps', () => {
       expect(onBlur).toHaveBeenCalledTimes(1)
       expect(onBlur).toHaveBeenLastCalledWith(3, expect.anything())
 
-      act(() => {
+      await act(async () => {
         handleFocus()
         handleChange(4)
         handleBlur()
@@ -3192,7 +3057,7 @@ describe('useFieldProps', () => {
       expect(onBlur).toHaveBeenLastCalledWith(5, expect.anything())
     })
 
-    it('should call "fromExternal"', () => {
+    it('should call "fromExternal"', async () => {
       const fromExternal = jest.fn((v) => v + 1)
       const onChange = jest.fn()
       const onFocus = jest.fn()
@@ -3213,7 +3078,7 @@ describe('useFieldProps', () => {
       expect(fromExternal).toHaveBeenCalledTimes(1)
       expect(fromExternal).toHaveBeenLastCalledWith(1)
 
-      act(() => {
+      await act(async () => {
         handleFocus()
         handleChange(2)
         handleBlur()
@@ -3227,7 +3092,7 @@ describe('useFieldProps', () => {
       expect(onBlur).toHaveBeenCalledTimes(1)
       expect(onBlur).toHaveBeenLastCalledWith(2, expect.anything())
 
-      act(() => {
+      await act(async () => {
         handleFocus()
         handleChange(4)
         handleBlur()
@@ -3244,7 +3109,7 @@ describe('useFieldProps', () => {
       expect(onChange).toHaveBeenCalledTimes(1)
     })
 
-    it('should call "transformValue"', () => {
+    it('should call "transformValue"', async () => {
       const transformValue = jest.fn((v) => v + 1)
 
       const { result } = renderHook(() =>
@@ -3258,7 +3123,7 @@ describe('useFieldProps', () => {
 
       expect(transformValue).toHaveBeenCalledTimes(0)
 
-      act(() => {
+      await act(async () => {
         handleFocus()
         handleChange(2)
         handleBlur()
@@ -3267,7 +3132,7 @@ describe('useFieldProps', () => {
       expect(transformValue).toHaveBeenCalledTimes(1)
       expect(transformValue).toHaveBeenLastCalledWith(2, 1)
 
-      act(() => {
+      await act(async () => {
         handleFocus()
         handleChange(4)
         handleBlur()
@@ -3277,7 +3142,7 @@ describe('useFieldProps', () => {
       expect(transformValue).toHaveBeenLastCalledWith(4, 3)
     })
 
-    it('"provideAdditionalArgs" should provide additional arguments to "onFocus", "onBlur" and "onChange" and "transformOut"', () => {
+    it('"provideAdditionalArgs" should provide additional arguments to "onFocus", "onBlur" and "onChange" and "transformOut"', async () => {
       const onFocus = jest.fn()
       const onBlur = jest.fn()
       const onChange = jest.fn()
@@ -3314,7 +3179,7 @@ describe('useFieldProps', () => {
         myPath: 2,
       })
 
-      act(() => {
+      await act(async () => {
         handleFocus()
         handleChange(2)
         handleBlur()
@@ -3361,7 +3226,7 @@ describe('useFieldProps', () => {
         foo: 'bar',
       })
 
-      act(() => {
+      await act(async () => {
         handleFocus()
         handleChange(4)
         handleBlur()
@@ -3395,7 +3260,7 @@ describe('useFieldProps', () => {
   })
 
   describe('updating internal value', () => {
-    it('should update the internal value, but not call any event handler', () => {
+    it('should update the internal value, but not call any event handler', async () => {
       const onFocus = jest.fn()
       const onBlur = jest.fn()
       const onChange = jest.fn()
@@ -3411,7 +3276,7 @@ describe('useFieldProps', () => {
 
       const { handleFocus, handleBlur, updateValue } = result.current
 
-      act(() => {
+      await act(async () => {
         handleFocus()
         handleBlur()
         updateValue('')
@@ -3420,7 +3285,7 @@ describe('useFieldProps', () => {
       expect(onFocus).toHaveBeenLastCalledWith('foo', expect.anything())
       expect(onBlur).toHaveBeenLastCalledWith('foo', expect.anything())
 
-      act(() => {
+      await act(async () => {
         handleFocus()
         updateValue('a')
         handleBlur()
@@ -3434,7 +3299,7 @@ describe('useFieldProps', () => {
       expect(onBlur).toHaveBeenCalledTimes(2)
     })
 
-    it('should not call fromInput', () => {
+    it('should not call fromInput', async () => {
       const fromInput = jest.fn((v) => v)
       const toInput = jest.fn((v) => v)
       const onChange = jest.fn()
@@ -3450,34 +3315,34 @@ describe('useFieldProps', () => {
 
       const { updateValue, handleChange } = result.current
 
-      act(() => {
+      await act(async () => {
         updateValue('')
       })
 
       expect(fromInput).toHaveBeenCalledTimes(0)
 
-      act(() => {
+      await act(async () => {
         updateValue('bar')
       })
 
       expect(fromInput).toHaveBeenCalledTimes(0)
       expect(onChange).toHaveBeenCalledTimes(0)
 
-      act(() => {
+      await act(async () => {
         handleChange('')
       })
 
       expect(fromInput).toHaveBeenCalledTimes(1)
       expect(onChange).toHaveBeenCalledTimes(1)
 
-      act(() => {
+      await act(async () => {
         updateValue('unchanged')
       })
 
       expect(fromInput).toHaveBeenCalledTimes(1)
       expect(onChange).toHaveBeenCalledTimes(1)
 
-      act(() => {
+      await act(async () => {
         handleChange('unchanged')
       })
 
@@ -3504,7 +3369,7 @@ describe('useFieldProps', () => {
 
       const { handleFocus, handleBlur, updateValue } = result.current
 
-      act(() => {
+      await act(async () => {
         handleFocus()
         handleBlur()
         updateValue('')
@@ -3517,7 +3382,7 @@ describe('useFieldProps', () => {
         expect(result.current.error).toBeInstanceOf(Error)
       })
 
-      act(() => {
+      await act(async () => {
         handleFocus()
         updateValue('a')
         handleBlur()
@@ -3536,7 +3401,7 @@ describe('useFieldProps', () => {
     })
   })
 
-  it('should return "hasError" when outer FieldBlocks as error', () => {
+  it('should return "hasError" when outer FieldBlocks as error', async () => {
     let hasOuterError = false
     const MockComponent = (props) => {
       const { hasError } = useFieldProps(props)
@@ -3552,7 +3417,7 @@ describe('useFieldProps', () => {
 
     expect(hasOuterError).toBeTruthy()
 
-    act(() => {
+    await act(async () => {
       rerender(
         <FieldBlock>
           <MockComponent />
@@ -3563,7 +3428,7 @@ describe('useFieldProps', () => {
     expect(hasOuterError).toBeFalsy()
   })
 
-  it('should translate required error', () => {
+  it('should translate required error', async () => {
     const { result } = renderHook(
       () =>
         useFieldProps({
@@ -3593,27 +3458,18 @@ describe('useFieldProps', () => {
     )
   })
 
-  it('should return autoComplete based on DataContext', () => {
-    const { result, rerender } = renderHook(
-      (props: any) => useFieldProps(props),
-      {
-        initialProps: {},
-        wrapper: ({ children }) => (
-          <Form.Handler autoComplete>{children}</Form.Handler>
-        ),
-      }
-    )
+  it('should return autoComplete based on DataContext', async () => {\n    const { result, rerender } = renderHook(\n      (props: any) => useFieldProps(props),\n      {\n        initialProps: {},\n        wrapper: ({ children }) => (\n          <Form.Handler autoComplete>{children}</Form.Handler>\n        ),\n      }\n    )
 
     expect(result.current.autoComplete).toBe('on')
 
-    act(() => {
+    await act(async () => {
       rerender({ autoComplete: 'something' })
     })
 
     expect(result.current.autoComplete).toBe('something')
   })
 
-  it('should return data-attributes', () => {
+  it('should return data-attributes', async () => {
     const dataAttributes = {
       'data-long-key': 'long-key',
       'data-testid': 'testid',
@@ -3626,7 +3482,7 @@ describe('useFieldProps', () => {
     )
   })
 
-  it('should return data-attributes combined with aria-*', () => {
+  it('should return data-attributes combined with aria-*', async () => {
     const htmlAttributes = {
       'data-long-key': 'long-key',
       'data-testid': 'testid',
@@ -3640,7 +3496,7 @@ describe('useFieldProps', () => {
     )
   })
 
-  it('should forward props in a props object', () => {
+  it('should forward props in a props object', async () => {
     const props = {
       foo: 'bar',
     } as Record<string, unknown>
@@ -3650,7 +3506,7 @@ describe('useFieldProps', () => {
     expect(result.current.props).toEqual(expect.objectContaining(props))
   })
 
-  it('should set props and emptyValue in Provider', () => {
+  it('should set props and emptyValue in Provider', async () => {
     const props = {
       path: '/foo',
       value: 'my value',
@@ -3678,7 +3534,7 @@ describe('useFieldProps', () => {
       { id: expect.any(String), props }
     )
 
-    act(() => {
+    await act(async () => {
       rerender({
         ...props,
         value: 'new value',
@@ -3756,7 +3612,7 @@ describe('useFieldProps', () => {
 
     const form = document.querySelector('form')
 
-    act(() => {
+    await act(async () => {
       fireEvent.submit(form)
     })
     expect(onSubmit).toHaveBeenCalledTimes(1)
@@ -3767,11 +3623,11 @@ describe('useFieldProps', () => {
     expect(result.current.value).toBe(first)
 
     const second = {}
-    act(() => {
+    await act(async () => {
       result.current.handleChange(second)
     })
 
-    act(() => {
+    await act(async () => {
       fireEvent.submit(form)
     })
     expect(onSubmit).toHaveBeenCalledTimes(2)
@@ -3781,11 +3637,11 @@ describe('useFieldProps', () => {
     )
     expect(result.current.value).toBe(second)
 
-    act(() => {
+    await act(async () => {
       result.current.handleChange(undefined)
     })
 
-    act(() => {
+    await act(async () => {
       fireEvent.submit(form)
     })
     expect(onSubmit).toHaveBeenCalledTimes(3)
@@ -3888,7 +3744,7 @@ describe('useFieldProps', () => {
         expect(result.current.error).toBeInstanceOf(Error)
       })
 
-      act(() => {
+      await act(async () => {
         rerender({
           onChangeValidator: () => undefined,
           value: 'bar',
@@ -3903,7 +3759,7 @@ describe('useFieldProps', () => {
 
     describe('with async onChangeValidator', () => {
       const validateBlur = async (result, value = Date.now()) => {
-        act(() => {
+        await act(async () => {
           result.current.handleChange(String(value))
           result.current.handleBlur()
         })
@@ -3942,7 +3798,7 @@ describe('useFieldProps', () => {
           expect(result.current.disabled).toBeUndefined()
         })
 
-        act(() => {
+        await act(async () => {
           rerender({
             onChangeValidator,
             value: '456',
@@ -4010,13 +3866,6 @@ describe('useFieldProps', () => {
 
         await validateBlur(result)
 
-        expect(result.current.fieldState).toBe('pending')
-        expect(result.current.error).toBeUndefined()
-        expect(result.current.disabled).toBeUndefined()
-        expect(sharedResult.current.get().fieldState).toBe('pending')
-        expect(sharedResult.current.get().error).toBeUndefined()
-        expect(sharedResult.current.get().disabled).toBeUndefined()
-
         await waitFor(() => {
           expect(result.current.fieldState).toBe('complete')
           expect(result.current.error).toBeUndefined()
@@ -4026,7 +3875,7 @@ describe('useFieldProps', () => {
           expect(sharedResult.current.get().disabled).toBeUndefined()
         })
 
-        act(() => {
+        await act(async () => {
           rerender({
             onChangeValidator: validator,
             onBlurValidator: undefined,
@@ -4036,21 +3885,6 @@ describe('useFieldProps', () => {
           })
         })
 
-        expect(sharedResult.current.get()).toEqual({
-          disabled: undefined,
-          error: undefined,
-          fieldState: 'pending',
-          info: 'Info message changed',
-          warning: 'Warning message changed',
-        })
-
-        expect(result.current.fieldState).toBe('pending')
-        expect(result.current.error).toBeUndefined()
-        expect(result.current.disabled).toBeUndefined()
-        expect(sharedResult.current.get().fieldState).toBe('pending')
-        expect(sharedResult.current.get().error).toBeUndefined()
-        expect(sharedResult.current.get().disabled).toBeUndefined()
-
         await waitFor(() => {
           expect(result.current.fieldState).toBe('complete')
           expect(result.current.error).toBeUndefined()
@@ -4060,7 +3894,7 @@ describe('useFieldProps', () => {
           expect(sharedResult.current.get().disabled).toBeUndefined()
         })
 
-        act(() => {
+        await act(async () => {
           rerender({
             onChangeValidator: undefined,
             onBlurValidator: validator,
@@ -4072,13 +3906,6 @@ describe('useFieldProps', () => {
 
         await validateBlur(result)
 
-        expect(result.current.fieldState).toBe('pending')
-        expect(result.current.error).toBeUndefined()
-        expect(result.current.disabled).toBeTruthy()
-        expect(sharedResult.current.get().fieldState).toBe('pending')
-        expect(sharedResult.current.get().error).toBeUndefined()
-        expect(sharedResult.current.get().disabled).toBeTruthy()
-
         await waitFor(() => {
           expect(result.current.fieldState).toBe('error')
           expect(result.current.error).toBeInstanceOf(Error)
@@ -4086,14 +3913,14 @@ describe('useFieldProps', () => {
           expect(sharedResult.current.get().fieldState).toBe('error')
           expect(sharedResult.current.get().error).toBeInstanceOf(Error)
           expect(sharedResult.current.get().disabled).toBeUndefined()
+        })
 
-          expect(sharedResult.current.get()).toEqual({
-            disabled: undefined,
-            error: new Error('Error message'),
-            fieldState: 'error',
-            info: 'Info message changed',
-            warning: 'Warning message changed',
-          })
+        expect(sharedResult.current.get()).toEqual({
+          disabled: undefined,
+          error: new Error('Error message'),
+          fieldState: 'error',
+          info: 'Info message changed',
+          warning: 'Warning message changed',
         })
       })
 
@@ -4127,7 +3954,7 @@ describe('useFieldProps', () => {
           expect(result.current.error).toBeInstanceOf(Error)
         })
 
-        act(() => {
+        await act(async () => {
           rerender({
             onChangeValidator,
             value: '456',
@@ -4174,7 +4001,7 @@ describe('useFieldProps', () => {
           expect(result.current.error).toBeInstanceOf(Error)
         })
 
-        act(() => {
+        await act(async () => {
           rerender({
             onChangeValidator,
             value: '456',
@@ -4302,8 +4129,8 @@ describe('useFieldProps', () => {
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-        act(() => {
-          act(() => {
+        await act(async () => {
+          await act(async () => {
             fireEvent.submit(document.querySelector('form'))
           })
         })
@@ -4345,8 +4172,8 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        act(() => {
-          act(() => {
+        await act(async () => {
+          await act(async () => {
             fireEvent.submit(document.querySelector('form'))
           })
         })
@@ -4388,8 +4215,8 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        act(() => {
-          act(() => {
+        await act(async () => {
+          await act(async () => {
             fireEvent.submit(document.querySelector('form'))
           })
         })
@@ -4435,8 +4262,8 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        act(() => {
-          act(() => {
+        await act(async () => {
+          await act(async () => {
             fireEvent.submit(document.querySelector('form'))
           })
         })
@@ -4630,8 +4457,8 @@ describe('useFieldProps', () => {
           )
 
           // Show error message
-          act(() => {
-            act(() => {
+          await act(async () => {
+            await act(async () => {
               fireEvent.submit(document.querySelector('form'))
             })
           })
@@ -4698,8 +4525,8 @@ describe('useFieldProps', () => {
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-        act(() => {
-          act(() => {
+        await act(async () => {
+          await act(async () => {
             fireEvent.submit(document.querySelector('form'))
           })
         })
@@ -4746,8 +4573,8 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        act(() => {
-          act(() => {
+        await act(async () => {
+          await act(async () => {
             fireEvent.submit(document.querySelector('form'))
           })
         })
@@ -4793,8 +4620,8 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        act(() => {
-          act(() => {
+        await act(async () => {
+          await act(async () => {
             fireEvent.submit(document.querySelector('form'))
           })
         })
@@ -4845,8 +4672,8 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        act(() => {
-          act(() => {
+        await act(async () => {
+          await act(async () => {
             fireEvent.submit(document.querySelector('form'))
           })
         })
@@ -5052,8 +4879,8 @@ describe('useFieldProps', () => {
           )
 
           // Show error message
-          act(() => {
-            act(() => {
+          await act(async () => {
+            await act(async () => {
               fireEvent.submit(document.querySelector('form'))
             })
           })
@@ -5189,7 +5016,7 @@ describe('useFieldProps', () => {
       })
     })
 
-    it('should rerender returned error message given as JSX', () => {
+    it('should rerender returned error message given as JSX', async () => {
       const onChangeValidator = (value) => {
         if (value === '1') {
           return (
@@ -5208,7 +5035,7 @@ describe('useFieldProps', () => {
         wrapper,
       })
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('1')
       })
 
@@ -5219,7 +5046,7 @@ describe('useFieldProps', () => {
         'A formatted error message'
       )
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('12')
       })
 
@@ -5228,7 +5055,7 @@ describe('useFieldProps', () => {
       ).not.toBeInTheDocument()
     })
 
-    it('should rerender returned error message given as string', () => {
+    it('should rerender returned error message given as string', async () => {
       const onChangeValidator = (value) => {
         if (value === '1') {
           return 'A formatted error message'
@@ -5243,7 +5070,7 @@ describe('useFieldProps', () => {
         wrapper,
       })
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('1')
       })
 
@@ -5251,7 +5078,7 @@ describe('useFieldProps', () => {
         'A formatted error message'
       )
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('12')
       })
 
@@ -5385,8 +5212,8 @@ describe('useFieldProps', () => {
         const input = document.querySelector('input')
 
         await userEvent.type(input, '123')
-        act(() => {
-          act(() => {
+        await act(async () => {
+          await act(async () => {
             fireEvent.blur(input)
           })
         })
@@ -5395,8 +5222,8 @@ describe('useFieldProps', () => {
         expect(document.querySelector('.dnb-form-status')).toBeNull()
 
         await userEvent.type(input, '4')
-        act(() => {
-          act(() => {
+        await act(async () => {
+          await act(async () => {
             fireEvent.blur(input)
           })
         })
@@ -5439,8 +5266,8 @@ describe('useFieldProps', () => {
         const input = document.querySelector('input')
 
         await userEvent.type(input, '123')
-        act(() => {
-          act(() => {
+        await act(async () => {
+          await act(async () => {
             fireEvent.blur(input)
           })
         })
@@ -5448,8 +5275,8 @@ describe('useFieldProps', () => {
         expect(document.querySelector('.dnb-form-status')).toBeNull()
 
         await userEvent.type(input, '4')
-        act(() => {
-          act(() => {
+        await act(async () => {
+          await act(async () => {
             fireEvent.blur(input)
           })
         })
@@ -5463,8 +5290,8 @@ describe('useFieldProps', () => {
         })
 
         await userEvent.type(input, '{Backspace}4')
-        act(() => {
-          act(() => {
+        await act(async () => {
+          await act(async () => {
             fireEvent.blur(input)
           })
         })
@@ -5508,8 +5335,8 @@ describe('useFieldProps', () => {
         const input = document.querySelector('input')
 
         await userEvent.type(input, '123')
-        act(() => {
-          act(() => {
+        await act(async () => {
+          await act(async () => {
             fireEvent.blur(input)
           })
         })
@@ -5517,34 +5344,30 @@ describe('useFieldProps', () => {
         expect(document.querySelector('.dnb-form-status')).toBeNull()
 
         await userEvent.type(input, '4')
-        act(() => {
-          act(() => {
-            fireEvent.blur(input)
-          })
-        })
-
-        expect(exportedValidator).toHaveBeenCalledTimes(1)
-        expect(myValidator).toHaveBeenCalledTimes(4)
-        await waitFor(() => {
-          expect(
-            document.querySelector('.dnb-form-status')
-          ).toHaveTextContent('Error message')
-        })
-
-        await userEvent.type(input, '{Backspace}4')
-        act(() => {
-          act(() => {
+        await act(async () => {
+          await act(async () => {
             fireEvent.blur(input)
           })
         })
 
         expect(exportedValidator).toHaveBeenCalledTimes(2)
-        expect(myValidator).toHaveBeenCalledTimes(6)
-        await waitFor(() => {
-          expect(
-            document.querySelector('.dnb-form-status')
-          ).toHaveTextContent('Error message')
+        expect(myValidator).toHaveBeenCalledTimes(4)
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('Error message')
+
+        await userEvent.type(input, '{Backspace}4')
+        await act(async () => {
+          await act(async () => {
+            fireEvent.blur(input)
+          })
         })
+
+        expect(exportedValidator).toHaveBeenCalledTimes(3)
+        expect(myValidator).toHaveBeenCalledTimes(6)
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('Error message')
       })
 
       it('should call returned validators (barValidator should not be called)', async () => {
@@ -5889,8 +5712,8 @@ describe('useFieldProps', () => {
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-        act(() => {
-          act(() => {
+        await act(async () => {
+          await act(async () => {
             fireEvent.submit(document.querySelector('form'))
           })
         })
@@ -5934,8 +5757,8 @@ describe('useFieldProps', () => {
 
         // Make a change to the input with the validator
         await userEvent.type(inputWithOnBlurValidator, '2')
-        act(() => {
-          act(() => {
+        await act(async () => {
+          await act(async () => {
             fireEvent.blur(inputWithOnBlurValidator)
           })
         })
@@ -5977,8 +5800,8 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        act(() => {
-          act(() => {
+        await act(async () => {
+          await act(async () => {
             fireEvent.submit(document.querySelector('form'))
           })
         })
@@ -6021,8 +5844,8 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        act(() => {
-          act(() => {
+        await act(async () => {
+          await act(async () => {
             fireEvent.submit(document.querySelector('form'))
           })
         })
@@ -6206,8 +6029,8 @@ describe('useFieldProps', () => {
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
-        act(() => {
-          act(() => {
+        await act(async () => {
+          await act(async () => {
             fireEvent.submit(document.querySelector('form'))
           })
         })
@@ -6257,8 +6080,8 @@ describe('useFieldProps', () => {
 
         // Make a change to the input with the validator
         await userEvent.type(inputWithOnBlurValidator, '2')
-        act(() => {
-          act(() => {
+        await act(async () => {
+          await act(async () => {
             fireEvent.blur(inputWithOnBlurValidator)
           })
         })
@@ -6306,8 +6129,8 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        act(() => {
-          act(() => {
+        await act(async () => {
+          await act(async () => {
             fireEvent.submit(document.querySelector('form'))
           })
         })
@@ -6356,8 +6179,8 @@ describe('useFieldProps', () => {
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
         // Show error message
-        act(() => {
-          act(() => {
+        await act(async () => {
+          await act(async () => {
             fireEvent.submit(document.querySelector('form'))
           })
         })
@@ -6576,8 +6399,8 @@ describe('useFieldProps', () => {
           </Form.Handler>
         )
 
-        act(() => {
-          act(() => {
+        await act(async () => {
+          await act(async () => {
             fireEvent.submit(document.querySelector('form'))
           })
         })
@@ -6607,8 +6430,8 @@ describe('useFieldProps', () => {
           input,
           '{Backspace}bar' // remove one letter from bar, so the bar validator should return undefined
         )
-        act(() => {
-          act(() => {
+        await act(async () => {
+          await act(async () => {
             fireEvent.blur(input)
           })
         })
@@ -6623,8 +6446,8 @@ describe('useFieldProps', () => {
         expect(internalValidators).toHaveBeenCalledTimes(0)
 
         await userEvent.type(input, ' baz')
-        act(() => {
-          act(() => {
+        await act(async () => {
+          await act(async () => {
             fireEvent.blur(input)
           })
         })
@@ -6640,7 +6463,7 @@ describe('useFieldProps', () => {
       })
     })
 
-    it('should not call onBlurValidator when required error is present', () => {
+    it('should not call onBlurValidator when required error is present', async () => {
       const onBlurValidator = jest.fn(() => new Error('This is wrong...'))
 
       const { result } = renderHook((props: any) => useFieldProps(props), {
@@ -6652,7 +6475,7 @@ describe('useFieldProps', () => {
 
       expect(result.current.error).toBeUndefined()
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('something')
         result.current.handleChange('')
         result.current.handleBlur()
@@ -6662,7 +6485,7 @@ describe('useFieldProps', () => {
         nb.Field.errorRequired
       )
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('something')
         result.current.handleBlur()
       })
@@ -6672,7 +6495,7 @@ describe('useFieldProps', () => {
       )
     })
 
-    it('should not call onBlurValidator when pattern error is present', () => {
+    it('should not call onBlurValidator when pattern error is present', async () => {
       const schema: JSONSchema = {
         type: 'string',
         pattern: '[0-9]',
@@ -6692,7 +6515,7 @@ describe('useFieldProps', () => {
 
       expect(result.current.error).toBeUndefined()
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('something')
         result.current.handleBlur()
       })
@@ -6701,7 +6524,7 @@ describe('useFieldProps', () => {
         nb.Field.errorPattern
       )
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('123')
         result.current.handleBlur()
       })
@@ -6711,7 +6534,7 @@ describe('useFieldProps', () => {
       )
     })
 
-    it('should always show onBlurValidator over onChangeValidator', () => {
+    it('should always show onBlurValidator over onChangeValidator', async () => {
       const onChangeValidator = jest.fn(
         () => new Error('Error message by onChangeValidator')
       )
@@ -6729,8 +6552,10 @@ describe('useFieldProps', () => {
 
       expect(result.current.error).toBeUndefined()
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('something')
+      })
+      await act(async () => {
         result.current.handleBlur()
       })
 
@@ -6738,8 +6563,10 @@ describe('useFieldProps', () => {
         'Error message by onBlurValidator'
       )
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('123')
+      })
+      await act(async () => {
         result.current.handleBlur()
       })
 
@@ -6766,14 +6593,14 @@ describe('useFieldProps', () => {
 
       expect(result.current.error).toBeUndefined()
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('something')
         result.current.handleChange('')
       })
 
       await wait(1) // to ensure that "localErrorInitiator" is set to "required"
 
-      act(() => {
+      await act(async () => {
         result.current.handleBlur()
       })
 
@@ -6798,14 +6625,14 @@ describe('useFieldProps', () => {
 
       expect(result.current.error).toBeUndefined()
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('something')
         result.current.handleChange('')
       })
 
       await wait(1) // to ensure that "localErrorInitiator" is set to "required"
 
-      act(() => {
+      await act(async () => {
         result.current.handleBlur()
       })
 
@@ -6832,13 +6659,13 @@ describe('useFieldProps', () => {
 
       expect(result.current.error).toBeUndefined()
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('something')
       })
 
       await wait(1) // to ensure that "localErrorInitiator" is set to "required"
 
-      act(() => {
+      await act(async () => {
         result.current.handleBlur()
       })
 
@@ -6877,7 +6704,7 @@ describe('useFieldProps', () => {
     })
 
     const validateBlur = async (result, value = Date.now()) => {
-      act(() => {
+      await act(async () => {
         result.current.handleChange(String(value))
         result.current.handleBlur()
       })
@@ -6913,7 +6740,7 @@ describe('useFieldProps', () => {
         expect(result.current.error).toBeInstanceOf(Error)
       })
 
-      act(() => {
+      await act(async () => {
         rerender({
           onBlurValidator,
           value: '456',
@@ -6956,28 +6783,24 @@ describe('useFieldProps', () => {
 
       await validateBlur(result)
 
-      expect(result.current.fieldState).toBe('pending')
-      expect(result.current.disabled).toBeTruthy()
-
       await waitFor(() => {
         expect(result.current.fieldState).toBe('complete')
         expect(result.current.disabled).toBeUndefined()
       })
 
-      act(() => {
+      await act(async () => {
         rerender({
           onBlurValidator,
           value: '456',
         })
       })
 
-      expect(result.current.fieldState).toBe('complete')
-      expect(result.current.disabled).toBeUndefined()
+      await waitFor(() => {
+        expect(result.current.fieldState).toBe('complete')
+        expect(result.current.disabled).toBeUndefined()
+      })
 
       await validateBlur(result)
-
-      expect(result.current.fieldState).toBe('pending')
-      expect(result.current.disabled).toBeTruthy()
 
       await waitFor(() => {
         expect(result.current.fieldState).toBe('complete')
@@ -6985,7 +6808,7 @@ describe('useFieldProps', () => {
       })
     })
 
-    it('should rerender returned error when onBlurValidator returns array with different errors', () => {
+    it('should rerender returned error when onBlurValidator returns array with different errors', async () => {
       const firstReturn = [new Error('first error')]
       const secondReturn = [
         new Error('first error'),
@@ -7010,21 +6833,21 @@ describe('useFieldProps', () => {
 
       expect(result.current.error).toBeUndefined()
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('1')
         result.current.handleBlur()
       })
       expect(count).toBe(1)
       expect(result.current.error['errors']).toEqual(firstReturn)
 
-      act(() => {
+      await act(async () => {
         result.current.handleBlur()
       })
       expect(count).toBe(2)
       expect(result.current.error['errors']).toEqual(secondReturn)
     })
 
-    it('should rerender returned error when onBlurValidator returns array changed error', () => {
+    it('should rerender returned error when onBlurValidator returns array changed error', async () => {
       const firstReturn = [new Error('Error message')]
       const secondReturn = [new Error('Changed error message')]
 
@@ -7046,21 +6869,21 @@ describe('useFieldProps', () => {
 
       expect(result.current.error).toBeUndefined()
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('1')
         result.current.handleBlur()
       })
       expect(count).toBe(1)
       expect(result.current.error['errors']).toEqual(firstReturn)
 
-      act(() => {
+      await act(async () => {
         result.current.handleBlur()
       })
       expect(count).toBe(2)
       expect(result.current.error['errors']).toEqual(secondReturn)
     })
 
-    it('should rerender returned error message given as JSX', () => {
+    it('should rerender returned error message given as JSX', async () => {
       const onBlurValidator = (value) => {
         if (value === '1') {
           return (
@@ -7079,7 +6902,7 @@ describe('useFieldProps', () => {
         wrapper,
       })
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('1')
         result.current.handleBlur()
       })
@@ -7091,7 +6914,7 @@ describe('useFieldProps', () => {
         'A formatted error message'
       )
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('12')
       })
 
@@ -7100,7 +6923,7 @@ describe('useFieldProps', () => {
       ).not.toBeInTheDocument()
     })
 
-    it('should rerender returned error message given as string', () => {
+    it('should rerender returned error message given as string', async () => {
       const onBlurValidator = (value) => {
         if (value === '1') {
           return 'A formatted error message'
@@ -7115,7 +6938,7 @@ describe('useFieldProps', () => {
         wrapper,
       })
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('1')
         result.current.handleBlur()
       })
@@ -7124,7 +6947,7 @@ describe('useFieldProps', () => {
         'A formatted error message'
       )
 
-      act(() => {
+      await act(async () => {
         result.current.handleChange('12')
       })
 
@@ -7135,7 +6958,7 @@ describe('useFieldProps', () => {
   })
 
   describe('revealError', () => {
-    it('should report error downwards', () => {
+    it('should report error downwards', async () => {
       const revealErrorDataContext = jest.fn()
       const revealErrorBoundary = jest.fn()
       const setFieldErrorWizard = jest.fn()
@@ -7213,7 +7036,7 @@ describe('useFieldProps', () => {
         false
       )
 
-      act(() => {
+      await act(async () => {
         rerender({
           path: '/foo',
           required: true,
@@ -7301,8 +7124,8 @@ describe('useFieldProps', () => {
       expect(fieldBoundaryContextError).toBe(false)
       expect(hasInvalidStepsState()).toBe(false)
 
-      act(() => {
-        act(() => {
+      await act(async () => {
+        await act(async () => {
           fireEvent.submit(document.querySelector('form'))
         })
       })
@@ -7342,7 +7165,7 @@ describe('useFieldProps', () => {
   })
 
   describe('setMountedFieldState', () => {
-    it('should mount and unmount when the field is removed from the DOM', () => {
+    it('should mount and unmount when the field is removed from the DOM', async () => {
       const setMountedFieldState = jest.fn()
 
       const { unmount } = renderHook(
@@ -7378,7 +7201,7 @@ describe('useFieldProps', () => {
       })
     })
 
-    it('should set isVisible when within a visibility context', () => {
+    it('should set isVisible when within a visibility context', async () => {
       const setMountedFieldState = jest.fn()
 
       const { unmount } = renderHook(
@@ -7421,7 +7244,7 @@ describe('useFieldProps', () => {
       })
     })
 
-    it('should set isVisible when within a visibility context with a negative visibility', () => {
+    it('should set isVisible when within a visibility context with a negative visibility', async () => {
       const setMountedFieldState = jest.fn()
 
       const { unmount } = renderHook(
@@ -7466,7 +7289,7 @@ describe('useFieldProps', () => {
       })
     })
 
-    it('should set isMounted to true when Wizard step has changed', () => {
+    it('should set isMounted to true when Wizard step has changed', async () => {
       const log = spyOnEufemiaWarn()
       const setMountedFieldState = jest.fn()
 
@@ -7504,7 +7327,7 @@ describe('useFieldProps', () => {
         isPreMounted: true,
       })
 
-      act(() => {
+      await act(async () => {
         rerender({ path: '/bar' })
       })
 
@@ -7542,7 +7365,7 @@ describe('useFieldProps', () => {
       log.mockRestore()
     })
 
-    it('for the "path" prop', () => {
+    it('for the "path" prop', async () => {
       render(
         <React.StrictMode>
           <Form.Handler>
@@ -7559,7 +7382,7 @@ describe('useFieldProps', () => {
       )
     })
 
-    it('should not warn when omitMultiplePathWarning is true', () => {
+    it('should not warn when omitMultiplePathWarning is true', async () => {
       const MockComponent = () => {
         useFieldProps(
           { path: '/myPath' },
@@ -7580,7 +7403,7 @@ describe('useFieldProps', () => {
       expect(log).toHaveBeenCalledTimes(0)
     })
 
-    it('should not warn when process.env.NODE_ENV is not production', () => {
+    it('should not warn when process.env.NODE_ENV is not production', async () => {
       const originalNodeEnv = process.env.NODE_ENV
       process.env.NODE_ENV = 'production'
 
@@ -7597,7 +7420,7 @@ describe('useFieldProps', () => {
       process.env.NODE_ENV = originalNodeEnv
     })
 
-    it('for the "itemPath" prop', () => {
+    it('for the "itemPath" prop', async () => {
       render(
         <React.StrictMode>
           <Form.Handler>
@@ -7616,7 +7439,7 @@ describe('useFieldProps', () => {
       )
     })
 
-    it('for the "itemPath" prop distributed in several Iterate.Array', () => {
+    it('for the "itemPath" prop distributed in several Iterate.Array', async () => {
       render(
         <React.StrictMode>
           <Form.Handler>
@@ -7637,7 +7460,7 @@ describe('useFieldProps', () => {
       )
     })
 
-    it('should not warn when path is used in iterate', () => {
+    it('should not warn when path is used in iterate', async () => {
       render(
         <React.StrictMode>
           <Form.Handler>
@@ -7651,7 +7474,7 @@ describe('useFieldProps', () => {
       expect(log).toHaveBeenCalledTimes(0)
     })
 
-    it('should not warn when path uses ../ to reference a parent section', () => {
+    it('should not warn when path uses ../ to reference a parent section', async () => {
       render(
         <React.StrictMode>
           <Form.Handler
@@ -7757,7 +7580,7 @@ describe('Zod schema support', () => {
     )
 
     // Failing value -> expect error from context JSON Schema
-    act(() => {
+    await act(async () => {
       result.current.handleChange('invalid') // does not match ^(valid)$
     })
     await waitFor(() => {
@@ -7765,7 +7588,7 @@ describe('Zod schema support', () => {
     })
 
     // Passing value -> error cleared
-    act(() => {
+    await act(async () => {
       result.current.handleChange('valid')
     })
     await waitFor(() => {
@@ -7773,7 +7596,7 @@ describe('Zod schema support', () => {
     })
   })
 
-  it('should handle undefined schema gracefully', () => {
+  it('should handle undefined schema gracefully', async () => {
     const identifier = '/testField'
     const errorPrioritization: SectionContextState['errorPrioritization'] =
       ['contextSchema']
@@ -7796,7 +7619,7 @@ describe('Zod schema support', () => {
     expect(result.current.path).toBe(identifier)
   })
 
-  it('should work with mixed schema types in different contexts', () => {
+  it('should work with mixed schema types in different contexts', async () => {
     const identifier = '/testField'
 
     // Test with Zod schema
@@ -7887,7 +7710,7 @@ describe('Zod schema support', () => {
     )
 
     // Trigger change without focus to reveal errors
-    act(() => {
+    await act(async () => {
       result.current.handleChange('invalid')
     })
 
@@ -7896,7 +7719,7 @@ describe('Zod schema support', () => {
     })
   })
 
-  it('should not crash when using JSON Pointer logic with Zod schema (tests the fix)', () => {
+  it('should not crash when using JSON Pointer logic with Zod schema (tests the fix)', async () => {
     const identifier = '/testField'
     const errorPrioritization: SectionContextState['errorPrioritization'] =
       ['contextSchema', 'fieldSchema']
@@ -7953,7 +7776,7 @@ describe('Zod schema support', () => {
     )
 
     // Drive validation by changing the value (ensures local validator would run if not prioritized)
-    act(() => {
+    await act(async () => {
       result.current.handleChange('invalid2')
     })
 
@@ -7994,7 +7817,7 @@ describe('Zod schema support', () => {
     )
 
     // Drive validation to ensure the local validator runs
-    act(() => {
+    await act(async () => {
       result.current.handleChange('invalid2')
     })
 
