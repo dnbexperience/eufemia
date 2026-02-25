@@ -2648,6 +2648,11 @@ describe('Wizard.Container', () => {
 
       await userEvent.type(document.querySelector('input'), 'foo')
 
+      // Wait for validation to settle after typing
+      await waitFor(() => {
+        expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(1)
+      })
+
       // Go to Step 2
       await userEvent.click(nextButton())
 
