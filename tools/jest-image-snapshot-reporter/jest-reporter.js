@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const ansiHTML = require('ansi-html')
+const ansiHTML = require('ansi-html-community')
 
 class JestReporter {
   onRunComplete(contexts, { testResults, numFailedTests }) {
