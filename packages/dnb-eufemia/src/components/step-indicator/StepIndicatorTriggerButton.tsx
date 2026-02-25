@@ -21,7 +21,7 @@ import {
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 
-export type StepIndicatorTriggerButtonProps = ButtonProps & {
+type StepIndicatorTriggerButtonProps = ButtonProps & {
   isNested?: boolean
   className?: string
 }

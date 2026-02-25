@@ -7,7 +7,7 @@ import Context from '../../shared/Context'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import type { DynamicElement } from '../../shared/types'
 
-export interface VisuallyHiddenProps {
+export type VisuallyHiddenProps = {
   /**
    * Hide an element by default, but to display it when it’s focused (e.g. by a keyboard-only user)
    * Default: false

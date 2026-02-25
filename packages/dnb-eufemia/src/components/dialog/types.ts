@@ -9,15 +9,14 @@ import type {
 } from '../modal/types'
 import React from 'react'
 
-export interface DialogProps extends ModalAllProps {
+export type DialogProps = ModalAllProps & {
   /**
    * The dialog title. Displays on the very top of the content.
    */
   title?: React.ReactNode
 }
 
-export interface DialogContentProps
-  extends Omit<DialogActionProps, 'children'> {
+export type DialogContentProps = Omit<DialogActionProps, 'children'> & {
   /**
    * The minimum Dialog content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem` (average width is set to `60vw`).
    */

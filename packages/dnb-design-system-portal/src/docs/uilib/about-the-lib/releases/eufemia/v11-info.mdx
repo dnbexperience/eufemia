@@ -76,6 +76,7 @@ $ pnpm add @dnb/eufemia@11
 
 - All **snake case** (`on_click`) events and properties has been converted to use **camel case** (`onClick`). The reason for previously using **snake case** was to support Web Components – but the support was discontinued in [v10](/uilib/about-the-lib/releases/eufemia/v10-info/).
 - Replaced deprecated `<Context.Provider>` with direct `<Context>` rendering across all internal context providers (React 19).
+- Several exported TypeScript `interface` declarations have been converted to `type`. This prevents declaration merging but has no impact on standard usage.
 
 ## Components
 
@@ -193,6 +194,15 @@ $ pnpm add @dnb/eufemia@11
 #### Styling
 
 - Replace CSS class `dnb-autocomplete--opened` with `dnb-autocomplete--open`.
+
+#### TypeScript types
+
+- Replace `AutocompleteClearEvent` with `AutocompleteOnClearParams`.
+- Replace `AutocompleteTypeEvent` with `AutocompleteOnTypeParams`.
+- Replace `AutocompleteFocusEvent` with `AutocompleteOnFocusParams`.
+- Replace `AutocompleteBlurEvent` with `AutocompleteOnBlurParams`.
+- Replace `AutocompleteChangeEvent` with `AutocompleteOnChangeParams`.
+- Replace `AutocompleteSelectEvent` with `AutocompleteOnSelectParams`.
 
 #### DrawerListDataArrayObject
 
@@ -684,6 +694,11 @@ For more context, see this [PR](https://github.com/dnbexperience/eufemia/pull/27
 - Replace `on_change` with `onChange`.
 - Replace `children` with `label`.
 
+#### TypeScript types
+
+- Replace `OnChangeParams` with `CheckboxOnChangeParams`.
+- Replace `OnClickParams` with `CheckboxOnClickParams`.
+
 ### [Switch](/uilib/components/switch/)
 
 #### Properties
@@ -799,6 +814,10 @@ render(<Logo svg={SbankenCompact} />)
 - Replace `openState="opened"` with `open={true}`.
 - Replace `openState="closed"` with `open={false}`.
 - **Removed:** `rootId` property has been removed. Modal root elements no longer support custom IDs.
+
+#### TypeScript types
+
+- Replace `ModalPropTypes` with `ModalAllProps`.
 
 #### Translations
 
@@ -937,6 +956,13 @@ render(<Logo svg={SbankenCompact} />)
 
 - Replace `on_click` with `onClick`.
 
+### [Slider](/uilib/components/slider/)
+
+#### TypeScript types
+
+- Replace `OnChangeEventProps` with `SliderOnChangeParams`.
+- Replace `ThumbStateEnums` with `ThumbState`.
+
 ### [Timeline](/uilib/components/timeline/)
 
 #### Translations
@@ -1026,6 +1052,12 @@ render(<Logo svg={SbankenCompact} />)
 #### Styling
 
 - Replace CSS class `dnb-number-format--selectall` with `dnb-number-format--select-all`.
+
+#### TypeScript types
+
+- Replace `formatReturnValue` with `FormatReturnValue`.
+- Replace `formatValue` with `FormatValue`.
+- Replace `formatOptionParams` with `FormatOptionParams`.
 
 ### [StepIndicator](/uilib/components/step-indicator/)
 
@@ -1628,6 +1660,17 @@ div {
 Using `@import` with Eufemia's SCSS source files still works, but will trigger Sass deprecation warnings. We recommend migrating to `@use`.
 
 If you previously had `silenceDeprecations: ['import']` in your Sass config to suppress warnings from Eufemia, you can now remove it — Eufemia's own files no longer use `@import`.
+
+## TypeScript
+
+Several exported TypeScript `interface` declarations have been converted to `type` aliases for consistency. This is only a breaking change if you relied on [declaration merging](https://www.typescriptlang.org/docs/handbook/declaration-merging.html) to augment these interfaces. Standard usage of these types (e.g. importing and using them for props) is unaffected.
+
+Affected types include:
+
+- `AvatarGroupProps`
+- `DataValueReadProps`, `DataValueWriteProps`, `UseFieldProps`, `ValueProps` (from `@dnb/eufemia/extensions/forms`)
+- `PaymentCardRawData`, `CardDesign`, `PaymentCardProps` (from `@dnb/eufemia/extensions/payment-card`)
+- `SharedStateReturn` (from `@dnb/eufemia/shared`)
 
 ## Theming
 

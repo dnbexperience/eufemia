@@ -5,9 +5,9 @@ import ModalHeader, {
 } from '../../modal/parts/ModalHeader'
 import { DrawerContentContext } from './DrawerContentContext'
 
-interface DrawerHeaderProps extends ModalHeaderProps {
+type DrawerHeaderProps = {
   titleClass?: string
-}
+} & ModalHeaderProps
 
 export default function DrawerHeader({
   className,

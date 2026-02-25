@@ -15,12 +15,7 @@ export type CustomContentChildren =
   | React.ReactNode
   | ((...args: any[]) => any)
 
-export interface CustomContentProps
-  extends Omit<
-      React.HTMLProps<HTMLElement>,
-      'title' | 'children' | 'ref' | 'onAnimationStart' | 'onAnimationEnd'
-    >,
-    SpacingProps {
+export type CustomContentProps = {
   displayName?: string
   title?: CustomContentTitle
   hash?: string
@@ -30,7 +25,8 @@ export interface CustomContentProps
   key?: string | number
   children?: CustomContentChildren
   className?: string
-}
+} & Omit<React.HTMLProps<HTMLElement>, 'title' | 'children' | 'ref' | 'onAnimationStart' | 'onAnimationEnd'> &
+  SpacingProps
 
 // This component is only a dummy component to collect data
 /**

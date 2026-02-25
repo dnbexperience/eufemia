@@ -58,7 +58,7 @@ describe('type definitions', () => {
           ),
           'utf-8'
         )
-      ).toMatch(/export interface/g)
+      ).toMatch(/export (type|interface)/g)
 
       // Test the output of js files
       const file = path.resolve(
@@ -69,9 +69,9 @@ describe('type definitions', () => {
       expect(fs.existsSync(file)).toBe(true)
 
       const content = fs.readFileSync(file, 'utf-8')
-      expect(content).toContain('export interface InputProps')
+      expect(content).toMatch(/export (type|interface) InputProps/)
       expect(content).toContain(
-        "extends Omit<React.HTMLProps<HTMLInputElement>, 'ref'"
+        "Omit<React.HTMLProps<HTMLInputElement>, 'ref'"
       )
       expect(content).toContain('SpacingProps')
     }

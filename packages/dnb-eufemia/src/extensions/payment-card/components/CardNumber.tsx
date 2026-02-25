@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import { createSkeletonClass } from '../../../components/skeleton/SkeletonHelper'
 import P from '../../../elements/P'
 
-interface CardNumberTextProps {
+type CardNumberTextProps = {
   cardNumber: string
   skeleton: boolean
 }

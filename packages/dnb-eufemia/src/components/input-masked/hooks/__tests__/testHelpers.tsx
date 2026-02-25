@@ -10,7 +10,7 @@ import type { InputMaskedProps } from '../../InputMasked'
 
 type TestContextProps = Partial<Pick<ContextProps, 'locale'>>
 
-interface WrapperProps {
+type WrapperProps = {
   children: ReactNode
 }
 

@@ -965,7 +965,7 @@ export const GlobalStatusExample = () => {
 }
 
 export const TypesExample = () => {
-  interface MyInterface {
+  type MyInterface = {
     content: string
     selectedKey: string
   }

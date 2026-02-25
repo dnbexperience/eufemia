@@ -107,7 +107,7 @@ export type DrawerListData =
   | DrawerListDataAll
 export type DrawerListSuffix = React.ReactNode
 
-export interface DrawerListProps {
+export type DrawerListProps = {
   id?: string
   role?: string
   /**

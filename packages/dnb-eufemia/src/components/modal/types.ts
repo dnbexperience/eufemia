@@ -3,17 +3,9 @@ import type { CloseButtonProps } from './parts/CloseButton'
 import type { ButtonProps } from '../button/Button'
 import type { ModalRootProps } from './ModalRoot'
 
-export type ModalFullscreen = 'auto' | boolean
-export type ModalAlignContent = 'left' | 'center' | 'centered' | 'right'
-export type ModalContainerPlacement = 'left' | 'right' | 'top' | 'bottom'
-export type ModalTriggerVariant =
-  | 'primary'
-  | 'secondary'
-  | 'tertiary'
-  | 'signal'
-export type ModalTriggerIconPosition = 'left' | 'right'
-export type ModalContentMinWidth = string | number
-export type ModalContentMaxWidth = string | number
+type ModalFullscreen = 'auto' | boolean
+type ModalContentMinWidth = string | number
+type ModalContentMaxWidth = string | number
 
 export type TriggeredBy =
   | 'handler'
@@ -27,7 +19,7 @@ export type CloseHandlerParams = {
 }
 export type CloseHandler = (params?: CloseHandlerParams) => void
 
-export interface ModalProps extends ModalRootProps {
+export type ModalProps = ModalRootProps & {
   /**
    * The id used internal in the modal/drawer root element. Defaults to `root`, so the element id will be `dnb-modal-root`.
    */
@@ -150,7 +142,7 @@ export interface ModalProps extends ModalRootProps {
   scrollRef?: React.RefObject<HTMLElement>
 }
 
-export interface ModalContentProps {
+export type ModalContentProps = {
   /**
    * The content which will appear when triggering the modal/drawer.
    */
@@ -313,4 +305,4 @@ export interface ModalContentProps {
   modalContentCloseRef?: React.RefObject<any>
 }
 
-export type TriggerAttributes = ButtonProps
+type TriggerAttributes = ButtonProps

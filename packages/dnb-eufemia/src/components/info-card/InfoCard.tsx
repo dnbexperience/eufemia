@@ -24,7 +24,7 @@ import {
 } from '../../shared/component-helper'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export interface InfoCardProps {
+export type InfoCardProps = {
   /**
    * Used in combination with `src` to provide an alt attribute for the `img` element.
    * Default: null

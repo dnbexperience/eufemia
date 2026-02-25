@@ -10,7 +10,7 @@ import { Card, HeightAnimation } from '../../../../../components'
 import SectionContainerContext, {
   SectionContainerContextState,
 } from './SectionContainerContext'
-import { Props as FlexContainerProps } from '../../../../../components/flex/Container'
+import { FlexContainerAllProps as FlexContainerProps } from '../../../../../components/flex/Container'
 import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'
 import withComponentMarkers from '../../../../../shared/helpers/withComponentMarkers'
 

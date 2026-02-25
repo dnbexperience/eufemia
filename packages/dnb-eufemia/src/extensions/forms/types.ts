@@ -140,8 +140,6 @@ export type ReceiveAdditionalEventArgs<
   dataContext: ContextState
 }
 
-export type ValidatorDisableable<Value> = Validator<Value> | false
-
 /**
  * Accept any key, so custom message keys can be used
  * including the path to the field the message is for
@@ -179,7 +177,7 @@ export type VariousErrorMessages =
   | DefaultErrorMessages
   | ErrorMessagesWithLocaleSupport
 
-export interface DataValueReadProps<Value = unknown> {
+export type DataValueReadProps<Value = unknown> = {
   /** JSON Pointer for where the data for this field is located in the source dataset */
   path?: Path
   /** JSON Pointer for where the data for this field is located in the source iterate loop element */
@@ -217,12 +215,12 @@ type EventArgs<Value, ExtraValue extends ProvideAdditionalEventArgs> = [
   additionalArgs?: ExtraValue & ReceiveAdditionalEventArgs<Value>,
 ]
 
-export interface DataValueWriteProps<
+export type DataValueWriteProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
   ExtraValue extends
     ProvideAdditionalEventArgs = ProvideAdditionalEventArgs,
-> {
+> = {
   emptyValue?: EmptyValue
   onFocus?: (...args: EventArgs<Value | EmptyValue, ExtraValue>) => void
   onBlur?: (...args: EventArgs<Value | EmptyValue, ExtraValue>) => void
@@ -334,11 +332,6 @@ export type FieldStatus = {
   error?: StatusError
 }
 
-export type ConnectorProps<Value = unknown> = Pick<
-  UseFieldProps<Value>,
-  'onChange' | 'onBlurValidator'
->
-
 export type InfoProp<Value> = MessageProp<
   Value,
   React.ReactNode | Array<React.ReactNode>
@@ -356,14 +349,13 @@ export type ErrorProp<Value> = MessageProp<
   | Array<string | React.ReactElement | Error | FormError>
 >
 
-export interface UseFieldProps<
+export type UseFieldProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
   ExtraValue extends
     ProvideAdditionalEventArgs = ProvideAdditionalEventArgs,
-> extends DataValueReadWriteComponentProps<Value, EmptyValue>,
-    AriaAttributes {
+> = {
   // - HTML Element Attributes
   /**
    * ID added to the actual field component, and linked to the label via for-attribute
@@ -499,7 +491,8 @@ export interface UseFieldProps<
    * For internal use only.
    */
   valueType?: string | number | boolean | Array<string | number | boolean>
-}
+} & DataValueReadWriteComponentProps<Value, EmptyValue> &
+  AriaAttributes
 
 export type FieldProps<
   Value = unknown,
@@ -532,8 +525,7 @@ export type FieldPropsWithExtraValue<
 > &
   DataValueWriteProps<Value, EmptyValue, ExtraValue>
 
-export interface ValueProps<Value = unknown>
-  extends DataValueReadComponentProps<Value> {
+export type ValueProps<Value = unknown> = {
   /**
    * Field label to show above the data value.
    */
@@ -598,7 +590,7 @@ export interface ValueProps<Value = unknown>
    * Transforms the given props `value` before any other step gets entered.
    */
   fromExternal?: (external: Value) => Value
-}
+} & DataValueReadComponentProps<Value>
 
 export type Path = string
 export type PathStrict = `/${string}`
