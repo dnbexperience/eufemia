@@ -1618,7 +1618,7 @@ describe('variants', () => {
       ).toHaveTextContent('content without a key')
     })
 
-    it('should accept camelCase props in "dropdownProps', () => {
+    it('should accept props in "dropdownProps', () => {
       render(
         <Field.Selection
           variant="dropdown"
@@ -2377,7 +2377,7 @@ describe('variants', () => {
       ).toHaveTextContent('content without a key')
     })
 
-    it('should accept camelCase props in "autocompleteProps', () => {
+    it('should accept props in "autocompleteProps', () => {
       render(
         <Field.Selection
           variant="autocomplete"
