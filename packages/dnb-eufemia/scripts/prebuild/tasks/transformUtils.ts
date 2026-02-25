@@ -53,9 +53,8 @@ export const transformSass =
     const importPath1 = path.dirname(file.path)
     const importPath2 = path.resolve(__dirname, '../../../src/style/core/')
 
-    const sassResult = sass.renderSync({
-      file: file.path,
-      includePaths: [importPath1, importPath2], // use loadPaths for new API
+    const sassResult = sass.compile(file.path, {
+      loadPaths: [importPath1, importPath2],
       // TODO: Remove silenceDeprecations before v11 release and migrate to Sass module system (@use/@forward)
       silenceDeprecations: ['import', 'global-builtin'],
       ...config,
@@ -70,7 +69,7 @@ export const transformSass =
       }
     }
 
-    return String(sassResult.css)
+    return sassResult.css
   }
 
 export const transformPostcss =

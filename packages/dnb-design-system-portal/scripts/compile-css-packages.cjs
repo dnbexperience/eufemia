@@ -19,9 +19,8 @@ function generatePackages(convertFiles) {
     const includePaths = []
 
     const file = require.resolve(filePath)
-    const result = sass.renderSync({
-      file,
-      includePaths,
+    const result = sass.compile(file, {
+      loadPaths: includePaths,
       // TODO: Remove silenceDeprecations before v11 release and migrate to Sass module system (@use/@forward)
       silenceDeprecations: ['import', 'global-builtin'],
     })
