@@ -38,7 +38,6 @@ import Grid from './grid/Grid'
 import Heading from './heading/Heading'
 import HeightAnimation from './height-animation/HeightAnimation'
 import HelpButton from './help-button/HelpButton'
-import HeroFormat from './hero-format/HeroFormat'
 import Icon from './icon/Icon'
 import IconPrimary from './icon-primary/IconPrimary'
 import InfoCard from './info-card/InfoCard'
@@ -59,6 +58,7 @@ import Skeleton from './skeleton/Skeleton'
 import SkipContent from './skip-content/SkipContent'
 import Slider from './slider/Slider'
 import Space from './space/Space'
+import Spotlight from './spotlight/Spotlight'
 import StepIndicator from './step-indicator/StepIndicator'
 import Switch from './switch/Switch'
 import Table from './table/Table'
@@ -102,7 +102,6 @@ export {
   Heading,
   HeightAnimation,
   HelpButton,
-  HeroFormat,
   Icon,
   IconPrimary,
   InfoCard,
@@ -123,6 +122,7 @@ export {
   SkipContent,
   Slider,
   Space,
+  Spotlight,
   StepIndicator,
   Switch,
   Table,

@@ -1,4 +1,4 @@
-import Amount, { AmountProps } from '../hero-format/Amount'
+import Amount, { AmountProps } from '../spotlight/Amount'
 
 export type CurrencyAmountProps = AmountProps
 

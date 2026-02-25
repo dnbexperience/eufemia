@@ -1,10 +1,10 @@
 import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import { Flex } from '../../..'
-import HeroFormat from '../../HeroFormat'
+import Spotlight from '../../Spotlight'
 
 export default {
-  title: 'Eufemia/Components/HeroFormat',
+  title: 'Eufemia/Components/Spotlight',
 }
 
 export function Amount() {
@@ -12,8 +12,8 @@ export function Amount() {
     <Wrapper>
       <Box>
         <Flex.Stack>
-          <HeroFormat.Amount value={123} currency="USD" suffix="/mnd" />
-          <HeroFormat.Amount
+          <Spotlight.Amount value={123} currency="USD" suffix="/mnd" />
+          <Spotlight.Amount
             value={350234.678}
             currency="USD"
             suffix="/mnd"

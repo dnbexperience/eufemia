@@ -54,32 +54,6 @@ export const AmountProperties: PropertiesTableProps = {
     defaultValue: 'x-small',
     status: 'optional',
   },
-  numberSize: {
-    doc: 'Deprecated: use `mainSize`.',
-    type: [
-      '"x-small"',
-      '"small"',
-      '"basis"',
-      '"medium"',
-      '"large"',
-      '"x-large"',
-      '"xx-large"',
-    ],
-    status: 'deprecated',
-  },
-  currencySize: {
-    doc: 'Deprecated: use `auxiliarySize`.',
-    type: [
-      '"x-small"',
-      '"small"',
-      '"basis"',
-      '"medium"',
-      '"large"',
-      '"x-large"',
-      '"xx-large"',
-    ],
-    status: 'deprecated',
-  },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],

@@ -29,10 +29,6 @@ export type AmountProps = Omit<NumberFormatProps, 'children'> & {
   mainSize?: TypographySize
   /** Typography size for secondary content like affixes. Defaults to `x-small`. */
   auxiliarySize?: TypographySize
-  /** @deprecated Use `mainSize` instead. */
-  numberSize?: TypographySize
-  /** @deprecated Use `auxiliarySize` instead. */
-  currencySize?: TypographySize
 } & SpacingProps
 
 const splitLeadingSign = (value: string) => {
@@ -87,10 +83,8 @@ function Amount(props: AmountProps) {
     prefix = null,
     suffix = null,
     srLabel = null,
-    mainSize = null,
-    auxiliarySize = null,
-    numberSize = 'x-large',
-    currencySize = 'x-small',
+    mainSize = 'x-large',
+    auxiliarySize = 'x-small',
     id = null,
     style = null,
     lang = null,
@@ -118,8 +112,8 @@ function Amount(props: AmountProps) {
   const usedCurrencyDisplay = currencyDisplay ?? currency_display ?? null
   const usedCurrencyPosition =
     currencyPosition ?? currency_position ?? 'auto'
-  const usedMainSize = mainSize ?? numberSize
-  const usedAuxiliarySize = auxiliarySize ?? currencySize
+  const usedMainSize = mainSize
+  const usedAuxiliarySize = auxiliarySize
 
   const formatted = useNumberFormat(rawValue, {
     locale: resolvedLocale,
@@ -210,12 +204,12 @@ function Amount(props: AmountProps) {
     : false
 
   const currencyClass = clsx(
-    'dnb-hero-format__currency',
+    'dnb-spotlight__currency',
     `dnb-t__size--${usedAuxiliarySize}`,
     `dnb-t__line-height--${usedAuxiliarySize}`
   )
   const amountClass = clsx(
-    'dnb-hero-format__amount',
+    'dnb-spotlight__amount',
     `dnb-t__size--${usedMainSize}`,
     `dnb-t__line-height--${usedMainSize}`
   )
@@ -226,7 +220,7 @@ function Amount(props: AmountProps) {
         <>
           <span
             className={clsx(
-              'dnb-hero-format__sign',
+              'dnb-spotlight__sign',
               `dnb-t__size--${usedMainSize}`,
               `dnb-t__line-height--${usedMainSize}`
             )}
@@ -258,7 +252,7 @@ function Amount(props: AmountProps) {
     const prefixElement = renderAffix(
       prefix,
       clsx(
-        'dnb-hero-format__prefix',
+        'dnb-spotlight__prefix',
         `dnb-t__size--${usedAuxiliarySize}`,
         `dnb-t__line-height--${usedAuxiliarySize}`
       )
@@ -275,7 +269,7 @@ function Amount(props: AmountProps) {
     const suffixElement = renderAffix(
       suffix,
       clsx(
-        'dnb-hero-format__suffix',
+        'dnb-spotlight__suffix',
         `dnb-t__size--${usedAuxiliarySize}`,
         `dnb-t__line-height--${usedAuxiliarySize}`
       )
@@ -301,7 +295,7 @@ function Amount(props: AmountProps) {
     id,
     style,
     className: clsx(
-      'dnb-hero-format',
+      'dnb-spotlight',
       createSpacingClasses(props),
       createSkeletonClass('font', resolvedSkeleton, context),
       className
@@ -313,7 +307,7 @@ function Amount(props: AmountProps) {
 
   return (
     <Element {...attributes}>
-      <span className="dnb-hero-format__content" aria-hidden>
+      <span className="dnb-spotlight__content" aria-hidden>
         {content}
       </span>
       {/* Used for VoiceOver and NVDA when navigating with arrow keys */}

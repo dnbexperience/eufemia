@@ -1,19 +1,19 @@
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import HeroFormat from '@dnb/eufemia/src/components/HeroFormat'
+import Spotlight from '@dnb/eufemia/src/components/Spotlight'
 import { Flex } from '@dnb/eufemia/src'
 
 export const AmountDefault = () => (
-  <ComponentBox data-visual-test="hero-format-amount-default">
+  <ComponentBox data-visual-test="spotlight-amount-default">
     <Flex.Stack>
-      <HeroFormat.Amount value={1234} currency="NOK" suffix="/mnd" />
-      <HeroFormat.Amount
+      <Spotlight.Amount value={1234} currency="NOK" suffix="/mnd" />
+      <Spotlight.Amount
         value={1234}
         currency="USD"
         signDisplay="always"
         locale="en-GB"
       />
-      <HeroFormat.Amount
+      <Spotlight.Amount
         value={1234}
         currency="EUR"
         currencyPosition="before"
@@ -26,13 +26,13 @@ export const AmountDefault = () => (
 export const AmountSizes = () => (
   <ComponentBox>
     <Flex.Stack>
-      <HeroFormat.Amount
+      <Spotlight.Amount
         value={12345}
         currency="NOK"
         mainSize="xx-large"
         auxiliarySize="basis"
       />
-      <HeroFormat.Amount
+      <Spotlight.Amount
         value={12345}
         currency="NOK"
         mainSize="large"

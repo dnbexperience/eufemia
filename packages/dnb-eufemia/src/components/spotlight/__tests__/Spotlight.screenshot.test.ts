@@ -8,14 +8,14 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('HeroFormat', () => {
+describe('Spotlight', () => {
   setupPageScreenshot({
-    url: '/uilib/components/hero-format/demos/',
+    url: '/uilib/components/spotlight/demos/',
   })
 
   it('have to match default amount', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="hero-format-amount-default"]',
+      selector: '[data-visual-test="spotlight-amount-default"]',
     })
 
     expect(screenshot).toMatchImageSnapshot()
