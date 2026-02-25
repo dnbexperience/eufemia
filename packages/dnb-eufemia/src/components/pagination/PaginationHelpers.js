@@ -97,7 +97,7 @@ export function preparePageElement(
     const isTr = isTrElement(Element)
 
     // eslint-disable-next-line
-    return React.forwardRef(({ className, children, ...props }, ref) => {
+    return ({ className, children, ref, ...props }) => {
       const params = {
         ...props,
         className: clsx(includeClassName, className),
@@ -110,7 +110,7 @@ export function preparePageElement(
       ) : (
         <Element {...params}>{children}</Element>
       )
-    })
+    }
   }
 
   return Element

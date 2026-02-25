@@ -52,9 +52,12 @@ export const defaultProps = {
   skeletonMethod: 'font',
 }
 
-const Element = React.forwardRef((props: ElementAllProps, ref) => {
+function Element({
+  ref,
+  ...props
+}: ElementAllProps & { ref?: React.Ref<HTMLElement> }) {
   return <ElementInstance innerRef={ref} {...props} />
-})
+}
 
 function ElementInstance(localProps: ElementAllProps) {
   const context = React.useContext(Context)
