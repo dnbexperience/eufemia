@@ -2,6 +2,8 @@
  * Utilities
  */
 
+@use 'sass:map';
+
 @import '../../components/space/style/space-mixins.scss';
 
 @mixin defaultDropShadow() {
@@ -302,7 +304,7 @@ $breakpoint-offset: 0;
 @mixin allAbove($size, $offset: $breakpoint-offset, $list: $breakpoints) {
   $resolved: $size;
   @if map-has-key($list, $size) {
-    $resolved: map-get($list, $size);
+    $resolved: map.get($list, $size);
   }
 
   @media screen and (min-width: ($resolved + $offset + 0.00625)) {
@@ -312,7 +314,7 @@ $breakpoint-offset: 0;
 @mixin allBelow($size, $offset: $breakpoint-offset, $list: $breakpoints) {
   $resolved: $size;
   @if map-has-key($list, $size) {
-    $resolved: map-get($list, $size);
+    $resolved: map.get($list, $size);
   }
 
   @media screen and (max-width: ($resolved + $offset)) {
