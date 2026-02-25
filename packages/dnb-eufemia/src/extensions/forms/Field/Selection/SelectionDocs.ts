@@ -42,12 +42,12 @@ export const SelectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   autocompleteProps: {
-    doc: 'Forward any additional properties (camelCase) to the [Autocomplete](/uilib/components/autocomplete/) component. `onType` will additionally provide the `value` parameter with `emptyValue` support in addition to the internal `dataContext`.',
+    doc: 'Forward any additional properties to the [Autocomplete](/uilib/components/autocomplete/) component. `onType` will additionally provide the `value` parameter with `emptyValue` support in addition to the internal `dataContext`.',
     type: 'object',
     status: 'optional',
   },
   dropdownProps: {
-    doc: 'Forward any additional properties (camelCase) to the [Dropdown](/uilib/components/dropdown/) component.',
+    doc: 'Forward any additional properties to the [Dropdown](/uilib/components/dropdown/) component.',
     type: 'object',
     status: 'optional',
   },

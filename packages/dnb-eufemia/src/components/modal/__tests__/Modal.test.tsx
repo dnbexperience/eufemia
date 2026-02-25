@@ -1601,7 +1601,7 @@ describe('Modal component', () => {
     expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
   })
 
-  it('should render camelcase props', () => {
+  it('should render props', () => {
     const customText = 'Custom text in camelcase'
     render(
       <Modal triggerAttributes={{ text: customText }} open>
