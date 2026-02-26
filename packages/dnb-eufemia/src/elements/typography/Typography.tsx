@@ -83,7 +83,7 @@ export type TypographyProps<
   }
 
 type TypographyInternalProps = {
-  innerRef?: React.RefObject<HTMLElement> | React.ForwardedRef<unknown>
+  innerRef?: React.Ref<HTMLElement>
 }
 
 const Typography = ({
