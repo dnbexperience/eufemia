@@ -2849,23 +2849,29 @@ describe('Field.Upload', () => {
         })
       })
 
-      resolveFileHandler1([
-        {
-          file: file1,
-          id: 'server-id-1',
-          exists: false,
-        },
-      ])
+      await act(async () => {
+        resolveFileHandler1([
+          {
+            file: file1,
+            id: 'server-id-1',
+            exists: false,
+          },
+        ])
+      })
 
-      await new Promise((resolve) => setTimeout(resolve, 50))
+      await act(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 50))
+      })
 
-      resolveFileHandler2([
-        {
-          file: file2,
-          id: 'server-id-2',
-          exists: false,
-        },
-      ])
+      await act(async () => {
+        resolveFileHandler2([
+          {
+            file: file2,
+            id: 'server-id-2',
+            exists: false,
+          },
+        ])
+      })
 
       await waitFor(() => {
         expect(screen.queryByText('new-file-1.png')).toBeInTheDocument()

@@ -1,6 +1,6 @@
 import React from 'react'
 import userEvent from '@testing-library/user-event'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import { Connectors, Field, Form } from '../../..'
 import { getMockData, unsupportedCountryCodeMessage } from '../postalCode'
 
@@ -585,7 +585,9 @@ describe('postalCode', () => {
       expect(postalCodeInput).toHaveValue('')
 
       await userEvent.type(postalCodeInput, '1391')
-      fireEvent.blur(postalCodeInput)
+      await act(async () => {
+        fireEvent.blur(postalCodeInput)
+      })
 
       expect(url).toHaveBeenCalledTimes(1)
       expect(url).toHaveBeenCalledWith('1391', {
