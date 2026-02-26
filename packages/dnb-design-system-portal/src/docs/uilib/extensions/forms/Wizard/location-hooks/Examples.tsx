@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { navigate, useLocation } from '@reach/router'
+import { navigate, useLocation } from '@gatsbyjs/reach-router'
 import { P } from '@dnb/eufemia/src'
 import { Form, Wizard } from '@dnb/eufemia/src/extensions/forms'
 
