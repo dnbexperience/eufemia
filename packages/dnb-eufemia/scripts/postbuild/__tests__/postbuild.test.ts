@@ -245,7 +245,7 @@ describe('babel build', () => {
             expect(content).toContain('export default class Input extends')
             expect(content).not.toContain('core-js-pure/modules/es')
             expect(content).toContain(
-              'import _extends from "@babel/runtime-corejs3/helpers/esm/extends";'
+              'from "react/jsx-runtime"'
             )
           }
 
@@ -259,7 +259,7 @@ describe('babel build', () => {
             )
             expect(content).toContain('export default Breadcrumb;')
             expect(content).toContain(
-              'import _extends from "@babel/runtime-corejs3/helpers/esm/extends";'
+              'from "react/jsx-runtime"'
             )
           }
 
@@ -304,7 +304,7 @@ describe('babel build', () => {
             expect(content).toMatch(/export default class Input extends/g)
             expect(content).not.toContain('core-js-pure/modules/es')
             expect(content).toContain(
-              'import _extends from "@babel/runtime/helpers/esm/extends";'
+              'from "react/jsx-runtime"'
             )
           }
 
@@ -319,7 +319,7 @@ describe('babel build', () => {
             expect(content).toContain('export default Breadcrumb;')
             expect(content).not.toContain('core-js-pure/modules/es')
             expect(content).toContain(
-              'import _extends from "@babel/runtime/helpers/esm/extends";'
+              'from "react/jsx-runtime"'
             )
           }
 
