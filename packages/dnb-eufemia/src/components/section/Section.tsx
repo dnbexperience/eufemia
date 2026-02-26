@@ -15,6 +15,7 @@ import type {
 import type { InnerSpaceType } from '../space/types'
 import Space from '../space/Space'
 import { getColor } from '../../shared/helpers'
+import { warnDeprecatedInnerRef } from '../../shared/helpers/warnDeprecatedInnerRef'
 
 export type SectionVariants = 'error' | 'info' | 'warning' | 'success'
 
@@ -145,8 +146,18 @@ const defaultProps: Partial<SectionAllProps> = {
   element: 'section',
 }
 
-export default function Section(localProps: SectionAllProps) {
+function SectionInstance(localProps: SectionAllProps) {
   return <Space {...SectionParams(localProps)} />
+}
+
+export default function Section({
+  ref,
+  ...props
+}: SectionAllProps & { ref?: React.Ref<HTMLElement> }) {
+  if (props.innerRef) {
+    warnDeprecatedInnerRef('Section')
+  }
+  return <SectionInstance {...props} innerRef={props.innerRef || ref} />
 }
 
 export function SectionParams(

@@ -23,6 +23,7 @@ import {
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 import Context from '../../shared/Context'
+import { warnDeprecatedInnerRef } from '../../shared/helpers/warnDeprecatedInnerRef'
 import Suffix from '../../shared/helpers/Suffix'
 import useId from '../../shared/helpers/useId'
 import type { SpacingProps } from '../space/types'
@@ -131,7 +132,7 @@ const defaultProps: CheckboxProps = {
   statusState: 'error',
 }
 
-function Checkbox(localProps: CheckboxProps) {
+function CheckboxInstance(localProps: CheckboxProps) {
   const context = useContext(Context)
 
   const extractPropsFromContext = useCallback(() => {
@@ -416,7 +417,23 @@ function Checkbox(localProps: CheckboxProps) {
   )
 }
 
+function Checkbox({
+  ref,
+  ...props
+}: CheckboxProps & { ref?: React.Ref<HTMLInputElement> }) {
+  if (props.innerRef) {
+    warnDeprecatedInnerRef('Checkbox')
+  }
+  return (
+    <CheckboxInstance
+      {...props}
+      innerRef={(props.innerRef ?? ref) as CheckboxProps['innerRef']}
+    />
+  )
+}
+
 export default Checkbox
 
 // Mark as form element for FieldBlock
+CheckboxInstance._formElement = true
 Checkbox._formElement = true

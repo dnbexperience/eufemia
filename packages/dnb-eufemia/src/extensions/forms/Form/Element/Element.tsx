@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import DataContext from '../../DataContext/Context'
 import Space from '../../../../components/space/Space'
 import useId from '../../../../shared/helpers/useId'
+import { warnDeprecatedInnerRef } from '../../../../shared/helpers/warnDeprecatedInnerRef'
 import type { SpacingProps } from '../../../../shared/types'
 import { FormStatus } from '../../../../components'
 import { combineLabelledBy } from '../../../../shared/component-helper'
@@ -15,7 +16,19 @@ export type Props = Omit<
     innerRef?: React.RefObject<HTMLFormElement>
   }
 
-export default function FormElement(props: Props) {
+export default function FormElement({
+  ref,
+  ...props
+}: Props & { ref?: React.Ref<HTMLFormElement> }) {
+  if (props.innerRef) {
+    warnDeprecatedInnerRef('Form.Element')
+  }
+  return (
+    <FormElementInstance {...props} innerRef={props.innerRef || ref} />
+  )
+}
+
+function FormElementInstance(props: Props) {
   const id = useId()
   const dataContext = useContext(DataContext)
   const { submitState, restHandlerProps } = dataContext || {}

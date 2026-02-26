@@ -19,6 +19,7 @@ import {
   pickFormElementProps,
 } from '../../shared/helpers/filterValidProps'
 import { omitSpacingProps } from '../flex/utils'
+import { warnDeprecatedInnerRef } from '../../shared/helpers/warnDeprecatedInnerRef'
 import Context from '../../shared/Context'
 import type {
   DynamicElement,
@@ -51,7 +52,7 @@ export type FormLabelAllProps = FormLabelProps &
   React.HTMLAttributes<HTMLLabelElement> &
   SpacingProps
 
-export default function FormLabel(localProps: FormLabelAllProps) {
+function FormLabelInstance(localProps: FormLabelAllProps) {
   const context = React.useContext(Context)
 
   // use only the props from context, who are available here anyway
@@ -208,6 +209,19 @@ export default function FormLabel(localProps: FormLabelAllProps) {
   validateDOMAttributes(localProps, params)
 
   return <Element {...params}>{content}</Element>
+}
+
+FormLabelInstance._formElement = true
+FormLabelInstance._supportsSpacingProps = true
+
+export default function FormLabel({
+  ref,
+  ...props
+}: FormLabelAllProps & { ref?: React.Ref<HTMLElement> }) {
+  if (props.innerRef) {
+    warnDeprecatedInnerRef('FormLabel')
+  }
+  return <FormLabelInstance {...props} innerRef={props.innerRef || ref} />
 }
 
 FormLabel._formElement = true

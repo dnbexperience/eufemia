@@ -11,6 +11,7 @@ import {
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import { createSpacingClasses } from '../../components/space/SpacingHelper'
+import { warnDeprecatedInnerRef } from '../../shared/helpers/warnDeprecatedInnerRef'
 import type { SpacingProps } from '../../shared/types'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
@@ -127,6 +128,9 @@ function ScrollViewWithRef({
   ref,
   ...props
 }: ScrollViewAllProps & { ref?: React.Ref<unknown> }) {
+  if (props.innerRef) {
+    warnDeprecatedInnerRef('ScrollView')
+  }
   return <ScrollView {...props} innerRef={props.innerRef || ref} />
 }
 
