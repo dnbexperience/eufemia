@@ -3,6 +3,21 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.99.0](https://github.com/dnbexperience/eufemia/compare/v10.98.0...v10.99.0) (2026-02-26)
+
+
+### :bug: Bug Fixes
+
+* **Forms:** safeguard Form.clearData when id is invalid ([#6774](https://github.com/dnbexperience/eufemia/issues/6774)) ([f6c45f0](https://github.com/dnbexperience/eufemia/commit/f6c45f04d145c0be9406351fd8528bee210ef565))
+* **Tabs:** fix overflow when using Badge in tab title ([#6734](https://github.com/dnbexperience/eufemia/issues/6734)) ([c32730e](https://github.com/dnbexperience/eufemia/commit/c32730eb3f34d9e8a76be3cdfd42b00116ef9955))
+
+
+### :sparkles: Features
+
+* **List.Item.Accordion:** add `keepInDOM` property to keep content in the DOM when closed ([#6735](https://github.com/dnbexperience/eufemia/issues/6735)) ([565e525](https://github.com/dnbexperience/eufemia/commit/565e525c757714f9943a77888c1ad84f7218514a))
+* **NumberFormat:** omit space before suffix when it starts with slash ([#6744](https://github.com/dnbexperience/eufemia/issues/6744)) ([e2d74a6](https://github.com/dnbexperience/eufemia/commit/e2d74a6fd109e877f094537e0c1e8a95f4b43b76))
+* **Table:** for accordion mode – add `keepInDOM` property to keep content in the DOM when closed ([#6790](https://github.com/dnbexperience/eufemia/issues/6790)) ([d40a2af](https://github.com/dnbexperience/eufemia/commit/d40a2afa647d4000a7252ff95f33b2ff5477c25d))
+
 ## [10.98.0](https://github.com/dnbexperience/eufemia/compare/v10.97.0...v10.98.0) (2026-02-19)
 
 
