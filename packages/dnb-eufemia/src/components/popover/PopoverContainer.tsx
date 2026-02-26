@@ -100,7 +100,7 @@ function PopoverContainer(props: PopoverContainerProps) {
   }, [triggerOffsetProp])
 
   const debounceTimeout = useRef<NodeJS.Timeout>(undefined)
-  const resizeObserver = useRef<ResizeObserver>(null)
+  const resizeObserver = useRef<ResizeObserver | null>(null)
   const tmpRef = useRef<HTMLSpanElement>(null)
   const elementRef =
     contentRef && 'current' in contentRef ? contentRef : tmpRef

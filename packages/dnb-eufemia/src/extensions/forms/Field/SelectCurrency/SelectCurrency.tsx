@@ -137,7 +137,7 @@ function SelectCurrency(props: Props) {
     filterCurrencies,
   } = useFieldProps(preparedProps)
 
-  const dataRef = useRef(null)
+  const dataRef = useRef<CurrencyType[] | null>(null)
   const langRef = useRef(lang)
   const wasFilled = useRef(false)
 
