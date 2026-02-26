@@ -17,11 +17,11 @@ export interface SkeletonCircleProps
   children?: SkeletonCircleChildren
 }
 
-const SkeletonCircle: React.FC<SkeletonCircleProps> = ({
+function SkeletonCircle({
   rows = 3,
   children = null,
   ...rest
-}) => {
+}: SkeletonCircleProps) {
   const rowsLength = useMemo(() => {
     // Do this so we get the same result each time
     // because of static generated markup

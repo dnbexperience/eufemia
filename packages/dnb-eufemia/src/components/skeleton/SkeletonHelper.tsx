@@ -65,13 +65,13 @@ export type AutoSizeProps = {
   style?: React.CSSProperties
 }
 
-export const AutoSize: React.FC<AutoSizeProps> = ({
+export function AutoSize({
   __element: Comp = null,
   children = null,
   className = null,
   style = null,
   ...props
-}) => {
+}: AutoSizeProps) {
   const string = convertJsxToString(children)
 
   if (typeof string === 'string') {
