@@ -85,7 +85,7 @@ import Skeleton from './components/skeleton/Skeleton'
 import SkipContent from './components/skip-content/SkipContent'
 import Slider from './components/slider/Slider'
 import Space from './components/space/Space'
-import Spotlight from './components/spotlight/Spotlight'
+import Stat from './components/stat/Stat'
 import StepIndicator from './components/step-indicator/StepIndicator'
 import Switch from './components/switch/Switch'
 import Table from './components/table/Table'
@@ -176,7 +176,7 @@ export {
   SkipContent,
   Slider,
   Space,
-  Spotlight,
+  Stat,
   StepIndicator,
   Switch,
   Table,

@@ -5,28 +5,28 @@ showTabs: true
 ## Import
 
 ```tsx
-import { Spotlight } from '@dnb/eufemia'
+import { Stat } from '@dnb/eufemia'
 ```
 
 ## Description
 
-`Spotlight` contains formatting components for prominent values, where typography and visual emphasis are part of the component API.
+`Stat` contains formatting components for prominent values, where typography and visual emphasis are part of the component API.
 
-Use `Spotlight.Currency` for currency amounts and `Spotlight.Percent` for percentage highlights in hero sections, summaries, and key numbers.
+Use `Stat.Currency` for currency amounts and `Stat.Percent` for percentage highlights in hero sections, summaries, and key numbers.
 
 ## Basic usage
 
 ```tsx
-import { Spotlight } from '@dnb/eufemia'
+import { Stat } from '@dnb/eufemia'
 
-render(<Spotlight.Currency value={123} />)
+render(<Stat.Currency value={123} />)
 ```
 
 This namespace pattern keeps the API scalable and tree-shakeable for additional formatters.
 
 ## Currency and Percent
 
-`Spotlight.Currency` and `Spotlight.Percent` are built on the [NumberFormat](/uilib/components/number-format/) formatting logic.
+`Stat.Currency` and `Stat.Percent` are built on the [NumberFormat](/uilib/components/number-format/) formatting logic.
 
 It adds typography-specific props:
 

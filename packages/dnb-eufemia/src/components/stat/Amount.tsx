@@ -120,17 +120,17 @@ function Amount(props: AmountProps) {
   const renderCurrencyBefore = parts.currencyPosition === 'before'
 
   const currencyClass = clsx(
-    'dnb-spotlight__currency',
+    'dnb-stat__currency',
     `dnb-t__size--${auxiliarySize}`,
     `dnb-t__line-height--${auxiliarySize}`
   )
   const amountClass = clsx(
-    'dnb-spotlight__amount',
+    'dnb-stat__amount',
     `dnb-t__size--${mainSize}`,
     `dnb-t__line-height--${mainSize}`
   )
   const percentClass = clsx(
-    'dnb-spotlight__percent',
+    'dnb-stat__percent',
     `dnb-t__size--${auxiliarySize}`,
     `dnb-t__line-height--${auxiliarySize}`
   )
@@ -141,7 +141,7 @@ function Amount(props: AmountProps) {
         <>
           <span
             className={clsx(
-              'dnb-spotlight__sign',
+              'dnb-stat__sign',
               `dnb-t__size--${mainSize}`,
               `dnb-t__line-height--${mainSize}`
             )}
@@ -179,7 +179,7 @@ function Amount(props: AmountProps) {
     const prefixElement = renderAffix(
       prefix,
       clsx(
-        'dnb-spotlight__prefix',
+        'dnb-stat__prefix',
         `dnb-t__size--${auxiliarySize}`,
         `dnb-t__line-height--${auxiliarySize}`
       )
@@ -196,7 +196,7 @@ function Amount(props: AmountProps) {
     const suffixElement = renderAffix(
       suffix,
       clsx(
-        'dnb-spotlight__suffix',
+        'dnb-stat__suffix',
         `dnb-t__size--${auxiliarySize}`,
         `dnb-t__line-height--${auxiliarySize}`
       )
@@ -222,7 +222,7 @@ function Amount(props: AmountProps) {
     id,
     style,
     className: clsx(
-      'dnb-spotlight',
+      'dnb-stat',
       createSpacingClasses(props),
       createSkeletonClass('font', resolvedSkeleton, context),
       className
@@ -234,7 +234,7 @@ function Amount(props: AmountProps) {
 
   return (
     <Element {...attributes}>
-      <span className="dnb-spotlight__content" aria-hidden>
+      <span className="dnb-stat__content" aria-hidden>
         {content}
       </span>
       {/* Used for VoiceOver and NVDA when navigating with arrow keys */}

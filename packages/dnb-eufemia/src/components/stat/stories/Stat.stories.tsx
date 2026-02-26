@@ -1,10 +1,10 @@
 import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import { Flex } from '../../..'
-import Spotlight from '../../Spotlight'
+import Stat from '../../Stat'
 
 export default {
-  title: 'Eufemia/Components/Spotlight',
+  title: 'Eufemia/Components/Stat',
 }
 
 export function Currency() {
@@ -12,8 +12,8 @@ export function Currency() {
     <Wrapper>
       <Box>
         <Flex.Stack>
-          <Spotlight.Currency value={123} currency="USD" suffix="/mnd" />
-          <Spotlight.Currency
+          <Stat.Currency value={123} currency="USD" suffix="/mnd" />
+          <Stat.Currency
             value={350234.678}
             currency="USD"
             suffix="/mnd"
@@ -30,8 +30,8 @@ export function Percent() {
     <Wrapper>
       <Box>
         <Flex.Stack>
-          <Spotlight.Percent value={12.3} />
-          <Spotlight.Percent value={-12.3} signDisplay="always" />
+          <Stat.Percent value={12.3} />
+          <Stat.Percent value={-12.3} signDisplay="always" />
         </Flex.Stack>
       </Box>
     </Wrapper>

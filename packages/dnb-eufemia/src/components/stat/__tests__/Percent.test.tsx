@@ -1,16 +1,16 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import Spotlight from '../Spotlight'
+import Stat from '../Stat'
 
-describe('Spotlight.Percent', () => {
+describe('Stat.Percent', () => {
   it('renders percent with separate auxiliary percent sign', () => {
-    render(<Spotlight.Percent value={0.1234} signDisplay="always" />)
+    render(<Stat.Percent value={0.1234} signDisplay="always" />)
 
-    const content = document.querySelector('.dnb-spotlight__content')
-    const amount = document.querySelector('.dnb-spotlight__amount')
-    const percentSign = document.querySelector('.dnb-spotlight__percent')
-    const currency = document.querySelector('.dnb-spotlight__currency')
-    const sr = document.querySelector('.dnb-spotlight .dnb-sr-only')
+    const content = document.querySelector('.dnb-stat__content')
+    const amount = document.querySelector('.dnb-stat__amount')
+    const percentSign = document.querySelector('.dnb-stat__percent')
+    const currency = document.querySelector('.dnb-stat__currency')
+    const sr = document.querySelector('.dnb-stat .dnb-sr-only')
 
     expect(amount.textContent).toBe('0')
     expect(percentSign).toBeInTheDocument()

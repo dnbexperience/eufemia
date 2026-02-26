@@ -3,4 +3,4 @@
  *
  */
 
-import './dnb-spotlight.scss'
+import './style/dnb-stat.scss'

@@ -8,7 +8,7 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import { Provider } from '@dnb/eufemia/src/shared'
 import NumberFormat from '@dnb/eufemia/src/components/NumberFormat'
-import Spotlight from '@dnb/eufemia/src/components/Spotlight'
+import Stat from '@dnb/eufemia/src/components/Stat'
 import P from '@dnb/eufemia/src/elements/P'
 import H3 from '@dnb/eufemia/src/elements/H3'
 
@@ -88,13 +88,13 @@ export const NumberCurrency = () => (
 export const NumberHeroStyleAmount = () => (
   <Style>
     <ComponentBox>
-      <Spotlight.Currency
+      <Stat.Currency
         value={12345}
         currency="NOK"
         suffix="/mnd"
         signDisplay="always"
       />
-      <Spotlight.Percent value={12.34} signDisplay="always" />
+      <Stat.Percent value={12.34} signDisplay="always" />
     </ComponentBox>
   </Style>
 )
