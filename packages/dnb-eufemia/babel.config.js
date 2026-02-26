@@ -4,7 +4,7 @@
  */
 
 const basisPresets = [
-  ['@babel/preset-react', { runtime: 'automatic' }],
+  '@babel/preset-react',
   ['@babel/preset-typescript', { isTSX: true, allExtensions: true }],
 ]
 
