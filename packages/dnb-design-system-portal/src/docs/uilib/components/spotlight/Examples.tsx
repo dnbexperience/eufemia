@@ -3,17 +3,17 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import Spotlight from '@dnb/eufemia/src/components/Spotlight'
 import { Flex } from '@dnb/eufemia/src'
 
-export const AmountDefault = () => (
+export const CurrencyDefault = () => (
   <ComponentBox data-visual-test="spotlight-amount-default">
     <Flex.Stack>
-      <Spotlight.Amount value={1234} currency="NOK" suffix="/mnd" />
-      <Spotlight.Amount
+      <Spotlight.Currency value={1234} currency="NOK" suffix="/mnd" />
+      <Spotlight.Currency
         value={1234}
         currency="USD"
         signDisplay="always"
         locale="en-GB"
       />
-      <Spotlight.Amount
+      <Spotlight.Currency
         value={1234}
         currency="EUR"
         currencyPosition="before"
@@ -23,21 +23,31 @@ export const AmountDefault = () => (
   </ComponentBox>
 )
 
-export const AmountSizes = () => (
+export const CurrencySizes = () => (
   <ComponentBox>
     <Flex.Stack>
-      <Spotlight.Amount
+      <Spotlight.Currency
         value={12345}
         currency="NOK"
         mainSize="xx-large"
         auxiliarySize="basis"
       />
-      <Spotlight.Amount
+      <Spotlight.Currency
         value={12345}
         currency="NOK"
         mainSize="large"
         auxiliarySize="x-small"
       />
+    </Flex.Stack>
+  </ComponentBox>
+)
+
+export const PercentDefault = () => (
+  <ComponentBox>
+    <Flex.Stack>
+      <Spotlight.Percent value={12.3} />
+      <Spotlight.Percent value={-12.3} signDisplay="always" />
+      <Spotlight.Percent value={0.1234} decimals={2} />
     </Flex.Stack>
   </ComponentBox>
 )

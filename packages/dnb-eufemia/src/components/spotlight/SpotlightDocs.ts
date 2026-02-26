@@ -60,3 +60,28 @@ export const AmountProperties: PropertiesTableProps = {
     status: 'optional',
   },
 }
+
+export const CurrencyProperties: PropertiesTableProps = AmountProperties
+
+export const PercentProperties: PropertiesTableProps = {
+  ...pickNumberFormatProps([
+    'value',
+    'percent',
+    'decimals',
+    'rounding',
+    'signDisplay',
+    'compact',
+    'prefix',
+    'suffix',
+    'locale',
+    'srLabel',
+    'element',
+    'skeleton',
+    'options',
+    'clean',
+  ]),
+  mainSize: AmountProperties.mainSize,
+  auxiliarySize: AmountProperties.auxiliarySize,
+  '[Space](/uilib/layout/space/properties)':
+    AmountProperties['[Space](/uilib/layout/space/properties)'],
+}

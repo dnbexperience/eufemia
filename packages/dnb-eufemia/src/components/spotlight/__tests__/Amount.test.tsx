@@ -5,7 +5,19 @@ import Provider from '../../../shared/Provider'
 import Spotlight from '../Spotlight'
 import Amount from '../Amount'
 
-describe('Spotlight', () => {
+describe('Spotlight.Amount', () => {
+  it('renders plain amount by default without currency', () => {
+    render(<Spotlight.Amount value={12345.67} />)
+
+    const amount = document.querySelector('.dnb-spotlight__amount')
+    const currency = document.querySelector('.dnb-spotlight__currency')
+    const content = document.querySelector('.dnb-spotlight__content')
+
+    expect(amount.textContent).toBe('12 346')
+    expect(currency).not.toBeInTheDocument()
+    expect(content.textContent).toBe('12 346')
+  })
+
   it('renders amount and currency with default locale and currency order', () => {
     render(<Spotlight.Amount value={12345.67} currency="NOK" />)
 
@@ -185,7 +197,7 @@ describe('Spotlight', () => {
     const currency = document.querySelector('.dnb-spotlight__currency')
 
     expect(container).toBeInTheDocument()
-    expect(currency.textContent).toBe('')
+    expect(currency).not.toBeInTheDocument()
   })
 
   it('supports invalid values with sr text', () => {

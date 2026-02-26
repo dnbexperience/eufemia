@@ -88,12 +88,13 @@ export const NumberCurrency = () => (
 export const NumberHeroStyleAmount = () => (
   <Style>
     <ComponentBox>
-      <Spotlight.Amount
+      <Spotlight.Currency
         value={12345}
         currency="NOK"
         suffix="/mnd"
         signDisplay="always"
       />
+      <Spotlight.Percent value={12.34} signDisplay="always" />
     </ComponentBox>
   </Style>
 )

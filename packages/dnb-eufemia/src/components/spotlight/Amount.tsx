@@ -53,7 +53,7 @@ function Amount(props: AmountProps) {
     element: Element = 'span',
     value,
     children,
-    currency = true,
+    currency = null,
     currencyDisplay = null,
     currencyPosition = 'auto',
     locale = null,
@@ -73,6 +73,7 @@ function Amount(props: AmountProps) {
     options = null,
     compact = null,
     clean = null,
+    percent = null,
     ...rest
   } = props
   const context = React.useContext(Context)
@@ -99,6 +100,7 @@ function Amount(props: AmountProps) {
     currencyPosition,
     compact,
     clean,
+    percent,
     decimals,
     rounding,
     signDisplay,
@@ -114,6 +116,7 @@ function Amount(props: AmountProps) {
   const spaceAfterSign = renderSign === '-' || renderSign === '−'
   const renderedAmount = renderSign ? parts.number : parts.signedNumber
 
+  const hasCurrency = Boolean(parts.currency)
   const renderCurrencyBefore = parts.currencyPosition === 'before'
 
   const currencyClass = clsx(
@@ -125,6 +128,11 @@ function Amount(props: AmountProps) {
     'dnb-spotlight__amount',
     `dnb-t__size--${mainSize}`,
     `dnb-t__line-height--${mainSize}`
+  )
+  const percentClass = clsx(
+    'dnb-spotlight__percent',
+    `dnb-t__size--${auxiliarySize}`,
+    `dnb-t__line-height--${auxiliarySize}`
   )
 
   let content = (
@@ -143,14 +151,20 @@ function Amount(props: AmountProps) {
           {spaceAfterSign ? ' ' : null}
         </>
       )}
-      {renderCurrencyBefore && (
+      {hasCurrency && renderCurrencyBefore && (
         <>
           <span className={currencyClass}>{parts.currency}</span>
           {parts.spaceAfterCurrency ? ' ' : null}
         </>
       )}
       <span className={amountClass}>{renderedAmount}</span>
-      {!renderCurrencyBefore && (
+      {parts.percent && (
+        <>
+          {parts.percentSpacing}
+          <span className={percentClass}>{parts.percent}</span>
+        </>
+      )}
+      {hasCurrency && !renderCurrencyBefore && (
         <>
           {parts.spaceBeforeCurrency ? ' ' : null}
           <span className={currencyClass}>{parts.currency}</span>

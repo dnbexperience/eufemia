@@ -12,21 +12,21 @@ import { Spotlight } from '@dnb/eufemia'
 
 `Spotlight` contains formatting components for prominent values, where typography and visual emphasis are part of the component API.
 
-Use `Spotlight.Amount` for currency amounts shown in hero sections, summaries, and key number highlights.
+Use `Spotlight.Currency` for currency amounts and `Spotlight.Percent` for percentage highlights in hero sections, summaries, and key numbers.
 
 ## Basic usage
 
 ```tsx
 import { Spotlight } from '@dnb/eufemia'
 
-render(<Spotlight.Amount value={123} />)
+render(<Spotlight.Currency value={123} />)
 ```
 
 This namespace pattern keeps the API scalable and tree-shakeable for additional formatters.
 
-## Currency Amount
+## Currency and Percent
 
-`Spotlight.Amount` is built on the [NumberFormat](/uilib/components/number-format/) formatting logic.
+`Spotlight.Currency` and `Spotlight.Percent` are built on the [NumberFormat](/uilib/components/number-format/) formatting logic.
 
 It adds typography-specific props:
 
@@ -35,7 +35,7 @@ It adds typography-specific props:
 
 ## Accessibility
 
-`Spotlight.Amount` keeps a dedicated screen-reader value (`.dnb-sr-only`) based on the localized formatted number.
+Both components keep a dedicated screen-reader value (`.dnb-sr-only`) based on the localized formatted number.
 
 Use `srLabel` to prepend context, for example what the amount represents.
 
