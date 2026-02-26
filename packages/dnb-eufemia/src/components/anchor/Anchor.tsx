@@ -12,7 +12,6 @@ import {
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import { getOffsetTop } from '../../shared/helpers'
-import { warnDeprecatedInnerRef } from '../../shared/helpers/warnDeprecatedInnerRef'
 import IconPrimary from '../icon-primary/IconPrimary'
 import Tooltip from '../tooltip/Tooltip'
 import { launch as launchIcon } from '../../icons'
@@ -257,10 +256,7 @@ function Anchor({
   ref,
   ...props
 }: AnchorAllProps & { ref?: React.Ref<HTMLAnchorElement> }) {
-  if (props.innerRef) {
-    warnDeprecatedInnerRef('Anchor')
-  }
-  return <AnchorInstance {...props} innerRef={props.innerRef || ref} />
+  return <AnchorInstance {...props} innerRef={ref} />
 }
 
 Anchor._supportsSpacingProps = true

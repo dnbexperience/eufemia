@@ -23,8 +23,6 @@ type SelectorOptions = {
   beforeSelector?: string
 }
 
-import { warnDeprecatedInnerRef } from '../../shared/helpers/warnDeprecatedInnerRef'
-
 export type PortalRootProps = {
   innerRef?:
     | React.Ref<HTMLElement>
@@ -199,15 +197,7 @@ function PortalRoot({
   ref,
   ...props
 }: PortalRootProps & { ref?: React.Ref<HTMLElement> }) {
-  if (props.innerRef) {
-    warnDeprecatedInnerRef('PortalRoot')
-  }
-  return (
-    <PortalRootInstance
-      {...props}
-      innerRef={(props.innerRef ?? ref) as PortalRootProps['innerRef']}
-    />
-  )
+  return <PortalRootInstance {...props} innerRef={ref} />
 }
 PortalRoot.Provider = PortalRootProvider
 

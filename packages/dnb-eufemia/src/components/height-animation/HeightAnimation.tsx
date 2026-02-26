@@ -5,7 +5,6 @@ import {
   useHeightAnimationOptions,
 } from './useHeightAnimation'
 import Space from '../space/Space'
-import { warnDeprecatedInnerRef } from '../../shared/helpers/warnDeprecatedInnerRef'
 
 import type { DynamicElement, SpacingProps } from '../../shared/types'
 
@@ -136,11 +135,11 @@ function HeightAnimation({
   ref,
   ...props
 }: HeightAnimationAllProps & { ref?: React.Ref<HTMLElement> }) {
-  if (props.innerRef) {
-    warnDeprecatedInnerRef('HeightAnimation')
-  }
   return (
-    <HeightAnimationInstance {...props} innerRef={props.innerRef || ref} />
+    <HeightAnimationInstance
+      {...props}
+      innerRef={ref as React.RefObject<HTMLElement>}
+    />
   )
 }
 

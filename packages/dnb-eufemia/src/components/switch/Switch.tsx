@@ -23,7 +23,6 @@ import {
 } from '../skeleton/SkeletonHelper'
 
 import Context from '../../shared/Context'
-import { warnDeprecatedInnerRef } from '../../shared/helpers/warnDeprecatedInnerRef'
 import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus, {
@@ -137,15 +136,7 @@ export default function Switch({
   ref,
   ...props
 }: SwitchProps & { ref?: React.Ref<HTMLInputElement> }) {
-  if (props.innerRef) {
-    warnDeprecatedInnerRef('Switch')
-  }
-  return (
-    <SwitchInstance
-      {...props}
-      innerRef={(props.innerRef ?? ref) as SwitchProps['innerRef']}
-    />
-  )
+  return <SwitchInstance {...props} innerRef={ref} />
 }
 
 function SwitchInstance(props: SwitchProps) {

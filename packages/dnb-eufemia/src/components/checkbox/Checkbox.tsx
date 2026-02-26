@@ -23,7 +23,6 @@ import {
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 import Context from '../../shared/Context'
-import { warnDeprecatedInnerRef } from '../../shared/helpers/warnDeprecatedInnerRef'
 import Suffix from '../../shared/helpers/Suffix'
 import useId from '../../shared/helpers/useId'
 import type { SpacingProps } from '../space/types'
@@ -421,15 +420,7 @@ function Checkbox({
   ref,
   ...props
 }: CheckboxProps & { ref?: React.Ref<HTMLInputElement> }) {
-  if (props.innerRef) {
-    warnDeprecatedInnerRef('Checkbox')
-  }
-  return (
-    <CheckboxInstance
-      {...props}
-      innerRef={(props.innerRef ?? ref) as CheckboxProps['innerRef']}
-    />
-  )
+  return <CheckboxInstance {...props} innerRef={ref} />
 }
 
 export default Checkbox

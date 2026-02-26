@@ -19,7 +19,6 @@ import {
   pickFormElementProps,
 } from '../../shared/helpers/filterValidProps'
 import { omitSpacingProps } from '../flex/utils'
-import { warnDeprecatedInnerRef } from '../../shared/helpers/warnDeprecatedInnerRef'
 import Context from '../../shared/Context'
 import type {
   DynamicElement,
@@ -218,10 +217,12 @@ export default function FormLabel({
   ref,
   ...props
 }: FormLabelAllProps & { ref?: React.Ref<HTMLElement> }) {
-  if (props.innerRef) {
-    warnDeprecatedInnerRef('FormLabel')
-  }
-  return <FormLabelInstance {...props} innerRef={props.innerRef || ref} />
+  return (
+    <FormLabelInstance
+      {...props}
+      innerRef={ref as React.RefObject<HTMLElement>}
+    />
+  )
 }
 
 FormLabel._formElement = true
