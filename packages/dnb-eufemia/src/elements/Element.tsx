@@ -38,7 +38,7 @@ export type ElementProps = {
    * Default: `undefined`
    */
   internalClass?: string | boolean
-innerRef?: React.RefObject<HTMLElement> | React.Ref<unknown>
+  innerRef?: React.RefObject<HTMLElement> | React.Ref<unknown>
   children?: React.ReactNode
 } & SpacingProps
 
