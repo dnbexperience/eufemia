@@ -131,7 +131,7 @@ const defaultProps: CheckboxProps = {
   statusState: 'error',
 }
 
-function Checkbox(localProps: CheckboxProps) {
+function CheckboxInstance(localProps: CheckboxProps) {
   const context = useContext(Context)
 
   const extractPropsFromContext = useCallback(() => {
@@ -416,7 +416,15 @@ function Checkbox(localProps: CheckboxProps) {
   )
 }
 
+function Checkbox({
+  ref,
+  ...props
+}: CheckboxProps & { ref?: React.Ref<HTMLInputElement> }) {
+  return <CheckboxInstance innerRef={ref} {...props} />
+}
+
 export default Checkbox
 
 // Mark as form element for FieldBlock
+CheckboxInstance._formElement = true
 Checkbox._formElement = true
