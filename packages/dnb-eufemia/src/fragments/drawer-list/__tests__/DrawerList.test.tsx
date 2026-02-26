@@ -430,7 +430,7 @@ describe('DrawerList component', () => {
   })
 
   it('focused item remembered when reopening', async () => {
-    const contextRef: React.MutableRefObject<DrawerListContextProps> =
+    const contextRef: React.RefObject<DrawerListContextProps> =
       React.createRef()
 
     const ContextConsumer = () => {
@@ -480,7 +480,7 @@ describe('DrawerList component', () => {
   })
 
   it('focused item set to selected item when opening', async () => {
-    const contextRef: React.MutableRefObject<DrawerListContextProps> =
+    const contextRef: React.RefObject<DrawerListContextProps> =
       React.createRef()
 
     const ContextConsumer = () => {

@@ -180,8 +180,7 @@ describe('Button component', () => {
   })
 
   it('gets valid element when innerRef is function', () => {
-    const ref: React.MutableRefObject<HTMLButtonElement> =
-      React.createRef()
+    const ref: React.RefObject<HTMLButtonElement> = React.createRef()
 
     const refFn = (elem: HTMLButtonElement) => {
       ref.current = elem

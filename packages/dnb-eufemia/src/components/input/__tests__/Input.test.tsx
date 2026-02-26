@@ -82,7 +82,7 @@ describe('Input component', () => {
   })
 
   it('gets valid element when ref is function', () => {
-    const ref: React.MutableRefObject<HTMLInputElement> = React.createRef()
+    const ref: React.RefObject<HTMLInputElement> = React.createRef()
 
     const refFn = (elem: HTMLInputElement) => {
       ref.current = elem
