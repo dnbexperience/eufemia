@@ -130,9 +130,11 @@ const TypographyInstance = ({
 
 function Typography({
   ref,
+  innerRef,
   ...props
-}: TypographyProps & { ref?: React.Ref<HTMLElement> }) {
-  return <TypographyInstance {...props} innerRef={props.innerRef || ref} />
+}: TypographyProps &
+  TypographyInternalProps & { ref?: React.Ref<HTMLElement> }) {
+  return <TypographyInstance {...props} innerRef={innerRef || ref} />
 }
 
 const Provider = ({

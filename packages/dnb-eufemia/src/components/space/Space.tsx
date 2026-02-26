@@ -66,7 +66,7 @@ export type SpaceProps = {
    * Send along a custom React Ref.
    * Default: null
    */
-  innerRef?: React.RefObject<HTMLElement>
+  innerRef?: React.Ref<HTMLElement>
 } & Omit<SpacingProps, 'innerSpace'> & { innerSpace?: InnerSpaceType }
 
 export type SpaceAllProps = SpaceProps &
