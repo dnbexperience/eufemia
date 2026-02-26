@@ -299,16 +299,24 @@ $breakpoints: (
 );
 $breakpoint-offset: 0;
 
+@function breakpoint-value($size, $list) {
+  @if map.has-key($list, $size) {
+    @return map.get($list, $size);
+  }
+
+  @return $size;
+}
+
 // Example usage:
 // @include allAbove(medium){ styles go here.. }
 // $offset and $list are needed to provide global customization options
 @mixin allAbove($size, $offset: $breakpoint-offset, $list: $breakpoints) {
-  @media screen and (min-width: (if(map.has-key($list, $size), map.get($list, $size), $size) + $offset + 0.00625)) {
+  @media screen and (min-width: (breakpoint-value($size, $list) + $offset + 0.00625)) {
     @content;
   }
 }
 @mixin allBelow($size, $offset: $breakpoint-offset, $list: $breakpoints) {
-  @media screen and (max-width: (if(map.has-key($list, $size), map.get($list, $size), $size) + $offset)) {
+  @media screen and (max-width: (breakpoint-value($size, $list) + $offset)) {
     @content;
   }
 }
