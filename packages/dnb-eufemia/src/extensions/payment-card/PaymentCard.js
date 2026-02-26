@@ -45,13 +45,29 @@ const translationDefaultPropsProps = {
   textUnknown: null,
 }
 
+const paymentCardDefaultProps = {
+  digits: 8,
+  locale: null,
+  cardStatus: 'active',
+  variant: 'normal',
+
+  id: null,
+  rawData: null,
+
+  skeleton: false,
+  className: null,
+  children: null,
+
+  ...translationDefaultPropsProps,
+}
+
 function PaymentCard(props) {
   const context = React.useContext(Context)
 
   // use only the props from context, who are available here anyway
   const extendedProps = extendPropsWithContextInClassComponent(
-    props,
-    PaymentCard.defaultProps,
+    { ...paymentCardDefaultProps, ...props },
+    paymentCardDefaultProps,
     { locale: context.locale },
     { skeleton: context?.skeleton }
   )
@@ -96,7 +112,7 @@ function PaymentCard(props) {
       <Context.Consumer>
         {({ translation }) => {
           const translations = extendPropsWithContextInClassComponent(
-            props,
+            { ...translationDefaultPropsProps, ...props },
             translationDefaultPropsProps,
             translation.PaymentCard
           )
@@ -164,22 +180,6 @@ PaymentCard.propTypes = {
     PropTypes.node,
     PropTypes.func,
   ]),
-}
-
-PaymentCard.defaultProps = {
-  digits: 8,
-  locale: null,
-  cardStatus: 'active',
-  variant: 'normal',
-
-  id: null,
-  rawData: null,
-
-  skeleton: false,
-  className: null,
-  children: null,
-
-  ...translationDefaultPropsProps,
 }
 
 export default PaymentCard

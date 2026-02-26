@@ -21,6 +21,18 @@ import {
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
 
+const skeletonDefaultProps = {
+  show: null,
+  skeleton: null, // only to make sure we process extendPropsWithContextInClassComponent
+  noAnimation: null,
+  figure: null,
+  ariaBusy: null,
+  ariaReady: null,
+  element: null,
+  className: null,
+  children: null,
+}
+
 function Skeleton(props) {
   const context = React.useContext(Context)
   const [ariaLiveUpdate, setAriaLiveUpdate] = React.useState(null)
@@ -30,8 +42,8 @@ function Skeleton(props) {
   const getProps = React.useCallback(
     (propsToExtend = props, ctx = context) => {
       return extendPropsWithContextInClassComponent(
-        propsToExtend,
-        Skeleton.defaultProps,
+        { ...skeletonDefaultProps, ...propsToExtend },
+        skeletonDefaultProps,
         {
           skeleton: ctx.Skeleton || ctx.skeleton,
           noAnimation: ctx.skeletonNoAnimation,
@@ -161,18 +173,6 @@ Skeleton.propTypes = {
     PropTypes.func,
     PropTypes.node,
   ]),
-}
-
-Skeleton.defaultProps = {
-  show: null,
-  skeleton: null, // only to make sure we process extendPropsWithContextInClassComponent
-  noAnimation: null,
-  figure: null,
-  ariaBusy: null,
-  ariaReady: null,
-  element: null,
-  className: null,
-  children: null,
 }
 
 export default Skeleton
