@@ -68,7 +68,7 @@ export function useHeightAnimation(
     onAnimationEnd = null,
   }: useHeightAnimationOptions = {}
 ) {
-  const instRef = useRef<HeightAnimationInstance>(null)
+  const instRef = useRef<HeightAnimationInstance | null>(null)
   const isInitialRenderRef = useRef(
     typeof globalThis !== 'undefined'
       ? globalThis.readjustTime !== -1
