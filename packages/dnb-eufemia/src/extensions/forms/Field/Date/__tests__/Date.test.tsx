@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { render, waitFor, screen, fireEvent } from '@testing-library/react'
+import { render, waitFor, screen, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import {
@@ -389,7 +389,13 @@ describe('Field.Date', () => {
         ).not.toBeInTheDocument()
       })
 
-      fireEvent.submit(document.querySelector('form'))
+      await act(() => {
+        document
+          .querySelector('form')
+          .dispatchEvent(
+            new Event('submit', { bubbles: true, cancelable: true })
+          )
+      })
 
       await waitFor(() => {
         expect(
@@ -4009,7 +4015,9 @@ describe('Field.Date', () => {
         ).not.toBeInTheDocument()
 
         input.focus()
-        fireEvent.blur(input, { relatedTarget: document.body })
+        await act(() => {
+          fireEvent.blur(input, { relatedTarget: document.body })
+        })
 
         await waitFor(() => {
           expect(

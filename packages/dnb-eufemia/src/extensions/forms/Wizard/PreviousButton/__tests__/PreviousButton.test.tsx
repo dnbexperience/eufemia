@@ -1,5 +1,6 @@
 import React from 'react'
-import { fireEvent, render } from '@testing-library/react'
+import { render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import PreviousButton from '../PreviousButton'
 import WizardContext from '../../Context/WizardContext'
 import { Provider } from '../../../../../shared'
@@ -88,7 +89,7 @@ describe('PreviousButton', () => {
     expect(button).toBeDisabled()
   })
 
-  it('should handle handlePrevious event', () => {
+  it('should handle handlePrevious event', async () => {
     const handlePrevious = jest.fn()
     const handleNext = jest.fn()
     const setActiveIndex = jest.fn()
@@ -110,7 +111,7 @@ describe('PreviousButton', () => {
 
     const button = document.querySelector('.dnb-forms-previous-button')
 
-    fireEvent.click(button)
+    await userEvent.click(button)
 
     expect(handlePrevious).toHaveBeenCalledTimes(1)
     expect(handleNext).toHaveBeenCalledTimes(0)

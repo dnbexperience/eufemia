@@ -1,5 +1,6 @@
 import React from 'react'
-import { act, fireEvent, render, renderHook } from '@testing-library/react'
+import { render, renderHook } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { Form, Field } from '../../..'
 import useSubmit from '../useSubmit'
 
@@ -63,9 +64,7 @@ describe('Form.useSubmit', () => {
 
     const button = document.querySelector('button')
 
-    await act(async () => {
-      fireEvent.click(button)
-    })
+    await userEvent.click(button)
 
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledWith(
@@ -118,9 +117,7 @@ describe('Form.useSubmit', () => {
     const button = document.querySelector('button')
     const output = document.querySelector('[data-testid="result"]')
 
-    await act(async () => {
-      fireEvent.click(button)
-    })
+    await userEvent.click(button)
 
     expect(output).toHaveTextContent(JSON.stringify(submitResult))
   })
@@ -149,9 +146,7 @@ describe('Form.useSubmit', () => {
 
     const button = document.querySelector('button')
 
-    await act(async () => {
-      fireEvent.click(button)
-    })
+    await userEvent.click(button)
 
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledWith(
@@ -183,9 +178,7 @@ describe('Form.useSubmit', () => {
 
     const button = document.querySelector('.external-actions button')
 
-    await act(async () => {
-      fireEvent.click(button)
-    })
+    await userEvent.click(button)
 
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledWith(
@@ -217,9 +210,7 @@ describe('Form.useSubmit', () => {
 
     const button = document.querySelector('button')
 
-    await act(async () => {
-      fireEvent.click(button)
-    })
+    await userEvent.click(button)
 
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledWith(

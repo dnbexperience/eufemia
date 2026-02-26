@@ -1,5 +1,6 @@
 import React from 'react'
-import { render, fireEvent, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import IterateItemContext from '../../IterateItemContext'
 import ViewContainer from '../ViewContainer'
 import { Form, Iterate } from '../../..'
@@ -33,7 +34,7 @@ describe('ViewContainer', () => {
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
   })
 
-  it('calls "switchContainerMode" when edit button is clicked', () => {
+  it('calls "switchContainerMode" when edit button is clicked', async () => {
     const switchContainerMode = jest.fn()
 
     render(
@@ -42,7 +43,7 @@ describe('ViewContainer', () => {
       </IterateItemContext>
     )
 
-    fireEvent.click(document.querySelectorAll('button')[0])
+    await userEvent.click(document.querySelectorAll('button')[0])
 
     expect(switchContainerMode).toHaveBeenCalledTimes(1)
     expect(switchContainerMode).toHaveBeenCalledWith('edit')
@@ -73,7 +74,7 @@ describe('ViewContainer', () => {
     expect(leads[1]).toHaveTextContent('Item title 2')
   })
 
-  it('calls "handleRemove" when remove button is clicked', () => {
+  it('calls "handleRemove" when remove button is clicked', async () => {
     const handleRemove = jest.fn()
 
     render(
@@ -82,7 +83,7 @@ describe('ViewContainer', () => {
       </IterateItemContext>
     )
 
-    fireEvent.click(document.querySelectorAll('button')[1])
+    await userEvent.click(document.querySelectorAll('button')[1])
 
     expect(handleRemove).toHaveBeenCalledTimes(1)
   })

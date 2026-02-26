@@ -1,4 +1,5 @@
-import { act, fireEvent, render } from '@testing-library/react'
+import { act, render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import useUpload from './../useUpload'
 import React, { useEffect } from 'react'
 import { createMockFile } from './testHelpers'
@@ -132,7 +133,7 @@ describe('useUpload', () => {
     })
   })
 
-  it('use the shared state to reset files', () => {
+  it('use the shared state to reset files', async () => {
     const mockFile = {
       file: createMockFile('fileName.png', 100, 'image/png'),
     }
@@ -167,7 +168,7 @@ describe('useUpload', () => {
     expect(sharedStateFiles).toEqual([mockFile])
     expect(sharedStateInternalFiles).toEqual([mockFile])
 
-    fireEvent.click(document.querySelector('button#reset'))
+    await userEvent.click(document.querySelector('button#reset'))
 
     const updatedSharedStateFiles = sharedState.get().files
     const updatedSharedStateInternalFiles = sharedState.get().files

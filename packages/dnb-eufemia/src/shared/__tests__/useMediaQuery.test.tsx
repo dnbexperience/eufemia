@@ -4,12 +4,8 @@
  */
 
 import React from 'react'
-import {
-  render,
-  screen,
-  fireEvent,
-  renderHook,
-} from '@testing-library/react'
+import { render, screen, renderHook } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import MatchMediaMock from 'jest-matchmedia-mock'
 import useMediaQuery from '../useMediaQuery'
 import Provider from '../Provider'
@@ -106,7 +102,7 @@ describe('useMediaQuery', () => {
     expect(document.getElementById('mq-mock').textContent).toBe('matches')
   })
 
-  it('should handle media query changes', () => {
+  it('should handle media query changes', async () => {
     matchMedia.useMediaQuery(
       'not screen and (min-width: 40.00625em) and (max-width: 72em)'
     )
@@ -152,13 +148,13 @@ describe('useMediaQuery', () => {
     expect(match1Handler).toHaveBeenCalledWith(true)
     expect(match2Handler).toHaveBeenCalledWith(false)
 
-    fireEvent.click(screen.getByRole('button'))
+    await userEvent.click(screen.getByRole('button'))
     expect(match1Handler).toHaveBeenCalledTimes(3)
     expect(match2Handler).toHaveBeenCalledTimes(3)
     expect(match1Handler).toHaveBeenCalledWith(false)
     expect(match2Handler).toHaveBeenCalledWith(true)
 
-    fireEvent.click(screen.getByRole('button'))
+    await userEvent.click(screen.getByRole('button'))
     expect(match1Handler).toHaveBeenCalledTimes(5)
     expect(match2Handler).toHaveBeenCalledTimes(5)
     expect(match1Handler).toHaveBeenCalledWith(true)

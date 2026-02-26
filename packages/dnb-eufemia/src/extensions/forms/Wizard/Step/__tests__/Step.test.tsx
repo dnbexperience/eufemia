@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef } from 'react'
 import userEvent from '@testing-library/user-event'
-import { fireEvent, render } from '@testing-library/react'
+import { act, fireEvent, render } from '@testing-library/react'
 import { Field, Form, Wizard } from '../../..'
 import { PrerenderFieldPropsOfOtherSteps } from '../../Container/PrerenderFieldPropsOfOtherSteps'
 import WizardContext from '../../Context'
@@ -132,7 +132,7 @@ describe('Step', () => {
     expect(document.activeElement).not.toBe(stepElement)
   })
 
-  it('should make all nested fields required, when the step is set to be required', () => {
+  it('should make all nested fields required, when the step is set to be required', async () => {
     render(
       <Form.Handler>
         <WizardContext value={{ activeIndex: 0 }}>
@@ -144,7 +144,9 @@ describe('Step', () => {
     )
 
     const form = document.querySelector('form')
-    fireEvent.submit(form)
+    act(() => {
+      fireEvent.submit(form)
+    })
 
     expect(document.querySelector('input')).toHaveAttribute(
       'aria-required',

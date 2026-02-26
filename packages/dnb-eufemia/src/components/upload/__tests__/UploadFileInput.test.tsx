@@ -1,5 +1,6 @@
 import React from 'react'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import UploadFileInput from '../UploadFileInput'
 import { createMockFile } from './testHelpers'
 import type { UploadContextValue } from '../types'
@@ -86,7 +87,7 @@ describe('UploadFileInput', () => {
     expect(element.getAttribute('class')).toMatch('dnb-upload__file-input')
   })
 
-  it('simulates a click on the input when clicking the button', () => {
+  it('simulates a click on the input when clicking the button', async () => {
     render(<UploadFileInput />, {
       wrapper: makeWrapper(),
     })
@@ -98,7 +99,7 @@ describe('UploadFileInput', () => {
     const clickEventListener = jest.fn()
     inputElement.addEventListener('click', clickEventListener)
 
-    fireEvent.click(buttonElement)
+    await userEvent.click(buttonElement)
 
     expect(clickEventListener).toHaveBeenCalled()
   })
@@ -114,8 +115,10 @@ describe('UploadFileInput', () => {
 
     const inputElement = document.querySelector('.dnb-upload__file-input')
 
-    fireEvent.change(inputElement, {
-      target: { files: [file] },
+    act(() => {
+      fireEvent.change(inputElement, {
+        target: { files: [file] },
+      })
     })
 
     expect(onInputUpload).toHaveBeenCalledWith([{ file }])
@@ -141,12 +144,14 @@ describe('UploadFileInput', () => {
 
     expect(inputElement.value).toBe('mock-value')
 
-    fireEvent.click(inputElement)
+    await userEvent.click(inputElement)
 
     expect(inputElement.value).toBe(null)
 
-    fireEvent.change(inputElement, {
-      target: { files: [file] },
+    act(() => {
+      fireEvent.change(inputElement, {
+        target: { files: [file] },
+      })
     })
     expect(onInputUpload).toHaveBeenCalledWith([{ file }])
   })
@@ -191,8 +196,10 @@ describe('UploadFileInput', () => {
 
     const inputElement = document.querySelector('.dnb-upload__file-input')
 
-    fireEvent.change(inputElement, {
-      target: { files: [file1, file2] },
+    act(() => {
+      fireEvent.change(inputElement, {
+        target: { files: [file1, file2] },
+      })
     })
 
     expect(onInputUpload).toHaveBeenCalledWith([

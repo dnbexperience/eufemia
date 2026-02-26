@@ -1,5 +1,6 @@
 import React from 'react'
-import { render, fireEvent } from '@testing-library/react'
+import { render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import IterateItemContext from '../../IterateItemContext'
 import Toolbar from '../../Toolbar'
 import DoneButton from '../DoneButton'
@@ -10,7 +11,7 @@ import ToolbarContext from '../../Toolbar/ToolbarContext'
 const nb = nbNO['nb-NO'].IterateEditContainer
 
 describe('DoneButton', () => {
-  it('calls "switchContainerMode"', () => {
+  it('calls "switchContainerMode"', async () => {
     const switchContainerMode = jest.fn()
 
     render(
@@ -21,13 +22,13 @@ describe('DoneButton', () => {
       </IterateItemContext>
     )
 
-    fireEvent.click(document.querySelectorAll('button')[0])
+    await userEvent.click(document.querySelectorAll('button')[0])
 
     expect(switchContainerMode).toHaveBeenCalledTimes(1)
     expect(switchContainerMode).toHaveBeenCalledWith('view')
   })
 
-  it('calls "switchContainerMode" when isNew is true', () => {
+  it('calls "switchContainerMode" when isNew is true', async () => {
     const switchContainerMode = jest.fn()
 
     render(
@@ -38,13 +39,13 @@ describe('DoneButton', () => {
       </IterateItemContext>
     )
 
-    fireEvent.click(document.querySelectorAll('button')[0])
+    await userEvent.click(document.querySelectorAll('button')[0])
 
     expect(switchContainerMode).toHaveBeenCalledTimes(1)
     expect(switchContainerMode).toHaveBeenCalledWith('view')
   })
 
-  it('should not call "setShowError" when hasError is true and hasVisibleError is false', () => {
+  it('should not call "setShowError" when hasError is true and hasVisibleError is false', async () => {
     const setShowError = jest.fn()
     const setShowBoundaryErrors = jest.fn()
 
@@ -70,13 +71,13 @@ describe('DoneButton', () => {
       </FieldBoundaryContext>
     )
 
-    fireEvent.click(document.querySelector('button'))
+    await userEvent.click(document.querySelector('button'))
     expect(setShowError).toHaveBeenCalledTimes(0)
     expect(setShowBoundaryErrors).toHaveBeenCalledTimes(1)
     expect(setShowBoundaryErrors).toHaveBeenCalledWith(true)
   })
 
-  it('should call "setShowError=true" when hasError and hasVisibleError is true', () => {
+  it('should call "setShowError=true" when hasError and hasVisibleError is true', async () => {
     const setShowError = jest.fn()
     const setShowBoundaryErrors = jest.fn()
 
@@ -102,14 +103,14 @@ describe('DoneButton', () => {
       </FieldBoundaryContext>
     )
 
-    fireEvent.click(document.querySelector('button'))
+    await userEvent.click(document.querySelector('button'))
     expect(setShowError).toHaveBeenCalledTimes(1)
     expect(setShowError).toHaveBeenCalledWith(true)
     expect(setShowBoundaryErrors).toHaveBeenCalledTimes(1)
     expect(setShowBoundaryErrors).toHaveBeenCalledWith(true)
   })
 
-  it('should call "setShowError=false" when hasError is false and hasVisibleError is true', () => {
+  it('should call "setShowError=false" when hasError is false and hasVisibleError is true', async () => {
     const setShowError = jest.fn()
     const setShowBoundaryErrors = jest.fn()
 
@@ -135,7 +136,7 @@ describe('DoneButton', () => {
       </FieldBoundaryContext>
     )
 
-    fireEvent.click(document.querySelector('button'))
+    await userEvent.click(document.querySelector('button'))
     expect(setShowError).toHaveBeenCalledTimes(1)
     expect(setShowError).toHaveBeenCalledWith(false)
     expect(setShowBoundaryErrors).toHaveBeenCalledTimes(1)

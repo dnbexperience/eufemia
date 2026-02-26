@@ -4,7 +4,8 @@
  */
 
 import React from 'react'
-import { fireEvent, render } from '@testing-library/react'
+import { render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import {
   setPageFocusElement,
@@ -81,20 +82,20 @@ describe('"applyPageFocus" should', () => {
     expect(focusElement.getAttribute('class')).toContain('dnb-no-focus')
   })
 
-  it('remove the "tabindex" on blur', () => {
+  it('remove the "tabindex" on blur', async () => {
     applyPageFocus('.focus-content')
 
     const focusElement = document.querySelector('.focus-content')
-    fireEvent.blur(focusElement)
+    await userEvent.tab()
 
     expect(focusElement.getAttribute('tabindex')).toBe(null)
   })
 
-  it('remove the "dnb-no-focus" class on blur', () => {
+  it('remove the "dnb-no-focus" class on blur', async () => {
     applyPageFocus('#focus-content')
 
     const focusElement = document.querySelector('.focus-content')
-    fireEvent.blur(focusElement)
+    await userEvent.tab()
 
     expect(focusElement.getAttribute('class')).not.toContain(
       'dnb-no-focus'

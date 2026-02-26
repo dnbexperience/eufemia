@@ -3,7 +3,8 @@
  *
  */
 
-import { fireEvent, render } from '@testing-library/react'
+import { render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import Radio from '../Radio'
@@ -14,7 +15,7 @@ describe('Radio group component', () => {
     expect(Radio.Group['_formElement']).toBeUndefined()
   })
 
-  it('has to set correct value using keys', () => {
+  it('has to set correct value using keys', async () => {
     const myEvent = jest.fn()
     render(
       <Radio.Group
@@ -27,12 +28,12 @@ describe('Radio group component', () => {
         <Radio id="radio-2" label="Radio 2" value="second" checked />
       </Radio.Group>
     )
-    fireEvent.click(document.querySelectorAll('input')[0])
+    await userEvent.click(document.querySelectorAll('input')[0])
     expect(myEvent.mock.calls.length).toBe(1)
     expect(myEvent.mock.calls[0][0].value).toBe('first')
     expect(myEvent.mock.calls[0][0].event).toBeType('object')
 
-    fireEvent.click(document.querySelectorAll('input')[1])
+    await userEvent.click(document.querySelectorAll('input')[1])
     expect(myEvent.mock.calls.length).toBe(2)
     expect(myEvent.mock.calls[1][0].value).toBe('second')
     expect(myEvent.mock.calls[1][0].event).toBeType('object')

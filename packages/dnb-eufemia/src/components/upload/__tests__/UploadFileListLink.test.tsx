@@ -1,6 +1,7 @@
 import type { UploadFileLinkProps } from '../UploadFileListLink'
 import UploadFileLink from '../UploadFileListLink'
 import { fireEvent, render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import React from 'react'
 
 global.URL.createObjectURL = jest.fn(() => 'url')
@@ -86,13 +87,13 @@ describe('UploadFileListLink', () => {
       expect(screen.queryByText(fileName)).toBeInTheDocument()
     })
 
-    it('executes onClick event when button is clicked', () => {
+    it('executes onClick event when button is clicked', async () => {
       const onClick = jest.fn()
 
       render(<UploadFileLink {...defaultProps} onClick={onClick} />)
       const element = document.querySelector('.dnb-button')
 
-      fireEvent.click(element)
+      await userEvent.click(element)
 
       expect(onClick).toHaveBeenCalledTimes(1)
     })

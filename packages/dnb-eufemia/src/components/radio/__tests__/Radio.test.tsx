@@ -3,7 +3,8 @@
  *
  */
 
-import { fireEvent, render } from '@testing-library/react'
+import { render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import type { RadioProps } from '../Radio'
@@ -15,15 +16,15 @@ const props: RadioProps = {
 }
 
 describe('Radio component', () => {
-  it('has correct state after "change" trigger', () => {
+  it('has correct state after "change" trigger', async () => {
     const { rerender } = render(<Radio {...props} />)
     // default checked value has to be false
     expect(document.querySelector('input').checked).toBe(false)
 
-    fireEvent.click(document.querySelector('input'))
+    await userEvent.click(document.querySelector('input'))
     expect(document.querySelector('input').checked).toBe(true)
 
-    fireEvent.click(document.querySelector('input'))
+    await userEvent.click(document.querySelector('input'))
     expect(document.querySelector('input').checked).toBe(false)
 
     // also check if getDerivedStateFromProps sets the state as expected
@@ -35,15 +36,15 @@ describe('Radio component', () => {
     expect(document.querySelector('input').value).toBe(value)
   })
 
-  it('has "onChange" event which will trigger on a input change', () => {
+  it('has "onChange" event which will trigger on a input change', async () => {
     const myEvent = jest.fn()
     render(<Radio onChange={myEvent} checked={false} group={null} />)
-    fireEvent.click(document.querySelector('input'))
+    await userEvent.click(document.querySelector('input'))
     expect(myEvent.mock.calls.length).toBe(1)
     expect(myEvent.mock.calls[0][0].checked).toBe(true)
   })
 
-  it('does handle controlled vs uncontrolled state properly', () => {
+  it('does handle controlled vs uncontrolled state properly', async () => {
     const ControlledVsUncontrolled = () => {
       const [checked, setChecked] = React.useState(true)
       const [random, setRandom] = React.useState(null)
@@ -66,36 +67,38 @@ describe('Radio component', () => {
       )
     }
 
-    const TestStates = (Comp) => {
+    const TestStates = async (Comp) => {
       render(Comp)
       // re-render + default state is true
-      fireEvent.click(document.querySelector('button#set-state'))
+      await userEvent.click(document.querySelector('button#set-state'))
       expect(document.querySelector('input').checked).toBe(true)
 
       // change it to false
-      fireEvent.click(document.querySelector('input'))
+      await userEvent.click(document.querySelector('input'))
       expect(document.querySelector('input').checked).toBe(false)
 
       // set it to true
-      fireEvent.click(document.querySelector('button#set-state'))
+      await userEvent.click(document.querySelector('button#set-state'))
       expect(document.querySelector('input').checked).toBe(true)
 
       // reset it with undefined to false
-      fireEvent.click(document.querySelector('button#reset-undefined'))
+      await userEvent.click(
+        document.querySelector('button#reset-undefined')
+      )
       expect(document.querySelector('input').checked).toBe(false)
 
       // set it to true + reset it with null to false
-      fireEvent.click(document.querySelector('button#set-state'))
-      fireEvent.click(document.querySelector('button#reset-null'))
+      await userEvent.click(document.querySelector('button#set-state'))
+      await userEvent.click(document.querySelector('button#reset-null'))
       expect(document.querySelector('input').checked).toBe(false)
 
       // re-render + still false
-      fireEvent.click(document.querySelector('button#rerender'))
+      await userEvent.click(document.querySelector('button#rerender'))
       expect(document.querySelector('input').checked).toBe(false)
     }
 
-    TestStates(<ControlledVsUncontrolled />)
-    TestStates(
+    await TestStates(<ControlledVsUncontrolled />)
+    await TestStates(
       <React.StrictMode>
         <ControlledVsUncontrolled />
       </React.StrictMode>

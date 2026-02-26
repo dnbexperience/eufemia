@@ -1,5 +1,6 @@
 import React from 'react'
-import { render, fireEvent } from '@testing-library/react'
+import { act, fireEvent, render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import ItemAction from '../ItemAction'
 import Container from '../Container'
 
@@ -91,14 +92,14 @@ describe('ItemAction', () => {
     expect(element.className).toContain('dnb-list__item--chevron-left')
   })
 
-  it('calls onClick when clicked', () => {
+  it('calls onClick when clicked', async () => {
     const handleClick = jest.fn()
 
     render(<ItemAction onClick={handleClick}>Content</ItemAction>)
 
     const element = document.querySelector('.dnb-list__item__action')
 
-    fireEvent.click(element)
+    await userEvent.click(element)
 
     expect(handleClick).toHaveBeenCalledTimes(1)
   })
@@ -110,7 +111,9 @@ describe('ItemAction', () => {
 
     const element = document.querySelector('.dnb-list__item__action')
 
-    fireEvent.keyDown(element, { key: 'Enter' })
+    act(() => {
+      fireEvent.keyDown(element, { key: 'Enter' })
+    })
 
     expect(handleClick).toHaveBeenCalledTimes(1)
   })
@@ -122,7 +125,9 @@ describe('ItemAction', () => {
 
     const element = document.querySelector('.dnb-list__item__action')
 
-    fireEvent.keyDown(element, { key: ' ' })
+    act(() => {
+      fireEvent.keyDown(element, { key: ' ' })
+    })
 
     expect(handleClick).toHaveBeenCalledTimes(1)
   })
@@ -228,7 +233,7 @@ describe('ItemAction', () => {
       expect(element.getAttribute('tabindex')).toBe('-1')
     })
 
-    it('does not call onClick on click when pending is true', () => {
+    it('does not call onClick on click when pending is true', async () => {
       const handleClick = jest.fn()
 
       render(
@@ -239,7 +244,7 @@ describe('ItemAction', () => {
 
       const element = document.querySelector('.dnb-list__item__action')
 
-      fireEvent.click(element)
+      await userEvent.click(element)
 
       expect(handleClick).not.toHaveBeenCalled()
     })
@@ -255,7 +260,9 @@ describe('ItemAction', () => {
 
       const element = document.querySelector('.dnb-list__item__action')
 
-      fireEvent.keyDown(element, { key: 'Enter' })
+      act(() => {
+        fireEvent.keyDown(element, { key: 'Enter' })
+      })
 
       expect(handleClick).not.toHaveBeenCalled()
     })
@@ -271,7 +278,9 @@ describe('ItemAction', () => {
 
       const element = document.querySelector('.dnb-list__item__action')
 
-      fireEvent.keyDown(element, { key: ' ' })
+      act(() => {
+        fireEvent.keyDown(element, { key: ' ' })
+      })
 
       expect(handleClick).not.toHaveBeenCalled()
     })
@@ -487,7 +496,9 @@ describe('ItemAction', () => {
 
       const clickSpy = jest.spyOn(anchor as HTMLAnchorElement, 'click')
 
-      fireEvent.keyDown(listItem as Element, { key: 'Enter' })
+      act(() => {
+        fireEvent.keyDown(listItem as Element, { key: 'Enter' })
+      })
 
       expect(clickSpy).toHaveBeenCalled()
       clickSpy.mockRestore()
@@ -503,7 +514,9 @@ describe('ItemAction', () => {
 
       const clickSpy = jest.spyOn(anchor as HTMLAnchorElement, 'click')
 
-      fireEvent.keyDown(listItem as Element, { key: ' ' })
+      act(() => {
+        fireEvent.keyDown(listItem as Element, { key: ' ' })
+      })
 
       expect(clickSpy).toHaveBeenCalled()
       clickSpy.mockRestore()

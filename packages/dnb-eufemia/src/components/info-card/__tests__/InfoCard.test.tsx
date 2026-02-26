@@ -1,5 +1,6 @@
 import React from 'react'
 import { fireEvent, render, screen, within } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import type { InfoCardAllProps } from '../InfoCard'
 import InfoCard from '../InfoCard'
 import { confetti as Confetti } from '../../../icons'
@@ -145,7 +146,7 @@ describe('InfoCard', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('renders the accept button when onAccept is provided', () => {
+  it('renders the accept button when onAccept is provided', async () => {
     const onAccept = jest.fn()
     render(<InfoCard text="text" onAccept={onAccept} />)
 
@@ -155,7 +156,7 @@ describe('InfoCard', () => {
 
     expect(buttonElement).toBeInTheDocument()
 
-    fireEvent.click(buttonElement)
+    await userEvent.click(buttonElement)
 
     expect(onAccept).toHaveBeenCalled()
   })
@@ -189,7 +190,7 @@ describe('InfoCard', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders the close button when onClose is provided', () => {
+  it('renders the close button when onClose is provided', async () => {
     const onClose = jest.fn()
     render(<InfoCard text="text" onClose={onClose} />)
 
@@ -199,7 +200,7 @@ describe('InfoCard', () => {
 
     expect(buttonElement).toBeInTheDocument()
 
-    fireEvent.click(buttonElement)
+    await userEvent.click(buttonElement)
 
     expect(onClose).toHaveBeenCalled()
   })

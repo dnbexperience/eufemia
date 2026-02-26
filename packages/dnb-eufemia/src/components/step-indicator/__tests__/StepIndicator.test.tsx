@@ -12,6 +12,7 @@ import {
   within,
   act,
 } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import type {
   StepIndicatorData,
   StepIndicatorProps,
@@ -293,7 +294,7 @@ describe('StepIndicator in loose mode', () => {
     expect(screen.queryAllByRole('button')).toHaveLength(5)
   })
 
-  it('has correct state after change', () => {
+  it('has correct state after change', async () => {
     const onChange = jest.fn()
     renderComponent({
       onChange,
@@ -308,7 +309,7 @@ describe('StepIndicator in loose mode', () => {
       'dnb-step-indicator__item--current'
     )
 
-    fireEvent.click(items[0].querySelector('button'))
+    await userEvent.click(items[0].querySelector('button'))
 
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange.mock.calls[0][0].currentStep).toBe(0)

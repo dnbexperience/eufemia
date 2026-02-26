@@ -1,5 +1,6 @@
 import React from 'react'
 import { screen, render, fireEvent, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { Value, Form, DataContext, Field } from '../../..'
 import { createMockFile } from '../../../../../components/upload/__tests__/testHelpers'
 import { wait } from '../../../../../core/jest/jestSetup'
@@ -435,7 +436,7 @@ describe('Value.Upload', () => {
       expect(screen.queryByText(fileName).tagName).toBe('A')
     })
 
-    it('executes onFileClick event when button is clicked', () => {
+    it('executes onFileClick event when button is clicked', async () => {
       const fileName = 'file.png'
       const onFileClick = jest.fn()
 
@@ -454,7 +455,7 @@ describe('Value.Upload', () => {
 
       const buttonElement = document.querySelector('.dnb-button')
 
-      fireEvent.click(buttonElement)
+      await userEvent.click(buttonElement)
 
       expect(onFileClick).toHaveBeenCalledTimes(1)
     })
@@ -479,8 +480,9 @@ describe('Value.Upload', () => {
 
       const buttonElement = document.querySelector('.dnb-button')
 
+      await userEvent.click(buttonElement)
+
       await waitFor(() => {
-        fireEvent.click(buttonElement)
         expect(
           document.querySelector('.dnb-progress-indicator')
         ).toBeInTheDocument()
