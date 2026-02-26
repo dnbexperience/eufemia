@@ -19,7 +19,12 @@ export default function FormElement({
   ref,
   ...props
 }: Props & { ref?: React.Ref<HTMLFormElement> }) {
-  return <FormElementInstance {...props} innerRef={ref as React.RefObject<HTMLFormElement>} />
+  return (
+    <FormElementInstance
+      {...props}
+      innerRef={ref as React.RefObject<HTMLFormElement>}
+    />
+  )
 }
 
 function FormElementInstance(props: Props) {
