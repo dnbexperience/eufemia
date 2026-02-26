@@ -382,7 +382,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   // - Should errors received through validation be shown initially. Assume that providing a direct prop to
   // the component means it is supposed to be shown initially.
-  const revealErrorRef = useRef<boolean>(null)
+  const revealErrorRef = useRef<boolean | null>(null)
 
   const required = useMemo(() => {
     if (typeof requiredProp !== 'undefined') {
@@ -633,8 +633,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     return isAsync(onChange) || isAsync(onChangeContext)
   }, [onChangeContext, onChange])
   const validatedValueRef = useRef<Value>(undefined)
-  const changeEventResultRef = useRef<EventStateObjectWithSuccess>(null)
-  const asyncProcessRef = useRef<AsyncProcesses>(null)
+  const changeEventResultRef = useRef<EventStateObjectWithSuccess | null>(
+    null
+  )
+  const asyncProcessRef = useRef<AsyncProcesses | null>(null)
   const defineAsyncProcess = useCallback((name: AsyncProcesses) => {
     asyncProcessRef.current = name
   }, [])

@@ -205,9 +205,9 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
   const blockId = useId(props.id)
   const [salt, forceUpdate] = useReducer(() => ({}), {})
   const mountedFieldsRef = useRef<MountedFieldsRef>(new Map())
-  const fieldStateRef = useRef<SubmitState>(null)
+  const fieldStateRef = useRef<SubmitState | null>(null)
   const stateRecordRef = useRef<StateRecord>({})
-  const fieldStateIdsRef = useRef<FieldErrorIdsRef>(null)
+  const fieldStateIdsRef = useRef<FieldErrorIdsRef | null>(null)
   const contentsRef = useRef<HTMLDivElement>(null)
   const hasInitiallyErrorPropRef = useRef(Boolean(error))
 

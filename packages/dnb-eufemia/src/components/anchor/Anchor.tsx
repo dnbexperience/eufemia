@@ -109,7 +109,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     allProps.innerRef = React.createRef()
   }
 
-  const tooltipRef = React.useRef<HTMLAnchorElement>(null)
+  const tooltipRef = React.useRef<HTMLAnchorElement | null>(null)
 
   const {
     id,
