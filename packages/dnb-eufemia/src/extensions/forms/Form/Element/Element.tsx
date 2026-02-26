@@ -15,7 +15,21 @@ export type Props = Omit<
     innerRef?: React.RefObject<HTMLFormElement>
   }
 
-export default function FormElement(props: Props) {
+export default function FormElement({
+  ref,
+  ...props
+}: Props & { ref?: React.Ref<HTMLFormElement> }) {
+  return (
+    <FormElementInstance
+      {...props}
+      {...(ref != null
+        ? { innerRef: ref as React.RefObject<HTMLFormElement> }
+        : {})}
+    />
+  )
+}
+
+function FormElementInstance(props: Props) {
   const id = useId()
   const dataContext = useContext(DataContext)
   const { submitState, restHandlerProps } = dataContext || {}

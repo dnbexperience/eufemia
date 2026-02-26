@@ -256,7 +256,7 @@ function Anchor({
   ref,
   ...props
 }: AnchorAllProps & { ref?: React.Ref<HTMLAnchorElement> }) {
-  return <AnchorInstance innerRef={ref} {...props} />
+  return <AnchorInstance {...props} innerRef={ref} />
 }
 
 Anchor._supportsSpacingProps = true

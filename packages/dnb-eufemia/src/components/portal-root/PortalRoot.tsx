@@ -56,7 +56,9 @@ export function PortalRootProvider(
   )
 }
 
-function PortalRoot(props: PortalRootProps = {}): React.JSX.Element {
+function PortalRootInstance(
+  props: PortalRootProps = {}
+): React.JSX.Element {
   const {
     id: idProp,
     insideSelector: insideSelectorProp,
@@ -190,6 +192,12 @@ export function getOrCreatePortalElement({
   }
 
   return elem
+}
+function PortalRoot({
+  ref,
+  ...props
+}: PortalRootProps & { ref?: React.Ref<HTMLElement> }) {
+  return <PortalRootInstance innerRef={ref} {...props} />
 }
 PortalRoot.Provider = PortalRootProvider
 
