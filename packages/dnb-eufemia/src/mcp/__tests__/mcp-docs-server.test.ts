@@ -668,7 +668,6 @@ describe('MCP dependency configuration', () => {
     const expectedScriptPath =
       'packages/dnb-eufemia/src/mcp/run-mcp-server.sh'
     const eufemia = mcpConfig.servers.eufemia
-    console.log('eufemia', eufemia)
 
     const configIsCorrect = eufemia
       ? eufemia.command === 'bash' &&
