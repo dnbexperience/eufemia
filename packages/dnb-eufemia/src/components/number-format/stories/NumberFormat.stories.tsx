@@ -136,9 +136,9 @@ export const NumberFormatSandbox = () => {
             >
               <ChangeLocale />
               <br />
-              <NumberFormat value="-1234" decimals="2" />
+              <NumberFormat value="-1234" decimals={2} />
               <br />
-              <NumberFormat value="-1234.05" decimals="2" />
+              <NumberFormat value="-1234.05" decimals={2} />
               <br />
               <P>
                 text{' '}
