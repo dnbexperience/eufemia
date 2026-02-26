@@ -66,7 +66,7 @@ export type SpaceProps = {
    * Send along a custom React Ref.
    * Default: null
    */
-  innerRef?: React.RefObject<HTMLElement>
+  innerRef?: React.Ref<HTMLElement>
 } & Omit<SpacingProps, 'innerSpace'> & { innerSpace?: InnerSpaceType }
 
 export type SpaceAllProps = SpaceProps &
@@ -74,7 +74,7 @@ export type SpaceAllProps = SpaceProps &
 
 const defaultProps: Partial<SpaceAllProps> = {}
 
-export default function Space(localProps: SpaceAllProps) {
+function SpaceInstance(localProps: SpaceAllProps) {
   const context = React.useContext<ContextProps & SpacingProps>(Context)
 
   // consume the space context
@@ -140,7 +140,16 @@ export default function Space(localProps: SpaceAllProps) {
   )
 }
 
+function Space({
+  ref,
+  ...props
+}: SpaceAllProps & { ref?: React.Ref<HTMLElement> }) {
+  return <SpaceInstance {...props} innerRef={props.innerRef || ref} />
+}
+
 Space._supportsSpacingProps = true
+
+export default Space
 
 function Element({
   element,

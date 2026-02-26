@@ -127,7 +127,7 @@ function ScrollViewWithRef({
   ref,
   ...props
 }: ScrollViewAllProps & { ref?: React.Ref<unknown> }) {
-  return <ScrollView {...props} innerRef={props.innerRef || ref} />
+  return <ScrollView innerRef={ref} {...props} />
 }
 
 ScrollView._supportsSpacingProps = true
