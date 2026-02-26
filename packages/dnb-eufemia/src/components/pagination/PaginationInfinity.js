@@ -313,6 +313,7 @@ export default class InfinityScroller extends React.PureComponent {
 
         // decide to whether use the default Element, or use the scrollTo element
         const Elem = (hasContent && ScrollElement) || Element
+        const isFragment = Elem === React.Fragment
 
         // render the marker before
         const marker = hasContent &&
@@ -344,7 +345,7 @@ export default class InfinityScroller extends React.PureComponent {
           !this.hideIndicator
 
         return (
-          <Elem key={pageNumber} ref={ref}>
+          <Elem key={pageNumber} {...(!isFragment && { ref })}>
             {hasContent &&
               startupPage > 1 &&
               pageNumber > 1 &&
