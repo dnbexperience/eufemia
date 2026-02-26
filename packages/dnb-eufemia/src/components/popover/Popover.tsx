@@ -486,7 +486,7 @@ export default function Popover(props: PopoverProps) {
         triggerAttrRef(node)
       } else if ('current' in triggerAttrRef) {
         const mutableTriggerAttrRef =
-          triggerAttrRef as React.MutableRefObject<HTMLElement | null>
+          triggerAttrRef as React.RefObject<HTMLElement | null>
         mutableTriggerAttrRef.current = node
       }
     },
