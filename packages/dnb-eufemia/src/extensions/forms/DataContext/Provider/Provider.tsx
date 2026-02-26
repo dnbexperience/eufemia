@@ -1608,7 +1608,7 @@ export default function Provider<Data extends JsonObject>(
   )
 
   // Handle unresolved field states during async submit
-  const onSubmitContinueRef = useRef<() => void>(null)
+  const onSubmitContinueRef = useRef<(() => void) | null>(null)
   if (!hasFieldState('pending')) {
     onSubmitContinueRef.current?.()
     onSubmitContinueRef.current = null
@@ -1864,7 +1864,7 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
   }, [])
 
   const hadCompleteRef = useRef(false)
-  const activeElementRef = useRef<HTMLElement>(null)
+  const activeElementRef = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
     // This offset is used to calculate the delay,

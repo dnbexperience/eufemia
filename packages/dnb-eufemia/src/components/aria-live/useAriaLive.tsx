@@ -37,7 +37,7 @@ const priorityConfig: {
 
 export default function useAriaLive(props: AriaLiveAllProps) {
   const [announcement, setAnnouncement] = useState<React.ReactNode>('')
-  const timeoutRef = useRef(null)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   const {
     disabled = false,
