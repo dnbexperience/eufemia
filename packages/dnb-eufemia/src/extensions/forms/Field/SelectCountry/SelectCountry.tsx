@@ -139,7 +139,7 @@ function SelectCountry(props: Props) {
     filterCountries,
   } = useFieldProps(preparedProps)
 
-  const dataRef = useRef(null)
+  const dataRef = useRef<ReturnType<typeof getCountryData>>(null)
   const langRef = useRef(lang)
   const wasFilled = useRef(false)
 

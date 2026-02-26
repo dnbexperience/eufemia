@@ -309,7 +309,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
 
 export const useResizeObserver = (element) => {
   const [currentSize, setSize] = useState('large')
-  const resizeObserver = useRef(null)
+  const resizeObserver = useRef<ResizeObserver | null>(null)
 
   useEffect(() => {
     try {

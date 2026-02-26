@@ -70,12 +70,12 @@ export default function useData<Data = JsonObject>(
   id: SharedStateId = undefined,
   initialData: Data = undefined
 ): UseDataReturn<Data> {
-  const sharedDataRef =
-    useRef<ReturnType<typeof useSharedState<Data>>>(null)
-  const sharedAttachmentsRef =
-    useRef<ReturnType<typeof useSharedState<SharedAttachments<Data>>>>(
-      null
-    )
+  const sharedDataRef = useRef<ReturnType<
+    typeof useSharedState<Data>
+  > | null>(null)
+  const sharedAttachmentsRef = useRef<ReturnType<
+    typeof useSharedState<SharedAttachments<Data>>
+  > | null>(null)
   const [, forceUpdate] = useReducer(() => ({}), {})
 
   sharedDataRef.current = useSharedState<Data>(

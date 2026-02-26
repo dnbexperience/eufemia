@@ -28,8 +28,9 @@ export default function useStep(
     id = wizardContext.id
   }
 
-  const sharedDataRef =
-    useRef<ReturnType<typeof useSharedState<WizardContextState>>>(null)
+  const sharedDataRef = useRef<ReturnType<
+    typeof useSharedState<WizardContextState>
+  > | null>(null)
   sharedDataRef.current = useSharedState<WizardContextState>(
     id ? createReferenceKey(id, 'wizard') : undefined
   )
