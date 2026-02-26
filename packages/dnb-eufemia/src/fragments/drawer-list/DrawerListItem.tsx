@@ -28,7 +28,7 @@ export type DrawerListItemProps = Omit<
 
 export function DrawerListItem(
   props: DrawerListItemProps & {
-    ref?: React.ForwardedRef<HTMLLIElement>
+    ref?: React.Ref<HTMLLIElement>
   }
 ) {
   const {
