@@ -47,6 +47,41 @@ export const buttonVariantPropType = {
   ]),
 }
 
+const buttonDefaultProps = {
+  type: null, // defaults to 'button' to prevent accidental form submissions (except when used as Anchor)
+  text: null,
+  variant: null,
+  size: null,
+  title: null,
+  icon: null,
+  iconPosition: 'right',
+  iconSize: null,
+  href: null,
+  target: null,
+  rel: null,
+  to: null,
+  id: null,
+  customContent: null,
+  wrap: null,
+  bounding: null,
+  stretch: null,
+  skeleton: null,
+  disabled: null,
+  tooltip: null,
+  status: null,
+  statusState: 'error',
+  statusProps: null,
+  statusNoAnimation: null,
+  globalStatus: null,
+
+  className: null,
+  innerRef: null,
+  children: null,
+  element: null,
+
+  onClick: null,
+}
+
 /**
  * The button component should be used as the call-to-action in a form, or as a user interaction mechanism. Generally speaking, a button should not be used when a link would do the trick. Exceptions are made at times when it is used as a navigation element in the action-nav element.
  */
@@ -89,8 +124,8 @@ export default class Button extends React.PureComponent {
   render() {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContextInClassComponent(
-      this.props,
-      Button.defaultProps,
+      { ...buttonDefaultProps, ...this.props },
+      buttonDefaultProps,
       { skeleton: this.context?.skeleton },
       pickFormElementProps(this.context?.formElement),
       this.context.Button
@@ -371,41 +406,6 @@ Button.propTypes = {
   ...spacingPropTypes,
 
   onClick: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-}
-
-Button.defaultProps = {
-  type: null, // defaults to 'button' to prevent accidental form submissions (except when used as Anchor)
-  text: null,
-  variant: null,
-  size: null,
-  title: null,
-  icon: null,
-  iconPosition: 'right',
-  iconSize: null,
-  href: null,
-  target: null,
-  rel: null,
-  to: null,
-  id: null,
-  customContent: null,
-  wrap: null,
-  bounding: null,
-  stretch: null,
-  skeleton: null,
-  disabled: null,
-  tooltip: null,
-  status: null,
-  statusState: 'error',
-  statusProps: null,
-  statusNoAnimation: null,
-  globalStatus: null,
-
-  className: null,
-  innerRef: null,
-  children: null,
-  element: null,
-
-  onClick: null,
 }
 
 Button._formElement = true
