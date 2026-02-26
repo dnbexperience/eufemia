@@ -75,7 +75,7 @@ export default function useValidation(
 
 type UseConnectionsSharedState = {
   fieldConnectionsRef: ContextState['fieldConnectionsRef']
-  fieldStatusRef: React.MutableRefObject<Record<Path, EventStateObject>>
+  fieldStatusRef: React.RefObject<Record<Path, EventStateObject>>
 }
 
 function useConnections(id: SharedStateId = undefined) {

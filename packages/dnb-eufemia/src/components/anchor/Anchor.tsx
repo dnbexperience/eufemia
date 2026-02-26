@@ -175,7 +175,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
         innerRefProp(elem)
       } else if (innerRefProp) {
         ;(
-          innerRefProp as React.MutableRefObject<HTMLAnchorElement | null>
+          innerRefProp as React.RefObject<HTMLAnchorElement | null>
         ).current = elem
       }
     },

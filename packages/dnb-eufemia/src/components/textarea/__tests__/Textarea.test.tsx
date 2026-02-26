@@ -338,8 +338,7 @@ describe('Textarea component', () => {
   })
 
   it('gets valid element when ref is function', () => {
-    const ref: React.MutableRefObject<HTMLTextAreaElement> =
-      React.createRef()
+    const ref: React.RefObject<HTMLTextAreaElement> = React.createRef()
 
     const refFn = (elem: HTMLTextAreaElement) => {
       ref.current = elem

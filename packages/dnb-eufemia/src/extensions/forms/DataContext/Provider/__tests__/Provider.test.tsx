@@ -903,7 +903,7 @@ describe('DataContext.Provider', () => {
     const UseContext = ({
       result,
     }: {
-      result: React.MutableRefObject<ContextState>
+      result: React.RefObject<ContextState>
     }) => {
       result.current = useContext(DataContext.Context)
       return null
