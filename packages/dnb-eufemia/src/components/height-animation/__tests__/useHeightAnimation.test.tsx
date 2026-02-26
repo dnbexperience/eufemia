@@ -167,7 +167,7 @@ describe('useHeightAnimation', () => {
       expect(element).toHaveClass('is-in-dom')
     })
 
-    fireEvent.click(document.querySelector('button'))
+    await userEvent.click(document.querySelector('button'))
 
     await waitFor(() => {
       expect(element).toHaveClass('wrapper-element')
