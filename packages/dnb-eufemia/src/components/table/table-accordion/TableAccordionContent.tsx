@@ -53,6 +53,10 @@ function TableAccordionContent(
     expanded,
     noAnimation,
   })
+  const keepInDOM = Boolean(
+    React.useContext(TableAccordionContext)?.keepInDOM
+  )
+  const shouldRenderContent = isInDOM || keepInDOM
 
   const chevronTdProps = {
     ariaLive,
@@ -90,7 +94,7 @@ function TableAccordionContent(
           {tableContextAllProps?.accordionChevronPlacement !== 'end' && (
             <ChevronTd {...chevronTdProps} />
           )}
-          {isInDOM && children}
+          {shouldRenderContent && children}
           {tableContextAllProps?.accordionChevronPlacement === 'end' && (
             <ChevronTd {...chevronTdProps} />
           )}
@@ -98,7 +102,7 @@ function TableAccordionContent(
       )}
       {variant === 'single' && (
         <ChevronTd {...chevronTdProps} colSpan={colSpan}>
-          {isInDOM && (
+          {shouldRenderContent && (
             <div
               className="dnb-table__tr__accordion-content__inner"
               ref={innerRef}

@@ -160,6 +160,84 @@ describe('TableAccordion', () => {
     expect(element.getAttribute('colspan')).toBe('2')
   })
 
+  describe('keepInDOM', () => {
+    it('should keep content in DOM when closed and keepInDOM is true', () => {
+      render(
+        <Table mode="accordion">
+          <tbody>
+            <Tr keepInDOM>
+              <Td>content</Td>
+              <Td.AccordionContent>
+                <span data-testid="accordion-content">Content body</span>
+              </Td.AccordionContent>
+            </Tr>
+          </tbody>
+        </Table>
+      )
+
+      const content = document.querySelector(
+        '[data-testid="accordion-content"]'
+      )
+      expect(content).toBeInTheDocument()
+      expect(content).toHaveTextContent('Content body')
+    })
+
+    it('should keep content in DOM after open and close when keepInDOM is true', () => {
+      render(
+        <Table mode="accordion">
+          <tbody>
+            <Tr keepInDOM>
+              <Td>content</Td>
+              <Td.AccordionContent>
+                <span data-testid="accordion-content">Content body</span>
+              </Td.AccordionContent>
+            </Tr>
+          </tbody>
+        </Table>
+      )
+
+      const trElement = document.querySelector('tr')
+      const content = document.querySelector(
+        '[data-testid="accordion-content"]'
+      )
+
+      // Close
+      fireEvent.click(trElement)
+
+      expect(content).toHaveTextContent('Content body')
+
+      // Open
+      fireEvent.click(trElement)
+
+      expect(content).toHaveTextContent('Content body')
+
+      // Close again
+      fireEvent.click(trElement)
+
+      expect(content).toHaveTextContent('Content body')
+    })
+
+    it('should not have content in DOM when closed and keepInDOM is false', () => {
+      render(
+        <Table mode="accordion">
+          <tbody>
+            <Tr>
+              <Td>content</Td>
+              <Td.AccordionContent>
+                <span data-testid="accordion-content">Content body</span>
+              </Td.AccordionContent>
+            </Tr>
+          </tbody>
+        </Table>
+      )
+
+      const content = document.querySelector(
+        '[data-testid="accordion-content"]'
+      )
+      expect(content).not.toBeInTheDocument()
+    })
+  })
+
   it('expanded accordion content td should contain correct roles', () => {
     render(
       <Table mode="accordion">

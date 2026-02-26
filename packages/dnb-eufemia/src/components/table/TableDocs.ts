@@ -116,6 +116,12 @@ export const TrProperties: PropertiesTableProps = {
     defaultValue: 'false',
     status: 'optional',
   },
+  keepInDOM: {
+    doc: 'When `true`, keeps the accordion content in the DOM when closed. Defaults to `false`.',
+    type: 'boolean',
+    defaultValue: 'false',
+    status: 'optional',
+  },
   children: {
     doc: 'The content of the component.',
     type: 'React.ReactNode',
