@@ -155,8 +155,8 @@ export default function Section({
 }: SectionAllProps & { ref?: React.Ref<HTMLElement> }) {
   return (
     <SectionInstance
-      {...props}
       innerRef={ref as React.RefObject<HTMLElement>}
+      {...props}
     />
   )
 }

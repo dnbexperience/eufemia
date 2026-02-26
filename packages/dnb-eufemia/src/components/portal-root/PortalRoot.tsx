@@ -197,7 +197,7 @@ function PortalRoot({
   ref,
   ...props
 }: PortalRootProps & { ref?: React.Ref<HTMLElement> }) {
-  return <PortalRootInstance {...props} innerRef={ref} />
+  return <PortalRootInstance innerRef={ref} {...props} />
 }
 PortalRoot.Provider = PortalRootProvider
 

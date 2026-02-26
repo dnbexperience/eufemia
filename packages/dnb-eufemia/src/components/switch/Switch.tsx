@@ -136,7 +136,7 @@ export default function Switch({
   ref,
   ...props
 }: SwitchProps & { ref?: React.Ref<HTMLInputElement> }) {
-  return <SwitchInstance {...props} innerRef={ref} />
+  return <SwitchInstance innerRef={ref} {...props} />
 }
 
 function SwitchInstance(props: SwitchProps) {

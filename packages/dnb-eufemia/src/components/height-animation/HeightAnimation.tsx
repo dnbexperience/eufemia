@@ -137,8 +137,8 @@ function HeightAnimation({
 }: HeightAnimationAllProps & { ref?: React.Ref<HTMLElement> }) {
   return (
     <HeightAnimationInstance
-      {...props}
       innerRef={ref as React.RefObject<HTMLElement>}
+      {...props}
     />
   )
 }

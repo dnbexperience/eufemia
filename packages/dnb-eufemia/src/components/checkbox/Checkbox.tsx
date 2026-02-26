@@ -420,7 +420,7 @@ function Checkbox({
   ref,
   ...props
 }: CheckboxProps & { ref?: React.Ref<HTMLInputElement> }) {
-  return <CheckboxInstance {...props} innerRef={ref} />
+  return <CheckboxInstance innerRef={ref} {...props} />
 }
 
 export default Checkbox

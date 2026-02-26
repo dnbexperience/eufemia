@@ -219,8 +219,8 @@ export default function FormLabel({
 }: FormLabelAllProps & { ref?: React.Ref<HTMLElement> }) {
   return (
     <FormLabelInstance
-      {...props}
       innerRef={ref as React.RefObject<HTMLElement>}
+      {...props}
     />
   )
 }
