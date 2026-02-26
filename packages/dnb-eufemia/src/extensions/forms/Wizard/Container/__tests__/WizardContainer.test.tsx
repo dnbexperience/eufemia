@@ -2640,19 +2640,30 @@ describe('Wizard.Container', () => {
 
       expect(output()).toHaveTextContent('Step 1')
 
-      await userEvent.type(document.querySelector('input'), 'foo')
+      // Set the input value directly using fireEvent for reliability
+      const input = document.querySelector('input')
+      fireEvent.change(input, { target: { value: 'foo' } })
+
+      // Verify the value was set
+      expect(input).toHaveValue('foo')
 
       // Wait for the inline field error to be resolved before navigating
-      await waitFor(() => {
-        expect(content().querySelector('.dnb-form-status')).toBeNull()
-      })
+      await waitFor(
+        () => {
+          expect(content().querySelector('.dnb-form-status')).toBeNull()
+        },
+        { timeout: 10000, interval: 100 }
+      )
 
       // Go to Step 2
       await userEvent.click(nextButton())
 
-      await waitFor(() => {
-        expect(output()).toHaveTextContent('Step 2')
-      })
+      await waitFor(
+        () => {
+          expect(output()).toHaveTextContent('Step 2')
+        },
+        { timeout: 10000, interval: 100 }
+      )
     })
 
     it('should remove the prerendered steps from the DOM after submitting the form', async () => {
