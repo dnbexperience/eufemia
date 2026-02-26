@@ -11,9 +11,9 @@ import { SectionProps } from '../../Section'
 
 export type ModalInnerProps = SectionProps
 
-const ModalInner: React.FC<
-  ModalInnerProps & React.HTMLProps<HTMLElement>
-> = (props) => {
+function ModalInner(
+  props: ModalInnerProps & React.HTMLProps<HTMLElement>
+) {
   const context = React.useContext(ModalContext)
 
   const {

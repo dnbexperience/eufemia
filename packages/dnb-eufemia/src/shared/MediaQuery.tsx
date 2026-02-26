@@ -16,7 +16,7 @@ export type { MediaQueryProps }
 
 export { onMediaQueryChange }
 
-const MediaQuery: React.FC<MediaQueryProps> = (props) => {
+function MediaQuery(props: MediaQueryProps) {
   const context = React.useContext(Context)
   const listenerRef = React.useRef<MediaQueryListener | null>(null)
 
