@@ -17,11 +17,11 @@ export interface SkeletonArticleProps
   children?: SkeletonArticleChildren
 }
 
-const SkeletonArticle: React.FC<SkeletonArticleProps> = ({
+function SkeletonArticle({
   rows = 3,
   children = null,
   ...rest
-}) => {
+}: SkeletonArticleProps) {
   const rowsLength = useMemo(() => {
     // Do this so we get the same result each time
     // because of static generated markup
