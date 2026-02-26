@@ -49,27 +49,12 @@ export default class PaginationProvider extends React.PureComponent {
       PropTypes.array,
     ]),
   }
-  static defaultProps = {
-    startupPage: null,
-    currentPage: null,
-    pageCount: null,
-    setContentHandler: null,
-    resetContentHandler: null,
-    resetPaginationHandler: null,
-    endInfinityHandler: null,
-    rerender: null,
-    store: null,
-    useMarkerOnly: null,
-    internalContent: null,
-    children: null,
-  }
-
   static getDerivedStateFromProps(props, state) {
-    if (props.pageCount !== null) {
+    if (props.pageCount != null) {
       state.pageCountInternal = parseFloat(props.pageCount) || 1
     }
     if (
-      props.currentPage !== null &&
+      props.currentPage != null &&
       typeof state.currentPageInternal === 'undefined'
     ) {
       state.currentPageInternal = parseFloat(props.currentPage) || 1

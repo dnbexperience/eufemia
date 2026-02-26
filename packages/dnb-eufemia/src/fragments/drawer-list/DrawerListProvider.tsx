@@ -129,11 +129,6 @@ export default class DrawerListProvider extends React.PureComponent<
   static contextType = Context
   context!: React.ContextType<typeof Context>
 
-  static defaultProps = {
-    ...drawerListDefaultProps,
-    ...drawerListProviderDefaultProps,
-  }
-
   static blurDelay = 201 // some ms more than "DrawerListSlideDown 200ms"
 
   static isOpen: boolean
@@ -194,7 +189,7 @@ export default class DrawerListProvider extends React.PureComponent<
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.open !== null && this.props.open !== prevProps.open) {
+    if (this.props.open != null && this.props.open !== prevProps.open) {
       if (this.props.open) {
         this.setVisible()
       } else if (this.props.open === false) {
@@ -343,9 +338,9 @@ export default class DrawerListProvider extends React.PureComponent<
     }
 
     const {
-      enableBodyLock,
-      scrollable,
-      minHeight,
+      enableBodyLock = drawerListProviderDefaultProps.enableBodyLock,
+      scrollable = drawerListDefaultProps.scrollable,
+      minHeight = drawerListProviderDefaultProps.minHeight,
       maxHeight,
       onResize,
       pageOffset,
@@ -456,7 +451,7 @@ export default class DrawerListProvider extends React.PureComponent<
         const { direction, maxHeight: maxHeight } = calculateMaxHeight()
 
         // update the states
-        if (this.props.direction === 'auto') {
+        if (!this.props.direction || this.props.direction === 'auto') {
           this.setState({
             direction,
           })

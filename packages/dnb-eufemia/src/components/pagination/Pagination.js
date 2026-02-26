@@ -147,16 +147,16 @@ const paginationDefaultProps = {
 
 export default class Pagination extends React.PureComponent {
   static propTypes = { ...paginationPropTypes }
-  static defaultProps = paginationDefaultProps
 
   render() {
+    const props = { ...paginationDefaultProps, ...this.props }
     return (
       <PaginationProvider
         tagName="dnb-pagination"
-        internalContent={this.props.children}
-        {...this.props}
+        internalContent={props.children}
+        {...props}
       >
-        <PaginationInstance {...this.props} />
+        <PaginationInstance {...props} />
       </PaginationProvider>
     )
   }
@@ -164,7 +164,6 @@ export default class Pagination extends React.PureComponent {
 
 class PaginationInstance extends React.PureComponent {
   static propTypes = { ...paginationPropTypes }
-  static defaultProps = paginationDefaultProps
   static contextType = PaginationContext
 
   constructor(props) {
@@ -273,10 +272,10 @@ class PaginationInstance extends React.PureComponent {
 
 export class InfinityMarker extends React.PureComponent {
   static propTypes = { ...paginationPropTypes }
-  static defaultProps = paginationDefaultProps
 
   render() {
-    const { children, ...props } = this.props
+    const { children, ...rest } = this.props
+    const props = { ...paginationDefaultProps, ...rest }
     return (
       <PaginationProvider
         useMarkerOnly

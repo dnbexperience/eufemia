@@ -293,9 +293,6 @@ function DrawerList(props: DrawerListAllProps) {
 DrawerList.blurDelay = DrawerListProvider.blurDelay // some ms more than "DrawerListSlideDown 200ms" = 201 // some ms more than "DrawerListSlideDown 200ms"
 
 class DrawerListInstance extends React.Component<DrawerListAllProps> {
-  static defaultProps = {
-    ...drawerListDefaultProps,
-  }
   static contextType = DrawerListContext
   context!: React.ContextType<typeof DrawerListContext>
 
@@ -318,7 +315,8 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
     )
 
     this.context.drawerList.setState({
-      arrowPosition: this.props.arrowPosition,
+      arrowPosition:
+        this.props.arrowPosition ?? drawerListDefaultProps.arrowPosition,
     })
   }
   preventTab = (e) => {
@@ -356,7 +354,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContextInClassComponent(
       this.props,
-      DrawerListInstance.defaultProps
+      drawerListDefaultProps
       // TODO: should we only allow getTranslation if we define lang and locale props?
       // this.context.getTranslation(this.props).Button
     )

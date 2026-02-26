@@ -17,6 +17,7 @@ import Provider from '../../../shared/Provider'
 import NumberFormat, {
   NumberFormatProps,
   COPY_TOOLTIP_TIMEOUT,
+  numberFormatDefaultProps,
 } from '../NumberFormat'
 import * as TooltipModule from '../../tooltip/Tooltip'
 import { format, formatReturnValue } from '../NumberUtils'
@@ -28,7 +29,7 @@ const Component = (props) => {
   return <NumberFormat id="unique" {...props} />
 }
 
-const element = NumberFormat.defaultProps.element
+const element = numberFormatDefaultProps.element
 const locale = LOCALE
 const value = 12345678.9876
 

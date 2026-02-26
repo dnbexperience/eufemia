@@ -171,9 +171,8 @@ export interface InputProps
   onSubmitBlur?: (...args: any[]) => any;
   onClear?: (...args: any[]) => any;
 }
-declare const Input: React.ComponentClass<InputProps> & {
-  defaultProps: object;
-};
+declare const Input: React.ComponentClass<InputProps>;
+export const inputDefaultProps: Record<string, unknown>;
 export default Input;
 export interface SubmitButtonProps
   extends React.HTMLProps<HTMLButtonElement> {

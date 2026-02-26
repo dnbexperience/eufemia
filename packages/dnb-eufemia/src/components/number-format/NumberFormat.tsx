@@ -109,42 +109,42 @@ export type NumberFormatAllProps = NumberFormatProps &
 
 export const COPY_TOOLTIP_TIMEOUT = 3000
 
+export const numberFormatDefaultProps = {
+  id: null,
+  value: null,
+  locale: null,
+  prefix: null,
+  suffix: null,
+  currency: null,
+  currencyDisplay: null, // code, name, symbol
+  currencyPosition: null, // null, before, after
+  compact: null,
+  ban: null,
+  nin: null,
+  phone: null,
+  org: null,
+  percent: null,
+  link: null,
+  monospace: false,
+  options: null,
+  decimals: null,
+  selectAll: true,
+  alwaysSelectAll: false,
+  copySelection: true,
+  cleanCopyValue: false,
+  rounding: null,
+  clean: null,
+  srLabel: null,
+  element: 'span', // span or abbr
+  tooltip: null,
+  skeleton: null,
+
+  className: null,
+  children: null,
+}
+
 export default class NumberFormat extends React.PureComponent<NumberFormatAllProps> {
   static contextType = Context
-
-  static defaultProps = {
-    id: null,
-    value: null,
-    locale: null,
-    prefix: null,
-    suffix: null,
-    currency: null,
-    currencyDisplay: null, // code, name, symbol
-    currencyPosition: null, // null, before, after
-    compact: null,
-    ban: null,
-    nin: null,
-    phone: null,
-    org: null,
-    percent: null,
-    link: null,
-    monospace: false,
-    options: null,
-    decimals: null,
-    selectAll: true,
-    alwaysSelectAll: false,
-    copySelection: true,
-    cleanCopyValue: false,
-    rounding: null,
-    clean: null,
-    srLabel: null,
-    element: 'span', // span or abbr
-    tooltip: null,
-    skeleton: null,
-
-    className: null,
-    children: null,
-  }
 
   constructor(props) {
     super(props)
@@ -218,7 +218,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
 
   onClickHandler = () => {
     if (
-      (this.props.selectAll || this.props.alwaysSelectAll) &&
+      (this._props.selectAll || this._props.alwaysSelectAll) &&
       !hasSelectedText()
     ) {
       this.setFocus()
@@ -238,7 +238,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       this._selectionRef.current?.focus({ preventScroll: true })
       this.selectAll()
 
-      if (!this.props.copySelection) {
+      if (!this._props.copySelection) {
         this.outsideClick = detectOutsideClick(
           this._ref.current,
           this.onBlurHandler
@@ -288,12 +288,12 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     ).NumberFormat
 
     // consume the global context
-    const props = extendPropsWithContextInClassComponent(
+    const props = (this._props = extendPropsWithContextInClassComponent(
       this.props,
-      NumberFormat.defaultProps,
+      numberFormatDefaultProps,
       translations,
       this.context.NumberFormat
-    )
+    ))
 
     const {
       id, // eslint-disable-line

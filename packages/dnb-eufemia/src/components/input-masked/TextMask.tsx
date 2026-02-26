@@ -33,18 +33,6 @@ export default class TextMask extends React.PureComponent<TextMaskProps> {
   textMaskInputElement?: TextMaskInputController
   inputMode?: InputModeNumber
 
-  static defaultProps = {
-    inputElement: null,
-    inputRef: null,
-    onChange: null,
-    guide: null,
-    value: null,
-    pipe: null,
-    placeholderChar: null,
-    keepCharPositions: null,
-    showMask: null,
-  }
-
   constructor(props: TextMaskProps) {
     super(props)
 

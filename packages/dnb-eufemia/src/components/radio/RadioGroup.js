@@ -34,6 +34,35 @@ import RadioGroupContext from './RadioGroupContext'
 /**
  * The radio component is our enhancement of the classic radio button. It acts like a radio. Example: On/off, yes/no.
  */
+
+const radioGroupDefaultProps = {
+  label: null,
+  labelDirection: null,
+  labelSrOnly: null,
+  labelPosition: null,
+  title: null,
+  disabled: null,
+  skeleton: null,
+  id: null,
+  name: null,
+  size: null,
+  status: null,
+  statusState: 'error',
+  statusProps: null,
+  statusNoAnimation: null,
+  globalStatus: null,
+  suffix: null,
+  vertical: null,
+  layoutDirection: 'row',
+  value: undefined,
+  attributes: null,
+
+  className: null,
+  children: null,
+
+  onChange: null,
+}
+
 export default class RadioGroup extends React.PureComponent {
   static contextType = Context
 
@@ -90,34 +119,6 @@ export default class RadioGroup extends React.PureComponent {
     onChange: PropTypes.func,
   }
 
-  static defaultProps = {
-    label: null,
-    labelDirection: null,
-    labelSrOnly: null,
-    labelPosition: null,
-    title: null,
-    disabled: null,
-    skeleton: null,
-    id: null,
-    name: null,
-    size: null,
-    status: null,
-    statusState: 'error',
-    statusProps: null,
-    statusNoAnimation: null,
-    globalStatus: null,
-    suffix: null,
-    vertical: null,
-    layoutDirection: 'row',
-    value: undefined,
-    attributes: null,
-
-    className: null,
-    children: null,
-
-    onChange: null,
-  }
-
   static parseChecked = (state) => /true|on/.test(String(state))
 
   static getDerivedStateFromProps(props, state) {
@@ -156,7 +157,7 @@ export default class RadioGroup extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContextInClassComponent(
       this.props,
-      RadioGroup.defaultProps,
+      radioGroupDefaultProps,
       pickFormElementProps(this.context?.formElement),
       this.context.RadioGroup
     )

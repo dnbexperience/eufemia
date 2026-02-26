@@ -375,6 +375,90 @@ export type AutocompleteAllProps = AutocompleteProps &
     | 'onBlur'
   >
 
+const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
+  mode: AutocompleteMode
+} = {
+  id: null,
+  mode: 'sync',
+  title: 'Option Menu',
+  placeholder: null,
+  noOptions: null,
+  showAll: null,
+  ariaLiveOptions: null,
+  indicatorLabel: null,
+  showOptionsSr: null,
+  selectedSr: null,
+  submitButtonTitle: null,
+  submitButtonIcon: 'chevron_down',
+  inputRef: null,
+  icon: null,
+  iconSize: null,
+  iconPosition: 'left',
+  arrowPosition: null,
+  inputIcon: 'loupe',
+  label: null,
+  labelDirection: null,
+  labelSrOnly: null,
+  keepValue: null,
+  keepSelection: null,
+  keepValueAndSelection: null,
+  showClearButton: null,
+  status: null,
+  statusState: 'error',
+  statusProps: null,
+  statusNoAnimation: null,
+  globalStatus: null,
+  suffix: null,
+  disableFilter: false,
+  disableReorder: false,
+  scrollable: true,
+  focusable: false,
+  disableHighlighting: false,
+  maxHeight: null,
+  direction: 'auto',
+  skipPortal: null,
+  noAnimation: false,
+  noScrollAnimation: false,
+  showSubmitButton: false,
+  submitElement: null,
+  preventSelection: false,
+  size: 'default',
+  align: null,
+  optionsRender: null,
+  data: null,
+  searchInWordIndex: null,
+  searchNumbers: null,
+  defaultValue: null,
+  value: 'initval',
+  inputValue: 'initval',
+  autoComplete: 'off',
+  openOnFocus: false,
+  preventClose: false,
+  keepOpen: false,
+  open: null,
+  disabled: null,
+  stretch: null,
+  skeleton: null,
+  portalClass: null,
+  drawerClass: null,
+  pageOffset: null,
+  observerElement: null,
+  enableBodyLock: false,
+
+  className: null,
+  children: null,
+
+  onOpen: null,
+  onClose: null,
+  onType: null,
+  onFocus: null,
+  onBlur: null,
+  onChange: null,
+  onSelect: null,
+  onClear: null,
+  inputElement: null,
+}
+
 export default class Autocomplete extends React.PureComponent<AutocompleteAllProps> {
   static HorizontalItem: ({
     children,
@@ -385,90 +469,6 @@ export default class Autocomplete extends React.PureComponent<AutocompleteAllPro
   static _supportsSpacingProps: boolean
 
   _id: string
-
-  static defaultProps: Partial<AutocompleteAllProps> & {
-    mode: AutocompleteMode
-  } = {
-    id: null,
-    mode: 'sync',
-    title: 'Option Menu',
-    placeholder: null,
-    noOptions: null,
-    showAll: null,
-    ariaLiveOptions: null,
-    indicatorLabel: null,
-    showOptionsSr: null,
-    selectedSr: null,
-    submitButtonTitle: null,
-    submitButtonIcon: 'chevron_down',
-    inputRef: null,
-    icon: null,
-    iconSize: null,
-    iconPosition: 'left',
-    arrowPosition: null,
-    inputIcon: 'loupe',
-    label: null,
-    labelDirection: null,
-    labelSrOnly: null,
-    keepValue: null,
-    keepSelection: null,
-    keepValueAndSelection: null,
-    showClearButton: null,
-    status: null,
-    statusState: 'error',
-    statusProps: null,
-    statusNoAnimation: null,
-    globalStatus: null,
-    suffix: null,
-    disableFilter: false,
-    disableReorder: false,
-    scrollable: true,
-    focusable: false,
-    disableHighlighting: false,
-    maxHeight: null,
-    direction: 'auto',
-    skipPortal: null,
-    noAnimation: false,
-    noScrollAnimation: false,
-    showSubmitButton: false,
-    submitElement: null,
-    preventSelection: false,
-    size: 'default',
-    align: null,
-    optionsRender: null,
-    data: null,
-    searchInWordIndex: null,
-    searchNumbers: null,
-    defaultValue: null,
-    value: 'initval',
-    inputValue: 'initval',
-    autoComplete: 'off',
-    openOnFocus: false,
-    preventClose: false,
-    keepOpen: false,
-    open: null,
-    disabled: null,
-    stretch: null,
-    skeleton: null,
-    portalClass: null,
-    drawerClass: null,
-    pageOffset: null,
-    observerElement: null,
-    enableBodyLock: false,
-
-    className: null,
-    children: null,
-
-    onOpen: null,
-    onClose: null,
-    onType: null,
-    onFocus: null,
-    onBlur: null,
-    onChange: null,
-    onSelect: null,
-    onClear: null,
-    inputElement: null,
-  }
 
   constructor(props: AutocompleteAllProps) {
     super(props)
@@ -499,7 +499,6 @@ class AutocompleteInstance extends React.PureComponent<
   AutocompleteAllProps,
   Record<string, any>
 > {
-  static defaultProps = Autocomplete.defaultProps
   static contextType = DrawerListContext
 
   context: React.ContextType<typeof DrawerListContext>
@@ -552,31 +551,32 @@ class AutocompleteInstance extends React.PureComponent<
     props: AutocompleteAllProps,
     state: Record<string, any>
   ) {
+    const mergedProps = { ...autocompleteDefaultProps, ...props }
     if (state._listenForPropChanges) {
-      state.disableHighlighting = props.disableHighlighting
+      state.disableHighlighting = mergedProps.disableHighlighting
 
-      if (props.inputValue !== 'initval') {
-        state.inputValue = props.inputValue
+      if (mergedProps.inputValue !== 'initval') {
+        state.inputValue = mergedProps.inputValue
       }
 
-      if (props?.data?.length > 0 && state?.prevData?.length === 0) {
+      if (mergedProps?.data?.length > 0 && state?.prevData?.length === 0) {
         let selectedItem = state.selectedItem
 
-        if (props.defaultValue) {
-          selectedItem = props.defaultValue
+        if (mergedProps.defaultValue) {
+          selectedItem = mergedProps.defaultValue
         }
 
         if (
-          !props.defaultValue &&
-          props.value &&
-          props.value !== 'initval'
+          !mergedProps.defaultValue &&
+          mergedProps.value &&
+          mergedProps.value !== 'initval'
         ) {
-          selectedItem = props.value
+          selectedItem = mergedProps.value
         }
 
         const currentData = getCurrentData(
           selectedItem,
-          normalizeData(props.data)
+          normalizeData(mergedProps.data)
         )
 
         state.inputValue = parseContentTitle(currentData, {
@@ -585,9 +585,9 @@ class AutocompleteInstance extends React.PureComponent<
         })
       }
 
-      if (props.data !== state.prevData) {
-        state.updateData(props.data)
-        state.prevData = props.data
+      if (mergedProps.data !== state.prevData) {
+        state.updateData(mergedProps.data)
+        state.prevData = mergedProps.data
       }
     }
 
@@ -680,7 +680,7 @@ class AutocompleteInstance extends React.PureComponent<
     }
     if (
       !args.hasFilter &&
-      !this.props.preventClose &&
+      !(this._props ?? autocompleteDefaultProps).preventClose &&
       !this.context.drawerList.hidden &&
       this.context.drawerList.isOpen
     ) {
@@ -740,7 +740,8 @@ class AutocompleteInstance extends React.PureComponent<
     const data = this.runFilter(value, options)
     const count = this.countData(data)
 
-    const { keepValue, keepSelection, keepValueAndSelection } = this.props
+    const { keepValue, keepSelection, keepValueAndSelection } =
+      this._props ?? autocompleteDefaultProps
 
     if (value?.length > 0) {
       // show the "noOptions" message
@@ -882,7 +883,8 @@ class AutocompleteInstance extends React.PureComponent<
   }
 
   resetInputValue = () => {
-    const { inputValue, keepValue, keepValueAndSelection } = this.props
+    const { inputValue, keepValue, keepValueAndSelection } =
+      this._props ?? autocompleteDefaultProps
 
     if (
       keepValue ||
@@ -910,7 +912,7 @@ class AutocompleteInstance extends React.PureComponent<
     this.resetActiveItem()
     this.ignoreEvents()
     this.context.drawerList.setData(
-      this.props.noOptions === false
+      (this._props ?? autocompleteDefaultProps).noOptions === false
         ? []
         : [
             {
@@ -968,7 +970,7 @@ class AutocompleteInstance extends React.PureComponent<
   }
 
   revalidateInputValue = () => {
-    const { inputValue, value } = this.props
+    const { inputValue, value } = this._props ?? autocompleteDefaultProps
     if (inputValue && inputValue !== 'initval') {
       return // stop here
     }
@@ -985,7 +987,7 @@ class AutocompleteInstance extends React.PureComponent<
 
   revalidateSelectedItem = () => {
     const selectedItem = getCurrentIndex(
-      this.props.value,
+      (this._props ?? autocompleteDefaultProps).value,
       this.context.drawerList.originalData
     )
 
@@ -1021,7 +1023,7 @@ class AutocompleteInstance extends React.PureComponent<
         // Also, ensure to run it after a state update, because the "selectedItem" (value prop) can have changed,
         // and should match the new data
         if (hasChanged) {
-          const { value } = this.props
+          const { value } = this._props ?? autocompleteDefaultProps
           if (value && value !== 'initval') {
             this.revalidateSelectedItem()
             this.revalidateInputValue()
@@ -1135,7 +1137,8 @@ class AutocompleteInstance extends React.PureComponent<
       return // stop here
     }
 
-    const { openOnFocus, keepValueAndSelection } = this.props
+    const { openOnFocus, keepValueAndSelection } =
+      this._props ?? autocompleteDefaultProps
 
     if (!this.state.hasFocus) {
       if (openOnFocus && this.hasValidData()) {
@@ -1176,7 +1179,9 @@ class AutocompleteInstance extends React.PureComponent<
         () => {
           this.__preventFiringBlurEvent = false
         },
-        this.props.noAnimation ? 1 : DrawerList.blurDelay
+        (this._props ?? autocompleteDefaultProps).noAnimation
+          ? 1
+          : DrawerList.blurDelay
       )
     }
   }
@@ -1197,7 +1202,7 @@ class AutocompleteInstance extends React.PureComponent<
       keepValueAndSelection,
       preventSelection,
       noAnimation,
-    } = this.props
+    } = this._props ?? autocompleteDefaultProps
 
     this.setState({
       hasBlur: true,
@@ -1476,9 +1481,13 @@ class AutocompleteInstance extends React.PureComponent<
     {
       data = null, // rawData
       searchIndex = this.state.searchIndex,
-      searchNumbers = this.props.searchNumbers,
+      searchNumbers = (this._props ?? autocompleteDefaultProps)
+        .searchNumbers,
       inWordIndex = parseFloat(
-        String(this.props.searchInWordIndex ?? (this.skipFilter ? 1 : 3))
+        String(
+          (this._props ?? autocompleteDefaultProps).searchInWordIndex ??
+            (this.skipFilter ? 1 : 3)
+        )
       ) - 1,
       disableHighlighting = false,
       skipFilter = false,
@@ -1497,7 +1506,9 @@ class AutocompleteInstance extends React.PureComponent<
       return []
     }
 
-    const startsWithMatch = this.props.searchMatch === 'starts-with'
+    const startsWithMatch =
+      (this._props ?? autocompleteDefaultProps).searchMatch ===
+      'starts-with'
     const rawValue = value ?? ''
     let searchWords = rawValue.split(/\s+/g).filter(Boolean)
 
@@ -1977,7 +1988,7 @@ class AutocompleteInstance extends React.PureComponent<
     // use only the props from context, who are available here anyway
     const props = (this._props = extendPropsWithContextInClassComponent(
       this.props,
-      Autocomplete.defaultProps,
+      autocompleteDefaultProps,
       (this.context as any).getTranslation(this.props as any).Autocomplete,
       pickFormElementProps((this.context as any)?.formElement),
       (this.context as any).Autocomplete

@@ -38,11 +38,6 @@ export default class ModalRoot extends React.PureComponent<
 > {
   portalElem: HTMLDivElement | null
   static contextType = SharedContext
-  static defaultProps = {
-    id: null,
-    directDomReturn: false,
-    children: null,
-  }
 
   render() {
     const { children, directDomReturn, ...props } = this.props

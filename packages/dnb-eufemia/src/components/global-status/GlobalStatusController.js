@@ -51,12 +51,6 @@ class GlobalStatusController extends React.PureComponent {
       PropTypes.bool,
     ]),
   }
-  static defaultProps = {
-    id: 'main',
-    statusId: null,
-    removeOnUnmount: false,
-  }
-
   static getDerivedStateFromProps(props, state) {
     if (state._props !== props) {
       state.provider.update(state.statusId, props)
@@ -115,10 +109,6 @@ class GlobalStatusRemove extends React.PureComponent {
     id: PropTypes.string, // Provider id
     statusId: PropTypes.string.isRequired, // Status Item id
   }
-  static defaultProps = {
-    id: 'main',
-  }
-
   static getDerivedStateFromProps(props, state) {
     if (state._props !== props) {
       state.provider.update(props.statusId, props)

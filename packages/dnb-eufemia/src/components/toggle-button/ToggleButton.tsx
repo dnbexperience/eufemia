@@ -35,54 +35,57 @@ import Suffix from '../../shared/helpers/Suffix'
 /**
  * The toggle-button component is our enhancement of the classic toggle-button button.
  */
+
+const toggleButtonDefaultProps = {
+  text: null,
+  label: null,
+  labelDirection: null,
+  labelSrOnly: null,
+  title: null,
+  checked: undefined,
+  variant: null,
+  size: null,
+  leftComponent: null,
+  disabled: null,
+  skeleton: null,
+  id: null,
+  status: null,
+  statusState: 'error',
+  statusProps: null,
+  statusNoAnimation: null,
+  globalStatus: null,
+  suffix: null,
+  value: '',
+  role: undefined,
+  icon: null,
+  iconPosition: 'right',
+  iconSize: null,
+  readOnly: false,
+
+  className: null,
+  children: null,
+
+  onChange: null,
+}
+
 class ToggleButton extends React.PureComponent<ToggleButtonProps> {
   static Group = ToggleButtonGroup
 
   static contextType = ToggleButtonGroupContext
 
-  static defaultProps = {
-    text: null,
-    label: null,
-    labelDirection: null,
-    labelSrOnly: null,
-    title: null,
-    checked: undefined,
-    variant: null,
-    size: null,
-    leftComponent: null,
-    disabled: null,
-    skeleton: null,
-    id: null,
-    status: null,
-    statusState: 'error',
-    statusProps: null,
-    statusNoAnimation: null,
-    globalStatus: null,
-    suffix: null,
-    value: '',
-    role: undefined,
-    icon: null,
-    iconPosition: 'right',
-    iconSize: null,
-    readOnly: false,
-
-    className: null,
-    children: null,
-
-    onChange: null,
-  }
-
   static parseChecked = (state) => /true|on/.test(String(state))
 
   static getDerivedStateFromProps(props, state) {
+    const mergedProps = { ...toggleButtonDefaultProps, ...props }
+
     if (state._listenForPropChanges) {
-      if (props.checked !== state._checked) {
-        state.checked = ToggleButton.parseChecked(props.checked)
+      if (mergedProps.checked !== state._checked) {
+        state.checked = ToggleButton.parseChecked(mergedProps.checked)
       }
     }
     state._listenForPropChanges = true
 
-    state._checked = props.checked
+    state._checked = mergedProps.checked
     state.__checked = state.checked
 
     return state
@@ -90,7 +93,8 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
 
   constructor(props, context) {
     super(props)
-    this._id = props.id || makeUniqueId() // cause we need an id anyway
+    const mergedProps = { ...toggleButtonDefaultProps, ...props }
+    this._id = mergedProps.id || makeUniqueId() // cause we need an id anyway
     this._refButton = React.createRef()
 
     this.state = {
@@ -98,17 +102,17 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
     }
 
     // set the startup checked values from context, if they exists
-    if (context.name && typeof props.value !== 'undefined') {
+    if (context.name && typeof mergedProps.value !== 'undefined') {
       if (typeof context.value !== 'undefined') {
-        this.state.checked = context.value === props.value
+        this.state.checked = context.value === mergedProps.value
         this.state._listenForPropChanges = false
       } else if (context.values && Array.isArray(context.values)) {
-        this.state.checked = context.values.includes(props.value)
+        this.state.checked = context.values.includes(mergedProps.value)
         this.state._listenForPropChanges = false
 
         // make sure we update the context
         // with a possible custom set "checked" state
-      } else if (ToggleButton.parseChecked(props.checked)) {
+      } else if (ToggleButton.parseChecked(mergedProps.checked)) {
         if (context.setContext) {
           if (context.multiselect) {
             context.setContext((tmp) => {
@@ -117,13 +121,13 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
                   // in case we have set before a new context (other component)
                   // we fill combine these arrays
                   tmp && Array.isArray(tmp.values)
-                    ? [...tmp.values, props.value]
-                    : [props.value],
+                    ? [...tmp.values, mergedProps.value]
+                    : [mergedProps.value],
               }
             })
           } else {
             context.setContext({
-              value: props.value,
+              value: mergedProps.value,
             })
           }
         }
@@ -144,16 +148,15 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
   }
 
   onClickHandler = ({ event }) => {
-    if (this.props.readOnly) {
+    const props = this._props ?? toggleButtonDefaultProps
+
+    if (props.readOnly) {
       return event.preventDefault()
     }
     event.persist()
 
     // only select a value once
-    if (
-      !this.context.multiselect &&
-      this.props.value === this.context.value
-    ) {
+    if (!this.context.multiselect && props.value === this.context.value) {
       return
     }
 
@@ -177,7 +180,7 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
   }
 
   callOnChange = ({ checked, event }) => {
-    const { value } = this.props
+    const { value } = this._props ?? toggleButtonDefaultProps
     if (this.context.onChange) {
       this.context.onChange({
         value,
@@ -198,19 +201,21 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
           // from internal context
           const contextProps = extendPropsWithContextInClassComponent(
             this.props,
-            ToggleButton.defaultProps,
+            toggleButtonDefaultProps,
             this.context
           )
 
           // use only the props from context, who are available here anyway
           const props = extendPropsWithContextInClassComponent(
             this.props,
-            ToggleButton.defaultProps,
+            toggleButtonDefaultProps,
             contextProps,
             context.translation.ToggleButton,
             pickFormElementProps(context.formElement),
             context.ToggleButton
           )
+
+          this._props = props
 
           const {
             status,

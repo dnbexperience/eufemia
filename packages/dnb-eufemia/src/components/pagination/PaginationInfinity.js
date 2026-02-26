@@ -26,7 +26,6 @@ export default class InfinityScroller extends React.PureComponent {
   static propTypes = {
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   }
-  static defaultProps = { children: null }
 
   constructor(props, context) {
     super(props)
@@ -427,9 +426,6 @@ class InteractionMarker extends React.PureComponent {
       PropTypes.string,
     ]),
   }
-  static defaultProps = {
-    markerElement: null,
-  }
   state = { isConnected: false }
 
   constructor(props) {
@@ -543,13 +539,6 @@ export class InfinityLoadButton extends React.PureComponent {
     text: PropTypes.string,
     iconPosition: PropTypes.string,
   }
-  static defaultProps = {
-    element: 'div',
-    pressedElement: null,
-    icon: 'arrow_down',
-    text: null,
-    iconPosition: 'left',
-  }
   state = { isPressed: false }
   onClickHandler = (e) => {
     this.setState({ isPressed: true })
@@ -558,7 +547,12 @@ export class InfinityLoadButton extends React.PureComponent {
     }
   }
   render() {
-    const { element, icon, text, iconPosition } = this.props
+    const {
+      element = 'div',
+      icon = 'arrow_down',
+      text = null,
+      iconPosition = 'left',
+    } = this.props
     const Element = element
     const ElementChild = isTrElement(Element) ? 'td' : 'div'
 
@@ -592,10 +586,6 @@ class ScrollToElement extends React.PureComponent {
       PropTypes.string,
     ]),
   }
-  static defaultProps = {
-    pageElement: null,
-  }
-
   constructor(props) {
     super(props)
     this._elementRef = React.createRef()

@@ -12,14 +12,6 @@ import { createSharedState } from '../../shared/helpers/useSharedState'
 import HeightAnimation from '../height-animation/HeightAnimation'
 
 export default class ContentWrapper extends React.PureComponent<ContentWrapperProps> {
-  static defaultProps = {
-    selectedKey: null,
-    contentStyle: null,
-    animate: null,
-    contentSpacing: true,
-    children: null,
-  }
-
   state = { key: null }
 
   constructor(props) {

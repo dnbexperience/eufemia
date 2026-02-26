@@ -157,38 +157,38 @@ export interface DummyProps {
   children: React.ReactNode
 }
 
+const tabsDefaultProps = {
+  data: null,
+  content: null,
+  contentStyle: null,
+  contentSpacing: true,
+  label: null,
+  tabElement: 'button',
+  selectedKey: null,
+  align: 'left',
+  tabsStyle: null,
+  tabsSpacing: null,
+  noBorder: false,
+  navButtonEdge: false,
+  onOpenTabNavigationFn: null,
+  prerender: false,
+  preventRerender: false,
+  scroll: null,
+  skeleton: null,
+  id: null,
+
+  className: null,
+  children: null,
+  render: null,
+  onChange: null,
+  onMouseEnter: null,
+  onClick: null,
+  onFocus: null,
+  breakout: true,
+}
+
 export default class Tabs extends React.PureComponent<TabsProps> {
   static contextType = Context
-
-  static defaultProps = {
-    data: null,
-    content: null,
-    contentStyle: null,
-    contentSpacing: true,
-    label: null,
-    tabElement: 'button',
-    selectedKey: null,
-    align: 'left',
-    tabsStyle: null,
-    tabsSpacing: null,
-    noBorder: false,
-    navButtonEdge: false,
-    onOpenTabNavigationFn: null,
-    prerender: false,
-    preventRerender: false,
-    scroll: null,
-    skeleton: null,
-    id: null,
-
-    className: null,
-    children: null,
-    render: null,
-    onChange: null,
-    onMouseEnter: null,
-    onClick: null,
-    onFocus: null,
-    breakout: true,
-  }
 
   static Content = CustomContent
   static ContentWrapper = ContentWrapper
@@ -995,21 +995,21 @@ export default class Tabs extends React.PureComponent<TabsProps> {
   }
 
   TabsWrapperHandler = ({ children, ...rest }) => {
-    const { className, class: _className } = this.props
-    const { ...attributes } = filterProps(this.props, Tabs.defaultProps)
+    const { className, class: _className } = this._props
+    const { ...attributes } = filterProps(this._props, tabsDefaultProps)
 
     const params = {
       ...attributes,
       className: clsx(
         'dnb-tabs',
-        createSpacingClasses(this.props),
+        createSpacingClasses(this._props),
         className,
         _className
       ),
     }
 
     // also used for code markup simulation
-    validateDOMAttributes(this.props, params)
+    validateDOMAttributes(this._props, params)
 
     return (
       <div {...params} {...rest}>
@@ -1026,7 +1026,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
       noBorder,
       navButtonEdge,
       breakout,
-    } = this.props
+    } = this._props
     const { hasScrollbar } = this.state
 
     return (
@@ -1093,9 +1093,9 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
       <ContentWrapper
         id={this._id}
         selectedKey={selectedKey}
-        contentStyle={this.props.contentStyle}
-        contentSpacing={this.props.contentSpacing}
-        animate={this.props.prerender}
+        contentStyle={this._props.contentStyle}
+        contentSpacing={this._props.contentSpacing}
+        animate={this._props.prerender}
       >
         {content}
       </ContentWrapper>
@@ -1199,7 +1199,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
   render() {
     const props = (this._props = extendPropsWithContextInClassComponent(
       this.props,
-      Tabs.defaultProps,
+      tabsDefaultProps,
       { skeleton: this.context?.skeleton }
     ))
 

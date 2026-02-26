@@ -37,6 +37,35 @@ import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 /**
  * The radio component is our enhancement of the classic radio button.
  */
+
+const radioDefaultProps = {
+  label: null,
+  labelSrOnly: null,
+  labelPosition: null,
+  checked: null,
+  disabled: null,
+  id: null,
+  size: null,
+  element: 'input',
+  group: null,
+  status: null,
+  statusState: 'error',
+  statusProps: null,
+  statusNoAnimation: null,
+  globalStatus: null,
+  suffix: null,
+  value: '',
+  readOnly: false,
+  skeleton: null,
+
+  className: null,
+  children: null,
+
+  onChange: null,
+
+  innerRef: null,
+}
+
 export default class Radio extends React.PureComponent {
   static contextType = RadioGroupContext
 
@@ -88,47 +117,20 @@ export default class Radio extends React.PureComponent {
     onChange: PropTypes.func,
   }
 
-  static defaultProps = {
-    label: null,
-    labelSrOnly: null,
-    labelPosition: null,
-    checked: null,
-    disabled: null,
-    id: null,
-    size: null,
-    element: 'input',
-    group: null,
-    status: null,
-    statusState: 'error',
-    statusProps: null,
-    statusNoAnimation: null,
-    globalStatus: null,
-    suffix: null,
-    value: '',
-    readOnly: false,
-    skeleton: null,
-
-    className: null,
-    children: null,
-
-    onChange: null,
-
-    innerRef: null,
-  }
-
   static Group = RadioGroup
 
   static parseChecked = (state) => /true|on/.test(String(state))
 
   static getDerivedStateFromProps(props, state) {
+    const mergedProps = { ...radioDefaultProps, ...props }
     if (state._listenForPropChanges) {
-      if (props.checked !== state._checked) {
-        state.checked = Radio.parseChecked(props.checked)
+      if (mergedProps.checked !== state._checked) {
+        state.checked = Radio.parseChecked(mergedProps.checked)
       }
     }
     state._listenForPropChanges = true
 
-    state._checked = props.checked
+    state._checked = mergedProps.checked
     state.__checked = state.checked
 
     return state
@@ -250,14 +252,14 @@ export default class Radio extends React.PureComponent {
           // from internal context
           const contextProps = extendPropsWithContextInClassComponent(
             this.props,
-            Radio.defaultProps,
+            radioDefaultProps,
             this.context
           )
 
           // use only the props from context, who are available here anyway
           const props = extendPropsWithContextInClassComponent(
             this.props,
-            Radio.defaultProps,
+            radioDefaultProps,
             contextProps,
             { skeleton: context?.skeleton },
             pickFormElementProps(context.formElement),

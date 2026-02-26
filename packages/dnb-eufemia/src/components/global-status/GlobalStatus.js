@@ -35,6 +35,38 @@ import { InfoIcon, ErrorIcon, WarnIcon } from '../form-status/FormStatus'
 import Section from '../section/Section'
 import Button from '../button/Button'
 
+const globalStatusDefaultProps = {
+  id: 'main',
+  statusId: 'status-main',
+  title: null,
+  defaultTitle: null,
+  text: null,
+  items: [],
+  icon: 'error',
+  iconSize: 'medium',
+  state: 'error',
+  show: 'auto',
+  autoScroll: true,
+  autoClose: true,
+  noAnimation: false,
+  closeText: 'Lukk',
+  hideCloseButton: false,
+  omitSetFocus: false,
+  omitSetFocusOnUpdate: true,
+  delay: null,
+  statusAnchorText: null,
+  skeleton: null,
+
+  className: null,
+  children: null,
+
+  onAdjust: null,
+  onOpen: null,
+  onShow: null,
+  onClose: null,
+  onHide: null,
+}
+
 export default class GlobalStatus extends React.PureComponent {
   static contextType = Context
 
@@ -94,38 +126,6 @@ export default class GlobalStatus extends React.PureComponent {
     onHide: PropTypes.func,
   }
 
-  static defaultProps = {
-    id: 'main',
-    statusId: 'status-main',
-    title: null,
-    defaultTitle: null,
-    text: null,
-    items: [],
-    icon: 'error',
-    iconSize: 'medium',
-    state: 'error',
-    show: 'auto',
-    autoScroll: true,
-    autoClose: true,
-    noAnimation: false,
-    closeText: 'Lukk',
-    hideCloseButton: false,
-    omitSetFocus: false,
-    omitSetFocusOnUpdate: true,
-    delay: null,
-    statusAnchorText: null,
-    skeleton: null,
-
-    className: null,
-    children: null,
-
-    onAdjust: null,
-    onOpen: null,
-    onShow: null,
-    onClose: null,
-    onHide: null,
-  }
-
   static getIcon({ state, icon, iconSize }) {
     if (typeof icon === 'string') {
       let IconToLoad = icon
@@ -157,22 +157,23 @@ export default class GlobalStatus extends React.PureComponent {
   }
 
   static getDerivedStateFromProps(props, state) {
+    const mergedProps = { ...globalStatusDefaultProps, ...props }
     let globalStatus = state.globalStatus
 
-    if (state._items !== props.items) {
+    if (state._items !== mergedProps.items) {
       globalStatus = GlobalStatusProvider.combineMessages([
         state.globalStatus,
-        props,
+        mergedProps,
       ])
     }
 
-    if (props.state !== globalStatus?.state) {
-      globalStatus = { ...globalStatus, state: props.state }
+    if (mergedProps.state !== globalStatus?.state) {
+      globalStatus = { ...globalStatus, state: mergedProps.state }
     }
 
     return {
       globalStatus,
-      _items: props.items,
+      _items: mergedProps.items,
     }
   }
 
@@ -183,17 +184,18 @@ export default class GlobalStatus extends React.PureComponent {
 
   constructor(props) {
     super(props)
+    const mergedProps = { ...globalStatusDefaultProps, ...props }
 
     this._wrapperRef = React.createRef()
 
-    this.provider = GlobalStatusProvider.create(props.id)
+    this.provider = GlobalStatusProvider.create(mergedProps.id)
 
     // add the props as the first stack
     this.state.globalStatus = this._globalStatus =
-      this.provider.init(props)
+      this.provider.init(mergedProps)
 
     // and make it visible from start, if needed
-    if (props.show === true) {
+    if (mergedProps.show === true) {
       this.state.isActive = true
     }
 
@@ -209,17 +211,21 @@ export default class GlobalStatus extends React.PureComponent {
         globalStatus,
       })
 
+      const autoClose =
+        this.props.autoClose ?? globalStatusDefaultProps.autoClose
+      const show = this.props.show ?? globalStatusDefaultProps.show
+
       // make sure to show the new status, inc. scroll
       if (
-        (this.props.autoClose &&
+        (autoClose &&
           this._hadContent &&
           !this.hasContent(globalStatus) &&
-          this.props.show !== true) ||
+          show !== true) ||
         (typeof globalStatus.show !== 'undefined' && !globalStatus.show)
       ) {
         this.setHidden()
       } else if (
-        this.props.show === true ||
+        show === true ||
         (typeof globalStatus.show !== 'undefined' && globalStatus.show)
       ) {
         this._hadContent = this.hasContent(globalStatus)
@@ -245,8 +251,11 @@ export default class GlobalStatus extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.show !== this.props.show) {
-      if (this.props.show === true) {
+    const prevShow = prevProps.show ?? globalStatusDefaultProps.show
+    const currentShow = this.props.show ?? globalStatusDefaultProps.show
+
+    if (prevShow !== currentShow) {
+      if (currentShow === true) {
         this.setVisible()
       } else {
         this.setHidden()
@@ -268,7 +277,8 @@ export default class GlobalStatus extends React.PureComponent {
   }
 
   isPassive = () => {
-    return this.props.show !== 'auto' && this.props.show !== true
+    const show = this.props.show ?? globalStatusDefaultProps.show
+    return show !== 'auto' && show !== true
   }
 
   setVisible = () => {
@@ -301,7 +311,9 @@ export default class GlobalStatus extends React.PureComponent {
     ) {
       this.initialActiveElement = document.activeElement
     }
-    if (this._wrapperRef.current && !this.props.omitSetFocus) {
+    const omitSetFocus =
+      this.props.omitSetFocus ?? globalStatusDefaultProps.omitSetFocus
+    if (this._wrapperRef.current && !omitSetFocus) {
       this._wrapperRef.current.focus({ preventScroll: true })
     }
   }
@@ -500,7 +512,12 @@ export default class GlobalStatus extends React.PureComponent {
         break
 
       case 'adjusted':
-        if (!this.props.omitSetFocusOnUpdate) {
+        if (
+          !(
+            this.props.omitSetFocusOnUpdate ??
+            globalStatusDefaultProps.omitSetFocusOnUpdate
+          )
+        ) {
           this.setFocus()
         }
 
@@ -537,18 +554,18 @@ export default class GlobalStatus extends React.PureComponent {
 
     const fallbackProps = extendPropsWithContextInClassComponent(
       this.props,
-      GlobalStatus.defaultProps,
+      globalStatusDefaultProps,
       this.context.getTranslation(this.props).GlobalStatus
     )
 
-    const props = extendPropsWithContextInClassComponent(
+    const props = (this._props = extendPropsWithContextInClassComponent(
       GlobalStatusProvider.combineMessages([
         this.context.globalStatus,
         this.state.globalStatus,
       ]),
-      GlobalStatus.defaultProps,
+      globalStatusDefaultProps,
       fallbackProps
-    )
+    ))
 
     const lang = this.context.locale
 

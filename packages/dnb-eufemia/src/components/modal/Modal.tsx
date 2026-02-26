@@ -41,6 +41,54 @@ export type ModalPropTypes = ModalProps &
   SpacingProps &
   Omit<ScrollViewAllProps, 'children'>
 
+const modalDefaultProps = {
+  id: null,
+  focusSelector: null,
+  labelledBy: null,
+  title: null,
+  disabled: null,
+  spacing: true,
+  openDelay: null,
+  contentId: null,
+  dialogTitle: 'Vindu',
+  closeTitle: 'Lukk', // Close Modal Window
+  hideCloseButton: false,
+  closeButtonAttributes: null,
+  preventClose: false,
+  preventCoreStyle: false,
+  animationDuration: ANIMATION_DURATION,
+  noAnimation: false,
+  noAnimationOnMobile: false,
+  fullscreen: 'auto',
+  minWidth: null,
+  maxWidth: null,
+  alignContent: 'left',
+  containerPlacement: null,
+  verticalAlignment: null,
+  open: null,
+  directDomReturn: false,
+  omitTriggerButton: false,
+
+  className: null,
+  children: null,
+
+  onOpen: null,
+  onClose: null,
+  onClosePrevent: null,
+  openModal: null,
+  closeModal: null,
+
+  trigger: null,
+  triggerAttributes: null,
+
+  overlayClass: null,
+  contentClass: null,
+
+  modalContent: null,
+  headerContent: null,
+  barContent: null,
+}
+
 class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
   static contextType = Context
 
@@ -78,54 +126,6 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
     preventAutoFocus: true,
     animationDuration: ANIMATION_DURATION,
     noAnimation: false,
-  }
-
-  static defaultProps = {
-    id: null,
-    focusSelector: null,
-    labelledBy: null,
-    title: null,
-    disabled: null,
-    spacing: true,
-    openDelay: null,
-    contentId: null,
-    dialogTitle: 'Vindu',
-    closeTitle: 'Lukk', // Close Modal Window
-    hideCloseButton: false,
-    closeButtonAttributes: null,
-    preventClose: false,
-    preventCoreStyle: false,
-    animationDuration: ANIMATION_DURATION,
-    noAnimation: false,
-    noAnimationOnMobile: false,
-    fullscreen: 'auto',
-    minWidth: null,
-    maxWidth: null,
-    alignContent: 'left',
-    containerPlacement: null,
-    verticalAlignment: null,
-    open: null,
-    directDomReturn: false,
-    omitTriggerButton: false,
-
-    className: null,
-    children: null,
-
-    onOpen: null,
-    onClose: null,
-    onClosePrevent: null,
-    openModal: null,
-    closeModal: null,
-
-    trigger: null,
-    triggerAttributes: null,
-
-    overlayClass: null,
-    contentClass: null,
-
-    modalContent: null,
-    headerContent: null,
-    barContent: null,
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -424,7 +424,7 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContextInClassComponent(
       this.props,
-      Modal.defaultProps,
+      modalDefaultProps,
       this.context.getTranslation(this.props).Modal,
       this.context.Modal,
       visualTestsPropsOverride

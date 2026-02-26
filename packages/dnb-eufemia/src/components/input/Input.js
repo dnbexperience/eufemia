@@ -127,66 +127,66 @@ export const inputPropTypes = {
   onClear: PropTypes.func,
 }
 
+export const inputDefaultProps = {
+  type: 'text',
+  size: null,
+  value: 'initval',
+  id: null,
+  label: null,
+  labelDirection: null,
+  labelSrOnly: null,
+  status: null,
+  globalStatus: null,
+  statusState: 'error',
+  statusProps: null,
+  statusNoAnimation: null,
+  inputState: null,
+  autocomplete: 'off',
+  placeholder: null,
+  clear: null,
+  keepPlaceholder: null,
+  suffix: null,
+  align: null,
+  selectAll: null,
+  stretch: null,
+  disabled: null,
+  skeleton: null,
+  inputClass: null,
+  inputAttributes: null,
+  inputElement: null,
+  innerRef: null,
+  icon: null,
+  iconSize: null,
+  iconPosition: 'left',
+  readOnly: false,
+  innerElement: null,
+
+  // Submit button
+  submitElement: null,
+  submitButtonTitle: null,
+  clearButtonTitle: null,
+  submitButtonVariant: 'secondary',
+  submitButtonIcon: 'loupe',
+  submitButtonStatus: null,
+
+  className: null,
+  children: null,
+
+  onChange: null,
+  onKeyDown: null,
+  onSubmit: null,
+  onFocus: null,
+  onBlur: null,
+  onSubmitFocus: null,
+  onSubmitBlur: null,
+  onClear: null,
+}
+
 export default class Input extends React.PureComponent {
   static contextType = Context
 
   static propTypes = {
     ...inputPropTypes,
-  }
-
-  static defaultProps = {
-    type: 'text',
-    size: null,
-    value: 'initval',
-    id: null,
-    label: null,
-    labelDirection: null,
-    labelSrOnly: null,
-    status: null,
-    globalStatus: null,
-    statusState: 'error',
-    statusProps: null,
-    statusNoAnimation: null,
-    inputState: null,
-    autocomplete: 'off',
-    placeholder: null,
-    clear: null,
-    keepPlaceholder: null,
-    suffix: null,
-    align: null,
-    selectAll: null,
-    stretch: null,
-    disabled: null,
-    skeleton: null,
-    inputClass: null,
-    inputAttributes: null,
-    inputElement: null,
-    innerRef: null,
-    icon: null,
-    iconSize: null,
-    iconPosition: 'left',
-    readOnly: false,
-    innerElement: null,
-
-    // Submit button
-    submitElement: null,
-    submitButtonTitle: null,
-    clearButtonTitle: null,
-    submitButtonVariant: 'secondary',
-    submitButtonIcon: 'loupe',
-    submitButtonStatus: null,
-
-    className: null,
-    children: null,
-
-    onChange: null,
-    onKeyDown: null,
-    onSubmit: null,
-    onFocus: null,
-    onBlur: null,
-    onSubmitFocus: null,
-    onSubmitBlur: null,
-    onClear: null,
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -333,7 +333,7 @@ export default class Input extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContextInClassComponent(
       this.props,
-      Input.defaultProps,
+      inputDefaultProps,
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).Input,
       pickFormElementProps(this.context?.formElement),
@@ -662,25 +662,6 @@ class InputSubmitButton extends React.PureComponent {
     onSubmit: PropTypes.func,
     onSubmitFocus: PropTypes.func,
     onSubmitBlur: PropTypes.func,
-  }
-
-  static defaultProps = {
-    id: null,
-    value: null,
-    title: null,
-    disabled: false,
-    skeleton: false,
-    variant: 'secondary',
-    icon: 'loupe',
-    iconSize: null,
-    status: null,
-    statusState: 'error',
-    statusProps: null,
-    className: null,
-
-    onSubmit: null,
-    onSubmitFocus: null,
-    onSubmitBlur: null,
   }
 
   state = { focusState: 'virgin' }

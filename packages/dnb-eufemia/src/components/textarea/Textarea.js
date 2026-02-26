@@ -39,6 +39,46 @@ import Suffix from '../../shared/helpers/Suffix'
 /**
  * The textarea component is an umbrella component for all textareas which share the same style as the classic `text` textarea field.
  */
+
+const textareaDefaultProps = {
+  value: 'initval',
+  id: null,
+  label: null,
+  labelDirection: null,
+  labelSrOnly: null,
+  status: null,
+  textareaState: null,
+  statusState: 'error',
+  statusProps: null,
+  statusNoAnimation: null,
+  globalStatus: null,
+  suffix: null,
+  placeholder: null,
+  keepPlaceholder: null,
+  align: null,
+  size: null,
+  stretch: null,
+  disabled: null,
+  skeleton: null,
+  autoResize: null,
+  autoResizeMaxRows: null,
+  characterCounter: null,
+  textareaClass: null,
+  readOnly: false,
+  rows: null,
+  cols: null,
+  innerRef: null,
+
+  className: null,
+  textareaElement: null,
+  children: null,
+
+  onChange: null,
+  onFocus: null,
+  onBlur: null,
+  onKeyDown: null,
+}
+
 export default class Textarea extends React.PureComponent {
   static contextType = Context
 
@@ -109,45 +149,6 @@ export default class Textarea extends React.PureComponent {
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
     onKeyDown: PropTypes.func,
-  }
-
-  static defaultProps = {
-    value: 'initval',
-    id: null,
-    label: null,
-    labelDirection: null,
-    labelSrOnly: null,
-    status: null,
-    textareaState: null,
-    statusState: 'error',
-    statusProps: null,
-    statusNoAnimation: null,
-    globalStatus: null,
-    suffix: null,
-    placeholder: null,
-    keepPlaceholder: null,
-    align: null,
-    size: null,
-    stretch: null,
-    disabled: null,
-    skeleton: null,
-    autoResize: null,
-    autoResizeMaxRows: null,
-    characterCounter: null,
-    textareaClass: null,
-    readOnly: false,
-    rows: null,
-    cols: null,
-    innerRef: null,
-
-    className: null,
-    textareaElement: null,
-    children: null,
-
-    onChange: null,
-    onFocus: null,
-    onBlur: null,
-    onKeyDown: null,
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -366,7 +367,7 @@ export default class Textarea extends React.PureComponent {
   getProps() {
     return extendPropsWithContextInClassComponent(
       this.props,
-      Textarea.defaultProps,
+      textareaDefaultProps,
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).Textarea,
       pickFormElementProps(this.context?.formElement),

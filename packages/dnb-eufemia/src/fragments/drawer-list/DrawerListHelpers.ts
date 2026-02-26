@@ -446,7 +446,7 @@ export function prepareStartupState(
         : undefined)
   )
   const data = getData(props)
-  const open = props.open !== null ? props.open : null
+  const open = props.open != null ? props.open : null
 
   const state: DrawerListContextState = {
     id: props.id || makeUniqueId(),
@@ -454,7 +454,7 @@ export function prepareStartupState(
     data,
     originalData: data, // used to reset in case we reorder data etc.
     rawData,
-    direction: props.direction,
+    direction: props.direction ?? 'auto',
     maxHeight: props.maxHeight,
     selectedItem,
     activeItem: selectedItem,
@@ -473,7 +473,7 @@ export function prepareStartupState(
       props.value,
       data
     )
-  } else if (props.defaultValue !== null) {
+  } else if (props.defaultValue != null) {
     state.selectedItem = state.activeItem = getCurrentIndex(
       props.defaultValue,
       data
@@ -555,8 +555,9 @@ export const prepareDerivedState = (
     state.ariaActiveDescendant = `option-${state.id}-${state.activeItem}`
   }
 
-  if (props.direction !== 'auto' && props.direction !== state.direction) {
-    state.direction = props.direction
+  const direction = props.direction ?? 'auto'
+  if (direction !== 'auto' && direction !== state.direction) {
+    state.direction = direction
   }
 
   if (

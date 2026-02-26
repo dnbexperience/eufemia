@@ -29,52 +29,54 @@ import Suffix from '../../shared/helpers/Suffix'
 import ToggleButtonGroupContext from './ToggleButtonGroupContext'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
+const toggleButtonGroupDefaultProps = {
+  label: null,
+  labelDirection: null,
+  labelSrOnly: null,
+  title: null,
+  multiselect: null,
+  variant: null,
+  leftComponent: null,
+  disabled: null,
+  skeleton: null,
+  id: null,
+  name: null,
+  size: null,
+  status: null,
+  statusState: 'error',
+  statusProps: null,
+  statusNoAnimation: null,
+  globalStatus: null,
+  suffix: null,
+  vertical: null,
+  layoutDirection: 'row',
+  value: undefined,
+  values: undefined,
+
+  className: null,
+  children: null,
+
+  onChange: null,
+}
+
 class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
   static contextType = Context
 
-  static defaultProps = {
-    label: null,
-    labelDirection: null,
-    labelSrOnly: null,
-    title: null,
-    multiselect: null,
-    variant: null,
-    leftComponent: null,
-    disabled: null,
-    skeleton: null,
-    id: null,
-    name: null,
-    size: null,
-    status: null,
-    statusState: 'error',
-    statusProps: null,
-    statusNoAnimation: null,
-    globalStatus: null,
-    suffix: null,
-    vertical: null,
-    layoutDirection: 'row',
-    value: undefined,
-    values: undefined,
-
-    className: null,
-    children: null,
-
-    onChange: null,
-  }
-
   static getDerivedStateFromProps(props, state) {
+    const mergedProps = { ...toggleButtonGroupDefaultProps, ...props }
+
     if (state._listenForPropChanges) {
       if (
-        typeof props.value !== 'undefined' &&
-        props.value !== state.value
+        typeof mergedProps.value !== 'undefined' &&
+        mergedProps.value !== state.value
       ) {
-        state.value = props.value
+        state.value = mergedProps.value
       }
       if (
-        typeof props.values !== 'undefined' &&
-        props.values !== state.values
+        typeof mergedProps.values !== 'undefined' &&
+        mergedProps.values !== state.values
       ) {
-        state.values = ToggleButtonGroup.getValues(props)
+        state.values = ToggleButtonGroup.getValues(mergedProps)
       }
     }
     state._listenForPropChanges = true
@@ -91,9 +93,10 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
 
   constructor(props) {
     super(props)
+    const mergedProps = { ...toggleButtonGroupDefaultProps, ...props }
     this._refInput = React.createRef()
-    this._id = props.id || makeUniqueId() // cause we need an id anyway
-    this._name = props.name || makeUniqueId() // cause we need an id anyway
+    this._id = mergedProps.id || makeUniqueId() // cause we need an id anyway
+    this._name = mergedProps.name || makeUniqueId() // cause we need an id anyway
     this.state = {
       // do not set the value here, else get true in this check } else if (context.values && Array.isArray(context.values)) {
       _listenForPropChanges: true,
@@ -101,7 +104,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
   }
 
   onChangeHandler = ({ value, event }) => {
-    const { multiselect } = this.props
+    const { multiselect } = this._props ?? toggleButtonGroupDefaultProps
     const values = this.state.values || []
 
     if (multiselect) {
@@ -129,11 +132,13 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContextInClassComponent(
       this.props,
-      ToggleButtonGroup.defaultProps,
+      toggleButtonGroupDefaultProps,
       this.context.getTranslation(this.props).ToggleButton,
       pickFormElementProps(this.context?.formElement),
       this.context.ToggleButtonGroup
     )
+
+    this._props = props
 
     const {
       status,

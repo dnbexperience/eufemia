@@ -40,6 +40,61 @@ import {
   getCurrentData,
 } from '../../fragments/drawer-list/DrawerListHelpers'
 
+const dropdownDefaultProps = {
+  id: null,
+  title: 'Option Menu',
+  variant: 'secondary',
+  icon: null,
+  iconSize: null,
+  iconPosition: null,
+  arrowPosition: null,
+  label: null,
+  labelDirection: null,
+  labelSrOnly: null,
+  status: null,
+  statusState: 'error',
+  statusProps: null,
+  statusNoAnimation: null,
+  globalStatus: null,
+  innerRef: null,
+  buttonRef: null,
+  suffix: null,
+  scrollable: true,
+  focusable: false,
+  maxHeight: null,
+  direction: 'auto',
+  skipPortal: null,
+  portalClass: null,
+  noAnimation: false,
+  noScrollAnimation: false,
+  preventSelection: false,
+  moreMenu: false,
+  actionMenu: false,
+  independentWidth: false,
+  size: 'default',
+  align: null,
+  triggerElement: null,
+  data: null,
+  defaultValue: null,
+  value: 'initval',
+  openOnFocus: false,
+  preventClose: false,
+  keepOpen: false,
+  open: false,
+  disabled: null,
+  stretch: null,
+  skeleton: null,
+
+  className: null,
+  children: null,
+
+  onOpen: null,
+  onClose: null,
+
+  onChange: null,
+  onSelect: null,
+}
+
 export default class Dropdown extends React.PureComponent {
   static propTypes = {
     ...spacingPropTypes,
@@ -167,61 +222,6 @@ export default class Dropdown extends React.PureComponent {
     onSelect: PropTypes.func,
   }
 
-  static defaultProps = {
-    id: null,
-    title: 'Option Menu',
-    variant: 'secondary',
-    icon: null,
-    iconSize: null,
-    iconPosition: null,
-    arrowPosition: null,
-    label: null,
-    labelDirection: null,
-    labelSrOnly: null,
-    status: null,
-    statusState: 'error',
-    statusProps: null,
-    statusNoAnimation: null,
-    globalStatus: null,
-    innerRef: null,
-    buttonRef: null,
-    suffix: null,
-    scrollable: true,
-    focusable: false,
-    maxHeight: null,
-    direction: 'auto',
-    skipPortal: null,
-    portalClass: null,
-    noAnimation: false,
-    noScrollAnimation: false,
-    preventSelection: false,
-    moreMenu: false,
-    actionMenu: false,
-    independentWidth: false,
-    size: 'default',
-    align: null,
-    triggerElement: null,
-    data: null,
-    defaultValue: null,
-    value: 'initval',
-    openOnFocus: false,
-    preventClose: false,
-    keepOpen: false,
-    open: false,
-    disabled: null,
-    stretch: null,
-    skeleton: null,
-
-    className: null,
-    children: null,
-
-    onOpen: null,
-    onClose: null,
-
-    onChange: null,
-    onSelect: null,
-  }
-
   render() {
     // generate ID here, so we can send it along the provider
     const id = this.props.id || makeUniqueId()
@@ -246,7 +246,6 @@ export default class Dropdown extends React.PureComponent {
 
 class DropdownInstance extends React.PureComponent {
   static propTypes = Dropdown.propTypes
-  static defaultProps = Dropdown.defaultProps
   static contextType = DrawerListContext
 
   constructor(props) {
@@ -403,7 +402,7 @@ class DropdownInstance extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContextInClassComponent(
       this.props,
-      Dropdown.defaultProps,
+      dropdownDefaultProps,
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).Dropdown,
       pickFormElementProps(this.context?.formElement),

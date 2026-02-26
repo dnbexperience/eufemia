@@ -29,6 +29,7 @@ export function extendPropsWithContextInClassComponent<Props>(
   defaults: DefaultsProps = {},
   ...contexts: Contexts
 ) {
+  props = { ...defaults, ...props }
   return {
     ...props,
     ...reduceContextHasValue(props, defaults, contexts, {

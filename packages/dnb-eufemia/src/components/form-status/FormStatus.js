@@ -32,6 +32,30 @@ import sbanken from '../../style/themes/sbanken/properties'
 
 const properties = { ui, sbanken }
 
+const formStatusDefaultProps = {
+  id: null,
+  title: null,
+  show: true,
+  text: null,
+  globalStatus: null,
+  label: null,
+  icon: 'error',
+  iconSize: 'medium',
+  size: 'default',
+  variant: null,
+  state: 'error',
+  attributes: null,
+  textId: null,
+  widthSelector: null,
+  widthElement: null,
+  noAnimation: null,
+  skeleton: null,
+  stretch: null,
+  role: null,
+  className: null,
+  children: null,
+}
+
 export default class FormStatus extends React.PureComponent {
   static contextType = Context
 
@@ -80,30 +104,6 @@ export default class FormStatus extends React.PureComponent {
       PropTypes.func,
       PropTypes.node,
     ]),
-  }
-
-  static defaultProps = {
-    id: null,
-    title: null,
-    show: true,
-    text: null,
-    globalStatus: null,
-    label: null,
-    icon: 'error',
-    iconSize: 'medium',
-    size: 'default',
-    variant: null,
-    state: 'error',
-    attributes: null,
-    textId: null,
-    widthSelector: null,
-    widthElement: null,
-    noAnimation: null,
-    skeleton: null,
-    stretch: null,
-    role: null,
-    className: null,
-    children: null,
   }
 
   static getContent(props) {
@@ -182,7 +182,10 @@ export default class FormStatus extends React.PureComponent {
         'main',
       (provider) => {
         // gets called once ready
-        if (this.props.state === 'error' && this.isReadyToGetVisible()) {
+        if (
+          (this._props ?? formStatusDefaultProps).state === 'error' &&
+          this.isReadyToGetVisible()
+        ) {
           const { state, text, children, globalStatus, label } =
             this.getProps(context)
           provider.add({
@@ -235,7 +238,10 @@ export default class FormStatus extends React.PureComponent {
 
     // State
     const state =
-      shouldAnimate && FormStatus.correctStatus(this.props.state)
+      shouldAnimate &&
+      FormStatus.correctStatus(
+        (this._props ?? formStatusDefaultProps).state
+      )
     if (state) {
       this.stateCache = state
     }
@@ -300,7 +306,7 @@ export default class FormStatus extends React.PureComponent {
   getProps(context = this.context) {
     return extendPropsWithContextInClassComponent(
       this.props,
-      FormStatus.defaultProps,
+      formStatusDefaultProps,
       { skeleton: context?.skeleton },
       pickFormElementProps(context?.formElement),
       context?.FormStatus
@@ -314,7 +320,8 @@ export default class FormStatus extends React.PureComponent {
   updateWidth = () => {
     // set max-width to this form-status, using the "linked mother"
     if (this._ref.current) {
-      const { widthElement, widthSelector } = this.props
+      const { widthElement, widthSelector } =
+        this._props ?? formStatusDefaultProps
       setMaxWidthToElement({
         element: this._ref.current,
         widthElement: widthElement && widthElement.current,
@@ -324,16 +331,16 @@ export default class FormStatus extends React.PureComponent {
   }
 
   shouldAnimate() {
-    return this.props.noAnimation === false
+    return (this._props ?? formStatusDefaultProps).noAnimation === false
   }
 
-  isReadyToGetVisible(props = this.props) {
+  isReadyToGetVisible(props = this._props ?? this.props) {
     return props.show && FormStatus.getContent(props) ? true : false
   }
 
   render() {
     // use only the props from context, who are available here anyway
-    const props = this.getProps()
+    const props = (this._props = this.getProps())
 
     const {
       title,
