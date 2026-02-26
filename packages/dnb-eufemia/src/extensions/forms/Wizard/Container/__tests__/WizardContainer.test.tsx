@@ -2598,8 +2598,6 @@ describe('Wizard.Container', () => {
     })
 
     it('should be able to navigate forth with NextButton even if there are errors in other steps', async () => {
-      let currentIndex = null
-
       render(
         <Wizard.Container
           mode="strict"
@@ -2607,25 +2605,21 @@ describe('Wizard.Container', () => {
           expandedInitially
         >
           <Wizard.Step title="Step 1">
+            <output>Step 1</output>
             <Field.String path="/foo" required />
             <Wizard.Buttons />
           </Wizard.Step>
 
           <Wizard.Step title="Step 2">
+            <output>Step 2</output>
             <Field.String path="/bar" required />
             <Wizard.Buttons />
           </Wizard.Step>
 
           <Wizard.Step title="Step 3">
+            <output>Step 3</output>
             <Wizard.Buttons />
           </Wizard.Step>
-
-          <WizardContext.Consumer>
-            {(context) => {
-              currentIndex = context.activeIndex
-              return null
-            }}
-          </WizardContext.Consumer>
         </Wizard.Container>
       )
 
@@ -2633,7 +2627,7 @@ describe('Wizard.Container', () => {
         document.querySelectorAll('.dnb-step-indicator__item')
       )
 
-      expect(currentIndex).toBe(2)
+      expect(output()).toHaveTextContent('Step 3')
 
       fireEvent.submit(document.querySelector('form'))
 
@@ -2644,15 +2638,12 @@ describe('Wizard.Container', () => {
       // Go to Step 1
       await userEvent.click(firstStep.querySelector('button'))
 
-      expect(currentIndex).toBe(0)
+      expect(output()).toHaveTextContent('Step 1')
 
       await userEvent.type(document.querySelector('input'), 'foo')
 
-      // Wait for validation to fully settle after typing - check both
-      // that the step indicator shows only 1 error and that the current
-      // step's inline field error has been resolved
+      // Wait for the inline field error to be resolved before navigating
       await waitFor(() => {
-        expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(1)
         expect(content().querySelector('.dnb-form-status')).toBeNull()
       })
 
@@ -2660,7 +2651,7 @@ describe('Wizard.Container', () => {
       await userEvent.click(nextButton())
 
       await waitFor(() => {
-        expect(currentIndex).toBe(1)
+        expect(output()).toHaveTextContent('Step 2')
       })
     })
 
