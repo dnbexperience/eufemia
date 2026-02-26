@@ -112,7 +112,7 @@ function PaymentCard(props) {
       <Context.Consumer>
         {({ translation }) => {
           const translations = extendPropsWithContextInClassComponent(
-            props,
+            { ...translationDefaultPropsProps, ...props },
             translationDefaultPropsProps,
             translation.PaymentCard
           )
