@@ -144,7 +144,7 @@ describe('UploadFileInput', () => {
 
     expect(inputElement.value).toBe('mock-value')
 
-    await userEvent.click(inputElement)
+    fireEvent.click(inputElement)
 
     expect(inputElement.value).toBe(null)
 

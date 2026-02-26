@@ -1,7 +1,6 @@
 import React from 'react'
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { wait } from '../../../../../core/jest/jestSetup'
 import { Form, Field } from '../../..'
 import { Provider } from '../../../../../shared'
 
@@ -215,9 +214,13 @@ describe('Form.SubmitButton', () => {
   })
 
   it('should only show submit indicator on the clicked submit button', async () => {
-    const onSubmit = jest.fn(async () => {
-      await wait(10)
-    })
+    let resolveSubmit: () => void
+    const onSubmit = jest.fn(
+      async () =>
+        new Promise<void>((resolve) => {
+          resolveSubmit = resolve
+        })
+    )
 
     render(
       <Form.Handler onSubmit={onSubmit}>
@@ -243,6 +246,10 @@ describe('Form.SubmitButton', () => {
     expect(secondIndicator).toHaveClass(
       'dnb-forms-submit-indicator--state-pending'
     )
+
+    await act(async () => {
+      resolveSubmit()
+    })
   })
 
   it('should contain submit indicator and its aria features', () => {

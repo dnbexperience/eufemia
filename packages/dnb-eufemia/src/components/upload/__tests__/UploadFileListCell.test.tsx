@@ -473,15 +473,16 @@ describe('UploadFileListCell', () => {
       expect(uploadButton).toHaveFocus()
 
       const focus = jest.fn()
-      jest
+      const focusSpy = jest
         .spyOn(HTMLElement.prototype, 'focus')
-        .mockImplementationOnce(focus)
+        .mockImplementation(focus)
 
       rerender(<MockComponent />)
 
       await userEvent.click(removeButton)
-      expect(focus).toHaveBeenCalledTimes(1)
       expect(focus).toHaveBeenCalledWith({ preventScroll: true })
+
+      focusSpy.mockRestore()
     })
   })
 

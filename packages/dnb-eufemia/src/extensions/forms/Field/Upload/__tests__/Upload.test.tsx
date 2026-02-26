@@ -141,9 +141,13 @@ describe('Field.Upload', () => {
   })
 
   it('should display spinner for an async onFileClick event', async () => {
-    const onFileClick = jest.fn(async () => {
-      await wait(1)
-    })
+    let resolveFileClick: () => void
+    const onFileClick = jest.fn(
+      async () =>
+        new Promise<void>((resolve) => {
+          resolveFileClick = resolve
+        })
+    )
 
     render(
       <Field.Upload
@@ -165,6 +169,10 @@ describe('Field.Upload', () => {
       expect(
         document.querySelector('.dnb-progress-indicator')
       ).toBeInTheDocument()
+    })
+
+    await act(async () => {
+      resolveFileClick()
     })
   })
 

@@ -1,9 +1,14 @@
 import React from 'react'
-import { screen, render, fireEvent, waitFor } from '@testing-library/react'
+import {
+  screen,
+  render,
+  fireEvent,
+  waitFor,
+  act,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Value, Form, DataContext, Field } from '../../..'
 import { createMockFile } from '../../../../../components/upload/__tests__/testHelpers'
-import { wait } from '../../../../../core/jest/jestSetup'
 
 global.URL.createObjectURL = jest.fn(() => 'url')
 
@@ -461,9 +466,13 @@ describe('Value.Upload', () => {
     })
 
     it('should display spinner when async onFileClick event', async () => {
-      const onFileClick = jest.fn(async () => {
-        await wait(1)
-      })
+      let resolveFileClick: () => void
+      const onFileClick = jest.fn(
+        async () =>
+          new Promise<void>((resolve) => {
+            resolveFileClick = resolve
+          })
+      )
 
       render(
         <Value.Upload
@@ -486,6 +495,10 @@ describe('Value.Upload', () => {
         expect(
           document.querySelector('.dnb-progress-indicator')
         ).toBeInTheDocument()
+      })
+
+      await act(async () => {
+        resolveFileClick()
       })
     })
 

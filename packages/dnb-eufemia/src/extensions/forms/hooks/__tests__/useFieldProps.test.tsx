@@ -3458,7 +3458,16 @@ describe('useFieldProps', () => {
     )
   })
 
-  it('should return autoComplete based on DataContext', async () => {\n    const { result, rerender } = renderHook(\n      (props: any) => useFieldProps(props),\n      {\n        initialProps: {},\n        wrapper: ({ children }) => (\n          <Form.Handler autoComplete>{children}</Form.Handler>\n        ),\n      }\n    )
+  it('should return autoComplete based on DataContext', async () => {
+    const { result, rerender } = renderHook(
+      (props: any) => useFieldProps(props),
+      {
+        initialProps: {},
+        wrapper: ({ children }) => (
+          <Form.Handler autoComplete>{children}</Form.Handler>
+        ),
+      }
+    )
 
     expect(result.current.autoComplete).toBe('on')
 
@@ -6711,10 +6720,11 @@ describe('useFieldProps', () => {
     }
 
     it('should set fieldState to error for async onBlurValidator', async () => {
+      let resolveValidator: (value: Error) => void
       const onBlurValidator = async () => {
-        await wait(1)
-
-        return new Error('Error message')
+        return await new Promise<Error>((resolve) => {
+          resolveValidator = resolve
+        })
       }
 
       const { result, rerender } = renderHook(
@@ -6735,10 +6745,12 @@ describe('useFieldProps', () => {
       expect(result.current.fieldState).toBe('pending')
       expect(result.current.error).toBeUndefined()
 
-      await waitFor(() => {
-        expect(result.current.fieldState).toBe('error')
-        expect(result.current.error).toBeInstanceOf(Error)
+      await act(async () => {
+        resolveValidator(new Error('Error message'))
       })
+
+      expect(result.current.fieldState).toBe('error')
+      expect(result.current.error).toBeInstanceOf(Error)
 
       await act(async () => {
         rerender({
@@ -6755,10 +6767,12 @@ describe('useFieldProps', () => {
       expect(result.current.fieldState).toBe('pending')
       expect(result.current.error).toBeUndefined()
 
-      await waitFor(() => {
-        expect(result.current.fieldState).toBe('error')
-        expect(result.current.error).toBeInstanceOf(Error)
+      await act(async () => {
+        resolveValidator(new Error('Error message'))
       })
+
+      expect(result.current.fieldState).toBe('error')
+      expect(result.current.error).toBeInstanceOf(Error)
     })
 
     it('should return disable=true during async onBlurValidator validation', async () => {

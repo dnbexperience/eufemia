@@ -1385,8 +1385,11 @@ describe('DataContext.Provider', () => {
 
     it('should set "formState" to "pending" when "onChangeValidator" is async', async () => {
       const result = createRef<ContextState>()
+      let resolveValidator: (value: Error) => void
       const onChangeValidator = async () => {
-        return new Error('My error')
+        return await new Promise<Error>((resolve) => {
+          resolveValidator = resolve
+        })
       }
 
       const { rerender } = render(
@@ -1404,6 +1407,10 @@ describe('DataContext.Provider', () => {
       await userEvent.click(submitButton)
 
       expect(result.current.formState).toBe('pending')
+
+      await act(async () => {
+        resolveValidator(new Error('My error'))
+      })
 
       await waitFor(() => {
         expect(result.current.formState).toBeUndefined()
@@ -1434,8 +1441,11 @@ describe('DataContext.Provider', () => {
 
     it('should set "formState" to "pending" when "onBlurValidator" is async', async () => {
       const result = createRef<ContextState>()
+      let resolveValidator: (value: Error) => void
       const onBlurValidator = async () => {
-        return new Error('My error')
+        return await new Promise<Error>((resolve) => {
+          resolveValidator = resolve
+        })
       }
 
       const { rerender } = render(
@@ -1455,6 +1465,10 @@ describe('DataContext.Provider', () => {
       })
 
       expect(result.current.formState).toBe('pending')
+
+      await act(async () => {
+        resolveValidator(new Error('My error'))
+      })
 
       await waitFor(() => {
         expect(result.current.formState).toBeUndefined()
@@ -1485,7 +1499,11 @@ describe('DataContext.Provider', () => {
 
     it('should set "formState" to "pending" when when "onSubmit" is async', async () => {
       const result = createRef<ContextState>()
-      const onSubmit = async () => null
+      let resolveSubmit: () => void
+      const onSubmit = async () =>
+        new Promise<void>((resolve) => {
+          resolveSubmit = resolve
+        })
 
       render(
         <DataContext.Provider onSubmit={onSubmit}>
@@ -1503,6 +1521,10 @@ describe('DataContext.Provider', () => {
       })
 
       expect(result.current.formState).toBe('pending')
+
+      await act(async () => {
+        resolveSubmit()
+      })
 
       await waitFor(() => {
         expect(result.current.formState).toBeUndefined()
@@ -1511,7 +1533,11 @@ describe('DataContext.Provider', () => {
 
     it('should show submit indicator during submit when "onSubmit" is used', async () => {
       const result = createRef<ContextState>()
-      const onSubmit = async () => null
+      let resolveSubmit: () => void
+      const onSubmit = async () =>
+        new Promise<void>((resolve) => {
+          resolveSubmit = resolve
+        })
 
       render(
         <DataContext.Provider onSubmit={onSubmit}>
@@ -1529,6 +1555,10 @@ describe('DataContext.Provider', () => {
       })
 
       expect(result.current.formState).toBe('pending')
+
+      await act(async () => {
+        resolveSubmit()
+      })
 
       await waitFor(() => {
         expect(result.current.formState).toBeUndefined()
