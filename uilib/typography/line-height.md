@@ -1,7 +1,7 @@
 ---
 title: 'Line Height'
-version: 10.98.0
-generatedAt: 2026-02-19T21:37:28.680Z
+version: 10.99.0
+generatedAt: 2026-02-26T21:05:16.051Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -9,7 +9,7 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 
 <ChangeStyleTheme label="Change the brand:" bottom="large" />
 
-For details about what values Typographic elements do use, have a look at the [Fonts & Typography](/quickguide-designer/fonts#typographic-elements) documentation.
+For details about what values typographic elements use, have a look at the [Fonts & Typography](/quickguide-designer/fonts#typographic-elements) documentation.
 
 ## Default `line-height` **rem** table
 
@@ -26,7 +26,7 @@ For details about what values Typographic elements do use, have a look at the [F
 
 ### Code Editor Extensions
 
-You may be interested to install an [Eufemia code editor extension](/uilib/usage/first-steps/tools/#code-editor-extensions) that allows you to quickly auto complete the correct `line-height`.
+You may be interested in installing an [Eufemia code editor extension](/uilib/usage/first-steps/tools/#code-editor-extensions) that allows you to quickly auto complete the correct `line-height`.
 
 ## Additional `line-height` **em** table
 

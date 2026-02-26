@@ -1,8 +1,8 @@
 ---
 title: 'Getting started'
 description: 'Forms is reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.'
-version: 10.98.0
-generatedAt: 2026-02-19T21:37:28.648Z
+version: 10.99.0
+generatedAt: 2026-02-26T21:05:16.012Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -37,6 +37,7 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
     - [Validation order](#validation-order)
     - [Error messages](#error-messages)
     - [Summary for errors](#summary-for-errors)
+    - [keepInDOM for hidden content](#keepindom-for-hidden-content)
     - [required](#required)
     - [pattern](#pattern)
     - [schema](#schema)
@@ -712,6 +713,23 @@ If you need a custom unique ID, you can just assign `globalStatusId` to the `For
   My Form
 </Form.Handler>
 ```
+
+### keepInDOM for hidden content
+
+Use `keepInDOM` when hidden content still needs to keep its internal state or continue participating in logic such as validation.
+
+Why this can be useful:
+
+- Avoid remounting: component state is preserved when closed/hidden.
+- Keep validation context: hidden fields can still be part of validation flows when relevant.
+
+Examples where this pattern is used:
+
+- [Wizard.Container](/uilib/extensions/forms/Wizard/Container/) in Forms.
+- [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) in Forms.
+- [Accordion](/uilib/components/accordion) component.
+- [Table](/uilib/components/table/#table-with-accordion) component with `mode="accordion"`.
+- [List](/uilib/components/list/#accordion) component with `List.Item.Accordion`.
 
 ### required
 

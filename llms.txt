@@ -39,9 +39,9 @@ For any page (component, field, value, etc.):
 
 ## General
 
-- [Living system](https://eufemia.dnb.no/uilib/about-the-lib/living-system.md): Eufemia is DNBs design system. It is constantly evolving and improving and is our single source of truth for UI design and front end code.
+- [Living system](https://eufemia.dnb.no/uilib/about-the-lib/living-system.md): Eufemia is DNB's design system. It is constantly evolving and improving and is our single source of truth for UI design and front-end code.
 
-- [Maintainability](https://eufemia.dnb.no/uilib/about-the-lib/maintainability.md): The hard part of a living design system, like Eufemia, is not to create black holes and choosing ways to make maintainability hard and complex.
+- [Maintainability](https://eufemia.dnb.no/uilib/about-the-lib/maintainability.md): The hard part of a living design system, like Eufemia, is not creating black holes and choosing ways that make maintainability hard and complex.
 
 - [v4.0](https://eufemia.dnb.no/uilib/about-the-lib/releases/dnb-ui-lib/v4-info.md): July, 21. 2019
 
@@ -79,7 +79,7 @@ For any page (component, field, value, etc.):
 
 - [Extensions](https://eufemia.dnb.no/uilib/extensions.md): Look into the documentation for more details.
 
-- [Requirements](https://eufemia.dnb.no/uilib/getting-started/requirements.md): Eufemia can be used within an UMD, ESM, CJS or TypeScript environment. The purpose is to use it on top (or inside) of modern JavaScript frontend framework and setups.
+- [Requirements](https://eufemia.dnb.no/uilib/getting-started/requirements.md): Eufemia can be used within a UMD, ESM, CJS, or TypeScript environment. The purpose is to use it on top (or inside) of modern JavaScript frontend frameworks and setups.
 
 - [Getting Started](https://eufemia.dnb.no/uilib/getting-started.md): A fast path to using Eufemia in your app. Install, import styles, render your first component, and explore theming and customization.
 
@@ -641,5 +641,5 @@ For any page (component, field, value, etc.):
 
 - [Span](https://eufemia.dnb.no/uilib/elements/span.md): Spans are inline-elements, used to define parts of text content.
 
-Version: 10.98.0
-GeneratedAt: 2026-02-19T21:37:47.639Z
+Version: 10.99.0
+GeneratedAt: 2026-02-26T21:05:34.519Z

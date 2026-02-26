@@ -1,9 +1,9 @@
 ---
 title: 'Table'
 description: 'Enhanced HTML Table element.'
-version: 10.98.0
-generatedAt: 2026-02-19T21:37:27.889Z
-checksum: 03d6217bba4dd90e46b5dd2977d5de43f3c8df2ff1505c783d6df23cf5e9c57d
+version: 10.99.0
+generatedAt: 2026-02-26T21:05:15.215Z
+checksum: 7c03974d3eba352f7a76c58f3bf75d2ad3a8ed03a1fa6e73f0e015234353ef3b
 ---
 
 # Table
@@ -1852,6 +1852,12 @@ render(
     },
     "noAnimation": {
       "doc": "Use `true` to disable the expand/collapse animation.",
+      "type": "boolean",
+      "defaultValue": "false",
+      "status": "optional"
+    },
+    "keepInDOM": {
+      "doc": "When `true`, keeps the accordion content in the DOM when closed. Defaults to `false`.",
       "type": "boolean",
       "defaultValue": "false",
       "status": "optional"

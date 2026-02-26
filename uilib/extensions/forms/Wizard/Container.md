@@ -1,8 +1,8 @@
 ---
 title: 'Wizard.Container'
 description: 'The `Wizard.Container` is a container component for multi-page forms including a step indicator.'
-version: 10.98.0
-generatedAt: 2026-02-19T21:37:28.590Z
+version: 10.99.0
+generatedAt: 2026-02-26T21:05:15.936Z
 checksum: 80735cb3357a4b385f8a635cb85e383e41305c287609f2c7b07f222b649fefb2
 ---
 

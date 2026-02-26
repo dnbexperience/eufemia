@@ -1,8 +1,8 @@
 ---
 title: 'Requirements'
-description: 'Eufemia can be used within an UMD, ESM, CJS or TypeScript environment. The purpose is to use it on top (or inside) of modern JavaScript frontend framework and setups.'
-version: 10.98.0
-generatedAt: 2026-02-19T21:37:28.651Z
+description: 'Eufemia can be used within a UMD, ESM, CJS, or TypeScript environment. The purpose is to use it on top (or inside) of modern JavaScript frontend frameworks and setups.'
+version: 10.99.0
+generatedAt: 2026-02-26T21:05:16.016Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

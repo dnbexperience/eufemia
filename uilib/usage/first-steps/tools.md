@@ -1,8 +1,8 @@
 ---
 title: 'AI and Tools'
 description: 'Code editor extensions, ESLint plugin, AI assistance and MCP server for Eufemia development.'
-version: 10.98.0
-generatedAt: 2026-02-19T21:37:28.701Z
+version: 10.99.0
+generatedAt: 2026-02-26T21:05:16.075Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -78,15 +78,15 @@ Install the [VSCode Extension](https://marketplace.visualstudio.com/items?itemNa
 
 1. Spacing System example
 
-![Auto completion for px/rem spacing system](./tools/eufemia-vscode-extension-spacing.png)
+![Auto completion for px/rem spacing system](./assets/eufemia-vscode-extension-spacing.png)
 
 2. Equivalent to `px` or `rem` value example
 
-![Tooltip for px/rem equivalent](./tools/eufemia-vscode-extension-hover.png)
+![Tooltip for px/rem equivalent](./assets/eufemia-vscode-extension-hover.png)
 
 3. `font-size` example
 
-![Auto completion for font-size](./tools/eufemia-vscode-extension-font-size.png)
+![Auto completion for font-size](./assets/eufemia-vscode-extension-font-size.png)
 
 ## ESLint Plugin
 

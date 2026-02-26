@@ -1,9 +1,9 @@
 ---
 title: 'List'
 description: 'List is a layout component for displaying rows of content, with optional start/center/end slots and a navigable item variant.'
-version: 10.98.0
-generatedAt: 2026-02-19T21:37:27.756Z
-checksum: b4857e09dad88230fd9cf09c5c5bf42acd8c3ea607a33b3147eea5f4f530105a
+version: 10.99.0
+generatedAt: 2026-02-26T21:05:15.042Z
+checksum: 9a7b6823dcde33a705e586fd4760ccbb49ba6f478c07c801010113f0207396ff
 ---
 
 # List
@@ -968,6 +968,12 @@ render(
     },
     "open": {
       "doc": "Initial open state. Defaults to `false`. The accordion can be toggled by the user via the header.",
+      "type": "boolean",
+      "defaultValue": "false",
+      "status": "optional"
+    },
+    "keepInDOM": {
+      "doc": "When `true`, keeps the accordion content in the DOM when closed. Defaults to `false`.",
       "type": "boolean",
       "defaultValue": "false",
       "status": "optional"

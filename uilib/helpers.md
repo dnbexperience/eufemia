@@ -1,8 +1,8 @@
 ---
 title: 'Helpers'
 description: 'A couple of helper functions used inside of components and extensions.'
-version: 10.98.0
-generatedAt: 2026-02-19T21:37:28.655Z
+version: 10.99.0
+generatedAt: 2026-02-26T21:05:16.021Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -51,13 +51,13 @@ You can use the internal Eufemia easing function.
 - [slugify](/uilib/helpers/functions#slugify): Breaks down phrases of words to be URI compatible.
 - [checkIfHasScrollbar](/uilib/helpers/functions#checkifhasscrollbar): Check if an element has a scrollbar.
 - [convertJsxToString](/uilib/helpers/functions#convertjsxtostring): Convert one or more HTMLElements to a string.
-- [InteractionInvalidation](/uilib/helpers/functions#interactioninvalidation): Invalidates DOM elements to be accessible for keyboard or screen reader.
-- [scrollToLocationHashId](/uilib/helpers/functions#scrolltolocationhashid): Scroll to a given HashId with optional offset and delay
+- [InteractionInvalidation](/uilib/helpers/functions#interactioninvalidation): Invalidates DOM elements so they are not accessible to keyboard or screen reader.
+- [scrollToLocationHashId](/uilib/helpers/functions#scrolltolocationhashid): Scroll to a given HashId with optional offset and delay.
 - [getOffsetTop](/uilib/helpers/functions#getoffsettop): Get the HTML Element offset to the top of the browser window.
 - [applyPageFocus](/uilib/helpers/functions#applypagefocus): Applies a page focus to an element given by the setPageFocusElement.
 - [setPageFocusElement](/uilib/helpers/functions#setpagefocuselement): Defines a focus element to applyPageFocus.
 - [debounce](/uilib/helpers/functions#debounce): Creates a debounced function that delays invoking func until after wait milliseconds have elapsed since the last time the debounced function was invoked.
-- [copyToClipboard](/uilib/helpers/functions#copytoclipboard): Copies a given string to clipboard.
+- [copyToClipboard](/uilib/helpers/functions#copytoclipboard): Copies a given string to the clipboard.
 
 ### Device checks
 

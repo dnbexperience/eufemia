@@ -1,7 +1,7 @@
 ---
 title: 'SASS mixins'
-version: 10.98.0
-generatedAt: 2026-02-19T21:37:28.654Z
+version: 10.99.0
+generatedAt: 2026-02-26T21:05:16.020Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -76,7 +76,7 @@ You can import Eufemia _mixins_ directly into your SCSS styles:
 
 ## Media queries and Breakpoints
 
-Use the `allAbove`, `allBelow` and `allBetween` mixins to add media queries to your css.
+Use the `allAbove`, `allBelow` and `allBetween` mixins to add media queries to your CSS.
 
 To prevent overlapping media queries, `0.00625em` gets added to the minimum width. This results in an increment of approximately `0.1px` when using `em` units. If you're using a unit other than `em`, you may need to adjust this value accordingly, as `0.00625px` is typically too small to effectively prevent overlaps.
 

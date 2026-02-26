@@ -1,8 +1,8 @@
 ---
 title: 'Field.Upload'
 description: '`Field.Upload` is a wrapper for the Upload component to make it easier to use inside a form.'
-version: 10.98.0
-generatedAt: 2026-02-19T21:37:28.646Z
+version: 10.99.0
+generatedAt: 2026-02-26T21:05:16.008Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
