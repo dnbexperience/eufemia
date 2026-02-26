@@ -1672,6 +1672,7 @@ describe('FieldBlock', () => {
           <FieldBlock
             label="Label"
             help={{
+              title: 'Help title',
               content: 'Help content',
             }}
           >
