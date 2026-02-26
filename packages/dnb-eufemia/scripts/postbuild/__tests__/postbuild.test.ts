@@ -244,9 +244,7 @@ describe('babel build', () => {
             )
             expect(content).toContain('export default class Input extends')
             expect(content).not.toContain('core-js-pure/modules/es')
-            expect(content).toContain(
-              'from "react/jsx-runtime"'
-            )
+            expect(content).toContain('from "react/jsx-runtime"')
           }
 
           {
@@ -258,9 +256,7 @@ describe('babel build', () => {
               'utf-8'
             )
             expect(content).toContain('export default Breadcrumb;')
-            expect(content).toContain(
-              'from "react/jsx-runtime"'
-            )
+            expect(content).toContain('from "react/jsx-runtime"')
           }
 
           {
@@ -303,9 +299,7 @@ describe('babel build', () => {
             )
             expect(content).toMatch(/export default class Input extends/g)
             expect(content).not.toContain('core-js-pure/modules/es')
-            expect(content).toContain(
-              'from "react/jsx-runtime"'
-            )
+            expect(content).toContain('from "react/jsx-runtime"')
           }
 
           {
@@ -318,9 +312,7 @@ describe('babel build', () => {
             )
             expect(content).toContain('export default Breadcrumb;')
             expect(content).not.toContain('core-js-pure/modules/es')
-            expect(content).toContain(
-              'from "react/jsx-runtime"'
-            )
+            expect(content).toContain('from "react/jsx-runtime"')
           }
 
           {
