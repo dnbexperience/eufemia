@@ -98,8 +98,14 @@ function ElementInstance(localProps: ElementAllProps) {
 
   skeletonDOMAttributes(attributes, skeleton, context)
 
-  if (typeof Tag !== 'function' && innerRef) {
+  const isFragment = Tag === React.Fragment
+
+  if (!isFragment && typeof Tag !== 'function' && innerRef) {
     attributes.ref = innerRef
+  }
+
+  if (isFragment) {
+    return <>{attributes.children as React.ReactNode}</>
   }
 
   return <Tag className={internalClassName} {...attributes} />
