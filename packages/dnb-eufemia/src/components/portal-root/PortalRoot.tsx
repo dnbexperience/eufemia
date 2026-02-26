@@ -116,7 +116,7 @@ function PortalRoot(props: PortalRootProps = {}): React.JSX.Element {
       if (typeof innerRef === 'function') {
         innerRef(localRef.current)
       } else {
-        const ref = innerRef as React.MutableRefObject<HTMLElement | null>
+        const ref = innerRef as React.RefObject<HTMLElement | null>
         ref.current = localRef.current
       }
     }

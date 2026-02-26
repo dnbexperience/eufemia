@@ -127,7 +127,7 @@ export default function AccordionContent(props: AccordionContentProps) {
 
   React.useState(() => {
     if (instance && Object.hasOwn(instance, 'current')) {
-      const mutableInstance = instance as React.MutableRefObject<unknown>
+      const mutableInstance = instance as React.RefObject<unknown>
       mutableInstance.current = {
         setContainerHeight,
       }

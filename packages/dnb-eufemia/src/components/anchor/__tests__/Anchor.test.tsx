@@ -445,8 +445,7 @@ describe('Anchor element', () => {
   })
 
   it('gets valid element when ref is function', () => {
-    const ref: React.MutableRefObject<HTMLAnchorElement> =
-      React.createRef()
+    const ref: React.RefObject<HTMLAnchorElement> = React.createRef()
 
     const refFn = (elem: HTMLAnchorElement) => {
       ref.current = elem

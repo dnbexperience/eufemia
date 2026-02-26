@@ -35,7 +35,7 @@ describe('useReachRouter', () => {
     })
   }
   const getHookMock = () => {
-    const forceUpdateRef: React.MutableRefObject<() => void> = createRef()
+    const forceUpdateRef: React.RefObject<() => void> = createRef()
 
     const navigate = jest.fn((href) => {
       window.history.replaceState({}, '', href)

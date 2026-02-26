@@ -2,7 +2,7 @@ import { createContext } from 'react'
 import { Path } from '../../types'
 import { SnapshotName } from './Snapshot'
 
-export type SnapshotMap = React.MutableRefObject<Map<Path, unknown>>
+export type SnapshotMap = React.RefObject<Map<Path, unknown>>
 
 export type SnapshotContextState = {
   name: SnapshotName

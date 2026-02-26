@@ -105,7 +105,7 @@ export default function ListAllProps<Data extends JsonObject = JsonObject>(
     }
 
     if (generateRef) {
-      const mutableGenerateRef = generateRef as React.MutableRefObject<
+      const mutableGenerateRef = generateRef as React.RefObject<
         () => ListAllPropsReturn<Data>
       >
       mutableGenerateRef.current = generate

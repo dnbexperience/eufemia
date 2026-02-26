@@ -41,7 +41,7 @@ describe('useNextRouter', () => {
     })
   }
   const getHookMock = () => {
-    const forceUpdateRef: React.MutableRefObject<() => void> = createRef()
+    const forceUpdateRef: React.RefObject<() => void> = createRef()
 
     const useRouter = jest.fn(() => {
       const push = useCallback((href) => {

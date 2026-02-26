@@ -378,7 +378,7 @@ describe('Step', () => {
           [2, {}],
           [3, {}],
         ]),
-      } as React.MutableRefObject<Steps>
+      } as React.RefObject<Steps>
 
       render(
         <Form.Handler>
