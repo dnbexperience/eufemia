@@ -26,6 +26,17 @@ describe('Form.useData', () => {
     expect(result.current.data).toEqual(undefined)
   })
 
+  it('should not throw when using an id that has never been mounted', () => {
+    const { result } = renderHook(() => useData(identifier))
+
+    expect(() => {
+      result.current.getValue('/foo')
+      result.current.update('/foo', 'bar')
+      result.current.remove('/foo')
+      result.current.set({ foo: 'bar' } as never)
+    }).not.toThrow()
+  })
+
   it('should throw when used without a valid id', () => {
     const log = jest.spyOn(console, 'error').mockImplementation()
 

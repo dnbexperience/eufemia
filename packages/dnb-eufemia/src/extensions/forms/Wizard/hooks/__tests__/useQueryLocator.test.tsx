@@ -1,5 +1,5 @@
 import React from 'react'
-import { act, render } from '@testing-library/react'
+import { act, render, renderHook } from '@testing-library/react'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import useQueryLocator from '../useQueryLocator'
 import useStep from '../useStep'
@@ -68,6 +68,16 @@ describe('useQueryLocator', () => {
       </Wizard.Step>
     )
   }
+
+  it('should not throw when using an id that has never been mounted', () => {
+    mockUrl()
+
+    const { result } = renderHook(() => useQueryLocator(identifier))
+
+    expect(() => {
+      result.current.getIndex()
+    }).not.toThrow()
+  })
 
   it('should update the URL query parameter on step change', async () => {
     mockUrl()

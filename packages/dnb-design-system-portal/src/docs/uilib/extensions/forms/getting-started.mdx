@@ -47,6 +47,7 @@ import { languageDisplayNames } from 'dnb-design-system-portal/src/core/ChangeLo
     - [Validation order](#validation-order)
     - [Error messages](#error-messages)
     - [Summary for errors](#summary-for-errors)
+    - [keepInDOM for hidden content](#keepindom-for-hidden-content)
     - [required](#required)
     - [pattern](#pattern)
     - [schema](#schema)
@@ -563,6 +564,23 @@ If you need a custom unique ID, you can just assign `globalStatusId` to the `For
   My Form
 </Form.Handler>
 ```
+
+### keepInDOM for hidden content
+
+Use `keepInDOM` when hidden content still needs to keep its internal state or continue participating in logic such as validation.
+
+Why this can be useful:
+
+- Avoid remounting: component state is preserved when closed/hidden.
+- Keep validation context: hidden fields can still be part of validation flows when relevant.
+
+Examples where this pattern is used:
+
+- [Wizard.Container](/uilib/extensions/forms/Wizard/Container/) in Forms.
+- [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) in Forms.
+- [Accordion](/uilib/components/accordion) component.
+- [Table](/uilib/components/table/#table-with-accordion) component with `mode="accordion"`.
+- [List](/uilib/components/list/#accordion) component with `List.Item.Accordion`.
 
 ### required
 

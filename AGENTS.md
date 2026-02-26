@@ -6,6 +6,8 @@
 - Write concise code and add comments only when they clarify intent.
 - Gather all required information from the documentation before using it as a reference.
 - Do not make assumptions or infer missing details unless explicitly instructed to do so.
+- Update `EUFEMIA_CHANGELOG.mdx` whenever a new component is added or a significant visual change is made to an existing component.
+- For Eufemia Forms changes, also `/forms/changelog.mdx` when relevant.
 
 ## Code Style Rules
 

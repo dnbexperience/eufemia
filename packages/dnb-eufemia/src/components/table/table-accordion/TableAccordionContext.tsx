@@ -12,6 +12,7 @@ type TableAccordionContextProps = {
     allowInteractiveElement?: boolean
   ) => void
   trIsOpen: boolean
+  keepInDOM: TableTrProps['keepInDOM']
   countTds: number
   noAnimation: TableTrProps['noAnimation']
   onOpened: TableTrProps['onOpened']

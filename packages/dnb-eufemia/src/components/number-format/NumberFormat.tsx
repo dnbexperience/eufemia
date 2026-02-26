@@ -409,14 +409,21 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       )
     }
     if (suffix) {
+      const suffixElement = this.runFix(
+        suffix,
+        'dnb-number-format__suffix'
+      )
+      const suffixStartsWithSlash =
+        typeof suffix === 'string' && suffix.startsWith('/')
+      const suffixSpace = suffixStartsWithSlash ? '' : ' '
       display = (
         <>
-          {display} {this.runFix(suffix, 'dnb-number-format__suffix')}
+          {display}
+          {suffixSpace}
+          {suffixElement}
         </>
       )
-      aria = `${aria} ${convertJsxToString(
-        this.runFix(suffix, 'dnb-number-format__suffix')
-      )}`
+      aria = `${aria}${suffixSpace}${convertJsxToString(suffixElement)}`
     }
 
     if (tooltip) {

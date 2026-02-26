@@ -39,6 +39,13 @@ export type TableTrProps = {
   noAnimation?: boolean
 
   /**
+   * Set to `true` to keep the accordion content in the DOM when closed.
+   * Is part of the accordion feature and needs to be enabled with `mode="accordion"` prop in main Table.
+   * Default: false
+   */
+  keepInDOM?: boolean
+
+  /**
    * Will emit when user clicks/expands or on keydown space/enter(in mode="accordion" and mode="navigation") in the table row.
    * Is part of the mode feature and needs to be enabled with the `mode` prop in main Table.
    */
@@ -110,6 +117,7 @@ export default function Tr(
     expanded, // eslint-disable-line @typescript-eslint/no-unused-vars
     disabled, // eslint-disable-line @typescript-eslint/no-unused-vars
     noAnimation, // eslint-disable-line @typescript-eslint/no-unused-vars
+    keepInDOM, // eslint-disable-line @typescript-eslint/no-unused-vars
     onClick, // eslint-disable-line @typescript-eslint/no-unused-vars
     onOpened, // eslint-disable-line @typescript-eslint/no-unused-vars
     onClosed, // eslint-disable-line @typescript-eslint/no-unused-vars
