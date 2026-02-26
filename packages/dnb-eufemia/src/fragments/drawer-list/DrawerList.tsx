@@ -738,7 +738,7 @@ function makeRenderData(
 
 export type DrawerListOptionsProps = React.HTMLProps<HTMLUListElement> & {
   children: React.ReactNode
-  triangleRef?: React.ForwardedRef<HTMLLIElement | HTMLSpanElement>
+  triangleRef?: React.Ref<HTMLLIElement | HTMLSpanElement>
   cacheHash?: string
   showFocusRing?: boolean
   hasGroups?: boolean
@@ -755,7 +755,7 @@ DrawerList.Options = React.memo(
     ref,
     ...rest
   }: DrawerListOptionsProps & {
-    ref?: React.ForwardedRef<HTMLUListElement | HTMLSpanElement>
+    ref?: React.Ref<HTMLUListElement | HTMLSpanElement>
   }) => {
     return (
       <E
