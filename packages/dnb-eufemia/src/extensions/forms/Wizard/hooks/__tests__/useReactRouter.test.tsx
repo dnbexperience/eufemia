@@ -37,7 +37,7 @@ describe('useReactRouter', () => {
     })
   }
   const getHookMock = () => {
-    const forceUpdateRef: React.MutableRefObject<() => void> = createRef()
+    const forceUpdateRef: React.RefObject<() => void> = createRef()
 
     const get = jest.fn((key = null) => {
       if (key) {

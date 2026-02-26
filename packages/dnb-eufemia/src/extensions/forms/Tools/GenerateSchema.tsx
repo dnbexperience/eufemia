@@ -172,7 +172,7 @@ export default function GenerateSchema(props: GenerateSchemaProps) {
     }
 
     if (generateRef) {
-      const mutableGenerateRef = generateRef as React.MutableRefObject<
+      const mutableGenerateRef = generateRef as React.RefObject<
         () => GenerateSchemaReturn
       >
       mutableGenerateRef.current = generate

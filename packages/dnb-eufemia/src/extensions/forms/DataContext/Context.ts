@@ -193,24 +193,22 @@ export interface ContextState {
   ) => void
   setValueInternals?: (path: Path, props: unknown) => void
   setFieldConnection?: (path: Path, connections: FieldConnections) => void
-  isEmptyDataRef?: React.MutableRefObject<boolean>
-  addSetShowAllErrorsRef?: React.MutableRefObject<
+  isEmptyDataRef?: React.RefObject<boolean>
+  addSetShowAllErrorsRef?: React.RefObject<
     Array<(showAllErrors: boolean) => void>
   >
-  fieldDisplayValueRef?: React.MutableRefObject<
+  fieldDisplayValueRef?: React.RefObject<
     Record<Path, { type: 'field'; value?: React.ReactNode }>
   >
-  fieldInternalsRef?: React.MutableRefObject<FieldInternalsRef>
-  valueInternalsRef?: React.MutableRefObject<ValueInternalsRef>
+  fieldInternalsRef?: React.RefObject<FieldInternalsRef>
+  valueInternalsRef?: React.RefObject<ValueInternalsRef>
   fieldConnectionsRef?: React.RefObject<Record<Path, FieldConnections>>
-  mountedFieldsRef?: React.MutableRefObject<Map<Path, MountState>>
-  snapshotsRef?: React.MutableRefObject<
-    Map<SnapshotName, Map<Path, unknown>>
-  >
-  existingFieldsRef?: React.MutableRefObject<Map<Path, boolean>>
-  formElementRef?: React.MutableRefObject<HTMLFormElement>
-  fieldErrorRef?: React.MutableRefObject<Record<Path, Error>>
-  errorsRef?: React.MutableRefObject<Record<Path, Error>>
+  mountedFieldsRef?: React.RefObject<Map<Path, MountState>>
+  snapshotsRef?: React.RefObject<Map<SnapshotName, Map<Path, unknown>>>
+  existingFieldsRef?: React.RefObject<Map<Path, boolean>>
+  formElementRef?: React.RefObject<HTMLFormElement>
+  fieldErrorRef?: React.RefObject<Record<Path, Error>>
+  errorsRef?: React.RefObject<Record<Path, Error>>
   showAllErrors: boolean | number
   hasVisibleError: boolean
   formState: SubmitState
@@ -225,7 +223,7 @@ export interface ContextState {
   submitState: Partial<EventStateObject>
   prerenderFieldProps?: boolean
   decoupleForm?: boolean
-  hasElementRef?: React.MutableRefObject<boolean>
+  hasElementRef?: React.RefObject<boolean>
   restHandlerProps?: Record<string, unknown>
   setActiveSubmitButtonId?: (id?: string) => void
   registerSectionSchema?: (

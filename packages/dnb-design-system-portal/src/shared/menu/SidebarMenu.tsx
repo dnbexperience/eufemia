@@ -261,7 +261,7 @@ type ListItemProps = {
   isInsideActiveCategory?: boolean
   currentPathName?: string
   accordion?: boolean
-  scrollRef?: React.MutableRefObject<HTMLElement>
+  scrollRef?: React.RefObject<HTMLElement>
 }
 
 function ListItem({
@@ -746,7 +746,7 @@ function usePrevious<T>(
 }
 
 function ensureActiveMenuItemIsInView(
-  parentRef: React.MutableRefObject<HTMLElement>
+  parentRef: React.RefObject<HTMLElement>
 ) {
   const nav = parentRef?.current
   if (nav) {

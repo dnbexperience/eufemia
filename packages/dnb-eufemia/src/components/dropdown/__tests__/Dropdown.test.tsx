@@ -1605,8 +1605,7 @@ describe('Dropdown component', () => {
   })
 
   it('gets valid buttonRef element when ref is function', () => {
-    const ref: React.MutableRefObject<HTMLButtonElement> =
-      React.createRef()
+    const ref: React.RefObject<HTMLButtonElement> = React.createRef()
 
     function refFunction(instance: HTMLButtonElement) {
       ref.current = instance
@@ -1635,8 +1634,7 @@ describe('Dropdown component', () => {
   })
 
   it('gets valid innerRef element when ref is function', () => {
-    const ref: React.MutableRefObject<HTMLButtonElement> =
-      React.createRef()
+    const ref: React.RefObject<HTMLButtonElement> = React.createRef()
 
     function refFunction(instance: HTMLButtonElement) {
       ref.current = instance

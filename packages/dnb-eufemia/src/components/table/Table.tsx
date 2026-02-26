@@ -133,7 +133,7 @@ const Table = (componentProps: TableAllProps) => {
   useEffect(() => {
     if (collapseAllHandleRef) {
       const mutableCollapseAllHandleRef =
-        collapseAllHandleRef as React.MutableRefObject<() => void>
+        collapseAllHandleRef as React.RefObject<() => void>
       mutableCollapseAllHandleRef.current = () => {
         collapseTrCallbacks.current.forEach((callback) => callback())
       }

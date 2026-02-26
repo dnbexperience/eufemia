@@ -13,7 +13,7 @@ export type GroupProps = AccordionProps & {
    * Default: `undefined`
    */
   expandedId?: string
-  collapseAllHandleRef?: React.MutableRefObject<() => void>
+  collapseAllHandleRef?: React.RefObject<() => void>
 }
 
 export const accordionDefaultProps: Partial<AccordionProps & GroupProps> =

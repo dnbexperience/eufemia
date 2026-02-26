@@ -325,7 +325,7 @@ function IsolationProvider<Data extends JsonObject>(
 
             if (commitHandleRef) {
               const mutableCommitHandleRef =
-                commitHandleRef as React.MutableRefObject<() => void>
+                commitHandleRef as React.RefObject<() => void>
               mutableCommitHandleRef.current = dataContext?.handleSubmit
             }
 

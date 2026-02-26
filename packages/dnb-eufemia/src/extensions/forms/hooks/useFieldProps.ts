@@ -2280,7 +2280,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
 
     const sharedAttachments = createSharedState<{
-      fieldStatusRef?: React.MutableRefObject<
+      fieldStatusRef?: React.RefObject<
         Record<Identifier, EventStateObjectWithSuccess>
       >
     }>(createReferenceKey(dataContext.id, 'attachments')).get?.()
