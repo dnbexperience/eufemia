@@ -791,10 +791,13 @@ DrawerList.Options = React.memo(
 DrawerList.Item = DrawerListItem
 DrawerList.HorizontalItem = DrawerListHorizontalItem
 
-const OnMounted: React.FC<{
+function OnMounted({
+  addObservers,
+  removeObservers,
+}: {
   addObservers: () => void
   removeObservers: () => void
-}> = ({ addObservers, removeObservers }) => {
+}) {
   React.useEffect(() => {
     addObservers()
     return () => {

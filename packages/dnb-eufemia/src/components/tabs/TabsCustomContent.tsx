@@ -37,7 +37,7 @@ export interface CustomContentProps
     <Tabs.Content title="second">second</Tabs.Content>
   </Tabs>
  */
-const CustomContent: React.FC<CustomContentProps> = (props) => {
+function CustomContent(props: CustomContentProps) {
   const {
     displayName = 'CustomContent', // eslint-disable-line
     title = null, // eslint-disable-line

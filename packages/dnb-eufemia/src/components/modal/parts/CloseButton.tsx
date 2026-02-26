@@ -17,7 +17,7 @@ export type CloseButtonProps = {
   closeTitle?: string
 } & Partial<ButtonProps>
 
-const CloseButton: React.FC<CloseButtonProps> = (props) => {
+function CloseButton(props: CloseButtonProps) {
   const context = React.useContext(Context)
 
   // use only the props from context, who are available here anyway
