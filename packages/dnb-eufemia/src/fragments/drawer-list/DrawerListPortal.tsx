@@ -17,7 +17,7 @@ export type DrawerListPortalProps = {
   id: string
   children: React.ReactNode
   open: boolean
-  innerRef?: React.ForwardedRef<HTMLSpanElement>
+  innerRef?: React.Ref<HTMLSpanElement>
   rootRef: React.RefObject<HTMLSpanElement>
   includeOwnerWidth?: boolean
   independentWidth?: boolean
@@ -247,7 +247,7 @@ function DrawerListPortalWithRef({
   ref,
   ...props
 }: Omit<DrawerListPortalProps, 'innerRef'> & {
-  ref?: React.ForwardedRef<HTMLSpanElement>
+  ref?: React.Ref<HTMLSpanElement>
 }) {
   return <DrawerListPortal innerRef={ref} {...props} />
 }

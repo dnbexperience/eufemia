@@ -26,7 +26,7 @@ export type ScrollViewProps = {
 export type ScrollViewAllProps = ScrollViewProps &
   SpacingProps &
   Partial<Omit<React.HTMLAttributes<HTMLDivElement>, 'title'>> & {
-    innerRef?: React.ForwardedRef<unknown>
+    innerRef?: React.Ref<unknown>
   }
 
 const defaultProps = {
@@ -126,7 +126,7 @@ function useInteractive({ interactive, children, ref }) {
 function ScrollViewWithRef({
   ref,
   ...props
-}: ScrollViewAllProps & { ref?: React.ForwardedRef<unknown> }) {
+}: ScrollViewAllProps & { ref?: React.Ref<unknown> }) {
   return <ScrollView {...props} innerRef={props.innerRef || ref} />
 }
 
