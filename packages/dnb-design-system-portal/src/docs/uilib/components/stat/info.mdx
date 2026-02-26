@@ -10,33 +10,36 @@ import { Stat } from '@dnb/eufemia'
 
 ## Description
 
-`Stat` contains formatting components for prominent values, where typography and visual emphasis are part of the component API.
+`Stat` contains components for prominent values with a label, where typography and visual emphasis are part of the component.
 
-Use `Stat.Currency` for currency amounts and `Stat.Percent` for percentage highlights in hero sections, summaries, and key numbers.
+## Available components
 
-## Basic usage
+- `Stat.Root` renders a definition list (`dl`).
 
-```tsx
-import { Stat } from '@dnb/eufemia'
+  - `Stat.Label` renders descriptive text with dedicated typography and color for metric context (`dt`).
 
-render(<Stat.Currency value={123} />)
-```
+  - `Stat.Content` renders the main value as a definition description (`dd`).
 
-This namespace pattern keeps the API scalable and tree-shakeable for additional formatters.
+- `Stat.Currency` and `Stat.Percent` are built on the [NumberFormat](/uilib/components/number-format/) formatting logic.
 
-## Currency and Percent
+  It adds typography-specific props:
 
-`Stat.Currency` and `Stat.Percent` are built on the [NumberFormat](/uilib/components/number-format/) formatting logic.
+  - `mainWeight`
+  - `mainSize`
+  - `auxiliarySize`
 
-It adds typography-specific props:
+- `Stat.Trend` renders explicit `+` / `-` indicators with red/green background states and screen-reader text.
 
-- `mainSize`
-- `auxiliarySize`
+- `Stat.Info` renders supporting text with a smaller, muted style.
 
 ## Accessibility
 
-Both components keep a dedicated screen-reader value (`.dnb-sr-only`) based on the localized formatted number.
+- All Stat variants keep dedicated accessibility handling. `Currency`, `Percent`, and `Trend` use a dedicated screen-reader value (`.dnb-sr-only`) based on the formatted content.
 
-Use `srLabel` to prepend context, for example what the amount represents.
+- `Stat.Root` provides semantic definition-list markup (`dl`), where `Stat.Label` is rendered as `dt` and `Stat.Content` as `dd`.
 
-When e.g. `signDisplay="always"` is used, the sign is rendered as a separate visual element with CSS spacing, while the accessible text stays based on the formatted number string.
+- If the label also acts as a section heading, use a heading element inside `Stat.Label` (for example `H3`) to preserve a meaningful heading outline.
+
+- Use `srLabel` to prepend context in the screen-reader text only, for example turning `1,234 kr` into `Revenue 1,234 kr` for screen readers.
+
+- When e.g. `signDisplay="always"` is used, the sign is rendered as a separate visual element with CSS spacing, while the accessible text stays based on the formatted number string.

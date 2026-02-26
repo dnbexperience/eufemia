@@ -5,7 +5,10 @@ import { NumberFormatProps } from '../number-format/NumberFormat'
 import useNumberFormatWithParts from '../number-format/useNumberFormatWithParts'
 import type { NumberFormatParts } from '../number-format/useNumberFormatWithParts'
 import { createSpacingClasses } from '../space/SpacingHelper'
-import type { TypographySize } from '../../elements/typography/Typography'
+import type {
+  TypographySize,
+  TypographyWeight,
+} from '../../elements/typography/Typography'
 import type { SpacingProps } from '../../shared/types'
 import {
   createSkeletonClass,
@@ -25,9 +28,17 @@ export type AmountProps = Omit<
   element?: keyof JSX.IntrinsicElements
   currencyDisplay?: NumberFormatProps['currency_display']
   currencyPosition?: NumberFormatProps['currency_position']
-  /** Typography size for the main content. Defaults to `x-large`. */
+  /**
+   * Typography size for the main content. Defaults to `x-large`.
+   */
   mainSize?: TypographySize
-  /** Typography size for secondary content like affixes. Defaults to `x-small`. */
+  /**
+   * Typography weight for the main content. Defaults to `medium`.
+   */
+  mainWeight?: TypographyWeight
+  /**
+   * Typography size for secondary content like affixes. Defaults to `x-small`.
+   */
   auxiliarySize?: TypographySize
 } & SpacingProps
 
@@ -53,7 +64,7 @@ function Amount(props: AmountProps) {
     element: Element = 'span',
     value,
     children,
-    currency = null,
+    currency = false,
     currencyDisplay = null,
     currencyPosition = 'auto',
     locale = null,
@@ -62,6 +73,7 @@ function Amount(props: AmountProps) {
     suffix = null,
     srLabel = null,
     mainSize = 'x-large',
+    mainWeight = 'medium',
     auxiliarySize = 'x-small',
     id = null,
     style = null,
@@ -127,7 +139,8 @@ function Amount(props: AmountProps) {
   const amountClass = clsx(
     'dnb-stat__amount',
     `dnb-t__size--${mainSize}`,
-    `dnb-t__line-height--${mainSize}`
+    `dnb-t__line-height--${mainSize}`,
+    `dnb-t__weight--${mainWeight}`
   )
   const percentClass = clsx(
     'dnb-stat__percent',
@@ -143,7 +156,8 @@ function Amount(props: AmountProps) {
             className={clsx(
               'dnb-stat__sign',
               `dnb-t__size--${mainSize}`,
-              `dnb-t__line-height--${mainSize}`
+              `dnb-t__line-height--${mainSize}`,
+              `dnb-t__weight--${mainWeight}`
             )}
           >
             {renderSign}

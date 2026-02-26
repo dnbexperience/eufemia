@@ -6,23 +6,60 @@
 @import '../../../style/core/utilities.scss';
 
 .dnb-stat {
-  display: inline-flex;
-  white-space: nowrap;
+  &__root {
+    @include spaceReset();
 
-  // Use "data-text" so Chrome does not copy the HTML as content, when pasting it in Outlook etc.
-  .dnb-sr-only::before {
-    content: attr(data-text);
+    display: grid;
   }
 
   &__content {
     display: inline-flex;
     align-items: baseline;
+    line-height: var(--line-height-basis--em);
+  }
+  &__content-item {
+    @include spaceReset();
+
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.5rem;
+
+    &--vertical {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
+    }
+  }
+
+  &__label {
+    color: var(--color-black-80);
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-basis);
+    font-weight: var(--font-weight-medium);
+
+    .dnb-h--medium {
+      font-size: inherit;
+      font-weight: inherit;
+      margin: 0 !important;
+    }
+  }
+
+  &__info {
+    color: var(--color-black-55);
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-basis);
   }
 
   // Amount
+  &__amount {
+    // Use "data-text" so Chrome does not copy the HTML as content, when pasting it in Outlook etc.
+    .dnb-sr-only::before {
+      content: attr(data-text);
+    }
+  }
   &__amount,
   &__sign {
-    font-weight: var(--font-weight-medium);
+    font-weight: inherit;
   }
   &__sign {
     margin-inline-end: 0.2em;
@@ -33,5 +70,36 @@
   &__prefix,
   &__suffix {
     white-space: normal;
+  }
+
+  &__trend {
+    display: inline-flex;
+    padding: 0 0.25rem;
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-basis);
+    font-weight: var(--font-weight-medium);
+
+    border-radius: 0.25rem;
+
+    &-content {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.125rem;
+    }
+
+    &--positive {
+      color: var(--color-success-green);
+      background-color: var(--color-mint-green-25);
+    }
+
+    &--negative {
+      color: var(--color-fire-red);
+      background-color: var(--color-fire-red-8);
+    }
+
+    &--neutral {
+      color: var(--color-black-80);
+      background-color: var(--color-mint-green-25);
+    }
   }
 }

@@ -3,10 +3,13 @@ showTabs: true
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import {
-  CurrencyProperties,
-  PercentProperties,
-} from '@dnb/eufemia/src/components/stat/StatDocs'
+import { ContentProperties } from '@dnb/eufemia/src/components/stat/ContentDocs'
+import { CurrencyProperties } from '@dnb/eufemia/src/components/stat/CurrencyDocs'
+import { InfoProperties } from '@dnb/eufemia/src/components/stat/InfoDocs'
+import { LabelProperties } from '@dnb/eufemia/src/components/stat/LabelDocs'
+import { PercentProperties } from '@dnb/eufemia/src/components/stat/PercentDocs'
+import { RootProperties } from '@dnb/eufemia/src/components/stat/RootDocs'
+import { TrendProperties } from '@dnb/eufemia/src/components/stat/TrendDocs'
 
 ## Currency
 
@@ -15,3 +18,23 @@ import {
 ## Percent
 
 <PropertiesTable props={PercentProperties} />
+
+## Trend
+
+<PropertiesTable props={TrendProperties} />
+
+## Label
+
+<PropertiesTable props={LabelProperties} />
+
+## Info
+
+<PropertiesTable props={InfoProperties} />
+
+## Root
+
+<PropertiesTable props={RootProperties} />
+
+## Content
+
+<PropertiesTable props={ContentProperties} />

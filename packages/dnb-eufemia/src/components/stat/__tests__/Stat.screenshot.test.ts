@@ -13,9 +13,41 @@ describe('Stat', () => {
     url: '/uilib/components/stat/demos/',
   })
 
-  it('have to match default amount', async () => {
+  it('has to match basic usage', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="stat-amount-default"]',
+    })
+
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('has to match root and label', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="stat-root-and-label"]',
+    })
+
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('has to match currency within trend', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="stat-currency-within-trend"]',
+    })
+
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('has to match currency default', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="stat-currency-default"]',
+    })
+
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('has to match percent default', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="stat-percent-default"]',
     })
 
     expect(screenshot).toMatchImageSnapshot()

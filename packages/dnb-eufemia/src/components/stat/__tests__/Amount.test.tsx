@@ -37,15 +37,13 @@ describe('Stat.Amount', () => {
     expect(container.lastChild).toBe(
       document.querySelector('.dnb-sr-only')
     )
-    expect(
-      container.querySelector('.dnb-stat__content').children[0]
-    ).toBe(amount)
+    expect(container.querySelector('.dnb-stat__content').children[0]).toBe(
+      amount
+    )
   })
 
   it('renders currency before amount in en locale and keeps sr text', () => {
-    render(
-      <Stat.Amount value={-12345.67} currency="NOK" locale="en-GB" />
-    )
+    render(<Stat.Amount value={-12345.67} currency="NOK" locale="en-GB" />)
 
     const container = document.querySelector('.dnb-stat')
     const amount = document.querySelector('.dnb-stat__amount')
@@ -55,9 +53,9 @@ describe('Stat.Amount', () => {
     expect(amount.textContent).toBe('-12,346')
     expect(currency.textContent).toBe('NOK')
 
-    expect(
-      container.querySelector('.dnb-stat__content').children[0]
-    ).toBe(currency)
+    expect(container.querySelector('.dnb-stat__content').children[0]).toBe(
+      currency
+    )
 
     expect(sr.getAttribute('data-text')).toContain('kroner')
   })
@@ -126,6 +124,23 @@ describe('Stat.Amount', () => {
     expect(currency.classList).toContain('dnb-t__size--basis')
     expect(currency.classList).not.toContain('dnb-t__size--x-small')
     expect(prefix.classList).toContain('dnb-t__size--basis')
+  })
+
+  it('supports custom mainWeight', () => {
+    render(
+      <Stat.Amount
+        value={12345.67}
+        currency="NOK"
+        signDisplay="always"
+        mainWeight="bold"
+      />
+    )
+
+    const amount = document.querySelector('.dnb-stat__amount')
+    const sign = document.querySelector('.dnb-stat__sign')
+
+    expect(amount.classList).toContain('dnb-t__weight--bold')
+    expect(sign.classList).toContain('dnb-t__weight--bold')
   })
 
   it('uses children as the value', () => {

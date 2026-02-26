@@ -37,3 +37,17 @@ export function Percent() {
     </Wrapper>
   )
 }
+
+export function Label() {
+  return (
+    <Wrapper>
+      <Box>
+        <Flex.Stack>
+          <Stat.Label>Revenue growth</Stat.Label>
+          <Stat.Trend value="+12.4%" />
+          <Stat.Trend value="-2.1%" />
+        </Flex.Stack>
+      </Box>
+    </Wrapper>
+  )
+}
