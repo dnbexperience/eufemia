@@ -5,7 +5,7 @@ import Heading, {
   HeadingAllProps,
 } from '@dnb/eufemia/src/components/Heading'
 import { makeSlug } from '../../uilib/utils/slug'
-import { useLocation } from '@reach/router'
+import { useLocation } from '@gatsbyjs/reach-router'
 import { anchorLinkStyle } from './AutoLinkHeader.module.scss'
 
 type AutoLinkHeaderProps = {

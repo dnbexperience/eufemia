@@ -12,7 +12,7 @@ import {
   useLocation,
   Router as ReachRouter,
   navigate,
-} from '@reach/router'
+} from '@gatsbyjs/reach-router'
 import {
   Tabs,
   Section,
