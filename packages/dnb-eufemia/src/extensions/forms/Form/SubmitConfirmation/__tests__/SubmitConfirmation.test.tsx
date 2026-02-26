@@ -609,7 +609,7 @@ describe('Form.SubmitConfirmation', () => {
     })
   })
 
-  it('should prevent "onSubmit" from being called', () => {
+  it('should prevent "onSubmit" from being called', async () => {
     const onSubmit = jest.fn()
 
     const { rerender } = render(
@@ -621,7 +621,7 @@ describe('Form.SubmitConfirmation', () => {
     )
 
     const form = document.querySelector('form')
-    act(() => {
+    await act(async () => {
       fireEvent.submit(form)
     })
 
@@ -638,7 +638,7 @@ describe('Form.SubmitConfirmation', () => {
       )
     })
 
-    act(() => {
+    await act(async () => {
       fireEvent.click(document.querySelector('button'))
     })
     expect(onSubmit).toHaveBeenCalledTimes(0)

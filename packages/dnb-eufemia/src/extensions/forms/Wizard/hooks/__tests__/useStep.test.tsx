@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, renderHook, waitFor } from '@testing-library/react'
+import { act, render, renderHook, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import useStep from '../useStep'
@@ -505,7 +505,9 @@ describe('useStep', () => {
         expect(typeof setter).toBe('function')
       })
 
-      setter?.(2)
+      act(() => {
+        setter?.(2)
+      })
 
       await waitFor(() => {
         expect(visibleOutput()).toHaveTextContent('Step 3')

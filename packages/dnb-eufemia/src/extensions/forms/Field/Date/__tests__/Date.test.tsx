@@ -4014,7 +4014,9 @@ describe('Field.Date', () => {
           document.querySelector('.dnb-form-status')
         ).not.toBeInTheDocument()
 
-        input.focus()
+        act(() => {
+          input.focus()
+        })
         await act(() => {
           fireEvent.blur(input, { relatedTarget: document.body })
         })

@@ -538,7 +538,7 @@ describe('Drawer', () => {
   it('can contain drawer parts', async () => {
     render(
       <Drawer noAnimation directDomReturn={false}>
-        )<Drawer.Navigation>navigation</Drawer.Navigation>
+        <Drawer.Navigation>navigation</Drawer.Navigation>
         <Drawer.Header>header</Drawer.Header>
         <Drawer.Body>body</Drawer.Body>
       </Drawer>
@@ -638,7 +638,12 @@ describe('Drawer', () => {
 
 describe('Drawer aria', () => {
   it('should validate with ARIA rules as a drawer', async () => {
+    jest.useFakeTimers()
     const Comp = render(<Drawer {...props} open={true} title="title" />)
+    act(() => {
+      jest.runAllTimers()
+    })
+    jest.useRealTimers()
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

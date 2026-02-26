@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, renderHook } from '@testing-library/react'
+import { act, render, renderHook } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Form, Field } from '../../..'
 import useSubmit from '../useSubmit'
@@ -73,12 +73,15 @@ describe('Form.useSubmit', () => {
     )
   })
 
-  it('should return a Promise from submit', () => {
+  it('should return a Promise from submit', async () => {
     const { result } = renderHook(() => useSubmit(), {
       wrapper: ({ children }) => <Form.Handler>{children}</Form.Handler>,
     })
 
-    const returnValue = result.current.submit()
+    let returnValue: unknown
+    await act(async () => {
+      returnValue = result.current.submit()
+    })
 
     expect(returnValue).toBeInstanceOf(Promise)
   })

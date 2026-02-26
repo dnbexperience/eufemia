@@ -588,12 +588,14 @@ describe('Popover', () => {
 
     // Dispatch Escape keydown event on the popover element
     // The document-level handler (capture phase) will catch it
-    popover?.dispatchEvent(
-      new KeyboardEvent('keydown', {
-        key: 'Escape',
-        bubbles: true,
-      })
-    )
+    act(() => {
+      popover?.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: 'Escape',
+          bubbles: true,
+        })
+      )
+    })
 
     await waitFor(() => expect(onOpenChange).toHaveBeenCalledWith(false))
   })
@@ -1096,12 +1098,14 @@ describe('Popover', () => {
 
     // Dispatch Escape keydown event on the popover element
     // The document-level handler (capture phase) will catch it
-    popover?.dispatchEvent(
-      new KeyboardEvent('keydown', {
-        key: 'Escape',
-        bubbles: true,
-      })
-    )
+    act(() => {
+      popover?.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: 'Escape',
+          bubbles: true,
+        })
+      )
+    })
 
     await waitFor(() =>
       expect(trigger).toHaveAttribute('aria-expanded', 'false')
@@ -1179,12 +1183,14 @@ describe('Popover', () => {
 
     // Dispatch Escape keydown event on the popover element
     // The Popover's document-level handler (capture phase) will catch it before Modal's handler
-    popover?.dispatchEvent(
-      new KeyboardEvent('keydown', {
-        key: 'Escape',
-        bubbles: true,
-      })
-    )
+    act(() => {
+      popover?.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: 'Escape',
+          bubbles: true,
+        })
+      )
+    })
 
     await waitFor(() =>
       expect(trigger).toHaveAttribute('aria-expanded', 'false')
@@ -1200,7 +1206,11 @@ describe('Popover', () => {
       fireEvent.focus(dialogContent)
     }
 
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
+    act(() => {
+      document.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape' })
+      )
+    })
 
     await waitFor(() =>
       expect(document.documentElement).not.toHaveAttribute(
@@ -1586,12 +1596,14 @@ describe('Popover', () => {
     const popover = (await waitFor(() =>
       document.querySelector('.dnb-popover')
     )) as HTMLElement
-    popover?.dispatchEvent(
-      new KeyboardEvent('keydown', {
-        key: 'Escape',
-        bubbles: true,
-      })
-    )
+    act(() => {
+      popover?.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: 'Escape',
+          bubbles: true,
+        })
+      )
+    })
 
     await waitFor(() =>
       expect(trigger).toHaveAttribute('aria-expanded', 'false')
@@ -1766,7 +1778,15 @@ describe('Popover', () => {
       }
     }
 
+    beforeEach(() => {
+      jest.useFakeTimers()
+    })
+
     afterEach(() => {
+      act(() => {
+        jest.runAllTimers()
+      })
+      jest.useRealTimers()
       restoreElementSize()
     })
 
@@ -1970,13 +1990,15 @@ describe('Popover', () => {
           document.querySelector('.dnb-popover')
         )
 
-        popover?.dispatchEvent(
-          new KeyboardEvent('keydown', {
-            key: 'Escape',
-            bubbles: true,
-            cancelable: true,
-          })
-        )
+        act(() => {
+          popover?.dispatchEvent(
+            new KeyboardEvent('keydown', {
+              key: 'Escape',
+              bubbles: true,
+              cancelable: true,
+            })
+          )
+        })
 
         await waitFor(() =>
           expect(document.activeElement).toBe(verticalElement)
@@ -2565,7 +2587,9 @@ describe('Popover', () => {
         configurable: true,
         value: 640,
       })
-      window.dispatchEvent(new Event('resize'))
+      act(() => {
+        window.dispatchEvent(new Event('resize'))
+      })
 
       await waitFor(() =>
         expect(
@@ -2634,7 +2658,9 @@ describe('Popover', () => {
         configurable: true,
         value: 640,
       })
-      window.dispatchEvent(new Event('resize'))
+      act(() => {
+        window.dispatchEvent(new Event('resize'))
+      })
 
       await waitFor(() =>
         expect(
@@ -2760,7 +2786,9 @@ describe('Popover', () => {
       rect = createRect({ left: 60, top: 140, width: 100, height: 40 })
       assignRect(targetElement, rect)
 
-      document.dispatchEvent(new Event('scroll', { bubbles: true }))
+      act(() => {
+        document.dispatchEvent(new Event('scroll', { bubbles: true }))
+      })
 
       await waitFor(() => {
         const popover = document.querySelector(
@@ -2949,9 +2977,11 @@ describe('Popover', () => {
         const initialTop = (popover as HTMLElement).style.top
 
         setTargetRect(250)
-        scrollViewElement.dispatchEvent(
-          new Event('scroll', { bubbles: true })
-        )
+        act(() => {
+          scrollViewElement.dispatchEvent(
+            new Event('scroll', { bubbles: true })
+          )
+        })
 
         await waitFor(() => {
           const currentPopover = document.querySelector(
@@ -3134,7 +3164,11 @@ describe('Popover', () => {
       height: 40,
     })
     assignRect(targetElement, outOfViewRect)
-    scrollViewElement.dispatchEvent(new Event('scroll', { bubbles: true }))
+    act(() => {
+      scrollViewElement.dispatchEvent(
+        new Event('scroll', { bubbles: true })
+      )
+    })
 
     await waitFor(() => {
       const currentPopover = document.querySelector(

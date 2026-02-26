@@ -200,7 +200,15 @@ describe('Tooltip', () => {
     )
 
     it('should validate with ARIA rules as a tooltip', async () => {
+      jest.useFakeTimers()
+
       const Component = render(<Tooltip open />)
+
+      act(() => {
+        jest.runAllTimers()
+      })
+      jest.useRealTimers()
+
       expect(await axeComponent(Component)).toHaveNoViolations()
     })
 
@@ -673,7 +681,15 @@ describe('Tooltip', () => {
     })
 
     it('should validate with ARIA rules as a tooltip', async () => {
+      jest.useFakeTimers()
+
       const Component = render(<Tooltip open />)
+
+      act(() => {
+        jest.runAllTimers()
+      })
+      jest.useRealTimers()
+
       expect(await axeComponent(Component)).toHaveNoViolations()
     })
 

@@ -622,7 +622,7 @@ describe('Form.Handler', () => {
       log.mockRestore()
     })
 
-    it('should disable form elements during submit indicator when formStatus is pending', () => {
+    it('should disable form elements during submit indicator when formStatus is pending', async () => {
       const onSubmit = async () => null
 
       render(
@@ -641,6 +641,10 @@ describe('Form.Handler', () => {
 
       expect(buttonElement).toBeDisabled()
       expect(inputElement).toBeDisabled()
+
+      await waitFor(() => {
+        expect(buttonElement).not.toBeDisabled()
+      })
     })
 
     it('should not disable form elements during an async validator handling', async () => {
@@ -992,7 +996,9 @@ describe('Form.Handler', () => {
 
       expect(buttonElement).toBeDisabled()
 
-      await wait(4)
+      await act(async () => {
+        await wait(4)
+      })
 
       expect(buttonElement).toBeDisabled()
 
