@@ -21,7 +21,7 @@
   --anchor-color: var(--color-sea-green);
 }
 
-@mixin anchorStyle() {
+@mixin anchorStyleUi() {
   --anchor-color: var(--anchor-color--default, var(--color-sea-green));
   --anchor-color--active: var(--color-mint-green);
   --anchor-color--contrast: var(--color-emerald-green);
@@ -58,7 +58,7 @@ $useClasses: true !default;
 @if $useClasses {
   @include anchor-mixins.notNoStyle() {
     &.dnb-anchor {
-      @include anchorStyle();
+      @include anchorStyleUi();
     }
   }
 
@@ -78,6 +78,6 @@ $useClasses: true !default;
 @mixin anchorThemeTag() {
   a {
     --theme-color-black-80: var(--color-sea-green);
-    @include anchorStyle();
+    @include anchorStyleUi();
   }
 }
