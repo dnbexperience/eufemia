@@ -49,7 +49,7 @@ afterEach(() => {
 })
 
 const createTestProps = (): ModalContentProps => {
-  const contentRef: React.MutableRefObject<HTMLElement> = React.createRef()
+  const contentRef: React.RefObject<HTMLElement> = React.createRef()
 
   // Set up the content ref with a mock element that has the expected structure
   const mockElement = document.createElement('div')

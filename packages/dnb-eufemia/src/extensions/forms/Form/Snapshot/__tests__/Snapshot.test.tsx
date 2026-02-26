@@ -100,7 +100,7 @@ describe('Form.Snapshot', () => {
   })
 
   it('should handle sliced snapshots from outside of the form', async () => {
-    const pointerRef: React.MutableRefObject<number> = createRef()
+    const pointerRef: React.RefObject<number> = createRef()
     pointerRef.current = 0
 
     const MockHookFromOutside = () => {

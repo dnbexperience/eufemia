@@ -77,7 +77,7 @@ export type SharedAttachments<Data = unknown> = {
   clearData?: () => void
   setData?: ContextState['setData']
   fieldConnectionsRef?: ContextState['fieldConnectionsRef']
-  fieldStatusRef?: React.MutableRefObject<Record<Path, EventStateObject>>
+  fieldStatusRef?: React.RefObject<Record<Path, EventStateObject>>
   fieldErrorRef?: ContextState['fieldErrorRef']
   internalDataRef?: ContextState['internalDataRef']
 }

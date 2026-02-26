@@ -80,7 +80,7 @@ export default class ModalContent extends React.PureComponent<
     this._overlayClickRef = React.createRef()
     if (this.props.modalContentCloseRef) {
       const mutableModalContentCloseRef = this.props
-        .modalContentCloseRef as React.MutableRefObject<any>
+        .modalContentCloseRef as React.RefObject<any>
       mutableModalContentCloseRef.current = this.setModalContentState
     }
 
