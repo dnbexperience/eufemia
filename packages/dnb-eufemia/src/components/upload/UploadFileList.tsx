@@ -22,7 +22,7 @@ function UploadFileList() {
 
   const { files, setFiles, setInternalFiles } = useUpload(id)
 
-  const filesRef = useRef(null)
+  const filesRef = useRef<UploadFile[] | null>(null)
 
   useEffect(() => {
     filesRef.current = files
