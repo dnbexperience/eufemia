@@ -18,7 +18,7 @@ describe('babelPluginPropTypesRelations', () => {
 
     const { code } = await transformFileAsync(file, {
       plugins: [
-        ['@babel/plugin-proposal-class-properties', { loose: true }],
+        ['@babel/plugin-transform-class-properties', { loose: true }],
         [babelPluginPropTypesRelations, { sourceDir }],
       ],
       ...babelPluginConfigDefaults,

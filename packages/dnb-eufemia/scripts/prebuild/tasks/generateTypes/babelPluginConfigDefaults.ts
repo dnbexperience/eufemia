@@ -22,7 +22,7 @@ export const babylonConfigDefaults = {
 }
 
 export const babelPluginDefaultPlugins = [
-  ['@babel/plugin-proposal-class-properties', { loose: true }], // Needs to be loose!
-  '@babel/plugin-proposal-optional-chaining',
-  '@babel/plugin-proposal-nullish-coalescing-operator',
+  ['@babel/plugin-transform-class-properties', { loose: true }],
+  '@babel/plugin-transform-optional-chaining',
+  '@babel/plugin-transform-nullish-coalescing-operator',
 ]
