@@ -145,8 +145,20 @@ const defaultProps: Partial<SectionAllProps> = {
   element: 'section',
 }
 
-export default function Section(localProps: SectionAllProps) {
+function SectionInstance(localProps: SectionAllProps) {
   return <Space {...SectionParams(localProps)} />
+}
+
+export default function Section({
+  ref,
+  ...props
+}: SectionAllProps & { ref?: React.Ref<HTMLElement> }) {
+  return (
+    <SectionInstance
+      innerRef={ref as React.RefObject<HTMLElement>}
+      {...props}
+    />
+  )
 }
 
 export function SectionParams(

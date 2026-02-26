@@ -132,7 +132,14 @@ const defaultProps: Partial<SwitchProps> = {
   statusState: 'error',
 }
 
-export default function Switch(props: SwitchProps) {
+export default function Switch({
+  ref,
+  ...props
+}: SwitchProps & { ref?: React.Ref<HTMLInputElement> }) {
+  return <SwitchInstance innerRef={ref} {...props} />
+}
+
+function SwitchInstance(props: SwitchProps) {
   const context = useContext(Context)
 
   const allProps = extractPropsFromContext()
@@ -406,4 +413,5 @@ export default function Switch(props: SwitchProps) {
   }
 }
 
+SwitchInstance._formElement = true
 Switch._formElement = true

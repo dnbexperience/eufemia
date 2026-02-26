@@ -50,7 +50,7 @@ export type HeightAnimationAllProps = HeightAnimationProps &
   SpacingProps &
   Omit<React.HTMLProps<HTMLElement>, 'ref' | 'onAnimationEnd'>
 
-function HeightAnimation({
+function HeightAnimationInstance({
   open = true,
   animate = true,
   keepInDOM = false,
@@ -126,6 +126,20 @@ function HeightAnimation({
         children
       )}
     </Space>
+  )
+}
+
+HeightAnimationInstance._supportsSpacingProps = 'children'
+
+function HeightAnimation({
+  ref,
+  ...props
+}: HeightAnimationAllProps & { ref?: React.Ref<HTMLElement> }) {
+  return (
+    <HeightAnimationInstance
+      innerRef={ref as React.RefObject<HTMLElement>}
+      {...props}
+    />
   )
 }
 
