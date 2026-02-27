@@ -737,7 +737,7 @@ describe('Avatar', () => {
         </Avatar.Group>
       )
 
-      const avatars = document.querySelectorAll('.dnb-avatar')
+      const avatars = Array.from(document.querySelectorAll('.dnb-avatar'))
 
       expect(avatars).toHaveLength(2)
 
