@@ -54,7 +54,7 @@ describe('PreviousButton', () => {
 
   it('should be disabled when activeIndex is 0', () => {
     const { rerender } = render(
-      <WizardContext.Provider
+      <WizardContext
         value={{
           activeIndex: 1,
           handlePrevious: () => null,
@@ -64,7 +64,7 @@ describe('PreviousButton', () => {
         }}
       >
         <PreviousButton />
-      </WizardContext.Provider>
+      </WizardContext>
     )
 
     const button = document.querySelector('.dnb-forms-previous-button')
@@ -72,7 +72,7 @@ describe('PreviousButton', () => {
     expect(button).not.toBeDisabled()
 
     rerender(
-      <WizardContext.Provider
+      <WizardContext
         value={{
           activeIndex: 0,
           handlePrevious: () => null,
@@ -82,7 +82,7 @@ describe('PreviousButton', () => {
         }}
       >
         <PreviousButton />
-      </WizardContext.Provider>
+      </WizardContext>
     )
 
     expect(button).toBeDisabled()
@@ -95,7 +95,7 @@ describe('PreviousButton', () => {
     const setFormError = jest.fn()
 
     render(
-      <WizardContext.Provider
+      <WizardContext
         value={{
           activeIndex: 1,
           handlePrevious,
@@ -105,7 +105,7 @@ describe('PreviousButton', () => {
         }}
       >
         <PreviousButton />
-      </WizardContext.Provider>
+      </WizardContext>
     )
 
     const button = document.querySelector('.dnb-forms-previous-button')

@@ -153,7 +153,7 @@ function ArraySelection(props: Props) {
     default:
       return (
         <FieldBlock {...fieldBlockProps}>
-          <ToggleButtonGroupContext.Provider
+          <ToggleButtonGroupContext
             value={{
               status: hasError ? 'error' : undefined,
               disabled,
@@ -161,7 +161,7 @@ function ArraySelection(props: Props) {
             }}
           >
             {options}
-          </ToggleButtonGroupContext.Provider>
+          </ToggleButtonGroupContext>
         </FieldBlock>
       )
   }

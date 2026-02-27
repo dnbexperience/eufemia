@@ -121,7 +121,7 @@ function Visibility(props: Props) {
   })
   const open = check()
   const content = (
-    <VisibilityContext.Provider
+    <VisibilityContext
       value={{
         isVisible: open,
         keepInDOM,
@@ -129,7 +129,7 @@ function Visibility(props: Props) {
       }}
     >
       {children}
-    </VisibilityContext.Provider>
+    </VisibilityContext>
   )
   const mountedRef = useMounted()
 

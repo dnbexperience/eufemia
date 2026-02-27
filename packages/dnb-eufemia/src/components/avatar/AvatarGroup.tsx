@@ -126,12 +126,9 @@ const AvatarGroup = (localProps: AvatarGroupProps & SpacingProps) => {
     children = childrenProp
       .slice(0, total - numOfHiddenAvatars)
       .map((child, i) => (
-        <AvatarGroupItemContext.Provider
-          key={i}
-          value={{ zIndex: total - i }}
-        >
+        <AvatarGroupItemContext key={i} value={{ zIndex: total - i }}>
           {child}
-        </AvatarGroupItemContext.Provider>
+        </AvatarGroupItemContext>
       ))
   }
 
@@ -142,7 +139,7 @@ const AvatarGroup = (localProps: AvatarGroupProps & SpacingProps) => {
   } = validateDOMAttributes({}, props)
 
   return (
-    <AvatarGroupContext.Provider
+    <AvatarGroupContext
       value={{ ...props, variant, size, color, backgroundColor }}
     >
       <span
@@ -159,7 +156,7 @@ const AvatarGroup = (localProps: AvatarGroupProps & SpacingProps) => {
           </ElementsHidden>
         ) : null}
       </span>
-    </AvatarGroupContext.Provider>
+    </AvatarGroupContext>
   )
 }
 

@@ -119,11 +119,11 @@ export default function DrawerContent({
           id={context?.contentId + '-content'}
           className="dnb-drawer__content"
         >
-          <DrawerContentContext.Provider
+          <DrawerContentContext
             value={{ navigationElement, headerElement }}
           >
             {content}
-          </DrawerContentContext.Provider>
+          </DrawerContentContext>
         </div>
       </div>
     </ScrollView>

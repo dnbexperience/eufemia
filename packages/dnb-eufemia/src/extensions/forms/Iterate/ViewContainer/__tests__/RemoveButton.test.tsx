@@ -10,11 +10,11 @@ const nb = nbNO['nb-NO'].IterateViewContainer
 describe('RemoveButton', () => {
   it('to have buttons with correct text', () => {
     render(
-      <IterateItemContext.Provider value={{}}>
+      <IterateItemContext value={{}}>
         <Toolbar>
           <RemoveButton />
         </Toolbar>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     const button = document.querySelector('button')
@@ -25,11 +25,11 @@ describe('RemoveButton', () => {
     const handleRemove = jest.fn()
 
     render(
-      <IterateItemContext.Provider value={{ handleRemove, isNew: true }}>
+      <IterateItemContext value={{ handleRemove, isNew: true }}>
         <Toolbar>
           <RemoveButton />
         </Toolbar>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     const button = document.querySelector('button')

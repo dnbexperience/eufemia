@@ -426,7 +426,7 @@ const UpdateDemo = () => {
   const [isVisible, setVisibility] = React.useState('auto')
 
   return (
-    <Context.Provider
+    <Context
       value={{
         errorA,
         errorB,
@@ -438,7 +438,7 @@ const UpdateDemo = () => {
     >
       <UpdateDemoStatus />
       <UpdateDemoTools />
-    </Context.Provider>
+    </Context>
   )
 }
 

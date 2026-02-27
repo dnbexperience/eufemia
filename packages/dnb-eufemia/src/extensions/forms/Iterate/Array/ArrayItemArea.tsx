@@ -174,7 +174,7 @@ function ArrayItemArea(
   }, [handleRemove, index, setOpenState])
 
   return (
-    <ArrayItemAreaContext.Provider
+    <ArrayItemAreaContext
       value={{
         handleRemoveItem,
         variant,
@@ -206,7 +206,7 @@ function ArrayItemArea(
           {children}
         </Card>
       </HeightAnimation>
-    </ArrayItemAreaContext.Provider>
+    </ArrayItemAreaContext>
   )
 }
 

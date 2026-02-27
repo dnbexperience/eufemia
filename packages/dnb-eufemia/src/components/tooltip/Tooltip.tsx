@@ -65,7 +65,7 @@ function Tooltip(localProps: TooltipAllProps) {
   validateDOMAttributes(localProps, attributes)
 
   return (
-    <TooltipContext.Provider value={{ isControlled, internalId, props }}>
+    <TooltipContext value={{ isControlled, internalId, props }}>
       <TooltipWithEvents
         target={target}
         attributes={attributes}
@@ -74,7 +74,7 @@ function Tooltip(localProps: TooltipAllProps) {
       >
         {children}
       </TooltipWithEvents>
-    </TooltipContext.Provider>
+    </TooltipContext>
   )
 }
 

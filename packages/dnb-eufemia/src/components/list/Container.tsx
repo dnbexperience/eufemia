@@ -34,7 +34,7 @@ function ListContainer(props: ListContainerProps) {
   const appliedDisabled = disabled ?? parentContext?.disabled
 
   return (
-    <ListContext.Provider
+    <ListContext
       value={{
         variant,
         separated,
@@ -58,7 +58,7 @@ function ListContainer(props: ListContainerProps) {
       >
         {children}
       </FlexContainer>
-    </ListContext.Provider>
+    </ListContext>
   )
 }
 

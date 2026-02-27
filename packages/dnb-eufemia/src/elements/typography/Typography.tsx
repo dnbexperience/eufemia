@@ -133,9 +133,9 @@ const Provider = ({
   proseMaxWidth,
 }: TypographyProviderProps) => {
   return (
-    <TypographyContext.Provider value={{ proseMaxWidth }}>
+    <TypographyContext value={{ proseMaxWidth }}>
       {children}
-    </TypographyContext.Provider>
+    </TypographyContext>
   )
 }
 

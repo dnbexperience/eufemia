@@ -213,11 +213,9 @@ function InputMasked(props: InputMaskedProps) {
   }, [context?.InputMasked, props])
 
   return (
-    <InputMaskedContext.Provider
-      value={{ props: contextAndProps, context }}
-    >
+    <InputMaskedContext value={{ props: contextAndProps, context }}>
       <InputMaskedElement />
-    </InputMaskedContext.Provider>
+    </InputMaskedContext>
   )
 }
 
