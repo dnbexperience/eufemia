@@ -39,7 +39,11 @@ export function replaceItemNo(
     // Only clone if children changed (optional optimization)
     return nextChildren === childProps
       ? node
-      : React.cloneElement(node, rest, nextChildren)
+      : React.createElement(
+          node.type as React.ComponentType<any>,
+          rest,
+          nextChildren
+        )
   }
 
   // Fallback: try to convert to string if possible

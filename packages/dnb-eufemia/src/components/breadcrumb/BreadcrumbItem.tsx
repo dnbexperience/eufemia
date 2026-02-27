@@ -18,6 +18,7 @@ import { useMediaQuery } from '../../shared'
 import Context from '../../shared/Context'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import { extendPropsWithContext } from '../../shared/component-helper'
+import BreadcrumbItemContext from './BreadcrumbItemContext'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 
@@ -87,6 +88,7 @@ const determineIcon = (variant: string, isSmallScreen: boolean) => {
 const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
+  const breadcrumbItemContext = React.useContext(BreadcrumbItemContext)
   const {
     theme,
     translation: {
@@ -102,13 +104,15 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
     onClick,
     variant,
     skeleton,
-    itemNo,
+    itemNo: itemNoProp,
     ...props
   } = extendPropsWithContext(
     localProps,
     defaultProps,
     context?.BreadcrumbItem
   )
+
+  const itemNo = itemNoProp ?? breadcrumbItemContext?.itemNo
 
   const isSmallScreen = useMediaQuery({
     matchOnSSR: true,

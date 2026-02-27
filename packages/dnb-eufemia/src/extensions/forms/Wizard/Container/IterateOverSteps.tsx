@@ -82,11 +82,16 @@ export function IterateOverSteps({
           prerenderFieldPropsRef.current['step-' + index] = {
             index,
             fn: () =>
-              React.cloneElement(child as React.ReactElement<StepProps>, {
-                key,
-                index,
-                prerenderFieldProps: true,
-              }),
+              React.createElement(
+                (child as React.ReactElement<StepProps>)
+                  .type as React.ComponentType<StepProps>,
+                {
+                  ...(child as React.ReactElement<StepProps>).props,
+                  key,
+                  index,
+                  prerenderFieldProps: true,
+                }
+              ),
           }
         }
 
