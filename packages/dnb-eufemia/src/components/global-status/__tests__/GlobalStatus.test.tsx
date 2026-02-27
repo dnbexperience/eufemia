@@ -685,10 +685,12 @@ describe('GlobalStatus component', () => {
   })
 
   it('should generate itemId form React Element', async () => {
-    const StatusAsComponent = React.forwardRef<
-      HTMLSpanElement,
-      React.PropsWithChildren<unknown>
-    >(({ children }, ref) => <span ref={ref}>{children}</span>)
+    const StatusAsComponent = ({
+      children,
+      ref,
+    }: React.PropsWithChildren<{
+      ref?: React.Ref<HTMLSpanElement>
+    }>) => <span ref={ref}>{children}</span>
 
     render(<GlobalStatus autoScroll={false} id="custom-status-element" />)
 
