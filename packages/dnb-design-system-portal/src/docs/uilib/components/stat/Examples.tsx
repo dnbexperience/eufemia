@@ -13,7 +13,7 @@ export const BasicUsage = () => (
           signDisplay="always"
           srLabel="Revenue"
         />
-        <Stat.Trend value="+12.4%" srLabel="Change" />
+        <Stat.Trend srLabel="Change">+12.4%</Stat.Trend>
         <Stat.Info>Some additional information.</Stat.Info>
       </Stat.Content>
     </Stat.Root>
@@ -28,7 +28,7 @@ export const RootAndLabel = () => (
       </Stat.Label>
       <Stat.Content direction="vertical">
         <Stat.Currency value={1234} srLabel="Revenue growth" />
-        <Stat.Trend value="+12.4%" srLabel="Growth trend" />
+        <Stat.Trend srLabel="Growth trend">+12.4%</Stat.Trend>
       </Stat.Content>
     </Stat.Root>
 
@@ -41,7 +41,7 @@ export const RootAndLabel = () => (
           srLabel="Monthly change"
         />
         <Flex.Horizontal gap="x-small">
-          <Stat.Trend value="-2.1%" srLabel="Change trend" />
+          <Stat.Trend srLabel="Change trend">-2.1%</Stat.Trend>
           <Stat.Info>(some additional information)</Stat.Info>
         </Flex.Horizontal>
       </Stat.Content>

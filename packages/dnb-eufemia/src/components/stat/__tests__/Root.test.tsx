@@ -68,7 +68,7 @@ describe('Stat.Root', () => {
         <Stat.Label>Revenue growth</Stat.Label>
         <Stat.Content direction="vertical">
           <Stat.Currency value={1234} signDisplay="always" />
-          <Stat.Trend value="+12.4%" />
+          <Stat.Trend>+12.4%</Stat.Trend>
           <Stat.Info>Compared to last month</Stat.Info>
         </Stat.Content>
       </Stat.Root>

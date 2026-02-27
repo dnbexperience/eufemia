@@ -5,7 +5,7 @@ import NumberFormat from '../../number-format/NumberFormat'
 
 describe('Stat.Trend', () => {
   it('renders positive sign and screen reader text', () => {
-    render(<Stat.Trend value={12.4} />)
+    render(<Stat.Trend>{12.4}</Stat.Trend>)
 
     const trend = document.querySelector('.dnb-stat__trend')
     const sign = document.querySelector('.dnb-stat__trend-sign')
@@ -19,7 +19,7 @@ describe('Stat.Trend', () => {
   })
 
   it('renders negative sign and red state class', () => {
-    render(<Stat.Trend value="-2.1%" srLabel="Change:" />)
+    render(<Stat.Trend srLabel="Change:">-2.1%</Stat.Trend>)
 
     const trend = document.querySelector('.dnb-stat__trend')
     const sign = document.querySelector('.dnb-stat__trend-sign')
@@ -34,7 +34,7 @@ describe('Stat.Trend', () => {
   })
 
   it('renders neutral tone for zero without sign', () => {
-    render(<Stat.Trend value={0} />)
+    render(<Stat.Trend>0</Stat.Trend>)
 
     const trend = document.querySelector('.dnb-stat__trend')
     const sign = document.querySelector('.dnb-stat__trend-sign')
@@ -70,7 +70,7 @@ describe('Stat.Trend', () => {
   })
 
   it('supports tone prop override', () => {
-    render(<Stat.Trend value={12.4} tone="negative" />)
+    render(<Stat.Trend tone="negative">12.4</Stat.Trend>)
 
     const trend = document.querySelector('.dnb-stat__trend')
 

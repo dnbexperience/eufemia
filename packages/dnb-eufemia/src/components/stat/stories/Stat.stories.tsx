@@ -44,8 +44,8 @@ export function Label() {
       <Box>
         <Flex.Stack>
           <Stat.Label>Revenue growth</Stat.Label>
-          <Stat.Trend value="+12.4%" />
-          <Stat.Trend value="-2.1%" />
+          <Stat.Trend>+12.4%</Stat.Trend>
+          <Stat.Trend>-2.1%</Stat.Trend>
         </Flex.Stack>
       </Box>
     </Wrapper>

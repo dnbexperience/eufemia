@@ -8,7 +8,7 @@ describe('Stat.Content', () => {
       <Stat.Root>
         <Stat.Content direction="vertical">
           <Stat.Currency value={1234} />
-          <Stat.Trend value="+1.2%" />
+          <Stat.Trend>+1.2%</Stat.Trend>
         </Stat.Content>
       </Stat.Root>
     )
