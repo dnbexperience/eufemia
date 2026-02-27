@@ -10,18 +10,17 @@ import { GatsbyLinkProps, Link as GatsbyLink } from 'gatsby'
 import { startPageTransition } from './Transition'
 
 export type AnchorProps = Props &
-  Omit<
-    React.DetailedHTMLProps<
-      React.AnchorHTMLAttributes<HTMLAnchorElement>,
-      HTMLAnchorElement
-    >,
-    'ref'
+  React.DetailedHTMLProps<
+    React.AnchorHTMLAttributes<HTMLAnchorElement>,
+    HTMLAnchorElement
   >
 
-const PortalLink = React.forwardRef(function Link<TState>(
-  { href, onClick = null, ...props }: AnchorProps,
-  ref
-) {
+function PortalLink<TState>({
+  href,
+  onClick = null,
+  ref,
+  ...props
+}: AnchorProps) {
   const clickHandler = useCallback(
     (event: React.MouseEvent<HTMLAnchorElement>) => {
       startPageTransition()
@@ -35,12 +34,14 @@ const PortalLink = React.forwardRef(function Link<TState>(
   return (
     <GatsbyLink
       to={href}
-      ref={ref}
+      ref={
+        ref as React.Ref<GatsbyLink<TState>> & React.Ref<HTMLAnchorElement>
+      }
       {...(props as Omit<GatsbyLinkProps<TState>, 'ref' | 'onClick'>)}
       onClick={clickHandler}
     />
   )
-})
+}
 
 export { PortalLink as Link }
 
