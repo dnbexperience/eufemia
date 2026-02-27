@@ -11,11 +11,11 @@ const nb = nbNO['nb-NO'].IterateEditContainer
 describe('EditContainer', () => {
   it('renders content and without errors', () => {
     const { rerender } = render(
-      <IterateItemContext.Provider
+      <IterateItemContext
         value={{ containerMode: 'view', value: 'foo' }}
       >
         <EditContainer>content</EditContainer>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     const element = document.querySelector('.dnb-forms-section-block')
@@ -28,11 +28,11 @@ describe('EditContainer', () => {
     expect(inner).toHaveTextContent('content')
 
     rerender(
-      <IterateItemContext.Provider
+      <IterateItemContext
         value={{ containerMode: 'edit', value: 'foo' }}
       >
         <EditContainer>content</EditContainer>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
@@ -42,9 +42,9 @@ describe('EditContainer', () => {
     const switchContainerMode = jest.fn()
 
     render(
-      <IterateItemContext.Provider value={{ switchContainerMode }}>
+      <IterateItemContext value={{ switchContainerMode }}>
         <EditContainer>content</EditContainer>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
@@ -57,11 +57,11 @@ describe('EditContainer', () => {
     const switchContainerMode = jest.fn()
 
     render(
-      <IterateItemContext.Provider
+      <IterateItemContext
         value={{ switchContainerMode, isNew: true }}
       >
         <EditContainer>content</EditContainer>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
@@ -74,9 +74,9 @@ describe('EditContainer', () => {
     const handleRemove = jest.fn()
 
     render(
-      <IterateItemContext.Provider value={{ handleRemove, isNew: true }}>
+      <IterateItemContext value={{ handleRemove, isNew: true }}>
         <EditContainer>content</EditContainer>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     // Opens confirmation dialog
@@ -93,7 +93,7 @@ describe('EditContainer', () => {
     const restoreOriginalValue = jest.fn()
 
     render(
-      <IterateItemContext.Provider
+      <IterateItemContext
         value={{
           restoreOriginalValue,
           containerMode: 'edit',
@@ -102,7 +102,7 @@ describe('EditContainer', () => {
         }}
       >
         <EditContainer>content</EditContainer>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     // Opens confirmation dialog
@@ -118,9 +118,9 @@ describe('EditContainer', () => {
 
   it('should render "title"', () => {
     render(
-      <IterateItemContext.Provider value={{ containerMode: 'edit' }}>
+      <IterateItemContext value={{ containerMode: 'edit' }}>
         <EditContainer title="Item title">content</EditContainer>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     expect(document.querySelector('.dnb-p')).toHaveTextContent(
@@ -130,13 +130,13 @@ describe('EditContainer', () => {
 
   it('should render "titleWhenNew"', () => {
     render(
-      <IterateItemContext.Provider
+      <IterateItemContext
         value={{ containerMode: 'edit', isNew: true }}
       >
         <EditContainer title="Item title" titleWhenNew="New Item title">
           content
         </EditContainer>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     expect(document.querySelector('.dnb-p')).toHaveTextContent(
@@ -159,13 +159,13 @@ describe('EditContainer', () => {
 
   it('should render titleWhenNew with "itemNo"', () => {
     render(
-      <IterateItemContext.Provider
+      <IterateItemContext
         value={{ containerMode: 'edit', isNew: true, index: 0 }}
       >
         <EditContainer titleWhenNew="New Item title {itemNo}">
           content
         </EditContainer>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     expect(document.querySelector('.dnb-p')).toHaveTextContent(
@@ -175,9 +175,9 @@ describe('EditContainer', () => {
 
   it('has correct class', () => {
     render(
-      <IterateItemContext.Provider value={{ containerMode: 'edit' }}>
+      <IterateItemContext value={{ containerMode: 'edit' }}>
         <EditContainer>content</EditContainer>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     expect(
@@ -187,9 +187,9 @@ describe('EditContainer', () => {
 
   it('will forward custom HTML attributes to the inner wrapper', () => {
     render(
-      <IterateItemContext.Provider value={{ containerMode: 'edit' }}>
+      <IterateItemContext value={{ containerMode: 'edit' }}>
         <EditContainer data-attr="value">content</EditContainer>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     expect(
@@ -234,14 +234,14 @@ describe('EditContainer', () => {
   describe('to have buttons with correct text', () => {
     it('and isNew is true', () => {
       render(
-        <IterateItemContext.Provider
+        <IterateItemContext
           value={{
             containerMode: 'edit',
             isNew: true,
           }}
         >
           <EditContainer>content</EditContainer>
-        </IterateItemContext.Provider>
+        </IterateItemContext>
       )
 
       const buttons = document.querySelectorAll('button')
@@ -253,9 +253,9 @@ describe('EditContainer', () => {
 
     it('and isNew is not set', () => {
       render(
-        <IterateItemContext.Provider value={{ containerMode: 'edit' }}>
+        <IterateItemContext value={{ containerMode: 'edit' }}>
           <EditContainer>content</EditContainer>
-        </IterateItemContext.Provider>
+        </IterateItemContext>
       )
 
       const buttons = document.querySelectorAll('button')
@@ -282,14 +282,14 @@ describe('EditContainer', () => {
             },
           }}
         >
-          <IterateItemContext.Provider
+          <IterateItemContext
             value={{
               containerMode: 'edit',
               isNew: true,
             }}
           >
             <EditContainer>content</EditContainer>
-          </IterateItemContext.Provider>
+          </IterateItemContext>
         </Form.Handler>
       )
 
@@ -314,13 +314,13 @@ describe('EditContainer', () => {
             },
           }}
         >
-          <IterateItemContext.Provider
+          <IterateItemContext
             value={{
               containerMode: 'edit',
             }}
           >
             <EditContainer>content</EditContainer>
-          </IterateItemContext.Provider>
+          </IterateItemContext>
         </Form.Handler>
       )
 

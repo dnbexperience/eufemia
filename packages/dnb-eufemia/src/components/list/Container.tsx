@@ -19,7 +19,7 @@ function ListContainer(props: ListContainerProps) {
   } = props
 
   return (
-    <ListContext.Provider value={{ variant, separated }}>
+    <ListContext value={{ variant, separated }}>
       <FlexContainer
         element="ul"
         rowGap={separated ? 'small' : false}
@@ -34,7 +34,7 @@ function ListContainer(props: ListContainerProps) {
       >
         {children}
       </FlexContainer>
-    </ListContext.Provider>
+    </ListContext>
   )
 }
 

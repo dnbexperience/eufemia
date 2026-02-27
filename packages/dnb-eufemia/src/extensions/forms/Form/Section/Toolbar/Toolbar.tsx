@@ -34,13 +34,13 @@ export default function Toolbar(props: Props) {
     >
       <Hr space={0} />
 
-      <ToolbarContext.Provider
+      <ToolbarContext
         value={{ setShowError, onEdit, onDone, onCancel }}
       >
         <Flex.Horizontal top="x-small" gap="large">
           {children}
         </Flex.Horizontal>
-      </ToolbarContext.Provider>
+      </ToolbarContext>
 
       <FormStatus
         show={showError && hasVisibleError}

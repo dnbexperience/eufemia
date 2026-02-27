@@ -152,7 +152,7 @@ Card.Provider = function CardProvider({
   context.isNested = disableCardBreakout ?? context?.isNested
 
   return (
-    <CardContext.Provider value={context}>{children}</CardContext.Provider>
+    <CardContext value={context}>{children}</CardContext>
   )
 }
 

@@ -229,7 +229,7 @@ export function SliderProvider(localProps: SliderAllProps) {
   const values = (isMulti ? value : [value]) as Array<number>
 
   return (
-    <SliderContext.Provider
+    <SliderContext
       value={{
         isMulti,
         isReverse,
@@ -253,6 +253,6 @@ export function SliderProvider(localProps: SliderAllProps) {
       }}
     >
       {localProps.children}
-    </SliderContext.Provider>
+    </SliderContext>
   )
 }

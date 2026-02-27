@@ -196,7 +196,7 @@ function SectionComponent<overwriteProps = OverwritePropsDefaults>(
   const sectionProps = props as SectionProps
 
   return (
-    <SectionContext.Provider
+    <SectionContext
       value={{
         path: identifier,
         errorPrioritization,
@@ -225,7 +225,7 @@ function SectionComponent<overwriteProps = OverwritePropsDefaults>(
           {children}
         </FieldPropsProvider>
       </SectionContainerProvider>
-    </SectionContext.Provider>
+    </SectionContext>
   )
 }
 

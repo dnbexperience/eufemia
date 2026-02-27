@@ -218,9 +218,9 @@ export function StepIndicatorProvider(props: StepIndicatorProviderProps) {
   })
 
   return (
-    <StepIndicatorContext.Provider value={contextValue}>
+    <StepIndicatorContext value={contextValue}>
       {props.children}
-    </StepIndicatorContext.Provider>
+    </StepIndicatorContext>
   )
 }
 

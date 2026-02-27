@@ -68,8 +68,8 @@ export default function FieldBoundaryProvider(props: Props) {
   }
 
   return (
-    <FieldBoundaryContext.Provider value={context}>
+    <FieldBoundaryContext value={context}>
       {children}
-    </FieldBoundaryContext.Provider>
+    </FieldBoundaryContext>
   )
 }

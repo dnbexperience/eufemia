@@ -91,9 +91,9 @@ export default function Provider<Props>(
   ])
 
   return (
-    <Context.Provider value={value}>
+    <Context value={value}>
       {localProps.children}
-    </Context.Provider>
+    </Context>
   )
 }
 

@@ -55,13 +55,13 @@ describe('useExternalValue', () => {
   describe('with iterate context', () => {
     it('should return iterate element value when itemPath is "/"', () => {
       const wrapper = ({ children }) => (
-        <IterateItemContext.Provider
+        <IterateItemContext
           value={{
             value: 'iterate-value',
           }}
         >
           {children}
-        </IterateItemContext.Provider>
+        </IterateItemContext>
       )
 
       const { result } = renderHook(
@@ -78,7 +78,7 @@ describe('useExternalValue', () => {
 
     it('should return value from iterate element using itemPath', () => {
       const wrapper = ({ children }) => (
-        <IterateItemContext.Provider
+        <IterateItemContext
           value={{
             value: {
               nested: 'nested-value',
@@ -86,7 +86,7 @@ describe('useExternalValue', () => {
           }}
         >
           {children}
-        </IterateItemContext.Provider>
+        </IterateItemContext>
       )
 
       const { result } = renderHook(
@@ -109,7 +109,7 @@ describe('useExternalValue', () => {
       }
 
       const wrapper = ({ children }) => (
-        <IterateItemContext.Provider
+        <IterateItemContext
           value={{
             value: {
               nested: 'nested-value',
@@ -117,7 +117,7 @@ describe('useExternalValue', () => {
           }}
         >
           {children}
-        </IterateItemContext.Provider>
+        </IterateItemContext>
       )
 
       const { result } = renderHook(
@@ -234,13 +234,13 @@ describe('useExternalValue', () => {
 
   it('should handle priority order: value > iterate > data context', () => {
     const wrapper = ({ children }) => (
-      <IterateItemContext.Provider
+      <IterateItemContext
         value={{
           value: 'iterate-value',
         }}
       >
         {children}
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     const { result } = renderHook(

@@ -521,7 +521,7 @@ export default class ModalContent extends React.PureComponent<
         : children
 
     return (
-      <ModalContext.Provider
+      <ModalContext
         value={{
           id: this.props.id,
           title,
@@ -563,7 +563,7 @@ export default class ModalContent extends React.PureComponent<
           )}
           aria-hidden={true}
         />
-      </ModalContext.Provider>
+      </ModalContext>
     )
   }
 }

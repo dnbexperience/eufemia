@@ -35,7 +35,7 @@ describe('Form.Element', () => {
     const onSubmitElement = jest.fn()
 
     render(
-      <DataContext.Provider
+      <DataContext
         data={{ foo: 'data-context-value' }}
         onSubmit={onSubmit}
       >
@@ -43,7 +43,7 @@ describe('Form.Element', () => {
           <Field.String path="/foo" value="Value" />
           <Form.SubmitButton>Submit</Form.SubmitButton>
         </Form.Element>
-      </DataContext.Provider>
+      </DataContext>
     )
 
     const inputElement = document.querySelector('input')

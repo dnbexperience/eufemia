@@ -23,9 +23,9 @@ describe('AnimatedContainer', () => {
 
   it('should render "title"', () => {
     render(
-      <IterateItemContext.Provider value={{ containerMode: 'edit' }}>
+      <IterateItemContext value={{ containerMode: 'edit' }}>
         <AnimatedContainer title="Item title">content</AnimatedContainer>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     expect(document.querySelector('.dnb-p')).toHaveTextContent(

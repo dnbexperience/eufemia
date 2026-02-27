@@ -42,7 +42,7 @@ function SummaryList(props: Props) {
   })
 
   return (
-    <SummaryListContext.Provider value={{ layout, verifyChild }}>
+    <SummaryListContext value={{ layout, verifyChild }}>
       <Dl
         className={clsx('dnb-forms-summary-list', className)}
         layout={layout}
@@ -50,7 +50,7 @@ function SummaryList(props: Props) {
       >
         <ValueProvider {...valueProviderProps}>{children}</ValueProvider>
       </Dl>
-    </SummaryListContext.Provider>
+    </SummaryListContext>
   )
 }
 

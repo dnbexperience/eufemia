@@ -43,9 +43,9 @@ const Suffix = ({
 
   if (typeof children !== 'string' && context) {
     return (
-      <SuffixContext.Provider value={context}>
+      <SuffixContext value={context}>
         {content}
-      </SuffixContext.Provider>
+      </SuffixContext>
     )
   }
 

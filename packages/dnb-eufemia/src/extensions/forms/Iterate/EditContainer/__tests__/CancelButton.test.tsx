@@ -17,15 +17,15 @@ describe('CancelButton', () => {
     const switchContainerMode = jest.fn()
 
     render(
-      <FieldBoundaryContext.Provider
+      <FieldBoundaryContext
         value={{ verifyFieldError: () => false }}
       >
-        <IterateItemContext.Provider value={{ switchContainerMode }}>
+        <IterateItemContext value={{ switchContainerMode }}>
           <Toolbar>
             <CancelButton showConfirmDialog={false} />
           </Toolbar>
-        </IterateItemContext.Provider>
-      </FieldBoundaryContext.Provider>
+        </IterateItemContext>
+      </FieldBoundaryContext>
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
@@ -40,13 +40,13 @@ describe('CancelButton', () => {
     const switchContainerMode = jest.fn()
 
     render(
-      <IterateItemContext.Provider
+      <IterateItemContext
         value={{ switchContainerMode, isNew: true }}
       >
         <Toolbar>
           <CancelButton showConfirmDialog={false} />
         </Toolbar>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
@@ -58,7 +58,7 @@ describe('CancelButton', () => {
     const restoreOriginalValue = jest.fn()
 
     render(
-      <IterateItemContext.Provider
+      <IterateItemContext
         value={{
           restoreOriginalValue,
           containerMode: 'edit',
@@ -69,7 +69,7 @@ describe('CancelButton', () => {
         <Toolbar>
           <CancelButton showConfirmDialog={false} />
         </Toolbar>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
@@ -95,7 +95,7 @@ describe('CancelButton', () => {
         <SetErrorOnce />
         <FieldBoundaryContext.Consumer>
           {(ctx) => (
-            <FieldBoundaryContext.Provider
+            <FieldBoundaryContext
               value={{
                 ...ctx,
                 hasVisibleError: false,
@@ -103,7 +103,7 @@ describe('CancelButton', () => {
               }}
             >
               {children}
-            </FieldBoundaryContext.Provider>
+            </FieldBoundaryContext>
           )}
         </FieldBoundaryContext.Consumer>
       </FieldBoundaryProvider>
@@ -111,17 +111,17 @@ describe('CancelButton', () => {
 
     render(
       <MockBoundary>
-        <IterateItemContext.Provider value={{ containerMode: 'edit' }}>
-          <PushContainerContext.Provider
+        <IterateItemContext value={{ containerMode: 'edit' }}>
+          <PushContainerContext
             value={{ some: 'context' } as any}
           >
             <Toolbar>
-              <ToolbarContext.Provider value={{ setShowError }}>
+              <ToolbarContext value={{ setShowError }}>
                 <CancelButton showConfirmDialog={false} />
-              </ToolbarContext.Provider>
+              </ToolbarContext>
             </Toolbar>
-          </PushContainerContext.Provider>
-        </IterateItemContext.Provider>
+          </PushContainerContext>
+        </IterateItemContext>
       </MockBoundary>
     )
 
@@ -140,21 +140,21 @@ describe('CancelButton', () => {
     const setShowBoundaryErrors = jest.fn()
 
     render(
-      <FieldBoundaryContext.Provider
+      <FieldBoundaryContext
         value={{
           hasVisibleError: true,
           verifyFieldError: () => true,
           setShowBoundaryErrors,
         }}
       >
-        <IterateItemContext.Provider value={{ containerMode: 'edit' }}>
+        <IterateItemContext value={{ containerMode: 'edit' }}>
           <Toolbar>
-            <ToolbarContext.Provider value={{ setShowError }}>
+            <ToolbarContext value={{ setShowError }}>
               <CancelButton showConfirmDialog={false} />
-            </ToolbarContext.Provider>
+            </ToolbarContext>
           </Toolbar>
-        </IterateItemContext.Provider>
-      </FieldBoundaryContext.Provider>
+        </IterateItemContext>
+      </FieldBoundaryContext>
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -171,23 +171,23 @@ describe('CancelButton', () => {
     const setShowBoundaryErrors = jest.fn()
 
     render(
-      <FieldBoundaryContext.Provider
+      <FieldBoundaryContext
         value={{
           hasVisibleError: true,
           verifyFieldError: () => true,
           setShowBoundaryErrors,
         }}
       >
-        <IterateItemContext.Provider
+        <IterateItemContext
           value={{ containerMode: 'edit', initialContainerMode: 'auto' }}
         >
           <Toolbar>
-            <ToolbarContext.Provider value={{ setShowError }}>
+            <ToolbarContext value={{ setShowError }}>
               <CancelButton showConfirmDialog={false} />
-            </ToolbarContext.Provider>
+            </ToolbarContext>
           </Toolbar>
-        </IterateItemContext.Provider>
-      </FieldBoundaryContext.Provider>
+        </IterateItemContext>
+      </FieldBoundaryContext>
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -204,25 +204,25 @@ describe('CancelButton', () => {
     const setShowBoundaryErrors = jest.fn()
 
     render(
-      <FieldBoundaryContext.Provider
+      <FieldBoundaryContext
         value={{
           hasVisibleError: true,
           verifyFieldError: () => false,
           setShowBoundaryErrors,
         }}
       >
-        <IterateItemContext.Provider
+        <IterateItemContext
           value={{
             containerMode: 'edit',
           }}
         >
           <Toolbar>
-            <ToolbarContext.Provider value={{ setShowError }}>
+            <ToolbarContext value={{ setShowError }}>
               <CancelButton showConfirmDialog={false} />
-            </ToolbarContext.Provider>
+            </ToolbarContext>
           </Toolbar>
-        </IterateItemContext.Provider>
-      </FieldBoundaryContext.Provider>
+        </IterateItemContext>
+      </FieldBoundaryContext>
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -237,7 +237,7 @@ describe('CancelButton', () => {
   describe('to have button with correct text', () => {
     it('and isNew is true', () => {
       render(
-        <IterateItemContext.Provider
+        <IterateItemContext
           value={{
             containerMode: 'edit',
             isNew: true,
@@ -246,7 +246,7 @@ describe('CancelButton', () => {
           <Toolbar>
             <CancelButton showConfirmDialog={false} />
           </Toolbar>
-        </IterateItemContext.Provider>
+        </IterateItemContext>
       )
 
       const button = document.querySelector('button')
@@ -255,11 +255,11 @@ describe('CancelButton', () => {
 
     it('and isNew is not set', () => {
       render(
-        <IterateItemContext.Provider value={{ containerMode: 'edit' }}>
+        <IterateItemContext value={{ containerMode: 'edit' }}>
           <Toolbar>
             <CancelButton showConfirmDialog={false} />
           </Toolbar>
-        </IterateItemContext.Provider>
+        </IterateItemContext>
       )
 
       const button = document.querySelector('button')
@@ -271,15 +271,15 @@ describe('CancelButton', () => {
     const switchContainerMode = jest.fn()
 
     render(
-      <FieldBoundaryContext.Provider
+      <FieldBoundaryContext
         value={{ verifyFieldError: () => false }}
       >
-        <IterateItemContext.Provider value={{ switchContainerMode }}>
+        <IterateItemContext value={{ switchContainerMode }}>
           <Toolbar>
             <CancelButton />
           </Toolbar>
-        </IterateItemContext.Provider>
-      </FieldBoundaryContext.Provider>
+        </IterateItemContext>
+      </FieldBoundaryContext>
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])

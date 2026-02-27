@@ -37,9 +37,9 @@ function SnapshotProvider(props: SnapshotProps) {
   const contextValue = { name, setMountedField }
 
   return (
-    <SnapshotContext.Provider value={contextValue}>
+    <SnapshotContext value={contextValue}>
       {children}
-    </SnapshotContext.Provider>
+    </SnapshotContext>
   )
 }
 

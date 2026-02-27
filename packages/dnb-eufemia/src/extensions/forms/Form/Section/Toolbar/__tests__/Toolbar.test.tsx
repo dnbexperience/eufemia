@@ -10,9 +10,9 @@ const nb = nbNO['nb-NO'].SectionViewContainer
 describe('Toolbar', () => {
   it('supports spacing props', () => {
     render(
-      <SectionContainerContext.Provider value={{}}>
+      <SectionContainerContext value={{}}>
         <Toolbar top="large">content</Toolbar>
-      </SectionContainerContext.Provider>
+      </SectionContainerContext>
     )
 
     expect(
@@ -22,9 +22,9 @@ describe('Toolbar', () => {
 
   it('has buttons/tools by default', () => {
     render(
-      <SectionContainerContext.Provider value={{}}>
+      <SectionContainerContext value={{}}>
         <Toolbar />
-      </SectionContainerContext.Provider>
+      </SectionContainerContext>
     )
 
     expect(document.querySelector('button')).not.toBeInTheDocument()
@@ -32,9 +32,9 @@ describe('Toolbar', () => {
 
   it('has hr element', () => {
     render(
-      <SectionContainerContext.Provider value={{}}>
+      <SectionContainerContext value={{}}>
         <Toolbar />
-      </SectionContainerContext.Provider>
+      </SectionContainerContext>
     )
 
     expect(document.querySelector('hr')).toBeInTheDocument()
@@ -42,11 +42,11 @@ describe('Toolbar', () => {
 
   it('has render given children', () => {
     render(
-      <SectionContainerContext.Provider value={{}}>
+      <SectionContainerContext value={{}}>
         <Toolbar>
           <EditButton />
         </Toolbar>
-      </SectionContainerContext.Provider>
+      </SectionContainerContext>
     )
 
     const buttons = document.querySelectorAll('button')

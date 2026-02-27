@@ -29,7 +29,7 @@ function renderWithContext(
   context = defaultContext
 ) {
   return render(
-    <ModalContext.Provider value={context}>{ui}</ModalContext.Provider>
+    <ModalContext value={context}>{ui}</ModalContext>
   )
 }
 
@@ -122,9 +122,9 @@ describe('ModalHeaderBar', () => {
     scrollView.appendChild(wrapper)
 
     render(
-      <ModalContext.Provider value={defaultContext}>
+      <ModalContext value={defaultContext}>
         <ModalHeaderBar shadowClass="sticky-class" />
-      </ModalContext.Provider>,
+      </ModalContext>,
       { container: wrapper }
     )
 
@@ -159,18 +159,18 @@ describe('ModalHeaderBar', () => {
 
   it('should reconnect observer when children change', () => {
     const { rerender } = render(
-      <ModalContext.Provider value={defaultContext}>
+      <ModalContext value={defaultContext}>
         <ModalHeaderBar>First</ModalHeaderBar>
-      </ModalContext.Provider>
+      </ModalContext>
     )
 
     expect(window.IntersectionObserver).toHaveBeenCalledTimes(1)
     expect(disconnect).toHaveBeenCalledTimes(0)
 
     rerender(
-      <ModalContext.Provider value={defaultContext}>
+      <ModalContext value={defaultContext}>
         <ModalHeaderBar>Second</ModalHeaderBar>
-      </ModalContext.Provider>
+      </ModalContext>
     )
 
     expect(disconnect).toHaveBeenCalledTimes(1)

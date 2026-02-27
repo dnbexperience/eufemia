@@ -50,9 +50,9 @@ export function PortalRootProvider(
   )
 
   return (
-    <PortalRootContext.Provider value={value}>
+    <PortalRootContext value={value}>
       {children}
-    </PortalRootContext.Provider>
+    </PortalRootContext>
   )
 }
 

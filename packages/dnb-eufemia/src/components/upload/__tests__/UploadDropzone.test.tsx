@@ -29,9 +29,9 @@ afterEach(() => {
 describe('UploadDropzone', () => {
   const MockComponent = (props: Partial<UploadAllProps>) => {
     return (
-      <UploadContext.Provider value={defaultContext}>
+      <UploadContext value={defaultContext}>
         <UploadDropzone {...props} />
-      </UploadContext.Provider>
+      </UploadContext>
     )
   }
 

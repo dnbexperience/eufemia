@@ -192,7 +192,7 @@ function ValueBlock(localProps: Props) {
       const { layout = defaultLayout } = summaryListContext
 
       content = (
-        <SummaryListContext.Provider
+        <SummaryListContext
           value={{ ...summaryListContext, isNested: true }}
         >
           <Item>
@@ -239,7 +239,7 @@ function ValueBlock(localProps: Props) {
           {isCompositionInContextWithoutLabel && hasHelp
             ? getHelpContent(layout, { renderOnNextLine: true })
             : null}
-        </SummaryListContext.Provider>
+        </SummaryListContext>
       )
     }
   } else {
@@ -294,9 +294,9 @@ function ValueBlock(localProps: Props) {
   }
 
   return (
-    <ValueBlockContext.Provider value={props}>
+    <ValueBlockContext value={props}>
       {content}
-    </ValueBlockContext.Provider>
+    </ValueBlockContext>
   )
 }
 
