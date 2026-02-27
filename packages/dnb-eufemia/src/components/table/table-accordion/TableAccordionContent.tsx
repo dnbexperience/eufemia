@@ -39,7 +39,7 @@ function TableAccordionContent(
   } = componentProps
 
   const tableContextAllProps = React.useContext(TableContext)?.allProps
-  const innerRef = React.useRef<HTMLDivElement>(null)
+  const contentRef = React.useRef<HTMLDivElement>(null)
   const trRef = React.useRef<HTMLTableRowElement>(null)
   const {
     ariaLive,
@@ -48,7 +48,7 @@ function TableAccordionContent(
     isVisibleParallax,
     firstPaintStyle,
   } = useTableAnimationHandler({
-    innerRef,
+    contentRef,
     trRef,
     expanded,
     noAnimation,
@@ -101,7 +101,7 @@ function TableAccordionContent(
           {isInDOM && (
             <div
               className="dnb-table__tr__accordion-content__inner"
-              ref={innerRef}
+              ref={contentRef}
             >
               <div className="dnb-table__tr__accordion-content__inner__spacing">
                 {children}

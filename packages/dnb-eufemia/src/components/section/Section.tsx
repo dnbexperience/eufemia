@@ -114,7 +114,7 @@ export type SectionProps = {
   /**
    * Define a React.Ref.
    */
-  innerRef?: React.RefObject<HTMLElement>
+  ref?: React.RefObject<HTMLElement>
 
   /**
    * @deprecated in v11 use "innerSpace" prop instead
@@ -136,7 +136,7 @@ export type SectionAllProps = SectionProps &
 
 type SectionReturnParams = Record<string, unknown> & {
   className: string
-  innerRef: React.RefObject<HTMLElement>
+  ref: React.RefObject<HTMLElement>
   children: React.ReactNode
   style: React.CSSProperties
 }
@@ -149,16 +149,8 @@ function SectionInstance(localProps: SectionAllProps) {
   return <Space {...SectionParams(localProps)} />
 }
 
-export default function Section({
-  ref,
-  ...props
-}: SectionAllProps & { ref?: React.Ref<HTMLElement> }) {
-  return (
-    <SectionInstance
-      innerRef={ref as React.RefObject<HTMLElement>}
-      {...props}
-    />
-  )
+export default function Section(props: SectionAllProps) {
+  return <SectionInstance {...props} />
 }
 
 export function SectionParams(
@@ -186,7 +178,7 @@ export function SectionParams(
     typeof props.outlineWidth === 'undefined'
       ? 'none'
       : props.outlineWidth,
-    innerRef,
+    ref: refProp,
 
     className,
     children,
@@ -198,7 +190,7 @@ export function SectionParams(
   } = props
 
   const internalRef = React.useRef<HTMLElement>(undefined)
-  const elementRef = innerRef || internalRef
+  const elementRef = refProp || internalRef
 
   return Object.freeze({
     ...attributes,
@@ -242,7 +234,7 @@ export function SectionParams(
       ),
       ...attributes?.style,
     } as React.CSSProperties,
-    innerRef: elementRef,
+    ref: elementRef,
     children,
   })
 }

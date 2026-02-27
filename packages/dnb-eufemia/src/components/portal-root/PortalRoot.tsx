@@ -24,7 +24,7 @@ type SelectorOptions = {
 }
 
 export type PortalRootProps = {
-  innerRef?:
+  ref?:
     | React.Ref<HTMLElement>
     | React.RefObject<HTMLElement>
     | ((instance: HTMLElement) => void)
@@ -63,7 +63,7 @@ function PortalRootInstance(
     id: idProp,
     insideSelector: insideSelectorProp,
     beforeSelector: beforeSelectorProp,
-    innerRef,
+    ref: refProp,
     className,
     style,
     children,
@@ -114,15 +114,15 @@ function PortalRootInstance(
       }
     }
 
-    if (innerRef && localRef.current) {
-      if (typeof innerRef === 'function') {
-        innerRef(localRef.current)
+    if (refProp && localRef.current) {
+      if (typeof refProp === 'function') {
+        refProp(localRef.current)
       } else {
-        const ref = innerRef as React.RefObject<HTMLElement | null>
+        const ref = refProp as React.RefObject<HTMLElement | null>
         ref.current = localRef.current
       }
     }
-  }, [effectiveId, idProp, innerRef, insideSelector, beforeSelector])
+  }, [effectiveId, idProp, refProp, insideSelector, beforeSelector])
 
   const portalElement = localRef.current || initialElement
   if (!portalElement) {
@@ -193,11 +193,8 @@ export function getOrCreatePortalElement({
 
   return elem
 }
-function PortalRoot({
-  ref,
-  ...props
-}: PortalRootProps & { ref?: React.Ref<HTMLElement> }) {
-  return <PortalRootInstance innerRef={ref} {...props} />
+function PortalRoot(props: PortalRootProps) {
+  return <PortalRootInstance {...props} />
 }
 PortalRoot.Provider = PortalRootProvider
 

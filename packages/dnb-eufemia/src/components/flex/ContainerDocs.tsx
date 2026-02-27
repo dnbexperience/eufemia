@@ -86,7 +86,7 @@ export const FlexContainerProperties: PropertiesTableProps = {
     defaultValue: `'div'`,
     status: 'optional',
   },
-  innerRef: {
+  ref: {
     doc: 'Provide a React.Ref to accessing the inner HTML element.',
     type: 'React.RefObject',
     defaultValue: 'undefined',

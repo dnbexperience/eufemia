@@ -290,7 +290,7 @@ export const DrawerScrollViewSetup = () => (
     {() => {
       const DrawerMock = () => {
         const scrollRef = React.useRef(null)
-        const innerRef = React.useRef(null)
+        const ref = React.useRef(null)
         const [errorMessage, setErrorMessage] = React.useState(null)
 
         const message = errorMessage
@@ -299,11 +299,11 @@ export const DrawerScrollViewSetup = () => (
 
         return (
           <Drawer
-            contentRef={innerRef}
+            contentRef={ref}
             scrollRef={scrollRef}
             onOpen={() => {
               const innerOverflowY = window.getComputedStyle(
-                innerRef.current
+                ref.current
               ).overflowY
 
               const contentElem = scrollRef.current.querySelector(

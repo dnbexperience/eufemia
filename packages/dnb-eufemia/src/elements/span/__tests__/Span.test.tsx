@@ -63,4 +63,33 @@ describe('Span element', () => {
     const Comp = render(<Span size="x-small" element="span" />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
+
+  it('gets valid ref element', () => {
+    let ref: React.RefObject<HTMLSpanElement>
+
+    function MockComponent() {
+      ref = React.useRef<HTMLSpanElement | null>(null)
+      return <Span ref={ref}>content</Span>
+    }
+
+    render(<MockComponent />)
+
+    expect(ref.current instanceof HTMLSpanElement).toBe(true)
+    expect(ref.current.tagName).toBe('SPAN')
+    expect(ref.current.classList).toContain('dnb-span')
+  })
+
+  it('gets valid element when ref is function', () => {
+    let refElement: HTMLSpanElement
+
+    function refFn(elem: HTMLSpanElement) {
+      refElement = elem
+    }
+
+    render(<Span ref={refFn}>content</Span>)
+
+    expect(refElement instanceof HTMLSpanElement).toBe(true)
+    expect(refElement.tagName).toBe('SPAN')
+    expect(refElement.classList).toContain('dnb-span')
+  })
 })

@@ -98,7 +98,7 @@ export const inputPropTypes = {
   ]),
   iconSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   iconPosition: PropTypes.oneOf(['left', 'right']),
-  innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+  ref: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   innerElement: PropTypes.node,
 
@@ -127,7 +127,7 @@ export const inputPropTypes = {
   onClear: PropTypes.func,
 }
 
-export default class Input extends React.PureComponent {
+export class InputClass extends React.PureComponent {
   static contextType = Context
 
   static propTypes = {
@@ -161,7 +161,7 @@ export default class Input extends React.PureComponent {
     inputClass: null,
     inputAttributes: null,
     inputElement: null,
-    innerRef: null,
+    ref: null,
     icon: null,
     iconSize: null,
     iconPosition: 'left',
@@ -190,7 +190,7 @@ export default class Input extends React.PureComponent {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const value = Input.getValue(props)
+    const value = InputClass.getValue(props)
     if (
       value !== 'initval' &&
       value !== state.value &&
@@ -215,7 +215,7 @@ export default class Input extends React.PureComponent {
 
   static getValue(props) {
     const value = processChildren(props)
-    if (value === '' || Input.hasValue(value)) {
+    if (value === '' || InputClass.hasValue(value)) {
       return value
     }
     return props.value
@@ -226,7 +226,7 @@ export default class Input extends React.PureComponent {
   constructor(props, context) {
     super(props)
 
-    this._ref = props.innerRef || React.createRef()
+    this._ref = props._innerRef || React.createRef()
 
     this._id =
       props.id ||
@@ -256,7 +256,7 @@ export default class Input extends React.PureComponent {
     // This is used in the InputMasked component.
     if (this._ref.current && !this.props.inputElement) {
       const value = this.state.value
-      const hasValue = Input.hasValue(value)
+      const hasValue = InputClass.hasValue(value)
       this._ref.current.value = hasValue ? value : ''
     }
   }
@@ -288,7 +288,7 @@ export default class Input extends React.PureComponent {
     if (result !== false) {
       this.setState({
         inputState:
-          Input.hasValue(value) && value !== this.state._value
+          InputClass.hasValue(value) && value !== this.state._value
             ? 'dirty'
             : 'initial',
       })
@@ -380,7 +380,7 @@ export default class Input extends React.PureComponent {
       value: _value, //eslint-disable-line
       selectAll, //eslint-disable-line
       inputElement: _input_element, //eslint-disable-line
-      innerRef: _innerRef, //eslint-disable-line
+      ref: _ref, //eslint-disable-line
       inputState: _inputState, //eslint-disable-line
 
       onSubmit, //eslint-disable-line
@@ -406,7 +406,7 @@ export default class Input extends React.PureComponent {
     const showStatus = getStatusState(status)
     const hasSubmitButton =
       submitElement || (submitElement !== false && type === 'search')
-    const hasValue = Input.hasValue(value)
+    const hasValue = InputClass.hasValue(value)
 
     const usedIconSize =
       size === 'large' && (iconSize === 'default' || !iconSize)
@@ -719,6 +719,7 @@ class InputSubmitButton extends React.PureComponent {
 
       onSubmitBlur, //eslint-disable-line
       onSubmitFocus, //eslint-disable-line
+      _innerRef, //eslint-disable-line
 
       ...rest
     } = this.props
@@ -755,6 +756,7 @@ class InputSubmitButton extends React.PureComponent {
           onClick={this.onSubmitHandler}
           onFocus={this.onSubmitFocusHandler}
           onBlur={this.onSubmitBlurHandler}
+          ref={_innerRef}
           {...params}
           {...statusProps}
         />
@@ -764,7 +766,7 @@ class InputSubmitButton extends React.PureComponent {
 }
 
 function SubmitButton({ ref, ...props }) {
-  return <InputSubmitButton innerRef={ref} {...props} />
+  return <InputSubmitButton _innerRef={ref} {...props} />
 }
 
 export { SubmitButton }
@@ -804,5 +806,22 @@ InputIcon.propTypes = {
   ]).isRequired,
 }
 
+InputClass._formElement = true
+InputClass._supportsSpacingProps = true
+
+/**
+ * Function wrapper that converts `ref` to `_innerRef` for the class component.
+ * React 19 treats `ref` as a regular prop but still sets it to the class instance.
+ * This wrapper ensures consumers get the inner DOM element via `ref`.
+ */
+function Input({ ref, ...props }) {
+  return <InputClass _innerRef={ref} {...props} />
+}
+
+Input.defaultProps = InputClass.defaultProps
+Input.getValue = InputClass.getValue
+Input.hasValue = InputClass.hasValue
 Input._formElement = true
 Input._supportsSpacingProps = true
+
+export default Input

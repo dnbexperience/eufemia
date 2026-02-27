@@ -66,8 +66,8 @@ export const CheckboxProperties: PropertiesTableProps = {
     type: 'ReactNode',
     status: 'optional',
   },
-  innerRef: {
-    doc: 'By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.',
+  ref: {
+    doc: 'By providing a React.ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.',
     type: 'React.RefObject',
     status: 'optional',
   },
