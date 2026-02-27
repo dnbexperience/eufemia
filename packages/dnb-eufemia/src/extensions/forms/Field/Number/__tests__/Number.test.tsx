@@ -2792,10 +2792,10 @@ describe('Field.Number', () => {
     expect(input.tagName).toBe('INPUT')
   })
 
-  it('gets valid element when ref is function', () => {
-    const refFn = jest.fn()
+  it('gets valid element when using createRef', () => {
+    const ref = React.createRef<HTMLInputElement>()
 
-    render(<Field.Number id="unique" ref={refFn} />)
+    render(<Field.Number id="unique" ref={ref} />)
 
     const input = document.querySelector('#unique')
     expect(input).toBeTruthy()

@@ -335,22 +335,18 @@ describe('Section component', () => {
     expect(ref.current.classList).toContain('dnb-section')
   })
 
-  it('gets valid element when ref is function', () => {
-    let refElement: HTMLElement
-
-    function refFn(elem: HTMLElement) {
-      refElement = elem
-    }
+  it('gets valid element when using createRef', () => {
+    const ref = React.createRef<HTMLElement>()
 
     render(
-      <Section {...props} ref={refFn}>
+      <Section {...props} ref={ref}>
         content
       </Section>
     )
 
-    expect(refElement instanceof HTMLElement).toBe(true)
-    expect(refElement.tagName).toBe('SECTION')
-    expect(refElement.classList).toContain('dnb-section')
+    expect(ref.current instanceof HTMLElement).toBe(true)
+    expect(ref.current.tagName).toBe('SECTION')
+    expect(ref.current.classList).toContain('dnb-section')
   })
 })
 
