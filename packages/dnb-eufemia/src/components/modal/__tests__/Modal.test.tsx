@@ -422,10 +422,10 @@ describe('Modal component', () => {
     focusSpy.mockRestore()
   })
 
-  it('should bypass elements with dnb-modal--bypass_invalidation class', () => {
+  it('should bypass elements with dnb-modal--bypass-invalidation class', () => {
     render(
       <>
-        <button className="dnb-modal--bypass_invalidation">button</button>
+        <button className="dnb-modal--bypass-invalidation">button</button>
         <button className="but-not-me">button</button>
         <Modal noAnimation>
           <DialogContent>
@@ -438,10 +438,10 @@ describe('Modal component', () => {
     fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
 
     expect(
-      document.querySelector('button.dnb-modal--bypass_invalidation')
+      document.querySelector('button.dnb-modal--bypass-invalidation')
     ).not.toHaveAttribute('aria-hidden')
     expect(
-      document.querySelector('button.dnb-modal--bypass_invalidation')
+      document.querySelector('button.dnb-modal--bypass-invalidation')
     ).not.toHaveAttribute('tabindex')
 
     expect(
@@ -454,10 +454,10 @@ describe('Modal component', () => {
     ).toBe('-1')
   })
 
-  it('should bypass descendants with dnb-modal--bypass_invalidation_deep', () => {
+  it('should bypass descendants with dnb-modal--bypass-invalidation-deep', () => {
     render(
       <>
-        <div className="dnb-modal--bypass_invalidation_deep">
+        <div className="dnb-modal--bypass-invalidation-deep">
           <button className="bypass-child">button</button>
         </div>
         <button className="but-not-me">button</button>
