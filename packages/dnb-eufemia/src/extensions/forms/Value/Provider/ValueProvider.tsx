@@ -15,9 +15,9 @@ function ValueProviderProvider(props: ValueProviderProps) {
   const providerValue = useValueProvider(restProps)
 
   return (
-    <ValueProviderContext.Provider value={providerValue}>
+    <ValueProviderContext value={providerValue}>
       {children}
-    </ValueProviderContext.Provider>
+    </ValueProviderContext>
   )
 }
 

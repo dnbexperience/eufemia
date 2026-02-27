@@ -13,11 +13,9 @@ describe('ArrayItemArea', () => {
     const onAnimationEnd = jest.fn()
 
     const wrapper = ({ children }) => (
-      <IterateItemContext.Provider
-        value={{ containerMode: 'view', value: 'foo' }}
-      >
+      <IterateItemContext value={{ containerMode: 'view', value: 'foo' }}>
         {children}
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     render(
@@ -36,11 +34,9 @@ describe('ArrayItemArea', () => {
     const handleRemove = jest.fn()
 
     const wrapper = ({ children }) => (
-      <IterateItemContext.Provider
-        value={{ containerMode: 'view', handleRemove }}
-      >
+      <IterateItemContext value={{ containerMode: 'view', handleRemove }}>
         {children}
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     render(
@@ -59,11 +55,11 @@ describe('ArrayItemArea', () => {
     const fulfillRemove = jest.fn()
 
     const wrapper = ({ children }) => (
-      <IterateItemContext.Provider
+      <IterateItemContext
         value={{ containerMode: 'view', value: 'foo', fulfillRemove }}
       >
         {children}
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     render(
@@ -161,11 +157,9 @@ describe('ArrayItemArea', () => {
 
   it('should open delayed when isNew is true', async () => {
     const wrapper = ({ children }) => (
-      <IterateItemContext.Provider
-        value={{ containerMode: 'view', isNew: true }}
-      >
+      <IterateItemContext value={{ containerMode: 'view', isNew: true }}>
         {children}
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     const { rerender } = render(
@@ -194,9 +188,9 @@ describe('ArrayItemArea', () => {
 
   it('should have inner element of section', () => {
     const wrapper = ({ children }) => (
-      <IterateItemContext.Provider value={{ containerMode: 'view' }}>
+      <IterateItemContext value={{ containerMode: 'view' }}>
         {children}
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     render(<ArrayItemArea mode="view">Content</ArrayItemArea>, { wrapper })
@@ -208,9 +202,9 @@ describe('ArrayItemArea', () => {
 
   it('should set aria-label', () => {
     const wrapper = ({ children }) => (
-      <IterateItemContext.Provider value={{ containerMode: 'view' }}>
+      <IterateItemContext value={{ containerMode: 'view' }}>
         {children}
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     render(
@@ -264,11 +258,11 @@ describe('ArrayItemArea', () => {
     const handleRemove = jest.fn()
 
     render(
-      <IterateItemContext.Provider value={{ handleRemove }}>
+      <IterateItemContext value={{ handleRemove }}>
         <ArrayItemArea mode="view">
           <RemoveButton />
         </ArrayItemArea>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -281,7 +275,7 @@ describe('ArrayItemArea', () => {
     const fulfillRemove = jest.fn()
 
     render(
-      <IterateItemContext.Provider
+      <IterateItemContext
         value={{
           handleRemove,
           fulfillRemove,
@@ -292,7 +286,7 @@ describe('ArrayItemArea', () => {
         <ArrayItemArea mode="view">
           <RemoveButton />
         </ArrayItemArea>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     const element = document.querySelector('.dnb-forms-section-block')
@@ -309,11 +303,9 @@ describe('ArrayItemArea', () => {
 
   it('opens component based on containerMode', async () => {
     const { rerender } = render(
-      <IterateItemContext.Provider
-        value={{ containerMode: 'view', value: 'foo' }}
-      >
+      <IterateItemContext value={{ containerMode: 'view', value: 'foo' }}>
         <ArrayItemArea mode="view">content</ArrayItemArea>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     const element = document.querySelector('.dnb-forms-section-block')
@@ -321,11 +313,9 @@ describe('ArrayItemArea', () => {
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
 
     rerender(
-      <IterateItemContext.Provider
-        value={{ containerMode: 'edit', value: 'foo' }}
-      >
+      <IterateItemContext value={{ containerMode: 'edit', value: 'foo' }}>
         <ArrayItemArea mode="view">content</ArrayItemArea>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     expect(element).toHaveClass('dnb-height-animation--hidden')
@@ -342,7 +332,7 @@ describe('ArrayItemArea', () => {
     }
 
     render(
-      <IterateItemContext.Provider
+      <IterateItemContext
         value={{
           containerMode: 'auto',
           value: 'foo',
@@ -351,7 +341,7 @@ describe('ArrayItemArea', () => {
         <ArrayItemArea mode="view">
           <ContextConsumer />
         </ArrayItemArea>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     expect(containerMode).toBe('view')
@@ -368,7 +358,7 @@ describe('ArrayItemArea', () => {
     }
 
     render(
-      <IterateItemContext.Provider
+      <IterateItemContext
         value={{
           containerMode: 'auto',
           value: 'foo',
@@ -377,7 +367,7 @@ describe('ArrayItemArea', () => {
         <ArrayItemArea mode="edit">
           <ContextConsumer />
         </ArrayItemArea>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     expect(containerMode).toBe('view')
@@ -395,7 +385,7 @@ describe('ArrayItemArea', () => {
     }
 
     render(
-      <IterateItemContext.Provider
+      <IterateItemContext
         value={{
           switchContainerMode,
           initialContainerMode: 'auto',
@@ -405,7 +395,7 @@ describe('ArrayItemArea', () => {
         <ArrayItemArea mode="view">
           <ContextConsumer />
         </ArrayItemArea>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     expect(containerMode).toBe('edit')
@@ -424,7 +414,7 @@ describe('ArrayItemArea', () => {
     }
 
     render(
-      <IterateItemContext.Provider
+      <IterateItemContext
         value={{
           switchContainerMode,
           initialContainerMode: 'auto',
@@ -434,7 +424,7 @@ describe('ArrayItemArea', () => {
         <ArrayItemArea mode="edit">
           <ContextConsumer />
         </ArrayItemArea>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     expect(containerMode).toBe('edit')
@@ -457,7 +447,7 @@ describe('ArrayItemArea', () => {
     }
 
     render(
-      <IterateItemContext.Provider
+      <IterateItemContext
         value={{
           switchContainerMode,
           initialContainerMode: 'auto',
@@ -467,7 +457,7 @@ describe('ArrayItemArea', () => {
         <ArrayItemArea mode="edit">
           <ContextConsumer />
         </ArrayItemArea>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     expect(containerMode).toBe('edit')
@@ -482,8 +472,8 @@ describe('ArrayItemArea', () => {
     const switchContainerMode = jest.fn()
 
     render(
-      <FieldBoundaryContext.Provider value={{ hasError: true }}>
-        <IterateItemContext.Provider
+      <FieldBoundaryContext value={{ hasError: true }}>
+        <IterateItemContext
           value={{
             switchContainerMode,
             initialContainerMode: 'auto',
@@ -492,8 +482,8 @@ describe('ArrayItemArea', () => {
           }}
         >
           <ArrayItemArea mode="edit">content</ArrayItemArea>
-        </IterateItemContext.Provider>
-      </FieldBoundaryContext.Provider>
+        </IterateItemContext>
+      </FieldBoundaryContext>
     )
 
     expect(switchContainerMode).toHaveBeenCalledTimes(1)
@@ -533,11 +523,9 @@ describe('ArrayItemArea', () => {
 
   it('inverts default open state when "isNew" is true', async () => {
     render(
-      <IterateItemContext.Provider
-        value={{ containerMode: 'view', isNew: true }}
-      >
+      <IterateItemContext value={{ containerMode: 'view', isNew: true }}>
         <ArrayItemArea mode="view">content</ArrayItemArea>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     const element = document.querySelector('.dnb-forms-section-block')
@@ -550,7 +538,7 @@ describe('ArrayItemArea', () => {
     const onAnimationEnd = jest.fn()
 
     render(
-      <IterateItemContext.Provider
+      <IterateItemContext
         value={{
           handleRemove,
           containerMode: 'view',
@@ -560,7 +548,7 @@ describe('ArrayItemArea', () => {
         <ArrayItemArea mode="view" onAnimationEnd={onAnimationEnd}>
           <RemoveButton />
         </ArrayItemArea>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     const buttons = document.querySelectorAll('button')

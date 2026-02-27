@@ -16,6 +16,7 @@ v11 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 > Important: Upgrading to v11 requires React and React DOM v19 ([React 19 Upgrade Guide](https://react.dev/blog/2024/04/25/react-19-upgrade-guide)).
 
 1. Replace `innerRef` with `ref` on all Eufemia components.
+2. Replace `<Context.Provider>` with `<Context>` when using Eufemia contexts directly (React 19 deprecation).
 
 ### innerRef → ref
 
@@ -39,6 +40,24 @@ React 19 passes `ref` as a regular prop, making `forwardRef` and custom `innerRe
 
 Affected components: `Anchor`, `Button`, `Checkbox`, `Dropdown`, `Element`, `FormLabel`, `HeightAnimation`, `Input`, `InputMasked`, `PortalRoot`, `Radio`, `ScrollView`, `Section`, `Space`, `Switch`, `Textarea`, `Typography`, `Flex.Item`, `Flex.Container`, `Field.String`, `Field.Number`, `Field.Password`, `Field.PhoneNumber`, `Form.Element`, and all Element wrappers (`Div`, `Span`, `Code`, etc.).
 
+### Context.Provider → Context
+
+React 19 deprecates `<Context.Provider>`. You can now render `<Context>` directly as a provider. All internal Eufemia context providers have been updated to use this pattern.
+
+If you use any Eufemia context objects directly (e.g. `Wizard.Provider`), update your code:
+
+**Before:**
+
+```tsx
+<SomeContext.Provider value={value}>{children}</SomeContext.Provider>
+```
+
+**After:**
+
+```tsx
+<SomeContext value={value}>{children}</SomeContext>
+```
+
 ## Install
 
 To upgrade to @dnb/eufemia v11 with NPM, use:
@@ -54,6 +73,7 @@ $ pnpm add @dnb/eufemia@11
 ## Summary of changes:
 
 - All **snake case** (`on_click`) events and properties has been converted to use **camel case** (`onClick`). The reason for previously using **snake case** was to support Web Components – but the support was discontinued in [v10](/uilib/about-the-lib/releases/eufemia/v10-info/).
+- Replaced deprecated `<Context.Provider>` with direct `<Context>` rendering across all internal context providers (React 19).
 
 ## Components
 
@@ -1502,6 +1522,12 @@ See docs about changed [Dropdown properties](/uilib/about-the-lib/releases/eufem
 - Remove `variant`. No longer has any variants.
 - Remove `scrollTopOnStepChange`, as it's now enabled by default. You can disable it with `omitScrollManagement`.
 - Remove `sidebarId`. No longer has any sidebar. If an id is needed, use the `id` property.
+
+### Wizard.Provider
+
+The `Wizard.Provider` export has changed. It now points to the `WizardContext` object itself instead of `WizardContext.Provider`, aligning with the React 19 deprecation of `<Context.Provider>`.
+
+The JSX usage (`<Wizard.Provider value={...}>`) remains the same — no changes needed in your templates. However, if you reference `Wizard.Provider` programmatically (e.g., identity checks against `WizardContext.Provider`), be aware that it is now the context object itself.
 
 ### [Wizard.Step](/uilib/extensions/forms/Wizard/Step/)
 

@@ -544,7 +544,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
   const hasOnlyLabelDescription = !label && hasLabelDescription
 
   return (
-    <FieldBlockContext.Provider
+    <FieldBlockContext
       value={{
         setBlockRecord,
         setFieldState,
@@ -660,7 +660,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
           />
         </div>
       </Space>
-    </FieldBlockContext.Provider>
+    </FieldBlockContext>
   )
 }
 

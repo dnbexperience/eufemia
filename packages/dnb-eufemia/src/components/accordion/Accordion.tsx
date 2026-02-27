@@ -408,7 +408,7 @@ function Accordion({
             }
 
             return (
-              <AccordionContext.Provider value={accordionContext}>
+              <AccordionContext value={accordionContext}>
                 <div {...mainParams}>
                   {findElementInChildren(
                     children,
@@ -425,7 +425,7 @@ function Accordion({
                     <AccordionContent>{children}</AccordionContent>
                   )}
                 </div>
-              </AccordionContext.Provider>
+              </AccordionContext>
             )
           }}
         </AccordionContext.Consumer>

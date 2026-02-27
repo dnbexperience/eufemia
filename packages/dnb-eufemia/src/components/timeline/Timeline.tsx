@@ -78,7 +78,7 @@ const Timeline = (localProps: TimelineAllProps) => {
   validateDOMAttributes(allProps, props)
 
   return (
-    <TimelineContext.Provider value={{ skeleton }}>
+    <TimelineContext value={{ skeleton }}>
       <ol
         className={clsx(
           'dnb-timeline',
@@ -94,7 +94,7 @@ const Timeline = (localProps: TimelineAllProps) => {
 
         {childrenProp}
       </ol>
-    </TimelineContext.Provider>
+    </TimelineContext>
   )
 }
 

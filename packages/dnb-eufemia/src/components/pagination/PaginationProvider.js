@@ -378,7 +378,7 @@ export default class PaginationProvider extends React.PureComponent {
     }
 
     return (
-      <PaginationContext.Provider
+      <PaginationContext
         value={{
           ...this.context,
           pagination: {
@@ -397,7 +397,7 @@ export default class PaginationProvider extends React.PureComponent {
         }}
       >
         {children}
-      </PaginationContext.Provider>
+      </PaginationContext>
     )
   }
 }

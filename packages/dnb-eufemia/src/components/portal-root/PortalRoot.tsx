@@ -49,11 +49,7 @@ export function PortalRootProvider(
     [id, insideSelector, beforeSelector]
   )
 
-  return (
-    <PortalRootContext.Provider value={value}>
-      {children}
-    </PortalRootContext.Provider>
-  )
+  return <PortalRootContext value={value}>{children}</PortalRootContext>
 }
 
 function PortalRootInstance(

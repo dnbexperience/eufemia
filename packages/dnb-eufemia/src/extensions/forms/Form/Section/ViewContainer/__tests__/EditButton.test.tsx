@@ -23,11 +23,11 @@ describe('EditButton', () => {
     const switchContainerMode = jest.fn()
 
     render(
-      <SectionContainerContext.Provider value={{ switchContainerMode }}>
+      <SectionContainerContext value={{ switchContainerMode }}>
         <Toolbar>
           <EditButton />
         </Toolbar>
-      </SectionContainerContext.Provider>
+      </SectionContainerContext>
     )
 
     const button = document.querySelector('button')
@@ -39,11 +39,11 @@ describe('EditButton', () => {
 
   it('does not render when editing is disabled', () => {
     render(
-      <SectionContainerContext.Provider value={{ disableEditing: true }}>
+      <SectionContainerContext value={{ disableEditing: true }}>
         <Toolbar>
           <EditButton />
         </Toolbar>
-      </SectionContainerContext.Provider>
+      </SectionContainerContext>
     )
 
     expect(document.querySelector('button')).not.toBeInTheDocument()

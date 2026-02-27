@@ -19,13 +19,13 @@ export const createWrapper = (
   context: TestContextProps = {}
 ) => {
   return ({ children }: WrapperProps) => (
-    <InputMaskedContext.Provider
+    <InputMaskedContext
       value={{
         props: { value: null, ...props },
         context: context as ContextProps,
       }}
     >
       {children}
-    </InputMaskedContext.Provider>
+    </InputMaskedContext>
   )
 }

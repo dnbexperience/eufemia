@@ -242,7 +242,7 @@ function DatePickerProvider(props: DatePickerProviderProps) {
   }
 
   return (
-    <DatePickerContext.Provider
+    <DatePickerContext
       value={{
         translation: sharedContext.translation,
         updateDates,
@@ -263,7 +263,7 @@ function DatePickerProvider(props: DatePickerProviderProps) {
       }}
     >
       {children}
-    </DatePickerContext.Provider>
+    </DatePickerContext>
   )
 }
 

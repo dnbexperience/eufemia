@@ -3538,11 +3538,7 @@ describe('useFieldProps', () => {
     const { rerender } = renderHook(useFieldProps, {
       initialProps: props,
       wrapper: ({ children }) => {
-        return (
-          <Context.Provider value={dataContextValue}>
-            {children}
-          </Context.Provider>
-        )
+        return <Context value={dataContextValue}>{children}</Context>
       },
     })
 
@@ -6824,21 +6820,17 @@ describe('useFieldProps', () => {
             index: 1,
           }
           return (
-            <Context.Provider value={dataContextValue}>
-              <FieldBoundaryContext.Provider
-                value={fieldBoundaryContextErrorValue}
-              >
-                <FieldBlockContext.Provider value={fieldBlockContextValue}>
-                  <WizardContext.Provider value={wizardContextValue}>
-                    <WizardStepContext.Provider
-                      value={wizardStepContextValue}
-                    >
+            <Context value={dataContextValue}>
+              <FieldBoundaryContext value={fieldBoundaryContextErrorValue}>
+                <FieldBlockContext value={fieldBlockContextValue}>
+                  <WizardContext value={wizardContextValue}>
+                    <WizardStepContext value={wizardStepContextValue}>
                       {children}
-                    </WizardStepContext.Provider>
-                  </WizardContext.Provider>
-                </FieldBlockContext.Provider>
-              </FieldBoundaryContext.Provider>
-            </Context.Provider>
+                    </WizardStepContext>
+                  </WizardContext>
+                </FieldBlockContext>
+              </FieldBoundaryContext>
+            </Context>
           )
         },
       })
@@ -7003,9 +6995,7 @@ describe('useFieldProps', () => {
           const value = {
             setMountedFieldState,
           } as unknown as ContextState
-          return (
-            <Context.Provider value={value}>{children}</Context.Provider>
-          )
+          return <Context value={value}>{children}</Context>
         },
       })
 
@@ -7039,9 +7029,9 @@ describe('useFieldProps', () => {
             setMountedFieldState,
           } as unknown as ContextState
           return (
-            <Context.Provider value={value}>
+            <Context value={value}>
               <Form.Visibility visible>{children}</Form.Visibility>
-            </Context.Provider>
+            </Context>
           )
         },
       })
@@ -7079,11 +7069,11 @@ describe('useFieldProps', () => {
             setMountedFieldState,
           } as unknown as ContextState
           return (
-            <Context.Provider value={value}>
+            <Context value={value}>
               <Form.Visibility visible={false} keepInDOM>
                 {children}
               </Form.Visibility>
-            </Context.Provider>
+            </Context>
           )
         },
       })
@@ -7122,15 +7112,15 @@ describe('useFieldProps', () => {
           } as unknown as ContextState
           activeIndex++
           return (
-            <Context.Provider value={value}>
-              <WizardContext.Provider
+            <Context value={value}>
+              <WizardContext
                 value={{
                   activeIndex,
                 }}
               >
                 {children}
-              </WizardContext.Provider>
-            </Context.Provider>
+              </WizardContext>
+            </Context>
           )
         },
       })
@@ -7378,11 +7368,11 @@ describe('Zod schema support', () => {
     }
 
     const wrapper = ({ children }) => (
-      <SectionContext.Provider value={{ path: '', errorPrioritization }}>
+      <SectionContext value={{ path: '', errorPrioritization }}>
         <Provider schema={jsonSchema} ajvInstance={makeAjvInstance()}>
           {children}
         </Provider>
-      </SectionContext.Provider>
+      </SectionContext>
     )
 
     const { result } = renderHook(
@@ -7417,9 +7407,9 @@ describe('Zod schema support', () => {
       ['contextSchema']
 
     const wrapper = ({ children }) => (
-      <SectionContext.Provider value={{ path: '', errorPrioritization }}>
+      <SectionContext value={{ path: '', errorPrioritization }}>
         <Provider schema={undefined}>{children}</Provider>
-      </SectionContext.Provider>
+      </SectionContext>
     )
 
     const { result } = renderHook(
@@ -7439,14 +7429,14 @@ describe('Zod schema support', () => {
 
     // Test with Zod schema
     const zodWrapper = ({ children }) => (
-      <SectionContext.Provider
+      <SectionContext
         value={{
           path: '',
           errorPrioritization: ['contextSchema', 'fieldSchema'],
         }}
       >
         <Provider schema={mockZodSchema}>{children}</Provider>
-      </SectionContext.Provider>
+      </SectionContext>
     )
 
     const { result: zodResult } = renderHook(
@@ -7471,7 +7461,7 @@ describe('Zod schema support', () => {
     }
 
     const jsonWrapper = ({ children }) => (
-      <SectionContext.Provider
+      <SectionContext
         value={{
           path: '',
           errorPrioritization: ['contextSchema', 'fieldSchema'],
@@ -7480,7 +7470,7 @@ describe('Zod schema support', () => {
         <Provider schema={jsonSchema} ajvInstance={makeAjvInstance()}>
           {children}
         </Provider>
-      </SectionContext.Provider>
+      </SectionContext>
     )
 
     const { result: jsonResult } = renderHook(
@@ -7540,11 +7530,11 @@ describe('Zod schema support', () => {
       ['contextSchema', 'fieldSchema']
 
     const wrapper = ({ children }) => (
-      <SectionContext.Provider value={{ path: '', errorPrioritization }}>
+      <SectionContext value={{ path: '', errorPrioritization }}>
         <Provider schema={mockZodSchema} ajvInstance={makeAjvInstance()}>
           {children}
         </Provider>
-      </SectionContext.Provider>
+      </SectionContext>
     )
 
     // This test specifically verifies that the JSON Pointer logic doesn't crash
@@ -7572,11 +7562,11 @@ describe('Zod schema support', () => {
 
     // Context Zod schema succeeds (mocked in beforeEach)
     const wrapper = ({ children }) => (
-      <SectionContext.Provider value={{ path: '', errorPrioritization }}>
+      <SectionContext value={{ path: '', errorPrioritization }}>
         <Provider schema={mockZodSchema} ajvInstance={makeAjvInstance()}>
           {children}
         </Provider>
-      </SectionContext.Provider>
+      </SectionContext>
     )
 
     const { result } = renderHook(
@@ -7613,11 +7603,11 @@ describe('Zod schema support', () => {
 
     // Context Zod schema succeeds (mocked in beforeEach)
     const wrapper = ({ children }) => (
-      <SectionContext.Provider value={{ path: '', errorPrioritization }}>
+      <SectionContext value={{ path: '', errorPrioritization }}>
         <Provider schema={mockZodSchema} ajvInstance={makeAjvInstance()}>
           {children}
         </Provider>
-      </SectionContext.Provider>
+      </SectionContext>
     )
 
     const { result } = renderHook(

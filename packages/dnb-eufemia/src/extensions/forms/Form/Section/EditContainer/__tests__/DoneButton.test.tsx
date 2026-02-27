@@ -14,11 +14,11 @@ describe('DoneButton', () => {
     const switchContainerMode = jest.fn()
 
     render(
-      <SectionContainerContext.Provider value={{ switchContainerMode }}>
+      <SectionContainerContext value={{ switchContainerMode }}>
         <Toolbar>
           <DoneButton />
         </Toolbar>
-      </SectionContainerContext.Provider>
+      </SectionContainerContext>
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -32,25 +32,25 @@ describe('DoneButton', () => {
     const setShowBoundaryErrors = jest.fn()
 
     render(
-      <FieldBoundaryContext.Provider
+      <FieldBoundaryContext
         value={{
           hasError: true,
           hasVisibleError: false,
           setShowBoundaryErrors,
         }}
       >
-        <SectionContainerContext.Provider
+        <SectionContainerContext
           value={{
             containerMode: 'edit',
           }}
         >
           <Toolbar>
-            <ToolbarContext.Provider value={{ setShowError }}>
+            <ToolbarContext value={{ setShowError }}>
               <DoneButton />
-            </ToolbarContext.Provider>
+            </ToolbarContext>
           </Toolbar>
-        </SectionContainerContext.Provider>
-      </FieldBoundaryContext.Provider>
+        </SectionContainerContext>
+      </FieldBoundaryContext>
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -64,25 +64,25 @@ describe('DoneButton', () => {
     const setShowBoundaryErrors = jest.fn()
 
     render(
-      <FieldBoundaryContext.Provider
+      <FieldBoundaryContext
         value={{
           hasError: true,
           hasVisibleError: true,
           setShowBoundaryErrors,
         }}
       >
-        <SectionContainerContext.Provider
+        <SectionContainerContext
           value={{
             containerMode: 'edit',
           }}
         >
           <Toolbar>
-            <ToolbarContext.Provider value={{ setShowError }}>
+            <ToolbarContext value={{ setShowError }}>
               <DoneButton />
-            </ToolbarContext.Provider>
+            </ToolbarContext>
           </Toolbar>
-        </SectionContainerContext.Provider>
-      </FieldBoundaryContext.Provider>
+        </SectionContainerContext>
+      </FieldBoundaryContext>
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -97,25 +97,25 @@ describe('DoneButton', () => {
     const setShowBoundaryErrors = jest.fn()
 
     render(
-      <FieldBoundaryContext.Provider
+      <FieldBoundaryContext
         value={{
           hasError: false,
           hasVisibleError: true,
           setShowBoundaryErrors,
         }}
       >
-        <SectionContainerContext.Provider
+        <SectionContainerContext
           value={{
             containerMode: 'edit',
           }}
         >
           <Toolbar>
-            <ToolbarContext.Provider value={{ setShowError }}>
+            <ToolbarContext value={{ setShowError }}>
               <DoneButton />
-            </ToolbarContext.Provider>
+            </ToolbarContext>
           </Toolbar>
-        </SectionContainerContext.Provider>
-      </FieldBoundaryContext.Provider>
+        </SectionContainerContext>
+      </FieldBoundaryContext>
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -127,11 +127,11 @@ describe('DoneButton', () => {
 
   it('to have button with correct text', () => {
     render(
-      <SectionContainerContext.Provider value={{ containerMode: 'edit' }}>
+      <SectionContainerContext value={{ containerMode: 'edit' }}>
         <Toolbar>
           <DoneButton />
         </Toolbar>
-      </SectionContainerContext.Provider>
+      </SectionContainerContext>
     )
 
     const button = document.querySelector('button')

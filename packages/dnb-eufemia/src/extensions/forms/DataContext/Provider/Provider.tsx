@@ -1813,7 +1813,7 @@ export default function Provider<Data extends JsonObject>(
   ])
 
   return (
-    <DataContext.Provider value={contextValue}>
+    <DataContext value={contextValue}>
       <FieldPropsProvider
         FormStatus={formStatusConfig}
         formElement={disabled ? { disabled: true } : undefined}
@@ -1822,7 +1822,7 @@ export default function Provider<Data extends JsonObject>(
       >
         {children}
       </FieldPropsProvider>
-    </DataContext.Provider>
+    </DataContext>
   )
 }
 

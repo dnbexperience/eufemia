@@ -49,7 +49,7 @@ function At(props: Props) {
           ) as ContextState['handlePathChange']
 
           return (
-            <Context.Provider
+            <Context
               key={`element${i}`}
               value={{
                 ...dataContext,
@@ -58,7 +58,7 @@ function At(props: Props) {
               }}
             >
               {children}
-            </Context.Provider>
+            </Context>
           )
         })}
       </>
@@ -66,7 +66,7 @@ function At(props: Props) {
   }
 
   return (
-    <Context.Provider
+    <Context
       value={{
         ...dataContext,
         data,
@@ -74,7 +74,7 @@ function At(props: Props) {
       }}
     >
       {children}
-    </Context.Provider>
+    </Context>
   )
 }
 

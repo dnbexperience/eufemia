@@ -1467,7 +1467,7 @@ export default class DrawerListProvider extends React.PureComponent<
 
   render() {
     return (
-      <DrawerListContext.Provider
+      <DrawerListContext
         value={{
           ...this.context,
           drawerList: {
@@ -1494,7 +1494,7 @@ export default class DrawerListProvider extends React.PureComponent<
         }}
       >
         {this.props.children}
-      </DrawerListContext.Provider>
+      </DrawerListContext>
     )
   }
 }
