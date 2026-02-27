@@ -22,7 +22,7 @@ import FormLabel from '../FormLabel'
 import FormStatus from '../FormStatus'
 import Flex from '../Flex'
 import Space from '../Space'
-import Context, { type ContextProps } from '../../shared/Context'
+import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import ToggleButtonGroupContext from './ToggleButtonGroupContext'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
@@ -38,7 +38,6 @@ class ToggleButtonGroup extends React.PureComponent<
   ToggleButtonGroupState
 > {
   static contextType = Context
-  declare context: ContextProps
 
   static defaultProps = {
     label: null,
