@@ -142,7 +142,10 @@ export default class TextMask extends React.PureComponent<TextMaskProps> {
     }
 
     return inputElement ? (
-      React.cloneElement(inputElement, params)
+      React.createElement(inputElement.type as React.ComponentType<any>, {
+        ...(inputElement.props as Record<string, unknown>),
+        ...params,
+      })
     ) : (
       <input ref={this.inputRef} {...params} />
     )

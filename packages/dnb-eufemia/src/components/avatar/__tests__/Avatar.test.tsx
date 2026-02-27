@@ -722,6 +722,68 @@ describe('Avatar', () => {
         document.querySelector('.dnb-avatar').getAttribute('style')
       ).toBe('--color: var(--color-fire-red);')
     })
+
+    it('should pass size, variant, color, and backgroundColor to Avatars via context', () => {
+      render(
+        <Avatar.Group
+          label="tags"
+          size="large"
+          variant="secondary"
+          color="fire-red"
+          backgroundColor="emerald-green"
+        >
+          <Avatar>A</Avatar>
+          <Avatar>B</Avatar>
+        </Avatar.Group>
+      )
+
+      const avatars = Array.from(document.querySelectorAll('.dnb-avatar'))
+
+      expect(avatars).toHaveLength(2)
+
+      for (const avatar of avatars) {
+        expect(avatar).toHaveClass('dnb-avatar--size-large')
+        expect(avatar).toHaveClass('dnb-avatar--secondary')
+        expect(avatar.getAttribute('style')).toContain(
+          '--background-color: var(--color-emerald-green)'
+        )
+        expect(avatar.getAttribute('style')).toContain(
+          '--color: var(--color-fire-red)'
+        )
+      }
+    })
+
+    it('should let individual Avatar props override AvatarGroup context', () => {
+      render(
+        <Avatar.Group
+          label="tags"
+          size="large"
+          variant="secondary"
+          color="fire-red"
+          backgroundColor="emerald-green"
+        >
+          <Avatar
+            size="small"
+            variant="tertiary"
+            color="white"
+            backgroundColor="sea-green"
+          >
+            A
+          </Avatar>
+        </Avatar.Group>
+      )
+
+      const avatar = document.querySelector('.dnb-avatar')
+
+      expect(avatar).toHaveClass('dnb-avatar--size-small')
+      expect(avatar).toHaveClass('dnb-avatar--tertiary')
+      expect(avatar.getAttribute('style')).toContain(
+        '--background-color: var(--color-sea-green)'
+      )
+      expect(avatar.getAttribute('style')).toContain(
+        '--color: var(--color-white)'
+      )
+    })
   })
 
   it('should forward ref', () => {

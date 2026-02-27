@@ -4,7 +4,6 @@
  */
 
 import React, {
-  cloneElement,
   isValidElement,
   useCallback,
   useContext,
@@ -185,8 +184,9 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
    * Get our "target"
    */
   const componentWrapper = useMemo(() => {
-    if (isValidElement<any>(target)) {
-      return cloneElement(target as React.ReactElement<any>, {
+    if (isValidElement<Record<string, unknown>>(target)) {
+      return React.createElement(target.type as React.ComponentType<any>, {
+        ...target.props,
         ref: cloneRef,
         'aria-describedby': combineDescribedBy(
           target.props['aria-describedby'],

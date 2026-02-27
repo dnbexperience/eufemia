@@ -83,6 +83,10 @@ const defaultProps: Partial<AvatarGroupProps> = {
 
 export const AvatarGroupContext = React.createContext(null)
 
+export const AvatarGroupItemContext = React.createContext<{
+  zIndex?: number
+} | null>(null)
+
 const AvatarGroup = (localProps: AvatarGroupProps & SpacingProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
@@ -121,21 +125,14 @@ const AvatarGroup = (localProps: AvatarGroupProps & SpacingProps) => {
 
     children = childrenProp
       .slice(0, total - numOfHiddenAvatars)
-      .map((child, i) => {
-        const appliedSize = child.props?.size ?? size
-        const appliedVariant = child.props?.variant ?? variant
-        const appliedColor = child.props?.color ?? color
-        const appliedBackgroundColor =
-          child.props?.backgroundColor ?? backgroundColor
-        return React.cloneElement(child, {
-          size: appliedSize,
-          variant: appliedVariant,
-          color: appliedColor,
-          backgroundColor: appliedBackgroundColor,
-          style: { ...child.props.style, zIndex: total - i },
-          key: i,
-        })
-      })
+      .map((child, i) => (
+        <AvatarGroupItemContext.Provider
+          key={i}
+          value={{ zIndex: total - i }}
+        >
+          {child}
+        </AvatarGroupItemContext.Provider>
+      ))
   }
 
   const spacingClasses = createSpacingClasses(props)

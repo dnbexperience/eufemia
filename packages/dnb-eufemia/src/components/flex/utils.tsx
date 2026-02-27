@@ -124,8 +124,8 @@ export function renderWithSpacing(
         const { key: childKey, ...childProps } = child?.props || {}
 
         return React.Children.toArray(children).map((element, i) => {
-          return React.cloneElement(
-            child,
+          return React.createElement(
+            child.type as React.ComponentType<any>,
             { key: childKey || i, ...childProps },
             wrapWithSpace({ element, spaceProps, wrapInSpace })
           )
@@ -148,10 +148,20 @@ function wrapWithSpace({
   wrapInSpace = true,
 }) {
   const resolvedVariant = variant ?? getSpaceVariant(element)
-  const { wrapInSpace: _, ...props } = spaceProps
+  const { wrapInSpace: _, key, ...props } = spaceProps
 
   if (resolvedVariant === true) {
-    return React.cloneElement(element as React.ReactElement, props)
+    return React.createElement(
+      (element as React.ReactElement).type as React.ComponentType<any>,
+      {
+        ...((element as React.ReactElement).props as Record<
+          string,
+          unknown
+        >),
+        key,
+        ...props,
+      }
+    )
   }
 
   if (resolvedVariant === 'children') {
@@ -162,7 +172,11 @@ function wrapWithSpace({
     return cloneIntrinsicElementWithSpacing(element, spaceProps)
   }
 
-  return <Space {...props}>{element}</Space>
+  return (
+    <Space key={key} {...props}>
+      {element}
+    </Space>
+  )
 }
 
 function cloneIntrinsicElementWithSpacing(
@@ -183,17 +197,21 @@ function cloneIntrinsicElementWithSpacing(
     return element
   }
 
-  return React.cloneElement(element as React.ReactElement, {
-    key: spaceProps.key,
-    className: clsx(
-      element.props?.className,
-      ...createSpacingClasses(spaceProps),
-      className
-    ),
-    style: {
-      ...element.props?.style,
-      ...createSpacingProperties(spaceProps),
-      ...style,
-    },
-  })
+  return React.createElement(
+    (element as React.ReactElement).type as React.ComponentType<any>,
+    {
+      ...((element as React.ReactElement).props as Record<string, unknown>),
+      key: spaceProps.key,
+      className: clsx(
+        element.props?.className,
+        ...createSpacingClasses(spaceProps),
+        className
+      ),
+      style: {
+        ...element.props?.style,
+        ...createSpacingProperties(spaceProps),
+        ...style,
+      },
+    }
+  )
 }
