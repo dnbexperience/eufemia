@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import clsx from 'clsx'
 import {
   extendPropsWithContext,
@@ -36,7 +36,7 @@ export type FormLabelProps = {
   label?: React.ReactNode
   vertical?: boolean
   srOnly?: boolean
-  ref?: React.RefObject<HTMLElement>
+  ref?: React.Ref<HTMLElement>
 
   /** Is not a part of HTMLLabelElement and not documented as of now */
   disabled?: boolean
@@ -112,9 +112,23 @@ function FormLabel(localProps: FormLabelAllProps) {
   }
 
   const labelRef = useRef<HTMLLabelElement>(null)
-  const ref = refProp || labelRef
+
+  const combinedRef = useCallback(
+    (node: HTMLLabelElement | null) => {
+      labelRef.current = node
+
+      if (typeof refProp === 'function') {
+        refProp(node)
+      } else if (refProp) {
+        ;(refProp as React.RefObject<HTMLLabelElement | null>).current =
+          node
+      }
+    },
+    [refProp]
+  )
+
   if (!nestedNode) {
-    params['ref'] = ref
+    params['ref'] = combinedRef
   }
 
   useEffect(() => {
@@ -127,8 +141,8 @@ function FormLabel(localProps: FormLabelAllProps) {
       forElem?.closest('.dnb-input__border--root') ||
       forElem?.closest('.dnb-input__border')
 
-    if (target && ref.current) {
-      const elem = ref.current
+    if (target && labelRef.current) {
+      const elem = labelRef.current
 
       const buttonEnter = () => {
         target.classList.add('no-hover')
@@ -202,7 +216,7 @@ function FormLabel(localProps: FormLabelAllProps) {
         }
       }
     }
-  }, [forId, ref])
+  }, [forId, labelRef])
 
   skeletonDOMAttributes(params, skeleton, context)
   validateDOMAttributes(localProps, params)
