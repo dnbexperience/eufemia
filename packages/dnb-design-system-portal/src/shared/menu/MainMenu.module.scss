@@ -1,13 +1,13 @@
 @use 'sass:map';
 
-@import '@dnb/eufemia/src/style/core/utilities.scss';
+@use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
 
 .navStyle {
   display: flex;
   align-items: center;
   justify-content: center;
 
-  @media screen and (max-width: map.get($breakpoints, small)),
+  @media screen and (max-width: map.get(utilities.$breakpoints, small)),
     (max-height: 55em) {
     height: auto;
   }
@@ -39,7 +39,7 @@
   justify-content: center;
   align-items: center;
 
-  @include allBelow(small) {
+  @include utilities.allBelow(small) {
     .dnb-drawer-list__list {
       width: 90vw;
     }

@@ -9,12 +9,13 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
  * Utilities
  */
 /*
+* Used for snapshot testing
+*
+*/
+/*
  * PaymentCard component styles
  * This file provides styling for the PaymentCard component, including general design tokens
  * and variations for different card types (e.g., default, pluss, gold, etc.).
- */
-/*
- * Utilities
  */
 /*
  * CSS Properties Sbanken

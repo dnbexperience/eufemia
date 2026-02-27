@@ -9,12 +9,13 @@ exports[`Icon scss should match style dependencies css 1`] = `
  * Utilities
  */
 /*
-* Icon component
+* Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* Icon component
+*
+*/
 .dnb-icon {
   display: inline-block;
   vertical-align: middle;

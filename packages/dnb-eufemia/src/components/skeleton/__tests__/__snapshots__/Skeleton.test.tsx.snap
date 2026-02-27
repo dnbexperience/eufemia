@@ -9,13 +9,14 @@ exports[`Skeleton scss has to match style dependencies css 1`] = `
  * Utilities
  */
 /*
+* Used for snapshot testing
+*
+*/
+/*
  * Skeleton component
  *
  * Skeleton
  *
- */
-/*
- * Utilities
  */
 .dnb-skeleton {
   --skeleton-delay: 5s;

@@ -37,12 +37,11 @@ export default defineConfig({
     },
   },
 
-  // Suppress Sass deprecations from dependencies and silence categories
+  // Suppress Sass deprecations from dependencies
   css: {
     preprocessorOptions: {
       scss: {
         quietDeps: true,
-        silenceDeprecations: ['import'],
       },
     },
   },

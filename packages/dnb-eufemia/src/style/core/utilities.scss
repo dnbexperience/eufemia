@@ -5,7 +5,8 @@
 @use 'sass:map';
 @use 'sass:string';
 
-@import '../../components/space/style/space-mixins.scss';
+@use '../../components/space/style/space-mixins.scss' as space-mixins;
+@forward '../../components/space/style/space-mixins.scss';
 
 @mixin defaultDropShadow() {
   box-shadow: var(--shadow-default);
@@ -403,7 +404,7 @@ $breakpoint-offset: 0;
 }
 
 @mixin fieldsetReset() {
-  @include spaceReset();
+  @include space-mixins.spaceReset();
   padding: 0;
   border: none;
 }

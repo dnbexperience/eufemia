@@ -3,6 +3,9 @@
 *
 */
 
+@use '../../../style/core/utilities.scss' as utilities;
+@use './table-mixins.scss' as table-mixins;
+
 @mixin tableAccordionActiveColor {
   .dnb-table__td__button-icon .dnb-icon {
     color: var(--table-accordion-icon-color--active);
@@ -68,7 +71,7 @@
       color: var(--table-accordion-icon-color);
       transition: transform 500ms var(--easing-default);
 
-      @include reducedMotion() {
+      @include utilities.reducedMotion() {
         transition-duration: 0.01ms;
       }
     }
@@ -131,7 +134,7 @@
       border-right: none;
     }
 
-    @include hover() {
+    @include utilities.hover() {
       td::before {
         border-color: var(--table-accordion-outline-color);
       }
@@ -155,7 +158,7 @@
       :hover
     ):focus {
     td::before {
-      @include whatInput(keyboard) {
+      @include utilities.whatInput(keyboard) {
         border-color: var(--focus-ring-color);
         border-width: var(--focus-ring-width);
       }
@@ -199,7 +202,7 @@
   &__tr--clickable#{&}__tr#{&}__tr--expanded:not(&__tr--disabled):not(
       :active
     ):not(:hover) {
-    @include whatInputNot('keyboard') {
+    @include utilities.whatInputNot('keyboard') {
       background-color: var(--table-accordion-header-background);
 
       td::before {
@@ -219,7 +222,7 @@
       will-change: height;
       transition: height 400ms var(--easing-default);
 
-      @include reducedMotion() {
+      @include utilities.reducedMotion() {
         transition-duration: 0.01ms;
       }
 
@@ -229,7 +232,7 @@
         transform: translateY(-10px);
         transition: transform 500ms var(--easing-default);
 
-        @include reducedMotion() {
+        @include utilities.reducedMotion() {
           transition-duration: 0.01ms;
         }
       }
@@ -251,7 +254,7 @@
       }
 
       + .dnb-table__tr--clickable .dnb-table__td {
-        @include tableBorder() {
+        @include table-mixins.tableBorder() {
           border-top: var(--table-accordion-border);
         }
       }
