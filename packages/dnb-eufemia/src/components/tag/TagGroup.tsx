@@ -79,7 +79,7 @@ const TagGroup = (
   } = validateDOMAttributes({}, props)
 
   return (
-    <TagGroupContext.Provider value={props}>
+    <TagGroupContext value={props}>
       <span
         className={clsx('dnb-tag__group', spacingClasses, className)}
         {...attributes}
@@ -87,7 +87,7 @@ const TagGroup = (
         <span className="dnb-sr-only">{label}</span>
         {children}
       </span>
-    </TagGroupContext.Provider>
+    </TagGroupContext>
   )
 }
 

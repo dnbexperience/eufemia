@@ -113,9 +113,9 @@ export function IterateOverSteps({
   if (mapOverChildrenRef.current) {
     return childrenArray.map((child, index) => {
       return (
-        <WizardStepContext.Provider key={index} value={{ index }}>
+        <WizardStepContext key={index} value={{ index }}>
           {child}
-        </WizardStepContext.Provider>
+        </WizardStepContext>
       )
     })
   }

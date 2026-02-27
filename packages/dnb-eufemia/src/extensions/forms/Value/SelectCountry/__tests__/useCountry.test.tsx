@@ -19,9 +19,9 @@ describe('useCountry', () => {
   })
 
   const wrapper = ({ children }: { children: React.ReactNode }) => (
-    <SharedContext.Provider value={{ locale: mockLocale }}>
+    <SharedContext value={{ locale: mockLocale }}>
       {children}
-    </SharedContext.Provider>
+    </SharedContext>
   )
 
   it('should return country name by ISO code', () => {

@@ -120,7 +120,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
   }
 
   return (
-    <AccordionGroupContext.Provider value={contextForProvider}>
+    <AccordionGroupContext value={contextForProvider}>
       <div className={classes}>
         <span
           id={id}
@@ -131,7 +131,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
           <span className="dnb-accordion-group__children">{children}</span>
         </span>
       </div>
-    </AccordionGroupContext.Provider>
+    </AccordionGroupContext>
   )
 }
 

@@ -112,7 +112,7 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
   }, [])
 
   return (
-    <HeadingContext.Provider
+    <HeadingContext
       value={{
         heading: {
           ...state.newProps,
@@ -130,6 +130,6 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
         </span>
       )) ||
         props.children}
-    </HeadingContext.Provider>
+    </HeadingContext>
   )
 }

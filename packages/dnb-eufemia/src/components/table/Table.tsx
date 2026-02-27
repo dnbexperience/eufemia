@@ -147,7 +147,7 @@ const Table = (componentProps: TableAllProps) => {
 
   return (
     <Provider skeleton={Boolean(skeleton)}>
-      <TableContext.Provider
+      <TableContext
         value={{
           trCountRef,
           rerenderAlias,
@@ -178,7 +178,7 @@ const Table = (componentProps: TableAllProps) => {
         >
           {children}
         </table>
-      </TableContext.Provider>
+      </TableContext>
     </Provider>
   )
 }

@@ -39,7 +39,7 @@ function SectionContainerProvider(props: Props) {
   )
 
   return (
-    <SectionContainerContext.Provider
+    <SectionContainerContext
       value={{
         validateInitially,
         containerMode:
@@ -51,7 +51,7 @@ function SectionContainerProvider(props: Props) {
       }}
     >
       {children}
-    </SectionContainerContext.Provider>
+    </SectionContainerContext>
   )
 }
 

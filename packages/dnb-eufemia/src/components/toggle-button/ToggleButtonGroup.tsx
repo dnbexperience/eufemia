@@ -226,7 +226,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
     const Fieldset = label ? 'fieldset' : 'div'
 
     return (
-      <ToggleButtonGroupContext.Provider value={context}>
+      <ToggleButtonGroupContext value={context}>
         <div className={classes}>
           <AlignmentHelper />
           <Fieldset
@@ -293,7 +293,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
             </Flex.Container>
           </Fieldset>
         </div>
-      </ToggleButtonGroupContext.Provider>
+      </ToggleButtonGroupContext>
     )
   }
 }

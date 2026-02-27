@@ -230,7 +230,7 @@ function Toggle(props: Props) {
         >
           <ButtonRow bottom="x-small">
             <ToggleButton.Group>
-              <ToggleButtonGroupContext.Provider
+              <ToggleButtonGroupContext
                 value={{
                   value: isOn ? 'on' : isOff ? 'off' : null, // use "null" to reset the value
                   onChange: handleToggleChange,
@@ -251,7 +251,7 @@ function Toggle(props: Props) {
                   role="radio"
                   {...htmlAttributes}
                 />
-              </ToggleButtonGroupContext.Provider>
+              </ToggleButtonGroupContext>
             </ToggleButton.Group>
           </ButtonRow>
         </FieldBlock>

@@ -39,9 +39,9 @@ function FieldProviderProvider(props: FieldProviderProps) {
     useFieldProvider(restProps)
 
   return (
-    <FieldProviderContext.Provider value={providerValue}>
+    <FieldProviderContext value={providerValue}>
       <SharedProvider {...sharedProviderParams}>{children}</SharedProvider>
-    </FieldProviderContext.Provider>
+    </FieldProviderContext>
   )
 }
 

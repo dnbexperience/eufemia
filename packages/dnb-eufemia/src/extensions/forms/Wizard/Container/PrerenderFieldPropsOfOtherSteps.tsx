@@ -170,7 +170,7 @@ function PrerenderFieldPropsProvider({ showAllErrorsNow, children }) {
   // Run validation of all fields
   if (showAllErrorsNow) {
     return (
-      <DataContext.Provider
+      <DataContext
         value={{
           ...dataContext,
           hasContext: true,
@@ -179,13 +179,13 @@ function PrerenderFieldPropsProvider({ showAllErrorsNow, children }) {
         }}
       >
         {children}
-      </DataContext.Provider>
+      </DataContext>
     )
   }
 
   // Pre-render field props
   return (
-    <DataContext.Provider
+    <DataContext
       value={{
         ...defaultContextState,
         hasContext: true,
@@ -199,6 +199,6 @@ function PrerenderFieldPropsProvider({ showAllErrorsNow, children }) {
       }}
     >
       {children}
-    </DataContext.Provider>
+    </DataContext>
   )
 }

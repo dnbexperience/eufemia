@@ -15,9 +15,9 @@ describe('PushButton', () => {
       </Iterate.PushButton>,
       {
         wrapper: ({ children }) => (
-          <IterateItemContext.Provider value={{ handlePush }}>
+          <IterateItemContext value={{ handlePush }}>
             {children}
-          </IterateItemContext.Provider>
+          </IterateItemContext>
         ),
       }
     )

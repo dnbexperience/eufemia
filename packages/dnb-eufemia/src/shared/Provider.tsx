@@ -90,11 +90,7 @@ export default function Provider<Props>(
     setCurrentLocale,
   ])
 
-  return (
-    <Context.Provider value={value}>
-      {localProps.children}
-    </Context.Provider>
-  )
+  return <Context value={value}>{localProps.children}</Context>
 }
 
 type MergeContextProps = {

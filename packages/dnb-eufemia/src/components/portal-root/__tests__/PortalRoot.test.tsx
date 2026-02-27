@@ -519,7 +519,7 @@ describe('PortalRoot', () => {
       const componentStyle = { color: 'blue', margin: '20px' }
 
       render(
-        <IsolatedStyleScopeContext.Provider
+        <IsolatedStyleScopeContext
           value={{
             style: scopeStyle,
             generatedScopeHash: 'test-hash',
@@ -532,7 +532,7 @@ describe('PortalRoot', () => {
           <PortalRoot style={componentStyle}>
             <div>Content</div>
           </PortalRoot>
-        </IsolatedStyleScopeContext.Provider>
+        </IsolatedStyleScopeContext>
       )
 
       const portalElement = document.getElementById('eufemia-portal-root')
@@ -647,7 +647,7 @@ describe('PortalRoot', () => {
 
     it('should create isolated style scope even when nested inside another style scope', () => {
       render(
-        <IsolatedStyleScopeContext.Provider
+        <IsolatedStyleScopeContext
           value={{
             style: {},
             generatedScopeHash: 'parent-scope-hash',
@@ -660,7 +660,7 @@ describe('PortalRoot', () => {
           <PortalRoot>
             <div data-testid="portal-content">Portal Content</div>
           </PortalRoot>
-        </IsolatedStyleScopeContext.Provider>
+        </IsolatedStyleScopeContext>
       )
 
       const portalElement = document.getElementById('eufemia-portal-root')

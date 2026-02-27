@@ -59,14 +59,14 @@ export default function Toolbar({
         <Hr space={0} />
       )}
 
-      <ToolbarContext.Provider value={{ setShowError }}>
+      <ToolbarContext value={{ setShowError }}>
         <Flex.Horizontal
           top={toolbarVariant === 'custom' ? false : 'x-small'}
           gap="large"
         >
           {children}
         </Flex.Horizontal>
-      </ToolbarContext.Provider>
+      </ToolbarContext>
 
       <FormStatus
         show={showError && hasVisibleError}

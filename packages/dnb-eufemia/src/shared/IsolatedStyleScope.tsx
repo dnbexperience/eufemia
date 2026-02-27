@@ -84,7 +84,7 @@ export default function IsolatedStyleScope(
       }
 
       return (
-        <IsolatedStyleScopeContext.Provider
+        <IsolatedStyleScopeContext
           value={{
             scopeHash,
             generatedScopeHash,
@@ -113,7 +113,7 @@ export default function IsolatedStyleScope(
               <div className="dnb-core-style">{children}</div>
             )}
           </div>
-        </IsolatedStyleScopeContext.Provider>
+        </IsolatedStyleScopeContext>
       )
     }
   }

@@ -48,9 +48,9 @@ export const BreadcrumbMultiple = ({
         {React.Children.toArray(items)
           .filter((item) => React.isValidElement(item))
           .map((item: React.ReactElement<BreadcrumbItemProps>, i) => (
-            <BreadcrumbItemContext.Provider key={i} value={{ itemNo: i }}>
+            <BreadcrumbItemContext key={i} value={{ itemNo: i }}>
               {item}
-            </BreadcrumbItemContext.Provider>
+            </BreadcrumbItemContext>
           ))}
       </Section>
     </HeightAnimation>

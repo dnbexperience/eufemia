@@ -182,15 +182,15 @@ function Step(props: Props): React.JSX.Element {
 
   if (prerenderFieldProps) {
     return (
-      <WizardStepContext.Provider value={{ index }}>
+      <WizardStepContext value={{ index }}>
         {childrenWithFieldProvider as React.JSX.Element}
-      </WizardStepContext.Provider>
+      </WizardStepContext>
     )
   }
 
   const stepRef = activeIndex === index ? stepElementRef : null
   const childrenWithFlex = (
-    <WizardStepContext.Provider value={{ index }}>
+    <WizardStepContext value={{ index }}>
       <Flex.Stack
         className={clsx('dnb-forms-step', className)}
         element="section"
@@ -201,7 +201,7 @@ function Step(props: Props): React.JSX.Element {
       >
         {childrenWithFieldProvider}
       </Flex.Stack>
-    </WizardStepContext.Provider>
+    </WizardStepContext>
   )
 
   if (
