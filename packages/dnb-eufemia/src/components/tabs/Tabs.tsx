@@ -5,7 +5,7 @@
 
 import React from 'react'
 import clsx from 'clsx'
-import Context from '../../shared/Context'
+import Context, { type ContextProps } from '../../shared/Context'
 import {
   warn,
   slugify,
@@ -191,6 +191,7 @@ export default class Tabs extends React.PureComponent<
   TabsState
 > {
   static contextType = Context
+  declare context: ContextProps
 
   _id: string
   _tabsRef: React.RefObject<HTMLDivElement>
