@@ -96,25 +96,12 @@ describe('Field.Number', () => {
         />
       )
 
-      expect(document.querySelector('input')).toHaveValue('1234​​')
+      expect(document.querySelector('input')).toHaveValue('1234')
     })
 
     it('renders custom mask with 4 digits', () => {
       render(<Field.Number mask={Array(4).fill(/\d/)} value={1234} />)
 
-      expect(document.querySelector('input')).toHaveValue('1234')
-    })
-
-    it('renders custom mask given as a function with 4 digits', () => {
-      const mask = Array(4).fill(/\d/)
-
-      render(<Field.Number mask={mask} value={1234} />)
-
-      expect(mask).toHaveBeenCalledTimes(1)
-      expect(mask).toHaveBeenCalledWith('1234', {
-        currentCaretPosition: 0,
-        previousConformedValue: undefined,
-      })
       expect(document.querySelector('input')).toHaveValue('1234')
     })
 
@@ -136,7 +123,7 @@ describe('Field.Number', () => {
       expect(document.querySelector('input')).toHaveValue('1.234,56')
     })
 
-    it.only('shows error when minimum exceeded', () => {
+    it('shows error when minimum exceeded', () => {
       render(<Field.Number value={Number.MIN_SAFE_INTEGER} />)
 
       const input = document.querySelector('input')
