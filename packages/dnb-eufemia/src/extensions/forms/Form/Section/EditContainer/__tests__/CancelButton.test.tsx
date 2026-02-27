@@ -16,9 +16,7 @@ describe('CancelButton', () => {
     const switchContainerMode = jest.fn()
 
     render(
-      <FieldBoundaryContext
-        value={{ verifyFieldError: () => false }}
-      >
+      <FieldBoundaryContext value={{ verifyFieldError: () => false }}>
         <SectionContainerContext value={{ switchContainerMode }}>
           <Toolbar>
             <CancelButton showConfirmDialog={false} />
@@ -64,9 +62,7 @@ describe('CancelButton', () => {
           setShowBoundaryErrors,
         }}
       >
-        <SectionContainerContext
-          value={{ containerMode: 'edit' }}
-        >
+        <SectionContainerContext value={{ containerMode: 'edit' }}>
           <Toolbar>
             <ToolbarContext value={{ setShowError }}>
               <CancelButton showConfirmDialog={false} />
@@ -96,9 +92,7 @@ describe('CancelButton', () => {
           setShowBoundaryErrors,
         }}
       >
-        <SectionContainerContext
-          value={{ containerMode: 'edit' }}
-        >
+        <SectionContainerContext value={{ containerMode: 'edit' }}>
           <Toolbar>
             <ToolbarContext value={{ setShowError }}>
               <CancelButton showConfirmDialog={false} />
@@ -190,10 +184,7 @@ describe('CancelButton', () => {
     let submitData = null
 
     render(
-      <DataContext
-        data={{ foo: 'original value' }}
-        onSubmit={onSubmit}
-      >
+      <DataContext data={{ foo: 'original value' }} onSubmit={onSubmit}>
         <Field.String path="/foo" />
         <DataContext.Consumer>
           {({ internalDataRef }) => {
@@ -201,9 +192,7 @@ describe('CancelButton', () => {
             return null
           }}
         </DataContext.Consumer>
-        <SectionContainerContext
-          value={{ containerMode: 'edit' }}
-        >
+        <SectionContainerContext value={{ containerMode: 'edit' }}>
           <Toolbar>
             <CancelButton showConfirmDialog={false} />
           </Toolbar>
@@ -222,9 +211,7 @@ describe('CancelButton', () => {
 
   it('shows a confirm dialog by default and proceeds on confirm', async () => {
     render(
-      <FieldBoundaryContext
-        value={{ verifyFieldError: () => false }}
-      >
+      <FieldBoundaryContext value={{ verifyFieldError: () => false }}>
         <SectionContainerContext value={{}}>
           <Toolbar>
             <CancelButton />

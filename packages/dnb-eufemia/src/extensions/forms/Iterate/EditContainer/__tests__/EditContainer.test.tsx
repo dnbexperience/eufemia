@@ -11,9 +11,7 @@ const nb = nbNO['nb-NO'].IterateEditContainer
 describe('EditContainer', () => {
   it('renders content and without errors', () => {
     const { rerender } = render(
-      <IterateItemContext
-        value={{ containerMode: 'view', value: 'foo' }}
-      >
+      <IterateItemContext value={{ containerMode: 'view', value: 'foo' }}>
         <EditContainer>content</EditContainer>
       </IterateItemContext>
     )
@@ -28,9 +26,7 @@ describe('EditContainer', () => {
     expect(inner).toHaveTextContent('content')
 
     rerender(
-      <IterateItemContext
-        value={{ containerMode: 'edit', value: 'foo' }}
-      >
+      <IterateItemContext value={{ containerMode: 'edit', value: 'foo' }}>
         <EditContainer>content</EditContainer>
       </IterateItemContext>
     )
@@ -57,9 +53,7 @@ describe('EditContainer', () => {
     const switchContainerMode = jest.fn()
 
     render(
-      <IterateItemContext
-        value={{ switchContainerMode, isNew: true }}
-      >
+      <IterateItemContext value={{ switchContainerMode, isNew: true }}>
         <EditContainer>content</EditContainer>
       </IterateItemContext>
     )
@@ -130,9 +124,7 @@ describe('EditContainer', () => {
 
   it('should render "titleWhenNew"', () => {
     render(
-      <IterateItemContext
-        value={{ containerMode: 'edit', isNew: true }}
-      >
+      <IterateItemContext value={{ containerMode: 'edit', isNew: true }}>
         <EditContainer title="Item title" titleWhenNew="New Item title">
           content
         </EditContainer>

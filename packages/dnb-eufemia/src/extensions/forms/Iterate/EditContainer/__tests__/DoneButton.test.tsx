@@ -31,9 +31,7 @@ describe('DoneButton', () => {
     const switchContainerMode = jest.fn()
 
     render(
-      <IterateItemContext
-        value={{ switchContainerMode, isNew: true }}
-      >
+      <IterateItemContext value={{ switchContainerMode, isNew: true }}>
         <Toolbar>
           <DoneButton />
         </Toolbar>

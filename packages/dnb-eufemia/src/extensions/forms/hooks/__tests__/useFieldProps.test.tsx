@@ -3538,11 +3538,7 @@ describe('useFieldProps', () => {
     const { rerender } = renderHook(useFieldProps, {
       initialProps: props,
       wrapper: ({ children }) => {
-        return (
-          <Context value={dataContextValue}>
-            {children}
-          </Context>
-        )
+        return <Context value={dataContextValue}>{children}</Context>
       },
     })
 
@@ -6825,14 +6821,10 @@ describe('useFieldProps', () => {
           }
           return (
             <Context value={dataContextValue}>
-              <FieldBoundaryContext
-                value={fieldBoundaryContextErrorValue}
-              >
+              <FieldBoundaryContext value={fieldBoundaryContextErrorValue}>
                 <FieldBlockContext value={fieldBlockContextValue}>
                   <WizardContext value={wizardContextValue}>
-                    <WizardStepContext
-                      value={wizardStepContextValue}
-                    >
+                    <WizardStepContext value={wizardStepContextValue}>
                       {children}
                     </WizardStepContext>
                   </WizardContext>
@@ -7003,9 +6995,7 @@ describe('useFieldProps', () => {
           const value = {
             setMountedFieldState,
           } as unknown as ContextState
-          return (
-            <Context value={value}>{children}</Context>
-          )
+          return <Context value={value}>{children}</Context>
         },
       })
 

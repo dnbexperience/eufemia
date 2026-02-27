@@ -28,9 +28,7 @@ function renderWithContext(
   ui: React.ReactElement,
   context = defaultContext
 ) {
-  return render(
-    <ModalContext value={context}>{ui}</ModalContext>
-  )
+  return render(<ModalContext value={context}>{ui}</ModalContext>)
 }
 
 describe('ModalHeaderBar', () => {

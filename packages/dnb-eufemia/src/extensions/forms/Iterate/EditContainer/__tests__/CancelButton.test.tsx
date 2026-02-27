@@ -17,9 +17,7 @@ describe('CancelButton', () => {
     const switchContainerMode = jest.fn()
 
     render(
-      <FieldBoundaryContext
-        value={{ verifyFieldError: () => false }}
-      >
+      <FieldBoundaryContext value={{ verifyFieldError: () => false }}>
         <IterateItemContext value={{ switchContainerMode }}>
           <Toolbar>
             <CancelButton showConfirmDialog={false} />
@@ -40,9 +38,7 @@ describe('CancelButton', () => {
     const switchContainerMode = jest.fn()
 
     render(
-      <IterateItemContext
-        value={{ switchContainerMode, isNew: true }}
-      >
+      <IterateItemContext value={{ switchContainerMode, isNew: true }}>
         <Toolbar>
           <CancelButton showConfirmDialog={false} />
         </Toolbar>
@@ -112,9 +108,7 @@ describe('CancelButton', () => {
     render(
       <MockBoundary>
         <IterateItemContext value={{ containerMode: 'edit' }}>
-          <PushContainerContext
-            value={{ some: 'context' } as any}
-          >
+          <PushContainerContext value={{ some: 'context' } as any}>
             <Toolbar>
               <ToolbarContext value={{ setShowError }}>
                 <CancelButton showConfirmDialog={false} />
@@ -271,9 +265,7 @@ describe('CancelButton', () => {
     const switchContainerMode = jest.fn()
 
     render(
-      <FieldBoundaryContext
-        value={{ verifyFieldError: () => false }}
-      >
+      <FieldBoundaryContext value={{ verifyFieldError: () => false }}>
         <IterateItemContext value={{ switchContainerMode }}>
           <Toolbar>
             <CancelButton />

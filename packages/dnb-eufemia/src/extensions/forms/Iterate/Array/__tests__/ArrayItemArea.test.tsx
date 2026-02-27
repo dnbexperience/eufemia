@@ -13,9 +13,7 @@ describe('ArrayItemArea', () => {
     const onAnimationEnd = jest.fn()
 
     const wrapper = ({ children }) => (
-      <IterateItemContext
-        value={{ containerMode: 'view', value: 'foo' }}
-      >
+      <IterateItemContext value={{ containerMode: 'view', value: 'foo' }}>
         {children}
       </IterateItemContext>
     )
@@ -36,9 +34,7 @@ describe('ArrayItemArea', () => {
     const handleRemove = jest.fn()
 
     const wrapper = ({ children }) => (
-      <IterateItemContext
-        value={{ containerMode: 'view', handleRemove }}
-      >
+      <IterateItemContext value={{ containerMode: 'view', handleRemove }}>
         {children}
       </IterateItemContext>
     )
@@ -161,9 +157,7 @@ describe('ArrayItemArea', () => {
 
   it('should open delayed when isNew is true', async () => {
     const wrapper = ({ children }) => (
-      <IterateItemContext
-        value={{ containerMode: 'view', isNew: true }}
-      >
+      <IterateItemContext value={{ containerMode: 'view', isNew: true }}>
         {children}
       </IterateItemContext>
     )
@@ -309,9 +303,7 @@ describe('ArrayItemArea', () => {
 
   it('opens component based on containerMode', async () => {
     const { rerender } = render(
-      <IterateItemContext
-        value={{ containerMode: 'view', value: 'foo' }}
-      >
+      <IterateItemContext value={{ containerMode: 'view', value: 'foo' }}>
         <ArrayItemArea mode="view">content</ArrayItemArea>
       </IterateItemContext>
     )
@@ -321,9 +313,7 @@ describe('ArrayItemArea', () => {
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
 
     rerender(
-      <IterateItemContext
-        value={{ containerMode: 'edit', value: 'foo' }}
-      >
+      <IterateItemContext value={{ containerMode: 'edit', value: 'foo' }}>
         <ArrayItemArea mode="view">content</ArrayItemArea>
       </IterateItemContext>
     )
@@ -533,9 +523,7 @@ describe('ArrayItemArea', () => {
 
   it('inverts default open state when "isNew" is true', async () => {
     render(
-      <IterateItemContext
-        value={{ containerMode: 'view', isNew: true }}
-      >
+      <IterateItemContext value={{ containerMode: 'view', isNew: true }}>
         <ArrayItemArea mode="view">content</ArrayItemArea>
       </IterateItemContext>
     )

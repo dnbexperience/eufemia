@@ -36,11 +36,7 @@ function SnapshotProvider(props: SnapshotProps) {
 
   const contextValue = { name, setMountedField }
 
-  return (
-    <SnapshotContext value={contextValue}>
-      {children}
-    </SnapshotContext>
-  )
+  return <SnapshotContext value={contextValue}>{children}</SnapshotContext>
 }
 
 SnapshotProvider._supportsSpacingProps = undefined

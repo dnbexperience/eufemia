@@ -31,9 +31,7 @@ describe('ResetButton', () => {
     const switchContainerMode = jest.fn()
 
     render(
-      <IterateItemContext
-        value={{ switchContainerMode, isNew: true }}
-      >
+      <IterateItemContext value={{ switchContainerMode, isNew: true }}>
         <Toolbar>
           <ResetButton showConfirmDialog={false} />
         </Toolbar>

@@ -151,9 +151,7 @@ Card.Provider = function CardProvider({
 
   context.isNested = disableCardBreakout ?? context?.isNested
 
-  return (
-    <CardContext value={context}>{children}</CardContext>
-  )
+  return <CardContext value={context}>{children}</CardContext>
 }
 
 export default Card

@@ -438,10 +438,7 @@ function ArrayComponent(props: Props) {
 
         if (omitFlex) {
           return (
-            <IterateItemContext
-              key={`element-${id}`}
-              value={contextValue}
-            >
+            <IterateItemContext key={`element-${id}`} value={contextValue}>
               <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
             </IterateItemContext>
           )

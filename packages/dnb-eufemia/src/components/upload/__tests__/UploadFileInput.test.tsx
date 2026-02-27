@@ -21,11 +21,7 @@ const makeWrapper = (props = null) => {
     ...props,
   }
   return ({ children }) => {
-    return (
-      <UploadContext value={defaultContext}>
-        {children}
-      </UploadContext>
-    )
+    return <UploadContext value={defaultContext}>{children}</UploadContext>
   }
 }
 

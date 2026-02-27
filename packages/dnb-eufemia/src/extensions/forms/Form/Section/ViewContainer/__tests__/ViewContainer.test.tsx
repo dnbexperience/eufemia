@@ -102,9 +102,7 @@ describe('ViewContainer', () => {
           },
         }}
       >
-        <SectionContainerContext
-          value={{ containerMode: 'edit' }}
-        >
+        <SectionContainerContext value={{ containerMode: 'edit' }}>
           <ViewContainer>content</ViewContainer>
         </SectionContainerContext>
       </Form.Handler>

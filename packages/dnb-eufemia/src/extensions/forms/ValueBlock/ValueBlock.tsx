@@ -293,11 +293,7 @@ function ValueBlock(localProps: Props) {
     )
   }
 
-  return (
-    <ValueBlockContext value={props}>
-      {content}
-    </ValueBlockContext>
-  )
+  return <ValueBlockContext value={props}>{content}</ValueBlockContext>
 }
 
 function useNotInSummaryList(

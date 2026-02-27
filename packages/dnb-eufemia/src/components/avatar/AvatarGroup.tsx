@@ -126,10 +126,7 @@ const AvatarGroup = (localProps: AvatarGroupProps & SpacingProps) => {
     children = childrenProp
       .slice(0, total - numOfHiddenAvatars)
       .map((child, i) => (
-        <AvatarGroupItemContext
-          key={i}
-          value={{ zIndex: total - i }}
-        >
+        <AvatarGroupItemContext key={i} value={{ zIndex: total - i }}>
           {child}
         </AvatarGroupItemContext>
       ))
