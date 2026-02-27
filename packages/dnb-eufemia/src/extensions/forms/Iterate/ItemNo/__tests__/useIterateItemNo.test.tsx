@@ -13,18 +13,18 @@ function TestComponent(props: any) {
 describe('useIterateItemNo', () => {
   it('should replace {itemNo} with index + 1', () => {
     render(
-      <IterateItemContext.Provider value={{ index: 0 }}>
+      <IterateItemContext value={{ index: 0 }}>
         <TestComponent label="Hello {itemNo}" />
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
     expect(screen.getByText('Hello 1')).toBeInTheDocument()
   })
 
   it('should not append suffix if required is true', () => {
     render(
-      <IterateItemContext.Provider value={{ index: 1 }}>
+      <IterateItemContext value={{ index: 1 }}>
         <TestComponent label="Item {itemNo}" required />
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
     expect(screen.getByText('Item 2')).toBeInTheDocument()
     expect(screen.queryByText('(optional)')).toBeNull()
@@ -32,48 +32,48 @@ describe('useIterateItemNo', () => {
 
   it('should append default suffix if required is false', () => {
     render(
-      <IterateItemContext.Provider value={{ index: 2 }}>
+      <IterateItemContext value={{ index: 2 }}>
         <TestComponent label="Label {itemNo}" required={false} />
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
     expect(screen.getByText('Label 3 (valgfritt)')).toBeInTheDocument()
   })
 
   it('should use custom suffix if labelSuffix is provided', () => {
     render(
-      <IterateItemContext.Provider value={{ index: 3 }}>
+      <IterateItemContext value={{ index: 3 }}>
         <TestComponent
           label="Custom {itemNo}"
           labelSuffix="(custom)"
           required={false}
         />
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
     expect(screen.getByText('Custom 4 (custom)')).toBeInTheDocument()
   })
 
   it('should not append custom suffix when labelSuffix has value true', () => {
     render(
-      <IterateItemContext.Provider value={{ index: 3 }}>
+      <IterateItemContext value={{ index: 3 }}>
         <TestComponent
           label="Custom {itemNo}"
           labelSuffix={true}
           required={false}
         />
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
     expect(screen.getByText('Custom 4')).toBeInTheDocument()
   })
 
   it('should not append custom suffix when labelSuffix has value false', () => {
     render(
-      <IterateItemContext.Provider value={{ index: 3 }}>
+      <IterateItemContext value={{ index: 3 }}>
         <TestComponent
           label="Custom {itemNo}"
           labelSuffix={false}
           required={false}
         />
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
     expect(screen.getByText('Custom 4')).toBeInTheDocument()
   })

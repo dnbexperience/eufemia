@@ -76,7 +76,7 @@ function ItemAccordion(props: ItemAccordionProps) {
   }, [open])
 
   return (
-    <ItemAccordionContext.Provider
+    <ItemAccordionContext
       value={{
         open,
         openState,
@@ -104,7 +104,7 @@ function ItemAccordion(props: ItemAccordionProps) {
         {!hasExplicitHeader ? <AccordionHeader /> : null}
         {children}
       </ItemContent>
-    </ItemAccordionContext.Provider>
+    </ItemAccordionContext>
   )
 }
 ItemAccordion._supportsSpacingProps = true

@@ -31,7 +31,7 @@ function P(props: PProps) {
   const proseMaxWidth = proseMaxWidthProp ?? proseMaxWidthContext
 
   return (
-    <ParagraphContext.Provider value={{ isNested: true }}>
+    <ParagraphContext value={{ isNested: true }}>
       <Typography
         element={
           element === 'p' && paragraphContext?.isNested ? 'span' : element
@@ -40,7 +40,7 @@ function P(props: PProps) {
         proseMaxWidth={proseMaxWidth}
         {...rest}
       />
-    </ParagraphContext.Provider>
+    </ParagraphContext>
   )
 }
 

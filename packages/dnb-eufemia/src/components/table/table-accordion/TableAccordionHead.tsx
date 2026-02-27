@@ -185,7 +185,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
     : null
 
   return (
-    <TableAccordionContext.Provider
+    <TableAccordionContext
       value={{
         toggleOpenTr,
         trIsOpen,
@@ -212,7 +212,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
         {headerContent}
       </TableClickableHead>
       {accordionContent}
-    </TableAccordionContext.Provider>
+    </TableAccordionContext>
   )
 }
 

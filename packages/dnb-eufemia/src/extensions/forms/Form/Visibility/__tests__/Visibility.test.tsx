@@ -1122,21 +1122,21 @@ describe('Visibility', () => {
 
   it('should render without additional wrapper when inside SummaryListContext', async () => {
     const { container, rerender } = render(
-      <SummaryListContext.Provider value={{ isNested: false }}>
+      <SummaryListContext value={{ isNested: false }}>
         <Form.Visibility animate pathFalsy="/myField">
           Child
         </Form.Visibility>
-      </SummaryListContext.Provider>
+      </SummaryListContext>
     )
 
     expect(container.innerHTML).toMatchInlineSnapshot(`"Child"`)
 
     rerender(
-      <SummaryListContext.Provider value={{ isNested: true }}>
+      <SummaryListContext value={{ isNested: true }}>
         <Form.Visibility animate pathFalsy="/myField">
           Child
         </Form.Visibility>
-      </SummaryListContext.Provider>
+      </SummaryListContext>
     )
 
     expect(document.querySelector('.dnb-forms-visibility')).toHaveClass(
@@ -1144,11 +1144,11 @@ describe('Visibility', () => {
     )
 
     rerender(
-      <SummaryListContext.Provider value={{ isNested: false }}>
+      <SummaryListContext value={{ isNested: false }}>
         <Form.Visibility animate pathFalsy="/myField">
           Child
         </Form.Visibility>
-      </SummaryListContext.Provider>
+      </SummaryListContext>
     )
 
     expect(container.innerHTML).toMatchInlineSnapshot(`"Child"`)

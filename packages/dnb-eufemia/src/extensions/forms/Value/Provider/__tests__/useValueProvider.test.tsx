@@ -46,11 +46,11 @@ describe('useValueProvider', () => {
     const { result } = renderHook(useValueProvider, {
       initialProps: props,
       wrapper: ({ children }) => (
-        <ValueProviderContext.Provider
+        <ValueProviderContext
           value={{ inheritedContext, inheritedProps, extend }}
         >
           {children}
-        </ValueProviderContext.Provider>
+        </ValueProviderContext>
       ),
     })
 
@@ -72,11 +72,11 @@ describe('useValueProvider', () => {
     const { result } = renderHook(useValueProvider, {
       initialProps: props,
       wrapper: ({ children }) => (
-        <ValueProviderContext.Provider
+        <ValueProviderContext
           value={{ inheritedContext, inheritedProps, extend }}
         >
           {children}
-        </ValueProviderContext.Provider>
+        </ValueProviderContext>
       ),
     })
 

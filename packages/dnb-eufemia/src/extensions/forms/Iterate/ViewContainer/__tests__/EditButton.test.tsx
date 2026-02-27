@@ -10,11 +10,11 @@ const nb = nbNO['nb-NO'].IterateViewContainer
 describe('EditButton', () => {
   it('to have buttons with correct text', () => {
     render(
-      <IterateItemContext.Provider value={{}}>
+      <IterateItemContext value={{}}>
         <Toolbar>
           <EditButton />
         </Toolbar>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     const button = document.querySelector('button')
@@ -25,11 +25,11 @@ describe('EditButton', () => {
     const switchContainerMode = jest.fn()
 
     render(
-      <IterateItemContext.Provider value={{ switchContainerMode }}>
+      <IterateItemContext value={{ switchContainerMode }}>
         <Toolbar>
           <EditButton />
         </Toolbar>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     const button = document.querySelector('button')

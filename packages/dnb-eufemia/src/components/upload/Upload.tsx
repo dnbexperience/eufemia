@@ -152,7 +152,7 @@ const Upload = (localProps: UploadAllProps) => {
     : UploadDropzone
 
   return (
-    <UploadContext.Provider
+    <UploadContext
       value={{
         ...extendedProps,
         id,
@@ -189,7 +189,7 @@ const Upload = (localProps: UploadAllProps) => {
           <UploadFileList />
         </UploadWrapper>
       </Provider>
-    </UploadContext.Provider>
+    </UploadContext>
   )
 }
 

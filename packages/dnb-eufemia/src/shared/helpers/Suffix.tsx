@@ -42,11 +42,7 @@ const Suffix = ({
   )
 
   if (typeof children !== 'string' && context) {
-    return (
-      <SuffixContext.Provider value={context}>
-        {content}
-      </SuffixContext.Provider>
-    )
+    return <SuffixContext value={context}>{content}</SuffixContext>
   }
 
   return content

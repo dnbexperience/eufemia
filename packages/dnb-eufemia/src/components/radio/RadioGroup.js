@@ -233,7 +233,7 @@ export default class RadioGroup extends React.PureComponent {
     const Fieldset = label ? 'fieldset' : 'div'
 
     return (
-      <RadioGroupContext.Provider value={context}>
+      <RadioGroupContext value={context}>
         <div className={classes}>
           <AlignmentHelper />
           <Fieldset
@@ -294,7 +294,7 @@ export default class RadioGroup extends React.PureComponent {
             </Flex.Container>
           </Fieldset>
         </div>
-      </RadioGroupContext.Provider>
+      </RadioGroupContext>
     )
   }
 }

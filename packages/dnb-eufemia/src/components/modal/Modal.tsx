@@ -515,7 +515,7 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
           )}
 
           {modalActive && modalContent && (
-            <ParagraphContext.Provider value={{ isNested: false }}>
+            <ParagraphContext value={{ isNested: false }}>
               <ModalRoot
                 {...rest}
                 id={this._id}
@@ -532,7 +532,7 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
                 title={headerTitle}
                 modalContentCloseRef={this.modalContentCloseRef}
               />
-            </ParagraphContext.Provider>
+            </ParagraphContext>
           )}
         </>
       )

@@ -14,11 +14,11 @@ describe('DoneButton', () => {
     const switchContainerMode = jest.fn()
 
     render(
-      <IterateItemContext.Provider value={{ switchContainerMode }}>
+      <IterateItemContext value={{ switchContainerMode }}>
         <Toolbar>
           <DoneButton />
         </Toolbar>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
@@ -31,13 +31,11 @@ describe('DoneButton', () => {
     const switchContainerMode = jest.fn()
 
     render(
-      <IterateItemContext.Provider
-        value={{ switchContainerMode, isNew: true }}
-      >
+      <IterateItemContext value={{ switchContainerMode, isNew: true }}>
         <Toolbar>
           <DoneButton />
         </Toolbar>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
@@ -51,25 +49,25 @@ describe('DoneButton', () => {
     const setShowBoundaryErrors = jest.fn()
 
     render(
-      <FieldBoundaryContext.Provider
+      <FieldBoundaryContext
         value={{
           hasError: true,
           hasVisibleError: false,
           setShowBoundaryErrors,
         }}
       >
-        <IterateItemContext.Provider
+        <IterateItemContext
           value={{
             containerMode: 'edit',
           }}
         >
           <Toolbar>
-            <ToolbarContext.Provider value={{ setShowError }}>
+            <ToolbarContext value={{ setShowError }}>
               <DoneButton />
-            </ToolbarContext.Provider>
+            </ToolbarContext>
           </Toolbar>
-        </IterateItemContext.Provider>
-      </FieldBoundaryContext.Provider>
+        </IterateItemContext>
+      </FieldBoundaryContext>
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -83,25 +81,25 @@ describe('DoneButton', () => {
     const setShowBoundaryErrors = jest.fn()
 
     render(
-      <FieldBoundaryContext.Provider
+      <FieldBoundaryContext
         value={{
           hasError: true,
           hasVisibleError: true,
           setShowBoundaryErrors,
         }}
       >
-        <IterateItemContext.Provider
+        <IterateItemContext
           value={{
             containerMode: 'edit',
           }}
         >
           <Toolbar>
-            <ToolbarContext.Provider value={{ setShowError }}>
+            <ToolbarContext value={{ setShowError }}>
               <DoneButton />
-            </ToolbarContext.Provider>
+            </ToolbarContext>
           </Toolbar>
-        </IterateItemContext.Provider>
-      </FieldBoundaryContext.Provider>
+        </IterateItemContext>
+      </FieldBoundaryContext>
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -116,25 +114,25 @@ describe('DoneButton', () => {
     const setShowBoundaryErrors = jest.fn()
 
     render(
-      <FieldBoundaryContext.Provider
+      <FieldBoundaryContext
         value={{
           hasError: false,
           hasVisibleError: true,
           setShowBoundaryErrors,
         }}
       >
-        <IterateItemContext.Provider
+        <IterateItemContext
           value={{
             containerMode: 'edit',
           }}
         >
           <Toolbar>
-            <ToolbarContext.Provider value={{ setShowError }}>
+            <ToolbarContext value={{ setShowError }}>
               <DoneButton />
-            </ToolbarContext.Provider>
+            </ToolbarContext>
           </Toolbar>
-        </IterateItemContext.Provider>
-      </FieldBoundaryContext.Provider>
+        </IterateItemContext>
+      </FieldBoundaryContext>
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -147,7 +145,7 @@ describe('DoneButton', () => {
   describe('to have button with correct text', () => {
     it('and isNew is true', () => {
       render(
-        <IterateItemContext.Provider
+        <IterateItemContext
           value={{
             containerMode: 'edit',
             isNew: true,
@@ -156,7 +154,7 @@ describe('DoneButton', () => {
           <Toolbar>
             <DoneButton />
           </Toolbar>
-        </IterateItemContext.Provider>
+        </IterateItemContext>
       )
 
       const button = document.querySelector('button')
@@ -165,11 +163,11 @@ describe('DoneButton', () => {
 
     it('and isNew is not set', () => {
       render(
-        <IterateItemContext.Provider value={{ containerMode: 'edit' }}>
+        <IterateItemContext value={{ containerMode: 'edit' }}>
           <Toolbar>
             <DoneButton />
           </Toolbar>
-        </IterateItemContext.Provider>
+        </IterateItemContext>
       )
 
       const button = document.querySelector('button')

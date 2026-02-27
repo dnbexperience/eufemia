@@ -15,11 +15,11 @@ describe('ResetButton', () => {
     const switchContainerMode = jest.fn()
 
     render(
-      <IterateItemContext.Provider value={{ switchContainerMode }}>
+      <IterateItemContext value={{ switchContainerMode }}>
         <Toolbar>
           <ResetButton showConfirmDialog={false} />
         </Toolbar>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
@@ -31,13 +31,11 @@ describe('ResetButton', () => {
     const switchContainerMode = jest.fn()
 
     render(
-      <IterateItemContext.Provider
-        value={{ switchContainerMode, isNew: true }}
-      >
+      <IterateItemContext value={{ switchContainerMode, isNew: true }}>
         <Toolbar>
           <ResetButton showConfirmDialog={false} />
         </Toolbar>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
@@ -49,7 +47,7 @@ describe('ResetButton', () => {
     const restoreOriginalValue = jest.fn()
 
     render(
-      <IterateItemContext.Provider
+      <IterateItemContext
         value={{
           restoreOriginalValue,
           containerMode: 'edit',
@@ -60,7 +58,7 @@ describe('ResetButton', () => {
         <Toolbar>
           <ResetButton showConfirmDialog={false} />
         </Toolbar>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
@@ -73,7 +71,7 @@ describe('ResetButton', () => {
     const restoreOriginalValue = jest.fn()
 
     render(
-      <IterateItemContext.Provider
+      <IterateItemContext
         value={{
           restoreOriginalValue,
           containerMode: 'edit',
@@ -84,7 +82,7 @@ describe('ResetButton', () => {
         <Toolbar>
           <ResetButton />
         </Toolbar>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
@@ -107,25 +105,25 @@ describe('ResetButton', () => {
     const setShowBoundaryErrors = jest.fn()
 
     render(
-      <FieldBoundaryContext.Provider
+      <FieldBoundaryContext
         value={{
           hasError: true,
           hasVisibleError: false,
           setShowBoundaryErrors,
         }}
       >
-        <IterateItemContext.Provider
+        <IterateItemContext
           value={{
             containerMode: 'edit',
           }}
         >
           <Toolbar>
-            <ToolbarContext.Provider value={{ setShowError }}>
+            <ToolbarContext value={{ setShowError }}>
               <ResetButton showConfirmDialog={false} />
-            </ToolbarContext.Provider>
+            </ToolbarContext>
           </Toolbar>
-        </IterateItemContext.Provider>
-      </FieldBoundaryContext.Provider>
+        </IterateItemContext>
+      </FieldBoundaryContext>
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -140,25 +138,25 @@ describe('ResetButton', () => {
     const setShowBoundaryErrors = jest.fn()
 
     render(
-      <FieldBoundaryContext.Provider
+      <FieldBoundaryContext
         value={{
           hasError: true,
           hasVisibleError: true,
           setShowBoundaryErrors,
         }}
       >
-        <IterateItemContext.Provider
+        <IterateItemContext
           value={{
             containerMode: 'edit',
           }}
         >
           <Toolbar>
-            <ToolbarContext.Provider value={{ setShowError }}>
+            <ToolbarContext value={{ setShowError }}>
               <ResetButton showConfirmDialog={false} />
-            </ToolbarContext.Provider>
+            </ToolbarContext>
           </Toolbar>
-        </IterateItemContext.Provider>
-      </FieldBoundaryContext.Provider>
+        </IterateItemContext>
+      </FieldBoundaryContext>
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -173,26 +171,26 @@ describe('ResetButton', () => {
     const setShowBoundaryErrors = jest.fn()
 
     render(
-      <FieldBoundaryContext.Provider
+      <FieldBoundaryContext
         value={{
           hasError: true,
           hasVisibleError: true,
           setShowBoundaryErrors,
         }}
       >
-        <IterateItemContext.Provider
+        <IterateItemContext
           value={{
             containerMode: 'edit',
             initialContainerMode: 'auto',
           }}
         >
           <Toolbar>
-            <ToolbarContext.Provider value={{ setShowError }}>
+            <ToolbarContext value={{ setShowError }}>
               <ResetButton showConfirmDialog={false} />
-            </ToolbarContext.Provider>
+            </ToolbarContext>
           </Toolbar>
-        </IterateItemContext.Provider>
-      </FieldBoundaryContext.Provider>
+        </IterateItemContext>
+      </FieldBoundaryContext>
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -207,25 +205,25 @@ describe('ResetButton', () => {
     const setShowBoundaryErrors = jest.fn()
 
     render(
-      <FieldBoundaryContext.Provider
+      <FieldBoundaryContext
         value={{
           hasError: false,
           hasVisibleError: true,
           setShowBoundaryErrors,
         }}
       >
-        <IterateItemContext.Provider
+        <IterateItemContext
           value={{
             containerMode: 'edit',
           }}
         >
           <Toolbar>
-            <ToolbarContext.Provider value={{ setShowError }}>
+            <ToolbarContext value={{ setShowError }}>
               <ResetButton showConfirmDialog={false} />
-            </ToolbarContext.Provider>
+            </ToolbarContext>
           </Toolbar>
-        </IterateItemContext.Provider>
-      </FieldBoundaryContext.Provider>
+        </IterateItemContext>
+      </FieldBoundaryContext>
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -237,7 +235,7 @@ describe('ResetButton', () => {
 
   it('to have button with correct text', () => {
     render(
-      <IterateItemContext.Provider
+      <IterateItemContext
         value={{
           containerMode: 'edit',
           isNew: true,
@@ -246,7 +244,7 @@ describe('ResetButton', () => {
         <Toolbar>
           <ResetButton showConfirmDialog={false} />
         </Toolbar>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     const button = document.querySelector('button')

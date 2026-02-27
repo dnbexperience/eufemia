@@ -46,11 +46,11 @@ describe('useFieldProvider', () => {
     const { result } = renderHook(useFieldProvider, {
       initialProps: props,
       wrapper: ({ children }) => (
-        <FieldProviderContext.Provider
+        <FieldProviderContext
           value={{ inheritedContext, inheritedProps, extend }}
         >
           {children}
-        </FieldProviderContext.Provider>
+        </FieldProviderContext>
       ),
     })
 
@@ -72,11 +72,11 @@ describe('useFieldProvider', () => {
     const { result } = renderHook(useFieldProvider, {
       initialProps: props,
       wrapper: ({ children }) => (
-        <FieldProviderContext.Provider
+        <FieldProviderContext
           value={{ inheritedContext, inheritedProps, extend }}
         >
           {children}
-        </FieldProviderContext.Provider>
+        </FieldProviderContext>
       ),
     })
 

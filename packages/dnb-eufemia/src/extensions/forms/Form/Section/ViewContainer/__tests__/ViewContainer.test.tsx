@@ -11,9 +11,9 @@ const nb = nbNO['nb-NO'].SectionViewContainer
 describe('ViewContainer', () => {
   it('renders content and without errors', () => {
     const { rerender } = render(
-      <SectionContainerContext.Provider value={{ containerMode: 'edit' }}>
+      <SectionContainerContext value={{ containerMode: 'edit' }}>
         <ViewContainer>content</ViewContainer>
-      </SectionContainerContext.Provider>
+      </SectionContainerContext>
     )
 
     const element = document.querySelector('.dnb-forms-section-block')
@@ -26,9 +26,9 @@ describe('ViewContainer', () => {
     expect(inner).toHaveTextContent('content')
 
     rerender(
-      <SectionContainerContext.Provider value={{ containerMode: 'view' }}>
+      <SectionContainerContext value={{ containerMode: 'view' }}>
         <ViewContainer>content</ViewContainer>
-      </SectionContainerContext.Provider>
+      </SectionContainerContext>
     )
 
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
@@ -38,9 +38,9 @@ describe('ViewContainer', () => {
     const switchContainerMode = jest.fn()
 
     render(
-      <SectionContainerContext.Provider value={{ switchContainerMode }}>
+      <SectionContainerContext value={{ switchContainerMode }}>
         <ViewContainer>content</ViewContainer>
-      </SectionContainerContext.Provider>
+      </SectionContainerContext>
     )
 
     fireEvent.click(document.querySelectorAll('button')[0])
@@ -51,9 +51,9 @@ describe('ViewContainer', () => {
 
   it('has correct class', () => {
     render(
-      <SectionContainerContext.Provider value={{ containerMode: 'view' }}>
+      <SectionContainerContext value={{ containerMode: 'view' }}>
         <ViewContainer>content</ViewContainer>
-      </SectionContainerContext.Provider>
+      </SectionContainerContext>
     )
 
     expect(
@@ -63,9 +63,9 @@ describe('ViewContainer', () => {
 
   it('will forward custom HTML attributes to the inner wrapper', () => {
     render(
-      <SectionContainerContext.Provider value={{ containerMode: 'view' }}>
+      <SectionContainerContext value={{ containerMode: 'view' }}>
         <ViewContainer data-attr="value">content</ViewContainer>
-      </SectionContainerContext.Provider>
+      </SectionContainerContext>
     )
 
     expect(
@@ -77,9 +77,9 @@ describe('ViewContainer', () => {
 
   it('to have buttons with correct text', () => {
     render(
-      <SectionContainerContext.Provider value={{ containerMode: 'view' }}>
+      <SectionContainerContext value={{ containerMode: 'view' }}>
         <ViewContainer>content</ViewContainer>
-      </SectionContainerContext.Provider>
+      </SectionContainerContext>
     )
 
     const buttons = document.querySelectorAll('button')
@@ -102,11 +102,9 @@ describe('ViewContainer', () => {
           },
         }}
       >
-        <SectionContainerContext.Provider
-          value={{ containerMode: 'edit' }}
-        >
+        <SectionContainerContext value={{ containerMode: 'edit' }}>
           <ViewContainer>content</ViewContainer>
-        </SectionContainerContext.Provider>
+        </SectionContainerContext>
       </Form.Handler>
     )
 
@@ -143,11 +141,11 @@ describe('ViewContainer', () => {
 
   it('should hide default toolbar when section editing is disabled', () => {
     render(
-      <SectionContainerContext.Provider
+      <SectionContainerContext
         value={{ containerMode: 'view', disableEditing: true }}
       >
         <ViewContainer>content</ViewContainer>
-      </SectionContainerContext.Provider>
+      </SectionContainerContext>
     )
 
     expect(document.querySelector('button')).not.toBeInTheDocument()

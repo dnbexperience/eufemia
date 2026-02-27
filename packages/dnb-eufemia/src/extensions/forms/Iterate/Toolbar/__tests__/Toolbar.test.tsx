@@ -11,9 +11,9 @@ const nb = nbNO['nb-NO'].RemoveButton
 describe('Toolbar', () => {
   it('supports spacing props', () => {
     render(
-      <IterateItemContext.Provider value={{}}>
+      <IterateItemContext value={{}}>
         <Toolbar top="large">content</Toolbar>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     expect(
@@ -29,9 +29,9 @@ describe('Toolbar', () => {
 
   it('should not render Hr when toolbarVariant is custom', () => {
     render(
-      <ArrayItemAreaContext.Provider value={{ toolbarVariant: 'custom' }}>
+      <ArrayItemAreaContext value={{ toolbarVariant: 'custom' }}>
         <Toolbar>content</Toolbar>
-      </ArrayItemAreaContext.Provider>
+      </ArrayItemAreaContext>
     )
 
     expect(document.querySelector('.dnb-hr')).not.toBeInTheDocument()
@@ -39,9 +39,9 @@ describe('Toolbar', () => {
 
   it('should not render Hr when divider is line', () => {
     render(
-      <ArrayItemAreaContext.Provider value={{ divider: 'line' }}>
+      <ArrayItemAreaContext value={{ divider: 'line' }}>
         <Toolbar>content</Toolbar>
-      </ArrayItemAreaContext.Provider>
+      </ArrayItemAreaContext>
     )
 
     expect(document.querySelector('.dnb-hr')).not.toBeInTheDocument()
@@ -49,9 +49,9 @@ describe('Toolbar', () => {
 
   it('has no buttons/tools by default', () => {
     render(
-      <IterateItemContext.Provider value={{}}>
+      <IterateItemContext value={{}}>
         <Toolbar />
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     expect(
@@ -63,11 +63,11 @@ describe('Toolbar', () => {
     const handleRemove = jest.fn()
 
     render(
-      <IterateItemContext.Provider value={{ handleRemove, isNew: true }}>
+      <IterateItemContext value={{ handleRemove, isNew: true }}>
         <Toolbar>
           <RemoveButton />
         </Toolbar>
-      </IterateItemContext.Provider>
+      </IterateItemContext>
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -78,7 +78,7 @@ describe('Toolbar', () => {
   describe('to have buttons with correct text', () => {
     it('and isNew is true', () => {
       render(
-        <IterateItemContext.Provider
+        <IterateItemContext
           value={{
             isNew: true,
           }}
@@ -86,7 +86,7 @@ describe('Toolbar', () => {
           <Toolbar>
             <RemoveButton />
           </Toolbar>
-        </IterateItemContext.Provider>
+        </IterateItemContext>
       )
 
       const buttons = document.querySelectorAll('button')
@@ -97,7 +97,7 @@ describe('Toolbar', () => {
 
     it('and isNew is false', () => {
       render(
-        <IterateItemContext.Provider
+        <IterateItemContext
           value={{
             isNew: false,
           }}
@@ -105,7 +105,7 @@ describe('Toolbar', () => {
           <Toolbar>
             <RemoveButton />
           </Toolbar>
-        </IterateItemContext.Provider>
+        </IterateItemContext>
       )
 
       const buttons = document.querySelectorAll('button')

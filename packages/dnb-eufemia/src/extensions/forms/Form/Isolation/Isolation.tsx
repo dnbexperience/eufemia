@@ -310,7 +310,7 @@ function IsolationProvider<Data extends JsonObject>(
 
   return (
     <Provider {...providerProps}>
-      <IsolationContext.Provider
+      <IsolationContext
         value={{
           preventUncommittedChanges,
           dataReference,
@@ -334,7 +334,7 @@ function IsolationProvider<Data extends JsonObject>(
         </DataContext.Consumer>
 
         {bubbleValidation && <BubbleValidation />}
-      </IsolationContext.Provider>
+      </IsolationContext>
     </Provider>
   )
 }

@@ -29,13 +29,13 @@ describe('useReportError', () => {
       initialProps: undefined,
       wrapper: ({ children }) => {
         return (
-          <Context.Provider value={dataContextValue}>
-            <WizardContext.Provider value={wizardContextValue}>
-              <WizardStepContext.Provider value={wizardStepContextValue}>
+          <Context value={dataContextValue}>
+            <WizardContext value={wizardContextValue}>
+              <WizardStepContext value={wizardStepContextValue}>
                 {children}
-              </WizardStepContext.Provider>
-            </WizardContext.Provider>
-          </Context.Provider>
+              </WizardStepContext>
+            </WizardContext>
+          </Context>
         )
       },
     })
@@ -122,13 +122,13 @@ describe('useReportError', () => {
       initialProps: error,
       wrapper: ({ children }) => {
         return (
-          <Context.Provider value={dataContextValue}>
-            <WizardContext.Provider value={wizardContextValue}>
-              <WizardStepContext.Provider value={wizardStepContextValue}>
+          <Context value={dataContextValue}>
+            <WizardContext value={wizardContextValue}>
+              <WizardStepContext value={wizardStepContextValue}>
                 {children}
-              </WizardStepContext.Provider>
-            </WizardContext.Provider>
-          </Context.Provider>
+              </WizardStepContext>
+            </WizardContext>
+          </Context>
         )
       },
     })
@@ -198,11 +198,11 @@ describe('useReportError', () => {
     renderHook(() => useReportError(error, dataContextValue), {
       wrapper: ({ children }) => {
         return (
-          <WizardContext.Provider value={wizardContextValue}>
-            <WizardStepContext.Provider value={wizardStepContextValue}>
+          <WizardContext value={wizardContextValue}>
+            <WizardStepContext value={wizardStepContextValue}>
               {children}
-            </WizardStepContext.Provider>
-          </WizardContext.Provider>
+            </WizardStepContext>
+          </WizardContext>
         )
       },
     })

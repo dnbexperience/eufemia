@@ -438,12 +438,9 @@ function ArrayComponent(props: Props) {
 
         if (omitFlex) {
           return (
-            <IterateItemContext.Provider
-              key={`element-${id}`}
-              value={contextValue}
-            >
+            <IterateItemContext key={`element-${id}`} value={contextValue}>
               <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
-            </IterateItemContext.Provider>
+            </IterateItemContext>
           )
         }
 
@@ -454,9 +451,9 @@ function ArrayComponent(props: Props) {
             ref={elementRef}
             key={`element-${id}`}
           >
-            <IterateItemContext.Provider value={contextValue}>
+            <IterateItemContext value={contextValue}>
               <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
-            </IterateItemContext.Provider>
+            </IterateItemContext>
           </Flex.Item>
         )
       })

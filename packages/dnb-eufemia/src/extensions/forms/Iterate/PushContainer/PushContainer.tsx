@@ -322,7 +322,7 @@ function PushContainer(props: AllProps) {
         onCommit?.(data, options)
       }}
     >
-      <PushContainerContext.Provider value={newItemContextProps}>
+      <PushContainerContext value={newItemContextProps}>
         <IterateArray
           path="/pushContainerItems"
           containerMode={showOpenButton ? 'view' : 'edit'}
@@ -346,7 +346,7 @@ function PushContainer(props: AllProps) {
             {children}
           </NewContainer>
         </IterateArray>
-      </PushContainerContext.Provider>
+      </PushContainerContext>
     </Isolation>
   )
 }
@@ -408,7 +408,7 @@ function NewContainer({
             restoreOriginalValue,
           }
           return (
-            <IterateItemContext.Provider value={newItemContextProps}>
+            <IterateItemContext value={newItemContextProps}>
               <Flex.Horizontal gap="large">
                 <DoneButton text={createButton} />
                 {showOpenButton && (
@@ -427,7 +427,7 @@ function NewContainer({
                   {preventUncommittedChangesText}
                 </FormStatus>
               )}
-            </IterateItemContext.Provider>
+            </IterateItemContext>
           )
         }}
       </IterateItemContext.Consumer>
@@ -435,7 +435,7 @@ function NewContainer({
   )
 
   return (
-    <VisibilityContext.Provider value={{ isVisible, keepInDOM: false }}>
+    <VisibilityContext value={{ isVisible, keepInDOM: false }}>
       <EditContainer
         open={isVisible}
         title={title}
@@ -452,7 +452,7 @@ function NewContainer({
           {openButton}
         </HeightAnimation>
       )}
-    </VisibilityContext.Provider>
+    </VisibilityContext>
   )
 }
 
