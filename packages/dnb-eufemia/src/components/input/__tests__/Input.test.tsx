@@ -782,12 +782,13 @@ describe('Input icon memoization', () => {
     const renderSpy = jest.fn()
 
     // Create a wrapper to spy on renders
-    const IconWrapper = React.forwardRef<HTMLInputElement, InputProps>(
-      (props, ref) => {
-        renderSpy()
-        return <Input {...props} ref={ref} />
-      }
-    )
+    const IconWrapper = ({
+      ref,
+      ...props
+    }: InputProps & { ref?: React.Ref<HTMLInputElement> }) => {
+      renderSpy()
+      return <Input {...props} ref={ref} />
+    }
 
     const { rerender } = render(<IconWrapper {...props} icon="loupe" />)
 
