@@ -363,17 +363,18 @@ describe('Breadcrumb', () => {
     })
 
     it('will use given element', () => {
-      const CustomElement = React.forwardRef(
-        (props: AnchorAllProps, ref) => {
-          return (
-            <span
-              {...props}
-              ref={ref as React.RefObject<HTMLAnchorElement>}
-              className="custom-element"
-            />
-          )
-        }
-      )
+      const CustomElement = ({
+        ref,
+        ...props
+      }: AnchorAllProps & { ref?: React.Ref<HTMLAnchorElement> }) => {
+        return (
+          <span
+            {...props}
+            ref={ref as React.RefObject<HTMLAnchorElement>}
+            className="custom-element"
+          />
+        )
+      }
 
       render(
         <BreadcrumbItem element={CustomElement} text="Page" href="/" />
@@ -385,15 +386,17 @@ describe('Breadcrumb', () => {
     })
 
     it('renders breadcrumbitem as a link if the to prop is given and element is a router link', () => {
-      const MockLink = React.forwardRef(
-        (props: { to: string; children: React.ReactNode }, ref) => (
-          <a
-            href={props.to}
-            ref={ref as React.RefObject<HTMLAnchorElement>}
-          >
-            {props.children}
-          </a>
-        )
+      const MockLink = ({
+        ref,
+        ...props
+      }: {
+        to: string
+        children: React.ReactNode
+        ref?: React.Ref<HTMLAnchorElement>
+      }) => (
+        <a href={props.to} ref={ref as React.RefObject<HTMLAnchorElement>}>
+          {props.children}
+        </a>
       )
 
       render(<BreadcrumbItem to={'/url'} element={MockLink} text="Page" />)

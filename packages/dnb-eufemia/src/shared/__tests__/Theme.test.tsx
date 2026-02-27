@@ -116,15 +116,17 @@ describe('Theme', () => {
   })
 
   it('uses custom component when set', () => {
-    const Component = React.forwardRef(
-      (
-        { children, ...rest }: { children: React.ReactNode },
-        ref: React.LegacyRef<HTMLElement>
-      ) => (
-        <section {...rest} ref={ref}>
-          {children}
-        </section>
-      )
+    const Component = ({
+      children,
+      ref,
+      ...rest
+    }: {
+      children: React.ReactNode
+      ref?: React.Ref<HTMLElement>
+    }) => (
+      <section {...rest} ref={ref}>
+        {children}
+      </section>
     )
     render(<Theme element={Component}>content</Theme>)
 
