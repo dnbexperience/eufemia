@@ -299,4 +299,4 @@ export const AutocompleteEvents: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
-} satisfies PropertiesTableProps
+}

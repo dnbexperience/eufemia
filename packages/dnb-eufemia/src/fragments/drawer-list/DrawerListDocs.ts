@@ -217,4 +217,4 @@ export const DrawerListItem: PropertiesTableProps = {
     type: ['string', 'React.node'],
     status: 'optional',
   },
-} satisfies PropertiesTableProps
+}

@@ -189,4 +189,4 @@ export const DropdownProperties: PropertiesTableProps = {
     type: ['string', 'object'],
     status: 'optional',
   },
-} satisfies PropertiesTableProps
+}
