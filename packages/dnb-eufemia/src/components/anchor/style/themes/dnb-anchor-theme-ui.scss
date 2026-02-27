@@ -5,41 +5,14 @@
 
 @use '../anchor-mixins.scss';
 
-@mixin anchorHover {
-  --anchor-color: var(--color-sea-green);
-  @include anchor-mixins.anchorBackground(var(--anchor-background--hover));
-}
-
-@mixin anchorActive {
-  --anchor-color: var(--anchor-color--active);
-  @include anchor-mixins.anchorBackground(
-    var(--anchor-background--active)
-  );
-}
-
 @mixin anchorFocus {
   --anchor-color: var(--color-sea-green);
 }
 
 @mixin anchorStyleUi() {
-  --anchor-color: var(--anchor-color--default, var(--color-sea-green));
-  --anchor-color--active: var(--color-mint-green);
-  --anchor-color--contrast: var(--color-emerald-green);
-  --anchor-color--disabled: var(--color-sea-green-30);
-  --anchor-background--hover: var(--color-mint-green-50);
-  --anchor-background--active: var(--color-emerald-green);
-
-  color: var(--anchor-color);
-
-  &:hover {
-    @include anchor-mixins.notNoHover() {
-      @include anchorHover();
-    }
-  }
-
-  &:active {
-    @include anchorActive();
-  }
+  --anchor-color--disabled: var(
+    --color-sea-green-30
+  ); // TODO: no design tokens?
 
   &:focus-visible {
     @include anchorFocus();
@@ -62,14 +35,6 @@ $useClasses: true !default;
     }
   }
 
-  .dnb-anchor--hover {
-    @include anchorHover();
-  }
-
-  .dnb-anchor--active {
-    @include anchorActive();
-  }
-
   .dnb-anchor--focus {
     @include anchorFocus();
   }
@@ -77,7 +42,7 @@ $useClasses: true !default;
 
 @mixin anchorThemeTag() {
   a {
-    --theme-color-black-80: var(--color-sea-green);
+    --theme-color-black-80: var(--token-color-text-action);
     @include anchorStyleUi();
   }
 }

@@ -18,6 +18,26 @@ button.dnb-anchor {
 
 @include anchor-mixins.notNoStyle() {
   &.dnb-anchor {
+    // Default color
+    --anchor-color: var(--token-color-text-action);
+    --anchor-color--hover: var(--token-color-text-action-hover);
+    --anchor-color--active: var(--token-color-text-action-pressed);
+    --anchor-bg--hover: var(--token-color-background-action-hover-subtle);
+    --anchor-bg--active: var(
+      --token-color-background-action-pressed-subtle
+    );
+
+    // Contrast colors
+    --anchor-contrast-color: var(--token-color-text-action-ondark);
+    --anchor-contrast-color--hover: var(--token-color-text-action-ondark);
+    --anchor-contrast-bg--hover: var(
+      --token-color-background-action-hover-subtle-ondark
+    );
+    --anchor-contrast-color--active: var(--token-color-text-action-ondark);
+    --anchor-contrast-bg--active: var(
+      --token-color-background-action-pressed-subtle-ondark
+    );
+
     --anchor-underline-thickness: 0.0938rem;
     @include anchor-mixins.anchorStyle();
 
@@ -28,7 +48,7 @@ button.dnb-anchor {
     &.dnb-anchor--disabled,
     &[aria-disabled='true'],
     &[disabled] {
-      color: var(--anchor-color--disabled);
+      --anchor-color: var(--anchor-color--disabled);
     }
   }
 }

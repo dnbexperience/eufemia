@@ -32,7 +32,7 @@ const ContrastExample = styled(Example)`
     padding: 1.5rem;
   }
 
-  background-color: var(--color-ocean-green);
+  background-color: var(--token-color-decorative-first-bold-static);
 `
 
 export const AnchorBasicUse = () => (

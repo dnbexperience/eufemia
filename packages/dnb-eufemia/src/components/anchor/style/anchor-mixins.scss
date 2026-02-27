@@ -59,14 +59,20 @@
 
 // states
 @mixin anchorHoverStyle() {
+  --anchor-color: var(--anchor-color--hover);
+
   border-radius: 0.25em;
+  @include anchorBackground(var(--anchor-bg--hover));
 
   @include resetUnderlineStyle();
 }
 
 @mixin anchorActiveStyle() {
+  --anchor-color: var(--anchor-color--active);
+
   border-radius: 0.25em;
 
+  @include anchorBackground(var(--anchor-bg--active));
   @include resetUnderlineStyle();
 }
 
@@ -91,26 +97,29 @@
 
 // other styles
 @mixin useAnchorContrastStyle {
-  color: var(--color-white);
+  color: var(--anchor-contrast-color);
 
   &:hover {
     @include notNoHover() {
-      color: var(--anchor-color--contrast);
-      @include anchorBackground(var(--color-white));
+      color: var(--anchor-contrast-color--hover);
+      @include anchorBackground(var(--anchor-contrast-bg--hover));
     }
   }
 
   &:active {
-    color: var(--color-white);
+    color: var(--anchor-contrast-color--active);
     background-color: transparent;
-    @include anchorBackground(transparent);
+    @include anchorBackground(var(--anchor-contrast-bg--active));
   }
 
   &:focus-visible {
-    color: var(--color-white);
+    color: var(--color-white); // TODO: design token
     background-color: transparent;
 
-    @include utilities.focusRing('always', var(--color-white));
+    @include utilities.focusRing(
+      'always',
+      var(--color-white)
+    ); // TODO: design token
   }
 }
 
@@ -123,7 +132,7 @@
   --anchor-icon-separator: '\2060';
   --anchor-icon-position: translateY(-0.175em);
   @include anchorDefaultStyle();
-
+  color: var(--anchor-color);
   // have focus before :active, because of border-radius
   &:focus-visible {
     @include anchorFocusStyle();
