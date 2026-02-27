@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 /**
  * Web Tabs Component
  *
@@ -7,7 +5,7 @@
 
 import React from 'react'
 import clsx from 'clsx'
-import Context from '../../shared/Context'
+import Context, { type ContextProps } from '../../shared/Context'
 import {
   warn,
   slugify,
@@ -29,7 +27,10 @@ import Button from '../button/Button'
 import whatInput from 'what-input'
 import CustomContent from './TabsCustomContent'
 import ContentWrapper from './TabsContentWrapper'
-import { createSharedState } from '../../shared/helpers/useSharedState'
+import {
+  createSharedState,
+  type SharedStateReturn,
+} from '../../shared/helpers/useSharedState'
 import { DynamicElement } from '../../shared/types'
 import { ButtonProps } from '../Button'
 import { AnchorAllProps } from '../Anchor'
@@ -157,8 +158,51 @@ export interface DummyProps {
   children: React.ReactNode
 }
 
-export default class Tabs extends React.PureComponent<TabsProps> {
+interface TabDataItem {
+  title: string | React.ReactNode | ((...args: any[]) => any)
+  key: string | number
+  selected?: boolean
+  disabled?: boolean
+  content?: TabsContent
+  [key: string]: unknown
+}
+
+interface TabsState {
+  data: TabDataItem[]
+  selectedKey: string | number
+  focusKey: string | number
+  atEdge: boolean
+  lastPosition: number
+  hasScrollbar: boolean
+  _selectedKey: string | number
+  _data: TabsData | TabsChildren
+  _listenForPropChanges: boolean
+  isFirst?: boolean
+  isLast?: boolean
+}
+
+type SharedState = SharedStateReturn<Record<string, unknown>> & {
+  subscribe: (subscriber: () => void) => void
+  unsubscribe: (subscriber: () => void) => void
+}
+
+export default class Tabs extends React.PureComponent<
+  TabsProps,
+  TabsState
+> {
   static contextType = Context
+  declare context: ContextProps
+
+  _id: string
+  _tabsRef: React.RefObject<HTMLDivElement>
+  _tablistRef: React.RefObject<HTMLDivElement>
+  _sharedState: SharedState | null
+  _isMounted: boolean
+  _cache: Record<
+    string,
+    { content: React.ReactNode; [key: string]: unknown }
+  >
+  _props: TabsProps
 
   static defaultProps = {
     data: null,
@@ -193,13 +237,16 @@ export default class Tabs extends React.PureComponent<TabsProps> {
   static Content = CustomContent
   static ContentWrapper = ContentWrapper
 
-  static getSelectedKeyOrFallback(selectedKey, data) {
+  static getSelectedKeyOrFallback(
+    selectedKey: TabsSelectedKey | null,
+    data: TabDataItem[]
+  ) {
     let useKey = selectedKey
 
     // 1. if selectedKey is null/undefined then try to get it from data
     if (!useKey) {
       useKey =
-        data.reduce(
+        data.reduce<TabsSelectedKey | null>(
           (acc, { selected, key }) => (selected ? key : acc),
           null
         ) ||
@@ -217,7 +264,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     return useKey
   }
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(props: TabsProps, state: TabsState) {
     if (state._listenForPropChanges) {
       if (props.data) {
         if (state._data !== props.data) {
@@ -239,8 +286,12 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     return state
   }
 
-  static getData(props) {
-    const addReactElement = (list, reactElem, reactElemIndex) => {
+  static getData(props: TabsProps) {
+    const addReactElement = (
+      list: TabDataItem[],
+      reactElem: React.ReactElement,
+      reactElemIndex?: number
+    ) => {
       if (reactElem && reactElem.type === CustomContent) {
         // tabs data from main prop
         const dataProps =
@@ -250,7 +301,9 @@ export default class Tabs extends React.PureComponent<TabsProps> {
           {}
 
         // props from the "CustomContent" Component
-        const componentProps = { ...reactElem.props }
+        const componentProps = {
+          ...(reactElem.props as Record<string, unknown>),
+        }
         if (componentProps.title === null) {
           delete componentProps.title
         }
@@ -301,7 +354,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
       (typeof props.children === 'function' ||
         React.isValidElement(props.children))
     ) {
-      addReactElement(res, props.children)
+      addReactElement(res, props.children as React.ReactElement)
     }
 
     // continue, while the children didn't contain our data
@@ -320,7 +373,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
           if (obj) {
             acc.push({
               key,
-              ...obj,
+              ...(obj as Record<string, unknown>),
             })
           }
           return acc
@@ -331,7 +384,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     return res || []
   }
 
-  constructor(props) {
+  constructor(props: TabsProps) {
     super(props)
 
     this._id = props.id || makeUniqueId() // cause we need an id anyway
@@ -419,7 +472,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     }
   }
 
-  componentDidUpdate(props) {
+  componentDidUpdate(props: TabsProps) {
     if (
       this._sharedState &&
       (this.props.selectedKey !== props.selectedKey ||
@@ -472,7 +525,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
       try {
         window.localStorage.setItem(
           `tabs-last-${this._id}`,
-          this.state.selectedKey
+          String(this.state.selectedKey)
         ) // gets removed right afterwards
       } catch (e) {
         warn(e)
@@ -480,10 +533,13 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     }
   }
 
-  saveLastPosition(position = this._tablistRef.current.scrollLeft) {
+  saveLastPosition(position = this._tablistRef.current?.scrollLeft) {
     if (typeof window !== 'undefined') {
       try {
-        window.localStorage.setItem(`tabs-pos-${this._id}`, position) // gets removed right afterwards
+        window.localStorage.setItem(
+          `tabs-pos-${this._id}`,
+          String(position)
+        ) // gets removed right afterwards
       } catch (e) {
         warn(e)
       }
@@ -613,12 +669,18 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     }
   }
 
-  scrollToTab({ type, behavior = 'smooth' }) {
+  scrollToTab({
+    type,
+    behavior = 'smooth',
+  }: {
+    type: string
+    behavior?: ScrollBehavior
+  }) {
     if (typeof window === 'undefined') {
       return // stop here
     }
 
-    if (window.IS_TEST) {
+    if ((window as Window & { IS_TEST?: boolean }).IS_TEST) {
       behavior = 'auto'
     }
 
@@ -656,7 +718,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
             (margin < 0 ? Math.abs(margin) : 0) +
             padding +
             parseFloat(window.getComputedStyle(first).paddingLeft)
-          const offsetLeft = elem.offsetLeft
+          const offsetLeft = (elem as HTMLElement).offsetLeft
 
           const left = elem && !isFirst ? offsetLeft - leftPadding : 0
 
@@ -731,14 +793,14 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     }
   }
 
-  getCurrentKey = (event) => {
-    let selectedKey
+  getCurrentKey = (event: React.SyntheticEvent) => {
+    let selectedKey: string | undefined
     try {
-      selectedKey = (function (elem) {
-        return (
-          getClosestParent('dnb-tabs__button', elem) || { dataset: {} }
-        )
-      })(event.target).dataset.tabKey
+      const elem = getClosestParent(
+        'dnb-tabs__button',
+        event.target as HTMLElement
+      ) as HTMLElement | null
+      selectedKey = elem?.dataset?.tabKey
     } catch (e) {
       warn('Tabs Error:', e)
     }
@@ -807,7 +869,7 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     try {
       const elem = this._tablistRef.current.querySelector(
         '.dnb-tabs__button.focus'
-      )
+      ) as HTMLElement
       elem.focus({ preventScroll: true })
 
       if (
@@ -994,11 +1056,16 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     return content
   }
 
-  TabsWrapperHandler = ({ children, ...rest }) => {
-    const { className, class: _className } = this.props
+  TabsWrapperHandler = ({
+    children,
+    ...rest
+  }: React.PropsWithChildren<Record<string, unknown>>) => {
+    const { className, class: _className } = this.props as TabsProps & {
+      class?: string
+    }
     const { ...attributes } = filterProps(this.props, Tabs.defaultProps)
 
-    const params = {
+    const params: Record<string, unknown> = {
       ...attributes,
       className: clsx(
         'dnb-tabs',
@@ -1018,7 +1085,13 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     )
   }
 
-  TabsListHandler = ({ children, className, ...rest }) => {
+  TabsListHandler = ({
+    children,
+    className,
+    ...rest
+  }: React.PropsWithChildren<
+    { className?: string } & Record<string, unknown>
+  >) => {
     const {
       align,
       tabsStyle,
@@ -1102,7 +1175,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
     )
   }
 
-  TabsHandler = (props) => {
+  TabsHandler = (props: Record<string, unknown>) => {
     const { label, skeleton, tabElement } = { ...this._props, ...props }
     const { selectedKey } = this.state
 
@@ -1110,7 +1183,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
 
     const tabs = this.state.data.map(
       ({ title, key, disabled = false, to, href }) => {
-        const itemParams = { to, href }
+        const itemParams: Record<string, unknown> = { to, href }
         const isFocus = this.isFocus(key)
         const isSelected = this.isSelected(key)
         if (isSelected) {
@@ -1142,7 +1215,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
           >
             <TabElement
               role="tab"
-              tabIndex="-1"
+              tabIndex={-1}
               id={`${this._id}-tab-${key}`}
               aria-selected={isSelected}
               className={clsx(
@@ -1163,16 +1236,16 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
                   createSkeletonClass('font', skeleton, this.context)
                 )}
               >
-                {title}
+                {title as React.ReactNode}
               </span>
-              <Dummy>{title}</Dummy>
+              <Dummy>{title as React.ReactNode}</Dummy>
             </TabElement>
           </div>
         )
       }
     )
 
-    const params = {}
+    const params: Record<string, unknown> = {}
     if (label) {
       params['aria-label'] = label
     }
@@ -1186,7 +1259,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
       <div
         role="tablist"
         className="dnb-tabs__tabs__tablist"
-        tabIndex="0"
+        tabIndex={0}
         onKeyDown={this.onTablistKeyDownHandler}
         ref={this._tablistRef}
         {...params}
@@ -1201,20 +1274,30 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
       this.props,
       Tabs.defaultProps,
       { skeleton: this.context?.skeleton }
-    ))
+    ) as TabsProps)
 
     const { render: customRenderer } = props
 
-    const TabItems = this.TabsHandler
+    const TabItems = this.TabsHandler as React.FC & {
+      displayName?: string
+    }
     TabItems.displayName = 'Tabs'
 
-    const TabsList = this.TabsListHandler
+    const TabsList = this
+      .TabsListHandler as React.FC<React.PropsWithChildren> & {
+      displayName?: string
+    }
     TabsList.displayName = 'TabsList'
 
-    const Wrapper = this.TabsWrapperHandler
+    const Wrapper = this
+      .TabsWrapperHandler as React.FC<React.PropsWithChildren> & {
+      displayName?: string
+    }
     Wrapper.displayName = 'TabsWrapper'
 
-    const Content = this.TabContentHandler
+    const Content = this.TabContentHandler as React.FC & {
+      displayName?: string
+    }
     Content.displayName = 'TabContent'
 
     // here we reuse the component, if it has a custom renderer
@@ -1238,7 +1321,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
   }
 }
 
-export const Dummy = ({ children }) => {
+export const Dummy = ({ children }: { children: React.ReactNode }) => {
   /**
    * This is a dummy markup, to define a width of every tab
    * We use "aria-hidden" SPAN to simulate a wider width for each tab
@@ -1257,12 +1340,14 @@ export const Dummy = ({ children }) => {
   )
 }
 
-const ScrollNavButton = (props) => {
+const ScrollNavButton = (
+  props: Record<string, unknown> & { className?: string }
+) => {
   return (
     <Button
       size="medium"
       variant="primary"
-      tabIndex="-1"
+      tabIndex={-1}
       bounding
       aria-hidden
       {...props}
@@ -1271,4 +1356,6 @@ const ScrollNavButton = (props) => {
   )
 }
 
-Tabs._supportsSpacingProps = true
+;(
+  Tabs as typeof Tabs & { _supportsSpacingProps: boolean }
+)._supportsSpacingProps = true

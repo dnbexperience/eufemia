@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 /**
  * Web NumberFormat Component
  *
@@ -9,7 +7,7 @@
 
 import React from 'react'
 import clsx from 'clsx'
-import Context from '../../shared/Context'
+import Context, { type ContextProps } from '../../shared/Context'
 import {
   warn,
   makeUniqueId,
@@ -109,8 +107,20 @@ export type NumberFormatAllProps = NumberFormatProps &
 
 export const COPY_TOOLTIP_TIMEOUT = 3000
 
-export default class NumberFormat extends React.PureComponent<NumberFormatAllProps> {
+interface NumberFormatState {
+  selected: boolean
+  omitCurrencySign: boolean
+  hover: boolean
+  copyTooltipActive: boolean
+  copyTooltipText: string | null
+}
+
+export default class NumberFormat extends React.PureComponent<
+  NumberFormatAllProps,
+  NumberFormatState
+> {
   static contextType = Context
+  declare context: ContextProps
 
   static defaultProps = {
     id: null,
@@ -146,13 +156,17 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     children: null,
   }
 
-  constructor(props) {
+  _ref = React.createRef<HTMLElement>()
+  _selectionRef = React.createRef<HTMLElement>()
+  _id: string | undefined
+  _copyTooltipTimeout: ReturnType<typeof setTimeout> | null = null
+  outsideClick: { remove: () => void } | null = null
+  cleanedValue: string | undefined
+
+  constructor(props: NumberFormatAllProps) {
     super(props)
-    this._ref = React.createRef()
-    this._selectionRef = React.createRef()
 
     this._id = props.tooltip ? props.id || makeUniqueId() : undefined
-    this._copyTooltipTimeout = null
     this.state = {
       selected: false,
       omitCurrencySign: false,
@@ -178,9 +192,12 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     }
   }
 
-  showCopyTooltip = (message) => {
-    const translations = this.context.getTranslation?.(this.props)
-      ?.NumberFormat
+  showCopyTooltip = (message?: string) => {
+    const translations = (
+      this.context.getTranslation?.(this.props) as
+        | Record<string, Record<string, string>>
+        | undefined
+    )?.NumberFormat
     const label = message || translations?.clipboardCopy
 
     if (!label) {
@@ -201,8 +218,11 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
   }
 
   shortcutHandler = () => {
-    const label = this.context.getTranslation(this.props)?.NumberFormat
-      .clipboardCopy
+    const label = (
+      this.context.getTranslation?.(this.props) as
+        | Record<string, Record<string, string>>
+        | undefined
+    )?.NumberFormat?.clipboardCopy
     this.showCopyTooltip(label)
   }
 
@@ -262,17 +282,18 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     }
   }
 
-  runFix(comp, className) {
+  runFix(comp: unknown, className: string): React.ReactNode {
     if (typeof comp === 'function') {
       comp = comp()
     }
     if (React.isValidElement(comp)) {
-      return React.createElement(comp.type, {
-        ...comp.props,
-        className: clsx(comp.props.className, className),
+      const elemProps = comp.props as Record<string, unknown>
+      return React.createElement(comp.type as React.ElementType, {
+        ...elemProps,
+        className: clsx(elemProps.className as string, className),
       })
     }
-    return <span className={className}>{comp}</span>
+    return <span className={className}>{comp as React.ReactNode}</span>
   }
 
   onMouseEnter = () => {
@@ -284,16 +305,18 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
   }
 
   render() {
-    const translations = this.context.getTranslation(
-      this.props
-    ).NumberFormat
+    const translations = this.context.getTranslation?.(this.props)
+      ?.NumberFormat as Record<string, string> | undefined
 
     // consume the global context
     const props = extendPropsWithContextInClassComponent(
       this.props,
       NumberFormat.defaultProps,
-      translations,
-      this.context.NumberFormat
+      translations as Record<string, unknown>,
+      (this.context as Record<string, unknown>).NumberFormat as Record<
+        string,
+        unknown
+      >
     )
 
     const {
@@ -331,20 +354,20 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       alwaysSelectAll, // eslint-disable-line
       ..._rest
     } = props
-    let rest = _rest
+    let rest: Record<string, unknown> = _rest
 
     let link = _link
-    let value = _value
+    let value: NumberFormatValue | NumberFormatChildren | null = _value
 
     if (value === null && children !== null) {
-      value = children
+      value = children as NumberFormatValue
     }
 
     let usedCurrencyPosition = currencyPosition
     if (currencyDisplay === 'code' && !usedCurrencyPosition) {
       usedCurrencyPosition = 'before'
     }
-    const formatOptions = {
+    const formatOptions: Record<string, unknown> = {
       locale,
       currency,
       currencyDisplay,
@@ -373,7 +396,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
     const useContext = extendDeep(
       { locale: null, currency: null },
       this.context
-    )
+    ) as { locale?: string; currency?: string; [key: string]: unknown }
 
     if (useContext) {
       if (useContext.locale && !locale) {
@@ -383,13 +406,14 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       // only replace if the prop is "true" and not actually a currency
       if (useContext.currency && currency === true) {
         formatOptions.options = formatOptions.options
-          ? { ...formatOptions.options }
+          ? { ...(formatOptions.options as object) }
           : {}
-        formatOptions.options.currency = useContext.currency
+        ;(formatOptions.options as Record<string, unknown>).currency =
+          useContext.currency
       }
     }
 
-    const result = format(value, formatOptions)
+    const result = format(value as string | number, formatOptions)
     const { cleanedValue, locale: lang } = result
     let { aria, number: display } = result
     this.cleanedValue = cleanedValue
@@ -450,34 +474,39 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       ...rest,
     }
 
-    const displayParams = {}
+    const displayParams: Record<string, unknown> = {}
     if (selectAll || copySelection) {
       displayParams.onClick = this.onClickHandler
       displayParams.onContextMenu = this.onContextMenuHandler
     }
 
     validateDOMAttributes(this.props, attributes)
-    skeletonDOMAttributes(attributes, skeleton, this.context)
+    skeletonDOMAttributes(attributes, skeleton as boolean, this.context)
 
     if (link) {
       if (link) {
         link = 'tel'
       }
+      const { ref: _ref, ...anchorAttributes } = attributes
       return (
-        <a href={`${link}:${display}`} {...attributes}>
+        <a
+          href={`${link}:${display}`}
+          ref={_ref as React.RefObject<HTMLAnchorElement>}
+          {...anchorAttributes}
+        >
           {display}
         </a>
       )
     }
 
-    const Element = element
+    const Element = element as React.ElementType
 
     return (
       <Element {...attributes}>
         <span
           className={clsx(
             'dnb-number-format__visible',
-            createSkeletonClass('font', skeleton, this.context)
+            createSkeletonClass('font', skeleton as boolean, this.context)
           )}
           // Makes it possible for NVDA to read on mouse over
           aria-hidden={!this.state.hover}
@@ -512,7 +541,7 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
           <Tooltip
             id={this._id + '-tooltip'}
             targetElement={this._ref}
-            tooltip={tooltip}
+            tooltip={tooltip as React.ReactNode}
           />
         )}
 
@@ -534,4 +563,6 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
 
 let hasiOSFix = false
 
-NumberFormat._supportsSpacingProps = true
+;(
+  NumberFormat as typeof NumberFormat & { _supportsSpacingProps: boolean }
+)._supportsSpacingProps = true
