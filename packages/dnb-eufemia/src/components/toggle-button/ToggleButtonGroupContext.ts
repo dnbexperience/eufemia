@@ -7,7 +7,7 @@ import React from 'react'
 
 export interface ToggleButtonGroupContextValue {
   name?: string
-  value?: string | number | Record<string, unknown> | any[]
+  value?: string | number | Record<string, unknown> | any[] | null
   values?: any[]
   size?: string
   multiselect?: boolean | null
@@ -15,6 +15,7 @@ export interface ToggleButtonGroupContextValue {
   leftComponent?: React.ReactNode
   disabled?: boolean | null
   skeleton?: boolean | string | null
+  status?: string
   setContext?: (
     context:
       | Record<string, unknown>
