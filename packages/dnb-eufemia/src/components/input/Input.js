@@ -818,6 +818,7 @@ function Input({ ref, ...props }) {
   return <InputClass _innerRef={ref} {...props} />
 }
 
+Input.defaultProps = InputClass.defaultProps
 Input.getValue = InputClass.getValue
 Input.hasValue = InputClass.hasValue
 Input._formElement = true
