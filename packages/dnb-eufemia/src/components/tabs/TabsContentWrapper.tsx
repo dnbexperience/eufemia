@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import React from 'react'
 import clsx from 'clsx'
 import {
@@ -8,10 +6,25 @@ import {
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Section from '../section/Section'
-import { createSharedState } from '../../shared/helpers/useSharedState'
+import {
+  createSharedState,
+  type SharedStateReturn,
+} from '../../shared/helpers/useSharedState'
 import HeightAnimation from '../height-animation/HeightAnimation'
 
-export default class ContentWrapper extends React.PureComponent<ContentWrapperProps> {
+interface ContentWrapperState {
+  key: string | number | null
+}
+
+type SharedState = SharedStateReturn<ContentWrapperState> & {
+  subscribe: (subscriber: () => void) => void
+  unsubscribe: (subscriber: () => void) => void
+}
+
+export default class ContentWrapper extends React.PureComponent<
+  ContentWrapperProps,
+  ContentWrapperState
+> {
   static defaultProps = {
     selectedKey: null,
     contentStyle: null,
@@ -20,13 +33,18 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
     children: null,
   }
 
-  state = { key: null }
+  _sharedState: SharedState | null = null
+  _subscriber: (() => void) | null = null
 
-  constructor(props) {
+  state: ContentWrapperState = { key: null }
+
+  constructor(props: ContentWrapperProps) {
     super(props)
 
     if (props.id) {
-      this._sharedState = createSharedState(props.id)
+      this._sharedState = createSharedState(
+        props.id
+      ) as unknown as SharedState
       this.state = this._sharedState.get() || { key: null }
     }
   }
@@ -34,7 +52,7 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
   componentDidMount() {
     if (this.props.id && this._sharedState) {
       this._subscriber = () => {
-        const params = this._sharedState.get()
+        const params = this._sharedState!.get()
         if (this._sharedState && params?.key !== this.state.key) {
           this.setState(params)
         }
@@ -81,24 +99,30 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
 
     validateDOMAttributes(this.props, params)
 
-    let content = children
+    let content: React.ReactNode = children as React.ReactNode
     if (typeof children === 'function') {
       // If state.key is null but we have an activeKey, create a proper state object
       const stateToPass =
         this.state.key !== null
           ? this.state
           : { ...this.state, key: activeKey }
-      content = children(stateToPass)
+      content = children(stateToPass) as React.ReactNode
     }
 
     return (
       <HeightAnimation
         role="tabpanel"
-        tabIndex="-1"
+        tabIndex={-1}
         id={`${id}-content`}
         element={
           contentStyle
-            ? ({ ref, ...props }) => {
+            ? ({
+                ref,
+                ...props
+              }: {
+                ref: React.RefObject<HTMLElement>
+                [key: string]: unknown
+              }) => {
                 return (
                   <Section
                     spacing={contentStyle ? false : undefined}
@@ -142,7 +166,11 @@ export type ContentWrapperChildren =
   | React.ReactNode
   | ((...args: any[]) => any)
 
-export interface ContentWrapperProps extends React.HTMLProps<HTMLElement> {
+export interface ContentWrapperProps
+  extends Omit<
+    React.HTMLProps<HTMLElement>,
+    'children' | 'ref' | 'onAnimationStart' | 'onAnimationEnd'
+  > {
   id: string
   selectedKey?: ContentWrapperSelectedKey
   contentStyle?: SectionStyleTypes | SectionVariants
