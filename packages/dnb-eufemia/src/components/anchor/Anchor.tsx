@@ -290,12 +290,15 @@ function getIcon(icon) {
 }
 
 export function pickIcon(icon, className?: string) {
-  return icon?.props?.icon || icon?.props?.className?.includes('dnb-icon')
-    ? React.cloneElement(icon, {
-        key: 'button-icon-clone',
-        className: clsx(icon.props?.className, className),
-      })
-    : null
+  if (icon?.props?.icon || icon?.props?.className?.includes('dnb-icon')) {
+    return React.createElement(icon.type, {
+      ...icon.props,
+      key: 'button-icon-clone',
+      className: clsx(icon.props?.className, className),
+    })
+  }
+
+  return null
 }
 
 export const opensNewTab = (target: string, href: string): boolean =>

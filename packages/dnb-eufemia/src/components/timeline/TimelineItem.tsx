@@ -17,6 +17,7 @@ import Context from '../../shared/Context'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
+import TimelineContext from './TimelineContext'
 
 export type TimeLineItemStates = 'completed' | 'current' | 'upcoming'
 
@@ -77,13 +78,15 @@ const defaultProps: Partial<TimelineItemAllProps> = {
 const TimelineItem = (localProps: TimelineItemAllProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
+  const timelineContext = React.useContext(TimelineContext)
 
   // Extract additional props from global context
   const allProps = extendPropsWithContext(
     localProps,
     defaultProps,
     context?.TimelineItem,
-    { skeleton: context?.skeleton }
+    { skeleton: context?.skeleton },
+    timelineContext
   )
 
   const {
