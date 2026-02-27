@@ -120,7 +120,7 @@ export default class NumberFormat extends React.PureComponent<
   NumberFormatState
 > {
   static contextType = Context
-  declare context: ContextProps
+  context!: ContextProps
 
   static defaultProps = {
     id: null,

@@ -49,7 +49,7 @@ class ToggleButton extends React.PureComponent<
   static Group = ToggleButtonGroup
 
   static contextType = ToggleButtonGroupContext
-  declare context: ToggleButtonGroupContextValue
+  context!: ToggleButtonGroupContextValue
 
   static defaultProps = {
     text: null,

@@ -5,10 +5,7 @@
 
 const basisPresets = [
   ['@babel/preset-react', { runtime: 'automatic' }],
-  [
-    '@babel/preset-typescript',
-    { isTSX: true, allExtensions: true, allowDeclareFields: true },
-  ],
+  ['@babel/preset-typescript', { isTSX: true, allExtensions: true }],
 ]
 
 const presetsGeneral =
