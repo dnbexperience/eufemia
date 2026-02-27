@@ -14,8 +14,12 @@
 
   &__content {
     display: inline-flex;
+    flex-wrap: wrap;
     align-items: baseline;
     line-height: var(--line-height-basis--em);
+
+    // Ensure numbers are not broken in the middle, but allow breaking between currency and amount, or between prefix/suffix and the amount.
+    word-break: keep-all;
   }
   &__content-item {
     @include spaceReset();
