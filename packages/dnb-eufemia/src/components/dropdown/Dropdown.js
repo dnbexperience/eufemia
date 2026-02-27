@@ -403,7 +403,7 @@ class DropdownInstance extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContextInClassComponent(
       this.props,
-      Dropdown.defaultProps,
+      DropdownClass.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).Dropdown,
       pickFormElementProps(this.context?.formElement),
@@ -720,7 +720,6 @@ function Dropdown({ ref, buttonRef, ...props }) {
   )
 }
 
-Dropdown.defaultProps = DropdownClass.defaultProps
 Dropdown.HorizontalItem = DrawerList.HorizontalItem
 Dropdown._formElement = true
 Dropdown._supportsSpacingProps = true

@@ -333,7 +333,7 @@ export class InputClass extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContextInClassComponent(
       this.props,
-      Input.defaultProps,
+      InputClass.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).Input,
       pickFormElementProps(this.context?.formElement),

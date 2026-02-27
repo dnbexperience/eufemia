@@ -250,14 +250,14 @@ class RadioClass extends React.PureComponent {
           // from internal context
           const contextProps = extendPropsWithContextInClassComponent(
             this.props,
-            Radio.defaultProps,
+            RadioClass.defaultProps,
             this.context
           )
 
           // use only the props from context, who are available here anyway
           const props = extendPropsWithContextInClassComponent(
             this.props,
-            Radio.defaultProps,
+            RadioClass.defaultProps,
             contextProps,
             { skeleton: context?.skeleton },
             pickFormElementProps(context.formElement),
@@ -463,7 +463,6 @@ function Radio({ ref, ...props }) {
   return <RadioClass _innerRef={ref} {...props} />
 }
 
-Radio.defaultProps = RadioClass.defaultProps
 Radio.Group = RadioClass.Group
 Radio.parseChecked = RadioClass.parseChecked
 Radio._formElement = true
