@@ -1072,6 +1072,35 @@ describe('Flex.Container', () => {
     })
   })
 
+  it('should forward ref', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(
+      <Flex.Container ref={ref}>
+        <Flex.Item>Item 1</Flex.Item>
+      </Flex.Container>
+    )
+
+    const element = document.querySelector('.dnb-flex-container')
+    expect(ref.current).toBe(element)
+  })
+
+  it('should forward ref as a function', () => {
+    let refElement: HTMLElement | null = null
+    const refFn = (elem: HTMLElement) => {
+      refElement = elem
+    }
+
+    render(
+      <Flex.Container ref={refFn}>
+        <Flex.Item>Item 1</Flex.Item>
+      </Flex.Container>
+    )
+
+    const element = document.querySelector('.dnb-flex-container')
+    expect(refElement).toBe(element)
+  })
+
   describe('Flex.Container accessibility', () => {
     it('should validate with ARIA rules', async () => {
       const Comp = render(
