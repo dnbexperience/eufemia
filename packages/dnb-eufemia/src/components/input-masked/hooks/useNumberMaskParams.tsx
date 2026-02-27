@@ -33,14 +33,17 @@ export const useNumberMaskParams = () => {
   let { numberMask, currencyMask, maskOptions } = props
   const { asNumber, asPercent, asCurrency, value } = props
 
-  maskOptions = fromJSON(maskOptions) as any
-  numberMask = numberMask === true ? {} : (fromJSON(numberMask) as any)
+  maskOptions = fromJSON(maskOptions) as Record<string, unknown>
+  numberMask =
+    numberMask === true
+      ? {}
+      : (fromJSON(numberMask) as Record<string, unknown>)
   currencyMask =
     currencyMask === true
       ? {}
       : (fromJSON(currencyMask, {
           currency: currencyMask,
-        }) as any)
+        }) as Record<string, unknown>)
   if (!currencyMask?.currency) {
     delete currencyMask.currency
   }
@@ -58,7 +61,7 @@ export const useNumberMaskParams = () => {
       currencyMask = extendPropsWithContext(currencyMask, null, {
         decimalSymbol,
         thousandsSeparatorSymbol,
-        currency: (getCurrencySymbol as any)(
+        currency: getCurrencySymbol(
           locale,
           typeof asCurrency === 'string' ? asCurrency : null,
           currencyMask?.currencyDisplay,

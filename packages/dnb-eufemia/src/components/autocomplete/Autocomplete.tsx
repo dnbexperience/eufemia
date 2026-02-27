@@ -14,7 +14,7 @@ import type {
   DrawerListSuffix,
   DrawerListDataArrayObject,
 } from '../../fragments/DrawerList'
-import type { ButtonIconPosition } from '../Button'
+import type { ButtonIconPosition, ButtonSize } from '../Button'
 import type { FormStatusBaseProps } from '../FormStatus'
 import type { IconIcon, IconSize } from '../Icon'
 import type { SkeletonShow } from '../Skeleton'
@@ -1307,7 +1307,7 @@ class AutocompleteInstance extends React.PureComponent<
         this.dbf = this.dbf || {}
         return (
           this.dbf[key] ||
-          (this.dbf[key] = debounce(func, wait, { context: this } as any))
+          (this.dbf[key] = debounce(func, wait, { instance: this }))
         )(props)
       },
     }
@@ -1408,7 +1408,7 @@ class AutocompleteInstance extends React.PureComponent<
     this.runFilterToHighlight({
       skipFilter: true,
       fillDataIfEmpty: true,
-    } as any)
+    })
   }
 
   showAllItems = () => {
@@ -1972,9 +1972,12 @@ class AutocompleteInstance extends React.PureComponent<
     const props = (this._props = extendPropsWithContextInClassComponent(
       this.props,
       Autocomplete.defaultProps,
-      (this.context as any).getTranslation(this.props as any).Autocomplete,
-      pickFormElementProps((this.context as any)?.formElement),
-      (this.context as any).Autocomplete
+      this.context.getTranslation?.(this.props)?.Autocomplete,
+      pickFormElementProps(this.context?.formElement),
+      (this.context as Record<string, unknown>)?.Autocomplete as Record<
+        string,
+        unknown
+      >
     ))
 
     const {
@@ -2186,10 +2189,10 @@ class AutocompleteInstance extends React.PureComponent<
     } else if (showSubmitButton) {
       submitButton = (
         <SubmitButton
-          icon={submitButtonIcon as any}
+          icon={submitButtonIcon as IconIcon}
           iconSize={iconSize || (size === 'large' ? 'medium' : 'default')}
           variant="secondary"
-          size={size === 'default' ? 'medium' : (size as any)}
+          size={size === 'default' ? 'medium' : (size as ButtonSize)}
           type="button"
           status={status}
           statusState={statusState}
@@ -2263,7 +2266,7 @@ class AutocompleteInstance extends React.PureComponent<
                         size={size === 'large' ? 'medium' : 'small'}
                       />
                     ) : (
-                      (inputIcon as any)
+                      (inputIcon as IconIcon)
                     )
                   }
                   iconSize={

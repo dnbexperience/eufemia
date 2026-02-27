@@ -1,5 +1,9 @@
 import * as React from 'react';
-import type { ButtonIconPosition, ButtonVariant } from '../Button';
+import type {
+  ButtonIconPosition,
+  ButtonSize,
+  ButtonVariant
+} from '../Button';
 import type { FormStatusBaseProps } from '../FormStatus';
 import type { FormLabelLabelDirection } from '../FormLabel';
 import type { IconIcon, IconSize } from '../Icon';
@@ -164,6 +168,10 @@ export interface SubmitButtonProps
   value?: string;
   title?: string;
   variant?: ButtonVariant;
+  /**
+   * The sizes you can choose is `small`, `default`, `medium` and `large`.
+   */
+  size?: ButtonSize;
   disabled?: boolean;
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.

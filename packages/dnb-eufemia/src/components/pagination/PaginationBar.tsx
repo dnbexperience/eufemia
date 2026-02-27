@@ -182,7 +182,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
         pageCountInternal === 0
       : true
 
-  const paginationBarRef = useRef(null)
+  const paginationBarRef = useRef<HTMLDivElement>(null)
   const currentScreenSize = useResizeObserver(paginationBarRef)
 
   const pageNumberGroups = calculatePagination(
