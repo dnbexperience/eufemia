@@ -1,6 +1,6 @@
 import { PropertiesTableProps } from '../../shared/types'
 
-export const DrawerListProperties = {
+export const DrawerListProperties: PropertiesTableProps = {
   '[data](#the-data-property)': {
     doc: `The data we want to fill the list with. [Details on the type of {DATA} can be found below](#the-data-property). The data can be provided as an array or object. Or as a function that returns the data (called when user opens the list).`,
     type: ['{DATA}', '() => {DATA}'],
@@ -156,9 +156,9 @@ export const DrawerListProperties = {
     type: ['string', 'object'],
     status: 'optional',
   },
-} satisfies PropertiesTableProps
+}
 
-export const DrawerListEvents = {
+export const DrawerListEvents: PropertiesTableProps = {
   onPreChange: {
     doc: 'Will be called before `onChange`, this way you can return false to prevent selection and to prevent `onChange` execution.',
     type: 'function',
@@ -184,9 +184,9 @@ export const DrawerListEvents = {
     type: 'function',
     status: 'optional',
   },
-} satisfies PropertiesTableProps
+}
 
-export const DrawerListItem = {
+export const DrawerListItem: PropertiesTableProps = {
   content: {
     doc: 'Visual content in the list item',
     type: ['string', 'React.node', '(string | React.ReactNode)[]'],
@@ -217,4 +217,4 @@ export const DrawerListItem = {
     type: ['string', 'React.node'],
     status: 'optional',
   },
-} satisfies PropertiesTableProps
+}
