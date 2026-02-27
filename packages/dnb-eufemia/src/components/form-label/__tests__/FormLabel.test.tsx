@@ -411,6 +411,27 @@ describe('FormLabel component', () => {
       expect(input).not.toHaveClass('hover')
     })
   })
+
+  it('should forward ref', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(<FormLabel ref={ref} forId="input" text="Label" />)
+
+    const element = document.querySelector('.dnb-form-label')
+    expect(ref.current).toBe(element)
+  })
+
+  it('should forward ref as a function', () => {
+    let refElement: HTMLElement | null = null
+    const refFn = (elem: HTMLElement) => {
+      refElement = elem
+    }
+
+    render(<FormLabel ref={refFn} forId="input" text="Label" />)
+
+    const element = document.querySelector('.dnb-form-label')
+    expect(refElement).toBe(element)
+  })
 })
 
 describe('FormLabel scss', () => {

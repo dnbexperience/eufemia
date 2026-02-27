@@ -70,4 +70,25 @@ describe('CountryFlag', () => {
 
     expect(element).toHaveClass('dnb-space__top--large')
   })
+
+  it('should forward ref', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(<CountryFlag ref={ref} />)
+
+    const element = document.querySelector('.dnb-country-flag')
+    expect(ref.current).toBe(element)
+  })
+
+  it('should forward ref as a function', () => {
+    let refElement: HTMLElement | null = null
+    const refFn = (elem: HTMLElement) => {
+      refElement = elem
+    }
+
+    render(<CountryFlag ref={refFn} />)
+
+    const element = document.querySelector('.dnb-country-flag')
+    expect(refElement).toBe(element)
+  })
 })
