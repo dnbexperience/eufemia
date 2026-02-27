@@ -1,5 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import { axeComponent } from '../../../core/jest/jestSetup'
 import Stat from '../Stat'
 
 describe('Stat.Percent', () => {
@@ -19,5 +20,13 @@ describe('Stat.Percent', () => {
     expect(currency).not.toBeInTheDocument()
     expect(content.textContent).toBe('+0 %')
     expect(sr.getAttribute('data-text')).toContain('+0 %')
+  })
+
+  it('should validate with ARIA rules', async () => {
+    const component = render(
+      <Stat.Percent value={0.1234} signDisplay="always" srLabel="Change" />
+    )
+
+    expect(await axeComponent(component)).toHaveNoViolations()
   })
 })

@@ -1,5 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import { axeComponent } from '../../../core/jest/jestSetup'
 import Stat from '../Stat'
 
 describe('Stat.Currency', () => {
@@ -12,5 +13,17 @@ describe('Stat.Currency', () => {
     expect(amount.textContent).toBe('12 346')
     expect(currency).toBeInTheDocument()
     expect(currency.textContent).toBe('kr')
+  })
+
+  it('should validate with ARIA rules', async () => {
+    const component = render(
+      <Stat.Currency
+        value={12345.67}
+        signDisplay="always"
+        srLabel="Revenue"
+      />
+    )
+
+    expect(await axeComponent(component)).toHaveNoViolations()
   })
 })
