@@ -413,4 +413,33 @@ describe('HeightAnimation without initializeTestSetup()', () => {
     expect(getElement()).toHaveClass('dnb-height-animation--is-visible')
     expect(window.requestAnimationFrame).toHaveBeenCalledTimes(1)
   })
+
+  it('gets valid ref element', () => {
+    let ref: React.RefObject<HTMLElement>
+
+    function MockComponent() {
+      ref = React.useRef<HTMLElement | null>(null)
+      return <HeightAnimation ref={ref}>content</HeightAnimation>
+    }
+
+    render(<MockComponent />)
+
+    expect(ref.current instanceof HTMLDivElement).toBe(true)
+    expect(ref.current.tagName).toBe('DIV')
+    expect(ref.current.classList).toContain('dnb-height-animation')
+  })
+
+  it('gets valid element when ref is function', () => {
+    let refElement: HTMLElement
+
+    function refFn(elem: HTMLElement) {
+      refElement = elem
+    }
+
+    render(<HeightAnimation ref={refFn}>content</HeightAnimation>)
+
+    expect(refElement instanceof HTMLDivElement).toBe(true)
+    expect(refElement.tagName).toBe('DIV')
+    expect(refElement.classList).toContain('dnb-height-animation')
+  })
 })

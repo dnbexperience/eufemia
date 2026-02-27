@@ -315,6 +315,43 @@ describe('Section component', () => {
     const Component = render(<Section {...props} />)
     expect(await axeComponent(Component)).toHaveNoViolations()
   })
+
+  it('gets valid ref element', () => {
+    let ref: React.RefObject<HTMLElement>
+
+    function MockComponent() {
+      ref = React.useRef<HTMLElement | null>(null)
+      return (
+        <Section {...props} ref={ref}>
+          content
+        </Section>
+      )
+    }
+
+    render(<MockComponent />)
+
+    expect(ref.current instanceof HTMLElement).toBe(true)
+    expect(ref.current.tagName).toBe('SECTION')
+    expect(ref.current.classList).toContain('dnb-section')
+  })
+
+  it('gets valid element when ref is function', () => {
+    let refElement: HTMLElement
+
+    function refFn(elem: HTMLElement) {
+      refElement = elem
+    }
+
+    render(
+      <Section {...props} ref={refFn}>
+        content
+      </Section>
+    )
+
+    expect(refElement instanceof HTMLElement).toBe(true)
+    expect(refElement.tagName).toBe('SECTION')
+    expect(refElement.classList).toContain('dnb-section')
+  })
 })
 
 describe('Section scss', () => {

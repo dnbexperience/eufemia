@@ -287,4 +287,29 @@ describe('Password component', () => {
 
     expect(input).toHaveAttribute('autocomplete', 'new-password')
   })
+
+  it('gets valid ref element', () => {
+    let ref: React.RefObject<HTMLInputElement>
+
+    function MockComponent() {
+      ref = React.useRef<HTMLInputElement | null>(null)
+      return <Field.Password ref={ref} />
+    }
+
+    render(<MockComponent />)
+
+    const input = document.querySelector('.dnb-input__input')
+    expect(input).toBeTruthy()
+    expect(input.tagName).toBe('INPUT')
+  })
+
+  it('gets valid element when ref is function', () => {
+    const refFn = jest.fn()
+
+    render(<Field.Password ref={refFn} />)
+
+    const input = document.querySelector('.dnb-input__input')
+    expect(input).toBeTruthy()
+    expect(input.tagName).toBe('INPUT')
+  })
 })
