@@ -18,7 +18,7 @@ const useLayoutEffect =
 
 export const useInputElement = () => {
   const { props } = React.useContext(InputMaskedContext)
-  const { innerRef, allowOverflow, overwriteMode } = props
+  const { ref: refProp, allowOverflow, overwriteMode } = props
 
   const mask = useMask()
   const { showMask } = useMaskParams()
