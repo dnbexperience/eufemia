@@ -359,9 +359,10 @@ export const GlobalStatusExample = () => {
 }
 
 export const TypeScriptElement = () => {
-  const ReactRouterDomLink: React.ForwardRefExoticComponent<
-    Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> &
-      React.RefAttributes<HTMLAnchorElement>
+  const ReactRouterDomLink: React.ComponentType<
+    Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & {
+      ref?: React.Ref<HTMLAnchorElement>
+    }
   > = null // This is "simulating" { Link } from 'react-router-dom'
   return <Button element={ReactRouterDomLink} />
 }
