@@ -302,6 +302,15 @@ describe('"validateDOMAttributes" should', () => {
     expect(res).not.toHaveProperty('something')
   })
 
+  it('should preserve function ref props', () => {
+    const props = {}
+    const refFn = () => {}
+    const params = { ref: refFn }
+    const res = validateDOMAttributes(props, params)
+    expect(res).toHaveProperty('ref')
+    expect(res.ref).toBe(refFn)
+  })
+
   it('should prevent prototype pollution via attributes', () => {
     const props = {
       attributes: JSON.stringify({

@@ -723,6 +723,35 @@ describe('Avatar', () => {
       ).toBe('--color: var(--color-fire-red);')
     })
   })
+
+  it('should forward ref', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(
+      <Avatar.Group label="label">
+        <Avatar ref={ref}>A</Avatar>
+      </Avatar.Group>
+    )
+
+    const element = document.querySelector('.dnb-avatar')
+    expect(ref.current).toBe(element)
+  })
+
+  it('should forward ref as a function', () => {
+    let refElement: HTMLElement | null = null
+    const refFn = (elem: HTMLElement) => {
+      refElement = elem
+    }
+
+    render(
+      <Avatar.Group label="label">
+        <Avatar ref={refFn}>A</Avatar>
+      </Avatar.Group>
+    )
+
+    const element = document.querySelector('.dnb-avatar')
+    expect(refElement).toBe(element)
+  })
 })
 
 describe('Avatar aria', () => {

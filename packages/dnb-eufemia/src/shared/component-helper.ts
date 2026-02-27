@@ -127,6 +127,8 @@ export const validateDOMAttributes = (
       if (
         // is React
         typeof params[i] === 'function' &&
+        // "ref" is a valid React prop (callback ref)
+        i !== 'ref' &&
         // only React Style props, like "onClick" are allowed
         // (starts with lowercase letters followed by at least on uppercase letter)
         !startsWithCamelCaseRegex.test(i)

@@ -134,6 +134,12 @@ export type BreadcrumbProps = {
    * Will be called when breadcrumb expands or collapses.
    */
   onToggle?: (isCollapsed: boolean) => void
+
+  /**
+   * Send along a custom React Ref.
+   * Default: null
+   */
+  ref?: React.Ref<HTMLElement>
 }
 
 const defaultProps: Partial<BreadcrumbProps> = {

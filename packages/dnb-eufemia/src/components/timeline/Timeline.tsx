@@ -40,7 +40,9 @@ export type TimelineProps = {
 
 export type TimelineAllProps = TimelineProps &
   Omit<React.AllHTMLAttributes<HTMLOListElement>, 'type' | 'data'> &
-  SpacingProps
+  SpacingProps & {
+    ref?: React.Ref<HTMLOListElement>
+  }
 
 const defaultProps: Partial<TimelineAllProps> = {
   className: null,
