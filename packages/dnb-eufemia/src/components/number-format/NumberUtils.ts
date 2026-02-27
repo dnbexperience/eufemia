@@ -1054,10 +1054,10 @@ export function getThousandsSeparator(locale = null) {
  * @returns {string} a currency symbol
  */
 export function getCurrencySymbol(
-  locale = null,
-  currency = null,
-  display = null,
-  number = 2
+  locale: string | null = null,
+  currency: string | boolean | null = null,
+  display: string | boolean | null = null,
+  number: string | number = 2
 ) {
   if (!currency) {
     currency = CURRENCY
