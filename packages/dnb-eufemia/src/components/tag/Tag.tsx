@@ -186,7 +186,7 @@ const Tag = (
           : undefined
       }
       {...additionalButtonParams}
-      {...(props as any)}
+      {...(props as Record<string, unknown>)}
     />
   )
 }
