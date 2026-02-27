@@ -1,6 +1,7 @@
 export { AmountProperties } from './AmountDocs'
 export { CurrencyProperties } from './CurrencyDocs'
 export { PercentProperties } from './PercentDocs'
+export { RatingProperties } from './RatingDocs'
 export { TrendProperties } from './TrendDocs'
 export { LabelProperties } from './LabelDocs'
 export { InfoProperties } from './InfoDocs'

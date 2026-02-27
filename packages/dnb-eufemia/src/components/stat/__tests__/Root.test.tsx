@@ -23,6 +23,25 @@ describe('Stat.Root', () => {
     expect(dd.tagName.toLowerCase()).toBe('dd')
   })
 
+  it('supports visualOrder content-label', () => {
+    render(
+      <Stat.Root visualOrder="content-label">
+        <Stat.Label>Revenue growth</Stat.Label>
+        <Stat.Content>
+          <Stat.Currency value={1234} signDisplay="always" />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const root = document.querySelector('.dnb-stat__root')
+    const dt = document.querySelector('.dnb-stat__label')
+    const dd = document.querySelector('.dnb-stat__content-item')
+
+    expect(root.classList).toContain('dnb-stat__root--content-label')
+    expect(dt.tagName.toLowerCase()).toBe('dt')
+    expect(dd.tagName.toLowerCase()).toBe('dd')
+  })
+
   it('supports spacing props through Space', () => {
     render(<Stat.Root top="large" />)
 

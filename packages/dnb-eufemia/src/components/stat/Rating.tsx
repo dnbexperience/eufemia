@@ -1,0 +1,137 @@
+import React from 'react'
+import classnames from 'classnames'
+import { createSpacingClasses } from '../space/SpacingHelper'
+import type { SpacingProps } from '../../shared/types'
+import {
+  convertJsxToString,
+  validateDOMAttributes,
+} from '../../shared/component-helper'
+import { clamp } from '../slider/SliderHelpers'
+
+export type RatingProps = {
+  value?: number
+  max?: number
+  variant?: 'stars' | 'progressive'
+  element?: keyof JSX.IntrinsicElements
+  className?: string
+  srLabel?: React.ReactNode
+} & SpacingProps
+
+function Rating(props: RatingProps) {
+  const {
+    value = 0,
+    max = null,
+    variant = 'stars',
+    element: Element = 'span',
+    className = null,
+    srLabel = null,
+    ...rest
+  } = props
+
+  const defaultMax = variant === 'progressive' ? 7 : 5
+  const resolvedMax =
+    Number.isFinite(max) && max > 0 ? Math.floor(max) : defaultMax
+  const safeValue = Number.isFinite(value) ? value : 0
+  const normalizedValue = clamp(safeValue, 0, resolvedMax)
+  const labelValue = Number.isInteger(normalizedValue)
+    ? String(normalizedValue)
+    : normalizedValue.toFixed(1)
+  const unit = variant === 'progressive' ? 'progressive' : 'stars'
+  const label = srLabel
+    ? `${convertJsxToString(srLabel)} ${labelValue} of ${resolvedMax}`
+    : `${labelValue} of ${resolvedMax} ${unit}`
+
+  const attributes = validateDOMAttributes(props, {
+    ...rest,
+    role: 'img',
+    'aria-label': label,
+    className: classnames(
+      'dnb-stat',
+      'dnb-stat__rating',
+      `dnb-stat__rating--${variant}`,
+      createSpacingClasses(props),
+      className
+    ),
+  })
+
+  return (
+    <Element {...attributes}>
+      {variant === 'stars' ? (
+        <span className="dnb-stat__rating-stars" aria-hidden>
+          {Array.from({ length: resolvedMax }).map((_, index) => {
+            const fill = clamp(normalizedValue - index, 0, 1)
+
+            return (
+              <span
+                key={index}
+                className="dnb-stat__rating-star"
+                style={
+                  {
+                    '--dnb-stat-rating-fill': `${fill * 100}%`,
+                  } as React.CSSProperties
+                }
+                data-fill={fill.toFixed(2)}
+              >
+                <>
+                  <svg
+                    className="dnb-stat__rating-icon dnb-stat__rating-icon--base"
+                    width="12"
+                    height="12"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M5.9996 0L7.8546 3.95006L12 4.58343L9.0006 7.65834L9.708 12L5.9996 9.95006L2.2928 12L3.0002 7.65834L0 4.58343L4.1462 3.95006L5.9996 0Z"
+                    />
+                  </svg>
+                  <span className="dnb-stat__rating-fill">
+                    <svg
+                      className="dnb-stat__rating-icon dnb-stat__rating-icon--active"
+                      width="12"
+                      height="12"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M5.9996 0L7.8546 3.95006L12 4.58343L9.0006 7.65834L9.708 12L5.9996 9.95006L2.2928 12L3.0002 7.65834L0 4.58343L4.1462 3.95006L5.9996 0Z"
+                      />
+                    </svg>
+                  </span>
+                </>
+              </span>
+            )
+          })}
+        </span>
+      ) : (
+        <span className="dnb-stat__rating-progressive" aria-hidden>
+          {Array.from({ length: resolvedMax }).map((_, index) => {
+            const fill = clamp(normalizedValue - index, 0, 1)
+
+            return (
+              <span
+                key={index}
+                className="dnb-stat__rating-progressive-step dnb-stat__rating-progressive-step--base"
+                style={
+                  {
+                    '--dnb-stat-rating-step-fill': `${fill * 100}%`,
+                  } as React.CSSProperties
+                }
+                data-fill={fill.toFixed(2)}
+              />
+            )
+          })}
+        </span>
+      )}
+    </Element>
+  )
+}
+
+Rating._supportsSpacingProps = true
+
+export default Rating

@@ -27,16 +27,19 @@ import { Stat } from '@dnb/eufemia'
   It adds typography-specific props:
 
   - `mainWeight`
+  - `auxWeight`
   - `mainSize`
   - `auxiliarySize`
 
 - `Stat.Trend` renders explicit `+` / `-` indicators with red/green background states and screen-reader text.
 
+- `Stat.Rating` renders a star rating (defaults to 5 stars) and colorizes stars based on `value`.
+
 - `Stat.Info` renders supporting text with a smaller, muted style.
 
 ## Accessibility
 
-- All Stat variants keep dedicated accessibility handling. `Currency`, `Percent`, and `Trend` use a dedicated screen-reader value (`.dnb-sr-only`) based on the formatted content.
+- All Stat variants keep dedicated accessibility handling. `Currency`, `Percent`, and `Trend` use a dedicated screen-reader value (`.dnb-sr-only`) based on the formatted content. `Rating` uses an accessible label (`role="img"` + `aria-label`) that includes value and max.
 
 - `Stat.Root` provides semantic definition-list markup (`dl`), where `Stat.Label` is rendered as `dt` and `Stat.Content` as `dd`.
 

@@ -1,6 +1,7 @@
 export { default as Amount } from './Amount'
 export { default as Currency } from './Currency'
 export { default as Percent } from './Percent'
+export { default as Rating } from './Rating'
 export { default as Trend } from './Trend'
 export { default as Label } from './Label'
 export { default as Info } from './Info'

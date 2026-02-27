@@ -52,4 +52,21 @@ describe('Stat', () => {
 
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('has to match rating default', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="stat-rating-default"]',
+    })
+
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('has to match content-label-order with subtle label', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="stat-content-label-order-subtle-label"]',
+    })
+
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

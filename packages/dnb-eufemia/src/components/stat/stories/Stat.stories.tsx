@@ -51,3 +51,16 @@ export function Label() {
     </Wrapper>
   )
 }
+
+export function Rating() {
+  return (
+    <Wrapper>
+      <Box>
+        <Flex.Stack>
+          <Stat.Rating value={2} />
+          <Stat.Rating value={3.5} srLabel="Morningstar" />
+        </Flex.Stack>
+      </Box>
+    </Wrapper>
+  )
+}

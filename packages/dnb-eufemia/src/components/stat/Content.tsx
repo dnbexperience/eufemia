@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import clsx from 'clsx'
+import classnames from 'classnames'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import type { SpacingProps } from '../../shared/types'
 import { validateDOMAttributes, warn } from '../../shared/component-helper'
@@ -29,7 +29,7 @@ function Content(props: ContentProps) {
 
   const attributes = validateDOMAttributes(props, {
     ...rest,
-    className: clsx(
+    className: classnames(
       'dnb-stat',
       'dnb-stat__content-item',
       `dnb-stat__content-item--${direction}`,

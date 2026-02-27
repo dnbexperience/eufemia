@@ -1,5 +1,4 @@
 import { PropertiesTableProps } from '../../shared/types'
-import { NumberFormatPropertiesCamelCase } from '../number-format/NumberFormatDocs'
 import { spacingProperties } from './StatDocsUtils'
 
 export const LabelProperties: PropertiesTableProps = {
@@ -8,6 +7,31 @@ export const LabelProperties: PropertiesTableProps = {
     type: ['React.ReactNode'],
     status: 'optional',
   },
-  element: NumberFormatPropertiesCamelCase.element,
+  fontWeight: {
+    doc: 'Typography weight for the label.',
+    type: ['"regular"', '"medium"', '"bold"'],
+    defaultValue: 'medium (`default` variant), regular (`subtle` variant)',
+    status: 'optional',
+  },
+  fontSize: {
+    doc: 'Typography size for the label. Line-height is derived from an internal scale (e.g. `small` -> `basis`).',
+    type: [
+      '"x-small"',
+      '"small"',
+      '"basis"',
+      '"medium"',
+      '"large"',
+      '"x-large"',
+      '"xx-large"',
+    ],
+    defaultValue: 'small',
+    status: 'optional',
+  },
+  variant: {
+    doc: 'Label color style variant.',
+    type: ['"default"', '"subtle"'],
+    defaultValue: 'default',
+    status: 'optional',
+  },
   '[Space](/uilib/layout/space/properties)': spacingProperties,
 }

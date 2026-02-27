@@ -1,5 +1,5 @@
 import React from 'react'
-import clsx from 'clsx'
+import classnames from 'classnames'
 import Context from '../../shared/Context'
 import { NumberFormatProps } from '../number-format/NumberFormat'
 import useNumberFormatWithParts from '../number-format/useNumberFormatWithParts'
@@ -29,7 +29,7 @@ export type AmountProps = Omit<
   currencyDisplay?: NumberFormatProps['currency_display']
   currencyPosition?: NumberFormatProps['currency_position']
   /**
-   * Typography size for the main content. Defaults to `x-large`.
+   * Typography size for the main content. Defaults to `large`.
    */
   mainSize?: TypographySize
   /**
@@ -37,9 +37,20 @@ export type AmountProps = Omit<
    */
   mainWeight?: TypographyWeight
   /**
-   * Typography size for secondary content like affixes. Defaults to `x-small`.
+   * Typography size for secondary content like affixes. Defaults to `large`.
    */
   auxiliarySize?: TypographySize
+  /**
+   * Typography weight for secondary content like currency sign and affixes.
+   *
+   * If not set, and `mainSize` equals `auxiliarySize` while `mainWeight` is not set,
+   * `medium` is used.
+   */
+  auxWeight?: TypographyWeight
+  /**
+   * Opt-in sign-based text color (`+` => green, `-` => red).
+   */
+  colorizeBySign?: boolean
 } & SpacingProps
 
 const renderAffix = (
@@ -52,7 +63,7 @@ const renderAffix = (
 
   if (React.isValidElement(resolved)) {
     return React.cloneElement(resolved, {
-      className: clsx(resolved.props.className, className),
+      className: classnames(resolved.props.className, className),
     })
   }
 
@@ -72,9 +83,11 @@ function Amount(props: AmountProps) {
     prefix = null,
     suffix = null,
     srLabel = null,
-    mainSize = 'x-large',
-    mainWeight = 'medium',
-    auxiliarySize = 'x-small',
+    mainSize = 'large',
+    mainWeight,
+    auxiliarySize = 'large',
+    auxWeight = null,
+    colorizeBySign = false,
     id = null,
     style = null,
     lang = null,
@@ -84,7 +97,6 @@ function Amount(props: AmountProps) {
     skeleton = null,
     options = null,
     compact = null,
-    clean = null,
     percent = null,
     ...rest
   } = props
@@ -111,7 +123,6 @@ function Amount(props: AmountProps) {
     currencyDisplay,
     currencyPosition,
     compact,
-    clean,
     percent,
     decimals,
     rounding,
@@ -130,22 +141,36 @@ function Amount(props: AmountProps) {
 
   const hasCurrency = Boolean(parts.currency)
   const renderCurrencyBefore = parts.currencyPosition === 'before'
+  const resolvedMainWeight = mainWeight ?? 'medium'
+  const resolvedAuxWeight =
+    auxWeight ??
+    (typeof mainWeight === 'undefined' && mainSize === auxiliarySize
+      ? 'medium'
+      : null)
+  const signTone =
+    parts.sign === '+'
+      ? 'positive'
+      : parts.sign === '-' || parts.sign === '−'
+      ? 'negative'
+      : null
 
-  const currencyClass = clsx(
+  const currencyClass = classnames(
     'dnb-stat__currency',
     `dnb-t__size--${auxiliarySize}`,
-    `dnb-t__line-height--${auxiliarySize}`
+    `dnb-t__line-height--${auxiliarySize}`,
+    resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`
   )
-  const amountClass = clsx(
+  const amountClass = classnames(
     'dnb-stat__amount',
     `dnb-t__size--${mainSize}`,
     `dnb-t__line-height--${mainSize}`,
-    `dnb-t__weight--${mainWeight}`
+    `dnb-t__weight--${resolvedMainWeight}`
   )
-  const percentClass = clsx(
+  const percentClass = classnames(
     'dnb-stat__percent',
     `dnb-t__size--${auxiliarySize}`,
-    `dnb-t__line-height--${auxiliarySize}`
+    `dnb-t__line-height--${auxiliarySize}`,
+    resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`
   )
 
   let content = (
@@ -153,11 +178,11 @@ function Amount(props: AmountProps) {
       {renderSign && (
         <>
           <span
-            className={clsx(
+            className={classnames(
               'dnb-stat__sign',
               `dnb-t__size--${mainSize}`,
               `dnb-t__line-height--${mainSize}`,
-              `dnb-t__weight--${mainWeight}`
+              `dnb-t__weight--${resolvedMainWeight}`
             )}
           >
             {renderSign}
@@ -192,10 +217,11 @@ function Amount(props: AmountProps) {
   if (prefix) {
     const prefixElement = renderAffix(
       prefix,
-      clsx(
+      classnames(
         'dnb-stat__prefix',
         `dnb-t__size--${auxiliarySize}`,
-        `dnb-t__line-height--${auxiliarySize}`
+        `dnb-t__line-height--${auxiliarySize}`,
+        resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`
       )
     )
     content = (
@@ -209,10 +235,11 @@ function Amount(props: AmountProps) {
   if (suffix) {
     const suffixElement = renderAffix(
       suffix,
-      clsx(
+      classnames(
         'dnb-stat__suffix',
         `dnb-t__size--${auxiliarySize}`,
-        `dnb-t__line-height--${auxiliarySize}`
+        `dnb-t__line-height--${auxiliarySize}`,
+        resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`
       )
     )
     const suffixSpace =
@@ -235,8 +262,9 @@ function Amount(props: AmountProps) {
     ...rest,
     id,
     style,
-    className: clsx(
+    className: classnames(
       'dnb-stat',
+      colorizeBySign && signTone && `dnb-stat--tone-${signTone}`,
       createSpacingClasses(props),
       createSkeletonClass('font', resolvedSkeleton, context),
       className

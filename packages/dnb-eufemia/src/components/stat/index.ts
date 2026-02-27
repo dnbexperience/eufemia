@@ -2,6 +2,7 @@
 export { Amount } from './StatExport'
 export { Currency } from './StatExport'
 export { Percent } from './StatExport'
+export { Rating } from './StatExport'
 export { Trend } from './StatExport'
 export { Label } from './StatExport'
 export { Info } from './StatExport'

@@ -14,6 +14,5 @@ export const TrendProperties: PropertiesTableProps = {
     status: 'optional',
   },
   srLabel: NumberFormatPropertiesCamelCase.srLabel,
-  element: NumberFormatPropertiesCamelCase.element,
   '[Space](/uilib/layout/space/properties)': spacingProperties,
 }

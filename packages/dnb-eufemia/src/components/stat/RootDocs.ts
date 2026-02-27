@@ -1,5 +1,4 @@
 import { PropertiesTableProps } from '../../shared/types'
-import { NumberFormatPropertiesCamelCase } from '../number-format/NumberFormatDocs'
 import { spacingProperties } from './StatDocsUtils'
 
 export const RootProperties: PropertiesTableProps = {
@@ -8,6 +7,11 @@ export const RootProperties: PropertiesTableProps = {
     type: ['React.ReactNode'],
     status: 'optional',
   },
-  element: NumberFormatPropertiesCamelCase.element,
+  visualOrder: {
+    doc: 'Visual order of label and content while keeping semantic `dt`/`dd` markup in DOM.',
+    type: ['"label-content"', '"content-label"'],
+    defaultValue: 'label-content',
+    status: 'optional',
+  },
   '[Space](/uilib/layout/space/properties)': spacingProperties,
 }

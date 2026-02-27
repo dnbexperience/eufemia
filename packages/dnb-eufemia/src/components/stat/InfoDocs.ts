@@ -1,5 +1,4 @@
 import { PropertiesTableProps } from '../../shared/types'
-import { NumberFormatPropertiesCamelCase } from '../number-format/NumberFormatDocs'
 import { spacingProperties } from './StatDocsUtils'
 
 export const InfoProperties: PropertiesTableProps = {
@@ -8,6 +7,11 @@ export const InfoProperties: PropertiesTableProps = {
     type: ['React.ReactNode'],
     status: 'optional',
   },
-  element: NumberFormatPropertiesCamelCase.element,
+  variant: {
+    doc: 'Info color style variant.',
+    type: ['"default"', '"subtle"', '"prominent"'],
+    defaultValue: 'subtle',
+    status: 'optional',
+  },
   '[Space](/uilib/layout/space/properties)': spacingProperties,
 }

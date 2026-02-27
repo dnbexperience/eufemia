@@ -31,8 +31,8 @@ describe('Stat.Amount', () => {
 
     expect(amount.textContent).toBe('12 346')
     expect(currency.textContent).toBe('kr')
-    expect(amount.classList).toContain('dnb-t__size--x-large')
-    expect(currency.classList).toContain('dnb-t__size--x-small')
+    expect(amount.classList).toContain('dnb-t__size--large')
+    expect(currency.classList).toContain('dnb-t__size--large')
 
     expect(container.lastChild).toBe(
       document.querySelector('.dnb-sr-only')
@@ -120,9 +120,9 @@ describe('Stat.Amount', () => {
     const prefix = document.querySelector('.dnb-stat__prefix')
 
     expect(amount.classList).toContain('dnb-t__size--xx-large')
-    expect(amount.classList).not.toContain('dnb-t__size--x-large')
+    expect(amount.classList).not.toContain('dnb-t__size--large')
     expect(currency.classList).toContain('dnb-t__size--basis')
-    expect(currency.classList).not.toContain('dnb-t__size--x-small')
+    expect(currency.classList).not.toContain('dnb-t__size--large')
     expect(prefix.classList).toContain('dnb-t__size--basis')
   })
 
@@ -141,6 +141,54 @@ describe('Stat.Amount', () => {
 
     expect(amount.classList).toContain('dnb-t__weight--bold')
     expect(sign.classList).toContain('dnb-t__weight--bold')
+  })
+
+  it('supports custom auxWeight', () => {
+    render(
+      <Stat.Amount
+        value={12345.67}
+        currency="NOK"
+        prefix="From"
+        auxWeight="bold"
+      />
+    )
+
+    const currency = document.querySelector('.dnb-stat__currency')
+    const prefix = document.querySelector('.dnb-stat__prefix')
+
+    expect(currency.classList).toContain('dnb-t__weight--bold')
+    expect(prefix.classList).toContain('dnb-t__weight--bold')
+  })
+
+  it('uses medium auxWeight when main and auxiliary sizes are equal and mainWeight is omitted', () => {
+    render(
+      <Stat.Amount
+        value={12345.67}
+        currency="NOK"
+        mainSize="large"
+        auxiliarySize="large"
+      />
+    )
+
+    const currency = document.querySelector('.dnb-stat__currency')
+
+    expect(currency.classList).toContain('dnb-t__weight--medium')
+  })
+
+  it('does not force medium auxWeight when mainWeight is set', () => {
+    render(
+      <Stat.Amount
+        value={12345.67}
+        currency="NOK"
+        mainSize="large"
+        auxiliarySize="large"
+        mainWeight="regular"
+      />
+    )
+
+    const currency = document.querySelector('.dnb-stat__currency')
+
+    expect(currency.classList).not.toContain('dnb-t__weight--medium')
   })
 
   it('uses children as the value', () => {
@@ -322,6 +370,36 @@ describe('Stat.Amount', () => {
 
     const content = document.querySelector('.dnb-stat__content')
     expect(content.textContent).toBe('- 12,346NOK')
+  })
+
+  it('supports opt-in sign tone colorization', () => {
+    const { rerender } = render(
+      <Stat.Amount
+        value={12345.67}
+        currency="NOK"
+        signDisplay="always"
+        colorizeBySign
+        locale="en-GB"
+      />
+    )
+
+    let root = document.querySelector('.dnb-stat')
+    expect(root.classList).toContain('dnb-stat--tone-positive')
+    expect(root.classList).not.toContain('dnb-stat--tone-negative')
+
+    rerender(
+      <Stat.Amount
+        value={-12345.67}
+        currency="NOK"
+        signDisplay="always"
+        colorizeBySign
+        locale="en-GB"
+      />
+    )
+
+    root = document.querySelector('.dnb-stat')
+    expect(root.classList).toContain('dnb-stat--tone-negative')
+    expect(root.classList).not.toContain('dnb-stat--tone-positive')
   })
 
   it('declares _supportsSpacingProps', () => {

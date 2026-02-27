@@ -1,5 +1,5 @@
 import React from 'react'
-import clsx from 'clsx'
+import classnames from 'classnames'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import type { SpacingProps } from '../../shared/types'
 import {
@@ -56,7 +56,7 @@ function Trend(props: TrendProps) {
 
   const attributes = validateDOMAttributes(props, {
     ...rest,
-    className: clsx(
+    className: classnames(
       'dnb-stat',
       'dnb-stat__trend',
       `dnb-stat__trend--${usedTone}`,
