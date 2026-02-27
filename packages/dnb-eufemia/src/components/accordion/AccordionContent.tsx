@@ -45,7 +45,7 @@ export default function AccordionContent(props: AccordionContentProps) {
 
   const { className, children, instance, ...rest } = props
 
-  let elementRef = React.useRef(null)
+  let elementRef = React.useRef<HTMLElement>(null)
   const cacheRef = React.useRef<React.ReactNode | null>(null)
 
   if (contentRef) {
