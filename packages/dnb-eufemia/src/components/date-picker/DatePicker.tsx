@@ -28,11 +28,7 @@ import { skeletonDOMAttributes } from '../skeleton/SkeletonHelper'
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
-import FormStatus, {
-  FormStatusProps,
-  FormStatusState,
-  FormStatusText,
-} from '../form-status/FormStatus'
+import FormStatus, { FormStatusBaseProps } from '../form-status/FormStatus'
 import DatePickerProvider, {
   DatePickerChangeEvent,
   type ReturnObject,
@@ -44,7 +40,6 @@ import DatePickerFooter from './DatePickerFooter'
 import { SpacingProps } from '../space/types'
 import { InputInputElement, InputSize } from '../Input'
 import { SkeletonShow } from '../Skeleton'
-import { GlobalStatusConfigObject } from '../GlobalStatus'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import { CalendarDay, DatePickerCalendarProps } from './DatePickerCalendar'
 import { DatePickerContextValues, DateType } from './DatePickerContext'
@@ -236,23 +231,6 @@ export type DatePickerProps = {
    */
   size?: InputSize
   /**
-   * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
-   */
-  status?: FormStatusText
-  /**
-   * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
-   */
-  statusState?: FormStatusState
-  /**
-   * Use an object to define additional FormStatus properties.
-   */
-  statusProps?: FormStatusProps
-  statusNoAnimation?: boolean
-  /**
-   * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
-   */
-  globalStatus?: GlobalStatusConfigObject
-  /**
    * Text describing the content of the DatePicker more than the label. You can also send in a React component, so it gets wrapped inside the DatePicker component.
    */
   suffix?: React.ReactNode
@@ -341,6 +319,7 @@ export type DatePickerProps = {
 }
 
 export type DatePickerAllProps = DatePickerProps &
+  FormStatusBaseProps &
   SpacingProps &
   Omit<
     React.HTMLProps<HTMLElement>,
@@ -356,7 +335,7 @@ export type DatePickerAllProps = DatePickerProps &
     | 'start'
   >
 
-const defaultProps: DatePickerProps = {
+const defaultProps: Partial<DatePickerAllProps> = {
   hideNavigation: false,
   hideDays: false,
   onlyMonth: false,

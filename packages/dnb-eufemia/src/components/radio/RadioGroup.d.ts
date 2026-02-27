@@ -1,13 +1,8 @@
 import * as React from 'react';
-import type {
-  FormStatusProps,
-  FormStatusState,
-  FormStatusText
-} from '../FormStatus';
+import type { FormStatusBaseProps } from '../FormStatus';
 import type { FormLabelLabelDirection } from '../FormLabel';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
-import type { GlobalStatusConfigObject } from '../GlobalStatus';
 export type RadioGroupLabelPosition = 'left' | 'right';
 export type RadioGroupSize =
   | 'default'
@@ -27,7 +22,8 @@ export type RadioGroupChildren =
   | React.ReactNode;
 export interface RadioGroupProps
   extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
-    SpacingProps {
+    SpacingProps,
+    FormStatusBaseProps {
   label?: React.ReactNode;
   labelDirection?: FormLabelLabelDirection;
   labelSrOnly?: boolean;
@@ -38,11 +34,6 @@ export interface RadioGroupProps
   id?: string;
   name?: string;
   size?: RadioGroupSize;
-  status?: FormStatusText;
-  statusState?: FormStatusState;
-  statusProps?: FormStatusProps;
-  statusNoAnimation?: boolean;
-  globalStatus?: GlobalStatusConfigObject;
   suffix?: RadioGroupSuffix;
   layoutDirection?: RadioGroupLayoutDirection;
   vertical?: boolean;

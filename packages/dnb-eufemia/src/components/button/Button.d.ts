@@ -6,12 +6,7 @@ import type {
   DynamicElement,
   SpacingProps
 } from '../../shared/types';
-import type {
-  FormStatusProps,
-  FormStatusState,
-  FormStatusText
-} from '../FormStatus';
-import type { GlobalStatusConfigObject } from '../GlobalStatus';
+import type { FormStatusBaseProps } from '../FormStatus';
 import { AnchorProps } from '../Anchor';
 export type ButtonText = string | React.ReactNode;
 export type ButtonVariant =
@@ -96,23 +91,6 @@ export type ButtonProps = {
    * Provide a string or a React Element to be shown as the tooltip content.
    */
   tooltip?: ButtonTooltip;
-  /**
-   * Set it to either `status="error"` or a text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
-   */
-  status?: FormStatusText;
-  /**
-   * Defines the state of the status. Currently there are two statuses `[error, info]`. Defaults to `error`.
-   */
-  statusState?: FormStatusState;
-  /**
-   * Use an object to define additional FormStatus properties.
-   */
-  statusProps?: FormStatusProps;
-  statusNoAnimation?: boolean;
-  /**
-   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
-   */
-  globalStatus?: GlobalStatusConfigObject;
   id?: string;
   /**
    * If you want the button to behave as a link. Use with caution! A link should normally visually be a link and not a button.
@@ -160,13 +138,16 @@ export type ButtonProps = {
    */
   element?: ButtonElement;
   onClick?: ButtonOnClick;
-} & Partial<
-  DataAttributeTypes &
-    Omit<
-      Partial<React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>>,
-      'onClick'
-    >
-> &
+} & FormStatusBaseProps &
+  Partial<
+    DataAttributeTypes &
+      Omit<
+        Partial<
+          React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>
+        >,
+        'onClick'
+      >
+  > &
   SpacingProps;
 declare const Button: ((props: ButtonProps) => React.JSX.Element) & {
   defaultProps: object;

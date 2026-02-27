@@ -25,12 +25,8 @@ import {
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
-import FormStatus, {
-  FormStatusState,
-  FormStatusText,
-} from '../form-status/FormStatus'
+import FormStatus, { FormStatusBaseProps } from '../form-status/FormStatus'
 import useId from '../../shared/helpers/useId'
-import { GlobalStatusConfigObject } from '../GlobalStatus'
 import { SkeletonShow } from '../Skeleton'
 import { SpacingProps } from '../space/types'
 
@@ -75,23 +71,6 @@ export type SwitchProps = {
    */
   size?: SwitchSize
   /**
-   * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
-   */
-  status?: FormStatusText
-  /**
-   * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
-   */
-  statusState?: FormStatusState
-  /**
-   * Use an object to define additional FormStatus properties.
-   */
-  statusProps?: Record<string, unknown>
-  /**
-   * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
-   */
-  globalStatus?: GlobalStatusConfigObject
-  statusNoAnimation?: boolean
-  /**
    * Text describing the content of the Switch more than the label. You can also send in a React component, so it gets wrapped inside the Switch component.
    */
   suffix?: React.ReactNode
@@ -122,10 +101,11 @@ export type SwitchProps = {
   ref?:
     | React.RefObject<HTMLInputElement>
     | ((elem: HTMLInputElement) => void)
-} & Omit<
-  React.HTMLProps<HTMLElement>,
-  'ref' | 'size' | 'onChange' | 'onClick' | 'label'
-> &
+} & FormStatusBaseProps &
+  Omit<
+    React.HTMLProps<HTMLElement>,
+    'ref' | 'size' | 'onChange' | 'onClick' | 'label'
+  > &
   SpacingProps
 
 const defaultProps: Partial<SwitchProps> = {

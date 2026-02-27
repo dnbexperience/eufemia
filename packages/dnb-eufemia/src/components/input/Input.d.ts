@@ -1,15 +1,10 @@
 import * as React from 'react';
 import type { ButtonIconPosition, ButtonVariant } from '../Button';
-import type {
-  FormStatusProps,
-  FormStatusState,
-  FormStatusText
-} from '../FormStatus';
+import type { FormStatusBaseProps } from '../FormStatus';
 import type { FormLabelLabelDirection } from '../FormLabel';
 import type { IconIcon, IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
-import type { GlobalStatusConfigObject } from '../GlobalStatus';
 export type InputSize = 'default' | 'small' | 'medium' | 'large' | number;
 export type InputValue = string | number;
 export type InputSuffix =
@@ -31,7 +26,8 @@ export type InputSubmitButtonIcon =
 export type InputChildren = React.ReactNode | ((...args: any[]) => any);
 export interface InputProps
   extends Omit<React.HTMLProps<HTMLInputElement>, 'ref'>,
-    SpacingProps {
+    SpacingProps,
+    FormStatusBaseProps {
   /**
    * Choose between `text`, `number`, `email`, `password`, `url`, `tel` and `search`.
    */
@@ -57,23 +53,6 @@ export interface InputProps
    * Use `true` to make the label only readable by screen readers.
    */
   labelSrOnly?: boolean;
-  /**
-   * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
-   */
-  status?: FormStatusText;
-  /**
-   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
-   */
-  globalStatus?: GlobalStatusConfigObject;
-  /**
-   * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
-   */
-  statusState?: FormStatusState;
-  /**
-   * Use an object to define additional FormStatus properties.
-   */
-  statusProps?: FormStatusProps;
-  statusNoAnimation?: boolean;
   /**
    * Defines a custom visual state of the input. Use it only if you have to simulate a custom state. Currently are three statuses `virgin` , `focus` and `dirty`. Defaults to `null`.
    */
@@ -176,7 +155,8 @@ declare const Input: ((props: InputProps) => React.JSX.Element) & {
 };
 export default Input;
 export interface SubmitButtonProps
-  extends React.HTMLProps<HTMLButtonElement> {
+  extends React.HTMLProps<HTMLButtonElement>,
+    FormStatusBaseProps {
   id?: string;
   /**
    * The content value of the input.
@@ -197,22 +177,6 @@ export interface SubmitButtonProps
    * The icon size of the icon shows. Defaults to `medium`.
    */
   iconSize?: IconSize;
-  /**
-   * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
-   */
-  status?: FormStatusText;
-  /**
-   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
-   */
-  globalStatus?: GlobalStatusConfigObject;
-  /**
-   * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
-   */
-  statusState?: FormStatusState;
-  /**
-   * Use an object to define additional FormStatus properties.
-   */
-  statusProps?: FormStatusProps;
   className?: string;
   onSubmit?: (...args: any[]) => any;
   onSubmitFocus?: (...args: any[]) => any;
