@@ -303,15 +303,10 @@ ToggleButtonGroup._supportsSpacingProps = true
 export default ToggleButtonGroup as React.ComponentClass<ToggleButtonGroupProps>
 
 // Type definitions
-import type {
-  FormStatusProps,
-  FormStatusState,
-  FormStatusText,
-} from '../FormStatus'
+import type { FormStatusBaseProps } from '../FormStatus'
 import type { ButtonSize } from '../Button'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps, SpaceType } from '../space/types'
-import type { GlobalStatusConfigObject } from '../GlobalStatus'
 
 export type ToggleButtonGroupVariant = 'default' | 'checkbox' | 'radio'
 export type ToggleButtonGroupSuffix =
@@ -332,7 +327,8 @@ export type ToggleButtonGroupChildren =
 
 export interface ToggleButtonGroupProps
   extends Omit<React.HTMLProps<HTMLElement>, 'label' | 'value'>,
-    Omit<SpacingProps, 'top' | 'right' | 'bottom' | 'left'> {
+    Omit<SpacingProps, 'top' | 'right' | 'bottom' | 'left'>,
+    FormStatusBaseProps {
   /**
    * Use either the `label` property or provide a custom one.
    */
@@ -355,23 +351,6 @@ export interface ToggleButtonGroupProps
    */
   skeleton?: SkeletonShow
   id?: string
-  /**
-   * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
-   */
-  status?: FormStatusText
-  /**
-   * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
-   */
-  statusState?: FormStatusState
-  /**
-   * Use an object to define additional FormStatus properties.
-   */
-  statusProps?: FormStatusProps
-  statusNoAnimation?: boolean
-  /**
-   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
-   */
-  globalStatus?: GlobalStatusConfigObject
   /**
    * Text describing the content of the ToggleButtonGroup more than the label. You can also send in a React component, so it gets wrapped inside the ToggleButtonGroup component.
    */

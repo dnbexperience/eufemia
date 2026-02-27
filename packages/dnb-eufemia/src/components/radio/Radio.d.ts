@@ -1,10 +1,5 @@
 import * as React from 'react';
-import type {
-  FormStatusProps,
-  FormStatusState,
-  FormStatusText
-} from '../FormStatus';
-import type { GlobalStatusConfigObject } from '../GlobalStatus';
+import type { FormStatusBaseProps } from '../FormStatus';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import RadioGroup from './RadioGroup';
@@ -21,7 +16,8 @@ export type RadioSuffix =
 export type RadioChildren = string | ((...args: any[]) => any);
 export interface RadioProps
   extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
-    SpacingProps {
+    SpacingProps,
+    FormStatusBaseProps {
   /**
    * Use either the `label` property or provide a custom one.
    */
@@ -49,23 +45,6 @@ export interface RadioProps
    * The size of the Radio button. For now there is **medium** (default) and **large**.
    */
   size?: RadioSize;
-  /**
-   * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
-   */
-  status?: FormStatusText;
-  /**
-   * Defines the state of the status. It's two statuses `[error, info]`. Defaults to `error`.
-   */
-  statusState?: FormStatusState;
-  /**
-   * Use an object to define additional FormStatus properties.
-   */
-  statusProps?: FormStatusProps;
-  statusNoAnimation?: boolean;
-  /**
-   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
-   */
-  globalStatus?: GlobalStatusConfigObject;
   suffix?: RadioSuffix;
   /**
    * Defines the `value` as a string. Use it to get the value during the `onChange` event listener callback in the **RadioGroup**.

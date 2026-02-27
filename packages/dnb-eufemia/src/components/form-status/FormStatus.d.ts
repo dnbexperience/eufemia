@@ -23,6 +23,33 @@ export type FormStatusChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
+
+/**
+ * Shared status-related props used by form components that display a FormStatus.
+ */
+export type FormStatusBaseProps = {
+  /**
+   * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
+   */
+  status?: FormStatusText;
+  /**
+   * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
+   */
+  statusState?: FormStatusState;
+  /**
+   * Use an object to define additional FormStatus properties.
+   */
+  statusProps?: FormStatusProps;
+  /**
+   * Set to `true` to disable the status animation. Defaults to `false`.
+   */
+  statusNoAnimation?: boolean;
+  /**
+   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
+   */
+  globalStatus?: GlobalStatusConfigObject;
+};
+
 export interface FormStatusProps
   extends Omit<
       React.HTMLProps<HTMLElement>,

@@ -1,11 +1,7 @@
 import * as React from 'react';
 import type { FormLabelLabelDirection } from '../FormLabel';
 import type { ButtonIconPosition, ButtonVariant } from '../Button';
-import type {
-  FormStatusProps,
-  FormStatusState,
-  FormStatusText
-} from '../FormStatus';
+import type { FormStatusBaseProps } from '../FormStatus';
 import type { IconIcon, IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
@@ -14,7 +10,6 @@ import type {
   DrawerListData,
   DrawerListSuffix
 } from '../../fragments/DrawerList';
-import type { GlobalStatusConfigObject } from '../GlobalStatus';
 export type DropdownData = DrawerListData;
 type DropdownTitle = string | React.ReactNode;
 type DropdownAlign = 'left' | 'right';
@@ -52,23 +47,6 @@ export interface DropdownProps {
    * Use `true` to make the label only readable by screen readers.
    */
   labelSrOnly?: boolean;
-  /**
-   * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
-   */
-  status?: FormStatusText;
-  /**
-   * Defines the state of the status. It's two statuses `[error, info]`. Defaults to `error`.
-   */
-  statusState?: FormStatusState;
-  /**
-   * Use an object to define additional FormStatus properties.
-   */
-  statusProps?: FormStatusProps;
-  statusNoAnimation?: boolean;
-  /**
-   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
-   */
-  globalStatus?: GlobalStatusConfigObject;
   /**
    * By providing a React.ref you can get the internally used main element (DOM). E.g. `ref={myRef}` by using `React.useRef()`.
    */
@@ -118,6 +96,7 @@ export interface DropdownProps {
   onCloseFocus?: (...args: any[]) => any;
 }
 export type DropdownAllProps = DropdownProps &
+  FormStatusBaseProps &
   DrawerListProps &
   SpacingProps &
   Omit<

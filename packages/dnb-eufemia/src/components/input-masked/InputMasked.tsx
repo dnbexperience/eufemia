@@ -14,12 +14,7 @@ import Input from '../input/Input'
 import Context from '../../shared/Context'
 import type { InternalLocale } from '../../shared/Context'
 import type { ButtonIconPosition, ButtonVariant } from '../Button'
-import type {
-  FormStatusProps,
-  FormStatusState,
-  FormStatusText,
-} from '../FormStatus'
-import type { GlobalStatusConfigObject } from '../GlobalStatus'
+import type { FormStatusBaseProps } from '../FormStatus'
 import type { IconIcon, IconSize } from '../Icon'
 import type {
   InputInputAttributes,
@@ -89,7 +84,8 @@ export interface InputMaskedProps
       | 'onSubmit'
       | 'size'
     >,
-    SpacingProps {
+    SpacingProps,
+    FormStatusBaseProps {
   /**
    * A mask can be defined both as a [RegExp style of characters](https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme) or a callback function. Example below. Defaults to number mask.
    */
@@ -157,12 +153,7 @@ export interface InputMaskedProps
   label?: React.ReactNode
   labelDirection?: 'horizontal' | 'vertical'
   labelSrOnly?: boolean
-  status?: FormStatusText
-  statusState?: FormStatusState
-  statusProps?: FormStatusProps
-  statusNoAnimation?: boolean
   inputState?: string
-  globalStatus?: GlobalStatusConfigObject
   autocomplete?: string
   submitButtonTitle?: string
   clearButtonTitle?: string
