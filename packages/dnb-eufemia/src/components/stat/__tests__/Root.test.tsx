@@ -1,5 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import { axeComponent } from '../../../core/jest/jestSetup'
 import Stat from '../Stat'
 
 describe('Stat.Root', () => {
@@ -58,6 +59,37 @@ describe('Stat.Root', () => {
     )
 
     expect(didWarn).toBe(true)
+    spy.mockRestore()
+  })
+
+  it('should validate root composition with ARIA rules', async () => {
+    const component = render(
+      <Stat.Root>
+        <Stat.Label>Revenue growth</Stat.Label>
+        <Stat.Content direction="vertical">
+          <Stat.Currency value={1234} signDisplay="always" />
+          <Stat.Trend value="+12.4%" />
+          <Stat.Info>Compared to last month</Stat.Info>
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    expect(await axeComponent(component)).toHaveNoViolations()
+  })
+
+  it('should fail root composition with invalid ARIA rules', async () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    const component = render(
+      <Stat.Root>
+        <Stat.Label>Revenue growth</Stat.Label>
+        <div>
+          <Stat.Content direction="vertical">content</Stat.Content>
+        </div>
+      </Stat.Root>
+    )
+
+    expect(await axeComponent(component)).not.toHaveNoViolations()
     spy.mockRestore()
   })
 })

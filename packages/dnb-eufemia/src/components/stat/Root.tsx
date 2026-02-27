@@ -11,11 +11,9 @@ export type RootProps = {
 } & SpacingProps
 
 function Root(props: RootProps) {
-  const hasWarnedRef = React.useRef(false)
   const { children, className = null, ...rest } = props
 
-  if (!hasWarnedRef.current && !hasOnlySupportedChildren(children)) {
-    hasWarnedRef.current = true
+  if (!hasOnlySupportedChildren(children)) {
     warn('Stat.Root should only contain Stat.Label and Stat.Content.')
   }
 
