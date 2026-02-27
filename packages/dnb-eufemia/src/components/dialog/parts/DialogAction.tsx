@@ -95,8 +95,8 @@ const DialogAction = ({
       if (React.isValidElement<any>(child) && child.type === Button) {
         const childElement = child as React.ReactElement<any>
 
-        return React.cloneElement(
-          childElement,
+        return React.createElement(
+          childElement.type as React.ComponentType<any>,
           {
             ...(childElement.props || {}),
             onClick: (event) => {

@@ -126,8 +126,8 @@ export function renderWithSpacing(
         const { key: childKey, ...childProps } = child?.props || {}
 
         return React.Children.toArray(children).map((element, i) => {
-          return React.cloneElement(
-            child,
+          return React.createElement(
+            child.type as React.ComponentType<any>,
             { key: childKey || i, ...childProps },
             wrapWithSpace({ element, spaceProps, wrapInSpace })
           )
@@ -153,10 +153,17 @@ function wrapWithSpace({
   const { wrapInSpace: _, ...props } = spaceProps
 
   if (resolvedVariant === true) {
-    return React.cloneElement(element as React.ReactElement, {
-      key,
-      ...props,
-    })
+    return React.createElement(
+      (element as React.ReactElement).type as React.ComponentType<any>,
+      {
+        ...((element as React.ReactElement).props as Record<
+          string,
+          unknown
+        >),
+        key,
+        ...props,
+      }
+    )
   }
 
   if (resolvedVariant === 'children') {

@@ -1786,10 +1786,15 @@ class AutocompleteInstance extends React.PureComponent<
               result = originalChild
             }
 
-            if (React.isValidElement(originalChild)) {
-              result = React.cloneElement(
-                originalChild,
-                { key: 'clone' + cacheHash + idx },
+            if (
+              React.isValidElement<Record<string, unknown>>(originalChild)
+            ) {
+              result = React.createElement(
+                originalChild.type as React.ComponentType<any>,
+                {
+                  ...originalChild.props,
+                  key: 'clone' + cacheHash + idx,
+                },
                 result
               )
             }
@@ -2188,8 +2193,17 @@ class AutocompleteInstance extends React.PureComponent<
       className: open ? 'dnb-button--active' : null,
     }
 
-    if (submitElement && React.isValidElement(submitElement)) {
-      submitButton = React.cloneElement(submitElement, triggerParams)
+    if (
+      submitElement &&
+      React.isValidElement<Record<string, unknown>>(submitElement)
+    ) {
+      submitButton = React.createElement(
+        submitElement.type as React.ComponentType<any>,
+        {
+          ...submitElement.props,
+          ...triggerParams,
+        }
+      )
     } else if (showSubmitButton) {
       submitButton = (
         <SubmitButton

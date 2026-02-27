@@ -253,8 +253,8 @@ function wrapChildren(props: Props, children: React.ReactNode) {
     ) {
       const childElement = child as React.ReactElement<any>
       const { key, ...childProps } = childElement.props || {}
-      return React.cloneElement(
-        childElement,
+      return React.createElement(
+        childElement.type as React.ComponentType<any>,
         { key, ...childProps },
         <FlexContainer {...props}>
           {childElement.props.children}

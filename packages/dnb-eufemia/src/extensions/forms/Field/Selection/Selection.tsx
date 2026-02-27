@@ -478,7 +478,11 @@ export function mapOptions(
           const nestedChildren = mapOptions(child.props.children, {
             createOption,
           })
-          return React.cloneElement(child, child.props, nestedChildren)
+          return React.createElement(
+            child.type as React.ComponentType<any>,
+            child.props,
+            nestedChildren
+          )
         }
       }
 
