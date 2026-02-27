@@ -156,4 +156,33 @@ describe('Grid.Container', () => {
 
     expect(element.tagName).toBe('SECTION')
   })
+
+  it('should forward ref', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(
+      <Grid.Container ref={ref}>
+        <Grid.Item>Item</Grid.Item>
+      </Grid.Container>
+    )
+
+    const element = document.querySelector('.dnb-grid-container')
+    expect(ref.current).toBe(element)
+  })
+
+  it('should forward ref as a function', () => {
+    let refElement: HTMLElement | null = null
+    const refFn = (elem: HTMLElement) => {
+      refElement = elem
+    }
+
+    render(
+      <Grid.Container ref={refFn}>
+        <Grid.Item>Item</Grid.Item>
+      </Grid.Container>
+    )
+
+    const element = document.querySelector('.dnb-grid-container')
+    expect(refElement).toBe(element)
+  })
 })
