@@ -3,8 +3,15 @@
 *
 */
 
-@import './table-mixins.scss';
-@import './table-header-buttons.scss';
+@use './table-mixins.scss' as table-mixins;
+@use './table-header-buttons.scss';
+@use './table-th.scss';
+@use './table-td.scss';
+@use './table-tr.scss';
+@use './table-cell.scss';
+@use './table-sticky.scss';
+@use './table-container.scss';
+@use './table-accordion.scss';
 
 .dnb-table,
 .dnb-table__container {
@@ -48,7 +55,7 @@
     background-color: var(--color-white);
     text-align: left;
 
-    @include tableBorder() {
+    @include table-mixins.tableBorder() {
       top: calc(
         var(--table-border-width) * -1
       ); // so we are behind the border-bottom (end of table)
@@ -74,7 +81,7 @@
     &::after {
       border-radius: var(--table-outline-radius);
     }
-    @include tableOutline() {
+    @include table-mixins.tableOutline() {
       z-index: 3;
       border: var(--table-outline);
     }
@@ -115,16 +122,8 @@
     margin-bottom: 0;
   }
 
-  @include buttonsInTable();
+  @include table-header-buttons.buttonsInTable();
 }
-
-@import './table-th.scss';
-@import './table-td.scss';
-@import './table-tr.scss';
-@import './table-cell.scss';
-@import './table-sticky.scss';
-@import './table-container.scss';
-@import './table-accordion.scss';
 
 // Reset Table spacing
 .dnb-spacing .dnb-table {
