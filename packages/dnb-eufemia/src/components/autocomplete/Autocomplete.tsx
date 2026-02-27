@@ -15,12 +15,7 @@ import type {
   DrawerListDataArrayObject,
 } from '../../fragments/DrawerList'
 import type { ButtonIconPosition } from '../Button'
-import type {
-  FormStatusProps,
-  FormStatusState,
-  FormStatusText,
-} from '../FormStatus'
-import type { GlobalStatusConfigObject } from '../GlobalStatus'
+import type { FormStatusBaseProps } from '../FormStatus'
 import type { IconIcon, IconSize } from '../Icon'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../space/types'
@@ -247,23 +242,6 @@ export type AutocompleteProps = {
    */
   showClearButton?: boolean
   /**
-   * Status message text.
-   */
-  status?: FormStatusText
-  /**
-   * Status variant.
-   */
-  statusState?: FormStatusState
-  /**
-   * Additional FormStatus props.
-   */
-  statusProps?: FormStatusProps
-  statusNoAnimation?: boolean
-  /**
-   * GlobalStatus configuration object.
-   */
-  globalStatus?: GlobalStatusConfigObject
-  /**
    * Keep highlighting but disable filtering.
    */
   disableFilter?: boolean
@@ -355,6 +333,7 @@ export type AutocompleteProps = {
 }
 
 export type AutocompleteAllProps = AutocompleteProps &
+  FormStatusBaseProps &
   DrawerListProps &
   SpacingProps &
   Omit<
