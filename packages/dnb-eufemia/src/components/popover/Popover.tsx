@@ -3,7 +3,6 @@
  */
 
 import React, {
-  cloneElement,
   isValidElement,
   useCallback,
   useEffect,
@@ -544,8 +543,11 @@ export default function Popover(props: PopoverProps) {
   if (shouldRenderTrigger) {
     if (isRenderer(trigger)) {
       triggerMarkup = trigger(triggerRenderProps)
-    } else if (isValidElement(trigger)) {
-      triggerMarkup = cloneElement(trigger, triggerDomProps)
+    } else if (isValidElement<Record<string, unknown>>(trigger)) {
+      triggerMarkup = React.createElement(
+        trigger.type as React.ComponentType<any>,
+        { ...trigger.props, ...triggerDomProps }
+      )
     } else if (trigger) {
       warn(
         'Popover: `trigger` must be a valid React element or render function when not using targetElement/targetSelector.'

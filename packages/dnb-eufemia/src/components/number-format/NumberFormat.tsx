@@ -267,7 +267,8 @@ export default class NumberFormat extends React.PureComponent<NumberFormatAllPro
       comp = comp()
     }
     if (React.isValidElement(comp)) {
-      return React.cloneElement(comp, {
+      return React.createElement(comp.type, {
+        ...comp.props,
         className: clsx(comp.props.className, className),
       })
     }

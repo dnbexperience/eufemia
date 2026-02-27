@@ -21,7 +21,10 @@ import {
 } from '../../shared/component-helper'
 
 // Internal
-import AvatarGroup, { AvatarGroupContext } from './AvatarGroup'
+import AvatarGroup, {
+  AvatarGroupContext,
+  AvatarGroupItemContext,
+} from './AvatarGroup'
 import { getColor } from '../../shared/helpers'
 
 export type AvatarSizes = 'small' | 'medium' | 'large' | 'x-large'
@@ -115,6 +118,7 @@ const Avatar = (localProps: AvatarProps & SpacingProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   const avatarGroupContext = React.useContext(AvatarGroupContext)
+  const avatarGroupItemContext = React.useContext(AvatarGroupItemContext)
 
   // Extract additional props from global context
   const allProps = extendPropsWithContext(
@@ -186,6 +190,9 @@ const Avatar = (localProps: AvatarProps & SpacingProps) => {
     '--background-color': getColor(backgroundColor),
     '--color': getColor(color),
     ...props?.style,
+    ...(avatarGroupItemContext?.zIndex != null && {
+      zIndex: avatarGroupItemContext.zIndex,
+    }),
   } as React.CSSProperties
 
   return (
@@ -229,9 +236,12 @@ function isIconComponent(
 function iconAutoSize(
   icon: React.ReactElement<IconAllProps>
 ): React.ReactElement<IconAllProps> {
-  return !icon.props.size
-    ? React.cloneElement(icon, {
-        size: 'auto',
-      })
-    : icon
+  if (!icon.props.size) {
+    return React.createElement(
+      icon.type as React.ComponentType<IconAllProps>,
+      { ...icon.props, size: 'auto' }
+    )
+  }
+
+  return icon
 }
