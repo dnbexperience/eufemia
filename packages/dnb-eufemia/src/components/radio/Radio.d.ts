@@ -78,11 +78,11 @@ export interface RadioProps
   onChange?: (...args: any[]) => any;
 
   /**
-   * By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.
+   * By providing a React.ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.useRef()`.
    */
-  innerRef?: React.Ref;
+  ref?: React.Ref;
 }
-declare const Radio: React.ComponentClass<RadioProps> & {
+declare const Radio: ((props: RadioProps) => React.JSX.Element) & {
   defaultProps: object;
   Group: typeof RadioGroup;
 };

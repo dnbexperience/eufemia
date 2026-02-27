@@ -117,14 +117,14 @@ export type SwitchProps = {
   onClick?: (args: SwitchOnClickParams) => void
   onChangeEnd?: SwitchOnChange
   /**
-   * By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.
+   * By providing a React.ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.
    */
-  innerRef?:
+  ref?:
     | React.RefObject<HTMLInputElement>
     | ((elem: HTMLInputElement) => void)
 } & Omit<
   React.HTMLProps<HTMLElement>,
-  'ref' | 'size' | 'onChange' | 'onClick' | 'innerRef' | 'label'
+  'ref' | 'size' | 'onChange' | 'onClick' | 'label'
 > &
   SpacingProps
 
@@ -132,14 +132,7 @@ const defaultProps: Partial<SwitchProps> = {
   statusState: 'error',
 }
 
-export default function Switch({
-  ref,
-  ...props
-}: SwitchProps & { ref?: React.Ref<HTMLInputElement> }) {
-  return <SwitchInstance innerRef={ref} {...props} />
-}
-
-function SwitchInstance(props: SwitchProps) {
+export default function Switch(props: SwitchProps) {
   const context = useContext(Context)
 
   const allProps = extractPropsFromContext()
@@ -166,15 +159,15 @@ function SwitchInstance(props: SwitchProps) {
     onChange,
     onChangeEnd,
     onClick,
-    innerRef: innerRefProp,
+    ref: refProp,
     ...rest
   } = allProps
 
   const [, forceUpdate] = useReducer(() => ({}), {})
   const id = useId(idProp)
-  const isFn = typeof innerRefProp === 'function'
+  const isFn = typeof refProp === 'function'
   const refHook = useRef<HTMLInputElement>(undefined)
-  const innerRef = (!isFn && innerRefProp) || refHook
+  const inputRef = (!isFn && refProp) || refHook
 
   const preventChangeRef = useRef(false)
   const isCheckedRef = useRef(checkedProp ?? false)
@@ -182,9 +175,9 @@ function SwitchInstance(props: SwitchProps) {
 
   useEffect(() => {
     if (isFn) {
-      innerRefProp?.(refHook.current)
+      refProp?.(refHook.current)
     }
-  }, [innerRefProp, isFn, refHook])
+  }, [refProp, isFn, refHook])
 
   useEffect(() => {
     if (checkedProp !== prevCheckedRef.current) {
@@ -224,11 +217,11 @@ function SwitchInstance(props: SwitchProps) {
       }
 
       // help firefox and safari to have a correct state after a click
-      if (innerRef.current) {
-        innerRef.current.focus()
+      if (inputRef.current) {
+        inputRef.current.focus()
       }
     },
-    [callOnChange, innerRef, onChangeEnd]
+    [callOnChange, inputRef, onChangeEnd]
   )
 
   const onClickHandler: React.MouseEventHandler<HTMLInputElement> =
@@ -361,7 +354,7 @@ function SwitchInstance(props: SwitchProps) {
                 aria-checked={isCheckedRef.current}
                 className="dnb-switch__input"
                 value={isCheckedRef.current ? value || '' : ''}
-                ref={innerRef}
+                ref={inputRef}
                 {...inputParams}
                 onChange={onChangeHandler}
                 onClick={onClickHandler}
@@ -413,5 +406,4 @@ function SwitchInstance(props: SwitchProps) {
   }
 }
 
-SwitchInstance._formElement = true
 Switch._formElement = true

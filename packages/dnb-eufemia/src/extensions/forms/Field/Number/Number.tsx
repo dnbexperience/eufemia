@@ -32,7 +32,7 @@ import DataContext from '../../DataContext/Context'
 import * as z from 'zod'
 
 export type Props = FieldProps<number, undefined | number> & {
-  innerRef?: React.RefObject<HTMLInputElement>
+  ref?: React.RefObject<HTMLInputElement>
   inputClassName?: string
   currency?: InputMaskedProps['asCurrency']
   currencyDisplay?: 'code' | 'symbol' | 'narrowSymbol' | 'name' | false
@@ -291,14 +291,14 @@ function NumberComponent(props: Props) {
     width:
       props.width ??
       (fieldBlockContext?.composition ? 'stretch' : 'medium'),
-    innerRef: props.innerRef ?? ref,
+    ref: props.ref ?? ref,
   }
 
   const {
     id,
     name,
     className,
-    innerRef,
+    ref: inputRef,
     inputClassName,
     autoComplete,
     placeholder,
@@ -319,8 +319,10 @@ function NumberComponent(props: Props) {
   } = useFieldProps(preparedProps)
 
   useEffect(() => {
-    setDisplayValue(innerRef.current?.value)
-  }, [innerRef, setDisplayValue, value])
+    // Use getElementById to read the current DOM input value
+    const input = id ? document.getElementById(id) : null
+    setDisplayValue((input as HTMLInputElement)?.value)
+  }, [id, setDisplayValue, value])
 
   const { handleSubmit } = dataContext ?? {}
   const onKeyDownHandler = useCallback(
@@ -514,7 +516,7 @@ function NumberComponent(props: Props) {
   const inputProps: InputProps = {
     id,
     name,
-    innerRef: innerRef,
+    ref: inputRef,
     autoComplete,
     className: clsx(
       'dnb-forms-field-number__input',

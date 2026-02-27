@@ -32,7 +32,7 @@ function Blockquote({
     <E
       as="blockquote"
       skeletonMethod="font"
-      innerRef={ref}
+      ref={ref}
       className={clsx(
         className,
         noBackground && 'dnb-blockquote--no-background',

@@ -12,8 +12,8 @@ import { startPageTransition } from './Transition'
 export type AnchorProps = Props &
   Omit<
     React.DetailedHTMLProps<
-      React.LinkHTMLAttributes<HTMLLinkElement>,
-      HTMLLinkElement
+      React.AnchorHTMLAttributes<HTMLAnchorElement>,
+      HTMLAnchorElement
     >,
     'ref'
   >

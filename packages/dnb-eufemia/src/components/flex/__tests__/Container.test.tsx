@@ -917,7 +917,7 @@ describe('Flex.Container', () => {
     function MockComponent() {
       ref = React.useRef<HTMLElement | null>(null)
       return (
-        <Flex.Container innerRef={ref} element="section">
+        <Flex.Container ref={ref} element="section">
           <Flex.Item>FlexItem</Flex.Item>
         </Flex.Container>
       )

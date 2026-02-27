@@ -589,7 +589,7 @@ function WizardContainer(props: Props) {
     <WizardContext.Provider value={providerValue}>
       <Space
         className={clsx('dnb-forms-wizard-layout', className)}
-        innerRef={elementRef}
+        ref={elementRef}
         {...rest}
       >
         <DisplaySteps

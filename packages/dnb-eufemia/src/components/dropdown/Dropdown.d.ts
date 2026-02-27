@@ -70,9 +70,9 @@ export interface DropdownProps {
    */
   globalStatus?: GlobalStatusConfigObject;
   /**
-   * By providing a React.ref you can get the internally used main element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.
+   * By providing a React.ref you can get the internally used main element (DOM). E.g. `ref={myRef}` by using `React.useRef()`.
    */
-  innerRef?: React.Ref;
+  ref?: React.Ref;
   /**
    * By providing a React.ref you can get the internally used button element (DOM). E.g. `buttonRef={myRef}` by using `React.createRef()` or `React.useRef()`.
    */
@@ -136,7 +136,9 @@ export type DropdownAllProps = DropdownProps &
     | 'onSelect'
     | 'onResize'
   >;
-declare const Dropdown: React.ComponentClass<DropdownAllProps> & {
+declare const Dropdown: ((
+  props: DropdownAllProps
+) => React.JSX.Element) & {
   defaultProps: object;
   HorizontalItem: ({
     children

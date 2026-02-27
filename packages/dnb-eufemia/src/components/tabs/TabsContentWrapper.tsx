@@ -103,7 +103,7 @@ export default class ContentWrapper extends React.PureComponent<ContentWrapperPr
                   <Section
                     spacing={contentStyle ? false : undefined}
                     style_type={contentStyle ? contentStyle : undefined}
-                    innerRef={ref}
+                    ref={ref}
                     {...props}
                   />
                 )

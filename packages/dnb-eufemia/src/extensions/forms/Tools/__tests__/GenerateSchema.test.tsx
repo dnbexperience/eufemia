@@ -102,7 +102,9 @@ describe('Tools.GenerateSchema', () => {
     expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
       {
         "myField": {
-          "innerRef": {
+          "label": "My field",
+          "path": "/myField",
+          "ref": {
             "current": <input
               class="dnb-input__input"
               id="id-rm"
@@ -110,13 +112,13 @@ describe('Tools.GenerateSchema', () => {
               type="text"
             />,
           },
-          "label": "My field",
-          "path": "/myField",
           "width": "large",
         },
         "nested": {
           "myString": {
-            "innerRef": {
+            "minLength": 2,
+            "path": "/nested/myString",
+            "ref": {
               "current": <input
                 aria-required="true"
                 class="dnb-input__input"
@@ -125,8 +127,6 @@ describe('Tools.GenerateSchema', () => {
                 type="text"
               />,
             },
-            "minLength": 2,
-            "path": "/nested/myString",
             "required": true,
             "width": "large",
           },
@@ -150,7 +150,9 @@ describe('Tools.GenerateSchema', () => {
     expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
       {
         "myField": {
-          "innerRef": {
+          "label": "My field",
+          "path": "/myField",
+          "ref": {
             "current": <input
               aria-required="true"
               class="dnb-input__input"
@@ -159,12 +161,12 @@ describe('Tools.GenerateSchema', () => {
               type="text"
             />,
           },
-          "label": "My field",
-          "path": "/myField",
           "width": "large",
         },
         "myString": {
-          "innerRef": {
+          "minLength": 2,
+          "path": "/myString",
+          "ref": {
             "current": <input
               aria-required="true"
               class="dnb-input__input"
@@ -173,19 +175,17 @@ describe('Tools.GenerateSchema', () => {
               type="text"
             />,
           },
-          "minLength": 2,
-          "path": "/myString",
           "required": true,
           "value": "local value",
           "width": "large",
         },
         "nested": {
           "myString": {
-            "innerRef": {
-              "current": null,
-            },
             "minLength": 2,
             "path": "/nested/myString",
+            "ref": {
+              "current": null,
+            },
             "required": true,
             "width": "large",
           },

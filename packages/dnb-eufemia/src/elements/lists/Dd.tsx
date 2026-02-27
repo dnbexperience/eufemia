@@ -16,7 +16,7 @@ function Dd({
   ref,
   ...props
 }: DdProps & SpacingProps & { ref?: React.Ref<HTMLElement> }) {
-  return <E as="dd" innerRef={ref} {...props} />
+  return <E as="dd" ref={ref} {...props} />
 }
 
 export default Dd

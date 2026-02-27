@@ -159,7 +159,7 @@ describe('FormLabel component', () => {
 
     function MockComponent() {
       ref = React.useRef<HTMLLabelElement | null>(null)
-      return <FormLabel innerRef={ref}>content</FormLabel>
+      return <FormLabel ref={ref}>content</FormLabel>
     }
 
     render(<MockComponent />)
@@ -178,9 +178,9 @@ describe('FormLabel component', () => {
         refB = React.useRef<HTMLElement | null>(null)
         return (
           <FormLabel
-            innerRef={refA}
+            ref={refA}
             text={
-              <FormLabel element="legend" innerRef={refB}>
+              <FormLabel element="legend" ref={refB}>
                 content
               </FormLabel>
             }

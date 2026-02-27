@@ -42,7 +42,7 @@ export type AnchorProps = {
   iconPosition?: 'left' | 'right'
   skeleton?: SkeletonShow
   omitClass?: boolean
-  innerRef?: React.Ref<HTMLAnchorElement>
+  ref?: React.Ref<HTMLAnchorElement>
 
   /**
    * Removes default animation.
@@ -105,8 +105,8 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     context?.Anchor
   )
 
-  if (!allProps.innerRef) {
-    allProps.innerRef = React.createRef()
+  if (!allProps.ref) {
+    allProps.ref = React.createRef()
   }
 
   const tooltipRef = React.useRef<HTMLAnchorElement | null>(null)
@@ -120,7 +120,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     icon,
     iconPosition = 'left',
     omitClass,
-    innerRef: innerRefProp,
+    ref: refProp,
     targetBlankTitle,
     noAnimation,
     noHover,
@@ -167,19 +167,18 @@ export function AnchorInstance(localProps: AnchorAllProps) {
 
   const prefix = iconPosition === 'left' && iconNode
 
-  const innerRef = React.useCallback(
+  const anchorRef = React.useCallback(
     (elem: HTMLAnchorElement | null) => {
       tooltipRef.current = elem
 
-      if (typeof innerRefProp === 'function') {
-        innerRefProp(elem)
-      } else if (innerRefProp) {
-        ;(
-          innerRefProp as React.RefObject<HTMLAnchorElement | null>
-        ).current = elem
+      if (typeof refProp === 'function') {
+        refProp(elem)
+      } else if (refProp) {
+        ;(refProp as React.RefObject<HTMLAnchorElement | null>).current =
+          elem
       }
     },
-    [innerRefProp]
+    [refProp]
   )
 
   if (isDisabled) {
@@ -231,7 +230,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
           className
         )}
         {...attributes}
-        innerRef={innerRef}
+        ref={anchorRef}
       >
         {prefix}
         {children}
@@ -252,11 +251,8 @@ export function AnchorInstance(localProps: AnchorAllProps) {
   )
 }
 
-function Anchor({
-  ref,
-  ...props
-}: AnchorAllProps & { ref?: React.Ref<HTMLAnchorElement> }) {
-  return <AnchorInstance {...props} innerRef={ref} />
+function Anchor(props: AnchorAllProps) {
+  return <AnchorInstance {...props} />
 }
 
 Anchor._supportsSpacingProps = true

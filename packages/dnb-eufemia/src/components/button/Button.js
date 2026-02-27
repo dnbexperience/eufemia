@@ -75,7 +75,7 @@ const buttonDefaultProps = {
   globalStatus: null,
 
   className: null,
-  innerRef: null,
+  ref: null,
   children: null,
   element: null,
 
@@ -85,7 +85,7 @@ const buttonDefaultProps = {
 /**
  * The button component should be used as the call-to-action in a form, or as a user interaction mechanism. Generally speaking, a button should not be used when a link would do the trick. Exceptions are made at times when it is used as a navigation element in the action-nav element.
  */
-export default class Button extends React.PureComponent {
+class ButtonClass extends React.PureComponent {
   static contextType = Context
 
   static getContent(props) {
@@ -103,10 +103,10 @@ export default class Button extends React.PureComponent {
   }
 
   componentDidMount() {
-    if (this.props.innerRef) {
-      typeof this.props.innerRef === 'function'
-        ? this.props.innerRef(this._ref.current)
-        : (this.props.innerRef.current = this._ref.current)
+    if (this.props._innerRef) {
+      typeof this.props._innerRef === 'function'
+        ? this.props._innerRef(this._ref.current)
+        : (this.props._innerRef.current = this._ref.current)
     }
   }
 
@@ -154,7 +154,7 @@ export default class Button extends React.PureComponent {
       stretch,
       skeleton,
       element,
-      innerRef, // eslint-disable-line
+      ref: _ref, // eslint-disable-line
       ...attributes
     } = props
 
@@ -164,7 +164,7 @@ export default class Button extends React.PureComponent {
     let usedVariant = variant
     let usedSize = size
     let usedIconSize = iconSize
-    const content = Button.getContent(this.props)
+    const content = ButtonClass.getContent(this.props)
 
     if (
       variant === 'tertiary' &&
@@ -390,7 +390,8 @@ Button.propTypes = {
   stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  innerRef: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  ref: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  _innerRef: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   className: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.string,
@@ -408,5 +409,18 @@ Button.propTypes = {
   onClick: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 }
 
+/**
+ * Function wrapper that converts `ref` to `_innerRef` for the class component.
+ * React 19 treats `ref` as a regular prop but still sets it to the class instance.
+ * This wrapper ensures consumers get the inner DOM element via `ref`.
+ */
+function Button({ ref, ...props }) {
+  return <ButtonClass _innerRef={ref} {...props} />
+}
+
+Button.getContent = ButtonClass.getContent
+Button.defaultProps = ButtonClass.defaultProps
 Button._formElement = true
 Button._supportsSpacingProps = true
+
+export default Button

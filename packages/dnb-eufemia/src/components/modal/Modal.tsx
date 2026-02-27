@@ -312,7 +312,7 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
       }
 
       if (this._triggerRef?.current) {
-        focus(this._triggerRef.current)
+        focus(this._triggerRef.current as HTMLElement)
       }
 
       // because the open was set to true, we force
@@ -446,6 +446,7 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
       omitTriggerButton = false,
       trigger = null,
       triggerAttributes = null,
+      ref: _ref, // eslint-disable-line
       ...rest
     } = props
 
@@ -504,7 +505,7 @@ class Modal extends React.PureComponent<ModalPropTypes, ModalState> {
               id={this._id}
               title={title}
               onClick={this.toggleOpenClose}
-              innerRef={this._triggerRef}
+              ref={this._triggerRef}
               className={clsx(
                 'dnb-modal__trigger',
                 createSpacingClasses(rest as SpacingProps),
