@@ -1,10 +1,10 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import React from 'react'
 import clsx from 'clsx'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import type { SpacingProps } from '../space/types'
-import ContentWrapper from './TabsContentWrapper'
+import ContentWrapper, {
+  type ContentWrapperProps,
+} from './TabsContentWrapper'
 
 export type CustomContentTitle =
   | Record<string, unknown>
@@ -16,7 +16,10 @@ export type CustomContentChildren =
   | ((...args: any[]) => any)
 
 export interface CustomContentProps
-  extends Omit<React.HTMLProps<HTMLElement>, 'title' | 'children'>,
+  extends Omit<
+      React.HTMLProps<HTMLElement>,
+      'title' | 'children' | 'ref' | 'onAnimationStart' | 'onAnimationEnd'
+    >,
     SpacingProps {
   displayName?: string
   title?: CustomContentTitle
@@ -51,9 +54,13 @@ function CustomContent(props: CustomContentProps) {
   } = props
 
   if (id) {
+    const contentWrapperProps = rest as unknown as Omit<
+      ContentWrapperProps,
+      'id'
+    >
     return (
-      <ContentWrapper {...rest} id={id}>
-        {children}
+      <ContentWrapper {...contentWrapperProps} id={id}>
+        {children as React.ReactNode}
       </ContentWrapper>
     )
   }
@@ -66,7 +73,7 @@ function CustomContent(props: CustomContentProps) {
         className
       )}
     >
-      {children}
+      {children as React.ReactNode}
     </div>
   )
 }
