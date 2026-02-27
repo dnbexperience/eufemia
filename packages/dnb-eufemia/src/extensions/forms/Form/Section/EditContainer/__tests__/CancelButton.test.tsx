@@ -184,7 +184,10 @@ describe('CancelButton', () => {
     let submitData = null
 
     render(
-      <DataContext data={{ foo: 'original value' }} onSubmit={onSubmit}>
+      <DataContext.Provider
+        data={{ foo: 'original value' }}
+        onSubmit={onSubmit}
+      >
         <Field.String path="/foo" />
         <DataContext.Consumer>
           {({ internalDataRef }) => {
@@ -197,7 +200,7 @@ describe('CancelButton', () => {
             <CancelButton showConfirmDialog={false} />
           </Toolbar>
         </SectionContainerContext>
-      </DataContext>
+      </DataContext.Provider>
     )
 
     fireEvent.change(document.querySelector('input'), {

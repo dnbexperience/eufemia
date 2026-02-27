@@ -76,7 +76,7 @@ describe('ArrayItemArea', () => {
 
   it('should set "--new" class on new blocks', async () => {
     render(
-      <DataContext
+      <DataContext.Provider
         data={{
           myList: ['one'],
         }}
@@ -86,7 +86,7 @@ describe('ArrayItemArea', () => {
         </Iterate.Array>
 
         <Iterate.PushButton path="/myList" pushValue="foo" />
-      </DataContext>
+      </DataContext.Provider>
     )
 
     const addButton = document.querySelector('button')
