@@ -419,7 +419,6 @@ function Button({ ref, ...props }) {
 }
 
 Button.getContent = ButtonClass.getContent
-Button.defaultProps = ButtonClass.defaultProps
 Button._formElement = true
 Button._supportsSpacingProps = true
 

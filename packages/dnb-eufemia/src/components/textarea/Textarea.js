@@ -366,7 +366,7 @@ class TextareaClass extends React.PureComponent {
   getProps() {
     return extendPropsWithContextInClassComponent(
       this.props,
-      Textarea.defaultProps,
+      TextareaClass.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).Textarea,
       pickFormElementProps(this.context?.formElement),
@@ -603,7 +603,6 @@ function Textarea({ ref, ...props }) {
   return <TextareaClass _innerRef={ref} {...props} />
 }
 
-Textarea.defaultProps = TextareaClass.defaultProps
 Textarea.hasValue = TextareaClass.hasValue
 Textarea.getValue = TextareaClass.getValue
 Textarea._formElement = true

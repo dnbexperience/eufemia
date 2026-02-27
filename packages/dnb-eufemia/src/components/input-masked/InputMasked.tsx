@@ -10,7 +10,7 @@ import React from 'react'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import InputMaskedContext from './InputMaskedContext'
 import InputMaskedElement from './InputMaskedElement'
-import Input from '../input/Input'
+import Input, { InputClass } from '../input/Input'
 import Context from '../../shared/Context'
 import type { InternalLocale } from '../../shared/Context'
 import type { ButtonIconPosition, ButtonVariant } from '../Button'
@@ -220,7 +220,7 @@ function InputMasked(props: InputMaskedProps) {
 }
 
 const defaultProps = {
-  ...Input.defaultProps,
+  ...InputClass.defaultProps,
   mask: null,
   numberMask: null,
   currencyMask: null,
