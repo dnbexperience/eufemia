@@ -20,7 +20,9 @@ import { Stat } from '@dnb/eufemia'
 
   - `Stat.Content` renders the main value as a definition description (`dd`).
 
-- `Stat.Currency` and `Stat.Percent` are built on the [NumberFormat](/uilib/components/number-format/) formatting logic.
+- `Stat.Amount` is the base value formatter built on the [NumberFormat](/uilib/components/number-format/) formatting logic.
+
+- `Stat.Currency` and `Stat.Percent` are convenience wrappers around `Stat.Amount`.
 
   It adds typography-specific props:
 

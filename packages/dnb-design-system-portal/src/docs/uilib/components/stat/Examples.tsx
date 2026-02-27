@@ -113,6 +113,43 @@ export const CurrencyDefault = () => (
   </ComponentBox>
 )
 
+export const AmountDefault = () => (
+  <ComponentBox>
+    <Stat.Root>
+      <Stat.Label>Amount</Stat.Label>
+      <Stat.Content>
+        <Stat.Amount
+          value={1234}
+          signDisplay="always"
+          srLabel="Amount value"
+        />
+      </Stat.Content>
+
+      <Stat.Label top>Amount in Trend and Info</Stat.Label>
+      <Stat.Content>
+        <Stat.Trend tone="negative" srLabel="Negative trend">
+          <Stat.Amount
+            value={-1234}
+            mainSize="small"
+            signDisplay="always"
+            srLabel="Signed amount with currency"
+          />
+        </Stat.Trend>
+        <Stat.Info>
+          (
+          <Stat.Amount
+            value={1234}
+            mainSize="small"
+            mainWeight="regular"
+            srLabel="Signed amount with currency"
+          />
+          )
+        </Stat.Info>
+      </Stat.Content>
+    </Stat.Root>
+  </ComponentBox>
+)
+
 export const PercentDefault = () => (
   <ComponentBox data-visual-test="stat-percent-default">
     <Stat.Root>
