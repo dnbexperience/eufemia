@@ -2,6 +2,7 @@ import React from 'react'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import Section from '../section/Section'
 import BreadcrumbItem, { BreadcrumbItemProps } from './BreadcrumbItem'
+import BreadcrumbItemContext from './BreadcrumbItemContext'
 
 type BreadcrumbMultipleProps = {
   isCollapsed: boolean
@@ -46,9 +47,11 @@ export const BreadcrumbMultiple = ({
 
         {React.Children.toArray(items)
           .filter((item) => React.isValidElement(item))
-          .map((item: React.ReactElement<BreadcrumbItemProps>, i) =>
-            React.cloneElement(item, { key: i, itemNo: i })
-          )}
+          .map((item: React.ReactElement<BreadcrumbItemProps>, i) => (
+            <BreadcrumbItemContext.Provider key={i} value={{ itemNo: i }}>
+              {item}
+            </BreadcrumbItemContext.Provider>
+          ))}
       </Section>
     </HeightAnimation>
   )

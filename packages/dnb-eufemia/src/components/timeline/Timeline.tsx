@@ -11,6 +11,7 @@ import type { SkeletonShow } from '../skeleton/Skeleton'
 
 // Internal
 import TimelineItem, { TimelineItemProps } from './TimelineItem'
+import TimelineContext from './TimelineContext'
 import {
   validateDOMAttributes,
   extendPropsWithContext,
@@ -72,35 +73,26 @@ const Timeline = (localProps: TimelineAllProps) => {
 
   const spacingClasses = createSpacingClasses(props)
 
-  let children = childrenProp
-
-  if (Array.isArray(childrenProp)) {
-    children = childrenProp.map((child, i) => {
-      return React.cloneElement(child, {
-        skeleton: skeleton,
-        key: i,
-      })
-    })
-  }
-
   validateDOMAttributes(allProps, props)
 
   return (
-    <ol
-      className={clsx(
-        'dnb-timeline',
-        'dnb-space__reset',
-        spacingClasses,
-        className
-      )}
-      {...props}
-    >
-      {data?.map((timelineItem, i) => (
-        <TimelineItem key={i} skeleton={skeleton} {...timelineItem} />
-      ))}
+    <TimelineContext.Provider value={{ skeleton }}>
+      <ol
+        className={clsx(
+          'dnb-timeline',
+          'dnb-space__reset',
+          spacingClasses,
+          className
+        )}
+        {...props}
+      >
+        {data?.map((timelineItem, i) => (
+          <TimelineItem key={i} skeleton={skeleton} {...timelineItem} />
+        ))}
 
-      {children}
-    </ol>
+        {childrenProp}
+      </ol>
+    </TimelineContext.Provider>
   )
 }
 
