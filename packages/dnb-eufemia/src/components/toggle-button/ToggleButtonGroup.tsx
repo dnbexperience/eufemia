@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 /**
  * Web ToggleButtonGroup Component
  *
@@ -24,13 +22,23 @@ import FormLabel from '../FormLabel'
 import FormStatus from '../FormStatus'
 import Flex from '../Flex'
 import Space from '../Space'
-import Context from '../../shared/Context'
+import Context, { type ContextProps } from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import ToggleButtonGroupContext from './ToggleButtonGroupContext'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
-class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
+interface ToggleButtonGroupState {
+  value?: ToggleButtonGroupValue
+  values?: any[]
+  _listenForPropChanges: boolean
+}
+
+class ToggleButtonGroup extends React.PureComponent<
+  ToggleButtonGroupProps,
+  ToggleButtonGroupState
+> {
   static contextType = Context
+  context!: ContextProps
 
   static defaultProps = {
     label: null,
@@ -62,7 +70,10 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
     onChange: null,
   }
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(
+    props: ToggleButtonGroupProps,
+    state: ToggleButtonGroupState
+  ) {
     if (state._listenForPropChanges) {
       if (
         typeof props.value !== 'undefined' &&
@@ -82,16 +93,20 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
     return state
   }
 
-  static getValues(props) {
+  static getValues(props: ToggleButtonGroupProps) {
     if (typeof props.values === 'string' && props.values[0] === '[') {
       return JSON.parse(props.values)
     }
     return props.values
   }
 
-  constructor(props) {
+  _refInput = React.createRef<HTMLInputElement>()
+  _id: string
+  _name: string
+  _tmp: Record<string, unknown> | undefined = undefined
+
+  constructor(props: ToggleButtonGroupProps) {
     super(props)
-    this._refInput = React.createRef()
     this._id = props.id || makeUniqueId() // cause we need an id anyway
     this._name = props.name || makeUniqueId() // cause we need an id anyway
     this.state = {
@@ -100,7 +115,13 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
     }
   }
 
-  onChangeHandler = ({ value, event }) => {
+  onChangeHandler = ({
+    value,
+    event,
+  }: {
+    value: ToggleButtonGroupValue
+    event: React.SyntheticEvent
+  }) => {
     const { multiselect } = this.props
     const values = this.state.values || []
 
@@ -130,9 +151,15 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
     const props = extendPropsWithContextInClassComponent(
       this.props,
       ToggleButtonGroup.defaultProps,
-      this.context.getTranslation(this.props).ToggleButton,
+      (
+        this.context.getTranslation(this.props) as Record<
+          string,
+          Record<string, string>
+        >
+      ).ToggleButton,
       pickFormElementProps(this.context?.formElement),
-      this.context.ToggleButtonGroup
+      (this.context as Record<string, unknown>)
+        .ToggleButtonGroup as Record<string, unknown>
     )
 
     const {
@@ -208,17 +235,26 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
       leftComponent,
       disabled,
       skeleton,
-      setContext: (context) => {
+      setContext: (
+        contextArg:
+          | Record<string, unknown>
+          | ((
+              tmp: Record<string, unknown> | undefined
+            ) => Record<string, unknown>)
+      ) => {
+        let resolved: Record<string, unknown>
         // also look for a function, where we are able to fill old values
         // this is used in the "constructor" inside the ToggleButton.js component
-        if (typeof context === 'function') {
-          context = context(this._tmp)
+        if (typeof contextArg === 'function') {
+          resolved = contextArg(this._tmp)
+        } else {
+          resolved = contextArg
         }
-        this._tmp = { ...this._tmp, ...context }
+        this._tmp = { ...this._tmp, ...resolved }
         this.setState({
-          ...context,
+          ...resolved,
           _listenForPropChanges: false,
-        })
+        } as ToggleButtonGroupState)
       },
       onChange: this.onChangeHandler,
     }
@@ -277,7 +313,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
                     `dnb-toggle-button-group__shell__children--${layoutDirection}`
                   )}
                 >
-                  {children}
+                  {children as React.ReactNode}
 
                   {suffix && (
                     <Suffix
@@ -285,7 +321,7 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
                       id={id + '-suffix'} // used for "aria-describedby"
                       context={props}
                     >
-                      {suffix}
+                      {suffix as React.ReactNode}
                     </Suffix>
                   )}
                 </span>
@@ -298,7 +334,11 @@ class ToggleButtonGroup extends React.PureComponent<ToggleButtonGroupProps> {
   }
 }
 
-ToggleButtonGroup._supportsSpacingProps = true
+;(
+  ToggleButtonGroup as typeof ToggleButtonGroup & {
+    _supportsSpacingProps: boolean
+  }
+)._supportsSpacingProps = true
 
 export default ToggleButtonGroup as React.ComponentClass<ToggleButtonGroupProps>
 
@@ -326,7 +366,10 @@ export type ToggleButtonGroupChildren =
   | React.ReactNode
 
 export interface ToggleButtonGroupProps
-  extends Omit<React.HTMLProps<HTMLElement>, 'label' | 'value'>,
+  extends Omit<
+      React.HTMLProps<HTMLElement>,
+      'label' | 'value' | 'children' | 'onChange' | 'size'
+    >,
     Omit<SpacingProps, 'top' | 'right' | 'bottom' | 'left'>,
     FormStatusBaseProps {
   /**
@@ -376,7 +419,6 @@ export interface ToggleButtonGroupProps
   children?: ToggleButtonGroupChildren
   onChange?: (...args: any[]) => any
   // Additional properties that are used in tests and stories
-  onChange?: (...args: any[]) => any
   top?: SpaceType
   right?: SpaceType
   bottom?: SpaceType

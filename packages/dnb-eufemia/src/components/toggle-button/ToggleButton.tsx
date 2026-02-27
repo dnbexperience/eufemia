@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 /**
  * Web ToggleButton Component
  *
@@ -28,17 +26,30 @@ import Button from '../button/Button'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import ToggleButtonGroup from './ToggleButtonGroup'
-import ToggleButtonGroupContext from './ToggleButtonGroupContext'
-import Context from '../../shared/Context'
+import ToggleButtonGroupContext, {
+  type ToggleButtonGroupContextValue,
+} from './ToggleButtonGroupContext'
+import Context, { type ContextProps } from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
+
+interface ToggleButtonState {
+  checked?: boolean
+  _listenForPropChanges: boolean
+  _checked?: boolean
+  __checked?: boolean
+}
 
 /**
  * The toggle-button component is our enhancement of the classic toggle-button button.
  */
-class ToggleButton extends React.PureComponent<ToggleButtonProps> {
+class ToggleButton extends React.PureComponent<
+  ToggleButtonProps,
+  ToggleButtonState
+> {
   static Group = ToggleButtonGroup
 
   static contextType = ToggleButtonGroupContext
+  context!: ToggleButtonGroupContextValue
 
   static defaultProps = {
     text: null,
@@ -72,9 +83,12 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
     onChange: null,
   }
 
-  static parseChecked = (state) => /true|on/.test(String(state))
+  static parseChecked = (state: unknown) => /true|on/.test(String(state))
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(
+    props: ToggleButtonProps,
+    state: ToggleButtonState
+  ) {
     if (state._listenForPropChanges) {
       if (props.checked !== state._checked) {
         state.checked = ToggleButton.parseChecked(props.checked)
@@ -88,23 +102,28 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
     return state
   }
 
-  constructor(props, context) {
+  _id: string
+  _refButton = React.createRef<HTMLButtonElement>()
+
+  constructor(
+    props: ToggleButtonProps,
+    context: ToggleButtonGroupContextValue
+  ) {
     super(props)
     this._id = props.id || makeUniqueId() // cause we need an id anyway
-    this._refButton = React.createRef()
 
-    this.state = {
+    const initialState: ToggleButtonState = {
       _listenForPropChanges: true,
     }
 
     // set the startup checked values from context, if they exists
     if (context.name && typeof props.value !== 'undefined') {
       if (typeof context.value !== 'undefined') {
-        this.state.checked = context.value === props.value
-        this.state._listenForPropChanges = false
+        initialState.checked = context.value === props.value
+        initialState._listenForPropChanges = false
       } else if (context.values && Array.isArray(context.values)) {
-        this.state.checked = context.values.includes(props.value)
-        this.state._listenForPropChanges = false
+        initialState.checked = context.values.includes(props.value)
+        initialState._listenForPropChanges = false
 
         // make sure we update the context
         // with a possible custom set "checked" state
@@ -129,21 +148,23 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
         }
       }
     }
+
+    this.state = initialState
   }
 
-  onKeyDownHandler = (event) => {
+  onKeyDownHandler = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
       this.onClickHandler({ event })
     }
   }
 
-  onKeyUpHandler = (event) => {
+  onKeyUpHandler = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
       this.onClickHandler({ event })
     }
   }
 
-  onClickHandler = ({ event }) => {
+  onClickHandler = ({ event }: { event: React.SyntheticEvent }) => {
     if (this.props.readOnly) {
       return event.preventDefault()
     }
@@ -176,7 +197,13 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
     }
   }
 
-  callOnChange = ({ checked, event }) => {
+  callOnChange = ({
+    checked,
+    event,
+  }: {
+    checked: boolean
+    event: React.SyntheticEvent
+  }) => {
     const { value } = this.props
     if (this.context.onChange) {
       this.context.onChange({
@@ -194,12 +221,12 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
   render() {
     return (
       <Context.Consumer>
-        {(context) => {
+        {(context: ContextProps) => {
           // from internal context
           const contextProps = extendPropsWithContextInClassComponent(
             this.props,
             ToggleButton.defaultProps,
-            this.context
+            this.context as Record<string, unknown>
           )
 
           // use only the props from context, who are available here anyway
@@ -207,9 +234,15 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
             this.props,
             ToggleButton.defaultProps,
             contextProps,
-            context.translation.ToggleButton,
-            pickFormElementProps(context.formElement),
-            context.ToggleButton
+            (context.translation as Record<string, unknown>)
+              ?.ToggleButton as Record<string, unknown>,
+            pickFormElementProps(
+              context.formElement as Record<string, unknown>
+            ),
+            (context as Record<string, unknown>).ToggleButton as Record<
+              string,
+              unknown
+            >
           )
 
           const {
@@ -288,7 +321,7 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
           // to remove spacing props
           validateDOMAttributes(this.props, rest)
 
-          const buttonParams = {
+          const buttonParams: Record<string, unknown> = {
             id,
             disabled,
             skeleton,
@@ -306,7 +339,7 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
             ...rest,
           }
 
-          const componentParams = {
+          const componentParams: Record<string, unknown> = {
             checked,
             disabled,
             element: 'span',
@@ -335,7 +368,8 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
             )
           }
           if (readOnly) {
-            buttonParams['aria-readonly'] = buttonParams.readOnly = true
+            buttonParams['aria-readonly'] = true
+            buttonParams['readOnly'] = true
           }
 
           let usedLeftComponent = null
@@ -411,7 +445,7 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
                       id={id + '-suffix'} // used for "aria-describedby"
                       context={props}
                     >
-                      {suffix}
+                      {suffix as React.ReactNode}
                     </Suffix>
                   )}
                 </span>
@@ -424,10 +458,17 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
   }
 }
 
-ToggleButton._formElement = true
-ToggleButton._supportsSpacingProps = true
+;(
+  ToggleButton as typeof ToggleButton & {
+    _formElement: boolean
+    _supportsSpacingProps: boolean
+  }
+)._formElement = true
+;(
+  ToggleButton as typeof ToggleButton & { _supportsSpacingProps: boolean }
+)._supportsSpacingProps = true
 
-export default ToggleButton as ToggleButtonComponent
+export default ToggleButton as unknown as ToggleButtonComponent
 
 // Type definitions
 import type {
@@ -456,7 +497,7 @@ export type ToggleButtonChildren = string | ((...args: any[]) => any)
 export interface ToggleButtonProps
   extends Omit<
       React.HTMLProps<HTMLButtonElement>,
-      'ref' | 'label' | 'value'
+      'ref' | 'label' | 'value' | 'children' | 'onChange' | 'size'
     >,
     Omit<SpacingProps, 'top' | 'right' | 'bottom' | 'left'>,
     FormStatusBaseProps {
