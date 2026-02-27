@@ -218,6 +218,6 @@ export interface SubmitButtonProps
   onSubmitFocus?: (...args: any[]) => any;
   onSubmitBlur?: (...args: any[]) => any;
 }
-export declare const SubmitButton: React.ForwardRefExoticComponent<
-  SubmitButtonProps & React.RefAttributes<HTMLElement>
+export declare const SubmitButton: React.ComponentType<
+  SubmitButtonProps & { ref?: React.Ref<HTMLElement> }
 >;
