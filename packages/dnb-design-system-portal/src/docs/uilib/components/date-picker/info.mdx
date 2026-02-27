@@ -87,7 +87,7 @@ The `dayObject` object contains:
 
 By default, the DatePicker highlights the "today" date based on the user's local time zone.
 
-If you need to treat another time zone as "today", mutate the `dayObject.isToday` flag inside the `on_days_render` callback. The example below demonstrates how to compare every day against `getOsloDate()` and keep the highlight in sync with Oslo time.
+If you need to treat another time zone as "today", mutate the `dayObject.isToday` flag inside the `onDaysRender` callback. The example below demonstrates how to compare every day against `getOsloDate()` and keep the highlight in sync with Oslo time.
 
 <VisibleWhenNotVisualTest>
   <DatePickerOsloDate />
