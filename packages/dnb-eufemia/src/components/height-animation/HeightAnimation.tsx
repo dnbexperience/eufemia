@@ -43,14 +43,14 @@ export type HeightAnimationProps = {
    * Send along a custom React Ref.
    * Default: null
    */
-  innerRef?: React.RefObject<HTMLElement>
+  ref?: React.RefObject<HTMLElement>
 } & useHeightAnimationOptions
 
 export type HeightAnimationAllProps = HeightAnimationProps &
   SpacingProps &
   Omit<React.HTMLProps<HTMLElement>, 'ref' | 'onAnimationEnd'>
 
-function HeightAnimationInstance({
+function HeightAnimation({
   open = true,
   animate = true,
   keepInDOM = false,
@@ -59,7 +59,7 @@ function HeightAnimationInstance({
   duration,
   delay,
   className,
-  innerRef,
+  ref,
   children,
   compensateForGap,
   onInit = null,
@@ -69,7 +69,7 @@ function HeightAnimationInstance({
   ...rest
 }: HeightAnimationAllProps) {
   const elementRef = useRef<HTMLElement>(undefined)
-  const targetRef = innerRef || elementRef
+  const targetRef = ref || elementRef
 
   const {
     isInDOM,
@@ -101,7 +101,7 @@ function HeightAnimationInstance({
 
   return (
     <Space
-      innerRef={targetRef}
+      ref={targetRef}
       element={element || 'div'}
       className={clsx(
         'dnb-height-animation',
@@ -126,20 +126,6 @@ function HeightAnimationInstance({
         children
       )}
     </Space>
-  )
-}
-
-HeightAnimationInstance._supportsSpacingProps = 'children'
-
-function HeightAnimation({
-  ref,
-  ...props
-}: HeightAnimationAllProps & { ref?: React.Ref<HTMLElement> }) {
-  return (
-    <HeightAnimationInstance
-      innerRef={ref as React.RefObject<HTMLElement>}
-      {...props}
-    />
   )
 }
 

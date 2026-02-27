@@ -292,7 +292,7 @@ export function StepItemButton({
   className,
   status,
   statusState = 'warning',
-  innerRef,
+  ref,
   ...props
 }: StepItemButtonProps) {
   const notClickable = !props.onClick
@@ -308,7 +308,7 @@ export function StepItemButton({
           `dnb-step-indicator__button--has-status dnb-step-indicator__button--${statusState}`
       )}
       noStyle={notClickable}
-      innerRef={innerRef}
+      ref={ref}
       {...props}
     >
       {children}

@@ -202,7 +202,9 @@ describe('babel build', () => {
               ),
               'utf-8'
             )
-            expect(content).toContain('class Input extends')
+            expect(content).toContain(
+              'var _default = exports.default = Input;'
+            )
             expect(content).toMatch(/^"use strict";/g)
           }
 
@@ -215,7 +217,7 @@ describe('babel build', () => {
               'utf-8'
             )
             expect(content).toContain(
-              'var _default = exports.default = Breadcrumb'
+              'var _default = exports.default = Breadcrumb;'
             )
             expect(content).toMatch(/^"use strict";/g)
           }
@@ -242,7 +244,7 @@ describe('babel build', () => {
               ),
               'utf-8'
             )
-            expect(content).toContain('export default class Input extends')
+            expect(content).toContain('export default Input;')
             expect(content).not.toContain('core-js-pure/modules/es')
             expect(content).toContain(
               'import _extends from "@babel/runtime-corejs3/helpers/esm/extends";'
@@ -301,7 +303,7 @@ describe('babel build', () => {
               ),
               'utf-8'
             )
-            expect(content).toMatch(/export default class Input extends/g)
+            expect(content).toContain('export default Input;')
             expect(content).not.toContain('core-js-pure/modules/es')
             expect(content).toContain(
               'import _extends from "@babel/runtime/helpers/esm/extends";'

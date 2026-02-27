@@ -39,7 +39,7 @@ import Suffix from '../../shared/helpers/Suffix'
 /**
  * The textarea component is an umbrella component for all textareas which share the same style as the classic `text` textarea field.
  */
-export default class Textarea extends React.PureComponent {
+class TextareaClass extends React.PureComponent {
   static contextType = Context
 
   static propTypes = {
@@ -97,7 +97,7 @@ export default class Textarea extends React.PureComponent {
     readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     rows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     cols: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+    ref: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
 
     ...spacingPropTypes,
 
@@ -138,7 +138,7 @@ export default class Textarea extends React.PureComponent {
     readOnly: false,
     rows: null,
     cols: null,
-    innerRef: null,
+    ref: null,
 
     className: null,
     textareaElement: null,
@@ -151,7 +151,7 @@ export default class Textarea extends React.PureComponent {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const value = Textarea.getValue(props)
+    const value = TextareaClass.getValue(props)
     if (
       value !== 'initval' &&
       value !== state.value &&
@@ -191,7 +191,7 @@ export default class Textarea extends React.PureComponent {
   constructor(props) {
     super(props)
 
-    this._ref = React.createRef()
+    this._ref = props._innerRef || React.createRef()
     this._id = props.id || makeUniqueId() // cause we need an id anyway
 
     if (props.textareaState) {
@@ -221,10 +221,10 @@ export default class Textarea extends React.PureComponent {
   }
   componentDidMount() {
     const props = this.getProps()
-    if (props.innerRef) {
-      typeof props.innerRef === 'function'
-        ? props.innerRef(this._ref.current)
-        : (props.innerRef.current = this._ref.current)
+    if (props._innerRef) {
+      typeof props._innerRef === 'function'
+        ? props._innerRef(this._ref.current)
+        : (props._innerRef.current = this._ref.current)
     }
 
     if (props.autoResize && typeof window !== 'undefined') {
@@ -404,7 +404,7 @@ export default class Textarea extends React.PureComponent {
       children, //eslint-disable-line
       value: _value, //eslint-disable-line
       textareaElement: _textareaElement, //eslint-disable-line
-      innerRef: _innerRef, //eslint-disable-line
+      ref: _ref, //eslint-disable-line
 
       ...attributes
     } = props
@@ -593,5 +593,20 @@ export default class Textarea extends React.PureComponent {
   }
 }
 
+TextareaClass._formElement = true
+TextareaClass._supportsSpacingProps = true
+
+/**
+ * Function wrapper that converts `ref` to `_innerRef` for the class component.
+ */
+function Textarea({ ref, ...props }) {
+  return <TextareaClass _innerRef={ref} {...props} />
+}
+
+Textarea.defaultProps = TextareaClass.defaultProps
+Textarea.hasValue = TextareaClass.hasValue
+Textarea.getValue = TextareaClass.getValue
 Textarea._formElement = true
 Textarea._supportsSpacingProps = true
+
+export default Textarea

@@ -176,7 +176,7 @@ describe('Switch component', () => {
 
     function MockComponent() {
       ref = React.useRef<HTMLInputElement | null>(null)
-      return <Switch {...props} innerRef={ref} />
+      return <Switch {...props} ref={ref} />
     }
 
     render(<MockComponent />)
@@ -191,7 +191,7 @@ describe('Switch component', () => {
       ref.current = elem
     }
 
-    render(<Switch id="unique" innerRef={refFn} />)
+    render(<Switch id="unique" ref={refFn} />)
 
     expect(ref.current.getAttribute('id')).toBe('unique')
     expect(ref.current.classList).toContain('dnb-switch__input')

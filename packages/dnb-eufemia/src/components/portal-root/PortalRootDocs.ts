@@ -1,7 +1,7 @@
 import { PropertiesTableProps } from '../../shared/types'
 
 export const PortalRootProperties: PropertiesTableProps = {
-  innerRef: {
+  ref: {
     doc: 'The ref of the element that will be used.',
     type: ['React.Ref<HTMLElement>', 'React.RefObject<HTMLElement>'],
     status: 'optional',

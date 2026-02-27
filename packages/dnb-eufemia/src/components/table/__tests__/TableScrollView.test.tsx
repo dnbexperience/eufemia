@@ -51,7 +51,7 @@ describe('Table.ScrollView', () => {
     const ref = React.createRef<HTMLDivElement>()
 
     render(
-      <ScrollView innerRef={ref}>
+      <ScrollView ref={ref}>
         <Table>
           <BasicTable />
         </Table>

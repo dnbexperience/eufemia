@@ -45,8 +45,8 @@ jest.mock('@dnb/eufemia/src/components', () => {
   return {
     Button: ({ text, onClick, ...rest }: any) =>
       React.createElement('button', { onClick, ...rest }, text),
-    Space: ({ children, innerRef, ...rest }: any) =>
-      React.createElement('div', { ref: innerRef, ...rest }, children),
+    Space: ({ children, ref, ...rest }: any) =>
+      React.createElement('div', { ref: ref, ...rest }, children),
   }
 })
 

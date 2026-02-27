@@ -366,7 +366,7 @@ describe('Checkbox component', () => {
 
     function MockComponent() {
       ref = React.useRef<HTMLInputElement | null>(null)
-      return <Checkbox id="unique" innerRef={ref} />
+      return <Checkbox id="unique" ref={ref} />
     }
 
     render(<MockComponent />)
@@ -383,7 +383,7 @@ describe('Checkbox component', () => {
       ref.current = elem
     }
 
-    render(<Checkbox id="unique" innerRef={refFn} />)
+    render(<Checkbox id="unique" ref={refFn} />)
 
     expect(ref.current.getAttribute('id')).toBe('unique')
     expect(ref.current.classList).toContain('dnb-checkbox__input')

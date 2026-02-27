@@ -116,9 +116,9 @@ export type CheckboxProps = {
    */
   onClick?: (args: OnClickParams) => void
   /**
-   * By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.
+   * By providing a React.ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.
    */
-  innerRef?:
+  ref?:
     | React.RefObject<HTMLInputElement>
     | ((elem: HTMLInputElement) => void)
 } & SpacingProps &
@@ -131,7 +131,7 @@ const defaultProps: CheckboxProps = {
   statusState: 'error',
 }
 
-function CheckboxInstance(localProps: CheckboxProps) {
+function Checkbox(localProps: CheckboxProps) {
   const context = useContext(Context)
 
   const extractPropsFromContext = useCallback(() => {
@@ -171,22 +171,22 @@ function CheckboxInstance(localProps: CheckboxProps) {
     checked,
     onChange,
     onClick,
-    innerRef,
+    ref: refProp,
     ...rest
   } = props
 
   const [, forceUpdate] = useReducer(() => ({}), {})
   const id = useId(idProp)
 
-  const isFn = typeof innerRef === 'function'
+  const isFn = typeof refProp === 'function'
   const refHook = useRef<HTMLInputElement>(undefined)
-  const ref = (!isFn && innerRef) || refHook
+  const ref = (!isFn && refProp) || refHook
 
   useEffect(() => {
     if (isFn) {
-      innerRef?.(ref.current)
+      refProp?.(ref.current)
     }
-  }, [innerRef, isFn, ref])
+  }, [refProp, isFn, ref])
 
   const preventChangeRef = useRef(false)
   const isCheckedRef = useRef(checked ?? false)
@@ -416,15 +416,7 @@ function CheckboxInstance(localProps: CheckboxProps) {
   )
 }
 
-function Checkbox({
-  ref,
-  ...props
-}: CheckboxProps & { ref?: React.Ref<HTMLInputElement> }) {
-  return <CheckboxInstance innerRef={ref} {...props} />
-}
-
 export default Checkbox
 
 // Mark as form element for FieldBlock
-CheckboxInstance._formElement = true
 Checkbox._formElement = true

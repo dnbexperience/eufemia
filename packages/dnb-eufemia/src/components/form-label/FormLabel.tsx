@@ -36,7 +36,7 @@ export type FormLabelProps = {
   label?: React.ReactNode
   vertical?: boolean
   srOnly?: boolean
-  innerRef?: React.RefObject<HTMLElement>
+  ref?: React.RefObject<HTMLElement>
 
   /** Is not a part of HTMLLabelElement and not documented as of now */
   disabled?: boolean
@@ -51,7 +51,7 @@ export type FormLabelAllProps = FormLabelProps &
   React.HTMLAttributes<HTMLLabelElement> &
   SpacingProps
 
-function FormLabelInstance(localProps: FormLabelAllProps) {
+function FormLabel(localProps: FormLabelAllProps) {
   const context = React.useContext(Context)
 
   // use only the props from context, who are available here anyway
@@ -79,7 +79,7 @@ function FormLabelInstance(localProps: FormLabelAllProps) {
     size,
     skeleton,
     element: Element = nestedElement || 'label',
-    innerRef,
+    ref: refProp,
     className,
     children,
     ...attributes
@@ -112,7 +112,7 @@ function FormLabelInstance(localProps: FormLabelAllProps) {
   }
 
   const labelRef = useRef<HTMLLabelElement>(null)
-  const ref = innerRef || labelRef
+  const ref = refProp || labelRef
   if (!nestedNode) {
     params['ref'] = ref
   }
@@ -210,20 +210,7 @@ function FormLabelInstance(localProps: FormLabelAllProps) {
   return <Element {...params}>{content}</Element>
 }
 
-FormLabelInstance._formElement = true
-FormLabelInstance._supportsSpacingProps = true
-
-export default function FormLabel({
-  ref,
-  ...props
-}: FormLabelAllProps & { ref?: React.Ref<HTMLElement> }) {
-  return (
-    <FormLabelInstance
-      innerRef={ref as React.RefObject<HTMLElement>}
-      {...props}
-    />
-  )
-}
-
 FormLabel._formElement = true
 FormLabel._supportsSpacingProps = true
+
+export default FormLabel

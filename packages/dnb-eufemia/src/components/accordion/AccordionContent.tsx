@@ -177,7 +177,7 @@ export default function AccordionContent(props: AccordionContentProps) {
       open={expanded}
       animate={animate}
       keepInDOM={keepInDOM}
-      innerRef={elementRef}
+      ref={elementRef}
     >
       <section {...innerParams}>{content}</section>
     </HeightAnimation>

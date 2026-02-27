@@ -8,7 +8,7 @@ export type useTableAnimationHandlerProps = {
   /**
    * Ref to <div> inside the <tr> element being expanded/collapsed
    */
-  innerRef: React.RefObject<HTMLDivElement>
+  contentRef: React.RefObject<HTMLDivElement>
   /**
    * Ref to the <tr> element being clicked
    */
@@ -16,7 +16,7 @@ export type useTableAnimationHandlerProps = {
 }
 
 export function useTableAnimationHandler({
-  innerRef,
+  contentRef,
   trRef,
   expanded,
   noAnimation,
@@ -64,7 +64,7 @@ export function useTableAnimationHandler({
   )
 
   const { isInDOM, isAnimating, isVisibleParallax, firstPaintStyle } =
-    useHeightAnimation(innerRef, {
+    useHeightAnimation(contentRef, {
       open,
       animate: Boolean(
         !noAnimation && !tableAccordionContext?.noAnimation

@@ -15,6 +15,30 @@ v11 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 
 > Important: Upgrading to v11 requires React and React DOM v19 ([React 19 Upgrade Guide](https://react.dev/blog/2024/04/25/react-19-upgrade-guide)).
 
+1. Replace `innerRef` with `ref` on all Eufemia components.
+
+### innerRef → ref
+
+React 19 passes `ref` as a regular prop, making `forwardRef` and custom `innerRef` patterns unnecessary. All Eufemia components that previously accepted an `innerRef` prop now accept `ref` directly.
+
+**Before:**
+
+```tsx
+<Input innerRef={myRef} />
+<Button innerRef={myRef} />
+<Element innerRef={myRef} />
+```
+
+**After:**
+
+```tsx
+<Input ref={myRef} />
+<Button ref={myRef} />
+<Element ref={myRef} />
+```
+
+Affected components: `Anchor`, `Button`, `Checkbox`, `Dropdown`, `Element`, `FormLabel`, `HeightAnimation`, `Input`, `InputMasked`, `PortalRoot`, `Radio`, `ScrollView`, `Section`, `Space`, `Switch`, `Textarea`, `Typography`, `Flex.Item`, `Flex.Container`, `Field.String`, `Field.Number`, `Field.Password`, `Field.PhoneNumber`, `Form.Element`, and all Element wrappers (`Div`, `Span`, `Code`, etc.).
+
 ## Install
 
 To upgrade to @dnb/eufemia v11 with NPM, use:
@@ -46,7 +70,7 @@ $ pnpm add @dnb/eufemia@11
    - `fire-red`
    - `fire-red-8`
 2. Remove `spacing`. Use `innerSpace` instead.
-3. Replace `inner_ref` with `innerRef`.
+3. Replace `inner_ref` with `ref`.
 
 ### [HelpButton](/uilib/components/help-button/)
 
@@ -289,7 +313,7 @@ $ pnpm add @dnb/eufemia@11
 #### Properties
 
 - Find and remove `scrollToHashHandler`. Smooth hash scrolling is now supported by all major browsers.
-- Replace `inner_ref` with `innerRef`.
+- Replace `inner_ref` with `ref`.
 
 ### [Input](/uilib/components/input/)
 
@@ -311,7 +335,7 @@ $ pnpm add @dnb/eufemia@11
 - Replace `input_element` with `inputElement`.
 - Replace `icon_size` with `iconSize`.
 - Replace `icon_position` with `iconPosition`.
-- Replace `inner_ref` with `innerRef`.
+- Replace `inner_ref` with `ref`.
 - Replace `inner_element` with `innerElement`.
 - Replace `submit_element` with `submitElement`.
 - Replace `submit_button_variant` with `submitButtonVariant`.
@@ -360,7 +384,7 @@ $ pnpm add @dnb/eufemia@11
 - Replace `show_guide` with `showGuide`.
 - Replace `keep_char_positions` with `keepCharPositions`.
 - Replace `placeholder_char` with `placeholderChar`.
-- Replace `inner_ref` with `innerRef`.
+- Replace `inner_ref` with `ref`.
 - Replace `label_sr_only` with `labelSrOnly`.
 - Replace `status_state` with `statusState`.
 - Replace `statusState`'s value `warn` with `warning`.
@@ -459,7 +483,7 @@ $ pnpm add @dnb/eufemia@11
 - Replace `autoresize` with `autoResize`.
 - Replace `textarea_class` with `textareaClass`.
 - Replace `textarea_attributes` with `textareaAttributes`.
-- Replace `inner_ref` with `innerRef`.
+- Replace `inner_ref` with `ref`.
 - Replace `textarea_element` with `textareaElement`.
 
 #### Events
@@ -690,7 +714,7 @@ render(<Logo svg={SbankenCompact} />)
 - Replace `status_props` with `statusProps`.
 - Replace `status_no_animation` with `statusNoAnimation`.
 - Replace `custom_content` with `customContent`.
-- Replace `inner_ref` with `innerRef`.
+- Replace `inner_ref` with `ref`.
 
 #### Events
 

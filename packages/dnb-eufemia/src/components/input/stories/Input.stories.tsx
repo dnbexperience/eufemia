@@ -101,7 +101,7 @@ export const InputSandbox = () => {
               <FieldBlock label="Long label labwl Adipiscing mauris dis proin nec Condimentum egestas class blandit netus non a suscipit id urna:">
                 <Flex.Vertical>
                   <Input
-                    innerRef={myRef}
+                    ref={myRef}
                     label="Input A:"
                     placeholder="Placeholder text"
                   />

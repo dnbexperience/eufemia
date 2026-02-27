@@ -169,7 +169,7 @@ class ToggleButton extends React.PureComponent<ToggleButtonProps> {
       // simulate focus for firefox and safari
       // so we can get rid of the hover ring after click
       try {
-        this._refButton.current._ref.current.focus()
+        this._refButton.current.focus()
       } catch (e) {
         warn(e)
       }

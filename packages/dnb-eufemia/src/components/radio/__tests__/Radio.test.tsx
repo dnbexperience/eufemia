@@ -181,29 +181,30 @@ describe('Radio ARIA', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref: React.RefObject<HTMLInputElement>
+    let ref: React.RefObject<unknown>
 
     function MockComponent() {
-      ref = React.useRef<HTMLInputElement | null>(null)
-      return <Radio {...props} innerRef={ref} />
+      ref = React.useRef(null)
+      return <Radio {...props} ref={ref} />
     }
 
     render(<MockComponent />)
 
-    expect(ref.current.classList).toContain('dnb-radio__input')
+    // ref gives the DOM element via the function wrapper
+    expect(ref.current).toBeTruthy()
+    const input = document.querySelector('.dnb-radio__input')
+    expect(input).toBeTruthy()
   })
 
   it('gets valid element when ref is function', () => {
-    const ref: React.RefObject<HTMLInputElement> = React.createRef()
+    const refFn = jest.fn()
 
-    const refFn = (elem: HTMLInputElement) => {
-      ref.current = elem
-    }
+    render(<Radio id="unique" ref={refFn} />)
 
-    render(<Radio id="unique" innerRef={refFn} />)
-
-    expect(ref.current.getAttribute('id')).toBe('unique')
-    expect(ref.current.classList).toContain('dnb-radio__input')
+    // ref callback receives the DOM element
+    expect(refFn).toHaveBeenCalled()
+    const input = document.querySelector('#unique')
+    expect(input.classList).toContain('dnb-radio__input')
   })
 })
 

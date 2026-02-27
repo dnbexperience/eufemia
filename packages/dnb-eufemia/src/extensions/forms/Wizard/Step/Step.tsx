@@ -188,14 +188,14 @@ function Step(props: Props): React.JSX.Element {
     )
   }
 
-  const innerRef = activeIndex === index ? stepElementRef : null
+  const stepRef = activeIndex === index ? stepElementRef : null
   const childrenWithFlex = (
     <WizardStepContext.Provider value={{ index }}>
       <Flex.Stack
         className={clsx('dnb-forms-step', className)}
         element="section"
         aria-label={ariaLabel}
-        innerRef={innerRef}
+        ref={stepRef}
         tabIndex={-1}
         {...restProps}
       >

@@ -208,7 +208,7 @@ export default function Popover(props: PopoverProps) {
       return
     }
     const element = getCurrentTriggerElement()
-    if (!element) {
+    if (!element || typeof element.focus !== 'function') {
       return
     }
 
@@ -324,7 +324,9 @@ export default function Popover(props: PopoverProps) {
         !!tooltipRef.current && tooltipRef.current.contains(target)
       const triggerElement = getCurrentTriggerElement()
       const insideTrigger =
-        !!triggerElement && triggerElement.contains(target as Node)
+        !!triggerElement &&
+        typeof triggerElement.contains === 'function' &&
+        triggerElement.contains(target as Node)
 
       if (!insideContent && !insideTrigger) {
         toggle(false)
@@ -368,7 +370,9 @@ export default function Popover(props: PopoverProps) {
         const target = (event.target ||
           document.activeElement) as HTMLElement
         const triggerElement = getCurrentTriggerElement()
-        const insideTrigger = triggerElement?.contains(target)
+        const insideTrigger =
+          typeof triggerElement?.contains === 'function' &&
+          triggerElement.contains(target)
         const insideContent = tooltipRef.current?.contains(target)
 
         if (insideContent || insideTrigger) {

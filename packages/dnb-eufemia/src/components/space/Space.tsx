@@ -66,7 +66,7 @@ export type SpaceProps = {
    * Send along a custom React Ref.
    * Default: null
    */
-  innerRef?: React.Ref<HTMLElement>
+  ref?: React.Ref<HTMLElement>
 } & Omit<SpacingProps, 'innerSpace'> & { innerSpace?: InnerSpaceType }
 
 export type SpaceAllProps = SpaceProps &
@@ -101,7 +101,7 @@ function SpaceInstance(localProps: SpaceAllProps) {
     innerSpace, // eslint-disable-line
     stretch,
     skeleton,
-    innerRef,
+    ref,
     className,
     children,
 
@@ -128,45 +128,40 @@ function SpaceInstance(localProps: SpaceAllProps) {
   skeletonDOMAttributes(params, skeleton) // do not send along context
 
   return (
-    <Element
+    <SpaceElement
       element={element}
       noCollapse={noCollapse}
-      innerRef={innerRef}
+      ref={ref}
       style={styleObj}
       {...params}
     >
       {children}
-    </Element>
+    </SpaceElement>
   )
 }
 
-function Space({
-  ref,
-  ...props
-}: SpaceAllProps & { ref?: React.Ref<HTMLElement> }) {
-  return <SpaceInstance {...props} innerRef={props.innerRef || ref} />
+function Space(props: SpaceAllProps) {
+  return <SpaceInstance {...props} />
 }
 
 Space._supportsSpacingProps = true
 
 export default Space
 
-function Element({
+function SpaceElement({
   element,
   noCollapse,
   children,
-  innerRef,
+  ref,
   ...props
 }: SpaceAllProps) {
   const ElementDynamic = element
 
-  if (element?.['_name'] === 'Section') {
-    props['innerRef'] = innerRef
-  } else {
+  if (typeof element === 'string') {
     // also used for code markup simulation
     validateDOMAttributes({}, props)
-    props['ref'] = innerRef
   }
+  props['ref'] = ref
 
   const component = (
     <ElementDynamic {...(props as DynamicElementParams)}>

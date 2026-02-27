@@ -164,8 +164,8 @@ export const DropdownProperties = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  innerRef: {
-    doc: 'By providing a React.ref you can get the internally used main element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.',
+  ref: {
+    doc: 'By providing a React.ref you can get the internally used main element (DOM). E.g. `ref={myRef}` by using `React.createRef()` or `React.useRef()`.',
     type: 'React.RefObject',
     status: 'optional',
   },

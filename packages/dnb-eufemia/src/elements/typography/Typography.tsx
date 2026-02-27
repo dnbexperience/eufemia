@@ -83,10 +83,10 @@ export type TypographyProps<
   }
 
 type TypographyInternalProps = {
-  innerRef?: React.RefObject<HTMLElement> | React.Ref<unknown>
+  ref?: React.RefObject<HTMLElement> | React.Ref<unknown>
 }
 
-const TypographyInstance = ({
+const Typography = ({
   element = 'p',
   className,
   size,
@@ -126,15 +126,6 @@ const TypographyInstance = ({
       )}
     />
   )
-}
-
-function Typography({
-  ref,
-  innerRef,
-  ...props
-}: TypographyProps &
-  TypographyInternalProps & { ref?: React.Ref<HTMLElement> }) {
-  return <TypographyInstance {...props} innerRef={innerRef || ref} />
 }
 
 const Provider = ({

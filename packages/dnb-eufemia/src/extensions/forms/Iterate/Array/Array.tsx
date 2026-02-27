@@ -233,7 +233,7 @@ function ArrayComponent(props: Props) {
   const arrayValueRef = useRef(arrayValue)
   const containerRef = useRef<HTMLDivElement>(undefined)
   const hadPushRef = useRef<boolean>(undefined)
-  const innerRefs = useRef<
+  const elementRefs = useRef<
     Record<string, React.RefObject<HTMLDivElement>>
   >({})
 
@@ -396,7 +396,7 @@ function ArrayComponent(props: Props) {
   }, [arrayValue, arrayItems, onChange])
 
   const flexProps: FlexContainerProps & {
-    innerRef: FlexContainerAllProps['innerRef']
+    ref: FlexContainerAllProps['ref']
   } = {
     className: clsx(
       'dnb-forms-iterate',
@@ -405,7 +405,7 @@ function ArrayComponent(props: Props) {
     ),
     ...pickFlexContainerProps(props as FlexContainerProps),
     ...pickSpacingProps(props),
-    innerRef: containerRef,
+    ref: containerRef,
   }
 
   const arrayElements =
@@ -418,8 +418,8 @@ function ArrayComponent(props: Props) {
     ) : (
       arrayItems.map((itemProps) => {
         const { id, value, index } = itemProps
-        const elementRef = (innerRefs.current[id] =
-          innerRefs.current[id] || createRef<HTMLDivElement>())
+        const elementRef = (elementRefs.current[id] =
+          elementRefs.current[id] || createRef<HTMLDivElement>())
 
         const renderChildren = (elementChild: ElementChild) => {
           return typeof elementChild === 'function'
@@ -451,7 +451,7 @@ function ArrayComponent(props: Props) {
           <Flex.Item
             className="dnb-forms-iterate__element"
             tabIndex={-1}
-            innerRef={elementRef}
+            ref={elementRef}
             key={`element-${id}`}
           >
             <IterateItemContext.Provider value={contextValue}>

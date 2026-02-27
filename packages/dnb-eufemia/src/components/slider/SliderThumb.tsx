@@ -130,7 +130,7 @@ function Thumb({ value, currentIndex }: ThumbProps) {
         variant="secondary"
         disabled={disabled}
         skeleton={skeleton}
-        innerRef={elemRef}
+        ref={elemRef}
         {...thumbParams}
       />
 

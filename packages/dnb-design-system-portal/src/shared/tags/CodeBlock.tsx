@@ -222,7 +222,7 @@ function LiveCode(props: LiveCodeProps) {
               createSkeletonClass('code', context.skeleton)
             )}
             top={omitWrapper}
-            innerRef={editorElementRef}
+            ref={editorElementRef}
           >
             <span className="dnb-sr-only">Code Editor</span>
             <LiveEditor

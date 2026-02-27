@@ -13,7 +13,7 @@ function Dt({
   ref,
   ...props
 }: DtProps & SpacingProps & { ref?: React.Ref<HTMLDListElement> }) {
-  return <E as="dt" innerRef={ref} {...props} />
+  return <E as="dt" ref={ref} {...props} />
 }
 
 export default Dt

@@ -1401,7 +1401,7 @@ export function Accodion() {
             variant="tertiary"
             iconPosition="left"
             onClick={shareHandler}
-            innerRef={ref}
+            ref={ref}
           >
             Copy link to this row
           </Button>

@@ -957,12 +957,6 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     [showInput]
   )
 
-  if (!showInput) {
-    // Use Button inner ref
-    submitAttributes.innerRef = submitAttributes.ref
-    submitAttributes.ref = null
-  }
-
   return (
     <fieldset className="dnb-date-picker__fieldset" lang={lang}>
       {label && <legend className="dnb-sr-only">{label}</legend>}
