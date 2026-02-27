@@ -127,7 +127,10 @@ describe('Form.Section', () => {
           "exportValidators": {
             "nameValidator": [Function],
           },
-          "innerRef": {
+          "label": "Fornavn",
+          "minLength": 1,
+          "path": "/firstName",
+          "ref": {
             "current": <input
               autocomplete="given-name"
               class="dnb-input__input"
@@ -136,9 +139,6 @@ describe('Form.Section', () => {
               type="text"
             />,
           },
-          "label": "Fornavn",
-          "minLength": 1,
-          "path": "/firstName",
           "trim": true,
           "width": "large",
         },
@@ -151,7 +151,10 @@ describe('Form.Section', () => {
           "exportValidators": {
             "nameValidator": [Function],
           },
-          "innerRef": {
+          "label": "Etternavn",
+          "minLength": 2,
+          "path": "/lastName",
+          "ref": {
             "current": <input
               aria-required="true"
               autocomplete="family-name"
@@ -161,9 +164,6 @@ describe('Form.Section', () => {
               type="text"
             />,
           },
-          "label": "Etternavn",
-          "minLength": 2,
-          "path": "/lastName",
           "required": true,
           "trim": true,
           "width": "large",

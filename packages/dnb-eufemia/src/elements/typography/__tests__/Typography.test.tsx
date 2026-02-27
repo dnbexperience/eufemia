@@ -275,4 +275,51 @@ describe('Typography element', () => {
       expect(element.style.maxWidth).toBe('')
     })
   })
+
+  it('gets valid ref element', () => {
+    let ref: React.RefObject<HTMLElement>
+
+    function MockComponent() {
+      ref = React.useRef<HTMLElement | null>(null)
+      return <Typography ref={ref}>content</Typography>
+    }
+
+    render(<MockComponent />)
+
+    expect(ref.current instanceof HTMLParagraphElement).toBe(true)
+    expect(ref.current.tagName).toBe('P')
+    expect(ref.current.classList).toContain('dnb-p')
+  })
+
+  it('gets valid ref element with custom element', () => {
+    let ref: React.RefObject<HTMLElement>
+
+    function MockComponent() {
+      ref = React.useRef<HTMLElement | null>(null)
+      return (
+        <Typography element="span" ref={ref}>
+          content
+        </Typography>
+      )
+    }
+
+    render(<MockComponent />)
+
+    expect(ref.current instanceof HTMLSpanElement).toBe(true)
+    expect(ref.current.tagName).toBe('SPAN')
+  })
+
+  it('gets valid element when ref is function', () => {
+    let refElement: HTMLElement
+
+    function refFn(elem: HTMLElement) {
+      refElement = elem
+    }
+
+    render(<Typography ref={refFn}>content</Typography>)
+
+    expect(refElement instanceof HTMLParagraphElement).toBe(true)
+    expect(refElement.tagName).toBe('P')
+    expect(refElement.classList).toContain('dnb-p')
+  })
 })

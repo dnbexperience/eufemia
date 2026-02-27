@@ -1,7 +1,7 @@
 import { PropertiesTableProps } from '../shared/types'
 
 export const ElementPropertiesWithoutSkeleton: PropertiesTableProps = {
-  innerRef: {
+  ref: {
     doc: 'Send along a custom React Ref.',
     type: 'React.RefObject',
     status: 'optional',

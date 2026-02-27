@@ -430,7 +430,7 @@ export default class FormStatus extends React.PureComponent {
         animate={this.shouldAnimate()}
         duration={600}
         {...params}
-        innerRef={this._ref}
+        ref={this._ref}
       >
         <span {...shellParams}>
           {iconToRender}

@@ -410,7 +410,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
   const blurDelay = 201 // some ms more than "dropdownSlideDown 200ms"
   const id = useId(props.id)
 
-  const innerRef = useRef<HTMLSpanElement>(undefined)
+  const shellRef = useRef<HTMLSpanElement>(undefined)
   const submitButtonRef = useRef<HTMLButtonElement>(undefined)
   const getReturnObject =
     useRef<DatePickerContextValues['getReturnObject']>(undefined)
@@ -704,7 +704,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
 
         <span
           className="dnb-date-picker__inner"
-          ref={innerRef}
+          ref={shellRef}
           {...remainingPickerProps}
         >
           <AlignmentHelper />
@@ -789,7 +789,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   open={open}
                   targetElement={{
                     verticalRef: submitButtonRef,
-                    horizontalRef: innerRef,
+                    horizontalRef: shellRef,
                   }}
                   noAnimation={noAnimation}
                   skipPortal={skipPortal}

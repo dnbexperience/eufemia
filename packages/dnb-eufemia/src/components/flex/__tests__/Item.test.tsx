@@ -93,7 +93,7 @@ describe('Flex.Item', () => {
       ref = React.useRef<HTMLElement | null>(null)
       return (
         <Flex.Container>
-          <Flex.Item innerRef={ref} element="section">
+          <Flex.Item ref={ref} element="section">
             FlexItem
           </Flex.Item>
         </Flex.Container>

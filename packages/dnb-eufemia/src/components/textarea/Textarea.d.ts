@@ -109,9 +109,9 @@ export interface TextareaProps
   rows?: TextareaRows;
   cols?: TextareaCols;
   /**
-   * By providing a React.Ref we can get the internally used Textarea element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.
+   * By providing a React.Ref we can get the internally used Textarea element (DOM). E.g. `ref={myRef}` by using `React.useRef()`.
    */
-  innerRef?: React.Ref;
+  ref?: React.Ref;
   className?: string;
   textareaElement?: TextareaTextareaElement;
   children?: TextareaChildren;
@@ -120,7 +120,7 @@ export interface TextareaProps
   onBlur?: (...args: any[]) => any;
   onKeyDown?: (...args: any[]) => any;
 }
-declare const Textarea: React.ComponentClass<TextareaProps> & {
+declare const Textarea: ((props: TextareaProps) => React.JSX.Element) & {
   defaultProps: object;
 };
 export default Textarea;

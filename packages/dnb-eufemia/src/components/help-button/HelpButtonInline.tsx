@@ -134,7 +134,7 @@ export default function HelpButtonInline(props: HelpButtonInlineProps) {
         aria-label={title || undefined}
         onClick={onClickHandler}
         onKeyDown={onKeyDownHandler}
-        innerRef={buttonRef}
+        ref={buttonRef}
       />
 
       {!contentId && (
@@ -195,7 +195,7 @@ export function HelpButtonInlineContent(
     outset: outsetProp = true,
   } = helpProp || {}
 
-  const innerRef = useRef<HTMLDivElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
   const cardContext = useContext(CardContext)
   const breakoutFromLayout =
     Boolean(cardContext) && breakout && breakoutProp
@@ -204,7 +204,7 @@ export function HelpButtonInlineContent(
   useEffect(() => {
     if (isOpen && isUserIntent && focusOnOpen) {
       window.requestAnimationFrame(() => {
-        innerRef.current?.focus({ preventScroll: true })
+        contentRef.current?.focus({ preventScroll: true })
       })
     }
   }, [focusOnOpen, isOpen, isUserIntent])
@@ -271,7 +271,7 @@ export function HelpButtonInlineContent(
       <Section
         id={`${contentId}-content`}
         {...focusParams}
-        innerRef={innerRef}
+        ref={contentRef}
         outset={outsetFromLayout}
         breakout={breakoutFromLayout}
         roundedCorner={roundedCorner ?? !breakoutFromLayout}

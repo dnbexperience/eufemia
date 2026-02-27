@@ -39,7 +39,7 @@ const filterAttributes = Object.keys(stepIndicatorDefaultProps)
     'open',
     'openHandler',
     'closeHandler',
-    'innerRef',
+    'ref',
     'hasSkeletonData',
     'filterAttributes',
   ])

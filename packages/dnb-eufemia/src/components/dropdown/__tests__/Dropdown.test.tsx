@@ -1605,25 +1605,25 @@ describe('Dropdown component', () => {
   })
 
   it('gets valid buttonRef element when ref is function', () => {
-    const ref: React.RefObject<HTMLButtonElement> = React.createRef()
+    let refElement: HTMLButtonElement
 
     function refFunction(instance: HTMLButtonElement) {
-      ref.current = instance
+      refElement = instance
     }
 
     render(<Dropdown {...props} buttonRef={refFunction} />)
 
-    expect(ref.current.id).toBe(props.id)
-    expect(ref.current.tagName).toBe('BUTTON')
-    expect(ref.current instanceof HTMLButtonElement).toBe(true)
+    expect(refElement.id).toBe(props.id)
+    expect(refElement.tagName).toBe('BUTTON')
+    expect(refElement instanceof HTMLButtonElement).toBe(true)
   })
 
-  it('gets valid innerRef element', () => {
+  it('gets valid ref element', () => {
     let ref: React.RefObject<HTMLSpanElement>
 
     function MockComponent() {
       ref = React.useRef<HTMLSpanElement | null>(null)
-      return <Dropdown {...props} innerRef={ref} />
+      return <Dropdown {...props} ref={ref} />
     }
 
     render(<MockComponent />)
@@ -1633,18 +1633,18 @@ describe('Dropdown component', () => {
     expect(ref.current instanceof HTMLSpanElement).toBe(true)
   })
 
-  it('gets valid innerRef element when ref is function', () => {
-    const ref: React.RefObject<HTMLButtonElement> = React.createRef()
+  it('gets valid ref element when ref is function', () => {
+    let refElement: HTMLSpanElement
 
-    function refFunction(instance: HTMLButtonElement) {
-      ref.current = instance
+    function refFunction(instance: HTMLSpanElement) {
+      refElement = instance
     }
 
-    render(<Dropdown {...props} innerRef={refFunction} />)
+    render(<Dropdown {...props} ref={refFunction} />)
 
-    expect(ref.current.className).toContain('dnb-dropdown')
-    expect(ref.current.tagName).toBe('SPAN')
-    expect(ref.current instanceof HTMLSpanElement).toBe(true)
+    expect(refElement.className).toContain('dnb-dropdown')
+    expect(refElement.tagName).toBe('SPAN')
+    expect(refElement instanceof HTMLSpanElement).toBe(true)
   })
 
   beforeAll(() => {

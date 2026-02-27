@@ -12,7 +12,7 @@ function Span({
   ref,
   ...props
 }: SpanProps & { ref?: React.Ref<HTMLSpanElement> }) {
-  return <Typography element="span" innerRef={ref} {...props} />
+  return <Typography element="span" ref={ref} {...props} />
 }
 
 Span._supportsSpacingProps = true

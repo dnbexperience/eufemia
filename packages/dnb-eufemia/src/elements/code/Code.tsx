@@ -13,7 +13,7 @@ function Code({
   ref,
   ...props
 }: CodeProps & { ref?: React.Ref<HTMLElement> }) {
-  return <E as="code" innerRef={ref} {...props} />
+  return <E as="code" ref={ref} {...props} />
 }
 
 Code._supportsSpacingProps = true

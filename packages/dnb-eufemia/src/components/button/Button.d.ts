@@ -151,10 +151,9 @@ export type ButtonProps = {
    */
   skeleton?: ButtonSkeleton;
   disabled?: boolean;
-  innerRef?: React.Ref;
+  ref?: React.Ref;
   className?: string;
   class?: string;
-  innerRef?: any;
   children?: ButtonChildren;
   /**
    * Only meant to be used for special use cases. Defaults to `button` or `a` depending if href is set or not.
@@ -169,7 +168,7 @@ export type ButtonProps = {
     >
 > &
   SpacingProps;
-declare const Button: React.ComponentClass<ButtonProps> & {
+declare const Button: ((props: ButtonProps) => React.JSX.Element) & {
   defaultProps: object;
 };
 export default Button;

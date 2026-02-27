@@ -38,7 +38,7 @@ export type ElementProps = {
    * Default: `undefined`
    */
   internalClass?: string | boolean
-  innerRef?: React.RefObject<HTMLElement> | React.Ref<unknown>
+  ref?: React.RefObject<HTMLElement> | React.Ref<unknown>
   children?: React.ReactNode
 } & SpacingProps
 
@@ -52,14 +52,7 @@ export const defaultProps = {
   skeletonMethod: 'font',
 }
 
-function Element({
-  ref,
-  ...props
-}: ElementAllProps & { ref?: React.Ref<HTMLElement> }) {
-  return <ElementInstance innerRef={ref} {...props} />
-}
-
-function ElementInstance(localProps: ElementAllProps) {
+function Element(localProps: ElementAllProps) {
   const context = React.useContext(Context)
   const props = extendPropsWithContext(localProps, defaultProps, {
     skeleton: context?.skeleton,
@@ -69,7 +62,7 @@ function ElementInstance(localProps: ElementAllProps) {
     className,
     internalClass,
     as,
-    innerRef,
+    ref,
     skeleton,
     skeletonMethod,
     ...rest
@@ -100,8 +93,8 @@ function ElementInstance(localProps: ElementAllProps) {
 
   const isFragment = Tag === React.Fragment
 
-  if (!isFragment && typeof Tag !== 'function' && innerRef) {
-    attributes.ref = innerRef
+  if (!isFragment && typeof Tag !== 'function' && ref) {
+    attributes.ref = ref
   }
 
   if (isFragment) {

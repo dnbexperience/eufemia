@@ -174,7 +174,7 @@ describe('useIsolatedStyleScope', () => {
     expect(scopeElement).toBe(undefined)
   })
 
-  it('returns the custom innerRef element if provided', () => {
+  it('returns the custom ref element if provided', () => {
     let scopeElement = null
     const customRef = React.createRef<HTMLDivElement>()
 
@@ -189,7 +189,7 @@ describe('useIsolatedStyleScope', () => {
     }
 
     render(
-      <IsolatedStyleScope scopeHash="custom-scope" innerRef={customRef}>
+      <IsolatedStyleScope scopeHash="custom-scope" ref={customRef}>
         <MockComponent />
       </IsolatedStyleScope>
     )

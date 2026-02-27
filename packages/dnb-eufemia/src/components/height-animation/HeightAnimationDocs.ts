@@ -41,7 +41,7 @@ export const HeightAnimationProperties: PropertiesTableProps = {
     type: ['string', 'React.ElementType'],
     status: 'optional',
   },
-  innerRef: {
+  ref: {
     doc: 'Send along a custom React Ref.',
     type: 'React.RefObject',
     status: 'optional',

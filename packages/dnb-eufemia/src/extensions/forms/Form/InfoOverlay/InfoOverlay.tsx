@@ -73,12 +73,12 @@ function InfoOverlay(props: Props) {
 
   const translations = useTranslation()
   const mountedRef = useMounted()
-  const innerRef = useRef<HTMLDivElement>(null)
+  const overlayRef = useRef<HTMLDivElement>(null)
   const onAnimationEnd: HeightAnimationAllProps['onAnimationEnd'] =
     useCallback(
       (state) => {
         if (mountedRef.current && state === 'opened') {
-          innerRef.current.focus?.()
+          overlayRef.current.focus?.()
         }
       },
       [mountedRef]
@@ -175,7 +175,7 @@ function InfoOverlay(props: Props) {
         className
       )}
       tabIndex={-1}
-      ref={innerRef}
+      ref={overlayRef}
     >
       <Visibility
         visible={statusContentIsVisible}

@@ -779,7 +779,7 @@ export const Accordion = () => (
                 icon={copyIcon}
                 iconPosition="left"
                 onClick={shareHandler}
-                innerRef={ref}
+                ref={ref}
               >
                 Copy link to this row
               </Button>
@@ -898,7 +898,7 @@ export const AccordionMixed = () => (
                 icon={copyIcon}
                 iconPosition="left"
                 onClick={shareHandler}
-                innerRef={ref}
+                ref={ref}
               >
                 Copy link to this row
               </Button>

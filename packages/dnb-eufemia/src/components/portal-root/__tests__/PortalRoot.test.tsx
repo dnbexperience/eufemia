@@ -41,7 +41,7 @@ describe('PortalRoot', () => {
   it('should handle ref forwarding', () => {
     const ref = React.createRef<HTMLElement>()
     render(
-      <PortalRoot innerRef={ref}>
+      <PortalRoot ref={ref}>
         <div>Content</div>
       </PortalRoot>
     )
@@ -57,7 +57,7 @@ describe('PortalRoot', () => {
     }
 
     render(
-      <PortalRoot innerRef={refFn}>
+      <PortalRoot ref={refFn}>
         <div>Content</div>
       </PortalRoot>
     )
@@ -283,7 +283,7 @@ describe('PortalRoot', () => {
     const customId = 'custom-portal-with-ref'
     const ref = React.createRef<HTMLElement>()
     render(
-      <PortalRoot id={customId} innerRef={ref}>
+      <PortalRoot id={customId} ref={ref}>
         <div>Content</div>
       </PortalRoot>
     )

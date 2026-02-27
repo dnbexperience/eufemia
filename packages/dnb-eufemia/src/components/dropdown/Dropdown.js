@@ -40,7 +40,7 @@ import {
   getCurrentData,
 } from '../../fragments/drawer-list/DrawerListHelpers'
 
-export default class Dropdown extends React.PureComponent {
+class DropdownClass extends React.PureComponent {
   static propTypes = {
     ...spacingPropTypes,
     ...drawerListPropTypes,
@@ -76,7 +76,7 @@ export default class Dropdown extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
     ]),
-    innerRef: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+    ref: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
     buttonRef: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
     globalStatus: PropTypes.shape({
       id: PropTypes.string,
@@ -183,7 +183,7 @@ export default class Dropdown extends React.PureComponent {
     statusProps: null,
     statusNoAnimation: null,
     globalStatus: null,
-    innerRef: null,
+    ref: null,
     buttonRef: null,
     suffix: null,
     scrollable: true,
@@ -245,8 +245,8 @@ export default class Dropdown extends React.PureComponent {
 }
 
 class DropdownInstance extends React.PureComponent {
-  static propTypes = Dropdown.propTypes
-  static defaultProps = Dropdown.defaultProps
+  static propTypes = DropdownClass.propTypes
+  static defaultProps = DropdownClass.defaultProps
   static contextType = DrawerListContext
 
   constructor(props) {
@@ -255,9 +255,9 @@ class DropdownInstance extends React.PureComponent {
     this.attributes = {}
     this.state = this.state || {}
 
-    this._ref = props.innerRef || React.createRef()
+    this._ref = props._innerRef || React.createRef()
     this._refWrapper = React.createRef()
-    this._refButton = props.buttonRef || React.createRef()
+    this._refButton = props._innerButtonRef || React.createRef()
   }
 
   componentDidMount() {
@@ -462,7 +462,9 @@ class DropdownInstance extends React.PureComponent {
       enableBodyLock: _enableBodyLock, // eslint-disable-line
       listClass: _listClass, // eslint-disable-line
       buttonRef, // eslint-disable-line
-      innerRef, // eslint-disable-line
+      _innerRef, // eslint-disable-line
+      _innerButtonRef, // eslint-disable-line
+      ref: _ref, // eslint-disable-line
 
       onOpen: _onOpen, // eslint-disable-line
       onClose: _onClose, // eslint-disable-line
@@ -611,7 +613,7 @@ class DropdownInstance extends React.PureComponent {
                   variant={variant}
                   icon={false} // only to suppress the warning about the icon when tertiary variant is used
                   size={size === 'default' ? 'medium' : size}
-                  innerRef={this._refButton}
+                  ref={this._refButton}
                   customContent={
                     <>
                       {!isPopupMenu && (
@@ -701,6 +703,26 @@ class DropdownInstance extends React.PureComponent {
   }
 }
 
+DropdownClass.HorizontalItem = DrawerList.HorizontalItem
+DropdownClass._formElement = true
+DropdownClass._supportsSpacingProps = true
+
+/**
+ * Function wrapper that converts `ref` and `buttonRef` to internal props for the class component.
+ */
+function Dropdown({ ref, buttonRef, ...props }) {
+  return (
+    <DropdownClass
+      _innerRef={ref}
+      _innerButtonRef={buttonRef}
+      {...props}
+    />
+  )
+}
+
+Dropdown.defaultProps = DropdownClass.defaultProps
 Dropdown.HorizontalItem = DrawerList.HorizontalItem
 Dropdown._formElement = true
 Dropdown._supportsSpacingProps = true
+
+export default Dropdown

@@ -29,7 +29,7 @@ export type Props = FieldProps<string, undefined | string> & {
   // - Shared props
   multiline?: boolean
   inputClassName?: string
-  innerRef?: React.RefObject<HTMLInputElement | HTMLTextAreaElement>
+  ref?: React.RefObject<HTMLInputElement | HTMLTextAreaElement>
   width?: FieldBlockWidth
   size?: InputProps['size'] | TextareaProps['size']
   keepPlaceholder?: InputProps['keepPlaceholder']
@@ -175,14 +175,14 @@ function StringComponent(props: Props) {
     width:
       props.width ??
       (fieldBlockContext?.composition ? 'stretch' : 'large'),
-    innerRef: props.innerRef ?? ref,
+    ref: props.ref ?? ref,
   }
 
   const {
     id,
     name,
     className,
-    innerRef,
+    ref: inputRef,
     inputClassName,
     placeholder,
     value,
@@ -227,8 +227,10 @@ function StringComponent(props: Props) {
   } = useFieldProps(preparedProps)
 
   useEffect(() => {
-    setDisplayValue(innerRef.current?.value)
-  }, [innerRef, setDisplayValue, value])
+    // Use getElementById to read the current DOM input value
+    const input = id ? document.getElementById(id) : null
+    setDisplayValue((input as HTMLInputElement)?.value)
+  }, [id, setDisplayValue, value])
 
   const transformInstantly = useCallback(
     (value: string) => (props.capitalize ? toCapitalized(value) : value),
@@ -272,7 +274,7 @@ function StringComponent(props: Props) {
     disabled,
     ...htmlAttributes,
     stretch: Boolean(width),
-    innerRef: innerRef,
+    ref: inputRef,
     status: hasError ? 'error' : undefined,
     value: transformInstantly(value?.toString() ?? ''),
   }

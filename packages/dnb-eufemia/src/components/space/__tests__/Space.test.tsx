@@ -29,7 +29,7 @@ describe('Space component', () => {
 
     function MockComponent(props) {
       ref = React.useRef<HTMLElement | null>(null)
-      return <Space {...props} innerRef={ref} />
+      return <Space {...props} ref={ref} />
     }
 
     const { rerender } = render(<MockComponent />)

@@ -13,7 +13,7 @@ function Div({
   ref,
   ...props
 }: DivProps & { ref?: React.Ref<HTMLElement> }) {
-  return <E as="div" skeletonMethod="shape" innerRef={ref} {...props} />
+  return <E as="div" skeletonMethod="shape" ref={ref} {...props} />
 }
 
 Div._supportsSpacingProps = true

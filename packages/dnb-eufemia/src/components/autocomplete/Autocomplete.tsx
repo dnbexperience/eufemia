@@ -625,6 +625,16 @@ class AutocompleteInstance extends React.PureComponent<
   }
 
   componentDidMount() {
+    // Forward the internal input ref to the user's inputRef prop
+    const { inputRef } = this.props
+    if (inputRef && this._refInput.current) {
+      if (typeof inputRef === 'function') {
+        inputRef(this._refInput.current)
+      } else {
+        inputRef.current = this._refInput.current
+      }
+    }
+
     if (this.props.open) {
       this.runFilterToHighlight({ fillDataIfEmpty: true })
       this.setVisible()
@@ -1283,7 +1293,7 @@ class AutocompleteInstance extends React.PureComponent<
 
   focusInput = () => {
     try {
-      this._refInput.current._ref.current.focus({
+      this._refInput.current.focus({
         preventScroll: true,
       })
     } catch (e) {
@@ -2132,7 +2142,6 @@ class AutocompleteInstance extends React.PureComponent<
       onFocus: this.onInputFocusHandler,
       onBlur: this.onBlurHandler,
       iconPosition: iconPosition,
-      innerRef: inputRef,
       disabled,
       skeleton,
       ...attributes,
@@ -2160,7 +2169,6 @@ class AutocompleteInstance extends React.PureComponent<
     }
 
     const {
-      innerRef: _innerRef, //eslint-disable-line
       iconPosition: _iconPosition, //eslint-disable-line
       ...customInputParams
     } = inputParams
