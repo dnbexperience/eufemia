@@ -30,8 +30,8 @@ type ReactRouterLink = Omit<
 export type AnchorProps = {
   element?:
     | DynamicElement<HTMLAnchorElement | AnchorAllProps>
-    | React.ForwardRefExoticComponent<
-        ReactRouterLink & React.RefAttributes<HTMLAnchorElement>
+    | React.ComponentType<
+        ReactRouterLink & { ref?: React.Ref<HTMLAnchorElement> }
       >
   href?: string
   to?: string

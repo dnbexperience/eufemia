@@ -54,8 +54,8 @@ type ReactRouterLink = Omit<
 };
 export type ButtonElement =
   | DynamicElement<HTMLButtonElement | HTMLAnchorElement | AnchorProps>
-  | React.ForwardRefExoticComponent<
-      ReactRouterLink & React.RefAttributes<HTMLAnchorElement>
+  | React.ComponentType<
+      ReactRouterLink & { ref?: React.Ref<HTMLAnchorElement> }
     >
   | React.ReactNode;
 export type ButtonOnClick = (...args: any[]) => any;
