@@ -435,12 +435,7 @@ import type {
   ButtonSize,
   ButtonTooltip,
 } from '../Button'
-import type {
-  FormStatusProps,
-  FormStatusState,
-  FormStatusText,
-} from '../FormStatus'
-import type { GlobalStatusConfigObject } from '../GlobalStatus'
+import type { FormStatusBaseProps } from '../FormStatus'
 import type { IconIcon, IconSize } from '../Icon'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps, SpaceType } from '../space/types'
@@ -463,7 +458,8 @@ export interface ToggleButtonProps
       React.HTMLProps<HTMLButtonElement>,
       'ref' | 'label' | 'value'
     >,
-    Omit<SpacingProps, 'top' | 'right' | 'bottom' | 'left'> {
+    Omit<SpacingProps, 'top' | 'right' | 'bottom' | 'left'>,
+    FormStatusBaseProps {
   /**
    * The text shown in the ToggleButton.
    */
@@ -490,23 +486,6 @@ export interface ToggleButtonProps
    */
   skeleton?: SkeletonShow
   id?: string
-  /**
-   * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
-   */
-  status?: FormStatusText
-  /**
-   * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
-   */
-  statusState?: FormStatusState
-  /**
-   * Use an object to define additional FormStatus properties.
-   */
-  statusProps?: FormStatusProps
-  statusNoAnimation?: boolean
-  /**
-   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
-   */
-  globalStatus?: GlobalStatusConfigObject
   /**
    * Text describing the content of the ToggleButton more than the label. You can also send in a React component, so it gets wrapped inside the ToggleButton component.
    */

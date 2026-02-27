@@ -28,13 +28,8 @@ import useId from '../../shared/helpers/useId'
 import type { SpacingProps } from '../space/types'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
-import type {
-  FormStatusProps,
-  FormStatusState,
-  FormStatusText,
-} from '../FormStatus'
+import type { FormStatusBaseProps } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
-import type { GlobalStatusConfigObject } from '../GlobalStatus'
 
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
@@ -81,23 +76,6 @@ export type CheckboxProps = {
    */
   size?: CheckboxSize
   /**
-   * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
-   */
-  status?: FormStatusText
-  /**
-   * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
-   */
-  statusState?: FormStatusState
-  /**
-   * Use an object to define additional FormStatus properties. See [FormStatus](/uilib/components/form-status/properties/)
-   */
-  statusProps?: FormStatusProps
-  statusNoAnimation?: boolean
-  /**
-   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status)
-   */
-  globalStatus?: GlobalStatusConfigObject
-  /**
    * Text describing the content of the Checkbox more than the label. You can also send in a React component, so it gets wrapped inside the Checkbox component.
    */
   suffix?: React.ReactNode
@@ -121,7 +99,8 @@ export type CheckboxProps = {
   ref?:
     | React.RefObject<HTMLInputElement>
     | ((elem: HTMLInputElement) => void)
-} & SpacingProps &
+} & FormStatusBaseProps &
+  SpacingProps &
   Omit<
     React.HTMLProps<HTMLInputElement>,
     'ref' | 'label' | 'size' | 'onChange' | 'onClick'
