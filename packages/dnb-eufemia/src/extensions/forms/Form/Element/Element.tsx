@@ -12,21 +12,11 @@ export type Props = Omit<
   'ref' | 'autoComplete'
 > &
   SpacingProps & {
-    innerRef?: React.RefObject<HTMLFormElement>
+    ref?: React.RefObject<HTMLFormElement>
   }
 
-export default function FormElement({
-  ref,
-  ...props
-}: Props & { ref?: React.Ref<HTMLFormElement> }) {
-  return (
-    <FormElementInstance
-      {...props}
-      {...(ref != null
-        ? { innerRef: ref as React.RefObject<HTMLFormElement> }
-        : {})}
-    />
-  )
+export default function FormElement(props: Props) {
+  return <FormElementInstance {...props} />
 }
 
 function FormElementInstance(props: Props) {

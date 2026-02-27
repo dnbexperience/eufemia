@@ -321,7 +321,7 @@ describe('Card', () => {
     function MockComponent() {
       ref = React.useRef<HTMLDivElement | null>(null)
       return (
-        <Card innerRef={ref} element="div">
+        <Card ref={ref} element="div">
           Content
         </Card>
       )

@@ -22,21 +22,21 @@ const useLayoutEffect =
 
 export const useInputElement = () => {
   const { props } = React.useContext(InputMaskedContext)
-  const { pipe, innerRef } = props
+  const { pipe, ref: refProp } = props
 
   const mask = useMask()
   const { showMask, showGuide, placeholderChar, keepCharPositions } =
     useMaskParams()
 
-  const isFn = typeof innerRef === 'function'
+  const isFn = typeof refProp === 'function'
   const refHook = React.useRef<HTMLInputElement>(null)
-  const ref = (!isFn && innerRef) || refHook
+  const ref = (!isFn && refProp) || refHook
 
   useLayoutEffect(() => {
     if (isFn) {
-      innerRef?.(ref.current)
+      refProp?.(ref.current)
     }
-  }, [innerRef, isFn, ref])
+  }, [refProp, isFn, ref])
 
   // Create the actual input element
   const inputElementRef = React.useRef<React.JSX.Element>(
@@ -46,10 +46,10 @@ export const useInputElement = () => {
   return useCallback(
     (
       params: Record<string, unknown>,
-      innerRef: { current: HTMLInputElement | null }
+      inputRef: { current: HTMLInputElement | null }
     ) => {
       // Set ref for Eufemia input
-      innerRef.current = ref.current
+      inputRef.current = ref.current
 
       return (
         <TextMask

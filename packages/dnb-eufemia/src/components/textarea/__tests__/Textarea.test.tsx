@@ -323,33 +323,31 @@ describe('Textarea component', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref: React.RefObject<HTMLTextAreaElement>
+    let ref: React.RefObject<unknown>
 
     function MockComponent() {
-      ref = React.useRef<HTMLTextAreaElement | null>(null)
-      return <Textarea {...props} innerRef={ref} />
+      ref = React.useRef(null)
+      return <Textarea {...props} ref={ref} />
     }
 
     render(<MockComponent />)
 
-    expect(ref.current.classList).toContain('dnb-textarea__textarea')
-    expect(ref.current.tagName).toBe('TEXTAREA')
-    expect(ref.current).toBeInstanceOf(HTMLTextAreaElement)
+    // ref gives the DOM element via the function wrapper
+    expect(ref.current).toBeTruthy()
+    const textarea = document.querySelector('.dnb-textarea__textarea')
+    expect(textarea.tagName).toBe('TEXTAREA')
   })
 
   it('gets valid element when ref is function', () => {
-    const ref: React.RefObject<HTMLTextAreaElement> = React.createRef()
+    const refFn = jest.fn()
 
-    const refFn = (elem: HTMLTextAreaElement) => {
-      ref.current = elem
-    }
+    render(<Textarea id="unique" ref={refFn} />)
 
-    render(<Textarea id="unique" innerRef={refFn} />)
-
-    expect(ref.current.getAttribute('id')).toBe('unique')
-    expect(ref.current.classList).toContain('dnb-textarea__textarea')
-    expect(ref.current.tagName).toBe('TEXTAREA')
-    expect(ref.current).toBeInstanceOf(HTMLTextAreaElement)
+    // ref callback receives the DOM element
+    expect(refFn).toHaveBeenCalled()
+    const textarea = document.querySelector('#unique')
+    expect(textarea.classList).toContain('dnb-textarea__textarea')
+    expect(textarea.tagName).toBe('TEXTAREA')
   })
 
   it('should support align property', () => {

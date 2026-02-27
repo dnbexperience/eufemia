@@ -24,7 +24,7 @@ export type PasswordVisibilityEvent =
     value: string
   }
 
-export type PasswordProps = Omit<StringFieldProps, 'innerRef'> & {
+export type PasswordProps = Omit<StringFieldProps, 'ref'> & {
   /**
    * Fires when the input toggles to show the password.
    */
@@ -40,13 +40,13 @@ export type PasswordProps = Omit<StringFieldProps, 'innerRef'> & {
   /**
    * ElementRef passed on to the password input element.
    */
-  innerRef?: RefObject<HTMLInputElement>
+  ref?: RefObject<HTMLInputElement>
 }
 
 function Password({
   id,
   className,
-  innerRef,
+  ref: refProp,
   value,
   label,
   disabled,
@@ -61,7 +61,7 @@ function Password({
   const sharedContext = useContext(SharedContext)
   const translations = useTranslation().Password
 
-  const ref = useRef<ElementRef<'input'>>(innerRef?.current ?? null)
+  const ref = useRef<ElementRef<'input'>>(refProp?.current ?? null)
 
   const errorMessages = useMemo(() => {
     return {
@@ -133,7 +133,7 @@ function Password({
       label={label ?? translations.label}
       type={hidden ? 'password' : 'text'}
       value={value}
-      innerRef={ref}
+      ref={ref}
       aria-describedby={idToUse + '-submit-button'}
       submitElement={<ToggleVisibilityButton />}
       disabled={disabled}

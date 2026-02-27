@@ -67,32 +67,32 @@ describe('Input component', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref: React.RefObject<HTMLInputElement>
+    let ref: React.RefObject<unknown>
 
     function MockComponent() {
-      ref = React.useRef<HTMLInputElement | null>(null)
-      return <Input {...props} innerRef={ref} />
+      ref = React.useRef(null)
+      return <Input {...props} ref={ref} />
     }
 
     render(<MockComponent />)
 
-    expect(ref.current instanceof HTMLInputElement).toBe(true)
-    expect(ref.current.id).toBe(props.id)
-    expect(ref.current.tagName).toBe('INPUT')
+    // ref gives the DOM element via the function wrapper
+    expect(ref.current).toBeTruthy()
+    const input = document.querySelector('input')
+    expect(input.id).toBe(props.id)
+    expect(input.tagName).toBe('INPUT')
   })
 
   it('gets valid element when ref is function', () => {
-    const ref: React.RefObject<HTMLInputElement> = React.createRef()
+    const refFn = jest.fn()
 
-    const refFn = (elem: HTMLInputElement) => {
-      ref.current = elem
-    }
+    render(<Input {...props} ref={refFn} />)
 
-    render(<Input {...props} innerRef={refFn} />)
-
-    expect(ref.current instanceof HTMLInputElement).toBe(true)
-    expect(ref.current.id).toBe(props.id)
-    expect(ref.current.tagName).toBe('INPUT')
+    // ref callback receives the DOM element
+    expect(refFn).toHaveBeenCalled()
+    const input = document.querySelector('input')
+    expect(input.id).toBe(props.id)
+    expect(input.tagName).toBe('INPUT')
   })
 
   it('should support inline styling', () => {
@@ -785,7 +785,7 @@ describe('Input icon memoization', () => {
     const IconWrapper = React.forwardRef<HTMLInputElement, InputProps>(
       (props, ref) => {
         renderSpy()
-        return <Input {...props} innerRef={ref} />
+        return <Input {...props} ref={ref} />
       }
     )
 

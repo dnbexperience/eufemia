@@ -145,9 +145,9 @@ export interface InputProps
    */
   iconPosition?: ButtonIconPosition;
   /**
-   * By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.
+   * By providing a React.ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.useRef()`.
    */
-  innerRef?: React.Ref;
+  ref?: React.Ref;
   readOnly?: boolean;
   /**
    * By providing a new component to be rendered inside the "shell" – we can add a freely customizable internal element. Used by the Autocomplete component.
@@ -171,7 +171,7 @@ export interface InputProps
   onSubmitBlur?: (...args: any[]) => any;
   onClear?: (...args: any[]) => any;
 }
-declare const Input: React.ComponentClass<InputProps> & {
+declare const Input: ((props: InputProps) => React.JSX.Element) & {
   defaultProps: object;
 };
 export default Input;

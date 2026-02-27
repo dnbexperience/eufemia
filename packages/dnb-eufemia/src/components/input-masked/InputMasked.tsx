@@ -143,7 +143,7 @@ export interface InputMaskedProps
    * The placeholder character represents the fillable spot in the mask (e.g. `_`). Defaults to invisible space.
    */
   placeholderChar?: string
-  innerRef?: InputProps['innerRef']
+  ref?: InputProps['ref']
   onSubmit?: InputMaskedEventHandler
   onFocus?: InputMaskedEventHandler
   onBlur?: InputMaskedEventHandler
@@ -237,7 +237,7 @@ const defaultProps = {
   pipe: null,
   keepCharPositions: false,
   placeholderChar: null,
-  innerRef: null,
+  ref: null,
   onChange: null,
   onSubmit: null,
   onFocus: null,

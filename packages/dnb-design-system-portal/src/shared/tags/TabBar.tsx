@@ -5,6 +5,7 @@
 
 import React from 'react'
 import { Button, Tabs } from '@dnb/eufemia/src/components'
+import type { TabsTabElement } from '@dnb/eufemia/src/components/tabs/Tabs'
 import { fullscreen as fullscreenIcon } from '@dnb/eufemia/src/icons'
 import AutoLinkHeader from './AutoLinkHeader'
 import { tabsWrapperStyle } from './TabBar.module.scss'
@@ -112,7 +113,7 @@ export default function TabBar({
       <Tabs
         id="tab-bar"
         onOpenTabNavigationFn={navigate}
-        tabElement={Link}
+        tabElement={Link as unknown as TabsTabElement}
         data={preparedTabs}
         selectedKey={selectedKey}
         render={({ Wrapper, Content, TabsList, Tabs }) => {

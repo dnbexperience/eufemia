@@ -171,24 +171,24 @@ describe('Button component', () => {
     expect(myEvent.mock.calls.length).toBe(1)
   })
 
-  it('has set innerRef if ref was given', () => {
+  it('has set ref if ref was given', () => {
     const ref = React.createRef()
     expect(ref.current).toBe(null)
-    render(<Button {...props} innerRef={ref} />)
+    render(<Button {...props} ref={ref} />)
     expect(ref.current).not.toBe(null)
     expect(typeof ref.current).toBe('object')
   })
 
-  it('gets valid element when innerRef is function', () => {
-    const ref: React.RefObject<HTMLButtonElement> = React.createRef()
+  it('gets valid element when ref is function', () => {
+    const refFn = jest.fn()
 
-    const refFn = (elem: HTMLButtonElement) => {
-      ref.current = elem
-    }
-    render(<Button id="unique" innerRef={refFn} />)
+    render(<Button id="unique" ref={refFn} />)
 
-    expect(ref.current.getAttribute('id')).toBe('unique')
-    expect(ref.current.tagName).toBe('BUTTON')
+    // ref callback receives the DOM element
+    expect(refFn).toHaveBeenCalled()
+    const button = document.querySelector('#unique')
+    expect(button.getAttribute('id')).toBe('unique')
+    expect(button.tagName).toBe('BUTTON')
   })
 
   it('has type of button', () => {

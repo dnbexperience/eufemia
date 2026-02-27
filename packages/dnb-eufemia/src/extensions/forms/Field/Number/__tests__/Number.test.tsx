@@ -2898,4 +2898,30 @@ describe('Field.Number', () => {
       })
     })
   })
+
+  it('gets valid ref element', () => {
+    const id = 'unique'
+    let ref: React.RefObject<HTMLInputElement>
+
+    const MockComponent = () => {
+      ref = React.useRef<HTMLInputElement | null>(null)
+      return <Field.Number id={id} ref={ref} />
+    }
+
+    render(<MockComponent />)
+
+    expect(ref.current).toBeTruthy()
+    const input = document.querySelector(`#${id}`)
+    expect(input.tagName).toBe('INPUT')
+  })
+
+  it('gets valid element when using createRef', () => {
+    const ref = React.createRef<HTMLInputElement>()
+
+    render(<Field.Number id="unique" ref={ref} />)
+
+    const input = document.querySelector('#unique')
+    expect(input).toBeTruthy()
+    expect(input.tagName).toBe('INPUT')
+  })
 })

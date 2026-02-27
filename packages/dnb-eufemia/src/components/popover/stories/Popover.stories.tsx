@@ -14,7 +14,7 @@ export const Default = {
   render: () => (
     <Popover
       trigger={({ ref, ...triggerProps }) => (
-        <Button text="Details" innerRef={ref} {...triggerProps} />
+        <Button text="Details" ref={ref} {...triggerProps} />
       )}
       title="Popover title"
     >
@@ -33,7 +33,7 @@ export const WithoutCloseButton = {
           <Button
             text="More info"
             variant="secondary"
-            innerRef={ref}
+            ref={ref}
             {...triggerProps}
           />
         )}
@@ -82,7 +82,7 @@ export const InDialog = {
             <Button
               text="More info"
               variant="secondary"
-              innerRef={ref}
+              ref={ref}
               {...triggerProps}
             />
           )}
@@ -102,7 +102,7 @@ export const InDialog = {
             <Button
               text="More info"
               variant="secondary"
-              innerRef={ref}
+              ref={ref}
               {...triggerProps}
             />
           )}
