@@ -508,6 +508,35 @@ describe('Card', () => {
     )
   })
 
+  it('should forward ref', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(
+      <Card ref={ref}>
+        <P>Card content</P>
+      </Card>
+    )
+
+    const element = document.querySelector('.dnb-card')
+    expect(ref.current).toBe(element)
+  })
+
+  it('should forward ref as a function', () => {
+    let refElement: HTMLElement | null = null
+    const refFn = (elem: HTMLElement) => {
+      refElement = elem
+    }
+
+    render(
+      <Card ref={refFn}>
+        <P>Card content</P>
+      </Card>
+    )
+
+    const element = document.querySelector('.dnb-card')
+    expect(refElement).toBe(element)
+  })
+
   describe('Card accessibility', () => {
     it('should validate with ARIA rules', async () => {
       const Comp = render(

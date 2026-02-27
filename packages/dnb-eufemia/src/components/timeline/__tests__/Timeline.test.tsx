@@ -373,6 +373,43 @@ describe('Timeline', () => {
       })
     })
   })
+
+  it('should forward ref', () => {
+    const ref = React.createRef<HTMLOListElement>()
+
+    render(
+      <Timeline
+        ref={ref}
+        data={[
+          { title: 'Completed', state: 'completed' },
+          { title: 'Current', state: 'current' },
+        ]}
+      />
+    )
+
+    const element = document.querySelector('.dnb-timeline')
+    expect(ref.current).toBe(element)
+  })
+
+  it('should forward ref as a function', () => {
+    let refElement: HTMLOListElement | null = null
+    const refFn = (elem: HTMLOListElement) => {
+      refElement = elem
+    }
+
+    render(
+      <Timeline
+        ref={refFn}
+        data={[
+          { title: 'Completed', state: 'completed' },
+          { title: 'Current', state: 'current' },
+        ]}
+      />
+    )
+
+    const element = document.querySelector('.dnb-timeline')
+    expect(refElement).toBe(element)
+  })
 })
 
 describe('Timeline aria', () => {

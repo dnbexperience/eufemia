@@ -549,6 +549,35 @@ describe('Tag', () => {
 
     expect(document.querySelector('.dnb-button__text')).toBeInTheDocument()
   })
+
+  it('should forward ref', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(
+      <Tag.Group label="tags">
+        <Tag ref={ref} text="Tag" />
+      </Tag.Group>
+    )
+
+    const element = document.querySelector('.dnb-tag')
+    expect(ref.current).toBe(element)
+  })
+
+  it('should forward ref as a function', () => {
+    let refElement: HTMLElement | null = null
+    const refFn = (elem: HTMLElement) => {
+      refElement = elem
+    }
+
+    render(
+      <Tag.Group label="tags">
+        <Tag ref={refFn} text="Tag" />
+      </Tag.Group>
+    )
+
+    const element = document.querySelector('.dnb-tag')
+    expect(refElement).toBe(element)
+  })
 })
 
 describe('Tag aria', () => {

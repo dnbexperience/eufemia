@@ -312,6 +312,27 @@ describe('Badge', () => {
       expect(document.querySelector('.dnb-badge')).not.toBeInTheDocument()
     })
   })
+
+  it('should forward ref', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(<Badge ref={ref} content="1" />)
+
+    const element = document.querySelector('.dnb-badge')
+    expect(ref.current).toBe(element)
+  })
+
+  it('should forward ref as a function', () => {
+    let refElement: HTMLElement | null = null
+    const refFn = (elem: HTMLElement) => {
+      refElement = elem
+    }
+
+    render(<Badge ref={refFn} content="1" />)
+
+    const element = document.querySelector('.dnb-badge')
+    expect(refElement).toBe(element)
+  })
 })
 
 describe('Badge aria', () => {

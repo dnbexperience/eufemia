@@ -92,6 +92,27 @@ describe('VisuallyHidden', () => {
     ).toBeInTheDocument()
   })
 
+  it('should forward ref', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(<VisuallyHidden ref={ref}>Hidden text</VisuallyHidden>)
+
+    const element = document.querySelector('.dnb-visually-hidden')
+    expect(ref.current).toBe(element)
+  })
+
+  it('should forward ref as a function', () => {
+    let refElement: HTMLElement | null = null
+    const refFn = (elem: HTMLElement) => {
+      refElement = elem
+    }
+
+    render(<VisuallyHidden ref={refFn}>Hidden text</VisuallyHidden>)
+
+    const element = document.querySelector('.dnb-visually-hidden')
+    expect(refElement).toBe(element)
+  })
+
   describe('VisuallyHidden aria', () => {
     it('should validate', async () => {
       const Component = render(<VisuallyHidden>Aria</VisuallyHidden>)
