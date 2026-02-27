@@ -86,23 +86,23 @@ export const PaginationProperties: PropertiesTableProps = {
     type: ['string', 'object', 'React.ReactNode'],
     status: 'optional',
   },
-  setContentHandler: {
-    doc: 'Callback function to get the `setContent` handler from the current pagination instance. E.g. `setContentHandler={fn => (...)}`. Use this handler to insert content during infinity mode.',
+  onSetContent: {
+    doc: 'Callback function to get the `setContent` handler from the current pagination instance. E.g. `onSetContent={fn => (...)}`. Use this handler to insert content during infinity mode.',
     type: 'function',
     status: 'optional',
   },
-  resetContentHandler: {
-    doc: 'Callback function to get the `resetContent` handler from the current pagination instance. E.g. `resetContentHandler={fn => (...)}`. Use this handler to reset all the content. You can set it to `true`, to programmatically reset the content.',
+  onResetContent: {
+    doc: 'Callback function to get the `resetContent` handler from the current pagination instance. E.g. `onResetContent={fn => (...)}`. Use this handler to reset all the content. You can set it to `true`, to programmatically reset the content.',
     type: 'function',
     status: 'optional',
   },
-  resetPaginationHandler: {
-    doc: 'Callback function to get the `resetInfinity` handler from the current pagination instance. E.g. `resetPaginationHandler={fn => (...)}`. Use this handler to reset all the internal states. You can set it to `true`, to programmatically reset the states.',
+  onResetPagination: {
+    doc: 'Callback function to get the `resetInfinity` handler from the current pagination instance. E.g. `onResetPagination={fn => (...)}`. Use this handler to reset all the internal states. You can set it to `true`, to programmatically reset the states.',
     type: 'function',
     status: 'optional',
   },
-  endInfinityHandler: {
-    doc: 'Callback function to get the `endInfinity` handler from the current pagination instance. E.g. `endInfinityHandler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `pageCount` is unknown.',
+  onEndInfinity: {
+    doc: 'Callback function to get the `endInfinity` handler from the current pagination instance. E.g. `onEndInfinity={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `pageCount` is unknown.',
     type: 'function',
     status: 'optional',
   },

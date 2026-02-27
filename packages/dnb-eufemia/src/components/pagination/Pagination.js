@@ -47,22 +47,13 @@ const paginationPropTypes = {
     PropTypes.string,
     PropTypes.bool,
   ]),
-  setContentHandler: PropTypes.oneOfType([
+  onSetContent: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  onResetContent: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  onResetPagination: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
   ]),
-  resetContentHandler: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-  ]),
-  resetPaginationHandler: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-  ]),
-  endInfinityHandler: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-  ]),
+  onEndInfinity: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   pageElement: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.node,
@@ -115,8 +106,8 @@ const paginationDefaultProps = {
   useLoadButton: false,
   items: null,
   hideProgressIndicator: false,
-  setContentHandler: null,
-  resetContentHandler: null,
+  onSetContent: null,
+  onResetContent: null,
   pageElement: undefined,
   fallbackElement: undefined,
   markerElement: undefined,
@@ -200,10 +191,10 @@ class PaginationInstance extends React.PureComponent {
       currentPageInternal: _currentPage, // eslint-disable-line
       markerElement: _markerElement, // eslint-disable-line
       fallbackElement: _fallbackElement, // eslint-disable-line
-      setContentHandler: _setContentHandler, // eslint-disable-line
-      resetContentHandler: _resetContentHandler, // eslint-disable-line
-      resetPaginationHandler: _resetPaginationHandler, // eslint-disable-line
-      endInfinityHandler: _endInfinityHandler, // eslint-disable-line
+      onSetContent: _onSetContent, // eslint-disable-line
+      onResetContent: _onResetContent, // eslint-disable-line
+      onResetPagination: _onResetPagination, // eslint-disable-line
+      onEndInfinity: _onEndInfinity, // eslint-disable-line
       minWaitTime: _minWaitTime, // eslint-disable-line
       pageElement: _pageElement, // eslint-disable-line
       startupCount: _startupCount, // eslint-disable-line
@@ -345,10 +336,10 @@ export const createPagination = (initProps = {}) => {
     ...{ ...initProps, ...props },
     store,
     rerender,
-    setContentHandler: (fn) => (_setContent.current = fn),
-    resetContentHandler: (fn) => (_resetContent.current = fn),
-    resetPaginationHandler: (fn) => (_resetInfinity.current = fn),
-    endInfinityHandler: (fn) => (_endInfinity.current = fn),
+    onSetContent: (fn) => (_setContent.current = fn),
+    onResetContent: (fn) => (_resetContent.current = fn),
+    onResetPagination: (fn) => (_resetInfinity.current = fn),
+    onEndInfinity: (fn) => (_endInfinity.current = fn),
   })
 
   const Pagination = (props) => (

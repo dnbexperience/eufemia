@@ -12,10 +12,10 @@ type PaginationMinWaitTime = string | number;
 type PaginationMode = 'pagination' | 'infinity';
 type PaginationLayout = 'vertical' | 'horizontal';
 type PaginationItems = string | any[];
-type PaginationSetContentHandler = string | ((...args: any[]) => any);
-type PaginationResetContentHandler = string | ((...args: any[]) => any);
-type PaginationResetPaginationHandler = string | ((...args: any[]) => any);
-type PaginationEndInfinityHandler = string | ((...args: any[]) => any);
+type PaginationOnSetContent = string | ((...args: any[]) => any);
+type PaginationOnResetContent = string | ((...args: any[]) => any);
+type PaginationOnResetPagination = string | ((...args: any[]) => any);
+type PaginationOnEndInfinity = string | ((...args: any[]) => any);
 type PaginationPageElement =
   | Record<string, unknown>
   | React.ReactNode
@@ -105,21 +105,21 @@ export interface PaginationProps
    */
   hideProgressIndicator?: boolean;
   /**
-   * Callback function to get the `setContent` handler from the current pagination instance. e.g. `setContentHandler={fn => (...)}`. Use this handler to insert content during infinity mode.
+   * Callback function to get the `setContent` handler from the current pagination instance. e.g. `onSetContent={fn => (...)}`. Use this handler to insert content during infinity mode.
    */
-  setContentHandler?: PaginationSetContentHandler;
+  onSetContent?: PaginationOnSetContent;
   /**
-   * Callback function to get the `resetContent` handler from the current pagination instance. e.g. `resetContentHandler={fn => (...)}`. Use this handler to reset all the content. You can set it to `true`, to programmatically reset the content.
+   * Callback function to get the `resetContent` handler from the current pagination instance. e.g. `onResetContent={fn => (...)}`. Use this handler to reset all the content. You can set it to `true`, to programmatically reset the content.
    */
-  resetContentHandler?: PaginationResetContentHandler;
+  onResetContent?: PaginationOnResetContent;
   /**
-   * Callback function to get the `resetInfinity` handler from the current pagination instance. e.g. `resetPaginationHandler={fn => (...)}`. Use this handler to reset all the internal states. You can set it to `true`, to programmatically reset the states.
+   * Callback function to get the `resetInfinity` handler from the current pagination instance. e.g. `onResetPagination={fn => (...)}`. Use this handler to reset all the internal states. You can set it to `true`, to programmatically reset the states.
    */
-  resetPaginationHandler?: PaginationResetPaginationHandler;
+  onResetPagination?: PaginationOnResetPagination;
   /**
-   * Callback function to get the `endInfinity` handler from the current pagination instance. e.g. `endInfinityHandler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `pageCount` is unknown.
+   * Callback function to get the `endInfinity` handler from the current pagination instance. e.g. `onEndInfinity={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `pageCount` is unknown.
    */
-  endInfinityHandler?: PaginationEndInfinityHandler;
+  onEndInfinity?: PaginationOnEndInfinity;
   /**
    * By default a `<div>` is used. Set it to any element you have to use. Adds also a class: `dnb-pagination__page` shown.
    */
@@ -190,18 +190,12 @@ type PaginationInstanceParallelLoadCount = string | number;
 type PaginationInstanceMinWaitTime = string | number;
 type PaginationInstanceMode = 'pagination' | 'infinity';
 type PaginationInstanceItems = string | any[];
-type PaginationInstanceSetContentHandler =
+type PaginationInstanceOnSetContent = string | ((...args: any[]) => any);
+type PaginationInstanceOnResetContent = string | ((...args: any[]) => any);
+type PaginationInstanceOnResetPagination =
   | string
   | ((...args: any[]) => any);
-type PaginationInstanceResetContentHandler =
-  | string
-  | ((...args: any[]) => any);
-type PaginationInstanceResetPaginationHandler =
-  | string
-  | ((...args: any[]) => any);
-type PaginationInstanceEndInfinityHandler =
-  | string
-  | ((...args: any[]) => any);
+type PaginationInstanceOnEndInfinity = string | ((...args: any[]) => any);
 type PaginationInstancePageElement =
   | Record<string, unknown>
   | React.ReactNode
@@ -275,21 +269,21 @@ interface PaginationInstanceProps extends SpacingProps {
    */
   hideProgressIndicator?: boolean;
   /**
-   * Callback function to get the `setContent` handler from the current pagination instance. e.g. `setContentHandler={fn => (...)}`. Use this handler to insert content during infinity mode.
+   * Callback function to get the `setContent` handler from the current pagination instance. e.g. `onSetContent={fn => (...)}`. Use this handler to insert content during infinity mode.
    */
-  setContentHandler?: PaginationInstanceSetContentHandler;
+  onSetContent?: PaginationInstanceOnSetContent;
   /**
-   * Callback function to get the `resetContent` handler from the current pagination instance. e.g. `resetContentHandler={fn => (...)}`. Use this handler to reset all the content. You can set it to `true`, to programmatically reset the content.
+   * Callback function to get the `resetContent` handler from the current pagination instance. e.g. `onResetContent={fn => (...)}`. Use this handler to reset all the content. You can set it to `true`, to programmatically reset the content.
    */
-  resetContentHandler?: PaginationInstanceResetContentHandler;
+  onResetContent?: PaginationInstanceOnResetContent;
   /**
-   * Callback function to get the `resetInfinity` handler from the current pagination instance. e.g. `resetPaginationHandler={fn => (...)}`. Use this handler to reset all the internal states. You can set it to `true`, to programmatically reset the states.
+   * Callback function to get the `resetInfinity` handler from the current pagination instance. e.g. `onResetPagination={fn => (...)}`. Use this handler to reset all the internal states. You can set it to `true`, to programmatically reset the states.
    */
-  resetPaginationHandler?: PaginationInstanceResetPaginationHandler;
+  onResetPagination?: PaginationInstanceOnResetPagination;
   /**
-   * Callback function to get the `endInfinity` handler from the current pagination instance. e.g. `endInfinityHandler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `pageCount` is unknown.
+   * Callback function to get the `endInfinity` handler from the current pagination instance. e.g. `onEndInfinity={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `pageCount` is unknown.
    */
-  endInfinityHandler?: PaginationInstanceEndInfinityHandler;
+  onEndInfinity?: PaginationInstanceOnEndInfinity;
   /**
    * By default a `<div>` is used. Set it to any element you have to use. Adds also a class: `dnb-pagination__page` shown.
    */
@@ -370,14 +364,10 @@ type InfinityMarkerParallelLoadCount = string | number;
 type InfinityMarkerMinWaitTime = string | number;
 type InfinityMarkerMode = 'pagination' | 'infinity';
 type InfinityMarkerItems = string | any[];
-type InfinityMarkerSetContentHandler = string | ((...args: any[]) => any);
-type InfinityMarkerResetContentHandler =
-  | string
-  | ((...args: any[]) => any);
-type InfinityMarkerResetPaginationHandler =
-  | string
-  | ((...args: any[]) => any);
-type InfinityMarkerEndInfinityHandler = string | ((...args: any[]) => any);
+type InfinityMarkerOnSetContent = string | ((...args: any[]) => any);
+type InfinityMarkerOnResetContent = string | ((...args: any[]) => any);
+type InfinityMarkerOnResetPagination = string | ((...args: any[]) => any);
+type InfinityMarkerOnEndInfinity = string | ((...args: any[]) => any);
 type InfinityMarkerPageElement =
   | Record<string, unknown>
   | React.ReactNode
@@ -449,21 +439,21 @@ interface InfinityMarkerProps extends SpacingProps {
    */
   hideProgressIndicator?: boolean;
   /**
-   * Callback function to get the `setContent` handler from the current pagination instance. e.g. `setContentHandler={fn => (...)}`. Use this handler to insert content during infinity mode.
+   * Callback function to get the `setContent` handler from the current pagination instance. e.g. `onSetContent={fn => (...)}`. Use this handler to insert content during infinity mode.
    */
-  setContentHandler?: InfinityMarkerSetContentHandler;
+  onSetContent?: InfinityMarkerOnSetContent;
   /**
-   * Callback function to get the `resetContent` handler from the current pagination instance. e.g. `resetContentHandler={fn => (...)}`. Use this handler to reset all the content. You can set it to `true`, to programmatically reset the content.
+   * Callback function to get the `resetContent` handler from the current pagination instance. e.g. `onResetContent={fn => (...)}`. Use this handler to reset all the content. You can set it to `true`, to programmatically reset the content.
    */
-  resetContentHandler?: InfinityMarkerResetContentHandler;
+  onResetContent?: InfinityMarkerOnResetContent;
   /**
-   * Callback function to get the `resetInfinity` handler from the current pagination instance. e.g. `resetPaginationHandler={fn => (...)}`. Use this handler to reset all the internal states. You can set it to `true`, to programmatically reset the states.
+   * Callback function to get the `resetInfinity` handler from the current pagination instance. e.g. `onResetPagination={fn => (...)}`. Use this handler to reset all the internal states. You can set it to `true`, to programmatically reset the states.
    */
-  resetPaginationHandler?: InfinityMarkerResetPaginationHandler;
+  onResetPagination?: InfinityMarkerOnResetPagination;
   /**
-   * Callback function to get the `endInfinity` handler from the current pagination instance. e.g. `endInfinityHandler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `pageCount` is unknown.
+   * Callback function to get the `endInfinity` handler from the current pagination instance. e.g. `onEndInfinity={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `pageCount` is unknown.
    */
-  endInfinityHandler?: InfinityMarkerEndInfinityHandler;
+  onEndInfinity?: InfinityMarkerOnEndInfinity;
   /**
    * By default a `<div>` is used. Set it to any element you have to use. Adds also a class: `dnb-pagination__page` shown.
    */
