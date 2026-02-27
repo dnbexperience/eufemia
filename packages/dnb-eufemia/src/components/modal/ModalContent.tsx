@@ -181,8 +181,8 @@ export default class ModalContent extends React.PureComponent<
           `#${this.props.contentId} *`,
 
           // Allow bypassing invalidation from outside
-          '.dnb-modal--bypass_invalidation',
-          '.dnb-modal--bypass_invalidation_deep *',
+          '.dnb-modal--bypass-invalidation',
+          '.dnb-modal--bypass-invalidation-deep *',
 
           ...(this.props?.bypassInvalidationSelectors || []),
         ].filter(Boolean)
