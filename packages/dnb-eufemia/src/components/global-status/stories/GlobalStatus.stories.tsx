@@ -169,7 +169,7 @@ export const GlobalStatuseSandbox = () => (
     </Box>
     <Box>
       <Button
-        innerRef={scrolltoElement}
+        ref={scrolltoElement}
         text="Scroll To"
         onClick={() => {
           GlobalStatus.Update({

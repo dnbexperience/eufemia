@@ -127,7 +127,7 @@ export default class ModalHeaderBar extends React.PureComponent<
           showShadow && shadowClass,
           className
         )}
-        innerRef={this._ref}
+        ref={this._ref}
         {...props}
       >
         <div className="dnb-modal__header__bar__inner">

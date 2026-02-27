@@ -135,7 +135,7 @@ function SectionContainer(props: Props & FlexContainerProps) {
         className="dnb-forms-section-block__inner"
         {...restProps}
         aria-label={ariaLabel}
-        innerRef={containerRef}
+        ref={containerRef}
         tabIndex={-1}
       >
         {children}

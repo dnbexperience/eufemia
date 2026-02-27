@@ -26,7 +26,7 @@ export type ScrollViewProps = {
 export type ScrollViewAllProps = ScrollViewProps &
   SpacingProps &
   Partial<Omit<React.HTMLAttributes<HTMLDivElement>, 'title'>> & {
-    innerRef?: React.Ref<unknown>
+    ref?: React.Ref<unknown>
   }
 
 const defaultProps = {
@@ -47,7 +47,7 @@ function ScrollView(localProps: ScrollViewAllProps) {
     interactive,
     children,
     className = null,
-    innerRef,
+    ref: refProp,
     ...attributes
   } = props
 
@@ -63,10 +63,10 @@ function ScrollView(localProps: ScrollViewAllProps) {
     ...(attributes as React.HTMLAttributes<unknown>),
   }
 
-  const ref = React.useRef<HTMLDivElement>(undefined)
-  mainParams.ref = innerRef
-    ? (innerRef as React.RefObject<HTMLDivElement>)
-    : ref
+  const localRef = React.useRef<HTMLDivElement>(undefined)
+  mainParams.ref = refProp
+    ? (refProp as React.RefObject<HTMLDivElement>)
+    : localRef
 
   mainParams.tabIndex = useInteractive({
     interactive,
@@ -123,14 +123,6 @@ function useInteractive({ interactive, children, ref }) {
   }
 }
 
-function ScrollViewWithRef({
-  ref,
-  ...props
-}: ScrollViewAllProps & { ref?: React.Ref<unknown> }) {
-  return <ScrollView innerRef={ref} {...props} />
-}
-
 ScrollView._supportsSpacingProps = true
-ScrollViewWithRef['_supportsSpacingProps'] = true
 
-export default ScrollViewWithRef
+export default ScrollView

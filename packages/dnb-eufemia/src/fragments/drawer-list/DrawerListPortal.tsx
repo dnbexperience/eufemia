@@ -17,7 +17,7 @@ export type DrawerListPortalProps = {
   id: string
   children: React.ReactNode
   open: boolean
-  innerRef?: React.Ref<HTMLSpanElement>
+  ref?: React.Ref<HTMLSpanElement>
   rootRef: React.RefObject<HTMLSpanElement>
   includeOwnerWidth?: boolean
   independentWidth?: boolean
@@ -27,7 +27,7 @@ export type DrawerListPortalProps = {
 }
 
 function DrawerListPortal({
-  innerRef,
+  ref: refProp,
   id,
   open,
   rootRef = { current: undefined },
@@ -43,7 +43,7 @@ function DrawerListPortal({
 
   const localRef = useRef<HTMLSpanElement>(null)
   const portalRef =
-    innerRef && typeof innerRef !== 'function' ? innerRef : localRef
+    refProp && typeof refProp !== 'function' ? refProp : localRef
 
   const setPosition = useRef<() => void>(undefined)
   const positionTimeout = useRef<NodeJS.Timeout>(undefined)
@@ -243,13 +243,4 @@ function DrawerListPortal({
   return null
 }
 
-function DrawerListPortalWithRef({
-  ref,
-  ...props
-}: Omit<DrawerListPortalProps, 'innerRef'> & {
-  ref?: React.Ref<HTMLSpanElement>
-}) {
-  return <DrawerListPortal innerRef={ref} {...props} />
-}
-
-export default DrawerListPortalWithRef
+export default DrawerListPortal

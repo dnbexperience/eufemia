@@ -11,7 +11,7 @@ export function PopoverExampleDefault() {
           <Button
             icon="question"
             variant="secondary"
-            innerRef={ref}
+            ref={ref}
             {...triggerProps}
           />
         )}
@@ -33,7 +33,7 @@ export function PopoverExampleWithoutCloseButton() {
           <Button
             text="More info"
             variant="secondary"
-            innerRef={ref}
+            ref={ref}
             {...triggerProps}
           />
         )}
@@ -64,7 +64,7 @@ export function PopoverExampleBasic() {
       <div data-visual-test="popover-basic">
         <Popover
           trigger={({ ref, ...triggerProps }) => (
-            <Button text="Details" innerRef={ref} {...triggerProps} />
+            <Button text="Details" ref={ref} {...triggerProps} />
           )}
           title="More information"
           content={({ close }) => (
@@ -89,7 +89,7 @@ export function PopoverExampleDark() {
         <Popover
           theme="dark"
           trigger={({ ref, ...triggerProps }) => (
-            <Button text="Dark surface" innerRef={ref} {...triggerProps} />
+            <Button text="Dark surface" ref={ref} {...triggerProps} />
           )}
           title="Dark popover"
         >
@@ -108,7 +108,7 @@ export function PopoverExampleArrowLeft() {
         <Popover
           arrowPosition="left"
           trigger={({ ref, ...triggerProps }) => (
-            <Button text="Arrow left" innerRef={ref} {...triggerProps} />
+            <Button text="Arrow left" ref={ref} {...triggerProps} />
           )}
         >
           Arrow left
@@ -125,7 +125,7 @@ export function PopoverExampleArrowRight() {
         <Popover
           arrowPosition="right"
           trigger={({ ref, ...triggerProps }) => (
-            <Button text="Arrow right" innerRef={ref} {...triggerProps} />
+            <Button text="Arrow right" ref={ref} {...triggerProps} />
           )}
         >
           Arrow right
@@ -145,7 +145,7 @@ export function PopoverExampleAlignArrowCenter() {
           trigger={({ ref, ...triggerProps }) => (
             <Button
               text="Align center & arrow center"
-              innerRef={ref}
+              ref={ref}
               {...triggerProps}
             />
           )}
@@ -167,7 +167,7 @@ export function PopoverExampleAlignArrowLeft() {
           trigger={({ ref, ...triggerProps }) => (
             <Button
               text="Align left & arrow left"
-              innerRef={ref}
+              ref={ref}
               {...triggerProps}
             />
           )}
@@ -189,7 +189,7 @@ export function PopoverExampleAlignArrowRight() {
           trigger={({ ref, ...triggerProps }) => (
             <Button
               text="Align right & arrow right"
-              innerRef={ref}
+              ref={ref}
               {...triggerProps}
             />
           )}
@@ -208,7 +208,7 @@ export function PopoverExampleAlignLeft() {
         <Popover
           alignOnTarget="left"
           trigger={({ ref, ...triggerProps }) => (
-            <Button text="Align left" innerRef={ref} {...triggerProps} />
+            <Button text="Align left" ref={ref} {...triggerProps} />
           )}
         >
           Align left
@@ -225,7 +225,7 @@ export function PopoverExampleAlignRight() {
         <Popover
           alignOnTarget="right"
           trigger={({ ref, ...triggerProps }) => (
-            <Button text="Align right" innerRef={ref} {...triggerProps} />
+            <Button text="Align right" ref={ref} {...triggerProps} />
           )}
         >
           Align right
@@ -245,7 +245,7 @@ export function PopoverExampleAlignLeftArrowRight() {
           trigger={({ ref, ...triggerProps }) => (
             <Button
               text="Align left & arrow right"
-              innerRef={ref}
+              ref={ref}
               {...triggerProps}
             />
           )}
@@ -267,7 +267,7 @@ export function PopoverExampleAlignRightArrowLeft() {
           trigger={({ ref, ...triggerProps }) => (
             <Button
               text="Align right & arrow left"
-              innerRef={ref}
+              ref={ref}
               {...triggerProps}
             />
           )}
@@ -286,11 +286,7 @@ export function PopoverExamplePlacementTop() {
         <Popover
           placement="top"
           trigger={({ ref, ...triggerProps }) => (
-            <Button
-              text="Placement top"
-              innerRef={ref}
-              {...triggerProps}
-            />
+            <Button text="Placement top" ref={ref} {...triggerProps} />
           )}
         >
           Placement top
@@ -307,11 +303,7 @@ export function PopoverExamplePlacementBottom() {
         <Popover
           placement="bottom"
           trigger={({ ref, ...triggerProps }) => (
-            <Button
-              text="Placement bottom"
-              innerRef={ref}
-              {...triggerProps}
-            />
+            <Button text="Placement bottom" ref={ref} {...triggerProps} />
           )}
         >
           Placement bottom
@@ -328,11 +320,7 @@ export function PopoverExamplePlacementRight() {
         <Popover
           placement="right"
           trigger={({ ref, ...triggerProps }) => (
-            <Button
-              text="Placement right"
-              innerRef={ref}
-              {...triggerProps}
-            />
+            <Button text="Placement right" ref={ref} {...triggerProps} />
           )}
         >
           Placement right
@@ -352,7 +340,7 @@ export function PopoverExamplePlacementRightArrowTop() {
           trigger={({ ref, ...triggerProps }) => (
             <Button
               text="Placement right & arrow top"
-              innerRef={ref}
+              ref={ref}
               {...triggerProps}
             />
           )}
@@ -374,7 +362,7 @@ export function PopoverExamplePlacementRightArrowBottom() {
           trigger={({ ref, ...triggerProps }) => (
             <Button
               text="Placement right & arrow bottom"
-              innerRef={ref}
+              ref={ref}
               {...triggerProps}
             />
           )}
@@ -393,11 +381,7 @@ export function PopoverExamplePlacementLeft() {
         <Popover
           placement="left"
           trigger={({ ref, ...triggerProps }) => (
-            <Button
-              text="Placement left"
-              innerRef={ref}
-              {...triggerProps}
-            />
+            <Button text="Placement left" ref={ref} {...triggerProps} />
           )}
         >
           Placement left
@@ -417,7 +401,7 @@ export function PopoverExamplePlacementLeftArrowBottom() {
           trigger={({ ref, ...triggerProps }) => (
             <Button
               text="Placement left & arrow bottom"
-              innerRef={ref}
+              ref={ref}
               {...triggerProps}
             />
           )}
@@ -439,7 +423,7 @@ export function PopoverExamplePlacementRightArrowLeft() {
           trigger={({ ref, ...triggerProps }) => (
             <Button
               text="Placement right & arrow left"
-              innerRef={ref}
+              ref={ref}
               {...triggerProps}
             />
           )}
@@ -461,7 +445,7 @@ export function PopoverExamplePlacementLeftArrowRight() {
           trigger={({ ref, ...triggerProps }) => (
             <Button
               text="Placement left & arrow right"
-              innerRef={ref}
+              ref={ref}
               {...triggerProps}
             />
           )}
@@ -483,7 +467,7 @@ export function PopoverExamplePlacementLeftArrowTop() {
           trigger={({ ref, ...triggerProps }) => (
             <Button
               text="Placement left & arrow top"
-              innerRef={ref}
+              ref={ref}
               {...triggerProps}
             />
           )}

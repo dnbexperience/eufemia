@@ -37,7 +37,7 @@ import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 /**
  * The radio component is our enhancement of the classic radio button.
  */
-export default class Radio extends React.PureComponent {
+class RadioClass extends React.PureComponent {
   static contextType = RadioGroupContext
 
   static propTypes = {
@@ -78,7 +78,7 @@ export default class Radio extends React.PureComponent {
     value: PropTypes.string,
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+    ref: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
 
     ...spacingPropTypes,
 
@@ -113,7 +113,7 @@ export default class Radio extends React.PureComponent {
 
     onChange: null,
 
-    innerRef: null,
+    ref: null,
   }
 
   static Group = RadioGroup
@@ -123,7 +123,7 @@ export default class Radio extends React.PureComponent {
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
       if (props.checked !== state._checked) {
-        state.checked = Radio.parseChecked(props.checked)
+        state.checked = RadioClass.parseChecked(props.checked)
       }
     }
     state._listenForPropChanges = true
@@ -144,10 +144,10 @@ export default class Radio extends React.PureComponent {
   }
 
   componentDidMount() {
-    if (this.props.innerRef) {
-      typeof this.props.innerRef === 'function'
-        ? this.props.innerRef(this._refInput.current)
-        : (this.props.innerRef.current = this._refInput.current)
+    if (this.props._innerRef) {
+      typeof this.props._innerRef === 'function'
+        ? this.props._innerRef(this._refInput.current)
+        : (this.props._innerRef.current = this._refInput.current)
     }
   }
 
@@ -286,7 +286,7 @@ export default class Radio extends React.PureComponent {
             disabled: _disabled, // eslint-disable-line
             children, // eslint-disable-line
             onChange, // eslint-disable-line
-            innerRef, // eslint-disable-line
+            ref: _ref, // eslint-disable-line
 
             ...rest
           } = props
@@ -453,5 +453,20 @@ export default class Radio extends React.PureComponent {
   }
 }
 
+RadioClass._formElement = true
+RadioClass._supportsSpacingProps = true
+
+/**
+ * Function wrapper that converts `ref` to `_innerRef` for the class component.
+ */
+function Radio({ ref, ...props }) {
+  return <RadioClass _innerRef={ref} {...props} />
+}
+
+Radio.defaultProps = RadioClass.defaultProps
+Radio.Group = RadioClass.Group
+Radio.parseChecked = RadioClass.parseChecked
 Radio._formElement = true
 Radio._supportsSpacingProps = true
+
+export default Radio
