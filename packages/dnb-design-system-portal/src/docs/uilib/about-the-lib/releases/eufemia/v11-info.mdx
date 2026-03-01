@@ -1278,6 +1278,12 @@ The following TypeScript types have also been removed:
 
 These were previously used to support dual snake_case/camelCase prop naming. Since v11 uses camelCase exclusively, they are no longer needed.
 
+#### Removed SCSS mixin and helper class
+
+The `scrollbarAppearance()` SCSS mixin and its corresponding `.dnb-scrollbar-appearance` helper class have been removed. The mixin relied on `-webkit-overflow-scrolling: touch` (deprecated since iOS 13) and non-standard `::-webkit-scrollbar` pseudo-elements. Modern browsers support scrollbar styling via the standard `scrollbar-color` and `scrollbar-width` CSS properties instead.
+
+The `scrollY()` and `scrollX()` mixins no longer include `scrollbarAppearance()` internally.
+
 ## Eufemia Forms
 
 ### General

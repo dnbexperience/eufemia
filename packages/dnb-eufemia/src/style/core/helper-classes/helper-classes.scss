@@ -35,10 +35,6 @@
   );
 }
 
-.dnb-scrollbar-appearance {
-  @include scrollbarAppearance();
-}
-
 @import './skip-link.scss';
 
 .dnb-alignment-helper {

@@ -180,45 +180,6 @@
   }
 }
 
-@mixin scrollbarAppearance() {
-  // older iOS safari
-  -webkit-overflow-scrolling: touch;
-
-  // NB: We have used "scrollbar-track-width: auto;" before,
-  // first, it only effects Firefox.
-  // But "thin" changes the behavior in Windows,
-  // so it has no arrow buttons, and a weird "pressed" color.
-  // Also, on macOS, it changes the scrollbar to be so small,
-  // that e.g. the textarea resize grabber gets way smaller.
-
-  scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;
-
-  @supports not (scrollbar-color: auto) {
-    // stylelint-disable
-    &::-webkit-scrollbar {
-      &:vertical {
-        width: var(--scrollbar-track-width, 0.5rem);
-      }
-      &:horizontal {
-        height: var(--scrollbar-track-width, 0.5rem);
-      }
-
-      border-radius: var(--scrollbar-thumb-width, 0.5rem);
-      background-color: var(--scrollbar-track-color, #eee);
-    }
-    &::-webkit-scrollbar-thumb {
-      background-color: var(--scrollbar-thumb-color, #888);
-
-      &:hover {
-        background-color: var(--scrollbar-thumb-hover-color, #666);
-      }
-
-      border-radius: var(--scrollbar-thumb-width, 0.5rem);
-    }
-    // stylelint-enable
-  }
-}
-
 @mixin scrollY($mode: scroll) {
   overflow-y: $mode;
   overscroll-behavior: contain;
@@ -230,8 +191,6 @@
       scroll-behavior: auto;
     }
   }
-
-  @include scrollbarAppearance();
 }
 
 @mixin scrollX($mode: scroll) {
@@ -245,8 +204,6 @@
   html:not([data-visual-test]) & {
     scroll-behavior: smooth;
   }
-
-  @include scrollbarAppearance();
 }
 
 @mixin hideScrollbar() {
