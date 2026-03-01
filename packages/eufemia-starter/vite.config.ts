@@ -37,15 +37,6 @@ export default defineConfig({
     },
   },
 
-  // Suppress Sass deprecations from dependencies
-  css: {
-    preprocessorOptions: {
-      scss: {
-        quietDeps: true,
-      },
-    },
-  },
-
   // Expose Eufemia's static assets (fonts) at "/assets/..." for dev environments like StackBlitz
   // This ensures URLs like "/assets/fonts/dnb/DNB-Regular.woff2" resolve to real files
   publicDir: path.resolve(__dirname, '../dnb-eufemia/assets'),
