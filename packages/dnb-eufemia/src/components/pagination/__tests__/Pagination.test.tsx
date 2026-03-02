@@ -683,6 +683,40 @@ describe('Infinity scroller', () => {
     )
   })
 
+  it('should support setContent from createPagination', async () => {
+    const { Pagination, setContent } = createPagination()
+
+    const PageItem = ({ children }) => (
+      <div className="page-item">{children}</div>
+    )
+
+    render(
+      <Pagination pageCount={3} currentPage={1}>
+        {({ pageNumber, setContent: internalSetContent }) => {
+          internalSetContent(
+            pageNumber,
+            <PageItem>page-{pageNumber}</PageItem>
+          )
+        }}
+      </Pagination>
+    )
+
+    await waitForComponent()
+
+    expect(document.querySelector('.page-item')?.textContent).toBe(
+      'page-1'
+    )
+
+    // External setContent via createPagination should also work
+    setContent(2, <PageItem>page-2-external</PageItem>)
+
+    await waitForComponent()
+
+    const items = document.querySelectorAll('.page-item')
+    const texts = Array.from(items).map((el) => el.textContent)
+    expect(texts).toContain('page-2-external')
+  })
+
   it('should support InfinityMarker from createPagination', async () => {
     let resetInfinityHandler
 

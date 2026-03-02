@@ -229,7 +229,7 @@ const InfinityPagination = ({
         }
       },
     }
-    const trRef = React.createRef<HTMLTableRowElement>()
+    const trRef = { current: null as HTMLTableRowElement | null }
     mountedItems.push({ ...item, element: trRef })
 
     return (
