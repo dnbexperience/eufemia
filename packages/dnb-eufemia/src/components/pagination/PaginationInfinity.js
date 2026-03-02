@@ -583,50 +583,37 @@ export class InfinityLoadButton extends React.PureComponent {
   }
 }
 
-class ScrollToElement extends React.PureComponent {
-  static propTypes = {
-    pageElement: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func,
-      PropTypes.string,
-    ]),
-  }
-  static defaultProps = {
-    pageElement: null,
-  }
+function ScrollToElement({ pageElement = null, ...props }) {
+  const elementRef = React.useRef(null)
 
-  constructor(props) {
-    super(props)
-    this._elementRef = React.createRef()
-  }
+  React.useEffect(() => {
+    const elem = elementRef.current
 
-  componentDidMount() {
-    // Use ref instead of findDOMNode for React v19 compatibility
-    const elem = this._elementRef.current
-    this.scrollToPage(elem)
-  }
-
-  scrollToPage(element) {
-    if (element && typeof element.scrollIntoView === 'function') {
-      element.scrollIntoView({
+    if (elem && typeof elem.scrollIntoView === 'function') {
+      elem.scrollIntoView({
         block: 'nearest',
         behavior: 'smooth',
       })
     }
+  }, [])
+
+  const Element = preparePageElement(pageElement || React.Fragment)
+
+  // If Element is React.Fragment, we need to wrap it in a div to attach the ref
+  if (Element === React.Fragment) {
+    return <div ref={elementRef} {...props} />
   }
 
-  render() {
-    const { pageElement, ...props } = this.props
-    const Element = preparePageElement(pageElement || React.Fragment)
+  return <Element ref={elementRef} {...props} />
+}
 
-    // If Element is React.Fragment, we need to wrap it in a div to attach the ref
-    if (Element === React.Fragment) {
-      return <div ref={this._elementRef} {...props} />
-    }
-
-    return <Element ref={this._elementRef} {...props} />
-  }
+ScrollToElement.propTypes = {
+  pageElement: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.node,
+    PropTypes.func,
+    PropTypes.string,
+  ]),
 }
 
 InfinityScroller._supportsSpacingProps = true
