@@ -6,7 +6,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import {
@@ -17,6 +16,10 @@ import {
   extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
 import HeightAnimation from '../height-animation/HeightAnimation'
+import type {
+  HeightAnimationOnStartTypes,
+  HeightAnimationOnEndTypes,
+} from '../height-animation/useHeightAnimation'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -31,63 +34,222 @@ import Icon from '../icon/Icon'
 import { InfoIcon, ErrorIcon, WarnIcon } from '../form-status/FormStatus'
 import Section from '../section/Section'
 import Button from '../button/Button'
+import type { FormStatusText } from '../FormStatus'
+import type { IconIcon, IconSize } from '../Icon'
+import type { SkeletonShow } from '../Skeleton'
+import type { SpacingProps } from '../space/types'
 
-export default class GlobalStatus extends React.PureComponent {
+export type GlobalStatusTitle = React.ReactNode | boolean
+export type GlobalStatusText =
+  | string
+  | ((...args: any[]) => any)
+  | React.ReactNode
+export type GlobalStatusItem = string | ((...args: any[]) => any) | any
+export type GlobalStatusState = 'error' | 'info' | 'warning' | 'success'
+export type GlobalStatusShow = 'auto' | boolean
+export type GlobalStatusDelay = string | number
+export type GlobalStatusConfigObject = {
+  /**
+   * The main ID. Defaults to `main`.
+   */
+  id?: string
+  message?: FormStatusText
+}
+export type GlobalStatusChildren =
+  | string
+  | ((...args: any[]) => any)
+  | React.ReactNode
+
+export interface GlobalStatusProps
+  extends Omit<
+      React.HTMLProps<HTMLElement>,
+      'ref' | 'children' | 'onClose' | 'onAdjust' | 'onShow' | 'title'
+    >,
+    SpacingProps {
+  /**
+   * The main ID. Defaults to `main`.
+   */
+  id?: string
+  statusId?: string
+  /**
+   * The title appears as a part of the status content. Defaults to `En feil har skjedd`.
+   */
+  title?: GlobalStatusTitle
+  defaultTitle?: string
+  /**
+   * The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
+   */
+  text?: GlobalStatusText
+  /**
+   * The items (list items) appear as a part of the status content. you can both use an JSON array, or a vanilla array with a string or an object content. See **Item Object** example below.
+   */
+  items?: GlobalStatusItem[]
+  /**
+   * The icon shown before the status title. Defaults to `exclamation`.
+   */
+  icon?: IconIcon
+  /**
+   * The icon size of the title icon shows. Defaults to `medium`.
+   */
+  iconSize?: IconSize
+  /**
+   * Defines the visual appearance of the status. There are four main statuses `error`, `warning`, `info` and `success`. The default status is `error`.
+   */
+  state?: GlobalStatusState
+  /**
+   * Set to `true` or `false` to manually make the global status visible. Defaults to `true`.
+   */
+  show?: GlobalStatusShow
+  /**
+   * Set to `true` to automatically scroll the page to the appeared global status. Defaults to `true`.
+   */
+  autoScroll?: boolean
+  /**
+   * Set to `true` to automatically close the global status if there are no more left items in the provider stack. Defaults to `true`.
+   */
+  autoClose?: boolean
+  /**
+   * Set to `true` to disable the show/hide/slide/fade/grow/shrink animation. Defaults to `false`.
+   */
+  noAnimation?: boolean
+  /**
+   * Defines the delay on how long the automated visibility should wait before it appears to the user. Defaults to `200ms`.
+   */
+  delay?: GlobalStatusDelay
+  /**
+   * Text of the close button. Defaults to `Lukk`.
+   */
+  closeText?: React.ReactNode
+  /**
+   * Set to `true` if the close button should be hidden for the user. Defaults to `false`.
+   */
+  hideCloseButton?: boolean
+  /**
+   * Set to `true` to omit setting the focus during visibility. Defaults to `false`. Additionally, there is `omitSetFocusOnUpdate` which is set to `true` by default.
+   */
+  omitSetFocus?: boolean
+  /**
+   * Set to `true` to omit setting the focus during update. Defaults to `true`.
+   */
+  omitSetFocusOnUpdate?: boolean
+  /**
+   * Defines the anchor text showing up after every item, in case there is a `statusId` defined. Defaults to `Gå til %s`. The `%s` represents the optional and internal handled label addition.
+   */
+  statusAnchorText?: React.ReactNode
+  /**
+   * If set to `true`, an overlaying skeleton with animation will be shown.
+   */
+  skeleton?: SkeletonShow
+  className?: string
+  /**
+   * The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
+   */
+  children?: GlobalStatusChildren
+  onAdjust?: (...args: any[]) => any
+  onOpen?: (...args: any[]) => any
+  onShow?: (...args: any[]) => any
+  onClose?: (...args: any[]) => any
+  onHide?: (...args: any[]) => any
+}
+
+export type GlobalStatusStatusId = string
+export type GlobalStatusAddProps = {
+  /**
+   * The main ID. Defaults to `main`.
+   */
+  id: string
+  statusId: GlobalStatusStatusId
+  /**
+   * The title appears as a part of the status content. Defaults to `En feil har skjedd`.
+   */
+  title?: string
+  /**
+   * The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
+   */
+  text: string
+  item?: GlobalStatusItem
+  /**
+   * The items (list items) appear as a part of the status content. you can both use an JSON array, or a vanilla array with a string or an object content. See **Item Object** example below.
+   */
+  items?: GlobalStatusItem[]
+  onClose?: ({ statusId }: { statusId: GlobalStatusStatusId }) => void
+}
+export type GlobalStatusUpdateProps = {
+  /**
+   * The main ID. Defaults to `main`.
+   */
+  id: string
+  /**
+   * The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
+   */
+  text: string
+}
+export type GlobalStatusRemoveProps = {
+  /**
+   * The main ID. Defaults to `main`.
+   */
+  id: string
+  statusId: GlobalStatusStatusId
+  bufferDelay?: number
+}
+export type GlobalStatusInterceptorProps = {
+  /**
+   * The main ID. Defaults to `main`.
+   */
+  id: string
+  /**
+   * The title appears as a part of the status content. Defaults to `En feil har skjedd`.
+   */
+  title: string
+  /**
+   * The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
+   */
+  text: string
+  statusId: GlobalStatusStatusId
+  /**
+   * Set to `true` or `false` to manually make the global status visible. Defaults to `true`.
+   */
+  show: boolean
+  item?: GlobalStatusItem
+}
+export type GlobalStatusInterceptorUpdateEvents = {
+  onShow?: (...args: any[]) => any
+  onHide?: (...args: any[]) => any
+  onClose?: (...args: any[]) => any
+  /**
+   * Set to `true` or `false` to manually make the global status visible. Defaults to `true`.
+   */
+  show?: boolean
+  /**
+   * The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
+   */
+  text?: string
+}
+
+interface GlobalStatusComponentState {
+  globalStatus: any
+  isActive: boolean
+  isAnimating?: boolean
+}
+
+export default class GlobalStatus extends React.PureComponent<
+  GlobalStatusProps,
+  GlobalStatusComponentState
+> {
   static contextType = Context
+  context!: React.ContextType<typeof Context>
 
-  static propTypes = {
-    id: PropTypes.string,
-    statusId: PropTypes.string,
-    title: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
-    defaultTitle: PropTypes.string,
-    text: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    items: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.array,
-    ]),
-    icon: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    iconSize: PropTypes.string,
-    state: PropTypes.oneOf(['error', 'info', 'warning', 'success']),
-    show: PropTypes.oneOf(['auto', true, false, 'true', 'false']),
-    autoScroll: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    autoClose: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    noAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    closeText: PropTypes.node,
-    hideCloseButton: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    omitSetFocus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    omitSetFocusOnUpdate: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    statusAnchorText: PropTypes.node,
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  static create: (props: any) => any
+  static Update: (props: any) => any
+  static Add: typeof GlobalStatusController
+  static Remove: any
 
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-
-    onAdjust: PropTypes.func,
-    onOpen: PropTypes.func,
-    onShow: PropTypes.func,
-    onClose: PropTypes.func,
-    onHide: PropTypes.func,
-  }
+  _wrapperRef: React.RefObject<HTMLDivElement | null>
+  provider: ReturnType<typeof GlobalStatusProvider.create>
+  _globalStatus: any
+  _hadContent: boolean
+  initialActiveElement: Element | null
+  _scrollToStatusTimeout: ReturnType<typeof setTimeout> | null
 
   static defaultProps = {
     id: 'main',
@@ -121,9 +283,18 @@ export default class GlobalStatus extends React.PureComponent {
     onHide: null,
   }
 
-  static getIcon({ state, icon, iconSize }) {
+  static getIcon({
+    state,
+    icon,
+    iconSize,
+  }: {
+    state?: string
+    icon?: any
+    iconSize?: IconSize
+    theme?: string
+  }) {
     if (typeof icon === 'string') {
-      let IconToLoad = icon
+      let IconToLoad: React.ComponentType<any> = ErrorIcon
 
       switch (state) {
         case 'info':
@@ -151,7 +322,7 @@ export default class GlobalStatus extends React.PureComponent {
     return icon
   }
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(props: GlobalStatusProps, state: any) {
     let globalStatus = state.globalStatus
 
     if (state._items !== props.items) {
@@ -176,7 +347,7 @@ export default class GlobalStatus extends React.PureComponent {
     isActive: false,
   }
 
-  constructor(props) {
+  constructor(props: GlobalStatusProps) {
     super(props)
 
     this._wrapperRef = React.createRef()
@@ -239,7 +410,7 @@ export default class GlobalStatus extends React.PureComponent {
     this.provider.empty()
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: GlobalStatusProps) {
     if (prevProps.show !== this.props.show) {
       if (this.props.show === true) {
         this.setVisible()
@@ -249,11 +420,11 @@ export default class GlobalStatus extends React.PureComponent {
     }
   }
 
-  hasContent(globalStatus) {
+  hasContent(globalStatus: any) {
     return Boolean(globalStatus.items?.length > 0 || globalStatus.text)
   }
 
-  correctStatus(state) {
+  correctStatus(state: string | undefined) {
     switch (state) {
       case 'information':
         state = 'info'
@@ -282,7 +453,7 @@ export default class GlobalStatus extends React.PureComponent {
     })
   }
 
-  onKeyDownHandler = (e) => {
+  onKeyDownHandler = (e: React.KeyboardEvent) => {
     if (e.key === 'Escape') {
       e.preventDefault()
       this.closeHandler()
@@ -309,7 +480,7 @@ export default class GlobalStatus extends React.PureComponent {
 
     if (this.initialActiveElement) {
       try {
-        this.initialActiveElement.focus()
+        ;(this.initialActiveElement as HTMLElement).focus()
         this.initialActiveElement = null
       } catch (e) {
         warn(e)
@@ -323,7 +494,9 @@ export default class GlobalStatus extends React.PureComponent {
     )
   }
 
-  async scrollToStatus(isDone = null) {
+  async scrollToStatus(
+    isDone: ((elem: HTMLElement) => void) | null = null
+  ) {
     if (
       typeof window === 'undefined' ||
       this.state.globalStatus.autoScroll === false
@@ -350,7 +523,7 @@ export default class GlobalStatus extends React.PureComponent {
             behavior: 'smooth',
           })
         } else {
-          window.scrollTop = top
+          window.scrollTo({ top })
         }
       }
     } catch (e) {
@@ -358,7 +531,7 @@ export default class GlobalStatus extends React.PureComponent {
     }
   }
 
-  gotoItem = (event, item) => {
+  gotoItem = (event: any, item: any) => {
     event.persist()
     const key = event.key
     if (
@@ -382,8 +555,8 @@ export default class GlobalStatus extends React.PureComponent {
           try {
             // remove the blink animation again
             elem.addEventListener('blur', (e) => {
-              if (e.target.classList) {
-                e.target.removeAttribute('tabindex')
+              if ((e.target as HTMLElement).classList) {
+                ;(e.target as HTMLElement).removeAttribute('tabindex')
               }
             })
 
@@ -471,7 +644,7 @@ export default class GlobalStatus extends React.PureComponent {
       )
     }
 
-  onAnimationStart = (state) => {
+  onAnimationStart = (state: HeightAnimationOnStartTypes) => {
     this.setState({
       isAnimating: true,
     })
@@ -482,7 +655,7 @@ export default class GlobalStatus extends React.PureComponent {
     }
   }
 
-  onAnimationEnd = (state) => {
+  onAnimationEnd = (state: HeightAnimationOnEndTypes) => {
     switch (state) {
       case 'opened':
         this.setFocus()
@@ -517,7 +690,7 @@ export default class GlobalStatus extends React.PureComponent {
     }
   }
 
-  onOpen = (isOpened) => {
+  onOpen = (isOpened: boolean) => {
     if (isOpened) {
       dispatchCustomElementEvent(
         this._globalStatus,
@@ -538,7 +711,7 @@ export default class GlobalStatus extends React.PureComponent {
 
     const props = extendPropsWithContextInClassComponent(
       GlobalStatusProvider.combineMessages([
-        this.context.globalStatus,
+        (this.context as any).globalStatus,
         this.state.globalStatus,
       ]),
       GlobalStatus.defaultProps,
@@ -549,7 +722,7 @@ export default class GlobalStatus extends React.PureComponent {
 
     const {
       title,
-      defaultTitle, // eslint-disable-line
+      defaultTitle,
       state: rawState,
       className,
       noAnimation,
@@ -559,29 +732,29 @@ export default class GlobalStatus extends React.PureComponent {
       skeleton,
 
       id,
-      item, // eslint-disable-line
-      items, // eslint-disable-line
-      autoClose, // eslint-disable-line
-      show, // eslint-disable-line
+      item,
+      items,
+      autoClose,
+      show,
       delay,
-      autoScroll, // eslint-disable-line
-      text, // eslint-disable-line
-      omitSetFocus, // eslint-disable-line
-      omitSetFocusOnUpdate, // eslint-disable-line
-      statusId, // eslint-disable-line
+      autoScroll,
+      text,
+      omitSetFocus,
+      omitSetFocusOnUpdate,
+      statusId,
       icon,
       iconSize,
-      children, // eslint-disable-line
+      children,
       removeOnUnmount, //eslint-disable-line
 
-      onAdjust, // eslint-disable-line
-      onOpen, // eslint-disable-line
-      onShow, // eslint-disable-line
-      onClose, // eslint-disable-line
-      onHide, // eslint-disable-line
+      onAdjust,
+      onOpen,
+      onShow,
+      onClose,
+      onHide,
 
       ...attributes
-    } = props
+    } = props as any
 
     const wrapperParams = {
       id,
@@ -592,9 +765,9 @@ export default class GlobalStatus extends React.PureComponent {
         createSpacingClasses(props),
         className
       ),
-      'aria-live': isActive ? 'assertive' : 'off',
+      'aria-live': (isActive ? 'assertive' : 'off') as 'assertive' | 'off',
       onKeyDown: this.onKeyDownHandler,
-      tabIndex: '-1',
+      tabIndex: -1,
     }
 
     const state = this.correctStatus(rawState)
@@ -689,7 +862,7 @@ export default class GlobalStatus extends React.PureComponent {
             open={isActive}
             animate={!noAnimationUsed}
             onAnimationEnd={this.onAnimationEnd}
-            onAnimationStart={this.onAnimationStart}
+            onAnimationStart={this.onAnimationStart as any}
             onOpen={this.onOpen}
           >
             <Section
@@ -707,12 +880,17 @@ export default class GlobalStatus extends React.PureComponent {
 }
 
 // Extend our component with controllers
-GlobalStatus.create = (...args) => new GlobalStatusInterceptor(...args)
+GlobalStatus.create = (...args: any[]) =>
+  new GlobalStatusInterceptor(args[0])
 GlobalStatus.Update = GlobalStatus.create
 GlobalStatus.Add = GlobalStatusController
-GlobalStatus.Remove = GlobalStatusController.Remove
+GlobalStatus.Remove = (GlobalStatusController as any).Remove
 
-const isElementVisible = (elem, callback, delayFallback = 1e3) => {
+const isElementVisible = (
+  elem: HTMLElement,
+  callback?: ((elem: HTMLElement) => void) | null,
+  delayFallback = 1e3
+) => {
   if (typeof IntersectionObserver !== 'undefined') {
     const intersectionObserver = new IntersectionObserver((entries) => {
       const [entry] = entries
@@ -733,6 +911,7 @@ const isElementVisible = (elem, callback, delayFallback = 1e3) => {
   return null
 }
 
-const wait = (duration) => new Promise((r) => setTimeout(r, duration))
+const wait = (duration: number) =>
+  new Promise((r) => setTimeout(r, duration))
 
-GlobalStatus._supportsSpacingProps = true
+;(GlobalStatus as any)._supportsSpacingProps = true
