@@ -76,7 +76,11 @@ export const AnchorOnDarkExample = () => (
 
 export const AnchorExampleStates = () => (
   <Wrapper>
-    <ComponentBox scope={{ Example }} data-visual-test="anchor-states">
+    <ComponentBox
+      scope={{ Example }}
+      data-visual-test="anchor-states"
+      hideCode
+    >
       <Example>
         <Anchor href="/uilib/components/anchor">Default Style</Anchor>
       </Example>

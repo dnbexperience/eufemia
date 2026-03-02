@@ -5,20 +5,9 @@
 
 @use '../anchor-mixins.scss';
 
-@mixin anchorHover() {
-  transition: none;
-  border-radius: 0.5em;
-}
-
-@mixin anchorActive() {
-  transition: none;
-  border-radius: 0.5em;
-}
-
 @include anchor-mixins.notNoStyle() {
   &.dnb-anchor {
     --anchor-underline-thickness: 0.125rem;
-    --anchor-background: transparent;
     --anchor-color--disabled: var(--sb-color-gray-dark);
     --anchor-background-gutter-left: 0.25rem;
     --anchor-background-gutter-right: 0.25rem;
@@ -27,9 +16,6 @@
     font-weight: var(--font-weight-medium);
 
     padding: 0.15625em 0;
-    border-radius: 0.5em;
-
-    @include anchor-mixins.anchorBackground(var(--anchor-background));
 
     .dnb-icon--default {
       font-size: 1em;
@@ -37,12 +23,8 @@
 
     &:hover {
       @include anchor-mixins.notNoHover() {
-        @include anchorHover();
+        transition: none;
       }
-    }
-
-    &:active {
-      @include anchorActive();
     }
   }
 
@@ -76,18 +58,6 @@
       }
     }
   }
-}
-
-.dnb-anchor--hover {
-  @include anchorHover();
-}
-
-.dnb-anchor--active {
-  @include anchorActive();
-}
-
-.dnb-anchor--no-radius {
-  @include anchor-mixins.resetBorderRadius();
 }
 
 .dnb-anchor--inline {
