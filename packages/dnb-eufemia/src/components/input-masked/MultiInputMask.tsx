@@ -2,6 +2,7 @@ import React, { RefObject, useRef } from 'react'
 import Input from '../Input'
 import type { InputProps } from '../Input'
 import TextMask from './TextMask'
+import type { TextMaskHandle } from './TextMask'
 import useHandleCursorPosition from './hooks/useHandleCursorPosition'
 import clsx from 'clsx'
 import FormLabel from '../FormLabel'
@@ -312,7 +313,7 @@ function MultiInputMaskInput<T extends string>({
         showMask
         keepCharPositions={false} // so we can overwrite next value, if it already exists
         aria-label={label}
-        ref={getInputRef as unknown as React.Ref<TextMask>}
+        ref={getInputRef as unknown as React.Ref<TextMaskHandle>}
         onKeyDown={onKeyDown}
         onBlur={onBlur}
         onFocus={({ target, ...event }) => {
