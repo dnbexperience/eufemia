@@ -260,7 +260,7 @@
 
 // Firefox fix
 @mixin IS_FF() {
-  @-moz-document url-prefix() {
+  @supports (-moz-appearance: none) {
     @content;
   }
 }
