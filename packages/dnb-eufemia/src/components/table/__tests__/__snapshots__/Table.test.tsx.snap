@@ -5,13 +5,6 @@ exports[`Table scss should match default theme snapshot 1`] = `
 * Table theme
 *
 */
-/*
- * Utilities
- */
-/*
-* Table theme
-*
-*/
 .dnb-table {
   --table-th-background-color: var(--color-white);
   text-align: left;
@@ -109,26 +102,14 @@ exports[`Table scss should match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
-/*
 * Table component
 *
 */
 /*
-* Used for snapshot testing
-*
-*/
-/*
-* Used for snapshot testing
-*
-*/
+ * Utilities
+ */
 /*
 * Button mixins
-*
-*/
-/*
-* Used for snapshot testing
 *
 */
 .dnb-table,
@@ -423,7 +404,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 }
 
 /*
-* Used for snapshot testing
+* Table component
 *
 */
 /*
@@ -431,10 +412,6 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
  */
 /*
 * Button mixins
-*
-*/
-/*
-* Used for snapshot testing
 *
 */
 /*
@@ -459,7 +436,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 }
 
 /*
-* Used for snapshot testing
+* Table component
 *
 */
 /*
@@ -467,18 +444,6 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
  */
 /*
 * Button mixins
-*
-*/
-/*
-* Used for snapshot testing
-*
-*/
-/*
-* Table component
-*
-*/
-/*
-* Used for snapshot testing
 *
 */
 /*
@@ -613,7 +578,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 }
 
 /*
-* Used for snapshot testing
+* Table component
 *
 */
 /*
@@ -621,10 +586,6 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
  */
 /*
 * Button mixins
-*
-*/
-/*
-* Used for snapshot testing
 *
 */
 /*
@@ -674,17 +635,6 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   clip-path: inset(6px 0 -48px 0);
 }
 
-/*
-* Table component
-*
-*/
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
 /*
 * Table component
 *
@@ -797,20 +747,8 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 }
 
 /*
-* Used for snapshot testing
-*
-*/
-/*
  * Utilities
  */
-/*
-* Table component
-*
-*/
-/*
-* Used for snapshot testing
-*
-*/
 /*
 * Table component
 *

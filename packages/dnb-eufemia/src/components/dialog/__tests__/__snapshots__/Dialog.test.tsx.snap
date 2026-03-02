@@ -6,29 +6,6 @@ exports[`Dialog scss should match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
-* Used for snapshot testing
-*
-*/
-/*
-* Used for snapshot testing
-*
-*/
-/*
-* Used for snapshot testing
-*
-*/
-/*
-* Used for snapshot testing
-*
-*/
-/*
 * Used for snapshot testing
 *
 */
@@ -129,17 +106,15 @@ p > .dnb-icon {
 *
 */
 /*
-* Used for snapshot testing
-*
-*/
-/*
-* Used for snapshot testing
-*
-*/
-/*
 * Tooltip component
 *
 */
+/*
+ * Utilities
+ */
+/*
+ * Utilities
+ */
 :root {
   --tooltip-z-index: 1100;
 }
@@ -179,14 +154,6 @@ p > .dnb-icon {
   top: auto !important;
 }
 
-/*
-* Used for snapshot testing
-*
-*/
-/*
-* Used for snapshot testing
-*
-*/
 /*
 * Used for snapshot testing
 *
@@ -265,7 +232,7 @@ button .dnb-form-status__text {
 }
 
 /*
-* Used for snapshot testing
+* Tooltip component
 *
 */
 /*
@@ -514,10 +481,6 @@ button.dnb-button::-moz-focus-inner {
  *
  */
 /*
-* Used for snapshot testing
-*
-*/
-/*
 * Button mixins
 *
 */
@@ -525,10 +488,6 @@ button.dnb-button::-moz-focus-inner {
  * HelpButton component
  *
  */
-/*
-* Used for snapshot testing
-*
-*/
 /*
  * HelpButton component
  *
@@ -638,17 +597,9 @@ button.dnb-button::-moz-focus-inner {
 }
 
 /*
-* Used for snapshot testing
-*
-*/
-/*
  * Modal component
  *
  */
-/*
-* Used for snapshot testing
-*
-*/
 /*
  * Modal component
  *
@@ -838,14 +789,6 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
   justify-content: space-between;
 }
 
-/*
-* Used for snapshot testing
-*
-*/
-/*
- * Modal component
- *
- */
 /*
  * Dialog component
  *

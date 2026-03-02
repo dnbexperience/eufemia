@@ -6,17 +6,6 @@ exports[`Anchor scss should match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
-* Used for snapshot testing
-*
-*/
-/*
 * Used for snapshot testing
 *
 */
@@ -105,17 +94,15 @@ p > .dnb-icon {
 *
 */
 /*
-* Used for snapshot testing
-*
-*/
-/*
-* Used for snapshot testing
-*
-*/
-/*
 * Tooltip component
 *
 */
+/*
+ * Utilities
+ */
+/*
+ * Utilities
+ */
 :root {
   --tooltip-z-index: 1100;
 }
@@ -160,7 +147,7 @@ p > .dnb-icon {
  *
  */
 /*
-* Used for snapshot testing
+* Tooltip component
 *
 */
 /*
