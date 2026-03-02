@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
 import {
   validateDOMAttributes,
@@ -12,7 +12,7 @@ import {
 } from '../../shared/helpers/useSharedState'
 import HeightAnimation from '../height-animation/HeightAnimation'
 
-interface ContentWrapperState {
+type ContentWrapperState = {
   key: string | number | null
 }
 
@@ -21,137 +21,133 @@ type SharedState = SharedStateReturn<ContentWrapperState> & {
   unsubscribe: (subscriber: () => void) => void
 }
 
-export default class ContentWrapper extends React.PureComponent<
-  ContentWrapperProps,
-  ContentWrapperState
-> {
-  static defaultProps = {
-    selectedKey: null,
-    contentStyle: null,
-    animate: null,
-    contentSpacing: true,
-    children: null,
-  }
+export default function ContentWrapper({
+  id,
+  children = null,
+  selectedKey = null,
+  contentStyle = null,
+  animate = null,
+  contentSpacing = true,
+  ...rest
+}: ContentWrapperProps) {
+  const sharedStateRef = useRef<SharedState | null>(null)
 
-  _sharedState: SharedState | null = null
-  _subscriber: (() => void) | null = null
-
-  state: ContentWrapperState = { key: null }
-
-  constructor(props: ContentWrapperProps) {
-    super(props)
-
-    if (props.id) {
-      this._sharedState = createSharedState(
-        props.id
-      ) as unknown as SharedState
-      this.state = this._sharedState.get() || { key: null }
+  const [state, setState] = useState<ContentWrapperState>(() => {
+    if (id) {
+      const shared = createSharedState(id) as unknown as SharedState
+      sharedStateRef.current = shared
+      return shared.get() || { key: null }
     }
-  }
+    return { key: null }
+  })
 
-  componentDidMount() {
-    if (this.props.id && this._sharedState) {
-      this._subscriber = () => {
-        const params = this._sharedState!.get()
-        if (this._sharedState && params?.key !== this.state.key) {
-          this.setState(params)
-        }
+  useEffect(() => {
+    if (!id || !sharedStateRef.current) {
+      return // stop here
+    }
+
+    const sharedState = sharedStateRef.current
+
+    const subscriber = () => {
+      const params = sharedState.get()
+      if (params?.key !== undefined) {
+        setState((prev) => {
+          if (params.key !== prev.key) {
+            return params
+          }
+          return prev
+        })
       }
-      this._sharedState.subscribe(this._subscriber)
     }
+
+    sharedState.subscribe(subscriber)
+
+    return () => {
+      sharedState.unsubscribe(subscriber)
+      sharedStateRef.current = null
+    }
+  }, [id])
+
+  if (!children) {
+    return null
   }
 
-  componentWillUnmount() {
-    if (this._sharedState && this._subscriber) {
-      this._sharedState.unsubscribe(this._subscriber)
-      this._sharedState = null
-      this._subscriber = null
-    }
+  const params = { ...rest }
+
+  // Use state.key if available (when linked with shared state),
+  // otherwise fall back to selectedKey prop
+  const activeKey = state.key !== null ? state.key : selectedKey
+
+  if (activeKey) {
+    params['aria-labelledby'] = combineLabelledBy(
+      params,
+      `${id}-tab-${activeKey}`
+    )
   }
 
-  render() {
-    const {
+  validateDOMAttributes(
+    {
       id,
       children,
-      selectedKey: key,
+      selectedKey,
       contentStyle,
       animate,
       contentSpacing,
-      ...rest
-    } = this.props
+      ...rest,
+    },
+    params
+  )
 
-    if (!children) {
-      return null
-    }
-
-    const params = rest
-
-    // Use state.key if available (when linked with shared state),
-    // otherwise fall back to selectedKey prop
-    const activeKey = this.state.key !== null ? this.state.key : key
-
-    if (activeKey) {
-      params['aria-labelledby'] = combineLabelledBy(
-        params,
-        `${id}-tab-${activeKey}`
-      )
-    }
-
-    validateDOMAttributes(this.props, params)
-
-    let content: React.ReactNode = children as React.ReactNode
-    if (typeof children === 'function') {
-      // If state.key is null but we have an activeKey, create a proper state object
-      const stateToPass =
-        this.state.key !== null
-          ? this.state
-          : { ...this.state, key: activeKey }
-      content = children(stateToPass) as React.ReactNode
-    }
-
-    return (
-      <HeightAnimation
-        role="tabpanel"
-        tabIndex={-1}
-        id={`${id}-content`}
-        element={
-          contentStyle
-            ? ({
-                ref,
-                ...props
-              }: {
-                ref: React.RefObject<HTMLElement>
-                [key: string]: unknown
-              }) => {
-                return (
-                  <Section
-                    spacing={contentStyle ? false : undefined}
-                    style_type={contentStyle ? contentStyle : undefined}
-                    ref={ref}
-                    {...props}
-                  />
-                )
-              }
-            : 'div'
-        }
-        className={clsx(
-          'dnb-tabs__content',
-          'dnb-no-focus',
-          contentSpacing
-            ? `dnb-section--spacing-${
-                contentSpacing === true ? 'large' : contentSpacing
-              }`
-            : null,
-          createSpacingClasses(rest)
-        )}
-        duration={600}
-        animate={animate === true}
-        {...params}
-      >
-        {content}
-      </HeightAnimation>
-    )
+  let content: React.ReactNode = children as React.ReactNode
+  if (typeof children === 'function') {
+    // If state.key is null but we have an activeKey, create a proper state object
+    const stateToPass =
+      state.key !== null ? state : { ...state, key: activeKey }
+    content = children(stateToPass) as React.ReactNode
   }
+
+  return (
+    <HeightAnimation
+      role="tabpanel"
+      tabIndex={-1}
+      id={`${id}-content`}
+      element={
+        contentStyle
+          ? ({
+              ref,
+              ...props
+            }: {
+              ref: React.RefObject<HTMLElement>
+              [key: string]: unknown
+            }) => {
+              return (
+                <Section
+                  spacing={contentStyle ? false : undefined}
+                  style_type={contentStyle ? contentStyle : undefined}
+                  ref={ref}
+                  {...props}
+                />
+              )
+            }
+          : 'div'
+      }
+      className={clsx(
+        'dnb-tabs__content',
+        'dnb-no-focus',
+        contentSpacing
+          ? `dnb-section--spacing-${
+              contentSpacing === true ? 'large' : contentSpacing
+            }`
+          : null,
+        createSpacingClasses(rest)
+      )}
+      duration={600}
+      animate={animate === true}
+      {...params}
+    >
+      {content}
+    </HeightAnimation>
+  )
 }
 
 // Type definitions
