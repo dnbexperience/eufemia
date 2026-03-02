@@ -21,9 +21,7 @@ import {
   skeletonDOMAttributes,
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
-import {
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import Hr from '../../elements/hr/Hr'
 import GlobalStatusController, {
   GlobalStatusInterceptor,

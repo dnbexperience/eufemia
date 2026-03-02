@@ -47,7 +47,13 @@ export class ContentObject {
   onUpdate?: (obj: ContentObject) => void;
   [key: string]: unknown
 
-  constructor({ pageNumber, ...props }: { pageNumber: number; [key: string]: unknown }) {
+  constructor({
+    pageNumber,
+    ...props
+  }: {
+    pageNumber: number
+    [key: string]: unknown
+  }) {
     this.content = null
     this.pageNumber = pageNumber
     this.hasContent = false

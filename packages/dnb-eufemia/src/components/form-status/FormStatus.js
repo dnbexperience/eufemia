@@ -16,9 +16,7 @@ import {
   extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
 import HeightAnimation from '../height-animation/HeightAnimation'
-import {
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import Icon from '../icon/Icon'
 import GlobalStatusProvider from '../global-status/GlobalStatusProvider'
 import {

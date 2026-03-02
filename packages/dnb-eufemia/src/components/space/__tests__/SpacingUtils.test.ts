@@ -503,5 +503,3 @@ describe('createSpacingProperties', () => {
     expect(createSpacingProperties({ innerSpace: null })).toEqual({})
   })
 })
-
-

@@ -18,9 +18,7 @@ import {
   getStatusState,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import {
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
