@@ -6,7 +6,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import {
   extendPropsWithContextInClassComponent,
@@ -14,12 +13,57 @@ import {
 } from '../../shared/component-helper'
 import { LOCALE } from '../../shared/defaults'
 import Space from '../space/Space'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
+import type { SpacingProps } from '../space/types'
+
+export type SkeletonShow = boolean
+
+export type SkeletonFigure =
+  | string
+  | ((...args: any[]) => any)
+  | React.ReactNode
+
+export type SkeletonChildren =
+  | string
+  | ((...args: any[]) => any)
+  | React.ReactNode
+
+export interface SkeletonProps
+  extends Omit<React.HTMLProps<HTMLElement>, 'ref' | 'children'>,
+    SpacingProps {
+  /**
+   * Use `true` to enable/show the skeleton for the component used inside. Defaults to `false`.
+   */
+  show?: boolean
+  /**
+   * Use `true` to disable the animation.
+   */
+  noAnimation?: boolean
+  /**
+   * Define a figure to use, like `article`. The wrapped content will be hidden while the skeleton figure is shown.
+   */
+  figure?: SkeletonFigure
+  /**
+   * Is used for screen reader text translation, defined in the translation files. You can set a custom text if needed.
+   */
+  ariaBusy?: string
+  /**
+   * Is used for screen reader text translation, defined in the translation files. You can set a custom text if needed.
+   */
+  ariaReady?: string
+  /**
+   * Set any HTML element type you have to use. A couple of aria attributes will be set on this element while active. Defaults to `div`.
+   */
+  element?: React.ReactNode
+  /**
+   * If set to `true`, a loading skeleton will be shown.
+   */
+  skeleton?: boolean
+  className?: string
+  children?: SkeletonChildren
+}
 
 const skeletonDefaultProps = {
   show: null,
@@ -33,7 +77,7 @@ const skeletonDefaultProps = {
   children: null,
 }
 
-function Skeleton(props) {
+function Skeleton(props: SkeletonProps) {
   const context = React.useContext(Context)
   const [ariaLiveUpdate, setAriaLiveUpdate] = React.useState(null)
   const ariaLiveUpdateTimeoutRef = React.useRef(null)
@@ -46,7 +90,8 @@ function Skeleton(props) {
         skeletonDefaultProps,
         {
           skeleton: ctx.Skeleton || ctx.skeleton,
-          noAnimation: ctx.skeletonNoAnimation,
+          noAnimation: (ctx as Record<string, unknown>)
+            .skeletonNoAnimation,
         },
         ctx.getTranslation(propsToExtend).Skeleton
       )
@@ -151,28 +196,6 @@ function Skeleton(props) {
       </span>
     </Space>
   )
-}
-
-Skeleton.propTypes = {
-  show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  noAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  figure: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node,
-  ]),
-  ariaBusy: PropTypes.string,
-  ariaReady: PropTypes.string,
-  element: PropTypes.node,
-
-  ...spacingPropTypes,
-
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node,
-  ]),
 }
 
 export default Skeleton
