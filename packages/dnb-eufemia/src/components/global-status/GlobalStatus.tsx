@@ -16,6 +16,10 @@ import {
   extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
 import HeightAnimation from '../height-animation/HeightAnimation'
+import type {
+  HeightAnimationOnStartTypes,
+  HeightAnimationOnEndTypes,
+} from '../height-animation/useHeightAnimation'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -240,7 +244,7 @@ export default class GlobalStatus extends React.PureComponent<
   static Add: typeof GlobalStatusController
   static Remove: any
 
-  _wrapperRef: React.RefObject<HTMLElement | null>
+  _wrapperRef: React.RefObject<HTMLDivElement | null>
   provider: ReturnType<typeof GlobalStatusProvider.create>
   _globalStatus: any
   _hadContent: boolean
@@ -640,7 +644,7 @@ export default class GlobalStatus extends React.PureComponent<
       )
     }
 
-  onAnimationStart = (state: string) => {
+  onAnimationStart = (state: HeightAnimationOnStartTypes) => {
     this.setState({
       isAnimating: true,
     })
@@ -651,7 +655,7 @@ export default class GlobalStatus extends React.PureComponent<
     }
   }
 
-  onAnimationEnd = (state: string) => {
+  onAnimationEnd = (state: HeightAnimationOnEndTypes) => {
     switch (state) {
       case 'opened':
         this.setFocus()
@@ -849,11 +853,7 @@ export default class GlobalStatus extends React.PureComponent<
     )
 
     return (
-      <div
-        {...wrapperParams}
-        ref={this._wrapperRef as any}
-        key="global-status"
-      >
+      <div {...wrapperParams} ref={this._wrapperRef} key="global-status">
         <section {...params}>
           <HeightAnimation
             className="dnb-global-status__shell"
