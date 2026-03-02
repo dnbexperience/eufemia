@@ -27,13 +27,11 @@ function Label(props: LabelProps) {
     element: Element = 'dt',
     className = null,
     fontSize = 'small',
-    fontWeight,
+    fontWeight = 'regular',
     variant = 'default',
     style = null,
     ...rest
   } = props
-  const resolvedFontWeight =
-    fontWeight ?? (variant === 'subtle' ? 'regular' : 'medium')
   const resolvedLineHeight = getLabelLineHeight(fontSize)
 
   if (!inRoot) {
@@ -49,7 +47,7 @@ function Label(props: LabelProps) {
       `dnb-stat__label--${variant}`,
       `dnb-t__size--${fontSize}`,
       `dnb-t__line-height--${resolvedLineHeight}`,
-      `dnb-t__weight--${resolvedFontWeight}`,
+      `dnb-t__weight--${fontWeight}`,
       createSpacingClasses(props),
       className
     ),

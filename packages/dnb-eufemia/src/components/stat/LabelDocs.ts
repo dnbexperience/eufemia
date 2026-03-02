@@ -9,8 +9,8 @@ export const LabelProperties: PropertiesTableProps = {
   },
   fontWeight: {
     doc: 'Typography weight for the label.',
-    type: ['"regular"', '"medium"', '"bold"'],
-    defaultValue: 'medium (`default` variant), regular (`subtle` variant)',
+    type: ['"regular"', '"medium"'],
+    defaultValue: 'regular',
     status: 'optional',
   },
   fontSize: {
