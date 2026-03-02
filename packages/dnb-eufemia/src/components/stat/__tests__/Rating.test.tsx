@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import { axeComponent } from '../../../core/jest/jestSetup'
+import Provider from '../../../shared/Provider'
 import Stat from '../Stat'
 
 describe('Stat.Rating', () => {
@@ -57,7 +58,19 @@ describe('Stat.Rating', () => {
     const rating = document.querySelector('.dnb-stat__rating')
 
     expect(rating).toHaveAttribute('role', 'img')
-    expect(rating).toHaveAttribute('aria-label', '2 of 5 stars')
+    expect(rating).toHaveAttribute('aria-label', '2 av 5')
+  })
+
+  it('supports translated accessible label in en-GB locale', () => {
+    render(
+      <Provider locale="en-GB">
+        <Stat.Rating value={2} />
+      </Provider>
+    )
+
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(rating).toHaveAttribute('aria-label', '2 of 5')
   })
 
   it('supports srLabel for accessible context', () => {
@@ -65,7 +78,7 @@ describe('Stat.Rating', () => {
 
     const rating = document.querySelector('.dnb-stat__rating')
 
-    expect(rating).toHaveAttribute('aria-label', 'Morningstar 4 of 5')
+    expect(rating).toHaveAttribute('aria-label', 'Morningstar 4 av 5')
   })
 
   it('should validate with ARIA rules', async () => {

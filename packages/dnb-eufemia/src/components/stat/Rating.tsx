@@ -6,6 +6,7 @@ import {
   convertJsxToString,
   validateDOMAttributes,
 } from '../../shared/component-helper'
+import { useTranslation } from '../../shared'
 import { clamp } from '../slider/SliderHelpers'
 
 export type RatingProps = {
@@ -36,10 +37,14 @@ function Rating(props: RatingProps) {
   const labelValue = Number.isInteger(normalizedValue)
     ? String(normalizedValue)
     : normalizedValue.toFixed(1)
-  const unit = variant === 'progressive' ? 'progressive' : 'stars'
+  const { Stat: { rating: ratingTemplate = '%value of %max' } = {} } =
+    useTranslation()
+  const localizedRating = ratingTemplate
+    .replace('%value', labelValue)
+    .replace('%max', String(resolvedMax))
   const label = srLabel
-    ? `${convertJsxToString(srLabel)} ${labelValue} of ${resolvedMax}`
-    : `${labelValue} of ${resolvedMax} ${unit}`
+    ? `${convertJsxToString(srLabel)} ${localizedRating}`
+    : localizedRating
 
   const attributes = validateDOMAttributes(props, {
     ...rest,
