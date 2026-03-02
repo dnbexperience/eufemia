@@ -132,7 +132,7 @@ export interface FormStatusProps
   attributes?: FormStatusAttributes
   textId?: string
   widthSelector?: string
-  widthElement?: Record<string, unknown>
+  widthElement?: { current: HTMLElement | null } | null
   /**
    * NB: Animation is disabled as of now. ~~use `true` to omit the animation on content visibility. Defaults to `false`.~~
    */
@@ -460,7 +460,7 @@ export default class FormStatus extends React.PureComponent<
       const { widthElement, widthSelector } = this.props
       setMaxWidthToElement({
         element: this._ref.current,
-        widthElement: widthElement && (widthElement as any).current,
+        widthElement: widthElement?.current ?? null,
         widthSelector: widthSelector as string,
       })
     }
