@@ -53,11 +53,29 @@ export type FormStatusChildren =
   | ((...args: any[]) => any)
   | React.ReactNode
 
+/**
+ * Shared status-related props used by form components that display a FormStatus.
+ */
 export type FormStatusBaseProps = {
+  /**
+   * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
+   */
   status?: FormStatusText
+  /**
+   * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
+   */
   statusState?: FormStatusState
+  /**
+   * Use an object to define additional FormStatus properties.
+   */
   statusProps?: FormStatusProps
+  /**
+   * Set to `true` to disable the status animation. Defaults to `false`.
+   */
   statusNoAnimation?: boolean
+  /**
+   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
+   */
   globalStatus?: GlobalStatusConfigObject
 }
 
@@ -74,45 +92,102 @@ export interface FormStatusProps
     >,
     SpacingProps {
   id?: string
+  /**
+   * The `title` attribute in the status.
+   */
   title?: string
   label?: React.ReactNode
+  /**
+   * Provide `false` if you want to animate the visibility. Defaults to `true`.
+   */
   show?: boolean
+  /**
+   * The `text` appears as the status message. Beside plain text, you can send in a React component as well.
+   */
   text?: FormStatusText
+  /**
+   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
+   */
   globalStatus?: GlobalStatusConfigObject
+  /**
+   * The `icon` show before the status text. Defaults to `exclamation`.
+   */
   icon?: IconIcon
+  /**
+   * The icon size of the icon shows. Defaults to `medium`.
+   */
   iconSize?: IconSize
+  /**
+   * Defines the visual appearance of the status. These are the statuses `error`, `warning`, `info` and `marketing`. The default status is `error`.
+   */
   state?: FormStatusState
+  /**
+   * As of now, there is the `plain` and the `outlined` variant. Defaults to `plain`.
+   */
   variant?: FormStatusVariant
+  /**
+   * Defines the appearance size. There are these sizes `default`, `large`. The default status is `default`.
+   */
   size?: FormStatusSize
   attributes?: FormStatusAttributes
   textId?: string
   widthSelector?: string
   widthElement?: Record<string, unknown>
+  /**
+   * NB: Animation is disabled as of now. ~~use `true` to omit the animation on content visibility. Defaults to `false`.~~
+   */
   noAnimation?: boolean
+  /**
+   * If set to `true`, an overlaying skeleton with animation will be shown.
+   */
   skeleton?: SkeletonShow
+  /**
+   * If set to `true`, then the FormStatus will be 100% in available `width`. **NB:** Only use this on independent status messages.
+   */
   stretch?: boolean
+  /**
+   * The `role` attribute for accessibility, defaults to `alert`.
+   */
   role?: string
+  /**
+   * Use it to set an inner margin. It supports the same properties as [Space](/uilib/layout/space/properties). Useful for animation.
+   */
   shellSpace?: SpaceTypeAll
   className?: string
+  /**
+   * The `text` appears as the status message. Beside plain text, you can send in a React component as well.
+   */
   children?: FormStatusChildren
 }
 
 export interface ErrorIconProps {
+  /**
+   * The `title` attribute in the status.
+   */
   title?: string
   state?: string
   [key: string]: any
 }
 export interface WarnIconProps {
+  /**
+   * The `title` attribute in the status.
+   */
   title?: string
   state?: string
   [key: string]: any
 }
 export interface InfoIconProps {
+  /**
+   * The `title` attribute in the status.
+   */
   title?: string
   state?: string
   [key: string]: any
 }
 export interface MarketingIconProps {
+  /**
+   * The `title` attribute in the status.
+   */
   title?: string
   state?: string
   [key: string]: any
