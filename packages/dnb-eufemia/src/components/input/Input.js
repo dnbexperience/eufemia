@@ -20,10 +20,7 @@ import {
   convertJsxToString,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -111,8 +108,6 @@ export const inputPropTypes = {
     PropTypes.func,
   ]),
   submitButtonStatus: PropTypes.string,
-
-  ...spacingPropTypes,
 
   className: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
