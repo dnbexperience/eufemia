@@ -19,7 +19,6 @@ import {
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import {
-  spacingPropTypes,
   createSpacingClasses,
 } from '../space/SpacingHelper'
 import {
@@ -394,8 +393,6 @@ Button.propTypes = {
     PropTypes.object,
     PropTypes.node,
   ]),
-
-  ...spacingPropTypes,
 
   onClick: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 }
