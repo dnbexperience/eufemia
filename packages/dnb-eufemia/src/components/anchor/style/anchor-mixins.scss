@@ -97,19 +97,19 @@
 
 // other styles
 @mixin useAnchorContrastStyle {
-  color: var(--anchor-contrast-color);
+  color: var(--anchor-ondark-color);
 
   &:hover {
     @include notNoHover() {
-      color: var(--anchor-contrast-color--hover);
-      @include anchorBackground(var(--anchor-contrast-bg--hover));
+      color: var(--anchor-ondark-color--hover);
+      @include anchorBackground(var(--anchor-ondark-bg--hover));
     }
   }
 
   &:active {
-    color: var(--anchor-contrast-color--active);
+    color: var(--anchor-ondark-color--active);
     background-color: transparent;
-    @include anchorBackground(var(--anchor-contrast-bg--active));
+    @include anchorBackground(var(--anchor-ondark-bg--active));
   }
 
   &:focus-visible {

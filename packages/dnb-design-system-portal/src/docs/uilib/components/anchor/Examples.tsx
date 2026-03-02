@@ -62,6 +62,18 @@ export const AnchorExampleInSection = () => (
   </Wrapper>
 )
 
+export const AnchorOnDarkExample = () => (
+  <Wrapper>
+    <ComponentBox hideCode scope={{ Example, ContrastExample }}>
+      <ContrastExample data-visual-test="anchor-ondark">
+        <Anchor href="/uilib/components/anchor" onDark>
+          OnDark Style
+        </Anchor>
+      </ContrastExample>
+    </ComponentBox>
+  </Wrapper>
+)
+
 export const AnchorExampleStates = () => (
   <Wrapper>
     <ComponentBox scope={{ Example }} data-visual-test="anchor-states">
@@ -102,7 +114,7 @@ export const AnchorExampleHelperClasses = () => (
       <ContrastExample data-visual-test="anchor-contrast">
         <Anchor
           href="/uilib/components/anchor"
-          className="dnb-anchor--contrast"
+          className="dnb-anchor--ondark"
         >
           Contrast Style
         </Anchor>
@@ -195,7 +207,7 @@ export const AnchorExampleHelperContrastVariations = () => (
         <ContrastExample data-visual-test="anchor-contrast-no-hover">
           <Anchor
             href="/uilib/components/anchor"
-            className="dnb-anchor--contrast dnb-anchor--no-hover"
+            className="dnb-anchor--ondark dnb-anchor--no-hover"
           >
             Contrast - no hover
           </Anchor>
@@ -205,7 +217,7 @@ export const AnchorExampleHelperContrastVariations = () => (
         <ContrastExample data-visual-test="anchor-contrast-no-radius">
           <Anchor
             href="/uilib/components/anchor"
-            className="dnb-anchor--contrast dnb-anchor--no-radius"
+            className="dnb-anchor--ondark dnb-anchor--no-radius"
           >
             Contrast - no radius
           </Anchor>
@@ -215,7 +227,7 @@ export const AnchorExampleHelperContrastVariations = () => (
         <ContrastExample data-visual-test="anchor-contrast-no-underline">
           <Anchor
             href="/uilib/components/anchor"
-            className="dnb-anchor--contrast dnb-anchor--no-underline"
+            className="dnb-anchor--ondark dnb-anchor--no-underline"
           >
             Contrast - no underline
           </Anchor>
@@ -225,7 +237,7 @@ export const AnchorExampleHelperContrastVariations = () => (
         <ContrastExample data-visual-test="anchor-contrast-no-underline-no-hover">
           <Anchor
             href="/uilib/components/anchor"
-            className="dnb-anchor--contrast dnb-anchor--no-underline dnb-anchor--no-hover"
+            className="dnb-anchor--ondark dnb-anchor--no-underline dnb-anchor--no-hover"
           >
             Contrast - no underline - no hover
           </Anchor>
@@ -235,7 +247,7 @@ export const AnchorExampleHelperContrastVariations = () => (
         <ContrastExample data-visual-test="anchor-contrast-no-underline-no-radius">
           <Anchor
             href="/uilib/components/anchor"
-            className="dnb-anchor--contrast dnb-anchor--no-underline dnb-anchor--no-radius"
+            className="dnb-anchor--ondark dnb-anchor--no-underline dnb-anchor--no-radius"
           >
             Contrast - no underline - no radius
           </Anchor>

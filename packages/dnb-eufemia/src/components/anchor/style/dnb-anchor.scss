@@ -27,21 +27,21 @@ button.dnb-anchor {
       --token-color-background-action-pressed-subtle
     );
 
-    // Contrast colors
-    --anchor-contrast-color: var(--token-color-text-action-ondark);
-    --anchor-contrast-color--hover: var(--token-color-text-action-ondark);
-    --anchor-contrast-bg--hover: var(
+    // ondark colors
+    --anchor-ondark-color: var(--token-color-text-action-ondark);
+    --anchor-ondark-color--hover: var(--token-color-text-action-ondark);
+    --anchor-ondark-color--active: var(--token-color-text-action-ondark);
+    --anchor-ondark-bg--hover: var(
       --token-color-background-action-hover-subtle-ondark
     );
-    --anchor-contrast-color--active: var(--token-color-text-action-ondark);
-    --anchor-contrast-bg--active: var(
+    --anchor-ondark-bg--active: var(
       --token-color-background-action-pressed-subtle-ondark
     );
-
     --anchor-underline-thickness: 0.0938rem;
     @include anchor-mixins.anchorStyle();
 
-    &.dnb-anchor--contrast {
+    &.dnb-anchor--contrast, // TODO: could this be deprecated in v11?
+    &.dnb-anchor--ondark {
       @include anchor-mixins.useAnchorContrastStyle();
     }
 

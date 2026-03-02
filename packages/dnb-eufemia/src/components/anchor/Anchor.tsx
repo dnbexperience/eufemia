@@ -79,6 +79,11 @@ export type AnchorProps = {
    * Default: `false`
    */
   disabled?: boolean
+  /**
+   * Enables style for component on dark backgrounds.
+   * Default: `false`
+   */
+  onDark?: boolean
 }
 
 export type AnchorAllProps = AnchorProps &
@@ -131,6 +136,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     noIcon,
     noLaunchIcon,
     disabled,
+    onDark,
     ...rest
   } = allProps
 
@@ -227,7 +233,8 @@ export function AnchorInstance(localProps: AnchorAllProps) {
                 'dnb-anchor--no-icon',
               noLaunchIcon &&
                 !className?.includes('dnb-anchor--no-launch-icon') &&
-                'dnb-anchor--no-launch-icon'
+                'dnb-anchor--no-launch-icon',
+              onDark && 'dnb-anchor--ondark'
             ),
           className
         )}
