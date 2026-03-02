@@ -650,6 +650,28 @@ describe('style build', () => {
       const content = fs.readFileSync(
         path.resolve(
           packpath.self(),
+          `build${stage}/style/dnb-ui-components.css`
+        ),
+        'utf-8'
+      )
+      expect(content).not.toContain(`.dnb-forms-`)
+    }
+
+    {
+      const content = fs.readFileSync(
+        path.resolve(
+          packpath.self(),
+          `build${stage}/style/themes/theme-ui/ui-theme-components.css`
+        ),
+        'utf-8'
+      )
+      expect(content).toContain(`.dnb-forms-`)
+    }
+
+    {
+      const content = fs.readFileSync(
+        path.resolve(
+          packpath.self(),
           `build${stage}/style/themes/theme-ui/ui-theme-components.css`
         ),
         'utf-8'
