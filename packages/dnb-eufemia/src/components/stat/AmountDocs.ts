@@ -1,7 +1,7 @@
 import { PropertiesTableProps } from '../../shared/types'
 import {
   auxiliarySizeProperty,
-  auxWeightProperty,
+  auxiliaryWeightProperty,
   colorizeBySignProperty,
   fontSizeProperty,
   mainSizeProperty,
@@ -30,7 +30,7 @@ export const AmountProperties: PropertiesTableProps = {
   fontSize: fontSizeProperty,
   mainSize: mainSizeProperty,
   mainWeight: mainWeightProperty,
-  auxWeight: auxWeightProperty,
+  auxiliaryWeight: auxiliaryWeightProperty,
   auxiliarySize: auxiliarySizeProperty,
   colorizeBySign: colorizeBySignProperty,
   '[Space](/uilib/layout/space/properties)': spacingProperties,

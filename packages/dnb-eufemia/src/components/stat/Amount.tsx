@@ -55,7 +55,7 @@ export type AmountProps = Omit<
    * If not set, and `mainSize` equals `auxiliarySize` while `mainWeight` is not set,
    * `medium` is used.
    */
-  auxWeight?: TypographyWeight
+  auxiliaryWeight?: TypographyWeight
   /**
    * Opt-in sign-based text color (`+` => green, `-` => red).
    */
@@ -96,7 +96,7 @@ function Amount(props: AmountProps) {
     mainSize = null,
     mainWeight,
     auxiliarySize = null,
-    auxWeight = null,
+    auxiliaryWeight = null,
     colorizeBySign = false,
     id = null,
     style = null,
@@ -166,7 +166,7 @@ function Amount(props: AmountProps) {
   )
   const resolvedMainWeight = mainWeight ?? defaultMainWeight ?? 'medium'
   const resolvedAuxWeight =
-    auxWeight ??
+    auxiliaryWeight ??
     (typeof mainWeight === 'undefined' &&
     resolvedMainSize === resolvedAuxiliarySize
       ? 'medium'

@@ -253,13 +253,13 @@ describe('Stat.Amount', () => {
     expect(sign.classList).toContain('dnb-t__weight--bold')
   })
 
-  it('supports custom auxWeight', () => {
+  it('supports custom auxiliaryWeight', () => {
     render(
       <Stat.Amount
         value={12345.67}
         currency="NOK"
         prefix="From"
-        auxWeight="bold"
+        auxiliaryWeight="bold"
       />
     )
 
@@ -270,7 +270,7 @@ describe('Stat.Amount', () => {
     expect(prefix.classList).toContain('dnb-t__weight--bold')
   })
 
-  it('uses medium auxWeight when main and auxiliary sizes are equal and mainWeight is omitted', () => {
+  it('uses medium auxiliaryWeight when main and auxiliary sizes are equal and mainWeight is omitted', () => {
     render(
       <Stat.Amount
         value={12345.67}
@@ -285,7 +285,7 @@ describe('Stat.Amount', () => {
     expect(currency.classList).toContain('dnb-t__weight--medium')
   })
 
-  it('does not force medium auxWeight when mainWeight is set', () => {
+  it('does not force medium auxiliaryWeight when mainWeight is set', () => {
     render(
       <Stat.Amount
         value={12345.67}

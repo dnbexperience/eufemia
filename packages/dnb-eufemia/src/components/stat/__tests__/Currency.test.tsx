@@ -30,8 +30,8 @@ describe('Stat.Currency', () => {
     expect(root.classList).not.toContain('dnb-stat--tone-negative')
   })
 
-  it('supports auxWeight', () => {
-    render(<Stat.Currency value={12345.67} auxWeight="bold" />)
+  it('supports auxiliaryWeight', () => {
+    render(<Stat.Currency value={12345.67} auxiliaryWeight="bold" />)
 
     const currency = document.querySelector('.dnb-stat__currency')
 

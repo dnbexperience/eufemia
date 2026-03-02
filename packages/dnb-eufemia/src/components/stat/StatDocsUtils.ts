@@ -46,7 +46,7 @@ export const mainWeightProperty: PropertiesTableProps[string] = {
   status: 'optional',
 }
 
-export const auxWeightProperty: PropertiesTableProps[string] = {
+export const auxiliaryWeightProperty: PropertiesTableProps[string] = {
   doc: 'Typography weight for secondary content like currency sign and affixes. If omitted, and `mainSize` equals `auxiliarySize` while `mainWeight` is omitted, `medium` is used.',
   type: ['"regular"', '"medium"'],
   status: 'optional',
@@ -98,7 +98,7 @@ export const SharedValueProperties: PropertiesTableProps = {
   fontSize: fontSizeProperty,
   mainSize: mainSizeProperty,
   mainWeight: mainWeightProperty,
-  auxWeight: auxWeightProperty,
+  auxiliaryWeight: auxiliaryWeightProperty,
   auxiliarySize: auxiliarySizeProperty,
   colorizeBySign: colorizeBySignProperty,
   '[Space](/uilib/layout/space/properties)': spacingProperties,

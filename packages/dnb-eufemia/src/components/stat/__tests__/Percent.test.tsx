@@ -31,8 +31,8 @@ describe('Stat.Percent', () => {
     expect(root.classList).not.toContain('dnb-stat--tone-positive')
   })
 
-  it('supports auxWeight', () => {
-    render(<Stat.Percent value={12.3} auxWeight="bold" />)
+  it('supports auxiliaryWeight', () => {
+    render(<Stat.Percent value={12.3} auxiliaryWeight="bold" />)
 
     const percentSign = document.querySelector('.dnb-stat__percent')
 
