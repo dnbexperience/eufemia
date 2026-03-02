@@ -44,6 +44,7 @@ export interface formatReturnValue {
 }
 export type formatValue = string | number
 export type formatReturnType = formatReturnValue | formatValue
+export type NumberFormatOptions = Record<string, unknown> | string
 
 export interface formatOptionParams {
   /** can be "auto" */
@@ -99,7 +100,7 @@ export interface formatOptionParams {
   /** will remove all extra signs, like a currency sign or percent sign for the cleanedValue return when returnAria is true */
   clean_copy_value?: boolean
   /** Intl.NumberFormat options (NumberFormatOptions) */
-  options?: object
+  options?: NumberFormatOptions
   /** If an object should be returned, including the "aria" property */
   returnAria?: boolean
   /** ARIA Text to be displayed when value is invalid. */
