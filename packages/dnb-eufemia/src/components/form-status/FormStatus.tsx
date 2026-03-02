@@ -6,7 +6,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import { useTheme, Context } from '../../shared'
 import {
@@ -26,56 +25,197 @@ import {
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import ui from '../../style/themes/ui/properties'
 import sbanken from '../../style/themes/sbanken/properties'
+import type { GlobalStatusConfigObject } from '../GlobalStatus'
+import type { IconIcon, IconSize } from '../Icon'
+import type { SkeletonShow } from '../Skeleton'
+import type { SpacingProps, SpaceTypeAll } from '../space/types'
 
 const properties = { ui, sbanken }
 
-export default class FormStatus extends React.PureComponent {
+export type FormStatusText =
+  | string
+  | boolean
+  | ((...args: any[]) => any)
+  | React.ReactNode
+export type FormStatusState =
+  | boolean
+  | string
+  | 'error'
+  | 'warning'
+  | 'info'
+  | 'success'
+  | 'marketing'
+export type FormStatusVariant = 'plain' | 'outlined'
+export type FormStatusSize = 'default' | 'large'
+export type FormStatusAttributes = string | Record<string, unknown>
+export type FormStatusChildren =
+  | string
+  | ((...args: any[]) => any)
+  | React.ReactNode
+
+/**
+ * Shared status-related props used by form components that display a FormStatus.
+ */
+export type FormStatusBaseProps = {
+  /**
+   * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
+   */
+  status?: FormStatusText
+  /**
+   * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
+   */
+  statusState?: FormStatusState
+  /**
+   * Use an object to define additional FormStatus properties.
+   */
+  statusProps?: FormStatusProps
+  /**
+   * Set to `true` to disable the status animation. Defaults to `false`.
+   */
+  statusNoAnimation?: boolean
+  /**
+   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
+   */
+  globalStatus?: GlobalStatusConfigObject
+}
+
+export interface FormStatusProps
+  extends Omit<
+      React.HTMLProps<HTMLElement>,
+      | 'ref'
+      | 'label'
+      | 'value'
+      | 'onFocus'
+      | 'onBlur'
+      | 'children'
+      | 'size'
+    >,
+    SpacingProps {
+  id?: string
+  /**
+   * The `title` attribute in the status.
+   */
+  title?: string
+  label?: React.ReactNode
+  /**
+   * Provide `false` if you want to animate the visibility. Defaults to `true`.
+   */
+  show?: boolean
+  /**
+   * The `text` appears as the status message. Beside plain text, you can send in a React component as well.
+   */
+  text?: FormStatusText
+  /**
+   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
+   */
+  globalStatus?: GlobalStatusConfigObject
+  /**
+   * The `icon` show before the status text. Defaults to `exclamation`.
+   */
+  icon?: IconIcon
+  /**
+   * The icon size of the icon shows. Defaults to `medium`.
+   */
+  iconSize?: IconSize
+  /**
+   * Defines the visual appearance of the status. These are the statuses `error`, `warning`, `info` and `marketing`. The default status is `error`.
+   */
+  state?: FormStatusState
+  /**
+   * As of now, there is the `plain` and the `outlined` variant. Defaults to `plain`.
+   */
+  variant?: FormStatusVariant
+  /**
+   * Defines the appearance size. There are these sizes `default`, `large`. The default status is `default`.
+   */
+  size?: FormStatusSize
+  attributes?: FormStatusAttributes
+  textId?: string
+  widthSelector?: string
+  widthElement?: { current: HTMLElement | null } | null
+  /**
+   * NB: Animation is disabled as of now. ~~use `true` to omit the animation on content visibility. Defaults to `false`.~~
+   */
+  noAnimation?: boolean
+  /**
+   * If set to `true`, an overlaying skeleton with animation will be shown.
+   */
+  skeleton?: SkeletonShow
+  /**
+   * If set to `true`, then the FormStatus will be 100% in available `width`. **NB:** Only use this on independent status messages.
+   */
+  stretch?: boolean
+  /**
+   * The `role` attribute for accessibility, defaults to `alert`.
+   */
+  role?: string
+  /**
+   * Use it to set an inner margin. It supports the same properties as [Space](/uilib/layout/space/properties). Useful for animation.
+   */
+  shellSpace?: SpaceTypeAll
+  className?: string
+  /**
+   * The `text` appears as the status message. Beside plain text, you can send in a React component as well.
+   */
+  children?: FormStatusChildren
+}
+
+export interface ErrorIconProps {
+  /**
+   * The `title` attribute in the status.
+   */
+  title?: string
+  state?: string
+  [key: string]: any
+}
+export interface WarnIconProps {
+  /**
+   * The `title` attribute in the status.
+   */
+  title?: string
+  state?: string
+  [key: string]: any
+}
+export interface InfoIconProps {
+  /**
+   * The `title` attribute in the status.
+   */
+  title?: string
+  state?: string
+  [key: string]: any
+}
+export interface MarketingIconProps {
+  /**
+   * The `title` attribute in the status.
+   */
+  title?: string
+  state?: string
+  [key: string]: any
+}
+
+export type FormStatusIconTypes =
+  | typeof ErrorIcon
+  | typeof WarnIcon
+  | typeof InfoIcon
+  | typeof MarketingIcon
+
+interface FormStatusComponentState {
+  id: string | null
+  _id?: string
+}
+
+export default class FormStatus extends React.PureComponent<
+  FormStatusProps,
+  FormStatusComponentState
+> {
   static contextType = Context
+  context!: React.ContextType<typeof Context>
 
-  static propTypes = {
-    id: PropTypes.string,
-    title: PropTypes.string,
-    show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    text: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    label: PropTypes.node,
-    icon: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    iconSize: PropTypes.string,
-    state: PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.string,
-      PropTypes.oneOf(['error', 'warning', 'info', 'marketing']),
-    ]),
-    variant: PropTypes.oneOf(['plain', 'outlined']),
-    size: PropTypes.oneOf(['default', 'large']),
-    globalStatus: PropTypes.shape({
-      id: PropTypes.string,
-      message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    }),
-    attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    textId: PropTypes.string,
-    widthSelector: PropTypes.string,
-    widthElement: PropTypes.object,
-    noAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    role: PropTypes.string,
-
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-  }
+  _globalStatus: ReturnType<typeof GlobalStatusProvider.init>
+  _ref: React.RefObject<HTMLElement | null>
+  _isMounted: boolean
+  contentCache: React.ReactNode | null
+  stateCache: string | null
 
   static defaultProps = {
     id: null,
@@ -101,7 +241,7 @@ export default class FormStatus extends React.PureComponent {
     children: null,
   }
 
-  static getContent(props) {
+  static getContent(props: FormStatusProps) {
     if (props.text) {
       if (props.text === true) {
         return null
@@ -111,7 +251,7 @@ export default class FormStatus extends React.PureComponent {
     return processChildren(props)
   }
 
-  static correctStatus(state) {
+  static correctStatus(state: FormStatusState | undefined) {
     switch (state) {
       case 'information':
         state = 'info'
@@ -120,12 +260,16 @@ export default class FormStatus extends React.PureComponent {
     return state
   }
 
-  static getIcon({ state, icon, iconSize }) {
+  static getIcon({
+    state,
+    icon,
+    iconSize,
+  }: Pick<FormStatusProps, 'state' | 'icon' | 'iconSize'>) {
     if (typeof icon !== 'string') {
-      return icon
+      return icon as React.ReactNode
     }
 
-    let IconToLoad = icon
+    let IconToLoad: React.ComponentType<any> = ErrorIcon
 
     switch (FormStatus.correctStatus(state)) {
       case 'info':
@@ -152,7 +296,10 @@ export default class FormStatus extends React.PureComponent {
     )
   }
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(
+    props: FormStatusProps,
+    state: FormStatusComponentState
+  ) {
     if (state._id !== props.id && props.id) {
       state.id = props.id
     }
@@ -164,7 +311,7 @@ export default class FormStatus extends React.PureComponent {
 
   state = { id: null }
 
-  constructor(props, context) {
+  constructor(props: FormStatusProps, context: any) {
     super(props)
 
     // we do not use a random ID here, as we don't need it for now
@@ -232,7 +379,7 @@ export default class FormStatus extends React.PureComponent {
     const state =
       shouldAnimate && FormStatus.correctStatus(this.props.state)
     if (state) {
-      this.stateCache = state
+      this.stateCache = state as string
     }
   }
 
@@ -246,7 +393,7 @@ export default class FormStatus extends React.PureComponent {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: FormStatusProps) {
     const { state, show, text, globalStatus, children, label } =
       this.getProps()
 
@@ -254,7 +401,8 @@ export default class FormStatus extends React.PureComponent {
       prevProps.text !== text ||
       prevProps.children !== children ||
       prevProps.show !== show ||
-      prevProps.globalStatus?.show !== globalStatus?.show ||
+      (prevProps.globalStatus as any)?.show !==
+        (globalStatus as any)?.show ||
       prevProps.state !== state
     ) {
       this.fillCache()
@@ -292,7 +440,7 @@ export default class FormStatus extends React.PureComponent {
     }
   }
 
-  getProps(context = this.context) {
+  getProps(context: any = this.context) {
     return extendPropsWithContextInClassComponent(
       this.props,
       FormStatus.defaultProps,
@@ -312,8 +460,8 @@ export default class FormStatus extends React.PureComponent {
       const { widthElement, widthSelector } = this.props
       setMaxWidthToElement({
         element: this._ref.current,
-        widthElement: widthElement && widthElement.current,
-        widthSelector: widthSelector,
+        widthElement: widthElement?.current ?? null,
+        widthSelector: widthSelector as string,
       })
     }
   }
@@ -322,7 +470,7 @@ export default class FormStatus extends React.PureComponent {
     return this.props.noAnimation === false
   }
 
-  isReadyToGetVisible(props = this.props) {
+  isReadyToGetVisible(props: FormStatusProps = this.props) {
     return props.show && FormStatus.getContent(props) ? true : false
   }
 
@@ -340,25 +488,26 @@ export default class FormStatus extends React.PureComponent {
       shellSpace,
       textId,
 
-      show, // eslint-disable-line
-      noAnimation, // eslint-disable-line
-      label, // eslint-disable-line
-      statusId, // eslint-disable-line
-      globalStatus, // eslint-disable-line
-      id, // eslint-disable-line
-      text, // eslint-disable-line
-      icon, // eslint-disable-line
-      iconSize, // eslint-disable-line
-      widthSelector, // eslint-disable-line
-      widthElement, // eslint-disable-line
-      skeleton, // eslint-disable-line
-      children, // eslint-disable-line
+      show,
+      noAnimation,
+      label,
+      statusId,
+      globalStatus,
+      id,
+      text,
+      icon,
+      iconSize,
+      widthSelector,
+      widthElement,
+      skeleton,
+      children,
       role,
 
       ...rest
-    } = props
+    } = props as any
 
-    const state = FormStatus.correctStatus(rawState) || this.stateCache
+    const state =
+      (FormStatus.correctStatus(rawState) as string) || this.stateCache
     const iconToRender = FormStatus.getIcon({
       state,
       icon,
@@ -424,7 +573,7 @@ export default class FormStatus extends React.PureComponent {
         open={this.isReadyToGetVisible()}
         animate={this.shouldAnimate()}
         duration={600}
-        {...params}
+        {...(params as any)}
         ref={this._ref}
       >
         <span {...shellParams}>
@@ -438,7 +587,7 @@ export default class FormStatus extends React.PureComponent {
   }
 }
 
-export const ErrorIcon = (props) => {
+export const ErrorIcon = (props: ErrorIconProps) => {
   const { title = 'error' } = props || {}
   const isSbankenTheme = useTheme()?.name === 'sbanken'
   const fill = isSbankenTheme
@@ -469,11 +618,8 @@ export const ErrorIcon = (props) => {
     </svg>
   )
 }
-ErrorIcon.propTypes = {
-  title: PropTypes.string,
-}
 
-export const WarnIcon = (props) => {
+export const WarnIcon = (props: WarnIconProps) => {
   const { title = 'error' } = props || {}
   const isSbankenTheme = useTheme()?.name === 'sbanken'
   const fill = isSbankenTheme
@@ -504,11 +650,8 @@ export const WarnIcon = (props) => {
     </svg>
   )
 }
-WarnIcon.propTypes = {
-  title: PropTypes.string,
-}
 
-export const InfoIcon = (props) => {
+export const InfoIcon = (props: InfoIconProps) => {
   const { title = 'info' } = props || {}
   const isSbankenTheme = useTheme()?.name === 'sbanken'
   let fill = isSbankenTheme
@@ -544,11 +687,8 @@ export const InfoIcon = (props) => {
     </svg>
   )
 }
-InfoIcon.propTypes = {
-  title: PropTypes.string,
-}
 
-export const MarketingIcon = (props) => {
+export const MarketingIcon = (props: MarketingIconProps) => {
   const { title = 'marketing' } = props || {}
   const isSbankenTheme = useTheme()?.name === 'sbanken'
   const fill = isSbankenTheme
@@ -571,15 +711,17 @@ export const MarketingIcon = (props) => {
     </svg>
   )
 }
-MarketingIcon.propTypes = {
-  title: PropTypes.string,
-}
 
 export function setMaxWidthToElement({
   element,
   id = null,
   widthElement = null,
   widthSelector = null,
+}: {
+  element: HTMLElement
+  id?: string | null
+  widthElement?: HTMLElement | null
+  widthSelector?: string | null
 }) {
   if (!(element && typeof window !== 'undefined')) {
     return // stop here
@@ -618,7 +760,13 @@ export function setMaxWidthToElement({
   }
 }
 
-function sumElementWidth({ widthElement, widthSelector }) {
+function sumElementWidth({
+  widthElement,
+  widthSelector,
+}: {
+  widthElement: HTMLElement | null
+  widthSelector: string | null
+}) {
   let width = 0
   if (typeof document === 'undefined') {
     return width // stop here
@@ -638,19 +786,22 @@ function sumElementWidth({ widthElement, widthSelector }) {
             : document.getElementById(cur)
           : cur
 
-      let width =
-        (elem && elem.offsetWidth) || window.getComputedStyle(elem).width
-      if (/em|rem/.test(width)) {
-        width = parseFloat(width) * 16
+      let elemWidth: number =
+        (elem && (elem as HTMLElement).offsetWidth) ||
+        parseFloat(String(window.getComputedStyle(elem).width)) ||
+        0
+      if (/em|rem/.test(String(window.getComputedStyle(elem).width))) {
+        elemWidth =
+          parseFloat(String(window.getComputedStyle(elem).width)) * 16
       }
 
-      if (width > 0) {
+      if (elemWidth > 0) {
         // add additional one more spacing unit
         // to make it more correct for small elements
         if (acc > 0) {
           acc += 16
         }
-        acc += width
+        acc += elemWidth
       }
 
       return acc
@@ -662,4 +813,4 @@ function sumElementWidth({ widthElement, widthSelector }) {
   return width
 }
 
-FormStatus._supportsSpacingProps = true
+;(FormStatus as any)._supportsSpacingProps = true
