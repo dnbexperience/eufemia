@@ -456,7 +456,10 @@ describe('Anchor element', () => {
           ref={(el) => {
             refValues.push(el)
           }}
-          onClick={() => setState((s) => s + 1)}
+          onClick={(e) => {
+            e.preventDefault()
+            setState((s) => s + 1)
+          }}
         >
           text
         </Anchor>
