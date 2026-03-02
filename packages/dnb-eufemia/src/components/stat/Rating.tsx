@@ -77,38 +77,10 @@ function Rating(props: RatingProps) {
                 }
                 data-fill={fill.toFixed(2)}
               >
-                <>
-                  <svg
-                    className="dnb-stat__rating-icon dnb-stat__rating-icon--base"
-                    width="12"
-                    height="12"
-                    viewBox="0 0 12 12"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M5.9996 0L7.8546 3.95006L12 4.58343L9.0006 7.65834L9.708 12L5.9996 9.95006L2.2928 12L3.0002 7.65834L0 4.58343L4.1462 3.95006L5.9996 0Z"
-                    />
-                  </svg>
-                  <span className="dnb-stat__rating-fill">
-                    <svg
-                      className="dnb-stat__rating-icon dnb-stat__rating-icon--active"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 12 12"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M5.9996 0L7.8546 3.95006L12 4.58343L9.0006 7.65834L9.708 12L5.9996 9.95006L2.2928 12L3.0002 7.65834L0 4.58343L4.1462 3.95006L5.9996 0Z"
-                      />
-                    </svg>
-                  </span>
-                </>
+                <StarIcon variant="base" />
+                <span className="dnb-stat__rating-fill">
+                  <StarIcon variant="active" />
+                </span>
               </span>
             )
           })}
@@ -134,6 +106,27 @@ function Rating(props: RatingProps) {
         </span>
       )}
     </Element>
+  )
+}
+
+const STAR_PATH =
+  'M5.9996 0L7.8546 3.95006L12 4.58343L9.0006 7.65834L9.708 12L5.9996 9.95006L2.2928 12L3.0002 7.65834L0 4.58343L4.1462 3.95006L5.9996 0Z'
+
+function StarIcon({ variant }: { variant: 'base' | 'active' }) {
+  return (
+    <svg
+      className={classnames(
+        'dnb-stat__rating-icon',
+        `dnb-stat__rating-icon--${variant}`
+      )}
+      width="12"
+      height="12"
+      viewBox="0 0 12 12"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path fillRule="evenodd" clipRule="evenodd" d={STAR_PATH} />
+    </svg>
   )
 }
 
