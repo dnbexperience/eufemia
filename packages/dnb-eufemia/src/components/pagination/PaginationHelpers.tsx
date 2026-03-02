@@ -5,15 +5,24 @@
  * For referencing while developing new features, please use a Functional component.
  */
 import React from 'react'
-import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 
+export type PaginationIndicatorIndicatorElement =
+  | Record<string, unknown>
+  | React.ReactNode
+  | ((...args: any[]) => any)
+  | string
+
+export interface PaginationIndicatorProps {
+  indicatorElement?: PaginationIndicatorIndicatorElement
+}
+
 export const PaginationIndicator = ({
   indicatorElement = 'div',
   ...props
-}) => {
+}: PaginationIndicatorProps) => {
   const context = React.useContext(Context)
   const Element = preparePageElement(indicatorElement)
   const ElementChild = isTrElement(Element) ? 'td' : 'div'
@@ -30,27 +39,31 @@ export const PaginationIndicator = ({
   )
 }
 
-PaginationIndicator.propTypes = {
-  indicatorElement: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.node,
-    PropTypes.func,
-    PropTypes.string,
-  ]),
-}
-
 export class ContentObject {
-  constructor({ pageNumber, ...props }) {
-    this.content = null
+  content: React.ReactNode | null
+  pageNumber: number
+  hasContent: boolean
+  onInsert?: (obj: ContentObject) => void
+  onUpdate?: (obj: ContentObject) => void;
+  [key: string]: unknown
 
+  constructor({
+    pageNumber,
+    ...props
+  }: {
+    pageNumber: number
+    [key: string]: unknown
+  }) {
+    this.content = null
     this.pageNumber = pageNumber
     this.hasContent = false
 
-    for (let k in props) {
+    for (const k in props) {
       this[k] = props[k]
     }
   }
-  insert(content) {
+
+  insert(content: React.ReactNode) {
     this.hasContent = true
     this.content = content
     if (typeof this.onInsert === 'function') {
@@ -58,7 +71,8 @@ export class ContentObject {
     }
     return this
   }
-  update(content) {
+
+  update(content: React.ReactNode) {
     this.hasContent = true
     this.content = content
     if (typeof this.onUpdate === 'function') {
