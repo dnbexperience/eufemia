@@ -29,7 +29,7 @@ import {
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 
-import Context from '../../shared/Context'
+import Context, { InternalLocale } from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import type { FormStatusBaseProps } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
@@ -140,6 +140,10 @@ export interface TextareaProps
   onFocus?: (...args: any[]) => any
   onBlur?: (...args: any[]) => any
   onKeyDown?: (...args: any[]) => any
+  /**
+   * Locale to use for text counter. Inherited from context if not set.
+   */
+  locale?: InternalLocale
   /**
    * By providing a React.Ref we can get the internally used Textarea element (DOM). E.g. `ref={myRef}` by using `React.useRef()`.
    */
@@ -473,7 +477,10 @@ class TextareaClass extends React.PureComponent<
     // pass along all props we wish to have as params
     let { textareaElement: TextareaElement } = props
 
-    const textareaParams = {
+    const textareaParams: React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
+      'aria-describedby'?: string
+      [key: string]: unknown
+    } = {
       className: clsx(
         'dnb-textarea__textarea',
         'dnb-input__border',
@@ -505,8 +512,7 @@ class TextareaClass extends React.PureComponent<
       )
     }
     if (readOnly) {
-      textareaParams['aria-readonly'] = (textareaParams as any).readOnly =
-        true
+      textareaParams['aria-readonly'] = textareaParams.readOnly = true
     }
 
     const mainParams = {
@@ -601,7 +607,7 @@ class TextareaClass extends React.PureComponent<
           <span className="dnb-textarea__row">
             <span {...shellParams}>
               {(TextareaElement as React.ReactNode) || (
-                <textarea ref={this._ref} {...(textareaParams as any)} />
+                <textarea ref={this._ref} {...textareaParams} />
               )}
 
               {!hasValue &&
@@ -639,7 +645,7 @@ class TextareaClass extends React.PureComponent<
               text={value}
               max={characterCounter as number}
               lang={props.lang}
-              locale={(props as any).locale}
+              locale={props.locale}
               {...(typeof characterCounter === 'object'
                 ? characterCounter
                 : {})}
