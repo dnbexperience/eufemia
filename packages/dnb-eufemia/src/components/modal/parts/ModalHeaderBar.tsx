@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
 import Section from '../../section/Section'
 import ModalContext from '../ModalContext'
@@ -25,125 +25,90 @@ export interface ModalHeaderBarProps
   shadowClass?: string
 }
 
-interface ModalHeaderBarState {
-  showShadow: boolean
-}
+export default function ModalHeaderBar({
+  className = null,
+  children = null,
+  ref: _ref, //eslint-disable-line
+  shadowClass = null,
+  ...props
+}: ModalHeaderBarProps & Omit<React.HTMLProps<HTMLElement>, 'children'>) {
+  const context = useContext(ModalContext)
+  const sectionRef = useRef<HTMLElement>(null)
+  const [showShadow, setShowShadow] = useState(false)
 
-export default class ModalHeaderBar extends React.PureComponent<
-  ModalHeaderBarProps & Omit<React.HTMLProps<HTMLElement>, 'children'>,
-  ModalHeaderBarState
-> {
-  static contextType = ModalContext
-
-  context!: React.ContextType<typeof ModalContext>
-
-  _ref: React.RefObject<any>
-  intersectionObserver: IntersectionObserver
-
-  constructor(props) {
-    super(props)
-    this._ref = React.createRef()
-  }
-
-  state = { showShadow: false }
-
-  componentDidMount() {
-    this.observeHeader()
-  }
-
-  componentDidUpdate(prevProps) {
-    // Re-observe if children change
-    // This is necessary to handle dynamic content changes
-    // that might affect the header's height
-    // e.g., when the modal content changes
-    if (prevProps.children !== this.props.children) {
-      this.intersectionObserver?.disconnect()
-      this.observeHeader()
-    }
-  }
-
-  componentWillUnmount() {
-    this.intersectionObserver?.disconnect()
-  }
-
-  observeHeader() {
+  useEffect(() => {
     if (
-      typeof window !== 'undefined' &&
-      typeof IntersectionObserver !== 'undefined' &&
-      this._ref.current
+      typeof window === 'undefined' ||
+      typeof IntersectionObserver === 'undefined' ||
+      !sectionRef.current
     ) {
-      const marginTop = -this._ref.current.clientHeight
-
-      // Find the scroll container (look for .dnb-scroll-view ancestor)
-      let scrollRoot = null
-      let element = this._ref.current.parentElement
-      while (element) {
-        if (element.classList?.contains('dnb-scroll-view')) {
-          scrollRoot = element
-          break
-        }
-        element = element.parentElement
-      }
-
-      this.intersectionObserver = new IntersectionObserver(
-        (entries) => {
-          const [entry] = entries
-          this.setState({
-            showShadow: !entry.isIntersecting,
-          })
-        },
-        {
-          root: scrollRoot,
-          rootMargin: `${marginTop}px 0px 0px 0px`,
-          threshold: 0.001,
-        }
-      )
-
-      this.intersectionObserver.observe(this._ref.current)
+      return // stop here
     }
-  }
 
-  render() {
-    const {
-      className = null,
-      children = null,
-      ref, //eslint-disable-line
-      shadowClass = null,
-      ...props
-    } = this.props
-    const { showShadow } = this.state
-    const {
-      hideCloseButton = false,
-      closeButtonAttributes,
-      onCloseClickHandler,
-      closeTitle,
-    } = this.context
+    const element = sectionRef.current
+    const marginTop = -element.clientHeight
 
-    return (
-      <Section
-        style_type="white"
-        className={clsx(
-          'dnb-modal__header__bar',
-          showShadow && shadowClass,
-          className
-        )}
-        ref={this._ref}
-        {...props}
-      >
-        <div className="dnb-modal__header__bar__inner">
-          {children as React.ReactNode}
-        </div>
+    // Find the scroll container (look for .dnb-scroll-view ancestor)
+    let scrollRoot: Element | null = null
+    let parent = element.parentElement
+    while (parent) {
+      if (parent.classList?.contains('dnb-scroll-view')) {
+        scrollRoot = parent
+        break
+      }
+      parent = parent.parentElement
+    }
 
-        {!hideCloseButton && (
-          <div className="dnb-modal__header__bar__close">
-            <CloseButton
-              onClick={onCloseClickHandler}
-              closeTitle={closeTitle}
-              {...closeButtonAttributes}
-            />
-          </div>
-        )}
-      </Section>
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries
+        setShowShadow(!entry.isIntersecting)
+      },
+      {
+        root: scrollRoot,
+        rootMargin: `${marginTop}px 0px 0px 0px`,
+        threshold: 0.001,
+      }
     )
-  }
+
+    observer.observe(element)
+
+    return () => {
+      observer.disconnect()
+    }
+  }, [children])
+
+  const {
+    hideCloseButton = false,
+    closeButtonAttributes,
+    onCloseClickHandler,
+    closeTitle,
+  } = context
+
+  return (
+    <Section
+      style_type="white"
+      className={clsx(
+        'dnb-modal__header__bar',
+        showShadow && shadowClass,
+        className
+      )}
+      ref={sectionRef}
+      {...props}
+    >
+      <div className="dnb-modal__header__bar__inner">
+        {children as React.ReactNode}
+      </div>
+
+      {!hideCloseButton && (
+        <div className="dnb-modal__header__bar__close">
+          <CloseButton
+            onClick={onCloseClickHandler}
+            closeTitle={closeTitle}
+            {...closeButtonAttributes}
+          />
+        </div>
+      )}
+    </Section>
+  )
 }
