@@ -1278,6 +1278,10 @@ The following TypeScript types have also been removed:
 
 These were previously used to support dual snake_case/camelCase prop naming. Since v11 uses camelCase exclusively, they are no longer needed.
 
+#### Updated SCSS mixin: `IS_FF`
+
+The `IS_FF()` SCSS mixin now uses `@supports (-moz-appearance: none)` instead of the deprecated `@-moz-document url-prefix()` hack. No changes needed if you use the mixin — it works the same way.
+
 ## Eufemia Forms
 
 ### General
