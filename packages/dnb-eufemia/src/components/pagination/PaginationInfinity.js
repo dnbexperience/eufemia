@@ -416,38 +416,40 @@ export default class InfinityScroller extends React.PureComponent {
   }
 }
 
-class InteractionMarker extends React.PureComponent {
-  static propTypes = {
-    pageNumber: PropTypes.number.isRequired,
-    onVisible: PropTypes.func.isRequired,
-    markerElement: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func,
-      PropTypes.string,
-    ]),
+function InteractionMarker({
+  pageNumber,
+  onVisible,
+  markerElement = null,
+}) {
+  const [isConnected, setIsConnected] = React.useState(false)
+  const elementRef = React.useRef(null)
+  const isMountedRef = React.useRef(false)
+  const observerRef = React.useRef(null)
+  const readyTimeoutRef = React.useRef(null)
+  const observerInitialized = React.useRef(false)
+
+  if (typeof markerElement === 'function') {
+    warn(
+      'Pagination: Please use a string or React element e.g. markerElement="tr"'
+    )
   }
-  static defaultProps = {
-    markerElement: null,
-  }
-  state = { isConnected: false }
 
-  constructor(props) {
-    super(props)
-
-    if (typeof props.markerElement === 'function') {
-      warn(
-        'Pagination: Please use a string or React element e.g. markerElement="tr"'
-      )
-    }
-
-    this._ref = React.createRef()
-
+  // Initialize IntersectionObserver synchronously on first render (like the constructor did)
+  if (!observerInitialized.current) {
+    observerInitialized.current = true
     if (typeof IntersectionObserver !== 'undefined') {
-      this.intersectionObserver = new IntersectionObserver((entries) => {
+      observerRef.current = new IntersectionObserver((entries) => {
         const [{ isIntersecting }] = entries
         if (isIntersecting) {
-          this.callReady()
+          observerRef.current?.disconnect()
+          observerRef.current = null
+          clearTimeout(readyTimeoutRef.current)
+          readyTimeoutRef.current = setTimeout(() => {
+            if (isMountedRef.current) {
+              setIsConnected(true)
+            }
+            onVisible(pageNumber)
+          }, 1) // because of re-render loop
         }
       })
     } else {
@@ -455,73 +457,52 @@ class InteractionMarker extends React.PureComponent {
     }
   }
 
-  componentDidMount() {
-    if (this._ref.current) {
-      this._isMounted = true
-      this.intersectionObserver?.observe(this._ref.current)
-    }
-  }
+  React.useEffect(() => {
+    isMountedRef.current = true
 
-  componentWillUnmount() {
-    this._isMounted = false
-    if (this.intersectionObserver) {
-      clearTimeout(this._readyTimeout)
-      this.intersectionObserver.disconnect()
-    }
-  }
-
-  callReady = () => {
-    this.intersectionObserver?.disconnect()
-    this.intersectionObserver = null
-    clearTimeout(this._readyTimeout)
-    this._readyTimeout = setTimeout(() => {
-      if (this._isMounted) {
-        this.setState({ isConnected: true })
-      }
-      this.props.onVisible(this.props.pageNumber)
-    }, 1) // because of re-render loop
-  }
-
-  getContentHeight() {
-    let height = 0
-
-    try {
-      const sibling = getClosestParent('dnb-table', this._ref.current)
-      height = parseFloat(
-        window.getComputedStyle(sibling.querySelector('tbody')).height
-      )
-    } catch (e) {
-      //
+    if (elementRef.current && observerRef.current) {
+      observerRef.current.observe(elementRef.current)
     }
 
-    return height
-  }
-
-  render() {
-    const { markerElement } = this.props
-
-    if (this.state.isConnected || !this.intersectionObserver) {
-      return null
+    return () => {
+      isMountedRef.current = false
+      clearTimeout(readyTimeoutRef.current)
+      observerRef.current?.disconnect()
     }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-    // NB: make sure we don't actually use the marker element,
-    // because it looks like React as troubles regarding handling ref during a re-render?
-    const Element =
-      markerElement && isTrElement(markerElement) ? 'tr' : 'div'
-    const ElementChild =
-      markerElement && isTrElement(markerElement) ? 'td' : 'div'
-
-    return (
-      <Element className="dnb-pagination__marker dnb-table--ignore">
-        <ElementChild
-          className="dnb-pagination__marker__inner"
-          ref={this._ref}
-        >
-          {/* {this.props.pageNumber} */}
-        </ElementChild>
-      </Element>
-    )
+  if (isConnected || !observerRef.current) {
+    return null
   }
+
+  // NB: make sure we don't actually use the marker element,
+  // because it looks like React as troubles regarding handling ref during a re-render?
+  const Element =
+    markerElement && isTrElement(markerElement) ? 'tr' : 'div'
+  const ElementChild =
+    markerElement && isTrElement(markerElement) ? 'td' : 'div'
+
+  return (
+    <Element className="dnb-pagination__marker dnb-table--ignore">
+      <ElementChild
+        className="dnb-pagination__marker__inner"
+        ref={elementRef}
+      >
+        {/* {pageNumber} */}
+      </ElementChild>
+    </Element>
+  )
+}
+
+InteractionMarker.propTypes = {
+  pageNumber: PropTypes.number.isRequired,
+  onVisible: PropTypes.func.isRequired,
+  markerElement: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.node,
+    PropTypes.func,
+    PropTypes.string,
+  ]),
 }
 
 export class InfinityLoadButton extends React.PureComponent {
