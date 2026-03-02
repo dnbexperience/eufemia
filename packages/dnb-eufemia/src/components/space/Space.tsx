@@ -10,7 +10,6 @@ import {
   validateDOMAttributes,
 } from '../../shared/component-helper'
 import Context, { ContextProps } from '../../shared/Context'
-import { spacingPropTypes } from './SpacingHelper'
 import {
   createSpacingClasses,
   createSpacingProperties,
@@ -28,8 +27,6 @@ import type {
 } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import type { InnerSpaceType } from './types'
-
-export { spacingPropTypes }
 
 export type SpaceProps = {
   /**
