@@ -6,7 +6,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import {
   warn,
@@ -26,7 +25,7 @@ import {
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
-import Button, { buttonVariantPropType } from '../button/Button'
+import Button from '../button/Button'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import IconPrimary from '../icon-primary/IconPrimary'
@@ -34,100 +33,130 @@ import IconPrimary from '../icon-primary/IconPrimary'
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 
-export const inputPropTypes = {
-  type: PropTypes.string,
-  size: PropTypes.oneOfType([
-    PropTypes.oneOf(['default', 'small', 'medium', 'large']),
-    PropTypes.number,
-  ]),
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  id: PropTypes.string,
-  label: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node,
-  ]),
-  labelDirection: PropTypes.oneOf(['horizontal', 'vertical']),
-  labelSrOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  status: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-    PropTypes.func,
-    PropTypes.node,
-  ]),
-  globalStatus: PropTypes.shape({
-    id: PropTypes.string,
-    message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  }),
-  statusState: PropTypes.string,
-  statusProps: PropTypes.object,
-  statusNoAnimation: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-  ]),
-  inputState: PropTypes.string,
-  autocomplete: PropTypes.string,
-  submitButtonTitle: PropTypes.string,
-  clearButtonTitle: PropTypes.string,
-  placeholder: PropTypes.node,
-  clear: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  keepPlaceholder: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  suffix: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node,
-  ]),
-  align: PropTypes.oneOf(['left', 'center', 'right']),
-  selectAll: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  inputClass: PropTypes.string,
-  inputAttributes: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-  ]),
-  inputElement: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-  icon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func,
-  ]),
-  iconSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  iconPosition: PropTypes.oneOf(['left', 'right']),
-  ref: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-  readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  innerElement: PropTypes.node,
+import type {
+  ButtonIconPosition,
+  ButtonSize,
+  ButtonVariant,
+} from '../Button'
+import type { FormStatusBaseProps } from '../FormStatus'
+import type { IconIcon, IconSize } from '../Icon'
+import type { SkeletonShow } from '../Skeleton'
+import type { SpacingProps } from '../space/types'
 
-  // Submit button
-  submitElement: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-  submitButtonVariant: buttonVariantPropType.variant,
-  submitButtonIcon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func,
-  ]),
-  submitButtonStatus: PropTypes.string,
+export type InputSize = 'default' | 'small' | 'medium' | 'large' | number
+export type InputValue = string | number
+export type InputSuffix =
+  | string
+  | ((...args: any[]) => any)
+  | React.ReactNode
+export type InputAlign = 'left' | 'center' | 'right'
+export type InputInputAttributes = string | Record<string, unknown>
+export type InputInputElement = ((...args: any[]) => any) | React.ReactNode
+export type InputSubmitElement =
+  | ((...args: any[]) => any)
+  | React.ReactNode
+export type InputSubmitButtonIcon =
+  | string
+  | React.ReactNode
+  | ((...args: any[]) => any)
+export type InputChildren = React.ReactNode | ((...args: any[]) => any)
 
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-
-  onChange: PropTypes.func,
-  onKeyDown: PropTypes.func,
-  onSubmit: PropTypes.func,
-  onFocus: PropTypes.func,
-  onBlur: PropTypes.func,
-  onSubmitFocus: PropTypes.func,
-  onSubmitBlur: PropTypes.func,
-  onClear: PropTypes.func,
+export interface InputProps
+  extends Omit<
+      React.HTMLProps<HTMLInputElement>,
+      | 'ref'
+      | 'children'
+      | 'onChange'
+      | 'onKeyDown'
+      | 'onSubmit'
+      | 'onFocus'
+      | 'onBlur'
+      | 'size'
+      | 'label'
+      | 'placeholder'
+    >,
+    SpacingProps,
+    FormStatusBaseProps {
+  type?: string
+  size?: InputSize
+  value?: InputValue
+  id?: string
+  label?: React.ReactNode
+  labelDirection?: 'vertical' | 'horizontal'
+  labelSrOnly?: boolean
+  inputState?: string
+  autocomplete?: string
+  submitButtonTitle?: string
+  clearButtonTitle?: string
+  placeholder?: React.ReactNode
+  clear?: boolean
+  keepPlaceholder?: boolean
+  suffix?: InputSuffix
+  align?: InputAlign
+  selectAll?: boolean
+  stretch?: boolean
+  disabled?: boolean
+  skeleton?: SkeletonShow
+  inputClass?: string
+  inputAttributes?: InputInputAttributes
+  inputElement?: InputInputElement
+  icon?: IconIcon
+  iconSize?: IconSize
+  iconPosition?: ButtonIconPosition
+  ref?: React.Ref<HTMLInputElement>
+  readOnly?: boolean
+  innerElement?: React.ReactNode
+  submitElement?: InputSubmitElement
+  submitButtonVariant?: ButtonVariant
+  submitButtonIcon?: InputSubmitButtonIcon
+  submitButtonStatus?: string
+  className?: string
+  children?: InputChildren
+  onChange?: (...args: any[]) => any
+  onKeyDown?: (...args: any[]) => any
+  onSubmit?: (...args: any[]) => any
+  onFocus?: (...args: any[]) => any
+  onBlur?: (...args: any[]) => any
+  onSubmitFocus?: (...args: any[]) => any
+  onSubmitBlur?: (...args: any[]) => any
+  onClear?: (...args: any[]) => any
 }
 
-export class InputClass extends React.PureComponent {
-  static contextType = Context
+export interface SubmitButtonProps
+  extends Omit<React.HTMLProps<HTMLButtonElement>, 'ref' | 'size'>,
+    FormStatusBaseProps {
+  id?: string
+  value?: string
+  title?: string
+  variant?: ButtonVariant
+  size?: ButtonSize
+  disabled?: boolean
+  skeleton?: SkeletonShow
+  icon?: IconIcon
+  iconSize?: IconSize
+  className?: string
+  onSubmit?: (...args: any[]) => any
+  onSubmitFocus?: (...args: any[]) => any
+  onSubmitBlur?: (...args: any[]) => any
+}
 
-  static propTypes = {
-    ...inputPropTypes,
-  }
+interface InputComponentState {
+  inputState: string
+  value: string | number | null
+  _value: string | number | null
+  focusState?: string
+}
+
+export class InputClass extends React.PureComponent<
+  InputProps,
+  InputComponentState
+> {
+  static contextType = Context
+  context!: React.ContextType<typeof Context>
+
+  _ref: React.RefObject<HTMLInputElement | null>
+  _id: string
+  _selectAllTimeout: ReturnType<typeof setTimeout> | undefined
 
   static defaultProps = {
     type: 'text',
@@ -184,7 +213,10 @@ export class InputClass extends React.PureComponent {
     onClear: null,
   }
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(
+    props: InputProps,
+    state: InputComponentState
+  ) {
     const value = InputClass.getValue(props)
     if (
       value !== 'initval' &&
@@ -200,7 +232,7 @@ export class InputClass extends React.PureComponent {
     return state
   }
 
-  static hasValue(value) {
+  static hasValue(value: any) {
     return (
       ((typeof value === 'string' || typeof value === 'number') &&
         String(value).length > 0) ||
@@ -208,7 +240,7 @@ export class InputClass extends React.PureComponent {
     )
   }
 
-  static getValue(props) {
+  static getValue(props: InputProps) {
     const value = processChildren(props)
     if (value === '' || InputClass.hasValue(value)) {
       return value
@@ -216,9 +248,14 @@ export class InputClass extends React.PureComponent {
     return props.value
   }
 
-  state = { inputState: 'virgin', value: null, _value: null }
+  state: InputComponentState = {
+    inputState: 'virgin',
+    value: null,
+    _value: null,
+    focusState: undefined,
+  }
 
-  constructor(props, context) {
+  constructor(props: InputProps, context: any) {
     super(props)
 
     this._ref = React.createRef()
@@ -252,10 +289,10 @@ export class InputClass extends React.PureComponent {
     if (this._ref.current && !this.props.inputElement) {
       const value = this.state.value
       const hasValue = InputClass.hasValue(value)
-      this._ref.current.value = hasValue ? value : ''
+      this._ref.current.value = hasValue ? String(value) : ''
     }
   }
-  onFocusHandler = (event) => {
+  onFocusHandler = (event: React.FocusEvent<HTMLInputElement>) => {
     const { value } = event.target
     this.setState({
       inputState: 'focus',
@@ -274,7 +311,7 @@ export class InputClass extends React.PureComponent {
       }, 1) // safari needs a delay
     }
   }
-  onBlurHandler = (event) => {
+  onBlurHandler = (event: React.FocusEvent<HTMLInputElement>) => {
     const { value } = event.target
     const result = dispatchCustomElementEvent(this, 'onBlur', {
       value,
@@ -289,7 +326,7 @@ export class InputClass extends React.PureComponent {
       })
     }
   }
-  onChangeHandler = (event) => {
+  onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
     const result = dispatchCustomElementEvent(this, 'onChange', {
       value,
@@ -305,14 +342,14 @@ export class InputClass extends React.PureComponent {
       this.setState({ value })
     }
   }
-  onKeyDownHandler = (event) => {
-    const value = event.target.value
+  onKeyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const value = (event.target as HTMLInputElement).value
     dispatchCustomElementEvent(this, 'onKeyDown', { value, event })
     if (event.key === 'Enter') {
       dispatchCustomElementEvent(this, 'onSubmit', { value, event })
     }
   }
-  clearValue = (event) => {
+  clearValue = (event: React.MouseEvent) => {
     const previousValue = this.state.value
     const value = ''
     this.setState({ value })
@@ -382,7 +419,7 @@ export class InputClass extends React.PureComponent {
       onClear, //eslint-disable-line
 
       ...inputSubmitButtonAttributes
-    } = props
+    } = props as any
 
     const {
       onSubmitBlur, //eslint-disable-line
@@ -390,7 +427,8 @@ export class InputClass extends React.PureComponent {
       ...attributes
     } = inputSubmitButtonAttributes
 
-    let { value, focusState, inputState } = this.state
+    const { value, focusState } = this.state
+    let { inputState } = this.state
 
     if (disabled || skeleton) {
       inputState = 'disabled'
@@ -534,7 +572,9 @@ export class InputClass extends React.PureComponent {
 
           <span className="dnb-input__row">
             <span {...shellParams}>
-              {InputElement || <input ref={this._ref} {...inputParams} />}
+              {(InputElement as React.ReactNode) || (
+                <input ref={this._ref} {...inputParams} />
+              )}
 
               {innerElement && (
                 <span className="dnb-input__inner__element dnb-p">
@@ -630,35 +670,11 @@ export class InputClass extends React.PureComponent {
   }
 }
 
-class InputSubmitButton extends React.PureComponent {
-  static propTypes = {
-    id: PropTypes.string,
-    value: PropTypes.string,
-    title: PropTypes.string,
-    variant: buttonVariantPropType.variant,
-    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    icon: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func,
-    ]),
-    iconSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    status: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    statusState: PropTypes.string,
-    statusProps: PropTypes.object,
-    className: PropTypes.string,
+class InputSubmitButton extends React.PureComponent<any, any> {
+  static contextType = Context
+  context!: React.ContextType<typeof Context>
 
-    onSubmit: PropTypes.func,
-    onSubmitFocus: PropTypes.func,
-    onSubmitBlur: PropTypes.func,
-  }
-
+  _buttonRef: React.RefObject<HTMLElement | null>
   static defaultProps = {
     id: null,
     value: null,
@@ -680,26 +696,26 @@ class InputSubmitButton extends React.PureComponent {
 
   state = { focusState: 'virgin' }
 
-  constructor(props) {
+  constructor(props: any) {
     super(props)
     this._buttonRef = React.createRef()
   }
 
-  onSubmitFocusHandler = (event) => {
+  onSubmitFocusHandler = (event: React.FocusEvent) => {
     const value = this.props.value
     this.setState({
       focusState: 'focus',
     })
     dispatchCustomElementEvent(this, 'onSubmitFocus', { value, event })
   }
-  onSubmitBlurHandler = (event) => {
+  onSubmitBlurHandler = (event: React.FocusEvent) => {
     const value = this.props.value
     this.setState({
       focusState: 'dirty',
     })
     dispatchCustomElementEvent(this, 'onSubmitBlur', { value, event })
   }
-  onSubmitHandler = (event) => {
+  onSubmitHandler = (event: React.MouseEvent) => {
     const value = this.props.value
     dispatchCustomElementEvent(this, 'onSubmit', { value, event })
   }
@@ -764,7 +780,10 @@ class InputSubmitButton extends React.PureComponent {
   }
 }
 
-function SubmitButton({ ref, ...props }) {
+function SubmitButton({
+  ref,
+  ...props
+}: SubmitButtonProps & { ref?: React.Ref<HTMLElement> }) {
   const instanceRef = React.useCallback(
     (instance) => {
       const el = instance?._buttonRef?.current ?? null
@@ -786,19 +805,19 @@ export { SubmitButton }
 
 // We memoize by type, in case we send in a ProgressIndicator (Autocomplete)
 const InputIcon = React.memo(
-  (props) => <IconPrimary {...props} />,
-  ({ icon: prev }, { icon: next }) => {
+  (props: any) => <IconPrimary {...props} />,
+  ({ icon: prev }: any, { icon: next }: any) => {
     // Memoize string icons when they are the same
     if (typeof prev === 'string' && typeof next === 'string') {
       return prev === next
     }
 
     // Check if it's a ProgressIndicator (React element)
-    const isProgressIndicator = (icon) => {
+    const isProgressIndicator = (icon: any) => {
       return (
         React.isValidElement(icon) &&
-        (icon.type?.displayName === 'ProgressIndicator' ||
-          icon.type?.name === 'ProgressIndicator')
+        ((icon as any).type?.displayName === 'ProgressIndicator' ||
+          (icon as any).type?.name === 'ProgressIndicator')
       )
     }
 
@@ -811,40 +830,44 @@ const InputIcon = React.memo(
     return false
   }
 )
-InputIcon.propTypes = {
-  icon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func,
-  ]).isRequired,
-}
+InputIcon.displayName = 'InputIcon'
+;(InputClass as any)._formElement = true
+;(InputClass as any)._supportsSpacingProps = true
 
-InputClass._formElement = true
-InputClass._supportsSpacingProps = true
+type InputComponent = ((props: InputProps) => React.JSX.Element) & {
+  defaultProps: object
+  getValue: typeof InputClass.getValue
+  hasValue: typeof InputClass.hasValue
+  _formElement: boolean
+  _supportsSpacingProps: boolean
+}
 
 /**
  * Function wrapper that forwards `ref` to the inner DOM element of the class component.
  */
-function Input({ ref, ...props }) {
-  const instanceRef = React.useCallback(
-    (instance) => {
-      const el = instance?._ref?.current ?? null
-      if (typeof ref === 'function') {
-        ref(el)
-      } else if (ref) {
-        ref.current = el
-      }
-    },
-    [ref]
-  )
+const Input: InputComponent = Object.assign(
+  function Input({ ref, ...props }: InputProps) {
+    const instanceRef = React.useCallback(
+      (instance) => {
+        const el = instance?._ref?.current ?? null
+        if (typeof ref === 'function') {
+          ref(el)
+        } else if (ref) {
+          ;(ref as React.MutableRefObject<HTMLElement | null>).current = el
+        }
+      },
+      [ref]
+    )
 
-  return <InputClass ref={ref ? instanceRef : undefined} {...props} />
-}
-
-Input.defaultProps = InputClass.defaultProps
-Input.getValue = InputClass.getValue
-Input.hasValue = InputClass.hasValue
-Input._formElement = true
-Input._supportsSpacingProps = true
+    return <InputClass ref={ref ? instanceRef : undefined} {...props} />
+  },
+  {
+    defaultProps: InputClass.defaultProps as object,
+    getValue: InputClass.getValue,
+    hasValue: InputClass.hasValue,
+    _formElement: true as const,
+    _supportsSpacingProps: true as const,
+  }
+)
 
 export default Input

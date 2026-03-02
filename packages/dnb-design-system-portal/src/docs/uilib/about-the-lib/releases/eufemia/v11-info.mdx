@@ -340,6 +340,7 @@ $ pnpm add @dnb/eufemia@11
 
 #### Properties
 
+- The `inputPropTypes` export has been removed as part of the PropTypes removal. If you were importing it via `import { inputPropTypes } from '@dnb/eufemia/components/input'`, remove the import — runtime prop validation is no longer provided.
 - The deprecated `onStateUpdate` prop has been removed. Use `onChange` instead.
 - Replace `label_direction` with `labelDirection`.
 - Replace `label_sr_only` with `labelSrOnly`.
