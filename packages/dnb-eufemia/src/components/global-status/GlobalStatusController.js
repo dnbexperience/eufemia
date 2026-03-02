@@ -42,72 +42,59 @@ export class GlobalStatusInterceptor {
 }
 
 // This is the Update controller
-class GlobalStatusController extends React.PureComponent {
-  static propTypes = {
-    id: PropTypes.string, // Provider id
-    statusId: PropTypes.string, // Status Item id
-    removeOnUnmount: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-  }
-  static defaultProps = {
-    id: 'main',
-    statusId: null,
-    removeOnUnmount: false,
-  }
+function GlobalStatusController({
+  id = 'main',
+  statusId: statusIdProp = null,
+  removeOnUnmount = false,
+  ...restProps
+}) {
+  const providerRef = React.useRef(null)
+  const statusIdRef = React.useRef(null)
 
-  static getDerivedStateFromProps(props, state) {
-    if (state._props !== props) {
-      state.provider.update(state.statusId, props)
-      state._props = props
-    }
-
-    return state
-  }
-
-  state = {}
-
-  constructor(props) {
-    super(props)
-
+  if (!providerRef.current) {
     let GSP = null
     try {
       GSP = GlobalStatusProvider
     } catch (e) {
-      // do noting
+      // do nothing
     }
     if (!GSP && typeof window !== 'undefined') {
       GSP = window.GlobalStatusProvider
     }
-
-    this.state.provider = GSP.init(props.id)
-    this.state._props = props
-
-    return this
+    providerRef.current = GSP.init(id)
   }
 
-  componentDidMount() {
-    const { statusId } = this.state.provider.add(this.props)
-
-    // current status id
-    this.setState({ statusId })
+  const prevPropsRef = React.useRef(null)
+  const allProps = {
+    id,
+    statusId: statusIdProp,
+    removeOnUnmount,
+    ...restProps,
   }
 
-  componentWillUnmount() {
-    if (this.state.provider && this.props.removeOnUnmount) {
-      this.state.provider.remove(this.state.statusId)
-      /**
-       * For now, do not unbind, because of re-render issues
-       */
-      // this.state.provider.unbind()
-      // this.state.provider = null
+  if (prevPropsRef.current !== null && prevPropsRef.current !== allProps) {
+    providerRef.current.update(statusIdRef.current, allProps)
+  }
+  prevPropsRef.current = allProps
+
+  React.useEffect(() => {
+    const { statusId } = providerRef.current.add(allProps)
+    statusIdRef.current = statusId
+
+    return () => {
+      if (providerRef.current && removeOnUnmount) {
+        providerRef.current.remove(statusIdRef.current)
+      }
     }
-  }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  render() {
-    return null
-  }
+  return null
+}
+
+GlobalStatusController.propTypes = {
+  id: PropTypes.string, // Provider id
+  statusId: PropTypes.string, // Status Item id
+  removeOnUnmount: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 }
 
 class GlobalStatusRemove extends React.PureComponent {
