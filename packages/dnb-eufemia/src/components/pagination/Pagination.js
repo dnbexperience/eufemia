@@ -139,22 +139,21 @@ const paginationDefaultProps = {
   onEnd: null,
 }
 
-export default class Pagination extends React.PureComponent {
-  static propTypes = { ...paginationPropTypes }
-  static defaultProps = paginationDefaultProps
+export default function Pagination(props) {
+  const mergedProps = { ...paginationDefaultProps, ...props }
 
-  render() {
-    return (
-      <PaginationProvider
-        tagName="dnb-pagination"
-        internalContent={this.props.children}
-        {...this.props}
-      >
-        <PaginationInstance {...this.props} />
-      </PaginationProvider>
-    )
-  }
+  return (
+    <PaginationProvider
+      tagName="dnb-pagination"
+      internalContent={mergedProps.children}
+      {...mergedProps}
+    >
+      <PaginationInstance {...mergedProps} />
+    </PaginationProvider>
+  )
 }
+
+Pagination.propTypes = { ...paginationPropTypes }
 
 class PaginationInstance extends React.PureComponent {
   static propTypes = { ...paginationPropTypes }
