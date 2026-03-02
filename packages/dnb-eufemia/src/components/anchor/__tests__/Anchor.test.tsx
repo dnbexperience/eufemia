@@ -445,12 +445,10 @@ describe('Anchor element', () => {
   })
 
   it('should keep a stable ref across re-renders when no ref is provided', () => {
-    let renderCount = 0
     const refValues: Array<HTMLAnchorElement | null> = []
 
     const Wrapper = () => {
       const [, setState] = React.useState(0)
-      renderCount++
 
       return (
         <Anchor
