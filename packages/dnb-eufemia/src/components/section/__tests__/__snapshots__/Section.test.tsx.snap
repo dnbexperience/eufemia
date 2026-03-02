@@ -6,15 +6,11 @@ exports[`Section scss has to match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
  * Section component
  *
+ */
+/*
+ * Utilities
  */
 :root {
   --section-z-index: 1;

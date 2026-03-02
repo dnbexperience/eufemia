@@ -6,20 +6,16 @@ exports[`Tabs scss has to match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
  * Tabs component
  *
  */
 /*
-* Used for snapshot testing
-*
-*/
+ * Utilities
+ */
+/*
+ * Tabs component
+ *
+ */
 /*
 * Button mixins
 *

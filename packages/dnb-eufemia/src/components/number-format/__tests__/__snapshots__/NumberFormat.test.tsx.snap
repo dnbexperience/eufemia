@@ -6,17 +6,6 @@ exports[`NumberFormat scss has to match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
-* Used for snapshot testing
-*
-*/
-/*
 * Used for snapshot testing
 *
 */
@@ -24,6 +13,9 @@ exports[`NumberFormat scss has to match style dependencies css 1`] = `
 * Tooltip component
 *
 */
+/*
+ * Utilities
+ */
 :root {
   --tooltip-z-index: 1100;
 }
@@ -63,10 +55,6 @@ exports[`NumberFormat scss has to match style dependencies css 1`] = `
   top: auto !important;
 }
 
-/*
-* Used for snapshot testing
-*
-*/
 /*
  * NumberFormat Component
  *

@@ -3,8 +3,6 @@
 *
 */
 
-@use '../../../../style/core/utilities.scss';
-
 .dnb-pagination {
   // active/checked - like toggle-button
   @at-root .dnb-core-style &__button.dnb-button--primary,

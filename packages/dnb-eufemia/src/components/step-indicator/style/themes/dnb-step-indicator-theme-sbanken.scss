@@ -3,8 +3,6 @@
 * Warning, this is just a stop-gap theming to avoid dnb brand colors. This component is not fully "Sbanken-ready"
 */
 
-@use '../../../../style/core/utilities.scss';
-
 .dnb-step-indicator {
   --step-indicator-trigger-background: var(--sb-color-gray-light-3);
   --step-indicator-trigger-content-background: var(--sb-color-white);
