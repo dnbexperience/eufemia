@@ -339,7 +339,7 @@ class TextareaClass extends React.PureComponent<
       this.prepareAutosize()
     }
 
-    const rows = this.getRows()
+    const rows = this.getRows(value)
 
     const ret = dispatchCustomElementEvent(this, 'onChange', {
       value,
