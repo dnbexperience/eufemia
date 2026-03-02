@@ -444,6 +444,49 @@ describe('Anchor element', () => {
     expect(ref.current).toBe(element)
   })
 
+  it('should keep a stable ref across re-renders when no ref is provided', () => {
+    let renderCount = 0
+    const refValues: Array<HTMLAnchorElement | null> = []
+
+    const Wrapper = () => {
+      const [, setState] = React.useState(0)
+      renderCount++
+
+      return (
+        <Anchor
+          href="/url"
+          ref={(el) => {
+            refValues.push(el)
+          }}
+          onClick={() => setState((s) => s + 1)}
+        >
+          text
+        </Anchor>
+      )
+    }
+
+    const { container } = render(<Wrapper />)
+
+    const anchorElement = container.querySelector('.dnb-anchor')
+    expect(anchorElement).toBeInTheDocument()
+
+    // Trigger a re-render
+    fireEvent.click(anchorElement!)
+
+    // The ref should receive the same DOM element across renders
+    const nonNullRefs = refValues.filter(Boolean)
+    expect(nonNullRefs.length).toBeGreaterThanOrEqual(1)
+    expect(nonNullRefs.every((r) => r === anchorElement)).toBe(true)
+  })
+
+  it('should render correctly without a ref prop', () => {
+    const { container } = render(<Anchor href="/url">text</Anchor>)
+
+    const element = container.querySelector('.dnb-anchor')
+    expect(element).toBeInTheDocument()
+    expect(element?.tagName).toBe('A')
+  })
+
   it('gets valid element when ref is function', () => {
     const ref: React.RefObject<HTMLAnchorElement> = React.createRef()
 
