@@ -3,7 +3,6 @@ import React, {
   useRef,
   useEffect,
   useReducer,
-  createRef,
   useContext,
   useCallback,
 } from 'react'
@@ -418,8 +417,9 @@ function ArrayComponent(props: Props) {
     ) : (
       arrayItems.map((itemProps) => {
         const { id, value, index } = itemProps
-        const elementRef = (elementRefs.current[id] =
-          elementRefs.current[id] || createRef<HTMLDivElement>())
+        const elementRef = (elementRefs.current[id] = elementRefs.current[
+          id
+        ] || { current: null as HTMLDivElement | null })
 
         const renderChildren = (elementChild: ElementChild) => {
           return typeof elementChild === 'function'

@@ -31,7 +31,7 @@ const CustomStyle = styled.div`
   }
 `
 
-const myRef = React.createRef<HTMLInputElement>()
+const myRef = { current: null as HTMLInputElement | null }
 
 export const InputSandbox = () => {
   return (

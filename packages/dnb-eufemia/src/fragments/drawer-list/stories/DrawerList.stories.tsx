@@ -27,7 +27,7 @@ const CustomStyle = styled.div`
   }
 `
 
-const ref = React.createRef<HTMLInputElement>()
+const ref = { current: null as HTMLInputElement | null }
 const MagicOpen = (props) => {
   const [open, setOpen] = React.useState(false)
   const [selected, setSelected] = React.useState('C')

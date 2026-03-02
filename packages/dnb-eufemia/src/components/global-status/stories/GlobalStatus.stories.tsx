@@ -198,7 +198,7 @@ export const GlobalStatuseSandbox = () => (
   </Wrapper>
 )
 
-const scrolltoElement = React.createRef()
+const scrolltoElement = { current: null }
 
 const InputWithError = () => {
   const [haveAnErrorMessage1, setErrorMessage1] = React.useState(false)
