@@ -429,7 +429,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
           })
           if (args?.['focusOnClose']) {
             try {
-              submitButtonRef.current.focus({
+              submitButtonRef.current?.focus({
                 preventScroll: true,
               })
             } catch (e) {
