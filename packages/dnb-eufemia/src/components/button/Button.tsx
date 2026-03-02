@@ -29,19 +29,116 @@ import Anchor, { pickIcon, opensNewTab } from '../anchor/Anchor'
 import { launch } from '../../icons'
 import Tooltip from '../tooltip/Tooltip'
 import ButtonContent from './internal/ButtonContent'
+import type { SkeletonShow } from '../skeleton/Skeleton'
+import type { IconIcon, IconSize } from '../icon/Icon'
+import type {
+  DataAttributeTypes,
+  DynamicElement,
+  SpacingProps,
+} from '../../shared/types'
+import type { FormStatusBaseProps } from '../FormStatus'
+import type { AnchorProps } from '../Anchor'
 
+/** @deprecated Use ButtonVariant type instead */
 export const buttonVariantPropType = {
   variant: PropTypes.oneOf([
     'primary',
     'secondary',
     'tertiary',
     'signal',
-
-    /**
-     * For internal use only (as of now)
-     */
     'unstyled',
   ]),
+}
+
+export type ButtonText = string | React.ReactNode
+export type ButtonVariant =
+  | 'primary'
+  | 'secondary'
+  | 'tertiary'
+  | 'signal'
+  | 'unstyled'
+export type ButtonSize = 'default' | 'small' | 'medium' | 'large'
+export type ButtonIcon = IconIcon
+export type ButtonIconPositionTertiary = 'top'
+export type ButtonIconPosition = 'left' | 'right'
+export type ButtonIconPositionAll =
+  | 'left'
+  | 'right'
+  | ButtonIconPositionTertiary
+export type ButtonTooltip =
+  | string
+  | ((...args: any[]) => any)
+  | React.ReactNode
+export type ButtonTo = string | any | ((...args: any[]) => any)
+export type ButtonSkeleton = SkeletonShow
+export type ButtonChildren =
+  | string
+  | ((...args: any[]) => any)
+  | React.ReactNode
+
+// Local type for react-router-dom link with only the necessary props.
+type ReactRouterLink = Omit<
+  React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  'href'
+> & {
+  to:
+    | string
+    | {
+        pathname?: string
+        search?: string
+        has?: string
+      }
+}
+
+export type ButtonElement =
+  | DynamicElement<HTMLButtonElement | HTMLAnchorElement | AnchorProps>
+  | React.ComponentType<
+      ReactRouterLink & { ref?: React.Ref<HTMLAnchorElement> }
+    >
+  | React.ReactNode
+export type ButtonOnClick = (...args: any[]) => any
+
+export type ButtonProps = {
+  text?: ButtonText
+  type?: string
+  title?: string
+  variant?: ButtonVariant
+  size?: ButtonSize
+  icon?: ButtonIcon
+  iconPosition?: ButtonIconPositionAll
+  iconSize?: IconSize
+  tooltip?: ButtonTooltip
+  id?: string
+  href?: string
+  target?: string
+  rel?: string
+  to?: ButtonTo
+  customContent?: React.ReactNode
+  wrap?: boolean
+  bounding?: boolean
+  stretch?: boolean
+  skeleton?: ButtonSkeleton
+  disabled?: boolean
+  ref?: React.Ref<HTMLElement>
+  className?: string
+  class?: string
+  children?: ButtonChildren
+  element?: ButtonElement
+  onClick?: ButtonOnClick
+} & FormStatusBaseProps &
+  Partial<
+    DataAttributeTypes &
+      Omit<
+        Partial<
+          React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>
+        >,
+        'onClick'
+      >
+  > &
+  SpacingProps
+
+interface ButtonState {
+  afterContent: React.ReactNode | null
 }
 
 const buttonDefaultProps = {
@@ -82,14 +179,18 @@ const buttonDefaultProps = {
 /**
  * The button component should be used as the call-to-action in a form, or as a user interaction mechanism. Generally speaking, a button should not be used when a link would do the trick. Exceptions are made at times when it is used as a navigation element in the action-nav element.
  */
-class ButtonClass extends React.PureComponent {
+class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
   static contextType = Context
+  context!: React.ContextType<typeof Context>
+
+  _id: string | undefined
+  _ref: React.RefObject<HTMLElement | null>
 
   static getContent(props) {
     return processChildren(props)
   }
 
-  constructor(props) {
+  constructor(props: ButtonProps) {
     super(props)
 
     this._id =
@@ -132,24 +233,25 @@ class ButtonClass extends React.PureComponent {
       statusProps,
       statusNoAnimation,
       globalStatus,
-      id, // eslint-disable-line
+      id,
       disabled,
-      text: _text, // eslint-disable-line
-      icon: _icon, // eslint-disable-line
+      text: _text,
+      icon: _icon,
       iconPosition,
       iconSize,
       wrap,
-      bounding, // eslint-disable-line
+      bounding,
       stretch,
       skeleton,
       element,
-      ref: _ref, // eslint-disable-line
+      ref: _ref,
       ...attributes
     } = props
 
     const showStatus = getStatusState(status)
 
-    let { text, icon } = props
+    const { text } = props
+    let { icon } = props
     let usedVariant = variant
     let usedSize = size
     let usedIconSize = iconSize
@@ -215,7 +317,7 @@ class ButtonClass extends React.PureComponent {
       ? Anchor
       : 'button'
     if (Element === Anchor) {
-      attributes.omitClass = true
+      ;(attributes as Record<string, unknown>).omitClass = true
       if (opensNewTab(props.target, props.href) && !icon) {
         icon = launch
       }
@@ -330,82 +432,17 @@ class ButtonClass extends React.PureComponent {
   }
 }
 
-Button.propTypes = {
-  text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  type: PropTypes.string,
-  title: PropTypes.string,
-  variant: buttonVariantPropType.variant,
-  size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
-  icon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func,
-  ]),
-  iconPosition: PropTypes.oneOf(['left', 'right', 'top']),
-  iconSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  tooltip: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node,
-  ]),
-  status: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-    PropTypes.func,
-    PropTypes.node,
-  ]),
-  statusState: PropTypes.string,
-  statusProps: PropTypes.object,
-  statusNoAnimation: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-  ]),
-  globalStatus: PropTypes.shape({
-    id: PropTypes.string,
-    message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  }),
-  id: PropTypes.string,
-  href: PropTypes.string,
-  target: PropTypes.string,
-  rel: PropTypes.string,
-  to: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.func,
-  ]),
-  customContent: PropTypes.node,
-  wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  ref: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node,
-  ]),
-  element: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.object,
-    PropTypes.node,
-  ]),
-
-  onClick: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-}
-
 /**
  * Function wrapper that forwards `ref` to the inner DOM element of the class component.
  */
-function Button({ ref, ...props }) {
+function Button({ ref, ...props }: ButtonProps) {
   const instanceRef = React.useCallback(
     (instance) => {
       const el = instance?._ref?.current ?? null
       if (typeof ref === 'function') {
         ref(el)
       } else if (ref) {
-        ref.current = el
+        ;(ref as React.MutableRefObject<HTMLElement | null>).current = el
       }
     },
     [ref]
