@@ -274,7 +274,7 @@ function StringComponent(props: Props) {
     disabled,
     ...htmlAttributes,
     stretch: Boolean(width),
-    ref: inputRef,
+    ref: inputRef as React.RefObject<HTMLInputElement>,
     status: hasError ? 'error' : undefined,
     value: transformInstantly(value?.toString() ?? ''),
   }
