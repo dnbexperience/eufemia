@@ -259,7 +259,7 @@ html:not([data-visual-test]) .dnb-textarea__textarea {
     border-radius: var(--scrollbar-thumb-width, 0.5rem);
   }
 }
-@-moz-document url-prefix() {
+@supports (-moz-appearance: none) {
   .dnb-textarea__textarea {
     overflow-x: clip !important;
   }
