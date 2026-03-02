@@ -35,6 +35,7 @@ import type { FormStatusBaseProps } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../space/types'
 import type { TextCounterProps } from '../../fragments/TextCounter'
+import type { LocaleProps } from '../../shared/types'
 
 export type TextareaSuffix =
   | string
@@ -66,28 +67,78 @@ export interface TextareaProps
       | 'onKeyDown'
     >,
     SpacingProps,
-    FormStatusBaseProps {
+    FormStatusBaseProps,
+    LocaleProps {
+  /**
+   * The content value of the Textarea.
+   */
   value?: string
   id?: string
+  /**
+   * Prepends the Form Label component. If no ID is provided, a random ID is created.
+   */
   label?: React.ReactNode
+  /**
+   * Use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`.
+   */
   labelDirection?: 'vertical' | 'horizontal'
+  /**
+   * Use `true` to make the label only readable by screen readers.
+   */
   labelSrOnly?: boolean
+  /**
+   * The sizes you can choose for 1 row is `small` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `small`.
+   */
   size?: TextareaSize
+  /**
+   * To control the visual focus state as a prop, like `focus` or `blur`.
+   */
   textareaState?: string
+  /**
+   * Text describing the content of the Textarea more than the label. You can also send in a React component, so it gets wrapped inside the Textarea component.
+   */
   suffix?: TextareaSuffix
+  /**
+   * The placeholder which shows up once the Textarea value is empty.
+   */
   placeholder?: React.ReactNode
+  /**
+   * Use `true` to keep the placeholder visible even when the Textarea has focus. Defaults to `false`.
+   */
   keepPlaceholder?: boolean
+  /**
+   * Defines the `text-align` of the Textarea. Defaults to `left`.
+   */
   align?: TextareaAlign
+  /**
+   * If set to `true`, then the Textarea field will be 100% in `width`.
+   */
   stretch?: boolean
   disabled?: boolean
+  /**
+   * If set to `true`, an overlaying skeleton with animation will be shown.
+   */
   skeleton?: SkeletonShow
+  /**
+   * Use `true` to make the Textarea grow and shrink depending on how many lines the user has filled.
+   */
   autoResize?: boolean
+  /**
+   * Use a number to define the displayed max length. You can also use an object defining the TextCounter `variant` or properties. Please avoid using `maxLength` for accessibility reasons.
+   */
   characterCounter?: Omit<TextCounterProps, 'text'> | number
+  /**
+   * Set a number to define how many rows the Textarea can auto grow.
+   */
   autoResizeMaxRows?: TextareaAutoresizeMaxRows
   textareaClass?: string
   readOnly?: boolean
   rows?: TextareaRows
   cols?: TextareaCols
+  /**
+   * By providing a React.Ref we can get the internally used Textarea element (DOM). E.g. `ref={myRef}` by using `React.useRef()`.
+   */
+  ref?: React.Ref<any> | null
   className?: string
   textareaElement?: TextareaTextareaElement
   children?: TextareaChildren
@@ -95,13 +146,12 @@ export interface TextareaProps
   onFocus?: (...args: any[]) => any
   onBlur?: (...args: any[]) => any
   onKeyDown?: (...args: any[]) => any
-  ref?: React.Ref<any> | null
 }
 
 interface TextareaComponentState {
   textareaState: string
   value: string | null
-  _value: string | undefined
+  _value: string | null | undefined
 }
 
 /**
@@ -262,6 +312,10 @@ class TextareaClass extends React.PureComponent<
     }
   }
   onFocusHandler = (event: any) => {
+    if (!this._ref.current) {
+      return // stop here
+    }
+
     const { value } = this._ref.current
     this.setState({
       value,
@@ -362,12 +416,20 @@ class TextareaClass extends React.PureComponent<
     }
   }
   getRows() {
+    if (!this._ref.current) {
+      return 1
+    }
+
     return (
       Math.floor(this._ref.current.scrollHeight / this.getLineHeight()) ||
       1
     )
   }
   getLineHeight() {
+    if (!this._ref.current) {
+      return 0
+    }
+
     return parseFloat(getComputedStyle(this._ref.current).lineHeight) || 0
   }
   getProps() {
@@ -457,8 +519,8 @@ class TextareaClass extends React.PureComponent<
       )
     }
     if (readOnly) {
-      textareaParams['aria-readonly'] = (textareaParams as any).readOnly =
-        true
+      textareaParams['aria-readonly'] = true
+      textareaParams['readOnly'] = true
     }
 
     const mainParams = {
@@ -591,7 +653,7 @@ class TextareaClass extends React.PureComponent<
               text={value}
               max={characterCounter as number}
               lang={props.lang}
-              locale={(props as any).locale}
+              locale={props.locale}
               {...(typeof characterCounter === 'object'
                 ? characterCounter
                 : {})}
@@ -606,10 +668,21 @@ class TextareaClass extends React.PureComponent<
 ;(TextareaClass as any)._formElement = true
 ;(TextareaClass as any)._supportsSpacingProps = true
 
+interface TextareaFunction {
+  (props: TextareaProps): React.JSX.Element
+  hasValue: typeof TextareaClass.hasValue
+  getValue: typeof TextareaClass.getValue
+  _formElement: boolean
+  _supportsSpacingProps: boolean
+}
+
 /**
  * Function wrapper that forwards `ref` to the inner DOM element of the class component.
  */
-function Textarea({ ref, ...props }: TextareaProps) {
+const Textarea: TextareaFunction = function Textarea({
+  ref,
+  ...props
+}: TextareaProps) {
   const instanceRef = React.useCallback(
     (instance) => {
       const el = instance?._ref?.current ?? null
@@ -625,9 +698,9 @@ function Textarea({ ref, ...props }: TextareaProps) {
   return <TextareaClass ref={ref ? instanceRef : undefined} {...props} />
 }
 
-;(Textarea as any).hasValue = TextareaClass.hasValue
-;(Textarea as any).getValue = TextareaClass.getValue
-;(Textarea as any)._formElement = true
-;(Textarea as any)._supportsSpacingProps = true
+Textarea.hasValue = TextareaClass.hasValue
+Textarea.getValue = TextareaClass.getValue
+Textarea._formElement = true
+Textarea._supportsSpacingProps = true
 
 export default Textarea
