@@ -191,7 +191,7 @@ class TextareaClass extends React.PureComponent {
   constructor(props) {
     super(props)
 
-    this._ref = props._innerRef || React.createRef()
+    this._ref = React.createRef()
     this._id = props.id || makeUniqueId() // cause we need an id anyway
 
     if (props.textareaState) {
@@ -221,11 +221,6 @@ class TextareaClass extends React.PureComponent {
   }
   componentDidMount() {
     const props = this.getProps()
-    if (props._innerRef) {
-      typeof props._innerRef === 'function'
-        ? props._innerRef(this._ref.current)
-        : (props._innerRef.current = this._ref.current)
-    }
 
     if (props.autoResize && typeof window !== 'undefined') {
       this.setAutosize()
@@ -597,10 +592,22 @@ TextareaClass._formElement = true
 TextareaClass._supportsSpacingProps = true
 
 /**
- * Function wrapper that converts `ref` to `_innerRef` for the class component.
+ * Function wrapper that forwards `ref` to the inner DOM element of the class component.
  */
 function Textarea({ ref, ...props }) {
-  return <TextareaClass _innerRef={ref} {...props} />
+  const instanceRef = React.useCallback(
+    (instance) => {
+      const el = instance?._ref?.current ?? null
+      if (typeof ref === 'function') {
+        ref(el)
+      } else if (ref) {
+        ref.current = el
+      }
+    },
+    [ref]
+  )
+
+  return <TextareaClass ref={ref ? instanceRef : undefined} {...props} />
 }
 
 Textarea.hasValue = TextareaClass.hasValue
