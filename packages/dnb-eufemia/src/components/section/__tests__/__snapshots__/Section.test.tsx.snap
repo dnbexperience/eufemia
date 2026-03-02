@@ -277,34 +277,11 @@ exports[`Section scss have to match default theme snapshot 1`] = `
   --background-color: var(--color-success-green);
 }
 .dnb-section--fire-red .dnb-anchor, .dnb-section--emerald-green .dnb-anchor, .dnb-section--sea-green .dnb-anchor, .dnb-section--success .dnb-anchor {
-  color: var(--color-white);
-}
-.dnb-section--fire-red .dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)), .dnb-section--emerald-green .dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)), .dnb-section--sea-green .dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)), .dnb-section--success .dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
-  color: var(--anchor-color--contrast);
-  box-shadow: inset 100vw 100vw 0 0 var(--color-white), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--color-white), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--color-white);
-}
-.dnb-section--fire-red .dnb-anchor:hover:not(.dnb-anchor--no-hover), .dnb-section--emerald-green .dnb-anchor:hover:not(.dnb-anchor--no-hover), .dnb-section--sea-green .dnb-anchor:hover:not(.dnb-anchor--no-hover), .dnb-section--success .dnb-anchor:hover:not(.dnb-anchor--no-hover) {
-  /* stylelint-disable-next-line scss/operator-no-unspaced */
-}
-@supports not (selector(*:where(*))) {
-  .dnb-section--fire-red .dnb-anchor:hover:not(.dnb-anchor--no-hover), .dnb-section--emerald-green .dnb-anchor:hover:not(.dnb-anchor--no-hover), .dnb-section--sea-green .dnb-anchor:hover:not(.dnb-anchor--no-hover), .dnb-section--success .dnb-anchor:hover:not(.dnb-anchor--no-hover) {
-    color: var(--anchor-color--contrast);
-    box-shadow: inset 100vw 100vw 0 0 var(--color-white), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--color-white), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--color-white);
-  }
-}
-.dnb-section--fire-red .dnb-anchor:active, .dnb-section--emerald-green .dnb-anchor:active, .dnb-section--sea-green .dnb-anchor:active, .dnb-section--success .dnb-anchor:active {
-  color: var(--color-white);
-  background-color: transparent;
-  box-shadow: inset 100vw 100vw 0 0 transparent, calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 transparent, var(--anchor-background-gutter-right, 0.125rem) 0 0 0 transparent;
-}
-.dnb-section--fire-red .dnb-anchor:focus-visible, .dnb-section--emerald-green .dnb-anchor:focus-visible, .dnb-section--sea-green .dnb-anchor:focus-visible, .dnb-section--success .dnb-anchor:focus-visible {
-  color: var(--color-white);
-  background-color: transparent;
-  outline: none;
-  --border-color: var(--color-white);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
+  --anchor-color--default: var(--anchor-ondark-color--default);
+  --anchor-color--hover: var(--anchor-ondark-color--hover);
+  --anchor-color--active: var(--anchor-ondark-color--active);
+  --anchor-bg--hover: var(--anchor-ondark-bg--hover);
+  --anchor-bg--active: var(--anchor-ondark-bg--active);
 }
 .dnb-section--fire-red .dnb-button--tertiary, .dnb-section--emerald-green .dnb-button--tertiary, .dnb-section--sea-green .dnb-button--tertiary {
   --text-color: var(--color-white);
