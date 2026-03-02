@@ -38,6 +38,32 @@ describe('Stat.Currency', () => {
     expect(currency.classList).toContain('dnb-t__weight--bold')
   })
 
+  it('supports fontSize and allows mainSize to override it', () => {
+    const { rerender } = render(
+      <Stat.Currency value={12345.67} fontSize="x-large" />
+    )
+
+    let amount = document.querySelector('.dnb-stat__amount')
+    let currency = document.querySelector('.dnb-stat__currency')
+
+    expect(amount.classList).toContain('dnb-t__size--x-large')
+    expect(currency.classList).toContain('dnb-t__size--x-large')
+
+    rerender(
+      <Stat.Currency
+        value={12345.67}
+        fontSize="x-large"
+        mainSize="xx-large"
+      />
+    )
+
+    amount = document.querySelector('.dnb-stat__amount')
+    currency = document.querySelector('.dnb-stat__currency')
+
+    expect(amount.classList).toContain('dnb-t__size--xx-large')
+    expect(currency.classList).toContain('dnb-t__size--x-large')
+  })
+
   it('should validate with ARIA rules', async () => {
     const component = render(
       <Stat.Currency

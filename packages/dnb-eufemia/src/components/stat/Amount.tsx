@@ -29,6 +29,13 @@ export type AmountProps = Omit<
   currencyDisplay?: NumberFormatProps['currency_display']
   currencyPosition?: NumberFormatProps['currency_position']
   /**
+   * Typography size fallback.
+   *
+   * Is used for both main and auxiliary content unless `mainSize` and/or
+   * `auxiliarySize` are set.
+   */
+  fontSize?: TypographySize
+  /**
    * Typography size for the main content. Defaults to `large`.
    */
   mainSize?: TypographySize
@@ -83,9 +90,10 @@ function Amount(props: AmountProps) {
     prefix = null,
     suffix = null,
     srLabel = null,
-    mainSize = 'large',
+    fontSize = null,
+    mainSize = null,
     mainWeight,
-    auxiliarySize = 'large',
+    auxiliarySize = null,
     auxWeight = null,
     colorizeBySign = false,
     id = null,
@@ -141,10 +149,13 @@ function Amount(props: AmountProps) {
 
   const hasCurrency = Boolean(parts.currency)
   const renderCurrencyBefore = parts.currencyPosition === 'before'
+  const resolvedMainSize = mainSize ?? fontSize ?? 'large'
+  const resolvedAuxiliarySize = auxiliarySize ?? fontSize ?? 'large'
   const resolvedMainWeight = mainWeight ?? 'medium'
   const resolvedAuxWeight =
     auxWeight ??
-    (typeof mainWeight === 'undefined' && mainSize === auxiliarySize
+    (typeof mainWeight === 'undefined' &&
+    resolvedMainSize === resolvedAuxiliarySize
       ? 'medium'
       : null)
   const signTone =
@@ -156,20 +167,20 @@ function Amount(props: AmountProps) {
 
   const currencyClass = classnames(
     'dnb-stat__currency',
-    `dnb-t__size--${auxiliarySize}`,
-    `dnb-t__line-height--${auxiliarySize}`,
+    `dnb-t__size--${resolvedAuxiliarySize}`,
+    `dnb-t__line-height--${resolvedAuxiliarySize}`,
     resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`
   )
   const amountClass = classnames(
     'dnb-stat__amount',
-    `dnb-t__size--${mainSize}`,
-    `dnb-t__line-height--${mainSize}`,
+    `dnb-t__size--${resolvedMainSize}`,
+    `dnb-t__line-height--${resolvedMainSize}`,
     `dnb-t__weight--${resolvedMainWeight}`
   )
   const percentClass = classnames(
     'dnb-stat__percent',
-    `dnb-t__size--${auxiliarySize}`,
-    `dnb-t__line-height--${auxiliarySize}`,
+    `dnb-t__size--${resolvedAuxiliarySize}`,
+    `dnb-t__line-height--${resolvedAuxiliarySize}`,
     resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`
   )
 
@@ -180,8 +191,8 @@ function Amount(props: AmountProps) {
           <span
             className={classnames(
               'dnb-stat__sign',
-              `dnb-t__size--${mainSize}`,
-              `dnb-t__line-height--${mainSize}`,
+              `dnb-t__size--${resolvedMainSize}`,
+              `dnb-t__line-height--${resolvedMainSize}`,
               `dnb-t__weight--${resolvedMainWeight}`
             )}
           >
@@ -219,8 +230,8 @@ function Amount(props: AmountProps) {
       prefix,
       classnames(
         'dnb-stat__prefix',
-        `dnb-t__size--${auxiliarySize}`,
-        `dnb-t__line-height--${auxiliarySize}`,
+        `dnb-t__size--${resolvedAuxiliarySize}`,
+        `dnb-t__line-height--${resolvedAuxiliarySize}`,
         resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`
       )
     )
@@ -237,8 +248,8 @@ function Amount(props: AmountProps) {
       suffix,
       classnames(
         'dnb-stat__suffix',
-        `dnb-t__size--${auxiliarySize}`,
-        `dnb-t__line-height--${auxiliarySize}`,
+        `dnb-t__size--${resolvedAuxiliarySize}`,
+        `dnb-t__line-height--${resolvedAuxiliarySize}`,
         resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`
       )
     )

@@ -24,6 +24,20 @@ export const mainSizeProperty: PropertiesTableProps[string] = {
   status: 'optional',
 }
 
+export const fontSizeProperty: PropertiesTableProps[string] = {
+  doc: 'Typography size fallback used for both main and auxiliary content. `mainSize` and `auxiliarySize` override this value.',
+  type: [
+    '"x-small"',
+    '"small"',
+    '"basis"',
+    '"medium"',
+    '"large"',
+    '"x-large"',
+    '"xx-large"',
+  ],
+  status: 'optional',
+}
+
 export const mainWeightProperty: PropertiesTableProps[string] = {
   doc: 'Typography weight for the main content.',
   type: ['"regular"', '"medium"'],
@@ -79,6 +93,7 @@ export const SharedValueProperties: PropertiesTableProps = {
     'skeleton',
     'options',
   ]),
+  fontSize: fontSizeProperty,
   mainSize: mainSizeProperty,
   mainWeight: mainWeightProperty,
   auxWeight: auxWeightProperty,

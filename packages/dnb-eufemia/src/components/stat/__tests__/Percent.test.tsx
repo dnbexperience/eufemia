@@ -39,6 +39,32 @@ describe('Stat.Percent', () => {
     expect(percentSign.classList).toContain('dnb-t__weight--bold')
   })
 
+  it('supports fontSize and allows auxiliarySize to override it', () => {
+    const { rerender } = render(
+      <Stat.Percent value={12.3} fontSize="x-large" />
+    )
+
+    let amount = document.querySelector('.dnb-stat__amount')
+    let percentSign = document.querySelector('.dnb-stat__percent')
+
+    expect(amount.classList).toContain('dnb-t__size--x-large')
+    expect(percentSign.classList).toContain('dnb-t__size--x-large')
+
+    rerender(
+      <Stat.Percent
+        value={12.3}
+        fontSize="x-large"
+        auxiliarySize="basis"
+      />
+    )
+
+    amount = document.querySelector('.dnb-stat__amount')
+    percentSign = document.querySelector('.dnb-stat__percent')
+
+    expect(amount.classList).toContain('dnb-t__size--x-large')
+    expect(percentSign.classList).toContain('dnb-t__size--basis')
+  })
+
   it('should validate with ARIA rules', async () => {
     const component = render(
       <Stat.Percent value={0.1234} signDisplay="always" srLabel="Change" />

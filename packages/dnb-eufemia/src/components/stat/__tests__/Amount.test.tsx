@@ -126,6 +126,38 @@ describe('Stat.Amount', () => {
     expect(prefix.classList).toContain('dnb-t__size--basis')
   })
 
+  it('supports fontSize as fallback for both main and auxiliary sizes', () => {
+    render(
+      <Stat.Amount value={12345.67} currency="NOK" fontSize="x-large" />
+    )
+
+    const amount = document.querySelector('.dnb-stat__amount')
+    const currency = document.querySelector('.dnb-stat__currency')
+
+    expect(amount.classList).toContain('dnb-t__size--x-large')
+    expect(currency.classList).toContain('dnb-t__size--x-large')
+  })
+
+  it('lets mainSize and auxiliarySize override fontSize', () => {
+    render(
+      <Stat.Amount
+        value={12345.67}
+        currency="NOK"
+        fontSize="x-large"
+        mainSize="xx-large"
+        auxiliarySize="basis"
+      />
+    )
+
+    const amount = document.querySelector('.dnb-stat__amount')
+    const currency = document.querySelector('.dnb-stat__currency')
+
+    expect(amount.classList).toContain('dnb-t__size--xx-large')
+    expect(amount.classList).not.toContain('dnb-t__size--x-large')
+    expect(currency.classList).toContain('dnb-t__size--basis')
+    expect(currency.classList).not.toContain('dnb-t__size--x-large')
+  })
+
   it('supports custom mainWeight', () => {
     render(
       <Stat.Amount
