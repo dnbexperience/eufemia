@@ -6,13 +6,6 @@ exports[`Heading component has to match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
  * Heading Component
  *
  */

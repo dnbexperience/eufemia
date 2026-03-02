@@ -166,13 +166,6 @@ exports[`ToggleButton scss should match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
 * Used for snapshot testing
 *
 */
@@ -211,18 +204,6 @@ legend.dnb-form-label {
   display: inline-block;
 }
 
-/*
-* Used for snapshot testing
-*
-*/
-/*
-* Used for snapshot testing
-*
-*/
-/*
-* Used for snapshot testing
-*
-*/
 /*
 * Used for snapshot testing
 *
@@ -316,17 +297,15 @@ p > .dnb-icon {
 *
 */
 /*
-* Used for snapshot testing
-*
-*/
-/*
-* Used for snapshot testing
-*
-*/
-/*
 * Tooltip component
 *
 */
+/*
+ * Utilities
+ */
+/*
+ * Utilities
+ */
 :root {
   --tooltip-z-index: 1100;
 }
@@ -366,14 +345,6 @@ p > .dnb-icon {
   top: auto !important;
 }
 
-/*
-* Used for snapshot testing
-*
-*/
-/*
-* Used for snapshot testing
-*
-*/
 /*
 * Used for snapshot testing
 *
@@ -452,7 +423,7 @@ button .dnb-form-status__text {
 }
 
 /*
-* Used for snapshot testing
+* Tooltip component
 *
 */
 /*
@@ -705,7 +676,7 @@ button.dnb-button::-moz-focus-inner {
 *
 */
 /*
-* Used for snapshot testing
+* Tooltip component
 *
 */
 /*
@@ -1086,7 +1057,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:
 *
 */
 /*
-* Used for snapshot testing
+* Tooltip component
 *
 */
 /*
@@ -1445,7 +1416,7 @@ html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:checked):no
 }
 
 /*
-* Used for snapshot testing
+* Tooltip component
 *
 */
 /*

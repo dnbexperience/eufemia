@@ -6,13 +6,6 @@ exports[`Icon scss should match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
 * Icon component
 *
 */

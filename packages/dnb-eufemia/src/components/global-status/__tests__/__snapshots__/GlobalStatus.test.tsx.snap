@@ -5,9 +5,6 @@ exports[`GlobalStatus scss should match default theme snapshot 1`] = `
  * GlobalStatus theme
  *
  */
-/*
- * Utilities
- */
 .dnb-global-status__icon {
   font-size: 1rem;
 }
@@ -30,21 +27,6 @@ exports[`GlobalStatus scss should match default theme snapshot 1`] = `
 
 exports[`GlobalStatus scss should match style dependencies css 1`] = `
 "/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
-* Used for snapshot testing
-*
-*/
-/*
 * Used for snapshot testing
 *
 */
@@ -141,17 +123,15 @@ p > .dnb-icon {
 *
 */
 /*
-* Used for snapshot testing
-*
-*/
-/*
-* Used for snapshot testing
-*
-*/
-/*
 * Tooltip component
 *
 */
+/*
+ * Utilities
+ */
+/*
+ * Utilities
+ */
 :root {
   --tooltip-z-index: 1100;
 }
@@ -191,14 +171,6 @@ p > .dnb-icon {
   top: auto !important;
 }
 
-/*
-* Used for snapshot testing
-*
-*/
-/*
-* Used for snapshot testing
-*
-*/
 /*
 * Used for snapshot testing
 *
@@ -277,7 +249,7 @@ button .dnb-form-status__text {
 }
 
 /*
-* Used for snapshot testing
+* Tooltip component
 *
 */
 /*
@@ -526,14 +498,6 @@ button.dnb-button::-moz-focus-inner {
 *
 */
 /*
-* Used for snapshot testing
-*
-*/
-/*
-* Used for snapshot testing
-*
-*/
-/*
  * Section component
  *
  */
@@ -695,10 +659,6 @@ button.dnb-button::-moz-focus-inner {
   padding-bottom: var(--spacing-xx-large);
 }
 
-/*
-* Used for snapshot testing
-*
-*/
 /*
  * GlobalStatus component
  *

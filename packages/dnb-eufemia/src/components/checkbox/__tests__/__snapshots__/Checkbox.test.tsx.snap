@@ -57,13 +57,6 @@ exports[`Checkbox scss should match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
 * Used for snapshot testing
 *
 */
@@ -102,14 +95,6 @@ legend.dnb-form-label {
   display: inline-block;
 }
 
-/*
-* Used for snapshot testing
-*
-*/
-/*
-* Used for snapshot testing
-*
-*/
 /*
 * Used for snapshot testing
 *
@@ -188,13 +173,15 @@ button .dnb-form-status__text {
 }
 
 /*
-* Used for snapshot testing
-*
-*/
-/*
 * Checkbox component
 *
 */
+/*
+ * Utilities
+ */
+/*
+ * Utilities
+ */
 :root {
   --checkbox-width--medium: 1.5rem;
   --checkbox-height--medium: 1.5rem;
