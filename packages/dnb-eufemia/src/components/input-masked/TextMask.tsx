@@ -1,10 +1,14 @@
-import React from 'react'
+import React, {
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+} from 'react'
 import createTextMaskInputElement, {
   type CreateTextMaskConfig,
   type TextMaskInputController,
 } from './text-mask/createTextMaskInputElement'
 import InputModeNumber from './text-mask/InputModeNumber'
-import { isNil } from './text-mask/utilities'
 import type { Mask, MaskFunction, Pipe } from './text-mask/types'
 
 export type TextMaskMask =
@@ -26,128 +30,112 @@ export interface TextMaskProps
   placeholderChar?: string
   keepCharPositions?: boolean
   showMask?: boolean
+  ref?: React.Ref<TextMaskHandle>
 }
 
-export default class TextMask extends React.PureComponent<TextMaskProps> {
+export interface TextMaskHandle {
   inputRef: React.RefObject<HTMLInputElement>
-  textMaskInputElement?: TextMaskInputController
-  inputMode?: InputModeNumber
+}
 
-  static defaultProps = {
-    inputElement: null,
-    inputRef: null,
-    onChange: null,
-    guide: null,
-    value: null,
-    pipe: null,
-    placeholderChar: null,
-    keepCharPositions: null,
-    showMask: null,
-  }
+export default function TextMask({
+  inputElement = null,
+  inputRef: externalInputRef = null,
+  mask,
+  guide = null,
+  pipe = null,
+  placeholderChar = null,
+  keepCharPositions = null,
+  value = null,
+  onChange = null,
+  showMask = null,
+  ref,
+  ...props
+}: TextMaskProps): React.JSX.Element {
+  const internalRef = useRef<HTMLInputElement>(null)
+  const inputRefToUse = externalInputRef || internalRef
 
-  constructor(props: TextMaskProps) {
-    super(props)
+  const textMaskRef = useRef<TextMaskInputController | undefined>(
+    undefined
+  )
+  const inputModeRef = useRef<InputModeNumber | undefined>(undefined)
 
-    this.inputRef = props.inputRef || React.createRef()
-  }
+  useImperativeHandle(
+    ref,
+    () => ({
+      inputRef: inputRefToUse,
+    }),
+    [inputRefToUse]
+  )
 
-  componentDidMount() {
-    this.initTextMask()
-  }
+  const initTextMask = useCallback(() => {
+    const inputEl = inputRefToUse.current
 
-  componentWillUnmount() {
-    this.inputMode?.remove()
-  }
-
-  initTextMask() {
-    const {
-      props,
-      props: { value, inputMode },
-    } = this
-
-    const inputElement = this.inputRef.current
-    this.textMaskInputElement = createTextMaskInputElement({
+    textMaskRef.current = createTextMaskInputElement({
+      mask,
+      guide,
+      pipe,
+      placeholderChar,
+      keepCharPositions,
+      showMask,
+      value,
+      inputElement: inputEl,
       ...props,
-      inputElement,
     } as unknown as CreateTextMaskConfig)
-    this.textMaskInputElement.update(value)
+    textMaskRef.current.update(value)
 
+    const { inputMode } = props as { inputMode?: string }
     if (!inputMode && inputMode !== 'none') {
-      this.inputMode = new InputModeNumber()
+      if (!inputModeRef.current) {
+        inputModeRef.current = new InputModeNumber()
+      }
     }
 
-    this.inputMode?.setElement(inputElement)
-  }
+    inputModeRef.current?.setElement(inputEl)
+  }, [
+    mask,
+    guide,
+    pipe,
+    placeholderChar,
+    keepCharPositions,
+    showMask,
+    value,
+    inputRefToUse,
+    props,
+  ])
 
-  onChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    this.textMaskInputElement.update()
+  useEffect(() => {
+    initTextMask()
+  }, [initTextMask])
 
-    if (typeof this.props.onChange === 'function') {
-      return this.props.onChange(event)
+  // Clean up InputModeNumber only on unmount,
+  // matching the original componentWillUnmount behavior
+  useEffect(() => {
+    return () => {
+      inputModeRef.current?.remove()
     }
-  }
+  }, [])
 
-  componentDidUpdate(prevProps: TextMaskProps) {
-    // Getting props affecting value
-    const { value, pipe, mask, guide, placeholderChar, showMask } =
-      this.props
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (
+    event
+  ) => {
+    textMaskRef.current?.update()
 
-    // Сalculate that settings was changed:
-    // - `pipe` converting to string, to compare function content
-    // - `mask` converting to string, to compare values or function content
-    // - `keepCharPositions` excludes, because it affect only cursor position
-    const settings = { guide, placeholderChar, showMask }
-    const isPipeChanged =
-      typeof pipe === 'function' && typeof prevProps.pipe === 'function'
-        ? pipe.toString() !== prevProps.pipe.toString()
-        : (isNil(pipe) && !isNil(prevProps.pipe)) ||
-          (!isNil(pipe) && isNil(prevProps.pipe))
-    const isMaskChanged = mask.toString() !== prevProps.mask.toString()
-    // Cache Object.keys() result for performance
-    const settingsKeys = Object.keys(settings)
-    const isSettingChanged =
-      settingsKeys.some((prop) => settings[prop] !== prevProps[prop]) ||
-      isMaskChanged ||
-      isPipeChanged
-
-    // Сalculate that value was changed
-    const isValueChanged =
-      value !== this.inputRef.current!.value || prevProps.value !== value
-
-    // Check value and settings to prevent duplicating update() call
-    if (isValueChanged || isSettingChanged) {
-      this.initTextMask()
+    if (typeof onChange === 'function') {
+      return onChange(event)
     }
   }
 
-  render(): React.JSX.Element {
-    const {
-      inputElement,
-      inputRef, // eslint-disable-line
-      mask, // eslint-disable-line
-      guide, // eslint-disable-line
-      pipe, // eslint-disable-line
-      placeholderChar, // eslint-disable-line
-      keepCharPositions, // eslint-disable-line
-      value, // eslint-disable-line
-      onChange, // eslint-disable-line
-      showMask, // eslint-disable-line
-
-      ...props
-    } = this.props
-
-    const params = {
-      onChange: this.onChange,
-      ...props,
-    }
-
-    return inputElement ? (
-      React.createElement(inputElement.type as React.ComponentType<any>, {
-        ...(inputElement.props as Record<string, unknown>),
-        ...params,
-      })
-    ) : (
-      <input ref={this.inputRef} {...params} />
-    )
+  const params = {
+    onChange: handleChange,
+    ...props,
   }
+
+  return inputElement ? (
+    React.createElement(inputElement.type as React.ComponentType<any>, {
+      ...(inputElement.props as Record<string, unknown>),
+      ...params,
+    })
+  ) : (
+    <input ref={inputRefToUse} {...params} />
+  )
 }
