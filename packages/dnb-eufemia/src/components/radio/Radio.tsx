@@ -6,7 +6,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import {
   makeUniqueId,
@@ -31,57 +30,91 @@ import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
+import type { FormStatusBaseProps } from '../FormStatus'
+import type { SkeletonShow } from '../Skeleton'
+import type { SpacingProps } from '../space/types'
+
+export type RadioLabel =
+  | string
+  | ((...args: any[]) => any)
+  | React.ReactNode
+export type RadioLabelPosition = 'left' | 'right'
+export type RadioSize = 'default' | 'medium' | 'large'
+export type RadioSuffix =
+  | string
+  | ((...args: any[]) => any)
+  | React.ReactNode
+export type RadioChildren = string | ((...args: any[]) => any)
+
+export interface RadioProps
+  extends Omit<
+      React.HTMLProps<HTMLElement>,
+      'ref' | 'onChange' | 'label' | 'size' | 'children'
+    >,
+    SpacingProps,
+    FormStatusBaseProps {
+  /**
+   * Use either the `label` property or provide a custom one.
+   */
+  label?: RadioLabel
+  /**
+   * Use `true` to make the label only readable by screen readers.
+   */
+  labelSrOnly?: boolean
+  /**
+   * Defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.
+   */
+  labelPosition?: RadioLabelPosition
+  /**
+   * Determine whether the radio is checked or not. Default will be `false`.
+   */
+  checked?: boolean
+  disabled?: boolean
+  id?: string
+  element?: React.ElementType
+  /**
+   * Use a unique group identifier to define the Radio buttons that belongs together.
+   */
+  group?: string
+  /**
+   * The size of the Radio button. For now there is **medium** (default) and **large**.
+   */
+  size?: RadioSize
+  suffix?: RadioSuffix
+  /**
+   * Defines the `value` as a string. Use it to get the value during the `onChange` event listener callback in the **RadioGroup**.
+   */
+  value?: string
+  skeleton?: SkeletonShow
+  readOnly?: boolean
+  className?: string
+  children?: RadioChildren
+  onChange?: (...args: any[]) => any
+  /**
+   * By providing a React.ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.useRef()`.
+   */
+  ref?: React.Ref<HTMLInputElement>
+}
+
+interface RadioComponentState {
+  checked?: boolean
+  _checked?: boolean
+  __checked?: boolean
+  _listenForPropChanges: boolean
+}
+
 /**
  * The radio component is our enhancement of the classic radio button.
  */
-class RadioClass extends React.PureComponent {
+class RadioClass extends React.PureComponent<
+  RadioProps,
+  RadioComponentState
+> {
   static contextType = RadioGroupContext
+  context!: React.ContextType<typeof RadioGroupContext>
 
-  static propTypes = {
-    label: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    labelSrOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    labelPosition: PropTypes.oneOf(['left', 'right']),
-    checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    id: PropTypes.string,
-    element: PropTypes.node,
-    group: PropTypes.string,
-    size: PropTypes.oneOf(['default', 'medium', 'large']),
-    status: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    statusState: PropTypes.string,
-    statusProps: PropTypes.object,
-    statusNoAnimation: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    globalStatus: PropTypes.shape({
-      id: PropTypes.string,
-      message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    }),
-    suffix: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    value: PropTypes.string,
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    ref: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-
-    onChange: PropTypes.func,
-  }
+  _refInput: React.RefObject<HTMLInputElement | null>
+  _id: string
 
   static defaultProps = {
     label: null,
@@ -113,9 +146,12 @@ class RadioClass extends React.PureComponent {
 
   static Group = RadioGroup
 
-  static parseChecked = (state) => /true|on/.test(String(state))
+  static parseChecked = (state: any) => /true|on/.test(String(state))
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(
+    props: RadioProps,
+    state: RadioComponentState
+  ) {
     if (state._listenForPropChanges) {
       if (props.checked !== state._checked) {
         state.checked = RadioClass.parseChecked(props.checked)
@@ -129,7 +165,7 @@ class RadioClass extends React.PureComponent {
     return state
   }
 
-  constructor(props) {
+  constructor(props: RadioProps) {
     super(props)
     this._refInput = React.createRef()
     this._id = props.id || makeUniqueId() // cause we need an id anyway
@@ -138,7 +174,7 @@ class RadioClass extends React.PureComponent {
     }
   }
 
-  onKeyDownHandler = (event) => {
+  onKeyDownHandler = (event: React.KeyboardEvent) => {
     const key = event.key
     // only have key support if there is only a single radio
     if (this.isInNoGroup()) {
@@ -147,7 +183,7 @@ class RadioClass extends React.PureComponent {
       }
     } else if (this.isContextGroupOrSingle()) {
       if (key === 'Enter' || key === ' ') {
-        const { value } = this.context
+        const { value } = this.context as any
         if (value !== null && typeof value !== 'undefined') {
           event.preventDefault()
         }
@@ -163,7 +199,7 @@ class RadioClass extends React.PureComponent {
     dispatchCustomElementEvent(this, 'onKeyDown', { event })
   }
 
-  onChangeHandler = (_event) => {
+  onChangeHandler = (_event: any) => {
     const event = _event
     if (this.props.readOnly) {
       return event.preventDefault()
@@ -190,13 +226,13 @@ class RadioClass extends React.PureComponent {
   // 1. context group usage
   // 2. or a single, no group usage
   isContextGroupOrSingle = () =>
-    typeof this.context.value !== 'undefined' && !this.props.group
+    typeof (this.context as any).value !== 'undefined' && !this.props.group
   isPlainGroup = () =>
-    typeof this.context.value === 'undefined' && this.props.group
+    typeof (this.context as any).value === 'undefined' && this.props.group
   isInNoGroup = () =>
-    typeof this.context.value === 'undefined' && !this.props.group
+    typeof (this.context as any).value === 'undefined' && !this.props.group
 
-  onClickHandler = (event) => {
+  onClickHandler = (event: any) => {
     if (this.props.readOnly) {
       return event.preventDefault()
     }
@@ -209,10 +245,10 @@ class RadioClass extends React.PureComponent {
     this.callOnChange({ value, checked, event })
   }
 
-  callOnChange = ({ value, checked, event }) => {
+  callOnChange = ({ value, checked, event }: any) => {
     const { group } = this.props
-    if (this.context.onChange) {
-      this.context.onChange({
+    if ((this.context as any).onChange) {
+      ;(this.context as any).onChange({
         value,
         event,
       })
@@ -248,7 +284,7 @@ class RadioClass extends React.PureComponent {
             contextProps,
             { skeleton: context?.skeleton },
             pickFormElementProps(context.formElement),
-            context.Radio
+            (context as any).Radio
           )
 
           const {
@@ -266,29 +302,31 @@ class RadioClass extends React.PureComponent {
             readOnly,
             skeleton,
             className,
-            id: _id, // eslint-disable-line
-            group: _group, // eslint-disable-line
-            value: _value, // eslint-disable-line
-            checked: _checked, // eslint-disable-line
-            disabled: _disabled, // eslint-disable-line
-            children, // eslint-disable-line
-            onChange, // eslint-disable-line
-            ref: _ref, // eslint-disable-line
+            id: _id,
+            group: _group,
+            value: _value,
+            checked: _checked,
+            disabled: _disabled,
+            children,
+            onChange,
+            ref: _ref,
 
             ...rest
           } = props
 
           let { checked } = this.state
-          let { value, group, disabled } = props // get it from context also
+          const { value } = props
+          let { group, disabled } = props // get it from context also
 
-          const hasContext = typeof this.context.name !== 'undefined'
+          const hasContext =
+            typeof (this.context as any).name !== 'undefined'
 
           if (hasContext) {
-            if (typeof this.context.value !== 'undefined') {
-              checked = this.context.value === value
+            if (typeof (this.context as any).value !== 'undefined') {
+              checked = (this.context as any).value === value
             }
-            group = this.context.name
-            if (this.context.disabled && disabled !== false) {
+            group = (this.context as any).name
+            if ((this.context as any).disabled && disabled !== false) {
               disabled = true
             }
           } else if (typeof rest.name !== 'undefined') {
@@ -310,7 +348,7 @@ class RadioClass extends React.PureComponent {
             ),
           }
 
-          let inputParams = {
+          let inputParams: Record<string, any> = {
             role: hasContext || group ? 'radio' : null,
             type: hasContext || group ? 'radio' : 'checkbox', // overwriting the type
           }
@@ -342,7 +380,7 @@ class RadioClass extends React.PureComponent {
             <FormLabel
               id={id + '-label'}
               forId={id}
-              text={label}
+              text={label as React.ReactNode}
               disabled={disabled}
               skeleton={skeleton}
               srOnly={labelSrOnly}
@@ -363,7 +401,7 @@ class RadioClass extends React.PureComponent {
                     show={showStatus}
                     id={id + '-form-status'}
                     globalStatus={globalStatus}
-                    label={label}
+                    label={label as React.ReactNode}
                     textId={id + '-status'} // used for "aria-describedby"
                     widthSelector={id + ', ' + id + '-label'}
                     text={status}
@@ -426,7 +464,7 @@ class RadioClass extends React.PureComponent {
                         id={id + '-suffix'} // used for "aria-describedby"
                         context={props}
                       >
-                        {suffix}
+                        {suffix as React.ReactNode}
                       </Suffix>
                     )}
                   </span>
@@ -440,13 +478,13 @@ class RadioClass extends React.PureComponent {
   }
 }
 
-RadioClass._formElement = true
-RadioClass._supportsSpacingProps = true
+;(RadioClass as any)._formElement = true
+;(RadioClass as any)._supportsSpacingProps = true
 
 /**
  * Function wrapper that forwards `ref` to the inner DOM element of the class component.
  */
-function Radio({ ref, ...props }) {
+function RadioComponent({ ref, ...props }: RadioProps) {
   const instanceRef = React.useCallback(
     (instance) => {
       const el = instance?._refInput?.current ?? null
@@ -462,7 +500,14 @@ function Radio({ ref, ...props }) {
   return <RadioClass ref={ref ? instanceRef : undefined} {...props} />
 }
 
-Radio.Group = RadioClass.Group
+const Radio = RadioComponent as typeof RadioComponent & {
+  Group: typeof RadioGroup
+  parseChecked: typeof RadioClass.parseChecked
+  _formElement: boolean
+  _supportsSpacingProps: boolean
+}
+
+Radio.Group = RadioGroup
 Radio.parseChecked = RadioClass.parseChecked
 Radio._formElement = true
 Radio._supportsSpacingProps = true
