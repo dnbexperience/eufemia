@@ -105,20 +105,15 @@ export default function TextMask({
 
   useEffect(() => {
     initTextMask()
+  }, [initTextMask])
 
+  // Clean up InputModeNumber only on unmount,
+  // matching the original componentWillUnmount behavior
+  useEffect(() => {
     return () => {
       inputModeRef.current?.remove()
     }
-    // Only run on mount/unmount for initial setup and cleanup
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  useEffect(() => {
-    // Сalculate that settings was changed:
-    // - `pipe` and `mask` converted to string for comparison
-    // Re-initialize when relevant props change
-    initTextMask()
-  }, [initTextMask])
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (
     event
