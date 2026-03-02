@@ -51,7 +51,7 @@ button.dnb-anchor {
     &.dnb-anchor--disabled,
     &[aria-disabled='true'],
     &[disabled] {
-      --anchor-color: var(--anchor-color--disabled);
+      --anchor-color: var(--token-color-text-action-disabled);
     }
   }
 }

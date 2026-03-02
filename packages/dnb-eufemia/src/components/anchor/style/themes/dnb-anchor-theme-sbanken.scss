@@ -8,7 +8,6 @@
 @include anchor-mixins.notNoStyle() {
   &.dnb-anchor {
     --anchor-underline-thickness: 0.125rem;
-    --anchor-color--disabled: var(--sb-color-gray-dark);
     --anchor-background-gutter-left: 0.25rem;
     --anchor-background-gutter-right: 0.25rem;
     --anchor-icon-position: translateY(-0.125em);

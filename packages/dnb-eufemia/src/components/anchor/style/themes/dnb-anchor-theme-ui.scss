@@ -6,10 +6,6 @@
 @use '../anchor-mixins.scss';
 
 @mixin anchorStyleUi() {
-  --anchor-color--disabled: var(
-    --color-sea-green-30
-  ); // TODO: no design tokens?
-
   // Align this icon to look the same as in v10
   &__launch-icon.dnb-icon.dnb-icon--default {
     font-size: 1em;
