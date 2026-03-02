@@ -3,8 +3,6 @@
 *
 */
 
-@use '../../../style/core/utilities.scss';
-
 .dnb-icon:has(.dnb-country-flag) {
   display: inline-flex;
   justify-content: center;

@@ -5,7 +5,6 @@
 
 @use '../../../style/elements/ui-spacing.scss';
 @use './code-mixins.scss';
-@use '../../../style/core/utilities.scss';
 
 .dnb-code {
   @include code-mixins.codeStyle();

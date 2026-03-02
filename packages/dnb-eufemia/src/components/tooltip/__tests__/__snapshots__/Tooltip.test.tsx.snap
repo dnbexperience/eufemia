@@ -6,16 +6,12 @@ exports[`Tooltip scss has to match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
 * Tooltip component
 *
 */
+/*
+ * Utilities
+ */
 :root {
   --tooltip-z-index: 1100;
 }

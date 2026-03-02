@@ -13,16 +13,12 @@ exports[`Badge scss should match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
 * Badge component
 *
 */
+/*
+ * Utilities
+ */
 .dnb-badge {
   display: inline-flex;
   flex-flow: row wrap;
