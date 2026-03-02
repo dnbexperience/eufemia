@@ -1599,23 +1599,22 @@ describe('Dropdown component', () => {
 
     render(<MockComponent />)
 
-    expect(ref.current.id).toBe(props.id)
+    const button = document.querySelector(`#${props.id}`)
+    expect(ref.current).toBeInstanceOf(HTMLButtonElement)
+    expect(ref.current).toBe(button)
     expect(ref.current.tagName).toBe('BUTTON')
-    expect(ref.current instanceof HTMLButtonElement).toBe(true)
   })
 
   it('gets valid buttonRef element when ref is function', () => {
-    let refElement: HTMLButtonElement
+    const refFn = jest.fn()
 
-    function refFunction(instance: HTMLButtonElement) {
-      refElement = instance
-    }
+    render(<Dropdown {...props} buttonRef={refFn} />)
 
-    render(<Dropdown {...props} buttonRef={refFunction} />)
-
-    expect(refElement.id).toBe(props.id)
-    expect(refElement.tagName).toBe('BUTTON')
-    expect(refElement instanceof HTMLButtonElement).toBe(true)
+    expect(refFn).toHaveBeenCalledTimes(1)
+    const button = document.querySelector(`#${props.id}`)
+    expect(refFn).toHaveBeenCalledWith(button)
+    expect(button.tagName).toBe('BUTTON')
+    expect(button instanceof HTMLButtonElement).toBe(true)
   })
 
   it('gets valid ref element', () => {
@@ -1628,23 +1627,22 @@ describe('Dropdown component', () => {
 
     render(<MockComponent />)
 
-    expect(ref.current.className).toContain('dnb-dropdown')
+    const wrapper = document.querySelector('.dnb-dropdown')
+    expect(ref.current).toBeInstanceOf(HTMLSpanElement)
+    expect(ref.current).toBe(wrapper)
     expect(ref.current.tagName).toBe('SPAN')
-    expect(ref.current instanceof HTMLSpanElement).toBe(true)
   })
 
   it('gets valid ref element when ref is function', () => {
-    let refElement: HTMLSpanElement
+    const refFn = jest.fn()
 
-    function refFunction(instance: HTMLSpanElement) {
-      refElement = instance
-    }
+    render(<Dropdown {...props} ref={refFn} />)
 
-    render(<Dropdown {...props} ref={refFunction} />)
-
-    expect(refElement.className).toContain('dnb-dropdown')
-    expect(refElement.tagName).toBe('SPAN')
-    expect(refElement instanceof HTMLSpanElement).toBe(true)
+    expect(refFn).toHaveBeenCalledTimes(1)
+    const wrapper = document.querySelector('.dnb-dropdown')
+    expect(refFn).toHaveBeenCalledWith(wrapper)
+    expect(wrapper.tagName).toBe('SPAN')
+    expect(wrapper instanceof HTMLSpanElement).toBe(true)
   })
 
   beforeAll(() => {
