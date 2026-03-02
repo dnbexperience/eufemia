@@ -110,48 +110,41 @@ class GlobalStatusController extends React.PureComponent {
   }
 }
 
-class GlobalStatusRemove extends React.PureComponent {
-  static propTypes = {
-    id: PropTypes.string, // Provider id
-    statusId: PropTypes.string.isRequired, // Status Item id
-  }
-  static defaultProps = {
-    id: 'main',
-  }
+function GlobalStatusRemove({ id = 'main', statusId, ...restProps }) {
+  const providerRef = React.useRef(null)
 
-  static getDerivedStateFromProps(props, state) {
-    if (state._props !== props) {
-      state.provider.update(props.statusId, props)
-    }
-
-    return state
-  }
-
-  state = {}
-
-  constructor(props) {
-    super(props)
-
+  if (!providerRef.current) {
     let GSP = null
     try {
       GSP = GlobalStatusProvider
     } catch (e) {
-      // do noting
+      // do nothing
     }
     if (!GSP && typeof window !== 'undefined') {
       GSP = window.GlobalStatusProvider
     }
-    this.state.provider = GSP.init(props.id)
-    this.state._props = props
+    providerRef.current = GSP.init(id)
   }
 
-  componentDidMount() {
-    this.state.provider.remove(this.props.statusId, this.props)
+  const prevPropsRef = React.useRef(null)
+
+  if (prevPropsRef.current !== restProps) {
+    if (prevPropsRef.current !== null) {
+      providerRef.current.update(statusId, { id, statusId, ...restProps })
+    }
+    prevPropsRef.current = restProps
   }
 
-  render() {
-    return null
-  }
+  React.useEffect(() => {
+    providerRef.current.remove(statusId, { id, statusId, ...restProps })
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  return null
+}
+
+GlobalStatusRemove.propTypes = {
+  id: PropTypes.string, // Provider id
+  statusId: PropTypes.string.isRequired, // Status Item id
 }
 
 GlobalStatusController.Remove = GlobalStatusRemove
