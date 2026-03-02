@@ -172,11 +172,14 @@ describe('Button component', () => {
   })
 
   it('has set ref if ref was given', () => {
-    const ref = React.createRef()
+    const ref = React.createRef<HTMLButtonElement>()
     expect(ref.current).toBe(null)
-    render(<Button {...props} ref={ref} />)
-    expect(ref.current).not.toBe(null)
-    expect(typeof ref.current).toBe('object')
+    render(<Button ref={ref} />)
+
+    // ref should be the DOM element, not a class instance
+    expect(ref.current).toBeInstanceOf(HTMLButtonElement)
+    expect(ref.current.tagName).toBe('BUTTON')
+    expect(ref.current).toBe(document.querySelector('.dnb-button'))
   })
 
   it('gets valid element when ref is function', () => {
@@ -185,9 +188,9 @@ describe('Button component', () => {
     render(<Button id="unique" ref={refFn} />)
 
     // ref callback receives the DOM element
-    expect(refFn).toHaveBeenCalled()
+    expect(refFn).toHaveBeenCalledTimes(1)
     const button = document.querySelector('#unique')
-    expect(button.getAttribute('id')).toBe('unique')
+    expect(refFn).toHaveBeenCalledWith(button)
     expect(button.tagName).toBe('BUTTON')
   })
 

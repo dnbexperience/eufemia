@@ -226,7 +226,7 @@ export class InputClass extends React.PureComponent {
   constructor(props, context) {
     super(props)
 
-    this._ref = props._innerRef || React.createRef()
+    this._ref = React.createRef()
 
     this._id =
       props.id ||
@@ -685,6 +685,11 @@ class InputSubmitButton extends React.PureComponent {
 
   state = { focusState: 'virgin' }
 
+  constructor(props) {
+    super(props)
+    this._buttonRef = React.createRef()
+  }
+
   onSubmitFocusHandler = (event) => {
     const value = this.props.value
     this.setState({
@@ -719,7 +724,6 @@ class InputSubmitButton extends React.PureComponent {
 
       onSubmitBlur, //eslint-disable-line
       onSubmitFocus, //eslint-disable-line
-      _innerRef, //eslint-disable-line
 
       ...rest
     } = this.props
@@ -756,7 +760,7 @@ class InputSubmitButton extends React.PureComponent {
           onClick={this.onSubmitHandler}
           onFocus={this.onSubmitFocusHandler}
           onBlur={this.onSubmitBlurHandler}
-          ref={_innerRef}
+          ref={this._buttonRef}
           {...params}
           {...statusProps}
         />
@@ -766,7 +770,21 @@ class InputSubmitButton extends React.PureComponent {
 }
 
 function SubmitButton({ ref, ...props }) {
-  return <InputSubmitButton _innerRef={ref} {...props} />
+  const instanceRef = React.useCallback(
+    (instance) => {
+      const el = instance?._buttonRef?.current ?? null
+      if (typeof ref === 'function') {
+        ref(el)
+      } else if (ref) {
+        ref.current = el
+      }
+    },
+    [ref]
+  )
+
+  return (
+    <InputSubmitButton ref={ref ? instanceRef : undefined} {...props} />
+  )
 }
 
 export { SubmitButton }
@@ -810,12 +828,22 @@ InputClass._formElement = true
 InputClass._supportsSpacingProps = true
 
 /**
- * Function wrapper that converts `ref` to `_innerRef` for the class component.
- * React 19 treats `ref` as a regular prop but still sets it to the class instance.
- * This wrapper ensures consumers get the inner DOM element via `ref`.
+ * Function wrapper that forwards `ref` to the inner DOM element of the class component.
  */
 function Input({ ref, ...props }) {
-  return <InputClass _innerRef={ref} {...props} />
+  const instanceRef = React.useCallback(
+    (instance) => {
+      const el = instance?._ref?.current ?? null
+      if (typeof ref === 'function') {
+        ref(el)
+      } else if (ref) {
+        ref.current = el
+      }
+    },
+    [ref]
+  )
+
+  return <InputClass ref={ref ? instanceRef : undefined} {...props} />
 }
 
 Input.defaultProps = InputClass.defaultProps
