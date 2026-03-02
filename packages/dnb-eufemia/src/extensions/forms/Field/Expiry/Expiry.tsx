@@ -144,28 +144,44 @@ function Expiry(props: ExpiryProps = {}) {
           return external
         }
 
-        if (external?.year && external?.month) {
-          return `${external.month}${external.year}`
+        if (external?.year || external?.month) {
+          const monthString = expiryValueToString(
+            external.month as string,
+            placeholders.month
+          )
+          const yearString = expiryValueToString(
+            external.year as string,
+            placeholders.year
+          )
+
+          if (
+            isFieldEmpty(monthString, placeholders.month) &&
+            isFieldEmpty(yearString, placeholders.year)
+          ) {
+            return undefined
+          }
+
+          return `${monthString}${yearString}`
         }
       }
 
       return value
     },
-    [transformInProp]
+    [transformInProp, placeholders.month, placeholders.year]
   )
 
-  const provideAdditionalArgs = useCallback((value: string) => {
-    let { month, year } = stringToExpiryValue(value)
+  const provideAdditionalArgs = useCallback(
+    (value: string) => {
+      const { month, year } = stringToExpiryValue(value)
 
-    if (isNaN(Number(month))) {
-      month = undefined
-    }
-    if (isNaN(Number(year))) {
-      year = undefined
-    }
-
-    return { month, year }
-  }, [])
+      return {
+        month:
+          stripPlaceholderChars(month, placeholders.month) || undefined,
+        year: stripPlaceholderChars(year, placeholders.year) || undefined,
+      }
+    },
+    [placeholders.month, placeholders.year]
+  )
 
   const preparedProps: ExpiryProps = {
     ...props,
