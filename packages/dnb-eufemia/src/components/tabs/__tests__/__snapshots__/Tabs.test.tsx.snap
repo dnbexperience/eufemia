@@ -76,31 +76,6 @@ html:not([data-visual-test]) .dnb-tabs__tabs__tablist {
   scroll-behavior: smooth;
 }
 .dnb-tabs__tabs__tablist {
-  -webkit-overflow-scrolling: touch;
-  scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;
-}
-@supports not (scrollbar-color: auto) {
-  .dnb-tabs__tabs__tablist::-webkit-scrollbar:vertical {
-    width: var(--scrollbar-track-width, 0.5rem);
-  }
-  .dnb-tabs__tabs__tablist::-webkit-scrollbar:horizontal {
-    height: var(--scrollbar-track-width, 0.5rem);
-  }
-  .dnb-tabs__tabs__tablist::-webkit-scrollbar {
-    border-radius: var(--scrollbar-thumb-width, 0.5rem);
-    background-color: var(--scrollbar-track-color, #eee);
-  }
-  .dnb-tabs__tabs__tablist::-webkit-scrollbar-thumb {
-    background-color: var(--scrollbar-thumb-color, #888);
-  }
-  .dnb-tabs__tabs__tablist::-webkit-scrollbar-thumb:hover {
-    background-color: var(--scrollbar-thumb-hover-color, #666);
-  }
-  .dnb-tabs__tabs__tablist::-webkit-scrollbar-thumb {
-    border-radius: var(--scrollbar-thumb-width, 0.5rem);
-  }
-}
-.dnb-tabs__tabs__tablist {
   /* Hide scrollbar for Chrome, Safari */
   /* stylelint-disable-next-line */
 }

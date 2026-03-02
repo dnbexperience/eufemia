@@ -111,31 +111,6 @@ html:not([data-visual-test]) .dnb-drawer-list--scroll .dnb-drawer-list__options 
     scroll-behavior: auto;
   }
 }
-.dnb-drawer-list--scroll .dnb-drawer-list__options {
-  -webkit-overflow-scrolling: touch;
-  scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;
-}
-@supports not (scrollbar-color: auto) {
-  .dnb-drawer-list--scroll .dnb-drawer-list__options::-webkit-scrollbar:vertical {
-    width: var(--scrollbar-track-width, 0.5rem);
-  }
-  .dnb-drawer-list--scroll .dnb-drawer-list__options::-webkit-scrollbar:horizontal {
-    height: var(--scrollbar-track-width, 0.5rem);
-  }
-  .dnb-drawer-list--scroll .dnb-drawer-list__options::-webkit-scrollbar {
-    border-radius: var(--scrollbar-thumb-width, 0.5rem);
-    background-color: var(--scrollbar-track-color, #eee);
-  }
-  .dnb-drawer-list--scroll .dnb-drawer-list__options::-webkit-scrollbar-thumb {
-    background-color: var(--scrollbar-thumb-color, #888);
-  }
-  .dnb-drawer-list--scroll .dnb-drawer-list__options::-webkit-scrollbar-thumb:hover {
-    background-color: var(--scrollbar-thumb-hover-color, #666);
-  }
-  .dnb-drawer-list--scroll .dnb-drawer-list__options::-webkit-scrollbar-thumb {
-    border-radius: var(--scrollbar-thumb-width, 0.5rem);
-  }
-}
 @media (prefers-reduced-motion: reduce) {
   .dnb-drawer-list--scroll .dnb-drawer-list__options {
     transition-duration: 0.01ms;
