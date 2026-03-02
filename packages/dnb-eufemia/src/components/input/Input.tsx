@@ -907,10 +907,15 @@ const InputIcon = React.memo(
 
     // Check if it's a ProgressIndicator (React element)
     const isProgressIndicator = (icon: any) => {
+      if (!React.isValidElement(icon)) {
+        return false // stop here
+      }
+
+      const type = icon.type as { displayName?: string; name?: string }
+
       return (
-        React.isValidElement(icon) &&
-        ((icon as any).type?.displayName === 'ProgressIndicator' ||
-          (icon as any).type?.name === 'ProgressIndicator')
+        type?.displayName === 'ProgressIndicator' ||
+        type?.name === 'ProgressIndicator'
       )
     }
 
