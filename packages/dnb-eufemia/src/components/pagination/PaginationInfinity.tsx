@@ -6,7 +6,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import {
   warn,
   dispatchCustomElementEvent,
@@ -21,14 +20,22 @@ import {
 } from './PaginationHelpers'
 import PaginationContext from './PaginationContext'
 
-export default class InfinityScroller extends React.PureComponent {
+export default class InfinityScroller extends React.PureComponent<any> {
   static contextType = PaginationContext
-  static propTypes = {
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  }
+  context!: React.ContextType<typeof PaginationContext>
+
   static defaultProps = { children: null }
 
-  constructor(props, context) {
+  hideIndicator: boolean
+  useLoadButton: boolean
+  lastElement: React.RefObject<any>
+  callOnUnmount: Array<any>
+  _startupTimeout: ReturnType<typeof setTimeout>
+  _bufferTimeout: ReturnType<typeof setTimeout>
+  callbackBuffer: Array<{ fn: (...args: any[]) => any; params: any }>
+  _lastCall: number
+
+  constructor(props: any, context: any) {
     super(props)
     this.hideIndicator = context.pagination.hideProgressIndicator
     this.useLoadButton = context.pagination.useLoadButton
@@ -66,9 +73,9 @@ export default class InfinityScroller extends React.PureComponent {
   }
 
   getNewContent = (
-    newPageNo,
-    props = {},
-    { callStartupEvent = false, preventWaitForDelay = false } = {}
+    newPageNo: number,
+    props: any = {},
+    { callStartupEvent = false, preventWaitForDelay = false }: any = {}
   ) => {
     const { pageCountInternal, endInfinity } = this.context.pagination
 
@@ -96,7 +103,7 @@ export default class InfinityScroller extends React.PureComponent {
     })
   }
 
-  waitForReachedTime(fn, params) {
+  waitForReachedTime(fn: (...args: any[]) => any, params: any) {
     this.callbackBuffer = this.callbackBuffer || []
     this.callbackBuffer.push({ fn, params })
     this.callBuffer({
@@ -106,7 +113,7 @@ export default class InfinityScroller extends React.PureComponent {
     })
   }
 
-  callBuffer({ minTime = this.context.pagination.minTime } = {}) {
+  callBuffer({ minTime = this.context.pagination.minTime }: any = {}) {
     if (this.callbackBuffer.length === 0) {
       return // stop here
     }
@@ -135,13 +142,13 @@ export default class InfinityScroller extends React.PureComponent {
   }
 
   callEventHandler(
-    pageNumber,
+    pageNumber: number,
     {
       callStartupEvent = false,
       preventWaitForDelay = false,
       callOnEnd = false,
       onDispatch = null,
-    } = {}
+    }: any = {}
   ) {
     this.waitForReachedTime(
       ({ pageNumber, callStartupEvent }) => {
@@ -416,23 +423,18 @@ export default class InfinityScroller extends React.PureComponent {
   }
 }
 
-class InteractionMarker extends React.PureComponent {
-  static propTypes = {
-    pageNumber: PropTypes.number.isRequired,
-    onVisible: PropTypes.func.isRequired,
-    markerElement: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func,
-      PropTypes.string,
-    ]),
-  }
+class InteractionMarker extends React.PureComponent<any, any> {
   static defaultProps = {
     markerElement: null,
   }
   state = { isConnected: false }
 
-  constructor(props) {
+  _ref: React.RefObject<any>
+  intersectionObserver: IntersectionObserver | null
+  _isMounted: boolean
+  _readyTimeout: ReturnType<typeof setTimeout>
+
+  constructor(props: any) {
     super(props)
 
     if (typeof props.markerElement === 'function') {
@@ -441,7 +443,7 @@ class InteractionMarker extends React.PureComponent {
       )
     }
 
-    this._ref = React.createRef()
+    this._ref = React.createRef<HTMLElement>()
 
     if (typeof IntersectionObserver !== 'undefined') {
       this.intersectionObserver = new IntersectionObserver((entries) => {
@@ -524,25 +526,9 @@ class InteractionMarker extends React.PureComponent {
   }
 }
 
-export class InfinityLoadButton extends React.PureComponent {
+export class InfinityLoadButton extends React.PureComponent<any, any> {
   static contextType = Context
-  static propTypes = {
-    element: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func,
-      PropTypes.string,
-    ]),
-    pressedElement: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func,
-    ]),
-    icon: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired,
-    text: PropTypes.string,
-    iconPosition: PropTypes.string,
-  }
+  context!: React.ContextType<typeof Context>
   static defaultProps = {
     element: 'div',
     pressedElement: null,
@@ -551,7 +537,7 @@ export class InfinityLoadButton extends React.PureComponent {
     iconPosition: 'left',
   }
   state = { isPressed: false }
-  onClickHandler = (e) => {
+  onClickHandler = (e: React.MouseEvent) => {
     this.setState({ isPressed: true })
     if (typeof this.props.onClick === 'function') {
       this.props.onClick(e)
@@ -583,22 +569,16 @@ export class InfinityLoadButton extends React.PureComponent {
   }
 }
 
-class ScrollToElement extends React.PureComponent {
-  static propTypes = {
-    pageElement: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func,
-      PropTypes.string,
-    ]),
-  }
+class ScrollToElement extends React.PureComponent<any> {
   static defaultProps = {
     pageElement: null,
   }
 
-  constructor(props) {
+  _elementRef: React.RefObject<any>
+
+  constructor(props: any) {
     super(props)
-    this._elementRef = React.createRef()
+    this._elementRef = React.createRef<HTMLElement>()
   }
 
   componentDidMount() {
@@ -607,7 +587,7 @@ class ScrollToElement extends React.PureComponent {
     this.scrollToPage(elem)
   }
 
-  scrollToPage(element) {
+  scrollToPage(element: HTMLElement) {
     if (element && typeof element.scrollIntoView === 'function') {
       element.scrollIntoView({
         block: 'nearest',
@@ -629,4 +609,4 @@ class ScrollToElement extends React.PureComponent {
   }
 }
 
-InfinityScroller._supportsSpacingProps = true
+;(InfinityScroller as any)._supportsSpacingProps = true
