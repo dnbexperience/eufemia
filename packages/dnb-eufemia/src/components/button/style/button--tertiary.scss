@@ -1,5 +1,5 @@
-@import '../../../style/core/utilities.scss';
-@import './themes/button-mixins.scss';
+@use '../../../style/core/utilities.scss';
+@use 'themes/button-mixins.scss';
 
 .dnb-button {
   &--tertiary {
@@ -20,7 +20,7 @@
     .dnb-button__text {
       position: relative; // because of the underline
 
-      @include drawUnderlineBorder() {
+      @include button-mixins.drawUnderlineBorder() {
         bottom: -0.0625rem;
         color: transparent;
         transition: color 250ms ease-in-out;
@@ -32,9 +32,9 @@
       }
     }
 
-    @include focus-visible() {
+    @include utilities.focus-visible() {
       outline: none;
-      @include buttonFocusRing(
+      @include button-mixins.buttonFocusRing(
         'always',
         $left: var(--button-tertiary-focus-left),
         $right: var(--button-tertiary-focus-right)
@@ -46,15 +46,15 @@
       }
     }
 
-    @include hover() {
+    @include utilities.hover() {
       // underline
       .dnb-button__text::after {
         visibility: visible;
       }
     }
 
-    @include active() {
-      @include removeFocusRing('keyboard');
+    @include utilities.active() {
+      @include utilities.removeFocusRing('keyboard');
 
       // underline
       .dnb-button__text::after {

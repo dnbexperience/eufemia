@@ -4,28 +4,28 @@
  */
 
 @use '../../../style/elements/ui-spacing.scss';
-@import './lists-mixins.scss';
-@import '../../../style/core/utilities.scss';
+@use 'lists-mixins.scss';
+@use '../../../style/core/utilities.scss';
 
 .dnb-ul {
-  @include ulStyle();
+  @include lists-mixins.ulStyle();
 }
 .dnb-ol {
-  @include olStyle();
+  @include lists-mixins.olStyle();
 }
 .dnb-dl {
-  @include dlStyle();
+  @include lists-mixins.dlStyle();
 }
 .dnb-spacing {
   .dnb-ul,
   .dnb-ol {
-    @include listSpacing();
+    @include lists-mixins.listSpacing();
   }
   .dnb-dl {
-    @include dlSpacing();
+    @include lists-mixins.dlSpacing();
   }
 }
 
 .dnb-unstyled-list {
-  @include unstyledList();
+  @include lists-mixins.unstyledList();
 }

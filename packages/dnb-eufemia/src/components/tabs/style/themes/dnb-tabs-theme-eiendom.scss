@@ -3,11 +3,12 @@
 *
 */
 
-@import './dnb-tabs-theme-ui.scss';
+@use 'dnb-tabs-theme-ui.scss';
+@use '../../../../style/core/utilities.scss';
 
 .dnb-tabs {
   &__button {
-    @include hover() {
+    @include utilities.hover() {
       background-color: var(--color-pistachio);
     }
   }

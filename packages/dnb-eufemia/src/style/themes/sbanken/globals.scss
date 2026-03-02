@@ -2,7 +2,7 @@
  *  Global rules, a place to put rules, overrides and customizations that don't fit elsewhere.
  */
 
-@import './theme-mapping.scss';
+@use 'theme-mapping.scss';
 
 :root {
   // Focus Ring

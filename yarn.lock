@@ -4480,6 +4480,7 @@ __metadata:
     repo-utils: "workspace:*"
     sass: "npm:1.97.2"
     sass-loader: "npm:13.3.2"
+    sass-migrator: "npm:2.5.7"
     semantic-release: "npm:20.1.0"
     simple-git: "npm:3.27.0"
     start-server-and-test: "npm:2.0.1"
@@ -33174,6 +33175,15 @@ __metadata:
     sass:
       optional: true
   checksum: 10/cffe9f85a20c1a9cd486a032f05d74f9c50f4296735642d18eab25582c64afcd1e8a6038156b4ea2224e876b215089e93639fc99385c432da3be87254561b7a9
+  languageName: node
+  linkType: hard
+
+"sass-migrator@npm:2.5.7":
+  version: 2.5.7
+  resolution: "sass-migrator@npm:2.5.7"
+  bin:
+    sass-migrator: sass-migrator.js
+  checksum: 10/8d26dea21d3a42d4eed110ce2a39e5566650977065a010c16ae333058d8ffe845904eddc2e79b32088c6ccff6fafd5bf31c30fb2947b806fc4ee0a7af1175cc4
   languageName: node
   linkType: hard
 

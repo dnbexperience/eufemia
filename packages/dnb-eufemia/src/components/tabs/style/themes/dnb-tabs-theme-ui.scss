@@ -3,8 +3,8 @@
 *
 */
 
-@import '../../../../style/core/utilities.scss';
-@import '../../../button/style/themes/button-mixins.scss';
+@use '../../../../style/core/utilities.scss';
+@use '../../../button/style/themes/button-mixins.scss';
 
 .dnb-tabs {
   --tablist-border-color--default: var(--color-black-8);
@@ -31,7 +31,7 @@
     }
 
     // hover
-    @include hover() {
+    @include utilities.hover() {
       background-color: var(--color-mint-green-50);
 
       &::after {
@@ -42,7 +42,7 @@
     }
 
     &:focus {
-      @include buttonFocusRing();
+      @include button-mixins.buttonFocusRing();
       overflow: visible;
 
       &::before {

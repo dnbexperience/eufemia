@@ -3,7 +3,7 @@
  *
  */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 .dnb-global-error {
   display: flex;
@@ -53,7 +53,7 @@
       font-size: var(--font-size-medium);
     }
 
-    @include allBelow(small) {
+    @include utilities.allBelow(small) {
       flex-direction: column;
       gap: 1rem;
     }

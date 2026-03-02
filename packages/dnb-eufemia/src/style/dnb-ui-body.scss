@@ -3,15 +3,16 @@
  *
  */
 
-@import './core/utilities.scss';
+@use 'core/utilities.scss';
+@use 'core/reset.scss';
 
-@import './core/scopes.scss';
-@include globalReset();
+@use 'core/scopes.scss';
+@include reset.globalReset();
 
 // make sure we have dynamic root font size
-@include htmlDefault();
+@include scopes.htmlDefault();
 
 // global body style
 body {
-  @include bodyDefault();
+  @include scopes.bodyDefault();
 }

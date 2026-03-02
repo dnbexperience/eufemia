@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../../style/core/utilities.scss';
+@use '../../../../style/core/utilities.scss';
 
 .dnb-switch {
   --switch-width--medium: 3.75rem;
@@ -170,7 +170,7 @@
    */
   &__input:not([disabled]):focus ~ &__button {
     html[data-whatinput='keyboard'] & {
-      @include removeFocusRing();
+      @include utilities.removeFocusRing();
     }
   }
 
@@ -182,7 +182,7 @@
 
   &__input:not([disabled]):not(:checked):focus ~ &__button {
     html[data-whatinput='keyboard'] & {
-      @include removeFocusRing();
+      @include utilities.removeFocusRing();
     }
   }
 
@@ -198,7 +198,7 @@
 
   &__input:not([disabled]):focus ~ &__button &__focus {
     html[data-whatinput='keyboard'] & {
-      @include fakeBorder(var(--focus-ring-color), 0.0625rem);
+      @include utilities.fakeBorder(var(--focus-ring-color), 0.0625rem);
     }
   }
 
@@ -212,7 +212,7 @@
     color: var(--sb-color-violet);
 
     background-color: var(--sb-color-violet-light-3);
-    @include fakeBorder(var(--sb-color-violet), 0.0625rem);
+    @include utilities.fakeBorder(var(--sb-color-violet), 0.0625rem);
 
     &::after {
       color: var(--sb-color-violet);
@@ -232,14 +232,14 @@
     &__input:not([disabled]):not(:focus):not(:active)
     ~ &__background {
     background-color: var(--sb-color-white);
-    @include fakeBorder(var(--sb-color-red), 0.0625rem);
+    @include utilities.fakeBorder(var(--sb-color-red), 0.0625rem);
   }
 
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active):hover
     ~ &__background {
     background-color: var(--sb-color-magenta-light-2);
-    @include fakeBorder(var(--sb-color-red), 0.0625rem);
+    @include utilities.fakeBorder(var(--sb-color-red), 0.0625rem);
   }
 
   &__status--error
@@ -267,7 +267,7 @@
     &__input:not([disabled]):not(:focus):not(:active):not(:checked)
     ~ &__button
     &__focus {
-    @include fakeBorder(var(--sb-color-red), 0.0625rem);
+    @include utilities.fakeBorder(var(--sb-color-red), 0.0625rem);
   }
 
   &__status--error

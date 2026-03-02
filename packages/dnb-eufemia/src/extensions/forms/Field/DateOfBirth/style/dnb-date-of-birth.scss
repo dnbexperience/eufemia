@@ -1,10 +1,10 @@
-@import '../../../../../style/core/utilities.scss';
+@use '../../../../../style/core/utilities.scss';
 
 .dnb-forms-field-date-of-birth {
   &__month {
     .dnb-forms-field-block__contents {
       width: 10.75rem;
-      @include allBelow(small) {
+      @include utilities.allBelow(small) {
         width: 8rem;
       }
     }

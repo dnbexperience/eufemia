@@ -3,33 +3,35 @@
 *
 */
 
-@import './dnb-button-theme-ui.scss';
+@use 'dnb-button-theme-ui.scss';
+@use 'button-mixins.scss';
+@use '../../../../style/core/utilities.scss';
 
 .dnb-button--primary {
   background-color: var(--color-emerald-green);
 
-  @include buttonHover(
+  @include button-mixins.buttonHover(
     var(--color-white),
     var(--color-sea-green),
     var(--color-sea-green)
   );
-  @include buttonActive(var(--color-white), var(--color-sea-green));
+  @include button-mixins.buttonActive(var(--color-white), var(--color-sea-green));
 
   &[disabled] {
     color: var(--color-black-55);
     background-color: var(--color-black-8);
 
     // only because of href/anchor button
-    @include fakeBorder(var(--color-black-55));
+    @include utilities.fakeBorder(var(--color-black-55));
   }
 }
 
 .dnb-button--secondary {
   color: var(--color-emerald-green);
 
-  @include fakeBorder(var(--color-emerald-green));
+  @include utilities.fakeBorder(var(--color-emerald-green));
 
-  @include buttonActive(
+  @include button-mixins.buttonActive(
     var(--color-emerald-green),
     var(--color-pistachio)
   );
@@ -39,13 +41,13 @@
     background-color: var(--color-white);
 
     // only because of href/anchor button
-    @include fakeBorder(var(--color-black-55));
+    @include utilities.fakeBorder(var(--color-black-55));
   }
 }
 
 // Icon button
 .dnb-button--secondary:not(.dnb-button--has-text) {
-  @include buttonActive(
+  @include button-mixins.buttonActive(
     var(--color-emerald-green),
     var(--color-pistachio)
   );
@@ -54,15 +56,15 @@
 .dnb-button--tertiary {
   color: var(--color-emerald-green);
 
-  @include hover() {
+  @include utilities.hover() {
     color: var(--color-emerald-green);
   }
 
-  @include active() {
+  @include utilities.active() {
     color: var(--color-emerald-green);
   }
 
-  @include focus-visible() {
+  @include utilities.focus-visible() {
     color: var(--color-emerald-green);
   }
 

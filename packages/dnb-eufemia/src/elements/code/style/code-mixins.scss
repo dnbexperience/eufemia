@@ -1,5 +1,5 @@
 @use '../../../style/elements/ui-spacing.scss';
-@import '../../../components/space/style/space-mixins.scss';
+@use '../../../components/space/style/space-mixins.scss';
 
 @mixin codeStyle() {
   $code-scale: 0.875;
@@ -32,7 +32,7 @@
   display: block;
   overflow: auto;
 
-  @include spaceReset();
+  @include space-mixins.spaceReset();
   padding: 1rem;
 
   border-radius: 0.5rem;

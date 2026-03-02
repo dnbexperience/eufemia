@@ -3,5 +3,5 @@
  *
  */
 
-@import '../../core/utilities.scss';
-@import './properties.scss';
+@use '../../core/utilities.scss';
+@use 'properties.scss';

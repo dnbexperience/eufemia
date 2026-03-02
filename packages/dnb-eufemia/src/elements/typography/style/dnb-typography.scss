@@ -4,9 +4,10 @@
  */
 
 @use '../../../style/elements/ui-spacing.scss';
-@import './typography-mixins.scss';
+@use "sass:meta";
+@use 'typography-mixins.scss';
 
-@include typographySelectors() {
+@include typography-mixins.typographySelectors() {
   --typography-h-default-font-weight: var(--font-weight-medium);
 
   // Heading xx-large
@@ -67,8 +68,8 @@
   --typography-h-x-small-font-family: var(--font-family-default);
 }
 
-@include headingClasses() {
-  @include headingDefaults();
+@include typography-mixins.headingClasses() {
+  @include typography-mixins.headingDefaults();
 }
 
 .dnb-small {
@@ -90,10 +91,10 @@ sub {
 
 // Paragraphs
 .dnb-p {
-  @include paragraphStyle();
+  @include typography-mixins.paragraphStyle();
 }
 
-@import './dnb-t.scss';
+@include meta.load-css('dnb-t.scss');
 
 // Tables
 .dnb-table {
@@ -104,53 +105,53 @@ sub {
 }
 
 .dnb-h--xx-large {
-  @include headingSize_xx-large();
+  @include typography-mixins.headingSize_xx-large();
 }
 
 .dnb-h--x-large {
-  @include headingSize_x-large();
+  @include typography-mixins.headingSize_x-large();
 }
 
 .dnb-h--large {
-  @include headingSize_large();
+  @include typography-mixins.headingSize_large();
 }
 
 .dnb-lead {
-  @include typography_lead();
+  @include typography-mixins.typography_lead();
 }
 
 .dnb-h--medium {
-  @include headingSize_medium();
+  @include typography-mixins.headingSize_medium();
 }
 
 // The rest of the Headings are not defined by the Eufemia Typography
 .dnb-h--basis {
-  @include headingSize_basis();
+  @include typography-mixins.headingSize_basis();
 }
 
 .dnb-h--small {
-  @include headingSize_small();
+  @include typography-mixins.headingSize_small();
 }
 
 .dnb-h--x-small {
-  @include headingSize_x-small();
+  @include typography-mixins.headingSize_x-small();
 }
 
 // Spacing
 .dnb-spacing {
   .dnb-h--xx-large,
   .dnb-core-style & .dnb-h--xx-large {
-    @include headingSpacing_xx-large();
+    @include typography-mixins.headingSpacing_xx-large();
   }
 
   .dnb-h--x-large,
   .dnb-core-style & .dnb-h--x-large {
-    @include headingSpacing_x-large();
+    @include typography-mixins.headingSpacing_x-large();
   }
 
   .dnb-h--large,
   .dnb-core-style & .dnb-h--large {
-    @include headingSpacing_large();
+    @include typography-mixins.headingSpacing_large();
   }
 
   .dnb-lead,
@@ -163,7 +164,7 @@ sub {
   .dnb-core-style & .dnb-h--basis,
   .dnb-core-style & .dnb-h--small,
   .dnb-core-style & .dnb-h--x-small {
-    @include headingSpacing();
+    @include typography-mixins.headingSpacing();
   }
 
   .dnb-p,

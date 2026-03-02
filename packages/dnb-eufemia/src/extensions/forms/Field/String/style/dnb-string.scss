@@ -1,4 +1,4 @@
-@import '../../../../../style/core/utilities.scss';
+@use '../../../../../style/core/utilities.scss';
 
 .dnb-forms-field-string {
   .dnb-forms-field-block--layout-horizontal {
@@ -9,7 +9,7 @@
   }
 
   // Ensure inputs to not overflow on xx-small (defined above), but exclude e.g. Autocomplete
-  @include allBelow(xx-small) {
+  @include utilities.allBelow(xx-small) {
     .dnb-input__shell {
       width: 90%;
     }

@@ -1,3 +1,5 @@
+@use "../../../style/core/utilities";
+
 /*
  * Modal component
  *
@@ -113,7 +115,7 @@
 }
 
 @mixin modalReducedMotion() {
-  @include reducedMotion() {
+  @include utilities.reducedMotion() {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
@@ -145,7 +147,7 @@
       right: 0;
       bottom: 0;
 
-      @include defaultDropShadow();
+      @include utilities.defaultDropShadow();
     }
   }
 

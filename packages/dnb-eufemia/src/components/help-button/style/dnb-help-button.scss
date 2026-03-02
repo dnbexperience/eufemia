@@ -3,8 +3,8 @@
  *
  */
 
-@import '../../button/style/themes/button-mixins.scss';
-@import './dnb-help-button-inline.scss';
+@use '../../button/style/themes/button-mixins.scss';
+@use 'dnb-help-button-inline.scss';
 
 .dnb-help-button {
   & .dnb-button__bounding {

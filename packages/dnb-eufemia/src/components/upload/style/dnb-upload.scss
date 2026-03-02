@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 .dnb-upload {
   --upload-background: white;
@@ -25,7 +25,7 @@
 
   padding: var(--spacing-medium);
 
-  @include allBelow(small) {
+  @include utilities.allBelow(small) {
     padding: var(--spacing-medium) var(--spacing-small);
   }
 
@@ -102,7 +102,7 @@
     transition-duration: 1.5s;
     transition-timing-function: var(--easing-default);
 
-    @include reducedMotion() {
+    @include utilities.reducedMotion() {
       transition-duration: 0.01ms;
     }
 

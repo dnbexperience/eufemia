@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../../style/core/utilities.scss';
+@use '../../../../style/core/utilities.scss';
 
 .dnb-textarea {
   --textarea-border-color: var(--color-sea-green);
@@ -53,11 +53,11 @@
   &__status--error:not(#{&}--focus)
     &__textarea:not([disabled]):not(#{&}--disabled)
     ~ &__state {
-    @include fakeBorder(var(--color-fire-red));
+    @include utilities.fakeBorder(var(--color-fire-red));
   }
   &__status--error:not(#{&}--focus)
     &__textarea:not([disabled]):not(#{&}--disabled):hover
     ~ &__state {
-    @include fakeBorder(var(--color-fire-red), 0.125rem);
+    @include utilities.fakeBorder(var(--color-fire-red), 0.125rem);
   }
 }

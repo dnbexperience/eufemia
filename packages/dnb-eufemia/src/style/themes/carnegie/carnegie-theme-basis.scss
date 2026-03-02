@@ -3,9 +3,9 @@
  *
  */
 
-@import './properties.scss';
-@import './foundation.scss';
-@import './tokens.scss';
-@import './fonts.scss';
-@import './carnegie-theme-elements.scss';
-@import './globals.scss';
+@use 'properties.scss';
+@use 'foundation.scss';
+@use 'tokens.scss';
+@use 'fonts.scss';
+@use 'carnegie-theme-elements.scss';
+@use 'globals.scss';

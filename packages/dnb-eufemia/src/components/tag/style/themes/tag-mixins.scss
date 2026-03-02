@@ -1,3 +1,5 @@
+@use "../../../../style/core/utilities";
+
 /*
 * Tag mixins
 *
@@ -7,17 +9,17 @@
   --tag-icon-fill: #{$fillColor};
   --tag-icon-stroke: #{$strokeColor};
 
-  @include focus-visible() {
+  @include utilities.focus-visible() {
     --tag-icon-fill: #{$strokeColor};
     --tag-icon-stroke: #{$fillColor};
   }
 
-  @include hover() {
+  @include utilities.hover() {
     --tag-icon-fill: #{$strokeColor};
     --tag-icon-stroke: #{$fillColor};
   }
 
-  @include active() {
+  @include utilities.active() {
     --tag-icon-fill: #{$strokeColor};
     --tag-icon-stroke: #{$fillColor};
   }

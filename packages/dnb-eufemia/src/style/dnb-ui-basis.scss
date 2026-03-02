@@ -4,10 +4,11 @@
  */
 
 // core imports
-@import './core/scopes.scss';
+@use "sass:meta";
+@use 'core/scopes.scss';
 
 // make sure we have dynamic root font size
-@include htmlDefault();
+@include scopes.htmlDefault();
 
 // The only style we use on body is to reset the margin
 // the rest goes inside dnb-core-style
@@ -19,7 +20,7 @@ body {
 // we have this class helper to get the body styles inside the wrapper as well
 // without using the body
 .dnb-core-style {
-  @include bodyDefault();
+  @include scopes.bodyDefault();
 }
 
-@import './core/helper-classes/helper-classes.scss';
+@include meta.load-css('core/helper-classes/helper-classes.scss');

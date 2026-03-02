@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../../style/core/utilities.scss';
+@use '../../../../style/core/utilities.scss';
 
 .dnb-accordion {
   --accordion-border-width: 0;
@@ -52,8 +52,8 @@
   }
 
   &__header {
-    @include focus-visible() {
-      @include focusRing('always');
+    @include utilities.focus-visible() {
+      @include utilities.focusRing('always');
       z-index: 1;
       border-radius: 0.125rem;
       background-color: var(--sb-color-blue-light-3);
@@ -63,14 +63,14 @@
         color: var(--border-color);
       }
     }
-    @include hover() {
+    @include utilities.hover() {
       background-color: var(--sb-color-violet-light-2);
       border-radius: var(--sb-accordion-header-border-radius--hover);
     }
 
-    @include active() {
+    @include utilities.active() {
       background-color: var(--sb-color-white);
-      @include fakeBorder(null, null, inset);
+      @include utilities.fakeBorder(null, null, inset);
       // must be set after fakeBorder()
       --border-color: var(--sb-color-violet);
       border-left-width: var(--sb-accordion-frame-width--active);
@@ -110,7 +110,7 @@
     --sb-accordion-frame-color: var(--sb-color-violet);
     --sb-accordion-frame-width--active: 0.125rem;
     > .dnb-accordion__header {
-      @include hover() {
+      @include utilities.hover() {
         border-radius: var(
           --sb-accordion-header-border-radius--hover-expanded
         );

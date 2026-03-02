@@ -4,8 +4,8 @@
  */
 
 @use '../../../style/elements/ui-spacing.scss';
-@import '../../../style/core/utilities.scss';
-@import '../../../components/space/style/space-mixins.scss';
+@use '../../../style/core/utilities.scss';
+@use '../../../components/space/style/space-mixins.scss';
 
 @mixin listDefaults() {
   & ul,
@@ -43,7 +43,7 @@
 }
 
 @mixin ulStyle() {
-  @include spaceReset();
+  @include space-mixins.spaceReset();
 
   padding: 0;
   &:not([class*='dnb-space__left']) {
@@ -146,7 +146,7 @@
   }
 
   // Inline
-  @include allAbove(small) {
+  @include utilities.allAbove(small) {
     &__layout--horizontal {
       --dt-max-width: 40%;
       --dd-max-width: calc(60% - 1rem); // minus margin-right and the gap
@@ -276,7 +276,7 @@
 @mixin unstyledList() {
   list-style-type: none;
 
-  @include spaceReset();
+  @include space-mixins.spaceReset();
   &:not([class*='dnb-space__left']) {
     padding-left: 0;
   }

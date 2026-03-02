@@ -1,3 +1,5 @@
+@use "../utilities";
+
 @mixin skipLink() {
   position: fixed;
   z-index: 9999;
@@ -53,7 +55,7 @@
 
     background-color: var(--skip-link-background);
 
-    @include focusRing('mouse');
+    @include utilities.focusRing('mouse');
   }
 
   &:hover::before {
@@ -65,7 +67,7 @@
 
   // focus
   &:focus:not(:active)::before {
-    @include focusRing();
+    @include utilities.focusRing();
   }
 
   // focus

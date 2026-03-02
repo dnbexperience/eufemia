@@ -3,27 +3,27 @@
 *
 */
 
-@import '../../../../style/core/utilities.scss';
+@use '../../../../style/core/utilities.scss';
 
 .dnb-toggle-button {
   &__button {
     background-color: var(--sb-color-white);
     color: var(--sb-color-violet);
-    @include fakeBorder(var(--sb-color-violet), 0.09375rem);
+    @include utilities.fakeBorder(var(--sb-color-violet), 0.09375rem);
 
-    @include hover() {
+    @include utilities.hover() {
       background-color: var(--sb-color-violet-light-3);
       color: var(--sb-color-violet);
     }
 
-    @include active() {
-      @include fakeBorder(var(--sb-color-violet-light-3), 0.125rem);
+    @include utilities.active() {
+      @include utilities.fakeBorder(var(--sb-color-violet-light-3), 0.125rem);
       background-color: var(--sb-color-violet);
       color: var(--sb-color-violet-light-3);
     }
 
     &[disabled] {
-      @include fakeBorder(var(--sb-color-gray-light), 0.09375rem, inset);
+      @include utilities.fakeBorder(var(--sb-color-gray-light), 0.09375rem, inset);
       color: var(--sb-color-gray-dark);
     }
 
@@ -55,7 +55,7 @@
   /* stylelint-disable no-descending-specificity */
   &--checked &__button {
     &[disabled] {
-      @include fakeBorder(var(--sb-color-gray-light), 0.09375rem, inset);
+      @include utilities.fakeBorder(var(--sb-color-gray-light), 0.09375rem, inset);
       background-color: var(--sb-color-gray-light);
       color: var(--sb-color-gray-dark);
     }
@@ -66,14 +66,14 @@
       box-shadow: none;
     }
 
-    @include hover() {
+    @include utilities.hover() {
       background-color: var(--sb-color-violet);
       color: var(--sb-color-white);
-      @include fakeBorder(var(--sb-color-violet), 0.125rem);
+      @include utilities.fakeBorder(var(--sb-color-violet), 0.125rem);
     }
 
-    @include active() {
-      @include fakeBorder(var(--sb-color-violet-light-3), 0.125rem, inset);
+    @include utilities.active() {
+      @include utilities.fakeBorder(var(--sb-color-violet-light-3), 0.125rem, inset);
       background-color: var(--sb-color-violet);
       color: var(--sb-color-violet-light-3);
     }

@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 .dnb-accordion {
   --accordion-border-width: 0.0625rem;
@@ -89,7 +89,7 @@
       ); // to ensure correct icon height
       transition: transform 400ms var(--accordion-easing);
 
-      @include reducedMotion() {
+      @include utilities.reducedMotion() {
         transition-duration: 0.01ms;
       }
     }
@@ -157,7 +157,7 @@
       height 400ms var(--accordion-easing),
       opacity 600ms var(--accordion-easing);
 
-    @include reducedMotion() {
+    @include utilities.reducedMotion() {
       transition-duration: 0.01ms;
     }
 
@@ -171,7 +171,7 @@
   &-group--single-container {
     transition: min-height 1s var(--accordion-easing);
 
-    @include reducedMotion() {
+    @include utilities.reducedMotion() {
       transition-duration: 0.01ms;
     }
   }
@@ -180,7 +180,7 @@
     position: static;
     max-width: 60rem;
 
-    @include allAbove(small) {
+    @include utilities.allAbove(small) {
       &__header {
         width: 40%; // 40% / 60%
       }
@@ -192,7 +192,7 @@
         // Slower down the animation if single container is used
         transition: opacity 1s var(--accordion-easing);
 
-        @include reducedMotion() {
+        @include utilities.reducedMotion() {
           transition-duration: 0.01ms;
         }
 
@@ -210,7 +210,7 @@
     // }
   }
   &-group--single-container & > &__header &__header__icon {
-    @include allAbove(small) {
+    @include utilities.allAbove(small) {
       transform: rotate(-90deg);
     }
   }
@@ -220,7 +220,7 @@
       &__children {
         max-width: 60rem;
 
-        @include allAbove(small) {
+        @include utilities.allAbove(small) {
           position: relative;
           display: flex;
           flex-direction: column;
