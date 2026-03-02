@@ -3,12 +3,12 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss' as utilities;
 
 .dnb-visually-hidden {
   &--focusable {
     &:not(:focus, :focus-within) {
-      @include srOnly();
+      @include utilities.srOnly();
     }
   }
 }

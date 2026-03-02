@@ -3,12 +3,17 @@
  *
  */
 
-@import '../../button/style/themes/button-mixins.scss';
+@use '../../button/style/themes/button-mixins.scss';
+@use '../../../style/core/utilities.scss' as utilities;
 
 .dnb-help-button {
   &.dnb-help-button__inline {
     &--open {
-      @include buttonHoverStyle(null, null, var(--color-emerald-green));
+      @include button-mixins.buttonHoverStyle(
+        null,
+        null,
+        var(--color-emerald-green)
+      );
     }
   }
 }
@@ -53,7 +58,7 @@
     }
   }
 
-  @include reducedMotion() {
+  @include utilities.reducedMotion() {
     svg {
       animation-duration: 0.01ms !important;
     }
@@ -109,7 +114,7 @@
       transition: transform 400ms var(--easing-default) 40ms;
       transform: translate3d(0, -0.5rem, 0);
 
-      @include reducedMotion() {
+      @include utilities.reducedMotion() {
         transition-duration: 0.01ms;
       }
     }

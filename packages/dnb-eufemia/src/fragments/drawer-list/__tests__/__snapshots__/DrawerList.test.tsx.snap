@@ -9,12 +9,13 @@ exports[`DrawerList scss has to match style dependencies css 1`] = `
  * Utilities
  */
 /*
-* DrawerList component
+* Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* DrawerList component
+*
+*/
 .dnb-drawer-list {
   --drawer-list-height: 2rem;
   --drawer-list-padding-horizontal: 1rem;

@@ -107,8 +107,10 @@ const plugins = [
     resolve: 'gatsby-plugin-sass',
     options: {
       sassOptions: {
-        // TODO: Remove silenceDeprecations before v11 release and migrate to Sass module system (@use/@forward)
-        silenceDeprecations: ['import'],
+        // gatsby-plugin-sass bundles sass-loader v10 which uses the legacy
+        // sass.render() JS API. Silencing this warning until the plugin
+        // ships a version with sass-loader >=14 (which uses the modern API).
+        silenceDeprecations: ['legacy-js-api'],
       },
     },
   },

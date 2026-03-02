@@ -22,8 +22,6 @@ export const loadScss = (file, options = {}) => {
     const sassResult = sass.compile(file, {
       loadPaths: [importPath1, importPath2],
       sourceMap: false,
-      // TODO: Remove silenceDeprecations before v11 release and migrate to Sass module system (@use/@forward)
-      silenceDeprecations: ['import'],
       ...options,
     })
 

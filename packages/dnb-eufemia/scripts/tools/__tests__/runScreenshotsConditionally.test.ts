@@ -126,11 +126,11 @@ describe('runScreenshotsConditionally', () => {
       },
       {
         path: 'src/components/icon/style/deps.scss',
-        content: "@import './dnb-icon.scss';",
+        content: "@use './dnb-icon.scss';",
       },
       {
         path: 'src/components/button/style/deps.scss',
-        content: "@import '../../icon/style/deps.scss';",
+        content: "@use '../../icon/style/deps.scss';",
       },
     ])
 
@@ -157,11 +157,11 @@ describe('runScreenshotsConditionally', () => {
       },
       {
         path: 'src/style/dnb-ui-components.scss',
-        content: "@import '../components/badge/style/dnb-badge.scss';",
+        content: "@use '../components/badge/style/dnb-badge.scss';",
       },
       {
         path: 'src/style/themes/theme-ui/ui-theme-components.scss',
-        content: "@import '../../dnb-ui-components.scss';",
+        content: "@use '../../dnb-ui-components.scss';",
       },
     ])
 

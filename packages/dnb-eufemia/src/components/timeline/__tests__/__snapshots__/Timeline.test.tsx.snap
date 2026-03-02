@@ -9,8 +9,9 @@ exports[`Timeline scss should match default theme snapshot 1`] = `
  * Utilities
  */
 /*
- * Utilities
- */
+* Timeline theme
+*
+*/
 /*
 * Button mixins
 *
@@ -115,12 +116,13 @@ exports[`Timeline scss should match style dependencies css 1`] = `
  * Utilities
  */
 /*
-* Timeline component
+* Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* Timeline component
+*
+*/
 .dnb-timeline {
   display: flex;
   flex-direction: column;
