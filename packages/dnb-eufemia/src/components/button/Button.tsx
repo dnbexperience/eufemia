@@ -6,7 +6,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import {
@@ -38,17 +37,6 @@ import type {
 } from '../../shared/types'
 import type { FormStatusBaseProps } from '../FormStatus'
 import type { AnchorProps } from '../Anchor'
-
-/** @deprecated Use ButtonVariant type instead */
-export const buttonVariantPropType = {
-  variant: PropTypes.oneOf([
-    'primary',
-    'secondary',
-    'tertiary',
-    'signal',
-    'unstyled',
-  ]),
-}
 
 export type ButtonText = string | React.ReactNode
 export type ButtonVariant =
