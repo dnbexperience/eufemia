@@ -33,7 +33,11 @@ import {
   parseContentTitle,
   getCurrentData,
 } from '../../fragments/drawer-list/DrawerListHelpers'
-import type { ButtonIconPosition, ButtonVariant } from '../Button'
+import type {
+  ButtonIconPosition,
+  ButtonSize,
+  ButtonVariant,
+} from '../Button'
 import type { FormStatusBaseProps } from '../FormStatus'
 import type { IconIcon, IconSize } from '../Icon'
 import type { SkeletonShow } from '../Skeleton'
@@ -581,7 +585,9 @@ class DropdownInstance extends React.PureComponent<DropdownAllProps> {
                 <Button
                   variant={variant}
                   icon={false} // only to suppress the warning about the icon when tertiary variant is used
-                  size={(size === 'default' ? 'medium' : size) as any}
+                  size={
+                    (size === 'default' ? 'medium' : size) as ButtonSize
+                  }
                   ref={this._refButton}
                   customContent={
                     <>
