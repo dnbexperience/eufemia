@@ -112,6 +112,26 @@
 }
 
 @mixin anchorStyle() {
+  // Component variables
+  --anchor-color: var(--anchor-color--default);
+
+  // Default color
+  --anchor-color--default: var(--token-color-text-action);
+  --anchor-color--hover: var(--token-color-text-action-hover);
+  --anchor-color--active: var(--token-color-text-action-pressed);
+  --anchor-bg--hover: var(--token-color-background-action-hover-subtle);
+  --anchor-bg--active: var(--token-color-background-action-pressed-subtle);
+
+  // ondark colors
+  --anchor-ondark-color--default: var(--token-color-text-action-ondark);
+  --anchor-ondark-color--hover: var(--token-color-text-action-ondark);
+  --anchor-ondark-color--active: var(--token-color-text-action-ondark);
+  --anchor-ondark-bg--hover: var(
+    --token-color-background-action-hover-subtle-ondark
+  );
+  --anchor-ondark-bg--active: var(
+    --token-color-background-action-pressed-subtle-ondark
+  );
   $icon-scale: 2;
   $icon-scale-filler: 0.5 - math.div(0.5, $icon-scale);
 
