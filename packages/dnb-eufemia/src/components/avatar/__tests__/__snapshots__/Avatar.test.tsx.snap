@@ -32,12 +32,13 @@ exports[`Avatar scss should match style dependencies css 1`] = `
  * Utilities
  */
 /*
-* Avatar component
+* Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* Avatar component
+*
+*/
 .dnb-avatar {
   --avatar-font-size--small: var(--font-size-x-small);
   --avatar-font-size--medium: var(--font-size-basis);

@@ -3,7 +3,7 @@
  *
  */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss' as utilities;
 
 .dnb-vipps-wallet-button.dnb-button--primary {
   --vipps-primary-color: #ff5b24;
@@ -20,19 +20,19 @@
     }
   }
 
-  @include focus() {
+  @include utilities.focus() {
     background-color: var(--vipps-primary-color);
     color: var(--color-white);
   }
 
-  @include hover() {
+  @include utilities.hover() {
     background-color: var(--vipps-primary-color);
     color: var(--color-white);
 
     --border-color: var(--vipps-primary-color);
   }
 
-  @include active() {
+  @include utilities.active() {
     background-color: var(--vipps-primary-color--active);
   }
 

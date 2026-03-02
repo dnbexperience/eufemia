@@ -1,4 +1,4 @@
-@import './../../../style/core/utilities.scss';
+@use './../../../style/core/utilities.scss' as utilities;
 
 .dnb-list {
   &--variant-basic {
@@ -39,7 +39,11 @@
       border-radius: inherit;
       pointer-events: none;
 
-      border: var(--item-outline-width) solid var(--item-outline-color);
+      @include utilities.fakeBorder(
+        var(--item-outline-color),
+        var(--item-outline-width),
+        var(--item-outline-inset)
+      );
     }
 
     // Grid layout: each slot (start, icon, title, center, end) is placed by its
@@ -51,7 +55,7 @@
       'footer footer footer footer footer footer footer';
 
     // On small screens, use 2-row layout so end wraps to a new line
-    @include allBelow(small) {
+    @include utilities.allBelow(small) {
       --item-grid-template-areas: 'chevron-left start icon title center chevron-right'
         'chevron-left end end end end chevron-right'
         'footer footer footer footer footer footer';
@@ -64,7 +68,7 @@
     }
 
     // On x-small screens, use 3-row layout so end wraps to a new line
-    @include allBelow(x-small) {
+    @include utilities.allBelow(x-small) {
       --item-grid-template-areas: 'chevron-left start icon title title chevron-right'
         'chevron-left center center center center chevron-right'
         'chevron-left end end end end chevron-right'
@@ -97,7 +101,7 @@
     }
     &:has(#{&}__overline) &__center,
     &:has(#{&}__overline) &__end {
-      @include allAbove(small) {
+      @include utilities.allAbove(small) {
         place-self: end;
       }
     }
@@ -107,7 +111,7 @@
     }
     &:has(#{&}__subline) &__center,
     &:has(#{&}__subline) &__end {
-      @include allAbove(small) {
+      @include utilities.allAbove(small) {
         place-self: start;
       }
     }
@@ -127,7 +131,7 @@
     &:not(#{&}__accordion):has(#{&}__end),
     &__accordion__header:has(#{&}__center),
     &__accordion__header:has(#{&}__end) {
-      @include allBelow(small) {
+      @include utilities.allBelow(small) {
         row-gap: var(--item-row-gap);
       }
     }
@@ -166,7 +170,7 @@
       z-index: 10; // above checkbox and radio click boundary
     }
     &__end &__subline {
-      @include allAbove(small) {
+      @include utilities.allAbove(small) {
         place-self: end;
       }
     }
@@ -193,7 +197,7 @@
       justify-self: start;
       align-items: flex-end;
 
-      @include allBelow(small) {
+      @include utilities.allBelow(small) {
         align-items: flex-start;
       }
     }
@@ -242,7 +246,7 @@
     }
     // So the __end is aligned with checkbox/radio label on small screens
     &:has(.dnb-form-label) &__end {
-      @include allBelow(small) {
+      @include utilities.allBelow(small) {
         display: flex;
         margin-left: calc(var(--item-padding) * 2 + 0.5rem);
       }

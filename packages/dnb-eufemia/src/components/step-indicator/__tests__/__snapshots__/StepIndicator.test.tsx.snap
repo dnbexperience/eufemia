@@ -20,22 +20,25 @@ exports[`StepIndicator scss should match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
+* Used for snapshot testing
+*
+*/
 /*
 * Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* Used for snapshot testing
+*
+*/
+/*
+* Used for snapshot testing
+*
+*/
 /*
 * Icon component
 *
 */
-/*
- * Utilities
- */
 .dnb-icon {
   display: inline-block;
   vertical-align: middle;
@@ -117,15 +120,17 @@ p > .dnb-icon {
 *
 */
 /*
- * Utilities
- */
+* Used for snapshot testing
+*
+*/
+/*
+* Used for snapshot testing
+*
+*/
 /*
 * Tooltip component
 *
 */
-/*
- * Utilities
- */
 :root {
   --tooltip-z-index: 1100;
 }
@@ -170,14 +175,16 @@ p > .dnb-icon {
 *
 */
 /*
- * Utilities
- */
+* Used for snapshot testing
+*
+*/
+/*
+* Used for snapshot testing
+*
+*/
 /*
  * FormStatus component
  *
- */
-/*
- * Utilities
  */
 .dnb-form-status {
   --form-status-radius: 0.25rem;
@@ -249,12 +256,13 @@ button .dnb-form-status__text {
 }
 
 /*
-* Button component
+* Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* Button component
+*
+*/
 :root {
   --button-icon-size: 1rem;
   --button-height: 2.5rem;
@@ -493,11 +501,12 @@ button.dnb-button::-moz-focus-inner {
 }
 
 /*
+* Used for snapshot testing
+*
+*/
+/*
  * StepIndicator component
  *
- */
-/*
- * Utilities
  */
 .dnb-step-indicator {
   --step-indicator-trigger-background: var(--color-black-3);

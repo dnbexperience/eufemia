@@ -474,13 +474,13 @@ describe('style build', () => {
         ),
         'utf-8'
       )
-      expect(content).toContain(`@import './core/scopes.scss';`)
+      expect(content).toContain(`@use './core/scopes.scss' as scopes;`)
       expect(content).toContain(`
 .dnb-core-style {
-  @include bodyDefault();
+  @include scopes.bodyDefault();
 }`)
       expect(content).toContain(
-        `@import './core/helper-classes/helper-classes.scss';`
+        `@include meta.load-css('core/helper-classes/helper-classes');`
       )
     }
 
@@ -492,12 +492,10 @@ describe('style build', () => {
         ),
         'utf-8'
       )
-      expect(content).toContain(`@import './properties.scss';`)
-      expect(content).toContain(`@import './fonts.scss';`)
-      expect(content).toContain(`@import './ui-theme-elements.scss';`)
-      expect(content).not.toContain(
-        `@import '../../dnb-ui-elements.scss';`
-      )
+      expect(content).toContain(`@use './properties.scss';`)
+      expect(content).toContain(`@use './fonts.scss';`)
+      expect(content).toContain(`@use './ui-theme-elements.scss';`)
+      expect(content).not.toContain(`@use '../../dnb-ui-elements.scss';`)
     }
 
     {
@@ -508,12 +506,10 @@ describe('style build', () => {
         ),
         'utf-8'
       )
-      expect(content).toContain(`@import './properties.scss';`)
-      expect(content).toContain(`@import './fonts.scss';`)
-      expect(content).toContain(`@import './sbanken-theme-elements.scss';`)
-      expect(content).not.toContain(
-        `@import '../../dnb-ui-elements.scss';`
-      )
+      expect(content).toContain(`@use './properties.scss';`)
+      expect(content).toContain(`@use './fonts.scss';`)
+      expect(content).toContain(`@use './sbanken-theme-elements.scss';`)
+      expect(content).not.toContain(`@use '../../dnb-ui-elements.scss';`)
     }
 
     {

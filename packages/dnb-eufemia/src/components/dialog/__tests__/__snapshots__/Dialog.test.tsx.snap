@@ -13,36 +13,41 @@ exports[`Dialog scss should match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
+* Used for snapshot testing
+*
+*/
 /*
 * Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* Used for snapshot testing
+*
+*/
 /*
 * Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* Used for snapshot testing
+*
+*/
 /*
 * Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* Used for snapshot testing
+*
+*/
+/*
+* Used for snapshot testing
+*
+*/
 /*
 * Icon component
 *
 */
-/*
- * Utilities
- */
 .dnb-icon {
   display: inline-block;
   vertical-align: middle;
@@ -124,15 +129,17 @@ p > .dnb-icon {
 *
 */
 /*
- * Utilities
- */
+* Used for snapshot testing
+*
+*/
+/*
+* Used for snapshot testing
+*
+*/
 /*
 * Tooltip component
 *
 */
-/*
- * Utilities
- */
 :root {
   --tooltip-z-index: 1100;
 }
@@ -177,14 +184,16 @@ p > .dnb-icon {
 *
 */
 /*
- * Utilities
- */
+* Used for snapshot testing
+*
+*/
+/*
+* Used for snapshot testing
+*
+*/
 /*
  * FormStatus component
  *
- */
-/*
- * Utilities
  */
 .dnb-form-status {
   --form-status-radius: 0.25rem;
@@ -256,12 +265,13 @@ button .dnb-form-status__text {
 }
 
 /*
-* Button component
+* Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* Button component
+*
+*/
 :root {
   --button-icon-size: 1rem;
   --button-height: 2.5rem;
@@ -504,8 +514,9 @@ button.dnb-button::-moz-focus-inner {
  *
  */
 /*
- * Utilities
- */
+* Used for snapshot testing
+*
+*/
 /*
 * Button mixins
 *
@@ -515,12 +526,13 @@ button.dnb-button::-moz-focus-inner {
  *
  */
 /*
- * Utilities
- */
-/*
-* Button mixins
+* Used for snapshot testing
 *
 */
+/*
+ * HelpButton component
+ *
+ */
 .dnb-help-button.dnb-help-button__inline--open {
   --border-color: var(--color-emerald-green);
   --border-width: 0.125rem;
@@ -626,12 +638,17 @@ button.dnb-button::-moz-focus-inner {
 }
 
 /*
+* Used for snapshot testing
+*
+*/
+/*
  * Modal component
  *
  */
 /*
- * Utilities
- */
+* Used for snapshot testing
+*
+*/
 /*
  * Modal component
  *
@@ -822,98 +839,17 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
 }
 
 /*
- * Dialog component
- *
- */
-/*
- * Utilities
- */
+* Used for snapshot testing
+*
+*/
 /*
  * Modal component
  *
  */
-@keyframes show-modal {
-  from {
-    opacity: 0.1;
-    transform: translate3d(0, -1rem, 0);
-  }
-  to {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-}
-@keyframes hide-modal {
-  from {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-  to {
-    transform: translate3d(0, 1rem, 0);
-    opacity: 0;
-  }
-}
-@keyframes show-drawer {
-  to {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-}
-@keyframes hide-drawer-left {
-  from {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-  to {
-    transform: translate3d(-20rem, 0, 0);
-    opacity: 0;
-  }
-}
-@keyframes hide-drawer-top {
-  from {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-  to {
-    transform: translate3d(0, -20rem, 0);
-    opacity: 0;
-  }
-}
-@keyframes hide-drawer-bottom {
-  from {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-  to {
-    transform: translate3d(0, 20rem, 0);
-    opacity: 0;
-  }
-}
-@keyframes hide-drawer-right {
-  from {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-  to {
-    transform: translate3d(20rem, 0, 0);
-    opacity: 0;
-  }
-}
-@keyframes show-modal-overlay {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@keyframes hide-modal-overlay {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
+/*
+ * Dialog component
+ *
+ */
 .dnb-dialog {
   --dialog-min-width: 320px;
   --dialog-avg-width: 60vw;
