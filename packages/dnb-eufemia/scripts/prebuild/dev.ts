@@ -16,7 +16,6 @@ import {
   // convertSvgToJsx,
   // makeLibStyles,
   // makeMainStyle,
-  // generateTypes,
   // makePropertiesFile
   // prepareTemplates
   // makeLibModules
@@ -36,7 +35,6 @@ const dev = async () => {
   // await convertSvgToJsx({ preventDelete })
   // await makeLibStyles()
   // await makeMainStyle()
-  // await generateTypes()
   // await makePropertiesFile()
   // await prepareTemplates()
   // await makeLibModules()
