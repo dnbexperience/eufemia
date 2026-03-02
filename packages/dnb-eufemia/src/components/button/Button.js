@@ -102,14 +102,6 @@ class ButtonClass extends React.PureComponent {
     this.state = { afterContent: null }
   }
 
-  componentDidMount() {
-    if (this.props._innerRef) {
-      typeof this.props._innerRef === 'function'
-        ? this.props._innerRef(this._ref.current)
-        : (this.props._innerRef.current = this._ref.current)
-    }
-  }
-
   getOnClickHandler = (src) => (event) => {
     const afterContent = dispatchCustomElementEvent(src, 'onClick', {
       event,
@@ -391,7 +383,6 @@ Button.propTypes = {
   skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   ref: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  _innerRef: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   className: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.string,
@@ -410,12 +401,22 @@ Button.propTypes = {
 }
 
 /**
- * Function wrapper that converts `ref` to `_innerRef` for the class component.
- * React 19 treats `ref` as a regular prop but still sets it to the class instance.
- * This wrapper ensures consumers get the inner DOM element via `ref`.
+ * Function wrapper that forwards `ref` to the inner DOM element of the class component.
  */
 function Button({ ref, ...props }) {
-  return <ButtonClass _innerRef={ref} {...props} />
+  const instanceRef = React.useCallback(
+    (instance) => {
+      const el = instance?._ref?.current ?? null
+      if (typeof ref === 'function') {
+        ref(el)
+      } else if (ref) {
+        ref.current = el
+      }
+    },
+    [ref]
+  )
+
+  return <ButtonClass ref={ref ? instanceRef : undefined} {...props} />
 }
 
 Button.getContent = ButtonClass.getContent

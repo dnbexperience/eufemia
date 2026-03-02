@@ -323,7 +323,7 @@ describe('Textarea component', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref: React.RefObject<unknown>
+    let ref: React.RefObject<HTMLTextAreaElement>
 
     function MockComponent() {
       ref = React.useRef(null)
@@ -332,10 +332,11 @@ describe('Textarea component', () => {
 
     render(<MockComponent />)
 
-    // ref gives the DOM element via the function wrapper
-    expect(ref.current).toBeTruthy()
+    // ref should be the DOM element, not a class instance
     const textarea = document.querySelector('.dnb-textarea__textarea')
-    expect(textarea.tagName).toBe('TEXTAREA')
+    expect(ref.current).toBeInstanceOf(HTMLTextAreaElement)
+    expect(ref.current).toBe(textarea)
+    expect(ref.current.tagName).toBe('TEXTAREA')
   })
 
   it('gets valid element when ref is function', () => {
@@ -344,8 +345,9 @@ describe('Textarea component', () => {
     render(<Textarea id="unique" ref={refFn} />)
 
     // ref callback receives the DOM element
-    expect(refFn).toHaveBeenCalled()
+    expect(refFn).toHaveBeenCalledTimes(1)
     const textarea = document.querySelector('#unique')
+    expect(refFn).toHaveBeenCalledWith(textarea)
     expect(textarea.classList).toContain('dnb-textarea__textarea')
     expect(textarea.tagName).toBe('TEXTAREA')
   })

@@ -47,7 +47,7 @@ describe('InputMasked component', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref: React.RefObject<unknown>
+    let ref: React.RefObject<HTMLInputElement>
 
     function MockComponent() {
       ref = React.useRef(null)
@@ -56,11 +56,12 @@ describe('InputMasked component', () => {
 
     render(<MockComponent />)
 
-    // ref gives the DOM element via the function wrapper
-    expect(ref.current).toBeTruthy()
+    // ref should be the DOM element, not a class instance
     const input = document.querySelector('input')
-    expect(input.id).toBe(props.id)
-    expect(input.tagName).toBe('INPUT')
+    expect(ref.current).toBeInstanceOf(HTMLInputElement)
+    expect(ref.current).toBe(input)
+    expect(ref.current.id).toBe(props.id)
+    expect(ref.current.tagName).toBe('INPUT')
   })
 
   it('gets valid element when ref is function', () => {
@@ -69,9 +70,9 @@ describe('InputMasked component', () => {
     render(<InputMasked {...props} ref={refFn} />)
 
     // ref callback receives the DOM element
-    expect(refFn).toHaveBeenCalled()
+    expect(refFn).toHaveBeenCalledTimes(1)
     const input = document.querySelector('input')
-    expect(input.id).toBe(props.id)
+    expect(refFn).toHaveBeenCalledWith(input)
     expect(input.tagName).toBe('INPUT')
   })
 

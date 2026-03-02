@@ -40,7 +40,7 @@ import {
   getCurrentData,
 } from '../../fragments/drawer-list/DrawerListHelpers'
 
-class DropdownClass extends React.PureComponent {
+class DropdownInstance extends React.PureComponent {
   static propTypes = {
     ...spacingPropTypes,
     ...drawerListPropTypes,
@@ -222,31 +222,6 @@ class DropdownClass extends React.PureComponent {
     onSelect: null,
   }
 
-  render() {
-    // generate ID here, so we can send it along the provider
-    const id = this.props.id || makeUniqueId()
-    const { moreMenu, actionMenu, preventSelection, children, data } =
-      this.props
-
-    return (
-      <DrawerListProvider
-        {...this.props}
-        id={id}
-        data={data || children}
-        open={false}
-        tagName="dnb-dropdown"
-        ignoreEvents={false}
-        preventSelection={moreMenu || actionMenu || preventSelection}
-      >
-        <DropdownInstance {...this.props} id={id} />
-      </DrawerListProvider>
-    )
-  }
-}
-
-class DropdownInstance extends React.PureComponent {
-  static propTypes = DropdownClass.propTypes
-  static defaultProps = DropdownClass.defaultProps
   static contextType = DrawerListContext
 
   constructor(props) {
@@ -255,9 +230,9 @@ class DropdownInstance extends React.PureComponent {
     this.attributes = {}
     this.state = this.state || {}
 
-    this._ref = props._innerRef || React.createRef()
+    this._ref = React.createRef()
     this._refWrapper = React.createRef()
-    this._refButton = props._innerButtonRef || React.createRef()
+    this._refButton = React.createRef()
   }
 
   componentDidMount() {
@@ -403,7 +378,7 @@ class DropdownInstance extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContextInClassComponent(
       this.props,
-      DropdownClass.defaultProps,
+      DropdownInstance.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).Dropdown,
       pickFormElementProps(this.context?.formElement),
@@ -462,8 +437,6 @@ class DropdownInstance extends React.PureComponent {
       enableBodyLock: _enableBodyLock, // eslint-disable-line
       listClass: _listClass, // eslint-disable-line
       buttonRef, // eslint-disable-line
-      _innerRef, // eslint-disable-line
-      _innerButtonRef, // eslint-disable-line
       ref: _ref, // eslint-disable-line
 
       onOpen: _onOpen, // eslint-disable-line
@@ -703,22 +676,57 @@ class DropdownInstance extends React.PureComponent {
   }
 }
 
-DropdownClass.HorizontalItem = DrawerList.HorizontalItem
-DropdownClass._formElement = true
-DropdownClass._supportsSpacingProps = true
+DropdownInstance._formElement = true
+DropdownInstance._supportsSpacingProps = true
 
 /**
- * Function wrapper that converts `ref` and `buttonRef` to internal props for the class component.
+ * Function component wrapper that provides DrawerListProvider context
+ * and forwards `ref` and `buttonRef` to the inner DOM elements.
  */
 function Dropdown({ ref, buttonRef, ...props }) {
+  const id = React.useMemo(() => props.id || makeUniqueId(), [props.id])
+  const { moreMenu, actionMenu, preventSelection, children, data } = props
+
+  const instanceRef = React.useCallback(
+    (instance) => {
+      const el = instance?._ref?.current ?? null
+      if (typeof ref === 'function') {
+        ref(el)
+      } else if (ref) {
+        ref.current = el
+      }
+
+      const btnEl = instance?._refButton?.current ?? null
+      if (typeof buttonRef === 'function') {
+        buttonRef(btnEl)
+      } else if (buttonRef) {
+        buttonRef.current = btnEl
+      }
+    },
+    [ref, buttonRef]
+  )
+
   return (
-    <DropdownClass
-      _innerRef={ref}
-      _innerButtonRef={buttonRef}
+    <DrawerListProvider
       {...props}
-    />
+      id={id}
+      data={data || children}
+      open={false}
+      tagName="dnb-dropdown"
+      ignoreEvents={false}
+      preventSelection={moreMenu || actionMenu || preventSelection}
+    >
+      <DropdownInstance
+        ref={ref || buttonRef ? instanceRef : undefined}
+        {...props}
+        id={id}
+      />
+    </DrawerListProvider>
   )
 }
+
+Dropdown.propTypes = DropdownInstance.propTypes
+Dropdown.defaultProps = DropdownInstance.defaultProps
 
 Dropdown.HorizontalItem = DrawerList.HorizontalItem
 Dropdown._formElement = true
