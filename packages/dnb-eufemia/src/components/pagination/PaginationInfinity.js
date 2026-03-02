@@ -524,63 +524,66 @@ class InteractionMarker extends React.PureComponent {
   }
 }
 
-export class InfinityLoadButton extends React.PureComponent {
-  static contextType = Context
-  static propTypes = {
-    element: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func,
-      PropTypes.string,
-    ]),
-    pressedElement: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func,
-    ]),
-    icon: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired,
-    text: PropTypes.string,
-    iconPosition: PropTypes.string,
-  }
-  static defaultProps = {
-    element: 'div',
-    pressedElement: null,
-    icon: 'arrow_down',
-    text: null,
-    iconPosition: 'left',
-  }
-  state = { isPressed: false }
-  onClickHandler = (e) => {
-    this.setState({ isPressed: true })
-    if (typeof this.props.onClick === 'function') {
-      this.props.onClick(e)
-    }
-  }
-  render() {
-    const { element, icon, text, iconPosition } = this.props
-    const Element = element
-    const ElementChild = isTrElement(Element) ? 'td' : 'div'
+export function InfinityLoadButton({
+  element = 'div',
+  pressedElement = null,
+  icon = 'arrow_down',
+  text = null,
+  iconPosition = 'left',
+  onClick,
+}) {
+  const [isPressed, setIsPressed] = React.useState(false)
+  const context = React.useContext(Context)
 
-    return this.state.isPressed ? (
-      this.props.pressedElement
-    ) : (
-      <Element>
-        <ElementChild className="dnb-pagination__loadbar">
-          <Button
-            size="medium"
-            icon={icon}
-            iconPosition={iconPosition}
-            text={
-              text || this.context.translation.Pagination.loadButtonText
-            }
-            variant="secondary"
-            onClick={this.onClickHandler}
-          />
-        </ElementChild>
-      </Element>
-    )
+  const onClickHandler = React.useCallback(
+    (e) => {
+      setIsPressed(true)
+      if (typeof onClick === 'function') {
+        onClick(e)
+      }
+    },
+    [onClick]
+  )
+
+  const Element = element
+  const ElementChild = isTrElement(Element) ? 'td' : 'div'
+
+  if (isPressed) {
+    return pressedElement
   }
+
+  return (
+    <Element>
+      <ElementChild className="dnb-pagination__loadbar">
+        <Button
+          size="medium"
+          icon={icon}
+          iconPosition={iconPosition}
+          text={text || context.translation.Pagination.loadButtonText}
+          variant="secondary"
+          onClick={onClickHandler}
+        />
+      </ElementChild>
+    </Element>
+  )
+}
+
+InfinityLoadButton.propTypes = {
+  element: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.node,
+    PropTypes.func,
+    PropTypes.string,
+  ]),
+  pressedElement: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.node,
+    PropTypes.func,
+  ]),
+  icon: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  text: PropTypes.string,
+  iconPosition: PropTypes.string,
 }
 
 class ScrollToElement extends React.PureComponent {

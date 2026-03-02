@@ -23,4 +23,4 @@ export interface InfinityLoadButtonProps {
   icon: string;
   onClick: (...args: any[]) => any;
 }
-export declare const InfinityLoadButton: React.ComponentClass<InfinityLoadButtonProps>;
+export declare const InfinityLoadButton: React.FC<InfinityLoadButtonProps>;
