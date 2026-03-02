@@ -64,6 +64,47 @@ describe('Stat.Currency', () => {
     expect(currency.classList).toContain('dnb-t__size--x-large')
   })
 
+  it('uses basis size by default when rendered inside Stat.Trend', () => {
+    render(
+      <Stat.Trend>
+        <Stat.Currency value={12345.67} />
+      </Stat.Trend>
+    )
+
+    const amount = document.querySelector('.dnb-stat__amount')
+    const currency = document.querySelector('.dnb-stat__currency')
+
+    expect(amount.classList).toContain('dnb-t__size--basis')
+    expect(currency.classList).toContain('dnb-t__size--basis')
+  })
+
+  it('uses basis size by default when rendered inside Stat.Info', () => {
+    render(
+      <Stat.Info>
+        <Stat.Currency value={12345.67} />
+      </Stat.Info>
+    )
+
+    const amount = document.querySelector('.dnb-stat__amount')
+    const currency = document.querySelector('.dnb-stat__currency')
+
+    expect(amount.classList).toContain('dnb-t__size--basis')
+    expect(currency.classList).toContain('dnb-t__size--basis')
+  })
+
+  it('uses regular mainWeight by default when rendered inside Stat.Info', () => {
+    render(
+      <Stat.Info>
+        <Stat.Currency value={12345.67} />
+      </Stat.Info>
+    )
+
+    const amount = document.querySelector('.dnb-stat__amount')
+
+    expect(amount.classList).toContain('dnb-t__weight--regular')
+    expect(amount.classList).not.toContain('dnb-t__weight--medium')
+  })
+
   it('should validate with ARIA rules', async () => {
     const component = render(
       <Stat.Currency

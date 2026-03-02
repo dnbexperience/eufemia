@@ -65,6 +65,47 @@ describe('Stat.Percent', () => {
     expect(percentSign.classList).toContain('dnb-t__size--basis')
   })
 
+  it('uses basis size by default when rendered inside Stat.Trend', () => {
+    render(
+      <Stat.Trend>
+        <Stat.Percent value={12.3} />
+      </Stat.Trend>
+    )
+
+    const amount = document.querySelector('.dnb-stat__amount')
+    const percentSign = document.querySelector('.dnb-stat__percent')
+
+    expect(amount.classList).toContain('dnb-t__size--basis')
+    expect(percentSign.classList).toContain('dnb-t__size--basis')
+  })
+
+  it('uses basis size by default when rendered inside Stat.Info', () => {
+    render(
+      <Stat.Info>
+        <Stat.Percent value={12.3} />
+      </Stat.Info>
+    )
+
+    const amount = document.querySelector('.dnb-stat__amount')
+    const percentSign = document.querySelector('.dnb-stat__percent')
+
+    expect(amount.classList).toContain('dnb-t__size--basis')
+    expect(percentSign.classList).toContain('dnb-t__size--basis')
+  })
+
+  it('uses regular mainWeight by default when rendered inside Stat.Info', () => {
+    render(
+      <Stat.Info>
+        <Stat.Percent value={12.3} />
+      </Stat.Info>
+    )
+
+    const amount = document.querySelector('.dnb-stat__amount')
+
+    expect(amount.classList).toContain('dnb-t__weight--regular')
+    expect(amount.classList).not.toContain('dnb-t__weight--medium')
+  })
+
   it('should validate with ARIA rules', async () => {
     const component = render(
       <Stat.Percent value={0.1234} signDisplay="always" srLabel="Change" />

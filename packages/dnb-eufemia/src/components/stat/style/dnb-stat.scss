@@ -38,6 +38,10 @@
   }
 
   &__label {
+    &:not([class*='space__bottom']) {
+      margin-bottom: 0.5rem;
+    }
+
     &--default {
       color: var(--color-black-80);
     }
@@ -46,10 +50,12 @@
       color: var(--color-black-55);
     }
 
-    .dnb-h--medium {
+    [class*='dnb-h--'],
+    .dnb-spacing & [class*='dnb-h--'] {
+      @include spaceReset();
+
       font-size: inherit;
       font-weight: inherit;
-      margin: 0 !important;
     }
   }
 
@@ -111,12 +117,12 @@
 
   &__trend {
     display: inline-flex;
-    padding: 0 0.25rem;
+    padding: 0.25rem 0.5rem;
     font-size: var(--font-size-small);
     line-height: var(--line-height-basis);
     font-weight: var(--font-weight-medium);
 
-    border-radius: 0.25rem;
+    border-radius: 0.5rem;
 
     &-content {
       display: inline-flex;

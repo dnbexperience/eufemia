@@ -3,6 +3,7 @@ import classnames from 'classnames'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import type { SpacingProps } from '../../shared/types'
 import { validateDOMAttributes } from '../../shared/component-helper'
+import StatValueContext from './StatValueContext'
 
 export type InfoProps = {
   children?: React.ReactNode
@@ -31,7 +32,15 @@ function Info(props: InfoProps) {
     ),
   })
 
-  return <Element {...attributes}>{children}</Element>
+  return (
+    <Element {...attributes}>
+      <StatValueContext.Provider
+        value={{ useBasisSize: true, defaultMainWeight: 'regular' }}
+      >
+        {children}
+      </StatValueContext.Provider>
+    </Element>
+  )
 }
 
 Info._supportsSpacingProps = true

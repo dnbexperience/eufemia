@@ -6,6 +6,7 @@ import {
   convertJsxToString,
   validateDOMAttributes,
 } from '../../shared/component-helper'
+import StatValueContext from './StatValueContext'
 
 export type TrendProps = {
   value?: number | string
@@ -67,14 +68,18 @@ function Trend(props: TrendProps) {
 
   return (
     <Element {...attributes}>
-      <span className="dnb-stat__trend-content" aria-hidden>
-        {!hasCustomChildren && sign ? (
-          <span className="dnb-stat__trend-sign">{sign}</span>
-        ) : null}
-        <span className="dnb-stat__trend-value">
-          {hasCustomChildren ? children : displayValue}
+      <StatValueContext.Provider
+        value={{ useBasisSize: true, defaultMainWeight: null }}
+      >
+        <span className="dnb-stat__trend-content" aria-hidden>
+          {!hasCustomChildren && sign ? (
+            <span className="dnb-stat__trend-sign">{sign}</span>
+          ) : null}
+          <span className="dnb-stat__trend-value">
+            {hasCustomChildren ? children : displayValue}
+          </span>
         </span>
-      </span>
+      </StatValueContext.Provider>
       <span className="dnb-sr-only" data-text={srText} />
     </Element>
   )

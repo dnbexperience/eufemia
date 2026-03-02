@@ -14,7 +14,7 @@ export const LabelProperties: PropertiesTableProps = {
     status: 'optional',
   },
   fontSize: {
-    doc: 'Typography size for the label. Line-height is derived from an internal scale (e.g. `small` -> `basis`).',
+    doc: 'Typography size for the label. Line-height is derived from the shared heading/text scale.',
     type: [
       '"x-small"',
       '"small"',
@@ -24,7 +24,7 @@ export const LabelProperties: PropertiesTableProps = {
       '"x-large"',
       '"xx-large"',
     ],
-    defaultValue: 'small',
+    defaultValue: 'basis',
     status: 'optional',
   },
   variant: {

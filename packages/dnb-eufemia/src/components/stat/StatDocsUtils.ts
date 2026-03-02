@@ -10,7 +10,7 @@ export const pickNumberFormatProps = (
 }
 
 export const mainSizeProperty: PropertiesTableProps[string] = {
-  doc: 'Typography size for the main content.',
+  doc: 'Typography size for the main content. When omitted, it falls back to `fontSize` if provided.',
   type: [
     '"x-small"',
     '"small"',
@@ -20,12 +20,13 @@ export const mainSizeProperty: PropertiesTableProps[string] = {
     '"x-large"',
     '"xx-large"',
   ],
-  defaultValue: 'large',
+  defaultValue:
+    'large (`basis` when nested inside `Stat.Trend` or `Stat.Info`, unless `fontSize`, `mainSize`, or `auxiliarySize` is set)',
   status: 'optional',
 }
 
 export const fontSizeProperty: PropertiesTableProps[string] = {
-  doc: 'Typography size fallback used for both main and auxiliary content. `mainSize` and `auxiliarySize` override this value.',
+  doc: 'Typography size fallback used for both main and auxiliary content. `mainSize` and `auxiliarySize` override this value. If omitted, default is `large` (`basis` when nested inside `Stat.Trend` or `Stat.Info`, unless any size prop is set).',
   type: [
     '"x-small"',
     '"small"',
@@ -52,7 +53,7 @@ export const auxWeightProperty: PropertiesTableProps[string] = {
 }
 
 export const auxiliarySizeProperty: PropertiesTableProps[string] = {
-  doc: 'Typography size for secondary content like currency sign and affixes (`prefix` and `suffix`).',
+  doc: 'Typography size for secondary content like currency sign and affixes (`prefix` and `suffix`). When omitted, it falls back to `fontSize` if provided.',
   type: [
     '"x-small"',
     '"small"',
@@ -62,7 +63,8 @@ export const auxiliarySizeProperty: PropertiesTableProps[string] = {
     '"x-large"',
     '"xx-large"',
   ],
-  defaultValue: 'large',
+  defaultValue:
+    'large (`basis` when nested inside `Stat.Trend` or `Stat.Info`, unless `fontSize`, `mainSize`, or `auxiliarySize` is set)',
   status: 'optional',
 }
 

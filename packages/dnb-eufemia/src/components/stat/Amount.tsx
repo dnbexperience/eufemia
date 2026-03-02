@@ -9,6 +9,7 @@ import type {
   TypographySize,
   TypographyWeight,
 } from '../../elements/typography/Typography'
+import { getHeadingLineHeightSize } from '../../elements/typography/Typography'
 import type { SpacingProps } from '../../shared/types'
 import {
   createSkeletonClass,
@@ -19,6 +20,7 @@ import {
   convertJsxToString,
   validateDOMAttributes,
 } from '../../shared/component-helper'
+import StatValueContext from './StatValueContext'
 
 export type AmountProps = Omit<
   NumberFormatProps,
@@ -109,6 +111,8 @@ function Amount(props: AmountProps) {
     ...rest
   } = props
   const context = React.useContext(Context)
+  const { useBasisSize, defaultMainWeight } =
+    React.useContext(StatValueContext)
   const resolvedLocale =
     locale ?? (context?.NumberFormat?.locale as string) ?? context?.locale
   const resolvedSkeleton = Boolean(skeleton ?? context?.skeleton)
@@ -149,9 +153,18 @@ function Amount(props: AmountProps) {
 
   const hasCurrency = Boolean(parts.currency)
   const renderCurrencyBefore = parts.currencyPosition === 'before'
-  const resolvedMainSize = mainSize ?? fontSize ?? 'large'
-  const resolvedAuxiliarySize = auxiliarySize ?? fontSize ?? 'large'
-  const resolvedMainWeight = mainWeight ?? 'medium'
+  const hasExplicitSizeProps =
+    mainSize !== null || auxiliarySize !== null || fontSize !== null
+  const defaultFontSize =
+    useBasisSize && !hasExplicitSizeProps ? 'basis' : 'large'
+  const resolvedMainSize = mainSize ?? fontSize ?? defaultFontSize
+  const resolvedAuxiliarySize =
+    auxiliarySize ?? fontSize ?? defaultFontSize
+  const resolvedMainLineHeight = getHeadingLineHeightSize(resolvedMainSize)
+  const resolvedAuxiliaryLineHeight = getHeadingLineHeightSize(
+    resolvedAuxiliarySize
+  )
+  const resolvedMainWeight = mainWeight ?? defaultMainWeight ?? 'medium'
   const resolvedAuxWeight =
     auxWeight ??
     (typeof mainWeight === 'undefined' &&
@@ -168,19 +181,19 @@ function Amount(props: AmountProps) {
   const currencyClass = classnames(
     'dnb-stat__currency',
     `dnb-t__size--${resolvedAuxiliarySize}`,
-    `dnb-t__line-height--${resolvedAuxiliarySize}`,
+    `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
     resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`
   )
   const amountClass = classnames(
     'dnb-stat__amount',
     `dnb-t__size--${resolvedMainSize}`,
-    `dnb-t__line-height--${resolvedMainSize}`,
+    `dnb-t__line-height--${resolvedMainLineHeight}`,
     `dnb-t__weight--${resolvedMainWeight}`
   )
   const percentClass = classnames(
     'dnb-stat__percent',
     `dnb-t__size--${resolvedAuxiliarySize}`,
-    `dnb-t__line-height--${resolvedAuxiliarySize}`,
+    `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
     resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`
   )
 
@@ -192,7 +205,7 @@ function Amount(props: AmountProps) {
             className={classnames(
               'dnb-stat__sign',
               `dnb-t__size--${resolvedMainSize}`,
-              `dnb-t__line-height--${resolvedMainSize}`,
+              `dnb-t__line-height--${resolvedMainLineHeight}`,
               `dnb-t__weight--${resolvedMainWeight}`
             )}
           >
@@ -231,7 +244,7 @@ function Amount(props: AmountProps) {
       classnames(
         'dnb-stat__prefix',
         `dnb-t__size--${resolvedAuxiliarySize}`,
-        `dnb-t__line-height--${resolvedAuxiliarySize}`,
+        `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
         resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`
       )
     )
@@ -249,7 +262,7 @@ function Amount(props: AmountProps) {
       classnames(
         'dnb-stat__suffix',
         `dnb-t__size--${resolvedAuxiliarySize}`,
-        `dnb-t__line-height--${resolvedAuxiliarySize}`,
+        `dnb-t__line-height--${resolvedAuxiliaryLineHeight}`,
         resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`
       )
     )

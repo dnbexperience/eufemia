@@ -6,6 +6,7 @@ import type {
   TypographySize,
   TypographyWeight,
 } from '../../elements/typography/Typography'
+import { getHeadingLineHeightSize } from '../../elements/typography/Typography'
 import { validateDOMAttributes, warn } from '../../shared/component-helper'
 import StatRootContext from './StatRootContext'
 
@@ -26,13 +27,13 @@ function Label(props: LabelProps) {
     children,
     element: Element = 'dt',
     className = null,
-    fontSize = 'small',
+    fontSize = 'basis',
     fontWeight = 'regular',
     variant = 'default',
     style = null,
     ...rest
   } = props
-  const resolvedLineHeight = getLabelLineHeight(fontSize)
+  const resolvedLineHeight = getHeadingLineHeightSize(fontSize)
 
   if (!inRoot) {
     warn('Stat.Label should be used inside Stat.Root')
@@ -60,17 +61,3 @@ Label._supportsSpacingProps = true
 Label._statRole = 'label'
 
 export default Label
-
-const LINE_HEIGHT_MAP: Record<TypographySize, TypographySize> = {
-  'x-small': 'basis',
-  small: 'basis',
-  basis: 'medium',
-  medium: 'large',
-  large: 'x-large',
-  'x-large': 'xx-large',
-  'xx-large': 'xx-large',
-}
-
-function getLabelLineHeight(fontSize: TypographySize): TypographySize {
-  return LINE_HEIGHT_MAP[fontSize] || 'basis'
-}

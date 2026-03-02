@@ -32,7 +32,9 @@ describe('Stat.Amount', () => {
     expect(amount.textContent).toBe('12 346')
     expect(currency.textContent).toBe('kr')
     expect(amount.classList).toContain('dnb-t__size--large')
+    expect(amount.classList).toContain('dnb-t__line-height--medium')
     expect(currency.classList).toContain('dnb-t__size--large')
+    expect(currency.classList).toContain('dnb-t__line-height--medium')
 
     expect(container.lastChild).toBe(
       document.querySelector('.dnb-sr-only')
@@ -121,9 +123,12 @@ describe('Stat.Amount', () => {
 
     expect(amount.classList).toContain('dnb-t__size--xx-large')
     expect(amount.classList).not.toContain('dnb-t__size--large')
+    expect(amount.classList).toContain('dnb-t__line-height--xx-large')
     expect(currency.classList).toContain('dnb-t__size--basis')
     expect(currency.classList).not.toContain('dnb-t__size--large')
+    expect(currency.classList).toContain('dnb-t__line-height--basis')
     expect(prefix.classList).toContain('dnb-t__size--basis')
+    expect(prefix.classList).toContain('dnb-t__line-height--basis')
   })
 
   it('supports fontSize as fallback for both main and auxiliary sizes', () => {
@@ -156,6 +161,79 @@ describe('Stat.Amount', () => {
     expect(amount.classList).not.toContain('dnb-t__size--x-large')
     expect(currency.classList).toContain('dnb-t__size--basis')
     expect(currency.classList).not.toContain('dnb-t__size--x-large')
+  })
+
+  it('uses basis size by default when rendered inside Stat.Trend', () => {
+    render(
+      <Stat.Trend>
+        <Stat.Amount value={1234} currency="NOK" />
+      </Stat.Trend>
+    )
+
+    const amount = document.querySelector('.dnb-stat__amount')
+    const currency = document.querySelector('.dnb-stat__currency')
+
+    expect(amount.classList).toContain('dnb-t__size--basis')
+    expect(currency.classList).toContain('dnb-t__size--basis')
+  })
+
+  it('keeps explicit sizes when rendered inside Stat.Trend', () => {
+    render(
+      <Stat.Trend>
+        <Stat.Amount
+          value={1234}
+          currency="NOK"
+          mainSize="x-large"
+          auxiliarySize="small"
+        />
+      </Stat.Trend>
+    )
+
+    const amount = document.querySelector('.dnb-stat__amount')
+    const currency = document.querySelector('.dnb-stat__currency')
+
+    expect(amount.classList).toContain('dnb-t__size--x-large')
+    expect(currency.classList).toContain('dnb-t__size--small')
+  })
+
+  it('uses basis size by default when rendered inside Stat.Info', () => {
+    render(
+      <Stat.Info>
+        <Stat.Amount value={1234} currency="NOK" />
+      </Stat.Info>
+    )
+
+    const amount = document.querySelector('.dnb-stat__amount')
+    const currency = document.querySelector('.dnb-stat__currency')
+
+    expect(amount.classList).toContain('dnb-t__size--basis')
+    expect(currency.classList).toContain('dnb-t__size--basis')
+  })
+
+  it('uses regular mainWeight by default when rendered inside Stat.Info', () => {
+    render(
+      <Stat.Info>
+        <Stat.Amount value={1234} />
+      </Stat.Info>
+    )
+
+    const amount = document.querySelector('.dnb-stat__amount')
+
+    expect(amount.classList).toContain('dnb-t__weight--regular')
+    expect(amount.classList).not.toContain('dnb-t__weight--medium')
+  })
+
+  it('keeps medium mainWeight by default when rendered inside Stat.Trend', () => {
+    render(
+      <Stat.Trend>
+        <Stat.Amount value={1234} />
+      </Stat.Trend>
+    )
+
+    const amount = document.querySelector('.dnb-stat__amount')
+
+    expect(amount.classList).toContain('dnb-t__weight--medium')
+    expect(amount.classList).not.toContain('dnb-t__weight--regular')
   })
 
   it('supports custom mainWeight', () => {
