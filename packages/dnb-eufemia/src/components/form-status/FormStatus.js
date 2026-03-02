@@ -16,10 +16,7 @@ import {
   extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
 import HeightAnimation from '../height-animation/HeightAnimation'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import Icon from '../icon/Icon'
 import GlobalStatusProvider from '../global-status/GlobalStatusProvider'
 import {
@@ -71,8 +68,6 @@ export default class FormStatus extends React.PureComponent {
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     role: PropTypes.string,
-
-    ...spacingPropTypes,
 
     className: PropTypes.string,
     children: PropTypes.oneOfType([

@@ -18,10 +18,7 @@ import {
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import Space from '../Space'
 import FormLabel from '../FormLabel'
@@ -77,8 +74,6 @@ export default class RadioGroup extends React.PureComponent {
     vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     value: PropTypes.string,
     attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-
-    ...spacingPropTypes,
 
     className: PropTypes.string,
     children: PropTypes.oneOfType([

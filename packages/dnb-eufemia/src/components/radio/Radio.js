@@ -17,10 +17,7 @@ import {
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -79,8 +76,6 @@ class RadioClass extends React.PureComponent {
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     ref: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-
-    ...spacingPropTypes,
 
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),

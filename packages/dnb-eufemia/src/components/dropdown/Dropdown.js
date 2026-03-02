@@ -19,10 +19,7 @@ import {
   convertJsxToString,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 import Suffix from '../../shared/helpers/Suffix'
@@ -34,18 +31,12 @@ import DrawerList from '../../fragments/drawer-list/DrawerList'
 import DrawerListContext from '../../fragments/drawer-list/DrawerListContext'
 import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
 import {
-  drawerListPropTypes,
-  drawerListProviderPropTypes,
   parseContentTitle,
   getCurrentData,
 } from '../../fragments/drawer-list/DrawerListHelpers'
 
 class DropdownInstance extends React.PureComponent {
   static propTypes = {
-    ...spacingPropTypes,
-    ...drawerListPropTypes,
-    ...drawerListProviderPropTypes,
-
     id: PropTypes.string,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     variant: buttonVariantPropType.variant,

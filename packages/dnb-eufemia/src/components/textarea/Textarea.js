@@ -24,10 +24,7 @@ import {
 } from '../../shared/component-helper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -98,8 +95,6 @@ class TextareaClass extends React.PureComponent {
     rows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     cols: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     ref: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-
-    ...spacingPropTypes,
 
     className: PropTypes.string,
     textareaElement: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
