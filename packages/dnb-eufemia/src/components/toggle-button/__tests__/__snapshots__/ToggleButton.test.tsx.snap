@@ -173,8 +173,9 @@ exports[`ToggleButton scss should match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
+* Used for snapshot testing
+*
+*/
 /*
  * FormLabel component
  *
@@ -215,22 +216,25 @@ legend.dnb-form-label {
 *
 */
 /*
- * Utilities
- */
+* Used for snapshot testing
+*
+*/
 /*
 * Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* Used for snapshot testing
+*
+*/
+/*
+* Used for snapshot testing
+*
+*/
 /*
 * Icon component
 *
 */
-/*
- * Utilities
- */
 .dnb-icon {
   display: inline-block;
   vertical-align: middle;
@@ -312,15 +316,17 @@ p > .dnb-icon {
 *
 */
 /*
- * Utilities
- */
+* Used for snapshot testing
+*
+*/
+/*
+* Used for snapshot testing
+*
+*/
 /*
 * Tooltip component
 *
 */
-/*
- * Utilities
- */
 :root {
   --tooltip-z-index: 1100;
 }
@@ -365,14 +371,16 @@ p > .dnb-icon {
 *
 */
 /*
- * Utilities
- */
+* Used for snapshot testing
+*
+*/
+/*
+* Used for snapshot testing
+*
+*/
 /*
  * FormStatus component
  *
- */
-/*
- * Utilities
  */
 .dnb-form-status {
   --form-status-radius: 0.25rem;
@@ -444,12 +452,13 @@ button .dnb-form-status__text {
 }
 
 /*
-* Button component
+* Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* Button component
+*
+*/
 :root {
   --button-icon-size: 1rem;
   --button-height: 2.5rem;
@@ -692,140 +701,17 @@ button.dnb-button::-moz-focus-inner {
 *
 */
 /*
- * Utilities
- */
-/*
 * Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
-/*
- * FormLabel component
- *
- */
-.dnb-form-label {
-  display: inline-block;
-  padding: 0;
-}
-.dnb-form-label[for] {
-  width: fit-content;
-}
-.dnb-form-label {
-  text-align: left;
-  vertical-align: baseline;
-  white-space: pre-wrap;
-  word-break: normal;
-  font-size: var(--font-size-basis);
-  color: inherit;
-}
-.dnb-form-label--vertical {
-  display: block;
-  margin-right: 0;
-  margin-bottom: 0.5rem;
-}
-.dnb-form-label--interactive {
-  cursor: pointer;
-}
-.dnb-form-label[disabled] {
-  cursor: not-allowed;
-}
-
-legend.dnb-form-label {
-  display: inline-block;
-}
-
-/*
 * Used for snapshot testing
 *
 */
-/*
- * Utilities
- */
-/*
- * FormStatus component
- *
- */
-/*
- * Utilities
- */
-.dnb-form-status {
-  --form-status-radius: 0.25rem;
-  display: flex;
-  opacity: 1;
-}
-.dnb-form-status__shell {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  min-width: inherit;
-  border-radius: var(--form-status-radius);
-}
-.dnb-form-status__text {
-  max-width: var(--prose-max-width);
-  padding: 0.625rem 1rem;
-  cursor: text;
-}
-button .dnb-form-status__text {
-  cursor: inherit;
-}
-.dnb-form-status__text {
-  color: inherit;
-  line-height: var(--line-height-small);
-  font-size: var(--font-size-small);
-}
-.dnb-form-status__text .dnb-ul,
-.dnb-form-status__text .dnb-anchor {
-  font-size: inherit;
-}
-.dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
-  padding-left: 1rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
-}
-.dnb-form-status__text {
-  white-space: normal;
-}
-.dnb-icon + .dnb-form-status__text {
-  padding-left: 0.5rem;
-}
-.dnb-form-status__shell > .dnb-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
-}
-.dnb-form-status__size--large .dnb-form-status__text {
-  padding-top: 1.125rem;
-  padding-bottom: 1.125rem;
-}
-.dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
-  margin-top: 0.6666666em;
-  margin-bottom: 0.6666666em;
-}
-.dnb-form-status--stretch {
-  flex-grow: 1;
-}
-.dnb-form-status--stretch .dnb-form-status__shell {
-  width: 100%;
-}
-.dnb-form-status[hidden] {
-  display: none;
-}
-
 /*
 * Checkbox component
 *
 */
-/*
- * Utilities
- */
 :root {
   --checkbox-width--medium: 1.5rem;
   --checkbox-height--medium: 1.5rem;
@@ -1196,140 +1082,17 @@ html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:
 *
 */
 /*
- * Utilities
- */
-/*
 * Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
-/*
- * FormLabel component
- *
- */
-.dnb-form-label {
-  display: inline-block;
-  padding: 0;
-}
-.dnb-form-label[for] {
-  width: fit-content;
-}
-.dnb-form-label {
-  text-align: left;
-  vertical-align: baseline;
-  white-space: pre-wrap;
-  word-break: normal;
-  font-size: var(--font-size-basis);
-  color: inherit;
-}
-.dnb-form-label--vertical {
-  display: block;
-  margin-right: 0;
-  margin-bottom: 0.5rem;
-}
-.dnb-form-label--interactive {
-  cursor: pointer;
-}
-.dnb-form-label[disabled] {
-  cursor: not-allowed;
-}
-
-legend.dnb-form-label {
-  display: inline-block;
-}
-
-/*
 * Used for snapshot testing
 *
 */
-/*
- * Utilities
- */
-/*
- * FormStatus component
- *
- */
-/*
- * Utilities
- */
-.dnb-form-status {
-  --form-status-radius: 0.25rem;
-  display: flex;
-  opacity: 1;
-}
-.dnb-form-status__shell {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  min-width: inherit;
-  border-radius: var(--form-status-radius);
-}
-.dnb-form-status__text {
-  max-width: var(--prose-max-width);
-  padding: 0.625rem 1rem;
-  cursor: text;
-}
-button .dnb-form-status__text {
-  cursor: inherit;
-}
-.dnb-form-status__text {
-  color: inherit;
-  line-height: var(--line-height-small);
-  font-size: var(--font-size-small);
-}
-.dnb-form-status__text .dnb-ul,
-.dnb-form-status__text .dnb-anchor {
-  font-size: inherit;
-}
-.dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
-  padding-left: 1rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
-}
-.dnb-form-status__text {
-  white-space: normal;
-}
-.dnb-icon + .dnb-form-status__text {
-  padding-left: 0.5rem;
-}
-.dnb-form-status__shell > .dnb-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
-}
-.dnb-form-status__size--large .dnb-form-status__text {
-  padding-top: 1.125rem;
-  padding-bottom: 1.125rem;
-}
-.dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
-  margin-top: 0.6666666em;
-  margin-bottom: 0.6666666em;
-}
-.dnb-form-status--stretch {
-  flex-grow: 1;
-}
-.dnb-form-status--stretch .dnb-form-status__shell {
-  width: 100%;
-}
-.dnb-form-status[hidden] {
-  display: none;
-}
-
 /*
 * Radio component
 *
 */
-/*
- * Utilities
- */
 :root {
   --radio-width--medium: 1.5rem;
   --radio-height--medium: 1.5rem;
@@ -1686,91 +1449,9 @@ html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:checked):no
 *
 */
 /*
- * Utilities
- */
-/*
- * FormStatus component
- *
- */
-/*
- * Utilities
- */
-.dnb-form-status {
-  --form-status-radius: 0.25rem;
-  display: flex;
-  opacity: 1;
-}
-.dnb-form-status__shell {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  min-width: inherit;
-  border-radius: var(--form-status-radius);
-}
-.dnb-form-status__text {
-  max-width: var(--prose-max-width);
-  padding: 0.625rem 1rem;
-  cursor: text;
-}
-button .dnb-form-status__text {
-  cursor: inherit;
-}
-.dnb-form-status__text {
-  color: inherit;
-  line-height: var(--line-height-small);
-  font-size: var(--font-size-small);
-}
-.dnb-form-status__text .dnb-ul,
-.dnb-form-status__text .dnb-anchor {
-  font-size: inherit;
-}
-.dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
-  padding-left: 1rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
-}
-.dnb-form-status__text {
-  white-space: normal;
-}
-.dnb-icon + .dnb-form-status__text {
-  padding-left: 0.5rem;
-}
-.dnb-form-status__shell > .dnb-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
-}
-.dnb-form-status__size--large .dnb-form-status__text {
-  padding-top: 1.125rem;
-  padding-bottom: 1.125rem;
-}
-.dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
-  margin-top: 0.6666666em;
-  margin-bottom: 0.6666666em;
-}
-.dnb-form-status--stretch {
-  flex-grow: 1;
-}
-.dnb-form-status--stretch .dnb-form-status__shell {
-  width: 100%;
-}
-.dnb-form-status[hidden] {
-  display: none;
-}
-
-/*
 * ToggleButton component
 *
 */
-/*
- * Utilities
- */
 .dnb-toggle-button {
   display: inline-flex;
   align-items: center;

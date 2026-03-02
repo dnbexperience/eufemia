@@ -9,12 +9,13 @@ exports[`VisuallyHidden VisuallyHidden scss should match style dependencies css 
  * Utilities
  */
 /*
-* VisuallyHidden component
+* Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* VisuallyHidden component
+*
+*/
 .dnb-visually-hidden--focusable:not(:focus, :focus-within) {
   user-select: none !important;
   -webkit-touch-callout: none !important;

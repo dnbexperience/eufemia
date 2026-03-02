@@ -17,6 +17,7 @@ v11 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 
 1. Replace `innerRef` with `ref` on all Eufemia components.
 2. Replace `<Context.Provider>` with `<Context>` when using Eufemia contexts directly (React 19 deprecation).
+3. If you import Eufemia SCSS source files with `@import`, replace with `@use` and namespace your mixin/variable calls (see [SCSS: @import → @use](#scss-import--use)).
 
 ### innerRef → ref
 
@@ -1545,6 +1546,44 @@ The JSX usage (`<Wizard.Provider value={...}>`) remains the same — no changes 
 #### Properties
 
 - Replace `filterSubmitData` with rather using the `filterData` in the second event parameter in the `onSubmit` or `onChange` events.
+
+## SCSS: `@import` → `@use`
+
+Eufemia's internal SCSS has been migrated from the deprecated `@import` to the Sass module system (`@use` / `@forward`). This does not change the compiled CSS output, but affects consumers who import Eufemia's SCSS source files directly.
+
+If you import Eufemia's SCSS utilities (e.g. for mixins or breakpoints), update your imports:
+
+**Before:**
+
+```scss
+@import '@dnb/eufemia/style/core/utilities.scss';
+
+@include allBelow(small) {
+  // ...
+}
+
+div {
+  max-width: map-get($breakpoints, medium);
+}
+```
+
+**After:**
+
+```scss
+@use '@dnb/eufemia/style/core/utilities.scss' as utilities;
+
+@include utilities.allBelow(small) {
+  // ...
+}
+
+div {
+  max-width: map-get(utilities.$breakpoints, medium);
+}
+```
+
+Using `@import` with Eufemia's SCSS source files still works, but will trigger Sass deprecation warnings. We recommend migrating to `@use`.
+
+If you previously had `silenceDeprecations: ['import']` in your Sass config to suppress warnings from Eufemia, you can now remove it — Eufemia's own files no longer use `@import`.
 
 ## Theming
 

@@ -1,11 +1,12 @@
 @use 'sass:color';
+@use 'sass:math';
 
 @mixin focusRing {
   box-shadow: 0 0 0 0.125rem var(--color-accent-yellow);
 }
 
 @function get-color($rgb, $a, $c) {
-  @return hsla(hue($rgb), saturation($rgb), lightness($rgb), $a - $c);
+  @return color.change($rgb, $alpha: math.clamp(0, $a - $c, 1));
 }
 
 @mixin gridStyle($rgb: rgb(204, 80, 72), $alpha: 0.8) {

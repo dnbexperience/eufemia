@@ -57,11 +57,12 @@ exports[`Logo scss should match style dependencies css 1`] = `
  * Utilities
  */
 /*
+* Used for snapshot testing
+*
+*/
+/*
  * Logo Component
  *
- */
-/*
- * Utilities
  */
 .dnb-logo {
   display: inline-block;

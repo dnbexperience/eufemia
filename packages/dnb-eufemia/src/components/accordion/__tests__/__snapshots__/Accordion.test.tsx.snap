@@ -13,15 +13,17 @@ exports[`Accordion scss has to match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
+* Used for snapshot testing
+*
+*/
+/*
+* Used for snapshot testing
+*
+*/
 /*
 * Icon component
 *
 */
-/*
- * Utilities
- */
 .dnb-icon {
   display: inline-block;
   vertical-align: middle;
@@ -99,12 +101,13 @@ p > .dnb-icon {
 }
 
 /*
-* Accordion component
+* Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* Accordion component
+*
+*/
 .dnb-accordion {
   --accordion-border-width: 0.0625rem;
   --accordion-border-radius: 0.5rem;

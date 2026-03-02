@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss' as utilities;
 
 .dnb-date-picker {
   --date-picker-input-height: 2rem;
@@ -58,7 +58,7 @@
       margin: 0;
 
       &.dnb-no-focus:focus {
-        @include focusRing();
+        @include utilities.focusRing();
       }
     }
     &:not(#{&}--show-footer) .dnb-date-picker__calendar::after {
@@ -90,12 +90,12 @@
     white-space: nowrap;
 
     // Chrome fix
-    @include IS_CHROME() {
+    @include utilities.IS_CHROME() {
       margin: 0 -4px;
     }
 
     // Safari Mobile fix
-    @include IS_SAFARI_MOBILE() {
+    @include utilities.IS_SAFARI_MOBILE() {
       &:not(*:root) {
         margin: 0;
       }
@@ -105,7 +105,7 @@
     }
 
     // Safari Desktop fix
-    @include IS_SAFARI_DESKTOP() {
+    @include utilities.IS_SAFARI_DESKTOP() {
       &:not(*:root) {
         margin: 0 -4px;
       }
@@ -181,7 +181,7 @@
     user-select: none;
 
     // Wrap already on "medium", because "small" is too narrow in range mode
-    @include allBelow(medium) {
+    @include utilities.allBelow(medium) {
       flex-direction: column;
     }
   }
@@ -359,7 +359,7 @@
     line-height: var(--line-height-basis);
     margin-right: 0;
   }
-  @include formLabelWrap();
+  @include utilities.formLabelWrap();
 
   // make full width
   &--stretch {
@@ -410,7 +410,7 @@
 
   &__fieldset,
   .dnb-core-style &__fieldset {
-    @include fieldsetReset();
+    @include utilities.fieldsetReset();
   }
 
   &__portal {

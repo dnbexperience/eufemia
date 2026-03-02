@@ -13,8 +13,9 @@ exports[`Radio scss has to match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
+* Used for snapshot testing
+*
+*/
 /*
  * FormLabel component
  *
@@ -55,14 +56,16 @@ legend.dnb-form-label {
 *
 */
 /*
- * Utilities
- */
+* Used for snapshot testing
+*
+*/
+/*
+* Used for snapshot testing
+*
+*/
 /*
  * FormStatus component
  *
- */
-/*
- * Utilities
  */
 .dnb-form-status {
   --form-status-radius: 0.25rem;
@@ -134,12 +137,13 @@ button .dnb-form-status__text {
 }
 
 /*
-* Radio component
+* Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* Radio component
+*
+*/
 :root {
   --radio-width--medium: 1.5rem;
   --radio-height--medium: 1.5rem;

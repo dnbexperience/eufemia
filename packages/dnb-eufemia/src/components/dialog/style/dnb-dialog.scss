@@ -3,8 +3,8 @@
  *
  */
 
-@import '../../../style/core/utilities.scss';
-@import '../../modal/style/modal-mixins.scss';
+@use '../../../style/core/utilities.scss' as utilities;
+@use '../../modal/style/modal-mixins.scss' as modal-mixins;
 
 .dnb-dialog {
   // we do this because SCSS fails by using min(100vw, 50rem) = "Incompatible units: 'rem' and 'vw'"
@@ -20,7 +20,7 @@
   position: relative;
   border-radius: var(--dialog-radius);
 
-  @include defaultDropShadow();
+  @include utilities.defaultDropShadow();
   user-select: text; // Safari / Touch fix
   border: none;
   -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
@@ -56,14 +56,14 @@
   }
 
   &--auto-fullscreen {
-    @include allBelow(small) {
-      @include modalFullscreen();
+    @include utilities.allBelow(small) {
+      @include modal-mixins.modalFullscreen();
       margin: auto 0;
     }
   }
 
   &--fullscreen {
-    @include modalFullscreen();
+    @include modal-mixins.modalFullscreen();
     margin: auto 0;
   }
   &--spacing#{&}--information &__content {
@@ -74,12 +74,12 @@
     padding-left: var(--dialog-padding); // 3.5rem (56px)
     padding-right: var(--dialog-padding); // 3.5rem (56px)
 
-    @include allBelow(large) {
+    @include utilities.allBelow(large) {
       padding-left: calc(var(--dialog-spacing)); // 2rem (32px)
       padding-right: calc(var(--dialog-spacing)); // 2rem (32px)
     }
 
-    @include allBelow(small) {
+    @include utilities.allBelow(small) {
       padding-left: calc(var(--dialog-spacing) / 2); // 1rem (16px)
       padding-right: calc(var(--dialog-spacing) / 2); // 1rem (16px)
     }
@@ -89,7 +89,7 @@
     margin-top: calc(var(--dialog-spacing)); // 2rem (32px)
     margin-bottom: calc(var(--dialog-spacing) / 2); // 1rem (16px)
 
-    @include allBelow(medium) {
+    @include utilities.allBelow(medium) {
       margin-top: calc(var(--dialog-spacing) / 2); // 1rem (16px)
     }
   }
@@ -141,12 +141,12 @@
   }
 
   &__title {
-    @include allBelow(medium) {
+    @include utilities.allBelow(medium) {
       font-size: var(--font-size-large) !important;
       line-height: var(--line-height-medium) !important;
     }
 
-    @include allBelow(small) {
+    @include utilities.allBelow(small) {
       font-size: var(--font-size-medium) !important;
       line-height: var(--line-height-lead) !important;
     }
@@ -166,7 +166,7 @@
     justify-content: space-between;
   }
 
-  @include modalStickyNav();
+  @include modal-mixins.modalStickyNav();
 
   // Remove default margins from navigation to avoid extra spacing when no title
   &--spacing &__navigation.dnb-section {
@@ -186,12 +186,12 @@
       box-shadow: var(--shadow-default-x) var(--shadow-default-y) 8px 0
         var(--shadow-default-color);
 
-      @include allBelow(large) {
+      @include utilities.allBelow(large) {
         left: calc(-1 * var(--dialog-spacing));
         right: calc(-1 * var(--dialog-spacing));
       }
 
-      @include allBelow(small) {
+      @include utilities.allBelow(small) {
         left: calc(-1 * var(--dialog-spacing) / 2);
         right: calc(-1 * var(--dialog-spacing) / 2);
       }
@@ -208,7 +208,7 @@
     animation: hide-modal 220ms ease-in-out forwards;
   }
 
-  @include reducedMotion() {
+  @include utilities.reducedMotion() {
     animation-duration: 0.01ms !important;
   }
 
@@ -216,7 +216,7 @@
     animation-duration: 0ms !important;
   }
 
-  @include allBelow(small) {
+  @include utilities.allBelow(small) {
     &--no-animation-on-mobile {
       animation-delay: 0ms !important;
       animation-duration: 0ms !important;
@@ -288,7 +288,7 @@
 
   // Fix for iOS on iPhone
   // Because Safari includes the navigation bar on the height
-  @include IS_SAFARI_MOBILE() {
+  @include utilities.IS_SAFARI_MOBILE() {
     @media (max-height: 40em) {
       .dnb-scroll-view {
         max-height: 82vh;
