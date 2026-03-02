@@ -5,7 +5,7 @@
  * For referencing while developing new features, please use a Functional component.
  */
 
-import React from 'react'
+import React, { useContext, useRef } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import PaginationContext from './PaginationContext'
@@ -155,113 +155,105 @@ export default function Pagination(props) {
 
 Pagination.propTypes = { ...paginationPropTypes }
 
-class PaginationInstance extends React.PureComponent {
-  static propTypes = { ...paginationPropTypes }
-  static defaultProps = paginationDefaultProps
-  static contextType = PaginationContext
+function PaginationInstance(incomingProps) {
+  const context = useContext(PaginationContext)
+  const contentRef = useRef(null)
 
-  constructor(props) {
-    super(props)
-    this._contentRef = React.createRef()
-  }
+  // Merge defaults so extendPropsWithContextInClassComponent can detect
+  // which props are at their default value (matching class defaultProps behavior)
+  const propsWithDefaults = { ...paginationDefaultProps, ...incomingProps }
 
-  render() {
-    // use only the props from context, who are available here anyway
-    const props = extendPropsWithContextInClassComponent(
-      this.props,
-      paginationDefaultProps,
-      this.context.getTranslation(this.props).Pagination,
-      this.context.Pagination
-    )
+  // use only the props from context, who are available here anyway
+  const props = extendPropsWithContextInClassComponent(
+    propsWithDefaults,
+    paginationDefaultProps,
+    context.getTranslation(propsWithDefaults).Pagination,
+    context.Pagination
+  )
 
-    const {
-      align,
-      children,
-      className,
-      barSpace,
-      paginationBarLayout, // eslint-disable-line
+  const {
+    align,
+    children,
+    className,
+    barSpace,
+    paginationBarLayout, // eslint-disable-line
 
-      disabled: _disabled, // eslint-disable-line
-      skeleton: _skeleton, // eslint-disable-line
-      tagName: _tagName, // eslint-disable-line
-      pageCount: _page_count, // eslint-disable-line
-      currentPage: _current_page, // eslint-disable-line
-      startupPage: _startupPage, // eslint-disable-line
-      mode: _mode, // eslint-disable-line
-      hideProgressIndicator: _hideProgressIndicator, // eslint-disable-line
-      useLoadButton: _useLoadButton, // eslint-disable-line
-      currentPageInternal: _currentPage, // eslint-disable-line
-      markerElement: _markerElement, // eslint-disable-line
-      fallbackElement: _fallbackElement, // eslint-disable-line
-      setContentHandler: _setContentHandler, // eslint-disable-line
-      resetContentHandler: _resetContentHandler, // eslint-disable-line
-      resetPaginationHandler: _resetPaginationHandler, // eslint-disable-line
-      endInfinityHandler: _endInfinityHandler, // eslint-disable-line
-      minWaitTime: _minWaitTime, // eslint-disable-line
-      pageElement: _pageElement, // eslint-disable-line
-      startupCount: _startupCount, // eslint-disable-line
-      parallelLoadCount: _parallelLoadCount, // eslint-disable-line
-      buttonTitle: _buttonTitle, // eslint-disable-line
-      prevTitle: _prevTitle, // eslint-disable-line
-      nextTitle: _nextTitle, // eslint-disable-line
-      morePages: _morePages, // eslint-disable-line
-      isLoadingText: _isLoadingText, // eslint-disable-line
-      loadButton: _loadButton, // eslint-disable-line
-      indicatorElement: _indicatorElement, // eslint-disable-line
-      placeMarkerBeforeContent: _placeMarkerBeforeContent, // eslint-disable-line
+    disabled: _disabled, // eslint-disable-line
+    skeleton: _skeleton, // eslint-disable-line
+    tagName: _tagName, // eslint-disable-line
+    pageCount: _page_count, // eslint-disable-line
+    currentPage: _current_page, // eslint-disable-line
+    startupPage: _startupPage, // eslint-disable-line
+    mode: _mode, // eslint-disable-line
+    hideProgressIndicator: _hideProgressIndicator, // eslint-disable-line
+    useLoadButton: _useLoadButton, // eslint-disable-line
+    currentPageInternal: _currentPage, // eslint-disable-line
+    markerElement: _markerElement, // eslint-disable-line
+    fallbackElement: _fallbackElement, // eslint-disable-line
+    setContentHandler: _setContentHandler, // eslint-disable-line
+    resetContentHandler: _resetContentHandler, // eslint-disable-line
+    resetPaginationHandler: _resetPaginationHandler, // eslint-disable-line
+    endInfinityHandler: _endInfinityHandler, // eslint-disable-line
+    minWaitTime: _minWaitTime, // eslint-disable-line
+    pageElement: _pageElement, // eslint-disable-line
+    startupCount: _startupCount, // eslint-disable-line
+    parallelLoadCount: _parallelLoadCount, // eslint-disable-line
+    buttonTitle: _buttonTitle, // eslint-disable-line
+    prevTitle: _prevTitle, // eslint-disable-line
+    nextTitle: _nextTitle, // eslint-disable-line
+    morePages: _morePages, // eslint-disable-line
+    isLoadingText: _isLoadingText, // eslint-disable-line
+    loadButton: _loadButton, // eslint-disable-line
+    indicatorElement: _indicatorElement, // eslint-disable-line
+    placeMarkerBeforeContent: _placeMarkerBeforeContent, // eslint-disable-line
 
-      ...attributes
-    } = props
+    ...attributes
+  } = props
 
-    // our props
-    const {
-      currentPageInternal,
-      items,
-      fallbackElement,
-      indicatorElement,
-    } = this.context.pagination
+  // our props
+  const { currentPageInternal, items, fallbackElement, indicatorElement } =
+    context.pagination
 
-    // Pagination mode
-    if (this.context.pagination.mode === 'pagination') {
-      const mainParams = {
-        className: clsx(
-          'dnb-pagination',
-          align && `dnb-pagination--${align}`,
-          paginationBarLayout &&
-            `dnb-pagination--layout-${paginationBarLayout}`,
-          createSpacingClasses(props),
-          className
-        ),
-        ...attributes,
-      }
-
-      validateDOMAttributes(props, mainParams)
-
-      const content = items.find(
-        ({ pageNumber }) => pageNumber === currentPageInternal
-      )?.content
-
-      return (
-        <div {...mainParams}>
-          <PaginationBar contentRef={this._contentRef} space={barSpace}>
-            {children}
-          </PaginationBar>
-          {items.length > 0 && (
-            <PaginationContent ref={this._contentRef}>
-              {content || (
-                <PaginationIndicator
-                  indicatorElement={indicatorElement || fallbackElement}
-                />
-              )}
-            </PaginationContent>
-          )}
-        </div>
-      )
+  // Pagination mode
+  if (context.pagination.mode === 'pagination') {
+    const mainParams = {
+      className: clsx(
+        'dnb-pagination',
+        align && `dnb-pagination--${align}`,
+        paginationBarLayout &&
+          `dnb-pagination--layout-${paginationBarLayout}`,
+        createSpacingClasses(props),
+        className
+      ),
+      ...attributes,
     }
 
-    // InfinityScroller mode
-    return <InfinityScroller />
+    validateDOMAttributes(props, mainParams)
+
+    const content = items.find(
+      ({ pageNumber }) => pageNumber === currentPageInternal
+    )?.content
+
+    return (
+      <div {...mainParams}>
+        <PaginationBar contentRef={contentRef} space={barSpace}>
+          {children}
+        </PaginationBar>
+        {items.length > 0 && (
+          <PaginationContent ref={contentRef}>
+            {content || (
+              <PaginationIndicator
+                indicatorElement={indicatorElement || fallbackElement}
+              />
+            )}
+          </PaginationContent>
+        )}
+      </div>
+    )
   }
+
+  // InfinityScroller mode
+  return <InfinityScroller />
 }
 
 export function InfinityMarker(props) {
