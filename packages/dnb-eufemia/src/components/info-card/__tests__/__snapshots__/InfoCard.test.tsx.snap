@@ -6,16 +6,12 @@ exports[`InfoCard InfoCard scss has to match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
 * InfoCard component
 *
 */
+/*
+ * Utilities
+ */
 .dnb-info-card {
   display: flex;
   flex-direction: row;

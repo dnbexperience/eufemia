@@ -113,13 +113,6 @@ exports[`Timeline scss should match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
 * Timeline component
 *
 */

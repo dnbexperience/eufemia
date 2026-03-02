@@ -175,13 +175,6 @@ exports[`Switch scss should match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
 * Used for snapshot testing
 *
 */
@@ -220,14 +213,6 @@ legend.dnb-form-label {
   display: inline-block;
 }
 
-/*
-* Used for snapshot testing
-*
-*/
-/*
-* Used for snapshot testing
-*
-*/
 /*
 * Used for snapshot testing
 *
@@ -306,13 +291,15 @@ button .dnb-form-status__text {
 }
 
 /*
-* Used for snapshot testing
-*
-*/
-/*
 * Switch component
 *
 */
+/*
+ * Utilities
+ */
+/*
+ * Utilities
+ */
 .dnb-switch {
   --switch-width--medium: 2.5rem;
   --switch-height--medium: 1.5rem;

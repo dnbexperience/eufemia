@@ -19,15 +19,11 @@ exports[`ProgressIndicator scss should match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
-/*
-* Used for snapshot testing
-*
-*/
-/*
  * ProgressIndicator component
  *
+ */
+/*
+ * Utilities
  */
 .dnb-progress-indicator {
   --progress-indicator-timing: cubic-bezier(0.5, 0, 0.5, 0.99);

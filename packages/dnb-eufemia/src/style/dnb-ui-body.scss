@@ -3,8 +3,6 @@
  *
  */
 
-@use './core/utilities.scss';
-
 @use './core/scopes.scss' as scopes;
 @include scopes.globalReset();
 
