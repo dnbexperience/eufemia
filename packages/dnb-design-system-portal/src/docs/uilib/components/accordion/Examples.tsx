@@ -298,14 +298,14 @@ export const AccordionInColumns = () => {
 }
 
 export function AccordionCloseAllInGroup() {
-  const collapseAll = React.createRef<() => void>()
+  const collapseAll = React.useRef<(() => void) | null>(null)
 
   return (
     <>
       <Button
         bottom="large"
         variant="secondary"
-        onClick={() => collapseAll.current()}
+        onClick={() => collapseAll.current?.()}
       >
         Close All
       </Button>

@@ -387,7 +387,7 @@ const Label = styled.label`
 `
 
 const MagicBox = (props) => {
-  const ref = React.createRef<HTMLDivElement>()
+  const ref = React.useRef<HTMLDivElement>(null)
 
   const [spaceInRem, setValue] = React.useState('')
   const [title, setTitle] = React.useState(null)
@@ -429,7 +429,7 @@ const MagicBox = (props) => {
 }
 
 const VisualSpace = ({ children, ...rest }) => {
-  const ref = React.createRef<HTMLDivElement>()
+  const ref = React.useRef<HTMLDivElement>(null)
   const initValue = {
     top: 0,
     left: 0,

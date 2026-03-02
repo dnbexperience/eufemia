@@ -105,8 +105,10 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     context?.Anchor
   )
 
+  const fallbackRef = React.useRef<HTMLAnchorElement>(null)
+
   if (!allProps.ref) {
-    allProps.ref = React.createRef()
+    allProps.ref = fallbackRef
   }
 
   const tooltipRef = React.useRef<HTMLAnchorElement | null>(null)
