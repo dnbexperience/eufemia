@@ -271,23 +271,21 @@ class PaginationInstance extends React.PureComponent {
   }
 }
 
-export class InfinityMarker extends React.PureComponent {
-  static propTypes = { ...paginationPropTypes }
-  static defaultProps = paginationDefaultProps
+export function InfinityMarker(props) {
+  const { children, ...rest } = { ...paginationDefaultProps, ...props }
 
-  render() {
-    const { children, ...props } = this.props
-    return (
-      <PaginationProvider
-        useMarkerOnly
-        tagName="dnb-infinity-marker"
-        {...props}
-      >
-        <InfinityScroller {...props}>{children}</InfinityScroller>
-      </PaginationProvider>
-    )
-  }
+  return (
+    <PaginationProvider
+      useMarkerOnly
+      tagName="dnb-infinity-marker"
+      {...rest}
+    >
+      <InfinityScroller {...rest}>{children}</InfinityScroller>
+    </PaginationProvider>
+  )
 }
+
+InfinityMarker.propTypes = { ...paginationPropTypes }
 
 function PaginationContent({ children, ref, ...props }) {
   return (
