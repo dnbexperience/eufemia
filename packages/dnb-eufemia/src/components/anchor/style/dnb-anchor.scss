@@ -18,8 +18,11 @@ button.dnb-anchor {
 
 @include anchor-mixins.notNoStyle() {
   &.dnb-anchor {
+    // Component variables
+    --anchor-color: var(--anchor-color--default);
+
     // Default color
-    --anchor-color: var(--token-color-text-action);
+    --anchor-color--default: var(--token-color-text-action);
     --anchor-color--hover: var(--token-color-text-action-hover);
     --anchor-color--active: var(--token-color-text-action-pressed);
     --anchor-bg--hover: var(--token-color-background-action-hover-subtle);
@@ -28,7 +31,7 @@ button.dnb-anchor {
     );
 
     // ondark colors
-    --anchor-ondark-color: var(--token-color-text-action-ondark);
+    --anchor-ondark-color--default: var(--token-color-text-action-ondark);
     --anchor-ondark-color--hover: var(--token-color-text-action-ondark);
     --anchor-ondark-color--active: var(--token-color-text-action-ondark);
     --anchor-ondark-bg--hover: var(

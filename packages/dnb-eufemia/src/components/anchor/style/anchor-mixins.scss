@@ -77,50 +77,42 @@
 }
 
 @mixin anchorFocusStyle() {
-  background-color: transparent;
+  --anchor-color: var(--token-color-text-action-focus);
+  --focus-ring-width: 0.25rem;
 
   @include resetAnimationStyle();
   @include resetUnderlineStyle();
 
-  @include utilities.focusRing('always');
+  @include utilities.focusRing(
+    'always',
+    var(--token-color-stroke-action-focus),
+    null,
+    anchorBackgroundValue(
+      var(--token-color-background-action-focus-subtle)
+    )
+  );
 
   border-radius: 0.25em;
   @content;
 }
 
 @mixin anchorBackground($color) {
-  box-shadow:
-    inset 100vw 100vw 0 0 $color,
+  box-shadow: anchorBackgroundValue($color);
+}
+
+@function anchorBackgroundValue($color) {
+  @return inset 100vw 100vw 0 0 $color,
     calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 $color,
     var(--anchor-background-gutter-right, 0.125rem) 0 0 0 $color;
 }
 
 // other styles
 @mixin useAnchorContrastStyle {
-  color: var(--anchor-ondark-color);
-
-  &:hover {
-    @include notNoHover() {
-      color: var(--anchor-ondark-color--hover);
-      @include anchorBackground(var(--anchor-ondark-bg--hover));
-    }
-  }
-
-  &:active {
-    color: var(--anchor-ondark-color--active);
-    background-color: transparent;
-    @include anchorBackground(var(--anchor-ondark-bg--active));
-  }
-
-  &:focus-visible {
-    color: var(--color-white); // TODO: design token
-    background-color: transparent;
-
-    @include utilities.focusRing(
-      'always',
-      var(--color-white)
-    ); // TODO: design token
-  }
+  --anchor-color--default: var(--anchor-ondark-color--default);
+  --anchor-color--hover: var(--anchor-ondark-color--hover);
+  --anchor-color--active: var(--anchor-ondark-color--active);
+  --anchor-bg--hover: var(--anchor-ondark-bg--hover);
+  --anchor-bg--active: var(--anchor-ondark-bg--active);
 }
 
 @mixin anchorStyle() {

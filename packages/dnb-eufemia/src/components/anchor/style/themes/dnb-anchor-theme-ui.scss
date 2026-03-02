@@ -5,18 +5,10 @@
 
 @use '../anchor-mixins.scss';
 
-@mixin anchorFocus {
-  --anchor-color: var(--color-sea-green);
-}
-
 @mixin anchorStyleUi() {
   --anchor-color--disabled: var(
     --color-sea-green-30
   ); // TODO: no design tokens?
-
-  &:focus-visible {
-    @include anchorFocus();
-  }
 
   // Align this icon to look the same as in v10
   &__launch-icon.dnb-icon.dnb-icon--default {
@@ -33,10 +25,6 @@ $useClasses: true !default;
     &.dnb-anchor {
       @include anchorStyleUi();
     }
-  }
-
-  .dnb-anchor--focus {
-    @include anchorFocus();
   }
 }
 

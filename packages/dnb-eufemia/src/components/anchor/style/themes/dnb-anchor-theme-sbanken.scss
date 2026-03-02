@@ -15,12 +15,6 @@
   border-radius: 0.5em;
 }
 
-@mixin anchorFocus() {
-  color: var(--sb-color-blue-dark);
-  background-color: var(--sb-color-blue-light-3);
-  border-radius: 0.25em;
-}
-
 @include anchor-mixins.notNoStyle() {
   &.dnb-anchor {
     --anchor-underline-thickness: 0.125rem;
@@ -49,10 +43,6 @@
 
     &:active {
       @include anchorActive();
-    }
-
-    &:focus-visible {
-      @include anchorFocus();
     }
   }
 
@@ -94,11 +84,6 @@
 
 .dnb-anchor--active {
   @include anchorActive();
-}
-
-.dnb-anchor--focus {
-  @include anchor-mixins.anchorFocusStyle();
-  @include anchorFocus();
 }
 
 .dnb-anchor--no-radius {
