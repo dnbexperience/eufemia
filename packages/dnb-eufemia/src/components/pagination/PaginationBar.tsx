@@ -54,7 +54,7 @@ export type PaginationBarProps = {
    */
   children?: React.ReactNode | (() => React.ReactNode)
 
-  skeleton: SkeletonShow
+  skeleton?: SkeletonShow
 
   space?: SpaceTypeAll
 }

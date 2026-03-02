@@ -6,7 +6,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import Context from '../../shared/Context'
 import { dispatchCustomElementEvent } from '../../shared/component-helper'
 import {
@@ -16,39 +15,21 @@ import {
 
 import PaginationContext from './PaginationContext'
 
-export default class PaginationProvider extends React.PureComponent {
+export default class PaginationProvider extends React.PureComponent<
+  any,
+  any
+> {
   static contextType = Context
+  context!: React.ContextType<typeof Context>
 
-  static propTypes = {
-    // eslint-disable-next-line
-    startupPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    // eslint-disable-next-line
-    currentPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    pageCount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // eslint-disable-line
-    setContentHandler: PropTypes.func,
-    resetContentHandler: PropTypes.func,
-    resetPaginationHandler: PropTypes.func,
-    endInfinityHandler: PropTypes.func,
-    rerender: PropTypes.shape({ current: PropTypes.func }),
-    store: PropTypes.shape({
-      current: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-    }),
-    useMarkerOnly: PropTypes.bool,
-    internalContent: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-      PropTypes.object,
-      PropTypes.array,
-    ]),
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-      PropTypes.object,
-      PropTypes.array,
-    ]),
-  }
+  rerender: any
+  rerenderTimeout: ReturnType<typeof setTimeout>
+  resetContentTimeout: ReturnType<typeof setTimeout>
+  resetInfinityTimeout: ReturnType<typeof setTimeout>
+  callOnPageUpdateTimeout: ReturnType<typeof setTimeout>
+  _isMounted: boolean
+  _updateStack: Array<(() => void) | undefined>
+
   static defaultProps = {
     startupPage: null,
     currentPage: null,
@@ -64,7 +45,7 @@ export default class PaginationProvider extends React.PureComponent {
     children: null,
   }
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(props: any, state: any) {
     if (props.pageCount !== null) {
       state.pageCountInternal = parseFloat(props.pageCount) || 1
     }
@@ -125,7 +106,7 @@ export default class PaginationProvider extends React.PureComponent {
     return state
   }
 
-  constructor(props) {
+  constructor(props: any) {
     super(props)
 
     this.state = {
@@ -191,7 +172,10 @@ export default class PaginationProvider extends React.PureComponent {
     this._isMounted = false
   }
 
-  componentDidUpdate({ currentPage: current, internalContent: content }) {
+  componentDidUpdate({
+    currentPage: current,
+    internalContent: content,
+  }: any) {
     const { internalContent, currentPage } = this.props
     const currentPageInternal = parseFloat(currentPage)
     if (currentPage !== current) {
@@ -202,7 +186,11 @@ export default class PaginationProvider extends React.PureComponent {
     }
   }
 
-  setContent = (newContent, content = null, position = null) => {
+  setContent = (
+    newContent: any,
+    content: any = null,
+    position: any = null
+  ) => {
     if (!Array.isArray(newContent) && content) {
       newContent = [newContent, content]
     }
@@ -257,7 +245,7 @@ export default class PaginationProvider extends React.PureComponent {
   }
 
   // like resetContentHandler in DerivedState
-  resetInfinity = (pageNumber = this.state.startupPage) => {
+  resetInfinity = (pageNumber: number = this.state.startupPage) => {
     const lowerPage = pageNumber
     const upperPage = pageNumber + parseFloat(this.props.startupCount) - 1
     const currentPageInternal = pageNumber
@@ -294,7 +282,7 @@ export default class PaginationProvider extends React.PureComponent {
     )
   }
 
-  setItems = (items, cb) => {
+  setItems = (items: any[], cb?: () => void) => {
     this.setState(
       {
         items,
@@ -303,7 +291,11 @@ export default class PaginationProvider extends React.PureComponent {
     )
   }
 
-  prefillItems = (pageNumber, props = {}, items = this.state.items) => {
+  prefillItems = (
+    pageNumber: any,
+    props: any = {},
+    items = this.state.items
+  ) => {
     const position =
       props.position ||
       (pageNumber < this.state.currentPageInternal ? 'before' : 'after')
@@ -333,7 +325,7 @@ export default class PaginationProvider extends React.PureComponent {
     }
   }
 
-  setStateHandler = (state, cb) => {
+  setStateHandler = (state: any, cb?: () => void) => {
     this.setState({ ...state }, cb)
   }
 
@@ -348,7 +340,9 @@ export default class PaginationProvider extends React.PureComponent {
     }
   }
 
-  updatePageContent = (pageNumber = this.state.currentPageInternal) => {
+  updatePageContent = (
+    pageNumber: number = this.state.currentPageInternal
+  ) => {
     let potentialElement = this.props.internalContent
 
     if (typeof this.props.internalContent === 'function') {
@@ -364,7 +358,7 @@ export default class PaginationProvider extends React.PureComponent {
     }
   }
 
-  onPageUpdate = (fn) => {
+  onPageUpdate = (fn: () => void) => {
     this._updateStack = this._updateStack || []
     this._updateStack.push(fn)
   }
