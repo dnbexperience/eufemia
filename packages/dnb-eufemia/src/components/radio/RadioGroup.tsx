@@ -6,7 +6,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import {
   extendPropsWithContextInClassComponent,
@@ -27,63 +26,73 @@ import Flex from '../Flex'
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import RadioGroupContext from './RadioGroupContext'
+import type {
+  FormStatusBaseProps,
+  FormStatusText,
+  FormStatusState,
+} from '../FormStatus'
+import type { SkeletonShow } from '../Skeleton'
+import type { SpacingProps } from '../space/types'
+
+export type RadioGroupLabelPosition = 'left' | 'right'
+export type RadioGroupSize = 'default' | 'medium' | 'large'
+export type RadioGroupSuffix =
+  | string
+  | React.ReactNode
+  | ((...args: any[]) => any)
+export type RadioGroupLayoutDirection = 'column' | 'row'
+export type RadioGroupAttributes = string | Record<string, unknown>
+export type RadioGroupChildren =
+  | string
+  | React.ReactNode
+  | ((...args: any[]) => any)
+
+export type RadioGroupProps = {
+  label?: React.ReactNode
+  labelDirection?: 'vertical' | 'horizontal'
+  labelSrOnly?: boolean
+  labelPosition?: RadioGroupLabelPosition
+  title?: string
+  disabled?: boolean
+  skeleton?: SkeletonShow
+  id?: string
+  name?: string
+  size?: RadioGroupSize
+  status?: FormStatusText
+  statusState?: FormStatusState
+  statusProps?: FormStatusBaseProps
+  statusNoAnimation?: boolean
+  globalStatus?: FormStatusBaseProps['globalStatus']
+  suffix?: RadioGroupSuffix
+  vertical?: boolean
+  layoutDirection?: RadioGroupLayoutDirection
+  value?: string
+  attributes?: RadioGroupAttributes
+  style?: React.CSSProperties
+  className?: string
+  children?: RadioGroupChildren
+  onChange?: (...args: any[]) => any
+} & SpacingProps
+
+interface RadioGroupComponentState {
+  value?: string
+  _value?: string
+  _listenForPropChanges: boolean
+}
 
 /**
  * The radio component is our enhancement of the classic radio button. It acts like a radio. Example: On/off, yes/no.
  */
-export default class RadioGroup extends React.PureComponent {
+export default class RadioGroup extends React.PureComponent<
+  RadioGroupProps,
+  RadioGroupComponentState
+> {
   static contextType = Context
+  context!: React.ContextType<typeof Context>
 
-  static propTypes = {
-    label: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    labelDirection: PropTypes.oneOf(['horizontal', 'vertical']),
-    labelSrOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    labelPosition: PropTypes.oneOf(['left', 'right']),
-    title: PropTypes.string,
-    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    id: PropTypes.string,
-    name: PropTypes.string,
-    size: PropTypes.oneOf(['default', 'medium', 'large']),
-    status: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    statusState: PropTypes.string,
-    statusProps: PropTypes.object,
-    statusNoAnimation: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    globalStatus: PropTypes.shape({
-      id: PropTypes.string,
-      message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    }),
-    suffix: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    layoutDirection: PropTypes.oneOf(['column', 'row']),
-    vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    value: PropTypes.string,
-    attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-
-    onChange: PropTypes.func,
-  }
+  _refInput: React.RefObject<HTMLInputElement | null>
+  _id: string
+  _name: string
 
   static defaultProps = {
     label: null,
@@ -113,9 +122,12 @@ export default class RadioGroup extends React.PureComponent {
     onChange: null,
   }
 
-  static parseChecked = (state) => /true|on/.test(String(state))
+  static parseChecked = (state: any) => /true|on/.test(String(state))
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(
+    props: RadioGroupProps,
+    state: RadioGroupComponentState
+  ) {
     if (state._listenForPropChanges) {
       if (props.value !== state._value) {
         state.value = props.value
@@ -129,7 +141,7 @@ export default class RadioGroup extends React.PureComponent {
     return state
   }
 
-  constructor(props) {
+  constructor(props: RadioGroupProps) {
     super(props)
     this._refInput = React.createRef()
     this._id = props.id || makeUniqueId() // cause we need an id anyway
@@ -139,7 +151,7 @@ export default class RadioGroup extends React.PureComponent {
     }
   }
 
-  onChangeHandler = ({ value, event }) => {
+  onChangeHandler = ({ value, event }: any) => {
     this.setState({ value, _listenForPropChanges: false })
     dispatchCustomElementEvent(this, 'onChange', {
       value,
@@ -153,7 +165,7 @@ export default class RadioGroup extends React.PureComponent {
       this.props,
       RadioGroup.defaultProps,
       pickFormElementProps(this.context?.formElement),
-      this.context.RadioGroup
+      (this.context as any).RadioGroup
     )
 
     const {
@@ -174,11 +186,11 @@ export default class RadioGroup extends React.PureComponent {
       skeleton,
       className,
 
-      id: _id, // eslint-disable-line
-      name: _name, // eslint-disable-line
-      value: _value, // eslint-disable-line
-      children, // eslint-disable-line
-      onChange, // eslint-disable-line
+      id: _id,
+      name: _name,
+      value: _value,
+      children,
+      onChange,
 
       ...rest
     } = props
@@ -260,7 +272,7 @@ export default class RadioGroup extends React.PureComponent {
                 className="dnb-radio-group__shell"
                 {...params}
               >
-                {children}
+                {children as React.ReactNode}
 
                 {suffix && (
                   <Suffix
@@ -268,7 +280,7 @@ export default class RadioGroup extends React.PureComponent {
                     id={id + '-suffix'} // used for "aria-describedby"
                     context={props}
                   >
-                    {suffix}
+                    {suffix as React.ReactNode}
                   </Suffix>
                 )}
 
@@ -294,4 +306,4 @@ export default class RadioGroup extends React.PureComponent {
   }
 }
 
-RadioGroup._supportsSpacingProps = true
+;(RadioGroup as any)._supportsSpacingProps = true
