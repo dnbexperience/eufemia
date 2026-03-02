@@ -254,7 +254,6 @@ describe('Tools.ListAllProps', () => {
                 inputmode="decimal"
                 name="myNumber"
                 type="text"
-                value=""
               />,
             },
             "valueType": "number",
@@ -336,7 +335,6 @@ describe('Tools.ListAllProps', () => {
                 inputmode="decimal"
                 name="myNumber"
                 type="text"
-                value=""
               />,
             },
             "valueType": "number",
@@ -424,7 +422,6 @@ describe('Tools.ListAllProps', () => {
                     inputmode="decimal"
                     name="myObject/nested/withNumber"
                     type="text"
-                    value=""
                   />,
                 },
                 "valueType": "number",
@@ -503,7 +500,6 @@ describe('Tools.ListAllProps', () => {
                   inputmode="decimal"
                   name="myObject/withNumber"
                   type="text"
-                  value=""
                 />,
               },
               "required": true,
