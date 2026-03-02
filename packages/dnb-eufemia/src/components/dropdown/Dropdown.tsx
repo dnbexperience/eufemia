@@ -6,7 +6,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import {
   makeUniqueId,
@@ -26,7 +25,7 @@ import Suffix from '../../shared/helpers/Suffix'
 import Icon from '../icon-primary/IconPrimary'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
-import Button, { buttonVariantPropType } from '../button/Button'
+import Button from '../button/Button'
 import DrawerList from '../../fragments/drawer-list/DrawerList'
 import DrawerListContext from '../../fragments/drawer-list/DrawerListContext'
 import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
@@ -34,130 +33,69 @@ import {
   parseContentTitle,
   getCurrentData,
 } from '../../fragments/drawer-list/DrawerListHelpers'
+import type { ButtonIconPosition, ButtonVariant } from '../Button'
+import type { FormStatusBaseProps } from '../FormStatus'
+import type { IconIcon, IconSize } from '../Icon'
+import type { SkeletonShow } from '../Skeleton'
+import type { SpacingProps } from '../space/types'
+import type {
+  DrawerListProps,
+  DrawerListData,
+  DrawerListSuffix,
+} from '../../fragments/DrawerList'
 
-class DropdownInstance extends React.PureComponent {
-  static propTypes = {
-    id: PropTypes.string,
-    title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    variant: buttonVariantPropType.variant,
-    icon: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func,
-    ]),
-    iconSize: PropTypes.string,
-    iconPosition: PropTypes.oneOf(['left', 'right']),
-    arrowPosition: PropTypes.oneOf(['left', 'right']),
-    label: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    labelDirection: PropTypes.oneOf(['horizontal', 'vertical']),
-    labelSrOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    status: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    statusState: PropTypes.string,
-    statusProps: PropTypes.object,
-    statusNoAnimation: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    ref: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-    buttonRef: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-    globalStatus: PropTypes.shape({
-      id: PropTypes.string,
-      message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    }),
-    suffix: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    focusable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
-    maxHeight: PropTypes.number,
-    skipPortal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    portalClass: PropTypes.string,
-    noAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    noScrollAnimation: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    preventSelection: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    moreMenu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    actionMenu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    independentWidth: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
-    align: PropTypes.oneOf(['left', 'right']),
-    triggerElement: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-    data: PropTypes.oneOfType([
-      PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.func,
-        PropTypes.node,
-        PropTypes.object,
-      ]),
-      PropTypes.arrayOf(
-        PropTypes.oneOfType([
-          PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-          PropTypes.shape({
-            selectedKey: PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.number,
-            ]),
-            selectedValue: PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.node,
-            ]),
-            content: PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.node,
-              PropTypes.arrayOf(PropTypes.string),
-            ]),
-          }),
-        ])
-      ),
-    ]),
-    defaultValue: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-    ]),
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    openOnFocus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    preventClose: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    keepOpen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+export type DropdownData = DrawerListData
+type DropdownTitle = string | React.ReactNode
+type DropdownAlign = 'left' | 'right'
+type DropdownTriggerElement = ((...args: any[]) => any) | React.ReactNode
 
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-      PropTypes.object,
-      PropTypes.array,
-    ]),
+export interface DropdownProps {
+  title?: DropdownTitle
+  variant?: ButtonVariant
+  icon?: IconIcon
+  iconSize?: IconSize
+  iconPosition?: ButtonIconPosition
+  label?: React.ReactNode
+  labelDirection?: 'vertical' | 'horizontal'
+  labelSrOnly?: boolean
+  ref?: React.Ref<HTMLElement>
+  buttonRef?: React.Ref<HTMLElement>
+  moreMenu?: boolean
+  align?: DropdownAlign
+  triggerElement?: DropdownTriggerElement
+  openOnFocus?: boolean
+  disabled?: boolean
+  stretch?: boolean
+  skeleton?: SkeletonShow
+  suffix?: DrawerListSuffix
+  onOpen?: (...args: any[]) => any
+  onClose?: (...args: any[]) => any
+  onOpenFocus?: (...args: any[]) => any
+  onCloseFocus?: (...args: any[]) => any
+}
 
-    onOpen: PropTypes.func,
-    onClose: PropTypes.func,
-    onChange: PropTypes.func,
-    onSelect: PropTypes.func,
-  }
+export type DropdownAllProps = DropdownProps &
+  FormStatusBaseProps &
+  DrawerListProps &
+  SpacingProps &
+  Omit<
+    React.HTMLProps<HTMLElement>,
+    | 'ref'
+    | 'size'
+    | 'label'
+    | 'title'
+    | 'placeholder'
+    | 'data'
+    | 'children'
+    | 'onChange'
+    | 'onFocus'
+    | 'onOpen'
+    | 'onClose'
+    | 'onSelect'
+    | 'onResize'
+  >
 
+class DropdownInstance extends React.PureComponent<DropdownAllProps> {
   static defaultProps = {
     id: null,
     title: 'Option Menu',
@@ -214,8 +152,15 @@ class DropdownInstance extends React.PureComponent {
   }
 
   static contextType = DrawerListContext
+  context!: React.ContextType<typeof DrawerListContext>
 
-  constructor(props) {
+  attributes: Record<string, unknown>
+  _ref: React.RefObject<HTMLElement | null>
+  _refWrapper: React.RefObject<HTMLElement | null>
+  _refButton: React.RefObject<HTMLElement | null>
+  _focusTimeout: ReturnType<typeof setTimeout>
+
+  constructor(props: DropdownAllProps) {
     super(props)
 
     this.attributes = {}
@@ -371,9 +316,9 @@ class DropdownInstance extends React.PureComponent {
       this.props,
       DropdownInstance.defaultProps,
       { skeleton: this.context?.skeleton },
-      this.context.getTranslation(this.props).Dropdown,
+      (this.context as any).getTranslation(this.props).Dropdown,
       pickFormElementProps(this.context?.formElement),
-      this.context.Dropdown
+      (this.context as any).Dropdown
     )
 
     const {
@@ -413,33 +358,33 @@ class DropdownInstance extends React.PureComponent {
       variant,
 
       title: _title,
-      icon: _icon, // eslint-disable-line
-      align: _align, // eslint-disable-line
-      iconPosition: _iconPosition, // eslint-disable-line
-      openOnFocus: _openOnFocus, // eslint-disable-line
-      data: _data, // eslint-disable-line
-      children: _children, // eslint-disable-line
-      direction: _direction, // eslint-disable-line
-      id: _id, // eslint-disable-line
-      open: _open, // eslint-disable-line
-      value: _value, // eslint-disable-line
-      pageOffset: _pageOffset, // eslint-disable-line
-      observerElement: _observerElement, // eslint-disable-line
-      enableBodyLock: _enableBodyLock, // eslint-disable-line
-      listClass: _listClass, // eslint-disable-line
-      buttonRef, // eslint-disable-line
-      ref: _ref, // eslint-disable-line
+      icon: _icon,
+      align: _align,
+      iconPosition: _iconPosition,
+      openOnFocus: _openOnFocus,
+      data: _data,
+      children: _children,
+      direction: _direction,
+      id: _id,
+      open: _open,
+      value: _value,
+      pageOffset: _pageOffset,
+      observerElement: _observerElement,
+      enableBodyLock: _enableBodyLock,
+      listClass: _listClass,
+      buttonRef,
+      ref: _ref,
 
-      onOpen: _onOpen, // eslint-disable-line
-      onClose: _onClose, // eslint-disable-line
-      onFocus: _onFocus, // eslint-disable-line
-      onChange: _onChange, // eslint-disable-line
-      onSelect: _onSelect, // eslint-disable-line
-      onOpenFocus: _onOpenFocus, // eslint-disable-line
-      onCloseFocus: _onCloseFocus, // eslint-disable-line
+      onOpen: _onOpen,
+      onClose: _onClose,
+      onFocus: _onFocus,
+      onChange: _onChange,
+      onSelect: _onSelect,
+      onOpenFocus: _onOpenFocus,
+      onCloseFocus: _onCloseFocus,
 
       ...attributes
-    } = props
+    } = props as any
 
     let { icon, iconPosition, align } = props
 
@@ -571,12 +516,15 @@ class DropdownInstance extends React.PureComponent {
           <span className="dnb-dropdown__row">
             <span className="dnb-dropdown__shell">
               {CustomTrigger ? (
-                <CustomTrigger {...triggerParams} />
+                React.createElement(
+                  CustomTrigger as React.ElementType,
+                  triggerParams
+                )
               ) : (
                 <Button
                   variant={variant}
                   icon={false} // only to suppress the warning about the icon when tertiary variant is used
-                  size={size === 'default' ? 'medium' : size}
+                  size={(size === 'default' ? 'medium' : size) as any}
                   ref={this._refButton}
                   customContent={
                     <>
@@ -591,7 +539,7 @@ class DropdownInstance extends React.PureComponent {
                         aria-hidden
                         className={clsx(
                           'dnb-dropdown__icon',
-                          parseFloat(selectedItem) === 0 &&
+                          parseFloat(String(selectedItem)) === 0 &&
                             'dnb-dropdown__icon--first'
                         )}
                       >
@@ -667,14 +615,14 @@ class DropdownInstance extends React.PureComponent {
   }
 }
 
-DropdownInstance._formElement = true
-DropdownInstance._supportsSpacingProps = true
+;(DropdownInstance as any)._formElement = true
+;(DropdownInstance as any)._supportsSpacingProps = true
 
 /**
  * Function component wrapper that provides DrawerListProvider context
  * and forwards `ref` and `buttonRef` to the inner DOM elements.
  */
-function Dropdown({ ref, buttonRef, ...props }) {
+function Dropdown({ ref, buttonRef, ...props }: DropdownAllProps) {
   const id = React.useMemo(() => props.id || makeUniqueId(), [props.id])
   const { moreMenu, actionMenu, preventSelection, children, data } = props
 
@@ -699,9 +647,9 @@ function Dropdown({ ref, buttonRef, ...props }) {
 
   return (
     <DrawerListProvider
-      {...props}
+      {...(props as any)}
       id={id}
-      data={data || children}
+      data={(data || children) as any}
       open={false}
       tagName="dnb-dropdown"
       ignoreEvents={false}
@@ -716,7 +664,6 @@ function Dropdown({ ref, buttonRef, ...props }) {
   )
 }
 
-Dropdown.propTypes = DropdownInstance.propTypes
 Dropdown.defaultProps = DropdownInstance.defaultProps
 
 Dropdown.HorizontalItem = DrawerList.HorizontalItem

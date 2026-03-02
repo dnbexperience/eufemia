@@ -314,7 +314,10 @@ function Selection(props: Props) {
         ?.content
       setDisplayValue(displayValue)
 
-      const sharedProps: AutocompleteAllProps & DropdownAllProps = {
+      const sharedProps: Omit<
+        AutocompleteAllProps & DropdownAllProps,
+        'ref'
+      > = {
         id,
         listClass: 'dnb-forms-field-selection__list',
         portalClass: 'dnb-forms-field-selection__portal',
