@@ -6,7 +6,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import {
@@ -19,7 +18,6 @@ import {
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import {
-  spacingPropTypes,
   createSpacingClasses,
 } from '../space/SpacingHelper'
 import {
@@ -32,20 +30,6 @@ import Anchor, { pickIcon, opensNewTab } from '../anchor/Anchor'
 import { launch } from '../../icons'
 import Tooltip from '../tooltip/Tooltip'
 import ButtonContent from './internal/ButtonContent'
-
-export const buttonVariantPropType = {
-  variant: PropTypes.oneOf([
-    'primary',
-    'secondary',
-    'tertiary',
-    'signal',
-
-    /**
-     * For internal use only (as of now)
-     */
-    'unstyled',
-  ]),
-}
 
 const buttonDefaultProps = {
   type: null, // defaults to 'button' to prevent accidental form submissions (except when used as Anchor)
@@ -331,73 +315,6 @@ class ButtonClass extends React.PureComponent {
       </>
     )
   }
-}
-
-Button.propTypes = {
-  text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  type: PropTypes.string,
-  title: PropTypes.string,
-  variant: buttonVariantPropType.variant,
-  size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
-  icon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func,
-  ]),
-  iconPosition: PropTypes.oneOf(['left', 'right', 'top']),
-  iconSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  tooltip: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node,
-  ]),
-  status: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-    PropTypes.func,
-    PropTypes.node,
-  ]),
-  statusState: PropTypes.string,
-  statusProps: PropTypes.object,
-  statusNoAnimation: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-  ]),
-  globalStatus: PropTypes.shape({
-    id: PropTypes.string,
-    message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  }),
-  id: PropTypes.string,
-  href: PropTypes.string,
-  target: PropTypes.string,
-  rel: PropTypes.string,
-  to: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.func,
-  ]),
-  customContent: PropTypes.node,
-  wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  ref: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node,
-  ]),
-  element: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.object,
-    PropTypes.node,
-  ]),
-
-  ...spacingPropTypes,
-
-  onClick: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 }
 
 /**

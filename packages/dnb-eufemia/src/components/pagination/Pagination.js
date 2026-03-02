@@ -6,7 +6,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import PaginationContext from './PaginationContext'
 import PaginationProvider from './PaginationProvider'
@@ -15,96 +14,12 @@ import {
   extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
 import {
-  spacingPropTypes,
   createSpacingClasses,
 } from '../space/SpacingHelper'
 
 import { PaginationIndicator } from './PaginationHelpers'
 import InfinityScroller from './PaginationInfinity'
 import PaginationBar from './PaginationBar'
-
-const paginationPropTypes = {
-  startupPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  currentPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  pageCount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  startupCount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  parallelLoadCount: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]),
-  placeMarkerBeforeContent: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-  ]),
-  minWaitTime: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  mode: PropTypes.oneOf(['pagination', 'infinity']),
-  paginationBarLayout: PropTypes.oneOf(['vertical', 'horizontal']),
-  useLoadButton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  items: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  hideProgressIndicator: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-  ]),
-  setContentHandler: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-  ]),
-  resetContentHandler: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-  ]),
-  resetPaginationHandler: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-  ]),
-  endInfinityHandler: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-  ]),
-  pageElement: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.node,
-    PropTypes.func,
-    PropTypes.string,
-  ]),
-  fallbackElement: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.node,
-    PropTypes.func,
-    PropTypes.string,
-  ]),
-  markerElement: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.node,
-    PropTypes.func,
-    PropTypes.string,
-  ]),
-  indicatorElement: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.func,
-    PropTypes.string,
-  ]),
-  align: PropTypes.string,
-  buttonTitle: PropTypes.string,
-  prevTitle: PropTypes.string,
-  nextTitle: PropTypes.string,
-  morePages: PropTypes.string,
-  isLoadingText: PropTypes.string,
-  loadButton: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-  barSpace: spacingPropTypes.space,
-
-  ...spacingPropTypes,
-
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-
-  onChange: PropTypes.func,
-  onStartup: PropTypes.func,
-  onLoad: PropTypes.func,
-  onEnd: PropTypes.func,
-}
 
 const paginationDefaultProps = {
   startupPage: null,
@@ -146,7 +61,6 @@ const paginationDefaultProps = {
 }
 
 export default class Pagination extends React.PureComponent {
-  static propTypes = { ...paginationPropTypes }
   static defaultProps = paginationDefaultProps
 
   render() {
@@ -163,7 +77,6 @@ export default class Pagination extends React.PureComponent {
 }
 
 class PaginationInstance extends React.PureComponent {
-  static propTypes = { ...paginationPropTypes }
   static defaultProps = paginationDefaultProps
   static contextType = PaginationContext
 
@@ -272,7 +185,6 @@ class PaginationInstance extends React.PureComponent {
 }
 
 export class InfinityMarker extends React.PureComponent {
-  static propTypes = { ...paginationPropTypes }
   static defaultProps = paginationDefaultProps
 
   render() {
@@ -300,10 +212,6 @@ function PaginationContent({ children, ref, ...props }) {
       {children}
     </div>
   )
-}
-PaginationContent.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
-    .isRequired,
 }
 
 // NB: This is not ready yet

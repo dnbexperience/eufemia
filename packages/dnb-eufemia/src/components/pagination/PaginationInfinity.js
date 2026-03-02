@@ -6,7 +6,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import {
   warn,
   dispatchCustomElementEvent,
@@ -23,9 +22,6 @@ import PaginationContext from './PaginationContext'
 
 export default class InfinityScroller extends React.PureComponent {
   static contextType = PaginationContext
-  static propTypes = {
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  }
   static defaultProps = { children: null }
 
   constructor(props, context) {
@@ -417,16 +413,6 @@ export default class InfinityScroller extends React.PureComponent {
 }
 
 class InteractionMarker extends React.PureComponent {
-  static propTypes = {
-    pageNumber: PropTypes.number.isRequired,
-    onVisible: PropTypes.func.isRequired,
-    markerElement: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func,
-      PropTypes.string,
-    ]),
-  }
   static defaultProps = {
     markerElement: null,
   }
@@ -526,23 +512,6 @@ class InteractionMarker extends React.PureComponent {
 
 export class InfinityLoadButton extends React.PureComponent {
   static contextType = Context
-  static propTypes = {
-    element: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func,
-      PropTypes.string,
-    ]),
-    pressedElement: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func,
-    ]),
-    icon: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired,
-    text: PropTypes.string,
-    iconPosition: PropTypes.string,
-  }
   static defaultProps = {
     element: 'div',
     pressedElement: null,
@@ -584,14 +553,6 @@ export class InfinityLoadButton extends React.PureComponent {
 }
 
 class ScrollToElement extends React.PureComponent {
-  static propTypes = {
-    pageElement: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func,
-      PropTypes.string,
-    ]),
-  }
   static defaultProps = {
     pageElement: null,
   }

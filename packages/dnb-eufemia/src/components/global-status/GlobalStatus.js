@@ -6,7 +6,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import {
@@ -22,7 +21,6 @@ import {
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 import {
-  spacingPropTypes,
   createSpacingClasses,
 } from '../space/SpacingHelper'
 import Hr from '../../elements/hr/Hr'
@@ -37,62 +35,6 @@ import Button from '../button/Button'
 
 export default class GlobalStatus extends React.PureComponent {
   static contextType = Context
-
-  static propTypes = {
-    id: PropTypes.string,
-    statusId: PropTypes.string,
-    title: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
-    defaultTitle: PropTypes.string,
-    text: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    items: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.array,
-    ]),
-    icon: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    iconSize: PropTypes.string,
-    state: PropTypes.oneOf(['error', 'info', 'warning', 'success']),
-    show: PropTypes.oneOf(['auto', true, false, 'true', 'false']),
-    autoScroll: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    autoClose: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    noAnimation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    closeText: PropTypes.node,
-    hideCloseButton: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    omitSetFocus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    omitSetFocusOnUpdate: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    statusAnchorText: PropTypes.node,
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-    ...spacingPropTypes,
-
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-
-    onAdjust: PropTypes.func,
-    onOpen: PropTypes.func,
-    onShow: PropTypes.func,
-    onClose: PropTypes.func,
-    onHide: PropTypes.func,
-  }
 
   static defaultProps = {
     id: 'main',

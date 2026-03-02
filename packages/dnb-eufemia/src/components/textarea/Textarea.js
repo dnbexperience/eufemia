@@ -6,7 +6,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
@@ -25,7 +24,6 @@ import {
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
-  spacingPropTypes,
   createSpacingClasses,
 } from '../space/SpacingHelper'
 import {
@@ -41,75 +39,6 @@ import Suffix from '../../shared/helpers/Suffix'
  */
 class TextareaClass extends React.PureComponent {
   static contextType = Context
-
-  static propTypes = {
-    value: PropTypes.string,
-    id: PropTypes.string,
-    label: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    labelDirection: PropTypes.oneOf(['horizontal', 'vertical']),
-    labelSrOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    status: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    textareaState: PropTypes.string,
-    statusState: PropTypes.string,
-    statusProps: PropTypes.object,
-    statusNoAnimation: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    globalStatus: PropTypes.shape({
-      id: PropTypes.string,
-      message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    }),
-    suffix: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    placeholder: PropTypes.node,
-    keepPlaceholder: PropTypes.bool,
-    align: PropTypes.oneOf(['left', 'center', 'right', 'justify']),
-    size: PropTypes.oneOf(['small', 'medium', 'large']),
-    stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    characterCounter: PropTypes.oneOfType([
-      PropTypes.shape({
-        max: PropTypes.number,
-        variant: PropTypes.oneOf(['down', 'up']),
-      }),
-      PropTypes.number,
-    ]),
-    autoResize: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    autoResizeMaxRows: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-    ]),
-    textareaClass: PropTypes.string,
-    readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    rows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    cols: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    ref: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-
-    ...spacingPropTypes,
-
-    className: PropTypes.string,
-    textareaElement: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-
-    onChange: PropTypes.func,
-    onFocus: PropTypes.func,
-    onBlur: PropTypes.func,
-    onKeyDown: PropTypes.func,
-  }
 
   static defaultProps = {
     value: 'initval',

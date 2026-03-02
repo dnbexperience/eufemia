@@ -6,7 +6,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import {
   makeUniqueId,
@@ -18,7 +17,6 @@ import {
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
-  spacingPropTypes,
   createSpacingClasses,
 } from '../space/SpacingHelper'
 import {
@@ -39,54 +37,6 @@ import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
  */
 class RadioClass extends React.PureComponent {
   static contextType = RadioGroupContext
-
-  static propTypes = {
-    label: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    labelSrOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    labelPosition: PropTypes.oneOf(['left', 'right']),
-    checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    id: PropTypes.string,
-    element: PropTypes.node,
-    group: PropTypes.string,
-    size: PropTypes.oneOf(['default', 'medium', 'large']),
-    status: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    statusState: PropTypes.string,
-    statusProps: PropTypes.object,
-    statusNoAnimation: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    globalStatus: PropTypes.shape({
-      id: PropTypes.string,
-      message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    }),
-    suffix: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    value: PropTypes.string,
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    ref: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-
-    ...spacingPropTypes,
-
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-
-    onChange: PropTypes.func,
-  }
 
   static defaultProps = {
     label: null,
