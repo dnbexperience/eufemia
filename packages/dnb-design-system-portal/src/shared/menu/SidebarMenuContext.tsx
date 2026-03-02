@@ -87,7 +87,7 @@ export class SidebarMenuProvider extends React.PureComponent<Props> {
     const { children } = this.props
 
     return (
-      <SidebarMenuContext.Provider
+      <SidebarMenuContext
         value={{
           toggleMenu: this.toggleMenu,
           openMenu: this.openMenu,
@@ -96,7 +96,7 @@ export class SidebarMenuProvider extends React.PureComponent<Props> {
         }}
       >
         {children}
-      </SidebarMenuContext.Provider>
+      </SidebarMenuContext>
     )
   }
 }
