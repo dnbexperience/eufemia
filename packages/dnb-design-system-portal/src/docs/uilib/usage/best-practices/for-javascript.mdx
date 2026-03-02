@@ -81,7 +81,7 @@ const FormLogic = (props) => {
     clickHandler,
   }
 
-  return <FormContext.Provider value={formContext} {...props} />
+  return <FormContext value={formContext} {...props} />
 }
 const FormContext = React.createContext({})
 ```
