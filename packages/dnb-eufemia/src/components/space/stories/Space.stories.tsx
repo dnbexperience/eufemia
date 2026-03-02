@@ -554,7 +554,7 @@ const Label = styled.label`
 `
 
 const MagicBox = ({ label, ...rest }: { label?: string } = {}) => {
-  const ref = React.createRef<HTMLDivElement>()
+  const ref = React.useRef<HTMLDivElement>(null)
 
   const [spaceInRem, setLabel] = React.useState(label)
   const [title, setTitle] = React.useState(null)
@@ -585,7 +585,7 @@ const VisualSpace = ({
   children,
   ...rest
 }: { label?: string; children?: React.ReactNode } = {}) => {
-  const ref = React.createRef<HTMLDivElement>()
+  const ref = React.useRef<HTMLDivElement>(null)
 
   const [spaceInRem, setLabel] = React.useState(label)
   const [title, setTitle] = React.useState(null)

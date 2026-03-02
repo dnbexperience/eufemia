@@ -312,12 +312,12 @@ export const Bar = (props) => (
 )
 
 export const createPagination = (initProps = {}) => {
-  const store = React.createRef({})
-  const rerender = React.createRef(null)
-  const _setContent = React.createRef(null)
-  const _resetContent = React.createRef(null)
-  const _resetInfinity = React.createRef(null)
-  const _endInfinity = React.createRef(null)
+  const store = { current: null }
+  const rerender = { current: null }
+  const _setContent = { current: null }
+  const _resetContent = { current: null }
+  const _resetInfinity = { current: null }
+  const _endInfinity = { current: null }
 
   const setContent = (pageNumber, content) => {
     if (pageNumber > 0) {
