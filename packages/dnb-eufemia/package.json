@@ -68,7 +68,6 @@
     "skeleton:font": "nodemon --exec 'babel-node --extensions .js,.ts,.tsx ./scripts/tools/createSkeletonFont.js'",
     "start": "storybook dev / -p 8002 --no-open --ci --no-version-updates --disable-telemetry",
     "test": "yarn jest",
-    "test:auto-generated-types": "yarn jest ./scripts/prebuild/tasks/__tests__/postTypeGeneration.test.ts --ci --testPathIgnorePatterns=[]",
     "test:ci": "yarn jest --ci",
     "test:deps": "depcruise -c .dependency-cruiser.js src",
     "test:e2e": "yarn playwright test",

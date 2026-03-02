@@ -4,6 +4,7 @@ set -e # Exit immediately if a command exits with a non-zero status.
 
 echo 'Postbuild started ...'
 
+yarn build:types:definitions
 yarn prettier:other:write
 yarn build:cjs
 if [ -z "$BUILD_MINI" ]; then
