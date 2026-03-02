@@ -84,7 +84,7 @@
     'always',
     var(--token-color-stroke-action-focus),
     null,
-    anchorBackgroundValue(
+    anchor-background-value(
       var(--token-color-background-action-focus-subtle)
     )
   );
@@ -93,10 +93,10 @@
 }
 
 @mixin anchorBackground($color) {
-  box-shadow: anchorBackgroundValue($color);
+  box-shadow: anchor-background-value($color);
 }
 
-@function anchorBackgroundValue($color) {
+@function anchor-background-value($color) {
   @return inset 100vw 100vw 0 0 $color,
     calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 $color,
     var(--anchor-background-gutter-right, 0.125rem) 0 0 0 $color;
@@ -132,6 +132,7 @@
   --anchor-ondark-bg--active: var(
     --token-color-background-action-pressed-subtle-ondark
   );
+
   $icon-scale: 2;
   $icon-scale-filler: 0.5 - math.div(0.5, $icon-scale);
 
