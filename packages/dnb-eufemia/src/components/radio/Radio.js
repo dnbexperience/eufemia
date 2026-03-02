@@ -143,14 +143,6 @@ class RadioClass extends React.PureComponent {
     }
   }
 
-  componentDidMount() {
-    if (this.props._innerRef) {
-      typeof this.props._innerRef === 'function'
-        ? this.props._innerRef(this._refInput.current)
-        : (this.props._innerRef.current = this._refInput.current)
-    }
-  }
-
   onKeyDownHandler = (event) => {
     const key = event.key
     // only have key support if there is only a single radio
@@ -457,10 +449,22 @@ RadioClass._formElement = true
 RadioClass._supportsSpacingProps = true
 
 /**
- * Function wrapper that converts `ref` to `_innerRef` for the class component.
+ * Function wrapper that forwards `ref` to the inner DOM element of the class component.
  */
 function Radio({ ref, ...props }) {
-  return <RadioClass _innerRef={ref} {...props} />
+  const instanceRef = React.useCallback(
+    (instance) => {
+      const el = instance?._refInput?.current ?? null
+      if (typeof ref === 'function') {
+        ref(el)
+      } else if (ref) {
+        ref.current = el
+      }
+    },
+    [ref]
+  )
+
+  return <RadioClass ref={ref ? instanceRef : undefined} {...props} />
 }
 
 Radio.Group = RadioClass.Group
