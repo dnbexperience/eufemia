@@ -16,13 +16,14 @@ exports[`Space scss should match style dependencies css 1`] = `
  * Utilities
  */
 /*
+* Used for snapshot testing
+*
+*/
+/*
  * Space component
  *
  * TODO: Set spacing in the theme file, as theme comes later in the stack
  *
- */
-/*
- * Utilities
  */
 /** NB: Because CSS specificity ".dnb-core-style .dnb-space"
     has to come before the next ".dnb-space"

@@ -13,22 +13,25 @@ exports[`Slider scss has to match style dependencies css 1`] = `
 *
 */
 /*
- * Utilities
- */
+* Used for snapshot testing
+*
+*/
 /*
 * Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* Used for snapshot testing
+*
+*/
+/*
+* Used for snapshot testing
+*
+*/
 /*
 * Icon component
 *
 */
-/*
- * Utilities
- */
 .dnb-icon {
   display: inline-block;
   vertical-align: middle;
@@ -110,15 +113,17 @@ p > .dnb-icon {
 *
 */
 /*
- * Utilities
- */
+* Used for snapshot testing
+*
+*/
+/*
+* Used for snapshot testing
+*
+*/
 /*
 * Tooltip component
 *
 */
-/*
- * Utilities
- */
 :root {
   --tooltip-z-index: 1100;
 }
@@ -163,14 +168,16 @@ p > .dnb-icon {
 *
 */
 /*
- * Utilities
- */
+* Used for snapshot testing
+*
+*/
+/*
+* Used for snapshot testing
+*
+*/
 /*
  * FormStatus component
  *
- */
-/*
- * Utilities
  */
 .dnb-form-status {
   --form-status-radius: 0.25rem;
@@ -242,12 +249,13 @@ button .dnb-form-status__text {
 }
 
 /*
-* Button component
+* Used for snapshot testing
 *
 */
 /*
- * Utilities
- */
+* Button component
+*
+*/
 :root {
   --button-icon-size: 1rem;
   --button-height: 2.5rem;
@@ -490,61 +498,9 @@ button.dnb-button::-moz-focus-inner {
 *
 */
 /*
- * Utilities
- */
-/*
-* Tooltip component
-*
-*/
-/*
- * Utilities
- */
-:root {
-  --tooltip-z-index: 1100;
-}
-
-.dnb-tooltip {
-  --inner-space: 0;
-  --tooltip-border-radius: 1rem;
-  z-index: var(--tooltip-z-index);
-}
-.dnb-popover--inside-modal .dnb-tooltip {
-  z-index: calc(var(--modal-z-index) + var(--tooltip-z-index));
-}
-.dnb-tooltip {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-width: auto;
-  text-align: center;
-  border-radius: var(--tooltip-border-radius);
-  box-shadow: var(--shadow-default);
-}
-.dnb-tooltip--large {
-  padding: 0.25rem 0;
-}
-.dnb-tooltip .dnb-popover__content {
-  min-width: 2rem;
-  min-height: 1.5rem;
-  padding: 0 1rem;
-}
-.dnb-tooltip .dnb-popover__arrow__placement--right {
-  left: -13px;
-  top: auto !important;
-}
-.dnb-tooltip .dnb-popover__arrow__placement--left {
-  right: -13px;
-  top: auto !important;
-}
-
-/*
 * Used for snapshot testing
 *
 */
-/*
- * Utilities
- */
 /*
  * FormLabel component
  *
@@ -585,91 +541,9 @@ legend.dnb-form-label {
 *
 */
 /*
- * Utilities
- */
-/*
- * FormStatus component
- *
- */
-/*
- * Utilities
- */
-.dnb-form-status {
-  --form-status-radius: 0.25rem;
-  display: flex;
-  opacity: 1;
-}
-.dnb-form-status__shell {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  min-width: inherit;
-  border-radius: var(--form-status-radius);
-}
-.dnb-form-status__text {
-  max-width: var(--prose-max-width);
-  padding: 0.625rem 1rem;
-  cursor: text;
-}
-button .dnb-form-status__text {
-  cursor: inherit;
-}
-.dnb-form-status__text {
-  color: inherit;
-  line-height: var(--line-height-small);
-  font-size: var(--font-size-small);
-}
-.dnb-form-status__text .dnb-ul,
-.dnb-form-status__text .dnb-anchor {
-  font-size: inherit;
-}
-.dnb-form-status__text .dnb-ul:not([class*=dnb-space__left]) {
-  padding-left: 1rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) .dnb-li {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-.dnb-spacing .dnb-form-status__text .dnb-ul:not([class*=dnb-space__bottom]) {
-  margin-bottom: 0.5rem;
-}
-.dnb-form-status__text {
-  white-space: normal;
-}
-.dnb-icon + .dnb-form-status__text {
-  padding-left: 0.5rem;
-}
-.dnb-form-status__shell > .dnb-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
-}
-.dnb-form-status__size--large .dnb-form-status__text {
-  padding-top: 1.125rem;
-  padding-bottom: 1.125rem;
-}
-.dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
-  margin-top: 0.6666666em;
-  margin-bottom: 0.6666666em;
-}
-.dnb-form-status--stretch {
-  flex-grow: 1;
-}
-.dnb-form-status--stretch .dnb-form-status__shell {
-  width: 100%;
-}
-.dnb-form-status[hidden] {
-  display: none;
-}
-
-/*
 * Slider component
 *
 */
-/*
- * Utilities
- */
 .dnb-slider {
   --slider-track-height: 0.25rem;
   --slider-thumb-size: 2rem;
