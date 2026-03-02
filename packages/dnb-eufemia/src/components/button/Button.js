@@ -18,10 +18,7 @@ import {
   getStatusState,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -394,8 +391,6 @@ Button.propTypes = {
     PropTypes.object,
     PropTypes.node,
   ]),
-
-  ...spacingPropTypes,
 
   onClick: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 }

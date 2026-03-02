@@ -14,10 +14,7 @@ import {
   validateDOMAttributes,
   extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 
 import { PaginationIndicator } from './PaginationHelpers'
 import InfinityScroller from './PaginationInfinity'
@@ -93,9 +90,6 @@ const paginationPropTypes = {
   morePages: PropTypes.string,
   isLoadingText: PropTypes.string,
   loadButton: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-  barSpace: spacingPropTypes.space,
-
-  ...spacingPropTypes,
 
   className: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
