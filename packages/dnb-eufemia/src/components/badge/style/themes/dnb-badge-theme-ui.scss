@@ -2,9 +2,3 @@
 * Badge theme
 *
 */
-
-@use '../design-tokens-beta.scss';
-
-.dnb-badge {
-  @include design-tokens-beta.dnb-badge-design-tokens-beta();
-}
