@@ -36,6 +36,21 @@ describe('verifyGeneratedEntriesCommitted', () => {
     )
   })
 
+  it('throws when git status returns monorepo-root relative paths', () => {
+    jest
+      .spyOn(child_process, 'execSync')
+      .mockReturnValueOnce(
+        [
+          ' M packages/dnb-eufemia/src/shared/build-info/BuildInfoData.js',
+          ' M packages/dnb-eufemia/src/style/dnb-ui-components.scss',
+        ].join('\n') as any
+      )
+
+    expect(() => verifyGeneratedEntriesCommitted()).toThrow(
+      'Generated entry files changed during CI prebuild'
+    )
+  })
+
   it('checks all changed files and filters by generated entry patterns', () => {
     jest.spyOn(child_process, 'execSync').mockReturnValueOnce('' as any)
 

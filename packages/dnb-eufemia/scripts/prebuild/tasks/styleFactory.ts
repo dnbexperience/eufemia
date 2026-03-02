@@ -44,7 +44,6 @@ async function runStyleFactory() {
     customContent: `
       @import './core/utilities.scss';
       @import './${fallbackPrefix}-ui-fragments.scss';
-      @import './${fallbackPrefix}-ui-forms.scss';
     `,
     importContent: ({ relativeSource }) => `@import '${relativeSource}';`,
     searchGlob: [
