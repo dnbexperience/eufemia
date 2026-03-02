@@ -7,7 +7,7 @@ import {
   validateDOMAttributes,
 } from '../../shared/component-helper'
 import { useTranslation } from '../../shared'
-import { clamp } from '../slider/SliderHelpers'
+import { clamp } from '../../shared/helpers/clamp'
 
 export type RatingProps = {
   value?: number
