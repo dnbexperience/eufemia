@@ -494,7 +494,7 @@ class TextareaClass extends React.PureComponent<
       'aria-placeholder': placeholder
         ? convertJsxToString(placeholder)
         : undefined,
-      ...attributes,
+      ...(attributes as React.TextareaHTMLAttributes<HTMLTextAreaElement>),
       ...(typeof size === 'number' ? { size } : {}),
       onChange: this.onChangeHandler,
       onFocus: this.onFocusHandler,
