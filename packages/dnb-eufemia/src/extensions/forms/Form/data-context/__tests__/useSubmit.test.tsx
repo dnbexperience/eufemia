@@ -1,7 +1,14 @@
 import React from 'react'
-import { act, fireEvent, render, renderHook } from '@testing-library/react'
+import {
+  act,
+  fireEvent,
+  render,
+  renderHook,
+  waitFor,
+} from '@testing-library/react'
 import { Form, Field } from '../../..'
 import useSubmit from '../useSubmit'
+import { wait } from '../../../../../core/jest/jestSetup'
 
 describe('Form.useSubmit', () => {
   it('should throw when used outside Form.Handler', () => {
@@ -226,5 +233,60 @@ describe('Form.useSubmit', () => {
       expect.objectContaining({ name: 'Alex' }),
       expect.any(Object)
     )
+  })
+
+  it('should return isPending as false by default', () => {
+    const { result } = renderHook(() => useSubmit(), {
+      wrapper: ({ children }) => <Form.Handler>{children}</Form.Handler>,
+    })
+
+    expect(result.current.isPending).toBe(false)
+  })
+
+  it('should set isPending to true during async submit', async () => {
+    const onSubmit = async () => {
+      await wait(100)
+      return null
+    }
+
+    const PendingDisplay = () => {
+      const { submit, isPending } = Form.useSubmit()
+      return (
+        <>
+          <button type="button" onClick={() => submit()}>
+            Submit
+          </button>
+          <output data-testid="pending">
+            {isPending ? 'true' : 'false'}
+          </output>
+        </>
+      )
+    }
+
+    render(
+      <Form.Handler decoupleForm onSubmit={onSubmit}>
+        <Form.Element>
+          <Field.String path="/foo" value="bar" />
+        </Form.Element>
+        <PendingDisplay />
+      </Form.Handler>
+    )
+
+    const button = document.querySelector('button')
+    const output = document.querySelector('[data-testid="pending"]')
+
+    expect(output).toHaveTextContent('false')
+
+    await act(async () => {
+      fireEvent.click(button)
+    })
+
+    await waitFor(() => {
+      expect(output).toHaveTextContent('true')
+    })
+
+    await waitFor(() => {
+      expect(output).toHaveTextContent('false')
+    })
   })
 })

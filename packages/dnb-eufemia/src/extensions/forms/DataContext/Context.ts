@@ -211,6 +211,7 @@ export interface ContextState {
   errorsRef?: React.RefObject<Record<Path, Error>>
   showAllErrors: boolean | number
   hasVisibleError: boolean
+  isPending: boolean
   formState: SubmitState
   activeSubmitButtonId?: string
   getAjvInstance?: () => Ajv
@@ -247,6 +248,7 @@ export const defaultContextState: ContextState = {
   scrollToTop: () => null,
   showAllErrors: false,
   hasVisibleError: false,
+  isPending: false,
   formState: undefined,
   activeSubmitButtonId: undefined,
   setFormState: () => null,

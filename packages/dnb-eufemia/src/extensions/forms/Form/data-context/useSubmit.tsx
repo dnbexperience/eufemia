@@ -17,6 +17,12 @@ export type UseSubmitReturn = {
    * Resolves with the submit result or undefined.
    */
   submit: () => Promise<EventStateObject | undefined>
+
+  /**
+   * Whether the form is currently submitting via a React transition.
+   * True from when the submit starts until the async onSubmit completes.
+   */
+  isPending: boolean
 }
 
 /**
@@ -39,6 +45,8 @@ export default function useSubmit(id?: SharedStateId): UseSubmitReturn {
     throw new Error(invalidUseSubmitErrorMessage)
   }
 
+  const isPending = id ? get()?.isPending ?? false : dataContext?.isPending ?? false
+
   const submit = useCallback(() => {
     const context = id ? get() : dataContext
 
@@ -49,5 +57,5 @@ export default function useSubmit(id?: SharedStateId): UseSubmitReturn {
     return context.handleSubmit?.() ?? Promise.resolve(undefined)
   }, [dataContext, get, id])
 
-  return useMemo(() => ({ submit }), [submit])
+  return useMemo(() => ({ submit, isPending }), [submit, isPending])
 }

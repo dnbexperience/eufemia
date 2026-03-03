@@ -1415,6 +1415,59 @@ describe('DataContext.Provider', () => {
       })
     })
 
+    it('should set "isPending" to true when "onSubmit" is async', async () => {
+      const result = createRef<ContextState>()
+      const onSubmit = async () => {
+        await wait(100)
+        return null
+      }
+
+      render(
+        <DataContext.Provider onSubmit={onSubmit}>
+          <UseContext result={result} />
+          <Form.SubmitButton />
+        </DataContext.Provider>
+      )
+
+      const submitButton = document.querySelector('button')
+
+      expect(result.current.isPending).toBe(false)
+
+      fireEvent.click(submitButton)
+
+      await waitFor(() => {
+        expect(result.current.isPending).toBe(true)
+      })
+
+      await waitFor(() => {
+        expect(result.current.isPending).toBe(false)
+      })
+    })
+
+    it('should not set "isPending" when "onSubmit" is synchronous', async () => {
+      const result = createRef<ContextState>()
+      const onSubmit = jest.fn()
+
+      render(
+        <DataContext.Provider onSubmit={onSubmit}>
+          <UseContext result={result} />
+          <Form.SubmitButton />
+        </DataContext.Provider>
+      )
+
+      const submitButton = document.querySelector('button')
+
+      expect(result.current.isPending).toBe(false)
+
+      fireEvent.click(submitButton)
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+      })
+
+      expect(result.current.isPending).toBe(false)
+    })
+
     it('should show submit indicator during submit when "onSubmit" is used', async () => {
       const result = createRef<ContextState>()
       const onSubmit = async () => null

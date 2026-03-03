@@ -6,6 +6,11 @@ export const UseSubmitReturnProperties: PropertiesTableProps = {
     type: '() => Promise<EventStateObject | undefined>',
     status: 'required',
   },
+  isPending: {
+    doc: 'Whether the form is currently submitting via a React transition. True from when the submit starts until the async onSubmit completes.',
+    type: 'boolean',
+    status: 'required',
+  },
 }
 
 export const UseSubmitParameters: PropertiesTableProps = {

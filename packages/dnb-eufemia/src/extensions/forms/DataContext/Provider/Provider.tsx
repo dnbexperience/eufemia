@@ -5,6 +5,7 @@ import React, {
   useReducer,
   useEffect,
   useContext,
+  useTransition,
 } from 'react'
 import pointer, { JsonObject } from '../../utils/json-pointer'
 import {
@@ -211,6 +212,7 @@ export default function Provider<Data extends JsonObject>(
   props: Props<Data>
 ) {
   const [, forceUpdate] = useReducer(() => ({}), {})
+  const [isPending, startTransition] = useTransition()
 
   const {
     id,
@@ -1473,11 +1475,13 @@ export default function Provider<Data extends JsonObject>(
   ])
 
   /**
-   * Request to submit the whole form
+   * Request to submit the whole form.
+   * Wraps the async submit flow in a React transition (useTransition)
+   * so that React keeps the UI responsive during submission.
    */
   const handleSubmit = useCallback<
     ContextState['handleSubmit']
-  >(async () => {
+  >(() => {
     for (const item of fieldEventListenersRef.current) {
       const { type, callback } = item
       if (type === 'onBeforeSubmit') {
@@ -1485,49 +1489,55 @@ export default function Provider<Data extends JsonObject>(
       }
     }
 
-    return await handleSubmitCall({
-      enableAsyncBehavior: isAsync(onSubmit),
-      onSubmit: async () => {
-        let stop = false
-        const preventSubmit = () => (stop = true)
-        for (const item of fieldEventListenersRef.current) {
-          const { type, callback } = item
-          if (type === 'onSubmit') {
-            if (isAsync(callback)) {
-              await callback({ preventSubmit })
-            } else {
-              callback({ preventSubmit })
+    return new Promise<EventStateObject | undefined>((resolve) => {
+      startTransition(async () => {
+        const result = await handleSubmitCall({
+          enableAsyncBehavior: isAsync(onSubmit),
+          onSubmit: async () => {
+            let stop = false
+            const preventSubmit = () => (stop = true)
+            for (const item of fieldEventListenersRef.current) {
+              const { type, callback } = item
+              if (type === 'onSubmit') {
+                if (isAsync(callback)) {
+                  await callback({ preventSubmit })
+                } else {
+                  callback({ preventSubmit })
+                }
+              }
             }
-          }
-        }
-        if (stop) {
-          return // stop here
-        }
+            if (stop) {
+              return // stop here
+            }
 
-        const data = getSubmitData()
-        const options = getSubmitParams()
-        let result = undefined
+            const data = getSubmitData()
+            const options = getSubmitParams()
+            let result = undefined
 
-        if (isAsync(onSubmit)) {
-          result = await onSubmit(data, options)
-        } else {
-          result = onSubmit?.(data, options)
-        }
+            if (isAsync(onSubmit)) {
+              result = await onSubmit(data, options)
+            } else {
+              result = onSubmit?.(data, options)
+            }
 
-        const completeResult = await onSubmitComplete?.(data, result)
-        if (completeResult) {
-          result =
-            Object.keys(result).length > 0
-              ? { ...result, ...completeResult }
-              : completeResult
-        }
+            const completeResult = await onSubmitComplete?.(data, result)
+            if (completeResult) {
+              result =
+                Object.keys(result).length > 0
+                  ? { ...result, ...completeResult }
+                  : completeResult
+            }
 
-        if (scrollTopOnSubmit) {
-          scrollToTop()
-        }
+            if (scrollTopOnSubmit) {
+              scrollToTop()
+            }
 
-        return result
-      },
+            return result
+          },
+        })
+
+        resolve(result)
+      })
     })
   }, [
     getSubmitData,
@@ -1537,6 +1547,7 @@ export default function Provider<Data extends JsonObject>(
     onSubmitComplete,
     scrollToTop,
     scrollTopOnSubmit,
+    startTransition,
   ])
 
   // Collect listeners to be called during form submit
@@ -1647,7 +1658,7 @@ export default function Provider<Data extends JsonObject>(
   const disabled =
     typeof rest?.['disabled'] === 'boolean'
       ? rest?.['disabled']
-      : formState === 'pending'
+      : formState === 'pending' || isPending
       ? true
       : undefined
   const contextErrorMessages =
@@ -1701,6 +1712,7 @@ export default function Provider<Data extends JsonObject>(
     registerSectionSchema,
 
     /** State handling */
+    isPending,
     schema,
     disabled,
     required,

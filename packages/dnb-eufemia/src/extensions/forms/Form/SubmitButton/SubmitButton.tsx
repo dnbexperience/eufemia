@@ -33,6 +33,7 @@ function SubmitButton(props: Props) {
   const submitButtonId = useId()
   const {
     formState,
+    isPending,
     handleSubmit,
     hasElementRef,
     props: dataContextProps,
@@ -58,7 +59,7 @@ function SubmitButton(props: Props) {
   const indicatorState = showIndicator
     ? 'pending'
     : isActiveSubmitButton
-    ? formState
+    ? (isPending && !formState ? 'pending' : formState)
     : undefined
 
   return (
