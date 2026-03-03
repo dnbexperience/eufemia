@@ -1,9 +1,9 @@
-import { ModalPropTypes } from '../modal/Modal'
+import { ModalAllProps } from '../modal/Modal'
 import { IconIcon } from '../Icon'
 import { DialogActionProps } from './parts/DialogAction'
 import React from 'react'
 
-export interface DialogProps extends ModalPropTypes {
+export interface DialogProps extends ModalAllProps {
   /**
    * The dialog title. Displays on the very top of the content.
    */
