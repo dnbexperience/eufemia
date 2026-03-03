@@ -467,6 +467,94 @@ describe('Button component', () => {
   })
 })
 
+// React's deprecated .defaultProps would convert undefined values to the
+// declared default. After migrating away from .defaultProps we replicate
+// that behavior with removeUndefinedProps so that context overrides still
+// work when a consumer passes an explicit `undefined`.
+describe('undefined props should fall through to defaults', () => {
+  it('should let context override a prop that is explicitly undefined', () => {
+    render(
+      <Provider Button={{ iconSize: 'medium' }}>
+        <Button text="Button" icon="bell" iconSize={undefined} />
+      </Provider>
+    )
+
+    const button = document.querySelector('.dnb-button')
+
+    expect(button.classList).toContain('dnb-button--icon-size-medium')
+  })
+
+  it('should use default value when prop is explicitly undefined and no context overrides it', () => {
+    render(<Button text="Button" icon="bell" iconSize={undefined} />)
+
+    const button = document.querySelector('.dnb-button')
+
+    // Default iconSize is null, so no icon-size class should be present
+    expect(button.className).not.toContain('dnb-button--icon-size')
+  })
+
+  it('should use explicit prop value over context when prop differs from default', () => {
+    render(
+      <Provider Button={{ iconSize: 'small' }}>
+        <Button text="Button" icon="bell" iconSize="medium" />
+      </Provider>
+    )
+
+    const button = document.querySelector('.dnb-button')
+
+    // 'medium' differs from the default null, so context cannot override it
+    expect(button.classList).toContain('dnb-button--icon-size-medium')
+  })
+
+  it('should let context override iconSize when using a React element as icon and iconSize is undefined', () => {
+    render(
+      <Provider Button={{ iconSize: 'medium' }}>
+        <Button
+          text="Button"
+          icon={<IconPrimary icon="bell" />}
+          iconSize={undefined}
+        />
+      </Provider>
+    )
+
+    const button = document.querySelector('.dnb-button')
+
+    expect(button.classList).toContain('dnb-button--icon-size-medium')
+  })
+
+  it('should use default iconSize when using a React element as icon and iconSize is undefined', () => {
+    render(
+      <Button
+        text="Button"
+        icon={<IconPrimary icon="bell" />}
+        iconSize={undefined}
+      />
+    )
+
+    const button = document.querySelector('.dnb-button')
+
+    // Default iconSize is null, so no icon-size class should be present
+    expect(button.className).not.toContain('dnb-button--icon-size')
+  })
+
+  it('should preserve explicit iconSize when using a React element as icon', () => {
+    render(
+      <Provider Button={{ iconSize: 'small' }}>
+        <Button
+          text="Button"
+          icon={<IconPrimary icon="bell" />}
+          iconSize="medium"
+        />
+      </Provider>
+    )
+
+    const button = document.querySelector('.dnb-button')
+
+    // 'medium' differs from the default null, so context cannot override it
+    expect(button.classList).toContain('dnb-button--icon-size-medium')
+  })
+})
+
 describe('Button scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))

@@ -11,6 +11,7 @@ import Provider from '../../shared/Provider'
 import {
   validateDOMAttributes,
   extendPropsWithContextInClassComponent,
+  removeUndefinedProps,
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../../components/space/SpacingHelper'
 import {
@@ -138,7 +139,12 @@ function PaymentCard(props: PaymentCardProps) {
 
   // use only the props from context, who are available here anyway
   const extendedProps = extendPropsWithContextInClassComponent(
-    { ...paymentCardDefaultProps, ...props },
+    {
+      ...paymentCardDefaultProps,
+      // Strip undefined values so they fall through to defaults,
+      // preserving the legacy React defaultProps behavior.
+      ...removeUndefinedProps({ ...props }),
+    },
     paymentCardDefaultProps,
     { locale: context.locale },
     { skeleton: context?.skeleton }
@@ -184,7 +190,12 @@ function PaymentCard(props: PaymentCardProps) {
       <Context.Consumer>
         {({ translation }) => {
           const translations = extendPropsWithContextInClassComponent(
-            { ...translationDefaultPropsProps, ...props },
+            {
+              ...translationDefaultPropsProps,
+              // Strip undefined values so they fall through to defaults,
+              // preserving the legacy React defaultProps behavior.
+              ...removeUndefinedProps({ ...props }),
+            },
             translationDefaultPropsProps,
             translation.PaymentCard
           )
