@@ -205,17 +205,18 @@ export function calcSize(props: IconProps) {
 
       if (iconFn) {
         const elem = iconFn()
-        if (elem.props) {
+        if (elem?.props) {
           let potentialSize: ValidIconNumericSize | -1 = null
           if (elem.props.width) {
             potentialSize = elem.props.width
           }
           if (!potentialSize && elem.props.viewBox) {
-            potentialSize = parseFloat(
-              /[0-9]+ [0-9]+ ([0-9]+)/.exec(elem.props.viewBox)[1]
-            ) as ValidIconNumericSize // get the width
+            const match = /[0-9]+ [0-9]+ ([0-9]+)/.exec(elem.props.viewBox)
+            if (match?.[1]) {
+              potentialSize = parseFloat(match[1]) as ValidIconNumericSize
+            }
           }
-          if (!isNaN(potentialSize)) {
+          if (potentialSize != null && !isNaN(potentialSize)) {
             sizeAsInt = potentialSize
           }
         }
