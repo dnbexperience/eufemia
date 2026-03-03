@@ -106,6 +106,9 @@ export default {
       clipboard_copy: 'Kopierad',
       not_available: 'Inte tillgänglig',
     },
+    Stat: {
+      rating: '%value av %max',
+    },
     HelpButton: {
       title: 'Hjälptext',
       aria_role: 'Hjälp-knapp',

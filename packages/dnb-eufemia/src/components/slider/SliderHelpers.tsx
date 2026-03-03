@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { format, formatReturnValue } from '../number-format/NumberUtils'
+import { clamp } from '../../shared/helpers/clamp'
 
 import type { NumberFormatTypes, ValueTypes } from './types'
 
@@ -60,8 +61,7 @@ export const calculatePercent = (
   return Math.abs(clamp(value / onePercent))
 }
 
-export const clamp = (value: number, min = 0, max = 100) =>
-  Math.min(Math.max(value, min), max)
+export { clamp }
 
 export const roundValue = (
   value: number,

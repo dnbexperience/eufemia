@@ -27,7 +27,7 @@ import { useFieldProps } from '../../hooks'
 import { FieldProps, Schema } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { ButtonProps, ButtonSize } from '../../../../components/Button'
-import { clamp } from '../../../../components/slider/SliderHelpers'
+import { clamp } from '../../../../shared/helpers/clamp'
 import DataContext from '../../DataContext/Context'
 import * as z from 'zod'
 

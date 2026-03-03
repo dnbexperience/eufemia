@@ -106,6 +106,9 @@ export default {
       clipboard_copy: 'Copied',
       not_available: 'Not available',
     },
+    Stat: {
+      rating: '%value of %max',
+    },
     HelpButton: {
       title: 'Help text',
       aria_role: 'Help button',

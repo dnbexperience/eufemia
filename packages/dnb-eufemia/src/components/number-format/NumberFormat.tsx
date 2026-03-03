@@ -37,6 +37,7 @@ export { default as useNumberFormat } from './useNumberFormat'
 export { default as useNumberFormatWithParts } from './useNumberFormatWithParts'
 
 // TypeScript types
+export type { NumberFormatOptions } from './NumberUtils'
 export type NumberFormatValue = number | string
 export type NumberFormatPrefix =
   | React.ReactNode
