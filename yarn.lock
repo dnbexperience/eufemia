@@ -4415,7 +4415,6 @@ __metadata:
     babel-plugin-polyfill-corejs3: "npm:0.13.0"
     babel-plugin-search-and-replace: "npm:1.1.1"
     babel-plugin-transform-next-use-client: "npm:1.1.1"
-    camelcase: "npm:6.2.0"
     chalk: "npm:4.1.2"
     clsx: "npm:2.1.1"
     color: "npm:4.0.1"
@@ -13533,13 +13532,6 @@ __metadata:
   version: 5.3.1
   resolution: "camelcase@npm:5.3.1"
   checksum: 10/e6effce26b9404e3c0f301498184f243811c30dfe6d0b9051863bd8e4034d09c8c2923794f280d6827e5aa055f6c434115ff97864a16a963366fb35fd673024b
-  languageName: node
-  linkType: hard
-
-"camelcase@npm:6.2.0":
-  version: 6.2.0
-  resolution: "camelcase@npm:6.2.0"
-  checksum: 10/8335cfd0ecc472eae685896a42afd8c9dacd193a91f569120b931c87deb053a1ba82102031b9b48a4dbc1d18066caeacf2e4ace8c3c7f0d02936d348dc0b5a87
   languageName: node
   linkType: hard
 
