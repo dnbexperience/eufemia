@@ -192,21 +192,33 @@ export function calcSize(props: IconProps) {
         sizeAsString = lastPartOfIconName
       }
     } else {
-      if (typeof icon === 'function') {
-        const elem = icon()
-        if (elem.props) {
-          let potentialSize: ValidIconNumericSize | -1 = null
-          if (elem.props.width) {
-            potentialSize = elem.props.width
+      // Resolve the icon function — either directly or from a React element's type.
+      // This handles minified builds where Function.name no longer contains
+      // the size suffix (e.g. "bell_medium" → "e"), so we fall back to
+      // reading the SVG's width/viewBox from the rendered output.
+      const iconFn =
+        typeof icon === 'function'
+          ? icon
+          : React.isValidElement(icon) && typeof icon.type === 'function'
+          ? (icon.type as (props?: unknown) => React.JSX.Element)
+          : null
+
+      if (iconFn) {
+        try {
+          const elem = iconFn()
+          if (elem?.props) {
+            let potentialSize: ValidIconNumericSize | -1 = null
+            if (elem.props.width) {
+              potentialSize = elem.props.width
+            }
+            if (potentialSize !== null && !isNaN(potentialSize)) {
+              sizeAsInt = potentialSize
+            }
           }
-          if (!potentialSize && elem.props.viewBox) {
-            potentialSize = parseFloat(
-              /[0-9]+ [0-9]+ ([0-9]+)/.exec(elem.props.viewBox)[1]
-            ) as ValidIconNumericSize // get the width
-          }
-          if (!isNaN(potentialSize)) {
-            sizeAsInt = potentialSize
-          }
+        } catch {
+          // The icon function may use hooks or expect props — if calling
+          // it outside a React render context throws, we silently fall
+          // back to the default size.
         }
       }
     }
