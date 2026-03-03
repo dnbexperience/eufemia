@@ -505,8 +505,10 @@ describe('Field.Expiry', () => {
       })
 
       expect(yearInput.value).toBe('7å')
-      expect(yearInput.selectionStart).toBe(1)
-      expect(yearInput.selectionEnd).toBe(1)
+      await waitFor(() => {
+        expect(yearInput.selectionStart).toBe(1)
+        expect(yearInput.selectionEnd).toBe(1)
+      })
     })
 
     it('should change cursor position to year after backspace through year', async () => {
@@ -611,6 +613,33 @@ describe('Field.Expiry', () => {
 
       await userEvent.click(yearInput)
 
+      expect(yearInput.selectionStart).toBe(0)
+      expect(yearInput.selectionEnd).toBe(2)
+    })
+
+    it('should select whole value on repeated blur and focus', async () => {
+      render(<Field.Expiry value="1234" />)
+
+      const monthInput = document.querySelectorAll('input')[0]
+      const yearInput = document.querySelectorAll('input')[1]
+
+      await userEvent.click(monthInput)
+      expect(monthInput.selectionStart).toBe(0)
+      expect(monthInput.selectionEnd).toBe(2)
+
+      monthInput.blur()
+
+      await userEvent.click(monthInput)
+      expect(monthInput.selectionStart).toBe(0)
+      expect(monthInput.selectionEnd).toBe(2)
+
+      await userEvent.click(yearInput)
+      expect(yearInput.selectionStart).toBe(0)
+      expect(yearInput.selectionEnd).toBe(2)
+
+      yearInput.blur()
+
+      await userEvent.click(yearInput)
       expect(yearInput.selectionStart).toBe(0)
       expect(yearInput.selectionEnd).toBe(2)
     })

@@ -258,18 +258,6 @@ function MultiInputMask<T extends string>(props: MultiInputMaskProps<T>) {
         nextInput.dataset.skipSelectOnFocus = 'true'
         nextInput.dataset.caretPositionOnFocus = '1'
         onChange(nextInputId, nextValue)
-
-        if (typeof window !== 'undefined') {
-          window.requestAnimationFrame(() => {
-            setTimeout(() => {
-              try {
-                nextInput.setSelectionRange(1, 1)
-              } catch {
-                // ignore
-              }
-            }, 0)
-          })
-        }
       },
     }
   )
@@ -484,6 +472,8 @@ function MultiInputMaskInput<T extends string>({
   const slotValuesRef = useRef<string[]>(initialSlots)
   const lastKeydownHandledRef = useRef(false)
   const pendingCaretPositionRef = useRef<number | null>(null)
+  const shouldSelectAllOnMouseUpRef = useRef(false)
+  const focusFromMouseRef = useRef(false)
 
   useLayoutEffect(() => {
     const current = collectValueFromSlots(slotValuesRef.current)
@@ -643,7 +633,13 @@ function MultiInputMaskInput<T extends string>({
           lastKeydownHandledRef.current = false
         }}
         onBlur={onBlur}
+        onMouseDown={() => {
+          focusFromMouseRef.current = true
+        }}
         onFocus={({ target }) => {
+          const focusedByMouse = focusFromMouseRef.current
+          focusFromMouseRef.current = false
+
           const shouldSkipSelectAll =
             target.dataset.skipSelectOnFocus === 'true'
 
@@ -660,6 +656,7 @@ function MultiInputMaskInput<T extends string>({
             )
               ? fallbackPosition
               : nextCaretPosition
+            shouldSelectAllOnMouseUpRef.current = false
 
             onInputFocus?.()
             return
@@ -667,20 +664,44 @@ function MultiInputMaskInput<T extends string>({
 
           // Select the entire input on focus, but only when there is content
           try {
-            target.focus()
             if ((target as HTMLInputElement).value.length > 0) {
+              const start = 0
+              const end = (target as HTMLInputElement).value.length
+              ;(target as HTMLInputElement).setSelectionRange(start, end)
+              shouldSelectAllOnMouseUpRef.current = focusedByMouse
+
               window.requestAnimationFrame(() => {
-                const start = 0
-                const end = (target as HTMLInputElement).value.length
                 ;(target as HTMLInputElement).setSelectionRange(start, end)
               })
+            } else {
+              shouldSelectAllOnMouseUpRef.current = false
             }
           } catch {
             // ignore
           }
           onInputFocus?.()
         }}
-        onMouseUp={undefined}
+        onMouseUp={(event) => {
+          if (!shouldSelectAllOnMouseUpRef.current) {
+            return
+          }
+
+          shouldSelectAllOnMouseUpRef.current = false
+          event.preventDefault()
+
+          const target = event.currentTarget
+          const end = target.value.length
+
+          try {
+            target.setSelectionRange(0, end)
+          } catch {
+            // ignore
+          }
+        }}
+        onBlurCapture={() => {
+          shouldSelectAllOnMouseUpRef.current = false
+          focusFromMouseRef.current = false
+        }}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           onChange(inputId, event.target.value)
         }}
