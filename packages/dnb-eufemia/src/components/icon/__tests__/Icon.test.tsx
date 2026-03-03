@@ -147,6 +147,69 @@ describe('Icon component', () => {
     expect(document.querySelector('svg title').textContent).toBe('banana')
   })
 
+  it('should detect medium size from React element icon via SVG width when function name is minified', () => {
+    // Simulate a minified icon function (short name without _medium suffix)
+    // that renders a 24px SVG — calcSize should fall back to reading SVG width.
+    // Use uppercase name so React treats it as a component, not an HTML tag.
+    const E = (props?: Record<string, unknown>) => (
+      <svg
+        width={24}
+        height={24}
+        viewBox="0 0 24 24"
+        fill="none"
+        {...props}
+      >
+        <path d="M12 2a10 10 0 100 20 10 10 0 000-20z" />
+      </svg>
+    )
+
+    render(<Icon icon={<E />} />)
+    expect(document.querySelector('span.dnb-icon').classList).toContain(
+      'dnb-icon--medium'
+    )
+  })
+
+  it('should detect default size from React element icon via SVG width when function name is minified', () => {
+    // Simulate a minified icon function rendering a 16px SVG
+    const E = (props?: Record<string, unknown>) => (
+      <svg
+        width={16}
+        height={16}
+        viewBox="0 0 16 16"
+        fill="none"
+        {...props}
+      >
+        <path d="M8 1a7 7 0 100 14A7 7 0 008 1z" />
+      </svg>
+    )
+
+    render(<Icon icon={<E />} />)
+    expect(document.querySelector('span.dnb-icon').classList).toContain(
+      'dnb-icon--default'
+    )
+  })
+
+  it('should detect medium size from a direct function icon with minified name', () => {
+    // Direct function (not wrapped in JSX) with short name — tests the
+    // typeof icon === 'function' branch in calcSize
+    const e = (props?: Record<string, unknown>) => (
+      <svg
+        width={24}
+        height={24}
+        viewBox="0 0 24 24"
+        fill="none"
+        {...props}
+      >
+        <path d="M12 2a10 10 0 100 20 10 10 0 000-20z" />
+      </svg>
+    )
+
+    render(<Icon icon={e} />)
+    expect(document.querySelector('span.dnb-icon').classList).toContain(
+      'dnb-icon--medium'
+    )
+  })
+
   it('should validate with ARIA rules', async () => {
     const Comp = render(<Icon {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()

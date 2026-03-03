@@ -241,15 +241,12 @@ export default class GlobalStatus extends React.PureComponent<
   GlobalStatusProps,
   GlobalStatusComponentState
 > {
+  static _supportsSpacingProps = true
   static contextType = Context
   context!: React.ContextType<typeof Context>
 
-  static create: (
-    props: GlobalStatusInterceptorProps
-  ) => GlobalStatusInterceptor
-  static Update: (
-    props: GlobalStatusInterceptorProps
-  ) => GlobalStatusInterceptor
+  static create: (props: GlobalStatusInterceptorProps) => any
+  static Update: (props: GlobalStatusInterceptorProps) => any
   static Add: typeof GlobalStatusController
   static Remove: typeof GlobalStatusRemove
 
@@ -931,10 +928,3 @@ const isElementVisible = (
 
 const wait = (duration: number) =>
   new Promise((r) => setTimeout(r, duration))
-
-interface GlobalStatusStaticProperties {
-  _supportsSpacingProps: boolean
-}
-;(
-  GlobalStatus as unknown as GlobalStatusStaticProperties
-)._supportsSpacingProps = true

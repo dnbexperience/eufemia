@@ -65,6 +65,7 @@ class GlobalStatusController extends React.PureComponent<
   GlobalStatusControllerProps,
   GlobalStatusControllerState
 > {
+  static _supportsSpacingProps = true
   static Remove: typeof GlobalStatusRemove
   static Update: typeof GlobalStatusController
 
@@ -189,12 +190,6 @@ class GlobalStatusRemove extends React.PureComponent<
 
 GlobalStatusController.Remove = GlobalStatusRemove
 GlobalStatusController.Update = GlobalStatusController
-interface GlobalStatusControllerStaticProperties {
-  _supportsSpacingProps: boolean
-}
-;(
-  GlobalStatusController as unknown as GlobalStatusControllerStaticProperties
-)._supportsSpacingProps = true
 
 export default GlobalStatusController
 export { GlobalStatusRemove }
