@@ -51,7 +51,9 @@ import type {
 export type DropdownData = DrawerListData
 type DropdownTitle = string | React.ReactNode
 type DropdownAlign = 'left' | 'right'
-type DropdownTriggerElement = ((...args: any[]) => any) | React.ReactNode
+type DropdownTriggerElement =
+  | ((props: Record<string, unknown>) => React.ReactNode)
+  | React.ReactNode
 
 export interface DropdownProps {
   /**
@@ -126,13 +128,13 @@ export interface DropdownProps {
   /**
    * Will be called once the Dropdown shows up.
    */
-  onOpen?: (...args: any[]) => any
+  onOpen?: (args: Record<string, unknown>) => void
   /**
    * Will be called once the Dropdown gets closed.
    */
-  onClose?: (...args: any[]) => any
-  onOpenFocus?: (...args: any[]) => any
-  onCloseFocus?: (...args: any[]) => any
+  onClose?: (args: Record<string, unknown>) => void
+  onOpenFocus?: (args: { element: HTMLElement }) => void
+  onCloseFocus?: (args: { element: HTMLElement }) => void
 }
 
 export type DropdownAllProps = DropdownProps &
@@ -248,8 +250,10 @@ class DropdownInstance extends React.PureComponent<DropdownAllProps> {
       .setVisible()
   }
 
-  setHidden = (...args) => {
-    this.context.drawerList.setHidden(...args)
+  setHidden = (...args: unknown[]) => {
+    this.context.drawerList.setHidden(
+      ...(args as [unknown[], (() => void)?])
+    )
   }
 
   onFocusHandler = () => {
@@ -278,7 +282,9 @@ class DropdownInstance extends React.PureComponent<DropdownAllProps> {
     }
   }
 
-  onTriggerKeyDownHandler = (e) => {
+  onTriggerKeyDownHandler = (
+    e: React.KeyboardEvent<HTMLButtonElement>
+  ) => {
     switch (e.key) {
       case 'Enter':
       case ' ':
@@ -306,7 +312,7 @@ class DropdownInstance extends React.PureComponent<DropdownAllProps> {
     }
   }
 
-  onCloseHandler = (args = {}) => {
+  onCloseHandler = (args: Record<string, unknown> = {}) => {
     const attributes = this.attributes || {}
     const res = dispatchCustomElementEvent(this, 'onClose', {
       ...args,
@@ -320,7 +326,7 @@ class DropdownInstance extends React.PureComponent<DropdownAllProps> {
     return res
   }
 
-  setFocus = (args) => {
+  setFocus = (args: Record<string, unknown>) => {
     clearTimeout(this._focusTimeout)
     this._focusTimeout = setTimeout(() => {
       try {
@@ -337,8 +343,8 @@ class DropdownInstance extends React.PureComponent<DropdownAllProps> {
     }, 1) // NVDA / Firefox needs a delay to set this focus
   }
 
-  onSelectHandler = (args) => {
-    if (parseFloat(args.activeItem) > -1) {
+  onSelectHandler = (args: Record<string, unknown>) => {
+    if (parseFloat(args.activeItem as string) > -1) {
       const attributes = this.attributes || {}
       dispatchCustomElementEvent(this, 'onSelect', {
         ...args,
@@ -347,7 +353,7 @@ class DropdownInstance extends React.PureComponent<DropdownAllProps> {
     }
   }
 
-  onChangeHandler = (args) => {
+  onChangeHandler = (args: Record<string, unknown>) => {
     const attributes = this.attributes || {}
     dispatchCustomElementEvent(this, 'onChange', {
       ...args,
@@ -355,7 +361,7 @@ class DropdownInstance extends React.PureComponent<DropdownAllProps> {
     })
   }
 
-  getTitle(title = null) {
+  getTitle(title: string | React.ReactNode = null) {
     const { data } = this.context.drawerList
     if (data && data.length > 0) {
       const currentOptionData = getCurrentData(
@@ -377,9 +383,10 @@ class DropdownInstance extends React.PureComponent<DropdownAllProps> {
       this.props,
       DropdownInstance.defaultProps,
       { skeleton: this.context?.skeleton },
-      (this.context as any).getTranslation(this.props).Dropdown,
+      (this.context as Record<string, any>).getTranslation(this.props)
+        .Dropdown,
       pickFormElementProps(this.context?.formElement),
-      (this.context as any).Dropdown
+      (this.context as Record<string, any>).Dropdown
     )
 
     const {
@@ -678,9 +685,6 @@ class DropdownInstance extends React.PureComponent<DropdownAllProps> {
   }
 }
 
-;(DropdownInstance as any)._formElement = true
-;(DropdownInstance as any)._supportsSpacingProps = true
-
 /**
  * Function component wrapper that provides DrawerListProvider context
  * and forwards `ref` and `buttonRef` to the inner DOM elements.
@@ -690,7 +694,7 @@ function Dropdown({ ref, buttonRef, ...props }: DropdownAllProps) {
   const { moreMenu, actionMenu, preventSelection, children, data } = props
 
   const instanceRef = React.useCallback(
-    (instance) => {
+    (instance: DropdownInstance | null) => {
       const el = instance?._ref?.current ?? null
       if (typeof ref === 'function') {
         ref(el)
@@ -719,7 +723,7 @@ function Dropdown({ ref, buttonRef, ...props }: DropdownAllProps) {
       preventSelection={moreMenu || actionMenu || preventSelection}
     >
       <DropdownInstance
-        ref={ref || buttonRef ? instanceRef : undefined}
+        ref={(ref || buttonRef ? instanceRef : undefined) as any}
         {...props}
         id={id}
       />
