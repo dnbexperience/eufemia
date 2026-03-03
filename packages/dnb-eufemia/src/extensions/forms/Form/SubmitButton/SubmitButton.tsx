@@ -59,7 +59,9 @@ function SubmitButton(props: Props) {
   const indicatorState = showIndicator
     ? 'pending'
     : isActiveSubmitButton
-    ? (isPending && !formState ? 'pending' : formState)
+    ? isPending && !formState
+      ? 'pending'
+      : formState
     : undefined
 
   return (

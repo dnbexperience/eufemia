@@ -45,7 +45,9 @@ export default function useSubmit(id?: SharedStateId): UseSubmitReturn {
     throw new Error(invalidUseSubmitErrorMessage)
   }
 
-  const isPending = id ? get()?.isPending ?? false : dataContext?.isPending ?? false
+  const isPending = id
+    ? get()?.isPending ?? false
+    : dataContext?.isPending ?? false
 
   const submit = useCallback(() => {
     const context = id ? get() : dataContext
