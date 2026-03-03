@@ -51,7 +51,9 @@ describe('GlobalStatus component', () => {
   it('should have list items as defined in the prop', () => {
     render(<GlobalStatus {...props} />)
     expect(document.querySelector('.dnb-ul').textContent).toBe(
-      props.items.map(({ text }) => text).join('')
+      props.items
+        .map((item) => (typeof item === 'string' ? item : item.text))
+        .join('')
     )
   })
 
