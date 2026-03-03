@@ -235,7 +235,6 @@
     "postcss-preset-env": "9.6.0",
     "prettier": "3.0.3",
     "prettier-package-json": "2.8.0",
-    "process": "0.11.10",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-to-typescript-definitions": "3.1.1",
