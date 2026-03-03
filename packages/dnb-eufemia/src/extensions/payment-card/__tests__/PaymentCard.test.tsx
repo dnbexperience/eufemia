@@ -418,6 +418,21 @@ describe('PaymentCard translations', () => {
   })
 })
 
+// React's deprecated .defaultProps would convert undefined values to the
+// declared default. After migrating away from .defaultProps we replicate
+// that behavior with removeUndefinedProps so that context overrides still
+// work when a consumer passes an explicit `undefined`.
+describe('undefined props should fall through to defaults', () => {
+  it('should use default variant when prop is explicitly undefined', () => {
+    // Default variant is 'normal', which should apply even when undefined is passed
+    render(<PaymentCard {...defaultProps} variant={undefined} />)
+
+    expect(
+      document.querySelector('.dnb-payment-card--normal')
+    ).toBeInTheDocument()
+  })
+})
+
 describe('PaymentCard scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))

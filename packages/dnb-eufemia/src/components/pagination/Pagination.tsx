@@ -12,6 +12,7 @@ import PaginationProvider from './PaginationProvider'
 import {
   validateDOMAttributes,
   extendPropsWithContextInClassComponent,
+  removeUndefinedProps,
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
@@ -402,7 +403,12 @@ class PaginationInstance extends React.PureComponent<PaginationProps> {
 }
 
 export function InfinityMarker(props: PaginationProps) {
-  const { children, ...rest } = { ...paginationDefaultProps, ...props }
+  const { children, ...rest } = {
+    ...paginationDefaultProps,
+    // Strip undefined values so they fall through to defaults,
+    // preserving the legacy React defaultProps behavior.
+    ...removeUndefinedProps({ ...props }),
+  }
 
   return (
     <PaginationProvider

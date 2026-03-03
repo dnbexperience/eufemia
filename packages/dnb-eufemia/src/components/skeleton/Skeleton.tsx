@@ -9,6 +9,7 @@ import React from 'react'
 import clsx from 'clsx'
 import {
   extendPropsWithContextInClassComponent,
+  removeUndefinedProps,
   validateDOMAttributes,
 } from '../../shared/component-helper'
 import { LOCALE } from '../../shared/defaults'
@@ -86,7 +87,12 @@ function Skeleton(props: SkeletonProps) {
   const getProps = React.useCallback(
     (propsToExtend = props, ctx = context) => {
       return extendPropsWithContextInClassComponent(
-        { ...skeletonDefaultProps, ...propsToExtend },
+        {
+          ...skeletonDefaultProps,
+          // Strip undefined values so they fall through to defaults,
+          // preserving the legacy React defaultProps behavior.
+          ...removeUndefinedProps({ ...propsToExtend }),
+        },
         skeletonDefaultProps,
         {
           skeleton: ctx.Skeleton || ctx.skeleton,
