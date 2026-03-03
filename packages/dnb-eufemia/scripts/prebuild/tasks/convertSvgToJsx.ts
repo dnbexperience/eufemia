@@ -10,7 +10,7 @@ import rename from 'gulp-rename'
 import transform from 'gulp-transform'
 import { transform as svgr } from '@svgr/core'
 import prettier from 'prettier'
-import globby from 'globby'
+import { glob } from 'tinyglobby'
 import { iconCase } from '../../../src/components/icon/IconHelpers'
 import { asyncForEach } from '../../tools'
 import { log } from '../../lib'
@@ -41,7 +41,7 @@ export default async function convertSvgToJsx({
   customIconsLockFilePath = null,
 } = {}) {
   if (!preventDelete) {
-    const filesToDelete = await globby(
+    const filesToDelete = await glob(
       [
         `${destPath}/**/*.{js,ts,tsx}`,
         `!${destPath}`,
@@ -230,7 +230,7 @@ const makeIconsEntryFiles = async ({
 }) => {
   // get all the svg icons we find
   const icons: Array<IconItem> = (
-    await globby([
+    await glob([
       path.resolve(destPath, assetsDir, '*.tsx'),
       '!**/index*',
       '!**/__tests__/*',

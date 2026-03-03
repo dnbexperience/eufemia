@@ -4,11 +4,14 @@
  */
 
 import path from 'path'
-import * as globby from 'globby'
+import * as tinyglobby from 'tinyglobby'
 import * as fs from 'fs-extra'
 import { runFactory } from '../themeFactory'
 
-jest.mock('globby', () => jest.fn(jest.requireActual('globby')))
+jest.mock('tinyglobby', () => ({
+  ...jest.requireActual('tinyglobby'),
+  glob: jest.fn(jest.requireActual('tinyglobby').glob),
+}))
 jest.mock('fs-extra', () => {
   const orig = jest.requireActual('fs-extra')
   return {
@@ -33,7 +36,7 @@ jest.mock('fs-extra', () => {
 describe('runFactory', () => {
   it('has to find all related "ui" theme files', async () => {
     jest
-      .spyOn(globby, 'default')
+      .spyOn(tinyglobby, 'glob')
       .mockResolvedValue([
         './src/components/button/style/themes/dnb-button-theme-ui.scss',
         './src/components/badge/style/themes/dnb-badge-theme-ui.scss',
@@ -67,7 +70,7 @@ describe('runFactory', () => {
 
   it('has to find all related "ui" and "sbanken" theme files', async () => {
     jest
-      .spyOn(globby, 'default')
+      .spyOn(tinyglobby, 'glob')
       .mockResolvedValue([
         './src/components/button/style/themes/dnb-button-theme-ui.scss',
         './src/components/badge/style/themes/dnb-badge-theme-sbanken.scss',
@@ -101,7 +104,7 @@ describe('runFactory', () => {
 
   it('has to fallback replacement', async () => {
     jest
-      .spyOn(globby, 'default')
+      .spyOn(tinyglobby, 'glob')
       .mockResolvedValue([
         './src/components/button/style/themes/dnb-button-theme-ui.scss',
         './src/components/button/style/themes/dnb-button-theme-sbanken.scss',
@@ -138,14 +141,14 @@ describe('runFactory', () => {
 
   it('has to write new theme file if it not exists', async () => {
     jest
-      .spyOn(globby, 'default')
+      .spyOn(tinyglobby, 'glob')
       .mockResolvedValueOnce([
         './src/components/button/style/themes/dnb-button-theme-ui.scss',
         './src/components/button/style/themes/dnb-button-theme-sbanken.scss',
         './src/components/new-file/style/themes/dnb-new-file-theme-ui.scss',
       ])
     jest
-      .spyOn(globby, 'default')
+      .spyOn(tinyglobby, 'glob')
       .mockResolvedValueOnce([
         './src/style/themes/ui/ui-theme-components.scss',
         './src/style/themes/sbanken/sbanken-theme-components.scss',

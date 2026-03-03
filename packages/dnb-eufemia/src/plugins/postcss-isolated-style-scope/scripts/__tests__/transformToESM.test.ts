@@ -1,14 +1,14 @@
-import { sync } from 'globby'
+import { globSync } from 'tinyglobby'
 import fs from 'fs-extra'
 import { transform } from 'lebab'
 import { transformFilesToESM } from '../transformToESM'
 
 // Mock the dependencies
-jest.mock('globby')
+jest.mock('tinyglobby')
 jest.mock('fs-extra')
 jest.mock('lebab')
 
-const mockSync = sync as jest.MockedFunction<typeof sync>
+const mockSync = globSync as jest.MockedFunction<typeof globSync>
 const mockReadFileSync = fs.readFileSync as jest.MockedFunction<
   typeof fs.readFileSync
 >

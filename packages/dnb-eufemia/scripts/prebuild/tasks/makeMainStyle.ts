@@ -9,7 +9,7 @@ import clone from 'gulp-clone'
 import rename from 'gulp-rename'
 import transform from 'gulp-transform'
 import { log } from '../../lib'
-import globby from 'globby'
+import { glob } from 'tinyglobby'
 import { asyncForEach } from '../../tools/index'
 import packpath from 'packpath'
 import { PassThrough, finished } from 'stream'
@@ -60,7 +60,7 @@ export default async function makeMainStyle() {
   // info: use this approach to process files because:
   // this way we avoid cross "includePaths" and the result is:
   // Now a custom theme can overwrite existing CSS Custom Properties
-  const listWithThemesToProcess = await globby(
+  const listWithThemesToProcess = await glob(
     './src/style/themes/*/*-theme-*.scss'
   )
   await asyncForEach(listWithThemesToProcess, async (themeFile) => {
@@ -69,7 +69,7 @@ export default async function makeMainStyle() {
     await runFactory(themeFile)
   })
 
-  const listWithPackagesToProcess = await globby(
+  const listWithPackagesToProcess = await glob(
     './src/style/**/*-ui-*.scss'
   )
   await asyncForEach(listWithPackagesToProcess, async (packageFile) => {

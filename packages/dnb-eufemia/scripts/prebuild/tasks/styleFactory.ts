@@ -4,7 +4,7 @@
  */
 
 import fs from 'fs-extra'
-import globby from 'globby'
+import { glob } from 'tinyglobby'
 import path from 'path'
 import prettier from 'prettier'
 import { ErrorHandler, log } from '../../lib'
@@ -155,12 +155,9 @@ const runFactory = async ({
   onlyDirectories = false,
 }) => {
   try {
-    searchGlob = await globby(
-      searchGlob.concat(processToNamesIgnoreList),
-      {
-        onlyDirectories,
-      }
-    )
+    searchGlob = await glob(searchGlob.concat(processToNamesIgnoreList), {
+      onlyDirectories,
+    })
     searchGlob.sort()
   } catch (e) {
     log.fail(e)

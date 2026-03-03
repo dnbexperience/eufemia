@@ -5,7 +5,7 @@
 
 import fs from 'fs-extra'
 import path from 'path'
-import globby from 'globby'
+import { glob } from 'tinyglobby'
 
 if (require.main === module) {
   copyTypeScriptFiles(process.env.OUT_DIR)
@@ -14,7 +14,7 @@ if (require.main === module) {
 async function copyTypeScriptFiles(dist) {
   const globbyFiles = ['./src/**/*.d.ts']
 
-  const files = await globby(globbyFiles)
+  const files = await glob(globbyFiles)
 
   for await (const file of files) {
     const src = path.resolve(file)

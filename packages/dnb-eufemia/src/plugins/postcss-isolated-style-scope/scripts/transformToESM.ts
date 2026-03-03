@@ -1,9 +1,9 @@
 import { transform } from 'lebab'
-import { sync } from 'globby'
+import { globSync } from 'tinyglobby'
 import fs from 'fs-extra'
 
 export function transformFilesToESM(): void {
-  const files: string[] = sync(
+  const files: string[] = globSync(
     ['./build/**/plugins/**/*.js', '!./build/cjs/plugins/**/*.js'],
     {
       onlyFiles: true,
