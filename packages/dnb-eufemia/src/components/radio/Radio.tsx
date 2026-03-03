@@ -34,17 +34,24 @@ import type { FormStatusBaseProps } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../space/types'
 
-export type RadioLabel =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode
+export type RadioLabel = string | React.ReactNode
 export type RadioLabelPosition = 'left' | 'right'
 export type RadioSize = 'default' | 'medium' | 'large'
-export type RadioSuffix =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode
-export type RadioChildren = string | ((...args: any[]) => any)
+export type RadioSuffix = string | React.ReactNode
+export type RadioChildren = string | React.ReactNode
+
+export type RadioEvent<E = React.SyntheticEvent> = {
+  group?: string
+  checked: boolean
+  value: string
+  event: E
+}
+
+export type RadioChangeEvent = RadioEvent<
+  | React.ChangeEvent<HTMLInputElement>
+  | React.KeyboardEvent<HTMLInputElement>
+  | React.MouseEvent<HTMLInputElement>
+>
 
 export interface RadioProps
   extends Omit<
@@ -89,7 +96,7 @@ export interface RadioProps
   readOnly?: boolean
   className?: string
   children?: RadioChildren
-  onChange?: (...args: any[]) => any
+  onChange?: (event: RadioChangeEvent) => void
   /**
    * By providing a React.ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.useRef()`.
    */
@@ -146,7 +153,8 @@ class RadioClass extends React.PureComponent<
 
   static Group = RadioGroup
 
-  static parseChecked = (state: any) => /true|on/.test(String(state))
+  static parseChecked = (state: string | boolean | null | undefined) =>
+    /true|on/.test(String(state))
 
   static getDerivedStateFromProps(
     props: RadioProps,
@@ -183,7 +191,7 @@ class RadioClass extends React.PureComponent<
       }
     } else if (this.isContextGroupOrSingle()) {
       if (key === 'Enter' || key === ' ') {
-        const { value } = this.context as any
+        const { value } = this.context
         if (value !== null && typeof value !== 'undefined') {
           event.preventDefault()
         }
@@ -199,12 +207,14 @@ class RadioClass extends React.PureComponent<
     dispatchCustomElementEvent(this, 'onKeyDown', { event })
   }
 
-  onChangeHandler = (_event: any) => {
+  onChangeHandler = (
+    _event: React.ChangeEvent<HTMLInputElement> | React.KeyboardEvent
+  ) => {
     const event = _event
     if (this.props.readOnly) {
       return event.preventDefault()
     }
-    const value = event.target.value
+    const value = (event.target as HTMLInputElement).value
     const checked = !this.state.checked
 
     // delay in case we have a props group only
@@ -226,13 +236,13 @@ class RadioClass extends React.PureComponent<
   // 1. context group usage
   // 2. or a single, no group usage
   isContextGroupOrSingle = () =>
-    typeof (this.context as any).value !== 'undefined' && !this.props.group
+    typeof this.context.value !== 'undefined' && !this.props.group
   isPlainGroup = () =>
-    typeof (this.context as any).value === 'undefined' && this.props.group
+    typeof this.context.value === 'undefined' && this.props.group
   isInNoGroup = () =>
-    typeof (this.context as any).value === 'undefined' && !this.props.group
+    typeof this.context.value === 'undefined' && !this.props.group
 
-  onClickHandler = (event: any) => {
+  onClickHandler = (event: React.MouseEvent<HTMLInputElement>) => {
     if (this.props.readOnly) {
       return event.preventDefault()
     }
@@ -240,15 +250,23 @@ class RadioClass extends React.PureComponent<
     if (!this.isPlainGroup()) {
       return
     }
-    const value = event.target.value
-    const checked = event.target.checked
+    const value = (event.target as HTMLInputElement).value
+    const checked = (event.target as HTMLInputElement).checked
     this.callOnChange({ value, checked, event })
   }
 
-  callOnChange = ({ value, checked, event }: any) => {
+  callOnChange = ({
+    value,
+    checked,
+    event,
+  }: {
+    value: string
+    checked: boolean
+    event: React.SyntheticEvent
+  }) => {
     const { group } = this.props
-    if ((this.context as any).onChange) {
-      ;(this.context as any).onChange({
+    if (this.context.onChange) {
+      this.context.onChange({
         value,
         event,
       })
@@ -274,7 +292,7 @@ class RadioClass extends React.PureComponent<
           const contextProps = extendPropsWithContextInClassComponent(
             this.props,
             RadioClass.defaultProps,
-            this.context
+            this.context as Record<string, unknown>
           )
 
           // use only the props from context, who are available here anyway
@@ -284,7 +302,9 @@ class RadioClass extends React.PureComponent<
             contextProps,
             { skeleton: context?.skeleton },
             pickFormElementProps(context.formElement),
-            (context as any).Radio
+            (context as Record<string, unknown>)?.Radio as
+              | Record<string, unknown>
+              | undefined
           )
 
           const {
@@ -318,15 +338,14 @@ class RadioClass extends React.PureComponent<
           const { value } = props
           let { group, disabled } = props // get it from context also
 
-          const hasContext =
-            typeof (this.context as any).name !== 'undefined'
+          const hasContext = typeof this.context.name !== 'undefined'
 
           if (hasContext) {
-            if (typeof (this.context as any).value !== 'undefined') {
-              checked = (this.context as any).value === value
+            if (typeof this.context.value !== 'undefined') {
+              checked = this.context.value === value
             }
-            group = (this.context as any).name
-            if ((this.context as any).disabled && disabled !== false) {
+            group = this.context.name
+            if (this.context.disabled && disabled !== false) {
               disabled = true
             }
           } else if (typeof rest.name !== 'undefined') {
@@ -371,7 +390,7 @@ class RadioClass extends React.PureComponent<
 
           inputParams = Object.assign(inputParams, rest)
 
-          skeletonDOMAttributes(inputParams, skeleton, this.context)
+          skeletonDOMAttributes(inputParams, skeleton, context)
 
           // also used for code markup simulation
           validateDOMAttributes(this.props, inputParams)
@@ -434,11 +453,7 @@ class RadioClass extends React.PureComponent<
                       <span
                         className={clsx(
                           'dnb-radio__button',
-                          createSkeletonClass(
-                            'shape',
-                            skeleton,
-                            this.context
-                          )
+                          createSkeletonClass('shape', skeleton, context)
                         )}
                         aria-hidden
                       />
@@ -446,11 +461,7 @@ class RadioClass extends React.PureComponent<
                       <span
                         className={clsx(
                           'dnb-radio__dot',
-                          createSkeletonClass(
-                            'font',
-                            skeleton,
-                            this.context
-                          )
+                          createSkeletonClass('font', skeleton, context)
                         )}
                         aria-hidden
                       />
@@ -478,15 +489,12 @@ class RadioClass extends React.PureComponent<
   }
 }
 
-;(RadioClass as any)._formElement = true
-;(RadioClass as any)._supportsSpacingProps = true
-
 /**
  * Function wrapper that forwards `ref` to the inner DOM element of the class component.
  */
 function RadioComponent({ ref, ...props }: RadioProps) {
   const instanceRef = React.useCallback(
-    (instance) => {
+    (instance: RadioClass | null) => {
       const el = instance?._refInput?.current ?? null
       if (typeof ref === 'function') {
         ref(el)
@@ -497,7 +505,9 @@ function RadioComponent({ ref, ...props }: RadioProps) {
     [ref]
   )
 
-  return <RadioClass ref={ref ? instanceRef : undefined} {...props} />
+  return (
+    <RadioClass ref={(ref ? instanceRef : undefined) as any} {...props} />
+  )
 }
 
 const Radio = RadioComponent as typeof RadioComponent & {
