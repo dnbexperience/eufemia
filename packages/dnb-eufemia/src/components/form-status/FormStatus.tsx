@@ -35,7 +35,7 @@ const properties = { ui, sbanken }
 export type FormStatusText =
   | string
   | boolean
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
   | React.ReactNode
 export type FormStatusState =
   | boolean
@@ -50,7 +50,7 @@ export type FormStatusSize = 'default' | 'large'
 export type FormStatusAttributes = string | Record<string, unknown>
 export type FormStatusChildren =
   | string
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
   | React.ReactNode
 
 /**
@@ -165,7 +165,7 @@ export interface ErrorIconProps {
    * The `title` attribute in the status.
    */
   title?: string
-  state?: string
+  state?: FormStatusState
   [key: string]: any
 }
 export interface WarnIconProps {
@@ -173,7 +173,7 @@ export interface WarnIconProps {
    * The `title` attribute in the status.
    */
   title?: string
-  state?: string
+  state?: FormStatusState
   [key: string]: any
 }
 export interface InfoIconProps {
@@ -181,7 +181,7 @@ export interface InfoIconProps {
    * The `title` attribute in the status.
    */
   title?: string
-  state?: string
+  state?: FormStatusState
   [key: string]: any
 }
 export interface MarketingIconProps {
@@ -189,7 +189,7 @@ export interface MarketingIconProps {
    * The `title` attribute in the status.
    */
   title?: string
-  state?: string
+  state?: FormStatusState
   [key: string]: any
 }
 
@@ -208,6 +208,7 @@ export default class FormStatus extends React.PureComponent<
   FormStatusProps,
   FormStatusComponentState
 > {
+  static _supportsSpacingProps = true
   static contextType = Context
   context!: React.ContextType<typeof Context>
 
@@ -269,7 +270,9 @@ export default class FormStatus extends React.PureComponent<
       return icon as React.ReactNode
     }
 
-    let IconToLoad: React.ComponentType<any> = ErrorIcon
+    let IconToLoad: React.ComponentType<
+      ErrorIconProps | WarnIconProps | InfoIconProps | MarketingIconProps
+    > = ErrorIcon
 
     switch (FormStatus.correctStatus(state)) {
       case 'info':
@@ -311,7 +314,10 @@ export default class FormStatus extends React.PureComponent<
 
   state = { id: null }
 
-  constructor(props: FormStatusProps, context: any) {
+  constructor(
+    props: FormStatusProps,
+    context: React.ContextType<typeof Context>
+  ) {
     super(props)
 
     // we do not use a random ID here, as we don't need it for now
@@ -319,8 +325,8 @@ export default class FormStatus extends React.PureComponent<
 
     this._globalStatus = GlobalStatusProvider.init(
       props?.globalStatus?.id ||
-        context?.FormStatus?.globalStatus?.id ||
-        context?.formElement?.globalStatus?.id ||
+        (context as Record<string, any>)?.FormStatus?.globalStatus?.id ||
+        (context as Record<string, any>)?.formElement?.globalStatus?.id ||
         'main',
       (provider) => {
         // gets called once ready
@@ -401,8 +407,8 @@ export default class FormStatus extends React.PureComponent<
       prevProps.text !== text ||
       prevProps.children !== children ||
       prevProps.show !== show ||
-      (prevProps.globalStatus as any)?.show !==
-        (globalStatus as any)?.show ||
+      (prevProps.globalStatus as Record<string, unknown>)?.show !==
+        (globalStatus as Record<string, unknown>)?.show ||
       prevProps.state !== state
     ) {
       this.fillCache()
@@ -440,7 +446,7 @@ export default class FormStatus extends React.PureComponent<
     }
   }
 
-  getProps(context: any = this.context) {
+  getProps(context: React.ContextType<typeof Context> = this.context) {
     return extendPropsWithContextInClassComponent(
       this.props,
       FormStatus.defaultProps,
@@ -812,5 +818,3 @@ function sumElementWidth({
 
   return width
 }
-
-;(FormStatus as any)._supportsSpacingProps = true
