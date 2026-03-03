@@ -1,5 +1,5 @@
 import { ScrollViewAllProps } from '../../fragments/ScrollView'
-import { ModalPropTypes } from '../modal/Modal'
+import { ModalAllProps } from '../modal/Modal'
 
 export type DrawerProps = {
   /**
@@ -11,7 +11,7 @@ export type DrawerProps = {
    * The drawer title. Displays on the very top of the content.
    */
   title?: React.ReactNode
-} & ModalPropTypes
+} & ModalAllProps
 
 export type DrawerContentProps = {
   /**

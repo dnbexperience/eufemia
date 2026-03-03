@@ -162,9 +162,8 @@ export default [
           html: true,
         },
       ],
-      'react/prop-types': 'warn',
-      'react/require-default-props': 'warn',
-      'react/no-unused-prop-types': 'warn',
+      'react/prop-types': 'off',
+      'react/no-unused-prop-types': 'off',
       'react/no-unescaped-entities': [
         'error',
         {
@@ -293,8 +292,6 @@ export default [
           caughtErrorsIgnorePattern: '^_',
         },
       ],
-      'react/prop-types': 'off',
-      'react/require-default-props': 'off',
     },
   },
   ...basePlugins.extends('plugin:jest/recommended').map((config) => ({
