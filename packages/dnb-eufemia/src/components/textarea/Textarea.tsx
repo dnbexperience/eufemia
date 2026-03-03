@@ -36,19 +36,37 @@ import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../space/types'
 import type { TextCounterProps } from '../../fragments/TextCounter'
 
-export type TextareaSuffix =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode
+export type TextareaSuffix = string | React.ReactNode
 export type TextareaAlign = 'left' | 'center' | 'right' | 'justify'
 export type TextareaAutoresizeMaxRows = string | number
 export type TextareaRows = number | string
 export type TextareaCols = number | string
 export type TextareaTextareaElement =
-  | ((...args: any[]) => any)
+  | ((
+      params: React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+      ref: React.RefObject<HTMLTextAreaElement | null>
+    ) => React.ReactNode)
   | React.ReactNode
 export type TextareaChildren = React.ReactNode | ((...args: any[]) => any)
 export type TextareaSize = 'small' | 'medium' | 'large'
+
+export type TextareaEvent<E = React.SyntheticEvent<HTMLTextAreaElement>> =
+  {
+    value: string
+    event: E
+  }
+
+export type TextareaChangeEvent = TextareaEvent<
+  React.ChangeEvent<HTMLTextAreaElement>
+> & {
+  rows: number
+}
+
+export type TextareaKeyDownEvent = TextareaEvent<
+  React.KeyboardEvent<HTMLTextAreaElement>
+> & {
+  rows: number
+}
 
 export interface TextareaProps
   extends Omit<
@@ -136,10 +154,14 @@ export interface TextareaProps
   className?: string
   textareaElement?: TextareaTextareaElement
   children?: TextareaChildren
-  onChange?: (...args: any[]) => any
-  onFocus?: (...args: any[]) => any
-  onBlur?: (...args: any[]) => any
-  onKeyDown?: (...args: any[]) => any
+  onChange?: (event: TextareaChangeEvent) => void
+  onFocus?: (
+    event: TextareaEvent<React.FocusEvent<HTMLTextAreaElement>>
+  ) => void
+  onBlur?: (
+    event: TextareaEvent<React.FocusEvent<HTMLTextAreaElement>>
+  ) => void
+  onKeyDown?: (event: TextareaKeyDownEvent) => void
   /**
    * Locale to use for text counter. Inherited from context if not set.
    */
@@ -147,7 +169,7 @@ export interface TextareaProps
   /**
    * By providing a React.Ref we can get the internally used Textarea element (DOM). E.g. `ref={myRef}` by using `React.useRef()`.
    */
-  ref?: React.Ref<any> | null
+  ref?: React.Ref<HTMLTextAreaElement> | null
 }
 
 interface TextareaComponentState {
@@ -230,7 +252,7 @@ class TextareaClass extends React.PureComponent<
     return state
   }
 
-  static hasValue(value: any) {
+  static hasValue(value: string | number | null | undefined) {
     return (
       ((typeof value === 'string' || typeof value === 'number') &&
         String(value).length > 0) ||
@@ -238,7 +260,7 @@ class TextareaClass extends React.PureComponent<
     )
   }
 
-  static getValue(props: any) {
+  static getValue(props: TextareaProps) {
     const value = processChildren(props)
     if (value === '' || TextareaClass.hasValue(value)) {
       return value
@@ -313,7 +335,7 @@ class TextareaClass extends React.PureComponent<
       window.removeEventListener('resize', this.setAutosize)
     }
   }
-  onFocusHandler = (event: any) => {
+  onFocusHandler = (event: React.FocusEvent<HTMLTextAreaElement>) => {
     const { value } = this._ref.current
     this.setState({
       value,
@@ -321,7 +343,7 @@ class TextareaClass extends React.PureComponent<
     })
     dispatchCustomElementEvent(this, 'onFocus', { value, event })
   }
-  onBlurHandler = (event: any) => {
+  onBlurHandler = (event: React.FocusEvent<HTMLTextAreaElement>) => {
     const { value } = event.target
     this.setState({
       value,
@@ -329,7 +351,7 @@ class TextareaClass extends React.PureComponent<
     })
     dispatchCustomElementEvent(this, 'onBlur', { value, event })
   }
-  onChangeHandler = (event: any) => {
+  onChangeHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = event.target
 
     const props = this.getProps()
@@ -353,9 +375,9 @@ class TextareaClass extends React.PureComponent<
       }
     }
   }
-  onKeyDownHandler = (event: any) => {
+  onKeyDownHandler = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     const rows = this.getRows()
-    const { value } = event.target
+    const { value } = event.target as HTMLTextAreaElement
     dispatchCustomElementEvent(this, 'onKeyDown', {
       value,
       rows,
@@ -427,9 +449,13 @@ class TextareaClass extends React.PureComponent<
       this.props,
       TextareaClass.defaultProps,
       { skeleton: this.context?.skeleton },
-      (this.context.getTranslation(this.props) as any).Textarea,
+      (this.context.getTranslation(this.props) as Record<string, unknown>)
+        ?.Textarea as Record<string, unknown>,
       pickFormElementProps(this.context?.formElement),
-      (this.context as any).Textarea
+      (this.context as Record<string, unknown>)?.Textarea as Record<
+        string,
+        unknown
+      >
     )
   }
   render() {
@@ -494,7 +520,7 @@ class TextareaClass extends React.PureComponent<
       'aria-placeholder': placeholder
         ? convertJsxToString(placeholder)
         : undefined,
-      ...(attributes as React.TextareaHTMLAttributes<HTMLTextAreaElement>),
+      ...(attributes as unknown as React.TextareaHTMLAttributes<HTMLTextAreaElement>),
       ...(typeof size === 'number' ? { size } : {}),
       onChange: this.onChangeHandler,
       onFocus: this.onFocusHandler,
@@ -657,15 +683,19 @@ class TextareaClass extends React.PureComponent<
   }
 }
 
-;(TextareaClass as any)._formElement = true
-;(TextareaClass as any)._supportsSpacingProps = true
+export interface TextareaStaticProperties {
+  hasValue: typeof TextareaClass.hasValue
+  getValue: typeof TextareaClass.getValue
+  _formElement: boolean
+  _supportsSpacingProps: boolean
+}
 
 /**
  * Function wrapper that forwards `ref` to the inner DOM element of the class component.
  */
 function Textarea({ ref, ...props }: TextareaProps) {
   const instanceRef = React.useCallback(
-    (instance) => {
+    (instance: TextareaClass | null) => {
       const el = instance?._ref?.current ?? null
       if (typeof ref === 'function') {
         ref(el)
@@ -676,12 +706,19 @@ function Textarea({ ref, ...props }: TextareaProps) {
     [ref]
   )
 
-  return <TextareaClass ref={ref ? instanceRef : undefined} {...props} />
+  return (
+    <TextareaClass
+      ref={ref ? (instanceRef as any) : undefined}
+      {...props}
+    />
+  )
 }
 
-;(Textarea as any).hasValue = TextareaClass.hasValue
-;(Textarea as any).getValue = TextareaClass.getValue
-;(Textarea as any)._formElement = true
-;(Textarea as any)._supportsSpacingProps = true
+const TextareaExport = Textarea as typeof Textarea &
+  TextareaStaticProperties
+TextareaExport.hasValue = TextareaClass.hasValue
+TextareaExport.getValue = TextareaClass.getValue
+TextareaExport._formElement = true
+TextareaExport._supportsSpacingProps = true
 
-export default Textarea
+export default TextareaExport
