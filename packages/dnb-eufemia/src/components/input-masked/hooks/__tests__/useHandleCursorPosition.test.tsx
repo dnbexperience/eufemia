@@ -177,6 +177,41 @@ describe('useHandleCursorPosition', () => {
     expect(focusSpy).toHaveBeenCalledTimes(1)
   })
 
+  it('moves focus and transfers key to next input when typing at end of full input', () => {
+    const { scopeRef, inputs } = setupScope(2)
+    const onTransferToNext = jest.fn()
+    const { result } = renderHook(() =>
+      useHandleCursorPosition(/\d/, scopeRef, { onTransferToNext })
+    )
+
+    const current = inputs[0]
+    const next = inputs[1]
+    const focusSpy = jest.spyOn(next, 'focus')
+
+    current.value = '12'
+    current.placeholder = 'dd'
+    current.selectionStart = 2
+    current.selectionEnd = 2
+
+    next.value = 'dd'
+    next.placeholder = 'dd'
+    next.selectionStart = 0
+    next.selectionEnd = 0
+
+    current.focus()
+
+    const event = createEvent(current, '7')
+    result.current.onKeyDown(event)
+
+    expect(event.preventDefault).toHaveBeenCalled()
+    expect(focusSpy).toHaveBeenCalledTimes(1)
+    expect(onTransferToNext).toHaveBeenCalledWith({
+      key: '7',
+      currentInput: current,
+      nextInput: next,
+    })
+  })
+
   it('does not auto advance when mask rejects the typed character', () => {
     jest.useFakeTimers()
     const { scopeRef, inputs } = setupScope(2)

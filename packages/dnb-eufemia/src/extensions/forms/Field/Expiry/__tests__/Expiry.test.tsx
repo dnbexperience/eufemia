@@ -482,6 +482,33 @@ describe('Field.Expiry', () => {
       expect(document.activeElement).toBe(yearInput)
     })
 
+    it('should type first year digit when typing at end of a filled month', async () => {
+      render(<Field.Expiry value="12" />)
+
+      const monthInput = document.querySelectorAll(
+        'input'
+      )[0] as HTMLInputElement
+      const yearInput = document.querySelectorAll(
+        'input'
+      )[1] as HTMLInputElement
+
+      await userEvent.click(monthInput)
+      await flushTimers()
+      expect(monthInput.value).toBe('12')
+      monthInput.setSelectionRange(2, 2)
+      expect(monthInput.selectionStart).toBe(2)
+      expect(monthInput.selectionEnd).toBe(2)
+      await userWithDelay.keyboard('7')
+
+      await waitFor(() => {
+        expect(document.activeElement).toBe(yearInput)
+      })
+
+      expect(yearInput.value).toBe('7å')
+      expect(yearInput.selectionStart).toBe(1)
+      expect(yearInput.selectionEnd).toBe(1)
+    })
+
     it('should change cursor position to year after backspace through year', async () => {
       render(<Field.Expiry />)
 

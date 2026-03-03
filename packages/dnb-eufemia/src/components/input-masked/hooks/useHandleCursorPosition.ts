@@ -1,11 +1,22 @@
 import { RefObject, useCallback } from 'react'
 
+type TransferToNextParams = {
+  key: string
+  currentInput: HTMLInputElement
+  nextInput: HTMLInputElement
+}
+
+type UseHandleCursorPositionOptions = {
+  onTransferToNext?: (params: TransferToNextParams) => void
+}
+
 /**
  * A hook to handle cursor position and navigation between multiple masked input fields.
  */
 function useHandleCursorPosition(
   keysToHandle?: RegExp | { [inputId: string]: RegExp[] },
-  scopeRootRef?: RefObject<HTMLElement | null>
+  scopeRootRef?: RefObject<HTMLElement | null>,
+  options?: UseHandleCursorPositionOptions
 ) {
   const scheduleCaretCheck = useCallback((cb: () => void) => {
     if (
@@ -98,6 +109,17 @@ function useHandleCursorPosition(
 
       // Auto-advance when filled and caret is at the end
       if (key.length === 1 && allowMask()) {
+        if (!hasSelection && atEnd && typedLen >= size && next) {
+          event.preventDefault()
+          options?.onTransferToNext?.({
+            key,
+            currentInput: input,
+            nextInput: next,
+          })
+          focusInput(next, 'start')
+          return
+        }
+
         // Defer until value updates, then check typed length
         scheduleCaretCheck(() => {
           const current = document.activeElement as HTMLInputElement | null
@@ -116,7 +138,7 @@ function useHandleCursorPosition(
         })
       }
     },
-    [keysToHandle, scopeRootRef, scheduleCaretCheck]
+    [keysToHandle, options, scopeRootRef, scheduleCaretCheck]
   )
 
   return { onKeyDown }
@@ -140,11 +162,15 @@ function getTypedLengthBasic(
   placeholder: string,
   size: number
 ) {
-  if (!size) return value.length
+  if (!size) {
+    return value.length
+  }
   const n = Math.min(size, value.length)
   let count = 0
   for (let i = 0; i < n; i++) {
-    if (!placeholder || placeholder[i] !== value[i]) count++
+    if (!placeholder || placeholder[i] !== value[i]) {
+      count++
+    }
   }
   return count
 }

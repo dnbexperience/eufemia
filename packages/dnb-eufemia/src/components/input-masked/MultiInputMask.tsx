@@ -228,7 +228,50 @@ function MultiInputMask<T extends string>(props: MultiInputMaskProps<T>) {
 
   const { onKeyDown } = useHandleCursorPosition(
     getKeysToHandle(),
-    scopeRef
+    scopeRef,
+    {
+      onTransferToNext: ({ key, nextInput }) => {
+        const nextInputId = nextInput.dataset.maskId as T | undefined
+
+        if (!nextInputId) {
+          return
+        }
+
+        const inputConfig = inputs.find(({ id }) => id === nextInputId)
+        const firstMaskToken = inputConfig?.mask?.[0]
+
+        if (
+          !(firstMaskToken instanceof RegExp) ||
+          !firstMaskToken.test(key)
+        ) {
+          return
+        }
+
+        const currentValue = String(valuesRef.current[nextInputId] ?? '')
+        const maskLength = inputConfig.mask.length
+        const clippedCurrent = currentValue.slice(0, maskLength)
+        const nextValue = `${key}${clippedCurrent.slice(1)}`.slice(
+          0,
+          maskLength
+        )
+
+        nextInput.dataset.skipSelectOnFocus = 'true'
+        nextInput.dataset.caretPositionOnFocus = '1'
+        onChange(nextInputId, nextValue)
+
+        if (typeof window !== 'undefined') {
+          window.requestAnimationFrame(() => {
+            setTimeout(() => {
+              try {
+                nextInput.setSelectionRange(1, 1)
+              } catch {
+                // ignore
+              }
+            }, 0)
+          })
+        }
+      },
+    }
   )
 
   const onChange = useCallback(
@@ -440,6 +483,7 @@ function MultiInputMaskInput<T extends string>({
   )
   const slotValuesRef = useRef<string[]>(initialSlots)
   const lastKeydownHandledRef = useRef(false)
+  const pendingCaretPositionRef = useRef<number | null>(null)
 
   useLayoutEffect(() => {
     const current = collectValueFromSlots(slotValuesRef.current)
@@ -450,6 +494,31 @@ function MultiInputMaskInput<T extends string>({
       slotValuesRef.current = createSlotsFromValue(value, mask.length)
     }
   }, [value, mask.length])
+
+  useLayoutEffect(() => {
+    const pendingCaretPosition = pendingCaretPositionRef.current
+
+    if (pendingCaretPosition === null) {
+      return
+    }
+
+    const inputElement = inputRefObj.current
+
+    if (!inputElement) {
+      return
+    }
+
+    try {
+      inputElement.setSelectionRange(
+        pendingCaretPosition,
+        pendingCaretPosition
+      )
+    } catch {
+      // ignore
+    }
+
+    pendingCaretPositionRef.current = null
+  }, [value])
 
   // Check if there's actual typed content (not just ghost placeholders)
   const shouldHighlight = !disabled && stripValue(value).length > 0
@@ -575,6 +644,27 @@ function MultiInputMaskInput<T extends string>({
         }}
         onBlur={onBlur}
         onFocus={({ target }) => {
+          const shouldSkipSelectAll =
+            target.dataset.skipSelectOnFocus === 'true'
+
+          if (shouldSkipSelectAll) {
+            delete target.dataset.skipSelectOnFocus
+            const nextCaretPosition = Number(
+              target.dataset.caretPositionOnFocus
+            )
+            delete target.dataset.caretPositionOnFocus
+
+            const fallbackPosition = target.selectionStart ?? 0
+            pendingCaretPositionRef.current = Number.isNaN(
+              nextCaretPosition
+            )
+              ? fallbackPosition
+              : nextCaretPosition
+
+            onInputFocus?.()
+            return
+          }
+
           // Select the entire input on focus, but only when there is content
           try {
             target.focus()
