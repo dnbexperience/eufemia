@@ -14,6 +14,7 @@ export type LabelProps = {
   children?: React.ReactNode
   element?: keyof JSX.IntrinsicElements
   className?: string
+  srOnly?: boolean
   fontSize?: TypographySize
   fontWeight?: TypographyWeight
   variant?: 'default' | 'subtle'
@@ -27,6 +28,7 @@ function Label(props: LabelProps) {
     children,
     element: Element = 'dt',
     className = null,
+    srOnly = false,
     fontSize = 'basis',
     fontWeight = 'regular',
     variant = 'default',
@@ -46,6 +48,7 @@ function Label(props: LabelProps) {
       'dnb-stat',
       'dnb-stat__label',
       `dnb-stat__label--${variant}`,
+      srOnly && 'dnb-sr-only',
       `dnb-t__size--${fontSize}`,
       `dnb-t__line-height--${resolvedLineHeight}`,
       `dnb-t__weight--${fontWeight}`,

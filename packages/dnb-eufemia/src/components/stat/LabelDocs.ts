@@ -7,6 +7,12 @@ export const LabelProperties: PropertiesTableProps = {
     type: ['React.ReactNode'],
     status: 'optional',
   },
+  srOnly: {
+    doc: 'If `true`, hides the label visually while keeping it available for screen readers.',
+    type: ['boolean'],
+    defaultValue: 'false',
+    status: 'optional',
+  },
   fontWeight: {
     doc: 'Typography weight for the label.',
     type: ['"regular"', '"medium"'],

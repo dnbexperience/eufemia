@@ -43,7 +43,11 @@ describe('Stat.Root', () => {
   })
 
   it('supports spacing props through Space', () => {
-    render(<Stat.Root top="large" />)
+    render(
+      <Stat.Root top="large">
+        <Stat.Label>Revenue growth</Stat.Label>
+      </Stat.Root>
+    )
 
     const root = document.querySelector('.dnb-stat__root')
 
@@ -51,7 +55,11 @@ describe('Stat.Root', () => {
   })
 
   it('supports boolean shorthand spacing', () => {
-    render(<Stat.Root top />)
+    render(
+      <Stat.Root top>
+        <Stat.Label>Revenue growth</Stat.Label>
+      </Stat.Root>
+    )
 
     const root = document.querySelector('.dnb-stat__root')
 
@@ -78,6 +86,51 @@ describe('Stat.Root', () => {
     )
 
     expect(didWarn).toBe(true)
+    spy.mockRestore()
+  })
+
+  it('warns when Stat.Label is missing', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Root>
+        <Stat.Content>
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const didWarn = spy.mock.calls.some((call) =>
+      call
+        .map((entry) => String(entry))
+        .join(' ')
+        .includes('Stat.Root should contain a Stat.Label.')
+    )
+
+    expect(didWarn).toBe(true)
+    spy.mockRestore()
+  })
+
+  it('does not warn when Stat.Label is present', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue growth</Stat.Label>
+        <Stat.Content>
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const didWarn = spy.mock.calls.some((call) =>
+      call
+        .map((entry) => String(entry))
+        .join(' ')
+        .includes('Stat.Root should contain a Stat.Label.')
+    )
+
+    expect(didWarn).toBe(false)
     spy.mockRestore()
   })
 

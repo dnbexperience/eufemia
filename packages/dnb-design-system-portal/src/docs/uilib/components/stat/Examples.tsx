@@ -64,6 +64,17 @@ export const RootAndLabel = () => (
   </ComponentBox>
 )
 
+export const HiddenLabel = () => (
+  <ComponentBox>
+    <Stat.Root>
+      <Stat.Label srOnly>I'm a hidden label</Stat.Label>
+      <Stat.Content>
+        <Stat.Currency value={1234} />
+      </Stat.Content>
+    </Stat.Root>
+  </ComponentBox>
+)
+
 export const CurrencyWithinTrend = () => (
   <ComponentBox data-visual-test="stat-currency-within-trend">
     <Stat.Root>

@@ -4,6 +4,8 @@ import Stat from '../Stat'
 
 describe('Stat.Content', () => {
   it('supports vertical direction inside Stat.Root', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
     render(
       <Stat.Root>
         <Stat.Content direction="vertical">
@@ -18,6 +20,8 @@ describe('Stat.Content', () => {
     expect(content).toBeInTheDocument()
     expect(content.tagName.toLowerCase()).toBe('dd')
     expect(content.classList).toContain('dnb-stat__content-item--vertical')
+
+    spy.mockRestore()
   })
 
   it('renders dd outside Stat.Root and warns', () => {

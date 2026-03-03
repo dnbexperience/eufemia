@@ -54,6 +54,18 @@ describe('Stat.Label', () => {
     expect(label.classList).not.toContain('dnb-t__weight--medium')
   })
 
+  it('supports srOnly', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label srOnly>Revenue growth</Stat.Label>
+      </Stat.Root>
+    )
+
+    const label = document.querySelector('.dnb-stat__label')
+
+    expect(label.classList).toContain('dnb-sr-only')
+  })
+
   it('renders dt outside Stat.Root and warns', () => {
     const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
 

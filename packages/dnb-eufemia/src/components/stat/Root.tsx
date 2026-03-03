@@ -22,6 +22,9 @@ function Root(props: RootProps) {
   if (!hasOnlySupportedChildren(children)) {
     warn('Stat.Root should only contain Stat.Label and Stat.Content.')
   }
+  if (!hasRequiredLabel(children)) {
+    warn('Stat.Root should contain a Stat.Label.')
+  }
 
   return (
     <StatRootContext.Provider value={{ inRoot: true }}>
@@ -66,4 +69,23 @@ function isSupportedChild(child: React.ReactNode): boolean {
 
   const role = (child.type as { _statRole?: string })?._statRole
   return role === 'label' || role === 'content'
+}
+
+function hasRequiredLabel(children: React.ReactNode): boolean {
+  return React.Children.toArray(children).some((child) =>
+    hasLabelChild(child)
+  )
+}
+
+function hasLabelChild(child: React.ReactNode): boolean {
+  if (!React.isValidElement(child)) {
+    return false
+  }
+
+  if (child.type === React.Fragment) {
+    return hasRequiredLabel(child.props.children)
+  }
+
+  const role = (child.type as { _statRole?: string })?._statRole
+  return role === 'label'
 }
