@@ -205,8 +205,12 @@ exports[`Table scss should match style dependencies css 1`] = `
   -webkit-text-fill-color: var(--skeleton-color);
 }
 .dnb-card--no-inner-space .dnb-table {
+  --table-outline-radius: var(--rounded-corner, 0.5rem);
   --table-outline-color: transparent;
   margin-bottom: 0;
+}
+.dnb-card .dnb-table {
+  --table-outline-radius: var(--rounded-corner, 0.5rem);
 }
 .dnb-table > thead > tr > th.dnb-table--sortable, .dnb-table .dnb-table__th.dnb-table--sortable {
   color: var(--color-sea-green);
