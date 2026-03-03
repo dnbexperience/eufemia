@@ -28,6 +28,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import Hr from '../../elements/hr/Hr'
 import GlobalStatusController, {
   GlobalStatusInterceptor,
+  GlobalStatusRemove,
 } from './GlobalStatusController'
 import GlobalStatusProvider from './GlobalStatusProvider'
 import Icon from '../icon/Icon'
@@ -40,11 +41,18 @@ import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../space/types'
 
 export type GlobalStatusTitle = React.ReactNode | boolean
-export type GlobalStatusText =
+export type GlobalStatusText = string | React.ReactNode
+export type GlobalStatusItem =
   | string
-  | ((...args: any[]) => any)
-  | React.ReactNode
-export type GlobalStatusItem = string | ((...args: any[]) => any) | any
+  | {
+      text?: React.ReactNode
+      id?: string | number
+      itemId?: string
+      statusAnchorLabel?: React.ReactNode
+      statusAnchorText?: string
+      statusAnchorUrl?: string | boolean
+      [key: string]: unknown
+    }
 export type GlobalStatusState = 'error' | 'info' | 'warning' | 'success'
 export type GlobalStatusShow = 'auto' | boolean
 export type GlobalStatusDelay = string | number
@@ -55,10 +63,7 @@ export type GlobalStatusConfigObject = {
   id?: string
   message?: FormStatusText
 }
-export type GlobalStatusChildren =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode
+export type GlobalStatusChildren = string | React.ReactNode
 
 export interface GlobalStatusProps
   extends Omit<
@@ -145,11 +150,11 @@ export interface GlobalStatusProps
    * The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
    */
   children?: GlobalStatusChildren
-  onAdjust?: (...args: any[]) => any
-  onOpen?: (...args: any[]) => any
-  onShow?: (...args: any[]) => any
-  onClose?: (...args: any[]) => any
-  onHide?: (...args: any[]) => any
+  onAdjust?: (globalStatus: Record<string, unknown>) => void
+  onOpen?: (globalStatus: Record<string, unknown>) => void
+  onShow?: (globalStatus: Record<string, unknown>) => void
+  onClose?: (globalStatus: Record<string, unknown>) => void
+  onHide?: (globalStatus: Record<string, unknown>) => void
 }
 
 export type GlobalStatusStatusId = string
@@ -200,22 +205,22 @@ export type GlobalStatusInterceptorProps = {
   /**
    * The title appears as a part of the status content. Defaults to `En feil har skjedd`.
    */
-  title: string
+  title?: string
   /**
    * The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
    */
-  text: string
-  statusId: GlobalStatusStatusId
+  text?: string
+  statusId?: GlobalStatusStatusId
   /**
    * Set to `true` or `false` to manually make the global status visible. Defaults to `true`.
    */
-  show: boolean
+  show?: boolean
   item?: GlobalStatusItem
 }
 export type GlobalStatusInterceptorUpdateEvents = {
-  onShow?: (...args: any[]) => any
-  onHide?: (...args: any[]) => any
-  onClose?: (...args: any[]) => any
+  onShow?: (globalStatus: Record<string, unknown>) => void
+  onHide?: (globalStatus: Record<string, unknown>) => void
+  onClose?: (globalStatus: Record<string, unknown>) => void
   /**
    * Set to `true` or `false` to manually make the global status visible. Defaults to `true`.
    */
@@ -239,10 +244,14 @@ export default class GlobalStatus extends React.PureComponent<
   static contextType = Context
   context!: React.ContextType<typeof Context>
 
-  static create: (props: any) => any
-  static Update: (props: any) => any
+  static create: (
+    props: GlobalStatusInterceptorProps
+  ) => GlobalStatusInterceptor
+  static Update: (
+    props: GlobalStatusInterceptorProps
+  ) => GlobalStatusInterceptor
   static Add: typeof GlobalStatusController
-  static Remove: any
+  static Remove: typeof GlobalStatusRemove
 
   _wrapperRef: React.RefObject<HTMLDivElement | null>
   provider: ReturnType<typeof GlobalStatusProvider.create>
@@ -322,7 +331,10 @@ export default class GlobalStatus extends React.PureComponent<
     return icon
   }
 
-  static getDerivedStateFromProps(props: GlobalStatusProps, state: any) {
+  static getDerivedStateFromProps(
+    props: GlobalStatusProps,
+    state: GlobalStatusComponentState & { _items?: GlobalStatusItem[] }
+  ) {
     let globalStatus = state.globalStatus
 
     if (state._items !== props.items) {
@@ -420,7 +432,7 @@ export default class GlobalStatus extends React.PureComponent<
     }
   }
 
-  hasContent(globalStatus: any) {
+  hasContent(globalStatus: Record<string, any>) {
     return Boolean(globalStatus.items?.length > 0 || globalStatus.text)
   }
 
@@ -531,9 +543,12 @@ export default class GlobalStatus extends React.PureComponent<
     }
   }
 
-  gotoItem = (event: any, item: any) => {
+  gotoItem = (
+    event: React.MouseEvent | React.KeyboardEvent,
+    item: Record<string, any>
+  ) => {
     event.persist()
-    const key = event.key
+    const key = (event as React.KeyboardEvent).key
     if (
       (item.itemId &&
         typeof document !== 'undefined' &&
@@ -711,7 +726,9 @@ export default class GlobalStatus extends React.PureComponent<
 
     const props = extendPropsWithContextInClassComponent(
       GlobalStatusProvider.combineMessages([
-        (this.context as any).globalStatus,
+        (this.context as Record<string, unknown>)?.globalStatus as
+          | Record<string, unknown>
+          | undefined,
         this.state.globalStatus,
       ]),
       GlobalStatus.defaultProps,
@@ -754,7 +771,7 @@ export default class GlobalStatus extends React.PureComponent<
       onHide,
 
       ...attributes
-    } = props as any
+    } = props as Record<string, any>
 
     const wrapperParams = {
       id,
@@ -880,11 +897,12 @@ export default class GlobalStatus extends React.PureComponent<
 }
 
 // Extend our component with controllers
-GlobalStatus.create = (...args: any[]) =>
-  new GlobalStatusInterceptor(args[0])
+GlobalStatus.create = (
+  props: GlobalStatusInterceptorProps
+): GlobalStatusInterceptor => new GlobalStatusInterceptor(props)
 GlobalStatus.Update = GlobalStatus.create
 GlobalStatus.Add = GlobalStatusController
-GlobalStatus.Remove = (GlobalStatusController as any).Remove
+GlobalStatus.Remove = GlobalStatusRemove
 
 const isElementVisible = (
   elem: HTMLElement,
@@ -914,4 +932,9 @@ const isElementVisible = (
 const wait = (duration: number) =>
   new Promise((r) => setTimeout(r, duration))
 
-;(GlobalStatus as any)._supportsSpacingProps = true
+interface GlobalStatusStaticProperties {
+  _supportsSpacingProps: boolean
+}
+;(
+  GlobalStatus as unknown as GlobalStatusStaticProperties
+)._supportsSpacingProps = true
