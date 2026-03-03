@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unused-prop-types */
 /**
  * Web InputMasked Component
  *

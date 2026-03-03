@@ -4415,7 +4415,6 @@ __metadata:
     babel-plugin-polyfill-corejs3: "npm:0.13.0"
     babel-plugin-search-and-replace: "npm:1.1.1"
     babel-plugin-transform-next-use-client: "npm:1.1.1"
-    babel-plugin-transform-react-remove-prop-types: "npm:0.4.24"
     camelcase: "npm:6.2.0"
     chalk: "npm:4.1.2"
     clsx: "npm:2.1.1"
@@ -4473,7 +4472,6 @@ __metadata:
     prettier: "npm:3.0.3"
     prettier-package-json: "npm:2.8.0"
     process: "npm:0.11.10"
-    prop-types: "npm:15.8.1"
     react: "npm:19.2.3"
     react-dom: "npm:19.2.3"
     react-to-typescript-definitions: "npm:3.1.1"
@@ -12652,7 +12650,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-transform-react-remove-prop-types@npm:0.4.24, babel-plugin-transform-react-remove-prop-types@npm:^0.4.24":
+"babel-plugin-transform-react-remove-prop-types@npm:^0.4.24":
   version: 0.4.24
   resolution: "babel-plugin-transform-react-remove-prop-types@npm:0.4.24"
   checksum: 10/4ce1755af02375f0764683f9703ef47607e33ee57cefd348f054208e06a52b1517e43180c1c448046338a149853f2c9d7f63f27d5b27c74db5df74fba117f040
@@ -15966,7 +15964,6 @@ __metadata:
     prettier: "npm:3.0.3"
     prettier-package-json: "npm:2.8.0"
     prism-react-renderer: "npm:2.0.5"
-    prop-types: "npm:15.8.1"
     raw-loader: "npm:4.0.2"
     react: "npm:19.2.3"
     react-dom: "npm:19.2.3"
@@ -31202,7 +31199,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:15.8.1, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
