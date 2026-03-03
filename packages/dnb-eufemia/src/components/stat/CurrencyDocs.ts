@@ -3,7 +3,7 @@ import { NumberFormatPropertiesCamelCase } from '../number-format/NumberFormatDo
 import { SharedValueProperties } from './StatDocsUtils'
 
 export const CurrencyProperties: PropertiesTableProps = {
-  ...SharedValueProperties,
   currencyDisplay: NumberFormatPropertiesCamelCase.currencyDisplay,
   currencyPosition: NumberFormatPropertiesCamelCase.currencyPosition,
+  ...SharedValueProperties,
 }

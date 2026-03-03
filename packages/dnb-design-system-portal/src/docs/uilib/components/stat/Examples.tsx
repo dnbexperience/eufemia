@@ -3,6 +3,7 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import Stat from '@dnb/eufemia/src/components/Stat'
 import {
   Card,
+  Code,
   DateFormat,
   Grid,
   H3,
@@ -97,27 +98,41 @@ export const CurrencyWithinTrend = () => (
 export const CurrencyDefault = () => (
   <ComponentBox data-visual-test="stat-currency-default">
     <Stat.Root>
-      <Stat.Label>Currency</Stat.Label>
+      <Stat.Label>Always show sign</Stat.Label>
       <Stat.Content>
         <Stat.Currency
           value={1234}
           mainSize="x-large"
+          signDisplay="always"
           auxiliarySize="x-small"
           srLabel="NOK amount"
         />
       </Stat.Content>
 
-      <Stat.Label top>Currency</Stat.Label>
+      <Stat.Label top>With suffix</Stat.Label>
       <Stat.Content>
         <Stat.Currency
           value={1234}
           currency="USD"
           suffix="/mnd"
-          signDisplay="always"
           mainSize="x-large"
           auxiliarySize="x-small"
-          locale="en-GB"
           srLabel="USD per month"
+        />
+      </Stat.Content>
+
+      <Stat.Label top>
+        Colorized using <Code>en-GB</Code> locale
+      </Stat.Label>
+      <Stat.Content>
+        <Stat.Currency
+          value={-1234.5}
+          decimals={2}
+          currency="USD"
+          signDisplay="always"
+          fontSize="medium"
+          colorizeBySign
+          locale="en-GB"
         />
       </Stat.Content>
     </Stat.Root>
@@ -144,7 +159,6 @@ export const AmountDefault = () => (
           <Stat.Amount
             value={-1234}
             signDisplay="always"
-            colorizeBySign
             srLabel="Signed amount with currency"
           />
         </Stat.Trend>
