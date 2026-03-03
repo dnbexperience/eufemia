@@ -7,20 +7,24 @@
 
 import React from 'react'
 import GlobalStatusProvider from './GlobalStatusProvider'
+import type {
+  GlobalStatusAddProps,
+  GlobalStatusInterceptorProps,
+} from './GlobalStatus'
 
 export class GlobalStatusInterceptor {
-  provider: any
+  provider: ReturnType<typeof GlobalStatusProvider.init>
   statusId: string | undefined
 
-  constructor(props: any) {
-    let GSP: any = null
+  constructor(props: GlobalStatusInterceptorProps) {
+    let GSP: typeof GlobalStatusProvider | null = null
     try {
       GSP = GlobalStatusProvider
     } catch (e) {
       // do noting
     }
     if (!GSP && typeof window !== 'undefined') {
-      GSP = (window as any).GlobalStatusProvider
+      GSP = (window as Record<string, any>).GlobalStatusProvider
     }
 
     this.provider = GSP.init(props.id || 'main', (provider) => {
@@ -32,10 +36,10 @@ export class GlobalStatusInterceptor {
 
     return this
   }
-  add(props: any) {
+  add(props: Partial<GlobalStatusAddProps>) {
     return this.provider.add({ statusId: this.statusId, ...props })
   }
-  update(props: any) {
+  update(props: Record<string, unknown>) {
     return this.provider.update(this.statusId, props)
   }
   remove() {
@@ -43,8 +47,25 @@ export class GlobalStatusInterceptor {
   }
 }
 
+interface GlobalStatusControllerProps {
+  id?: string
+  statusId?: string
+  removeOnUnmount?: boolean
+  [key: string]: unknown
+}
+
+interface GlobalStatusControllerState {
+  provider?: ReturnType<typeof GlobalStatusProvider.init>
+  statusId?: string
+  _props?: GlobalStatusControllerProps
+}
+
 // This is the Update controller
-class GlobalStatusController extends React.PureComponent<any, any> {
+class GlobalStatusController extends React.PureComponent<
+  GlobalStatusControllerProps,
+  GlobalStatusControllerState
+> {
+  static _supportsSpacingProps = true
   static Remove: typeof GlobalStatusRemove
   static Update: typeof GlobalStatusController
 
@@ -54,28 +75,31 @@ class GlobalStatusController extends React.PureComponent<any, any> {
     removeOnUnmount: false,
   }
 
-  static getDerivedStateFromProps(props: any, state: any) {
+  static getDerivedStateFromProps(
+    props: GlobalStatusControllerProps,
+    state: GlobalStatusControllerState
+  ) {
     if (state._props !== props) {
-      state.provider.update(state.statusId, props)
+      state.provider?.update(state.statusId, props)
       state._props = props
     }
 
     return state
   }
 
-  state: any = {}
+  state: GlobalStatusControllerState = {}
 
-  constructor(props: any) {
+  constructor(props: GlobalStatusControllerProps) {
     super(props)
 
-    let GSP: any = null
+    let GSP: typeof GlobalStatusProvider | null = null
     try {
       GSP = GlobalStatusProvider
     } catch (e) {
       // do noting
     }
     if (!GSP && typeof window !== 'undefined') {
-      GSP = (window as any).GlobalStatusProvider
+      GSP = (window as Record<string, any>).GlobalStatusProvider
     }
 
     this.state.provider = GSP.init(props.id)
@@ -107,32 +131,49 @@ class GlobalStatusController extends React.PureComponent<any, any> {
   }
 }
 
-class GlobalStatusRemove extends React.PureComponent<any, any> {
+interface GlobalStatusRemovePropsLocal {
+  id?: string
+  statusId?: string
+  [key: string]: unknown
+}
+
+interface GlobalStatusRemoveState {
+  provider?: ReturnType<typeof GlobalStatusProvider.init>
+  _props?: GlobalStatusRemovePropsLocal
+}
+
+class GlobalStatusRemove extends React.PureComponent<
+  GlobalStatusRemovePropsLocal,
+  GlobalStatusRemoveState
+> {
   static defaultProps = {
     id: 'main',
   }
 
-  static getDerivedStateFromProps(props: any, state: any) {
+  static getDerivedStateFromProps(
+    props: GlobalStatusRemovePropsLocal,
+    state: GlobalStatusRemoveState
+  ) {
     if (state._props !== props) {
-      state.provider.update(props.statusId, props)
+      state.provider?.update(props.statusId, props)
     }
 
     return state
   }
 
-  state: any = {}
+  state: GlobalStatusRemoveState = {}
 
-  constructor(props: any) {
+  constructor(props: GlobalStatusRemovePropsLocal) {
     super(props)
 
-    let GSP: any = null
+    let GSP: typeof GlobalStatusProvider | null = null
     try {
       GSP = GlobalStatusProvider
     } catch (e) {
       // do noting
     }
     if (!GSP && typeof window !== 'undefined') {
-      GSP = (window as any).GlobalStatusProvider
+      GSP = (window as Record<string, any>).GlobalStatusProvider
     }
     this.state.provider = GSP.init(props.id)
     this.state._props = props
@@ -149,7 +190,6 @@ class GlobalStatusRemove extends React.PureComponent<any, any> {
 
 GlobalStatusController.Remove = GlobalStatusRemove
 GlobalStatusController.Update = GlobalStatusController
-;(GlobalStatusController as any)._supportsSpacingProps = true
 
 export default GlobalStatusController
 export { GlobalStatusRemove }
