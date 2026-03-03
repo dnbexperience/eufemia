@@ -36,16 +36,15 @@ import type { SpacingProps } from '../space/types'
 
 export type RadioGroupLabelPosition = 'left' | 'right'
 export type RadioGroupSize = 'default' | 'medium' | 'large'
-export type RadioGroupSuffix =
-  | string
-  | React.ReactNode
-  | ((...args: any[]) => any)
+export type RadioGroupSuffix = string | React.ReactNode
 export type RadioGroupLayoutDirection = 'column' | 'row'
 export type RadioGroupAttributes = string | Record<string, unknown>
-export type RadioGroupChildren =
-  | string
-  | React.ReactNode
-  | ((...args: any[]) => any)
+export type RadioGroupChildren = string | React.ReactNode
+
+export type RadioGroupChangeEvent = {
+  value: string
+  event: React.SyntheticEvent
+}
 
 export type RadioGroupProps = {
   label?: React.ReactNode
@@ -71,7 +70,7 @@ export type RadioGroupProps = {
   style?: React.CSSProperties
   className?: string
   children?: RadioGroupChildren
-  onChange?: (...args: any[]) => any
+  onChange?: (event: RadioGroupChangeEvent) => void
 } & SpacingProps
 
 interface RadioGroupComponentState {
@@ -87,6 +86,7 @@ export default class RadioGroup extends React.PureComponent<
   RadioGroupProps,
   RadioGroupComponentState
 > {
+  static _supportsSpacingProps = true
   static contextType = Context
   context!: React.ContextType<typeof Context>
 
@@ -122,7 +122,8 @@ export default class RadioGroup extends React.PureComponent<
     onChange: null,
   }
 
-  static parseChecked = (state: any) => /true|on/.test(String(state))
+  static parseChecked = (state: string | boolean | null | undefined) =>
+    /true|on/.test(String(state))
 
   static getDerivedStateFromProps(
     props: RadioGroupProps,
@@ -151,7 +152,13 @@ export default class RadioGroup extends React.PureComponent<
     }
   }
 
-  onChangeHandler = ({ value, event }: any) => {
+  onChangeHandler = ({
+    value,
+    event,
+  }: {
+    value: string
+    event: React.SyntheticEvent
+  }) => {
     this.setState({ value, _listenForPropChanges: false })
     dispatchCustomElementEvent(this, 'onChange', {
       value,
@@ -165,7 +172,9 @@ export default class RadioGroup extends React.PureComponent<
       this.props,
       RadioGroup.defaultProps,
       pickFormElementProps(this.context?.formElement),
-      (this.context as any).RadioGroup
+      (this.context as Record<string, unknown>)?.RadioGroup as
+        | Record<string, unknown>
+        | undefined
     )
 
     const {
@@ -306,4 +315,4 @@ export default class RadioGroup extends React.PureComponent<
   }
 }
 
-;(RadioGroup as any)._supportsSpacingProps = true
+RadioGroup._supportsSpacingProps = true
