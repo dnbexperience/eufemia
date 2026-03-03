@@ -699,6 +699,74 @@ export default class Tabs extends React.PureComponent<TabsProps> {
     event.preventDefault()
   }
 
+  onTablistWheelHandler = (event) => {
+    if (typeof window === 'undefined') {
+      return // stop here
+    }
+
+    const absDeltaY = Math.abs(event.deltaY || 0)
+    const absDeltaX = Math.abs(event.deltaX || 0)
+    const hasVerticalIntent = absDeltaY > absDeltaX
+
+    if (!hasVerticalIntent || event.shiftKey) {
+      return // stop here
+    }
+
+    window.scrollBy({
+      top: event.deltaY,
+      left: 0,
+      behavior: 'auto',
+    })
+    event.preventDefault()
+  }
+
+  onTablistTouchStartHandler = (event) => {
+    const touch = event.touches?.[0]
+
+    if (!touch) {
+      return // stop here
+    }
+
+    this._touchStartPoint = {
+      x: touch.clientX,
+      y: touch.clientY,
+    }
+  }
+
+  onTablistTouchMoveHandler = (event) => {
+    if (typeof window === 'undefined') {
+      return // stop here
+    }
+
+    const touch = event.touches?.[0]
+    const touchStartPoint = this._touchStartPoint
+
+    if (!touch || !touchStartPoint) {
+      return // stop here
+    }
+
+    const deltaX = touchStartPoint.x - touch.clientX
+    const deltaY = touchStartPoint.y - touch.clientY
+    const hasVerticalIntent = Math.abs(deltaY) > Math.abs(deltaX)
+
+    this._touchStartPoint = {
+      x: touch.clientX,
+      y: touch.clientY,
+    }
+
+    if (!hasVerticalIntent) {
+      return // stop here
+    }
+
+    window.scrollBy({
+      top: deltaY,
+      left: 0,
+      behavior: 'auto',
+    })
+
+    event.preventDefault()
+  }
+
   onKeyDownHandler = (event) => {
     switch (keycode(event)) {
       case 'enter':
@@ -1196,6 +1264,9 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
         className="dnb-tabs__tabs__tablist"
         tabIndex="0"
         onKeyDown={this.onTablistKeyDownHandler}
+        onWheel={this.onTablistWheelHandler}
+        onTouchStart={this.onTablistTouchStartHandler}
+        onTouchMove={this.onTablistTouchMoveHandler}
         ref={this._tablistRef}
         {...params}
       >

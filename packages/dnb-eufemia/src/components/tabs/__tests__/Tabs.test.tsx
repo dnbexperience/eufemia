@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import { fireEvent, render } from '@testing-library/react'
+import { createEvent, fireEvent, render } from '@testing-library/react'
 import Tabs, { TabsProps } from '../Tabs'
 import Input from '../../input/Input'
 
@@ -107,6 +107,80 @@ describe('Tabs component', () => {
       keyCode: 39, // right
     })
     expect(on_focus).toHaveBeenCalledTimes(2)
+  })
+
+  it('forwards vertical wheel scrolling to the page instead of scrolling the tablist', () => {
+    const scrollBySpy = jest
+      .spyOn(window, 'scrollBy')
+      .mockImplementation(() => null)
+
+    render(
+      <Tabs
+        {...props}
+        data={Array.from({ length: 12 }).map((_, index) => ({
+          title: `Tab ${index + 1}`,
+          key: `key-${index + 1}`,
+        }))}
+      >
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    const tablist = document.querySelector('.dnb-tabs__tabs__tablist')
+    const event = createEvent.wheel(tablist, {
+      deltaY: 120,
+      bubbles: true,
+      cancelable: true,
+    })
+
+    fireEvent(tablist, event)
+
+    expect(scrollBySpy).toHaveBeenCalledTimes(1)
+    expect(scrollBySpy).toHaveBeenCalledWith({
+      top: 120,
+      left: 0,
+      behavior: 'auto',
+    })
+
+    scrollBySpy.mockRestore()
+  })
+
+  it('forwards vertical touch drag scrolling to the page instead of scrolling the tablist', () => {
+    const scrollBySpy = jest
+      .spyOn(window, 'scrollBy')
+      .mockImplementation(() => null)
+
+    render(
+      <Tabs
+        {...props}
+        data={Array.from({ length: 12 }).map((_, index) => ({
+          title: `Tab ${index + 1}`,
+          key: `key-${index + 1}`,
+        }))}
+      >
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    const tablist = document.querySelector('.dnb-tabs__tabs__tablist')
+
+    fireEvent.touchStart(tablist, {
+      touches: [{ clientX: 100, clientY: 200 }],
+    })
+
+    fireEvent.touchMove(tablist, {
+      touches: [{ clientX: 102, clientY: 140 }],
+      cancelable: true,
+    })
+
+    expect(scrollBySpy).toHaveBeenCalledTimes(1)
+    expect(scrollBySpy).toHaveBeenCalledWith({
+      top: 60,
+      left: 0,
+      behavior: 'auto',
+    })
+
+    scrollBySpy.mockRestore()
   })
 
   it('will use given tab_element', () => {
