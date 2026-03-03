@@ -901,6 +901,23 @@ describe('Pagination ARIA', () => {
   })
 })
 
+// React's deprecated .defaultProps would convert undefined values to the
+// declared default. After migrating away from .defaultProps we replicate
+// that behavior with removeUndefinedProps so that context overrides still
+// work when a consumer passes an explicit `undefined`.
+describe('undefined props should fall through to defaults', () => {
+  it('should render with default pageCount when prop is explicitly undefined', () => {
+    render(
+      <Pagination pageCount={undefined} currentPage={1}>
+        <div id="page-content">content</div>
+      </Pagination>
+    )
+
+    // Should render without errors even when pageCount is undefined
+    expect(document.querySelector('#page-content')).toBeInTheDocument()
+  })
+})
+
 describe('Pagination scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))

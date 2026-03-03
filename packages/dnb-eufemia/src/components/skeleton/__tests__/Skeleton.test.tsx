@@ -39,6 +39,24 @@ describe('Skeleton component', () => {
   })
 })
 
+// React's deprecated .defaultProps would convert undefined values to the
+// declared default. After migrating away from .defaultProps we replicate
+// that behavior with removeUndefinedProps so that context overrides still
+// work when a consumer passes an explicit `undefined`.
+describe('undefined props should fall through to defaults', () => {
+  it('should let context override show when prop is explicitly undefined', () => {
+    const { container } = render(
+      <Skeleton {...props} show={undefined} skeleton={true} />
+    )
+
+    // When skeleton is true and show is not explicitly false,
+    // the skeleton should still activate
+    expect(
+      container.querySelector('[aria-busy="true"]')
+    ).toBeInTheDocument()
+  })
+})
+
 describe('Skeleton scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
