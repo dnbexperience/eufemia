@@ -192,19 +192,8 @@ export function calcSize(props: IconProps) {
         sizeAsString = lastPartOfIconName
       }
     } else {
-      // Resolve the icon function — either directly or from a React element's type.
-      // This handles minified builds where Function.name no longer contains
-      // the size suffix (e.g. "bell_medium" → "e"), so we fall back to
-      // reading the SVG's width/viewBox from the rendered output.
-      const iconFn =
-        typeof icon === 'function'
-          ? icon
-          : React.isValidElement(icon) && typeof icon.type === 'function'
-          ? (icon.type as (props?: unknown) => React.JSX.Element)
-          : null
-
-      if (iconFn) {
-        const elem = iconFn()
+      if (typeof icon === 'function') {
+        const elem = icon()
         if (elem.props) {
           let potentialSize: ValidIconNumericSize | -1 = null
           if (elem.props.width) {
