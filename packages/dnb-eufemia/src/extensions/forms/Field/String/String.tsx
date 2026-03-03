@@ -270,11 +270,11 @@ function StringComponent(props: Props) {
     onFocus: handleFocus,
     onBlur: handleBlur,
     onChange: handleChange,
-    onKeyDown: handleKeyDown,
+    onKeyDown: handleKeyDown as any,
     disabled,
     ...htmlAttributes,
     stretch: Boolean(width),
-    ref: inputRef as React.RefObject<HTMLInputElement>,
+    ref: inputRef as any,
     status: hasError ? 'error' : undefined,
     value: transformInstantly(value?.toString() ?? ''),
   }
