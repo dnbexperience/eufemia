@@ -32,7 +32,7 @@ function NextButton(props: Props) {
       <SubmitButton
         type="button"
         className={clsx('dnb-forms-next-button', className)}
-        onClick={handleNext}
+        onClick={handleNext as any}
         iconPosition={iconPosition}
         icon={icon}
         {...props}
