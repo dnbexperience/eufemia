@@ -12,6 +12,7 @@ import {
   warn,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
+  removeUndefinedProps,
   validateDOMAttributes,
   processChildren,
   getStatusState,
@@ -259,7 +260,12 @@ class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
   render() {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContextInClassComponent(
-      { ...buttonDefaultProps, ...this.props },
+      {
+        ...buttonDefaultProps,
+        // Strip undefined values so they fall through to defaults,
+        // preserving the legacy React defaultProps behavior.
+        ...removeUndefinedProps({ ...this.props }),
+      },
       buttonDefaultProps,
       { skeleton: this.context?.skeleton },
       pickFormElementProps(this.context?.formElement),
