@@ -487,8 +487,8 @@ describe('Field.SelectCountry', () => {
     expect(value).toHaveTextContent('Sveits')
 
     expect(transformOut).toHaveBeenCalledTimes(4)
-    expect(transformIn).toHaveBeenCalledTimes(6)
-    expect(valueTransformIn).toHaveBeenCalledTimes(4)
+    expect(transformIn).toHaveBeenCalledTimes(7)
+    expect(valueTransformIn).toHaveBeenCalledTimes(5)
 
     fireEvent.submit(form)
     expect(onSubmit).toHaveBeenCalledTimes(2)
@@ -498,8 +498,8 @@ describe('Field.SelectCountry', () => {
     )
 
     expect(transformOut).toHaveBeenCalledTimes(4)
-    expect(transformIn).toHaveBeenCalledTimes(7)
-    expect(valueTransformIn).toHaveBeenCalledTimes(5)
+    expect(transformIn).toHaveBeenCalledTimes(8)
+    expect(valueTransformIn).toHaveBeenCalledTimes(6)
 
     expect(transformOut).toHaveBeenNthCalledWith(1, 'NO', NO)
     expect(transformOut).toHaveBeenNthCalledWith(2, 'NO', NO)
@@ -511,14 +511,16 @@ describe('Field.SelectCountry', () => {
     expect(transformIn).toHaveBeenNthCalledWith(3, 'Norge (NO)')
     expect(transformIn).toHaveBeenNthCalledWith(4, 'Norge (NO)')
     expect(transformIn).toHaveBeenNthCalledWith(5, 'Norge (NO)')
-    expect(transformIn).toHaveBeenNthCalledWith(6, 'Sveits (CH)')
+    expect(transformIn).toHaveBeenNthCalledWith(6, 'Norge (NO)')
     expect(transformIn).toHaveBeenNthCalledWith(7, 'Sveits (CH)')
+    expect(transformIn).toHaveBeenNthCalledWith(8, 'Sveits (CH)')
 
     expect(valueTransformIn).toHaveBeenNthCalledWith(1, undefined)
     expect(valueTransformIn).toHaveBeenNthCalledWith(2, 'Norge (NO)')
     expect(valueTransformIn).toHaveBeenNthCalledWith(3, 'Norge (NO)')
-    expect(valueTransformIn).toHaveBeenNthCalledWith(4, 'Sveits (CH)')
+    expect(valueTransformIn).toHaveBeenNthCalledWith(4, 'Norge (NO)')
     expect(valueTransformIn).toHaveBeenNthCalledWith(5, 'Sveits (CH)')
+    expect(valueTransformIn).toHaveBeenNthCalledWith(6, 'Sveits (CH)')
   })
 
   it('should support "transformIn" and "transformOut" when value is given by the data context', async () => {
@@ -606,8 +608,8 @@ describe('Field.SelectCountry', () => {
     expect(value).toHaveTextContent('Sveits')
 
     expect(transformOut).toHaveBeenCalledTimes(3)
-    expect(transformIn).toHaveBeenCalledTimes(4)
-    expect(valueTransformIn).toHaveBeenCalledTimes(3)
+    expect(transformIn).toHaveBeenCalledTimes(5)
+    expect(valueTransformIn).toHaveBeenCalledTimes(4)
 
     fireEvent.submit(form)
     expect(onSubmit).toHaveBeenCalledTimes(2)
@@ -617,8 +619,8 @@ describe('Field.SelectCountry', () => {
     )
 
     expect(transformOut).toHaveBeenCalledTimes(3)
-    expect(transformIn).toHaveBeenCalledTimes(5)
-    expect(valueTransformIn).toHaveBeenCalledTimes(4)
+    expect(transformIn).toHaveBeenCalledTimes(6)
+    expect(valueTransformIn).toHaveBeenCalledTimes(5)
 
     expect(transformOut).toHaveBeenNthCalledWith(1, 'NO', NO)
     expect(transformOut).toHaveBeenNthCalledWith(2, 'CH', CH)
@@ -627,13 +629,15 @@ describe('Field.SelectCountry', () => {
     expect(transformIn).toHaveBeenNthCalledWith(1, 'Norge (NO)')
     expect(transformIn).toHaveBeenNthCalledWith(2, 'Norge (NO)')
     expect(transformIn).toHaveBeenNthCalledWith(3, 'Norge (NO)')
-    expect(transformIn).toHaveBeenNthCalledWith(4, 'Sveits (CH)')
+    expect(transformIn).toHaveBeenNthCalledWith(4, 'Norge (NO)')
     expect(transformIn).toHaveBeenNthCalledWith(5, 'Sveits (CH)')
+    expect(transformIn).toHaveBeenNthCalledWith(6, 'Sveits (CH)')
 
     expect(valueTransformIn).toHaveBeenNthCalledWith(1, 'Norge (NO)')
     expect(valueTransformIn).toHaveBeenNthCalledWith(2, 'Norge (NO)')
-    expect(valueTransformIn).toHaveBeenNthCalledWith(3, 'Sveits (CH)')
+    expect(valueTransformIn).toHaveBeenNthCalledWith(3, 'Norge (NO)')
     expect(valueTransformIn).toHaveBeenNthCalledWith(4, 'Sveits (CH)')
+    expect(valueTransformIn).toHaveBeenNthCalledWith(5, 'Sveits (CH)')
   })
 
   it('should store "displayValue" in data context', async () => {

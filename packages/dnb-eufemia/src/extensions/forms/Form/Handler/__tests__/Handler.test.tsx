@@ -104,10 +104,11 @@ describe('Form.Handler', () => {
       </Form.Handler>
     )
 
+    const formElement = document.querySelector('form')
     const inputElement = document.querySelector('input')
     const buttonElement = document.querySelector('button')
 
-    fireEvent.submit(inputElement)
+    fireEvent.submit(formElement)
 
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledWith(
@@ -138,10 +139,10 @@ describe('Form.Handler', () => {
       </Form.Handler>
     )
 
-    const inputElement = document.querySelector('input')
+    const formElement = document.querySelector('form')
     const buttonElement = document.querySelector('button')
 
-    fireEvent.submit(inputElement)
+    fireEvent.submit(formElement)
 
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledWith(
@@ -172,10 +173,10 @@ describe('Form.Handler', () => {
       </Form.Handler>
     )
 
-    const inputElement = document.querySelector('input')
+    const formElement = document.querySelector('form')
     const buttonElement = document.querySelector('button')
 
-    fireEvent.submit(inputElement)
+    fireEvent.submit(formElement)
 
     expect(preventDefault).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledTimes(1)

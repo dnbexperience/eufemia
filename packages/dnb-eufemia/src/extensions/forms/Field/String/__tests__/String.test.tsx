@@ -403,8 +403,8 @@ describe('Field.String', () => {
       ).toHaveTextContent('B')
 
       expect(transformOut).toHaveBeenCalledTimes(6)
-      expect(transformIn).toHaveBeenCalledTimes(6)
-      expect(valueTransformIn).toHaveBeenCalledTimes(5)
+      expect(transformIn).toHaveBeenCalledTimes(7)
+      expect(valueTransformIn).toHaveBeenCalledTimes(6)
 
       fireEvent.submit(form)
       expect(onSubmit).toHaveBeenCalledTimes(2)
@@ -419,8 +419,8 @@ describe('Field.String', () => {
       )
 
       expect(transformOut).toHaveBeenCalledTimes(6)
-      expect(transformIn).toHaveBeenCalledTimes(7)
-      expect(valueTransformIn).toHaveBeenCalledTimes(6)
+      expect(transformIn).toHaveBeenCalledTimes(8)
+      expect(valueTransformIn).toHaveBeenCalledTimes(7)
 
       expect(transformOut).toHaveBeenNthCalledWith(1, 'A', undefined)
       expect(transformOut).toHaveBeenNthCalledWith(
@@ -461,13 +461,17 @@ describe('Field.String', () => {
       })
       expect(transformIn).toHaveBeenNthCalledWith(5, {
         foo: 'bar',
-        value: undefined,
+        value: 'A',
       })
       expect(transformIn).toHaveBeenNthCalledWith(6, {
         foo: 'bar',
-        value: 'B',
+        value: undefined,
       })
       expect(transformIn).toHaveBeenNthCalledWith(7, {
+        foo: 'bar',
+        value: 'B',
+      })
+      expect(transformIn).toHaveBeenNthCalledWith(8, {
         foo: 'bar',
         value: 'B',
       })
@@ -483,13 +487,17 @@ describe('Field.String', () => {
       })
       expect(valueTransformIn).toHaveBeenNthCalledWith(4, {
         foo: 'bar',
-        value: undefined,
+        value: 'A',
       })
       expect(valueTransformIn).toHaveBeenNthCalledWith(5, {
         foo: 'bar',
-        value: 'B',
+        value: undefined,
       })
       expect(valueTransformIn).toHaveBeenNthCalledWith(6, {
+        foo: 'bar',
+        value: 'B',
+      })
+      expect(valueTransformIn).toHaveBeenNthCalledWith(7, {
         foo: 'bar',
         value: 'B',
       })

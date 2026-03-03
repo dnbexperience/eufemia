@@ -50,7 +50,7 @@ describe('Form.SubmitButton', () => {
     expect(preventDefault).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledTimes(1)
 
-    fireEvent.submit(buttonElement)
+    fireEvent.submit(document.querySelector('form'))
 
     expect(preventDefault).toHaveBeenCalledTimes(2)
     expect(onSubmit).toHaveBeenCalledTimes(2)

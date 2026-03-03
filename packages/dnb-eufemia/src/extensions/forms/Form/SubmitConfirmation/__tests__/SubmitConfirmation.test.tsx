@@ -582,7 +582,7 @@ describe('Form.SubmitConfirmation', () => {
       expect(submitButton).not.toBeDisabled()
     })
 
-    fireEvent.submit(submitButton)
+    fireEvent.submit(document.querySelector('form'))
     expect(document.querySelector('output')).toHaveTextContent(
       'readyToBeSubmitted'
     )

@@ -189,7 +189,7 @@ describe('EditContainer and ViewContainer', () => {
 
     expect(containerMode).toBe('view')
 
-    fireEvent.submit(input)
+    fireEvent.submit(document.querySelector('form'))
 
     expect(containerMode).toBe('edit')
   })
@@ -218,7 +218,7 @@ describe('EditContainer and ViewContainer', () => {
 
       // Submit to open edit due to error
       const input = document.querySelector('input')
-      fireEvent.submit(input)
+      fireEvent.submit(document.querySelector('form'))
 
       expect(containerMode).toBe('edit')
       await waitFor(() => {
@@ -1256,7 +1256,7 @@ describe('EditContainer and ViewContainer', () => {
     ).not.toBeInTheDocument()
 
     const input = document.querySelector('input')
-    fireEvent.submit(input)
+    fireEvent.submit(document.querySelector('form'))
 
     expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
   })
@@ -1278,11 +1278,11 @@ describe('EditContainer and ViewContainer', () => {
 
     const [doneButton] = Array.from(document.querySelectorAll('button'))
     const input = document.querySelector('input')
-    fireEvent.submit(input)
+    fireEvent.submit(document.querySelector('form'))
 
     expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
 
-    fireEvent.submit(input)
+    fireEvent.submit(document.querySelector('form'))
 
     expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
 

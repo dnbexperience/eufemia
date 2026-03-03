@@ -46,10 +46,10 @@ describe('Form.Element', () => {
       </DataContext.Provider>
     )
 
-    const inputElement = document.querySelector('input')
+    const formElement = document.querySelector('form')
     const buttonElement = document.querySelector('button')
 
-    fireEvent.submit(inputElement)
+    fireEvent.submit(formElement)
 
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(onSubmit).toHaveBeenCalledWith(
@@ -59,7 +59,7 @@ describe('Form.Element', () => {
 
     expect(onSubmitElement).toHaveBeenCalledTimes(1)
     expect(onSubmitElement).toHaveBeenCalledWith(
-      expect.objectContaining({ type: 'submit', target: inputElement })
+      expect.objectContaining({ type: 'submit', target: formElement })
     )
 
     fireEvent.click(buttonElement)
@@ -72,7 +72,7 @@ describe('Form.Element', () => {
 
     expect(onSubmitElement).toHaveBeenCalledTimes(2)
     expect(onSubmitElement).toHaveBeenCalledWith(
-      expect.objectContaining({ type: 'submit', target: inputElement })
+      expect.objectContaining({ type: 'submit', target: formElement })
     )
   })
 
