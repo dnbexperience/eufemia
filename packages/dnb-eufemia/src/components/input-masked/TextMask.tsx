@@ -27,7 +27,7 @@ export type TextMaskMask =
   | Array<RegExp | string>
   | false
   | typeof createNumberMask
-export type TextMaskInputElement = React.ReactElement
+export type TextMaskInputElement = React.ReactElement<any>
 export type TextMaskValue = string | number
 export type TextMaskProps = {
   mask: TextMaskMask
@@ -47,7 +47,7 @@ export type TextMaskProps = {
   overwriteMode?: MaskitoOptions['overwriteMode']
 }
 
-export default function TextMask(props: TextMaskProps): JSX.Element {
+export default function TextMask(props: TextMaskProps): React.JSX.Element {
   const {
     inputElement,
     inputRef,

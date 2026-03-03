@@ -102,7 +102,7 @@ export type MultiInputMaskProps<T extends string> = {
   /**
    * Refers to the scope element that contains the input fields.
    */
-  scopeRef?: MutableRefObject<HTMLElement | null>
+  scopeRef?: RefObject<HTMLElement | null>
   /**
    * Optional enhancer applied to Maskito options before they reach TextMask.
    */
@@ -119,6 +119,8 @@ export type MultiInputMaskProps<T extends string> = {
   | 'label'
   | 'placeholder'
   | 'size'
+  | 'onSubmit'
+  | 'onKeyDown'
 > &
   SpacingProps &
   Pick<InputProps, 'size'>

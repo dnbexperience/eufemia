@@ -29,7 +29,6 @@ import type {
   InputSubmitButtonIcon,
   InputSuffix,
   InputChildren,
-  InputProps,
 } from '../Input'
 import type { NumberFormatProps } from '../NumberFormat'
 import type { SkeletonShow } from '../Skeleton'
@@ -131,7 +130,7 @@ export interface InputMaskedProps
   /**
    * The placeholder character represents the fillable spot in the mask (e.g. `_`). Defaults to invisible space.
    */
-  innerRef?: InputProps['innerRef']
+  innerRef?: React.Ref<HTMLInputElement>
   onSubmit?: InputMaskedEventHandler
   onFocus?: InputMaskedEventHandler
   onBlur?: InputMaskedEventHandler
@@ -174,33 +173,40 @@ export interface InputMaskedProps
   children?: InputMaskedChildren
 }
 
-function InputMasked(props: InputMaskedProps) {
-  const context = React.useContext(Context)
+const InputMasked = React.forwardRef<HTMLInputElement, InputMaskedProps>(
+  function InputMasked(props, ref) {
+    const context = React.useContext(Context)
 
-  // Remove masks defined in Provider/Context, because it overwrites a custom mask
-  if (props?.mask) {
-    const alias = context?.InputMasked
-    for (const key in alias) {
-      if (/^as[_A-Z]|numberMask|currencyMask/.test(key)) {
-        delete alias[key]
+    // Remove masks defined in Provider/Context, because it overwrites a custom mask
+    if (props?.mask) {
+      const alias = context?.InputMasked
+      for (const key in alias) {
+        if (/^as[_A-Z]|numberMask|currencyMask/.test(key)) {
+          delete alias[key]
+        }
       }
     }
-  }
 
-  const contextAndProps = React.useMemo(() => {
-    return extendPropsWithContext(
-      props,
-      defaultProps,
-      context?.InputMasked
+    const contextAndProps = React.useMemo(() => {
+      const propsWithRef = {
+        ...props,
+        innerRef: props.innerRef ?? ref,
+      }
+
+      return extendPropsWithContext(
+        propsWithRef,
+        defaultProps,
+        context?.InputMasked
+      )
+    }, [context?.InputMasked, props, ref])
+
+    return (
+      <InputMaskedContext value={{ props: contextAndProps, context }}>
+        <InputMaskedElement />
+      </InputMaskedContext>
     )
-  }, [context?.InputMasked, props])
-
-  return (
-    <InputMaskedContext value={{ props: contextAndProps, context }}>
-      <InputMaskedElement />
-    </InputMaskedContext>
-  )
-}
+  }
+)
 
 const defaultProps = {
   ...inputDefaultProps,
