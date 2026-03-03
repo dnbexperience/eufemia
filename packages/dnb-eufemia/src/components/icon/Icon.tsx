@@ -204,21 +204,31 @@ export function calcSize(props: IconProps) {
           : null
 
       if (iconFn) {
-        const elem = iconFn()
-        if (elem?.props) {
-          let potentialSize: ValidIconNumericSize | -1 = null
-          if (elem.props.width) {
-            potentialSize = elem.props.width
-          }
-          if (!potentialSize && elem.props.viewBox) {
-            const match = /[0-9]+ [0-9]+ ([0-9]+)/.exec(elem.props.viewBox)
-            if (match?.[1]) {
-              potentialSize = parseFloat(match[1]) as ValidIconNumericSize
+        try {
+          const elem = iconFn()
+          if (elem?.props) {
+            let potentialSize: ValidIconNumericSize | -1 = null
+            if (elem.props.width) {
+              potentialSize = elem.props.width
+            }
+            if (!potentialSize && elem.props.viewBox) {
+              const match = /[0-9]+ [0-9]+ ([0-9]+)/.exec(
+                elem.props.viewBox
+              )
+              if (match?.[1]) {
+                potentialSize = parseFloat(
+                  match[1]
+                ) as ValidIconNumericSize
+              }
+            }
+            if (potentialSize != null && !isNaN(potentialSize)) {
+              sizeAsInt = potentialSize
             }
           }
-          if (potentialSize != null && !isNaN(potentialSize)) {
-            sizeAsInt = potentialSize
-          }
+        } catch {
+          // The icon function may use hooks or expect props — if calling
+          // it outside a React render context throws, we silently fall
+          // back to the default size.
         }
       }
     }
