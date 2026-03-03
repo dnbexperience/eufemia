@@ -43,6 +43,7 @@ import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import IconPrimary from '../icon-primary/IconPrimary'
 import Input, { SubmitButton } from '../input/Input'
+import type { InputProps } from '../input/Input'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 import DrawerList from '../../fragments/drawer-list/DrawerList'
 import { ItemContent } from '../../fragments/drawer-list/DrawerListItem'
@@ -1986,7 +1987,7 @@ class AutocompleteInstance extends React.PureComponent<
       label,
       labelDirection,
       labelSrOnly,
-      icon, // eslint-disable-line
+      icon,
       iconSize,
       inputIcon,
       size,
@@ -2001,9 +2002,9 @@ class AutocompleteInstance extends React.PureComponent<
       scrollable,
       focusable,
       keepOpen,
-      keepValue, // eslint-disable-line
-      keepValueAndSelection, // eslint-disable-line
-      keepSelection, // eslint-disable-line
+      keepValue,
+      keepValueAndSelection,
+      keepSelection,
       showClearButton,
       preventClose,
       noAnimation,
@@ -2015,16 +2016,16 @@ class AutocompleteInstance extends React.PureComponent<
       preventSelection,
       maxHeight,
       defaultValue,
-      searchNumbers, // eslint-disable-line
-      searchInWordIndex, // eslint-disable-line
-      searchMatch, // eslint-disable-line
-      showOptionsSr, // eslint-disable-line
+      searchNumbers,
+      searchInWordIndex,
+      searchMatch,
+      showOptionsSr,
       selectedSr,
       submitButtonTitle,
       submitButtonIcon,
       portalClass,
       drawerClass,
-      inputRef, // eslint-disable-line
+      inputRef,
       className,
       disabled,
       stretch,
@@ -2035,35 +2036,35 @@ class AutocompleteInstance extends React.PureComponent<
       independentWidth,
       autoComplete,
 
-      mode: _mode, // eslint-disable-line
-      data: _data, // eslint-disable-line
-      children: _children, // eslint-disable-line
-      direction: _direction, // eslint-disable-line
-      pageOffset: _pageOffset, // eslint-disable-line
-      observerElement: _observerElement, // eslint-disable-line
-      id: _id, // eslint-disable-line
-      open: _open, // eslint-disable-line
-      value: _value, // eslint-disable-line
-      inputValue: _inputValue, // eslint-disable-line
-      enableBodyLock: _enableBodyLock, // eslint-disable-line
-      listClass: _listClass, // eslint-disable-line
-      openOnFocus: _openOnFocus, // eslint-disable-line
-      disableReorder: _disableReorder, // eslint-disable-line
-      disableFilter: _disableFilter, // eslint-disable-line
-      indicatorLabel: _indicatorLabel, // eslint-disable-line
-      noOptions: _noOptions, // eslint-disable-line
-      showAll: _showAll, // eslint-disable-line
-      ariaLiveOptions: _ariaLiveOptions, // eslint-disable-line
-      disableHighlighting: _disableHighlighting, // eslint-disable-line
-      onClear, // eslint-disable-line
+      mode: _mode,
+      data: _data,
+      children: _children,
+      direction: _direction,
+      pageOffset: _pageOffset,
+      observerElement: _observerElement,
+      id: _id,
+      open: _open,
+      value: _value,
+      inputValue: _inputValue,
+      enableBodyLock: _enableBodyLock,
+      listClass: _listClass,
+      openOnFocus: _openOnFocus,
+      disableReorder: _disableReorder,
+      disableFilter: _disableFilter,
+      indicatorLabel: _indicatorLabel,
+      noOptions: _noOptions,
+      showAll: _showAll,
+      ariaLiveOptions: _ariaLiveOptions,
+      disableHighlighting: _disableHighlighting,
+      onClear,
 
-      onOpen: _onOpen, // eslint-disable-line
-      onType: _onType, // eslint-disable-line
-      onFocus: _onFocus, // eslint-disable-line
-      onBlur: _onBlur, // eslint-disable-line
-      onClose: _onClose, // eslint-disable-line
-      onChange: _onChange, // eslint-disable-line
-      onSelect: _onSelect, // eslint-disable-line
+      onOpen: _onOpen,
+      onType: _onType,
+      onFocus: _onFocus,
+      onBlur: _onBlur,
+      onClose: _onClose,
+      onChange: _onChange,
+      onSelect: _onSelect,
 
       ...attributes
     } = props
@@ -2294,10 +2295,10 @@ class AutocompleteInstance extends React.PureComponent<
                     this.state.skipFocusDuringChange ? 'focus' : undefined
                   } // because of the short blur / focus during select
                   clear={showClearButton}
-                  onClear={onClear}
+                  onClear={onClear as InputProps['onClear']}
                   ref={this._refInput}
-                  {...inputParams}
-                  {...statusProps}
+                  {...(inputParams as Record<string, unknown>)}
+                  {...(statusProps as Record<string, unknown>)}
                 />
               )}
 
