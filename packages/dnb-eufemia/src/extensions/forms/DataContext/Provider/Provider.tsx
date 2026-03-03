@@ -1479,9 +1479,7 @@ export default function Provider<Data extends JsonObject>(
    * Wraps the async submit flow in a React transition (useTransition)
    * so that React keeps the UI responsive during submission.
    */
-  const handleSubmit = useCallback<
-    ContextState['handleSubmit']
-  >(() => {
+  const handleSubmit = useCallback<ContextState['handleSubmit']>(() => {
     for (const item of fieldEventListenersRef.current) {
       const { type, callback } = item
       if (type === 'onBeforeSubmit') {
@@ -1658,7 +1656,7 @@ export default function Provider<Data extends JsonObject>(
   const disabled =
     typeof rest?.['disabled'] === 'boolean'
       ? rest?.['disabled']
-      : formState === 'pending' || isPending
+      : formState === 'pending'
       ? true
       : undefined
   const contextErrorMessages =
