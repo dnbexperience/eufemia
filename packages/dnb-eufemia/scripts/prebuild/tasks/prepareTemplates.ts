@@ -6,10 +6,13 @@
 
 import fs from 'fs-extra'
 import path, { join as joinPath } from 'path'
-import camelCase from 'camelcase'
 import prettier from 'prettier'
 import { ErrorHandler, log } from '../../lib'
 import { asyncForEach } from '../../tools'
+
+function toPascalCase(str: string): string {
+  return str.replace(/(^|-)([a-z])/g, (_, _sep, c) => c.toUpperCase())
+}
 
 const prettierrc = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')
@@ -326,10 +329,7 @@ export const runFactory = async ({
 
   if (destPath) {
     await asyncForEach(filesToFindGlob, async ({ file }) => {
-      const destFile = path.resolve(
-        destPath,
-        `${camelCase(file, { pascalCase: true })}.ts`
-      )
+      const destFile = path.resolve(destPath, `${toPascalCase(file)}.ts`)
 
       try {
         // replace the content in the template
@@ -338,7 +338,7 @@ export const runFactory = async ({
           // 1. replace templateListToExtendBy
           .replace(
             new RegExp(templateListToExtendBy, 'g'),
-            camelCase(file, { pascalCase: true })
+            toPascalCase(file)
           )
           // 2. replace templateListToExtendBy, but lower case
           .replace(
@@ -368,7 +368,7 @@ export const runFactory = async ({
       .replace(
         new RegExp(templateObjectToFill, 'g'),
         `{ ${filesToFindGlob
-          .map(({ file }) => camelCase(file, { pascalCase: true }))
+          .map(({ file }) => toPascalCase(file))
           .join(', ')} }`
       )
       // 2. replace templateListToExtend
@@ -379,7 +379,7 @@ export const runFactory = async ({
             let res = templateListToExtend
               .replace(
                 new RegExp(templateListToExtendBy, 'g'),
-                camelCase(file, { pascalCase: true })
+                toPascalCase(file)
               )
               .replace(
                 new RegExp(templateListToExtendBy.toLowerCase(), 'g'),
