@@ -217,7 +217,6 @@ describe('EditContainer and ViewContainer', () => {
       )
 
       // Submit to open edit due to error
-      const input = document.querySelector('input')
       fireEvent.submit(document.querySelector('form'))
 
       expect(containerMode).toBe('edit')
@@ -1255,7 +1254,6 @@ describe('EditContainer and ViewContainer', () => {
       document.querySelector('.dnb-form-status')
     ).not.toBeInTheDocument()
 
-    const input = document.querySelector('input')
     fireEvent.submit(document.querySelector('form'))
 
     expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
