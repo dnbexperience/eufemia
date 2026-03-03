@@ -56,13 +56,13 @@ export type ButtonIconPositionAll =
   | ButtonIconPositionTertiary
 export type ButtonTooltip =
   | string
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
   | React.ReactNode
-export type ButtonTo = string | any | ((...args: any[]) => any)
+export type ButtonTo = string | ReactRouterLink['to']
 export type ButtonSkeleton = SkeletonShow
 export type ButtonChildren =
   | string
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
   | React.ReactNode
 
 // Local type for react-router-dom link with only the necessary props.
@@ -85,7 +85,13 @@ export type ButtonElement =
       ReactRouterLink & { ref?: React.Ref<HTMLAnchorElement> }
     >
   | React.ReactNode
-export type ButtonOnClick = (...args: any[]) => any
+export type ButtonClickEvent = {
+  event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
+}
+export type ButtonOnClick =
+  | ((args: ButtonClickEvent) => void)
+  | React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>
+  | ((...args: unknown[]) => void)
 
 export type ButtonProps = {
   /**
@@ -232,7 +238,7 @@ class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
   _id: string | undefined
   _ref: React.RefObject<HTMLElement | null>
 
-  static getContent(props) {
+  static getContent(props: ButtonProps) {
     return processChildren(props)
   }
 
@@ -246,16 +252,18 @@ class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
     this.state = { afterContent: null }
   }
 
-  getOnClickHandler = (src) => (event) => {
-    const afterContent = dispatchCustomElementEvent(src, 'onClick', {
-      event,
-    })
-    if (afterContent && React.isValidElement(afterContent)) {
-      this.setState({
-        afterContent,
+  getOnClickHandler =
+    (src: ButtonProps) =>
+    (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+      const afterContent = dispatchCustomElementEvent(src, 'onClick', {
+        event,
       })
+      if (afterContent && React.isValidElement(afterContent)) {
+        this.setState({
+          afterContent,
+        })
+      }
     }
-  }
 
   render() {
     // use only the props from context, who are available here anyway
@@ -488,7 +496,7 @@ class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
  */
 function Button({ ref, ...props }: ButtonProps) {
   const instanceRef = React.useCallback(
-    (instance) => {
+    (instance: ButtonClass | null) => {
       const el = instance?._ref?.current ?? null
       if (typeof ref === 'function') {
         ref(el)
@@ -499,7 +507,9 @@ function Button({ ref, ...props }: ButtonProps) {
     [ref]
   )
 
-  return <ButtonClass ref={ref ? instanceRef : undefined} {...props} />
+  return (
+    <ButtonClass ref={(ref ? instanceRef : undefined) as any} {...props} />
+  )
 }
 
 Button.getContent = ButtonClass.getContent
