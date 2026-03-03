@@ -35,38 +35,44 @@ export type PaginationLayout = 'vertical' | 'horizontal'
 export type PaginationItems = string | any[]
 export type PaginationSetContentHandler =
   | string
-  | ((...args: any[]) => any)
+  | ((fn: (pageNumber: number, content: React.ReactNode) => void) => void)
 export type PaginationResetContentHandler =
   | string
-  | ((...args: any[]) => any)
+  | ((fn: () => void) => void)
 export type PaginationResetPaginationHandler =
   | string
-  | ((...args: any[]) => any)
+  | ((fn: () => void) => void)
 export type PaginationEndInfinityHandler =
   | string
-  | ((...args: any[]) => any)
+  | ((fn: () => void) => void)
 export type PaginationPageElement =
   | Record<string, unknown>
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | React.ComponentType
   | string
 export type PaginationFallbackElement =
   | Record<string, unknown>
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | React.ComponentType
   | string
 export type PaginationMarkerElement =
   | Record<string, unknown>
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | React.ComponentType
   | string
 export type PaginationIndicatorElement =
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | React.ComponentType
   | string
+export type PaginationChildrenArgs = {
+  pageNumber: number
+  setContent: (...args: unknown[]) => void
+  endInfinity: () => void
+  [key: string]: unknown
+}
 export type PaginationChildren =
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | ((props: PaginationChildrenArgs) => unknown)
 export type LoadButtonProps =
   | (() => React.ReactNode)
   | {
@@ -79,6 +85,14 @@ export type LoadButtonProps =
        */
       iconPosition: ButtonIconPosition
     }
+
+export type PaginationEvent = {
+  pageNumber: number
+  setContent: (...args: unknown[]) => void
+  endInfinity: () => void
+  event?: React.SyntheticEvent
+  [key: string]: unknown
+}
 
 export interface PaginationProps
   extends Omit<
@@ -208,10 +222,10 @@ export interface PaginationProps
    * The given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.
    */
   children?: PaginationChildren
-  onChange?: (...args: any[]) => any
-  onStartup?: (...args: any[]) => any
-  onLoad?: (...args: any[]) => any
-  onEnd?: (...args: any[]) => any
+  onChange?: (event: PaginationEvent) => void
+  onStartup?: (event: PaginationEvent) => void
+  onLoad?: (event: PaginationEvent) => void
+  onEnd?: (event: PaginationEvent) => void
 }
 
 export type CreatePaginationReturn = {
@@ -267,6 +281,7 @@ export type PaginationComponent = ((
 ) => React.JSX.Element) & {
   Bar: typeof PaginationBar
   Content: typeof PaginationContent
+  _supportsSpacingProps: boolean
 }
 
 function PaginationFunc(props: PaginationProps) {
@@ -304,7 +319,7 @@ class PaginationInstance extends React.PureComponent<PaginationProps> {
 
   render() {
     // use only the props from context, who are available here anyway
-    const ctx = this.context as any
+    const ctx = this.context as Record<string, any>
     const props = extendPropsWithContextInClassComponent(
       this.props,
       paginationDefaultProps,
@@ -349,7 +364,7 @@ class PaginationInstance extends React.PureComponent<PaginationProps> {
       placeMarkerBeforeContent: _placeMarkerBeforeContent,
 
       ...attributes
-    } = props as any
+    } = props as Record<string, any>
 
     // our props
     const {
@@ -421,7 +436,14 @@ export function InfinityMarker(props: PaginationProps) {
   )
 }
 
-function PaginationContent({ children, ref, ...props }: any) {
+function PaginationContent({
+  children,
+  ref,
+  ...props
+}: {
+  children?: React.ReactNode
+  ref?: React.Ref<HTMLDivElement>
+} & React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       className="dnb-pagination__content dnb-no-focus"
@@ -441,7 +463,7 @@ Pagination.Content = PaginationContent
 const PaginationWrapper = PaginationFunc
 const InfinityMarkerWrapper = InfinityMarker
 
-export const Bar = (props: any) => (
+export const Bar = (props: PaginationProps) => (
   <Pagination fallbackElement={() => null} {...props} />
 )
 
@@ -471,24 +493,31 @@ export const createPagination = (
     _endInfinity.current && _endInfinity.current()
   }
 
-  const args = (props: any) => ({
+  const args = (props: Record<string, unknown>) => ({
     ...{ ...initProps, ...props },
     store,
     rerender,
-    setContentHandler: (fn) => (_setContent.current = fn),
-    resetContentHandler: (fn) => (_resetContent.current = fn),
-    resetPaginationHandler: (fn) => (_resetInfinity.current = fn),
-    endInfinityHandler: (fn) => (_endInfinity.current = fn),
+    setContentHandler: (fn: typeof _setContent.current) =>
+      (_setContent.current = fn),
+    resetContentHandler: (fn: typeof _resetContent.current) =>
+      (_resetContent.current = fn),
+    resetPaginationHandler: (fn: typeof _resetInfinity.current) =>
+      (_resetInfinity.current = fn),
+    endInfinityHandler: (fn: typeof _endInfinity.current) =>
+      (_endInfinity.current = fn),
   })
 
-  const Pagination = (props: any) => (
-    <PaginationWrapper tagName="dnb-pagination" {...args(props)} />
+  const Pagination = (props: Record<string, unknown>) => (
+    <PaginationWrapper
+      tagName="dnb-pagination"
+      {...(args(props) as any)}
+    />
   )
 
-  const InfinityMarker = (props: any) => (
+  const InfinityMarker = (props: Record<string, unknown>) => (
     <InfinityMarkerWrapper
-      tagName={(InfinityMarkerWrapper as any)?.tagName}
-      {...args(props)}
+      tagName="dnb-infinity-marker"
+      {...(args(props) as any)}
     />
   )
 
@@ -501,4 +530,4 @@ export const createPagination = (
     endInfinity,
   }
 }
-;(Pagination as any)._supportsSpacingProps = true
+Pagination._supportsSpacingProps = true

@@ -21,6 +21,7 @@ import {
 import PaginationContext from './PaginationContext'
 
 export default class InfinityScroller extends React.PureComponent<any> {
+  static _supportsSpacingProps = true
   static contextType = PaginationContext
   context!: React.ContextType<typeof PaginationContext>
 
@@ -608,5 +609,3 @@ class ScrollToElement extends React.PureComponent<any> {
     return <Element ref={this._elementRef} {...props} />
   }
 }
-
-;(InfinityScroller as any)._supportsSpacingProps = true
