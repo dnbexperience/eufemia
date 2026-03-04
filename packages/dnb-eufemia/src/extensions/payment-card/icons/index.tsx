@@ -23,7 +23,7 @@ import VisaPlatinum from './providers/VisaPlatinum'
 import { StatusIcon } from './status'
 
 // Daggy tagged sum type - these values have a .cata() method at runtime
-// but the TypeScript declarations in Types.d.ts use enums, so we use any here
+// but Types.d.ts doesn't declare .cata() on the types, so we use any here
 type DaggyType = any
 type DaggyDesign = Record<string, any>
 
