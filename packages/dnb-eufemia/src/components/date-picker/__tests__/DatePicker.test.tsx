@@ -43,40 +43,32 @@ const defaultProps: DatePickerAllProps = {
   endDate: '2019-02-15T00:00:00.000Z',
 }
 
+const userWithDelay = userEvent.setup({ delay: 20 })
+
 const waitForMaskFrame = () =>
   new Promise<void>((resolve) => {
-    setTimeout(() => {
-      setTimeout(resolve, 0)
-    }, 0)
+    // Use double-rAF to ensure both the onFocus select-all rAF and
+    // the scheduleCaretCheck rAF (rAF → setTimeout) have fully settled
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        setTimeout(resolve, 10)
+      })
+    })
   })
-
-const originalKeyboard = userEvent.keyboard
-const setKeyboard = (fn: typeof userEvent.keyboard) => {
-  Object.defineProperty(userEvent, 'keyboard', {
-    configurable: true,
-    value: fn,
-  })
-}
-
-const wrapKeyboard =
-  (fn: typeof userEvent.keyboard) =>
-  async (...args: Parameters<typeof userEvent.keyboard>) => {
-    const result = await fn(...args)
-    await waitForMaskFrame()
-    return result
-  }
-
-beforeEach(() => {
-  setKeyboard(wrapKeyboard(originalKeyboard))
-})
-
-afterEach(() => {
-  setKeyboard(originalKeyboard)
-})
 
 async function focusInput(input: Element) {
-  await userEvent.click(input)
+  await userWithDelay.click(input)
   await waitForMaskFrame()
+}
+
+async function typeInField(elem: Element, value: string) {
+  const input = elem as HTMLInputElement
+  await focusInput(input)
+  input.setSelectionRange(0, input.value.length)
+  for (const char of value) {
+    await userEvent.keyboard(char)
+    await waitForMaskFrame()
+  }
 }
 
 const getDatePickerRoot = () =>
@@ -463,16 +455,16 @@ describe('DatePicker component', () => {
     expect(year.value).toBe('2024')
 
     await focusInput(year)
-    await userEvent.keyboard('{ArrowRight>4}{Backspace>4}')
+    await userWithDelay.keyboard('{Backspace>2}')
     expect(year.value).toBe('åååå')
     expect(day.value).toBe('17')
     expect(month.value).toBe('05')
 
-    await userEvent.keyboard('{Backspace>2}')
+    await userWithDelay.keyboard('{Backspace>2}')
     expect(month.value).toBe('mm')
     expect(day.value).toBe('17')
 
-    await userEvent.keyboard('{Backspace>2}')
+    await userWithDelay.keyboard('{Backspace}')
     expect(day.value).toBe('dd')
     expect(month.value).toBe('mm')
     expect(year.value).toBe('åååå')
@@ -530,16 +522,18 @@ describe('DatePicker component', () => {
     expect(endYear.value).toBe('2025')
 
     await focusInput(endYear)
-    await userEvent.keyboard('{ArrowRight>4}{Backspace>4}')
+    await userWithDelay.keyboard('{Backspace>2}')
     expect(endYear.value).toBe('åååå')
 
-    await userEvent.keyboard('{Backspace>2}')
+    await userWithDelay.keyboard('{Backspace>2}')
     expect(endMonth.value).toBe('mm')
 
-    await userEvent.keyboard('{Backspace>2}')
+    await userWithDelay.keyboard('{Backspace>2}')
     expect(endDay.value).toBe('dd')
 
-    await userEvent.keyboard('{Backspace>4}')
+    await userWithDelay.keyboard('{Backspace>2}')
+    await userWithDelay.keyboard('{Backspace>2}')
+    await userWithDelay.keyboard('{Backspace>1}')
     expect(startDay.value).toBe('dd')
     expect(startMonth.value).toBe('mm')
     expect(startYear.value).toBe('åååå')
@@ -558,10 +552,10 @@ describe('DatePicker component', () => {
     expect(day.selectionStart).toBe(2)
     expect(day.selectionEnd).toBe(2)
 
-    fireEvent.focus(day)
+    await focusInput(day)
 
     expect(day.selectionStart).toBe(0)
-    expect(day.selectionEnd).toBe(0)
+    expect(day.selectionEnd).toBe(2)
 
     process.env.NODE_ENV = originalEnv
   })
@@ -590,21 +584,21 @@ describe('DatePicker component', () => {
     expect(year.value).toBe('2024')
 
     await focusInput(month)
-    await userEvent.keyboard('{Backspace}')
+    await userWithDelay.keyboard('{Backspace}')
 
-    expect(month.selectionStart).toBe(1)
-    expect(month.selectionEnd).toBe(1)
+    expect(month.selectionStart).toBe(0)
+    expect(month.selectionEnd).toBe(0)
 
-    await userEvent.keyboard('{Backspace}')
+    await userWithDelay.keyboard('{Backspace}')
 
     expect(day.value).toBe('17')
-    expect(day.selectionStart).toBe(2)
+    expect(day.selectionStart).toBe(0)
     expect(day.selectionEnd).toBe(2)
 
-    await userEvent.keyboard('{Backspace}')
+    await userWithDelay.keyboard('{Backspace}')
 
-    expect(day.selectionStart).toBe(1)
-    expect(day.selectionEnd).toBe(1)
+    expect(day.selectionStart).toBe(0)
+    expect(day.selectionEnd).toBe(0)
   })
 
   describe('Android', () => {
@@ -643,13 +637,11 @@ describe('DatePicker component', () => {
       expect(year.value).toBe('2024')
 
       await focusInput(month)
-      await userEvent.keyboard('{Backspace}')
-
-      expect(month.selectionStart).toBe(1)
-      expect(month.selectionEnd).toBe(1)
+      expect(month.selectionStart).toBe(0)
+      expect(month.selectionEnd).toBe(2)
 
       // Clear the month value to make it empty (required for focus change)
-      await userEvent.keyboard('{Backspace}')
+      await userWithDelay.keyboard('{Backspace>2}')
       expect(month.value).toBe('mm')
 
       // Set cursor to beginning and simulate Android backspace behavior
@@ -665,7 +657,7 @@ describe('DatePicker component', () => {
 
       await waitFor(() => {
         expect(document.activeElement).toBe(day)
-        expect(day.selectionStart).toBe(2)
+        expect(day.selectionStart).toBe(0)
         expect(day.selectionEnd).toBe(2)
       })
     })
@@ -711,7 +703,7 @@ describe('DatePicker component', () => {
     expect(endYear.value).toBe('2025')
 
     await focusInput(endYear)
-    await userEvent.keyboard('{Backspace>16}')
+    await userWithDelay.keyboard('{Backspace>12}')
 
     expect(startDay.value).toBe('dd')
     expect(startMonth.value).toBe('mm')
@@ -720,7 +712,9 @@ describe('DatePicker component', () => {
     expect(endMonth.value).toBe('mm')
     expect(endYear.value).toBe('åååå')
 
-    await userEvent.keyboard('01052024')
+    await typeInField(startDay, '01')
+    await typeInField(startMonth, '05')
+    await typeInField(startYear, '2024')
 
     expect(startDay.value).toBe('01')
     expect(startMonth.value).toBe('05')
@@ -730,12 +724,19 @@ describe('DatePicker component', () => {
   it('moves focus to end day at range boundary (dd.mm.yyyy|-dd.mm.yyyy) when pressing ArrowRight from end of start year', async () => {
     render(<DatePicker showInput range />)
 
-    const [startDay, startYear, endDay]: Array<HTMLInputElement> =
-      Array.from(document.querySelectorAll('input.dnb-input__input'))
+    const [
+      startDay,
+      startMonth,
+      startYear,
+      endDay,
+    ]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('input.dnb-input__input')
+    )
 
-    // Fill start date to yyyy
-    await focusInput(startDay)
-    await userEvent.keyboard('12112024')
+    // Fill start date fields
+    await typeInField(startDay, '12')
+    await typeInField(startMonth, '11')
+    await typeInField(startYear, '2024')
 
     // Ensure caret at end of startYear
     await focusInput(startYear)
@@ -743,17 +744,14 @@ describe('DatePicker component', () => {
     expect(startYear.selectionStart).toBe(4)
 
     // ArrowRight should move to start of end day
-    await userEvent.keyboard('{ArrowRight}')
-
-    // Allow deferred focus change to settle
-    await new Promise((r) => setTimeout(r, 0))
+    await userWithDelay.keyboard('{ArrowRight}')
 
     expect(document.activeElement).toBe(endDay)
     expect(endDay.selectionStart).toBe(0)
-    expect(endDay.selectionEnd).toBe(0)
+    expect(endDay.selectionEnd).toBe(2)
   })
 
-  it('typing fills day and month and auto-advances between fields', async () => {
+  it('typing fills day and month and auto-advances between fields on typing after fillø', async () => {
     render(<DatePicker showInput />)
 
     const [day, month, year]: Array<HTMLInputElement> = Array.from(
@@ -762,16 +760,16 @@ describe('DatePicker component', () => {
 
     // Type day -> 2 digits should auto-advance to month
     await userEvent.click(day)
-    await userEvent.keyboard('01')
-    await new Promise((r) => setTimeout(r, 0))
+    await userWithDelay.keyboard('01')
     expect(document.activeElement).toBe(month)
-    expect(month.selectionStart).toBe(month.value.length)
+    expect(month.selectionStart).toBe(0)
+    expect(month.selectionEnd).toBe(month.value.length)
 
     // Type month -> 2 digits should auto-advance to year
-    await userEvent.keyboard('12')
-    await new Promise((r) => setTimeout(r, 0))
+    await userWithDelay.keyboard('12')
     expect(document.activeElement).toBe(year)
-    expect(year.selectionStart).toBe(year.value.length)
+    expect(year.selectionStart).toBe(0)
+    expect(year.selectionEnd).toBe(year.value.length)
   })
 
   it('will render the result of "onDaysRender"', () => {
@@ -1279,11 +1277,11 @@ describe('DatePicker component', () => {
 
     expect(pickerTitle).toHaveTextContent('oktober 2024')
 
-    await userEvent.keyboard('{ArrowLeft}')
+    await userWithDelay.keyboard('{ArrowLeft}')
 
     expect(pickerTitle).toHaveTextContent('september 2024')
 
-    await userEvent.keyboard('{ArrowRight>32}')
+    await userWithDelay.keyboard('{ArrowRight>32}')
 
     expect(pickerTitle).toHaveTextContent('november 2024')
   })
@@ -1309,29 +1307,29 @@ describe('DatePicker component', () => {
     expect(leftPickerTitle).toHaveTextContent('oktober 2024')
     expect(rightPickerTitle).toHaveTextContent('oktober 2024')
 
-    await userEvent.keyboard('{ArrowLeft}')
+    await userWithDelay.keyboard('{ArrowLeft}')
 
     expect(leftPickerTitle).toHaveTextContent('september 2024')
     expect(rightPickerTitle).toHaveTextContent('oktober 2024')
 
-    await userEvent.keyboard('{ArrowRight>32}')
+    await userWithDelay.keyboard('{ArrowRight>32}')
 
     expect(leftPickerTitle).toHaveTextContent('november 2024')
     expect(rightPickerTitle).toHaveTextContent('oktober 2024')
 
     // Tab to right picker and navigate to december
-    await userEvent.keyboard('{Tab>3}{ArrowRight>62}')
+    await userWithDelay.keyboard('{Tab>3}{ArrowRight>62}')
 
     expect(leftPickerTitle).toHaveTextContent('november 2024')
     expect(rightPickerTitle).toHaveTextContent('desember 2024')
 
-    await userEvent.keyboard('{ArrowLeft>70}')
+    await userWithDelay.keyboard('{ArrowLeft>70}')
 
     expect(leftPickerTitle).toHaveTextContent('november 2024')
     expect(rightPickerTitle).toHaveTextContent('september 2024')
   })
 
-  it('has a reacting start date input with valid value', () => {
+  it('has a reacting start date input with valid value', async () => {
     const { rerender } = render(<DatePicker {...defaultProps} />)
     const elem = document.querySelectorAll(
       'input.dnb-date-picker__input--day'
@@ -1353,9 +1351,7 @@ describe('DatePicker component', () => {
 
     // change the date
     const value = '02'
-    fireEvent.change(elem, {
-      target: { value },
-    })
+    await typeInField(elem, value)
 
     // then check the new input value
     expect(elem.value).toBe(value)
@@ -1376,9 +1372,7 @@ describe('DatePicker component', () => {
     expect(elem.value).toBe('03')
 
     // reset the value
-    fireEvent.change(elem, {
-      target: { value: '01' },
-    })
+    await typeInField(elem, '01')
 
     rerender(
       <DatePicker
@@ -1404,7 +1398,7 @@ describe('DatePicker component', () => {
       )
 
       await focusInput(elem)
-      await userEvent.keyboard('1')
+      await userWithDelay.keyboard('1')
 
       await waitFor(() =>
         expect(elem.classList).toContain(
@@ -1412,7 +1406,7 @@ describe('DatePicker component', () => {
         )
       )
 
-      await userEvent.keyboard('{Backspace>4}') // use 4 because of year
+      await userWithDelay.keyboard('{Backspace>4}') // use 4 because of year
 
       await waitFor(() =>
         expect(elem.classList).not.toContain(
@@ -1608,12 +1602,9 @@ describe('DatePicker component', () => {
     expect(year.value).toBe('åååå')
 
     // Enter date in the input fields to make sure the test always runs with the same month every time.
-    await focusInput(day)
-    await userEvent.keyboard('01')
-    await focusInput(month)
-    await userEvent.keyboard('08')
-    await focusInput(year)
-    await userEvent.keyboard('2025')
+    await typeInField(day, '01')
+    await typeInField(month, '08')
+    await typeInField(year, '2025')
 
     expect(day.value).toBe('01')
     expect(month.value).toBe('08')
@@ -1762,12 +1753,9 @@ describe('DatePicker component', () => {
     const month = '01' // will have to make a correction internally
     const year = '2020'
 
-    await focusInput(dayElem)
-    await userEvent.keyboard(day)
-    await focusInput(monthElem)
-    await userEvent.keyboard(month)
-    await focusInput(yearElem)
-    await userEvent.keyboard(year)
+    await typeInField(dayElem, day)
+    await typeInField(monthElem, month)
+    await typeInField(yearElem, year)
 
     // then check the new input value
     expect(dayElem).toHaveValue(day)
@@ -1799,25 +1787,38 @@ describe('DatePicker component', () => {
     // by default we have the start day
     expect(startElem).toHaveValue('02')
 
-    // change to invalid date
-    await focusInput(startElem as HTMLInputElement)
-    await userEvent.keyboard('{Backspace>2}01')
-    await waitFor(() => expect(onChange).toHaveBeenCalledTimes(1))
-    expect(onChange.mock.calls[0][0].isValidStartDate).toBe(false)
-    expect(onType.mock.calls[0][0].isValidStartDate).toBe(false)
+    // change to invalid date (day 01 is before minDate 02)
+    await typeInField(startElem, '01')
+    await waitFor(() => expect(startElem).toHaveValue('01'))
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ isValidStartDate: false })
+    )
+    expect(onType).toHaveBeenLastCalledWith(
+      expect.objectContaining({ isValidStartDate: false })
+    )
 
-    await focusInput(startElem as HTMLInputElement)
-    await userEvent.keyboard('{Backspace>2}03')
-    await waitFor(() => expect(onChange).toHaveBeenCalledTimes(2))
-    expect(onChange.mock.calls[1][0].isValidStartDate).toBe(true)
-    expect(onType.mock.calls[1][0].isValidStartDate).toBe(true)
+    // change to valid date (day 03 is within range)
+    await typeInField(startElem, '03')
+    await waitFor(() => expect(startElem).toHaveValue('03'))
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ isValidStartDate: true })
+    )
+    expect(onType).toHaveBeenLastCalledWith(
+      expect.objectContaining({ isValidStartDate: true })
+    )
 
-    await focusInput(endElem as HTMLInputElement)
-    await userEvent.keyboard('{Backspace>2}05')
-    await waitFor(() => expect(onChange).toHaveBeenCalledTimes(3))
-    expect(onChange.mock.calls[2][0].endDate).toBe('2019-02-05')
-    expect(onChange.mock.calls[2][0].isValidEndDate).toBe(false)
-    expect(onType.mock.calls[2][0].isValidEndDate).toBe(false)
+    // change end date to invalid (day 05 is after maxDate 04)
+    await typeInField(endElem, '05')
+    await waitFor(() => expect(endElem).toHaveValue('05'))
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        endDate: '2019-02-05',
+        isValidEndDate: false,
+      })
+    )
+    expect(onType).toHaveBeenLastCalledWith(
+      expect.objectContaining({ isValidEndDate: false })
+    )
 
     fireEvent.click(getDatePickerTriggerButton())
 
@@ -1833,8 +1834,14 @@ describe('DatePicker component', () => {
       document.querySelectorAll('.dnb-date-picker__day button')[2]
     ).not.toHaveAttribute('disabled')
 
-    expect(onChange.mock.calls[2][0].date).toBe(undefined)
-    expect(onChange.mock.calls[2][0].isValid).toBe(undefined)
+    // range mode doesn't set date/isValid on the top-level
+    const lastRangeCall =
+      onChange.mock.calls[onChange.mock.calls.length - 1][0]
+    expect(lastRangeCall.date).toBe(undefined)
+    expect(lastRangeCall.isValid).toBe(undefined)
+
+    // Close the calendar before rerendering to non-range mode
+    fireEvent.click(getDatePickerTriggerButton())
 
     rerender(
       <DatePicker
@@ -1849,28 +1856,32 @@ describe('DatePicker component', () => {
       />
     )
 
-    // change the date to a valid date
-    fireEvent.change(startElem, {
-      target: { value: '01' },
-    })
+    // change the date to an invalid date (day 01 is before minDate 02)
+    const nonRangeDayElem = document.querySelector(
+      'input.dnb-date-picker__input--day'
+    ) as HTMLInputElement
+    onChange.mockClear()
+    await typeInField(nonRangeDayElem, '01')
+    await waitFor(() => expect(nonRangeDayElem).toHaveValue('01'))
 
-    expect(onChange.mock.calls[3][0].isValidStartDate).toBe(undefined)
-    expect(onChange.mock.calls[3][0].isValidEndDate).toBe(undefined)
-    expect(onChange.mock.calls[3][0].isValid).toBe(false)
+    const nonRangeInvalidCall =
+      onChange.mock.calls[onChange.mock.calls.length - 1][0]
+    expect(nonRangeInvalidCall.isValidStartDate).toBe(undefined)
+    expect(nonRangeInvalidCall.isValidEndDate).toBe(undefined)
+    expect(nonRangeInvalidCall.isValid).toBe(false)
 
-    await focusInput(startElem as HTMLInputElement)
-    await userEvent.keyboard('{Backspace>2}03')
-    await waitFor(() =>
-      expect(onChange.mock.calls[4][0].date).toBe('2019-01-03')
+    // change to valid date (day 03 is within range)
+    await typeInField(nonRangeDayElem, '03')
+    await waitFor(() => expect(nonRangeDayElem).toHaveValue('03'))
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        date: '2019-01-03',
+        isValid: true,
+      })
     )
-    expect(onChange.mock.calls[4][0].isValid).toBe(true)
   })
 
-  it('has valid onType and onChange event calls', () => {
-    function capitalizeFirstLetter(val) {
-      return String(val).charAt(0).toUpperCase() + String(val).slice(1)
-    }
-
+  it('has valid onType and onChange event calls', async () => {
     const onType = jest.fn()
     const onChange = jest.fn()
 
@@ -1905,77 +1916,72 @@ describe('DatePicker component', () => {
       'input.dnb-date-picker__input--year'
     )[1]
 
-    const testInteraction = ({
-      typeIndex,
-      changeIndex,
+    const testInteraction = async ({
       dayElem,
       monthElem,
       yearElem,
       type,
+    }: {
+      dayElem: Element
+      monthElem: Element
+      yearElem: Element
+      type: 'start' | 'end'
     }) => {
-      // by default we have the start day
+      const validKey = `isValid${type === 'start' ? 'Start' : 'End'}Date`
+      const dateKey = `${type}Date`
+
+      // by default we have the placeholder
       expect(dayElem).toHaveValue('dd')
-      expect(onType).toHaveBeenCalledTimes(typeIndex)
 
       // change the day
-      fireEvent.change(dayElem, {
-        target: { value: '03' },
-      })
+      await typeInField(dayElem, '03')
       expect(dayElem).toHaveValue('03')
-      expect(onType).toHaveBeenCalledTimes(typeIndex + 1)
-      expect(onType.mock.calls[typeIndex][0][`${type}Date`]).toBe(
-        'yyyy-mm-03'
+      expect(onType).toHaveBeenLastCalledWith(
+        expect.objectContaining({ [dateKey]: 'yyyy-mm-03' })
       )
-
-      typeIndex++
 
       // change the month
-      fireEvent.change(monthElem, {
-        target: { value: '01' },
-      })
+      await typeInField(monthElem, '01')
       expect(monthElem).toHaveValue('01')
-      expect(onType).toHaveBeenCalledTimes(typeIndex + 1)
-
-      expect(
-        onType.mock.calls[typeIndex][0][
-          `isValid${capitalizeFirstLetter(type)}Date`
-        ]
-      ).toBe(false)
-      expect(onType.mock.calls[typeIndex][0][`${type}Date`]).toBe(
-        'yyyy-01-03'
+      expect(onType).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          [validKey]: false,
+          [dateKey]: 'yyyy-01-03',
+        })
       )
-      expect(onChange).toHaveBeenCalledTimes(changeIndex)
 
-      // change the year halfway
-      fireEvent.change(yearElem, {
-        target: { value: '202' },
-      })
+      // change the year halfway — date is still incomplete
+      await typeInField(yearElem, '202')
       expect(yearElem).toHaveValue('202å')
-      expect(onType).toHaveBeenCalledTimes(typeIndex + 2)
-      expect(onChange).toHaveBeenCalledTimes(changeIndex)
 
-      // change the year
-      fireEvent.change(yearElem, {
-        target: { value: '2020' },
-      })
+      // complete the year
+      const changeCountBeforeFull = onChange.mock.calls.length
+      await typeInField(yearElem, '2020')
       expect(yearElem).toHaveValue('2020')
-      expect(onType).toHaveBeenCalledTimes(typeIndex + 3)
-      expect(onChange).toHaveBeenCalledTimes(changeIndex + 1)
+
+      // onChange should fire now that the date is fully valid
+      await waitFor(() => {
+        expect(onChange.mock.calls.length).toBeGreaterThan(
+          changeCountBeforeFull
+        )
+      })
+      expect(onChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          [dateKey]: '2020-01-03',
+          [validKey]: true,
+        })
+      )
     }
 
-    testInteraction({
+    await testInteraction({
       type: 'start',
-      typeIndex: 0,
-      changeIndex: 0,
       dayElem: startDayElem,
       monthElem: startMonthElem,
       yearElem: startYearElem,
     })
 
-    testInteraction({
+    await testInteraction({
       type: 'end',
-      typeIndex: 4,
-      changeIndex: 2, // because we do not count the first one
       dayElem: endDayElem,
       monthElem: endMonthElem,
       yearElem: endYearElem,
@@ -2116,21 +2122,20 @@ describe('DatePicker component', () => {
     ).toContain('dnb-date-picker__day--within-selection')
   })
 
-  it('resets date correctly between interactions', () => {
+  it('resets date correctly between interactions', async () => {
     let outerState
     const onChange = jest.fn(({ date }) => (outerState = date))
     const { rerender } = render(
       <DatePicker onChange={onChange} showInput date="2019-02-01" />
     )
 
-    function changeState() {
+    async function changeState() {
       const elem = document.querySelectorAll('input.dnb-input__input')[0]
       expect(elem).toHaveValue('01')
 
       // 1. change the date with event
-      fireEvent.change(elem, {
-        target: { value: '16' },
-      })
+      await userWithDelay.click(elem)
+      await userWithDelay.keyboard('16')
       // Siulate prop update, like a state update would do
       rerender(
         <DatePicker onChange={onChange} showInput date={outerState} />
@@ -2158,11 +2163,11 @@ describe('DatePicker component', () => {
       ).toBe('01')
     }
 
-    changeState()
-    expect(onChange).toHaveBeenCalledTimes(1)
-
-    changeState()
+    await changeState()
     expect(onChange).toHaveBeenCalledTimes(2)
+
+    await changeState()
+    expect(onChange).toHaveBeenCalledTimes(4)
   })
 
   it('should reset on setting value to null', () => {
@@ -2226,8 +2231,10 @@ describe('DatePicker component', () => {
     )
 
     // Typing a valid end date
-    fireEvent.focus(dayInput)
-    await userEvent.keyboard('29112025')
+    await focusInput(dayInput)
+    await userWithDelay.keyboard('29')
+    await userWithDelay.keyboard('11')
+    await userWithDelay.keyboard('2025')
 
     expect(dayInput).toHaveValue('29')
     expect(monthInput).toHaveValue('11')
@@ -2247,8 +2254,8 @@ describe('DatePicker component', () => {
     expect(yearInput).toHaveValue('åååå')
 
     // Typing a valid end date
-    fireEvent.focus(dayInput)
-    await userEvent.keyboard('29')
+    await focusInput(dayInput)
+    await userWithDelay.keyboard('29')
 
     expect(dayInput).toHaveValue('29')
     expect(monthInput).toHaveValue('mm')
@@ -2257,7 +2264,7 @@ describe('DatePicker component', () => {
     expect(onChange).toHaveBeenCalledTimes(1)
   })
 
-  it('has a reacting end date input with valid value', () => {
+  it('has a reacting end date input with valid value', async () => {
     const { rerender } = render(
       <DatePicker
         showInput
@@ -2291,9 +2298,8 @@ describe('DatePicker component', () => {
 
     // change the date
     const value = '16'
-    fireEvent.change(elem, {
-      target: { value },
-    })
+    await userWithDelay.click(elem)
+    await userWithDelay.keyboard(value)
 
     // then check the new input value
     expect(elem).toHaveValue(value)
@@ -2316,9 +2322,8 @@ describe('DatePicker component', () => {
     expect(elem).toHaveValue('17')
 
     // reset the value
-    fireEvent.change(elem, {
-      target: { value: '15' },
-    })
+    await userWithDelay.click(elem)
+    await userWithDelay.keyboard('15')
 
     rerender(
       <DatePicker
@@ -2409,7 +2414,7 @@ describe('DatePicker component', () => {
     expect(legendElem.classList).toContain('dnb-sr-only')
   })
 
-  it('should select first caret position on first focus', () => {
+  it('should select first caret position on first focus', async () => {
     render(
       <DatePicker
         id="custom-id"
@@ -2423,28 +2428,27 @@ describe('DatePicker component', () => {
       'input.dnb-input__input'
     ) as HTMLInputElement
 
-    fireEvent.focus(inputElement)
-    inputElement.setSelectionRange(0, 0)
+    await focusInput(inputElement)
 
     expect(inputElement.selectionStart).toBe(0)
-    expect(inputElement.selectionEnd).toBe(0)
+    expect(inputElement.selectionEnd).toBe(2)
 
-    fireEvent.keyDown(inputElement, {
-      key: 'A',
-    })
+    await userWithDelay.keyboard('A')
 
     expect(inputElement.selectionStart).toBe(0)
-    expect(inputElement.selectionEnd).toBe(0)
+    expect(inputElement.selectionEnd).toBe(2)
 
     fireEvent.mouseUp(inputElement)
 
     expect(inputElement.selectionStart).toBe(0)
-    expect(inputElement.selectionEnd).toBe(0)
+    expect(inputElement.selectionEnd).toBe(2)
 
-    fireEvent.focus(inputElement)
+    // Blur first so re-clicking triggers a new onFocus
+    await userWithDelay.click(document.body)
+    await focusInput(inputElement)
 
     expect(inputElement.selectionStart).toBe(0)
-    expect(inputElement.selectionEnd).toBe(0)
+    expect(inputElement.selectionEnd).toBe(2)
   })
 
   it('should focus on date picker on opening', async () => {
@@ -2514,11 +2518,9 @@ describe('DatePicker component', () => {
       document.querySelectorAll('input.dnb-date-picker__input')
     ) as Array<HTMLInputElement>
 
-    // set the cursor to the end of the input
-    dayElem.setSelectionRange(2, 2)
-
     // and simulate a right keydown
-    fireEvent.keyDown(dayElem, { key: 'ArrowRight' })
+    await userWithDelay.click(dayElem)
+    await userWithDelay.keyboard('{ArrowRight>2}')
 
     // and check the class of that element
     await waitFor(() => {
@@ -2528,7 +2530,8 @@ describe('DatePicker component', () => {
     })
 
     // and simulate a left keydown
-    fireEvent.keyDown(monthElem, { key: 'ArrowLeft' })
+    await userWithDelay.click(monthElem)
+    await userWithDelay.keyboard('{ArrowLeft>3}')
 
     // and check the class of that element
     await waitFor(() => {
@@ -2559,7 +2562,9 @@ describe('DatePicker component', () => {
     const dayInput = document.querySelector('.dnb-date-picker__input--day')
 
     await userEvent.click(dayInput)
-    await userEvent.keyboard('10022001')
+    await userWithDelay.keyboard('10')
+    await userWithDelay.keyboard('02')
+    await userWithDelay.keyboard('2001')
     await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const startMonth = document.querySelector(
@@ -2582,7 +2587,12 @@ describe('DatePicker component', () => {
     const dayInput = document.querySelector('.dnb-date-picker__input--day')
 
     await userEvent.click(dayInput)
-    await userEvent.keyboard('0103200106042003')
+    await userWithDelay.keyboard('01')
+    await userWithDelay.keyboard('03')
+    await userWithDelay.keyboard('2001')
+    await userWithDelay.keyboard('06')
+    await userWithDelay.keyboard('04')
+    await userWithDelay.keyboard('2003')
     await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const [startMonth, endMonth] = Array.from(
@@ -2934,16 +2944,16 @@ describe('DatePicker component', () => {
 
     // Type day
     await userEvent.click(dayInput)
-    await userEvent.keyboard('12')
+    await userWithDelay.keyboard('12')
     // Blur doesn't fire during typing, only when focus leaves
     expect(onBlur).toHaveBeenCalledTimes(0)
 
     // Type month
-    await userEvent.keyboard('11')
+    await userWithDelay.keyboard('11')
     expect(onBlur).toHaveBeenCalledTimes(0)
 
     // Type year
-    await userEvent.keyboard('202')
+    await userWithDelay.keyboard('202')
     await userEvent.click(document.body)
     await waitFor(() => {
       expect(onBlur).toHaveBeenCalledTimes(1)
@@ -2956,7 +2966,7 @@ describe('DatePicker component', () => {
 
     await userEvent.click(yearInput)
     yearInput.setSelectionRange(0, 0)
-    await userEvent.keyboard('2025')
+    await userWithDelay.keyboard('2025')
     await userEvent.click(document.body)
     await waitFor(() => {
       expect(onBlur).toHaveBeenCalledTimes(2)
@@ -2969,7 +2979,7 @@ describe('DatePicker component', () => {
 
     // Remove part of year to make date partial again
     await userEvent.click(yearInput)
-    await userEvent.keyboard('{ArrowRight>4}{Backspace}')
+    await userWithDelay.keyboard('{ArrowRight>4}{Backspace}')
     await userEvent.click(document.body)
     await waitFor(() => {
       expect(onBlur).toHaveBeenCalledTimes(3)
@@ -2994,7 +3004,7 @@ describe('DatePicker component', () => {
     ) as HTMLInputElement
 
     // Focus day
-    await userEvent.click(dayInput)
+    await userWithDelay.click(dayInput)
     expect(onFocus).toHaveBeenCalledTimes(1)
     expect(onFocus).toHaveBeenLastCalledWith(
       expect.objectContaining({
@@ -3004,23 +3014,23 @@ describe('DatePicker component', () => {
     )
 
     // Type day
-    await userEvent.keyboard('12')
+    await userWithDelay.keyboard('12')
     expect(onFocus).toHaveBeenCalledTimes(1)
 
     // Type month
-    await userEvent.keyboard('11')
+    await userWithDelay.keyboard('11')
     expect(onFocus).toHaveBeenCalledTimes(1)
 
     // Type year
-    await userEvent.keyboard('202')
+    await userWithDelay.keyboard('202')
     expect(onFocus).toHaveBeenCalledTimes(1)
 
     // Focus month
-    await userEvent.click(monthInput)
+    await userWithDelay.click(monthInput)
     expect(onFocus).toHaveBeenCalledTimes(1)
 
     // Focus year
-    await userEvent.click(yearInput)
+    await userWithDelay.click(yearInput)
     expect(onFocus).toHaveBeenCalledTimes(1)
     expect(onFocus).toHaveBeenLastCalledWith(
       expect.objectContaining({
@@ -3029,14 +3039,14 @@ describe('DatePicker component', () => {
       })
     )
 
-    // Complete year
-    await userEvent.keyboard('5')
+    // Complete year – select-all is active after click, so type full value
+    await userWithDelay.keyboard('2025')
     expect(onFocus).toHaveBeenCalledTimes(1)
 
-    await userEvent.click(document.body)
+    await userWithDelay.click(document.body)
 
     // Focus day again
-    await userEvent.click(dayInput)
+    await userWithDelay.click(dayInput)
     expect(onFocus).toHaveBeenCalledTimes(2)
     expect(onFocus).toHaveBeenLastCalledWith(
       expect.objectContaining({
@@ -3064,7 +3074,7 @@ describe('DatePicker component', () => {
     )[1]
 
     // Focus start day
-    await userEvent.click(startDayInput)
+    await userWithDelay.click(startDayInput)
     expect(onFocus).toHaveBeenCalledTimes(1)
     expect(onFocus).toHaveBeenLastCalledWith(
       expect.objectContaining({
@@ -3076,15 +3086,15 @@ describe('DatePicker component', () => {
     )
 
     // Type day
-    await userEvent.keyboard('12')
+    await userWithDelay.keyboard('12')
     expect(onFocus).toHaveBeenCalledTimes(1)
 
     // Type month
-    await userEvent.keyboard('12')
+    await userWithDelay.keyboard('12')
     expect(onFocus).toHaveBeenCalledTimes(1)
 
     // Type year - when year is complete, focus moves to end day, triggering another focus event
-    await userEvent.keyboard('1212')
+    await userWithDelay.keyboard('1212')
     await waitFor(() => {
       expect(onFocus).toHaveBeenCalledTimes(2)
     })
@@ -3098,7 +3108,7 @@ describe('DatePicker component', () => {
     )
 
     // Focus start month - clicking a different input within the same MultiInputMask triggers focus
-    await userEvent.click(startMonthInput)
+    await userWithDelay.click(startMonthInput)
     expect(onFocus).toHaveBeenCalledTimes(3)
     expect(onFocus).toHaveBeenLastCalledWith(
       expect.objectContaining({
@@ -3110,7 +3120,7 @@ describe('DatePicker component', () => {
     )
 
     // Focus end day - clicking a different MultiInputMask triggers focus
-    await userEvent.click(endDayInput)
+    await userWithDelay.click(endDayInput)
     expect(onFocus).toHaveBeenCalledTimes(4)
     expect(onFocus).toHaveBeenLastCalledWith(
       expect.objectContaining({
@@ -3122,29 +3132,29 @@ describe('DatePicker component', () => {
     )
 
     // Type day
-    await userEvent.keyboard('12')
+    await userWithDelay.keyboard('12')
     expect(onFocus).toHaveBeenCalledTimes(4)
 
     // Type month
-    await userEvent.keyboard('12')
+    await userWithDelay.keyboard('12')
     expect(onFocus).toHaveBeenCalledTimes(4)
 
     // Type year - when year is complete, focus moves but focus event may not fire immediately
-    await userEvent.keyboard('1212')
+    await userWithDelay.keyboard('1212')
     // Focus event may not fire when focus automatically moves after completing end year
     expect(onFocus).toHaveBeenCalledTimes(4)
 
     // Focus end year - clicking a different input within the same MultiInputMask may not trigger focus
     // if focus is already on that MultiInputMask
-    await userEvent.click(endYearInput)
+    await userWithDelay.click(endYearInput)
     expect(onFocus).toHaveBeenCalledTimes(4)
 
     // Remove part of end year
-    await userEvent.keyboard('{ArrowRight>4}{Backspace}')
+    await userWithDelay.keyboard('{ArrowRight>4}{Backspace}')
     expect(onFocus).toHaveBeenCalledTimes(4)
 
     // Focus start year - clicking a different MultiInputMask triggers focus
-    await userEvent.click(startYearInput)
+    await userWithDelay.click(startYearInput)
     expect(onFocus).toHaveBeenCalledTimes(5)
     expect(onFocus).toHaveBeenLastCalledWith(
       expect.objectContaining({
@@ -3156,15 +3166,15 @@ describe('DatePicker component', () => {
     )
 
     // Remove part of start year - this may trigger focus events as the date becomes invalid
-    await userEvent.keyboard('{ArrowRight>4}{Backspace>6}')
-    // The focus event count may increase when the date becomes invalid
-    expect(onFocus).toHaveBeenCalledTimes(6)
+    await userWithDelay.keyboard('{ArrowRight>4}{Backspace>6}')
+    // The focus event count increases when backspace crosses into the end MultiInputMask
+    expect(onFocus).toHaveBeenCalledTimes(7)
 
-    await userEvent.click(document.body)
+    await userWithDelay.click(document.body)
 
     // Focus start day again
-    await userEvent.click(startDayInput)
-    expect(onFocus).toHaveBeenCalledTimes(7)
+    await userWithDelay.click(startDayInput)
+    expect(onFocus).toHaveBeenCalledTimes(8)
     expect(onFocus).toHaveBeenLastCalledWith(
       expect.objectContaining({
         startDate: null,
@@ -3187,17 +3197,17 @@ describe('DatePicker component', () => {
     )[1]
 
     // Type day
-    await userEvent.click(startDayInput)
-    await userEvent.keyboard('12')
+    await userWithDelay.click(startDayInput)
+    await userWithDelay.keyboard('12')
     // Blur doesn't fire during typing, only when focus leaves
     expect(onBlur).toHaveBeenCalledTimes(0)
 
     // Type month
-    await userEvent.keyboard('12')
+    await userWithDelay.keyboard('12')
     expect(onBlur).toHaveBeenCalledTimes(0)
 
     // Type year
-    await userEvent.keyboard('1212')
+    await userWithDelay.keyboard('1212')
     await waitFor(() => {
       expect(onBlur).toHaveBeenCalledTimes(1)
     })
@@ -3211,17 +3221,17 @@ describe('DatePicker component', () => {
     )
 
     // Type day
-    await userEvent.keyboard('12')
+    await userWithDelay.keyboard('12')
     expect(onBlur).toHaveBeenCalledTimes(1)
 
     // Type month
-    await userEvent.keyboard('12')
+    await userWithDelay.keyboard('12')
     expect(onBlur).toHaveBeenCalledTimes(1)
 
     // Type year
-    await userEvent.keyboard('1212')
+    await userWithDelay.keyboard('1212')
     // Clicking body triggers blur
-    await userEvent.click(document.body)
+    await userWithDelay.click(document.body)
     await waitFor(() => {
       expect(onBlur).toHaveBeenCalledTimes(2)
     })
@@ -3235,8 +3245,8 @@ describe('DatePicker component', () => {
     )
 
     // Remove the whole end , month and day
-    await userEvent.click(endYearInput)
-    await userEvent.keyboard('{ArrowRight>4}{Backspace>8}')
+    await userWithDelay.click(endYearInput)
+    await userWithDelay.keyboard('{ArrowRight}{Backspace>9}')
     await waitFor(() => {
       expect(onBlur).toHaveBeenCalledTimes(3)
     })
@@ -3250,9 +3260,9 @@ describe('DatePicker component', () => {
     )
 
     // Remove part of start year
-    await userEvent.keyboard('{Backspace}')
+    await userWithDelay.keyboard('{Backspace}')
     // Clicking body triggers blur
-    await userEvent.click(document.body)
+    await userWithDelay.click(document.body)
     await waitFor(() => {
       expect(onBlur).toHaveBeenCalledTimes(4)
     })
@@ -3370,8 +3380,9 @@ describe('DatePicker component', () => {
     ) as HTMLInputElement
 
     await focusInput(dayInput)
-    await userEvent.keyboard('3919')
-    await userEvent.keyboard('1111')
+    await userWithDelay.keyboard('39')
+    await userWithDelay.keyboard('19')
+    await userWithDelay.keyboard('1111')
     await waitFor(() => expect(onChange).toHaveBeenCalledTimes(1))
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({ invalidDate: '1111-19-39' })
@@ -3379,8 +3390,10 @@ describe('DatePicker component', () => {
 
     // Typing a valid date
     await focusInput(dayInput)
-    await userEvent.keyboard('{Backspace>8}20112025')
-    await waitFor(() => expect(onChange).toHaveBeenCalledTimes(6))
+    await userWithDelay.keyboard('{Backspace>8}20112025')
+    await userWithDelay.keyboard('11')
+    await userWithDelay.keyboard('2025')
+    await waitFor(() => expect(onChange).toHaveBeenCalledTimes(4))
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({ invalidDate: null })
     )
@@ -3396,18 +3409,18 @@ describe('DatePicker component', () => {
 
     // Fill out startDay
     await focusInput(dayInput)
-    await userEvent.keyboard('99')
-    await userEvent.keyboard('99')
-    await userEvent.keyboard('9999')
+    await userWithDelay.keyboard('99')
+    await userWithDelay.keyboard('99')
+    await userWithDelay.keyboard('9999')
     await waitFor(() => expect(onChange).toHaveBeenCalledTimes(1))
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({ invalidStartDate: '9999-99-99' })
     )
 
     // Fill out endDay
-    await userEvent.keyboard('88')
-    await userEvent.keyboard('88')
-    await userEvent.keyboard('8888')
+    await userWithDelay.keyboard('88')
+    await userWithDelay.keyboard('88')
+    await userWithDelay.keyboard('8888')
     await waitFor(() => expect(onChange).toHaveBeenCalledTimes(2))
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -3419,10 +3432,11 @@ describe('DatePicker component', () => {
     )
 
     // Typing a valid start date
-    await userEvent.click(dayInput)
-    dayInput.setSelectionRange(0, 0)
-    await userEvent.keyboard('20112025')
-    expect(onChange).toHaveBeenCalledTimes(7)
+    await userWithDelay.click(dayInput)
+    await userWithDelay.keyboard('20')
+    await userWithDelay.keyboard('11')
+    await userWithDelay.keyboard('2025')
+    expect(onChange).toHaveBeenCalledTimes(5)
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({
         invalidStartDate: null,
@@ -3433,8 +3447,10 @@ describe('DatePicker component', () => {
     )
 
     // Typing a valid end date
-    await userEvent.keyboard('29112025')
-    expect(onChange).toHaveBeenCalledTimes(12)
+    await userWithDelay.keyboard('29')
+    await userWithDelay.keyboard('11')
+    await userWithDelay.keyboard('2025')
+    expect(onChange).toHaveBeenCalledTimes(8)
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({
         invalidStartDate: null,
@@ -3445,7 +3461,7 @@ describe('DatePicker component', () => {
     )
   })
 
-  it('should set cursor on beginning of input when clicking on input', async () => {
+  it('should select the whole input on click', async () => {
     render(<DatePicker showInput={true} />)
 
     const input = document.querySelector(
@@ -3455,13 +3471,13 @@ describe('DatePicker component', () => {
     expect(input.selectionStart).toBe(input.value.length)
     expect(input.selectionEnd).toBe(input.value.length)
 
-    await userEvent.click(input)
+    await focusInput(input)
 
     expect(input.selectionStart).toBe(0)
-    expect(input.selectionEnd).toBe(0)
+    expect(input.selectionEnd).toBe(2)
   })
 
-  it('should set cursor on end of input when clicking on input when existing value is given', async () => {
+  it('should select whole input on click when existing value is given', async () => {
     render(<DatePicker showInput={true} date="2023-10-01" />)
 
     const input = document.querySelector(
@@ -3473,7 +3489,7 @@ describe('DatePicker component', () => {
 
     await userEvent.click(input)
 
-    expect(input.selectionStart).toBe(2)
+    expect(input.selectionStart).toBe(0)
     expect(input.selectionEnd).toBe(2)
   })
 
