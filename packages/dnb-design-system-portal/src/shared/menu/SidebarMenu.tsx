@@ -222,7 +222,7 @@ const ThemeBadge = ({ theme, ...props }: { theme: ThemeNames }) => {
       ui: 'DNB',
       sbanken: 'Sbanken',
       eiendom: 'Eiendom',
-      carnegie: 'DNB Carnegie',
+      carnegie: 'Carnegie',
     }[theme]
   const themeTitleTitle =
     theme && `This component is ready for use with the ${themeTitle} theme`
@@ -253,7 +253,7 @@ type ListItemProps = {
   level?: number
   nr?: number
   status?: string
-  theme?: ThemeNames
+  theme?: ThemeNames[]
   icon?: string
   isActive?: boolean
   hideInMenu?: boolean
@@ -273,7 +273,7 @@ function ListItem({
   isInsideActiveCategory = false,
   nr,
   status,
-  theme,
+  theme: supportedThemes,
   icon,
   title,
   subheadings,
@@ -393,7 +393,9 @@ function ListItem({
                 {title.replace(/^[A-Z][a-z]*\./, '')}
               </span>
             </span>
-            {theme === currentTheme && <ThemeBadge theme={theme} />}
+            {supportedThemes?.indexOf(currentTheme) > -1 && (
+              <ThemeBadge theme={currentTheme} />
+            )}
             {status && (
               <Badge space={{ right: 'xx-small' }} content={statusTitle} />
             )}
