@@ -5,7 +5,7 @@
 
 import React from 'react'
 
-const Context = React.createContext<Record<string, unknown>>({
+const Context = React.createContext<Record<string, any>>({
   pagination: {},
 })
 
