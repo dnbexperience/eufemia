@@ -8,6 +8,11 @@
 .dnb-card {
   // Nested Cards
   & .dnb-card {
-    --rounded-corner: 0.375rem;
+    --rounded-corner: 1rem;
+  }
+
+  // Third level and deeper nested Cards
+  & .dnb-card .dnb-card {
+    --rounded-corner: 0.5rem;
   }
 }
