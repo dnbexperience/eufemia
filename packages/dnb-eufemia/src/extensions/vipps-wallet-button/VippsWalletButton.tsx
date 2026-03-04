@@ -7,8 +7,11 @@ import React from 'react'
 import classnames from 'classnames'
 import Button, { type ButtonProps } from '../../components/button/Button'
 import useTranslation from '../../shared/useTranslation'
+import { SubmitIndicator } from '../forms/Form'
 
-export type VippsWalletButtonProps = Omit<ButtonProps, 'variant'>
+export type VippsWalletButtonProps = Omit<ButtonProps, 'variant'> & {
+  pending?: boolean
+}
 
 const messages = {
   'nb-NO': {
@@ -35,6 +38,7 @@ const messages = {
 
 export default function VippsWalletButton({
   className,
+  pending,
   ...props
 }: VippsWalletButtonProps) {
   const {
@@ -42,13 +46,15 @@ export default function VippsWalletButton({
   } = useTranslation({ messages })
   const buttonText = translation?.text
 
+  const indicatorState = pending ? 'pending' : undefined
+
   return (
     <Button
       {...props}
       variant="primary"
-      className={classnames('dnb-vipps-wallet-button', className)}
+      className={classnames('dnb-vipps-wallet-button', className, {'pending': pending})}
     >
-      {buttonText} <VippsLogo />
+      {buttonText} <VippsLogo />  <SubmitIndicator state={indicatorState} />
     </Button>
   )
 }

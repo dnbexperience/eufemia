@@ -39,4 +39,8 @@
   &[disabled] {
     background-color: var(--color-black-20);
   }
+
+  &.pending {
+    background-color: var(--color-black-20);
+  }
 }
