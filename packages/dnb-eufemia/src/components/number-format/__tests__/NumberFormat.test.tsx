@@ -27,7 +27,7 @@ const Component = (props) => {
   return <NumberFormat id="unique" {...props} />
 }
 
-const element = NumberFormat.defaultProps.element
+const element = 'span'
 const locale = LOCALE
 const value = 12345678.9876
 
