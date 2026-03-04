@@ -43,7 +43,6 @@ import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import IconPrimary from '../icon-primary/IconPrimary'
 import Input, { SubmitButton } from '../input/Input'
-import type { InputProps } from '../input/Input'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 import DrawerList from '../../fragments/drawer-list/DrawerList'
 import { ItemContent } from '../../fragments/drawer-list/DrawerListItem'
@@ -58,7 +57,7 @@ import {
 
 export type AutocompleteClearEvent = {
   value: string
-  previousValue: string
+  previousValue: string | number | null
   event: React.SyntheticEvent | Event
 }
 
@@ -2295,7 +2294,7 @@ class AutocompleteInstance extends React.PureComponent<
                     this.state.skipFocusDuringChange ? 'focus' : undefined
                   } // because of the short blur / focus during select
                   clear={showClearButton}
-                  onClear={onClear as InputProps['onClear']}
+                  onClear={onClear}
                   ref={this._refInput}
                   {...(inputParams as Record<string, unknown>)}
                   {...(statusProps as Record<string, unknown>)}

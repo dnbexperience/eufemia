@@ -48,11 +48,25 @@ export type InputValue = string | number
 export type InputSuffix = string | React.ReactNode
 export type InputAlign = 'left' | 'center' | 'right'
 export type InputInputAttributes = string | Record<string, unknown>
+export type InputElementRenderProps = {
+  className: string
+  autoComplete: string
+  type: string
+  id: string
+  disabled: boolean
+  name: string
+  value: string | number | null
+  onChange: React.ChangeEventHandler<HTMLInputElement>
+  onKeyDown: React.KeyboardEventHandler<HTMLInputElement>
+  onFocus: React.FocusEventHandler<HTMLInputElement>
+  onBlur: React.FocusEventHandler<HTMLInputElement>
+  [key: string]: unknown
+}
 export type InputInputElement =
   | React.ComponentType
   | React.ReactNode
   | ((
-      params: Record<string, unknown>,
+      params: InputElementRenderProps,
       ref: React.RefObject<HTMLInputElement | null>
     ) => React.ReactNode)
 export type InputSubmitElement = React.ComponentType | React.ReactNode
@@ -652,7 +666,10 @@ export class InputClass extends React.PureComponent<
 
     if (InputElement && typeof InputElement === 'function') {
       InputElement = (
-        InputElement as (...args: unknown[]) => React.ReactNode
+        InputElement as (
+          params: InputElementRenderProps,
+          ref: React.RefObject<HTMLInputElement | null>
+        ) => React.ReactNode
       )({ ...inputParams, value }, this._ref)
     } else if (!InputElement && _input_element) {
       InputElement = _input_element
@@ -931,7 +948,7 @@ function SubmitButton({
 
   return (
     <InputSubmitButton
-      ref={(ref ? instanceRef : undefined) as any}
+      ref={(ref ? instanceRef : undefined) as React.Ref<InputSubmitButton>}
       {...props}
     />
   )
@@ -1002,7 +1019,10 @@ const Input: InputComponent = Object.assign(
 
     return (
       <InputClass
-        ref={(ref ? instanceRef : undefined) as any}
+        ref={
+          (ref ? instanceRef : undefined) as React.Ref<InputClass> &
+            React.Ref<HTMLInputElement>
+        }
         {...props}
       />
     )
