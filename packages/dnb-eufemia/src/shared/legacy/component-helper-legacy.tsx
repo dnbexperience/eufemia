@@ -307,10 +307,11 @@ export const checkIfHasScrollbar = (elem: HTMLElement | null) => {
 }
 
 const overflowIsScrollable = (elem: Element) => {
-  const style =
-    typeof window !== 'undefined'
-      ? window.getComputedStyle(elem)
-      : ({} as CSSStyleDeclaration)
+  if (typeof window === 'undefined') {
+    return false
+  }
+
+  const style = window.getComputedStyle(elem)
   return /scroll|auto/i.test(
     (style.overflow || '') +
       (style.overflowX || '') +
