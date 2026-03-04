@@ -1290,6 +1290,7 @@ The `IS_FF()` SCSS mixin now uses `@supports (-moz-appearance: none)` instead of
 
 ### General
 
+- `Form.Card` no longer enables `outset` by default.
 - Replace `Form.useErrorMessage` with your error messages as an object in the `errorMessages` property (e.g., with a `useMemo` hook).
 - Replace `Form.useError` with `Form.useValidation`.
 - Replace `Form.useLocale` with `Form.useLocation`.
@@ -1298,6 +1299,7 @@ The `IS_FF()` SCSS mixin now uses `@supports (-moz-appearance: none)` instead of
 - Replace `Form.FieldProps` with `Field.Provider`.
 - Replace `<Card stack>...</Card>` with `<Form.Card>...</Form.Card>`.
 - Replace `<Card>...</Card>` with `<Form.Card>...</Form.Card>`.
+- Removed automatic card-coupled outset alignment for `Form.MainHeading`, `Form.SubHeading`, `Form.SubmitButton` and `Form.ButtonRow`.
 - Replace `StepsLayout` with `Wizard.Container`.
 - Replace `StepsLayout.Step` with `Wizard.Step`.
 - Replace `StepsLayout.NextButton` with `Wizard.Buttons`.
