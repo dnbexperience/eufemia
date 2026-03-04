@@ -12,15 +12,45 @@ import {
   slugify,
 } from '../../shared/component-helper'
 
+type StatusProps = Record<string, unknown> & {
+  statusId?: string
+  show?: boolean
+  text?: unknown
+  children?: unknown
+  items?: StatusItem[] | string
+  item?: StatusItem | string
+  bufferDelay?: number
+}
+
+type StatusItem = Record<string, unknown> & {
+  itemId?: string
+  text?: unknown
+}
+
+type GlobalStatusResult = Record<string, unknown>
+
+type OnUpdateCallback = (
+  globalStatus: GlobalStatusResult,
+  props: StatusProps | null,
+  opts: { isEmpty?: boolean }
+) => void
+
+type OnReadyEntry = {
+  status: GlobalStatusProviderItem
+  cb: ((status: GlobalStatusProviderItem) => void) | null
+}
+
 export class GlobalStatusProviderItem {
-  constructor(id, props = null) {
+  internalId: string
+
+  constructor(id: string, props: StatusProps | null = null) {
     this.internalId = id
     if (props) {
       this.add(props)
     }
   }
 
-  onUpdate(event) {
+  onUpdate(event: OnUpdateCallback) {
     // check for duplication first
     if (this._onUpdateEvents.filter((cb) => cb === event).length === 0) {
       this._onUpdateEvents.push(event)
@@ -29,8 +59,8 @@ export class GlobalStatusProviderItem {
 
   // force re-render of the given GlobalStatus component
   forceRerender(
-    globalStatus,
-    props,
+    globalStatus: GlobalStatusResult,
+    props: StatusProps | null,
     { bufferDelay = 0, isEmpty = false } = {}
   ) {
     const run = () => {
@@ -49,11 +79,11 @@ export class GlobalStatusProviderItem {
     }
   }
 
-  init(props) {
+  init(props: StatusProps) {
     return this.add(props, { preventRerender: true })
   }
 
-  add(props, opts = {}) {
+  add(props: StatusProps, opts: { preventRerender?: boolean } = {}) {
     this.remove('internal-close', { preventRerender: true })
 
     // make copy
@@ -97,11 +127,15 @@ export class GlobalStatusProviderItem {
     return globalStatus
   }
 
-  get(statusId) {
+  get(statusId: string) {
     return this.stack.find((cur) => cur.statusId === statusId)
   }
 
-  update(statusId, newProps, opts = {}) {
+  update(
+    statusId: string,
+    newProps: StatusProps,
+    opts: { preventRerender?: boolean } = {}
+  ) {
     const item = this.get(statusId)
     if (!item) {
       this.add(newProps, { preventRerender: true })
@@ -130,7 +164,7 @@ export class GlobalStatusProviderItem {
     }
   }
 
-  restack(statusId) {
+  restack(statusId: string) {
     const item = this.get(statusId)
 
     // re-stack,so the new one is the latest
@@ -142,7 +176,10 @@ export class GlobalStatusProviderItem {
     }
   }
 
-  remove(statusId, opts = {}) {
+  remove(
+    statusId: string,
+    opts: { preventRerender?: boolean; bufferDelay?: number } = {}
+  ) {
     if (statusId) {
       this.stack = this.stack.filter((cur) => {
         return cur.statusId !== statusId
@@ -188,26 +225,35 @@ export class GlobalStatusProviderItem {
     return true
   }
 
-  addOnReady(status, cb) {
+  addOnReady(
+    status: GlobalStatusProviderItem,
+    cb: (status: GlobalStatusProviderItem) => void
+  ) {
     this._onReadyEvents.push({ status, cb })
   }
 
-  stack = [] // the "layers" with
-  globalStatus = {} // summary of all stacks
-  _onUpdateEvents = [] // for the "onUpdate" events
-  _onReadyEvents = [] // for startup events
+  stack: StatusProps[] = []
+  globalStatus: GlobalStatusResult = {}
+  _onUpdateEvents: (OnUpdateCallback | null)[] = []
+  _onReadyEvents: OnReadyEntry[] = []
+  _bufferDelayId: ReturnType<typeof setTimeout> | undefined = undefined
 }
 
 // The meaning with this is that we can force a rerender without sharing the same context
 class GlobalStatusProvider {
-  static providers = {}
+  static providers: Record<string, GlobalStatusProviderItem> = {}
+  static _supportsSpacingProps = true
 
-  static create = (id = 'main', props = null) => {
+  static create = (id = 'main', props: StatusProps | null = null) => {
     return (GlobalStatusProvider.providers[id] =
       new GlobalStatusProviderItem(id, props))
   }
 
-  static init(id = 'main', onReady = null, props = null) {
+  static init(
+    id = 'main',
+    onReady: ((status: GlobalStatusProviderItem) => void) | null = null,
+    props: StatusProps | null = null
+  ) {
     const existingStatus = GlobalStatusProvider.get(id)
 
     if (existingStatus) {
@@ -234,7 +280,7 @@ class GlobalStatusProvider {
     return newStatus
   }
 
-  static get(id = 'main') {
+  static get(id = 'main'): GlobalStatusProviderItem | null {
     return GlobalStatusProvider.providers[id] || null
   }
 
@@ -244,7 +290,10 @@ class GlobalStatusProvider {
     }
   }
 
-  static prepareItemWithStatusId(item, statusId = null) {
+  static prepareItemWithStatusId(
+    item: StatusItem | string,
+    statusId: string | null = null
+  ): StatusItem {
     if (typeof item === 'string') {
       item = { text: item }
     }
@@ -264,7 +313,7 @@ class GlobalStatusProvider {
     return item
   }
 
-  static combineMessages(stack) {
+  static combineMessages(stack: StatusProps[]): GlobalStatusResult {
     const globalStatus = stack.reduce((acc, cur) => {
       // make a copy, because items are read-only
       cur = { ...cur }
@@ -314,9 +363,11 @@ class GlobalStatusProvider {
 
 // add a fallback, in case we don't run this inside the same React instance
 if (typeof window !== 'undefined') {
-  window.GlobalStatusProvider = GlobalStatusProvider
+  ;(
+    window as Window & {
+      GlobalStatusProvider?: typeof GlobalStatusProvider
+    }
+  ).GlobalStatusProvider = GlobalStatusProvider
 }
-
-GlobalStatusProvider._supportsSpacingProps = true
 
 export default GlobalStatusProvider
