@@ -25,8 +25,8 @@ import {
   hideSidebarToggleButtonStyle,
 } from './StickyMenuBar.module.scss'
 import { Link } from '../tags/Anchor'
-import GithubLogo from '../../docs/contribute/assets/github-logo.js'
-import FigmaLogo from '../../docs/contribute/assets/figma-logo.js'
+import GithubLogo from '../../docs/contribute/assets/github-logo'
+import FigmaLogo from '../../docs/contribute/assets/figma-logo'
 import type { IconSize } from '@dnb/eufemia/src/components/Icon'
 
 export default function StickyMenuBar({
