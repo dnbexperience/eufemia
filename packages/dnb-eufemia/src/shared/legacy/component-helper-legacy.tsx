@@ -76,7 +76,7 @@ export function defineNavigator() {
   }
 }
 
-export const processChildren = (props: Record<string, unknown>) => {
+export const processChildren = (props: Record<string, any>) => {
   if (!props) {
     return null
   }
