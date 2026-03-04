@@ -30,10 +30,7 @@ function StepIndicatorTriggerButton({
   isNested,
   ...rest
 }: StepIndicatorTriggerButtonProps) {
-  const {
-    data,
-    ...contextWithoutData
-  } = useContext(StepIndicatorContext)
+  const { data, ...contextWithoutData } = useContext(StepIndicatorContext)
 
   const {
     stepsLabel,
