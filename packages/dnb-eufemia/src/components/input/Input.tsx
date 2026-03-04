@@ -381,8 +381,7 @@ export class InputClass extends React.PureComponent<
       | (typeof context.formElement & { useId?: () => string })
       | undefined
 
-    this._id =
-      props.id || formElement?.useId?.() || makeUniqueId() // cause we need an id anyway
+    this._id = props.id || formElement?.useId?.() || makeUniqueId() // cause we need an id anyway
 
     if (props.clear && props.iconPosition === 'right') {
       warn('You cannot have a clear button and iconPosition="right"')

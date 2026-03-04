@@ -321,10 +321,7 @@ function StringComponent(props: Props) {
           mask={mask}
         />
       ) : (
-        <Input
-          {...sharedProps}
-          {...inputProps}
-        />
+        <Input {...sharedProps} {...inputProps} />
       )}
     </FieldBlock>
   )
