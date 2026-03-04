@@ -2,7 +2,13 @@
  * Web Dropdown Component
  */
 
-import React, { useContext, useRef, useCallback, useEffect } from 'react'
+import React, {
+  useContext,
+  useRef,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+} from 'react'
 import clsx from 'clsx'
 import {
   makeUniqueId,
@@ -211,7 +217,7 @@ const dropdownDefaultProps = {
   onSelect: null,
 }
 
-function DropdownInstance({
+const DropdownInstance = React.memo(function DropdownInstance({
   externalRef,
   externalButtonRef,
   ...ownProps
@@ -268,8 +274,10 @@ function DropdownInstance({
     ...removeUndefinedProps({ ...ownProps }),
   }
 
-  // Open on mount if props.open is set
-  useEffect(() => {
+  // Open on mount if props.open is set.
+  // Use useLayoutEffect to make the dropdown visible before paint,
+  // avoiding a flash of the closed state.
+  useLayoutEffect(() => {
     if (propsWithDefaults.open) {
       context.drawerList.setWrapperElement(wrapperRef.current).setVisible()
     }
@@ -753,7 +761,7 @@ function DropdownInstance({
       </span>
     </span>
   )
-}
+})
 
 /**
  * Function component wrapper that provides DrawerListProvider context
