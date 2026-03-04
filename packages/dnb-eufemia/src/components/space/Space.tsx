@@ -95,7 +95,7 @@ function SpaceInstance(localProps: SpaceAllProps) {
     left,
     style,
     space,
-    innerSpace, // eslint-disable-line
+    innerSpace,
     stretch,
     skeleton,
     ref,

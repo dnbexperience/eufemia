@@ -57,25 +57,25 @@ const Upload = (localProps: UploadAllProps) => {
     filesAmountLimit,
     fileMaxSize,
     onChange,
-    onFileDelete, // eslint-disable-line
-    onFileClick, // eslint-disable-line
-    download, // eslint-disable-line
+    onFileDelete,
+    onFileClick,
+    download,
     allowDuplicates,
-    title, // eslint-disable-line
-    text, // eslint-disable-line
-    fileTypeTableCaption, // eslint-disable-line
-    fileTypeDescription, // eslint-disable-line
-    fileSizeDescription, // eslint-disable-line
-    fileAmountDescription, // eslint-disable-line
-    fileSizeContent, // eslint-disable-line
-    buttonText, // eslint-disable-line
-    loadingText, // eslint-disable-line
+    title,
+    text,
+    fileTypeTableCaption,
+    fileTypeDescription,
+    fileSizeDescription,
+    fileAmountDescription,
+    fileSizeContent,
+    buttonText,
+    loadingText,
     errorLargeFile,
     errorUnsupportedFile,
-    errorAmountLimit, // eslint-disable-line
-    deleteButton, // eslint-disable-line
-    fileListAriaLabel, // eslint-disable-line
-    buttonProps, // eslint-disable-line
+    errorAmountLimit,
+    deleteButton,
+    fileListAriaLabel,
+    buttonProps,
     disableDragAndDrop,
     ...props
   } = extendedProps

@@ -440,13 +440,13 @@ class Modal extends React.PureComponent<ModalAllProps, ModalState> {
       bypassInvalidationSelectors = null,
       verticalAlignment = 'center',
 
-      id, // eslint-disable-line
-      openDelay, // eslint-disable-line
+      id,
+      openDelay,
 
       omitTriggerButton = false,
       trigger = null,
       triggerAttributes = null,
-      ref: _ref, // eslint-disable-line
+      ref: _ref,
       ...rest
     } = props
 

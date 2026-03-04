@@ -18,7 +18,7 @@ interface DrawerBodyProps extends ModalInnerProps {
 export default function DrawerBody({
   className,
   styleType,
-  ref, //eslint-disable-line
+  ref,
   ...props
 }: DrawerBodyProps & React.HTMLProps<HTMLElement>) {
   return (

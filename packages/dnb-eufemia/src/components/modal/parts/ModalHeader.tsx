@@ -44,7 +44,7 @@ export default function ModalHeader({
   children = null,
   titleClass = null,
   size = null,
-  ref, // eslint-disable-line
+  ref,
   ...sectionProps
 }: ModalHeaderProps &
   Omit<React.HTMLProps<HTMLElement>, 'size' | 'title' | 'children'>) {

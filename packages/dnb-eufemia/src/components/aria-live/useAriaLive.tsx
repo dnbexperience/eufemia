@@ -48,8 +48,8 @@ export default function useAriaLive(props: AriaLiveAllProps) {
     className,
     children,
     showAnnouncement,
-    variant, // eslint-disable-line
-    priority, // eslint-disable-line
+    variant,
+    priority,
     ...rest
   } = extendPropsWithContext(
     props,

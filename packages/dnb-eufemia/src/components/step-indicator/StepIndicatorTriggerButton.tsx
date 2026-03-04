@@ -30,10 +30,7 @@ function StepIndicatorTriggerButton({
   isNested,
   ...rest
 }: StepIndicatorTriggerButtonProps) {
-  const {
-    data, // eslint-disable-line
-    ...contextWithoutData
-  } = useContext(StepIndicatorContext)
+  const { data, ...contextWithoutData } = useContext(StepIndicatorContext)
 
   const {
     stepsLabel,
@@ -45,7 +42,7 @@ function StepIndicatorTriggerButton({
     skeleton,
     filterAttributes,
     noAnimation,
-    stepTitle, // eslint-disable-line
+    stepTitle,
     ...contextWithoutDataRest
   } = contextWithoutData
 

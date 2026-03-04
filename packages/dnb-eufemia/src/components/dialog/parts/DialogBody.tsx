@@ -18,7 +18,7 @@ interface DialogBodyProps extends ModalInnerProps {
 export default function DialogBody({
   className,
   styleType,
-  ref, //eslint-disable-line
+  ref,
   ...props
 }: DialogBodyProps & React.HTMLProps<HTMLElement>) {
   return (

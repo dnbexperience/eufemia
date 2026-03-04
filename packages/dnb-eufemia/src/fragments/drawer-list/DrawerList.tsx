@@ -378,23 +378,23 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       ignoreEvents,
       optionsRender,
       className,
-      cacheHash: _cacheHash, // eslint-disable-line
-      wrapperElement: _wrapperElement, // eslint-disable-line
-      arrowPosition: _arrowPosition, // eslint-disable-line
-      direction: _direction, // eslint-disable-line
-      maxHeight: _maxHeight, // eslint-disable-line
-      id: _id, // eslint-disable-line
-      data: _data, // eslint-disable-line
-      open: _open, // eslint-disable-line
-      value: _value, // eslint-disable-line
-      keepOpen: _keepOpen, // eslint-disable-line
-      preventClose: _preventClose, // eslint-disable-line
-      skipKeysearch: _skipKeysearch, // eslint-disable-line
-      skipPortal: _skipPortal, // eslint-disable-line
-      enableBodyLock: _enableBodyLock, // eslint-disable-line
-      preventFocus: _preventFocus, // eslint-disable-line
-      pageOffset: _pageOffset, // eslint-disable-line
-      observerElement: _observerElement, // eslint-disable-line
+      cacheHash: _cacheHash,
+      wrapperElement: _wrapperElement,
+      arrowPosition: _arrowPosition,
+      direction: _direction,
+      maxHeight: _maxHeight,
+      id: _id,
+      data: _data,
+      open: _open,
+      value: _value,
+      keepOpen: _keepOpen,
+      preventClose: _preventClose,
+      skipKeysearch: _skipKeysearch,
+      skipPortal: _skipPortal,
+      enableBodyLock: _enableBodyLock,
+      preventFocus: _preventFocus,
+      pageOffset: _pageOffset,
+      observerElement: _observerElement,
       children,
 
       onOpen: _onOpen,
@@ -749,7 +749,7 @@ DrawerList.Options = React.memo(
     children,
     className,
     triangleRef,
-    cacheHash, // eslint-disable-line
+    cacheHash,
     showFocusRing = false,
     hasGroups = false,
     ref,

@@ -116,12 +116,12 @@ const Table = (componentProps: TableAllProps) => {
     skeleton,
     variant,
     sticky,
-    stickyOffset, // eslint-disable-line
+    stickyOffset,
     fixed,
     border,
     outline,
     mode,
-    accordionChevronPlacement, // eslint-disable-line
+    accordionChevronPlacement,
     collapseAllHandleRef,
     ...props
   } = allProps

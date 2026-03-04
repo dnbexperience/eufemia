@@ -51,38 +51,38 @@ export function SliderProvider(localProps: SliderAllProps) {
 
   const {
     step,
-    label, // eslint-disable-line
-    labelDirection, // eslint-disable-line
-    labelSrOnly, // eslint-disable-line
-    status, // eslint-disable-line
-    statusState, // eslint-disable-line
-    statusProps, // eslint-disable-line
-    statusNoAnimation, // eslint-disable-line
-    globalStatus, // eslint-disable-line
-    stretch, // eslint-disable-line
-    suffix, // eslint-disable-line
-    thumbTitle: title, // eslint-disable-line
-    subtractTitle, // eslint-disable-line
-    addTitle, // eslint-disable-line
-    hideButtons, // eslint-disable-line
+    label,
+    labelDirection,
+    labelSrOnly,
+    status,
+    statusState,
+    statusProps,
+    statusNoAnimation,
+    globalStatus,
+    stretch,
+    suffix,
+    thumbTitle: title,
+    subtractTitle,
+    addTitle,
+    hideButtons,
     multiThumbBehavior,
     numberFormat,
-    tooltip, // eslint-disable-line
-    alwaysShowTooltip, // eslint-disable-line
+    tooltip,
+    alwaysShowTooltip,
     skeleton,
-    max, // eslint-disable-line
-    min, // eslint-disable-line
-    extensions, // eslint-disable-line
+    max,
+    min,
+    extensions,
     disabled,
-    className, // eslint-disable-line
-    id, // eslint-disable-line
+    className,
+    id,
     onChange,
-    onDragStart, // eslint-disable-line
-    onDragEnd, // eslint-disable-line
+    onDragStart,
+    onDragEnd,
     vertical: _vertical,
     reverse: _reverse,
     value: _value,
-    children: _children, // eslint-disable-line
+    children: _children,
 
     ...attributes // Find a DOM element to forwards props too when multi buttons are supported
   } = allProps

@@ -30,9 +30,9 @@ function NumberValue(props: Props) {
     inline,
     showEmpty,
     className,
-    path, // eslint-disable-line
-    itemPath, // eslint-disable-line
-    inheritLabel, // eslint-disable-line
+    path,
+    itemPath,
+    inheritLabel,
     ...rest
   } = useValueProps(props)
   const numberFormatProps = omitSpacingProps(rest)
