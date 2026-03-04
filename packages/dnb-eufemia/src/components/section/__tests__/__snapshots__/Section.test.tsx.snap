@@ -277,11 +277,18 @@ exports[`Section scss have to match default theme snapshot 1`] = `
   --background-color: var(--color-success-green);
 }
 .dnb-section--fire-red .dnb-anchor, .dnb-section--emerald-green .dnb-anchor, .dnb-section--sea-green .dnb-anchor, .dnb-section--success .dnb-anchor {
-  --anchor-color--default: var(--anchor-ondark-color--default);
-  --anchor-color--hover: var(--anchor-ondark-color--hover);
-  --anchor-color--active: var(--anchor-ondark-color--active);
-  --anchor-bg--hover: var(--anchor-ondark-bg--hover);
-  --anchor-bg--active: var(--anchor-ondark-bg--active);
+  --anchor-color--default: var(--token-color-text-action-ondark);
+  --anchor-color--hover: var(--token-color-text-action-ondark);
+  --anchor-color--active: var(--token-color-text-action-ondark);
+  --anchor-icon-color--default: var(--token-color-icon-action-ondark);
+  --anchor-icon-color--hover: var(--token-color-icon-action-hover-ondark);
+  --anchor-icon-color--active: var(--token-color-icon-action-ondark);
+  --anchor-bg--hover: var(
+    --token-color-background-action-hover-subtle-ondark
+  );
+  --anchor-bg--active: var(
+    --token-color-background-action-pressed-subtle-ondark
+  );
 }
 .dnb-section--fire-red .dnb-button--tertiary, .dnb-section--emerald-green .dnb-button--tertiary, .dnb-section--sea-green .dnb-button--tertiary {
   --text-color: var(--color-white);

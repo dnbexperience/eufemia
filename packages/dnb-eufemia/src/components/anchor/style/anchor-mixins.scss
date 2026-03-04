@@ -60,6 +60,7 @@
 // states
 @mixin anchorHoverStyle() {
   --anchor-color: var(--anchor-color--hover);
+  --anchor-icon-color: var(--anchor-icon-color--hover);
 
   @include anchorBackground(var(--anchor-bg--hover));
 
@@ -68,6 +69,7 @@
 
 @mixin anchorActiveStyle() {
   --anchor-color: var(--anchor-color--active);
+  --anchor-icon-color: var(--anchor-icon-color--active);
 
   @include anchorBackground(var(--anchor-bg--active));
   @include resetUnderlineStyle();
@@ -75,6 +77,7 @@
 
 @mixin anchorFocusStyle() {
   --anchor-color: var(--token-color-text-action-focus);
+  --anchor-icon-color: var(--token-color-icon-action-focus);
   --focus-ring-width: 0.25rem;
 
   @include resetAnimationStyle();
@@ -104,34 +107,43 @@
 
 // other styles
 @mixin useAnchorContrastStyle {
-  --anchor-color--default: var(--anchor-ondark-color--default);
-  --anchor-color--hover: var(--anchor-ondark-color--hover);
-  --anchor-color--active: var(--anchor-ondark-color--active);
-  --anchor-bg--hover: var(--anchor-ondark-bg--hover);
-  --anchor-bg--active: var(--anchor-ondark-bg--active);
+  // Text
+  --anchor-color--default: var(--token-color-text-action-ondark);
+  --anchor-color--hover: var(--token-color-text-action-ondark);
+  --anchor-color--active: var(--token-color-text-action-ondark);
+
+  // Icon
+  --anchor-icon-color--default: var(--token-color-icon-action-ondark);
+  --anchor-icon-color--hover: var(--token-color-icon-action-hover-ondark);
+  --anchor-icon-color--active: var(--token-color-icon-action-ondark);
+
+  // Background
+  --anchor-bg--hover: var(
+    --token-color-background-action-hover-subtle-ondark
+  );
+  --anchor-bg--active: var(
+    --token-color-background-action-pressed-subtle-ondark
+  );
 }
 
 @mixin anchorStyle() {
   // Component variables
   --anchor-color: var(--anchor-color--default);
+  --anchor-icon-color: var(--anchor-icon-color--default);
 
-  // Default color
+  // Text
   --anchor-color--default: var(--token-color-text-action);
   --anchor-color--hover: var(--token-color-text-action-hover);
   --anchor-color--active: var(--token-color-text-action-pressed);
+
+  // Icon
+  --anchor-icon-color--default: var(--token-color-icon-action);
+  --anchor-icon-color--hover: var(--token-color-icon-action-hover);
+  --anchor-icon-color--active: var(--token-color-icon-action-pressed);
+
+  // Background
   --anchor-bg--hover: var(--token-color-background-action-hover-subtle);
   --anchor-bg--active: var(--token-color-background-action-pressed-subtle);
-
-  // ondark colors
-  --anchor-ondark-color--default: var(--token-color-text-action-ondark);
-  --anchor-ondark-color--hover: var(--token-color-text-action-ondark);
-  --anchor-ondark-color--active: var(--token-color-text-action-ondark);
-  --anchor-ondark-bg--hover: var(
-    --token-color-background-action-hover-subtle-ondark
-  );
-  --anchor-ondark-bg--active: var(
-    --token-color-background-action-pressed-subtle-ondark
-  );
 
   $icon-scale: 2;
   $icon-scale-filler: 0.5 - math.div(0.5, $icon-scale);
@@ -171,6 +183,7 @@
     display: inline;
     vertical-align: middle;
     white-space: nowrap; // force icon to line break with word
+    color: var(--anchor-icon-color);
 
     svg {
       vertical-align: baseline;

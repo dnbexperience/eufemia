@@ -165,20 +165,15 @@ button.dnb-anchor {
 :where(:not(.dnb-anchor--no-style)).dnb-anchor {
   --anchor-underline-thickness: 0.0938rem;
   --anchor-color: var(--anchor-color--default);
+  --anchor-icon-color: var(--anchor-icon-color--default);
   --anchor-color--default: var(--token-color-text-action);
   --anchor-color--hover: var(--token-color-text-action-hover);
   --anchor-color--active: var(--token-color-text-action-pressed);
+  --anchor-icon-color--default: var(--token-color-icon-action);
+  --anchor-icon-color--hover: var(--token-color-icon-action-hover);
+  --anchor-icon-color--active: var(--token-color-icon-action-pressed);
   --anchor-bg--hover: var(--token-color-background-action-hover-subtle);
   --anchor-bg--active: var(--token-color-background-action-pressed-subtle);
-  --anchor-ondark-color--default: var(--token-color-text-action-ondark);
-  --anchor-ondark-color--hover: var(--token-color-text-action-ondark);
-  --anchor-ondark-color--active: var(--token-color-text-action-ondark);
-  --anchor-ondark-bg--hover: var(
-    --token-color-background-action-hover-subtle-ondark
-  );
-  --anchor-ondark-bg--active: var(
-    --token-color-background-action-pressed-subtle-ondark
-  );
   --anchor-icon-gutter: 0.25em;
   --anchor-icon-separator: '\\2060';
   --anchor-icon-position: translateY(-0.175em);
@@ -202,6 +197,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible {
   --anchor-color: var(--token-color-text-action-focus);
+  --anchor-icon-color: var(--token-color-icon-action-focus);
   --focus-ring-width: 0.25rem;
   transition: none;
 }
@@ -217,6 +213,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
   --anchor-color: var(--anchor-color--hover);
+  --anchor-icon-color: var(--anchor-icon-color--hover);
   box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--hover), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--hover), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--hover);
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)), .dnb-section :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)).dnb-anchor {
@@ -228,6 +225,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
 @supports not (selector(*:where(*))) {
   :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
     --anchor-color: var(--anchor-color--hover);
+    --anchor-icon-color: var(--anchor-icon-color--hover);
     box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--hover), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--hover), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--hover);
   }
   :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:not(.dnb-anchor--no-hover), .dnb-section :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:not(.dnb-anchor--no-hover).dnb-anchor {
@@ -236,6 +234,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:active {
   --anchor-color: var(--anchor-color--active);
+  --anchor-icon-color: var(--anchor-icon-color--active);
   box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--active), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--active), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--active);
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:active, .dnb-section :where(:not(.dnb-anchor--no-style)).dnb-anchor:active.dnb-anchor {
@@ -251,6 +250,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   display: inline;
   vertical-align: middle;
   white-space: nowrap;
+  color: var(--anchor-icon-color);
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor .dnb-icon svg {
   vertical-align: baseline;
@@ -279,14 +279,22 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   font-size: 0.8888888889em;
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--contrast, :where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--ondark {
-  --anchor-color--default: var(--anchor-ondark-color--default);
-  --anchor-color--hover: var(--anchor-ondark-color--hover);
-  --anchor-color--active: var(--anchor-ondark-color--active);
-  --anchor-bg--hover: var(--anchor-ondark-bg--hover);
-  --anchor-bg--active: var(--anchor-ondark-bg--active);
+  --anchor-color--default: var(--token-color-text-action-ondark);
+  --anchor-color--hover: var(--token-color-text-action-ondark);
+  --anchor-color--active: var(--token-color-text-action-ondark);
+  --anchor-icon-color--default: var(--token-color-icon-action-ondark);
+  --anchor-icon-color--hover: var(--token-color-icon-action-hover-ondark);
+  --anchor-icon-color--active: var(--token-color-icon-action-ondark);
+  --anchor-bg--hover: var(
+    --token-color-background-action-hover-subtle-ondark
+  );
+  --anchor-bg--active: var(
+    --token-color-background-action-pressed-subtle-ondark
+  );
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--disabled, :where(:not(.dnb-anchor--no-style)).dnb-anchor[aria-disabled=true], :where(:not(.dnb-anchor--no-style)).dnb-anchor[disabled] {
   --anchor-color: var(--token-color-text-action-disabled);
+  --anchor-icon-color: var(--token-color-icon-action-disabled);
 }
 
 :not(.dnb-anchor--no-style) {
@@ -296,20 +304,15 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   :not(.dnb-anchor--no-style).dnb-anchor {
     --anchor-underline-thickness: 0.0938rem;
     --anchor-color: var(--anchor-color--default);
+    --anchor-icon-color: var(--anchor-icon-color--default);
     --anchor-color--default: var(--token-color-text-action);
     --anchor-color--hover: var(--token-color-text-action-hover);
     --anchor-color--active: var(--token-color-text-action-pressed);
+    --anchor-icon-color--default: var(--token-color-icon-action);
+    --anchor-icon-color--hover: var(--token-color-icon-action-hover);
+    --anchor-icon-color--active: var(--token-color-icon-action-pressed);
     --anchor-bg--hover: var(--token-color-background-action-hover-subtle);
     --anchor-bg--active: var(--token-color-background-action-pressed-subtle);
-    --anchor-ondark-color--default: var(--token-color-text-action-ondark);
-    --anchor-ondark-color--hover: var(--token-color-text-action-ondark);
-    --anchor-ondark-color--active: var(--token-color-text-action-ondark);
-    --anchor-ondark-bg--hover: var(
-      --token-color-background-action-hover-subtle-ondark
-    );
-    --anchor-ondark-bg--active: var(
-      --token-color-background-action-pressed-subtle-ondark
-    );
     --anchor-icon-gutter: 0.25em;
     --anchor-icon-separator: '\\2060';
     --anchor-icon-position: translateY(-0.175em);
@@ -333,6 +336,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   }
   :not(.dnb-anchor--no-style).dnb-anchor:focus-visible {
     --anchor-color: var(--token-color-text-action-focus);
+    --anchor-icon-color: var(--token-color-icon-action-focus);
     --focus-ring-width: 0.25rem;
     transition: none;
   }
@@ -348,6 +352,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   }
   :not(.dnb-anchor--no-style).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
     --anchor-color: var(--anchor-color--hover);
+    --anchor-icon-color: var(--anchor-icon-color--hover);
     box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--hover), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--hover), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--hover);
   }
   :not(.dnb-anchor--no-style).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)), .dnb-section :not(.dnb-anchor--no-style).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)).dnb-anchor {
@@ -359,6 +364,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   @supports not (selector(*:where(*))) {
     :not(.dnb-anchor--no-style).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
       --anchor-color: var(--anchor-color--hover);
+      --anchor-icon-color: var(--anchor-icon-color--hover);
       box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--hover), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--hover), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--hover);
     }
     :not(.dnb-anchor--no-style).dnb-anchor:hover:not(.dnb-anchor--no-hover), .dnb-section :not(.dnb-anchor--no-style).dnb-anchor:hover:not(.dnb-anchor--no-hover).dnb-anchor {
@@ -367,6 +373,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   }
   :not(.dnb-anchor--no-style).dnb-anchor:active {
     --anchor-color: var(--anchor-color--active);
+    --anchor-icon-color: var(--anchor-icon-color--active);
     box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--active), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--active), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--active);
   }
   :not(.dnb-anchor--no-style).dnb-anchor:active, .dnb-section :not(.dnb-anchor--no-style).dnb-anchor:active.dnb-anchor {
@@ -382,6 +389,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
     display: inline;
     vertical-align: middle;
     white-space: nowrap;
+    color: var(--anchor-icon-color);
   }
   :not(.dnb-anchor--no-style).dnb-anchor .dnb-icon svg {
     vertical-align: baseline;
@@ -410,19 +418,28 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
     font-size: 0.8888888889em;
   }
   :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--contrast, :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--ondark {
-    --anchor-color--default: var(--anchor-ondark-color--default);
-    --anchor-color--hover: var(--anchor-ondark-color--hover);
-    --anchor-color--active: var(--anchor-ondark-color--active);
-    --anchor-bg--hover: var(--anchor-ondark-bg--hover);
-    --anchor-bg--active: var(--anchor-ondark-bg--active);
+    --anchor-color--default: var(--token-color-text-action-ondark);
+    --anchor-color--hover: var(--token-color-text-action-ondark);
+    --anchor-color--active: var(--token-color-text-action-ondark);
+    --anchor-icon-color--default: var(--token-color-icon-action-ondark);
+    --anchor-icon-color--hover: var(--token-color-icon-action-hover-ondark);
+    --anchor-icon-color--active: var(--token-color-icon-action-ondark);
+    --anchor-bg--hover: var(
+      --token-color-background-action-hover-subtle-ondark
+    );
+    --anchor-bg--active: var(
+      --token-color-background-action-pressed-subtle-ondark
+    );
   }
   :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--disabled, :not(.dnb-anchor--no-style).dnb-anchor[aria-disabled=true], :not(.dnb-anchor--no-style).dnb-anchor[disabled] {
     --anchor-color: var(--token-color-text-action-disabled);
+    --anchor-icon-color: var(--token-color-icon-action-disabled);
   }
 }
 
 .dnb-anchor--hover {
   --anchor-color: var(--anchor-color--hover);
+  --anchor-icon-color: var(--anchor-icon-color--hover);
   box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--hover), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--hover), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--hover);
 }
 .dnb-anchor--hover, .dnb-section .dnb-anchor--hover.dnb-anchor {
@@ -431,6 +448,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
 
 .dnb-anchor--active {
   --anchor-color: var(--anchor-color--active);
+  --anchor-icon-color: var(--anchor-icon-color--active);
   box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--active), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--active), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--active);
 }
 .dnb-anchor--active, .dnb-section .dnb-anchor--active.dnb-anchor {
@@ -439,6 +457,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
 
 .dnb-anchor--focus {
   --anchor-color: var(--token-color-text-action-focus);
+  --anchor-icon-color: var(--token-color-icon-action-focus);
   --focus-ring-width: 0.25rem;
   transition: none;
 }
