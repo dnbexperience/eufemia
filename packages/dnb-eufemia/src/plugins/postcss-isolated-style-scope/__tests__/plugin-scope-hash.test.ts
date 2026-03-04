@@ -1,10 +1,10 @@
 import * as BuildInfoJs from '../plugin-scope-hash.js'
 import * as BuildInfoCjs from '../plugin-scope-hash.cjs'
-import * as BuildInfoModule from '../../../shared/build-info/BuildInfo.js'
+import * as BuildInfoModule from '../../../shared/build-info/BuildInfo'
 import * as BuildInfoCjsModule from '../../../shared/build-info/BuildInfo.cjs'
 import { getStyleScopeHash } from '../plugin-scope-hash.js'
 
-jest.mock('../../../shared/build-info/BuildInfo.js', () => ({
+jest.mock('../../../shared/build-info/BuildInfo', () => ({
   getVersion: jest.fn(),
   getSha: jest.fn(),
 }))

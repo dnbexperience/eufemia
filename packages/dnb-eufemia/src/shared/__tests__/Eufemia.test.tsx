@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import IsolatedStyleScope from '../IsolatedStyleScope'
-import { getSha, getVersion } from '../build-info/BuildInfo.js'
+import { getSha, getVersion } from '../build-info/BuildInfo'
 import * as EufemiaImport from '../Eufemia'
 import '../component-helper'
 
@@ -16,8 +16,8 @@ jest.mock('../Eufemia', () => {
 })
 
 // Mock the build info to control the SHA value in tests
-jest.mock('../build-info/BuildInfo.js', () => {
-  const actual = jest.requireActual('../build-info/BuildInfo.js')
+jest.mock('../build-info/BuildInfo', () => {
+  const actual = jest.requireActual('../build-info/BuildInfo')
   return {
     ...actual,
     getSha: jest.fn().mockImplementation(actual.getSha),
