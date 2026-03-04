@@ -14,10 +14,20 @@ import {
   sbankenVisa,
   sbankenMastercard,
 } from './CardDesigns'
-
+import type { CardDesign } from './CardDesigns'
 import { CardType, ProductType, BankAxeptType } from './Types'
 
-const cardData = [
+export interface CardProduct {
+  productCode: string
+  productName: string
+  displayName: string
+  cardDesign: CardDesign
+  productType: ProductType
+  cardType: CardType
+  bankAxept: BankAxeptType
+}
+
+const cardData: CardProduct[] = [
   // DNB cards
   {
     productCode: '043',
