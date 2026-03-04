@@ -129,10 +129,7 @@ const parseChecked = (state: string | boolean | null | undefined) =>
 /**
  * The radio component is our enhancement of the classic radio button.
  */
-function RadioInner({
-  ref: externalRef,
-  ...ownProps
-}: RadioProps) {
+function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   const groupContext = useContext(RadioGroupContext)
   const context = useContext(Context)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -360,8 +357,7 @@ function RadioInner({
       'dnb-radio',
       status && `dnb-radio__status--${statusState}`,
       size && `dnb-radio--${size}`,
-      label &&
-        `dnb-radio--label-position-${labelPosition || 'right'}`,
+      label && `dnb-radio--label-position-${labelPosition || 'right'}`,
       createSpacingClasses(props),
       className
     ),
@@ -411,11 +407,15 @@ function RadioInner({
   // Forward ref to external ref
   const combinedRef = useCallback(
     (el: HTMLInputElement | null) => {
-      ;(inputRef as React.MutableRefObject<HTMLInputElement | null>).current = el
+      ;(
+        inputRef as React.MutableRefObject<HTMLInputElement | null>
+      ).current = el
       if (typeof externalRef === 'function') {
         externalRef(el)
       } else if (externalRef) {
-        ;(externalRef as React.MutableRefObject<HTMLInputElement | null>).current = el
+        ;(
+          externalRef as React.MutableRefObject<HTMLInputElement | null>
+        ).current = el
       }
     },
     [externalRef]
@@ -452,9 +452,7 @@ function RadioInner({
                 name={group}
                 className="dnb-radio__input"
                 checked={checked}
-                aria-checked={
-                  isPlainGroup() ? undefined : checked
-                }
+                aria-checked={isPlainGroup() ? undefined : checked}
                 disabled={disabled}
                 ref={combinedRef}
                 {...inputParams}
