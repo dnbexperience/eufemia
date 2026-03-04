@@ -255,7 +255,12 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
         )
       }
     }
-  }, [selected, doSelectAll, onBlurHandler, propsWithDefaults.copySelection])
+  }, [
+    selected,
+    doSelectAll,
+    onBlurHandler,
+    propsWithDefaults.copySelection,
+  ])
 
   const showCopyTooltip = useCallback(
     (message?: string) => {
@@ -303,7 +308,11 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
     ) {
       setFocus()
     }
-  }, [propsWithDefaults.selectAll, propsWithDefaults.alwaysSelectAll, setFocus])
+  }, [
+    propsWithDefaults.selectAll,
+    propsWithDefaults.alwaysSelectAll,
+    setFocus,
+  ])
 
   const onMouseEnter = useCallback(() => {
     setHover(true)
@@ -401,10 +410,11 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
   }
 
   // use only the props from context, who are available here anyway
-  const useCtx = extendDeep(
-    { locale: null, currency: null },
-    context
-  ) as { locale?: string; currency?: string; [key: string]: unknown }
+  const useCtx = extendDeep({ locale: null, currency: null }, context) as {
+    locale?: string
+    currency?: string
+    [key: string]: unknown
+  }
 
   if (useCtx) {
     if (useCtx.locale && !locale) {
