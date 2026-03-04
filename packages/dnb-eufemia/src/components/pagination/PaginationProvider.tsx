@@ -95,9 +95,12 @@ const PaginationProvider = (props: any) => {
   // ---- Refs ----
   const isMountedRef = useRef(false)
   const updateStackRef = useRef<Array<(() => void) | undefined>>([])
-  const rerenderTimeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined)
-  const resetContentTimeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined)
-  const resetInfinityTimeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined)
+  const rerenderTimeoutRef =
+    useRef<ReturnType<typeof setTimeout>>(undefined)
+  const resetContentTimeoutRef =
+    useRef<ReturnType<typeof setTimeout>>(undefined)
+  const resetInfinityTimeoutRef =
+    useRef<ReturnType<typeof setTimeout>>(undefined)
   const callOnPageUpdateTimeoutRef =
     useRef<ReturnType<typeof setTimeout>>(undefined)
   const itemsRef = useRef(items)
