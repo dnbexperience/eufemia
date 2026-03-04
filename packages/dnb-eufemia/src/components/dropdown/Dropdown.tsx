@@ -237,7 +237,9 @@ function DropdownInstance({
       if (typeof externalRef === 'function') {
         externalRef(el)
       } else if (externalRef) {
-        ;(externalRef as React.MutableRefObject<HTMLElement | null>).current = el
+        ;(
+          externalRef as React.MutableRefObject<HTMLElement | null>
+        ).current = el
       }
     },
     [externalRef]
@@ -264,9 +266,7 @@ function DropdownInstance({
   // Open on mount if props.open is set
   useEffect(() => {
     if (propsWithDefaults.open) {
-      context.drawerList
-        .setWrapperElement(wrapperRef.current)
-        .setVisible()
+      context.drawerList.setWrapperElement(wrapperRef.current).setVisible()
     }
     // Only on mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -282,16 +282,12 @@ function DropdownInstance({
   }, [])
 
   const setVisible = useCallback(() => {
-    context.drawerList
-      .setWrapperElement(wrapperRef.current)
-      .setVisible()
+    context.drawerList.setWrapperElement(wrapperRef.current).setVisible()
   }, [context.drawerList])
 
   const setHidden = useCallback(
     (...args: unknown[]) => {
-      context.drawerList.setHidden(
-        ...(args as [unknown[], (() => void)?])
-      )
+      context.drawerList.setHidden(...(args as [unknown[], (() => void)?]))
     },
     [context.drawerList]
   )
@@ -583,10 +579,7 @@ function DropdownInstance({
   }
 
   const triggerParams = {
-    className: clsx(
-      'dnb-dropdown__trigger',
-      open && 'dnb-button--active'
-    ),
+    className: clsx('dnb-dropdown__trigger', open && 'dnb-button--active'),
     id,
     disabled,
     'aria-haspopup': handleAsMenu ? true : 'listbox',
@@ -667,9 +660,7 @@ function DropdownInstance({
               <Button
                 variant={variant}
                 icon={false} // only to suppress the warning about the icon when tertiary variant is used
-                size={
-                  (size === 'default' ? 'medium' : size) as ButtonSize
-                }
+                size={(size === 'default' ? 'medium' : size) as ButtonSize}
                 ref={setButtonRef}
                 customContent={
                   <>
