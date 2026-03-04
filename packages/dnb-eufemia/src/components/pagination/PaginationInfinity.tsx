@@ -550,7 +550,7 @@ export function InfinityLoadButton({
   pressedElement?: React.ReactNode
   icon?: string
   text?: string | null
-  iconPosition?: string
+  iconPosition?: 'left' | 'right'
   onClick?: (e: React.MouseEvent) => void
 }) {
   const context = React.useContext(Context)
@@ -593,7 +593,7 @@ function ScrollToElement({
   pageElement?: any
   [key: string]: any
 }) {
-  const elementRef = React.useRef<HTMLElement>(null)
+  const elementRef = React.useRef<HTMLDivElement>(null)
 
   React.useEffect(() => {
     const elem = elementRef.current
