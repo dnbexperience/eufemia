@@ -5,7 +5,7 @@ import {
 } from '../../shared/component-helper'
 
 const isServer = () => typeof window === 'undefined'
-const detectOS = (ua) => {
+const detectOS = (ua?: string) => {
   ua = ua || navigator.userAgent
   const ipad = /(iPad).*OS\s([\d_]+)/.test(ua)
   const iphone = !ipad && /(iPhone\sOS)\s([\d_]+)/.test(ua)
@@ -17,11 +17,11 @@ const detectOS = (ua) => {
 let lockedNum = 0
 let initialClientY = 0
 let initialClientX = 0
-let callbackUnlock = null
+let callbackUnlock: (() => void) | null = null
 let documentListenerAdded = false
 
-const lockedElements = []
-const eventListenerOptions = { passive: false }
+const lockedElements: HTMLElement[] = []
+const eventListenerOptions: AddEventListenerOptions = { passive: false }
 
 const setOverflowHidden = () => {
   try {
@@ -63,7 +63,9 @@ const setOverflowHidden = () => {
   }
 }
 
-const setOverflowHiddenIOS = (targetElement) => {
+const setOverflowHiddenIOS = (
+  targetElement: HTMLElement | HTMLElement[] | null
+) => {
   if (targetElement) {
     const elementArray = Array.isArray(targetElement)
       ? targetElement
@@ -157,7 +159,7 @@ const setOverflowHiddenAndroid = () => {
   }
 }
 
-const preventDefault = (event) => {
+const preventDefault = (event: TouchEvent) => {
   const found = lockedElements.find((targetElement) => {
     return isChildOfElement(event.target, targetElement)
   })
@@ -170,7 +172,7 @@ const preventDefault = (event) => {
 }
 
 // Deprecated – this function can be removed as soon as we do not need to support iOS < 14
-const handleScroll = (event, targetElement) => {
+const handleScroll = (event: TouchEvent, targetElement: HTMLElement) => {
   try {
     if (targetElement) {
       const {
@@ -216,7 +218,9 @@ const handleScroll = (event, targetElement) => {
   }
 }
 
-const checkTargetElement = (targetElement) => {
+const checkTargetElement = (
+  targetElement: HTMLElement | HTMLElement[] | null
+) => {
   if (targetElement) return
   if (targetElement === null) return
   warn(
@@ -225,7 +229,9 @@ const checkTargetElement = (targetElement) => {
   )
 }
 
-export const disableBodyScroll = (targetElement) => {
+export const disableBodyScroll = (
+  targetElement: HTMLElement | HTMLElement[] | null
+) => {
   if (isServer()) {
     return // stop here
   }
@@ -252,7 +258,9 @@ export const disableBodyScroll = (targetElement) => {
   }
 }
 
-export const enableBodyScroll = (targetElement) => {
+export const enableBodyScroll = (
+  targetElement: HTMLElement | HTMLElement[] | null
+) => {
   if (isServer()) {
     return
   }
