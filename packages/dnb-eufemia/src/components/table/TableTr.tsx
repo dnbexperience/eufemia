@@ -108,13 +108,13 @@ export default function Tr(
   }
 
   const {
-    expanded, // eslint-disable-line @typescript-eslint/no-unused-vars
-    disabled, // eslint-disable-line @typescript-eslint/no-unused-vars
-    noAnimation, // eslint-disable-line @typescript-eslint/no-unused-vars
-    keepInDOM, // eslint-disable-line @typescript-eslint/no-unused-vars
-    onClick, // eslint-disable-line @typescript-eslint/no-unused-vars
-    onOpen, // eslint-disable-line @typescript-eslint/no-unused-vars
-    onClose, // eslint-disable-line @typescript-eslint/no-unused-vars
+    expanded,
+    disabled,
+    noAnimation,
+    keepInDOM,
+    onClick,
+    onOpen,
+    onClose,
     ...trProps
   } = restProps
 
@@ -196,7 +196,7 @@ export function useHandleOddEven({ children }) {
 
   // When the alias changes, all tr's will rerender and get a new even/odd color
   // This is useful, when one tr gets removed
-  const [rerenderAlias, setRerenderAlias] = React.useState({}) // eslint-disable-line no-unused-vars
+  const [rerenderAlias, setRerenderAlias] = React.useState({})
 
   const forceRerender = React.useCallback(() => {
     trCountRef.current.count = 0

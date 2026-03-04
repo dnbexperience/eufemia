@@ -54,10 +54,7 @@ export default function Provider<Props>(
   )
 
   const value = useMemo(() => {
-    const {
-      children, // eslint-disable-line @typescript-eslint/no-unused-vars
-      ...rest
-    } = localProps
+    const { children, ...rest } = localProps
 
     const preparedContext = {
       // Make copy to avoid extending the root context

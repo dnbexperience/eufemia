@@ -118,13 +118,13 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     id,
     title,
     submitAttributes,
-    maskPlaceholder = defaultMaskPlaceholder, // eslint-disable-line
+    maskPlaceholder = defaultMaskPlaceholder,
     onFocus,
     onBlur,
-    onChange, // eslint-disable-line
-    onSubmit, // eslint-disable-line
-    selectedDateTitle, // eslint-disable-line
-    showInput, // eslint-disable-line
+    onChange,
+    onSubmit,
+    selectedDateTitle,
+    showInput,
     inputElement,
     lang,
     disabled,

@@ -53,25 +53,25 @@ const AccordionGroup = (props: AccordionGroupProps) => {
   )
 
   const {
-    expanded, // eslint-disable-line
-    expandedId, // eslint-disable-line
-    prerender, // eslint-disable-line
-    preventRerender, // eslint-disable-line
-    singleContainer, // eslint-disable-line
-    contentRef, // eslint-disable-line
-    allowCloseAll, // eslint-disable-line
-    rememberState, // eslint-disable-line
-    flushRememberedState, // eslint-disable-line
-    noAnimation, // eslint-disable-line
-    iconSize, // eslint-disable-line
-    disabled, // eslint-disable-line
-    group, // eslint-disable-line
-    iconPosition, // eslint-disable-line
-    onInit, // eslint-disable-line
+    expanded,
+    expandedId,
+    prerender,
+    preventRerender,
+    singleContainer,
+    contentRef,
+    allowCloseAll,
+    rememberState,
+    flushRememberedState,
+    noAnimation,
+    iconSize,
+    disabled,
+    group,
+    iconPosition,
+    onInit,
     className,
 
-    id: _id, // eslint-disable-line
-    children, // eslint-disable-line
+    id: _id,
+    children,
     collapseAllHandleRef,
     expandBehavior,
 

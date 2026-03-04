@@ -60,7 +60,7 @@ function Step(props: Props): React.JSX.Element {
     className,
     title,
     index: indexProp,
-    inactive, // eslint-disable-line
+    inactive,
     include = true,
     includeWhen,
     required,

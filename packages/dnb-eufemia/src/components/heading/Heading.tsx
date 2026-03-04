@@ -142,20 +142,20 @@ export default function Heading(props: HeadingAllProps) {
 
   const {
     text,
-    group: _group, // eslint-disable-line
-    debug: _debug, // eslint-disable-line
-    debugCounter: _debugCounter, // eslint-disable-line
-    reset: _reset, // eslint-disable-line
-    skipCorrection: _skipCorrection, // eslint-disable-line
-    increase: _increase, // eslint-disable-line
-    decrease: _decrease, // eslint-disable-line
-    up: _up, // eslint-disable-line
-    down: _down, // eslint-disable-line
-    inherit: _inherit, // eslint-disable-line
-    level: _level, // eslint-disable-line
-    size: _size, // eslint-disable-line
-    skeleton: _skeleton, // eslint-disable-line
-    element: _element, // eslint-disable-line
+    group: _group,
+    debug: _debug,
+    debugCounter: _debugCounter,
+    reset: _reset,
+    skipCorrection: _skipCorrection,
+    increase: _increase,
+    decrease: _decrease,
+    up: _up,
+    down: _down,
+    inherit: _inherit,
+    level: _level,
+    size: _size,
+    skeleton: _skeleton,
+    element: _element,
     className,
     children,
     ...rest

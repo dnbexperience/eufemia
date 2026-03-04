@@ -73,10 +73,7 @@ const TagGroup = (
   }
 
   const spacingClasses = createSpacingClasses(props)
-  const {
-    skeleton, // eslint-disable-line
-    ...attributes
-  } = validateDOMAttributes({}, props)
+  const { skeleton, ...attributes } = validateDOMAttributes({}, props)
 
   return (
     <TagGroupContext value={props}>

@@ -13,7 +13,7 @@ export default function DrawerHeader({
   className,
   titleClass,
   size = 'x-large',
-  ref, // eslint-disable-line
+  ref,
   ...props
 }: DrawerHeaderProps &
   Omit<React.HTMLProps<HTMLElement>, 'size' | 'children'>) {

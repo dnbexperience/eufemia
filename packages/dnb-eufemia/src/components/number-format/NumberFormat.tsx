@@ -326,7 +326,7 @@ export default class NumberFormat extends React.PureComponent<
     )
 
     const {
-      id, // eslint-disable-line
+      id,
       value: _value,
       prefix,
       suffix,
@@ -357,7 +357,7 @@ export default class NumberFormat extends React.PureComponent<
       element,
       className,
 
-      alwaysSelectAll, // eslint-disable-line
+      alwaysSelectAll,
       ..._rest
     } = props
     let rest: Record<string, unknown> = _rest
