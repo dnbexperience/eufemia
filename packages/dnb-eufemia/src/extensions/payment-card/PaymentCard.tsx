@@ -162,7 +162,7 @@ function PaymentCard(props: PaymentCardProps) {
     skeleton,
     className,
     class: _className,
-    children, //eslint-disable-line
+    children,
     ...attributes
   } = extendedProps
 

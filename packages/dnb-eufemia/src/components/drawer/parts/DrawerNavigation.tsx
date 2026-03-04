@@ -7,7 +7,7 @@ import { DrawerContentContext } from './DrawerContentContext'
 
 export default function DrawerNavigation({
   className,
-  ref, //eslint-disable-line
+  ref,
   ...props
 }: ModalHeaderBarProps & Omit<React.HTMLProps<HTMLElement>, 'children'>) {
   const contentContext = React.useContext(DrawerContentContext)

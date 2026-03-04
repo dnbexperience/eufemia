@@ -31,21 +31,21 @@ function Tooltip(localProps: TooltipAllProps) {
     id,
     size,
     children,
-    tooltip, // eslint-disable-line
-    fixedPosition, // eslint-disable-line
-    skipPortal, // eslint-disable-line
-    noAnimation, // eslint-disable-line
-    showDelay, // eslint-disable-line
-    hideDelay, // eslint-disable-line
-    open, // eslint-disable-line
-    position, // eslint-disable-line
-    arrow, // eslint-disable-line
-    align, // eslint-disable-line
-    portalRootClass, // eslint-disable-line
-    omitDescribedBy, // eslint-disable-line
-    contentRef, // eslint-disable-line
-    triggerOffset, // eslint-disable-line
-    forceOpen, // eslint-disable-line
+    tooltip,
+    fixedPosition,
+    skipPortal,
+    noAnimation,
+    showDelay,
+    hideDelay,
+    open,
+    position,
+    arrow,
+    align,
+    portalRootClass,
+    omitDescribedBy,
+    contentRef,
+    triggerOffset,
+    forceOpen,
     ...attributeProps
   } = props
 

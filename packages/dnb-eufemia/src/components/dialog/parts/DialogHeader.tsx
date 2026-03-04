@@ -13,7 +13,7 @@ export default function DialogHeader({
   className,
   titleClass,
   size = 'large',
-  ref, // eslint-disable-line
+  ref,
   ...props
 }: DialogHeaderProps &
   Omit<React.HTMLProps<HTMLElement>, 'size' | 'children'>) {

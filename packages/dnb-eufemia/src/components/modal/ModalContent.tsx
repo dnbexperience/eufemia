@@ -438,7 +438,7 @@ export default class ModalContent extends React.PureComponent<
       hide,
       title,
       labelledBy,
-      id: _id, // eslint-disable-line
+      id: _id,
       closeTitle = 'Lukk',
       dialogTitle = 'Vindu',
       hideCloseButton = false,
@@ -452,7 +452,7 @@ export default class ModalContent extends React.PureComponent<
       contentClass,
       overlayClass,
       contentId,
-      children, // eslint-disable-line
+      children,
       dialogRole = null,
       ...rest
     } = this.props

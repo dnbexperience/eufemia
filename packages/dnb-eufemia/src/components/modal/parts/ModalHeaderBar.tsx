@@ -28,7 +28,7 @@ export interface ModalHeaderBarProps
 export default function ModalHeaderBar({
   className = null,
   children = null,
-  ref: _ref, //eslint-disable-line
+  ref: _ref,
   shadowClass = null,
   ...props
 }: ModalHeaderBarProps & Omit<React.HTMLProps<HTMLElement>, 'children'>) {

@@ -150,7 +150,7 @@ function Skeleton(props: SkeletonProps) {
     figure,
     skeleton,
     ariaBusy,
-    ariaReady, // eslint-disable-line
+    ariaReady,
     className,
     children,
 
