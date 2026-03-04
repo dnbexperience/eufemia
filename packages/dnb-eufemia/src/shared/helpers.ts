@@ -57,20 +57,26 @@ isAndroid()
 isMac()
 isLinux()
 
-const pageFocusElements = {}
-export function setPageFocusElement(selectorOrElement, key = 'default') {
+const pageFocusElements: Record<string, string | HTMLElement> = {}
+export function setPageFocusElement(
+  selectorOrElement: string | HTMLElement,
+  key = 'default'
+) {
   return (pageFocusElements[key] = selectorOrElement)
 }
 
-export function applyPageFocus(selector = 'default', callback = null) {
+export function applyPageFocus(
+  selector = 'default',
+  callback: ((element: HTMLElement) => void) | null = null
+) {
   try {
-    let element = /^[.#]/.test(selector)
+    let element: string | HTMLElement | null = /^[.#]/.test(selector)
       ? selector
       : pageFocusElements[selector]
     if (typeof element === 'string' && typeof document !== 'undefined') {
-      element = document.querySelector(element)
+      element = document.querySelector<HTMLElement>(element)
     } else if (!element && typeof document !== 'undefined') {
-      element = document.querySelector('.dnb-no-focus')
+      element = document.querySelector<HTMLElement>('.dnb-no-focus')
     }
 
     if (!(element instanceof HTMLElement)) {
@@ -124,34 +130,36 @@ export function applyPageFocus(selector = 'default', callback = null) {
   }
 }
 
-export function getOffsetTop(elem) {
+export function getOffsetTop(elem: HTMLElement | null) {
   let offsetTop = 0
-  if (elem) {
+  let current: Element | null = elem
+  if (current) {
     do {
-      if (!isNaN(elem.offsetTop)) {
-        offsetTop += elem.offsetTop
+      if (!isNaN((current as HTMLElement).offsetTop)) {
+        offsetTop += (current as HTMLElement).offsetTop
       }
-    } while ((elem = elem.offsetParent))
+    } while ((current = (current as HTMLElement).offsetParent))
   }
   return offsetTop
 }
 
-export function getOffsetLeft(elem) {
+export function getOffsetLeft(elem: HTMLElement | null) {
   let offsetLeft = 0
-  if (elem) {
+  let current: Element | null = elem
+  if (current) {
     do {
-      if (!isNaN(elem.offsetLeft)) {
-        offsetLeft += elem.offsetLeft
+      if (!isNaN((current as HTMLElement).offsetLeft)) {
+        offsetLeft += (current as HTMLElement).offsetLeft
       }
-    } while ((elem = elem.offsetParent))
+    } while ((current = (current as HTMLElement).offsetParent))
   }
   return offsetLeft
 }
 
 export function scrollToLocationHashId({
   offset = 0,
-  delay = null,
-  onCompletion = null,
+  delay = null as number | null,
+  onCompletion = null as ((elem: HTMLElement) => void) | null,
 } = {}) {
   if (
     typeof document !== 'undefined' &&
@@ -195,7 +203,7 @@ export function scrollToLocationHashId({
                   behavior: 'smooth',
                 })
               } else {
-                window.scrollTop = top
+                document.documentElement.scrollTop = top
               }
             } catch (e) {
               warn('Error on scrollToLocationHashId:', e)
@@ -269,7 +277,7 @@ export function getSelectedElement() {
   return null
 }
 
-export async function copyToClipboard(string) {
+export async function copyToClipboard(string: string) {
   if (typeof window === 'undefined' || typeof document === 'undefined') {
     return false
   }
@@ -279,13 +287,15 @@ export async function copyToClipboard(string) {
   const range =
     selection.rangeCount > 0 // Check if there is any content selected previously
       ? selection.getRangeAt(0) // Store selection if found
-      : false // Mark as false to know no selection existed before
+      : null // Mark as null to know no selection existed before
 
   const resetSelection = () => {
     try {
       // If a selection existed before copying
-      selection.removeAllRanges() // Unselect everything on the HTML document
-      selection.addRange(range) // Restore the original selection
+      if (range) {
+        selection.removeAllRanges() // Unselect everything on the HTML document
+        selection.addRange(range) // Restore the original selection
+      }
     } catch (e) {
       //
     }
@@ -296,7 +306,7 @@ export async function copyToClipboard(string) {
       // create the focusable element
       const elem = document.createElement('textarea')
       elem.value = String(string)
-      elem.contentEditable = true
+      elem.contentEditable = 'true'
       elem.readOnly = false
       elem.style.position = 'fixed'
       elem.style.top = '-1000px'
@@ -383,7 +393,7 @@ export const warn = (...params) => {
   }
 }
 
-export function getColor(value) {
+export function getColor(value: string | undefined) {
   if (String(value).includes('--')) {
     return value
   }
