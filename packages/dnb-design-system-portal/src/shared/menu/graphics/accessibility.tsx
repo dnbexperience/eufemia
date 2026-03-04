@@ -5,7 +5,9 @@
 
 import type { SVGProps } from 'react'
 
-export default function accessibility(props: SVGProps<SVGSVGElement> = {}) {
+export default function accessibility(
+  props: SVGProps<SVGSVGElement> = {}
+) {
   return (
     <svg
       width="24"

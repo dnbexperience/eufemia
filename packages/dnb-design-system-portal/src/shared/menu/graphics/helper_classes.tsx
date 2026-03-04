@@ -5,7 +5,9 @@
 
 import type { SVGProps } from 'react'
 
-export default function helper_classes(props: SVGProps<SVGSVGElement> = {}) {
+export default function helper_classes(
+  props: SVGProps<SVGSVGElement> = {}
+) {
   return (
     <svg
       width="24"
