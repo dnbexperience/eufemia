@@ -577,9 +577,7 @@ export function InfinityLoadButton({
           size="medium"
           icon={icon}
           iconPosition={iconPosition}
-          text={
-            text || context.translation.Pagination.loadButtonText
-          }
+          text={text || context.translation.Pagination.loadButtonText}
           variant="secondary"
           onClick={handleClick}
         />

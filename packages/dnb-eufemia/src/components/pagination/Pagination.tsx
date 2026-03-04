@@ -356,12 +356,8 @@ const PaginationInstance = React.memo(function PaginationInstance(
   } = props as Record<string, any>
 
   // our props
-  const {
-    currentPageInternal,
-    items,
-    fallbackElement,
-    indicatorElement,
-  } = ctx.pagination
+  const { currentPageInternal, items, fallbackElement, indicatorElement } =
+    ctx.pagination
 
   // Pagination mode
   if (ctx.pagination.mode === 'pagination') {
