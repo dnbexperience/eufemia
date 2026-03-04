@@ -13,6 +13,7 @@ import {
   combineLabelledBy,
   dispatchCustomElementEvent,
   convertJsxToString,
+  removeUndefinedProps,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -260,8 +261,12 @@ function DropdownInstance({
     [externalButtonRef]
   )
 
-  // Apply defaults for callbacks that need them
-  const propsWithDefaults = { ...dropdownDefaultProps, ...ownProps }
+  // Strip undefined values so they fall through to defaults,
+  // preserving the legacy React defaultProps behavior.
+  const propsWithDefaults = {
+    ...dropdownDefaultProps,
+    ...removeUndefinedProps({ ...ownProps }),
+  }
 
   // Open on mount if props.open is set
   useEffect(() => {
