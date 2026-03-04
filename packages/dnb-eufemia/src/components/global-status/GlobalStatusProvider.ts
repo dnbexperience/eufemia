@@ -5,6 +5,7 @@
  * For referencing while developing new features, please use a Functional component.
  */
 
+import type { ReactNode } from 'react'
 import {
   makeUniqueId,
   warn,
@@ -12,22 +13,28 @@ import {
   slugify,
 } from '../../shared/component-helper'
 
-type StatusProps = Record<string, unknown> & {
+type StatusProps = {
   statusId?: string
-  show?: boolean
-  text?: unknown
-  children?: unknown
-  items?: StatusItem[] | string
+  show?: boolean | string
+  text?: ReactNode
+  children?: ReactNode
+  items?: (StatusItem | string)[] | string
   item?: StatusItem | string
   bufferDelay?: number
+  [key: string]: any
 }
 
-type StatusItem = Record<string, unknown> & {
+type StatusItem = {
   itemId?: string
-  text?: unknown
+  text?: any
+  [key: string]: any
 }
 
-type GlobalStatusResult = Record<string, unknown>
+type GlobalStatusResult = {
+  statusId?: string
+  items?: StatusItem[]
+  [key: string]: any
+}
 
 type OnUpdateCallback = (
   globalStatus: GlobalStatusResult,
@@ -134,7 +141,7 @@ export class GlobalStatusProviderItem {
   update(
     statusId: string,
     newProps: StatusProps,
-    opts: { preventRerender?: boolean } = {}
+    opts: { preventRerender?: boolean; preventRestack?: boolean } = {}
   ) {
     const item = this.get(statusId)
     if (!item) {
@@ -178,7 +185,10 @@ export class GlobalStatusProviderItem {
 
   remove(
     statusId: string,
-    opts: { preventRerender?: boolean; bufferDelay?: number } = {}
+    opts: Record<string, unknown> & {
+      preventRerender?: boolean
+      bufferDelay?: number
+    } = {}
   ) {
     if (statusId) {
       this.stack = this.stack.filter((cur) => {
@@ -314,26 +324,29 @@ class GlobalStatusProvider {
   }
 
   static combineMessages(stack: StatusProps[]): GlobalStatusResult {
-    const globalStatus = stack.reduce((acc, cur) => {
+    const globalStatus = stack.reduce<GlobalStatusResult>((acc, cur) => {
       // make a copy, because items are read-only
       cur = { ...cur }
 
       if (typeof cur.items === 'string' && cur.items[0] === '[') {
-        cur.items = JSON.parse(cur.items)
+        cur.items = JSON.parse(cur.items) as StatusItem[]
       }
 
       // if there is only one item, put it into the array
       if (cur.item) {
         if (typeof cur.item === 'string' && cur.item[0] === '{') {
-          cur.item = JSON.parse(cur.item)
+          cur.item = JSON.parse(cur.item) as StatusItem
         }
         // make sure we have an array of items
-        cur.items = cur.items || []
-        cur.items.push(cur.item)
+        const items: (StatusItem | string)[] = Array.isArray(cur.items)
+          ? cur.items
+          : []
+        items.push(cur.item as StatusItem)
+        cur.items = items
       }
 
       // merge items from prev stack into the current
-      if (cur.items) {
+      if (Array.isArray(cur.items)) {
         cur.items = cur.items.reduce((_acc, item) => {
           // only a fallback and to make sure we have
           item = GlobalStatusProvider.prepareItemWithStatusId(item)
