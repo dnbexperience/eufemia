@@ -21,11 +21,12 @@ import {
 } from './PaginationHelpers'
 import PaginationContext from './PaginationContext'
 
-export type PaginationInfinityScrollerProps = {
+export type InfinityScrollerProps = {
   children?: React.ReactNode
 }
 
-export default class InfinityScroller extends React.PureComponent<PaginationInfinityScrollerProps> {
+export default class InfinityScroller extends React.PureComponent<InfinityScrollerProps> {
+  static _supportsSpacingProps = true
   static contextType = PaginationContext
   context!: React.ContextType<typeof PaginationContext>
 
@@ -537,103 +538,83 @@ class InteractionMarker extends React.PureComponent<any, any> {
   }
 }
 
-export type PaginationInfinityLoadButtonProps = {
-  element?: React.ElementType
+export function InfinityLoadButton({
+  element = 'div',
+  pressedElement = null,
+  icon = 'arrow_down',
+  text = null,
+  iconPosition = 'left',
+  onClick,
+}: {
+  element?: any
   pressedElement?: React.ReactNode
   icon?: string
-  text?: string
-  iconPosition?: 'left' | 'right' | 'top'
-  onClick?: (event: React.MouseEvent) => void
-}
+  text?: string | null
+  iconPosition?: string
+  onClick?: (e: React.MouseEvent) => void
+}) {
+  const context = React.useContext(Context)
+  const [isPressed, setIsPressed] = React.useState(false)
 
-type InfinityLoadButtonState = {
-  isPressed: boolean
-}
-
-export class InfinityLoadButton extends React.PureComponent<
-  PaginationInfinityLoadButtonProps,
-  InfinityLoadButtonState
-> {
-  static contextType = Context
-  context!: React.ContextType<typeof Context>
-  static defaultProps = {
-    element: 'div',
-    pressedElement: null,
-    icon: 'arrow_down',
-    text: null,
-    iconPosition: 'left',
-  }
-  state = { isPressed: false }
-  onClickHandler = (e: React.MouseEvent) => {
-    this.setState({ isPressed: true })
-    if (typeof this.props.onClick === 'function') {
-      this.props.onClick(e)
+  const handleClick = (e: React.MouseEvent) => {
+    setIsPressed(true)
+    if (typeof onClick === 'function') {
+      onClick(e)
     }
   }
-  render() {
-    const { element, icon, text, iconPosition } = this.props
-    const Element = element
-    const ElementChild = isTrElement(Element) ? 'td' : 'div'
 
-    return this.state.isPressed ? (
-      this.props.pressedElement
-    ) : (
-      <Element>
-        <ElementChild className="dnb-pagination__loadbar">
-          <Button
-            size="medium"
-            icon={icon}
-            iconPosition={iconPosition}
-            text={
-              text || this.context.translation.Pagination.loadButtonText
-            }
-            variant="secondary"
-            onClick={this.onClickHandler}
-          />
-        </ElementChild>
-      </Element>
-    )
+  const Element = element
+  const ElementChild = isTrElement(Element) ? 'td' : 'div'
+
+  if (isPressed) {
+    return <>{pressedElement}</>
   }
+
+  return (
+    <Element>
+      <ElementChild className="dnb-pagination__loadbar">
+        <Button
+          size="medium"
+          icon={icon}
+          iconPosition={iconPosition}
+          text={
+            text || context.translation.Pagination.loadButtonText
+          }
+          variant="secondary"
+          onClick={handleClick}
+        />
+      </ElementChild>
+    </Element>
+  )
 }
 
-class ScrollToElement extends React.PureComponent<any> {
-  static defaultProps = {
-    pageElement: null,
-  }
+function ScrollToElement({
+  pageElement = null,
+  ...props
+}: {
+  pageElement?: any
+  [key: string]: any
+}) {
+  const elementRef = React.useRef<HTMLElement>(null)
 
-  _elementRef: React.RefObject<any>
-
-  constructor(props: any) {
-    super(props)
-    this._elementRef = React.createRef<HTMLElement>()
-  }
-
-  componentDidMount() {
-    // Use ref instead of findDOMNode for React v19 compatibility
-    const elem = this._elementRef.current
-    this.scrollToPage(elem)
-  }
-
-  scrollToPage(element: HTMLElement) {
-    if (element && typeof element.scrollIntoView === 'function') {
-      element.scrollIntoView({
+  React.useEffect(() => {
+    const elem = elementRef.current
+    if (elem && typeof elem.scrollIntoView === 'function') {
+      elem.scrollIntoView({
         block: 'nearest',
         behavior: 'smooth',
       })
     }
+  }, [])
+
+  const Element = preparePageElement(pageElement || React.Fragment)
+
+  // If Element is React.Fragment, we need to wrap it in a div to attach the ref
+  if (Element === React.Fragment) {
+    return <div ref={elementRef} {...props} />
   }
 
-  render() {
-    const { pageElement, ...props } = this.props
-    const Element = preparePageElement(pageElement || React.Fragment)
-
-    // If Element is React.Fragment, we need to wrap it in a div to attach the ref
-    if (Element === React.Fragment) {
-      return <div ref={this._elementRef} {...props} />
-    }
-
-    return <Element ref={this._elementRef} {...props} />
-  }
+  return <Element ref={elementRef} {...props} />
 }
 
 withComponentMarkers(InfinityScroller, { _supportsSpacingProps: true })
