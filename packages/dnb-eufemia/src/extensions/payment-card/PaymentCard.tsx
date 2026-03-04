@@ -24,6 +24,7 @@ import CardFigure from './components/CardFigure'
 
 import { ProductType, CardType, BankAxeptType } from './utils/Types'
 import Designs, { defaultDesign } from './utils/CardDesigns'
+import type { CardDesign } from './utils/CardDesigns'
 import cardProducts from './utils/cardProducts'
 
 import type { SpacingProps } from '../../shared/types'
@@ -59,10 +60,10 @@ export interface PaymentCardRawData {
   productCode: string
   productName: string
   displayName: string
-  cardDesign: Record<string, unknown>
-  cardType: Record<string, unknown>
-  productType: Record<string, unknown>
-  bankAxept: Record<string, unknown>
+  cardDesign: CardDesign
+  cardType: CardType
+  productType: ProductType
+  bankAxept: BankAxeptType
 }
 
 export interface PaymentCardProps
