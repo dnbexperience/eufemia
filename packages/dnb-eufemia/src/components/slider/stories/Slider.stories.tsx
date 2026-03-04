@@ -201,7 +201,7 @@ const SliderStory = () => {
             align="center"
             value={String(value)}
             onChange={({ value }) => {
-              setValue(value as number)
+              setValue(Number(value))
             }}
           />
         </VerticalWrapper>
