@@ -12,6 +12,7 @@ import {
   getStatusState,
   combineDescribedBy,
   dispatchCustomElementEvent,
+  removeUndefinedProps,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -286,16 +287,23 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
     [ownProps, isPlainGroup, callOnChange]
   )
 
+  // Strip undefined values so they fall through to defaults,
+  // preserving the legacy React defaultProps behavior.
+  const resolvedProps = {
+    ...radioDefaultProps,
+    ...removeUndefinedProps({ ...ownProps }),
+  }
+
   // from internal context
   const contextProps = extendPropsWithContextInClassComponent(
-    { ...radioDefaultProps, ...ownProps },
+    resolvedProps,
     radioDefaultProps,
     groupContext as Record<string, unknown>
   )
 
   // use only the props from context, who are available here anyway
   const props = extendPropsWithContextInClassComponent(
-    { ...radioDefaultProps, ...ownProps },
+    resolvedProps,
     radioDefaultProps,
     contextProps,
     { skeleton: context?.skeleton },
