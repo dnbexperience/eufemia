@@ -74,9 +74,9 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
   const [value, setValue] = useState<ToggleButtonGroupValue | undefined>(
     ownProps.value
   )
-  const [values, setValues] = useState<any[] | undefined>(() =>
-    ownProps.values ? parseValues(ownProps) : undefined
-  )
+  const [values, setValues] = useState<
+    ToggleButtonGroupValue[] | undefined
+  >(() => (ownProps.values ? parseValues(ownProps) : undefined))
   const [prevPropsValue, setPrevPropsValue] = useState(ownProps.value)
   const [prevPropsValues, setPrevPropsValues] = useState(ownProps.values)
 
@@ -240,7 +240,7 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
         setValue(resolved.value as ToggleButtonGroupValue)
       }
       if ('values' in resolved) {
-        setValues(resolved.values as any[])
+        setValues(resolved.values as ToggleButtonGroupValue[])
       }
     },
     onChange: onChangeHandler,
@@ -347,93 +347,72 @@ export type ToggleButtonGroupValue =
   | string
   | number
   | Record<string, unknown>
-  | any[]
-export type ToggleButtonGroupValues = string | any[]
+  | unknown[]
+export type ToggleButtonGroupValues = string | ToggleButtonGroupValue[]
 export type ToggleButtonGroupChildren =
   | string
   | (() => React.ReactNode)
   | React.ReactNode
 
-export type ToggleButtonGroupChangeEvent = {
-  value: ToggleButtonGroupValue
-  values: ToggleButtonGroupValues
-  event: React.SyntheticEvent
+export interface ToggleButtonGroupProps
+  extends Omit<
+      React.HTMLProps<HTMLElement>,
+      'label' | 'value' | 'children' | 'onChange' | 'size'
+    >,
+    Omit<SpacingProps, 'top' | 'right' | 'bottom' | 'left'>,
+    FormStatusBaseProps {
+  /**
+   * Use either the `label` property or provide a custom one.
+   */
+  label?: string | React.ReactNode
+  labelDirection?: 'horizontal' | 'vertical'
+  labelSrOnly?: boolean
+  /**
+   * The `title` of the input - describing it a bit further for accessibility reasons.
+   */
+  title?: string
+  /**
+   * Determine whether the ToggleButtonGroup is checked or not. The default will be `false`.
+   */
+  checked?: boolean
+  variant?: ToggleButtonGroupVariant
+  leftComponent?: React.ReactNode
+  disabled?: boolean
+  /**
+   * If set to `true`, an overlaying skeleton with animation will be shown.
+   */
+  skeleton?: SkeletonShow
+  id?: string
+  /**
+   * Text describing the content of the ToggleButtonGroup more than the label. You can also send in a React component, so it gets wrapped inside the ToggleButtonGroup component.
+   */
+  suffix?: ToggleButtonGroupSuffix
+  /**
+   * Defines the `value` as a string. Use it to get the value during the `onChange` event listener callback in the **ToggleButtonGroup**.
+   */
+  value?: ToggleButtonGroupValue
+  /**
+   * The size of the button. For now there is `small`, `medium`, `default` and `large`.
+   */
+  size?: ButtonSize
+  /**
+   * Defines the layout direction of the ToggleButtonGroup. Set to `column` or `row`. Defaults to `row` if not set.
+   */
+  layoutDirection?: ToggleButtonGroupLayoutDirection
+  /**
+   * Defines the `values` as a string. Use it to get the values during the `onChange` event listener callback in the **ToggleButtonGroup**.
+   */
+  values?: ToggleButtonGroupValues
+  readOnly?: boolean
+  className?: string
+  children?: ToggleButtonGroupChildren
+  onChange?: (...args: unknown[]) => void
+  // Additional properties that are used in tests and stories
+  top?: SpaceType
+  right?: SpaceType
+  bottom?: SpaceType
+  left?: SpaceType
+  multiselect?: boolean
+  name?: string
+  vertical?: boolean
 }
-
-export type ToggleButtonGroupProps = Omit<
-  React.HTMLProps<HTMLElement>,
-  'label' | 'value' | 'size' | 'onChange'
-> &
-  Omit<SpacingProps, 'top' | 'right' | 'bottom' | 'left'> & {
-    /**
-     * Use either the `label` property or provide a custom one.
-     */
-    label?: string | React.ReactNode
-    labelDirection?: 'horizontal' | 'vertical'
-    labelSrOnly?: boolean
-    /**
-     * The `title` of the input - describing it a bit further for accessibility reasons.
-     */
-    title?: string
-    /**
-     * Determine whether the ToggleButtonGroup is checked or not. The default will be `false`.
-     */
-    checked?: boolean
-    variant?: ToggleButtonGroupVariant
-    leftComponent?: React.ReactNode
-    disabled?: boolean
-    /**
-     * If set to `true`, an overlaying skeleton with animation will be shown.
-     */
-    skeleton?: SkeletonShow
-    id?: string
-    /**
-     * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
-     */
-    status?: FormStatusText
-    /**
-     * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
-     */
-    statusState?: FormStatusState
-    /**
-     * Use an object to define additional FormStatus properties.
-     */
-    statusProps?: FormStatusProps
-    statusNoAnimation?: boolean
-    /**
-     * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
-     */
-    globalStatus?: GlobalStatusConfigObject
-    /**
-     * Text describing the content of the ToggleButtonGroup more than the label. You can also send in a React component, so it gets wrapped inside the ToggleButtonGroup component.
-     */
-    suffix?: ToggleButtonGroupSuffix
-    /**
-     * Defines the `value` as a string. Use it to get the value during the `onChange` event listener callback in the **ToggleButtonGroup**.
-     */
-    value?: ToggleButtonGroupValue
-    /**
-     * The size of the button. For now there is `small`, `medium`, `default` and `large`.
-     */
-    size?: ButtonSize
-    /**
-     * Defines the layout direction of the ToggleButtonGroup. Set to `column` or `row`. Defaults to `row` if not set.
-     */
-    layoutDirection?: ToggleButtonGroupLayoutDirection
-    /**
-     * Defines the `values` as a string. Use it to get the values during the `onChange` event listener callback in the **ToggleButtonGroup**.
-     */
-    values?: ToggleButtonGroupValues
-    readOnly?: boolean
-    className?: string
-    children?: ToggleButtonGroupChildren
-    onChange?: (event: ToggleButtonGroupChangeEvent) => void
-    // Additional properties that are used in tests and stories
-    top?: SpaceType
-    right?: SpaceType
-    bottom?: SpaceType
-    left?: SpaceType
-    multiselect?: boolean
-    name?: string
-    vertical?: boolean
-  }
