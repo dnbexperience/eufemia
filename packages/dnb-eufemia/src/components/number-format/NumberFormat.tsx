@@ -542,7 +542,9 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
         className="dnb-sr-only"
         // Use "data-text" so Chrome does not copy the HTML as content, when pasting it in Outlook etc.
         data-text={
-          srLabel ? `${convertJsxToString(srLabel)}${' '}${aria}` : aria
+          srLabel
+            ? `${convertJsxToString(srLabel)}${'\u00a0'}${aria}`
+            : aria
         }
       />
 
