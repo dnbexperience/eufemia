@@ -387,6 +387,30 @@ describe('Card', () => {
     expect(element).toHaveStyle('--outset--large: 0')
   })
 
+  it('should support "outlineWidth"', () => {
+    render(<Card outlineWidth={2}>Content</Card>)
+
+    const element = document.querySelector('.dnb-card')
+    expect(element).toHaveStyle('--outline-width--small: 2px')
+    expect(element).toHaveStyle('--outline-width--medium: 2px')
+    expect(element).toHaveStyle('--outline-width--large: 2px')
+  })
+
+  it('should support "dropShadow"', () => {
+    render(<Card dropShadow>Content</Card>)
+
+    const element = document.querySelector('.dnb-card')
+    expect(element).toHaveStyle(
+      '--drop-shadow--small: var(--shadow-default)'
+    )
+    expect(element).toHaveStyle(
+      '--drop-shadow--medium: var(--shadow-default)'
+    )
+    expect(element).toHaveStyle(
+      '--drop-shadow--large: var(--shadow-default)'
+    )
+  })
+
   it('should not allow "outset" on nested cards', () => {
     render(
       <Card outset>
@@ -447,7 +471,7 @@ describe('Card', () => {
 
     expect(
       window.getComputedStyle(element).getPropertyValue('--space-l-s')
-    ).toBe('1.5rem')
+    ).toBe('1rem')
   })
 
   it('should support "title"', () => {

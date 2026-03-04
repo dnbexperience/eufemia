@@ -30,7 +30,11 @@ export type Props = {
 } & FlexContainerProps &
   Pick<
     SectionProps,
-    'outset' | 'outline' | 'outlineWidth' | 'backgroundColor'
+    | 'outset'
+    | 'outline'
+    | 'outlineWidth'
+    | 'dropShadow'
+    | 'backgroundColor'
   > &
   FlexItemProps & {
     stack?: boolean
@@ -53,6 +57,8 @@ function Card(props: Props) {
     responsive = !nestedContext?.isNested,
     filled,
     outset,
+    outlineWidth = 'var(--card-outline-width)',
+    dropShadow,
     title,
     children,
     ...rest
@@ -62,10 +68,10 @@ function Card(props: Props) {
   const falseWhenSmall = { small: false, medium: true, large: true }
   const trueWhenSmall = { small: true, medium: false, large: false }
   const basisSpace = {
-    top: 'medium',
-    right: 'medium',
-    bottom: 'large',
-    left: 'medium',
+    top: 'small',
+    right: 'small',
+    bottom: 'small',
+    left: 'small',
   }
   const smallSpace = responsive
     ? {
@@ -91,7 +97,8 @@ function Card(props: Props) {
       : outset,
     roundedCorner: responsive ? falseWhenSmall : true,
     outline: 'var(--card-outline-color)',
-    outlineWidth: 'var(--card-outline-width)',
+    outlineWidth,
+    dropShadow,
     backgroundColor: 'var(--card-background-color)',
     innerSpace:
       innerSpace ??

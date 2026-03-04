@@ -5,6 +5,7 @@ import {
   Flex,
   Grid,
   H2,
+  Lead,
   P,
   Section,
   Table,
@@ -35,7 +36,31 @@ export const NestedCards = () => {
         <Card stack>
           <P>Second Card</P>
           <Card stack>
-            <P>Third Card (for edge cases only)</P>
+            <P>Third Card (edge case)</P>
+          </Card>
+        </Card>
+      </Card>
+    </ComponentBox>
+  )
+}
+
+export const WithDropShadow = () => {
+  return (
+    <ComponentBox data-visual-test="layout-card-drop-shadow">
+      <Card stack dropShadow>
+        <Lead>Card 1</Lead>
+        <Card stack top="2.5rem">
+          <Lead size="basis">Card 2</Lead>
+          <Card
+            stack
+            top="1.5rem"
+            innerSpace={{
+              top: true,
+              block: '3rem',
+              inline: true,
+            }}
+          >
+            <Lead size="small">Card 3 (edge case)</Lead>
           </Card>
         </Card>
       </Card>
@@ -223,25 +248,12 @@ export const Stack = () => {
   )
 }
 
-export const VerticalFields = () => {
+export const WithFormFields = () => {
   return (
     <ComponentBox>
       <Form.Card>
         <Field.String label="Label" value="Value" />
         <Field.String label="Label" value="Value" />
-      </Form.Card>
-    </ComponentBox>
-  )
-}
-
-export const HorizontalFields = () => {
-  return (
-    <ComponentBox>
-      <Form.Card>
-        <Flex.Horizontal>
-          <Field.String label="Label" value="Value" width="small" />
-          <Field.String label="Label" value="Value" width="stretch" />
-        </Flex.Horizontal>
       </Form.Card>
     </ComponentBox>
   )
