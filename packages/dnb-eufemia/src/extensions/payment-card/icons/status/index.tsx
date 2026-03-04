@@ -24,7 +24,13 @@ const statusIconMap = {
   unknown: { Icon: QuestionMark, className: 'icon--stroke' },
 }
 
-export const StatusIcon = ({ status }) => {
-  const { Icon, className } = statusIconMap[status] || {}
-  return Icon ? <Icon className={className} /> : null
+type StatusKey = keyof typeof statusIconMap
+
+export const StatusIcon = ({ status }: { status: string }) => {
+  const entry = statusIconMap[status as StatusKey]
+  if (!entry) {
+    return null
+  }
+  const { Icon, className } = entry
+  return <Icon className={className} />
 }
