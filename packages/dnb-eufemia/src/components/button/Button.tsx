@@ -313,6 +313,8 @@ function Button({ ref, ...restProps }: ButtonProps) {
     selected,
     surface = context?.theme?.surface ?? 'default',
     ref: _ref,
+    vertical: _vertical,
+    labelDirection: _labelDirection,
     ...attributes
   } = props
 
