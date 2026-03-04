@@ -237,9 +237,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
     contextProps,
     (context.translation as Record<string, unknown>)
       ?.ToggleButton as Record<string, unknown>,
-    pickFormElementProps(
-      context.formElement as Record<string, unknown>
-    ),
+    pickFormElementProps(context.formElement as Record<string, unknown>),
     (context as Record<string, unknown>).ToggleButton as Record<
       string,
       unknown
@@ -285,10 +283,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
     typeof groupContext.value !== 'undefined'
   ) {
     const contextValue = groupContext.value
-    if (
-      typeof propValue === 'string' ||
-      typeof propValue === 'number'
-    ) {
+    if (typeof propValue === 'string' || typeof propValue === 'number') {
       resolvedChecked = propValue === contextValue
     }
   } else if (
@@ -296,10 +291,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
     typeof groupContext.values !== 'undefined'
   ) {
     const contextValues = groupContext.values
-    if (
-      typeof propValue === 'string' ||
-      typeof propValue === 'number'
-    ) {
+    if (typeof propValue === 'string' || typeof propValue === 'number') {
       resolvedChecked = contextValues.includes(propValue)
     }
   }
@@ -330,9 +322,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
     iconSize: iconSize,
     iconPosition: iconPosition,
     [`aria-${
-      role === 'radio' || role === 'checkbox'
-        ? 'checked'
-        : 'pressed'
+      role === 'radio' || role === 'checkbox' ? 'checked' : 'pressed'
     }`]: String(resolvedChecked || false),
     role,
     ...rest,
@@ -374,9 +364,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
   let usedLeftComponent = null
   switch (variant) {
     case 'radio':
-      usedLeftComponent = (
-        <Radio id={`${id}-radio`} {...componentParams} />
-      )
+      usedLeftComponent = <Radio id={`${id}-radio`} {...componentParams} />
       break
 
     case 'checkbox':

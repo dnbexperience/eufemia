@@ -76,10 +76,8 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
   const [values, setValues] = useState<any[] | undefined>(() =>
     ownProps.values ? parseValues(ownProps) : undefined
   )
-  const [prevPropsValue, setPrevPropsValue] =
-    useState(ownProps.value)
-  const [prevPropsValues, setPrevPropsValues] =
-    useState(ownProps.values)
+  const [prevPropsValue, setPrevPropsValue] = useState(ownProps.value)
+  const [prevPropsValues, setPrevPropsValues] = useState(ownProps.values)
 
   const tmpRef = useRef<Record<string, unknown> | undefined>(undefined)
 
@@ -141,8 +139,10 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
       >
     ).ToggleButton,
     pickFormElementProps(context?.formElement),
-    (context as Record<string, unknown>)
-      .ToggleButtonGroup as Record<string, unknown>
+    (context as Record<string, unknown>).ToggleButtonGroup as Record<
+      string,
+      unknown
+    >
   )
 
   const {
