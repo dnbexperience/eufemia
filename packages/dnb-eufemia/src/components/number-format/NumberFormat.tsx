@@ -8,6 +8,7 @@ import React, {
   useState,
   useCallback,
   useEffect,
+  useLayoutEffect,
 } from 'react'
 import clsx from 'clsx'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
@@ -246,7 +247,9 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
   }, [])
 
   // Handle focus + selectAll after selected becomes true
-  useEffect(() => {
+  // Use useLayoutEffect to apply focus and text selection before paint,
+  // avoiding a visible frame without focus/selection.
+  useLayoutEffect(() => {
     if (selected && needsFocusRef.current) {
       needsFocusRef.current = false
       selectionRef.current?.focus({ preventScroll: true })
@@ -579,6 +582,8 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
   )
 }
 
-withComponentMarkers(NumberFormat, { _supportsSpacingProps: true })
+const MemoizedNumberFormat = React.memo(NumberFormat)
 
-export default NumberFormat
+withComponentMarkers(MemoizedNumberFormat, { _supportsSpacingProps: true })
+
+export default MemoizedNumberFormat
