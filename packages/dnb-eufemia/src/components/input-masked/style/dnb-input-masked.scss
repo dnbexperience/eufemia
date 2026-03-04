@@ -83,4 +83,12 @@
       }
     }
   }
+
+  .dnb-input__status--error &:not(:focus-within),
+  &.dnb-input__status--error:not(:focus-within) {
+    .dnb-multi-input-mask__input,
+    .dnb-multi-input-mask__delimiter {
+      color: var(--color-fire-red);
+    }
+  }
 }

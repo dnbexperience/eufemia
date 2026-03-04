@@ -657,6 +657,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           id={`${id}-start`}
           omitInputShellClass
           size={size}
+          status={!open ? status : null}
+          statusState={statusState}
           inputs={buildInputs('start')}
           values={getValues('start')}
           delimiter={delimiter}
@@ -694,6 +696,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             id={`${id}-end`}
             omitInputShellClass
             size={size}
+            status={!open ? status : null}
+            statusState={statusState}
             inputs={buildInputs('end')}
             values={getValues('end')}
             delimiter={delimiter}
@@ -732,6 +736,9 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     delimiter,
     disabled,
     skeleton,
+    open,
+    status,
+    statusState,
     attributes,
     isRange,
     onFocus,
