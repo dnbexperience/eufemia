@@ -24,7 +24,7 @@ const statusIconMap = {
   unknown: { Icon: QuestionMark, className: 'icon--stroke' },
 }
 
-export const StatusIcon = ({ status }) => {
+export const StatusIcon = ({ status }: { status: string }) => {
   const { Icon, className } = statusIconMap[status] || {}
   return Icon ? <Icon className={className} /> : null
 }

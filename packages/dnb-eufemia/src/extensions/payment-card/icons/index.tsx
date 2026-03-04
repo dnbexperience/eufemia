@@ -22,7 +22,11 @@ import VisaDefault from './providers/VisaDefault'
 import VisaPlatinum from './providers/VisaPlatinum'
 import { StatusIcon } from './status'
 
-const BankLogo = ({ logoType }) =>
+type CataType = {
+  cata: (handlers: Record<string, (...args: string[]) => React.ReactNode>) => React.ReactNode
+}
+
+const BankLogo = ({ logoType }: { logoType: CataType }) =>
   logoType.cata({
     Colored: (color) => (
       <DNB fill={color} className="dnb-payment-card__card__bank-logo" />
@@ -35,7 +39,13 @@ const BankLogo = ({ logoType }) =>
     ),
   })
 
-const ProductLogo = ({ productType, cardDesign }) => {
+const ProductLogo = ({
+  productType,
+  cardDesign,
+}: {
+  productType: CataType
+  cardDesign: Record<string, CataType>
+}) => {
   const id = 'dnb-payment-card__card__product-type'
   return productType.cata({
     Saga: () =>
@@ -59,7 +69,13 @@ const ProductLogo = ({ productType, cardDesign }) => {
   })
 }
 
-const BankAxeptLogo = ({ bankAxept, cardDesign }) => {
+const BankAxeptLogo = ({
+  bankAxept,
+  cardDesign,
+}: {
+  bankAxept: CataType
+  cardDesign: Record<string, CataType>
+}) => {
   const id = 'dnb-payment-card__card__bank-axept'
   return bankAxept.cata({
     BankAxept: () =>
@@ -76,7 +92,13 @@ const BankAxeptLogo = ({ bankAxept, cardDesign }) => {
   })
 }
 
-const TypeLogo = ({ cardType, cardDesign }) => {
+const TypeLogo = ({
+  cardType,
+  cardDesign,
+}: {
+  cardType: CataType
+  cardDesign: Record<string, CataType>
+}) => {
   const id = 'dnb-payment-card__card__credit-type'
   return cardType.cata({
     Visa: () =>
