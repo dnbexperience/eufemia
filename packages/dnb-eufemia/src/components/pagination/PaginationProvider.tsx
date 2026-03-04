@@ -77,9 +77,7 @@ const PaginationProvider = (props: any) => {
   const [lowerPage, setLowerPage] = useState<number | undefined>(() => {
     if (props.useMarkerOnly) {
       return (
-        parseFloat(props.startupPage) ||
-        parseFloat(props.currentPage) ||
-        1
+        parseFloat(props.startupPage) || parseFloat(props.currentPage) || 1
       )
     }
     return undefined
@@ -88,9 +86,7 @@ const PaginationProvider = (props: any) => {
   const [upperPage, setUpperPage] = useState<number | undefined>(() => {
     if (props.useMarkerOnly) {
       const sp =
-        parseFloat(props.startupPage) ||
-        parseFloat(props.currentPage) ||
-        1
+        parseFloat(props.startupPage) || parseFloat(props.currentPage) || 1
       return sp + (parseFloat(props.startupCount) || 1) - 1 || 1
     }
     return undefined
@@ -237,8 +233,7 @@ const PaginationProvider = (props: any) => {
   const resetInfinity = useCallback(
     (pageNumber: number = startupPageRef.current) => {
       const newLowerPage = pageNumber
-      const newUpperPage =
-        pageNumber + parseFloat(props.startupCount) - 1
+      const newUpperPage = pageNumber + parseFloat(props.startupCount) - 1
       const newCurrentPageInternal = pageNumber
 
       setItemsState([])
@@ -275,49 +270,43 @@ const PaginationProvider = (props: any) => {
     }
   }, [hasEndedInfinity, props])
 
-  const setItems = useCallback(
-    (newItems: any[], cb?: () => void) => {
-      setItemsState(newItems)
-      if (typeof cb === 'function') {
-        // Schedule callback after state update
-        Promise.resolve().then(cb)
-      }
-    },
-    []
-  )
+  const setItems = useCallback((newItems: any[], cb?: () => void) => {
+    setItemsState(newItems)
+    if (typeof cb === 'function') {
+      // Schedule callback after state update
+      Promise.resolve().then(cb)
+    }
+  }, [])
 
-  const setStateHandler = useCallback(
-    (state: any, cb?: () => void) => {
-      if ('items' in state) {
-        setItemsState(state.items)
-      }
-      if ('isLoading' in state) {
-        setIsLoading(state.isLoading)
-      }
-      if ('hasEndedInfinity' in state) {
-        setHasEndedInfinity(state.hasEndedInfinity)
-      }
-      if ('currentPageInternal' in state) {
-        setCurrentPageInternal(state.currentPageInternal)
-      }
-      if ('startupPage' in state) {
-        setStartupPage(state.startupPage)
-      }
-      if ('lowerPage' in state) {
-        setLowerPage(state.lowerPage)
-      }
-      if ('upperPage' in state) {
-        setUpperPage(state.upperPage)
-      }
-      if ('skipObserver' in state) {
-        // skipObserver is stored in derived/context, handled via items
-      }
-      if (typeof cb === 'function') {
-        Promise.resolve().then(cb)
-      }
-    },
-    []
-  )
+  const setStateHandler = useCallback((state: any, cb?: () => void) => {
+    if ('items' in state) {
+      setItemsState(state.items)
+    }
+    if ('isLoading' in state) {
+      setIsLoading(state.isLoading)
+    }
+    if ('hasEndedInfinity' in state) {
+      setHasEndedInfinity(state.hasEndedInfinity)
+    }
+    if ('currentPageInternal' in state) {
+      setCurrentPageInternal(state.currentPageInternal)
+    }
+    if ('startupPage' in state) {
+      setStartupPage(state.startupPage)
+    }
+    if ('lowerPage' in state) {
+      setLowerPage(state.lowerPage)
+    }
+    if ('upperPage' in state) {
+      setUpperPage(state.upperPage)
+    }
+    if ('skipObserver' in state) {
+      // skipObserver is stored in derived/context, handled via items
+    }
+    if (typeof cb === 'function') {
+      Promise.resolve().then(cb)
+    }
+  }, [])
 
   const updatePageContent = useCallback(
     (pageNumber?: number) => {
@@ -400,9 +389,7 @@ const PaginationProvider = (props: any) => {
   useEffect(() => {
     if (props.useMarkerOnly) {
       const sp =
-        startupPageRef.current ||
-        parseFloat(props.currentPage) ||
-        1
+        startupPageRef.current || parseFloat(props.currentPage) || 1
       setLowerPage((prev) => {
         if (typeof prev === 'undefined') {
           return sp
@@ -415,9 +402,7 @@ const PaginationProvider = (props: any) => {
       })
       setUpperPage((prev) => {
         if (typeof prev === 'undefined') {
-          return (
-            sp + (parseFloat(props.startupCount) || 1) - 1 || 1
-          )
+          return sp + (parseFloat(props.startupCount) || 1) - 1 || 1
         }
         return prev
       })
@@ -507,10 +492,7 @@ const PaginationProvider = (props: any) => {
   useEffect(() => {
     if (props.useMarkerOnly) {
       clearTimeout(callOnPageUpdateTimeoutRef.current)
-      callOnPageUpdateTimeoutRef.current = setTimeout(
-        callOnPageUpdate,
-        1
-      ) // because of rerender possibility
+      callOnPageUpdateTimeoutRef.current = setTimeout(callOnPageUpdate, 1) // because of rerender possibility
     }
   })
 
