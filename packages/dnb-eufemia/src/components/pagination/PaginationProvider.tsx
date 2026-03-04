@@ -7,6 +7,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -413,7 +414,9 @@ const PaginationProvider = (props: any) => {
   ])
 
   // ---- Run pending callbacks after state commits ----
-  useEffect(() => {
+  // Use useLayoutEffect so callbacks fire before paint,
+  // matching the class component's setState callback timing.
+  useLayoutEffect(() => {
     if (pendingCallOnPageUpdateRef.current) {
       pendingCallOnPageUpdateRef.current = false
       callOnPageUpdate()
@@ -431,7 +434,7 @@ const PaginationProvider = (props: any) => {
   })
 
   // ---- Sync items prop ----
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (typeof props.items === 'string' && props.items[0] === '[') {
       setItemsState(JSON.parse(props.items))
     } else if (Array.isArray(props.items)) {
@@ -440,7 +443,7 @@ const PaginationProvider = (props: any) => {
   }, [props.items])
 
   // ---- Sync currentPage prop to currentPageInternal ----
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (
       props.currentPage !== null &&
       typeof currentPageInternalRef.current === 'undefined'
@@ -450,14 +453,14 @@ const PaginationProvider = (props: any) => {
   }, [props.currentPage])
 
   // ---- Handle resetContentHandler prop ----
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (props.resetContentHandler === true) {
       setItemsState([])
     }
   }, [props.resetContentHandler])
 
   // ---- Handle resetPaginationHandler prop for useMarkerOnly ----
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (props.useMarkerOnly && props.resetPaginationHandler === true) {
       setLowerPage(undefined)
       setUpperPage(undefined)
@@ -465,7 +468,7 @@ const PaginationProvider = (props: any) => {
   }, [props.useMarkerOnly, props.resetPaginationHandler])
 
   // ---- Handle useMarkerOnly lowerPage/upperPage ----
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (props.useMarkerOnly) {
       const sp =
         startupPageRef.current || parseFloat(props.currentPage) || 1
@@ -510,7 +513,9 @@ const PaginationProvider = (props: any) => {
   }, [props.rerender, setContent])
 
   // ---- componentDidMount ----
-  useEffect(() => {
+  // Use useLayoutEffect to populate initial content before paint,
+  // matching the class component's componentDidMount timing.
+  useLayoutEffect(() => {
     const {
       setContentHandler,
       resetContentHandler,
@@ -554,7 +559,8 @@ const PaginationProvider = (props: any) => {
   }, [])
 
   // ---- componentDidUpdate equivalent ----
-  useEffect(() => {
+  // Use useLayoutEffect to apply page/content changes before paint.
+  useLayoutEffect(() => {
     const prevCurrentPage = prevPropsRef.current.currentPage
     const prevInternalContent = prevPropsRef.current.internalContent
 
@@ -635,7 +641,9 @@ const PaginationProvider = (props: any) => {
   )
 }
 
-PaginationProvider.defaultProps = {
+const MemoizedPaginationProvider = React.memo(PaginationProvider)
+
+;(MemoizedPaginationProvider as any).defaultProps = {
   startupPage: null,
   currentPage: null,
   pageCount: null,
@@ -650,4 +658,4 @@ PaginationProvider.defaultProps = {
   children: null,
 }
 
-export default PaginationProvider
+export default MemoizedPaginationProvider
