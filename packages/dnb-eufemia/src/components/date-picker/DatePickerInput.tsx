@@ -951,7 +951,9 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         inputElement={
           inputElement && typeof inputElement !== 'string'
             ? typeof inputElement === 'function'
-              ? inputElement(props)
+              ? (inputElement as (...args: unknown[]) => React.ReactNode)(
+                  props
+                )
               : inputElement
             : renderInputElement
         }
@@ -960,7 +962,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         size={size}
         status={!open ? status : null}
         statusState={statusState}
-        {...statusProps}
+        {...(statusProps as Record<string, unknown>)}
         submitElement={
           <SubmitElement
             id={id}
@@ -985,7 +987,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           />
         }
         lang={lang}
-        {...attributes}
+        {...(attributes as Record<string, unknown>)}
       />
     </fieldset>
   )

@@ -256,7 +256,7 @@ function StringComponent(props: Props) {
 
   const cn = clsx('dnb-forms-field-string__input', inputClassName)
 
-  const sharedProps: InputProps & TextareaProps = {
+  const sharedProps = {
     id,
     name,
     autoComplete,
@@ -287,14 +287,14 @@ function StringComponent(props: Props) {
     characterCounter,
   }
 
-  const inputProps: InputProps = {
+  const inputProps = {
     type,
     clear,
     size,
     align,
     selectAll,
     icon: leftIcon ?? rightIcon,
-    iconPosition: rightIcon && !leftIcon ? 'right' : undefined,
+    iconPosition: rightIcon && !leftIcon ? ('right' as const) : undefined,
     submitElement: submitElement,
     keepPlaceholder: keepPlaceholder,
   }
@@ -315,7 +315,11 @@ function StringComponent(props: Props) {
       {multiline ? (
         <Textarea {...sharedProps} {...textareaProps} />
       ) : mask ? (
-        <InputMasked {...sharedProps} {...inputProps} mask={mask} />
+        <InputMasked
+          {...(sharedProps as Record<string, unknown>)}
+          {...(inputProps as Record<string, unknown>)}
+          mask={mask}
+        />
       ) : (
         <Input {...sharedProps} {...inputProps} />
       )}

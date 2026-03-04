@@ -11,11 +11,7 @@ import {
   format,
   formatOptionParams,
 } from '../../../../components/number-format/NumberUtils'
-import type {
-  InputAlign,
-  InputProps,
-  InputSize,
-} from '../../../../components/Input'
+import type { InputAlign, InputSize } from '../../../../components/Input'
 import SharedContext from '../../../../shared/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import clsx from 'clsx'
@@ -521,7 +517,7 @@ function NumberComponent(props: Props) {
     'aria-valuetext': String(value ?? ''), // without it, VO will read %
   }
 
-  const inputProps: InputProps = {
+  const inputProps = {
     id,
     name,
     ref: inputRef,
