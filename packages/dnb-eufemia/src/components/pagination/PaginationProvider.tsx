@@ -251,10 +251,6 @@ const PaginationProvider = (props: any) => {
     [props.startupCount]
   )
 
-  const endInfinity = useCallback(() => {
-    setHasEndedInfinity(true)
-  }, [])
-
   // Handle the onEnd dispatch after hasEndedInfinity becomes true
   const endInfinityDispatchRef = useRef(false)
   const endInfinityHandler = useCallback(() => {
