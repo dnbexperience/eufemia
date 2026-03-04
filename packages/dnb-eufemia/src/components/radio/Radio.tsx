@@ -383,7 +383,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
     ),
   }
 
-  let inputParams: Record<string, any> = {
+  let inputParams: Record<string, unknown> = {
     role: hasContext || group ? 'radio' : null,
     type: hasContext || group ? 'radio' : 'checkbox', // overwriting the type
   }
