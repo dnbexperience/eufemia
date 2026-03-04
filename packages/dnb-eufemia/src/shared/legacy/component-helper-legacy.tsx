@@ -1,7 +1,7 @@
 /**
  * Component helpers legacy
  *
- * These are functions for ../component-helper.ts that have yet to be refactored to typescript.
+ * This is a legacy component.
  */
 
 import React from 'react'
