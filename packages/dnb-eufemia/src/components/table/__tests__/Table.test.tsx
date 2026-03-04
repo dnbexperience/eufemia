@@ -215,6 +215,13 @@ describe('Table aria', () => {
 })
 
 describe('Table scss', () => {
+  it('should inherit card rounded corners when used inside Card', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+    expect(css).toContain(
+      '.dnb-card .dnb-table {\n  --table-outline-radius: var(--rounded-corner, 0.5rem);'
+    )
+  })
+
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()

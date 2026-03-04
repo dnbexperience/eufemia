@@ -41,6 +41,16 @@ export const CardProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  outlineWidth: {
+    doc: 'Define the outline width. Defaults to `var(--card-outline-width)` (`0.0625rem`).',
+    type: ['string', 'number'],
+    status: 'optional',
+  },
+  dropShadow: {
+    doc: 'Define if the Card should have drop shadow. Uses Section `dropShadow`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   backgroundColor: {
     doc: 'Define the background color. Defaults to `var(--card-background-color)`.',
     type: 'string',

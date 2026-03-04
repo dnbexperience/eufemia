@@ -1,7 +1,7 @@
 :root {
   // Keep these outside of the .dnb-card class so they can be used globally (dnb-help-button-inline)
-  --card-outline-color: var(--border-color, var(--color-lavender));
-  --card-outline-width: 0.25rem;
+  --card-outline-color: var(--border-color, var(--color-black-8));
+  --card-outline-width: 0.0625rem;
   --card-background-color: var(--color-white);
 }
 
@@ -10,6 +10,11 @@
   & .dnb-card {
     --card-outline-color: var(--color-black-8);
     --outline-width: 0.0625rem;
-    --rounded-corner: 0.375rem;
+    --rounded-corner: 1rem;
+  }
+
+  // Third level and deeper nested Cards
+  & .dnb-card .dnb-card {
+    --rounded-corner: 0.5rem;
   }
 }

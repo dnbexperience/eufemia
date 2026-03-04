@@ -112,8 +112,14 @@
 
   // When used in a Card without inner space
   .dnb-card--no-inner-space & {
+    --table-outline-radius: var(--rounded-corner, 0.5rem);
     --table-outline-color: transparent;
     margin-bottom: 0;
+  }
+
+  // Keep rounded corners in sync with the parent Card.
+  .dnb-card & {
+    --table-outline-radius: var(--rounded-corner, 0.5rem);
   }
 
   @include table-header-buttons.buttonsInTable();
