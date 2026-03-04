@@ -20,12 +20,13 @@ import {
 
 import PaginationContext from './PaginationContext'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const PaginationProvider = (props: any) => {
   const sharedContext = useContext(Context)
 
   // ---- Derive state from props (replaces getDerivedStateFromProps) ----
   const computeDerived = useCallback(() => {
-    const state: any = {}
+    const state: Record<string, unknown> = {}
 
     if (props.pageCount !== null) {
       state.pageCountInternal = parseFloat(props.pageCount) || 1
@@ -44,7 +45,7 @@ const PaginationProvider = (props: any) => {
   ])
 
   // ---- Internal state ----
-  const [items, setItemsState] = useState<any[]>(() => {
+  const [items, setItemsState] = useState<ContentObject[]>(() => {
     if (typeof props.items === 'string' && props.items[0] === '[') {
       return JSON.parse(props.items)
     } else if (Array.isArray(props.items)) {
@@ -140,8 +141,8 @@ const PaginationProvider = (props: any) => {
 
   const prefillItems = useCallback(
     (
-      pageNumber: any,
-      itemProps: any = {},
+      pageNumber: number,
+      itemProps: Record<string, unknown> = {},
       existingItems = itemsRef.current
     ) => {
       const position =
@@ -154,7 +155,7 @@ const PaginationProvider = (props: any) => {
 
       const exists =
         existingItems.findIndex(
-          ({ pageNumber: p }: any) => p === pageNumber
+          ({ pageNumber: p }: ContentObject) => p === pageNumber
         ) > -1
       if (exists) {
         return existingItems
@@ -178,7 +179,11 @@ const PaginationProvider = (props: any) => {
   )
 
   const setContent = useCallback(
-    (newContent: any, content: any = null, position: any = null) => {
+    (
+      newContent: unknown,
+      content: React.ReactNode = null,
+      position: string | null = null
+    ) => {
       if (!Array.isArray(newContent) && content) {
         newContent = [newContent, content]
       }
@@ -194,9 +199,9 @@ const PaginationProvider = (props: any) => {
 
       if (content) {
         let itemToPrepare = itemsRef.current.find(
-          ({ pageNumber: p }: any) => p === pageNumber
+          ({ pageNumber: p }: ContentObject) => p === pageNumber
         )
-        let newItems: any[] | null = null
+        let newItems: ContentObject[] | null = null
 
         // just to make sure we have a page we can put content inside
         if (!itemToPrepare) {
@@ -204,7 +209,7 @@ const PaginationProvider = (props: any) => {
             position,
           })
           itemToPrepare = newItems.find(
-            ({ pageNumber: p }: any) => p === pageNumber
+            ({ pageNumber: p }: ContentObject) => p === pageNumber
           )
         }
 
@@ -269,43 +274,61 @@ const PaginationProvider = (props: any) => {
     }
   }, [hasEndedInfinity, props])
 
-  const setItems = useCallback((newItems: any[], cb?: () => void) => {
-    setItemsState(newItems)
-    if (typeof cb === 'function') {
-      // Schedule callback after state update
-      Promise.resolve().then(cb)
-    }
-  }, [])
+  const setItems = useCallback(
+    (newItems: ContentObject[], cb?: () => void) => {
+      setItemsState(newItems)
+      if (typeof cb === 'function') {
+        // Schedule callback after state update
+        Promise.resolve().then(cb)
+      }
+    },
+    []
+  )
 
-  const setStateHandler = useCallback((state: any, cb?: () => void) => {
-    if ('items' in state) {
-      setItemsState(state.items)
-    }
-    if ('isLoading' in state) {
-      setIsLoading(state.isLoading)
-    }
-    if ('hasEndedInfinity' in state) {
-      setHasEndedInfinity(state.hasEndedInfinity)
-    }
-    if ('currentPageInternal' in state) {
-      setCurrentPageInternal(state.currentPageInternal)
-    }
-    if ('startupPage' in state) {
-      setStartupPage(state.startupPage)
-    }
-    if ('lowerPage' in state) {
-      setLowerPage(state.lowerPage)
-    }
-    if ('upperPage' in state) {
-      setUpperPage(state.upperPage)
-    }
-    if ('skipObserver' in state) {
-      // skipObserver is stored in derived/context, handled via items
-    }
-    if (typeof cb === 'function') {
-      Promise.resolve().then(cb)
-    }
-  }, [])
+  const setStateHandler = useCallback(
+    (
+      state: Partial<{
+        items: ContentObject[]
+        isLoading: boolean
+        hasEndedInfinity: boolean
+        currentPageInternal: number
+        startupPage: number
+        lowerPage: number | undefined
+        upperPage: number | undefined
+        skipObserver: boolean
+      }>,
+      cb?: () => void
+    ) => {
+      if ('items' in state) {
+        setItemsState(state.items)
+      }
+      if ('isLoading' in state) {
+        setIsLoading(state.isLoading)
+      }
+      if ('hasEndedInfinity' in state) {
+        setHasEndedInfinity(state.hasEndedInfinity)
+      }
+      if ('currentPageInternal' in state) {
+        setCurrentPageInternal(state.currentPageInternal)
+      }
+      if ('startupPage' in state) {
+        setStartupPage(state.startupPage)
+      }
+      if ('lowerPage' in state) {
+        setLowerPage(state.lowerPage)
+      }
+      if ('upperPage' in state) {
+        setUpperPage(state.upperPage)
+      }
+      if ('skipObserver' in state) {
+        // skipObserver is stored in derived/context, handled via items
+      }
+      if (typeof cb === 'function') {
+        Promise.resolve().then(cb)
+      }
+    },
+    []
+  )
 
   const updatePageContent = useCallback(
     (pageNumber?: number) => {
@@ -411,7 +434,12 @@ const PaginationProvider = (props: any) => {
   // ---- Rerender handler ----
   useEffect(() => {
     if (props.rerender) {
-      const rerenderFn = ({ current: store }: any) => {
+      const rerenderFn = ({
+        current: store,
+      }: React.RefObject<{
+        pageNumber: number
+        content: React.ReactNode
+      } | null>) => {
         if (store && store.pageNumber > 0) {
           clearTimeout(rerenderTimeoutRef.current)
           rerenderTimeoutRef.current = setTimeout(
