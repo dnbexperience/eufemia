@@ -114,15 +114,13 @@ export const SliderExampleHorizontalSync = () => (
                 }
                 tooltip
                 alwaysShowTooltip
-                onChange={({ value }) =>
-                  setValue(parseFloat(String(value)))
-                }
+                onChange={({ value }) => setValue(Number(value))}
               />
               <Input
                 align="center"
                 selectAll
                 value={String(value)}
-                onChange={({ value }) => setValue(value)}
+                onChange={({ value }) => setValue(Number(value))}
               />
             </VerticalWrapper>
           </>
