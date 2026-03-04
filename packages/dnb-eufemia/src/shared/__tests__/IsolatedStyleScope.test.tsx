@@ -3,10 +3,10 @@ import { render } from '@testing-library/react'
 import IsolatedStyleScope, {
   useIsolatedStyleScope,
 } from '../IsolatedStyleScope'
-import { getSha } from '../build-info/BuildInfo.js'
+import { getSha } from '../build-info/BuildInfo'
 
 // Mock the build info to control the SHA value in tests
-jest.mock('../build-info/BuildInfo.js', () => ({
+jest.mock('../build-info/BuildInfo', () => ({
   getSha: jest.fn(),
   getVersion: jest.fn(),
 }))

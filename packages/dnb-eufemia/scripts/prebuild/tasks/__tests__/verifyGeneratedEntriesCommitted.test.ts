@@ -25,7 +25,7 @@ describe('verifyGeneratedEntriesCommitted', () => {
       .spyOn(child_process, 'execSync')
       .mockReturnValueOnce(
         [
-          ' M src/shared/build-info/BuildInfoData.js',
+          ' M src/shared/build-info/BuildInfoData.ts',
           ' M src/components/index.ts',
           ' M src/style/dnb-ui-components.scss',
         ].join('\n') as any
@@ -81,7 +81,7 @@ describe('verifyGeneratedEntriesCommitted', () => {
     ).toBe(true)
     expect(
       GENERATED_ENTRY_FILE_PATTERNS.some((pattern) =>
-        pattern.test('src/shared/build-info/BuildInfoData.js')
+        pattern.test('src/shared/build-info/BuildInfoData.ts')
       )
     ).toBe(false)
   })
