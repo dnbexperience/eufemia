@@ -12,6 +12,7 @@ import {
   combineDescribedBy,
   combineLabelledBy,
   dispatchCustomElementEvent,
+  removeUndefinedProps,
 } from '../../shared/component-helper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -147,9 +148,14 @@ function RadioGroup(ownProps: RadioGroupProps) {
     [ownProps]
   )
 
+  const resolvedProps = {
+    ...radioGroupDefaultProps,
+    ...removeUndefinedProps({ ...ownProps }),
+  }
+
   // use only the props from context, who are available here anyway
   const props = extendPropsWithContextInClassComponent(
-    { ...radioGroupDefaultProps, ...ownProps },
+    resolvedProps,
     radioGroupDefaultProps,
     pickFormElementProps(context?.formElement),
     (context as Record<string, unknown>)?.RadioGroup as
