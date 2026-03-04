@@ -3,7 +3,7 @@
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import React, { useContext, useRef, useState, useMemo } from 'react'
+import React, { useCallback, useContext, useRef, useState, useMemo } from 'react'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import {
@@ -241,6 +241,20 @@ function Button({ ref, ...restProps }: ButtonProps) {
   const context = useContext(Context)
   const elementRef = useRef<HTMLElement | null>(null)
 
+  const combinedRef = useCallback(
+    (instance: HTMLElement | null) => {
+      elementRef.current = instance
+
+      if (typeof ref === 'function') {
+        ref(instance)
+      } else if (ref) {
+        ;(ref as React.MutableRefObject<HTMLElement | null>).current =
+          instance
+      }
+    },
+    [ref]
+  )
+
   const _id = useMemo(
     () =>
       restProps.id ||
@@ -448,7 +462,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
 
   return (
     <>
-      <Element ref={ref || elementRef} {...params}>
+      <Element ref={combinedRef} {...params}>
         <ButtonContent
           {...restProps}
           icon={icon}
@@ -476,10 +490,10 @@ function Button({ ref, ...restProps }: ButtonProps) {
         {...statusProps}
       />
 
-      {tooltip && (ref || elementRef) && (
+      {tooltip && elementRef && (
         <Tooltip
           id={_id + '-tooltip'}
-          targetElement={ref || elementRef}
+          targetElement={elementRef}
           tooltip={tooltip}
         />
       )}
