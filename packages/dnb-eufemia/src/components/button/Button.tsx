@@ -249,8 +249,9 @@ function Button({ ref, ...restProps }: ButtonProps) {
     []
   )
 
-  const [afterContent, setAfterContent] =
-    useState<React.ReactNode | null>(null)
+  const [afterContent, setAfterContent] = useState<React.ReactNode | null>(
+    null
+  )
 
   // use only the props from context, who are available here anyway
   const props = extendPropsWithContext(
@@ -350,11 +351,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
       usedSize = 'default'
     }
   }
-  if (
-    !usedIconSize &&
-    variant === 'tertiary' &&
-    iconPosition === 'top'
-  ) {
+  if (!usedIconSize && variant === 'tertiary' && iconPosition === 'top') {
     usedIconSize = 'medium'
   }
 
