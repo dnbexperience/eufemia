@@ -104,6 +104,9 @@ const PaginationProvider = (props: any) => {
     useRef<ReturnType<typeof setTimeout>>(undefined)
   const callOnPageUpdateTimeoutRef =
     useRef<ReturnType<typeof setTimeout>>(undefined)
+  const pendingCallOnPageUpdateRef = useRef(false)
+  const pendingSetItemsCbRef = useRef<(() => void) | null>(null)
+  const pendingSetStateCbRef = useRef<(() => void) | null>(null)
   const itemsRef = useRef(items)
   const currentPageInternalRef = useRef(currentPageInternal)
   const startupPageRef = useRef(startupPage)
@@ -223,12 +226,11 @@ const PaginationProvider = (props: any) => {
         setItemsState(updatedItems)
         setCurrentPageInternal(pageNumber)
 
-        // Schedule callOnPageUpdate after state update
-        // We use a microtask to run after React processes the state update
-        Promise.resolve().then(callOnPageUpdate)
+        // Flag that callOnPageUpdate should run after state commits
+        pendingCallOnPageUpdateRef.current = true
       }
     },
-    [prefillItems, callOnPageUpdate]
+    [prefillItems]
   )
 
   const resetContent = useCallback(() => {
@@ -263,23 +265,12 @@ const PaginationProvider = (props: any) => {
     endInfinityDispatchRef.current = true
   }, [])
 
-  useEffect(() => {
-    if (hasEndedInfinity && endInfinityDispatchRef.current) {
-      endInfinityDispatchRef.current = false
-      const pageNumber = currentPageInternalRef.current + 1
-      dispatchCustomElementEvent({ props }, 'onEnd', {
-        pageNumber,
-        ...props,
-      })
-    }
-  }, [hasEndedInfinity, props])
-
   const setItems = useCallback(
     (newItems: ContentObject[], cb?: () => void) => {
       setItemsState(newItems)
       if (typeof cb === 'function') {
-        // Schedule callback after state update
-        Promise.resolve().then(cb)
+        // Store callback to run after state commits via useEffect
+        pendingSetItemsCbRef.current = cb
       }
     },
     []
@@ -324,7 +315,8 @@ const PaginationProvider = (props: any) => {
         // skipObserver is stored in derived/context, handled via items
       }
       if (typeof cb === 'function') {
-        Promise.resolve().then(cb)
+        // Store callback to run after state commits via useEffect
+        pendingSetStateCbRef.current = cb
       }
     },
     []
@@ -351,6 +343,13 @@ const PaginationProvider = (props: any) => {
           setState: setStateHandler,
           onPageUpdate,
           ...props,
+          items: itemsRef.current,
+          currentPageInternal: currentPageInternalRef.current,
+          startupPage: startupPageRef.current,
+          isLoading,
+          hasEndedInfinity,
+          lowerPage,
+          upperPage,
           pageNumber: pn,
           page: pn,
         })
@@ -370,8 +369,66 @@ const PaginationProvider = (props: any) => {
       prefillItems,
       setStateHandler,
       onPageUpdate,
+      isLoading,
+      hasEndedInfinity,
+      lowerPage,
+      upperPage,
     ]
   )
+
+  // Handle the onEnd dispatch after hasEndedInfinity becomes true
+  useEffect(() => {
+    if (hasEndedInfinity && endInfinityDispatchRef.current) {
+      endInfinityDispatchRef.current = false
+      const pageNumber = currentPageInternalRef.current + 1
+      dispatchCustomElementEvent({ props }, 'onEnd', {
+        pageNumber,
+        updatePageContent,
+        setContent,
+        resetContent,
+        resetInfinity,
+        endInfinity: endInfinityHandler,
+        setItems,
+        prefillItems,
+        setState: setStateHandler,
+        onPageUpdate,
+        ...props,
+        items: itemsRef.current,
+        currentPageInternal: currentPageInternalRef.current,
+        startupPage: startupPageRef.current,
+      })
+    }
+  }, [
+    hasEndedInfinity,
+    props,
+    updatePageContent,
+    setContent,
+    resetContent,
+    resetInfinity,
+    endInfinityHandler,
+    setItems,
+    prefillItems,
+    setStateHandler,
+    onPageUpdate,
+  ])
+
+  // ---- Run pending callbacks after state commits ----
+  useEffect(() => {
+    if (pendingCallOnPageUpdateRef.current) {
+      pendingCallOnPageUpdateRef.current = false
+      callOnPageUpdate()
+    }
+    if (pendingSetItemsCbRef.current) {
+      const cb = pendingSetItemsCbRef.current
+      pendingSetItemsCbRef.current = null
+      cb()
+    }
+    if (pendingSetStateCbRef.current) {
+      const cb = pendingSetStateCbRef.current
+      pendingSetStateCbRef.current = null
+      cb()
+    }
+  })
 
   // ---- Sync items prop ----
   useEffect(() => {
