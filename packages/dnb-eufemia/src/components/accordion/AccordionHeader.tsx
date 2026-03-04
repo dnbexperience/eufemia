@@ -260,13 +260,13 @@ export const AccordionHeader = ({
     className,
 
     // 2. ... these
-    leftComponent: _leftComponent, // eslint-disable-line
-    expanded: _expanded, // eslint-disable-line
-    title: _title, // eslint-disable-line
-    description: _description, // eslint-disable-line
-    icon: _icon, // eslint-disable-line
-    iconSize: _iconSize, // eslint-disable-line
-    disabled: _disabled, // eslint-disable-line
+    leftComponent: _leftComponent,
+    expanded: _expanded,
+    title: _title,
+    description: _description,
+    icon: _icon,
+    iconSize: _iconSize,
+    disabled: _disabled,
 
     ...rest
   } = props

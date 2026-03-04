@@ -134,7 +134,7 @@ const AvatarGroup = (localProps: AvatarGroupProps & SpacingProps) => {
 
   const spacingClasses = createSpacingClasses(props)
   const {
-    skeleton, // eslint-disable-line
+    skeleton,
     ...attributes
   } = validateDOMAttributes({}, props)
 

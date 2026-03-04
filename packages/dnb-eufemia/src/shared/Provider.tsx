@@ -55,7 +55,7 @@ export default function Provider<Props>(
 
   const value = useMemo(() => {
     const {
-      children, // eslint-disable-line @typescript-eslint/no-unused-vars
+      children,
       ...rest
     } = localProps
 

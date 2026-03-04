@@ -6,7 +6,7 @@ import ModalHeaderBar, {
 
 export default function DialogNavigation({
   className,
-  ref, //eslint-disable-line
+  ref,
   ...props
 }: ModalHeaderBarProps & Omit<React.HTMLProps<HTMLElement>, 'children'>) {
   return (

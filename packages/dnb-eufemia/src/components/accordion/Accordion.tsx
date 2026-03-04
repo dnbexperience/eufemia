@@ -346,22 +346,22 @@ function Accordion({
               disabled,
               skeleton,
               noAnimation,
-              expandedSsr: _expandedSsr, // eslint-disable-line
+              expandedSsr: _expandedSsr,
               children,
 
-              id: _id, // eslint-disable-line
-              group: _group, // eslint-disable-line
-              // expanded: _expanded, // eslint-disable-line
+              id: _id,
+              group: _group,
+              // expanded: _expanded,
 
-              title, // eslint-disable-line
-              description, // eslint-disable-line
-              leftComponent, // eslint-disable-line
-              icon, // eslint-disable-line
-              iconPosition, // eslint-disable-line
-              iconSize, // eslint-disable-line
-              onChange, // eslint-disable-line
+              title,
+              description,
+              leftComponent,
+              icon,
+              iconPosition,
+              iconSize,
+              onChange,
 
-              contentRef, // eslint-disable-line
+              contentRef,
 
               ...restOfExtendedProps
             } = extendedProps

@@ -19,7 +19,7 @@ function ModalInner(
   const {
     className = null,
     backgroundColor = 'black-3',
-    ref, // eslint-disable-line
+    ref,
     ...restProps
   } = props
 

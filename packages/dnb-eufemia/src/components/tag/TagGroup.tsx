@@ -74,7 +74,7 @@ const TagGroup = (
 
   const spacingClasses = createSpacingClasses(props)
   const {
-    skeleton, // eslint-disable-line
+    skeleton,
     ...attributes
   } = validateDOMAttributes({}, props)
 
