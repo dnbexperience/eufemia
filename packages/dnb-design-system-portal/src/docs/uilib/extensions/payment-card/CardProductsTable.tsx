@@ -1,4 +1,4 @@
-import data from '@dnb/eufemia/src/extensions/payment-card/utils/cardProducts.js'
+import data from '@dnb/eufemia/src/extensions/payment-card/utils/cardProducts'
 import { Table } from '@dnb/eufemia/src/components'
 
 export default function CardProductsTable() {

@@ -10,7 +10,19 @@ import {
   mastercardGold,
 } from './backgrounds'
 
-const defaultDesign = {
+export interface CardDesign {
+  name: string
+  cardStyle: string
+  bankLogo: DNB
+  visa: Visa
+  mastercard: Mastercard
+  bankAxept: BankAxept
+  saga: Saga
+  privateBanking: PB
+  backgroundImage?: string
+}
+
+const defaultDesign: CardDesign = {
   name: 'Default',
   cardStyle: 'card--design-default',
   bankLogo: DNB.Colored(properties['--color-white']),
@@ -22,7 +34,7 @@ const defaultDesign = {
   backgroundImage: visaDefault,
 }
 
-const pluss = {
+const pluss: CardDesign = {
   name: 'Pluss',
   cardStyle: 'card--design-pluss',
   bankLogo: DNB.Colored(properties['--color-mint-green']),
@@ -34,7 +46,7 @@ const pluss = {
   backgroundImage: visaPluss,
 }
 
-const young = {
+const young: CardDesign = {
   name: 'Ung',
   cardStyle: 'card--design-ung',
   bankLogo: DNB.Colored(properties['--color-emerald-green']),
@@ -45,7 +57,7 @@ const young = {
   privateBanking: PB.None,
 }
 
-const myFirst = {
+const myFirst: CardDesign = {
   name: 'My first',
   cardStyle: 'card--design-my-first',
   bankLogo: DNB.Colored(properties['--color-emerald-green']),
@@ -57,7 +69,7 @@ const myFirst = {
   backgroundImage: myFirstImg,
 }
 
-const youth = {
+const youth: CardDesign = {
   name: 'Youth',
   cardStyle: 'card--design-youth',
   bankLogo: DNB.Colored(properties['--color-emerald-green']),
@@ -69,7 +81,7 @@ const youth = {
   backgroundImage: youthImg,
 }
 
-const gold = {
+const gold: CardDesign = {
   name: 'Gold',
   cardStyle: 'card--design-gold',
   bankLogo: DNB.Colored(properties['--color-black']),
@@ -81,7 +93,7 @@ const gold = {
   backgroundImage: mastercardGold,
 }
 
-const saga = {
+const saga: CardDesign = {
   name: 'Saga',
   cardStyle: 'card--design-saga',
   bankLogo: DNB.Colored('#CAAB51'),
@@ -93,7 +105,7 @@ const saga = {
   backgroundImage: visaSagaGold,
 }
 
-const sagaPlatinum = {
+const sagaPlatinum: CardDesign = {
   name: 'Saga platinum',
   cardStyle: 'card--design-saga-platinum',
   bankLogo: DNB.Colored('#cccccc'),
@@ -105,7 +117,7 @@ const sagaPlatinum = {
   backgroundImage: visaSagaPlatinum,
 }
 
-const privateBanking = {
+const privateBanking: CardDesign = {
   name: 'Private Banking',
   cardStyle: 'card--design-private',
   bankLogo: DNB.Colored('#cccccc'),
@@ -117,7 +129,7 @@ const privateBanking = {
   backgroundImage: visaSagaPlatinum,
 }
 
-const mcBlack = {
+const mcBlack: CardDesign = {
   name: 'Mastercard Black',
   cardStyle: 'card--design-black',
   bankLogo: DNB.Colored(properties['--color-black']),
@@ -129,7 +141,7 @@ const mcBlack = {
   backgroundImage: visaSagaPlatinum,
 }
 
-const businessNoVisa = {
+const businessNoVisa: CardDesign = {
   name: 'Bedriftskort BankAxept',
   cardStyle: 'card--design-default',
   bankLogo: DNB.Colored(properties['--color-white']),
@@ -141,7 +153,7 @@ const businessNoVisa = {
   backgroundImage: visaDefault,
 }
 
-const businessWithVisa = {
+const businessWithVisa: CardDesign = {
   name: 'Bedriftskort Visa',
   cardStyle: 'card--design-default',
   bankLogo: DNB.Colored(properties['--color-white']),
@@ -153,7 +165,7 @@ const businessWithVisa = {
   backgroundImage: visaDefault,
 }
 
-const sbankenVisa = {
+const sbankenVisa: CardDesign = {
   name: 'Sbanken',
   cardStyle: 'card--design-sbanken-visa',
   bankLogo: DNB.Sbanken(properties['--sb-color-text']),
@@ -164,7 +176,7 @@ const sbankenVisa = {
   privateBanking: PB.None,
 }
 
-const sbankenMastercard = {
+const sbankenMastercard: CardDesign = {
   name: 'Sbanken Mastercard',
   cardStyle: 'card--design-sbanken-mastercard',
   bankLogo: DNB.Sbanken(properties['--color-white']),
