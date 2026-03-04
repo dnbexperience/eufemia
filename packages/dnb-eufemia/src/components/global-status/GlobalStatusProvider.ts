@@ -185,9 +185,10 @@ export class GlobalStatusProviderItem {
 
   remove(
     statusId: string,
-    opts: Record<string, unknown> & {
+    opts: {
       preventRerender?: boolean
       bufferDelay?: number
+      [key: string]: unknown
     } = {}
   ) {
     if (statusId) {
