@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe.each(['ui', 'sbanken', 'eiendom'])(
+describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
   'Button for %s',
   (themeName) => {
     setupPageScreenshot({
