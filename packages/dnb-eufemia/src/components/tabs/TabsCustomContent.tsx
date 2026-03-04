@@ -42,11 +42,11 @@ export interface CustomContentProps
  */
 function CustomContent(props: CustomContentProps) {
   const {
-    displayName = 'CustomContent', // eslint-disable-line
-    title = null, // eslint-disable-line
-    hash = null, // eslint-disable-line
-    selected = null, // eslint-disable-line
-    disabled = null, // eslint-disable-line
+    displayName: _displayName = 'CustomContent',
+    title: _title = null,
+    hash: _hash = null,
+    selected: _selected = null,
+    disabled: _disabled = null,
     className = null,
     children = null,
     id,

@@ -175,7 +175,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
     onClick,
     navText, // has a translation in context
     goBackText, // has a translation in context
-    homeText, // eslint-disable-line
+    homeText,
     backToText, // has a translation in context
     styleType,
     collapsedStyleType,

@@ -484,12 +484,12 @@ class TextareaClass extends React.PureComponent<
       className,
       autoResize,
       characterCounter,
-      autoResizeMaxRows, //eslint-disable-line
-      id: _id, //eslint-disable-line
-      children, //eslint-disable-line
-      value: _value, //eslint-disable-line
-      textareaElement: _textareaElement, //eslint-disable-line
-      ref: _ref, //eslint-disable-line
+      autoResizeMaxRows,
+      id: _id,
+      children,
+      value: _value,
+      textareaElement: _textareaElement,
+      ref: _ref,
 
       ...attributes
     } = props

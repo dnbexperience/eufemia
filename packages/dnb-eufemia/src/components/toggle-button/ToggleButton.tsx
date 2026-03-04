@@ -269,11 +269,11 @@ class ToggleButton extends React.PureComponent<
             value: propValue,
             role,
 
-            id: _id, // eslint-disable-line
-            // group: _group, // eslint-disable-line
-            checked: _checked, // eslint-disable-line
+            id: _id,
+            // group: _group,
+            checked: _checked,
             children,
-            onChange, // eslint-disable-line
+            onChange,
 
             ...rest
           } = props

@@ -33,14 +33,14 @@ export function DrawerListItem(
 ) {
   const {
     onClick,
-    role = 'option', // eslint-disable-line
-    hash = '', // eslint-disable-line
-    children, // eslint-disable-line
-    className = null, // eslint-disable-line
-    selected, // eslint-disable-line
-    active = null, // eslint-disable-line
-    value = null, // eslint-disable-line
-    disabled, // eslint-disable-line
+    role = 'option',
+    hash = '',
+    children,
+    className = null,
+    selected,
+    active = null,
+    value = null,
+    disabled,
     ref,
     ...rest
   } = props

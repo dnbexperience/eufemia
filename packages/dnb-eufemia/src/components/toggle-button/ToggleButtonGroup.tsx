@@ -182,12 +182,12 @@ class ToggleButtonGroup extends React.PureComponent<
       className,
 
       multiselect,
-      id: _id, // eslint-disable-line
-      name: _name, // eslint-disable-line
-      value: _value, // eslint-disable-line
-      values: _values, // eslint-disable-line
-      children, // eslint-disable-line
-      onChange, // eslint-disable-line
+      id: _id,
+      name: _name,
+      value: _value,
+      values: _values,
+      children,
+      onChange,
 
       ...rest
     } = props

@@ -24,7 +24,7 @@ export default function TextCounter(localProps: TextCounterProps) {
     text,
     max,
     className,
-    locale, // eslint-disable-line
+    locale,
     ...rest
   } = localProps
 
