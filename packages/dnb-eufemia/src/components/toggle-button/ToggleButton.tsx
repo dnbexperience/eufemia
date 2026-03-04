@@ -468,8 +468,7 @@ import type {
 import type { GlobalStatusConfigObject } from '../GlobalStatus'
 import type { IconIcon, IconSize } from '../Icon'
 import type { SkeletonShow } from '../Skeleton'
-import type { SpacingProps, SpaceType } from '../../shared/types'
-import type { ToggleButtonGroupProps } from './ToggleButtonGroup'
+import type { SpacingProps, SpaceType } from '../space/types'
 
 export type ToggleButtonVariant = 'default' | 'checkbox' | 'radio'
 export type ToggleButtonSuffix =
