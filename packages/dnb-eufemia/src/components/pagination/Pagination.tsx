@@ -31,7 +31,7 @@ export type PaginationParallelLoadCount = string | number
 export type PaginationMinWaitTime = string | number
 export type PaginationMode = 'pagination' | 'infinity'
 export type PaginationLayout = 'vertical' | 'horizontal'
-export type PaginationItems = string | any[]
+export type PaginationItems = string | unknown[]
 export type PaginationSetContentHandler =
   | string
   | ((fn: (pageNumber: number, content: React.ReactNode) => void) => void)
@@ -453,13 +453,17 @@ export const Bar = (props: PaginationProps) => (
 
 export const createPagination = (
   initProps: Record<string, unknown> = {}
-): PaginationCreateReturn => {
-  const store = React.createRef<any>()
-  const rerender = React.createRef<any>()
-  const _setContent = React.createRef<any>()
-  const _resetContent = React.createRef<any>()
-  const _resetInfinity = React.createRef<any>()
-  const _endInfinity = React.createRef<any>()
+): CreatePaginationReturn => {
+  const store = React.createRef<Record<string, unknown>>()
+  const rerender = React.createRef<
+    ((store: React.RefObject<Record<string, unknown>>) => void) | null
+  >()
+  const _setContent = React.createRef<
+    ((pageNumber: number, content: React.ReactNode) => void) | null
+  >()
+  const _resetContent = React.createRef<(() => void) | null>()
+  const _resetInfinity = React.createRef<(() => void) | null>()
+  const _endInfinity = React.createRef<(() => void) | null>()
 
   const setContent = (pageNumber: number, content: React.ReactNode) => {
     if (pageNumber > 0) {
