@@ -27,6 +27,15 @@
   & .dnb-section {
     z-index: 1;
   }
+
+  // Prevent inherited drop shadow from parent cards.
+  // Nested cards should only show shadow when they explicitly set dropShadow.
+  & .dnb-card {
+    --drop-shadow--small: var(--drop-shadow-none);
+    --drop-shadow--medium: var(--drop-shadow-none);
+    --drop-shadow--large: var(--drop-shadow-none);
+  }
+
   @include utilities.allAbove(small) {
     // These vars needs to be declared outside of the nested .dnb-section
     --nested-space-l: calc(var(--padding-left, 0px) * -1);
@@ -56,6 +65,12 @@
           99vw calc(var(--outline-width) * -1) 0 0 var(--outline-color),
           198vw var(--outline-width) 0 0 var(--outline-color),
           198vw calc(var(--outline-width) * -1) 0 0 var(--outline-color);
+      }
+
+      // Disable drop shadow when borders are stretched across the viewport
+      // to avoid right-edge clipping artifacts.
+      &.dnb-section[style*='--drop-shadow'] {
+        --drop-shadow: var(--drop-shadow-none);
       }
     }
   }
@@ -119,10 +134,10 @@
     }
     &.dnb-card > .dnb-flex-container {
       margin-left: calc(
-        var(--padding-left, var(--spacing-medium)) * -1 * var(--outset)
+        var(--padding-left, var(--spacing-small)) * -1 * var(--outset)
       );
       margin-right: calc(
-        var(--padding-right, var(--spacing-medium)) * -1 * var(--outset)
+        var(--padding-right, var(--spacing-small)) * -1 * var(--outset)
       );
     }
   }
