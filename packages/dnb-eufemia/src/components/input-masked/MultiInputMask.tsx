@@ -145,7 +145,7 @@ function MultiInputMask<T extends string>({
       )}
     >
       <Input
-        {...props}
+        {...(props as Record<string, unknown>)}
         id={id}
         label={
           label && (
