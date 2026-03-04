@@ -22,11 +22,12 @@ import VisaDefault from './providers/VisaDefault'
 import VisaPlatinum from './providers/VisaPlatinum'
 import { StatusIcon } from './status'
 
-type CataType = {
-  cata: (handlers: Record<string, (...args: string[]) => React.ReactNode>) => React.ReactNode
-}
+// Daggy tagged sum type - these values have a .cata() method at runtime
+// but the TypeScript declarations in Types.d.ts use enums, so we use any here
+type DaggyType = any
+type DaggyDesign = Record<string, any>
 
-const BankLogo = ({ logoType }: { logoType: CataType }) =>
+const BankLogo = ({ logoType }: { logoType: DaggyType }) =>
   logoType.cata({
     Colored: (color) => (
       <DNB fill={color} className="dnb-payment-card__card__bank-logo" />
@@ -43,8 +44,8 @@ const ProductLogo = ({
   productType,
   cardDesign,
 }: {
-  productType: CataType
-  cardDesign: Record<string, CataType>
+  productType: DaggyType
+  cardDesign: DaggyDesign
 }) => {
   const id = 'dnb-payment-card__card__product-type'
   return productType.cata({
@@ -73,8 +74,8 @@ const BankAxeptLogo = ({
   bankAxept,
   cardDesign,
 }: {
-  bankAxept: CataType
-  cardDesign: Record<string, CataType>
+  bankAxept: DaggyType
+  cardDesign: DaggyDesign
 }) => {
   const id = 'dnb-payment-card__card__bank-axept'
   return bankAxept.cata({
@@ -96,8 +97,8 @@ const TypeLogo = ({
   cardType,
   cardDesign,
 }: {
-  cardType: CataType
-  cardDesign: Record<string, CataType>
+  cardType: DaggyType
+  cardDesign: DaggyDesign
 }) => {
   const id = 'dnb-payment-card__card__credit-type'
   return cardType.cata({
