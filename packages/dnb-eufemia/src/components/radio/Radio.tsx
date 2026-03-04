@@ -340,6 +340,18 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
     ...rest
   } = props
 
+  // Re-apply any explicitly-passed extra props from ownProps that aren't
+  // part of radioDefaultProps (e.g. role: undefined, type: undefined from
+  // ToggleButton). removeUndefinedProps strips these from resolvedProps,
+  // but they must flow through to inputParams to override computed values.
+  for (const key of Object.keys(ownProps)) {
+    if (!(key in radioDefaultProps)) {
+      ;(rest as Record<string, unknown>)[key] = (
+        ownProps as Record<string, unknown>
+      )[key]
+    }
+  }
+
   let checked = checkedState
   const { value } = props
   let { group, disabled } = props // get it from context also
