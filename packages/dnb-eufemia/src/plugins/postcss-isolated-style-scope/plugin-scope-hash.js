@@ -1,4 +1,4 @@
-import { getVersion, getSha } from '../../shared/build-info/BuildInfo.js'
+import { getVersion, getSha } from '../../shared/build-info/BuildInfo'
 
 const slugify = (s) =>
   String(s)

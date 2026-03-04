@@ -102,7 +102,7 @@ describe('makeReleaseVersion', () => {
     // JS
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
-      expect.stringContaining('src/shared/build-info/BuildInfoData.js'),
+      expect.stringContaining('src/shared/build-info/BuildInfoData.ts'),
       expect.stringContaining(`some-branch`)
     )
 
@@ -136,12 +136,12 @@ describe('makeReleaseVersion', () => {
     // JS
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
-      expect.stringContaining('src/shared/build-info/BuildInfoData.js'),
+      expect.stringContaining('src/shared/build-info/BuildInfoData.ts'),
       expect.stringContaining(`123456789`)
     )
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
-      expect.stringContaining('src/shared/build-info/BuildInfoData.js'),
+      expect.stringContaining('src/shared/build-info/BuildInfoData.ts'),
       expect.stringContaining(`export const version = '123456789'`)
     )
 
@@ -180,7 +180,7 @@ describe('makeReleaseVersion', () => {
     // JS
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
-      expect.stringContaining('src/shared/build-info/BuildInfoData.js'),
+      expect.stringContaining('src/shared/build-info/BuildInfoData.ts'),
       expect.stringContaining(`release`)
     )
 
@@ -214,12 +214,12 @@ describe('makeReleaseVersion', () => {
     // JS
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
-      expect.stringContaining('src/shared/build-info/BuildInfoData.js'),
+      expect.stringContaining('src/shared/build-info/BuildInfoData.ts'),
       expect.stringContaining(`test-sha`)
     )
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
-      expect.stringContaining('src/shared/build-info/BuildInfoData.js'),
+      expect.stringContaining('src/shared/build-info/BuildInfoData.ts'),
       expect.stringContaining(`export const sha = 'test-sha'`)
     )
 
@@ -258,7 +258,7 @@ describe('makeReleaseVersion', () => {
 
     const jsCall = (fs.writeFile as unknown as jest.Mock).mock.calls.find(
       (call) =>
-        call[0].includes('BuildInfoData.js') &&
+        call[0].includes('BuildInfoData.ts') &&
         call[1].includes('buildDate')
     )
     expect(jsCall).toBeDefined()
