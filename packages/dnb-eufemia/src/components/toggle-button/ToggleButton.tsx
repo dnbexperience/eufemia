@@ -154,7 +154,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
       checked: boolean
       event: React.SyntheticEvent
     }) => {
-      const { value } = ownProps
+      const value = ownProps.value ?? ''
       if (groupContext.onChange) {
         groupContext.onChange({
           value,

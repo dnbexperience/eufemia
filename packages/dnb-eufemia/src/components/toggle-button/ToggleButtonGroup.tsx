@@ -107,7 +107,7 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
       value: ToggleButtonGroupValue
       event: React.SyntheticEvent
     }) => {
-      const currentValues = values || []
+      const currentValues = [...(values || [])]
 
       if (ownProps.multiselect) {
         if (!currentValues.includes(newValue)) {
