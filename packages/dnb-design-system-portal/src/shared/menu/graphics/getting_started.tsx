@@ -5,7 +5,9 @@
 
 import type { SVGProps } from 'react'
 
-export default function getting_started(props: SVGProps<SVGSVGElement> = {}) {
+export default function getting_started(
+  props: SVGProps<SVGSVGElement> = {}
+) {
   return (
     <svg
       width="24"
