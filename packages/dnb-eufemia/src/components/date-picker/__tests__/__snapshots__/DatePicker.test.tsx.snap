@@ -1977,7 +1977,7 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
   --input-padding--small: 0.05rem;
   --input-padding--medium: 0.05rem;
   --input-padding--large: 0.05rem;
-  padding: 0 0.125rem;
+  padding: 0 0.0625rem;
 }
 @supports (-webkit-appearance: none) and (not (overflow: -webkit-marquee)) and (not (-moz-appearance: none)) {
   .dnb-date-picker__input,

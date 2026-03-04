@@ -74,7 +74,7 @@
     --input-padding--medium: 0.05rem;
     --input-padding--large: 0.05rem;
 
-    padding: 0 0.125rem;
+    padding: 0 0.0625rem;
 
     // Chrome fix
     @include utilities.isChrome() {

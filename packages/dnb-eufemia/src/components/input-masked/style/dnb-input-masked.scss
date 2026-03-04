@@ -70,6 +70,13 @@
   }
 }
 
+.dnb-multi-input-mask__fieldset
+  ~ .dnb-multi-input-mask__fieldset
+  .dnb-multi-input-mask__input.dnb-input__input:first-of-type {
+  // On second fieldset, the left padding should be less, because the delimiter already has some spacing.
+  padding-left: 0.25rem;
+}
+
 .dnb-multi-input-mask {
   width: fit-content;
 
