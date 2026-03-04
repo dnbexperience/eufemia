@@ -21,6 +21,7 @@ import {
   extendDeep,
   detectOutsideClick,
   isTouchDevice,
+  removeUndefinedProps,
 } from '../../shared/component-helper'
 import { hasSelectedText, IS_IOS } from '../../shared/helpers'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -164,7 +165,10 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
   const context = useContext(Context) as ContextProps
 
   // Apply defaults early so callbacks see proper values
-  const propsWithDefaults = { ...numberFormatDefaultProps, ...ownProps }
+  const propsWithDefaults = {
+    ...numberFormatDefaultProps,
+    ...removeUndefinedProps({ ...ownProps }),
+  }
 
   const elRef = useRef<HTMLElement>(null)
   const selectionRef = useRef<HTMLElement>(null)
