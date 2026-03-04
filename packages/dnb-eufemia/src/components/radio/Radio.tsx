@@ -516,7 +516,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   )
 }
 
-const Radio = RadioInner as typeof RadioInner & {
+const Radio = React.memo(RadioInner) as unknown as typeof RadioInner & {
   Group: typeof RadioGroup
   parseChecked: typeof parseChecked
 }
