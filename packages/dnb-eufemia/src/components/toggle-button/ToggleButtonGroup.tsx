@@ -13,6 +13,7 @@ import {
   combineDescribedBy,
   combineLabelledBy,
   dispatchCustomElementEvent,
+  removeUndefinedProps,
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -128,9 +129,14 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
     [ownProps, values]
   )
 
+  const resolvedProps = {
+    ...toggleButtonGroupDefaultProps,
+    ...removeUndefinedProps({ ...ownProps }),
+  }
+
   // use only the props from context, who are available here anyway
   const props = extendPropsWithContextInClassComponent(
-    { ...toggleButtonGroupDefaultProps, ...ownProps },
+    resolvedProps,
     toggleButtonGroupDefaultProps,
     (
       context.getTranslation(ownProps) as Record<

@@ -14,6 +14,7 @@ import {
   getStatusState,
   combineDescribedBy,
   dispatchCustomElementEvent,
+  removeUndefinedProps,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
@@ -223,16 +224,21 @@ function ToggleButton(ownProps: ToggleButtonProps) {
     [onClickHandler]
   )
 
+  const resolvedProps = {
+    ...toggleButtonDefaultProps,
+    ...removeUndefinedProps({ ...ownProps }),
+  }
+
   // from internal context
   const contextProps = extendPropsWithContextInClassComponent(
-    { ...toggleButtonDefaultProps, ...ownProps },
+    resolvedProps,
     toggleButtonDefaultProps,
     groupContext as Record<string, unknown>
   )
 
   // use only the props from context, who are available here anyway
   const props = extendPropsWithContextInClassComponent(
-    { ...toggleButtonDefaultProps, ...ownProps },
+    resolvedProps,
     toggleButtonDefaultProps,
     contextProps,
     (context.translation as Record<string, unknown>)
