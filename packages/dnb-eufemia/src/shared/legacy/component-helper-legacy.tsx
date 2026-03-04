@@ -17,7 +17,7 @@ import {
  */
 export function isTouchDevice() {
   if (typeof document !== 'undefined') {
-    let intent = false
+    let intent: string | null = null
     try {
       intent = document.documentElement.getAttribute('data-whatintent')
     } catch (e) {
@@ -39,7 +39,12 @@ export function defineNavigator() {
     }
 
     try {
-      if (!(typeof window !== 'undefined' && window.IS_TEST)) {
+      if (
+        !(
+          typeof window !== 'undefined' &&
+          (window as Window & { IS_TEST?: boolean }).IS_TEST
+        )
+      ) {
         if (navigator.platform.match(new RegExp(PLATFORM_MAC)) !== null) {
           document.documentElement.setAttribute('data-os', 'mac')
         } else if (
@@ -71,7 +76,7 @@ export function defineNavigator() {
   }
 }
 
-export const processChildren = (props) => {
+export const processChildren = (props: Record<string, unknown>) => {
   if (!props) {
     return null
   }
@@ -138,20 +143,42 @@ export const processChildren = (props) => {
  * @param  {Object} [options]      [Options]
  * @return {DetectOutsideClickClass} [A new instance of DetectOutsideClickClass]
  */
-export const detectOutsideClick = (ignoreElements, onSuccess, options) =>
-  new DetectOutsideClickClass(ignoreElements, onSuccess, options)
+export const detectOutsideClick = (
+  ignoreElements:
+    | HTMLElement
+    | HTMLElement[]
+    | React.RefObject<HTMLElement>[],
+  onSuccess: (args: { event: Event }) => void,
+  options?: { includedKeys?: string[] }
+) => new DetectOutsideClickClass(ignoreElements, onSuccess, options)
 
 // Used by detectOutsideClick
 export class DetectOutsideClickClass {
-  constructor(ignoreElements, onSuccess, options = {}) {
+  handleClickOutside:
+    | ((event: Event, onDone?: () => void) => void)
+    | null = null
+
+  keydownCallback: ((event: KeyboardEvent) => void) | null = null
+  keyupCallback: ((event: KeyboardEvent) => void) | null = null
+
+  constructor(
+    ignoreElementsInput:
+      | HTMLElement
+      | HTMLElement[]
+      | React.RefObject<HTMLElement>[],
+    onSuccess: (args: { event: Event }) => void,
+    options: { includedKeys?: string[] } = {}
+  ) {
+    const ignoreElements: (HTMLElement | React.RefObject<HTMLElement>)[] =
+      Array.isArray(ignoreElementsInput)
+        ? ignoreElementsInput
+        : [ignoreElementsInput]
+
     if (
       !this.handleClickOutside &&
       typeof document !== 'undefined' &&
       typeof window !== 'undefined'
     ) {
-      if (!Array.isArray(ignoreElements)) {
-        ignoreElements = [ignoreElements]
-      }
       this.handleClickOutside = (event) => {
         this.checkOutsideClick(
           {
@@ -207,16 +234,27 @@ export class DetectOutsideClickClass {
     }
   }
 
-  checkOutsideClick = ({ event, ignoreElements }, onSuccess = null) => {
+  checkOutsideClick = (
+    {
+      event,
+      ignoreElements,
+    }: {
+      event: Event
+      ignoreElements: (HTMLElement | React.RefObject<HTMLElement> | null)[]
+    },
+    onSuccess: (() => void) | null = null
+  ) => {
     try {
-      const currentElement = event.target
+      const currentElement = event.target as HTMLElement | null
 
       // we also check if currentElement is documentElement
       // and if it has scrollbars, we then ignore the click
       if (
         currentElement?.tagName === 'HTML' &&
-        (event.pageX > document.documentElement.clientWidth - 40 ||
-          event.pageY > document.documentElement.clientHeight - 40)
+        ((event as MouseEvent).pageX >
+          document.documentElement.clientWidth - 40 ||
+          (event as MouseEvent).pageY >
+            document.documentElement.clientHeight - 40)
       ) {
         return // stop here
       }
@@ -232,9 +270,11 @@ export class DetectOutsideClickClass {
         // That might be `null` or ´undefined` during the construction stage of this class
 
         const ignoreElement =
-          ignoreElements[i] && 'current' in ignoreElements[i]
-            ? ignoreElements[i].current
-            : ignoreElements[i]
+          ignoreElements[i] &&
+          ignoreElements[i] !== null &&
+          'current' in ignoreElements[i]
+            ? (ignoreElements[i] as React.RefObject<HTMLElement>).current
+            : (ignoreElements[i] as HTMLElement)
 
         elem = currentElement
         if (!ignoreElements[i]) {
@@ -257,7 +297,7 @@ export class DetectOutsideClickClass {
   }
 }
 
-export const checkIfHasScrollbar = (elem) => {
+export const checkIfHasScrollbar = (elem: HTMLElement | null) => {
   return (
     elem &&
     (elem.scrollHeight > elem.offsetHeight ||
@@ -266,9 +306,11 @@ export const checkIfHasScrollbar = (elem) => {
   )
 }
 
-const overflowIsScrollable = (elem) => {
+const overflowIsScrollable = (elem: Element) => {
   const style =
-    typeof window !== 'undefined' ? window.getComputedStyle(elem) : {}
+    typeof window !== 'undefined'
+      ? window.getComputedStyle(elem)
+      : ({} as CSSStyleDeclaration)
   return /scroll|auto/i.test(
     (style.overflow || '') +
       (style.overflowX || '') +
