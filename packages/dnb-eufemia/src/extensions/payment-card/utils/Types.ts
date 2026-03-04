@@ -46,11 +46,7 @@ export interface BankAxept {
 
 export interface Saga {
   '@@tag': 'Gold' | 'Platinum' | 'None'
-  cata<R>(handlers: {
-    Gold: () => R
-    Platinum: () => R
-    None: () => R
-  }): R
+  cata<R>(handlers: { Gold: () => R; Platinum: () => R; None: () => R }): R
 }
 
 export interface PB {
@@ -185,77 +181,65 @@ interface BankAxeptTypeConstructors {
 
 const daggy = createDaggy()
 
-export const DNB: DNBConstructors = daggy.taggedSum('DNB', {
+export const DNB = daggy.taggedSum('DNB', {
   Colored: ['color'],
   Sbanken: ['color'],
-})
+}) as DNBConstructors
 
-export const Visa: VisaConstructors = daggy.taggedSum('Visa', {
+export const Visa = daggy.taggedSum('Visa', {
   Colored: ['color'],
   Platinum: [],
-})
+}) as VisaConstructors
 
-export const Mastercard: MastercardConstructors = daggy.taggedSum(
-  'Mastercard',
-  {
-    Default: [],
-    Dark: [],
-  }
-)
+export const Mastercard = daggy.taggedSum('Mastercard', {
+  Default: [],
+  Dark: [],
+}) as MastercardConstructors
 
-export const CardType: CardTypeConstructors = daggy.taggedSum('CardType', {
+export const CardType = daggy.taggedSum('CardType', {
   Visa: [],
   Mastercard: [],
   None: [],
-})
+}) as CardTypeConstructors
 
-export const BankAxept: BankAxeptConstructors = daggy.taggedSum(
-  'BankAxept',
-  {
-    White: [],
-    Black: [],
-    Gold: [],
-    Black20: [],
-    Gray: [],
-    GrayDark: [],
-  }
-)
+export const BankAxept = daggy.taggedSum('BankAxept', {
+  White: [],
+  Black: [],
+  Gold: [],
+  Black20: [],
+  Gray: [],
+  GrayDark: [],
+}) as BankAxeptConstructors
 
-export const Saga: SagaConstructors = daggy.taggedSum('Saga', {
+export const Saga = daggy.taggedSum('Saga', {
   Gold: [],
   Platinum: [],
   None: [],
-})
+}) as SagaConstructors
 
 // PrivateBanking
-export const PB: PBConstructors = daggy.taggedSum('PB', {
+export const PB = daggy.taggedSum('PB', {
   Default: [],
   None: [],
-})
+}) as PBConstructors
 
-export const ProductType: ProductTypeConstructors = daggy.taggedSum(
-  'ProductType',
-  {
-    Saga: [],
-    Pluss: [],
-    Intro: [],
-    Bedrift: [],
-    Business: [],
-    PrivateBanking: [],
-    Corporate: [],
-    WorldElite: [],
-    None: [],
-  }
-)
+export const ProductType = daggy.taggedSum('ProductType', {
+  Saga: [],
+  Pluss: [],
+  Intro: [],
+  Bedrift: [],
+  Business: [],
+  PrivateBanking: [],
+  Corporate: [],
+  WorldElite: [],
+  None: [],
+}) as ProductTypeConstructors
 
-export const BankAxeptType: BankAxeptTypeConstructors = daggy.taggedSum(
-  'BankAxeptType',
-  {
-    BankAxept: [],
-    Credit: [],
-    None: [],
-  }
-)
+export const BankAxeptType = daggy.taggedSum('BankAxeptType', {
+  BankAxept: [],
+  Credit: [],
+  None: [],
+}) as BankAxeptTypeConstructors
 
 const Types = {
   DNB,
@@ -294,13 +278,14 @@ function createDaggy() {
   ): DaggyObj {
     const proto: DaggyObj = { cata: sum$cata, toString: sum$toString }
     const tags = Object.keys(constructors)
-    const typeRep: DaggyObj = (proto.constructor = {
+    const typeRep: DaggyObj = {
       toString: typeRepToString,
       prototype: proto,
       is: isType(typeName),
       '@@type': typeName,
       '@@tags': tags,
-    })
+    }
+    proto['constructor'] = typeRep
 
     tags.forEach(function (tag) {
       const fields = constructors[tag]
@@ -392,10 +377,7 @@ function createDaggy() {
   ): DaggyObj {
     if (argumentsLength !== fields.length) {
       throw new TypeError(
-        'Expected ' +
-          fields.length +
-          ' arguments, got ' +
-          argumentsLength
+        'Expected ' + fields.length + ' arguments, got ' + argumentsLength
       )
     }
 
