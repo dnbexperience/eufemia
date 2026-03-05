@@ -116,7 +116,7 @@ export const StepIndicatorStepProperties: PropertiesTableProps = {
 
 export const StepIndicatorStepEvents: PropertiesTableProps = {
   onClick: {
-    doc: \"Called when user clicks the step. Is called right before the main component's `onClick`. Receives parameter `{ value, event, item }`\",
+    doc: "Called when user clicks the step. Is called right before the main component's `onClick`. Receives parameter `{ value, event, item }`",
     type: 'function',
     status: 'optional',
   },
