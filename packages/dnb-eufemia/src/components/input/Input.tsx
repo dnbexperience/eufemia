@@ -19,6 +19,7 @@ import useId from '../../shared/helpers/useId'
 import Suffix from '../../shared/helpers/Suffix'
 import {
   warn,
+  makeUniqueId,
   removeUndefinedProps,
   validateDOMAttributes,
   processChildren,
@@ -27,6 +28,7 @@ import {
   dispatchCustomElementEvent,
   convertJsxToString,
 } from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import {
@@ -336,6 +338,61 @@ export const inputDefaultProps = {
   onClear: null,
 }
 
+const inputDefaultProps = {
+  type: 'text',
+  size: null,
+  value: 'initval',
+  id: null,
+  label: null,
+  labelDirection: null,
+  labelSrOnly: null,
+  status: null,
+  globalStatus: null,
+  statusState: 'error',
+  statusProps: null,
+  statusNoAnimation: null,
+  inputState: null,
+  autocomplete: 'off',
+  placeholder: null,
+  clear: null,
+  keepPlaceholder: null,
+  suffix: null,
+  align: null,
+  selectAll: null,
+  stretch: null,
+  disabled: null,
+  skeleton: null,
+  inputClass: null,
+  inputAttributes: null,
+  inputElement: null,
+  ref: null,
+  icon: null,
+  iconSize: null,
+  iconPosition: 'left',
+  readOnly: false,
+  innerElement: null,
+
+  // Submit button
+  submitElement: null,
+  submitButtonTitle: null,
+  clearButtonTitle: null,
+  submitButtonVariant: 'secondary',
+  submitButtonIcon: 'loupe',
+  submitButtonStatus: null,
+
+  className: null,
+  children: null,
+
+  onChange: null,
+  onKeyDown: null,
+  onSubmit: null,
+  onFocus: null,
+  onBlur: null,
+  onSubmitFocus: null,
+  onSubmitBlur: null,
+  onClear: null,
+}
+
 function hasValue(value: string | number | null | undefined) {
   return (
     ((typeof value === 'string' || typeof value === 'number') &&
@@ -363,7 +420,8 @@ function InputComponent({ ref, ...restProps }: InputProps) {
       if (typeof ref === 'function') {
         ref(instance)
       } else if (ref) {
-        ref.current = instance
+        ;(ref as React.MutableRefObject<HTMLInputElement | null>).current =
+          instance
       }
     },
     [ref]
@@ -373,7 +431,11 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     | (typeof context.formElement & { useId?: () => string })
     | undefined
 
-  const _id = useId(restProps.id || formElement?.useId?.())
+  const _id = useMemo(
+    () => restProps.id || formElement?.useId?.() || makeUniqueId(),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  )
 
   const selectAllTimeoutRef =
     useRef<ReturnType<typeof setTimeout>>(undefined)
@@ -394,10 +456,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   const [inputState, setInputState] = useState(
     restProps.inputState || 'virgin'
   )
-  // Setter intentionally unused — calling setFocusState triggers re-renders
-  // that break timing-sensitive consumers (e.g. Autocomplete blur handling).
-  // The focusState is only read in the placeholder visibility check below.
-  const [focusState, _setFocusState] = useState<string | undefined>(
+  const [focusState, setFocusState] = useState<string | undefined>(
     undefined
   )
 
@@ -433,39 +492,33 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     setInputState(restProps.inputState)
   }
 
+  if (restProps.clear && restProps.iconPosition === 'right') {
+    warn('You cannot have a clear button and iconPosition="right"')
+  }
+
   // Update input DOM value
   const updateInputValue = useCallback(() => {
     if (inputRef.current && !restProps.inputElement) {
       const hasVal = hasValue(value)
-      const newValue = hasVal ? String(value) : ''
-      if (inputRef.current.value !== newValue) {
-        inputRef.current.value = newValue
-      }
+      inputRef.current.value = hasVal ? String(value) : ''
     }
   }, [value, restProps.inputElement])
 
-  // No dependency array — must run after every render because the <input>
-  // is uncontrolled (no `value` prop). External code (e.g. formElement.reset(),
-  // Autocomplete's delayed value sync) can mutate the DOM value, and this
-  // effect re-applies the React state to keep them in sync.
   useEffect(() => {
     updateInputValue()
   })
 
-  useMountEffect(() => {
-    if (restProps.clear && restProps.iconPosition === 'right') {
-      warn('You cannot have a clear button and iconPosition="right"')
-    }
-
+  useEffect(() => {
     return () => {
       clearTimeout(selectAllTimeoutRef.current)
     }
-  })
+  }, [])
 
   const onFocusHandler = useCallback(
     (event: React.FocusEvent<HTMLInputElement>) => {
       const { value: eventValue } = event.target
       setInputState('focus')
+      setFocusState('focus')
 
       dispatchCustomElementEvent(props, 'onFocus', {
         value: eventValue,
@@ -501,6 +554,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
             ? 'dirty'
             : 'initial'
         )
+        setFocusState(undefined)
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -615,7 +669,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     onClear, //eslint-disable-line
 
     ...inputSubmitButtonAttributes
-  } = props
+  } = props as Record<string, any>
 
   const {
     onSubmitBlur, //eslint-disable-line
@@ -695,15 +749,6 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     onKeyDown: onKeyDownHandler,
     onFocus: onFocusHandler,
     onBlur: onBlurHandler,
-  }
-
-  // aria-placeholder is only valid on textbox and searchbox roles
-  if (
-    inputParams['role'] &&
-    inputParams['role'] !== 'textbox' &&
-    inputParams['role'] !== 'searchbox'
-  ) {
-    delete inputParams['aria-placeholder']
   }
 
   if (sizeIsNumber) {
@@ -915,7 +960,8 @@ function InputSubmitButton({
       if (typeof ref === 'function') {
         ref(instance)
       } else if (ref) {
-        ref.current = instance
+        ;(ref as React.MutableRefObject<HTMLElement | null>).current =
+          instance
       }
     },
     [ref]
