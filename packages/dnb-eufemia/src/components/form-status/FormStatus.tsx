@@ -289,8 +289,7 @@ function FormStatusComponent(
 
   const id = useMemo(
     () => idProp || makeUniqueId(),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [idProp]
   )
 
   const statusId = `${id}-gs`
