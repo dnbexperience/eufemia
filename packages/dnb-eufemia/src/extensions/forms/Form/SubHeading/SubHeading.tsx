@@ -23,11 +23,7 @@ function SubHeading({ level, ...props }: Props) {
   return (
     <>
       <Heading
-        className={clsx(
-          'dnb-forms-sub-heading',
-          'dnb-card--auto-indent',
-          className
-        )}
+        className={clsx('dnb-forms-sub-heading', className)}
         level={level || 3}
         skipCorrection
         size="medium"
