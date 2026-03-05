@@ -338,7 +338,7 @@ export const inputDefaultProps = {
   onClear: null,
 }
 
-const inputDefaultProps = {
+export const inputDefaultProps = {
   type: 'text',
   size: null,
   value: 'initval',
