@@ -518,7 +518,6 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     (event: React.FocusEvent<HTMLInputElement>) => {
       const { value: eventValue } = event.target
       setInputState('focus')
-      setFocusState('focus')
 
       dispatchCustomElementEvent(props, 'onFocus', {
         value: eventValue,
@@ -554,7 +553,6 @@ function InputComponent({ ref, ...restProps }: InputProps) {
             ? 'dirty'
             : 'initial'
         )
-        setFocusState(undefined)
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -749,6 +747,15 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     onKeyDown: onKeyDownHandler,
     onFocus: onFocusHandler,
     onBlur: onBlurHandler,
+  }
+
+  // aria-placeholder is only valid on textbox and searchbox roles
+  if (
+    inputParams['role'] &&
+    inputParams['role'] !== 'textbox' &&
+    inputParams['role'] !== 'searchbox'
+  ) {
+    delete inputParams['aria-placeholder']
   }
 
   if (sizeIsNumber) {
