@@ -98,10 +98,7 @@ export const PaginationExampleInfinityIndicator = () => (
           return () => clearTimeout(timeout)
         }}
         onEnd={({ value, setContent }) => {
-          setContent(
-            value,
-            <LargePage color="lightgreen">End</LargePage>
-          )
+          setContent(value, <LargePage color="lightgreen">End</LargePage>)
         }}
       />
     </HeightLimit>
@@ -131,10 +128,7 @@ export const PaginationExampleInfinityUnknown = () => (
           return () => clearTimeout(timeout)
         }}
         onEnd={({ value, setContent }) => {
-          setContent(
-            value,
-            <LargePage color="lightgreen">End</LargePage>
-          )
+          setContent(value, <LargePage color="lightgreen">End</LargePage>)
         }}
       />
     </HeightLimit>
