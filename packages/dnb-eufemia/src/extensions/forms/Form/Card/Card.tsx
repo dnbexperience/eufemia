@@ -4,7 +4,7 @@ import CardInstance, {
 } from '../../../../components/card/Card'
 
 function Card(props: CardProps) {
-  return <CardInstance stack outset {...props} />
+  return <CardInstance stack {...props} />
 }
 
 Object.assign(Card, CardInstance)

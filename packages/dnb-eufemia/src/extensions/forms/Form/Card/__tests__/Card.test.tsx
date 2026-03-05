@@ -10,14 +10,12 @@ describe('Form.Card', () => {
     expect(Form.Card['_supportsSpacingProps']).toBe(true)
   })
 
-  it('should set "outset" by default', () => {
+  it('should support "outset"', () => {
     const { rerender } = render(<Form.Card />)
 
-    const element = document.querySelector('.dnb-card')
+    const element = document.querySelector('.dnb-card') as HTMLElement
 
-    expect(element).toHaveStyle('--outset--small: 0')
-    expect(element).toHaveStyle('--outset--medium: 1')
-    expect(element).toHaveStyle('--outset--large: 1')
+    expect(element.style.cssText).not.toContain('--outset')
 
     rerender(
       <Form.Card

@@ -1,3 +1,5 @@
+@use '../../style/heading-spacing.scss' as headingCardSpacing;
+
 .dnb-forms-sub-heading {
   // Reset inherited spacing
   .dnb-spacing & {
@@ -6,11 +8,7 @@
     }
   }
 
-  &:has(+ .dnb-flex-stack > .dnb-card, + .dnb-card) {
-    &:not([class*='space__bottom']) {
-      margin-bottom: var(--spacing-small);
-    }
-  }
+  @include headingCardSpacing.headingSpacing();
 }
 
 .dnb-forms-sub-heading + .dnb-help-button__content {

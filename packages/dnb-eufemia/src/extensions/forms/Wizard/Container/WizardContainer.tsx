@@ -120,7 +120,7 @@ function WizardContainer(props: Props) {
     prerenderFieldProps = true,
     keepInDOM,
     validationMode,
-    outset = true,
+    outset = false,
     ...rest
   } = props
 
