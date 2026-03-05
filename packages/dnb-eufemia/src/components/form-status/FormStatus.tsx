@@ -287,10 +287,7 @@ function FormStatusComponent(
     ...restOfProps
   } = props
 
-  const id = useMemo(
-    () => idProp || makeUniqueId(),
-    [idProp]
-  )
+  const id = useMemo(() => idProp || makeUniqueId(), [idProp])
 
   const statusId = `${id}-gs`
 
