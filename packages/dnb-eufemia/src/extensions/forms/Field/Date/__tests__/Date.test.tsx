@@ -16,6 +16,11 @@ import {
   FormatDateOptions,
   formatDate,
 } from '../../../../../components/date-format/DateFormatUtils'
+import {
+  setupMaskedInputKeyboard,
+  cleanupMaskedInputKeyboard,
+  focusAndKeyboard,
+} from '../../../../../core/jest/jestSetupMaskedInput'
 
 const nb = nbNO['nb-NO']
 const en = enGB['en-GB']
@@ -33,101 +38,13 @@ const options: Record<'no' | 'en', FormatDateOptions> = {
 
 const nbYearPlaceholder = 'åååå'
 
-/**
- * Flush requestAnimationFrame-based handlers in MultiInputMask (onFocus select-all,
- * auto-advance caret scheduling, onBlur callback).
- * Uses double-requestAnimationFrame to match the component's usage,
- * then a setTimeout to let any queued microtasks and timers settle.
- */
-const flushTimers = () =>
-  new Promise<void>((resolve) => {
-    window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => {
-        setTimeout(resolve, 0)
-      })
-    })
-  })
-
-const originalKeyboard = userEvent.keyboard
-const setKeyboard = (fn: typeof userEvent.keyboard) => {
-  Object.defineProperty(userEvent, 'keyboard', {
-    configurable: true,
-    value: fn,
-  })
-}
-
-/**
- * Expands a userEvent.keyboard sequence into individual keystroke tokens.
- * Repeat syntax like {Backspace>3} becomes ['{Backspace}', '{Backspace}', '{Backspace}'].
- */
-function expandKeySequence(sequence: string): string[] {
-  const keys = sequence.match(/\{[^}]*\}|./g)
-  if (!keys) {
-    return []
-  }
-
-  return keys.flatMap((token) => {
-    const repeatMatch = token.match(/^\{(.+?)>(\d+)\}$/)
-    if (!repeatMatch) {
-      return [token]
-    }
-
-    const key = `{${repeatMatch[1]}}`
-    const count = Number(repeatMatch[2])
-    return Array(count).fill(key)
-  })
-}
-
-/**
- * Wraps userEvent.keyboard to flush requestAnimationFrame-based handlers between keystrokes.
- */
-const wrapKeyboard =
-  (fn: typeof userEvent.keyboard) =>
-  async (...args: Parameters<typeof userEvent.keyboard>) => {
-    const keys = expandKeySequence(args[0])
-
-    let result: Awaited<ReturnType<typeof fn>> | undefined
-    for (const key of keys) {
-      result = await fn(key)
-      await flushTimers()
-    }
-
-    return result as Awaited<ReturnType<typeof fn>>
-  }
-
 beforeEach(() => {
-  setKeyboard(wrapKeyboard(originalKeyboard))
+  setupMaskedInputKeyboard({ mockRAF: false })
 })
 
 afterEach(() => {
-  setKeyboard(originalKeyboard)
+  cleanupMaskedInputKeyboard()
 })
-
-/**
- * Focuses the input via click, flushes requestAnimationFrame-based handlers, then types the
- * keyboard sequence. If the sequence starts with {Backspace}, the cursor
- * is collapsed to the end first so backspaces delete from the right.
- * Otherwise, the focus select-all is preserved so the first typed char
- * replaces the selected content.
- */
-async function focusAndKeyboard(input: Element, sequence: string) {
-  await userEvent.click(input)
-  await flushTimers()
-
-  const el = input as HTMLInputElement
-
-  // When the sequence starts with backspace(s), collapse cursor to end
-  // so that each backspace deletes one character from the right.
-  // Otherwise, select all content so the first typed char replaces
-  // the current value (including ghost placeholders).
-  if (/^\{[Bb]ackspace/.test(sequence)) {
-    el.setSelectionRange(el.value.length, el.value.length)
-  } else {
-    el.setSelectionRange(0, el.value.length)
-  }
-
-  await userEvent.keyboard(sequence)
-}
 
 describe('Field.Date', () => {
   it('should render without props', () => {
@@ -611,9 +528,7 @@ describe('Field.Date', () => {
         '.dnb-date-picker__input--year'
       ) as HTMLInputElement
 
-      await userEvent.click(yearInput)
-      await flushTimers()
-      await userEvent.keyboard('{Backspace>16}')
+      await focusAndKeyboard(yearInput, '{Backspace>16}')
       await userEvent.click(document.body)
 
       await waitFor(() => {

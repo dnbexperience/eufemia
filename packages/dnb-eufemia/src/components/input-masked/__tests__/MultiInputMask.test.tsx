@@ -12,6 +12,13 @@ import MultiInputMask, {
   MultiInputMaskInput,
   MultiInputMaskProps,
 } from '../MultiInputMask'
+import {
+  setupMaskedInputKeyboard,
+  cleanupMaskedInputKeyboard,
+  setUserEventMethod,
+  wrapWithFlush,
+  focusInput,
+} from '../../../core/jest/jestSetupMaskedInput'
 
 const defaultProps: MultiInputMaskProps<'day' | 'month' | 'year'> = {
   inputs: [
@@ -36,114 +43,16 @@ const defaultProps: MultiInputMaskProps<'day' | 'month' | 'year'> = {
   ],
 }
 
-/**
- * Flush requestAnimationFrame-based handlers in MultiInputMask (onFocus select-all,
- * auto-advance caret scheduling, onBlur callback).
- * Uses double-requestAnimationFrame to match the component's usage,
- * then a setTimeout to let any queued microtasks and timers settle.
- */
-const flushTimers = () =>
-  new Promise<void>((resolve) => {
-    window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => {
-        setTimeout(resolve, 0)
-      })
-    })
-  })
-
-const originalKeyboard = userEvent.keyboard
 const originalType = userEvent.type
-const setUserEventMethod = <
-  Key extends 'keyboard' | 'type',
-  Fn extends (typeof userEvent)[Key],
->(
-  key: Key,
-  fn: Fn
-) => {
-  Object.defineProperty(userEvent, key, {
-    configurable: true,
-    value: fn,
-  })
-}
-
-/**
- * Expands a userEvent.keyboard sequence into individual keystroke tokens.
- * Repeat syntax like {Backspace>3} becomes ['{Backspace}', '{Backspace}', '{Backspace}'].
- */
-function expandKeySequence(sequence: string): string[] {
-  const keys = sequence.match(/\{[^}]*\}|./g)
-  if (!keys) {
-    return []
-  }
-
-  return keys.flatMap((token) => {
-    const repeatMatch = token.match(/^\{(.+?)>(\d+)\}$/)
-    if (!repeatMatch) {
-      return [token]
-    }
-
-    const key = `{${repeatMatch[1]}}`
-    const count = Number(repeatMatch[2])
-    return Array(count).fill(key)
-  })
-}
-
-/**
- * Wraps userEvent.keyboard to flush requestAnimationFrame-based handlers between keystrokes.
- * Sequences with only special keys (e.g. {Shift>}{Tab}{/Shift}) are passed
- * through as one call to preserve modifier state.
- */
-const wrapKeyboard =
-  (fn: typeof userEvent.keyboard) =>
-  async (...args: Parameters<typeof userEvent.keyboard>) => {
-    const sequence = args[0]
-    const keys = expandKeySequence(sequence)
-
-    // Pass through if only special keys (preserves modifier state)
-    if (keys.every((t) => t.startsWith('{'))) {
-      const result = await fn(sequence)
-      await flushTimers()
-      return result
-    }
-
-    let result: Awaited<ReturnType<typeof fn>> | undefined
-    for (const key of keys) {
-      result = await fn(key)
-      await flushTimers()
-    }
-
-    return result as Awaited<ReturnType<typeof fn>>
-  }
-
-const wrapWithFlush = <Fn extends (...args: any[]) => Promise<unknown>>(
-  fn: Fn
-) =>
-  (async (...args: Parameters<Fn>) => {
-    const result = await fn(...args)
-    await flushTimers()
-    return result
-  }) as Fn
-
-async function focusInput(input: HTMLInputElement) {
-  await userEvent.click(input)
-  await flushTimers()
-}
 
 describe('MultiInputMask', () => {
   beforeEach(() => {
-    window.requestAnimationFrame = jest.fn((callback) => {
-      return setTimeout(callback, 0)
-    })
-    window.cancelAnimationFrame = jest.fn((id) => {
-      clearTimeout(id)
-      return id
-    })
-    setUserEventMethod('keyboard', wrapKeyboard(originalKeyboard))
+    setupMaskedInputKeyboard({ passthroughModifiers: true })
     setUserEventMethod('type', wrapWithFlush(originalType))
   })
 
   afterEach(() => {
-    setUserEventMethod('keyboard', originalKeyboard)
+    cleanupMaskedInputKeyboard()
     setUserEventMethod('type', originalType)
   })
 

@@ -3,6 +3,12 @@ import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { DataContext, Field, FieldBlock, Form, Validator } from '../../..'
+import {
+  setupMaskedInputKeyboard,
+  cleanupMaskedInputKeyboard,
+  focusInput,
+  focusAndKeyboard,
+} from '../../../../../core/jest/jestSetupMaskedInput'
 
 import nbNO from '../../../constants/locales/nb-NO'
 import enGB from '../../../constants/locales/en-GB'
@@ -11,99 +17,13 @@ import FormHandler from '../../../Form/Handler/Handler'
 const no = nbNO['nb-NO'].Expiry
 const en = enGB['en-GB'].Expiry
 
-const flushTimers = () =>
-  new Promise<void>((resolve) => {
-    window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => {
-        setTimeout(resolve, 0)
-      })
-    })
-  })
-
-const originalKeyboard = userEvent.keyboard
-const setUserEventMethod = <
-  Key extends 'keyboard',
-  Fn extends (typeof userEvent)[Key],
->(
-  key: Key,
-  fn: Fn
-) => {
-  Object.defineProperty(userEvent, key, {
-    configurable: true,
-    value: fn,
-  })
-}
-
-function expandKeySequence(sequence: string): string[] {
-  const keys = sequence.match(/\{[^}]*\}|./g)
-  if (!keys) {
-    return []
-  }
-
-  return keys.flatMap((token) => {
-    const repeatMatch = token.match(/^\{(.+?)>(\d+)\}$/)
-    if (!repeatMatch) {
-      return [token]
-    }
-
-    const key = `{${repeatMatch[1]}}`
-    const count = Number(repeatMatch[2])
-    return Array(count).fill(key)
-  })
-}
-
-const wrapKeyboard =
-  (fn: typeof userEvent.keyboard) =>
-  async (...args: Parameters<typeof userEvent.keyboard>) => {
-    const sequence = args[0]
-    const keys = expandKeySequence(sequence)
-
-    // Pass through modifier sequences (e.g. {Shift>}{Tab}{/Shift}) as one call
-    const hasModifier = keys.some(
-      (t) => t.match(/^\{.+>\}$/) || t.match(/^\{\/.+\}$/)
-    )
-    if (hasModifier) {
-      const result = await fn(sequence)
-      await flushTimers()
-      return result
-    }
-
-    let result: Awaited<ReturnType<typeof fn>> | undefined
-    for (const key of keys) {
-      result = await fn(key)
-      await flushTimers()
-    }
-
-    return result as Awaited<ReturnType<typeof fn>>
-  }
-
-async function focusInput(input: Element) {
-  await userEvent.click(input)
-  await flushTimers()
-}
-
-async function focusAndKeyboard(
-  input: HTMLInputElement,
-  sequence: string
-) {
-  await focusInput(input)
-  await userEvent.keyboard(sequence)
-}
-
 describe('Field.Expiry', () => {
   beforeEach(() => {
-    window.requestAnimationFrame = jest.fn((callback) => {
-      return setTimeout(callback, 0)
-    })
-    window.cancelAnimationFrame = jest.fn((id) => {
-      clearTimeout(id)
-      return id
-    })
-    setUserEventMethod('keyboard', wrapKeyboard(originalKeyboard))
+    setupMaskedInputKeyboard({ passthroughModifiers: true })
   })
 
   afterEach(() => {
-    setUserEventMethod('keyboard', originalKeyboard)
+    cleanupMaskedInputKeyboard()
   })
 
   it('should support size', () => {

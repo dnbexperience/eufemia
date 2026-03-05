@@ -31,6 +31,11 @@ import svSE from '../../../shared/locales/sv-SE'
 import daDK from '../../../shared/locales/da-DK'
 import * as helpers from '../../../shared/helpers'
 import { getOsloDate } from '../../date-format/DateFormatUtils'
+import {
+  setupMaskedInputKeyboard,
+  cleanupMaskedInputKeyboard,
+  focusInput,
+} from '../../../core/jest/jestSetupMaskedInput'
 
 jest.setTimeout(30e3)
 
@@ -41,82 +46,6 @@ const defaultProps: DatePickerAllProps = {
   date: '1970-01-01T00:00:00.000Z',
   startDate: '2019-01-01T00:00:00.000Z',
   endDate: '2019-02-15T00:00:00.000Z',
-}
-
-/**
- * Flush requestAnimationFrame-based handlers in MultiInputMask (onFocus select-all,
- * auto-advance caret scheduling, onBlur callback).
- * Uses double-requestAnimationFrame to match the component's usage,
- * then a setTimeout to let any queued microtasks and timers settle.
- */
-const flushTimers = () =>
-  new Promise<void>((resolve) => {
-    window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => {
-        setTimeout(resolve, 0)
-      })
-    })
-  })
-
-const originalKeyboard = userEvent.keyboard
-const setUserEventMethod = <
-  Key extends 'keyboard',
-  Fn extends (typeof userEvent)[Key],
->(
-  key: Key,
-  fn: Fn
-) => {
-  Object.defineProperty(userEvent, key, {
-    configurable: true,
-    value: fn,
-  })
-}
-
-/**
- * Expands a userEvent.keyboard sequence into individual keystroke tokens.
- * Repeat syntax like {Backspace>3} becomes ['{Backspace}', '{Backspace}', '{Backspace}'].
- */
-function expandKeySequence(sequence: string): string[] {
-  const keys = sequence.match(/\{[^}]*\}|./g)
-  if (!keys) {
-    return []
-  }
-
-  return keys.flatMap((token) => {
-    const repeatMatch = token.match(/^\{(.+?)>(\d+)\}$/)
-    if (!repeatMatch) {
-      return [token]
-    }
-
-    const key = `{${repeatMatch[1]}}`
-    const count = Number(repeatMatch[2])
-    return Array(count).fill(key)
-  })
-}
-
-/**
- * Wraps userEvent.keyboard to flush requestAnimationFrame-based handlers between keystrokes.
- * Each token is sent individually with a flush to ensure requestAnimationFrame-based handlers
- * (like auto-advance in masked inputs) fire between keystrokes.
- */
-const wrapKeyboard =
-  (fn: typeof userEvent.keyboard) =>
-  async (...args: Parameters<typeof userEvent.keyboard>) => {
-    const sequence = args[0]
-    const keys = expandKeySequence(sequence)
-
-    let result: Awaited<ReturnType<typeof fn>> | undefined
-    for (const key of keys) {
-      result = await fn(key)
-      await flushTimers()
-    }
-
-    return result as Awaited<ReturnType<typeof fn>>
-  }
-
-async function focusInput(input: Element) {
-  await userEvent.click(input)
-  await flushTimers()
 }
 
 async function typeInField(elem: Element, value: string) {
@@ -141,18 +70,11 @@ const getAnnouncementElement = () =>
 
 describe('DatePicker component', () => {
   beforeEach(() => {
-    window.requestAnimationFrame = jest.fn((callback) => {
-      return setTimeout(callback, 0)
-    })
-    window.cancelAnimationFrame = jest.fn((id) => {
-      clearTimeout(id)
-      return id
-    })
-    setUserEventMethod('keyboard', wrapKeyboard(originalKeyboard))
+    setupMaskedInputKeyboard()
   })
 
   afterEach(() => {
-    setUserEventMethod('keyboard', originalKeyboard)
+    cleanupMaskedInputKeyboard()
   })
 
   const getSplitInputs = () => {
