@@ -176,8 +176,6 @@ function ToggleButton(ownProps: ToggleButtonProps) {
         return event.preventDefault()
       }
 
-      event.persist?.()
-
       // only select a value once
       if (
         groupContext.name &&
