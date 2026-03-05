@@ -11,18 +11,74 @@ import FormHandler from '../../../Form/Handler/Handler'
 const no = nbNO['nb-NO'].Expiry
 const en = enGB['en-GB'].Expiry
 
-const flushTimers = () => new Promise((resolve) => setTimeout(resolve, 0))
+const flushTimers = () =>
+  new Promise<void>((resolve) => {
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        setTimeout(resolve, 0)
+      })
+    })
+  })
 
-// userEvent instance with delay to let the caret auto-advance to next input between strokes
-const userWithDelay = userEvent.setup({ delay: 10 })
+const originalKeyboard = userEvent.keyboard
+const setUserEventMethod = <
+  Key extends 'keyboard',
+  Fn extends (typeof userEvent)[Key],
+>(
+  key: Key,
+  fn: Fn
+) => {
+  Object.defineProperty(userEvent, key, {
+    configurable: true,
+    value: fn,
+  })
+}
+
+function expandKeySequence(sequence: string): string[] {
+  return (sequence.match(/\{[^}]*\}|./g) || []).flatMap((token) => {
+    const repeat = token.match(/^\{(.+?)>(\d+)\}$/)
+    return repeat
+      ? Array.from({ length: Number(repeat[2]) }, () => `{${repeat[1]}}`)
+      : [token]
+  })
+}
+
+const wrapKeyboard =
+  (fn: typeof userEvent.keyboard) =>
+  async (...args: Parameters<typeof userEvent.keyboard>) => {
+    const sequence = args[0]
+    const tokens = expandKeySequence(sequence)
+
+    // Pass through modifier sequences (e.g. {Shift>}{Tab}{/Shift}) as one call
+    const hasModifier = tokens.some(
+      (t) => t.match(/^\{.+>\}$/) || t.match(/^\{\/.+\}$/)
+    )
+    if (hasModifier) {
+      const result = await fn(sequence)
+      await flushTimers()
+      return result
+    }
+
+    let result: Awaited<ReturnType<typeof fn>> | undefined
+    for (const token of tokens) {
+      result = await fn(token)
+      await flushTimers()
+    }
+
+    return result as Awaited<ReturnType<typeof fn>>
+  }
+
+async function focusInput(input: Element) {
+  await userEvent.click(input)
+  await flushTimers()
+}
 
 async function focusAndKeyboard(
   input: HTMLInputElement,
   sequence: string
 ) {
-  await userWithDelay.click(input)
-  await flushTimers()
-  await userWithDelay.keyboard(sequence)
+  await focusInput(input)
+  await userEvent.keyboard(sequence)
 }
 
 describe('Field.Expiry', () => {
@@ -34,6 +90,11 @@ describe('Field.Expiry', () => {
       clearTimeout(id)
       return id
     })
+    setUserEventMethod('keyboard', wrapKeyboard(originalKeyboard))
+  })
+
+  afterEach(() => {
+    setUserEventMethod('keyboard', originalKeyboard)
   })
 
   it('should support size', () => {
@@ -492,13 +553,12 @@ describe('Field.Expiry', () => {
         'input'
       )[1] as HTMLInputElement
 
-      await userEvent.click(monthInput)
-      await flushTimers()
+      await focusInput(monthInput)
       expect(monthInput.value).toBe('12')
       monthInput.setSelectionRange(2, 2)
       expect(monthInput.selectionStart).toBe(2)
       expect(monthInput.selectionEnd).toBe(2)
-      await userWithDelay.keyboard('7')
+      await userEvent.keyboard('7')
 
       await waitFor(() => {
         expect(document.activeElement).toBe(yearInput)
@@ -548,18 +608,18 @@ describe('Field.Expiry', () => {
 
       await userEvent.click(monthInput)
 
-      await userWithDelay.keyboard('{ArrowRight}')
+      await userEvent.keyboard('{ArrowRight}')
       expect(document.activeElement).toBe(monthInput)
 
-      await userWithDelay.keyboard('{ArrowRight}')
+      await userEvent.keyboard('{ArrowRight}')
       expect(document.activeElement).toBe(yearInput)
 
-      await userWithDelay.keyboard('{ArrowLeft>2}')
+      await userEvent.keyboard('{ArrowLeft>2}')
       expect(document.activeElement).toBe(monthInput)
 
       expect(document.activeElement).toBe(monthInput)
 
-      await userWithDelay.keyboard('{ArrowRight>3}')
+      await userEvent.keyboard('{ArrowRight>3}')
       expect(document.activeElement).toBe(yearInput)
     })
 
@@ -770,8 +830,8 @@ describe('Field.Expiry', () => {
       })
 
       // Fix the month - error should disappear during typing
-      await userWithDelay.click(monthInput)
-      await userWithDelay.keyboard('{Backspace>2}01')
+      await focusInput(monthInput)
+      await userEvent.keyboard('{Backspace>2}01')
 
       expect(monthInput).toHaveValue('01')
       await waitFor(() => {
@@ -781,8 +841,8 @@ describe('Field.Expiry', () => {
       })
 
       // Type invalid month again - error should appear again
-      await userWithDelay.click(monthInput)
-      await userWithDelay.keyboard('{Backspace>2}99')
+      await focusInput(monthInput)
+      await userEvent.keyboard('{Backspace>2}99')
 
       await waitFor(() => {
         expect(
@@ -880,8 +940,8 @@ describe('Field.Expiry', () => {
         document.querySelectorAll('input')
       )
 
-      await userEvent.click(monthInput)
-      await userWithDelay.keyboard('092')
+      await focusInput(monthInput)
+      await userEvent.keyboard('092')
       await userEvent.click(document.body)
 
       expect(
@@ -1000,7 +1060,7 @@ describe('Field.Expiry', () => {
     })
 
     await userEvent.tab()
-    await userWithDelay.keyboard('1236')
+    await userEvent.keyboard('1236')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
       '/myValue': {
@@ -1107,7 +1167,7 @@ describe('Field.Expiry', () => {
     onStatusChange.mockClear()
 
     // Type valid month and year
-    await userWithDelay.keyboard('{Backspace>2}0125')
+    await userEvent.keyboard('{Backspace>2}0125')
 
     await waitFor(() => {
       expect(onStatusChange).toHaveBeenCalled()
