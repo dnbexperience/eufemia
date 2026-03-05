@@ -650,57 +650,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
   }, [externalValueDeps, validateContinuously, valueEqualsEmptyValue]) // Keep "externalValue" in the dependency list, so it will be updated when it changes
 
-  const previousLocaleRef = useRef(locale)
-  useUpdateEffect(() => {
-    if (previousLocaleRef.current !== locale) {
-      previousLocaleRef.current = locale
-      const hasValidationError =
-        hasError() || fieldStateRef.current === 'error'
-      const hasVisibleError = revealErrorRef.current === true
-      const shouldRevalidateOnLocaleChange =
-        changedRef.current ||
-        hasValidationError ||
-        hasVisibleError ||
-        validateInitially ||
-        validateUnchanged
-
-      if (
-        prerenderFieldProps ||
-        (valueEqualsEmptyValue(valueRef.current) &&
-          !shouldRevalidateOnLocaleChange)
-      ) {
-        return // stop here
-      }
-
-      if (onBlurValidatorRef.current && shouldRevalidateOnLocaleChange) {
-        addToPool(
-          'onBlurValidator',
-          async () => await startOnBlurValidatorProcess(),
-          isAsync(onBlurValidatorRef.current)
-        )
-
-        runPool(() => {
-          revealError()
-          forceUpdate()
-        })
-
-        return // stop here
-      }
-    }
-  }, [
-    addToPool,
-    forceUpdate,
-    hasError,
-    locale,
-    prerenderFieldProps,
-    revealError,
-    runPool,
-    startOnBlurValidatorProcess,
-    validateInitially,
-    validateUnchanged,
-    valueEqualsEmptyValue,
-  ])
-
   // ─── Focus / blur ────────────────────────────────────────────────────
 
   const setHasFocus = useCallback(
@@ -1139,6 +1088,57 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   useEffect(() => {
     validateValue()
   }, [validateValue])
+
+  const previousLocaleRef = useRef(locale)
+  useUpdateEffect(() => {
+    if (previousLocaleRef.current !== locale) {
+      previousLocaleRef.current = locale
+      const hasValidationError =
+        hasError() || fieldStateRef.current === 'error'
+      const hasVisibleError = revealErrorRef.current === true
+      const shouldRevalidateOnLocaleChange =
+        changedRef.current ||
+        hasValidationError ||
+        hasVisibleError ||
+        validateInitially ||
+        validateUnchanged
+
+      if (
+        prerenderFieldProps ||
+        (valueEqualsEmptyValue(valueRef.current) &&
+          !shouldRevalidateOnLocaleChange)
+      ) {
+        return // stop here
+      }
+
+      if (onBlurValidatorRef.current && shouldRevalidateOnLocaleChange) {
+        addToPool(
+          'onBlurValidator',
+          async () => await startOnBlurValidatorProcess(),
+          isAsync(onBlurValidatorRef.current)
+        )
+
+        runPool(() => {
+          revealError()
+          forceUpdate()
+        })
+
+        return // stop here
+      }
+    }
+  }, [
+    addToPool,
+    forceUpdate,
+    hasError,
+    locale,
+    prerenderFieldProps,
+    revealError,
+    runPool,
+    startOnBlurValidatorProcess,
+    validateInitially,
+    validateUnchanged,
+    valueEqualsEmptyValue,
+  ])
 
   useEffect(() => {
     if (prerenderFieldProps || !dataContext?.id) {
