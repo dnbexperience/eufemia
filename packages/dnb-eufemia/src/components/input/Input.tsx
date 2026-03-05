@@ -456,7 +456,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   const [inputState, setInputState] = useState(
     restProps.inputState || 'virgin'
   )
-  const [focusState, setFocusState] = useState<string | undefined>(
+  const [focusState, _setFocusState] = useState<string | undefined>(
     undefined
   )
 
