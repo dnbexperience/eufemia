@@ -9,10 +9,7 @@ import React, {
 } from 'react'
 import pointer from '../utils/json-pointer'
 import type { ValidateFunction } from 'ajv/dist/2020.js'
-import {
-  FormError,
-  isZodSchema,
-} from '../utils'
+import { isZodSchema } from '../utils'
 import * as z from 'zod'
 import {
   FieldPropsGeneric,
@@ -25,10 +22,7 @@ import {
 import { Context as DataContext, ContextState } from '../DataContext'
 import { clearedData } from '../DataContext/Provider/Provider'
 import FieldProviderContext from '../Field/Provider/FieldProviderContext'
-import {
-  combineDescribedBy,
-  warn,
-} from '../../../shared/component-helper'
+import { combineDescribedBy, warn } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
 import FieldBlockContext, {
@@ -428,7 +422,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     error,
     warning,
     info,
-    errorProp,
     combinedErrorMessages,
     bufferedError,
     bufferedErrorRef,
@@ -488,8 +481,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   })
 
   const errorIsVisible =
-    errorIsVisibleBase ||
-    (inFieldBlock && fieldBlockContext.hasErrorProp)
+    errorIsVisibleBase || (inFieldBlock && fieldBlockContext.hasErrorProp)
 
   // ─── useFieldAsync ───────────────────────────────────────────────────
 
@@ -534,11 +526,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     validateValue,
     startOnChangeValidatorValidation,
     startOnBlurValidatorProcess,
-    runOnChangeValidator,
-    runOnBlurValidator,
-    callOnBlurValidator,
-    handleConnectWithPath,
-    onChangeValidator,
     onChangeValidatorRef,
     onBlurValidatorRef,
     additionalArgs,
@@ -889,7 +876,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       localAdditionalArgs: ProvideAdditionalEventArgs = undefined
     ) => {
       const currentValue = valueRef.current
-      const fromInput = transformers.current.fromInput(argFromInput as Value)
+      const fromInput = transformers.current.fromInput(
+        argFromInput as Value
+      )
       const valueIsUnchanged = fromInput === currentValue
 
       if (!executeOnChangeRegardlessOfUnchangedValue && valueIsUnchanged) {
@@ -1157,9 +1146,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
 
     const sharedAttachments = createSharedState<{
-      fieldStatusRef?: React.RefObject<
-        Record<Identifier, unknown>
-      >
+      fieldStatusRef?: React.RefObject<Record<Identifier, unknown>>
     }>(createReferenceKey(dataContext.id, 'attachments')).get?.()
 
     const status = sharedAttachments?.fieldStatusRef?.current?.[identifier]

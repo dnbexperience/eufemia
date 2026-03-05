@@ -2,13 +2,16 @@ import { useRef, useCallback, useMemo } from 'react'
 import {
   EventReturnWithStateObjectAndSuccess,
   EventStateObjectWithSuccess,
-  SubmitState,
   Identifier,
   FieldStatus,
 } from '../types'
 import { FormError } from '../utils'
 import { isAsync } from '../../../shared/helpers/isAsync'
-import type { SubmitStateWithValidating, PersistErrorStateMethod, ErrorInitiator } from './useFieldError'
+import type {
+  SubmitStateWithValidating,
+  PersistErrorStateMethod,
+  ErrorInitiator,
+} from './useFieldError'
 
 export type AsyncProcesses =
   | 'onChangeValidator'
@@ -49,7 +52,9 @@ export interface UseFieldAsyncParams<Value> {
   executeOnChangeRegardlessOfError: boolean
   handlePathChangeDataContext: (
     identifier: Identifier
-  ) => EventReturnWithStateObjectAndSuccess | Promise<EventReturnWithStateObjectAndSuccess>
+  ) =>
+    | EventReturnWithStateObjectAndSuccess
+    | Promise<EventReturnWithStateObjectAndSuccess>
 }
 
 export default function useFieldAsync<Value>({
@@ -84,18 +89,13 @@ export default function useFieldAsync<Value>({
   )
   const asyncProcessRef = useRef<AsyncProcesses | null>(null)
 
-  const defineAsyncProcess = useCallback(
-    (name: AsyncProcesses) => {
-      asyncProcessRef.current = name
-    },
-    []
-  )
+  const defineAsyncProcess = useCallback((name: AsyncProcesses) => {
+    asyncProcessRef.current = name
+  }, [])
 
   // -- Async buffer processing --
 
-  const asyncBufferRef = useRef<
-    Record<string, AsyncProcessesBuffer>
-  >({})
+  const asyncBufferRef = useRef<Record<string, AsyncProcessesBuffer>>({})
 
   for (const key in asyncBufferRef.current) {
     const { resolve, validateProcesses } = (asyncBufferRef.current[key] ||
