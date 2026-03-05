@@ -1228,7 +1228,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
             childArray = children
           }
 
-          let segments = childArray.map((originalChild) => ({
+          const segments = childArray.map((originalChild) => ({
             originalChild,
             segment: convertJsxToString(originalChild, ' '),
           }))
