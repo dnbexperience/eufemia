@@ -570,7 +570,13 @@ function FormStatusComponent(
 
 FormStatusComponent.displayName = 'FormStatus'
 
-const FormStatus = React.memo(React.forwardRef(FormStatusComponent)) as any
+const FormStatus = React.memo(
+  React.forwardRef(FormStatusComponent)
+) as React.MemoExoticComponent<
+  React.ForwardRefExoticComponent<
+    FormStatusProps & React.RefAttributes<HTMLElement>
+  >
+>
 
 withComponentMarkers(FormStatus, { _supportsSpacingProps: true })
 
