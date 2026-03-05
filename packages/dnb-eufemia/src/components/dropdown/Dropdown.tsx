@@ -12,7 +12,6 @@ import React, {
 import clsx from 'clsx'
 import {
   makeUniqueId,
-  extendPropsWithContextInClassComponent,
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
@@ -21,6 +20,7 @@ import {
   convertJsxToString,
   removeUndefinedProps,
 } from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
@@ -460,7 +460,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
   }
 
   // Render logic
-  const props = extendPropsWithContextInClassComponent(
+  const props = extendPropsWithContext(
     propsWithDefaults,
     dropdownDefaultProps,
     { skeleton: context?.skeleton },
