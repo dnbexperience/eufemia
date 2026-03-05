@@ -172,7 +172,7 @@ export function HelpButtonInlineContent(
     children,
     help: helpProp,
     breakout = true,
-    outset = true,
+    outset = false,
     roundedCorner,
     focusOnOpen: focusOnOpenProp,
     ...rest
