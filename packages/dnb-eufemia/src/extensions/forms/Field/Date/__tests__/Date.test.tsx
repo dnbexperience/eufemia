@@ -34,8 +34,9 @@ const options: Record<'no' | 'en', FormatDateOptions> = {
 const nbYearPlaceholder = 'åååå'
 
 /**
- * Flush Maskito's rAF-based handlers (onFocus select-all, caret scheduling).
- * Uses double-rAF to match the component's requestAnimationFrame usage,
+ * Flush requestAnimationFrame-based handlers in MultiInputMask (onFocus select-all,
+ * auto-advance caret scheduling, onBlur callback).
+ * Uses double-requestAnimationFrame to match the component's usage,
  * then a setTimeout to let any queued microtasks and timers settle.
  */
 const flushTimers = () =>
@@ -56,58 +57,30 @@ const setKeyboard = (fn: typeof userEvent.keyboard) => {
 }
 
 /**
- * Splits a userEvent.keyboard sequence into individual tokens.
- * E.g. '{Backspace>2}01' → ['{Backspace>2}', '0', '1']
+ * Expands a userEvent.keyboard sequence into individual keystroke tokens.
+ * Repeat syntax like {Backspace>3} becomes ['{Backspace}', '{Backspace}', '{Backspace}'].
  */
-function tokenizeKeyboardSequence(sequence: string): string[] {
-  const tokens: string[] = []
-  let i = 0
-
-  while (i < sequence.length) {
-    if (sequence[i] === '{') {
-      const end = sequence.indexOf('}', i)
-      if (end !== -1) {
-        tokens.push(sequence.slice(i, end + 1))
-        i = end + 1
-      } else {
-        tokens.push(sequence[i])
-        i++
-      }
-    } else {
-      tokens.push(sequence[i])
-      i++
-    }
-  }
-
-  return tokens
+function expandKeySequence(sequence: string): string[] {
+  return (sequence.match(/\{[^}]*\}|./g) || []).flatMap((token) => {
+    const repeat = token.match(/^\{(.+?)>(\d+)\}$/)
+    return repeat
+      ? Array.from({ length: Number(repeat[2]) }, () => `{${repeat[1]}}`)
+      : [token]
+  })
 }
 
 /**
- * Wraps userEvent.keyboard to type each token individually with a
- * flushTimers() call between each keystroke, giving Maskito time to
- * process each input event before the next one arrives.
+ * Wraps userEvent.keyboard to flush requestAnimationFrame-based handlers between keystrokes.
  */
 const wrapKeyboard =
   (fn: typeof userEvent.keyboard) =>
   async (...args: Parameters<typeof userEvent.keyboard>) => {
-    const sequence = args[0]
-    const tokens = tokenizeKeyboardSequence(sequence)
+    const tokens = expandKeySequence(args[0])
 
     let result: Awaited<ReturnType<typeof fn>> | undefined
     for (const token of tokens) {
-      // Expand repeat syntax like {Backspace>2} into individual keystrokes
-      const repeatMatch = token.match(/^\{(.+?)>(\d+)\}$/)
-      if (repeatMatch) {
-        const [, key, countStr] = repeatMatch
-        const count = parseInt(countStr, 10)
-        for (let i = 0; i < count; i++) {
-          result = await fn(`{${key}}`)
-          await flushTimers()
-        }
-      } else {
-        result = await fn(token)
-        await flushTimers()
-      }
+      result = await fn(token)
+      await flushTimers()
     }
 
     return result as Awaited<ReturnType<typeof fn>>
@@ -122,7 +95,7 @@ afterEach(() => {
 })
 
 /**
- * Focuses the input via click, flushes rAF-based handlers, then types the
+ * Focuses the input via click, flushes requestAnimationFrame-based handlers, then types the
  * keyboard sequence. If the sequence starts with {Backspace}, the cursor
  * is collapsed to the end first so backspaces delete from the right.
  * Otherwise, the focus select-all is preserved so the first typed char
