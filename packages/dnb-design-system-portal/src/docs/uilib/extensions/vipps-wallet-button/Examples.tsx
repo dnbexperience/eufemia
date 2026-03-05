@@ -26,7 +26,7 @@ export const VippsWalletButtonPendingExample = () => (
       onClick={() => {
         console.log('VippsWalletButton clicked')
       }}
-      data-visual-test="vipps-wallet-button"
+      data-visual-test="vipps-wallet-button-pending"
     />
   </ComponentBox>
 )

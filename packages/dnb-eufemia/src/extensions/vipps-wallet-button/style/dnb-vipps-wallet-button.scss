@@ -28,6 +28,7 @@
   @include hover() {
     background-color: var(--vipps-primary-color);
     color: var(--color-white);
+
     --border-color: var(--vipps-primary-color);
   }
 
@@ -38,6 +39,7 @@
   &[disabled] {
     background-color: var(--vipps-primary-color);
     color: var(--color-white);
+    
     --border-color: initial;
   }
 
