@@ -275,7 +275,7 @@ export interface SubmitButtonProps
   onSubmitBlur?: (event: InputEvent<React.FocusEvent>) => void
 }
 
-const inputDefaultProps = {
+export const inputDefaultProps = {
   type: 'text',
   size: null,
   value: 'initval',
