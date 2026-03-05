@@ -250,14 +250,14 @@ function ModalComponent(ownProps: ModalAllProps) {
 
   const toggleOpenClose = useCallback(
     (event: Event | null = null, showModal: boolean | null = null) => {
-      if (event && (event as any).preventDefault) {
-        ;(event as any).preventDefault()
+      if (event && 'preventDefault' in event) {
+        event.preventDefault()
       }
 
       const toggleNow = () => {
         const timeoutDuration =
           typeof animationDuration === 'string'
-            ? parseFloat(animationDuration as unknown as string)
+            ? parseFloat(animationDuration)
             : animationDuration
 
         const newModalActive =
@@ -524,7 +524,13 @@ function ModalComponent(ownProps: ModalAllProps) {
   )
 }
 
-const Modal = React.memo(ModalComponent) as any
+const Modal = React.memo(ModalComponent) as React.MemoExoticComponent<
+  typeof ModalComponent
+> & {
+  Bar: typeof ModalHeaderBar
+  Header: typeof ModalHeader
+  Content: typeof ModalInner
+}
 Modal.Bar = ModalHeaderBar
 Modal.Header = ModalHeader
 Modal.Content = ModalInner
