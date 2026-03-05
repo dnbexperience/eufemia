@@ -6,17 +6,17 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React, {
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useRef,
   useState,
 } from 'react'
-import useMountEffect from '../../shared/helpers/useMountEffect'
 import clsx from 'clsx'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import TextCounter from '../../fragments/text-counter/TextCounter'
-import useId from '../../shared/helpers/useId'
 import {
+  makeUniqueId,
   extendPropsWithContext,
   removeUndefinedProps,
   validateDOMAttributes,
@@ -244,7 +244,10 @@ function TextareaComponent(
     (context.getTranslation(ownProps) as Record<string, unknown>)
       ?.Textarea as Record<string, unknown>,
     pickFormElementProps(context?.formElement),
-    context?.Textarea as Record<string, unknown>
+    (context as Record<string, unknown>)?.Textarea as Record<
+      string,
+      unknown
+    >
   )
 
   const {
@@ -286,13 +289,19 @@ function TextareaComponent(
       if (typeof ref === 'function') {
         ref(node)
       } else if (ref) {
-        ref.current = node
+        ;(
+          ref as React.MutableRefObject<HTMLTextAreaElement | null>
+        ).current = node
       }
     },
     [ref]
   )
 
-  const id = useId(ownProps.id)
+  const id = useMemo(
+    () => ownProps.id || makeUniqueId(),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  )
 
   const resizeModifier = useMemo(() => getResizeModifier(), [])
   const heightOffsetRef = useRef<number | undefined>(undefined)
@@ -453,18 +462,10 @@ function TextareaComponent(
     [getRows, props.onKeyDown]
   )
 
-  // Keep a ref to the latest setAutosize so the mount-time ResizeObserver
-  // and window listener always call the current version (avoids stale closure
-  // if autoResizeMaxRows changes after mount).
-  const setAutosizeRef = useRef(setAutosize)
-  setAutosizeRef.current = setAutosize
-
   // Setup autoResize on mount
-  useMountEffect(() => {
-    const handleResize = () => setAutosizeRef.current()
-
+  useEffect(() => {
     if (autoResize && typeof window !== 'undefined') {
-      setAutosizeRef.current()
+      setAutosize()
       try {
         // eslint-disable-next-line compat/compat
         const observer = new ResizeObserver((entries) => {
@@ -472,13 +473,13 @@ function TextareaComponent(
             if (!Array.isArray(entries) || !entries.length) {
               return
             }
-            setAutosizeRef.current()
+            setAutosize()
           })
         })
         observer.observe(document.body)
         resizeObserverRef.current = observer
       } catch (e) {
-        window.addEventListener('resize', handleResize)
+        window.addEventListener('resize', setAutosize)
       }
     }
 
@@ -488,15 +489,16 @@ function TextareaComponent(
         resizeObserverRef.current = null
       }
       if (typeof window !== 'undefined') {
-        window.removeEventListener('resize', handleResize)
+        window.removeEventListener('resize', setAutosize)
       }
     }
-  })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const showStatus = getStatusState(status)
   const currentHasValue = hasValue(value)
 
-  let TextareaElement: TextareaElement = props.textareaElement
+  let TextareaElement: TextareaTextareaElement = props.textareaElement
 
   const textareaParams: React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
     'aria-describedby'?: string
@@ -564,7 +566,7 @@ function TextareaComponent(
     ),
   }
 
-  const shellParams = {
+  const shellParams: Record<string, unknown> = {
     className: clsx('dnb-textarea__shell'),
   }
 
@@ -677,11 +679,10 @@ TextareaComponent.displayName = 'Textarea'
 
 const MemoizedTextarea = React.memo(
   React.forwardRef(TextareaComponent)
-) as React.MemoExoticComponent<
-  React.ForwardRefExoticComponent<
-    TextareaProps & React.RefAttributes<HTMLTextAreaElement>
-  >
->
+) as any
+
+MemoizedTextarea.hasValue = hasValue
+MemoizedTextarea.getValue = getValue
 
 withComponentMarkers(MemoizedTextarea, {
   _formElement: true,
