@@ -460,8 +460,6 @@ function Autocomplete(props: AutocompleteAllProps) {
   )
 }
 
-Autocomplete.defaultProps = autocompleteDefaultProps
-
 export default Autocomplete
 
 class AutocompleteInstance extends React.PureComponent<
