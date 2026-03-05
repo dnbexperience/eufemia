@@ -44,7 +44,9 @@ export interface UseFieldValidationParams<Value> {
   emptyValue: unknown
   required: boolean
   hasDataContext: boolean
-  getAjvInstanceDataContext: () => { compile: (schema: unknown) => ValidateFunction }
+  getAjvInstanceDataContext: () => {
+    compile: (schema: unknown) => ValidateFunction
+  }
   setFieldEventListener: (
     identifier: Identifier,
     event: string,
@@ -56,7 +58,11 @@ export interface UseFieldValidationParams<Value> {
   props: unknown
   dataContext: unknown
   combinedErrorMessages: Record<string, string>
-  makeIteratePath: (path: string, suffix?: string, options?: unknown) => string
+  makeIteratePath: (
+    path: string,
+    suffix?: string,
+    options?: unknown
+  ) => string
   errorPrioritization: string[]
   sectionPath: string
   hasSectionSchema: boolean

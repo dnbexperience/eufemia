@@ -16,9 +16,7 @@ import {
 } from '../types'
 import type { GetValueByPath } from './useDataValue'
 import type { FormsTranslation } from './useTranslation'
-import {
-  convertJsxToString,
-} from '../../../shared/component-helper'
+import { convertJsxToString } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import type { FieldBlockContextProps } from '../FieldBlock/FieldBlockContext'
 
@@ -61,7 +59,9 @@ export type ErrorInitiator =
 export interface UseFieldErrorParams<Value> {
   // Props
   initialErrorProp: FieldPropsGeneric<Value>['error'] | 'initial'
-  warningProp: FieldStatus['warning'] | MessageProp<Value, FieldStatus['warning']>
+  warningProp:
+    | FieldStatus['warning']
+    | MessageProp<Value, FieldStatus['warning']>
   infoProp: FieldStatus['info'] | MessageProp<Value, FieldStatus['info']>
   errorMessages: DefaultErrorMessages
   validateInitially: boolean
@@ -104,10 +104,7 @@ export interface UseFieldErrorParams<Value> {
     identifier: Identifier,
     hasError: boolean
   ) => void
-  revealErrorBoundary: (
-    identifier: Identifier,
-    hasError: boolean
-  ) => void
+  revealErrorBoundary: (identifier: Identifier, hasError: boolean) => void
   wizardIndex: number
 
   // Data
@@ -638,7 +635,11 @@ export default function useFieldError<Value>({
   )
 
   const clearErrorState = useCallback(() => {
-    console.warn('[DEBUG clearErrorState]', identifier, new Error().stack?.split('\n').slice(1, 5).join(' | '))
+    console.warn(
+      '[DEBUG clearErrorState]',
+      identifier,
+      new Error().stack?.split('\n').slice(1, 5).join(' | ')
+    )
     persistErrorState('wipe', undefined)
     localErrorInitiatorRef.current = undefined
     const schemaValidator = schemaValidatorRef.current as ValidateFunction
