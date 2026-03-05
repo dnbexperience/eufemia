@@ -47,7 +47,10 @@ import AriaLive from '../aria-live/AriaLive'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import IconPrimary from '../icon-primary/IconPrimary'
-import Input, { SubmitButton } from '../input/Input'
+import Input, {
+  SubmitButton,
+  type SubmitButtonProps,
+} from '../input/Input'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 import DrawerList from '../../fragments/drawer-list/DrawerList'
 import { ItemContent } from '../../fragments/drawer-list/DrawerListItem'
@@ -1155,7 +1158,10 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       const strS = '\uFFFE'
       const strE = '\uFFFF'
 
-      currentSearchIndex = currentSearchIndex.map((item) => {
+      const mappedIndex: Array<
+        | DrawerListDataArrayObject
+        | { totalScore: number; item: SearchIndexItem }
+      > = currentSearchIndex.map((item) => {
         const listOfFoundWords = findSearchWords(item.contentChunk)
 
         const allWordsAreNumeric = snParam
@@ -1183,7 +1189,10 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
           item.dataItem = { ...item.dataItem }
         }
 
-        item.dataItem.render = (children, id) => {
+        item.dataItem.render = (
+          children: React.ReactNode,
+          id: string
+        ): React.ReactNode => {
           if (disableHL || disableHighlightingState) {
             return children
           }
@@ -1191,141 +1200,171 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
           const cacheHash = id + value
           cacheMemoryRef.current = cacheMemoryRef.current || {}
           if (cacheMemoryRef.current[cacheHash]) {
-            return cacheMemoryRef.current[cacheHash]
+            return cacheMemoryRef.current[cacheHash] as React.ReactNode
           }
 
           const isComponent =
             typeof children !== 'string' && React.isValidElement(children)
 
-          if (isComponent && Array.isArray(children?.props?.children)) {
-            children = children.props.children
+          let childArray: Array<React.ReactNode>
+          if (
+            isComponent &&
+            Array.isArray(
+              (
+                children as React.ReactElement<{
+                  children?: React.ReactNode[]
+                }>
+              ).props?.children
+            )
+          ) {
+            childArray = (
+              children as React.ReactElement<{
+                children: React.ReactNode[]
+              }>
+            ).props.children
           } else if (!Array.isArray(children)) {
-            children = [children]
+            childArray = [children]
+          } else {
+            childArray = children
           }
 
-          children = children.map((originalChild) => ({
+          let segments = childArray.map((originalChild) => ({
             originalChild,
             segment: convertJsxToString(originalChild, ' '),
           }))
 
-          children = children.map(({ originalChild, segment }, idx) => {
-            searchWords.forEach((word, wordIndex) => {
-              if (segment) {
-                word = escapeRegexChars(word)
+          const processed = segments.map(
+            ({ originalChild, segment }, idx) => {
+              searchWords.forEach((word, wordIndex) => {
+                if (segment) {
+                  word = escapeRegexChars(word)
 
-                if (snParam) {
-                  // @ts-expect-error Unicode property escapes are supported at runtime here
-                  const cleanedWord = word.replace(/[^\p{L}\p{N}]+/gu, '')
-                  if (cleanedWord) {
-                    const escapedWord = escapeRegexChars(cleanedWord)
-                    segment = segment.replace(
-                      new RegExp(`(${escapedWord})`, 'gi'),
-                      (match) => {
-                        if (match.includes(strS)) {
-                          return match
+                  if (snParam) {
+                    const cleanedWord = word.replace(
+                      // @ts-expect-error Unicode property escapes are supported at runtime here
+                      /[^\p{L}\p{N}]+/gu,
+                      ''
+                    )
+                    if (cleanedWord) {
+                      const escapedWord = escapeRegexChars(cleanedWord)
+                      segment = segment.replace(
+                        new RegExp(`(${escapedWord})`, 'gi'),
+                        (match) => {
+                          if (match.includes(strS)) {
+                            return match
+                          }
+                          return `${strS}${match}${strE}`
                         }
-                        return `${strS}${match}${strE}`
-                      }
-                    )
-                  }
-                } else {
-                  if (wordIndex >= inWordIndex) {
-                    segment = segment.replace(
-                      new RegExp(`(${word})`, 'gi'),
-                      `${strS}$1${strE}`
-                    )
+                      )
+                    }
                   } else {
-                    segment = segment.replace(
-                      new RegExp(
-                        `(${getWordBoundary(wordIndex)})(${word})`,
-                        'gi'
-                      ),
-                      `$1${strS}$2${strE}`
-                    )
+                    if (wordIndex >= inWordIndex) {
+                      segment = segment.replace(
+                        new RegExp(`(${word})`, 'gi'),
+                        `${strS}$1${strE}`
+                      )
+                    } else {
+                      segment = segment.replace(
+                        new RegExp(
+                          `(${getWordBoundary(wordIndex)})(${word})`,
+                          'gi'
+                        ),
+                        `$1${strS}$2${strE}`
+                      )
+                    }
                   }
                 }
-              }
-            })
-
-            let result = segment
-
-            if (segment.includes(strS)) {
-              const startRepeatRegex = new RegExp(`(${strS})+`, 'g')
-              const endRepeatRegex = new RegExp(`(${strE})+`, 'g')
-              const adjacentRegex = new RegExp(`(${strE}${strS})`, 'g')
-              const splitRegex = new RegExp(`(${strS}|${strE})`, 'g')
-
-              const normalized = segment
-                .replace(startRepeatRegex, strS)
-                .replace(endRepeatRegex, strE)
-                .replace(adjacentRegex, '')
-
-              const tokens = normalized.split(splitRegex).filter(Boolean)
-
-              let isHighlighted = false
-              let highlightIndex = 0
-              const parts = tokens.map((token) => {
-                if (token === strS) {
-                  isHighlighted = true
-                  return null
-                }
-                if (token === strE) {
-                  isHighlighted = false
-                  return null
-                }
-
-                if (isHighlighted) {
-                  const key = `highlight-${cacheHash}-${idx}-${highlightIndex++}`
-                  return (
-                    <span
-                      key={key}
-                      className="dnb-drawer-list__option__item--highlight"
-                    >
-                      {token}
-                    </span>
-                  )
-                }
-
-                return token
               })
 
-              result = <span key={cacheHash + idx}>{parts}</span>
-            } else {
-              result = <span key={cacheHash + idx}>{segment}</span>
-            }
+              let result: React.ReactNode = segment
 
-            if (isComponent) {
-              if (Array.isArray(originalChild?.props?.children)) {
-                result = originalChild.props.children.map((Comp) => {
-                  return Comp === originalChild ||
-                    (Comp.props && Comp.props.children === originalChild)
-                    ? result
-                    : Comp
+              if (segment.includes(strS)) {
+                const startRepeatRegex = new RegExp(`(${strS})+`, 'g')
+                const endRepeatRegex = new RegExp(`(${strE})+`, 'g')
+                const adjacentRegex = new RegExp(`(${strE}${strS})`, 'g')
+                const splitRegex = new RegExp(`(${strS}|${strE})`, 'g')
+
+                const normalized = segment
+                  .replace(startRepeatRegex, strS)
+                  .replace(endRepeatRegex, strE)
+                  .replace(adjacentRegex, '')
+
+                const tokens = normalized.split(splitRegex).filter(Boolean)
+
+                let isHighlighted = false
+                let highlightIndex = 0
+                const parts = tokens.map((token) => {
+                  if (token === strS) {
+                    isHighlighted = true
+                    return null
+                  }
+                  if (token === strE) {
+                    isHighlighted = false
+                    return null
+                  }
+
+                  if (isHighlighted) {
+                    const key = `highlight-${cacheHash}-${idx}-${highlightIndex++}`
+                    return (
+                      <span
+                        key={key}
+                        className="dnb-drawer-list__option__item--highlight"
+                      >
+                        {token}
+                      </span>
+                    )
+                  }
+
+                  return token
                 })
-              } else if (typeof originalChild === 'string') {
-                result = originalChild
+
+                result = <span key={cacheHash + idx}>{parts}</span>
+              } else {
+                result = <span key={cacheHash + idx}>{segment}</span>
               }
 
-              if (
-                React.isValidElement<Record<string, unknown>>(
-                  originalChild
-                )
-              ) {
-                result = React.createElement(
-                  originalChild.type as React.ComponentType<any>,
-                  {
-                    ...originalChild.props,
-                    key: 'clone' + cacheHash + idx,
-                  },
-                  result
-                )
+              if (isComponent) {
+                const element = originalChild as React.ReactElement<{
+                  children?: React.ReactNode | React.ReactNode[]
+                }>
+                if (Array.isArray(element?.props?.children)) {
+                  result = element.props.children.map(
+                    (Comp: React.ReactNode) => {
+                      const compEl = Comp as React.ReactElement<{
+                        children?: React.ReactNode
+                      }>
+                      return Comp === originalChild ||
+                        (compEl.props &&
+                          compEl.props.children === originalChild)
+                        ? result
+                        : Comp
+                    }
+                  )
+                } else if (typeof originalChild === 'string') {
+                  result = originalChild
+                }
+
+                if (
+                  React.isValidElement<Record<string, unknown>>(
+                    originalChild
+                  )
+                ) {
+                  result = React.createElement(
+                    originalChild.type as React.ComponentType<any>,
+                    {
+                      ...originalChild.props,
+                      key: 'clone' + cacheHash + idx,
+                    },
+                    result
+                  )
+                }
               }
+
+              return result
             }
+          )
 
-            return result
-          })
-
-          return (cacheMemoryRef.current[cacheHash] = children)
+          return (cacheMemoryRef.current[cacheHash] = processed)
         }
 
         if (skipFilterRef.current || skipFilter) {
@@ -1344,22 +1383,21 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       })
 
       if (!skipFilterRef.current && !skipFilter) {
-        currentSearchIndex = currentSearchIndex.filter(
+        type ScoredItem = { totalScore: number; item: SearchIndexItem }
+        const scored = (mappedIndex as ScoredItem[]).filter(
           ({ totalScore }) => totalScore
         )
 
         if (!skipReorderRef.current && !skipReorder) {
-          currentSearchIndex = currentSearchIndex.sort(
-            ({ totalScore: a }, { totalScore: b }) => b - a
-          )
+          scored.sort(({ totalScore: a }, { totalScore: b }) => b - a)
         }
 
-        currentSearchIndex = currentSearchIndex.map(
+        return scored.map(
           ({ item }) => item.dataItem
-        )
+        ) as DrawerListInternalData
       }
 
-      return currentSearchIndex
+      return mappedIndex as DrawerListInternalData
     },
     [
       setSearchIndex,
@@ -1395,7 +1433,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
       setDisableHighlighting(false)
 
-      let data = runFilter(value, options)
+      let data: DrawerListInternalData = runFilter(value, options)
 
       if (fillDataIfEmpty && data.length === 0 && value === '') {
         data = drawerListRef.current.originalData
@@ -1424,7 +1462,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         skipReorder?: boolean
       } = {}
     ) => {
-      const data = runFilter(value, options)
+      const data: DrawerListInternalData = runFilter(value, options)
       const count = countData(data)
 
       if (value?.length > 0) {
@@ -1440,7 +1478,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
           if (count === 1) {
             drawerList.setState({
-              activeItem: data[0].__id,
+              activeItem: (data[0] as DrawerListInternalItem).__id,
             })
           }
         }
@@ -1623,7 +1661,8 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
               const typed = typedInputValueRef.current
 
               if (typed?.length > 0) {
-                const filteredData = runFilterWithSideEffects(typed)
+                const filteredData: DrawerListInternalData =
+                  runFilterWithSideEffects(typed)
                 if (countData(filteredData) === 0) {
                   if (modeRef.current !== 'async') {
                     showNoOptionsItem()
@@ -1801,7 +1840,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         showAll()
       }
 
-      const { value } = e.target
+      const { value } = e.target as HTMLInputElement
       setVisibleByContext({ value })
     },
     [
@@ -1854,9 +1893,9 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   )
 
   const reserveActivityHandler = useCallback(
-    (event: React.KeyboardEvent | React.MouseEvent = null) => {
+    (event: React.KeyboardEvent | React.MouseEvent) => {
       preventFiringBlurEvent.current = Boolean(
-        event.key === 'Enter' ||
+        ('key' in event && event.key === 'Enter') ||
           (event?.currentTarget
             ? getClosestParent('dnb-drawer-list', event.currentTarget) ||
               getClosestParent(
@@ -1995,7 +2034,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
   const onSelectHandler = useCallback(
     (args: { activeItem: string | number; [key: string]: unknown }) => {
-      if (parseFloat(args.activeItem) > -1) {
+      if (parseFloat(String(args.activeItem)) > -1) {
         dispatchCustomElementEvent(props, 'onSelect', {
           ...args,
           ...getEventObjects('onSelect'),
@@ -2019,7 +2058,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         showAll()
 
         const activeItem = data.lastActiveItem
-        if (parseFloat(activeItem) > -1) {
+        if (parseFloat(String(activeItem)) > -1) {
           drawerList.setActiveItemAndScrollToIt(activeItem, {
             scrollTo: false,
           })
@@ -2273,7 +2312,8 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     disabled,
     status: status ? statusState : null,
     onKeyDown: onTriggerKeyDownHandler,
-    onSubmit: toggleVisible,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onSubmit: toggleVisible as any as SubmitButtonProps['onSubmit'],
     onMouseDown: reserveActivityHandler,
     'aria-haspopup': 'listbox' as const,
     'aria-expanded': isExpanded,
@@ -2372,7 +2412,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
           srOnly={labelSrOnly}
           disabled={disabled}
           skeleton={skeleton}
-          onClick={toggleVisible}
+          onClick={toggleVisible as unknown as React.MouseEventHandler}
         />
       )}
 
