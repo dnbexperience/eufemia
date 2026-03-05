@@ -29,7 +29,7 @@ const PaginationProvider = (props: any) => {
   const computeDerived = useCallback(() => {
     const state: Record<string, unknown> = {}
 
-    if (props.pageCount !== null) {
+    if (props.pageCount != null) {
       state.pageCountInternal = parseFloat(props.pageCount) || 1
     }
 
@@ -59,7 +59,7 @@ const PaginationProvider = (props: any) => {
 
   const [currentPageInternal, setCurrentPageInternal] = useState<number>(
     () => {
-      if (props.currentPage !== null) {
+      if (props.currentPage != null) {
         return parseFloat(props.currentPage) || 1
       }
       return undefined as unknown as number
@@ -70,7 +70,7 @@ const PaginationProvider = (props: any) => {
     return (
       parseFloat(props.startupPage) ||
       parseFloat(props.currentPage) ||
-      (props.currentPage !== null
+      (props.currentPage != null
         ? parseFloat(props.currentPage) || 1
         : undefined)
     )
@@ -445,7 +445,7 @@ const PaginationProvider = (props: any) => {
   // ---- Sync currentPage prop to currentPageInternal ----
   useLayoutEffect(() => {
     if (
-      props.currentPage !== null &&
+      props.currentPage != null &&
       typeof currentPageInternalRef.current === 'undefined'
     ) {
       setCurrentPageInternal(parseFloat(props.currentPage) || 1)
@@ -642,20 +642,5 @@ const PaginationProvider = (props: any) => {
 }
 
 const MemoizedPaginationProvider = React.memo(PaginationProvider)
-
-;(MemoizedPaginationProvider as any).defaultProps = {
-  startupPage: null,
-  currentPage: null,
-  pageCount: null,
-  setContentHandler: null,
-  resetContentHandler: null,
-  resetPaginationHandler: null,
-  endInfinityHandler: null,
-  rerender: null,
-  store: null,
-  useMarkerOnly: null,
-  internalContent: null,
-  children: null,
-}
 
 export default MemoizedPaginationProvider
