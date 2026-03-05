@@ -791,8 +791,6 @@ function Dropdown({ ref, buttonRef, ...props }: DropdownAllProps) {
   )
 }
 
-Dropdown.defaultProps = dropdownDefaultProps
-
 Dropdown.HorizontalItem = DrawerList.HorizontalItem
 Dropdown._formElement = true
 Dropdown._supportsSpacingProps = true
