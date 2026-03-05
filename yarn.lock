@@ -4473,7 +4473,7 @@ __metadata:
     stylelint: "npm:15.9.0"
     stylelint-config-recommended: "npm:12.0.0"
     stylelint-config-standard-scss: "npm:9.0.0"
-    svgo: "npm:3.0.0"
+    svgo: "npm:3.3.3"
     tar: "npm:6.1.11"
     traverse: "npm:0.6.6"
     tsdown: "npm:0.14.2"
@@ -33826,6 +33826,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"sax@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "sax@npm:1.5.0"
+  checksum: 10/9012ff37dda7a7ac5da45db2143b04036103e8bef8d586c3023afd5df6caf0ebd7f38017eee344ad2e2247eded7d38e9c42cf291d8dd91781352900ac0fd2d9f
+  languageName: node
+  linkType: hard
+
 "saxes@npm:^6.0.0":
   version: 6.0.0
   resolution: "saxes@npm:6.0.0"
@@ -35958,19 +35965,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svgo@npm:3.0.0":
-  version: 3.0.0
-  resolution: "svgo@npm:3.0.0"
+"svgo@npm:3.3.3":
+  version: 3.3.3
+  resolution: "svgo@npm:3.3.3"
   dependencies:
-    "@trysound/sax": "npm:0.2.0"
     commander: "npm:^7.2.0"
     css-select: "npm:^5.1.0"
-    css-tree: "npm:^2.2.1"
+    css-tree: "npm:^2.3.1"
+    css-what: "npm:^6.1.0"
     csso: "npm:^5.0.5"
     picocolors: "npm:^1.0.0"
+    sax: "npm:^1.5.0"
   bin:
     svgo: ./bin/svgo
-  checksum: 10/1f63df9cfc81d6c2a7c01a70b3d2fb8dd620283e495df930c3d556eec78dfca0c074a4eb9b0cee6ec46be4830eb641310d82dd5935c85a82966d31cd7de5d30c
+  checksum: 10/f3c1b4d05d1704483e53515d5995af5f06a2718df85e3a8320f57bb256b8dc926b84c87a1a9b98e9d3ca1224314cc0676a803bdd03163508292f2d45c7077096
   languageName: node
   linkType: hard
 
