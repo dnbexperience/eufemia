@@ -1,20 +1,24 @@
 /**
  * Web Textarea Component
- *
- * This is a legacy component.
- * For referencing while developing new features, please use a Functional component.
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
-import React from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import clsx from 'clsx'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import TextCounter from '../../fragments/text-counter/TextCounter'
 import {
   makeUniqueId,
-  extendPropsWithContextInClassComponent,
+  extendPropsWithContext,
+  removeUndefinedProps,
   validateDOMAttributes,
   processChildren,
   getStatusState,
@@ -174,554 +178,515 @@ export type TextareaProps = Omit<
     ref?: React.Ref<HTMLTextAreaElement> | null
   }
 
-type TextareaComponentState = {
-  textareaState: string
-  value: string | null
-  _value: string | undefined
+const textareaDefaultProps = {
+  value: 'initval',
+  statusState: 'error',
+  readOnly: false,
+}
+
+function hasValue(value: string | number | null | undefined) {
+  return (
+    ((typeof value === 'string' || typeof value === 'number') &&
+      String(value).length > 0) ||
+    false
+  )
+}
+
+function getValue(props: TextareaProps) {
+  const value = processChildren(props)
+  if (value === '' || hasValue(value)) {
+    return value
+  }
+  return props.value
+}
+
+function getResizeModifier() {
+  try {
+    if (typeof navigator !== 'undefined') {
+      if (
+        /Firefox|Edg/.test(navigator.userAgent) ||
+        (/Chrome/.test(navigator.userAgent) &&
+          /Win/.test(navigator.platform))
+      ) {
+        return 'large'
+      }
+
+      if (
+        /Safari|Chrome/.test(navigator.userAgent) &&
+        /Mac/.test(navigator.platform)
+      ) {
+        return 'medium'
+      }
+    }
+  } catch (error) {
+    console.error(error)
+  }
+
+  return false
 }
 
 /**
  * The textarea component is an umbrella component for all textareas which share the same style as the classic `text` textarea field.
  */
-class TextareaClass extends React.PureComponent<
-  TextareaProps,
-  TextareaComponentState
-> {
-  static contextType = Context
-  context!: React.ContextType<typeof Context>
+function TextareaComponent(
+  ownProps: TextareaProps,
+  ref: React.Ref<HTMLTextAreaElement>
+) {
+  const context = useContext(Context)
 
-  _ref: React.RefObject<HTMLTextAreaElement | null>
-  _id: string
-  _heightOffset: number | undefined
-  resizeModifier: string | false
-  resizeObserver: ResizeObserver | null
+  const props = extendPropsWithContext(
+    {
+      ...textareaDefaultProps,
+      ...removeUndefinedProps({ ...ownProps }),
+    },
+    textareaDefaultProps,
+    { skeleton: context?.skeleton },
+    (context.getTranslation(ownProps) as Record<string, unknown>)
+      ?.Textarea as Record<string, unknown>,
+    pickFormElementProps(context?.formElement),
+    (context as Record<string, unknown>)?.Textarea as Record<
+      string,
+      unknown
+    >
+  )
 
-  static defaultProps = {
-    value: 'initval',
-    id: null,
-    label: null,
-    labelDirection: null,
-    labelSrOnly: null,
-    status: null,
-    textareaState: null,
-    statusState: 'error',
-    statusProps: null,
-    statusNoAnimation: null,
-    globalStatus: null,
-    suffix: null,
-    placeholder: null,
-    keepPlaceholder: null,
-    align: null,
-    size: null,
-    stretch: null,
-    disabled: null,
-    skeleton: null,
-    autoResize: null,
-    autoResizeMaxRows: null,
-    characterCounter: null,
-    textareaClass: null,
-    readOnly: false,
-    rows: null,
-    cols: null,
-    ref: null,
+  const {
+    label,
+    labelDirection,
+    labelSrOnly,
+    status,
+    statusState,
+    statusProps,
+    statusNoAnimation,
+    globalStatus,
+    suffix,
+    disabled,
+    skeleton,
+    stretch,
+    placeholder,
+    keepPlaceholder,
+    align,
+    size,
+    textareaClass,
+    readOnly,
+    className,
+    autoResize,
+    characterCounter,
+    autoResizeMaxRows,
+    id: _id,
+    children: _children,
+    value: _value,
+    textareaElement: _textareaElement,
+    ref: _ref,
+    ...attributes
+  } = props
 
-    className: null,
-    textareaElement: null,
-    children: null,
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
-    onChange: null,
-    onFocus: null,
-    onBlur: null,
-    onKeyDown: null,
-  }
-
-  static getDerivedStateFromProps(
-    props: TextareaProps,
-    state: TextareaComponentState
-  ) {
-    const value = TextareaClass.getValue(props)
-    if (
-      value !== 'initval' &&
-      value !== state.value &&
-      value !== state._value
-    ) {
-      state.value = value
-    }
-    if (props.textareaState) {
-      state.textareaState = props.textareaState
-    }
-    state._value = props.value
-    return state
-  }
-
-  static hasValue(value: string | number | null | undefined) {
-    return (
-      ((typeof value === 'string' || typeof value === 'number') &&
-        String(value).length > 0) ||
-      false
-    )
-  }
-
-  static getValue(props: TextareaProps) {
-    const value = processChildren(props)
-    if (value === '' || TextareaClass.hasValue(value)) {
-      return value
-    }
-    return props.value
-  }
-
-  state = {
-    textareaState: 'virgin',
-    value: null,
-    _value: null,
-  }
-
-  constructor(props: TextareaProps) {
-    super(props)
-
-    this._ref = React.createRef()
-    this._id = props.id || makeUniqueId() // cause we need an id anyway
-
-    if (props.textareaState) {
-      this.state.textareaState = props.textareaState
-    }
-
-    try {
-      if (typeof navigator !== 'undefined') {
-        this.resizeModifier =
-          /Firefox|Edg/.test(navigator.userAgent) ||
-          (/Chrome/.test(navigator.userAgent) &&
-            /Win/.test(navigator.platform))
-            ? 'large'
-            : false
-
-        if (!this.resizeModifier) {
-          this.resizeModifier =
-            /Safari|Chrome/.test(navigator.userAgent) &&
-            /Mac/.test(navigator.platform)
-              ? 'medium'
-              : false
-        }
-      }
-    } catch (error) {
-      console.error(error)
-    }
-  }
-  componentDidMount() {
-    const props = this.getProps()
-
-    if (props.autoResize && typeof window !== 'undefined') {
-      this.setAutosize()
-      try {
-        // eslint-disable-next-line compat/compat
-        this.resizeObserver = new ResizeObserver((entries) => {
-          window.requestAnimationFrame(() => {
-            if (!Array.isArray(entries) || !entries.length) {
-              return
-            }
-            this.setAutosize()
-          })
-        })
-        this.resizeObserver.observe(document.body)
-      } catch (e) {
-        window.addEventListener('resize', this.setAutosize)
-      }
-    }
-  }
-  componentWillUnmount() {
-    if (this.resizeObserver) {
-      this.resizeObserver.disconnect()
-      this.resizeObserver = null
-    }
-    if (typeof window !== 'undefined') {
-      window.removeEventListener('resize', this.setAutosize)
-    }
-  }
-  onFocusHandler = (event: React.FocusEvent<HTMLTextAreaElement>) => {
-    const { value } = this._ref.current
-    this.setState({
-      value,
-      textareaState: 'focus',
-    })
-    dispatchCustomElementEvent(this, 'onFocus', { value, event })
-  }
-  onBlurHandler = (event: React.FocusEvent<HTMLTextAreaElement>) => {
-    const { value } = event.target
-    this.setState({
-      value,
-      textareaState: TextareaClass.hasValue(value) ? 'dirty' : 'initial',
-    })
-    dispatchCustomElementEvent(this, 'onBlur', { value, event })
-  }
-  onChangeHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { value } = event.target
-
-    const props = this.getProps()
-    const autoResize = props.autoResize
-
-    if (autoResize) {
-      this.prepareAutosize()
-    }
-
-    const rows = this.getRows()
-
-    const ret = dispatchCustomElementEvent(this, 'onChange', {
-      value,
-      rows,
-      event,
-    })
-    if (ret !== false) {
-      this.setState({ value })
-      if (autoResize) {
-        this.setAutosize(rows)
-      }
-    }
-  }
-  onKeyDownHandler = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    const rows = this.getRows()
-    const { value } = event.target as HTMLTextAreaElement
-    dispatchCustomElementEvent(this, 'onKeyDown', {
-      value,
-      rows,
-      event,
-    })
-  }
-  prepareAutosize = () => {
-    const elem = this._ref.current
-    if (!elem) {
-      return // stop here if no element was gotten
-    }
-    try {
-      elem.style.height = 'auto'
-    } catch (e) {
-      warn(e)
-    }
-  }
-  setAutosize = (rows = null) => {
-    const elem = this._ref.current
-    if (!elem) {
-      return // stop here if no element was gotten
-    }
-    try {
-      if (typeof this._heightOffset === 'undefined') {
-        this._heightOffset = elem.offsetHeight - elem.clientHeight
-      }
-
-      elem.style.height = 'auto'
-
-      // get rows after we set height to auto, this way we get 100% correct rows
-      const lineHeight = this.getLineHeight()
-      let newHeight = elem.scrollHeight + this._heightOffset
-      if (!rows) {
-        rows = this.getRows()
-      }
-
-      if (rows === 1) {
-        if (newHeight > lineHeight) {
-          newHeight = lineHeight
-        }
-      }
-
-      const props = this.getProps()
-      const maxRows = parseFloat(String(props.autoResizeMaxRows))
-      if (maxRows > 0) {
-        const maxHeight = maxRows * lineHeight
-
-        if (rows > maxRows || newHeight > maxHeight) {
-          newHeight = maxHeight
-        }
-      }
-
-      elem.style.height = newHeight + 'px'
-    } catch (e) {
-      warn(e)
-    }
-  }
-  getRows() {
-    return (
-      Math.floor(this._ref.current.scrollHeight / this.getLineHeight()) ||
-      1
-    )
-  }
-  getLineHeight() {
-    return parseFloat(getComputedStyle(this._ref.current).lineHeight) || 0
-  }
-  getProps() {
-    return extendPropsWithContextInClassComponent(
-      this.props,
-      TextareaClass.defaultProps,
-      { skeleton: this.context?.skeleton },
-      (this.context.getTranslation(this.props) as Record<string, unknown>)
-        ?.Textarea as Record<string, unknown>,
-      pickFormElementProps(this.context?.formElement),
-      (this.context as Record<string, unknown>)?.Textarea as Record<
-        string,
-        unknown
-      >
-    )
-  }
-  render() {
-    // use only the props from context, who are available here anyway
-    const props = this.getProps()
-
-    const {
-      label,
-      labelDirection,
-      labelSrOnly,
-      status,
-      statusState,
-      statusProps,
-      statusNoAnimation,
-      globalStatus,
-      suffix,
-      disabled,
-      skeleton,
-      stretch,
-      placeholder,
-      keepPlaceholder,
-      align,
-      size,
-      textareaClass,
-      readOnly,
-      className,
-      autoResize,
-      characterCounter,
-      autoResizeMaxRows,
-      id: _id,
-      children,
-      value: _value,
-      textareaElement: _textareaElement,
-      ref: _ref,
-
-      ...attributes
-    } = props
-
-    const { value, textareaState } = this.state
-
-    const id = this._id
-    const showStatus = getStatusState(status)
-    const hasValue = TextareaClass.hasValue(value)
-
-    // pass along all props we wish to have as params
-    let { textareaElement: TextareaElement } = props
-
-    const textareaParams: React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
-      'aria-describedby'?: string
-      [key: string]: unknown
-    } = {
-      className: clsx(
-        'dnb-textarea__textarea',
-        'dnb-input__border',
-        textareaClass
-      ),
-      role: 'textbox',
-      value: hasValue ? value : '',
-      id,
-      name: id,
-      disabled: disabled || skeleton,
-      'aria-placeholder': placeholder
-        ? convertJsxToString(placeholder)
-        : undefined,
-      ...(attributes as unknown as React.TextareaHTMLAttributes<HTMLTextAreaElement>),
-      ...(typeof size === 'number' ? { size } : {}),
-      onChange: this.onChangeHandler,
-      onFocus: this.onFocusHandler,
-      onBlur: this.onBlurHandler,
-      // onPaste: this.onChangeHandler,
-      onKeyDown: this.onKeyDownHandler,
-    }
-
-    // we may consider using: aria-details
-    if (showStatus || suffix) {
-      textareaParams['aria-describedby'] = combineDescribedBy(
-        textareaParams,
-        showStatus ? id + '-status' : null,
-        suffix ? id + '-suffix' : null
-      )
-    }
-    if (readOnly) {
-      textareaParams['aria-readonly'] = textareaParams.readOnly = true
-    }
-
-    const mainParams = {
-      className: clsx(
-        'dnb-textarea',
-        `dnb-textarea--${textareaState}`,
-        disabled && 'dnb-textarea--disabled',
-        hasValue && 'dnb-textarea--has-content',
-        align && `dnb-textarea__align--${align}`,
-        typeof size === 'string' && `dnb-textarea__size--${size}`,
-        status && `dnb-textarea__status--${statusState}`,
-        autoResize && 'dnb-textarea__autoresize',
-        !autoResize &&
-          this.resizeModifier &&
-          `dnb-textarea__resize--${this.resizeModifier}`,
-        labelDirection && `dnb-textarea--${labelDirection}`,
-        stretch && `dnb-textarea--stretch`,
-        keepPlaceholder && `dnb-textarea--keep-placeholder`,
-        'dnb-form-component',
-        createSkeletonClass(null, skeleton),
-        createSpacingClasses(props),
-        className
-      ),
-    }
-
-    const innerParams = {
-      className: clsx(
-        'dnb-textarea__inner',
-        createSkeletonClass('shape', skeleton, this.context)
-      ),
-    }
-
-    const shellParams = {
-      className: clsx('dnb-textarea__shell'),
-    }
-
-    if (disabled || skeleton) {
-      shellParams['aria-disabled'] = true
-    }
-
-    // to show the ending dots on a placeholder, if the text is longer
-    const placeholderStyle =
-      parseFloat(String(props.rows)) > 0
-        ? {
-            '--textarea-rows': parseFloat(String(props.rows)),
-          }
-        : null
-
-    skeletonDOMAttributes(innerParams, skeleton, this.context)
-
-    // also used for code markup simulation
-    validateDOMAttributes(this.props, textareaParams)
-    validateDOMAttributes(null, innerParams)
-    validateDOMAttributes(null, shellParams)
-
-    if (TextareaElement && typeof TextareaElement === 'function') {
-      TextareaElement = TextareaElement(textareaParams, this._ref)
-    } else if (!TextareaElement && _textareaElement) {
-      TextareaElement = _textareaElement
-    }
-
-    return (
-      <span {...mainParams}>
-        {label && (
-          <FormLabel
-            id={id + '-label'}
-            forId={id}
-            text={label}
-            labelDirection={labelDirection}
-            srOnly={labelSrOnly}
-            disabled={disabled}
-            skeleton={skeleton}
-          />
-        )}
-
-        <span {...innerParams}>
-          <AlignmentHelper />
-
-          <FormStatus
-            show={showStatus}
-            id={id + '-form-status'}
-            globalStatus={globalStatus}
-            label={label}
-            textId={id + '-status'} // used for "aria-describedby"
-            text={status}
-            state={statusState}
-            noAnimation={statusNoAnimation}
-            skeleton={skeleton}
-            {...statusProps}
-          />
-
-          <span className="dnb-textarea__row">
-            <span {...shellParams}>
-              {(TextareaElement as React.ReactNode) || (
-                <textarea ref={this._ref} {...textareaParams} />
-              )}
-
-              {!hasValue &&
-                placeholder &&
-                (textareaState !== 'focus' || keepPlaceholder) && (
-                  <span
-                    className={clsx(
-                      'dnb-textarea__placeholder',
-                      align ? `dnb-textarea__align--${align}` : null
-                    )}
-                    style={placeholderStyle as React.CSSProperties}
-                    aria-hidden
-                  >
-                    {placeholder}
-                  </span>
-                )}
-
-              <span className="dnb-textarea__state" />
-            </span>
-
-            {suffix && (
-              <Suffix
-                className="dnb-textarea__suffix"
-                id={id + '-suffix'} // used for "aria-describedby"
-                context={props}
-              >
-                {suffix as React.ReactNode}
-              </Suffix>
-            )}
-          </span>
-
-          {characterCounter && (
-            <TextCounter
-              top="x-small"
-              text={value}
-              max={characterCounter as number}
-              lang={props.lang}
-              locale={props.locale}
-              {...(typeof characterCounter === 'object'
-                ? characterCounter
-                : {})}
-            />
-          )}
-        </span>
-      </span>
-    )
-  }
-}
-
-export type TextareaStaticProperties = ComponentMarkers & {
-  hasValue: typeof TextareaClass.hasValue
-  getValue: typeof TextareaClass.getValue
-}
-
-/**
- * Function wrapper that forwards `ref` to the inner DOM element of the class component.
- */
-function Textarea({ ref, ...props }: TextareaProps) {
-  const instanceRef = React.useCallback(
-    (instance: TextareaClass | null) => {
-      const el = instance?._ref?.current ?? null
+  const combinedRef = useCallback(
+    (node: HTMLTextAreaElement | null) => {
+      textareaRef.current = node
       if (typeof ref === 'function') {
-        ref(el)
+        ref(node)
       } else if (ref) {
-        ref.current = el
+        ;(
+          ref as React.MutableRefObject<HTMLTextAreaElement | null>
+        ).current = node
       }
     },
     [ref]
   )
 
+  const id = useMemo(
+    () => ownProps.id || makeUniqueId(),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  )
+
+  const resizeModifier = useMemo(() => getResizeModifier(), [])
+  const heightOffsetRef = useRef<number | undefined>(undefined)
+  const resizeObserverRef = useRef<ResizeObserver | null>(null)
+
+  const propValue = getValue(ownProps)
+  const prevValuePropRef = useRef(propValue)
+  const [value, setValue] = useState<string | null>(() => {
+    if (propValue !== 'initval' && propValue !== null) {
+      return propValue as string
+    }
+    return null
+  })
+  const [textareaState, setTextareaState] = useState(() => {
+    return ownProps.textareaState || 'virgin'
+  })
+
+  // Sync value from props (getDerivedStateFromProps equivalent)
+  if (
+    propValue !== 'initval' &&
+    propValue !== value &&
+    propValue !== prevValuePropRef.current
+  ) {
+    setValue(propValue as string)
+  }
+  prevValuePropRef.current = propValue
+
+  // Sync textareaState from props
+  if (ownProps.textareaState && ownProps.textareaState !== textareaState) {
+    setTextareaState(ownProps.textareaState)
+  }
+
+  const getLineHeight = useCallback(() => {
+    return (
+      parseFloat(getComputedStyle(textareaRef.current).lineHeight) || 0
+    )
+  }, [])
+
+  const getRows = useCallback(() => {
+    return (
+      Math.floor(textareaRef.current.scrollHeight / getLineHeight()) || 1
+    )
+  }, [getLineHeight])
+
+  const prepareAutosize = useCallback(() => {
+    const elem = textareaRef.current
+    if (!elem) {
+      return // stop here
+    }
+    try {
+      elem.style.height = 'auto'
+    } catch (e) {
+      warn(e)
+    }
+  }, [])
+
+  const setAutosize = useCallback(
+    (rows: number | null = null) => {
+      const elem = textareaRef.current
+      if (!elem) {
+        return // stop here
+      }
+      try {
+        if (typeof heightOffsetRef.current === 'undefined') {
+          heightOffsetRef.current = elem.offsetHeight - elem.clientHeight
+        }
+
+        elem.style.height = 'auto'
+
+        const lineHeight = getLineHeight()
+        let newHeight = elem.scrollHeight + heightOffsetRef.current
+        if (!rows) {
+          rows = getRows()
+        }
+
+        if (rows === 1) {
+          if (newHeight > lineHeight) {
+            newHeight = lineHeight
+          }
+        }
+
+        const maxRows = parseFloat(String(autoResizeMaxRows))
+        if (maxRows > 0) {
+          const maxHeight = maxRows * lineHeight
+
+          if (rows > maxRows || newHeight > maxHeight) {
+            newHeight = maxHeight
+          }
+        }
+
+        elem.style.height = newHeight + 'px'
+      } catch (e) {
+        warn(e)
+      }
+    },
+    [autoResizeMaxRows, getLineHeight, getRows]
+  )
+
+  const onFocusHandler = useCallback(
+    (event: React.FocusEvent<HTMLTextAreaElement>) => {
+      const { value } = textareaRef.current
+      setValue(value)
+      setTextareaState('focus')
+      dispatchCustomElementEvent(props, 'onFocus', { value, event })
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [props.onFocus]
+  )
+
+  const onBlurHandler = useCallback(
+    (event: React.FocusEvent<HTMLTextAreaElement>) => {
+      const { value } = event.target
+      setValue(value)
+      setTextareaState(hasValue(value) ? 'dirty' : 'initial')
+      dispatchCustomElementEvent(props, 'onBlur', { value, event })
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [props.onBlur]
+  )
+
+  const onChangeHandler = useCallback(
+    (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+      const { value } = event.target
+
+      if (autoResize) {
+        prepareAutosize()
+      }
+
+      const rows = getRows()
+
+      const ret = dispatchCustomElementEvent(props, 'onChange', {
+        value,
+        rows,
+        event,
+      })
+      if (ret !== false) {
+        setValue(value)
+        if (autoResize) {
+          setAutosize(rows)
+        }
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [autoResize, prepareAutosize, getRows, setAutosize, props.onChange]
+  )
+
+  const onKeyDownHandler = useCallback(
+    (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+      const rows = getRows()
+      const { value } = event.target as HTMLTextAreaElement
+      dispatchCustomElementEvent(props, 'onKeyDown', {
+        value,
+        rows,
+        event,
+      })
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [getRows, props.onKeyDown]
+  )
+
+  // Setup autoResize on mount
+  useEffect(() => {
+    if (autoResize && typeof window !== 'undefined') {
+      setAutosize()
+      try {
+        // eslint-disable-next-line compat/compat
+        const observer = new ResizeObserver((entries) => {
+          window.requestAnimationFrame(() => {
+            if (!Array.isArray(entries) || !entries.length) {
+              return
+            }
+            setAutosize()
+          })
+        })
+        observer.observe(document.body)
+        resizeObserverRef.current = observer
+      } catch (e) {
+        window.addEventListener('resize', setAutosize)
+      }
+    }
+
+    return () => {
+      if (resizeObserverRef.current) {
+        resizeObserverRef.current.disconnect()
+        resizeObserverRef.current = null
+      }
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', setAutosize)
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const showStatus = getStatusState(status)
+  const currentHasValue = hasValue(value)
+
+  let TextareaElement: TextareaTextareaElement = props.textareaElement
+
+  const textareaParams: React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
+    'aria-describedby'?: string
+    [key: string]: unknown
+  } = {
+    className: clsx(
+      'dnb-textarea__textarea',
+      'dnb-input__border',
+      textareaClass
+    ),
+    role: 'textbox',
+    value: currentHasValue ? value : '',
+    id,
+    name: id,
+    disabled: disabled || skeleton,
+    'aria-placeholder': placeholder
+      ? convertJsxToString(placeholder)
+      : undefined,
+    ...(attributes as unknown as React.TextareaHTMLAttributes<HTMLTextAreaElement>),
+    ...(typeof size === 'number' ? { size } : {}),
+    onChange: onChangeHandler,
+    onFocus: onFocusHandler,
+    onBlur: onBlurHandler,
+    onKeyDown: onKeyDownHandler,
+  }
+
+  if (showStatus || suffix) {
+    textareaParams['aria-describedby'] = combineDescribedBy(
+      textareaParams,
+      showStatus ? id + '-status' : null,
+      suffix ? id + '-suffix' : null
+    )
+  }
+  if (readOnly) {
+    textareaParams['aria-readonly'] = textareaParams.readOnly = true
+  }
+
+  const mainParams = {
+    className: clsx(
+      'dnb-textarea',
+      `dnb-textarea--${textareaState}`,
+      disabled && 'dnb-textarea--disabled',
+      currentHasValue && 'dnb-textarea--has-content',
+      align && `dnb-textarea__align--${align}`,
+      typeof size === 'string' && `dnb-textarea__size--${size}`,
+      status && `dnb-textarea__status--${statusState}`,
+      autoResize && 'dnb-textarea__autoresize',
+      !autoResize &&
+        resizeModifier &&
+        `dnb-textarea__resize--${resizeModifier}`,
+      labelDirection && `dnb-textarea--${labelDirection}`,
+      stretch && `dnb-textarea--stretch`,
+      keepPlaceholder && `dnb-textarea--keep-placeholder`,
+      'dnb-form-component',
+      createSkeletonClass(null, skeleton),
+      createSpacingClasses(props),
+      className
+    ),
+  }
+
+  const innerParams = {
+    className: clsx(
+      'dnb-textarea__inner',
+      createSkeletonClass('shape', skeleton, context)
+    ),
+  }
+
+  const shellParams: Record<string, unknown> = {
+    className: clsx('dnb-textarea__shell'),
+  }
+
+  if (disabled || skeleton) {
+    shellParams['aria-disabled'] = true
+  }
+
+  const placeholderStyle =
+    parseFloat(String(props.rows)) > 0
+      ? {
+          '--textarea-rows': parseFloat(String(props.rows)),
+        }
+      : null
+
+  skeletonDOMAttributes(innerParams, skeleton, context)
+
+  validateDOMAttributes(ownProps, textareaParams)
+  validateDOMAttributes(null, innerParams)
+  validateDOMAttributes(null, shellParams)
+
+  if (TextareaElement && typeof TextareaElement === 'function') {
+    TextareaElement = TextareaElement(textareaParams, textareaRef)
+  } else if (!TextareaElement && _textareaElement) {
+    TextareaElement = _textareaElement
+  }
+
   return (
-    <TextareaClass
-      ref={ref ? (instanceRef as any) : undefined}
-      {...props}
-    />
+    <span {...mainParams}>
+      {label && (
+        <FormLabel
+          id={id + '-label'}
+          forId={id}
+          text={label}
+          labelDirection={labelDirection}
+          srOnly={labelSrOnly}
+          disabled={disabled}
+          skeleton={skeleton}
+        />
+      )}
+
+      <span {...innerParams}>
+        <AlignmentHelper />
+
+        <FormStatus
+          show={showStatus}
+          id={id + '-form-status'}
+          globalStatus={globalStatus}
+          label={label}
+          textId={id + '-status'}
+          text={status}
+          state={statusState}
+          noAnimation={statusNoAnimation}
+          skeleton={skeleton}
+          {...statusProps}
+        />
+
+        <span className="dnb-textarea__row">
+          <span {...shellParams}>
+            {(TextareaElement as React.ReactNode) || (
+              <textarea ref={combinedRef} {...textareaParams} />
+            )}
+
+            {!currentHasValue &&
+              placeholder &&
+              (textareaState !== 'focus' || keepPlaceholder) && (
+                <span
+                  className={clsx(
+                    'dnb-textarea__placeholder',
+                    align ? `dnb-textarea__align--${align}` : null
+                  )}
+                  style={placeholderStyle as React.CSSProperties}
+                  aria-hidden
+                >
+                  {placeholder}
+                </span>
+              )}
+
+            <span className="dnb-textarea__state" />
+          </span>
+
+          {suffix && (
+            <Suffix
+              className="dnb-textarea__suffix"
+              id={id + '-suffix'}
+              context={props}
+            >
+              {suffix as React.ReactNode}
+            </Suffix>
+          )}
+        </span>
+
+        {characterCounter && (
+          <TextCounter
+            top="x-small"
+            text={value}
+            max={characterCounter as number}
+            lang={props.lang}
+            locale={props.locale}
+            {...(typeof characterCounter === 'object'
+              ? characterCounter
+              : {})}
+          />
+        )}
+      </span>
+    </span>
   )
 }
 
-const TextareaExport = Textarea as typeof Textarea &
-  TextareaStaticProperties
-TextareaExport.hasValue = TextareaClass.hasValue
-TextareaExport.getValue = TextareaClass.getValue
+TextareaComponent.displayName = 'Textarea'
 
-withComponentMarkers(TextareaExport, {
+const MemoizedTextarea = React.memo(
+  React.forwardRef(TextareaComponent)
+) as any
+
+MemoizedTextarea.hasValue = hasValue
+MemoizedTextarea.getValue = getValue
+
+withComponentMarkers(MemoizedTextarea, {
   _formElement: true,
   _supportsSpacingProps: true,
 })
 
-export default TextareaExport
+export default MemoizedTextarea
