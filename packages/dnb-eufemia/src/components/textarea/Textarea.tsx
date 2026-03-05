@@ -679,7 +679,16 @@ TextareaComponent.displayName = 'Textarea'
 
 const MemoizedTextarea = React.memo(
   React.forwardRef(TextareaComponent)
-) as any
+) as React.MemoExoticComponent<
+  React.ForwardRefExoticComponent<
+    TextareaProps & React.RefAttributes<HTMLTextAreaElement>
+  >
+> & {
+  hasValue: typeof hasValue
+  getValue: typeof getValue
+  _formElement: boolean
+  _supportsSpacingProps: boolean
+}
 
 MemoizedTextarea.hasValue = hasValue
 MemoizedTextarea.getValue = getValue
