@@ -429,10 +429,6 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     setInputState(restProps.inputState)
   }
 
-  if (restProps.clear && restProps.iconPosition === 'right') {
-    warn('You cannot have a clear button and iconPosition="right"')
-  }
-
   // Update input DOM value
   const updateInputValue = useCallback(() => {
     if (inputRef.current && !restProps.inputElement) {
@@ -446,9 +442,14 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   })
 
   useEffect(() => {
+    if (restProps.clear && restProps.iconPosition === 'right') {
+      warn('You cannot have a clear button and iconPosition="right"')
+    }
+
     return () => {
       clearTimeout(selectAllTimeoutRef.current)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const onFocusHandler = useCallback(
