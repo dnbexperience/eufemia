@@ -55,6 +55,7 @@ const modalDefaultProps = {
   noAnimation: false,
   noAnimationOnMobile: false,
   fullscreen: 'auto',
+  containerPlacement: null,
   alignContent: 'left',
   directDomReturn: false,
   omitTriggerButton: false,
