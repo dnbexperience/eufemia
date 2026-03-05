@@ -61,14 +61,20 @@ const setKeyboard = (fn: typeof userEvent.keyboard) => {
  * Repeat syntax like {Backspace>3} becomes ['{Backspace}', '{Backspace}', '{Backspace}'].
  */
 function expandKeySequence(sequence: string): string[] {
-  return (sequence.match(/\{[^}]*\}|./g) || []).flatMap((token) => {
+  const keys = sequence.match(/\{[^}]*\}|./g)
+  if (!keys) {
+    return []
+  }
+
+  return keys.flatMap((token) => {
     const repeatMatch = token.match(/^\{(.+?)>(\d+)\}$/)
-    return repeatMatch
-      ? Array.from(
-          { length: Number(repeatMatch[2]) },
-          () => `{${repeatMatch[1]}}`
-        )
-      : [token]
+    if (!repeatMatch) {
+      return [token]
+    }
+
+    const key = `{${repeatMatch[1]}}`
+    const count = Number(repeatMatch[2])
+    return Array(count).fill(key)
   })
 }
 
@@ -78,11 +84,11 @@ function expandKeySequence(sequence: string): string[] {
 const wrapKeyboard =
   (fn: typeof userEvent.keyboard) =>
   async (...args: Parameters<typeof userEvent.keyboard>) => {
-    const tokens = expandKeySequence(args[0])
+    const keys = expandKeySequence(args[0])
 
     let result: Awaited<ReturnType<typeof fn>> | undefined
-    for (const token of tokens) {
-      result = await fn(token)
+    for (const key of keys) {
+      result = await fn(key)
       await flushTimers()
     }
 
