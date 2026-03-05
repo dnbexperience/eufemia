@@ -36,11 +36,19 @@ const defaultProps: MultiInputMaskProps<'day' | 'month' | 'year'> = {
   ],
 }
 
+/**
+ * Flush requestAnimationFrame-based handlers in MultiInputMask (onFocus select-all,
+ * auto-advance caret scheduling, onBlur callback).
+ * Uses double-requestAnimationFrame to match the component's usage,
+ * then a setTimeout to let any queued microtasks and timers settle.
+ */
 const flushTimers = () =>
   new Promise<void>((resolve) => {
-    setTimeout(() => {
-      setTimeout(resolve, 0)
-    }, 0)
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        setTimeout(resolve, 0)
+      })
+    })
   })
 
 const originalKeyboard = userEvent.keyboard
@@ -57,6 +65,46 @@ const setUserEventMethod = <
     value: fn,
   })
 }
+
+/**
+ * Expands a userEvent.keyboard sequence into individual keystroke tokens.
+ * Repeat syntax like {Backspace>3} becomes ['{Backspace}', '{Backspace}', '{Backspace}'].
+ */
+function expandKeySequence(sequence: string): string[] {
+  return (sequence.match(/\{[^}]*\}|./g) || []).flatMap((token) => {
+    const repeat = token.match(/^\{(.+?)>(\d+)\}$/)
+    return repeat
+      ? Array.from({ length: Number(repeat[2]) }, () => `{${repeat[1]}}`)
+      : [token]
+  })
+}
+
+/**
+ * Wraps userEvent.keyboard to flush requestAnimationFrame-based handlers between keystrokes.
+ * Sequences with only special keys (e.g. {Shift>}{Tab}{/Shift}) are passed
+ * through as one call to preserve modifier state.
+ */
+const wrapKeyboard =
+  (fn: typeof userEvent.keyboard) =>
+  async (...args: Parameters<typeof userEvent.keyboard>) => {
+    const sequence = args[0]
+    const tokens = expandKeySequence(sequence)
+
+    // Pass through if only special keys (preserves modifier state)
+    if (tokens.every((t) => t.startsWith('{'))) {
+      const result = await fn(sequence)
+      await flushTimers()
+      return result
+    }
+
+    let result: Awaited<ReturnType<typeof fn>> | undefined
+    for (const token of tokens) {
+      result = await fn(token)
+      await flushTimers()
+    }
+
+    return result as Awaited<ReturnType<typeof fn>>
+  }
 
 const wrapWithFlush = <Fn extends (...args: any[]) => Promise<unknown>>(
   fn: Fn
@@ -81,7 +129,7 @@ describe('MultiInputMask', () => {
       clearTimeout(id)
       return id
     })
-    setUserEventMethod('keyboard', wrapWithFlush(originalKeyboard))
+    setUserEventMethod('keyboard', wrapKeyboard(originalKeyboard))
     setUserEventMethod('type', wrapWithFlush(originalType))
   })
 
@@ -432,7 +480,8 @@ describe('MultiInputMask', () => {
     await focusInput(first)
     await userEvent.keyboard('1a')
 
-    expect(first.value).toBe('1')
+    // With Maskito overwrite mode, unfilled positions show placeholder chars
+    expect(first.value).toBe('1n')
     expect(document.activeElement).toBe(first)
 
     await userEvent.keyboard('2')
@@ -594,7 +643,7 @@ describe('MultiInputMask', () => {
 
     expect(document.activeElement).toBe(third)
 
-    await userEvent.keyboard('{Backspace>4}')
+    await userEvent.keyboard('{Backspace>5}')
 
     await waitFor(() => {
       expect(document.activeElement).toBe(second)
@@ -605,7 +654,7 @@ describe('MultiInputMask', () => {
     await waitFor(() => {
       expect(document.activeElement).toBe(first)
     })
-    expect(first.value).toBe('')
+    expect(first.value).toBe('dd')
   })
 
   it('should not jump to next field until current is fully typed under rapid input', async () => {
@@ -659,18 +708,18 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    // Place caret at end of first input (selection collapses after ArrowRight)
+    // Focus day — onFocus selects all placeholder text
     await focusInput(day)
-    await userEvent.keyboard('{ArrowRight>2}')
 
+    // Type first digit — replaces selected placeholder, field not yet full
     await userEvent.keyboard('1')
 
-    // Still in day, caret at end
+    // Still in day, caret in middle (after first char)
     expect(document.activeElement).toBe(day)
-    expect(day.selectionStart).toBe(day.value.length)
-    expect(day.selectionEnd).toBe(day.value.length)
+    expect(day.selectionStart).toBe(1)
+    expect(day.selectionEnd).toBe(1)
 
-    // After second char, it should jump to month
+    // After second char, field is full and should auto-advance to month
     await userEvent.keyboard('2')
     expect(document.activeElement).toBe(month)
   })
@@ -946,9 +995,9 @@ describe('MultiInputMask', () => {
       } as any)
       // Allow the async navigation to take effect
       await new Promise((r) => setTimeout(r, 0))
-      // Should jump to previous (day) with caret at end
+      // Should jump to previous (day) — onFocus selects all
       expect(document.activeElement).toBe(day)
-      expect(day.selectionStart).toBe(day.value.length)
+      expect(day.selectionStart).toBe(0)
       expect(day.selectionEnd).toBe(day.value.length)
     } finally {
       spyAndroid.mockRestore()
@@ -1061,27 +1110,24 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    // Focus day; caret goes to position 0 for empty input
+    // Focus day; the whole input is selected
     await userEvent.click(day)
     expect(day.selectionStart).toBe(0)
+    expect(day.selectionEnd).toBe(2)
 
-    // First ArrowRight collapses selection to end when the whole field is selected
+    // First ArrowRight sets caret at end of input
     await userEvent.keyboard('{ArrowRight}')
     await new Promise((r) => setTimeout(r, 0))
     expect(document.activeElement).toBe(day)
     expect(day.selectionStart).toBe(day.value.length)
+    expect(day.selectionEnd).toBe(day.value.length)
 
-    // Second ArrowRight moves to 2 (end for day size=2)
-    await userEvent.keyboard('{ArrowRight}')
-    await new Promise((r) => setTimeout(r, 0))
-    expect(document.activeElement).toBe(day)
-    expect(day.selectionStart).toBe(2)
-
-    // Third ArrowRight crosses to next input (month) at position 0
+    // Second ArrowRight moves to next field (month) and selects all
     await userEvent.keyboard('{ArrowRight}')
     await new Promise((r) => setTimeout(r, 0))
     expect(document.activeElement).toBe(month)
     expect(month.selectionStart).toBe(0)
+    expect(month.selectionEnd).toBe(month.value.length)
   })
 
   it('ArrowLeft on empty field at position 0 moves to previous field (caret at start for empty input)', async () => {
@@ -1091,16 +1137,23 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    // Focus month; ensure caret at position 0 (empty)
+    // Focus month; onFocus selects all placeholder text
     await focusInput(month)
     expect(month.selectionStart).toBe(0)
+    expect(month.selectionEnd).toBe(month.value.length)
 
-    // ArrowLeft should jump to previous (day). For empty inputs, caret settles at start
+    // First ArrowLeft collapses selection to start
     await userEvent.keyboard('{ArrowLeft}')
     await new Promise((r) => setTimeout(r, 0))
+    expect(document.activeElement).toBe(month)
+    expect(month.selectionStart).toBe(0)
+    expect(month.selectionEnd).toBe(0)
 
+    // Second ArrowLeft at start navigates to previous field selecting all
+    await userEvent.keyboard('{ArrowLeft}')
+    await new Promise((r) => setTimeout(r, 0))
     expect(document.activeElement).toBe(day)
     expect(day.selectionStart).toBe(0)
-    expect(day.selectionEnd).toBe(0)
+    expect(day.selectionEnd).toBe(day.value.length)
   })
 })
