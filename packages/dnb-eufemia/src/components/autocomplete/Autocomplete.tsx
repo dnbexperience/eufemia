@@ -1,11 +1,8 @@
 /**
  * Web Autocomplete Component
- *
- * This is a legacy component.
- * For referencing while developing new features, please use a Functional component.
  */
 
-import React from 'react'
+import React, { useMemo } from 'react'
 import clsx from 'clsx'
 import type {
   DrawerListProps,
@@ -354,131 +351,122 @@ export type AutocompleteAllProps = AutocompleteProps &
     | 'onBlur'
   >
 
-export default class Autocomplete extends React.PureComponent<AutocompleteAllProps> {
-  static HorizontalItem: ({
-    children,
-  }: {
-    children: React.ReactNode
-  }) => React.JSX.Element
-  static _formElement: boolean
-  static _supportsSpacingProps: boolean
+const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
+  mode: AutocompleteMode
+} = {
+  id: null,
+  mode: 'sync',
+  title: 'Option Menu',
+  placeholder: null,
+  noOptions: null,
+  showAll: null,
+  ariaLiveOptions: null,
+  indicatorLabel: null,
+  showOptionsSr: null,
+  selectedSr: null,
+  submitButtonTitle: null,
+  submitButtonIcon: 'chevron_down',
+  inputRef: null,
+  icon: null,
+  iconSize: null,
+  iconPosition: 'left',
+  arrowPosition: null,
+  inputIcon: 'loupe',
+  label: null,
+  labelDirection: null,
+  labelSrOnly: null,
+  keepValue: null,
+  keepSelection: null,
+  keepValueAndSelection: null,
+  showClearButton: null,
+  status: null,
+  statusState: 'error',
+  statusProps: null,
+  statusNoAnimation: null,
+  globalStatus: null,
+  suffix: null,
+  disableFilter: false,
+  disableReorder: false,
+  scrollable: true,
+  focusable: false,
+  disableHighlighting: false,
+  maxHeight: null,
+  direction: 'auto',
+  skipPortal: null,
+  noAnimation: false,
+  noScrollAnimation: false,
+  showSubmitButton: false,
+  submitElement: null,
+  preventSelection: false,
+  size: 'default',
+  align: null,
+  optionsRender: null,
+  data: null,
+  searchInWordIndex: null,
+  searchNumbers: null,
+  defaultValue: null,
+  value: 'initval',
+  inputValue: 'initval',
+  autoComplete: 'off',
+  openOnFocus: false,
+  preventClose: false,
+  keepOpen: false,
+  open: null,
+  disabled: null,
+  stretch: null,
+  skeleton: null,
+  portalClass: null,
+  drawerClass: null,
+  pageOffset: null,
+  observerElement: null,
+  enableBodyLock: false,
 
-  _id: string
+  className: null,
+  children: null,
 
-  static defaultProps: Partial<AutocompleteAllProps> & {
-    mode: AutocompleteMode
-  } = {
-    id: null,
-    mode: 'sync',
-    title: 'Option Menu',
-    placeholder: null,
-    noOptions: null,
-    showAll: null,
-    ariaLiveOptions: null,
-    indicatorLabel: null,
-    showOptionsSr: null,
-    selectedSr: null,
-    submitButtonTitle: null,
-    submitButtonIcon: 'chevron_down',
-    inputRef: null,
-    icon: null,
-    iconSize: null,
-    iconPosition: 'left',
-    arrowPosition: null,
-    inputIcon: 'loupe',
-    label: null,
-    labelDirection: null,
-    labelSrOnly: null,
-    keepValue: null,
-    keepSelection: null,
-    keepValueAndSelection: null,
-    showClearButton: null,
-    status: null,
-    statusState: 'error',
-    statusProps: null,
-    statusNoAnimation: null,
-    globalStatus: null,
-    suffix: null,
-    disableFilter: false,
-    disableReorder: false,
-    scrollable: true,
-    focusable: false,
-    disableHighlighting: false,
-    maxHeight: null,
-    direction: 'auto',
-    skipPortal: null,
-    noAnimation: false,
-    noScrollAnimation: false,
-    showSubmitButton: false,
-    submitElement: null,
-    preventSelection: false,
-    size: 'default',
-    align: null,
-    optionsRender: null,
-    data: null,
-    searchInWordIndex: null,
-    searchNumbers: null,
-    defaultValue: null,
-    value: 'initval',
-    inputValue: 'initval',
-    autoComplete: 'off',
-    openOnFocus: false,
-    preventClose: false,
-    keepOpen: false,
-    open: null,
-    disabled: null,
-    stretch: null,
-    skeleton: null,
-    portalClass: null,
-    drawerClass: null,
-    pageOffset: null,
-    observerElement: null,
-    enableBodyLock: false,
-
-    className: null,
-    children: null,
-
-    onOpen: null,
-    onClose: null,
-    onType: null,
-    onFocus: null,
-    onBlur: null,
-    onChange: null,
-    onSelect: null,
-    onClear: null,
-    inputElement: null,
-  }
-
-  constructor(props: AutocompleteAllProps) {
-    super(props)
-
-    this._id = props.id || makeUniqueId()
-  }
-  render() {
-    const providerProps = {
-      ...this.props,
-      id: this._id,
-      data: this.props.data || this.props.children,
-      open: null,
-      tagName: 'dnb-autocomplete',
-      ignoreEvents: false,
-      preventFocus: true,
-      skipKeysearch: true,
-    } as Partial<DrawerListProps>
-
-    return (
-      <DrawerListProvider {...providerProps}>
-        <AutocompleteInstance {...this.props} id={this._id} />
-      </DrawerListProvider>
-    )
-  }
+  onOpen: null,
+  onClose: null,
+  onType: null,
+  onFocus: null,
+  onBlur: null,
+  onChange: null,
+  onSelect: null,
+  onClear: null,
+  inputElement: null,
 }
+
+function Autocomplete(props: AutocompleteAllProps) {
+  const _id = useMemo(
+    () => props.id || makeUniqueId(),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  )
+
+  const providerProps = {
+    ...props,
+    id: _id,
+    data: props.data || props.children,
+    open: null,
+    tagName: 'dnb-autocomplete',
+    ignoreEvents: false,
+    preventFocus: true,
+    skipKeysearch: true,
+  } as Partial<DrawerListProps>
+
+  return (
+    <DrawerListProvider {...providerProps}>
+      <AutocompleteInstance {...props} id={_id} />
+    </DrawerListProvider>
+  )
+}
+
+export default Autocomplete
 
 class AutocompleteInstance extends React.PureComponent<
   AutocompleteAllProps,
   Record<string, any>
 > {
-  static defaultProps = Autocomplete.defaultProps
+  static defaultProps = autocompleteDefaultProps
   static contextType = DrawerListContext
 
   context: React.ContextType<typeof DrawerListContext>
@@ -1971,7 +1959,7 @@ class AutocompleteInstance extends React.PureComponent<
     // use only the props from context, who are available here anyway
     const props = (this._props = extendPropsWithContextInClassComponent(
       this.props,
-      Autocomplete.defaultProps,
+      autocompleteDefaultProps,
       this.context.getTranslation?.(this.props)?.Autocomplete,
       pickFormElementProps(this.context?.formElement),
       (this.context as Record<string, unknown>)?.Autocomplete as Record<
