@@ -9,40 +9,20 @@ import React, {
 } from 'react'
 import pointer from '../utils/json-pointer'
 import type { ValidateFunction } from 'ajv/dist/2020.js'
-import {
-  errorChanged,
-  FormError,
-  isZodSchema,
-  createZodValidator,
-  zodErrorsToOneFormError,
-} from '../utils'
-import { ajvErrorsToOneFormError } from '../utils/ajvErrors'
-import { extendErrorMessagesWithTranslationMessages } from '../utils/errors'
+import { isZodSchema } from '../utils'
 import * as z from 'zod'
 import {
   FieldPropsGeneric,
   ProvideAdditionalEventArgs,
   SubmitState,
-  EventReturnWithStateObjectAndSuccess,
-  EventStateObjectWithSuccess,
-  ReceiveAdditionalEventArgs,
-  Validator,
   Identifier,
-  MessageProp,
-  MessageTypes,
-  MessagePropParams,
-  UseFieldProps,
   FieldStatus,
-  ErrorProp,
+  ReceiveAdditionalEventArgs,
 } from '../types'
 import { Context as DataContext, ContextState } from '../DataContext'
 import { clearedData } from '../DataContext/Provider/Provider'
 import FieldProviderContext from '../Field/Provider/FieldProviderContext'
-import {
-  combineDescribedBy,
-  convertJsxToString,
-  warn,
-} from '../../../shared/component-helper'
+import { combineDescribedBy, warn } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
 import FieldBlockContext, {
@@ -55,7 +35,6 @@ import VisibilityContext from '../Form/Visibility/VisibilityContext'
 import WizardContext from '../Wizard/Context'
 import WizardStepContext from '../Wizard/Step/StepContext'
 import SnapshotContext from '../Form/Snapshot/SnapshotContext'
-import useProcessManager from './useProcessManager'
 import usePath from './usePath'
 import SharedContext from '../../../shared/Context'
 import {
@@ -67,39 +46,13 @@ import { isAsync } from '../../../shared/helpers/isAsync'
 import useTranslation from './useTranslation'
 import useExternalValue from './useExternalValue'
 import useDataValue from './useDataValue'
+import useFieldTransform from './useFieldTransform'
+import type { TransformerFns } from './useFieldTransform'
+import useFieldError, { resolveValidatingState } from './useFieldError'
+import useFieldAsync from './useFieldAsync'
+import useFieldValidation from './useFieldValidation'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../shared/helpers/useIsomorphicLayoutEffect'
-
-type SubmitStateWithValidating = SubmitState | 'validating'
-type AsyncProcesses =
-  | 'onChangeValidator'
-  | 'onBlurValidator'
-  | 'onChangeLocal'
-  | 'onChangeContext'
-type PersistErrorStateMethod =
-  /**
-   * Add or remove the error regardless
-   */
-  | 'weak'
-  /**
-   * Check if there is an existing error, and if so, keep it
-   */
-  | 'gracefully'
-  /**
-   * Remove the error, if any
-   */
-  | 'wipe'
-type ErrorInitiator =
-  | 'required'
-  | 'schema'
-  | 'errorProp'
-  | 'onChangeValidator'
-  | 'onBlurValidator'
-  | 'dataContextError'
-type AsyncProcessesBuffer = {
-  resolve: () => void
-  validateProcesses: () => boolean
-}
 
 export type DataAttributes = {
   [property: `data-${string}`]: string | boolean | number
@@ -178,7 +131,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
      */
     isInternalRerenderRef.current = salt
   }, [salt])
-  const { startProcess } = useProcessManager()
   const id = useId(props.id)
   const dataContext = useContext(DataContext)
   const { locale: sharedLocale } = useContext(SharedContext) || {}
@@ -198,18 +150,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const { formatMessage } = translation
   const translationRef = useRef(translation)
   translationRef.current = translation
-
-  const transformers = useRef({
-    transformIn,
-    transformOut,
-    provideAdditionalArgs,
-    toInput,
-    fromInput,
-    toEvent,
-    fromExternal,
-    transformValue,
-    validateRequired,
-  })
 
   const {
     handlePathChangeUnvalidated: handlePathChangeUnvalidatedDataContext,
@@ -329,6 +269,32 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     defaultValueRef.current = defaultValue
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  // Many variables are kept in refs to avoid triggering unnecessary update loops because updates using
+  // useEffect depend on them (like the external `value`)
+
+  // Hold an internal copy of the input value in case the input component is used uncontrolled,
+  // and to handle errors in Eufemia on components that does not take updated callback functions into account.
+  // Internal mutable value reference – explicitly typed to Value
+  const valueRef = useRef<Value>(undefined as Value)
+  const changedRef = useRef<boolean>(undefined)
+  const hasFocusRef = useRef<boolean>(undefined)
+
+  // ─── useFieldTransform ───────────────────────────────────────────────
+
+  const { transformers, getEventArgs } = useFieldTransform<Value>({
+    transformIn: transformIn as TransformerFns<Value>['transformIn'],
+    transformOut,
+    toInput: toInput as TransformerFns<Value>['toInput'],
+    fromInput,
+    toEvent,
+    transformValue,
+    provideAdditionalArgs,
+    fromExternal,
+    validateRequired,
+    valueRef,
+  })
+
   const tmpValue = useExternalValue<Value>({
     path: identifier,
     itemPath,
@@ -342,6 +308,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const externalValue: Value = transformers.current.transformIn(
     tmpValue ?? defaultValueRef.current
   ) as Value
+
+  // Initialize valueRef with externalValue on first render (useRef only uses
+  // its initializer once, so we set it synchronously here).
+  const valueInitializedRef = useRef(false)
+  if (!valueInitializedRef.current) {
+    valueInitializedRef.current = true
+    valueRef.current = externalValue
+  }
 
   // Warn if a field uses a JSON Schema inside Form.Handler without an explicit ajvInstance prop.
   // Skip this warning for internally generated schemas (e.g. from Iterate.Array minItems/maxItems).
@@ -369,20 +343,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     dataContext?.props?.ajvInstance,
     omitMultiplePathWarning,
   ])
-
-  // Many variables are kept in refs to avoid triggering unnecessary update loops because updates using
-  // useEffect depend on them (like the external `value`)
-
-  // Hold an internal copy of the input value in case the input component is used uncontrolled,
-  // and to handle errors in Eufemia on components that does not take updated callback functions into account.
-  // Internal mutable value reference – explicitly typed to Value
-  const valueRef = useRef<Value>(externalValue)
-  const changedRef = useRef<boolean>(undefined)
-  const hasFocusRef = useRef<boolean>(undefined)
-
-  // - Should errors received through validation be shown initially. Assume that providing a direct prop to
-  // the component means it is supposed to be shown initially.
-  const revealErrorRef = useRef<boolean | null>(null)
 
   const required = useMemo(() => {
     if (typeof requiredProp !== 'undefined') {
@@ -439,10 +399,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     sectionPath,
   ])
 
-  const getFieldByPath: MessagePropParams<
-    Value,
-    unknown
-  >['getFieldByPath'] = useCallback(
+  const getFieldByPath = useCallback(
     (path) => {
       return (
         fieldInternalsRef.current?.[path] || {
@@ -454,1155 +411,193 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     [fieldInternalsRef]
   )
 
-  const errorMessageCacheRef = useRef<Map<string, ErrorProp<Value>>>(
-    new Map()
-  )
-  const ensureErrorMessageObject = useCallback(<T>(error: T): T => {
-    let key = null
-    let returnValue: T | ErrorProp<Value> = error
-
-    if (typeof error === 'string') {
-      key = error
-      returnValue = new Error(error)
-    } else if (error && React.isValidElement(error)) {
-      key = error.key || convertJsxToString(error)
-      returnValue = new FormError('Error', {
-        formattedMessage: error,
-      })
-    }
-
-    // - Cache jsx errors to avoid rendering/infinite loop
-    if (key) {
-      if (errorMessageCacheRef.current.has(key)) {
-        return errorMessageCacheRef.current.get(key) as T
-      } else {
-        errorMessageCacheRef.current.set(
-          key,
-          returnValue as ErrorProp<Value>
-        )
-      }
-    }
-
-    return returnValue as T
-  }, [])
-
-  const messageCacheRef = useRef<{
-    isSet: boolean
-    message: MessageTypes<Value>
-  }>({ isSet: false, message: undefined })
-  const executeMessage = useCallback(
-    <ReturnValue extends MessageTypes<Value>>(
-      message: MessageProp<Value, ReturnValue>,
-      forceReturnErrorMessageObject?: boolean
-    ): ReturnValue => {
-      if (typeof message === 'function') {
-        const ALWAYS = 4
-        const INITIALLY = 8
-
-        let currentMode = ALWAYS
-
-        const msg = message(valueRef.current, {
-          conditionally: (callback, options) => {
-            currentMode &= ~ALWAYS
-
-            if (options?.showInitially) {
-              currentMode |= INITIALLY
-            }
-
-            return executeMessage(callback())
-          },
-          getValueByPath,
-          getFieldByPath,
-        })
-
-        if (msg === undefined) {
-          messageCacheRef.current.message = undefined
-          return null // hide the message
-        }
-
-        const isError =
-          msg instanceof Error ||
-          msg instanceof FormError ||
-          (Array.isArray(msg) && checkForError(msg))
-
-        if (
-          (!messageCacheRef.current.isSet && currentMode & INITIALLY) ||
-          currentMode & ALWAYS ||
-          hasFocusRef.current === false ||
-          // Ensure we don't remove the message when the value is e.g. empty string
-          messageCacheRef.current.message
-        ) {
-          if (
-            // Ensure to only update the message when component did re-render internally
-            isInternalRerenderRef.current ||
-            currentMode & ALWAYS ||
-            (!messageCacheRef.current.isSet && currentMode & INITIALLY)
-          ) {
-            if (msg) {
-              messageCacheRef.current.isSet = true
-            }
-            if (msg || !hasFocusRef.current || currentMode & ALWAYS) {
-              messageCacheRef.current.message = msg
-            }
-          }
-
-          message = messageCacheRef.current.message as ReturnValue
-
-          if (isError && message) {
-            revealErrorRef.current = true
-          }
-
-          if (!isError && !message) {
-            return null // hide the message
-          }
-        } else {
-          return undefined // no message
-        }
-      }
-
-      return forceReturnErrorMessageObject
-        ? ensureErrorMessageObject(message)
-        : message
-    },
-    [getFieldByPath, getValueByPath, ensureErrorMessageObject]
-  )
-
-  const errorProp =
-    initialErrorProp === 'initial' ? undefined : initialErrorProp
-  const error = executeMessage<UseFieldProps['error'] | 'initial'>(
-    errorProp,
-    true
-  )
-  const warning = executeMessage<FieldStatus['warning']>(warningProp)
-  const info = executeMessage<FieldStatus['info']>(infoProp)
-
-  if (revealErrorRef.current === null) {
-    revealErrorRef.current = validateInitially ?? Boolean(errorProp)
-  }
-
-  // - Local errors are errors based on validation instructions received by
-  const errorMethodRef = useRef<
-    Partial<Record<PersistErrorStateMethod, Error | FormError>>
-  >({})
-  const localErrorRef = useRef<Error | FormError | undefined>(undefined)
-  const localErrorInitiatorRef = useRef<ErrorInitiator>(undefined)
-
-  // - Context errors are from outer contexts, like validation for this field as part of the whole data set
-  const contextErrorRef = useRef<Error | FormError | undefined>(undefined)
-
-  // When validateContinuously is enabled, also validate on change using onBlurValidator
-  const onChangeValidator = useMemo(() => {
-    if (onChangeValidatorProp) {
-      return onChangeValidatorProp
-    }
-    if (validateContinuously && onBlurValidator) {
-      return onBlurValidator
-    }
-    return undefined
-  }, [onChangeValidatorProp, validateContinuously, onBlurValidator])
-
-  const onChangeValidatorRef = useRef(onChangeValidator)
-  useUpdateEffect(() => {
-    onChangeValidatorRef.current = onChangeValidator
-  }, [onChangeValidator])
-  const onBlurValidatorRef = useRef(onBlurValidator)
-  useUpdateEffect(() => {
-    onBlurValidatorRef.current = onBlurValidator
-  }, [onBlurValidator])
-
-  const getAjvInstance = useCallback(() => {
-    if (hasDataContext) {
-      return getAjvInstanceDataContext?.()
-    }
-  }, [hasDataContext, getAjvInstanceDataContext])
-
+  // Shared schema validator ref — used by both useFieldError (clearErrorState) and useFieldValidation
   const schemaValidatorRef = useRef<
     ValidateFunction | ((value: unknown) => true | z.ZodError<unknown>)
   >(undefined)
-  // Compile synchronously on first pass so initial validation uses the correct schema
-  if (!schemaValidatorRef.current && finalSchema) {
-    if (hasZodSchema) {
-      schemaValidatorRef.current = createZodValidator(finalSchema)
-    } else {
-      schemaValidatorRef.current = getAjvInstance()?.compile?.(finalSchema)
-    }
-  }
 
-  // - Async behavior
-  const asyncBehaviorIsEnabled = useMemo(() => {
-    return isAsync(onChange) || isAsync(onChangeContext)
-  }, [onChangeContext, onChange])
-  const validatedValueRef = useRef<Value>(undefined)
-  const changeEventResultRef = useRef<EventStateObjectWithSuccess | null>(
-    null
-  )
-  const asyncProcessRef = useRef<AsyncProcesses | null>(null)
-  const defineAsyncProcess = useCallback((name: AsyncProcesses) => {
-    asyncProcessRef.current = name
-  }, [])
+  // ─── useFieldError ───────────────────────────────────────────────────
 
-  // When both an async onChange and async validators are used,
-  // we buffer the onChange calls to avoid race conditions.
-  const asyncBufferRef = useRef<
-    Record<AsyncProcesses, AsyncProcessesBuffer> | Record<string, unknown>
-  >({})
-
-  for (const key in asyncBufferRef.current) {
-    const { resolve, validateProcesses } = (asyncBufferRef.current[key] ||
-      {}) as AsyncProcessesBuffer
-    if (validateProcesses?.() === false) {
-      delete asyncBufferRef.current[key]
-      if (typeof resolve === 'function') {
-        window.requestAnimationFrame(resolve)
-      }
-    }
-  }
-
-  const eventPool = useRef({
-    onChangeValidator: null,
-    onBlurValidator: null,
-    onChangeContext: null,
-    onChangeLocal: null,
+  const {
+    error,
+    warning,
+    info,
+    combinedErrorMessages,
+    bufferedError,
+    bufferedErrorRef,
+    errorIsVisible: errorIsVisibleBase,
+    ensureErrorMessageObject,
+    prepareError,
+    persistErrorState,
+    clearErrorState,
+    revealError,
+    hideError,
+    setFieldState,
+    hasError,
+    handleError,
+    revealErrorRef,
+    localErrorRef,
+    localErrorInitiatorRef,
+    contextErrorRef,
+    fieldStateRef,
+    warningRef,
+    infoRef,
+  } = useFieldError<Value>({
+    initialErrorProp,
+    warningProp,
+    infoProp,
+    errorMessages,
+    validateInitially,
+    validateContinuously,
+    disabled,
+    identifier,
+    locale,
+    handleFieldAsVisible,
+    inFieldBlock,
+    prerenderFieldProps,
+    updateContextDataInSync,
+    hasZodSchema,
+    setFieldStateDataContext,
+    setFieldStateFieldBlock,
+    setFieldErrorDataContext,
+    setFieldErrorBoundary,
+    setFieldErrorWizard,
+    setBlockRecord,
+    showFieldErrorFieldBlock,
+    revealErrorDataContext,
+    revealErrorBoundary,
+    wizardIndex,
+    dataContextErrors,
+    contextErrorMessages: contextErrorMessages as Record<string, unknown>,
+    valueRef,
+    hasFocusRef,
+    isInternalRerenderRef,
+    schemaValidatorRef,
+    translationRef,
+    formatMessage,
+    getFieldByPath,
+    getValueByPath,
+    forceUpdate,
   })
-
-  const addToPool = useCallback(
-    (name: keyof typeof eventPool.current, fn, runAsync) => {
-      if (!eventPool.current[name]) {
-        eventPool.current[name] = { fn, runAsync }
-      }
-    },
-    []
-  )
-
-  const runPool = useCallback(async (cb = null) => {
-    for (const key in eventPool.current) {
-      if (!eventPool.current[key]) {
-        continue
-      }
-
-      const { fn, runAsync } = eventPool.current[key] || {}
-      if (fn) {
-        eventPool.current[key] = null
-
-        if (runAsync) {
-          await fn()
-        } else {
-          fn()
-        }
-      }
-    }
-
-    // use a callback in order to avoid any async/await,
-    // because it will delay the execution of the following code
-    cb?.()
-  }, [])
-
-  const fieldStateRef = useRef<SubmitStateWithValidating>(undefined)
-  const setFieldState = useCallback(
-    (state: SubmitStateWithValidating) => {
-      fieldStateRef.current = state
-      setFieldStateDataContext?.(identifier, resolveValidatingState(state))
-      setFieldStateFieldBlock?.(identifier, resolveValidatingState(state))
-
-      if (!validateInitially) {
-        forceUpdate()
-      }
-    },
-    [
-      setFieldStateDataContext,
-      identifier,
-      setFieldStateFieldBlock,
-      validateInitially,
-    ]
-  )
-
-  const setErrorState = useCallback(
-    (hasError: boolean) => {
-      setFieldErrorWizard?.(
-        wizardIndex,
-        identifier,
-        handleFieldAsVisible !== false ? hasError : undefined
-      )
-
-      showFieldErrorFieldBlock?.(identifier, hasError)
-      revealErrorBoundary?.(identifier, hasError)
-      revealErrorDataContext?.(identifier, hasError)
-    },
-    [
-      identifier,
-      handleFieldAsVisible,
-      revealErrorBoundary,
-      revealErrorDataContext,
-      setFieldErrorWizard,
-      showFieldErrorFieldBlock,
-      wizardIndex,
-    ]
-  )
-
-  // - Will reveal the error as a visible error (hasVisibleError)
-  const revealError = useCallback(() => {
-    // To support "validateInitially={false}" prop, we need to make sure that the error is not shown initially
-    if (validateInitially === false && revealErrorRef.current === false) {
-      revealErrorRef.current = undefined
-      return // stop here
-    }
-
-    const hasError = Boolean(localErrorRef.current)
-    revealErrorRef.current = true
-    setErrorState(hasError)
-  }, [validateInitially, setErrorState])
-
-  const hideError = useCallback(() => {
-    if (revealErrorRef.current) {
-      revealErrorRef.current = undefined
-      setErrorState(false)
-    }
-  }, [setErrorState])
-
-  const errorMessagesCacheRef = useRef({
-    locale: null,
-    errorMessages: null,
-    extendedErrorMessages: null,
-  })
-  const combinedErrorMessages = useMemo(() => {
-    // Compare the error messages with the previous ones,
-    // in case "errorMessages" is not wrapped in useMemo.
-    const cache = errorMessagesCacheRef.current
-    if (
-      cache.locale === locale &&
-      errorMessages &&
-      cache.extendedErrorMessages &&
-      // We compare the "errorMessages" object with the cached version.
-      // Ideally, this comparison would be unnecessary when using useMemo, as documented.
-      // However, to safeguard against potential infinite loops, we perform this comparison.
-      // Why can this happen? Because the "errorMessages" object is a reference, and when provided without useMemo,
-      // it will come in as a new object every time it is used, so combinedErrorMessages as a hook dependency will be updated.
-      // Using array.join('') is approximately twice as fast as concatenating strings in a loop.
-      Object.values(cache.errorMessages || {}).join('') ===
-        Object.values(errorMessages || {}).join('')
-    ) {
-      return cache.extendedErrorMessages
-    }
-
-    const messages = {
-      ...contextErrorMessages,
-      ...contextErrorMessages?.[identifier],
-      ...errorMessages,
-    }
-
-    const extendedErrorMessages =
-      extendErrorMessagesWithTranslationMessages(
-        messages,
-        translationRef.current
-      )
-
-    errorMessagesCacheRef.current = {
-      locale,
-      errorMessages,
-      extendedErrorMessages,
-    }
-
-    return extendedErrorMessages
-  }, [contextErrorMessages, errorMessages, identifier, locale])
-
-  /**
-   * Prepare error from validation logic with correct error messages based on props
-   */
-  const prepareError = useCallback(
-    (error: FieldPropsGeneric<Value>['error']): FormError | undefined => {
-      const prepare = (error: FormError) => {
-        if (error instanceof FormError) {
-          let message = error.message
-
-          const { ajvKeyword } = error
-          if (typeof ajvKeyword === 'string') {
-            const ajvMessage = combinedErrorMessages?.[ajvKeyword]
-            if (ajvMessage) {
-              message = ajvMessage
-            }
-          }
-
-          if (combinedErrorMessages?.[message]) {
-            // - For when the message is e.g. Field.errorRequired or Custom.key, but delivered in the `errorMessages` object
-            message = combinedErrorMessages?.[message]
-
-            if (error.messageValues) {
-              message = Object.entries(error.messageValues || {}).reduce(
-                (msg, [key, value]) => {
-                  return msg.replace(`{${key}}`, value)
-                },
-                message
-              )
-            }
-          } else if (message.includes('.')) {
-            // - For when the message is e.g. Field.errorRequired
-            message = formatMessage(message, error.messageValues)
-          }
-
-          if (React.isValidElement(message)) {
-            error.formattedMessage = message
-          } else {
-            error.message = message
-          }
-        }
-
-        return ensureErrorMessageObject(error)
-      }
-
-      if (Array.isArray(error)) {
-        return new FormError('Error', {
-          errors: error.map(prepare),
-        })
-      }
-
-      if (error instanceof FormError) {
-        if (Array.isArray(error.errors)) {
-          error.errors = error.errors.map(prepare)
-          return error
-        }
-        return prepare(error)
-      }
-
-      return error as FormError
-    },
-    [combinedErrorMessages, ensureErrorMessageObject, formatMessage]
-  )
-
-  contextErrorRef.current = useMemo(() => {
-    // Skip context errors for disabled and readOnly fields
-    if (disabled) {
-      return undefined
-    }
-
-    const dataContextError = dataContextErrors?.[identifier]
-    if (!dataContextError) {
-      return undefined
-    }
-    const error = prepareError(dataContextError)
-    if (errorChanged(error, contextErrorRef.current)) {
-      return error
-    }
-    return contextErrorRef.current
-  }, [dataContextErrors, identifier, prepareError, disabled])
-
-  // If the error is a type error, we want to show it even if the field has not been used
-  if (
-    localErrorRef.current?.['ajvKeyword'] === 'type' ||
-    contextErrorRef.current?.['ajvKeyword'] === 'type'
-  ) {
-    revealErrorRef.current = true
-  }
-
-  const getBufferedError = useCallback(() => {
-    if (
-      initialErrorProp !== 'initial' &&
-      typeof errorProp !== 'function'
-    ) {
-      return prepareError(errorProp)
-    } else if (revealErrorRef.current) {
-      // For type errors, prioritize context (Provider) errors over local validation errors
-      if (contextErrorRef.current?.['ajvKeyword'] === 'type') {
-        return contextErrorRef.current
-      }
-      return (
-        prepareError(error as FormError) ??
-        localErrorRef.current ??
-        contextErrorRef.current
-      )
-    } else if (error === null) {
-      return null
-    }
-  }, [error, errorProp, initialErrorProp, prepareError])
-
-  const bufferedError = getBufferedError()
-  const bufferedErrorRef = useRef<FieldStatus['error']>(bufferedError)
-  bufferedErrorRef.current = bufferedError
 
   const errorIsVisible =
-    Boolean(bufferedError) ||
-    (inFieldBlock && fieldBlockContext.hasErrorProp)
-  const hasError = useCallback(() => {
-    return Boolean(
-      error ?? localErrorRef.current ?? contextErrorRef.current
-    )
-  }, [error])
+    errorIsVisibleBase || (inFieldBlock && fieldBlockContext.hasErrorProp)
 
-  const connectWithPathListenerRef = useRef(() => {
-    runOnChangeValidator()
-    runOnBlurValidator()
+  // ─── useFieldAsync ───────────────────────────────────────────────────
+
+  // Ref used to break the circular dependency between useFieldAsync and useFieldValidation.
+  // useFieldAsync needs removeError (which calls validateValue from useFieldValidation),
+  // but useFieldValidation hasn't been called yet. The ref is populated after both hooks run.
+  const removeErrorRef = useRef<() => void>(() => {})
+
+  const {
+    asyncBehaviorIsEnabled,
+    defineAsyncProcess,
+    addToPool,
+    runPool,
+    yieldAsyncProcess,
+    setEventResult,
+    callOnChangeContext,
+    asyncProcessRef,
+    validatedValueRef,
+    changeEventResultRef,
+  } = useFieldAsync<Value>({
+    onChange,
+    onChangeContext,
+    valueRef,
+    forceUpdate,
+    persistErrorState,
+    revealError,
+    setFieldState,
+    hasError,
+    warningRef,
+    infoRef,
+    fieldStateRef,
+    removeErrorRef,
+    hasPath,
+    identifier,
+    executeOnChangeRegardlessOfError,
+    handlePathChangeDataContext: handlePathChangeDataContext as any,
   })
 
-  const handleConnectWithPath = useCallback(
-    (path: Identifier) => {
-      setFieldEventListener?.(
-        path,
-        'onPathChange',
-        connectWithPathListenerRef.current
-      )
+  // ─── useFieldValidation ──────────────────────────────────────────────
 
-      return {
-        getValue: () => getValueByPath(path),
-      }
-    },
-    [getValueByPath, setFieldEventListener]
-  )
-
-  const additionalArgsRef = useRef<
-    Partial<ReceiveAdditionalEventArgs<Value>>
-  >({
-    validators: exportValidators,
-    props,
-    dataContext,
+  const {
+    validateValue,
+    startOnChangeValidatorValidation,
+    startOnBlurValidatorProcess,
+    onChangeValidatorRef,
+    onBlurValidatorRef,
+    additionalArgs,
+  } = useFieldValidation<Value>({
+    finalSchema,
+    hasZodSchema,
+    onChangeValidatorProp,
+    onBlurValidator,
+    validateInitially,
+    validateUnchanged,
+    validateContinuously,
+    identifier,
+    disabled,
+    emptyValue,
+    required,
+    hasDataContext,
+    getAjvInstanceDataContext,
+    setFieldEventListener,
     getValueByPath,
     getSourceValue,
-    setFieldEventListener,
+    exportValidators,
+    props,
+    dataContext,
+    combinedErrorMessages,
+    makeIteratePath,
+    errorPrioritization,
+    sectionPath,
+    hasSectionSchema,
+    dataContextSchema: dataContext?.schema,
+    valueRef,
+    changedRef,
+    transformers,
+    schemaValidatorRef,
+    asyncProcessRef,
+    validatedValueRef,
+    changeEventResultRef,
+    localErrorInitiatorRef,
+    error,
+    persistErrorState,
+    clearErrorState,
+    revealError,
+    hideError,
+    setFieldState,
+    ensureErrorMessageObject,
+    asyncBehaviorIsEnabled,
+    defineAsyncProcess,
+    forceUpdate,
+    revealErrorRef,
   })
-  additionalArgsRef.current.validators = exportValidators
-  additionalArgsRef.current.props = props
-  const additionalArgs = useMemo(() => {
-    const args = {
-      errorMessages: combinedErrorMessages,
-      ...additionalArgsRef.current,
-      connectWithPath: (path) => {
-        return handleConnectWithPath(path)
-      },
-      connectWithItemPath: (itemPath) => {
-        return handleConnectWithPath(makeIteratePath(itemPath))
-      },
-    } as ReceiveAdditionalEventArgs<Value>
 
-    return args
-  }, [combinedErrorMessages, handleConnectWithPath, makeIteratePath])
-
-  const callStackRef = useRef<Array<Validator<Value>>>([])
-  const hasBeenCalledRef = useCallback((validator: Validator<Value>) => {
-    const result = callStackRef.current.includes(validator)
-    callStackRef.current.push(validator)
-    return result
-  }, [])
-
-  const callValidatorFnAsync = useCallback(
-    async (
-      validator: Validator<Value>,
-      value: Value = valueRef.current
-    ): Promise<ReturnType<Validator<Value>>> => {
-      if (typeof validator !== 'function') {
-        return
+  // Some fields (e.g. dates) may create new Date instances during locale/value transforms.
+  // Compare by timestamp for Date values so "empty" checks are stable across rerenders.
+  const valueEqualsEmptyValue = useCallback(
+    (value: unknown) => {
+      if (value === emptyValue) {
+        return true
       }
 
-      const result = await validator(value, additionalArgs)
-
-      if (Array.isArray(result)) {
-        const errors = []
-
-        for (const validatorOrError of result) {
-          if (validatorOrError instanceof Error) {
-            errors.push(validatorOrError)
-          } else if (!hasBeenCalledRef(validatorOrError)) {
-            const result = await callValidatorFnAsync(
-              validatorOrError,
-              value
-            )
-            if (result instanceof Error) {
-              callStackRef.current = []
-              return result
-            }
-          }
-        }
-
-        if (errors.length > 0) {
-          return new FormError('Error', {
-            errors,
-          })
-        }
-
-        callStackRef.current = []
-      } else {
-        return ensureErrorMessageObject(result)
+      if (value instanceof Date && emptyValue instanceof Date) {
+        return value.getTime() === emptyValue.getTime()
       }
+
+      return false
     },
-    [additionalArgs, hasBeenCalledRef, ensureErrorMessageObject]
+    [emptyValue]
   )
 
-  const callValidatorFnSync = useCallback(
-    (
-      validator: Validator<Value>,
-      value: Value = valueRef.current
-    ): ReturnType<Validator<Value>> => {
-      if (typeof validator !== 'function') {
-        return // stop here
-      }
-
-      const result = validator(value, additionalArgs)
-
-      if (Array.isArray(result)) {
-        const hasAsyncValidator = result.some((validator) =>
-          isAsync(validator)
-        )
-        if (hasAsyncValidator) {
-          return new Promise((resolve) => {
-            callValidatorFnAsync(validator, value).then((result) => {
-              resolve(result)
-            })
-          })
-        }
-
-        const errors = []
-
-        for (const validatorOrError of result) {
-          if (validatorOrError instanceof Error) {
-            errors.push(validatorOrError)
-          } else if (!hasBeenCalledRef(validatorOrError)) {
-            const result = callValidatorFnSync(validatorOrError, value)
-            if (result instanceof Error) {
-              callStackRef.current = []
-              return result
-            }
-          }
-        }
-
-        if (errors.length > 0) {
-          return new FormError('Error', {
-            errors,
-          })
-        }
-
-        callStackRef.current = []
-      } else {
-        return ensureErrorMessageObject(result)
-      }
-    },
-    [
-      additionalArgs,
-      callValidatorFnAsync,
-      hasBeenCalledRef,
-      ensureErrorMessageObject,
-    ]
-  )
-
-  /**
-   * Based on validation, update error state, locally and relevant surrounding contexts
-   */
-  const stateId = useId()
-  const persistErrorState = useCallback(
-    (
-      method: PersistErrorStateMethod,
-      initiator: ErrorInitiator,
-      errorArg:
-        | Error
-        | FormError
-        | Array<Error | FormError>
-        | undefined = undefined
-    ) => {
-      const error = prepareError(errorArg)
-
-      if (!errorChanged(error, localErrorRef.current)) {
-        // In case different triggers lead to validation with no changes in the result (like still no error, or the same error),
-        // avoid unnecessary re-renders by letting the old error object stay in the state and skip re-rendering.
-        return
-      }
-
-      if (initiator !== 'dataContextError') {
-        localErrorInitiatorRef.current = initiator
-      }
-
-      if (method === 'wipe') {
-        errorMethodRef.current = {}
-      } else {
-        errorMethodRef.current[method] = error
-      }
-
-      if (
-        !error &&
-        method === 'gracefully' &&
-        (errorMethodRef.current?.weak ||
-          errorMethodRef.current?.gracefully)
-      ) {
-        // If the error is removed, we need to check if there are other errors that still should be shown
-        return
-      }
-
-      const currentError =
-        handleFieldAsVisible !== false ? error : undefined
-      localErrorRef.current = currentError
-
-      // Tell the data context about the error, so it can stop the user from submitting the form until the error has been fixed
-      setFieldErrorDataContext?.(identifier, currentError)
-      setFieldErrorBoundary?.(identifier, currentError)
-
-      // Set the visual states
-      setBlockRecord?.({
-        stateId,
-        identifier,
-        type: 'error',
-        content: currentError,
-        showInitially: Boolean(inFieldBlock && validateInitially),
-      })
-      setFieldStateDataContext?.(identifier, error ? 'error' : undefined)
-
-      if (updateContextDataInSync && !prerenderFieldProps) {
-        setFieldErrorWizard?.(
-          wizardIndex,
-          identifier,
-          Boolean(currentError)
-        )
-      }
-
-      forceUpdate()
-    },
-    [
-      handleFieldAsVisible,
-      identifier,
-      inFieldBlock,
-      prepareError,
-      prerenderFieldProps,
-      setBlockRecord,
-      setFieldErrorBoundary,
-      setFieldErrorDataContext,
-      setFieldErrorWizard,
-      setFieldStateDataContext,
-      stateId,
-      updateContextDataInSync,
-      validateInitially,
-      wizardIndex,
-    ]
-  )
-
-  const clearErrorState = useCallback(() => {
-    persistErrorState('wipe', undefined)
-    localErrorInitiatorRef.current = undefined
-    const schemaValidator = schemaValidatorRef.current as ValidateFunction
-
-    // Clear AJV errors if it's an AJV validator
-    if (
-      schemaValidator &&
-      !hasZodSchema &&
-      Array.isArray((schemaValidator as ValidateFunction)?.errors)
-    ) {
-      schemaValidator.errors = []
-    }
-  }, [persistErrorState, hasZodSchema])
+  // ─── Wire removeError (circular dependency resolution) ───────────────
 
   const setChanged = useCallback((state: boolean) => {
     changedRef.current = state
   }, [])
-
-  const validatorCacheRef = useRef({
-    onChangeValidator: null,
-    onBlurValidator: null,
-  })
-
-  const revealOnChangeValidatorResult = useCallback(
-    ({ result, unchangedValue }) => {
-      const runAsync = isAsync(onChangeValidatorRef.current)
-
-      // Don't show the error if the value has changed in the meantime
-      if (unchangedValue) {
-        persistErrorState(
-          runAsync ? 'gracefully' : 'weak',
-          'onChangeValidator',
-          result
-        )
-
-        if (
-          (validateInitially && !changedRef.current) ||
-          validateUnchanged ||
-          validateContinuously ||
-          runAsync // Because it's a better UX to show the error when the validation is async/delayed
-        ) {
-          // Because we first need to throw the error to be able to display it, we delay the showError call
-          window.requestAnimationFrame(() => {
-            if (localErrorInitiatorRef.current === 'onChangeValidator') {
-              revealError()
-              forceUpdate()
-            }
-          })
-        }
-      }
-
-      if (runAsync) {
-        defineAsyncProcess(undefined)
-
-        if (unchangedValue) {
-          setFieldState(result instanceof Error ? 'error' : 'complete')
-        } else {
-          setFieldState('pending')
-        }
-      }
-    },
-    [
-      validateContinuously,
-      defineAsyncProcess,
-      persistErrorState,
-      revealError,
-      setFieldState,
-      validateInitially,
-      validateUnchanged,
-    ]
-  )
-
-  const callOnChangeValidator = useCallback(async () => {
-    if (typeof onChangeValidatorRef.current !== 'function') {
-      return {}
-    }
-
-    const tmpValue = valueRef.current
-
-    let result = isAsync(onChangeValidatorRef.current)
-      ? await callValidatorFnAsync(onChangeValidatorRef.current)
-      : callValidatorFnSync(onChangeValidatorRef.current)
-    if (result instanceof Promise) {
-      result = await result
-    }
-
-    const unchangedValue = tmpValue === valueRef.current
-    return { result, unchangedValue }
-  }, [callValidatorFnAsync, callValidatorFnSync])
-
-  const startOnChangeValidatorValidation = useCallback(async () => {
-    if (typeof onChangeValidatorRef.current !== 'function') {
-      return
-    }
-
-    if (isAsync(onChangeValidatorRef.current)) {
-      defineAsyncProcess('onChangeValidator')
-      setFieldState('validating')
-      hideError()
-    }
-
-    // Ideally, we should rather call "callOnChangeValidator", but sadly it's not possible,
-    // because we get an additional delay due to the async nature, which is too much.
-    // So when a submit button is pressed, and there is a sync validator, it needs to be validated without a delay.
-    const tmpValue = valueRef.current
-    let result = isAsync(onChangeValidatorRef.current)
-      ? await callValidatorFnAsync(onChangeValidatorRef.current)
-      : callValidatorFnSync(onChangeValidatorRef.current)
-    if (result instanceof Promise) {
-      result = await result
-    }
-    const unchangedValue = tmpValue === valueRef.current
-
-    revealOnChangeValidatorResult({ result, unchangedValue })
-
-    return { result }
-  }, [
-    callValidatorFnAsync,
-    callValidatorFnSync,
-    defineAsyncProcess,
-    hideError,
-    revealOnChangeValidatorResult,
-    setFieldState,
-  ])
-
-  const runOnChangeValidator = useCallback(async () => {
-    if (!onChangeValidatorRef.current) {
-      return // stop here
-    }
-
-    const { result, unchangedValue } = await callOnChangeValidator()
-
-    if (
-      String(result) !==
-      String(validatorCacheRef.current.onChangeValidator)
-    ) {
-      if (result) {
-        revealOnChangeValidatorResult({ result, unchangedValue })
-      } else {
-        hideError()
-        clearErrorState()
-      }
-    }
-
-    validatorCacheRef.current.onChangeValidator = result || null
-  }, [
-    callOnChangeValidator,
-    clearErrorState,
-    hideError,
-    revealOnChangeValidatorResult,
-  ])
-
-  const callOnBlurValidator = useCallback(
-    async ({
-      overrideValue = null,
-    }: {
-      overrideValue?: Value
-    } = {}) => {
-      if (typeof onBlurValidatorRef.current !== 'function') {
-        return {}
-      }
-
-      const value = transformers.current.toEvent(
-        overrideValue ?? valueRef.current,
-        'onBlurValidator'
-      )
-
-      // Since the validator can return either a synchronous result or an asynchronous.
-      let result = isAsync(onBlurValidatorRef.current)
-        ? await callValidatorFnAsync(onBlurValidatorRef.current, value)
-        : callValidatorFnSync(onBlurValidatorRef.current, value)
-      if (result instanceof Promise) {
-        result = await result
-      }
-
-      return { result }
-    },
-    [callValidatorFnAsync, callValidatorFnSync]
-  )
-
-  const revealOnBlurValidatorResult = useCallback(
-    ({ result }) => {
-      persistErrorState('gracefully', 'onBlurValidator', result)
-
-      if (isAsync(onBlurValidatorRef.current)) {
-        defineAsyncProcess(undefined)
-        setFieldState(result instanceof Error ? 'error' : 'complete')
-      }
-
-      revealError()
-    },
-    [defineAsyncProcess, persistErrorState, revealError, setFieldState]
-  )
-
-  const startOnBlurValidatorProcess = useCallback(
-    async ({
-      overrideValue = null,
-    }: {
-      overrideValue?: Value
-    } = {}) => {
-      if (typeof onBlurValidatorRef.current !== 'function') {
-        return // stop here
-      }
-
-      if (
-        (localErrorInitiatorRef.current === 'required' ||
-          localErrorInitiatorRef.current === 'schema') &&
-        !asyncBehaviorIsEnabled && // Has async "onChange" event
-        !isAsync(onChangeValidatorRef.current)
-      ) {
-        return // stop here
-      }
-
-      if (isAsync(onBlurValidatorRef.current)) {
-        defineAsyncProcess('onBlurValidator')
-        setFieldState('validating')
-      }
-
-      const value = transformers.current.toEvent(
-        overrideValue ?? valueRef.current,
-        'onBlurValidator'
-      )
-
-      // Since the validator can return either a synchronous result or an asynchronous.
-      // Ideally, we should rather call "callOnBlurValidator", but sadly it's not possible,
-      // because we get an additional delay due to the async nature, which is too much.
-      // So when a submit button is pressed, and there is a sync validator, it needs to be validated without a delay.
-      let result = isAsync(onBlurValidatorRef.current)
-        ? await callValidatorFnAsync(onBlurValidatorRef.current, value)
-        : callValidatorFnSync(onBlurValidatorRef.current, value)
-      if (result instanceof Promise) {
-        result = await result
-      }
-
-      revealOnBlurValidatorResult({ result })
-
-      return { result }
-    },
-    [
-      asyncBehaviorIsEnabled,
-      callValidatorFnAsync,
-      callValidatorFnSync,
-      defineAsyncProcess,
-      revealOnBlurValidatorResult,
-      setFieldState,
-    ]
-  )
-
-  const runOnBlurValidator = useCallback(async () => {
-    if (!onBlurValidatorRef.current) {
-      return // stop here
-    }
-
-    const { result } = await callOnBlurValidator()
-
-    if (
-      String(result) !==
-        String(validatorCacheRef.current.onBlurValidator) &&
-      revealErrorRef.current
-    ) {
-      if (result) {
-        revealOnBlurValidatorResult({ result })
-      } else {
-        hideError()
-        clearErrorState()
-      }
-    }
-
-    validatorCacheRef.current.onBlurValidator = result || null
-  }, [
-    callOnBlurValidator,
-    clearErrorState,
-    hideError,
-    revealOnBlurValidatorResult,
-  ])
-
-  const prioritizeContextSchema = useMemo(() => {
-    if (errorPrioritization) {
-      const contextSchema = dataContext?.schema
-
-      // Check if context schema is a Zod schema
-      if (isZodSchema(contextSchema)) {
-        // For Zod schemas, we can't easily check if a specific field exists
-        // without parsing the schema structure. For now, we'll assume
-        // context schema takes priority when errorPrioritization includes 'contextSchema'
-        return errorPrioritization?.indexOf('contextSchema') === 0
-      }
-
-      // For JSON Schema, use the existing JSON Pointer logic
-      const schemaPath = identifier.split('/').join('/properties/')
-      const hasContextSchema = pointer.has(contextSchema || {}, schemaPath)
-      return (
-        hasContextSchema &&
-        errorPrioritization?.indexOf('contextSchema') === 0
-      )
-    }
-  }, [dataContext?.schema, errorPrioritization, identifier])
-
-  const prioritizeSectionSchema = useMemo(() => {
-    return (
-      errorPrioritization?.indexOf('sectionSchema') === 0 &&
-      hasSectionSchema
-    )
-  }, [errorPrioritization, hasSectionSchema])
-
-  /**
-   * Validate the current state value by provided validator instructions
-   */
-  const validateValue = useCallback(async () => {
-    const isProcessActive = startProcess()
-
-    if (disabled) {
-      if (isProcessActive()) {
-        clearErrorState()
-      }
-      hideError()
-      setFieldState(undefined)
-      return // stop here
-    }
-
-    const value = valueRef.current
-    changeEventResultRef.current = null
-    validatedValueRef.current = null
-    let initiator: ErrorInitiator = null
-
-    try {
-      const requiredError = transformers.current.validateRequired(value, {
-        emptyValue,
-        required,
-        isChanged: changedRef.current,
-        error: new FormError('Field.errorRequired'),
-      })
-      if (requiredError instanceof Error) {
-        initiator = 'required'
-        throw requiredError
-      }
-
-      if (error instanceof Error) {
-        initiator = 'errorProp'
-        throw error
-      }
-
-      // Validate by provided schema (AJV or Zod) for this value
-      const skipLocalSchema =
-        prioritizeContextSchema || prioritizeSectionSchema
-      if (
-        value !== undefined &&
-        !skipLocalSchema &&
-        typeof schemaValidatorRef.current === 'function'
-      ) {
-        const validationResult = schemaValidatorRef.current(value)
-        if (validationResult !== true) {
-          let error: FormError | undefined
-
-          if (hasZodSchema) {
-            // Zod validation failed - validationResult is a ZodError
-            const zodError = validationResult as z.ZodError<unknown>
-            error = zodErrorsToOneFormError(zodError.issues)
-          } else {
-            // AJV validation failed - validationResult is false
-            error = ajvErrorsToOneFormError(
-              (schemaValidatorRef.current as ValidateFunction).errors,
-              value
-            )
-          }
-
-          initiator = 'schema'
-          throw error
-        }
-      }
-
-      // Validate by provided derivative validator
-      if (
-        onChangeValidatorRef.current &&
-        (changedRef.current || validateInitially || validateUnchanged)
-      ) {
-        const { result } = await startOnChangeValidatorValidation()
-
-        if (result instanceof Error) {
-          initiator = 'onChangeValidator'
-          throw result
-        }
-      }
-
-      // Only for when "validateInitially" is set to true
-      if (
-        onBlurValidatorRef.current &&
-        validateInitially &&
-        !changedRef.current
-      ) {
-        const { result } = await startOnBlurValidatorProcess()
-
-        if (result instanceof Error) {
-          initiator = 'onBlurValidator'
-          throw result
-        }
-      }
-
-      if (isProcessActive()) {
-        clearErrorState()
-      }
-
-      validatedValueRef.current = value
-    } catch (error) {
-      if (isProcessActive()) {
-        persistErrorState('weak', initiator, error)
-
-        // When validateContinuously is true, reveal errors immediately after validation
-        // But only if the value has been changed (not on initial validation)
-        if (validateContinuously && changedRef.current) {
-          revealError()
-        }
-      }
-    }
-  }, [
-    clearErrorState,
-    disabled,
-    emptyValue,
-    error,
-    hasZodSchema,
-    hideError,
-    persistErrorState,
-    prioritizeContextSchema,
-    prioritizeSectionSchema,
-    required,
-    revealError,
-    setFieldState,
-    startOnBlurValidatorProcess,
-    startOnChangeValidatorValidation,
-    startProcess,
-    validateInitially,
-    validateContinuously,
-    validateUnchanged,
-  ])
 
   const removeError = useCallback(() => {
     // Mark as not changed,
@@ -1619,48 +614,43 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     validateValue()
   }, [clearErrorState, hideError, setChanged, validateValue])
 
-  const handleError = useCallback(() => {
-    if (
-      validateContinuously ||
-      (validateContinuously !== false && !hasFocusRef.current)
-    ) {
-      // When there is a change to the value without there having been any focus callback beforehand, it is likely
-      // to believe that the blur callback will not be called either, which would trigger the display of the error.
-      // The error is therefore displayed immediately (unless instructed not to with validateContinuously set to false).
-      revealError()
-    } else {
-      // When changing the value, hide errors to avoid annoying the user before they are finished filling in that value
-      hideError()
+  // Update the ref so useFieldAsync's handleChangeEventResult uses the latest removeError
+  removeErrorRef.current = removeError
+
+  // ─── External value sync ─────────────────────────────────────────────
+
+  // Use "useLayoutEffect" and "externalValueDidChangeRef"
+  // to cooperate with the data context "updateDataValueDataContext" routine further down,
+  // which also uses useLayoutEffect.
+  const externalValueDidChangeRef = useRef(false)
+  useLayoutEffect(() => {
+    if (valueRef.current !== externalValue) {
+      valueRef.current = externalValue
+      externalValueDidChangeRef.current = true
     }
-  }, [validateContinuously, hideError, revealError])
 
-  const getEventArgs = useCallback(
-    ({
-      eventName,
-      additionalArgs,
-      overrideValue = undefined,
-    }): [Value] | [Value, ProvideAdditionalEventArgs] => {
-      const value = transformers.current.toEvent(
-        overrideValue ?? valueRef.current,
-        eventName
-      )
-      const args = transformers.current.provideAdditionalArgs(
-        value,
-        additionalArgs
-      )
-      const transformedValue = transformers.current.transformOut(
-        value,
-        args
-      ) as Value
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [externalValueDeps, hasItemPath])
 
-      if (typeof args !== 'undefined') {
-        return [transformedValue, args]
+  useUpdateEffect(() => {
+    // Error or removed error for this field from the surrounding data context (by path)
+    if (externalValueDidChangeRef.current) {
+      externalValueDidChangeRef.current = false
+
+      // Hide error when the external value has changed, but is the same as the empty value.
+      if (
+        !validateContinuously &&
+        valueEqualsEmptyValue(valueRef.current)
+      ) {
+        hideError()
       }
 
-      return [transformedValue]
-    },
-    []
-  )
+      validateValue()
+      forceUpdate()
+    }
+  }, [externalValueDeps, validateContinuously, valueEqualsEmptyValue]) // Keep "externalValue" in the dependency list, so it will be updated when it changes
+
+  // ─── Focus / blur ────────────────────────────────────────────────────
 
   const setHasFocus = useCallback(
     async (
@@ -1719,179 +709,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       onBlur,
       validateUnchanged,
       addToPool,
+      onBlurValidatorRef,
       runPool,
       startOnBlurValidatorProcess,
       revealError,
     ]
   )
 
-  // Await an async operation to run after criteria are fulfilled
-  const yieldAsyncProcess = useCallback(
-    async ({
-      name,
-      waitFor,
-    }: {
-      name: 'onChangeLocal' | 'onChangeContext' | 'onSubmitContext'
-      waitFor: Array<{
-        processName?: AsyncProcesses
-        withStates: Array<SubmitStateWithValidating>
-        hasValue?: Value
-      }>
-    }) => {
-      return new Promise<void>((resolve) => {
-        const validateProcesses = () => {
-          const result = waitFor.some(
-            ({ processName, withStates, hasValue }) => {
-              const hasMatchingValue =
-                // If the value has changed during the async process, we don't want to resolve anymore
-                hasValue === validatedValueRef.current
-
-              const result =
-                (typeof hasValue === 'undefined'
-                  ? false
-                  : !hasMatchingValue) ||
-                ((processName
-                  ? processName === asyncProcessRef.current
-                  : true) &&
-                  withStates?.some((state) => {
-                    return state === fieldStateRef.current
-                  }))
-
-              return result
-            }
-          )
-
-          return result
-        }
-
-        if (validateProcesses() === true) {
-          asyncBufferRef.current[name] = { resolve, validateProcesses }
-        } else {
-          resolve()
-          setFieldState('pending')
-        }
-      })
-    },
-    [setFieldState]
-  )
-
-  const handleChangeEventResult = useCallback(async () => {
-    const result: EventStateObjectWithSuccess =
-      changeEventResultRef.current || ({} as EventStateObjectWithSuccess)
-
-    if ('error' in result) {
-      if (!result.error) {
-        removeError()
-      } else {
-        persistErrorState('gracefully', 'onChangeValidator', result.error)
-        revealError()
-      }
-    }
-    if ('warning' in result) {
-      warningRef.current = result.warning
-    }
-    if ('info' in result) {
-      infoRef.current = result.info
-    }
-
-    if (asyncBehaviorIsEnabled) {
-      await yieldAsyncProcess({
-        name: 'onSubmitContext',
-        waitFor: [{ withStates: ['validating'] }],
-      })
-    }
-
-    defineAsyncProcess(undefined)
-
-    if (result?.success === 'saved') {
-      setFieldState('success')
-    } else if (result?.error) {
-      setFieldState('error')
-    } else if (asyncBehaviorIsEnabled) {
-      setFieldState('complete')
-    }
-
-    forceUpdate()
-  }, [
-    asyncBehaviorIsEnabled,
-    defineAsyncProcess,
-    removeError,
-    persistErrorState,
-    revealError,
-    yieldAsyncProcess,
-    setFieldState,
-  ])
-
-  const setEventResult = useCallback(
-    async (result: EventReturnWithStateObjectAndSuccess) => {
-      if (result instanceof Error) {
-        result = { error: result }
-      }
-      changeEventResultRef.current = {
-        ...changeEventResultRef.current,
-        ...result,
-      } as EventStateObjectWithSuccess
-
-      await handleChangeEventResult()
-    },
-    [handleChangeEventResult]
-  )
-
-  const callOnChangeContext = useCallback(async () => {
-    if (asyncBehaviorIsEnabled && !executeOnChangeRegardlessOfError) {
-      await yieldAsyncProcess({
-        name: 'onChangeContext',
-        waitFor: [
-          {
-            processName: 'onChangeValidator',
-            withStates: ['validating', 'error'],
-            hasValue: valueRef.current,
-          },
-          {
-            processName: 'onBlurValidator',
-            withStates: ['validating', 'error'],
-            hasValue: valueRef.current,
-          },
-        ],
-      })
-    }
-
-    if (hasPath) {
-      if (isAsync(onChangeContext)) {
-        defineAsyncProcess('onChangeContext')
-
-        // Skip sync errors, such as required
-        if (!hasError() || executeOnChangeRegardlessOfError) {
-          await setEventResult(
-            (await handlePathChangeDataContext?.(
-              identifier
-            )) as EventReturnWithStateObjectAndSuccess
-          )
-        } else {
-          await setEventResult(null)
-        }
-      } else if (onChangeContext || !asyncBehaviorIsEnabled) {
-        setEventResult(
-          handlePathChangeDataContext?.(
-            identifier
-          ) as EventReturnWithStateObjectAndSuccess
-        )
-      }
-    }
-
-    forceUpdate()
-  }, [
-    asyncBehaviorIsEnabled,
-    executeOnChangeRegardlessOfError,
-    hasPath,
-    yieldAsyncProcess,
-    onChangeContext,
-    defineAsyncProcess,
-    hasError,
-    setEventResult,
-    handlePathChangeDataContext,
-    identifier,
-  ])
+  // ─── Value updates ───────────────────────────────────────────────────
 
   const updateValue = useCallback(
     async (newValue: Value) => {
@@ -1950,12 +775,15 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       })
     },
     [
+      executeOnChangeRegardlessOfUnchangedValue,
+      transformers,
       emptyValue,
       additionalArgs,
       hasPath,
       itemPath,
       addToPool,
       validateValue,
+      onChangeValidatorRef,
       callOnChangeContext,
       onChangeContext,
       runPool,
@@ -1965,25 +793,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       handleChangeIterateContext,
       makeIteratePath,
       handleError,
-      executeOnChangeRegardlessOfUnchangedValue,
     ]
-  )
-
-  // Some fields (e.g. dates) may create new Date instances during locale/value transforms.
-  // Compare by timestamp for Date values so "empty" checks are stable across rerenders.
-  const valueEqualsEmptyValue = useCallback(
-    (value: unknown) => {
-      if (value === emptyValue) {
-        return true
-      }
-
-      if (value instanceof Date && emptyValue instanceof Date) {
-        return value.getTime() === emptyValue.getTime()
-      }
-
-      return false
-    },
-    [emptyValue]
   )
 
   const setDisplayValue: ReturnAdditional<Value>['setDisplayValue'] =
@@ -2018,7 +828,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       localAdditionalArgs: ProvideAdditionalEventArgs = undefined
     ) => {
       const currentValue = valueRef.current
-      const fromInput = transformers.current.fromInput(argFromInput)
+      const fromInput = transformers.current.fromInput(
+        argFromInput as Value
+      )
       const valueIsUnchanged = fromInput === currentValue
 
       if (!executeOnChangeRegardlessOfUnchangedValue && valueIsUnchanged) {
@@ -2107,6 +919,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       runPool,
       setChanged,
       setEventResult,
+      transformers,
       updateValue,
       yieldAsyncProcess,
     ]
@@ -2114,6 +927,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   const handleFocus = useCallback(() => setHasFocus(true), [setHasFocus])
   const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus])
+
+  // ─── Mount / unmount lifecycle ───────────────────────────────────────
 
   // Put props into the surrounding data context as early as possible
   setFieldInternalsDataContext?.(identifier, {
@@ -2253,11 +1068,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
   }, [
     identifier,
-    dataContext?.id,
+    dataContext.id,
     mountedFieldsRef,
     prerenderFieldProps,
     setFieldErrorBoundary,
     setFieldErrorDataContext,
+    localErrorRef,
   ])
 
   useEffect(() => {
@@ -2272,77 +1088,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
   }, [identifier, prerenderFieldProps, setFieldErrorWizard, wizardIndex])
 
+  // ─── Validation effects ──────────────────────────────────────────────
+
   useEffect(() => {
     validateValue()
   }, [validateValue])
-
-  useEffect(() => {
-    if (prerenderFieldProps || !dataContext?.id) {
-      return // stop here
-    }
-
-    const sharedAttachments = createSharedState<{
-      fieldStatusRef?: React.RefObject<
-        Record<Identifier, EventStateObjectWithSuccess>
-      >
-    }>(createReferenceKey(dataContext.id, 'attachments')).get?.()
-
-    const status = sharedAttachments?.fieldStatusRef?.current?.[identifier]
-    if (status) {
-      void setEventResult(status)
-    }
-  }, [
-    dataContext?.id,
-    identifier,
-    locale,
-    prerenderFieldProps,
-    setEventResult,
-  ])
-
-  useUpdateEffect(() => {
-    if (finalSchema) {
-      if (hasZodSchema) {
-        schemaValidatorRef.current = createZodValidator(finalSchema)
-      } else {
-        schemaValidatorRef.current =
-          getAjvInstance()?.compile?.(finalSchema)
-      }
-    } else {
-      schemaValidatorRef.current = undefined
-    }
-    validateValue()
-  }, [finalSchema, hasZodSchema])
-
-  // Use "useLayoutEffect" and "externalValueDidChangeRef"
-  // to cooperate with the data context "updateDataValueDataContext" routine further down,
-  // which also uses useLayoutEffect.
-  const externalValueDidChangeRef = useRef(false)
-  useLayoutEffect(() => {
-    if (valueRef.current !== externalValue) {
-      valueRef.current = externalValue
-      externalValueDidChangeRef.current = true
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [externalValueDeps, hasItemPath])
-
-  useUpdateEffect(() => {
-    // Error or removed error for this field from the surrounding data context (by path)
-    if (externalValueDidChangeRef.current) {
-      externalValueDidChangeRef.current = false
-
-      // Hide error when the external value has changed, but is the same as the empty value.
-      if (
-        !validateContinuously &&
-        valueEqualsEmptyValue(valueRef.current)
-      ) {
-        hideError()
-      }
-
-      validateValue()
-      forceUpdate()
-    }
-  }, [externalValueDeps, validateContinuously, valueEqualsEmptyValue]) // Keep "externalValue" in the dependency list, so it will be updated when it changes
 
   const previousLocaleRef = useRef(locale)
   useUpdateEffect(() => {
@@ -2396,6 +1146,28 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   ])
 
   useEffect(() => {
+    if (prerenderFieldProps || !dataContext?.id) {
+      return // stop here
+    }
+
+    const sharedAttachments = createSharedState<{
+      fieldStatusRef?: React.RefObject<Record<Identifier, unknown>>
+    }>(createReferenceKey(dataContext.id, 'attachments')).get?.()
+
+    const status = sharedAttachments?.fieldStatusRef?.current?.[identifier]
+    if (status) {
+      void setEventResult(status as any)
+    }
+  }, [
+    dataContext?.id,
+    identifier,
+    locale,
+    prerenderFieldProps,
+    setEventResult,
+  ])
+
+  // Context error handling
+  useEffect(() => {
     // Check against the local error state,
     // so we prioritize the local error state over the context error state
     if (!localErrorInitiatorRef.current) {
@@ -2410,13 +1182,17 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
     }
   }, [
-    dataContextErrors, // Is needed in order to trigger a re-render when the error state changes.
+    dataContextErrors,
     clearErrorState,
     handleError,
     persistErrorState,
     prepareError,
     validateInitially,
+    localErrorInitiatorRef,
+    contextErrorRef,
   ])
+
+  // ─── setContextData ──────────────────────────────────────────────────
 
   const internalData = dataContext.internalDataRef?.current
   const tmpTransValueRef = useRef<Record<Identifier, unknown>>({
@@ -2613,6 +1389,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       iterateIndex,
       makeIteratePath,
       nestedIteratePath,
+      transformers,
       updateContextDataInSync,
       updateDataValueDataContext,
       validateDataDataContext,
@@ -2679,6 +1456,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
   }, [isEmptyData, setContextData, validateValue])
 
+  // ─── Show / hide errors based on context ─────────────────────────────
+
   useEffect(() => {
     if (showAllErrors || showBoundaryErrors) {
       // In case of async validation, we don't want to show existing errors before the validation has been completed
@@ -2690,7 +1469,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     } else if (showBoundaryErrors === false) {
       hideError()
     }
-  }, [hideError, revealError, showAllErrors, showBoundaryErrors])
+  }, [
+    fieldStateRef,
+    hideError,
+    revealError,
+    showAllErrors,
+    showBoundaryErrors,
+  ])
 
   useEffect(() => {
     if (
@@ -2700,7 +1485,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       hideError()
       forceUpdate()
     }
-  }, [dataContext.formState, hideError])
+  }, [
+    dataContext.formState,
+    hideError,
+    onBlurValidatorRef,
+    onChangeValidatorRef,
+  ])
 
   const onSubmitHandler = useCallback(async () => {
     if (hasError()) {
@@ -2721,11 +1511,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
     await runPool()
   }, [
-    addToPool,
-    startOnBlurValidatorProcess,
     hasError,
-    runPool,
+    addToPool,
     startOnChangeValidatorValidation,
+    onChangeValidatorRef,
+    startOnBlurValidatorProcess,
+    onBlurValidatorRef,
+    runPool,
   ])
 
   // Validate/call validator functions during submit of the form
@@ -2776,18 +1568,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     warning,
   ])
 
-  const infoRef = useRef<FieldStatus['info']>(info)
-  const warningRef = useRef<FieldStatus['warning']>(warning)
-  useMemo(() => {
-    infoRef.current = info
-  }, [info])
-  useMemo(() => {
-    warningRef.current = warning
-  }, [warning])
+  // ─── Status change reporting ─────────────────────────────────────────
 
   const statusRef = useRef<{
-    warning?: UseFieldProps['warning']
-    info?: UseFieldProps['info']
+    warning?: FieldStatus['warning']
+    info?: FieldStatus['info']
     error?: FieldStatus['error']
     validateInitially?: boolean
   }>(null)
@@ -2835,7 +1620,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     info,
     validateInitially,
     errorIsVisible,
+    infoRef,
+    warningRef,
+    bufferedErrorRef,
   ])
+
+  // ─── Connections and HTML attributes ─────────────────────────────────
 
   const connections = useMemo(() => {
     return {
@@ -3015,22 +1805,6 @@ export interface ReturnAdditional<Value> {
   additionalArgs: ReceiveAdditionalEventArgs<Value>
 }
 
-function resolveValidatingState(
-  state: SubmitStateWithValidating
-): SubmitState {
-  return state === 'validating' ? 'pending' : state
-}
-
-export function checkForError(
-  potentialErrors: Array<
-    | FieldPropsGeneric['error']
-    | FieldPropsGeneric['warning']
-    | FieldPropsGeneric['info']
-  >
-): boolean {
-  return potentialErrors.some((error) => {
-    return error instanceof Error || error instanceof FormError
-  })
-}
+export { checkForError } from './useFieldError'
 
 export const clearedArray = []
