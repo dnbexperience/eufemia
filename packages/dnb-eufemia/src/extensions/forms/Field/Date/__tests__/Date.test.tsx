@@ -62,9 +62,12 @@ const setKeyboard = (fn: typeof userEvent.keyboard) => {
  */
 function expandKeySequence(sequence: string): string[] {
   return (sequence.match(/\{[^}]*\}|./g) || []).flatMap((token) => {
-    const repeat = token.match(/^\{(.+?)>(\d+)\}$/)
-    return repeat
-      ? Array.from({ length: Number(repeat[2]) }, () => `{${repeat[1]}}`)
+    const repeatMatch = token.match(/^\{(.+?)>(\d+)\}$/)
+    return repeatMatch
+      ? Array.from(
+          { length: Number(repeatMatch[2]) },
+          () => `{${repeatMatch[1]}}`
+        )
       : [token]
   })
 }
