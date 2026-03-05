@@ -22,6 +22,7 @@ export const useFilteredProps = () => {
     locale, // eslint-disable-line
     showMask, // eslint-disable-line
     allowOverflow, // eslint-disable-line
+    innerRef, // eslint-disable-line
 
     // Get rest of possible attributes
     ...attributes
