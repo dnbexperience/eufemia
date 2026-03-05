@@ -67,6 +67,51 @@ yarn test:screenshots:watch breadcrumb avatar
 
 Visual tests uses this naming convention: `/__tests__/{ComponentName}.e2e.spec.ts`
 
+### Run selected themes only on `main`
+
+For screenshot tests, you can mark individual themes as main-only and keep the rest on all branches.
+
+```ts
+import {
+  makeScreenshot,
+  runOnMain,
+  selectBrands,
+  setupPageScreenshot,
+} from '../../../core/jest/jestSetupScreenshots'
+
+describe.each(selectBrands(['ui', 'sbanken', runOnMain('eiendom')]))(
+  'Button for %s',
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/button/demos/',
+    })
+
+    it('matches default state', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="button-primary"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  }
+)
+```
+
+`runOnMain(...)` only includes that theme when the current branch is `main` or starts with `v` followed by a digit (for example `v11` or `v11-fix`).
+
+You can also use callback mode for single tests:
+
+```ts
+runOnMain(() =>
+  it('matches default state', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="button-primary"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+)
+```
+
 ### Conditional screenshot testing
 
 In CI, screenshot tests are selected from changed files instead of always running all screenshot suites.
