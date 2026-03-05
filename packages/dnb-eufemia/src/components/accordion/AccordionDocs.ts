@@ -158,7 +158,7 @@ export const AccordionProviderGroupProperties: PropertiesTableProps = {
 
 export const AccordionEvents: PropertiesTableProps = {
   onChange: {
-    doc: 'Will be called by user click interaction. Returns an object with a boolean state `expanded` inside `{ expanded, event }`.',
+    doc: 'Will be called by user click interaction. Returns an object with a boolean `value` inside `{ value, event }`.',
     type: 'function',
     status: 'optional',
   },

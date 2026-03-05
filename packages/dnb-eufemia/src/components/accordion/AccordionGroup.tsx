@@ -39,7 +39,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
   function onChangeHandler(event) {
     dispatchCustomElementEvent(thisInstance, 'onChange', {
       id: event.id,
-      expanded: event.expanded,
+      value: event.expanded,
       event,
     })
   }

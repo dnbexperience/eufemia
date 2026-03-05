@@ -12,8 +12,8 @@ export const StepIndicatorStatic = () => (
     <StepIndicator
       mode="static"
       currentStep={1}
-      onChange={({ currentStep }) => {
-        console.log('onChange', currentStep)
+      onChange={({ value }) => {
+        console.log('onChange', value)
       }}
       data={[
         {
@@ -21,7 +21,7 @@ export const StepIndicatorStatic = () => (
         },
         {
           title: 'Ditt lån og egenkapital',
-          onClick: ({ currentStep }) => console.log(currentStep),
+          onClick: ({ value }) => console.log(value),
         },
         {
           title: 'Oppsummering',
@@ -36,8 +36,8 @@ export const StepIndicatorStrict = () => (
     <StepIndicator
       mode="strict"
       currentStep={1}
-      onChange={({ currentStep }) => {
-        console.log('onChange', currentStep)
+      onChange={({ value }) => {
+        console.log('onChange', value)
       }}
       data={[
         {
@@ -45,8 +45,8 @@ export const StepIndicatorStrict = () => (
         },
         {
           title: 'Bestill eller erstatt',
-          onClick: ({ currentStep }) =>
-            console.log('currentStep:', currentStep),
+          onClick: ({ value }) =>
+            console.log('value:', value),
           status:
             'Du må velge bestill nytt kort eller erstatt kort for å kunne fullføre bestillingen din.',
         },
@@ -70,8 +70,8 @@ export const StepIndicatorLoose = () => (
               <StepIndicator
                 mode="loose"
                 currentStep={step}
-                onChange={({ currentStep }) => {
-                  setStep(currentStep)
+                onChange={({ value }) => {
+                  setStep(value)
                 }}
                 data={[
                   'Cum odio si bolig bla et ta',
@@ -114,7 +114,7 @@ export const StepIndicatorCustomized = () => (
               mode="loose"
               data={data}
               currentStep={step}
-              onChange={({ currentStep }) => setStep(currentStep)}
+              onChange={({ value }) => setStep(value)}
               bottom
               {...props}
             />
@@ -187,8 +187,8 @@ export const StepIndicatorRouter = () => (
             <StepIndicator
               mode="loose"
               currentStep={currentStep - 1}
-              onChange={({ currentStep }) => {
-                const step = currentStep + 1
+              onChange={({ value }) => {
+                const step = value + 1
                 setCurrentStep(step)
                 window.history.pushState({}, '', '?' + step)
               }}

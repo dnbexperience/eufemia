@@ -256,11 +256,11 @@ describe('Pagination bar', () => {
 
     fireEvent.click(nextButton)
     expect(onChange).toHaveBeenCalledTimes(1)
-    expect(onChange.mock.calls[0][0].pageNumber).toBe(16)
+    expect(onChange.mock.calls[0][0].value).toBe(16)
 
     fireEvent.click(nextButton)
     expect(onChange).toHaveBeenCalledTimes(2)
-    expect(onChange.mock.calls[1][0].pageNumber).toBe(17)
+    expect(onChange.mock.calls[1][0].value).toBe(17)
   })
 })
 
@@ -289,8 +289,8 @@ describe('Infinity scroller', () => {
   }
 
   it('should load pages with intersection observer (after)', async () => {
-    const action = ({ pageNumber, setContent }) => {
-      setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
+    const action = ({ value, setContent }) => {
+      setContent(value, <PageItem>{value}</PageItem>)
     }
 
     const onEnd = jest.fn()
@@ -413,10 +413,10 @@ describe('Infinity scroller', () => {
         })
       const items = Object.values(localStack.current)
 
-      const action = ({ pageNumber }) => {
-        setCurrentPage(pageNumber)
+      const action = ({ value }) => {
+        setCurrentPage(value)
 
-        if (pageNumber === 1) {
+        if (value === 1) {
           endInfinity()
         }
       }
@@ -556,8 +556,8 @@ describe('Infinity scroller', () => {
   })
 
   it('should load pages with load more button (before)', async () => {
-    const action = ({ pageNumber, setContent }) => {
-      setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
+    const action = ({ value, setContent }) => {
+      setContent(value, <PageItem>{value}</PageItem>)
     }
 
     const onStartup = jest.fn(action)
@@ -733,10 +733,10 @@ describe('Infinity scroller', () => {
 
       resetInfinityHandler = resetInfinity
 
-      const action = ({ pageNumber }) => {
-        setCurrentPage(pageNumber)
+      const action = ({ value }) => {
+        setCurrentPage(value)
 
-        if (pageNumber === 1) {
+        if (value === 1) {
           endInfinity()
         }
       }
@@ -820,8 +820,8 @@ describe('Infinity scroller', () => {
   })
 
   it('should forward load button props', async () => {
-    const action = ({ pageNumber, setContent }) => {
-      setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
+    const action = ({ value, setContent }) => {
+      setContent(value, <PageItem>{value}</PageItem>)
     }
 
     const onStartup = jest.fn(action)
@@ -847,8 +847,8 @@ describe('Infinity scroller', () => {
   })
 
   it('should accept custom component as value for loadButton', async () => {
-    const action = ({ pageNumber, setContent }) => {
-      setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
+    const action = ({ value, setContent }) => {
+      setContent(value, <PageItem>{value}</PageItem>)
     }
 
     const onStartup = jest.fn(action)

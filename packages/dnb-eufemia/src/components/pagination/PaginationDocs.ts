@@ -160,7 +160,7 @@ export const PaginationProperties: PropertiesTableProps = {
 
 export const PaginationEvents: PropertiesTableProps = {
   onChange: {
-    doc: 'Will be called for every page change, regardless if the mode is `mode="infinity"` or not. Returns an object with number of useful properties and methods. See below for more details.',
+    doc: 'Will be called for every page change, regardless if the mode is `mode="infinity"` or not. Returns an object with `value` (the current page number) and other useful properties and methods. See below for more details.',
     type: 'function',
     status: 'optional',
   },

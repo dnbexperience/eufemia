@@ -1678,7 +1678,7 @@ describe('Upload', () => {
           <Upload
             acceptedFileTypes={['jpg', 'png']}
             id="upload-error-message"
-            onChange={({ files: internalFiles }) => {
+            onChange={({ value: internalFiles }) => {
               setFiles(
                 internalFiles.map((fileItem) => {
                   const fileNameTooBig = fileItem?.file?.name?.length > 5
@@ -1833,7 +1833,7 @@ describe('Upload', () => {
 
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(onChange).toHaveBeenCalledWith({
-        files: [{ file: file1, id: expect.any(String), exists: false }],
+        value: [{ file: file1, id: expect.any(String), exists: false }],
       })
 
       const deleteButton = screen.queryByRole('button', {
@@ -1843,7 +1843,7 @@ describe('Upload', () => {
       fireEvent.click(deleteButton)
 
       expect(onChange).toHaveBeenCalledTimes(2)
-      expect(onChange).toHaveBeenCalledWith({ files: [] })
+      expect(onChange).toHaveBeenLastCalledWith({ value: [] })
     })
 
     it('will call onFileClick when file gets clicked', async () => {

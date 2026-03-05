@@ -53,7 +53,7 @@ describe('Checkbox component', () => {
     )
   })
 
-  it('should return "checked" and "event" from onChange event', async () => {
+  it('should return "value" and "event" from onChange event', async () => {
     const onChange = jest.fn()
     render(<Checkbox onChange={onChange} value="foo" />)
 
@@ -63,7 +63,7 @@ describe('Checkbox component', () => {
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({
-        checked: true,
+        value: true,
         event: expect.objectContaining({
           target: expect.objectContaining({ value: 'foo' }),
         }),
@@ -215,8 +215,8 @@ describe('Checkbox component', () => {
     screen.getByRole('checkbox').click()
 
     expect(myEvent.mock.calls.length).toBe(1)
-    expect(myEvent.mock.calls[0][0]).toHaveProperty('checked')
-    expect(myEvent.mock.calls[0][0].checked).toBe(true)
+    expect(myEvent.mock.calls[0][0]).toHaveProperty('value')
+    expect(myEvent.mock.calls[0][0].value).toBe(true)
   })
 
   describe('controlled vs uncontrolled', () => {

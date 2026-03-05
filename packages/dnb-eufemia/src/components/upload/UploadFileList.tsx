@@ -64,7 +64,7 @@ function UploadFileList() {
     setInternalFiles(updatedFiles)
 
     if (typeof onChange === 'function') {
-      onChange({ files: updatedFiles })
+      onChange({ value: updatedFiles })
     }
   }
 

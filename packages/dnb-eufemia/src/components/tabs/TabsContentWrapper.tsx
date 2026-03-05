@@ -13,7 +13,7 @@ import {
 import HeightAnimation from '../height-animation/HeightAnimation'
 
 type ContentWrapperState = {
-  key: string | number | null
+  value: string | number | null
 }
 
 type SharedState = SharedStateReturn<ContentWrapperState> & {
@@ -36,9 +36,9 @@ export default function ContentWrapper({
     if (id) {
       const shared = createSharedState(id) as unknown as SharedState
       sharedStateRef.current = shared
-      return shared.get() || { key: null }
+      return shared.get() || { value: null }
     }
-    return { key: null }
+    return { value: null }
   })
 
   useEffect(() => {
@@ -50,9 +50,9 @@ export default function ContentWrapper({
 
     const subscriber = () => {
       const params = sharedState.get()
-      if (params?.key !== undefined) {
+      if (params?.value !== undefined) {
         setState((prev) => {
-          if (params.key !== prev.key) {
+          if (params.value !== prev.value) {
             return params
           }
           return prev
@@ -74,9 +74,9 @@ export default function ContentWrapper({
 
   const params = { ...rest }
 
-  // Use state.key if available (when linked with shared state),
+  // Use state.value if available (when linked with shared state),
   // otherwise fall back to selectedKey prop
-  const activeKey = state.key !== null ? state.key : selectedKey
+  const activeKey = state.value !== null ? state.value : selectedKey
 
   if (activeKey) {
     params['aria-labelledby'] = combineLabelledBy(
@@ -100,9 +100,9 @@ export default function ContentWrapper({
 
   let content: React.ReactNode = children as React.ReactNode
   if (typeof children === 'function') {
-    // If state.key is null but we have an activeKey, create a proper state object
+    // If state.value is null but we have an activeKey, create a proper state object
     const stateToPass =
-      state.key !== null ? state : { ...state, key: activeKey }
+      state.value !== null ? state : { ...state, value: activeKey }
     content = children(stateToPass) as React.ReactNode
   }
 

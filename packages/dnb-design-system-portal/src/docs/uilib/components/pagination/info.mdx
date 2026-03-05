@@ -78,8 +78,8 @@ import { Pagination } from '@dnb/eufemia/components'
 render(
   <Pagination
     pageCount={2}
-    onChange={({ pageNumber, setContent }) => {
-      setContent(pageNumber, ReactComponent)
+    onChange={({ value, setContent }) => {
+      setContent(value, ReactComponent)
     }}
   />
 )

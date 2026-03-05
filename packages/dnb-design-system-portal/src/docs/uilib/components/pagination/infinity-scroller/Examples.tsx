@@ -59,11 +59,11 @@ export const PaginationExampleInfinityLoadButton = () => (
         useLoadButton
         startupPage={5}
         minWaitTime={0}
-        onLoad={({ pageNumber, setContent }) => {
+        onLoad={({ value, setContent }) => {
           // simulate server communication delay
           const timeout = setTimeout(
             () => {
-              setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
+              setContent(value, <LargePage>{value}</LargePage>)
             },
             Math.ceil(Math.random() * 500)
           )
@@ -86,20 +86,20 @@ export const PaginationExampleInfinityIndicator = () => (
         startupPage={3}
         pageCount={10}
         minWaitTime={0}
-        onLoad={({ pageNumber, setContent }) => {
+        onLoad={({ value, setContent }) => {
           // simulate server communication delay
           const timeout = setTimeout(
             () => {
-              setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
+              setContent(value, <LargePage>{value}</LargePage>)
             },
             Math.ceil(Math.random() * 500)
           )
 
           return () => clearTimeout(timeout)
         }}
-        onEnd={({ pageNumber, setContent }) => {
+        onEnd={({ value, setContent }) => {
           setContent(
-            pageNumber,
+            value,
             <LargePage color="lightgreen">End</LargePage>
           )
         }}
@@ -115,14 +115,14 @@ export const PaginationExampleInfinityUnknown = () => (
         mode="infinity"
         parallelLoadCount={2}
         minWaitTime={0}
-        onLoad={({ pageNumber, setContent, endInfinity }) => {
+        onLoad={({ value, setContent, endInfinity }) => {
           // simulate server communication delay
           const timeout = setTimeout(
             () => {
-              if (pageNumber > 10) {
+              if (value > 10) {
                 endInfinity()
               } else {
-                setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
+                setContent(value, <LargePage>{value}</LargePage>)
               }
             },
             Math.ceil(Math.random() * 1e3)
@@ -130,9 +130,9 @@ export const PaginationExampleInfinityUnknown = () => (
 
           return () => clearTimeout(timeout)
         }}
-        onEnd={({ pageNumber, setContent }) => {
+        onEnd={({ value, setContent }) => {
           setContent(
-            pageNumber,
+            value,
             <LargePage color="lightgreen">End</LargePage>
           )
         }}

@@ -19,7 +19,7 @@ export const SwitchExampleChecked = () => (
       label="Label"
       labelPosition="left"
       checked
-      onChange={({ checked }) => console.log(checked)}
+      onChange={({ value }) => console.log(value)}
     />
   </ComponentBox>
 )

@@ -131,7 +131,7 @@ export const TabsDataObject: PropertiesTableProps = {
 
 export const TabsEvents: PropertiesTableProps = {
   onChange: {
-    doc: '(preferred) this event gets triggered once the tab changes its selected key. Returns `{ key, selectedKey, focusKey, title, event }`.',
+    doc: '(preferred) this event gets triggered once the tab changes its selected key. Returns `{ value, selectedKey, focusKey, title, event }`.',
     type: 'function',
     status: 'optional',
   },

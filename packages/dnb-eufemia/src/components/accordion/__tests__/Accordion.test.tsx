@@ -53,12 +53,12 @@ describe('Accordion component', () => {
     fireEvent.click(document.querySelector('.dnb-accordion__header'))
 
     expect(myEvent.mock.calls.length).toBe(1)
-    expect(myEvent.mock.calls[0][0]).toHaveProperty('expanded')
-    expect(myEvent.mock.calls[0][0].expanded).toBe(true)
+    expect(myEvent.mock.calls[0][0]).toHaveProperty('value')
+    expect(myEvent.mock.calls[0][0].value).toBe(true)
 
     // second click
     fireEvent.click(document.querySelector('.dnb-accordion__header'))
-    expect(myEvent.mock.calls[1][0].expanded).toBe(false)
+    expect(myEvent.mock.calls[1][0].value).toBe(false)
   })
 
   it('uses a p element when string content is given', () => {

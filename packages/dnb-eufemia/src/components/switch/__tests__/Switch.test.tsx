@@ -45,8 +45,8 @@ describe('Switch component', () => {
     fireEvent.click(document.querySelector('input'))
 
     expect(myEvent.mock.calls.length).toBe(1)
-    expect(myEvent.mock.calls[0][0]).toHaveProperty('checked')
-    expect(myEvent.mock.calls[0][0].checked).toBe(true)
+    expect(myEvent.mock.calls[0][0]).toHaveProperty('value')
+    expect(myEvent.mock.calls[0][0].value).toBe(true)
   })
 
   it('does handle controlled vs uncontrolled state properly', () => {

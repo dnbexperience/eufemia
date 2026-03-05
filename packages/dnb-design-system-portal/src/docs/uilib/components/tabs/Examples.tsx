@@ -274,7 +274,7 @@ export const TabsExampleReachRouterNavigation = () =>
                   { title: 'Topics', key: '/topics' },
                 ]}
                 selectedKey={pathname}
-                onChange={({ key }) => navigate(key)}
+                onChange={({ value }) => navigate(value)}
                 tabsStyle="info"
               >
                 <React.Suspense fallback={<em>Loading ...</em>}>

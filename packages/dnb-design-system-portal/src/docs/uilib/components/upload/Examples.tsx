@@ -62,7 +62,7 @@ export const UploadBasic = () => (
   <ComponentBox data-visual-test="upload-basic">
     <Upload
       acceptedFileTypes={['jpg', 'png']}
-      onChange={({ files }) => console.log('onChange', files)}
+      onChange={({ value }) => console.log('onChange', value)}
     />
   </ComponentBox>
 )
@@ -72,7 +72,7 @@ export const UploadBasicCompactVariant = () => (
     <Upload
       variant="compact"
       acceptedFileTypes={['jpg', 'png']}
-      onChange={({ files }) => console.log('onChange', files)}
+      onChange={({ value }) => console.log('onChange', value)}
     />
   </ComponentBox>
 )
@@ -84,7 +84,7 @@ export const UploadCompactVariantWithoutLabels = () => (
       acceptedFileTypes={['jpg', 'png']}
       title={false}
       text={false}
-      onChange={({ files }) => console.log('onChange', files)}
+      onChange={({ value }) => console.log('onChange', value)}
     />
   </ComponentBox>
 )
@@ -94,7 +94,7 @@ export const UploadDisabled = () => (
     <Upload
       acceptedFileTypes={['jpg', 'png']}
       disabled
-      onChange={({ files }) => console.log('onChange', files)}
+      onChange={({ value }) => console.log('onChange', value)}
     />
   </ComponentBox>
 )
@@ -612,7 +612,7 @@ export const UploadDisabledDragAndDrop = () => (
     <Upload
       disableDragAndDrop
       acceptedFileTypes={['jpg', 'png']}
-      onChange={({ files }) => console.log('onChange', files)}
+      onChange={({ value }) => console.log('onChange', value)}
     />
   </ComponentBox>
 )
@@ -666,9 +666,9 @@ export const UploadDescription = () => (
           <Upload
             acceptedFileTypes={['jpg', 'png']}
             id="upload-description"
-            onChange={({ files }) =>
+            onChange={({ value }) =>
               setFiles(
-                files.map((fileItem) => {
+                value.map((fileItem) => {
                   return {
                     ...fileItem,
                     description: 'This is my description',
@@ -728,9 +728,9 @@ export const UploadRemoveDeleteButton = () => (
           <Upload
             acceptedFileTypes={['jpg', 'png']}
             id="upload-remove-delete-button"
-            onChange={({ files }) =>
+            onChange={({ value }) =>
               setFiles(
-                files.map((fileItem) => {
+                value.map((fileItem) => {
                   return {
                     ...fileItem,
                     deleteButtonProps: {

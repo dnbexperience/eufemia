@@ -50,6 +50,22 @@ export type DeepPartial<T> = T extends object
     }
   : T
 
+/**
+ * Standard event callback parameter type for component onChange events.
+ * Enforces `value` as the primary data property across all components.
+ *
+ * @example
+ * // Simple usage:
+ * type OnChangeParams = ComponentChangeEvent<boolean, { event: React.ChangeEvent }>
+ * // Result: { value: boolean; event: React.ChangeEvent }
+ */
+export type ComponentChangeEvent<
+  V,
+  Extra = Record<never, never>,
+> = {
+  value: V
+} & Extra
+
 type IsAny<T> = 0 extends 1 & T ? true : false
 
 /**

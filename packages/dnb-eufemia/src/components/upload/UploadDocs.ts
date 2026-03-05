@@ -148,7 +148,7 @@ export const AcceptedFileTypeProperties: PropertiesTableProps = {
 
 export const UploadEvents: PropertiesTableProps = {
   onChange: {
-    doc: 'Will be called on `files` changes made by the user. Access the files with `{ files }` (containing each a `fileItem`).',
+    doc: 'Will be called on file changes made by the user. Access the files with `{ value }` (an array of file items).',
     type: 'function',
     status: 'optional',
   },

@@ -26,6 +26,7 @@ import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import useId from '../../shared/helpers/useId'
 import type { SpacingProps } from '../space/types'
+import type { ComponentChangeEvent } from '../../shared/types'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 import type { FormStatusBaseProps } from '../FormStatus'
@@ -37,10 +38,10 @@ import CheckIcon from './CheckIcon'
 
 export type CheckboxLabelPosition = 'left' | 'right'
 export type CheckboxSize = 'default' | 'medium' | 'large'
-export type OnChangeParams = {
-  checked: boolean
-  event: React.ChangeEvent<HTMLInputElement>
-}
+export type OnChangeParams = ComponentChangeEvent<
+  boolean,
+  { event: React.ChangeEvent<HTMLInputElement> }
+>
 export type OnClickParams = React.MouseEvent<HTMLInputElement> & {
   checked: boolean
   event: React.MouseEvent<HTMLInputElement>
@@ -200,7 +201,7 @@ function Checkbox(localProps: CheckboxProps) {
 
       isCheckedRef.current = updatedCheck
       forceUpdate()
-      callOnChange({ checked: updatedCheck, event })
+      callOnChange({ value: updatedCheck, event })
 
       // help firefox and safari to have a correct state after a click
       if (ref.current) {

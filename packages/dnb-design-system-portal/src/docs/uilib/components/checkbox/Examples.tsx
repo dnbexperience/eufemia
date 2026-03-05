@@ -20,7 +20,7 @@ export const CheckboxChecked = () => (
       label="Label"
       labelPosition="left"
       checked
-      onChange={({ checked }) => console.log(checked)}
+      onChange={({ value }) => console.log(value)}
     />
   </ComponentBox>
 )

@@ -86,9 +86,9 @@ function StepIndicatorItem({
   const onClickHandler = useCallback(
     ({ event, item, currentItemNum }) => {
       const params = {
+        value: currentItemNum,
         event,
         item,
-        currentStep: currentItemNum,
       }
 
       const onClickItem = dispatchCustomElementEvent(

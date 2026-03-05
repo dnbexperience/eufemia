@@ -106,6 +106,12 @@ function Toggle(props: Props) {
   )
   const handleCheckboxChange = useCallback(
     (args: OnChangeParams) => {
+      handleChange?.(args.value ? valueOn : valueOff, args)
+    },
+    [handleChange, valueOn, valueOff]
+  )
+  const handleToggleButtonChange = useCallback(
+    (args: { checked: boolean; event: React.SyntheticEvent }) => {
       handleChange?.(args.checked ? valueOn : valueOff, args)
     },
     [handleChange, valueOn, valueOff]
@@ -118,7 +124,7 @@ function Toggle(props: Props) {
   )
   const handleSwitchChange = useCallback(
     (args: SwitchOnChangeParams) => {
-      handleChange?.(args.checked ? valueOn : valueOff, args)
+      handleChange?.(args.value ? valueOn : valueOff, args)
     },
     [handleChange, valueOn, valueOff]
   )
@@ -215,7 +221,7 @@ function Toggle(props: Props) {
             status={hasError ? 'error' : undefined}
             value={value ? 'true' : 'false'}
             size={size}
-            onChange={handleCheckboxChange}
+            onChange={handleToggleButtonChange}
             role="checkbox"
             {...htmlAttributes}
           />
@@ -301,7 +307,7 @@ function Toggle(props: Props) {
             status={hasError ? 'error' : undefined}
             value={value ? 'true' : 'false'}
             size={size}
-            onChange={handleCheckboxChange}
+            onChange={handleToggleButtonChange}
             role="checkbox"
             {...htmlAttributes}
           />

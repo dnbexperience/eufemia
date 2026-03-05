@@ -34,8 +34,8 @@ export const PaginationExampleDefault = () => (
     <Pagination
       pageCount={888}
       currentPage={4}
-      onChange={({ pageNumber }) => {
-        console.log('onChange:', pageNumber)
+      onChange={({ value }) => {
+        console.log('onChange:', value)
       }}
     >
       <P>Current Page Content</P>
@@ -48,8 +48,8 @@ export const PaginationExampleWithHorizontalLayout = () => (
     <Pagination
       pageCount={888}
       currentPage={4}
-      onChange={({ pageNumber }) => {
-        console.log('onChange:', pageNumber)
+      onChange={({ value }) => {
+        console.log('onChange:', value)
       }}
       paginationBarLayout="horizontal"
     >
@@ -63,8 +63,8 @@ export const PaginationExampleWithCallback = () => (
     <Pagination
       pageCount={5}
       startupPage={3}
-      onChange={({ pageNumber }) => {
-        console.log('onChange:', pageNumber)
+      onChange={({ value }) => {
+        console.log('onChange:', value)
       }}
     >
       {({ pageNumber }) => <P>Page {pageNumber}</P>}
@@ -169,19 +169,19 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   let serverDelayTimeout
   React.useEffect(() => () => clearTimeout(serverDelayTimeout))
 
-  const action = ({ pageNumber }) => {
-    console.log('onChange: with page', pageNumber)
+  const action = ({ value }) => {
+    console.log('onChange: with page', value)
 
     // simulate server delay
     clearTimeout(serverDelayTimeout)
     serverDelayTimeout = setTimeout(
       () => {
-        if (pageNumber === currentPage) {
+        if (value === currentPage) {
           // once we set current page, we force a re-render, and sync of data
           // but only if we are on the same page
           forceRerender(new Date().getTime())
         } else {
-          setLocalPage(pageNumber)
+          setLocalPage(value)
         }
       },
       Math.ceil(Math.random() * 1e3)

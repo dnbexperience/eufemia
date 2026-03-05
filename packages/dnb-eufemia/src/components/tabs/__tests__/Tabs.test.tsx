@@ -71,10 +71,12 @@ describe('Tabs component', () => {
     fireEvent.click(document.querySelectorAll('.dnb-tabs__button')[1])
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onClick).toHaveBeenCalledTimes(1)
+    expect(onChange.mock.calls[0][0].value).toBe('second')
 
     fireEvent.click(document.querySelectorAll('.dnb-tabs__button')[2])
     expect(onChange).toHaveBeenCalledTimes(2)
     expect(onClick).toHaveBeenCalledTimes(2)
+    expect(onChange.mock.calls[1][0].value).toBe('third')
 
     preventChange = true
 
@@ -514,11 +516,11 @@ describe('A single Tab component', () => {
         <>
           <Tabs id="linked" data={tablistData} {...props} />
           <Tabs.Content id="linked">
-            {({ key, title }) => {
-              testKey = key
+            {({ value, title }) => {
+              testKey = value
               testTitle = title
 
-              return key
+              return value
             }}
           </Tabs.Content>
         </>

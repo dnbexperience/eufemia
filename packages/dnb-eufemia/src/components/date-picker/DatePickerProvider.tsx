@@ -149,15 +149,16 @@ function DatePickerProvider(props: DatePickerProviderProps) {
 
       // Handle range props
       if (range) {
+        const formattedStartDate = startDateIsValid
+            ? format(startDate, returnFormat)
+            : null
         return {
           ...returnObject,
           daysBetween:
             startDateIsValid && endDateIsValid
               ? differenceInCalendarDays(endDate, startDate)
               : null,
-          startDate: startDateIsValid
-            ? format(startDate, returnFormat)
-            : null,
+          startDate: formattedStartDate,
           endDate: endDateIsValid ? format(endDate, returnFormat) : null,
           isValidStartDate:
             hasMinOrMaxDates &&

@@ -15,7 +15,7 @@ import StepIndicatorContext, {
   StepIndicatorProvider,
 } from './StepIndicatorContext'
 
-import type { SpacingProps } from '../../shared/types'
+import type { SpacingProps, ComponentChangeEvent } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import type { StepIndicatorItemProps } from './StepIndicatorItem'
 import { stepIndicatorDefaultProps } from './StepIndicatorProps'
@@ -37,11 +37,13 @@ export type StepIndicatorDataItem = Pick<
 >
 export type StepIndicatorData = string | string[] | StepIndicatorDataItem[]
 
-export type StepIndicatorMouseEvent = {
-  event: React.MouseEvent<HTMLButtonElement>
-  item: StepIndicatorItemProps
-  currentStep: number
-}
+export type StepIndicatorMouseEvent = ComponentChangeEvent<
+  number,
+  {
+    event: React.MouseEvent<HTMLButtonElement>
+    item: StepIndicatorItemProps
+  }
+>
 
 export type StepIndicatorProps = Omit<
   React.HTMLProps<HTMLAnchorElement>,

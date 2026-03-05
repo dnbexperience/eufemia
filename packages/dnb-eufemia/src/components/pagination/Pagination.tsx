@@ -87,7 +87,7 @@ export type LoadButtonProps =
     }
 
 export type PaginationEvent = {
-  pageNumber: number
+  value: number
   setContent: (...args: unknown[]) => void
   endInfinity: () => void
   event?: React.SyntheticEvent

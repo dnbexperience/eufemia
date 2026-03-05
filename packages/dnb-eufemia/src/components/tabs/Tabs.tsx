@@ -942,7 +942,7 @@ export default class Tabs extends React.PureComponent<
         : selectedKey
 
     return {
-      key,
+      value: key,
       selectedKey,
       focusKey,
       title: this.getCurrentTitle(key),

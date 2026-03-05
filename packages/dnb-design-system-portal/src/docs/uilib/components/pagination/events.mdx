@@ -17,29 +17,29 @@ Events have several useful methods to change / manipulate the content.
 
 ```jsx
 <Pagination
-  onChange={({ pageNumber, ...methods }) => {
+  onChange={({ value, ...methods }) => {
     // ...
   }}
 />
 ```
 
-- `pageNumber` the current page number
-- `setContent` use it to add update a page including content: `setContent(pageNumber, ReactComponent)`
+- `value` the current page number
+- `setContent` use it to add update a page including content: `setContent(value, ReactComponent)`
 
 ### Infinity mode
 
 ```jsx
 <Pagination
   mode="infinity"
-  onChange={({ pageNumber, ...methods }) => {
+  onChange={({ value, ...methods }) => {
     // ...
   }}
 />
 ```
 
-- `pageNumber` the current page number
-- `setContent` use it to add update a page including content: `setContent(pageNumber, ReactComponent, position = 'after')`
-- `endInfinity` use it to tell the infinity pagination to end the infinity scrolling interaction. Use this handler to end the infinity scrolling procedure, in case the pageCount is unknown: `endInfinity(pageNumber)`
+- `value` the current page number
+- `setContent` use it to add update a page including content: `setContent(value, ReactComponent, position = 'after')`
+- `endInfinity` use it to tell the infinity pagination to end the infinity scrolling interaction. Use this handler to end the infinity scrolling procedure, in case the pageCount is unknown: `endInfinity(value)`
 - `resetContent` use it to invalidate all internal pages: `resetContent()`
 - `resetInfinity` use it to reset the internal pagination states: `resetInfinity(pageNumber = startupPage)`
 - `items` internal stored pages

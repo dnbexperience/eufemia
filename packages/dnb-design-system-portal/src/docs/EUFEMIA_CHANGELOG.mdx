@@ -2,6 +2,10 @@
 
 - [Card](/uilib/components/card): changed default outline to `1px` with color `#ebebeb` and changed corner radius to `24px` and changed default inner spacing on all sides to `16px`.
 
+## March, 5. 2026
+
+- **Breaking:** Standardized `onChange` callback parameters across components to use `value` as the primary data property. Removed duplicate property names (`checked`, `expanded`, `pageNumber`, `key`, `currentStep`, `files`). Affected components: [Checkbox](/uilib/components/checkbox), [Switch](/uilib/components/switch), [Tabs](/uilib/components/tabs), [Pagination](/uilib/components/pagination), [Accordion](/uilib/components/accordion), [StepIndicator](/uilib/components/step-indicator), [Upload](/uilib/components/upload). A shared `ComponentChangeEvent` type is now available from `@dnb/eufemia` for type-safe event handling.
+
 ## January, 30. 2025
 
 - New component: [List](/uilib/components/list) for structured list layouts with items, navigation, accordion, and selection variants.

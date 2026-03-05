@@ -29,14 +29,15 @@ import FormStatus, { FormStatusBaseProps } from '../form-status/FormStatus'
 import useId from '../../shared/helpers/useId'
 import { SkeletonShow } from '../Skeleton'
 import { SpacingProps } from '../space/types'
+import type { ComponentChangeEvent } from '../../shared/types'
 
 export type SwitchLabelPosition = 'left' | 'right'
 export type SwitchSize = 'default' | 'medium' | 'large'
 export type SwitchAttributes = string | Record<string, unknown>
-export type SwitchOnChangeParams = {
-  checked: boolean
-  event: MouseEvent | TouchEvent | KeyboardEvent
-}
+export type SwitchOnChangeParams = ComponentChangeEvent<
+  boolean,
+  { event: MouseEvent | TouchEvent | KeyboardEvent }
+>
 export type SwitchOnClickParams = React.MouseEvent<HTMLInputElement> & {
   checked: boolean
   event: React.MouseEvent<HTMLInputElement>
@@ -168,8 +169,8 @@ export default function Switch(props: SwitchProps) {
   }, [checkedProp])
 
   const callOnChange = useCallback(
-    ({ checked, event }) => {
-      onChange?.({ checked, event })
+    ({ value, event }) => {
+      onChange?.({ value, event })
     },
     [onChange]
   )
@@ -184,14 +185,14 @@ export default function Switch(props: SwitchProps) {
 
       isCheckedRef.current = updatedChecked
       forceUpdate()
-      callOnChange({ checked: updatedChecked, event })
+      callOnChange({ value: updatedChecked, event })
 
       if (onChangeEnd) {
         if (event && event.persist) {
           event.persist()
         }
         setTimeout(
-          () => onChangeEnd({ checked: updatedChecked, event }),
+          () => onChangeEnd({ value: updatedChecked, event }),
           500
         )
       }

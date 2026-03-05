@@ -159,7 +159,7 @@ export default class InfinityScroller extends React.PureComponent<any> {
             pageNumber = 1
           }
           const ret = dispatchCustomElementEvent(context, eventName, {
-            pageNumber,
+            value: pageNumber,
             ...context,
           })
 

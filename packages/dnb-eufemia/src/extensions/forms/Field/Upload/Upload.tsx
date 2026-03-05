@@ -382,8 +382,8 @@ function UploadComponent(props: Props) {
   )
 
   const changeHandler = useCallback(
-    ({ files }: { files: UploadValue }) => {
-      let changeValue = files?.length === 0 ? undefined : files
+    ({ value }: { value: UploadValue }) => {
+      let changeValue = value?.length === 0 ? undefined : value
 
       // Prevents the form-status from showing up
       handleBlur()

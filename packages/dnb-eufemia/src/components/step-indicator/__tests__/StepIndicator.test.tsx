@@ -310,7 +310,7 @@ describe('StepIndicator in loose mode', () => {
     fireEvent.click(items[0].querySelector('button'))
 
     expect(onChange).toHaveBeenCalledTimes(1)
-    expect(onChange.mock.calls[0][0].currentStep).toBe(0)
+    expect(onChange.mock.calls[0][0].value).toBe(0)
     expect(typeof onChange.mock.calls[0][0].event.preventDefault).toBe(
       'function'
     )

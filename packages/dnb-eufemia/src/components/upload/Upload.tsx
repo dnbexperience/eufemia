@@ -126,7 +126,7 @@ const Upload = (localProps: UploadAllProps) => {
       setInternalFiles(mergedFiles)
 
       if (typeof onChange === 'function') {
-        onChange({ files: validFiles })
+        onChange({ value: validFiles })
       }
 
       return validFiles

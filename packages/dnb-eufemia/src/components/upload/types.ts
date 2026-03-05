@@ -53,7 +53,7 @@ export type UploadProps = {
   /**
    * will be called on `files` changes made by the user. Access the files with `{ files }`.
    */
-  onChange?: ({ files }: { files: Array<UploadFile> }) => void
+  onChange?: (args: { value: Array<UploadFile> }) => void
 
   /**
    * will be called once a file gets deleted by the user. Access the deleted file with `{ fileItem }`.

@@ -306,7 +306,7 @@ function Accordion({
     changeOpened(expanded)
 
     dispatchCustomElementEvent(thisInstance, 'onChange', {
-      expanded,
+      value: expanded,
       event,
     })
   }

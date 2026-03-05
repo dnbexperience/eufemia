@@ -70,12 +70,12 @@ export const StepIndicatorProperties: PropertiesTableProps = {
 
 export const StepIndicatorEvents: PropertiesTableProps = {
   onClick: {
-    doc: 'Will be called when the user clicks on any clickable step in the list. Is called right before `onChange`. Receives parameter `{ event, item, currentStep, currentStep }`.',
+    doc: 'Will be called when the user clicks on any clickable step in the list. Is called right before `onChange`. Receives parameter `{ value, event, item }`.',
     type: 'function',
     status: 'optional',
   },
   onChange: {
-    doc: 'Will be called when the user changes step by clicking in the steps list (changing the `currentStep` property does not trigger the event). Receives parameter `{ event, item, currentStep, currentStep }`.',
+    doc: 'Will be called when the user changes step by clicking in the steps list (changing the `currentStep` property does not trigger the event). Receives parameter `{ value, event, item }`.',
     type: 'function',
     status: 'optional',
   },
@@ -116,7 +116,7 @@ export const StepIndicatorStepProperties: PropertiesTableProps = {
 
 export const StepIndicatorStepEvents: PropertiesTableProps = {
   onClick: {
-    doc: "Called when user clicks the step. Is called right before the main component's `onClick`. Receives parameter `{ event, item, currentStep, currentStep }`",
+    doc: \"Called when user clicks the step. Is called right before the main component's `onClick`. Receives parameter `{ value, event, item }`\",
     type: 'function',
     status: 'optional',
   },
