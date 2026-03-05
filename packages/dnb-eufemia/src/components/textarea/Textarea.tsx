@@ -464,6 +464,8 @@ function TextareaComponent(
 
   // Setup autoResize on mount
   useEffect(() => {
+    const handleResize = () => setAutosize()
+
     if (autoResize && typeof window !== 'undefined') {
       setAutosize()
       try {
@@ -479,7 +481,7 @@ function TextareaComponent(
         observer.observe(document.body)
         resizeObserverRef.current = observer
       } catch (e) {
-        window.addEventListener('resize', setAutosize)
+        window.addEventListener('resize', handleResize)
       }
     }
 
@@ -489,7 +491,7 @@ function TextareaComponent(
         resizeObserverRef.current = null
       }
       if (typeof window !== 'undefined') {
-        window.removeEventListener('resize', setAutosize)
+        window.removeEventListener('resize', handleResize)
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
