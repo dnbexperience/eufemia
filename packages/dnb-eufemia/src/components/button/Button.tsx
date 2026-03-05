@@ -425,7 +425,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
   const handleClick = (
     event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
   ) => {
-    const result = dispatchCustomElementEvent(restProps, 'onClick', {
+    const result = dispatchCustomElementEvent(props, 'onClick', {
       event,
     })
     if (result && React.isValidElement(result)) {
