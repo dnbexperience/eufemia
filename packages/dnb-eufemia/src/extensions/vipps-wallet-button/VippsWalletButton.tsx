@@ -53,8 +53,9 @@ export default function VippsWalletButton({
       {...props}
       variant="primary"
       className={classnames('dnb-vipps-wallet-button', className, {'pending': pending})}
+      disabled={indicatorState === 'pending'}
     >
-      {buttonText} <VippsLogo />  <SubmitIndicator state={indicatorState} />
+      {buttonText} <VippsLogo />  <SubmitIndicator state={indicatorState} className='dnb-vipps-wallet-button-submitindicator' />
     </Button>
   )
 }

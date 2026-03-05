@@ -28,7 +28,6 @@
   @include hover() {
     background-color: var(--vipps-primary-color);
     color: var(--color-white);
-
     --border-color: var(--vipps-primary-color);
   }
 
@@ -37,10 +36,12 @@
   }
 
   &[disabled] {
-    background-color: var(--color-black-20);
+    background-color: var(--vipps-primary-color);
+    color: var(--color-white);
+    --border-color: initial;
   }
 
-  &.pending {
-    background-color: var(--color-black-20);
+  .dnb-vipps-wallet-button-submitindicator {
+    margin-left: -0.4em;
   }
 }
