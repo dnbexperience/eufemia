@@ -15,7 +15,10 @@ import StepIndicatorContext, {
   StepIndicatorProvider,
 } from './StepIndicatorContext'
 
-import type { SpacingProps, ComponentChangeEvent } from '../../shared/types'
+import type {
+  SpacingProps,
+  ComponentChangeEvent,
+} from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import type { StepIndicatorItemProps } from './StepIndicatorItem'
 import { stepIndicatorDefaultProps } from './StepIndicatorProps'
@@ -80,21 +83,13 @@ export type StepIndicatorProps = Omit<
      */
     hideNumbers?: boolean
     /**
-     * Will be called once the user clicks on the current or another step. Will be emitted on every click. Returns an object `{ event, item, currentStep, currentStep }`.
+     * Will be called once the user clicks on the current or another step. Will be emitted on every click. Returns an object `{ value, event, item }`.
      */
-    onClick?: ({
-      event,
-      item,
-      currentStep,
-    }: StepIndicatorMouseEvent) => void
+    onClick?: ({ event, item, value }: StepIndicatorMouseEvent) => void
     /**
-     * Will be called once the user visits actively a new step. Will be emitted only once. Returns an object `{ event, item, currentStep, currentStep }`.
+     * Will be called once the user visits actively a new step. Will be emitted only once. Returns an object `{ value, event, item }`.
      */
-    onChange?: ({
-      event,
-      item,
-      currentStep,
-    }: StepIndicatorMouseEvent) => void
+    onChange?: ({ event, item, value }: StepIndicatorMouseEvent) => void
     /**
      * Status text. Status is only shown if this prop has text. Defaults to `undefined`
      */

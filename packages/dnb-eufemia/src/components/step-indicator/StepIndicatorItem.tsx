@@ -52,9 +52,9 @@ export type StepIndicatorItemProps = Omit<
    */
   statusState?: StepIndicatorStatusState
   /**
-   * Will be called once the user clicks on the current or another step. Will be emitted on every click. Returns an object `{ event, item, currentStep }`.
+   * Will be called once the user clicks on the current or another step. Will be emitted on every click. Returns an object `{ value, event, item }`.
    */
-  onClick?: ({ event, item, currentStep }: StepIndicatorMouseEvent) => void
+  onClick?: ({ event, item, value }: StepIndicatorMouseEvent) => void
   currentItemNum: number
 }
 

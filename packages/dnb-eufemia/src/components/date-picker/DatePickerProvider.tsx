@@ -150,8 +150,8 @@ function DatePickerProvider(props: DatePickerProviderProps) {
       // Handle range props
       if (range) {
         const formattedStartDate = startDateIsValid
-            ? format(startDate, returnFormat)
-            : null
+          ? format(startDate, returnFormat)
+          : null
         return {
           ...returnObject,
           daysBetween:

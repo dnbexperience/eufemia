@@ -59,10 +59,7 @@ export type DeepPartial<T> = T extends object
  * type OnChangeParams = ComponentChangeEvent<boolean, { event: React.ChangeEvent }>
  * // Result: { value: boolean; event: React.ChangeEvent }
  */
-export type ComponentChangeEvent<
-  V,
-  Extra = Record<never, never>,
-> = {
+export type ComponentChangeEvent<V, Extra = Record<never, never>> = {
   value: V
 } & Extra
 
