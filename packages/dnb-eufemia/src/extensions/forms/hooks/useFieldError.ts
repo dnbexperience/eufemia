@@ -635,11 +635,6 @@ export default function useFieldError<Value>({
   )
 
   const clearErrorState = useCallback(() => {
-    console.warn(
-      '[DEBUG clearErrorState]',
-      identifier,
-      new Error().stack?.split('\n').slice(1, 5).join(' | ')
-    )
     persistErrorState('wipe', undefined)
     localErrorInitiatorRef.current = undefined
     const schemaValidator = schemaValidatorRef.current as ValidateFunction
