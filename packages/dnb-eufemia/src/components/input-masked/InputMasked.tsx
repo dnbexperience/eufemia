@@ -190,6 +190,7 @@ const InputMasked = React.forwardRef<HTMLInputElement, InputMaskedProps>(
     const contextAndProps = React.useMemo(() => {
       const propsWithRef = {
         ...props,
+        ref,
         innerRef: props.innerRef ?? ref,
       }
 
