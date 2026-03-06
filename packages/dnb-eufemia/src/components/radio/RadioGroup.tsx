@@ -159,7 +159,9 @@ function RadioGroup(ownProps: RadioGroupProps) {
     ...removeUndefinedProps({ ...ownProps }),
   }
 
-  // use only the props from context, who are available here anyway
+  // Uses extendPropsWithContextInClassComponent (onlyMergeExistingProps: true)
+  // to prevent context props not defined in radioGroupDefaultProps from
+  // leaking into the component and potentially reaching DOM attributes.
   const props = extendPropsWithContextInClassComponent(
     resolvedProps,
     radioGroupDefaultProps,

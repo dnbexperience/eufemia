@@ -301,7 +301,9 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
     ...removeUndefinedProps({ ...ownProps }),
   }
 
-  // from internal context
+  // Uses extendPropsWithContextInClassComponent (onlyMergeExistingProps: true)
+  // to prevent context props not defined in radioDefaultProps from
+  // leaking into the component and potentially reaching DOM attributes.
   const contextProps = extendPropsWithContextInClassComponent(
     resolvedProps,
     radioDefaultProps,
