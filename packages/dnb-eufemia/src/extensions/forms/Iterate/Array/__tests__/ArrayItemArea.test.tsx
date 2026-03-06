@@ -295,6 +295,8 @@ describe('ArrayItemArea', () => {
 
     fireEvent.click(document.querySelector('button'))
 
+    simulateAnimationEnd()
+
     expect(element).toHaveClass('dnb-height-animation--hidden')
 
     expect(handleRemove).toHaveBeenCalledTimes(1)
