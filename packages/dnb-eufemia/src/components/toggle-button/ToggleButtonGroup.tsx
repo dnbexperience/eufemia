@@ -80,6 +80,12 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
 
   const tmpRef = useRef<Record<string, unknown> | undefined>(undefined)
 
+  const ownPropsRef = useRef(ownProps)
+  ownPropsRef.current = ownProps
+
+  const valuesRef = useRef(values)
+  valuesRef.current = values
+
   // Sync value from props (replaces getDerivedStateFromProps)
   if (
     typeof ownProps.value !== 'undefined' &&
@@ -105,9 +111,9 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
       value: ToggleButtonGroupValue
       event: React.SyntheticEvent
     }) => {
-      const currentValues = [...(values || [])]
+      const currentValues = [...(valuesRef.current || [])]
 
-      if (ownProps.multiselect) {
+      if (ownPropsRef.current.multiselect) {
         if (!currentValues.includes(newValue)) {
           currentValues.push(newValue)
         } else {
@@ -118,13 +124,17 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
       setValue(newValue)
       setValues([...currentValues])
 
-      dispatchCustomElementEvent({ props: ownProps }, 'onChange', {
-        value: newValue,
-        values: currentValues,
-        event,
-      })
+      dispatchCustomElementEvent(
+        { props: ownPropsRef.current },
+        'onChange',
+        {
+          value: newValue,
+          values: currentValues,
+          event,
+        }
+      )
     },
-    [ownProps, values]
+    []
   )
 
   const resolvedProps = {
@@ -209,17 +219,8 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
   // also used for code markup simulation
   validateDOMAttributes(ownProps, params)
 
-  const groupContext = {
-    name: _name,
-    value,
-    values,
-    size,
-    multiselect: multiselect,
-    variant,
-    leftComponent,
-    disabled,
-    skeleton,
-    setContext: (
+  const setContext = useCallback(
+    (
       contextArg:
         | Record<string, unknown>
         | ((
@@ -241,6 +242,20 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
         setValues(resolved.values as ToggleButtonGroupValue[])
       }
     },
+    []
+  )
+
+  const groupContext = {
+    name: _name,
+    value,
+    values,
+    size,
+    multiselect: multiselect,
+    variant,
+    leftComponent,
+    disabled,
+    skeleton,
+    setContext,
     onChange: onChangeHandler,
   }
 

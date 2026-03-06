@@ -91,6 +91,12 @@ function ToggleButton(ownProps: ToggleButtonProps) {
   const context = useContext(Context)
   const refButton = useRef<HTMLButtonElement>(null)
 
+  const ownPropsRef = useRef(ownProps)
+  ownPropsRef.current = ownProps
+
+  const groupContextRef = useRef(groupContext)
+  groupContextRef.current = groupContext
+
   const id = useId(ownProps.id)
 
   const [checked, setChecked] = useState(() =>
@@ -153,39 +159,46 @@ function ToggleButton(ownProps: ToggleButtonProps) {
       checked: boolean
       event: React.SyntheticEvent
     }) => {
-      const value = ownProps.value ?? ''
-      if (groupContext.onChange) {
-        groupContext.onChange({
+      const value = ownPropsRef.current.value ?? ''
+      if (groupContextRef.current.onChange) {
+        groupContextRef.current.onChange({
           value,
           event,
         })
       }
-      dispatchCustomElementEvent({ props: ownProps }, 'onChange', {
-        checked: isChecked,
-        value,
-        event,
-      })
+      dispatchCustomElementEvent(
+        { props: ownPropsRef.current },
+        'onChange',
+        {
+          checked: isChecked,
+          value,
+          event,
+        }
+      )
     },
-    [ownProps, groupContext]
+    []
   )
+
+  const checkedRef = useRef(checked)
+  checkedRef.current = checked
 
   const onClickHandler = useCallback(
     ({ event }: { event: React.SyntheticEvent }) => {
-      if (ownProps.readOnly) {
+      if (ownPropsRef.current.readOnly) {
         return event.preventDefault()
       }
 
       // only select a value once
       if (
-        groupContext.name &&
-        !groupContext.multiselect &&
-        ownProps.value === groupContext.value
+        groupContextRef.current.name &&
+        !groupContextRef.current.multiselect &&
+        ownPropsRef.current.value === groupContextRef.current.value
       ) {
         return // stop here
       }
 
       // else we change the checked state
-      const newChecked = !checked
+      const newChecked = !checkedRef.current
       skipNextPropSync.current = true
       setChecked(newChecked)
       callOnChange({ checked: newChecked, event })
@@ -200,7 +213,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
         }
       }
     },
-    [ownProps, groupContext, callOnChange, checked]
+    [callOnChange]
   )
 
   const onKeyDownHandler = useCallback(
