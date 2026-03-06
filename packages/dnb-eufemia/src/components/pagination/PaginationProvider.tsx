@@ -248,7 +248,8 @@ const PaginationProvider = (props: any) => {
   const resetInfinity = useCallback(
     (pageNumber: number = startupPageRef.current) => {
       const newLowerPage = pageNumber
-      const newUpperPage = pageNumber + parseFloat(props.startupCount) - 1
+      const newUpperPage =
+        pageNumber + parseFloat(propsRef.current.startupCount) - 1
       const newCurrentPageInternal = pageNumber
 
       setItemsState([])
@@ -260,7 +261,9 @@ const PaginationProvider = (props: any) => {
       // startInfinity
       setHasEndedInfinity(false)
     },
-    [props.startupCount]
+    // Uses propsRef to stay stable — registered externally via resetPaginationHandler on mount only.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
   )
 
   // Handle the onEnd dispatch after hasEndedInfinity becomes true
