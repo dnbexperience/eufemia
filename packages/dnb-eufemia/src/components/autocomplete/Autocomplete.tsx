@@ -692,9 +692,12 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   modeRef.current = mode
   hasFocusRef.current = hasFocus
 
-  // Ref-based access to drawerList to avoid stale closures
+  // Ref-based access to drawerList and props to avoid stale closures
+  // and unnecessary callback re-creation when these objects change identity.
   const drawerListRef = useRef(drawerList)
   drawerListRef.current = drawerList
+  const propsRef = useRef(props)
+  propsRef.current = props
 
   // Helper functions (no deps on state that changes often)
 
@@ -776,11 +779,11 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       onStateComplete: (() => void) | null = null
     ) => {
       wasVisibleRef.current = true
-      drawerList
+      drawerListRef.current
         .setWrapperElement(_ref.current)
         .setVisible(args, onStateComplete)
     },
-    [drawerList]
+    []
   )
 
   const setHidden = useCallback(
@@ -788,22 +791,22 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       args: unknown[] | null = null,
       onStateComplete: (() => void) | null = null
     ) => {
-      drawerList.setHidden(args, onStateComplete)
+      drawerListRef.current.setHidden(args, onStateComplete)
       setHasFocus(false)
       setHasBlur(false)
     },
-    [drawerList, setHasBlur]
+    [setHasBlur]
   )
 
   const resetActiveItem = useCallback(() => {
-    drawerList.setState({
+    drawerListRef.current.setState({
       activeItem: null,
     })
-  }, [drawerList])
+  }, [])
 
   const resetFilter = useCallback(() => {
-    drawerList.setData(drawerListRef.current.originalData)
-  }, [drawerList])
+    drawerListRef.current.setData(drawerListRef.current.originalData)
+  }, [])
 
   const setInputValue = useCallback((val: string | null) => {
     setInputValueState(val)
@@ -816,29 +819,32 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
   const ignoreEvents = useCallback(() => {
     clearTimeout(showAllTimeoutRef.current)
-    drawerList.setState(
+    drawerListRef.current.setState(
       {
         ignoreEvents: true,
       },
       () => {
         showAllTimeoutRef.current = setTimeout(() => {
-          drawerList.setState({
+          drawerListRef.current.setState({
             ignoreEvents: false,
           })
         }, 10)
       }
     )
-  }, [drawerList])
+  }, [])
 
   const showAllItems = useCallback(() => {
     resetFilter()
-    drawerList.setState({
+    drawerListRef.current.setState({
       cacheHash: 'all',
     })
-    drawerList.setActiveItemAndScrollToIt(drawerList.selectedItem, {
-      scrollTo: false,
-    })
-  }, [drawerList, resetFilter])
+    drawerListRef.current.setActiveItemAndScrollToIt(
+      drawerListRef.current.selectedItem,
+      {
+        scrollTo: false,
+      }
+    )
+  }, [resetFilter])
 
   const setSearchIndex = useCallback(
     (
@@ -877,10 +883,10 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       drawerListRef.current.originalData
     )
 
-    drawerList.setState({
+    drawerListRef.current.setState({
       selectedItem,
     })
-  }, [props.value, drawerList])
+  }, [props.value])
 
   const revalidateInputValue = useCallback(() => {
     if (props.inputValue && props.inputValue !== 'initval') {
@@ -899,20 +905,20 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
   const resetSelectedItem = useCallback(() => {
     const hadValue = hasSelectedItem()
-    drawerList.setState(
+    drawerListRef.current.setState(
       {
         selectedItem: null,
       },
       () => {
         if (hadValue) {
-          dispatchCustomElementEvent(props, 'onChange', {
+          dispatchCustomElementEvent(propsRef.current, 'onChange', {
             ...getEventObjects('onChange'),
           })
         }
       }
     )
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [drawerList, hasSelectedItem, props])
+  }, [hasSelectedItem])
 
   const totalReset = useCallback(() => {
     setInputValueState(null)
@@ -954,7 +960,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   const showNoOptionsItem = useCallback(() => {
     resetActiveItem()
     ignoreEvents()
-    drawerList.setData(
+    drawerListRef.current.setData(
       props.noOptions === false
         ? []
         : [
@@ -966,22 +972,16 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
             },
           ]
     )
-    drawerList.setState({
+    drawerListRef.current.setState({
       cacheHash: 'noOptions',
     })
     setVisible()
-  }, [
-    resetActiveItem,
-    ignoreEvents,
-    drawerList,
-    props.noOptions,
-    setVisible,
-  ])
+  }, [resetActiveItem, ignoreEvents, props.noOptions, setVisible])
 
   const showIndicatorItem = useCallback(() => {
     resetActiveItem()
     ignoreEvents()
-    drawerList.setData([
+    drawerListRef.current.setData([
       {
         className: 'dnb-autocomplete__indicator',
         content: <ProgressIndicator label={props.indicatorLabel} />,
@@ -989,17 +989,11 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         __id: 'indicator',
       },
     ])
-    drawerList.setState({
+    drawerListRef.current.setState({
       cacheHash: 'indicator',
     })
     setVisible()
-  }, [
-    resetActiveItem,
-    ignoreEvents,
-    drawerList,
-    props.indicatorLabel,
-    setVisible,
-  ])
+  }, [resetActiveItem, ignoreEvents, props.indicatorLabel, setVisible])
 
   const showIndicator = useCallback(() => {
     setVisibleIndicator(true)
@@ -1457,14 +1451,14 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         data = drawerListRef.current.originalData
       }
 
-      drawerList.setData(wrapWithShowAll(data))
-      drawerList.setState({
+      drawerListRef.current.setData(wrapWithShowAll(data))
+      drawerListRef.current.setState({
         cacheHash: value + countData(data),
       })
 
       return data
     },
-    [drawerList, runFilter, wrapWithShowAll, countData]
+    [runFilter, wrapWithShowAll, countData]
   )
 
   const runFilterWithSideEffects = useCallback(
@@ -1489,13 +1483,13 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
             showNoOptionsItem()
           }
         } else if (count > 0) {
-          drawerList.setData(wrapWithShowAll(data))
-          drawerList.setState({
+          drawerListRef.current.setData(wrapWithShowAll(data))
+          drawerListRef.current.setState({
             cacheHash: value + count,
           })
 
           if (count === 1) {
-            drawerList.setState({
+            drawerListRef.current.setState({
               activeItem: (data[0] as DrawerListInternalItem).__id,
             })
           }
@@ -1524,7 +1518,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       runFilter,
       countData,
       showNoOptionsItem,
-      drawerList,
       wrapWithShowAll,
       keepValue,
       keepSelection,
@@ -1539,7 +1532,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   const showAll = useCallback(() => {
     resetFilter()
 
-    drawerList.setState({
+    drawerListRef.current.setState({
       cacheHash: 'all',
     })
 
@@ -1547,7 +1540,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       skipFilter: true,
       fillDataIfEmpty: true,
     })
-  }, [resetFilter, drawerList, runFilterToHighlight])
+  }, [resetFilter, runFilterToHighlight])
 
   const setVisibleByContext = useCallback(
     (
@@ -1604,26 +1597,26 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   )
 
   const toggleVisibleAndFocusOptions = useCallback(() => {
-    drawerList.toggleVisible(null, (isVisible) => {
+    drawerListRef.current.toggleVisible(null, (isVisible) => {
       if (isVisible) {
         focusDrawerList()
       }
     })
-  }, [drawerList, focusDrawerList])
+  }, [focusDrawerList])
 
   const hasDatasetChanged = useCallback(
     (rawData: DrawerListInternalData) => {
-      const { selectedItem } = drawerList
+      const { selectedItem } = drawerListRef.current
       if (parseFloat(String(selectedItem)) > -1) {
         const newItem = rawData?.[selectedItem]
-        const oldItem = drawerList.originalData[selectedItem]
+        const oldItem = drawerListRef.current.originalData[selectedItem]
         if (newItem?.selectedKey !== oldItem?.selectedKey) {
           return true
         }
       }
       return false
     },
-    [drawerList]
+    []
   )
 
   const emptyData = useCallback(() => {
@@ -1631,7 +1624,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
     clearInputValue()
 
-    drawerList.setData(
+    drawerListRef.current.setData(
       () => [],
       () => {
         setSearchIndex({ overwriteSearchIndex: true }, null)
@@ -1642,13 +1635,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         overwriteOriginalData: true,
       }
     )
-  }, [
-    clearInputValue,
-    drawerList,
-    setSearchIndex,
-    resetActiveItem,
-    totalReset,
-  ])
+  }, [clearInputValue, setSearchIndex, resetActiveItem, totalReset])
 
   const updateData = useCallback(
     (rawData: DrawerListInternalData) => {
@@ -1659,13 +1646,16 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
       const hasChanged = hasDatasetChanged(rawData)
 
-      drawerList.setState(
+      drawerListRef.current.setState(
         {
           cacheHash: 'updateData',
         },
         () => {
           if (hasChanged) {
-            if (props.value && props.value !== 'initval') {
+            if (
+              propsRef.current.value &&
+              propsRef.current.value !== 'initval'
+            ) {
               revalidateSelectedItem()
               revalidateInputValue()
             } else {
@@ -1675,7 +1665,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         }
       )
 
-      drawerList.setData(
+      drawerListRef.current.setData(
         () => rawData,
         (newData) => {
           setSearchIndex(
@@ -1694,7 +1684,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
               } else {
                 resetActiveItem()
 
-                if (drawerList.open) {
+                if (drawerListRef.current.open) {
                   showAllItems()
                 }
               }
@@ -1708,8 +1698,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     },
     [
       hasDatasetChanged,
-      drawerList,
-      props.value,
       revalidateSelectedItem,
       revalidateInputValue,
       resetSelectedItem,
@@ -1781,7 +1769,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       setTypedInputValue(val)
       setInputValueState(val)
 
-      dispatchCustomElementEvent(props, 'onType', {
+      dispatchCustomElementEvent(propsRef.current, 'onType', {
         value: val,
         event,
         ...getEventObjects('onType'),
@@ -1793,7 +1781,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props, runFilterWithSideEffects]
+    [runFilterWithSideEffects]
   )
 
   const onInputKeyDownHandler = useCallback(
@@ -1901,7 +1889,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         setHasFocus(true)
         setHasBlur(false)
 
-        dispatchCustomElementEvent(props, 'onFocus', {
+        dispatchCustomElementEvent(propsRef.current, 'onFocus', {
           event,
           ...getEventObjects('onFocus'),
         })
@@ -1918,7 +1906,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       showAll,
       selectAll,
       setHasBlur,
-      props,
     ]
   )
 
@@ -1993,7 +1980,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         setHidden()
       }
 
-      dispatchCustomElementEvent(props, 'onBlur', {
+      dispatchCustomElementEvent(propsRef.current, 'onBlur', {
         event,
         ...getEventObjects('onBlur'),
       })
@@ -2012,7 +1999,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       resetFilter,
       setHidden,
       setHasBlur,
-      props,
     ]
   )
 
@@ -2048,7 +2034,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
   const onCloseHandler = useCallback(
     (args: Record<string, unknown> = {}) => {
-      const res = dispatchCustomElementEvent(props, 'onClose', {
+      const res = dispatchCustomElementEvent(propsRef.current, 'onClose', {
         ...args,
         ...getEventObjects('onClose'),
       })
@@ -2060,20 +2046,20 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       return res
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props, setFocusOnInput]
+    [setFocusOnInput]
   )
 
   const onSelectHandler = useCallback(
     (args: { activeItem: string | number; [key: string]: unknown }) => {
       if (parseFloat(String(args.activeItem)) > -1) {
-        dispatchCustomElementEvent(props, 'onSelect', {
+        dispatchCustomElementEvent(propsRef.current, 'onSelect', {
           ...args,
           ...getEventObjects('onSelect'),
         })
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [props]
+    []
   )
 
   const onPreChangeHandler = useCallback(
@@ -2090,7 +2076,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
         const activeItem = data.lastActiveItem
         if (parseFloat(String(activeItem)) > -1) {
-          drawerList.setActiveItemAndScrollToIt(activeItem, {
+          drawerListRef.current.setActiveItemAndScrollToIt(activeItem, {
             scrollTo: false,
           })
         }
@@ -2100,7 +2086,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         return false
       }
     },
-    [showAll, drawerList, setFocusOnInput]
+    [showAll, setFocusOnInput]
   )
 
   const onChangeHandler = useCallback(
@@ -2142,7 +2128,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         delete args.data.render
       }
 
-      dispatchCustomElementEvent(props, 'onChange', {
+      dispatchCustomElementEvent(propsRef.current, 'onChange', {
         ...args,
         ...getEventObjects('onChange'),
       })
@@ -2155,7 +2141,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       focusDrawerList,
       setFocusOnInput,
       setInputValue,
-      props,
     ]
   )
 
