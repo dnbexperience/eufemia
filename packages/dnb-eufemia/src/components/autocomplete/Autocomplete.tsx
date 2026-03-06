@@ -7,6 +7,7 @@ import React, {
   useState,
   useRef,
   useEffect,
+  useLayoutEffect,
   useContext,
   useCallback,
 } from 'react'
@@ -323,7 +324,7 @@ export type AutocompleteProps = {
    */
   inputValue?: string
   size?: DrawerListProps['size']
-  data?: any
+  data?: DrawerListData
   /**
    * Will be called once the Autocomplete shows up.
    */
@@ -517,9 +518,16 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   const context = useContext(DrawerListContext)
   const drawerList = context.drawerList
 
+  // Filter out undefined values to mimic React class component defaultProps behavior.
+  // Without this, explicit undefined values (e.g. size={undefined}) would override
+  // defaults and prevent context values from being merged.
+  const filteredOwnProps = Object.fromEntries(
+    Object.entries(ownProps).filter(([, v]) => v !== undefined)
+  )
+
   // Merge props with context and defaults
   const props = extendPropsWithContext(
-    ownProps,
+    filteredOwnProps,
     autocompleteDefaultProps,
     context.getTranslation?.(ownProps)?.Autocomplete,
     pickFormElementProps(context?.formElement),
@@ -587,6 +595,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     disableFilter,
     disableReorder,
     onClear,
+    selectAll,
 
     mode: _mode,
     data: _data,
@@ -632,7 +641,10 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   )
   const [mode, setModeState] = useState(props.mode)
   const [hasFocus, setHasFocus] = useState(false)
-  const [hasBlur, setHasBlur] = useState(false)
+  const hasBlurRef = useRef(false)
+  const setHasBlur = useCallback((v: boolean) => {
+    hasBlurRef.current = v
+  }, [])
   const [showAllNextTime, setShowAllNextTime] = useState(false)
   const [skipFocusDuringChange, setSkipFocusDuringChange] = useState(false)
   const [disableHighlightingState, setDisableHighlighting] = useState(
@@ -649,8 +661,12 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   const _refInput = useRef<HTMLInputElement>(null)
   const _selectTimeout = useRef<ReturnType<typeof setTimeout>>(null)
   const _blurTimeout = useRef<ReturnType<typeof setTimeout>>(null)
+  const _focusTimeout = useRef<ReturnType<typeof setTimeout>>(null)
   const showAllTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null)
   const preventFiringBlurEvent = useRef<boolean | null>(null)
+  const closingFromChangeRef = useRef(false)
+  const suppressFocusHandlerRef = useRef(false)
+  const selectAllActiveRef = useRef(false)
   const dbfRef = useRef<Record<string, (...args: any[]) => any>>({})
   const cacheMemoryRef = useRef<Record<string, unknown>>({})
   const attributesRef = useRef<Record<string, unknown>>({})
@@ -659,6 +675,8 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   const skipReorderRef = useRef(disableReorder)
   const searchIndexRef = useRef(searchIndex)
   const prevDataRef = useRef(props.data)
+  const dataChangedRef = useRef(false)
+  const lastUpdateDataRef = useRef<DrawerListInternalData | null>(null)
   const prevValueRef = useRef(props.value)
   const prevInputValuePropRef = useRef(props.inputValue)
   const prevDisableHighlightingRef = useRef(props.disableHighlighting)
@@ -774,7 +792,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       setHasFocus(false)
       setHasBlur(false)
     },
-    [drawerList]
+    [drawerList, setHasBlur]
   )
 
   const resetActiveItem = useCallback(() => {
@@ -1634,6 +1652,11 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
   const updateData = useCallback(
     (rawData: DrawerListInternalData) => {
+      if (rawData === lastUpdateDataRef.current) {
+        return // Already updated with this data
+      }
+      lastUpdateDataRef.current = rawData
+
       const hasChanged = hasDatasetChanged(rawData)
 
       drawerList.setState(
@@ -1700,7 +1723,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   )
 
   // Build event objects for dispatching
-  function getEventObjects(key: string) {
+  function getEventObjects(key: string): AutocompleteEventMethods {
     return {
       attributes: attributesRef.current,
       dataList: drawerListRef.current.data,
@@ -1731,12 +1754,11 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   }
 
   const setFocusOnInput = useCallback(() => {
-    setHasFocus(true)
+    // Suppress onInputFocusHandler during programmatic refocus
+    // to prevent double onFocus dispatch (matching class component behavior)
+    suppressFocusHandlerRef.current = true
     focusInput()
-    // Reset hasFocus after focus is applied
-    setTimeout(() => {
-      setHasFocus(false)
-    }, 0)
+    suppressFocusHandlerRef.current = false
   }, [focusInput])
 
   const setVisibleAndFocusOnInput = useCallback(() => {
@@ -1755,6 +1777,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       value: string
       event: React.ChangeEvent<HTMLInputElement>
     }) => {
+      selectAllActiveRef.current = false
       setTypedInputValue(val)
       setInputValueState(val)
 
@@ -1858,6 +1881,10 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         return // stop here
       }
 
+      if (suppressFocusHandlerRef.current) {
+        return // stop here
+      }
+
       if (!hasFocusRef.current) {
         if (openOnFocus && hasValidData()) {
           const { value } = event.target
@@ -1868,6 +1895,10 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
         if (keepValueAndSelection) {
           showAll()
+        }
+
+        if (selectAll) {
+          selectAllActiveRef.current = true
         }
 
         setHasFocus(true)
@@ -1922,12 +1953,13 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       if (
         preventFiringBlurEvent.current ||
         drawerList.hasFocusOnElement ||
-        hasBlur
+        hasBlurRef.current
       ) {
         preventFiringBlurEvent.current = null
         return false
       }
 
+      selectAllActiveRef.current = false
       setHasBlur(true)
       setHasFocus(false)
 
@@ -1970,7 +2002,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       drawerList.hasFocusOnElement,
-      hasBlur,
       keepValue,
       keepValueAndSelection,
       preventSelection,
@@ -2022,7 +2053,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         ...getEventObjects('onClose'),
       })
 
-      if (res !== false) {
+      if (res !== false && !closingFromChangeRef.current) {
         setFocusOnInput()
       }
 
@@ -2085,15 +2116,19 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
           setSkipFocusDuringChange(true)
           setDisableHighlighting(true)
 
+          // Suppress onCloseHandler's setFocusOnInput during setHidden
+          closingFromChangeRef.current = true
           setHidden()
 
-          // Prevent the blur handler from dispatching during the
-          // drawer list focus transition that follows.
-          preventFiringBlurEvent.current = true
+          // Do this, so screen readers get a NEW focus later on
+          // So we first need a blur of the input basically
           focusDrawerList()
 
+          closingFromChangeRef.current = false
           setSkipFocusDuringChange(false)
-          setTimeout(() => setFocusOnInput(), 0)
+
+          // Deferred refocus — matches class component's setState callback timing
+          _focusTimeout.current = setTimeout(() => setFocusOnInput(), 0)
         }
 
         const val = getCurrentDataTitle(
@@ -2167,8 +2202,8 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       setInputValueState(newInputValue)
     }
 
-    updateData(props.data)
     prevDataRef.current = props.data
+    dataChangedRef.current = true
   }
 
   // Forward inputRef (replaces componentDidMount inputRef handling)
@@ -2191,15 +2226,17 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // Handle data changes while open (replaces componentDidUpdate data check)
+  // Handle data changes (replaces getDerivedStateFromProps updateData + componentDidUpdate data check)
   useEffect(() => {
-    if (
-      (drawerList.open || hasFocus) &&
-      props.data !== prevDataRef.current
-    ) {
-      setSearchIndex({ overwriteSearchIndex: true }, () => {
-        runFilterWithSideEffects(inputValueRef.current)
-      })
+    if (dataChangedRef.current) {
+      dataChangedRef.current = false
+      updateData(props.data)
+      if (drawerList.open || hasFocus) {
+        setSearchIndex({ overwriteSearchIndex: true }, null)
+        if (hasFocusRef.current && !drawerList.open) {
+          setVisible()
+        }
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.data])
@@ -2218,8 +2255,24 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     return () => {
       clearTimeout(_selectTimeout.current)
       clearTimeout(_blurTimeout.current)
+      clearTimeout(_focusTimeout.current)
+      clearTimeout(showAllTimeoutRef.current)
     }
   }, [])
+
+  // Handle selectAll: re-apply input text selection after each render
+  // during the focus cascade. The Input's setTimeout-based selectAll
+  // is insufficient because cascading re-renders in the functional
+  // component reset the controlled input's selection.
+  useLayoutEffect(() => {
+    if (selectAllActiveRef.current && _refInput.current) {
+      try {
+        _refInput.current.select()
+      } catch (e) {
+        // ignore
+      }
+    }
+  })
 
   // Render
   const showStatus = getStatusState(status)
@@ -2312,7 +2365,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     disabled,
     status: status ? statusState : null,
     onKeyDown: onTriggerKeyDownHandler,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onSubmit: toggleVisible as any as SubmitButtonProps['onSubmit'],
     onMouseDown: reserveActivityHandler,
     'aria-haspopup': 'listbox' as const,
