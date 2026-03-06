@@ -10,6 +10,7 @@ import React, {
   useState,
   useMemo,
 } from 'react'
+import useMountEffect from '../../shared/helpers/useMountEffect'
 import clsx from 'clsx'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
@@ -497,7 +498,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     updateInputValue()
   })
 
-  useEffect(() => {
+  useMountEffect(() => {
     if (restProps.clear && restProps.iconPosition === 'right') {
       warn('You cannot have a clear button and iconPosition="right"')
     }
@@ -505,8 +506,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     return () => {
       clearTimeout(selectAllTimeoutRef.current)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  })
 
   const onFocusHandler = useCallback(
     (event: React.FocusEvent<HTMLInputElement>) => {
