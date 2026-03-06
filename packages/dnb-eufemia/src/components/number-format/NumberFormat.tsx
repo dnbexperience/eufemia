@@ -2,14 +2,9 @@
  * Web NumberFormat Component
  */
 
-import React, {
-  useContext,
-  useRef,
-  useState,
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-} from 'react'
+import React, { useContext, useRef, useState, useCallback } from 'react'
+import useMountEffect from '../../shared/helpers/useMountEffect'
+import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import clsx from 'clsx'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import Context, { type ContextProps } from '../../shared/Context'
@@ -191,23 +186,20 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
 
   const needsFocusRef = useRef(false)
 
-  // iOS selection fix on mount
-  useEffect(() => {
+  // iOS selection fix on mount + cleanup on unmount
+  useMountEffect(() => {
     if (IS_IOS && !hasiOSFix) {
       hasiOSFix = true
       runIOSSelectionFix()
     }
-  }, [])
 
-  // Cleanup on unmount
-  useEffect(() => {
     return () => {
       outsideClickRef.current?.remove()
       if (copyTooltipTimeoutRef.current) {
         clearTimeout(copyTooltipTimeoutRef.current)
       }
     }
-  }, [])
+  })
 
   const clearCopyTooltipTimeout = useCallback(() => {
     if (copyTooltipTimeoutRef.current) {
@@ -244,9 +236,9 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
   }, [])
 
   // Handle focus + selectAll after selected becomes true
-  // Use useLayoutEffect to apply focus and text selection before paint,
+  // Use useIsomorphicLayoutEffect to apply focus and text selection before paint,
   // avoiding a visible frame without focus/selection.
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (selected && needsFocusRef.current) {
       needsFocusRef.current = false
       selectionRef.current?.focus({ preventScroll: true })
