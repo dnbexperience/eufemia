@@ -450,7 +450,10 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   const [inputState, setInputState] = useState(
     restProps.inputState || 'virgin'
   )
-  const [focusState, setFocusState] = useState<string | undefined>(
+  // Setter intentionally unused — calling setFocusState triggers re-renders
+  // that break timing-sensitive consumers (e.g. Autocomplete blur handling).
+  // The focusState is only read in the placeholder visibility check below.
+  const [focusState, _setFocusState] = useState<string | undefined>(
     undefined
   )
 
@@ -494,9 +497,13 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     }
   }, [value, restProps.inputElement])
 
+  // No dependency array — must run after every render because the <input>
+  // is uncontrolled (no `value` prop). External code (e.g. formElement.reset(),
+  // Autocomplete's delayed value sync) can mutate the DOM value, and this
+  // effect re-applies the React state to keep them in sync.
   useEffect(() => {
     updateInputValue()
-  }, [updateInputValue])
+  })
 
   useMountEffect(() => {
     if (restProps.clear && restProps.iconPosition === 'right') {
@@ -512,7 +519,6 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     (event: React.FocusEvent<HTMLInputElement>) => {
       const { value: eventValue } = event.target
       setInputState('focus')
-      setFocusState('focus')
 
       dispatchCustomElementEvent(props, 'onFocus', {
         value: eventValue,
@@ -537,7 +543,6 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   const onBlurHandler = useCallback(
     (event: React.FocusEvent<HTMLInputElement>) => {
       const { value: eventValue } = event.target
-      setFocusState(undefined)
       const result = dispatchCustomElementEvent(props, 'onBlur', {
         value: eventValue,
         event,
@@ -846,21 +851,19 @@ function InputComponent({ ref, ...restProps }: InputProps) {
               />
             )}
 
-            {!hasVal &&
-              placeholder &&
-              (keepPlaceholder || focusState !== 'focus') && (
-                <span
-                  id={id + '-placeholder'}
-                  className={clsx(
-                    'dnb-input__placeholder',
-                    align ? `dnb-input__align--${align}` : null
-                  )}
-                  role="presentation"
-                  aria-hidden
-                >
-                  {placeholder}
-                </span>
-              )}
+            {!hasVal && placeholder && focusState !== 'focus' && (
+              <span
+                id={id + '-placeholder'}
+                className={clsx(
+                  'dnb-input__placeholder',
+                  align ? `dnb-input__align--${align}` : null
+                )}
+                role="presentation"
+                aria-hidden
+              >
+                {placeholder}
+              </span>
+            )}
 
             {clear && iconPosition !== 'right' && (
               <span className="dnb-input--clear dnb-input__submit-element">
