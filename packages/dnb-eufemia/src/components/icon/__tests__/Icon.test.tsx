@@ -147,6 +147,32 @@ describe('Icon component', () => {
     expect(document.querySelector('svg title').textContent).toBe('banana')
   })
 
+  it('should not execute hook-based icon elements during size calculation', () => {
+    let renderCalls = 0
+
+    const HookIcon = (props?: Record<string, unknown>) => {
+      renderCalls += 1
+      const [title] = React.useState('hook-icon')
+
+      return (
+        <svg
+          width={24}
+          height={24}
+          viewBox="0 0 24 24"
+          fill="none"
+          {...props}
+        >
+          <title>{title}</title>
+          <path d="M12 2a10 10 0 100 20 10 10 0 000-20z" />
+        </svg>
+      )
+    }
+
+    render(<Icon icon={<HookIcon />} />)
+
+    expect(renderCalls).toBe(1)
+  })
+
   it('should detect medium size from React element icon via SVG width when function name is minified', () => {
     // Simulate a minified icon function (short name without _medium suffix)
     // that renders a 24px SVG — calcSize should fall back to reading SVG width.

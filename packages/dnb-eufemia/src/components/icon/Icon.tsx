@@ -203,22 +203,21 @@ export function calcSize(props: IconProps) {
           ? (icon.type as (props?: unknown) => React.JSX.Element)
           : null
 
-      if (iconFn) {
+      // Skip direct execution for hook-based components to avoid invalid hook call order.
+      const hasHooks = iconFn
+        ? /\buse[A-Z][A-Za-z0-9_]*\b/.test(iconFn.toString())
+        : false
+
+      if (iconFn && !hasHooks) {
         try {
           const elem = iconFn()
-          if (elem?.props) {
-            let potentialSize: ValidIconNumericSize | -1 = null
-            if (elem.props.width) {
-              potentialSize = elem.props.width
-            }
-            if (potentialSize !== null && !isNaN(potentialSize)) {
-              sizeAsInt = potentialSize
-            }
+          const potentialSize = elem?.props?.width
+
+          if (potentialSize && !isNaN(potentialSize)) {
+            sizeAsInt = potentialSize
           }
         } catch {
-          // The icon function may use hooks or expect props — if calling
-          // it outside a React render context throws, we silently fall
-          // back to the default size.
+          // Ignore and fallback to default size.
         }
       }
     }
@@ -477,11 +476,10 @@ export function prerenderIcon(
   }
 
   if (typeof icon === 'function') {
-    const elem = icon()
-    if (React.isValidElement(elem)) {
-      return icon
+    return (props?: unknown) => {
+      const IconComponent = icon as React.ComponentType<unknown>
+      return <IconComponent {...(props as Record<string, unknown>)} />
     }
-    return elem
   }
 
   if (React.isValidElement(icon) || Array.isArray(icon)) {
