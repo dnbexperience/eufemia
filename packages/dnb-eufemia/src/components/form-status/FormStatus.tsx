@@ -292,6 +292,9 @@ function FormStatusComponent(
   const contentCacheRef = useRef<React.ReactNode | null>(null)
   const stateCacheRef = useRef<string | null>(null)
 
+  const ownPropsRef = useRef(ownProps)
+  ownPropsRef.current = ownProps
+
   // Sync forwarded ref with internal ref
   useEffect(() => {
     if (typeof ref === 'function') {
@@ -305,7 +308,7 @@ function FormStatusComponent(
   const shouldAnimate = noAnimation === false
 
   const fillCache = useCallback(() => {
-    const content = shouldAnimate && getContent(ownProps)
+    const content = shouldAnimate && getContent(ownPropsRef.current)
     if (content && content !== contentCacheRef.current) {
       contentCacheRef.current = content
     }
@@ -314,7 +317,7 @@ function FormStatusComponent(
     if (stateVal) {
       stateCacheRef.current = stateVal as string
     }
-  }, [shouldAnimate, ownProps, rawStateProp])
+  }, [shouldAnimate, rawStateProp])
 
   const isReadyToGetVisible = useCallback(
     (p: FormStatusProps = props) => {
