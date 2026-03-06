@@ -2,18 +2,12 @@
  * Web FormStatus Component
  */
 
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-} from 'react'
+import React, { useCallback, useContext, useEffect, useRef } from 'react'
 import clsx from 'clsx'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { useTheme, Context } from '../../shared'
+import useId from '../../shared/helpers/useId'
 import {
-  makeUniqueId,
   validateDOMAttributes,
   processChildren,
   extendPropsWithContext,
@@ -287,7 +281,7 @@ function FormStatusComponent(
     ...restOfProps
   } = props
 
-  const id = useMemo(() => idProp || makeUniqueId(), [idProp])
+  const id = useId(idProp)
 
   const statusId = `${id}-gs`
 
