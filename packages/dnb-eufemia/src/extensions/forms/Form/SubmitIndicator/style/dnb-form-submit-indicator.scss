@@ -67,6 +67,10 @@
 
     --padding-left: 0.25em;
   }
+
+  .dnb-forms-submit-button &__content {
+    cursor: inherit;
+  }
 }
 
 @keyframes submit-indicator-dot {
