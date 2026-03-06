@@ -5,8 +5,8 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React, { useContext, useRef, useState, useCallback } from 'react'
 import clsx from 'clsx'
+import useId from '../../shared/helpers/useId'
 import {
-  makeUniqueId,
   extendPropsWithContextInClassComponent,
   validateDOMAttributes,
   getStatusState,
@@ -66,10 +66,8 @@ function parseValues(props: ToggleButtonGroupProps) {
 function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
   const context = useContext(Context)
 
-  const idRef = useRef(ownProps.id || makeUniqueId())
-  const nameRef = useRef(ownProps.name || makeUniqueId())
-  const id = idRef.current
-  const _name = nameRef.current
+  const id = useId(ownProps.id)
+  const _name = useId(ownProps.name)
 
   const [value, setValue] = useState<ToggleButtonGroupValue | undefined>(
     ownProps.value
