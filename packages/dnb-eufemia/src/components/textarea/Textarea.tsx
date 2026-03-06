@@ -458,12 +458,18 @@ function TextareaComponent(
     [getRows, props.onKeyDown]
   )
 
+  // Keep a ref to the latest setAutosize so the mount-time ResizeObserver
+  // and window listener always call the current version (avoids stale closure
+  // if autoResizeMaxRows changes after mount).
+  const setAutosizeRef = useRef(setAutosize)
+  setAutosizeRef.current = setAutosize
+
   // Setup autoResize on mount
   useMountEffect(() => {
-    const handleResize = () => setAutosize()
+    const handleResize = () => setAutosizeRef.current()
 
     if (autoResize && typeof window !== 'undefined') {
-      setAutosize()
+      setAutosizeRef.current()
       try {
         // eslint-disable-next-line compat/compat
         const observer = new ResizeObserver((entries) => {
@@ -471,7 +477,7 @@ function TextareaComponent(
             if (!Array.isArray(entries) || !entries.length) {
               return
             }
-            setAutosize()
+            setAutosizeRef.current()
           })
         })
         observer.observe(document.body)
