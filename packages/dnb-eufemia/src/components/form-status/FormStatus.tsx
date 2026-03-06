@@ -3,6 +3,8 @@
  */
 
 import React, { useCallback, useContext, useEffect, useRef } from 'react'
+import useMountEffect from '../../shared/helpers/useMountEffect'
+import useUpdateEffect from '../../shared/helpers/useUpdateEffect'
 import clsx from 'clsx'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { useTheme, Context } from '../../shared'
@@ -342,7 +344,7 @@ function FormStatusComponent(
     useRef<ReturnType<typeof GlobalStatusProvider.init>>(null)
 
   // Initialize GlobalStatusProvider once
-  useEffect(() => {
+  useMountEffect(() => {
     globalStatusRef.current = GlobalStatusProvider.init(
       globalStatus?.id ||
         (context as Record<string, any>)?.FormStatus?.globalStatus?.id ||
@@ -375,11 +377,10 @@ function FormStatusComponent(
     return () => {
       globalStatusRef.current?.remove(statusId)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  })
 
   // Mount/unmount and window event listeners
-  useEffect(() => {
+  useMountEffect(() => {
     isMountedRef.current = true
 
     const init = () => {
@@ -407,18 +408,13 @@ function FormStatusComponent(
         window.removeEventListener('resize', updateWidth)
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  })
 
   // Track previous props for componentDidUpdate logic
-  const prevPropsRef = useRef<FormStatusProps | null>(null)
-  useEffect(() => {
+  const prevPropsRef = useRef<FormStatusProps>(ownProps)
+  useUpdateEffect(() => {
     const prevProps = prevPropsRef.current
     prevPropsRef.current = ownProps
-
-    if (!prevProps) {
-      return // stop here (first render)
-    }
 
     const state = props.state
     const { children } = props
