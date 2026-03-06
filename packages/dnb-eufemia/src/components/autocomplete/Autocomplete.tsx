@@ -1098,7 +1098,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         }
       }
 
-      const getWordBoundary = (wordIndex) =>
+      const getWordBoundary = (wordIndex: number) =>
         startsWithMatch && wordIndex === 0 ? '^' : snParam ? '' : '^|\\s'
 
       const searchWordsData = searchWords.map((word, wordIndex) => {
@@ -1130,7 +1130,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
           ? new RegExp(`^${escapeRegexChars(searchWords[0])}`, 'i')
           : null
 
-      const findSearchWords = (contentChunk) => {
+      const findSearchWords = (contentChunk: string | null) => {
         if (typeof contentChunk !== 'string') {
           return []
         }
@@ -1805,15 +1805,12 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         case 'PageDown':
         case 'Home':
         case 'End':
-        case 'ArrowDown':
-        case 'ArrowUp':
           e.preventDefault()
           break
-      }
 
-      switch (key) {
         case 'ArrowUp':
         case 'ArrowDown':
+          e.preventDefault()
           if (!drawerList.open) {
             setVisible()
           }
@@ -1919,6 +1916,8 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       setSearchIndex,
       keepValueAndSelection,
       showAll,
+      selectAll,
+      setHasBlur,
       props,
     ]
   )
@@ -2012,6 +2011,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       resetActiveItem,
       resetFilter,
       setHidden,
+      setHasBlur,
       props,
     ]
   )
