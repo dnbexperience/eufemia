@@ -266,6 +266,9 @@ export default [
       parser: tsParser,
       ecmaVersion: 2020,
       sourceType: 'module',
+      parserOptions: {
+        projectService: true,
+      },
       globals: {
         ...esGlobals,
         ...browserGlobals,
@@ -295,6 +298,10 @@ export default [
       '@typescript-eslint/consistent-type-imports': [
         'error',
         { prefer: 'type-imports' },
+      ],
+      '@typescript-eslint/consistent-type-exports': [
+        'error',
+        { fixMixedExportsWithInlineTypeSpecifier: true },
       ],
     },
   },

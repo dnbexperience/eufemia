@@ -1,6 +1,6 @@
 import type React from 'react'
 import type { GetTranslationProps } from './Context'
-export * from '../components/space/types'
+export type * from '../components/space/types'
 
 export type ResponsiveProp<T> = {
   small?: T

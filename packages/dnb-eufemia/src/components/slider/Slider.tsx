@@ -11,7 +11,7 @@ import { SliderInstance } from './SliderInstance'
 
 import type { SliderAllProps } from './types'
 
-export * from './types'
+export type * from './types'
 
 // Export the extensions
 export { default as SliderMarker } from './SliderMarker'
