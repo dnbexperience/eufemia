@@ -370,7 +370,7 @@ function ModalComponent(ownProps: ModalAllProps) {
   })
 
   // Handle open prop changes (getDerivedStateFromProps equivalent)
-  const prevOpenRef = useRef(open)
+  const prevOpenRef = useRef<typeof open>(undefined)
   if (open !== prevOpenRef.current) {
     if (open === true) {
       setHide(false)
