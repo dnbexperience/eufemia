@@ -135,6 +135,12 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   const context = useContext(Context)
   const inputRef = useRef<HTMLInputElement>(null)
 
+  const ownPropsRef = useRef(ownProps)
+  ownPropsRef.current = ownProps
+
+  const groupContextRef = useRef(groupContext)
+  groupContextRef.current = groupContext
+
   const id = useId(ownProps.id)
 
   const [checkedState, setCheckedState] = useState(() =>
@@ -183,26 +189,30 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
       checked: boolean
       event: React.SyntheticEvent
     }) => {
-      const { group } = ownProps
-      if (groupContext.onChange) {
-        groupContext.onChange({
+      const { group } = ownPropsRef.current
+      if (groupContextRef.current.onChange) {
+        groupContextRef.current.onChange({
           value,
           event,
         })
       }
-      dispatchCustomElementEvent({ props: ownProps }, 'onChange', {
-        group,
-        checked: isChecked,
-        value,
-        event,
-      })
+      dispatchCustomElementEvent(
+        { props: ownPropsRef.current },
+        'onChange',
+        {
+          group,
+          checked: isChecked,
+          value,
+          event,
+        }
+      )
 
       // help firefox and safari to have a correct state after a click
       if (inputRef.current) {
         inputRef.current.focus()
       }
     },
-    [ownProps, groupContext]
+    []
   )
 
   const onChangeHandler = useCallback(
@@ -210,7 +220,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
       _event: React.ChangeEvent<HTMLInputElement> | React.KeyboardEvent
     ) => {
       const event = _event
-      if (ownProps.readOnly) {
+      if (ownPropsRef.current.readOnly) {
         return event.preventDefault()
       }
       const value = (event.target as HTMLInputElement).value
@@ -231,7 +241,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
         callOnChange({ value, checked: newChecked, event })
       }
     },
-    [ownProps, checkedState, isPlainGroup, callOnChange]
+    [checkedState, isPlainGroup, callOnChange]
   )
 
   const onKeyDownHandler = useCallback(
@@ -244,7 +254,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
         }
       } else if (isContextGroupOrSingle()) {
         if (key === 'Enter' || key === ' ') {
-          const { value } = groupContext
+          const { value } = groupContextRef.current
           if (value !== null && typeof value !== 'undefined') {
             event.preventDefault()
           }
@@ -257,22 +267,20 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
           event.preventDefault()
         }
       }
-      dispatchCustomElementEvent({ props: ownProps }, 'onKeyDown', {
-        event,
-      })
+      dispatchCustomElementEvent(
+        { props: ownPropsRef.current },
+        'onKeyDown',
+        {
+          event,
+        }
+      )
     },
-    [
-      ownProps,
-      groupContext,
-      isInNoGroup,
-      isContextGroupOrSingle,
-      onChangeHandler,
-    ]
+    [isInNoGroup, isContextGroupOrSingle, onChangeHandler]
   )
 
   const onClickHandler = useCallback(
     (event: React.MouseEvent<HTMLInputElement>) => {
-      if (ownProps.readOnly) {
+      if (ownPropsRef.current.readOnly) {
         return event.preventDefault()
       }
       // only have click support if there are more plain radio
@@ -283,7 +291,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
       const isChecked = (event.target as HTMLInputElement).checked
       callOnChange({ value, checked: isChecked, event })
     },
-    [ownProps, isPlainGroup, callOnChange]
+    [isPlainGroup, callOnChange]
   )
 
   // Strip undefined values so they fall through to defaults,

@@ -109,6 +109,9 @@ const parseChecked = (state: string | boolean | null | undefined) =>
 function RadioGroup(ownProps: RadioGroupProps) {
   const context = useContext(Context)
 
+  const ownPropsRef = useRef(ownProps)
+  ownPropsRef.current = ownProps
+
   const id = useId(ownProps.id)
   const nameRef = useRef(ownProps.name || id)
 
@@ -139,12 +142,16 @@ function RadioGroup(ownProps: RadioGroupProps) {
     }) => {
       skipNextPropSync.current = true
       setValue(newValue)
-      dispatchCustomElementEvent({ props: ownProps }, 'onChange', {
-        value: newValue,
-        event,
-      })
+      dispatchCustomElementEvent(
+        { props: ownPropsRef.current },
+        'onChange',
+        {
+          value: newValue,
+          event,
+        }
+      )
     },
-    [ownProps]
+    []
   )
 
   const resolvedProps = {
