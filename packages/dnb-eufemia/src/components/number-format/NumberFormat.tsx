@@ -166,6 +166,9 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
     ...removeUndefinedProps({ ...ownProps }),
   }
 
+  const propsWithDefaultsRef = useRef(propsWithDefaults)
+  propsWithDefaultsRef.current = propsWithDefaults
+
   const elRef = useRef<HTMLElement>(null)
   const selectionRef = useRef<HTMLElement>(null)
   const generatedId = useId(propsWithDefaults.id)
@@ -261,7 +264,7 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
   const showCopyTooltip = useCallback(
     (message?: string) => {
       const translations = (
-        context.getTranslation?.(propsWithDefaults) as
+        context.getTranslation?.(propsWithDefaultsRef.current) as
           | Record<string, Record<string, string>>
           | undefined
       )?.NumberFormat
@@ -279,17 +282,17 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
         setCopyTooltipActive(false)
       }, COPY_TOOLTIP_TIMEOUT)
     },
-    [context, propsWithDefaults, clearCopyTooltipTimeout]
+    [context, clearCopyTooltipTimeout]
   )
 
   const shortcutHandler = useCallback(() => {
     const label = (
-      context.getTranslation?.(propsWithDefaults) as
+      context.getTranslation?.(propsWithDefaultsRef.current) as
         | Record<string, Record<string, string>>
         | undefined
     )?.NumberFormat?.clipboardCopy
     showCopyTooltip(label)
-  }, [context, propsWithDefaults, showCopyTooltip])
+  }, [context, showCopyTooltip])
 
   const onContextMenuHandler = useCallback(() => {
     if (!hasSelectedText()) {
