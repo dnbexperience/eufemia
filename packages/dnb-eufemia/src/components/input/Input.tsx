@@ -390,7 +390,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   const [inputState, setInputState] = useState(
     restProps.inputState || 'virgin'
   )
-  const [focusState, _setFocusState] = useState<string | undefined>(
+  const [focusState, setFocusState] = useState<string | undefined>(
     undefined
   )
 
@@ -436,7 +436,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
 
   useEffect(() => {
     updateInputValue()
-  })
+  }, [updateInputValue])
 
   useMountEffect(() => {
     if (restProps.clear && restProps.iconPosition === 'right') {
@@ -452,6 +452,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     (event: React.FocusEvent<HTMLInputElement>) => {
       const { value: eventValue } = event.target
       setInputState('focus')
+      setFocusState('focus')
 
       dispatchCustomElementEvent(props, 'onFocus', {
         value: eventValue,
@@ -476,6 +477,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   const onBlurHandler = useCallback(
     (event: React.FocusEvent<HTMLInputElement>) => {
       const { value: eventValue } = event.target
+      setFocusState(undefined)
       const result = dispatchCustomElementEvent(props, 'onBlur', {
         value: eventValue,
         event,
@@ -782,19 +784,21 @@ function InputComponent({ ref, ...restProps }: InputProps) {
               />
             )}
 
-            {!hasVal && placeholder && focusState !== 'focus' && (
-              <span
-                id={id + '-placeholder'}
-                className={clsx(
-                  'dnb-input__placeholder',
-                  align ? `dnb-input__align--${align}` : null
-                )}
-                role="presentation"
-                aria-hidden
-              >
-                {placeholder}
-              </span>
-            )}
+            {!hasVal &&
+              placeholder &&
+              (keepPlaceholder || focusState !== 'focus') && (
+                <span
+                  id={id + '-placeholder'}
+                  className={clsx(
+                    'dnb-input__placeholder',
+                    align ? `dnb-input__align--${align}` : null
+                  )}
+                  role="presentation"
+                  aria-hidden
+                >
+                  {placeholder}
+                </span>
+              )}
 
             {clear && iconPosition !== 'right' && (
               <span className="dnb-input--clear dnb-input__submit-element">
