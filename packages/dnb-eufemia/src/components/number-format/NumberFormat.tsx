@@ -177,7 +177,7 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
   const cleanedValueRef = useRef<string | undefined>(undefined)
 
   const [selected, setSelected] = useState(false)
-  const [omitCurrencySign] = useState(false)
+  const omitCurrencySign = false
   const [hover, setHover] = useState(false)
   const [copyTooltipActive, setCopyTooltipActive] = useState(false)
   const [copyTooltipText, setCopyTooltipText] = useState<string | null>(
