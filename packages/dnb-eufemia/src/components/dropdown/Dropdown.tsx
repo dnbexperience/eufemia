@@ -274,6 +274,9 @@ const DropdownInstance = React.memo(function DropdownInstance({
     ...removeUndefinedProps({ ...ownProps }),
   }
 
+  const propsWithDefaultsRef = useRef(propsWithDefaults)
+  propsWithDefaultsRef.current = propsWithDefaults
+
   // Open on mount if props.open is set.
   // Use useLayoutEffect to make the dropdown visible before paint,
   // avoiding a flash of the closed state.
@@ -305,31 +308,28 @@ const DropdownInstance = React.memo(function DropdownInstance({
     [context.drawerList]
   )
 
-  const setFocus = useCallback(
-    (args: Record<string, unknown>) => {
-      if (focusTimeoutRef.current) {
-        clearTimeout(focusTimeoutRef.current)
-      }
-      focusTimeoutRef.current = setTimeout(() => {
-        try {
-          const element = buttonRef.current
-          if (element && typeof element.focus === 'function') {
-            if (args.preventHideFocus !== true) {
-              element.focus({ preventScroll: true })
-            }
-            dispatchCustomElementEvent(
-              { props: propsWithDefaults },
-              'onCloseFocus',
-              { element }
-            )
+  const setFocus = useCallback((args: Record<string, unknown>) => {
+    if (focusTimeoutRef.current) {
+      clearTimeout(focusTimeoutRef.current)
+    }
+    focusTimeoutRef.current = setTimeout(() => {
+      try {
+        const element = buttonRef.current
+        if (element && typeof element.focus === 'function') {
+          if (args.preventHideFocus !== true) {
+            element.focus({ preventScroll: true })
           }
-        } catch (e) {
-          // do nothing
+          dispatchCustomElementEvent(
+            { props: propsWithDefaultsRef.current },
+            'onCloseFocus',
+            { element }
+          )
         }
-      }, 1) // NVDA / Firefox needs a delay to set this focus
-    },
-    [propsWithDefaults]
-  )
+      } catch (e) {
+        // do nothing
+      }
+    }, 1) // NVDA / Firefox needs a delay to set this focus
+  }, [])
 
   const onFocusHandler = useCallback(() => {
     if (propsWithDefaults.openOnFocus) {
@@ -394,7 +394,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
     (args: Record<string, unknown> = {}) => {
       const attributes = attributesRef.current || {}
       const res = dispatchCustomElementEvent(
-        { props: propsWithDefaults },
+        { props: propsWithDefaultsRef.current },
         'onClose',
         {
           ...args,
@@ -408,40 +408,34 @@ const DropdownInstance = React.memo(function DropdownInstance({
 
       return res
     },
-    [propsWithDefaults, setFocus]
+    [setFocus]
   )
 
-  const onSelectHandler = useCallback(
-    (args: Record<string, unknown>) => {
-      if (parseFloat(args.activeItem as string) > -1) {
-        const attributes = attributesRef.current || {}
-        dispatchCustomElementEvent(
-          { props: propsWithDefaults },
-          'onSelect',
-          {
-            ...args,
-            attributes,
-          }
-        )
-      }
-    },
-    [propsWithDefaults]
-  )
-
-  const onChangeHandler = useCallback(
-    (args: Record<string, unknown>) => {
+  const onSelectHandler = useCallback((args: Record<string, unknown>) => {
+    if (parseFloat(args.activeItem as string) > -1) {
       const attributes = attributesRef.current || {}
       dispatchCustomElementEvent(
-        { props: propsWithDefaults },
-        'onChange',
+        { props: propsWithDefaultsRef.current },
+        'onSelect',
         {
           ...args,
           attributes,
         }
       )
-    },
-    [propsWithDefaults]
-  )
+    }
+  }, [])
+
+  const onChangeHandler = useCallback((args: Record<string, unknown>) => {
+    const attributes = attributesRef.current || {}
+    dispatchCustomElementEvent(
+      { props: propsWithDefaultsRef.current },
+      'onChange',
+      {
+        ...args,
+        attributes,
+      }
+    )
+  }, [])
 
   const getTitle = (title: string | React.ReactNode = null) => {
     const { data } = context.drawerList
