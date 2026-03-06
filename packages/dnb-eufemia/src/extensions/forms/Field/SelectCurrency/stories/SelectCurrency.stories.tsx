@@ -1,7 +1,10 @@
 import React from 'react'
 import { Field, Form, Tools, Value } from '../../..'
 import { Flex } from '../../../../../components'
-import { CurrencyISO, CurrencyType } from '../../../constants/currencies'
+import type {
+  CurrencyISO,
+  CurrencyType,
+} from '../../../constants/currencies'
 
 export default {
   title: 'Eufemia/Extensions/Forms/SelectCurrency',

@@ -7,7 +7,7 @@ import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render, screen } from '@testing-library/react'
 import ProgressIndicator from '../ProgressIndicator'
-import { ProgressIndicatorAllProps } from '../types'
+import type { ProgressIndicatorAllProps } from '../types'
 import { format } from '../../number-format/NumberUtils'
 
 const props: ProgressIndicatorAllProps = {}

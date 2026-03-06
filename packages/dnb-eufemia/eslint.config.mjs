@@ -292,6 +292,10 @@ export default [
           caughtErrorsIgnorePattern: '^_',
         },
       ],
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        { prefer: 'type-imports' },
+      ],
     },
   },
   ...basePlugins.extends('plugin:jest/recommended').map((config) => ({

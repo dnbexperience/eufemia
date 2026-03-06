@@ -1,6 +1,8 @@
 import React from 'react'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
+import type { Props as FieldBlockProps } from '../../FieldBlock'
+import FieldBlock from '../../FieldBlock'
 
 export type Props = Pick<
   FieldBlockProps,

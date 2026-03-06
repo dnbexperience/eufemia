@@ -1,11 +1,11 @@
-import {
+import type {
   DefaultErrorMessages,
   Path,
   UseFieldProps,
   Validator,
 } from '../../types'
-import { Props as FlexContainerProps } from '../../../../components/flex/Container'
-import { IterateItemContextState } from '../IterateItemContext'
+import type { Props as FlexContainerProps } from '../../../../components/flex/Container'
+import type { IterateItemContextState } from '../IterateItemContext'
 
 export type ContainerMode = 'view' | 'edit' | 'auto'
 export type Value = Array<unknown | Record<string, unknown>>

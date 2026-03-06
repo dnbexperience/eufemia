@@ -3,8 +3,8 @@
  *
  */
 
+import type { RefObject } from 'react'
 import React, {
-  RefObject,
   useCallback,
   useContext,
   useMemo,
@@ -16,7 +16,8 @@ import React, {
 import { isValid as isValidFn, parseISO } from 'date-fns'
 
 import clsx from 'clsx'
-import TextMask, { TextMaskProps } from '../input-masked/TextMask'
+import type { TextMaskProps } from '../input-masked/TextMask'
+import TextMask from '../input-masked/TextMask'
 import Button from '../button/Button'
 import Input, { SubmitButton } from '../input/Input'
 import type { InputInputElement, InputSize } from '../Input'
@@ -31,11 +32,15 @@ import DatePickerContext from './DatePickerContext'
 
 import type { FormStatusBaseProps } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
-import { ReturnObject } from './DatePickerProvider'
-import { DatePickerEventAttributes, DatePickerProps } from './DatePicker'
+import type { ReturnObject } from './DatePickerProvider'
+import type {
+  DatePickerEventAttributes,
+  DatePickerProps,
+} from './DatePicker'
 import { Context, useTranslation } from '../../shared'
 import usePartialDates from './hooks/usePartialDates'
-import useInputDates, { DatePickerInputDates } from './hooks/useInputDates'
+import type { DatePickerInputDates } from './hooks/useInputDates'
+import useInputDates from './hooks/useInputDates'
 import { formatDate } from '../date-format/DateFormatUtils'
 
 export type DatePickerInputProps = Omit<

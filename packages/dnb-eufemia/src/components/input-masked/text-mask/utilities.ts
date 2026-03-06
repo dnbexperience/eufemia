@@ -61,7 +61,6 @@ export function processCaretTraps(mask: Mask): {
     ((indexOfCaretTrap = mask.indexOf(strCaretTrap)),
     indexOfCaretTrap !== -1)
   ) {
-    // eslint-disable-line
     indexes.push(indexOfCaretTrap)
 
     mask.splice(indexOfCaretTrap, 1)

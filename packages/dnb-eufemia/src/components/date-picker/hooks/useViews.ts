@@ -1,6 +1,6 @@
 import { addMonths } from 'date-fns'
 import { useCallback, useMemo, useRef, useState } from 'react'
-import { DatePickerDates } from './useDates'
+import type { DatePickerDates } from './useDates'
 
 export type CalendarView = { nr: number; month?: Date }
 

@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const TabsProperties: PropertiesTableProps = {
   selectedKey: {
@@ -8,30 +8,30 @@ export const TabsProperties: PropertiesTableProps = {
   },
   align: {
     doc: 'To align the tab list on the right side `align="right"`. Defaults to `left`.',
-    type: ['left', 'center', 'right'],
+    type: ['"left"', '"center"', '"right"'],
     status: 'optional',
   },
   contentStyle: {
     doc: 'To enable the visual helper `.dnb-section` on to the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.',
-    type: ['divider', 'white', 'transparent'],
+    type: ['"divider"', '"white"', '"transparent"'],
     status: 'optional',
   },
   contentSpacing: {
     doc: 'To modify the `spacing` onto the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `true`.',
     type: [
       'boolean',
-      'x-small',
-      'small',
-      'medium',
-      'large',
-      'x-large',
-      'xx-large',
+      '"x-small"',
+      '"small"',
+      '"medium"',
+      '"large"',
+      '"x-large"',
+      '"xx-large"',
     ],
     status: 'optional',
   },
   tabsStyle: {
     doc: 'To enable the visual helper `.dnb-section` inside the tabs list. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.',
-    type: ['divider', 'white', 'transparent'],
+    type: ['"divider"', '"white"', '"transparent"'],
     status: 'optional',
   },
   tabsSpacing: {

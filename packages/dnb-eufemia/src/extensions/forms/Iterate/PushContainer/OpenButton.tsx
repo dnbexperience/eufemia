@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import clsx from 'clsx'
-import Button, { ButtonProps } from '../../../../components/Button'
+import type { ButtonProps } from '../../../../components/Button'
+import Button from '../../../../components/Button'
 import { add } from '../../../../icons'
 import IterateItemContext from '../IterateItemContext'
 import PushContainerContext from './PushContainerContext'

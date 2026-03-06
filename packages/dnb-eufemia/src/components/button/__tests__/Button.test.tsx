@@ -5,7 +5,8 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import Button, { ButtonOnClick, ButtonProps } from '../Button'
+import type { ButtonOnClick, ButtonProps } from '../Button'
+import Button from '../Button'
 import IconPrimary from '../../IconPrimary'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { Provider } from '../../../shared'

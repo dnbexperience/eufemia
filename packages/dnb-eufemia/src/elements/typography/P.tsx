@@ -11,6 +11,8 @@ import Typography, {
   TypographyContext,
 } from './Typography'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import type { TypographySize, TypographyProps } from './Typography'
+import Typography, { TypographyContext } from './Typography'
 
 export type PSize = TypographySize
 

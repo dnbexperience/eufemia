@@ -1,5 +1,6 @@
 import React from 'react'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import type React from 'react'
 
 type WithChildrenProps = {
   children?: React.ReactNode

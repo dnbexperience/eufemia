@@ -1,6 +1,6 @@
-import { ModalAllProps } from '../modal/Modal'
-import { IconIcon } from '../Icon'
-import { DialogActionProps } from './parts/DialogAction'
+import type { ModalAllProps } from '../modal/Modal'
+import type { IconIcon } from '../Icon'
+import type { DialogActionProps } from './parts/DialogAction'
 import type {
   ModalFullscreen,
   ModalAlignContent,
@@ -8,6 +8,7 @@ import type {
   ModalContentMaxWidth,
 } from '../modal/types'
 import React from 'react'
+import type React from 'react'
 
 export interface DialogProps extends ModalAllProps {
   /**

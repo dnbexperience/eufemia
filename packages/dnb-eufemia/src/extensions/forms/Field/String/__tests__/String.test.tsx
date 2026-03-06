@@ -12,13 +12,13 @@ import SharedProvider from '../../../../../shared/Provider'
 import DataContext from '../../../DataContext/Context'
 import Provider from '../../../DataContext/Provider'
 import { GlobalStatus } from '../../../../../components'
+import type { Validator } from '../../..'
 import {
   Field,
   FieldBlock,
   Form,
   FormError,
   Iterate,
-  Validator,
   Value,
   z,
   makeAjvInstance,

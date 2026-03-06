@@ -260,7 +260,6 @@ export default Types
 // discriminated union types with exhaustive pattern matching via cata().
 // Uses dynamic property creation internally, so types are loosely defined.
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type DaggyObj = Record<string, any>
 
 function createDaggy() {

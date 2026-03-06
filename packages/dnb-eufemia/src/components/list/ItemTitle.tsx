@@ -1,7 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import FlexItem from '../flex/Item'
-import { ItemContentProps } from './ItemContent'
+import type { ItemContentProps } from './ItemContent'
 import ItemOverline from './ItemOverline'
 import ItemSubline from './ItemSubline'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'

@@ -7,7 +7,8 @@ import React from 'react'
 import { render, screen, act } from '@testing-library/react'
 
 import MatchMediaMock from 'jest-matchmedia-mock'
-import MediaQuery, { MediaQueryProps } from '../MediaQuery'
+import type { MediaQueryProps } from '../MediaQuery'
+import MediaQuery from '../MediaQuery'
 import Provider from '../Provider'
 import { isMatchMediaSupported as _isMatchMediaSupported } from '../MediaQueryUtils'
 

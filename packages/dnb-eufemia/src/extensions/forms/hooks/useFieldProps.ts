@@ -1,3 +1,4 @@
+import type { AriaAttributes } from 'react'
 import React, {
   useRef,
   useEffect,
@@ -5,7 +6,6 @@ import React, {
   useCallback,
   useMemo,
   useReducer,
-  AriaAttributes,
 } from 'react'
 import pointer from '../utils/json-pointer'
 import type { ValidateFunction } from 'ajv/dist/2020.js'
@@ -18,8 +18,8 @@ import {
 } from '../utils'
 import { ajvErrorsToOneFormError } from '../utils/ajvErrors'
 import { extendErrorMessagesWithTranslationMessages } from '../utils/errors'
-import * as z from 'zod'
-import {
+import type * as z from 'zod'
+import type {
   FieldPropsGeneric,
   ProvideAdditionalEventArgs,
   SubmitState,
@@ -35,7 +35,8 @@ import {
   FieldStatus,
   ErrorProp,
 } from '../types'
-import { Context as DataContext, ContextState } from '../DataContext'
+import type { ContextState } from '../DataContext'
+import { Context as DataContext } from '../DataContext'
 import { clearedData } from '../DataContext/Provider/Provider'
 import FieldProviderContext from '../Field/Provider/FieldProviderContext'
 import {
@@ -45,9 +46,8 @@ import {
 } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
-import FieldBlockContext, {
-  FieldBlockContextProps,
-} from '../FieldBlock/FieldBlockContext'
+import type { FieldBlockContextProps } from '../FieldBlock/FieldBlockContext'
+import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateItemContext from '../Iterate/IterateItemContext'
 import SectionContext from '../Form/Section/SectionContext'
 import FieldBoundaryContext from '../DataContext/FieldBoundary/FieldBoundaryContext'

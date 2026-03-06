@@ -1,5 +1,5 @@
 import { Field, Form, Tools } from '../../..'
-import { AdditionalArgs } from '../DateOfBirth'
+import type { AdditionalArgs } from '../DateOfBirth'
 
 export default {
   title: 'Eufemia/Extensions/Forms/DateOfBirth',

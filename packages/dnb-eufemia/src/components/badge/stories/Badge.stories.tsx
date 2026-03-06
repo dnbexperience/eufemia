@@ -6,7 +6,8 @@
 import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
-import Badge, { BadgeProps } from '../Badge'
+import type { BadgeProps } from '../Badge'
+import Badge from '../Badge'
 import Avatar from '../../avatar/Avatar'
 import { Tabs } from '../../lib'
 

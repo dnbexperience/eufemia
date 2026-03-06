@@ -1,5 +1,5 @@
 import { format } from '../number-format/NumberUtils'
-import {
+import type {
   UploadFile,
   UploadContextProps,
   UploadAcceptedFileTypes,

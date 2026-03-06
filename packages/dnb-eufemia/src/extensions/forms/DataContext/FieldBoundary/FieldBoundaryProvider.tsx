@@ -1,9 +1,8 @@
 import React, { useCallback, useContext, useReducer, useRef } from 'react'
-import FieldBoundaryContext, {
-  FieldBoundaryContextState,
-} from './FieldBoundaryContext'
+import type { FieldBoundaryContextState } from './FieldBoundaryContext'
+import FieldBoundaryContext from './FieldBoundaryContext'
 import DataContext from '../Context'
-import { Path } from '../../types'
+import type { Path } from '../../types'
 
 export type Props = {
   showErrors?: boolean

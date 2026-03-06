@@ -2,6 +2,8 @@ import React from 'react'
 import clsx from 'clsx'
 import Space, { SpaceAllProps } from '../space/Space'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import type { SpaceAllProps } from '../space/Space'
+import Space from '../space/Space'
 
 export type Columns = number
 

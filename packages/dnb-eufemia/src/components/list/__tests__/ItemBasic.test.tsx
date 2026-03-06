@@ -1,7 +1,8 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import Container from '../Container'
-import ItemBasic, { ItemBasicProps } from '../ItemBasic'
+import type { ItemBasicProps } from '../ItemBasic'
+import ItemBasic from '../ItemBasic'
 import { fish_medium } from '../../../icons'
 import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 

@@ -1,6 +1,6 @@
 import React, { useCallback, useReducer, useRef } from 'react'
 import SectionContainerContext from './SectionContainerContext'
-import { ContainerMode } from './SectionContainer'
+import type { ContainerMode } from './SectionContainer'
 
 export type Props = {
   validateInitially?: boolean

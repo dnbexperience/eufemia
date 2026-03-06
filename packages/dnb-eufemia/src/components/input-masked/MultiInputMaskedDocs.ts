@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const multiInputMaskedEvents: PropertiesTableProps = {
   onChange: {
@@ -26,7 +26,7 @@ export const multiInputMaskedProperties: PropertiesTableProps = {
   },
   labelDirection: {
     doc: 'Use to change the label layout direction. Defaults to `horizontal`.',
-    type: ['horizontal', 'vertical'],
+    type: ['"horizontal"', '"vertical"'],
     status: 'optional',
   },
   inputs: {
@@ -56,7 +56,7 @@ export const multiInputMaskedProperties: PropertiesTableProps = {
   },
   statusState: {
     doc: "Defines the state of the status. It's two statuses [error, info]. Defaults to error.",
-    type: ['error', 'info'],
+    type: ['"error"', '"info"'],
     status: 'optional',
   },
   suffix: {

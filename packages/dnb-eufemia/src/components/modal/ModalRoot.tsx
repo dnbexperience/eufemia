@@ -1,6 +1,6 @@
 import React from 'react'
 import ModalContent from './ModalContent'
-import { ModalContentProps } from './types'
+import type { ModalContentProps } from './types'
 import PortalRoot from '../PortalRoot'
 
 declare global {

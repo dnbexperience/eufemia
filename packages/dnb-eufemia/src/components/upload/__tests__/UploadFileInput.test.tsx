@@ -2,7 +2,7 @@ import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import UploadFileInput from '../UploadFileInput'
 import { createMockFile } from './testHelpers'
-import { UploadContextProps } from '../types'
+import type { UploadContextProps } from '../types'
 import { UploadContext } from '../UploadContext'
 
 const defaultProps: UploadContextProps = {

@@ -3,11 +3,13 @@ import clsx from 'clsx'
 import SharedContext from '../../../../shared/Context'
 import { getCurrencySymbol } from '../../../../components/number-format/NumberUtils'
 import { CURRENCY } from '../../../../shared/defaults'
-import { CurrencyISO } from '../../constants/currencies'
+import type { CurrencyISO } from '../../constants/currencies'
 import useDataValue from '../../hooks/useDataValue'
 import NumberField, { Props as NumberFieldProps } from '../Number'
-import { PathStrict } from '../../types'
+import type { PathStrict } from '../../types'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
+import type { Props as NumberFieldProps } from '../Number'
+import NumberField from '../Number'
 
 export type Props = NumberFieldProps & {
   /**

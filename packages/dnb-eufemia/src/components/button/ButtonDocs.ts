@@ -1,9 +1,9 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const ButtonProperties: PropertiesTableProps = {
   type: {
     doc: 'The type HTML attribute. Defaults to `button` to prevent accidental form submissions.',
-    type: ['button', 'reset', 'submit'],
+    type: ['"button"', '"reset"', '"submit"'],
     status: 'optional',
   },
   text: {
@@ -23,12 +23,18 @@ export const ButtonProperties: PropertiesTableProps = {
   },
   variant: {
     doc: 'Defines the kind of button. Possible values are `primary`, `secondary`, `tertiary` and `signal`. Defaults to `primary` (or `secondary` if icon only). The `tertiary` button is normally used together with an icon and officially supports only the default and large sizes.',
-    type: ['primary', 'secondary', 'tertiary', 'signal', 'unstyled'],
+    type: [
+      '"primary"',
+      '"secondary"',
+      '"tertiary"',
+      '"signal"',
+      '"unstyled"',
+    ],
     status: 'optional',
   },
   size: {
     doc: 'The size of the button. There is `default`, `small`, `medium`  and `large`. The `tertiary` button officially supports only default and large. Changing the size mainly affects spacing, but the large tertiary button also has a larger font size.',
-    type: ['default', 'small', 'medium', 'large'],
+    type: ['"default"', '"small"', '"medium"', '"large"'],
     status: 'optional',
   },
   icon: {
@@ -38,7 +44,7 @@ export const ButtonProperties: PropertiesTableProps = {
   },
   iconPosition: {
     doc: 'Position of icon inside the button. Set to `left` or `right`. Tertiary button variant also supports `top`. Defaults to `right` if not set.',
-    type: ['left', 'right', 'top'],
+    type: ['"left"', '"right"', '"top"'],
     status: 'optional',
   },
   iconSize: {
@@ -53,7 +59,7 @@ export const ButtonProperties: PropertiesTableProps = {
   },
   target: {
     doc: 'When button behaves as a link. Used to specify where to open the linked document, specified by `href`. Possible values are `_self`, `_blank`, `_parent` and `_top`.',
-    type: ['_self', '_blank', '_parent', '_top'],
+    type: ['"_self"', '"_blank"', '"_parent"', '"_top"'],
     status: 'optional',
   },
   rel: {
@@ -103,12 +109,12 @@ export const ButtonProperties: PropertiesTableProps = {
   },
   status: {
     doc: 'Set it to either `status="error"` or a text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['error', 'info', 'boolean'],
+    type: ['"error"', '"info"', 'boolean'],
     status: 'optional',
   },
   statusState: {
     doc: 'Defines the state of the status. Currently there are two statuses `[error, info]`. Defaults to `error`.',
-    type: ['error', 'info'],
+    type: ['"error"', '"info"'],
     status: 'optional',
   },
   statusProps: {

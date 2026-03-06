@@ -1,6 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
-import TableScrollView, { TableScrollViewProps } from './TableScrollView'
+import type { TableScrollViewProps } from './TableScrollView'
+import TableScrollView from './TableScrollView'
 import { createSpacingClasses } from '../space/SpacingUtils'
 
 import type { TableProps } from './Table'

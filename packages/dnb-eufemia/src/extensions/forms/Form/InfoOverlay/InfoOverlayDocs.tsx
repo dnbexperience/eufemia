@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 
 export const InfoOverlaySuccessProperties: PropertiesTableProps = {
   title: {
@@ -28,7 +28,7 @@ export const InfoOverlaySuccessProperties: PropertiesTableProps = {
   },
   '[Section](/uilib/components/section/properties)': {
     doc: 'All Section properties.',
-    type: 'various',
+    type: '"various"',
     status: 'optional',
   },
 }
@@ -56,7 +56,7 @@ export const InfoOverlayErrorProperties: PropertiesTableProps = {
   },
   '[Section](/uilib/components/section/properties)': {
     doc: 'All Section properties.',
-    type: 'various',
+    type: '"various"',
     status: 'optional',
   },
 }

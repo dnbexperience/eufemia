@@ -1,7 +1,7 @@
 import React from 'react'
-import { Path } from '../../types'
-import { VisibleWhen } from '../../Form/Visibility'
-import {
+import type { Path } from '../../types'
+import type { VisibleWhen } from '../../Form/Visibility'
+import type {
   InternalStepStatus,
   OnStepChange,
   SetActiveIndexOptions,

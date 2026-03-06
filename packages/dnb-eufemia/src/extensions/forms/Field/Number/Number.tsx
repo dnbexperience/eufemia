@@ -6,23 +6,25 @@ import React, {
   useRef,
 } from 'react'
 import { InputMasked, Button } from '../../../../components'
-import { InputMaskedProps } from '../../../../components/InputMasked'
-import {
-  format,
-  formatOptionParams,
-} from '../../../../components/number-format/NumberUtils'
+import type { InputMaskedProps } from '../../../../components/InputMasked'
+import type { formatOptionParams } from '../../../../components/number-format/NumberUtils'
+import { format } from '../../../../components/number-format/NumberUtils'
 import type { InputAlign, InputSize } from '../../../../components/Input'
 import SharedContext from '../../../../shared/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import clsx from 'clsx'
-import FieldBlock, {
+import type {
   Props as FieldBlockProps,
   FieldBlockWidth,
 } from '../../FieldBlock'
+import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
-import { FieldProps, Schema } from '../../types'
+import type { FieldProps, Schema } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import { ButtonProps, ButtonSize } from '../../../../components/Button'
+import type {
+  ButtonProps,
+  ButtonSize,
+} from '../../../../components/Button'
 import { clamp } from '../../../../components/slider/SliderHelpers'
 import DataContext from '../../DataContext/Context'
 import * as z from 'zod'

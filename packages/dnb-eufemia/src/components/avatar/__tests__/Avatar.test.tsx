@@ -1,6 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import Avatar, { AvatarImgProps, AvatarProps } from '../Avatar'
+import type { AvatarImgProps, AvatarProps } from '../Avatar'
+import Avatar from '../Avatar'
 import { confetti as Confetti } from '../../../icons'
 import Icon from '../../Icon'
 

@@ -1,5 +1,5 @@
 import { useCallback, useRef } from 'react'
-import { DatePickerDates } from './useDates'
+import type { DatePickerDates } from './useDates'
 
 export type SubmittedDates = Pick<DatePickerDates, 'startDate' | 'endDate'>
 

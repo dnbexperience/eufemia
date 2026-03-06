@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const CheckboxProperties: PropertiesTableProps = {
   checked: {
@@ -13,7 +13,7 @@ export const CheckboxProperties: PropertiesTableProps = {
   },
   label: {
     doc: 'Use either the `label` property or provide a custom one.',
-    type: 'ReactNode',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   labelPosition: {
@@ -28,7 +28,7 @@ export const CheckboxProperties: PropertiesTableProps = {
   },
   size: {
     doc: 'The size of the checkbox. For now there is "medium" (default) and "large".',
-    type: ['default', 'medium', 'large'],
+    type: ['"default"', '"medium"', '"large"'],
     status: 'optional',
   },
   indeterminate: {
@@ -38,12 +38,12 @@ export const CheckboxProperties: PropertiesTableProps = {
   },
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['error', 'info', 'boolean'],
+    type: ['"error"', '"info"', 'boolean'],
     status: 'optional',
   },
   statusState: {
     doc: 'Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.',
-    type: ['error', 'info'],
+    type: ['"error"', '"info"'],
     status: 'optional',
   },
   statusProps: {
@@ -63,7 +63,7 @@ export const CheckboxProperties: PropertiesTableProps = {
   },
   suffix: {
     doc: 'Text describing the content of the Checkbox more than the label. You can also send in a React component, so it gets wrapped inside the Checkbox component.',
-    type: 'ReactNode',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   ref: {

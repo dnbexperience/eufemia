@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useReducer } from 'react'
 import WizardContext from '../Context'
 import StepIndicator from '../../../../components/StepIndicator'
-import { StepIndicatorItemProps } from '../../../../components/step-indicator/StepIndicatorItem'
+import type { StepIndicatorItemProps } from '../../../../components/step-indicator/StepIndicatorItem'
 import { useTranslation } from '../../hooks'
 
 export function DisplaySteps({

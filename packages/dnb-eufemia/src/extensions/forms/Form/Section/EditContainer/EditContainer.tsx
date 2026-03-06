@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useMemo, useRef } from 'react'
 import clsx from 'clsx'
 import { convertJsxToString } from '../../../../../shared/component-helper'
 import { Flex } from '../../../../../components'
-import { Props as FlexContainerProps } from '../../../../../components/flex/Container'
+import type { Props as FlexContainerProps } from '../../../../../components/flex/Container'
 import { Lead } from '../../../../../elements'
 import FieldBoundaryProvider from '../../../DataContext/FieldBoundary/FieldBoundaryProvider'
 import SectionContainerContext from '../containers/SectionContainerContext'
@@ -12,8 +12,10 @@ import CancelButton from './CancelButton'
 import SectionContainer, {
   SectionContainerProps,
 } from '../containers/SectionContainer'
-import { Path } from '../../../types'
+import type { Path } from '../../../types'
 import withComponentMarkers from '../../../../../shared/helpers/withComponentMarkers'
+import type { SectionContainerProps } from '../containers/SectionContainer'
+import SectionContainer from '../containers/SectionContainer'
 
 export type Props = {
   title?: React.ReactNode

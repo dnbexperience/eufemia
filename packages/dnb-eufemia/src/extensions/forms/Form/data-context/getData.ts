@@ -1,10 +1,10 @@
 import pointer from '../../utils/json-pointer'
+import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
-  SharedStateId,
   createReferenceKey,
   createSharedState,
 } from '../../../../shared/helpers/useSharedState'
-import { SharedAttachments } from '../../DataContext/Provider'
+import type { SharedAttachments } from '../../DataContext/Provider'
 import type { Path } from '../../types'
 import type {
   UseDataReturnGetValue,

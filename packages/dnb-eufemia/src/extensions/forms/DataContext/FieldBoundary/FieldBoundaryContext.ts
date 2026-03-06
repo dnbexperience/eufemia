@@ -1,5 +1,5 @@
 import React from 'react'
-import { Path } from '../../types'
+import type { Path } from '../../types'
 
 export interface FieldBoundaryContextState {
   /**

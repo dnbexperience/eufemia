@@ -14,12 +14,11 @@ import userEvent from '@testing-library/user-event'
 import { LOCALE } from '../../../shared/defaults'
 import { isMac } from '../../../shared/helpers'
 import Provider from '../../../shared/Provider'
-import NumberFormat, {
-  NumberFormatProps,
-  COPY_TOOLTIP_TIMEOUT,
-} from '../NumberFormat'
+import type { NumberFormatProps } from '../NumberFormat'
+import NumberFormat, { COPY_TOOLTIP_TIMEOUT } from '../NumberFormat'
 import * as TooltipModule from '../../tooltip/Tooltip'
-import { format, formatReturnValue } from '../NumberUtils'
+import type { formatReturnValue } from '../NumberUtils'
+import { format } from '../NumberUtils'
 import enGB from '../../../shared/locales/en-GB'
 
 const en = enGB['en-GB'].NumberFormat
