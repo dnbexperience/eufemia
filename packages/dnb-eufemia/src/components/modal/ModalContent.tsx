@@ -305,7 +305,7 @@ export default function ModalContent(props: ModalContentProps) {
 
       if (mostCurrent === selfRef.current) {
         event.preventDefault()
-        closeModalContent(event, {
+        closeModalContent(event as unknown as React.SyntheticEvent, {
           triggeredBy: 'keyboard',
         })
       }
