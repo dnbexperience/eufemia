@@ -15,8 +15,8 @@ import clsx from 'clsx'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import TextCounter from '../../fragments/text-counter/TextCounter'
+import useId from '../../shared/helpers/useId'
 import {
-  makeUniqueId,
   extendPropsWithContext,
   removeUndefinedProps,
   validateDOMAttributes,
@@ -297,11 +297,7 @@ function TextareaComponent(
     [ref]
   )
 
-  const id = useMemo(
-    () => ownProps.id || makeUniqueId(),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
+  const id = useId(ownProps.id)
 
   const resizeModifier = useMemo(() => getResizeModifier(), [])
   const heightOffsetRef = useRef<number | undefined>(undefined)
