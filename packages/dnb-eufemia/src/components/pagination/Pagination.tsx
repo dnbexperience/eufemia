@@ -308,7 +308,9 @@ const PaginationInstance = React.memo(function PaginationInstance(
   const ctx = useContext(PaginationContext) as Record<string, any>
   const contentRef = useRef<HTMLDivElement | null>(null)
 
-  // use only the props from context, who are available here anyway
+  // Uses extendPropsWithContextInClassComponent (onlyMergeExistingProps: true)
+  // to prevent context props not defined in paginationDefaultProps from
+  // leaking into the component and potentially reaching DOM attributes.
   const props = extendPropsWithContextInClassComponent(
     ownProps,
     paginationDefaultProps,
