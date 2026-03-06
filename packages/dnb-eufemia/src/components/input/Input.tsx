@@ -13,13 +13,10 @@ import React, {
 import clsx from 'clsx'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
-import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
+import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
 import useId from '../../shared/helpers/useId'
-import Suffix from '../../shared/helpers/Suffix'
 import {
   warn,
-  makeUniqueId,
   removeUndefinedProps,
   validateDOMAttributes,
   processChildren,
@@ -431,11 +428,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     | (typeof context.formElement & { useId?: () => string })
     | undefined
 
-  const _id = useMemo(
-    () => restProps.id || formElement?.useId?.() || makeUniqueId(),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
+  const _id = useId(restProps.id || formElement?.useId?.())
 
   const selectAllTimeoutRef =
     useRef<ReturnType<typeof setTimeout>>(undefined)
