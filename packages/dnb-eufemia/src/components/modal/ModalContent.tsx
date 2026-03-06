@@ -10,6 +10,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
+import useMountEffect from '../../shared/helpers/useMountEffect'
 import clsx from 'clsx'
 import {
   disableBodyScroll,
@@ -416,7 +417,7 @@ export default function ModalContent(props: ModalContentProps) {
   removeLocksRef.current = removeLocks
 
   // Mount
-  useEffect(() => {
+  useMountEffect(() => {
     const timeoutDuration: number =
       typeof animationDuration === 'string'
         ? parseFloat(animationDuration)
@@ -449,8 +450,7 @@ export default function ModalContent(props: ModalContentProps) {
       removeLocksRef.current()
       mountedRef.current = 0
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  })
 
   // Re-focus when children change
   const prevChildrenRef = useRef(children)

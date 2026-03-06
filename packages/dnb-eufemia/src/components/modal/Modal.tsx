@@ -10,6 +10,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
+import useMountEffect from '../../shared/helpers/useMountEffect'
 import clsx from 'clsx'
 import { SuffixContext } from '../../shared/helpers/Suffix'
 import type { ContextProps } from '../../shared/Context'
@@ -428,7 +429,7 @@ function ModalComponent(ownProps: ModalAllProps) {
   })
 
   // Cleanup on unmount
-  useEffect(() => {
+  useMountEffect(() => {
     return () => {
       clearTimeout(openTimeoutRef.current)
       clearTimeout(closeTimeoutRef.current)
@@ -440,8 +441,7 @@ function ModalComponent(ownProps: ModalAllProps) {
         }
       })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  })
 
   const modalContent = getContent(
     typeof ownProps.children === 'function'
