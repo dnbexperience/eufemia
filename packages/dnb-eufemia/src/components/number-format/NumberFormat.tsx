@@ -13,9 +13,9 @@ import React, {
 import clsx from 'clsx'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import Context, { type ContextProps } from '../../shared/Context'
+import useId from '../../shared/helpers/useId'
 import {
   warn,
-  makeUniqueId,
   validateDOMAttributes,
   convertJsxToString,
   extendPropsWithContextInClassComponent,
@@ -173,11 +173,8 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
 
   const elRef = useRef<HTMLElement>(null)
   const selectionRef = useRef<HTMLElement>(null)
-  const idRef = useRef(
-    propsWithDefaults.tooltip
-      ? propsWithDefaults.id || makeUniqueId()
-      : undefined
-  )
+  const generatedId = useId(propsWithDefaults.id)
+  const idRef = useRef(propsWithDefaults.tooltip ? generatedId : undefined)
   const copyTooltipTimeoutRef = useRef<ReturnType<
     typeof setTimeout
   > | null>(null)
