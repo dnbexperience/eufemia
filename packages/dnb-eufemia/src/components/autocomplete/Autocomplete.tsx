@@ -2235,10 +2235,11 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       dataChangedRef.current = false
       updateData(props.data)
       if (drawerList.open || hasFocus) {
-        setSearchIndex({ overwriteSearchIndex: true }, null)
-        if (hasFocusRef.current && !drawerList.open) {
-          setVisible()
-        }
+        // Match class componentDidUpdate: re-run filter after updating the
+        // search index so highlight and visibility are handled consistently.
+        setSearchIndex({ overwriteSearchIndex: true }, () => {
+          runFilterWithSideEffects(inputValueRef.current)
+        })
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
