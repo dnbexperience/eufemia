@@ -1710,28 +1710,42 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     ]
   )
 
+  // Keep latest event helper functions in a ref so that getEventObjects
+  // always returns the current versions, even when called from stale
+  // useCallback closures (e.g. onSelectHandler with deps: []).
+  const eventMethodsRef =
+    useRef<
+      Omit<
+        AutocompleteEventMethods,
+        'attributes' | 'dataList' | 'debounce'
+      >
+    >(null)
+  eventMethodsRef.current = {
+    updateData,
+    revalidateSelectedItem,
+    revalidateInputValue,
+    resetSelectedItem,
+    clearInputValue,
+    showAllItems,
+    setVisible,
+    resetInputValue,
+    setHidden,
+    emptyData,
+    focusInput,
+    setInputValue,
+    showNoOptionsItem,
+    showIndicatorItem,
+    showIndicator,
+    hideIndicator,
+    setMode,
+  }
+
   // Build event objects for dispatching
   function getEventObjects(key: string): AutocompleteEventMethods {
     return {
       attributes: attributesRef.current,
       dataList: drawerListRef.current.data,
-      updateData,
-      revalidateSelectedItem,
-      revalidateInputValue,
-      resetSelectedItem,
-      clearInputValue,
-      showAllItems,
-      setVisible,
-      resetInputValue,
-      setHidden,
-      emptyData,
-      focusInput,
-      setInputValue,
-      showNoOptionsItem,
-      showIndicatorItem,
-      showIndicator,
-      hideIndicator,
-      setMode,
+      ...eventMethodsRef.current,
       debounce: (func, cbProps = {}, wait = 250) => {
         return (
           dbfRef.current[key] ||
@@ -2102,7 +2116,11 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
           setSkipFocusDuringChange(true)
           setDisableHighlighting(true)
 
-          // Suppress onCloseHandler's setFocusOnInput during setHidden
+          // Note: closingFromChangeRef is set/reset synchronously here, before
+          // onCloseHandler fires asynchronously after React re-renders.
+          // This means onCloseHandler always sees `false` and calls setFocusOnInput.
+          // This matches the class component behavior where onCloseHandler always
+          // refocused the input, so the guard is intentionally ineffective.
           closingFromChangeRef.current = true
           setHidden()
 
