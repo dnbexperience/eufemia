@@ -18,19 +18,6 @@ function useHandleCursorPosition(
   scopeRootRef?: RefObject<HTMLElement | null>,
   options?: UseHandleCursorPositionOptions
 ) {
-  const scheduleCaretCheck = useCallback((cb: () => void) => {
-    if (
-      typeof window !== 'undefined' &&
-      typeof window.requestAnimationFrame === 'function'
-    ) {
-      window.requestAnimationFrame(() => {
-        setTimeout(cb, 0)
-      })
-      return
-    }
-    setTimeout(cb, 0)
-  }, [])
-
   const onKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
       const input = event.target as HTMLInputElement
@@ -119,29 +106,55 @@ function useHandleCursorPosition(
           focusInput(next, 'start')
           return
         }
+      }
+    },
+    [keysToHandle, options, scopeRootRef]
+  )
 
-        // Defer until value updates, then check typed length
-        scheduleCaretCheck(() => {
-          const current = document.activeElement as HTMLInputElement | null
-          const el = current && current.id === input.id ? current : input
-          const len = getTypedLengthBasic(
-            el.value || '',
-            el.placeholder || '',
-            size
-          )
-          const selStartNow = el.selectionStart ?? 0
-          const selEndNow = el.selectionEnd ?? selStartNow
-          const atEndNow = selStartNow === size && selEndNow === size
-          if (len >= size && next && atEndNow) {
-            focusInput(next, 'start')
-          }
+  const onInput = useCallback(
+    (event: React.FormEvent<HTMLInputElement>) => {
+      const input = event.currentTarget
+
+      if (document.activeElement !== input) {
+        return // Ignore input events that don't come from the focused element, e.g. programmatic value changes or autofill.
+      }
+
+      const size = getInputVisualSize(input)
+
+      const selStart = input.selectionStart ?? 0
+      const selEnd = input.selectionEnd ?? selStart
+      const atEnd = selStart === size && selEnd === size
+
+      if (!atEnd) {
+        return
+      }
+
+      const typedLen = getTypedLengthBasic(
+        input.value || '',
+        input.placeholder || '',
+        size
+      )
+
+      if (typedLen < size) {
+        return
+      }
+
+      const next = getAdjacentInput(
+        scopeRootRef?.current || undefined,
+        input,
+        'next'
+      )
+
+      if (next) {
+        deferFocus(() => {
+          focusInput(next, 'start')
         })
       }
     },
-    [keysToHandle, options, scopeRootRef, scheduleCaretCheck]
+    [scopeRootRef]
   )
 
-  return { onKeyDown }
+  return { onKeyDown, onInput }
 }
 
 function listAllInputs(scope?: HTMLElement): HTMLInputElement[] {
@@ -155,6 +168,27 @@ function listAllInputs(scope?: HTMLElement): HTMLInputElement[] {
   } catch {
     return []
   }
+}
+
+// Resolve the neighboring masked input within the current scope so
+// arrow/backspace navigation can move across split fields.
+function getAdjacentInput(
+  scope: HTMLElement | undefined,
+  input: HTMLInputElement,
+  direction: 'next' | 'prev'
+) {
+  const allInputs = listAllInputs(scope)
+  const index = allInputs.findIndex((el) => el === input)
+
+  if (index < 0) {
+    return undefined
+  }
+
+  if (direction === 'prev') {
+    return index > 0 ? allInputs[index - 1] : undefined
+  }
+
+  return index < allInputs.length - 1 ? allInputs[index + 1] : undefined
 }
 
 function getTypedLengthBasic(
@@ -213,6 +247,18 @@ function focusInput(el: HTMLInputElement, _where: 'start' | 'end') {
   } catch {
     // ignore
   }
+}
+
+function deferFocus(cb: () => void) {
+  // Defer focus until after the current input/update cycle so the next field
+  // is focused against the latest DOM/state instead of the in-flight event. (window.queueMicrotask)
+  if (typeof queueMicrotask === 'function') {
+    queueMicrotask(cb)
+    return
+  }
+
+  // Fallback for environments without queueMicrotask support.
+  Promise.resolve().then(cb)
 }
 
 // Local helpers

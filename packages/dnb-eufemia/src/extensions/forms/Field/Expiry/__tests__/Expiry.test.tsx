@@ -3,12 +3,6 @@ import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { DataContext, Field, FieldBlock, Form, Validator } from '../../..'
-import {
-  setupMaskedInputKeyboard,
-  cleanupMaskedInputKeyboard,
-  focusInput,
-  focusAndKeyboard,
-} from '../../../../../core/jest/jestSetupMaskedInput'
 
 import nbNO from '../../../constants/locales/nb-NO'
 import enGB from '../../../constants/locales/en-GB'
@@ -17,15 +11,25 @@ import FormHandler from '../../../Form/Handler/Handler'
 const no = nbNO['nb-NO'].Expiry
 const en = enGB['en-GB'].Expiry
 
+async function focusInput(input: Element) {
+  await userEvent.click(input)
+}
+
+async function focusAndKeyboard(input: Element, sequence: string) {
+  await focusInput(input)
+
+  const el = input as HTMLInputElement
+
+  if (/^\{[Bb]ackspace/.test(sequence)) {
+    el.setSelectionRange(el.value.length, el.value.length)
+  } else {
+    el.setSelectionRange(0, el.value.length)
+  }
+
+  await userEvent.keyboard(sequence)
+}
+
 describe('Field.Expiry', () => {
-  beforeEach(() => {
-    setupMaskedInputKeyboard({ passthroughModifiers: true })
-  })
-
-  afterEach(() => {
-    cleanupMaskedInputKeyboard()
-  })
-
   it('should support size', () => {
     render(<Field.Expiry value="0835" size="large" />)
 
@@ -323,7 +327,9 @@ describe('Field.Expiry', () => {
 
     // Blur to trigger validation
     await userEvent.click(document.body)
-    expect(onBlur).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(onBlur).toHaveBeenCalledTimes(1)
+    })
 
     // Verify final state - both inputs should be empty/placeholder
     expect(monthInput.value).toBe('mm')

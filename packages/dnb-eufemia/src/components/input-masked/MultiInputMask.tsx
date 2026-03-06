@@ -180,7 +180,6 @@ function MultiInputMask<T extends string>(props: MultiInputMaskProps<T>) {
     }
 
     firstInput.focus()
-    firstInput.setSelectionRange(0, 0)
   }, [disabled, id, inputs])
 
   // Utilities
@@ -228,7 +227,7 @@ function MultiInputMask<T extends string>(props: MultiInputMaskProps<T>) {
     )
   }, [getUniqueMasks, inputs])
 
-  const { onKeyDown } = useHandleCursorPosition(
+  const { onKeyDown, onInput: onCursorInput } = useHandleCursorPosition(
     getKeysToHandle(),
     scopeRef,
     {
@@ -338,6 +337,7 @@ function MultiInputMask<T extends string>(props: MultiInputMaskProps<T>) {
                 disabled={disabled}
                 inputMode={inputMode}
                 onKeyDown={onKeyDown}
+                onCursorInput={onCursorInput}
                 onChange={onChange}
                 overwriteMode={overwriteMode}
                 optionsEnhancer={optionsEnhancer}
@@ -350,7 +350,6 @@ function MultiInputMask<T extends string>(props: MultiInputMaskProps<T>) {
                 }}
                 onBlur={(e) => {
                   if (!e.relatedTarget?.id?.includes(id)) {
-                    // Defer to allow any pending masking/state updates to settle
                     const run = () => onBlur?.(valuesRef.current)
                     if (isiOS()) {
                       setTimeout(run, 10)
@@ -385,6 +384,7 @@ type MultiInputMaskInputProps<T extends string> = Omit<
   delimiter?: MultiInputMaskProps<T>['delimiter']
   disabled: boolean
   onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void
+  onCursorInput: (event: React.FormEvent<HTMLInputElement>) => void
   onChange: (id: string, value: string) => void
   overwriteMode?: MaskitoOptions['overwriteMode']
   optionsEnhancer?: (
@@ -409,6 +409,7 @@ function MultiInputMaskInput<T extends string>({
   disabled,
   getInputRef,
   onKeyDown,
+  onCursorInput,
   onChange,
   onBlur,
   onFocus: onInputFocus,
@@ -632,6 +633,7 @@ function MultiInputMaskInput<T extends string>({
             stripValue,
             target,
           })
+          onCursorInput(event)
           lastKeydownHandledRef.current = false
         }}
         onBlur={onBlur}
@@ -671,10 +673,6 @@ function MultiInputMaskInput<T extends string>({
               const end = (target as HTMLInputElement).value.length
               ;(target as HTMLInputElement).setSelectionRange(start, end)
               shouldSelectAllOnMouseUpRef.current = focusedByMouse
-
-              window.requestAnimationFrame(() => {
-                ;(target as HTMLInputElement).setSelectionRange(start, end)
-              })
             } else {
               shouldSelectAllOnMouseUpRef.current = false
             }

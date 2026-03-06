@@ -16,11 +16,6 @@ import {
   FormatDateOptions,
   formatDate,
 } from '../../../../../components/date-format/DateFormatUtils'
-import {
-  setupMaskedInputKeyboard,
-  cleanupMaskedInputKeyboard,
-  focusAndKeyboard,
-} from '../../../../../core/jest/jestSetupMaskedInput'
 
 const nb = nbNO['nb-NO']
 const en = enGB['en-GB']
@@ -38,13 +33,23 @@ const options: Record<'no' | 'en', FormatDateOptions> = {
 
 const nbYearPlaceholder = 'åååå'
 
-beforeEach(() => {
-  setupMaskedInputKeyboard({ mockRAF: false })
-})
+async function focusInput(input: Element) {
+  await userEvent.click(input)
+}
 
-afterEach(() => {
-  cleanupMaskedInputKeyboard()
-})
+async function focusAndKeyboard(input: Element, sequence: string) {
+  await focusInput(input)
+
+  const el = input as HTMLInputElement
+
+  if (/^\{[Bb]ackspace/.test(sequence)) {
+    el.setSelectionRange(el.value.length, el.value.length)
+  } else {
+    el.setSelectionRange(0, el.value.length)
+  }
+
+  await userEvent.keyboard(sequence)
+}
 
 describe('Field.Date', () => {
   it('should render without props', () => {

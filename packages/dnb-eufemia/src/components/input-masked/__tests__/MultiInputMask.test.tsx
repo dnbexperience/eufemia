@@ -12,13 +12,10 @@ import MultiInputMask, {
   MultiInputMaskInput,
   MultiInputMaskProps,
 } from '../MultiInputMask'
-import {
-  setupMaskedInputKeyboard,
-  cleanupMaskedInputKeyboard,
-  setUserEventMethod,
-  wrapWithFlush,
-  focusInput,
-} from '../../../core/jest/jestSetupMaskedInput'
+
+async function focusInput(input: Element) {
+  await userEvent.click(input)
+}
 
 const defaultProps: MultiInputMaskProps<'day' | 'month' | 'year'> = {
   inputs: [
@@ -43,19 +40,7 @@ const defaultProps: MultiInputMaskProps<'day' | 'month' | 'year'> = {
   ],
 }
 
-const originalType = userEvent.type
-
 describe('MultiInputMask', () => {
-  beforeEach(() => {
-    setupMaskedInputKeyboard({ passthroughModifiers: true })
-    setUserEventMethod('type', wrapWithFlush(originalType))
-  })
-
-  afterEach(() => {
-    cleanupMaskedInputKeyboard()
-    setUserEventMethod('type', originalType)
-  })
-
   it('passes overwriteMode down to TextMask', () => {
     let capturedOptions: MaskitoOptions | null = null
     const enhancer = jest.fn((options) => {
@@ -827,7 +812,9 @@ describe('MultiInputMask', () => {
 
     await userEvent.click(document.body)
 
-    expect(onBlur).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(onBlur).toHaveBeenCalledTimes(1)
+    })
 
     await focusInput(day)
     await userEvent.keyboard('11012024')
@@ -836,7 +823,9 @@ describe('MultiInputMask', () => {
 
     await userEvent.click(document.body)
 
-    expect(onBlur).toHaveBeenCalledTimes(2)
+    await waitFor(() => {
+      expect(onBlur).toHaveBeenCalledTimes(2)
+    })
     expect(onBlur.mock.calls[1][0]).toEqual({
       day: '11',
       month: '01',
@@ -970,31 +959,43 @@ describe('MultiInputMask', () => {
     expect(onFocus).toHaveBeenCalledTimes(1)
 
     await userEvent.keyboard('{Tab>3}')
-    expect(onBlur).toHaveBeenCalledTimes(1)
-    expect(onFocus).toHaveBeenCalledTimes(2)
+    await waitFor(() => {
+      expect(onBlur).toHaveBeenCalledTimes(1)
+      expect(onFocus).toHaveBeenCalledTimes(2)
+    })
 
     await userEvent.keyboard('{Tab>2}')
     expect(onBlur).toHaveBeenCalledTimes(1)
     expect(onFocus).toHaveBeenCalledTimes(2)
 
     await userEvent.keyboard('{Shift>}{Tab>3}{/Shift}')
-    expect(onBlur).toHaveBeenCalledTimes(2)
-    expect(onFocus).toHaveBeenCalledTimes(3)
+    await waitFor(() => {
+      expect(onBlur).toHaveBeenCalledTimes(2)
+      expect(onFocus).toHaveBeenCalledTimes(3)
+    })
 
     await userEvent.click(secondLabel)
-    expect(onBlur).toHaveBeenCalledTimes(3)
-    expect(onFocus).toHaveBeenCalledTimes(4)
+    await waitFor(() => {
+      expect(onBlur).toHaveBeenCalledTimes(3)
+      expect(onFocus).toHaveBeenCalledTimes(4)
+    })
 
     await userEvent.click(firstLabel)
-    expect(onBlur).toHaveBeenCalledTimes(4)
-    expect(onFocus).toHaveBeenCalledTimes(5)
+    await waitFor(() => {
+      expect(onBlur).toHaveBeenCalledTimes(4)
+      expect(onFocus).toHaveBeenCalledTimes(5)
+    })
 
     await userEvent.keyboard('{Tab>3}')
-    expect(onBlur).toHaveBeenCalledTimes(5)
-    expect(onFocus).toHaveBeenCalledTimes(6)
+    await waitFor(() => {
+      expect(onBlur).toHaveBeenCalledTimes(5)
+      expect(onFocus).toHaveBeenCalledTimes(6)
+    })
 
     await userEvent.click(document.body)
-    expect(onBlur).toHaveBeenCalledTimes(6)
+    await waitFor(() => {
+      expect(onBlur).toHaveBeenCalledTimes(6)
+    })
     expect(onFocus).toHaveBeenCalledTimes(6)
   })
 

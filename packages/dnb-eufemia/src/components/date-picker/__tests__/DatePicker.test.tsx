@@ -31,11 +31,6 @@ import svSE from '../../../shared/locales/sv-SE'
 import daDK from '../../../shared/locales/da-DK'
 import * as helpers from '../../../shared/helpers'
 import { getOsloDate } from '../../date-format/DateFormatUtils'
-import {
-  setupMaskedInputKeyboard,
-  cleanupMaskedInputKeyboard,
-  focusInput,
-} from '../../../core/jest/jestSetupMaskedInput'
 
 jest.setTimeout(30e3)
 
@@ -50,7 +45,7 @@ const defaultProps: DatePickerAllProps = {
 
 async function typeInField(elem: Element, value: string) {
   const input = elem as HTMLInputElement
-  await focusInput(input)
+  await userEvent.click(input)
   input.setSelectionRange(0, input.value.length)
   await userEvent.keyboard(value)
 }
@@ -69,14 +64,6 @@ const getAnnouncementElement = () =>
   document.querySelector('p.dnb-sr-only[aria-live="assertive"]')
 
 describe('DatePicker component', () => {
-  beforeEach(() => {
-    setupMaskedInputKeyboard()
-  })
-
-  afterEach(() => {
-    cleanupMaskedInputKeyboard()
-  })
-
   const getSplitInputs = () => {
     const day = document.querySelector(
       'input.dnb-date-picker__input--day'
@@ -446,7 +433,7 @@ describe('DatePicker component', () => {
     expect(month.value).toBe('05')
     expect(year.value).toBe('2024')
 
-    await focusInput(year)
+    await userEvent.click(year)
     await userEvent.keyboard('{Backspace>2}')
     expect(year.value).toBe('åååå')
     expect(day.value).toBe('17')
@@ -513,7 +500,7 @@ describe('DatePicker component', () => {
     expect(['06', '0m']).toContain(endMonth.value)
     expect(endYear.value).toBe('2025')
 
-    await focusInput(endYear)
+    await userEvent.click(endYear)
     await userEvent.keyboard('{Backspace>2}')
     expect(endYear.value).toBe('åååå')
 
@@ -544,7 +531,7 @@ describe('DatePicker component', () => {
     expect(day.selectionStart).toBe(2)
     expect(day.selectionEnd).toBe(2)
 
-    await focusInput(day)
+    await userEvent.click(day)
 
     expect(day.selectionStart).toBe(0)
     expect(day.selectionEnd).toBe(2)
@@ -575,7 +562,7 @@ describe('DatePicker component', () => {
     expect(month.value).toBe('05')
     expect(year.value).toBe('2024')
 
-    await focusInput(month)
+    await userEvent.click(month)
     await userEvent.keyboard('{Backspace}')
 
     expect(month.selectionStart).toBe(0)
@@ -628,7 +615,7 @@ describe('DatePicker component', () => {
       expect(month.value).toBe('05')
       expect(year.value).toBe('2024')
 
-      await focusInput(month)
+      await userEvent.click(month)
       expect(month.selectionStart).toBe(0)
       expect(month.selectionEnd).toBe(2)
 
@@ -694,7 +681,7 @@ describe('DatePicker component', () => {
     expect(endMonth.value).toBe('06')
     expect(endYear.value).toBe('2025')
 
-    await focusInput(endYear)
+    await userEvent.click(endYear)
     await userEvent.keyboard('{Backspace>12}')
 
     expect(startDay.value).toBe('dd')
@@ -731,7 +718,7 @@ describe('DatePicker component', () => {
     await typeInField(startYear, '2024')
 
     // Ensure caret at end of startYear
-    await focusInput(startYear)
+    await userEvent.click(startYear)
     startYear.setSelectionRange(4, 4)
     expect(startYear.selectionStart).toBe(4)
 
@@ -1321,6 +1308,25 @@ describe('DatePicker component', () => {
     expect(rightPickerTitle).toHaveTextContent('september 2024')
   })
 
+  it('should keep the picker open during tab navigation when showInput is true', async () => {
+    render(<DatePicker showInput date="2024-10-01" />)
+
+    const trigger = getDatePickerTriggerButton()
+
+    await userEvent.click(trigger)
+
+    await userEvent.keyboard('{ArrowLeft}')
+    await userEvent.keyboard('{ArrowRight>32}')
+
+    expect(trigger.getAttribute('aria-expanded')).toBe('true')
+    expect(document.activeElement.nodeName).toBe('TABLE')
+
+    await userEvent.keyboard('{ArrowRight}')
+
+    expect(trigger.getAttribute('aria-expanded')).toBe('true')
+    expect(document.activeElement.nodeName).toBe('TABLE')
+  })
+
   it('has a reacting start date input with valid value', async () => {
     const { rerender } = render(<DatePicker {...defaultProps} />)
     const elem = document.querySelectorAll(
@@ -1389,7 +1395,7 @@ describe('DatePicker component', () => {
         'dnb-multi-input-mask__input--highlight'
       )
 
-      await focusInput(elem)
+      await userEvent.click(elem)
       await userEvent.keyboard('1')
 
       await waitFor(() =>
@@ -1425,7 +1431,6 @@ describe('DatePicker component', () => {
   })
 
   it('omits input shell class when omitInputShellClass is true', () => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error - Testing deprecated omitInputShellClass prop
     render(<DatePicker showInput omitInputShellClass />)
 
@@ -2126,7 +2131,7 @@ describe('DatePicker component', () => {
       expect(elem).toHaveValue('01')
 
       // 1. change the date with event
-      await focusInput(elem)
+      await userEvent.click(elem)
       await userEvent.keyboard('16')
       // Simulate prop update, like a state update would do
       rerender(
@@ -2223,7 +2228,7 @@ describe('DatePicker component', () => {
     )
 
     // Typing a valid end date
-    await focusInput(dayInput)
+    await userEvent.click(dayInput)
     await userEvent.keyboard('29112025')
 
     expect(dayInput).toHaveValue('29')
@@ -2244,7 +2249,7 @@ describe('DatePicker component', () => {
     expect(yearInput).toHaveValue('åååå')
 
     // Typing a valid end date
-    await focusInput(dayInput)
+    await userEvent.click(dayInput)
     await userEvent.keyboard('29')
 
     expect(dayInput).toHaveValue('29')
@@ -2288,7 +2293,7 @@ describe('DatePicker component', () => {
 
     // change the date
     const value = '16'
-    await focusInput(elem)
+    await userEvent.click(elem)
     await userEvent.keyboard(value)
 
     // then check the new input value
@@ -2312,7 +2317,7 @@ describe('DatePicker component', () => {
     expect(elem).toHaveValue('17')
 
     // reset the value
-    await focusInput(elem)
+    await userEvent.click(elem)
     await userEvent.keyboard('15')
 
     rerender(
@@ -2418,7 +2423,7 @@ describe('DatePicker component', () => {
       'input.dnb-input__input'
     ) as HTMLInputElement
 
-    await focusInput(inputElement)
+    await userEvent.click(inputElement)
 
     expect(inputElement.selectionStart).toBe(0)
     expect(inputElement.selectionEnd).toBe(2)
@@ -2435,7 +2440,7 @@ describe('DatePicker component', () => {
 
     // Blur first so re-clicking triggers a new onFocus
     await userEvent.click(document.body)
-    await focusInput(inputElement)
+    await userEvent.click(inputElement)
 
     expect(inputElement.selectionStart).toBe(0)
     expect(inputElement.selectionEnd).toBe(2)
@@ -2509,7 +2514,7 @@ describe('DatePicker component', () => {
     ) as Array<HTMLInputElement>
 
     // and simulate a right keydown
-    await focusInput(dayElem)
+    await userEvent.click(dayElem)
     await userEvent.keyboard('{ArrowRight>2}')
 
     // and check the class of that element
@@ -2520,7 +2525,7 @@ describe('DatePicker component', () => {
     })
 
     // and simulate a left keydown
-    await focusInput(monthElem)
+    await userEvent.click(monthElem)
     await userEvent.keyboard('{ArrowLeft>3}')
 
     // and check the class of that element
@@ -2988,7 +2993,7 @@ describe('DatePicker component', () => {
     ) as HTMLInputElement
 
     // Focus day
-    await focusInput(dayInput)
+    await userEvent.click(dayInput)
     expect(onFocus).toHaveBeenCalledTimes(1)
     expect(onFocus).toHaveBeenLastCalledWith(
       expect.objectContaining({
@@ -3010,11 +3015,11 @@ describe('DatePicker component', () => {
     expect(onFocus).toHaveBeenCalledTimes(1)
 
     // Focus month
-    await focusInput(monthInput)
+    await userEvent.click(monthInput)
     expect(onFocus).toHaveBeenCalledTimes(1)
 
     // Focus year
-    await focusInput(yearInput)
+    await userEvent.click(yearInput)
     expect(onFocus).toHaveBeenCalledTimes(1)
     expect(onFocus).toHaveBeenLastCalledWith(
       expect.objectContaining({
@@ -3030,7 +3035,7 @@ describe('DatePicker component', () => {
     await userEvent.click(document.body)
 
     // Focus day again
-    await focusInput(dayInput)
+    await userEvent.click(dayInput)
     expect(onFocus).toHaveBeenCalledTimes(2)
     expect(onFocus).toHaveBeenLastCalledWith(
       expect.objectContaining({
@@ -3058,7 +3063,7 @@ describe('DatePicker component', () => {
     )[1]
 
     // Focus start day
-    await focusInput(startDayInput)
+    await userEvent.click(startDayInput)
     expect(onFocus).toHaveBeenCalledTimes(1)
     expect(onFocus).toHaveBeenLastCalledWith(
       expect.objectContaining({
@@ -3092,7 +3097,7 @@ describe('DatePicker component', () => {
     )
 
     // Focus start month - clicking a different input within the same MultiInputMask triggers focus
-    await focusInput(startMonthInput)
+    await userEvent.click(startMonthInput)
     expect(onFocus).toHaveBeenCalledTimes(3)
     expect(onFocus).toHaveBeenLastCalledWith(
       expect.objectContaining({
@@ -3104,7 +3109,7 @@ describe('DatePicker component', () => {
     )
 
     // Focus end day - clicking a different MultiInputMask triggers focus
-    await focusInput(endDayInput)
+    await userEvent.click(endDayInput)
     expect(onFocus).toHaveBeenCalledTimes(4)
     expect(onFocus).toHaveBeenLastCalledWith(
       expect.objectContaining({
@@ -3130,7 +3135,7 @@ describe('DatePicker component', () => {
 
     // Focus end year - clicking a different input within the same MultiInputMask may not trigger focus
     // if focus is already on that MultiInputMask
-    await focusInput(endYearInput)
+    await userEvent.click(endYearInput)
     expect(onFocus).toHaveBeenCalledTimes(4)
 
     // Remove part of end year
@@ -3138,7 +3143,7 @@ describe('DatePicker component', () => {
     expect(onFocus).toHaveBeenCalledTimes(4)
 
     // Focus start year - clicking a different MultiInputMask triggers focus
-    await focusInput(startYearInput)
+    await userEvent.click(startYearInput)
     expect(onFocus).toHaveBeenCalledTimes(5)
     expect(onFocus).toHaveBeenLastCalledWith(
       expect.objectContaining({
@@ -3157,7 +3162,7 @@ describe('DatePicker component', () => {
     await userEvent.click(document.body)
 
     // Focus start day again
-    await focusInput(startDayInput)
+    await userEvent.click(startDayInput)
     expect(onFocus).toHaveBeenCalledTimes(8)
     expect(onFocus).toHaveBeenLastCalledWith(
       expect.objectContaining({
@@ -3181,7 +3186,7 @@ describe('DatePicker component', () => {
     )[1]
 
     // Type day
-    await focusInput(startDayInput)
+    await userEvent.click(startDayInput)
     await userEvent.keyboard('12')
     // Blur doesn't fire during typing, only when focus leaves
     expect(onBlur).toHaveBeenCalledTimes(0)
@@ -3229,7 +3234,7 @@ describe('DatePicker component', () => {
     )
 
     // Remove the whole end , month and day
-    await focusInput(endYearInput)
+    await userEvent.click(endYearInput)
     await userEvent.keyboard('{ArrowRight}{Backspace>9}')
     await waitFor(() => {
       expect(onBlur).toHaveBeenCalledTimes(3)
@@ -3363,7 +3368,7 @@ describe('DatePicker component', () => {
       '.dnb-date-picker__input--day'
     ) as HTMLInputElement
 
-    await focusInput(dayInput)
+    await userEvent.click(dayInput)
     await userEvent.keyboard('39191111')
     await waitFor(() => expect(onChange).toHaveBeenCalledTimes(1))
     expect(onChange).toHaveBeenCalledWith(
@@ -3371,7 +3376,7 @@ describe('DatePicker component', () => {
     )
 
     // Typing a valid date
-    await focusInput(dayInput)
+    await userEvent.click(dayInput)
     await userEvent.keyboard('{Backspace>8}20112025')
     await waitFor(() => expect(onChange).toHaveBeenCalledTimes(4))
     expect(onChange).toHaveBeenCalledWith(
@@ -3388,7 +3393,7 @@ describe('DatePicker component', () => {
     ) as HTMLInputElement
 
     // Fill out startDay
-    await focusInput(dayInput)
+    await userEvent.click(dayInput)
     await userEvent.keyboard('99999999')
     await waitFor(() => expect(onChange).toHaveBeenCalledTimes(1))
     expect(onChange).toHaveBeenCalledWith(
@@ -3408,7 +3413,7 @@ describe('DatePicker component', () => {
     )
 
     // Typing a valid start date
-    await focusInput(dayInput)
+    await userEvent.click(dayInput)
     await userEvent.keyboard('20112025')
     expect(onChange).toHaveBeenCalledTimes(5)
     expect(onChange).toHaveBeenCalledWith(
@@ -3443,7 +3448,7 @@ describe('DatePicker component', () => {
     expect(input.selectionStart).toBe(input.value.length)
     expect(input.selectionEnd).toBe(input.value.length)
 
-    await focusInput(input)
+    await userEvent.click(input)
 
     expect(input.selectionStart).toBe(0)
     expect(input.selectionEnd).toBe(2)

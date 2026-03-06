@@ -3,7 +3,7 @@
  */
 
 import { MutableRefObject } from 'react'
-import { renderHook } from '@testing-library/react'
+import { renderHook, waitFor } from '@testing-library/react'
 import useHandleCursorPosition from '../useHandleCursorPosition'
 
 function setupScope(count = 3) {
@@ -46,6 +46,13 @@ const createEvent = (
     target: input,
     currentTarget: input,
   }) as unknown as React.KeyboardEvent<HTMLInputElement>
+
+const createInputEvent = (
+  input: HTMLInputElement
+): React.FormEvent<HTMLInputElement> =>
+  ({
+    currentTarget: input,
+  }) as unknown as React.FormEvent<HTMLInputElement>
 
 describe('useHandleCursorPosition', () => {
   beforeAll(() => {
@@ -153,8 +160,7 @@ describe('useHandleCursorPosition', () => {
     expect(focusSpy).toHaveBeenCalledTimes(1)
   })
 
-  it('auto advances to next input when mask allows typing the final character', () => {
-    jest.useFakeTimers()
+  it('auto advances to next input after the final character is applied', async () => {
     const { scopeRef, inputs } = setupScope(3)
     const { result } = renderHook(() =>
       useHandleCursorPosition(/\d/, scopeRef)
@@ -170,11 +176,36 @@ describe('useHandleCursorPosition', () => {
     current.selectionEnd = 2
     current.focus()
 
-    const event = createEvent(current, '3')
-    result.current.onKeyDown(event)
+    const event = createInputEvent(current)
+    result.current.onInput(event)
 
-    jest.runAllTimers()
-    expect(focusSpy).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(focusSpy).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  it('does not auto advance on input events from an unfocused field', async () => {
+    const { scopeRef, inputs } = setupScope(3)
+    const { result } = renderHook(() =>
+      useHandleCursorPosition(/\d/, scopeRef)
+    )
+
+    const current = inputs[0]
+    const other = inputs[2]
+
+    current.value = '12'
+    current.placeholder = 'dd'
+    current.selectionStart = 2
+    current.selectionEnd = 2
+
+    other.focus()
+
+    const event = createInputEvent(current)
+    result.current.onInput(event)
+
+    await Promise.resolve()
+
+    expect(document.activeElement).toBe(other)
   })
 
   it('moves focus and transfers key to next input when typing at end of full input', () => {
@@ -212,8 +243,7 @@ describe('useHandleCursorPosition', () => {
     })
   })
 
-  it('does not auto advance when mask rejects the typed character', () => {
-    jest.useFakeTimers()
+  it('does not transfer to next input when mask rejects the typed character', () => {
     const { scopeRef, inputs } = setupScope(2)
     const keys: Record<string, RegExp[]> = {
       month: [/^[0-9]$/, /^[0-9]$/],
@@ -235,7 +265,6 @@ describe('useHandleCursorPosition', () => {
     const event = createEvent(current, 'A')
     result.current.onKeyDown(event)
 
-    jest.runAllTimers()
     expect(focusSpy).not.toHaveBeenCalled()
   })
 })
