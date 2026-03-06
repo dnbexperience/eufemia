@@ -4,9 +4,9 @@
 
 import React, { useContext, useRef, useState, useCallback } from 'react'
 import clsx from 'clsx'
+import useId from '../../shared/helpers/useId'
 import {
   extendPropsWithContextInClassComponent,
-  makeUniqueId,
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
@@ -109,8 +109,7 @@ const parseChecked = (state: string | boolean | null | undefined) =>
 function RadioGroup(ownProps: RadioGroupProps) {
   const context = useContext(Context)
 
-  const idRef = useRef(ownProps.id || makeUniqueId())
-  const id = idRef.current
+  const id = useId(ownProps.id)
   const nameRef = useRef(ownProps.name || id)
 
   const [value, setValue] = useState<string | undefined>(ownProps.value)

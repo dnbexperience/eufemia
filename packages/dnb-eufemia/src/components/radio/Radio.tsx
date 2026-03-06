@@ -5,8 +5,8 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React, { useContext, useRef, useState, useCallback } from 'react'
 import clsx from 'clsx'
+import useId from '../../shared/helpers/useId'
 import {
-  makeUniqueId,
   extendPropsWithContextInClassComponent,
   validateDOMAttributes,
   getStatusState,
@@ -135,8 +135,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   const context = useContext(Context)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const idRef = useRef(ownProps.id || makeUniqueId())
-  const id = idRef.current
+  const id = useId(ownProps.id)
 
   const [checkedState, setCheckedState] = useState(() =>
     parseChecked(ownProps.checked)
