@@ -298,21 +298,25 @@ export default function ModalContent(props: ModalContentProps) {
     [preventOverlayClose, closeModalContent]
   )
 
-  const onKeyDownHandler = useCallback(
-    (event) => {
-      if (event.key === 'Escape') {
-        const mostCurrent = getModalRoot(-1)
+  const onKeyDownHandlerRef = useRef<(event: KeyboardEvent) => void>(null)
+  onKeyDownHandlerRef.current = (event) => {
+    if (event.key === 'Escape') {
+      const mostCurrent = getModalRoot(-1)
 
-        if (mostCurrent === selfRef.current) {
-          event.preventDefault()
-          closeModalContent(event, {
-            triggeredBy: 'keyboard',
-          })
-        }
+      if (mostCurrent === selfRef.current) {
+        event.preventDefault()
+        closeModalContent(event, {
+          triggeredBy: 'keyboard',
+        })
       }
-    },
-    [closeModalContent]
-  )
+    }
+  }
+
+  // Stable function reference for addEventListener/removeEventListener
+  // so removal always matches the registered listener.
+  const stableOnKeyDownHandler = useCallback((event: KeyboardEvent) => {
+    onKeyDownHandlerRef.current?.(event)
+  }, [])
 
   const preventClick = useCallback((event) => {
     if (event) {
@@ -358,13 +362,13 @@ export default function ModalContent(props: ModalContentProps) {
     }
 
     if (typeof document !== 'undefined') {
-      document.addEventListener('keydown', onKeyDownHandler)
+      document.addEventListener('keydown', stableOnKeyDownHandler)
     }
   }, [
     contentRef,
     usedContentId,
     bypassInvalidationSelectors,
-    onKeyDownHandler,
+    stableOnKeyDownHandler,
   ])
 
   const removeLocks = useCallback(() => {
@@ -401,7 +405,7 @@ export default function ModalContent(props: ModalContentProps) {
     }
 
     if (typeof document !== 'undefined') {
-      document.removeEventListener('keydown', onKeyDownHandler)
+      document.removeEventListener('keydown', stableOnKeyDownHandler)
     }
   }, [
     revertScrollPossibility,
@@ -409,7 +413,7 @@ export default function ModalContent(props: ModalContentProps) {
     wasOpenedManually,
     props,
     idProp,
-    onKeyDownHandler,
+    stableOnKeyDownHandler,
   ])
 
   // Keep latest removeLocks available for cleanup
@@ -513,7 +517,7 @@ export default function ModalContent(props: ModalContentProps) {
         setBackgroundColor: setColor,
         onCloseClickHandler,
         preventClick,
-        onKeyDownHandler,
+        onKeyDownHandler: stableOnKeyDownHandler,
         contentRef,
         scrollRef,
         contentId: usedContentId,
