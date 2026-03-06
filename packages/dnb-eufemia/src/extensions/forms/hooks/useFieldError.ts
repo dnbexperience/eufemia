@@ -710,6 +710,10 @@ export default function useFieldError<Value>({
   }
 }
 
+export type UseFieldErrorReturn<Value> = ReturnType<
+  typeof useFieldError<Value>
+>
+
 function resolveValidatingState(
   state: SubmitStateWithValidating
 ): SubmitState {

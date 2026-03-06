@@ -46,16 +46,36 @@ import { isAsync } from '../../../shared/helpers/isAsync'
 import useTranslation from './useTranslation'
 import useExternalValue from './useExternalValue'
 import useDataValue from './useDataValue'
-import useFieldTransform from './useFieldTransform'
-import type { TransformerFns } from './useFieldTransform'
 import useFieldError, { resolveValidatingState } from './useFieldError'
-import useFieldAsync from './useFieldAsync'
 import useFieldValidation from './useFieldValidation'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../shared/helpers/useIsomorphicLayoutEffect'
 
 export type DataAttributes = {
   [property: `data-${string}`]: string | boolean | number
+}
+
+export interface TransformerFns<Value> {
+  transformIn: (external: unknown) => Value
+  transformOut: (internal: Value, args?: unknown) => unknown
+  toInput: (value: Value) => Value
+  fromInput: (value: Value) => Value
+  toEvent: (value: Value, eventName?: string) => Value
+  transformValue: (value: Value, currentValue?: Value) => Value
+  provideAdditionalArgs: (
+    value: Value,
+    additionalArgs?: ProvideAdditionalEventArgs
+  ) => ProvideAdditionalEventArgs
+  fromExternal: (value: Value) => Value
+  validateRequired: (
+    value: Value,
+    options: {
+      emptyValue: unknown
+      required: boolean
+      isChanged: boolean
+      error: Error
+    }
+  ) => Error | undefined
 }
 
 // Many variables are kept in refs to avoid triggering unnecessary update loops because updates using
@@ -280,9 +300,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const changedRef = useRef<boolean>(undefined)
   const hasFocusRef = useRef<boolean>(undefined)
 
-  // ─── useFieldTransform ───────────────────────────────────────────────
+  // ─── Transform pipeline ───────────────────────────────────────────────
 
-  const { transformers, getEventArgs } = useFieldTransform<Value>({
+  const transformers = useRef<TransformerFns<Value>>({
     transformIn: transformIn as TransformerFns<Value>['transformIn'],
     transformOut,
     toInput: toInput as TransformerFns<Value>['toInput'],
@@ -292,8 +312,39 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     provideAdditionalArgs,
     fromExternal,
     validateRequired,
-    valueRef,
   })
+
+  const getEventArgs = useCallback(
+    ({
+      eventName,
+      additionalArgs,
+      overrideValue = undefined,
+    }: {
+      eventName: string
+      additionalArgs: ProvideAdditionalEventArgs
+      overrideValue?: Value
+    }): [Value] | [Value, ProvideAdditionalEventArgs] => {
+      const value = transformers.current.toEvent(
+        overrideValue ?? valueRef.current,
+        eventName
+      )
+      const args = transformers.current.provideAdditionalArgs(
+        value,
+        additionalArgs
+      )
+      const transformedValue = transformers.current.transformOut(
+        value,
+        args
+      ) as Value
+
+      if (typeof args !== 'undefined') {
+        return [transformedValue, args]
+      }
+
+      return [transformedValue]
+    },
+    []
+  )
 
   const tmpValue = useExternalValue<Value>({
     path: identifier,
@@ -418,31 +469,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   // ─── useFieldError ───────────────────────────────────────────────────
 
-  const {
-    error,
-    warning,
-    info,
-    combinedErrorMessages,
-    bufferedError,
-    bufferedErrorRef,
-    errorIsVisible: errorIsVisibleBase,
-    ensureErrorMessageObject,
-    prepareError,
-    persistErrorState,
-    clearErrorState,
-    revealError,
-    hideError,
-    setFieldState,
-    hasError,
-    handleError,
-    revealErrorRef,
-    localErrorRef,
-    localErrorInitiatorRef,
-    contextErrorRef,
-    fieldStateRef,
-    warningRef,
-    infoRef,
-  } = useFieldError<Value>({
+  const fieldError = useFieldError<Value>({
     initialErrorProp,
     warningProp,
     infoProp,
@@ -480,47 +507,34 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     forceUpdate,
   })
 
+  const {
+    error,
+    warning,
+    info,
+    combinedErrorMessages,
+    bufferedError,
+    bufferedErrorRef,
+    errorIsVisible: errorIsVisibleBase,
+    prepareError,
+    persistErrorState,
+    clearErrorState,
+    revealError,
+    hideError,
+    hasError,
+    handleError,
+    revealErrorRef,
+    localErrorRef,
+    localErrorInitiatorRef,
+    contextErrorRef,
+    fieldStateRef,
+    warningRef,
+    infoRef,
+  } = fieldError
+
   const errorIsVisible =
     errorIsVisibleBase || (inFieldBlock && fieldBlockContext.hasErrorProp)
 
-  // ─── useFieldAsync ───────────────────────────────────────────────────
-
-  // Ref used to break the circular dependency between useFieldAsync and useFieldValidation.
-  // useFieldAsync needs removeError (which calls validateValue from useFieldValidation),
-  // but useFieldValidation hasn't been called yet. The ref is populated after both hooks run.
-  const removeErrorRef = useRef<() => void>(() => {})
-
-  const {
-    asyncBehaviorIsEnabled,
-    defineAsyncProcess,
-    addToPool,
-    runPool,
-    yieldAsyncProcess,
-    setEventResult,
-    callOnChangeContext,
-    asyncProcessRef,
-    validatedValueRef,
-    changeEventResultRef,
-  } = useFieldAsync<Value>({
-    onChange,
-    onChangeContext,
-    valueRef,
-    forceUpdate,
-    persistErrorState,
-    revealError,
-    setFieldState,
-    hasError,
-    warningRef,
-    infoRef,
-    fieldStateRef,
-    removeErrorRef,
-    hasPath,
-    identifier,
-    executeOnChangeRegardlessOfError,
-    handlePathChangeDataContext: handlePathChangeDataContext as any,
-  })
-
-  // ─── useFieldValidation ──────────────────────────────────────────────
+  // ─── useFieldValidation (includes async behavior) ────────────────────
 
   const {
     validateValue,
@@ -529,6 +543,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     onChangeValidatorRef,
     onBlurValidatorRef,
     additionalArgs,
+    asyncBehaviorIsEnabled,
+    defineAsyncProcess,
+    addToPool,
+    runPool,
+    yieldAsyncProcess,
+    setEventResult,
+    callOnChangeContext,
+    asyncProcessRef,
   } = useFieldValidation<Value>({
     finalSchema,
     hasZodSchema,
@@ -559,21 +581,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     changedRef,
     transformers,
     schemaValidatorRef,
-    asyncProcessRef,
-    validatedValueRef,
-    changeEventResultRef,
-    localErrorInitiatorRef,
-    error,
-    persistErrorState,
-    clearErrorState,
-    revealError,
-    hideError,
-    setFieldState,
-    ensureErrorMessageObject,
-    asyncBehaviorIsEnabled,
-    defineAsyncProcess,
+    fieldError,
+    onChange,
+    onChangeContext,
+    hasPath,
+    executeOnChangeRegardlessOfError,
+    handlePathChangeDataContext: handlePathChangeDataContext as any,
     forceUpdate,
-    revealErrorRef,
   })
 
   // Some fields (e.g. dates) may create new Date instances during locale/value transforms.
@@ -593,29 +607,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     [emptyValue]
   )
 
-  // ─── Wire removeError (circular dependency resolution) ───────────────
-
   const setChanged = useCallback((state: boolean) => {
     changedRef.current = state
   }, [])
-
-  const removeError = useCallback(() => {
-    // Mark as not changed,
-    // so the field is considered "fresh" when the user starts typing again.
-    setChanged(false)
-
-    // Hide the error message.
-    hideError()
-
-    // Remove the local error states.
-    clearErrorState()
-
-    // To ensure this field will report back to the context if there are any errors.
-    validateValue()
-  }, [clearErrorState, hideError, setChanged, validateValue])
-
-  // Update the ref so useFieldAsync's handleChangeEventResult uses the latest removeError
-  removeErrorRef.current = removeError
 
   // ─── External value sync ─────────────────────────────────────────────
 

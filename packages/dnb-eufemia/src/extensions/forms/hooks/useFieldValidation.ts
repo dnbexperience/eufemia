@@ -9,7 +9,8 @@ import {
 import { ajvErrorsToOneFormError } from '../utils/ajvErrors'
 import * as z from 'zod'
 import {
-  FieldPropsGeneric,
+  EventReturnWithStateObjectAndSuccess,
+  EventStateObjectWithSuccess,
   ReceiveAdditionalEventArgs,
   Validator,
   Identifier,
@@ -18,13 +19,23 @@ import pointer from '../utils/json-pointer'
 import { isAsync } from '../../../shared/helpers/isAsync'
 import useProcessManager from './useProcessManager'
 import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
-import type { TransformerFns } from './useFieldTransform'
+import type { TransformerFns } from './useFieldProps'
 import type {
   SubmitStateWithValidating,
-  PersistErrorStateMethod,
+  UseFieldErrorReturn,
   ErrorInitiator,
 } from './useFieldError'
-import type { AsyncProcesses } from './useFieldAsync'
+
+export type AsyncProcesses =
+  | 'onChangeValidator'
+  | 'onBlurValidator'
+  | 'onChangeLocal'
+  | 'onChangeContext'
+
+type AsyncProcessesBuffer = {
+  resolve: () => void
+  validateProcesses: () => boolean
+}
 
 export interface UseFieldValidationParams<Value> {
   // Schema
@@ -75,31 +86,23 @@ export interface UseFieldValidationParams<Value> {
   schemaValidatorRef: React.RefObject<
     ValidateFunction | ((value: unknown) => true | z.ZodError<unknown>)
   >
-  asyncProcessRef: React.RefObject<AsyncProcesses | null>
-  validatedValueRef: React.RefObject<Value>
-  changeEventResultRef: React.RefObject<unknown>
-  localErrorInitiatorRef: React.RefObject<ErrorInitiator>
 
   // Error methods (from useFieldError)
-  error: FieldPropsGeneric<Value>['error']
-  persistErrorState: (
-    method: PersistErrorStateMethod,
-    initiator: ErrorInitiator,
-    error?: Error | FormError | Array<Error | FormError>
-  ) => void
-  clearErrorState: () => void
-  revealError: () => void
-  hideError: () => void
-  setFieldState: (state: SubmitStateWithValidating) => void
-  ensureErrorMessageObject: <T>(error: T) => T
+  fieldError: UseFieldErrorReturn<Value>
 
-  // Async methods (from useFieldAsync)
-  asyncBehaviorIsEnabled: boolean
-  defineAsyncProcess: (name: AsyncProcesses) => void
+  // Async-related props
+  onChange: (...args: unknown[]) => unknown
+  onChangeContext: (...args: unknown[]) => unknown
+  hasPath: boolean
+  executeOnChangeRegardlessOfError: boolean
+  handlePathChangeDataContext: (
+    identifier: Identifier
+  ) =>
+    | EventReturnWithStateObjectAndSuccess
+    | Promise<EventReturnWithStateObjectAndSuccess>
 
   // From useFieldProps orchestrator
   forceUpdate: () => void
-  revealErrorRef: React.RefObject<boolean | null>
 }
 
 export default function useFieldValidation<Value>({
@@ -132,23 +135,155 @@ export default function useFieldValidation<Value>({
   changedRef,
   transformers,
   schemaValidatorRef,
-  asyncProcessRef,
-  validatedValueRef,
-  changeEventResultRef,
-  localErrorInitiatorRef,
-  error,
-  persistErrorState,
-  clearErrorState,
-  revealError,
-  hideError,
-  setFieldState,
-  ensureErrorMessageObject,
-  asyncBehaviorIsEnabled,
-  defineAsyncProcess,
+  fieldError,
+  onChange,
+  onChangeContext,
+  hasPath,
+  executeOnChangeRegardlessOfError,
+  handlePathChangeDataContext,
   forceUpdate,
-  revealErrorRef,
 }: UseFieldValidationParams<Value>) {
+  const {
+    error,
+    persistErrorState,
+    clearErrorState,
+    revealError,
+    hideError,
+    setFieldState,
+    hasError,
+    ensureErrorMessageObject,
+    localErrorInitiatorRef,
+    revealErrorRef,
+    warningRef,
+    infoRef,
+    fieldStateRef,
+  } = fieldError
+
   const { startProcess } = useProcessManager()
+
+  // ─── Async behavior ──────────────────────────────────────────────────
+
+  const asyncBehaviorIsEnabled = useMemo(() => {
+    return isAsync(onChange) || isAsync(onChangeContext)
+  }, [onChangeContext, onChange])
+
+  const validatedValueRef = useRef<Value>(undefined)
+  const changeEventResultRef = useRef<EventStateObjectWithSuccess | null>(
+    null
+  )
+  const asyncProcessRef = useRef<AsyncProcesses | null>(null)
+
+  const defineAsyncProcess = useCallback((name: AsyncProcesses) => {
+    asyncProcessRef.current = name
+  }, [])
+
+  // -- Async buffer processing --
+
+  const asyncBufferRef = useRef<Record<string, AsyncProcessesBuffer>>({})
+
+  for (const key in asyncBufferRef.current) {
+    const { resolve, validateProcesses } = (asyncBufferRef.current[key] ||
+      {}) as AsyncProcessesBuffer
+    if (validateProcesses?.() === false) {
+      delete asyncBufferRef.current[key]
+      if (typeof resolve === 'function') {
+        window.requestAnimationFrame(resolve)
+      }
+    }
+  }
+
+  // -- Event pool --
+
+  const eventPool = useRef({
+    onChangeValidator: null,
+    onBlurValidator: null,
+    onChangeContext: null,
+    onChangeLocal: null,
+  })
+
+  const addToPool = useCallback(
+    (name: keyof typeof eventPool.current, fn, runAsync) => {
+      if (!eventPool.current[name]) {
+        eventPool.current[name] = { fn, runAsync }
+      }
+    },
+    []
+  )
+
+  const runPool = useCallback(async (cb = null) => {
+    for (const key in eventPool.current) {
+      if (!eventPool.current[key]) {
+        continue
+      }
+
+      const { fn, runAsync } = eventPool.current[key] || {}
+      if (fn) {
+        eventPool.current[key] = null
+
+        if (runAsync) {
+          await fn()
+        } else {
+          fn()
+        }
+      }
+    }
+
+    // use a callback in order to avoid any async/await,
+    // because it will delay the execution of the following code
+    cb?.()
+  }, [])
+
+  // -- yieldAsyncProcess --
+
+  const yieldAsyncProcess = useCallback(
+    async ({
+      name,
+      waitFor,
+    }: {
+      name: 'onChangeLocal' | 'onChangeContext' | 'onSubmitContext'
+      waitFor: Array<{
+        processName?: AsyncProcesses
+        withStates: Array<SubmitStateWithValidating>
+        hasValue?: Value
+      }>
+    }) => {
+      return new Promise<void>((resolve) => {
+        const validateProcesses = () => {
+          const result = waitFor.some(
+            ({ processName, withStates, hasValue }) => {
+              const hasMatchingValue =
+                hasValue === validatedValueRef.current
+
+              const result =
+                (typeof hasValue === 'undefined'
+                  ? false
+                  : !hasMatchingValue) ||
+                ((processName
+                  ? processName === asyncProcessRef.current
+                  : true) &&
+                  withStates?.some((state) => {
+                    return state === fieldStateRef.current
+                  }))
+
+              return result
+            }
+          )
+
+          return result
+        }
+
+        if (validateProcesses() === true) {
+          asyncBufferRef.current[name] = { resolve, validateProcesses }
+        } else {
+          resolve()
+          setFieldState('pending')
+        }
+      })
+    },
+    [setFieldState, fieldStateRef]
+  )
+
+  // ─── Validation ──────────────────────────────────────────────────────
 
   // -- onChangeValidator resolution --
 
@@ -793,7 +928,148 @@ export default function useFieldValidation<Value>({
     runOnBlurValidator()
   }
 
+  // ─── Async event handling ────────────────────────────────────────────
+
+  // removeError is defined here alongside validateValue,
+  // eliminating the circular dependency that previously required removeErrorRef.
+  const removeError = useCallback(() => {
+    changedRef.current = false
+    hideError()
+    clearErrorState()
+    validateValue()
+  }, [clearErrorState, hideError, validateValue])
+
+  // -- handleChangeEventResult --
+
+  const handleChangeEventResult = useCallback(async () => {
+    const result: EventStateObjectWithSuccess =
+      changeEventResultRef.current || ({} as EventStateObjectWithSuccess)
+
+    if ('error' in result) {
+      if (!result.error) {
+        removeError()
+      } else {
+        persistErrorState('gracefully', 'onChangeValidator', result.error)
+        revealError()
+      }
+    }
+    if ('warning' in result) {
+      warningRef.current = result.warning
+    }
+    if ('info' in result) {
+      infoRef.current = result.info
+    }
+
+    if (asyncBehaviorIsEnabled) {
+      await yieldAsyncProcess({
+        name: 'onSubmitContext',
+        waitFor: [{ withStates: ['validating'] }],
+      })
+    }
+
+    defineAsyncProcess(undefined)
+
+    if (result?.success === 'saved') {
+      setFieldState('success')
+    } else if (result?.error) {
+      setFieldState('error')
+    } else if (asyncBehaviorIsEnabled) {
+      setFieldState('complete')
+    }
+
+    forceUpdate()
+  }, [
+    asyncBehaviorIsEnabled,
+    defineAsyncProcess,
+    removeError,
+    persistErrorState,
+    revealError,
+    yieldAsyncProcess,
+    setFieldState,
+    warningRef,
+    infoRef,
+    forceUpdate,
+  ])
+
+  // -- setEventResult --
+
+  const setEventResult = useCallback(
+    async (result: EventReturnWithStateObjectAndSuccess) => {
+      if (result instanceof Error) {
+        result = { error: result }
+      }
+      changeEventResultRef.current = {
+        ...changeEventResultRef.current,
+        ...result,
+      } as EventStateObjectWithSuccess
+
+      await handleChangeEventResult()
+    },
+    [handleChangeEventResult]
+  )
+
+  // -- callOnChangeContext --
+
+  const callOnChangeContext = useCallback(async () => {
+    if (asyncBehaviorIsEnabled && !executeOnChangeRegardlessOfError) {
+      await yieldAsyncProcess({
+        name: 'onChangeContext',
+        waitFor: [
+          {
+            processName: 'onChangeValidator',
+            withStates: ['validating', 'error'],
+            hasValue: valueRef.current,
+          },
+          {
+            processName: 'onBlurValidator',
+            withStates: ['validating', 'error'],
+            hasValue: valueRef.current,
+          },
+        ],
+      })
+    }
+
+    if (hasPath) {
+      if (isAsync(onChangeContext)) {
+        defineAsyncProcess('onChangeContext')
+
+        // Skip sync errors, such as required
+        if (!hasError() || executeOnChangeRegardlessOfError) {
+          await setEventResult(
+            (await handlePathChangeDataContext?.(
+              identifier
+            )) as EventReturnWithStateObjectAndSuccess
+          )
+        } else {
+          await setEventResult(null)
+        }
+      } else if (onChangeContext || !asyncBehaviorIsEnabled) {
+        setEventResult(
+          handlePathChangeDataContext?.(
+            identifier
+          ) as EventReturnWithStateObjectAndSuccess
+        )
+      }
+    }
+
+    forceUpdate()
+  }, [
+    asyncBehaviorIsEnabled,
+    executeOnChangeRegardlessOfError,
+    hasPath,
+    yieldAsyncProcess,
+    onChangeContext,
+    defineAsyncProcess,
+    hasError,
+    setEventResult,
+    handlePathChangeDataContext,
+    identifier,
+    forceUpdate,
+    valueRef,
+  ])
+
   return {
+    // Validation
     validateValue,
     startOnChangeValidatorValidation,
     startOnBlurValidatorProcess,
@@ -805,5 +1081,18 @@ export default function useFieldValidation<Value>({
     onChangeValidatorRef,
     onBlurValidatorRef,
     additionalArgs,
+
+    // Async
+    asyncBehaviorIsEnabled,
+    defineAsyncProcess,
+    addToPool,
+    runPool,
+    yieldAsyncProcess,
+    setEventResult,
+    callOnChangeContext,
+    asyncProcessRef,
+
+    // Shared
+    removeError,
   }
 }
