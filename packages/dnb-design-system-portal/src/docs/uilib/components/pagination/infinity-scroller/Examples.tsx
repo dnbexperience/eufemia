@@ -19,10 +19,8 @@ import {
 import Table from '@dnb/eufemia/src/components/Table'
 import { hasSelectedText } from '@dnb/eufemia/src/shared/helpers'
 
-import {
-  createPagination,
-  CreatePaginationReturn,
-} from '@dnb/eufemia/src/components/Pagination'
+import type { CreatePaginationReturn } from '@dnb/eufemia/src/components/Pagination'
+import { createPagination } from '@dnb/eufemia/src/components/Pagination'
 
 type HeightLimitProps = {
   height?: string

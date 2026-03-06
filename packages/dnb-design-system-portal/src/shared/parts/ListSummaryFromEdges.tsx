@@ -2,17 +2,15 @@ import React from 'react'
 import { Ul, Li } from '@dnb/eufemia/src'
 import AutoLinkHeader from '../tags/AutoLinkHeader'
 import Anchor from '../tags/Anchor'
-import {
-  HeadingSize,
-  resetLevels,
-} from '@dnb/eufemia/src/components/Heading'
+import { resetLevels } from '@dnb/eufemia/src/components/Heading'
 import ReactMarkdown from 'react-markdown'
 import { basicComponents } from '../../shared/tags'
-import { SpacingProps } from '@dnb/eufemia/src/shared/types'
+import type { SpacingProps } from '@dnb/eufemia/src/shared/types'
 
 import type {
   HeadingLevel,
   InternalHeadingLevel,
+  HeadingSize,
 } from '@dnb/eufemia/src/components/Heading'
 
 type ListEdge = {

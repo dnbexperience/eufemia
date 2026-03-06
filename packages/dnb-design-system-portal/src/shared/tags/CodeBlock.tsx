@@ -160,12 +160,12 @@ function LiveCode(props: LiveCodeProps) {
     background,
     omitWrapper,
 
-    code: _code, // eslint-disable-line
-    hideToolbar: _hideToolbar, // eslint-disable-line
-    hideCode: _hideCode, // eslint-disable-line
-    hidePreview: _hidePreview, // eslint-disable-line
-    omitWrapper: _omitWrapper, // eslint-disable-line
-    'data-visual-test': visualTest, // eslint-disable-line
+    code: _code,
+    hideToolbar: _hideToolbar,
+    hideCode: _hideCode,
+    hidePreview: _hidePreview,
+    omitWrapper: _omitWrapper,
+    'data-visual-test': visualTest,
 
     ...restProps
   } = props

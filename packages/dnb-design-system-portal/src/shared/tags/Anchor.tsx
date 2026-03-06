@@ -5,8 +5,9 @@
 
 import React, { useCallback } from 'react'
 import { Anchor as EufemiaAnchor } from '@dnb/eufemia/src'
-import { AnchorAllProps as Props } from '@dnb/eufemia/src/components/Anchor'
-import { GatsbyLinkProps, Link as GatsbyLink } from 'gatsby'
+import type { AnchorAllProps as Props } from '@dnb/eufemia/src/components/Anchor'
+import type { GatsbyLinkProps } from 'gatsby'
+import { Link as GatsbyLink } from 'gatsby'
 import { startPageTransition } from './Transition'
 
 export type AnchorProps = Props &

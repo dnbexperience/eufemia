@@ -6,8 +6,9 @@ import frontMatter from 'front-matter'
 import * as prettier from 'prettier'
 import { extractMarkdownTables } from 'markdown-tables-utils'
 import type { File } from '@babel/types'
+import type FrontMatterDefault from 'front-matter'
 
-const fm = frontMatter as unknown as typeof import('front-matter').default
+const fm = frontMatter as unknown as typeof FrontMatterDefault
 
 const DEFAULT_PUBLIC_URL =
   process.env.CF_PAGES_URL || 'https://eufemia.dnb.no'
