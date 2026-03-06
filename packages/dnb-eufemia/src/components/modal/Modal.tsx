@@ -14,9 +14,9 @@ import clsx from 'clsx'
 import { SuffixContext } from '../../shared/helpers/Suffix'
 import type { ContextProps } from '../../shared/Context'
 import Context from '../../shared/Context'
+import useId from '../../shared/helpers/useId'
 import {
   warn,
-  makeUniqueId,
   extendPropsWithContext,
   removeUndefinedProps,
   processChildren,
@@ -115,7 +115,8 @@ function ModalComponent(ownProps: ModalAllProps) {
 
   const { open, openModal, closeModal, preventClose = false } = props
 
-  const _id = useRef(idProp || makeUniqueId('modal-'))
+  const fallbackId = useId(idProp)
+  const _id = useRef(fallbackId)
   const triggerRef = useRef<HTMLElement>(null)
   const modalContentCloseRef = useRef<
     ((event: Event, options: { triggeredBy?: string }) => void) | null

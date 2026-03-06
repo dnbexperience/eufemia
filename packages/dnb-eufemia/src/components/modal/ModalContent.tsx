@@ -16,9 +16,9 @@ import {
   enableBodyScroll,
   clearAllBodyScrollLocks,
 } from './bodyScrollLock'
+import useId from '../../shared/helpers/useId'
 import {
   warn,
-  makeUniqueId,
   InteractionInvalidation,
   combineLabelledBy,
   combineDescribedBy,
@@ -133,7 +133,7 @@ export default function ModalContent(props: ModalContentProps) {
     }
   }, [modalContentCloseRef, setModalContentState])
 
-  const usedContentId = contentIdProp || makeUniqueId('modal-')
+  const usedContentId = useId(contentIdProp)
 
   const wasOpenedManually = useCallback(() => {
     if (triggeredByRef.current) {
