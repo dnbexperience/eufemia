@@ -117,6 +117,10 @@ const PaginationProvider = (props: any) => {
   currentPageInternalRef.current = currentPageInternal
   startupPageRef.current = startupPage
 
+  // Ref for accessing latest props inside stable useCallback closures
+  const propsRef = useRef(props)
+  propsRef.current = props
+
   // ---- Derived values ----
   const derived = computeDerived()
 
@@ -330,10 +334,10 @@ const PaginationProvider = (props: any) => {
           ? pageNumber
           : currentPageInternalRef.current
 
-      let potentialElement = props.internalContent
+      let potentialElement = propsRef.current.internalContent
 
-      if (typeof props.internalContent === 'function') {
-        potentialElement = props.internalContent({
+      if (typeof propsRef.current.internalContent === 'function') {
+        potentialElement = propsRef.current.internalContent({
           updatePageContent,
           setContent,
           resetContent,
@@ -343,7 +347,7 @@ const PaginationProvider = (props: any) => {
           prefillItems,
           setState: setStateHandler,
           onPageUpdate,
-          ...props,
+          ...propsRef.current,
           items: itemsRef.current,
           currentPageInternal: currentPageInternalRef.current,
           startupPage: startupPageRef.current,
@@ -361,7 +365,6 @@ const PaginationProvider = (props: any) => {
       }
     },
     [
-      props,
       setContent,
       resetContent,
       resetInfinity,
@@ -382,7 +385,7 @@ const PaginationProvider = (props: any) => {
     if (hasEndedInfinity && endInfinityDispatchRef.current) {
       endInfinityDispatchRef.current = false
       const pageNumber = currentPageInternalRef.current + 1
-      dispatchCustomElementEvent({ props }, 'onEnd', {
+      dispatchCustomElementEvent({ props: propsRef.current }, 'onEnd', {
         pageNumber,
         updatePageContent,
         setContent,
@@ -393,7 +396,7 @@ const PaginationProvider = (props: any) => {
         prefillItems,
         setState: setStateHandler,
         onPageUpdate,
-        ...props,
+        ...propsRef.current,
         items: itemsRef.current,
         currentPageInternal: currentPageInternalRef.current,
         startupPage: startupPageRef.current,
@@ -401,7 +404,6 @@ const PaginationProvider = (props: any) => {
     }
   }, [
     hasEndedInfinity,
-    props,
     updatePageContent,
     setContent,
     resetContent,
@@ -587,6 +589,10 @@ const PaginationProvider = (props: any) => {
   })
 
   // ---- Build context value ----
+  // Note: props (full object) is intentionally in the dep array here.
+  // The context value must reflect the latest props for consumers,
+  // and this matches the class component behavior where context was
+  // recreated every render.
   const contextValue = useMemo(
     () => ({
       ...sharedContext,
