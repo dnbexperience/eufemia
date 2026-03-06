@@ -6,11 +6,11 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React, {
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useRef,
   useState,
 } from 'react'
+import useMountEffect from '../../shared/helpers/useMountEffect'
 import clsx from 'clsx'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
@@ -459,7 +459,7 @@ function TextareaComponent(
   )
 
   // Setup autoResize on mount
-  useEffect(() => {
+  useMountEffect(() => {
     const handleResize = () => setAutosize()
 
     if (autoResize && typeof window !== 'undefined') {
@@ -490,8 +490,7 @@ function TextareaComponent(
         window.removeEventListener('resize', handleResize)
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  })
 
   const showStatus = getStatusState(status)
   const currentHasValue = hasValue(value)
