@@ -2233,6 +2233,15 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   useEffect(() => {
     if (dataChangedRef.current) {
       dataChangedRef.current = false
+
+      // Reset the dedup guard so updateData always runs here,
+      // matching the v11 class componentDidUpdate which had no guard.
+      // Without this, updateData is skipped when it was already called
+      // (e.g. from SelectCountry's onFocus handler) with the same data
+      // reference, preventing the async setData callback chain from
+      // restoring all items via showAllItems().
+      lastUpdateDataRef.current = null
+
       updateData(props.data)
       if (drawerList.open || hasFocus) {
         // Match class componentDidUpdate: re-run filter after updating the
