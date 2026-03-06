@@ -225,7 +225,8 @@ export default function ModalContent(props: ModalContentProps) {
     }
   }, [contentRef, animationDuration, focusSelector, noAnimation])
 
-  const androidFocusHelper = useCallback(() => {
+  const androidFocusHelperRef = useRef<() => void>(null)
+  androidFocusHelperRef.current = () => {
     const timeoutDuration: number =
       typeof animationDuration === 'string'
         ? parseFloat(animationDuration)
@@ -244,7 +245,13 @@ export default function ModalContent(props: ModalContentProps) {
         //
       }
     }, timeoutDuration / 2)
-  }, [animationDuration])
+  }
+
+  // Stable function reference for addEventListener/removeEventListener
+  // so removal always matches the registered listener.
+  const stableAndroidFocusHelper = useCallback(() => {
+    androidFocusHelperRef.current?.()
+  }, [])
 
   const closeModalContent = useCallback(
     (
@@ -393,7 +400,7 @@ export default function ModalContent(props: ModalContentProps) {
     }
 
     // Remove Android helper
-    window.removeEventListener('resize', androidFocusHelper)
+    window.removeEventListener('resize', stableAndroidFocusHelper)
     clearTimeout(androidFocusTimeoutRef.current)
 
     if (wasOpenedManually()) {
@@ -409,7 +416,7 @@ export default function ModalContent(props: ModalContentProps) {
     }
   }, [
     revertScrollPossibility,
-    androidFocusHelper,
+    stableAndroidFocusHelper,
     wasOpenedManually,
     props,
     idProp,
@@ -433,7 +440,7 @@ export default function ModalContent(props: ModalContentProps) {
     setFocus()
 
     if (typeof window !== 'undefined' && isAndroid()) {
-      window.addEventListener('resize', androidFocusHelper)
+      window.addEventListener('resize', stableAndroidFocusHelper)
     }
 
     dispatchCustomElementEvent(props, 'onOpen', {
