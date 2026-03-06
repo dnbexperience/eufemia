@@ -325,6 +325,9 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
   const translations = context.getTranslation?.(propsWithDefaults)
     ?.NumberFormat as Record<string, string> | undefined
 
+  // Uses extendPropsWithContextInClassComponent (onlyMergeExistingProps: true)
+  // to prevent context props not defined in numberFormatDefaultProps from
+  // leaking into the component and potentially reaching DOM attributes.
   const props = extendPropsWithContextInClassComponent(
     propsWithDefaults,
     numberFormatDefaultProps,
