@@ -239,7 +239,9 @@ function ToggleButton(ownProps: ToggleButtonProps) {
     ...removeUndefinedProps({ ...ownProps }),
   }
 
-  // from internal context
+  // Uses extendPropsWithContextInClassComponent (onlyMergeExistingProps: true)
+  // to prevent context props not defined in toggleButtonDefaultProps from
+  // leaking into the component and potentially reaching DOM attributes.
   const contextProps = extendPropsWithContextInClassComponent(
     resolvedProps,
     toggleButtonDefaultProps,
