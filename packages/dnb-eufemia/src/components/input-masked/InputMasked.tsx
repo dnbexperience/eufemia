@@ -14,7 +14,12 @@ import { inputDefaultProps } from '../input/Input'
 import Context from '../../shared/Context'
 import type { InternalLocale } from '../../shared/Context'
 import type { ButtonIconPosition, ButtonVariant } from '../Button'
-import type { FormStatusBaseProps } from '../FormStatus'
+import type {
+  FormStatusText,
+  FormStatusState,
+  FormStatusProps,
+} from '../FormStatus'
+import type { GlobalStatusConfigObject } from '../GlobalStatus'
 import type { IconIcon, IconSize } from '../Icon'
 import type {
   InputInputAttributes,

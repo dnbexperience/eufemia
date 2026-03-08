@@ -165,7 +165,7 @@ export type DummyProps = {
   children: React.ReactNode
 }
 
-interface TabDataItem {
+type TabDataItem = {
   title: string | React.ReactNode | ((...args: any[]) => any)
   key: string | number
   selected?: boolean
@@ -174,7 +174,7 @@ interface TabDataItem {
   [key: string]: unknown
 }
 
-interface TabsState {
+type TabsState = {
   data: TabDataItem[]
   selectedKey: string | number
   focusKey: string | number

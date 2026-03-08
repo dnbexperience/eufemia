@@ -34,7 +34,7 @@ import ToggleButtonGroupContext, {
 import Context, { type ContextProps } from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 
-interface ToggleButtonState {
+type ToggleButtonState = {
   checked?: boolean
   _listenForPropChanges: boolean
   _checked?: boolean
@@ -473,7 +473,12 @@ import type {
   ButtonSize,
   ButtonTooltip,
 } from '../Button'
-import type { FormStatusBaseProps } from '../FormStatus'
+import type {
+  FormStatusText,
+  FormStatusState,
+  FormStatusProps,
+} from '../FormStatus'
+import type { GlobalStatusConfigObject } from '../GlobalStatus'
 import type { IconIcon, IconSize } from '../Icon'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps, SpaceType } from '../space/types'

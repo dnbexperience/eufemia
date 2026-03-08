@@ -48,14 +48,14 @@ export class GlobalStatusInterceptor {
   }
 }
 
-interface GlobalStatusControllerProps {
+type GlobalStatusControllerProps = {
   id?: string
   statusId?: string
   removeOnUnmount?: boolean
   [key: string]: unknown
 }
 
-interface GlobalStatusControllerState {
+type GlobalStatusControllerState = {
   provider?: ReturnType<typeof GlobalStatusProvider.init>
   statusId?: string
   _props?: GlobalStatusControllerProps
@@ -131,13 +131,13 @@ class GlobalStatusController extends React.PureComponent<
   }
 }
 
-interface GlobalStatusRemovePropsLocal {
+type GlobalStatusRemovePropsLocal = {
   id?: string
   statusId?: string
   [key: string]: unknown
 }
 
-interface GlobalStatusRemoveState {
+type GlobalStatusRemoveState = {
   provider?: ReturnType<typeof GlobalStatusProvider.init>
   _props?: GlobalStatusRemovePropsLocal
 }

@@ -15,7 +15,7 @@ export type PaginationIndicatorIndicatorElement =
   | ((...args: any[]) => any)
   | string
 
-export interface PaginationIndicatorProps {
+export type PaginationIndicatorProps = {
   indicatorElement?: PaginationIndicatorIndicatorElement
 }
 
@@ -110,7 +110,6 @@ export function preparePageElement(
   if (includeClassName) {
     const isTr = isTrElement(Element)
 
-    // eslint-disable-next-line
     return ({ className, children, ref, ...props }) => {
       const params = {
         ...props,

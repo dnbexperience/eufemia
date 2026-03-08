@@ -10,8 +10,7 @@ import ModalContext from '../ModalContext'
 import CloseButton from './CloseButton'
 import { SectionProps } from '../../Section'
 
-export interface ModalHeaderBarProps
-  extends Omit<SectionProps, 'children'> {
+export type ModalHeaderBarProps = {
   /**
    * The content which will appear when triggering the modal/drawer.
    */
@@ -23,7 +22,7 @@ export interface ModalHeaderBarProps
   className?: string
 
   shadowClass?: string
-}
+} & Omit<SectionProps, 'children'>
 
 export default function ModalHeaderBar({
   className = null,

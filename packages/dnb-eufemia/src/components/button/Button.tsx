@@ -190,7 +190,7 @@ export type ButtonProps = {
   > &
   SpacingProps
 
-interface ButtonState {
+type ButtonState = {
   afterContent: React.ReactNode | null
 }
 

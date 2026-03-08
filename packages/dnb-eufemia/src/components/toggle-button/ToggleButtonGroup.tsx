@@ -28,7 +28,7 @@ import Suffix from '../../shared/helpers/Suffix'
 import ToggleButtonGroupContext from './ToggleButtonGroupContext'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
-interface ToggleButtonGroupState {
+type ToggleButtonGroupState = {
   value?: ToggleButtonGroupValue
   values?: any[]
   _listenForPropChanges: boolean
@@ -342,8 +342,13 @@ withComponentMarkers(ToggleButtonGroup, {
 export default ToggleButtonGroup
 
 // Type definitions
-import type { FormStatusBaseProps } from '../FormStatus'
 import type { ButtonSize } from '../Button'
+import type {
+  FormStatusText,
+  FormStatusState,
+  FormStatusProps,
+} from '../FormStatus'
+import type { GlobalStatusConfigObject } from '../GlobalStatus'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps, SpaceType } from '../space/types'
 

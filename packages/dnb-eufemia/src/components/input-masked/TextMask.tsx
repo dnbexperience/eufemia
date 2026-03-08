@@ -32,7 +32,7 @@ export type TextMaskProps = {
   ref?: React.Ref<TextMaskHandle>
 } & Omit<React.HTMLProps<HTMLInputElement>, 'ref'>
 
-export interface TextMaskHandle {
+export type TextMaskHandle = {
   inputRef: React.RefObject<HTMLInputElement>
 }
 
