@@ -90,8 +90,8 @@ export const DropdownProperties: PropertiesTableProps = {
     status: 'optional',
   },
   align: {
-    doc: 'Use `right` to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `moreMenu`. Defaults to `left`.',
-    type: ['"left"', '"right"'],
+    doc: 'Use `right` to change the options alignment direction. Makes only sense to use in combination with `mode="prevent"` or `mode="more-menu"`. Defaults to `left`.',
+    type: ['left', 'right'],
     status: 'optional',
   },
   independentWidth: {

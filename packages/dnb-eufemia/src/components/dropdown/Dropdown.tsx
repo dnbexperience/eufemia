@@ -98,17 +98,17 @@ export type DropdownProps = {
    */
   buttonRef?: React.Ref<HTMLElement>
   /**
-   * Same as `preventSelection`, but the "selection area" (given title) will not be visible and the icon `more` (three dots) is used. Defaults to `false`.
-   */
-  moreMenu?: boolean
-  /**
-   * Use `right` to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `moreMenu`. Defaults to `left`.
+   * Use `right` to change the options alignment direction. Makes only sense to use in combination with `mode="prevent"` or `mode="more-menu"`. Defaults to `left`.
    */
   align?: DropdownAlign
   /**
    * Lets you provide a custom React element as the trigger HTML element.
    */
   triggerElement?: DropdownTriggerElement
+  /**
+   * Defines the dropdown behavior mode. `default` (normal selection), `prevent` (no permanent selection), `action-menu` (prevent selection + bottom drawer on mobile), `more-menu` (prevent selection + icon-only trigger with three dots). Defaults to `default`.
+   */
+  mode?: 'default' | 'prevent' | 'action-menu' | 'more-menu'
   /**
    * If set to `true`, the Dropdown will be opened when the users enter the trigger button with a focus action.
    */
@@ -186,9 +186,7 @@ const dropdownDefaultProps = {
   portalClass: null,
   noAnimation: false,
   noScrollAnimation: false,
-  preventSelection: false,
-  moreMenu: false,
-  actionMenu: false,
+  mode: 'default',
   independentWidth: false,
   size: 'default',
   align: null,
@@ -475,10 +473,8 @@ const DropdownInstance = React.memo(function DropdownInstance({
     skipPortal,
     portalClass,
     triggerElement: CustomTrigger,
-    moreMenu,
-    actionMenu,
+    mode,
     independentWidth,
-    preventSelection,
     maxHeight,
     defaultValue,
     className,
@@ -520,6 +516,10 @@ const DropdownInstance = React.memo(function DropdownInstance({
   } = props as any
 
   let { icon, iconPosition, align } = props
+
+  const moreMenu = mode === 'more-menu'
+  const actionMenu = mode === 'action-menu'
+  const preventSelection = mode === 'prevent' || actionMenu || moreMenu
 
   const handleAsMenu = actionMenu || moreMenu || preventSelection
 
@@ -751,7 +751,11 @@ const DropdownInstance = React.memo(function DropdownInstance({
  */
 function Dropdown({ ref, buttonRef, ...props }: DropdownAllProps) {
   const id = useId(props.id)
-  const { moreMenu, actionMenu, preventSelection, children, data } = props
+  const { mode, children, data } = props
+
+  const moreMenu = mode === 'more-menu'
+  const actionMenu = mode === 'action-menu'
+  const preventSelection = mode === 'prevent' || actionMenu || moreMenu
 
   return (
     <DrawerListProvider

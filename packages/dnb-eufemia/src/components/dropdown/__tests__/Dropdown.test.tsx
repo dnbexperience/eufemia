@@ -518,8 +518,7 @@ describe('Dropdown component', () => {
         data={mockData}
         title={null}
         onChange={onChange}
-        preventSelection={true}
-        actionMenu={false}
+        mode="prevent"
       />
     )
 

@@ -274,7 +274,7 @@ You can also use `top` and `bottom` individually if you need different values, e
 - The deprecated `onStateUpdate` prop has been removed. Use `onChange` instead.
 - Replace `selected_key` with `selectedKey`.
 - Replace `default_value` with `defaultValue`.
-- Replace `prevent_selection` with `preventSelection`.
+- Replace `prevent_selection` with `mode="prevent"`.
 - Replace `prevent_close` with `preventClose`.
 - Replace `keep_open` with `keepOpen`.
 - Replace `independent_width` with `independentWidth`.
@@ -304,11 +304,12 @@ You can also use `top` and `bottom` individually if you need different values, e
 - Replace `statusState`'s value `warn` with `warning`.
 - Replace `status_props` with `statusProps`.
 - Replace `status_no_animation` with `statusNoAnimation`.
-- Replace `more_menu` with `moreMenu`.
+- The `preventSelection`, `actionMenu`, and `moreMenu` props have been removed and replaced with a unified `mode` prop. Replace `preventSelection={true}` with `mode="prevent"`, `actionMenu={true}` with `mode="action-menu"`, and `moreMenu={true}` with `mode="more-menu"`.
+- Replace `more_menu` with `mode="more-menu"`.
 - Replace `align_dropdown` with `align`.
 - Replace `trigger_element` with `triggerElement`.
 - Replace `open_on_focus` with `openOnFocus`.
-- Replace `action_menu` with `actionMenu`.
+- Replace `action_menu` with `mode="action-menu"`.
 - Replace `is_popup` with `isPopup`.
 - Replace `prevent_focus` with `preventFocus`.
 - Replace `opened` with `open`.
