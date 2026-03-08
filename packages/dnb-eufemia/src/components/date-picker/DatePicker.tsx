@@ -4,8 +4,7 @@
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import type {
-  HTMLProps} from 'react';
+import type { HTMLProps } from 'react'
 import React, {
   useCallback,
   useContext,
@@ -30,28 +29,34 @@ import { skeletonDOMAttributes } from '../skeleton/SkeletonHelper'
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
-import type { FormStatusBaseProps } from '../form-status/FormStatus';
+import type { FormStatusBaseProps } from '../form-status/FormStatus'
 import FormStatus from '../form-status/FormStatus'
-import DatePickerProvider, type {
+import DatePickerProvider from './DatePickerProvider'
+import type {
   DatePickerChangeEvent,
-  type ReturnObject,
-} from './DatePickerProvider';
+  ReturnObject,
+} from './DatePickerProvider'
 import DatePickerRange from './DatePickerRange'
 import DatePickerInput from './DatePickerInput'
-import type { DatePickerAddonProps } from './DatePickerAddon';
+import type { DatePickerAddonProps } from './DatePickerAddon'
 import DatePickerAddon from './DatePickerAddon'
 import DatePickerFooter from './DatePickerFooter'
 import type { SpacingProps } from '../space/types'
 import type { InputInputElement, InputSize } from '../Input'
 import type { SkeletonShow } from '../Skeleton'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
-import type { CalendarDay, DatePickerCalendarProps } from './DatePickerCalendar'
-import type { DatePickerContextValues, DateType } from './DatePickerContext'
+import type {
+  CalendarDay,
+  DatePickerCalendarProps,
+} from './DatePickerCalendar'
+import type {
+  DatePickerContextValues,
+  DateType,
+} from './DatePickerContext'
 import type { DatePickerDates } from './hooks/useDates'
 import { useTranslation } from '../../shared'
 import Popover from '../popover/Popover'
-import type {
-  FormatDateOptions} from '../date-format/DateFormatUtils';
+import type { FormatDateOptions } from '../date-format/DateFormatUtils'
 import {
   formatDate,
   formatDateRange,

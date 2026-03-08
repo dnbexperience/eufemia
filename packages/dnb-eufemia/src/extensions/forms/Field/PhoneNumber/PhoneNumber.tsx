@@ -11,8 +11,8 @@ import type { InputMaskedProps } from '../../../../components/InputMasked'
 import clsx from 'clsx'
 import type {
   CountryISO,
-  type CountryLang,
-  type CountryType,
+  CountryLang,
+  CountryType,
 } from '../../constants/countries'
 import useCountries from '../SelectCountry/useCountries'
 import type { Props as StringFieldProps } from '../String'
