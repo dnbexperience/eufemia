@@ -25,7 +25,10 @@ export type CustomContentProps = {
   key?: string | number
   children?: CustomContentChildren
   className?: string
-} & Omit<React.HTMLProps<HTMLElement>, 'title' | 'children' | 'ref' | 'onAnimationStart' | 'onAnimationEnd'> &
+} & Omit<
+  React.HTMLProps<HTMLElement>,
+  'title' | 'children' | 'ref' | 'onAnimationStart' | 'onAnimationEnd'
+> &
   SpacingProps
 
 // This component is only a dummy component to collect data

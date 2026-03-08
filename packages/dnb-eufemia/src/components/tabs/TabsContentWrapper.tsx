@@ -169,4 +169,7 @@ export type ContentWrapperProps = {
   animate?: boolean
   contentSpacing?: SectionSpacing
   children?: ContentWrapperChildren
-} & Omit<React.HTMLProps<HTMLElement>, 'children' | 'ref' | 'onAnimationStart' | 'onAnimationEnd'>
+} & Omit<
+  React.HTMLProps<HTMLElement>,
+  'children' | 'ref' | 'onAnimationStart' | 'onAnimationEnd'
+>
