@@ -1,4 +1,4 @@
-import { runOnMain, selectBrands } from '../themeSelection'
+import { onMain, runOnMain, selectThemes } from '../themeSelection'
 
 describe('themeSelection', () => {
   const previousRefName = process.env.GITHUB_REF_NAME
@@ -15,7 +15,10 @@ describe('themeSelection', () => {
     process.env.CI = 'true'
     process.env.GITHUB_REF_NAME = 'main'
 
-    const result = selectBrands(['ui', 'sbanken', runOnMain('eiendom')])
+    const result = selectThemes({
+      always: ['ui', 'sbanken'],
+      onMain: ['eiendom'],
+    })
 
     expect(result).toEqual(['ui', 'sbanken', 'eiendom'])
   })
@@ -24,7 +27,10 @@ describe('themeSelection', () => {
     process.env.CI = 'true'
     process.env.GITHUB_REF_NAME = 'feature/button'
 
-    const result = selectBrands(['ui', 'sbanken', runOnMain('eiendom')])
+    const result = selectThemes({
+      always: ['ui', 'sbanken'],
+      onMain: ['eiendom'],
+    })
 
     expect(result).toEqual(['ui', 'sbanken'])
   })
@@ -34,7 +40,10 @@ describe('themeSelection', () => {
     delete process.env.GITHUB_REF_NAME
     process.env.GITHUB_REF = 'refs/heads/main'
 
-    const result = selectBrands(['ui', runOnMain('eiendom')])
+    const result = selectThemes({
+      always: ['ui'],
+      onMain: ['eiendom'],
+    })
 
     expect(result).toEqual(['ui', 'eiendom'])
   })
@@ -43,7 +52,10 @@ describe('themeSelection', () => {
     process.env.CI = 'true'
     process.env.GITHUB_REF_NAME = 'v11'
 
-    const result = selectBrands(['ui', runOnMain('eiendom')])
+    const result = selectThemes({
+      always: ['ui'],
+      onMain: ['eiendom'],
+    })
 
     expect(result).toEqual(['ui', 'eiendom'])
   })
@@ -52,7 +64,10 @@ describe('themeSelection', () => {
     process.env.CI = 'true'
     process.env.GITHUB_REF_NAME = 'v11-fix'
 
-    const result = selectBrands(['ui', runOnMain('eiendom')])
+    const result = selectThemes({
+      always: ['ui'],
+      onMain: ['eiendom'],
+    })
 
     expect(result).toEqual(['ui', 'eiendom'])
   })
@@ -62,7 +77,10 @@ describe('themeSelection', () => {
     delete process.env.GITHUB_REF_NAME
     delete process.env.GITHUB_REF
 
-    const result = selectBrands(['ui', runOnMain('eiendom')])
+    const result = selectThemes({
+      always: ['ui'],
+      onMain: ['eiendom'],
+    })
 
     expect(result).toEqual(['ui'])
   })
@@ -72,7 +90,10 @@ describe('themeSelection', () => {
     delete process.env.GITHUB_REF_NAME
     delete process.env.GITHUB_REF
 
-    const result = selectBrands(['ui', runOnMain('eiendom')])
+    const result = selectThemes({
+      always: ['ui'],
+      onMain: ['eiendom'],
+    })
 
     expect(result).toEqual(['ui', 'eiendom'])
   })
@@ -82,7 +103,7 @@ describe('themeSelection', () => {
     process.env.GITHUB_REF_NAME = 'main'
     const callback = jest.fn()
 
-    runOnMain(callback)
+    onMain(callback)
 
     expect(callback).toHaveBeenCalledTimes(1)
   })
@@ -92,7 +113,7 @@ describe('themeSelection', () => {
     process.env.GITHUB_REF_NAME = 'v11-fix'
     const callback = jest.fn()
 
-    runOnMain(callback)
+    onMain(callback)
 
     expect(callback).toHaveBeenCalledTimes(1)
   })
@@ -102,17 +123,25 @@ describe('themeSelection', () => {
     process.env.GITHUB_REF_NAME = 'feature/button'
     const callback = jest.fn()
 
-    runOnMain(callback)
+    onMain(callback)
 
     expect(callback).toHaveBeenCalledTimes(0)
   })
+
   it('runs callback locally on non-main branches', () => {
     delete process.env.CI
     process.env.GITHUB_REF_NAME = 'feature/button'
     const callback = jest.fn()
 
-    runOnMain(callback)
+    onMain(callback)
 
     expect(callback).toHaveBeenCalledTimes(1)
+  })
+
+  it('keeps runOnMain as an alias for onMain theme usage', () => {
+    process.env.CI = 'true'
+    process.env.GITHUB_REF_NAME = 'main'
+
+    expect(runOnMain('eiendom')).toBe('eiendom')
   })
 })

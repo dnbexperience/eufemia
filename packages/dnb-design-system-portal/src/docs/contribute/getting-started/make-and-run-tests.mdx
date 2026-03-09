@@ -74,35 +74,37 @@ For screenshot tests, you can mark individual themes as main-only and keep the r
 ```ts
 import {
   makeScreenshot,
-  runOnMain,
-  selectBrands,
   setupPageScreenshot,
+  selectThemes,
+  onMain,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe.each(selectBrands(['ui', 'sbanken', runOnMain('eiendom')]))(
-  'Button for %s',
-  (themeName) => {
-    setupPageScreenshot({
-      themeName,
-      url: '/uilib/components/button/demos/',
-    })
+describe.each(
+  selectThemes({
+    always: ['ui', 'sbanken'],
+    onMain: ['eiendom'],
+  })
+)('Button for %s', (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/button/demos/',
+  })
 
-    it('matches default state', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="button-primary"]',
-      })
-      expect(screenshot).toMatchImageSnapshot()
+  it('matches default state', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="button-primary"]',
     })
-  }
-)
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
 ```
 
-`runOnMain(...)` only includes that theme when the current branch is `main` or starts with `v` followed by a digit (for example `v11` or `v11-fix`).
+`selectThemes({ always, onMain })` only applies branch filtering in CI. In CI, `onMain` runs on `main` and branches starting with `v` followed by a digit, such as `v11` or `v11-fix`. Outside CI, the guarded themes still run locally.
 
 You can also use callback mode for single tests:
 
 ```ts
-runOnMain(() =>
+onMain(() =>
   it('matches default state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="button-primary"]',

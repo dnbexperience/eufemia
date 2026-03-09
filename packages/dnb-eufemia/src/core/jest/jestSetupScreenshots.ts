@@ -10,7 +10,7 @@ import { slugify, makeUniqueId } from '../../shared/component-helper'
 import { configureToMatchImageSnapshot } from 'jest-image-snapshot'
 import screenshotConfig from '../../../jest.config.screenshots'
 import { Page } from '@playwright/test'
-export { runOnMain, selectBrands } from './themeSelection'
+export { onMain, runOnMain, selectThemes } from './themeSelection'
 
 const playwrightSettings =
   screenshotConfig.testEnvironmentOptions['jest-playwright']

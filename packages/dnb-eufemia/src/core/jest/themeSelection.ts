@@ -2,38 +2,38 @@ import { isCICheck } from 'repo-utils'
 
 type ThemeName = string
 type MainOnlyCallback = () => void
-
-type ThemeRule = {
-  themeName: ThemeName
-  run: (branchName: string | null) => boolean
+type BranchScopedThemeGroups = {
+  always?: ThemeName[]
+  onMain?: ThemeName[]
 }
 
-export type ThemeEntry = ThemeName | ThemeRule
-
-export function runOnMain<T extends ThemeName | MainOnlyCallback>(
-  themeNameOrCallback: T
-): T extends MainOnlyCallback ? void : ThemeRule {
+export function onMain(callback: MainOnlyCallback): void
+export function onMain(themeName: ThemeName): ThemeName
+export function onMain(
+  themeNameOrCallback: ThemeName | MainOnlyCallback
+): ThemeName | void {
   if (typeof themeNameOrCallback === 'function') {
     if (isMainOrVersionBranch(resolveBranchName())) {
       themeNameOrCallback()
     }
 
-    return undefined as T extends MainOnlyCallback ? void : ThemeRule
+    return
   }
 
-  return {
-    themeName: themeNameOrCallback,
-    run: (branchName) => isMainOrVersionBranch(branchName),
-  } as T extends MainOnlyCallback ? void : ThemeRule
+  return themeNameOrCallback
 }
 
-export function selectBrands(entries: ThemeEntry[]): ThemeName[] {
-  const branchName = resolveBranchName()
+export const runOnMain = onMain
 
-  return entries
-    .map((entry) => toThemeRule(entry))
-    .filter((entry) => entry.run(branchName))
-    .map((entry) => entry.themeName)
+export function selectThemes({
+  always = [],
+  onMain = [],
+}: BranchScopedThemeGroups): ThemeName[] {
+  if (isMainOrVersionBranch(resolveBranchName())) {
+    return [...always, ...onMain]
+  }
+
+  return always
 }
 
 const VERSION_BRANCH_PATTERN = /^v\d+/
@@ -51,17 +51,6 @@ function resolveBranchName(): string | null {
   }
 
   return null
-}
-
-function toThemeRule(entry: ThemeEntry): ThemeRule {
-  if (typeof entry === 'string') {
-    return {
-      themeName: entry,
-      run: () => true,
-    }
-  }
-
-  return entry
 }
 
 function isMainOrVersionBranch(branchName: string | null): boolean {
