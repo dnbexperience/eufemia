@@ -44,4 +44,11 @@ describe.each(['ui'])('VippsWalletButton for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match pending state', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="vipps-wallet-button-pending"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

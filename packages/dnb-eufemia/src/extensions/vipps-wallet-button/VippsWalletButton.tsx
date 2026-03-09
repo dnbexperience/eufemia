@@ -46,22 +46,15 @@ export default function VippsWalletButton({
   } = useTranslation({ messages })
   const buttonText = translation?.text
 
-  const indicatorState = pending ? 'pending' : undefined
-
   return (
     <Button
       {...props}
       variant="primary"
-      className={classnames('dnb-vipps-wallet-button', className, {
-        pending: pending,
-      })}
-      disabled={props.disabled || indicatorState === 'pending'}
+      className={classnames('dnb-vipps-wallet-button', className)}
+      disabled={props.disabled || pending}
     >
-      {buttonText} <VippsLogo />{' '}
-      <SubmitIndicator
-        state={indicatorState}
-        className="dnb-vipps-wallet-button-submitindicator"
-      />
+      {buttonText} <VippsLogo />
+      <SubmitIndicator state={pending ? 'pending' : undefined} />
     </Button>
   )
 }
