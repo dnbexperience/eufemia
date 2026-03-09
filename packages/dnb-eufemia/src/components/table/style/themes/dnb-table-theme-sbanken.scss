@@ -68,21 +68,12 @@
       }
       @include utilities.active() {
         color: var(--sb-color-violet);
-        @include button-mixins.buttonFocusRing(
-          'mouse',
-          inset
-        ); // also, make a mouse ring
-        @include button-mixins.buttonFocusRing(
-          'touch',
-          inset
-        ); // also, make a touch ring
+        @include button-mixins.buttonFocusRing('always', inset);
         @include tableFocusRing();
       }
-      @include utilities.focus() {
+      @include utilities.focus-visible() {
         @include tableFocusRing();
-        &:focus-visible {
-          color: var(--sb-color-blue-dark);
-        }
+        color: var(--sb-color-blue-dark);
 
         &:not(:active) .dnb-button__text::after {
           visibility: hidden;

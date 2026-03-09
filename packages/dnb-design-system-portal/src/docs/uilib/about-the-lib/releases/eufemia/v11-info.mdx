@@ -17,6 +17,7 @@ v11 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 1. Replace `innerRef` with `ref` on all Eufemia components.
 2. Replace `<Context.Provider>` with `<Context>` when using Eufemia contexts directly (React 19 deprecation).
 3. If you import Eufemia SCSS source files with `@import`, replace with `@use` and namespace your mixin/variable calls (see [SCSS: @import → @use](#scss-import--use)).
+4. If you use `html[data-whatinput]` or `html[data-whatintent]` selectors in your own SCSS, replace them with `:focus-visible` or `@media (hover: hover)` (see [Removed what-input](#removed-what-input)).
 
 ### innerRef → ref
 
@@ -74,6 +75,7 @@ $ pnpm add @dnb/eufemia@11
 
 - All **snake case** (`on_click`) events and properties has been converted to use **camel case** (`onClick`). The reason for previously using **snake case** was to support Web Components – but the support was discontinued in [v10](/uilib/about-the-lib/releases/eufemia/v10-info/).
 - Replaced deprecated `<Context.Provider>` with direct `<Context>` rendering across all internal context providers (React 19).
+- Removed the `what-input` dependency. Focus ring styles now use native `:focus-visible` and hover detection uses `@media (hover: hover)` instead of `html[data-whatinput]`/`html[data-whatintent]` selectors.
 
 ## Components
 
@@ -1285,6 +1287,42 @@ These were previously used to support dual snake_case/camelCase prop naming. Sin
 #### Updated SCSS mixin: `IS_FF`
 
 The `IS_FF()` SCSS mixin now uses `@supports (-moz-appearance: none)` instead of the deprecated `@-moz-document url-prefix()` hack. No changes needed if you use the mixin — it works the same way.
+
+### Removed `what-input`
+
+The [`what-input`](https://github.com/ten1seven/what-input) JavaScript library has been removed. Eufemia no longer sets `data-whatinput` or `data-whatintent` attributes on the `<html>` element.
+
+**What changed:**
+
+- **Focus rings** now use the native CSS pseudo-class `:focus-visible` instead of `html[data-whatinput='keyboard']` selectors. This means focus rings are shown when navigating with the keyboard and hidden during mouse/touch interaction — without any JavaScript.
+- **Hover styles** now use `@media (hover: hover)` instead of `html:not([data-whatintent='touch'])`. This uses the browser's built-in capability detection to determine if the device supports hover.
+- **Touch-specific active styles** now use `@media (hover: none)` instead of `html[data-whatintent='touch']`.
+
+**Migration required** if you have custom SCSS that targets these selectors:
+
+| Before (v10)                                          | After (v11)                                 |
+| ----------------------------------------------------- | ------------------------------------------- |
+| `html[data-whatinput='keyboard'] & { ... }`           | `&:focus-visible { ... }`                   |
+| `html:not([data-whatinput='keyboard']) & { ... }`     | `&:focus:not(:focus-visible) { ... }`       |
+| `html:not([data-whatintent='touch']) &:hover { ... }` | `@media (hover: hover) { &:hover { ... } }` |
+| `html[data-whatintent='touch'] & { ... }`             | `@media (hover: none) { & { ... } }`        |
+
+**Updated SCSS utility mixins:**
+
+If you use Eufemia's SCSS utility mixins, they have been updated automatically — no changes needed on your end:
+
+- `hover()` — now wraps content in `@media (hover: hover)` instead of `html:not([data-whatintent='touch'])`.
+- `active()` — now uses a plain `&:active` selector (previously duplicated with `html:not([data-whatintent='touch'])`).
+- `focus-visible()` — now uses `&:focus-visible` directly (with an `@supports` fallback for older browsers).
+- `focusRing()` — now applies unconditionally instead of only for `html[data-whatinput='keyboard']`.
+- `whatInput()` / `whatInputNot()` — deprecated as no-op passthroughs. Remove calls to these mixins.
+
+**Visual changes:**
+
+Some components may show minor visual differences:
+
+- Focus rings may appear in slightly different scenarios since `:focus-visible` behavior is determined by the browser rather than the `what-input` library.
+- On touch devices, hover styles are no longer applied since `@media (hover: hover)` correctly excludes them.
 
 ## Eufemia Forms
 

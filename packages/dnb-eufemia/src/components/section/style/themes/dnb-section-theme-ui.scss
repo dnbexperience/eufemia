@@ -129,7 +129,7 @@
       --text-color: var(--color-white) !important;
     }
 
-    &:focus {
+    &:focus-visible {
       --text-color: var(--color-white);
 
       &::before {

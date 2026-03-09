@@ -57,7 +57,7 @@
 
       margin: 0;
 
-      &.dnb-no-focus:focus {
+      &.dnb-no-focus:focus-visible {
         @include utilities.focusRing();
       }
     }

@@ -92,7 +92,7 @@
 
   &__tr--clickable {
     &:active,
-    html[data-whatinput='keyboard'] &:focus,
+    &:focus-visible,
     &:hover:not(.dnb-table__tr--hover.dnb-table__tr--expanded) {
       z-index: 5; // over table outline border
     }
@@ -156,12 +156,10 @@
 
   &__tr--clickable#{&}__tr:not(&__tr--disabled):not(:active):not(
       :hover
-    ):focus {
+    ):focus-visible {
     td::before {
-      @include utilities.whatInput(keyboard) {
-        border-color: var(--focus-ring-color);
-        border-width: var(--focus-ring-width);
-      }
+      border-color: var(--focus-ring-color);
+      border-width: var(--focus-ring-width);
     }
     td:first-of-type::before {
       left: 0;
@@ -172,7 +170,6 @@
   }
 
   &__tr--clickable#{&}__tr:not(&__tr--disabled):active {
-    html:not([data-whatintent='touch']) &:hover td::before,
     td::before {
       border-color: var(--table-accordion-outline-color);
       border-width: var(
@@ -201,14 +198,12 @@
 
   &__tr--clickable#{&}__tr#{&}__tr--expanded:not(&__tr--disabled):not(
       :active
-    ):not(:hover) {
-    @include utilities.whatInputNot('keyboard') {
-      background-color: var(--table-accordion-header-background);
+    ):not(:hover):not(:focus-visible) {
+    background-color: var(--table-accordion-header-background);
 
-      td::before {
-        border: none;
-        border-top: var(--table-accordion-border);
-      }
+    td::before {
+      border: none;
+      border-top: var(--table-accordion-border);
     }
   }
 

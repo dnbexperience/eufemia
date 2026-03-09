@@ -94,10 +94,10 @@ exports[`Switch scss should match default theme snapshot 1`] = `
     *
     */
 }
-html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button {
+.dnb-switch__input:not([disabled]):focus-visible ~ .dnb-switch__button {
   border: none;
 }
-html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):not(:checked):focus ~ .dnb-switch__button {
+.dnb-switch__input:not([disabled]):not(:checked):focus-visible ~ .dnb-switch__button {
   background-color: var(--color-mint-green-50);
 }
 .dnb-switch__input:not([disabled]):checked ~ .dnb-switch__button .dnb-switch__focus {
@@ -436,16 +436,16 @@ html[data-whatinput=keyboard] .dnb-switch__focus {
 .dnb-switch__input:not([disabled]) {
   cursor: pointer;
 }
-.dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background, .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
+.dnb-switch__input:not([disabled]):focus-visible ~ .dnb-switch__background {
   outline: none;
 }
-html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background, html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
+html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus-visible ~ .dnb-switch__background {
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button .dnb-switch__focus, .dnb-switch__input:not([disabled]):active ~ .dnb-switch__button .dnb-switch__focus {
+.dnb-switch__input:not([disabled]):focus-visible ~ .dnb-switch__button .dnb-switch__focus {
   display: block;
 }
 .dnb-switch .dnb-form-label {

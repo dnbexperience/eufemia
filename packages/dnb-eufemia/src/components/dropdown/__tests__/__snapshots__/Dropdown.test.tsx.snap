@@ -431,26 +431,23 @@ button .dnb-form-status__text {
   text-align: inherit;
   line-height: inherit;
 }
-html:not([data-whatintent=touch]) .dnb-button--reset:hover[disabled] {
-  cursor: not-allowed;
+@media (hover: hover) {
+  .dnb-button--reset:hover[disabled] {
+    cursor: not-allowed;
+  }
+  .dnb-button--reset:hover:not([disabled]) {
+    box-shadow: none;
+    border: none;
+  }
 }
-html:not([data-whatintent=touch]) .dnb-button--reset:hover:not([disabled]) {
-  box-shadow: none;
-  border: none;
-}
-.dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
+.dnb-button--reset:not([disabled]):focus-visible {
   outline: none;
 }
-html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):active {
+html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):focus-visible {
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
-}
-html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):active {
-  box-shadow: none;
-  color: inherit;
-  border: none;
 }
 .dnb-button[type=button], .dnb-button[type=reset], .dnb-button[type=submit] {
   appearance: none;
@@ -605,23 +602,25 @@ legend.dnb-form-label {
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:hover[disabled] {
+@media (hover: hover) {
+  .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:hover[disabled] {
+    cursor: not-allowed;
+  }
+  .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:hover:not([disabled]) {
+    color: var(--dropdown-foreground-color-error);
+    --border-color: var(--dropdown-foreground-color-error);
+    --border-width: var(--dropdown-error-border-width);
+    box-shadow: 0 0 0 var(--border-width) var(--border-color);
+    border-color: transparent;
+  }
+  .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
+    color: var(--dropdown-foreground-color-error);
+  }
+}
+.dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:active[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:hover:not([disabled]) {
-  color: var(--dropdown-foreground-color-error);
-  --border-color: var(--dropdown-foreground-color-error);
-  --border-width: var(--dropdown-error-border-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
-  color: var(--dropdown-foreground-color-error);
-}
-.dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:active[disabled], html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:active[disabled] {
-  cursor: not-allowed;
-}
-.dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:active:not([disabled]) {
+.dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:active:not([disabled]) {
   color: var(--dropdown-foreground-color-error);
   background-color: var(--dropdown-background-color-error-active);
 }
@@ -821,11 +820,13 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
   --dropdown-background-color-disabled: var(--color-black-3);
   --dropdown-background-color-error-active: var(--color-fire-red-8);
 }
-html:not([data-whatintent=touch]) .dnb-dropdown__trigger:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-dropdown__trigger:hover:not([disabled]) {
-  color: var(--color-emerald-green);
+@media (hover: hover) {
+  .dnb-dropdown__trigger:hover[disabled] {
+    cursor: not-allowed;
+  }
+  .dnb-dropdown__trigger:hover:not([disabled]) {
+    color: var(--color-emerald-green);
+  }
 }
 .dnb-dropdown__trigger[disabled] {
   color: var(--dropdown-foreground-color-primary);

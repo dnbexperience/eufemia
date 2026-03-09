@@ -390,9 +390,10 @@
         margin: auto;
       }
 
-      html:not([data-whatintent='touch'])
+      @media (hover: hover) {
         &:not(.dnb-button--has-text):hover[disabled] {
-        cursor: default;
+          cursor: default;
+        }
       }
     }
   }

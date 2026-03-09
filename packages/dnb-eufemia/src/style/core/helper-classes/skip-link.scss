@@ -54,8 +54,6 @@
     border-radius: 1.5rem; // same as anchor
 
     background-color: var(--skip-link-background);
-
-    @include utilities.focusRing('mouse');
   }
 
   &:hover::before {
@@ -65,8 +63,13 @@
     background-color: var(--skip-link-background--active);
   }
 
-  // focus
-  &:focus:not(:active)::before {
+  // Focus ring on mouse/touch focus
+  &:focus:not(:focus-visible)::before {
+    @include utilities.focusRing();
+  }
+
+  // Focus ring on keyboard focus (not during active)
+  &:focus-visible:not(:active)::before {
     @include utilities.focusRing();
   }
 
@@ -107,6 +110,8 @@
 .dnb-skip-link:focus {
   @include skipLink();
 }
-html[data-whatintent='touch'] .dnb-skip-link {
-  display: none;
+@media (hover: none) {
+  .dnb-skip-link {
+    display: none;
+  }
 }

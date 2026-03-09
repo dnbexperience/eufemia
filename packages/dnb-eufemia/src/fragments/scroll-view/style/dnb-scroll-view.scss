@@ -15,7 +15,7 @@
 
   // interactive prop
   &[tabindex='0'] {
-    &:focus {
+    &:focus-visible {
       outline: none;
 
       @include utilities.focusRing();

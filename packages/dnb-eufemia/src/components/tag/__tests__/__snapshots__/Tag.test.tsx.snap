@@ -427,26 +427,23 @@ button .dnb-form-status__text {
   text-align: inherit;
   line-height: inherit;
 }
-html:not([data-whatintent=touch]) .dnb-button--reset:hover[disabled] {
-  cursor: not-allowed;
+@media (hover: hover) {
+  .dnb-button--reset:hover[disabled] {
+    cursor: not-allowed;
+  }
+  .dnb-button--reset:hover:not([disabled]) {
+    box-shadow: none;
+    border: none;
+  }
 }
-html:not([data-whatintent=touch]) .dnb-button--reset:hover:not([disabled]) {
-  box-shadow: none;
-  border: none;
-}
-.dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
+.dnb-button--reset:not([disabled]):focus-visible {
   outline: none;
 }
-html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):active {
+html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):focus-visible {
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
-}
-html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):active {
-  box-shadow: none;
-  color: inherit;
-  border: none;
 }
 .dnb-button[type=button], .dnb-button[type=reset], .dnb-button[type=submit] {
   appearance: none;
@@ -509,10 +506,10 @@ button.dnb-button::-moz-focus-inner {
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-html:not([data-whatintent=touch]) .dnb-tag--interactive.dnb-button:focus-visible[disabled] {
+.dnb-tag--interactive.dnb-button:focus-visible[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-tag--interactive.dnb-button:focus-visible:not([disabled]) {
+.dnb-tag--interactive.dnb-button:focus-visible:not([disabled]) {
   outline: none;
   --border-color: var(--color-emerald-green);
   --border-width: var(--focus-ring-width);
@@ -520,20 +517,22 @@ html:not([data-whatintent=touch]) .dnb-tag--interactive.dnb-button:focus-visible
   border-color: transparent;
   --tag-icon-color: var(--color-emerald-green);
 }
-html:not([data-whatintent=touch]) .dnb-tag--interactive.dnb-button:hover[disabled] {
+@media (hover: hover) {
+  .dnb-tag--interactive.dnb-button:hover[disabled] {
+    cursor: not-allowed;
+  }
+  .dnb-tag--interactive.dnb-button:hover:not([disabled]) {
+    --border-color: var(--color-emerald-green);
+    --border-width: 0.125rem;
+    box-shadow: 0 0 0 var(--border-width) var(--border-color);
+    border-color: transparent;
+    --tag-icon-color: var(--color-emerald-green);
+  }
+}
+.dnb-tag--interactive.dnb-button:active[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-tag--interactive.dnb-button:hover:not([disabled]) {
-  --border-color: var(--color-emerald-green);
-  --border-width: 0.125rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-  --tag-icon-color: var(--color-emerald-green);
-}
-.dnb-tag--interactive.dnb-button:active[disabled], html:not([data-whatintent=touch]) .dnb-tag--interactive.dnb-button:active[disabled] {
-  cursor: not-allowed;
-}
-.dnb-tag--interactive.dnb-button:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-tag--interactive.dnb-button:active:not([disabled]) {
+.dnb-tag--interactive.dnb-button:active:not([disabled]) {
   background-color: var(--color-mint-green-50);
   --border-color: transparent;
   --border-width: 0.0625rem;
@@ -554,24 +553,26 @@ html:not([data-whatintent=touch]) .dnb-tag--interactive.dnb-button:hover:not([di
   --tag-icon-fill: var(--tag-icon-fill-color);
   --tag-icon-stroke: var(--tag-icon-stroke-color);
 }
-html:not([data-whatintent=touch]) .dnb-tag--removable.dnb-button:focus-visible[disabled], html:not([data-whatintent=touch]) .dnb-tag--addable.dnb-button:focus-visible[disabled] {
+.dnb-tag--removable.dnb-button:focus-visible[disabled], .dnb-tag--addable.dnb-button:focus-visible[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-tag--removable.dnb-button:focus-visible:not([disabled]), html:not([data-whatintent=touch]) .dnb-tag--addable.dnb-button:focus-visible:not([disabled]) {
+.dnb-tag--removable.dnb-button:focus-visible:not([disabled]), .dnb-tag--addable.dnb-button:focus-visible:not([disabled]) {
   --tag-icon-fill: var(--tag-icon-stroke-color);
   --tag-icon-stroke: var(--tag-icon-fill-color);
 }
-html:not([data-whatintent=touch]) .dnb-tag--removable.dnb-button:hover[disabled], html:not([data-whatintent=touch]) .dnb-tag--addable.dnb-button:hover[disabled] {
+@media (hover: hover) {
+  .dnb-tag--removable.dnb-button:hover[disabled], .dnb-tag--addable.dnb-button:hover[disabled] {
+    cursor: not-allowed;
+  }
+  .dnb-tag--removable.dnb-button:hover:not([disabled]), .dnb-tag--addable.dnb-button:hover:not([disabled]) {
+    --tag-icon-fill: var(--tag-icon-stroke-color);
+    --tag-icon-stroke: var(--tag-icon-fill-color);
+  }
+}
+.dnb-tag--removable.dnb-button:active[disabled], .dnb-tag--addable.dnb-button:active[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-tag--removable.dnb-button:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-tag--addable.dnb-button:hover:not([disabled]) {
-  --tag-icon-fill: var(--tag-icon-stroke-color);
-  --tag-icon-stroke: var(--tag-icon-fill-color);
-}
-.dnb-tag--removable.dnb-button:active[disabled], html:not([data-whatintent=touch]) .dnb-tag--removable.dnb-button:active[disabled], .dnb-tag--addable.dnb-button:active[disabled], html:not([data-whatintent=touch]) .dnb-tag--addable.dnb-button:active[disabled] {
-  cursor: not-allowed;
-}
-.dnb-tag--removable.dnb-button:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-tag--removable.dnb-button:active:not([disabled]), .dnb-tag--addable.dnb-button:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-tag--addable.dnb-button:active:not([disabled]) {
+.dnb-tag--removable.dnb-button:active:not([disabled]), .dnb-tag--addable.dnb-button:active:not([disabled]) {
   --tag-icon-fill: var(--tag-icon-stroke-color);
   --tag-icon-stroke: var(--tag-icon-fill-color);
 }

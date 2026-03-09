@@ -81,7 +81,7 @@
     height: var(--slider-marker-height);
     background-color: var(--slider-marker);
 
-    &:focus {
+    &:focus-visible {
       outline: none; // we show a Tooltip instead
       @include utilities.focusRing();
     }
@@ -275,7 +275,7 @@
     transform: translate3d(0.0625rem, 0, 0);
   }
 
-  &__button-helper:not(:disabled):focus ~ .dnb-button {
+  &__button-helper:not(:disabled):focus-visible ~ .dnb-button {
     @include utilities.focusRing();
   }
 

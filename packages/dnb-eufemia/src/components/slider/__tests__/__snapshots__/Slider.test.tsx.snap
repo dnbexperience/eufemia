@@ -427,26 +427,23 @@ button .dnb-form-status__text {
   text-align: inherit;
   line-height: inherit;
 }
-html:not([data-whatintent=touch]) .dnb-button--reset:hover[disabled] {
-  cursor: not-allowed;
+@media (hover: hover) {
+  .dnb-button--reset:hover[disabled] {
+    cursor: not-allowed;
+  }
+  .dnb-button--reset:hover:not([disabled]) {
+    box-shadow: none;
+    border: none;
+  }
 }
-html:not([data-whatintent=touch]) .dnb-button--reset:hover:not([disabled]) {
-  box-shadow: none;
-  border: none;
-}
-.dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
+.dnb-button--reset:not([disabled]):focus-visible {
   outline: none;
 }
-html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):active {
+html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):focus-visible {
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
-}
-html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):active {
-  box-shadow: none;
-  color: inherit;
-  border: none;
 }
 .dnb-button[type=button], .dnb-button[type=reset], .dnb-button[type=submit] {
   appearance: none;
@@ -571,11 +568,11 @@ legend.dnb-form-label {
   height: var(--slider-marker-height);
   background-color: var(--slider-marker);
 }
-.dnb-slider__marker:focus {
+.dnb-slider__marker:focus-visible {
   outline: none;
   outline: none;
 }
-html[data-whatinput=keyboard] .dnb-slider__marker:focus {
+html[data-whatinput=keyboard] .dnb-slider__marker:focus-visible {
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
@@ -710,10 +707,10 @@ html[data-visual-test] .dnb-slider__thumb, html[data-visual-test] .dnb-slider__l
   opacity: 0;
   transform: translate3d(0.0625rem, 0, 0);
 }
-.dnb-slider__button-helper:not(:disabled):focus ~ .dnb-button {
+.dnb-slider__button-helper:not(:disabled):focus-visible ~ .dnb-button {
   outline: none;
 }
-html[data-whatinput=keyboard] .dnb-slider__button-helper:not(:disabled):focus ~ .dnb-button {
+html[data-whatinput=keyboard] .dnb-slider__button-helper:not(:disabled):focus-visible ~ .dnb-button {
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);

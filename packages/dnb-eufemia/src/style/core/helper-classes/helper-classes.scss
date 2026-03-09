@@ -14,16 +14,16 @@
 .dnb-tab-focus {
   outline: none;
 
-  &:focus {
-    @include utilities.focusRing('keyboard');
+  &:focus-visible {
+    @include utilities.focusRing();
   }
 }
 
 .dnb-mouse-focus {
   outline: none;
 
-  &:focus {
-    @include utilities.focusRing('mouse');
+  &:focus:not(:focus-visible) {
+    @include utilities.focusRing();
   }
 }
 

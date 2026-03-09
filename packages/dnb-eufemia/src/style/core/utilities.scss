@@ -16,22 +16,20 @@
   box-shadow: var(--shadow-sharp);
 }
 
-// Uses html:not([data-whatintent='touch'] )
-// classes on <html> element
-// based on js touch device test
 @mixin hover() {
-  html:not([data-whatintent='touch']) &:hover {
-    &[disabled] {
-      cursor: not-allowed;
-    }
-    &:not([disabled]) {
-      @content;
+  @media (hover: hover) {
+    &:hover {
+      &[disabled] {
+        cursor: not-allowed;
+      }
+      &:not([disabled]) {
+        @content;
+      }
     }
   }
 }
 @mixin active() {
-  &:active,
-  html:not([data-whatintent='touch']) &:active {
+  &:active {
     &[disabled] {
       cursor: not-allowed;
     }
@@ -43,7 +41,7 @@
 }
 
 @mixin focus-visible() {
-  html:not([data-whatintent='touch']) &:focus-visible {
+  &:focus-visible {
     &[disabled] {
       cursor: not-allowed;
     }
@@ -55,8 +53,7 @@
 }
 
 @mixin focus() {
-  &:focus,
-  html:not([data-whatintent='touch']) &:focus {
+  &:focus {
     &[disabled] {
       cursor: not-allowed;
     }
@@ -123,10 +120,10 @@
 
   @if $whatinput == null {
     box-shadow: $replace;
-  }
-
-  html[data-whatinput='#{$whatinput}'] & {
-    box-shadow: $replace;
+  } @else {
+    html[data-whatinput='#{$whatinput}'] & {
+      box-shadow: $replace;
+    }
   }
 }
 

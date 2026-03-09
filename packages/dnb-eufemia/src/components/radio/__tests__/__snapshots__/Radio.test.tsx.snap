@@ -434,20 +434,20 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 .dnb-radio {
   /** Focus state **/
 }
-html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):focus ~ .dnb-radio__button {
+.dnb-radio__input:not([disabled]):focus-visible ~ .dnb-radio__button {
   border-width: var(--radio-border-width--focus);
   border: none;
 }
-.dnb-radio__input:not([disabled]):focus ~ .dnb-radio__focus, .dnb-radio__input:not([disabled]):active ~ .dnb-radio__focus {
+.dnb-radio__input:not([disabled]):focus-visible ~ .dnb-radio__focus {
   display: block;
 }
-html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not(:hover):checked:focus ~ .dnb-radio__button, html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not(:hover)[data-checked=true]:focus ~ .dnb-radio__button {
+.dnb-radio__input:not([disabled]):not(:active):not(:hover):checked:focus-visible ~ .dnb-radio__button, .dnb-radio__input:not([disabled]):not(:active):not(:hover)[data-checked=true]:focus-visible ~ .dnb-radio__button {
   background-color: var(--radio-color-background-on--focus);
 }
-html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not(:hover):checked:focus ~ .dnb-radio__dot, html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not(:hover)[data-checked=true]:focus ~ .dnb-radio__dot {
+.dnb-radio__input:not([disabled]):not(:active):not(:hover):checked:focus-visible ~ .dnb-radio__dot, .dnb-radio__input:not([disabled]):not(:active):not(:hover)[data-checked=true]:focus-visible ~ .dnb-radio__dot {
   background-color: var(--radio-color-dot-on--focus, var(--focus-ring-color));
 }
-html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:checked):not([data-checked=true]):focus ~ .dnb-radio__button {
+.dnb-radio__input:not([disabled]):not(:checked):not([data-checked=true]):focus-visible ~ .dnb-radio__button {
   background-color: var(--radio-color-background-off--focus);
 }
 .dnb-radio {

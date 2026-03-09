@@ -35,13 +35,13 @@ exports[`ToggleButton scss should match default theme snapshot 1`] = `
 .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-radio__dot, .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]) .dnb-radio__dot, .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]) .dnb-radio__dot {
   background-color: var(--color-mint-green);
 }
-html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-radio__button {
+.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus-visible .dnb-radio__button, .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus-visible .dnb-radio__button, .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus-visible .dnb-radio__button {
   --border-color: var(--color-emerald-green);
   --border-width: 0.09375rem;
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-radio__input:not([disabled]):not(:hover):not(:active):not(:hover) ~ .dnb-radio__dot, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-radio__input:not([disabled]):not(:hover):not(:active):not(:hover) ~ .dnb-radio__dot, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-radio__input:not([disabled]):not(:hover):not(:active):not(:hover) ~ .dnb-radio__dot {
+.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus-visible .dnb-radio__input:not([disabled]):not(:hover):not(:active):not(:hover) ~ .dnb-radio__dot, .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus-visible .dnb-radio__input:not([disabled]):not(:hover):not(:active):not(:hover) ~ .dnb-radio__dot, .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus-visible .dnb-radio__input:not([disabled]):not(:hover):not(:active):not(:hover) ~ .dnb-radio__dot {
   background-color: var(--color-emerald-green);
 }
 .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__button, .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]) .dnb-checkbox__button, .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]) .dnb-checkbox__button {
@@ -52,10 +52,10 @@ html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__bu
 .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__gfx, .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]) .dnb-checkbox__gfx, .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]) .dnb-checkbox__gfx {
   color: var(--color-emerald-green);
 }
-html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-checkbox__button, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-checkbox__button, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-checkbox__button {
+.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus-visible .dnb-checkbox__button, .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus-visible .dnb-checkbox__button, .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus-visible .dnb-checkbox__button {
   background-color: var(--color-emerald-green);
 }
-html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-checkbox__gfx, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-checkbox__gfx, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-checkbox__gfx {
+.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus-visible .dnb-checkbox__gfx, .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus-visible .dnb-checkbox__gfx, .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus-visible .dnb-checkbox__gfx {
   color: var(--color-mint-green);
 }
 .dnb-toggle-button--checked .dnb-toggle-button__button[disabled] .dnb-radio__button,
@@ -64,12 +64,12 @@ html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__bu
 .dnb-toggle-button--checked .dnb-toggle-button__button:hover[disabled] .dnb-checkbox__button {
   box-shadow: none;
 }
-html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
+.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus-visible, .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus-visible, .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus-visible {
   color: var(--color-emerald-green);
   background-color: var(--color-mint-green);
   outline: none;
 }
-html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
+html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus-visible, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus-visible, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus-visible {
   --border-color: var(--color-emerald-green);
   --border-width: var(--focus-ring-width);
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
@@ -626,26 +626,23 @@ button .dnb-form-status__text {
   text-align: inherit;
   line-height: inherit;
 }
-html:not([data-whatintent=touch]) .dnb-button--reset:hover[disabled] {
-  cursor: not-allowed;
+@media (hover: hover) {
+  .dnb-button--reset:hover[disabled] {
+    cursor: not-allowed;
+  }
+  .dnb-button--reset:hover:not([disabled]) {
+    box-shadow: none;
+    border: none;
+  }
 }
-html:not([data-whatintent=touch]) .dnb-button--reset:hover:not([disabled]) {
-  box-shadow: none;
-  border: none;
-}
-.dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
+.dnb-button--reset:not([disabled]):focus-visible {
   outline: none;
 }
-html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):active {
+html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):focus-visible {
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
-}
-html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):active {
-  box-shadow: none;
-  color: inherit;
-  border: none;
 }
 .dnb-button[type=button], .dnb-button[type=reset], .dnb-button[type=submit] {
   appearance: none;
@@ -966,14 +963,14 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
 .dnb-checkbox {
   /** Focus state **/
 }
-html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus-visible ~ .dnb-checkbox__button {
+.dnb-checkbox__input:not([disabled]):focus-visible ~ .dnb-checkbox__button {
   border: none;
   background-color: var(--checkbox-color-background--focus);
 }
-html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus-visible ~ .dnb-checkbox__gfx {
+.dnb-checkbox__input:not([disabled]):focus-visible ~ .dnb-checkbox__gfx {
   color: var(--checkbox-color-gfx--focus);
 }
-.dnb-checkbox__input:not([disabled]):focus-visible ~ .dnb-checkbox__button .dnb-checkbox__focus, .dnb-checkbox__input:not([disabled]):active ~ .dnb-checkbox__button .dnb-checkbox__focus {
+.dnb-checkbox__input:not([disabled]):focus-visible ~ .dnb-checkbox__button .dnb-checkbox__focus {
   display: block;
 }
 .dnb-checkbox__input:not([disabled]):focus-visible ~ .dnb-checkbox__indeterminate {
@@ -1004,7 +1001,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus-visible
 .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active):not(:hover) ~ .dnb-checkbox__gfx {
   color: var(--checkbox-color-gfx--error);
 }
-html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__button, html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):focus:hover ~ .dnb-checkbox__button {
+.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):focus-visible ~ .dnb-checkbox__button, .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):focus-visible:hover ~ .dnb-checkbox__button {
   border: none;
   background-color: var(--checkbox-color-background--error-contrast);
   --border-color: var(--checkbox-color-border--error);
@@ -1012,7 +1009,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-html[data-whatinput=keyboard] .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):focus:hover ~ .dnb-checkbox__gfx {
+.dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):focus-visible:hover ~ .dnb-checkbox__gfx {
   color: var(--checkbox-color-gfx--error-contrast);
 }
 .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active):not(:hover):checked ~ .dnb-checkbox__button, .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active):not(:hover)[data-checked=true] ~ .dnb-checkbox__button {
@@ -1367,20 +1364,20 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 .dnb-radio {
   /** Focus state **/
 }
-html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):focus ~ .dnb-radio__button {
+.dnb-radio__input:not([disabled]):focus-visible ~ .dnb-radio__button {
   border-width: var(--radio-border-width--focus);
   border: none;
 }
-.dnb-radio__input:not([disabled]):focus ~ .dnb-radio__focus, .dnb-radio__input:not([disabled]):active ~ .dnb-radio__focus {
+.dnb-radio__input:not([disabled]):focus-visible ~ .dnb-radio__focus {
   display: block;
 }
-html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not(:hover):checked:focus ~ .dnb-radio__button, html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not(:hover)[data-checked=true]:focus ~ .dnb-radio__button {
+.dnb-radio__input:not([disabled]):not(:active):not(:hover):checked:focus-visible ~ .dnb-radio__button, .dnb-radio__input:not([disabled]):not(:active):not(:hover)[data-checked=true]:focus-visible ~ .dnb-radio__button {
   background-color: var(--radio-color-background-on--focus);
 }
-html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not(:hover):checked:focus ~ .dnb-radio__dot, html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:active):not(:hover)[data-checked=true]:focus ~ .dnb-radio__dot {
+.dnb-radio__input:not([disabled]):not(:active):not(:hover):checked:focus-visible ~ .dnb-radio__dot, .dnb-radio__input:not([disabled]):not(:active):not(:hover)[data-checked=true]:focus-visible ~ .dnb-radio__dot {
   background-color: var(--radio-color-dot-on--focus, var(--focus-ring-color));
 }
-html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:checked):not([data-checked=true]):focus ~ .dnb-radio__button {
+.dnb-radio__input:not([disabled]):not(:checked):not([data-checked=true]):focus-visible ~ .dnb-radio__button {
   background-color: var(--radio-color-background-off--focus);
 }
 .dnb-radio {

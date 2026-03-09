@@ -24,7 +24,6 @@ import {
   skeletonDOMAttributes,
 } from '../skeleton/SkeletonHelper'
 import Button from '../button/Button'
-import whatInput from 'what-input'
 import CustomContent from './TabsCustomContent'
 import ContentWrapper from './TabsContentWrapper'
 import {
@@ -428,7 +427,6 @@ export default class Tabs extends React.PureComponent<
 
   componentWillUnmount() {
     this._isMounted = false
-    this.resetWhatInput()
     if (this._sharedState) {
       this._sharedState = null
     }
@@ -853,16 +851,6 @@ export default class Tabs extends React.PureComponent<
       'onFocus',
       this.getEventArgs({ event, focusKey })
     )
-
-    this.setWhatInput()
-  }
-
-  setWhatInput() {
-    whatInput.specificKeys([9, 37, 39, 33, 34, 35, 36])
-  }
-
-  resetWhatInput() {
-    whatInput.specificKeys([9])
   }
 
   setFocusOnTabButton = () => {
@@ -894,7 +882,6 @@ export default class Tabs extends React.PureComponent<
     // saving the position will avoid flickering if the new tab will be done by a new page load
     this.saveLastPosition()
     this.saveLastUsedTab()
-    this.resetWhatInput()
 
     // for handling openPrevTab and openNextTab
     if (mode === 'step' && parseFloat(selectedKey)) {

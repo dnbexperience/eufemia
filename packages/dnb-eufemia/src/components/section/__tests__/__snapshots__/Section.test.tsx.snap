@@ -315,13 +315,13 @@ exports[`Section scss have to match default theme snapshot 1`] = `
 .dnb-section--fire-red .dnb-button--tertiary:hover .dnb-button__text::after, .dnb-section--emerald-green .dnb-button--tertiary:hover .dnb-button__text::after, .dnb-section--sea-green .dnb-button--tertiary:hover .dnb-button__text::after {
   --text-color: var(--color-white) !important;
 }
-.dnb-section--fire-red .dnb-button--tertiary:focus, .dnb-section--emerald-green .dnb-button--tertiary:focus, .dnb-section--sea-green .dnb-button--tertiary:focus {
+.dnb-section--fire-red .dnb-button--tertiary:focus-visible, .dnb-section--emerald-green .dnb-button--tertiary:focus-visible, .dnb-section--sea-green .dnb-button--tertiary:focus-visible {
   --text-color: var(--color-white);
 }
-.dnb-section--fire-red .dnb-button--tertiary:focus::before, .dnb-section--emerald-green .dnb-button--tertiary:focus::before, .dnb-section--sea-green .dnb-button--tertiary:focus::before {
+.dnb-section--fire-red .dnb-button--tertiary:focus-visible::before, .dnb-section--emerald-green .dnb-button--tertiary:focus-visible::before, .dnb-section--sea-green .dnb-button--tertiary:focus-visible::before {
   outline: none;
 }
-html[data-whatinput=keyboard] .dnb-section--fire-red .dnb-button--tertiary:focus::before, html[data-whatinput=keyboard] .dnb-section--emerald-green .dnb-button--tertiary:focus::before, html[data-whatinput=keyboard] .dnb-section--sea-green .dnb-button--tertiary:focus::before {
+html[data-whatinput=keyboard] .dnb-section--fire-red .dnb-button--tertiary:focus-visible::before, html[data-whatinput=keyboard] .dnb-section--emerald-green .dnb-button--tertiary:focus-visible::before, html[data-whatinput=keyboard] .dnb-section--sea-green .dnb-button--tertiary:focus-visible::before {
   --border-color: var(--color-white);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);

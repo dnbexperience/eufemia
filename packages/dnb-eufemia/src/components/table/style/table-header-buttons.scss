@@ -92,7 +92,7 @@
         }
       }
 
-      @include utilities.focus() {
+      @include utilities.focus-visible() {
         @include tableFocusRing();
 
         // focus ring
@@ -119,12 +119,7 @@
       }
 
       @include utilities.active() {
-        @include button-mixins.buttonFocusRing(
-          'mouse'
-        ); // also, make a mouse ring
-        @include button-mixins.buttonFocusRing(
-          'touch'
-        ); // also, make a touch ring
+        @include button-mixins.buttonFocusRing($whatinput: 'always');
         @include tableFocusRing();
 
         // focus ring
@@ -198,9 +193,8 @@
         visibility: visible;
       }
 
-      html[data-whatinput='keyboard']
-        &:hover:focus
-        .dnb-button__text::after {
+      // webkit fix
+      &:hover:focus-visible .dnb-button__text::after {
         visibility: hidden;
       }
     }

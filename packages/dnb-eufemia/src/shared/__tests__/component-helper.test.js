@@ -41,13 +41,38 @@ afterAll(() => {
 })
 
 describe('"isTouchDevice" should', () => {
-  it('return false if what-input did not run', () => {
+  it('return false if device has hover capability', () => {
     expect(isTouchDevice()).toBe(false)
   })
-  it('return true if device is touch', () => {
-    document.documentElement.setAttribute('data-whatintent', 'touch')
+  it('return true if device has no hover capability', () => {
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: jest.fn().mockImplementation((query) => ({
+        matches: query === '(hover: none)',
+        media: query,
+        onchange: null,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        dispatchEvent: jest.fn(),
+      })),
+    })
     expect(isTouchDevice()).toBe(true)
-    document.documentElement.removeAttribute('data-whatintent')
+    // restore default matchMedia
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: jest.fn().mockImplementation(() => ({
+        matches: false,
+        media: '',
+        onchange: null,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        dispatchEvent: jest.fn(),
+      })),
+    })
   })
 })
 

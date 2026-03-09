@@ -47,16 +47,16 @@ exports[`Tabs scss has to match style dependencies css 1`] = `
   display: flex;
   flex: 0 1 auto;
 }
-.dnb-tabs__tabs__tablist:focus {
+.dnb-tabs__tabs__tablist:focus-visible {
   outline: none;
 }
-html[data-whatinput=keyboard] .dnb-tabs__tabs__tablist:focus {
+html[data-whatinput=keyboard] .dnb-tabs__tabs__tablist:focus-visible {
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-tabs__tabs__tablist:focus {
+.dnb-tabs__tabs__tablist:focus-visible {
   border-radius: 0.5rem;
 }
 .dnb-tabs__tabs__tablist {
@@ -202,26 +202,30 @@ html:not([data-visual-test]) .dnb-tabs__tabs__tablist {
   color: var(--tab-title-font-color);
   padding: 0.5rem 0 0.25rem;
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button__title:hover[disabled], html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button__title:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-tabs__button__title:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button__title:hover:not([disabled]) {
-  color: var(--tab-title-color--hover);
+@media (hover: hover) {
+  .dnb-tabs__button__title:hover[disabled], .dnb-core-style .dnb-tabs__button__title:hover[disabled] {
+    cursor: not-allowed;
+  }
+  .dnb-tabs__button__title:hover:not([disabled]), .dnb-core-style .dnb-tabs__button__title:hover:not([disabled]) {
+    color: var(--tab-title-color--hover);
+  }
 }
 .dnb-tabs__button__title .dnb-icon, .dnb-core-style .dnb-tabs__button__title .dnb-icon {
   font-size: var(--font-size-small);
   transform: translateY(-0.125rem);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover[disabled], html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([disabled]) {
-  background-color: var(--tab-title-background--hover);
-}
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([disabled])::after {
-  height: 2px;
-  border-radius: 2px;
-  background-color: var(--tab-title-border--hover);
+@media (hover: hover) {
+  .dnb-tabs__button:hover[disabled], .dnb-core-style .dnb-tabs__button:hover[disabled] {
+    cursor: not-allowed;
+  }
+  .dnb-tabs__button:hover:not([disabled]), .dnb-core-style .dnb-tabs__button:hover:not([disabled]) {
+    background-color: var(--tab-title-background--hover);
+  }
+  .dnb-tabs__button:hover:not([disabled])::after, .dnb-core-style .dnb-tabs__button:hover:not([disabled])::after {
+    height: 2px;
+    border-radius: 2px;
+    background-color: var(--tab-title-border--hover);
+  }
 }
 .dnb-tabs__button .dnb-dummy, .dnb-core-style .dnb-tabs__button .dnb-dummy {
   display: flex;
@@ -255,7 +259,7 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after
 .dnb-tabs__button, .dnb-core-style .dnb-tabs__button {
   /* stylelint-disable no-descending-specificity */
 }
-.dnb-tabs__button:focus::before, .dnb-core-style .dnb-tabs__button:focus::before {
+.dnb-tabs__button:focus-visible::before, .dnb-core-style .dnb-tabs__button:focus-visible::before {
   content: "";
   position: absolute;
   z-index: 1;
@@ -267,16 +271,16 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after
   border-radius: inherit;
   outline: none;
 }
-html[data-whatinput=keyboard] .dnb-tabs__button:focus::before, html[data-whatinput=keyboard] .dnb-core-style .dnb-tabs__button:focus::before {
+html[data-whatinput=keyboard] .dnb-tabs__button:focus-visible::before, html[data-whatinput=keyboard] .dnb-core-style .dnb-tabs__button:focus-visible::before {
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-tabs__button:focus, .dnb-core-style .dnb-tabs__button:focus {
+.dnb-tabs__button:focus-visible, .dnb-core-style .dnb-tabs__button:focus-visible {
   overflow: visible;
 }
-.dnb-tabs__button:focus::before, .dnb-core-style .dnb-tabs__button:focus::before {
+.dnb-tabs__button:focus-visible::before, .dnb-core-style .dnb-tabs__button:focus-visible::before {
   top: 0.5rem;
   left: -0.375rem;
   right: -0.375rem;
@@ -320,16 +324,16 @@ html[data-whatinput=keyboard] .dnb-tabs__button:focus::before, html[data-whatinp
 .dnb-tabs__button__snap:has(.dnb-badge) {
   margin-right: -0.5rem;
 }
-html[data-whatinput=keyboard] .dnb-tabs__button__snap:first-of-type.focus .dnb-tabs__button:focus {
+.dnb-tabs__button__snap:first-of-type.focus .dnb-tabs__button:focus-visible {
   margin-left: 0.5rem;
 }
-html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus {
+.dnb-tabs__button__snap:last-of-type.focus {
   /* stylelint-disable */
 }
-html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-tabs__button:focus {
+.dnb-tabs__button__snap:last-of-type.focus .dnb-tabs__button:focus-visible {
   margin-right: 0.5rem;
 }
-html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus {
+.dnb-tabs__button__snap:last-of-type.focus {
   /* stylelint-enable */
 }
 .dnb-tabs__cached {
@@ -357,10 +361,10 @@ html[data-visual-test] .dnb-tabs .dnb-tabs__cached, html[data-visual-test] .dnb-
 .dnb-tabs__content {
   padding-bottom: 0;
 }
-.dnb-tabs__content:focus {
+.dnb-tabs__content:focus-visible {
   position: relative;
 }
-.dnb-tabs__content:focus::before {
+.dnb-tabs__content:focus-visible::before {
   content: "";
   position: absolute;
   z-index: calc(var(--section-z-index) + 1);
@@ -373,7 +377,7 @@ html[data-visual-test] .dnb-tabs .dnb-tabs__cached, html[data-visual-test] .dnb-
   border-radius: 0.5rem;
   outline: none;
 }
-html[data-whatinput=keyboard] .dnb-tabs__content:focus::before {
+html[data-whatinput=keyboard] .dnb-tabs__content:focus-visible::before {
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
@@ -422,18 +426,20 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
   color: var(--color-sea-green);
   padding: 0.5rem 0 0.25rem;
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover[disabled] {
-  cursor: not-allowed;
+@media (hover: hover) {
+  .dnb-tabs__button:hover[disabled] {
+    cursor: not-allowed;
+  }
+  .dnb-tabs__button:hover:not([disabled]) {
+    background-color: var(--color-mint-green-50);
+  }
+  .dnb-tabs__button:hover:not([disabled])::after {
+    height: 2px;
+    border-radius: 2px;
+    background-color: var(--color-sea-green);
+  }
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled]) {
-  background-color: var(--color-mint-green-50);
-}
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after {
-  height: 2px;
-  border-radius: 2px;
-  background-color: var(--color-sea-green);
-}
-.dnb-tabs__button:focus::before {
+.dnb-tabs__button:focus-visible::before {
   content: "";
   position: absolute;
   z-index: 1;
@@ -445,16 +451,16 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after
   border-radius: inherit;
   outline: none;
 }
-html[data-whatinput=keyboard] .dnb-tabs__button:focus::before {
+html[data-whatinput=keyboard] .dnb-tabs__button:focus-visible::before {
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-tabs__button:focus {
+.dnb-tabs__button:focus-visible {
   overflow: visible;
 }
-.dnb-tabs__button:focus::before {
+.dnb-tabs__button:focus-visible::before {
   top: 0.5rem;
   left: -0.375rem;
   right: -0.375rem;

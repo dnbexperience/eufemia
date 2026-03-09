@@ -40,7 +40,10 @@
     ~ .dnb-textarea__state {
       --textarea-border-color: var(--sb-color-violet);
       --textarea-border-radius: 1.5rem;
-      @include utilities.focusRing(null, null, inset);
+
+      html[data-whatinput='keyboard'] & {
+        @include utilities.focusRing(null, null, inset);
+      }
     }
   }
 

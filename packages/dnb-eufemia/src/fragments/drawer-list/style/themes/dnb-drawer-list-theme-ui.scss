@@ -28,7 +28,7 @@
       var(--drawer-list-options-border-radius) + 0.15rem
     );
 
-    &:focus {
+    &:focus-visible {
       @include utilities.focusRing();
     }
 
@@ -189,7 +189,7 @@
     }
 
     &--selected &__item {
-      .dnb-anchor:focus {
+      .dnb-anchor:focus-visible {
         @include utilities.focusRing(null, var(--color-white));
       }
     }

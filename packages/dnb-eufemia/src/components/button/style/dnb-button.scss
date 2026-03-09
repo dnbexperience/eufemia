@@ -252,16 +252,8 @@
       border: none;
     }
 
-    &:not([disabled]):focus,
-    &:not([disabled]):active {
+    &:not([disabled]):focus-visible {
       @include utilities.focusRing();
-    }
-
-    html[data-whatinput='mouse'] &:not([disabled]):focus,
-    html[data-whatinput='mouse'] &:not([disabled]):active {
-      box-shadow: none;
-      color: inherit;
-      border: none;
     }
   }
 

@@ -41,7 +41,7 @@
       }
     }
 
-    &:focus {
+    &:focus-visible {
       @include button-mixins.buttonFocusRing();
       overflow: visible;
 

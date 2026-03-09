@@ -5,11 +5,11 @@
 
 import React from 'react'
 
-import whatInput from 'what-input'
 import { warn } from './helpers'
 import { getClosestParent } from './helpers/getClosest'
 import { init } from './Eufemia'
 import { defineNavigator } from './legacy/component-helper-legacy'
+import { initInputTracker } from './helpers/inputTracker'
 
 export * from './legacy/component-helper-legacy'
 export { InteractionInvalidation } from './helpers/InteractionInvalidation'
@@ -25,7 +25,7 @@ export { getClosestParent, warn }
 init()
 
 // run component helper functions
-whatInput.specificKeys([9])
+initInputTracker()
 defineNavigator()
 
 /** @private */

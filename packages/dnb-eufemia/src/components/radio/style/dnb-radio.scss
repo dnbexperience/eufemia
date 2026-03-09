@@ -401,47 +401,41 @@
   /** Focus state **/
 
   // General
-  &__input:not([disabled]):focus ~ &__button {
-    html[data-whatinput='keyboard'] & {
-      border-width: var(--radio-border-width--focus);
-      border: none;
-    }
+  &__input:not([disabled]):focus-visible ~ &__button {
+    border-width: var(--radio-border-width--focus);
+    border: none;
   }
-  &__input:not([disabled]):focus ~ &__focus,
-  &__input:not([disabled]):active ~ &__focus {
+  &__input:not([disabled]):focus-visible ~ &__focus {
     display: block;
   }
 
   // On
-  &__input:not([disabled]):not(:active):not(:hover):checked:focus
+  &__input:not([disabled]):not(:active):not(:hover):checked:focus-visible
     ~ &__button,
   &__input:not([disabled]):not(:active):not(
       :hover
-    )[data-checked='true']:focus
+    )[data-checked='true']:focus-visible
     ~ &__button {
-    html[data-whatinput='keyboard'] & {
-      background-color: var(--radio-color-background-on--focus);
-    }
+    background-color: var(--radio-color-background-on--focus);
   }
-  &__input:not([disabled]):not(:active):not(:hover):checked:focus ~ &__dot,
+  &__input:not([disabled]):not(:active):not(:hover):checked:focus-visible
+    ~ &__dot,
   &__input:not([disabled]):not(:active):not(
       :hover
-    )[data-checked='true']:focus
+    )[data-checked='true']:focus-visible
     ~ &__dot {
-    html[data-whatinput='keyboard'] & {
-      background-color: var(
-        --radio-color-dot-on--focus,
-        var(--focus-ring-color)
-      );
-    }
+    background-color: var(
+      --radio-color-dot-on--focus,
+      var(--focus-ring-color)
+    );
   }
 
   // Off
-  &__input:not([disabled]):not(:checked):not([data-checked='true']):focus
+  &__input:not([disabled]):not(:checked):not(
+      [data-checked='true']
+    ):focus-visible
     ~ &__button {
-    html[data-whatinput='keyboard'] & {
-      background-color: var(--radio-color-background-off--focus);
-    }
+    background-color: var(--radio-color-background-off--focus);
   }
 
   /** Error state **/

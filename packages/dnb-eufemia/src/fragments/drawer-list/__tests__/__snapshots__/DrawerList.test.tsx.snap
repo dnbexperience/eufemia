@@ -461,10 +461,10 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
   background-color: var(--color-white);
   border-radius: calc(var(--drawer-list-options-border-radius) + 0.15rem);
 }
-.dnb-drawer-list__options:focus {
+.dnb-drawer-list__options:focus-visible {
   outline: none;
 }
-html[data-whatinput=keyboard] .dnb-drawer-list__options:focus {
+html[data-whatinput=keyboard] .dnb-drawer-list__options:focus-visible {
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
@@ -502,20 +502,22 @@ html[data-whatinput=mouse] .dnb-drawer-list__options--focusring {
 .dnb-drawer-list__option__item.item-nr-1 {
   font-weight: var(--font-weight-medium);
 }
-html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover[disabled] {
+@media (hover: hover) {
+  .dnb-drawer-list__option:hover[disabled] {
+    cursor: not-allowed;
+  }
+  .dnb-drawer-list__option:hover:not([disabled]) {
+    background-color: var(--color-mint-green-12);
+  }
+  .dnb-drawer-list__option:hover:not([disabled]) .dnb-drawer-list__option__inner {
+    color: var(--color-sea-green);
+    background-color: var(--color-mint-green-12);
+  }
+}
+.dnb-drawer-list__option:active[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled]) {
-  background-color: var(--color-mint-green-12);
-}
-html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled]) .dnb-drawer-list__option__inner {
-  color: var(--color-sea-green);
-  background-color: var(--color-mint-green-12);
-}
-.dnb-drawer-list__option:active[disabled], html:not([data-whatintent=touch]) .dnb-drawer-list__option:active[disabled] {
-  cursor: not-allowed;
-}
-.dnb-drawer-list__option:active:not([disabled]) .dnb-drawer-list__option__inner, html:not([data-whatintent=touch]) .dnb-drawer-list__option:active:not([disabled]) .dnb-drawer-list__option__inner {
+.dnb-drawer-list__option:active:not([disabled]) .dnb-drawer-list__option__inner {
   color: var(--color-black);
 }
 .dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
@@ -543,16 +545,18 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled])
   color: inherit;
   background-color: inherit;
 }
-html:not([data-whatintent=touch]) .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner:hover:not([disabled]) {
-  color: var(--color-white);
-  background-color: var(--color-emerald-green);
-}
-html:not([data-whatintent=touch]) .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner:hover:not([disabled]) .dnb-drawer-list__option__inner {
-  color: inherit;
-  background-color: inherit;
+@media (hover: hover) {
+  .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner:hover[disabled] {
+    cursor: not-allowed;
+  }
+  .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner:hover:not([disabled]) {
+    color: var(--color-white);
+    background-color: var(--color-emerald-green);
+  }
+  .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner:hover:not([disabled]) .dnb-drawer-list__option__inner {
+    color: inherit;
+    background-color: inherit;
+  }
 }
 .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner::after {
   content: "";
@@ -591,10 +595,10 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list
 .dnb-drawer-list__option.last-of-type:not(.dnb-drawer-list__option--focus) .dnb-drawer-list__option__inner::before {
   content: none;
 }
-.dnb-drawer-list__option--selected .dnb-drawer-list__option__item .dnb-anchor:focus {
+.dnb-drawer-list__option--selected .dnb-drawer-list__option__item .dnb-anchor:focus-visible {
   outline: none;
 }
-html[data-whatinput=keyboard] .dnb-drawer-list__option--selected .dnb-drawer-list__option__item .dnb-anchor:focus {
+html[data-whatinput=keyboard] .dnb-drawer-list__option--selected .dnb-drawer-list__option__item .dnb-anchor:focus-visible {
   --border-color: var(--color-white);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);

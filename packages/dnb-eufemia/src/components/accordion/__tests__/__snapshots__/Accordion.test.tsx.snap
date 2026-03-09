@@ -336,44 +336,46 @@ exports[`Accordion scss have to match default theme snapshot 1`] = `
     --ui-accordion-expanded-color
   );
 }
-html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:focus-visible[disabled] {
+.dnb-accordion__header--outlined:focus-visible[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:focus-visible:not([disabled]) {
+.dnb-accordion__header--outlined:focus-visible:not([disabled]) {
   --accordion-border-width: 0.125rem;
   --ui-accordion-border-color: var(--color-emerald-green);
   --ui-accordion-expanded-border-color: var(--color-emerald-green);
   --ui-accordion-expanded-color: var(--color-emerald-green);
   --ui-accordion-expanded-background: var(--color-mint-green);
 }
-html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:hover[disabled] {
+@media (hover: hover) {
+  .dnb-accordion__header--outlined:hover[disabled] {
+    cursor: not-allowed;
+  }
+  .dnb-accordion__header--outlined:hover:not([disabled]) {
+    --accordion-border-width: 0.125rem;
+    --ui-accordion-color: var(--color-emerald-green);
+    --ui-accordion-background: var(--color-white);
+    --ui-accordion-border-color: var(--color-emerald-green);
+    --ui-accordion-description-color: var(--color-black-55);
+    --ui-accordion-border-inset: ;
+    --ui-accordion-expanded-color: var(--ui-accordion-color);
+    --ui-accordion-expanded-background: var(--ui-accordion-background);
+    --ui-accordion-expanded-border-color: var(
+      --ui-accordion-border-color
+    );
+    --ui-accordion-expanded-description-color: var(
+      --ui-accordion-description-color
+    );
+    --ui-accordion-after-click-color: var(--color-white);
+    --ui-accordion-after-click-background: var(--color-sea-green);
+    --ui-accordion-after-click-border-color: var(--color-sea-green);
+    --ui-accordion-after-click-description-color: var(--color-white);
+    z-index: 1;
+  }
+}
+.dnb-accordion__header--outlined:active[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:hover:not([disabled]) {
-  --accordion-border-width: 0.125rem;
-  --ui-accordion-color: var(--color-emerald-green);
-  --ui-accordion-background: var(--color-white);
-  --ui-accordion-border-color: var(--color-emerald-green);
-  --ui-accordion-description-color: var(--color-black-55);
-  --ui-accordion-border-inset: ;
-  --ui-accordion-expanded-color: var(--ui-accordion-color);
-  --ui-accordion-expanded-background: var(--ui-accordion-background);
-  --ui-accordion-expanded-border-color: var(
-    --ui-accordion-border-color
-  );
-  --ui-accordion-expanded-description-color: var(
-    --ui-accordion-description-color
-  );
-  --ui-accordion-after-click-color: var(--color-white);
-  --ui-accordion-after-click-background: var(--color-sea-green);
-  --ui-accordion-after-click-border-color: var(--color-sea-green);
-  --ui-accordion-after-click-description-color: var(--color-white);
-  z-index: 1;
-}
-.dnb-accordion__header--outlined:active[disabled], html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:active[disabled] {
-  cursor: not-allowed;
-}
-.dnb-accordion__header--outlined:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:active:not([disabled]) {
+.dnb-accordion__header--outlined:active:not([disabled]) {
   --accordion-border-width: 0.0625rem;
   --ui-accordion-background: var(--color-pistachio);
   --ui-accordion-border-inset: inset;
@@ -386,25 +388,27 @@ html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:hover:not([di
   --ui-accordion-border-color: var(--color-pistachio);
   --ui-accordion-description-color: var(--color-black-55);
 }
-html:not([data-whatintent=touch]) .dnb-accordion__header--filled:hover[disabled] {
+@media (hover: hover) {
+  .dnb-accordion__header--filled:hover[disabled] {
+    cursor: not-allowed;
+  }
+  .dnb-accordion__header--filled:hover:not([disabled]) {
+    --ui-accordion-background: var(--color-white);
+  }
+}
+.dnb-accordion__header--filled:active[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-accordion__header--filled:hover:not([disabled]) {
-  --ui-accordion-background: var(--color-white);
-}
-.dnb-accordion__header--filled:active[disabled], html:not([data-whatintent=touch]) .dnb-accordion__header--filled:active[disabled] {
-  cursor: not-allowed;
-}
-.dnb-accordion__header--filled:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-accordion__header--filled:active:not([disabled]) {
+.dnb-accordion__header--filled:active:not([disabled]) {
   --ui-accordion-color: var(--color-white);
   --ui-accordion-background: var(--color-sea-green);
   --ui-accordion-border-color: var(--color-sea-green);
   --ui-accordion-description-color: ar(--color-white);
 }
-html:not([data-whatintent=touch]) .dnb-accordion__header--filled:focus-visible[disabled] {
+.dnb-accordion__header--filled:focus-visible[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-accordion__header--filled:focus-visible:not([disabled]) {
+.dnb-accordion__header--filled:focus-visible:not([disabled]) {
   --ui-accordion-border-color: var(--color-sea-green);
 }
 .dnb-accordion__header {

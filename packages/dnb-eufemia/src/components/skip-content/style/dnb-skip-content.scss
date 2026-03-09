@@ -14,7 +14,7 @@
     margin: 1rem 0;
   }
 
-  &__focus:focus {
+  &__focus:focus-visible {
     position: relative;
 
     &::before {

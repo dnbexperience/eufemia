@@ -36,7 +36,7 @@
       display: flex;
       flex: 0 1 auto;
 
-      &:focus {
+      &:focus-visible {
         @include utilities.focusRing();
         border-radius: 0.5rem;
       }
@@ -229,7 +229,7 @@
     }
 
     /* stylelint-disable no-descending-specificity */
-    &:focus {
+    &:focus-visible {
       @include button-mixins.buttonFocusRing();
       overflow: visible;
 
@@ -283,16 +283,14 @@
 
     will-change: padding;
     transition: padding 1s var(--easing-default);
-  }
 
-  &__button__snap:has(.dnb-badge) {
-    margin-right: -0.5rem;
-  }
+    &:has(.dnb-badge) {
+      margin-right: -0.5rem;
+    }
 
-  html[data-whatinput='keyboard'] &__button__snap {
     &:first-of-type.focus {
       // add space so the focus ring is visible within our overflow
-      .dnb-tabs__button:focus {
+      .dnb-tabs__button:focus-visible {
         margin-left: 0.5rem;
       }
     }
@@ -300,7 +298,7 @@
     &:last-of-type.focus {
       // add space so the focus ring is visible within our overflow
       /* stylelint-disable */
-      .dnb-tabs__button:focus {
+      .dnb-tabs__button:focus-visible {
         margin-right: 0.5rem;
       }
       /* stylelint-enable */
@@ -338,7 +336,7 @@
   }
 
   // Make focus ring when keyboard is used to navigate
-  &__content:focus {
+  &__content:focus-visible {
     position: relative;
 
     // Use "before" (instead of after) in order to not collide with Section styles
