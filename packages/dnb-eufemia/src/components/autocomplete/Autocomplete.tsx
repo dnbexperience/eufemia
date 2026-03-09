@@ -6,7 +6,6 @@ import React, {
   useState,
   useRef,
   useEffect,
-  useLayoutEffect,
   useContext,
   useCallback,
 } from 'react'
@@ -39,6 +38,7 @@ import {
 import { IS_MAC, debounce, hasSelectedText } from '../../shared/helpers'
 import useId from '../../shared/helpers/useId'
 import useMountEffect from '../../shared/helpers/useMountEffect'
+import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -2267,20 +2267,20 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   }, [props.value, revalidateSelectedItem, revalidateInputValue])
 
   // Cleanup timeouts on unmount
-  useEffect(() => {
+  useMountEffect(() => {
     return () => {
       clearTimeout(_selectTimeout.current)
       clearTimeout(_blurTimeout.current)
       clearTimeout(_focusTimeout.current)
       clearTimeout(showAllTimeoutRef.current)
     }
-  }, [])
+  })
 
   // Handle selectAll: re-apply input text selection after each render
   // during the focus cascade. The Input's setTimeout-based selectAll
   // is insufficient because cascading re-renders in the functional
   // component reset the controlled input's selection.
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (selectAllActiveRef.current && _refInput.current) {
       try {
         _refInput.current.select()
