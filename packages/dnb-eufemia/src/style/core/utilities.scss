@@ -182,9 +182,6 @@
 }
 
 @mixin scrollbarAppearance() {
-  // older iOS safari
-  -webkit-overflow-scrolling: touch;
-
   // NB: We have used "scrollbar-track-width: auto;" before,
   // first, it only effects Firefox.
   // But "thin" changes the behavior in Windows,
