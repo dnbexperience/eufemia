@@ -54,7 +54,9 @@ import Input, {
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 import DrawerList from '../../fragments/drawer-list/DrawerList'
 import { ItemContent } from '../../fragments/drawer-list/DrawerListItem'
-import DrawerListContext from '../../fragments/drawer-list/DrawerListContext'
+import DrawerListContext, {
+  DrawerListContextProps,
+} from '../../fragments/drawer-list/DrawerListContext'
 import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
 import {
   parseContentTitle,
@@ -510,7 +512,11 @@ function getCurrentDataTitle(
 }
 
 function AutocompleteInstance(ownProps: AutocompleteAllProps) {
-  const context = useContext(DrawerListContext)
+  const context = useContext<
+    DrawerListContextProps & {
+      Autocomplete: Record<string, unknown>
+    }
+  >(DrawerListContext)
   const drawerList = context.drawerList
 
   // Filter out undefined values to mimic React class component defaultProps behavior.
@@ -526,10 +532,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     autocompleteDefaultProps,
     context.getTranslation?.(ownProps)?.Autocomplete,
     pickFormElementProps(context?.formElement),
-    (context as Record<string, unknown>)?.Autocomplete as Record<
-      string,
-      unknown
-    >
+    context?.Autocomplete
   )
 
   const {
@@ -2523,8 +2526,8 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
                 clear={showClearButton}
                 onClear={onClear}
                 ref={_refInput}
-                {...(inputParams as Record<string, unknown>)}
-                {...(statusProps as Record<string, unknown>)}
+                {...inputParams}
+                {...statusProps}
               />
             )}
 
@@ -2577,7 +2580,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
             <Suffix
               className="dnb-autocomplete__suffix"
               id={id + '-suffix'}
-              context={props as Record<string, unknown>}
+              context={props}
             >
               {suffix}
             </Suffix>
