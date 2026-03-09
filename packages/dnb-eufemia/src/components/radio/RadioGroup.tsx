@@ -38,7 +38,6 @@ export type RadioGroupLabelPosition = 'left' | 'right'
 export type RadioGroupSize = 'default' | 'medium' | 'large'
 export type RadioGroupSuffix = string | React.ReactNode
 export type RadioGroupLayoutDirection = 'column' | 'row'
-export type RadioGroupAttributes = string | Record<string, unknown>
 export type RadioGroupChildren = string | React.ReactNode
 
 export type RadioGroupChangeEvent = {
@@ -66,7 +65,6 @@ export type RadioGroupProps = {
   vertical?: boolean
   layoutDirection?: RadioGroupLayoutDirection
   value?: string
-  attributes?: RadioGroupAttributes
   style?: React.CSSProperties
   className?: string
   children?: RadioGroupChildren
@@ -114,7 +112,6 @@ export default class RadioGroup extends React.PureComponent<
     vertical: null,
     layoutDirection: 'row',
     value: undefined,
-    attributes: null,
 
     className: null,
     children: null,
