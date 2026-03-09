@@ -52,8 +52,6 @@ export const runFactory = async (
 
   // do not use 'node-sass-json-importer' here! Every file needs the same core imports over and over again.
 
-  const dest = src.replace('./src/', '').split('/**/')[0]
-
   const sassTransform = transformSass()
   const innerPathsTransform = transformPaths(
     '../../../../assets/',
