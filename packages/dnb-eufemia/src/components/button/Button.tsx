@@ -255,7 +255,13 @@ function Button({ ref, ...restProps }: ButtonProps) {
     [ref]
   )
 
-  const _id = useId(restProps.id)
+  // Generate an id only when explicitly provided or when status/tooltip
+  // needs one for aria linking – mirrors the original class component logic.
+  const generatedId = useId(restProps.id)
+  const _id =
+    restProps.id || restProps.status || restProps.tooltip
+      ? generatedId
+      : undefined
 
   const [afterContent, setAfterContent] = useState<React.ReactNode | null>(
     null
