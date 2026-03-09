@@ -74,7 +74,6 @@ html:not([data-visual-test]) .dnb-tabs__tabs__tablist {
   scroll-behavior: smooth;
 }
 .dnb-tabs__tabs__tablist {
-  -webkit-overflow-scrolling: touch;
   scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;
 }
 @supports not (scrollbar-color: auto) {
