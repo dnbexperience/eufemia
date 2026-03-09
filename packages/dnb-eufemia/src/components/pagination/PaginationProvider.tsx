@@ -14,10 +14,34 @@ import {
 } from './PaginationHelpers'
 
 import PaginationContext from './PaginationContext'
+import type { PaginationProps } from './Pagination'
+
+export interface PaginationProviderProps extends PaginationProps {
+  rerender?: { current?: (...args: any[]) => any }
+  store?: { current?: any }
+  useMarkerOnly?: boolean
+  internalContent?: any
+  [key: string]: unknown
+}
+
+interface PaginationProviderState {
+  items: any[]
+  isLoading: boolean
+  currentPageInternal?: number
+  startupPage?: number
+  pageCountInternal?: number
+  lowerPage?: number
+  upperPage?: number
+  hasEndedInfinity?: boolean
+  parallelLoadCount?: number
+  minTime?: number
+  placeMakerBeforeContent?: boolean
+  [key: string]: unknown
+}
 
 export default class PaginationProvider extends React.PureComponent<
-  any,
-  any
+  PaginationProviderProps,
+  PaginationProviderState
 > {
   static contextType = Context
   context!: React.ContextType<typeof Context>
@@ -177,7 +201,7 @@ export default class PaginationProvider extends React.PureComponent<
     internalContent: content,
   }: any) {
     const { internalContent, currentPage } = this.props
-    const currentPageInternal = parseFloat(currentPage)
+    const currentPageInternal = parseFloat(String(currentPage))
     if (currentPage !== current) {
       this.setState({ currentPageInternal })
       this.updatePageContent(currentPageInternal)
@@ -247,7 +271,8 @@ export default class PaginationProvider extends React.PureComponent<
   // like resetContentHandler in DerivedState
   resetInfinity = (pageNumber: number = this.state.startupPage) => {
     const lowerPage = pageNumber
-    const upperPage = pageNumber + parseFloat(this.props.startupCount) - 1
+    const upperPage =
+      pageNumber + parseFloat(String(this.props.startupCount)) - 1
     const currentPageInternal = pageNumber
 
     this.setState({
@@ -390,7 +415,7 @@ export default class PaginationProvider extends React.PureComponent<
           },
         }}
       >
-        {children}
+        {children as React.ReactNode}
       </PaginationContext>
     )
   }
