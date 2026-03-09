@@ -7,11 +7,11 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useLayoutEffect,
   useMemo,
   useRef,
   useState,
 } from 'react'
+import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import Context from '../../shared/Context'
 import { dispatchCustomElementEvent } from '../../shared/component-helper'
 import {
@@ -21,7 +21,6 @@ import {
 
 import PaginationContext from './PaginationContext'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const PaginationProvider = (props: any) => {
   const sharedContext = useContext(Context)
 
@@ -262,7 +261,6 @@ const PaginationProvider = (props: any) => {
       setHasEndedInfinity(false)
     },
     // Uses propsRef to stay stable — registered externally via resetPaginationHandler on mount only.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
 
@@ -419,9 +417,9 @@ const PaginationProvider = (props: any) => {
   ])
 
   // ---- Run pending callbacks after state commits ----
-  // Use useLayoutEffect so callbacks fire before paint,
+  // Use useIsomorphicLayoutEffect so callbacks fire before paint,
   // matching the class component's setState callback timing.
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (pendingCallOnPageUpdateRef.current) {
       pendingCallOnPageUpdateRef.current = false
       callOnPageUpdate()
@@ -439,7 +437,7 @@ const PaginationProvider = (props: any) => {
   })
 
   // ---- Sync items prop ----
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (typeof props.items === 'string' && props.items[0] === '[') {
       setItemsState(JSON.parse(props.items))
     } else if (Array.isArray(props.items)) {
@@ -448,7 +446,7 @@ const PaginationProvider = (props: any) => {
   }, [props.items])
 
   // ---- Sync currentPage prop to currentPageInternal ----
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (
       props.currentPage != null &&
       typeof currentPageInternalRef.current === 'undefined'
@@ -458,14 +456,14 @@ const PaginationProvider = (props: any) => {
   }, [props.currentPage])
 
   // ---- Handle resetContentHandler prop ----
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (props.resetContentHandler === true) {
       setItemsState([])
     }
   }, [props.resetContentHandler])
 
   // ---- Handle resetPaginationHandler prop for useMarkerOnly ----
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (props.useMarkerOnly && props.resetPaginationHandler === true) {
       setLowerPage(undefined)
       setUpperPage(undefined)
@@ -473,7 +471,7 @@ const PaginationProvider = (props: any) => {
   }, [props.useMarkerOnly, props.resetPaginationHandler])
 
   // ---- Handle useMarkerOnly lowerPage/upperPage ----
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (props.useMarkerOnly) {
       const sp =
         startupPageRef.current || parseFloat(props.currentPage) || 1
@@ -518,9 +516,9 @@ const PaginationProvider = (props: any) => {
   }, [props.rerender, setContent])
 
   // ---- componentDidMount ----
-  // Use useLayoutEffect to populate initial content before paint,
+  // Use useIsomorphicLayoutEffect to populate initial content before paint,
   // matching the class component's componentDidMount timing.
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const {
       setContentHandler,
       resetContentHandler,
@@ -560,12 +558,11 @@ const PaginationProvider = (props: any) => {
       clearTimeout(callOnPageUpdateTimeoutRef.current)
       isMountedRef.current = false
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // ---- componentDidUpdate equivalent ----
-  // Use useLayoutEffect to apply page/content changes before paint.
-  useLayoutEffect(() => {
+  // Use useIsomorphicLayoutEffect to apply page/content changes before paint.
+  useIsomorphicLayoutEffect(() => {
     const prevCurrentPage = prevPropsRef.current.currentPage
     const prevInternalContent = prevPropsRef.current.internalContent
 
