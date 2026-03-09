@@ -3,8 +3,8 @@
  * https://github.com/text-mask/text-mask/tree/master/core/src
  */
 
-const isAndroid =
-  typeof navigator !== 'undefined' && /Android/i.test(navigator.userAgent)
+import { isAndroid } from '../../../shared/helpers'
+
 const defer: (cb: () => void) => void =
   typeof requestAnimationFrame !== 'undefined'
     ? (cb) => {
@@ -29,7 +29,7 @@ export function safeSetSelection(
         //
       }
     }
-    if (isAndroid) {
+    if (isAndroid()) {
       defer(select)
     } else {
       select()
