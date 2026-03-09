@@ -22,7 +22,7 @@ export const VippsWalletButtonExample = () => (
 export const VippsWalletButtonPendingExample = () => (
   <ComponentBox scope={{ VippsWalletButton }}>
     <VippsWalletButton
-    pending
+      pending
       onClick={() => {
         console.log('VippsWalletButton clicked')
       }}
