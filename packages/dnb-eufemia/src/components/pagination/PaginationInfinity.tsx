@@ -20,7 +20,11 @@ import {
 } from './PaginationHelpers'
 import PaginationContext from './PaginationContext'
 
-export default class InfinityScroller extends React.PureComponent<any> {
+export interface InfinityScrollerProps {
+  children?: React.ReactNode
+}
+
+export default class InfinityScroller extends React.PureComponent<InfinityScrollerProps> {
   static _supportsSpacingProps = true
   static contextType = PaginationContext
   context!: React.ContextType<typeof PaginationContext>
@@ -527,7 +531,23 @@ class InteractionMarker extends React.PureComponent<any, any> {
   }
 }
 
-export class InfinityLoadButton extends React.PureComponent<any, any> {
+export interface InfinityLoadButtonProps {
+  element?: React.ElementType
+  pressedElement?: React.ReactNode
+  icon?: string
+  text?: string
+  iconPosition?: 'left' | 'right' | 'top'
+  onClick?: (...args: any[]) => any
+}
+
+interface InfinityLoadButtonState {
+  isPressed: boolean
+}
+
+export class InfinityLoadButton extends React.PureComponent<
+  InfinityLoadButtonProps,
+  InfinityLoadButtonState
+> {
   static contextType = Context
   context!: React.ContextType<typeof Context>
   static defaultProps = {
