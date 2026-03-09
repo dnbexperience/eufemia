@@ -3,18 +3,11 @@
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import React, {
-  useCallback,
-  useContext,
-  useRef,
-  useState,
-  useMemo,
-} from 'react'
+import React, { useCallback, useContext, useRef, useState } from 'react'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
 import {
   warn,
-  makeUniqueId,
   removeUndefinedProps,
   validateDOMAttributes,
   processChildren,
@@ -22,6 +15,7 @@ import {
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
+import useId from '../../shared/helpers/useId'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
@@ -261,13 +255,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
     [ref]
   )
 
-  const _id = useMemo(
-    () =>
-      restProps.id ||
-      ((restProps.status || restProps.tooltip) && makeUniqueId()),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
+  const _id = useId(restProps.id)
 
   const [afterContent, setAfterContent] = useState<React.ReactNode | null>(
     null

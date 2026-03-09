@@ -185,6 +185,7 @@ describe('Button component', () => {
 
     expect(attributes).toEqual([
       'class',
+      'id',
       'disabled',
       'type',
       'aria-disabled',
