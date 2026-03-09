@@ -3,11 +3,10 @@
  *
  */
 
-import gulp from 'gulp'
-import transform from 'gulp-transform'
 import { log } from '../../lib'
 import path from 'path'
 import fs from 'fs-extra'
+import globby from 'globby'
 import { create } from 'tar'
 import packpath from 'packpath'
 
@@ -28,97 +27,70 @@ export default async function makeResourcesPackage() {
   }
 }
 
-const copyStylePackages = (
+const transformPaths = (from, to) => (content) =>
+  content.replace(new RegExp(from, 'g'), to)
+
+const copyStylePackages = async (
   src = './build/style/**/*.css',
   { returnResult = false } = {}
-) =>
-  new Promise((resolve, reject) => {
-    log.start('> PrePublish: copy style resources')
-    try {
-      gulp
-        .src(src, {
-          cwd: ROOT_DIR,
-        })
-        .pipe(transform('utf8', transformPaths('/assets/', '/resources/')))
-        .pipe(
-          returnResult
-            ? transform('utf8', (result) => resolve(result))
-            : gulp.dest('./dnb-ui-resources/style', {
-                cwd: ROOT_DIR,
-              })
-        )
-        .on('end', resolve)
-        .on('error', reject)
-    } catch (e) {
-      reject(e)
-    }
-  })
+) => {
+  log.start('> PrePublish: copy style resources')
 
-const copyFonts = (
+  const files = await globby(src, { cwd: ROOT_DIR })
+
+  for (const filePath of files) {
+    const absolutePath = path.resolve(ROOT_DIR, filePath)
+    const content = await fs.readFile(absolutePath, 'utf-8')
+    const transformed = transformPaths('/assets/', '/resources/')(content)
+
+    if (returnResult) {
+      return transformed
+    }
+
+    const relativePath = path.relative(
+      path.resolve(ROOT_DIR, 'build/style'),
+      absolutePath
+    )
+    const destPath = path.resolve(
+      ROOT_DIR,
+      'dnb-ui-resources/style',
+      relativePath
+    )
+    await fs.outputFile(destPath, transformed)
+  }
+}
+
+const copyFiles = async (src, destDir) => {
+  const files = await globby(src, { cwd: ROOT_DIR })
+
+  for (const filePath of files) {
+    const absolutePath = path.resolve(ROOT_DIR, filePath)
+    const basename = path.basename(absolutePath)
+    const destPath = path.resolve(ROOT_DIR, destDir, basename)
+    await fs.copy(absolutePath, destPath)
+  }
+}
+
+const copyFonts = async (
   src = ['./assets/fonts/dnb/*', '!./assets/fonts/dnb/*.zip']
-) =>
-  new Promise((resolve, reject) => {
-    log.start('> PrePublish: copy fonts resources')
-    try {
-      gulp
-        .src(src, {
-          cwd: ROOT_DIR,
-        })
-        .pipe(
-          gulp.dest('./dnb-ui-resources/resources/fonts', {
-            cwd: ROOT_DIR,
-          })
-        )
-        .on('end', resolve)
-        .on('error', reject)
-    } catch (e) {
-      reject(e)
-    }
-  })
+) => {
+  log.start('> PrePublish: copy fonts resources')
+  await copyFiles(src, 'dnb-ui-resources/resources/fonts')
+}
 
-const copyBrowser = (
+const copyBrowser = async (
   src = ['./assets/browser/*', '!./assets/browser/*.zip']
-) =>
-  new Promise((resolve, reject) => {
-    log.start('> PrePublish: copy browser resources')
-    try {
-      gulp
-        .src(src, {
-          cwd: ROOT_DIR,
-        })
-        .pipe(
-          gulp.dest('./dnb-ui-resources/resources/browser', {
-            cwd: ROOT_DIR,
-          })
-        )
-        .on('end', resolve)
-        .on('error', reject)
-    } catch (e) {
-      reject(e)
-    }
-  })
+) => {
+  log.start('> PrePublish: copy browser resources')
+  await copyFiles(src, 'dnb-ui-resources/resources/browser')
+}
 
-const copyUMD = (
+const copyUMD = async (
   src = ['./build/umd/*', '../../node_modules/react/umd/*']
-) =>
-  new Promise((resolve, reject) => {
-    log.start('> PrePublish: copy UMD resources')
-    try {
-      gulp
-        .src(src, {
-          cwd: ROOT_DIR,
-        })
-        .pipe(
-          gulp.dest('./dnb-ui-resources/umd', {
-            cwd: ROOT_DIR,
-          })
-        )
-        .on('end', resolve)
-        .on('error', reject)
-    } catch (e) {
-      reject(e)
-    }
-  })
+) => {
+  log.start('> PrePublish: copy UMD resources')
+  await copyFiles(src, 'dnb-ui-resources/umd')
+}
 
 const createReadMe = async () => {
   log.start('> PrePublish: write README.md to resources')
@@ -159,8 +131,5 @@ const cleanup = async () => {
   log.start('> PrePublish: cleanup resources')
   await fs.remove(path.resolve(__dirname, '../../../dnb-ui-resources'))
 }
-
-const transformPaths = (from, to) => (content) =>
-  content.replace(new RegExp(from, 'g'), to)
 
 makeResourcesPackage()
