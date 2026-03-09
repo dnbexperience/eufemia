@@ -3,17 +3,15 @@
  *
  */
 
-import gulp from 'gulp'
-import rename from 'gulp-rename'
-import transform from 'gulp-transform'
+import fs, { promises } from 'fs'
+import path from 'path'
+import globby from 'globby'
 import prettier from 'prettier'
 import stylelint from 'stylelint'
 import packpath from 'packpath'
 import { log } from '../../lib'
 import { transformSass } from './transformUtils'
 import { convertVariablesToTailwindFormat } from './tailwindTransform'
-import fs, { promises } from 'fs'
-import path from 'path'
 
 const prettierrc = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')
@@ -120,67 +118,44 @@ type RunFactoryOptions = {
   glob?: string
 }
 
-export const runFactory = ({
+export const runFactory = async ({
   returnResult = false,
   glob = './src/style/themes/*/properties-js.scss',
-}: RunFactoryOptions = {}) =>
-  new Promise<string | undefined>((resolve, reject) => {
-    log.start('> PrePublish: transforming style modules')
-    try {
-      const gulpTransform = transform as any
-      // Generate JS files
-      gulp
-        .src([glob], {
-          cwd: ROOT_DIR,
-        })
-        .pipe(gulpTransform('utf8', transformSass()))
-        .pipe(gulpTransform('utf8', transformModulesContent))
-        .pipe(
-          rename({
-            basename: 'properties',
-            extname: '.js',
-          })
-        )
-        .pipe(
-          returnResult
-            ? gulpTransform('utf8', (result: string) => resolve(result))
-            : gulp.dest('./src/style/themes/', {
-                overwrite: true,
-                cwd: ROOT_DIR,
-              })
-        )
-        .on('end', () => {
-          // Generate CSS files
-          gulp
-            .src([glob], {
-              cwd: ROOT_DIR,
-            })
-            .pipe(gulpTransform('utf8', transformSass()))
-            .pipe(gulpTransform('utf8', transformModulesContentCSS))
-            .pipe(
-              rename({
-                basename: 'properties-tailwind',
-                extname: '.css',
-              })
-            )
-            .pipe(
-              returnResult
-                ? gulpTransform('utf8', (result: string) =>
-                    resolve(result)
-                  )
-                : gulp.dest('./src/style/themes/', {
-                    overwrite: true,
-                    cwd: ROOT_DIR,
-                  })
-            )
-            .on('end', () => resolve(undefined))
-            .on('error', reject)
-        })
-        .on('error', reject)
-    } catch (e) {
-      reject(e)
+}: RunFactoryOptions = {}): Promise<string | undefined> => {
+  log.start('> PrePublish: transforming style modules')
+
+  const sassTransform = transformSass()
+  const files = await globby([glob], { cwd: ROOT_DIR })
+
+  for (const filePath of files) {
+    const absolutePath = path.resolve(ROOT_DIR, filePath)
+    const content = fs.readFileSync(absolutePath, 'utf-8')
+
+    // Transform SASS to CSS
+    const cssContent = sassTransform(content, { path: absolutePath })
+
+    // Generate JS properties file
+    const jsResult = await transformModulesContent(cssContent)
+    if (returnResult) {
+      return jsResult
     }
-  })
+
+    const parsed = path.parse(absolutePath)
+    const jsDestPath = path.resolve(parsed.dir, 'properties.js')
+    fs.writeFileSync(jsDestPath, jsResult)
+
+    // Generate CSS Tailwind properties file
+    const cssResult = await transformModulesContentCSS(cssContent)
+    if (returnResult) {
+      return cssResult
+    }
+
+    const cssDestPath = path.resolve(parsed.dir, 'properties-tailwind.css')
+    fs.writeFileSync(cssDestPath, cssResult)
+  }
+
+  return undefined
+}
 
 type FigmaAlias = {
   targetVariableName: string

@@ -5,9 +5,6 @@
 
 import fs from 'fs-extra'
 import path from 'path'
-import gulp from 'gulp'
-import rename from 'gulp-rename'
-import transform from 'gulp-transform'
 import { transform as svgr } from '@svgr/core'
 import prettier from 'prettier'
 import globby from 'globby'
@@ -146,24 +143,28 @@ const transformSvg = async ({
   }
 }
 
-const transformSvgToReact = ({ srcPath, destPath }) => {
-  return new Promise((resolve, reject) => {
-    try {
-      gulp
-        .src(srcPath, { cwd: ROOT_DIR })
-        .pipe(transform('utf8' as gulp.Encoding, transformToJsx))
-        .pipe(
-          rename((path) => {
-            path.extname = '.tsx'
-          })
-        )
-        .pipe(gulp.dest(destPath, { cwd: ROOT_DIR }))
-        .on('end', resolve)
-        .on('error', reject)
-    } catch (e) {
-      reject(e)
+const transformSvgToReact = async ({ srcPath, destPath }) => {
+  const files = await globby(srcPath, { cwd: ROOT_DIR })
+
+  const globBase = path.resolve(ROOT_DIR, srcPath.split('*')[0])
+
+  for (const filePath of files) {
+    const absolutePath = path.resolve(ROOT_DIR, filePath)
+    const content = await fs.readFile(absolutePath, 'utf-8')
+    const result = await transformToJsx(content, { path: absolutePath })
+
+    if (result) {
+      const relativePath = path.relative(globBase, absolutePath)
+      const parsed = path.parse(relativePath)
+      const destFile = path.resolve(
+        ROOT_DIR,
+        destPath,
+        parsed.dir,
+        parsed.name + '.tsx'
+      )
+      await fs.outputFile(destFile, result)
     }
-  })
+  }
 }
 
 const transformToJsx = (content, file): PromiseLike<string> => {

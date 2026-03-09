@@ -3,16 +3,13 @@
  *
  */
 
-import gulp from 'gulp'
 import sass from 'sass'
-import clone from 'gulp-clone'
-import rename from 'gulp-rename'
-import transform from 'gulp-transform'
+import fs from 'fs-extra'
+import path from 'path'
 import { log } from '../../lib'
 import globby from 'globby'
 import { asyncForEach } from '../../tools/index'
 import packpath from 'packpath'
-import { PassThrough, finished } from 'stream'
 import {
   transformSass,
   transformPaths,
@@ -28,33 +25,6 @@ import { getFontBasePath } from '../../../src/plugins/postcss-font-url-rewrite/c
 import postcssConfig from '../config/postcssConfig'
 
 const ROOT_DIR = packpath.self()
-
-const mergeStreams = (...streams: Array<NodeJS.ReadWriteStream>) => {
-  const output = new PassThrough({ objectMode: true })
-  let remaining = streams.length
-
-  if (remaining === 0) {
-    output.end()
-    return output
-  }
-
-  streams.forEach((stream) => {
-    stream.on('error', (error) => output.emit('error', error))
-    stream.pipe(output, { end: false })
-    finished(stream, (error) => {
-      if (error) {
-        output.emit('error', error)
-        return
-      }
-      remaining -= 1
-      if (remaining === 0) {
-        output.end()
-      }
-    })
-  })
-
-  return output
-}
 
 export default async function makeMainStyle() {
   // info: use this approach to process files because:
@@ -88,115 +58,103 @@ type RunFactoryOptions = {
   returnFiles?: boolean
 }
 
-export const runFactory = (
+export const runFactory = async (
   src: string,
   { returnResult = false, returnFiles = false }: RunFactoryOptions = {}
-) =>
-  new Promise<string[] | undefined>((resolve, reject) => {
-    log.start('> PrePublish: transforming main style')
+): Promise<string[] | undefined> => {
+  log.start('> PrePublish: transforming main style')
 
-    try {
-      const source = gulp
-        .src(src, {
-          cwd: ROOT_DIR,
-        })
-        .pipe(transform('utf8', transformSass()))
-        .pipe(
-          rename({
-            extname: '.css',
-          })
-        )
+  const sassTransform = transformSass()
+  const postcssTransform = transformPostcss(postcssConfig({ sass }))
+  const cssnanoTransform = transformCssnano({ reduceIdents: false })
+  const pathsTransform = transformPaths('../../assets/', '../assets/')
 
-      const base = source
-        .pipe(clone())
-        .pipe(transform('utf8', transformPostcss(postcssConfig({ sass }))))
+  const files = await globby(src, { cwd: ROOT_DIR })
 
-      const baseMin = base
-        .pipe(clone())
-        .pipe(transform('utf8', transformCssnano({ reduceIdents: false })))
-        .pipe(rename({ suffix: '.min' }))
+  const collectedEntries: Array<{ path: string; result: string }> = []
 
-      const streams = [base, baseMin]
+  for (const filePath of files) {
+    const absolutePath = path.resolve(ROOT_DIR, filePath)
+    const content = await fs.readFile(absolutePath, 'utf-8')
 
-      // Create a second bundle with scoped styles
-      if (enableBuildStyleScope()) {
-        const scoped = source
-          .pipe(clone())
-          .pipe(
-            transform(
-              'utf8',
-              transformPostcss(
-                postcssConfig(
-                  { sass },
-                  {
-                    plugins: [
-                      postcssIsolatePlugin({
-                        verbose: true,
-                      }),
-                      postcssFontUrlRewritePlugin({
-                        basePath: getFontBasePath(),
-                        verbose: true,
-                      }),
-                    ],
-                  }
-                )
-              )
-            )
-          )
-          .pipe(rename({ suffix: '--isolated' }))
+    // Transform SASS → CSS
+    const cssContent = sassTransform(content, { path: absolutePath })
+    const cssPath = absolutePath.replace(/\.scss$/, '.css')
 
-        const scopedMin = scoped
-          .pipe(clone())
-          .pipe(
-            transform('utf8', transformCssnano({ reduceIdents: false }))
-          )
-          .pipe(rename({ suffix: '.min' }))
+    // Branch 1: base (postcss processed)
+    const baseContent = await postcssTransform(cssContent, {
+      path: cssPath,
+    })
+    const baseResult = pathsTransform(baseContent)
+    collectedEntries.push({ path: cssPath, result: baseResult })
 
-        streams.push(scoped, scopedMin)
-      }
+    // Branch 2: base minified
+    const baseMinContent = await cssnanoTransform(baseContent, {
+      path: cssPath,
+    })
+    const minPath = cssPath.replace(/\.css$/, '.min.css')
+    const baseMinResult = pathsTransform(baseMinContent)
+    collectedEntries.push({ path: minPath, result: baseMinResult })
 
-      const stream = mergeStreams(...streams)
-
-      const collectedFiles = []
-      const collectedResults = []
-      const collectedEntries = []
-
-      const collector = stream
-        .pipe(
-          transform('utf8', transformPaths('../../assets/', '../assets/'))
-        )
-        .pipe(
-          returnResult || returnFiles
-            ? transform('utf8', (result, file) => {
-                collectedEntries.push({ path: file.path, result })
-                return result
-              })
-            : gulp.dest('./build/style', {
-                cwd: ROOT_DIR,
-              })
-        )
-        .on('end', () => {
-          if (returnResult || returnFiles) {
-            const sorted = collectedEntries
-              .slice()
-              .sort((a, b) => a.path.localeCompare(b.path))
-            if (returnFiles) {
-              collectedFiles.push(...sorted.map((entry) => entry.path))
-              resolve(collectedFiles)
-            } else if (returnResult) {
-              collectedResults.push(...sorted.map((entry) => entry.result))
-              resolve(collectedResults)
-            }
-            return
+    // Branch 3 & 4: scoped styles (if enabled)
+    if (enableBuildStyleScope()) {
+      const scopedPostcssTransform = transformPostcss(
+        postcssConfig(
+          { sass },
+          {
+            plugins: [
+              postcssIsolatePlugin({
+                verbose: true,
+              }),
+              postcssFontUrlRewritePlugin({
+                basePath: getFontBasePath(),
+                verbose: true,
+              }),
+            ],
           }
-          resolve(undefined)
-        })
-        .on('error', reject)
+        )
+      )
 
-      if (returnResult || returnFiles) {
-        collector.on('data', () => {})
-      }
-    } catch (e) {
-      reject(e)
+      const scopedContent = await scopedPostcssTransform(cssContent, {
+        path: cssPath,
+      })
+      const scopedPath = cssPath.replace(/\.css$/, '--isolated.css')
+      const scopedResult = pathsTransform(scopedContent)
+      collectedEntries.push({ path: scopedPath, result: scopedResult })
+
+      const scopedMinContent = await cssnanoTransform(scopedContent, {
+        path: cssPath,
+      })
+      const scopedMinPath = cssPath.replace(/\.css$/, '--isolated.min.css')
+      const scopedMinResult = pathsTransform(scopedMinContent)
+      collectedEntries.push({
+        path: scopedMinPath,
+        result: scopedMinResult,
+      })
     }
-  })
+  }
+
+  const sorted = collectedEntries
+    .slice()
+    .sort((a, b) => a.path.localeCompare(b.path))
+
+  if (returnFiles) {
+    return sorted.map((entry) => entry.path)
+  }
+
+  if (returnResult) {
+    return sorted.map((entry) => entry.result)
+  }
+
+  // Write files to build/style
+  for (const entry of sorted) {
+    const relativePath = path.relative(
+      path.resolve(ROOT_DIR, 'src'),
+      entry.path
+    )
+    const destPath = path.resolve(ROOT_DIR, 'build', relativePath)
+    await fs.outputFile(destPath, entry.result)
+  }
+
+  return undefined
+}
