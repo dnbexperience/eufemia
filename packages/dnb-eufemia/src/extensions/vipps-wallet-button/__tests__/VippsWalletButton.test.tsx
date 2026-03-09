@@ -114,7 +114,7 @@ describe('VippsWalletButton', () => {
   })
 
   it('shows SubmitIndicator when pending is true', () => {
-    render(<VippsWalletButton pending />)
+    render(<VippsWalletButton pending={true} />)
 
     const indicator = document.querySelector(
       '.dnb-forms-submit-indicator--state-pending'
