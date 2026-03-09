@@ -6,6 +6,7 @@
  */
 
 import React from 'react'
+import useMountEffect from '../../shared/helpers/useMountEffect'
 import {
   warn,
   dispatchCustomElementEvent,
@@ -595,7 +596,7 @@ function ScrollToElement({
 }) {
   const elementRef = React.useRef<HTMLDivElement>(null)
 
-  React.useEffect(() => {
+  useMountEffect(() => {
     const elem = elementRef.current
     if (elem && typeof elem.scrollIntoView === 'function') {
       elem.scrollIntoView({
@@ -603,7 +604,7 @@ function ScrollToElement({
         behavior: 'smooth',
       })
     }
-  }, [])
+  })
 
   const Element = preparePageElement(pageElement || React.Fragment)
 
