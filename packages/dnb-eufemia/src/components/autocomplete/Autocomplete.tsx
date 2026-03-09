@@ -761,9 +761,11 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
   const focusInput = useCallback(() => {
     try {
-      _refInput.current.focus({
-        preventScroll: true,
-      })
+      if (_refInput.current) {
+        _refInput.current.focus({
+          preventScroll: true,
+        })
+      }
     } catch (e) {
       warn(e)
     }
@@ -2313,7 +2315,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   const inputParams = {
     className: 'dnb-autocomplete__input',
     id,
-    value: inputValue,
+    value: inputValue ?? '',
     placeholder: undefined,
     autoCapitalize: 'none',
     spellCheck: false,
