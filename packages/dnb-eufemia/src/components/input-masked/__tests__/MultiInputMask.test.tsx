@@ -13,10 +13,6 @@ import MultiInputMask, {
   MultiInputMaskProps,
 } from '../MultiInputMask'
 
-async function focusInput(input: Element) {
-  await userEvent.click(input)
-}
-
 const defaultProps: MultiInputMaskProps<'day' | 'month' | 'year'> = {
   inputs: [
     {
@@ -69,7 +65,7 @@ describe('MultiInputMask', () => {
       '.dnb-multi-input-mask__input'
     )[0] as HTMLInputElement
 
-    await focusInput(firstInput)
+    await userEvent.click(firstInput)
     await userEvent.keyboard('08122023')
 
     const [day, month, year] = Array.from(
@@ -201,7 +197,7 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    await focusInput(first)
+    await userEvent.click(first)
     await userEvent.keyboard('11223333')
 
     await waitFor(() => {
@@ -255,7 +251,7 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    await focusInput(first)
+    await userEvent.click(first)
     await userEvent.keyboard('fst')
 
     await waitFor(() => {
@@ -380,7 +376,7 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    await focusInput(first)
+    await userEvent.click(first)
     await userEvent.keyboard('1a')
 
     // With Maskito overwrite mode, unfilled positions show placeholder chars
@@ -518,7 +514,7 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    await focusInput(first)
+    await userEvent.click(first)
     expect(document.activeElement).toBe(first)
 
     await userEvent.keyboard('08')
@@ -541,7 +537,7 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    await focusInput(first)
+    await userEvent.click(first)
     await userEvent.keyboard('11223333')
 
     expect(document.activeElement).toBe(third)
@@ -568,7 +564,7 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    await focusInput(dayInput)
+    await userEvent.click(dayInput)
 
     await userEvent.keyboard('2211')
 
@@ -592,7 +588,7 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    await focusInput(first)
+    await userEvent.click(first)
     expect(document.activeElement).toBe(first)
 
     // Move forward enough times to reach second and then third
@@ -612,7 +608,7 @@ describe('MultiInputMask', () => {
     ) as HTMLInputElement[]
 
     // Focus day — onFocus selects all placeholder text
-    await focusInput(day)
+    await userEvent.click(day)
 
     // Type first digit — replaces selected placeholder, field not yet full
     await userEvent.keyboard('1')
@@ -635,9 +631,9 @@ describe('MultiInputMask', () => {
     ) as HTMLInputElement[]
 
     // Fill day (auto-advances to month), then move caret back to end of day
-    await focusInput(day)
+    await userEvent.click(day)
     await userEvent.keyboard('08')
-    await focusInput(day)
+    await userEvent.click(day)
     await userEvent.keyboard('{ArrowRight>2}')
 
     // Type one more digit — should carry into month as first char
@@ -657,7 +653,7 @@ describe('MultiInputMask', () => {
     ) as HTMLInputElement[]
 
     // Focus the month field while it is empty
-    await focusInput(month)
+    await userEvent.click(month)
     await userEvent.keyboard('{ArrowLeft}')
 
     expect(document.activeElement).toBe(month)
@@ -680,12 +676,12 @@ describe('MultiInputMask', () => {
     ) as HTMLInputElement[]
 
     // ArrowRight from start should enable navigating to next
-    await focusInput(first)
+    await userEvent.click(first)
     await userEvent.keyboard('{ArrowRight>2}')
     expect(document.activeElement).toBe(second)
 
     // From last: Backspace and ArrowLeft should land on previous field
-    await focusInput(third)
+    await userEvent.click(third)
     await userEvent.keyboard('{Backspace}{ArrowLeft}')
     expect(document.activeElement).toBe(second)
     // Caret is collapsed within the previous field
@@ -699,7 +695,7 @@ describe('MultiInputMask', () => {
       document.querySelectorAll('.dnb-multi-input-mask__input')
     ) as HTMLInputElement[]
 
-    await focusInput(first)
+    await userEvent.click(first)
 
     expect(document.activeElement).toBe(first)
 
@@ -784,13 +780,13 @@ describe('MultiInputMask', () => {
 
     const day = document.querySelector('input') as HTMLInputElement
 
-    await focusInput(day)
+    await userEvent.click(day)
     await userEvent.keyboard('11012024')
 
     expect(onFocus).toHaveBeenCalledTimes(1)
 
     await userEvent.click(document.body)
-    await focusInput(day)
+    await userEvent.click(day)
 
     expect(onFocus).toHaveBeenCalledTimes(2)
     expect(onFocus.mock.calls[1][0]).toEqual({
@@ -806,7 +802,7 @@ describe('MultiInputMask', () => {
 
     const day = document.querySelector('input') as HTMLInputElement
 
-    await focusInput(day)
+    await userEvent.click(day)
 
     expect(onBlur).toHaveBeenCalledTimes(0)
 
@@ -816,7 +812,7 @@ describe('MultiInputMask', () => {
       expect(onBlur).toHaveBeenCalledTimes(1)
     })
 
-    await focusInput(day)
+    await userEvent.click(day)
     await userEvent.keyboard('11012024')
 
     expect(onBlur).toHaveBeenCalledTimes(1)
@@ -1057,7 +1053,7 @@ describe('MultiInputMask', () => {
     ) as HTMLInputElement[]
 
     // Focus month; onFocus selects all placeholder text
-    await focusInput(month)
+    await userEvent.click(month)
     expect(month.selectionStart).toBe(0)
     expect(month.selectionEnd).toBe(month.value.length)
 

@@ -11,24 +11,6 @@ import FormHandler from '../../../Form/Handler/Handler'
 const no = nbNO['nb-NO'].Expiry
 const en = enGB['en-GB'].Expiry
 
-async function focusInput(input: Element) {
-  await userEvent.click(input)
-}
-
-async function focusAndKeyboard(input: Element, sequence: string) {
-  await focusInput(input)
-
-  const el = input as HTMLInputElement
-
-  if (/^\{[Bb]ackspace/.test(sequence)) {
-    el.setSelectionRange(el.value.length, el.value.length)
-  } else {
-    el.setSelectionRange(0, el.value.length)
-  }
-
-  await userEvent.keyboard(sequence)
-}
-
 describe('Field.Expiry', () => {
   it('should support size', () => {
     render(<Field.Expiry value="0835" size="large" />)
@@ -82,7 +64,8 @@ describe('Field.Expiry', () => {
 
     const input = document.querySelector('input') as HTMLInputElement
 
-    await focusAndKeyboard(input, '1235')
+    await userEvent.click(input)
+    await userEvent.keyboard('1235')
 
     await waitFor(() => {
       expect(onChange).toHaveBeenCalled()
@@ -175,8 +158,8 @@ describe('Field.Expiry', () => {
     expect(monthInput.value).toBe('08')
     expect(yearInput.value).toBe('35')
 
-    await focusAndKeyboard(monthInput, '{Backspace>2}12')
-    await focusAndKeyboard(yearInput, '{Backspace>2}24')
+    await userEvent.click(monthInput)
+    await userEvent.keyboard('{Backspace>2}1224')
 
     await waitFor(() => {
       expect(transformOut).toHaveBeenLastCalledWith('1224', {
@@ -448,7 +431,8 @@ describe('Field.Expiry', () => {
         'input'
       )[1] as HTMLInputElement
 
-      await focusAndKeyboard(monthInput, '12')
+      await userEvent.click(monthInput)
+      await userEvent.keyboard('12')
 
       expect(yearInput.selectionStart).toBe(0)
       expect(yearInput.selectionEnd).toBe(yearInput.value.length)
@@ -471,7 +455,8 @@ describe('Field.Expiry', () => {
         'input'
       )[1] as HTMLInputElement
 
-      await focusAndKeyboard(monthInput, '12')
+      await userEvent.click(monthInput)
+      await userEvent.keyboard('12')
 
       expect(yearInput.selectionStart).toBe(0)
       expect(yearInput.selectionEnd).toBe(yearInput.value.length)
@@ -488,7 +473,7 @@ describe('Field.Expiry', () => {
         'input'
       )[1] as HTMLInputElement
 
-      await focusInput(monthInput)
+      await userEvent.click(monthInput)
       expect(monthInput.value).toBe('12')
       monthInput.setSelectionRange(2, 2)
       expect(monthInput.selectionStart).toBe(2)
@@ -516,16 +501,19 @@ describe('Field.Expiry', () => {
         'input'
       )[1] as HTMLInputElement
 
-      await focusAndKeyboard(monthInput, '1212')
+      await userEvent.click(monthInput)
+      await userEvent.keyboard('1212')
 
       expect(yearInput.selectionStart).toBe(2)
       expect(yearInput.selectionEnd).toBe(2)
       expect(document.activeElement).toBe(yearInput)
 
-      await focusAndKeyboard(
-        yearInput,
-        '{Backspace}{Backspace}{Backspace}'
+      await userEvent.click(yearInput)
+      yearInput.setSelectionRange(
+        yearInput.value.length,
+        yearInput.value.length
       )
+      await userEvent.keyboard('{Backspace>3}')
 
       await waitFor(() => {
         expect(monthInput.selectionStart).toBe(0)
@@ -654,7 +642,8 @@ describe('Field.Expiry', () => {
         document.querySelector('.dnb-form-status__text')
       ).not.toBeInTheDocument()
 
-      await focusAndKeyboard(input, '1')
+      await userEvent.click(input)
+      await userEvent.keyboard('1')
 
       expect(inputWrapper.classList).not.toContain(
         'dnb-input__status--error'
@@ -674,7 +663,8 @@ describe('Field.Expiry', () => {
       expect(formStatusText).toBeInTheDocument()
       expect(formStatusText).toHaveTextContent(no.errorRequired)
 
-      await focusAndKeyboard(input, '12')
+      await userEvent.click(input)
+      await userEvent.keyboard('12')
 
       expect(inputWrapper.classList).not.toContain(
         'dnb-input__status--error'
@@ -749,7 +739,8 @@ describe('Field.Expiry', () => {
         document.querySelectorAll('input')
       )
 
-      await focusAndKeyboard(yearInput, '25')
+      await userEvent.click(yearInput)
+      await userEvent.keyboard('25')
 
       // Type invalid month - error should appear during typing
       await userEvent.click(monthInput)
@@ -765,7 +756,7 @@ describe('Field.Expiry', () => {
       })
 
       // Fix the month - error should disappear during typing
-      await focusInput(monthInput)
+      await userEvent.click(monthInput)
       await userEvent.keyboard('{Backspace>2}01')
 
       expect(monthInput).toHaveValue('01')
@@ -776,7 +767,7 @@ describe('Field.Expiry', () => {
       })
 
       // Type invalid month again - error should appear again
-      await focusInput(monthInput)
+      await userEvent.click(monthInput)
       await userEvent.keyboard('{Backspace>2}99')
 
       await waitFor(() => {
@@ -875,7 +866,7 @@ describe('Field.Expiry', () => {
         document.querySelectorAll('input')
       )
 
-      await focusInput(monthInput)
+      await userEvent.click(monthInput)
       await userEvent.keyboard('092')
       await userEvent.click(document.body)
 

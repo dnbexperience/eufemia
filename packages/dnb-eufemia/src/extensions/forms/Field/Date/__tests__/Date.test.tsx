@@ -33,24 +33,6 @@ const options: Record<'no' | 'en', FormatDateOptions> = {
 
 const nbYearPlaceholder = 'åååå'
 
-async function focusInput(input: Element) {
-  await userEvent.click(input)
-}
-
-async function focusAndKeyboard(input: Element, sequence: string) {
-  await focusInput(input)
-
-  const el = input as HTMLInputElement
-
-  if (/^\{[Bb]ackspace/.test(sequence)) {
-    el.setSelectionRange(el.value.length, el.value.length)
-  } else {
-    el.setSelectionRange(0, el.value.length)
-  }
-
-  await userEvent.keyboard(sequence)
-}
-
 describe('Field.Date', () => {
   it('should render without props', () => {
     render(<Field.Date />)
@@ -98,7 +80,8 @@ describe('Field.Date', () => {
       document.querySelector('.dnb-form-status')
     ).not.toBeInTheDocument()
 
-    await focusAndKeyboard(yearInput, '{Backspace>2}')
+    await userEvent.click(yearInput)
+    await userEvent.keyboard('{Backspace>4}')
     await userEvent.click(document.body)
 
     await waitFor(() => {
@@ -110,7 +93,8 @@ describe('Field.Date', () => {
       ).toHaveTextContent(nb.Date.errorRequired)
     })
 
-    await focusAndKeyboard(dayInput, '07122023')
+    await userEvent.click(dayInput)
+    await userEvent.keyboard('07122023')
 
     await waitFor(() => {
       expect(
@@ -118,7 +102,8 @@ describe('Field.Date', () => {
       ).not.toBeInTheDocument()
     })
 
-    await focusAndKeyboard(dayInput, '{Backspace>2}')
+    await userEvent.click(yearInput)
+    await userEvent.keyboard('{Backspace>16}')
     await userEvent.click(document.body)
 
     await waitFor(() => {
@@ -153,7 +138,8 @@ describe('Field.Date', () => {
       document.querySelector('.dnb-form-status')
     ).not.toBeInTheDocument()
 
-    await focusAndKeyboard(endDateYear, '{Backspace>16}')
+    await userEvent.click(endDateYear)
+    await userEvent.keyboard('{Backspace>16}')
     await userEvent.click(document.body)
 
     await waitFor(() => {
@@ -165,7 +151,8 @@ describe('Field.Date', () => {
       ).toHaveTextContent(nb.Date.errorRequiredRange)
     })
 
-    await focusAndKeyboard(startDayInput, '0102202304052026')
+    await userEvent.click(startDayInput)
+    await userEvent.keyboard('0102202304052026')
     await userEvent.click(document.body)
 
     await waitFor(() => {
@@ -296,8 +283,10 @@ describe('Field.Date', () => {
       document.querySelectorAll('.dnb-date-picker__input--month')
     ) as Array<HTMLInputElement>
 
-    await focusAndKeyboard(startMonth, '{Backspace>2}122024')
-    await focusAndKeyboard(endMonth, '{Backspace>4}2802')
+    await userEvent.click(startMonth)
+    await userEvent.keyboard('{Backspace}122024')
+    await userEvent.click(endMonth)
+    await userEvent.keyboard('{Backspace>2}2802')
     await userEvent.click(document.body)
 
     await waitFor(() => {
@@ -351,7 +340,8 @@ describe('Field.Date', () => {
 
       const day = document.querySelector('.dnb-date-picker__input--day')
 
-      await focusAndKeyboard(day, '{Backspace>2}31122024')
+      await userEvent.click(day)
+      await userEvent.keyboard('{Backspace>2}31122024')
       await userEvent.click(document.body)
 
       await waitFor(() => {
@@ -368,7 +358,8 @@ describe('Field.Date', () => {
         )
       })
 
-      await focusAndKeyboard(day, '{Backspace>2}01022025')
+      await userEvent.click(day)
+      await userEvent.keyboard('{Backspace>2}01022025')
       await userEvent.click(document.body)
 
       await waitFor(() => {
@@ -407,8 +398,10 @@ describe('Field.Date', () => {
         document.querySelectorAll('.dnb-date-picker__input--day')
       ) as Array<HTMLInputElement>
 
-      await focusAndKeyboard(startDay, '{Backspace>2}31122024')
-      await focusAndKeyboard(endDay, '{Backspace>2}01022025')
+      await userEvent.click(startDay)
+      await userEvent.keyboard('{Backspace}31122024')
+      await userEvent.click(endDay)
+      await userEvent.keyboard('{Backspace}01022025')
       await userEvent.click(document.body)
 
       await waitFor(() => {
@@ -435,7 +428,8 @@ describe('Field.Date', () => {
         )
       })
 
-      await focusAndKeyboard(startDay, '{Backspace>2}01022025')
+      await userEvent.click(startDay)
+      await userEvent.keyboard('{Backspace}01022025')
       await userEvent.click(document.body)
 
       await waitFor(() => {
@@ -453,7 +447,8 @@ describe('Field.Date', () => {
         )
       })
 
-      await focusAndKeyboard(endDay, '{Backspace>2}31122024')
+      await userEvent.click(endDay)
+      await userEvent.keyboard('{Backspace}31122024')
       await userEvent.click(document.body)
 
       await waitFor(() => {
@@ -471,7 +466,8 @@ describe('Field.Date', () => {
         )
       })
 
-      await focusAndKeyboard(startDay, '{Backspace>2}31122024')
+      await userEvent.click(startDay)
+      await userEvent.keyboard('{Backspace}31122024')
       await userEvent.click(document.body)
 
       await waitFor(() => {
@@ -533,7 +529,8 @@ describe('Field.Date', () => {
         '.dnb-date-picker__input--year'
       ) as HTMLInputElement
 
-      await focusAndKeyboard(yearInput, '{Backspace>16}')
+      await userEvent.click(yearInput)
+      await userEvent.keyboard('{Backspace>16}')
       await userEvent.click(document.body)
 
       await waitFor(() => {
@@ -554,7 +551,8 @@ describe('Field.Date', () => {
         '.dnb-date-picker__input--day'
       ) as HTMLInputElement
 
-      await focusAndKeyboard(dayInput, '39192025')
+      await userEvent.click(dayInput)
+      await userEvent.keyboard('39192025')
       await userEvent.click(document.body)
 
       await waitFor(() => {
@@ -567,7 +565,8 @@ describe('Field.Date', () => {
         ).toHaveTextContent(nb.Date.errorInvalidDate)
       })
 
-      await focusAndKeyboard(dayInput, '11122025')
+      await userEvent.click(dayInput)
+      await userEvent.keyboard('11122025')
       await userEvent.click(document.body)
 
       await waitFor(() => {
@@ -590,7 +589,8 @@ describe('Field.Date', () => {
         ) as Array<HTMLLIElement>
 
       // Type start date
-      await focusAndKeyboard(startDay, '39192025')
+      await userEvent.click(startDay)
+      await userEvent.keyboard('39192025')
       await userEvent.click(document.body)
 
       await waitFor(() => {
@@ -604,7 +604,8 @@ describe('Field.Date', () => {
       })
 
       // Type end date
-      await focusAndKeyboard(endDay, '39192026')
+      await userEvent.click(endDay)
+      await userEvent.keyboard('39192026')
       await userEvent.click(document.body)
 
       await waitFor(() => {
@@ -620,7 +621,8 @@ describe('Field.Date', () => {
       })
 
       // Type valid start date
-      await focusAndKeyboard(startDay, '11122025')
+      await userEvent.click(startDay)
+      await userEvent.keyboard('11122025')
       await userEvent.click(document.body)
 
       await waitFor(() => {
@@ -633,7 +635,8 @@ describe('Field.Date', () => {
       })
 
       // Type valid end date
-      await focusAndKeyboard(endDay, '11122026')
+      await userEvent.click(endDay)
+      await userEvent.keyboard('11122026')
       await userEvent.click(document.body)
 
       await waitFor(() => {
@@ -654,7 +657,8 @@ describe('Field.Date', () => {
         '.dnb-date-picker__input--day'
       ) as HTMLInputElement
 
-      await focusAndKeyboard(dayInput, '39192025')
+      await userEvent.click(dayInput)
+      await userEvent.keyboard('39192025')
       await userEvent.click(document.body)
 
       await waitFor(() => {
@@ -667,7 +671,8 @@ describe('Field.Date', () => {
         ).toHaveTextContent(en.Date.errorInvalidDate)
       })
 
-      await focusAndKeyboard(dayInput, '11122025')
+      await userEvent.click(dayInput)
+      await userEvent.keyboard('11122025')
       await userEvent.click(document.body)
 
       await waitFor(() => {
@@ -694,7 +699,8 @@ describe('Field.Date', () => {
         ) as Array<HTMLLIElement>
 
       // Type start date
-      await focusAndKeyboard(startDay, '39192025')
+      await userEvent.click(startDay)
+      await userEvent.keyboard('39192025')
       await userEvent.click(document.body)
 
       await waitFor(() => {
@@ -708,7 +714,8 @@ describe('Field.Date', () => {
       })
 
       // Type end date
-      await focusAndKeyboard(endDay, '39192026')
+      await userEvent.click(endDay)
+      await userEvent.keyboard('39192026')
       await userEvent.click(document.body)
 
       await waitFor(() => {
@@ -724,7 +731,8 @@ describe('Field.Date', () => {
       })
 
       // Type valid start date
-      await focusAndKeyboard(startDay, '11122025')
+      await userEvent.click(startDay)
+      await userEvent.keyboard('11122025')
       await userEvent.click(document.body)
 
       await waitFor(() => {
@@ -737,7 +745,8 @@ describe('Field.Date', () => {
       })
 
       // Type valid end date
-      await focusAndKeyboard(endDay, '11122026')
+      await userEvent.click(endDay)
+      await userEvent.keyboard('11122026')
       await userEvent.click(document.body)
 
       await waitFor(() => {
@@ -774,7 +783,8 @@ describe('Field.Date', () => {
       },
     })
 
-    await focusAndKeyboard(day, '02112024')
+    await userEvent.click(day)
+    await userEvent.keyboard('02112024')
 
     await waitFor(() => {
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
@@ -812,7 +822,8 @@ describe('Field.Date', () => {
       },
     })
 
-    await focusAndKeyboard(day, '02112024')
+    await userEvent.click(day)
+    await userEvent.keyboard('02112024')
 
     await waitFor(() => {
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
@@ -1069,7 +1080,8 @@ describe('Field.Date', () => {
     const dayInput = document.querySelector(
       '.dnb-date-picker__input'
     ) as HTMLInputElement
-    await focusAndKeyboard(dayInput, '01102024')
+    await userEvent.click(dayInput)
+    await userEvent.keyboard('01102024')
 
     await waitFor(() => {
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
@@ -1432,7 +1444,8 @@ describe('Field.Date', () => {
       '.dnb-date-picker__input'
     ) as HTMLInputElement
 
-    await focusAndKeyboard(dayInput, '01102024')
+    await userEvent.click(dayInput)
+    await userEvent.keyboard('01102024')
 
     await waitFor(() => {
       expect(onType).toHaveBeenCalled()
@@ -1939,7 +1952,8 @@ describe('Field.Date', () => {
     )
 
     // Test myOnBlurValidator
-    await focusAndKeyboard(day, '{Backspace>2}01')
+    await userEvent.click(day)
+    await userEvent.keyboard('{Backspace}01')
     await userEvent.click(document.body)
 
     await waitFor(() => {
@@ -1952,7 +1966,8 @@ describe('Field.Date', () => {
       )
     })
 
-    await focusAndKeyboard(day, '{Backspace>2}03')
+    await userEvent.click(day)
+    await userEvent.keyboard('{Backspace}03')
     await userEvent.click(document.body)
 
     await waitFor(() => {
@@ -1969,7 +1984,8 @@ describe('Field.Date', () => {
     })
 
     // Test date limit (min|max) validator
-    await focusAndKeyboard(month, '{Backspace>2}12')
+    await userEvent.click(month)
+    await userEvent.keyboard('{Backspace}12')
     await userEvent.click(document.body)
 
     await waitFor(() => {
@@ -1987,7 +2003,8 @@ describe('Field.Date', () => {
       )
     })
 
-    await focusAndKeyboard(day, '{Backspace>2}31122024')
+    await userEvent.click(day)
+    await userEvent.keyboard('{Backspace}31122024')
     await userEvent.click(document.body)
 
     await waitFor(() => {
@@ -2005,7 +2022,8 @@ describe('Field.Date', () => {
       )
     })
 
-    await focusAndKeyboard(day, '{Backspace>2}02012025')
+    await userEvent.click(day)
+    await userEvent.keyboard('{Backspace}02012025')
     await userEvent.click(document.body)
 
     await waitFor(() => {
@@ -2015,7 +2033,8 @@ describe('Field.Date', () => {
     })
 
     // Test invalid date validator
-    await focusAndKeyboard(day, '99999999')
+    await userEvent.click(day)
+    await userEvent.keyboard('99999999')
     await userEvent.click(document.body)
 
     await waitFor(() => {
@@ -2027,7 +2046,8 @@ describe('Field.Date', () => {
       ).toHaveTextContent(nb.Date.errorInvalidDate)
     })
 
-    await focusAndKeyboard(day, '{Backspace>2}02012025')
+    await userEvent.click(day)
+    await userEvent.keyboard('{Backspace}02012025')
     await userEvent.click(document.body)
 
     await waitFor(() => {
@@ -2310,7 +2330,8 @@ describe('Field.Date', () => {
           document.querySelector('.dnb-form-status--error')
         ).not.toBeInTheDocument()
 
-        await focusAndKeyboard(day, '{Backspace>2}31122024')
+        await userEvent.click(day)
+        await userEvent.keyboard('{Backspace>2}31122024')
         await userEvent.click(document.body)
 
         await waitFor(() => {
@@ -2342,7 +2363,8 @@ describe('Field.Date', () => {
           document.querySelector('.dnb-form-status--error')
         ).not.toBeInTheDocument()
 
-        await focusAndKeyboard(day, '{Backspace>2}01022025')
+        await userEvent.click(day)
+        await userEvent.keyboard('{Backspace>2}01022025')
         await userEvent.click(document.body)
 
         await waitFor(() => {
@@ -2380,7 +2402,8 @@ describe('Field.Date', () => {
           document.querySelector('.dnb-form-status--error')
         ).not.toBeInTheDocument()
 
-        await focusAndKeyboard(startDay, '{Backspace>2}31122024')
+        await userEvent.click(startDay)
+        await userEvent.keyboard('{Backspace>2}31122024')
         await userEvent.click(document.body)
 
         await waitFor(() => {
@@ -2418,7 +2441,8 @@ describe('Field.Date', () => {
           document.querySelector('.dnb-form-status--error')
         ).not.toBeInTheDocument()
 
-        await focusAndKeyboard(startDay, '{Backspace>2}01022025')
+        await userEvent.click(startDay)
+        await userEvent.keyboard('{Backspace>2}01022025')
         await userEvent.click(document.body)
 
         await waitFor(() => {
@@ -2456,7 +2480,8 @@ describe('Field.Date', () => {
           document.querySelector('.dnb-form-status--error')
         ).not.toBeInTheDocument()
 
-        await focusAndKeyboard(endDay, '{Backspace>2}31122024')
+        await userEvent.click(endDay)
+        await userEvent.keyboard('{Backspace}31122024')
         await userEvent.click(document.body)
 
         await waitFor(() => {
@@ -2494,7 +2519,8 @@ describe('Field.Date', () => {
           document.querySelector('.dnb-form-status--error')
         ).not.toBeInTheDocument()
 
-        await focusAndKeyboard(endDay, '{Backspace>2}01022025')
+        await userEvent.click(endDay)
+        await userEvent.keyboard('{Backspace}01022025')
         await userEvent.click(document.body)
 
         await waitFor(() => {
@@ -2540,8 +2566,8 @@ describe('Field.Date', () => {
         ).not.toBeInTheDocument()
 
         // Focus on day inputs and select out of limit dates
-        await focusAndKeyboard(startDay, '{Backspace>2}31122024')
-        await focusAndKeyboard(endDay, '{Backspace>2}01022025')
+        await userEvent.click(startDay)
+        await userEvent.keyboard('{Backspace}3112202401022025')
         await userEvent.click(document.body)
 
         await waitFor(() => {
@@ -2569,7 +2595,8 @@ describe('Field.Date', () => {
           )
         })
 
-        await focusAndKeyboard(startDay, '{Backspace>2}01022025')
+        await userEvent.click(startDay)
+        await userEvent.keyboard('{Backspace}01022025')
         await userEvent.click(document.body)
 
         await waitFor(() => {
@@ -2587,7 +2614,8 @@ describe('Field.Date', () => {
           )
         })
 
-        await focusAndKeyboard(endDay, '{Backspace>2}31122024')
+        await userEvent.click(endDay)
+        await userEvent.keyboard('{Backspace}31122024')
         await userEvent.click(document.body)
 
         await waitFor(() => {
@@ -2605,7 +2633,8 @@ describe('Field.Date', () => {
           )
         })
 
-        await focusAndKeyboard(startDay, '{Backspace>2}31122024')
+        await userEvent.click(startDay)
+        await userEvent.keyboard('{Backspace}31122024')
         await userEvent.click(document.body)
 
         await waitFor(() => {
@@ -2623,8 +2652,8 @@ describe('Field.Date', () => {
           )
         })
 
-        await focusAndKeyboard(startDay, '{Backspace>2}01012025')
-        await focusAndKeyboard(endDay, '{Backspace>2}31012025')
+        await userEvent.click(startDay)
+        await userEvent.keyboard('{Backspace}0101202531012025')
         await userEvent.click(document.body)
 
         await waitFor(() => {
@@ -2662,7 +2691,8 @@ describe('Field.Date', () => {
           )
         )
 
-        await focusAndKeyboard(day, '{Backspace>2}01012025')
+        await userEvent.click(day)
+        await userEvent.keyboard('{Backspace>2}01012025')
         await userEvent.click(document.body)
 
         expect(
@@ -2698,7 +2728,8 @@ describe('Field.Date', () => {
           )
         )
 
-        await focusAndKeyboard(day, '{Backspace>2}31012025')
+        await userEvent.click(day)
+        await userEvent.keyboard('{Backspace>2}31012025')
         await userEvent.click(document.body)
 
         expect(
@@ -2745,8 +2776,10 @@ describe('Field.Date', () => {
           )
         )
 
-        await focusAndKeyboard(startDay, '{Backspace>2}01012025')
-        await focusAndKeyboard(endDay, '{Backspace>2}31012025')
+        await userEvent.click(startDay)
+        await userEvent.keyboard('{Backspace>2}01012025')
+        await userEvent.click(endDay)
+        await userEvent.keyboard('{Backspace>2}31012025')
         await userEvent.click(document.body)
 
         expect(
@@ -2990,7 +3023,8 @@ describe('Field.Date', () => {
         document.querySelectorAll('.dnb-date-picker__input--day')
       ) as Array<HTMLInputElement>
 
-      await focusAndKeyboard(startDay, '0101202')
+      await userEvent.click(startDay)
+      await userEvent.keyboard('0101202')
       await userEvent.click(document.body)
 
       await waitFor(() => {
@@ -3010,8 +3044,10 @@ describe('Field.Date', () => {
         document.querySelectorAll('.dnb-date-picker__input--day')
       ) as Array<HTMLInputElement>
 
-      await focusAndKeyboard(startDay, '01012025')
-      await focusAndKeyboard(endDay, '0202202')
+      await userEvent.click(startDay)
+      await userEvent.keyboard('01012025')
+      await userEvent.click(endDay)
+      await userEvent.keyboard('0202202')
       await userEvent.click(document.body)
 
       expect(
@@ -3030,12 +3066,12 @@ describe('Field.Date', () => {
       ) as Array<HTMLInputElement>
 
       // Type a complete start date
-      await focusAndKeyboard(startDay, '01012025')
-      await userEvent.click(endDay)
+      await userEvent.click(startDay)
+      await userEvent.keyboard('01012025')
+      // Moving away from the range picker triggers blur validation.
+      // Since the end date is still empty, the required-range error appears.
+      await userEvent.click(document.body)
 
-      // The component validates on blur — since the end date is still
-      // empty, the required-range error appears when moving from start
-      // to end within the range picker.
       await waitFor(() => {
         expect(
           document.querySelector('.dnb-form-status--error')
@@ -3046,7 +3082,8 @@ describe('Field.Date', () => {
       })
 
       // Type a complete end date and blur
-      await focusAndKeyboard(endDay, '02022025')
+      await userEvent.click(endDay)
+      await userEvent.keyboard('02022025')
       await userEvent.click(document.body)
 
       // Both dates are now complete — error should clear
@@ -3066,7 +3103,8 @@ describe('Field.Date', () => {
     ) as HTMLInputElement
 
     // Type invalid date - error should appear during typing
-    await focusAndKeyboard(dayInput, '39192025')
+    await userEvent.click(dayInput)
+    await userEvent.keyboard('39192025')
 
     await waitFor(() => {
       expect(
@@ -3078,7 +3116,8 @@ describe('Field.Date', () => {
     })
 
     // Fix the date - error should disappear during typing
-    await focusAndKeyboard(dayInput, '11122025')
+    await userEvent.click(dayInput)
+    await userEvent.keyboard('11122025')
 
     await waitFor(() => {
       expect(
@@ -3087,7 +3126,8 @@ describe('Field.Date', () => {
     })
 
     // Type invalid date again - error should appear again
-    await focusAndKeyboard(dayInput, '99999999')
+    await userEvent.click(dayInput)
+    await userEvent.keyboard('99999999')
 
     await waitFor(() => {
       expect(
@@ -3115,7 +3155,8 @@ describe('Field.Date', () => {
     ) as HTMLInputElement
 
     // Type invalid date
-    await focusAndKeyboard(dayInput, '39192025')
+    await userEvent.click(dayInput)
+    await userEvent.keyboard('39192025')
 
     await waitFor(() => {
       expect(onStatusChange).toHaveBeenCalled()
@@ -3130,7 +3171,8 @@ describe('Field.Date', () => {
     onStatusChange.mockClear()
 
     // Type valid date
-    await focusAndKeyboard(dayInput, '11122025')
+    await userEvent.click(dayInput)
+    await userEvent.keyboard('11122025')
 
     await waitFor(() => {
       expect(onStatusChange).toHaveBeenCalled()
