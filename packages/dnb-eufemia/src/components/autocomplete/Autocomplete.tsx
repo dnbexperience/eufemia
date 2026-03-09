@@ -3,7 +3,6 @@
  */
 
 import React, {
-  useMemo,
   useState,
   useRef,
   useEffect,
@@ -28,7 +27,6 @@ import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../space/types'
 import {
   warn,
-  makeUniqueId,
   extendPropsWithContext,
   validateDOMAttributes,
   dispatchCustomElementEvent,
@@ -39,10 +37,10 @@ import {
   getClosestParent,
 } from '../../shared/component-helper'
 import { IS_MAC, debounce, hasSelectedText } from '../../shared/helpers'
-import AlignmentHelper from '../../shared/AlignmentHelper'
+import useId from '../../shared/helpers/useId'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
-
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import Suffix from '../../shared/helpers/Suffix'
 import AriaLive from '../aria-live/AriaLive'
 import FormLabel from '../form-label/FormLabel'
@@ -448,11 +446,7 @@ const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
 }
 
 function Autocomplete(props: AutocompleteAllProps) {
-  const _id = useMemo(
-    () => props.id || makeUniqueId(),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
+  const _id = useId(props.id)
 
   const providerProps = {
     ...props,
