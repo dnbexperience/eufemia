@@ -80,4 +80,56 @@ describe('VippsWalletButton', () => {
     expect(element).toHaveAttribute('disabled')
     expect(element).toHaveAttribute('title', 'Vipps wallet button')
   })
+
+  it('is disabled when disabled prop is true', () => {
+    render(<VippsWalletButton disabled />)
+
+    const element = document.querySelector('button')
+
+    expect(element).toBeDisabled()
+  })
+
+  it('is disabled when pending is true', () => {
+    render(<VippsWalletButton pending />)
+
+    const element = document.querySelector('button')
+
+    expect(element).toBeDisabled()
+  })
+
+  it('is disabled when both disabled and pending are true', () => {
+    render(<VippsWalletButton disabled pending />)
+
+    const element = document.querySelector('button')
+
+    expect(element).toBeDisabled()
+  })
+
+  it('is not disabled when neither disabled nor pending is set', () => {
+    render(<VippsWalletButton />)
+
+    const element = document.querySelector('button')
+
+    expect(element).not.toBeDisabled()
+  })
+
+  it('shows SubmitIndicator when pending is true', () => {
+    render(<VippsWalletButton pending />)
+
+    const indicator = document.querySelector(
+      '.dnb-forms-submit-indicator--state-pending'
+    )
+
+    expect(indicator).toBeInTheDocument()
+  })
+
+  it('does not show SubmitIndicator when pending is false', () => {
+    render(<VippsWalletButton />)
+
+    const indicator = document.querySelector(
+      '.dnb-forms-submit-indicator--state-pending'
+    )
+
+    expect(indicator).not.toBeInTheDocument()
+  })
 })
