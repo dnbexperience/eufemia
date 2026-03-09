@@ -157,7 +157,7 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the cookie concent confirmation', async () => {
+  it('have to match the cookie consent confirmation', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="dialog-confirm-cookie"]', // only to make sure we have a valid selector
       simulate: 'click',
