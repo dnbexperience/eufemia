@@ -24,7 +24,7 @@ const Example = styled.div`
     margin: 0 !important;
   }
 `
-const ContrastExample = styled(Example)`
+const DarkSurface = styled(Example)`
   display: inline-block;
   padding: 0.5rem;
 
@@ -62,14 +62,14 @@ export const AnchorExampleInSection = () => (
   </Wrapper>
 )
 
-export const AnchorOnDarkExample = () => (
+export const AnchorDarkSurfaceExample = () => (
   <Wrapper>
-    <ComponentBox hideCode scope={{ Example, ContrastExample }}>
-      <ContrastExample data-visual-test="anchor-ondark">
-        <Anchor href="/uilib/components/anchor" onDark>
+    <ComponentBox hideCode scope={{ Example, DarkSurface }}>
+      <DarkSurface data-visual-test="anchor-ondark">
+        <Anchor href="/uilib/components/anchor" surface="dark">
           OnDark Style
         </Anchor>
-      </ContrastExample>
+      </DarkSurface>
     </ComponentBox>
   </Wrapper>
 )
@@ -114,15 +114,15 @@ export const AnchorExampleStates = () => (
 
 export const AnchorExampleHelperClasses = () => (
   <Wrapper>
-    <ComponentBox hideCode scope={{ Example, ContrastExample }}>
-      <ContrastExample data-visual-test="anchor-contrast">
+    <ComponentBox hideCode scope={{ Example, DarkSurface }}>
+      <DarkSurface data-visual-test="anchor-contrast">
         <Anchor
           href="/uilib/components/anchor"
-          className="dnb-anchor--ondark"
+          className="dnb-anchor--surface-dark"
         >
-          Contrast Style
+          Dark surface Style
         </Anchor>
-      </ContrastExample>
+      </DarkSurface>
       <Example>
         <Anchor
           href="/uilib/components/anchor"
@@ -206,56 +206,56 @@ export const AnchorExampleDisabled = () => (
 
 export const AnchorExampleHelperContrastVariations = () => (
   <Wrapper>
-    <ComponentBox hideCode scope={{ Example, ContrastExample }}>
+    <ComponentBox hideCode scope={{ Example, DarkSurface }}>
       <Example>
-        <ContrastExample data-visual-test="anchor-contrast-no-hover">
+        <DarkSurface data-visual-test="anchor-contrast-no-hover">
           <Anchor
             href="/uilib/components/anchor"
-            className="dnb-anchor--ondark dnb-anchor--no-hover"
+            className="dnb-anchor--surface-dark dnb-anchor--no-hover"
           >
-            Contrast - no hover
+            Dark surface - no hover
           </Anchor>
-        </ContrastExample>
+        </DarkSurface>
       </Example>
       <Example>
-        <ContrastExample data-visual-test="anchor-contrast-no-radius">
+        <DarkSurface data-visual-test="anchor-contrast-no-radius">
           <Anchor
             href="/uilib/components/anchor"
-            className="dnb-anchor--ondark dnb-anchor--no-radius"
+            className="dnb-anchor--surface-dark dnb-anchor--no-radius"
           >
-            Contrast - no radius
+            Dark surface - no radius
           </Anchor>
-        </ContrastExample>
+        </DarkSurface>
       </Example>
       <Example>
-        <ContrastExample data-visual-test="anchor-contrast-no-underline">
+        <DarkSurface data-visual-test="anchor-contrast-no-underline">
           <Anchor
             href="/uilib/components/anchor"
-            className="dnb-anchor--ondark dnb-anchor--no-underline"
+            className="dnb-anchor--surface-dark dnb-anchor--no-underline"
           >
-            Contrast - no underline
+            Dark surface - no underline
           </Anchor>
-        </ContrastExample>
+        </DarkSurface>
       </Example>
       <Example>
-        <ContrastExample data-visual-test="anchor-contrast-no-underline-no-hover">
+        <DarkSurface data-visual-test="anchor-contrast-no-underline-no-hover">
           <Anchor
             href="/uilib/components/anchor"
-            className="dnb-anchor--ondark dnb-anchor--no-underline dnb-anchor--no-hover"
+            className="dnb-anchor--surface-dark dnb-anchor--no-underline dnb-anchor--no-hover"
           >
-            Contrast - no underline - no hover
+            Dark surface - no underline - no hover
           </Anchor>
-        </ContrastExample>
+        </DarkSurface>
       </Example>
       <Example>
-        <ContrastExample data-visual-test="anchor-contrast-no-underline-no-radius">
+        <DarkSurface data-visual-test="anchor-contrast-no-underline-no-radius">
           <Anchor
             href="/uilib/components/anchor"
-            className="dnb-anchor--ondark dnb-anchor--no-underline dnb-anchor--no-radius"
+            className="dnb-anchor--surface-dark dnb-anchor--no-underline dnb-anchor--no-radius"
           >
-            Contrast - no underline - no radius
+            Dark surface - no underline - no radius
           </Anchor>
-        </ContrastExample>
+        </DarkSurface>
       </Example>
     </ComponentBox>
   </Wrapper>

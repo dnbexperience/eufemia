@@ -278,7 +278,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
 :where(:not(.dnb-anchor--no-style)).dnb-anchor .dnb-icon--default {
   font-size: 0.8888888889em;
 }
-:where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--contrast, :where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--ondark {
+:where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--contrast, :where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--surface-dark {
   --anchor-color--default: var(--token-color-text-action-ondark);
   --anchor-color--hover: var(--token-color-text-action-ondark);
   --anchor-color--active: var(--token-color-text-action-ondark);
@@ -417,7 +417,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   :not(.dnb-anchor--no-style).dnb-anchor .dnb-icon--default {
     font-size: 0.8888888889em;
   }
-  :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--contrast, :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--ondark {
+  :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--contrast, :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--surface-dark {
     --anchor-color--default: var(--token-color-text-action-ondark);
     --anchor-color--hover: var(--token-color-text-action-ondark);
     --anchor-color--active: var(--token-color-text-action-ondark);

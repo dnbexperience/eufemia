@@ -76,9 +76,9 @@ export const AnchorProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  onDark: {
-    doc: 'Enables style for component on dark backgrounds. Defaults to `false`.',
-    type: 'boolean',
+  surface: {
+    doc: 'Changes component style based on background. Defaults to `undefined`.',
+    type: `"dark"`,
     status: 'optional',
   },
   skeleton: {

@@ -106,7 +106,7 @@
 }
 
 // other styles
-@mixin useAnchorContrastStyle {
+@mixin useAnchorDarkSurfaceStyle {
   // Text
   --anchor-color--default: var(--token-color-text-action-ondark);
   --anchor-color--hover: var(--token-color-text-action-ondark);

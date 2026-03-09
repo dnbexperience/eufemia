@@ -22,8 +22,8 @@ button.dnb-anchor {
     @include anchor-mixins.anchorStyle();
 
     &.dnb-anchor--contrast, // TODO: could this be deprecated in v11?
-    &.dnb-anchor--ondark {
-      @include anchor-mixins.useAnchorContrastStyle();
+    &.dnb-anchor--surface-dark {
+      @include anchor-mixins.useAnchorDarkSurfaceStyle();
     }
 
     &.dnb-anchor--disabled,
