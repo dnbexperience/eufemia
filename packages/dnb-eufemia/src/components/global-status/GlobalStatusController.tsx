@@ -2,8 +2,9 @@
  * Web GlobalStatus Component
  */
 
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import useMountEffect from '../../shared/helpers/useMountEffect'
 import GlobalStatusProvider from './GlobalStatusProvider'
 import { removeUndefinedProps } from '../../shared/component-helper'
 import type {
@@ -101,7 +102,7 @@ function GlobalStatusController(ownProps: GlobalStatusControllerProps) {
   }
 
   // componentDidMount + componentWillUnmount
-  useEffect(() => {
+  useMountEffect(() => {
     const { statusId } = providerRef.current.add(props)
     statusIdRef.current = statusId
 
@@ -115,8 +116,7 @@ function GlobalStatusController(ownProps: GlobalStatusControllerProps) {
         // providerRef.current = null
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  })
 
   return null
 }
@@ -165,10 +165,9 @@ function GlobalStatusRemove(ownProps: GlobalStatusRemovePropsLocal) {
   }
 
   // componentDidMount
-  useEffect(() => {
+  useMountEffect(() => {
     providerRef.current.remove(props.statusId, props)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  })
 
   return null
 }
