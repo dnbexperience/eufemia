@@ -476,6 +476,8 @@ type SearchIndexItem = {
   contentChunk: string | null
 }
 
+type DebouncedEventFunction = (props?: Record<string, unknown>) => void
+
 function parseDataItem(
   dataItem: DrawerListDataArrayObject | DrawerListInternalItem
 ): string | null {
@@ -665,7 +667,9 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   const closingFromChangeRef = useRef(false)
   const suppressFocusHandlerRef = useRef(false)
   const selectAllActiveRef = useRef(false)
-  const dbfRef = useRef<Record<string, (...args: any[]) => any>>({})
+  const debouncedEventFnsRef = useRef<
+    Record<string, DebouncedEventFunction>
+  >({})
   const cacheMemoryRef = useRef<Record<string, unknown>>({})
   const attributesRef = useRef<Record<string, unknown>>({})
   const wasVisibleRef = useRef(false)
@@ -1744,10 +1748,19 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       dataList: drawerListRef.current.data,
       ...eventMethodsRef.current,
       debounce: (func, cbProps = {}, wait = 250) => {
-        return (
-          dbfRef.current[key] ||
-          (dbfRef.current[key] = debounce(func, wait))
-        )(cbProps)
+        const existingDebouncedFn = debouncedEventFnsRef.current[key]
+
+        if (existingDebouncedFn) {
+          return existingDebouncedFn(cbProps)
+        }
+
+        const newDebouncedFn = debounce(
+          func,
+          wait
+        ) as DebouncedEventFunction
+        debouncedEventFnsRef.current[key] = newDebouncedFn
+
+        return newDebouncedFn(cbProps)
       },
     }
   }
