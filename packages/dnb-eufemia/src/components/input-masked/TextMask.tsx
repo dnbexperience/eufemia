@@ -8,6 +8,7 @@ import React, {
 } from 'react'
 import { useMaskito } from '@maskito/react'
 import {
+  MaskitoPostprocessor,
   maskitoTransform,
   maskitoUpdateElement,
   type MaskitoMask,
@@ -21,7 +22,6 @@ import {
 import InputModeNumber from './text-mask/InputModeNumber'
 import { MaskParams } from './text-mask/types'
 import { createNumberMask } from './hooks/useNumberMask'
-
 export type TextMaskMask =
   | RegExp
   | Array<RegExp | string>
@@ -484,7 +484,7 @@ function createMaskitoNumberOptions(mp: {
   })
 
   // Clear the value when only prefix/postfix remain (no numeric content)
-  const clearEmptyPostprocessor = (elementState: any) => {
+  const clearEmptyPostprocessor: MaskitoPostprocessor = (elementState) => {
     const value = elementState.value
     const withoutAffixes = value
       .slice(
@@ -494,7 +494,11 @@ function createMaskitoNumberOptions(mp: {
       .trim()
 
     if (withoutAffixes === '' || withoutAffixes === ',') {
-      return { ...elementState, value: '', selection: [0, 0] }
+      return {
+        ...elementState,
+        value: '',
+        selection: [0, 0],
+      }
     }
 
     return elementState
@@ -504,7 +508,7 @@ function createMaskitoNumberOptions(mp: {
   const postprocessors = suffixStartsWithComma
     ? [
         ...(base.postprocessors || []),
-        (elementState: any) => {
+        ((elementState) => {
           // Always add the comma before the postfix for this suffix pattern
           const prefixLen = prefix ? prefix.length : 0
           const postfixLen = postfixToUse ? postfixToUse.length : 0
@@ -515,7 +519,7 @@ function createMaskitoNumberOptions(mp: {
           const newValue =
             prefix + valueWithoutAffixes + ',' + postfixToUse
           return { ...elementState, value: newValue }
-        },
+        }) as MaskitoPostprocessor,
         clearEmptyPostprocessor,
       ]
     : [...(base.postprocessors || []), clearEmptyPostprocessor]
