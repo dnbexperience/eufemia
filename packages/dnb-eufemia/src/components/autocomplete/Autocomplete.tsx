@@ -743,10 +743,8 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
   const hasFilterActive = useCallback(
     (data = drawerListRef.current.data) => {
-      return !(
-        drawerListRef.current.originalData &&
-        drawerListRef.current.originalData.length === countData(data)
-      )
+      const originalData = drawerListRef.current.originalData
+      return !(originalData && originalData.length === countData(data))
     },
     [countData]
   )
