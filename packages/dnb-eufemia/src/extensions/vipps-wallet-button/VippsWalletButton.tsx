@@ -7,7 +7,7 @@ import React from 'react'
 import classnames from 'classnames'
 import Button, { type ButtonProps } from '../../components/button/Button'
 import useTranslation from '../../shared/useTranslation'
-import { SubmitIndicator } from '../forms/Form'
+import SubmitIndicator from '../forms/Form/SubmitIndicator'
 
 export type VippsWalletButtonProps = Omit<ButtonProps, 'variant'> & {
   pending?: boolean
