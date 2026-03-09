@@ -5,6 +5,7 @@ export type OnStepsChangeMode = 'previous' | 'next' | 'stepListModified'
 export type OnStepChangeOptions = {
   preventNavigation: (shouldPrevent?: boolean) => void
   id?: string
+  totalSteps: number
   previousStep: {
     index: StepIndex
     id?: string

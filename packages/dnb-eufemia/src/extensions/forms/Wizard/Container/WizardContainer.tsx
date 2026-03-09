@@ -300,8 +300,12 @@ function WizardContainer(props: Props) {
     useCallback(
       (index) => {
         const previousIndex = activeIndexRef.current
-        const options = {
+        const totalSteps = Number.isNaN(totalStepsRef.current)
+          ? stepsRef.current.size
+          : totalStepsRef.current
+        const options: OnStepChangeOptions = {
           preventNavigation,
+          totalSteps,
           previousStep: { index: previousIndex },
         }
 
