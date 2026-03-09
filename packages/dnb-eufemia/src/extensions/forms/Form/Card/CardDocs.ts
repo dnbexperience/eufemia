@@ -1,6 +1,6 @@
 import { PropertiesTableProps } from '../../../../shared/types'
 import { CardProperties } from '../../../../components/card/CardDocs'
-const { stack, outset, ...inheritedCardProps } = CardProperties
+const { stack, ...inheritedCardProps } = CardProperties
 
 export const FormCardProperties: PropertiesTableProps = {
   stack: {
