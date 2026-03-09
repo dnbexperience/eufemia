@@ -14,7 +14,7 @@ const config: StorybookConfig = {
     name: getAbsolutePath('@storybook/react-webpack5'),
     options: {},
   },
-  swc: (config: Options, options): Options => {
+  swc: (config: Options): Options => {
     if (config.jsc) {
       config.jsc.transform = {
         react: {
