@@ -107,14 +107,13 @@ function willWordWrap(element: HTMLElement, word: string) {
     return
   }
 
-  const { offsetHeight, innerHTML } = element
+  const { offsetHeight } = element
 
   const clone = element.cloneNode(true) as HTMLElement
   element.parentElement?.insertBefore(clone, element)
 
-  clone.innerHTML += word
+  clone.appendChild(document.createTextNode(word))
   const height = clone.offsetHeight
-  clone.innerHTML = innerHTML
 
   clone.remove()
 
