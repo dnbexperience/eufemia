@@ -493,7 +493,6 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
       const value = event.target.value
 
-      // console.log('setDate', mode, type, value)
       dateRefs.current[`${mode}${type}`] = value
 
       if (modeDate[`${mode}Date`]) {
