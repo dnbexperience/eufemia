@@ -82,7 +82,7 @@ describe('VippsWalletButton', () => {
   })
 
   it('is disabled when disabled prop is true', () => {
-    render(<VippsWalletButton disabled />)
+    render(<VippsWalletButton disabled={true} />)
 
     const element = document.querySelector('button')
 
