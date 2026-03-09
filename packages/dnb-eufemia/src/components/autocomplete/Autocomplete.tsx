@@ -911,7 +911,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         }
       }
     )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasSelectedItem])
 
   const totalReset = useCallback(() => {
@@ -1788,7 +1787,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         runFilterWithSideEffects(trimmed)
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [runFilterWithSideEffects]
   )
 
@@ -1903,7 +1901,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         })
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       skipFocusDuringChange,
       openOnFocus,
@@ -1993,7 +1990,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         ...getEventObjects('onBlur'),
       })
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       drawerList.hasFocusOnElement,
       keepValue,
@@ -2053,7 +2049,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
       return res
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [setFocusOnInput]
   )
 
@@ -2066,7 +2061,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         })
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
 
@@ -2145,7 +2139,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         ...getEventObjects('onChange'),
       })
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       preventSelection,
       keepOpen,
@@ -2220,7 +2213,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       runFilterToHighlight({ fillDataIfEmpty: true })
       setVisible()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Handle data changes (replaces getDerivedStateFromProps updateData + componentDidUpdate data check)
@@ -2361,10 +2353,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     )
   }
 
-  const {
-    iconPosition: _iconPosition, //eslint-disable-line
-    ...customInputParams
-  } = inputParams
+  const { iconPosition: _iconPosition, ...customInputParams } = inputParams
 
   let submitButton: React.ReactNode = false
   const triggerParams = {
