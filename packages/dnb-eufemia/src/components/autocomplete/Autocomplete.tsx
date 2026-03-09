@@ -38,6 +38,7 @@ import {
 } from '../../shared/component-helper'
 import { IS_MAC, debounce, hasSelectedText } from '../../shared/helpers'
 import useId from '../../shared/helpers/useId'
+import useMountEffect from '../../shared/helpers/useMountEffect'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -2208,12 +2209,12 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   }, [inputRef])
 
   // Handle open prop on mount
-  useEffect(() => {
+  useMountEffect(() => {
     if (props.open) {
       runFilterToHighlight({ fillDataIfEmpty: true })
       setVisible()
     }
-  }, [])
+  })
 
   // Handle data changes (replaces getDerivedStateFromProps updateData + componentDidUpdate data check)
   useEffect(() => {
