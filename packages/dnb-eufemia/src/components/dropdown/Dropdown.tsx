@@ -2,16 +2,9 @@
  * Web Dropdown Component
  */
 
-import React, {
-  useContext,
-  useRef,
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-} from 'react'
+import React, { useContext, useRef, useCallback } from 'react'
 import clsx from 'clsx'
 import {
-  makeUniqueId,
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
@@ -21,6 +14,9 @@ import {
   removeUndefinedProps,
 } from '../../shared/component-helper'
 import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
+import useMountEffect from '../../shared/helpers/useMountEffect'
+import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
+import useId from '../../shared/helpers/useId'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
@@ -278,24 +274,23 @@ const DropdownInstance = React.memo(function DropdownInstance({
   propsWithDefaultsRef.current = propsWithDefaults
 
   // Open on mount if props.open is set.
-  // Use useLayoutEffect to make the dropdown visible before paint,
+  // Use useIsomorphicLayoutEffect to make the dropdown visible before paint,
   // avoiding a flash of the closed state.
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (propsWithDefaults.open) {
       context.drawerList.setWrapperElement(wrapperRef.current).setVisible()
     }
     // Only on mount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Cleanup timeout on unmount
-  useEffect(() => {
+  useMountEffect(() => {
     return () => {
       if (focusTimeoutRef.current) {
         clearTimeout(focusTimeoutRef.current)
       }
     }
-  }, [])
+  })
 
   const setVisible = useCallback(() => {
     context.drawerList.setWrapperElement(wrapperRef.current).setVisible()
@@ -762,7 +757,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
  * and forwards `ref` and `buttonRef` to the inner DOM elements.
  */
 function Dropdown({ ref, buttonRef, ...props }: DropdownAllProps) {
-  const id = React.useMemo(() => props.id || makeUniqueId(), [props.id])
+  const id = useId(props.id)
   const { moreMenu, actionMenu, preventSelection, children, data } = props
 
   return (
