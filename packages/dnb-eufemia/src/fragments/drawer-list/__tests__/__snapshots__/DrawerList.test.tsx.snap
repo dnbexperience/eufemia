@@ -109,7 +109,6 @@ html:not([data-visual-test]) .dnb-drawer-list--scroll .dnb-drawer-list__options 
   }
 }
 .dnb-drawer-list--scroll .dnb-drawer-list__options {
-  -webkit-overflow-scrolling: touch;
   scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;
 }
 @supports not (scrollbar-color: auto) {
