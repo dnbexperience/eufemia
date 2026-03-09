@@ -98,7 +98,7 @@ describe('VippsWalletButton', () => {
   })
 
   it('is disabled when both disabled and pending are true', () => {
-    render(<VippsWalletButton disabled pending />)
+    render(<VippsWalletButton disabled={true} pending={true} />)
 
     const element = document.querySelector('button')
 
