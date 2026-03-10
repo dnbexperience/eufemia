@@ -232,6 +232,7 @@ export default class DrawerListProvider extends React.PureComponent<
     clearTimeout(this._scrollTimeout)
     clearTimeout(this._directionTimeout)
 
+    DrawerListProvider.isOpen = false
     this.removeObservers()
     this.setActiveState(false)
   }
