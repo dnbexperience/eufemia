@@ -1262,6 +1262,261 @@ describe('Field.Date', () => {
     expect(endYear.value).toBe('2024')
   })
 
+  it('should show required error when reset clears to empty initial value', async () => {
+    render(
+      <Form.Handler>
+        <Field.Date path="/date" required />
+      </Form.Handler>
+    )
+
+    const [day]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    )
+
+    // Enter a date
+    await userEvent.click(day)
+    await userEvent.keyboard('01082025')
+
+    expect(day.value).toBe('01')
+
+    // Open the date picker and click reset
+    await userEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+    await userEvent.click(
+      document.querySelector('button[data-testid="reset"]')
+    )
+
+    // Should show required error
+    await waitFor(() => {
+      expect(screen.getByText(nb.Date.errorRequired)).toBeInTheDocument()
+    })
+
+    // Inputs should be cleared
+    expect(day.value).toBe('dd')
+  })
+
+  it('should show required error when reset clears to empty initial value in range mode', async () => {
+    render(
+      <Form.Handler>
+        <Field.Date path="/date" required range />
+      </Form.Handler>
+    )
+
+    const [startDay]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    )
+
+    // Enter dates
+    await userEvent.click(startDay)
+    await userEvent.keyboard('01082025')
+    await userEvent.keyboard('15082025')
+
+    // Open the date picker and click reset
+    await userEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+    await userEvent.click(
+      document.querySelector('button[data-testid="reset"]')
+    )
+
+    // Should show required range error
+    await waitFor(() => {
+      expect(
+        screen.getByText(nb.Date.errorRequiredRange)
+      ).toBeInTheDocument()
+    })
+
+    // Inputs should be cleared
+    expect(startDay.value).toBe('dd')
+  })
+
+  it('should show error when reset restores an initial value outside minDate', async () => {
+    const minDate = '2024-06-01'
+
+    render(
+      <Field.Date value="2024-01-15" minDate={minDate} validateInitially />
+    )
+
+    // Initial value is before minDate, error should show due to validateInitially
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).toHaveTextContent(
+        nb.Date.errorMinDate.replace(
+          /\{date\}/,
+          formatDate(minDate, options.no)
+        )
+      )
+    })
+  })
+
+  it('should show error when reset restores an initial value outside maxDate', async () => {
+    const maxDate = '2024-10-31'
+
+    render(
+      <Field.Date value="2024-12-15" maxDate={maxDate} validateInitially />
+    )
+
+    // Initial value is after maxDate, error should show due to validateInitially
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).toHaveTextContent(
+        nb.Date.errorMaxDate.replace(
+          /\{date\}/,
+          formatDate(maxDate, options.no)
+        )
+      )
+    })
+  })
+
+  it('should update Form data context when clicking reset', async () => {
+    let dataContext = null
+
+    render(
+      <Form.Handler>
+        <Field.Date path="/date" />
+        <DataContext.Consumer>
+          {(context) => {
+            dataContext = context
+            return null
+          }}
+        </DataContext.Consumer>
+      </Form.Handler>
+    )
+
+    const [day]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    )
+
+    // Enter a date
+    await userEvent.click(day)
+    await userEvent.keyboard('01102024')
+
+    expect(dataContext.internalDataRef.current).toEqual({
+      date: '2024-10-01',
+    })
+
+    // Open picker and click reset
+    await userEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+    await userEvent.click(
+      document.querySelector('button[data-testid="reset"]')
+    )
+
+    expect(dataContext.internalDataRef.current).toEqual({
+      date: undefined,
+    })
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/date': {
+        type: 'field',
+        value: undefined,
+      },
+    })
+  })
+
+  it('should update Form data context when clicking reset with initial value', async () => {
+    let dataContext = null
+
+    render(
+      <Form.Handler>
+        <Field.Date path="/date" value="2024-10-15" />
+        <DataContext.Consumer>
+          {(context) => {
+            dataContext = context
+            return null
+          }}
+        </DataContext.Consumer>
+      </Form.Handler>
+    )
+
+    const [day]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    )
+
+    expect(dataContext.internalDataRef.current).toEqual({
+      date: '2024-10-15',
+    })
+
+    // Change the date
+    await userEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+    await userEvent.click(
+      screen.getByLabelText('torsdag 24. oktober 2024')
+    )
+
+    expect(dataContext.internalDataRef.current).toEqual({
+      date: '2024-10-24',
+    })
+
+    // Click reset
+    await userEvent.click(
+      document.querySelector('button[data-testid="reset"]')
+    )
+
+    // Should reset to initial value in Form context
+    expect(dataContext.internalDataRef.current).toEqual({
+      date: '2024-10-15',
+    })
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/date': {
+        type: 'field',
+        value: '15.10.2024',
+      },
+    })
+
+    // Inputs should show initial value
+    expect(day.value).toBe('15')
+  })
+
+  it('should update Form data context when clicking reset in range mode', async () => {
+    let dataContext = null
+
+    render(
+      <Form.Handler>
+        <Field.Date path="/date" value="2024-10-01|2024-10-31" range />
+        <DataContext.Consumer>
+          {(context) => {
+            dataContext = context
+            return null
+          }}
+        </DataContext.Consumer>
+      </Form.Handler>
+    )
+
+    expect(dataContext.internalDataRef.current).toEqual({
+      date: '2024-10-01|2024-10-31',
+    })
+
+    // Open picker and select new dates
+    await userEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+    await userEvent.click(
+      screen.getAllByLabelText('tirsdag 15. oktober 2024')[0]
+    )
+    await userEvent.click(
+      screen.getAllByLabelText('fredag 25. oktober 2024')[0]
+    )
+
+    expect(dataContext.internalDataRef.current).toEqual({
+      date: '2024-10-15|2024-10-25',
+    })
+
+    // Click reset
+    await userEvent.click(
+      document.querySelector('button[data-testid="reset"]')
+    )
+
+    // Should reset to initial value in Form context
+    expect(dataContext.internalDataRef.current).toEqual({
+      date: '2024-10-01|2024-10-31',
+    })
+  })
+
   it('should be able to hide and show submit, cancel and reset buttons', async () => {
     const { rerender } = render(
       <Field.Date showSubmitButton showCancelButton showResetButton />
