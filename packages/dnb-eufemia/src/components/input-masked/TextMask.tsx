@@ -9,6 +9,7 @@ import React, {
 import { useMaskito } from '@maskito/react'
 import {
   MaskitoPostprocessor,
+  MaskitoPreprocessor,
   maskitoTransform,
   maskitoUpdateElement,
   type MaskitoMask,
@@ -73,6 +74,11 @@ export default function TextMask(props: TextMaskProps): React.JSX.Element {
       ? (rawMask.maskParams as MaskParams | undefined)
       : undefined
 
+  const separatorTokens = useMemo(
+    () => getSeparatorTokens(rawMask),
+    [rawMask]
+  )
+
   const options = useMemo<MaskitoOptions | null>(() => {
     // Numeric mask: detect our internal number mask function
     if (
@@ -95,8 +101,47 @@ export default function TextMask(props: TextMaskProps): React.JSX.Element {
       ? withOverflowSupport(mask)
       : mask
 
+    const preprocessors: MaskitoPreprocessor[] = Array.isArray(mask)
+      ? [
+          (({ elementState, data }, actionType) => {
+            // Handle backspace over separator tokens for array masks so the caret skips over the token without the user having to press backspace twice.
+            if (actionType === 'deleteBackward') {
+              const value = elementState.value
+              const [selectionStart, selectionEnd] = elementState.selection
+              const characterBeforeCaret = value[selectionStart - 1]
+
+              if (separatorTokens.includes(characterBeforeCaret)) {
+                const newCaretPosition = selectionStart - 1
+                const valueBeforeCaret = value.slice(0, selectionStart)
+                const valueAfterCaret = value.slice(selectionEnd)
+                const isLastCharBeforeCaretSeparator =
+                  separatorTokens.includes(
+                    valueBeforeCaret.charAt(valueBeforeCaret.length - 1)
+                  )
+                const adjustedValueBeforeCaret =
+                  isLastCharBeforeCaretSeparator
+                    ? valueBeforeCaret.slice(0, -1)
+                    : valueBeforeCaret
+
+                return {
+                  elementState: {
+                    value: adjustedValueBeforeCaret + valueAfterCaret,
+                    selection: [newCaretPosition, newCaretPosition],
+                  },
+                  data,
+                }
+              }
+
+              return { elementState, data }
+            }
+            return { elementState, data }
+          }) as MaskitoPreprocessor,
+        ]
+      : []
+
     return {
       mask: overflowAwareMask,
+      ...(preprocessors.length > 0 ? { preprocessors } : {}),
       ...(overwriteMode != null ? { overwriteMode } : {}),
     }
 
@@ -375,6 +420,16 @@ function countUserSlots(maskExpression: MaskitoMaskExpression) {
   return maskExpression.reduce((count, token) => {
     return count + (typeof token === 'string' ? 0 : 1)
   }, 0)
+}
+
+function getSeparatorTokens(maskExpression: TextMaskMask) {
+  if (!Array.isArray(maskExpression)) {
+    return []
+  }
+  return maskExpression.filter(
+    (token): token is string =>
+      typeof token === 'string' && token.length > 0
+  )
 }
 
 function countUserInputLength(

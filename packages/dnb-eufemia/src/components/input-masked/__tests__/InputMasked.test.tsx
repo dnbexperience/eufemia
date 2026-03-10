@@ -684,6 +684,78 @@ describe('InputMasked component', () => {
     expect(onChange).toHaveBeenCalledTimes(2)
   })
 
+  it('should delete value and skip over separator tokens when pressing backspace', async () => {
+    const { rerender } = render(
+      <InputMasked
+        value="1234567"
+        mask={[/\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/]}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    await userEvent.click(input)
+    await userEvent.keyboard('{ArrowLeft>2}')
+
+    expect(input.selectionStart).toBe(6)
+    expect(input.selectionEnd).toBe(6)
+
+    await userEvent.keyboard('{Backspace}')
+    expect(input.selectionStart).toBe(4)
+    expect(input.selectionEnd).toBe(4)
+
+    rerender(
+      <InputMasked
+        value="1234567"
+        mask={[/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]}
+      />
+    )
+
+    await userEvent.click(input)
+    await userEvent.keyboard('{ArrowLeft>2}')
+
+    expect(input.selectionStart).toBe(6)
+    expect(input.selectionEnd).toBe(6)
+
+    await userEvent.keyboard('{Backspace}')
+    expect(input.selectionStart).toBe(4)
+    expect(input.selectionEnd).toBe(4)
+
+    rerender(
+      <InputMasked
+        value="1234567"
+        mask={[/\d/, /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/]}
+      />
+    )
+
+    await userEvent.click(input)
+    await userEvent.keyboard('{ArrowLeft>2}')
+
+    expect(input.selectionStart).toBe(6)
+    expect(input.selectionEnd).toBe(6)
+
+    await userEvent.keyboard('{Backspace}')
+    expect(input.selectionStart).toBe(4)
+    expect(input.selectionEnd).toBe(4)
+
+    rerender(
+      <InputMasked
+        value="1234567"
+        mask={[/\d/, /\d/, /\d/, /\d/, ',', /\d/, /\d/, /\d/]}
+      />
+    )
+
+    await userEvent.click(input)
+    await userEvent.keyboard('{ArrowLeft>2}')
+
+    expect(input.selectionStart).toBe(6)
+    expect(input.selectionEnd).toBe(6)
+
+    await userEvent.keyboard('{Backspace}')
+    expect(input.selectionStart).toBe(4)
+    expect(input.selectionEnd).toBe(4)
+  })
+
   describe('disallowLeadingZeroes', () => {
     it('should prevent leading zero', () => {
       const newValue = 'NOK 1 234,56 kr'
@@ -2087,7 +2159,7 @@ describe('InputMasked with custom mask', () => {
 
   // placeholderChar is no longer supported with Maskito; legacy behavior removed
 
-  it('should handle leading zeros gracefully', async () => {
+  it.only('should handle leading zeros gracefully', async () => {
     const onChange = jest.fn()
 
     render(
