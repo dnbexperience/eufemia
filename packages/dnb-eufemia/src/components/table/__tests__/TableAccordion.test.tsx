@@ -874,6 +874,34 @@ describe('TableAccordion', () => {
       expect(startViewTransition).toHaveBeenCalledTimes(1)
     })
 
+    it('should not call startViewTransition on close', () => {
+      const startViewTransition = jest.fn((cb) => cb())
+      document.startViewTransition = startViewTransition
+
+      render(
+        <Table mode="accordion">
+          <tbody>
+            <Tr>
+              <Td>content</Td>
+              <Tr.AccordionContent>
+                <Td>row content</Td>
+              </Tr.AccordionContent>
+            </Tr>
+          </tbody>
+        </Table>
+      )
+
+      const trElement = document.querySelector('tr')
+
+      // Open
+      fireEvent.click(trElement)
+      expect(startViewTransition).toHaveBeenCalledTimes(1)
+
+      // Close
+      fireEvent.click(trElement)
+      expect(startViewTransition).toHaveBeenCalledTimes(1)
+    })
+
     it('should add viewTransitionName style to tr', () => {
       render(
         <Table mode="accordion">
