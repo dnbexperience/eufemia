@@ -601,6 +601,87 @@ describe('Field.Date', () => {
       ).not.toBeInTheDocument()
     })
 
+    it('should not display error if start date or end date is removed', async () => {
+      render(<Field.Date value="2023-12-07|2023-12-14" range />)
+
+      const datePicker = document.querySelector('.dnb-date-picker')
+      const startDayInput = datePicker.querySelector(
+        '.dnb-date-picker__input--day'
+      )
+      const endDateYear = datePicker.querySelectorAll(
+        '.dnb-date-picker__input--year'
+      )[1]
+
+      expect(datePicker.classList).not.toContain(
+        'dnb-date-picker__status--error'
+      )
+      expect(
+        datePicker.querySelector('.dnb-form-status__text')
+      ).not.toBeInTheDocument()
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      await userEvent.type(endDateYear, '{Backspace>16}')
+      await userEvent.click(document.body)
+
+      await waitFor(() => {
+        expect(datePicker.classList).not.toContain(
+          'dnb-date-picker__status--error'
+        )
+        expect(
+          datePicker.querySelector('.dnb-form-status__text')
+        ).not.toBeInTheDocument()
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
+    })
+
+    it('should not display error if only the start date is cleared in range mode', async () => {
+      render(<Field.Date value="2023-12-07|2023-12-14" range />)
+
+      const startYearInput = document.querySelector(
+        '.dnb-date-picker__input--year'
+      )
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      await userEvent.type(startYearInput, '{Backspace>8}')
+      await userEvent.click(document.body)
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
+    })
+
+    it('should not display error if only the end date is cleared in range mode', async () => {
+      render(<Field.Date value="2023-12-07|2023-12-14" range />)
+
+      const endYearInput = document.querySelectorAll(
+        '.dnb-date-picker__input--year'
+      )[1]
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      await userEvent.type(endYearInput, '{Backspace>8}')
+      await userEvent.click(document.body)
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
+    })
+
     it('should display invalid date error message based on locale', async () => {
       render(
         <Form.Handler locale="en-GB">

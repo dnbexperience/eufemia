@@ -301,6 +301,8 @@ function DateComponent(props: DateProps) {
             ...(isValid(parsedEndDate) && { end_date }),
             ...rest,
           })
+        } else {
+          handleChange(rest)
         }
       } else if (isValid(parseISO(date))) {
         handleChange({ date, ...rest })
