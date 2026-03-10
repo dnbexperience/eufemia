@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo, useRef } from 'react'
 import * as z from 'zod'
 import { DatePicker } from '../../../../components'
 import { useFieldProps } from '../../hooks'
@@ -59,7 +59,7 @@ export type DateProps = Omit<
    */
   showCancelButton?: DatePickerProps['showCancelButton']
   /**
-   * If set to `true`, a reset button will be shown. You can change the default text by using `reset_button_text="Tilbakestill"` Defaults to `true`.
+   * If set to `true`, a reset button will be shown. You can change the default text by using `resetButtonText="Tilbakestill"`. When clicked, the field resets to the initial `value` or `defaultValue`. If no initial value was provided, the field is cleared. Defaults to `true`.
    */
   showResetButton?: DatePickerProps['showResetButton']
   onBlurValidator?: DateValidator | false
@@ -263,12 +263,31 @@ function DateComponent(props: DateProps) {
   } = useFieldProps(preparedProps)
 
   const datePickerProps = pickDatePickerProps(rest)
+  const initialValueRef = useRef(props.value ?? props.defaultValue)
   const handleReset = useCallback(
     (
       event: DatePickerEvent<
         React.MouseEvent<HTMLButtonElement, MouseEvent>
       >
     ) => {
+      const initialValue = initialValueRef.current
+
+      if (initialValue) {
+        if (range) {
+          const [startDate, endDate] = parseRangeValue(initialValue)
+          handleChange({
+            start_date: startDate ?? undefined,
+            end_date: endDate ?? undefined,
+          })
+        } else {
+          handleChange({ date: initialValue })
+        }
+
+        onReset?.(event)
+
+        return // stop here
+      }
+
       const reset = {
         date: undefined,
         start_date: undefined,
@@ -282,7 +301,7 @@ function DateComponent(props: DateProps) {
         ...reset,
       })
     },
-    [handleChange, onReset, setDisplayValue]
+    [handleChange, onReset, setDisplayValue, range]
   )
   const onFocus = useCallback(() => {
     handleFocus()

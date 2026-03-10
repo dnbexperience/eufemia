@@ -106,7 +106,7 @@ export const DatePickerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   showResetButton: {
-    doc: 'If set to `true`, a reset button will be shown. You can change the default text by using `resetButtonText="Tilbakestill"`. Defaults to `false`.',
+    doc: 'If set to `true`, a reset button will be shown. You can change the default text by using `resetButtonText="Tilbakestill"`. When clicked, the date picker reverts to the value it had when it was first rendered. If no initial value was provided, the date is cleared. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
@@ -272,7 +272,7 @@ export const DatePickerEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onReset: {
-    doc: 'Will be called once a user presses the reset button.',
+    doc: 'Will be called once a user presses the reset button. The date picker will revert to the value it had when first rendered. If no initial value was provided, the date is cleared.',
     type: 'function',
     status: 'optional',
   },
