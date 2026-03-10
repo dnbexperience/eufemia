@@ -20,7 +20,7 @@ export const ContainerProperties: PropertiesTableProps = {
 
 export const ItemContentProperties: PropertiesTableProps = {
   selected: {
-    doc: 'When `true`, applies the selected state styling (e.g. background).',
+    doc: 'When provided, the row is treated as a selectable item for nested checkbox/radio controls. When `true`, it also applies the selected state styling (e.g. background).',
     type: 'boolean',
     status: 'optional',
   },
