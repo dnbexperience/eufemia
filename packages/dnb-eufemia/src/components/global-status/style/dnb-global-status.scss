@@ -56,6 +56,9 @@
       flex-direction: column;
 
       padding: 0 0 0.5rem 2.5rem;
+      > .dnb-ul:first-child > li:first-child {
+        margin-top: 0;
+      }
       // stylelint-disable-next-line no-descending-specificity
       .dnb-p,
       .dnb-spacing & .dnb-p,
