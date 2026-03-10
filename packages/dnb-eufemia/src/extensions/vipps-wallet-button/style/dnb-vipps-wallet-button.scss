@@ -37,6 +37,9 @@
   }
 
   &[disabled] {
-    background-color: var(--color-black-20);
+    background-color: var(--vipps-primary-color);
+    color: var(--color-white);
+
+    --border-color: initial;
   }
 }
