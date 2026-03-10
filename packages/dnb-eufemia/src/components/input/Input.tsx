@@ -433,7 +433,10 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   const updateInputValue = useCallback(() => {
     if (inputRef.current && !restProps.inputElement) {
       const hasVal = hasValue(value)
-      inputRef.current.value = hasVal ? String(value) : ''
+      const newValue = hasVal ? String(value) : ''
+      if (inputRef.current.value !== newValue) {
+        inputRef.current.value = newValue
+      }
     }
   }, [value, restProps.inputElement])
 
