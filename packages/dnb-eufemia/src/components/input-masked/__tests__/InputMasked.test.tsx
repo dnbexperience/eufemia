@@ -2159,7 +2159,7 @@ describe('InputMasked with custom mask', () => {
 
   // placeholderChar is no longer supported with Maskito; legacy behavior removed
 
-  it.only('should handle leading zeros gracefully', async () => {
+  it('should handle leading zeros gracefully', async () => {
     const onChange = jest.fn()
 
     render(
