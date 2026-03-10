@@ -11,7 +11,6 @@ const {
   showInput,
   range,
   skeleton,
-  tooltip,
   globalStatus,
   statusProps,
   statusState,
