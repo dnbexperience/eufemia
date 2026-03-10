@@ -111,24 +111,21 @@ export default function TextMask(props: TextMaskProps): React.JSX.Element {
             if (actionType === 'deleteBackward') {
               const value = elementState.value
               const [selectionStart, selectionEnd] = elementState.selection
-              const characterBeforeCaret = value[selectionStart - 1]
+              const isSeparatorBeforeCaret = separatorTokens.includes(
+                value[selectionStart - 1]
+              )
 
-              if (separatorTokens.includes(characterBeforeCaret)) {
+              if (isSeparatorBeforeCaret) {
                 const newCaretPosition = selectionStart - 1
+
                 const valueBeforeCaret = value.slice(0, selectionStart)
                 const valueAfterCaret = value.slice(selectionEnd)
-                const isLastCharBeforeCaretSeparator =
-                  separatorTokens.includes(
-                    valueBeforeCaret.charAt(valueBeforeCaret.length - 1)
-                  )
-                const adjustedValueBeforeCaret =
-                  isLastCharBeforeCaretSeparator && !valueAfterCaret
-                    ? valueBeforeCaret.slice(0, -1)
-                    : valueBeforeCaret
 
                 return {
                   elementState: {
-                    value: adjustedValueBeforeCaret + valueAfterCaret,
+                    value: valueAfterCaret
+                      ? `${valueBeforeCaret}${valueAfterCaret}`
+                      : valueBeforeCaret.slice(0, -1),
                     selection: [newCaretPosition, newCaretPosition],
                   },
                   data,
