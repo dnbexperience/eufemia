@@ -893,6 +893,30 @@ describe('TableAccordion', () => {
         })
       )
     })
+
+    it('should add viewTransitionName style to accordion content tr when using Tr.AccordionContent', () => {
+      render(
+        <Table mode="accordion">
+          <tbody>
+            <Tr>
+              <Td>content</Td>
+              <Tr.AccordionContent>
+                <Td>row content</Td>
+              </Tr.AccordionContent>
+            </Tr>
+          </tbody>
+        </Table>
+      )
+
+      const accordionContentTr = document.querySelector(
+        '.dnb-table__tr__accordion-content'
+      ) as HTMLElement
+      expect(accordionContentTr.style).toEqual(
+        expect.objectContaining({
+          viewTransitionName: expect.any(String),
+        })
+      )
+    })
   })
 
   describe('events', () => {
