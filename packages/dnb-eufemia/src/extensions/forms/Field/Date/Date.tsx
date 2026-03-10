@@ -59,7 +59,7 @@ export type DateProps = Omit<
    */
   showCancelButton?: DatePickerProps['showCancelButton']
   /**
-   * If set to `true`, a reset button will be shown. You can change the default text by using `reset_button_text="Tilbakestill"` Defaults to `true`.
+   * If set to `true`, a reset button will be shown. You can change the default text by using `resetButtonText="Tilbakestill"`. When clicked, the field resets to the initial `value` or `defaultValue`. If no initial value was provided, the field is cleared. Defaults to `true`.
    */
   showResetButton?: DatePickerProps['showResetButton']
   onBlurValidator?: DateValidator | false

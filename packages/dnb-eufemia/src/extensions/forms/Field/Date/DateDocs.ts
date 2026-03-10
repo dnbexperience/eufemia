@@ -52,7 +52,7 @@ export const DateProperties: PropertiesTableProps = {
   },
   showResetButton: {
     ...showResetButton,
-    doc: 'If set to `true`, a reset button will be shown. You can change the default text by using `resetButtonText="Tilbakestill"` Defaults to `true`.',
+    doc: 'If set to `true`, a reset button will be shown. You can change the default text by using `resetButtonText="Tilbakestill"`. When clicked, the field resets to the initial `value` or `defaultValue`. If no initial value was provided, the field is cleared. Defaults to `true`.',
   },
   size: {
     ...size,

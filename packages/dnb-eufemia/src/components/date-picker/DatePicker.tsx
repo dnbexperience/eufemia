@@ -169,7 +169,7 @@ export type DatePickerProps = {
    */
   showCancelButton?: boolean
   /**
-   * If set to `true`, a reset button will be shown. You can change the default text by using `resetButtonText="Tilbakestill"` Defaults to `false`.
+   * If set to `true`, a reset button will be shown. You can change the default text by using `resetButtonText="Tilbakestill"`. Defaults to `false`.
    */
   showResetButton?: boolean
   submitButtonText?: string
@@ -326,7 +326,7 @@ export type DatePickerProps = {
     event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>
   ) => void
   /**
-   * Will be called once a user presses the reset button.
+   * Will be called once a user presses the reset button. The DatePicker will revert to the value it had when it was first rendered (the initial `date`, `startDate`, or `endDate` prop values). If no initial value was provided, the date will be cleared.
    */
   onReset?: (
     event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>
