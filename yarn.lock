@@ -4466,7 +4466,7 @@ __metadata:
     sass: "npm:1.97.2"
     sass-loader: "npm:13.3.2"
     semantic-release: "npm:20.1.0"
-    simple-git: "npm:3.27.0"
+    simple-git: "npm:3.32.3"
     start-server-and-test: "npm:2.0.1"
     storybook: "npm:8.5.3"
     storybook-utils: "workspace:*"
@@ -16062,7 +16062,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:^4.3.1, debug@npm:^4.3.5":
+"debug@npm:^4.3.1":
   version: 4.4.0
   resolution: "debug@npm:4.4.0"
   dependencies:
@@ -34614,14 +34614,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"simple-git@npm:3.27.0":
-  version: 3.27.0
-  resolution: "simple-git@npm:3.27.0"
+"simple-git@npm:3.32.3":
+  version: 3.32.3
+  resolution: "simple-git@npm:3.32.3"
   dependencies:
     "@kwsites/file-exists": "npm:^1.1.1"
     "@kwsites/promise-deferred": "npm:^1.1.1"
-    debug: "npm:^4.3.5"
-  checksum: 10/c56c88dd1b5f6ad45c6034eb44f25ee61929a2a5832bd015b8b1b71331071e43bf631edbcc4a8529fa692f9b17576595d95c89218bc5d67be66ed0c1aedc7a76
+    debug: "npm:^4.4.0"
+  checksum: 10/9ec8d0cb7a1f813fe56be71cfaf85f44960befa03528560b0d8234eab957cf2a11e62e7b90e0c88066b6db314c8559698f9c13c64602aec56e0834c7508e4c83
   languageName: node
   linkType: hard
 
