@@ -605,9 +605,6 @@ describe('Field.Date', () => {
       render(<Field.Date value="2023-12-07|2023-12-14" range />)
 
       const datePicker = document.querySelector('.dnb-date-picker')
-      const startDayInput = datePicker.querySelector(
-        '.dnb-date-picker__input--day'
-      )
       const endDateYear = datePicker.querySelectorAll(
         '.dnb-date-picker__input--year'
       )[1]
@@ -2989,6 +2986,39 @@ describe('Field.Date', () => {
 
       // Check that the error message is the expected required error
       expect(errorText).toContain(nb.Date.errorRequiredRange)
+    })
+
+    it('should display required if start date or end date is removed when required', async () => {
+      render(<Field.Date value="2023-12-07|2023-12-14" range required />)
+
+      const datePicker = document.querySelector('.dnb-date-picker')
+      const endDateYear = datePicker.querySelectorAll(
+        '.dnb-date-picker__input--year'
+      )[1]
+
+      expect(datePicker.classList).not.toContain(
+        'dnb-date-picker__status--error'
+      )
+      expect(
+        datePicker.querySelector('.dnb-form-status__text')
+      ).not.toBeInTheDocument()
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      await userEvent.type(endDateYear, '{Backspace>16}')
+      await userEvent.click(document.body)
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+
+        expect(
+          document.querySelector('.dnb-form-status__text')
+        ).toHaveTextContent(nb.Date.errorRequiredRange)
+      })
     })
   })
 
