@@ -30,6 +30,9 @@ import {
 
 // `range`, `showInput`, `showCancelButton` and `showResetButton` are not picked from the `DatePickerProps`
 // Since they require `Field.Date` specific comments, due to them having different default values
+//
+// `inline` is intentionally not supported in `Field.Date`.
+// Use `DatePicker` directly if an inline calendar is needed.
 export type DateValidator = ValidatorWithCustomValidators<
   string,
   {
