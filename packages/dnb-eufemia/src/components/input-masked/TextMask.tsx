@@ -122,7 +122,7 @@ export default function TextMask(props: TextMaskProps): React.JSX.Element {
                     valueBeforeCaret.charAt(valueBeforeCaret.length - 1)
                   )
                 const adjustedValueBeforeCaret =
-                  isLastCharBeforeCaretSeparator
+                  isLastCharBeforeCaretSeparator && !valueAfterCaret
                     ? valueBeforeCaret.slice(0, -1)
                     : valueBeforeCaret
 
