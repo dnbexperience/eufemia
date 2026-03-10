@@ -263,15 +263,15 @@
     }
 
     // Make the whole item clickable
-    &:has(.dnb-checkbox__input),
-    &:has(.dnb-radio__input) {
+    &--selection:has(.dnb-checkbox__input),
+    &--selection:has(.dnb-radio__input) {
       overflow: clip;
       overflow-clip-margin: var(--item-outline-width);
     }
-    .dnb-checkbox__input {
+    &--selection .dnb-checkbox__input {
       --checkbox-bounding--medium: 100;
     }
-    .dnb-radio__input {
+    &--selection .dnb-radio__input {
       --radio-bounding--medium: 100;
     }
 
