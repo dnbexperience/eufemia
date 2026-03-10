@@ -2,7 +2,13 @@
  * Web Autocomplete Component
  */
 
-import React, { useMemo } from 'react'
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useContext,
+  useCallback,
+} from 'react'
 import clsx from 'clsx'
 import type {
   DrawerListProps,
@@ -10,6 +16,8 @@ import type {
   DrawerListOptionsRender,
   DrawerListSuffix,
   DrawerListDataArrayObject,
+  DrawerListInternalData,
+  DrawerListInternalItem,
 } from '../../fragments/DrawerList'
 import type { ButtonIconPosition, ButtonSize } from '../Button'
 import type { FormStatusBaseProps } from '../FormStatus'
@@ -18,9 +26,7 @@ import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../space/types'
 import {
   warn,
-  isTouchDevice,
-  makeUniqueId,
-  extendPropsWithContextInClassComponent,
+  extendPropsWithContext,
   validateDOMAttributes,
   dispatchCustomElementEvent,
   getStatusState,
@@ -30,20 +36,27 @@ import {
   getClosestParent,
 } from '../../shared/component-helper'
 import { IS_MAC, debounce, hasSelectedText } from '../../shared/helpers'
-import AlignmentHelper from '../../shared/AlignmentHelper'
+import useId from '../../shared/helpers/useId'
+import useMountEffect from '../../shared/helpers/useMountEffect'
+import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
-
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import Suffix from '../../shared/helpers/Suffix'
 import AriaLive from '../aria-live/AriaLive'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import IconPrimary from '../icon-primary/IconPrimary'
-import Input, { SubmitButton } from '../input/Input'
+import Input, {
+  SubmitButton,
+  type SubmitButtonProps,
+} from '../input/Input'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 import DrawerList from '../../fragments/drawer-list/DrawerList'
 import { ItemContent } from '../../fragments/drawer-list/DrawerListItem'
-import DrawerListContext from '../../fragments/drawer-list/DrawerListContext'
+import DrawerListContext, {
+  DrawerListContextProps,
+} from '../../fragments/drawer-list/DrawerListContext'
 import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
 import {
   parseContentTitle,
@@ -312,7 +325,7 @@ export type AutocompleteProps = {
    */
   inputValue?: string
   size?: DrawerListProps['size']
-  data?: any
+  data?: DrawerListData
   /**
    * Will be called once the Autocomplete shows up.
    */
@@ -436,11 +449,7 @@ const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
 }
 
 function Autocomplete(props: AutocompleteAllProps) {
-  const _id = useMemo(
-    () => props.id || makeUniqueId(),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
+  const _id = useId(props.id)
 
   const providerProps = {
     ...props,
@@ -462,1899 +471,2143 @@ function Autocomplete(props: AutocompleteAllProps) {
 
 export default Autocomplete
 
-class AutocompleteInstance extends React.PureComponent<
-  AutocompleteAllProps,
-  Record<string, any>
-> {
-  static defaultProps = autocompleteDefaultProps
-  static contextType = DrawerListContext
+type SearchIndexItem = {
+  dataItem: DrawerListDataArrayObject | DrawerListInternalItem
+  contentChunk: string | null
+}
 
-  context: React.ContextType<typeof DrawerListContext>
-  attributes: Record<string, unknown>
-  _cacheMemory: Record<string, unknown>
-  _props: Record<string, any>
-  _ref: React.RefObject<HTMLElement>
-  _refShell: React.RefObject<HTMLSpanElement>
-  _refInput: React.RefObject<any>
-  _selectTimeout: ReturnType<typeof setTimeout>
-  _focusTimeout: ReturnType<typeof setTimeout>
-  _blurTimeout: ReturnType<typeof setTimeout>
-  showAllTimeout: ReturnType<typeof setTimeout>
-  __preventFiringBlurEvent: boolean | null
-  dbf: Record<string, (...args: any[]) => any>
-  isTouchDevice: boolean
-  skipFilter: boolean
-  skipReorder: boolean
-  wasVisible: boolean
+type DebouncedEventFunction = (props?: Record<string, unknown>) => void
 
-  static parseDataItem(dataItem) {
-    const searchWord = parseContentTitle(
-      dataItem.searchContent || dataItem,
-      {
-        separator: ' ',
-      }
-    )
-    if (typeof searchWord !== 'string' && Array.isArray(searchWord)) {
-      return AutocompleteInstance.parseDataItem(searchWord)
-    }
-    return searchWord
-  }
-
-  static createSearchIndex(data) {
-    return data.map((dataItem) => {
-      const contentChunk = AutocompleteInstance.parseDataItem(dataItem)
-      return { dataItem, contentChunk }
-    })
-  }
-
-  static getCurrentDataTitle(selectedItem, data) {
-    const currentData = getCurrentData(selectedItem, data)
-    return parseContentTitle(currentData, {
+function parseDataItem(
+  dataItem: DrawerListDataArrayObject | DrawerListInternalItem
+): string | null {
+  const searchWord = parseContentTitle(
+    dataItem.searchContent || dataItem,
+    {
       separator: ' ',
-      preferSelectedValue: true,
-    })
+    }
+  )
+  if (typeof searchWord !== 'string' && Array.isArray(searchWord)) {
+    return parseDataItem(searchWord)
   }
+  return searchWord
+}
 
-  static getDerivedStateFromProps(
-    props: AutocompleteAllProps,
-    state: Record<string, any>
-  ) {
-    if (state._listenForPropChanges) {
-      state.disableHighlighting = props.disableHighlighting
+function createSearchIndex(
+  data: DrawerListInternalData
+): SearchIndexItem[] {
+  return data.map((dataItem) => {
+    const contentChunk = parseDataItem(dataItem)
+    return { dataItem, contentChunk }
+  })
+}
 
-      if (props.inputValue !== 'initval') {
-        state.inputValue = props.inputValue
-      }
+function getCurrentDataTitle(
+  selectedItem: string | number,
+  data: DrawerListInternalData
+): string | null {
+  const currentData = getCurrentData(selectedItem, data)
+  return parseContentTitle(currentData, {
+    separator: ' ',
+    preferSelectedValue: true,
+  })
+}
 
-      if (props?.data?.length > 0 && state?.prevData?.length === 0) {
-        let selectedItem = state.selectedItem
+function AutocompleteInstance(ownProps: AutocompleteAllProps) {
+  const context = useContext<
+    DrawerListContextProps & {
+      Autocomplete: Record<string, unknown>
+    }
+  >(DrawerListContext)
+  const drawerList = context.drawerList
 
-        if (props.defaultValue) {
-          selectedItem = props.defaultValue
-        }
+  // Filter out undefined values to mimic React class component defaultProps behavior.
+  // Without this, explicit undefined values (e.g. size={undefined}) would override
+  // defaults and prevent context values from being merged.
+  const filteredOwnProps = Object.fromEntries(
+    Object.entries(ownProps).filter(([, v]) => v !== undefined)
+  )
 
+  // Merge props with context and defaults
+  const props = extendPropsWithContext(
+    filteredOwnProps,
+    autocompleteDefaultProps,
+    context.getTranslation?.(ownProps)?.Autocomplete,
+    pickFormElementProps(context?.formElement),
+    context?.Autocomplete
+  )
+
+  const {
+    title,
+    placeholder,
+    label,
+    labelDirection,
+    labelSrOnly,
+    icon,
+    iconSize,
+    inputIcon,
+    size,
+    align,
+    fixedPosition,
+    status,
+    statusState,
+    statusProps,
+    statusNoAnimation,
+    globalStatus,
+    suffix,
+    scrollable,
+    focusable,
+    keepOpen,
+    keepValue,
+    keepValueAndSelection,
+    keepSelection,
+    showClearButton,
+    preventClose,
+    noAnimation,
+    noScrollAnimation,
+    showSubmitButton,
+    submitElement,
+    inputElement: CustomInput,
+    optionsRender,
+    preventSelection,
+    maxHeight,
+    defaultValue,
+    searchNumbers,
+    searchInWordIndex,
+    searchMatch,
+    showOptionsSr,
+    selectedSr,
+    submitButtonTitle,
+    submitButtonIcon,
+    portalClass,
+    drawerClass,
+    inputRef,
+    className,
+    disabled,
+    stretch,
+    skeleton,
+    arrowPosition,
+    iconPosition,
+    skipPortal,
+    independentWidth,
+    autoComplete,
+    openOnFocus,
+    disableFilter,
+    disableReorder,
+    onClear,
+    selectAll,
+
+    mode: _mode,
+    data: _data,
+    children: _children,
+    direction: _direction,
+    pageOffset: _pageOffset,
+    observerElement: _observerElement,
+    id: _id,
+    open: _open,
+    value: _value,
+    inputValue: _inputValue,
+    enableBodyLock: _enableBodyLock,
+    listClass: _listClass,
+    indicatorLabel: _indicatorLabel,
+    noOptions: _noOptions,
+    showAll: _showAll,
+    ariaLiveOptions: _ariaLiveOptions,
+    disableHighlighting: _disableHighlighting,
+
+    onOpen: _onOpen,
+    onType: _onType,
+    onFocus: _onFocus,
+    onBlur: _onBlur,
+    onClose: _onClose,
+    onChange: _onChange,
+    onSelect: _onSelect,
+
+    ...attributes
+  } = props
+
+  // State
+  const [inputValue, setInputValueState] = useState<string | null>(() => {
+    if (props.inputValue !== 'initval' && props.inputValue != null) {
+      return props.inputValue
+    }
+    if (drawerList && drawerList.currentTitle) {
+      return drawerList.currentTitle
+    }
+    return null
+  })
+  const [typedInputValue, setTypedInputValue] = useState<string | null>(
+    null
+  )
+  const [mode, setModeState] = useState(props.mode)
+  const [hasFocus, setHasFocus] = useState(false)
+  const hasBlurRef = useRef(false)
+  const setHasBlur = useCallback((v: boolean) => {
+    hasBlurRef.current = v
+  }, [])
+  const [showAllNextTime, setShowAllNextTime] = useState(false)
+  const [skipFocusDuringChange, setSkipFocusDuringChange] = useState(false)
+  const [disableHighlightingState, setDisableHighlighting] = useState(
+    props.disableHighlighting
+  )
+  const [visibleIndicator, setVisibleIndicator] = useState(false)
+  const [searchIndex, setSearchIndexState] = useState<
+    SearchIndexItem[] | null
+  >(null)
+
+  // Refs
+  const _ref = useRef<HTMLElement>(null)
+  const _refShell = useRef<HTMLSpanElement>(null)
+  const _refInput = useRef<HTMLInputElement>(null)
+  const _selectTimeout = useRef<NodeJS.Timeout>(null)
+  const _blurTimeout = useRef<NodeJS.Timeout>(null)
+  const _focusTimeout = useRef<NodeJS.Timeout>(null)
+  const showAllTimeoutRef = useRef<NodeJS.Timeout>(null)
+  const preventFiringBlurEvent = useRef<boolean | null>(null)
+  const closingFromChangeRef = useRef(false)
+  const suppressFocusHandlerRef = useRef(false)
+  const selectAllActiveRef = useRef(false)
+  const debouncedEventFnsRef = useRef<
+    Record<string, DebouncedEventFunction>
+  >({})
+  const cacheMemoryRef = useRef<Record<string, unknown>>({})
+  const attributesRef = useRef<Record<string, unknown>>({})
+  const wasVisibleRef = useRef(false)
+  const skipFilterRef = useRef(disableFilter)
+  const skipReorderRef = useRef(disableReorder)
+  const searchIndexRef = useRef(searchIndex)
+  const prevDataRef = useRef(props.data)
+  const dataChangedRef = useRef(false)
+  const lastUpdateDataRef = useRef<DrawerListInternalData | null>(null)
+  const prevValueRef = useRef(props.value)
+  const prevInputValuePropRef = useRef(props.inputValue)
+  const prevDisableHighlightingRef = useRef(props.disableHighlighting)
+  const inputValueRef = useRef(inputValue)
+  const typedInputValueRef = useRef(typedInputValue)
+  const modeRef = useRef(mode)
+  const hasFocusRef = useRef(hasFocus)
+
+  // Keep refs in sync with state for use in callbacks
+  searchIndexRef.current = searchIndex
+  inputValueRef.current = inputValue
+  typedInputValueRef.current = typedInputValue
+  modeRef.current = mode
+  hasFocusRef.current = hasFocus
+
+  // Ref-based access to drawerList and props to avoid stale closures
+  // and unnecessary callback re-creation when these objects change identity.
+  const drawerListRef = useRef(drawerList)
+  drawerListRef.current = drawerList
+  const propsRef = useRef(props)
+  propsRef.current = props
+
+  // Helper functions (no deps on state that changes often)
+
+  const hasInjectedDataItem = useCallback(
+    (data = drawerList.data) => {
+      const lastItem = data.slice(-1)[0]
+      return lastItem
+        ? lastItem.showAll || String(lastItem.__id) === 'noOptions'
+        : false
+    },
+    [drawerList.data]
+  )
+
+  const countData = useCallback(
+    (data = drawerList.data) => {
+      const count = data.length
+      return count > 0 && hasInjectedDataItem(data) ? count - 1 : count
+    },
+    [drawerList.data, hasInjectedDataItem]
+  )
+
+  const hasValidData = useCallback(
+    (data = drawerList.data) => {
+      if (countData(data) > 0) {
+        const first = data[0]
         if (
-          !props.defaultValue &&
-          props.value &&
-          props.value !== 'initval'
+          !first.showAll &&
+          !['noOptions', 'indicator'].includes(String(first.__id))
         ) {
-          selectedItem = props.value
-        }
-
-        const currentData = getCurrentData(
-          selectedItem,
-          normalizeData(props.data)
-        )
-
-        state.inputValue = parseContentTitle(currentData, {
-          separator: ' ',
-          preferSelectedValue: true,
-        })
-      }
-
-      if (props.data !== state.prevData) {
-        state.updateData(props.data)
-        state.prevData = props.data
-      }
-    }
-
-    state._listenForPropChanges = true
-
-    return state
-  }
-
-  constructor(props: AutocompleteAllProps, context?: any) {
-    super(props)
-
-    this.attributes = {}
-    this.state = this.state || {}
-    const state = this.state as Record<string, any>
-    state._listenForPropChanges = true
-    state.mode = props.mode
-    state.prevData = props.data // only to compare against new data
-    state.updateData = this.updateData // only so we can call setData
-
-    if (context.drawerList && context.drawerList.currentTitle) {
-      state.inputValue = context.drawerList.currentTitle
-    }
-
-    this._ref = React.createRef()
-    this._refShell = React.createRef()
-    this._refInput = React.createRef()
-
-    this.isTouchDevice = isTouchDevice()
-
-    this.skipFilter = props.disableFilter
-    this.skipReorder = props.disableReorder
-
-    // Initialize wasVisible to track if component was previously open
-    this.wasVisible = false
-  }
-
-  componentDidMount() {
-    // Forward the internal input ref to the user's inputRef prop
-    const { inputRef } = this.props
-    if (inputRef && this._refInput.current) {
-      if (typeof inputRef === 'function') {
-        inputRef(this._refInput.current)
-      } else {
-        inputRef.current = this._refInput.current
-      }
-    }
-
-    if (this.props.open) {
-      this.runFilterToHighlight({ fillDataIfEmpty: true })
-      this.setVisible()
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    // Only recompute the search index when we actually need it:
-    // while the drawer is open or the input has focus (about to open)
-    if (
-      (this.context.drawerList.open || this.state.hasFocus) &&
-      prevProps.data !== this.props.data
-    ) {
-      this.setSearchIndex({ overwriteSearchIndex: true }, () => {
-        this.runFilterWithSideEffects(this.state.inputValue)
-      })
-    }
-
-    if (prevProps.value !== this.props.value) {
-      this.revalidateSelectedItem()
-      this.revalidateInputValue()
-    }
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this._selectTimeout)
-    clearTimeout(this._focusTimeout)
-    clearTimeout(this._blurTimeout)
-  }
-
-  setVisible = (args = null, onStateComplete = null) => {
-    this.wasVisible = true
-    this.context.drawerList
-      .setWrapperElement(this._ref.current)
-      .setVisible(args, onStateComplete)
-  }
-
-  setHidden = (args = null, onStateComplete = null) => {
-    this.context.drawerList.setHidden(args, onStateComplete)
-    this.setState({
-      hasFocus: false,
-      hasBlur: false,
-    })
-  }
-
-  toggleVisible = (args = null, onStateComplete = null) => {
-    args = args || {}
-    if (typeof args.hasFilter === 'undefined') {
-      args.hasFilter = false
-    }
-    if (this.props.disabled) {
-      return // stop here
-    }
-    if (
-      !args.hasFilter &&
-      !this.props.preventClose &&
-      !this.context.drawerList.hidden &&
-      this.context.drawerList.isOpen
-    ) {
-      this.setHidden(null, onStateComplete)
-    } else {
-      this.setVisibleByContext(null, onStateComplete)
-    }
-  }
-
-  toggleVisibleAndFocusOptions = () => {
-    this.context.drawerList.toggleVisible(null, (isVisible) => {
-      if (isVisible) {
-        this.focusDrawerList()
-      }
-    })
-  }
-
-  setVisibleByContext = (options: any = {}, onStateComplete = null) => {
-    const skipFilter = this.state.showAllNextTime
-    if (skipFilter) {
-      this.setState({
-        showAllNextTime: false,
-        _listenForPropChanges: false,
-      })
-    }
-
-    this.runFilterToHighlight({
-      fillDataIfEmpty: true,
-      skipFilter,
-      ...options,
-    })
-
-    this.setVisible(null, onStateComplete)
-  }
-
-  onInputChangeHandler = ({ value, event }) => {
-    this.setState({
-      typedInputValue: value,
-      inputValue: value,
-      _listenForPropChanges: false,
-    })
-
-    dispatchCustomElementEvent(this, 'onType', {
-      value,
-      event,
-      ...this.getEventObjects('onType'),
-    })
-
-    value = String(value).trim()
-    if (value !== this.state.inputValue) {
-      this.runFilterWithSideEffects(value)
-    }
-  }
-
-  runFilterWithSideEffects = (value, options = {}) => {
-    // run the filter also on invalid values, so we reset the highlight
-    const data = this.runFilter(value, options)
-    const count = this.countData(data)
-
-    const { keepValue, keepSelection, keepValueAndSelection } = this.props
-
-    if (value?.length > 0) {
-      // show the "noOptions" message
-      if (count === 0) {
-        if (this.state.mode !== 'async') {
-          this.showNoOptionsItem()
-        }
-      } else if (count > 0) {
-        this.context.drawerList.setData(this.wrapWithShowAll(data))
-        this.context.drawerList.setState({
-          cacheHash: value + count,
-        })
-
-        if (count === 1) {
-          this.context.drawerList.setState({
-            activeItem: data[0].__id,
-          })
+          return true
         }
       }
-    } else {
-      if (!keepValue && !keepSelection && !keepValueAndSelection) {
-        this.totalReset()
-      } else if (keepValue) {
-        this.resetSelectedItem()
-      }
-
-      this.showAllItems()
-
-      if (this.state.inputValue?.length > 0) {
-        this.setVisible()
-      }
-    }
-
-    // Opens the drawer, also when pressing on the clear button
-    if (this.state.hasFocus) {
-      this.setVisible()
-    }
-
-    return data
-  }
-
-  runFilterToHighlight = (
-    { fillDataIfEmpty = false, ...options }: any = {},
-    value = this.state.inputValue
-  ) => {
-    // do not filter or highlight if the current selected item is the same as the input value
-    const possibleTitle = AutocompleteInstance.getCurrentDataTitle(
-      this.context.drawerList.selectedItem,
-      this.context.drawerList.originalData
-    )
-
-    if (value === possibleTitle) {
-      return // stop here
-    }
-
-    value = String(value || '').trim()
-
-    this.setState({
-      disableHighlighting: false,
-      _listenForPropChanges: false,
-    })
-
-    let data = this.runFilter(value, options) // do not skip the filter here
-
-    // this is a backup, in case everything is empty, we fill the data
-    if (fillDataIfEmpty && data.length === 0 && value === '') {
-      data = this.context.drawerList.originalData
-    }
-
-    this.context.drawerList.setData(this.wrapWithShowAll(data))
-    this.context.drawerList.setState({
-      cacheHash: value + this.countData(data),
-    })
-
-    return data
-  }
-
-  wrapWithShowAll = (data) => {
-    if (!data || !this.hasFilterActive(data)) {
-      return data
-    }
-
-    const lastItem = this.context.drawerList.originalData.slice(-1)[0]
-    if (lastItem && !lastItem.showAll) {
-      const lastActiveItem = data.slice(-1)[0]
-      if (lastActiveItem) {
-        // NB: here we could use unshift, but this has to be implemented different places as well
-        data.push({
-          __id: lastItem.__id + 1,
-          lastActiveItem: lastActiveItem.__id,
-          className: 'dnb-autocomplete__show-all',
-          showAll: true,
-          activeItem: false,
-          selectedItem: false,
-          content: (
-            <>
-              <IconPrimary icon="arrow_down" />
-              {this._props.showAll}
-            </>
-          ),
-        })
-      }
-    }
-
-    return data
-  }
-
-  setInputValue = (inputValue) => {
-    this.setState({
-      inputValue,
-      _listenForPropChanges: false,
-    })
-  }
-
-  emptyData = () => {
-    this._cacheMemory = {}
-
-    this.clearInputValue()
-
-    this.context.drawerList.setData(
-      () => [],
-      () => {
-        this.setSearchIndex({ overwriteSearchIndex: true }, null)
-        this.resetActiveItem()
-        this.totalReset()
-      },
-      {
-        overwriteOriginalData: true,
-      }
-    )
-  }
-
-  clearInputValue = () => {
-    this.setState({
-      inputValue: '',
-      typedInputValue: null,
-      _listenForPropChanges: false,
-    })
-  }
-
-  resetInputValue = () => {
-    const { inputValue, keepValue, keepValueAndSelection } = this.props
-
-    if (
-      keepValue ||
-      keepValueAndSelection ||
-      (inputValue !== 'initval' && inputValue.length > 0)
-    ) {
-      return // stop here
-    }
-
-    clearTimeout(this._selectTimeout)
-    this._selectTimeout = setTimeout(() => {
-      if (this.hasSelectedItem()) {
-        const inputValue = AutocompleteInstance.getCurrentDataTitle(
-          this.context.drawerList.selectedItem,
-          this.context.drawerList.originalData
-        )
-        this.setInputValue(inputValue)
-      } else {
-        this.clearInputValue()
-      }
-    }, 1) // to make sure we actually are after the Input state handling -> "input placeholder reset"
-  }
-
-  showNoOptionsItem = () => {
-    this.resetActiveItem()
-    this.ignoreEvents()
-    this.context.drawerList.setData(
-      this.props.noOptions === false
-        ? []
-        : [
-            {
-              className: 'dnb-autocomplete__no-options',
-              content: this._props.noOptions,
-              ignoreEvents: true,
-              __id: 'noOptions',
-            },
-          ]
-    )
-    this.context.drawerList.setState({
-      cacheHash: 'noOptions',
-    })
-    this.setVisible()
-  }
-
-  showIndicatorItem = () => {
-    this.resetActiveItem()
-    this.ignoreEvents()
-    this.context.drawerList.setData([
-      {
-        className: 'dnb-autocomplete__indicator',
-        content: <ProgressIndicator label={this._props.indicatorLabel} />,
-        ignoreEvents: true,
-        __id: 'indicator',
-      },
-    ])
-    this.context.drawerList.setState({
-      cacheHash: 'indicator',
-    })
-    this.setVisible()
-  }
-
-  showIndicator = () => {
-    if (!this.state.visibleIndicator) {
-      this.setState({
-        visibleIndicator: true,
-        _listenForPropChanges: false,
-      })
-    }
-  }
-
-  hideIndicator = () => {
-    this.setState({
-      visibleIndicator: false,
-      _listenForPropChanges: false,
-    })
-  }
-
-  setMode = (mode) => {
-    this.setState({
-      mode,
-      _listenForPropChanges: false,
-    })
-  }
-
-  revalidateInputValue = () => {
-    const { inputValue, value } = this.props
-    if (inputValue && inputValue !== 'initval') {
-      return // stop here
-    }
-    const selectedItem = getCurrentIndex(
-      value,
-      this.context.drawerList.originalData
-    )
-    const usedInputValue = AutocompleteInstance.getCurrentDataTitle(
-      selectedItem,
-      this.context.drawerList.originalData
-    )
-    this.setInputValue(usedInputValue)
-  }
-
-  revalidateSelectedItem = () => {
-    const selectedItem = getCurrentIndex(
-      this.props.value,
-      this.context.drawerList.originalData
-    )
-
-    this.context.drawerList.setState({
-      selectedItem,
-    })
-  }
-
-  hasDatasetChanged = (rawData) => {
-    const { selectedItem } = this.context.drawerList
-    if (parseFloat(String(selectedItem)) > -1) {
-      const newItem = rawData?.[selectedItem]
-      const oldItem = this.context.drawerList.originalData[selectedItem]
-      if (newItem?.selectedKey !== oldItem?.selectedKey) {
-        return true
-      }
-    }
-    return false
-  }
-
-  updateData = (rawData) => {
-    const hasChanged = this.hasDatasetChanged(rawData)
-
-    // invalidate the local cache now,
-    // because we get else the same after we show the new result
-    this.context.drawerList.setState(
-      {
-        cacheHash: 'updateData',
-      },
-      () => {
-        // If the "selectedKey" has changed in comparison to the existing data,
-        // invalidated our selectedItem
-        // Also, ensure to run it after a state update, because the "selectedItem" (value prop) can have changed,
-        // and should match the new data
-        if (hasChanged) {
-          const { value } = this.props
-          if (value && value !== 'initval') {
-            this.revalidateSelectedItem()
-            this.revalidateInputValue()
-          } else {
-            this.resetSelectedItem()
-          }
-        }
-      }
-    )
-
-    this.context.drawerList.setData(
-      () => rawData, // set data as a function, so it gets re-evaluated with normalizeData
-      (newData) => {
-        this.setSearchIndex(
-          { overwriteSearchIndex: true, data: newData },
-          () => {
-            const { typedInputValue } = this.state
-
-            if (typedInputValue?.length > 0) {
-              // run with side effects, to get preselection of activeItem
-              const filteredData =
-                this.runFilterWithSideEffects(typedInputValue)
-              if (this.countData(filteredData) === 0) {
-                if (this.state.mode !== 'async') {
-                  this.showNoOptionsItem()
-                }
-              }
-            } else {
-              this.resetActiveItem()
-
-              if (this.context.drawerList.open) {
-                this.showAllItems()
-              }
-            }
-          }
-        )
-      },
-      {
-        overwriteOriginalData: true,
-      }
-    )
-
-    return this
-  }
-
-  onInputKeyDownHandler = ({ event: e }) => {
-    const key = e.key
-
-    switch (key) {
-      case 'PageUp':
-      case 'PageDown':
-      case 'Home':
-      case 'End':
-      case 'ArrowDown':
-      case 'ArrowUp':
-        e.preventDefault() // has to be there for VO, one the drawer is closed
-        break
-    }
-
-    switch (key) {
-      case 'ArrowUp':
-      case 'ArrowDown':
-        if (!this.context.drawerList.open) {
-          this.setVisible()
-        }
-
-        break
-
-      case 'Escape':
-        this.setState({
-          showAllNextTime: true,
-          _listenForPropChanges: false,
-        })
-
-        break
-
-      case 'Enter':
-        e.preventDefault()
-
-        if (!this.context.drawerList.open && this.hasFilterActive()) {
-          this.ignoreEvents()
-          this.showAll()
-        }
-
-        if (
-          (!this.hasValidData() || !this.hasSelectedItem()) &&
-          !this.hasActiveItem()
-        ) {
-          this.toggleVisible()
-        } else {
-          this.setVisible()
-        }
-
-        break
-    }
-  }
-
-  onInputClickHandler = (e) => {
-    // Show the entire list when an item is selected
-    if (!this.context.drawerList.open && this.hasFilterActive()) {
-      this.ignoreEvents()
-      this.showAll()
-    }
-
-    const { value } = e.target
-    this.setVisibleByContext({ value })
-  }
-
-  onInputFocusHandler = (event) => {
-    if (this.state.skipFocusDuringChange) {
-      return // stop here
-    }
-
-    const { openOnFocus, keepValueAndSelection } = this.props
-
-    if (!this.state.hasFocus) {
-      if (openOnFocus && this.hasValidData()) {
-        const { value } = event.target
-        this.setVisibleByContext({ value })
-      } else {
-        this.setSearchIndex({}, null)
-      }
-
-      if (keepValueAndSelection) {
-        this.showAll()
-      }
-
-      // Mark focus first so updateData (triggered in onFocus) can act on it
-      this.setState({ hasFocus: true, hasBlur: false })
-
-      dispatchCustomElementEvent(this, 'onFocus', {
-        event,
-        ...this.getEventObjects('onFocus'),
-      })
-    }
-  }
-
-  reserveActivityHandler = (event = null) => {
-    this.__preventFiringBlurEvent = Boolean(
-      event.key === 'Enter' ||
-        (event?.currentTarget
-          ? getClosestParent('dnb-drawer-list', event.currentTarget) ||
-            getClosestParent(
-              'dnb-input__submit-button__button',
-              event.currentTarget
-            )
-          : false)
-    )
-
-    if (this.__preventFiringBlurEvent) {
-      setTimeout(
-        () => {
-          this.__preventFiringBlurEvent = false
-        },
-        this.props.noAnimation ? 1 : DrawerList.blurDelay
-      )
-    }
-  }
-
-  onBlurHandler = (event) => {
-    if (
-      this.__preventFiringBlurEvent ||
-      this.context.drawerList.hasFocusOnElement ||
-      this.state.hasBlur
-    ) {
-      this.__preventFiringBlurEvent = null
       return false
-    }
+    },
+    [drawerList.data, countData]
+  )
 
-    const {
-      openOnFocus,
-      keepValue,
-      keepValueAndSelection,
-      preventSelection,
-      noAnimation,
-    } = this.props
+  const hasSelectedItem = useCallback(() => {
+    return parseFloat(String(drawerListRef.current.selectedItem)) > -1
+  }, [])
 
-    this.setState({
-      hasBlur: true,
-      hasFocus: false,
-    })
+  const hasActiveItem = useCallback(() => {
+    return parseFloat(String(drawerList.activeItem)) > -1
+  }, [drawerList.activeItem])
 
-    if (!keepValue && !keepValueAndSelection) {
-      this.setState({
-        typedInputValue: null,
-        _listenForPropChanges: false,
-      })
-    }
+  const hasFilterActive = useCallback(
+    (data = drawerListRef.current.data) => {
+      const originalData = drawerListRef.current.originalData
+      return !(originalData && originalData.length === countData(data))
+    },
+    [countData]
+  )
 
-    if (!preventSelection) {
-      const existingValue = this.state.inputValue
-
-      this.resetInputValue()
-
-      const resetAfterClose = () => {
-        if (!keepValue || !existingValue || this.hasSelectedItem()) {
-          this.resetActiveItem()
-        }
-        this.resetFilter()
-      }
-
-      if (noAnimation) {
-        resetAfterClose()
-      } else {
-        clearTimeout(this._blurTimeout)
-        this._blurTimeout = setTimeout(
-          resetAfterClose,
-          DrawerList.blurDelay
-        ) // only to let the animation pass, before we make the effect. Else this would be a visible change
-      }
-    }
-
-    if (openOnFocus) {
-      this.setHidden()
-    }
-
-    dispatchCustomElementEvent(this, 'onBlur', {
-      event,
-      ...this.getEventObjects('onBlur'),
-    })
-  }
-
-  onTriggerKeyDownHandler = (e) => {
-    const key = e.key
-
-    switch (key) {
-      case ' ':
-      case 'Enter':
-        {
-          this.setVisible()
-        }
-        break
-    }
-
-    switch (key) {
-      case ' ':
-      case 'Enter':
-      case 'PageUp':
-      case 'PageDown':
-      case 'ArrowDown':
-      case 'ArrowUp':
-        {
-          e.preventDefault()
-          this.focusInput()
-        }
-        break
-    }
-  }
-
-  focusDrawerList = () => {
+  const focusDrawerList = useCallback(() => {
     try {
-      this.context.drawerList._refUl.current.focus({
+      drawerList._refUl.current.focus({
         preventScroll: true,
       })
     } catch (e) {
       // do nothing
     }
-  }
+  }, [drawerList._refUl])
 
-  focusInput = () => {
+  const focusInput = useCallback(() => {
     try {
-      this._refInput.current.focus({
-        preventScroll: true,
-      })
+      if (_refInput.current) {
+        _refInput.current.focus({
+          preventScroll: true,
+        })
+      }
     } catch (e) {
       warn(e)
     }
-  }
+  }, [])
 
-  getEventObjects = (key) => {
-    const attributes = this.attributes
+  const setVisible = useCallback(
+    (
+      args: Record<string, unknown> | null = null,
+      onStateComplete: (() => void) | null = null
+    ) => {
+      wasVisibleRef.current = true
+      drawerListRef.current
+        .setWrapperElement(_ref.current)
+        .setVisible(args, onStateComplete)
+    },
+    []
+  )
 
-    return {
-      attributes,
-      dataList: this.context.drawerList.data,
-      updateData: this.updateData,
-      revalidateSelectedItem: this.revalidateSelectedItem,
-      revalidateInputValue: this.revalidateInputValue,
-      resetSelectedItem: this.resetSelectedItem,
-      clearInputValue: this.clearInputValue,
-      showAllItems: this.showAllItems,
-      setVisible: this.setVisible,
-      resetInputValue: this.resetInputValue,
-      setHidden: this.setHidden,
-      emptyData: this.emptyData,
-      focusInput: this.focusInput,
-      setInputValue: this.setInputValue,
-      showNoOptionsItem: this.showNoOptionsItem,
-      showIndicatorItem: this.showIndicatorItem,
-      showIndicator: this.showIndicator,
-      hideIndicator: this.hideIndicator,
-      setMode: this.setMode,
-      debounce: (func, props = {}, wait = 250) => {
-        this.dbf = this.dbf || {}
-        return (
-          this.dbf[key] ||
-          (this.dbf[key] = debounce(func, wait, { instance: this }))
-        )(props)
-      },
-    }
-  }
+  const setHidden = useCallback(
+    (
+      args: unknown[] | null = null,
+      onStateComplete: (() => void) | null = null
+    ) => {
+      drawerListRef.current.setHidden(args, onStateComplete)
+      setHasFocus(false)
+      setHasBlur(false)
+    },
+    [setHasBlur]
+  )
 
-  hasInjectedDataItem = (data = this.context.drawerList.data) => {
-    const lastItem = data.slice(-1)[0]
-    return lastItem
-      ? lastItem.showAll || String(lastItem.__id) === 'noOptions'
-      : false
-  }
+  const resetActiveItem = useCallback(() => {
+    drawerListRef.current.setState({
+      activeItem: null,
+    })
+  }, [])
 
-  countData = (data = this.context.drawerList.data) => {
-    const count = data.length
-    return count > 0 && this.hasInjectedDataItem(data) ? count - 1 : count
-  }
+  const resetFilter = useCallback(() => {
+    drawerListRef.current.setData(drawerListRef.current.originalData)
+  }, [])
 
-  hasValidData = (data = this.context.drawerList.data) => {
-    if (this.countData(data) > 0) {
-      const first = data[0]
-      if (
-        !first.showAll &&
-        !['noOptions', 'indicator'].includes(String(first.__id))
-      ) {
-        return true
-      }
-    }
-    return false
-  }
+  const setInputValue = useCallback((val: string | null) => {
+    setInputValueState(val)
+  }, [])
 
-  hasSelectedItem = () => {
-    return parseFloat(String(this.context.drawerList.selectedItem)) > -1
-  }
+  const clearInputValue = useCallback(() => {
+    setInputValueState('')
+    setTypedInputValue(null)
+  }, [])
 
-  hasActiveItem = () => {
-    return parseFloat(String(this.context.drawerList.activeItem)) > -1
-  }
-
-  hasFilterActive = (data = this.context.drawerList.data) => {
-    return !(
-      this.context.drawerList.originalData &&
-      this.context.drawerList.originalData.length === this.countData(data)
-    )
-  }
-
-  setSearchIndex(
-    {
-      overwriteSearchIndex = false,
-      data = this.context.drawerList.originalData,
-    }: any = {},
-    cb: ((...args: any[]) => void) | null = null
-  ) {
-    this._cacheMemory = {}
-
-    if (!overwriteSearchIndex && this.state.searchIndex) {
-      return this.state.searchIndex
-    }
-
-    const searchIndex = AutocompleteInstance.createSearchIndex(data)
-
-    this.setState(
+  const ignoreEvents = useCallback(() => {
+    clearTimeout(showAllTimeoutRef.current)
+    drawerListRef.current.setState(
       {
-        searchIndex,
-        _listenForPropChanges: false,
-      },
-      cb
-    )
-
-    return searchIndex
-  }
-
-  ignoreEvents = () => {
-    clearTimeout(this.showAllTimeout)
-    this.context.drawerList.setState(
-      {
-        ignoreEvents: true, // we also have to reset this one
+        ignoreEvents: true,
       },
       () => {
-        // but we reset it right after the rerender
-        this.showAllTimeout = setTimeout(() => {
-          this.context &&
-            this.context.drawerList &&
-            this.context.drawerList.setState({
-              ignoreEvents: false, // we also have to reset this one
-            })
-        }, 10) // make sure we reset once the rerender of DrawerList is done, because then we keep the activeItem at it's position by using key="down"
+        showAllTimeoutRef.current = setTimeout(() => {
+          drawerListRef.current.setState({
+            ignoreEvents: false,
+          })
+        }, 10)
       }
     )
-  }
+  }, [])
 
-  showAll = () => {
-    this.resetFilter()
-
-    this.context.drawerList.setState({
+  const showAllItems = useCallback(() => {
+    resetFilter()
+    drawerListRef.current.setState({
       cacheHash: 'all',
     })
-
-    this.runFilterToHighlight({
-      skipFilter: true,
-      fillDataIfEmpty: true,
-    })
-  }
-
-  showAllItems = () => {
-    this.resetFilter()
-    this.context.drawerList.setState({
-      cacheHash: 'all',
-    })
-    this.context.drawerList.setActiveItemAndScrollToIt(
-      this.context.drawerList.selectedItem,
+    drawerListRef.current.setActiveItemAndScrollToIt(
+      drawerListRef.current.selectedItem,
       {
         scrollTo: false,
       }
     )
-  }
+  }, [resetFilter])
 
-  totalReset = () => {
-    this.setState({
-      inputValue: null,
-      typedInputValue: null,
-      _listenForPropChanges: false,
+  const setSearchIndex = useCallback(
+    (
+      {
+        overwriteSearchIndex = false,
+        data = drawerList.originalData,
+      }: {
+        overwriteSearchIndex?: boolean
+        data?: DrawerListInternalData
+      } = {},
+      cb: (() => void) | null = null
+    ) => {
+      cacheMemoryRef.current = {}
+
+      if (!overwriteSearchIndex && searchIndexRef.current) {
+        return searchIndexRef.current
+      }
+
+      const newSearchIndex = createSearchIndex(data)
+
+      setSearchIndexState(newSearchIndex)
+      searchIndexRef.current = newSearchIndex
+
+      if (cb) {
+        cb()
+      }
+
+      return newSearchIndex
+    },
+    [drawerList.originalData]
+  )
+
+  const revalidateSelectedItem = useCallback(() => {
+    const selectedItem = getCurrentIndex(
+      props.value,
+      drawerListRef.current.originalData
+    )
+
+    drawerListRef.current.setState({
+      selectedItem,
     })
-    this.resetActiveItem()
-    this.resetSelectedItem()
-  }
+  }, [props.value])
 
-  resetActiveItem = () => {
-    this.context.drawerList.setState({
-      activeItem: null,
-    })
-  }
+  const revalidateInputValue = useCallback(() => {
+    if (props.inputValue && props.inputValue !== 'initval') {
+      return // stop here
+    }
+    const selectedItem = getCurrentIndex(
+      props.value,
+      drawerListRef.current.originalData
+    )
+    const usedInputValue = getCurrentDataTitle(
+      selectedItem,
+      drawerListRef.current.originalData
+    )
+    setInputValue(usedInputValue)
+  }, [props.inputValue, props.value, setInputValue])
 
-  resetSelectedItem = () => {
-    const hasHadValue = this.hasSelectedItem()
-    this.context.drawerList.setState(
+  const resetSelectedItem = useCallback(() => {
+    const hadValue = hasSelectedItem()
+    drawerListRef.current.setState(
       {
         selectedItem: null,
       },
       () => {
-        if (hasHadValue) {
-          dispatchCustomElementEvent(this, 'onChange', {
-            ...this.getEventObjects('onChange'),
+        if (hadValue) {
+          dispatchCustomElementEvent(propsRef.current, 'onChange', {
+            ...getEventObjects('onChange'),
           })
         }
       }
     )
-  }
+  }, [hasSelectedItem])
 
-  resetFilter = () => {
-    this.context.drawerList.setData(this.context.drawerList.originalData)
-  }
+  const totalReset = useCallback(() => {
+    setInputValueState(null)
+    setTypedInputValue(null)
+    resetActiveItem()
+    resetSelectedItem()
+  }, [resetActiveItem, resetSelectedItem])
 
-  runFilter = (
-    value,
-    {
-      data = null, // rawData
-      searchIndex = this.state.searchIndex,
-      searchNumbers = this.props.searchNumbers,
-      inWordIndex = parseFloat(
-        String(this.props.searchInWordIndex ?? (this.skipFilter ? 1 : 3))
-      ) - 1,
-      disableHighlighting = false,
-      skipFilter = false,
-      skipReorder = false,
-    } = {}
-  ) => {
-    if (data) {
-      searchIndex = this.setSearchIndex({ data })
-    }
-    // get the search index
-    else if (!searchIndex) {
-      searchIndex = this.setSearchIndex()
+  const resetInputValue = useCallback(() => {
+    if (
+      keepValue ||
+      keepValueAndSelection ||
+      (props.inputValue !== 'initval' && props.inputValue?.length > 0)
+    ) {
+      return // stop here
     }
 
-    if (typeof searchIndex === 'undefined') {
-      return []
-    }
-
-    const startsWithMatch = this.props.searchMatch === 'starts-with'
-    const rawValue = value ?? ''
-    let searchWords = rawValue.split(/\s+/g).filter(Boolean)
-
-    if (startsWithMatch) {
-      // @ts-expect-error Unicode property escapes are supported at runtime here
-      const hasLetters = /[\p{L}]/u.test(rawValue)
-      // @ts-expect-error Unicode property escapes are supported at runtime here
-      const hasNumbers = /[\p{N}]/u.test(rawValue)
-      if (startsWithMatch && searchNumbers && hasNumbers && !hasLetters) {
-        // @ts-expect-error Unicode property escapes are supported at runtime here
-        const normalizedNumeric = rawValue.replace(/[^\p{N}]+/gu, '')
-        searchWords = normalizedNumeric ? [normalizedNumeric] : []
+    clearTimeout(_selectTimeout.current)
+    _selectTimeout.current = setTimeout(() => {
+      if (hasSelectedItem()) {
+        const val = getCurrentDataTitle(
+          drawerListRef.current.selectedItem,
+          drawerListRef.current.originalData
+        )
+        setInputValue(val)
+      } else {
+        clearInputValue()
       }
-    }
+    }, 1)
+  }, [
+    keepValue,
+    keepValueAndSelection,
+    props.inputValue,
+    hasSelectedItem,
+    setInputValue,
+    clearInputValue,
+  ])
 
-    const getWordBoundary = (wordIndex) =>
-      startsWithMatch && wordIndex === 0
-        ? '^'
-        : searchNumbers
-        ? '' // when searching numbers, we don't care about word boundaries
-        : '^|\\s'
-
-    // Pre-compile regex patterns for performance
-    const searchWordsData = searchWords.map((word, wordIndex) => {
-      const processedWord = searchNumbers
-        ? // @ts-expect-error Unicode property escapes are supported at runtime here
-          word.replace(/[^\p{L}\p{N}]+/gu, '')
-        : escapeRegexChars(word)
-      const wordBoundary = getWordBoundary(wordIndex)
-
-      return {
-        originalWord: word,
-        processedWord,
-        wordIndex,
-        // Pre-compile regex for filter phase
-        filterRegex: new RegExp(
-          wordIndex >= inWordIndex
-            ? `${processedWord}`
-            : `(${wordBoundary})${processedWord}`,
-          'i'
-        ),
-        // Pre-compile regex for scoring phase
-        scoreRegex: new RegExp(
-          `(${wordBoundary})${escapeRegexChars(word)}`,
-          'ig'
-        ),
-      }
+  const showNoOptionsItem = useCallback(() => {
+    resetActiveItem()
+    ignoreEvents()
+    drawerListRef.current.setData(
+      props.noOptions === false
+        ? []
+        : [
+            {
+              className: 'dnb-autocomplete__no-options',
+              content: props.noOptions,
+              ignoreEvents: true,
+              __id: 'noOptions',
+            },
+          ]
+    )
+    drawerListRef.current.setState({
+      cacheHash: 'noOptions',
     })
+    setVisible()
+  }, [resetActiveItem, ignoreEvents, props.noOptions, setVisible])
 
-    // Pre-compile first word regex if needed
-    const firstWordRegex =
-      searchWords.length > 0
-        ? new RegExp(`^${escapeRegexChars(searchWords[0])}`, 'i')
-        : null
+  const showIndicatorItem = useCallback(() => {
+    resetActiveItem()
+    ignoreEvents()
+    drawerListRef.current.setData([
+      {
+        className: 'dnb-autocomplete__indicator',
+        content: <ProgressIndicator label={props.indicatorLabel} />,
+        ignoreEvents: true,
+        __id: 'indicator',
+      },
+    ])
+    drawerListRef.current.setState({
+      cacheHash: 'indicator',
+    })
+    setVisible()
+  }, [resetActiveItem, ignoreEvents, props.indicatorLabel, setVisible])
 
-    const findSearchWords = (contentChunk) => {
-      if (typeof contentChunk !== 'string') {
+  const showIndicator = useCallback(() => {
+    setVisibleIndicator(true)
+  }, [])
+
+  const hideIndicator = useCallback(() => {
+    setVisibleIndicator(false)
+  }, [])
+
+  const setMode = useCallback((newMode: AutocompleteMode) => {
+    setModeState(newMode)
+  }, [])
+
+  const wrapWithShowAll = useCallback(
+    (data: DrawerListInternalData) => {
+      if (!data || !hasFilterActive(data)) {
+        return data
+      }
+
+      const lastItem = drawerListRef.current.originalData.slice(-1)[0]
+      if (lastItem && !lastItem.showAll) {
+        const lastActiveItem = data.slice(-1)[0]
+        if (lastActiveItem) {
+          data.push({
+            __id: lastItem.__id + 1,
+            lastActiveItem: lastActiveItem.__id,
+            className: 'dnb-autocomplete__show-all',
+            showAll: true,
+            activeItem: false,
+            selectedItem: false,
+            content: (
+              <>
+                <IconPrimary icon="arrow_down" />
+                {props.showAll}
+              </>
+            ),
+          })
+        }
+      }
+
+      return data
+    },
+    [hasFilterActive, props.showAll]
+  )
+
+  const runFilter = useCallback(
+    (
+      value: string | null,
+      {
+        data = null,
+        searchIndex: siParam = searchIndexRef.current,
+        searchNumbers: snParam = props.searchNumbers,
+        inWordIndex = parseFloat(
+          String(
+            props.searchInWordIndex ?? (skipFilterRef.current ? 1 : 3)
+          )
+        ) - 1,
+        disableHighlighting: disableHL = false,
+        skipFilter = false,
+        skipReorder = false,
+      }: {
+        data?: DrawerListInternalData | null
+        searchIndex?: SearchIndexItem[] | null
+        searchNumbers?: boolean
+        inWordIndex?: number
+        disableHighlighting?: boolean
+        skipFilter?: boolean
+        skipReorder?: boolean
+      } = {}
+    ) => {
+      let currentSearchIndex = siParam
+
+      if (data) {
+        currentSearchIndex = setSearchIndex({ data })
+      } else if (!currentSearchIndex) {
+        currentSearchIndex = setSearchIndex()
+      }
+
+      if (typeof currentSearchIndex === 'undefined') {
         return []
       }
 
-      return searchWordsData
-        .filter(({ filterRegex, processedWord }) => {
-          if (filterRegex.test(contentChunk)) {
-            return true
-          }
+      const startsWithMatch = props.searchMatch === 'starts-with'
+      const rawValue = value ?? ''
+      let searchWords = rawValue.split(/\s+/g).filter(Boolean)
 
-          if (
-            searchNumbers &&
-            filterRegex.test(contentChunk.replace(/[^0-9]/g, ''))
-          ) {
-            return true
-          }
-
-          return false
-        })
-        .map(({ originalWord, wordIndex, scoreRegex }) => {
-          // Use 1 to ensure we never have 0, because we filter out words with 0 later
-          let wordScore = 0
-
-          // Check how ofter the current written word is inside the content,
-          // and give a score for each one
-          wordScore += (contentChunk.match(scoreRegex) || []).length
-
-          // Give the first word extra points
-          if (wordIndex === 0 && firstWordRegex) {
-            // Check if the first chunk starts the first written word
-            const isFirstWord = firstWordRegex.test(
-              contentChunk.split(' ')[0]
-            )
-
-            // If yes, add the amount of possible words + 1
-            if (isFirstWord) {
-              wordScore += searchWords.length + 1
-            }
-          }
-
-          return {
-            word: originalWord,
-            wordIndex,
-            wordScore,
-          }
-        })
-    }
-
-    const strS = '\uFFFE'
-    const strE = '\uFFFF'
-
-    searchIndex = searchIndex.map((item, i) => {
-      const listOfFoundWords = findSearchWords(item.contentChunk)
-
-      // Check if ALL search words are purely numeric (no letters)
-      const allWordsAreNumeric = searchNumbers
-        ? // @ts-expect-error Unicode property escapes are supported at runtime here
-          searchWords.every((word) => /^[\p{N}\s.,]+$/u.test(word))
-        : false
-
-      // When searching numbers with multiple numeric terms, ensure ALL search words are found (AND logic)
-      // For text or mixed searches, keep existing behavior (OR logic)
-      const hasMultipleNumericTerms =
-        searchNumbers &&
-        searchWords &&
-        searchWords.length > 1 &&
-        allWordsAreNumeric
-      if (
-        hasMultipleNumericTerms &&
-        listOfFoundWords.length !== searchWords.length
-      ) {
-        return { totalScore: 0, item } // Will be filtered out later
+      if (startsWithMatch) {
+        // @ts-expect-error Unicode property escapes are supported at runtime here
+        const hasLetters = /[\p{L}]/u.test(rawValue)
+        // @ts-expect-error Unicode property escapes are supported at runtime here
+        const hasNumbers = /[\p{N}]/u.test(rawValue)
+        if (startsWithMatch && snParam && hasNumbers && !hasLetters) {
+          // @ts-expect-error Unicode property escapes are supported at runtime here
+          const normalizedNumeric = rawValue.replace(/[^\p{N}]+/gu, '')
+          searchWords = normalizedNumeric ? [normalizedNumeric] : []
+        }
       }
 
-      if (typeof item.dataItem === 'string') {
-        item.dataItem = { content: item.dataItem }
-      }
+      const getWordBoundary = (wordIndex: number) =>
+        startsWithMatch && wordIndex === 0 ? '^' : snParam ? '' : '^|\\s'
 
-      // Only make a copy if render is not set
-      // If we don't make a copy of the item, we risk that we manipulate data outside
-      if (!item.dataItem.render) {
-        item.dataItem = { ...item.dataItem }
-      }
+      const searchWordsData = searchWords.map((word, wordIndex) => {
+        const processedWord = snParam
+          ? // @ts-expect-error Unicode property escapes are supported at runtime here
+            word.replace(/[^\p{L}\p{N}]+/gu, '')
+          : escapeRegexChars(word)
+        const wordBoundary = getWordBoundary(wordIndex)
 
-      // this function gets called once the items are rendered / in view
-      // this part is used for the highlighting
-      item.dataItem.render = (children, id) => {
-        if (disableHighlighting || this.state.disableHighlighting) {
-          return children
+        return {
+          originalWord: word,
+          processedWord,
+          wordIndex,
+          filterRegex: new RegExp(
+            wordIndex >= inWordIndex
+              ? `${processedWord}`
+              : `(${wordBoundary})${processedWord}`,
+            'i'
+          ),
+          scoreRegex: new RegExp(
+            `(${wordBoundary})${escapeRegexChars(word)}`,
+            'ig'
+          ),
+        }
+      })
+
+      const firstWordRegex =
+        searchWords.length > 0
+          ? new RegExp(`^${escapeRegexChars(searchWords[0])}`, 'i')
+          : null
+
+      const findSearchWords = (contentChunk: string | null) => {
+        if (typeof contentChunk !== 'string') {
+          return []
         }
 
-        // if the ID and the content is the same, use the cached version
-        const cacheHash = id + value
-        this._cacheMemory = this._cacheMemory || {}
-        if (this._cacheMemory[cacheHash]) {
-          return this._cacheMemory[cacheHash]
-        }
-
-        const isComponent =
-          typeof children !== 'string' && React.isValidElement(children)
-
-        if (isComponent && Array.isArray(children?.props?.children)) {
-          children = children.props.children
-        } else if (!Array.isArray(children)) {
-          children = [children] // for a while we had split this into separate words children.split(' ') but this is not needed anymore
-        }
-
-        // make string out of it
-        children = children.map((originalChild) => ({
-          originalChild,
-          segment: convertJsxToString(originalChild, ' '),
-        }))
-
-        children = children.map(({ originalChild, segment }, idx) => {
-          // This way, the user can get highlights that do not match
-          searchWords.forEach((word, wordIndex) => {
-            // Can be empty string
-            if (segment) {
-              // To ensure we escape regex chars
-              word = escapeRegexChars(word)
-
-              if (searchNumbers) {
-                // Remove all other chars, except numbers and letters, so we can match complete sequences
-                // @ts-expect-error Unicode property escapes are supported at runtime here
-                const cleanedWord = word.replace(/[^\p{L}\p{N}]+/gu, '')
-                if (cleanedWord) {
-                  // Highlight the complete sequence wherever it appears as a contiguous block
-                  // This ensures "12 34" highlights "12" and "34" as separate sequences,
-                  // not all individual "1", "2", "3", "4" characters
-                  const escapedWord = escapeRegexChars(cleanedWord)
-                  segment = segment.replace(
-                    new RegExp(`(${escapedWord})`, 'gi'),
-                    (match) => {
-                      // Avoid double-highlighting
-                      if (match.includes(strS)) {
-                        return match
-                      }
-                      return `${strS}${match}${strE}`
-                    }
-                  )
-                }
-              } else {
-                if (wordIndex >= inWordIndex) {
-                  segment = segment.replace(
-                    new RegExp(`(${word})`, 'gi'),
-                    `${strS}$1${strE}`
-                  )
-                } else {
-                  segment = segment.replace(
-                    new RegExp(
-                      `(${getWordBoundary(wordIndex)})(${word})`,
-                      'gi'
-                    ),
-                    `$1${strS}$2${strE}`
-                  )
-                }
-              }
-            }
-          })
-
-          let result = segment
-
-          if (segment.includes(strS)) {
-            // to make sure we don't have several in a row
-            const startRepeatRegex = new RegExp(`(${strS})+`, 'g')
-            const endRepeatRegex = new RegExp(`(${strE})+`, 'g')
-            const adjacentRegex = new RegExp(`(${strE}${strS})`, 'g')
-            const splitRegex = new RegExp(`(${strS}|${strE})`, 'g')
-
-            const normalized = segment
-              .replace(startRepeatRegex, strS)
-              .replace(endRepeatRegex, strE)
-              .replace(adjacentRegex, '')
-
-            const tokens = normalized.split(splitRegex).filter(Boolean)
-
-            let isHighlighted = false
-            let highlightIndex = 0
-            const parts = tokens.map((token) => {
-              if (token === strS) {
-                isHighlighted = true
-                return null
-              }
-              if (token === strE) {
-                isHighlighted = false
-                return null
-              }
-
-              if (isHighlighted) {
-                const key = `highlight-${cacheHash}-${idx}-${highlightIndex++}`
-                return (
-                  <span
-                    key={key}
-                    className="dnb-drawer-list__option__item--highlight"
-                  >
-                    {token}
-                  </span>
-                )
-              }
-
-              return token
-            })
-
-            result = <span key={cacheHash + idx}>{parts}</span>
-          } else {
-            result = <span key={cacheHash + idx}>{segment}</span>
-          }
-
-          // If we get a component, replace the one we use as the string comparison
-          // This way we can still have an icon before or after
-          if (isComponent) {
-            if (Array.isArray(originalChild?.props?.children)) {
-              result = originalChild.props.children.map((Comp) => {
-                return Comp === originalChild ||
-                  (Comp.props && Comp.props.children === originalChild)
-                  ? result
-                  : Comp
-              })
-            } else if (typeof originalChild === 'string') {
-              result = originalChild
+        return searchWordsData
+          .filter(({ filterRegex }) => {
+            if (filterRegex.test(contentChunk)) {
+              return true
             }
 
             if (
-              React.isValidElement<Record<string, unknown>>(originalChild)
+              snParam &&
+              filterRegex.test(contentChunk.replace(/[^0-9]/g, ''))
             ) {
-              result = React.createElement(
-                originalChild.type as React.ComponentType<any>,
-                {
-                  ...originalChild.props,
-                  key: 'clone' + cacheHash + idx,
-                },
-                result
-              )
+              return true
             }
+
+            return false
+          })
+          .map(({ originalWord, wordIndex, scoreRegex }) => {
+            let wordScore = 0
+
+            wordScore += (contentChunk.match(scoreRegex) || []).length
+
+            if (wordIndex === 0 && firstWordRegex) {
+              const isFirstWord = firstWordRegex.test(
+                contentChunk.split(' ')[0]
+              )
+
+              if (isFirstWord) {
+                wordScore += searchWords.length + 1
+              }
+            }
+
+            return {
+              word: originalWord,
+              wordIndex,
+              wordScore,
+            }
+          })
+      }
+
+      const strS = '\uFFFE'
+      const strE = '\uFFFF'
+
+      const mappedIndex: Array<
+        | DrawerListDataArrayObject
+        | { totalScore: number; item: SearchIndexItem }
+      > = currentSearchIndex.map((item) => {
+        const listOfFoundWords = findSearchWords(item.contentChunk)
+
+        const allWordsAreNumeric = snParam
+          ? // @ts-expect-error Unicode property escapes are supported at runtime here
+            searchWords.every((word) => /^[\p{N}\s.,]+$/u.test(word))
+          : false
+
+        const hasMultipleNumericTerms =
+          snParam &&
+          searchWords &&
+          searchWords.length > 1 &&
+          allWordsAreNumeric
+        if (
+          hasMultipleNumericTerms &&
+          listOfFoundWords.length !== searchWords.length
+        ) {
+          return { totalScore: 0, item }
+        }
+
+        if (typeof item.dataItem === 'string') {
+          item.dataItem = { content: item.dataItem }
+        }
+
+        if (!item.dataItem.render) {
+          item.dataItem = { ...item.dataItem }
+        }
+
+        item.dataItem.render = (
+          children: React.ReactNode,
+          id: string
+        ): React.ReactNode => {
+          if (disableHL || disableHighlightingState) {
+            return children
           }
 
-          return result
-        })
+          const cacheHash = id + value
+          cacheMemoryRef.current = cacheMemoryRef.current || {}
+          if (cacheMemoryRef.current[cacheHash]) {
+            return cacheMemoryRef.current[cacheHash] as React.ReactNode
+          }
 
-        return (this._cacheMemory[cacheHash] = children)
+          const isComponent =
+            typeof children !== 'string' && React.isValidElement(children)
+
+          let childArray: Array<React.ReactNode>
+          if (
+            isComponent &&
+            Array.isArray(
+              (
+                children as React.ReactElement<{
+                  children?: React.ReactNode[]
+                }>
+              ).props?.children
+            )
+          ) {
+            childArray = (
+              children as React.ReactElement<{
+                children: React.ReactNode[]
+              }>
+            ).props.children
+          } else if (!Array.isArray(children)) {
+            childArray = [children]
+          } else {
+            childArray = children
+          }
+
+          const segments = childArray.map((originalChild) => ({
+            originalChild,
+            segment: convertJsxToString(originalChild, ' '),
+          }))
+
+          const processed = segments.map(
+            ({ originalChild, segment }, idx) => {
+              searchWords.forEach((word, wordIndex) => {
+                if (segment) {
+                  word = escapeRegexChars(word)
+
+                  if (snParam) {
+                    const cleanedWord = word.replace(
+                      // @ts-expect-error Unicode property escapes are supported at runtime here
+                      /[^\p{L}\p{N}]+/gu,
+                      ''
+                    )
+                    if (cleanedWord) {
+                      const escapedWord = escapeRegexChars(cleanedWord)
+                      segment = segment.replace(
+                        new RegExp(`(${escapedWord})`, 'gi'),
+                        (match) => {
+                          if (match.includes(strS)) {
+                            return match
+                          }
+                          return `${strS}${match}${strE}`
+                        }
+                      )
+                    }
+                  } else {
+                    if (wordIndex >= inWordIndex) {
+                      segment = segment.replace(
+                        new RegExp(`(${word})`, 'gi'),
+                        `${strS}$1${strE}`
+                      )
+                    } else {
+                      segment = segment.replace(
+                        new RegExp(
+                          `(${getWordBoundary(wordIndex)})(${word})`,
+                          'gi'
+                        ),
+                        `$1${strS}$2${strE}`
+                      )
+                    }
+                  }
+                }
+              })
+
+              let result: React.ReactNode = segment
+
+              if (segment.includes(strS)) {
+                const startRepeatRegex = new RegExp(`(${strS})+`, 'g')
+                const endRepeatRegex = new RegExp(`(${strE})+`, 'g')
+                const adjacentRegex = new RegExp(`(${strE}${strS})`, 'g')
+                const splitRegex = new RegExp(`(${strS}|${strE})`, 'g')
+
+                const normalized = segment
+                  .replace(startRepeatRegex, strS)
+                  .replace(endRepeatRegex, strE)
+                  .replace(adjacentRegex, '')
+
+                const tokens = normalized.split(splitRegex).filter(Boolean)
+
+                let isHighlighted = false
+                let highlightIndex = 0
+                const parts = tokens.map((token) => {
+                  if (token === strS) {
+                    isHighlighted = true
+                    return null
+                  }
+                  if (token === strE) {
+                    isHighlighted = false
+                    return null
+                  }
+
+                  if (isHighlighted) {
+                    const key = `highlight-${cacheHash}-${idx}-${highlightIndex++}`
+                    return (
+                      <span
+                        key={key}
+                        className="dnb-drawer-list__option__item--highlight"
+                      >
+                        {token}
+                      </span>
+                    )
+                  }
+
+                  return token
+                })
+
+                result = <span key={cacheHash + idx}>{parts}</span>
+              } else {
+                result = <span key={cacheHash + idx}>{segment}</span>
+              }
+
+              if (isComponent) {
+                const element = originalChild as React.ReactElement<{
+                  children?: React.ReactNode | React.ReactNode[]
+                }>
+                if (Array.isArray(element?.props?.children)) {
+                  result = element.props.children.map(
+                    (Comp: React.ReactNode) => {
+                      const compEl = Comp as React.ReactElement<{
+                        children?: React.ReactNode
+                      }>
+                      return Comp === originalChild ||
+                        (compEl.props &&
+                          compEl.props.children === originalChild)
+                        ? result
+                        : Comp
+                    }
+                  )
+                } else if (typeof originalChild === 'string') {
+                  result = originalChild
+                }
+
+                if (
+                  React.isValidElement<Record<string, unknown>>(
+                    originalChild
+                  )
+                ) {
+                  result = React.createElement(
+                    originalChild.type as React.ComponentType<any>,
+                    {
+                      ...originalChild.props,
+                      key: 'clone' + cacheHash + idx,
+                    },
+                    result
+                  )
+                }
+              }
+
+              return result
+            }
+          )
+
+          return (cacheMemoryRef.current[cacheHash] = processed)
+        }
+
+        if (skipFilterRef.current || skipFilter) {
+          return item.dataItem
+        }
+
+        let totalScore = listOfFoundWords.length
+        for (const { wordScore } of listOfFoundWords) {
+          totalScore += wordScore
+        }
+
+        return {
+          totalScore,
+          item,
+        }
+      })
+
+      if (!skipFilterRef.current && !skipFilter) {
+        type ScoredItem = { totalScore: number; item: SearchIndexItem }
+        const scored = (mappedIndex as ScoredItem[]).filter(
+          ({ totalScore }) => totalScore
+        )
+
+        if (!skipReorderRef.current && !skipReorder) {
+          scored.sort(({ totalScore: a }, { totalScore: b }) => b - a)
+        }
+
+        return scored.map(
+          ({ item }) => item.dataItem
+        ) as DrawerListInternalData
       }
 
-      if (this.skipFilter || skipFilter) {
-        return item.dataItem
+      return mappedIndex as DrawerListInternalData
+    },
+    [
+      setSearchIndex,
+      props.searchMatch,
+      props.searchNumbers,
+      props.searchInWordIndex,
+      disableHighlightingState,
+    ]
+  )
+
+  const runFilterToHighlight = useCallback(
+    (
+      {
+        fillDataIfEmpty = false,
+        ...options
+      }: {
+        fillDataIfEmpty?: boolean
+        skipFilter?: boolean
+        value?: string
+      } = {},
+      value: string | null = inputValueRef.current
+    ) => {
+      const possibleTitle = getCurrentDataTitle(
+        drawerListRef.current.selectedItem,
+        drawerListRef.current.originalData
+      )
+
+      if (value === possibleTitle) {
+        return // stop here
       }
 
-      /**
-       * This prioritizes the first written words (score)
-       * along with who many matches are in the content item (listOfFoundWords)
-       */
-      let totalScore = listOfFoundWords.length // Include the found words
-      for (const { wordScore } of listOfFoundWords) {
-        totalScore += wordScore
+      value = String(value || '').trim()
+
+      setDisableHighlighting(false)
+
+      let data: DrawerListInternalData = runFilter(value, options)
+
+      if (fillDataIfEmpty && data.length === 0 && value === '') {
+        data = drawerListRef.current.originalData
       }
 
-      return {
-        totalScore,
-        item,
+      drawerListRef.current.setData(wrapWithShowAll(data))
+      drawerListRef.current.setState({
+        cacheHash: value + countData(data),
+      })
+
+      return data
+    },
+    [runFilter, wrapWithShowAll, countData]
+  )
+
+  const runFilterWithSideEffects = useCallback(
+    (
+      value: string | null,
+      options: {
+        data?: DrawerListInternalData | null
+        searchIndex?: SearchIndexItem[] | null
+        searchNumbers?: boolean
+        inWordIndex?: number
+        disableHighlighting?: boolean
+        skipFilter?: boolean
+        skipReorder?: boolean
+      } = {}
+    ) => {
+      const data: DrawerListInternalData = runFilter(value, options)
+      const count = countData(data)
+
+      if (value?.length > 0) {
+        if (count === 0) {
+          if (modeRef.current !== 'async') {
+            showNoOptionsItem()
+          }
+        } else if (count > 0) {
+          drawerListRef.current.setData(wrapWithShowAll(data))
+          drawerListRef.current.setState({
+            cacheHash: value + count,
+          })
+
+          if (count === 1) {
+            drawerListRef.current.setState({
+              activeItem: (data[0] as DrawerListInternalItem).__id,
+            })
+          }
+        }
+      } else {
+        if (!keepValue && !keepSelection && !keepValueAndSelection) {
+          totalReset()
+        } else if (keepValue) {
+          resetSelectedItem()
+        }
+
+        showAllItems()
+
+        if (inputValueRef.current?.length > 0) {
+          setVisible()
+        }
       }
+
+      if (hasFocusRef.current) {
+        setVisible()
+      }
+
+      return data
+    },
+    [
+      runFilter,
+      countData,
+      showNoOptionsItem,
+      wrapWithShowAll,
+      keepValue,
+      keepSelection,
+      keepValueAndSelection,
+      totalReset,
+      resetSelectedItem,
+      showAllItems,
+      setVisible,
+    ]
+  )
+
+  const showAll = useCallback(() => {
+    resetFilter()
+
+    drawerListRef.current.setState({
+      cacheHash: 'all',
     })
 
-    if (!this.skipFilter && !skipFilter) {
-      // This removes items with 0 totalScore
-      searchIndex = searchIndex.filter(({ totalScore }) => totalScore)
+    runFilterToHighlight({
+      skipFilter: true,
+      fillDataIfEmpty: true,
+    })
+  }, [resetFilter, runFilterToHighlight])
 
-      if (!this.skipReorder && !skipReorder) {
-        searchIndex = searchIndex.sort(
-          ({ totalScore: a }, { totalScore: b }) => b - a
+  const setVisibleByContext = useCallback(
+    (
+      options: Record<string, unknown> | null = {},
+      onStateComplete: (() => void) | null = null
+    ) => {
+      const skipFilter = showAllNextTime
+      if (skipFilter) {
+        setShowAllNextTime(false)
+      }
+
+      runFilterToHighlight({
+        fillDataIfEmpty: true,
+        skipFilter,
+        ...options,
+      })
+
+      setVisible(null, onStateComplete)
+    },
+    [showAllNextTime, runFilterToHighlight, setVisible]
+  )
+
+  const toggleVisible = useCallback(
+    (
+      args: { hasFilter?: boolean } | null = null,
+      onStateComplete: (() => void) | null = null
+    ) => {
+      args = args || {}
+      if (typeof args.hasFilter === 'undefined') {
+        args.hasFilter = false
+      }
+      if (disabled) {
+        return // stop here
+      }
+      if (
+        !args.hasFilter &&
+        !preventClose &&
+        !drawerList.hidden &&
+        drawerList.isOpen
+      ) {
+        setHidden(null, onStateComplete)
+      } else {
+        setVisibleByContext(null, onStateComplete)
+      }
+    },
+    [
+      disabled,
+      preventClose,
+      drawerList.hidden,
+      drawerList.isOpen,
+      setHidden,
+      setVisibleByContext,
+    ]
+  )
+
+  const toggleVisibleAndFocusOptions = useCallback(() => {
+    drawerListRef.current.toggleVisible(null, (isVisible) => {
+      if (isVisible) {
+        focusDrawerList()
+      }
+    })
+  }, [focusDrawerList])
+
+  const hasDatasetChanged = useCallback(
+    (rawData: DrawerListInternalData) => {
+      const { selectedItem } = drawerListRef.current
+      if (parseFloat(String(selectedItem)) > -1) {
+        const newItem = rawData?.[selectedItem]
+        const oldItem = drawerListRef.current.originalData[selectedItem]
+        if (newItem?.selectedKey !== oldItem?.selectedKey) {
+          return true
+        }
+      }
+      return false
+    },
+    []
+  )
+
+  const emptyData = useCallback(() => {
+    cacheMemoryRef.current = {}
+
+    clearInputValue()
+
+    drawerListRef.current.setData(
+      () => [],
+      () => {
+        setSearchIndex({ overwriteSearchIndex: true }, null)
+        resetActiveItem()
+        totalReset()
+      },
+      {
+        overwriteOriginalData: true,
+      }
+    )
+  }, [clearInputValue, setSearchIndex, resetActiveItem, totalReset])
+
+  const updateData = useCallback(
+    (rawData: DrawerListInternalData) => {
+      if (rawData === lastUpdateDataRef.current) {
+        return // Already updated with this data
+      }
+      lastUpdateDataRef.current = rawData
+
+      const hasChanged = hasDatasetChanged(rawData)
+
+      drawerListRef.current.setState(
+        {
+          cacheHash: 'updateData',
+        },
+        () => {
+          if (hasChanged) {
+            if (
+              propsRef.current.value &&
+              propsRef.current.value !== 'initval'
+            ) {
+              revalidateSelectedItem()
+              revalidateInputValue()
+            } else {
+              resetSelectedItem()
+            }
+          }
+        }
+      )
+
+      drawerListRef.current.setData(
+        () => rawData,
+        (newData) => {
+          setSearchIndex(
+            { overwriteSearchIndex: true, data: newData },
+            () => {
+              const typed = typedInputValueRef.current
+
+              if (typed?.length > 0) {
+                const filteredData: DrawerListInternalData =
+                  runFilterWithSideEffects(typed)
+                if (countData(filteredData) === 0) {
+                  if (modeRef.current !== 'async') {
+                    showNoOptionsItem()
+                  }
+                }
+              } else {
+                resetActiveItem()
+
+                if (drawerListRef.current.open) {
+                  showAllItems()
+                }
+              }
+            }
+          )
+        },
+        {
+          overwriteOriginalData: true,
+        }
+      )
+    },
+    [
+      hasDatasetChanged,
+      revalidateSelectedItem,
+      revalidateInputValue,
+      resetSelectedItem,
+      setSearchIndex,
+      runFilterWithSideEffects,
+      countData,
+      showNoOptionsItem,
+      resetActiveItem,
+      showAllItems,
+    ]
+  )
+
+  // Keep latest event helper functions in a ref so that getEventObjects
+  // always returns the current versions, even when called from stale
+  // useCallback closures (e.g. onSelectHandler with deps: []).
+  const eventMethodsRef =
+    useRef<
+      Omit<
+        AutocompleteEventMethods,
+        'attributes' | 'dataList' | 'debounce'
+      >
+    >(null)
+  eventMethodsRef.current = {
+    updateData,
+    revalidateSelectedItem,
+    revalidateInputValue,
+    resetSelectedItem,
+    clearInputValue,
+    showAllItems,
+    setVisible,
+    resetInputValue,
+    setHidden,
+    emptyData,
+    focusInput,
+    setInputValue,
+    showNoOptionsItem,
+    showIndicatorItem,
+    showIndicator,
+    hideIndicator,
+    setMode,
+  }
+
+  // Build event objects for dispatching
+  function getEventObjects(key: string): AutocompleteEventMethods {
+    return {
+      attributes: attributesRef.current,
+      dataList: drawerListRef.current.data,
+      ...eventMethodsRef.current,
+      debounce: (func, cbProps = {}, wait = 250) => {
+        const existingDebouncedFn = debouncedEventFnsRef.current[key]
+
+        if (existingDebouncedFn) {
+          return existingDebouncedFn(cbProps)
+        }
+
+        const newDebouncedFn = debounce(
+          func,
+          wait
+        ) as DebouncedEventFunction
+        debouncedEventFnsRef.current[key] = newDebouncedFn
+
+        return newDebouncedFn(cbProps)
+      },
+    }
+  }
+
+  const setFocusOnInput = useCallback(() => {
+    // Suppress onInputFocusHandler during programmatic refocus
+    // to prevent double onFocus dispatch (matching class component behavior)
+    suppressFocusHandlerRef.current = true
+    focusInput()
+    suppressFocusHandlerRef.current = false
+  }, [focusInput])
+
+  const setVisibleAndFocusOnInput = useCallback(() => {
+    if (!hasFocusRef.current && !hasSelectedText()) {
+      setFocusOnInput()
+      setVisible()
+    }
+  }, [setFocusOnInput, setVisible])
+
+  // Event handlers
+  const onInputChangeHandler = useCallback(
+    ({
+      value: val,
+      event,
+    }: {
+      value: string
+      event: React.ChangeEvent<HTMLInputElement>
+    }) => {
+      selectAllActiveRef.current = false
+      setTypedInputValue(val)
+      setInputValueState(val)
+
+      dispatchCustomElementEvent(propsRef.current, 'onType', {
+        value: val,
+        event,
+        ...getEventObjects('onType'),
+      })
+
+      const trimmed = String(val).trim()
+      if (trimmed !== inputValueRef.current) {
+        runFilterWithSideEffects(trimmed)
+      }
+    },
+    [runFilterWithSideEffects]
+  )
+
+  const onInputKeyDownHandler = useCallback(
+    ({ event: e }: { event: React.KeyboardEvent }) => {
+      const key = e.key
+
+      switch (key) {
+        case 'PageUp':
+        case 'PageDown':
+        case 'Home':
+        case 'End':
+          e.preventDefault()
+          break
+
+        case 'ArrowUp':
+        case 'ArrowDown':
+          e.preventDefault()
+          if (!drawerList.open) {
+            setVisible()
+          }
+          break
+
+        case 'Escape':
+          setShowAllNextTime(true)
+          break
+
+        case 'Enter':
+          e.preventDefault()
+
+          if (!drawerList.open && hasFilterActive()) {
+            ignoreEvents()
+            showAll()
+          }
+
+          if (
+            (!hasValidData() || !hasSelectedItem()) &&
+            !hasActiveItem()
+          ) {
+            toggleVisible()
+          } else {
+            setVisible()
+          }
+
+          break
+      }
+    },
+    [
+      drawerList.open,
+      setVisible,
+      hasFilterActive,
+      ignoreEvents,
+      showAll,
+      hasValidData,
+      hasSelectedItem,
+      hasActiveItem,
+      toggleVisible,
+    ]
+  )
+
+  const onInputClickHandler = useCallback(
+    (e: React.MouseEvent<HTMLInputElement>) => {
+      if (!drawerList.open && hasFilterActive()) {
+        ignoreEvents()
+        showAll()
+      }
+
+      const { value } = e.target as HTMLInputElement
+      setVisibleByContext({ value })
+    },
+    [
+      drawerList.open,
+      hasFilterActive,
+      ignoreEvents,
+      showAll,
+      setVisibleByContext,
+    ]
+  )
+
+  const onInputFocusHandler = useCallback(
+    (event: React.FocusEvent<HTMLInputElement>) => {
+      if (skipFocusDuringChange) {
+        return // stop here
+      }
+
+      if (suppressFocusHandlerRef.current) {
+        return // stop here
+      }
+
+      if (!hasFocusRef.current) {
+        if (openOnFocus && hasValidData()) {
+          const { value } = event.target
+          setVisibleByContext({ value })
+        } else {
+          setSearchIndex({}, null)
+        }
+
+        if (keepValueAndSelection) {
+          showAll()
+        }
+
+        if (selectAll) {
+          selectAllActiveRef.current = true
+        }
+
+        setHasFocus(true)
+        setHasBlur(false)
+
+        dispatchCustomElementEvent(propsRef.current, 'onFocus', {
+          event,
+          ...getEventObjects('onFocus'),
+        })
+      }
+    },
+    [
+      skipFocusDuringChange,
+      openOnFocus,
+      hasValidData,
+      setVisibleByContext,
+      setSearchIndex,
+      keepValueAndSelection,
+      showAll,
+      selectAll,
+      setHasBlur,
+    ]
+  )
+
+  const reserveActivityHandler = useCallback(
+    (event: React.KeyboardEvent | React.MouseEvent) => {
+      preventFiringBlurEvent.current = Boolean(
+        ('key' in event && event.key === 'Enter') ||
+          (event?.currentTarget
+            ? getClosestParent('dnb-drawer-list', event.currentTarget) ||
+              getClosestParent(
+                'dnb-input__submit-button__button',
+                event.currentTarget
+              )
+            : false)
+      )
+
+      if (preventFiringBlurEvent.current) {
+        setTimeout(
+          () => {
+            preventFiringBlurEvent.current = false
+          },
+          noAnimation ? 1 : DrawerList.blurDelay
         )
       }
+    },
+    [noAnimation]
+  )
 
-      searchIndex = searchIndex.map(({ item }) => item.dataItem)
-    }
+  const onBlurHandler = useCallback(
+    (event: React.FocusEvent<HTMLInputElement>) => {
+      if (
+        preventFiringBlurEvent.current ||
+        drawerList.hasFocusOnElement ||
+        hasBlurRef.current
+      ) {
+        preventFiringBlurEvent.current = null
+        return false
+      }
 
-    return searchIndex
-  }
+      selectAllActiveRef.current = false
+      setHasBlur(true)
+      setHasFocus(false)
 
-  onCloseHandler = (args = {}) => {
-    const res = dispatchCustomElementEvent(this, 'onClose', {
-      ...args,
-      ...this.getEventObjects('onClose'),
-    })
+      if (!keepValue && !keepValueAndSelection) {
+        setTypedInputValue(null)
+      }
 
-    if (res !== false) {
-      this.setFocusOnInput()
-    }
+      if (!preventSelection) {
+        const existingValue = inputValueRef.current
 
-    return res
-  }
+        resetInputValue()
 
-  setVisibleAndFocusOnInput = () => {
-    if (!this.state.hasFocus && !hasSelectedText()) {
-      this.setFocusOnInput()
-      this.setVisible()
-    }
-  }
+        const resetAfterClose = () => {
+          if (!keepValue || !existingValue || hasSelectedItem()) {
+            resetActiveItem()
+          }
+          resetFilter()
+        }
 
-  setFocusOnInput() {
-    this.setState(
-      {
-        hasFocus: true,
-      },
-      () => {
-        this.focusInput()
-        this.setState({
-          hasFocus: false,
+        if (noAnimation) {
+          resetAfterClose()
+        } else {
+          clearTimeout(_blurTimeout.current)
+          _blurTimeout.current = setTimeout(
+            resetAfterClose,
+            DrawerList.blurDelay
+          )
+        }
+      }
+
+      if (openOnFocus) {
+        setHidden()
+      }
+
+      dispatchCustomElementEvent(propsRef.current, 'onBlur', {
+        event,
+        ...getEventObjects('onBlur'),
+      })
+    },
+    [
+      drawerList.hasFocusOnElement,
+      keepValue,
+      keepValueAndSelection,
+      preventSelection,
+      noAnimation,
+      openOnFocus,
+      resetInputValue,
+      hasSelectedItem,
+      resetActiveItem,
+      resetFilter,
+      setHidden,
+      setHasBlur,
+    ]
+  )
+
+  const onTriggerKeyDownHandler = useCallback(
+    (e: React.KeyboardEvent) => {
+      const key = e.key
+
+      switch (key) {
+        case ' ':
+        case 'Enter':
+          {
+            setVisible()
+          }
+          break
+      }
+
+      switch (key) {
+        case ' ':
+        case 'Enter':
+        case 'PageUp':
+        case 'PageDown':
+        case 'ArrowDown':
+        case 'ArrowUp':
+          {
+            e.preventDefault()
+            focusInput()
+          }
+          break
+      }
+    },
+    [setVisible, focusInput]
+  )
+
+  const onCloseHandler = useCallback(
+    (args: Record<string, unknown> = {}) => {
+      const res = dispatchCustomElementEvent(propsRef.current, 'onClose', {
+        ...args,
+        ...getEventObjects('onClose'),
+      })
+
+      if (res !== false && !closingFromChangeRef.current) {
+        setFocusOnInput()
+      }
+
+      return res
+    },
+    [setFocusOnInput]
+  )
+
+  const onSelectHandler = useCallback(
+    (args: { activeItem: string | number; [key: string]: unknown }) => {
+      if (parseFloat(String(args.activeItem)) > -1) {
+        dispatchCustomElementEvent(propsRef.current, 'onSelect', {
+          ...args,
+          ...getEventObjects('onSelect'),
         })
       }
+    },
+    []
+  )
+
+  const onPreChangeHandler = useCallback(
+    ({
+      data,
+    }: {
+      data: DrawerListDataArrayObject & {
+        showAll?: boolean
+        lastActiveItem?: string | number
+      }
+    }) => {
+      if (data && data.showAll) {
+        showAll()
+
+        const activeItem = data.lastActiveItem
+        if (parseFloat(String(activeItem)) > -1) {
+          drawerListRef.current.setActiveItemAndScrollToIt(activeItem, {
+            scrollTo: false,
+          })
+        }
+
+        setFocusOnInput()
+
+        return false
+      }
+    },
+    [showAll, setFocusOnInput]
+  )
+
+  const onChangeHandler = useCallback(
+    (args: {
+      selectedItem: string | number
+      data?: DrawerListDataArrayObject
+      [key: string]: unknown
+    }) => {
+      const selectedItem = args.selectedItem
+
+      if (!preventSelection) {
+        if (!keepOpen) {
+          setSkipFocusDuringChange(true)
+          setDisableHighlighting(true)
+
+          // Note: closingFromChangeRef is set/reset synchronously here, before
+          // onCloseHandler fires asynchronously after React re-renders.
+          // This means onCloseHandler always sees `false` and calls setFocusOnInput.
+          // This matches the class component behavior where onCloseHandler always
+          // refocused the input, so the guard is intentionally ineffective.
+          closingFromChangeRef.current = true
+          setHidden()
+
+          // Do this, so screen readers get a NEW focus later on
+          // So we first need a blur of the input basically
+          focusDrawerList()
+
+          closingFromChangeRef.current = false
+          setSkipFocusDuringChange(false)
+
+          // Deferred refocus — matches class component's setState callback timing
+          _focusTimeout.current = setTimeout(() => setFocusOnInput(), 0)
+        }
+
+        const val = getCurrentDataTitle(
+          selectedItem,
+          drawerListRef.current.data
+        )
+        setInputValue(val)
+      }
+
+      if (typeof args.data?.render === 'function') {
+        delete args.data.render
+      }
+
+      dispatchCustomElementEvent(propsRef.current, 'onChange', {
+        ...args,
+        ...getEventObjects('onChange'),
+      })
+    },
+    [
+      preventSelection,
+      keepOpen,
+      setHidden,
+      focusDrawerList,
+      setFocusOnInput,
+      setInputValue,
+    ]
+  )
+
+  // Handle prop-driven state updates (replaces getDerivedStateFromProps)
+  if (props.disableHighlighting !== prevDisableHighlightingRef.current) {
+    prevDisableHighlightingRef.current = props.disableHighlighting
+    setDisableHighlighting(props.disableHighlighting)
+  }
+
+  if (
+    props.inputValue !== 'initval' &&
+    props.inputValue !== prevInputValuePropRef.current
+  ) {
+    prevInputValuePropRef.current = props.inputValue
+    setInputValueState(props.inputValue)
+  }
+
+  if (props.data !== prevDataRef.current) {
+    // Handle the case where data transitions from empty to populated
+    if (props.data?.length > 0 && prevDataRef.current?.length === 0) {
+      let selectedItem = drawerList.selectedItem
+
+      if (props.defaultValue) {
+        selectedItem = props.defaultValue
+      }
+
+      if (
+        !props.defaultValue &&
+        props.value &&
+        props.value !== 'initval'
+      ) {
+        selectedItem = props.value
+      }
+
+      const currentData = getCurrentData(
+        selectedItem,
+        normalizeData(props.data)
+      )
+
+      const newInputValue = parseContentTitle(currentData, {
+        separator: ' ',
+        preferSelectedValue: true,
+      })
+      setInputValueState(newInputValue)
+    }
+
+    prevDataRef.current = props.data
+    dataChangedRef.current = true
+  }
+
+  // Forward inputRef (replaces componentDidMount inputRef handling)
+  useEffect(() => {
+    if (inputRef && _refInput.current) {
+      if (typeof inputRef === 'function') {
+        inputRef(_refInput.current)
+      } else {
+        inputRef.current = _refInput.current
+      }
+    }
+  }, [inputRef])
+
+  // Handle open prop on mount
+  useMountEffect(() => {
+    if (props.open) {
+      runFilterToHighlight({ fillDataIfEmpty: true })
+      setVisible()
+    }
+  })
+
+  // Handle data changes (replaces getDerivedStateFromProps updateData + componentDidUpdate data check)
+  useEffect(() => {
+    if (dataChangedRef.current) {
+      dataChangedRef.current = false
+
+      // Reset the dedup guard so updateData always runs here,
+      // matching the v11 class componentDidUpdate which had no guard.
+      // Without this, updateData is skipped when it was already called
+      // (e.g. from SelectCountry's onFocus handler) with the same data
+      // reference, preventing the async setData callback chain from
+      // restoring all items via showAllItems().
+      lastUpdateDataRef.current = null
+
+      updateData(props.data)
+      if (drawerList.open || hasFocus) {
+        // Match class componentDidUpdate: re-run filter after updating the
+        // search index so highlight and visibility are handled consistently.
+        setSearchIndex({ overwriteSearchIndex: true }, () => {
+          runFilterWithSideEffects(inputValueRef.current)
+        })
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.data])
+
+  // Handle value prop changes (replaces componentDidUpdate value check)
+  useEffect(() => {
+    if (props.value !== prevValueRef.current) {
+      prevValueRef.current = props.value
+      revalidateSelectedItem()
+      revalidateInputValue()
+    }
+  }, [props.value, revalidateSelectedItem, revalidateInputValue])
+
+  // Cleanup timeouts on unmount
+  useMountEffect(() => {
+    return () => {
+      clearTimeout(_selectTimeout.current)
+      clearTimeout(_blurTimeout.current)
+      clearTimeout(_focusTimeout.current)
+      clearTimeout(showAllTimeoutRef.current)
+    }
+  })
+
+  // Handle selectAll: re-apply input text selection after each render
+  // during the focus cascade. The Input's setTimeout-based selectAll
+  // is insufficient because cascading re-renders in the functional
+  // component reset the controlled input's selection.
+  useIsomorphicLayoutEffect(() => {
+    if (selectAllActiveRef.current && _refInput.current) {
+      try {
+        _refInput.current.select()
+      } catch (e) {
+        // ignore
+      }
+    }
+  })
+
+  // Render
+  const showStatus = getStatusState(status)
+
+  const { id, hidden, selectedItem, direction, open } = drawerList
+
+  const isExpanded = Boolean(open) && hasValidData()
+
+  attributesRef.current = validateDOMAttributes(null, attributes)
+  Object.assign(drawerList.attributes, attributesRef.current)
+
+  const mainParams = {
+    className: clsx(
+      'dnb-autocomplete',
+      direction && `dnb-autocomplete--${direction}`,
+      disabled && 'dnb-autocomplete--disabled',
+      open && 'dnb-autocomplete--open',
+      labelDirection && `dnb-autocomplete--${labelDirection}`,
+      iconPosition && `dnb-autocomplete--icon-position-${iconPosition}`,
+      align && `dnb-autocomplete--${align}`,
+      visibleIndicator && 'dnb-autocomplete--show-indicator',
+      size && `dnb-autocomplete--${size}`,
+      stretch && `dnb-autocomplete--stretch`,
+      status && `dnb-autocomplete__status--${statusState}`,
+      showStatus && 'dnb-autocomplete__form-status',
+      'dnb-form-component',
+      createSpacingClasses(props),
+      className
+    ),
+  }
+
+  const shellParams = {
+    className: 'dnb-autocomplete__shell dnb-no-focus',
+    ref: _refShell,
+  }
+
+  const inputParams = {
+    className: 'dnb-autocomplete__input',
+    id,
+    value: inputValue ?? '',
+    placeholder: undefined,
+    autoCapitalize: 'none',
+    spellCheck: false,
+    autoCorrect: 'off',
+    autoComplete,
+
+    role: 'combobox',
+    'aria-autocomplete': 'both' as const,
+    'aria-controls': isExpanded ? `${id}-ul` : undefined,
+    'aria-haspopup': 'listbox' as const,
+    'aria-expanded': isExpanded,
+
+    onMouseDown: onInputClickHandler,
+    onKeyDown: onInputKeyDownHandler,
+    onChange: onInputChangeHandler,
+    onFocus: onInputFocusHandler,
+    onBlur: onBlurHandler,
+    iconPosition: iconPosition,
+    disabled,
+    skeleton,
+    ...attributes,
+  }
+
+  if (!(parseFloat(String(selectedItem)) > -1)) {
+    inputParams.placeholder = placeholder || title
+  }
+
+  inputParams['aria-placeholder'] = undefined
+
+  if (isExpanded) {
+    inputParams['aria-activedescendant'] = drawerList.ariaActiveDescendant
+  }
+
+  if (showStatus || suffix) {
+    inputParams['aria-describedby'] = combineDescribedBy(
+      inputParams,
+      showStatus ? id + '-status' : null,
+      suffix ? id + '-suffix' : null
     )
   }
 
-  onSelectHandler = (args) => {
-    if (parseFloat(args.activeItem) > -1) {
-      dispatchCustomElementEvent(this, 'onSelect', {
-        ...args,
-        ...this.getEventObjects('onSelect'),
-      })
-    }
+  const { iconPosition: _iconPosition, ...customInputParams } = inputParams
+
+  let submitButton: React.ReactNode = false
+  const triggerParams = {
+    id: id + '-submit-button',
+    disabled,
+    status: status ? statusState : null,
+    onKeyDown: onTriggerKeyDownHandler,
+    onSubmit: toggleVisible as any as SubmitButtonProps['onSubmit'],
+    onMouseDown: reserveActivityHandler,
+    'aria-haspopup': 'listbox' as const,
+    'aria-expanded': isExpanded,
+    'aria-label': !hidden ? submitButtonTitle : undefined,
+    tooltip: showSubmitButton ? submitButtonTitle : null,
+    className: open ? 'dnb-button--active' : null,
   }
 
-  onPreChangeHandler = ({ data }) => {
-    if (data && data.showAll) {
-      this.showAll()
-
-      const activeItem = data.lastActiveItem
-      if (parseFloat(activeItem) > -1) {
-        this.context.drawerList.setActiveItemAndScrollToIt(activeItem, {
-          scrollTo: false,
-        })
+  if (
+    submitElement &&
+    React.isValidElement<Record<string, unknown>>(submitElement)
+  ) {
+    submitButton = React.createElement(
+      submitElement.type as React.ComponentType<any>,
+      {
+        ...submitElement.props,
+        ...triggerParams,
       }
-
-      this.setFocusOnInput()
-
-      return false
-    }
+    )
+  } else if (showSubmitButton) {
+    submitButton = (
+      <SubmitButton
+        icon={submitButtonIcon as IconIcon}
+        iconSize={iconSize || (size === 'large' ? 'medium' : 'default')}
+        variant="secondary"
+        size={size === 'default' ? 'medium' : (size as ButtonSize)}
+        type="button"
+        status={status}
+        statusState={statusState}
+        statusProps={statusProps}
+        {...triggerParams}
+      />
+    )
   }
 
-  onChangeHandler = (args) => {
-    const selectedItem = args.selectedItem
+  const currentDataItem = getCurrentData(
+    selectedItem,
+    drawerList.originalData
+  )
 
-    const { preventSelection, keepOpen } = this.props
+  const innerId =
+    showStatus || suffix || currentDataItem?.suffixValue
+      ? `${id}-inner`
+      : null
 
-    if (!preventSelection) {
-      if (!keepOpen) {
-        this.setState({
-          skipFocusDuringChange: true,
-          disableHighlighting: true,
-          _listenForPropChanges: false,
-        })
+  validateDOMAttributes(null, mainParams)
+  validateDOMAttributes(null, shellParams)
 
-        this.setHidden()
+  // VoiceOver support helper
+  const voiceOverActiveItem = (() => {
+    const { activeItem, selectedItem } = drawerList
+    const currentDataItemVO = getCurrentData(activeItem, drawerList.data)
 
-        // Do this, so screen readers get a NEW focus later on
-        // So we first need a blur of the input basically
-        this.focusDrawerList()
+    return (
+      <AriaLive hidden={!IS_MAC} priority="high" delay={0}>
+        {currentDataItemVO && (
+          <>
+            {activeItem === selectedItem ? <>{selectedSr} </> : null}
+            <ItemContent>{currentDataItemVO}</ItemContent>
+          </>
+        )}
+      </AriaLive>
+    )
+  })()
 
-        this.setState(
-          {
-            skipFocusDuringChange: false,
-            _listenForPropChanges: false,
-          },
-          () => this.setFocusOnInput()
-        )
-      }
-
-      const inputValue = AutocompleteInstance.getCurrentDataTitle(
-        selectedItem,
-        this.context.drawerList.data
-      )
-      this.setInputValue(inputValue)
-    }
-
-    if (typeof args.data?.render === 'function') {
-      delete args.data.render
-    }
-
-    dispatchCustomElementEvent(this, 'onChange', {
-      ...args,
-      ...this.getEventObjects('onChange'),
-    })
-  }
-
-  getAriaLiveUpdate() {
-    const { open } = this.context.drawerList
-
-    // this is only to make a better screen reader ux
+  // AriaLive update helper
+  const ariaLiveUpdate = (() => {
     if (open) {
-      const { ariaLiveOptions, noOptions } = this._props
-      const count = this.countData()
+      const count = countData()
 
       let newString = null
 
       if (count > 0) {
-        newString = String(ariaLiveOptions).replace('%s', String(count))
+        newString = String(props.ariaLiveOptions).replace(
+          '%s',
+          String(count)
+        )
       } else {
-        newString = noOptions
+        newString = props.noOptions
       }
 
       return newString
     }
 
     return ''
-  }
+  })()
 
-  getVoiceOverActiveItem(selectedSr) {
-    // Add VoiceOver support to read the "selected" item
-    const { activeItem, selectedItem } = this.context.drawerList
-    const currentDataItem = getCurrentData(
-      activeItem,
-      this.context.drawerList.data
-    )
-
-    return (
-      <AriaLive hidden={!IS_MAC} priority="high" delay={0}>
-        {currentDataItem && (
-          <>
-            {activeItem === selectedItem ? <>{selectedSr} </> : null}
-            <ItemContent>{currentDataItem}</ItemContent>
-          </>
-        )}
-      </AriaLive>
-    )
-  }
-
-  render() {
-    // use only the props from context, who are available here anyway
-    const props = (this._props = extendPropsWithContextInClassComponent(
-      this.props,
-      autocompleteDefaultProps,
-      this.context.getTranslation?.(this.props)?.Autocomplete,
-      pickFormElementProps(this.context?.formElement),
-      (this.context as Record<string, unknown>)?.Autocomplete as Record<
-        string,
-        unknown
-      >
-    ))
-
-    const {
-      title,
-      placeholder,
-      label,
-      labelDirection,
-      labelSrOnly,
-      icon,
-      iconSize,
-      inputIcon,
-      size,
-      align,
-      fixedPosition,
-      status,
-      statusState,
-      statusProps,
-      statusNoAnimation,
-      globalStatus,
-      suffix,
-      scrollable,
-      focusable,
-      keepOpen,
-      keepValue,
-      keepValueAndSelection,
-      keepSelection,
-      showClearButton,
-      preventClose,
-      noAnimation,
-      noScrollAnimation,
-      showSubmitButton,
-      submitElement,
-      inputElement: CustomInput,
-      optionsRender,
-      preventSelection,
-      maxHeight,
-      defaultValue,
-      searchNumbers,
-      searchInWordIndex,
-      searchMatch,
-      showOptionsSr,
-      selectedSr,
-      submitButtonTitle,
-      submitButtonIcon,
-      portalClass,
-      drawerClass,
-      inputRef,
-      className,
-      disabled,
-      stretch,
-      skeleton,
-      arrowPosition,
-      iconPosition,
-      skipPortal,
-      independentWidth,
-      autoComplete,
-
-      mode: _mode,
-      data: _data,
-      children: _children,
-      direction: _direction,
-      pageOffset: _pageOffset,
-      observerElement: _observerElement,
-      id: _id,
-      open: _open,
-      value: _value,
-      inputValue: _inputValue,
-      enableBodyLock: _enableBodyLock,
-      listClass: _listClass,
-      openOnFocus: _openOnFocus,
-      disableReorder: _disableReorder,
-      disableFilter: _disableFilter,
-      indicatorLabel: _indicatorLabel,
-      noOptions: _noOptions,
-      showAll: _showAll,
-      ariaLiveOptions: _ariaLiveOptions,
-      disableHighlighting: _disableHighlighting,
-      onClear,
-
-      onOpen: _onOpen,
-      onType: _onType,
-      onFocus: _onFocus,
-      onBlur: _onBlur,
-      onClose: _onClose,
-      onChange: _onChange,
-      onSelect: _onSelect,
-
-      ...attributes
-    } = props
-
-    const showStatus = getStatusState(status)
-
-    const { inputValue, visibleIndicator } = this.state
-
-    const { id, hidden, selectedItem, direction, open } =
-      this.context.drawerList
-
-    const isExpanded = Boolean(open) && this.hasValidData()
-
-    this.attributes = validateDOMAttributes(null, attributes)
-    Object.assign(this.context.drawerList.attributes, this.attributes)
-
-    const mainParams = {
-      className: clsx(
-        'dnb-autocomplete',
-        direction && `dnb-autocomplete--${direction}`,
-        disabled && 'dnb-autocomplete--disabled',
-        open && 'dnb-autocomplete--open',
-        labelDirection && `dnb-autocomplete--${labelDirection}`,
-        iconPosition && `dnb-autocomplete--icon-position-${iconPosition}`,
-        align && `dnb-autocomplete--${align}`,
-        visibleIndicator && 'dnb-autocomplete--show-indicator',
-        size && `dnb-autocomplete--${size}`,
-        stretch && `dnb-autocomplete--stretch`,
-        status && `dnb-autocomplete__status--${statusState}`,
-        showStatus && 'dnb-autocomplete__form-status',
-        'dnb-form-component',
-        createSpacingClasses(props),
-        className
-      ),
-    }
-
-    const shellParams = {
-      className: 'dnb-autocomplete__shell dnb-no-focus',
-      ref: this._refShell,
-    }
-
-    const inputParams = {
-      className: 'dnb-autocomplete__input',
-      id,
-      value: inputValue,
-      placeholder: undefined,
-      autoCapitalize: 'none',
-      spellCheck: false,
-      autoCorrect: 'off',
-      autoComplete,
-
-      // ARIA
-      role: 'combobox', // we need combobox twice to make it properly work on VO
-      'aria-autocomplete': 'both' as const, // list, both
-      'aria-controls': isExpanded ? `${id}-ul` : undefined,
-      'aria-haspopup': 'listbox' as const,
-      'aria-expanded': isExpanded, // is needed for semantics
-      // 'aria-roledescription': 'autocomplete', // is not needed by now
-
-      onMouseDown: this.onInputClickHandler,
-      onKeyDown: this.onInputKeyDownHandler,
-      onChange: this.onInputChangeHandler,
-      onFocus: this.onInputFocusHandler,
-      onBlur: this.onBlurHandler,
-      iconPosition: iconPosition,
-      disabled,
-      skeleton,
-      ...attributes,
-    }
-
-    if (!(parseFloat(String(selectedItem)) > -1)) {
-      inputParams.placeholder = placeholder || title
-    }
-
-    // aria-placeholder is not allowed on combobox role, clear it
-    inputParams['aria-placeholder'] = undefined
-
-    // Handling of activedescendant – required by NVDA
-    if (isExpanded) {
-      inputParams['aria-activedescendant'] =
-        this.context.drawerList.ariaActiveDescendant
-    }
-
-    if (showStatus || suffix) {
-      inputParams['aria-describedby'] = combineDescribedBy(
-        inputParams,
-        showStatus ? id + '-status' : null,
-        suffix ? id + '-suffix' : null
-      )
-    }
-
-    const {
-      iconPosition: _iconPosition, //eslint-disable-line
-      ...customInputParams
-    } = inputParams
-
-    let submitButton: React.ReactNode = false
-    const triggerParams = {
-      id: id + '-submit-button',
-      disabled,
-      status: status ? statusState : null,
-      onKeyDown: this.onTriggerKeyDownHandler,
-      onSubmit: this.toggleVisible,
-      onMouseDown: this.reserveActivityHandler,
-      'aria-haspopup': 'listbox' as const,
-      'aria-expanded': isExpanded,
-      'aria-label': !hidden ? submitButtonTitle : undefined,
-      tooltip: showSubmitButton ? submitButtonTitle : null,
-      className: open ? 'dnb-button--active' : null,
-    }
-
-    if (
-      submitElement &&
-      React.isValidElement<Record<string, unknown>>(submitElement)
-    ) {
-      submitButton = React.createElement(
-        submitElement.type as React.ComponentType<any>,
-        {
-          ...submitElement.props,
-          ...triggerParams,
-        }
-      )
-    } else if (showSubmitButton) {
-      submitButton = (
-        <SubmitButton
-          icon={submitButtonIcon as IconIcon}
-          iconSize={iconSize || (size === 'large' ? 'medium' : 'default')}
-          variant="secondary"
-          size={size === 'default' ? 'medium' : (size as ButtonSize)}
-          type="button"
-          status={status}
-          statusState={statusState}
-          statusProps={statusProps}
-          {...triggerParams}
+  return (
+    <span {...mainParams}>
+      {label && (
+        <FormLabel
+          id={id + '-label'}
+          forId={id}
+          text={label}
+          labelDirection={labelDirection}
+          srOnly={labelSrOnly}
+          disabled={disabled}
+          skeleton={skeleton}
+          onClick={toggleVisible as unknown as React.MouseEventHandler}
         />
-      )
-    }
+      )}
 
-    const currentDataItem = getCurrentData(
-      selectedItem,
-      this.context.drawerList.originalData
-    )
+      <span className="dnb-autocomplete__inner" ref={_ref} id={innerId}>
+        <AlignmentHelper />
 
-    const innerId =
-      showStatus || suffix || currentDataItem?.suffixValue
-        ? `${id}-inner`
-        : null
+        <FormStatus
+          show={showStatus}
+          id={id + '-form-status'}
+          globalStatus={globalStatus}
+          label={label}
+          textId={id + '-status'}
+          text={status}
+          state={statusState}
+          noAnimation={statusNoAnimation}
+          skeleton={skeleton}
+          widthSelector={innerId}
+          {...statusProps}
+        />
 
-    // also used for code markup simulation
-    validateDOMAttributes(null, mainParams)
-    validateDOMAttributes(null, shellParams)
-    return (
-      <span {...mainParams}>
-        {label && (
-          <FormLabel
-            id={id + '-label'}
-            forId={id}
-            text={label}
-            labelDirection={labelDirection}
-            srOnly={labelSrOnly}
-            disabled={disabled}
-            skeleton={skeleton}
-            onClick={this.toggleVisible}
-          />
-        )}
-
-        <span
-          className="dnb-autocomplete__inner"
-          ref={this._ref}
-          id={innerId}
-        >
-          <AlignmentHelper />
-
-          <FormStatus
-            show={showStatus}
-            id={id + '-form-status'}
-            globalStatus={globalStatus}
-            label={label}
-            textId={id + '-status'} // used for "aria-describedby"
-            text={status}
-            state={statusState}
-            noAnimation={statusNoAnimation}
-            skeleton={skeleton}
-            widthSelector={innerId}
-            {...statusProps}
-          />
-
-          <span className="dnb-autocomplete__row">
-            <span {...shellParams}>
-              {CustomInput ? (
-                React.createElement(
-                  CustomInput as React.ElementType,
-                  customInputParams
-                )
-              ) : (
-                <Input
-                  icon={
-                    visibleIndicator ? (
-                      <ProgressIndicator
-                        size={size === 'large' ? 'medium' : 'small'}
-                      />
-                    ) : (
-                      (inputIcon as IconIcon)
-                    )
-                  }
-                  iconSize={
-                    iconSize || (size === 'large' ? 'medium' : 'default')
-                  }
-                  size={size}
-                  status={status ? statusState : null}
-                  statusState={statusState}
-                  type={null}
-                  innerElement={
-                    currentDataItem?.suffixValue && (
-                      // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-                      <span
-                        onClick={
-                          disabled ? null : this.setVisibleAndFocusOnInput
-                        }
-                        className="dnb-autocomplete__suffixValue"
-                      >
-                        {currentDataItem?.suffixValue}
-                      </span>
-                    )
-                  }
-                  submitElement={submitButton}
-                  inputState={
-                    this.state.skipFocusDuringChange ? 'focus' : undefined
-                  } // because of the short blur / focus during select
-                  clear={showClearButton}
-                  onClear={onClear}
-                  ref={this._refInput}
-                  {...(inputParams as Record<string, unknown>)}
-                  {...(statusProps as Record<string, unknown>)}
-                />
-              )}
-
-              {!submitButton && (
-                <span className="dnb-sr-only">
-                  <button
-                    tabIndex={-1}
-                    type="button" // is needed, else a form will submit
-                    onClick={this.toggleVisibleAndFocusOptions}
-                  >
-                    {showOptionsSr}
-                  </button>
-                </span>
-              )}
-
-              <DrawerList
-                id={id}
-                className={clsx('dnb-autocomplete__root', drawerClass)}
-                portalClass={portalClass}
-                listClass="dnb-autocomplete__list"
-                value={selectedItem}
-                defaultValue={defaultValue}
-                scrollable={scrollable}
-                focusable={focusable}
-                noAnimation={noAnimation}
-                noScrollAnimation={noScrollAnimation}
-                skipPortal={skipPortal}
-                preventSelection={preventSelection}
-                arrowPosition={arrowPosition || iconPosition}
-                keepOpen={keepOpen}
-                preventClose={preventClose}
-                alignDrawer={align}
-                fixedPosition={fixedPosition}
-                disabled={disabled}
-                maxHeight={maxHeight}
-                direction={direction}
+        <span className="dnb-autocomplete__row">
+          <span {...shellParams}>
+            {CustomInput ? (
+              React.createElement(
+                CustomInput as React.ElementType,
+                customInputParams
+              )
+            ) : (
+              <Input
+                icon={
+                  visibleIndicator ? (
+                    <ProgressIndicator
+                      size={size === 'large' ? 'medium' : 'small'}
+                    />
+                  ) : (
+                    (inputIcon as IconIcon)
+                  )
+                }
+                iconSize={
+                  iconSize || (size === 'large' ? 'medium' : 'default')
+                }
                 size={size}
-                optionsRender={optionsRender}
-                onChange={this.onChangeHandler}
-                onSelect={this.onSelectHandler}
-                onClose={this.onCloseHandler}
-                onPreChange={this.onPreChangeHandler}
-                onKeyDown={this.reserveActivityHandler}
-                onMouseDown={this.reserveActivityHandler}
-                independentWidth={independentWidth}
+                status={status ? statusState : null}
+                statusState={statusState}
+                type={null}
+                innerElement={
+                  currentDataItem?.suffixValue && (
+                    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+                    <span
+                      onClick={disabled ? null : setVisibleAndFocusOnInput}
+                      className="dnb-autocomplete__suffixValue"
+                    >
+                      {currentDataItem?.suffixValue}
+                    </span>
+                  )
+                }
+                submitElement={submitButton}
+                inputState={skipFocusDuringChange ? 'focus' : undefined}
+                clear={showClearButton}
+                onClear={onClear}
+                ref={_refInput}
+                {...inputParams}
+                {...statusProps}
               />
-            </span>
-
-            {suffix && (
-              <Suffix
-                className="dnb-autocomplete__suffix"
-                id={id + '-suffix'} // used for "aria-describedby"
-                context={props}
-              >
-                {suffix}
-              </Suffix>
             )}
+
+            {!submitButton && (
+              <span className="dnb-sr-only">
+                <button
+                  tabIndex={-1}
+                  type="button"
+                  onClick={toggleVisibleAndFocusOptions}
+                >
+                  {showOptionsSr}
+                </button>
+              </span>
+            )}
+
+            <DrawerList
+              id={id}
+              className={clsx('dnb-autocomplete__root', drawerClass)}
+              portalClass={portalClass}
+              listClass="dnb-autocomplete__list"
+              value={selectedItem}
+              defaultValue={defaultValue}
+              scrollable={scrollable}
+              focusable={focusable}
+              noAnimation={noAnimation}
+              noScrollAnimation={noScrollAnimation}
+              skipPortal={skipPortal}
+              preventSelection={preventSelection}
+              arrowPosition={arrowPosition || iconPosition}
+              keepOpen={keepOpen}
+              preventClose={preventClose}
+              alignDrawer={align}
+              fixedPosition={fixedPosition}
+              disabled={disabled}
+              maxHeight={maxHeight}
+              direction={direction}
+              size={size}
+              optionsRender={optionsRender}
+              onChange={onChangeHandler}
+              onSelect={onSelectHandler}
+              onClose={onCloseHandler}
+              onPreChange={onPreChangeHandler}
+              onKeyDown={reserveActivityHandler}
+              onMouseDown={reserveActivityHandler}
+              independentWidth={independentWidth}
+            />
           </span>
+
+          {suffix && (
+            <Suffix
+              className="dnb-autocomplete__suffix"
+              id={id + '-suffix'}
+              context={props}
+            >
+              {suffix}
+            </Suffix>
+          )}
         </span>
-
-        {/* Add VoiceOver support to read the "selected" item */}
-        {this.wasVisible ? this.getVoiceOverActiveItem(selectedSr) : null}
-
-        {this.wasVisible ? (
-          <AriaLive priority="high">{this.getAriaLiveUpdate()}</AriaLive>
-        ) : null}
       </span>
-    )
-  }
+
+      {wasVisibleRef.current ? voiceOverActiveItem : null}
+
+      {wasVisibleRef.current ? (
+        <AriaLive priority="high">{ariaLiveUpdate}</AriaLive>
+      ) : null}
+    </span>
+  )
 }
 
 Autocomplete.HorizontalItem = DrawerList.HorizontalItem
