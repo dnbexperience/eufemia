@@ -87,9 +87,9 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
         typeof doc !== 'undefined' &&
         typeof doc.startViewTransition !== 'undefined'
       ) {
-        if (tableContext.hasAccordionRows && !trIsOpen) {
+        if (tableContext.hasAccordionRows) {
           doc.startViewTransition?.(() => {
-            setOpen(true)
+            setOpen(!trIsOpen)
           })
         } else {
           setOpen(!trIsOpen)

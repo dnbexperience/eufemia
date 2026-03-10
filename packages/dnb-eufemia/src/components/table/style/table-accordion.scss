@@ -331,3 +331,13 @@
     display: flex;
   }
 }
+
+// Prevent the default cross-fade on the root group during view transitions.
+// Without this, expanded accordion content in the root group morphs between
+// old and new positions, causing a "trippy" visual effect.
+// Individually tracked elements (head rows with viewTransitionName) still
+// animate smoothly via their own view-transition groups.
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}

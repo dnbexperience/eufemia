@@ -1,6 +1,5 @@
 import React from 'react'
 import classnames from 'classnames'
-import useId from '../../../shared/helpers/useId'
 import useTableAnimationHandler from './useTableAnimationHandler'
 import { TableContext } from '../TableContext'
 import { TableAccordionContext } from './TableAccordionContext'
@@ -39,10 +38,8 @@ function TableAccordionContent(
     ...props
   } = componentProps
 
-  const tableContext = React.useContext(TableContext)
-  const tableContextAllProps = tableContext?.allProps
+  const tableContextAllProps = React.useContext(TableContext)?.allProps
   const innerRef = React.useRef<HTMLDivElement>(null)
-  const id = useId()
   const trRef = React.useRef<HTMLTableRowElement>(null)
   const {
     ariaLive,
@@ -82,9 +79,6 @@ function TableAccordionContent(
       style={{
         ...firstPaintStyle,
         ...style,
-        viewTransitionName: tableContext?.hasAccordionRows
-          ? `accordion-content-${id}`
-          : undefined,
       }}
       className={classnames(
         isInDOM && 'dnb-table__tr',
