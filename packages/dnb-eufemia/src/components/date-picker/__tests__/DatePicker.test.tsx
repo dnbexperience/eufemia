@@ -1642,6 +1642,103 @@ describe('DatePicker component', () => {
     )
   })
 
+  it('should reset to initial value when clicking the reset button', async () => {
+    render(
+      <DatePicker
+        date="2024-10-15"
+        showResetButton
+        showInput
+        noAnimation
+        preventClose
+      />
+    )
+
+    const [day, month, year]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('input.dnb-date-picker__input')
+    )
+
+    expect(day.value).toBe('15')
+    expect(month.value).toBe('10')
+    expect(year.value).toBe('2024')
+
+    // Open the date picker and select a new date
+    await userEvent.click(getDatePickerTriggerButton())
+    await userEvent.click(
+      screen.getByLabelText('torsdag 24. oktober 2024')
+    )
+
+    expect(day.value).toBe('24')
+    expect(month.value).toBe('10')
+    expect(year.value).toBe('2024')
+
+    // Click reset button
+    await userEvent.click(
+      document.querySelector('button[data-testid="reset"]')
+    )
+
+    // Should reset to the initial value
+    expect(day.value).toBe('15')
+    expect(month.value).toBe('10')
+    expect(year.value).toBe('2024')
+  })
+
+  it('should reset to initial value when clicking the reset button in range mode', async () => {
+    render(
+      <DatePicker
+        startDate="2024-10-01"
+        endDate="2024-10-31"
+        showResetButton
+        showInput
+        noAnimation
+        preventClose
+        range
+      />
+    )
+
+    const [
+      startDay,
+      startMonth,
+      startYear,
+      endDay,
+      endMonth,
+      endYear,
+    ]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('input.dnb-date-picker__input')
+    )
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('10')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('31')
+    expect(endMonth.value).toBe('10')
+    expect(endYear.value).toBe('2024')
+
+    // Open the date picker and select new dates
+    await userEvent.click(getDatePickerTriggerButton())
+    await userEvent.click(
+      screen.getAllByLabelText('tirsdag 15. oktober 2024')[0]
+    )
+    await userEvent.click(
+      screen.getAllByLabelText('fredag 25. oktober 2024')[0]
+    )
+
+    expect(startDay.value).toBe('15')
+    expect(endDay.value).toBe('25')
+
+    // Click reset button
+    await userEvent.click(
+      document.querySelector('button[data-testid="reset"]')
+    )
+
+    // Should reset to the initial values
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('10')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('31')
+    expect(endMonth.value).toBe('10')
+    expect(endYear.value).toBe('2024')
+  })
+
   it('footers reset button text is set by prop resetButtonText', () => {
     const resetButtonText = 'custom reset button text'
 

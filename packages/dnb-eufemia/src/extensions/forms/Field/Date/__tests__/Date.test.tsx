@@ -1096,6 +1096,172 @@ describe('Field.Date', () => {
     })
   })
 
+  it('should empty the input fields when clicking the reset button when value is undefined', async () => {
+    const onReset = jest.fn()
+
+    render(<Field.Date onReset={onReset} />)
+
+    const [day, month, year]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    )
+
+    // Verify that the date is undefined
+    expect(day.value).toBe('dd')
+    expect(month.value).toBe('mm')
+    expect(year.value).toBe('åååå')
+
+    // Enter a date in the input fields
+    await userEvent.type(day, '01082025')
+
+    expect(day.value).toBe('01')
+    expect(month.value).toBe('08')
+    expect(year.value).toBe('2025')
+
+    // Open the date picker and select a date
+    await userEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+    await userEvent.click(screen.getByLabelText('torsdag 14. august 2025'))
+
+    // Verify that the date is correct
+    expect(day.value).toBe('14')
+    expect(month.value).toBe('08')
+    expect(year.value).toBe('2025')
+
+    // Clear the date by clicking the reset button
+    await userEvent.click(
+      document.querySelector('button[data-testid="reset"]')
+    )
+
+    expect(day.value).toBe('dd')
+    expect(month.value).toBe('mm')
+    expect(year.value).toBe('åååå')
+
+    expect(onReset).toHaveBeenCalledTimes(1)
+  })
+
+  it('should have functioning reset button with range', async () => {
+    render(<Field.Date value="2024-04-01|2024-05-17" range />)
+
+    await userEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+
+    const [
+      startDay,
+      startMonth,
+      startYear,
+      endDay,
+      endMonth,
+      endYear,
+    ]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    )
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('04')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('17')
+    expect(endMonth.value).toBe('05')
+    expect(endYear.value).toBe('2024')
+
+    await userEvent.click(screen.getByText('Avbryt'))
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('04')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('17')
+    expect(endMonth.value).toBe('05')
+    expect(endYear.value).toBe('2024')
+
+    expect(document.querySelector('.dnb-date-picker')).not.toHaveClass(
+      'dnb-date-picker--opened'
+    )
+  })
+
+  it('should reset to initial value when clicking the reset button', async () => {
+    render(<Field.Date value="2024-10-15" />)
+
+    const [day, month, year]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    )
+
+    expect(day.value).toBe('15')
+    expect(month.value).toBe('10')
+    expect(year.value).toBe('2024')
+
+    // Open the date picker and select a new date
+    await userEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+    await userEvent.click(
+      screen.getByLabelText('torsdag 24. oktober 2024')
+    )
+
+    expect(day.value).toBe('24')
+    expect(month.value).toBe('10')
+    expect(year.value).toBe('2024')
+
+    // Click reset button
+    await userEvent.click(
+      document.querySelector('button[data-testid="reset"]')
+    )
+
+    // Should reset to the initial value
+    expect(day.value).toBe('15')
+    expect(month.value).toBe('10')
+    expect(year.value).toBe('2024')
+  })
+
+  it('should reset to initial value when clicking the reset button in range mode', async () => {
+    render(<Field.Date value="2024-10-01|2024-10-31" range />)
+
+    const [
+      startDay,
+      startMonth,
+      startYear,
+      endDay,
+      endMonth,
+      endYear,
+    ]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    )
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('10')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('31')
+    expect(endMonth.value).toBe('10')
+    expect(endYear.value).toBe('2024')
+
+    // Open the date picker and select new dates
+    await userEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+    await userEvent.click(
+      screen.getAllByLabelText('tirsdag 15. oktober 2024')[0]
+    )
+    await userEvent.click(
+      screen.getAllByLabelText('fredag 25. oktober 2024')[0]
+    )
+
+    expect(startDay.value).toBe('15')
+    expect(endDay.value).toBe('25')
+
+    // Click reset button
+    await userEvent.click(
+      document.querySelector('button[data-testid="reset"]')
+    )
+
+    // Should reset to the initial values
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('10')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('31')
+    expect(endMonth.value).toBe('10')
+    expect(endYear.value).toBe('2024')
+  })
+
   it('should be able to hide and show submit, cancel and reset buttons', async () => {
     const { rerender } = render(
       <Field.Date showSubmitButton showCancelButton showResetButton />
