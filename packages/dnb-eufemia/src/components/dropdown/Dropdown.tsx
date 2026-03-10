@@ -221,28 +221,22 @@ const DropdownInstance = React.memo(function DropdownInstance({
   externalRef?: React.Ref<HTMLElement>
   externalButtonRef?: React.Ref<HTMLElement>
 }) {
-  const context = useContext(DrawerListContext) as React.ContextType<
-    typeof DrawerListContext
-  >
+  const context = useContext(DrawerListContext)
 
   const elRef = useRef<HTMLElement>(null)
   const wrapperRef = useRef<HTMLElement>(null)
   const buttonRef = useRef<HTMLElement>(null)
-  const focusTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
-    null
-  )
+  const focusTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const attributesRef = useRef<Record<string, unknown>>({})
 
   // Combine internal and external refs
   const setRootRef = useCallback(
     (el: HTMLElement | null) => {
-      ;(elRef as React.MutableRefObject<HTMLElement | null>).current = el
+      elRef.current = el
       if (typeof externalRef === 'function') {
         externalRef(el)
       } else if (externalRef) {
-        ;(
-          externalRef as React.MutableRefObject<HTMLElement | null>
-        ).current = el
+        externalRef.current = el
       }
     },
     [externalRef]
@@ -250,14 +244,11 @@ const DropdownInstance = React.memo(function DropdownInstance({
 
   const setButtonRef = useCallback(
     (el: HTMLElement | null) => {
-      ;(buttonRef as React.MutableRefObject<HTMLElement | null>).current =
-        el
+      buttonRef.current = el
       if (typeof externalButtonRef === 'function') {
         externalButtonRef(el)
       } else if (externalButtonRef) {
-        ;(
-          externalButtonRef as React.MutableRefObject<HTMLElement | null>
-        ).current = el
+        externalButtonRef.current = el
       }
     },
     [externalButtonRef]
