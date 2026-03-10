@@ -42,11 +42,5 @@ export const useNumberMask = () => {
 }
 
 export function createNumberMask(maskParams: MaskParams = {}) {
-  const numberMask = function () {
-    return []
-  }
-  numberMask.instanceOf = 'createNumberMask'
-  numberMask.maskParams = maskParams
-
-  return numberMask
+  return { instanceOf: 'createNumberMask', maskParams }
 }

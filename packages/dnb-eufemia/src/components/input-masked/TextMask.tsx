@@ -22,7 +22,7 @@ import {
 } from '@maskito/kit'
 import InputModeNumber from './text-mask/InputModeNumber'
 import { MaskParams } from './text-mask/types'
-import { createNumberMask } from './hooks/useNumberMask'
+import type { createNumberMask } from './hooks/useNumberMask'
 export type TextMaskMask =
   | RegExp
   | Array<RegExp | string>
@@ -70,7 +70,9 @@ export default function TextMask(props: TextMaskProps): React.JSX.Element {
 
   // Extract maskParams for dependency tracking
   const maskParams =
-    typeof rawMask === 'function' && 'maskParams' in rawMask
+    typeof rawMask === 'object' &&
+    rawMask !== null &&
+    'maskParams' in rawMask
       ? (rawMask.maskParams as MaskParams | undefined)
       : undefined
 
@@ -80,9 +82,10 @@ export default function TextMask(props: TextMaskProps): React.JSX.Element {
   )
 
   const options = useMemo<MaskitoOptions | null>(() => {
-    // Numeric mask: detect our internal number mask function
+    // Numeric mask: detect our internal number mask object
     if (
-      typeof rawMask === 'function' &&
+      typeof rawMask === 'object' &&
+      rawMask !== null &&
       'instanceOf' in rawMask &&
       'maskParams' in rawMask &&
       rawMask.instanceOf === 'createNumberMask' &&
@@ -251,7 +254,11 @@ export default function TextMask(props: TextMaskProps): React.JSX.Element {
 
     // For numeric masks, strip existing prefix/suffix before transforming
     let cleanValue = String(valueToTransform)
-    if (typeof rawMask === 'function' && 'maskParams' in rawMask) {
+    if (
+      typeof rawMask === 'object' &&
+      rawMask !== null &&
+      'maskParams' in rawMask
+    ) {
       const mp = rawMask.maskParams as MaskParams
       const prefix = mp.prefix ?? ''
       const suffix = mp.suffix ?? ''
@@ -296,7 +303,11 @@ export default function TextMask(props: TextMaskProps): React.JSX.Element {
         return ghostPlaceholder
       }
       // Check if this is a numeric mask with prefix/suffix
-      if (typeof rawMask === 'function' && 'maskParams' in rawMask) {
+      if (
+        typeof rawMask === 'object' &&
+        rawMask !== null &&
+        'maskParams' in rawMask
+      ) {
         const mp = rawMask.maskParams as MaskParams
         const prefix = mp.prefix ?? ''
         const suffix = mp.suffix ?? ''
@@ -326,7 +337,11 @@ export default function TextMask(props: TextMaskProps): React.JSX.Element {
     // For numeric masks, extract the numeric part before formatting
     // Maskito needs just the numeric value without any existing prefix/suffix
     let cleanValue = raw
-    if (typeof rawMask === 'function' && 'maskParams' in rawMask) {
+    if (
+      typeof rawMask === 'object' &&
+      rawMask !== null &&
+      'maskParams' in rawMask
+    ) {
       const mp = rawMask.maskParams as MaskParams
       const prefix = mp.prefix ?? ''
       const suffix = mp.suffix ?? ''
