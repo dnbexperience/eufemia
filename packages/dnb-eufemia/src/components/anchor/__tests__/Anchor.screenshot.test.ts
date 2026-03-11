@@ -99,6 +99,13 @@ describe.each(['ui', 'sbanken', 'carnegie', 'eiendom'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
+    it('have to match anchor on dark surface', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="anchor-surface-dark"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
     it('have to match the "default" state', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="anchor-basic"]',
@@ -201,16 +208,16 @@ describe.each(['ui', 'sbanken', 'carnegie', 'eiendom'])(
 
       it('have to match the anchor-contrast "default" state', async () => {
         const screenshot = await makeScreenshot({
-          selector: '[data-visual-test="anchor-contrast"]',
+          selector: '[data-visual-test="anchor-surface-dark"]',
         })
         expect(screenshot).toMatchImageSnapshot()
       })
 
       it('have to match the anchor-contrast "focus" state', async () => {
         const screenshot = await makeScreenshot({
-          selector: '[data-visual-test="anchor-contrast"]',
+          selector: '[data-visual-test="anchor-surface-dark"]',
           simulateSelector:
-            '[data-visual-test="anchor-contrast"] .dnb-anchor',
+            '[data-visual-test="anchor-surface-dark"] .dnb-anchor',
           simulate: 'focus',
         })
         expect(screenshot).toMatchImageSnapshot()
@@ -218,9 +225,9 @@ describe.each(['ui', 'sbanken', 'carnegie', 'eiendom'])(
 
       it('have to match the anchor-contrast "hover" state', async () => {
         const screenshot = await makeScreenshot({
-          selector: '[data-visual-test="anchor-contrast"]',
+          selector: '[data-visual-test="anchor-surface-dark"]',
           simulateSelector:
-            '[data-visual-test="anchor-contrast"] .dnb-anchor',
+            '[data-visual-test="anchor-surface-dark"] .dnb-anchor',
           simulate: 'hover',
         })
         expect(screenshot).toMatchImageSnapshot()
@@ -228,9 +235,9 @@ describe.each(['ui', 'sbanken', 'carnegie', 'eiendom'])(
 
       it('have to match the anchor-contrast "active" state', async () => {
         const screenshot = await makeScreenshot({
-          selector: '[data-visual-test="anchor-contrast"]',
+          selector: '[data-visual-test="anchor-surface-dark"]',
           simulateSelector:
-            '[data-visual-test="anchor-contrast"] .dnb-anchor',
+            '[data-visual-test="anchor-surface-dark"] .dnb-anchor',
           simulate: 'active',
         })
         expect(screenshot).toMatchImageSnapshot()

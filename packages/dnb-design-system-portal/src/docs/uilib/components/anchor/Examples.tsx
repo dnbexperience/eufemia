@@ -65,9 +65,9 @@ export const AnchorExampleInSection = () => (
 export const AnchorDarkSurfaceExample = () => (
   <Wrapper>
     <ComponentBox hideCode scope={{ Example, DarkSurface }}>
-      <DarkSurface data-visual-test="anchor-ondark">
+      <DarkSurface data-visual-test="anchor-surface-dark">
         <Anchor href="/uilib/components/anchor" surface="dark">
-          OnDark Style
+          Dark surface style
         </Anchor>
       </DarkSurface>
     </ComponentBox>
@@ -115,14 +115,6 @@ export const AnchorExampleStates = () => (
 export const AnchorExampleHelperClasses = () => (
   <Wrapper>
     <ComponentBox hideCode scope={{ Example, DarkSurface }}>
-      <DarkSurface data-visual-test="anchor-contrast">
-        <Anchor
-          href="/uilib/components/anchor"
-          className="dnb-anchor--surface-dark"
-        >
-          Dark surface Style
-        </Anchor>
-      </DarkSurface>
       <Example>
         <Anchor
           href="/uilib/components/anchor"
