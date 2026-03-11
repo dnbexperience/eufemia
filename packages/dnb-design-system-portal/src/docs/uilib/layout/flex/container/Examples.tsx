@@ -156,13 +156,13 @@ export const LayoutHorizontalFlexGrowItems = () => {
   return (
     <ComponentBox>
       <Flex.Horizontal>
-        <Flex.Item size={3}>
+        <Flex.Item span={3}>
           <Card>Card contents</Card>
         </Flex.Item>
-        <Flex.Item size={4}>
+        <Flex.Item span={4}>
           <Card>Card contents</Card>
         </Flex.Item>
-        <Flex.Item size={5}>
+        <Flex.Item span={5}>
           <Card>Card contents</Card>
         </Flex.Item>
         <Flex.Item grow>

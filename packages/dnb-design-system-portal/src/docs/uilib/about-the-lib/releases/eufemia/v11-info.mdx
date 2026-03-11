@@ -17,6 +17,7 @@ v11 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 1. Replace `innerRef` with `ref` on all Eufemia components.
 2. Replace `<Context.Provider>` with `<Context>` when using Eufemia contexts directly (React 19 deprecation).
 3. If you import Eufemia SCSS source files with `@import`, replace with `@use` and namespace your mixin/variable calls (see [SCSS: @import → @use](#scss-import--use)).
+4. Replace the `size` prop with `span` on `Flex.Item` and `Card` components.
 
 ### innerRef → ref
 
@@ -654,11 +655,18 @@ For more context, see this [PR](https://github.com/dnbexperience/eufemia/pull/27
 - Remove `light` and `medium` as they are not supported anymore.
 - Replace `fullscreen` with `breakout`.
 
+### [Flex.Item](/uilib/layout/flex/item/)
+
+#### Properties
+
+- Replace `size` with `span`. The property sets how many columns an item should span in the flex layout.
+
 ### [Card](/uilib/components/card/)
 
 #### Properties
 
 - Remove `spacing` property.
+- Replace `size` with `span` (inherited from [Flex.Item](/uilib/layout/flex/item/)).
 - The default `innerSpace` is now `small` (`16px`) on all sides.
 
 ### [Checkbox](/uilib/components/checkbox/)
