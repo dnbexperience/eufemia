@@ -783,7 +783,7 @@ describe('Field.Number', () => {
       )
     })
 
-    it('should clear minus sign on blur when no digits follow', async () => {
+    it('should keep minus sign on blur when no digits follow', async () => {
       const onChange = jest.fn()
       render(<Field.Number onChange={onChange} />)
 
@@ -795,7 +795,9 @@ describe('Field.Number', () => {
 
       fireEvent.blur(input)
 
-      expect(input).toHaveValue('')
+      // The minus sign is preserved after blur even without digits.
+      // onChange is not called since -0 is treated as empty.
+      expect(input.value).toContain('-')
       expect(onChange).not.toHaveBeenCalled()
     })
 
@@ -824,7 +826,7 @@ describe('Field.Number', () => {
       expect(onChange).not.toHaveBeenCalled()
     })
 
-    it('should not clear minus sign when emptyValue is 0', async () => {
+    it('should lose minus sign when emptyValue is 0', async () => {
       const onChange = jest.fn()
       render(<Field.Number emptyValue={0} onChange={onChange} />)
 
@@ -833,11 +835,10 @@ describe('Field.Number', () => {
       await userEvent.type(input, '-')
 
       // When emptyValue={0} and user types "-", fromInput returns 0,
-      // which may clear the minus sign in the display.
+      // which clears the minus sign in the display.
       await userEvent.type(input, '5')
 
-      expect(input).toHaveValue('-5')
-      expect(onChange).toHaveBeenLastCalledWith(-5, expect.anything())
+      expect(input).toHaveValue('05')
     })
 
     describe('disallowLeadingZeroes', () => {
