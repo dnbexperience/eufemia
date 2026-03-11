@@ -116,4 +116,13 @@ describe('Stat.Currency', () => {
 
     expect(await axeComponent(component)).toHaveNoViolations()
   })
+
+  it('should forward ref to the element', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(<Stat.Currency ref={ref} value={12345.67} />)
+
+    expect(ref.current).toBe(document.querySelector('.dnb-stat'))
+    expect(ref.current.tagName.toLowerCase()).toBe('span')
+  })
 })
