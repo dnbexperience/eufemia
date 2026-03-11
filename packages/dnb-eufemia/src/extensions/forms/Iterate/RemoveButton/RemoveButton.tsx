@@ -11,6 +11,7 @@ import {
   omitDataValueReadWriteProps,
 } from '../../types'
 import { trash } from '../../../../icons'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = ButtonProps &
   DataValueReadWriteComponentProps<unknown[]> & {
@@ -77,5 +78,8 @@ function RemoveButton(props: Props) {
   )
 }
 
-RemoveButton._supportsSpacingProps = true
+withComponentMarkers(RemoveButton, {
+  _supportsSpacingProps: true,
+})
+
 export default RemoveButton

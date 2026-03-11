@@ -2,6 +2,7 @@ import React, { useCallback, useContext, useReducer } from 'react'
 import DataContext from '../DataContext/Context'
 import Log from './Log'
 import useEventListener from '../DataContext/Provider/useEventListener'
+import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
 
 function Errors({ label }: { label?: React.ReactNode }) {
   const [, forceUpdate] = useReducer(() => ({}), {})
@@ -35,5 +36,8 @@ function Errors({ label }: { label?: React.ReactNode }) {
   return <Log data={data} label={label} />
 }
 
-Errors._supportsSpacingProps = true
+withComponentMarkers(Errors, {
+  _supportsSpacingProps: true,
+})
+
 export default Errors

@@ -13,6 +13,7 @@ import SectionContainer, {
   SectionContainerProps,
 } from '../containers/SectionContainer'
 import { Path } from '../../../types'
+import withComponentMarkers from '../../../../../shared/helpers/withComponentMarkers'
 
 export type Props = {
   title?: React.ReactNode
@@ -90,5 +91,9 @@ function EditContainer(props: AllProps) {
 
 EditContainer.DoneButton = DoneButton
 EditContainer.CancelButton = CancelButton
-EditContainer._supportsSpacingProps = true
+
+withComponentMarkers(EditContainer, {
+  _supportsSpacingProps: true,
+})
+
 export default EditContainer

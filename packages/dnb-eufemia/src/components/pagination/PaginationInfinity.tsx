@@ -11,6 +11,7 @@ import {
   dispatchCustomElementEvent,
   getClosestParent,
 } from '../../shared/component-helper'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import Context from '../../shared/Context'
 import Button from '../button/Button'
 import {
@@ -25,7 +26,6 @@ export interface InfinityScrollerProps {
 }
 
 export default class InfinityScroller extends React.PureComponent<InfinityScrollerProps> {
-  static _supportsSpacingProps = true
   static contextType = PaginationContext
   context!: React.ContextType<typeof PaginationContext>
 
@@ -629,3 +629,5 @@ class ScrollToElement extends React.PureComponent<any> {
     return <Element ref={this._elementRef} {...props} />
   }
 }
+
+withComponentMarkers(InfinityScroller, { _supportsSpacingProps: true })

@@ -1,5 +1,6 @@
 import React from 'react'
 import clsx from 'clsx'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 // Components
 import IconPrimary from '../icon-primary/IconPrimary'
@@ -220,7 +221,9 @@ const getIcon = (title: string) => (
 
 Tag.Group = TagGroup
 
-Tag._formElement = true
-Tag._supportsSpacingProps = true
+withComponentMarkers(Tag, {
+  _formElement: true,
+  _supportsSpacingProps: true,
+})
 
 export default Tag

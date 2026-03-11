@@ -27,6 +27,7 @@ import type {
   PopoverResolvedTargetElement,
   PopoverTargetElementObject,
 } from './types'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 export type * from './types'
 
 export default function Popover(props: PopoverProps) {
@@ -774,4 +775,4 @@ function resolveTargetNode(
 
 export { default as getRefElement } from '../../shared/internal/getRefElement'
 
-Popover._supportsSpacingProps = true
+withComponentMarkers(Popover, { _supportsSpacingProps: true })

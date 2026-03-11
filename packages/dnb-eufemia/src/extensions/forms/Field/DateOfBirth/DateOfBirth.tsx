@@ -23,6 +23,7 @@ import type {
 import { formatDate } from '../../../../components/date-format/DateFormatUtils'
 import { useFieldProps } from '../../hooks'
 import { useIterateItemNo } from '../../Iterate/ItemNo/useIterateItemNo'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type AdditionalArgs = {
   day: string
@@ -461,7 +462,10 @@ function DateOfBirth(props: Props) {
   )
 }
 
-DateOfBirth._supportsSpacingProps = undefined
+withComponentMarkers(DateOfBirth, {
+  _supportsSpacingProps: undefined,
+})
+
 export default DateOfBirth
 
 function capitalizeFirstLetter(s) {

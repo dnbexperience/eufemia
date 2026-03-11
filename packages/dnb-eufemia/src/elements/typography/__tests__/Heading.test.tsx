@@ -7,6 +7,7 @@ import H3 from '../H3'
 import H4 from '../H4'
 import H5 from '../H5'
 import H6 from '../H6'
+import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('Heading', () => {
   it('renders with props as an object', () => {
@@ -77,14 +78,16 @@ describe('Heading', () => {
   it.each(headings)(
     '%s should have _isHeadingElement',
     ({ component: Component }) => {
-      expect(Component._isHeadingElement).toBe(true)
+      expect((Component as ComponentMarkers)._isHeadingElement).toBe(true)
     }
   )
 
   it.each(headings)(
     '%s should have _supportsSpacingProps',
     ({ component: Component }) => {
-      expect(Component._supportsSpacingProps).toBe(true)
+      expect((Component as ComponentMarkers)._supportsSpacingProps).toBe(
+        true
+      )
     }
   )
 

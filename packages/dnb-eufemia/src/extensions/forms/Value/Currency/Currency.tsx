@@ -2,6 +2,7 @@ import React from 'react'
 import { CURRENCY } from '../../../../shared/defaults'
 import NumberValue, { Props as NumberValueProps } from '../Number'
 import type { CurrencyISO } from '../../constants/currencies'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = NumberValueProps & {
   /**
@@ -19,5 +20,8 @@ function Currency(props: Props) {
   return <NumberValue {...numberProps} />
 }
 
-Currency._supportsSpacingProps = true
+withComponentMarkers(Currency, {
+  _supportsSpacingProps: true,
+})
+
 export default Currency

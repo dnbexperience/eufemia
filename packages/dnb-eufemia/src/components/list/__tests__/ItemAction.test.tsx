@@ -278,7 +278,10 @@ describe('ItemAction', () => {
   })
 
   it('declares _supportsSpacingProps for flex layout', () => {
-    expect(ItemAction._supportsSpacingProps).toBe(true)
+    expect(
+      (ItemAction as unknown as { _supportsSpacingProps: boolean })
+        ._supportsSpacingProps
+    ).toBe(true)
   })
 
   describe('disabled', () => {

@@ -41,6 +41,7 @@ import { clearedArray } from '../../hooks/useFieldProps'
 import type { ContainerMode, ElementChild, Props, Value } from './types'
 import type { Identifier } from '../../types'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type * from './types'
 
@@ -213,7 +214,6 @@ function ArrayComponent(props: Props) {
       }
       countValueRef.current = countValue
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [countValue])
 
   const idsRef = useRef<Array<Identifier>>([])
@@ -481,5 +481,8 @@ function ArrayComponent(props: Props) {
   )
 }
 
-ArrayComponent._supportsSpacingProps = true
+withComponentMarkers(ArrayComponent, {
+  _supportsSpacingProps: true,
+})
+
 export default ArrayComponent

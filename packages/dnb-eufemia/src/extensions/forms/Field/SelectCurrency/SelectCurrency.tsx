@@ -22,6 +22,7 @@ import {
   AutocompleteAllProps,
   AutocompleteBlurEvent,
 } from '../../../../components/autocomplete/Autocomplete'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type CurrencyFilterSet =
   | 'Scandinavia'
@@ -393,5 +394,8 @@ export function makeCurrencyFilterSet(ccFilter: CurrencyFilterSet) {
   }
 }
 
-SelectCurrency._supportsSpacingProps = true
+withComponentMarkers(SelectCurrency, {
+  _supportsSpacingProps: true,
+})
+
 export default SelectCurrency

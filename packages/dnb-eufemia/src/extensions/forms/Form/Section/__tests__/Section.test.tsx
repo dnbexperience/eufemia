@@ -19,6 +19,7 @@ import { GenerateRef as GenerateSchemaRef } from '../../../Tools/GenerateSchema'
 import DataContext from '../../../DataContext/Context'
 
 import nbNO from '../../../constants/locales/nb-NO'
+import type { ComponentMarkers } from '../../../../../shared/helpers/withComponentMarkers'
 const nb = nbNO['nb-NO']
 
 describe('Form.Section', () => {
@@ -55,7 +56,9 @@ describe('Form.Section', () => {
   }
 
   it('should have constant of _supportsSpacingProps="undefined"', () => {
-    expect(Form.Section._supportsSpacingProps).toBeUndefined()
+    expect(
+      (Form.Section as ComponentMarkers)._supportsSpacingProps
+    ).toBeUndefined()
   })
 
   it('should throw then "path" without slash was given', () => {

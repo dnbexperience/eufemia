@@ -6,6 +6,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import E, { ElementProps } from '../Element'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type UlProps = {
   /**
@@ -44,6 +45,6 @@ const Ul = ({ nested, inside, outside, ...props }: UlAllProps = {}) => {
   )
 }
 
-Ul._supportsSpacingProps = true
+withComponentMarkers(Ul, { _supportsSpacingProps: true })
 
 export default Ul

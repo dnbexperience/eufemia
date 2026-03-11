@@ -10,6 +10,7 @@ import {
   runAnimation,
   simulateAnimationEnd,
 } from './HeightAnimationUtils'
+import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('HeightAnimation', () => {
   initializeTestSetup()
@@ -361,7 +362,9 @@ describe('HeightAnimation', () => {
   })
 
   it('should have constant of _supportsSpacingProps="children"', () => {
-    expect(HeightAnimation._supportsSpacingProps).toBe('children')
+    expect(
+      (HeightAnimation as ComponentMarkers)._supportsSpacingProps
+    ).toBe('children')
   })
 
   it('should use given "element"', () => {

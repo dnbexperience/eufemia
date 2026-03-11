@@ -14,6 +14,7 @@ import {
 import locales from '../../../constants/locales'
 import DrawerListProvider from '../../../../../fragments/drawer-list/DrawerListProvider'
 import { AdditionalArgs } from '../PhoneNumber'
+import type { ComponentMarkers } from '../../../../../shared/helpers/withComponentMarkers'
 
 const nbNO = locales['nb-NO']
 const enGB = locales['en-GB']
@@ -2020,6 +2021,8 @@ describe('Field.PhoneNumber', () => {
   })
 
   it('should have constant of _supportsSpacingProps=undefined', () => {
-    expect(Field.PhoneNumber._supportsSpacingProps).toBe(undefined)
+    expect(
+      (Field.PhoneNumber as ComponentMarkers)._supportsSpacingProps
+    ).toBe(undefined)
   })
 })

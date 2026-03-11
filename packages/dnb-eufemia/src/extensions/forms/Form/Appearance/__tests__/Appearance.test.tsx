@@ -1,10 +1,13 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import { Form, Field } from '../../..'
+import type { ComponentMarkers } from '../../../../../shared/helpers/withComponentMarkers'
 
 describe('Form.Appearance', () => {
   it('should have constant of _supportsSpacingProps="children"', () => {
-    expect(Form.Appearance._supportsSpacingProps).toBe('children')
+    expect(
+      (Form.Appearance as ComponentMarkers)._supportsSpacingProps
+    ).toBe('children')
   })
 
   describe('size', () => {

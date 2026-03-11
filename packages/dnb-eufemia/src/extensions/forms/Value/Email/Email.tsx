@@ -1,6 +1,7 @@
 import React from 'react'
 import StringValue, { Props as StringValueProps } from '../String'
 import useTranslation from '../../hooks/useTranslation'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = StringValueProps
 
@@ -14,5 +15,6 @@ function Email(props: Props) {
   return <StringValue {...stringProps} />
 }
 
-Email._supportsSpacingProps = true
+withComponentMarkers(Email, { _supportsSpacingProps: true })
+
 export default Email

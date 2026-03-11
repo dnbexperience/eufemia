@@ -3,6 +3,7 @@ import StringField, { Props as StringFieldProps } from '../String'
 import useTranslation from '../../hooks/useTranslation'
 import type { Validator, ValidatorWithCustomValidators } from '../../types'
 import { FormError } from '../../utils'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type NameValidator = ValidatorWithCustomValidators<
   string,
@@ -82,7 +83,7 @@ function Name(props: Props) {
 
   return <StringField {...StringFieldProps} />
 }
-Name._supportsSpacingProps = true
+withComponentMarkers(Name, { _supportsSpacingProps: true })
 
 Name.First = function FirstName(props: Props) {
   const translations = useTranslation().FirstName

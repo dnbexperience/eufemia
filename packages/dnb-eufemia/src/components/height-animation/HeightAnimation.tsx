@@ -1,3 +1,4 @@
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React, { useRef } from 'react'
 import clsx from 'clsx'
 import {
@@ -129,6 +130,8 @@ function HeightAnimation({
   )
 }
 
-HeightAnimation._supportsSpacingProps = 'children'
+withComponentMarkers(HeightAnimation, {
+  _supportsSpacingProps: 'children',
+})
 
 export default HeightAnimation

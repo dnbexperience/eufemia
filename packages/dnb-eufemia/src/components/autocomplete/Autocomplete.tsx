@@ -9,6 +9,7 @@ import React, {
   useContext,
   useCallback,
 } from 'react'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import clsx from 'clsx'
 import type {
   DrawerListProps,
@@ -468,8 +469,6 @@ function Autocomplete(props: AutocompleteAllProps) {
     </DrawerListProvider>
   )
 }
-
-export default Autocomplete
 
 type SearchIndexItem = {
   dataItem: DrawerListDataArrayObject | DrawerListInternalItem
@@ -2611,5 +2610,10 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 }
 
 Autocomplete.HorizontalItem = DrawerList.HorizontalItem
-Autocomplete._formElement = true
-Autocomplete._supportsSpacingProps = true
+
+withComponentMarkers(Autocomplete, {
+  _formElement: true,
+  _supportsSpacingProps: true,
+})
+
+export default Autocomplete

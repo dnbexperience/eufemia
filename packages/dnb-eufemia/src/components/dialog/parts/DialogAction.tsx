@@ -7,6 +7,7 @@ import ModalContext from '../../modal/ModalContext'
 import { dispatchCustomElementEvent } from '../../../shared/component-helper'
 
 import type { SpacingProps } from '../../space/types'
+import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
 
 type ExtendedMouseEvent = {
   event: React.MouseEvent<HTMLElement>
@@ -142,6 +143,8 @@ const DialogAction = ({
   )
 }
 
-DialogAction._supportsSpacingProps = true
+withComponentMarkers(DialogAction, {
+  _supportsSpacingProps: true,
+})
 
 export default DialogAction

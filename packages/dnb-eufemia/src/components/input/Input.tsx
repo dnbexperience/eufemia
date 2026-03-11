@@ -7,6 +7,8 @@
 
 import React from 'react'
 import clsx from 'clsx'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
 import {
   warn,
   makeUniqueId,
@@ -996,9 +998,7 @@ type InputComponent = ((props: InputProps) => React.JSX.Element) & {
   defaultProps: object
   getValue: typeof InputClass.getValue
   hasValue: typeof InputClass.hasValue
-  _formElement: boolean
-  _supportsSpacingProps: boolean
-}
+} & ComponentMarkers
 
 /**
  * Function wrapper that forwards `ref` to the inner DOM element of the class component.
@@ -1031,9 +1031,12 @@ const Input: InputComponent = Object.assign(
     defaultProps: InputClass.defaultProps as object,
     getValue: InputClass.getValue,
     hasValue: InputClass.hasValue,
-    _formElement: true as const,
-    _supportsSpacingProps: true as const,
   }
 )
+
+withComponentMarkers(Input, {
+  _formElement: true,
+  _supportsSpacingProps: true,
+})
 
 export default Input

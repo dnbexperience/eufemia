@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event'
 import { Field, Form, Iterate } from '../../..'
 
 import nbNO from '../../../constants/locales/nb-NO'
+import type { ComponentMarkers } from '../../../../../shared/helpers/withComponentMarkers'
 const nb = nbNO['nb-NO']
 
 describe('Field.PostalCodeAndCity', () => {
@@ -404,6 +405,8 @@ describe('Field.PostalCodeAndCity', () => {
   })
 
   it('should have constant of _supportsSpacingProps=undefined', () => {
-    expect(Field.PostalCodeAndCity._supportsSpacingProps).toBe(undefined)
+    expect(
+      (Field.PostalCodeAndCity as ComponentMarkers)._supportsSpacingProps
+    ).toBe(undefined)
   })
 })

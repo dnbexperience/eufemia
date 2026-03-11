@@ -37,6 +37,7 @@ import Context from '../../shared/Context'
 
 import { AccordionStore, Store, rememberWarning } from './AccordionStore'
 import { accordionDefaultProps, type GroupProps } from './AccordionTypes'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type { GroupProps } from './AccordionTypes'
 export { accordionDefaultProps } from './AccordionTypes'
@@ -522,6 +523,8 @@ Accordion.Store = (id: string) => {
   return new Store({ id })
 }
 
-Accordion._supportsSpacingProps = true
+withComponentMarkers(Accordion, {
+  _supportsSpacingProps: true,
+})
 
 export default Accordion

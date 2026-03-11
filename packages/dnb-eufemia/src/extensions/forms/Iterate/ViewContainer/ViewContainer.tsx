@@ -9,6 +9,7 @@ import Toolbar from '../Toolbar'
 import EditButton from './EditButton'
 import RemoveButton from './RemoveButton'
 import { replaceItemNo } from '../ItemNo'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = {
   /**
@@ -86,5 +87,8 @@ function ViewContainer(props: AllProps) {
 ViewContainer.EditButton = EditButton
 ViewContainer.RemoveButton = RemoveButton
 
-ViewContainer._supportsSpacingProps = true
+withComponentMarkers(ViewContainer, {
+  _supportsSpacingProps: true,
+})
+
 export default ViewContainer
