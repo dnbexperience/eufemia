@@ -38,6 +38,7 @@ function Tooltip(localProps: TooltipAllProps) {
     showDelay,
     hideDelay,
     open,
+    placement,
     position,
     arrow,
     align,

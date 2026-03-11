@@ -21,7 +21,6 @@ export const defaultProps: Partial<TooltipAllProps> = {
   id: null,
   size: 'default',
   open: null,
-  position: 'top',
   arrow: 'center',
   align: null,
   fixedPosition: false,
