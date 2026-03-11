@@ -17,16 +17,17 @@ export type TrendProps = {
   tone?: 'positive' | 'negative' | 'neutral'
 } & SpacingProps
 
-function Trend(props: TrendProps) {
-  const {
-    value,
-    children,
-    element: Element = 'span',
-    className = null,
-    srLabel = null,
-    tone = null,
-    ...rest
-  } = props
+const Trend = React.forwardRef<HTMLElement, TrendProps>(
+  (props, ref) => {
+    const {
+      value,
+      children,
+      element: Element = 'span' as React.ElementType,
+      className = null,
+      srLabel = null,
+      tone = null,
+      ...rest
+    } = props
 
   const rawValue =
     typeof value !== 'undefined' ? value : getValueFromChildren(children)
@@ -66,25 +67,27 @@ function Trend(props: TrendProps) {
     ),
   })
 
-  return (
-    <Element {...attributes}>
-      <StatValueContext.Provider
-        value={{ useBasisSize: true, defaultMainWeight: null }}
-      >
-        <span className="dnb-stat__trend-content" aria-hidden>
-          {!hasCustomChildren && sign ? (
-            <span className="dnb-stat__trend-sign">{sign}</span>
-          ) : null}
-          <span className="dnb-stat__trend-value">
-            {hasCustomChildren ? children : displayValue}
+    return (
+      <Element ref={ref} {...attributes}>
+        <StatValueContext.Provider
+          value={{ useBasisSize: true, defaultMainWeight: null }}
+        >
+          <span className="dnb-stat__trend-content" aria-hidden>
+            {!hasCustomChildren && sign ? (
+              <span className="dnb-stat__trend-sign">{sign}</span>
+            ) : null}
+            <span className="dnb-stat__trend-value">
+              {hasCustomChildren ? children : displayValue}
+            </span>
           </span>
-        </span>
-      </StatValueContext.Provider>
-      <span className="dnb-sr-only" data-text={srText} />
-    </Element>
-  )
-}
+        </StatValueContext.Provider>
+        <span className="dnb-sr-only" data-text={srText} />
+      </Element>
+    )
+  }
+)
 
+// @ts-expect-error - Adding custom property to component for spacing detection
 Trend._supportsSpacingProps = true
 
 function getValueFromChildren(children: React.ReactNode): number | string {

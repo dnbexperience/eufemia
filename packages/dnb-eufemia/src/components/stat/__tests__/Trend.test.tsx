@@ -77,4 +77,13 @@ describe('Stat.Trend', () => {
     expect(trend.classList).toContain('dnb-stat__trend--negative')
     expect(trend.classList).not.toContain('dnb-stat__trend--positive')
   })
+
+  it('should forward ref to the element', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(<Stat.Trend ref={ref}>+12.4%</Stat.Trend>)
+
+    expect(ref.current).toBe(document.querySelector('.dnb-stat__trend'))
+    expect(ref.current.tagName.toLowerCase()).toBe('span')
+  })
 })
