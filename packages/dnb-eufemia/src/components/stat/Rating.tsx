@@ -18,16 +18,17 @@ export type RatingProps = {
   srLabel?: React.ReactNode
 } & SpacingProps
 
-function Rating(props: RatingProps) {
-  const {
-    value = 0,
-    max = null,
-    variant = 'stars',
-    element: Element = 'span',
-    className = null,
-    srLabel = null,
-    ...rest
-  } = props
+const Rating = React.forwardRef<HTMLElement, RatingProps>(
+  (props, ref) => {
+    const {
+      value = 0,
+      max = null,
+      variant = 'stars',
+      element: Element = 'span' as React.ElementType,
+      className = null,
+      srLabel = null,
+      ...rest
+    } = props
 
   const defaultMax = variant === 'progressive' ? 7 : 5
   const resolvedMax =
@@ -59,9 +60,9 @@ function Rating(props: RatingProps) {
     ),
   })
 
-  return (
-    <Element {...attributes}>
-      {variant === 'stars' ? (
+    return (
+      <Element ref={ref} {...attributes}>
+        {variant === 'stars' ? (
         <span className="dnb-stat__rating-stars" aria-hidden>
           {Array.from({ length: resolvedMax }).map((_, index) => {
             const fill = clamp(normalizedValue - index, 0, 1)
@@ -107,7 +108,8 @@ function Rating(props: RatingProps) {
       )}
     </Element>
   )
-}
+  }
+)
 
 const STAR_PATH =
   'M5.9996 0L7.8546 3.95006L12 4.58343L9.0006 7.65834L9.708 12L5.9996 9.95006L2.2928 12L3.0002 7.65834L0 4.58343L4.1462 3.95006L5.9996 0Z'
@@ -130,6 +132,7 @@ function StarIcon({ variant }: { variant: 'base' | 'active' }) {
   )
 }
 
+// @ts-expect-error - Adding custom property to component for spacing detection
 Rating._supportsSpacingProps = true
 
 export default Rating

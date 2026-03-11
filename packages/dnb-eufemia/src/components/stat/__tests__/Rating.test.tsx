@@ -86,4 +86,13 @@ describe('Stat.Rating', () => {
 
     expect(await axeComponent(component)).toHaveNoViolations()
   })
+
+  it('should forward ref to the element', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(<Stat.Rating ref={ref} value={3} />)
+
+    expect(ref.current).toBe(document.querySelector('.dnb-stat__rating'))
+    expect(ref.current.tagName.toLowerCase()).toBe('span')
+  })
 })
