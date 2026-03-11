@@ -268,7 +268,7 @@ export default function Provider<Data extends JsonObject>(
 
   // - Locale
   const { locale: sharedLocale } = useContext(SharedContext) || {}
-  const translation = useTranslation().Field
+  const translation = useTranslation(translations).Field
 
   // - Ajv (lazy initialization)
   const ajvRef = useRef<Ajv>()
