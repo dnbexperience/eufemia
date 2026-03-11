@@ -159,8 +159,7 @@ describe('Form.Handler', () => {
   })
 
   it('should call preventDefault', () => {
-    const preventDefault = jest.fn()
-    const onSubmit: OnSubmit = jest.fn(preventDefault)
+    const onSubmit: OnSubmit = jest.fn()
 
     render(
       <Form.Handler
@@ -172,18 +171,44 @@ describe('Form.Handler', () => {
       </Form.Handler>
     )
 
-    const inputElement = document.querySelector('input')
-    const buttonElement = document.querySelector('button')
+    const formElement = document.querySelector('form')
+    const submitEvent = new Event('submit', {
+      bubbles: true,
+      cancelable: true,
+    })
 
-    fireEvent.submit(inputElement)
+    fireEvent(formElement, submitEvent)
 
-    expect(preventDefault).toHaveBeenCalledTimes(1)
+    expect(submitEvent.defaultPrevented).toBe(true)
     expect(onSubmit).toHaveBeenCalledTimes(1)
+  })
 
-    fireEvent.click(buttonElement)
+  it('should allow native submit when preventDefaultOnSubmit is false', () => {
+    const onSubmit: OnSubmit = jest.fn()
 
-    expect(preventDefault).toHaveBeenCalledTimes(2)
-    expect(onSubmit).toHaveBeenCalledTimes(2)
+    render(
+      <Form.Handler
+        action="/login"
+        method="post"
+        data={{ foo: 'data-context-value' }}
+        onSubmit={onSubmit}
+        preventDefaultOnSubmit={false}
+      >
+        <Field.String path="/foo" value="Value" />
+        <Form.SubmitButton>Submit</Form.SubmitButton>
+      </Form.Handler>
+    )
+
+    const formElement = document.querySelector('form')
+    const submitEvent = new Event('submit', {
+      bubbles: true,
+      cancelable: true,
+    })
+
+    fireEvent(formElement, submitEvent)
+
+    expect(submitEvent.defaultPrevented).toBe(false)
+    expect(onSubmit).toHaveBeenCalledTimes(1)
   })
 
   it('should default to form element', () => {

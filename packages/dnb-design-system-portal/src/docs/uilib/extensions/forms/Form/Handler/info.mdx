@@ -136,6 +136,20 @@ function MyApp() {
 }
 ```
 
+## Native form submission
+
+By default, `Form.Handler` prevents the browser's native submit behavior so it can run validation and submit handling inside Eufemia Forms.
+
+If you need a native form submit, such as posting to an `action` URL with `method="post"`, you can set `preventDefaultOnSubmit={false}`:
+
+```tsx
+<Form.Handler action="/login" method="post" preventDefaultOnSubmit={false}>
+  ...
+</Form.Handler>
+```
+
+This also works on `Form.Element` when using `decoupleForm`.
+
 ## Data handling
 
 You can access, mutate, and filter data inside the form context by using the `Form.useData` hook:
