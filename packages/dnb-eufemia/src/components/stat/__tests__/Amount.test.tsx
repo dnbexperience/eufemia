@@ -513,6 +513,7 @@ describe('Stat.Amount', () => {
   })
 
   it('declares _supportsSpacingProps', () => {
+    // @ts-expect-error - Custom static property added for spacing detection
     expect(Amount._supportsSpacingProps).toBe(true)
   })
 
@@ -548,5 +549,14 @@ describe('Stat.Amount', () => {
       expect(root).toHaveAttribute('aria-disabled', 'true')
       expect(root).toHaveAttribute('disabled')
     })
+  })
+
+  it('should forward ref to the element', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(<Stat.Amount ref={ref} value={123} />)
+
+    expect(ref.current).toBe(document.querySelector('.dnb-stat'))
+    expect(ref.current.tagName.toLowerCase()).toBe('span')
   })
 })

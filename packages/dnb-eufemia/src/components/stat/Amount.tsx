@@ -79,9 +79,9 @@ const renderAffix = (
   return <span className={className}>{resolved as React.ReactNode}</span>
 }
 
-function Amount(props: AmountProps) {
+const Amount = React.forwardRef<HTMLElement, AmountProps>((props, ref) => {
   const {
-    element: Element = 'span',
+    element: Element = 'span' as React.ElementType,
     value,
     children,
     currency = false,
@@ -299,7 +299,7 @@ function Amount(props: AmountProps) {
   skeletonDOMAttributes(attributes, resolvedSkeleton, context)
 
   return (
-    <Element {...attributes}>
+    <Element ref={ref} {...attributes}>
       <span className="dnb-stat__content" aria-hidden>
         {content}
       </span>
@@ -307,8 +307,9 @@ function Amount(props: AmountProps) {
       <span className="dnb-sr-only" data-text={srText} />
     </Element>
   )
-}
+})
 
+// @ts-expect-error - Adding custom property to component for spacing detection
 Amount._supportsSpacingProps = true
 
 export default Amount
