@@ -22,6 +22,7 @@ import setData from '../../data-context/setData'
 import useReportError from '../useReportError'
 
 import nbNO from '../../../constants/locales/nb-NO'
+import type { ComponentMarkers } from '../../../../../shared/helpers/withComponentMarkers'
 const nb = nbNO['nb-NO']
 
 describe('Form.Isolation', () => {
@@ -34,7 +35,9 @@ describe('Form.Isolation', () => {
   })
 
   it('should have constant of _supportsSpacingProps="undefined"', () => {
-    expect(Form.Isolation._supportsSpacingProps).toBeUndefined()
+    expect(
+      (Form.Isolation as ComponentMarkers)._supportsSpacingProps
+    ).toBeUndefined()
   })
 
   it('should use initial value from root context', () => {

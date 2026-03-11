@@ -7,6 +7,7 @@
 
 import React from 'react'
 import clsx from 'clsx'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import Context, { type ContextProps } from '../../shared/Context'
 import {
   warn,
@@ -563,6 +564,4 @@ export default class NumberFormat extends React.PureComponent<
 
 let hasiOSFix = false
 
-;(
-  NumberFormat as typeof NumberFormat & { _supportsSpacingProps: boolean }
-)._supportsSpacingProps = true
+withComponentMarkers(NumberFormat, { _supportsSpacingProps: true })

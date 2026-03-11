@@ -27,6 +27,7 @@ import type {
   AccordionIconPosition,
   AccordionVariant,
 } from './Accordion'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type AccordionHeaderTitleProps = SpacingProps & {
   children?: React.ReactNode
@@ -420,6 +421,8 @@ AccordionHeader.Icon = AccordionHeaderIcon
 AccordionHeader.Title = AccordionHeaderTitle
 AccordionHeader.Description = AccordionHeaderDescription
 
-AccordionHeader._supportsSpacingProps = true
+withComponentMarkers(AccordionHeader, {
+  _supportsSpacingProps: true,
+})
 
 export default AccordionHeader

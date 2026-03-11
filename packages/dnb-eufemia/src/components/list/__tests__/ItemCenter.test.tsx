@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import ItemCenter from '../ItemCenter'
+import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('ItemCenter', () => {
   it('renders with children', () => {
@@ -58,6 +59,8 @@ describe('ItemCenter', () => {
   })
 
   it('declares _supportsSpacingProps for flex layout', () => {
-    expect(ItemCenter._supportsSpacingProps).toBe(true)
+    expect((ItemCenter as ComponentMarkers)._supportsSpacingProps).toBe(
+      true
+    )
   })
 })

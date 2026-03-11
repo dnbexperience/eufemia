@@ -3,6 +3,7 @@ import SnapshotContext, { SnapshotContextState } from './SnapshotContext'
 import DataContext from '../../DataContext/Context'
 import { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import { Path } from '../../types'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type SnapshotId = SharedStateId | number
 export type SnapshotName = string
@@ -39,6 +40,8 @@ function SnapshotProvider(props: SnapshotProps) {
   return <SnapshotContext value={contextValue}>{children}</SnapshotContext>
 }
 
-SnapshotProvider._supportsSpacingProps = undefined
+withComponentMarkers(SnapshotProvider, {
+  _supportsSpacingProps: undefined,
+})
 
 export default SnapshotProvider

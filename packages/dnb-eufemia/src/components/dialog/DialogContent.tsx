@@ -20,6 +20,7 @@ import { DialogContentProps } from './types'
 import ModalHeaderBar from '../modal/parts/ModalHeaderBar'
 import ModalHeader from '../modal/parts/ModalHeader'
 import IconPrimary from '../icon-primary/IconPrimary'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export default function DialogContent({
   modalContent = null,
@@ -163,4 +164,4 @@ export default function DialogContent({
   )
 }
 
-DialogContent._supportsSpacingProps = true
+withComponentMarkers(DialogContent, { _supportsSpacingProps: true })

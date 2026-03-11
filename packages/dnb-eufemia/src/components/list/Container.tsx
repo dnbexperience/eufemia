@@ -2,6 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import { ListVariant, ListContext } from './ListContext'
 import FlexContainer, { Props as FlexProps } from '../flex/Stack'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ListContainerProps = {
   variant?: ListVariant
@@ -38,6 +39,8 @@ function ListContainer(props: ListContainerProps) {
   )
 }
 
-ListContainer._supportsSpacingProps = true
+withComponentMarkers(ListContainer, {
+  _supportsSpacingProps: true,
+})
 
 export default ListContainer

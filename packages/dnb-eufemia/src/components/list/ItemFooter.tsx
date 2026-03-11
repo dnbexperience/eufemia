@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import FlexItem from '../flex/Item'
 import Hr from '../../elements/Hr'
 import { ItemContentProps } from './ItemContent'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 function ItemFooter({ className, children, ...rest }: ItemContentProps) {
   return (
@@ -17,6 +18,8 @@ function ItemFooter({ className, children, ...rest }: ItemContentProps) {
     </>
   )
 }
-ItemFooter._supportsSpacingProps = true
+withComponentMarkers(ItemFooter, {
+  _supportsSpacingProps: true,
+})
 
 export default ItemFooter

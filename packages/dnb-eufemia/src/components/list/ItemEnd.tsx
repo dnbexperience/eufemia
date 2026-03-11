@@ -2,6 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import FlexItem from '../flex/Item'
 import { ItemContentProps } from './ItemContent'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 /**
  * Props for List.Cell.End (ItemEnd).
@@ -34,6 +35,8 @@ function ItemEnd(props: ItemEndProps) {
     />
   )
 }
-ItemEnd._supportsSpacingProps = true
+withComponentMarkers(ItemEnd, {
+  _supportsSpacingProps: true,
+})
 
 export default ItemEnd

@@ -27,6 +27,7 @@ import type {
 } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import type { InnerSpaceType } from './types'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type SpaceProps = {
   /**
@@ -141,7 +142,7 @@ function Space(props: SpaceAllProps) {
   return <SpaceInstance {...props} />
 }
 
-Space._supportsSpacingProps = true
+withComponentMarkers(Space, { _supportsSpacingProps: true })
 
 export default Space
 

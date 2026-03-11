@@ -1,3 +1,4 @@
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React from 'react'
 import clsx from 'clsx'
 
@@ -57,6 +58,8 @@ const VisuallyHidden = (localProps: VisuallyHiddenAllProps) => {
   )
 }
 
-VisuallyHidden._supportsSpacingProps = false
+withComponentMarkers(VisuallyHidden, {
+  _supportsSpacingProps: false,
+})
 
 export default VisuallyHidden

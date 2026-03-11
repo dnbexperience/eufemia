@@ -4,6 +4,7 @@ import ItemContent, { ItemContentProps } from './ItemContent'
 import ItemIcon from './ItemIcon'
 import ItemTitle from './ItemTitle'
 import type { IconIcon } from '../icon/Icon'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ItemBasicProps = {
   icon?: IconIcon
@@ -23,6 +24,8 @@ function ItemBasic(props: ItemBasicProps) {
     </ItemContent>
   )
 }
-ItemBasic._supportsSpacingProps = true
+withComponentMarkers(ItemBasic, {
+  _supportsSpacingProps: true,
+})
 
 export default ItemBasic

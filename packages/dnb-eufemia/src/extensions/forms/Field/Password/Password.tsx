@@ -18,6 +18,7 @@ import IconViewOff from '../../../../icons/hide'
 import IconViewMedium from '../../../../icons/view_medium'
 import IconViewOffMedium from '../../../../icons/hide_medium'
 import useTranslation from '../../hooks/useTranslation'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type PasswordVisibilityEvent =
   React.MouseEvent<HTMLButtonElement> & {
@@ -147,4 +148,4 @@ function Password({
 
 export default Password
 
-Password._supportsSpacingProps = true
+withComponentMarkers(Password, { _supportsSpacingProps: true })

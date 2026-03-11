@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import ItemOverline from '../ItemOverline'
+import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('ItemOverline', () => {
   it('renders with children', () => {
@@ -109,6 +110,8 @@ describe('ItemOverline', () => {
   })
 
   it('declares _supportsSpacingProps for flex layout', () => {
-    expect(ItemOverline._supportsSpacingProps).toBe(true)
+    expect((ItemOverline as ComponentMarkers)._supportsSpacingProps).toBe(
+      true
+    )
   })
 })

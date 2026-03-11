@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import ItemSubline from '../ItemSubline'
+import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('ItemSubline', () => {
   it('renders with children', () => {
@@ -136,6 +137,8 @@ describe('ItemSubline', () => {
   })
 
   it('declares _supportsSpacingProps for flex layout', () => {
-    expect(ItemSubline._supportsSpacingProps).toBe(true)
+    expect((ItemSubline as ComponentMarkers)._supportsSpacingProps).toBe(
+      true
+    )
   })
 })

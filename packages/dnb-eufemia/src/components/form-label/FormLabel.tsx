@@ -3,6 +3,7 @@
  *
  */
 
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React, { useCallback, useEffect, useRef } from 'react'
 import clsx from 'clsx'
 import {
@@ -224,7 +225,9 @@ function FormLabel(localProps: FormLabelAllProps) {
   return <Element {...params}>{content}</Element>
 }
 
-FormLabel._formElement = true
-FormLabel._supportsSpacingProps = true
+withComponentMarkers(FormLabel, {
+  _formElement: true,
+  _supportsSpacingProps: true,
+})
 
 export default FormLabel

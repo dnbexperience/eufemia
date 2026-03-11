@@ -1,5 +1,6 @@
 import React from 'react'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = Pick<
   FieldBlockProps,
@@ -33,5 +34,8 @@ function CompositionField(props: Props) {
   return <FieldBlock {...props} {...params} composition asFieldset />
 }
 
-CompositionField._supportsSpacingProps = true
+withComponentMarkers(CompositionField, {
+  _supportsSpacingProps: true,
+})
+
 export default CompositionField

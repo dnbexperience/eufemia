@@ -7,6 +7,7 @@ import React from 'react'
 import clsx from 'clsx'
 import E, { ElementProps } from '../Element'
 import type { SpacingProps } from '../../shared/types'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type DlProps = {
   /**
@@ -44,6 +45,6 @@ Dl.Item = ({
   )
 }
 
-Dl._supportsSpacingProps = true
+withComponentMarkers(Dl, { _supportsSpacingProps: true })
 
 export default Dl

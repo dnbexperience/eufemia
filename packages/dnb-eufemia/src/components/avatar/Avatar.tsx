@@ -26,6 +26,7 @@ import AvatarGroup, {
   AvatarGroupItemContext,
 } from './AvatarGroup'
 import { getColor } from '../../shared/helpers'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type AvatarSizes = 'small' | 'medium' | 'large' | 'x-large'
 export type AvatarVariants = 'primary' | 'secondary' | 'tertiary'
@@ -220,7 +221,9 @@ Avatar.Group = AvatarGroup
 
 export { AvatarGroup }
 
-Avatar._supportsSpacingProps = true
+withComponentMarkers(Avatar, {
+  _supportsSpacingProps: true,
+})
 
 export default Avatar
 

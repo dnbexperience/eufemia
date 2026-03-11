@@ -8,6 +8,7 @@ import useVisibility from '../useVisibility'
 import { Field, Form, Iterate } from '../../..'
 import { Flex } from '../../../../../components'
 import { P } from '../../../../../elements'
+import type { ComponentMarkers } from '../../../../../shared/helpers/withComponentMarkers'
 
 describe('Visibility', () => {
   it('renders children when no props is given', () => {
@@ -16,7 +17,9 @@ describe('Visibility', () => {
   })
 
   it('should have constant of _supportsSpacingProps="children"', () => {
-    expect(Visibility._supportsSpacingProps).toBe('children')
+    expect((Visibility as ComponentMarkers)._supportsSpacingProps).toBe(
+      'children'
+    )
   })
 
   describe('visibility', () => {
@@ -159,7 +162,6 @@ describe('Visibility', () => {
 
   describe('inferData', () => {
     it('renders children when infer-function returns true', () => {
-      // eslint-disable-next-line no-unused-vars
       const inferData = jest.fn((data) => true)
       render(
         <Provider data={{ foo: 'bar' }}>
@@ -170,7 +172,6 @@ describe('Visibility', () => {
     })
 
     it('does not render children when infer-function return false', () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const inferData = jest.fn((data) => false)
       render(
         <Provider data={{ foo: 'bar' }}>

@@ -4,6 +4,7 @@ import SharedContext from '../../shared/Context'
 import { COUNTRY as defaultCountry } from '../../shared/defaults'
 import useCountries from '../../extensions/forms/Field/SelectCountry/useCountries'
 import Space, { SpaceAllProps } from '../space/Space'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 type CountryFlagProps = {
   iso?: string
@@ -48,6 +49,8 @@ const CountryFlag = (props: CountryFlagProps) => {
   )
 }
 
-CountryFlag._supportsSpacingProps = true
+withComponentMarkers(CountryFlag, {
+  _supportsSpacingProps: true,
+})
 
 export default CountryFlag

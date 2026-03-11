@@ -7,6 +7,7 @@ import WizardContext from '../Context/WizardContext'
 import DataContext from '../../DataContext/Context'
 import ButtonRow from '../../Form/ButtonRow'
 import useTranslation from '../../hooks/useTranslation'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = ComponentProps & ButtonProps
 
@@ -49,5 +50,8 @@ function PreviousButton(props: Props) {
   )
 }
 
-PreviousButton._supportsSpacingProps = true
+withComponentMarkers(PreviousButton, {
+  _supportsSpacingProps: true,
+})
+
 export default PreviousButton

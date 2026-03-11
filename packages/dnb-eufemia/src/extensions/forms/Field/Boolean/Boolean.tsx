@@ -2,6 +2,7 @@ import React from 'react'
 import ToggleField, { Props as ToggleFieldProps } from '../Toggle'
 import useTranslation from '../../hooks/useTranslation'
 import { FieldProps } from '../../types'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 type BooleanProps = {
   trueText?: string
@@ -34,5 +35,8 @@ function BooleanComponent(props: Props) {
   )
 }
 
-BooleanComponent._supportsSpacingProps = true
+withComponentMarkers(BooleanComponent, {
+  _supportsSpacingProps: true,
+})
+
 export default BooleanComponent

@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import Button, { ButtonProps } from '../button/Button'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import { applyPageFocus } from '../../shared/helpers'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export interface SkipContentProps {
   /**
@@ -166,6 +167,8 @@ const SkipContentReturn = (localProps: SkipContentReturnProps) => {
 
 SkipContent.Return = SkipContentReturn
 
-SkipContent._supportsSpacingProps = true
+withComponentMarkers(SkipContent, {
+  _supportsSpacingProps: true,
+})
 
 export default SkipContent

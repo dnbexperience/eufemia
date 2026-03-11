@@ -2,6 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import Container from '../Container'
 import ItemContent, { ItemContentProps } from '../ItemContent'
+import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('ItemContent', () => {
   it('renders with props as an object', () => {
@@ -128,6 +129,8 @@ describe('ItemContent', () => {
   })
 
   it('declares _supportsSpacingProps for flex layout', () => {
-    expect(ItemContent._supportsSpacingProps).toBe(true)
+    expect((ItemContent as ComponentMarkers)._supportsSpacingProps).toBe(
+      true
+    )
   })
 })

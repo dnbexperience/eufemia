@@ -16,6 +16,7 @@ import { convertJsxToString } from '../../shared/component-helper'
 import { useTranslation } from '../../shared'
 import { Span } from '../../elements'
 import Tooltip from '../Tooltip'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 const CopyOnClick = ({
   children,
@@ -104,5 +105,8 @@ const CopyOnClick = ({
   )
 }
 
-CopyOnClick._supportsSpacingProps = true
+withComponentMarkers(CopyOnClick, {
+  _supportsSpacingProps: true,
+})
+
 export default CopyOnClick

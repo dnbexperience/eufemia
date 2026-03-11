@@ -1,4 +1,5 @@
 import React from 'react'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 type WithChildrenProps = {
   children?: React.ReactNode
@@ -7,7 +8,7 @@ type WithChildrenProps = {
 function withChildren<T>(
   Component: React.ComponentType<T>
 ): React.ComponentType<T & WithChildrenProps> {
-  Component['_supportsSpacingProps'] = 'children'
+  withComponentMarkers(Component, { _supportsSpacingProps: 'children' })
   return Component
 }
 

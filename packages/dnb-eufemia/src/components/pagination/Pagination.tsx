@@ -23,6 +23,8 @@ import PaginationBar from './PaginationBar'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps, SpaceTypeAll } from '../space/types'
 import type { ButtonIconPosition } from '../Button'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
 
 export type PaginationStartupPage = string | number
 export type PaginationCurrentPage = string | number
@@ -281,8 +283,7 @@ export type PaginationComponent = ((
 ) => React.JSX.Element) & {
   Bar: typeof PaginationBar
   Content: typeof PaginationContent
-  _supportsSpacingProps: boolean
-}
+} & ComponentMarkers
 
 function PaginationFunc(props: PaginationProps) {
   const mergedProps = {
@@ -530,4 +531,4 @@ export const createPagination = (
     endInfinity,
   }
 }
-Pagination._supportsSpacingProps = true
+withComponentMarkers(Pagination, { _supportsSpacingProps: true })

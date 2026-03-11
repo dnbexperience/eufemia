@@ -4,6 +4,7 @@
  */
 
 import React from 'react'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 import { SliderProvider } from './SliderProvider'
 import { SliderInstance } from './SliderInstance'
@@ -23,7 +24,9 @@ function Slider(localProps: SliderAllProps) {
   )
 }
 
-Slider._formElement = true
-Slider._supportsSpacingProps = true
+withComponentMarkers(Slider, {
+  _formElement: true,
+  _supportsSpacingProps: true,
+})
 
 export default Slider

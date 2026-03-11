@@ -1,6 +1,7 @@
 import React from 'react'
 import StringValue, { Props as StringValueProps } from '../String'
 import useTranslation from '../../hooks/useTranslation'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = StringValueProps
 
@@ -11,7 +12,7 @@ function Name(props: Props) {
 
   return <StringValue {...StringValueProps} />
 }
-Name._supportsSpacingProps = true
+withComponentMarkers(Name, { _supportsSpacingProps: true })
 
 Name.First = function FirstName(props: Props) {
   const translations = useTranslation()

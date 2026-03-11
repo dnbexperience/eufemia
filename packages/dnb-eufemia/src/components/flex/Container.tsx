@@ -13,6 +13,7 @@ import type { MediaQueryBreakpoints } from '../../shared/MediaQueryUtils'
 import type { SpaceType } from '../space/types'
 import type { UseMediaQueries } from '../../shared/useMedia'
 import type { End, Start } from './types'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 type Gap =
   | false
@@ -271,6 +272,8 @@ function replaceRootFragment(children) {
   return children
 }
 
-FlexContainer._supportsSpacingProps = true
+withComponentMarkers(FlexContainer, {
+  _supportsSpacingProps: true,
+})
 
 export default FlexContainer

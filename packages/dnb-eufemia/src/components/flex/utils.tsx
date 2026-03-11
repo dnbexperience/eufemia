@@ -3,6 +3,7 @@ import { SpaceType, SpacingProps } from '../../shared/types'
 import Space from '../space/Space'
 import { isValidSpaceProp, removeSpaceProps } from '../space/SpacingUtils'
 import { End, Start } from './types'
+import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
 
 export const omitSpacingProps = removeSpaceProps
 
@@ -53,12 +54,10 @@ export function getSpaceValue(
  * @param element - The element to check.
  * @returns `true` if the element is a heading element, `false` otherwise.
  */
-export function isHeadingElement(
-  element: React.ReactNode & { _isHeadingElement?: boolean }
-): boolean {
+export function isHeadingElement(element: React.ReactNode): boolean {
   return (
     React.isValidElement(element) &&
-    element?.type?.['_isHeadingElement'] === true
+    (element?.type as ComponentMarkers)?._isHeadingElement === true
   )
 }
 
@@ -73,7 +72,8 @@ export function getSpaceVariant(element: React.ReactNode) {
       return 'children'
     }
 
-    const check = element?.type?.['_supportsSpacingProps']
+    const check = (element?.type as ComponentMarkers)
+      ?._supportsSpacingProps
     if (typeof check !== 'undefined') {
       return check
     }

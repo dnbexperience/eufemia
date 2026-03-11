@@ -2,6 +2,7 @@ import React from 'react'
 import DateComponent, { Props as DateValueProps } from '../Date/Date'
 import useTranslation from '../../hooks/useTranslation'
 import { DEFAULT_DATE_FORMAT } from '../../Field/DateOfBirth/DateOfBirth'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = DateValueProps & {
   dateFormat?: string
@@ -19,5 +20,8 @@ function DateOfBirth(props: Props) {
   return <DateComponent {...dateValueProps} />
 }
 
-DateOfBirth._supportsSpacingProps = true
+withComponentMarkers(DateOfBirth, {
+  _supportsSpacingProps: true,
+})
+
 export default DateOfBirth

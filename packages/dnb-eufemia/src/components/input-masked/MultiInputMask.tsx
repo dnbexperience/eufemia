@@ -1,3 +1,4 @@
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React, { RefObject, useRef } from 'react'
 import Input from '../Input'
 import type { InputProps } from '../Input'
@@ -351,7 +352,9 @@ function removePlaceholder(value: string, placeholder: string) {
   return value.replace(RegExp(placeholder, 'gm'), '')
 }
 
-export default MultiInputMask
+withComponentMarkers(MultiInputMask, {
+  _formElement: true,
+  _supportsSpacingProps: true,
+})
 
-MultiInputMask._formElement = true
-MultiInputMask._supportsSpacingProps = true
+export default MultiInputMask

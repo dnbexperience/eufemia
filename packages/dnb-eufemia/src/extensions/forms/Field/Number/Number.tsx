@@ -26,6 +26,7 @@ import { ButtonProps, ButtonSize } from '../../../../components/Button'
 import { clamp } from '../../../../components/slider/SliderHelpers'
 import DataContext from '../../DataContext/Context'
 import * as z from 'zod'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = FieldProps<number, undefined | number> & {
   ref?: React.RefObject<HTMLInputElement>
@@ -555,5 +556,8 @@ function NumberComponent(props: Props) {
   )
 }
 
-NumberComponent._supportsSpacingProps = true
+withComponentMarkers(NumberComponent, {
+  _supportsSpacingProps: true,
+})
+
 export default NumberComponent
