@@ -37,6 +37,26 @@ describe('Field.Date', () => {
     expect(screen.getByLabelText('Dato')).toBeInTheDocument()
   })
 
+  it('should forward tooltip to DatePicker', async () => {
+    render(<Field.Date tooltip="My tooltip" />)
+
+    const button = document.querySelector(
+      '.dnb-date-picker .dnb-input__submit-button__button'
+    )
+
+    expect(
+      document.querySelector('.dnb-tooltip--active')
+    ).not.toBeInTheDocument()
+
+    await userEvent.hover(button)
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-tooltip--active')
+      ).toBeInTheDocument()
+    })
+  })
+
   it('should support size', () => {
     render(<Field.Date size="large" />)
 
