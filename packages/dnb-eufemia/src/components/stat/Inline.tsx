@@ -5,25 +5,32 @@ import type { Props as FlexHorizontalProps } from '../flex/Horizontal'
 
 export type InlineProps = FlexHorizontalProps
 
-function Inline({
-  children,
-  className = null,
-  gap = 'x-small',
-  align = 'center',
-  ...rest
-}: InlineProps) {
-  return (
-    <Flex.Horizontal
-      {...rest}
-      gap={gap}
-      align={align}
-      className={classnames('dnb-stat', 'dnb-stat__inline', className)}
-    >
-      {children}
-    </Flex.Horizontal>
-  )
-}
+const Inline = React.forwardRef<HTMLElement, InlineProps>(
+  (
+    {
+      children,
+      className = null,
+      gap = 'x-small',
+      align = 'center',
+      ...rest
+    },
+    ref
+  ) => {
+    return (
+      <Flex.Horizontal
+        {...rest}
+        innerRef={ref as React.RefObject<HTMLElement>}
+        gap={gap}
+        align={align}
+        className={classnames('dnb-stat', 'dnb-stat__inline', className)}
+      >
+        {children}
+      </Flex.Horizontal>
+    )
+  }
+)
 
+// @ts-expect-error - Adding custom property to component for spacing detection
 Inline._supportsSpacingProps = true
 
 export default Inline

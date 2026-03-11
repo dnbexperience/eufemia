@@ -41,4 +41,16 @@ describe('Stat.Inline', () => {
       'dnb-flex-container--align-center'
     )
   })
+
+  it('should forward ref to the element', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(
+      <Stat.Inline ref={ref}>
+        <Stat.Trend>+1.2%</Stat.Trend>
+      </Stat.Inline>
+    )
+
+    expect(ref.current).toBe(document.querySelector('.dnb-stat__inline'))
+  })
 })
