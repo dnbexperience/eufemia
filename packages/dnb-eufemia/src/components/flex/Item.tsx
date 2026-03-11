@@ -34,7 +34,7 @@ export type BasicProps = {
 
 export type Props = BasicProps &
   SpaceProps &
-  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'wrap'>
+  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'wrap' | 'span'>
 
 function FlexItem(props: Props) {
   const {
