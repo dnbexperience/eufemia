@@ -35,21 +35,21 @@ render(
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/flex/Item.tsx)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/layout/flex/item/)
 
-### Size adjustment
+### Span adjustment
 
-You can provide a `size` property with a number from 1 to 12 (can be changed in [Flex.Container](/uilib/layout/flex/container/) with the `sizeCount` property).
+You can provide a `span` property with a number from 1 to 12 (can be changed in [Flex.Container](/uilib/layout/flex/container/) with the `sizeCount` property).
 
-The number will be used to set the item size (a part of the container). It set a percentage unit and apply it on the item via CSS. When the container is tilled to 100%, the remaining items will wrap to a new row.
+The number will be used to set the item span (a part of the container). It set a percentage unit and apply it on the item via CSS. When the container is tilled to 100%, the remaining items will wrap to a new row.
 
 The number 6 results in 50%, while 12 results in 100%.
 
 <Examples.BasicSize />
 
-### Responsive size
+### Responsive span
 
-You can also make sizes respond to media queries.
+You can also make spans respond to media queries.
 
-For doing so, provide a `size` property with an object containing [Media Query](/uilib/usage/layout/media-queries/) types. Each media size should contain number, like mentioned above.
+For doing so, provide a `span` property with an object containing [Media Query](/uilib/usage/layout/media-queries/) types. Each media span should contain number, like mentioned above.
 
 <Examples.ResponsiveSize />
 

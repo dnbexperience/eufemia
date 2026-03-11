@@ -995,7 +995,7 @@ describe('Flex.Container', () => {
     it('should set default "sizeCount" of 12', () => {
       const { rerender } = render(
         <Flex.Container>
-          <Flex.Item size={6}>FlexItem</Flex.Item>
+          <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
@@ -1005,7 +1005,7 @@ describe('Flex.Container', () => {
 
       rerender(
         <Flex.Container sizeCount={6}>
-          <Flex.Item size={6}>FlexItem</Flex.Item>
+          <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
@@ -1023,7 +1023,7 @@ describe('Flex.Container', () => {
     it('should set --has-size class', () => {
       render(
         <Flex.Container>
-          <Flex.Item size={6}>FlexItem</Flex.Item>
+          <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
@@ -1037,7 +1037,7 @@ describe('Flex.Container', () => {
 
       const { rerender } = render(
         <Flex.Container>
-          <Flex.Item size={6}>FlexItem</Flex.Item>
+          <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
@@ -1049,7 +1049,7 @@ describe('Flex.Container', () => {
 
       rerender(
         <Flex.Container>
-          <Flex.Item size={6}>FlexItem</Flex.Item>
+          <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
@@ -1061,7 +1061,7 @@ describe('Flex.Container', () => {
 
       rerender(
         <Flex.Container>
-          <Flex.Item size={6}>FlexItem</Flex.Item>
+          <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
@@ -1099,7 +1099,7 @@ describe('Flex.Container', () => {
     it('should have no rowGap when false, but size on items are given', () => {
       const { rerender } = render(
         <Flex.Container>
-          <Flex.Item size={6}>FlexItem</Flex.Item>
+          <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
@@ -1111,7 +1111,7 @@ describe('Flex.Container', () => {
 
       rerender(
         <Flex.Container rowGap={false}>
-          <Flex.Item size={6}>FlexItem</Flex.Item>
+          <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
