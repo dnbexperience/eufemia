@@ -125,6 +125,63 @@ describe('Field.Currency', () => {
     )
   })
 
+  it('should clear minus sign on blur when no digits follow', async () => {
+    const onChange = jest.fn()
+    render(<Field.Currency onChange={onChange} />)
+
+    const input = document.querySelector('input')
+
+    await userEvent.type(input, '-')
+
+    expect(input.value).toContain('-')
+
+    fireEvent.blur(input)
+
+    expect(input).toHaveValue('')
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
+  it('should handle negative decimal values like -0,5', async () => {
+    const onChange = jest.fn()
+    render(<Field.Currency onChange={onChange} />)
+
+    const input = document.querySelector('input')
+
+    await userEvent.type(input, '-0,5')
+
+    expect(input).toHaveValue('-0,5 kr')
+    expect(onChange).toHaveBeenLastCalledWith(-0.5, expect.anything())
+  })
+
+  it('should treat -0 as empty value', async () => {
+    const onChange = jest.fn()
+    render(<Field.Currency onChange={onChange} />)
+
+    const input = document.querySelector('input')
+
+    // Typing "-0" produces numberValue of -0, which is intentionally
+    // treated as empty to avoid storing a meaningless -0 value.
+    await userEvent.type(input, '-0')
+
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
+  it('should not clear minus sign when emptyValue is 0', async () => {
+    const onChange = jest.fn()
+    render(<Field.Currency emptyValue={0} onChange={onChange} />)
+
+    const input = document.querySelector('input')
+
+    await userEvent.type(input, '-')
+
+    // When emptyValue={0} and user types "-", fromInput returns 0,
+    // which may clear the minus sign in the display.
+    await userEvent.type(input, '5')
+
+    expect(input).toHaveValue('-5 kr')
+    expect(onChange).toHaveBeenLastCalledWith(-5, expect.anything())
+  })
+
   it('should work with decimal limit 0', async () => {
     render(<Field.Currency decimalLimit={0} />)
 
