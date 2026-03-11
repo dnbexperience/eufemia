@@ -5,7 +5,7 @@
 
 import React from 'react'
 
-import whatInput from 'what-input'
+import whatInput from './helpers/whatInput'
 import { warn } from './helpers'
 import { getClosestParent } from './helpers/getClosest'
 import { init } from './Eufemia'
