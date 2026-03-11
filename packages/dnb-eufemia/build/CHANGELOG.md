@@ -3,6 +3,32 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.100.0](https://github.com/dnbexperience/eufemia/compare/v10.99.0...v10.100.0) (2026-03-11)
+
+
+### :sparkles: Features
+
+* **Forms:** add `totalSteps` to `WizardContainer.onStepChange` ([#6878](https://github.com/dnbexperience/eufemia/issues/6878)) ([a0f2acd](https://github.com/dnbexperience/eufemia/commit/a0f2acd54fc1eccacd1ef97f1110b58c5903d84a))
+* **NumberFormat:** add new `useNumberFormatWithParts` hook ([#6807](https://github.com/dnbexperience/eufemia/issues/6807)) ([83369c0](https://github.com/dnbexperience/eufemia/commit/83369c0bd53e63421b4afa584754a773cbf9b5e9)), closes [#6755](https://github.com/dnbexperience/eufemia/issues/6755)
+* **Stat:** add new component for hero amounts with composition, rating and trend ([#6755](https://github.com/dnbexperience/eufemia/issues/6755)) ([dc4ba5d](https://github.com/dnbexperience/eufemia/commit/dc4ba5d2a4cacd505f4d219d6e48f297c77acde4))
+* **VippsWalletButton:** add pending state with SubmitIndicator ([#6932](https://github.com/dnbexperience/eufemia/issues/6932)) ([c1c670e](https://github.com/dnbexperience/eufemia/commit/c1c670ec4623369a086bb687c87ffa24837399de))
+
+
+### :bug: Bug Fixes
+
+* **Field.Currency:** allow typing minus sign ([#6984](https://github.com/dnbexperience/eufemia/issues/6984)) ([ba0cab6](https://github.com/dnbexperience/eufemia/commit/ba0cab69f890c10922301c940199bce18c9fd23b))
+* **Field.Date:** forward `tooltip` prop from DatePicker ([#6967](https://github.com/dnbexperience/eufemia/issues/6967)) ([0641068](https://github.com/dnbexperience/eufemia/commit/0641068c1946af0f7701d8e2ee00388ba4a08f4a))
+* **Field.Date:** should not display error message when clearing range ([#6960](https://github.com/dnbexperience/eufemia/issues/6960)) ([c38f89c](https://github.com/dnbexperience/eufemia/commit/c38f89ce1da3ec20039d85da917ca2ac2c16b255))
+* **Field.Date:** should reset to initial value when clicking reset button ([#6962](https://github.com/dnbexperience/eufemia/issues/6962)) ([6392bde](https://github.com/dnbexperience/eufemia/commit/6392bde55a49ffbb8347b26bf472421c51925b00))
+* **Field.Upload:** display required message when removing files ([#5535](https://github.com/dnbexperience/eufemia/issues/5535)) ([9128b3f](https://github.com/dnbexperience/eufemia/commit/9128b3fee4ca5225769c6c3d79925a56540fe379))
+* **Forms:** `errorSummaryTitle` translation should override GlobalStatus title ([#5951](https://github.com/dnbexperience/eufemia/issues/5951)) ([ce2bc75](https://github.com/dnbexperience/eufemia/commit/ce2bc75a2dcd910123c33421fd59e2e4bf5cbe16))
+* **Forms:** ensure consistent cursor in `Form.SubmitButton` ([#6945](https://github.com/dnbexperience/eufemia/issues/6945)) ([9a1d024](https://github.com/dnbexperience/eufemia/commit/9a1d024f4f104b74ec5ea5e3158fe78b856dd804)), closes [#6931](https://github.com/dnbexperience/eufemia/issues/6931)
+* **Forms:** ensure consistent cursor in `Form.SubmitButton` ([#6948](https://github.com/dnbexperience/eufemia/issues/6948)) ([c8abe64](https://github.com/dnbexperience/eufemia/commit/c8abe643c54cff902cb24e0ca031c1614d7a4eeb))
+* **Forms:** omit double import of styles ([#6860](https://github.com/dnbexperience/eufemia/issues/6860)) ([f3aaeea](https://github.com/dnbexperience/eufemia/commit/f3aaeeabf8918608a957e1efd4226bd54df79400)), closes [#6816](https://github.com/dnbexperience/eufemia/issues/6816)
+* **GlobalStatus:** reduce spacing when not using `text` property ([#6963](https://github.com/dnbexperience/eufemia/issues/6963)) ([c19d011](https://github.com/dnbexperience/eufemia/commit/c19d011914be2bb9fc713f539840c62357853e8e))
+* **List:** only make form elements full-row clickable in basic items when `selected` is defined ([#6966](https://github.com/dnbexperience/eufemia/issues/6966)) ([61c04ef](https://github.com/dnbexperience/eufemia/commit/61c04efd26fb8d5ecc017f868da6d75e7312307f))
+* **Table:** prevent cross-fade morphing on accordion content rows ([#6965](https://github.com/dnbexperience/eufemia/issues/6965)) ([5e503ea](https://github.com/dnbexperience/eufemia/commit/5e503ea450260985d9ccb104fde3754b980fda25))
+
 ## [10.99.0](https://github.com/dnbexperience/eufemia/compare/v10.98.0...v10.99.0) (2026-02-26)
 
 
