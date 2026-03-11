@@ -25,7 +25,7 @@ import {
   skeletonDOMAttributes,
 } from '../skeleton/SkeletonHelper'
 import Button from '../button/Button'
-import whatInput from 'what-input'
+import whatInput from '../../shared/helpers/whatInput'
 import CustomContent from './TabsCustomContent'
 import ContentWrapper from './TabsContentWrapper'
 import {
