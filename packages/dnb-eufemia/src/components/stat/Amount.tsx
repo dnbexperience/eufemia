@@ -22,6 +22,9 @@ import {
 } from '../../shared/component-helper'
 import StatValueContext from './StatValueContext'
 
+/**
+ * @deprecated Use `NumberProps` from `Stat.Number` instead.
+ */
 export type AmountProps = Omit<
   NumberFormatProps,
   'children' | 'currency_display' | 'currency_position'
@@ -79,6 +82,9 @@ const renderAffix = (
   return <span className={className}>{resolved as React.ReactNode}</span>
 }
 
+/**
+ * @deprecated Use `Stat.Number` instead.
+ */
 function Amount(props: AmountProps) {
   const {
     element: Element = 'span',

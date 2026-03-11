@@ -1,5 +1,6 @@
 // For TypeScript compatibility we import and export it this way
 export { Amount } from './exports/StatExport'
+export { Number } from './exports/StatExport'
 export { Currency } from './exports/StatExport'
 export { Percent } from './exports/StatExport'
 export { Rating } from './exports/StatExport'
