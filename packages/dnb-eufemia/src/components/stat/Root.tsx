@@ -11,39 +11,43 @@ export type RootProps = {
   visualOrder?: 'label-content' | 'content-label'
 } & SpacingProps
 
-function Root(props: RootProps) {
-  const {
-    children,
-    className = null,
-    visualOrder = 'label-content',
-    ...rest
-  } = props
+const Root = React.forwardRef<HTMLDListElement, RootProps>(
+  (props, ref) => {
+    const {
+      children,
+      className = null,
+      visualOrder = 'label-content',
+      ...rest
+    } = props
 
-  if (!hasOnlySupportedChildren(children)) {
-    warn('Stat.Root should only contain Stat.Label and Stat.Content.')
+    if (!hasOnlySupportedChildren(children)) {
+      warn('Stat.Root should only contain Stat.Label and Stat.Content.')
+    }
+    if (!hasRequiredLabel(children)) {
+      warn('Stat.Root should contain a Stat.Label.')
+    }
+
+    return (
+      <StatRootContext.Provider value={{ inRoot: true }}>
+        <Space
+          element="dl"
+          innerRef={ref as React.RefObject<HTMLElement>}
+          className={classnames(
+            'dnb-stat',
+            'dnb-stat__root',
+            `dnb-stat__root--${visualOrder}`,
+            className
+          )}
+          {...rest}
+        >
+          {children}
+        </Space>
+      </StatRootContext.Provider>
+    )
   }
-  if (!hasRequiredLabel(children)) {
-    warn('Stat.Root should contain a Stat.Label.')
-  }
+)
 
-  return (
-    <StatRootContext.Provider value={{ inRoot: true }}>
-      <Space
-        element="dl"
-        className={classnames(
-          'dnb-stat',
-          'dnb-stat__root',
-          `dnb-stat__root--${visualOrder}`,
-          className
-        )}
-        {...rest}
-      >
-        {children}
-      </Space>
-    </StatRootContext.Provider>
-  )
-}
-
+// @ts-expect-error - Adding custom property to component for spacing detection
 Root._supportsSpacingProps = true
 
 export default Root
