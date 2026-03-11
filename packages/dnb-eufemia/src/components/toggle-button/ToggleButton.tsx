@@ -3,7 +3,6 @@
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
 import React, { useContext, useRef, useState, useCallback } from 'react'
 import clsx from 'clsx'
 import useId from '../../shared/helpers/useId'
@@ -578,4 +577,3 @@ export interface ToggleButtonComponent {
   (props: ToggleButtonProps): React.ReactElement
   Group: typeof ToggleButtonGroup
 }
-
