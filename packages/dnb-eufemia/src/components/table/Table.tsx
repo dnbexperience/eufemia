@@ -16,6 +16,7 @@ import type { StickyTableHeaderProps } from './TableStickyHeader'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import type { LocaleProps, SpacingProps } from '../../shared/types'
 import { useHandleOddEven } from './TableTr'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type TableSizes = 'large' | 'medium' | 'small'
 export type TableVariants = 'generic'
@@ -183,7 +184,7 @@ const Table = (componentProps: TableAllProps) => {
   )
 }
 
-Table._supportsSpacingProps = true
+withComponentMarkers(Table, { _supportsSpacingProps: true })
 
 export default Table
 

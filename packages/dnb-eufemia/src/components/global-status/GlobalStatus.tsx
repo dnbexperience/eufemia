@@ -7,6 +7,7 @@
 
 import React from 'react'
 import clsx from 'clsx'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import Context from '../../shared/Context'
 import {
   warn,
@@ -241,7 +242,6 @@ export default class GlobalStatus extends React.PureComponent<
   GlobalStatusProps,
   GlobalStatusComponentState
 > {
-  static _supportsSpacingProps = true
   static contextType = Context
   context!: React.ContextType<typeof Context>
 
@@ -900,6 +900,8 @@ GlobalStatus.create = (
 GlobalStatus.Update = GlobalStatus.create
 GlobalStatus.Add = GlobalStatusController
 GlobalStatus.Remove = GlobalStatusRemove
+
+withComponentMarkers(GlobalStatus, { _supportsSpacingProps: true })
 
 const isElementVisible = (
   elem: HTMLElement,

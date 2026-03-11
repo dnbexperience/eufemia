@@ -7,6 +7,7 @@
 
 import React from 'react'
 import clsx from 'clsx'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { useTheme, Context } from '../../shared'
 import {
   makeUniqueId,
@@ -208,7 +209,6 @@ export default class FormStatus extends React.PureComponent<
   FormStatusProps,
   FormStatusComponentState
 > {
-  static _supportsSpacingProps = true
   static contextType = Context
   context!: React.ContextType<typeof Context>
 
@@ -592,6 +592,8 @@ export default class FormStatus extends React.PureComponent<
     )
   }
 }
+
+withComponentMarkers(FormStatus, { _supportsSpacingProps: true })
 
 export const ErrorIcon = (props: ErrorIconProps) => {
   const { title = 'error' } = props || {}

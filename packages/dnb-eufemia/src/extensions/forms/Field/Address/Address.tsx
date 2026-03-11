@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
 import useTranslation from '../../hooks/useTranslation'
 import type { AutocompleteAllProps } from '../../../../components/autocomplete/Autocomplete'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = StringFieldProps & {
   element?: React.ElementType<Props>
@@ -22,7 +23,7 @@ function Address(props: Props) {
 
   return <Element {...rest} />
 }
-Address._supportsSpacingProps = true
+withComponentMarkers(Address, { _supportsSpacingProps: true })
 
 Address.Postal = function PostalAddress(props: Props) {
   const { label, errorRequired, errorPattern } =

@@ -5,6 +5,7 @@
 
 import React from 'react'
 import clsx from 'clsx'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import Context, { type ContextProps } from '../../shared/Context'
 import {
   warn,
@@ -1356,6 +1357,4 @@ const ScrollNavButton = (
   )
 }
 
-;(
-  Tabs as typeof Tabs & { _supportsSpacingProps: boolean }
-)._supportsSpacingProps = true
+withComponentMarkers(Tabs, { _supportsSpacingProps: true })

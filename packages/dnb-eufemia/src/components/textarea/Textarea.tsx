@@ -5,6 +5,8 @@
  * For referencing while developing new features, please use a Functional component.
  */
 
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
 import React from 'react'
 import clsx from 'clsx'
 import FormLabel from '../form-label/FormLabel'
@@ -683,11 +685,9 @@ class TextareaClass extends React.PureComponent<
   }
 }
 
-export interface TextareaStaticProperties {
+export interface TextareaStaticProperties extends ComponentMarkers {
   hasValue: typeof TextareaClass.hasValue
   getValue: typeof TextareaClass.getValue
-  _formElement: boolean
-  _supportsSpacingProps: boolean
 }
 
 /**
@@ -718,7 +718,10 @@ const TextareaExport = Textarea as typeof Textarea &
   TextareaStaticProperties
 TextareaExport.hasValue = TextareaClass.hasValue
 TextareaExport.getValue = TextareaClass.getValue
-TextareaExport._formElement = true
-TextareaExport._supportsSpacingProps = true
+
+withComponentMarkers(TextareaExport, {
+  _formElement: true,
+  _supportsSpacingProps: true,
+})
 
 export default TextareaExport

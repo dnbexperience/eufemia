@@ -6,6 +6,7 @@
  */
 
 import React from 'react'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import GlobalStatusProvider from './GlobalStatusProvider'
 import type {
   GlobalStatusAddProps,
@@ -65,7 +66,6 @@ class GlobalStatusController extends React.PureComponent<
   GlobalStatusControllerProps,
   GlobalStatusControllerState
 > {
-  static _supportsSpacingProps = true
   static Remove: typeof GlobalStatusRemove
   static Update: typeof GlobalStatusController
 
@@ -190,6 +190,10 @@ class GlobalStatusRemove extends React.PureComponent<
 
 GlobalStatusController.Remove = GlobalStatusRemove
 GlobalStatusController.Update = GlobalStatusController
+
+withComponentMarkers(GlobalStatusController, {
+  _supportsSpacingProps: true,
+})
 
 export default GlobalStatusController
 export { GlobalStatusRemove }

@@ -10,6 +10,7 @@ import SectionContainer, {
 } from '../containers/SectionContainer'
 import EditButton from './EditButton'
 import SectionContainerContext from '../containers/SectionContainerContext'
+import withComponentMarkers from '../../../../../shared/helpers/withComponentMarkers'
 
 export type Props = {
   title?: React.ReactNode
@@ -49,5 +50,9 @@ function ViewContainer(props: AllProps) {
   )
 }
 ViewContainer.EditButton = EditButton
-ViewContainer._supportsSpacingProps = true
+
+withComponentMarkers(ViewContainer, {
+  _supportsSpacingProps: true,
+})
+
 export default ViewContainer

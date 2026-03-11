@@ -6,6 +6,7 @@ import { createSpacingClasses } from '../space/SpacingUtils'
 import type { TableProps } from './Table'
 import type { SpacingProps } from '../space/types'
 import { validateDOMAttributes } from '../../shared/component-helper'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type TableContainerProps = {
   /**
@@ -139,4 +140,4 @@ export function TableContainerFoot(
 TableContainer.Body = TableContainerBody
 TableContainer.Head = TableContainerHead
 TableContainer.Foot = TableContainerFoot
-TableContainer._supportsSpacingProps = true
+withComponentMarkers(TableContainer, { _supportsSpacingProps: true })

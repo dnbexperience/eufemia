@@ -8,6 +8,7 @@ import {
   pickSpacingProps,
 } from '../../../../components/flex/utils'
 import { SpacingProps } from '../../../../shared/types'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 type Mode = 'edit' | 'summary'
 type Variant = Array<'joint-responsibility' | 'daycare'>
@@ -256,4 +257,4 @@ function SummaryContainer({
   )
 }
 
-ChildrenWithAge._supportsSpacingProps = true
+withComponentMarkers(ChildrenWithAge, { _supportsSpacingProps: true })

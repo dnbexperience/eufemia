@@ -2,6 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import Container from './Container'
 import type { Props as FlexContainerProps } from './Container'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type Props = FlexContainerProps
 
@@ -33,6 +34,6 @@ function Stack(props: Props) {
   )
 }
 
-Stack._supportsSpacingProps = true
+withComponentMarkers(Stack, { _supportsSpacingProps: true })
 
 export default Stack

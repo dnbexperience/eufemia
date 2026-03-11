@@ -15,6 +15,7 @@ import type {
 import type { InnerSpaceType } from '../space/types'
 import Space from '../space/Space'
 import { getColor } from '../../shared/helpers'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type SectionVariants = 'error' | 'info' | 'warning' | 'success'
 
@@ -272,4 +273,4 @@ function computeStyle<T extends boolean | string | number | boolean[]>(
 }
 
 Section._name = 'Section'
-Section._supportsSpacingProps = true
+withComponentMarkers(Section, { _supportsSpacingProps: true })

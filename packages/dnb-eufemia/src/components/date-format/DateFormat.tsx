@@ -29,6 +29,7 @@ import {
 } from '../skeleton/SkeletonHelper'
 import { useTranslation } from '../../shared'
 import { convertJsxToString } from '../../shared/component-helper'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 type DateFormatProps = SpacingProps & {
   value?: Date | string | number
@@ -434,4 +435,4 @@ function getInvalidValue({
 
 export default DateFormat
 
-DateFormat._supportsSpacingProps = true
+withComponentMarkers(DateFormat, { _supportsSpacingProps: true })

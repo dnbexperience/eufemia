@@ -16,6 +16,7 @@ import {
 } from '../../../../components/dialog/types'
 import { EventStateObject } from '../../types'
 import { removeUndefinedProps } from '../../../../shared/component-helper'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type ConfirmationState =
   | 'idle'
@@ -220,5 +221,8 @@ function SubmitConfirmation(props: ConfirmProps) {
   )
 }
 
-SubmitConfirmation._supportsSpacingProps = 'children'
+withComponentMarkers(SubmitConfirmation, {
+  _supportsSpacingProps: 'children',
+})
+
 export default SubmitConfirmation

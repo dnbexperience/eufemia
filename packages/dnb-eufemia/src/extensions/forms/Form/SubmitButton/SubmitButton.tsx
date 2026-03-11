@@ -7,6 +7,7 @@ import SubmitIndicator from '../SubmitIndicator'
 import useTranslation from '../../hooks/useTranslation'
 import { send } from '../../../../icons'
 import useId from '../../../../shared/helpers/useId'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = {
   /**
@@ -78,5 +79,8 @@ function SubmitButton(props: Props) {
   )
 }
 
-SubmitButton._supportsSpacingProps = true
+withComponentMarkers(SubmitButton, {
+  _supportsSpacingProps: true,
+})
+
 export default SubmitButton

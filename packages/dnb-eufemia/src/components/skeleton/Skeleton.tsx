@@ -18,6 +18,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
 import type { SpacingProps } from '../space/types'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type SkeletonShow = boolean
 
@@ -212,4 +213,4 @@ function Exclude(props) {
 
 Skeleton.Exclude = Exclude
 
-Skeleton._supportsSpacingProps = true
+withComponentMarkers(Skeleton, { _supportsSpacingProps: true })

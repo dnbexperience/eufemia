@@ -33,6 +33,7 @@ import type {
 } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../space/types'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type RadioGroupLabelPosition = 'left' | 'right'
 export type RadioGroupSize = 'default' | 'medium' | 'large'
@@ -84,7 +85,6 @@ export default class RadioGroup extends React.PureComponent<
   RadioGroupProps,
   RadioGroupComponentState
 > {
-  static _supportsSpacingProps = true
   static contextType = Context
   context!: React.ContextType<typeof Context>
 
@@ -312,4 +312,4 @@ export default class RadioGroup extends React.PureComponent<
   }
 }
 
-RadioGroup._supportsSpacingProps = true
+withComponentMarkers(RadioGroup, { _supportsSpacingProps: true })

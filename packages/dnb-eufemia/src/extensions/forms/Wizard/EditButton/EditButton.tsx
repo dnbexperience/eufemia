@@ -12,6 +12,7 @@ import {
   omitSpacingProps,
   pickSpacingProps,
 } from '../../../../components/flex/utils'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = ComponentProps & ButtonProps & { toStep?: StepIndex }
 
@@ -52,5 +53,8 @@ function EditButton(props: Props) {
   )
 }
 
-EditButton._supportsSpacingProps = true
+withComponentMarkers(EditButton, {
+  _supportsSpacingProps: true,
+})
+
 export default EditButton

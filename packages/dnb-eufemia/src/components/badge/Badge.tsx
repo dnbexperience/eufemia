@@ -1,3 +1,4 @@
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React from 'react'
 import clsx from 'clsx'
 
@@ -224,6 +225,8 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
   )
 })
 
-Badge._supportsSpacingProps = true
+withComponentMarkers(Badge, {
+  _supportsSpacingProps: true,
+})
 
 export default Badge

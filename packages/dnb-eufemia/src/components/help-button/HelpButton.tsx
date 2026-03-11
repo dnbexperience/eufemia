@@ -9,6 +9,7 @@ import Dialog from '../dialog/Dialog'
 import HelpButtonInstance from './HelpButtonInstance'
 import type { ButtonProps } from '../button/Button'
 import { extendPropsWithContext } from '../../shared/component-helper'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 const defaultProps: Partial<HelpButtonProps> = {
   variant: 'secondary',
@@ -51,4 +52,4 @@ export default function HelpButton(localProps: HelpButtonProps) {
   return <HelpButtonInstance {...params} />
 }
 
-HelpButton._supportsSpacingProps = true
+withComponentMarkers(HelpButton, { _supportsSpacingProps: true })

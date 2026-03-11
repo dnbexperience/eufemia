@@ -1,6 +1,7 @@
 import React from 'react'
 import StringValue, { Props as StringValueProps } from '../String'
 import useTranslation from '../../hooks/useTranslation'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = StringValueProps
 
@@ -11,7 +12,7 @@ function Address(props: Props) {
 
   return <StringValue {...stringProps} />
 }
-Address._supportsSpacingProps = true
+withComponentMarkers(Address, { _supportsSpacingProps: true })
 
 Address.Postal = function PostalAddress(props: Props) {
   const translations = useTranslation()

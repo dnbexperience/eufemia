@@ -5,6 +5,7 @@ import ScrollView, {
 } from '../../fragments/scroll-view/ScrollView'
 
 import type { SpacingProps } from '../../shared/types'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type TableScrollViewProps = {
   /**
@@ -32,4 +33,4 @@ export default function TableScrollView(props: TableScrollViewAllProps) {
   )
 }
 
-TableScrollView._supportsSpacingProps = true
+withComponentMarkers(TableScrollView, { _supportsSpacingProps: true })

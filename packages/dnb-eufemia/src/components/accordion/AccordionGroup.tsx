@@ -19,6 +19,7 @@ import AccordionGroupContext from './AccordionProviderContext'
 
 import type { GroupProps } from './AccordionTypes'
 import { accordionDefaultProps } from './AccordionTypes'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type AccordionGroupProps = React.HTMLProps<HTMLElement> &
   GroupProps & {
@@ -135,6 +136,8 @@ const AccordionGroup = (props: AccordionGroupProps) => {
   )
 }
 
-AccordionGroup._supportsSpacingProps = true
+withComponentMarkers(AccordionGroup, {
+  _supportsSpacingProps: true,
+})
 
 export default AccordionGroup

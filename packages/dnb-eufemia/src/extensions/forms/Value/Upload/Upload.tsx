@@ -16,6 +16,7 @@ import {
 import { format } from '../../../../components/number-format/NumberUtils'
 import { UploadFileLink } from '../../../../components/upload/UploadFileListLink'
 import { isAsync } from '../../../../shared/helpers/isAsync'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = ValueProps<Array<UploadFile>> &
   Omit<ListFormatProps, 'value'> &
@@ -100,7 +101,10 @@ function getSize(size: number) {
   })} MB)`
 }
 
-Upload._supportsSpacingProps = true
+withComponentMarkers(Upload, {
+  _supportsSpacingProps: true,
+})
+
 export default Upload
 
 function UploadFileItem(

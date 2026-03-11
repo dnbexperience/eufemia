@@ -10,6 +10,7 @@ import Typography, {
   TypographyProps,
   TypographyContext,
 } from './Typography'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type PSize = TypographySize
 
@@ -44,7 +45,7 @@ function P(props: PProps) {
   )
 }
 
-P._supportsSpacingProps = true
+withComponentMarkers(P, { _supportsSpacingProps: true })
 
 export default P
 

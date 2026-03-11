@@ -5,6 +5,7 @@ import FlexContainer, { Props as FlexProps } from '../flex/Container'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
 import Context from '../../shared/Context'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ItemContentProps = {
   id?: string

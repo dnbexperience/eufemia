@@ -5,6 +5,8 @@
  * For referencing while developing new features, please use a Functional component.
  */
 
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
 import React from 'react'
 import clsx from 'clsx'
 import {
@@ -458,17 +460,12 @@ class ToggleButton extends React.PureComponent<
   }
 }
 
-;(
-  ToggleButton as typeof ToggleButton & {
-    _formElement: boolean
-    _supportsSpacingProps: boolean
-  }
-)._formElement = true
-;(
-  ToggleButton as typeof ToggleButton & { _supportsSpacingProps: boolean }
-)._supportsSpacingProps = true
+withComponentMarkers(ToggleButton, {
+  _formElement: true,
+  _supportsSpacingProps: true,
+})
 
-export default ToggleButton as unknown as ToggleButtonComponent
+export default ToggleButton as ToggleButtonComponent
 
 // Type definitions
 import type {
@@ -566,10 +563,8 @@ export interface ToggleButtonProps
   left?: SpaceType
 }
 
-// Interface for the component with static properties
-export interface ToggleButtonComponent
-  extends React.ComponentClass<ToggleButtonProps> {
-  Group: React.ComponentClass<ToggleButtonGroupProps>
-  _formElement: boolean
-  _supportsSpacingProps: boolean
-}
+// Type for the component with static properties
+export type ToggleButtonComponent =
+  React.ComponentClass<ToggleButtonProps> & {
+    Group: React.ComponentClass<ToggleButtonGroupProps>
+  } & ComponentMarkers

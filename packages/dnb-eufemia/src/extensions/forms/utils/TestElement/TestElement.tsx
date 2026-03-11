@@ -1,6 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import { Space } from '../../../../components'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export default function TestElement({ className = null, ...props }) {
   return (
@@ -11,4 +12,4 @@ export default function TestElement({ className = null, ...props }) {
   )
 }
 
-TestElement._supportsSpacingProps = true
+withComponentMarkers(TestElement, { _supportsSpacingProps: true })
