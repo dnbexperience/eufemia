@@ -13,6 +13,7 @@ import { Props as FlexContainerProps } from '../../../../components/flex/Contain
 import { ContainerMode } from './types'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type ArrayItemAreaProps = {
   /**
@@ -210,5 +211,6 @@ function ArrayItemArea(
   )
 }
 
-ArrayItemArea._supportsSpacingProps = true
-export default ArrayItemArea
+export default withComponentMarkers(ArrayItemArea, {
+  _supportsSpacingProps: true,
+})

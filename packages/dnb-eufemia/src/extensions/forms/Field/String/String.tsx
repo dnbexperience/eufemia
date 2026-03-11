@@ -24,6 +24,7 @@ import { pickSpacingProps } from '../../../../components/flex/utils'
 import { toCapitalized } from '../../../../shared/component-helper'
 import type { TextCounterProps } from '../../../../fragments/TextCounter'
 import type { FieldProps, Schema } from '../../types'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = FieldProps<string, undefined | string> & {
   // - Shared props
@@ -327,5 +328,6 @@ function StringComponent(props: Props) {
   )
 }
 
-StringComponent._supportsSpacingProps = true
-export default StringComponent
+export default withComponentMarkers(StringComponent, {
+  _supportsSpacingProps: true,
+})

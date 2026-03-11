@@ -4,6 +4,7 @@ import { ListVariant, ListContext } from './ListContext'
 import FlexContainer, { Props as FlexProps } from '../flex/Container'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ItemContentProps = {
   variant?: ListVariant
@@ -49,12 +50,13 @@ function ItemContent(props: ItemContentProps) {
     </FlexContainer>
   )
 }
-ItemContent._supportsSpacingProps = true
+withComponentMarkers(Pending, { _supportsSpacingProps: true })
 
-export default ItemContent
+export default withComponentMarkers(ItemContent, {
+  _supportsSpacingProps: true,
+})
 
 function Pending() {
   return <div className="dnb-list__item__pending" />
 }
 // To ensure it gets not wrapped by Flex, we pretend it supports spacing props
-Pending._supportsSpacingProps = true

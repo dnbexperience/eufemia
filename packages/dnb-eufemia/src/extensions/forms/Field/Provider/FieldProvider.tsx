@@ -7,6 +7,7 @@ import { ContextProps } from '../../../../shared/Context'
 import useFieldProvider from './useFieldProvider'
 import { FieldProps, Path } from '../../types'
 import { JsonObject } from '../../utils'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type FieldProviderProps = FieldProps & {
   children: React.ReactNode
@@ -45,5 +46,6 @@ function FieldProviderProvider(props: FieldProviderProps) {
   )
 }
 
-FieldProviderProvider._supportsSpacingProps = 'children'
-export default FieldProviderProvider
+export default withComponentMarkers(FieldProviderProvider, {
+  _supportsSpacingProps: 'children',
+})

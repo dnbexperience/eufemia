@@ -10,6 +10,7 @@ import {
 import useTranslation from '../../hooks/useTranslation'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = {
   state: SubmitState
@@ -120,5 +121,6 @@ function willWordWrap(element: HTMLElement, word: string) {
   return height > offsetHeight
 }
 
-SubmitIndicator._supportsSpacingProps = true
-export default SubmitIndicator
+export default withComponentMarkers(SubmitIndicator, {
+  _supportsSpacingProps: true,
+})

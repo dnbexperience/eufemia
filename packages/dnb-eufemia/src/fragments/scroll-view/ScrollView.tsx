@@ -14,6 +14,7 @@ import { createSpacingClasses } from '../../components/space/SpacingHelper'
 import type { SpacingProps } from '../../shared/types'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ScrollViewProps = {
   /**
@@ -123,6 +124,6 @@ function useInteractive({ interactive, children, ref }) {
   }
 }
 
-ScrollView._supportsSpacingProps = true
-
-export default ScrollView
+export default withComponentMarkers(ScrollView, {
+  _supportsSpacingProps: true,
+})

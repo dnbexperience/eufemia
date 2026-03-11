@@ -7,6 +7,7 @@ import React from 'react'
 import { SpacingProps } from '../../components/space/types'
 import E from '../Element'
 import clsx from 'clsx'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 type HrProps = SpacingProps &
   React.HTMLAttributes<HTMLHRElement> & {
@@ -35,6 +36,4 @@ const Hr = ({ breakout, dashed, className, ...props }: HrProps = {}) => {
   )
 }
 
-Hr._supportsSpacingProps = true
-
-export default Hr
+export default withComponentMarkers(Hr, { _supportsSpacingProps: true })

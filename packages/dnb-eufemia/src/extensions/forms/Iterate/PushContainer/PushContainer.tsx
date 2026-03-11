@@ -39,6 +39,7 @@ import { usePath, useTranslation } from '../../hooks'
 import { JsonObject } from '../../utils'
 import { clearedData } from '../../DataContext/Provider'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 type OnlyPathRequired = {
   /**
@@ -459,6 +460,6 @@ function NewContainer({
 const pushContainerError = new Error('Iterate.PushContainer')
 
 PushContainer.OpenButton = OpenButton
-PushContainer._supportsSpacingProps = true
-
-export default PushContainer
+export default withComponentMarkers(PushContainer, {
+  _supportsSpacingProps: true,
+})

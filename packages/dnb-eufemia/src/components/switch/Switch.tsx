@@ -1,3 +1,4 @@
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React, {
   KeyboardEvent,
   useCallback,
@@ -112,7 +113,7 @@ const defaultProps: Partial<SwitchProps> = {
   statusState: 'error',
 }
 
-export default function Switch(props: SwitchProps) {
+function Switch(props: SwitchProps) {
   const context = useContext(Context)
 
   const allProps = extractPropsFromContext()
@@ -386,4 +387,6 @@ export default function Switch(props: SwitchProps) {
   }
 }
 
-Switch._formElement = true
+export default withComponentMarkers(Switch, {
+  _formElement: true,
+})

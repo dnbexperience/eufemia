@@ -1,6 +1,7 @@
 import React, { isValidElement, useMemo } from 'react'
 import { useItem } from '../hooks'
 import { convertJsxToString } from '../../../../shared/component-helper'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 function ItemNo({ children }) {
   const { index } = useItem()
@@ -55,5 +56,6 @@ export function replaceItemNo(
   return node
 }
 
-ItemNo._supportsSpacingProps = false
-export default ItemNo
+export default withComponentMarkers(ItemNo, {
+  _supportsSpacingProps: false,
+})

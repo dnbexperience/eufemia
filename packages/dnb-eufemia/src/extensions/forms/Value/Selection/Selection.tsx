@@ -6,6 +6,7 @@ import useDataValue from '../../hooks/useDataValue'
 import Context from '../../DataContext/Context'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import { Data } from '../../Field/Selection'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = ValueProps<string> & {
   dataPath?: Path
@@ -40,5 +41,6 @@ function Selection(props: Props) {
   return <StringValue value={valueToDisplay} path={path} {...rest} />
 }
 
-Selection._supportsSpacingProps = true
-export default Selection
+export default withComponentMarkers(Selection, {
+  _supportsSpacingProps: true,
+})

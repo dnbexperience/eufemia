@@ -20,6 +20,7 @@ import { P } from '../../../../elements'
 import { useTranslation } from '../../hooks'
 import MainHeading from '../MainHeading'
 import SubmitButton from '../SubmitButton'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = {
   /**
@@ -198,6 +199,6 @@ function InfoOverlay(props: Props) {
 }
 
 InfoOverlay.setContent = setContent
-InfoOverlay._supportsSpacingProps = true
-
-export default InfoOverlay
+export default withComponentMarkers(InfoOverlay, {
+  _supportsSpacingProps: true,
+})

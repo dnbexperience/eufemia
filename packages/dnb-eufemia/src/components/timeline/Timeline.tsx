@@ -16,6 +16,7 @@ import {
   validateDOMAttributes,
   extendPropsWithContext,
 } from '../../shared/component-helper'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type TimelineProps = {
   /**
@@ -102,6 +103,6 @@ Timeline.Item = TimelineItem
 
 export { TimelineItem }
 
-Timeline._supportsSpacingProps = true
-
-export default Timeline
+export default withComponentMarkers(Timeline, {
+  _supportsSpacingProps: true,
+})

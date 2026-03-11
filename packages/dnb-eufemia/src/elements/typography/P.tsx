@@ -10,6 +10,7 @@ import Typography, {
   TypographyProps,
   TypographyContext,
 } from './Typography'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type PSize = TypographySize
 
@@ -44,9 +45,7 @@ function P(props: PProps) {
   )
 }
 
-P._supportsSpacingProps = true
-
-export default P
+export default withComponentMarkers(P, { _supportsSpacingProps: true })
 
 export type ParagraphContextType = {
   isNested?: boolean

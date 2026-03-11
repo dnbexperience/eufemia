@@ -6,6 +6,7 @@
 import React from 'react'
 import { SpacingProps } from '../../components/space/types'
 import E from '../Element'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type DivProps = SpacingProps & React.HTMLAttributes<HTMLElement>
 
@@ -16,6 +17,4 @@ function Div({
   return <E as="div" skeletonMethod="shape" ref={ref} {...props} />
 }
 
-Div._supportsSpacingProps = true
-
-export default Div
+export default withComponentMarkers(Div, { _supportsSpacingProps: true })

@@ -6,6 +6,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import E, { ElementProps } from '../Element'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type OlProps = {
   /**
@@ -44,6 +45,4 @@ const Ol = ({ nested, inside, outside, ...props }: OlAllProps = {}) => {
   )
 }
 
-Ol._supportsSpacingProps = true
-
-export default Ol
+export default withComponentMarkers(Ol, { _supportsSpacingProps: true })

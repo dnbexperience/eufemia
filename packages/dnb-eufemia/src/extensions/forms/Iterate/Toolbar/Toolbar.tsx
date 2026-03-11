@@ -8,6 +8,7 @@ import ToolbarContext from './ToolbarContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
 import ArrayItemAreaContext from '../Array/ArrayItemAreaContext'
 import { useTranslation } from '../../hooks'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type ToolbarParams = {
   index: number
@@ -79,4 +80,4 @@ export default function Toolbar({
   )
 }
 
-Toolbar._supportsSpacingProps = true
+withComponentMarkers(Toolbar, { _supportsSpacingProps: true })

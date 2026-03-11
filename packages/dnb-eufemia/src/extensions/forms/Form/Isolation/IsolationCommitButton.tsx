@@ -4,6 +4,7 @@ import { useTranslation } from '../../hooks'
 import DataContext from '../../DataContext/Context'
 import Button, { ButtonProps } from '../../../../components/button/Button'
 import { check } from '../../../../icons'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = ButtonProps
 
@@ -38,5 +39,6 @@ function IsolationCommitButton(props: Props) {
   )
 }
 
-IsolationCommitButton._supportsSpacingProps = true
-export default IsolationCommitButton
+export default withComponentMarkers(IsolationCommitButton, {
+  _supportsSpacingProps: true,
+})

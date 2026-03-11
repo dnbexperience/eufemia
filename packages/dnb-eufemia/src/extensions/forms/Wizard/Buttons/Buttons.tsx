@@ -6,6 +6,7 @@ import NextButton from '../NextButton'
 import PreviousButton from '../PreviousButton'
 import WizardContext from '../Context'
 import DataContext from '../../DataContext/Context'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = ComponentProps & {
   children?: string
@@ -36,5 +37,6 @@ function Buttons(props: Props) {
   )
 }
 
-Buttons._supportsSpacingProps = true
-export default Buttons
+export default withComponentMarkers(Buttons, {
+  _supportsSpacingProps: true,
+})

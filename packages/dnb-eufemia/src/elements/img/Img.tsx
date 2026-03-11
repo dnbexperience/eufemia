@@ -13,6 +13,7 @@ import { SpacingProps } from '../../components/space/types'
 import { SkeletonShow } from '../../components/skeleton/Skeleton'
 import clsx from 'clsx'
 import type { DynamicElement } from '../../shared/types'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ImgProps = SpacingProps &
   React.HTMLProps<HTMLImageElement> & {
@@ -60,6 +61,4 @@ const Img = ({
   )
 }
 
-Img._supportsSpacingProps = true
-
-export default Img
+export default withComponentMarkers(Img, { _supportsSpacingProps: true })

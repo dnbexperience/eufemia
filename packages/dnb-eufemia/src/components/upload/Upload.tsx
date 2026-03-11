@@ -1,3 +1,4 @@
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React, { useCallback } from 'react'
 import clsx from 'clsx'
 
@@ -216,7 +217,7 @@ function CompactLabel(props: {
 
 Upload.useUpload = useUpload
 
-Upload._formElement = true
-Upload._supportsSpacingProps = true
-
-export default Upload
+export default withComponentMarkers(Upload, {
+  _formElement: true,
+  _supportsSpacingProps: true,
+})

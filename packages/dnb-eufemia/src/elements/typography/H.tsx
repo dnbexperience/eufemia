@@ -3,6 +3,7 @@
  *
  */
 
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React, { useContext } from 'react'
 import clsx from 'clsx'
 import { SpacingProps } from '../../components/space/types'
@@ -83,7 +84,7 @@ const H = ({
   )
 }
 
-H._isHeadingElement = true
-H._supportsSpacingProps = true
-
-export default H
+export default withComponentMarkers(H, {
+  _isHeadingElement: true,
+  _supportsSpacingProps: true,
+})

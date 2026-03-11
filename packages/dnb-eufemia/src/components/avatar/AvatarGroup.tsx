@@ -13,6 +13,7 @@ import {
 import Context from '../../shared/Context'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../skeleton/Skeleton'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export interface AvatarGroupProps
   extends Omit<React.HTMLProps<HTMLElement>, 'size' | 'label'> {
@@ -185,6 +186,6 @@ function ElementsHidden(props: ElementsHiddenProps) {
   )
 }
 
-AvatarGroup._supportsSpacingProps = true
-
-export default AvatarGroup
+export default withComponentMarkers(AvatarGroup, {
+  _supportsSpacingProps: true,
+})

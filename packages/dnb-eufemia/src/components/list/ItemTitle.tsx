@@ -4,6 +4,7 @@ import FlexItem from '../flex/Item'
 import { ItemContentProps } from './ItemContent'
 import ItemOverline from './ItemOverline'
 import ItemSubline from './ItemSubline'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 /**
  * Props for List.Cell.Title (ItemTitle).
@@ -30,7 +31,6 @@ function ItemTitleBase({
     </FlexItem>
   )
 }
-ItemTitleBase._supportsSpacingProps = true
 
 type ItemTitleComponent = typeof ItemTitleBase & {
   Overline: typeof ItemOverline
@@ -41,4 +41,6 @@ const ItemTitle = ItemTitleBase as ItemTitleComponent
 ItemTitle.Overline = ItemOverline
 ItemTitle.Subline = ItemSubline
 
-export default ItemTitle
+export default withComponentMarkers(ItemTitle, {
+  _supportsSpacingProps: true,
+})

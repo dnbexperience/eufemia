@@ -31,6 +31,7 @@ import {
 import useTranslation from '../../hooks/useTranslation'
 import { DrawerListDataArrayItem } from '../../../../fragments/DrawerList'
 import { AutocompleteBlurEvent } from '../../../../components/Autocomplete'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type AdditionalArgs = {
   phoneNumber: string
@@ -614,5 +615,6 @@ function joinValue(array: Array<string>) {
   return array.filter(Boolean).join(' ')
 }
 
-PhoneNumber._supportsSpacingProps = undefined
-export default PhoneNumber
+export default withComponentMarkers(PhoneNumber, {
+  _supportsSpacingProps: undefined,
+})

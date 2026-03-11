@@ -6,6 +6,7 @@ import {
 } from '../../../../components/number-format/NumberUtils'
 import useTranslation from '../../hooks/useTranslation'
 import { isValueEmpty } from '../../ValueBlock'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = StringValueProps
 
@@ -29,5 +30,6 @@ function NationalIdentityNumber(props: Props) {
   return <StringValue {...stringValueProps} />
 }
 
-NationalIdentityNumber._supportsSpacingProps = true
-export default NationalIdentityNumber
+export default withComponentMarkers(NationalIdentityNumber, {
+  _supportsSpacingProps: true,
+})

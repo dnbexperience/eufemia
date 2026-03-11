@@ -2,6 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import { Space } from '../../../../components'
 import type { ComponentProps } from '../../types'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = ComponentProps & {
   children?: React.ReactNode
@@ -16,5 +17,6 @@ function ButtonRow(props: Props) {
   )
 }
 
-ButtonRow._supportsSpacingProps = true
-export default ButtonRow
+export default withComponentMarkers(ButtonRow, {
+  _supportsSpacingProps: true,
+})

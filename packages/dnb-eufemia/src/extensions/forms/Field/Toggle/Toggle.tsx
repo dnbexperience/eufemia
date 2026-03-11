@@ -22,6 +22,7 @@ import type {
 import type { ToggleButtonProps } from '../../../../components/ToggleButton'
 import { SwitchOnChangeParams } from '../../../../components/Switch'
 import HelpButtonInline from '../../../../components/help-button/HelpButtonInline'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type ToggleProps = {
   valueOn: unknown
@@ -310,5 +311,6 @@ function Toggle(props: Props) {
   }
 }
 
-Toggle._supportsSpacingProps = true
-export default Toggle
+export default withComponentMarkers(Toggle, {
+  _supportsSpacingProps: true,
+})

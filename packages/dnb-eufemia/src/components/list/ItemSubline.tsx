@@ -2,6 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import FlexItem from '../flex/Item'
 import { ItemContentProps } from './ItemContent'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ItemSublineVariant = 'description'
 
@@ -41,6 +42,6 @@ function ItemSubline({
     </FlexItem>
   )
 }
-ItemSubline._supportsSpacingProps = true
-
-export default ItemSubline
+export default withComponentMarkers(ItemSubline, {
+  _supportsSpacingProps: true,
+})

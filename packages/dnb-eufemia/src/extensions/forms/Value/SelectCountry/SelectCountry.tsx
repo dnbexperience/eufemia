@@ -5,6 +5,7 @@ import { ValueProps } from '../../types'
 import ValueBlock from '../../ValueBlock'
 import useCountry from './useCountry'
 import type { CountryISO } from '../../constants/countries'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = ValueProps<CountryISO>
 
@@ -31,5 +32,6 @@ function SelectCountry(props: Props) {
 }
 
 SelectCountry.useCountry = useCountry
-SelectCountry._supportsSpacingProps = true
-export default SelectCountry
+export default withComponentMarkers(SelectCountry, {
+  _supportsSpacingProps: true,
+})

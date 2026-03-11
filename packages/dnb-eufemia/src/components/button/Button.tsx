@@ -5,6 +5,7 @@
  * For referencing while developing new features, please use a Functional component.
  */
 
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React from 'react'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
@@ -513,7 +514,10 @@ function Button({ ref, ...props }: ButtonProps) {
 }
 
 Button.getContent = ButtonClass.getContent
-Button._formElement = true
-Button._supportsSpacingProps = true
 
-export default Button
+export { Button }
+
+export default withComponentMarkers(Button, {
+  _formElement: true,
+  _supportsSpacingProps: true,
+})

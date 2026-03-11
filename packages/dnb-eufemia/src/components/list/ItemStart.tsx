@@ -2,6 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import FlexItem from '../flex/Item'
 import { ItemContentProps } from './ItemContent'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 /**
  * Props for List.Cell.Start (ItemStart).
@@ -29,6 +30,6 @@ function ItemStart({
     />
   )
 }
-ItemStart._supportsSpacingProps = true
-
-export default ItemStart
+export default withComponentMarkers(ItemStart, {
+  _supportsSpacingProps: true,
+})

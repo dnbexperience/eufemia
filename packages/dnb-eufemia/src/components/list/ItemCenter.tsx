@@ -2,6 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import FlexItem from '../flex/Item'
 import { ItemContentProps } from './ItemContent'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 function ItemCenter({ className, ...rest }: ItemContentProps) {
   return (
@@ -17,6 +18,6 @@ function ItemCenter({ className, ...rest }: ItemContentProps) {
   )
 }
 
-ItemCenter._supportsSpacingProps = true
-
-export default ItemCenter
+export default withComponentMarkers(ItemCenter, {
+  _supportsSpacingProps: true,
+})

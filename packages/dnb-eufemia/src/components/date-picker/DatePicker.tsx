@@ -3,6 +3,7 @@
  *
  */
 
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React, {
   HTMLProps,
   useCallback,
@@ -905,7 +906,7 @@ function filterOutNonAttributes(props: DatePickerProps) {
   }, {})
 }
 
-export default DatePicker
-
-DatePicker._formElement = true
-DatePicker._supportsSpacingProps = true
+export default withComponentMarkers(DatePicker, {
+  _formElement: true,
+  _supportsSpacingProps: true,
+})

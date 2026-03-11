@@ -11,6 +11,7 @@ import {
 // NB: The path reflects the tsdown.config.ts -> external: '../../icons/dnb/primary_icons'
 import * as primary_icons from '../../icons/dnb/primary_icons'
 import * as primary_icons_medium from '../../icons/dnb/primary_icons_medium'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export * from '../icon/Icon'
 
@@ -54,4 +55,4 @@ export default function IconPrimary(localProps: IconAllProps) {
   )
 }
 
-IconPrimary._supportsSpacingProps = true
+withComponentMarkers(IconPrimary, { _supportsSpacingProps: true })

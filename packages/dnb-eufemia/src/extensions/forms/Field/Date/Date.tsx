@@ -27,6 +27,7 @@ import {
   FormatDateOptions,
   formatDate,
 } from '../../../../components/date-format/DateFormatUtils'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 // `range`, `showInput`, `showCancelButton` and `showResetButton` are not picked from the `DatePickerProps`
 // Since they require `Field.Date` specific comments, due to them having different default values
@@ -608,5 +609,6 @@ function pickDatePickerProps(props: DateProps): Partial<DatePickerProps> {
   return datePickerProps
 }
 
-DateComponent._supportsSpacingProps = true
-export default DateComponent
+export default withComponentMarkers(DateComponent, {
+  _supportsSpacingProps: true,
+})

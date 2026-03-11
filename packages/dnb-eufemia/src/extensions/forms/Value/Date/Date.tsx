@@ -9,6 +9,7 @@ import {
   formatDateRange,
 } from '../../../../components/date-format/DateFormatUtils'
 import { DEFAULT_DATE_FORMAT } from '../../Field/DateOfBirth/DateOfBirth'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = StringValueProps & {
   variant?: 'long' | 'short' | 'numeric'
@@ -92,5 +93,6 @@ function formatCustomDate(value: string, dateFormat: string): string {
   }
 }
 
-DateComponent._supportsSpacingProps = true
-export default DateComponent
+export default withComponentMarkers(DateComponent, {
+  _supportsSpacingProps: true,
+})

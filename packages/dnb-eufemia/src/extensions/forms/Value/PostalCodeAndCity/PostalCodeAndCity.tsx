@@ -2,6 +2,7 @@ import React from 'react'
 import StringValue, { Props as StringValueProps } from '../String'
 import useTranslation from '../../hooks/useTranslation'
 import { useValueProps } from '../../hooks'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = StringValueProps &
   Partial<Record<'postalCode' | 'city', StringValueProps>>
@@ -32,5 +33,6 @@ function PostalCodeAndCity(props: Props) {
   return <StringValue {...stringValueProps} />
 }
 
-PostalCodeAndCity._supportsSpacingProps = true
-export default PostalCodeAndCity
+export default withComponentMarkers(PostalCodeAndCity, {
+  _supportsSpacingProps: true,
+})

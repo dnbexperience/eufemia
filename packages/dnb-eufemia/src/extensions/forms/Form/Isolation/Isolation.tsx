@@ -34,6 +34,7 @@ import IsolatedContainer, { isolationError } from './IsolatedContainer'
 import IsolationContext from './IsolationContext'
 import type { OnCommit, Path } from '../../types'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type IsolationProviderProps<Data extends JsonObject> = {
   /**
@@ -368,6 +369,7 @@ function BubbleValidation() {
 IsolationProvider.CommitButton = IsolationCommitButton
 IsolationProvider.ResetButton = IsolationResetButton
 IsolationProvider.createDataReference = createDataReference
-IsolationProvider._supportsSpacingProps = undefined
 
-export default IsolationProvider
+export default withComponentMarkers(IsolationProvider, {
+  _supportsSpacingProps: undefined,
+})

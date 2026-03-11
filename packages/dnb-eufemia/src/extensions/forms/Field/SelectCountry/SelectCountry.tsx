@@ -23,6 +23,7 @@ import {
   AutocompleteAllProps,
   AutocompleteBlurEvent,
 } from '../../../../components/autocomplete/Autocomplete'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type CountryFilterSet =
   | 'Scandinavia'
@@ -388,5 +389,6 @@ export function makeCountryFilterSet(ccFilter: CountryFilterSet) {
   }
 }
 
-SelectCountry._supportsSpacingProps = true
-export default SelectCountry
+export default withComponentMarkers(SelectCountry, {
+  _supportsSpacingProps: true,
+})

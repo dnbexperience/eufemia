@@ -8,6 +8,7 @@ import HelpButtonInline, {
 } from '../../../../components/help-button/HelpButtonInline'
 import type { HeadingLevel } from '../../../../components/heading/Heading'
 import type { ComponentProps } from '../../types'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = ComponentProps & {
   level?: HeadingLevel
@@ -50,7 +51,7 @@ function SubHeading({ level, ...props }: Props) {
   )
 }
 
-SubHeading._supportsSpacingProps = true
-SubHeading._isHeadingElement = true
-
-export default SubHeading
+export default withComponentMarkers(SubHeading, {
+  _supportsSpacingProps: true,
+  _isHeadingElement: true,
+})

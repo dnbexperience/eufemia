@@ -22,6 +22,7 @@ import styleProperties from '../../style/themes/ui/properties'
 import { LocaleProps, SpaceTypeAll } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import { createSpacingClasses } from '../space/SpacingUtils'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type PaginationBarProps = {
   /**
@@ -368,6 +369,6 @@ const getSizeInPx = (size) => {
   return parseFloat(styleSize.replace(/(px)$/, ''))
 }
 
-PaginationBar._supportsSpacingProps = true
-
-export default PaginationBar
+export default withComponentMarkers(PaginationBar, {
+  _supportsSpacingProps: true,
+})

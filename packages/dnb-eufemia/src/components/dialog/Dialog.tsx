@@ -13,13 +13,14 @@ import clsx from 'clsx'
 import Context from '../../shared/Context'
 import DialogAction from './parts/DialogAction'
 import { extendPropsWithContext } from '../../shared/component-helper'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 const defaultProps: Partial<DialogProps & DialogContentProps> = {
   variant: 'information',
   spacing: true,
 }
 
-function Dialog(localProps: DialogProps & DialogContentProps) {
+export function Dialog(localProps: DialogProps & DialogContentProps) {
   const context = useContext(Context)
 
   const propsWithContext = extendPropsWithContext(
@@ -157,6 +158,6 @@ Dialog.Header = DialogHeader
 Dialog.Navigation = DialogNavigation
 Dialog.Action = DialogAction
 
-Dialog._supportsSpacingProps = true
-
-export default Dialog
+export default withComponentMarkers(Dialog, {
+  _supportsSpacingProps: true,
+})

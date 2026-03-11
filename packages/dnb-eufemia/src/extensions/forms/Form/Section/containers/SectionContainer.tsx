@@ -12,6 +12,7 @@ import SectionContainerContext, {
 } from './SectionContainerContext'
 import { Props as FlexContainerProps } from '../../../../../components/flex/Container'
 import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'
+import withComponentMarkers from '../../../../../shared/helpers/withComponentMarkers'
 
 export type ContainerMode = 'view' | 'edit' | 'auto'
 export type SectionContainerProps = {
@@ -144,5 +145,6 @@ function SectionContainer(props: Props & FlexContainerProps) {
   )
 }
 
-SectionContainer._supportsSpacingProps = true
-export default SectionContainer
+export default withComponentMarkers(SectionContainer, {
+  _supportsSpacingProps: true,
+})

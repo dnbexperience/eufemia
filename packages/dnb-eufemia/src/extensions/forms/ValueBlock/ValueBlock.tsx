@@ -27,6 +27,7 @@ import HelpButtonInline, {
   HelpProps,
 } from '../../../components/help-button/HelpButtonInline'
 import useId from '../../../shared/helpers/useId'
+import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
 
 /**
  * Props are documented in ValueDocs.ts
@@ -326,8 +327,9 @@ function useNotInSummaryList(
   }, [itemPath, label, path, ref])
 }
 
-ValueBlock._supportsSpacingProps = true
-export default ValueBlock
+export default withComponentMarkers(ValueBlock, {
+  _supportsSpacingProps: true,
+})
 
 const transformLabelParameters = {
   convertJsxToString,

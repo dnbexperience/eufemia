@@ -5,6 +5,7 @@ import { ValueProps } from '../../types'
 import ValueBlock from '../../ValueBlock'
 import useCurrency from './useCurrency'
 import type { CurrencyISO } from '../../constants/currencies'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = ValueProps<CurrencyISO>
 
@@ -31,5 +32,6 @@ function SelectCurrency(props: Props) {
 }
 
 SelectCurrency.useCurrency = useCurrency
-SelectCurrency._supportsSpacingProps = true
-export default SelectCurrency
+export default withComponentMarkers(SelectCurrency, {
+  _supportsSpacingProps: true,
+})

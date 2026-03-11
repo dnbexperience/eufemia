@@ -9,6 +9,7 @@ import useTranslation from '../../hooks/useTranslation'
 import useDataValue from '../../hooks/useDataValue'
 import { COUNTRY as defaultCountry } from '../../../../shared/defaults'
 import { SpacingProps } from '../../../../shared/types'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = Pick<
   FieldBlockProps,
@@ -174,5 +175,6 @@ function PostalCodeAndCity(props: Props) {
   )
 }
 
-PostalCodeAndCity._supportsSpacingProps = undefined
-export default PostalCodeAndCity
+export default withComponentMarkers(PostalCodeAndCity, {
+  _supportsSpacingProps: undefined,
+})

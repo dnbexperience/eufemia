@@ -15,6 +15,7 @@ import Anchor from '../anchor/Anchor'
 import Skeleton, { SkeletonShow } from '../skeleton/Skeleton'
 import { H1, P } from '../../elements'
 import type { SpacingProps } from '../../shared/types'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type GlobalErrorLink = {
   text: string
@@ -177,4 +178,4 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
   )
 }
 
-GlobalError._supportsSpacingProps = true
+withComponentMarkers(GlobalError, { _supportsSpacingProps: true })

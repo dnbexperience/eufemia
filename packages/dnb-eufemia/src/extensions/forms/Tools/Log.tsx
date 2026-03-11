@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import DataContext from '../DataContext/Context'
 import Section, { SectionAllProps } from '../../../components/Section'
 import { FormLabel } from '../../../components'
+import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
 
 function Log({
   placeholder,
@@ -72,5 +73,4 @@ function replaceUndefinedValues(
   }
 }
 
-Log._supportsSpacingProps = true
-export default Log
+export default withComponentMarkers(Log, { _supportsSpacingProps: true })

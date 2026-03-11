@@ -4,6 +4,7 @@ import ValueBlock from '../../ValueBlock'
 import { useValueProps } from '../../hooks'
 import { ValueProps } from '../../types'
 import useTranslation from '../../hooks/useTranslation'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = ValueProps<boolean> & {
   trueText?: React.ReactNode
@@ -29,5 +30,6 @@ function BooleanComponent(props: Props) {
   )
 }
 
-BooleanComponent._supportsSpacingProps = true
-export default BooleanComponent
+export default withComponentMarkers(BooleanComponent, {
+  _supportsSpacingProps: true,
+})

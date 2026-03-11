@@ -1,6 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import Space, { SpaceProps } from '../space/Space'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type Spans =
   | 1
@@ -102,6 +103,6 @@ function FlexItem(props: Props) {
   )
 }
 
-FlexItem._supportsSpacingProps = true
-
-export default FlexItem
+export default withComponentMarkers(FlexItem, {
+  _supportsSpacingProps: true,
+})

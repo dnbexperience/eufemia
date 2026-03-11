@@ -23,6 +23,7 @@ import FormStatus, {
   FormStatusState,
   FormStatusText,
 } from '../form-status/FormStatus'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type StepIndicatorMode = 'static' | 'strict' | 'loose'
 export type StepIndicatorDataItem = Pick<
@@ -177,6 +178,6 @@ function StepIndicatorStatus({ status, statusState }) {
   )
 }
 
-StepIndicator._supportsSpacingProps = true
-
-export default StepIndicator
+export default withComponentMarkers(StepIndicator, {
+  _supportsSpacingProps: true,
+})

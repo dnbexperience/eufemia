@@ -21,6 +21,7 @@ import { extendPropsWithContext } from '../../shared/component-helper'
 import BreadcrumbItemContext from './BreadcrumbItemContext'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type BreadcrumbItemProps = {
   /**
@@ -192,6 +193,6 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
   )
 }
 
-BreadcrumbItem._supportsSpacingProps = true
-
-export default BreadcrumbItem
+export default withComponentMarkers(BreadcrumbItem, {
+  _supportsSpacingProps: true,
+})

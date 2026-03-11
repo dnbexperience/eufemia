@@ -3,6 +3,7 @@
  *
  */
 
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React from 'react'
 import clsx from 'clsx'
 import E, { ElementAllProps } from '../../elements/Element'
@@ -264,9 +265,9 @@ function Anchor(props: AnchorAllProps) {
   return <AnchorInstance {...props} />
 }
 
-Anchor._supportsSpacingProps = true
-
-export default Anchor
+export default withComponentMarkers(Anchor, {
+  _supportsSpacingProps: true,
+})
 
 export function scrollToHash(hash: string) {
   if (typeof document === 'undefined' || !hash || !hash.includes('#')) {

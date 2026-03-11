@@ -5,6 +5,7 @@
  * For referencing while developing new features, please use a Functional component.
  */
 
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React from 'react'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import InputMaskedContext from './InputMaskedContext'
@@ -234,8 +235,7 @@ const defaultProps = {
   onSubmitBlur: null,
 }
 
-export default InputMasked
-
-// Mark as form element for FieldBlock
-InputMasked._formElement = true
-InputMasked._supportsSpacingProps = true
+export default withComponentMarkers(InputMasked, {
+  _formElement: true,
+  _supportsSpacingProps: true,
+})

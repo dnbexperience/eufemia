@@ -18,6 +18,7 @@ import useDataValue from '../../hooks/useDataValue'
 import { FormError } from '../../utils'
 import type { CheckboxProps } from '../../../../components/Checkbox'
 import type { ToggleButtonProps } from '../../../../components/ToggleButton'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 type OptionProps = React.ComponentProps<
   (props: {
@@ -322,5 +323,6 @@ export function useCheckboxOrToggleOptions({
   return result
 }
 
-ArraySelection._supportsSpacingProps = true
-export default ArraySelection
+export default withComponentMarkers(ArraySelection, {
+  _supportsSpacingProps: true,
+})

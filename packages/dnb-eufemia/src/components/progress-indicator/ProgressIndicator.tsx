@@ -28,6 +28,7 @@ import {
   isValidSize,
   CustomSize,
 } from './types'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 function ProgressIndicator(props: ProgressIndicatorAllProps) {
   const allProps = updatePropsWithContext(props, useContext(Context))
@@ -179,4 +180,4 @@ function formatProgress(progress) {
 
 export default ProgressIndicator
 
-ProgressIndicator._supportsSpacingProps = true
+withComponentMarkers(ProgressIndicator, { _supportsSpacingProps: true })

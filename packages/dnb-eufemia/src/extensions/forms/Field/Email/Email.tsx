@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
 import useTranslation from '../../hooks/useTranslation'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = StringFieldProps
 
@@ -50,5 +51,4 @@ function Email(props: Props) {
   return <StringField {...StringFieldProps} />
 }
 
-Email._supportsSpacingProps = true
-export default Email
+export default withComponentMarkers(Email, { _supportsSpacingProps: true })

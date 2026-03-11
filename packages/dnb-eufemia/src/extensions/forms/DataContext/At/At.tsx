@@ -2,6 +2,7 @@ import React, { useCallback, useContext } from 'react'
 import pointer from '../../utils/json-pointer'
 import type { ComponentProps } from '../../types'
 import Context, { ContextState } from '../Context'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = ComponentProps & {
   /** JSON Pointer for where in the source dataset to point at in sub components */
@@ -78,5 +79,4 @@ function At(props: Props) {
   )
 }
 
-At._supportsSpacingProps = true
-export default At
+export default withComponentMarkers(At, { _supportsSpacingProps: true })

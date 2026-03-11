@@ -16,6 +16,7 @@ import type { JsonObject } from '../../utils/json-pointer'
 import type { SharedFieldBlockProps } from '../../FieldBlock'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type OverwritePropsDefaults = {
   [key: Path]:
@@ -233,5 +234,6 @@ SectionComponent.Toolbar = Toolbar
 SectionComponent.ViewContainer = ViewContainer
 SectionComponent.EditContainer = EditContainer
 
-SectionComponent._supportsSpacingProps = undefined
-export default SectionComponent
+export default withComponentMarkers(SectionComponent, {
+  _supportsSpacingProps: undefined,
+})

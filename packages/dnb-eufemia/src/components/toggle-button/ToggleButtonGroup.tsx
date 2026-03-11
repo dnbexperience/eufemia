@@ -5,6 +5,7 @@
  * For referencing while developing new features, please use a Functional component.
  */
 
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React from 'react'
 import clsx from 'clsx'
 import {
@@ -334,13 +335,9 @@ class ToggleButtonGroup extends React.PureComponent<
   }
 }
 
-;(
-  ToggleButtonGroup as typeof ToggleButtonGroup & {
-    _supportsSpacingProps: boolean
-  }
-)._supportsSpacingProps = true
-
-export default ToggleButtonGroup as React.ComponentClass<ToggleButtonGroupProps>
+export default withComponentMarkers(ToggleButtonGroup, {
+  _supportsSpacingProps: true,
+})
 
 // Type definitions
 import type { FormStatusBaseProps } from '../FormStatus'

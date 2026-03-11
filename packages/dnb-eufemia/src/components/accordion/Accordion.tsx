@@ -37,6 +37,7 @@ import Context from '../../shared/Context'
 
 import { AccordionStore, Store, rememberWarning } from './AccordionStore'
 import { accordionDefaultProps, type GroupProps } from './AccordionTypes'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type { GroupProps } from './AccordionTypes'
 export { accordionDefaultProps } from './AccordionTypes'
@@ -156,7 +157,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     onChange?: (...args: any[]) => any
   }
 
-function Accordion({
+export function Accordion({
   variant = 'outlined',
   iconSize = 'medium',
   ...restOfProps
@@ -522,6 +523,6 @@ Accordion.Store = (id: string) => {
   return new Store({ id })
 }
 
-Accordion._supportsSpacingProps = true
-
-export default Accordion
+export default withComponentMarkers(Accordion, {
+  _supportsSpacingProps: true,
+})

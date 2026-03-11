@@ -5,6 +5,7 @@
 
 import React from 'react'
 import Typography, { TypographyProps } from '../typography/Typography'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 type SpanProps = TypographyProps<HTMLSpanElement>
 
@@ -15,6 +16,4 @@ function Span({
   return <Typography element="span" ref={ref} {...props} />
 }
 
-Span._supportsSpacingProps = true
-
-export default Span
+export default withComponentMarkers(Span, { _supportsSpacingProps: true })

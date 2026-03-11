@@ -7,6 +7,7 @@ import { CurrencyISO } from '../../constants/currencies'
 import useDataValue from '../../hooks/useDataValue'
 import NumberField, { Props as NumberFieldProps } from '../Number'
 import { PathStrict } from '../../types'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = NumberFieldProps & {
   /**
@@ -42,5 +43,6 @@ function Currency(props: Props) {
   )
 }
 
-Currency._supportsSpacingProps = true
-export default Currency
+export default withComponentMarkers(Currency, {
+  _supportsSpacingProps: true,
+})

@@ -6,6 +6,7 @@ import { Li, Ol, Ul } from '../../elements'
 import { UlAllProps } from '../../elements/Ul'
 import { OlAllProps } from '../../elements/Ol'
 import clsx from 'clsx'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ListFormatProps = {
   /**
@@ -191,6 +192,6 @@ function replaceRootFragment(children) {
   return children
 }
 
-ListFormat._supportsSpacingProps = true
-
-export default ListFormat
+export default withComponentMarkers(ListFormat, {
+  _supportsSpacingProps: true,
+})

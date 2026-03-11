@@ -13,6 +13,7 @@ import Context from '../../shared/Context'
 import type { SpacingProps } from '../../shared/types'
 import { TagGroupContext } from './TagContext'
 import type { SkeletonShow } from '../skeleton/Skeleton'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export interface TagGroupProps {
   /**
@@ -88,6 +89,6 @@ const TagGroup = (
   )
 }
 
-TagGroup._supportsSpacingProps = true
-
-export default TagGroup
+export default withComponentMarkers(TagGroup, {
+  _supportsSpacingProps: true,
+})

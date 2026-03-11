@@ -41,6 +41,7 @@ import { clearedArray } from '../../hooks/useFieldProps'
 import type { ContainerMode, ElementChild, Props, Value } from './types'
 import type { Identifier } from '../../types'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type * from './types'
 
@@ -481,5 +482,6 @@ function ArrayComponent(props: Props) {
   )
 }
 
-ArrayComponent._supportsSpacingProps = true
-export default ArrayComponent
+export default withComponentMarkers(ArrayComponent, {
+  _supportsSpacingProps: true,
+})

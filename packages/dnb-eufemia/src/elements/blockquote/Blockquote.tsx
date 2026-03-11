@@ -7,6 +7,7 @@ import React from 'react'
 import clsx from 'clsx'
 import { SpacingProps } from '../../components/space/types'
 import E from '../Element'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 type BlockquoteProps = SpacingProps &
   React.HTMLAttributes<HTMLElement> & {
@@ -43,6 +44,6 @@ function Blockquote({
   )
 }
 
-Blockquote._supportsSpacingProps = true
-
-export default Blockquote
+export default withComponentMarkers(Blockquote, {
+  _supportsSpacingProps: true,
+})

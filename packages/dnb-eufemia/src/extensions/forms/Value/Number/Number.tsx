@@ -9,6 +9,7 @@ import NumberFormat, {
 } from '../../../../components/NumberFormat'
 
 import { SpacingProps } from '../../../../shared/types'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = Omit<ValueProps<number>, 'defaultValue'> &
   Omit<
@@ -59,5 +60,6 @@ function NumberValue(props: Props) {
   )
 }
 
-NumberValue._supportsSpacingProps = true
-export default NumberValue
+export default withComponentMarkers(NumberValue, {
+  _supportsSpacingProps: true,
+})

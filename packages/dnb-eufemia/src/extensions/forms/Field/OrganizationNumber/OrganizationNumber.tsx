@@ -2,6 +2,7 @@ import React, { useCallback, useMemo } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
 import useTranslation from '../../hooks/useTranslation'
 import type { Validator, ValidatorWithCustomValidators } from '../../types'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type OrganizationNumberValidator = ValidatorWithCustomValidators<
   string,
@@ -108,5 +109,6 @@ function isValidOrgNumber(digits: string) {
   return parseInt(digits.charAt(digits.length - 1), 10) === finalCheckDigit
 }
 
-OrganizationNumber._supportsSpacingProps = true
-export default OrganizationNumber
+export default withComponentMarkers(OrganizationNumber, {
+  _supportsSpacingProps: true,
+})

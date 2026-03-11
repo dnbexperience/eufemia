@@ -8,6 +8,7 @@ import Flex from '../../../../components/flex/Flex'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import FieldProvider from '../../Field/Provider'
 import type { VisibleWhen } from '../../Form/Visibility'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = ComponentProps &
   FlexContainerProps & {
@@ -223,5 +224,4 @@ function Step(props: Props): React.JSX.Element {
   return childrenWithFlex
 }
 
-Step._supportsSpacingProps = true
-export default Step
+export default withComponentMarkers(Step, { _supportsSpacingProps: true })

@@ -43,6 +43,7 @@ import { IterateOverSteps } from './IterateOverSteps'
 import { PrerenderFieldPropsOfOtherSteps } from './PrerenderFieldPropsOfOtherSteps'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = ComponentProps & {
   id?: string
@@ -615,6 +616,6 @@ function WizardContainer(props: Props) {
   )
 }
 
-WizardContainer._supportsSpacingProps = true
-
-export default WizardContainer
+export default withComponentMarkers(WizardContainer, {
+  _supportsSpacingProps: true,
+})

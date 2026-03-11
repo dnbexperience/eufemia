@@ -6,6 +6,7 @@ import {
 } from '../../../../components/number-format/NumberUtils'
 import useTranslation from '../../hooks/useTranslation'
 import { isValueEmpty } from '../../ValueBlock'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = StringValueProps
 
@@ -29,5 +30,6 @@ function BankAccountNumber(props: Props) {
   return <StringValue {...stringValueProps} />
 }
 
-BankAccountNumber._supportsSpacingProps = true
-export default BankAccountNumber
+export default withComponentMarkers(BankAccountNumber, {
+  _supportsSpacingProps: true,
+})

@@ -14,6 +14,7 @@ import SummaryListContext from '../../Value/SummaryList/SummaryListContext'
 import type { Path, UseFieldProps } from '../../types'
 import type { DataAttributes } from '../../hooks/useFieldProps'
 import { FilterData } from '../../DataContext'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type VisibleWhen =
   | {
@@ -185,5 +186,6 @@ function Visibility(props: Props) {
   return <>{open ? content : null}</>
 }
 
-Visibility._supportsSpacingProps = 'children'
-export default Visibility
+export default withComponentMarkers(Visibility, {
+  _supportsSpacingProps: 'children',
+})

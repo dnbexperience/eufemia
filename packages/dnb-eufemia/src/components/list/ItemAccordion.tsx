@@ -18,6 +18,7 @@ import Space from '../space/Space'
 import { omitSpacingProps, pickSpacingProps } from '../flex/utils'
 import ItemIcon from './ItemIcon'
 import ItemTitle from './ItemTitle'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ItemAccordionIconPosition = 'left' | 'right'
 
@@ -107,7 +108,8 @@ function ItemAccordion(props: ItemAccordionProps) {
     </ItemAccordionContext>
   )
 }
-ItemAccordion._supportsSpacingProps = true
+withComponentMarkers(AccordionHeader, { _supportsSpacingProps: true })
+withComponentMarkers(AccordionContent, { _supportsSpacingProps: true })
 
 export type AccordionHeaderProps = {
   open?: boolean
@@ -175,7 +177,6 @@ function AccordionHeader(props: AccordionHeaderProps) {
   )
 }
 ItemAccordion.Header = AccordionHeader
-AccordionHeader._supportsSpacingProps = true
 
 function AccordionContent(props: ItemContentProps) {
   const { className, children, ...rest } = props
@@ -202,6 +203,7 @@ function AccordionContent(props: ItemContentProps) {
   )
 }
 ItemAccordion.Content = AccordionContent
-AccordionContent._supportsSpacingProps = true
 
-export default ItemAccordion
+export default withComponentMarkers(ItemAccordion, {
+  _supportsSpacingProps: true,
+})

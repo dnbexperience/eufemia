@@ -19,6 +19,7 @@ import CardContext from '../card/CardContext'
 import { SpacingProps } from '../space/types'
 import Dialog from '../Dialog'
 import { question as QuestionIcon, close as CloseIcon } from '../../icons'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type HelpProps = {
   title?: React.ReactNode
@@ -307,5 +308,7 @@ function HelpButtonIcon() {
   )
 }
 
-HelpButtonInline._supportsSpacingProps = true
-HelpButtonInlineContent._supportsSpacingProps = true
+withComponentMarkers(HelpButtonInline, { _supportsSpacingProps: true })
+withComponentMarkers(HelpButtonInlineContent, {
+  _supportsSpacingProps: true,
+})

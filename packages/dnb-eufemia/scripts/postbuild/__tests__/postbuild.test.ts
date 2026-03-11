@@ -203,7 +203,7 @@ describe('babel build', () => {
               'utf-8'
             )
             expect(content).toContain(
-              'var _default = exports.default = Input;'
+              'var _default = exports.default = (0, _withComponentMarkers.default)(Input,'
             )
             expect(content).toMatch(/^"use strict";/g)
           }
@@ -217,7 +217,7 @@ describe('babel build', () => {
               'utf-8'
             )
             expect(content).toContain(
-              'var _default = exports.default = Breadcrumb;'
+              'var _default = exports.default = (0, _withComponentMarkers.default)(Breadcrumb,'
             )
             expect(content).toMatch(/^"use strict";/g)
           }
@@ -244,7 +244,9 @@ describe('babel build', () => {
               ),
               'utf-8'
             )
-            expect(content).toContain('export default Input;')
+            expect(content).toContain(
+              'export default withComponentMarkers(Input,'
+            )
             expect(content).not.toContain('core-js-pure/modules/es')
             expect(content).toContain('from "react/jsx-runtime"')
           }
@@ -257,7 +259,9 @@ describe('babel build', () => {
               ),
               'utf-8'
             )
-            expect(content).toContain('export default Breadcrumb;')
+            expect(content).toContain(
+              'export default withComponentMarkers(Breadcrumb,'
+            )
             expect(content).toContain('from "react/jsx-runtime"')
           }
 
@@ -299,7 +303,9 @@ describe('babel build', () => {
               ),
               'utf-8'
             )
-            expect(content).toContain('export default Input;')
+            expect(content).toContain(
+              'export default withComponentMarkers(Input,'
+            )
             expect(content).not.toContain('core-js-pure/modules/es')
             expect(content).toContain('from "react/jsx-runtime"')
           }
@@ -312,7 +318,9 @@ describe('babel build', () => {
               ),
               'utf-8'
             )
-            expect(content).toContain('export default Breadcrumb;')
+            expect(content).toContain(
+              'export default withComponentMarkers(Breadcrumb,'
+            )
             expect(content).not.toContain('core-js-pure/modules/es')
             expect(content).toContain('from "react/jsx-runtime"')
           }

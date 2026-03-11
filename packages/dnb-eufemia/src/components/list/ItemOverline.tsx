@@ -2,6 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import FlexItem from '../flex/Item'
 import { ItemContentProps } from './ItemContent'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 /**
  * Props for List.Cell.Title.Overline (ItemOverline).
@@ -35,6 +36,6 @@ function ItemOverline({
     </FlexItem>
   )
 }
-ItemOverline._supportsSpacingProps = true
-
-export default ItemOverline
+export default withComponentMarkers(ItemOverline, {
+  _supportsSpacingProps: true,
+})

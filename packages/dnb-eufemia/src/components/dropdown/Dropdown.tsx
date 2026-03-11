@@ -2,6 +2,7 @@
  * Web Dropdown Component
  */
 
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React, { useContext, useRef, useCallback } from 'react'
 import clsx from 'clsx'
 import {
@@ -772,7 +773,10 @@ function Dropdown({ ref, buttonRef, ...props }: DropdownAllProps) {
 }
 
 Dropdown.HorizontalItem = DrawerList.HorizontalItem
-Dropdown._formElement = true
-Dropdown._supportsSpacingProps = true
 
-export default Dropdown
+export { Dropdown }
+
+export default withComponentMarkers(Dropdown, {
+  _formElement: true,
+  _supportsSpacingProps: true,
+})

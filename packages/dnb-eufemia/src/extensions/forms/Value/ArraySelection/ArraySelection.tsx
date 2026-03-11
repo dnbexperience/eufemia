@@ -8,6 +8,7 @@ import Context from '../../DataContext/Context'
 import ListFormat, {
   ListFormatProps,
 } from '../../../../components/list-format'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = ValueProps<Array<number | string>> & ListFormatProps
 
@@ -62,5 +63,6 @@ function ArraySelection(props: Props) {
   )
 }
 
-ArraySelection._supportsSpacingProps = true
-export default ArraySelection
+export default withComponentMarkers(ArraySelection, {
+  _supportsSpacingProps: true,
+})

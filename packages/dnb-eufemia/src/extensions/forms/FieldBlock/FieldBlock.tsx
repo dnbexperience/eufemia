@@ -44,6 +44,8 @@ import { createSharedState } from '../../../shared/helpers/useSharedState'
 import useTranslation from '../hooks/useTranslation'
 import { FormError } from '../utils'
 import { useIterateItemNo } from '../Iterate/ItemNo/useIterateItemNo'
+import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
+import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 export const states: Array<StateTypes> = ['error', 'info', 'warning']
 
@@ -683,7 +685,7 @@ function useEnableFieldset({
       findElementInChildren(children, (child: React.ReactElement<any>) => {
         if (
           child?.props?.label ||
-          child?.type?.['_formElement'] === true
+          (child?.type as ComponentMarkers)?._formElement === true
         ) {
           count++
         }
@@ -781,9 +783,9 @@ function fragmentHasOnlyUndefinedChildren(fragment: React.ReactNode) {
   )
 }
 
-FieldBlock._supportsSpacingProps = true
-
-export default FieldBlock
+export default withComponentMarkers(FieldBlock, {
+  _supportsSpacingProps: true,
+})
 
 function getFieldWidth(width: FieldBlockHorizontalLabelWidth) {
   switch (width) {

@@ -2,6 +2,7 @@
  * Web Checkbox Component
  */
 
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React, {
   useCallback,
   useContext,
@@ -395,7 +396,6 @@ function Checkbox(localProps: CheckboxProps) {
   )
 }
 
-export default Checkbox
-
-// Mark as form element for FieldBlock
-Checkbox._formElement = true
+export default withComponentMarkers(Checkbox, {
+  _formElement: true,
+})

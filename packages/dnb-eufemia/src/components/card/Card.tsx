@@ -1,3 +1,4 @@
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React, { useContext } from 'react'
 import clsx from 'clsx'
 import Flex from '../flex/Flex'
@@ -135,6 +136,6 @@ function Card(props: Props) {
   )
 }
 
-Card._supportsSpacingProps = true
-
-export default Card
+export default withComponentMarkers(Card, {
+  _supportsSpacingProps: true,
+})

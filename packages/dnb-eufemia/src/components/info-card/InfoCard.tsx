@@ -22,6 +22,7 @@ import {
   extendPropsWithContext,
   validateDOMAttributes,
 } from '../../shared/component-helper'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export interface InfoCardProps {
   /**
@@ -266,6 +267,6 @@ const InfoCard = (localProps: InfoCardAllProps) => {
   )
 }
 
-InfoCard._supportsSpacingProps = true
-
-export default InfoCard
+export default withComponentMarkers(InfoCard, {
+  _supportsSpacingProps: true,
+})
