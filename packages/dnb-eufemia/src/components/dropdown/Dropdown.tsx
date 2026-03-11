@@ -774,8 +774,6 @@ function Dropdown({ ref, buttonRef, ...props }: DropdownAllProps) {
 
 Dropdown.HorizontalItem = DrawerList.HorizontalItem
 
-export { Dropdown }
-
 export default withComponentMarkers(Dropdown, {
   _formElement: true,
   _supportsSpacingProps: true,

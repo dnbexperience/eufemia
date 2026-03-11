@@ -20,7 +20,7 @@ const defaultProps: Partial<DialogProps & DialogContentProps> = {
   spacing: true,
 }
 
-export function Dialog(localProps: DialogProps & DialogContentProps) {
+function Dialog(localProps: DialogProps & DialogContentProps) {
   const context = useContext(Context)
 
   const propsWithContext = extendPropsWithContext(

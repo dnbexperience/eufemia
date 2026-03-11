@@ -515,8 +515,6 @@ function Button({ ref, ...props }: ButtonProps) {
 
 Button.getContent = ButtonClass.getContent
 
-export { Button }
-
 export default withComponentMarkers(Button, {
   _formElement: true,
   _supportsSpacingProps: true,

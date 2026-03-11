@@ -23,7 +23,7 @@ export type Props = {
 
 export type AllProps = Props & SectionContainerProps & FlexContainerProps
 
-export function EditContainer(props: AllProps) {
+function EditContainer(props: AllProps) {
   const { children, className, title, onDone, onCancel, ...restProps } =
     props || {}
   const ariaLabel = useMemo(() => convertJsxToString(title), [title])

@@ -157,7 +157,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     onChange?: (...args: any[]) => any
   }
 
-export function Accordion({
+function Accordion({
   variant = 'outlined',
   iconSize = 'medium',
   ...restOfProps

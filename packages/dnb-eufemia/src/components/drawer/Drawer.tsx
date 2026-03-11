@@ -16,7 +16,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type DrawerAllProps = DrawerProps & DrawerContentProps
 
-export function Drawer({
+function Drawer({
   id,
   contentId,
   focusSelector,

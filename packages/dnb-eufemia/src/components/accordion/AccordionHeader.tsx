@@ -182,7 +182,7 @@ const accordionHeaderDefaultProps = {
   iconSize: 'medium',
 }
 
-export const AccordionHeader = ({
+const AccordionHeader = ({
   iconSize: iconSizeDefault = 'medium',
   ...restOfProps
 }: AccordionHeaderProps) => {

@@ -19,7 +19,7 @@ export type Props = {
 
 export type AllProps = Props & SectionContainerProps & FlexContainerProps
 
-export function ViewContainer(props: AllProps) {
+function ViewContainer(props: AllProps) {
   const { children, className, title, onEdit, ...restProps } = props || {}
   const ariaLabel = useMemo(() => convertJsxToString(title), [title])
   const { disableEditing } = useContext(SectionContainerContext) || {}

@@ -449,7 +449,7 @@ const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
   inputElement: null,
 }
 
-export function Autocomplete(props: AutocompleteAllProps) {
+function Autocomplete(props: AutocompleteAllProps) {
   const _id = useId(props.id)
 
   const providerProps = {
