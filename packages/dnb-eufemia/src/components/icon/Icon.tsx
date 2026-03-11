@@ -114,7 +114,7 @@ export type IconAllProps = IconProps &
   SpacingProps &
   Omit<React.HTMLProps<HTMLElement>, 'size' | 'children'>
 
-export default function Icon(localProps: IconAllProps) {
+function Icon(localProps: IconAllProps) {
   const context = useContext(Context)
 
   // use only the props from context, who are available here anyway
@@ -516,4 +516,8 @@ function getIcon(props) {
   return processChildren(props)
 }
 
-Icon._supportsSpacingProps = true
+const MemoizedIcon = Object.assign(React.memo(Icon), {
+  _supportsSpacingProps: true as const,
+})
+
+export default MemoizedIcon
