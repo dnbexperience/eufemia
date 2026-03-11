@@ -51,7 +51,7 @@
         }
       }
     }
-    &:not([disabled]):not(:hover):focus-visible {
+    html[data-whatinput='keyboard'] &:not([disabled]):not(:hover):focus {
       .dnb-radio {
         &__button {
           @include utilities.fakeBorder(
@@ -82,7 +82,7 @@
         }
       }
     }
-    &:not([disabled]):not(:hover):focus-visible {
+    html[data-whatinput='keyboard'] &:not([disabled]):not(:hover):focus {
       .dnb-checkbox {
         &__button {
           background-color: var(--color-emerald-green);

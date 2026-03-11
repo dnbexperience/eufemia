@@ -1,10 +1,13 @@
 /**
  * Internal input detection helper.
  *
- * Replaces the `what-input` package. Tracks the current input method
- * (keyboard, mouse, or touch) and sets `data-whatinput` and
- * `data-whatintent` attributes on `<html>` so CSS can style based on
- * the users input type.
+ * @deprecated This module is a temporary internal replacement for the
+ * `what-input` npm package, which was removed to reduce external
+ * dependencies. The goal is to migrate away from `data-whatinput` /
+ * `data-whatintent` selectors entirely and use native CSS such as
+ * `:focus-visible` instead. Until that migration is complete, this
+ * module keeps existing styling functional by setting the same
+ * `data-whatinput` and `data-whatintent` attributes on `<html>`.
  */
 
 type InputType = 'initial' | 'keyboard' | 'mouse' | 'touch'

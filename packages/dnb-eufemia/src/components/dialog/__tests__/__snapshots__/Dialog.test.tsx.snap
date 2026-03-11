@@ -451,7 +451,7 @@ html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):focus, html[dat
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-button--reset:not([disabled]):focus:not(:focus-visible), .dnb-button--reset:not([disabled]):active:not(:focus-visible) {
+html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):active {
   box-shadow: none;
   color: inherit;
   border: none;

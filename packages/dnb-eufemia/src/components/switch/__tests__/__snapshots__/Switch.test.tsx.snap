@@ -94,10 +94,10 @@ exports[`Switch scss should match default theme snapshot 1`] = `
     *
     */
 }
-.dnb-switch__input:not([disabled]):focus-visible ~ .dnb-switch__button {
+html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button {
   border: none;
 }
-.dnb-switch__input:not([disabled]):not(:checked):focus-visible ~ .dnb-switch__button {
+html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):not(:checked):focus ~ .dnb-switch__button {
   background-color: var(--color-mint-green-50);
 }
 .dnb-switch__input:not([disabled]):checked ~ .dnb-switch__button .dnb-switch__focus {

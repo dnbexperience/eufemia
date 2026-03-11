@@ -34,7 +34,8 @@
       color: var(--sb-color-gray-dark);
     }
 
-    &:not([disabled]):not(:active):not(:hover):focus-visible {
+    html[data-whatinput='keyboard']
+      &:not([disabled]):not(:active):not(:hover):focus {
       .dnb-radio {
         &__button {
           background-color: transparent;
@@ -92,7 +93,8 @@
       color: var(--sb-color-violet-light-3);
     }
 
-    &:not([disabled]):not(:active):not(:hover):focus-visible {
+    html[data-whatinput='keyboard']
+      &:not([disabled]):not(:active):not(:hover):focus {
       color: var(--sb-color-blue-dark-2);
       background-color: var(--sb-color-blue-light-2);
     }

@@ -198,7 +198,9 @@
         visibility: visible;
       }
 
-      &:hover:focus:focus-visible .dnb-button__text::after {
+      html[data-whatinput='keyboard']
+        &:hover:focus
+        .dnb-button__text::after {
         visibility: hidden;
       }
     }
