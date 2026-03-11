@@ -49,7 +49,10 @@ export const TooltipSandbox = () => {
         <Tooltip targetElement={<Button right>Top</Button>}>
           Tooltip 1
         </Tooltip>
-        <Tooltip placement="bottom" targetElement={<Button>Bottom</Button>}>
+        <Tooltip
+          placement="bottom"
+          targetElement={<Button>Bottom</Button>}
+        >
           Tooltip 2
         </Tooltip>
       </Box>
@@ -83,7 +86,9 @@ export const TooltipSandbox = () => {
             console.log(e)
           }}
           tooltip={
-            <Tooltip placement="bottom">Tooltip for this Button 2b</Tooltip>
+            <Tooltip placement="bottom">
+              Tooltip for this Button 2b
+            </Tooltip>
           }
         >
           Button with Tooltip 2
