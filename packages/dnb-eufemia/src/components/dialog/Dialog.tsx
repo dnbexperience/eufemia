@@ -20,7 +20,8 @@ const defaultProps: Partial<DialogProps & DialogContentProps> = {
   spacing: true,
 }
 
-function Dialog(localProps: DialogProps & DialogContentProps) {
+// Named export required for TypeScript declaration emit (TS4023)
+export function Dialog(localProps: DialogProps & DialogContentProps) {
   const context = useContext(Context)
 
   const propsWithContext = extendPropsWithContext(

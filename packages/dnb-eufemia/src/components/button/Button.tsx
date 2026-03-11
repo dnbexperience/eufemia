@@ -515,6 +515,9 @@ function Button({ ref, ...props }: ButtonProps) {
 
 Button.getContent = ButtonClass.getContent
 
+// Named export required for TypeScript declaration emit (TS4023)
+export { Button }
+
 export default withComponentMarkers(Button, {
   _formElement: true,
   _supportsSpacingProps: true,

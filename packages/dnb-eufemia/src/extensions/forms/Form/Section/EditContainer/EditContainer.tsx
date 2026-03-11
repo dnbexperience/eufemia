@@ -23,6 +23,7 @@ export type Props = {
 
 export type AllProps = Props & SectionContainerProps & FlexContainerProps
 
+// Named export required for TypeScript declaration emit (TS4032)
 export function EditContainer(props: AllProps) {
   const { children, className, title, onDone, onCancel, ...restProps } =
     props || {}

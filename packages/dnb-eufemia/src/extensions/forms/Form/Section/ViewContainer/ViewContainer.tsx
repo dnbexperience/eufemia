@@ -19,6 +19,7 @@ export type Props = {
 
 export type AllProps = Props & SectionContainerProps & FlexContainerProps
 
+// Named export required for TypeScript declaration emit (TS4032)
 export function ViewContainer(props: AllProps) {
   const { children, className, title, onEdit, ...restProps } = props || {}
   const ariaLabel = useMemo(() => convertJsxToString(title), [title])

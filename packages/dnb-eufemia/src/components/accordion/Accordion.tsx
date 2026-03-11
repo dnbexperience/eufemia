@@ -157,7 +157,8 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     onChange?: (...args: any[]) => any
   }
 
-function Accordion({
+// Named export required for TypeScript declaration emit (TS4023)
+export function Accordion({
   variant = 'outlined',
   iconSize = 'medium',
   ...restOfProps

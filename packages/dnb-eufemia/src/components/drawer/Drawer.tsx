@@ -16,7 +16,8 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type DrawerAllProps = DrawerProps & DrawerContentProps
 
-function Drawer({
+// Named export required for TypeScript declaration emit (TS4023)
+export function Drawer({
   id,
   contentId,
   focusSelector,
