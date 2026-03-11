@@ -1773,16 +1773,27 @@ export default function Provider<Data extends JsonObject>(
   }
 
   const show = Boolean(showAllErrorsRef.current)
+  const resolvedLocale = locale || sharedLocale
+  const customErrorSummaryTitle =
+    translations?.[resolvedLocale]?.Field?.errorSummaryTitle
   const formStatusConfig = useMemo(() => {
     const status = show ? GlobalStatusProvider.get(globalStatusId) : null
     return {
       globalStatus: {
         show,
         id: globalStatusId,
-        title: status?.stack[0]?.title ?? translation.errorSummaryTitle,
+        title:
+          status?.stack[0]?.title ??
+          customErrorSummaryTitle ??
+          translation.errorSummaryTitle,
       },
     }
-  }, [globalStatusId, show, translation.errorSummaryTitle])
+  }, [
+    globalStatusId,
+    show,
+    customErrorSummaryTitle,
+    translation.errorSummaryTitle,
+  ])
 
   return (
     <DataContext.Provider value={contextValue}>
