@@ -99,7 +99,9 @@ function resolveInputType(event: Event): InputType {
 function validateTouch(value: InputType): boolean {
   const now = Date.now()
   const isFalsePositive =
-    value === 'mouse' && currentInput === 'touch' && now - currentTimestamp < 200
+    value === 'mouse' &&
+    currentInput === 'touch' &&
+    now - currentTimestamp < 200
 
   currentTimestamp = now
   return isFalsePositive
@@ -134,10 +136,9 @@ function setInput(event: Event) {
     const activeElem = document.activeElement
     if (
       activeElem?.nodeName &&
-      (
-        !formInputs.includes(activeElem.nodeName.toLowerCase()) ||
-        (activeElem.nodeName.toLowerCase() === 'button' && !activeElem.closest('form'))
-      )
+      (!formInputs.includes(activeElem.nodeName.toLowerCase()) ||
+        (activeElem.nodeName.toLowerCase() === 'button' &&
+          !activeElem.closest('form')))
     ) {
       currentIntent = value
       doUpdate('intent')
