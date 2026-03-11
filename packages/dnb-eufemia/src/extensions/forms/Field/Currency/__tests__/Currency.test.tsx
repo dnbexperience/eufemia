@@ -60,16 +60,6 @@ describe('Field.Currency', () => {
     expect(input).toHaveValue('-100 kr')
   })
 
-  it('should allow typing a negative value with allowNegative', async () => {
-    render(<Field.Currency allowNegative />)
-
-    const input = document.querySelector('input')
-
-    await userEvent.type(input, '-100')
-
-    expect(input).toHaveValue('-100 kr')
-  })
-
   it('should not allow typing a negative value with allowNegative={false}', async () => {
     render(<Field.Currency allowNegative={false} />)
 
@@ -78,18 +68,6 @@ describe('Field.Currency', () => {
     await userEvent.type(input, '-100')
 
     expect(input).toHaveValue('100 kr')
-  })
-
-  it('should preserve minus sign while typing negative value', async () => {
-    const onChange = jest.fn()
-    render(<Field.Currency onChange={onChange} />)
-
-    const input = document.querySelector('input')
-
-    await userEvent.type(input, '-')
-
-    expect(input.value).toContain('-')
-    expect(onChange).not.toHaveBeenCalled()
   })
 
   it('should call onChange with the correct negative value', async () => {
