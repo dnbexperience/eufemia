@@ -27,7 +27,6 @@ export type InfinityScrollerProps = {
 }
 
 export default class InfinityScroller extends React.PureComponent<InfinityScrollerProps> {
-  static _supportsSpacingProps = true
   static contextType = PaginationContext
   context!: React.ContextType<typeof PaginationContext>
 
