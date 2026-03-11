@@ -93,11 +93,11 @@ const defaultProps: Partial<TagProps> = {
   omitOnKeyUpDeleteEvent: false,
 }
 
-const Tag = (
+function TagComponent(
   localProps: TagProps &
     SpacingProps &
     Omit<React.HTMLProps<HTMLElement>, 'onClick'>
-) => {
+) {
   // Every component should have a context
   const context = React.useContext(Context)
   const tagGroupContext = React.useContext(TagGroupContext)
@@ -218,9 +218,10 @@ const getIcon = (title: string) => (
   />
 )
 
-Tag.Group = TagGroup
-
-Tag._formElement = true
-Tag._supportsSpacingProps = true
+const Tag = Object.assign(React.memo(TagComponent), {
+  Group: TagGroup,
+  _formElement: true as const,
+  _supportsSpacingProps: true as const,
+})
 
 export default Tag
