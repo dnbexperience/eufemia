@@ -144,3 +144,19 @@ Typography.Provider = Provider
 
 export default Typography
 export { Provider }
+
+const HEADING_LINE_HEIGHT_MAP: Record<TypographySize, TypographySize> = {
+  'x-small': 'x-small',
+  small: 'small',
+  basis: 'basis',
+  medium: 'basis',
+  large: 'medium',
+  'x-large': 'large',
+  'xx-large': 'xx-large',
+}
+
+export function getHeadingLineHeightSize(
+  fontSize: TypographySize
+): TypographySize {
+  return HEADING_LINE_HEIGHT_MAP[fontSize] || 'basis'
+}

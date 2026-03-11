@@ -226,7 +226,7 @@ function SummaryContainer({
               <Value.Currency
                 label={tr.ChildrenWithAge.dayCareExpenses.fieldLabel}
                 path="/daycareExpenses"
-                decimals="0"
+                decimals={0}
               />
             </Form.Visibility>
           </Form.Visibility>
@@ -242,7 +242,7 @@ function SummaryContainer({
                   tr.ChildrenWithAge.jointResponsibilityExpenses.fieldLabel
                 }
                 path="/jointResponsibilityExpenses"
-                decimals="0"
+                decimals={0}
               />
             </Form.Visibility>
           </Form.Visibility>

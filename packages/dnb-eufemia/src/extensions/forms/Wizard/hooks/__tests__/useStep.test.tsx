@@ -162,6 +162,7 @@ describe('useStep', () => {
         previousStep: {
           index: 0,
         },
+        totalSteps: 3,
       })
 
       await userEvent.click(nextButton())
@@ -173,6 +174,7 @@ describe('useStep', () => {
         previousStep: {
           index: 1,
         },
+        totalSteps: 3,
       })
 
       await userEvent.click(previousButton())
@@ -184,6 +186,7 @@ describe('useStep', () => {
         previousStep: {
           index: 2,
         },
+        totalSteps: 3,
       })
     })
 
@@ -222,6 +225,7 @@ describe('useStep', () => {
         previousStep: {
           index: 0,
         },
+        totalSteps: 3,
       })
 
       await userEvent.click(nextButton())
@@ -233,6 +237,7 @@ describe('useStep', () => {
         previousStep: {
           index: 1,
         },
+        totalSteps: 3,
       })
 
       await userEvent.click(previousButton())
@@ -244,6 +249,7 @@ describe('useStep', () => {
         previousStep: {
           index: 2,
         },
+        totalSteps: 3,
       })
     })
 
@@ -310,6 +316,7 @@ describe('useStep', () => {
         previousStep: {
           index: 0,
         },
+        totalSteps: 3,
       })
       expect(onStepChange2).toHaveBeenCalledTimes(1)
       expect(onStepChange2).toHaveBeenLastCalledWith(1, 'next', {
@@ -317,6 +324,7 @@ describe('useStep', () => {
         previousStep: {
           index: 0,
         },
+        totalSteps: 3,
       })
       expect(onStepChange3).toHaveBeenCalledTimes(1)
       expect(onStepChange3).toHaveBeenLastCalledWith(1, 'next', {
@@ -324,6 +332,7 @@ describe('useStep', () => {
         previousStep: {
           index: 0,
         },
+        totalSteps: 3,
       })
 
       await userEvent.click(nextButton())
@@ -335,6 +344,7 @@ describe('useStep', () => {
         previousStep: {
           index: 1,
         },
+        totalSteps: 3,
       })
       expect(onStepChange2).toHaveBeenCalledTimes(2)
       expect(onStepChange2).toHaveBeenLastCalledWith(2, 'next', {
@@ -342,6 +352,7 @@ describe('useStep', () => {
         previousStep: {
           index: 1,
         },
+        totalSteps: 3,
       })
       expect(onStepChange3).toHaveBeenCalledTimes(2)
       expect(onStepChange3).toHaveBeenLastCalledWith(2, 'next', {
@@ -349,6 +360,7 @@ describe('useStep', () => {
         previousStep: {
           index: 1,
         },
+        totalSteps: 3,
       })
 
       await userEvent.click(previousButton())
@@ -360,6 +372,7 @@ describe('useStep', () => {
         previousStep: {
           index: 2,
         },
+        totalSteps: 3,
       })
       expect(onStepChange2).toHaveBeenCalledTimes(3)
       expect(onStepChange2).toHaveBeenLastCalledWith(1, 'previous', {
@@ -367,6 +380,7 @@ describe('useStep', () => {
         previousStep: {
           index: 2,
         },
+        totalSteps: 3,
       })
       expect(onStepChange3).toHaveBeenCalledTimes(3)
       expect(onStepChange3).toHaveBeenLastCalledWith(1, 'previous', {
@@ -374,6 +388,7 @@ describe('useStep', () => {
         previousStep: {
           index: 2,
         },
+        totalSteps: 3,
       })
     })
 
@@ -690,6 +705,7 @@ describe('useStep', () => {
         previousStep: {
           index: 0,
         },
+        totalSteps: 3,
       })
 
       await userEvent.click(nextButton())
@@ -701,6 +717,7 @@ describe('useStep', () => {
         previousStep: {
           index: 1,
         },
+        totalSteps: 3,
       })
       await userEvent.click(previousButton())
 
@@ -711,6 +728,7 @@ describe('useStep', () => {
         previousStep: {
           index: 2,
         },
+        totalSteps: 3,
       })
     })
 
@@ -763,6 +781,7 @@ describe('useStep', () => {
         previousStep: {
           index: 0,
         },
+        totalSteps: 3,
       })
 
       await userEvent.click(nextButton())
@@ -774,6 +793,7 @@ describe('useStep', () => {
         previousStep: {
           index: 1,
         },
+        totalSteps: 3,
       })
 
       await userEvent.click(previousButton())
@@ -785,6 +805,7 @@ describe('useStep', () => {
         previousStep: {
           index: 2,
         },
+        totalSteps: 3,
       })
     })
 
@@ -875,6 +896,7 @@ describe('useStep', () => {
         previousStep: {
           index: 0,
         },
+        totalSteps: 3,
       })
       expect(onStepChange2a).toHaveBeenCalledTimes(1)
       expect(onStepChange2a).toHaveBeenLastCalledWith(1, 'next', {
@@ -882,6 +904,7 @@ describe('useStep', () => {
         previousStep: {
           index: 0,
         },
+        totalSteps: 3,
       })
       expect(onStepChange3a).toHaveBeenCalledTimes(1)
       expect(onStepChange3a).toHaveBeenLastCalledWith(1, 'next', {
@@ -889,6 +912,7 @@ describe('useStep', () => {
         previousStep: {
           index: 0,
         },
+        totalSteps: 3,
       })
       expect(onStepChange1b).toHaveBeenCalledTimes(1)
       expect(onStepChange1b).toHaveBeenLastCalledWith(1, 'next', {
@@ -896,6 +920,7 @@ describe('useStep', () => {
         previousStep: {
           index: 0,
         },
+        totalSteps: 3,
       })
       expect(onStepChange2b).toHaveBeenCalledTimes(1)
       expect(onStepChange2b).toHaveBeenLastCalledWith(1, 'next', {
@@ -903,6 +928,7 @@ describe('useStep', () => {
         previousStep: {
           index: 0,
         },
+        totalSteps: 3,
       })
       expect(onStepChange3b).toHaveBeenCalledTimes(1)
       expect(onStepChange3b).toHaveBeenLastCalledWith(1, 'next', {
@@ -910,6 +936,7 @@ describe('useStep', () => {
         previousStep: {
           index: 0,
         },
+        totalSteps: 3,
       })
 
       await userEvent.click(nextButton())
@@ -921,6 +948,7 @@ describe('useStep', () => {
         previousStep: {
           index: 1,
         },
+        totalSteps: 3,
       })
       expect(onStepChange2a).toHaveBeenCalledTimes(2)
       expect(onStepChange2a).toHaveBeenLastCalledWith(2, 'next', {
@@ -928,6 +956,7 @@ describe('useStep', () => {
         previousStep: {
           index: 1,
         },
+        totalSteps: 3,
       })
       expect(onStepChange3a).toHaveBeenCalledTimes(2)
       expect(onStepChange3a).toHaveBeenLastCalledWith(2, 'next', {
@@ -935,6 +964,7 @@ describe('useStep', () => {
         previousStep: {
           index: 1,
         },
+        totalSteps: 3,
       })
       expect(onStepChange1b).toHaveBeenCalledTimes(2)
       expect(onStepChange1b).toHaveBeenLastCalledWith(2, 'next', {
@@ -942,6 +972,7 @@ describe('useStep', () => {
         previousStep: {
           index: 1,
         },
+        totalSteps: 3,
       })
       expect(onStepChange2b).toHaveBeenCalledTimes(2)
       expect(onStepChange2b).toHaveBeenLastCalledWith(2, 'next', {
@@ -949,6 +980,7 @@ describe('useStep', () => {
         previousStep: {
           index: 1,
         },
+        totalSteps: 3,
       })
       expect(onStepChange3b).toHaveBeenCalledTimes(2)
       expect(onStepChange3b).toHaveBeenLastCalledWith(2, 'next', {
@@ -956,6 +988,7 @@ describe('useStep', () => {
         previousStep: {
           index: 1,
         },
+        totalSteps: 3,
       })
 
       await userEvent.click(previousButton())
@@ -967,6 +1000,7 @@ describe('useStep', () => {
         previousStep: {
           index: 2,
         },
+        totalSteps: 3,
       })
       expect(onStepChange2a).toHaveBeenCalledTimes(3)
       expect(onStepChange2a).toHaveBeenLastCalledWith(1, 'previous', {
@@ -974,6 +1008,7 @@ describe('useStep', () => {
         previousStep: {
           index: 2,
         },
+        totalSteps: 3,
       })
       expect(onStepChange3a).toHaveBeenCalledTimes(3)
       expect(onStepChange3a).toHaveBeenLastCalledWith(1, 'previous', {
@@ -981,6 +1016,7 @@ describe('useStep', () => {
         previousStep: {
           index: 2,
         },
+        totalSteps: 3,
       })
       expect(onStepChange1b).toHaveBeenCalledTimes(3)
       expect(onStepChange1b).toHaveBeenLastCalledWith(1, 'previous', {
@@ -988,6 +1024,7 @@ describe('useStep', () => {
         previousStep: {
           index: 2,
         },
+        totalSteps: 3,
       })
       expect(onStepChange2b).toHaveBeenCalledTimes(3)
       expect(onStepChange2b).toHaveBeenLastCalledWith(1, 'previous', {
@@ -995,6 +1032,7 @@ describe('useStep', () => {
         previousStep: {
           index: 2,
         },
+        totalSteps: 3,
       })
       expect(onStepChange3b).toHaveBeenCalledTimes(3)
       expect(onStepChange3b).toHaveBeenLastCalledWith(1, 'previous', {
@@ -1002,6 +1040,7 @@ describe('useStep', () => {
         previousStep: {
           index: 2,
         },
+        totalSteps: 3,
       })
     })
 

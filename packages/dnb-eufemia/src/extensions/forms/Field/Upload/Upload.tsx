@@ -86,6 +86,7 @@ function UploadComponent(props: Props) {
       }
 
       const hasFiles = value?.length > 0
+
       if (required && ((!isChanged && !hasFiles) || !hasFiles)) {
         return error
       }
@@ -385,9 +386,11 @@ function UploadComponent(props: Props) {
     ({ files }: { files: UploadValue }) => {
       let changeValue = files?.length === 0 ? undefined : files
 
-      // Prevents the form-status from showing up
+      // Prevents the form-status from showing up when adding files
       handleBlur()
-      handleFocus()
+      if (changeValue) {
+        handleFocus()
+      }
 
       changeValue = processValidationErrors(changeValue, filesRef.current)
 

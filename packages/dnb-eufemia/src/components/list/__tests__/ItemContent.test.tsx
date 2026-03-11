@@ -64,6 +64,16 @@ describe('ItemContent', () => {
     const element = document.querySelector('.dnb-list__item')
 
     expect(element.classList).toContain('dnb-list__item--selected')
+    expect(element.classList).toContain('dnb-list__item--selection')
+  })
+
+  it('applies selection modifier class when selected is false', () => {
+    render(<ItemContent selected={false}>Selectable item</ItemContent>)
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.classList).not.toContain('dnb-list__item--selected')
+    expect(element.classList).toContain('dnb-list__item--selection')
   })
 
   it('always has dnb-t__size--basis class', () => {

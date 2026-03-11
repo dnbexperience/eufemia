@@ -60,12 +60,14 @@ You can use the `Wizard.Step` component to create dynamic steps. The `include` a
 If a step is replaced by another step, the `onStepChange` event will trigger with `stepListModified` as the second argument. The current step index might remain the same. However, if the total number of steps becomes less than the current step, the index will adjust to the last step.
 
 To keep track of the current step, you can provide each step with an `id` property. This `id` can then be used to identify the current step and will be returned as part of an object in the `onStepChange` event.
+The same options object also provides `totalSteps`.
 
 ```tsx
 <Wizard.Container
   onStepChange={(index, mode, args) => {
     const {
       id,
+      totalSteps,
       preventNavigation,
       previousStep: { index },
     } = args

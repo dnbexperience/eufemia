@@ -987,6 +987,29 @@ describe('GlobalStatus component', () => {
 })
 
 describe('GlobalStatus scss', () => {
+  it('should render items as first child of message content when no text is provided', () => {
+    render(
+      <GlobalStatus
+        title="Custom Title"
+        items={[
+          {
+            text: 'List item',
+            status_anchor_url: '/uilib/components/global-status',
+            status_anchor_label: 'eksempel',
+          },
+        ]}
+        show={true}
+        autoscroll={false}
+      />
+    )
+
+    const messageContent = document.querySelector(
+      '.dnb-global-status__message__content'
+    )
+    expect(messageContent).toBeInTheDocument()
+    expect(messageContent.firstElementChild).toHaveClass('dnb-ul')
+  })
+
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()

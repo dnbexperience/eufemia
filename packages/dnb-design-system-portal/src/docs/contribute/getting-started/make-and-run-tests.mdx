@@ -226,3 +226,40 @@ describe('Breadcrumb aria', () => {
   })
 })
 ```
+
+### Bundle size checks
+
+Eufemia uses [BundleWatch](https://bundlewatch.io/) to track selected build artifacts in CI.
+
+How it works:
+
+- The setup lives in `packages/dnb-eufemia/bundlewatch.config.js`.
+- CI runs the check in `.github/workflows/verify.yml` after `postbuild:ci`, so it measures the actual emitted build files.
+- Each watched file has its own `maxSize`, based on the current gzip-compressed output with some headroom for future changes.
+- The check is meant to catch regressions in meaningful emitted bundles, not to report every generated file in the package.
+
+What is included:
+
+- UMD and ESM `dnb-ui-*` bundles, except icon entry bundles.
+- Core `dnb-ui-*` CSS bundles.
+- Non-isolated theme CSS bundles under `build/style/themes/`.
+
+What is excluded:
+
+- `dnb-ui-icons` entry bundles are excluded on purpose because they are thin import/re-export wrappers and do not represent a meaningful payload by themselves.
+- Isolated CSS bundles are excluded to keep the reporting focused on the primary outputs.
+
+When updating limits:
+
+- If a deliberate change increases a bundle size, update the matching limit in `bundlewatch.config.js`.
+- Prefer checking the local `build:size` output before changing limits, so the new threshold is based on the current emitted gzip size.
+
+Run the commands locally if needed to emulate the CI checks:
+
+```bash
+# Build the library outputs that BundleWatch measures
+yarn workspace @dnb/eufemia build:ci
+
+# Check the watched bundle sizes locally
+yarn workspace @dnb/eufemia build:size
+```

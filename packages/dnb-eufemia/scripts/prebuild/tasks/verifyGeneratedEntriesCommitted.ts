@@ -17,6 +17,9 @@ export const GENERATED_ENTRY_FILE_PATTERNS = [
   /^src\/style\/dnb-ui-(components|elements|fragments|extensions|forms)\.scss$/,
 ]
 
+const normalizeChangedFilePath = (file: string) =>
+  file.replace(/^\.\//, '').replace(/^packages\/dnb-eufemia\//, '')
+
 export const verifyGeneratedEntriesCommitted = () => {
   const packageRoot = path.resolve(__dirname, '../../..')
   const changedFiles = execSync(
@@ -30,6 +33,7 @@ export const verifyGeneratedEntriesCommitted = () => {
     .split('\n')
     .filter(Boolean)
     .map((line) => line.slice(3).trim())
+    .map(normalizeChangedFilePath)
     .filter(Boolean)
   const changedGeneratedEntries = changedFiles.filter((file) =>
     GENERATED_ENTRY_FILE_PATTERNS.some((pattern) => pattern.test(file))

@@ -30,8 +30,14 @@ import {
 import Tooltip, { injectTooltipSemantic } from '../tooltip/Tooltip'
 import { format, runIOSSelectionFix } from './NumberUtils'
 import { SpacingProps } from '../space/types'
+import type { NumberFormatOptions } from './NumberUtils'
+
+// Export the Hooks
+export { default as useNumberFormat } from './useNumberFormat'
+export { default as useNumberFormatWithParts } from './useNumberFormatWithParts'
 
 // TypeScript types
+export type { NumberFormatOptions } from './NumberUtils'
 export type NumberFormatValue = number | string
 export type NumberFormatPrefix =
   | React.ReactNode
@@ -49,8 +55,7 @@ export type NumberFormatSignDisplay =
   | 'exceptZero'
   | 'negative'
   | 'never'
-export type NumberFormatOptions = Record<string, unknown> | string
-export type NumberFormatDecimals = number | string
+export type NumberFormatDecimals = number
 export type NumberFormatElement = string
 export type NumberFormatTooltip =
   | string

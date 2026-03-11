@@ -1,0 +1,45 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { Stat } from '@dnb/eufemia'
+```
+
+## Description
+
+`Stat` contains components for prominent values with a label, where typography and visual emphasis are part of the component.
+
+## Available components
+
+- `Stat.Root` renders a definition list (`dl`).
+
+  - `Stat.Label` renders descriptive text with dedicated typography and color for metric context (`dt`).
+
+  - `Stat.Content` renders the main value as a definition description (`dd`).
+
+- `Stat.Amount` is the base value formatter built on the [NumberFormat](/uilib/components/number-format/) formatting logic.
+
+- `Stat.Currency` and `Stat.Percent` are convenience wrappers around `Stat.Amount`.
+
+  - It adds typography-specific properties such as `fontSize`, `fontWeight` and `colorizeBySign`, along with `mainSize` and `auxiliarySize` as well as `mainWeight` and `auxiliaryWeight` that can be used to customize the visual emphasis of the different parts of the value (currency symbol or percent sign).
+
+- `Stat.Trend` renders explicit `+` / `-` indicators with red/green background states and screen-reader text.
+
+- `Stat.Rating` renders a star rating (defaults to 5 stars) and colorizes stars based on `value`.
+
+- `Stat.Info` renders supporting text with a smaller, muted style.
+
+## Accessibility
+
+- `Stat.Root` provides semantic definition-list markup (`dl`), where `Stat.Label` is rendered as `dt` and `Stat.Content` as `dd`.
+
+- If the label also acts as a section heading, use a heading element inside `Stat.Label` (for example `H3`) to preserve a meaningful heading outline.
+
+- Use `srLabel` to prepend context in the screen-reader text only, for example turning `1,234 kr` into `Revenue 1,234 kr` for screen readers.
+
+- When e.g. `signDisplay="always"` is used, the sign is rendered as a separate visual element with CSS spacing, while the accessible text stays based on the formatted number string.
+
+- All Stat variants keep dedicated accessibility handling. `Currency`, `Percent`, and `Trend` use a dedicated screen-reader value (`.dnb-sr-only`) based on the formatted content. `Rating` uses an accessible label (`role="img"` + `aria-label`) that includes value and max.

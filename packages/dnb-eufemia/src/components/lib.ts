@@ -58,6 +58,7 @@ import Skeleton from './skeleton/Skeleton'
 import SkipContent from './skip-content/SkipContent'
 import Slider from './slider/Slider'
 import Space from './space/Space'
+import Stat from './stat/Stat'
 import StepIndicator from './step-indicator/StepIndicator'
 import Switch from './switch/Switch'
 import Table from './table/Table'
@@ -121,6 +122,7 @@ export {
   SkipContent,
   Slider,
   Space,
+  Stat,
   StepIndicator,
   Switch,
   Table,
@@ -185,6 +187,7 @@ export const getComponents = () => {
     SkipContent,
     Slider,
     Space,
+    Stat,
     StepIndicator,
     Switch,
     Table,

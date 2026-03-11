@@ -17,6 +17,11 @@ on:
       - 'next'
     types: [opened]
 
+permissions:
+  contents: read
+  pull-requests: write
+  statuses: write
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -122,3 +127,8 @@ jobs:
 
       - name: Postbuild Library
         run: yarn workspace @dnb/eufemia postbuild:ci
+
+      - name: Check bundle sizes
+        env:
+          BUNDLEWATCH_GITHUB_TOKEN: ${{ github.token }}
+        run: yarn workspace @dnb/eufemia build:size

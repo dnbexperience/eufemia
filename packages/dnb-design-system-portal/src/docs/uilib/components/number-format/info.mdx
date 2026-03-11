@@ -116,7 +116,7 @@ render(
 
 ```jsx
 import Provider from '@dnb/eufemia/shared/Provider'
-import useNumberFormat from '@dnb/eufemia/components/number-format/useNumberFormat'
+import { useNumberFormat } from '@dnb/eufemia/components/useNumberFormat'
 
 function Component() {
   // By using returnAria you get an object
@@ -139,6 +139,43 @@ render(
   </Provider>
 )
 ```
+
+### NumberFormat Hook with parts
+
+You can also use `useNumberFormatWithParts` when you need split output for custom layouts:
+
+```jsx
+import Provider from '@dnb/eufemia/shared/Provider'
+import { useNumberFormatWithParts } from '@dnb/eufemia/components/NumberFormat'
+
+function Component() {
+  // useNumberFormatWithParts defaults to returnAria=true
+  const { number, aria, parts } = useNumberFormatWithParts(12345678.9, {
+    currency: true,
+  })
+
+  return (
+    <span>
+      <span aria-hidden>
+        {parts.sign}
+        {parts.number}
+        {parts.currency ? ` ${parts.currency}` : null}
+      </span>
+      <span className="dnb-sr-only">{aria}</span>
+    </span>
+  )
+}
+
+render(
+  <Provider locale="en-GB" NumberFormat={{ currency: 'EUR' }}>
+    <Component />
+  </Provider>
+)
+```
+
+## Related component
+
+For prominent values with dedicated typography controls, use [Stat](/uilib/components/stat/).
 
 ## Formatting only (interceptor)
 

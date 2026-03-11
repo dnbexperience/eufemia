@@ -27,7 +27,7 @@ import { useFieldProps } from '../../hooks'
 import { FieldProps, Schema } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { ButtonProps, ButtonSize } from '../../../../components/Button'
-import { clamp } from '../../../../components/slider/SliderHelpers'
+import { clamp } from '../../../../shared/helpers/clamp'
 import DataContext from '../../DataContext/Context'
 import * as z from 'zod'
 
@@ -275,9 +275,17 @@ function NumberComponent(props: Props) {
       if (value === '') {
         return props.emptyValue
       }
+
+      // When the user types just a minus sign, numberValue is -0.
+      // Return emptyValue to keep the display showing the minus
+      // without converting the value to 0.
+      if (allowNegative && Object.is(numberValue, -0)) {
+        return props.emptyValue
+      }
+
       return numberValue
     },
-    [props.emptyValue]
+    [props.emptyValue, allowNegative]
   )
 
   const ref = useRef<HTMLInputElement>()

@@ -90,6 +90,16 @@ describe('ItemBasic', () => {
     const element = document.querySelector('.dnb-list__item')
 
     expect(element.classList).toContain('dnb-list__item--selected')
+    expect(element.classList).toContain('dnb-list__item--selection')
+  })
+
+  it('applies selection modifier class when selected is false', () => {
+    render(<ItemBasic selected={false}>Selectable item</ItemBasic>)
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.classList).not.toContain('dnb-list__item--selected')
+    expect(element.classList).toContain('dnb-list__item--selection')
   })
 
   it('merges custom className', () => {

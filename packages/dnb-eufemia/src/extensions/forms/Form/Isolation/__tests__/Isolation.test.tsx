@@ -1536,6 +1536,8 @@ describe('Form.Isolation', () => {
   })
 
   it('should support async onCommit', async () => {
+    jest.useFakeTimers()
+
     const onSubmit = jest.fn()
     const onCommit = jest.fn(async () => {
       await new Promise((resolve) => setTimeout(resolve, 100))
@@ -1562,16 +1564,19 @@ describe('Form.Isolation', () => {
     const commitButton = document.querySelector(
       '.dnb-forms-isolate__commit-button'
     )
-    await userEvent.click(commitButton)
+    fireEvent.click(commitButton)
 
-    const now = Date.now()
-    await waitFor(() => {
-      expect(regular).toHaveValue('isolated')
-      expect(isolated).toHaveValue('isolated')
+    // The async onCommit has not resolved yet
+    expect(regular).toHaveValue('')
+
+    await act(async () => {
+      jest.advanceTimersByTime(100)
     })
 
-    const delay = Date.now() - now
-    expect(delay).toBeGreaterThan(100)
+    expect(regular).toHaveValue('isolated')
+    expect(isolated).toHaveValue('isolated')
+
+    jest.useRealTimers()
   })
 
   it('should prevent commit on "preventCommit" call', async () => {

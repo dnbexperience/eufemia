@@ -186,6 +186,7 @@ describe('Wizard.Container', () => {
     expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
       preventNavigation: expect.any(Function),
       previousStep: { index: 0 },
+      totalSteps: 2,
     })
 
     await userEvent.click(previousButton())
@@ -194,6 +195,7 @@ describe('Wizard.Container', () => {
     expect(onStepChange).toHaveBeenLastCalledWith(0, 'previous', {
       preventNavigation: expect.any(Function),
       previousStep: { index: 1 },
+      totalSteps: 2,
     })
 
     await userEvent.click(nextButton())
@@ -202,6 +204,7 @@ describe('Wizard.Container', () => {
     expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
       preventNavigation: expect.any(Function),
       previousStep: { index: 0 },
+      totalSteps: 2,
     })
   })
 
@@ -234,6 +237,7 @@ describe('Wizard.Container', () => {
       id: 'step-2',
       previousStep: { index: 0, id: 'step-1' },
       preventNavigation: expect.any(Function),
+      totalSteps: 2,
     })
 
     await userEvent.click(firstStep.querySelector('.dnb-anchor'))
@@ -243,6 +247,7 @@ describe('Wizard.Container', () => {
       id: 'step-1',
       previousStep: { index: 1, id: 'step-2' },
       preventNavigation: expect.any(Function),
+      totalSteps: 2,
     })
 
     await userEvent.click(nextButton())
@@ -252,6 +257,7 @@ describe('Wizard.Container', () => {
       id: 'step-2',
       previousStep: { index: 0, id: 'step-1' },
       preventNavigation: expect.any(Function),
+      totalSteps: 2,
     })
   })
 
@@ -1319,6 +1325,7 @@ describe('Wizard.Container', () => {
           id: 'step-1',
           previousStep: { index: 0, id: 'step-1' },
           preventNavigation: expect.any(Function),
+          totalSteps: 2,
         }
       )
 
@@ -1333,6 +1340,7 @@ describe('Wizard.Container', () => {
           id: 'step-2',
           previousStep: { index: 0, id: 'step-2' },
           preventNavigation: expect.any(Function),
+          totalSteps: 1,
         }
       )
 
@@ -1347,6 +1355,7 @@ describe('Wizard.Container', () => {
           id: 'step-1',
           previousStep: { index: 0, id: 'step-1' },
           preventNavigation: expect.any(Function),
+          totalSteps: 2,
         }
       )
 
@@ -1358,6 +1367,7 @@ describe('Wizard.Container', () => {
         id: 'step-3',
         previousStep: { index: 0, id: 'step-1' },
         preventNavigation: expect.any(Function),
+        totalSteps: 2,
       })
 
       await userEvent.click(groupTwo)
@@ -1371,6 +1381,7 @@ describe('Wizard.Container', () => {
           id: 'step-2',
           previousStep: { index: 0, id: 'step-2' },
           preventNavigation: expect.any(Function),
+          totalSteps: 1,
         }
       )
 
@@ -1385,6 +1396,7 @@ describe('Wizard.Container', () => {
           id: 'step-1',
           previousStep: { index: 0, id: 'step-1' },
           preventNavigation: expect.any(Function),
+          totalSteps: 2,
         }
       )
 
@@ -1396,6 +1408,7 @@ describe('Wizard.Container', () => {
         id: 'step-3',
         previousStep: { index: 0, id: 'step-1' },
         preventNavigation: expect.any(Function),
+        totalSteps: 2,
       })
 
       await userEvent.click(previousButton())
@@ -1406,6 +1419,7 @@ describe('Wizard.Container', () => {
         id: 'step-1',
         previousStep: { index: 1, id: 'step-3' },
         preventNavigation: expect.any(Function),
+        totalSteps: 2,
       })
     })
   })
@@ -1814,6 +1828,7 @@ describe('Wizard.Container', () => {
           id: 'step-1',
           previousStep: { index: 0, id: 'step-1' },
           preventNavigation: expect.any(Function),
+          totalSteps: 2,
         }
       )
 
@@ -1828,6 +1843,7 @@ describe('Wizard.Container', () => {
           id: 'step-2',
           previousStep: { index: 0, id: 'step-2' },
           preventNavigation: expect.any(Function),
+          totalSteps: 1,
         }
       )
 
@@ -1842,6 +1858,7 @@ describe('Wizard.Container', () => {
           id: 'step-1',
           previousStep: { index: 0, id: 'step-1' },
           preventNavigation: expect.any(Function),
+          totalSteps: 2,
         }
       )
 
@@ -1853,6 +1870,7 @@ describe('Wizard.Container', () => {
         id: 'step-3',
         previousStep: { index: 0, id: 'step-1' },
         preventNavigation: expect.any(Function),
+        totalSteps: 2,
       })
 
       await userEvent.click(groupTwo)
@@ -1866,6 +1884,7 @@ describe('Wizard.Container', () => {
           id: 'step-2',
           previousStep: { index: 0, id: 'step-2' },
           preventNavigation: expect.any(Function),
+          totalSteps: 1,
         }
       )
 
@@ -1880,6 +1899,7 @@ describe('Wizard.Container', () => {
           id: 'step-1',
           previousStep: { index: 0, id: 'step-1' },
           preventNavigation: expect.any(Function),
+          totalSteps: 2,
         }
       )
 
@@ -1891,6 +1911,7 @@ describe('Wizard.Container', () => {
         id: 'step-3',
         previousStep: { index: 0, id: 'step-1' },
         preventNavigation: expect.any(Function),
+        totalSteps: 2,
       })
 
       await userEvent.click(previousButton())
@@ -1901,6 +1922,7 @@ describe('Wizard.Container', () => {
         id: 'step-1',
         previousStep: { index: 1, id: 'step-3' },
         preventNavigation: expect.any(Function),
+        totalSteps: 2,
       })
     })
   })
@@ -2030,7 +2052,11 @@ describe('Wizard.Container', () => {
         id: 'step-2',
         previousStep: { index: 0, id: 'step-1' },
         preventNavigation: expect.any(Function),
+        totalSteps: 2,
       })
+      expect(
+        (onStepChange.mock.calls[0] as Array<any>)[2].totalSteps
+      ).toBe(2)
 
       await userEvent.click(firstStep.querySelector('.dnb-anchor'))
       expect(output()).toHaveTextContent('Step 1')
@@ -2039,7 +2065,11 @@ describe('Wizard.Container', () => {
         id: 'step-1',
         previousStep: { index: 1, id: 'step-2' },
         preventNavigation: expect.any(Function),
+        totalSteps: 2,
       })
+      expect(
+        (onStepChange.mock.calls[1] as Array<any>)[2].totalSteps
+      ).toBe(2)
 
       await userEvent.click(nextButton())
 
@@ -2048,6 +2078,38 @@ describe('Wizard.Container', () => {
         id: 'step-2',
         previousStep: { index: 0, id: 'step-1' },
         preventNavigation: expect.any(Function),
+        totalSteps: 2,
+      })
+      expect(
+        (onStepChange.mock.calls[2] as Array<any>)[2].totalSteps
+      ).toBe(2)
+    })
+
+    it('should expose totalSteps as an enumerable public property', async () => {
+      const onStepChange = jest.fn()
+
+      render(
+        <Wizard.Container onStepChange={onStepChange} mode="loose">
+          <Wizard.Step title="Step 1">
+            <output>Step 1</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 2">
+            <output>Step 2</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+      )
+
+      await userEvent.click(nextButton())
+
+      const options = (onStepChange.mock.calls[0] as Array<any>)[2]
+
+      expect({ ...options }).toEqual({
+        totalSteps: 2,
+        preventNavigation: expect.any(Function),
+        previousStep: { index: 0 },
       })
     })
 
@@ -2914,6 +2976,7 @@ describe('Wizard.Container', () => {
     expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
       previousStep: { index: 0 },
       preventNavigation: expect.any(Function),
+      totalSteps: 2,
     })
   })
 
@@ -2957,6 +3020,7 @@ describe('Wizard.Container', () => {
     expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
       previousStep: { index: 0 },
       preventNavigation: expect.any(Function),
+      totalSteps: 2,
     })
 
     // Go to Step 1

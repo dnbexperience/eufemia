@@ -105,6 +105,9 @@ export default {
       clipboard_copy: 'Kopieret',
       not_available: 'Ikke tilgængelig',
     },
+    Stat: {
+      rating: '%value af %max',
+    },
     HelpButton: {
       title: 'Hjælpetekst',
       aria_role: 'Hjælp-knap',

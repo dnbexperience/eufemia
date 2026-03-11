@@ -37,6 +37,7 @@ function ItemContent(props: ItemContentProps) {
         'dnb-list__item',
         'dnb-t__size--basis',
         appliedVariant && `dnb-list--variant-${appliedVariant}`,
+        selected !== undefined && 'dnb-list__item--selection',
         selected && 'dnb-list__item--selected',
         pending && 'dnb-list__item--pending',
         skeleton && createSkeletonClass('font', true),
