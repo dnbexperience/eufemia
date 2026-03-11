@@ -443,7 +443,7 @@ html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):focus, html[dat
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):active {
+.dnb-button--reset:not([disabled]):focus:not(:focus-visible), .dnb-button--reset:not([disabled]):active:not(:focus-visible) {
   box-shadow: none;
   color: inherit;
   border: none;
@@ -892,7 +892,7 @@ exports[`Pagination scss have to match default theme snapshot 1`] = `
   background-color: var(--color-emerald-green);
   color: var(--color-mint-green);
 }
-html[data-whatinput=keyboard] .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus {
+.dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus-visible, .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus-visible {
   color: var(--color-emerald-green);
   background-color: var(--color-mint-green);
 }

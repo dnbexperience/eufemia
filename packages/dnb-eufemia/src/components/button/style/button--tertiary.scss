@@ -146,10 +146,8 @@
     }
 
     // stylelint-disable-next-line
-    html[data-whatinput='keyboard']
-		// webkit fix
-		  &:hover:focus
-		  .dnb-button__text::after {
+    // webkit fix
+    &:hover:focus:focus-visible .dnb-button__text::after {
       visibility: hidden;
     }
   }

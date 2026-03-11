@@ -439,7 +439,7 @@ html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):focus, html[dat
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):active {
+.dnb-button--reset:not([disabled]):focus:not(:focus-visible), .dnb-button--reset:not([disabled]):active:not(:focus-visible) {
   box-shadow: none;
   color: inherit;
   border: none;
@@ -637,7 +637,7 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .
   --button-tertiary-focus-left: 0;
   --button-tertiary-focus-right: 0;
 }
-html[data-whatinput=keyboard] .dnb-button--tertiary:hover:focus .dnb-button__text::after {
+.dnb-button--tertiary:hover:focus:focus-visible .dnb-button__text::after {
   visibility: hidden;
 }
 
@@ -1074,7 +1074,7 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .
   --button-tertiary-focus-left: 0;
   --button-tertiary-focus-right: 0;
 }
-html[data-whatinput=keyboard] .dnb-button--tertiary:hover:focus .dnb-button__text::after {
+.dnb-button--tertiary:hover:focus:focus-visible .dnb-button__text::after {
   visibility: hidden;
 }
 

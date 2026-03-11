@@ -110,15 +110,11 @@
     * On focus state
     *
     */
-  &__input:not([disabled]):focus ~ &__button {
-    html[data-whatinput='keyboard'] & {
-      border: none;
-    }
+  &__input:not([disabled]):focus-visible ~ &__button {
+    border: none;
   }
-  &__input:not([disabled]):not(:checked):focus ~ &__button {
-    html[data-whatinput='keyboard'] & {
-      background-color: var(--color-mint-green-50);
-    }
+  &__input:not([disabled]):not(:checked):focus-visible ~ &__button {
+    background-color: var(--color-mint-green-50);
   }
   &__input:not([disabled]):checked ~ &__button &__focus {
     transform: rotate(180deg);
