@@ -51,7 +51,8 @@ export type FormLabelAllProps = FormLabelProps &
   React.HTMLAttributes<HTMLLabelElement> &
   SpacingProps
 
-function FormLabel(localProps: FormLabelAllProps) {
+const FormLabel = Object.assign(
+  React.memo(function FormLabel(localProps: FormLabelAllProps) {
   const context = React.useContext(Context)
 
   // use only the props from context, who are available here anyway
@@ -222,9 +223,11 @@ function FormLabel(localProps: FormLabelAllProps) {
   validateDOMAttributes(localProps, params)
 
   return <Element {...params}>{content}</Element>
-}
-
-FormLabel._formElement = true
-FormLabel._supportsSpacingProps = true
+  }),
+  {
+    _formElement: true as const,
+    _supportsSpacingProps: true as const,
+  }
+)
 
 export default FormLabel
