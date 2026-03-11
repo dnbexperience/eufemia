@@ -38,7 +38,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     showDelay,
     hideDelay,
     arrow,
-    position,
+    placement,
     align,
     fixedPosition,
     portalRootClass,
@@ -324,7 +324,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         triggerOffset={triggerOffset}
         targetRefreshKey={targetRefreshKey}
         arrowPosition={arrow}
-        placement={position}
+        placement={placement}
         alignOnTarget={align}
         fixedPosition={fixedPosition}
         portalRootClass={portalRootClass}
