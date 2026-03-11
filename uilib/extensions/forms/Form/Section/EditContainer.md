@@ -1,8 +1,8 @@
 ---
 title: 'Form.Section.EditContainer'
 description: '`Form.Section.EditContainer` enables users to toggle (with animation) the content of each item between the view and edit container.'
-version: 10.99.0
-generatedAt: 2026-02-26T21:05:15.574Z
+version: 10.100.0
+generatedAt: 2026-03-11T18:01:08.549Z
 checksum: 3a3c3d0e49e2c12b2e78849f5784f909f49e8d2aa76cad07a5714074d3a7b48a
 ---
 

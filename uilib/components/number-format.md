@@ -1,8 +1,8 @@
 ---
 title: 'NumberFormat'
 description: 'A ready to use DNB number formatter.'
-version: 10.99.0
-generatedAt: 2026-02-26T21:05:15.132Z
+version: 10.100.0
+generatedAt: 2026-03-11T18:01:08.041Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -118,7 +118,7 @@ render(
 
 ```jsx
 import Provider from '@dnb/eufemia/shared/Provider'
-import useNumberFormat from '@dnb/eufemia/components/number-format/useNumberFormat'
+import { useNumberFormat } from '@dnb/eufemia/components/useNumberFormat'
 
 function Component() {
   // By using returnAria you get an object
@@ -141,6 +141,43 @@ render(
   </Provider>
 )
 ```
+
+### NumberFormat Hook with parts
+
+You can also use `useNumberFormatWithParts` when you need split output for custom layouts:
+
+```jsx
+import Provider from '@dnb/eufemia/shared/Provider'
+import { useNumberFormatWithParts } from '@dnb/eufemia/components/NumberFormat'
+
+function Component() {
+  // useNumberFormatWithParts defaults to returnAria=true
+  const { number, aria, parts } = useNumberFormatWithParts(12345678.9, {
+    currency: true,
+  })
+
+  return (
+    <span>
+      <span aria-hidden>
+        {parts.sign}
+        {parts.number}
+        {parts.currency ? ` ${parts.currency}` : null}
+      </span>
+      <span className="dnb-sr-only">{aria}</span>
+    </span>
+  )
+}
+
+render(
+  <Provider locale="en-GB" NumberFormat={{ currency: 'EUR' }}>
+    <Component />
+  </Provider>
+)
+```
+
+## Related component
+
+For prominent values with dedicated typography controls, use [Stat](/uilib/components/stat/).
 
 ## Formatting only (interceptor)
 
@@ -305,6 +342,26 @@ render(
           invalid
         </NumberFormat>
       </P>
+    </ComponentBox>
+  </Style>
+)
+```
+
+### Hero-style values
+
+For prominent values, use [Stat](/uilib/components/stat/) with `Stat.Currency` and `Stat.Percent`.
+
+```tsx
+render(
+  <Style>
+    <ComponentBox>
+      <Stat.Currency
+        value={12345}
+        currency="NOK"
+        suffix="/mnd"
+        signDisplay="always"
+      />
+      <Stat.Percent value={12.34} signDisplay="always" />
     </ComponentBox>
   </Style>
 )

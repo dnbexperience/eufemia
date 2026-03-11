@@ -1,8 +1,8 @@
 ---
 title: 'SkipContent'
 description: 'SkipContent gives users – using their keyboard for navigation – the option to skip over content which contains a large amount of interactive elements.'
-version: 10.99.0
-generatedAt: 2026-02-26T21:05:15.185Z
+version: 10.100.0
+generatedAt: 2026-03-11T18:01:08.106Z
 checksum: 7c98c8e5d60d0db423b6e5ad570d91048ff8cda443f07724825c4ba516792ad0
 ---
 

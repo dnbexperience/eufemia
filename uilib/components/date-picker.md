@@ -1,9 +1,9 @@
 ---
 title: 'DatePicker'
 description: 'The DatePicker component should be used whenever the user is to enter a single date or a date period.'
-version: 10.99.0
-generatedAt: 2026-02-26T21:05:14.424Z
-checksum: c3e47755867381a7ff26debf4e3ef67c6fb5bc06acf6c08868731cbe12d78af7
+version: 10.100.0
+generatedAt: 2026-03-11T18:01:07.851Z
+checksum: 9b141cff69ea8145ce4f36347cf9d84ec342d12db1591f4ed7abe029a17eedfc
 ---
 
 # DatePicker
@@ -542,7 +542,7 @@ render(
       "status": "optional"
     },
     "showResetButton": {
-      "doc": "If set to `true`, a reset button will be shown. You can change the default text by using `resetButtonText=\"Tilbakestill\"`. Defaults to `false`.",
+      "doc": "If set to `true`, a reset button will be shown. You can change the default text by using `resetButtonText=\"Tilbakestill\"`. When clicked, the date picker reverts to the value it had when it was first rendered. If no initial value was provided, the date is cleared. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },
@@ -925,7 +925,7 @@ render(
       "status": "optional"
     },
     "onReset": {
-      "doc": "Will be called once a user presses the reset button.",
+      "doc": "Will be called once a user presses the reset button. The date picker will revert to the value it had when first rendered. If no initial value was provided, the date is cleared.",
       "type": "function",
       "status": "optional"
     },

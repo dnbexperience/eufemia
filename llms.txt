@@ -333,6 +333,8 @@ For any page (component, field, value, etc.):
 
 - [Slider](https://eufemia.dnb.no/uilib/components/slider.md): The Slider component provides a visual indication of adjustable value.
 
+- [Stat](https://eufemia.dnb.no/uilib/components/stat.md): Composable metric components for highlighted values, trends, and labels.
+
 - [Deprecated-Visual-Tests](https://eufemia.dnb.no/uilib/components/step-indicator/deprecated-visual-tests.md): Look into the documentation for more details.
 
 - [StepIndicator](https://eufemia.dnb.no/uilib/components/step-indicator.md): The StepIndicator (progress indicator) is a visual representation of a user's progress through a set of steps or series of actions.
@@ -641,5 +643,5 @@ For any page (component, field, value, etc.):
 
 - [Span](https://eufemia.dnb.no/uilib/elements/span.md): Spans are inline-elements, used to define parts of text content.
 
-Version: 10.99.0
-GeneratedAt: 2026-02-26T21:05:34.519Z
+Version: 10.100.0
+GeneratedAt: 2026-03-11T18:01:28.373Z

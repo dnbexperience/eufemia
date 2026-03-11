@@ -1,9 +1,9 @@
 ---
 title: 'Wizard.Container'
 description: 'The `Wizard.Container` is a container component for multi-page forms including a step indicator.'
-version: 10.99.0
-generatedAt: 2026-02-26T21:05:15.936Z
-checksum: 80735cb3357a4b385f8a635cb85e383e41305c287609f2c7b07f222b649fefb2
+version: 10.100.0
+generatedAt: 2026-03-11T18:01:08.903Z
+checksum: 479d6bfa95f2fe6f8e2f77aeea959991c4c52a3719c5a73253720fefa89a4ea8
 ---
 
 # Wizard.Container
@@ -653,7 +653,7 @@ render(
 {
   "props": {
     "onStepChange": {
-      "doc": "Will be called when the user navigate to a different step, with step `index` as the first argument and `previous` or `next` (or `stepListModified` when a step gets replaced) as the second argument, and as the third parameter an options object containing a `preventNavigation` function, an `id` if given on the `Wizard.Step` and a `previousStep` object containing the previous `index` (and `id` if given on the `Wizard.Step`). When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for minimum 1 second. Related Form.Handler props: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`.",
+      "doc": "Will be called when the user navigate to a different step, with step `index` as the first argument and `previous` or `next` (or `stepListModified` when a step gets replaced) as the second argument, and as the third parameter an options object containing `totalSteps`, a `preventNavigation` function, an `id` if given on the `Wizard.Step` and a `previousStep` object containing the previous `index` (and `id` if given on the `Wizard.Step`). When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for minimum 1 second. Related Form.Handler props: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`.",
       "type": "function",
       "status": "optional"
     }

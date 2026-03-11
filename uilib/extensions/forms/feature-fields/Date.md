@@ -1,8 +1,8 @@
 ---
 title: 'Field.Date'
 description: '`Field.Date` is a wrapper component for the input of strings, with user experience tailored for date values.'
-version: 10.99.0
-generatedAt: 2026-02-26T21:05:15.991Z
+version: 10.100.0
+generatedAt: 2026-03-11T18:01:08.947Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -251,7 +251,7 @@ render(
       "status": "optional"
     },
     "showResetButton": {
-      "doc": "If set to `true`, a reset button will be shown. You can change the default text by using `resetButtonText=\"Tilbakestill\"` Defaults to `true`.",
+      "doc": "If set to `true`, a reset button will be shown. You can change the default text by using `resetButtonText=\"Tilbakestill\"`. When clicked, the field resets to the initial `value` or `defaultValue`. If no initial value was provided, the field is cleared. Defaults to `true`.",
       "type": "boolean",
       "status": "optional"
     },
@@ -391,6 +391,11 @@ render(
     "disableAutofocus": {
       "doc": "Once the date picker gets opened, there is a focus handling to ensure good accessibility. This can be disabled with this property. Defaults to `false`.",
       "type": "boolean",
+      "status": "optional"
+    },
+    "tooltip": {
+      "doc": "Provide a short Tooltip content that shows up on the picker button.",
+      "type": "string",
       "status": "optional"
     },
     "onType": {
@@ -721,7 +726,7 @@ render(
       "status": "optional"
     },
     "onReset": {
-      "doc": "Will be called once a user presses the reset button.",
+      "doc": "Will be called once a user presses the reset button. The date picker will revert to the value it had when first rendered. If no initial value was provided, the date is cleared.",
       "type": "function",
       "status": "optional"
     },

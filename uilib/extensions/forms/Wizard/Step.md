@@ -1,8 +1,8 @@
 ---
 title: 'Wizard.Step'
 description: 'Each step should be wrapped with a `Wizard.Step` component directly inside Wizard.Container.'
-version: 10.99.0
-generatedAt: 2026-02-26T21:05:15.948Z
+version: 10.100.0
+generatedAt: 2026-03-11T18:01:08.913Z
 checksum: 07919774d2afc2cdb67d93072b9824f6c039a0d4a8363a1e2e1fefa6b8430116
 ---
 
@@ -66,12 +66,14 @@ You can use the `Wizard.Step` component to create dynamic steps. The `include` a
 If a step is replaced by another step, the `onStepChange` event will trigger with `stepListModified` as the second argument. The current step index might remain the same. However, if the total number of steps becomes less than the current step, the index will adjust to the last step.
 
 To keep track of the current step, you can provide each step with an `id` property. This `id` can then be used to identify the current step and will be returned as part of an object in the `onStepChange` event.
+The same options object also provides `totalSteps`.
 
 ```tsx
 <Wizard.Container
   onStepChange={(index, mode, args) => {
     const {
       id,
+      totalSteps,
       preventNavigation,
       previousStep: { index },
     } = args

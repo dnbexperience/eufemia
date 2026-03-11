@@ -1,8 +1,8 @@
 ---
 title: 'Getting started'
 description: 'Forms is reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.'
-version: 10.99.0
-generatedAt: 2026-02-26T21:05:16.012Z
+version: 10.100.0
+generatedAt: 2026-03-11T18:01:08.967Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -135,7 +135,7 @@ render(<MyForm />)
 
 To build an entire form, use surrounding components such as [Form.Handler](/uilib/extensions/forms/Form/Handler) and [Wizard.Container](/uilib/extensions/forms/Wizard/Container) to simplify data flow and layout while reducing code complexity without compromising flexibility.
 
-The required styles for Eufemia Forms are included in **dnb-ui-components**, which is part of **ui-theme-components**. When you import the main Eufemia styles (`import '@dnb/eufemia/style'`) or the theme’s `ui-theme-components`, you get the Forms styles automatically; no separate Forms CSS import is needed.
+The required styles for Eufemia Forms are included when you import the main Eufemia styles (`import '@dnb/eufemia/style'`) or the theme's `ui-theme-components`; no separate Forms CSS import is needed in these cases.
 
 ## TypeScript support
 
