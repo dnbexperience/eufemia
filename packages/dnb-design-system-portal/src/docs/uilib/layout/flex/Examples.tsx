@@ -106,7 +106,7 @@ export const HorizontalFlexItemResponsiveSizeCustomColumns = () => {
           flex-direction: column;
           .dnb-flex-container[data-media-key='xsmall']
             .dnb-flex-item--responsive {
-            --size: var(--xsmall);
+            --span: var(--xsmall);
           }
         `
 
