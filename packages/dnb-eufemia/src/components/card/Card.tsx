@@ -39,7 +39,7 @@ export type Props = {
   FlexItemProps & {
     stack?: boolean
   } & SpaceProps &
-  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'wrap' | 'title' | 'span'>
+  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'wrap' | 'title'>
 
 function Card(props: Props) {
   const nestedContext = useContext(CardContext)
