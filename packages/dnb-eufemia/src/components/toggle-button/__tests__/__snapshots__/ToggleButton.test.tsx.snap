@@ -64,12 +64,10 @@ exports[`ToggleButton scss should match default theme snapshot 1`] = `
 .dnb-toggle-button--checked .dnb-toggle-button__button:hover[disabled] .dnb-checkbox__button {
   box-shadow: none;
 }
-html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
+.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus-visible, .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus-visible, .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus-visible {
   color: var(--color-emerald-green);
   background-color: var(--color-mint-green);
   outline: none;
-}
-html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
   --border-color: var(--color-emerald-green);
   --border-width: var(--focus-ring-width);
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);

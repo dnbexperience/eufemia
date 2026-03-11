@@ -38,7 +38,7 @@
       }
     }
 
-    @include button-mixins.buttonFocus(
+    @include button-mixins.buttonFocusVisible(
       var(--sb-color-blue-dark),
       var(--sb-color-blue-light-3)
     ) {

@@ -51,29 +51,6 @@
   }
 }
 
-@mixin buttonFocus(
-  $color: null,
-  $background-color: null,
-  $focus-color: null,
-  $extendShadow: null
-) {
-  @include utilities.focus() {
-    html[data-whatinput='keyboard'] & {
-      color: $color;
-      background-color: $background-color;
-    }
-
-    @include utilities.focusRing(
-      null,
-      $focus-color,
-      inset,
-      $extendShadow: $extendShadow
-    );
-
-    @content;
-  }
-}
-
 @mixin buttonFocusVisible(
   $color: null,
   $background-color: null,
