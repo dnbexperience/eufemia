@@ -42,4 +42,22 @@ describe('Stat.Content', () => {
     expect(didWarn).toBe(true)
     spy.mockRestore()
   })
+
+  it('should forward ref to the element', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue growth</Stat.Label>
+        <Stat.Content ref={ref}>
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    expect(ref.current).toBe(
+      document.querySelector('.dnb-stat__content-item')
+    )
+    expect(ref.current.tagName.toLowerCase()).toBe('dd')
+  })
 })
