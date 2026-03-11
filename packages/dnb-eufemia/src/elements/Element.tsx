@@ -52,7 +52,7 @@ export const defaultProps = {
   skeletonMethod: 'font',
 }
 
-function Element(localProps: ElementAllProps) {
+const Element = React.memo(function Element(localProps: ElementAllProps) {
   const context = React.useContext(Context)
   const props = extendPropsWithContext(localProps, defaultProps, {
     skeleton: context?.skeleton,
@@ -102,6 +102,6 @@ function Element(localProps: ElementAllProps) {
   }
 
   return <Tag className={internalClassName} {...attributes} />
-}
+})
 
 export default Element
