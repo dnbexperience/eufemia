@@ -17,7 +17,7 @@ function Info(props: InfoProps) {
     children,
     element: Element = 'span',
     className = null,
-    variant = 'subtle',
+    variant = 'default',
     ...rest
   } = props
 

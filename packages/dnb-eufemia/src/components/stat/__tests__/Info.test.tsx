@@ -12,18 +12,18 @@ describe('Stat.Info', () => {
     expect(info.tagName.toLowerCase()).toBe('span')
     expect(info.textContent).toBe('Some additional content')
     expect(info.classList).toContain('dnb-stat')
-    expect(info.classList).toContain('dnb-stat__info--subtle')
+    expect(info.classList).toContain('dnb-stat__info--default')
   })
 
-  it('supports default variant', () => {
+  it('supports subtle variant', () => {
     render(
-      <Stat.Info variant="default">Some additional content</Stat.Info>
+      <Stat.Info variant="subtle">Some additional content</Stat.Info>
     )
 
     const info = document.querySelector('.dnb-stat__info')
 
-    expect(info.classList).toContain('dnb-stat__info--default')
-    expect(info.classList).not.toContain('dnb-stat__info--subtle')
+    expect(info.classList).toContain('dnb-stat__info--subtle')
+    expect(info.classList).not.toContain('dnb-stat__info--default')
   })
 
   it('supports prominent variant', () => {

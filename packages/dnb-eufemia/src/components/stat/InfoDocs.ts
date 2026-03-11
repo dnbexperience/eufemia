@@ -10,7 +10,7 @@ export const InfoProperties: PropertiesTableProps = {
   variant: {
     doc: 'Info color style variant.',
     type: ['"default"', '"subtle"', '"prominent"'],
-    defaultValue: 'subtle',
+    defaultValue: 'default',
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': spacingProperties,
