@@ -181,10 +181,7 @@ const Footer = () => {
 
       <Logo height="40" color="white" />
 
-      <Anchor
-        to="/license"
-        className="dnb-anchor--contrast dnb-anchor--no-underline"
-      >
+      <Anchor to="/license" surface="dark">
         Copyright (c) 2018-present DNB.no
       </Anchor>
     </footer>

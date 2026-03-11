@@ -21,14 +21,16 @@ button.dnb-anchor {
     --anchor-underline-thickness: 0.0938rem;
     @include anchor-mixins.anchorStyle();
 
-    &.dnb-anchor--contrast {
-      @include anchor-mixins.useAnchorContrastStyle();
+    &.dnb-anchor--contrast, // TODO: could this be deprecated in v11?
+    &.dnb-anchor--surface-dark {
+      @include anchor-mixins.useAnchorDarkSurfaceStyle();
     }
 
     &.dnb-anchor--disabled,
     &[aria-disabled='true'],
     &[disabled] {
-      color: var(--anchor-color--disabled);
+      --anchor-color: var(--token-color-text-action-disabled);
+      --anchor-icon-color: var(--token-color-icon-action-disabled);
     }
   }
 }
