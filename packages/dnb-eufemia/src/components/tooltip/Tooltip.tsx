@@ -38,7 +38,7 @@ function Tooltip(localProps: TooltipAllProps) {
     showDelay,
     hideDelay,
     open,
-    position,
+    placement,
     arrow,
     align,
     portalRootClass,

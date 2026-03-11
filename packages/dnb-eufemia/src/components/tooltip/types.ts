@@ -1,6 +1,6 @@
 import type { SpacingProps } from '../../shared/types'
 
-export type TooltipPosition = 'top' | 'right' | 'bottom' | 'left'
+export type TooltipPlacement = 'top' | 'right' | 'bottom' | 'left'
 
 export type TooltipArrow =
   | null
@@ -20,7 +20,7 @@ export type TooltipProps = {
    * Controls visibility. When provided, Tooltip is controlled and ignores DOM events (hover/focus/touch). `true` keeps it visible; `false` keeps it hidden.
    */
   open?: boolean
-  position?: TooltipPosition
+  placement?: TooltipPlacement
   arrow?: TooltipArrow
   align?: TooltipAlign
   fixedPosition?: boolean
