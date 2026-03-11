@@ -36,4 +36,13 @@ describe('Stat.Info', () => {
     expect(info.classList).toContain('dnb-stat__info--prominent')
     expect(info.classList).not.toContain('dnb-stat__info--subtle')
   })
+
+  it('should forward ref to the element', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(<Stat.Info ref={ref}>Some additional content</Stat.Info>)
+
+    expect(ref.current).toBe(document.querySelector('.dnb-stat__info'))
+    expect(ref.current.tagName.toLowerCase()).toBe('span')
+  })
 })

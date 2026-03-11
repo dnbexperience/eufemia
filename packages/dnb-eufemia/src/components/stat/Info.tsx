@@ -12,10 +12,10 @@ export type InfoProps = {
   variant?: 'default' | 'subtle' | 'prominent'
 } & SpacingProps
 
-function Info(props: InfoProps) {
+const Info = React.forwardRef<HTMLElement, InfoProps>((props, ref) => {
   const {
     children,
-    element: Element = 'span',
+    element: Element = 'span' as React.ElementType,
     className = null,
     variant = 'subtle',
     ...rest
@@ -33,7 +33,7 @@ function Info(props: InfoProps) {
   })
 
   return (
-    <Element {...attributes}>
+    <Element ref={ref} {...attributes}>
       <StatValueContext.Provider
         value={{ useBasisSize: true, defaultMainWeight: 'regular' }}
       >
@@ -41,8 +41,9 @@ function Info(props: InfoProps) {
       </StatValueContext.Provider>
     </Element>
   )
-}
+})
 
+// @ts-expect-error - Adding custom property to component for spacing detection
 Info._supportsSpacingProps = true
 
 export default Info
