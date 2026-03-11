@@ -558,12 +558,6 @@ describe('Field.Upload', () => {
 
       fireEvent.click(deleteButton)
 
-      expect(
-        document.querySelector('.dnb-form-status')
-      ).not.toBeInTheDocument()
-
-      fireEvent.submit(document.querySelector('form'))
-
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
         nbForms.Upload.errorRequired
       )
@@ -680,14 +674,6 @@ describe('Field.Upload', () => {
       })
 
       fireEvent.click(deleteButton)
-
-      expect(
-        document.querySelector(
-          '.dnb-forms-field-block__status .dnb-form-status'
-        )
-      ).not.toBeInTheDocument()
-
-      fireEvent.submit(document.querySelector('form'))
 
       expect(onChange).toHaveBeenCalledTimes(2)
       expect(onChange).toHaveBeenLastCalledWith(
