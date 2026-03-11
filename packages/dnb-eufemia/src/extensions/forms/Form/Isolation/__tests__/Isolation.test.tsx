@@ -1564,7 +1564,7 @@ describe('Form.Isolation', () => {
     const commitButton = document.querySelector(
       '.dnb-forms-isolate__commit-button'
     )
-    await userEvent.click(commitButton)
+    fireEvent.click(commitButton)
 
     // The async onCommit has not resolved yet
     expect(regular).toHaveValue('')
