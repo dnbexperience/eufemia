@@ -253,11 +253,12 @@ export function AnchorInstance(localProps: AnchorAllProps) {
   )
 }
 
-function Anchor(props: AnchorAllProps) {
-  return <AnchorInstance {...props} />
-}
-
-Anchor._supportsSpacingProps = true
+const Anchor = Object.assign(
+  React.memo(function Anchor(props: AnchorAllProps) {
+    return <AnchorInstance {...props} />
+  }),
+  { _supportsSpacingProps: true as const }
+)
 
 export default Anchor
 
