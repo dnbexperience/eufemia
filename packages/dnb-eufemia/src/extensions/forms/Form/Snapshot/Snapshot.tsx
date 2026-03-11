@@ -40,6 +40,8 @@ function SnapshotProvider(props: SnapshotProps) {
   return <SnapshotContext value={contextValue}>{children}</SnapshotContext>
 }
 
-export default withComponentMarkers(SnapshotProvider, {
+withComponentMarkers(SnapshotProvider, {
   _supportsSpacingProps: undefined,
 })
+
+export default SnapshotProvider

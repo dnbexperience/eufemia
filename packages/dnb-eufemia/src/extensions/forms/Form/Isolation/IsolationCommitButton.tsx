@@ -39,6 +39,8 @@ function IsolationCommitButton(props: Props) {
   )
 }
 
-export default withComponentMarkers(IsolationCommitButton, {
+withComponentMarkers(IsolationCommitButton, {
   _supportsSpacingProps: true,
 })
+
+export default IsolationCommitButton

@@ -11,7 +11,9 @@ const H5 = ({ size, ...props }: SharedHProps) => (
   <H as="h5" size={size || 'auto'} {...props} />
 )
 
-export default withComponentMarkers(H5, {
+withComponentMarkers(H5, {
   _isHeadingElement: true,
   _supportsSpacingProps: true,
 })
+
+export default H5

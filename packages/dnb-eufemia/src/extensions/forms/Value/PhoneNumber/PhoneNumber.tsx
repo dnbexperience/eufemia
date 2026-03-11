@@ -32,6 +32,8 @@ function PhoneNumber(props: Props) {
   return <StringValue {...stringValueProps} />
 }
 
-export default withComponentMarkers(PhoneNumber, {
+withComponentMarkers(PhoneNumber, {
   _supportsSpacingProps: true,
 })
+
+export default PhoneNumber

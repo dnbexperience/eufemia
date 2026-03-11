@@ -45,4 +45,6 @@ const Ul = ({ nested, inside, outside, ...props }: UlAllProps = {}) => {
   )
 }
 
-export default withComponentMarkers(Ul, { _supportsSpacingProps: true })
+withComponentMarkers(Ul, { _supportsSpacingProps: true })
+
+export default Ul

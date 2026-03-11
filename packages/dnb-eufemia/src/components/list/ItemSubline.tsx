@@ -42,6 +42,8 @@ function ItemSubline({
     </FlexItem>
   )
 }
-export default withComponentMarkers(ItemSubline, {
+withComponentMarkers(ItemSubline, {
   _supportsSpacingProps: true,
 })
+
+export default ItemSubline

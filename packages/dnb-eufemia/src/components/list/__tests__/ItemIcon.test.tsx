@@ -2,6 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import { fish_medium } from '../../../icons'
 import ItemIcon from '../ItemIcon'
+import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('ItemIcon', () => {
   it('renders with icon as children', () => {
@@ -59,6 +60,6 @@ describe('ItemIcon', () => {
   })
 
   it('declares _supportsSpacingProps for flex layout', () => {
-    expect(ItemIcon._supportsSpacingProps).toBe(true)
+    expect((ItemIcon as ComponentMarkers)._supportsSpacingProps).toBe(true)
   })
 })

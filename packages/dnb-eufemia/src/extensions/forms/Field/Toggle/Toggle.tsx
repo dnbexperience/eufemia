@@ -311,6 +311,8 @@ function Toggle(props: Props) {
   }
 }
 
-export default withComponentMarkers(Toggle, {
+withComponentMarkers(Toggle, {
   _supportsSpacingProps: true,
 })
+
+export default Toggle

@@ -175,6 +175,8 @@ function PostalCodeAndCity(props: Props) {
   )
 }
 
-export default withComponentMarkers(PostalCodeAndCity, {
+withComponentMarkers(PostalCodeAndCity, {
   _supportsSpacingProps: undefined,
 })
+
+export default PostalCodeAndCity

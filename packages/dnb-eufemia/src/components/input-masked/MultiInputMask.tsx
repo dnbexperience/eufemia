@@ -352,7 +352,9 @@ function removePlaceholder(value: string, placeholder: string) {
   return value.replace(RegExp(placeholder, 'gm'), '')
 }
 
-export default withComponentMarkers(MultiInputMask, {
+withComponentMarkers(MultiInputMask, {
   _formElement: true,
   _supportsSpacingProps: true,
 })
+
+export default MultiInputMask

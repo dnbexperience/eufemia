@@ -167,6 +167,8 @@ const SkipContentReturn = (localProps: SkipContentReturnProps) => {
 
 SkipContent.Return = SkipContentReturn
 
-export default withComponentMarkers(SkipContent, {
+withComponentMarkers(SkipContent, {
   _supportsSpacingProps: true,
 })
+
+export default SkipContent

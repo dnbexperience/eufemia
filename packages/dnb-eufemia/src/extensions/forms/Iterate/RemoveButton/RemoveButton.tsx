@@ -78,6 +78,8 @@ function RemoveButton(props: Props) {
   )
 }
 
-export default withComponentMarkers(RemoveButton, {
+withComponentMarkers(RemoveButton, {
   _supportsSpacingProps: true,
 })
+
+export default RemoveButton

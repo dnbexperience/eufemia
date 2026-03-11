@@ -192,6 +192,8 @@ function replaceRootFragment(children) {
   return children
 }
 
-export default withComponentMarkers(ListFormat, {
+withComponentMarkers(ListFormat, {
   _supportsSpacingProps: true,
 })
+
+export default ListFormat

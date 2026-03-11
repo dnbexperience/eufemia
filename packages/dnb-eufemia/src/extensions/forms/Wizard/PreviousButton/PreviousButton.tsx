@@ -50,6 +50,8 @@ function PreviousButton(props: Props) {
   )
 }
 
-export default withComponentMarkers(PreviousButton, {
+withComponentMarkers(PreviousButton, {
   _supportsSpacingProps: true,
 })
+
+export default PreviousButton

@@ -143,6 +143,8 @@ const DialogAction = ({
   )
 }
 
-export default withComponentMarkers(DialogAction, {
+withComponentMarkers(DialogAction, {
   _supportsSpacingProps: true,
 })
+
+export default DialogAction

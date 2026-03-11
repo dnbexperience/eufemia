@@ -89,6 +89,8 @@ const TagGroup = (
   )
 }
 
-export default withComponentMarkers(TagGroup, {
+withComponentMarkers(TagGroup, {
   _supportsSpacingProps: true,
 })
+
+export default TagGroup

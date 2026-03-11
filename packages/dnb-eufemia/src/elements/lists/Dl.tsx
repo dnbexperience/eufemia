@@ -45,4 +45,6 @@ Dl.Item = ({
   )
 }
 
-export default withComponentMarkers(Dl, { _supportsSpacingProps: true })
+withComponentMarkers(Dl, { _supportsSpacingProps: true })
+
+export default Dl

@@ -615,6 +615,8 @@ function joinValue(array: Array<string>) {
   return array.filter(Boolean).join(' ')
 }
 
-export default withComponentMarkers(PhoneNumber, {
+withComponentMarkers(PhoneNumber, {
   _supportsSpacingProps: undefined,
 })
+
+export default PhoneNumber

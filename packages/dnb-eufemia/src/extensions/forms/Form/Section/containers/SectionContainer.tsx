@@ -145,6 +145,8 @@ function SectionContainer(props: Props & FlexContainerProps) {
   )
 }
 
-export default withComponentMarkers(SectionContainer, {
+withComponentMarkers(SectionContainer, {
   _supportsSpacingProps: true,
 })
+
+export default SectionContainer

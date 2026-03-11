@@ -22,6 +22,8 @@ function FormAppearance({ children, size = null, ...rest }: Props) {
   )
 }
 
-export default withComponentMarkers(FormAppearance, {
+withComponentMarkers(FormAppearance, {
   _supportsSpacingProps: 'children',
 })
+
+export default FormAppearance

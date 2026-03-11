@@ -394,6 +394,8 @@ export function makeCurrencyFilterSet(ccFilter: CurrencyFilterSet) {
   }
 }
 
-export default withComponentMarkers(SelectCurrency, {
+withComponentMarkers(SelectCurrency, {
   _supportsSpacingProps: true,
 })
+
+export default SelectCurrency

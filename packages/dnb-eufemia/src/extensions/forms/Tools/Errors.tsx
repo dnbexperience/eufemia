@@ -36,6 +36,8 @@ function Errors({ label }: { label?: React.ReactNode }) {
   return <Log data={data} label={label} />
 }
 
-export default withComponentMarkers(Errors, {
+withComponentMarkers(Errors, {
   _supportsSpacingProps: true,
 })
+
+export default Errors

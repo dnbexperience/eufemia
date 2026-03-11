@@ -41,6 +41,8 @@ function Selection(props: Props) {
   return <StringValue value={valueToDisplay} path={path} {...rest} />
 }
 
-export default withComponentMarkers(Selection, {
+withComponentMarkers(Selection, {
   _supportsSpacingProps: true,
 })
+
+export default Selection

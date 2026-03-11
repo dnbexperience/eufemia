@@ -46,6 +46,8 @@ function FieldProviderProvider(props: FieldProviderProps) {
   )
 }
 
-export default withComponentMarkers(FieldProviderProvider, {
+withComponentMarkers(FieldProviderProvider, {
   _supportsSpacingProps: 'children',
 })
+
+export default FieldProviderProvider

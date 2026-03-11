@@ -34,4 +34,6 @@ function Stack(props: Props) {
   )
 }
 
-export default withComponentMarkers(Stack, { _supportsSpacingProps: true })
+withComponentMarkers(Stack, { _supportsSpacingProps: true })
+
+export default Stack

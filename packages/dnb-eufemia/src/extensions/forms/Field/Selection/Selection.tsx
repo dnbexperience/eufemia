@@ -557,6 +557,8 @@ function renderDropdownItems(
   )
 }
 
-export default withComponentMarkers(Selection, {
+withComponentMarkers(Selection, {
   _supportsSpacingProps: true,
 })
+
+export default Selection

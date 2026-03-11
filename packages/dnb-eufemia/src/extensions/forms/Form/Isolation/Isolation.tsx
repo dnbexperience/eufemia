@@ -370,6 +370,8 @@ IsolationProvider.CommitButton = IsolationCommitButton
 IsolationProvider.ResetButton = IsolationResetButton
 IsolationProvider.createDataReference = createDataReference
 
-export default withComponentMarkers(IsolationProvider, {
+withComponentMarkers(IsolationProvider, {
   _supportsSpacingProps: undefined,
 })
+
+export default IsolationProvider

@@ -35,6 +35,8 @@ function BooleanComponent(props: Props) {
   )
 }
 
-export default withComponentMarkers(BooleanComponent, {
+withComponentMarkers(BooleanComponent, {
   _supportsSpacingProps: true,
 })
+
+export default BooleanComponent

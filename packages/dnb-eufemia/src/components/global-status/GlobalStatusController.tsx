@@ -191,7 +191,9 @@ class GlobalStatusRemove extends React.PureComponent<
 GlobalStatusController.Remove = GlobalStatusRemove
 GlobalStatusController.Update = GlobalStatusController
 
-export default withComponentMarkers(GlobalStatusController, {
+withComponentMarkers(GlobalStatusController, {
   _supportsSpacingProps: true,
 })
+
+export default GlobalStatusController
 export { GlobalStatusRemove }

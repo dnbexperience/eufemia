@@ -178,6 +178,8 @@ function StepIndicatorStatus({ status, statusState }) {
   )
 }
 
-export default withComponentMarkers(StepIndicator, {
+withComponentMarkers(StepIndicator, {
   _supportsSpacingProps: true,
 })
+
+export default StepIndicator

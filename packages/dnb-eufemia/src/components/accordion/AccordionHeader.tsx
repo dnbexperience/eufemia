@@ -182,7 +182,7 @@ const accordionHeaderDefaultProps = {
   iconSize: 'medium',
 }
 
-const AccordionHeader = ({
+export const AccordionHeader = ({
   iconSize: iconSizeDefault = 'medium',
   ...restOfProps
 }: AccordionHeaderProps) => {
@@ -421,6 +421,8 @@ AccordionHeader.Icon = AccordionHeaderIcon
 AccordionHeader.Title = AccordionHeaderTitle
 AccordionHeader.Description = AccordionHeaderDescription
 
-export default withComponentMarkers(AccordionHeader, {
+withComponentMarkers(AccordionHeader, {
   _supportsSpacingProps: true,
 })
+
+export default AccordionHeader

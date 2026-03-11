@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import withComponentMarkers from '../withComponentMarkers'
+import type { ComponentMarkers } from '../withComponentMarkers'
 import {
   isHeadingElement,
   getSpaceVariant,
@@ -16,11 +17,11 @@ describe('withComponentMarkers', () => {
       return null
     }
 
-    const marked = withComponentMarkers(MyComponent, {
+    withComponentMarkers(MyComponent, {
       _formElement: true,
     })
 
-    expect(marked._formElement).toBe(true)
+    expect((MyComponent as ComponentMarkers)._formElement).toBe(true)
   })
 
   it('should set _supportsSpacingProps to true', () => {
@@ -28,11 +29,13 @@ describe('withComponentMarkers', () => {
       return null
     }
 
-    const marked = withComponentMarkers(MyComponent, {
+    withComponentMarkers(MyComponent, {
       _supportsSpacingProps: true,
     })
 
-    expect(marked._supportsSpacingProps).toBe(true)
+    expect((MyComponent as ComponentMarkers)._supportsSpacingProps).toBe(
+      true
+    )
   })
 
   it('should set _supportsSpacingProps to "children"', () => {
@@ -40,11 +43,13 @@ describe('withComponentMarkers', () => {
       return null
     }
 
-    const marked = withComponentMarkers(MyComponent, {
+    withComponentMarkers(MyComponent, {
       _supportsSpacingProps: 'children',
     })
 
-    expect(marked._supportsSpacingProps).toBe('children')
+    expect((MyComponent as ComponentMarkers)._supportsSpacingProps).toBe(
+      'children'
+    )
   })
 
   it('should set _supportsSpacingProps to false', () => {
@@ -52,11 +57,13 @@ describe('withComponentMarkers', () => {
       return null
     }
 
-    const marked = withComponentMarkers(MyComponent, {
+    withComponentMarkers(MyComponent, {
       _supportsSpacingProps: false,
     })
 
-    expect(marked._supportsSpacingProps).toBe(false)
+    expect((MyComponent as ComponentMarkers)._supportsSpacingProps).toBe(
+      false
+    )
   })
 
   it('should set _isHeadingElement marker', () => {
@@ -64,11 +71,11 @@ describe('withComponentMarkers', () => {
       return null
     }
 
-    const marked = withComponentMarkers(MyHeading, {
+    withComponentMarkers(MyHeading, {
       _isHeadingElement: true,
     })
 
-    expect(marked._isHeadingElement).toBe(true)
+    expect((MyHeading as ComponentMarkers)._isHeadingElement).toBe(true)
   })
 
   it('should set multiple markers at once', () => {
@@ -76,26 +83,32 @@ describe('withComponentMarkers', () => {
       return null
     }
 
-    const marked = withComponentMarkers(MyFormComponent, {
+    withComponentMarkers(MyFormComponent, {
       _formElement: true,
       _supportsSpacingProps: true,
     })
 
-    expect(marked._formElement).toBe(true)
-    expect(marked._supportsSpacingProps).toBe(true)
-    expect(marked._isHeadingElement).toBeUndefined()
+    expect((MyFormComponent as ComponentMarkers)._formElement).toBe(true)
+    expect(
+      (MyFormComponent as ComponentMarkers)._supportsSpacingProps
+    ).toBe(true)
+    expect(
+      (MyFormComponent as ComponentMarkers)._isHeadingElement
+    ).toBeUndefined()
   })
 
-  it('should return the same function reference', () => {
+  it('should mutate the same function reference', () => {
     function MyComponent() {
       return null
     }
 
-    const marked = withComponentMarkers(MyComponent, {
+    const ref = MyComponent
+
+    withComponentMarkers(MyComponent, {
       _formElement: true,
     })
 
-    expect(marked).toBe(MyComponent)
+    expect(MyComponent).toBe(ref)
   })
 
   it('should work with React element type checking', () => {
@@ -103,12 +116,12 @@ describe('withComponentMarkers', () => {
       return React.createElement('div')
     }
 
-    const marked = withComponentMarkers(MyComponent, {
+    withComponentMarkers(MyComponent, {
       _formElement: true,
       _supportsSpacingProps: true,
     })
 
-    const element = React.createElement(marked)
+    const element = React.createElement(MyComponent)
 
     // Simulates how FieldBlock and flex/utils read markers
     expect(element.type['_formElement']).toBe(true)
@@ -122,11 +135,13 @@ describe('withComponentMarkers', () => {
       }
     }
 
-    const marked = withComponentMarkers(MyClassComponent, {
+    withComponentMarkers(MyClassComponent, {
       _supportsSpacingProps: true,
     })
 
-    expect(marked._supportsSpacingProps).toBe(true)
+    expect(
+      (MyClassComponent as ComponentMarkers)._supportsSpacingProps
+    ).toBe(true)
   })
 
   describe('_formElement behavior', () => {

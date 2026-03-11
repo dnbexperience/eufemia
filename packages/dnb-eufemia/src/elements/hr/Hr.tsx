@@ -36,4 +36,6 @@ const Hr = ({ breakout, dashed, className, ...props }: HrProps = {}) => {
   )
 }
 
-export default withComponentMarkers(Hr, { _supportsSpacingProps: true })
+withComponentMarkers(Hr, { _supportsSpacingProps: true })
+
+export default Hr

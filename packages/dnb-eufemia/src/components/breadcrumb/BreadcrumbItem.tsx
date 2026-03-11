@@ -193,6 +193,8 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
   )
 }
 
-export default withComponentMarkers(BreadcrumbItem, {
+withComponentMarkers(BreadcrumbItem, {
   _supportsSpacingProps: true,
 })
+
+export default BreadcrumbItem

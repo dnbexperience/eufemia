@@ -157,8 +157,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     onChange?: (...args: any[]) => any
   }
 
-// Named export required for TypeScript declaration emit (TS4023)
-export function Accordion({
+function Accordion({
   variant = 'outlined',
   iconSize = 'medium',
   ...restOfProps
@@ -524,6 +523,8 @@ Accordion.Store = (id: string) => {
   return new Store({ id })
 }
 
-export default withComponentMarkers(Accordion, {
+withComponentMarkers(Accordion, {
   _supportsSpacingProps: true,
 })
+
+export default Accordion

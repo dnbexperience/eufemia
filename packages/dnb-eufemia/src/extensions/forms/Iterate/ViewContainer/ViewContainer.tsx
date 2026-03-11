@@ -87,6 +87,8 @@ function ViewContainer(props: AllProps) {
 ViewContainer.EditButton = EditButton
 ViewContainer.RemoveButton = RemoveButton
 
-export default withComponentMarkers(ViewContainer, {
+withComponentMarkers(ViewContainer, {
   _supportsSpacingProps: true,
 })
+
+export default ViewContainer

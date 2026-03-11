@@ -199,6 +199,8 @@ function InfoOverlay(props: Props) {
 }
 
 InfoOverlay.setContent = setContent
-export default withComponentMarkers(InfoOverlay, {
+withComponentMarkers(InfoOverlay, {
   _supportsSpacingProps: true,
 })
+
+export default InfoOverlay

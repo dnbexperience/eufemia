@@ -142,7 +142,9 @@ function Space(props: SpaceAllProps) {
   return <SpaceInstance {...props} />
 }
 
-export default withComponentMarkers(Space, { _supportsSpacingProps: true })
+withComponentMarkers(Space, { _supportsSpacingProps: true })
+
+export default Space
 
 function SpaceElement({
   element,

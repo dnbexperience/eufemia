@@ -11,4 +11,6 @@ const Lead = ({ className, ...rest }: PProps) => (
   <P className={clsx('dnb-p--lead', className)} {...rest} />
 )
 
-export default withComponentMarkers(Lead, { _supportsSpacingProps: true })
+withComponentMarkers(Lead, { _supportsSpacingProps: true })
+
+export default Lead

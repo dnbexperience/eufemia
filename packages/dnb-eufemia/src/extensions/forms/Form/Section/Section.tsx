@@ -234,6 +234,8 @@ SectionComponent.Toolbar = Toolbar
 SectionComponent.ViewContainer = ViewContainer
 SectionComponent.EditContainer = EditContainer
 
-export default withComponentMarkers(SectionComponent, {
+withComponentMarkers(SectionComponent, {
   _supportsSpacingProps: undefined,
 })
+
+export default SectionComponent

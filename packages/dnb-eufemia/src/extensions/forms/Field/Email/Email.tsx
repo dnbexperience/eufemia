@@ -51,4 +51,6 @@ function Email(props: Props) {
   return <StringField {...StringFieldProps} />
 }
 
-export default withComponentMarkers(Email, { _supportsSpacingProps: true })
+withComponentMarkers(Email, { _supportsSpacingProps: true })
+
+export default Email

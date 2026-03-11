@@ -61,4 +61,6 @@ const Img = ({
   )
 }
 
-export default withComponentMarkers(Img, { _supportsSpacingProps: true })
+withComponentMarkers(Img, { _supportsSpacingProps: true })
+
+export default Img

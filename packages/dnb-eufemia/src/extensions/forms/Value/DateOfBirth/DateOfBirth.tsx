@@ -20,6 +20,8 @@ function DateOfBirth(props: Props) {
   return <DateComponent {...dateValueProps} />
 }
 
-export default withComponentMarkers(DateOfBirth, {
+withComponentMarkers(DateOfBirth, {
   _supportsSpacingProps: true,
 })
+
+export default DateOfBirth

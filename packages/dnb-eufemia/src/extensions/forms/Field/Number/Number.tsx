@@ -556,6 +556,8 @@ function NumberComponent(props: Props) {
   )
 }
 
-export default withComponentMarkers(NumberComponent, {
+withComponentMarkers(NumberComponent, {
   _supportsSpacingProps: true,
 })
+
+export default NumberComponent

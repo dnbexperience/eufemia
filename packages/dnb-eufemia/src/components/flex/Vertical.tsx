@@ -13,6 +13,8 @@ function Vertical({ children, ...props }: Props) {
   )
 }
 
-export default withComponentMarkers(Vertical, {
+withComponentMarkers(Vertical, {
   _supportsSpacingProps: true,
 })
+
+export default Vertical

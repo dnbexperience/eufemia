@@ -103,6 +103,8 @@ Timeline.Item = TimelineItem
 
 export { TimelineItem }
 
-export default withComponentMarkers(Timeline, {
+withComponentMarkers(Timeline, {
   _supportsSpacingProps: true,
 })
+
+export default Timeline

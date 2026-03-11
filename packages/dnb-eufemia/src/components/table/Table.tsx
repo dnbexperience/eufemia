@@ -184,6 +184,8 @@ const Table = (componentProps: TableAllProps) => {
   )
 }
 
-export default withComponentMarkers(Table, { _supportsSpacingProps: true })
+withComponentMarkers(Table, { _supportsSpacingProps: true })
+
+export default Table
 
 Table.ScrollView = ScrollView

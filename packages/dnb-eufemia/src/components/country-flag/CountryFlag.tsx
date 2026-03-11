@@ -49,6 +49,8 @@ const CountryFlag = (props: CountryFlagProps) => {
   )
 }
 
-export default withComponentMarkers(CountryFlag, {
+withComponentMarkers(CountryFlag, {
   _supportsSpacingProps: true,
 })
+
+export default CountryFlag

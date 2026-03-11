@@ -65,9 +65,11 @@ function GridContainer(props: AllProps) {
   )
 }
 
-export default withComponentMarkers(GridContainer, {
+withComponentMarkers(GridContainer, {
   _supportsSpacingProps: true,
 })
+
+export default GridContainer
 
 function compute(columns) {
   if (!columns) {

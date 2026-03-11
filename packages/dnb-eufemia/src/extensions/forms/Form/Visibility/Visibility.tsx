@@ -186,6 +186,8 @@ function Visibility(props: Props) {
   return <>{open ? content : null}</>
 }
 
-export default withComponentMarkers(Visibility, {
+withComponentMarkers(Visibility, {
   _supportsSpacingProps: 'children',
 })
+
+export default Visibility

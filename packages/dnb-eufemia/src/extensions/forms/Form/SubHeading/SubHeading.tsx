@@ -51,7 +51,9 @@ function SubHeading({ level, ...props }: Props) {
   )
 }
 
-export default withComponentMarkers(SubHeading, {
+withComponentMarkers(SubHeading, {
   _supportsSpacingProps: true,
   _isHeadingElement: true,
 })
+
+export default SubHeading

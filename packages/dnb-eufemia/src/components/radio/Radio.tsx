@@ -520,7 +520,9 @@ const Radio = RadioComponent as typeof RadioComponent & {
 Radio.Group = RadioGroup
 Radio.parseChecked = RadioClass.parseChecked
 
-export default withComponentMarkers(Radio, {
+withComponentMarkers(Radio, {
   _formElement: true,
   _supportsSpacingProps: true,
 })
+
+export default Radio

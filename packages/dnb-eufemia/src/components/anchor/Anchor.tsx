@@ -265,9 +265,11 @@ function Anchor(props: AnchorAllProps) {
   return <AnchorInstance {...props} />
 }
 
-export default withComponentMarkers(Anchor, {
+withComponentMarkers(Anchor, {
   _supportsSpacingProps: true,
 })
+
+export default Anchor
 
 export function scrollToHash(hash: string) {
   if (typeof document === 'undefined' || !hash || !hash.includes('#')) {

@@ -36,6 +36,8 @@ function ItemOverline({
     </FlexItem>
   )
 }
-export default withComponentMarkers(ItemOverline, {
+withComponentMarkers(ItemOverline, {
   _supportsSpacingProps: true,
 })
+
+export default ItemOverline

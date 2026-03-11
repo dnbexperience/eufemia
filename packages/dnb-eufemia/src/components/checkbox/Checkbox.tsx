@@ -396,6 +396,8 @@ function Checkbox(localProps: CheckboxProps) {
   )
 }
 
-export default withComponentMarkers(Checkbox, {
+withComponentMarkers(Checkbox, {
   _formElement: true,
 })
+
+export default Checkbox

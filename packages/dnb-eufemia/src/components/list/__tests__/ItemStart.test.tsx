@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import ItemStart from '../ItemStart'
+import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('ItemStart', () => {
   it('renders with children', () => {
@@ -73,6 +74,8 @@ describe('ItemStart', () => {
   })
 
   it('declares _supportsSpacingProps for flex layout', () => {
-    expect(ItemStart._supportsSpacingProps).toBe(true)
+    expect((ItemStart as ComponentMarkers)._supportsSpacingProps).toBe(
+      true
+    )
   })
 })

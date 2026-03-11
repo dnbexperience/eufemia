@@ -105,6 +105,8 @@ const CopyOnClick = ({
   )
 }
 
-export default withComponentMarkers(CopyOnClick, {
+withComponentMarkers(CopyOnClick, {
   _supportsSpacingProps: true,
 })
+
+export default CopyOnClick

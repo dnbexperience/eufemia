@@ -41,6 +41,8 @@ const ItemTitle = ItemTitleBase as ItemTitleComponent
 ItemTitle.Overline = ItemOverline
 ItemTitle.Subline = ItemSubline
 
-export default withComponentMarkers(ItemTitle, {
+withComponentMarkers(ItemTitle, {
   _supportsSpacingProps: true,
 })
+
+export default ItemTitle

@@ -267,6 +267,8 @@ const InfoCard = (localProps: InfoCardAllProps) => {
   )
 }
 
-export default withComponentMarkers(InfoCard, {
+withComponentMarkers(InfoCard, {
   _supportsSpacingProps: true,
 })
+
+export default InfoCard

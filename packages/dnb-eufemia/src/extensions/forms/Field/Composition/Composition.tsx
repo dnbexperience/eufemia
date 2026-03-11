@@ -34,6 +34,8 @@ function CompositionField(props: Props) {
   return <FieldBlock {...props} {...params} composition asFieldset />
 }
 
-export default withComponentMarkers(CompositionField, {
+withComponentMarkers(CompositionField, {
   _supportsSpacingProps: true,
 })
+
+export default CompositionField

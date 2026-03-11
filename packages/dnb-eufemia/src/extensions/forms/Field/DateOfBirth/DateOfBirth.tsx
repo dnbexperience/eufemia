@@ -462,9 +462,11 @@ function DateOfBirth(props: Props) {
   )
 }
 
-export default withComponentMarkers(DateOfBirth, {
+withComponentMarkers(DateOfBirth, {
   _supportsSpacingProps: undefined,
 })
+
+export default DateOfBirth
 
 function capitalizeFirstLetter(s) {
   return s.charAt(0).toUpperCase() + s.slice(1)

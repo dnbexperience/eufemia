@@ -460,6 +460,8 @@ function NewContainer({
 const pushContainerError = new Error('Iterate.PushContainer')
 
 PushContainer.OpenButton = OpenButton
-export default withComponentMarkers(PushContainer, {
+withComponentMarkers(PushContainer, {
   _supportsSpacingProps: true,
 })
+
+export default PushContainer

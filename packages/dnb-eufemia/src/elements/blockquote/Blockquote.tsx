@@ -44,6 +44,8 @@ function Blockquote({
   )
 }
 
-export default withComponentMarkers(Blockquote, {
+withComponentMarkers(Blockquote, {
   _supportsSpacingProps: true,
 })
+
+export default Blockquote

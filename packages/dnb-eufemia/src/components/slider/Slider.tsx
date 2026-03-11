@@ -24,7 +24,9 @@ function Slider(localProps: SliderAllProps) {
   )
 }
 
-export default withComponentMarkers(Slider, {
+withComponentMarkers(Slider, {
   _formElement: true,
   _supportsSpacingProps: true,
 })
+
+export default Slider

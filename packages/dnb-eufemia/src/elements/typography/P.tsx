@@ -45,7 +45,9 @@ function P(props: PProps) {
   )
 }
 
-export default withComponentMarkers(P, { _supportsSpacingProps: true })
+withComponentMarkers(P, { _supportsSpacingProps: true })
+
+export default P
 
 export type ParagraphContextType = {
   isNested?: boolean

@@ -16,4 +16,6 @@ function Span({
   return <Typography element="span" ref={ref} {...props} />
 }
 
-export default withComponentMarkers(Span, { _supportsSpacingProps: true })
+withComponentMarkers(Span, { _supportsSpacingProps: true })
+
+export default Span

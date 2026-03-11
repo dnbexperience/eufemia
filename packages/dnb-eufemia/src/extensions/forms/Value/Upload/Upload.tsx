@@ -101,9 +101,11 @@ function getSize(size: number) {
   })} MB)`
 }
 
-export default withComponentMarkers(Upload, {
+withComponentMarkers(Upload, {
   _supportsSpacingProps: true,
 })
+
+export default Upload
 
 function UploadFileItem(
   props: { uploadFile: UploadFile } & Pick<

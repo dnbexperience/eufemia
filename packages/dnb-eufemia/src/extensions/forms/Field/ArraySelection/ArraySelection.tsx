@@ -323,6 +323,8 @@ export function useCheckboxOrToggleOptions({
   return result
 }
 
-export default withComponentMarkers(ArraySelection, {
+withComponentMarkers(ArraySelection, {
   _supportsSpacingProps: true,
 })
+
+export default ArraySelection

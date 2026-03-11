@@ -121,6 +121,8 @@ function PushButton(props: Props) {
   )
 }
 
-export default withComponentMarkers(PushButton, {
+withComponentMarkers(PushButton, {
   _supportsSpacingProps: true,
 })
+
+export default PushButton

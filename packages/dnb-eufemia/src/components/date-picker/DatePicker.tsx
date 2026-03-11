@@ -906,7 +906,9 @@ function filterOutNonAttributes(props: DatePickerProps) {
   }, {})
 }
 
-export default withComponentMarkers(DatePicker, {
+withComponentMarkers(DatePicker, {
   _formElement: true,
   _supportsSpacingProps: true,
 })
+
+export default DatePicker

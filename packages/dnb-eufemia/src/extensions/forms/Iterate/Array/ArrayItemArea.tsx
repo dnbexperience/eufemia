@@ -211,6 +211,8 @@ function ArrayItemArea(
   )
 }
 
-export default withComponentMarkers(ArrayItemArea, {
+withComponentMarkers(ArrayItemArea, {
   _supportsSpacingProps: true,
 })
+
+export default ArrayItemArea

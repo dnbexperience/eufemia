@@ -16,8 +16,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type DrawerAllProps = DrawerProps & DrawerContentProps
 
-// Named export required for TypeScript declaration emit (TS4023)
-export function Drawer({
+function Drawer({
   id,
   contentId,
   focusSelector,
@@ -130,6 +129,8 @@ Drawer.Body = DrawerBody
 Drawer.Header = DrawerHeader
 Drawer.Navigation = DrawerNavigation
 
-export default withComponentMarkers(Drawer, {
+withComponentMarkers(Drawer, {
   _supportsSpacingProps: true,
 })
+
+export default Drawer

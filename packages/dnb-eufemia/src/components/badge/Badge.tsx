@@ -225,6 +225,8 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
   )
 })
 
-export default withComponentMarkers(Badge, {
+withComponentMarkers(Badge, {
   _supportsSpacingProps: true,
 })
+
+export default Badge

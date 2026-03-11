@@ -30,6 +30,8 @@ function BankAccountNumber(props: Props) {
   return <StringValue {...stringValueProps} />
 }
 
-export default withComponentMarkers(BankAccountNumber, {
+withComponentMarkers(BankAccountNumber, {
   _supportsSpacingProps: true,
 })
+
+export default BankAccountNumber

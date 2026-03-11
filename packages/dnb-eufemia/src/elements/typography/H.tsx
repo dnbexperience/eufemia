@@ -84,7 +84,9 @@ const H = ({
   )
 }
 
-export default withComponentMarkers(H, {
+withComponentMarkers(H, {
   _isHeadingElement: true,
   _supportsSpacingProps: true,
 })
+
+export default H

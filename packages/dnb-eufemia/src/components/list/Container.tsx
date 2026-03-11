@@ -39,6 +39,8 @@ function ListContainer(props: ListContainerProps) {
   )
 }
 
-export default withComponentMarkers(ListContainer, {
+withComponentMarkers(ListContainer, {
   _supportsSpacingProps: true,
 })
+
+export default ListContainer

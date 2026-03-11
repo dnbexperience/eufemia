@@ -136,6 +136,8 @@ const AccordionGroup = (props: AccordionGroupProps) => {
   )
 }
 
-export default withComponentMarkers(AccordionGroup, {
+withComponentMarkers(AccordionGroup, {
   _supportsSpacingProps: true,
 })
+
+export default AccordionGroup

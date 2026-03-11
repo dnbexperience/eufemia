@@ -30,6 +30,8 @@ function OrganizationNumber(props: Props) {
   return <StringValue {...stringValueProps} />
 }
 
-export default withComponentMarkers(OrganizationNumber, {
+withComponentMarkers(OrganizationNumber, {
   _supportsSpacingProps: true,
 })
+
+export default OrganizationNumber

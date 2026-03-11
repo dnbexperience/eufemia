@@ -217,7 +217,9 @@ function CompactLabel(props: {
 
 Upload.useUpload = useUpload
 
-export default withComponentMarkers(Upload, {
+withComponentMarkers(Upload, {
   _formElement: true,
   _supportsSpacingProps: true,
 })
+
+export default Upload

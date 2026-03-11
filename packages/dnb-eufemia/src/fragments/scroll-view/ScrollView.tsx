@@ -124,6 +124,8 @@ function useInteractive({ interactive, children, ref }) {
   }
 }
 
-export default withComponentMarkers(ScrollView, {
+withComponentMarkers(ScrollView, {
   _supportsSpacingProps: true,
 })
+
+export default ScrollView

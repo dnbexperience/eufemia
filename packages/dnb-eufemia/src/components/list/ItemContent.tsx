@@ -52,9 +52,11 @@ function ItemContent(props: ItemContentProps) {
 }
 withComponentMarkers(Pending, { _supportsSpacingProps: true })
 
-export default withComponentMarkers(ItemContent, {
+withComponentMarkers(ItemContent, {
   _supportsSpacingProps: true,
 })
+
+export default ItemContent
 
 function Pending() {
   return <div className="dnb-list__item__pending" />

@@ -719,7 +719,9 @@ const TextareaExport = Textarea as typeof Textarea &
 TextareaExport.hasValue = TextareaClass.hasValue
 TextareaExport.getValue = TextareaClass.getValue
 
-export default withComponentMarkers(TextareaExport, {
+withComponentMarkers(TextareaExport, {
   _formElement: true,
   _supportsSpacingProps: true,
 })
+
+export default TextareaExport

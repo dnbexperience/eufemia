@@ -103,6 +103,8 @@ function FlexItem(props: Props) {
   )
 }
 
-export default withComponentMarkers(FlexItem, {
+withComponentMarkers(FlexItem, {
   _supportsSpacingProps: true,
 })
+
+export default FlexItem

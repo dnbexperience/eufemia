@@ -609,6 +609,8 @@ function pickDatePickerProps(props: DateProps): Partial<DatePickerProps> {
   return datePickerProps
 }
 
-export default withComponentMarkers(DateComponent, {
+withComponentMarkers(DateComponent, {
   _supportsSpacingProps: true,
 })
+
+export default DateComponent

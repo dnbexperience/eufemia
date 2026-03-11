@@ -22,6 +22,8 @@ function ValueProviderProvider(props: ValueProviderProps) {
   )
 }
 
-export default withComponentMarkers(ValueProviderProvider, {
+withComponentMarkers(ValueProviderProvider, {
   _supportsSpacingProps: 'children',
 })
+
+export default ValueProviderProvider

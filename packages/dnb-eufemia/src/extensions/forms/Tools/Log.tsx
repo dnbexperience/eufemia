@@ -73,4 +73,6 @@ function replaceUndefinedValues(
   }
 }
 
-export default withComponentMarkers(Log, { _supportsSpacingProps: true })
+withComponentMarkers(Log, { _supportsSpacingProps: true })
+
+export default Log

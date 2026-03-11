@@ -389,6 +389,8 @@ export function makeCountryFilterSet(ccFilter: CountryFilterSet) {
   }
 }
 
-export default withComponentMarkers(SelectCountry, {
+withComponentMarkers(SelectCountry, {
   _supportsSpacingProps: true,
 })
+
+export default SelectCountry

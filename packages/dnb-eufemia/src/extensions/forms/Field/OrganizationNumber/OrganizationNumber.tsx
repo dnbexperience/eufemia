@@ -109,6 +109,8 @@ function isValidOrgNumber(digits: string) {
   return parseInt(digits.charAt(digits.length - 1), 10) === finalCheckDigit
 }
 
-export default withComponentMarkers(OrganizationNumber, {
+withComponentMarkers(OrganizationNumber, {
   _supportsSpacingProps: true,
 })
+
+export default OrganizationNumber

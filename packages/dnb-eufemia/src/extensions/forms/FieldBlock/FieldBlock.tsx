@@ -783,9 +783,11 @@ function fragmentHasOnlyUndefinedChildren(fragment: React.ReactNode) {
   )
 }
 
-export default withComponentMarkers(FieldBlock, {
+withComponentMarkers(FieldBlock, {
   _supportsSpacingProps: true,
 })
+
+export default FieldBlock
 
 function getFieldWidth(width: FieldBlockHorizontalLabelWidth) {
   switch (width) {

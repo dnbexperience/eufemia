@@ -37,6 +37,8 @@ function Buttons(props: Props) {
   )
 }
 
-export default withComponentMarkers(Buttons, {
+withComponentMarkers(Buttons, {
   _supportsSpacingProps: true,
 })
+
+export default Buttons

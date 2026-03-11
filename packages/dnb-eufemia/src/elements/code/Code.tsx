@@ -17,4 +17,6 @@ function Code({
   return <E as="code" ref={ref} {...props} />
 }
 
-export default withComponentMarkers(Code, { _supportsSpacingProps: true })
+withComponentMarkers(Code, { _supportsSpacingProps: true })
+
+export default Code

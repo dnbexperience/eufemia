@@ -8,6 +8,8 @@ function CompositionValue(props: Props) {
   return <ValueBlock composition {...props} />
 }
 
-export default withComponentMarkers(CompositionValue, {
+withComponentMarkers(CompositionValue, {
   _supportsSpacingProps: true,
 })
+
+export default CompositionValue

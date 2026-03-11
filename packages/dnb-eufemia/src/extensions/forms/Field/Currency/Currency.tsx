@@ -43,6 +43,8 @@ function Currency(props: Props) {
   )
 }
 
-export default withComponentMarkers(Currency, {
+withComponentMarkers(Currency, {
   _supportsSpacingProps: true,
 })
+
+export default Currency

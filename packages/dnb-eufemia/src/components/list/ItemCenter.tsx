@@ -18,6 +18,8 @@ function ItemCenter({ className, ...rest }: ItemContentProps) {
   )
 }
 
-export default withComponentMarkers(ItemCenter, {
+withComponentMarkers(ItemCenter, {
   _supportsSpacingProps: true,
 })
+
+export default ItemCenter

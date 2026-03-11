@@ -51,7 +51,9 @@ function MainHeading({ level, ...props }: Props) {
   )
 }
 
-export default withComponentMarkers(MainHeading, {
+withComponentMarkers(MainHeading, {
   _supportsSpacingProps: true,
   _isHeadingElement: true,
 })
+
+export default MainHeading

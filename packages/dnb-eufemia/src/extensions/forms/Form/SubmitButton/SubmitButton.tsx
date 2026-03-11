@@ -79,6 +79,8 @@ function SubmitButton(props: Props) {
   )
 }
 
-export default withComponentMarkers(SubmitButton, {
+withComponentMarkers(SubmitButton, {
   _supportsSpacingProps: true,
 })
+
+export default SubmitButton

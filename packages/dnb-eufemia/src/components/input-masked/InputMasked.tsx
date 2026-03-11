@@ -235,7 +235,9 @@ const defaultProps = {
   onSubmitBlur: null,
 }
 
-export default withComponentMarkers(InputMasked, {
+withComponentMarkers(InputMasked, {
   _formElement: true,
   _supportsSpacingProps: true,
 })
+
+export default InputMasked

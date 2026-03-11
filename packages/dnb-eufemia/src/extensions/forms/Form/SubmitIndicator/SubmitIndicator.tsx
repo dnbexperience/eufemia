@@ -121,6 +121,8 @@ function willWordWrap(element: HTMLElement, word: string) {
   return height > offsetHeight
 }
 
-export default withComponentMarkers(SubmitIndicator, {
+withComponentMarkers(SubmitIndicator, {
   _supportsSpacingProps: true,
 })
+
+export default SubmitIndicator

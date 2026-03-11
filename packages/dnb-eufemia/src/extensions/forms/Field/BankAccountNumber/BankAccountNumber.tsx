@@ -136,6 +136,8 @@ function isValidAccountNumber(digits: string) {
   return parseInt(digits.charAt(digits.length - 1), 10) === finalCheckDigit
 }
 
-export default withComponentMarkers(BankAccountNumber, {
+withComponentMarkers(BankAccountNumber, {
   _supportsSpacingProps: true,
 })
+
+export default BankAccountNumber

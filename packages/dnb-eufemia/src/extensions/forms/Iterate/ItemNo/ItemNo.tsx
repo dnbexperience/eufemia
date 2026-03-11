@@ -56,6 +56,8 @@ export function replaceItemNo(
   return node
 }
 
-export default withComponentMarkers(ItemNo, {
+withComponentMarkers(ItemNo, {
   _supportsSpacingProps: false,
 })
+
+export default ItemNo

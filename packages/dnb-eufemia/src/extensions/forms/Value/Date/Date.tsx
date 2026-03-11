@@ -93,6 +93,8 @@ function formatCustomDate(value: string, dateFormat: string): string {
   }
 }
 
-export default withComponentMarkers(DateComponent, {
+withComponentMarkers(DateComponent, {
   _supportsSpacingProps: true,
 })
+
+export default DateComponent

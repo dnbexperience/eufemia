@@ -24,6 +24,8 @@ function ItemBasic(props: ItemBasicProps) {
     </ItemContent>
   )
 }
-export default withComponentMarkers(ItemBasic, {
+withComponentMarkers(ItemBasic, {
   _supportsSpacingProps: true,
 })
+
+export default ItemBasic

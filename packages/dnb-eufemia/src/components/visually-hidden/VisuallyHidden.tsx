@@ -58,6 +58,8 @@ const VisuallyHidden = (localProps: VisuallyHiddenAllProps) => {
   )
 }
 
-export default withComponentMarkers(VisuallyHidden, {
+withComponentMarkers(VisuallyHidden, {
   _supportsSpacingProps: false,
 })
+
+export default VisuallyHidden

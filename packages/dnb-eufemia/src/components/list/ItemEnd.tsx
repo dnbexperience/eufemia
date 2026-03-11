@@ -35,6 +35,8 @@ function ItemEnd(props: ItemEndProps) {
     />
   )
 }
-export default withComponentMarkers(ItemEnd, {
+withComponentMarkers(ItemEnd, {
   _supportsSpacingProps: true,
 })
+
+export default ItemEnd

@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event'
 import { Field, Form, Validator } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 import { AdditionalArgs } from '../DateOfBirth'
+import type { ComponentMarkers } from '../../../../../shared/helpers/withComponentMarkers'
 
 const nb = nbNO['nb-NO']
 
@@ -1385,6 +1386,8 @@ describe('Field.DateOfBirth', () => {
   })
 
   it('should have constant of _supportsSpacingProps=undefined', () => {
-    expect(Field.DateOfBirth._supportsSpacingProps).toBe(undefined)
+    expect(
+      (Field.DateOfBirth as ComponentMarkers)._supportsSpacingProps
+    ).toBe(undefined)
   })
 })

@@ -136,6 +136,8 @@ function Card(props: Props) {
   )
 }
 
-export default withComponentMarkers(Card, {
+withComponentMarkers(Card, {
   _supportsSpacingProps: true,
 })
+
+export default Card

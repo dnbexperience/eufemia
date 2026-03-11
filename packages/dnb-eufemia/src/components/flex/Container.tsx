@@ -272,6 +272,8 @@ function replaceRootFragment(children) {
   return children
 }
 
-export default withComponentMarkers(FlexContainer, {
+withComponentMarkers(FlexContainer, {
   _supportsSpacingProps: true,
 })
+
+export default FlexContainer

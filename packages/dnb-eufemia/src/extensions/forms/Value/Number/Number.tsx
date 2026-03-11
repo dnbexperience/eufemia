@@ -60,6 +60,8 @@ function NumberValue(props: Props) {
   )
 }
 
-export default withComponentMarkers(NumberValue, {
+withComponentMarkers(NumberValue, {
   _supportsSpacingProps: true,
 })
+
+export default NumberValue

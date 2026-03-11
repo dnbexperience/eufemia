@@ -387,6 +387,8 @@ function Switch(props: SwitchProps) {
   }
 }
 
-export default withComponentMarkers(Switch, {
+withComponentMarkers(Switch, {
   _formElement: true,
 })
+
+export default Switch

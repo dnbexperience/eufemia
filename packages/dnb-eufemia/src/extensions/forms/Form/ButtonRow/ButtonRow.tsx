@@ -17,6 +17,8 @@ function ButtonRow(props: Props) {
   )
 }
 
-export default withComponentMarkers(ButtonRow, {
+withComponentMarkers(ButtonRow, {
   _supportsSpacingProps: true,
 })
+
+export default ButtonRow

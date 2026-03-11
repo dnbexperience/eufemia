@@ -45,9 +45,11 @@ function GridItem(props: AllProps) {
   )
 }
 
-export default withComponentMarkers(GridItem, {
+withComponentMarkers(GridItem, {
   _supportsSpacingProps: true,
 })
+
+export default GridItem
 
 function compute(span, modifier) {
   if (!span) {

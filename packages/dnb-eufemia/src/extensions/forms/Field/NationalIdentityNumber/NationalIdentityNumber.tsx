@@ -227,6 +227,8 @@ export function createMinimumAgeVerifier(age: number) {
   }
 }
 
-export default withComponentMarkers(NationalIdentityNumber, {
+withComponentMarkers(NationalIdentityNumber, {
   _supportsSpacingProps: true,
 })
+
+export default NationalIdentityNumber

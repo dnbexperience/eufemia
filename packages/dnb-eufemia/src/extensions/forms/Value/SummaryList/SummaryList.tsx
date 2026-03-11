@@ -55,6 +55,8 @@ function SummaryList(props: Props) {
   )
 }
 
-export default withComponentMarkers(SummaryList, {
+withComponentMarkers(SummaryList, {
   _supportsSpacingProps: true,
 })
+
+export default SummaryList

@@ -79,4 +79,6 @@ function At(props: Props) {
   )
 }
 
-export default withComponentMarkers(At, { _supportsSpacingProps: true })
+withComponentMarkers(At, { _supportsSpacingProps: true })
+
+export default At

@@ -20,6 +20,8 @@ function StringComponent(props: Props) {
   )
 }
 
-export default withComponentMarkers(StringComponent, {
+withComponentMarkers(StringComponent, {
   _supportsSpacingProps: true,
 })
+
+export default StringComponent

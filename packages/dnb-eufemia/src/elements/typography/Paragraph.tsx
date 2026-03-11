@@ -8,6 +8,8 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 const Paragraph = (props: PProps) => <P {...props} />
 
-export default withComponentMarkers(Paragraph, {
+withComponentMarkers(Paragraph, {
   _supportsSpacingProps: true,
 })
+
+export default Paragraph

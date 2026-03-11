@@ -17,4 +17,6 @@ function Div({
   return <E as="div" skeletonMethod="shape" ref={ref} {...props} />
 }
 
-export default withComponentMarkers(Div, { _supportsSpacingProps: true })
+withComponentMarkers(Div, { _supportsSpacingProps: true })
+
+export default Div

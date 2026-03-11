@@ -15,4 +15,6 @@ function Email(props: Props) {
   return <StringValue {...stringProps} />
 }
 
-export default withComponentMarkers(Email, { _supportsSpacingProps: true })
+withComponentMarkers(Email, { _supportsSpacingProps: true })
+
+export default Email

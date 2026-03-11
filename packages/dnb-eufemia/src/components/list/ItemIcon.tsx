@@ -22,6 +22,8 @@ function ItemIcon({
     </FlexItem>
   )
 }
-export default withComponentMarkers(ItemIcon, {
+withComponentMarkers(ItemIcon, {
   _supportsSpacingProps: true,
 })
+
+export default ItemIcon

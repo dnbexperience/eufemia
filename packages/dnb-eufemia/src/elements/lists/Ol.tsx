@@ -45,4 +45,6 @@ const Ol = ({ nested, inside, outside, ...props }: OlAllProps = {}) => {
   )
 }
 
-export default withComponentMarkers(Ol, { _supportsSpacingProps: true })
+withComponentMarkers(Ol, { _supportsSpacingProps: true })
+
+export default Ol

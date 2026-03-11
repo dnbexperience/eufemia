@@ -616,6 +616,8 @@ function WizardContainer(props: Props) {
   )
 }
 
-export default withComponentMarkers(WizardContainer, {
+withComponentMarkers(WizardContainer, {
   _supportsSpacingProps: true,
 })
+
+export default WizardContainer

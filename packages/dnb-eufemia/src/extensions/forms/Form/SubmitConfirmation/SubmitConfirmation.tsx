@@ -221,6 +221,8 @@ function SubmitConfirmation(props: ConfirmProps) {
   )
 }
 
-export default withComponentMarkers(SubmitConfirmation, {
+withComponentMarkers(SubmitConfirmation, {
   _supportsSpacingProps: 'children',
 })
+
+export default SubmitConfirmation

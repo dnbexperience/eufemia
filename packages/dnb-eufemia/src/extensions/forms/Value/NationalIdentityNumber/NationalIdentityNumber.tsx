@@ -30,6 +30,8 @@ function NationalIdentityNumber(props: Props) {
   return <StringValue {...stringValueProps} />
 }
 
-export default withComponentMarkers(NationalIdentityNumber, {
+withComponentMarkers(NationalIdentityNumber, {
   _supportsSpacingProps: true,
 })
+
+export default NationalIdentityNumber

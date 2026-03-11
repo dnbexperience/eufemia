@@ -221,7 +221,9 @@ const getIcon = (title: string) => (
 
 Tag.Group = TagGroup
 
-export default withComponentMarkers(Tag, {
+withComponentMarkers(Tag, {
   _formElement: true,
   _supportsSpacingProps: true,
 })
+
+export default Tag

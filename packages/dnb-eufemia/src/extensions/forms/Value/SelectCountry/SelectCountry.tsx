@@ -32,6 +32,8 @@ function SelectCountry(props: Props) {
 }
 
 SelectCountry.useCountry = useCountry
-export default withComponentMarkers(SelectCountry, {
+withComponentMarkers(SelectCountry, {
   _supportsSpacingProps: true,
 })
+
+export default SelectCountry

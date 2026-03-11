@@ -224,4 +224,6 @@ function Step(props: Props): React.JSX.Element {
   return childrenWithFlex
 }
 
-export default withComponentMarkers(Step, { _supportsSpacingProps: true })
+withComponentMarkers(Step, { _supportsSpacingProps: true })
+
+export default Step

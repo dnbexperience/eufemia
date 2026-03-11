@@ -460,10 +460,12 @@ class ToggleButton extends React.PureComponent<
   }
 }
 
-export default withComponentMarkers(ToggleButton, {
+withComponentMarkers(ToggleButton, {
   _formElement: true,
   _supportsSpacingProps: true,
-}) as ToggleButtonComponent
+})
+
+export default ToggleButton as ToggleButtonComponent
 
 // Type definitions
 import type {

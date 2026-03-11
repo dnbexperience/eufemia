@@ -186,6 +186,8 @@ function ElementsHidden(props: ElementsHiddenProps) {
   )
 }
 
-export default withComponentMarkers(AvatarGroup, {
+withComponentMarkers(AvatarGroup, {
   _supportsSpacingProps: true,
 })
+
+export default AvatarGroup

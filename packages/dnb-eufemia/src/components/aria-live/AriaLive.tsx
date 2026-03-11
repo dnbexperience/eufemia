@@ -10,6 +10,8 @@ function AriaLive({ element, ...props }: AriaLiveAllProps) {
   return <Element {...ariaAttributes} />
 }
 
-export default withComponentMarkers(AriaLive, {
+withComponentMarkers(AriaLive, {
   _supportsSpacingProps: 'children',
 })
+
+export default AriaLive

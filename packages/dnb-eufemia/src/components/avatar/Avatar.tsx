@@ -221,9 +221,11 @@ Avatar.Group = AvatarGroup
 
 export { AvatarGroup }
 
-export default withComponentMarkers(Avatar, {
+withComponentMarkers(Avatar, {
   _supportsSpacingProps: true,
 })
+
+export default Avatar
 
 function isIconComponent(
   element: unknown

@@ -13,6 +13,8 @@ function Horizontal({ children, ...props }: Props) {
   )
 }
 
-export default withComponentMarkers(Horizontal, {
+withComponentMarkers(Horizontal, {
   _supportsSpacingProps: true,
 })
+
+export default Horizontal

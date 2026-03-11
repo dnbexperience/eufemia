@@ -32,6 +32,8 @@ function SelectCurrency(props: Props) {
 }
 
 SelectCurrency.useCurrency = useCurrency
-export default withComponentMarkers(SelectCurrency, {
+withComponentMarkers(SelectCurrency, {
   _supportsSpacingProps: true,
 })
+
+export default SelectCurrency

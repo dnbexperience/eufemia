@@ -204,6 +204,8 @@ function AccordionContent(props: ItemContentProps) {
 }
 ItemAccordion.Content = AccordionContent
 
-export default withComponentMarkers(ItemAccordion, {
+withComponentMarkers(ItemAccordion, {
   _supportsSpacingProps: true,
 })
+
+export default ItemAccordion

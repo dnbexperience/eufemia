@@ -18,6 +18,8 @@ function ItemFooter({ className, children, ...rest }: ItemContentProps) {
     </>
   )
 }
-export default withComponentMarkers(ItemFooter, {
+withComponentMarkers(ItemFooter, {
   _supportsSpacingProps: true,
 })
+
+export default ItemFooter

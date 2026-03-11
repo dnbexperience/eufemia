@@ -130,6 +130,8 @@ function HeightAnimation({
   )
 }
 
-export default withComponentMarkers(HeightAnimation, {
+withComponentMarkers(HeightAnimation, {
   _supportsSpacingProps: 'children',
 })
+
+export default HeightAnimation

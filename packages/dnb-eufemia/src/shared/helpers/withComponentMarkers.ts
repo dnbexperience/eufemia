@@ -48,30 +48,25 @@ export type MarkedComponent<T> = T & ComponentMarkers
 /**
  * Attaches component markers to a component function in a type-safe way.
  *
- * Returns the same function reference with the markers set, so it can be
- * used inline with the export.
+ * Mutates the component by assigning the marker properties. Uses TypeScript
+ * assertion function syntax to narrow the component's type in the caller's
+ * scope, so marker properties are visible downstream.
  *
  * @example
  * ```tsx
  * function Checkbox(props: CheckboxProps) { ... }
  *
- * export default withComponentMarkers(Checkbox, {
+ * withComponentMarkers(Checkbox, {
  *   _formElement: true,
  *   _supportsSpacingProps: true,
  * })
- * ```
  *
- * @example
- * ```tsx
- * // For class components or pre-existing exports:
- * export default withComponentMarkers(MyClassComponent, {
- *   _supportsSpacingProps: true,
- * })
+ * export default Checkbox
  * ```
  */
 export default function withComponentMarkers<T>(
   component: T,
   markers: ComponentMarkers
-): MarkedComponent<T> {
-  return Object.assign(component, markers)
+): asserts component is T & ComponentMarkers {
+  Object.assign(component, markers)
 }

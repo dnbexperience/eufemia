@@ -15,6 +15,8 @@ function AnimatedContainer(props: AllProps) {
   )
 }
 
-export default withComponentMarkers(AnimatedContainer, {
+withComponentMarkers(AnimatedContainer, {
   _supportsSpacingProps: true,
 })
+
+export default AnimatedContainer

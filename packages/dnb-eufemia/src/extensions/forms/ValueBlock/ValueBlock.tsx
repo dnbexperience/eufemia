@@ -327,9 +327,11 @@ function useNotInSummaryList(
   }, [itemPath, label, path, ref])
 }
 
-export default withComponentMarkers(ValueBlock, {
+withComponentMarkers(ValueBlock, {
   _supportsSpacingProps: true,
 })
+
+export default ValueBlock
 
 const transformLabelParameters = {
   convertJsxToString,

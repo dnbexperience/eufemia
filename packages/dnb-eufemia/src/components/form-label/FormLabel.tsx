@@ -225,7 +225,9 @@ function FormLabel(localProps: FormLabelAllProps) {
   return <Element {...params}>{content}</Element>
 }
 
-export default withComponentMarkers(FormLabel, {
+withComponentMarkers(FormLabel, {
   _formElement: true,
   _supportsSpacingProps: true,
 })
+
+export default FormLabel

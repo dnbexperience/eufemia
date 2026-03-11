@@ -33,6 +33,8 @@ function PostalCodeAndCity(props: Props) {
   return <StringValue {...stringValueProps} />
 }
 
-export default withComponentMarkers(PostalCodeAndCity, {
+withComponentMarkers(PostalCodeAndCity, {
   _supportsSpacingProps: true,
 })
+
+export default PostalCodeAndCity

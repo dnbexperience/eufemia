@@ -30,6 +30,8 @@ function ItemStart({
     />
   )
 }
-export default withComponentMarkers(ItemStart, {
+withComponentMarkers(ItemStart, {
   _supportsSpacingProps: true,
 })
+
+export default ItemStart

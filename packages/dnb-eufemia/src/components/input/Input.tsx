@@ -1034,7 +1034,9 @@ const Input: InputComponent = Object.assign(
   }
 )
 
-export default withComponentMarkers(Input, {
+withComponentMarkers(Input, {
   _formElement: true,
   _supportsSpacingProps: true,
 })
+
+export default Input

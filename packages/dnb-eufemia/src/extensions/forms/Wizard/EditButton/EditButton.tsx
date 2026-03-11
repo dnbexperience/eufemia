@@ -53,6 +53,8 @@ function EditButton(props: Props) {
   )
 }
 
-export default withComponentMarkers(EditButton, {
+withComponentMarkers(EditButton, {
   _supportsSpacingProps: true,
 })
+
+export default EditButton

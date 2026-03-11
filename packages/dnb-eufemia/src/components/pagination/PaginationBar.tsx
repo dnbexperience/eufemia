@@ -369,6 +369,8 @@ const getSizeInPx = (size) => {
   return parseFloat(styleSize.replace(/(px)$/, ''))
 }
 
-export default withComponentMarkers(PaginationBar, {
+withComponentMarkers(PaginationBar, {
   _supportsSpacingProps: true,
 })
+
+export default PaginationBar

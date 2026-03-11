@@ -774,10 +774,9 @@ function Dropdown({ ref, buttonRef, ...props }: DropdownAllProps) {
 
 Dropdown.HorizontalItem = DrawerList.HorizontalItem
 
-// Named export required for TypeScript declaration emit (TS4023)
-export { Dropdown }
-
-export default withComponentMarkers(Dropdown, {
+withComponentMarkers(Dropdown, {
   _formElement: true,
   _supportsSpacingProps: true,
 })
+
+export default Dropdown

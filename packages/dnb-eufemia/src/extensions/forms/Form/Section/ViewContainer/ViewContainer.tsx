@@ -19,8 +19,7 @@ export type Props = {
 
 export type AllProps = Props & SectionContainerProps & FlexContainerProps
 
-// Named export required for TypeScript declaration emit (TS4032)
-export function ViewContainer(props: AllProps) {
+function ViewContainer(props: AllProps) {
   const { children, className, title, onEdit, ...restProps } = props || {}
   const ariaLabel = useMemo(() => convertJsxToString(title), [title])
   const { disableEditing } = useContext(SectionContainerContext) || {}
@@ -52,6 +51,8 @@ export function ViewContainer(props: AllProps) {
 }
 ViewContainer.EditButton = EditButton
 
-export default withComponentMarkers(ViewContainer, {
+withComponentMarkers(ViewContainer, {
   _supportsSpacingProps: true,
 })
+
+export default ViewContainer

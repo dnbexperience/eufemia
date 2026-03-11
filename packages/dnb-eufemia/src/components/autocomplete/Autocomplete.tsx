@@ -449,8 +449,7 @@ const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
   inputElement: null,
 }
 
-// Named export required for TypeScript declaration emit (TS4023)
-export function Autocomplete(props: AutocompleteAllProps) {
+function Autocomplete(props: AutocompleteAllProps) {
   const _id = useId(props.id)
 
   const providerProps = {
@@ -2612,7 +2611,9 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
 Autocomplete.HorizontalItem = DrawerList.HorizontalItem
 
-export default withComponentMarkers(Autocomplete, {
+withComponentMarkers(Autocomplete, {
   _formElement: true,
   _supportsSpacingProps: true,
 })
+
+export default Autocomplete

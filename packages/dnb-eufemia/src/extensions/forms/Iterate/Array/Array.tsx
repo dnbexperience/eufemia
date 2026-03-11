@@ -214,7 +214,6 @@ function ArrayComponent(props: Props) {
       }
       countValueRef.current = countValue
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [countValue])
 
   const idsRef = useRef<Array<Identifier>>([])
@@ -482,6 +481,8 @@ function ArrayComponent(props: Props) {
   )
 }
 
-export default withComponentMarkers(ArrayComponent, {
+withComponentMarkers(ArrayComponent, {
   _supportsSpacingProps: true,
 })
+
+export default ArrayComponent

@@ -142,9 +142,11 @@ function ItemAction(props: ItemActionProps) {
 }
 withComponentMarkers(ChevronIcon, { _supportsSpacingProps: true })
 
-export default withComponentMarkers(ItemAction, {
+withComponentMarkers(ItemAction, {
   _supportsSpacingProps: true,
 })
+
+export default ItemAction
 
 export function ChevronIcon() {
   return (

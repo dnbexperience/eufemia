@@ -335,9 +335,11 @@ class ToggleButtonGroup extends React.PureComponent<
   }
 }
 
-export default withComponentMarkers(ToggleButtonGroup, {
+withComponentMarkers(ToggleButtonGroup, {
   _supportsSpacingProps: true,
 })
+
+export default ToggleButtonGroup
 
 // Type definitions
 import type { FormStatusBaseProps } from '../FormStatus'
