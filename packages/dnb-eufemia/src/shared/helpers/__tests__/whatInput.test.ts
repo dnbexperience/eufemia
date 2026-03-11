@@ -70,19 +70,4 @@ describe('whatInput', () => {
     // Reset
     whatInput.specificKeys([])
   })
-
-  it('should return current input via ask()', () => {
-    dispatchKeyboard()
-    expect(whatInput.ask()).toBe('keyboard')
-
-    dispatchMouse()
-    expect(whatInput.ask()).toBe('mouse')
-  })
-
-  it('should return current intent via ask("intent")', () => {
-    // Set keyboard first so mouse transition is detected for intent
-    dispatchKeyboard()
-    dispatchMouse()
-    expect(whatInput.ask('intent')).toBe('mouse')
-  })
 })

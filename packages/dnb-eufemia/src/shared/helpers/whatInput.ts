@@ -196,17 +196,12 @@ function specificKeys(arr: number[]) {
   specificMap = arr
 }
 
-/** Returns the current input type. */
-function ask(opt?: 'intent' | 'input'): InputType {
-  return opt === 'intent' ? currentIntent : currentInput
-}
-
 // -- Init -------------------------------------------------------------
 
 if (typeof document !== 'undefined' && typeof window !== 'undefined') {
   setUp()
 }
 
-const whatInput = { specificKeys, ask }
+const whatInput = { specificKeys }
 
 export default whatInput
