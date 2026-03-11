@@ -165,23 +165,6 @@ describe('Tooltip', () => {
     )
   })
 
-  it('should support deprecated position prop', () => {
-    render(
-      <Tooltip open position="right">
-        Tooltip
-      </Tooltip>
-    )
-
-    expect(
-      Array.from(document.querySelector('.dnb-tooltip__arrow').classList)
-    ).toEqual(
-      expect.arrayContaining([
-        'dnb-tooltip__arrow__arrow--center',
-        'dnb-tooltip__arrow__placement--right',
-      ])
-    )
-  })
-
   it('should set arrow class', () => {
     render(
       <Tooltip open arrow="right">

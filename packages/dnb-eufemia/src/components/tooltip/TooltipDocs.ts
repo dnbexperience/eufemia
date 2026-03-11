@@ -16,11 +16,6 @@ export const TooltipProperties: PropertiesTableProps = {
     type: ['top', 'right', 'left', 'bottom'],
     status: 'optional',
   },
-  position: {
-    doc: 'Defines the offset position to the target element the arrow appears. Can be `top`, `right`, `left` and `bottom`. Defaults to `top`.',
-    type: ['top', 'right', 'left', 'bottom'],
-    status: 'deprecated',
-  },
   align: {
     doc: 'Defines the offset alignment to the target element the arrow appears. Can be `left`, `center` and `right`. Defaults to `center`.',
     type: ['left', 'center', 'right', 'null'],

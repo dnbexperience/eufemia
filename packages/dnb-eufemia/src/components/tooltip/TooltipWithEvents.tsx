@@ -38,8 +38,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     showDelay,
     hideDelay,
     arrow,
-    placement: placementProp,
-    position,
+    placement,
     align,
     fixedPosition,
     portalRootClass,
@@ -50,8 +49,6 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     targetRefreshKey,
     forceOpen,
   } = restProps
-
-  const placement = placementProp ?? position ?? 'top'
 
   const { internalId, isControlled } = useContext(TooltipContext)
 
