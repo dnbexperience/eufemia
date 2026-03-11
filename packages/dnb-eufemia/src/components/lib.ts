@@ -131,7 +131,7 @@ export {
   VisuallyHidden,
 }
 
-export const getComponents = () => {
+export const getComponents = (): Record<string, unknown> => {
   return {
     Accordion,
     Anchor,

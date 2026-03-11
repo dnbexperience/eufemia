@@ -19,7 +19,7 @@ export type Props = {
 
 export type AllProps = Props & SectionContainerProps & FlexContainerProps
 
-function ViewContainer(props: AllProps) {
+export function ViewContainer(props: AllProps) {
   const { children, className, title, onEdit, ...restProps } = props || {}
   const ariaLabel = useMemo(() => convertJsxToString(title), [title])
   const { disableEditing } = useContext(SectionContainerContext) || {}
@@ -50,6 +50,7 @@ function ViewContainer(props: AllProps) {
   )
 }
 ViewContainer.EditButton = EditButton
+
 export default withComponentMarkers(ViewContainer, {
   _supportsSpacingProps: true,
 })

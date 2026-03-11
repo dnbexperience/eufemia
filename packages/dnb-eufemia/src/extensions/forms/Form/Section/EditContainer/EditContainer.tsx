@@ -23,7 +23,7 @@ export type Props = {
 
 export type AllProps = Props & SectionContainerProps & FlexContainerProps
 
-function EditContainer(props: AllProps) {
+export function EditContainer(props: AllProps) {
   const { children, className, title, onDone, onCancel, ...restProps } =
     props || {}
   const ariaLabel = useMemo(() => convertJsxToString(title), [title])
@@ -91,6 +91,7 @@ function EditContainer(props: AllProps) {
 
 EditContainer.DoneButton = DoneButton
 EditContainer.CancelButton = CancelButton
+
 export default withComponentMarkers(EditContainer, {
   _supportsSpacingProps: true,
 })
