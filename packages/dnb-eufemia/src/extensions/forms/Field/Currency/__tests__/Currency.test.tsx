@@ -1,6 +1,6 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import { render } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from '../../../../../shared'
 import DataContext from '../../../DataContext/Context'
@@ -48,6 +48,81 @@ describe('Field.Currency', () => {
     const input = document.querySelector('.dnb-input__input')
 
     expect(input).toHaveAttribute('inputmode', 'decimal')
+  })
+
+  it('should allow typing a negative value in an empty field', async () => {
+    render(<Field.Currency />)
+
+    const input = document.querySelector('input')
+
+    await userEvent.type(input, '-100')
+
+    expect(input).toHaveValue('-100 kr')
+  })
+
+  it('should allow typing a negative value with allowNegative', async () => {
+    render(<Field.Currency allowNegative />)
+
+    const input = document.querySelector('input')
+
+    await userEvent.type(input, '-100')
+
+    expect(input).toHaveValue('-100 kr')
+  })
+
+  it('should not allow typing a negative value with allowNegative={false}', async () => {
+    render(<Field.Currency allowNegative={false} />)
+
+    const input = document.querySelector('input')
+
+    await userEvent.type(input, '-100')
+
+    expect(input).toHaveValue('100 kr')
+  })
+
+  it('should preserve minus sign while typing negative value', async () => {
+    const onChange = jest.fn()
+    render(<Field.Currency onChange={onChange} />)
+
+    const input = document.querySelector('input')
+
+    await userEvent.type(input, '-')
+
+    expect(input.value).toContain('-')
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
+  it('should call onChange with the correct negative value', async () => {
+    const onChange = jest.fn()
+    render(<Field.Currency onChange={onChange} />)
+
+    const input = document.querySelector('input')
+
+    await userEvent.type(input, '-100')
+
+    expect(onChange).toHaveBeenLastCalledWith(-100, expect.anything())
+  })
+
+  it('should store negative value correctly in form data context', async () => {
+    const onSubmit = jest.fn()
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Field.Currency path="/amount" />
+      </Form.Handler>
+    )
+
+    const input = document.querySelector('input')
+
+    await userEvent.type(input, '-250')
+
+    fireEvent.submit(document.querySelector('form'))
+
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenCalledWith(
+      { amount: -250 },
+      expect.anything()
+    )
   })
 
   it('should work with decimal limit 0', async () => {

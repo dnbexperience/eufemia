@@ -718,6 +718,71 @@ describe('Field.Number', () => {
       expect(input).toHaveValue('365')
     })
 
+    it('should allow typing negative values in an empty field', async () => {
+      render(<Field.Number allowNegative />)
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '-100')
+
+      expect(input).toHaveValue('-100')
+    })
+
+    it('should not allow typing negative values with allowNegative={false}', async () => {
+      render(<Field.Number allowNegative={false} />)
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '-100')
+
+      expect(input).toHaveValue('100')
+    })
+
+    it('should preserve minus sign while typing negative value', async () => {
+      const onChange = jest.fn()
+      render(<Field.Number onChange={onChange} />)
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '-')
+
+      expect(input.value).toContain('-')
+      expect(onChange).not.toHaveBeenCalled()
+    })
+
+    it('should call onChange with the correct negative value', async () => {
+      const onChange = jest.fn()
+      render(<Field.Number onChange={onChange} />)
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '-100')
+
+      expect(onChange).toHaveBeenLastCalledWith(-100, expect.anything())
+    })
+
+    it('should store negative value correctly in form data context', async () => {
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Field.Number path="/amount" />
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '-250')
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenCalledWith(
+        { amount: -250 },
+        expect.anything()
+      )
+    })
+
     describe('disallowLeadingZeroes', () => {
       it('should not allow leading zeroes', async () => {
         render(<Field.Number disallowLeadingZeroes />)
