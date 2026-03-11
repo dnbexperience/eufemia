@@ -16,9 +16,7 @@ describe('Stat.Info', () => {
   })
 
   it('supports subtle variant', () => {
-    render(
-      <Stat.Info variant="subtle">Some additional content</Stat.Info>
-    )
+    render(<Stat.Info variant="subtle">Some additional content</Stat.Info>)
 
     const info = document.querySelector('.dnb-stat__info')
 
