@@ -21,12 +21,12 @@ export type LabelProps = {
   style?: React.CSSProperties
 } & SpacingProps
 
-function Label(props: LabelProps) {
+const Label = React.forwardRef<HTMLElement, LabelProps>((props, ref) => {
   const { inRoot } = useContext(StatRootContext)
 
   const {
     children,
-    element: Element = 'dt',
+    element: Element = 'dt' as React.ElementType,
     className = null,
     srOnly = false,
     fontSize = 'basis',
@@ -57,10 +57,16 @@ function Label(props: LabelProps) {
     ),
   })
 
-  return <Element {...attributes}>{children}</Element>
-}
+  return (
+    <Element ref={ref} {...attributes}>
+      {children}
+    </Element>
+  )
+})
 
+// @ts-expect-error - Adding custom property to component for spacing detection
 Label._supportsSpacingProps = true
+// @ts-expect-error - Adding custom property to component for role detection
 Label._statRole = 'label'
 
 export default Label

@@ -84,4 +84,17 @@ describe('Stat.Label', () => {
     expect(didWarn).toBe(true)
     spy.mockRestore()
   })
+
+  it('should forward ref to the element', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(
+      <Stat.Root>
+        <Stat.Label ref={ref}>Revenue growth</Stat.Label>
+      </Stat.Root>
+    )
+
+    expect(ref.current).toBe(document.querySelector('.dnb-stat__label'))
+    expect(ref.current.tagName.toLowerCase()).toBe('dt')
+  })
 })
