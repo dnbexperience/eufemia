@@ -123,7 +123,7 @@ describe('Flex.Item', () => {
     it('should contain responsive class', () => {
       render(
         <Flex.Container>
-          <Flex.Item size={6}>FlexItem</Flex.Item>
+          <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
@@ -132,18 +132,18 @@ describe('Flex.Item', () => {
       expect(element.classList).toContain('dnb-flex-item--responsive')
     })
 
-    it('should unset size when null is given', () => {
+    it('should unset span when null is given', () => {
       render(
         <Flex.Container>
-          <Flex.Item size="auto">FlexItem</Flex.Item>
-          <Flex.Item size={{ small: 4, large: 'auto' }}>
+          <Flex.Item span="auto">FlexItem</Flex.Item>
+          <Flex.Item span={{ small: 4, large: 'auto' }}>
             FlexItem
           </Flex.Item>
         </Flex.Container>
       )
 
       expect(getFlexItem(0).getAttribute('style')).toBe(
-        '--size--default: auto;'
+        '--span--default: auto;'
       )
       expect(getFlexItem(1).getAttribute('style')).toBe(
         '--small: 4; --large: auto;'
@@ -154,51 +154,51 @@ describe('Flex.Item', () => {
       expect(element.classList).toContain('dnb-flex-item--responsive')
     })
 
-    it('should set style attribute based on sizes', () => {
+    it('should set style attribute based on spans', () => {
       const { rerender } = render(
         <Flex.Container>
-          <Flex.Item size={4}>FlexItem</Flex.Item>
-          <Flex.Item size={6}>FlexItem</Flex.Item>
+          <Flex.Item span={4}>FlexItem</Flex.Item>
+          <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
       expect(getFlexItem(0).getAttribute('style')).toBe(
-        '--size--default: 4;'
+        '--span--default: 4;'
       )
       expect(getFlexItem(1).getAttribute('style')).toBe(
-        '--size--default: 6;'
+        '--span--default: 6;'
       )
 
       rerender(
         <Flex.Container>
-          <Flex.Item size={2}>FlexItem</Flex.Item>
-          <Flex.Item size={10}>FlexItem</Flex.Item>
+          <Flex.Item span={2}>FlexItem</Flex.Item>
+          <Flex.Item span={10}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
       expect(getFlexItem(0).getAttribute('style')).toBe(
-        '--size--default: 2;'
+        '--span--default: 2;'
       )
       expect(getFlexItem(1).getAttribute('style')).toBe(
-        '--size--default: 10;'
+        '--span--default: 10;'
       )
 
       rerender(
         <Flex.Container>
-          <Flex.Item style={{ background: 'blue' }} size={7}>
+          <Flex.Item style={{ background: 'blue' }} span={7}>
             FlexItem
           </Flex.Item>
-          <Flex.Item style={{ background: 'red' }} size={5}>
+          <Flex.Item style={{ background: 'red' }} span={5}>
             FlexItem
           </Flex.Item>
         </Flex.Container>
       )
 
       expect(getFlexItem(0).getAttribute('style')).toBe(
-        '--size--default: 7;'
+        '--span--default: 7;'
       )
       expect(getFlexItem(1).getAttribute('style')).toBe(
-        '--size--default: 5;'
+        '--span--default: 5;'
       )
       expect(
         getFlexItem(0)
@@ -215,8 +215,8 @@ describe('Flex.Item', () => {
     it('should set correct spacing', () => {
       const { rerender } = render(
         <Flex.Container>
-          <Flex.Item size={2}>FlexItem</Flex.Item>
-          <Flex.Item size={2}>FlexItem</Flex.Item>
+          <Flex.Item span={2}>FlexItem</Flex.Item>
+          <Flex.Item span={2}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
@@ -227,8 +227,8 @@ describe('Flex.Item', () => {
 
       rerender(
         <Flex.Container>
-          <Flex.Item size={12}>FlexItem</Flex.Item>
-          <Flex.Item size={12}>FlexItem</Flex.Item>
+          <Flex.Item span={12}>FlexItem</Flex.Item>
+          <Flex.Item span={12}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
@@ -238,12 +238,12 @@ describe('Flex.Item', () => {
       ])
     })
 
-    it('should omit size when heading is a child and direction is horizontal', () => {
+    it('should omit span when heading is a child and direction is horizontal', () => {
       const { rerender } = render(
         <Flex.Container>
           <MainHeading level={1}>Heading</MainHeading>
-          <Flex.Item size={2}>FlexItem</Flex.Item>
-          <Flex.Item size={2}>FlexItem</Flex.Item>
+          <Flex.Item span={2}>FlexItem</Flex.Item>
+          <Flex.Item span={2}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
@@ -260,10 +260,10 @@ describe('Flex.Item', () => {
       rerender(
         <Flex.Container>
           <MainHeading level={1}>Heading</MainHeading>
-          <Flex.Item left size={2}>
+          <Flex.Item left span={2}>
             FlexItem
           </Flex.Item>
-          <Flex.Item left="large" right="medium" size={2}>
+          <Flex.Item left="large" right="medium" span={2}>
             FlexItem
           </Flex.Item>
         </Flex.Container>
@@ -278,11 +278,11 @@ describe('Flex.Item', () => {
       ])
     })
 
-    it('should omit size prop logic when FlexContainer "direction" is vertical', () => {
+    it('should omit span prop logic when FlexContainer "direction" is vertical', () => {
       const { rerender } = render(
         <Flex.Container direction="vertical">
-          <Flex.Item size={2}>FlexItem</Flex.Item>
-          <Flex.Item size={2}>FlexItem</Flex.Item>
+          <Flex.Item span={2}>FlexItem</Flex.Item>
+          <Flex.Item span={2}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
@@ -293,8 +293,8 @@ describe('Flex.Item', () => {
 
       rerender(
         <Flex.Container direction="vertical">
-          <Flex.Item size={12}>FlexItem</Flex.Item>
-          <Flex.Item size={12}>FlexItem</Flex.Item>
+          <Flex.Item span={12}>FlexItem</Flex.Item>
+          <Flex.Item span={12}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
@@ -307,13 +307,13 @@ describe('Flex.Item', () => {
     it('should allow custom spacing on item', () => {
       const { rerender } = render(
         <Flex.Container>
-          <Flex.Item right="large" size={2}>
+          <Flex.Item right="large" span={2}>
             FlexItem
           </Flex.Item>
-          <Flex.Item left="x-large" right="large" size={2}>
+          <Flex.Item left="x-large" right="large" span={2}>
             FlexItem
           </Flex.Item>
-          <Flex.Item size={2}>FlexItem</Flex.Item>
+          <Flex.Item span={2}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
@@ -325,13 +325,13 @@ describe('Flex.Item', () => {
 
       rerender(
         <Flex.Container>
-          <Flex.Item right="large" size={6}>
+          <Flex.Item right="large" span={6}>
             FlexItem
           </Flex.Item>
-          <Flex.Item left="medium" right="large" size={6}>
+          <Flex.Item left="medium" right="large" span={6}>
             FlexItem
           </Flex.Item>
-          <Flex.Item right="x-large" size={12}>
+          <Flex.Item right="x-large" span={12}>
             FlexItem
           </Flex.Item>
         </Flex.Container>
@@ -344,16 +344,16 @@ describe('Flex.Item', () => {
       ])
     })
 
-    it('should omit size prop logic when FlexContainer "divider" is line', () => {
+    it('should omit span prop logic when FlexContainer "divider" is line', () => {
       const { rerender } = render(
         <Flex.Container divider="line">
-          <Flex.Item right="large" size={2}>
+          <Flex.Item right="large" span={2}>
             FlexItem
           </Flex.Item>
-          <Flex.Item left="x-large" right="large" size={2}>
+          <Flex.Item left="x-large" right="large" span={2}>
             FlexItem
           </Flex.Item>
-          <Flex.Item size={2}>FlexItem</Flex.Item>
+          <Flex.Item span={2}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
@@ -365,13 +365,13 @@ describe('Flex.Item', () => {
 
       rerender(
         <Flex.Container divider="space">
-          <Flex.Item right="large" size={6}>
+          <Flex.Item right="large" span={6}>
             FlexItem
           </Flex.Item>
-          <Flex.Item left="medium" right="large" size={6}>
+          <Flex.Item left="medium" right="large" span={6}>
             FlexItem
           </Flex.Item>
-          <Flex.Item right="x-large" size={12}>
+          <Flex.Item right="x-large" span={12}>
             FlexItem
           </Flex.Item>
         </Flex.Container>
@@ -387,8 +387,8 @@ describe('Flex.Item', () => {
     it('should use given "spacing" size from FlexContainer', () => {
       const { rerender } = render(
         <Flex.Container gap="large">
-          <Flex.Item size={2}>FlexItem</Flex.Item>
-          <Flex.Item size={2}>FlexItem</Flex.Item>
+          <Flex.Item span={2}>FlexItem</Flex.Item>
+          <Flex.Item span={2}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
@@ -399,8 +399,8 @@ describe('Flex.Item', () => {
 
       rerender(
         <Flex.Container>
-          <Flex.Item size={12}>FlexItem</Flex.Item>
-          <Flex.Item size={12}>FlexItem</Flex.Item>
+          <Flex.Item span={12}>FlexItem</Flex.Item>
+          <Flex.Item span={12}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
@@ -415,9 +415,9 @@ describe('Flex.Item', () => {
 
       render(
         <Flex.Container>
-          <Flex.Item size={{ small: 4, large: 12 }}>FlexItem</Flex.Item>
-          <Flex.Item size={{ small: 6, large: 4 }}>FlexItem</Flex.Item>
-          <Flex.Item size={{ small: 12, large: 6 }}>FlexItem</Flex.Item>
+          <Flex.Item span={{ small: 4, large: 12 }}>FlexItem</Flex.Item>
+          <Flex.Item span={{ small: 6, large: 4 }}>FlexItem</Flex.Item>
+          <Flex.Item span={{ small: 12, large: 6 }}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
@@ -443,9 +443,9 @@ describe('Flex.Item', () => {
 
       render(
         <Flex.Container>
-          <Flex.Item size={{ small: 4, large: 12 }}>FlexItem</Flex.Item>
-          <Flex.Item size={{ small: 6, large: 4 }}>FlexItem</Flex.Item>
-          <Flex.Item size={{ small: 12, large: 6 }}>FlexItem</Flex.Item>
+          <Flex.Item span={{ small: 4, large: 12 }}>FlexItem</Flex.Item>
+          <Flex.Item span={{ small: 6, large: 4 }}>FlexItem</Flex.Item>
+          <Flex.Item span={{ small: 12, large: 6 }}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 

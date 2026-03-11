@@ -79,18 +79,18 @@ export const HorizontalFlexItemResponsiveSize = () => {
       data-visual-test="flex-item-size"
     >
       <Flex.Container>
-        <Flex.Item size={8}>
+        <Flex.Item span={8}>
           <TestElement style={colors[0]}>FlexItem (8)</TestElement>
         </Flex.Item>
-        <Flex.Item size={4}>
+        <Flex.Item span={4}>
           <TestElement style={colors[1]}>FlexItem (4)</TestElement>
         </Flex.Item>
-        <Flex.Item size={{ small: 12, medium: 4 }}>
+        <Flex.Item span={{ small: 12, medium: 4 }}>
           <TestElement style={colors[2]}>
             FlexItem (small: 8, medium: 4)
           </TestElement>
         </Flex.Item>
-        <Flex.Item size={{ small: 12, medium: 8 }}>
+        <Flex.Item span={{ small: 12, medium: 8 }}>
           <TestElement style={colors[3]}>
             FlexItem (small: 4, medium: 8)
           </TestElement>
@@ -130,7 +130,7 @@ export const HorizontalFlexItemResponsiveSizeCustomColumns = () => {
           flex-direction: column;
           .dnb-flex-container[data-media-key='xsmall']
             .dnb-flex-item--responsive {
-            --size: var(--xsmall);
+            --span: var(--xsmall);
           }
         `
 
@@ -142,19 +142,19 @@ export const HorizontalFlexItemResponsiveSizeCustomColumns = () => {
               breakpoints={breakpoints}
               queries={queries}
             >
-              <Flex.Item size={{ small: 2, medium: 3, large: 1 }}>
+              <Flex.Item span={{ small: 2, medium: 3, large: 1 }}>
                 <TestElement style={colors[0]}>FlexItem</TestElement>
               </Flex.Item>
-              <Flex.Item size={{ small: 2, medium: 1, large: 2 }}>
+              <Flex.Item span={{ small: 2, medium: 1, large: 2 }}>
                 <TestElement style={colors[1]}>FlexItem</TestElement>
               </Flex.Item>
               <Flex.Item
-                size={{ xsmall: 4, small: 2, medium: 1, large: 1 }}
+                span={{ xsmall: 4, small: 2, medium: 1, large: 1 }}
               >
                 <TestElement style={colors[2]}>FlexItem</TestElement>
               </Flex.Item>
               <Flex.Item
-                size={{ xsmall: 4, small: 2, medium: 3, large: 4 }}
+                span={{ xsmall: 4, small: 2, medium: 3, large: 4 }}
               >
                 <TestElement style={colors[3]}>FlexItem</TestElement>
               </Flex.Item>
