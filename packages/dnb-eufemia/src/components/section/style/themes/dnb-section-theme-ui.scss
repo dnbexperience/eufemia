@@ -113,7 +113,7 @@
   &--emerald-green .dnb-anchor,/** deprecated */
   &--sea-green .dnb-anchor,/** deprecated */
   &--success .dnb-anchor {
-    @include anchor-mixins.useAnchorContrastStyle();
+    @include anchor-mixins.useAnchorDarkSurfaceStyle();
   }
 
   &--fire-red .dnb-button--tertiary,/** deprecated */

@@ -647,6 +647,40 @@ describe('Anchor element', () => {
     ).not.toBeInTheDocument()
   })
 
+  describe('surface', () => {
+    // TODO: Should also test when future `<SurfaceContext>` is implemented:
+    // TODO: Do we need a reset/default/null value? In cases where we want to override context with default behaviour?
+
+    it('should have surface class if `"surface="dark"`', () => {
+      // Setup
+      render(<Anchor surface="dark" />)
+      const anchor = document.querySelector('.dnb-anchor')
+
+      // Assert
+      expect(anchor).toHaveClass('dnb-anchor--surface-dark')
+    })
+
+    it('should not have surface class if "surface" prop is undefined or non-valid', () => {
+      // Setup
+      render(
+        <>
+          <Anchor />
+          {/* @ts-expect-error - testing non-valid value */}
+          <Anchor surface="nonsense" />
+        </>
+      )
+      const anchors = document.querySelectorAll('.dnb-anchor')
+
+      const hasSurfaceClass = (elem: Element) =>
+        Array.from(elem.classList).some((cls) =>
+          cls.startsWith('dnb-anchor--surface')
+        )
+
+      expect(hasSurfaceClass(anchors[0])).toBe(false)
+      expect(hasSurfaceClass(anchors[1])).toBe(false)
+    })
+  })
+
   describe('disabled', () => {
     it('should show tooltip when disabled with target blank', async () => {
       render(

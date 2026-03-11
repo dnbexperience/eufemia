@@ -16,7 +16,7 @@
   text-decoration-color: currentcolor;
   text-decoration-thickness: var(--anchor-underline-thickness);
   text-underline-offset: 0.25em;
-  border-radius: 0;
+  border-radius: 0.25em;
 
   sup &,
   sub & {
@@ -59,62 +59,92 @@
 
 // states
 @mixin anchorHoverStyle() {
-  border-radius: 0.25em;
+  --anchor-color: var(--anchor-color--hover);
+  --anchor-icon-color: var(--anchor-icon-color--hover);
+
+  @include anchorBackground(var(--anchor-bg--hover));
 
   @include resetUnderlineStyle();
 }
 
 @mixin anchorActiveStyle() {
-  border-radius: 0.25em;
+  --anchor-color: var(--anchor-color--active);
+  --anchor-icon-color: var(--anchor-icon-color--active);
 
+  @include anchorBackground(var(--anchor-bg--active));
   @include resetUnderlineStyle();
 }
 
 @mixin anchorFocusStyle() {
-  background-color: transparent;
+  --anchor-color: var(--token-color-text-action-focus);
+  --anchor-icon-color: var(--token-color-icon-action-focus);
+  --focus-ring-width: 0.25rem;
 
   @include resetAnimationStyle();
   @include resetUnderlineStyle();
 
-  @include utilities.focusRing('always');
+  @include utilities.focusRing(
+    'always',
+    var(--token-color-stroke-action-focus),
+    null,
+    anchor-background-value(
+      var(--token-color-background-action-focus-subtle)
+    )
+  );
 
-  border-radius: 0.25em;
   @content;
 }
 
 @mixin anchorBackground($color) {
-  box-shadow:
-    inset 100vw 100vw 0 0 $color,
+  box-shadow: anchor-background-value($color);
+}
+
+@function anchor-background-value($color) {
+  @return inset 100vw 100vw 0 0 $color,
     calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 $color,
     var(--anchor-background-gutter-right, 0.125rem) 0 0 0 $color;
 }
 
 // other styles
-@mixin useAnchorContrastStyle {
-  color: var(--color-white);
+@mixin useAnchorDarkSurfaceStyle {
+  // Text
+  --anchor-color--default: var(--token-color-text-action-ondark);
+  --anchor-color--hover: var(--token-color-text-action-ondark);
+  --anchor-color--active: var(--token-color-text-action-ondark);
 
-  &:hover {
-    @include notNoHover() {
-      color: var(--anchor-color--contrast);
-      @include anchorBackground(var(--color-white));
-    }
-  }
+  // Icon
+  --anchor-icon-color--default: var(--token-color-icon-action-ondark);
+  --anchor-icon-color--hover: var(--token-color-icon-action-hover-ondark);
+  --anchor-icon-color--active: var(--token-color-icon-action-ondark);
 
-  &:active {
-    color: var(--color-white);
-    background-color: transparent;
-    @include anchorBackground(transparent);
-  }
-
-  &:focus-visible {
-    color: var(--color-white);
-    background-color: transparent;
-
-    @include utilities.focusRing('always', var(--color-white));
-  }
+  // Background
+  --anchor-bg--hover: var(
+    --token-color-background-action-hover-subtle-ondark
+  );
+  --anchor-bg--active: var(
+    --token-color-background-action-pressed-subtle-ondark
+  );
 }
 
 @mixin anchorStyle() {
+  // Component variables
+  --anchor-color: var(--anchor-color--default);
+  --anchor-icon-color: var(--anchor-icon-color--default);
+
+  // Text
+  --anchor-color--default: var(--token-color-text-action);
+  --anchor-color--hover: var(--token-color-text-action-hover);
+  --anchor-color--active: var(--token-color-text-action-pressed);
+
+  // Icon
+  --anchor-icon-color--default: var(--token-color-icon-action);
+  --anchor-icon-color--hover: var(--token-color-icon-action-hover);
+  --anchor-icon-color--active: var(--token-color-icon-action-pressed);
+
+  // Background
+  --anchor-bg--hover: var(--token-color-background-action-hover-subtle);
+  --anchor-bg--active: var(--token-color-background-action-pressed-subtle);
+
   $icon-scale: 2;
   $icon-scale-filler: 0.5 - math.div(0.5, $icon-scale);
 
@@ -123,7 +153,7 @@
   --anchor-icon-separator: '\2060';
   --anchor-icon-position: translateY(-0.175em);
   @include anchorDefaultStyle();
-
+  color: var(--anchor-color);
   // have focus before :active, because of border-radius
   &:focus-visible {
     @include anchorFocusStyle();
@@ -141,7 +171,7 @@
 
   transition:
     box-shadow 200ms ease-in-out,
-    border-radius 200ms ease-in-out,
+    color 200ms ease-in-out,
     background 200ms ease-in-out;
 
   [data-visual-test-wrapper] & {
@@ -153,6 +183,7 @@
     display: inline;
     vertical-align: middle;
     white-space: nowrap; // force icon to line break with word
+    color: var(--anchor-icon-color);
 
     svg {
       vertical-align: baseline;
