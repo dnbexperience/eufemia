@@ -16,7 +16,7 @@
   &:not(.dnb-blockquote--no-background) {
     .dnb-anchor,
     a {
-      @include anchor-mixins.useAnchorContrastStyle();
+      @include anchor-mixins.useAnchorDarkSurfaceStyle();
     }
 
     h1,
