@@ -8,12 +8,12 @@ import PortalSkeleton from '../../core/PortalSkeleton'
 import ChangeLocale from '../../core/ChangeLocale'
 import ChangeStyleTheme from '../../core/ChangeStyleTheme'
 import { buttonStyle } from './PortalToolsMenu.module.scss'
-import { TooltipPosition } from '@dnb/eufemia/src/components/tooltip/types'
+import { TooltipPlacement } from '@dnb/eufemia/src/components/tooltip/types'
 import { ButtonProps } from '@dnb/eufemia/src/components/Button'
 
 type Props = {
   className?: string
-  tooltipPosition?: TooltipPosition
+  tooltipPosition?: TooltipPlacement
   triggerAttributes?: ButtonProps
   hideWhenMediaLarge?: boolean
 }
@@ -44,7 +44,7 @@ export default function PortalToolsMenu({
         left: 'x-small',
         tooltip: (
           <Tooltip
-            position={tooltipPosition}
+            placement={tooltipPosition}
             // Use 4001 to be over header of 4000
             style={{ zIndex: 4001 }}
             fixedPosition

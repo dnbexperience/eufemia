@@ -26,7 +26,7 @@ export const TooltipSandbox = () => {
           skipPortal
           hideDelay={1e3}
           targetElement={<Button right>Skipped Portal</Button>}
-          position="bottom"
+          placement="bottom"
         >
           Tooltip
         </Tooltip>
@@ -49,7 +49,10 @@ export const TooltipSandbox = () => {
         <Tooltip targetElement={<Button right>Top</Button>}>
           Tooltip 1
         </Tooltip>
-        <Tooltip position="bottom" targetElement={<Button>Bottom</Button>}>
+        <Tooltip
+          placement="bottom"
+          targetElement={<Button>Bottom</Button>}
+        >
           Tooltip 2
         </Tooltip>
       </Box>
@@ -57,13 +60,13 @@ export const TooltipSandbox = () => {
         <Button>Clickable</Button>
         <br />
         <StyledTooltip
-          position="top"
+          placement="top"
           targetElement={<Button right>Bottom 1</Button>}
         >
           Tooltip 1
         </StyledTooltip>
         <StyledTooltip
-          position="bottom"
+          placement="bottom"
           targetElement={<Button>Bottom 2</Button>}
         >
           Tooltip 2
@@ -83,7 +86,9 @@ export const TooltipSandbox = () => {
             console.log(e)
           }}
           tooltip={
-            <Tooltip position="bottom">Tooltip for this Button 2b</Tooltip>
+            <Tooltip placement="bottom">
+              Tooltip for this Button 2b
+            </Tooltip>
           }
         >
           Button with Tooltip 2
@@ -99,7 +104,7 @@ export const TooltipSandbox = () => {
         <P>
           <NumberFormat
             tooltip={
-              <Tooltip position="bottom">
+              <Tooltip placement="bottom">
                 Tooltip for this NumberFormat
               </Tooltip>
             }

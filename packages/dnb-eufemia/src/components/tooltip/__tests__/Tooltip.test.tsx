@@ -148,9 +148,9 @@ describe('Tooltip', () => {
     ).toEqual(expect.arrayContaining(['dnb-tooltip--fixed']))
   })
 
-  it('should set position class', () => {
+  it('should set placement class', () => {
     render(
-      <Tooltip open position="right">
+      <Tooltip open placement="right">
         Tooltip
       </Tooltip>
     )
