@@ -113,4 +113,13 @@ describe('Stat.Percent', () => {
 
     expect(await axeComponent(component)).toHaveNoViolations()
   })
+
+  it('should forward ref to the element', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(<Stat.Percent ref={ref} value={12.3} />)
+
+    expect(ref.current).toBe(document.querySelector('.dnb-stat'))
+    expect(ref.current.tagName.toLowerCase()).toBe('span')
+  })
 })
