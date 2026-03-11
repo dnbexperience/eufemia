@@ -177,17 +177,17 @@ export const HorizontalAutoSize = () => {
     <ComponentBox>
       <FieldBlock label="Label">
         <Flex.Container>
-          <Flex.Item size={{ small: 12, large: 'auto' }}>
+          <Flex.Item span={{ small: 12, large: 'auto' }}>
             <Field.Name.First
               path="/firstName"
               width="medium"
               minLength={2}
             />
           </Flex.Item>
-          <Flex.Item size={{ small: 12, large: 'auto' }}>
+          <Flex.Item span={{ small: 12, large: 'auto' }}>
             <Field.Name.Last path="/lastName" width="medium" required />
           </Flex.Item>
-          <Flex.Item size={{ small: 12, large: 'auto' }}>
+          <Flex.Item span={{ small: 12, large: 'auto' }}>
             <FieldBlock width="large">
               <Slider
                 min={1900}

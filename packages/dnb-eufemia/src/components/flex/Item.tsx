@@ -2,7 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import Space, { SpaceProps } from '../space/Space'
 
-export type Sizes =
+export type Spans =
   | 1
   | 2
   | 3
@@ -16,25 +16,25 @@ export type Sizes =
   | 11
   | 12
   | 'auto'
-type MediaSizes = {
-  xsmall?: Sizes
-  small?: Sizes
-  medium?: Sizes
-  large?: Sizes
+type MediaSpans = {
+  xsmall?: Spans
+  small?: Spans
+  medium?: Spans
+  large?: Spans
 }
-export type Size = MediaSizes | Sizes
+export type Span = MediaSpans | Spans
 
 export type BasicProps = {
   grow?: boolean
   shrink?: boolean
   alignSelf?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch'
-  size?: Size
+  span?: Span
   ref?: React.Ref<HTMLElement>
 }
 
 export type Props = BasicProps &
   SpaceProps &
-  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'wrap' | 'size'>
+  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'wrap'>
 
 function FlexItem(props: Props) {
   const {
@@ -43,7 +43,7 @@ function FlexItem(props: Props) {
     grow,
     shrink,
     alignSelf,
-    size,
+    span,
     style,
     children,
     ...rest
@@ -54,23 +54,23 @@ function FlexItem(props: Props) {
     grow && 'dnb-flex-item--grow',
     shrink && 'dnb-flex-item--shrink',
     alignSelf && `dnb-flex-item--align-self-${alignSelf}`,
-    size && 'dnb-flex-item--responsive'
+    span && 'dnb-flex-item--responsive'
   )
 
-  const isValidSize = React.useCallback((size: Sizes) => {
-    return typeof size === 'number' || size === 'auto'
+  const isValidSpan = React.useCallback((span: Spans) => {
+    return typeof span === 'number' || span === 'auto'
   }, [])
 
   const spaceStyles = {} as React.CSSProperties
 
-  if (size) {
-    if (isValidSize(size as Sizes)) {
-      spaceStyles['--size--default'] = size
+  if (span) {
+    if (isValidSpan(span as Spans)) {
+      spaceStyles['--span--default'] = span
     } else {
-      const sizes = size as MediaSizes
-      for (const key in sizes) {
-        if (isValidSize(size[key])) {
-          spaceStyles[`--${key}`] = size[key]
+      const spans = span as MediaSpans
+      for (const key in spans) {
+        if (isValidSpan(span[key])) {
+          spaceStyles[`--${key}`] = span[key]
         }
       }
     }
