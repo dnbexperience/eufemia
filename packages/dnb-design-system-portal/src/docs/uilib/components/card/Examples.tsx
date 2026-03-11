@@ -198,7 +198,7 @@ export const WithFlex = () => {
     <ComponentBox data-visual-test="layout-card-flex">
       <Flex.Container>
         <Card
-          size={{
+          span={{
             small: 'auto',
             medium: 4,
             large: 4,
@@ -209,7 +209,7 @@ export const WithFlex = () => {
           <P>Text</P>
         </Card>
         <Card
-          size={{
+          span={{
             small: 'auto',
             medium: 4,
             large: 4,
@@ -222,7 +222,7 @@ export const WithFlex = () => {
           </P>
         </Card>
         <Card
-          size={{
+          span={{
             small: 'auto',
             medium: 4,
             large: 4,

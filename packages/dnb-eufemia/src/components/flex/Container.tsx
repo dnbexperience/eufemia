@@ -114,7 +114,7 @@ function FlexContainer(props: Props) {
   const hasSizeProp =
     !hasHeading &&
     direction === 'horizontal' &&
-    childrenArray.some((child) => child['props']?.size)
+    childrenArray.some((child) => child['props']?.span)
 
   const { key: mediaKey } = useMedia({
     disabled: !hasSizeProp,
