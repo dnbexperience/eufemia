@@ -1,6 +1,12 @@
 import { ModalAllProps } from '../modal/Modal'
 import { IconIcon } from '../Icon'
 import { DialogActionProps } from './parts/DialogAction'
+import type {
+  ModalFullscreen,
+  ModalAlignContent,
+  ModalContentMinWidth,
+  ModalContentMaxWidth,
+} from '../modal/types'
 import React from 'react'
 
 export interface DialogProps extends ModalAllProps {
@@ -15,12 +21,12 @@ export interface DialogContentProps
   /**
    * The minimum Dialog content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem` (average width is set to `60vw`).
    */
-  minWidth?: string | number
+  minWidth?: ModalContentMinWidth
 
   /**
    * The maximum Dialog content width, defined by a CSS width value like `20rem`. Defaults to `60rem` (average width is set to `60vw`).
    */
-  maxWidth?: string | number
+  maxWidth?: ModalContentMaxWidth
 
   /**
    * Give the Dialog content a class name (maps to `dnb-dialog`).
@@ -57,12 +63,12 @@ export interface DialogContentProps
   /**
    * Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.
    */
-  alignContent?: 'left' | 'right' | 'centered' | 'center'
+  alignContent?: ModalAlignContent
 
   /**
    * If set to `true` then the dialog content will be shown as fullscreen, without showing the original content behind. Can be set to `false` to omit the auto fullscreen. Defaults to `auto`.
    */
-  fullscreen?: boolean | string
+  fullscreen?: ModalFullscreen
 
   /**
    * If set to `true`, no open/close animation will be shown. Defaults to false.
