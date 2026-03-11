@@ -253,7 +253,6 @@ export class GlobalStatusProviderItem {
 // The meaning with this is that we can force a rerender without sharing the same context
 class GlobalStatusProvider {
   static providers: Record<string, GlobalStatusProviderItem> = {}
-  static _supportsSpacingProps = true
 
   static create = (id = 'main', props: StatusProps | null = null) => {
     return (GlobalStatusProvider.providers[id] =

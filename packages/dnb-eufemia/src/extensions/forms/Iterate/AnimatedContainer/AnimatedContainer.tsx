@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import IterateItemContext from '../IterateItemContext'
 import { EditContainerWithoutToolbar, AllProps } from '../EditContainer'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 function AnimatedContainer(props: AllProps) {
   const iterateItemContext = useContext(IterateItemContext)
@@ -14,5 +15,8 @@ function AnimatedContainer(props: AllProps) {
   )
 }
 
-AnimatedContainer._supportsSpacingProps = true
+withComponentMarkers(AnimatedContainer, {
+  _supportsSpacingProps: true,
+})
+
 export default AnimatedContainer

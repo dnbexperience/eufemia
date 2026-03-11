@@ -5,6 +5,7 @@ import { ListContext } from './ListContext'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
 import Context from '../../shared/Context'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ItemSublineVariant = 'description'
 
@@ -62,6 +63,8 @@ function ItemSubline({
 
   return content
 }
-ItemSubline._supportsSpacingProps = true
+withComponentMarkers(ItemSubline, {
+  _supportsSpacingProps: true,
+})
 
 export default ItemSubline

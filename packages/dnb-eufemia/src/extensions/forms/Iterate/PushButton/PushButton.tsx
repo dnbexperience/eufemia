@@ -14,6 +14,7 @@ import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
 import { usePath } from '../../hooks'
 import { convertJsxToString } from '../../../../shared/component-helper'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = ButtonProps & {
   path?: Path
@@ -120,5 +121,8 @@ function PushButton(props: Props) {
   )
 }
 
-PushButton._supportsSpacingProps = true
+withComponentMarkers(PushButton, {
+  _supportsSpacingProps: true,
+})
+
 export default PushButton

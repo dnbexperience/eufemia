@@ -1,6 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import Space, { SpaceAllProps } from '../space/Space'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type Columns = number
 
@@ -64,7 +65,9 @@ function GridContainer(props: AllProps) {
   )
 }
 
-GridContainer._supportsSpacingProps = true
+withComponentMarkers(GridContainer, {
+  _supportsSpacingProps: true,
+})
 
 export default GridContainer
 

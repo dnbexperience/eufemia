@@ -1,12 +1,17 @@
 import React from 'react'
 import { AriaLiveAllProps } from './types'
 import useAriaLive from './useAriaLive'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export default function AriaLive({ element, ...props }: AriaLiveAllProps) {
+function AriaLive({ element, ...props }: AriaLiveAllProps) {
   const ariaAttributes = useAriaLive(props)
   const Element = element || 'section'
 
   return <Element {...ariaAttributes} />
 }
 
-AriaLive._supportsSpacingProps = 'children'
+withComponentMarkers(AriaLive, {
+  _supportsSpacingProps: 'children',
+})
+
+export default AriaLive

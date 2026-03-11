@@ -5,6 +5,7 @@ import Icon, { type IconIcon } from '../icon/Icon'
 import { ListContext } from './ListContext'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ItemIconProps = Omit<FlexItemProps, 'children'> & {
   children: IconIcon
@@ -35,6 +36,8 @@ function ItemIcon({
     </FlexItem>
   )
 }
-ItemIcon._supportsSpacingProps = true
+withComponentMarkers(ItemIcon, {
+  _supportsSpacingProps: true,
+})
 
 export default ItemIcon

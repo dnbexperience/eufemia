@@ -5,6 +5,7 @@ import ItemTitle from '../ItemTitle'
 import ItemContent from '../ItemContent'
 import Container from '../Container'
 import Context from '../../../shared/Context'
+import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('ItemTitle', () => {
   it('renders with children', () => {
@@ -117,7 +118,9 @@ describe('ItemTitle', () => {
   })
 
   it('declares _supportsSpacingProps for flex layout', () => {
-    expect(ItemTitle._supportsSpacingProps).toBe(true)
+    expect((ItemTitle as ComponentMarkers)._supportsSpacingProps).toBe(
+      true
+    )
   })
 
   it('does not accept unrelated ItemContent props', () => {

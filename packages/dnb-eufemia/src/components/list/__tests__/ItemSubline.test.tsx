@@ -5,6 +5,7 @@ import ItemSubline from '../ItemSubline'
 import ItemContent from '../ItemContent'
 import Container from '../Container'
 import Context from '../../../shared/Context'
+import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('ItemSubline', () => {
   it('renders with children', () => {
@@ -140,7 +141,9 @@ describe('ItemSubline', () => {
   })
 
   it('declares _supportsSpacingProps for flex layout', () => {
-    expect(ItemSubline._supportsSpacingProps).toBe(true)
+    expect((ItemSubline as ComponentMarkers)._supportsSpacingProps).toBe(
+      true
+    )
   })
 
   it('does not accept unrelated ItemContent props', () => {

@@ -6,6 +6,7 @@ import { ListContext } from './ListContext'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
 import Context from '../../shared/Context'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ItemFooterProps = FlexItemProps & {
   /** If `true`, applies skeleton loading state. Inherits from parent List context when not set. */
@@ -52,6 +53,8 @@ function ItemFooter({
 
   return content
 }
-ItemFooter._supportsSpacingProps = true
+withComponentMarkers(ItemFooter, {
+  _supportsSpacingProps: true,
+})
 
 export default ItemFooter

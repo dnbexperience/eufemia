@@ -7,6 +7,7 @@ import DataContext from '../../DataContext/Context'
 import ButtonRow from '../../Form/ButtonRow'
 import SubmitButton from '../../Form/SubmitButton'
 import useTranslation from '../../hooks/useTranslation'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = ComponentProps & Omit<ButtonProps, 'variant'>
 
@@ -43,5 +44,8 @@ function NextButton(props: Props) {
   )
 }
 
-NextButton._supportsSpacingProps = true
+withComponentMarkers(NextButton, {
+  _supportsSpacingProps: true,
+})
+
 export default NextButton

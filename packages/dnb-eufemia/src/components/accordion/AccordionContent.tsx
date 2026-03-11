@@ -18,6 +18,7 @@ import AccordionContext, {
 import { createSpacingClasses } from '../space/SpacingHelper'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import { SpacingProps } from '../space/types'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type AccordionContentProps = Omit<
   React.HTMLProps<HTMLElement>,
@@ -184,4 +185,4 @@ export default function AccordionContent(props: AccordionContentProps) {
   )
 }
 
-AccordionContent._supportsSpacingProps = true
+withComponentMarkers(AccordionContent, { _supportsSpacingProps: true })

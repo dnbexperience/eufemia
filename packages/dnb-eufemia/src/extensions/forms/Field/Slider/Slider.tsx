@@ -11,6 +11,7 @@ import { pickSpacingProps } from '../../../../components/flex/utils'
 import DataContext, { ContextState } from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
 import { useTranslation as useSharedTranslation } from '../../../../shared'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type SliderVisibilityEvent = React.MouseEvent<HTMLButtonElement> & {
   value: string
@@ -170,4 +171,4 @@ function SliderComponent(props: Props) {
 
 export default SliderComponent
 
-SliderComponent._supportsSpacingProps = true
+withComponentMarkers(SliderComponent, { _supportsSpacingProps: true })

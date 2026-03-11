@@ -4,6 +4,7 @@ import { ListVariant, ListContext } from './ListContext'
 import FlexContainer, { Props as FlexProps } from '../flex/Stack'
 import type { SkeletonShow } from '../Skeleton'
 import SharedContext from '../../shared/Context'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ListContainerProps = {
   variant?: ListVariant
@@ -58,6 +59,8 @@ function ListContainer(props: ListContainerProps) {
   )
 }
 
-ListContainer._supportsSpacingProps = true
+withComponentMarkers(ListContainer, {
+  _supportsSpacingProps: true,
+})
 
 export default ListContainer

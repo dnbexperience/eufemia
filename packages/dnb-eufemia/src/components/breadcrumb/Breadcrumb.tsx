@@ -31,6 +31,7 @@ import {
 } from '../../shared/component-helper'
 import { BreadcrumbMultiple } from './BreadcrumbMultiple'
 import { useMedia, useTheme } from '../../shared'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type BreadcrumbProps = {
   /**
@@ -321,7 +322,9 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
 }
 
 Breadcrumb.Item = BreadcrumbItem
-Breadcrumb._supportsSpacingProps = true
-
 export { BreadcrumbItem }
+withComponentMarkers(Breadcrumb, {
+  _supportsSpacingProps: true,
+})
+
 export default Breadcrumb

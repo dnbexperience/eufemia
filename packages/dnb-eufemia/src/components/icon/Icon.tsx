@@ -13,6 +13,7 @@ import { iconCase } from './IconHelpers'
 import { SpacingProps } from '../../shared/types'
 import { SkeletonShow } from '../Skeleton'
 import { FormStatusIconTypes } from '../FormStatus'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export const DefaultIconSize = 16
 export const DefaultIconSizes = {
@@ -516,4 +517,4 @@ function getIcon(props) {
   return processChildren(props)
 }
 
-Icon._supportsSpacingProps = true
+withComponentMarkers(Icon, { _supportsSpacingProps: true })

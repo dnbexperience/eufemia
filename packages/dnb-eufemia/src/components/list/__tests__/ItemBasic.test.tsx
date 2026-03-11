@@ -4,6 +4,7 @@ import { axeComponent } from '../../../core/jest/jestSetup'
 import Container from '../Container'
 import ItemBasic, { ItemBasicProps } from '../ItemBasic'
 import { fish_medium } from '../../../icons'
+import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('ItemBasic', () => {
   it('renders with props as an object', () => {
@@ -145,7 +146,9 @@ describe('ItemBasic', () => {
   })
 
   it('declares _supportsSpacingProps for flex layout', () => {
-    expect(ItemBasic._supportsSpacingProps).toBe(true)
+    expect((ItemBasic as ComponentMarkers)._supportsSpacingProps).toBe(
+      true
+    )
   })
 
   it('applies disabled modifier class when disabled', () => {

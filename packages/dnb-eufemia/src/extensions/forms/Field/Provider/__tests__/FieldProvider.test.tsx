@@ -2,13 +2,16 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import FieldProviderContext from '../FieldProviderContext'
 import { Form, Field } from '../../..'
+import type { ComponentMarkers } from '../../../../../shared/helpers/withComponentMarkers'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
 describe('Field.Provider', () => {
   it('should have constant of _supportsSpacingProps="children"', () => {
-    expect(Field.Provider._supportsSpacingProps).toBe('children')
+    expect(
+      (Field.Provider as ComponentMarkers)._supportsSpacingProps
+    ).toBe('children')
   })
 
   it('should merge inheritedContext with props passed to extend', () => {

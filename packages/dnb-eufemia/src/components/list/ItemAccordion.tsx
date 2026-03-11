@@ -21,6 +21,7 @@ import ItemTitle from './ItemTitle'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { warn } from '../../shared/component-helper'
 import Context from '../../shared/Context'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ItemAccordionIconPosition = 'left' | 'right'
 
@@ -139,7 +140,8 @@ function ItemAccordion(props: ItemAccordionProps) {
     </ItemAccordionContext>
   )
 }
-ItemAccordion._supportsSpacingProps = true
+withComponentMarkers(AccordionHeader, { _supportsSpacingProps: true })
+withComponentMarkers(AccordionContent, { _supportsSpacingProps: true })
 
 export type AccordionHeaderProps = {
   onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
@@ -224,7 +226,6 @@ function AccordionHeader(props: AccordionHeaderProps) {
   return content
 }
 ItemAccordion.Header = AccordionHeader
-AccordionHeader._supportsSpacingProps = true
 
 function AccordionContent(props: ItemContentProps) {
   const { className, children, ...rest } = props
@@ -275,6 +276,9 @@ function AccordionContent(props: ItemContentProps) {
   return content
 }
 ItemAccordion.Content = AccordionContent
-AccordionContent._supportsSpacingProps = true
+
+withComponentMarkers(ItemAccordion, {
+  _supportsSpacingProps: true,
+})
 
 export default ItemAccordion

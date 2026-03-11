@@ -3,6 +3,7 @@ import StringField, { Props as StringFieldProps } from '../String'
 
 import useTranslation from '../../hooks/useTranslation'
 import type { Validator, ValidatorWithCustomValidators } from '../../types'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type BankAccountNumberValidator = ValidatorWithCustomValidators<
   string,
@@ -135,5 +136,8 @@ function isValidAccountNumber(digits: string) {
   return parseInt(digits.charAt(digits.length - 1), 10) === finalCheckDigit
 }
 
-BankAccountNumber._supportsSpacingProps = true
+withComponentMarkers(BankAccountNumber, {
+  _supportsSpacingProps: true,
+})
+
 export default BankAccountNumber

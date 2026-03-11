@@ -3,6 +3,7 @@ import StringValue, { Props as StringValueProps } from '../String'
 import { format } from '../../../../components/number-format/NumberUtils'
 import useTranslation from '../../hooks/useTranslation'
 import { isValueEmpty } from '../../ValueBlock'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = StringValueProps
 
@@ -31,5 +32,8 @@ function PhoneNumber(props: Props) {
   return <StringValue {...stringValueProps} />
 }
 
-PhoneNumber._supportsSpacingProps = true
+withComponentMarkers(PhoneNumber, {
+  _supportsSpacingProps: true,
+})
+
 export default PhoneNumber

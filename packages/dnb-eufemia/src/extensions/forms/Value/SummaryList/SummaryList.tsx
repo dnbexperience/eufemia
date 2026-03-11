@@ -6,6 +6,7 @@ import Dl, { DlAllProps } from '../../../../elements/Dl'
 import ValueProvider from '../Provider/ValueProvider'
 import { ValueProps } from '../../types'
 import { useVerifyChildren } from './useVerifyChildren'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = Omit<
   DlAllProps,
@@ -54,6 +55,8 @@ function SummaryList(props: Props) {
   )
 }
 
-SummaryList._supportsSpacingProps = true
+withComponentMarkers(SummaryList, {
+  _supportsSpacingProps: true,
+})
 
 export default SummaryList

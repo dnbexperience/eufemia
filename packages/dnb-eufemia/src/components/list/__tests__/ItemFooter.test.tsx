@@ -5,6 +5,7 @@ import ItemFooter from '../ItemFooter'
 import ItemContent from '../ItemContent'
 import Container from '../Container'
 import Context from '../../../shared/Context'
+import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('ItemFooter', () => {
   it('renders with children', () => {
@@ -85,7 +86,9 @@ describe('ItemFooter', () => {
   })
 
   it('declares _supportsSpacingProps for flex layout', () => {
-    expect(ItemFooter._supportsSpacingProps).toBe(true)
+    expect((ItemFooter as ComponentMarkers)._supportsSpacingProps).toBe(
+      true
+    )
   })
 
   it('does not accept unrelated ItemContent props', () => {

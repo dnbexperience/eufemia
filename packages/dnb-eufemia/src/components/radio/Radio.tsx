@@ -5,6 +5,8 @@
  * For referencing while developing new features, please use a Functional component.
  */
 
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
 import React from 'react'
 import clsx from 'clsx'
 import {
@@ -513,13 +515,14 @@ function RadioComponent({ ref, ...props }: RadioProps) {
 const Radio = RadioComponent as typeof RadioComponent & {
   Group: typeof RadioGroup
   parseChecked: typeof RadioClass.parseChecked
-  _formElement: boolean
-  _supportsSpacingProps: boolean
-}
+} & ComponentMarkers
 
 Radio.Group = RadioGroup
 Radio.parseChecked = RadioClass.parseChecked
-Radio._formElement = true
-Radio._supportsSpacingProps = true
+
+withComponentMarkers(Radio, {
+  _formElement: true,
+  _supportsSpacingProps: true,
+})
 
 export default Radio

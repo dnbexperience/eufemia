@@ -4,6 +4,7 @@ import { dnr, fnr } from '@navikt/fnrvalidator'
 import type { Validator, ValidatorWithCustomValidators } from '../../types'
 import { FormError } from '../../utils'
 import useTranslation from '../../hooks/useTranslation'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type NationalIdentityNumberValidator =
   ValidatorWithCustomValidators<
@@ -226,5 +227,8 @@ export function createMinimumAgeVerifier(age: number) {
   }
 }
 
-NationalIdentityNumber._supportsSpacingProps = true
+withComponentMarkers(NationalIdentityNumber, {
+  _supportsSpacingProps: true,
+})
+
 export default NationalIdentityNumber

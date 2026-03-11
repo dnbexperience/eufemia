@@ -34,6 +34,7 @@ import type { RadioProps } from '../../../../components/Radio'
 import type { ToggleButtonProps } from '../../../../components/ToggleButton'
 import type { RadioGroupProps } from '../../../../components/radio/RadioGroup'
 import type { ToggleButtonGroupProps } from '../../../../components/toggle-button/ToggleButtonGroup'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 type IOption = {
   title: string | React.ReactNode
@@ -556,5 +557,8 @@ function renderDropdownItems(
   )
 }
 
-Selection._supportsSpacingProps = true
+withComponentMarkers(Selection, {
+  _supportsSpacingProps: true,
+})
+
 export default Selection

@@ -10,6 +10,7 @@ import { useSwitchContainerMode } from '../hooks'
 import DoneButton from './DoneButton'
 import CancelButton, { useWasNew } from './CancelButton'
 import { replaceItemNo } from '../ItemNo'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = {
   /**
@@ -125,5 +126,7 @@ export function EditContainerWithoutToolbar(
 EditContainer.DoneButton = DoneButton
 EditContainer.CancelButton = CancelButton
 
-EditContainer._supportsSpacingProps = true
-EditContainerWithoutToolbar._supportsSpacingProps = true
+withComponentMarkers(EditContainer, { _supportsSpacingProps: true })
+withComponentMarkers(EditContainerWithoutToolbar, {
+  _supportsSpacingProps: true,
+})

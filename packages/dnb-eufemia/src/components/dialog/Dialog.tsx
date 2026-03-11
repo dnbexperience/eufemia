@@ -13,6 +13,7 @@ import clsx from 'clsx'
 import Context from '../../shared/Context'
 import DialogAction from './parts/DialogAction'
 import { extendPropsWithContext } from '../../shared/component-helper'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 const defaultProps: Partial<DialogProps & DialogContentProps> = {
   variant: 'information',
@@ -157,6 +158,8 @@ Dialog.Header = DialogHeader
 Dialog.Navigation = DialogNavigation
 Dialog.Action = DialogAction
 
-Dialog._supportsSpacingProps = true
+withComponentMarkers(Dialog, {
+  _supportsSpacingProps: true,
+})
 
 export default Dialog

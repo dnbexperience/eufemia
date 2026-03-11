@@ -5,6 +5,7 @@ import { ListContext } from './ListContext'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
 import Context from '../../shared/Context'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 /**
  * Props for List.Cell.End (ItemEnd).
@@ -58,6 +59,8 @@ function ItemEnd(props: ItemEndProps) {
 
   return content
 }
-ItemEnd._supportsSpacingProps = true
+withComponentMarkers(ItemEnd, {
+  _supportsSpacingProps: true,
+})
 
 export default ItemEnd

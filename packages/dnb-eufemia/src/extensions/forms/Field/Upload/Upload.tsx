@@ -27,6 +27,7 @@ import { useTranslation as useSharedTranslation } from '../../../../shared'
 import { SpacingProps } from '../../../../shared/types'
 import { FormError } from '../../utils'
 import { useIterateItemNo } from '../../Iterate/ItemNo/useIterateItemNo'
+import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type { UploadFile, UploadFileNative }
 export type UploadValue = Array<UploadFile | UploadFileNative>
@@ -497,7 +498,7 @@ function LabelWithHelpButton(props: {
 
 export default UploadComponent
 
-UploadComponent._supportsSpacingProps = true
+withComponentMarkers(UploadComponent, { _supportsSpacingProps: true })
 
 export function transformFiles(
   value: UploadValue

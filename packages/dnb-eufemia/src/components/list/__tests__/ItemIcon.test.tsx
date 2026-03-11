@@ -5,6 +5,7 @@ import { fish_medium } from '../../../icons'
 import ItemIcon from '../ItemIcon'
 import ItemContent from '../ItemContent'
 import Container from '../Container'
+import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('ItemIcon', () => {
   it('renders with icon as children', () => {
@@ -62,7 +63,7 @@ describe('ItemIcon', () => {
   })
 
   it('declares _supportsSpacingProps for flex layout', () => {
-    expect(ItemIcon._supportsSpacingProps).toBe(true)
+    expect((ItemIcon as ComponentMarkers)._supportsSpacingProps).toBe(true)
   })
 
   it('does not accept unrelated ItemContent props', () => {

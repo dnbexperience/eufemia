@@ -6,6 +6,7 @@
 import React from 'react'
 import { SpacingProps } from '../../components/space/types'
 import E from '../Element'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 type CodeProps = SpacingProps & React.HTMLAttributes<HTMLElement>
 
@@ -16,6 +17,6 @@ function Code({
   return <E as="code" ref={ref} {...props} />
 }
 
-Code._supportsSpacingProps = true
+withComponentMarkers(Code, { _supportsSpacingProps: true })
 
 export default Code

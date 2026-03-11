@@ -2,6 +2,7 @@ import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import ItemAction from '../ItemAction'
 import Container from '../Container'
+import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('ItemAction', () => {
   it('renders with children', () => {
@@ -278,7 +279,9 @@ describe('ItemAction', () => {
   })
 
   it('declares _supportsSpacingProps for flex layout', () => {
-    expect(ItemAction._supportsSpacingProps).toBe(true)
+    expect((ItemAction as ComponentMarkers)._supportsSpacingProps).toBe(
+      true
+    )
   })
 
   describe('disabled', () => {

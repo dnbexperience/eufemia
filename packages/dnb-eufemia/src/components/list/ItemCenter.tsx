@@ -5,6 +5,7 @@ import { ListContext } from './ListContext'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
 import Context from '../../shared/Context'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ItemCenterProps = FlexItemProps & {
   /** Font size of the center content. Defaults to `basis`. */
@@ -54,6 +55,8 @@ function ItemCenter({
   return content
 }
 
-ItemCenter._supportsSpacingProps = true
+withComponentMarkers(ItemCenter, {
+  _supportsSpacingProps: true,
+})
 
 export default ItemCenter

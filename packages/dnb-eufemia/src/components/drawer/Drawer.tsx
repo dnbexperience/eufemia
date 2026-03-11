@@ -12,6 +12,7 @@ import clsx from 'clsx'
 import Context from '../../shared/Context'
 import { DrawerProps, DrawerContentProps } from './types'
 import { removeUndefinedProps } from '../../shared/component-helper'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type DrawerAllProps = DrawerProps & DrawerContentProps
 
@@ -128,6 +129,8 @@ Drawer.Body = DrawerBody
 Drawer.Header = DrawerHeader
 Drawer.Navigation = DrawerNavigation
 
-Drawer._supportsSpacingProps = true
+withComponentMarkers(Drawer, {
+  _supportsSpacingProps: true,
+})
 
 export default Drawer

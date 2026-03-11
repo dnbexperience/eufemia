@@ -7,6 +7,7 @@ import Anchor from '../Anchor'
 import ItemIcon from './ItemIcon'
 import ItemTitle from './ItemTitle'
 import type { IconIcon } from '../icon/Icon'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ItemActionIconPosition = 'left' | 'right'
 
@@ -165,7 +166,11 @@ function ItemAction(props: ItemActionProps) {
     </ItemContent>
   )
 }
-ItemAction._supportsSpacingProps = true
+withComponentMarkers(ChevronIcon, { _supportsSpacingProps: true })
+
+withComponentMarkers(ItemAction, {
+  _supportsSpacingProps: true,
+})
 
 export default ItemAction
 
@@ -178,4 +183,3 @@ export function ChevronIcon() {
 }
 
 // To pretend that this component supports spacing props, so it doesn't get wrapped by Flex
-ChevronIcon._supportsSpacingProps = true
