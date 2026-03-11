@@ -1,5 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
+import useId from '../../../shared/helpers/useId'
 import useTableAnimationHandler from './useTableAnimationHandler'
 import { TableContext } from '../TableContext'
 import { TableAccordionContext } from './TableAccordionContext'
@@ -38,8 +39,10 @@ function TableAccordionContent(
     ...props
   } = componentProps
 
-  const tableContextAllProps = React.useContext(TableContext)?.allProps
+  const tableContext = React.useContext(TableContext)
+  const tableContextAllProps = tableContext?.allProps
   const innerRef = React.useRef<HTMLDivElement>(null)
+  const id = useId()
   const trRef = React.useRef<HTMLTableRowElement>(null)
   const {
     ariaLive,
@@ -76,7 +79,13 @@ function TableAccordionContent(
       aria-hidden={!isInDOM} // NVDA and VoiceOver needs "aria-hidden" to remove it from the accessibility tree
       hidden={isInDOM ? undefined : true} // NVDA and VoiceOver needs "hidden" to be true in order to not count invisible table rows (based on "tr" element)
       role={isInDOM ? 'row' : undefined} // NVDA and VoiceOver needs "hidden" to be true in order to not count invisible table rows (based on "role" element)
-      style={{ ...firstPaintStyle, ...style }}
+      style={{
+        ...firstPaintStyle,
+        ...style,
+        viewTransitionName: tableContext?.hasAccordionRows
+          ? `accordion-content-${id}`
+          : undefined,
+      }}
       className={classnames(
         isInDOM && 'dnb-table__tr',
         'dnb-table__tr__accordion-content',
