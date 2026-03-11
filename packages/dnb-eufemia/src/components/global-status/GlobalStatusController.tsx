@@ -124,11 +124,9 @@ function GlobalStatusController(ownProps: GlobalStatusControllerProps) {
 const MemoizedGlobalStatusController = React.memo(
   GlobalStatusController
 ) as React.MemoExoticComponent<typeof GlobalStatusController> & {
-  _supportsSpacingProps: boolean
   Remove: typeof MemoizedGlobalStatusRemove
   Update: typeof MemoizedGlobalStatusController
 }
-MemoizedGlobalStatusController._supportsSpacingProps = true
 
 interface GlobalStatusRemovePropsLocal {
   id?: string
