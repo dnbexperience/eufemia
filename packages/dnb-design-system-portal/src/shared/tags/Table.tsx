@@ -79,7 +79,9 @@ export default function Table({ children }) {
 
   return (
     <TableElement.ScrollView>
-      <StyledTable>{children}</StyledTable>
+      <StyledTable border outline>
+        {children}
+      </StyledTable>
     </TableElement.ScrollView>
   )
 }
