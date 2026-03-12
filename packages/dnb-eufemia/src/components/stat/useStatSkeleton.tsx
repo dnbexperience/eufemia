@@ -10,7 +10,9 @@ export default function useStatSkeleton(skeleton?: string | boolean) {
   const context = React.useContext(Context)
   const { skeleton: rootSkeleton } = React.useContext(StatRootContext)
 
-  const hasSkeleton = Boolean(skeleton ?? rootSkeleton ?? context?.skeleton)
+  const hasSkeleton = Boolean(
+    skeleton ?? rootSkeleton ?? context?.skeleton
+  )
 
   return {
     hasSkeleton,
