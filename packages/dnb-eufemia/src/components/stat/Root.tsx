@@ -47,9 +47,7 @@ function Root(props: RootProps) {
         {children}
       </Space>
 
-      {tooltip && (
-        <Tooltip targetElement={rootRef} tooltip={tooltip} />
-      )}
+      {tooltip && <Tooltip targetElement={rootRef} tooltip={tooltip} />}
     </StatRootContext.Provider>
   )
 }
