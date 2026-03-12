@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import classnames from 'classnames'
 import Space from '../space/Space'
+import Tooltip from '../tooltip/Tooltip'
 import type { SpacingProps } from '../../shared/types'
 import { warn } from '../../shared/component-helper'
 import StatRootContext from './StatRootContext'
@@ -9,6 +10,7 @@ export type RootProps = {
   children?: React.ReactNode
   className?: string
   visualOrder?: 'label-content' | 'content-label'
+  tooltip?: React.ReactNode
 } & SpacingProps
 
 function Root(props: RootProps) {
@@ -16,8 +18,11 @@ function Root(props: RootProps) {
     children,
     className = null,
     visualOrder = 'label-content',
+    tooltip = null,
     ...rest
   } = props
+
+  const rootRef = useRef<HTMLElement>(null)
 
   if (!hasOnlySupportedChildren(children)) {
     warn('Stat.Root should only contain Stat.Label and Stat.Content.')
@@ -30,6 +35,7 @@ function Root(props: RootProps) {
     <StatRootContext.Provider value={{ inRoot: true }}>
       <Space
         element="dl"
+        innerRef={rootRef}
         className={classnames(
           'dnb-stat',
           'dnb-stat__root',
@@ -40,6 +46,10 @@ function Root(props: RootProps) {
       >
         {children}
       </Space>
+
+      {tooltip && (
+        <Tooltip targetElement={rootRef} tooltip={tooltip} />
+      )}
     </StatRootContext.Provider>
   )
 }

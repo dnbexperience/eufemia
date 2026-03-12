@@ -13,5 +13,10 @@ export const RootProperties: PropertiesTableProps = {
     defaultValue: 'label-content',
     status: 'optional',
   },
+  tooltip: {
+    doc: 'Tooltip content shown on hover. Uses the internal Tooltip component.',
+    type: ['React.ReactNode'],
+    status: 'optional',
+  },
   '[Space](/uilib/layout/space/properties)': spacingProperties,
 }

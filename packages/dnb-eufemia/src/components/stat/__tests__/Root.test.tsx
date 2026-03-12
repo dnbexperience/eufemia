@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, fireEvent, waitFor } from '@testing-library/react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import Stat from '../Stat'
 
@@ -163,5 +163,39 @@ describe('Stat.Root', () => {
 
     expect(await axeComponent(component)).not.toHaveNoViolations()
     spy.mockRestore()
+  })
+
+  it('renders a tooltip when tooltip prop is provided', async () => {
+    render(
+      <Stat.Root tooltip="Additional details">
+        <Stat.Label>Revenue growth</Stat.Label>
+        <Stat.Content>
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const root = document.querySelector('.dnb-stat__root')
+
+    fireEvent.mouseEnter(root)
+
+    await waitFor(() => {
+      const tooltip = document.querySelector('.dnb-tooltip')
+      expect(tooltip).toBeTruthy()
+    })
+  })
+
+  it('does not render a tooltip when tooltip prop is not provided', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue growth</Stat.Label>
+        <Stat.Content>
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const tooltip = document.querySelector('.dnb-tooltip')
+    expect(tooltip).toBeNull()
   })
 })

@@ -234,6 +234,22 @@ export const RatingDefault = () => (
   </ComponentBox>
 )
 
+export const WithTooltip = () => (
+  <ComponentBox>
+    <Stat.Root tooltip="Revenue growth compared to previous fiscal quarter">
+      <Stat.Label>Revenue growth</Stat.Label>
+      <Stat.Content direction="vertical">
+        <Stat.Currency
+          value={1234}
+          signDisplay="always"
+          srLabel="Revenue"
+        />
+        <Stat.Trend srLabel="Change">+12.4%</Stat.Trend>
+      </Stat.Content>
+    </Stat.Root>
+  </ComponentBox>
+)
+
 export const WithSubtleLabel = () => (
   <ComponentBox
     data-visual-test="stat-content-label-order-subtle-label"
