@@ -2,14 +2,18 @@ import React from 'react'
 import classnames from 'classnames'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import type { SpacingProps } from '../../shared/types'
-import { validateDOMAttributes } from '../../shared/component-helper'
+import { validateDOMAttributes, warn } from '../../shared/component-helper'
 import StatValueContext from './StatValueContext'
 
 export type InfoProps = {
   children?: React.ReactNode
   element?: keyof JSX.IntrinsicElements
   className?: string
-  variant?: 'default' | 'subtle' | 'prominent'
+  variant?:
+    | 'plain'
+    | 'subtle'
+    | 'prominent'
+    | /** @deprecated Use "plain" instead */ 'default'
 } & SpacingProps
 
 function Info(props: InfoProps) {
@@ -17,9 +21,17 @@ function Info(props: InfoProps) {
     children,
     element: Element = 'span',
     className = null,
-    variant = 'subtle',
+    variant: variantProp = 'subtle',
     ...rest
   } = props
+
+  let variant = variantProp
+  if (variant === 'default') {
+    warn(
+      'Stat.Info variant="default" is deprecated. Use variant="plain" instead.'
+    )
+    variant = 'plain'
+  }
 
   const attributes = validateDOMAttributes(props, {
     ...rest,
