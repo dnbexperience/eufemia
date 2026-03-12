@@ -568,30 +568,25 @@ describe('DatePicker component', () => {
     expect(endYear.value).toBe('åååå')
   })
 
-  it('should delay focus so the cursor is set to the beginning of the input', async () => {
-    const originalEnv = process.env.NODE_ENV
-    process.env.NODE_ENV = 'not-test'
+  it('should keep number entry order when an existing value is fully selected', async () => {
+    render(<DatePicker showInput date="2023-10-01" />)
 
-    render(<DatePicker showInput />)
-
-    const [day]: Array<HTMLInputElement> = Array.from(
+    const [day, month]: Array<HTMLInputElement> = Array.from(
       document.querySelectorAll('input.dnb-input__input')
     )
 
-    expect(day.selectionStart).toBe(2)
+    day.focus()
+    day.select()
+
+    expect(day.selectionStart).toBe(0)
     expect(day.selectionEnd).toBe(2)
 
-    fireEvent.focus(day)
+    await userEvent.keyboard('12')
 
+    expect(day.value).toBe('12')
+    expect(month.value).toBe('10')
     expect(day.selectionStart).toBe(2)
     expect(day.selectionEnd).toBe(2)
-
-    await waitFor(() => {
-      expect(day.selectionStart).toBe(0)
-      expect(day.selectionEnd).toBe(0)
-    })
-
-    process.env.NODE_ENV = originalEnv
   })
 
   it('should set focus on previous input when pressing backspace and cursor is at the beginning of the input', async () => {

@@ -620,8 +620,9 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     async (event: React.KeyboardEvent<HTMLInputElement>) => {
       const keyCode = event.key
       const target = event.target as HTMLInputElement
+      const isNumberKey = /[0-9]/g.test(keyCode)
 
-      if (target.selectionStart !== target.selectionEnd) {
+      if (target.selectionStart !== target.selectionEnd && !isNumberKey) {
         setCursorPosition(target)
       }
 
@@ -637,8 +638,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
       const secondSelectionStart = target.selectionStart
 
-      // Always false (since the old keycode function set number keys to undefined) but needed to not break tests
-      const isValid = /[0-9]/g.test(keyCode)
+      // True when a digit key (0-9) is pressed
+      const isValid = isNumberKey
       const refListArray = refList.current
 
       const index = refListArray.findIndex(
