@@ -5,17 +5,17 @@ import StatRootContext from '../StatRootContext'
 import useStatSkeleton from '../useStatSkeleton'
 
 describe('useStatSkeleton', () => {
-  it('returns isSkeleton false by default', () => {
+  it('returns hasSkeleton false by default', () => {
     const { result } = renderHook(() => useStatSkeleton())
 
-    expect(result.current.isSkeleton).toBe(false)
+    expect(result.current.hasSkeleton).toBe(false)
     expect(result.current.skeletonClass).toBeNull()
   })
 
   it('resolves skeleton from local prop', () => {
     const { result } = renderHook(() => useStatSkeleton(true))
 
-    expect(result.current.isSkeleton).toBe(true)
+    expect(result.current.hasSkeleton).toBe(true)
     expect(result.current.skeletonClass).toContain('dnb-skeleton')
     expect(result.current.skeletonClass).toContain('dnb-skeleton--font')
   })
@@ -29,7 +29,7 @@ describe('useStatSkeleton', () => {
 
     const { result } = renderHook(() => useStatSkeleton(), { wrapper })
 
-    expect(result.current.isSkeleton).toBe(true)
+    expect(result.current.hasSkeleton).toBe(true)
     expect(result.current.skeletonClass).toContain('dnb-skeleton')
   })
 
@@ -40,7 +40,7 @@ describe('useStatSkeleton', () => {
 
     const { result } = renderHook(() => useStatSkeleton(), { wrapper })
 
-    expect(result.current.isSkeleton).toBe(true)
+    expect(result.current.hasSkeleton).toBe(true)
     expect(result.current.skeletonClass).toContain('dnb-skeleton')
   })
 
@@ -55,7 +55,7 @@ describe('useStatSkeleton', () => {
       wrapper,
     })
 
-    expect(result.current.isSkeleton).toBe(false)
+    expect(result.current.hasSkeleton).toBe(false)
     expect(result.current.skeletonClass).toBeNull()
   })
 
@@ -70,7 +70,7 @@ describe('useStatSkeleton', () => {
 
     const { result } = renderHook(() => useStatSkeleton(), { wrapper })
 
-    expect(result.current.isSkeleton).toBe(true)
+    expect(result.current.hasSkeleton).toBe(true)
   })
 
   it('applySkeletonAttributes sets aria-disabled when skeleton is active', () => {

@@ -42,4 +42,71 @@ describe('Stat.Content', () => {
     expect(didWarn).toBe(true)
     spy.mockRestore()
   })
+
+  it('propagates skeleton to children via context', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content skeleton>
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const currency = document.querySelector(
+      '.dnb-stat__content-item > .dnb-stat'
+    )
+
+    expect(currency.classList).toContain('dnb-skeleton')
+    expect(currency.classList).toContain('dnb-skeleton--font')
+    expect(currency).toHaveAttribute('aria-disabled', 'true')
+
+    spy.mockRestore()
+  })
+
+  it('does not apply skeleton to children when not set', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content>
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const currency = document.querySelector(
+      '.dnb-stat__content-item > .dnb-stat'
+    )
+
+    expect(currency.classList).not.toContain('dnb-skeleton')
+    expect(currency).not.toHaveAttribute('aria-disabled')
+
+    spy.mockRestore()
+  })
+
+  it('Content skeleton overrides Root skeleton=false for children', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Root skeleton={false}>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content skeleton>
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const currency = document.querySelector(
+      '.dnb-stat__content-item > .dnb-stat'
+    )
+
+    expect(currency.classList).toContain('dnb-skeleton')
+    expect(currency).toHaveAttribute('aria-disabled', 'true')
+
+    spy.mockRestore()
+  })
 })

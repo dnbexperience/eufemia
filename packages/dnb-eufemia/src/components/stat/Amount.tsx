@@ -109,7 +109,7 @@ function AmountBase(props: AmountProps) {
     percent = null,
     ...rest
   } = props
-  const { isSkeleton, context, skeletonClass, applySkeletonAttributes } =
+  const { context, skeletonClass, applySkeletonAttributes } =
     useStatSkeleton(skeleton)
   const { useBasisSize, defaultMainWeight } =
     React.useContext(StatValueContext)
