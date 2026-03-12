@@ -101,9 +101,7 @@ function Rating(props: RatingProps) {
           {Array.from({ length: clampedMax }).map((_, index) => {
             const fill = clamp(normalizedValue - index, 0, 1)
             const stepHeight =
-              clampedMax > 1
-                ? 0.25 + (index / (clampedMax - 1)) * 0.75
-                : 1
+              clampedMax > 1 ? 0.25 + (index / (clampedMax - 1)) * 0.75 : 1
 
             return (
               <span
