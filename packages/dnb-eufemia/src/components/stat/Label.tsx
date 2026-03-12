@@ -19,7 +19,10 @@ export type LabelProps = {
   srOnly?: boolean
   fontSize?: TypographySize
   fontWeight?: TypographyWeight
-  variant?: 'default' | 'subtle'
+  variant?:
+    | 'plain'
+    | 'subtle'
+    | /** @deprecated Use "plain" instead */ 'default'
   skeleton?: SkeletonShow
   style?: React.CSSProperties
 } & SpacingProps
@@ -34,7 +37,7 @@ function Label(props: LabelProps) {
     srOnly = false,
     fontSize = 'basis',
     fontWeight = 'regular',
-    variant = 'default',
+    variant: variantProp = 'plain',
     skeleton = null,
     style = null,
     ...rest
@@ -43,6 +46,14 @@ function Label(props: LabelProps) {
   const { skeletonClass, applySkeletonAttributes } =
     useStatSkeleton(skeleton)
   const resolvedLineHeight = getHeadingLineHeightSize(fontSize)
+
+  let variant = variantProp
+  if (variant === 'default') {
+    warn(
+      'Stat.Label variant="default" is deprecated. Use variant="plain" instead.'
+    )
+    variant = 'plain'
+  }
 
   if (!inRoot) {
     warn('Stat.Label should be used inside Stat.Root')

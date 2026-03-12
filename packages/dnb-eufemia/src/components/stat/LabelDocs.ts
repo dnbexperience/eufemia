@@ -35,8 +35,8 @@ export const LabelProperties: PropertiesTableProps = {
   },
   variant: {
     doc: 'Label color style variant.',
-    type: ['"default"', '"subtle"'],
-    defaultValue: 'default',
+    type: ['"plain"', '"subtle"'],
+    defaultValue: 'plain',
     status: 'optional',
   },
   skeleton: skeletonProperty,

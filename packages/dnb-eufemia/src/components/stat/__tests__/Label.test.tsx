@@ -16,7 +16,7 @@ describe('Stat.Label', () => {
     expect(label.tagName.toLowerCase()).toBe('dt')
     expect(label.textContent).toBe('Revenue growth')
     expect(label.classList).toContain('dnb-stat')
-    expect(label.classList).toContain('dnb-stat__label--default')
+    expect(label.classList).toContain('dnb-stat__label--plain')
     expect(label.classList).toContain('dnb-t__size--basis')
     expect(label.classList).toContain('dnb-t__line-height--basis')
     expect(label.classList).toContain('dnb-t__weight--regular')
@@ -97,5 +97,32 @@ describe('Stat.Label', () => {
     expect(label.classList).toContain('dnb-skeleton')
     expect(label.classList).toContain('dnb-skeleton--font')
     expect(label).toHaveAttribute('aria-disabled', 'true')
+  })
+
+  it('warns when deprecated variant="default" is used and maps to plain', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Root>
+        <Stat.Label variant="default">Revenue growth</Stat.Label>
+      </Stat.Root>
+    )
+
+    const label = document.querySelector('.dnb-stat__label')
+
+    expect(label.classList).toContain('dnb-stat__label--plain')
+    expect(label.classList).not.toContain('dnb-stat__label--default')
+
+    const didWarn = spy.mock.calls.some((call) =>
+      call
+        .map((entry) => String(entry))
+        .join(' ')
+        .includes(
+          'Stat.Label variant="default" is deprecated. Use variant="plain" instead.'
+        )
+    )
+
+    expect(didWarn).toBe(true)
+    spy.mockRestore()
   })
 })
