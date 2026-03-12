@@ -21,6 +21,11 @@ export const HandlerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  preventDefaultOnSubmit: {
+    doc: "Set to `false` to allow the browser's native form submission, such as a native `POST` to the given `action` URL.",
+    type: 'boolean',
+    status: 'optional',
+  },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
