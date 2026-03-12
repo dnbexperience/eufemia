@@ -31,6 +31,7 @@ import Tooltip, { injectTooltipSemantic } from '../tooltip/Tooltip'
 import { format, runIOSSelectionFix } from './NumberUtils'
 import { SpacingProps } from '../space/types'
 import type { NumberFormatOptions } from './NumberUtils'
+import { SkeletonShow } from '../Skeleton'
 
 // Export the Hooks
 export { default as useNumberFormat } from './useNumberFormat'
@@ -100,7 +101,7 @@ export type NumberFormatProps = {
   srLabel?: React.ReactNode
   element?: NumberFormatElement
   tooltip?: NumberFormatTooltip
-  skeleton?: string | boolean
+  skeleton?: SkeletonShow
   className?: string
   children?: NumberFormatChildren
   // Additional props used in stories
