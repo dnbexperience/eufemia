@@ -28,7 +28,7 @@ import { Stat } from '@dnb/eufemia'
 
 - `Stat.Trend` renders explicit `+` / `-` indicators with red/green background states and screen-reader text.
 
-- `Stat.Rating` renders a star rating (defaults to 5 stars) and colorizes stars based on `value`.
+- `Stat.Rating` renders a star rating (defaults to 5 stars) and colorizes stars based on `value`. The `max` prop is clamped to `20` to prevent excessive DOM output; a console warning is emitted when the limit is exceeded.
 
 - `Stat.Info` renders supporting text with a smaller, muted style.
 
