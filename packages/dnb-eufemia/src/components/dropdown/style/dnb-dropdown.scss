@@ -4,6 +4,7 @@
 */
 
 @use '../../../style/core/utilities.scss' as utilities;
+@use '../../button/style/themes/button-mixins.scss' as button-mixins;
 
 .dnb-dropdown {
   --dropdown-width: 16rem;
@@ -109,32 +110,6 @@
     }
   }
 
-  &__status--error:not(#{&}--open) &__trigger {
-    @include utilities.fakeBorder(var(--dropdown-foreground-color-error));
-
-    @include utilities.hover() {
-      color: var(--dropdown-foreground-color-error);
-
-      @include utilities.fakeBorder(
-        var(--dropdown-foreground-color-error),
-        var(--dropdown-error-border-width)
-      );
-
-      & .dnb-dropdown__icon .dnb-icon {
-        color: var(--dropdown-foreground-color-error);
-      }
-    }
-
-    @include utilities.active() {
-      color: var(--dropdown-foreground-color-error);
-      background-color: var(--dropdown-background-color-error-active);
-    }
-  }
-  &__status--error:not(#{&}--open) &__trigger,
-  &__status--error:not(#{&}--open) &__icon {
-    color: var(--dropdown-foreground-color-error);
-  }
-
   // adjust the form-status to the inner border for 2px
   > .dnb-form-status {
     transform: translateY(-0.4375rem);
@@ -213,9 +188,40 @@
     padding: 0;
   }
 
+  &__status--error#{&}--open
+    &__trigger:not(
+      [disabled]
+    ).dnb-button--secondary.dnb-button__status--error {
+    @include utilities.fakeBorder(
+      var(--dropdown-foreground-color-error),
+      var(--dropdown-error-border-width)
+    );
+  }
+  &__status--error#{&}--open &__trigger {
+    --border-width: var(--dropdown-error-border-width);
+  }
+  &__status--error:not(#{&}--open) &__trigger:not([disabled]) {
+    color: var(--dropdown-foreground-color-error);
+  }
+  &__status--error .dnb-button--tertiary {
+    @include button-mixins.buttonFocusRing('always');
+
+    &::before {
+      --border-color: var(--dropdown-foreground-color-error);
+      --border-width: 0.0625rem;
+    }
+    &:disabled::before {
+      --border-color: var(--color-sea-green-30);
+    }
+  }
   .dnb-button--tertiary:focus::before {
-    left: 0 !important;
-    right: 0 !important;
+    left: var(--button-tertiary-focus-left);
+    right: var(--button-tertiary-focus-right);
+  }
+  &__status--error .dnb-button--tertiary:not([disabled]) {
+    &:hover::before {
+      --border-width: var(--dropdown-error-border-width);
+    }
   }
 
   // Button only menu

@@ -653,6 +653,8 @@ const DropdownInstance = React.memo(function DropdownInstance({
             ) : (
               <Button
                 variant={variant}
+                status={status ? statusState : null}
+                statusState={statusState}
                 icon={false} // only to suppress the warning about the icon when tertiary variant is used
                 size={(size === 'default' ? 'medium' : size) as ButtonSize}
                 ref={setButtonRef}

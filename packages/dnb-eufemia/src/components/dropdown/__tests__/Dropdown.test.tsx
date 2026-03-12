@@ -210,6 +210,22 @@ describe('Dropdown component', () => {
     )
   })
 
+  it('sets button error status class when status is set', () => {
+    render(
+      <Dropdown
+        skipPortal
+        noAnimation
+        data={mockData}
+        status="status text"
+        statusState="error"
+      />
+    )
+
+    expect(document.querySelector('.dnb-dropdown__trigger')).toHaveClass(
+      'dnb-button__status--error'
+    )
+  })
+
   it('will stay open when keepOpen and a selection is made', () => {
     const onChange = jest.fn()
     render(

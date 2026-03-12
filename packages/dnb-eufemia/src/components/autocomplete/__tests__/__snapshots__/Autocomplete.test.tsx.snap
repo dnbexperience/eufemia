@@ -916,6 +916,10 @@ html[data-visual-test] .dnb-input__input {
 * Dropdown component
 *
 */
+/*
+* Button mixins
+*
+*/
 .dnb-dropdown {
   --dropdown-width: 16rem;
   --dropdown-height: 2rem;
@@ -996,35 +1000,6 @@ html[data-visual-test] .dnb-input__input {
   white-space: nowrap;
   text-overflow: inherit;
 }
-.dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger {
-  --border-color: var(--dropdown-foreground-color-error);
-  --border-width: 0.0625rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:hover[disabled] {
-  cursor: not-allowed;
-}
-html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:hover:not([disabled]) {
-  color: var(--dropdown-foreground-color-error);
-  --border-color: var(--dropdown-foreground-color-error);
-  --border-width: var(--dropdown-error-border-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
-  color: var(--dropdown-foreground-color-error);
-}
-.dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:active[disabled], html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:active[disabled] {
-  cursor: not-allowed;
-}
-.dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:active:not([disabled]) {
-  color: var(--dropdown-foreground-color-error);
-  background-color: var(--dropdown-background-color-error-active);
-}
-.dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger, .dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__icon {
-  color: var(--dropdown-foreground-color-error);
-}
 .dnb-dropdown > .dnb-form-status {
   transform: translateY(-0.4375rem);
 }
@@ -1081,9 +1056,47 @@ html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown
 .dnb-dropdown .dnb-button--tertiary {
   padding: 0;
 }
+.dnb-dropdown__status--error.dnb-dropdown--open .dnb-dropdown__trigger:not([disabled]).dnb-button--secondary.dnb-button__status--error {
+  --border-color: var(--dropdown-foreground-color-error);
+  --border-width: var(--dropdown-error-border-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-dropdown__status--error.dnb-dropdown--open .dnb-dropdown__trigger {
+  --border-width: var(--dropdown-error-border-width);
+}
+.dnb-dropdown__status--error:not(.dnb-dropdown--open) .dnb-dropdown__trigger:not([disabled]) {
+  color: var(--dropdown-foreground-color-error);
+}
+.dnb-dropdown__status--error .dnb-button--tertiary::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: -0.5rem;
+  bottom: 0;
+  right: -0.5rem;
+  height: inherit;
+  border-radius: inherit;
+  outline: none;
+  --border-color: var(--focus-ring-color);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-dropdown__status--error .dnb-button--tertiary::before {
+  --border-color: var(--dropdown-foreground-color-error);
+  --border-width: 0.0625rem;
+}
+.dnb-dropdown__status--error .dnb-button--tertiary:disabled::before {
+  --border-color: var(--color-sea-green-30);
+}
 .dnb-dropdown .dnb-button--tertiary:focus::before {
-  left: 0 !important;
-  right: 0 !important;
+  left: var(--button-tertiary-focus-left);
+  right: var(--button-tertiary-focus-right);
+}
+.dnb-dropdown__status--error .dnb-button--tertiary:not([disabled]):hover::before {
+  --border-width: var(--dropdown-error-border-width);
 }
 .dnb-dropdown--default.dnb-dropdown--is-popup .dnb-dropdown__shell, .dnb-dropdown--is-popup .dnb-dropdown__trigger {
   padding: 0;

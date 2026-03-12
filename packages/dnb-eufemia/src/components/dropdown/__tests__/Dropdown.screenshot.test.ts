@@ -80,6 +80,17 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match the dropdown with tertiary button in focus state', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="dropdown-tertiary"] .dnb-dropdown__inner',
+      simulateSelector:
+        '[data-visual-test="dropdown-tertiary"] .dnb-dropdown__trigger',
+      simulate: 'focus',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match the dropdown as action menu', async () => {
     const screenshot = await makeScreenshot({
       selector:
