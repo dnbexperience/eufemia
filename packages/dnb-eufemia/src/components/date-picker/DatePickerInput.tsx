@@ -638,7 +638,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
       const secondSelectionStart = target.selectionStart
 
-      /// True when a digit key (0-9) is pressed
+      // True when a digit key (0-9) is pressed
       const isValid = isNumberKey
       const refListArray = refList.current
 
