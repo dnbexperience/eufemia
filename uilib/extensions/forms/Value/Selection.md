@@ -1,8 +1,8 @@
 ---
 title: 'Value.Selection'
 description: '`Value.Selection` is a component for displaying a string value based on a user selection.'
-version: 10.100.0
-generatedAt: 2026-03-11T18:01:08.840Z
+version: 10.100.1
+generatedAt: 2026-03-12T13:34:03.313Z
 checksum: 6782e49a32910133869cc6a4d99a98cece9e7563cc006c70ef75edd7155531f6
 ---
 

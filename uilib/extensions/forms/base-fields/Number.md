@@ -1,8 +1,8 @@
 ---
 title: 'Field.Number'
 description: '`Field.Number` is the base component for receiving user input where the target data is of type `number`.'
-version: 10.100.0
-generatedAt: 2026-03-11T18:01:08.924Z
+version: 10.100.1
+generatedAt: 2026-03-12T13:34:03.406Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

@@ -1,8 +1,8 @@
 ---
 title: 'Stat'
 description: 'Composable metric components for highlighted values, trends, and labels.'
-version: 10.100.0
-generatedAt: 2026-03-11T18:01:08.161Z
+version: 10.100.1
+generatedAt: 2026-03-12T13:34:02.617Z
 checksum: c745bfd7d4ae4407cc7cbc40dafc43620da871b400fa9f8480d9ef01c5b12aa8
 ---
 
@@ -26,15 +26,15 @@ import { Stat } from '@dnb/eufemia'
 
   - `Stat.Content` renders the main value as a definition description (`dd`).
 
-- `Stat.Amount` is the base value formatter built on the [NumberFormat](/uilib/components/number-format/) formatting logic.
+- `Stat.Number` is the base value formatter built on the [NumberFormat](/uilib/components/number-format/) formatting logic.
 
-- `Stat.Currency` and `Stat.Percent` are convenience wrappers around `Stat.Amount`.
+- `Stat.Currency` and `Stat.Percent` are convenience wrappers around `Stat.Number`.
 
   - It adds typography-specific properties such as `fontSize`, `fontWeight` and `colorizeBySign`, along with `mainSize` and `auxiliarySize` as well as `mainWeight` and `auxiliaryWeight` that can be used to customize the visual emphasis of the different parts of the value (currency symbol or percent sign).
 
 - `Stat.Trend` renders explicit `+` / `-` indicators with red/green background states and screen-reader text.
 
-- `Stat.Rating` renders a star rating (defaults to 5 stars) and colorizes stars based on `value`.
+- `Stat.Rating` renders a star rating (defaults to 5 stars) and colorizes stars based on `value`. The `max` prop is clamped to `20` to prevent excessive DOM output; a console warning is emitted when the limit is exceeded.
 
 - `Stat.Info` renders supporting text with a smaller, muted style.
 
@@ -200,26 +200,26 @@ render(
 )
 ```
 
-### Amount
+### Number
 
 ```tsx
 render(
   <Stat.Root>
-    <Stat.Label>Amount</Stat.Label>
+    <Stat.Label>Number</Stat.Label>
     <Stat.Content>
-      <Stat.Amount
+      <Stat.Number
         value={1234}
         signDisplay="always"
         mainSize="x-large"
         auxiliarySize="x-small"
-        srLabel="Amount value"
+        srLabel="Number value"
       />
     </Stat.Content>
 
-    <Stat.Label top>Amount in Trend and Info</Stat.Label>
+    <Stat.Label top>Number in Trend and Info</Stat.Label>
     <Stat.Content>
       <Stat.Trend tone="negative" srLabel="Negative trend">
-        <Stat.Amount
+        <Stat.Number
           value={-1234}
           signDisplay="always"
           srLabel="Signed amount with currency"
@@ -227,7 +227,7 @@ render(
       </Stat.Trend>
       <Stat.Info>
         (
-        <Stat.Amount value={1234} srLabel="Signed amount with currency" />)
+        <Stat.Number value={1234} srLabel="Signed amount with currency" />)
       </Stat.Info>
     </Stat.Content>
   </Stat.Root>
@@ -423,9 +423,9 @@ render(<Example />)
 
 <PropertiesTable props={PercentProperties} />
 
-## Stat.Amount
+## Stat.Number
 
-<PropertiesTable props={AmountProperties} />
+<PropertiesTable props={NumberProperties} />
 
 ## Stat.Trend
 

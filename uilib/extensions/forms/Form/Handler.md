@@ -1,8 +1,8 @@
 ---
 title: 'Form.Handler'
 description: 'The `Form.Handler` is the root component of your form. It provides an HTML form element and handles the form data.'
-version: 10.100.0
-generatedAt: 2026-03-11T18:01:08.490Z
+version: 10.100.1
+generatedAt: 2026-03-12T13:34:02.962Z
 checksum: 04607cbd4f87ff024a967f02f28239430391cbd1147cac10882113bd3e3cdc6d
 ---
 
