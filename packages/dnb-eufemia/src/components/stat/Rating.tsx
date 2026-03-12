@@ -89,6 +89,10 @@ function Rating(props: RatingProps) {
         <span className="dnb-stat__rating-progressive" aria-hidden>
           {Array.from({ length: resolvedMax }).map((_, index) => {
             const fill = clamp(normalizedValue - index, 0, 1)
+            const stepHeight =
+              resolvedMax > 1
+                ? 0.25 + (index / (resolvedMax - 1)) * 0.75
+                : 1
 
             return (
               <span
@@ -97,6 +101,7 @@ function Rating(props: RatingProps) {
                 style={
                   {
                     '--dnb-stat-rating-step-fill': `${fill * 100}%`,
+                    '--dnb-stat-rating-step-height': `${stepHeight}rem`,
                   } as React.CSSProperties
                 }
                 data-fill={fill.toFixed(2)}

@@ -52,6 +52,26 @@ describe('Stat.Rating', () => {
     expect(steps[5].getAttribute('data-fill')).toBe('0.00')
   })
 
+  it('scales progressive step heights dynamically for custom max', () => {
+    render(<Stat.Rating variant="progressive" value={5} max={10} />)
+
+    const steps = document.querySelectorAll(
+      '.dnb-stat__rating-progressive-step--base'
+    )
+
+    expect(steps).toHaveLength(10)
+
+    const firstHeight = (steps[0] as HTMLElement).style.getPropertyValue(
+      '--dnb-stat-rating-step-height'
+    )
+    const lastHeight = (steps[9] as HTMLElement).style.getPropertyValue(
+      '--dnb-stat-rating-step-height'
+    )
+
+    expect(firstHeight).toBe('0.25rem')
+    expect(lastHeight).toBe('1rem')
+  })
+
   it('provides accessible label', () => {
     render(<Stat.Rating value={2} />)
 
