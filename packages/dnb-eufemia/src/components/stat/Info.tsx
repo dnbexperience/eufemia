@@ -7,6 +7,11 @@ import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatValueContext from './StatValueContext'
 import useStatSkeleton from './useStatSkeleton'
 
+const infoContextValue = {
+  useBasisSize: true,
+  defaultMainWeight: 'regular',
+} as const
+
 export type InfoProps = {
   children?: React.ReactNode
   element?: keyof JSX.IntrinsicElements
@@ -56,9 +61,7 @@ function Info(props: InfoProps) {
 
   return (
     <Element {...attributes}>
-      <StatValueContext.Provider
-        value={{ useBasisSize: true, defaultMainWeight: 'regular' }}
-      >
+      <StatValueContext.Provider value={infoContextValue}>
         {children}
       </StatValueContext.Provider>
     </Element>
