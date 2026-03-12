@@ -155,7 +155,7 @@ export const AmountDefault = () => (
     <Stat.Root>
       <Stat.Label>Amount</Stat.Label>
       <Stat.Content>
-        <Stat.Amount
+        <Stat.Number
           value={1234}
           signDisplay="always"
           mainSize="x-large"
@@ -167,7 +167,7 @@ export const AmountDefault = () => (
       <Stat.Label top>Amount in Trend and Info</Stat.Label>
       <Stat.Content>
         <Stat.Trend tone="negative" srLabel="Negative trend">
-          <Stat.Amount
+          <Stat.Number
             value={-1234}
             signDisplay="always"
             srLabel="Signed amount with currency"
@@ -175,7 +175,7 @@ export const AmountDefault = () => (
         </Stat.Trend>
         <Stat.Info>
           (
-          <Stat.Amount
+          <Stat.Number
             value={1234}
             srLabel="Signed amount with currency"
           />
