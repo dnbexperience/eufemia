@@ -101,6 +101,26 @@ describe('Stat.Rating', () => {
     expect(rating).toHaveAttribute('aria-label', 'Morningstar 4 av 5')
   })
 
+  it('warns and clamps when max exceeds the allowed limit', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(<Stat.Rating value={5} max={50} />)
+
+    const stars = document.querySelectorAll('.dnb-stat__rating-star')
+
+    expect(stars).toHaveLength(20)
+
+    const didWarn = spy.mock.calls.some((call) =>
+      call
+        .map((entry) => String(entry))
+        .join(' ')
+        .includes('exceeds the supported limit')
+    )
+
+    expect(didWarn).toBe(true)
+    spy.mockRestore()
+  })
+
   it('should validate with ARIA rules', async () => {
     const component = render(<Stat.Rating value={3.5} srLabel="Rating" />)
 

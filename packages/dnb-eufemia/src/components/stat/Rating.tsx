@@ -5,9 +5,12 @@ import type { SpacingProps } from '../../shared/types'
 import {
   convertJsxToString,
   validateDOMAttributes,
+  warn,
 } from '../../shared/component-helper'
 import { useTranslation } from '../../shared'
 import { clamp } from '../../shared/helpers/clamp'
+
+const MAX_ALLOWED = 20
 
 export type RatingProps = {
   value?: number
@@ -32,8 +35,16 @@ function Rating(props: RatingProps) {
   const defaultMax = variant === 'progressive' ? 7 : 5
   const resolvedMax =
     Number.isFinite(max) && max > 0 ? Math.floor(max) : defaultMax
+
+  if (resolvedMax > MAX_ALLOWED) {
+    warn(
+      `Stat.Rating: max=${resolvedMax} exceeds the supported limit of ${MAX_ALLOWED}. The value will be clamped.`
+    )
+  }
+
+  const clampedMax = Math.min(resolvedMax, MAX_ALLOWED)
   const safeValue = Number.isFinite(value) ? value : 0
-  const normalizedValue = clamp(safeValue, 0, resolvedMax)
+  const normalizedValue = clamp(safeValue, 0, clampedMax)
   const labelValue = Number.isInteger(normalizedValue)
     ? String(normalizedValue)
     : normalizedValue.toFixed(1)
@@ -41,7 +52,7 @@ function Rating(props: RatingProps) {
     useTranslation()
   const localizedRating = ratingTemplate
     .replace('%value', labelValue)
-    .replace('%max', String(resolvedMax))
+    .replace('%max', String(clampedMax))
   const label = srLabel
     ? `${convertJsxToString(srLabel)} ${localizedRating}`
     : localizedRating
@@ -63,7 +74,7 @@ function Rating(props: RatingProps) {
     <Element {...attributes}>
       {variant === 'stars' ? (
         <span className="dnb-stat__rating-stars" aria-hidden>
-          {Array.from({ length: resolvedMax }).map((_, index) => {
+          {Array.from({ length: clampedMax }).map((_, index) => {
             const fill = clamp(normalizedValue - index, 0, 1)
 
             return (
@@ -87,11 +98,11 @@ function Rating(props: RatingProps) {
         </span>
       ) : (
         <span className="dnb-stat__rating-progressive" aria-hidden>
-          {Array.from({ length: resolvedMax }).map((_, index) => {
+          {Array.from({ length: clampedMax }).map((_, index) => {
             const fill = clamp(normalizedValue - index, 0, 1)
             const stepHeight =
-              resolvedMax > 1
-                ? 0.25 + (index / (resolvedMax - 1)) * 0.75
+              clampedMax > 1
+                ? 0.25 + (index / (clampedMax - 1)) * 0.75
                 : 1
 
             return (
