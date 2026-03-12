@@ -1,5 +1,5 @@
 import { PropertiesTableProps } from '../../shared/types'
-import { spacingProperties } from './StatDocsUtils'
+import { skeletonProperty, spacingProperties } from './StatDocsUtils'
 
 export const LabelProperties: PropertiesTableProps = {
   children: {
@@ -39,5 +39,6 @@ export const LabelProperties: PropertiesTableProps = {
     defaultValue: 'default',
     status: 'optional',
   },
+  skeleton: skeletonProperty,
   '[Space](/uilib/layout/space/properties)': spacingProperties,
 }

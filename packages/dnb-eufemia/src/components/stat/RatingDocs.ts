@@ -1,6 +1,6 @@
 import { PropertiesTableProps } from '../../shared/types'
 import { NumberFormatPropertiesCamelCase } from '../number-format/NumberFormatDocs'
-import { spacingProperties } from './StatDocsUtils'
+import { skeletonProperty, spacingProperties } from './StatDocsUtils'
 
 export const RatingProperties: PropertiesTableProps = {
   value: {
@@ -22,5 +22,6 @@ export const RatingProperties: PropertiesTableProps = {
     status: 'optional',
   },
   srLabel: NumberFormatPropertiesCamelCase.srLabel,
+  skeleton: skeletonProperty,
   '[Space](/uilib/layout/space/properties)': spacingProperties,
 }

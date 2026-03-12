@@ -54,4 +54,14 @@ describe('Stat.Info', () => {
     expect(info.classList).toContain('dnb-stat__info--prominent')
     expect(info.classList).not.toContain('dnb-stat__info--subtle')
   })
+
+  it('supports skeleton prop', () => {
+    render(<Stat.Info skeleton>Some additional content</Stat.Info>)
+
+    const info = document.querySelector('.dnb-stat__info')
+
+    expect(info.classList).toContain('dnb-skeleton')
+    expect(info.classList).toContain('dnb-skeleton--font')
+    expect(info).toHaveAttribute('aria-disabled', 'true')
+  })
 })

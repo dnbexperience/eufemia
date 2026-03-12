@@ -8,7 +8,9 @@ import type {
 } from '../../elements/typography/Typography'
 import { getHeadingLineHeightSize } from '../../elements/typography/Typography'
 import { validateDOMAttributes, warn } from '../../shared/component-helper'
+import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatRootContext from './StatRootContext'
+import useStatSkeleton from './useStatSkeleton'
 
 export type LabelProps = {
   children?: React.ReactNode
@@ -18,6 +20,7 @@ export type LabelProps = {
   fontSize?: TypographySize
   fontWeight?: TypographyWeight
   variant?: 'default' | 'subtle'
+  skeleton?: SkeletonShow
   style?: React.CSSProperties
 } & SpacingProps
 
@@ -32,9 +35,13 @@ function Label(props: LabelProps) {
     fontSize = 'basis',
     fontWeight = 'regular',
     variant = 'default',
+    skeleton = null,
     style = null,
     ...rest
   } = props
+
+  const { skeletonClass, applySkeletonAttributes } =
+    useStatSkeleton(skeleton)
   const resolvedLineHeight = getHeadingLineHeightSize(fontSize)
 
   if (!inRoot) {
@@ -53,9 +60,12 @@ function Label(props: LabelProps) {
       `dnb-t__line-height--${resolvedLineHeight}`,
       `dnb-t__weight--${fontWeight}`,
       createSpacingClasses(props),
+      skeletonClass,
       className
     ),
   })
+
+  applySkeletonAttributes(attributes)
 
   return <Element {...attributes}>{children}</Element>
 }

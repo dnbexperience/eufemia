@@ -3,13 +3,16 @@ import classnames from 'classnames'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import type { SpacingProps } from '../../shared/types'
 import { validateDOMAttributes, warn } from '../../shared/component-helper'
+import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatRootContext from './StatRootContext'
+import useStatSkeleton from './useStatSkeleton'
 
 export type ContentProps = {
   children?: React.ReactNode
   className?: string
   element?: keyof JSX.IntrinsicElements
   direction?: 'horizontal' | 'vertical'
+  skeleton?: SkeletonShow
 } & SpacingProps
 
 function Content(props: ContentProps) {
@@ -20,8 +23,11 @@ function Content(props: ContentProps) {
     className = null,
     element: Element = 'dd',
     direction = 'horizontal',
+    skeleton = null,
     ...rest
   } = props
+
+  const { hasSkeleton } = useStatSkeleton(skeleton)
 
   if (!inRoot) {
     warn('Stat.Content should be used inside Stat.Root')
@@ -38,7 +44,11 @@ function Content(props: ContentProps) {
     ),
   })
 
-  return <Element {...attributes}>{children}</Element>
+  return (
+    <StatRootContext.Provider value={{ inRoot, skeleton: hasSkeleton }}>
+      <Element {...attributes}>{children}</Element>
+    </StatRootContext.Provider>
+  )
 }
 
 Content._supportsSpacingProps = true

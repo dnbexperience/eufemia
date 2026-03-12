@@ -7,8 +7,10 @@ import {
   validateDOMAttributes,
   warn,
 } from '../../shared/component-helper'
+import type { SkeletonShow } from '../skeleton/Skeleton'
 import { useTranslation } from '../../shared'
 import { clamp } from '../../shared/helpers/clamp'
+import useStatSkeleton from './useStatSkeleton'
 
 const MAX_ALLOWED = 20
 
@@ -19,6 +21,7 @@ export type RatingProps = {
   element?: keyof JSX.IntrinsicElements
   className?: string
   srLabel?: React.ReactNode
+  skeleton?: SkeletonShow
 } & SpacingProps
 
 function Rating(props: RatingProps) {
@@ -29,8 +32,12 @@ function Rating(props: RatingProps) {
     element: Element = 'span',
     className = null,
     srLabel = null,
+    skeleton = null,
     ...rest
   } = props
+
+  const { skeletonClass, applySkeletonAttributes } =
+    useStatSkeleton(skeleton)
 
   const defaultMax = variant === 'progressive' ? 7 : 5
   const resolvedMax =
@@ -66,9 +73,12 @@ function Rating(props: RatingProps) {
       'dnb-stat__rating',
       `dnb-stat__rating--${variant}`,
       createSpacingClasses(props),
+      skeletonClass,
       className
     ),
   })
+
+  applySkeletonAttributes(attributes)
 
   return (
     <Element {...attributes}>

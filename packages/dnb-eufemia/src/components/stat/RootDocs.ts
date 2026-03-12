@@ -13,5 +13,10 @@ export const RootProperties: PropertiesTableProps = {
     defaultValue: 'label-content',
     status: 'optional',
   },
+  skeleton: {
+    doc: 'Applies skeleton loading state to all child components (Label, Amount, Currency, Percent, Rating, Trend, Info).',
+    type: ['boolean'],
+    status: 'optional',
+  },
   '[Space](/uilib/layout/space/properties)': spacingProperties,
 }

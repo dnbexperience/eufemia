@@ -6,7 +6,9 @@ import {
   convertJsxToString,
   validateDOMAttributes,
 } from '../../shared/component-helper'
+import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatValueContext from './StatValueContext'
+import useStatSkeleton from './useStatSkeleton'
 
 export type TrendProps = {
   value?: number | string
@@ -15,6 +17,7 @@ export type TrendProps = {
   className?: string
   srLabel?: React.ReactNode
   tone?: 'positive' | 'negative' | 'neutral'
+  skeleton?: SkeletonShow
 } & SpacingProps
 
 function Trend(props: TrendProps) {
@@ -25,8 +28,12 @@ function Trend(props: TrendProps) {
     className = null,
     srLabel = null,
     tone = null,
+    skeleton = null,
     ...rest
   } = props
+
+  const { skeletonClass, applySkeletonAttributes } =
+    useStatSkeleton(skeleton)
 
   const rawValue =
     typeof value !== 'undefined' ? value : getValueFromChildren(children)
@@ -62,9 +69,12 @@ function Trend(props: TrendProps) {
       'dnb-stat__trend',
       `dnb-stat__trend--${usedTone}`,
       createSpacingClasses(props),
+      skeletonClass,
       className
     ),
   })
+
+  applySkeletonAttributes(attributes)
 
   return (
     <Element {...attributes}>

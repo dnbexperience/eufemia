@@ -126,4 +126,14 @@ describe('Stat.Rating', () => {
 
     expect(await axeComponent(component)).toHaveNoViolations()
   })
+
+  it('supports skeleton prop', () => {
+    render(<Stat.Rating value={3.5} skeleton />)
+
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(rating.classList).toContain('dnb-skeleton')
+    expect(rating.classList).toContain('dnb-skeleton--font')
+    expect(rating).toHaveAttribute('aria-disabled', 'true')
+  })
 })

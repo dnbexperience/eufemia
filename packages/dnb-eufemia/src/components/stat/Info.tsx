@@ -3,7 +3,9 @@ import classnames from 'classnames'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import type { SpacingProps } from '../../shared/types'
 import { validateDOMAttributes, warn } from '../../shared/component-helper'
+import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatValueContext from './StatValueContext'
+import useStatSkeleton from './useStatSkeleton'
 
 export type InfoProps = {
   children?: React.ReactNode
@@ -14,6 +16,7 @@ export type InfoProps = {
     | 'subtle'
     | 'prominent'
     | /** @deprecated Use "plain" instead */ 'default'
+  skeleton?: SkeletonShow
 } & SpacingProps
 
 function Info(props: InfoProps) {
@@ -22,6 +25,7 @@ function Info(props: InfoProps) {
     element: Element = 'span',
     className = null,
     variant: variantProp = 'subtle',
+    skeleton = null,
     ...rest
   } = props
 
@@ -33,6 +37,9 @@ function Info(props: InfoProps) {
     variant = 'plain'
   }
 
+  const { skeletonClass, applySkeletonAttributes } =
+    useStatSkeleton(skeleton)
+
   const attributes = validateDOMAttributes(props, {
     ...rest,
     className: classnames(
@@ -40,9 +47,12 @@ function Info(props: InfoProps) {
       'dnb-stat__info',
       `dnb-stat__info--${variant}`,
       createSpacingClasses(props),
+      skeletonClass,
       className
     ),
   })
+
+  applySkeletonAttributes(attributes)
 
   return (
     <Element {...attributes}>
