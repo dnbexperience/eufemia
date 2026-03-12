@@ -17,17 +17,16 @@ export type TrendProps = {
   tone?: 'positive' | 'negative' | 'neutral'
 } & SpacingProps
 
-const Trend = React.forwardRef<HTMLElement, TrendProps>(
-  (props, ref) => {
-    const {
-      value,
-      children,
-      element: Element = 'span' as React.ElementType,
-      className = null,
-      srLabel = null,
-      tone = null,
-      ...rest
-    } = props
+const Trend = React.forwardRef<HTMLElement, TrendProps>((props, ref) => {
+  const {
+    value,
+    children,
+    element: Element = 'span' as React.ElementType,
+    className = null,
+    srLabel = null,
+    tone = null,
+    ...rest
+  } = props
 
   const rawValue =
     typeof value !== 'undefined' ? value : getValueFromChildren(children)
@@ -67,25 +66,24 @@ const Trend = React.forwardRef<HTMLElement, TrendProps>(
     ),
   })
 
-    return (
-      <Element ref={ref} {...attributes}>
-        <StatValueContext.Provider
-          value={{ useBasisSize: true, defaultMainWeight: null }}
-        >
-          <span className="dnb-stat__trend-content" aria-hidden>
-            {!hasCustomChildren && sign ? (
-              <span className="dnb-stat__trend-sign">{sign}</span>
-            ) : null}
-            <span className="dnb-stat__trend-value">
-              {hasCustomChildren ? children : displayValue}
-            </span>
+  return (
+    <Element ref={ref} {...attributes}>
+      <StatValueContext.Provider
+        value={{ useBasisSize: true, defaultMainWeight: null }}
+      >
+        <span className="dnb-stat__trend-content" aria-hidden>
+          {!hasCustomChildren && sign ? (
+            <span className="dnb-stat__trend-sign">{sign}</span>
+          ) : null}
+          <span className="dnb-stat__trend-value">
+            {hasCustomChildren ? children : displayValue}
           </span>
-        </StatValueContext.Provider>
-        <span className="dnb-sr-only" data-text={srText} />
-      </Element>
-    )
-  }
-)
+        </span>
+      </StatValueContext.Provider>
+      <span className="dnb-sr-only" data-text={srText} />
+    </Element>
+  )
+})
 
 // @ts-expect-error - Adding custom property to component for spacing detection
 Trend._supportsSpacingProps = true
