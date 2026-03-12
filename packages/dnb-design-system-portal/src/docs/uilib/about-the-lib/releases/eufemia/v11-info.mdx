@@ -1247,6 +1247,8 @@ For more information on how to replace these, see [FormSet/FormRow deprecation](
 - Replace `import { includeValidProps } from '@dnb/eufemia/components/form-row/FormRowHelpers'` with `import { pickFormElementProps } from '@dnb/eufemia/shared/helpers/filterValidProps'`.
 - Replace `import { prepareFormRowContext } from '@dnb/eufemia/components/form-row/FormRowHelpers'` with `import { prepareFormElementContext } from '@dnb/eufemia/shared/helpers/filterValidProps'`.
 
+If you migrate a `FormSet` that relied on a native browser submit, such as `method="post"` with an `action`, you can use `preventDefaultOnSubmit={false}` on [Form.Handler](/uilib/extensions/forms/Form/Handler/) to keep the native submit behavior.
+
 ## Helpers
 
 ### [Component helpers](/uilib/helpers/)
