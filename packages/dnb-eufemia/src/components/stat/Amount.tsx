@@ -82,10 +82,7 @@ const renderAffix = (
   return <span className={className}>{resolved as React.ReactNode}</span>
 }
 
-/**
- * @deprecated Use `Stat.Number` instead.
- */
-function Amount(props: AmountProps) {
+function AmountBase(props: AmountProps) {
   const {
     element: Element = 'span',
     value,
@@ -315,6 +312,13 @@ function Amount(props: AmountProps) {
   )
 }
 
-Amount._supportsSpacingProps = true
+AmountBase._supportsSpacingProps = true
+
+export { AmountBase }
+
+/**
+ * @deprecated Use `Stat.Number` instead.
+ */
+const Amount = AmountBase
 
 export default Amount

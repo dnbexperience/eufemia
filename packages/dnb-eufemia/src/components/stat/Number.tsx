@@ -1,4 +1,4 @@
-import Amount from './Amount'
+import { AmountBase } from './Amount'
 
 export type { AmountProps as NumberProps } from './Amount'
 
@@ -7,7 +7,7 @@ export type { AmountProps as NumberProps } from './Amount'
  *
  * Supports plain numbers, currencies, percentages, and custom formatting.
  */
-const Number = Amount
+const Number = AmountBase
 
 Number._supportsSpacingProps = true
 
