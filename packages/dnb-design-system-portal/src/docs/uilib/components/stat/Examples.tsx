@@ -150,21 +150,21 @@ export const CurrencyDefault = () => (
   </ComponentBox>
 )
 
-export const AmountDefault = () => (
-  <ComponentBox data-visual-test="stat-amount-example">
+export const NumberDefault = () => (
+  <ComponentBox data-visual-test="stat-number-example">
     <Stat.Root>
-      <Stat.Label>Amount</Stat.Label>
+      <Stat.Label>Number</Stat.Label>
       <Stat.Content>
         <Stat.Number
           value={1234}
           signDisplay="always"
           mainSize="x-large"
           auxiliarySize="x-small"
-          srLabel="Amount value"
+          srLabel="Number value"
         />
       </Stat.Content>
 
-      <Stat.Label top>Amount in Trend and Info</Stat.Label>
+      <Stat.Label top>Number in Trend and Info</Stat.Label>
       <Stat.Content>
         <Stat.Trend tone="negative" srLabel="Negative trend">
           <Stat.Number
