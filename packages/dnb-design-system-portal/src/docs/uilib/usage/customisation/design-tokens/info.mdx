@@ -1,0 +1,40 @@
+---
+draft: true
+showTabs: true
+---
+
+import { TokenExample, TokenNamingRules } from './Examples'
+
+---
+
+**NB:** Do not use the `--token-*` CSS custom properties in your code until this page is marked as ready for consumption. The token API is still being finalized and may change without warning until then.
+
+---
+
+This page documents the stable `--token-*` CSS custom properties that are ready for teams to consume.
+
+For external usage, not all token rows should be treated the same:
+
+- `Base` means the token is part of the intended external semantic surface, such as `action` or `action-inverse`.
+- `State` means the token is a semantic interaction state, such as `action-hover` or `action-focus`.
+- `Advanced` means the token is contextual or decorative, such as `action-ondark`, `action-onlight` or `action-subtle`.
+
+## Source of truth
+
+- The token inventory below is generated from the same exported theme token files that produce tokens.
+- The consumer API is the generated CSS tokens files.
+- The color values behind these tokens come from Eufemia Foundation colors and are mapped into semantic and component token layers per theme.
+- The inventory on this page is derived from the exported Figma theme token JSON files used by the generator.
+- **Eiendom** currently reuses the UI token file, so the three explicit brand references shown here are **DNB**, **Sbanken** and **Carnegie**.
+
+## Naming contract
+
+<TokenNamingRules />
+
+<br />
+
+Typical examples:
+
+- semantic token: <TokenExample name="--token-color-text-neutral" />
+- semantic state token: <TokenExample name="--token-color-background-action-hover-subtle" />
+- component token: <TokenExample name="--token-color-component-button-background-action" />
