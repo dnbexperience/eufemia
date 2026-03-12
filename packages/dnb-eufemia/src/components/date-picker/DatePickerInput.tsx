@@ -638,7 +638,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
       const secondSelectionStart = target.selectionStart
 
-      // Always false (since the old keycode function set number keys to undefined) but needed to not break tests
+      /// True when a digit key (0-9) is pressed
       const isValid = isNumberKey
       const refListArray = refList.current
 
