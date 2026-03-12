@@ -13,6 +13,10 @@ export type Props = Omit<
 > &
   SpacingProps & {
     ref?: React.RefObject<HTMLFormElement>
+    /**
+     * Set to `false` to allow the browser's native form submission.
+     */
+    preventDefaultOnSubmit?: boolean
   }
 
 export default function FormElement(props: Props) {
@@ -27,7 +31,13 @@ function FormElementInstance(props: Props) {
     ([, value]) => value
   )
 
-  const { children, className, onSubmit, ...restProps } = {
+  const {
+    children,
+    className,
+    onSubmit,
+    preventDefaultOnSubmit = true,
+    ...restProps
+  } = {
     ...restHandlerProps,
     ...props,
   } as Props
@@ -46,7 +56,9 @@ function FormElementInstance(props: Props) {
 
   const onSubmitHandler = useCallback(
     (event: React.SyntheticEvent<HTMLFormElement>) => {
-      event?.preventDefault()
+      if (preventDefaultOnSubmit) {
+        event?.preventDefault()
+      }
 
       const formElement = event.target as HTMLFormElement
       const submitter = (
@@ -68,7 +80,7 @@ function FormElementInstance(props: Props) {
         onSubmit(event)
       }
     },
-    [dataContext, onSubmit]
+    [dataContext, onSubmit, preventDefaultOnSubmit]
   )
 
   return (
