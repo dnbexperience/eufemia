@@ -1,5 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import { axeComponent } from '../../../core/jest/jestSetup'
 import Stat from '../Stat'
 
 describe('Stat.Inline', () => {
@@ -40,5 +41,16 @@ describe('Stat.Inline', () => {
     expect(inline.classList).not.toContain(
       'dnb-flex-container--align-center'
     )
+  })
+
+  it('should validate with ARIA rules', async () => {
+    const component = render(
+      <Stat.Inline>
+        <Stat.Trend>+1.2%</Stat.Trend>
+        <Stat.Info>(additional information)</Stat.Info>
+      </Stat.Inline>
+    )
+
+    expect(await axeComponent(component)).toHaveNoViolations()
   })
 })

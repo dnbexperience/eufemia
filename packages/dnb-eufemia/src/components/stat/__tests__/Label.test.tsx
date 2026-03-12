@@ -1,5 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import { axeComponent } from '../../../core/jest/jestSetup'
 import Stat from '../Stat'
 
 describe('Stat.Label', () => {
@@ -124,5 +125,18 @@ describe('Stat.Label', () => {
 
     expect(didWarn).toBe(true)
     spy.mockRestore()
+  })
+
+  it('should validate with ARIA rules', async () => {
+    const component = render(
+      <Stat.Root>
+        <Stat.Label>Revenue growth</Stat.Label>
+        <Stat.Content>
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    expect(await axeComponent(component)).toHaveNoViolations()
   })
 })
