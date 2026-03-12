@@ -2,14 +2,26 @@ import React from 'react'
 import classnames from 'classnames'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import type { SpacingProps } from '../../shared/types'
-import { validateDOMAttributes } from '../../shared/component-helper'
+import { validateDOMAttributes, warn } from '../../shared/component-helper'
+import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatValueContext from './StatValueContext'
+import useStatSkeleton from './useStatSkeleton'
+
+const infoContextValue = {
+  useBasisSize: true,
+  defaultMainWeight: 'regular',
+} as const
 
 export type InfoProps = {
   children?: React.ReactNode
   element?: keyof JSX.IntrinsicElements
   className?: string
-  variant?: 'default' | 'subtle' | 'prominent'
+  variant?:
+    | 'plain'
+    | 'subtle'
+    | 'prominent'
+    | /** @deprecated Use "plain" instead */ 'default'
+  skeleton?: SkeletonShow
 } & SpacingProps
 
 function Info(props: InfoProps) {
@@ -17,9 +29,21 @@ function Info(props: InfoProps) {
     children,
     element: Element = 'span',
     className = null,
-    variant = 'subtle',
+    variant: variantProp = 'subtle',
+    skeleton = null,
     ...rest
   } = props
+
+  let variant = variantProp
+  if (variant === 'default') {
+    warn(
+      'Stat.Info variant="default" is deprecated. Use variant="plain" instead.'
+    )
+    variant = 'plain'
+  }
+
+  const { skeletonClass, applySkeletonAttributes } =
+    useStatSkeleton(skeleton)
 
   const attributes = validateDOMAttributes(props, {
     ...rest,
@@ -28,15 +52,16 @@ function Info(props: InfoProps) {
       'dnb-stat__info',
       `dnb-stat__info--${variant}`,
       createSpacingClasses(props),
+      skeletonClass,
       className
     ),
   })
 
+  applySkeletonAttributes(attributes)
+
   return (
     <Element {...attributes}>
-      <StatValueContext.Provider
-        value={{ useBasisSize: true, defaultMainWeight: 'regular' }}
-      >
+      <StatValueContext.Provider value={infoContextValue}>
         {children}
       </StatValueContext.Provider>
     </Element>

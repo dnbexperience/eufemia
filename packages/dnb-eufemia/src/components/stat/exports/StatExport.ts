@@ -1,4 +1,5 @@
 export { default as Amount } from '../Amount'
+export { default as Number } from '../Number'
 export { default as Currency } from '../Currency'
 export { default as Percent } from '../Percent'
 export { default as Rating } from '../Rating'

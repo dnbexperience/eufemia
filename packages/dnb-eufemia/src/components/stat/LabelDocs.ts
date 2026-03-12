@@ -1,5 +1,5 @@
 import { PropertiesTableProps } from '../../shared/types'
-import { spacingProperties } from './StatDocsUtils'
+import { skeletonProperty, spacingProperties } from './StatDocsUtils'
 
 export const LabelProperties: PropertiesTableProps = {
   children: {
@@ -35,9 +35,10 @@ export const LabelProperties: PropertiesTableProps = {
   },
   variant: {
     doc: 'Label color style variant.',
-    type: ['"default"', '"subtle"'],
-    defaultValue: 'default',
+    type: ['"plain"', '"subtle"'],
+    defaultValue: 'plain',
     status: 'optional',
   },
+  skeleton: skeletonProperty,
   '[Space](/uilib/layout/space/properties)': spacingProperties,
 }

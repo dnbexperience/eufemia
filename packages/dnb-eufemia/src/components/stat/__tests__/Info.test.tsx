@@ -1,5 +1,9 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import {
+  axeComponent,
+  spyOnEufemiaWarn,
+} from '../../../core/jest/jestSetup'
 import Stat from '../Stat'
 
 describe('Stat.Info', () => {
@@ -15,15 +19,32 @@ describe('Stat.Info', () => {
     expect(info.classList).toContain('dnb-stat__info--subtle')
   })
 
-  it('supports default variant', () => {
+  it('supports plain variant', () => {
+    render(<Stat.Info variant="plain">Some additional content</Stat.Info>)
+
+    const info = document.querySelector('.dnb-stat__info')
+
+    expect(info.classList).toContain('dnb-stat__info--plain')
+    expect(info.classList).not.toContain('dnb-stat__info--subtle')
+  })
+
+  it('supports deprecated default variant and maps to plain', () => {
+    const log = spyOnEufemiaWarn()
+
     render(
       <Stat.Info variant="default">Some additional content</Stat.Info>
     )
 
     const info = document.querySelector('.dnb-stat__info')
 
-    expect(info.classList).toContain('dnb-stat__info--default')
-    expect(info.classList).not.toContain('dnb-stat__info--subtle')
+    expect(info.classList).toContain('dnb-stat__info--plain')
+    expect(info.classList).not.toContain('dnb-stat__info--default')
+    expect(log).toHaveBeenCalledWith(
+      expect.stringContaining('Eufemia'),
+      expect.stringContaining('variant="default" is deprecated')
+    )
+
+    log.mockRestore()
   })
 
   it('supports prominent variant', () => {
@@ -35,5 +56,23 @@ describe('Stat.Info', () => {
 
     expect(info.classList).toContain('dnb-stat__info--prominent')
     expect(info.classList).not.toContain('dnb-stat__info--subtle')
+  })
+
+  it('supports skeleton prop', () => {
+    render(<Stat.Info skeleton>Some additional content</Stat.Info>)
+
+    const info = document.querySelector('.dnb-stat__info')
+
+    expect(info.classList).toContain('dnb-skeleton')
+    expect(info.classList).toContain('dnb-skeleton--font')
+    expect(info).toHaveAttribute('aria-disabled', 'true')
+  })
+
+  it('should validate with ARIA rules', async () => {
+    const component = render(
+      <Stat.Info>Some additional content</Stat.Info>
+    )
+
+    expect(await axeComponent(component)).toHaveNoViolations()
   })
 })

@@ -1,6 +1,6 @@
 import { PropertiesTableProps } from '../../shared/types'
 import { NumberFormatPropertiesCamelCase } from '../number-format/NumberFormatDocs'
-import { spacingProperties } from './StatDocsUtils'
+import { skeletonProperty, spacingProperties } from './StatDocsUtils'
 
 export const RatingProperties: PropertiesTableProps = {
   value: {
@@ -10,7 +10,7 @@ export const RatingProperties: PropertiesTableProps = {
     status: 'optional',
   },
   max: {
-    doc: 'Total number of items to render. Defaults to `5` for `stars` and `7` for `progressive`.',
+    doc: 'Total number of items to render. Defaults to `5` for `stars` and `7` for `progressive`. Values above `20` are clamped and a warning is emitted.',
     type: ['number'],
     defaultValue: '5 (stars), 7 (progressive)',
     status: 'optional',
@@ -22,5 +22,6 @@ export const RatingProperties: PropertiesTableProps = {
     status: 'optional',
   },
   srLabel: NumberFormatPropertiesCamelCase.srLabel,
+  skeleton: skeletonProperty,
   '[Space](/uilib/layout/space/properties)': spacingProperties,
 }

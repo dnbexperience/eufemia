@@ -42,7 +42,7 @@
       margin-bottom: 0.5rem;
     }
 
-    &--default {
+    &--plain {
       color: var(--color-black-80);
     }
 
@@ -79,7 +79,7 @@
     font-size: var(--font-size-small);
     line-height: var(--line-height-basis);
 
-    &--default {
+    &--plain {
       color: var(--color-black-80);
     }
 
@@ -209,41 +209,13 @@
     &-progressive-step {
       display: inline-block;
       width: 0.25rem;
-      height: 0.25rem;
+      height: var(--dnb-stat-rating-step-height, 0.25rem);
       border-radius: 0.0625rem;
       background: linear-gradient(
         to right,
         var(--color-black-80) var(--dnb-stat-rating-step-fill, 0%),
         var(--color-black-20) var(--dnb-stat-rating-step-fill, 0%)
       );
-    }
-
-    &-progressive-step--base:nth-child(1) {
-      height: 0.25rem;
-    }
-
-    &-progressive-step--base:nth-child(2) {
-      height: 0.375rem;
-    }
-
-    &-progressive-step--base:nth-child(3) {
-      height: 0.5rem;
-    }
-
-    &-progressive-step--base:nth-child(4) {
-      height: 0.625rem;
-    }
-
-    &-progressive-step--base:nth-child(5) {
-      height: 0.75rem;
-    }
-
-    &-progressive-step--base:nth-child(6) {
-      height: 0.875rem;
-    }
-
-    &-progressive-step--base:nth-child(7) {
-      height: 1rem;
     }
   }
 }

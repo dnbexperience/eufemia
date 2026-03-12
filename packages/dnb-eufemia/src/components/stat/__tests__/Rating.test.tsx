@@ -52,6 +52,26 @@ describe('Stat.Rating', () => {
     expect(steps[5].getAttribute('data-fill')).toBe('0.00')
   })
 
+  it('scales progressive step heights dynamically for custom max', () => {
+    render(<Stat.Rating variant="progressive" value={5} max={10} />)
+
+    const steps = document.querySelectorAll(
+      '.dnb-stat__rating-progressive-step--base'
+    )
+
+    expect(steps).toHaveLength(10)
+
+    const firstHeight = (steps[0] as HTMLElement).style.getPropertyValue(
+      '--dnb-stat-rating-step-height'
+    )
+    const lastHeight = (steps[9] as HTMLElement).style.getPropertyValue(
+      '--dnb-stat-rating-step-height'
+    )
+
+    expect(firstHeight).toBe('0.25rem')
+    expect(lastHeight).toBe('1rem')
+  })
+
   it('provides accessible label', () => {
     render(<Stat.Rating value={2} />)
 
@@ -81,9 +101,39 @@ describe('Stat.Rating', () => {
     expect(rating).toHaveAttribute('aria-label', 'Morningstar 4 av 5')
   })
 
+  it('warns and clamps when max exceeds the allowed limit', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(<Stat.Rating value={5} max={50} />)
+
+    const stars = document.querySelectorAll('.dnb-stat__rating-star')
+
+    expect(stars).toHaveLength(20)
+
+    const didWarn = spy.mock.calls.some((call) =>
+      call
+        .map((entry) => String(entry))
+        .join(' ')
+        .includes('exceeds the supported limit')
+    )
+
+    expect(didWarn).toBe(true)
+    spy.mockRestore()
+  })
+
   it('should validate with ARIA rules', async () => {
     const component = render(<Stat.Rating value={3.5} srLabel="Rating" />)
 
     expect(await axeComponent(component)).toHaveNoViolations()
+  })
+
+  it('supports skeleton prop', () => {
+    render(<Stat.Rating value={3.5} skeleton />)
+
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(rating.classList).toContain('dnb-skeleton')
+    expect(rating.classList).toContain('dnb-skeleton--font')
+    expect(rating).toHaveAttribute('aria-disabled', 'true')
   })
 })

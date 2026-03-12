@@ -1,5 +1,5 @@
 import { PropertiesTableProps } from '../../shared/types'
-import { spacingProperties } from './StatDocsUtils'
+import { skeletonProperty, spacingProperties } from './StatDocsUtils'
 
 export const InfoProperties: PropertiesTableProps = {
   children: {
@@ -9,9 +9,10 @@ export const InfoProperties: PropertiesTableProps = {
   },
   variant: {
     doc: 'Info color style variant.',
-    type: ['"default"', '"subtle"', '"prominent"'],
+    type: ['"plain"', '"subtle"', '"prominent"'],
     defaultValue: 'subtle',
     status: 'optional',
   },
+  skeleton: skeletonProperty,
   '[Space](/uilib/layout/space/properties)': spacingProperties,
 }

@@ -1,6 +1,5 @@
 import React from 'react'
 import classnames from 'classnames'
-import Context from '../../shared/Context'
 import { NumberFormatProps } from '../number-format/NumberFormat'
 import useNumberFormatWithParts from '../number-format/useNumberFormatWithParts'
 import type { NumberFormatParts } from '../number-format/useNumberFormatWithParts'
@@ -11,17 +10,17 @@ import type {
 } from '../../elements/typography/Typography'
 import { getHeadingLineHeightSize } from '../../elements/typography/Typography'
 import type { SpacingProps } from '../../shared/types'
-import {
-  createSkeletonClass,
-  skeletonDOMAttributes,
-} from '../skeleton/SkeletonHelper'
 import { formatReturnValue } from '../number-format/NumberUtils'
 import {
   convertJsxToString,
   validateDOMAttributes,
 } from '../../shared/component-helper'
 import StatValueContext from './StatValueContext'
+import useStatSkeleton from './useStatSkeleton'
 
+/**
+ * @deprecated Use `NumberProps` from `Stat.Number` instead.
+ */
 export type AmountProps = Omit<
   NumberFormatProps,
   'children' | 'currency_display' | 'currency_position'
@@ -70,16 +69,10 @@ const renderAffix = (
     resolved = resolved()
   }
 
-  if (React.isValidElement(resolved)) {
-    return React.cloneElement(resolved, {
-      className: classnames(resolved.props.className, className),
-    })
-  }
-
   return <span className={className}>{resolved as React.ReactNode}</span>
 }
 
-function Amount(props: AmountProps) {
+function AmountBase(props: AmountProps) {
   const {
     element: Element = 'span',
     value,
@@ -110,12 +103,12 @@ function Amount(props: AmountProps) {
     percent = null,
     ...rest
   } = props
-  const context = React.useContext(Context)
+  const { context, skeletonClass, applySkeletonAttributes } =
+    useStatSkeleton(skeleton)
   const { useBasisSize, defaultMainWeight } =
     React.useContext(StatValueContext)
   const resolvedLocale =
     locale ?? (context?.NumberFormat?.locale as string) ?? context?.locale
-  const resolvedSkeleton = Boolean(skeleton ?? context?.skeleton)
 
   const rawValue =
     typeof value !== 'undefined'
@@ -290,13 +283,13 @@ function Amount(props: AmountProps) {
       'dnb-stat',
       colorizeBySign && signTone && `dnb-stat--tone-${signTone}`,
       createSpacingClasses(props),
-      createSkeletonClass('font', resolvedSkeleton, context),
+      skeletonClass,
       className
     ),
     lang: lang || resolvedLocale || formatted.locale,
   })
 
-  skeletonDOMAttributes(attributes, resolvedSkeleton, context)
+  applySkeletonAttributes(attributes)
 
   return (
     <Element {...attributes}>
@@ -309,6 +302,13 @@ function Amount(props: AmountProps) {
   )
 }
 
-Amount._supportsSpacingProps = true
+AmountBase._supportsSpacingProps = true
+
+export { AmountBase }
+
+/**
+ * @deprecated Use `Stat.Number` instead.
+ */
+const Amount = AmountBase
 
 export default Amount
