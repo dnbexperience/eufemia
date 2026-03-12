@@ -9,7 +9,7 @@ export const InfoProperties: PropertiesTableProps = {
   },
   variant: {
     doc: 'Info color style variant.',
-    type: ['"default"', '"subtle"', '"prominent"'],
+    type: ['"plain"', '"subtle"', '"prominent"'],
     defaultValue: 'subtle',
     status: 'optional',
   },
