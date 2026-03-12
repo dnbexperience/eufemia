@@ -1,6 +1,6 @@
-import { AmountBase } from './Amount'
+import { AmountBase, type AmountProps } from './Amount'
 
-export type { AmountProps as NumberProps } from './Amount'
+export type NumberProps = AmountProps
 
 /**
  * Stat.Number — A general-purpose formatted number display.
