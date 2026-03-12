@@ -7,6 +7,11 @@ export const RootProperties: PropertiesTableProps = {
     type: ['React.ReactNode'],
     status: 'optional',
   },
+  innerRef: {
+    doc: 'A ref object to access the underlying `dl` DOM element.',
+    type: ['React.RefObject<HTMLElement>'],
+    status: 'optional',
+  },
   visualOrder: {
     doc: 'Visual order of label and content while keeping semantic `dt`/`dd` markup in DOM.',
     type: ['"label-content"', '"content-label"'],

@@ -164,4 +164,17 @@ describe('Stat.Root', () => {
     expect(await axeComponent(component)).not.toHaveNoViolations()
     spy.mockRestore()
   })
+
+  it('should forward innerRef to the dl element', () => {
+    const ref = React.createRef<HTMLElement>()
+
+    render(
+      <Stat.Root innerRef={ref}>
+        <Stat.Label>Revenue growth</Stat.Label>
+      </Stat.Root>
+    )
+
+    expect(ref.current).toBe(document.querySelector('.dnb-stat__root'))
+    expect(ref.current.tagName.toLowerCase()).toBe('dl')
+  })
 })

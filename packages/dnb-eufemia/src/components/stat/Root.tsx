@@ -8,6 +8,7 @@ import StatRootContext from './StatRootContext'
 export type RootProps = {
   children?: React.ReactNode
   className?: string
+  innerRef?: React.RefObject<HTMLElement>
   visualOrder?: 'label-content' | 'content-label'
 } & SpacingProps
 
@@ -15,6 +16,7 @@ function Root(props: RootProps) {
   const {
     children,
     className = null,
+    innerRef,
     visualOrder = 'label-content',
     ...rest
   } = props
@@ -30,6 +32,7 @@ function Root(props: RootProps) {
     <StatRootContext.Provider value={{ inRoot: true }}>
       <Space
         element="dl"
+        innerRef={innerRef}
         className={classnames(
           'dnb-stat',
           'dnb-stat__root',
