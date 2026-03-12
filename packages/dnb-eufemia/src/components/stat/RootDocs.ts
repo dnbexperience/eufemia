@@ -14,7 +14,7 @@ export const RootProperties: PropertiesTableProps = {
     status: 'optional',
   },
   skeleton: {
-    doc: 'Applies skeleton loading state to all child components (Label, Amount, Currency, Percent, Rating, Trend, Info).',
+    doc: 'Applies skeleton loading state to all all Stat sub-components.',
     type: ['boolean'],
     status: 'optional',
   },
