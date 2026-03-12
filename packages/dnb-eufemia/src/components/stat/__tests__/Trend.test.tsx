@@ -1,5 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import { axeComponent } from '../../../core/jest/jestSetup'
 import Stat from '../Stat'
 import NumberFormat from '../../number-format/NumberFormat'
 
@@ -86,5 +87,13 @@ describe('Stat.Trend', () => {
     expect(trend.classList).toContain('dnb-skeleton')
     expect(trend.classList).toContain('dnb-skeleton--font')
     expect(trend).toHaveAttribute('aria-disabled', 'true')
+  })
+
+  it('should validate with ARIA rules', async () => {
+    const component = render(
+      <Stat.Trend srLabel="Change:">{12.4}</Stat.Trend>
+    )
+
+    expect(await axeComponent(component)).toHaveNoViolations()
   })
 })

@@ -1,7 +1,10 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import {
+  axeComponent,
+  spyOnEufemiaWarn,
+} from '../../../core/jest/jestSetup'
 import Stat from '../Stat'
-import { spyOnEufemiaWarn } from '../../../core/jest/jestSetup'
 
 describe('Stat.Info', () => {
   it('renders info content and class', () => {
@@ -63,5 +66,13 @@ describe('Stat.Info', () => {
     expect(info.classList).toContain('dnb-skeleton')
     expect(info.classList).toContain('dnb-skeleton--font')
     expect(info).toHaveAttribute('aria-disabled', 'true')
+  })
+
+  it('should validate with ARIA rules', async () => {
+    const component = render(
+      <Stat.Info>Some additional content</Stat.Info>
+    )
+
+    expect(await axeComponent(component)).toHaveNoViolations()
   })
 })
