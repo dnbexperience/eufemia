@@ -16,7 +16,7 @@
   --dropdown-background-color-disabled: var(--sb-color-gray-light);
   --dropdown-background-color-error-active: var(--sb-color-white);
 
-  &__icon {
+  &:not(&__status--error) &__icon {
     color: var(--sb-color-text);
   }
 
@@ -47,6 +47,9 @@
       }
     }
   }
+  &__status--error &__trigger:not(.dnb-button--tertiary):not([disabled]) {
+    @include utilities.fakeBorder(var(--dropdown-foreground-color-error));
+  }
 
   &__trigger.dnb-button--active {
     @include utilities.fakeBorder(
@@ -67,17 +70,6 @@
 
     .dnb-dropdown__icon {
       color: inherit;
-    }
-  }
-
-  // error status
-  &__status--error:not(#{&}--open) &__trigger {
-    @include utilities.hover() {
-      @include utilities.fakeBorder(
-        var(--dropdown-foreground-color-error),
-        var(--dropdown-error-border-width),
-        inset
-      );
     }
   }
 
