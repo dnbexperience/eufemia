@@ -69,12 +69,6 @@ const renderAffix = (
     resolved = resolved()
   }
 
-  if (React.isValidElement(resolved)) {
-    return React.cloneElement(resolved, {
-      className: classnames(resolved.props.className, className),
-    })
-  }
-
   return <span className={className}>{resolved as React.ReactNode}</span>
 }
 
