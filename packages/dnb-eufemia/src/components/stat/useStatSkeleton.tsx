@@ -4,9 +4,10 @@ import {
   createSkeletonClass,
   skeletonDOMAttributes,
 } from '../skeleton/SkeletonHelper'
+import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatRootContext from './StatRootContext'
 
-export default function useStatSkeleton(skeleton?: string | boolean) {
+export default function useStatSkeleton(skeleton?: SkeletonShow) {
   const context = React.useContext(Context)
   const { skeleton: rootSkeleton } = React.useContext(StatRootContext)
 
