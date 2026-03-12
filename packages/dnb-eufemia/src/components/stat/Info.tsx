@@ -1,8 +1,14 @@
 import React from 'react'
 import classnames from 'classnames'
+import Context from '../../shared/Context'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import type { SpacingProps } from '../../shared/types'
 import { validateDOMAttributes, warn } from '../../shared/component-helper'
+import {
+  createSkeletonClass,
+  skeletonDOMAttributes,
+} from '../skeleton/SkeletonHelper'
+import StatRootContext from './StatRootContext'
 import StatValueContext from './StatValueContext'
 
 export type InfoProps = {
@@ -33,6 +39,10 @@ function Info(props: InfoProps) {
     variant = 'plain'
   }
 
+  const context = React.useContext(Context)
+  const { skeleton: rootSkeleton } = React.useContext(StatRootContext)
+  const resolvedSkeleton = Boolean(rootSkeleton ?? context?.skeleton)
+
   const attributes = validateDOMAttributes(props, {
     ...rest,
     className: classnames(
@@ -40,9 +50,12 @@ function Info(props: InfoProps) {
       'dnb-stat__info',
       `dnb-stat__info--${variant}`,
       createSpacingClasses(props),
+      createSkeletonClass('font', resolvedSkeleton, context),
       className
     ),
   })
+
+  skeletonDOMAttributes(attributes, resolvedSkeleton, context)
 
   return (
     <Element {...attributes}>

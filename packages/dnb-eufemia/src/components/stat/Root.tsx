@@ -3,12 +3,14 @@ import classnames from 'classnames'
 import Space from '../space/Space'
 import type { SpacingProps } from '../../shared/types'
 import { warn } from '../../shared/component-helper'
+import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatRootContext from './StatRootContext'
 
 export type RootProps = {
   children?: React.ReactNode
   className?: string
   visualOrder?: 'label-content' | 'content-label'
+  skeleton?: SkeletonShow
 } & SpacingProps
 
 function Root(props: RootProps) {
@@ -16,6 +18,7 @@ function Root(props: RootProps) {
     children,
     className = null,
     visualOrder = 'label-content',
+    skeleton = null,
     ...rest
   } = props
 
@@ -27,7 +30,7 @@ function Root(props: RootProps) {
   }
 
   return (
-    <StatRootContext.Provider value={{ inRoot: true }}>
+    <StatRootContext.Provider value={{ inRoot: true, skeleton }}>
       <Space
         element="dl"
         className={classnames(

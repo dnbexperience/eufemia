@@ -1,11 +1,17 @@
 import React from 'react'
 import classnames from 'classnames'
+import Context from '../../shared/Context'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import type { SpacingProps } from '../../shared/types'
 import {
   convertJsxToString,
   validateDOMAttributes,
 } from '../../shared/component-helper'
+import {
+  createSkeletonClass,
+  skeletonDOMAttributes,
+} from '../skeleton/SkeletonHelper'
+import StatRootContext from './StatRootContext'
 import StatValueContext from './StatValueContext'
 
 export type TrendProps = {
@@ -27,6 +33,10 @@ function Trend(props: TrendProps) {
     tone = null,
     ...rest
   } = props
+
+  const context = React.useContext(Context)
+  const { skeleton: rootSkeleton } = React.useContext(StatRootContext)
+  const resolvedSkeleton = Boolean(rootSkeleton ?? context?.skeleton)
 
   const rawValue =
     typeof value !== 'undefined' ? value : getValueFromChildren(children)
@@ -62,9 +72,12 @@ function Trend(props: TrendProps) {
       'dnb-stat__trend',
       `dnb-stat__trend--${usedTone}`,
       createSpacingClasses(props),
+      createSkeletonClass('font', resolvedSkeleton, context),
       className
     ),
   })
+
+  skeletonDOMAttributes(attributes, resolvedSkeleton, context)
 
   return (
     <Element {...attributes}>

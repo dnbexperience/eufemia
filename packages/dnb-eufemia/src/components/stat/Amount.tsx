@@ -20,6 +20,7 @@ import {
   convertJsxToString,
   validateDOMAttributes,
 } from '../../shared/component-helper'
+import StatRootContext from './StatRootContext'
 import StatValueContext from './StatValueContext'
 
 /**
@@ -114,11 +115,14 @@ function AmountBase(props: AmountProps) {
     ...rest
   } = props
   const context = React.useContext(Context)
+  const { skeleton: rootSkeleton } = React.useContext(StatRootContext)
   const { useBasisSize, defaultMainWeight } =
     React.useContext(StatValueContext)
   const resolvedLocale =
     locale ?? (context?.NumberFormat?.locale as string) ?? context?.locale
-  const resolvedSkeleton = Boolean(skeleton ?? context?.skeleton)
+  const resolvedSkeleton = Boolean(
+    skeleton ?? rootSkeleton ?? context?.skeleton
+  )
 
   const rawValue =
     typeof value !== 'undefined'
