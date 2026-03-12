@@ -10,6 +10,11 @@ import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatValueContext from './StatValueContext'
 import useStatSkeleton from './useStatSkeleton'
 
+const trendContextValue = {
+  useBasisSize: true,
+  defaultMainWeight: null,
+} as const
+
 export type TrendProps = {
   value?: number | string
   children?: React.ReactNode
@@ -78,9 +83,7 @@ function Trend(props: TrendProps) {
 
   return (
     <Element {...attributes}>
-      <StatValueContext.Provider
-        value={{ useBasisSize: true, defaultMainWeight: null }}
-      >
+      <StatValueContext.Provider value={trendContextValue}>
         <span className="dnb-stat__trend-content" aria-hidden>
           {!hasCustomChildren && sign ? (
             <span className="dnb-stat__trend-sign">{sign}</span>
