@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import classnames from 'classnames'
-import Context from '../../shared/Context'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import type { SpacingProps } from '../../shared/types'
 import type {
@@ -9,12 +8,9 @@ import type {
 } from '../../elements/typography/Typography'
 import { getHeadingLineHeightSize } from '../../elements/typography/Typography'
 import { validateDOMAttributes, warn } from '../../shared/component-helper'
-import {
-  createSkeletonClass,
-  skeletonDOMAttributes,
-} from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatRootContext from './StatRootContext'
+import useStatSkeleton from './useStatSkeleton'
 
 export type LabelProps = {
   children?: React.ReactNode
@@ -29,8 +25,7 @@ export type LabelProps = {
 } & SpacingProps
 
 function Label(props: LabelProps) {
-  const { inRoot, skeleton: rootSkeleton } = useContext(StatRootContext)
-  const context = useContext(Context)
+  const { inRoot } = useContext(StatRootContext)
 
   const {
     children,
@@ -45,9 +40,8 @@ function Label(props: LabelProps) {
     ...rest
   } = props
 
-  const resolvedSkeleton = Boolean(
-    skeleton ?? rootSkeleton ?? context?.skeleton
-  )
+  const { skeletonClass, applySkeletonAttributes } =
+    useStatSkeleton(skeleton)
   const resolvedLineHeight = getHeadingLineHeightSize(fontSize)
 
   if (!inRoot) {
@@ -66,12 +60,12 @@ function Label(props: LabelProps) {
       `dnb-t__line-height--${resolvedLineHeight}`,
       `dnb-t__weight--${fontWeight}`,
       createSpacingClasses(props),
-      createSkeletonClass('font', resolvedSkeleton, context),
+      skeletonClass,
       className
     ),
   })
 
-  skeletonDOMAttributes(attributes, resolvedSkeleton, context)
+  applySkeletonAttributes(attributes)
 
   return <Element {...attributes}>{children}</Element>
 }

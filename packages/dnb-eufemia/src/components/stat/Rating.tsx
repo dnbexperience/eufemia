@@ -1,6 +1,5 @@
 import React from 'react'
 import classnames from 'classnames'
-import Context from '../../shared/Context'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import type { SpacingProps } from '../../shared/types'
 import {
@@ -8,14 +7,10 @@ import {
   validateDOMAttributes,
   warn,
 } from '../../shared/component-helper'
-import {
-  createSkeletonClass,
-  skeletonDOMAttributes,
-} from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import { useTranslation } from '../../shared'
 import { clamp } from '../../shared/helpers/clamp'
-import StatRootContext from './StatRootContext'
+import useStatSkeleton from './useStatSkeleton'
 
 const MAX_ALLOWED = 20
 
@@ -41,11 +36,8 @@ function Rating(props: RatingProps) {
     ...rest
   } = props
 
-  const context = React.useContext(Context)
-  const { skeleton: rootSkeleton } = React.useContext(StatRootContext)
-  const resolvedSkeleton = Boolean(
-    skeleton ?? rootSkeleton ?? context?.skeleton
-  )
+  const { skeletonClass, applySkeletonAttributes } =
+    useStatSkeleton(skeleton)
 
   const defaultMax = variant === 'progressive' ? 7 : 5
   const resolvedMax =
@@ -81,12 +73,12 @@ function Rating(props: RatingProps) {
       'dnb-stat__rating',
       `dnb-stat__rating--${variant}`,
       createSpacingClasses(props),
-      createSkeletonClass('font', resolvedSkeleton, context),
+      skeletonClass,
       className
     ),
   })
 
-  skeletonDOMAttributes(attributes, resolvedSkeleton, context)
+  applySkeletonAttributes(attributes)
 
   return (
     <Element {...attributes}>
