@@ -84,4 +84,18 @@ describe('Stat.Label', () => {
     expect(didWarn).toBe(true)
     spy.mockRestore()
   })
+
+  it('supports skeleton prop', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label skeleton>Revenue growth</Stat.Label>
+      </Stat.Root>
+    )
+
+    const label = document.querySelector('.dnb-stat__label')
+
+    expect(label.classList).toContain('dnb-skeleton')
+    expect(label.classList).toContain('dnb-skeleton--font')
+    expect(label).toHaveAttribute('aria-disabled', 'true')
+  })
 })

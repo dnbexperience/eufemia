@@ -13,6 +13,7 @@ import {
   createSkeletonClass,
   skeletonDOMAttributes,
 } from '../skeleton/SkeletonHelper'
+import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatRootContext from './StatRootContext'
 
 export type LabelProps = {
@@ -23,13 +24,13 @@ export type LabelProps = {
   fontSize?: TypographySize
   fontWeight?: TypographyWeight
   variant?: 'default' | 'subtle'
+  skeleton?: SkeletonShow
   style?: React.CSSProperties
 } & SpacingProps
 
 function Label(props: LabelProps) {
   const { inRoot, skeleton: rootSkeleton } = useContext(StatRootContext)
   const context = useContext(Context)
-  const resolvedSkeleton = Boolean(rootSkeleton ?? context?.skeleton)
 
   const {
     children,
@@ -39,9 +40,14 @@ function Label(props: LabelProps) {
     fontSize = 'basis',
     fontWeight = 'regular',
     variant = 'default',
+    skeleton = null,
     style = null,
     ...rest
   } = props
+
+  const resolvedSkeleton = Boolean(
+    skeleton ?? rootSkeleton ?? context?.skeleton
+  )
   const resolvedLineHeight = getHeadingLineHeightSize(fontSize)
 
   if (!inRoot) {

@@ -11,6 +11,7 @@ import {
   createSkeletonClass,
   skeletonDOMAttributes,
 } from '../skeleton/SkeletonHelper'
+import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatRootContext from './StatRootContext'
 import StatValueContext from './StatValueContext'
 
@@ -21,6 +22,7 @@ export type TrendProps = {
   className?: string
   srLabel?: React.ReactNode
   tone?: 'positive' | 'negative' | 'neutral'
+  skeleton?: SkeletonShow
 } & SpacingProps
 
 function Trend(props: TrendProps) {
@@ -31,12 +33,15 @@ function Trend(props: TrendProps) {
     className = null,
     srLabel = null,
     tone = null,
+    skeleton = null,
     ...rest
   } = props
 
   const context = React.useContext(Context)
   const { skeleton: rootSkeleton } = React.useContext(StatRootContext)
-  const resolvedSkeleton = Boolean(rootSkeleton ?? context?.skeleton)
+  const resolvedSkeleton = Boolean(
+    skeleton ?? rootSkeleton ?? context?.skeleton
+  )
 
   const rawValue =
     typeof value !== 'undefined' ? value : getValueFromChildren(children)

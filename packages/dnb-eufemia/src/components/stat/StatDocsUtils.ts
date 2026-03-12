@@ -68,6 +68,12 @@ export const auxiliarySizeProperty: PropertiesTableProps[string] = {
   status: 'optional',
 }
 
+export const skeletonProperty: PropertiesTableProps[string] = {
+  doc: 'Applies skeleton loading state.',
+  type: ['boolean'],
+  status: 'optional',
+}
+
 export const colorizeBySignProperty: PropertiesTableProps[string] = {
   doc: 'If `true`, text color follows sign tone (`+` green, `-` red).',
   type: ['boolean'],

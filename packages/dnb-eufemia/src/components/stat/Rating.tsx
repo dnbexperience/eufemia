@@ -12,6 +12,7 @@ import {
   createSkeletonClass,
   skeletonDOMAttributes,
 } from '../skeleton/SkeletonHelper'
+import type { SkeletonShow } from '../skeleton/Skeleton'
 import { useTranslation } from '../../shared'
 import { clamp } from '../../shared/helpers/clamp'
 import StatRootContext from './StatRootContext'
@@ -25,6 +26,7 @@ export type RatingProps = {
   element?: keyof JSX.IntrinsicElements
   className?: string
   srLabel?: React.ReactNode
+  skeleton?: SkeletonShow
 } & SpacingProps
 
 function Rating(props: RatingProps) {
@@ -35,12 +37,15 @@ function Rating(props: RatingProps) {
     element: Element = 'span',
     className = null,
     srLabel = null,
+    skeleton = null,
     ...rest
   } = props
 
   const context = React.useContext(Context)
   const { skeleton: rootSkeleton } = React.useContext(StatRootContext)
-  const resolvedSkeleton = Boolean(rootSkeleton ?? context?.skeleton)
+  const resolvedSkeleton = Boolean(
+    skeleton ?? rootSkeleton ?? context?.skeleton
+  )
 
   const defaultMax = variant === 'progressive' ? 7 : 5
   const resolvedMax =

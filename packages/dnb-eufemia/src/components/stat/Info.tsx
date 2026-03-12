@@ -8,6 +8,7 @@ import {
   createSkeletonClass,
   skeletonDOMAttributes,
 } from '../skeleton/SkeletonHelper'
+import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatRootContext from './StatRootContext'
 import StatValueContext from './StatValueContext'
 
@@ -20,6 +21,7 @@ export type InfoProps = {
     | 'subtle'
     | 'prominent'
     | /** @deprecated Use "plain" instead */ 'default'
+  skeleton?: SkeletonShow
 } & SpacingProps
 
 function Info(props: InfoProps) {
@@ -28,6 +30,7 @@ function Info(props: InfoProps) {
     element: Element = 'span',
     className = null,
     variant: variantProp = 'subtle',
+    skeleton = null,
     ...rest
   } = props
 
@@ -41,7 +44,9 @@ function Info(props: InfoProps) {
 
   const context = React.useContext(Context)
   const { skeleton: rootSkeleton } = React.useContext(StatRootContext)
-  const resolvedSkeleton = Boolean(rootSkeleton ?? context?.skeleton)
+  const resolvedSkeleton = Boolean(
+    skeleton ?? rootSkeleton ?? context?.skeleton
+  )
 
   const attributes = validateDOMAttributes(props, {
     ...rest,
