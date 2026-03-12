@@ -1,13 +1,12 @@
 import React from 'react'
 import Context from '../../shared/Context'
-import type { SkeletonShow } from '../skeleton/Skeleton'
 import {
   createSkeletonClass,
   skeletonDOMAttributes,
 } from '../skeleton/SkeletonHelper'
 import StatRootContext from './StatRootContext'
 
-export default function useStatSkeleton(skeleton?: SkeletonShow) {
+export default function useStatSkeleton(skeleton?: string | boolean) {
   const context = React.useContext(Context)
   const { skeleton: rootSkeleton } = React.useContext(StatRootContext)
 
