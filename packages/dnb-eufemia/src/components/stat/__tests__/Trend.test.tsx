@@ -90,7 +90,9 @@ describe('Stat.Trend', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const component = render(<Stat.Trend srLabel="Change:">{12.4}</Stat.Trend>)
+    const component = render(
+      <Stat.Trend srLabel="Change:">{12.4}</Stat.Trend>
+    )
 
     expect(await axeComponent(component)).toHaveNoViolations()
   })
