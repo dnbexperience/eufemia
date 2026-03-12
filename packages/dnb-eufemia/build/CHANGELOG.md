@@ -3,6 +3,25 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.100.1](https://github.com/dnbexperience/eufemia/compare/v10.100.0...v10.100.1) (2026-03-12)
+
+
+### :zap: Refactoring
+
+* **Stat.Amount:** replace React.cloneElement with span wrapper in renderAffix ([#7014](https://github.com/dnbexperience/eufemia/issues/7014)) ([c3d19d2](https://github.com/dnbexperience/eufemia/commit/c3d19d29a79f448a7362fb577425f1939e9db907))
+
+
+### :bug: Bug Fixes
+
+* **DatePicker:** preserve digit order when overwriting selected input values ([#7015](https://github.com/dnbexperience/eufemia/issues/7015)) ([babb42d](https://github.com/dnbexperience/eufemia/commit/babb42d18af6d9bef3b17d8a78cd50fb4885b2a3))
+* **List:** add support to be wrapped in Flex.Stack ([#7009](https://github.com/dnbexperience/eufemia/issues/7009)) ([4831397](https://github.com/dnbexperience/eufemia/commit/4831397ea41e7f30cb2c9733f927d21f452baab0))
+* **Stat.Amount:** rename to `Stat.Number` ([#6999](https://github.com/dnbexperience/eufemia/issues/6999)) ([5ca798a](https://github.com/dnbexperience/eufemia/commit/5ca798aaf89303450c027ebfc056c37201063698))
+* **Stat.Info:** rename variant "default" to "plain" ([#7005](https://github.com/dnbexperience/eufemia/issues/7005)) ([0fa047f](https://github.com/dnbexperience/eufemia/commit/0fa047f8720af366b3117e77323f3be3f1e096c9))
+* **Stat.Label:** rename variant `'default'` to `'plain'` ([#7008](https://github.com/dnbexperience/eufemia/issues/7008)) ([9d46532](https://github.com/dnbexperience/eufemia/commit/9d46532abccda974bc408148af7aa664416ff209))
+* **Stat.Rating:** clamp max and warn for large values ([#7001](https://github.com/dnbexperience/eufemia/issues/7001)) ([4ebdcdd](https://github.com/dnbexperience/eufemia/commit/4ebdcdd1c568050f4dd1d35200749bcdc33e93f8))
+* **Stat.Rating:** compute progressive heights dynamically ([#7000](https://github.com/dnbexperience/eufemia/issues/7000)) ([778cf0e](https://github.com/dnbexperience/eufemia/commit/778cf0e9fbd3b224e5205066fe0c216098fb2752))
+* **Stat:** ensure all sub-components support skeleton ([#7007](https://github.com/dnbexperience/eufemia/issues/7007)) ([b0f7d9f](https://github.com/dnbexperience/eufemia/commit/b0f7d9f1f104c4852c9902d8ecd2c29fff6e4113))
+
 ## [10.100.0](https://github.com/dnbexperience/eufemia/compare/v10.99.0...v10.100.0) (2026-03-11)
 
 
