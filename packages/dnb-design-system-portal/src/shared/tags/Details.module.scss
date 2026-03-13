@@ -47,7 +47,7 @@
     &:focus-visible {
       outline: none;
     }
-    @include utilities.focus-visible() {
+    @include utilities.focusVisible() {
       box-shadow: inset 0 0 0 0.125rem var(--details-border--strong);
     }
 
