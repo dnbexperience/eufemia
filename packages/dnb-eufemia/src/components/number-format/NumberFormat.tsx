@@ -332,10 +332,7 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
     propsWithDefaults,
     numberFormatDefaultProps,
     translations as Record<string, unknown>,
-    (context as Record<string, unknown>).NumberFormat as Record<
-      string,
-      unknown
-    >
+    context?.NumberFormat as Record<string, unknown>
   )
 
   const {
