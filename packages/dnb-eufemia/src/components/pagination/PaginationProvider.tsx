@@ -56,14 +56,14 @@ const PaginationProvider = (props: any) => {
   const [isLoading, setIsLoading] = useState(false)
   const [hasEndedInfinity, setHasEndedInfinity] = useState(false)
 
-  const [currentPageInternal, setCurrentPageInternal] = useState<number>(
-    () => {
-      if (props.currentPage != null) {
-        return parseFloat(props.currentPage) || 1
-      }
-      return undefined as unknown as number
+  const [currentPageInternal, setCurrentPageInternal] = useState<
+    number | undefined
+  >(() => {
+    if (props.currentPage != null) {
+      return parseFloat(props.currentPage) || 1
     }
-  )
+    return undefined
+  })
 
   const [startupPage, setStartupPage] = useState<number>(() => {
     return (
