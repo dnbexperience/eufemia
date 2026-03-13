@@ -9,7 +9,12 @@ import type {
   DatePickerAllProps,
 } from './DatePicker'
 
-import { isValid, format, differenceInCalendarDays } from 'date-fns'
+import {
+  isValid,
+  format,
+  differenceInCalendarDays,
+  isAfter,
+} from 'date-fns'
 
 import SharedContext from '../../shared/Context'
 import { correctV1Format, isDisabled } from './DatePickerCalc'
@@ -164,15 +169,23 @@ function DatePickerProvider(props: DatePickerProviderProps) {
             : null,
           end_date: endDateIsValid ? format(endDate, returnFormat) : null,
           is_valid_start_date:
-            hasMinOrMaxDates &&
-            startDateIsValid &&
-            isDisabled(startDate, dates.minDate, dates.maxDate)
+            // Range order: start date must not be after end date
+            (startDateIsValid &&
+              endDateIsValid &&
+              isAfter(startDate, endDate)) ||
+            (hasMinOrMaxDates &&
+              startDateIsValid &&
+              isDisabled(startDate, dates.minDate, dates.maxDate))
               ? false
               : startDateIsValid,
           is_valid_end_date:
-            hasMinOrMaxDates &&
-            endDateIsValid &&
-            isDisabled(endDate, dates.minDate, dates.maxDate)
+            // Range order: end date must not be before start date
+            (startDateIsValid &&
+              endDateIsValid &&
+              isAfter(startDate, endDate)) ||
+            (hasMinOrMaxDates &&
+              endDateIsValid &&
+              isDisabled(endDate, dates.minDate, dates.maxDate))
               ? false
               : endDateIsValid,
           partialStartDate,
