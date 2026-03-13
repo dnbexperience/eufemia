@@ -621,6 +621,151 @@ describe('Field.Date', () => {
       ).not.toBeInTheDocument()
     })
 
+    it('should display error when start date is after end date in range mode', async () => {
+      render(<Field.Date value="2025-01-10|2025-01-20" range />)
+
+      const [startDay] = Array.from(
+        document.querySelectorAll('.dnb-date-picker__input--day')
+      ) as Array<HTMLInputElement>
+
+      // Change start date day to 25 (after end date of Jan 20)
+      await userEvent.type(startDay, '{Backspace>2}25')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).toHaveTextContent(
+        nb.Date.errorStartDateMaxDate.replace('{date}', '20. januar 2025')
+      )
+
+      // Fix start date back to before end date
+      await userEvent.type(startDay, '{Backspace>2}15')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should display error when end date is changed to be before start date in range mode', async () => {
+      render(<Field.Date value="2025-01-15|2025-01-20" range />)
+
+      const [, endDay] = Array.from(
+        document.querySelectorAll('.dnb-date-picker__input--day')
+      ) as Array<HTMLInputElement>
+
+      // Change end date day to 10 (before start date of Jan 15)
+      await userEvent.type(endDay, '{Backspace>2}10')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).toHaveTextContent(
+        nb.Date.errorEndDateMinDate.replace('{date}', '15. januar 2025')
+      )
+
+      // Fix end date back to after start date
+      await userEvent.type(endDay, '{Backspace>2}20')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should not display range order error when only start date is set', async () => {
+      render(<Field.Date value="2025-01-15|null" range />)
+
+      const [startDay] = Array.from(
+        document.querySelectorAll('.dnb-date-picker__input--day')
+      ) as Array<HTMLInputElement>
+
+      await userEvent.click(startDay)
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should not display range order error when only end date is set', async () => {
+      render(<Field.Date value="null|2025-01-20" range />)
+
+      const [, endDay] = Array.from(
+        document.querySelectorAll('.dnb-date-picker__input--day')
+      ) as Array<HTMLInputElement>
+
+      await userEvent.click(endDay)
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should show required error but not range order error when both dates are cleared in range mode', async () => {
+      render(<Field.Date value="2025-01-10|2025-01-20" range required />)
+
+      const startYear = document.querySelector(
+        '.dnb-date-picker__input--year'
+      ) as HTMLInputElement
+
+      // Clear both dates
+      await userEvent.type(startYear, '{Backspace>16}')
+      await userEvent.click(document.body)
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).toBeInTheDocument()
+      })
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toHaveTextContent(nb.Date.errorRequiredRange)
+    })
+
+    it('should display error when start date is after end date and form should contain error', async () => {
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Field.Date path="/date" value="2025-01-10|2025-01-20" range />
+          <Form.SubmitButton />
+        </Form.Handler>
+      )
+
+      const [startDay] = Array.from(
+        document.querySelectorAll('.dnb-date-picker__input--day')
+      ) as Array<HTMLInputElement>
+
+      // Change start date day to 25 (after end date of Jan 20)
+      await userEvent.type(startDay, '{Backspace>2}25')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).toHaveTextContent(
+        nb.Date.errorStartDateMaxDate.replace('{date}', '20. januar 2025')
+      )
+
+      // Try to submit the form - it should not succeed due to the error
+      await userEvent.click(
+        document.querySelector('button[type="submit"]')
+      )
+
+      expect(onSubmit).not.toHaveBeenCalled()
+    })
+
     it('should not display error if start date or end date is removed', async () => {
       render(<Field.Date value="2023-12-07|2023-12-14" range />)
 
