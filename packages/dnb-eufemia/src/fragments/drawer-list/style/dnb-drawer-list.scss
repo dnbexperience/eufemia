@@ -39,7 +39,7 @@
     }
   }
 }
-@mixin drawer-listClosed() {
+@mixin drawerListClosed() {
   display: none;
 }
 
@@ -345,7 +345,7 @@
   }
 
   &--hidden &__list {
-    @include drawer-listClosed();
+    @include drawerListClosed();
   }
 
   // size--default
