@@ -52,7 +52,7 @@
   }
 
   &__header {
-    @include utilities.focus-visible() {
+    @include utilities.focusVisible() {
       @include utilities.focusRing('always');
       z-index: 1;
       border-radius: 0.125rem;

@@ -105,53 +105,53 @@ sub {
 }
 
 .dnb-h--xx-large {
-  @include typography-mixins.headingSize_xx-large();
+  @include typography-mixins.headingSizeXxLarge();
 }
 
 .dnb-h--x-large {
-  @include typography-mixins.headingSize_x-large();
+  @include typography-mixins.headingSizeXLarge();
 }
 
 .dnb-h--large {
-  @include typography-mixins.headingSize_large();
+  @include typography-mixins.headingSizeLarge();
 }
 
 .dnb-lead {
-  @include typography-mixins.typography_lead();
+  @include typography-mixins.typographyLead();
 }
 
 .dnb-h--medium {
-  @include typography-mixins.headingSize_medium();
+  @include typography-mixins.headingSizeMedium();
 }
 
 // The rest of the Headings are not defined by the Eufemia Typography
 .dnb-h--basis {
-  @include typography-mixins.headingSize_basis();
+  @include typography-mixins.headingSizeBasis();
 }
 
 .dnb-h--small {
-  @include typography-mixins.headingSize_small();
+  @include typography-mixins.headingSizeSmall();
 }
 
 .dnb-h--x-small {
-  @include typography-mixins.headingSize_x-small();
+  @include typography-mixins.headingSizeXSmall();
 }
 
 // Spacing
 .dnb-spacing {
   .dnb-h--xx-large,
   .dnb-core-style & .dnb-h--xx-large {
-    @include typography-mixins.headingSpacing_xx-large();
+    @include typography-mixins.headingSpacingXxLarge();
   }
 
   .dnb-h--x-large,
   .dnb-core-style & .dnb-h--x-large {
-    @include typography-mixins.headingSpacing_x-large();
+    @include typography-mixins.headingSpacingXLarge();
   }
 
   .dnb-h--large,
   .dnb-core-style & .dnb-h--large {
-    @include typography-mixins.headingSpacing_large();
+    @include typography-mixins.headingSpacingLarge();
   }
 
   .dnb-lead,

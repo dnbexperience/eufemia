@@ -114,7 +114,7 @@
   }
 }
 
-@mixin headingSize_xx-large() {
+@mixin headingSizeXxLarge() {
   @include headingStyle(
     var(--typography-h-xx-large-font-size),
     var(--typography-h-xx-large-line-height),
@@ -129,7 +129,7 @@
   }
 }
 
-@mixin headingSize_x-large() {
+@mixin headingSizeXLarge() {
   @include headingStyle(
     var(--typography-h-x-large-font-size),
     var(--typography-h-x-large-line-height),
@@ -144,7 +144,7 @@
   }
 }
 
-@mixin headingSize_large() {
+@mixin headingSizeLarge() {
   @include headingStyle(
     var(--typography-h-large-font-size),
     var(--typography-h-large-line-height),
@@ -156,7 +156,7 @@
   }
 }
 
-@mixin typography_lead() {
+@mixin typographyLead() {
   @include headingStyle(
     var(--typography-lead-font-size),
     var(--typography-lead-line-height),
@@ -168,7 +168,7 @@
   }
 }
 
-@mixin headingSize_medium() {
+@mixin headingSizeMedium() {
   @include headingStyle(
     var(--typography-h-medium-font-size),
     var(--typography-h-medium-line-height),
@@ -180,7 +180,7 @@
   }
 }
 
-@mixin headingSize_basis() {
+@mixin headingSizeBasis() {
   @include headingStyle(
     var(--typography-h-basis-font-size),
     var(--typography-h-basis-line-height),
@@ -193,7 +193,7 @@
   }
 }
 
-@mixin headingSize_small() {
+@mixin headingSizeSmall() {
   @include headingStyle(
     var(--typography-h-small-font-size),
     var(--typography-h-small-line-height),
@@ -206,7 +206,7 @@
   }
 }
 
-@mixin headingSize_x-small() {
+@mixin headingSizeXSmall() {
   @include headingStyle(
     var(--typography-h-x-small-font-size),
     var(--typography-h-x-small-line-height),
@@ -233,7 +233,7 @@
   padding: 0;
 
   &--lead {
-    @include typography_lead();
+    @include typographyLead();
   }
   b,
   strong {
@@ -252,7 +252,7 @@
   }
 }
 
-@mixin headingSpacing_xx-large() {
+@mixin headingSpacingXxLarge() {
   &:not([class*='space__top']) {
     margin-top: 3rem;
   }
@@ -262,7 +262,7 @@
   }
 }
 
-@mixin headingSpacing_x-large() {
+@mixin headingSpacingXLarge() {
   &:not([class*='space__top']) {
     margin-top: 3rem;
   }
@@ -272,7 +272,7 @@
   }
 }
 
-@mixin headingSpacing_large() {
+@mixin headingSpacingLarge() {
   &:not([class*='space__top']) {
     margin-top: 3rem;
   }
@@ -316,27 +316,27 @@
   }
 
   h1 {
-    @include headingSize_xx-large();
+    @include headingSizeXxLarge();
   }
 
   h2 {
-    @include headingSize_large();
+    @include headingSizeLarge();
   }
 
   h3 {
-    @include headingSize_medium();
+    @include headingSizeMedium();
   }
 
   h4 {
-    @include headingSize_basis();
+    @include headingSizeBasis();
   }
 
   h5 {
-    @include headingSize_small();
+    @include headingSizeSmall();
   }
 
   h6 {
-    @include headingSize_x-small();
+    @include headingSizeXSmall();
   }
 
   h2 > small,
@@ -352,12 +352,12 @@
   .dnb-spacing {
     h1,
     .dnb-core-style & h1 {
-      @include headingSpacing_xx-large();
+      @include headingSpacingXxLarge();
     }
 
     h2,
     .dnb-core-style & h2 {
-      @include headingSpacing_large();
+      @include headingSpacingLarge();
     }
 
     h3,

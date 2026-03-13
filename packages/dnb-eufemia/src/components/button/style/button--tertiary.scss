@@ -32,7 +32,7 @@
       }
     }
 
-    @include utilities.focus-visible() {
+    @include utilities.focusVisible() {
       outline: none;
       @include button-mixins.buttonFocusRing(
         'always',

@@ -218,7 +218,7 @@
     padding-bottom: calc(var(--drawer-spacing) * 2);
     margin-bottom: calc(var(--drawer-spacing-minus) * 2);
 
-    @include utilities.IS_SAFARI_MOBILE() {
+    @include utilities.isSafariMobile() {
       padding-bottom: calc(var(--drawer-spacing-minus) * 8);
     }
   }
