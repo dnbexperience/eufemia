@@ -156,7 +156,7 @@
       }
     }
 
-    @include utilities.focus-visible() {
+    @include utilities.focusVisible() {
       color: var(--color-sea-green);
     }
 

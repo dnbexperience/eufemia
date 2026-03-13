@@ -80,7 +80,7 @@
   $focus-color: null,
   $extendShadow: null
 ) {
-  @include utilities.focus-visible() {
+  @include utilities.focusVisible() {
     color: $color;
     background-color: $background-color;
 
