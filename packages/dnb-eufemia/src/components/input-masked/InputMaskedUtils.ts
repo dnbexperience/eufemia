@@ -249,26 +249,27 @@ export const correctCaretPosition = (
       }
 
       if (suffix || prefix) {
-        const suffixStart = element.value.indexOf(suffix)
-        const suffixEnd = suffixStart + suffix?.length
+        const safeSuffix = suffix || ''
+        const safePrefix = prefix || ''
+        const suffixStart = element.value.indexOf(safeSuffix)
+        const suffixEnd = suffixStart + safeSuffix.length
         let pos: number | undefined = undefined
 
-        if (start >= suffixStart && start <= suffixEnd) {
+        if (
+          suffixStart >= 0 &&
+          start >= suffixStart &&
+          start <= suffixEnd
+        ) {
           pos = suffixStart
-
-          // If there is a placeholder,
-          // and the user clicks after the suffix
-          if (
-            element.value.length - 1 ===
-            String(suffix + prefix).length
-          ) {
-            pos = pos - 1
-          }
         } else {
-          const prefixStart = element.value.indexOf(prefix)
-          const prefixEnd = prefixStart + prefix?.length || 0
+          const prefixStart = element.value.indexOf(safePrefix)
+          const prefixEnd = prefixStart + safePrefix.length
 
-          if (start >= prefixStart && start <= prefixEnd) {
+          if (
+            prefixStart >= 0 &&
+            start >= prefixStart &&
+            start <= prefixEnd
+          ) {
             pos = prefixEnd
           }
         }

@@ -1793,6 +1793,29 @@ describe('InputMasked component asCurrency', () => {
     expect(document.querySelector('input').value).toBe('12 345,02 kr')
   })
 
+  it('should keep the caret after the last entered digit when typing large currency values', async () => {
+    const user = userEvent.setup({
+      delay: 50,
+    })
+
+    render(<InputMasked asCurrency />)
+
+    const input = document.querySelector('input')
+
+    await user.click(input)
+    await user.keyboard('1234567')
+
+    expect(input).toHaveValue('1 234 567 kr')
+    expect(input.selectionStart).toBe(9)
+    expect(input.selectionEnd).toBe(9)
+
+    await user.keyboard('8')
+
+    expect(input).toHaveValue('12 345 678 kr')
+    expect(input.selectionStart).toBe(10)
+    expect(input.selectionEnd).toBe(10)
+  })
+
   it('should not append a comma when entering a dot', () => {
     render(<InputMasked asCurrency />)
 
