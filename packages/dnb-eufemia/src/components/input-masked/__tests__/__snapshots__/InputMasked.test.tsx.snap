@@ -1419,70 +1419,84 @@ html[data-visual-test] .dnb-input__input {
   appearance: textfield;
 }
 
-.dnb-multi-input-mask__fieldset:not([class*=space__top]) {
+.dnb-segmented-field__fieldset:not([class*=space__top]) {
   margin-top: 0;
 }
-.dnb-multi-input-mask__fieldset:not([class*=space__bottom]) {
+.dnb-segmented-field__fieldset:not([class*=space__bottom]) {
   margin-bottom: 0;
 }
-.dnb-multi-input-mask__fieldset:not([class*=space__left]) {
+.dnb-segmented-field__fieldset:not([class*=space__left]) {
   margin-left: 0;
 }
-.dnb-multi-input-mask__fieldset:not([class*=space__right]) {
+.dnb-segmented-field__fieldset:not([class*=space__right]) {
   margin-right: 0;
 }
-.dnb-multi-input-mask__fieldset {
+.dnb-segmented-field__fieldset {
   padding: 0;
   border: none;
 }
-.dnb-multi-input-mask__fieldset--horizontal {
+.dnb-segmented-field__fieldset--horizontal {
   display: inline-flex;
   flex-flow: row wrap;
   align-items: baseline;
   gap: 1rem;
 }
 
-.dnb-multi-input-mask__input.dnb-input__input {
-  display: inline-block;
-  width: auto;
+.dnb-segmented-field__group {
+  display: inline-flex;
+}
+.dnb-segmented-field__group > .dnb-segmented-field__section.dnb-input__input:first-child {
+  padding-left: 0.5rem;
+}
+.dnb-segmented-field__group > .dnb-segmented-field__section.dnb-input__input:nth-last-child(1) {
+  padding-right: 0.5rem;
+}
+.dnb-segmented-field__group > .dnb-segmented-field__delimiter + .dnb-segmented-field__section.dnb-input__input {
+  padding-left: 0.0625rem;
+}
+
+.dnb-segmented-field .dnb-segmented-field__section {
+  width: fit-content;
   margin: 0;
   padding: 0 0.125rem;
-  transform: translateY(0);
+  overflow: hidden;
   outline: none;
+  cursor: text;
+  white-space: nowrap;
   font-family: var(--font-family-monospace);
   border: none;
   background: transparent;
-  overflow: visible;
-  white-space: nowrap;
 }
-.dnb-multi-input-mask__input.dnb-input__input:first-of-type {
-  padding-left: 0.5rem;
-}
-.dnb-multi-input-mask__input.dnb-input__input:last-of-type {
-  padding-right: 0.5rem;
-}
-.dnb-input--medium .dnb-multi-input-mask__input.dnb-input__input, .dnb-input--large .dnb-multi-input-mask__input.dnb-input__input {
+.dnb-input--medium .dnb-segmented-field .dnb-segmented-field__section, .dnb-input--large .dnb-segmented-field .dnb-segmented-field__section {
   padding: 0 0.25rem;
 }
-
-.dnb-multi-input-mask__fieldset ~ .dnb-multi-input-mask__fieldset .dnb-multi-input-mask__input.dnb-input__input:first-of-type {
+.dnb-segmented-field__delimiter {
+  display: flex;
+  user-select: none;
+  padding: 0 0.25rem 0 0;
+}
+@supports (-moz-appearance: none) {
+  .dnb-segmented-field__delimiter {
+    padding: 0 0.0625rem;
+  }
+}
+.dnb-segmented-field__hidden-input {
+  display: none;
+}
+.dnb-segmented-field__fieldset .dnb-segmented-field__fieldset .dnb-segmented-field__group .dnb-segmented-field__section.dnb-input__input:first-child {
   padding-left: 0.25rem;
 }
-
-.dnb-multi-input-mask {
-  width: fit-content;
-}
-.dnb-multi-input-mask:not(.dnb-input__status--error) .dnb-multi-input-mask__input,
-.dnb-multi-input-mask:not(.dnb-input__status--error) .dnb-multi-input-mask__delimiter {
+.dnb-segmented-field:not(.dnb-input__status--error) .dnb-segmented-field__section,
+.dnb-segmented-field:not(.dnb-input__status--error) .dnb-segmented-field__delimiter {
   color: var(--color-black-55);
 }
-.dnb-multi-input-mask:not(.dnb-input__status--error) .dnb-multi-input-mask__input--highlight,
-.dnb-multi-input-mask:not(.dnb-input__status--error) .dnb-multi-input-mask__delimiter--highlight {
+.dnb-segmented-field:not(.dnb-input__status--error) .dnb-segmented-field__section--highlight,
+.dnb-segmented-field:not(.dnb-input__status--error) .dnb-segmented-field__delimiter--highlight {
   color: var(--color-black);
 }
-.dnb-input__status--error .dnb-multi-input-mask:not(:focus-within) .dnb-multi-input-mask__input,
-.dnb-input__status--error .dnb-multi-input-mask:not(:focus-within) .dnb-multi-input-mask__delimiter, .dnb-multi-input-mask.dnb-input__status--error:not(:focus-within) .dnb-multi-input-mask__input,
-.dnb-multi-input-mask.dnb-input__status--error:not(:focus-within) .dnb-multi-input-mask__delimiter {
+.dnb-input__status--error .dnb-segmented-field:not(:focus-within) .dnb-segmented-field__section,
+.dnb-input__status--error .dnb-segmented-field:not(:focus-within) .dnb-segmented-field__delimiter, .dnb-segmented-field.dnb-input__status--error:not(:focus-within) .dnb-segmented-field__section,
+.dnb-segmented-field.dnb-input__status--error:not(:focus-within) .dnb-segmented-field__delimiter {
   color: var(--color-fire-red);
 }"
 `;

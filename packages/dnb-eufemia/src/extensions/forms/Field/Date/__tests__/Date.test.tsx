@@ -827,7 +827,7 @@ describe('Field.Date', () => {
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
         '/myValue': {
           type: 'field',
-          value: '11/2/24',
+          value: '2/11/24',
         },
       })
     })
@@ -965,13 +965,14 @@ describe('Field.Date', () => {
   it('should be able to hide input', () => {
     render(<Field.Date showInput={false} />)
 
-    const [day, month, year]: Array<HTMLInputElement> = Array.from(
+    const fields: Array<HTMLInputElement> = Array.from(
       document.querySelectorAll('.dnb-date-picker__input')
     )
 
-    expect(day).toHaveAttribute('hidden')
-    expect(month).toHaveAttribute('hidden')
-    expect(year).toHaveAttribute('hidden')
+    expect(fields).toHaveLength(3)
+    expect(document.querySelector('.dnb-date-picker')).toHaveClass(
+      'dnb-date-picker--hidden'
+    )
   })
 
   it('should support custom mask order', () => {
@@ -1006,7 +1007,7 @@ describe('Field.Date', () => {
     expect(year.value).toBe(nbYearPlaceholder)
 
     const separators = Array.from(
-      document.querySelectorAll('.dnb-multi-input-mask__delimiter')
+      document.querySelectorAll('.dnb-segmented-field__delimiter')
     )
     expect(separators.map((element) => element.textContent)).toEqual([
       '/',
@@ -2799,14 +2800,14 @@ describe('Field.Date', () => {
     it('should have aria-required', () => {
       render(<Field.Date required />)
 
-      const input = document.querySelector('input')
+      const input = document.querySelector('.dnb-date-picker__input')
       expect(input).toHaveAttribute('aria-required', 'true')
     })
 
     it('should have aria-invalid', () => {
       render(<Field.Date required validateInitially />)
 
-      const input = document.querySelector('input')
+      const input = document.querySelector('.dnb-date-picker__input')
       expect(input).toHaveAttribute('aria-invalid', 'true')
     })
   })
@@ -2859,14 +2860,16 @@ describe('Field.Date', () => {
           </Form.Handler>
         )
 
-        const input = document.querySelector('input')
+        const input = document.querySelector(
+          '.dnb-date-picker__input'
+        ) as HTMLElement
 
         expect(
           document.querySelector('.dnb-form-status')
         ).not.toBeInTheDocument()
 
         input.focus()
-        fireEvent.blur(input)
+        fireEvent.blur(input, { relatedTarget: document.body })
 
         await waitFor(() => {
           expect(

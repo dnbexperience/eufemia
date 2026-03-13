@@ -24,65 +24,82 @@
   }
 }
 
-// MultiInputMask
-.dnb-multi-input-mask__fieldset {
+.dnb-segmented-field__fieldset {
   @include utilities.fieldsetReset();
 
   &--horizontal {
     display: inline-flex;
     flex-flow: row wrap;
     align-items: baseline;
-    // Adds the 1rem space between legend and input wrapper, as the `display: contents` in .dnb-multi-input-mask__legend makes the margins from .dnb-form-label not apply
     gap: 1rem;
   }
 }
 
-.dnb-multi-input-mask__input.dnb-input__input {
-  display: inline-block;
-  width: auto;
+.dnb-segmented-field__group {
+  display: inline-flex;
 
-  margin: 0;
-  padding: 0 0.125rem;
-
-  // reset vertical alignment
-  transform: translateY(0);
-
-  outline: none;
-
-  font-family: var(--font-family-monospace);
-  border: none;
-  background: transparent;
-
-  overflow: visible;
-  white-space: nowrap;
-
-  &:first-of-type {
+  > .dnb-segmented-field__section.dnb-input__input:first-child {
     padding-left: 0.5rem;
   }
 
-  &:last-of-type {
+  > .dnb-segmented-field__section.dnb-input__input:nth-last-child(1) {
     padding-right: 0.5rem;
   }
 
-  .dnb-input--medium &,
-  .dnb-input--large & {
-    padding: 0 0.25rem;
+  > .dnb-segmented-field__delimiter
+    + .dnb-segmented-field__section.dnb-input__input {
+    padding-left: 0.0625rem;
   }
 }
 
-.dnb-multi-input-mask__fieldset
-  ~ .dnb-multi-input-mask__fieldset
-  .dnb-multi-input-mask__input.dnb-input__input:first-of-type {
-  // On second fieldset, the left padding should be less, because the delimiter already has some spacing.
-  padding-left: 0.25rem;
-}
+.dnb-segmented-field {
+  .dnb-segmented-field__section {
+    width: fit-content;
 
-.dnb-multi-input-mask {
-  width: fit-content;
+    margin: 0;
+    padding: 0 0.125rem;
+
+    overflow: hidden;
+    outline: none;
+
+    cursor: text;
+
+    white-space: nowrap;
+    font-family: var(--font-family-monospace);
+    border: none;
+    background: transparent;
+
+    .dnb-input--medium &,
+    .dnb-input--large & {
+      padding: 0 0.25rem;
+    }
+  }
+
+  &__delimiter {
+    display: flex;
+    user-select: none;
+
+    padding: 0 0.25rem 0 0;
+    @include utilities.isFirefox() {
+      padding: 0 0.0625rem;
+    }
+  }
+
+  &__hidden-input {
+    display: none;
+  }
+
+  &__fieldset
+    &__fieldset
+    &__group
+    &__section.dnb-input__input:first-child {
+    // On second fieldset, the left padding should be less, because the delimiter already has some spacing.
+    padding-left: 0.25rem;
+  }
 
   &:not(.dnb-input__status--error) {
-    .dnb-multi-input-mask__input,
-    .dnb-multi-input-mask__delimiter {
+    .dnb-segmented-field__section,
+    .dnb-segmented-field__delimiter {
       color: var(--color-black-55);
 
       &--highlight {
@@ -93,8 +110,8 @@
 
   .dnb-input__status--error &:not(:focus-within),
   &.dnb-input__status--error:not(:focus-within) {
-    .dnb-multi-input-mask__input,
-    .dnb-multi-input-mask__delimiter {
+    .dnb-segmented-field__section,
+    .dnb-segmented-field__delimiter {
       color: var(--color-fire-red);
     }
   }

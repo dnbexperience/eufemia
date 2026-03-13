@@ -15,10 +15,10 @@ import React, {
 import { isValid as isValidFn, parseISO } from 'date-fns'
 
 import clsx from 'clsx'
-import MultiInputMask, {
-  type MultiInputMaskInput as MInputs,
-  type MultiInputMaskValue as MValues,
-} from '../input-masked/MultiInputMask'
+import SegmentedField, {
+  type SegmentedFieldItem as MInputs,
+  type SegmentedFieldValue as MValues,
+} from '../input-masked/segmented-field/SegmentedField'
 import Button from '../button/Button'
 import Input, { SubmitButton } from '../input/Input'
 import type { InputElement, InputSize } from '../Input'
@@ -115,12 +115,12 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
   const {
     isRange,
-    maskOrder = defaultMaskOrder,
+    maskOrder,
     separatorRegExp,
     id,
     title,
     submitAttributes,
-    maskPlaceholder = defaultMaskPlaceholder,
+    maskPlaceholder,
     onFocus,
     onBlur,
     onChange,
@@ -165,6 +165,13 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   const translation = useTranslation().DatePicker
   const { locale } = useContext(Context)
 
+  const resolvedMaskOrder =
+    maskOrder || (locale === 'en-US' ? 'mm/dd/yyyy' : defaultMaskOrder)
+
+  const resolvedMaskPlaceholder =
+    maskPlaceholder ||
+    (locale === 'en-US' ? 'mm/dd/yyyy' : defaultMaskPlaceholder)
+
   const hasHadValidDate = isValidFn(startDate) || isValidFn(endDate)
 
   const modeDate = useMemo(
@@ -205,7 +212,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
   // Build ordered parts from maskOrder (e.g., ['dd','mm','yyyy'])
   const orderedParts = useMemo(() => {
-    return maskOrder
+    return resolvedMaskOrder
       .split(separatorRegExp)
       .filter(Boolean)
       .map((p) =>
@@ -215,13 +222,13 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           ? 'month'
           : 'year'
       ) as Array<'day' | 'month' | 'year'>
-  }, [maskOrder, separatorRegExp])
+  }, [resolvedMaskOrder, separatorRegExp])
 
   // Extract delimiter from maskPlaceholder to align with visual format shown to user
   const delimiter = useMemo(() => {
     // Match common separator characters directly
-    return maskPlaceholder.match(/[./-]/)?.[0]
-  }, [maskPlaceholder])
+    return resolvedMaskPlaceholder.match(/[./-]/)?.[0]
+  }, [resolvedMaskPlaceholder])
 
   const getValues = useCallback(
     (mode: 'start' | 'end'): MValues<'day' | 'month' | 'year'> => {
@@ -242,7 +249,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       const date = mode === 'end' ? endDate : startDate
       if (isValidFn(date)) {
         event.preventDefault()
-        const valueToCopy = formatDate(date, { locale })
+        const valueToCopy = getCopyValue(date, locale)
         event.clipboardData.setData('text/plain', valueToCopy)
       }
     },
@@ -261,14 +268,16 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       ).getData('text/plain')
 
       if (!success) {
-        return // Stop here
+        return // stop here
       }
 
-      event.preventDefault()
+      if (!hasFullDateStructure(success)) {
+        return // stop here – let SegmentedField distribute the partial value
+      }
 
       try {
         const separators = ['.', '/']
-        const possibleFormats = ['yyyy-MM-dd']
+        const possibleFormats = [resolvedMaskOrder.replace(/\//g, '-')]
 
         // Generate all format variations with different separators and reversed versions
         const baseFormats = [...possibleFormats]
@@ -286,6 +295,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         for (index; index < possibleFormats.length; ++index) {
           date = convertStringToDate(success, {
             dateFormat: possibleFormats[index],
+            strictDateFormat: true,
           })
 
           if (date) {
@@ -293,10 +303,16 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           }
         }
 
+        if (!date) {
+          return // stop here – let SegmentedField distribute the partial value
+        }
+
+        event.preventDefault()
+
         const mode =
           focusMode.current === 'start' ? 'startDate' : 'endDate'
 
-        if (date) {
+        {
           // Update provider dates
           updateDates({
             [mode]: date,
@@ -321,7 +337,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         warn(error)
       }
     },
-    [updateDates, updateInputDates]
+    [resolvedMaskOrder, updateDates, updateInputDates]
   )
 
   const buildInputs = useCallback(
@@ -342,11 +358,30 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           : labelBase
         const cls = `dnb-date-picker__input dnb-date-picker__input--${part}`
         const mask = new Array(len).fill(/[0-9]/)
+        const spinButton =
+          part === 'day'
+            ? {
+                min: 1,
+                max: 31,
+                getInitialValue: () => new Date().getDate(),
+              }
+            : part === 'month'
+            ? {
+                min: 1,
+                max: 12,
+                getInitialValue: () => new Date().getMonth() + 1,
+              }
+            : {
+                min: 0,
+                max: 9999,
+                getInitialValue: () => new Date().getFullYear(),
+              }
         return {
           id: part,
           label,
           placeholder,
           mask,
+          spinButton,
           className: cls,
           inputMode: 'numeric' as const,
           onPaste: pasteHandler,
@@ -650,6 +685,47 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     [onMultiChange]
   )
 
+  const getDerivedDatesFromInputs = useCallback(() => {
+    const deriveDate = (mode: 'start' | 'end') => {
+      const year = String(dateRefs.current[`${mode}Year`] || '')
+      const month = String(dateRefs.current[`${mode}Month`] || '')
+      const day = String(dateRefs.current[`${mode}Day`] || '')
+
+      const hasAnyValue = Boolean(year || month || day)
+
+      if (!hasAnyValue) {
+        return mode === 'start' ? startDate : endDate
+      }
+
+      const isComplete =
+        /^\d{4}$/.test(year) &&
+        /^\d{2}$/.test(month) &&
+        /^\d{2}$/.test(day)
+
+      if (!isComplete) {
+        return null
+      }
+
+      const parsedDate = new Date(
+        Number(year),
+        Number(month) - 1,
+        Number(day)
+      )
+
+      const isValidDate =
+        parsedDate.getFullYear() === Number(year) &&
+        parsedDate.getMonth() + 1 === Number(month) &&
+        parsedDate.getDate() === Number(day)
+
+      return isValidDate ? parsedDate : null
+    }
+
+    return {
+      startDate: deriveDate('start'),
+      endDate: deriveDate('end'),
+    }
+  }, [endDate, startDate])
+
   const scopeRef = useRef<HTMLSpanElement>(null)
 
   const renderInputElement = useCallback(() => {
@@ -659,7 +735,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         className="dnb-date-picker__input__wrapper"
         ref={scopeRef}
       >
-        <MultiInputMask
+        <SegmentedField
           id={`${id}-start`}
           _omitInputShellClass
           size={size}
@@ -671,13 +747,14 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           disabled={disabled || skeleton}
           onChange={onMultiChangeStart}
           scopeRef={scopeRef}
-          overwriteMode="replace"
           onFocus={() => {
             focusMode.current = 'start'
             setFocusState('focus')
             onFocus?.({
               ...getReturnObject({
                 event: null,
+                ...getDerivedDatesFromInputs(),
+                ...invalidDatesRef.current,
               }),
             })
           }}
@@ -687,6 +764,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             onBlur?.({
               ...getReturnObject({
                 event: null,
+                ...getDerivedDatesFromInputs(),
+                ...invalidDatesRef.current,
               }),
             })
           }}
@@ -698,7 +777,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           </span>
         )}
         {isRange && (
-          <MultiInputMask
+          <SegmentedField
             id={`${id}-end`}
             _omitInputShellClass
             size={size}
@@ -710,13 +789,14 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             disabled={disabled || skeleton}
             onChange={onMultiChangeEnd}
             scopeRef={scopeRef}
-            overwriteMode="replace"
             onFocus={() => {
               focusMode.current = 'end'
               setFocusState('focus')
               onFocus?.({
                 ...getReturnObject({
                   event: null,
+                  ...getDerivedDatesFromInputs(),
+                  ...invalidDatesRef.current,
                 }),
               })
             }}
@@ -726,6 +806,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
               onBlur?.({
                 ...getReturnObject({
                   event: null,
+                  ...getDerivedDatesFromInputs(),
+                  ...invalidDatesRef.current,
                 }),
               })
             }}
@@ -750,6 +832,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     onFocus,
     onBlur,
     getReturnObject,
+    getDerivedDatesFromInputs,
     onMultiChangeStart,
     onMultiChangeEnd,
   ])
@@ -821,6 +904,28 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 }
 
 export default DatePickerInput
+
+function hasFullDateStructure(value: string) {
+  const trimmed = String(value).trim()
+
+  if (!trimmed) {
+    return false
+  }
+
+  return /^(\d{1,4})[./-](\d{1,2})[./-](\d{1,4})$/.test(trimmed)
+}
+
+function getCopyValue(date: Date, locale: string) {
+  if (locale === 'en-US') {
+    return new Intl.DateTimeFormat(locale, {
+      month: '2-digit',
+      day: '2-digit',
+      year: 'numeric',
+    }).format(date)
+  }
+
+  return formatDate(date, { locale })
+}
 
 function syncDateRefs(
   dateRefs: React.RefObject<DatePickerInputDates>,

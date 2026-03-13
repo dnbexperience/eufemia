@@ -1,19 +1,23 @@
 import { useEffect, useRef, useCallback, useReducer } from 'react'
-import type {
-  MultiInputMaskProps,
-  MultiInputMaskValue,
-} from '../MultiInputMask'
+
+type MultiInputValue<T extends string> = {
+  [_K in T]: string
+}
+
+type MultiInputDefinition<T extends string> = {
+  id: T
+}
 
 type UseMultiInputValues<T extends string> = {
-  inputs: MultiInputMaskProps<T>['inputs']
-  defaultValues?: MultiInputMaskProps<T>['values']
+  inputs: MultiInputDefinition<T>[]
+  defaultValues?: MultiInputValue<T>
 }
 
 export function useMultiInputValue<T extends string>({
   inputs,
   defaultValues,
 }: UseMultiInputValues<T>) {
-  const valuesRef = useRef<MultiInputMaskValue<T>>(
+  const valuesRef = useRef<MultiInputValue<T>>(
     defaultValues ? defaultValues : createDefaultValues(inputs)
   )
   // Use reducer to force re-renders when values change
@@ -39,7 +43,7 @@ export function useMultiInputValue<T extends string>({
     }
   }, [defaultValues])
 
-  const onChange = useCallback((updatedValues: MultiInputMaskValue<T>) => {
+  const onChange = useCallback((updatedValues: MultiInputValue<T>) => {
     valuesRef.current = updatedValues
 
     // Force re-render to update the component
@@ -50,12 +54,10 @@ export function useMultiInputValue<T extends string>({
   return [valuesRef.current, onChange] as const
 }
 
-function createDefaultValues(
-  inputs: MultiInputMaskProps<string>['inputs']
-) {
+function createDefaultValues(inputs: MultiInputDefinition<string>[]) {
   return inputs.reduce((values, input) => {
     values[input.id] = ''
 
     return values
-  }, {} as MultiInputMaskValue<string>)
+  }, {} as MultiInputValue<string>)
 }
