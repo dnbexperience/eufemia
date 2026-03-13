@@ -377,7 +377,6 @@ function Button({ ref, ...restProps }: ButtonProps) {
     ? Anchor
     : 'button'
   if (Element === Anchor) {
-    ;(attributes as Record<string, unknown>).omitClass = true
     if (opensNewTab(props.target, props.href) && !icon) {
       icon = launch
     }
@@ -414,6 +413,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
     id: _id,
     disabled: disabled,
     ...attributes,
+    ...(Element === Anchor && { omitClass: true }),
   }
 
   const handleClick = (
