@@ -1,3 +1,6 @@
+// @deprecated – Stat.Amount is deprecated in favor of Stat.Number.
+// This test file can be removed once Stat.Amount is fully removed.
+
 import React from 'react'
 import { render } from '@testing-library/react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
