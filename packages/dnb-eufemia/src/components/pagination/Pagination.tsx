@@ -319,11 +319,11 @@ const PaginationInstance = React.memo(function PaginationInstance(
   )
 
   const {
-    align,
-    children,
-    className,
-    barSpace,
-    paginationBarLayout,
+    align: _align,
+    children: _children,
+    className: _className,
+    barSpace: _barSpace,
+    paginationBarLayout: _paginationBarLayout,
 
     disabled: _disabled,
     skeleton: _skeleton,
@@ -357,6 +357,9 @@ const PaginationInstance = React.memo(function PaginationInstance(
     ...attributes
   } = props as Record<string, unknown>
 
+  const { align, children, className, barSpace, paginationBarLayout } =
+    props
+
   // our props
   const { currentPageInternal, items, fallbackElement, indicatorElement } =
     ctx.pagination
@@ -384,7 +387,7 @@ const PaginationInstance = React.memo(function PaginationInstance(
     return (
       <div {...mainParams}>
         <PaginationBar contentRef={contentRef} space={barSpace}>
-          {children}
+          {children as React.ReactNode}
         </PaginationBar>
         {items.length > 0 && (
           <PaginationContent ref={contentRef}>
@@ -498,17 +501,11 @@ export const createPagination = (
   })
 
   const Pagination = (props: Record<string, unknown>) => (
-    <PaginationWrapper
-      tagName="dnb-pagination"
-      {...(args(props) as PaginationProps)}
-    />
+    <PaginationWrapper {...(args(props) as PaginationProps)} />
   )
 
   const InfinityMarker = (props: Record<string, unknown>) => (
-    <InfinityMarkerWrapper
-      tagName="dnb-infinity-marker"
-      {...(args(props) as PaginationProps)}
-    />
+    <InfinityMarkerWrapper {...(args(props) as PaginationProps)} />
   )
 
   return {
