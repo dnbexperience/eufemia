@@ -17,9 +17,9 @@ describe('Stat.Number', () => {
     const currency = document.querySelector('.dnb-stat__currency')
     const content = document.querySelector('.dnb-stat__content')
 
-    expect(amount.textContent).toBe('12 346')
+    expect(amount.textContent).toBe('12 346')
     expect(currency).not.toBeInTheDocument()
-    expect(content.textContent).toBe('12 346')
+    expect(content.textContent).toBe('12 346')
   })
 
   it('renders number with currency when currency prop is set', () => {
@@ -28,7 +28,7 @@ describe('Stat.Number', () => {
     const amount = document.querySelector('.dnb-stat__amount')
     const currency = document.querySelector('.dnb-stat__currency')
 
-    expect(amount.textContent).toBe('12 346')
+    expect(amount.textContent).toBe('12 346')
     expect(currency).toBeInTheDocument()
     expect(currency.textContent).toBe('kr')
   })
@@ -51,7 +51,7 @@ describe('Stat.Number', () => {
     render(<Stat.Number>12345.67</Stat.Number>)
 
     const amount = document.querySelector('.dnb-stat__amount')
-    expect(amount.textContent).toBe('12 346')
+    expect(amount.textContent).toBe('12 346')
   })
 
   it('supports prefix and suffix', () => {
@@ -71,7 +71,7 @@ describe('Stat.Number', () => {
 
     expect(prefix.textContent).toBe('Fra')
     expect(suffix.textContent).toBe('/mnd')
-    expect(content.textContent).toBe('Fra 12 346 kr/mnd')
+    expect(content.textContent).toBe('Fra 12 346 kr/mnd')
     expect(sr.getAttribute('data-text')).toContain('/mnd')
   })
 
