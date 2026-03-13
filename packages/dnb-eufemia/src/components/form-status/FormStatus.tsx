@@ -23,7 +23,10 @@ import {
   skeletonDOMAttributes,
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
-import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
+import {
+  pickFormElementProps,
+  FormElementProps,
+} from '../../shared/helpers/filterValidProps'
 import ui from '../../style/themes/ui/properties'
 import sbanken from '../../style/themes/sbanken/properties'
 import type { GlobalStatusConfigObject } from '../GlobalStatus'
@@ -350,8 +353,12 @@ function FormStatusComponent(
   useMountEffect(() => {
     globalStatusRef.current = GlobalStatusProvider.init(
       globalStatus?.id ||
-        (context as Record<string, any>)?.FormStatus?.globalStatus?.id ||
-        (context as Record<string, any>)?.formElement?.globalStatus?.id ||
+        context?.FormStatus?.globalStatus?.id ||
+        (
+          context?.formElement as FormElementProps & {
+            globalStatus?: GlobalStatusConfigObject
+          }
+        )?.globalStatus?.id ||
         'main',
       (provider) => {
         const currentProps = propsRef.current
@@ -488,9 +495,9 @@ function FormStatusComponent(
     icon: _icon,
     iconSize: _iconSize,
     ...rest
-  } = restOfProps as any
+  } = restOfProps
 
-  const params = {
+  const params: Record<string, unknown> = {
     className: clsx(
       'dnb-form-status',
       state && `dnb-form-status--${state}`,
@@ -544,7 +551,7 @@ function FormStatusComponent(
       open={isReadyToGetVisible()}
       animate={shouldAnimate}
       duration={600}
-      {...(params as any)}
+      {...params}
       ref={elementRef}
     >
       <span {...shellParams}>
