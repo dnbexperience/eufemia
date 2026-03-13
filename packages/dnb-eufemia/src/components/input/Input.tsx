@@ -671,7 +671,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     onClear, //eslint-disable-line
 
     ...inputSubmitButtonAttributes
-  } = props as Record<string, any>
+  } = props as Record<string, unknown>
 
   const {
     onSubmitBlur, //eslint-disable-line
