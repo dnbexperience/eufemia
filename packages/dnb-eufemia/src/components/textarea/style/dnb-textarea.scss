@@ -126,7 +126,7 @@
 
     @include utilities.scrollY(auto);
 
-    @include utilities.IS_FF() {
+    @include utilities.isFirefox() {
       overflow-x: clip !important;
     }
   }

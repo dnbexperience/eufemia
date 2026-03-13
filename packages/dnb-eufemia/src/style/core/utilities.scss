@@ -42,7 +42,7 @@
   }
 }
 
-@mixin focus-visible() {
+@mixin focusVisible() {
   html:not([data-whatintent='touch']) &:focus-visible {
     &[disabled] {
       cursor: not-allowed;
@@ -257,14 +257,14 @@
 }
 
 // Firefox fix
-@mixin IS_FF() {
+@mixin isFirefox() {
   @supports (-moz-appearance: none) {
     @content;
   }
 }
 
 // Chrome fix
-@mixin IS_CHROME() {
+@mixin isChrome() {
   @supports (-webkit-appearance: none) and
     (not (overflow: -webkit-marquee)) and (not (-moz-appearance: none)) {
     @content;
@@ -272,14 +272,14 @@
 }
 
 // Safari Mobile fix
-@mixin IS_SAFARI_MOBILE() {
+@mixin isSafariMobile() {
   @supports (-webkit-touch-callout: none) {
     @content;
   }
 }
 
 // Safari Desktop fix
-@mixin IS_SAFARI_DESKTOP() {
+@mixin isSafariDesktop() {
   @supports (-webkit-appearance: none) and (stroke-color: transparent) and
     (not (-webkit-touch-callout: none)) {
     @content;

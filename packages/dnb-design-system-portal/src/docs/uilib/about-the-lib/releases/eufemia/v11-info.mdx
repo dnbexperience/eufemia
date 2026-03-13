@@ -18,6 +18,7 @@ v11 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 2. Replace `<Context.Provider>` with `<Context>` when using Eufemia contexts directly (React 19 deprecation).
 3. If you import Eufemia SCSS source files with `@import`, replace with `@use` and namespace your mixin/variable calls (see [SCSS: @import → @use](#scss-import--use)).
 4. Replace the `size` prop with `span` on `Flex.Item` and `Card` components.
+5. If you `@use` Eufemia SCSS source files and reference internal mixins, rename them to camelCase (see [SCSS mixin renames](#scss-mixin-renames)).
 
 ### innerRef → ref
 
@@ -1563,6 +1564,32 @@ The JSX usage (`<Wizard.Provider value={...}>`) remains the same — no changes 
 #### Properties
 
 - Replace `filterSubmitData` with rather using the `filterData` in the second event parameter in the `onSubmit` or `onChange` events.
+
+## SCSS mixin renames
+
+All SCSS mixins have been renamed to follow the **camelCase** naming convention. If you `@use` Eufemia's SCSS source files directly and reference these mixins, update your `@include` calls:
+
+### Utilities (`style/core/utilities.scss`)
+
+- Replace `focus-visible` with `focusVisible`.
+- Replace `IS_FF` with `isFirefox`.
+- Replace `IS_CHROME` with `isChrome`.
+- Replace `IS_SAFARI_MOBILE` with `isSafariMobile`.
+- Replace `IS_SAFARI_DESKTOP` with `isSafariDesktop`.
+
+### Typography (`elements/typography/style/typography-mixins.scss`)
+
+- Replace `headingSize_xx-large` with `headingSizeXxLarge`.
+- Replace `headingSize_x-large` with `headingSizeXLarge`.
+- Replace `headingSize_large` with `headingSizeLarge`.
+- Replace `headingSize_medium` with `headingSizeMedium`.
+- Replace `headingSize_basis` with `headingSizeBasis`.
+- Replace `headingSize_small` with `headingSizeSmall`.
+- Replace `headingSize_x-small` with `headingSizeXSmall`.
+- Replace `typography_lead` with `typographyLead`.
+- Replace `headingSpacing_xx-large` with `headingSpacingXxLarge`.
+- Replace `headingSpacing_x-large` with `headingSpacingXLarge`.
+- Replace `headingSpacing_large` with `headingSpacingLarge`.
 
 ## SCSS: `@import` → `@use`
 

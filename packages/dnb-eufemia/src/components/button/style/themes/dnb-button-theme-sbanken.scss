@@ -112,7 +112,7 @@
 
   &--primary,
   &--secondary {
-    @include utilities.focus-visible() {
+    @include utilities.focusVisible() {
       color: var(--sb-color-blue-dark);
       background-color: var(--button-background--focus);
 
@@ -207,7 +207,7 @@
       --button-tertiary-text-top--icon: 0.25rem;
     }
 
-    @mixin focus-tertiary() {
+    @mixin focusTertiary() {
       color: var(--sb-color-blue-dark);
       @include button-mixins.buttonFocusRing(
         'always',
@@ -236,11 +236,11 @@
       &:not(.dnb-button--has-text) {
         --focus-ring-width: 0.0625rem;
         --sb-shadow-medium: 0 0 transparent;
-        @include focus-tertiary();
+        @include focusTertiary();
       }
     }
-    @include utilities.focus-visible() {
-      @include focus-tertiary();
+    @include utilities.focusVisible() {
+      @include focusTertiary();
     }
 
     &[disabled] {
