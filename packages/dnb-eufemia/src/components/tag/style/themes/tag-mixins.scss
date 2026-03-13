@@ -9,7 +9,7 @@
   --tag-icon-fill: #{$fillColor};
   --tag-icon-stroke: #{$strokeColor};
 
-  @include utilities.focus-visible() {
+  @include utilities.focusVisible() {
     --tag-icon-fill: #{$strokeColor};
     --tag-icon-stroke: #{$fillColor};
   }
