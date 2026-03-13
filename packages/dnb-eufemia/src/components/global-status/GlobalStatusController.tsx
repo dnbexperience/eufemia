@@ -12,6 +12,10 @@ import type {
   GlobalStatusInterceptorProps,
 } from './GlobalStatus'
 
+type WindowWithProvider = Window & {
+  GlobalStatusProvider?: typeof GlobalStatusProvider
+}
+
 export class GlobalStatusInterceptor {
   provider: ReturnType<typeof GlobalStatusProvider.init>
   statusId: string | undefined
@@ -24,7 +28,7 @@ export class GlobalStatusInterceptor {
       // do noting
     }
     if (!GSP && typeof window !== 'undefined') {
-      GSP = (window as Record<string, any>).GlobalStatusProvider
+      GSP = (window as WindowWithProvider).GlobalStatusProvider
     }
 
     this.provider = GSP.init(props.id || 'main', (provider) => {
@@ -55,7 +59,7 @@ function initProvider(id: string) {
     // do noting
   }
   if (!GSP && typeof window !== 'undefined') {
-    GSP = (window as Record<string, any>).GlobalStatusProvider
+    GSP = (window as WindowWithProvider).GlobalStatusProvider
   }
   return GSP.init(id)
 }
