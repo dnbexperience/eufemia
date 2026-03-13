@@ -93,13 +93,11 @@
     }
   }
 
-  // Amount
-  &__amount {
-    // Use "data-text" so Chrome does not copy the HTML as content, when pasting it in Outlook etc.
-    .dnb-sr-only::before {
-      content: attr(data-text);
-    }
+  // Use "data-text" so Chrome does not copy the HTML as content, when pasting it in Outlook etc.
+  .dnb-sr-only::before {
+    content: attr(data-text);
   }
+
   &__amount,
   &__sign {
     font-weight: inherit;

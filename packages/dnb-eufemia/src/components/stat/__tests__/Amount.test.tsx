@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import Provider from '../../../shared/Provider'
 import Stat from '../Stat'
 import Amount from '../Amount'
@@ -548,5 +548,15 @@ describe('Stat.Amount', () => {
       expect(root).toHaveAttribute('aria-disabled', 'true')
       expect(root).toHaveAttribute('disabled')
     })
+  })
+})
+
+describe('Stat.Amount scss', () => {
+  it('includes screen-reader content for nested NumberFormat output', () => {
+    const css = loadScss(require.resolve('../style/dnb-stat.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-stat\s+\.dnb-sr-only::before\s*\{\s*content:\s*attr\(data-text\);?\s*\}/
+    )
   })
 })
