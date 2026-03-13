@@ -2,7 +2,8 @@
  * Web List Component
  */
 
-import React, { useContext, useEffect, useCallback } from 'react'
+import React, { useContext, useCallback } from 'react'
+import useMountEffect from '../../shared/helpers/useMountEffect'
 import clsx from 'clsx'
 import {
   validateDOMAttributes,
@@ -301,7 +302,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
   }
 
   // Send along event handlers and arrowPosition to the provider state on mount
-  useEffect(() => {
+  useMountEffect(() => {
     const eventHandlerState = Object.keys(propsToFilterOut).reduce<
       Record<string, unknown>
     >((acc, key) => {
@@ -315,9 +316,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
     context.drawerList.setState({
       arrowPosition: propsWithDefaults.arrowPosition,
     })
-    // Only on mount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  })
 
   const preventTab = useCallback(
     (e: React.KeyboardEvent) => {
@@ -788,12 +787,12 @@ function OnMounted({
   addObservers: () => void
   removeObservers: () => void
 }) {
-  React.useEffect(() => {
+  useMountEffect(() => {
     addObservers()
     return () => {
       removeObservers()
     }
-  }, [addObservers, removeObservers])
+  })
 
   return null
 }
