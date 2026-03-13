@@ -338,12 +338,12 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
   )
 
   const selectItemHandler = useCallback(
-    (event: React.MouseEvent & { 'data-item'?: string }) => {
-      const selectedItem = parseFloat(event['data-item'])
+    (params: { 'data-item'?: number; [key: string]: unknown }) => {
+      const selectedItem = Number(params['data-item'])
       if (selectedItem > -1) {
         context.drawerList.selectItemAndClose(selectedItem, {
           fireSelectEvent: true,
-          event,
+          event: params,
         })
       }
     },

@@ -14,15 +14,13 @@ export type DrawerListItemProps = Omit<
    * Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` prop (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).
    */
   value?: string
-  onClick?: ({
-    selected,
-    value,
-  }: {
+  onClick?: (params: {
     selected: boolean
     /**
      * Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` prop (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).
      */
     value: string
+    [key: string]: unknown
   }) => void
 }
 
