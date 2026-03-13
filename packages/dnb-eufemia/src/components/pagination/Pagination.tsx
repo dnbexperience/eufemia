@@ -305,7 +305,7 @@ export default Pagination
 const PaginationInstance = React.memo(function PaginationInstance(
   ownProps: PaginationProps
 ) {
-  const ctx = useContext(PaginationContext) as Record<string, any>
+  const ctx = useContext(PaginationContext)
   const contentRef = useRef<HTMLDivElement | null>(null)
 
   // Uses extendPropsWithContextInClassComponent (onlyMergeExistingProps: true)
@@ -355,7 +355,7 @@ const PaginationInstance = React.memo(function PaginationInstance(
     placeMarkerBeforeContent: _placeMarkerBeforeContent,
 
     ...attributes
-  } = props as Record<string, any>
+  } = props as Record<string, unknown>
 
   // our props
   const { currentPageInternal, items, fallbackElement, indicatorElement } =
@@ -500,14 +500,14 @@ export const createPagination = (
   const Pagination = (props: Record<string, unknown>) => (
     <PaginationWrapper
       tagName="dnb-pagination"
-      {...(args(props) as any)}
+      {...(args(props) as PaginationProps)}
     />
   )
 
   const InfinityMarker = (props: Record<string, unknown>) => (
     <InfinityMarkerWrapper
       tagName="dnb-infinity-marker"
-      {...(args(props) as any)}
+      {...(args(props) as PaginationProps)}
     />
   )
 
