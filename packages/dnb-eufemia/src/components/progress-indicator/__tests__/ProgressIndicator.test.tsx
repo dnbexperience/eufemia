@@ -13,6 +13,10 @@ import { format } from '../../number-format/NumberUtils'
 const props: ProgressIndicatorAllProps = {}
 
 describe('Circular ProgressIndicator component', () => {
+  it('should have displayName set for production build compatibility', () => {
+    expect(ProgressIndicator.displayName).toBe('ProgressIndicator')
+  })
+
   const mainLineSelector =
     'svg.dnb-progress-indicator__circular__line.dark[style]'
 
