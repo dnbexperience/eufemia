@@ -10,11 +10,13 @@ import React, {
   useState,
   useMemo,
 } from 'react'
-import useMountEffect from '../../shared/helpers/useMountEffect'
 import clsx from 'clsx'
+import useMountEffect from '../../shared/helpers/useMountEffect'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
+import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import useId from '../../shared/helpers/useId'
+import Suffix from '../../shared/helpers/Suffix'
 import {
   warn,
   removeUndefinedProps,
@@ -25,22 +27,19 @@ import {
   dispatchCustomElementEvent,
   convertJsxToString,
 } from '../../shared/component-helper'
-import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
-import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import Button from '../button/Button'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import IconPrimary from '../icon-primary/IconPrimary'
-
 import Context from '../../shared/Context'
-import Suffix from '../../shared/helpers/Suffix'
 
+import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
 import type {
   ButtonIconPosition,
   ButtonSize,
