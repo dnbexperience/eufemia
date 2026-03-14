@@ -356,8 +356,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
       if (typeof ref === 'function') {
         ref(instance)
       } else if (ref) {
-        ;(ref as React.MutableRefObject<HTMLInputElement | null>).current =
-          instance
+        ref.current = instance
       }
     },
     [ref]
@@ -907,8 +906,7 @@ function InputSubmitButton({
       if (typeof ref === 'function') {
         ref(instance)
       } else if (ref) {
-        ;(ref as React.MutableRefObject<HTMLElement | null>).current =
-          instance
+        ref.current = instance
       }
     },
     [ref]
