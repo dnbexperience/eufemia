@@ -53,7 +53,7 @@ import type { SpacingProps } from '../space/types'
 
 export type InputSize = 'default' | 'small' | 'medium' | 'large' | number
 export type InputValue = string | number
-export type InputSuffix = string | React.ReactNode
+export type InputSuffix = React.ReactNode
 export type InputAlign = 'left' | 'center' | 'right'
 export type InputInputAttributes = string | Record<string, unknown>
 export type InputElementRenderProps = {
@@ -228,7 +228,6 @@ export interface InputProps
   submitButtonVariant?: ButtonVariant
   submitButtonIcon?: InputSubmitButtonIcon
   submitButtonStatus?: string
-  className?: string
   children?: InputChildren
   onChange?: (event: InputChangeEvent) => void
   onKeyDown?: (event: InputKeyDownEvent) => void
@@ -270,7 +269,6 @@ export interface SubmitButtonProps
    * The icon size of the icon shows. Defaults to `medium`.
    */
   iconSize?: IconSize
-  className?: string
   onSubmit?: (event: InputEvent) => void
   onSubmitFocus?: (event: InputEvent<React.FocusEvent>) => void
   onSubmitBlur?: (event: InputEvent<React.FocusEvent>) => void
