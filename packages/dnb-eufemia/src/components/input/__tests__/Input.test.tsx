@@ -826,6 +826,12 @@ describe('Input icon memoization', () => {
   })
 
   it('should memoize when icon is a ProgressIndicator component and type does not change', () => {
+    // Simulate production build where function names get minified
+    Object.defineProperty(ProgressIndicator, 'name', {
+      value: 'e',
+      configurable: true,
+    })
+
     const { rerender } = render(
       <Input {...props} icon={<ProgressIndicator type="circular" />} />
     )
@@ -839,6 +845,7 @@ describe('Input icon memoization', () => {
       <Input {...props} icon={<ProgressIndicator type="linear" />} />
     )
 
+    // The memo comparator should recognize it via displayName and skip re-render
     expect(
       document.querySelector('.dnb-progress-indicator__linear')
     ).not.toBeInTheDocument()
@@ -846,6 +853,12 @@ describe('Input icon memoization', () => {
     expect(
       document.querySelector('.dnb-progress-indicator__circular')
     ).toBeInTheDocument()
+
+    // Restore original name
+    Object.defineProperty(ProgressIndicator, 'name', {
+      value: 'ProgressIndicator',
+      configurable: true,
+    })
   })
 })
 
