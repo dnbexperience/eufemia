@@ -17,7 +17,7 @@ import {
 import type { CardDesign } from './CardDesigns'
 import { CardType, ProductType, BankAxeptType } from './Types'
 
-export interface CardProduct {
+export type CardProduct = {
   productCode: string
   productName: string
   displayName: string

@@ -55,13 +55,7 @@ export type RadioChangeEvent = RadioEvent<
   | React.MouseEvent<HTMLInputElement>
 >
 
-export interface RadioProps
-  extends Omit<
-      React.HTMLProps<HTMLElement>,
-      'ref' | 'onChange' | 'label' | 'size' | 'children'
-    >,
-    SpacingProps,
-    FormStatusBaseProps {
+export type RadioProps = {
   /**
    * Use either the `label` property or provide a custom one.
    */
@@ -103,9 +97,14 @@ export interface RadioProps
    * By providing a React.ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.useRef()`.
    */
   ref?: React.Ref<HTMLInputElement>
-}
+} & Omit<
+  React.HTMLProps<HTMLElement>,
+  'ref' | 'onChange' | 'label' | 'size' | 'children'
+> &
+  SpacingProps &
+  FormStatusBaseProps
 
-interface RadioComponentState {
+type RadioComponentState = {
   checked?: boolean
   _checked?: boolean
   __checked?: boolean

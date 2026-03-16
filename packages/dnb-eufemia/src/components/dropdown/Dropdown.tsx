@@ -56,7 +56,7 @@ type DropdownTriggerElement =
   | ((props: Record<string, unknown>) => React.ReactNode)
   | React.ReactNode
 
-export interface DropdownProps {
+export type DropdownProps = {
   /**
    * Give a title to let the users know what they have to do. Defaults to `Valgmeny`.
    */

@@ -9,7 +9,7 @@ import IterateItemContext, {
 } from '../IterateItemContext'
 import ArrayItemAreaContext from './ArrayItemAreaContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
-import { Props as FlexContainerProps } from '../../../../components/flex/Container'
+import { FlexContainerAllProps as FlexContainerProps } from '../../../../components/flex/Container'
 import { ContainerMode } from './types'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'

@@ -7,7 +7,7 @@ export type ModeOptions = {
   preventUpdate?: boolean
 }
 
-export interface IterateItemContextState {
+export type IterateItemContextState = {
   id?: string
   index?: number
   value?: unknown

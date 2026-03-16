@@ -34,7 +34,7 @@ import ToggleButtonGroupContext, {
 import Context, { type ContextProps } from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 
-interface ToggleButtonState {
+type ToggleButtonState = {
   checked?: boolean
   _listenForPropChanges: boolean
   _checked?: boolean
@@ -473,7 +473,12 @@ import type {
   ButtonSize,
   ButtonTooltip,
 } from '../Button'
-import type { FormStatusBaseProps } from '../FormStatus'
+import type {
+  FormStatusText,
+  FormStatusState,
+  FormStatusProps,
+} from '../FormStatus'
+import type { GlobalStatusConfigObject } from '../GlobalStatus'
 import type { IconIcon, IconSize } from '../Icon'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps, SpaceType } from '../space/types'
@@ -491,77 +496,92 @@ export type ToggleButtonValue =
   | any[]
 export type ToggleButtonChildren = string | ((...args: any[]) => any)
 
-export interface ToggleButtonProps
-  extends Omit<
-      React.HTMLProps<HTMLButtonElement>,
-      'ref' | 'label' | 'value' | 'children' | 'onChange' | 'size'
-    >,
-    Omit<SpacingProps, 'top' | 'right' | 'bottom' | 'left'>,
-    FormStatusBaseProps {
-  /**
-   * The text shown in the ToggleButton.
-   */
-  text?: React.ReactNode
-  /**
-   * Use either the `label` property or provide a custom one.
-   */
-  label?: string | React.ReactNode
-  labelDirection?: 'horizontal' | 'vertical'
-  labelSrOnly?: boolean
-  /**
-   * The `title` of the input - describing it a bit further for accessibility reasons.
-   */
-  title?: string
-  /**
-   * Determine whether the ToggleButton is checked or not. The default will be `false`.
-   */
-  checked?: boolean
-  variant?: ToggleButtonVariant
-  leftComponent?: React.ReactNode
-  disabled?: boolean
-  /**
-   * If set to `true`, an overlaying skeleton with animation will be shown.
-   */
-  skeleton?: SkeletonShow
-  id?: string
-  /**
-   * Text describing the content of the ToggleButton more than the label. You can also send in a React component, so it gets wrapped inside the ToggleButton component.
-   */
-  suffix?: ToggleButtonSuffix
-  /**
-   * Provide a string or a React Element to be shown as the tooltip content.
-   */
-  tooltip?: ButtonTooltip
-  /**
-   * Defines the `value` as a string. Use it to get the value during the `onChange` event listener callback in the **ToggleButtonGroup**.
-   */
-  value?: ToggleButtonValue
-  /**
-   * The size of the button. For now there is `small`, `medium`, `default` and `large`.
-   */
-  size?: ButtonSize
-  /**
-   * Icon to be included in the toggle button.
-   */
-  icon?: IconIcon
-  /**
-   * Position of the icon inside the toggle button. Set to `left` or `right`. Defaults to `right` if not set.
-   */
-  iconPosition?: ButtonIconPosition
-  /**
-   * Define icon width and height. Defaults to `16px`.
-   */
-  iconSize?: IconSize
-  readOnly?: boolean
-  className?: string
-  children?: ToggleButtonChildren
-  onChange?: (...args: any[]) => any
-  // Additional properties that are used in tests and stories
-  top?: SpaceType
-  right?: SpaceType
-  bottom?: SpaceType
-  left?: SpaceType
-}
+export type ToggleButtonProps = Omit<
+  React.HTMLProps<HTMLButtonElement>,
+  'ref' | 'label' | 'value' | 'size' | 'onChange'
+> &
+  Omit<SpacingProps, 'top' | 'right' | 'bottom' | 'left'> & {
+    /**
+     * The text shown in the ToggleButton.
+     */
+    text?: React.ReactNode
+    /**
+     * Use either the `label` property or provide a custom one.
+     */
+    label?: string | React.ReactNode
+    labelDirection?: 'horizontal' | 'vertical'
+    labelSrOnly?: boolean
+    /**
+     * The `title` of the input - describing it a bit further for accessibility reasons.
+     */
+    title?: string
+    /**
+     * Determine whether the ToggleButton is checked or not. The default will be `false`.
+     */
+    checked?: boolean
+    variant?: ToggleButtonVariant
+    leftComponent?: React.ReactNode
+    disabled?: boolean
+    /**
+     * If set to `true`, an overlaying skeleton with animation will be shown.
+     */
+    skeleton?: SkeletonShow
+    id?: string
+    /**
+     * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
+     */
+    status?: FormStatusText
+    /**
+     * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
+     */
+    statusState?: FormStatusState
+    /**
+     * Use an object to define additional FormStatus properties.
+     */
+    statusProps?: FormStatusProps
+    statusNoAnimation?: boolean
+    /**
+     * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
+     */
+    globalStatus?: GlobalStatusConfigObject
+    /**
+     * Text describing the content of the ToggleButton more than the label. You can also send in a React component, so it gets wrapped inside the ToggleButton component.
+     */
+    suffix?: ToggleButtonSuffix
+    /**
+     * Provide a string or a React Element to be shown as the tooltip content.
+     */
+    tooltip?: ButtonTooltip
+    /**
+     * Defines the `value` as a string. Use it to get the value during the `onChange` event listener callback in the **ToggleButtonGroup**.
+     */
+    value?: ToggleButtonValue
+    /**
+     * The size of the button. For now there is `small`, `medium`, `default` and `large`.
+     */
+    size?: ButtonSize
+    /**
+     * Icon to be included in the toggle button.
+     */
+    icon?: IconIcon
+    /**
+     * Position of the icon inside the toggle button. Set to `left` or `right`. Defaults to `right` if not set.
+     */
+    iconPosition?: ButtonIconPosition
+    /**
+     * Define icon width and height. Defaults to `16px`.
+     */
+    iconSize?: IconSize
+    readOnly?: boolean
+    className?: string
+    children?: ToggleButtonChildren
+    onChange?: (...args: any[]) => any
+    // Additional properties that are used in tests and stories
+    top?: SpaceType
+    right?: SpaceType
+    bottom?: SpaceType
+    left?: SpaceType
+  }
 
 // Type for the component with static properties
 export type ToggleButtonComponent =

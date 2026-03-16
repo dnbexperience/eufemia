@@ -1,10 +1,10 @@
 import React from 'react'
 import clsx from 'clsx'
 import Container from './Container'
-import type { Props as FlexContainerProps } from './Container'
+import type { FlexContainerAllProps } from './Container'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type Props = FlexContainerProps
+export type Props = FlexContainerAllProps
 
 function Stack(props: Props) {
   const {

@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import ModalInner, { ModalInnerProps } from '../../modal/parts/ModalInner'
 import type { SectionStyleTypes } from '../../Section'
 
-interface DrawerBodyProps extends ModalInnerProps {
+type DrawerBodyProps = {
   /**
    * Give the inner content wrapper a class name (maps to `dnb-drawer__body`).
    */
@@ -13,7 +13,7 @@ interface DrawerBodyProps extends ModalInnerProps {
    * Color/Style of the drawer body
    */
   styleType?: SectionStyleTypes
-}
+} & ModalInnerProps
 
 export default function DrawerBody({
   className,

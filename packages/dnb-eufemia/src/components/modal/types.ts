@@ -27,7 +27,7 @@ export type CloseHandlerParams = {
 }
 export type CloseHandler = (params?: CloseHandlerParams) => void
 
-export interface ModalProps extends ModalRootProps {
+export type ModalProps = ModalRootProps & {
   /**
    * The id used internal in the modal/drawer root element. Defaults to `root`, so the element id will be `dnb-modal-root`.
    */
@@ -150,7 +150,7 @@ export interface ModalProps extends ModalRootProps {
   scrollRef?: React.RefObject<HTMLElement>
 }
 
-export interface ModalContentProps {
+export type ModalContentProps = {
   /**
    * The content which will appear when triggering the modal/drawer.
    */
@@ -253,7 +253,7 @@ export interface ModalContentProps {
   /**
    * Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.
    */
-  alignContent?: 'left' | 'center' | 'centered' | 'right'
+  alignContent?: ModalAlignContent
 
   /**
    * For `drawer` mode only. Defines the placement on what side the Drawer should be opened. Can be set to `left`, `right`, `top` and `bottom`. Defaults to `right`.

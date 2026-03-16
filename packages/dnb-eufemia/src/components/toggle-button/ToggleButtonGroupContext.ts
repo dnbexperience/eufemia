@@ -5,7 +5,7 @@
 
 import React from 'react'
 
-export interface ToggleButtonGroupContextValue {
+export type ToggleButtonGroupContextValue = {
   name?: string
   value?: string | number | Record<string, unknown> | any[] | null
   values?: any[]

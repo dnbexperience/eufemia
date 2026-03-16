@@ -16,7 +16,7 @@ export type HandleStatusArgs = {
   titleProp: React.ReactNode
 }
 
-export interface WizardContextState {
+export type WizardContextState = {
   id?: string
   totalSteps?: number
   activeIndex?: StepIndex

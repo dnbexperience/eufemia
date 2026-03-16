@@ -9,7 +9,7 @@ import {
 import ToggleButton from '../../ToggleButton'
 import {
   useHeightAnimation,
-  useHeightAnimationOptions,
+  UseHeightAnimationOptions,
 } from '../useHeightAnimation'
 import {
   simulateAnimationEnd,
@@ -25,7 +25,7 @@ describe('useHeightAnimation', () => {
   const AnimatedContent = ({
     open = false,
     animate = true,
-  }: useHeightAnimationOptions) => {
+  }: UseHeightAnimationOptions) => {
     const element = React.useRef<HTMLDivElement | null>(null)
     const { isOpen, isVisible, isInDOM, isVisibleParallax } =
       useHeightAnimation(element, {

@@ -56,7 +56,7 @@ export type PaymentCardChildren =
   | React.ReactNode
   | ((...args: any[]) => any)
 
-export interface PaymentCardRawData {
+export type PaymentCardRawData = {
   productCode: string
   productName: string
   displayName: string
@@ -66,9 +66,7 @@ export interface PaymentCardRawData {
   bankAxept: BankAxeptType
 }
 
-export interface PaymentCardProps
-  extends Omit<React.HTMLProps<HTMLElement>, 'ref' | 'children'>,
-    SpacingProps {
+export type PaymentCardProps = {
   /**
    * If product code matches one of the codes in the list the card will get that design, if no match is found Default design will be used.
    */
@@ -105,7 +103,8 @@ export interface PaymentCardProps
   class?: string
   className?: string
   children?: PaymentCardChildren
-}
+} & Omit<React.HTMLProps<HTMLElement>, 'ref' | 'children'> &
+  SpacingProps
 
 const translationDefaultPropsProps = {
   textBlocked: null,

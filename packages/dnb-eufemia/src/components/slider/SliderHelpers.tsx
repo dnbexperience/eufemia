@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { format, formatReturnValue } from '../number-format/NumberUtils'
+import { format, FormatReturnValue } from '../number-format/NumberUtils'
 import { clamp } from '../../shared/helpers/clamp'
 
 import type { NumberFormatTypes, ValueTypes } from './types'
@@ -131,8 +131,8 @@ export const getFormattedNumber = (
     return format(value as number, {
       ...(numberFormat || {}),
       returnAria: true,
-    }) as formatReturnValue
+    }) as FormatReturnValue
   }
 
-  return { aria: null, number: null } as formatReturnValue
+  return { aria: null, number: null } as FormatReturnValue
 }

@@ -36,11 +36,11 @@ import AccordionProviderContext from './AccordionProviderContext'
 import Context from '../../shared/Context'
 
 import { AccordionStore, Store, rememberWarning } from './AccordionStore'
-import { accordionDefaultProps, type GroupProps } from './AccordionTypes'
+import { accordionDefaultProps, type GroupProps } from './types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type { GroupProps } from './AccordionTypes'
-export { accordionDefaultProps } from './AccordionTypes'
+export type { GroupProps } from './types'
+export { accordionDefaultProps } from './types'
 
 export type AccordionVariant = 'plain' | 'default' | 'outlined' | 'filled'
 

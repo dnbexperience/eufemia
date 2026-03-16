@@ -19,7 +19,7 @@ export type SkeletonContextProps = ContextProps & {
   }
 }
 
-export type skeletonDOMAttributesContext = {
+export type SkeletonDOMAttributesContext = {
   translation?: {
     Skeleton: {
       ariaBusy?: string

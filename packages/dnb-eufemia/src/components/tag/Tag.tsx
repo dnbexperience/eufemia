@@ -21,7 +21,7 @@ import TagGroup from './TagGroup'
 import { TagGroupContext } from './TagContext'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
-export interface TagProps {
+export type TagProps = {
   /**
    * The content of the tag element, can be a string or a React Element.
    * Default: null

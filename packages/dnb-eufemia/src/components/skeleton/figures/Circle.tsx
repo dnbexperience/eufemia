@@ -11,11 +11,10 @@ export type SkeletonCircleChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode
-export interface SkeletonCircleProps
-  extends Omit<React.HTMLProps<HTMLDivElement>, 'rows' | 'children'> {
+export type SkeletonCircleProps = {
   rows?: SkeletonCircleRows
   children?: SkeletonCircleChildren
-}
+} & Omit<React.HTMLProps<HTMLDivElement>, 'rows' | 'children'>
 
 function SkeletonCircle({
   rows = 3,

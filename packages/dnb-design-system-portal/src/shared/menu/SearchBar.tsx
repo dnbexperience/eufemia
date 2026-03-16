@@ -7,7 +7,7 @@ import React from 'react'
 import clsx from 'clsx'
 import algoliasearch from 'algoliasearch/lite'
 import { Autocomplete } from '@dnb/eufemia/src/components'
-import type { AutocompleteChangeEvent } from '@dnb/eufemia/src/components/autocomplete/Autocomplete'
+import type { AutocompleteOnChangeParams } from '@dnb/eufemia/src/components/autocomplete/Autocomplete'
 import { navigate } from 'gatsby'
 import Anchor from '../tags/Anchor'
 import {
@@ -57,7 +57,7 @@ export const SearchBarInput = () => {
     emptyData,
     setHidden,
     event,
-  }: AutocompleteChangeEvent) => {
+  }: AutocompleteOnChangeParams) => {
     try {
       const hit = typeof data === 'object' && 'hit' in data && data.hit
       if (!hit?.slug) {

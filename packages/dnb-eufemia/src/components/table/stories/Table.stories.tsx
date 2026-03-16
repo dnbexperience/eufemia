@@ -665,7 +665,7 @@ export function TableSort() {
     },
   })
 
-  interface Row {
+  type Row = {
     name: string
     minAmount: number
   }

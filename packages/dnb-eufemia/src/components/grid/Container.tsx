@@ -11,15 +11,15 @@ export type Media = {
   large?: Columns | false
 }
 
-export type BasicProps = {
+export type GridContainerProps = {
   columns?: Media | Columns
   rowGap?: 'x-small' | 'small' | 'medium' | 'large' | boolean
   columnGap?: 'x-small' | 'small' | 'medium' | 'large' | boolean
 }
 
-export type AllProps = BasicProps & SpaceAllProps
+export type GridContainerAllProps = GridContainerProps & SpaceAllProps
 
-function GridContainer(props: AllProps) {
+function GridContainer(props: GridContainerAllProps) {
   const {
     columns,
     rowGap,

@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import { StatusIcon } from '../icons'
 import P from '../../../elements/P'
 
-export interface Translations {
+export type Translations = {
   textBlocked: string
   textExpired: string
   textNotActive: string
@@ -15,7 +15,7 @@ export interface Translations {
   textUnknown: string
 }
 
-interface StatusOverlayProps {
+type StatusOverlayProps = {
   cardStatus: string
   translations: Translations
   cardDesign: string

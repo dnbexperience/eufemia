@@ -3,7 +3,7 @@ import React, { useRef } from 'react'
 import clsx from 'clsx'
 import {
   useHeightAnimation,
-  useHeightAnimationOptions,
+  UseHeightAnimationOptions,
 } from './useHeightAnimation'
 import Space from '../space/Space'
 
@@ -45,7 +45,7 @@ export type HeightAnimationProps = {
    * Default: null
    */
   ref?: React.RefObject<HTMLElement>
-} & useHeightAnimationOptions
+} & UseHeightAnimationOptions
 
 export type HeightAnimationAllProps = HeightAnimationProps &
   SpacingProps &

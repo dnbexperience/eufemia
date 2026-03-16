@@ -13,15 +13,15 @@ export type Media = {
   large?: Span
 }
 
-export type BasicProps = {
+export type GridItemProps = {
   span?: Media | Span
 }
 
-export type AllProps = BasicProps & Omit<SpaceAllProps, 'span'>
+export type GridItemAllProps = GridItemProps & Omit<SpaceAllProps, 'span'>
 
 const media = ['small', 'medium', 'large']
 
-function GridItem(props: AllProps) {
+function GridItem(props: GridItemAllProps) {
   const {
     element = 'div',
     span,

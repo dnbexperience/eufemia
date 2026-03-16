@@ -80,18 +80,7 @@ export type FormStatusBaseProps = {
   globalStatus?: GlobalStatusConfigObject
 }
 
-export interface FormStatusProps
-  extends Omit<
-      React.HTMLProps<HTMLElement>,
-      | 'ref'
-      | 'label'
-      | 'value'
-      | 'onFocus'
-      | 'onBlur'
-      | 'children'
-      | 'size'
-    >,
-    SpacingProps {
+export type FormStatusProps = {
   id?: string
   /**
    * The `title` attribute in the status.
@@ -159,9 +148,13 @@ export interface FormStatusProps
    * The `text` appears as the status message. Beside plain text, you can send in a React component as well.
    */
   children?: FormStatusChildren
-}
+} & Omit<
+  React.HTMLProps<HTMLElement>,
+  'ref' | 'label' | 'value' | 'onFocus' | 'onBlur' | 'children' | 'size'
+> &
+  SpacingProps
 
-export interface ErrorIconProps {
+export type ErrorIconProps = {
   /**
    * The `title` attribute in the status.
    */
@@ -169,7 +162,7 @@ export interface ErrorIconProps {
   state?: FormStatusState
   [key: string]: any
 }
-export interface WarnIconProps {
+export type WarnIconProps = {
   /**
    * The `title` attribute in the status.
    */
@@ -177,7 +170,7 @@ export interface WarnIconProps {
   state?: FormStatusState
   [key: string]: any
 }
-export interface InfoIconProps {
+export type InfoIconProps = {
   /**
    * The `title` attribute in the status.
    */
@@ -185,7 +178,7 @@ export interface InfoIconProps {
   state?: FormStatusState
   [key: string]: any
 }
-export interface MarketingIconProps {
+export type MarketingIconProps = {
   /**
    * The `title` attribute in the status.
    */
@@ -200,7 +193,7 @@ export type FormStatusIconTypes =
   | typeof InfoIcon
   | typeof MarketingIcon
 
-interface FormStatusComponentState {
+type FormStatusComponentState = {
   id: string | null
   _id?: string
 }

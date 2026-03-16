@@ -2,7 +2,7 @@
 // These interfaces describe the daggy values returned by constructors/unit variants.
 // Each value has a @@tag discriminant and a cata() method for exhaustive pattern matching.
 
-export interface DNB {
+export type DNB = {
   '@@tag': 'Colored' | 'Sbanken'
   cata<R>(handlers: {
     Colored: (color: string) => R
@@ -10,7 +10,7 @@ export interface DNB {
   }): R
 }
 
-export interface Visa {
+export type Visa = {
   '@@tag': 'Colored' | 'Platinum'
   cata<R>(handlers: {
     Colored: (color: string) => R
@@ -18,12 +18,12 @@ export interface Visa {
   }): R
 }
 
-export interface Mastercard {
+export type Mastercard = {
   '@@tag': 'Default' | 'Dark'
   cata<R>(handlers: { Default: () => R; Dark: () => R }): R
 }
 
-export interface CardType {
+export type CardType = {
   '@@tag': 'Visa' | 'Mastercard' | 'None'
   cata<R>(handlers: {
     Visa: () => R
@@ -32,7 +32,7 @@ export interface CardType {
   }): R
 }
 
-export interface BankAxept {
+export type BankAxept = {
   '@@tag': 'White' | 'Black' | 'Gold' | 'Black20' | 'Gray' | 'GrayDark'
   cata<R>(handlers: {
     White: () => R
@@ -44,17 +44,17 @@ export interface BankAxept {
   }): R
 }
 
-export interface Saga {
+export type Saga = {
   '@@tag': 'Gold' | 'Platinum' | 'None'
   cata<R>(handlers: { Gold: () => R; Platinum: () => R; None: () => R }): R
 }
 
-export interface PB {
+export type PB = {
   '@@tag': 'Default' | 'None'
   cata<R>(handlers: { Default: () => R; None: () => R }): R
 }
 
-export interface ProductType {
+export type ProductType = {
   '@@tag':
     | 'Saga'
     | 'Pluss'
@@ -78,7 +78,7 @@ export interface ProductType {
   }): R
 }
 
-export interface BankAxeptType {
+export type BankAxeptType = {
   '@@tag': 'BankAxept' | 'Credit' | 'None'
   cata<R>(handlers: {
     BankAxept: () => R
@@ -91,7 +91,7 @@ export interface BankAxeptType {
 // These interfaces describe the namespace objects that hold variant
 // constructors (functions) and unit variants (pre-created instances).
 
-interface DNBConstructors {
+type DNBConstructors = {
   Colored: (color: string) => DNB
   Sbanken: (color: string) => DNB
   is: (val: unknown) => boolean
@@ -99,7 +99,7 @@ interface DNBConstructors {
   '@@tags': string[]
 }
 
-interface VisaConstructors {
+type VisaConstructors = {
   Colored: (color: string) => Visa
   Platinum: Visa
   is: (val: unknown) => boolean
@@ -107,7 +107,7 @@ interface VisaConstructors {
   '@@tags': string[]
 }
 
-interface MastercardConstructors {
+type MastercardConstructors = {
   Default: Mastercard
   Dark: Mastercard
   is: (val: unknown) => boolean
@@ -115,7 +115,7 @@ interface MastercardConstructors {
   '@@tags': string[]
 }
 
-interface CardTypeConstructors {
+type CardTypeConstructors = {
   Visa: CardType
   Mastercard: CardType
   None: CardType
@@ -124,7 +124,7 @@ interface CardTypeConstructors {
   '@@tags': string[]
 }
 
-interface BankAxeptConstructors {
+type BankAxeptConstructors = {
   White: BankAxept
   Black: BankAxept
   Gold: BankAxept
@@ -136,7 +136,7 @@ interface BankAxeptConstructors {
   '@@tags': string[]
 }
 
-interface SagaConstructors {
+type SagaConstructors = {
   Gold: Saga
   Platinum: Saga
   None: Saga
@@ -145,7 +145,7 @@ interface SagaConstructors {
   '@@tags': string[]
 }
 
-interface PBConstructors {
+type PBConstructors = {
   Default: PB
   None: PB
   is: (val: unknown) => boolean
@@ -153,7 +153,7 @@ interface PBConstructors {
   '@@tags': string[]
 }
 
-interface ProductTypeConstructors {
+type ProductTypeConstructors = {
   Saga: ProductType
   Pluss: ProductType
   Intro: ProductType
@@ -168,7 +168,7 @@ interface ProductTypeConstructors {
   '@@tags': string[]
 }
 
-interface BankAxeptTypeConstructors {
+type BankAxeptTypeConstructors = {
   BankAxept: BankAxeptType
   Credit: BankAxeptType
   None: BankAxeptType
@@ -260,7 +260,6 @@ export default Types
 // discriminated union types with exhaustive pattern matching via cata().
 // Uses dynamic property creation internally, so types are loosely defined.
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type DaggyObj = Record<string, any>
 
 function createDaggy() {

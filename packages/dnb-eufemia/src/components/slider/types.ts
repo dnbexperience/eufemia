@@ -1,16 +1,16 @@
 import React from 'react'
 
 import type { SuffixChildren } from '../../shared/helpers/Suffix'
-import type { formatOptionParams } from '../number-format/NumberUtils'
+import type { FormatOptionParams } from '../number-format/NumberUtils'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import type { GlobalStatusConfigObject } from '../GlobalStatus'
 
 export type ValueTypes = number | Array<number>
 export type NumberFormatTypes =
-  | formatOptionParams
+  | FormatOptionParams
   | ((value: number) => unknown)
-export type onChangeEventProps = {
+export type SliderOnChangeParams = {
   value: ValueTypes
   rawValue: number
   number?: string | null
@@ -104,7 +104,7 @@ export type SliderProps = {
   className?: string
 
   /** Will be called on state changes made by the user. The callback `value` and `rawValue` is a number `{ value, rawValue, event }`. But if the prop `numberFormat` is given, then it will return an additional `number` with the given format `{ value, number, rawValue, event }`. */
-  onChange?: (props: onChangeEventProps) => void
+  onChange?: (props: SliderOnChangeParams) => void
 
   /** Will be called once the user starts dragging. Returns `{ event }`. */
   onDragStart?: (props: { event: MouseEvent | TouchEvent }) => void
@@ -119,18 +119,14 @@ export type SliderAllProps = SliderProps &
   SpacingProps &
   Omit<React.HTMLProps<HTMLElement>, keyof SliderProps>
 
-export type ThumbStateEnums =
-  | 'initial'
-  | 'normal'
-  | 'activated'
-  | 'released'
+export type ThumbState = 'initial' | 'normal' | 'activated' | 'released'
 
 export type SliderContextTypes = {
   isMulti: boolean
   isReverse: boolean
   isVertical: boolean
   shouldAnimate: boolean
-  thumbState: ThumbStateEnums
+  thumbState: ThumbState
   thumbIndex: React.RefObject<number>
   showStatus: boolean
   showButtons: boolean
@@ -139,7 +135,7 @@ export type SliderContextTypes = {
   value: ValueTypes
   values: Array<number>
   setValue: (value: ValueTypes) => void
-  setThumbState: (thumbState: ThumbStateEnums) => void
+  setThumbState: (thumbState: ThumbState) => void
   setThumbIndex: (thumbIndex: number) => void
   emitChange: (emitEvent: MouseEvent | TouchEvent, value: number) => void
   trackRef: React.RefObject<HTMLElement>

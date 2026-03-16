@@ -25,7 +25,7 @@ type MediaSpans = {
 }
 export type Span = MediaSpans | Spans
 
-export type BasicProps = {
+export type FlexItemProps = {
   grow?: boolean
   shrink?: boolean
   alignSelf?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch'
@@ -33,11 +33,11 @@ export type BasicProps = {
   ref?: React.Ref<HTMLElement>
 }
 
-export type Props = BasicProps &
+export type FlexItemAllProps = FlexItemProps &
   SpaceProps &
   Omit<React.HTMLProps<HTMLElement>, 'ref' | 'wrap' | 'span'>
 
-function FlexItem(props: Props) {
+function FlexItem(props: FlexItemAllProps) {
   const {
     element = 'div',
     className,

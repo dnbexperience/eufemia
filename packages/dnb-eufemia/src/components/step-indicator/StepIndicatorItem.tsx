@@ -284,7 +284,7 @@ function StepIndicatorItem({
   )
 }
 
-export type StepItemButtonProps = AnchorAllProps &
+type StepItemButtonProps = AnchorAllProps &
   Pick<StepIndicatorItemProps, 'status' | 'statusState'>
 
 export function StepItemButton({
@@ -316,7 +316,7 @@ export function StepItemButton({
   )
 }
 
-export type StepItemWrapperProps = React.HTMLProps<HTMLElement> & {
+type StepItemWrapperProps = React.HTMLProps<HTMLElement> & {
   /** Content inside the step button */
   children?: React.ReactNode
 }
