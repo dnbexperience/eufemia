@@ -1040,8 +1040,7 @@ describe('DatePicker component', () => {
     expect(
       leftPicker.querySelector('.dnb-date-picker__header__title')
     ).toHaveTextContent('oktober 2024')
-    // TODO: Fix this after conversion merge
-    // The right picker should be november here, but this is a bug that exists in master/original version of DatePicker
+    // Known pre-existing bug: right picker shows oktober instead of november
     expect(
       rightPicker.querySelector('.dnb-date-picker__header__title')
     ).toHaveTextContent('oktober 2024')
