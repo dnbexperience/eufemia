@@ -4,7 +4,6 @@
 */
 
 @use '../../../../style/core/utilities.scss' as utilities;
-@use './button-mixins.scss';
 
 // Because the tertiary button has so much code,
 // we slice the shareable parts out in a separate file
@@ -105,26 +104,6 @@
       --button-tertiary-underline-overflow: -1.5rem;
       --button-tertiary-text-bottom--icon: 0.75rem;
       --button-tertiary-text-top--icon: 0.25rem;
-    }
-
-    @include utilities.hover() {
-      // Icon button
-      &:not(.dnb-button--has-text) {
-        --focus-ring-width: 0.0625rem;
-        --sb-shadow-medium: 0 0 transparent;
-        color: var(--sb-color-blue-dark);
-        @include button-mixins.buttonFocusRing(
-          'always',
-          inset,
-          var(--sb-shadow-medium),
-          var(--button-tertiary-focus-left),
-          var(--button-tertiary-focus-right)
-        );
-
-        &::before {
-          background-color: var(--button-background--focus);
-        }
-      }
     }
   }
 }

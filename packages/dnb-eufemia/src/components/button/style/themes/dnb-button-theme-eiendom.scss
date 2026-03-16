@@ -4,8 +4,6 @@
 */
 
 @use './dnb-button-theme-ui.scss';
-@use './button-mixins.scss';
-@use '../../../../style/core/utilities.scss' as utilities;
 
 .dnb-button {
   &--primary,
@@ -45,14 +43,6 @@
     --btn-color-text--active: var(--color-emerald-green);
   }
 
-  // Icon button
-  &--secondary:not(#{&}--has-text) {
-    @include button-mixins.buttonActive(
-      var(--color-emerald-green),
-      var(--color-pistachio)
-    );
-  }
-
   &--tertiary {
     --btn-color-icon--default: var(--color-emerald-green);
     --btn-color-icon--hover: var(--color-emerald-green);
@@ -62,8 +52,4 @@
     --btn-color-text--hover: var(--color-emerald-green);
     --btn-color-text--active: var(--color-emerald-green);
   }
-
-  // .eufemia-theme--dark .dnb-button--primary {
-  //   background-color: var(--color-white);
-  // }
 }

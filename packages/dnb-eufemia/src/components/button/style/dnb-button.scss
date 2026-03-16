@@ -66,10 +66,8 @@
   }
 
   &--tertiary {
-    @include utilities.focusVisible() {
-      > * {
-        z-index: 2;
-      }
+    > * {
+      z-index: 2;
     }
 
     &::before {
@@ -296,6 +294,17 @@
     --btn-color-text--active: var(--token-color-text-action-pressed);
     --btn-color-text--disabled: var(--token-color-text-action-disabled);
 
+    &.dnb-button--icon-only {
+      // Border
+      --btn-color-border--default: var(--token-color-stroke-action);
+      --btn-color-border--hover: var(--token-color-stroke-action-hover);
+      --btn-color-border--active: transparent;
+
+      // Icon
+      --btn-color-icon--default: var(--token-color-icon-action);
+      --btn-color-icon--hover: var(--token-color-icon-action-hover);
+    }
+
     &.dnb-button--on-dark-background,
     &.dnb-button--surface-dark {
       // Background
@@ -405,6 +414,16 @@
     --btn-color-underline--hover: var(
       --token-color-background-action-hover
     );
+
+    &.dnb-button--icon-only {
+      // Background
+      --btn-color-bg--hover: var(
+        --token-color-background-action-hover-subtle
+      );
+      --btn-color-bg--active: var(
+        --token-color-background-action-pressed-subtle
+      );
+    }
 
     &.dnb-button--on-dark-background,
     &.dnb-button--surface-dark {

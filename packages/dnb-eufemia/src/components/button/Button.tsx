@@ -399,6 +399,7 @@ class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
       icon && usedIconSize && `dnb-button--icon-size-${usedIconSize}`,
       (text || content || customContent) && 'dnb-button--has-text',
       icon && 'dnb-button--has-icon',
+      isIconOnly && 'dnb-button--icon-only',
       wrap && 'dnb-button--wrap',
       status && `dnb-button__status--${statusState}`,
       createSkeletonClass(

@@ -11,38 +11,6 @@
 @use '../button--tertiary.scss';
 
 .dnb-button {
-  &--secondary {
-    &[disabled],
-    &[disabled]:focus // only because of href/anchor button
-    {
-      color: var(--color-sea-green-30);
-      background-color: var(--color-white);
-
-      // only because of href/anchor button
-      @include utilities.fakeBorder(
-        var(--color-sea-green-30),
-        var(--button-border-width),
-        inset
-      );
-    }
-  }
-
-  // Icon button
-  &--secondary:not(#{&}--has-text) {
-    @include button-mixins.buttonHover(
-      var(--color-emerald-green),
-      var(--color-white),
-      var(--color-emerald-green)
-    );
-    @include button-mixins.buttonFocus(
-      var(--color-emerald-green),
-      var(--color-white)
-    );
-    @include button-mixins.buttonActive(
-      var(--color-emerald-green),
-      var(--color-mint-green-50)
-    );
-  }
   &--secondary:not(#{&}--has-text):not(#{&}--input-button):not(
       #{&}--control-before
     ):not(#{&}--control-after)#{&}--size-large {
@@ -73,7 +41,7 @@
       // underline
       .dnb-button__text::after {
         html[data-whatintent='touch'] & {
-          color: var(--color-emerald-green);
+          --btn-color-underline: var(--btn-color-underline--hover);
         }
       }
     }
@@ -87,10 +55,6 @@
           font-size: var(--font-size-small);
         }
       }
-    }
-
-    &[disabled] {
-      color: var(--color-sea-green-30);
     }
   }
 
