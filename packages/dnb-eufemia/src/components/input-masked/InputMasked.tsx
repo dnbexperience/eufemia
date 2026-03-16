@@ -127,9 +127,6 @@ export interface InputMaskedProps
    * `shift` (default) moves to the next slot, `replace` keeps the cursor in place.
    */
   overwriteMode?: InputMaskedOverwriteMode | null
-  /**
-   * The placeholder character represents the fillable spot in the mask (e.g. `_`). Defaults to invisible space.
-   */
   innerRef?: React.Ref<HTMLInputElement>
   onSubmit?: InputMaskedEventHandler
   onFocus?: InputMaskedEventHandler
