@@ -12,10 +12,9 @@ import React, {
 } from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import clsx from 'clsx'
-import useMountEffect from '../../shared/helpers/useMountEffect'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
 import useId from '../../shared/helpers/useId'
+import Suffix from '../../shared/helpers/Suffix'
 import {
   warn,
   removeUndefinedProps,
@@ -40,6 +39,7 @@ import IconPrimary from '../icon-primary/IconPrimary'
 import Context from '../../shared/Context'
 
 import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
+
 import type {
   ButtonIconPosition,
   ButtonSize,
