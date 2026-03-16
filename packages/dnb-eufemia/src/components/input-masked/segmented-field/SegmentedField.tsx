@@ -24,6 +24,7 @@ export type {
   SegmentedFieldValue,
 } from './types'
 
+// @internal This component is for internal use only as of now.
 function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
   const fallbackId = useId(props?.id)
   const fallbackFieldsetRef = useRef<HTMLElement | null>(null)

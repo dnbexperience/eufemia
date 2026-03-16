@@ -495,6 +495,8 @@ export default function SegmentedFieldSection({
         )}
         data-segmented-input-id={inputId}
         contentEditable={!disabled}
+        // React warns about managed children inside contentEditable. We intentionally
+        // render controlled text here because each segment behaves like a custom input.
         suppressContentEditableWarning
         role={spinButton ? 'spinbutton' : 'textbox'}
         tabIndex={disabled ? -1 : 0}
