@@ -5,6 +5,13 @@ import type { ModalRootProps } from './ModalRoot'
 
 export type ModalFullscreen = 'auto' | boolean
 export type ModalAlignContent = 'left' | 'center' | 'centered' | 'right'
+export type ModalContainerPlacement = 'left' | 'right' | 'top' | 'bottom'
+export type ModalTriggerVariant =
+  | 'primary'
+  | 'secondary'
+  | 'tertiary'
+  | 'signal'
+export type ModalTriggerIconPosition = 'left' | 'right'
 export type ModalContentMinWidth = string | number
 export type ModalContentMaxWidth = string | number
 
@@ -306,4 +313,4 @@ export type ModalContentProps = {
   modalContentCloseRef?: React.RefObject<any>
 }
 
-type TriggerAttributes = ButtonProps
+export type TriggerAttributes = ButtonProps

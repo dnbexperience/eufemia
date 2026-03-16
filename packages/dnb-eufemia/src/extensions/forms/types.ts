@@ -140,6 +140,13 @@ export type ReceiveAdditionalEventArgs<
   dataContext: ContextState
 }
 
+export type ValidatorDisableable<Value> = Validator<Value> | false
+
+export type ConnectorProps<Value = unknown> = Pick<
+  UseFieldProps<Value>,
+  'onChange' | 'onBlurValidator'
+>
+
 /**
  * Accept any key, so custom message keys can be used
  * including the path to the field the message is for

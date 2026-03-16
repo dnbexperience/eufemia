@@ -47,7 +47,7 @@ export type HelpButtonInlineProps = HelpButtonProps & {
   focusOnOpen?: boolean
 }
 
-type HelpButtonInlineSharedStateDataProps = {
+export type HelpButtonInlineSharedStateDataProps = {
   isOpen: boolean
   isUserIntent?: boolean
   buttonRef?: React.RefObject<HTMLButtonElement>

@@ -16,8 +16,14 @@ import { IS_MAC, IS_WIN } from '../../shared/helpers'
 import locales from '../../shared/locales'
 
 // TypeScript types
-type FormatTypes = 'phone' | 'org' | 'ban' | 'nin' | 'percent' | 'currency'
-type FormatCurrencyPosition = 'before' | 'after'
+export type FormatTypes =
+  | 'phone'
+  | 'org'
+  | 'ban'
+  | 'nin'
+  | 'percent'
+  | 'currency'
+export type FormatCurrencyPosition = 'before' | 'after'
 export type FormatReturnValue = {
   /** The given number */
   value: number
@@ -33,6 +39,7 @@ export type FormatReturnValue = {
   type: FormatTypes | string
 }
 export type FormatValue = string | number
+export type FormatReturnType = FormatReturnValue | FormatValue
 
 export type FormatOptionParams = {
   /** can be "auto" */
