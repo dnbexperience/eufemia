@@ -313,9 +313,7 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
                     groupDelimiter={delimiter}
                     disabled={Boolean(disabled)}
                     valuesRef={
-                      valuesRef as React.MutableRefObject<
-                        Record<string, string>
-                      >
+                      valuesRef as React.RefObject<Record<string, string>>
                     }
                     inputs={inputs.map(({ id, mask }) => ({
                       id: String(id),

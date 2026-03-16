@@ -1,4 +1,4 @@
-import type React from 'react'
+import type { RefObject } from 'react'
 import type {
   OverwriteMode,
   SectionSelectionMode,
@@ -138,12 +138,10 @@ export function insertCharIntoSection({
   char: string
   inputId: string
   overwriteMode: OverwriteMode
-  valuesRef: React.MutableRefObject<Record<string, string>>
+  valuesRef: RefObject<Record<string, string>>
   inputs: SegmentedFieldInputConfig[]
-  caretPositionsRef: React.MutableRefObject<Record<string, number>>
-  sectionSelectionModeRef: React.MutableRefObject<
-    Record<string, SectionSelectionMode>
-  >
+  caretPositionsRef: RefObject<Record<string, number>>
+  sectionSelectionModeRef: RefObject<Record<string, SectionSelectionMode>>
   onChange: (inputId: string, value: string) => void
   focusSection: (inputId: string, mode: 'all' | 'start' | 'end') => void
   setSectionCaret: (inputId: string, position: number) => void

@@ -1,7 +1,6 @@
 import type {
   FocusEvent,
   HTMLProps,
-  MutableRefObject,
   ReactNode,
   RefObject,
 } from 'react'
@@ -81,17 +80,17 @@ export type SegmentedFieldSectionProps = {
   delimiter?: string
   groupDelimiter?: string
   disabled: boolean
-  valuesRef: MutableRefObject<Record<string, string>>
+  valuesRef: RefObject<Record<string, string>>
   inputs: SegmentedFieldInputConfig[]
   scopeRef: RefObject<HTMLElement | null>
-  sectionRefs: MutableRefObject<Record<string, HTMLSpanElement | null>>
-  caretPositionsRef: MutableRefObject<Record<string, number>>
-  sectionSelectionModeRef: MutableRefObject<
+  sectionRefs: RefObject<Record<string, HTMLSpanElement | null>>
+  caretPositionsRef: RefObject<Record<string, number>>
+  sectionSelectionModeRef: RefObject<
     Record<string, SectionSelectionMode>
   >
-  groupSelectionRef: MutableRefObject<boolean>
-  skipBoundaryBackspaceRef: MutableRefObject<Record<string, boolean>>
-  boundaryTraversalLockRef: MutableRefObject<Record<string, boolean>>
+  groupSelectionRef: RefObject<boolean>
+  skipBoundaryBackspaceRef: RefObject<Record<string, boolean>>
+  boundaryTraversalLockRef: RefObject<Record<string, boolean>>
   clearGroupSelection: () => void
   clearSectionSelection: () => void
   selectWholeGroup: (inputId: string) => void

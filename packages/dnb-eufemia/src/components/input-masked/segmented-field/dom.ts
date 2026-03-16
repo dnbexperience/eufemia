@@ -1,4 +1,4 @@
-import type React from 'react'
+import type { RefObject } from 'react'
 import type { SectionSelectionMode } from './types'
 
 export function setSectionDomApi({
@@ -13,10 +13,8 @@ export function setSectionDomApi({
   element: HTMLSpanElement
   inputId: string
   displayValue: string
-  caretPositionsRef: React.MutableRefObject<Record<string, number>>
-  sectionSelectionModeRef: React.MutableRefObject<
-    Record<string, SectionSelectionMode>
-  >
+  caretPositionsRef: RefObject<Record<string, number>>
+  sectionSelectionModeRef: RefObject<Record<string, SectionSelectionMode>>
   selectSection: (inputId: string) => void
   setSectionCaret: (inputId: string, position: number) => void
 }) {
