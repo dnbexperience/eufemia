@@ -96,12 +96,7 @@ export type PaginationEvent = {
   [key: string]: unknown
 }
 
-export interface PaginationProps
-  extends Omit<
-      React.HTMLProps<HTMLElement>,
-      'ref' | 'children' | 'onChange' | 'onLoad'
-    >,
-    SpacingProps {
+export type PaginationProps = {
   /**
    * The page shown in the very beginning. If `currentPage` is set, then it may not make too much sense to set this as well.
    */
@@ -228,7 +223,11 @@ export interface PaginationProps
   onStartup?: (event: PaginationEvent) => void
   onLoad?: (event: PaginationEvent) => void
   onEnd?: (event: PaginationEvent) => void
-}
+} & Omit<
+  React.HTMLProps<HTMLElement>,
+  'ref' | 'children' | 'onChange' | 'onLoad'
+> &
+  SpacingProps
 
 export type CreatePaginationReturn = {
   Pagination: (props?: Record<string, unknown>) => React.JSX.Element

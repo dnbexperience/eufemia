@@ -7,7 +7,7 @@ export type Props = {
   children: React.ReactNode
 }
 
-function FormAppearance({ children, size = null, ...rest }: Props) {
+function FormAppearance({ children, size, ...rest }: Props) {
   return (
     <Provider
       Input={{ size }}

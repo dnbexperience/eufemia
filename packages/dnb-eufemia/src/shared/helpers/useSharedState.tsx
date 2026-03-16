@@ -168,7 +168,7 @@ export function useSharedState<Data>(
 
 type Subscriber = () => void
 
-export interface SharedStateReturn<Data = undefined> {
+export type SharedStateReturn<Data = undefined> = {
   data: Data
   get: () => Data
   set: (newData: Partial<Data>) => void
@@ -177,11 +177,11 @@ export interface SharedStateReturn<Data = undefined> {
   subscribersRef?: { current: Subscriber[] }
 }
 
-interface SharedStateInstance<Data> extends SharedStateReturn<Data> {
+type SharedStateInstance<Data> = {
   subscribe: (subscriber: Subscriber) => void
   unsubscribe: (subscriber: Subscriber) => void
   hadInitialData: boolean
-}
+} & SharedStateReturn<Data>
 
 const sharedStates: Map<
   SharedStateId,

@@ -18,8 +18,7 @@ export type TextMaskMask =
   | { mask?: Mask | MaskFunction; pipe?: Pipe }
 export type TextMaskInputElement = React.ReactElement
 export type TextMaskValue = string | number
-export interface TextMaskProps
-  extends Omit<React.HTMLProps<HTMLInputElement>, 'ref'> {
+export type TextMaskProps = {
   mask: TextMaskMask
   inputRef?: React.RefObject<HTMLInputElement>
   inputElement?: TextMaskInputElement
@@ -31,9 +30,9 @@ export interface TextMaskProps
   keepCharPositions?: boolean
   showMask?: boolean
   ref?: React.Ref<TextMaskHandle>
-}
+} & Omit<React.HTMLProps<HTMLInputElement>, 'ref'>
 
-export interface TextMaskHandle {
+export type TextMaskHandle = {
   inputRef: React.RefObject<HTMLInputElement>
 }
 

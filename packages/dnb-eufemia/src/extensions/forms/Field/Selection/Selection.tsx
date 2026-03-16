@@ -288,7 +288,7 @@ function Selection(props: Props) {
       return (
         <FieldBlock {...fieldBlockProps} {...additionalFieldBlockProps}>
           <Component.Group
-            size={size as RadioGroupProps['size']}
+            size={size as ToggleButtonGroupProps['size']}
             className={cn}
             layoutDirection={
               optionsLayout === 'horizontal' ? 'row' : 'column'

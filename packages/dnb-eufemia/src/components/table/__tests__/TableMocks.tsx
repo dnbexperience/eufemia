@@ -3,6 +3,7 @@ import Button from '../../Button'
 import { Tr, Th, Td } from '../../../elements'
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface Window {
     IntersectionObserver: jest.Mock
   }

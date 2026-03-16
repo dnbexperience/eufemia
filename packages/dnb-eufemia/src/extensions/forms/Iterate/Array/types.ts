@@ -4,7 +4,7 @@ import {
   UseFieldProps,
   Validator,
 } from '../../types'
-import { Props as FlexContainerProps } from '../../../../components/flex/Container'
+import { FlexContainerAllProps as FlexContainerProps } from '../../../../components/flex/Container'
 import { IterateItemContextState } from '../IterateItemContext'
 
 export type ContainerMode = 'view' | 'edit' | 'auto'

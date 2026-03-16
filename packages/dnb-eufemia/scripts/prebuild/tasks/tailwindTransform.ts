@@ -12,7 +12,7 @@ export type CSSVariables = Record<string, string>
 /**
  * Validation result type
  */
-export interface ValidationResult {
+export type ValidationResult = {
   isValid: boolean
   errors: string[]
 }

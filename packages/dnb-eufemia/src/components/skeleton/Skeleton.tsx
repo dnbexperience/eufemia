@@ -32,9 +32,7 @@ export type SkeletonChildren =
   | ((...args: any[]) => any)
   | React.ReactNode
 
-export interface SkeletonProps
-  extends Omit<React.HTMLProps<HTMLElement>, 'ref' | 'children'>,
-    SpacingProps {
+export type SkeletonProps = {
   /**
    * Use `true` to enable/show the skeleton for the component used inside. Defaults to `false`.
    */
@@ -65,7 +63,8 @@ export interface SkeletonProps
   skeleton?: boolean
   className?: string
   children?: SkeletonChildren
-}
+} & Omit<React.HTMLProps<HTMLElement>, 'ref' | 'children'> &
+  SpacingProps
 
 const skeletonDefaultProps = {
   show: null,

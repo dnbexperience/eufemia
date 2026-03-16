@@ -162,15 +162,14 @@ export type ContentWrapperChildren =
   | React.ReactNode
   | ((...args: any[]) => any)
 
-export interface ContentWrapperProps
-  extends Omit<
-    React.HTMLProps<HTMLElement>,
-    'children' | 'ref' | 'onAnimationStart' | 'onAnimationEnd'
-  > {
+export type ContentWrapperProps = {
   id: string
   selectedKey?: ContentWrapperSelectedKey
   contentStyle?: SectionStyleTypes | SectionVariants
   animate?: boolean
   contentSpacing?: SectionSpacing
   children?: ContentWrapperChildren
-}
+} & Omit<
+  React.HTMLProps<HTMLElement>,
+  'children' | 'ref' | 'onAnimationStart' | 'onAnimationEnd'
+>

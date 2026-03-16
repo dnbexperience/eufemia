@@ -1,7 +1,7 @@
 import React from 'react'
 import { Path } from '../../types'
 
-export interface FieldBoundaryContextState {
+export type FieldBoundaryContextState = {
   /**
    * Will be set to true when one or more nested fields are in error state.
    */

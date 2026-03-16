@@ -1,7 +1,7 @@
 import React from 'react'
 import { StepIndex } from '../Context/types'
 
-export interface WizardStepContextState {
+export type WizardStepContextState = {
   index?: StepIndex
 }
 

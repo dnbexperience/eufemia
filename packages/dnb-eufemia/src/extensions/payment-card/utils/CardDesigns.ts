@@ -10,7 +10,7 @@ import {
   mastercardGold,
 } from './backgrounds'
 
-export interface CardDesign {
+export type CardDesign = {
   name: string
   cardStyle: string
   bankLogo: DNB

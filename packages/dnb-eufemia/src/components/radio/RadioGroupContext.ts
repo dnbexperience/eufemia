@@ -7,7 +7,7 @@ import React from 'react'
 
 import type { RadioGroupLabelPosition, RadioGroupSize } from './RadioGroup'
 
-export interface RadioGroupContextValue {
+export type RadioGroupContextValue = {
   name?: string
   value?: string
   size?: RadioGroupSize

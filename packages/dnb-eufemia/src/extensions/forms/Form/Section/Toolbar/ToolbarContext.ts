@@ -1,6 +1,6 @@
 import React from 'react'
 
-export interface ToolbarContextState {
+export type ToolbarContextState = {
   setShowError: (showError: boolean) => void
   onEdit?: () => void
   onDone?: () => void

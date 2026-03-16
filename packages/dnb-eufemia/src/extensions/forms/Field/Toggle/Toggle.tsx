@@ -16,8 +16,8 @@ import useTranslation from '../../hooks/useTranslation'
 import { useIterateItemNo } from '../../Iterate/ItemNo/useIterateItemNo'
 import type {
   CheckboxProps,
-  OnChangeParams,
-  OnClickParams,
+  CheckboxOnChangeParams,
+  CheckboxOnClickParams,
 } from '../../../../components/Checkbox'
 import type { ToggleButtonProps } from '../../../../components/ToggleButton'
 import { SwitchOnChangeParams } from '../../../../components/Switch'
@@ -86,7 +86,7 @@ function Toggle(props: Props) {
 
   const onClick = preparedProps?.onClick
   const handleClick = useCallback(
-    (args: OnClickParams) => {
+    (args: CheckboxOnClickParams) => {
       const preventDefault = () => {
         preventChangeRef.current = true
         args.preventDefault?.()
@@ -106,7 +106,7 @@ function Toggle(props: Props) {
     [onClick, valueOff, valueOn]
   )
   const handleCheckboxChange = useCallback(
-    (args: OnChangeParams) => {
+    (args: CheckboxOnChangeParams) => {
       handleChange?.(args.checked ? valueOn : valueOff, args)
     },
     [handleChange, valueOn, valueOff]

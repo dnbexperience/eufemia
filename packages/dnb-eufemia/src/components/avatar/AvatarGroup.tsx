@@ -15,8 +15,7 @@ import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export interface AvatarGroupProps
-  extends Omit<React.HTMLProps<HTMLElement>, 'size' | 'label'> {
+export type AvatarGroupProps = {
   /**
    * Label to describe the avatar group
    * Default: null
@@ -70,7 +69,7 @@ export interface AvatarGroupProps
    * Default: undefined
    */
   color?: string
-}
+} & Omit<React.HTMLProps<HTMLElement>, 'size' | 'label'>
 
 const defaultProps: Partial<AvatarGroupProps> = {
   label: null,
@@ -158,7 +157,7 @@ const AvatarGroup = (localProps: AvatarGroupProps & SpacingProps) => {
   )
 }
 
-export interface ElementsHiddenProps {
+export type ElementsHiddenProps = {
   /**
    * The avatars to group.
    * Default: null

@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react'
 import clsx from 'clsx'
 import { convertJsxToString } from '../../../../../shared/component-helper'
 import { Flex } from '../../../../../components'
-import { Props as FlexContainerProps } from '../../../../../components/flex/Container'
+import { FlexContainerAllProps as FlexContainerProps } from '../../../../../components/flex/Container'
 import { Lead } from '../../../../../elements'
 import Toolbar from '../Toolbar/Toolbar'
 import SectionContainer, {

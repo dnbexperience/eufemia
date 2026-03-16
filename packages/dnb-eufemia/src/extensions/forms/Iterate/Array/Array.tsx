@@ -17,8 +17,8 @@ import { pickSpacingProps } from '../../../../components/flex/utils'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
 import {
-  BasicProps as FlexContainerProps,
-  Props as FlexContainerAllProps,
+  FlexContainerProps,
+  FlexContainerAllProps,
   pickFlexContainerProps,
 } from '../../../../components/flex/Container'
 import IterateItemContext, {

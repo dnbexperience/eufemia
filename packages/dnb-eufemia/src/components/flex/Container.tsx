@@ -25,7 +25,7 @@ type Gap =
   | 'x-large'
   | 'xx-large'
 
-export type BasicProps = {
+export type FlexContainerProps = {
   direction?: 'horizontal' | 'vertical'
   wrap?: boolean
   rowGap?: Gap
@@ -48,14 +48,14 @@ export type BasicProps = {
   queries?: UseMediaQueries
 }
 
-export type Props = BasicProps &
+export type FlexContainerAllProps = FlexContainerProps &
   SpaceProps &
   Omit<
     React.HTMLAttributes<HTMLDivElement>,
     'ref' | 'wrap' | 'value' | 'label' | 'title' | 'placeholder'
   >
 
-const propNames: Array<keyof Props> = [
+const propNames: Array<keyof FlexContainerAllProps> = [
   'direction',
   'wrap',
   'justify',
@@ -64,24 +64,24 @@ const propNames: Array<keyof Props> = [
   'gap',
 ]
 
-export function pickFlexContainerProps<T extends Props>(
+export function pickFlexContainerProps<T extends FlexContainerAllProps>(
   props: T,
-  defaults: Partial<Props> = {},
-  skip: Array<keyof Props> = []
-): Omit<Props, 'children'> {
+  defaults: Partial<FlexContainerAllProps> = {},
+  skip: Array<keyof FlexContainerAllProps> = []
+): Omit<FlexContainerAllProps, 'children'> {
   return {
     ...defaults,
     ...Object.fromEntries(
       Object.entries(props ?? {}).filter(
         ([key]) =>
-          propNames.includes(key as keyof Props) &&
-          !skip.includes(key as keyof Props)
+          propNames.includes(key as keyof FlexContainerAllProps) &&
+          !skip.includes(key as keyof FlexContainerAllProps)
       )
     ),
   }
 }
 
-function FlexContainer(props: Props) {
+function FlexContainer(props: FlexContainerAllProps) {
   const {
     className,
     style,
@@ -240,7 +240,10 @@ function FlexContainer(props: Props) {
   )
 }
 
-function wrapChildren(props: Props, children: React.ReactNode) {
+function wrapChildren(
+  props: FlexContainerAllProps,
+  children: React.ReactNode
+) {
   return React.Children.toArray(children).map((child) => {
     if (
       React.isValidElement<any>(child) &&

@@ -72,7 +72,7 @@ export type RadioGroupProps = {
   onChange?: (event: RadioGroupChangeEvent) => void
 } & SpacingProps
 
-interface RadioGroupComponentState {
+type RadioGroupComponentState = {
   value?: string
   _value?: string
   _listenForPropChanges: boolean

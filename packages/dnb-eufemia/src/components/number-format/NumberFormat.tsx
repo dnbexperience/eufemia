@@ -108,7 +108,7 @@ export type NumberFormatAllProps = NumberFormatProps &
 
 export const COPY_TOOLTIP_TIMEOUT = 3000
 
-interface NumberFormatState {
+type NumberFormatState = {
   selected: boolean
   omitCurrencySign: boolean
   hover: boolean

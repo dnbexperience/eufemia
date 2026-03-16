@@ -1,6 +1,6 @@
 import React from 'react'
 
-export interface CardContextState {
+export type CardContextState = {
   isNested?: boolean
 }
 
