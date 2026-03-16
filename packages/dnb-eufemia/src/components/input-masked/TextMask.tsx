@@ -30,13 +30,17 @@ export type TextMaskMask =
   | typeof createNumberMask
 export type TextMaskInputElement = React.ReactElement<any>
 export type TextMaskValue = string | number
-export type TextMaskProps = {
+export type TextMaskProps = Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  'onChange' | 'value' | 'size'
+> & {
   mask: TextMaskMask
   inputRef?: React.Ref<HTMLInputElement> &
     React.MutableRefObject<HTMLInputElement | null>
   inputElement?: TextMaskInputElement
   onChange?: React.ChangeEventHandler<HTMLInputElement>
   value?: TextMaskValue
+  size?: number
   showMask?: boolean
   // Advanced: allow parent to enhance Maskito options without TextMask importing extras
   optionsEnhancer?: (opts: MaskitoOptions | null) => MaskitoOptions | null
