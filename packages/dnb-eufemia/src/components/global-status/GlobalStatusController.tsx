@@ -64,7 +64,7 @@ function initProvider(id: string) {
   return GSP.init(id)
 }
 
-interface GlobalStatusControllerProps {
+type GlobalStatusControllerProps = {
   id?: string
   statusId?: string
   removeOnUnmount?: boolean
@@ -132,7 +132,7 @@ const MemoizedGlobalStatusController = React.memo(
   Update: typeof MemoizedGlobalStatusController
 }
 
-interface GlobalStatusRemovePropsLocal {
+type GlobalStatusRemovePropsLocal = {
   id?: string
   statusId?: string
   [key: string]: unknown
