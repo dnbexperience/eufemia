@@ -479,6 +479,7 @@ import type {
   ButtonTooltip,
 } from '../Button'
 import type { IconIcon, IconSize } from '../Icon'
+import type { FormStatusBaseProps } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps, SpaceType } from '../space/types'
 

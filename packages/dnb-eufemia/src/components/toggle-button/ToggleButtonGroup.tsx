@@ -343,6 +343,7 @@ export default ToggleButtonGroup
 
 // Type definitions
 import type { ButtonSize } from '../Button'
+import type { FormStatusBaseProps } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps, SpaceType } from '../../shared/types'
 
