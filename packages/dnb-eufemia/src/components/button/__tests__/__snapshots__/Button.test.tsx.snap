@@ -458,7 +458,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
     --token-color-background-action-pressed-ondark
   );
   --btn-color-bg--disabled: var(
-    --token-olor-background-action-disabled-ondark
+    --token-color-background-action-disabled-ondark
   );
   --btn-color-border--hover: var(
     --token-color-stroke-action-hover-ondark
@@ -583,7 +583,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
     --token-color-component-button-stroke-action-destructive-hover
   );
   --btn-color-border--active: var(
-    --token-color-component-button-icon-action-destructive-pressed
+    --token-color-component-button-stroke-action-destructive-pressed
   );
   --btn-color-icon--default: var(
     --token-color-component-button-icon-action-destructive
