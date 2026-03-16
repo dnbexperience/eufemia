@@ -30,6 +30,8 @@ import Suffix from '../../shared/helpers/Suffix'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 import type { SkeletonShow } from '../Skeleton'
+import type { FormStatusBaseProps } from '../FormStatus'
+import type { SpacingProps } from '../space/types'
 
 export type RadioLabel = string | React.ReactNode
 export type RadioLabelPosition = 'left' | 'right'
@@ -92,7 +94,12 @@ export type RadioProps = {
    * By providing a React.ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.useRef()`.
    */
   ref?: React.Ref<HTMLInputElement>
-}
+} & Omit<
+  React.HTMLProps<HTMLElement>,
+  'ref' | 'onChange' | 'label' | 'size' | 'children'
+> &
+  SpacingProps &
+  FormStatusBaseProps
 
 const radioDefaultProps = {
   label: null,
