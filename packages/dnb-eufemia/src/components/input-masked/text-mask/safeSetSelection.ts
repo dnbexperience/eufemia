@@ -20,7 +20,8 @@ export function safeSetSelection(
 ) {
   if (
     document.activeElement === element ||
-    element?.setSelectionRange?.name === 'mockConstructor'
+    (process.env.NODE_ENV !== 'production' &&
+      element?.setSelectionRange?.name === 'mockConstructor')
   ) {
     const select = () => {
       try {

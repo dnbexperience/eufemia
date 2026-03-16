@@ -257,22 +257,11 @@ export default function TextMask(props: TextMaskProps): React.JSX.Element {
       'maskParams' in rawMask
     ) {
       const mp = rawMask.maskParams as MaskParams
-      const prefix = mp.prefix ?? ''
-      const suffix = mp.suffix ?? ''
-
-      if (prefix && cleanValue.startsWith(prefix)) {
-        cleanValue = cleanValue.slice(prefix.length)
-      }
-      if (suffix && cleanValue.endsWith(suffix)) {
-        cleanValue = cleanValue.slice(0, -suffix.length)
-      } else if (suffix && suffix.includes(' ')) {
-        // Try to match partial suffix (e.g., ' kr' from ', kr')
-        const suffixParts = suffix.split(' ')
-        const lastPart = suffixParts[suffixParts.length - 1]
-        if (lastPart && cleanValue.endsWith(lastPart)) {
-          cleanValue = cleanValue.slice(0, -lastPart.length).trim()
-        }
-      }
+      cleanValue = stripAffixes(
+        cleanValue,
+        mp.prefix ?? '',
+        mp.suffix ?? ''
+      )
     }
 
     const selection: readonly [number, number] = [
@@ -332,7 +321,6 @@ export default function TextMask(props: TextMaskProps): React.JSX.Element {
     }
 
     // For numeric masks, extract the numeric part before formatting
-    // Maskito needs just the numeric value without any existing prefix/suffix
     let cleanValue = raw
     if (
       typeof rawMask === 'object' &&
@@ -340,24 +328,11 @@ export default function TextMask(props: TextMaskProps): React.JSX.Element {
       'maskParams' in rawMask
     ) {
       const mp = rawMask.maskParams as MaskParams
-      const prefix = mp.prefix ?? ''
-      const suffix = mp.suffix ?? ''
-
-      // Strip any existing prefix/suffix from the value
-      if (prefix && cleanValue.startsWith(prefix)) {
-        cleanValue = cleanValue.slice(prefix.length)
-      }
-      // Try to strip the suffix - handle both with and without the full suffix pattern
-      if (suffix && cleanValue.endsWith(suffix)) {
-        cleanValue = cleanValue.slice(0, -suffix.length)
-      } else if (suffix && suffix.includes(' ')) {
-        // Handle partial suffix matching (e.g., ' kr' from ', kr')
-        const suffixParts = suffix.split(' ')
-        const lastPart = suffixParts[suffixParts.length - 1]
-        if (lastPart && cleanValue.endsWith(lastPart)) {
-          cleanValue = cleanValue.slice(0, -lastPart.length).trim()
-        }
-      }
+      cleanValue = stripAffixes(
+        cleanValue,
+        mp.prefix ?? '',
+        mp.suffix ?? ''
+      )
     }
 
     const { value: formatted } = maskitoTransform(
@@ -500,6 +475,31 @@ function normalizeMask(maskProp: TextMaskMask): MaskitoMask | null {
   return /^.*$/
 }
 
+function stripAffixes(
+  value: string,
+  prefix: string,
+  suffix: string
+): string {
+  let result = value
+
+  if (prefix && result.startsWith(prefix)) {
+    result = result.slice(prefix.length)
+  }
+
+  if (suffix && result.endsWith(suffix)) {
+    result = result.slice(0, -suffix.length)
+  } else if (suffix && suffix.includes(' ')) {
+    // Try to match partial suffix (e.g., ' kr' from ', kr')
+    const suffixParts = suffix.split(' ')
+    const lastPart = suffixParts[suffixParts.length - 1]
+    if (lastPart && result.endsWith(lastPart)) {
+      result = result.slice(0, -lastPart.length).trim()
+    }
+  }
+
+  return result
+}
+
 function createMaskitoNumberOptions(mp: {
   decimalSymbol?: string
   thousandsSeparatorSymbol?: string
@@ -560,7 +560,7 @@ function createMaskitoNumberOptions(mp: {
       )
       .trim()
 
-    if (withoutAffixes === '' || withoutAffixes === ',') {
+    if (withoutAffixes === '' || withoutAffixes === decimal) {
       return {
         ...elementState,
         value: '',
