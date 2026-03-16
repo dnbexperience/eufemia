@@ -178,14 +178,20 @@ const InputMasked = React.forwardRef<HTMLInputElement, InputMaskedProps>(
     const context = React.useContext(Context)
 
     // Remove masks defined in Provider/Context, because it overwrites a custom mask
-    if (props?.mask) {
-      const alias = context?.InputMasked
-      for (const key in alias) {
+    const contextInputMasked = React.useMemo(() => {
+      if (!props?.mask || !context?.InputMasked) {
+        return context?.InputMasked
+      }
+
+      const clone = { ...context.InputMasked }
+      for (const key in clone) {
         if (/^as[_A-Z]|numberMask|currencyMask/.test(key)) {
-          delete alias[key]
+          delete clone[key]
         }
       }
-    }
+
+      return clone
+    }, [context?.InputMasked, props?.mask])
 
     const contextAndProps = React.useMemo(() => {
       const propsWithRef = {
@@ -197,9 +203,9 @@ const InputMasked = React.forwardRef<HTMLInputElement, InputMaskedProps>(
       return extendPropsWithContext(
         propsWithRef,
         defaultProps,
-        context?.InputMasked
+        contextInputMasked
       )
-    }, [context?.InputMasked, props, ref])
+    }, [contextInputMasked, props, ref])
 
     return (
       <InputMaskedContext value={{ props: contextAndProps, context }}>
