@@ -156,7 +156,6 @@ export default function TextMask(props: TextMaskProps): React.JSX.Element {
     maskParams?.decimalSymbol,
     maskParams?.allowDecimal,
     maskParams?.decimalLimit,
-    maskParams?.integerLimit,
   ])
 
   const enhancedOptions = useMemo<MaskitoOptions | null>(() => {
@@ -518,6 +517,7 @@ function createMaskitoNumberOptions(mp: {
   const prefix = mp.prefix ?? ''
   const suffix = mp.suffix ?? ''
   const allowNegative = mp.allowNegative !== false
+  const min = allowNegative ? Number.MIN_SAFE_INTEGER - 1 : 0
   // If allowDecimal is true but decimalLimit is not specified, use a default of 2
   // Otherwise use decimalLimit if specified, or 0 if decimals are not allowed
   const defaultDecimalLimit = mp.allowDecimal === true ? 2 : 0
@@ -526,23 +526,13 @@ function createMaskitoNumberOptions(mp: {
     Number(mp.decimalLimit ?? defaultDecimalLimit)
   )
 
-  // Derive min/max from integerLimit so Maskito prevents typing beyond the limit
-  const integerLimit =
-    typeof mp.integerLimit === 'number' && mp.integerLimit > 0
-      ? mp.integerLimit
-      : undefined
-  const max = integerLimit
-    ? Math.pow(10, integerLimit) - 1
-    : Number.MAX_SAFE_INTEGER
-  const min = allowNegative ? -max : 0
-
   // Check if suffix starts with a comma - this is a special pattern like ',- kr'
   const suffixStartsWithComma = suffix && suffix.startsWith(',')
   const postfixToUse = suffixStartsWithComma ? suffix.slice(1) : suffix
 
   const base = maskitoNumberOptionsGenerator({
     min,
-    max,
+    max: Number.MAX_SAFE_INTEGER + 1,
     thousandSeparator: thousand,
     decimalSeparator: decimal,
     maximumFractionDigits,
