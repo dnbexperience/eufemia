@@ -14,12 +14,7 @@ import { inputDefaultProps } from '../input/Input'
 import Context from '../../shared/Context'
 import type { InternalLocale } from '../../shared/Context'
 import type { ButtonIconPosition, ButtonVariant } from '../Button'
-import type {
-  FormStatusText,
-  FormStatusState,
-  FormStatusProps,
-} from '../FormStatus'
-import type { GlobalStatusConfigObject } from '../GlobalStatus'
+import type { FormStatusBaseProps } from '../FormStatus'
 import type { IconIcon, IconSize } from '../Icon'
 import type {
   InputInputAttributes,
@@ -63,112 +58,111 @@ export type InputMaskedEventHandler = (
   payload: InputMaskedChange
 ) => unknown
 export type InputMaskedOverwriteMode = MaskitoOptions['overwriteMode']
-export interface InputMaskedProps
-  extends Omit<
-      React.HTMLProps<HTMLInputElement>,
-      | 'ref'
-      | 'placeholder'
-      | 'label'
-      | 'children'
-      | 'onChange'
-      | 'onFocus'
-      | 'onBlur'
-      | 'onSubmit'
-      | 'size'
-    >,
-    SpacingProps,
-    FormStatusBaseProps {
-  /**
-   * A mask defined as an array of RegExp and string tokens (e.g. `[/\d/, /\d/, " ", /\d/, /\d/]`) or a single RegExp. Defaults to number mask.
-   */
-  mask?: InputMaskedMask
-  /**
-   * Set to `true` to enable the default numbers formatting – or give an `object` containing the number mask properties. More details below. Can be a JSON string as well, containing the number mask properties. Is disabled by default.
-   */
-  numberMask?: InputMaskedNumberMask
-  /**
-   * Set to `true` or set the _valuta_ (currencyMask="kr") to enable a custom currency mask – or give an `object` containing the number mask properties. More details below. Can be a JSON string as well, containing the number mask properties. Is disabled by default. Defaults to `kr`.
-   */
-  currencyMask?: InputMaskedCurrencyMask
-  /**
-   * Use it to manipulate internal masks. You can use it instead of e.g. `numberMask` or `currencyMask`. All options are listed below.
-   */
-  maskOptions?: InputMaskedMaskOptions
-  /**
-   * Use an object with [NumberFormat](/uilib/components/number-format/properties).
-   */
-  numberFormat?: NumberFormatProps
-  /**
-   * Define the locale to be used in the `asNumber` or `asCurrency` masked. It will be inherited from the [Eufemia Provider](/uilib/usage/customisation/provider) if not given. Defaults to `nb-NO`.
-   */
-  locale?: InternalLocale
-  /**
-   * Set to `true` to use `NOK` or give it a currency code e.g. `USD` to automatically set a currency mask based on the given or inherited locale.
-   */
-  asCurrency?: InputMaskedAsCurrency
-  /**
-   * Set to `true` to automatically set a number mask based on the given or inherited locale.
-   */
-  asNumber?: boolean
-  /**
-   * Set to `true` to automatically set a number mask with a percentage sign based on the given or inherited locale.
-   */
-  asPercent?: boolean
-  /**
-   * Show mask when input is empty and has no focus. Defaults to `false`.
-   */
-  showMask?: boolean
-  /**
-   * Allow users to keep typing after the provided mask has been filled. Extra characters will be appended unmasked.
-   */
-  allowOverflow?: boolean
-  /**
-   * Controls how overwriting characters is handled;
-   * `shift` (default) moves to the next slot, `replace` keeps the cursor in place.
-   */
-  overwriteMode?: InputMaskedOverwriteMode | null
-  innerRef?: React.Ref<HTMLInputElement>
-  onSubmit?: InputMaskedEventHandler
-  onFocus?: InputMaskedEventHandler
-  onBlur?: InputMaskedEventHandler
-  onChange?: InputMaskedEventHandler
-  onSubmitFocus?: InputMaskedEventHandler
-  onSubmitBlur?: InputMaskedEventHandler
-  type?: string
-  size?: InputSize
-  value?: InputMaskedValue
-  id?: string
-  label?: React.ReactNode
-  labelDirection?: 'horizontal' | 'vertical'
-  labelSrOnly?: boolean
-  inputState?: string
-  autocomplete?: string
-  submitButtonTitle?: string
-  clearButtonTitle?: string
-  placeholder?: React.ReactNode
-  clear?: boolean
-  keepPlaceholder?: boolean
-  suffix?: InputMaskedSuffix
-  align?: InputMaskedAlign
-  selectAll?: boolean
-  stretch?: boolean
-  disabled?: boolean
-  skeleton?: SkeletonShow
-  inputClass?: string
-  inputAttributes?: InputInputAttributes
-  inputElement?: InputInputElement
-  icon?: IconIcon
-  iconSize?: IconSize
-  iconPosition?: ButtonIconPosition
-  readOnly?: boolean
-  innerElement?: React.ReactNode
-  submitElement?: InputMaskedSubmitElement
-  submitButtonVariant?: ButtonVariant
-  submitButtonIcon?: InputMaskedSubmitButtonIcon
-  submitButtonStatus?: string
-  className?: string
-  children?: InputMaskedChildren
-}
+export type InputMaskedProps = Omit<
+  React.HTMLProps<HTMLInputElement>,
+  | 'ref'
+  | 'placeholder'
+  | 'label'
+  | 'children'
+  | 'onChange'
+  | 'onFocus'
+  | 'onBlur'
+  | 'onSubmit'
+  | 'size'
+> &
+  SpacingProps &
+  FormStatusBaseProps & {
+    /**
+     * A mask defined as an array of RegExp and string tokens (e.g. `[/\d/, /\d/, " ", /\d/, /\d/]`) or a single RegExp. Defaults to number mask.
+     */
+    mask?: InputMaskedMask
+    /**
+     * Set to `true` to enable the default numbers formatting – or give an `object` containing the number mask properties. More details below. Can be a JSON string as well, containing the number mask properties. Is disabled by default.
+     */
+    numberMask?: InputMaskedNumberMask
+    /**
+     * Set to `true` or set the _valuta_ (currencyMask="kr") to enable a custom currency mask – or give an `object` containing the number mask properties. More details below. Can be a JSON string as well, containing the number mask properties. Is disabled by default. Defaults to `kr`.
+     */
+    currencyMask?: InputMaskedCurrencyMask
+    /**
+     * Use it to manipulate internal masks. You can use it instead of e.g. `numberMask` or `currencyMask`. All options are listed below.
+     */
+    maskOptions?: InputMaskedMaskOptions
+    /**
+     * Use an object with [NumberFormat](/uilib/components/number-format/properties).
+     */
+    numberFormat?: NumberFormatProps
+    /**
+     * Define the locale to be used in the `asNumber` or `asCurrency` masked. It will be inherited from the [Eufemia Provider](/uilib/usage/customisation/provider) if not given. Defaults to `nb-NO`.
+     */
+    locale?: InternalLocale
+    /**
+     * Set to `true` to use `NOK` or give it a currency code e.g. `USD` to automatically set a currency mask based on the given or inherited locale.
+     */
+    asCurrency?: InputMaskedAsCurrency
+    /**
+     * Set to `true` to automatically set a number mask based on the given or inherited locale.
+     */
+    asNumber?: boolean
+    /**
+     * Set to `true` to automatically set a number mask with a percentage sign based on the given or inherited locale.
+     */
+    asPercent?: boolean
+    /**
+     * Show mask when input is empty and has no focus. Defaults to `false`.
+     */
+    showMask?: boolean
+    /**
+     * Allow users to keep typing after the provided mask has been filled. Extra characters will be appended unmasked.
+     */
+    allowOverflow?: boolean
+    /**
+     * Controls how overwriting characters is handled;
+     * `shift` (default) moves to the next slot, `replace` keeps the cursor in place.
+     */
+    overwriteMode?: InputMaskedOverwriteMode | null
+    innerRef?: React.Ref<HTMLInputElement>
+    onSubmit?: InputMaskedEventHandler
+    onFocus?: InputMaskedEventHandler
+    onBlur?: InputMaskedEventHandler
+    onChange?: InputMaskedEventHandler
+    onSubmitFocus?: InputMaskedEventHandler
+    onSubmitBlur?: InputMaskedEventHandler
+    type?: string
+    size?: InputSize
+    value?: InputMaskedValue
+    id?: string
+    label?: React.ReactNode
+    labelDirection?: 'horizontal' | 'vertical'
+    labelSrOnly?: boolean
+    inputState?: string
+    autocomplete?: string
+    submitButtonTitle?: string
+    clearButtonTitle?: string
+    placeholder?: React.ReactNode
+    clear?: boolean
+    keepPlaceholder?: boolean
+    suffix?: InputMaskedSuffix
+    align?: InputMaskedAlign
+    selectAll?: boolean
+    stretch?: boolean
+    disabled?: boolean
+    skeleton?: SkeletonShow
+    inputClass?: string
+    inputAttributes?: InputInputAttributes
+    inputElement?: InputInputElement
+    icon?: IconIcon
+    iconSize?: IconSize
+    iconPosition?: ButtonIconPosition
+    readOnly?: boolean
+    innerElement?: React.ReactNode
+    submitElement?: InputMaskedSubmitElement
+    submitButtonVariant?: ButtonVariant
+    submitButtonIcon?: InputMaskedSubmitButtonIcon
+    submitButtonStatus?: string
+    className?: string
+    children?: InputMaskedChildren
+  }
 
 const InputMasked = React.forwardRef<HTMLInputElement, InputMaskedProps>(
   function InputMasked(props, ref) {
