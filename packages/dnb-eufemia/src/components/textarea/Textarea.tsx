@@ -70,111 +70,110 @@ export type TextareaKeyDownEvent = TextareaEvent<
   rows: number
 }
 
-export interface TextareaProps
-  extends Omit<
-      React.HTMLProps<HTMLElement>,
-      | 'ref'
-      | 'children'
-      | 'label'
-      | 'size'
-      | 'cols'
-      | 'rows'
-      | 'placeholder'
-      | 'onChange'
-      | 'onFocus'
-      | 'onBlur'
-      | 'onKeyDown'
-    >,
-    SpacingProps,
-    FormStatusBaseProps {
-  /**
-   * The content value of the Textarea.
-   */
-  value?: string
-  id?: string
-  /**
-   * Prepends the Form Label component. If no ID is provided, a random ID is created.
-   */
-  label?: React.ReactNode
-  /**
-   * Use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`.
-   */
-  labelDirection?: 'vertical' | 'horizontal'
-  /**
-   * Use `true` to make the label only readable by screen readers.
-   */
-  labelSrOnly?: boolean
-  /**
-   * The sizes you can choose for 1 row is `small` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `small`.
-   */
-  size?: TextareaSize
-  /**
-   * To control the visual focus state as a prop, like `focus` or `blur`.
-   */
-  textareaState?: string
-  /**
-   * Text describing the content of the Textarea more than the label. You can also send in a React component, so it gets wrapped inside the Textarea component.
-   */
-  suffix?: TextareaSuffix
-  /**
-   * The placeholder which shows up once the Textarea value is empty.
-   */
-  placeholder?: React.ReactNode
-  /**
-   * Use `true` to keep the placeholder visible even when the Textarea has focus. Defaults to `false`.
-   */
-  keepPlaceholder?: boolean
-  /**
-   * Defines the `text-align` of the Textarea. Defaults to `left`.
-   */
-  align?: TextareaAlign
-  /**
-   * If set to `true`, then the Textarea field will be 100% in `width`.
-   */
-  stretch?: boolean
-  disabled?: boolean
-  /**
-   * If set to `true`, an overlaying skeleton with animation will be shown.
-   */
-  skeleton?: SkeletonShow
-  /**
-   * Use `true` to make the Textarea grow and shrink depending on how many lines the user has filled.
-   */
-  autoResize?: boolean
-  /**
-   * Use a number to define the displayed max length. You can also use an object defining the [TextCounter](uilib/components/fragments/text-counter/) `variant` or properties. Please avoid using `maxLength` for accessibility reasons.
-   */
-  characterCounter?: Omit<TextCounterProps, 'text'> | number
-  /**
-   * Set a number to define how many rows the Textarea can auto grow.
-   */
-  autoResizeMaxRows?: TextareaAutoresizeMaxRows
-  textareaClass?: string
-  readOnly?: boolean
-  rows?: TextareaRows
-  cols?: TextareaCols
-  className?: string
-  textareaElement?: TextareaTextareaElement
-  children?: TextareaChildren
-  onChange?: (event: TextareaChangeEvent) => void
-  onFocus?: (
-    event: TextareaEvent<React.FocusEvent<HTMLTextAreaElement>>
-  ) => void
-  onBlur?: (
-    event: TextareaEvent<React.FocusEvent<HTMLTextAreaElement>>
-  ) => void
-  onKeyDown?: (event: TextareaKeyDownEvent) => void
-  /**
-   * Locale to use for text counter. Inherited from context if not set.
-   */
-  locale?: InternalLocale
-  /**
-   * By providing a React.Ref we can get the internally used Textarea element (DOM). E.g. `ref={myRef}` by using `React.useRef()`.
-   */
-  ref?: React.Ref<HTMLTextAreaElement> | null
-}
+export type TextareaProps = Omit<
+  React.HTMLProps<HTMLElement>,
+  | 'ref'
+  | 'children'
+  | 'label'
+  | 'size'
+  | 'cols'
+  | 'rows'
+  | 'placeholder'
+  | 'onChange'
+  | 'onFocus'
+  | 'onBlur'
+  | 'onKeyDown'
+> &
+  SpacingProps &
+  FormStatusBaseProps & {
+    /**
+     * The content value of the Textarea.
+     */
+    value?: string
+    id?: string
+    /**
+     * Prepends the Form Label component. If no ID is provided, a random ID is created.
+     */
+    label?: React.ReactNode
+    /**
+     * Use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`.
+     */
+    labelDirection?: 'vertical' | 'horizontal'
+    /**
+     * Use `true` to make the label only readable by screen readers.
+     */
+    labelSrOnly?: boolean
+    /**
+     * The sizes you can choose for 1 row is `small` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `small`.
+     */
+    size?: TextareaSize
+    /**
+     * To control the visual focus state as a prop, like `focus` or `blur`.
+     */
+    textareaState?: string
+    /**
+     * Text describing the content of the Textarea more than the label. You can also send in a React component, so it gets wrapped inside the Textarea component.
+     */
+    suffix?: TextareaSuffix
+    /**
+     * The placeholder which shows up once the Textarea value is empty.
+     */
+    placeholder?: React.ReactNode
+    /**
+     * Use `true` to keep the placeholder visible even when the Textarea has focus. Defaults to `false`.
+     */
+    keepPlaceholder?: boolean
+    /**
+     * Defines the `text-align` of the Textarea. Defaults to `left`.
+     */
+    align?: TextareaAlign
+    /**
+     * If set to `true`, then the Textarea field will be 100% in `width`.
+     */
+    stretch?: boolean
+    disabled?: boolean
+    /**
+     * If set to `true`, an overlaying skeleton with animation will be shown.
+     */
+    skeleton?: SkeletonShow
+    /**
+     * Use `true` to make the Textarea grow and shrink depending on how many lines the user has filled.
+     */
+    autoResize?: boolean
+    /**
+     * Use a number to define the displayed max length. You can also use an object defining the [TextCounter](uilib/components/fragments/text-counter/) `variant` or properties. Please avoid using `maxLength` for accessibility reasons.
+     */
+    characterCounter?: Omit<TextCounterProps, 'text'> | number
+    /**
+     * Set a number to define how many rows the Textarea can auto grow.
+     */
+    autoResizeMaxRows?: TextareaAutoresizeMaxRows
+    textareaClass?: string
+    readOnly?: boolean
+    rows?: TextareaRows
+    cols?: TextareaCols
+    className?: string
+    textareaElement?: TextareaTextareaElement
+    children?: TextareaChildren
+    onChange?: (event: TextareaChangeEvent) => void
+    onFocus?: (
+      event: TextareaEvent<React.FocusEvent<HTMLTextAreaElement>>
+    ) => void
+    onBlur?: (
+      event: TextareaEvent<React.FocusEvent<HTMLTextAreaElement>>
+    ) => void
+    onKeyDown?: (event: TextareaKeyDownEvent) => void
+    /**
+     * Locale to use for text counter. Inherited from context if not set.
+     */
+    locale?: InternalLocale
+    /**
+     * By providing a React.Ref we can get the internally used Textarea element (DOM). E.g. `ref={myRef}` by using `React.useRef()`.
+     */
+    ref?: React.Ref<HTMLTextAreaElement> | null
+  }
 
-interface TextareaComponentState {
+type TextareaComponentState = {
   textareaState: string
   value: string | null
   _value: string | undefined
@@ -685,7 +684,7 @@ class TextareaClass extends React.PureComponent<
   }
 }
 
-export interface TextareaStaticProperties extends ComponentMarkers {
+export type TextareaStaticProperties = ComponentMarkers & {
   hasValue: typeof TextareaClass.hasValue
   getValue: typeof TextareaClass.getValue
 }
