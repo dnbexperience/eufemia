@@ -31,4 +31,9 @@ export const ThemeProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  surface: {
+    doc: 'Defines the surface the themed content is placed on. Use `dark` to apply styles intended for dark surfaces.',
+    type: ['"dark"'],
+    status: 'optional',
+  },
 }

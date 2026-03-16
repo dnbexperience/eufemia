@@ -62,12 +62,12 @@ If you use any Eufemia context objects directly (e.g. `Wizard.Provider`), update
 
 ### Theme.Provider → Theme.Context
 
-`Theme.Provider` has been renamed to `Theme.Context` to align with React 19's context-as-provider pattern. Use `Theme.Context` when you need to provide theme without a wrapper element (e.g. for dark backgrounds):
+`Theme.Provider` has been renamed to `Theme.Context` to align with React 19's context-as-provider pattern. Use `Theme.Context` when you need to provide theme without a wrapper element (e.g. on dark surfaces):
 
 **Before:**
 
 ```tsx
-<Theme.Provider darkBackground>
+<Theme.Provider surface="dark">
   <Button>Primary</Button>
 </Theme.Provider>
 ```
@@ -75,7 +75,7 @@ If you use any Eufemia context objects directly (e.g. `Wizard.Provider`), update
 **After:**
 
 ```tsx
-<Theme.Context darkBackground>
+<Theme.Context surface="dark">
   <Button>Primary</Button>
 </Theme.Context>
 ```

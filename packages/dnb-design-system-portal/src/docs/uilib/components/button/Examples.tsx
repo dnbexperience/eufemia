@@ -540,10 +540,10 @@ export const TertiaryButtonAlignment = () => {
   )
 }
 
-export const ButtonHasDarkBackground = () => (
+export const ButtonOnDarkSurface = () => (
   <ComponentBox hideCode scope={{ Theme }}>
     <Section innerSpace="1rem" backgroundColor="var(--sb-color-purple)">
-      <Theme.Context darkBackground>
+      <Theme.Context surface="dark">
         <Button data-visual-test="button-primary-on-dark" right>
           Primary button
         </Button>

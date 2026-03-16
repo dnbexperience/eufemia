@@ -387,7 +387,7 @@ class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
       'dnb-button',
       `dnb-button--${usedVariant || 'primary'}`,
       usedSize && usedSize !== 'default' && `dnb-button--size-${usedSize}`,
-      this.context?.theme?.darkBackground &&
+      this.context?.theme?.surface === 'dark' &&
         `dnb-button--on-dark-background`,
       icon && `dnb-button--icon-position-${iconPosition}`,
       stretch && 'dnb-button--stretch',

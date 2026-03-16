@@ -1,5 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import Context from '../Context'
 import Theme, { ThemeAllProps } from '../Theme'
 import {
   Autocomplete,
@@ -92,6 +93,28 @@ describe('Theme', () => {
       'eufemia-theme',
       'eufemia-theme__dark-mode',
     ])
+  })
+
+  it('provides surface through the theme context', () => {
+    let receivedTheme = null
+
+    const ThemeConsumer = () => {
+      receivedTheme = React.useContext(Context)?.theme
+
+      return null
+    }
+
+    render(
+      <Theme surface="dark">
+        <ThemeConsumer />
+      </Theme>
+    )
+
+    expect(receivedTheme).toEqual(
+      expect.objectContaining({
+        surface: 'dark',
+      })
+    )
   })
 
   it('sets additional attributes', () => {
