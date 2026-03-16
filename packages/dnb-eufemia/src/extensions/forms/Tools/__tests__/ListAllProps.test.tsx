@@ -68,8 +68,9 @@ describe('Tools.ListAllProps', () => {
           "path": "/myField",
           "ref": {
             "current": <input
+              autocomplete="off"
               class="dnb-input__input"
-              id="id-ra"
+              id="id-rb"
               name="myField"
               type="text"
             />,
@@ -83,8 +84,9 @@ describe('Tools.ListAllProps', () => {
             "ref": {
               "current": <input
                 aria-required="true"
+                autocomplete="off"
                 class="dnb-input__input"
-                id="id-rg"
+                id="id-ri"
                 name="nested/myString"
                 type="text"
               />,
@@ -117,8 +119,9 @@ describe('Tools.ListAllProps', () => {
           "ref": {
             "current": <input
               aria-required="true"
+              autocomplete="off"
               class="dnb-input__input"
-              id="id-ra"
+              id="id-rb"
               name="myString"
               type="text"
             />,
@@ -131,8 +134,9 @@ describe('Tools.ListAllProps', () => {
           "ref": {
             "current": <input
               aria-required="true"
+              autocomplete="off"
               class="dnb-input__input"
-              id="id-ra"
+              id="id-rb"
               name="myString"
               type="text"
             />,
@@ -244,8 +248,9 @@ describe('Tools.ListAllProps', () => {
             "path": "/myNumber",
             "ref": {
               "current": <input
+                autocomplete="off"
                 class="dnb-input__input"
-                id="id-r12"
+                id="id-r16"
                 inputmode="decimal"
                 name="myNumber"
                 type="text"
@@ -258,8 +263,9 @@ describe('Tools.ListAllProps', () => {
             "path": "/myString",
             "ref": {
               "current": <input
+                autocomplete="off"
                 class="dnb-input__input"
-                id="id-rs"
+                id="id-rv"
                 name="myString"
                 type="text"
               />,
@@ -323,8 +329,9 @@ describe('Tools.ListAllProps', () => {
             "path": "/myNumber",
             "ref": {
               "current": <input
+                autocomplete="off"
                 class="dnb-input__input"
-                id="id-r2a"
+                id="id-r2h"
                 inputmode="decimal"
                 name="myNumber"
                 type="text"
@@ -341,8 +348,9 @@ describe('Tools.ListAllProps', () => {
               "pattern": "^[a-z]{2}[0-9]+",
               "ref": {
                 "current": <input
+                  autocomplete="off"
                   class="dnb-input__input"
-                  id="id-r1t"
+                  id="id-r23"
                   name="myObject/withString"
                   type="text"
                 />,
@@ -356,8 +364,9 @@ describe('Tools.ListAllProps', () => {
             "path": "/myString",
             "ref": {
               "current": <input
+                autocomplete="off"
                 class="dnb-input__input"
-                id="id-r1n"
+                id="id-r1s"
                 name="myString"
                 type="text"
               />,
@@ -407,8 +416,9 @@ describe('Tools.ListAllProps', () => {
                 "path": "/myObject/nested/withNumber",
                 "ref": {
                   "current": <input
+                    autocomplete="off"
                     class="dnb-input__input"
-                    id="id-r2n"
+                    id="id-r30"
                     inputmode="decimal"
                     name="myObject/nested/withNumber"
                     type="text"
@@ -424,8 +434,9 @@ describe('Tools.ListAllProps', () => {
               "path": "/myObject/withString",
               "ref": {
                 "current": <input
+                  autocomplete="off"
                   class="dnb-input__input"
-                  id="id-r2h"
+                  id="id-r2p"
                   name="myObject/withString"
                   type="text"
                 />,
@@ -483,8 +494,9 @@ describe('Tools.ListAllProps', () => {
               "ref": {
                 "current": <input
                   aria-required="true"
+                  autocomplete="off"
                   class="dnb-input__input"
-                  id="id-r3h"
+                  id="id-r3t"
                   inputmode="decimal"
                   name="myObject/withNumber"
                   type="text"
@@ -501,8 +513,9 @@ describe('Tools.ListAllProps', () => {
               "ref": {
                 "current": <input
                   aria-required="true"
+                  autocomplete="off"
                   class="dnb-input__input"
-                  id="id-r34"
+                  id="id-r3f"
                   name="myObject/withString"
                   type="text"
                 />,
@@ -516,8 +529,9 @@ describe('Tools.ListAllProps', () => {
             "ref": {
               "current": <input
                 aria-required="true"
+                autocomplete="off"
                 class="dnb-input__input"
-                id="id-r2u"
+                id="id-r38"
                 name="myString"
                 type="text"
               />,
@@ -581,10 +595,11 @@ describe('Tools.ListAllProps', () => {
                   aria-valuemin="-9007199254740991"
                   aria-valuenow="0"
                   aria-valuetext="0"
+                  autocomplete="off"
                   class="dnb-input__input"
-                  id="id-r3u"
+                  id="id-r4b"
                   inputmode="decimal"
-                  name="id-r3u"
+                  name="id-r4b"
                   role="spinbutton"
                   step="1"
                   type="text"
@@ -606,10 +621,11 @@ describe('Tools.ListAllProps', () => {
                   aria-valuemin="-9007199254740991"
                   aria-valuenow="1"
                   aria-valuetext="1"
+                  autocomplete="off"
                   class="dnb-input__input"
-                  id="id-r44"
+                  id="id-r4i"
                   inputmode="decimal"
-                  name="id-r44"
+                  name="id-r4i"
                   role="spinbutton"
                   step="1"
                   type="text"

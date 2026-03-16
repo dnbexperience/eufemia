@@ -31,7 +31,7 @@ describe('Field.OrganizationNumber', () => {
     render(<Field.OrganizationNumber />)
 
     const element = document.querySelector('input')
-    expect(element).not.toHaveAttribute('autocomplete')
+    expect(element).toHaveAttribute('autocomplete', 'off')
   })
 
   it('should link for and label', () => {
