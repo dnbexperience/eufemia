@@ -21,7 +21,7 @@ export function safeSetSelection(
   if (
     document.activeElement === element ||
     (process.env.NODE_ENV !== 'production' &&
-      element?.setSelectionRange?.name === 'mockConstructor')
+      typeof jest !== 'undefined')
   ) {
     const select = () => {
       try {

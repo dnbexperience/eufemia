@@ -553,12 +553,7 @@ function createMaskitoNumberOptions(mp: {
   // Clear the value when only prefix/postfix remain (no numeric content)
   const clearEmptyPostprocessor: MaskitoPostprocessor = (elementState) => {
     const value = elementState.value
-    const withoutAffixes = value
-      .slice(
-        prefix ? prefix.length : 0,
-        value.length - (postfixToUse ? postfixToUse.length : 0)
-      )
-      .trim()
+    const withoutAffixes = stripAffixes(value, prefix, postfixToUse).trim()
 
     if (withoutAffixes === '' || withoutAffixes === decimal) {
       return {

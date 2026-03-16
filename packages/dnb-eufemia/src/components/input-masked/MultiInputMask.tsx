@@ -507,7 +507,7 @@ function MultiInputMaskInput<T extends string>({
         pendingCaretPosition
       )
     } catch {
-      // ignore
+      // setSelectionRange can throw on hidden/detached inputs
     }
 
     pendingCaretPositionRef.current = null
@@ -677,7 +677,7 @@ function MultiInputMaskInput<T extends string>({
               shouldSelectAllOnMouseUpRef.current = false
             }
           } catch {
-            // ignore
+            // setSelectionRange can throw on hidden/detached inputs
           }
           onInputFocus?.()
         }}
@@ -695,7 +695,7 @@ function MultiInputMaskInput<T extends string>({
           try {
             target.setSelectionRange(0, end)
           } catch {
-            // ignore
+            // setSelectionRange can throw on hidden/detached inputs
           }
         }}
         onBlurCapture={() => {

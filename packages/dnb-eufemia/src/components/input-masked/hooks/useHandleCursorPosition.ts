@@ -57,7 +57,7 @@ function useHandleCursorPosition(
           try {
             input.setSelectionRange(selEnd, selEnd)
           } catch {
-            // ignore
+            // setSelectionRange can throw on hidden/detached inputs
           }
           event.preventDefault()
           return
@@ -74,7 +74,7 @@ function useHandleCursorPosition(
           try {
             input.setSelectionRange(selStart, selStart)
           } catch {
-            // ignore
+            // setSelectionRange can throw on hidden/detached inputs
           }
           event.preventDefault()
           return
@@ -166,6 +166,7 @@ function listAllInputs(scope?: HTMLElement): HTMLInputElement[] {
       )
     )
   } catch {
+    // querySelectorAll can throw if scope is a detached or invalid node
     return []
   }
 }
@@ -245,7 +246,7 @@ function focusInput(el: HTMLInputElement, _where: 'start' | 'end') {
     // Only move focus; selection is handled uniformly in component onFocus (select-all)
     el.focus()
   } catch {
-    // ignore
+    // focus() can throw on hidden/detached inputs
   }
 }
 
