@@ -20,8 +20,7 @@ export function safeSetSelection(
 ) {
   if (
     document.activeElement === element ||
-    (process.env.NODE_ENV !== 'production' &&
-      typeof jest !== 'undefined')
+    (process.env.NODE_ENV !== 'production' && typeof jest !== 'undefined')
   ) {
     const select = () => {
       try {
