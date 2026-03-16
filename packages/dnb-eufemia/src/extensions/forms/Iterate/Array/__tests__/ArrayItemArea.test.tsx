@@ -9,6 +9,16 @@ import { DataContext, Field, Form, Iterate } from '../../..'
 import { simulateAnimationEnd } from '../../../../../components/height-animation/__tests__/HeightAnimationUtils'
 
 describe('ArrayItemArea', () => {
+  beforeEach(() => {
+    globalThis.bypassTime = -1
+    globalThis.animationDuration = -1
+  })
+
+  afterEach(() => {
+    globalThis.bypassTime = undefined
+    globalThis.animationDuration = undefined
+  })
+
   it('should call "onAnimationEnd"', () => {
     const onAnimationEnd = jest.fn()
 
