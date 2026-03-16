@@ -23,7 +23,7 @@ export const useFilteredProps = () => {
     showMask, // eslint-disable-line
     allowOverflow, // eslint-disable-line
     overwriteMode, // eslint-disable-line
-    innerRef, // eslint-disable-line
+    _innerRef, // eslint-disable-line
 
     // Get rest of possible attributes
     ...attributes

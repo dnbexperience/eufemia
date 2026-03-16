@@ -654,7 +654,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       >
         <MultiInputMask
           id={`${id}-start`}
-          omitInputShellClass
+          _omitInputShellClass
           size={size}
           status={!open ? status : null}
           statusState={statusState}
@@ -693,7 +693,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         {isRange && (
           <MultiInputMask
             id={`${id}-end`}
-            omitInputShellClass
+            _omitInputShellClass
             size={size}
             status={!open ? status : null}
             statusState={statusState}

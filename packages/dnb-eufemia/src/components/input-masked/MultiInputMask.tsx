@@ -98,7 +98,7 @@ export type MultiInputMaskProps<T extends string> = {
   /**
    * Keeps compatibility with callers that already forward the internal Input prop.
    */
-  omitInputShellClass?: boolean
+  _omitInputShellClass?: boolean
   /**
    * Refers to the scope element that contains the input fields.
    */
@@ -142,7 +142,7 @@ function MultiInputMask<T extends string>(props: MultiInputMaskProps<T>) {
     className,
     stretch,
     inputMode,
-    omitInputShellClass,
+    _omitInputShellClass,
     scopeRef = fallbackFieldsetRef,
     size,
     suffix,
@@ -301,7 +301,7 @@ function MultiInputMask<T extends string>(props: MultiInputMaskProps<T>) {
     >
       <Input
         {...rest}
-        omitInputShellClass={omitInputShellClass}
+        _omitInputShellClass={_omitInputShellClass}
         id={id}
         label={
           label && (
