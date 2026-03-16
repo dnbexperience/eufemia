@@ -2983,7 +2983,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }
 }
 
-export interface ReturnAdditional<Value> {
+export type ReturnAdditional<Value> = {
   /** Documented APIs */
   value: Value
   isChanged: boolean

@@ -5,9 +5,10 @@ import ModalHeader, {
 } from '../../modal/parts/ModalHeader'
 import type { SpacingProps } from '../../space/types'
 
-interface DialogHeaderProps extends ModalHeaderProps, SpacingProps {
+type DialogHeaderProps = {
   titleClass?: string
-}
+} & ModalHeaderProps &
+  SpacingProps
 
 export default function DialogHeader({
   className,

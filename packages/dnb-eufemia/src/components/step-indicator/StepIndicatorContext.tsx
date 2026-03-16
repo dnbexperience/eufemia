@@ -44,7 +44,7 @@ const filterAttributes = Object.keys(stepIndicatorDefaultProps)
     'filterAttributes',
   ])
 
-export type StepIndicatorContextValues = StepIndicatorProviderProps &
+type StepIndicatorContextValues = StepIndicatorProviderProps &
   StepIndicatorProviderStates &
   ContextProps
 
@@ -68,7 +68,7 @@ export type StepIndicatorProviderProps = Omit<
   children: React.ReactNode
 }
 
-export type StepIndicatorProviderStates = {
+type StepIndicatorProviderStates = {
   data: (string | StepIndicatorItemProps)[]
   activeStep: number
   open: boolean

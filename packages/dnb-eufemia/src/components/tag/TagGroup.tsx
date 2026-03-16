@@ -15,7 +15,7 @@ import { TagGroupContext } from './TagContext'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export interface TagGroupProps {
+export type TagGroupProps = {
   /**
    * Aria label to describe the tag group
    * Default: null

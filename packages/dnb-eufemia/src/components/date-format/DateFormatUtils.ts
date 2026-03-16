@@ -4,7 +4,7 @@ import { convertStringToDate } from '../date-picker/DatePickerCalc'
 import { DateType } from '../date-picker/DatePickerContext'
 
 // Type definitions for Intl.DurationFormat (newer API)
-interface DurationFormatInput {
+type DurationFormatInput = {
   years?: number
   months?: number
   weeks?: number
@@ -14,15 +14,15 @@ interface DurationFormatInput {
   seconds?: number
 }
 
-interface DurationFormatOptions {
+type DurationFormatOptions = {
   style?: 'long' | 'short' | 'narrow'
 }
 
-interface DurationFormat {
+type DurationFormat = {
   format(duration: DurationFormatInput): string
 }
 
-interface DurationFormatConstructor {
+type DurationFormatConstructor = {
   new (locale?: string, options?: DurationFormatOptions): DurationFormat
 }
 

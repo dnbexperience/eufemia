@@ -119,7 +119,7 @@ export type ValueInternalsRef = Record<
   { props: ValueProps | undefined }
 >
 
-export interface ContextState {
+export type ContextState = {
   id?: SharedStateId
   hasContext: boolean
   /** The dataset for the form / form wizard */

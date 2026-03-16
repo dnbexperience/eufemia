@@ -1,6 +1,6 @@
 import React from 'react'
 
-export type useHandleSortStateOptions = {
+export type UseHandleSortStateOptions = {
   /**
    * Defines if the current column should be active or not.
    * Defaults to false.
@@ -11,53 +11,53 @@ export type useHandleSortStateOptions = {
    * Define the sorting direction. Can be "asc", "desc" or "off".
    * Defaults to "off".
    */
-  direction?: useHandleSortStateDirection
+  direction?: UseHandleSortStateDirection
 
   /**
    * Define the possible modes.
    * Defaults to ["asc", "desc", "off"].
    */
-  modes?: Array<useHandleSortStateMode>
+  modes?: Array<UseHandleSortStateMode>
 }
-export type useHandleSortStateDirection = 'asc' | 'desc' | 'off'
-export type useHandleSortStateMode = 'asc' | 'desc' | 'off'
-export type useHandleSortStateName = string
-export type useHandleSortStateConfig = Record<
-  useHandleSortStateName,
-  useHandleSortStateOptions
+export type UseHandleSortStateDirection = 'asc' | 'desc' | 'off'
+export type UseHandleSortStateMode = 'asc' | 'desc' | 'off'
+export type UseHandleSortStateName = string
+export type UseHandleSortStateConfig = Record<
+  UseHandleSortStateName,
+  UseHandleSortStateOptions
 >
 export type SortState = Record<
-  useHandleSortStateName,
+  UseHandleSortStateName,
   {
     active: boolean
     reversed: boolean
-    direction: useHandleSortStateDirection | 'off'
+    direction: UseHandleSortStateDirection | 'off'
   }
 >
 export type SortEventHandler = () => void
-export type SortHandler = Record<useHandleSortStateName, SortEventHandler>
+export type SortHandler = Record<UseHandleSortStateName, SortEventHandler>
 
 type SortStateInternalStateOptions = Omit<
-  useHandleSortStateOptions,
+  UseHandleSortStateOptions,
   'direction'
-> & { direction: useHandleSortStateDirection | 'off' }
+> & { direction: UseHandleSortStateDirection | 'off' }
 type SortStateInternalState = SortStateInternalStateOptions & {
   reversed: boolean
-  lastDirection: useHandleSortStateDirection
+  lastDirection: UseHandleSortStateDirection
 }
 type SortStateInternalEntry = Record<
-  useHandleSortStateName,
+  UseHandleSortStateName,
   SortStateInternalStateOptions
 >
 type GetNextMode = {
-  direction: useHandleSortStateDirection
+  direction: UseHandleSortStateDirection
   opts: SortStateInternalStateOptions
-  defaults: useHandleSortStateOptions
+  defaults: UseHandleSortStateOptions
 }
 
 export function useHandleSortState(
-  config: useHandleSortStateConfig,
-  defaults: useHandleSortStateOptions = {
+  config: UseHandleSortStateConfig,
+  defaults: UseHandleSortStateOptions = {
     direction: 'off',
     modes: ['asc', 'desc', 'off'],
   }

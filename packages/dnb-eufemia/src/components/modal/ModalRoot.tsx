@@ -4,12 +4,13 @@ import { ModalContentProps } from './types'
 import PortalRoot from '../PortalRoot'
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface Window {
     __modalRoot: HTMLElement
   }
 }
 
-export interface ModalRootProps extends ModalContentProps {
+export type ModalRootProps = {
   /**
    * The id used internal in the modal/drawer root element. Defaults to `root`, so the element id will be `dnb-modal-root`.
    */
@@ -25,7 +26,7 @@ export interface ModalRootProps extends ModalContentProps {
 
   /** For internal use only */
   modalContentCloseRef?: React.RefObject<any>
-}
+} & ModalContentProps
 
 export default function ModalRoot({
   children = null,

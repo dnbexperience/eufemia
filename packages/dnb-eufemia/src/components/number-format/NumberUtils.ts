@@ -16,15 +16,15 @@ import { IS_MAC, IS_WIN } from '../../shared/helpers'
 import locales from '../../shared/locales'
 
 // TypeScript types
-export type formatTypes =
+export type FormatTypes =
   | 'phone'
   | 'org'
   | 'ban'
   | 'nin'
   | 'percent'
   | 'currency'
-export type formatCurrencyPosition = 'before' | 'after'
-export interface formatReturnValue {
+export type FormatCurrencyPosition = 'before' | 'after'
+export type FormatReturnValue = {
   /** The given number */
   value: number
   /** Cleans a number from unnecessary parts */
@@ -36,13 +36,13 @@ export interface formatReturnValue {
   /** Language code, like en-US */
   locale: string
   /** The given type */
-  type: formatTypes | string
+  type: FormatTypes | string
 }
-export type formatValue = string | number
-export type formatReturnType = formatReturnValue | formatValue
+export type FormatValue = string | number
+export type FormatReturnType = FormatReturnValue | FormatValue
 export type NumberFormatOptions = Record<string, unknown> | string
 
-export interface formatOptionParams {
+export type FormatOptionParams = {
   /** can be "auto" */
   locale?: string
   /** Should the number be cleaned */
@@ -88,7 +88,7 @@ export interface formatOptionParams {
     | 'symbol'
     | 'narrowSymbol'
   /** currency option */
-  currencyPosition?: formatCurrencyPosition
+  currencyPosition?: FormatCurrencyPosition
   /** hides the currency sign */
   omitCurrencySign?: boolean
   /** will remove all extra signs, like a currency sign or percent sign for the cleanedValue return when returnAria is true */
@@ -158,7 +158,7 @@ export const format = (
     options = null,
     returnAria = false,
     invalidAriaText = null,
-  }: formatOptionParams = {}
+  }: FormatOptionParams = {}
 ) => {
   value = isAbsent(value) ? ABSENT_VALUE_FORMAT : value
 

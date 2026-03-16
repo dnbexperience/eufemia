@@ -21,7 +21,7 @@ import {
 } from './PaginationHelpers'
 import PaginationContext from './PaginationContext'
 
-export interface InfinityScrollerProps {
+export type InfinityScrollerProps = {
   children?: React.ReactNode
 }
 
@@ -531,7 +531,7 @@ class InteractionMarker extends React.PureComponent<any, any> {
   }
 }
 
-export interface InfinityLoadButtonProps {
+export type InfinityLoadButtonProps = {
   element?: React.ElementType
   pressedElement?: React.ReactNode
   icon?: string
@@ -540,7 +540,7 @@ export interface InfinityLoadButtonProps {
   onClick?: (...args: any[]) => any
 }
 
-interface InfinityLoadButtonState {
+type InfinityLoadButtonState = {
   isPressed: boolean
 }
 

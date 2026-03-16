@@ -8,8 +8,8 @@ import CardContext from './CardContext'
 import Space from '../Space'
 import useId from '../../shared/helpers/useId'
 
-import type { BasicProps as FlexContainerProps } from '../flex/Container'
-import type { BasicProps as FlexItemProps } from '../flex/Item'
+import type { FlexContainerProps } from '../flex/Container'
+import type { FlexItemProps } from '../flex/Item'
 import type { SpaceTypeMedia } from '../../shared/types'
 import type { SpaceProps } from '../Space'
 
