@@ -71,23 +71,22 @@ export type TextareaKeyDownEvent = TextareaEvent<
   rows: number
 }
 
-export interface TextareaProps
-  extends Omit<
-      React.HTMLProps<HTMLElement>,
-      | 'ref'
-      | 'children'
-      | 'label'
-      | 'size'
-      | 'cols'
-      | 'rows'
-      | 'placeholder'
-      | 'onChange'
-      | 'onFocus'
-      | 'onBlur'
-      | 'onKeyDown'
-    >,
-    SpacingProps,
-    FormStatusBaseProps {
+export type TextareaProps = Omit<
+  React.HTMLProps<HTMLElement>,
+  | 'ref'
+  | 'children'
+  | 'label'
+  | 'size'
+  | 'cols'
+  | 'rows'
+  | 'placeholder'
+  | 'onChange'
+  | 'onFocus'
+  | 'onBlur'
+  | 'onKeyDown'
+> &
+  SpacingProps &
+  FormStatusBaseProps & {
   /**
    * The content value of the Textarea.
    */
@@ -175,7 +174,7 @@ export interface TextareaProps
   ref?: React.Ref<HTMLTextAreaElement> | null
 }
 
-interface TextareaComponentState {
+type TextareaComponentState = {
   textareaState: string
   value: string | null
   _value: string | undefined
@@ -686,7 +685,7 @@ class TextareaClass extends React.PureComponent<
   }
 }
 
-export interface TextareaStaticProperties extends ComponentMarkers {
+export type TextareaStaticProperties = ComponentMarkers & {
   hasValue: typeof TextareaClass.hasValue
   getValue: typeof TextareaClass.getValue
 }

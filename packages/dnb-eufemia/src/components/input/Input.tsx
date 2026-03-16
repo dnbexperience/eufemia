@@ -100,22 +100,21 @@ export type InputClearEvent = {
   event: React.MouseEvent
 }
 
-export interface InputProps
-  extends Omit<
-      React.HTMLProps<HTMLInputElement>,
-      | 'ref'
-      | 'children'
-      | 'onChange'
-      | 'onKeyDown'
-      | 'onSubmit'
-      | 'onFocus'
-      | 'onBlur'
-      | 'size'
-      | 'label'
-      | 'placeholder'
-    >,
-    SpacingProps,
-    FormStatusBaseProps {
+export type InputProps = Omit<
+  React.HTMLProps<HTMLInputElement>,
+  | 'ref'
+  | 'children'
+  | 'onChange'
+  | 'onKeyDown'
+  | 'onSubmit'
+  | 'onFocus'
+  | 'onBlur'
+  | 'size'
+  | 'label'
+  | 'placeholder'
+> &
+  SpacingProps &
+  FormStatusBaseProps & {
   /**
    * Choose between `text`, `number`, `email`, `password`, `url`, `tel` and `search`.
    */
@@ -238,12 +237,11 @@ export interface InputProps
   onClear?: (event: InputClearEvent) => void
 }
 
-export interface SubmitButtonProps
-  extends Omit<
-      React.HTMLProps<HTMLButtonElement>,
-      'ref' | 'size' | 'onSubmit'
-    >,
-    FormStatusBaseProps {
+export type SubmitButtonProps = Omit<
+  React.HTMLProps<HTMLButtonElement>,
+  'ref' | 'size' | 'onSubmit'
+> &
+  FormStatusBaseProps & {
   id?: string
   /**
    * The content value of the input.
