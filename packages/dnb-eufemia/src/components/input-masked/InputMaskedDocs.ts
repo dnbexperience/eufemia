@@ -42,8 +42,8 @@ export const inputMaskedProperties: PropertiesTableProps = {
     status: 'optional',
   },
   mask: {
-    doc: 'A mask can be defined both as a [RegExp style of characters](https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme) or a callback function. Example below. Defaults to number mask.',
-    type: ['RegExp', 'function'],
+    doc: 'A mask defined as an array of RegExp and string tokens (e.g. `[/\\d/, /\\d/, " ", /\\d/, /\\d/]`) or a single RegExp. Defaults to number mask.',
+    type: ['RegExp', 'Array<RegExp | string>'],
     status: 'optional',
   },
   allowOverflow: {
@@ -97,11 +97,6 @@ export const inputMaskedMaskOptionsProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  includeThousandsSeparator: {
-    doc: 'Whether or not to separate thousands. Defaults to `true`.',
-    type: 'boolean',
-    status: 'optional',
-  },
   thousandsSeparatorSymbol: {
     doc: "Character with which to separate thousands. Defaults to `' '`.",
     type: 'string',
@@ -125,11 +120,6 @@ export const inputMaskedMaskOptionsProperties: PropertiesTableProps = {
   integerLimit: {
     doc: 'Limit the length of the integer number. Defaults to `null` for unlimited.',
     type: 'number',
-    status: 'optional',
-  },
-  requireDecimal: {
-    doc: 'Whether or not to always include a decimal point and placeholder for decimal digits after the integer. Defaults to `false`.',
-    type: 'boolean',
     status: 'optional',
   },
   allowNegative: {

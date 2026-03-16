@@ -79,7 +79,7 @@ export interface InputMaskedProps
     SpacingProps,
     FormStatusBaseProps {
   /**
-   * A mask can be defined both as a [RegExp style of characters](https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme) or a callback function. Example below. Defaults to number mask.
+   * A mask defined as an array of RegExp and string tokens (e.g. `[/\d/, /\d/, " ", /\d/, /\d/]`) or a single RegExp. Defaults to number mask.
    */
   mask?: InputMaskedMask
   /**

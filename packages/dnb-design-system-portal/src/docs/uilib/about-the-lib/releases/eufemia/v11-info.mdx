@@ -402,6 +402,13 @@ $ pnpm add @dnb/eufemia@11
 
 ### [InputMasked](/uilib/components/input-masked/)
 
+In v11, the InputMasked component has been rewritten to use [Maskito](https://maskito.dev/) instead of the unmaintained [text-mask](https://github.com/text-mask/text-mask) library. This brings better input handling, improved mobile keyboard support, and more reliable cursor/caret behavior. The public API (`mask`, `numberMask`, `currencyMask`, `asNumber`, `asCurrency`, `asPercent`, etc.) remains the same — the masking engine underneath has changed.
+
+New props added:
+
+- `allowOverflow` – allow typing beyond the defined mask length.
+- `overwriteMode` – control how overwriting characters is handled (`shift` or `replace`).
+
 #### Properties
 
 - The deprecated `onStateUpdate` prop has been removed. Use `onChange` instead.
@@ -414,7 +421,7 @@ $ pnpm add @dnb/eufemia@11
 - Replace `as_number` with `asNumber`.
 - Replace `as_percent` with `asPercent`.
 - Replace `show_mask` with `showMask`.
-- Replace `inner_ref` with `ref`.
+- Replace `inner_ref` with `innerRef`.
 - Replace `label_sr_only` with `labelSrOnly`.
 - Replace `status_state` with `statusState`.
 - Replace `statusState`'s value `warn` with `warning`.
