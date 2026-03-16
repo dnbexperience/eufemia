@@ -565,6 +565,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         String(dateRefs.current[`${mode}Month`] || ''),
         String(dateRefs.current[`${mode}Day`] || ''),
       ]
+      const hasAnyTypedValue = Boolean(yStr || mStr || dStr)
 
       const fullyTyped =
         /^\d{4}$/.test(yStr) &&
@@ -603,7 +604,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         })
         updateInputDates({ [`${mode}${type}`]: value })
 
-        const dateString = `${y}-${m}-${d}`
+        const dateString = hasAnyTypedValue ? `${y}-${m}-${d}` : null
         invalidDatesRef.current = {
           ...invalidDatesRef.current,
           ...(mode === 'start'

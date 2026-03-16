@@ -512,6 +512,40 @@ describe('Field.Date', () => {
       ).not.toBeInTheDocument()
     })
 
+    it('should not display error if a typed valid value is cleared/removed', async () => {
+      render(<Field.Date />)
+
+      const [day, month, year]: Array<HTMLInputElement> = Array.from(
+        document.querySelectorAll('.dnb-date-picker__input')
+      )
+
+      await userEvent.click(day)
+      await userEvent.keyboard('16012023')
+      await userEvent.click(document.body)
+
+      await waitFor(() => {
+        expect(day).toHaveValue('16')
+        expect(month).toHaveValue('01')
+        expect(year).toHaveValue('2023')
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).not.toBeInTheDocument()
+      })
+
+      await userEvent.click(year)
+      await userEvent.keyboard('{Backspace>16}')
+      await userEvent.click(document.body)
+
+      await waitFor(() => {
+        expect(day).toHaveValue('dd')
+        expect(month).toHaveValue('mm')
+        expect(year).toHaveValue(nbYearPlaceholder)
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).not.toBeInTheDocument()
+      })
+    })
+
     it('should display error if a valid value is cleared/removed when required', async () => {
       render(<Field.Date value="2023-01-16" required />)
 
@@ -568,6 +602,40 @@ describe('Field.Date', () => {
       await userEvent.click(document.body)
 
       await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).not.toBeInTheDocument()
+      })
+    })
+
+    it('should clear invalid date error when all values are removed', async () => {
+      render(<Field.Date />)
+
+      const [day, month, year]: Array<HTMLInputElement> = Array.from(
+        document.querySelectorAll('.dnb-date-picker__input')
+      )
+
+      await userEvent.click(day)
+      await userEvent.keyboard('39192025')
+      await userEvent.click(document.body)
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status__text')
+        ).toHaveTextContent(nb.Date.errorInvalidDate)
+      })
+
+      await userEvent.click(year)
+      await userEvent.keyboard('{Backspace>16}')
+      await userEvent.click(document.body)
+
+      await waitFor(() => {
+        expect(day).toHaveValue('dd')
+        expect(month).toHaveValue('mm')
+        expect(year).toHaveValue(nbYearPlaceholder)
         expect(
           document.querySelector('.dnb-form-status--error')
         ).not.toBeInTheDocument()
