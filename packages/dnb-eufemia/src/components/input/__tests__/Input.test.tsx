@@ -258,6 +258,30 @@ describe('Input component', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('should keep placeholder element in DOM during focus when value is empty', () => {
+    render(<Input {...props} placeholder="My placeholder" />)
+
+    const input = document.querySelector('input')
+    const placeholder = () =>
+      document.querySelector('.dnb-input__placeholder')
+
+    expect(placeholder()).toBeInTheDocument()
+    expect(placeholder().textContent).toBe('My placeholder')
+
+    fireEvent.focus(input)
+
+    // Placeholder element stays in the DOM — CSS handles visual hiding on focus
+    expect(placeholder()).toBeInTheDocument()
+
+    fireEvent.change(input, { target: { value: 'typed' } })
+
+    expect(placeholder()).not.toBeInTheDocument()
+
+    fireEvent.change(input, { target: { value: '' } })
+
+    expect(placeholder()).toBeInTheDocument()
+  })
+
   it('has correct state after setting "value" prop using placeholder (set by getDerivedStateFromProps)', () => {
     const { rerender } = render(<Input placeholder="Placeholder" />)
 

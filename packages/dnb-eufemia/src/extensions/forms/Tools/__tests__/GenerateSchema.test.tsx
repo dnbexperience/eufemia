@@ -106,8 +106,9 @@ describe('Tools.GenerateSchema', () => {
           "path": "/myField",
           "ref": {
             "current": <input
+              autocomplete="off"
               class="dnb-input__input"
-              id="id-rm"
+              id="id-rp"
               name="myField"
               type="text"
             />,
@@ -121,8 +122,9 @@ describe('Tools.GenerateSchema', () => {
             "ref": {
               "current": <input
                 aria-required="true"
+                autocomplete="off"
                 class="dnb-input__input"
-                id="id-rs"
+                id="id-r10"
                 name="nested/myString"
                 type="text"
               />,
@@ -155,8 +157,9 @@ describe('Tools.GenerateSchema', () => {
           "ref": {
             "current": <input
               aria-required="true"
+              autocomplete="off"
               class="dnb-input__input"
-              id="id-rm"
+              id="id-rp"
               name="myString"
               type="text"
             />,
@@ -169,8 +172,9 @@ describe('Tools.GenerateSchema', () => {
           "ref": {
             "current": <input
               aria-required="true"
+              autocomplete="off"
               class="dnb-input__input"
-              id="id-rm"
+              id="id-rp"
               name="myString"
               type="text"
             />,
