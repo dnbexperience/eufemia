@@ -18,7 +18,7 @@ export const useNumberMask = () => {
   const mask = useMemo(() => {
     return createNumberMask(mP)
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- list individual mP properties instead of the object reference to avoid rebuilding the mask on every render when only the reference changes
   }, [
     // Include all properties that affect mask behavior
     mP.thousandsSeparatorSymbol,

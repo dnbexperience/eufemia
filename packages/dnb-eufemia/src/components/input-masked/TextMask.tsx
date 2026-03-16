@@ -145,7 +145,7 @@ export default function TextMask(props: TextMaskProps): React.JSX.Element {
       ...(overwriteMode != null ? { overwriteMode } : {}),
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- list individual maskParams properties instead of the object reference to avoid rebuilding the mask on every render when only the reference changes
   }, [
     rawMask,
     allowOverflow,
