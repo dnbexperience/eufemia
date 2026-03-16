@@ -42,7 +42,6 @@ import { getThemeClasses } from '../../shared/Theme'
 import { Context } from '../../shared'
 import type { ContextProps } from '../../shared/Context'
 
-
 declare global {
   // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface Window {

@@ -40,7 +40,6 @@ import type { ButtonProps } from '../button/Button'
 
 export const ANIMATION_DURATION = 300
 
-
 export type ModalAllProps = ModalProps &
   SpacingProps &
   Omit<ScrollViewAllProps, 'children'>
