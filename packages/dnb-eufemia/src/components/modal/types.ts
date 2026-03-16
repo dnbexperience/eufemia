@@ -3,9 +3,10 @@ import type { CloseButtonProps } from './parts/CloseButton'
 import type { ButtonProps } from '../button/Button'
 import type { ModalRootProps } from './ModalRoot'
 
-type ModalFullscreen = 'auto' | boolean
-type ModalContentMinWidth = string | number
-type ModalContentMaxWidth = string | number
+export type ModalFullscreen = 'auto' | boolean
+export type ModalAlignContent = 'left' | 'center' | 'centered' | 'right'
+export type ModalContentMinWidth = string | number
+export type ModalContentMaxWidth = string | number
 
 export type TriggeredBy =
   | 'handler'
@@ -245,7 +246,7 @@ export type ModalContentProps = {
   /**
    * Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.
    */
-  alignContent?: 'left' | 'center' | 'centered' | 'right'
+  alignContent?: ModalAlignContent
 
   /**
    * For `drawer` mode only. Defines the placement on what side the Drawer should be opened. Can be set to `left`, `right`, `top` and `bottom`. Defaults to `right`.
