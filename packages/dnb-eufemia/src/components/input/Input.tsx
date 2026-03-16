@@ -582,6 +582,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     placeholder,
     clear,
     keepPlaceholder,
+    omitInputShellClass,
     suffix,
     align,
     inputClass,
@@ -723,8 +724,8 @@ function InputComponent({ ref, ...restProps }: InputProps) {
 
   const shellParams = {
     className: clsx(
-      'dnb-input__shell',
-      'dnb-input__border',
+      !omitInputShellClass && 'dnb-input__shell',
+      !omitInputShellClass && 'dnb-input__border',
       createSkeletonClass('shape', skeleton, context)
     ),
   }
