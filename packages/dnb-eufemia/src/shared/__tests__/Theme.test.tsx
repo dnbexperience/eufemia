@@ -134,6 +134,19 @@ describe('Theme', () => {
     expect(element.tagName).toBe('SECTION')
   })
 
+  it('Theme.Context provides theme without wrapper element', () => {
+    const { getByText } = render(
+      <Theme.Context name="eiendom" variant="soft">
+        content
+      </Theme.Context>
+    )
+
+    expect(
+      document.querySelector('.eufemia-theme')
+    ).not.toBeInTheDocument()
+    expect(getByText('content')).toBeInTheDocument()
+  })
+
   it('will omit element on false or fragment', () => {
     const { rerender } = render(<Theme element={false}>content</Theme>)
 
