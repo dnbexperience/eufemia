@@ -250,19 +250,7 @@ export default function TextMask(props: TextMaskProps): React.JSX.Element {
     }
 
     // For numeric masks, strip existing prefix/suffix before transforming
-    let cleanValue = String(valueToTransform)
-    if (
-      typeof rawMask === 'object' &&
-      rawMask !== null &&
-      'maskParams' in rawMask
-    ) {
-      const mp = rawMask.maskParams as MaskParams
-      cleanValue = stripAffixes(
-        cleanValue,
-        mp.prefix ?? '',
-        mp.suffix ?? ''
-      )
-    }
+    const cleanValue = cleanNumericValue(String(valueToTransform), rawMask)
 
     const selection: readonly [number, number] = [
       el.selectionStart ?? cleanValue.length,
@@ -321,19 +309,7 @@ export default function TextMask(props: TextMaskProps): React.JSX.Element {
     }
 
     // For numeric masks, extract the numeric part before formatting
-    let cleanValue = raw
-    if (
-      typeof rawMask === 'object' &&
-      rawMask !== null &&
-      'maskParams' in rawMask
-    ) {
-      const mp = rawMask.maskParams as MaskParams
-      cleanValue = stripAffixes(
-        cleanValue,
-        mp.prefix ?? '',
-        mp.suffix ?? ''
-      )
-    }
+    const cleanValue = cleanNumericValue(raw, rawMask)
 
     const { value: formatted } = maskitoTransform(
       {
@@ -498,6 +474,23 @@ function stripAffixes(
   }
 
   return result
+}
+
+/**
+ * If the mask is a numeric mask (has maskParams), strip prefix/suffix from the value.
+ * Otherwise return the value unchanged.
+ */
+function cleanNumericValue(value: string, rawMask: TextMaskMask): string {
+  if (
+    typeof rawMask === 'object' &&
+    rawMask !== null &&
+    'maskParams' in rawMask
+  ) {
+    const mp = rawMask.maskParams as MaskParams
+    return stripAffixes(value, mp.prefix ?? '', mp.suffix ?? '')
+  }
+
+  return value
 }
 
 function createMaskitoNumberOptions(mp: {

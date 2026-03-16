@@ -907,6 +907,17 @@ function syncSlotsOnInput({
     'insertReplacementText',
     'deleteContentBackward',
     'deleteContentForward',
+    'insertCompositionText',
+    'insertFromPaste',
+    'insertFromDrop',
+    'deleteByCut',
+    'deleteWordBackward',
+    'deleteWordForward',
+    'deleteSoftLineBackward',
+    'deleteSoftLineForward',
+    'deleteHardLineBackward',
+    'deleteHardLineForward',
+    'insertFromYank',
   ])
   const type = inputType || ''
   if (handledByKeyDown && (type === '' || controlledTypes.has(type))) {
