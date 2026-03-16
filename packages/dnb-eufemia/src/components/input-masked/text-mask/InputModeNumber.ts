@@ -16,8 +16,6 @@ export default class InputModeNumber {
   _width: number
   _cssText: string
   _placeholder: string
-  _selectionStart: number
-  _selectionEnd: number
 
   setElement(element: HTMLInputElement) {
     if (!IS_IOS) {
@@ -114,8 +112,6 @@ export default class InputModeNumber {
     this._width = this.inputElement.offsetWidth
     this._cssText = this.inputElement.style.cssText
     this._placeholder = this.inputElement.placeholder
-    this._selectionStart = this.inputElement.selectionStart
-    this._selectionEnd = this.inputElement.selectionEnd
 
     // To prevent flickering, show the placeholder, while the input value is "empty".
     this.inputElement.placeholder = this._value
@@ -151,14 +147,10 @@ export default class InputModeNumber {
         this.inputElement.value = this._value
       }
       this.inputElement.placeholder = this._placeholder
-      if (
-        typeof this._selectionStart === 'number' &&
-        typeof this._selectionEnd === 'number' &&
-        this._selectionStart >= 0
-      ) {
-        this.inputElement.selectionStart = this._selectionStart
-        this.inputElement.selectionEnd = this._selectionEnd
-      }
+      // Do not restore the saved selection here — on iOS Safari the browser
+      // resolves the tap location after the type-toggle completes. Forcing the
+      // old selection back would override the user's intended caret position,
+      // causing a visible jump.
       this.inputElement['runCorrectCaretPosition']?.()
     } catch (error) {
       console.error(error)
