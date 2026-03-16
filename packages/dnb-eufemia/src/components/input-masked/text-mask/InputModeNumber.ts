@@ -97,15 +97,10 @@ export default class InputModeNumber {
       return // stop here
     }
 
-    // Keep the iOS type-toggle hack to stabilize numeric keyboard after programmatic focus.
-    // However, in test environments JSDOM does not fully support type switching + selection
-    // on <input type="number">. If inputmode is present while testing, skip the hack.
-    const hasInputModeAttr = this.inputElement.hasAttribute('inputmode')
-    const inputModeValue = this.inputElement.getAttribute('inputmode')
-    const isTestEnv =
-      typeof process !== 'undefined' && process.env?.NODE_ENV === 'test'
-    if (isTestEnv && hasInputModeAttr && inputModeValue) {
-      return // stop here for tests
+    // When an explicit inputmode attribute is set (e.g. "numeric", "decimal"),
+    // the browser already shows the correct keyboard — no type-toggle needed.
+    if (this.inputElement.getAttribute('inputmode')) {
+      return // stop here
     }
 
     this._value = this.inputElement.value
