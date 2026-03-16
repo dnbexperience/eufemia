@@ -66,12 +66,7 @@ export type GlobalStatusConfigObject = {
 }
 export type GlobalStatusChildren = string | React.ReactNode
 
-export interface GlobalStatusProps
-  extends Omit<
-      React.HTMLProps<HTMLElement>,
-      'ref' | 'children' | 'onClose' | 'onAdjust' | 'onShow' | 'title'
-    >,
-    SpacingProps {
+export type GlobalStatusProps = {
   /**
    * The main ID. Defaults to `main`.
    */
@@ -156,7 +151,11 @@ export interface GlobalStatusProps
   onShow?: (globalStatus: Record<string, unknown>) => void
   onClose?: (globalStatus: Record<string, unknown>) => void
   onHide?: (globalStatus: Record<string, unknown>) => void
-}
+} & Omit<
+  React.HTMLProps<HTMLElement>,
+  'ref' | 'children' | 'onClose' | 'onAdjust' | 'onShow' | 'title'
+> &
+  SpacingProps
 
 export type GlobalStatusStatusId = string
 export type GlobalStatusAddProps = {
@@ -232,7 +231,7 @@ export type GlobalStatusInterceptorUpdateEvents = {
   text?: string
 }
 
-interface GlobalStatusComponentState {
+type GlobalStatusComponentState = {
   globalStatus: any
   isActive: boolean
   isAnimating?: boolean

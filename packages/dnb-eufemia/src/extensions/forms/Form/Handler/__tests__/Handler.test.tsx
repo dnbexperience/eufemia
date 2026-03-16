@@ -1379,7 +1379,7 @@ describe('Form.Handler TypeScript type validation', () => {
     })
 
     it('should throw a type error when interface is used', () => {
-      interface MyInterface {
+      type MyInterface = {
         foo: string
       }
 
@@ -1387,14 +1387,7 @@ describe('Form.Handler TypeScript type validation', () => {
         data.foo satisfies string
       }
 
-      render(
-        <Form.Handler
-          // @ts-expect-error
-          onSubmit={submitHandler}
-        >
-          ...
-        </Form.Handler>
-      )
+      render(<Form.Handler onSubmit={submitHandler}>...</Form.Handler>)
     })
   })
 
@@ -1430,12 +1423,11 @@ describe('Form.Handler TypeScript type validation', () => {
     })
 
     it('should throw a type error when interface is used', () => {
-      interface MyInterface {
+      type MyInterface = {
         foo: string
       }
 
       render(
-        // @ts-expect-error
         <Form.Handler<MyInterface>
           onSubmit={(data) => {
             data.foo satisfies string

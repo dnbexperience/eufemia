@@ -4,7 +4,7 @@ import { useHeightAnimation } from '../../height-animation/useHeightAnimation'
 import { TableAccordionContext } from './TableAccordionContext'
 import type { TableAccordionContentRowProps } from './TableAccordionContent'
 
-export type useTableAnimationHandlerProps = {
+export type UseTableAnimationHandlerProps = {
   /**
    * Ref to <div> inside the <tr> element being expanded/collapsed
    */
@@ -20,7 +20,7 @@ export function useTableAnimationHandler({
   trRef,
   expanded,
   noAnimation,
-}: useTableAnimationHandlerProps & TableAccordionContentRowProps) {
+}: UseTableAnimationHandlerProps & TableAccordionContentRowProps) {
   const tableAccordionContext = React.useContext(TableAccordionContext)
   const [ariaLive, setAriaLive] = React.useState(null)
   const open = Boolean(expanded || tableAccordionContext?.trIsOpen)

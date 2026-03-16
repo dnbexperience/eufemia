@@ -16,7 +16,7 @@ import {
 import PaginationContext from './PaginationContext'
 import type { PaginationProps } from './Pagination'
 
-export interface PaginationProviderProps extends PaginationProps {
+export type PaginationProviderProps = PaginationProps & {
   rerender?: { current?: (...args: any[]) => any }
   store?: { current?: any }
   useMarkerOnly?: boolean
@@ -24,7 +24,7 @@ export interface PaginationProviderProps extends PaginationProps {
   [key: string]: unknown
 }
 
-interface PaginationProviderState {
+type PaginationProviderState = {
   items: any[]
   isLoading: boolean
   currentPageInternal?: number

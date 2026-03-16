@@ -93,7 +93,7 @@ export type ItemContentChildren =
   | React.ReactNode
   | DrawerListDataArrayObject
 
-export interface ItemContentProps {
+export type ItemContentProps = {
   hash?: string
   children?: ItemContentChildren
 }

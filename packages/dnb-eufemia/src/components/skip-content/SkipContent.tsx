@@ -5,7 +5,7 @@ import HeightAnimation from '../height-animation/HeightAnimation'
 import { applyPageFocus } from '../../shared/helpers'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export interface SkipContentProps {
+export type SkipContentProps = {
   /**
    * Define an existing `Section` id to focus when the inner button got pressed.
    * Required
@@ -27,9 +27,9 @@ export interface SkipContentProps {
 
 export type SkipContentAllProps = SkipContentProps & ButtonProps
 
-interface FocusEvent<T = Element> extends React.SyntheticEvent<T> {
+type FocusEvent<T = Element> = {
   target: EventTarget & T
-}
+} & React.SyntheticEvent<T>
 
 const SkipContent = (localProps: SkipContentAllProps) => {
   const {

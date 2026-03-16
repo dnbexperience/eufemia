@@ -292,6 +292,14 @@ export default [
           caughtErrorsIgnorePattern: '^_',
         },
       ],
+      '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+      '@typescript-eslint/naming-convention': [
+        'error',
+        {
+          selector: 'typeAlias',
+          format: ['PascalCase'],
+        },
+      ],
     },
   },
   ...basePlugins.extends('plugin:jest/recommended').map((config) => ({

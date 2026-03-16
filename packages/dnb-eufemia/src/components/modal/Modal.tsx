@@ -31,7 +31,7 @@ import type { ButtonProps } from '../button/Button'
 
 export const ANIMATION_DURATION = 300
 
-interface ModalState {
+type ModalState = {
   hide: boolean
   modalActive: boolean
   preventAutoFocus: boolean

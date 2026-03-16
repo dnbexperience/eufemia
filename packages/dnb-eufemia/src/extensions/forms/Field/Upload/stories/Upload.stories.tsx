@@ -203,7 +203,7 @@ export const AsyncEverything = () => {
   )
 }
 
-interface DocumentMetadata {
+type DocumentMetadata = {
   id: string
   fileName: string
 }

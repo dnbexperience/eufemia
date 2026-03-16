@@ -35,19 +35,20 @@ import { getThemeClasses } from '../../shared/Theme'
 import { Context } from '../../shared'
 import { ContextProps } from '../../shared/Context'
 
-interface ModalContentState {
+type ModalContentState = {
   color: string
 }
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface Window {
     __modalStack: any[]
   }
 }
 
-interface CSSPropertiesWithVars extends React.CSSProperties {
+type CSSPropertiesWithVars = {
   '--modal-background-color': string
-}
+} & React.CSSProperties
 
 export default class ModalContent extends React.PureComponent<
   ModalContentProps,

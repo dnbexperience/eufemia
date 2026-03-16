@@ -11,11 +11,10 @@ export type SkeletonTableChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode
-export interface SkeletonTableProps
-  extends Omit<React.HTMLProps<HTMLDivElement>, 'rows' | 'children'> {
+export type SkeletonTableProps = {
   rows?: SkeletonTableRows
   children?: SkeletonTableChildren
-}
+} & Omit<React.HTMLProps<HTMLDivElement>, 'rows' | 'children'>
 
 function SkeletonTable({
   rows = 3,

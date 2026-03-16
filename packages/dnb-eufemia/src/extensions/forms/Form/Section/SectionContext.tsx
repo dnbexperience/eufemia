@@ -2,7 +2,7 @@ import React from 'react'
 import { Path } from '../../types'
 import { SectionProps } from '.'
 
-export interface SectionContextState {
+export type SectionContextState = {
   path?: Path
   props?: SectionProps
   errorPrioritization?: Array<

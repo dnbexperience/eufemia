@@ -10,7 +10,7 @@ import Section, { SectionProps } from '../../section/Section'
 import ModalContext from '../ModalContext'
 import H1 from '../../../elements/H1'
 
-export interface ModalHeaderProps extends Omit<SectionProps, 'children'> {
+export type ModalHeaderProps = {
   /**
    * The content which will appear when triggering the modal/drawer.
    */
@@ -36,7 +36,7 @@ export interface ModalHeaderProps extends Omit<SectionProps, 'children'> {
    * Default is `large`
    */
   size?: 'medium' | 'large' | 'x-large' | 'xx-large'
-}
+} & Omit<SectionProps, 'children'>
 
 export default function ModalHeader({
   title = null,

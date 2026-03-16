@@ -9,7 +9,7 @@ import { fireEvent, render, act } from '@testing-library/react'
 import Slider, { SliderMarker } from '../Slider'
 import * as PopoverModule from '../../popover/Popover'
 
-import type { SliderAllProps, onChangeEventProps } from '../Slider'
+import type { SliderAllProps, SliderOnChangeParams } from '../Slider'
 import { format } from '../../number-format/NumberUtils'
 import { Provider } from '../../../shared'
 
@@ -603,13 +603,13 @@ describe('Slider component', () => {
   describe('multi thumb', () => {
     const SliderWithStateUpdate = (props: SliderAllProps) => {
       const [value, setValue] = React.useState(props.value)
-      const onChangehandler = (event: onChangeEventProps) => {
+      const onChangeHandler = (event: SliderOnChangeParams) => {
         setValue(event.value)
         if (props.onChange) {
           props.onChange(event)
         }
       }
-      return <Slider {...props} value={value} onChange={onChangehandler} />
+      return <Slider {...props} value={value} onChange={onChangeHandler} />
     }
 
     it('will not emit onChange with same value twice', () => {

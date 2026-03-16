@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import ModalInner, { ModalInnerProps } from '../../modal/parts/ModalInner'
 import type { SectionStyleTypes } from '../../Section'
 
-interface DialogBodyProps extends ModalInnerProps {
+type DialogBodyProps = {
   /**
    * Give the inner content wrapper a class name (maps to `dnb-dialog__body`).
    */
@@ -13,7 +13,7 @@ interface DialogBodyProps extends ModalInnerProps {
    * Color/Style of the dialog body
    */
   styleType?: SectionStyleTypes
-}
+} & ModalInnerProps
 
 export default function DialogBody({
   className,
