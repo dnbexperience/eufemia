@@ -1,0 +1,284 @@
+/**
+ * Web GlobalStatus Component
+ *
+ * This is a legacy component.
+ * For referencing while developing new features, please use a Functional component.
+ */
+import React from 'react';
+import Context from '../../shared/Context';
+import type { HeightAnimationOnStartTypes, HeightAnimationOnEndTypes } from '../height-animation/useHeightAnimation';
+import GlobalStatusController, { GlobalStatusRemove } from './GlobalStatusController';
+import GlobalStatusProvider from './GlobalStatusProvider';
+import type { FormStatusText } from '../FormStatus';
+import type { IconIcon, IconSize } from '../Icon';
+import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
+export type GlobalStatusTitle = React.ReactNode | boolean;
+export type GlobalStatusText = string | React.ReactNode;
+export type GlobalStatusItem = string | {
+    text?: React.ReactNode;
+    id?: string | number;
+    itemId?: string;
+    statusAnchorLabel?: React.ReactNode;
+    statusAnchorText?: string;
+    statusAnchorUrl?: string | boolean;
+    [key: string]: unknown;
+};
+export type GlobalStatusState = 'error' | 'info' | 'warning' | 'success';
+export type GlobalStatusShow = 'auto' | boolean;
+export type GlobalStatusDelay = string | number;
+export type GlobalStatusConfigObject = {
+    /**
+     * The main ID. Defaults to `main`.
+     */
+    id?: string;
+    message?: FormStatusText;
+};
+export type GlobalStatusChildren = string | React.ReactNode;
+export interface GlobalStatusProps extends Omit<React.HTMLProps<HTMLElement>, 'ref' | 'children' | 'onClose' | 'onAdjust' | 'onShow' | 'title'>, SpacingProps {
+    /**
+     * The main ID. Defaults to `main`.
+     */
+    id?: string;
+    statusId?: string;
+    /**
+     * The title appears as a part of the status content. Defaults to `En feil har skjedd`.
+     */
+    title?: GlobalStatusTitle;
+    defaultTitle?: string;
+    /**
+     * The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
+     */
+    text?: GlobalStatusText;
+    /**
+     * The items (list items) appear as a part of the status content. you can both use an JSON array, or a vanilla array with a string or an object content. See **Item Object** example below.
+     */
+    items?: GlobalStatusItem[];
+    /**
+     * The icon shown before the status title. Defaults to `exclamation`.
+     */
+    icon?: IconIcon;
+    /**
+     * The icon size of the title icon shows. Defaults to `medium`.
+     */
+    iconSize?: IconSize;
+    /**
+     * Defines the visual appearance of the status. There are four main statuses `error`, `warning`, `info` and `success`. The default status is `error`.
+     */
+    state?: GlobalStatusState;
+    /**
+     * Set to `true` or `false` to manually make the global status visible. Defaults to `true`.
+     */
+    show?: GlobalStatusShow;
+    /**
+     * Set to `true` to automatically scroll the page to the appeared global status. Defaults to `true`.
+     */
+    autoScroll?: boolean;
+    /**
+     * Set to `true` to automatically close the global status if there are no more left items in the provider stack. Defaults to `true`.
+     */
+    autoClose?: boolean;
+    /**
+     * Set to `true` to disable the show/hide/slide/fade/grow/shrink animation. Defaults to `false`.
+     */
+    noAnimation?: boolean;
+    /**
+     * Defines the delay on how long the automated visibility should wait before it appears to the user. Defaults to `200ms`.
+     */
+    delay?: GlobalStatusDelay;
+    /**
+     * Text of the close button. Defaults to `Lukk`.
+     */
+    closeText?: React.ReactNode;
+    /**
+     * Set to `true` if the close button should be hidden for the user. Defaults to `false`.
+     */
+    hideCloseButton?: boolean;
+    /**
+     * Set to `true` to omit setting the focus during visibility. Defaults to `false`. Additionally, there is `omitSetFocusOnUpdate` which is set to `true` by default.
+     */
+    omitSetFocus?: boolean;
+    /**
+     * Set to `true` to omit setting the focus during update. Defaults to `true`.
+     */
+    omitSetFocusOnUpdate?: boolean;
+    /**
+     * Defines the anchor text showing up after every item, in case there is a `statusId` defined. Defaults to `Gå til %s`. The `%s` represents the optional and internal handled label addition.
+     */
+    statusAnchorText?: React.ReactNode;
+    /**
+     * If set to `true`, an overlaying skeleton with animation will be shown.
+     */
+    skeleton?: SkeletonShow;
+    className?: string;
+    /**
+     * The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
+     */
+    children?: GlobalStatusChildren;
+    onAdjust?: (globalStatus: Record<string, unknown>) => void;
+    onOpen?: (globalStatus: Record<string, unknown>) => void;
+    onShow?: (globalStatus: Record<string, unknown>) => void;
+    onClose?: (globalStatus: Record<string, unknown>) => void;
+    onHide?: (globalStatus: Record<string, unknown>) => void;
+}
+export type GlobalStatusStatusId = string;
+export type GlobalStatusAddProps = {
+    /**
+     * The main ID. Defaults to `main`.
+     */
+    id: string;
+    statusId: GlobalStatusStatusId;
+    /**
+     * The title appears as a part of the status content. Defaults to `En feil har skjedd`.
+     */
+    title?: string;
+    /**
+     * The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
+     */
+    text: string;
+    item?: GlobalStatusItem;
+    /**
+     * The items (list items) appear as a part of the status content. you can both use an JSON array, or a vanilla array with a string or an object content. See **Item Object** example below.
+     */
+    items?: GlobalStatusItem[];
+    onClose?: ({ statusId }: {
+        statusId: GlobalStatusStatusId;
+    }) => void;
+};
+export type GlobalStatusUpdateProps = {
+    /**
+     * The main ID. Defaults to `main`.
+     */
+    id: string;
+    /**
+     * The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
+     */
+    text: string;
+};
+export type GlobalStatusRemoveProps = {
+    /**
+     * The main ID. Defaults to `main`.
+     */
+    id: string;
+    statusId: GlobalStatusStatusId;
+    bufferDelay?: number;
+};
+export type GlobalStatusInterceptorProps = {
+    /**
+     * The main ID. Defaults to `main`.
+     */
+    id: string;
+    /**
+     * The title appears as a part of the status content. Defaults to `En feil har skjedd`.
+     */
+    title?: string;
+    /**
+     * The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
+     */
+    text?: string;
+    statusId?: GlobalStatusStatusId;
+    /**
+     * Set to `true` or `false` to manually make the global status visible. Defaults to `true`.
+     */
+    show?: boolean;
+    item?: GlobalStatusItem;
+};
+export type GlobalStatusInterceptorUpdateEvents = {
+    onShow?: (globalStatus: Record<string, unknown>) => void;
+    onHide?: (globalStatus: Record<string, unknown>) => void;
+    onClose?: (globalStatus: Record<string, unknown>) => void;
+    /**
+     * Set to `true` or `false` to manually make the global status visible. Defaults to `true`.
+     */
+    show?: boolean;
+    /**
+     * The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
+     */
+    text?: string;
+};
+interface GlobalStatusComponentState {
+    globalStatus: any;
+    isActive: boolean;
+    isAnimating?: boolean;
+}
+export default class GlobalStatus extends React.PureComponent<GlobalStatusProps, GlobalStatusComponentState> {
+    static contextType: React.Context<import("../../shared/Context").ContextProps>;
+    context: React.ContextType<typeof Context>;
+    static create: (props: GlobalStatusInterceptorProps) => any;
+    static Update: (props: GlobalStatusInterceptorProps) => any;
+    static Add: typeof GlobalStatusController;
+    static Remove: typeof GlobalStatusRemove;
+    _wrapperRef: React.RefObject<HTMLDivElement | null>;
+    provider: ReturnType<typeof GlobalStatusProvider.create>;
+    _globalStatus: any;
+    _hadContent: boolean;
+    initialActiveElement: Element | null;
+    _scrollToStatusTimeout: ReturnType<typeof setTimeout> | null;
+    static defaultProps: {
+        id: string;
+        statusId: string;
+        title: any;
+        defaultTitle: any;
+        text: any;
+        items: any[];
+        icon: string;
+        iconSize: string;
+        state: string;
+        show: string;
+        autoScroll: boolean;
+        autoClose: boolean;
+        noAnimation: boolean;
+        closeText: string;
+        hideCloseButton: boolean;
+        omitSetFocus: boolean;
+        omitSetFocusOnUpdate: boolean;
+        delay: any;
+        statusAnchorText: any;
+        skeleton: any;
+        className: any;
+        children: any;
+        onAdjust: any;
+        onOpen: any;
+        onShow: any;
+        onClose: any;
+        onHide: any;
+    };
+    static getIcon({ state, icon, iconSize, }: {
+        state?: string;
+        icon?: any;
+        iconSize?: IconSize;
+        theme?: string;
+    }): any;
+    static getDerivedStateFromProps(props: GlobalStatusProps, state: GlobalStatusComponentState & {
+        _items?: GlobalStatusItem[];
+    }): {
+        globalStatus: any;
+        _items: GlobalStatusItem[];
+    };
+    state: {
+        globalStatus: any;
+        isActive: boolean;
+    };
+    constructor(props: GlobalStatusProps);
+    componentWillUnmount(): void;
+    componentDidUpdate(prevProps: GlobalStatusProps): void;
+    hasContent(globalStatus: Record<string, any>): boolean;
+    correctStatus(state: string | undefined): string;
+    isPassive: () => boolean;
+    setVisible: () => void;
+    setHidden: () => void;
+    onKeyDownHandler: (e: React.KeyboardEvent) => void;
+    setFocus(): void;
+    closeHandler: () => void;
+    scrollToStatus(isDone?: ((elem: HTMLElement) => void) | null): Promise<void>;
+    gotoItem: (event: React.MouseEvent | React.KeyboardEvent, item: Record<string, any>) => void;
+    itemsRenderHandler: ({ statusAnchorText, lang }: {
+        statusAnchorText: any;
+        lang: any;
+    }) => (item: any, i: any) => import("react/jsx-runtime").JSX.Element;
+    onAnimationStart: (state: HeightAnimationOnStartTypes) => void;
+    onAnimationEnd: (state: HeightAnimationOnEndTypes) => void;
+    onOpen: (isOpened: boolean) => void;
+    render(): import("react/jsx-runtime").JSX.Element;
+}
+export {};

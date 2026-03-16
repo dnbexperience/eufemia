@@ -1,7 +1,5 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import React, { RefObject, useRef } from 'react'
-import type { RefObject } from 'react'
-import React, { useRef } from 'react'
+import React, { type RefObject, useRef } from 'react'
 import Input from '../Input'
 import type { InputProps } from '../Input'
 import TextMask from './TextMask'

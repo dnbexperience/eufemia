@@ -1,10 +1,8 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import Container from '../Container'
-import ItemContent, { ItemContentProps } from '../ItemContent'
+import ItemContent, { type ItemContentProps } from '../ItemContent'
 import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
-import type { ItemContentProps } from '../ItemContent'
-import ItemContent from '../ItemContent'
 
 describe('ItemContent', () => {
   it('renders with props as an object', () => {

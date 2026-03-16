@@ -6,13 +6,11 @@
 import React, { createContext, useContext } from 'react'
 import clsx from 'clsx'
 import Typography, {
-  TypographySize,
-  TypographyProps,
+  type TypographySize,
+  type TypographyProps,
   TypographyContext,
 } from './Typography'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import type { TypographySize, TypographyProps } from './Typography'
-import Typography, { TypographyContext } from './Typography'
 
 export type PSize = TypographySize
 

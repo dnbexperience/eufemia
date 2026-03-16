@@ -4,10 +4,8 @@
  */
 
 import React from 'react'
-import Typography, { TypographyProps } from '../typography/Typography'
+import Typography, { type TypographyProps } from '../typography/Typography'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import type { TypographyProps } from '../typography/Typography'
-import Typography from '../typography/Typography'
 
 type SpanProps = TypographyProps<HTMLSpanElement>
 

@@ -7,7 +7,6 @@ import type {
   ModalContentMinWidth,
   ModalContentMaxWidth,
 } from '../modal/types'
-import React from 'react'
 import type React from 'react'
 
 export interface DialogProps extends ModalAllProps {

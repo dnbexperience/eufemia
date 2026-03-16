@@ -1,0 +1,33 @@
+import type { ErrorObject } from 'ajv/dist/2020.js';
+import type { FormsTranslationFlat } from '../hooks/useTranslation';
+type FormErrorOptions = {
+    /**
+     * Replacement values relevant for this error.
+     * @example { minLength: 3 } to be able to replace values in a message like "Minimum {minLength} characters"
+     */
+    messageValues?: Record<string, string>;
+    /**
+     * The AJV keyword that caused the error.
+     */
+    ajvKeyword?: ErrorObject['keyword'];
+    /**
+     * An array of errors that should be rendered in the same error message.
+     */
+    errors?: Array<Error | FormError>;
+    /**
+     * For internal use only.
+     * A formatted (JSX) message to be used internally later on.
+     */
+    formattedMessage?: string | React.ReactElement;
+};
+/**
+ * Standard error object for Eufemia Forms, extending the built-in error with additional information for data handling
+ */
+export declare class FormError extends Error {
+    messageValues?: FormErrorOptions['messageValues'];
+    ajvKeyword?: FormErrorOptions['ajvKeyword'];
+    errors?: FormErrorOptions['errors'];
+    formattedMessage?: FormErrorOptions['formattedMessage'];
+    constructor(message: FormsTranslationFlat | string | React.ReactElement, options?: FormErrorOptions);
+}
+export {};

@@ -1,0 +1,20 @@
+/**
+ * Web AccordionGroup Context
+ *
+ */
+import React from 'react';
+import type { SkeletonContextProps } from '../skeleton/SkeletonHelper';
+import type { AccordionProps } from './Accordion';
+import type { AccordionGroupProps } from './AccordionGroup';
+export type AccordionContextProps = AccordionProps & SkeletonContextProps & {
+    allowCloseAll?: boolean;
+    expandBehavior?: AccordionGroupProps['expandBehavior'];
+    callOnChange?: (parameters: {
+        id: string;
+        group: string;
+        expanded: boolean;
+        event: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>;
+    }) => void;
+};
+declare const AccordionContext: React.Context<AccordionContextProps>;
+export default AccordionContext;

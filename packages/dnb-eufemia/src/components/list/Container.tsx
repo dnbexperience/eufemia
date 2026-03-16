@@ -1,12 +1,8 @@
 import React from 'react'
 import clsx from 'clsx'
-import { ListVariant, ListContext } from './ListContext'
-import FlexContainer, { Props as FlexProps } from '../flex/Stack'
+import { type ListVariant, ListContext } from './ListContext'
+import FlexContainer, { type Props as FlexProps } from '../flex/Stack'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import type { ListVariant } from './ListContext'
-import { ListContext } from './ListContext'
-import type { Props as FlexProps } from '../flex/Stack'
-import FlexContainer from '../flex/Stack'
 
 export type ListContainerProps = {
   variant?: ListVariant

@@ -25,12 +25,10 @@ import { FormError } from '../../utils'
 import type { InvalidDates } from '../../../../components/date-picker/DatePickerInput'
 import useInvalidDates from './hooks/useInvalidDates'
 import {
-  FormatDateOptions,
+  type FormatDateOptions,
   formatDate,
 } from '../../../../components/date-format/DateFormatUtils'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
-import type { FormatDateOptions } from '../../../../components/date-format/DateFormatUtils'
-import { formatDate } from '../../../../components/date-format/DateFormatUtils'
 
 // `range`, `showInput`, `showCancelButton` and `showResetButton` are not picked from the `DatePickerProps`
 // Since they require `Field.Date` specific comments, due to them having different default values

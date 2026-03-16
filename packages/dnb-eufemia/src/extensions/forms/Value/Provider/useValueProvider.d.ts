@@ -1,0 +1,33 @@
+import type { ValueProps } from '../../types';
+import type { ValueProviderProps } from './ValueProvider';
+declare function useValueProvider(props?: Omit<ValueProviderProps, 'children'>): {
+    extend: <T extends ValueProps>(valueProps: T) => T;
+    inheritedProps: {
+        label?: React.ReactNode;
+        path?: import("../../types").Path;
+        value?: unknown;
+        space?: import("../../../../shared/types").SpaceTypeAll;
+        top?: import("../../../../shared/types").SpaceType;
+        right?: import("../../../../shared/types").SpaceType;
+        bottom?: import("../../../../shared/types").SpaceType;
+        left?: import("../../../../shared/types").SpaceType;
+        innerSpace?: import("../../../../shared/types").SpaceTypeAll | import("../../../../shared/types").SpaceTypeMedia;
+        inline?: boolean;
+        defaultValue?: unknown;
+        className?: string;
+        help?: import("../../../../components/help-button/HelpButtonInline").HelpProps;
+        placeholder?: React.ReactNode;
+        maxWidth?: "small" | "medium" | "large" | "auto";
+        labelSrOnly?: boolean;
+        transformIn?: (external: unknown | unknown) => unknown | unknown;
+        toInput?: (external: unknown | unknown) => unknown | unknown;
+        fromExternal?: (external: unknown) => unknown;
+        itemPath?: import("../../types").Path;
+        inheritVisibility?: boolean;
+        inheritLabel?: boolean;
+        showEmpty?: boolean;
+        transformLabel?: (label: React.ReactNode, convertJsxToString: (label: React.ReactNode) => string) => React.ReactNode;
+    };
+    inheritedContext: ValueProps<unknown>;
+};
+export default useValueProvider;

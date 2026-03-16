@@ -10,12 +10,10 @@ import Toolbar from '../Toolbar/Toolbar'
 import DoneButton from './DoneButton'
 import CancelButton from './CancelButton'
 import SectionContainer, {
-  SectionContainerProps,
+  type SectionContainerProps,
 } from '../containers/SectionContainer'
 import type { Path } from '../../../types'
 import withComponentMarkers from '../../../../../shared/helpers/withComponentMarkers'
-import type { SectionContainerProps } from '../containers/SectionContainer'
-import SectionContainer from '../containers/SectionContainer'
 
 export type Props = {
   title?: React.ReactNode

@@ -5,10 +5,8 @@
 
 import React from 'react'
 import clsx from 'clsx'
-import E, { ElementProps } from '../Element'
+import E, { type ElementProps } from '../Element'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import type { ElementProps } from '../Element'
-import E from '../Element'
 
 export type OlProps = {
   /**

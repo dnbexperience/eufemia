@@ -11,8 +11,6 @@ import { Flex, Hr } from '../../..'
 import styled from '@emotion/styled'
 import { Provider } from '../../../shared'
 import type { InternalLocale } from '../../../shared/Context'
-import { MultiInputMask } from '../'
-import type { MultiInputMaskValue } from '../'
 import { Field, Form } from '../../../extensions/forms'
 
 const Pre = styled.pre`

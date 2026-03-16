@@ -1,0 +1,44 @@
+import { DNB, Saga, PB, Mastercard, BankAxept, Visa } from './Types';
+export interface CardDesign {
+    name: string;
+    cardStyle: string;
+    bankLogo: DNB;
+    visa: Visa;
+    mastercard: Mastercard;
+    bankAxept: BankAxept;
+    saga: Saga;
+    privateBanking: PB;
+    backgroundImage?: string;
+}
+declare const defaultDesign: CardDesign;
+declare const pluss: CardDesign;
+declare const young: CardDesign;
+declare const myFirst: CardDesign;
+declare const youth: CardDesign;
+declare const gold: CardDesign;
+declare const saga: CardDesign;
+declare const sagaPlatinum: CardDesign;
+declare const privateBanking: CardDesign;
+declare const mcBlack: CardDesign;
+declare const businessNoVisa: CardDesign;
+declare const businessWithVisa: CardDesign;
+declare const sbankenVisa: CardDesign;
+declare const sbankenMastercard: CardDesign;
+declare const Designs: {
+    defaultDesign: CardDesign;
+    young: CardDesign;
+    myFirst: CardDesign;
+    youth: CardDesign;
+    pluss: CardDesign;
+    gold: CardDesign;
+    saga: CardDesign;
+    sagaPlatinum: CardDesign;
+    privateBanking: CardDesign;
+    mcBlack: CardDesign;
+    businessNoVisa: CardDesign;
+    businessWithVisa: CardDesign;
+    sbankenVisa: CardDesign;
+    sbankenMastercard: CardDesign;
+};
+export default Designs;
+export { defaultDesign, pluss, young, myFirst, youth, gold, saga, sagaPlatinum, privateBanking, mcBlack, businessNoVisa, businessWithVisa, sbankenVisa, sbankenMastercard, };

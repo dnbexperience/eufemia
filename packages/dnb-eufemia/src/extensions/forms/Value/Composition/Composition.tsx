@@ -1,8 +1,6 @@
 import React from 'react'
-import ValueBlock, { Props as ValueProps } from '../../ValueBlock'
+import ValueBlock, { type Props as ValueProps } from '../../ValueBlock'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
-import type { Props as ValueProps } from '../../ValueBlock'
-import ValueBlock from '../../ValueBlock'
 
 export type Props = Omit<ValueProps, 'layout'>
 

@@ -1,0 +1,15 @@
+import type { PropertiesTableProps } from '../../shared/types';
+export declare const ContainerProperties: PropertiesTableProps;
+export declare const ItemContentProperties: PropertiesTableProps;
+export declare const ItemCenterProperties: PropertiesTableProps;
+export declare const ItemTitleProperties: PropertiesTableProps;
+export declare const ItemOverlineProperties: PropertiesTableProps;
+export declare const ItemSublineProperties: PropertiesTableProps;
+export declare const ItemFooterProperties: PropertiesTableProps;
+export declare const ItemEndProperties: PropertiesTableProps;
+export declare const ItemStartProperties: PropertiesTableProps;
+export declare const ItemAccordionProperties: PropertiesTableProps;
+export declare const ItemAccordionHeaderProperties: PropertiesTableProps;
+export declare const ItemAccordionContentProperties: PropertiesTableProps;
+export declare const ItemActionProperties: PropertiesTableProps;
+export declare const ItemActionEvents: PropertiesTableProps;
