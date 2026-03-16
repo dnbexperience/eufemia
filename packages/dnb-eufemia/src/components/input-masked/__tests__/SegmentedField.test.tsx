@@ -900,7 +900,7 @@ describe('SegmentedField', () => {
     })
   })
 
-  describe('select all (Ctrl+A)', () => {
+  describe('select all (Ctrl+A / Cmd+A)', () => {
     it('should select all segments on Ctrl+A', async () => {
       renderSegmentedField({
         values: { first: '12', second: '34' },
@@ -920,6 +920,58 @@ describe('SegmentedField', () => {
       expect(first.selectionEnd).toBe(first.value.length)
       expect(second.selectionStart).toBe(0)
       expect(second.selectionEnd).toBe(second.value.length)
+    })
+
+    it('should select all segments from the middle section on Ctrl+A', async () => {
+      render(
+        <SegmentedField
+          inputs={threeSegmentInputs}
+          delimiter="."
+          values={{ day: '16', month: '10', year: '2024' }}
+        />
+      )
+
+      const [day, month, year] = getSections()
+
+      await userEvent.click(month)
+
+      fireEvent.keyDown(month, {
+        key: 'a',
+        ctrlKey: true,
+      })
+
+      expect(day.selectionStart).toBe(0)
+      expect(day.selectionEnd).toBe(day.value.length)
+      expect(month.selectionStart).toBe(0)
+      expect(month.selectionEnd).toBe(month.value.length)
+      expect(year.selectionStart).toBe(0)
+      expect(year.selectionEnd).toBe(year.value.length)
+    })
+
+    it('should select all segments from the last section on Cmd+A', async () => {
+      render(
+        <SegmentedField
+          inputs={threeSegmentInputs}
+          delimiter="."
+          values={{ day: '16', month: '10', year: '2024' }}
+        />
+      )
+
+      const [day, month, year] = getSections()
+
+      await userEvent.click(year)
+
+      fireEvent.keyDown(year, {
+        key: 'a',
+        metaKey: true,
+      })
+
+      expect(day.selectionStart).toBe(0)
+      expect(day.selectionEnd).toBe(day.value.length)
+      expect(month.selectionStart).toBe(0)
+      expect(month.selectionEnd).toBe(month.value.length)
+      expect(year.selectionStart).toBe(0)
+      expect(year.selectionEnd).toBe(year.value.length)
     })
 
     it('should restart typing from first section after Ctrl+A and typing', async () => {
