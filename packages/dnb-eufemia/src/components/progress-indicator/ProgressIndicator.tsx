@@ -178,6 +178,8 @@ function formatProgress(progress) {
   return null
 }
 
+ProgressIndicator.displayName = 'ProgressIndicator'
+
 export default ProgressIndicator
 
 withComponentMarkers(ProgressIndicator, { _supportsSpacingProps: true })
