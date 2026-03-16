@@ -74,7 +74,7 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
       itemToSelect: string | number,
       args?: {
         fireSelectEvent?: boolean
-        event: React.SyntheticEvent | Event
+        event?: React.SyntheticEvent | Event | Record<string, unknown>
       }
     ) => void
     selectedItem?: string | number

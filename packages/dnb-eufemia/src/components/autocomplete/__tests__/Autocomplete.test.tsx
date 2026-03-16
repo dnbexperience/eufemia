@@ -4217,8 +4217,11 @@ describe('Autocomplete component', () => {
       expect(groupsUL[3].textContent).toBe(nbNO.missingGroup + ' 4')
       expect(groupsUL[3].classList).not.toContain('dnb-sr-only')
 
-      expect(global.console.log).toHaveBeenCalledTimes(10)
-      expect(global.console.log).toHaveBeenLastCalledWith(
+      expect(global.console.log).toHaveBeenCalledWith(
+        expect.stringContaining('Eufemia'),
+        `Missing group title for groupIndex: 1`
+      )
+      expect(global.console.log).toHaveBeenCalledWith(
         expect.stringContaining('Eufemia'),
         `Missing group title for groupIndex: 3`
       )
