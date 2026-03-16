@@ -37,6 +37,7 @@ import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import IconPrimary from '../icon-primary/IconPrimary'
 import Context from '../../shared/Context'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
 
@@ -280,61 +281,6 @@ export type InputSubmitButtonProps = Omit<
     onSubmitFocus?: (event: InputEvent<React.FocusEvent>) => void
     onSubmitBlur?: (event: InputEvent<React.FocusEvent>) => void
   }
-
-export const inputDefaultProps = {
-  type: 'text',
-  size: null,
-  value: 'initval',
-  id: null,
-  label: null,
-  labelDirection: null,
-  labelSrOnly: null,
-  status: null,
-  globalStatus: null,
-  statusState: 'error',
-  statusProps: null,
-  statusNoAnimation: null,
-  inputState: null,
-  autocomplete: 'off',
-  placeholder: null,
-  clear: null,
-  keepPlaceholder: null,
-  suffix: null,
-  align: null,
-  selectAll: null,
-  stretch: null,
-  disabled: null,
-  skeleton: null,
-  inputClass: null,
-  inputAttributes: null,
-  inputElement: null,
-  ref: null,
-  icon: null,
-  iconSize: null,
-  iconPosition: 'left',
-  readOnly: false,
-  innerElement: null,
-
-  // Submit button
-  submitElement: null,
-  submitButtonTitle: null,
-  clearButtonTitle: null,
-  submitButtonVariant: 'secondary',
-  submitButtonIcon: 'loupe',
-  submitButtonStatus: null,
-
-  className: null,
-  children: null,
-
-  onChange: null,
-  onKeyDown: null,
-  onSubmit: null,
-  onFocus: null,
-  onBlur: null,
-  onSubmitFocus: null,
-  onSubmitBlur: null,
-  onClear: null,
-}
 
 export const inputDefaultProps = {
   type: 'text',
