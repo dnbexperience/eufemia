@@ -13,7 +13,7 @@ export type TabsCustomContentTitle =
 
 export type TabsCustomContentChildren =
   | React.ReactNode
-  | (() => React.ReactNode)
+  | ((...args: any[]) => React.ReactNode)
 
 export type TabsCustomContentProps = {
   displayName?: string

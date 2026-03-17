@@ -287,7 +287,10 @@ export type ModalContentProps = {
    * For internal usage
    * Will close the modal
    */
-  close?: (event?: React.SyntheticEvent) => void
+  close?: (
+    event?: Event | React.SyntheticEvent,
+    options?: { ifIsLatest?: boolean; triggeredBy?: string }
+  ) => void
 
   /**
    * Give the inner Dialog or Drawer component a className (only works with mode)

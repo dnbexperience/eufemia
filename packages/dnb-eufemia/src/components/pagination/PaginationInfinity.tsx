@@ -162,10 +162,10 @@ export default class InfinityScroller extends React.PureComponent<PaginationInfi
     }: any = {}
   ) {
     this.waitForReachedTime(
-      ({ pageNumber, callStartupEvent }) => {
+      ({ pageNumber, callStartupEvent }: Record<string, unknown>) => {
         const context = this.context.pagination
         const createEvent = (eventName) => {
-          if (isNaN(pageNumber)) {
+          if (isNaN(pageNumber as number)) {
             pageNumber = 1
           }
           const ret = dispatchCustomElementEvent(context, eventName, {
