@@ -149,7 +149,7 @@ export default {
     Email: {
       label: 'E-postadress',
       errorRequired: 'Du måste fylla i en e-postadress.',
-      errorPattern: 'Ogiltig e-postadress. Ange en e-postadress.',
+      errorPattern: 'Du måste ange en giltig e-postadress.',
     },
     FirstName: {
       label: 'Förnamn',

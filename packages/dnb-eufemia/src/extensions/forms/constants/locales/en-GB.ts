@@ -150,7 +150,7 @@ export default {
     Email: {
       label: 'Email address',
       errorRequired: 'You must enter an email address.',
-      errorPattern: 'Invalid email address. Enter a valid email address.',
+      errorPattern: 'You must enter a valid email address.',
     },
     FirstName: {
       label: 'Given name',
