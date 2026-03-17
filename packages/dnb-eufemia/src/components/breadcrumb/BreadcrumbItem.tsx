@@ -4,7 +4,7 @@ import React from 'react'
 import Button, { ButtonProps } from '../Button'
 import Anchor, { AnchorAllProps } from '../Anchor'
 import IconPrimary from '../icon-primary/IconPrimary'
-import type { DataAttributeTypes } from '../../shared/types'
+import type { DataAttributes } from '../../shared/types'
 import type { IconIcon } from '../icon/Icon'
 
 // Elements
@@ -63,7 +63,7 @@ export type BreadcrumbItemProps = {
   /** Internal */
   itemNo?: number
 } & (AnchorAllProps & Omit<ButtonProps, 'variant'>) &
-  DataAttributeTypes
+  DataAttributes
 
 const defaultProps: Partial<BreadcrumbItemProps> = {
   text: null,

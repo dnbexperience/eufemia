@@ -16,7 +16,7 @@ import { IS_MAC, IS_WIN } from '../../shared/helpers'
 import locales from '../../shared/locales'
 
 // TypeScript types
-export type FormatTypes =
+export type FormatType =
   | 'phone'
   | 'org'
   | 'ban'
@@ -36,7 +36,7 @@ export type FormatReturnValue = {
   /** Language code, like en-US */
   locale: string
   /** The given type */
-  type: FormatTypes | string
+  type: FormatType | string
 }
 export type FormatValue = string | number
 export type FormatReturnType = FormatReturnValue | FormatValue

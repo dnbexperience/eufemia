@@ -153,7 +153,7 @@ export default function ContentWrapper({
 // Type definitions
 import type {
   SectionSpacing,
-  SectionStyleTypes,
+  SectionStyle,
   SectionVariants,
 } from '../Section'
 
@@ -165,7 +165,7 @@ export type ContentWrapperChildren =
 export type ContentWrapperProps = {
   id: string
   selectedKey?: ContentWrapperSelectedKey
-  contentStyle?: SectionStyleTypes | SectionVariants
+  contentStyle?: SectionStyle | SectionVariants
   animate?: boolean
   contentSpacing?: SectionSpacing
   children?: ContentWrapperChildren

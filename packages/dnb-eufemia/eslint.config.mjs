@@ -299,6 +299,14 @@ export default [
           selector: 'typeAlias',
           format: ['PascalCase'],
         },
+        {
+          selector: 'typeAlias',
+          format: ['PascalCase'],
+          custom: {
+            regex: 'Types$',
+            match: false,
+          },
+        },
       ],
     },
   },

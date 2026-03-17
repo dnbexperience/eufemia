@@ -10,7 +10,7 @@ export type ResponsiveProp<T> = {
 
 export type LocaleProps = GetTranslationProps
 
-export type DataAttributeTypes = {
+export type DataAttributes = {
   /**
    * When using HTMLAttributes on object to define props,
    * we need not get data-* attributes as valid types:

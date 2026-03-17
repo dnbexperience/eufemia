@@ -48,9 +48,9 @@ export function filterProps<Props = FilterProps>(
   ) as Props
 }
 export type FilterProps = Record<string, unknown> | Array<string | number>
-export type FilterPropsValidationTypes =
+export type FilterPropsValidation =
   | Record<string, unknown>
   | Array<string | number>
   | ((key: string) => boolean)
-export type FilterPropsRemove = FilterPropsValidationTypes
-export type FilterPropsAllowed = FilterPropsValidationTypes
+export type FilterPropsRemove = FilterPropsValidation
+export type FilterPropsAllowed = FilterPropsValidation

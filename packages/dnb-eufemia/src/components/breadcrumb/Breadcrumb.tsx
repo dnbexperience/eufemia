@@ -12,7 +12,7 @@ import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Section, {
   SectionSpacing,
-  SectionStyleTypes,
+  SectionStyle,
   SectionVariants,
 } from '../section/Section'
 import Button from '../button/Button'
@@ -112,7 +112,7 @@ export type BreadcrumbProps = {
    * Use one of the Section component style types (style_type)
    * Default: transparent
    */
-  styleType?: SectionStyleTypes
+  styleType?: SectionStyle
 
   /**
    * Use one of the Section component variants

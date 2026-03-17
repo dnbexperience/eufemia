@@ -40,20 +40,17 @@ export type UseHeightAnimationOptions = {
   /**
    * Is called when animation has started.
    */
-  onAnimationStart?: (state: HeightAnimationOnStartTypes) => void
+  onAnimationStart?: (state: HeightAnimationOnStart) => void
 
   /**
    * Is called when animation is done and the full height is reached.
    */
-  onAnimationEnd?: (state: HeightAnimationOnEndTypes) => void
+  onAnimationEnd?: (state: HeightAnimationOnEnd) => void
 }
 
-export type HeightAnimationOnStartTypes =
-  | 'opening'
-  | 'closing'
-  | 'adjusting'
+export type HeightAnimationOnStart = 'opening' | 'closing' | 'adjusting'
 
-export type HeightAnimationOnEndTypes = 'opened' | 'closed' | 'adjusted'
+export type HeightAnimationOnEnd = 'opened' | 'closed' | 'adjusted'
 
 export function useHeightAnimation(
   targetRef: React.RefObject<HTMLElement>,
@@ -124,7 +121,7 @@ export function useHeightAnimation(
   }, [compensateForGap])
 
   useLayoutEffect(() => {
-    instRef.current.onStart((state: HeightAnimationOnStartTypes) => {
+    instRef.current.onStart((state: HeightAnimationOnStart) => {
       switch (state) {
         case 'opening':
           handleCompensateForGap()
@@ -148,7 +145,7 @@ export function useHeightAnimation(
       }
     })
 
-    instRef.current.onEnd((state: HeightAnimationOnEndTypes) => {
+    instRef.current.onEnd((state: HeightAnimationOnEnd) => {
       switch (state) {
         case 'opened':
           setIsVisible(true)
