@@ -167,7 +167,11 @@ export type TabsEvent = {
 }
 
 export type TabsRenderComponents = {
-  Wrapper: React.ComponentType<React.PropsWithChildren>
+  Wrapper: React.ComponentType<
+    React.PropsWithChildren<
+      { className?: string } & Record<string, unknown>
+    >
+  >
   Content: React.ComponentType<Record<string, unknown>>
   TabsList: React.ComponentType<
     React.PropsWithChildren<
