@@ -17,7 +17,7 @@ import PaginationContext from './PaginationContext'
 import type { PaginationProps } from './Pagination'
 
 export type PaginationProviderProps = PaginationProps & {
-  rerender?: { current?: (...args: any[]) => any }
+  rerender?: { current?: () => void }
   store?: { current?: any }
   useMarkerOnly?: boolean
   internalContent?: any

@@ -154,8 +154,13 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     /**
      * Will be called by user click interaction. Returns an object with a boolean state `expanded` inside `{ expanded, id, event, ...event }`.
      */
-    onChange?: (...args: any[]) => any
+    onChange?: (event: AccordionChangeEvent) => void
   }
+
+export type AccordionChangeEvent = {
+  expanded: boolean
+  event: React.SyntheticEvent
+}
 
 function Accordion({
   variant = 'outlined',

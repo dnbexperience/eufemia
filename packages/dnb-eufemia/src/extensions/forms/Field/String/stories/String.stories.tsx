@@ -174,7 +174,7 @@ export const UpdateLocaleInProviderForAllFields = () => {
       <ToggleButton.Group
         value={locale}
         onChange={({ value }) => {
-          setLocale(value)
+          setLocale(value as string)
         }}
       >
         <ToggleButton value="nb-NO" className="nb-NO">

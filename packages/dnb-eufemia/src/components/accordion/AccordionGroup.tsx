@@ -23,7 +23,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type AccordionGroupProps = React.HTMLProps<HTMLElement> &
   AccordionGroupBaseProps & {
-    onInit?: (...args: any[]) => any
+    onInit?: (accordion: Record<string, unknown>) => void
   }
 
 const AccordionGroup = (props: AccordionGroupProps) => {
