@@ -305,10 +305,12 @@ html:not([data-visual-test]) .dnb-textarea__textarea {
 .dnb-textarea__autoresize .dnb-textarea__textarea {
   resize: none;
 }
-.dnb-textarea--disabled .dnb-textarea__textarea, .dnb-textarea__textarea[disabled] {
+.dnb-textarea--disabled {
   --ta-color-bg: var(--token-color-background-action-disabled);
   --ta-color-text: var(--token-color-text-neutral-alternative);
-  --ta-color-border: var(--token-color-stroke-action-disabled);
+  --ta-color-border: var(--token-color-text-neutral-alternative);
+}
+.dnb-textarea--disabled .dnb-textarea__textarea, .dnb-textarea__textarea[disabled] {
   user-select: none;
 }
 .dnb-textarea--disabled .dnb-textarea__textarea::-webkit-scrollbar, .dnb-textarea__textarea[disabled]::-webkit-scrollbar {

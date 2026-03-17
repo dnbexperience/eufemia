@@ -200,13 +200,15 @@
     resize: none;
   }
 
+  &--disabled {
+    --ta-color-bg: var(--token-color-background-action-disabled);
+    --ta-color-text: var(--token-color-text-neutral-alternative);
+    --ta-color-border: var(--token-color-text-neutral-alternative);
+  }
+
   // disabled
   &--disabled &__textarea,
   &__textarea[disabled] {
-    --ta-color-bg: var(--token-color-background-action-disabled);
-    --ta-color-text: var(--token-color-text-neutral-alternative);
-    --ta-color-border: var(--token-color-stroke-action-disabled);
-
     user-select: none; // Safari / Touch fix
     &::-webkit-scrollbar {
       width: 0;
