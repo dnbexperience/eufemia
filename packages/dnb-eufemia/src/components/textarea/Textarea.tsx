@@ -289,9 +289,7 @@ function TextareaComponent(
       if (typeof ref === 'function') {
         ref(node)
       } else if (ref) {
-        ;(
-          ref as React.MutableRefObject<HTMLTextAreaElement | null>
-        ).current = node
+        ref.current = node
       }
     },
     [ref]
