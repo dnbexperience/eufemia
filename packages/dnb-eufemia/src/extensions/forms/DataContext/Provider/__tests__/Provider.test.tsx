@@ -1100,6 +1100,14 @@ describe('DataContext.Provider', () => {
             'onChangeField',
           ])
         })
+
+        await waitFor(() => {
+          expect(eventsEnd).toEqual([
+            'onChangeValidator',
+            'onChangeForm',
+            'onChangeField',
+          ])
+        })
       })
 
       it('during submit', async () => {
