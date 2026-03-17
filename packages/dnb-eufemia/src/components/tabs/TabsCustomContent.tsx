@@ -9,11 +9,11 @@ import ContentWrapper, {
 export type TabsCustomContentTitle =
   | Record<string, unknown>
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
 
 export type TabsCustomContentChildren =
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
 
 export type TabsCustomContentProps = {
   displayName?: string

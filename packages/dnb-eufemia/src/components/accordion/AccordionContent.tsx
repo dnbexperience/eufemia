@@ -27,7 +27,7 @@ export type AccordionContentProps = Omit<
   SpacingProps & {
     instance?: React.RefObject<unknown>
     className?: string
-    children?: React.ReactNode | ((...args: any[]) => any)
+    children?: React.ReactNode | (() => React.ReactNode)
   }
 
 export default function AccordionContent(props: AccordionContentProps) {

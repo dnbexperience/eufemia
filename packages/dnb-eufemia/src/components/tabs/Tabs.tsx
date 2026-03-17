@@ -45,7 +45,7 @@ import type { SkeletonShow } from '../Skeleton'
 export type TabsData =
   | string
   | {
-      title: string | React.ReactNode | ((...args: any[]) => any)
+      title: string | React.ReactNode | (() => React.ReactNode)
       key: string | number
       selected?: boolean
       disabled?: boolean
@@ -56,7 +56,7 @@ export type TabsData =
 export type TabsContent =
   | Record<string, unknown>
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | ((key: TabsSelectedKey) => React.ReactNode)
 
 export type TabsTabElement = DynamicElement<
   null,
@@ -68,7 +68,7 @@ export type TabsAlign = 'left' | 'center' | 'right'
 export type TabsChildren =
   | Record<string, unknown>
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | ((key: TabsSelectedKey) => React.ReactNode)
 
 export type TabsProps = Omit<
   React.HTMLProps<HTMLElement>,
@@ -128,7 +128,7 @@ export type TabsProps = Omit<
      * If set to `true`, the navigation icons will have a straight border at their outside. This feature is meant to be used when the Tabs component goes all the way to the browser window. Defaults to `false`.
      */
     navButtonEdge?: boolean
-    onOpenTabNavigationFn?: (...args: any[]) => any
+    onOpenTabNavigationFn?: (selectedKey: TabsSelectedKey) => void
     /**
      * If set to `true`, the Tabs content will pre-render all contents. The visibility will be handled by using the `hidden` and `aria-hidden` HTML attributes. Defaults to `false`.
      */
@@ -151,12 +151,27 @@ export type TabsProps = Omit<
      * the content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.
      */
     children?: TabsChildren
-    render?: (...args: any[]) => any
-    onChange?: (...args: any[]) => any
-    onMouseEnter?: (...args: any[]) => any
-    onClick?: (...args: any[]) => any
-    onFocus?: (...args: any[]) => any
+    render?: (components: TabsRenderComponents) => React.ReactNode
+    onChange?: (event: TabsEvent) => void
+    onMouseEnter?: (event: TabsEvent) => void
+    onClick?: (event: TabsEvent) => void | boolean
+    onFocus?: (event: TabsEvent) => void
   }
+
+export type TabsEvent = {
+  key: TabsSelectedKey
+  selectedKey: TabsSelectedKey
+  focusKey: TabsSelectedKey
+  title: string | React.ReactNode
+  event?: React.SyntheticEvent
+}
+
+export type TabsRenderComponents = {
+  Wrapper: React.ComponentType<React.PropsWithChildren>
+  Content: React.ComponentType<Record<string, unknown>>
+  TabsList: React.ComponentType<React.PropsWithChildren>
+  Tabs: React.ComponentType<Record<string, unknown>>
+}
 
 export type TabsDummyProps = {
   /**
@@ -166,7 +181,7 @@ export type TabsDummyProps = {
 }
 
 type TabDataItem = {
-  title: string | React.ReactNode | ((...args: any[]) => any)
+  title: string | React.ReactNode | (() => React.ReactNode)
   key: string | number
   selected?: boolean
   disabled?: boolean

@@ -54,7 +54,7 @@ export type PaymentCardDigits = string | number
 export type PaymentCardChildren =
   | string
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
 
 export type PaymentCardRawData = {
   productCode: string

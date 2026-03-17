@@ -132,30 +132,30 @@ function AccordionHeaderIcon({
 export type AccordionHeaderTitle =
   | string
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
 export type AccordionHeaderDescription =
   | string
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
 export type AccordionHeaderLeftComponent =
   | string
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
 export type AccordionHeaderElement =
   | string
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
 export type AccordionHeaderHeading =
   | boolean
   | string
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
 export type AccordionHeaderIcon =
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
   | {
-      closed?: React.ReactNode | ((...args: any[]) => any)
-      expanded?: React.ReactNode | ((...args: any[]) => any)
+      closed?: React.ReactNode | (() => React.ReactNode)
+      expanded?: React.ReactNode | (() => React.ReactNode)
     }
 
 export type AccordionHeaderProps = React.HTMLProps<HTMLElement> &
@@ -174,7 +174,7 @@ export type AccordionHeaderProps = React.HTMLProps<HTMLElement> &
     skeleton?: SkeletonShow
     noAnimation?: boolean
     className?: string
-    children?: string | React.ReactNode | ((...args: any[]) => any)
+    children?: string | React.ReactNode | (() => React.ReactNode)
     variant?: AccordionVariant
   }
 

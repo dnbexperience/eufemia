@@ -37,10 +37,10 @@ import { SpacingProps } from '../space/types'
 export type NumberFormatValue = number | string
 export type NumberFormatPrefix =
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
 export type NumberFormatSuffix =
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
 export type NumberFormatCurrency = string | boolean
 export type NumberFormatCurrencyPosition =
   | 'auto'
@@ -58,11 +58,11 @@ export type NumberFormatDecimals = number | string
 export type NumberFormatElement = string
 export type NumberFormatTooltip =
   | string
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
   | React.ReactNode
 export type NumberFormatChildren =
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
 export type NumberFormatProps = {
   id?: string
   value?: NumberFormatValue

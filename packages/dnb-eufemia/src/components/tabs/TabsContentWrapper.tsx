@@ -160,7 +160,7 @@ import type {
 export type TabsContentWrapperSelectedKey = string | number
 export type TabsContentWrapperChildren =
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
 
 export type TabsContentWrapperProps = {
   id: string

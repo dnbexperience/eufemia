@@ -37,7 +37,7 @@ export default class InfinityScroller extends React.PureComponent<PaginationInfi
   callOnUnmount: Array<any>
   _startupTimeout: ReturnType<typeof setTimeout>
   _bufferTimeout: ReturnType<typeof setTimeout>
-  callbackBuffer: Array<{ fn: (...args: any[]) => any; params: any }>
+  callbackBuffer: Array<{ fn: (params: Record<string, unknown>) => void; params: Record<string, unknown> }>
   _lastCall: number
 
   constructor(props: any, context: any) {
@@ -108,7 +108,7 @@ export default class InfinityScroller extends React.PureComponent<PaginationInfi
     })
   }
 
-  waitForReachedTime(fn: (...args: any[]) => any, params: any) {
+  waitForReachedTime(fn: (params: Record<string, unknown>) => void, params: Record<string, unknown>) {
     this.callbackBuffer = this.callbackBuffer || []
     this.callbackBuffer.push({ fn, params })
     this.callBuffer({
@@ -537,7 +537,7 @@ export type PaginationInfinityLoadButtonProps = {
   icon?: string
   text?: string
   iconPosition?: 'left' | 'right' | 'top'
-  onClick?: (...args: any[]) => any
+  onClick?: (event: React.MouseEvent) => void
 }
 
 type InfinityLoadButtonState = {

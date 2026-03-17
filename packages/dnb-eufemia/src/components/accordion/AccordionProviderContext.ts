@@ -14,7 +14,7 @@ type AccordionGroupContextProps = {
   flushRememberedState?: boolean
   expandedId?: string
   onChange?: (...params: unknown[]) => void
-  onInit?: (...args: any[]) => any
+  onInit?: (accordion: Record<string, unknown>) => void
   collapseAccordionCallbacks?: React.RefObject<(() => void)[]>
   collapseAllHandleRef?: React.RefObject<() => void>
   expandBehavior?: AccordionGroupProps['expandBehavior']

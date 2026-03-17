@@ -355,7 +355,7 @@ import type { SpacingProps, SpaceType } from '../space/types'
 export type ToggleButtonGroupVariant = 'default' | 'checkbox' | 'radio'
 export type ToggleButtonGroupSuffix =
   | string
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
   | React.ReactNode
 export type ToggleButtonGroupLayoutDirection = 'column' | 'row'
 export type ToggleButtonGroupValue =
@@ -366,8 +366,14 @@ export type ToggleButtonGroupValue =
 export type ToggleButtonGroupValues = string | any[]
 export type ToggleButtonGroupChildren =
   | string
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
   | React.ReactNode
+
+export type ToggleButtonGroupChangeEvent = {
+  value: ToggleButtonGroupValue
+  values: ToggleButtonGroupValues
+  event: React.SyntheticEvent
+}
 
 export type ToggleButtonGroupProps = Omit<
   React.HTMLProps<HTMLElement>,
@@ -436,7 +442,7 @@ export type ToggleButtonGroupProps = Omit<
     readOnly?: boolean
     className?: string
     children?: ToggleButtonGroupChildren
-    onChange?: (...args: any[]) => any
+    onChange?: (event: ToggleButtonGroupChangeEvent) => void
     // Additional properties that are used in tests and stories
     top?: SpaceType
     right?: SpaceType
