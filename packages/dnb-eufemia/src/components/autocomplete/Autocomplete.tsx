@@ -56,7 +56,7 @@ import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 import DrawerList from '../../fragments/drawer-list/DrawerList'
 import { ItemContent } from '../../fragments/drawer-list/DrawerListItem'
 import DrawerListContext, {
-  DrawerListContextProps,
+  DrawerListContextValue,
 } from '../../fragments/drawer-list/DrawerListContext'
 import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
 import {
@@ -514,7 +514,7 @@ function getCurrentDataTitle(
 
 function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   const context = useContext<
-    DrawerListContextProps & {
+    DrawerListContextValue & {
       Autocomplete: Record<string, unknown>
     }
   >(DrawerListContext)

@@ -21,7 +21,7 @@ import DrawerList, {
 } from '../DrawerList'
 import DrawerListProvider from '../DrawerListProvider'
 import DrawerListContext, {
-  DrawerListContextProps,
+  DrawerListContextValue,
 } from '../DrawerListContext'
 import { IsolatedStyleScope } from '../../../shared'
 import Dialog from '../../../components/dialog/Dialog'
@@ -430,7 +430,7 @@ describe('DrawerList component', () => {
   })
 
   it('focused item remembered when reopening', async () => {
-    const contextRef: React.RefObject<DrawerListContextProps> =
+    const contextRef: React.RefObject<DrawerListContextValue> =
       React.createRef()
 
     const ContextConsumer = () => {
@@ -480,7 +480,7 @@ describe('DrawerList component', () => {
   })
 
   it('focused item set to selected item when opening', async () => {
-    const contextRef: React.RefObject<DrawerListContextProps> =
+    const contextRef: React.RefObject<DrawerListContextValue> =
       React.createRef()
 
     const ContextConsumer = () => {

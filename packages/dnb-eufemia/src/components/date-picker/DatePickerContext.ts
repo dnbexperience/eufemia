@@ -17,7 +17,7 @@ import { SubmittedDates } from './hooks/useSubmittedDates'
 
 export type DateType = Date | string
 
-export type DatePickerContextValues = ContextProps &
+export type DatePickerContextValue = ContextProps &
   DatePickerDates & {
     props: DatePickerAllProps
     dateFormat: DatePickerAllProps['dateFormat']
@@ -41,8 +41,8 @@ export type DatePickerContextValues = ContextProps &
     ) => ReturnObject<E>
   }
 
-const DatePickerContext = React.createContext<DatePickerContextValues>(
-  {} as DatePickerContextValues
+const DatePickerContext = React.createContext<DatePickerContextValue>(
+  {} as DatePickerContextValue
 )
 
 export default DatePickerContext

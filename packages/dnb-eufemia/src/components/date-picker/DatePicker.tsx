@@ -43,7 +43,7 @@ import { InputInputElement, InputSize } from '../Input'
 import { SkeletonShow } from '../Skeleton'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import { CalendarDay, DatePickerCalendarProps } from './DatePickerCalendar'
-import { DatePickerContextValues, DateType } from './DatePickerContext'
+import { DatePickerContextValue, DateType } from './DatePickerContext'
 import { DatePickerDates } from './hooks/useDates'
 import { useTranslation } from '../../shared'
 import Popover from '../popover/Popover'
@@ -393,7 +393,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
   const shellRef = useRef<HTMLSpanElement>(undefined)
   const submitButtonRef = useRef<HTMLButtonElement>(undefined)
   const getReturnObject =
-    useRef<DatePickerContextValues['getReturnObject']>(undefined)
+    useRef<DatePickerContextValue['getReturnObject']>(undefined)
   const hideTimeout = useRef<NodeJS.Timeout>(undefined)
   const calendarContainerRef = useRef<HTMLSpanElement>(null)
 

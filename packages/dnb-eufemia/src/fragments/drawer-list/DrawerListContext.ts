@@ -35,10 +35,10 @@ export type DrawerListContextState = Omit<
   ariaActiveDescendant?: string
 }
 
-export type DrawerListContextProps = ContextProps & {
+export type DrawerListContextValue = ContextProps & {
   drawerList?: DrawerListContextState
 }
 
-const DrawerListContext = React.createContext<DrawerListContextProps>({})
+const DrawerListContext = React.createContext<DrawerListContextValue>({})
 
 export default DrawerListContext

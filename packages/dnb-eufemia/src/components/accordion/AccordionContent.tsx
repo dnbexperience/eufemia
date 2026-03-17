@@ -13,7 +13,7 @@ import {
 } from '../../shared/component-helper'
 import { useMediaQuery } from '../../shared'
 import AccordionContext, {
-  AccordionContextProps,
+  AccordionContextValue,
 } from './AccordionContext'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import HeightAnimation from '../height-animation/HeightAnimation'
@@ -31,7 +31,7 @@ export type AccordionContentProps = Omit<
   }
 
 export default function AccordionContent(props: AccordionContentProps) {
-  const context = React.useContext<AccordionContextProps>(AccordionContext)
+  const context = React.useContext<AccordionContextValue>(AccordionContext)
 
   const {
     id,

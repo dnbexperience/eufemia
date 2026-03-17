@@ -8,7 +8,7 @@ import clsx from 'clsx'
 import { validateDOMAttributes } from '../../shared/component-helper'
 import '../../shared/helpers'
 import { createSpacingClasses } from '../space/SpacingHelper'
-import HeadingContext, { HeadingContextProps } from './HeadingContext'
+import HeadingContext, { HeadingContextValue } from './HeadingContext'
 import HeadingProvider from './HeadingProvider'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import {
@@ -167,8 +167,8 @@ export default function Heading(props: HeadingAllProps) {
       level: InternalHeadingLevel
       prevLevel?: InternalHeadingLevel
       counter: HeadingCounter
-      context: HeadingContextProps
-      headingContext?: HeadingContextProps
+      context: HeadingContextValue
+      headingContext?: HeadingContextValue
     }
     const state: State = {
       level: null,
