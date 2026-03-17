@@ -788,6 +788,19 @@ describe('Input with clear button', () => {
       expect.objectContaining({ value: '' })
     )
   })
+
+  it('should omit input shell classes when _omitInputShellClass is true', () => {
+    render(<Input _omitInputShellClass value="value" />)
+
+    const wrapper = document.querySelector('.dnb-input')
+    // Should not render shell or border elements/classes
+    expect(
+      wrapper.querySelector('.dnb-input__shell')
+    ).not.toBeInTheDocument()
+    expect(
+      wrapper.querySelector('.dnb-input__border')
+    ).not.toBeInTheDocument()
+  })
 })
 
 describe('Input icon memoization', () => {

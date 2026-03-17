@@ -7,7 +7,6 @@ import {
   handleNumberMask,
   handlePercentMask,
   handleThousandsSeparator,
-  invisibleSpace,
   isRequestingLocaleSupport,
   isRequestingNumberMask,
 } from '../InputMaskedUtils'
@@ -193,7 +192,6 @@ describe('correctCaretPosition', () => {
       current: {
         suffix: 'suffix',
         prefix: 'prefix',
-        placeholderChar: '_',
       },
     }
 
@@ -201,26 +199,6 @@ describe('correctCaretPosition', () => {
 
     expect(element.setSelectionRange).toHaveBeenCalledTimes(1)
     expect(element.setSelectionRange).toHaveBeenCalledWith(4, 4)
-  })
-
-  it('should handle placeholderChar when clicking after the suffix', () => {
-    element.value = 'suffixprefix_'
-    element.selectionStart = 12
-    element.selectionEnd = 12
-    element.setSelectionRange = jest.fn()
-
-    const maskParams = {
-      current: {
-        suffix: 'suffix',
-        prefix: 'prefix',
-        placeholderChar: '_',
-      },
-    }
-
-    correctCaretPosition(element, maskParams, {})
-
-    expect(element.setSelectionRange).toHaveBeenCalledTimes(1)
-    expect(element.setSelectionRange).toHaveBeenCalledWith(12, 12)
   })
 
   it('should correctly handle prefix', () => {
@@ -233,7 +211,6 @@ describe('correctCaretPosition', () => {
       current: {
         suffix: 'suffix',
         prefix: 'prefix',
-        placeholderChar: '_',
       },
     }
 
@@ -241,26 +218,6 @@ describe('correctCaretPosition', () => {
 
     expect(element.setSelectionRange).toHaveBeenCalledTimes(1)
     expect(element.setSelectionRange).toHaveBeenCalledWith(6, 6)
-  })
-
-  it('should handle invisibleSpace character', () => {
-    element.value = `1234${invisibleSpace}suffix`
-    element.selectionStart = 6
-    element.selectionEnd = 6
-    element.setSelectionRange = jest.fn()
-
-    const maskParams = {
-      current: {
-        suffix: 'suffix',
-        prefix: '',
-        placeholderChar: '_',
-      },
-    }
-
-    correctCaretPosition(element, maskParams, {})
-
-    expect(element.setSelectionRange).toHaveBeenCalledTimes(1)
-    expect(element.setSelectionRange).toHaveBeenCalledWith(4, 4)
   })
 
   it('should handle mask when element value length is equal to end', () => {
@@ -378,7 +335,6 @@ describe('handleCurrencyMask', () => {
     })
     expect(result).toEqual({
       showMask: true,
-      placeholderChar: null,
       allowDecimal: true,
       decimalLimit: 2,
       decimalSymbol: ',',
@@ -398,7 +354,6 @@ describe('handleCurrencyMask', () => {
     })
     expect(result).toEqual({
       showMask: false,
-      placeholderChar: null,
       allowDecimal: true,
       decimalLimit: 3,
       decimalSymbol: ',',
@@ -415,7 +370,6 @@ describe('handleCurrencyMask', () => {
     expect(result).toEqual({
       '0': '€',
       showMask: true,
-      placeholderChar: null,
       allowDecimal: true,
       decimalLimit: 2,
       decimalSymbol: ',',
@@ -430,7 +384,6 @@ describe('handleCurrencyMask', () => {
     })
     expect(result).toEqual({
       showMask: true,
-      placeholderChar: null,
       allowDecimal: true,
       decimalLimit: 2,
       decimalSymbol: ',',

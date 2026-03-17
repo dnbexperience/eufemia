@@ -5,7 +5,6 @@
 
 import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
-import emailMask from '../addons/emailMask'
 import { InputMasked, ToggleButton } from '../..'
 import { Flex, Hr } from '../../..'
 import styled from '@emotion/styled'
@@ -72,9 +71,6 @@ export function Sandbox() {
           </Box>
           <Box>
             <PercentInput />
-          </Box>
-          <Box>
-            <EmailMask />
           </Box>
           <Box>
             <ShowMask />
@@ -182,30 +178,20 @@ function PercentInput() {
   )
 }
 
-function EmailMask() {
+export function ShowMask() {
   return (
-    <InputMasked
-      label="emailMask"
-      placeholder="@."
-      autocomplete="on"
-      keepPlaceholder
-      mask={emailMask}
-      right
-      bottom
-    />
-  )
-}
-
-function ShowMask() {
-  return (
-    <InputMasked
-      label="showMask"
-      showMask
-      numberMask={{
-        suffix: ' kr',
-        allowDecimal: true,
-      }}
-    />
+    <>
+      <InputMasked
+        label="showMask"
+        showMask
+        numberMask={{
+          suffix: ' kr',
+          allowDecimal: true,
+        }}
+      />
+      <Field.String allowOverflow mask={[/\d/, '-', /\d/, '-', /\d/]} />
+      <Field.OrganizationNumber />
+    </>
   )
 }
 

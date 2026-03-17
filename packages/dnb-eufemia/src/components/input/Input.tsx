@@ -199,6 +199,16 @@ export type InputProps = Omit<
      */
     inputElement?: InputInputElement
     /**
+     * Internal ref alias used by wrappers such as InputMasked.
+     * @internal
+     */
+    _innerRef?: React.Ref<HTMLInputElement>
+    /**
+     * If set to `true`, the Input's internal "__shell" and "__border" class element will be omitted.
+     * @internal
+     */
+    _omitInputShellClass?: boolean
+    /**
      * Icon to show before or after the input / placeholder. Can be either a string defining a primary icon or a Component using an SVG icon of either 16px or 24px.
      */
     icon?: IconIcon
@@ -572,6 +582,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     placeholder,
     clear,
     keepPlaceholder,
+    _omitInputShellClass,
     suffix,
     align,
     inputClass,
@@ -597,6 +608,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     selectAll, //eslint-disable-line
     inputElement: _input_element, //eslint-disable-line
     ref: _ref, //eslint-disable-line
+    _innerRef, //eslint-disable-line
     inputState: _inputState, //eslint-disable-line
 
     onSubmit, //eslint-disable-line
@@ -713,8 +725,8 @@ function InputComponent({ ref, ...restProps }: InputProps) {
 
   const shellParams = {
     className: clsx(
-      'dnb-input__shell',
-      'dnb-input__border',
+      !_omitInputShellClass && 'dnb-input__shell',
+      !_omitInputShellClass && 'dnb-input__border',
       createSkeletonClass('shape', skeleton, context)
     ),
   }

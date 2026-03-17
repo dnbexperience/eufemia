@@ -255,7 +255,7 @@ describe('InputModeNumber', () => {
       expect(runCorrectCaretPosition).toHaveBeenLastCalledWith()
     })
 
-    it('should keep selection start and end when mouseEnter is called', async () => {
+    it('should not force selection position after type toggle to avoid iOS Safari caret jump', async () => {
       render(<MockComponent type="text" value="1234" />)
 
       const inputElement = document.querySelector('input')
@@ -274,8 +274,11 @@ describe('InputModeNumber', () => {
         expect(inputElement).toHaveAttribute('type', 'text')
       })
 
-      expect(inputElement.selectionStart).toBe(4)
-      expect(inputElement.selectionEnd).toBe(4)
+      // Selection is left to the browser — in JSDOM it defaults to 0.
+      // On a real iOS Safari device the browser resolves the tap position
+      // instead of jumping back to the previously saved position.
+      expect(inputElement.selectionStart).toBe(0)
+      expect(inputElement.selectionEnd).toBe(0)
     })
 
     it('should set type of number on label press', async () => {

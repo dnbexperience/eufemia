@@ -28,7 +28,7 @@ describe('useFilteredProps', () => {
 
   it('should filter out internal props from htmlAttributes', () => {
     const wrapper = createWrapper({
-      mask: true,
+      mask: [/\d/],
       numberMask: true,
       currencyMask: true,
       asNumber: true,
