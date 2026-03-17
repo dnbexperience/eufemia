@@ -482,74 +482,6 @@ export default function SegmentedFieldSection({
     setSectionCaret,
   ])
 
-  const syncSelectionFromDom = useCallback(() => {
-    const element = sectionRefs.current[inputId]
-
-    if (!element || document.activeElement !== element) {
-      return
-    }
-
-    const selection = window.getSelection()
-
-    if (!selection || selection.rangeCount === 0) {
-      return
-    }
-
-    const range = selection.getRangeAt(0)
-
-    if (
-      !element.contains(range.startContainer) ||
-      !element.contains(range.endContainer)
-    ) {
-      return
-    }
-
-    const normalizeOffset = (
-      container: Node,
-      offset: number,
-      edge: 'start' | 'end'
-    ) => {
-      if (container === element) {
-        return edge === 'start' ? 0 : displayValue.length
-      }
-
-      return offset
-    }
-
-    const startOffset = normalizeOffset(
-      range.startContainer,
-      range.startOffset,
-      'start'
-    )
-    const endOffset = normalizeOffset(
-      range.endContainer,
-      range.endOffset,
-      'end'
-    )
-
-    if (
-      !selection.isCollapsed &&
-      startOffset === 0 &&
-      endOffset >= displayValue.length
-    ) {
-      sectionSelectionModeRef.current[inputId] = 'all'
-      caretPositionsRef.current[inputId] = 0
-      return
-    }
-
-    sectionSelectionModeRef.current[inputId] = 'caret'
-    caretPositionsRef.current[inputId] = Math.min(
-      endOffset,
-      displayValue.length
-    )
-  }, [
-    caretPositionsRef,
-    displayValue.length,
-    inputId,
-    sectionRefs,
-    sectionSelectionModeRef,
-  ])
-
   return (
     <>
       <span
@@ -601,7 +533,23 @@ export default function SegmentedFieldSection({
           }
         }}
         onMouseUp={() => {
-          syncSelectionFromDom()
+          // If internal state is 'all' but the DOM selection has collapsed
+          // (e.g. user clicked within an already-focused section to place a caret),
+          // sync the internal caret position from the DOM.
+          if (sectionSelectionModeRef.current[inputId] === 'all') {
+            const sel = window.getSelection()
+            if (sel?.isCollapsed && sel.rangeCount > 0) {
+              const range = sel.getRangeAt(0)
+              const el = sectionRefs.current[inputId]
+              if (el?.contains(range.startContainer)) {
+                sectionSelectionModeRef.current[inputId] = 'caret'
+                caretPositionsRef.current[inputId] = Math.min(
+                  range.startOffset,
+                  displayValue.length
+                )
+              }
+            }
+          }
         }}
         onBeforeInput={(event) => {
           if (
@@ -643,7 +591,6 @@ export default function SegmentedFieldSection({
 
           const hadWholeGroupSelected = groupSelectionRef.current
           clearGroupSelection()
-          syncSelectionFromDom()
 
           if (key === 'Enter') {
             event.preventDefault()

@@ -166,6 +166,7 @@ describe('SegmentedField', () => {
         '.dnb-segmented-field__hidden-input'
       )
       expect(hiddenInput).toBeInTheDocument()
+      expect(hiddenInput.classList).toContain('dnb-sr-only')
       expect(hiddenInput.value).toBe('12/34')
     })
 

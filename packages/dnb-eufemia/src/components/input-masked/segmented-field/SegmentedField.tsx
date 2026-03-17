@@ -77,19 +77,6 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
     optionsEnhancer?.({ overwriteMode })
   }, [optionsEnhancer, overwriteMode])
 
-  const onLegendClick = useCallback(() => {
-    if (disabled) {
-      return
-    }
-
-    const firstId = inputs[0]?.id
-    if (!firstId) {
-      return
-    }
-
-    sectionRefs.current[String(firstId)]?.focus()
-  }, [disabled, inputs])
-
   const onChange = useCallback(
     (inputId: string, value: string) => {
       const updatedValues = {
@@ -246,6 +233,23 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
     [selectSection, setSectionCaret]
   )
 
+  const focusFirstSection = useCallback(
+    (event?: React.FocusEvent<HTMLDivElement>) => {
+      const firstId = inputs[0]?.id
+
+      if (disabled || !firstId) {
+        return
+      }
+
+      focusSection(String(firstId), 'all')
+    },
+    [disabled, focusSection, inputs]
+  )
+
+  const onLegendClick = useCallback(() => {
+    focusFirstSection()
+  }, [focusFirstSection])
+
   const WrapperElement: 'fieldset' | 'div' = label ? 'fieldset' : 'div'
   const hiddenInputValue = joinValues(values, delimiter)
 
@@ -365,10 +369,10 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
             </div>
             <input
               id={id}
-              className="dnb-segmented-field__hidden-input"
+              className="dnb-segmented-field__hidden-input dnb-sr-only"
               value={hiddenInputValue}
+              onFocus={focusFirstSection}
               readOnly
-              hidden
               tabIndex={-1}
               aria-hidden
             />

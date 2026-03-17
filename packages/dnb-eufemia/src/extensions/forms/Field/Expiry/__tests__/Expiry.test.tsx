@@ -135,6 +135,19 @@ describe('Field.Expiry', () => {
     expect(year).toHaveAttribute('autocomplete', 'cc-exp-year')
   })
 
+  it('should focus and select month input on label click', async () => {
+    render(<Field.Expiry label="Expiry" value="1225" />)
+
+    const monthInput = getMonthInput()
+    const label = document.querySelector('label[for]')
+
+    await userEvent.click(label)
+
+    expect(document.activeElement).toBe(monthInput)
+    expect(monthInput.selectionStart).toBe(0)
+    expect(monthInput.selectionEnd).toBe(monthInput.value.length)
+  })
+
   it('should select all segments and copy the whole expiry value', async () => {
     render(<Field.Expiry value="1225" />)
 

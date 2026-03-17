@@ -1480,9 +1480,6 @@ html[data-visual-test] .dnb-input__input {
     padding: 0 0.0625rem;
   }
 }
-.dnb-segmented-field__hidden-input {
-  display: none;
-}
 .dnb-segmented-field__fieldset .dnb-segmented-field__fieldset .dnb-segmented-field__group .dnb-segmented-field__section.dnb-input__input:first-child {
   padding-left: 0.25rem;
 }
