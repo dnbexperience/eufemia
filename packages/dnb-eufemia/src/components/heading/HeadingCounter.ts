@@ -3,7 +3,7 @@
  *
  */
 
-import { HeadingAllProps, InternalHeadingLevel } from './Heading'
+import type { HeadingAllProps, InternalHeadingLevel } from './Heading'
 import { globalSyncCounter, globalHeadingCounter } from './HeadingHelpers'
 
 export type HeadingCounter = Counter

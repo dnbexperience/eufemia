@@ -2,7 +2,7 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Props } from '..'
+import type { Props } from '..'
 import { Field, Form } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 

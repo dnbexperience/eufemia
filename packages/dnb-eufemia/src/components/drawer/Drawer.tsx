@@ -10,7 +10,7 @@ import DrawerHeader from './parts/DrawerHeader'
 import DrawerNavigation from './parts/DrawerNavigation'
 import clsx from 'clsx'
 import Context from '../../shared/Context'
-import { DrawerProps, DrawerContentProps } from './types'
+import type { DrawerProps, DrawerContentProps } from './types'
 import { removeUndefinedProps } from '../../shared/component-helper'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 

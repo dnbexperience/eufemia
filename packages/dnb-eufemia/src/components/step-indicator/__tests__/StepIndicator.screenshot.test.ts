@@ -107,7 +107,6 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
   })
 })
 
-// eslint-disable-next-line jest/no-identical-title
 describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
   setupPageScreenshot({
     themeName,

@@ -1,5 +1,5 @@
 import { InputProperties } from '../../../../components/input/InputDocs'
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 
 export const StringProperties: PropertiesTableProps = {
   multiline: {
@@ -34,7 +34,7 @@ export const StringProperties: PropertiesTableProps = {
   },
   autoComplete: {
     doc: 'For HTML [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) attributes.',
-    type: ['on', 'string'],
+    type: ['"on"', 'string'],
     status: 'optional',
   },
   minLength: {

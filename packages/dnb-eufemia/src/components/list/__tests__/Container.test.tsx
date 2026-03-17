@@ -1,7 +1,8 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import { axeComponent } from '../../../core/jest/jestSetup'
-import Container, { ListContainerProps } from '../Container'
+import type { ListContainerProps } from '../Container'
+import Container from '../Container'
 import ItemContent from '../ItemContent'
 import Provider from '../../../shared/Provider'
 

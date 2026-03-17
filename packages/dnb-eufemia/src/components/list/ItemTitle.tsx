@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import clsx from 'clsx'
-import FlexItem, { type Props as FlexItemProps } from '../flex/Item'
+import type { Props as FlexItemProps } from '../flex/Item'
+import FlexItem from '../flex/Item'
 import ItemOverline from './ItemOverline'
 import ItemSubline from './ItemSubline'
 import { ListContext } from './ListContext'

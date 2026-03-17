@@ -10,7 +10,7 @@ import {
   makeUniqueId,
   convertJsxToString,
 } from '../../shared/component-helper'
-import {
+import type {
   DrawerListDataArrayItem,
   DrawerListDataArrayObject,
   DrawerListData,
@@ -19,8 +19,8 @@ import {
   DrawerListInternalData,
   DrawerListInternalItem,
 } from './DrawerList'
-import { DrawerListProviderProps } from './DrawerListProvider'
-import { DrawerListContextState } from './DrawerListContext'
+import type { DrawerListProviderProps } from './DrawerListProvider'
+import type { DrawerListContextState } from './DrawerListContext'
 import Icon from '../../components/icon/Icon'
 import CountryFlag from '../../components/country-flag/CountryFlag'
 

@@ -1,4 +1,4 @@
-import { test, expect, Page } from '@playwright/test'
+import { test, expect, type Page } from '@playwright/test'
 
 async function clearStorage(page: Page) {
   await page.evaluate(() => window.localStorage.clear())

@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 import { getFieldEventsWithTypes } from '../FieldDocs'
 import { StringProperties } from '../String/StringDocs'
 import { FieldProperties } from '../../Field/FieldDocs'
@@ -41,12 +41,12 @@ export const PhoneNumberProperties: PropertiesTableProps = {
   },
   countryCodeLabel: {
     doc: 'Label to show above / before the country code field.',
-    type: 'ReactNode',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   numberLabel: {
     doc: 'Label to show above / before the number field. Defaults to the translated label from `PhoneNumber.label`.',
-    type: 'ReactNode',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   numberMask: {
@@ -56,7 +56,7 @@ export const PhoneNumberProperties: PropertiesTableProps = {
   },
   width: {
     doc: '`large` for predefined standard width, `stretch` for fill available width.',
-    type: 'string | false',
+    type: ['string', 'false'],
     status: 'optional',
   },
   label: {

@@ -10,7 +10,7 @@ import OriginalTooltip from '../Tooltip'
 import Anchor from '../../anchor/Anchor'
 import NumberFormat from '../../number-format/NumberFormat'
 import Popover, * as PopoverModule from '../../popover/Popover'
-import { TooltipAllProps } from '../types'
+import type { TooltipAllProps } from '../types'
 
 global.ResizeObserver = class {
   constructor() {

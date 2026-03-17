@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { useTranslation } from '../../hooks'
-import { Path } from '../../types'
+import type { Path } from '../../types'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
 
 type SharedState = {

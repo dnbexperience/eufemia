@@ -1,5 +1,5 @@
 import { format, isValid } from 'date-fns'
-import { DatePickerDates } from './useDates'
+import type { DatePickerDates } from './useDates'
 import { useCallback, useState } from 'react'
 
 export type DatePickerInputDates = {

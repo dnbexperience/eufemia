@@ -1,8 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
-import ScrollView, {
-  ScrollViewAllProps,
-} from '../../fragments/scroll-view/ScrollView'
+import type { ScrollViewAllProps } from '../../fragments/scroll-view/ScrollView'
+import ScrollView from '../../fragments/scroll-view/ScrollView'
 
 import type { SpacingProps } from '../../shared/types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'

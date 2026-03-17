@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../../shared/types'
 
 export const ViewContainerProperties: PropertiesTableProps = {
   title: {
@@ -21,7 +21,7 @@ export const ViewContainerProperties: PropertiesTableProps = {
 export const ViewContainerEvents: PropertiesTableProps = {
   onEdit: {
     doc: 'Callback for the edit button.',
-    type: 'Function',
+    type: 'function',
     status: 'optional',
   },
 }

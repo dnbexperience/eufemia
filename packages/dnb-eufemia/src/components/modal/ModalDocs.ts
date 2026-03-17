@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const ModalProperties: PropertiesTableProps = {
   id: {
@@ -173,17 +173,17 @@ export const ModalProperties: PropertiesTableProps = {
   },
   alignContent: {
     doc: 'Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.',
-    type: ['left', 'center', 'centered', 'right'],
+    type: ['"left"', '"center"', '"centered"', '"right"'],
     status: 'optional',
   },
   containerPlacement: {
     doc: 'For `drawer` mode only. Defines the placement on what side the Drawer should be opened. Defaults to `right`.',
-    type: ['left', 'right', 'top', 'bottom'],
+    type: ['"left"', '"right"', '"top"', '"bottom"'],
     status: 'optional',
   },
   verticalAlignment: {
     doc: 'Define the vertical alignment of the container. Defaults to `center`.',
-    type: ['top', 'center'],
+    type: ['"top"', '"center"'],
     status: 'optional',
   },
   closeTitle: {

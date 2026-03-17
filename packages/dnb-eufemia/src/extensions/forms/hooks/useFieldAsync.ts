@@ -1,11 +1,11 @@
 import { useRef, useCallback, useMemo } from 'react'
-import {
+import type {
   EventReturnWithStateObjectAndSuccess,
   EventStateObjectWithSuccess,
   Identifier,
   FieldStatus,
 } from '../types'
-import { FormError } from '../utils'
+import type { FormError } from '../utils'
 import { isAsync } from '../../../shared/helpers/isAsync'
 import type {
   SubmitStateWithValidating,

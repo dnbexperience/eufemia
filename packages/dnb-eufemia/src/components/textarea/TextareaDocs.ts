@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const textareaProperties: PropertiesTableProps = {
   value: {
@@ -8,7 +8,7 @@ export const textareaProperties: PropertiesTableProps = {
   },
   align: {
     doc: 'Defines the `text-align` of the Textarea. Can be `left`, `center`, `right`, or `justify`. Defaults to `left`.',
-    type: ['left', 'center', 'right', 'justify'],
+    type: ['"left"', '"center"', '"right"', '"justify"'],
     status: 'optional',
   },
   stretch: {
@@ -33,7 +33,7 @@ export const textareaProperties: PropertiesTableProps = {
   },
   labelDirection: {
     doc: 'Use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`.',
-    type: ['horizontal', 'vertical'],
+    type: ['"horizontal"', '"vertical"'],
     status: 'optional',
   },
   suffix: {
@@ -63,17 +63,17 @@ export const textareaProperties: PropertiesTableProps = {
   },
   size: {
     doc: 'The sizes you can choose for 1 row is `small` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `small`.',
-    type: ['small', 'medium', 'large'],
+    type: ['"small"', '"medium"', '"large"'],
     status: 'optional',
   },
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['error', 'info', 'boolean'],
+    type: ['"error"', '"info"', 'boolean'],
     status: 'optional',
   },
   statusState: {
     doc: 'Defines the state of the status. Defaults to `error`.',
-    type: ['error', 'warning', 'info', 'success', 'marketing'],
+    type: ['"error"', '"warning"', '"info"', '"success"', '"marketing"'],
     status: 'optional',
   },
   statusProps: {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { ThemeNames } from '../../shared'
+import type { ThemeNames } from '../../shared'
 import sbankenProperites from '../../style/themes/sbanken/properties'
 import carnegieProperites from '../../style/themes/carnegie/properties'
 

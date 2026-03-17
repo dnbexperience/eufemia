@@ -1,4 +1,4 @@
-import nb from './nb-NO'
+import type nb from './nb-NO'
 export default {
   'sv-SE': {
     TextCounter: {

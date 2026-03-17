@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 const dateType = ['string', 'Date']
 
@@ -142,7 +142,7 @@ export const DatePickerProperties: PropertiesTableProps = {
   },
   direction: {
     doc: 'Defines the direction of the date picker popup. Defaults to `auto`.',
-    type: ['auto', 'top', 'bottom'],
+    type: ['"auto"', '"top"', '"bottom"'],
     status: 'optional',
   },
   link: {
@@ -158,13 +158,13 @@ export const DatePickerProperties: PropertiesTableProps = {
   firstDay: {
     doc: 'To define the first day of the week. Defaults to `monday`.',
     type: [
-      'monday',
-      'tuesday',
-      'wednesday',
-      'thursday',
-      'friday',
-      'saturday',
-      'sunday',
+      '"monday"',
+      '"tuesday"',
+      '"wednesday"',
+      '"thursday"',
+      '"friday"',
+      '"saturday"',
+      '"sunday"',
     ],
     status: 'optional',
   },
@@ -185,7 +185,7 @@ export const DatePickerProperties: PropertiesTableProps = {
   },
   labelAlignment: {
     doc: 'Sets the alignment of the label. Defaults to `left`.',
-    type: ['left', 'center', 'right'],
+    type: ['"left"', '"center"', '"right"'],
     status: 'optional',
   },
   onlyMonth: {
@@ -210,7 +210,7 @@ export const DatePickerProperties: PropertiesTableProps = {
   },
   labelDirection: {
     doc: ' Use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`.',
-    type: ['vertical', 'horizontal'],
+    type: ['"vertical"', '"horizontal"'],
     status: 'optional',
   },
   suffix: {
@@ -240,7 +240,7 @@ export const DatePickerProperties: PropertiesTableProps = {
   },
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['error', 'info', 'boolean'],
+    type: ['"error"', '"info"', 'boolean'],
     status: 'optional',
   },
   statusState: {

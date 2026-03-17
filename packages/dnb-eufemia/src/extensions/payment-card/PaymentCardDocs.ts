@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const PaymentCardProperties: PropertiesTableProps = {
   productCode: {
@@ -19,13 +19,13 @@ export const PaymentCardProperties: PropertiesTableProps = {
   cardStatus: {
     doc: 'Use one of these: `active`, `notActive`, `newOrder`, `new`, `blocked`, `expired`, `renewed`, `replaced`, `orderInProcess`, `unknown`. Defaults to `active`.',
     type: [
-      'active',
+      '"active"',
       'notActive',
       'newOrder',
-      'blocked',
-      'expired',
-      'renewed',
-      'replaced',
+      '"blocked"',
+      '"expired"',
+      '"renewed"',
+      '"replaced"',
       'orderInProcess',
       'unknown',
     ],
@@ -33,7 +33,7 @@ export const PaymentCardProperties: PropertiesTableProps = {
   },
   variant: {
     doc: 'Defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.',
-    type: ['normal', 'compact'],
+    type: ['"normal"', '"compact"'],
     status: 'optional',
   },
   digits: {

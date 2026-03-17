@@ -1,5 +1,5 @@
 import { createContext } from 'react'
-import { Props } from './Visibility'
+import type { Props } from './Visibility'
 
 type VisibilityContext = {
   isVisible: boolean

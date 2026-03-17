@@ -6,7 +6,8 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import Section, { SectionAllProps } from '../Section'
+import type { SectionAllProps } from '../Section'
+import Section from '../Section'
 import Provider from '../../../shared/Provider'
 
 const props: SectionAllProps = {

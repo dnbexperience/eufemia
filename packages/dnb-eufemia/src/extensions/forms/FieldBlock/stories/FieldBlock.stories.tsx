@@ -2,7 +2,8 @@ import React, { useCallback } from 'react'
 import FieldBlock from '../FieldBlock'
 import Input from '../../../../components/Input'
 import { useFieldProps } from '../../hooks'
-import { Field, FieldProps, Form } from '../..'
+import type { FieldProps } from '../..'
+import { Field, Form } from '../..'
 import { Anchor, Flex } from '../../../../components'
 
 export default {

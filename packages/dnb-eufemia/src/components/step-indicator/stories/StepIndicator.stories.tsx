@@ -8,7 +8,7 @@ import { Wrapper, Box } from 'storybook-utils/helpers'
 import { StepIndicator, Button, Space } from '../../'
 import { Code } from '../../..'
 import { Provider } from '../../../shared'
-import { StepIndicatorDataItem } from '../StepIndicator'
+import type { StepIndicatorDataItem } from '../StepIndicator'
 
 export default {
   title: 'Eufemia/Components/StepIndicator',

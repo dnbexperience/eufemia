@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const SwitchProperties: PropertiesTableProps = {
   checked: {
@@ -13,12 +13,12 @@ export const SwitchProperties: PropertiesTableProps = {
   },
   label: {
     doc: 'Use either the `label` property or provide a custom one.',
-    type: 'ReactNode',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   labelPosition: {
     doc: 'Defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.',
-    type: ['left', 'right'],
+    type: ['"left"', '"right"'],
     status: 'optional',
   },
   labelSrOnly: {
@@ -28,17 +28,17 @@ export const SwitchProperties: PropertiesTableProps = {
   },
   size: {
     doc: 'The size of the switch. For now there is **medium** (default) and **large**.',
-    type: ['default', 'medium', 'large'],
+    type: ['"default"', '"medium"', '"large"'],
     status: 'optional',
   },
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['error', 'info', 'boolean'],
+    type: ['"error"', '"info"', 'boolean'],
     status: 'optional',
   },
   statusState: {
     doc: 'Defines the state of the status. Defaults to `error`.',
-    type: ['error', 'warning', 'info', 'success', 'marketing'],
+    type: ['"error"', '"warning"', '"info"', '"success"', '"marketing"'],
     status: 'optional',
   },
   statusProps: {
@@ -53,7 +53,7 @@ export const SwitchProperties: PropertiesTableProps = {
   },
   suffix: {
     doc: 'Text describing the content of the Switch more than the label. You can also send in a React component, so it gets wrapped inside the Switch component.',
-    type: 'ReactNode',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   skeleton: {

@@ -12,10 +12,11 @@ import {
   within,
   act,
 } from '@testing-library/react'
-import StepIndicator, {
+import type {
   StepIndicatorData,
   StepIndicatorProps,
 } from '../StepIndicator'
+import StepIndicator from '../StepIndicator'
 import MatchMediaMock from 'jest-matchmedia-mock'
 
 const matchMedia = new MatchMediaMock()

@@ -1,3 +1,4 @@
+import type { PointerPath } from '../../json-pointer'
 import pointer, {
   compile,
   dict,
@@ -7,7 +8,6 @@ import pointer, {
   remove,
   set,
   walk,
-  PointerPath,
 } from '../../json-pointer'
 
 describe('json-pointer', () => {

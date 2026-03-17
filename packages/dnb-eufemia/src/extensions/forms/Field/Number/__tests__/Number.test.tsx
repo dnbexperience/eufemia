@@ -8,13 +8,13 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import type { JSONSchema } from '../../..'
 import {
   DataContext,
   Field,
   FieldBlock,
   Form,
   Iterate,
-  JSONSchema,
   makeAjvInstance,
   z,
 } from '../../..'

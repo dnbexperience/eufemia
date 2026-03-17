@@ -1,10 +1,11 @@
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
-import Tag, { TagProps } from '../Tag'
+import type { TagProps } from '../Tag'
+import Tag from '../Tag'
 import nbNO from '../../../shared/locales/nb-NO'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { Provider } from '../../../shared'
-import { TagGroupProps } from '../TagGroup'
+import type { TagGroupProps } from '../TagGroup'
 
 const nb = nbNO['nb-NO'].Tag
 

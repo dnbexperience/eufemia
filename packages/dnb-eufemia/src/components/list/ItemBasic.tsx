@@ -1,5 +1,6 @@
 import React from 'react'
-import ItemContent, { ItemContentProps } from './ItemContent'
+import type { ItemContentProps } from './ItemContent'
+import ItemContent from './ItemContent'
 import ItemIcon from './ItemIcon'
 import ItemTitle from './ItemTitle'
 import type { IconIcon } from '../icon/Icon'

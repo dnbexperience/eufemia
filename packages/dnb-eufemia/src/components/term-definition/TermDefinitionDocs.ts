@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const TermDefinitionProperties: PropertiesTableProps = {
   children: {
@@ -13,7 +13,7 @@ export const TermDefinitionProperties: PropertiesTableProps = {
   },
   placement: {
     doc: 'Defines the preferred popover placement relative to the trigger.',
-    type: ['top', 'right', 'bottom', 'left'],
+    type: ['"top"', '"right"', '"bottom"', '"left"'],
     defaultValue: 'bottom',
     status: 'optional',
   },

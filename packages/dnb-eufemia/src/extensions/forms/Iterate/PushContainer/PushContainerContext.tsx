@@ -1,6 +1,6 @@
 import { createContext } from 'react'
-import { Path } from '../../types'
-import { ContainerMode } from '../Array'
+import type { Path } from '../../types'
+import type { ContainerMode } from '../Array'
 
 type PushContainerContext = {
   path: Path

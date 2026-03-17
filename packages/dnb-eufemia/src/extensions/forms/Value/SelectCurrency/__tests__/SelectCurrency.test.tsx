@@ -1,7 +1,7 @@
 import React from 'react'
 import { screen, render } from '@testing-library/react'
 import { Value, Form } from '../../..'
-import { CurrencyISO } from '../../../constants/currencies'
+import type { CurrencyISO } from '../../../constants/currencies'
 
 describe('Value.SelectCurrency', () => {
   it('renders string values', () => {

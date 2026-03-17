@@ -3,15 +3,15 @@
  *
  */
 
-import {
+import type {
   HeadingAllProps,
   InternalHeadingLevel,
   HeadingLevelSizeResolutions,
 } from './Heading'
-import { ThemeNames } from '../../shared'
+import type { ThemeNames } from '../../shared'
 import { warn, convertJsxToString } from '../../shared/component-helper'
 import type { DynamicElement } from '../../shared/types'
-import { HeadingCounter } from './HeadingCounter'
+import type { HeadingCounter } from './HeadingCounter'
 
 type GlobalSyncCounter = { current: HeadingCounter }
 type GlobalHeadingCounter = { current: HeadingCounter }

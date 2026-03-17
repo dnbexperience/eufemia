@@ -3,8 +3,8 @@ import { Flex, P } from '@dnb/eufemia/src'
 import {
   Field,
   Form,
-  JSONSchema,
-  SectionProps,
+  type JSONSchema,
+  type SectionProps,
   Tools,
   Value,
   makeAjvInstance,

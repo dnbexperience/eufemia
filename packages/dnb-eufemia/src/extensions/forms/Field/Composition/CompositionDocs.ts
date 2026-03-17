@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 import { FieldBlockProperties } from '../../FieldBlock/FieldBlockDocs'
 
 export const CompositionProperties: PropertiesTableProps = {

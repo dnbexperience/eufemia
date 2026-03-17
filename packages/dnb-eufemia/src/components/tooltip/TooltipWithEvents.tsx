@@ -17,7 +17,7 @@ import { combineDescribedBy, warn } from '../../shared/component-helper'
 import { isTouch } from './TooltipHelpers'
 import Popover from '../popover/Popover'
 import getRefElement from '../../shared/internal/getRefElement'
-import { TooltipProps } from './types'
+import type { TooltipProps } from './types'
 import { TooltipContext } from './TooltipContext'
 import AriaLive from '../AriaLive'
 
