@@ -6,10 +6,6 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
 .dnb-input-masked {
-  &--guide {
-    font-family: var(--font-family-monospace);
-  }
-
   // Used on iOS when faking the inputMode to be type of number during focus – this fix avoids a flickering
   input::placeholder {
     color: inherit;
@@ -54,7 +50,6 @@
   outline: none;
 
   font-family: var(--font-family-monospace);
-  text-align: center;
   border: none;
   background: transparent;
 
@@ -75,6 +70,13 @@
   }
 }
 
+.dnb-multi-input-mask__fieldset
+  ~ .dnb-multi-input-mask__fieldset
+  .dnb-multi-input-mask__input.dnb-input__input:first-of-type {
+  // On second fieldset, the left padding should be less, because the delimiter already has some spacing.
+  padding-left: 0.25rem;
+}
+
 .dnb-multi-input-mask {
   width: fit-content;
 
@@ -86,6 +88,14 @@
       &--highlight {
         color: var(--color-black);
       }
+    }
+  }
+
+  .dnb-input__status--error &:not(:focus-within),
+  &.dnb-input__status--error:not(:focus-within) {
+    .dnb-multi-input-mask__input,
+    .dnb-multi-input-mask__delimiter {
+      color: var(--color-fire-red);
     }
   }
 }

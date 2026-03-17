@@ -912,9 +912,6 @@ html[data-visual-test] .dnb-input__input {
 * InputMasked component
 *
 */
-.dnb-input-masked--guide {
-  font-family: var(--font-family-monospace);
-}
 .dnb-input-masked input::placeholder {
   color: inherit;
 }
@@ -957,7 +954,6 @@ html[data-visual-test] .dnb-input__input {
   transform: translateY(0);
   outline: none;
   font-family: var(--font-family-monospace);
-  text-align: center;
   border: none;
   background: transparent;
   overflow: visible;
@@ -973,6 +969,10 @@ html[data-visual-test] .dnb-input__input {
   padding: 0 0.25rem;
 }
 
+.dnb-multi-input-mask__fieldset ~ .dnb-multi-input-mask__fieldset .dnb-multi-input-mask__input.dnb-input__input:first-of-type {
+  padding-left: 0.25rem;
+}
+
 .dnb-multi-input-mask {
   width: fit-content;
 }
@@ -983,5 +983,10 @@ html[data-visual-test] .dnb-input__input {
 .dnb-multi-input-mask:not(.dnb-input__status--error) .dnb-multi-input-mask__input--highlight,
 .dnb-multi-input-mask:not(.dnb-input__status--error) .dnb-multi-input-mask__delimiter--highlight {
   color: var(--color-black);
+}
+.dnb-input__status--error .dnb-multi-input-mask:not(:focus-within) .dnb-multi-input-mask__input,
+.dnb-input__status--error .dnb-multi-input-mask:not(:focus-within) .dnb-multi-input-mask__delimiter, .dnb-multi-input-mask.dnb-input__status--error:not(:focus-within) .dnb-multi-input-mask__input,
+.dnb-multi-input-mask.dnb-input__status--error:not(:focus-within) .dnb-multi-input-mask__delimiter {
+  color: var(--color-fire-red);
 }"
 `;

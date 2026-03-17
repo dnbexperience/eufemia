@@ -19,7 +19,7 @@ import { InputMasked } from '@dnb/eufemia'
 
 ## Description
 
-The InputMasked component uses the basic [Input](/uilib/components/input) component, but with some additional masking functionality.
+The InputMasked component uses the basic [Input](/uilib/components/input) component, but with input masking powered by [Maskito](https://maskito.dev/).
 
 ## Relevant links
 
@@ -30,7 +30,11 @@ The InputMasked component uses the basic [Input](/uilib/components/input) compon
 
 This component uses the basic [Input](/uilib/components/input) component with a set of additional options and features.
 
-You can either create your own mask or use one of the provided ones. There are also masks that change based on different [locales](/uilib/components/input-masked/info?fullscreen#mask-based-on-locale) (`asCurrency` or `asNumber`).
+You can either create your own mask using an array of RegExp and string tokens, a single RegExp, or use one of the provided number/currency masks. There are also masks that change based on different [locales](/uilib/components/input-masked/info?fullscreen#mask-based-on-locale) (`asCurrency` or `asNumber`).
+
+Array masks define the expected input character-by-character. Each RegExp in the array represents a user-editable slot, while strings act as fixed separator tokens. For example, `[/[0-9]/, /[0-9]/, ' ', /[0-9]/, /[0-9]/, ' ', /[0-9]/, /[0-9]/]` creates a mask for a six-digit code with spaces after every two digits.
+
+You can also use `allowOverflow` to let users type beyond the defined mask length, and `overwriteMode` to control how characters are overwritten (`shift` moves to the next slot, `replace` stays on the current slot).
 
 ### Accessibility
 

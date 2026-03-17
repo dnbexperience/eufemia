@@ -603,6 +603,7 @@ describe('Tools.ListAllProps', () => {
                   role="spinbutton"
                   step="1"
                   type="text"
+                  value="0suffix"
                 />,
               },
               "showStepControls": true,
@@ -629,6 +630,7 @@ describe('Tools.ListAllProps', () => {
                   role="spinbutton"
                   step="1"
                   type="text"
+                  value="1suffix"
                 />,
               },
               "showStepControls": true,

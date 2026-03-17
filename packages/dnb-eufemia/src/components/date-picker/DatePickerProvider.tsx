@@ -125,14 +125,7 @@ function DatePickerProvider(props: DatePickerProviderProps) {
 
   const getReturnObject = useCallback(
     <E,>({ event = null, ...rest }: GetReturnObjectParams<E> = {}) => {
-      const {
-        startDate,
-        endDate,
-        partialStartDate,
-        partialEndDate,
-        invalidStartDate,
-        invalidEndDate,
-      } = {
+      const { startDate, endDate, invalidStartDate, invalidEndDate } = {
         ...views,
         ...dates,
         ...rest,
@@ -171,8 +164,6 @@ function DatePickerProvider(props: DatePickerProviderProps) {
             isDisabled(endDate, dates.minDate, dates.maxDate)
               ? false
               : endDateIsValid,
-          partialStartDate,
-          partialEndDate,
           invalidStartDate,
           invalidEndDate,
         }
@@ -181,7 +172,6 @@ function DatePickerProvider(props: DatePickerProviderProps) {
       return {
         ...returnObject,
         date: startDateIsValid ? format(startDate, returnFormat) : null,
-        partialDate: partialStartDate,
         invalidDate: invalidStartDate,
         isValid:
           hasMinOrMaxDates &&

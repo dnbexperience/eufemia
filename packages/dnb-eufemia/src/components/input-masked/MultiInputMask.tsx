@@ -1,9 +1,17 @@
+import React, {
+  useCallback,
+  useMemo,
+  useRef,
+  useEffect,
+  useState,
+  useLayoutEffect,
+  RefObject,
+} from 'react'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import React, { RefObject, useRef } from 'react'
 import Input from '../Input'
 import type { InputProps } from '../Input'
 import TextMask from './TextMask'
-import type { TextMaskHandle } from './TextMask'
+import type { MaskitoOptions } from '@maskito/core'
 import useHandleCursorPosition from './hooks/useHandleCursorPosition'
 import clsx from 'clsx'
 import FormLabel from '../FormLabel'
@@ -12,6 +20,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import { FormStatusState, FormStatusText } from '../FormStatus'
 import { useMultiInputValue } from './hooks/useMultiInputValues'
 import useId from '../../shared/helpers/useId'
+import { isiOS, isAndroid } from '../../shared/helpers'
 
 export type MultiInputMaskInput<T extends string> = {
   /**
@@ -26,10 +35,6 @@ export type MultiInputMaskInput<T extends string> = {
    * Each RegExp item in the array defines what the mask should be for each subsequent character in the input. The length sets the size of the input, so an array of two items would produce an input of two characters
    */
   mask: RegExp[]
-  /**
-   * Sets the placeholder character used for the input.
-   */
-  placeholderCharacter: string
 } & Omit<React.HTMLProps<HTMLInputElement>, 'onChange' | 'ref'>
 
 export type MultiInputMaskValue<T extends string> = {
@@ -53,6 +58,11 @@ export type MultiInputMaskProps<T extends string> = {
    * Values used for the inputs inside the component. Expects an object with keys matching the id's defined in `inputs`
    */
   values?: MultiInputMaskValue<T>
+  /**
+   * Controls how Maskito handles typing over existing characters.
+   * `shift` (default) moves to the next slot, while `replace` keeps the caret in place while overwriting.
+   */
+  overwriteMode?: MaskitoOptions['overwriteMode']
   /**
    * Defines the delimiter used to separate the inputs inside the component.
    */
@@ -85,6 +95,20 @@ export type MultiInputMaskProps<T extends string> = {
    * Text describing the content of the input more than the label. you can also send in a React component, so it gets wrapped inside the Input component.
    */
   suffix?: React.ReactNode
+  /**
+   * Keeps compatibility with callers that already forward the internal Input prop.
+   */
+  _omitInputShellClass?: boolean
+  /**
+   * Refers to the scope element that contains the input fields.
+   */
+  scopeRef?: RefObject<HTMLElement | null>
+  /**
+   * Optional enhancer applied to Maskito options before they reach TextMask.
+   */
+  optionsEnhancer?: (
+    options: MaskitoOptions | null
+  ) => MaskitoOptions | null
 } & Omit<
   React.HTMLProps<HTMLInputElement>,
   | 'onChange'
@@ -95,139 +119,94 @@ export type MultiInputMaskProps<T extends string> = {
   | 'label'
   | 'placeholder'
   | 'size'
+  | 'onSubmit'
+  | 'onKeyDown'
 > &
   SpacingProps &
   Pick<InputProps, 'size'>
 
-function MultiInputMask<T extends string>({
-  id,
-  label,
-  labelDirection = 'horizontal',
-  inputs,
-  delimiter,
-  onChange: onChangeExternal,
-  disabled,
-  status,
-  statusState,
-  values: defaultValues,
-  className,
-  stretch,
-  inputMode,
-  suffix,
-  onBlur,
-  onFocus,
-  ...props
-}: MultiInputMaskProps<T>) {
-  id = useId(id)
+function MultiInputMask<T extends string>(props: MultiInputMaskProps<T>) {
+  const fallbackId = useId(props?.id)
+  const fallbackFieldsetRef = useRef<HTMLElement | null>(null)
+  const {
+    id = fallbackId,
+    label,
+    labelDirection = 'horizontal',
+    inputs,
+    delimiter,
+    onChange: onChangeExternal,
+    disabled,
+    status,
+    statusState,
+    values: defaultValues,
+    className,
+    stretch,
+    inputMode,
+    _omitInputShellClass,
+    scopeRef = fallbackFieldsetRef,
+    size,
+    suffix,
+    onBlur,
+    onFocus,
+    overwriteMode = 'shift',
+    optionsEnhancer,
+    ...rest
+  } = props
 
-  const [values, onChange] = useMultiInputValue({
+  const [values, onChangeBase] = useMultiInputValue({
     inputs,
     defaultValues,
-    callback: onChangeExternal,
   })
 
   const inputRefs = useRef<Array<RefObject<HTMLInputElement>>>([])
+  // Keep a ref of the latest values to ensure blur handlers see up-to-date state
+  const valuesRef = useRef(values)
+  valuesRef.current = values
   const areInputsInFocus = useRef<boolean>(false)
-
-  const { onKeyDown } = useHandleCursorPosition(
-    inputRefs.current,
-    getKeysToHandle()
-  )
-
-  const WrapperElement = label ? 'fieldset' : 'div'
-
-  return (
-    <WrapperElement
-      className={clsx(
-        'dnb-multi-input-mask__fieldset',
-        labelDirection === 'horizontal' &&
-          'dnb-multi-input-mask__fieldset--horizontal',
-        createSpacingClasses(props)
-      )}
-    >
-      <Input
-        {...(props as Record<string, unknown>)}
-        id={id}
-        label={
-          label && (
-            <FormLabel
-              element="legend"
-              forId={`${id}-${inputs[0]?.id}`}
-              disabled={disabled}
-              labelDirection={labelDirection}
-              onClick={onLegendClick}
-            >
-              {label}
-            </FormLabel>
-          )
-        }
-        className={clsx('dnb-multi-input-mask', className)}
-        labelDirection={labelDirection}
-        disabled={disabled}
-        status={status}
-        statusState={statusState}
-        suffix={suffix}
-        stretch={stretch}
-        inputElement={inputs.map(({ id: inputId, ...rest }, index) => {
-          return (
-            <MultiInputMaskInput
-              key={inputId}
-              id={id}
-              inputId={inputId}
-              delimiter={
-                index !== inputs.length - 1 ? delimiter : undefined
-              }
-              disabled={disabled}
-              inputMode={inputMode}
-              onKeyDown={onKeyDown}
-              onChange={onChange}
-              onFocus={() => {
-                if (!areInputsInFocus.current) {
-                  onFocus?.(values)
-                }
-
-                areInputsInFocus.current = true
-              }}
-              onBlur={(e) => {
-                if (!e.relatedTarget?.id?.includes(id)) {
-                  onBlur?.(values)
-                  areInputsInFocus.current = false
-                }
-              }}
-              getInputRef={getInputRef}
-              {...rest}
-              value={values[inputId]}
-            />
-          )
-        })}
-      />
-    </WrapperElement>
-  )
-
   // Event handlers
-  function onLegendClick() {
+  const onLegendClick = useCallback(() => {
     if (disabled) {
       return
     }
 
-    const firstInput = inputRefs.current[0].current
+    const byRef = inputRefs.current[0]?.current
+    const byId = document.getElementById(
+      `${id}-${inputs[0]?.id}`
+    ) as HTMLInputElement | null
+    const firstInput = byRef || byId
 
-    firstInput.focus()
-    firstInput.setSelectionRange(0, 0)
-  }
-
-  // Utilities
-  function getInputRef(ref?: { inputRef?: RefObject<HTMLInputElement> }) {
-    const inputRef = ref?.inputRef
-
-    if (inputRef && !inputRefs.current.includes(inputRef)) {
-      inputRefs.current.push(inputRef)
+    if (!firstInput) {
+      return
     }
 
-    return inputRef
-  }
+    firstInput.focus()
+  }, [disabled, id, inputs])
 
-  function getKeysToHandle() {
+  // Utilities
+  const getInputRef = useCallback(
+    (ref?: { inputRef?: RefObject<HTMLInputElement> }) => {
+      const inputRef = ref?.inputRef
+
+      if (inputRef && !inputRefs.current.includes(inputRef)) {
+        inputRefs.current.push(inputRef)
+      }
+
+      return inputRef
+    },
+    []
+  )
+
+  const getUniqueMasks = useCallback(() => {
+    const masks = new Set()
+
+    inputs.forEach((input) => {
+      input.mask.forEach((pattern) => masks.add(String(pattern)))
+    })
+
+    return masks
+  }, [inputs])
+
+  const getKeysToHandle = useCallback(() => {
     const uniqueMasks = getUniqueMasks()
 
     // Return the only one RegExp since all the inputs are using the same mask
@@ -246,36 +225,179 @@ function MultiInputMask<T extends string>({
       },
       {} as Record<T, RegExp[]>
     )
-  }
+  }, [getUniqueMasks, inputs])
 
-  function getUniqueMasks() {
-    const masks = new Set()
+  const { onKeyDown, onInput: onCursorInput } = useHandleCursorPosition(
+    getKeysToHandle(),
+    scopeRef,
+    {
+      onTransferToNext: ({ key, nextInput }) => {
+        const nextInputId = nextInput.dataset.maskId as T | undefined
 
-    inputs.forEach((input) => {
-      input.mask.forEach((pattern) => masks.add(String(pattern)))
-    })
+        if (!nextInputId) {
+          return
+        }
 
-    return masks
-  }
+        const inputConfig = inputs.find(({ id }) => id === nextInputId)
+        const firstMaskToken = inputConfig?.mask?.[0]
+
+        if (
+          !(firstMaskToken instanceof RegExp) ||
+          !firstMaskToken.test(key)
+        ) {
+          return
+        }
+
+        const currentValue = String(valuesRef.current[nextInputId] ?? '')
+        const maskLength = inputConfig.mask.length
+        const clippedCurrent = currentValue.slice(0, maskLength)
+        const nextValue = `${key}${clippedCurrent.slice(1)}`.slice(
+          0,
+          maskLength
+        )
+
+        nextInput.dataset.skipSelectOnFocus = 'true'
+        nextInput.dataset.caretPositionOnFocus = '1'
+        onChange(nextInputId, nextValue)
+      },
+    }
+  )
+
+  const onChange = useCallback(
+    (id: string, value: string) => {
+      // Update local ref immediately to avoid stale reads during blur
+      const updatedValues = {
+        ...valuesRef.current,
+        [id]: value,
+      } as MultiInputMaskValue<T>
+      valuesRef.current = updatedValues
+
+      onChangeBase(updatedValues)
+
+      // Call external onChange callback synchronously so parents relying on
+      // immediate emissions (e.g., DatePicker tests) see the update without delays
+      if (typeof onChangeExternal === 'function') {
+        onChangeExternal(updatedValues)
+      }
+    },
+    [onChangeBase, onChangeExternal]
+  )
+
+  const WrapperElement: 'fieldset' | 'div' = label ? 'fieldset' : 'div'
+
+  return (
+    <WrapperElement
+      ref={(el: HTMLFieldSetElement | HTMLDivElement | null) => {
+        if (!scopeRef.current) {
+          scopeRef.current = el as HTMLElement | null
+        }
+      }}
+      className={clsx(
+        'dnb-multi-input-mask__fieldset',
+        labelDirection === 'horizontal' &&
+          'dnb-multi-input-mask__fieldset--horizontal',
+        createSpacingClasses(rest)
+      )}
+    >
+      <Input
+        {...rest}
+        _omitInputShellClass={_omitInputShellClass}
+        id={id}
+        label={
+          label && (
+            <FormLabel
+              element="legend"
+              forId={`${id}-${inputs[0]?.id}`}
+              disabled={disabled}
+              labelDirection={labelDirection}
+              onClick={onLegendClick}
+            >
+              {label}
+            </FormLabel>
+          )
+        }
+        className={clsx('dnb-multi-input-mask', className)}
+        size={size}
+        labelDirection={labelDirection}
+        disabled={disabled}
+        status={status}
+        statusState={statusState}
+        suffix={suffix}
+        stretch={stretch}
+        inputElement={inputs.map(
+          ({ id: inputId, onFocus: _a, onBlur: _b, ...cbRest }, index) => {
+            return (
+              <MultiInputMaskInput
+                key={inputId}
+                id={id}
+                inputId={inputId}
+                delimiter={
+                  index !== inputs.length - 1 ? delimiter : undefined
+                }
+                disabled={disabled}
+                inputMode={inputMode}
+                onKeyDown={onKeyDown}
+                onCursorInput={onCursorInput}
+                onChange={onChange}
+                overwriteMode={overwriteMode}
+                optionsEnhancer={optionsEnhancer}
+                onFocus={() => {
+                  if (!areInputsInFocus.current) {
+                    onFocus?.(valuesRef.current)
+                  }
+
+                  areInputsInFocus.current = true
+                }}
+                onBlur={(e) => {
+                  if (!e.relatedTarget?.id?.includes(id)) {
+                    const run = () => onBlur?.(valuesRef.current)
+                    if (isiOS()) {
+                      setTimeout(run, 10)
+                    } else {
+                      window.requestAnimationFrame(run)
+                    }
+                    areInputsInFocus.current = false
+                  }
+                }}
+                getInputRef={getInputRef}
+                {...cbRest}
+                {...rest}
+                value={values[inputId]}
+              />
+            )
+          }
+        )}
+      />
+    </WrapperElement>
+  )
 }
 
-type MultiInputMaskInputProps<T extends string> =
-  MultiInputMaskInput<T> & {
-    id: MultiInputMaskInput<T>['id']
-    inputId: MultiInputMaskInput<T>['id']
-    label: MultiInputMaskInput<T>['label']
-    value: string
-    mask: MultiInputMaskInput<T>['mask']
-    placeholderCharacter: MultiInputMaskInput<T>['placeholderCharacter']
-    delimiter?: MultiInputMaskProps<T>['delimiter']
-    disabled: boolean
-    onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void
-    onChange: (
-      id: string,
-      placeholderCharacter: MultiInputMaskInput<T>['placeholderCharacter']
-    ) => void
-    getInputRef: () => RefObject<HTMLInputElement>
-  }
+type MultiInputMaskInputProps<T extends string> = Omit<
+  MultiInputMaskInput<T>,
+  'onFocus' | 'onBlur'
+> & {
+  id: MultiInputMaskInput<T>['id']
+  inputId: MultiInputMaskInput<T>['id']
+  label: MultiInputMaskInput<T>['label']
+  value: string
+  mask: MultiInputMaskInput<T>['mask']
+  delimiter?: MultiInputMaskProps<T>['delimiter']
+  disabled: boolean
+  onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void
+  onCursorInput: (event: React.FormEvent<HTMLInputElement>) => void
+  onChange: (id: string, value: string) => void
+  overwriteMode?: MaskitoOptions['overwriteMode']
+  optionsEnhancer?: (
+    options: MaskitoOptions | null
+  ) => MaskitoOptions | null
+  getInputRef: ({
+    inputRef,
+  }: {
+    inputRef: RefObject<HTMLInputElement>
+  }) => void
+  onFocus?: () => void
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void
+}
 
 function MultiInputMaskInput<T extends string>({
   id,
@@ -283,55 +405,307 @@ function MultiInputMaskInput<T extends string>({
   label,
   value,
   mask,
-  placeholderCharacter,
   delimiter,
   disabled,
   getInputRef,
   onKeyDown,
+  onCursorInput,
   onChange,
   onBlur,
-  onFocus,
+  onFocus: onInputFocus,
+  overwriteMode,
+  optionsEnhancer,
   ...attributes
 }: MultiInputMaskInputProps<T>) {
-  const shouldHighlight = !disabled && /\w+/.test(value)
+  const inputRefObj = useRef<HTMLInputElement>(null)
+  // Register ref with parent so group can read current values on blur
+  useEffect(() => {
+    getInputRef({ inputRef: inputRefObj })
+  }, [getInputRef])
+  const {
+    className: extClassName,
+    placeholder: placeholderProp,
+    value: _ignoredValue,
+    onFocus: _ignoredOnFocus,
+    onBlur: _ignoredOnBlur,
+    ...restAttributes
+  } = attributes as React.HTMLProps<HTMLInputElement>
+
+  // Prepare ghost placeholder and enhancer (optional)
+  const placeholderText = String(placeholderProp || '')
+  const ghost = useMemo(() => {
+    if (!placeholderText) {
+      return ''
+    }
+    // Avoid using a ghost that equals an allowed literal char (prevents change events)
+    if (
+      placeholderText.length === 1 &&
+      mask[0] instanceof RegExp &&
+      mask[0].test(placeholderText[0])
+    ) {
+      return ''
+    }
+    if (placeholderText.length >= mask.length) {
+      return placeholderText
+    }
+    const ch = placeholderText[0]
+    return ch ? ch.repeat(mask.length) : ''
+  }, [placeholderText, mask])
+
+  const stripValue = useCallback(
+    (display: string | undefined) => {
+      // Extract only characters matching per-position mask
+      const chars = Array.from(display ?? '')
+      const out: string[] = []
+      for (let i = 0; i < Math.min(chars.length, mask.length); i++) {
+        const c = chars[i]
+        const m = mask[i]
+        if (m instanceof RegExp && m.test(c)) {
+          out.push(c)
+        }
+      }
+      return out.join('')
+    },
+    [mask]
+  )
+
+  const [initialSlots] = useState(() =>
+    createSlotsFromValue(value, mask.length)
+  )
+  const slotValuesRef = useRef<string[]>(initialSlots)
+  const lastKeydownHandledRef = useRef(false)
+  const pendingCaretPositionRef = useRef<number | null>(null)
+  const shouldSelectAllOnMouseUpRef = useRef(false)
+  const focusFromMouseRef = useRef(false)
+
+  useLayoutEffect(() => {
+    const current = collectValueFromSlots(slotValuesRef.current)
+    if (
+      slotValuesRef.current.length !== mask.length ||
+      current !== value
+    ) {
+      slotValuesRef.current = createSlotsFromValue(value, mask.length)
+    }
+  }, [value, mask.length])
+
+  useLayoutEffect(() => {
+    const pendingCaretPosition = pendingCaretPositionRef.current
+
+    if (pendingCaretPosition === null) {
+      return
+    }
+
+    const inputElement = inputRefObj.current
+
+    if (!inputElement) {
+      return
+    }
+
+    try {
+      inputElement.setSelectionRange(
+        pendingCaretPosition,
+        pendingCaretPosition
+      )
+    } catch {
+      // setSelectionRange can throw on hidden/detached inputs
+    }
+
+    pendingCaretPositionRef.current = null
+  }, [value])
+
+  // Check if there's actual typed content (not just ghost placeholders)
+  const shouldHighlight = !disabled && stripValue(value).length > 0
+
+  const ghostOptionsEnhancer = useCallback(
+    (opts: MaskitoOptions | null): MaskitoOptions | null => {
+      if (!opts || !ghost) {
+        return opts
+      }
+      const post = (elementState: {
+        value: string
+        selection: readonly [number, number]
+      }) => {
+        const composed = composeDisplayValue({
+          ghost,
+          maskLength: mask.length,
+          slots: slotValuesRef.current,
+        })
+        return { ...elementState, value: composed }
+      }
+      return {
+        ...opts,
+        postprocessors: [...(opts.postprocessors || []), post],
+      }
+    },
+    [ghost, mask.length]
+  )
+
+  const mergedOptionsEnhancer = useCallback(
+    (opts: MaskitoOptions | null) => {
+      const withGhost = ghostOptionsEnhancer(opts)
+      if (typeof optionsEnhancer === 'function') {
+        return optionsEnhancer(withGhost)
+      }
+      return withGhost
+    },
+    [ghostOptionsEnhancer, optionsEnhancer]
+  )
 
   return (
     <>
       <TextMask
         id={`${id}-${inputId}`}
         data-mask-id={inputId}
+        placeholder={placeholderProp}
         className={clsx(
           'dnb-input__input',
           'dnb-multi-input-mask__input',
-          shouldHighlight && 'dnb-multi-input-mask__input--highlight'
+          shouldHighlight && 'dnb-multi-input-mask__input--highlight',
+          extClassName
         )}
         disabled={disabled}
         size={mask.length}
         mask={mask}
-        value={value ?? ''}
-        placeholderChar={placeholderCharacter}
-        guide
-        showMask
-        keepCharPositions={false} // so we can overwrite next value, if it already exists
+        value={value}
+        showMask={true}
+        optionsEnhancer={mergedOptionsEnhancer}
+        ghostPlaceholder={ghost || undefined}
+        overwriteMode={overwriteMode}
+        stripValue={stripValue}
         aria-label={label}
-        ref={getInputRef as unknown as React.Ref<TextMaskHandle>}
-        onKeyDown={onKeyDown}
-        onBlur={onBlur}
-        onFocus={({ target, ...event }) => {
-          target.focus()
-          target.select()
-
-          if (onFocus) {
-            onFocus({ target, ...event })
+        inputRef={inputRefObj}
+        onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
+          onKeyDown(event)
+          if (event.defaultPrevented) {
+            lastKeydownHandledRef.current = false
+            return
+          }
+          if (
+            updateSlotsFromKeyEvent({
+              event,
+              mask,
+              slotsRef: slotValuesRef,
+            })
+          ) {
+            lastKeydownHandledRef.current = true
+          } else {
+            lastKeydownHandledRef.current = false
           }
         }}
-        onChange={(event) => {
-          onChange(
-            inputId,
-            removePlaceholder(event.target.value, placeholderCharacter)
-          )
+        onInput={(event: React.FormEvent<HTMLInputElement>) => {
+          const target = event.currentTarget
+          // Add support for "backspace" on Android virtual keyboard
+          const nativeEvt = event.nativeEvent as InputEvent &
+            Partial<{ inputType: string }>
+          const inputType = nativeEvt?.inputType
+          if (
+            isAndroid() &&
+            inputType === 'deleteContentBackward' &&
+            target.selectionStart === 0 &&
+            target.selectionEnd === 0
+          ) {
+            type SyntheticKeyDown = {
+              key: string
+              target: HTMLInputElement
+              currentTarget: HTMLInputElement
+              defaultPrevented: boolean
+              preventDefault: () => void
+            }
+            const synthetic: SyntheticKeyDown = {
+              key: 'Backspace',
+              target,
+              currentTarget: target,
+              defaultPrevented: false,
+              preventDefault() {
+                this.defaultPrevented = true
+              },
+            }
+            onKeyDown(
+              synthetic as unknown as React.KeyboardEvent<HTMLInputElement>
+            )
+          }
+
+          syncSlotsOnInput({
+            handledByKeyDown: lastKeydownHandledRef.current,
+            inputType: nativeEvt?.inputType,
+            maskLength: mask.length,
+            slotsRef: slotValuesRef,
+            stripValue,
+            target,
+          })
+          onCursorInput(event)
+          lastKeydownHandledRef.current = false
         }}
-        {...attributes}
+        onBlur={onBlur}
+        onMouseDown={() => {
+          focusFromMouseRef.current = true
+        }}
+        onFocus={({ target }) => {
+          const focusedByMouse = focusFromMouseRef.current
+          focusFromMouseRef.current = false
+
+          const shouldSkipSelectAll =
+            target.dataset.skipSelectOnFocus === 'true'
+
+          if (shouldSkipSelectAll) {
+            delete target.dataset.skipSelectOnFocus
+            const nextCaretPosition = Number(
+              target.dataset.caretPositionOnFocus
+            )
+            delete target.dataset.caretPositionOnFocus
+
+            const fallbackPosition = target.selectionStart ?? 0
+            pendingCaretPositionRef.current = Number.isNaN(
+              nextCaretPosition
+            )
+              ? fallbackPosition
+              : nextCaretPosition
+            shouldSelectAllOnMouseUpRef.current = false
+
+            onInputFocus?.()
+            return
+          }
+
+          // Select the entire input on focus, but only when there is content
+          try {
+            if ((target as HTMLInputElement).value.length > 0) {
+              const start = 0
+              const end = (target as HTMLInputElement).value.length
+              ;(target as HTMLInputElement).setSelectionRange(start, end)
+              shouldSelectAllOnMouseUpRef.current = focusedByMouse
+            } else {
+              shouldSelectAllOnMouseUpRef.current = false
+            }
+          } catch {
+            // setSelectionRange can throw on hidden/detached inputs
+          }
+          onInputFocus?.()
+        }}
+        onMouseUp={(event) => {
+          if (!shouldSelectAllOnMouseUpRef.current) {
+            return
+          }
+
+          shouldSelectAllOnMouseUpRef.current = false
+          event.preventDefault()
+
+          const target = event.currentTarget
+          const end = target.value.length
+
+          try {
+            target.setSelectionRange(0, end)
+          } catch {
+            // setSelectionRange can throw on hidden/detached inputs
+          }
+        }}
+        onBlurCapture={() => {
+          shouldSelectAllOnMouseUpRef.current = false
+          focusFromMouseRef.current = false
+        }}
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          onChange(inputId, event.target.value)
+        }}
+        {...restAttributes}
       />
       {delimiter && (
         <span
@@ -348,13 +722,207 @@ function MultiInputMaskInput<T extends string>({
   )
 }
 
-function removePlaceholder(value: string, placeholder: string) {
-  return value.replace(RegExp(placeholder, 'gm'), '')
-}
+export default MultiInputMask
 
 withComponentMarkers(MultiInputMask, {
   _formElement: true,
   _supportsSpacingProps: true,
 })
 
-export default MultiInputMask
+function createSlotsFromValue(value: string, size: number) {
+  const slots = Array.from({ length: size }, () => '')
+  const chars = Array.from(value || '')
+  for (let i = 0; i < size && i < chars.length; i++) {
+    slots[i] = chars[i]
+  }
+  return slots
+}
+
+function collectValueFromSlots(slots: string[]) {
+  return slots.filter(Boolean).join('')
+}
+
+function composeDisplayValue({
+  slots,
+  ghost,
+  maskLength,
+}: {
+  slots: string[]
+  ghost: string
+  maskLength: number
+}) {
+  if (!ghost) {
+    return slots.slice(0, maskLength).join('')
+  }
+  return slots
+    .slice(0, maskLength)
+    .map((char, index) => {
+      if (char) {
+        return char
+      }
+      const ghostIndex = Math.min(index, ghost.length - 1)
+      return ghost[ghostIndex] ?? ''
+    })
+    .join('')
+}
+
+function ensureSlotArray(slots: string[], size: number) {
+  if (slots.length === size) {
+    return slots
+  }
+  if (slots.length < size) {
+    while (slots.length < size) {
+      slots.push('')
+    }
+    return slots
+  }
+  slots.length = size
+  return slots
+}
+
+function clearRange(slots: string[], start: number, end: number) {
+  if (start > end) {
+    return clearRange(slots, end, start)
+  }
+  let changed = false
+  for (let i = start; i < end && i < slots.length; i++) {
+    if (slots[i]) {
+      slots[i] = ''
+      changed = true
+    }
+  }
+  return changed
+}
+
+function clearForBackspace(slots: string[], start: number, end: number) {
+  if (start === 0 && end === 0) {
+    return false
+  }
+  if (start !== end) {
+    return clearRange(slots, start, end)
+  }
+  const index = start - 1
+  if (index < 0 || index >= slots.length) {
+    return false
+  }
+  if (!slots[index]) {
+    return false
+  }
+  slots[index] = ''
+  return true
+}
+
+function clearForDelete(
+  slots: string[],
+  start: number,
+  end: number,
+  size: number
+) {
+  if (start !== end) {
+    return clearRange(slots, start, end)
+  }
+  if (start < 0 || start >= size) {
+    return false
+  }
+  if (!slots[start]) {
+    return false
+  }
+  slots[start] = ''
+  return true
+}
+
+function insertChar(
+  slots: string[],
+  char: string,
+  start: number,
+  end: number,
+  size: number
+) {
+  if (start >= size) {
+    return false
+  }
+  if (start !== end) {
+    clearRange(slots, start, end)
+  }
+  slots[start] = char
+  return true
+}
+
+function updateSlotsFromKeyEvent({
+  event,
+  slotsRef,
+  mask,
+}: {
+  event: React.KeyboardEvent<HTMLInputElement>
+  slotsRef: React.MutableRefObject<string[]>
+  mask: RegExp[]
+}) {
+  if (event.altKey || event.metaKey || event.ctrlKey) {
+    return false
+  }
+
+  const key = event.key
+  const target = event.currentTarget
+  const start = target.selectionStart ?? 0
+  const end = target.selectionEnd ?? start
+  const slots = ensureSlotArray(slotsRef.current, mask.length)
+
+  if (key === 'Backspace') {
+    return clearForBackspace(slots, start, end)
+  }
+
+  if (key === 'Delete') {
+    return clearForDelete(slots, start, end, mask.length)
+  }
+
+  if (key.length === 1) {
+    const index = Math.min(start, mask.length - 1)
+    const token = mask[index]
+    if (!(token instanceof RegExp) || !token.test(key)) {
+      return false
+    }
+    return insertChar(slots, key, start, end, mask.length)
+  }
+
+  return false
+}
+
+function syncSlotsOnInput({
+  handledByKeyDown,
+  inputType,
+  maskLength,
+  slotsRef,
+  stripValue,
+  target,
+}: {
+  handledByKeyDown: boolean
+  inputType?: string
+  maskLength: number
+  slotsRef: React.MutableRefObject<string[]>
+  stripValue: (display: string) => string
+  target: HTMLInputElement
+}) {
+  const controlledTypes = new Set([
+    'insertText',
+    'insertReplacementText',
+    'deleteContentBackward',
+    'deleteContentForward',
+    'insertCompositionText',
+    'insertFromPaste',
+    'insertFromDrop',
+    'deleteByCut',
+    'deleteWordBackward',
+    'deleteWordForward',
+    'deleteSoftLineBackward',
+    'deleteSoftLineForward',
+    'deleteHardLineBackward',
+    'deleteHardLineForward',
+    'insertFromYank',
+  ])
+  const type = inputType || ''
+  if (handledByKeyDown && (type === '' || controlledTypes.has(type))) {
+    return
+  }
+  const stripped = stripValue(target.value)
+  slotsRef.current = createSlotsFromValue(stripped, maskLength)
+}

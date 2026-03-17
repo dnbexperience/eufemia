@@ -132,7 +132,7 @@ describe('Field.PostalCodeAndCity', () => {
     expect(screen.queryByRole('alert')).toHaveTextContent(
       nb.PostalCode.errorPattern
     )
-    expect(code).toHaveValue('123​')
+    expect(code).toHaveValue('123')
 
     await userEvent.type(city, '456')
     expect(screen.queryByRole('alert')).toHaveTextContent(

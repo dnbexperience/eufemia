@@ -172,12 +172,27 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   const tableRef = useRef<React.ElementRef<'table'> | null>(null)
   const days = useRef<Record<string, Array<CalendarDay>>>({})
   const cache = useRef<Record<string, CalendarDay[][]>>({})
+  const currentDatesRef = useRef({
+    startDate,
+    endDate,
+    startMonth,
+    endMonth,
+  })
 
   // Store the initial selected date on calendar render, to be used for `onCancel` in DatePickerFooter
   useEffect(() => {
     setSubmittedDates({ startDate, endDate })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    currentDatesRef.current = {
+      startDate,
+      endDate,
+      startMonth,
+      endMonth,
+    }
+  }, [endDate, endMonth, startDate, startMonth])
 
   const onMouseLeaveHandler = useCallback(() => {
     setHoverDate(undefined)
@@ -308,14 +323,14 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         return onKeyDown(event, tableRef, nr)
       }
 
-      // only continue of key is one of these
+      // only continue if key is one of these
       if (!keysToHandle.includes(pressedKey)) {
         return
       }
       event.preventDefault()
       event.persist() // since we use the event after updateDates
 
-      const currentDates = { startDate, endDate, startMonth, endMonth }
+      const currentDates = currentDatesRef.current
       const dateType = !isRange || nr === 0 ? 'start' : 'end'
       const currentDate = currentDates[`${dateType}Date`]
 
@@ -401,6 +416,13 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
           ...dates,
         })
       })
+      currentDatesRef.current = {
+        ...currentDates,
+        ...dates,
+        startMonth:
+          dates.startMonth ?? dates.startDate ?? currentDates.startMonth,
+        endMonth: dates.endMonth ?? dates.endDate ?? currentDates.endMonth,
+      }
 
       // and set the focus back again
       if (tableRef && tableRef.current) {
@@ -420,8 +442,6 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       keyNavCalc,
       nr,
       onlyMonth,
-      endMonth,
-      startMonth,
     ]
   )
 

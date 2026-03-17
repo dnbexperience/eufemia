@@ -14,12 +14,7 @@ import { inputDefaultProps } from '../input/Input'
 import Context from '../../shared/Context'
 import type { InternalLocale } from '../../shared/Context'
 import type { ButtonIconPosition, ButtonVariant } from '../Button'
-import type {
-  FormStatusText,
-  FormStatusState,
-  FormStatusProps,
-} from '../FormStatus'
-import type { GlobalStatusConfigObject } from '../GlobalStatus'
+import type { FormStatusBaseProps } from '../FormStatus'
 import type { IconIcon, IconSize } from '../Icon'
 import type {
   InputInputAttributes,
@@ -29,27 +24,13 @@ import type {
   InputSubmitButtonIcon,
   InputSuffix,
   InputChildren,
-  InputProps,
 } from '../Input'
-import type { Pipe, Mask, MaskFunction } from './text-mask/types'
 import type { NumberFormatProps } from '../NumberFormat'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../space/types'
+import type { MaskitoOptions } from '@maskito/core'
 
-type LooseMaskPair = {
-  mask: (...args: unknown[]) => unknown
-  pipe?: (...args: unknown[]) => unknown
-}
-
-export type InputMaskedMask =
-  | Array<RegExp | string>
-  | ((
-      value: string,
-      options: Record<string, unknown>
-    ) => Array<RegExp | string>)
-  | boolean
-  | { mask: Mask | MaskFunction; pipe?: Pipe }
-  | LooseMaskPair
+export type InputMaskedMask = RegExp | Array<RegExp | string> | false
 export type InputMaskedNumberMask =
   | string
   | boolean
@@ -76,6 +57,7 @@ export type InputMaskedChange = {
 export type InputMaskedEventHandler = (
   payload: InputMaskedChange
 ) => unknown
+export type InputMaskedOverwriteMode = MaskitoOptions['overwriteMode']
 export type InputMaskedProps = Omit<
   React.HTMLProps<HTMLInputElement>,
   | 'ref'
@@ -88,9 +70,10 @@ export type InputMaskedProps = Omit<
   | 'onSubmit'
   | 'size'
 > &
-  SpacingProps & {
+  SpacingProps &
+  FormStatusBaseProps & {
     /**
-     * A mask can be defined both as a [RegExp style of characters](https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme) or a callback function. Example below. Defaults to number mask.
+     * A mask defined as an array of RegExp and string tokens (e.g. `[/\d/, /\d/, " ", /\d/, /\d/]`) or a single RegExp. Defaults to number mask.
      */
     mask?: InputMaskedMask
     /**
@@ -130,19 +113,15 @@ export type InputMaskedProps = Omit<
      */
     showMask?: boolean
     /**
-     * When `false` is given, it doesn't print out placeholder characters and only adds mask characters when the user reaches them as they're typing. Defaults to `true`.
+     * Allow users to keep typing after the provided mask has been filled. Extra characters will be appended unmasked.
      */
-    showGuide?: boolean
-    pipe?: Pipe
+    allowOverflow?: boolean
     /**
-     * When `true`, adding or deleting characters will not affect the positions of existing characters. Defaults to `false`.
+     * Controls how overwriting characters is handled;
+     * `shift` (default) moves to the next slot, `replace` keeps the cursor in place.
      */
-    keepCharPositions?: boolean
-    /**
-     * The placeholder character represents the fillable spot in the mask (e.g. `_`). Defaults to invisible space.
-     */
-    placeholderChar?: string
-    ref?: InputProps['ref']
+    overwriteMode?: InputMaskedOverwriteMode | null
+    _innerRef?: React.Ref<HTMLInputElement>
     onSubmit?: InputMaskedEventHandler
     onFocus?: InputMaskedEventHandler
     onBlur?: InputMaskedEventHandler
@@ -156,12 +135,7 @@ export type InputMaskedProps = Omit<
     label?: React.ReactNode
     labelDirection?: 'horizontal' | 'vertical'
     labelSrOnly?: boolean
-    status?: FormStatusText
-    statusState?: FormStatusState
-    statusProps?: FormStatusProps
-    statusNoAnimation?: boolean
     inputState?: string
-    globalStatus?: GlobalStatusConfigObject
     autocomplete?: string
     submitButtonTitle?: string
     clearButtonTitle?: string
@@ -190,33 +164,47 @@ export type InputMaskedProps = Omit<
     children?: InputMaskedChildren
   }
 
-function InputMasked(props: InputMaskedProps) {
-  const context = React.useContext(Context)
+const InputMasked = React.forwardRef<HTMLInputElement, InputMaskedProps>(
+  function InputMasked(props, ref) {
+    const context = React.useContext(Context)
 
-  // Remove masks defined in Provider/Context, because it overwrites a custom mask
-  if (props?.mask) {
-    const alias = context?.InputMasked
-    for (const key in alias) {
-      if (/^as[_A-Z]|numberMask|currencyMask/.test(key)) {
-        delete alias[key]
+    // Remove masks defined in Provider/Context, because it overwrites a custom mask
+    const contextInputMasked = React.useMemo(() => {
+      if (!props?.mask || !context?.InputMasked) {
+        return context?.InputMasked
       }
-    }
-  }
 
-  const contextAndProps = React.useMemo(() => {
-    return extendPropsWithContext(
-      props,
-      defaultProps,
-      context?.InputMasked
+      const clone = { ...context.InputMasked }
+      for (const key in clone) {
+        if (/^as[_A-Z]|numberMask|currencyMask/.test(key)) {
+          delete clone[key]
+        }
+      }
+
+      return clone
+    }, [context?.InputMasked, props?.mask])
+
+    const contextAndProps = React.useMemo(() => {
+      const propsWithRef = {
+        ...props,
+        ref,
+        _innerRef: props._innerRef ?? ref,
+      }
+
+      return extendPropsWithContext(
+        propsWithRef,
+        defaultProps,
+        contextInputMasked
+      )
+    }, [contextInputMasked, props, ref])
+
+    return (
+      <InputMaskedContext value={{ props: contextAndProps, context }}>
+        <InputMaskedElement />
+      </InputMaskedContext>
     )
-  }, [context?.InputMasked, props])
-
-  return (
-    <InputMaskedContext value={{ props: contextAndProps, context }}>
-      <InputMaskedElement />
-    </InputMaskedContext>
-  )
-}
+  }
+)
 
 const defaultProps = {
   ...inputDefaultProps,
@@ -230,11 +218,9 @@ const defaultProps = {
   asPercent: null,
   locale: null,
   showMask: false,
-  showGuide: true,
-  pipe: null,
-  keepCharPositions: false,
-  placeholderChar: null,
-  ref: null,
+  allowOverflow: false,
+  overwriteMode: null,
+  _innerRef: null,
   onChange: null,
   onSubmit: null,
   onFocus: null,
