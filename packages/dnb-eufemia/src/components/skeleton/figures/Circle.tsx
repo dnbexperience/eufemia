@@ -9,7 +9,7 @@ import clsx from 'clsx'
 export type SkeletonCircleRows = string | number
 export type SkeletonCircleChildren =
   | string
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
   | React.ReactNode
 export type SkeletonCircleProps = {
   rows?: SkeletonCircleRows

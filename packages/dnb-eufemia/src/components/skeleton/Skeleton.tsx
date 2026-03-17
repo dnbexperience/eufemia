@@ -24,12 +24,12 @@ export type SkeletonShow = boolean
 
 export type SkeletonFigure =
   | string
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
   | React.ReactNode
 
 export type SkeletonChildren =
   | string
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
   | React.ReactNode
 
 export type SkeletonProps = {

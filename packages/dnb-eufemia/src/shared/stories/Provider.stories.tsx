@@ -54,8 +54,8 @@ const ChangeLocale = () => {
         variant="radio"
         value={locale}
         onChange={({ value: locale }) => {
-          setLocale(locale)
-          update({ locale })
+          setLocale(locale as string)
+          update({ locale: locale as string })
         }}
       >
         <ToggleButton text="English" value="en-GB" />
@@ -68,7 +68,7 @@ const ChangeLocale = () => {
         value={locale}
         data={{ 'en-GB': 'English', 'nb-NO': 'Norsk', 'sv-SE': 'Svenska' }}
         onChange={({ data: { selectedKey: locale } }) => {
-          setLocale(locale)
+          setLocale(locale as string)
         }}
       />
     </>

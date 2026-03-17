@@ -21,7 +21,7 @@ import FieldBlock, {
 import useTranslation from '../../hooks/useTranslation'
 import {
   AutocompleteAllProps,
-  AutocompleteOnBlurParams,
+  AutocompleteOnChangeParams,
 } from '../../../../components/autocomplete/Autocomplete'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
@@ -184,7 +184,7 @@ function SelectCountry(props: Props) {
   }, [lang, countries, filter, ccFilter, value, updateValue])
 
   const handleCountryChange = useCallback(
-    (event: AutocompleteOnBlurParams) => {
+    (event: AutocompleteOnChangeParams) => {
       const data = event.data
       const newValue =
         data && typeof data === 'object' && 'selectedKey' in data

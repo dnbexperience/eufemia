@@ -9,7 +9,7 @@ import clsx from 'clsx'
 export type SkeletonTableRows = string | number
 export type SkeletonTableChildren =
   | string
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
   | React.ReactNode
 export type SkeletonTableProps = {
   rows?: SkeletonTableRows

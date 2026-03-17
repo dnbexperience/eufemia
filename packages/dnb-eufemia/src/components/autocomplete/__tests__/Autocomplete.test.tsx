@@ -3420,7 +3420,11 @@ describe('Autocomplete component', () => {
           value={value}
           mode="async"
           onChange={(event) => {
-            setValue(event.data?.selectedKey)
+            setValue(
+              typeof event.data === 'object'
+                ? (event.data?.selectedKey as string)
+                : undefined
+            )
           }}
           onFocus={({ updateData }) => {
             updateData(data)
