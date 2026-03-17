@@ -9,7 +9,7 @@ export default {
       stateSummary: 'Oversigt:',
       errorSummary: 'Felter der skal rettes:',
       errorRequired: 'Dette felt skal udfyldes.',
-      errorPattern: 'Ugyldig værdi.',
+      errorPattern: 'Du skal indtaste en gyldig værdi.',
       optionalLabelSuffix: '(valgfrit)',
     },
     SubmitButton: {
@@ -22,7 +22,7 @@ export default {
     Isolation: {
       commitButtonText: 'Tilføj',
       preventUncommittedChangesText:
-        'Du har ændringer, som enten skal tilføjes eller nulstilles.',
+        'Du skal enten tilføje eller forkaste ændringerne.',
     },
     Step: {
       summaryTitle: 'Oversigt',
@@ -59,7 +59,7 @@ export default {
     SectionEditContainer: {
       doneButton: 'Færdig',
       cancelButton: 'Annuller',
-      errorInSection: 'Fejlene ovenfor skal rettes.',
+      errorInSection: 'Du skal rette fejlene ovenfor.',
       confirmCancelText:
         'Er du sikker på, at du vil forkaste dine ændringer?',
     },
@@ -72,7 +72,7 @@ export default {
       doneButton: 'Færdig',
       cancelButton: 'Annuller',
       resetButton: 'Nulstil',
-      errorInContainer: 'Fejlene ovenfor skal rettes.',
+      errorInContainer: 'Du skal rette fejlene ovenfor.',
       confirmResetText:
         'Er du sikker på, at du vil nulstille ændringerne?',
     },
@@ -89,18 +89,16 @@ export default {
      * Base fields
      */
     StringField: {
-      errorMinLength: 'Værdien må ikke være kortere end {minLength} tegn.',
-      errorMaxLength: 'Værdien må ikke være længere end {maxLength} tegn.',
+      errorMinLength: 'Må ikke være kortere end {minLength} tegn.',
+      errorMaxLength: 'Må ikke være længere end {maxLength} tegn.',
     },
     NumberField: {
-      errorMinimum: 'Værdien skal være mindst {minimum}.',
-      errorMaximum: 'Værdien må højst være {maximum}.',
-      errorExclusiveMinimum:
-        'Værdien skal være større end {exclusiveMinimum}.',
-      errorExclusiveMaximum:
-        'Værdien skal være mindre end {exclusiveMaximum}.',
-      errorMultipleOf: 'Indtast en værdi, der går op i {multipleOf}.',
-      errorInteger: 'Værdien skal være et helt tal (uden decimaler).',
+      errorMinimum: 'Skal være mindst {minimum}.',
+      errorMaximum: 'Skal være maks. {maximum}.',
+      errorExclusiveMinimum: 'Skal være større end {exclusiveMinimum}.',
+      errorExclusiveMaximum: 'Skal være mindre end {exclusiveMaximum}.',
+      errorMultipleOf: 'Skal kunne deles med {multipleOf}.',
+      errorInteger: 'Skal være et helt tal (uden decimaler).',
     },
     BooleanField: {
       yes: 'Ja',
@@ -117,12 +115,12 @@ export default {
     PostalAddress: {
       label: 'Postadresse',
       errorRequired: 'Du skal udfylde en postadresse.',
-      errorPattern: 'Ugyldig postadresse. Indtast en postadresse.',
+      errorPattern: 'Du skal indtaste en gyldig postadresse.',
     },
     StreetAddress: {
       label: 'Gadeadresse',
       errorRequired: 'Du skal udfylde en gadeadresse.',
-      errorPattern: 'Ugyldig gadeadresse. Indtast en gadeadresse.',
+      errorPattern: 'Du skal indtaste en gyldig gadeadresse.',
       suggestionPlaceholder: 'Indtast en adresse',
     },
     Date: {
@@ -154,13 +152,13 @@ export default {
       label: 'Fornavn',
       errorRequired: 'Du skal udfylde fornavn.',
       errorPattern:
-        'Kun bogstaver og tegn som bindestreg og mellemrum er tilladt.',
+        'Du skal indtaste et gyldigt fornavn. Kun bogstaver, bindestreger og mellemrum er tilladt.',
     },
     LastName: {
       label: 'Efternavn',
       errorRequired: 'Du skal udfylde efternavn.',
       errorPattern:
-        'Kun bogstaver og tegn som bindestreg og mellemrum er tilladt.',
+        'Du skal indtaste et gyldigt efternavn. Kun bogstaver, bindestreger og mellemrum er tilladt.',
     },
     CompanyName: {
       label: 'Firmanavn',
@@ -171,27 +169,26 @@ export default {
       errorRequired: 'Du skal udfylde et fødselsnummer.',
       errorFnr: 'Ugyldigt fødselsnummer.',
       errorFnrLength:
-        'Ugyldigt fødselsnummer. Indtast et gyldigt fødselsnummer med 11 cifre.',
+        'Du skal indtaste et gyldigt fødselsnummer med 11 cifre.',
       errorDnr: 'Ugyldigt d-nummer.',
-      errorDnrLength:
-        'Ugyldigt d-nummer. Indtast et gyldigt d-nummer med 11 cifre.',
+      errorDnrLength: 'Du skal indtaste et gyldigt d-nummer med 11 cifre.',
       errorMinimumAgeValidator: 'Skal være mindst {age} år.',
       errorMinimumAgeValidatorLength:
-        'Ugyldig fødselsdato. Indtast en gyldig fødselsdato (inkl. århundredetal) med 7 cifre.',
+        'Du skal indtaste en gyldig fødselsdato med 7 cifre (inklusive århundrede).',
     },
     OrganizationNumber: {
       label: 'Organisationsnummer',
       errorRequired: 'Du skal udfylde et organisationsnummer.',
       errorOrgNo: 'Ugyldigt organisationsnummer.',
       errorOrgNoLength:
-        'Ugyldigt organisationsnummer. Indtast et gyldigt organisationsnummer med 9 cifre.',
+        'Du skal indtaste et gyldigt organisationsnummer med 9 cifre.',
     },
     BankAccountNumber: {
       label: 'Bankkonto',
       errorRequired: 'Du skal udfylde et kontonummer.',
       errorBankAccountNumber: 'Ugyldigt kontonummer.',
       errorBankAccountNumberLength:
-        'Ugyldigt kontonummer. Indtast et gyldigt kontonummer med 11 cifre.',
+        'Du skal indtaste et gyldigt kontonummer med 11 cifre.',
     },
     DateOfBirth: {
       label: 'Fødselsdato',
@@ -221,13 +218,13 @@ export default {
     PostalCode: {
       label: 'Postnr.',
       errorRequired: 'Du skal udfylde et postnummer.',
-      errorPattern: 'Dette er ikke et gyldigt postnummer (fire cifre).',
+      errorPattern: 'Du skal indtaste et gyldigt postnummer (fire cifre).',
     },
     City: {
       label: 'By',
       errorRequired: 'Du skal udfylde et bynavn.',
       errorPattern:
-        'Bynavn må kun indeholde bogstaver og gyldige tegn som bindestreg og mellemrum.',
+        'Du skal indtaste et gyldigt bynavn. Kun bogstaver, bindestreger og mellemrum er tilladt.',
     },
     SelectCountry: {
       label: 'Land',

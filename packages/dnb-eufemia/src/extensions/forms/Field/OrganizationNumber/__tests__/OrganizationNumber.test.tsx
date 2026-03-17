@@ -163,7 +163,7 @@ describe('Field.OrganizationNumber', () => {
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        nb.OrganizationNumber.errorOrgNo
+        nb.OrganizationNumber.errorOrgNoLength
       )
     })
   })
@@ -636,7 +636,7 @@ describe('Field.OrganizationNumber', () => {
         document.querySelector('.dnb-form-status--error')
       ).toBeInTheDocument()
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        nb.OrganizationNumber.errorOrgNo
+        nb.OrganizationNumber.errorOrgNoLength
       )
     })
 

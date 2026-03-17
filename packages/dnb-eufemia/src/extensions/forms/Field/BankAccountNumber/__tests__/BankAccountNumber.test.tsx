@@ -357,7 +357,7 @@ describe('Field.BankAccountNumber', () => {
         document.querySelector('.dnb-form-status--error')
       ).toBeInTheDocument()
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        nb.BankAccountNumber.errorBankAccountNumber
+        nb.BankAccountNumber.errorBankAccountNumberLength
       )
     })
 

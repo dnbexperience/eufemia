@@ -2773,7 +2773,7 @@ describe('DataContext.Provider', () => {
         )
         expect(screen.queryByRole('alert')).toBeInTheDocument()
         expect(screen.queryByRole('alert')).toHaveTextContent(
-          'Verdien er ugyldig'
+          'Du må skrive inn en gyldig verdi.'
         )
 
         rerender(
