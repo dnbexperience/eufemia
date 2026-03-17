@@ -49,6 +49,16 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
+    it('have to match the default disabled textarea style', async () => {
+      const screenshot = await makeScreenshot({
+        style,
+        selector: '[data-visual-test="textarea-disabled"]',
+        // Only for screenshot testing - make textarea having same width on linux chromium
+        styleSelector: '[data-visual-test="textarea-disabled"] textarea',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
     it('have to match the error textarea "hover"', async () => {
       const screenshot = await makeScreenshot({
         style,
