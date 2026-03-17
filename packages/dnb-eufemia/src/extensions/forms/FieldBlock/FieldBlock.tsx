@@ -14,7 +14,7 @@ import FieldBlockContext, {
   MountedFieldsRef,
   StateRecord,
   StateMessage,
-  StateTypes,
+  FieldState,
   StatusContent,
   FieldBlockContextProps,
   StateBasis,
@@ -47,7 +47,7 @@ import { useIterateItemNo } from '../Iterate/ItemNo/useIterateItemNo'
 import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
 import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
-export const states: Array<StateTypes> = ['error', 'info', 'warning']
+export const states: Array<FieldState> = ['error', 'info', 'warning']
 
 /**
  * The width of a field block
@@ -703,7 +703,7 @@ function CombineMessages({
   type,
   messages,
 }: {
-  type: StateTypes
+  type: FieldState
   messages: Array<StateWithMessage>
 }) {
   const translations = useTranslation().Field

@@ -37,7 +37,7 @@ import { ButtonProps } from '../Button'
 import { AnchorAllProps } from '../Anchor'
 import type {
   SectionSpacing,
-  SectionStyleTypes,
+  SectionStyle,
   SectionVariants,
 } from '../Section'
 import type { SkeletonShow } from '../Skeleton'
@@ -90,7 +90,7 @@ export type TabsProps = Omit<
     /**
      * To enable the visual helper `.dnb-section` on to the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.
      */
-    contentStyle?: SectionStyleTypes | SectionVariants
+    contentStyle?: SectionStyle | SectionVariants
     /**
      * To modify the `spacing` onto the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `large`.
      */
@@ -111,7 +111,7 @@ export type TabsProps = Omit<
     /**
      * To enable the visual helper `.dnb-section` inside the tabs list. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.
      */
-    tabsStyle?: SectionStyleTypes | SectionVariants
+    tabsStyle?: SectionStyle | SectionVariants
     /**
      * To modify the `spacing` inside the tab list. Defaults to `null`.
      */
