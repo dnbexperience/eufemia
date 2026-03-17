@@ -1,7 +1,7 @@
 import { format } from '../number-format/NumberUtils'
 import {
   UploadFile,
-  UploadContextProps,
+  UploadContextValue,
   UploadAcceptedFileTypes,
   UploadAcceptedFileTypesWithFileMaxSize,
   UploadFileNative,
@@ -12,7 +12,7 @@ export const BYTES_IN_A_MEGA_BYTE = 1048576
 export function verifyFiles(
   files: Array<UploadFile | UploadFileNative>,
   context: Pick<
-    UploadContextProps,
+    UploadContextValue,
     | 'errorUnsupportedFile'
     | 'errorLargeFile'
     | 'acceptedFileTypes'

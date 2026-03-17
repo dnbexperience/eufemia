@@ -19,7 +19,7 @@ import type {
   ValueTypes,
   SliderOnChangeParams,
   SliderAllProps,
-  SliderContextTypes,
+  SliderContextValue,
   ThumbState,
 } from './types'
 
@@ -31,7 +31,7 @@ const defaultProps: Partial<SliderAllProps> = {
   multiThumbBehavior: 'swap',
 }
 
-export const SliderContext = React.createContext<SliderContextTypes>(null)
+export const SliderContext = React.createContext<SliderContextValue>(null)
 
 export function SliderProvider(localProps: SliderAllProps) {
   const context = React.useContext(Context)
