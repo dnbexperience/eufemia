@@ -8,7 +8,7 @@ export default {
       stateSummary: 'Oppsummering:',
       errorSummary: 'Feil som må rettes:',
       errorRequired: 'Dette feltet må fylles ut.',
-      errorPattern: 'Verdien er ugyldig.',
+      errorPattern: 'Du må skrive inn en gyldig verdi.',
       optionalLabelSuffix: '(valgfritt)',
     },
     SubmitButton: {
@@ -21,7 +21,7 @@ export default {
     Isolation: {
       commitButtonText: 'Legg til',
       preventUncommittedChangesText:
-        'Du har endringer som enten må legges til eller nullstilles.',
+        'Du må enten legge til eller forkaste endringene.',
     },
     Step: {
       summaryTitle: 'Oppsummering',
@@ -59,7 +59,7 @@ export default {
     SectionEditContainer: {
       doneButton: 'Ferdig',
       cancelButton: 'Avbryt',
-      errorInSection: 'Feilene ovenfor må rettes.',
+      errorInSection: 'Du må rette feilene over.',
       confirmCancelText: 'Er du sikker på at du vil forkaste endringene?',
     },
     IterateViewContainer: {
@@ -71,7 +71,7 @@ export default {
       doneButton: 'Ferdig',
       cancelButton: 'Avbryt',
       resetButton: 'Tilbakestill',
-      errorInContainer: 'Feilene ovenfor må rettes.',
+      errorInContainer: 'Du må rette feilene over.',
       confirmResetText:
         'Er du sikker på at du vil tilbakestille endringene?',
     },
@@ -88,19 +88,18 @@ export default {
      * Base fields
      */
     StringField: {
-      errorMinLength:
-        'Verdien kan ikke være kortere enn {minLength} tegn.',
-      errorMaxLength: 'Verdien kan ikke være lengre enn {maxLength} tegn.',
+      errorMinLength: 'Kan ikke være kortere enn {minLength} tegn.',
+      errorMaxLength: 'Kan ikke være lengre enn {maxLength} tegn.',
     },
     NumberField: {
-      errorMinimum: 'Verdien må minst være {minimum}.',
-      errorMaximum: 'Verdien må maksimalt være {maximum}.',
+      errorMinimum: 'Må være minst {minimum}.',
+      errorMaximum: 'Må være maks. {maximum}.',
       errorExclusiveMinimum:
-        'Verdien må være større enn {exclusiveMinimum}.',
+        'Må være større enn {exclusiveMinimum}.',
       errorExclusiveMaximum:
-        'Verdien må være mindre enn {exclusiveMaximum}.',
-      errorMultipleOf: 'Verdien må være et multiplum av {multipleOf}.',
-      errorInteger: 'Verdien må være et heltall (uten desimaler).',
+        'Må være mindre enn {exclusiveMaximum}.',
+      errorMultipleOf: 'Må kunne deles på {multipleOf}.',
+      errorInteger: 'Må være et helt tall (uten desimaler).',
     },
     BooleanField: {
       yes: 'Ja',
@@ -117,12 +116,12 @@ export default {
     PostalAddress: {
       label: 'Postadresse',
       errorRequired: 'Du må fylle inn en postadresse.',
-      errorPattern: 'Ugyldig postadresse. Skriv inn en postadresse.',
+      errorPattern: 'Du må skrive inn en gyldig postadresse.',
     },
     StreetAddress: {
       label: 'Gateadresse',
       errorRequired: 'Du må fylle inn en gateadresse.',
-      errorPattern: 'Ugyldig gateadresse. Skriv inn en gateadresse.',
+      errorPattern: 'Du må skrive inn en gyldig gateadresse.',
       suggestionPlaceholder: 'Skriv inn adressen',
     },
     Date: {
@@ -154,13 +153,13 @@ export default {
       label: 'Fornavn',
       errorRequired: 'Du må fylle inn fornavn.',
       errorPattern:
-        'Kun bokstaver og tegn som bindestrek og mellomrom er tillatt.',
+        'Du må skrive inn et gyldig fornavn. Kun bokstaver, bindestrek og mellomrom er tillatt.',
     },
     LastName: {
       label: 'Etternavn',
       errorRequired: 'Du må fylle inn etternavn.',
       errorPattern:
-        'Kun bokstaver og tegn som bindestrek og mellomrom er tillatt.',
+        'Du må skrive inn et gyldig etternavn. Kun bokstaver, bindestrek og mellomrom er tillatt.',
     },
     CompanyName: {
       label: 'Firmanavn',
@@ -171,27 +170,27 @@ export default {
       errorRequired: 'Du må fylle inn et fødselsnummer.',
       errorFnr: 'Ugyldig fødselsnummer.',
       errorFnrLength:
-        'Ugyldig fødselsnummer. Skriv inn et gyldig fødselsnummer med 11 siffer.',
+        'Du må skrive inn et gyldig fødselsnummer med 11 siffer.',
       errorDnr: 'Ugyldig d-nummer.',
       errorDnrLength:
-        'Ugyldig d-nummer. Skriv inn et gyldig d-nummer med 11 siffer.',
+        'Du må skrive inn et gyldig d-nummer med 11 siffer.',
       errorMinimumAgeValidator: 'Må være minst {age} år.',
       errorMinimumAgeValidatorLength:
-        'Ugyldig fødselsdato. Skriv inn en gyldig fødselsdato (inkl. århundresiffer) med 7 siffer.',
+        'Du må skrive inn en gyldig fødselsdato med 7 siffer (inkludert århundre).',
     },
     OrganizationNumber: {
       label: 'Organisasjonsnummer',
       errorRequired: 'Du må fylle inn et organisasjonsnummer.',
       errorOrgNo: 'Ugyldig organisasjonsnummer.',
       errorOrgNoLength:
-        'Ugyldig organisasjonsnummer. Skriv inn et gyldig organisasjonsnummer med 9 siffer.',
+        'Du må skrive inn et gyldig organisasjonsnummer med 9 siffer.',
     },
     BankAccountNumber: {
       label: 'Bankkonto',
       errorRequired: 'Du må fylle inn et kontonummer.',
       errorBankAccountNumber: 'Ugyldig kontonummer.',
       errorBankAccountNumberLength:
-        'Ugyldig kontonummer. Skriv inn et gyldig kontonummer med 11 siffer.',
+        'Du må skrive inn et gyldig kontonummer med 11 siffer.',
     },
     DateOfBirth: {
       label: 'Fødselsdato',
@@ -221,13 +220,13 @@ export default {
     PostalCode: {
       label: 'Postnr.',
       errorRequired: 'Du må fylle inn et postnummer.',
-      errorPattern: 'Dette er ikke et gyldig postnummer (fire siffer).',
+      errorPattern: 'Du må skrive inn et gyldig postnummer (fire siffer).',
     },
     City: {
       label: 'Sted',
       errorRequired: 'Du må fylle inn et stedsnavn.',
       errorPattern:
-        'Stedsnavn kan kun inneholde bokstaver og gyldige tegn som bindestrek og mellomrom.',
+        'Du må skrive inn et gyldig stedsnavn. Kun bokstaver, bindestrek og mellomrom er tillatt.',
     },
     SelectCountry: {
       label: 'Land',

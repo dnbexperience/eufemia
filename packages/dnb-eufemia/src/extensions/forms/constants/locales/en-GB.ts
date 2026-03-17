@@ -9,7 +9,7 @@ export default {
       stateSummary: 'Summary:',
       errorSummary: 'Please correct the following errors:',
       errorRequired: 'This field is required.',
-      errorPattern: 'The value is invalid.',
+      errorPattern: 'You must enter a valid value.',
       optionalLabelSuffix: '(optional)',
     },
     SubmitButton: {
@@ -22,7 +22,7 @@ export default {
     Isolation: {
       commitButtonText: 'Add',
       preventUncommittedChangesText:
-        'You have changes that either need to be added or cleared.',
+        'You must either add or discard the changes.',
     },
     Step: {
       summaryTitle: 'Summary',
@@ -59,7 +59,7 @@ export default {
     SectionEditContainer: {
       doneButton: 'Done',
       cancelButton: 'Cancel',
-      errorInSection: 'Please correct the errors above.',
+      errorInSection: 'You must correct the errors above.',
       confirmCancelText: 'Are you sure you want to discard your changes?',
     },
     IterateViewContainer: {
@@ -71,7 +71,7 @@ export default {
       doneButton: 'Done',
       cancelButton: 'Cancel',
       resetButton: 'Reset',
-      errorInContainer: 'Please correct the errors above.',
+      errorInContainer: 'You must correct the errors above.',
       confirmResetText: 'Are you sure you want to clear the changes?',
     },
     IteratePushContainer: {
@@ -88,19 +88,19 @@ export default {
      */
     StringField: {
       errorMinLength:
-        'The value cannot be shorter than {minLength} characters.',
+        'Cannot be shorter than {minLength} characters.',
       errorMaxLength:
-        'The value cannot be longer than {maxLength} characters.',
+        'Cannot be longer than {maxLength} characters.',
     },
     NumberField: {
-      errorMinimum: 'The value must be at least {minimum}.',
-      errorMaximum: 'The value must be a maximum of {maximum}.',
+      errorMinimum: 'Must be at least {minimum}.',
+      errorMaximum: 'Must be max {maximum}.',
       errorExclusiveMinimum:
-        'The value must be greater than {exclusiveMinimum}.',
+        'Must be larger than {exclusiveMinimum}.',
       errorExclusiveMaximum:
-        'The value must be less than {exclusiveMaximum}.',
-      errorMultipleOf: 'The value must be a multiple of {multipleOf}.',
-      errorInteger: 'The value must be an integer (no decimals).',
+        'Must be less than {exclusiveMaximum}.',
+      errorMultipleOf: 'Must be divisible by {multipleOf}.',
+      errorInteger: 'Must be a whole number (no decimals).',
     },
     BooleanField: {
       yes: 'Yes',
@@ -117,14 +117,12 @@ export default {
     PostalAddress: {
       label: 'Postal address',
       errorRequired: 'You must enter a postal address.',
-      errorPattern:
-        'Invalid postal address. Enter a valid postal address.',
+      errorPattern: 'You must enter a valid postal address.',
     },
     StreetAddress: {
       label: 'Street address',
       errorRequired: 'You must enter a street address.',
-      errorPattern:
-        'Invalid street address. Enter a valid street address.',
+      errorPattern: 'You must enter a valid street address.',
       suggestionPlaceholder: 'Enter an address',
     },
     Date: {
@@ -156,13 +154,13 @@ export default {
       label: 'Given name',
       errorRequired: 'You must enter a given name (first name).',
       errorPattern:
-        'Enter a given name (first name) using only letters and characters such as hyphens and spaces.',
+        'You must enter a valid first name. Only letters, hyphens and spaces are allowed.',
     },
     LastName: {
       label: 'Surname',
       errorRequired: 'You must enter a surname (last name).',
       errorPattern:
-        'Enter a surname (last name) using only letters and characters such as hyphens and spaces.',
+        'You must enter a valid surname. Only letters, hyphens and spaces are allowed.',
     },
     CompanyName: {
       label: 'Company name',
@@ -173,27 +171,27 @@ export default {
       errorRequired: 'You must enter a national identity number.',
       errorFnr: 'Invalid national identity number.',
       errorFnrLength:
-        'Invalid national identity number. Enter a valid national identity number with 11 digits.',
+        'You must enter a valid national identity number with 11 digits.',
       errorDnr: 'Invalid D number.',
       errorDnrLength:
-        'Invalid D number. Enter a valid d-number with 11 digits.',
+        'You must enter a valid D number with 11 digits.',
       errorMinimumAgeValidator: 'Must be at least {age} years of age.',
       errorMinimumAgeValidatorLength:
-        'Invalid date of birth. Enter a valid date of birth (incl. century digit) with 7 digits.',
+        'You must enter a valid date of birth with 7 digits (including century).',
     },
     OrganizationNumber: {
       label: 'Organisation number',
       errorRequired: 'You must enter an organisation number.',
       errorOrgNo: 'Invalid organisation number.',
       errorOrgNoLength:
-        'Invalid organisation number. Enter a valid organisation number with 9 digits.',
+        'You must enter a valid organisation number with 9 digits.',
     },
     BankAccountNumber: {
       label: 'Bank account',
       errorRequired: 'You must enter an account number.',
       errorBankAccountNumber: 'Invalid account number.',
       errorBankAccountNumberLength:
-        'Invalid account number. Enter a valid account number with 11 digits.',
+        'You must enter a valid account number with 11 digits.',
     },
     DateOfBirth: {
       label: 'Date of birth',
@@ -223,13 +221,13 @@ export default {
     PostalCode: {
       label: 'Postcode',
       errorRequired: 'You must enter a postcode.',
-      errorPattern: 'This is not a valid postcode (four digits).',
+      errorPattern: 'You must enter a valid postcode (4 digits).',
     },
     City: {
       label: 'City',
       errorRequired: 'You must enter a city name.',
       errorPattern:
-        'City names can only contain letters and valid characters such as hyphens and spaces.',
+        'You must enter a valid city name. Only letters, hyphens and spaces are allowed.',
     },
     SelectCountry: {
       label: 'Country',
