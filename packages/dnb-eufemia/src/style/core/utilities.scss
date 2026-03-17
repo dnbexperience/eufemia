@@ -43,19 +43,22 @@
 }
 
 @mixin focusVisible() {
-  html:not([data-whatintent='touch']) &:focus-visible {
-    &[disabled] {
-      cursor: not-allowed;
-    }
-    // stylelint-disable-next-line
-    &:not([disabled]) {
-      @content;
+  &:focus-visible {
+    @include whatInputNot('touch') {
+      &[disabled] {
+        cursor: not-allowed;
+      }
+      // stylelint-disable-next-line
+      &:not([disabled]) {
+        @content;
+      }
     }
   }
 }
 
 @mixin focus() {
   &:focus,
+  // html:not([data-whatintent='touch']) &:focus does nothing except increase specificity. We should remove it and fix the use cases.
   html:not([data-whatintent='touch']) &:focus {
     &[disabled] {
       cursor: not-allowed;

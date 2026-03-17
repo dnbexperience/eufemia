@@ -11,11 +11,18 @@
 }
 
 .dnb-button {
-  // Component variables (tokens)
+  // Base variables
   --btn-color-text: var(--btn-color-text--default);
   --btn-color-icon: var(--btn-color-icon--default);
   --btn-color-bg: var(--btn-color-bg--default);
   --btn-color-border: var(--btn-color-border--default);
+  --btn-color-underline: var(--btn-color-underline--default);
+  --btn-border-inset: var(--btn-border-inset--default);
+
+  // Template modifiers
+  --btn-border-inset--default: inset;
+  --btn-border-inset--hover: ; // Need empty value to override default `inset`
+  --btn-border-inset--focus: ; // Need empty value to override default `inset`
 
   // Old variables
   --button-font-size: var(--font-size-basis);
@@ -31,8 +38,10 @@
   --button-height--medium: 2rem;
   --button-width--large: 3rem;
   --button-height--large: 3rem;
-  --button-border-width: 0.0625rem;
-  --button-border-width--hover: 0.1875rem;
+  --button-border-width: var(--button-border-width--default);
+  --button-border-width--default: 0.0625rem;
+  --button-border-width--hover: 0.125rem;
+  --button-border-width--focus: 0.1875rem;
   --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--control-button: 0.25rem;
   --button-padding-left: 0;
@@ -54,6 +63,94 @@
   &--wrap {
     overflow-wrap: break-word;
     white-space: normal;
+  }
+
+  &--tertiary {
+    @include utilities.focusVisible() {
+      > * {
+        z-index: 2;
+      }
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      z-index: 1; // to be visible in other absolute contexts
+      top: 0;
+      left: var(--button-tertiary-focus-left);
+      bottom: 0;
+      right: var(--button-tertiary-focus-right);
+
+      background-color: inherit;
+      height: inherit;
+      border-radius: inherit;
+    }
+  }
+
+  &--primary,
+  &--secondary,
+  &--tertiary {
+    // Template base
+    color: var(--btn-color-text, var(--btn-color-text--default));
+    background-color: var(--btn-color-bg, var(--btn-color-bg--default));
+
+    .dnb-button__icon {
+      color: var(--btn-color-icon, var(--btn-color-icon--default));
+    }
+
+    // Template modifiers
+    @include utilities.hover() {
+      --btn-color-bg: var(--btn-color-bg--hover);
+      --btn-color-border: var(--btn-color-border--hover);
+      --btn-color-icon: var(--btn-color-icon--hover);
+      --btn-color-text: var(--btn-color-text--hover);
+      --btn-color-underline: var(--btn-color-underline--hover);
+
+      --btn-border-inset: var(--btn-border-inset--hover);
+      --button-border-width: var(--button-border-width--hover);
+    }
+
+    @include utilities.active() {
+      --btn-color-bg: var(--btn-color-bg--active);
+      --btn-color-border: var(--btn-color-border--active);
+      --btn-color-icon: var(--btn-color-icon--active);
+      --btn-color-text: var(--btn-color-text--active);
+      --btn-color-underline: var(--btn-color-underline--active);
+
+      --btn-border-inset: var(--btn-border-inset--active);
+      --button-border-width: var(--button-border-width--active);
+    }
+
+    @include utilities.focusVisible() {
+      --btn-color-bg: var(--token-color-background-action-focus-subtle);
+      --btn-color-border: var(--token-color-stroke-action-focus);
+      --btn-color-icon: var(--token-color-icon-action-focus);
+      --btn-color-text: var(--token-color-text-action-focus);
+      --btn-color-underline: var(--btn-color-underline--focus);
+
+      --btn-border-inset: var(--btn-border-inset--focus);
+      --button-border-width: var(--button-border-width--focus);
+
+      outline: none;
+    }
+
+    &[disabled] {
+      --btn-color-bg: var(--btn-color-bg--disabled);
+      --btn-color-border: var(--btn-color-border--disabled);
+      --btn-color-icon: var(--btn-color-icon--disabled);
+      --btn-color-text: var(--btn-color-text--disabled);
+    }
+  }
+
+  &--primary,
+  &--secondary,
+  &--tertiary::before {
+    // Template base
+    @include utilities.fakeBorder(
+      var(--btn-color-border, var(--btn-color-border--default)),
+      var(--button-border-width, var(--button-border-width--default)),
+      var(--btn-border-inset, var(--btn-border-inset--default))
+    );
   }
 
   // Primary button
@@ -91,6 +188,7 @@
       --token-color-component-button-text-action-disabled
     );
 
+    &.dnb-button--on-dark-background,
     &.dnb-button--surface-dark {
       // Background
       --btn-color-bg--default: var(--token-color-background-action-ondark);
@@ -101,7 +199,7 @@
         --token-color-background-action-pressed-ondark
       );
       --btn-color-bg--disabled: var(
-        --token-olor-background-action-disabled-ondark
+        --token-color-background-action-disabled-ondark
       );
 
       // Border
@@ -198,6 +296,7 @@
     --btn-color-text--active: var(--token-color-text-action-pressed);
     --btn-color-text--disabled: var(--token-color-text-action-disabled);
 
+    &.dnb-button--on-dark-background,
     &.dnb-button--surface-dark {
       // Background
       --btn-color-bg--default: transparent; // TODO: might have some a11y issues, will discuss with UX
@@ -301,6 +400,13 @@
     --btn-color-text--active: var(--token-color-text-action-pressed);
     --btn-color-text--disabled: var(--token-color-text-action-disabled);
 
+    // Underline
+    --btn-color-underline--default: transparent;
+    --btn-color-underline--hover: var(
+      --token-color-background-action-hover
+    );
+
+    &.dnb-button--on-dark-background,
     &.dnb-button--surface-dark {
       // Icon
       --btn-color-icon--default: var(--token-color-icon-action-ondark);
@@ -320,6 +426,11 @@
       );
       --btn-color-text--disabled: var(
         --token-color-text-action-disabled-ondark
+      );
+
+      // Underline
+      --btn-color-underline--hover: var(
+        --token-color-icon-action-hover-ondark
       );
     }
 
@@ -345,6 +456,11 @@
       --btn-color-text--active: var(
         --token-color-component-button-text-action-destructive-pressed
       );
+
+      // Underline
+      --btn-color-underline--hover: var(
+        --token-color-component-button-background-action-destructive-hover
+      );
     }
   }
 
@@ -364,8 +480,6 @@
   font-size: var(--font-size-small); // reset
   font-weight: var(--font-weight-regular); // reset
   text-decoration: none;
-
-  box-shadow: none;
 
   // Safari needs a correct CSS specificity
   &,

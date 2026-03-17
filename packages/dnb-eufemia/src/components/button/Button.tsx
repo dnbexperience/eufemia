@@ -112,6 +112,10 @@ export type ButtonProps = {
    */
   variant?: ButtonVariant
   /**
+   * Changes component style based on background. Defaults to `undefined`.
+   */
+  surface?: 'dark'
+  /**
    * The size of the button. For now there is `small`, `medium`, `default` and `large`.
    */
   size?: ButtonSize
@@ -305,6 +309,7 @@ class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
       skeleton,
       element,
       ref: _ref,
+      surface,
       ...attributes
     } = props
 
@@ -387,8 +392,8 @@ class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
       'dnb-button',
       `dnb-button--${usedVariant || 'primary'}`,
       usedSize && usedSize !== 'default' && `dnb-button--size-${usedSize}`,
-      this.context?.theme?.surface === 'dark' &&
-        `dnb-button--on-dark-background`,
+      (this.context?.theme?.surface === 'dark' || surface === 'dark') &&
+        `dnb-button--surface-dark`,
       icon && `dnb-button--icon-position-${iconPosition}`,
       stretch && 'dnb-button--stretch',
       icon && usedIconSize && `dnb-button--icon-size-${usedIconSize}`,

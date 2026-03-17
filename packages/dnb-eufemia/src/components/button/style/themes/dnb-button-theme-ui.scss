@@ -11,58 +11,7 @@
 @use '../button--tertiary.scss';
 
 .dnb-button {
-  &--primary {
-    color: var(--color-white);
-    background-color: var(--color-sea-green);
-
-    @include button-mixins.buttonHover(
-      var(--color-sea-green),
-      var(--color-white)
-    );
-    @include button-mixins.buttonFocus(
-      var(--color-sea-green),
-      var(--color-white)
-    );
-    @include button-mixins.buttonActive(
-      var(--color-sea-green),
-      var(--color-mint-green-50)
-    );
-
-    &[disabled] {
-      color: var(--color-white);
-      background-color: var(--color-sea-green-30);
-    }
-  }
-  &:not([disabled])#{&}--primary#{&}__status {
-    &--error {
-      color: var(--color-white);
-      background-color: var(--color-fire-red);
-    }
-  }
-
   &--secondary {
-    color: var(--color-sea-green);
-    background-color: var(--color-white);
-
-    @include utilities.fakeBorder(
-      var(--color-sea-green),
-      0.0625rem,
-      inset
-    );
-
-    @include button-mixins.buttonHover(
-      var(--color-sea-green),
-      var(--color-white)
-    );
-    @include button-mixins.buttonFocus(
-      var(--color-sea-green),
-      var(--color-white)
-    );
-    @include button-mixins.buttonActive(
-      var(--color-sea-green),
-      var(--color-mint-green-50)
-    );
-
     &[disabled],
     &[disabled]:focus // only because of href/anchor button
     {
@@ -72,23 +21,9 @@
       // only because of href/anchor button
       @include utilities.fakeBorder(
         var(--color-sea-green-30),
-        0.0625rem,
+        var(--button-border-width),
         inset
       );
-    }
-  }
-  &:not([disabled])#{&}--secondary#{&}__status {
-    &--error {
-      color: var(--color-fire-red);
-
-      @include utilities.fakeBorder(
-        var(--color-fire-red),
-        0.0625rem,
-        inset
-      );
-      .dnb-button__icon {
-        color: inherit;
-      }
     }
   }
 
@@ -96,7 +31,8 @@
   &--secondary:not(#{&}--has-text) {
     @include button-mixins.buttonHover(
       var(--color-emerald-green),
-      var(--color-white)
+      var(--color-white),
+      var(--color-emerald-green)
     );
     @include button-mixins.buttonFocus(
       var(--color-emerald-green),
@@ -133,31 +69,13 @@
   }
 
   &--tertiary {
-    color: var(--color-sea-green);
-    background-color: transparent;
-
-    @include utilities.hover() {
-      color: var(--color-sea-green);
-
-      // underline
-      .dnb-button__text::after {
-        color: var(--color-emerald-green);
-      }
-    }
-
     @include utilities.active() {
-      color: var(--color-sea-green);
-
       // underline
       .dnb-button__text::after {
         html[data-whatintent='touch'] & {
           color: var(--color-emerald-green);
         }
       }
-    }
-
-    @include utilities.focusVisible() {
-      color: var(--color-sea-green);
     }
 
     &.dnb-button--icon-position-top {
@@ -173,11 +91,6 @@
 
     &[disabled] {
       color: var(--color-sea-green-30);
-    }
-  }
-  &:not([disabled])#{&}--tertiary#{&}__status {
-    &--error {
-      color: var(--color-fire-red);
     }
   }
 

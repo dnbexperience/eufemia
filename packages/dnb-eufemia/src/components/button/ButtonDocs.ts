@@ -32,6 +32,11 @@ export const ButtonProperties: PropertiesTableProps = {
     ],
     status: 'optional',
   },
+  surface: {
+    doc: 'Changes component style based on background. Defaults to `undefined`.',
+    type: `"dark"`,
+    status: 'optional',
+  },
   size: {
     doc: 'The size of the button. There is `default`, `small`, `medium`  and `large`. The `tertiary` button officially supports only default and large. Changing the size mainly affects spacing, but the large tertiary button also has a larger font size.',
     type: ['"default"', '"small"', '"medium"', '"large"'],
