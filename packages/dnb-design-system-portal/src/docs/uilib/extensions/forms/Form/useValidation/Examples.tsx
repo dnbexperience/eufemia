@@ -103,7 +103,7 @@ export function VisibleOnly() {
                   path="/showField"
                 />
 
-                <Form.Visibility pathTrue="/showField" keepInDOM animate>
+                <Form.Visibility pathTrue="/showField" animate>
                   <Field.String
                     path="/conditionalField"
                     label="Conditional field"

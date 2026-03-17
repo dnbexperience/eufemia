@@ -15,8 +15,8 @@ The `Form.useValidation` lets you monitor and modify field status or your form e
 
 ## APIs
 
-- `hasErrors(): boolean` - True if any error is present.
-- `hasFieldError(path: Path): boolean` - True if the field has an error.
+- `hasErrors(options?): boolean` - True if any error is present. Pass `{ visibleOnly: true }` to only consider visible fields.
+- `hasFieldError(path: Path, options?): boolean` - True if the field has an error. Pass `{ visibleOnly: true }` to only consider visible fields.
 - `setFormError(error: Error | FormError | undefined)` - Report a form error.
 - `setFieldStatus(path: Path, status: EventStateObject)` - Show a field error.
 
