@@ -458,7 +458,7 @@ export const Bar = (props: PaginationProps) => (
 
 export const createPagination = (
   initProps: Record<string, unknown> = {}
-): CreatePaginationReturn => {
+): PaginationCreateReturn => {
   const store = React.createRef<Record<string, unknown>>()
   const rerender = React.createRef<
     ((store: React.RefObject<Record<string, unknown>>) => void) | null
