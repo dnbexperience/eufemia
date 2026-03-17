@@ -22,6 +22,7 @@
   --ta-color-bg: var(--token-color-background-neutral);
   --ta-color-text: var(--token-color-text-neutral);
   --ta-color-placeholder: var(--token-color-text-neutral-alternative);
+  --ta-color-border: var(--token-color-stroke-action);
 
   // Old variables
   --textarea-border-radius: 0.25rem;
@@ -98,7 +99,7 @@
     background-color: var(--ta-color-bg);
 
     @include utilities.fakeBorder(
-      var(--textarea-border-color),
+      var(--ta-color-border),
       var(--textarea-border-width),
       var(--textarea-border-inset, inset)
     );
@@ -204,6 +205,7 @@
   &__textarea[disabled] {
     --ta-color-bg: var(--token-color-background-action-disabled);
     --ta-color-text: var(--token-color-text-neutral-alternative);
+    --ta-color-border: var(--token-color-stroke-action-disabled);
 
     user-select: none; // Safari / Touch fix
     &::-webkit-scrollbar {
@@ -293,11 +295,21 @@
     visibility: hidden;
   }
 
+  // hover and focus
+  &__textarea:not([disabled]):not(#{&}--disabled):hover ~ &__state,
+  &__textarea:not([disabled]):not(#{&}--disabled):focus ~ &__state {
+    --ta-color-border: var(--token-color-stroke-action-pressed);
+  }
+
   // with statusState = "error"
   &__status--error:not(#{&}--focus)
-    &__textarea:not([disabled]):not(#{&}--disabled),
-  &__status--error:not(#{&}--focus)
-    &__textarea:not([disabled]):not(#{&}--disabled):hover {
+    &__textarea:not([disabled]):not(#{&}--disabled) {
     --ta-color-text: var(--token-color-text-destructive);
+  }
+
+  &__status--error:not(#{&}--focus)
+    &__textarea:not([disabled]):not(#{&}--disabled)
+    ~ &__state {
+    --ta-color-border: var(--token-color-stroke-error);
   }
 }

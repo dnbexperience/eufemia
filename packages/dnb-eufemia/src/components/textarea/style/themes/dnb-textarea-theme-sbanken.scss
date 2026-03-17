@@ -6,7 +6,6 @@
 @use '../../../../style/core/utilities.scss' as utilities;
 
 .dnb-textarea {
-  --textarea-border-color: var(--sb-color-gray-dark-2);
   --textarea-border-width: 0.0625rem;
 
   &__textarea {
@@ -24,27 +23,14 @@
 
   // hover
   &__textarea:not([disabled]):not(#{&}--disabled):hover ~ &__state {
-    --textarea-border-color: var(--sb-color-violet);
     --textarea-border-width: 0.125rem;
   }
 
   // focus
   &__textarea:not([disabled]):not(#{&}--disabled):focus {
     ~ .dnb-textarea__state {
-      --textarea-border-color: var(--sb-color-violet);
       --textarea-border-radius: 1.5rem;
       @include utilities.focusRing(null, null, inset);
-    }
-  }
-
-  &--disabled {
-    --textarea-border-color: var(--sb-color-gray-dark-2);
-  }
-
-  // with statusState = "error"
-  &__status--error &__textarea:not([disabled]):not(#{&}--disabled) {
-    ~ .dnb-textarea__state {
-      --textarea-border-color: var(--sb-color-red);
     }
   }
 }

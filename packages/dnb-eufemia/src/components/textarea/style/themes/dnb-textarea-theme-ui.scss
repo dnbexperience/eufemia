@@ -6,16 +6,12 @@
 @use '../../../../style/core/utilities.scss' as utilities;
 
 .dnb-textarea {
-  --textarea-border-color: var(--color-sea-green);
-  --textarea-border-color--hover: var(--color-emerald-green);
-  --textarea-border-color--disabled: var(--color-black-55);
   --textarea-border-width: 0.0625rem;
   --textarea-border-width--hover: 0.125rem;
 
   &__textarea:not([disabled]):not(#{&}--disabled):focus ~ &__state,
   &__textarea:not([disabled]):not(#{&}--disabled):not(.no-hover):hover
     ~ &__state {
-    --textarea-border-color: var(--textarea-border-color--hover);
     --textarea-border-width: var(--textarea-border-width--hover);
     --textarea-border-inset: ;
   }
@@ -25,20 +21,4 @@
   // &__textarea:not([disabled]):not(#{&}--disabled):hover ~ &__placeholder {
   //   color: var(--color-black);
   // }
-
-  &--disabled {
-    --textarea-border-color: var(--textarea-border-color--disabled);
-  }
-
-  // with statusState = "error"
-  &__status--error:not(#{&}--focus)
-    &__textarea:not([disabled]):not(#{&}--disabled)
-    ~ &__state {
-    @include utilities.fakeBorder(var(--color-fire-red));
-  }
-  &__status--error:not(#{&}--focus)
-    &__textarea:not([disabled]):not(#{&}--disabled):hover
-    ~ &__state {
-    @include utilities.fakeBorder(var(--color-fire-red), 0.125rem);
-  }
 }
