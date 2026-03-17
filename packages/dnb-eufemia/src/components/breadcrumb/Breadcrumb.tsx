@@ -143,7 +143,11 @@ export type BreadcrumbProps = {
   ref?: React.Ref<HTMLElement>
 }
 
-const defaultProps: Partial<BreadcrumbProps> = {
+export type BreadcrumbAllProps = BreadcrumbProps &
+  SpacingProps &
+  Omit<React.HTMLProps<HTMLElement>, keyof BreadcrumbProps>
+
+const defaultProps: Partial<BreadcrumbAllProps> = {
   skeleton: false,
   navText: 'Back',
   goBackText: 'Back',
@@ -155,7 +159,7 @@ const defaultProps: Partial<BreadcrumbProps> = {
   spacing: false,
 }
 
-const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
+const Breadcrumb = (localProps: BreadcrumbAllProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
 
