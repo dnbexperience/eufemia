@@ -495,6 +495,12 @@ export type ToggleButtonValue =
   | unknown[]
 export type ToggleButtonChildren = string | (() => React.ReactNode)
 
+export type ToggleButtonChangeEvent = {
+  checked: boolean
+  value: ToggleButtonValue
+  event: React.SyntheticEvent
+}
+
 export type ToggleButtonProps = Omit<
   React.HTMLProps<HTMLButtonElement>,
   'ref' | 'label' | 'value' | 'children' | 'onChange' | 'size'
