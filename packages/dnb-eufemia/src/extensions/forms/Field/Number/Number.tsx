@@ -9,7 +9,7 @@ import { InputMasked, Button } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
 import {
   format,
-  FormatOptionParams,
+  NumberFormatOptionParams,
 } from '../../../../components/number-format/NumberUtils'
 import type { InputAlign, InputSize } from '../../../../components/Input'
 import SharedContext from '../../../../shared/Context'
@@ -90,7 +90,9 @@ function NumberComponent(props: Props) {
       ((p: Props) => {
         // Helper function to format validation values with currency/percent suffix
         const formatValidationValue = (value: number) => {
-          const formatOptions: Partial<FormatOptionParams> = { locale }
+          const formatOptions: Partial<NumberFormatOptionParams> = {
+            locale,
+          }
 
           if (p.currency) {
             formatOptions.currency = p.currency

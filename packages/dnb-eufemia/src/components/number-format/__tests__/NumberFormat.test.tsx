@@ -19,7 +19,7 @@ import NumberFormat, {
   COPY_TOOLTIP_TIMEOUT,
 } from '../NumberFormat'
 import * as TooltipModule from '../../tooltip/Tooltip'
-import { format, FormatReturnValue } from '../NumberUtils'
+import { format, NumberFormatReturnValue } from '../NumberUtils'
 import enGB from '../../../shared/locales/en-GB'
 
 const en = enGB['en-GB'].NumberFormat
@@ -232,7 +232,7 @@ describe('NumberFormat component', () => {
     const { cleanedValue: noVal } = format(-value, {
       currency: true,
       returnAria: true,
-    }) as FormatReturnValue
+    }) as NumberFormatReturnValue
     expect(
       document.querySelector('.dnb-number-format__selection').textContent
     ).toBe(noVal)
@@ -245,7 +245,7 @@ describe('NumberFormat component', () => {
       locale: 'en-GB',
       currency: true,
       returnAria: true,
-    }) as FormatReturnValue
+    }) as NumberFormatReturnValue
 
     expect(
       document.querySelector('.dnb-number-format__selection').textContent

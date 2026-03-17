@@ -48,7 +48,7 @@ import {
 } from './DatePickerCalendarNavigator'
 import { formatDate } from '../date-format/DateFormatUtils'
 
-export type CalendarDay = {
+export type DatePickerCalendarDay = {
   date: Date
   isDisabled?: boolean
   isEndDate?: boolean
@@ -63,7 +63,7 @@ export type CalendarDay = {
   className?: string
 }
 
-export type CalendarNavigationEvent = {
+export type DatePickerCalendarNavigationEvent = {
   nr: number
   type?: CalendarNavButtonProps['type']
 }
@@ -170,8 +170,8 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   } = props
 
   const tableRef = useRef<React.ElementRef<'table'> | null>(null)
-  const days = useRef<Record<string, Array<CalendarDay>>>({})
-  const cache = useRef<Record<string, CalendarDay[][]>>({})
+  const days = useRef<Record<string, Array<DatePickerCalendarDay>>>({})
+  const cache = useRef<Record<string, DatePickerCalendarDay[][]>>({})
   const currentDatesRef = useRef({
     startDate,
     endDate,
@@ -776,7 +776,7 @@ function onHoverDay({
   hoverDate,
   setHoverDate,
 }: {
-  day: CalendarDay
+  day: DatePickerCalendarDay
   hoverDate?: Date
   setHoverDate: (date: Date) => void
 }) {

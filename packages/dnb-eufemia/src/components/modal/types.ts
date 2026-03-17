@@ -15,17 +15,17 @@ export type ModalTriggerIconPosition = 'left' | 'right'
 export type ModalContentMinWidth = string | number
 export type ModalContentMaxWidth = string | number
 
-export type TriggeredBy =
+export type ModalTriggeredBy =
   | 'handler'
   | 'button'
   | 'overlay'
   | 'keyboard'
   | 'unmount'
-export type CloseHandlerParams = {
-  triggeredBy: TriggeredBy
+export type ModalCloseHandlerParams = {
+  triggeredBy: ModalTriggeredBy
   triggeredByEvent?: Event
 }
-export type CloseHandler = (params?: CloseHandlerParams) => void
+export type ModalCloseHandler = (params?: ModalCloseHandlerParams) => void
 
 export type ModalProps = ModalRootProps & {
   /**
@@ -103,7 +103,7 @@ export type ModalProps = ModalRootProps & {
     id?: string
     event?: Event
     triggeredBy?: string
-    close?: CloseHandler
+    close?: ModalCloseHandler
   }) => void
 
   /**
@@ -117,7 +117,10 @@ export type ModalProps = ModalRootProps & {
   /**
    * Set a function to call the callback function, once the modal/drawer should close: `closeModal={(close) => close()}`
    */
-  closeModal?: (close?: CloseHandler, instance?: any) => () => void | void
+  closeModal?: (
+    close?: ModalCloseHandler,
+    instance?: any
+  ) => () => void | void
 
   /**
    * Provide a custom trigger component. Like trigger={<Anchor href="/" />}. It will set the focus on it when the modal/drawer gets closed.
@@ -127,7 +130,7 @@ export type ModalProps = ModalRootProps & {
   /**
    * Send along custom HTML attributes or properties to the trigger button.
    */
-  triggerAttributes?: TriggerAttributes
+  triggerAttributes?: ModalTriggerAttributes
 
   /**
    * The content which will appear when triggering the modal/drawer.
@@ -313,4 +316,4 @@ export type ModalContentProps = {
   modalContentCloseRef?: React.RefObject<any>
 }
 
-export type TriggerAttributes = ButtonProps
+export type ModalTriggerAttributes = ButtonProps

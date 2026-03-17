@@ -21,10 +21,10 @@ import {
 import { convertStringToDate } from '../../../../components/date-picker/DatePickerCalc'
 import { ProviderProps } from '../../../../shared/Provider'
 import { FormError } from '../../utils'
-import { InvalidDates } from '../../../../components/date-picker/DatePickerInput'
+import { DatePickerInvalidDates } from '../../../../components/date-picker/DatePickerInput'
 import useInvalidDates from './hooks/useInvalidDates'
 import {
-  FormatDateOptions,
+  DateFormatOptions,
   formatDate,
 } from '../../../../components/date-format/DateFormatUtils'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
@@ -441,7 +441,7 @@ function validateDateLimit({
         : dates.maxDate,
   }
 
-  const options: FormatDateOptions = {
+  const options: DateFormatOptions = {
     locale,
     options: { dateStyle: 'long' },
   }
@@ -510,7 +510,7 @@ function validateDate({
   invalidDate,
   invalidStartDate,
   invalidEndDate,
-}: InvalidDates): Array<FormError> {
+}: DatePickerInvalidDates): Array<FormError> {
   // Don't show error if the date is empty or contains only placeholder values
   if (invalidDate && !isEmptyOrPlaceholder(invalidDate)) {
     return [

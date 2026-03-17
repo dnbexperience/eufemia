@@ -1,16 +1,16 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { convertStringToDate } from '../DatePickerCalc'
 import { addMonths, isSameDay } from 'date-fns'
-import { DateType } from '../DatePickerContext'
+import { DatePickerDateType } from '../DatePickerContext'
 
 export type DatePickerDateProps = {
-  date?: DateType
-  startDate?: DateType
-  endDate?: DateType
-  startMonth?: DateType
-  endMonth?: DateType
-  minDate?: DateType
-  maxDate?: DateType
+  date?: DatePickerDateType
+  startDate?: DatePickerDateType
+  endDate?: DatePickerDateType
+  startMonth?: DatePickerDateType
+  endMonth?: DatePickerDateType
+  minDate?: DatePickerDateType
+  maxDate?: DatePickerDateType
 }
 
 type UseDatesOptions = {
@@ -19,7 +19,7 @@ type UseDatesOptions = {
 }
 
 export type DatePickerDates = {
-  date?: DateType
+  date?: DatePickerDateType
   startDate?: Date
   endDate?: Date
   minDate?: Date
@@ -288,7 +288,7 @@ function updateMonths({
   }
 }
 
-function getDate(date: DateType, dateFormat: string) {
+function getDate(date: DatePickerDateType, dateFormat: string) {
   return date instanceof Date
     ? date
     : convertStringToDate(date ?? '', {

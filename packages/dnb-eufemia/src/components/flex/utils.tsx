@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { SpaceType, SpacingProps } from '../../shared/types'
 import Space from '../space/Space'
 import { isValidSpaceProp, removeSpaceProps } from '../space/SpacingUtils'
-import { End, Start } from './types'
+import { FlexEnd, FlexStart } from './types'
 import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
 
 export const omitSpacingProps = removeSpaceProps
@@ -32,7 +32,7 @@ export function pickSpacingProps<Props extends SpacingProps>(
  * @returns The space value of the element, or undefined if it cannot be determined.
  */
 export function getSpaceValue(
-  type: Start | End,
+  type: FlexStart | FlexEnd,
   element: React.ReactNode
 ): SpaceType | undefined {
   if (!React.isValidElement<Record<string, any>>(element)) {
