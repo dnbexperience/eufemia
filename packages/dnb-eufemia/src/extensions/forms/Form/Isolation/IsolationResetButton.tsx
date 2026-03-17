@@ -42,6 +42,7 @@ export default function IsolationResetButton(props: Props) {
     name: 'isolation-reset-button',
   })
 
+  // @ts-expect-error -- strictFunctionTypes
   const buttonProps = omitDataValueReadWriteProps(restProps)
   const { resetButton } = useTranslation().IterateEditContainer
   const { confirmResetText } = useTranslation().IterateEditContainer
@@ -95,6 +96,7 @@ export default function IsolationResetButton(props: Props) {
       ) : (
         <Button
           {...triggerAttributes}
+          // @ts-expect-error -- strictFunctionTypes
           onClick={handleClick}
           {...buttonProps}
         >

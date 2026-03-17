@@ -17,6 +17,7 @@ export default function useReactRouter(
         searchParams.set(name, index)
         setSearchParams(searchParams)
       } catch (error) {
+        // @ts-expect-error -- strictFunctionTypes
         setFormError(error)
       }
     },

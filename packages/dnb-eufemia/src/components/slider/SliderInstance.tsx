@@ -182,6 +182,7 @@ function SubtractButton() {
         '%s',
         humanNumber.aria || String(value)
       )}
+      // @ts-expect-error -- strictFunctionTypes
       onClick={onSubtractClickHandler}
       disabled={disabled}
       skeleton={skeleton}
@@ -217,6 +218,7 @@ function AddButton() {
         '%s',
         humanNumber.aria || String(value)
       )}
+      // @ts-expect-error -- strictFunctionTypes
       onClick={onAddClickHandler}
       disabled={disabled}
       skeleton={skeleton}

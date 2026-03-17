@@ -75,5 +75,6 @@ export default function CancelButton({
     )
   }
 
+  // @ts-expect-error -- strictFunctionTypes
   return <Button {...triggerAttributes} onClick={cancelHandler} />
 }

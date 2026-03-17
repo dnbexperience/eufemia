@@ -186,4 +186,5 @@ export function TableIconSrTh(props: { text: string }) {
 }
 
 export const isTableHead = (children: React.ReactNode[]) =>
+  // @ts-expect-error -- strictFunctionTypes
   children.some((element: React.ReactElement) => element.type === Th)

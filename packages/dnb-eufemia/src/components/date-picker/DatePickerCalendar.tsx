@@ -581,6 +581,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                 role="row"
                 className="dnb-date-picker__days"
               >
+                {/* @ts-expect-error -- strictFunctionTypes */}
                 {week.map((day: DayObject, i) => {
                   const title = formatDate(day.date, {
                     locale,

@@ -263,6 +263,7 @@ class ToggleButtonGroup extends React.PureComponent<
     const Fieldset = label ? 'fieldset' : 'div'
 
     return (
+      // @ts-expect-error -- strictFunctionTypes
       <ToggleButtonGroupContext value={context}>
         <div className={classes}>
           <AlignmentHelper />

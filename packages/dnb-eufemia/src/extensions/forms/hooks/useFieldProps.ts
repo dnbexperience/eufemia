@@ -2081,9 +2081,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
             // Skip sync errors, such as required
             if (!hasError()) {
               // If the value has changed during the async process, we don't want to call the onChange anymore
-              await setEventResult(
-                (await onChange?.(...(args as [any]))) ?? null
-              )
+              const result = (await onChange?.(...(args as [any]))) as
+                | EventReturnWithStateObjectAndSuccess
+                | undefined
+              await setEventResult(result ?? null)
             } else {
               await setEventResult(null)
             }
