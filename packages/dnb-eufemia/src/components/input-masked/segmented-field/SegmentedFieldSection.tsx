@@ -482,6 +482,74 @@ export default function SegmentedFieldSection({
     setSectionCaret,
   ])
 
+  const syncSelectionFromDom = useCallback(() => {
+    const element = sectionRefs.current[inputId]
+
+    if (!element || document.activeElement !== element) {
+      return
+    }
+
+    const selection = window.getSelection()
+
+    if (!selection || selection.rangeCount === 0) {
+      return
+    }
+
+    const range = selection.getRangeAt(0)
+
+    if (
+      !element.contains(range.startContainer) ||
+      !element.contains(range.endContainer)
+    ) {
+      return
+    }
+
+    const normalizeOffset = (
+      container: Node,
+      offset: number,
+      edge: 'start' | 'end'
+    ) => {
+      if (container === element) {
+        return edge === 'start' ? 0 : displayValue.length
+      }
+
+      return offset
+    }
+
+    const startOffset = normalizeOffset(
+      range.startContainer,
+      range.startOffset,
+      'start'
+    )
+    const endOffset = normalizeOffset(
+      range.endContainer,
+      range.endOffset,
+      'end'
+    )
+
+    if (
+      !selection.isCollapsed &&
+      startOffset === 0 &&
+      endOffset >= displayValue.length
+    ) {
+      sectionSelectionModeRef.current[inputId] = 'all'
+      caretPositionsRef.current[inputId] = 0
+      return
+    }
+
+    sectionSelectionModeRef.current[inputId] = 'caret'
+    caretPositionsRef.current[inputId] = Math.min(
+      endOffset,
+      displayValue.length
+    )
+  }, [
+    caretPositionsRef,
+    displayValue.length,
+    inputId,
+    sectionRefs,
+    sectionSelectionModeRef,
+  ])
+
   return (
     <>
       <span
@@ -532,6 +600,9 @@ export default function SegmentedFieldSection({
             selectSection(inputId)
           }
         }}
+        onMouseUp={() => {
+          syncSelectionFromDom()
+        }}
         onInput={(event) => {
           event.preventDefault()
         }}
@@ -564,6 +635,7 @@ export default function SegmentedFieldSection({
 
           const hadWholeGroupSelected = groupSelectionRef.current
           clearGroupSelection()
+          syncSelectionFromDom()
 
           if (key === 'Tab') {
             clearSectionSelection()

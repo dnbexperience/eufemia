@@ -63,6 +63,23 @@ const getFirst = () => getSections()[0]
 
 const getSecond = () => getSections()[1]
 
+function setDomCaret(element: HTMLElement, position: number) {
+  const selection = window.getSelection()
+  const range = document.createRange()
+  const textNode = element.firstChild
+
+  if (!textNode) {
+    throw new Error(
+      'Expected segmented field section to contain a text node'
+    )
+  }
+
+  range.setStart(textNode, position)
+  range.collapse(true)
+  selection?.removeAllRanges()
+  selection?.addRange(range)
+}
+
 describe('SegmentedField', () => {
   describe('rendering', () => {
     it('should render sections for each input', () => {
@@ -445,6 +462,27 @@ describe('SegmentedField', () => {
   })
 
   describe('arrow keys', () => {
+    it('should move cursor right from a manually placed caret', async () => {
+      render(
+        <SegmentedField
+          inputs={threeSegmentInputs}
+          delimiter="."
+          values={{ day: '12', month: '11', year: '1234' }}
+        />
+      )
+
+      const year = getSections()[2]
+
+      await userEvent.click(year)
+      setDomCaret(year, 2)
+      fireEvent.mouseUp(year)
+
+      await userEvent.keyboard('{ArrowRight}')
+
+      expect(year.selectionStart).toBe(3)
+      expect(year.selectionEnd).toBe(3)
+    })
+
     it('should move cursor right within a section', async () => {
       renderSegmentedField({
         values: { first: '12', second: '' },
