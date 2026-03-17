@@ -1,7 +1,7 @@
 import { useRef, useCallback } from 'react'
 import type { ProvideAdditionalEventArgs } from '../types'
 
-export interface TransformerFns<Value> {
+export type TransformerFns<Value> = {
   transformIn: (external: unknown) => Value
   transformOut: (internal: Value, args?: unknown) => unknown
   toInput: (value: Value) => Value

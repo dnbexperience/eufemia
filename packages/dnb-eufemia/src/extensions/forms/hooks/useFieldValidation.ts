@@ -26,7 +26,7 @@ import type {
 } from './useFieldError'
 import type { AsyncProcesses } from './useFieldAsync'
 
-export interface UseFieldValidationParams<Value> {
+export type UseFieldValidationParams<Value> = {
   // Schema
   finalSchema: unknown
   hasZodSchema: boolean
