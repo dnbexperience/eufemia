@@ -1285,24 +1285,30 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
 
     const { render: customRenderer } = props
 
-    const TabItems = this.TabsHandler as React.FC & {
+    const TabItems = this.TabsHandler as ((
+      props: Record<string, unknown>
+    ) => React.ReactNode) & {
       displayName?: string
     }
     TabItems.displayName = 'Tabs'
 
-    const TabsList = this
-      .TabsListHandler as React.FC<React.PropsWithChildren> & {
+    const TabsList = this.TabsListHandler as ((
+      props: React.PropsWithChildren
+    ) => React.ReactNode) & {
       displayName?: string
     }
     TabsList.displayName = 'TabsList'
 
-    const Wrapper = this
-      .TabsWrapperHandler as React.FC<React.PropsWithChildren> & {
+    const Wrapper = this.TabsWrapperHandler as ((
+      props: React.PropsWithChildren
+    ) => React.ReactNode) & {
       displayName?: string
     }
     Wrapper.displayName = 'TabsWrapper'
 
-    const Content = this.TabContentHandler as React.FC & {
+    const Content = this.TabContentHandler as ((
+      props: Record<string, unknown>
+    ) => React.ReactNode) & {
       displayName?: string
     }
     Content.displayName = 'TabContent'
