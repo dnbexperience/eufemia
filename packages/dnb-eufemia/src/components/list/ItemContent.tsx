@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import clsx from 'clsx'
-import { ListVariant, ListContext } from './ListContext'
-import FlexContainer, {
-  FlexContainerAllProps as FlexProps,
-} from '../flex/Container'
+import type { ListVariant } from './ListContext'
+import { ListContext } from './ListContext'
+import type { FlexContainerAllProps as FlexProps } from '../flex/Container'
+import FlexContainer from '../flex/Container'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'

@@ -1,6 +1,6 @@
 import React from 'react'
 import Dialog from '../Dialog'
-import { DialogContentProps, DialogProps } from '../types'
+import type { DialogContentProps, DialogProps } from '../types'
 import Button from '../../button/Button'
 import Provider from '../../../shared/Provider'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'

@@ -11,7 +11,8 @@ import React, {
   useState,
 } from 'react'
 import clsx from 'clsx'
-import Context, { ContextProps } from '../../shared/Context'
+import type { ContextProps } from '../../shared/Context'
+import Context from '../../shared/Context'
 import {
   validateDOMAttributes,
   dispatchCustomElementEvent,
@@ -22,12 +23,12 @@ import ProgressIndicatorCircular from './ProgressIndicatorCircular'
 import ProgressIndicatorLinear from './ProgressIndicatorLinear'
 import { format } from '../number-format/NumberUtils'
 
-import {
+import type {
   ProgressIndicatorAllProps,
   ProgressIndicatorAnimationProps,
-  isValidSize,
   ProgressIndicatorCustomSize,
 } from './types'
+import { isValidSize } from './types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 function ProgressIndicator(props: ProgressIndicatorAllProps) {

@@ -5,7 +5,8 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 // Components
 import IconPrimary from '../icon-primary/IconPrimary'
 import type { IconIcon } from '../icon/Icon'
-import Button, { ButtonProps } from '../button/Button'
+import type { ButtonProps } from '../button/Button'
+import Button from '../button/Button'
 
 // Shared
 import Context from '../../shared/Context'

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Field, Form, Tools, Value } from '../../..'
 import { Flex } from '../../../../../components'
-import { CountryISO, CountryType } from '../../../constants/countries'
+import type { CountryISO, CountryType } from '../../../constants/countries'
 
 export default {
   title: 'Eufemia/Extensions/Forms/SelectCountry',

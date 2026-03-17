@@ -17,9 +17,8 @@ import { getThemeClasses } from '../../shared/Theme'
 import { createSpacingClasses } from '../../components/space/SpacingHelper'
 
 import E from '../../elements/Element'
-import DrawerListContext, {
-  DrawerListContextValue,
-} from './DrawerListContext'
+import type { DrawerListContextValue } from './DrawerListContext'
+import DrawerListContext from './DrawerListContext'
 import DrawerListProvider from './DrawerListProvider'
 import DrawerListPortal from './DrawerListPortal'
 import { drawerListDefaultProps } from './DrawerListHelpers'

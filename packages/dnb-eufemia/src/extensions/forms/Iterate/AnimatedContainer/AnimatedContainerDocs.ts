@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 import { EditContainerProperties } from '../EditContainer/EditContainerDocs'
 
 export const AnimatedContainerProperties: PropertiesTableProps = {

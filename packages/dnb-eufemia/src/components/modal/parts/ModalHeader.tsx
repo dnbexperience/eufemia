@@ -6,7 +6,8 @@
 import React, { useContext } from 'react'
 import clsx from 'clsx'
 import { findElementInChildren } from '../../../shared/component-helper'
-import Section, { SectionProps } from '../../section/Section'
+import type { SectionProps } from '../../section/Section'
+import Section from '../../section/Section'
 import ModalContext from '../ModalContext'
 import H1 from '../../../elements/H1'
 

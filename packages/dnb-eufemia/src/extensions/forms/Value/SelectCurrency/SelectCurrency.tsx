@@ -1,7 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import { useTranslation, useValueProps } from '../../hooks'
-import { ValueProps } from '../../types'
+import type { ValueProps } from '../../types'
 import ValueBlock from '../../ValueBlock'
 import useCurrency from './useCurrency'
 import type { CurrencyISO } from '../../constants/currencies'

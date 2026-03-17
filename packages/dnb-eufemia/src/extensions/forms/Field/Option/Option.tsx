@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 import type { FieldProps } from '../../types'
 
 export type Props = FieldProps<number | string> & {

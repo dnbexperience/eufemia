@@ -6,7 +6,8 @@
 import React from 'react'
 import clsx from 'clsx'
 import { SuffixContext } from '../../shared/helpers/Suffix'
-import Context, { ContextProps } from '../../shared/Context'
+import type { ContextProps } from '../../shared/Context'
+import Context from '../../shared/Context'
 import {
   warn,
   makeUniqueId,
@@ -18,11 +19,11 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import HelpButtonInstance from '../help-button/HelpButtonInstance'
 import { getListOfModalRoots, getModalRoot } from './helpers'
 import ModalInner from './parts/ModalInner'
-import { ModalProps } from './types'
+import type { ModalProps } from './types'
 
 import ModalHeader from './parts/ModalHeader'
 import ModalHeaderBar from './parts/ModalHeaderBar'
-import { ScrollViewAllProps } from '../../fragments/scroll-view/ScrollView'
+import type { ScrollViewAllProps } from '../../fragments/scroll-view/ScrollView'
 import CloseButton from './parts/CloseButton'
 import ModalRoot from './ModalRoot'
 import { ParagraphContext } from '../../elements/typography/P'

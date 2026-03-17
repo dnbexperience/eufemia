@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const GlobalStatusProperties: PropertiesTableProps = {
   id: {
@@ -33,7 +33,7 @@ export const GlobalStatusProperties: PropertiesTableProps = {
   },
   state: {
     doc: 'Defines the visual appearance of the status. There are four main statuses `error`, `warning`, `info` and `success`. The default status is `error`.',
-    type: ['error', 'info', 'warning', 'success'],
+    type: ['"error"', '"info"', '"warning"', '"success"'],
     status: 'optional',
   },
   iconSize: {
@@ -43,7 +43,7 @@ export const GlobalStatusProperties: PropertiesTableProps = {
   },
   show: {
     doc: 'Set to `true` or `false` to manually make the global status visible. Defaults to `true`.',
-    type: ['boolean', 'auto'],
+    type: ['boolean', '"auto"'],
     status: 'optional',
   },
   autoClose: {

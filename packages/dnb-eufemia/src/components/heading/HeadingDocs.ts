@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const HeadingProperties: PropertiesTableProps = {
   text: {
@@ -14,13 +14,13 @@ export const HeadingProperties: PropertiesTableProps = {
   size: {
     doc: 'Define the typography [font-size](/uilib/typography/font-size) by a size _type_, e.g. `x-large`. Defaults to the predefined heading sizes.',
     type: [
-      'xx-large',
-      'x-large',
-      'large',
-      'medium',
-      'basis',
-      'small',
-      'x-small',
+      '"xx-large"',
+      '"x-large"',
+      '"large"',
+      '"medium"',
+      '"basis"',
+      '"small"',
+      '"x-small"',
     ],
     status: 'optional',
   },

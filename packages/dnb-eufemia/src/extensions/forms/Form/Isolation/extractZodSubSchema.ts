@@ -1,5 +1,5 @@
 import * as z from 'zod'
-import { Path } from '../../types'
+import type { Path } from '../../types'
 
 /**
  * Extract a Zod subschema using a JSON Pointer like "/mySchema/secondSubSchema".

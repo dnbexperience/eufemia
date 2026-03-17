@@ -7,7 +7,7 @@ import React, {
   useState,
 } from 'react'
 import { useMaskito } from '@maskito/react'
-import {
+import type {
   MaskitoPostprocessor,
   MaskitoPreprocessor,
   maskitoTransform,
@@ -21,7 +21,7 @@ import {
   maskitoNumberOptionsGenerator,
 } from '@maskito/kit'
 import InputModeNumber from './text-mask/InputModeNumber'
-import { MaskParams } from './text-mask/types'
+import type { MaskParams } from './text-mask/types'
 import type { createNumberMask } from './hooks/useNumberMask'
 export type TextMaskMask =
   | RegExp

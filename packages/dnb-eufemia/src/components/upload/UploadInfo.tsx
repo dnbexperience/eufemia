@@ -11,7 +11,7 @@ import Table from '../Table'
 import Tr from '../table/TableTr'
 import Th from '../table/TableTh'
 import Td from '../table/TableTd'
-import { UploadAcceptedFileTypeObject, UploadProps } from './types'
+import type { UploadAcceptedFileTypeObject, UploadProps } from './types'
 import Flex from '../../components/Flex'
 
 const prettifyAcceptedFileFormats = (acceptedFileTypes) =>

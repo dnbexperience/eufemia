@@ -5,7 +5,8 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import GlobalError, { GlobalErrorAllProps } from '../GlobalError'
+import type { GlobalErrorAllProps } from '../GlobalError'
+import GlobalError from '../GlobalError'
 import { render } from '@testing-library/react'
 import { Provider } from '../../../shared'
 

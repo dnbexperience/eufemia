@@ -1,8 +1,5 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import {
-  format,
-  NumberFormatReturnValue,
-} from '../number-format/NumberUtils'
+import type { NumberFormatReturnValue } from '../number-format/NumberUtils'
+import { format } from '../number-format/NumberUtils'
 
 import type { SliderNumberFormat, SliderValue } from './types'
 

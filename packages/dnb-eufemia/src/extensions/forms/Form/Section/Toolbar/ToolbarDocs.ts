@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../../shared/types'
 
 export const ToolbarProperties: PropertiesTableProps = {
   '[Space](/uilib/layout/space/properties)': {
@@ -11,17 +11,17 @@ export const ToolbarProperties: PropertiesTableProps = {
 export const ToolbarEvents: PropertiesTableProps = {
   onEdit: {
     doc: 'Callback for the edit button.',
-    type: 'Function',
+    type: 'function',
     status: 'optional',
   },
   onDone: {
     doc: 'Callback for the done button.',
-    type: 'Function',
+    type: 'function',
     status: 'optional',
   },
   onCancel: {
     doc: 'Callback for the cancel button.',
-    type: 'Function',
+    type: 'function',
     status: 'optional',
   },
 }

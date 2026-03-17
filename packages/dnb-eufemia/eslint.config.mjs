@@ -294,6 +294,13 @@ export default [
         },
       ],
       '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        {
+          prefer: 'type-imports',
+          fixStyle: 'separate-type-imports',
+        },
+      ],
       '@typescript-eslint/naming-convention': [
         'error',
         {

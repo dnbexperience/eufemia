@@ -173,7 +173,6 @@ describe('Iterate.Visibility', () => {
 
   describe('inferData', () => {
     it('renders children when infer-function returns true', () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const inferData = jest.fn((data) => true)
       render(
         <Provider data={{ myList: [{ foo: 'bar' }] }}>
@@ -188,7 +187,6 @@ describe('Iterate.Visibility', () => {
     })
 
     it('does not render children when infer-function return false', () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const inferData = jest.fn((data) => false)
       render(
         <Provider data={{ myList: [{ foo: 'bar' }] }}>

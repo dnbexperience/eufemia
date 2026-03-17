@@ -28,10 +28,14 @@ import DatePickerContext from './DatePickerContext'
 
 import type { FormStatusBaseProps } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
-import { DatePickerReturnObject } from './DatePickerProvider'
-import { DatePickerEventAttributes, DatePickerProps } from './DatePicker'
+import type { DatePickerReturnObject } from './DatePickerProvider'
+import type {
+  DatePickerEventAttributes,
+  DatePickerProps,
+} from './DatePicker'
 import { Context, useTranslation } from '../../shared'
-import useInputDates, { DatePickerInputDates } from './hooks/useInputDates'
+import type { DatePickerInputDates } from './hooks/useInputDates'
+import useInputDates from './hooks/useInputDates'
 import { formatDate } from '../date-format/DateFormatUtils'
 
 export type DatePickerInputProps = Omit<

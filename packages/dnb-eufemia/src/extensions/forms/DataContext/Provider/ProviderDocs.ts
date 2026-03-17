@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 
 export const ProviderProperties: PropertiesTableProps = {
   defaultData: {
@@ -13,7 +13,7 @@ export const ProviderProperties: PropertiesTableProps = {
   },
   id: {
     doc: 'Unique id for connecting Form.Handler and helper tools such as Form.useData.',
-    type: ['string', 'Function', 'Object', 'React.Context'],
+    type: ['string', 'function', 'object', 'React.Context'],
     status: 'optional',
   },
   schema: {
@@ -48,7 +48,7 @@ export const ProviderProperties: PropertiesTableProps = {
   },
   ajvInstance: {
     doc: 'REQUIRED when using JSON Schema validation. Provide your own custom Ajv instance: import Ajv from "@dnb/eufemia/extensions/forms" and pass ajvInstance={makeAjvInstance()}. This ensures your bundle only includes AJV when you actually need it. More info in the [Schema validation](/uilib/extensions/forms/Form/schema-validation/#custom-ajv-instance-and-keywords) section.',
-    type: 'ajv',
+    type: '"ajv"',
     status: 'optional',
   },
   transformIn: {

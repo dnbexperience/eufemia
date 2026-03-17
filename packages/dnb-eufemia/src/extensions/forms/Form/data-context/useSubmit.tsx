@@ -1,10 +1,11 @@
 import { useCallback, useContext, useMemo } from 'react'
+import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
-  SharedStateId,
   createReferenceKey,
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
-import DataContext, { ContextState } from '../../DataContext/Context'
+import type { ContextState } from '../../DataContext/Context'
+import DataContext from '../../DataContext/Context'
 import type { EventStateObject } from '../../types'
 
 const invalidUseSubmitErrorMessage =

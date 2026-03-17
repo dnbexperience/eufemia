@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const DateFormatProperties: PropertiesTableProps = {
   value: {
@@ -8,7 +8,7 @@ export const DateFormatProperties: PropertiesTableProps = {
   },
   dateStyle: {
     doc: 'Defines the style used to format the date. Also affects duration formatting when using ISO 8601 duration strings. Defaults to `long`.',
-    type: ['long', 'medium', 'short', 'full'],
+    type: ['"long"', '"medium"', '"short"', '"full"'],
     status: 'optional',
   },
   hideCurrentYear: {
@@ -23,7 +23,7 @@ export const DateFormatProperties: PropertiesTableProps = {
   },
   timeStyle: {
     doc: 'Defines the style used to format the time. If provided, time is included in the output.',
-    type: ['long', 'medium', 'short', 'full'],
+    type: ['"long"', '"medium"', '"short"', '"full"'],
     status: 'optional',
   },
   dateTimeSeparator: {
@@ -38,7 +38,7 @@ export const DateFormatProperties: PropertiesTableProps = {
   },
   relativeTimeStyle: {
     doc: 'Defines the style used to format relative time. Defaults to `dateStyle` when not provided.',
-    type: ['long', 'medium', 'short', 'full'],
+    type: ['"long"', '"medium"', '"short"', '"full"'],
     status: 'optional',
   },
   relativeTimeReference: {

@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const StepIndicatorProperties: PropertiesTableProps = {
   mode: {
@@ -8,7 +8,7 @@ export const StepIndicatorProperties: PropertiesTableProps = {
   },
   data: {
     doc: 'Defines the data/steps showing up in a JavaScript Array or JSON format like `[{title,isCurrent}]`. See below for properties of `STEP_DATA`.',
-    type: ['[Step Item](#step-item-properties)[]', 'string[]'],
+    type: ['Array<[Step Item](#step-item-properties)>', 'Array<string>'],
     status: 'required',
   },
   currentStep: {

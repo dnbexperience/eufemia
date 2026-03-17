@@ -1,7 +1,8 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import Container from '../Container'
-import ItemContent, { ItemContentProps } from '../ItemContent'
+import type { ItemContentProps } from '../ItemContent'
+import ItemContent from '../ItemContent'
 import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('ItemContent', () => {
