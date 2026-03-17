@@ -66,7 +66,7 @@ import {
   normalizeData,
 } from '../../fragments/drawer-list/DrawerListHelpers'
 
-export type AutocompleteOnClearParams = {
+export type AutocompleteClearEvent = {
   value: string
   previousValue: string | number | null
   event: React.SyntheticEvent | Event
@@ -125,29 +125,29 @@ export type AutocompleteEventMethods = {
     wait?: number
   ) => void
 }
-export type AutocompleteOnTypeParams = {
+export type AutocompleteTypeEvent = {
   value: string
   event: React.ChangeEvent<HTMLInputElement>
   data?: DrawerListDataArrayObject | string | null
 } & AutocompleteEventMethods
-export type AutocompleteOnFocusParams = {
+export type AutocompleteFocusEvent = {
   value: string
   event: React.FocusEvent<HTMLInputElement>
 } & AutocompleteEventMethods
-export type AutocompleteOnBlurParams = {
+export type AutocompleteBlurEvent = {
   value?: string
   event?: React.FocusEvent<HTMLInputElement>
   data?: DrawerListDataArrayObject | string | null
   selectedItem?: number | string
 } & AutocompleteEventMethods
 
-export type AutocompleteOnChangeParams = {
+export type AutocompleteChangeEvent = {
   value?: string
   event?: React.FocusEvent<HTMLInputElement>
   data: DrawerListDataArrayObject | string | null
   selectedItem?: number | string
 } & AutocompleteEventMethods
-export type AutocompleteOnSelectParams = {
+export type AutocompleteSelectEvent = {
   activeItem: number | string
   selectedItem?: number | string | null
   value: string | number
@@ -330,17 +330,17 @@ export type AutocompleteProps = {
   /**
    * Will be called once the Autocomplete shows up.
    */
-  onOpen?: (event: AutocompleteOnTypeParams) => void
+  onOpen?: (event: AutocompleteTypeEvent) => void
   /**
    * Will be called once the Autocomplete gets closed.
    */
-  onClose?: (event: AutocompleteOnTypeParams) => void
-  onType?: (event: AutocompleteOnTypeParams) => void
-  onFocus?: (event: AutocompleteOnFocusParams) => void
-  onBlur?: (event: AutocompleteOnBlurParams) => void
-  onChange?: (event: AutocompleteOnChangeParams) => void
-  onSelect?: (event: AutocompleteOnSelectParams) => void
-  onClear?: (event: AutocompleteOnClearParams) => void
+  onClose?: (event: AutocompleteTypeEvent) => void
+  onType?: (event: AutocompleteTypeEvent) => void
+  onFocus?: (event: AutocompleteFocusEvent) => void
+  onBlur?: (event: AutocompleteBlurEvent) => void
+  onChange?: (event: AutocompleteChangeEvent) => void
+  onSelect?: (event: AutocompleteSelectEvent) => void
+  onClear?: (event: AutocompleteClearEvent) => void
 }
 
 export type AutocompleteAllProps = AutocompleteProps &

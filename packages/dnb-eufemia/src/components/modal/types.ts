@@ -21,11 +21,11 @@ export type TriggeredBy =
   | 'overlay'
   | 'keyboard'
   | 'unmount'
-export type CloseHandlerParams = {
+export type ModalCloseEvent = {
   triggeredBy: TriggeredBy
   triggeredByEvent?: Event
 }
-export type CloseHandler = (params?: CloseHandlerParams) => void
+export type CloseHandler = (params?: ModalCloseEvent) => void
 
 export type ModalProps = ModalRootProps & {
   /**
