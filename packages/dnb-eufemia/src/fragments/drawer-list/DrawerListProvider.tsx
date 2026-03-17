@@ -52,7 +52,13 @@ import type {
 export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
   Omit<
     React.HTMLProps<HTMLElement>,
-    'data' | 'role' | 'size' | 'value' | 'onChange' | 'onSelect' | 'onResize'
+    | 'data'
+    | 'role'
+    | 'size'
+    | 'value'
+    | 'onChange'
+    | 'onSelect'
+    | 'onResize'
   > &
   SpacingProps & {
     hasFocusOnElement?: boolean

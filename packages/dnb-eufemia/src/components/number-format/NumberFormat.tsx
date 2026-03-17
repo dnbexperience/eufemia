@@ -35,12 +35,8 @@ import { SpacingProps } from '../space/types'
 
 // TypeScript types
 export type NumberFormatValue = number | string
-export type NumberFormatPrefix =
-  | React.ReactNode
-  | (() => React.ReactNode)
-export type NumberFormatSuffix =
-  | React.ReactNode
-  | (() => React.ReactNode)
+export type NumberFormatPrefix = React.ReactNode | (() => React.ReactNode)
+export type NumberFormatSuffix = React.ReactNode | (() => React.ReactNode)
 export type NumberFormatCurrency = string | boolean
 export type NumberFormatCurrencyPosition =
   | 'auto'
