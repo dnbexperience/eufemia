@@ -1,11 +1,11 @@
 import { createContext } from 'react'
-import { UploadContextProps } from './types'
+import { UploadContextValue } from './types'
 
-export const defaultProps: Partial<UploadContextProps> = {
+export const defaultProps: Partial<UploadContextValue> = {
   fileMaxSize: 5,
   filesAmountLimit: 100,
   download: false,
   variant: 'default',
 }
 
-export const UploadContext = createContext<UploadContextProps>(null)
+export const UploadContext = createContext<UploadContextValue>(null)

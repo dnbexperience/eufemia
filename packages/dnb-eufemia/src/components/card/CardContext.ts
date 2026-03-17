@@ -1,10 +1,10 @@
 import React from 'react'
 
-export type CardContextState = {
+export type CardContextValue = {
   isNested?: boolean
 }
 
-const CardContext = React.createContext<CardContextState | undefined>(
+const CardContext = React.createContext<CardContextValue | undefined>(
   undefined
 )
 

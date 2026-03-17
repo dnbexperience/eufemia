@@ -121,7 +121,7 @@ export type UploadAllProps = UploadProps &
   LocaleProps &
   Omit<React.HTMLProps<HTMLElement>, 'onChange' | 'title'>
 
-export type UploadContextProps = {
+export type UploadContextValue = {
   id?: string
   onInputUpload: (files: Array<UploadFileNative>) => void
 } & Partial<UploadAllProps>

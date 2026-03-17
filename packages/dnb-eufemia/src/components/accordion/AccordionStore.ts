@@ -1,8 +1,8 @@
 import { warn } from '../../shared/component-helper'
-import { AccordionContextProps } from './AccordionContext'
+import { AccordionContextValue } from './AccordionContext'
 
 type AccordionStoreInstance = {
-  context: AccordionContextProps
+  context: AccordionContextValue
   _id: string
   close: () => void
 }

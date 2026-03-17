@@ -121,7 +121,7 @@ export type SliderAllProps = SliderProps &
 
 export type ThumbState = 'initial' | 'normal' | 'activated' | 'released'
 
-export type SliderContextTypes = {
+export type SliderContextValue = {
   isMulti: boolean
   isReverse: boolean
   isVertical: boolean

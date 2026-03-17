@@ -1,7 +1,7 @@
 import React from 'react'
 import type { TooltipProps } from './types'
 
-export type TooltipContextProps = {
+export type TooltipContextValue = {
   /**
    * The props of the Tooltip component.
    */
@@ -17,4 +17,4 @@ export type TooltipContextProps = {
 }
 
 export const TooltipContext =
-  React.createContext<TooltipContextProps>(null)
+  React.createContext<TooltipContextValue>(null)
