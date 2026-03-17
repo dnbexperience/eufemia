@@ -106,6 +106,22 @@ render(
 }
 ```
 
+### Theme.Context (no wrapper element)
+
+Use `Theme.Context` when you need to provide theme to children without adding a wrapper element. This aligns with React 19's context-as-provider pattern.
+
+```tsx
+import { Theme } from '@dnb/eufemia/shared'
+
+render(
+  <section className="dark-section">
+    <Theme.Context surface="dark">
+      <Button>Primary</Button>
+    </Theme.Context>
+  </section>
+)
+```
+
 ### Use your component as the wrapper element
 
 You can provide your component as the wrapper. This way no additional HTML Element will be created.

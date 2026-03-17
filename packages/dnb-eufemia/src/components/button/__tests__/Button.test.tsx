@@ -8,7 +8,7 @@ import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import Button, { ButtonOnClick, ButtonProps } from '../Button'
 import IconPrimary from '../../IconPrimary'
 import { fireEvent, render, waitFor } from '@testing-library/react'
-import { Provider } from '../../../shared'
+import { Provider, Theme } from '../../../shared'
 import userEvent from '@testing-library/user-event'
 
 const props: ButtonProps = {
@@ -110,6 +110,18 @@ describe('Button component', () => {
     rerender(<Button disabled />)
 
     expect(document.querySelector('button')).toHaveAttribute('disabled')
+  })
+
+  it('uses dark surface styling from Theme context', () => {
+    render(
+      <Theme.Context surface="dark">
+        <Button>Button</Button>
+      </Theme.Context>
+    )
+
+    expect(document.querySelector('.dnb-button')).toHaveClass(
+      'dnb-button--on-dark-background'
+    )
   })
 
   it('should be able to omit button type', () => {

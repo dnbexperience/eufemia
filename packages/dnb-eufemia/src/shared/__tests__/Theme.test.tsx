@@ -1,5 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import Context from '../Context'
 import Theme, { ThemeAllProps } from '../Theme'
 import {
   Autocomplete,
@@ -94,6 +95,38 @@ describe('Theme', () => {
     ])
   })
 
+  it('provides surface through the theme context', () => {
+    let receivedTheme = null
+
+    const ThemeConsumer = () => {
+      receivedTheme = React.useContext(Context)?.theme
+
+      return null
+    }
+
+    render(
+      <Theme surface="dark">
+        <ThemeConsumer />
+      </Theme>
+    )
+
+    expect(receivedTheme).toEqual(
+      expect.objectContaining({
+        surface: 'dark',
+      })
+    )
+  })
+
+  it('sets surface as HTML classes', () => {
+    render(<Theme surface="dark">content</Theme>)
+
+    const element = document.querySelector('.eufemia-theme')
+    expect(Array.from(element.classList)).toEqual([
+      'eufemia-theme',
+      'eufemia-theme__surface--dark',
+    ])
+  })
+
   it('sets additional attributes', () => {
     render(
       <Theme aria-label="custom label" element="section">
@@ -132,6 +165,19 @@ describe('Theme', () => {
 
     const element = document.querySelector('.eufemia-theme')
     expect(element.tagName).toBe('SECTION')
+  })
+
+  it('Theme.Context provides theme without wrapper element', () => {
+    const { getByText } = render(
+      <Theme.Context name="eiendom" variant="soft">
+        content
+      </Theme.Context>
+    )
+
+    expect(
+      document.querySelector('.eufemia-theme')
+    ).not.toBeInTheDocument()
+    expect(getByText('content')).toBeInTheDocument()
   })
 
   it('will omit element on false or fragment', () => {
