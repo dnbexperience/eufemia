@@ -15,6 +15,7 @@ import securityPlugin from 'eslint-plugin-security'
 import tsParser from '@typescript-eslint/parser'
 import tsPlugin from '@typescript-eslint/eslint-plugin'
 import docsTypesPlugin from './scripts/eslint/plugins/docs-types/index.js'
+import componentTypesPlugin from './scripts/eslint/plugins/component-types/index.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -346,6 +347,29 @@ export default [
     rules: {
       'docs-types/warn-supported-types': 'warn',
       'docs-types/validate-supported-types': 'warn',
+    },
+  },
+  {
+    files: [
+      'src/components/**/*.{ts,tsx}',
+      'src/fragments/**/*.{ts,tsx}',
+    ],
+    ignores: [
+      '**/__tests__/**',
+      '**/*.test.*',
+      '**/*.spec.*',
+      '**/*.d.ts',
+    ],
+    plugins: {
+      'component-types': componentTypesPlugin,
+    },
+    rules: {
+      'component-types/require-component-prefix': [
+        'warn',
+        {
+          allowlist: [],
+        },
+      ],
     },
   },
 ]
