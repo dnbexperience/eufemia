@@ -18,7 +18,7 @@ import { createSpacingClasses } from '../../components/space/SpacingHelper'
 
 import E from '../../elements/Element'
 import DrawerListContext, {
-  DrawerListContextProps,
+  DrawerListContextValue,
 } from './DrawerListContext'
 import DrawerListProvider from './DrawerListProvider'
 import DrawerListPortal from './DrawerListPortal'
@@ -406,7 +406,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
     activeItem,
     maxHeight,
     ...rest
-  }: DrawerListContextProps['drawerList']): DrawerListContextProps['drawerList'] {
+  }: DrawerListContextValue['drawerList']): DrawerListContextValue['drawerList'] {
     return {
       selectedItem: selectedItem ?? undefined,
       activeItem: activeItem ?? undefined,

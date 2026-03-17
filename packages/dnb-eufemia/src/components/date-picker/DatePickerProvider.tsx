@@ -19,7 +19,7 @@ import {
 import SharedContext from '../../shared/Context'
 import { isDisabled } from './DatePickerCalc'
 import DatePickerContext, {
-  DatePickerContextValues,
+  DatePickerContextValue,
 } from './DatePickerContext'
 import useViews from './hooks/useViews'
 import useDates, { DatePickerDates } from './hooks/useDates'
@@ -31,9 +31,9 @@ import useSubmittedDates from './hooks/useSubmittedDates'
 
 type DatePickerProviderProps = DatePickerAllProps & {
   setReturnObject: (
-    func: DatePickerContextValues['getReturnObject']
-  ) => DatePickerContextValues['getReturnObject']
-  hidePicker?: DatePickerContextValues['hidePicker']
+    func: DatePickerContextValue['getReturnObject']
+  ) => DatePickerContextValue['getReturnObject']
+  hidePicker?: DatePickerContextValue['hidePicker']
   attributes?: DatePickerEventAttributes
   children: React.ReactNode
 }

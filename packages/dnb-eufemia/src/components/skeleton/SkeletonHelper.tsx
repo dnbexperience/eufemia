@@ -11,7 +11,7 @@ import type { ContextProps } from '../../shared/Context'
 
 export type SkeletonMethods = 'shape' | 'font' | 'code'
 
-export type SkeletonContextProps = ContextProps & {
+export type SkeletonContextValue = ContextProps & {
   translation?: {
     Skeleton?: {
       ariaBusy?: string
@@ -30,7 +30,7 @@ export type SkeletonDOMAttributesContext = {
 export const skeletonDOMAttributes = (
   params: React.HTMLProps<HTMLElement>,
   skeleton: SkeletonShow,
-  context?: SkeletonContextProps
+  context?: SkeletonContextValue
 ) => {
   if (skeleton || (skeleton !== false && context?.skeleton)) {
     params.disabled = true
@@ -44,7 +44,7 @@ export const skeletonDOMAttributes = (
 export const createSkeletonClass = (
   method: SkeletonMethods,
   skeleton: SkeletonShow,
-  context?: SkeletonContextProps,
+  context?: SkeletonContextValue,
   className = null
 ) => {
   if (skeleton || (skeleton !== false && context?.skeleton)) {

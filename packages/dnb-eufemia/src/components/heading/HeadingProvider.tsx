@@ -5,7 +5,7 @@
 
 import React from 'react'
 
-import HeadingContext, { HeadingContextProps } from './HeadingContext'
+import HeadingContext, { HeadingContextValue } from './HeadingContext'
 import {
   globalSyncCounter,
   globalHeadingCounter,
@@ -29,7 +29,7 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
       level?: InternalHeadingLevel
       prevLevel?: InternalHeadingLevel
       counter?: HeadingCounter
-      context: HeadingContextProps
+      context: HeadingContextValue
       newProps?: HeadingProps
       _listenForPropChanges?: boolean
     }

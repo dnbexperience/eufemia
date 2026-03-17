@@ -77,6 +77,7 @@ $ pnpm add @dnb/eufemia@11
 - All **snake case** (`on_click`) events and properties has been converted to use **camel case** (`onClick`). The reason for previously using **snake case** was to support Web Components – but the support was discontinued in [v10](/uilib/about-the-lib/releases/eufemia/v10-info/).
 - Replaced deprecated `<Context.Provider>` with direct `<Context>` rendering across all internal context providers (React 19).
 - Several exported TypeScript `interface` declarations have been converted to `type`. This prevents declaration merging but has no impact on standard usage.
+- All React context value types have been renamed to use a consistent `...ContextValue` suffix (e.g. `AccordionContextProps` → `AccordionContextValue`). See [TypeScript](#typescript) for the full list.
 
 ## Components
 
@@ -1674,6 +1675,24 @@ Affected types include:
 - `DataValueReadProps`, `DataValueWriteProps`, `UseFieldProps`, `ValueProps` (from `@dnb/eufemia/extensions/forms`)
 - `PaymentCardRawData`, `CardDesign`, `PaymentCardProps` (from `@dnb/eufemia/extensions/payment-card`)
 - `SharedStateReturn` (from `@dnb/eufemia/shared`)
+
+### Context type renames
+
+All React context value types have been renamed to use a consistent `...ContextValue` suffix. If you import any of these types directly, update your imports:
+
+| Before                    | After                    |
+| ------------------------- | ------------------------ |
+| `AccordionContextProps`   | `AccordionContextValue`  |
+| `TooltipContextProps`     | `TooltipContextValue`    |
+| `HeadingContextProps`     | `HeadingContextValue`    |
+| `DrawerListContextProps`  | `DrawerListContextValue` |
+| `UploadContextProps`      | `UploadContextValue`     |
+| `DatePickerContextValues` | `DatePickerContextValue` |
+| `CardContextState`        | `CardContextValue`       |
+| `SliderContextTypes`      | `SliderContextValue`     |
+| `SkeletonContextProps`    | `SkeletonContextValue`   |
+
+The `ListContext` type (which previously collided with the `ListContext` variable) has been renamed to `ListContextValue`.
 
 ## Theming
 
