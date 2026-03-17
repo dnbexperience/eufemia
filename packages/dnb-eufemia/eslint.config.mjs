@@ -352,6 +352,7 @@ export default [
   {
     files: [
       'src/components/**/*.{ts,tsx}',
+      'src/elements/**/*.{ts,tsx}',
       'src/fragments/**/*.{ts,tsx}',
     ],
     ignores: [
