@@ -103,9 +103,32 @@ export type DrawerListOptionsRender = ({
 export type DrawerListValue = string | number
 export type DrawerListData =
   | string
-  | ((...args: any[]) => DrawerListDataAll)
+  | (() => DrawerListDataAll)
   | DrawerListDataAll
 export type DrawerListSuffix = React.ReactNode
+
+export type DrawerListEvent = {
+  data: DrawerListDataArrayObject | null
+  attributes: Record<string, unknown>
+  ulElement?: HTMLUListElement | null
+}
+
+export type DrawerListChangeEvent = {
+  selectedItem: number | null
+  value: string | number
+  data: DrawerListDataArrayObject | null
+  event: React.SyntheticEvent | null
+  attributes: Record<string, unknown>
+}
+
+export type DrawerListSelectEvent = DrawerListChangeEvent & {
+  activeItem: number | string
+}
+
+export type DrawerListResizeEvent = {
+  direction: string
+  maxHeight: number
+}
 
 export type DrawerListProps = {
   id?: string
@@ -232,13 +255,13 @@ export type DrawerListProps = {
    * Set a HTML element, either as a selector or a DOM element. Can be used to send in an element which will be used to make the direction calculation on.
    */
   observerElement?: string | React.ReactNode
-  onOpen?: (...args: any[]) => any
-  onClose?: (...args: any[]) => any
-  handleDismissFocus?: (...args: any[]) => any
-  onChange?: (...args: any[]) => any
-  onPreChange?: (...args: any[]) => any
-  onResize?: (...args: any[]) => any
-  onSelect?: (...args: any[]) => any
+  onOpen?: (event: DrawerListEvent) => void
+  onClose?: (event: DrawerListEvent) => void
+  handleDismissFocus?: () => void
+  onChange?: (event: DrawerListChangeEvent) => void
+  onPreChange?: (event: DrawerListChangeEvent) => boolean | void
+  onResize?: (event: DrawerListResizeEvent) => void
+  onSelect?: (event: DrawerListSelectEvent) => void
 }
 
 // Internal data structures

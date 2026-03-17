@@ -19,7 +19,10 @@ import type {
   CheckboxOnChangeParams,
   CheckboxOnClickParams,
 } from '../../../../components/Checkbox'
-import type { ToggleButtonProps } from '../../../../components/ToggleButton'
+import type {
+  ToggleButtonProps,
+  ToggleButtonChangeEvent,
+} from '../../../../components/ToggleButton'
 import { SwitchOnChangeParams } from '../../../../components/Switch'
 import HelpButtonInline from '../../../../components/help-button/HelpButtonInline'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
@@ -106,7 +109,7 @@ function Toggle(props: Props) {
     [onClick, valueOff, valueOn]
   )
   const handleCheckboxChange = useCallback(
-    (args: CheckboxOnChangeParams) => {
+    (args: CheckboxOnChangeParams | ToggleButtonChangeEvent) => {
       handleChange?.(args.checked ? valueOn : valueOff, args)
     },
     [handleChange, valueOn, valueOff]

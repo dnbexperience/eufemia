@@ -49,7 +49,7 @@ export type TextareaElement =
       ref: React.RefObject<HTMLTextAreaElement | null>
     ) => React.ReactNode)
   | React.ReactNode
-export type TextareaChildren = React.ReactNode | ((...args: any[]) => any)
+export type TextareaChildren = React.ReactNode | (() => React.ReactNode)
 export type TextareaSize = 'small' | 'medium' | 'large'
 
 export type TextareaEvent<E = React.SyntheticEvent<HTMLTextAreaElement>> =

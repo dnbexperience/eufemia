@@ -9,7 +9,7 @@ import clsx from 'clsx'
 export type SkeletonProductRows = string | number
 export type SkeletonProductChildren =
   | string
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
   | React.ReactNode
 
 export type SkeletonProductProps = {

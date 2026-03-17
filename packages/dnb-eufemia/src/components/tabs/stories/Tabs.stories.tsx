@@ -299,7 +299,7 @@ const TabsContentUsage = () => {
         ]}
         selectedKey={value}
         onChange={({ key }) => {
-          setValue(key)
+          setValue(key as string)
         }}
       />
 

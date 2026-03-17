@@ -61,7 +61,7 @@ export type ProgressIndicatorProps = {
   /**
    * Will be called once it's no longer visible (show=false).
    */
-  onComplete?: (...args: any[]) => any
+  onComplete?: () => void
   /**
    * Send in custom css colors that overrides any css. Default is `undefined`.
    */
@@ -99,7 +99,7 @@ export type ProgressIndicatorAnimationProps = Pick<
   /**
    * Callback when animation ends because `show` is set to false
    */
-  callOnCompleteHandler?: (...args: any[]) => any
+  callOnCompleteHandler?: () => void
 }
 
 export type ProgressIndicatorAllProps = Omit<

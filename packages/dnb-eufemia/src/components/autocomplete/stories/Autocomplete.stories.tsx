@@ -104,8 +104,9 @@ export function UpdateEachOther() {
         data={selectedAccountsA}
         value={indexA}
         onChange={(event) => {
-          const account = event.data
-          setSelectedA(account?.selectedKey)
+          const account =
+            typeof event.data === 'object' ? event.data : null
+          setSelectedA(account?.selectedKey as number)
           setSelectedAccountsB(
             accounts.filter(({ selectedKey }) => {
               return selectedKey !== account?.selectedKey
@@ -119,8 +120,9 @@ export function UpdateEachOther() {
         data={selectedAccountsB}
         value={indexB}
         onChange={(event) => {
-          const account = event.data
-          setSelectedB(account?.selectedKey)
+          const account =
+            typeof event.data === 'object' ? event.data : null
+          setSelectedB(account?.selectedKey as number)
           setSelectedAccountsA(
             accounts.filter(({ selectedKey }) => {
               return selectedKey !== account?.selectedKey
@@ -731,7 +733,7 @@ function UpdateDataExample() {
         data={choiceData}
         onChange={(event) => {
           const { data, setInputValue } = event
-          if (data) {
+          if (data && typeof data === 'object') {
             setChoiceData(
               choiceData.filter(
                 (item) => item.selectedValue !== data.selectedValue
@@ -848,7 +850,9 @@ export const AsyncSearchExample = () => {
     { selectedKey: 'e', content: 'EEE' },
   ]
 
-  const [onChangeValue, setOnChangeValue] = useState()
+  const [onChangeValue, setOnChangeValue] = useState<
+    string | React.ReactNode
+  >()
 
   const onTypeHandler = ({
     value,
@@ -895,7 +899,11 @@ export const AsyncSearchExample = () => {
           placeholder="Search ..."
           onChange={(event) => {
             console.log('onChange', event.data)
-            setOnChangeValue(event.data?.content)
+            setOnChangeValue(
+              typeof event.data === 'object'
+                ? event.data?.content
+                : undefined
+            )
           }}
         />
         <P top>Value from onChange: {onChangeValue || '–'}</P>
@@ -961,10 +969,12 @@ export const Memo = () => {
     getInputIcon,
     label,
   }: {
-    getInputIcon: (value: number | undefined) => string | React.JSX.Element
+    getInputIcon: (
+      value: string | number | undefined
+    ) => string | React.JSX.Element
     label: string
   }) {
-    const [value, setValue] = useState()
+    const [value, setValue] = useState<string | undefined>()
 
     return (
       <Autocomplete
