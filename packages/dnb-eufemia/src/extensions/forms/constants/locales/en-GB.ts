@@ -9,7 +9,7 @@ export default {
       stateSummary: 'Summary:',
       errorSummary: 'Please correct the following errors:',
       errorRequired: 'This field is required.',
-      errorPattern: 'The value is invalid.',
+      errorPattern: 'You must enter a valid value.',
       optionalLabelSuffix: '(optional)',
     },
     SubmitButton: {
@@ -117,14 +117,12 @@ export default {
     PostalAddress: {
       label: 'Postal address',
       errorRequired: 'You must enter a postal address.',
-      errorPattern:
-        'Invalid postal address. Enter a valid postal address.',
+      errorPattern: 'You must enter a valid postal address.',
     },
     StreetAddress: {
       label: 'Street address',
       errorRequired: 'You must enter a street address.',
-      errorPattern:
-        'Invalid street address. Enter a valid street address.',
+      errorPattern: 'You must enter a valid street address.',
       suggestionPlaceholder: 'Enter an address',
     },
     Date: {
@@ -156,13 +154,13 @@ export default {
       label: 'Given name',
       errorRequired: 'You must enter a given name (first name).',
       errorPattern:
-        'Enter a given name (first name) using only letters and characters such as hyphens and spaces.',
+        'You must enter a valid given name (first name). Only letters, hyphens, and spaces are allowed.',
     },
     LastName: {
       label: 'Surname',
       errorRequired: 'You must enter a surname (last name).',
       errorPattern:
-        'Enter a surname (last name) using only letters and characters such as hyphens and spaces.',
+        'You must enter a valid surname (last name). Only letters, hyphens, and spaces are allowed.',
     },
     CompanyName: {
       label: 'Company name',
@@ -223,13 +221,13 @@ export default {
     PostalCode: {
       label: 'Postcode',
       errorRequired: 'You must enter a postcode.',
-      errorPattern: 'This is not a valid postcode (four digits).',
+      errorPattern: 'You must enter a valid postcode (four digits).',
     },
     City: {
       label: 'City',
       errorRequired: 'You must enter a city name.',
       errorPattern:
-        'City names can only contain letters and valid characters such as hyphens and spaces.',
+        'You must enter a valid city name. Only letters, hyphens, and spaces are allowed.',
     },
     SelectCountry: {
       label: 'Country',

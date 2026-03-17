@@ -9,7 +9,7 @@ export default {
       stateSummary: 'Oversigt:',
       errorSummary: 'Felter der skal rettes:',
       errorRequired: 'Dette felt skal udfyldes.',
-      errorPattern: 'Ugyldig værdi.',
+      errorPattern: 'Du skal indtaste en gyldig værdi.',
       optionalLabelSuffix: '(valgfrit)',
     },
     SubmitButton: {
@@ -117,12 +117,12 @@ export default {
     PostalAddress: {
       label: 'Postadresse',
       errorRequired: 'Du skal udfylde en postadresse.',
-      errorPattern: 'Ugyldig postadresse. Indtast en postadresse.',
+      errorPattern: 'Du skal indtaste en gyldig postadresse.',
     },
     StreetAddress: {
       label: 'Gadeadresse',
       errorRequired: 'Du skal udfylde en gadeadresse.',
-      errorPattern: 'Ugyldig gadeadresse. Indtast en gadeadresse.',
+      errorPattern: 'Du skal indtaste en gyldig gadeadresse.',
       suggestionPlaceholder: 'Indtast en adresse',
     },
     Date: {
@@ -154,13 +154,13 @@ export default {
       label: 'Fornavn',
       errorRequired: 'Du skal udfylde fornavn.',
       errorPattern:
-        'Kun bogstaver og tegn som bindestreg og mellemrum er tilladt.',
+        'Du skal indtaste et gyldigt fornavn. Kun bogstaver, bindestreger og mellemrum er tilladt.',
     },
     LastName: {
       label: 'Efternavn',
       errorRequired: 'Du skal udfylde efternavn.',
       errorPattern:
-        'Kun bogstaver og tegn som bindestreg og mellemrum er tilladt.',
+        'Du skal indtaste et gyldigt efternavn. Kun bogstaver, bindestreger og mellemrum er tilladt.',
     },
     CompanyName: {
       label: 'Firmanavn',
@@ -221,13 +221,13 @@ export default {
     PostalCode: {
       label: 'Postnr.',
       errorRequired: 'Du skal udfylde et postnummer.',
-      errorPattern: 'Dette er ikke et gyldigt postnummer (fire cifre).',
+      errorPattern: 'Du skal indtaste et gyldigt postnummer (fire cifre).',
     },
     City: {
       label: 'By',
       errorRequired: 'Du skal udfylde et bynavn.',
       errorPattern:
-        'Bynavn må kun indeholde bogstaver og gyldige tegn som bindestreg og mellemrum.',
+        'Du skal indtaste et gyldigt bynavn. Kun bogstaver, bindestreger og mellemrum er tilladt.',
     },
     SelectCountry: {
       label: 'Land',

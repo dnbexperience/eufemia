@@ -9,7 +9,7 @@ export default {
       stateSummary: 'Sammanfattning:',
       errorSummary: 'Fel som måste åtgärdas:',
       errorRequired: 'Detta fält måste fyllas i.',
-      errorPattern: 'Värdet är ogiltigt.',
+      errorPattern: 'Du måste ange ett giltigt värde.',
       optionalLabelSuffix: '(valfritt)',
     },
     SubmitButton: {
@@ -118,12 +118,12 @@ export default {
     PostalAddress: {
       label: 'Postadress',
       errorRequired: 'Du måste fylla i en postadress.',
-      errorPattern: 'Ogiltig postadress. Ange en postadress.',
+      errorPattern: 'Du måste ange en giltig postadress.',
     },
     StreetAddress: {
       label: 'Gatuadress',
       errorRequired: 'Du måste fylla i en gatuadress.',
-      errorPattern: 'Ogiltig gatuadress. Ange en gatuadress.',
+      errorPattern: 'Du måste ange en giltig gatuadress.',
       suggestionPlaceholder: 'Ange en adress',
     },
     Date: {
@@ -155,13 +155,13 @@ export default {
       label: 'Förnamn',
       errorRequired: 'Du måste fylla i förnamn.',
       errorPattern:
-        'Endast bokstäver och tecken som bindestreck och mellanslag är tillåtna.',
+        'Du måste ange ett giltigt förnamn. Endast bokstäver, bindestreck och mellanslag är tillåtna.',
     },
     LastName: {
       label: 'Efternamn',
       errorRequired: 'Du måste fylla i efternamn.',
       errorPattern:
-        'Endast bokstäver och tecken som bindestreck och mellanslag är tillåtna.',
+        'Du måste ange ett giltigt efternamn. Endast bokstäver, bindestreck och mellanslag är tillåtna.',
     },
     CompanyName: {
       label: 'Företagsnamn',
@@ -222,13 +222,13 @@ export default {
     PostalCode: {
       label: 'Postnr.',
       errorRequired: 'Du måste fylla i ett postnummer.',
-      errorPattern: 'Detta är inte ett giltigt postnummer (fyra siffror).',
+      errorPattern: 'Du måste ange ett giltigt postnummer (fyra siffror).',
     },
     City: {
       label: 'Ort',
       errorRequired: 'Du måste fylla i ett ortsnamn.',
       errorPattern:
-        'Ortsnamn kan endast innehålla bokstäver och giltiga tecken som bindestreck och mellanslag.',
+        'Du måste ange ett giltigt ortsnamn. Endast bokstäver, bindestreck och mellanslag är tillåtna.',
     },
     SelectCountry: {
       label: 'Land',

@@ -8,7 +8,7 @@ export default {
       stateSummary: 'Oppsummering:',
       errorSummary: 'Feil som må rettes:',
       errorRequired: 'Dette feltet må fylles ut.',
-      errorPattern: 'Verdien er ugyldig.',
+      errorPattern: 'Du må skrive inn en gyldig verdi.',
       optionalLabelSuffix: '(valgfritt)',
     },
     SubmitButton: {
@@ -117,12 +117,12 @@ export default {
     PostalAddress: {
       label: 'Postadresse',
       errorRequired: 'Du må fylle inn en postadresse.',
-      errorPattern: 'Ugyldig postadresse. Skriv inn en postadresse.',
+      errorPattern: 'Du må skrive inn en gyldig postadresse.',
     },
     StreetAddress: {
       label: 'Gateadresse',
       errorRequired: 'Du må fylle inn en gateadresse.',
-      errorPattern: 'Ugyldig gateadresse. Skriv inn en gateadresse.',
+      errorPattern: 'Du må skrive inn en gyldig gateadresse.',
       suggestionPlaceholder: 'Skriv inn adressen',
     },
     Date: {
@@ -154,13 +154,13 @@ export default {
       label: 'Fornavn',
       errorRequired: 'Du må fylle inn fornavn.',
       errorPattern:
-        'Kun bokstaver og tegn som bindestrek og mellomrom er tillatt.',
+        'Du må skrive inn et gyldig fornavn. Kun bokstaver, bindestrek og mellomrom er tillatt.',
     },
     LastName: {
       label: 'Etternavn',
       errorRequired: 'Du må fylle inn etternavn.',
       errorPattern:
-        'Kun bokstaver og tegn som bindestrek og mellomrom er tillatt.',
+        'Du må skrive inn et gyldig etternavn. Kun bokstaver, bindestrek og mellomrom er tillatt.',
     },
     CompanyName: {
       label: 'Firmanavn',
@@ -221,13 +221,13 @@ export default {
     PostalCode: {
       label: 'Postnr.',
       errorRequired: 'Du må fylle inn et postnummer.',
-      errorPattern: 'Dette er ikke et gyldig postnummer (fire siffer).',
+      errorPattern: 'Du må skrive inn et gyldig postnummer (fire siffer).',
     },
     City: {
       label: 'Sted',
       errorRequired: 'Du må fylle inn et stedsnavn.',
       errorPattern:
-        'Stedsnavn kan kun inneholde bokstaver og gyldige tegn som bindestrek og mellomrom.',
+        'Du må skrive inn et gyldig stedsnavn. Kun bokstaver, bindestrek og mellomrom er tillatt.',
     },
     SelectCountry: {
       label: 'Land',
