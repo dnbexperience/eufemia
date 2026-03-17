@@ -42,6 +42,7 @@ import type { AccordionProps } from '../components/Accordion'
 import type { StepIndicatorProps } from '../components/StepIndicator'
 import type { FormLabelProps } from '../components/FormLabel'
 import type { InputProps } from '../components/Input'
+import type { TextareaProps } from '../components/Textarea'
 import type { InputMaskedProps } from '../components/InputMasked'
 import type {
   NumberFormatCurrency,
@@ -93,6 +94,7 @@ export type ContextComponents = {
   StepIndicator?: Partial<StepIndicatorProps>
   FormLabel?: Partial<FormLabelProps>
   Input?: Partial<InputProps>
+  Textarea?: Partial<TextareaProps>
   InputMasked?: Partial<InputMaskedProps>
   ProgressIndicator?: Partial<ProgressIndicatorProps>
   FormStatus?: Partial<FormStatusProps>
