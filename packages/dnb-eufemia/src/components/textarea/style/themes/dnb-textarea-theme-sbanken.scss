@@ -8,7 +8,6 @@
 .dnb-textarea {
   --textarea-border-color: var(--sb-color-gray-dark-2);
   --textarea-border-width: 0.0625rem;
-  --textarea-background-color: var(--color-white);
   --textarea-color: var(--textarea-color--default);
   --textarea-color--default: var(--color-black);
   --textarea-color--active: var(--color-black);
@@ -46,7 +45,6 @@
 
   &--disabled {
     --textarea-color: var(--sb-color-gray-dark-2);
-    --textarea-background-color: var(--sb-color-gray-light);
     --textarea-border-color: var(--sb-color-gray-dark-2);
   }
 

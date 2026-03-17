@@ -16,13 +16,15 @@
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
   color: var(--textarea-color, var(--color-black));
-  background-color: var(--textarea-background-color, var(--color-white));
 }
 
 .dnb-textarea {
+  // Base variables
+  --ta-color-bg: var(--token-color-background-neutral);
+
+  // Old variables
   --textarea-border-radius: 0.25rem;
   --textarea-rows: 2; // using variable so it can be dynamically changed by react component
-  --textarea-background-color: var(--color-white);
   --textarea-placeholder-color: grey;
   --textarea-size--small: 0.25rem;
   --textarea-size--medium: 0.5rem;
@@ -64,7 +66,7 @@
       background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="none"><path stroke="%23000" stroke-linecap="round" stroke-width=".5" d="m1 7 6-6M3.5 7 7 3.5M6 7l1-1"/></svg>');
       background-size: var(--bg-size);
       background-position: var(--bg-pos) var(--bg-pos);
-      background-color: var(--textarea-background-color);
+      background-color: var(--ta-color-bg);
     }
   }
 
@@ -93,7 +95,7 @@
     // use vertical to align the grabber to be centered on the corner
     right: calc(var(--textarea-size-vertical) * -1);
 
-    background-color: var(--textarea-background-color);
+    background-color: var(--ta-color-bg);
 
     @include utilities.fakeBorder(
       var(--textarea-border-color),
@@ -121,6 +123,8 @@
 
     // To prevent textarea element from going outside of boundaries on smaller screens
     width: 100%;
+
+    background-color: var(--ta-color-bg);
 
     @include textareaStyleCommon();
 
@@ -164,8 +168,7 @@
   // Some browsers change the background color so users can see the difference between "autofill" and "user input".
   // However; the background color change does look not good because of the padding we have.
   &__textarea:autofill {
-    box-shadow: 0 0 0 10em
-      var(--textarea-background-color, var(--color-white)) inset;
+    box-shadow: 0 0 0 10em var(--ta-color-bg, var(--color-white)) inset;
   }
 
   &__align--right &__textarea,
@@ -194,7 +197,8 @@
   // disabled
   &--disabled &__textarea,
   &__textarea[disabled] {
-    user-select: none; // Safari / Touch fix
+    --ta-color-bg: var(--token-color-background-action-disabled)
+      user-select: none; // Safari / Touch fix
     &::-webkit-scrollbar {
       width: 0;
     }
