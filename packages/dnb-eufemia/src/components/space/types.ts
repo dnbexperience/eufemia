@@ -24,7 +24,7 @@ export type SpacingElementProps = {
   left?: SpaceType
 }
 
-export type SpaceTypesPositiveValuesType =
+export type SpacePositiveSize =
   | 'xx-small'
   | 'x-small'
   | 'small'
@@ -34,21 +34,12 @@ export type SpaceTypesPositiveValuesType =
   | 'xx-large'
   | 'xx-large-x2'
 
-export type SpaceTypesPositiveRemValuesType =
-  | 0.25
-  | 0.5
-  | 1
-  | 1.5
-  | 2
-  | 3
-  | 3.5
-  | 7
+export type SpacePositiveRemValue = 0.25 | 0.5 | 1 | 1.5 | 2 | 3 | 3.5 | 7
 
-export type SpaceTypesType = 'zero' | SpaceTypesPositiveValuesType
+export type SpaceSize = 'zero' | SpacePositiveSize
 
-type SpaceTypesTypeUnion = `${SpaceTypesType} ${SpaceTypesType}`
-type SpaceTypesTypeUnionInfinite =
-  `${SpaceTypesType} ${SpaceTypesType} ${string}`
+type SpaceSizeUnion = `${SpaceSize} ${SpaceSize}`
+type SpaceSizeUnionInfinite = `${SpaceSize} ${SpaceSize} ${string}`
 
 export type SpaceRemValuesType =
   | 0
@@ -87,9 +78,9 @@ export type SpaceStringTypes =
   | SpacePxStringType
   | SpaceRemStringFallback
   | SpaceRemStringFallbackUnionInfinite
-  | SpaceTypesType
-  | SpaceTypesTypeUnion
-  | SpaceTypesTypeUnionInfinite
+  | SpaceSize
+  | SpaceSizeUnion
+  | SpaceSizeUnionInfinite
 
 export type SpaceType = SpaceStringTypes | SpaceRemNumberType | boolean
 export type SpaceTypeAll = SpaceType | SpacingElementProps

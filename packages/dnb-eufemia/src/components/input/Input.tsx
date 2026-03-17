@@ -69,7 +69,7 @@ export type InputElementRenderProps = {
   onBlur: React.FocusEventHandler<HTMLInputElement>
   [key: string]: unknown
 }
-export type InputInputElement =
+export type InputElement =
   | React.ComponentType
   | React.ReactNode
   | ((
@@ -197,7 +197,7 @@ export type InputProps = Omit<
     /**
      * By providing a new component we can change the internally used element. Also supports a string only, like `inputElement="input"`.
      */
-    inputElement?: InputInputElement
+    inputElement?: InputElement
     /**
      * Internal ref alias used by wrappers such as InputMasked.
      * @internal
