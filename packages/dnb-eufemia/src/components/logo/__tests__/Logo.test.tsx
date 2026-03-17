@@ -216,6 +216,7 @@ describe('Logo component', () => {
     )
     CustomSvg.alt = 'Custom SVG'
 
+    // @ts-expect-error -- strictFunctionTypes
     render(<Logo svg={CustomSvg} />)
 
     const svg = document.querySelector('svg')

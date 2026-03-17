@@ -313,6 +313,7 @@ function IsolationProvider<Data extends JsonObject>(
           dataReference,
           resetDataAfterCommit,
           outerContext,
+          // @ts-expect-error -- strictFunctionTypes
           setIsolatedData,
         }}
       >

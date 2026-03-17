@@ -65,7 +65,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   }
 
   const onMouseEnter = useCallback(
-    (e: MouseEvent) => {
+    (e: Event) => {
       try {
         const elem = e.currentTarget as HTMLElement
 
@@ -98,7 +98,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   )
 
   const onFocus = useCallback(
-    (e: MouseEvent) => {
+    (e: Event) => {
       /**
        * VoiceOver needs to show the Tooltip in order to read the aria-describedby
        */
@@ -108,7 +108,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   )
 
   const onMouseLeave = useCallback(
-    (e: MouseEvent) => {
+    (e: Event) => {
       if (open) {
         return // stop here, because it is set to true by the original prop
       }

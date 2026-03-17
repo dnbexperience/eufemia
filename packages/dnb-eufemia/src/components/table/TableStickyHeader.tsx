@@ -152,6 +152,7 @@ export const useStickyHeader = ({
             scrollElem.addEventListener('scroll', onScroll)
             window.addEventListener('resize', onResize)
           } catch (e) {
+            // @ts-expect-error -- strictFunctionTypes
             stickyWarning(e)
           }
         }
@@ -164,6 +165,7 @@ export const useStickyHeader = ({
           window.removeEventListener('resize', onResize)
         }
       } catch (e) {
+        // @ts-expect-error -- strictFunctionTypes
         stickyWarning(e)
       }
     }

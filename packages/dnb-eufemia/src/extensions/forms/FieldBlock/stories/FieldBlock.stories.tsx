@@ -15,6 +15,7 @@ export function FieldBlockLabel() {
 
   const { value, handleChange, handleFocus, handleBlur } = useFieldProps({
     value: 'foo',
+    // @ts-expect-error -- strictFunctionTypes
     fromInput,
   })
 

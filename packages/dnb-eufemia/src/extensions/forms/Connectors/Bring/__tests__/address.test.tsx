@@ -29,6 +29,7 @@ describe('address', () => {
 
     beforeEach(() => {
       addressSuggestionsElement = withConfig(
+        // @ts-expect-error -- strictFunctionTypes
         Connectors.Bring.address.suggestionsElement,
         {
           countryCode: 'NO', // Can be "NO" or a path
@@ -273,6 +274,7 @@ describe('address', () => {
 
     it('should have no options when country is other than "NO"', async () => {
       addressSuggestionsElement = withConfig(
+        // @ts-expect-error -- strictFunctionTypes
         Connectors.Bring.address.suggestionsElement,
         {
           countryCode: '/myCountryCode',
@@ -310,6 +312,7 @@ describe('address', () => {
       })
 
       addressSuggestionsElement = withConfig(
+        // @ts-expect-error -- strictFunctionTypes
         Connectors.Bring.address.suggestionsElement,
         {
           countryCode: 'NO',
@@ -338,7 +341,7 @@ describe('address', () => {
 function createFetchMock(overwrite = null, delay = null) {
   return jest.fn(async () => {
     await delay?.()
-    return Promise.resolve({
+    const response = {
       ok: true,
       status: 200,
       statusText: 'OK',
@@ -349,7 +352,7 @@ function createFetchMock(overwrite = null, delay = null) {
       bodyUsed: false,
       redirected: false,
       clone: () => {
-        return this
+        return response
       },
       arrayBuffer: async () => {
         return new ArrayBuffer(0)
@@ -367,6 +370,7 @@ function createFetchMock(overwrite = null, delay = null) {
         return Promise.resolve(getMockData())
       },
       ...overwrite,
-    })
+    }
+    return Promise.resolve(response)
   })
 }

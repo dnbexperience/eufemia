@@ -682,6 +682,7 @@ describe('ArraySelection', () => {
 
   describe.each(['button', 'checkbox-button'])(
     '%s',
+    // @ts-expect-error -- strictFunctionTypes
     (testVariant: 'button' | 'checkbox-button') => {
       it('precede option title over children', async () => {
         render(

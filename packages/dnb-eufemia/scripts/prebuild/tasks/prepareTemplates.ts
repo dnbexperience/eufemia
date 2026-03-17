@@ -328,6 +328,7 @@ export const runFactory = async ({
   const template = await fs.readFile(srcFile, 'utf-8')
 
   if (destPath) {
+    // @ts-expect-error -- strictFunctionTypes
     await asyncForEach(filesToFindGlob, async ({ file }) => {
       const destFile = path.resolve(destPath, `${toPascalCase(file)}.ts`)
 
@@ -355,7 +356,7 @@ export const runFactory = async ({
         )
       } catch (e) {
         log.fail(`There was an error on creating ${destFile}!`)
-        ErrorHandler(e)
+        ErrorHandler(String(e))
       }
     })
   }
@@ -417,7 +418,7 @@ export const runFactory = async ({
       )
     } catch (e) {
       log.fail(`There was an error on creating ${destFile}!`)
-      ErrorHandler(e)
+      ErrorHandler(String(e))
     }
   }
 

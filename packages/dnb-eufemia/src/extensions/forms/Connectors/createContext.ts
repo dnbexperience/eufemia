@@ -105,7 +105,8 @@ async function fetchDataFromAPI<Data = unknown>(
       data: await response.json(),
     }
   } catch (error) {
-    if (error.name !== 'AbortError') {
+    if (!(error instanceof DOMException && error.name === 'AbortError')) {
+      // @ts-expect-error -- strictFunctionTypes
       return error
     }
   }

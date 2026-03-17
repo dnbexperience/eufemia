@@ -106,6 +106,7 @@ export function suggestions(
 ): SuggestionsConnectorReturn {
   const abortControllerRef = { current: null }
 
+  // @ts-expect-error -- strictFunctionTypes
   return async function suggestionsHandlerWrapper(event) {
     return await suggestionsHandler(event.value, event)
   }
@@ -126,7 +127,9 @@ export function suggestions(
     const { countryCode } = handleCountryPath({
       value,
       countryCode: handlerConfig?.countryCode,
+      // @ts-expect-error -- strictFunctionTypes
       additionalArgs,
+      // @ts-expect-error -- strictFunctionTypes
       handler: suggestionsHandler,
     })
 

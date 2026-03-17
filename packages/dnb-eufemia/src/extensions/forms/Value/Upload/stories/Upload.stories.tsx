@@ -13,6 +13,7 @@ const createRequest = () => {
     t: number
   ): Promise<{ hasError: boolean; cancel?: boolean }> => {
     return new Promise((resolve) => {
+      // @ts-expect-error -- strictFunctionTypes
       resolvePromise = resolve
       timeout = setTimeout(() => {
         resolve({ hasError: false })
@@ -109,6 +110,7 @@ export function Upload() {
           <P>layout="grid"</P>
           <Value.SummaryList
             layout="grid"
+            // @ts-expect-error -- strictFunctionTypes
             transformLabel={(label: string) => label.toUpperCase()}
           >
             <Value.String label="foo" path="/foo" />
@@ -121,6 +123,7 @@ export function Upload() {
           <P>layout="horizontal"</P>
           <Value.SummaryList
             layout="horizontal"
+            // @ts-expect-error -- strictFunctionTypes
             transformLabel={(label: string) => label.toUpperCase()}
           >
             <Value.String label="foo" path="/foo" />
@@ -133,6 +136,7 @@ export function Upload() {
           <P>layout="vertical"</P>
           <Value.SummaryList
             layout="vertical"
+            // @ts-expect-error -- strictFunctionTypes
             transformLabel={(label: string) => label.toUpperCase()}
           >
             <Value.String label="foo" path="/foo" />
@@ -144,6 +148,7 @@ export function Upload() {
         <Form.Card>
           <P>empty values</P>
           <Value.SummaryList
+            // @ts-expect-error -- strictFunctionTypes
             transformLabel={(label: string) => label.toUpperCase()}
           >
             <Value.String label="foo" />

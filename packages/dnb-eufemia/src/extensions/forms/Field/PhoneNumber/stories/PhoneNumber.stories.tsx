@@ -103,6 +103,7 @@ export function TransformOut() {
         <Field.PhoneNumber
           path="/primaryMobile"
           transformOut={transformOut}
+          // @ts-expect-error -- strictFunctionTypes
           transformIn={transformIn}
         />
       </Flex.Stack>

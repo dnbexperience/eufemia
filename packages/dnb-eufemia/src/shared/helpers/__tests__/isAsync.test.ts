@@ -76,7 +76,7 @@ describe('isAsync', () => {
       i.done ? t(u) : Promise.resolve(u).then(r, o)
     }
     function _asyncToGenerator(n) {
-      return function () {
+      return function (this: unknown) {
         var t = this,
           e = arguments
         return new Promise(function (r, o) {
@@ -94,7 +94,8 @@ describe('isAsync', () => {
     var _ref = _asyncToGenerator(function* () {
       console.log('async')
     })
-    function onSubmit() {
+    function onSubmit(this: unknown) {
+      // @ts-expect-error -- strictFunctionTypes
       return _ref.apply(this, arguments)
     }
     /* eslint-enable */

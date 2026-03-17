@@ -753,6 +753,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
               </span>
             ) : (
               <span className="dnb-date-picker__shell" id={`${id}-shell`}>
+                {/* @ts-expect-error -- strictFunctionTypes */}
                 <DatePickerInput
                   id={id}
                   title={title}

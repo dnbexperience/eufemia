@@ -147,7 +147,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     validateUnchanged,
     validateContinuously,
     transformIn = (external: unknown) => external as Value,
-    transformOut = (internal: Value) => internal,
+    transformOut = (internal: Value, _additionalArgs?: unknown) =>
+      internal,
     toInput = (value: Value) => value,
     fromInput = (value: Value) => value,
     toEvent = (value: Value) => value,
@@ -570,7 +571,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const errorProp =
     initialErrorProp === 'initial' ? undefined : initialErrorProp
   const error = executeMessage<UseFieldProps['error'] | 'initial'>(
-    errorProp,
+    errorProp as MessageProp<Value, UseFieldProps['error'] | 'initial'>,
     true
   )
   const warning = executeMessage<FieldStatus['warning']>(warningProp)
@@ -851,13 +852,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
       if (Array.isArray(error)) {
         return new FormError('Error', {
-          errors: error.map(prepare),
+          errors: error.map((e) => prepare(e as FormError)),
         })
       }
 
       if (error instanceof FormError) {
         if (Array.isArray(error.errors)) {
-          error.errors = error.errors.map(prepare)
+          error.errors = error.errors.map((e) => prepare(e as FormError))
           return error
         }
         return prepare(error)
@@ -951,14 +952,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     Partial<ReceiveAdditionalEventArgs<Value>>
   >({
     validators: exportValidators,
-    props,
+    props: props as UseFieldProps<Value>,
     dataContext,
     getValueByPath,
     getSourceValue,
     setFieldEventListener,
   })
   additionalArgsRef.current.validators = exportValidators
-  additionalArgsRef.current.props = props
+  additionalArgsRef.current.props = props as UseFieldProps<Value>
   const additionalArgs = useMemo(() => {
     const args = {
       errorMessages: combinedErrorMessages,
@@ -1574,7 +1575,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       validatedValueRef.current = value
     } catch (error) {
       if (isProcessActive()) {
-        persistErrorState('weak', initiator, error)
+        persistErrorState(
+          'weak',
+          initiator,
+          error as Error | FormError | (Error | FormError)[]
+        )
 
         // When validateContinuously is true, reveal errors immediately after validation
         // But only if the value has been changed (not on initial validation)
@@ -1679,14 +1684,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       if (hasFocus) {
         // Field was put in focus (like when clicking in a text field or opening a dropdown menu)
         hasFocusRef.current = true
-        onFocus?.apply(this, args)
+        onFocus?.apply(null, args as [any])
         setMountedFieldStateDataContext(identifier, {
           isFocused: true,
         })
       } else {
         // Field was removed from focus (like when tabbing out of a text field or closing a dropdown menu)
         hasFocusRef.current = false
-        onBlur?.apply(this, args)
+        onBlur?.apply(null, args as [any])
         setMountedFieldStateDataContext(identifier, {
           isFocused: false,
         })
@@ -2018,7 +2023,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       localAdditionalArgs: ProvideAdditionalEventArgs = undefined
     ) => {
       const currentValue = valueRef.current
-      const fromInput = transformers.current.fromInput(argFromInput)
+      const fromInput = transformers.current.fromInput(
+        argFromInput as Value
+      )
       const valueIsUnchanged = fromInput === currentValue
 
       if (!executeOnChangeRegardlessOfUnchangedValue && valueIsUnchanged) {
@@ -2074,7 +2081,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
             // Skip sync errors, such as required
             if (!hasError()) {
               // If the value has changed during the async process, we don't want to call the onChange anymore
-              await setEventResult(await onChange?.apply(this, args))
+              await setEventResult(
+                // @ts-expect-error -- strictFunctionTypes
+                (await onChange?.apply(null, args as [any])) ?? null
+              )
             } else {
               await setEventResult(null)
             }
@@ -2089,7 +2099,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
             : additionalArgs,
         })
 
-        setEventResult(onChange?.apply(this, args))
+        setEventResult(
+          (onChange?.apply(null, args as [any]) as
+            | EventReturnWithStateObjectAndSuccess
+            | undefined) ?? null
+        )
       }
 
       await runPool()

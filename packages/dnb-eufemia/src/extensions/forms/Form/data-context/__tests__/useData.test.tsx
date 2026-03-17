@@ -1324,6 +1324,7 @@ describe('Form.useData', () => {
     })
 
     expect(
+      // @ts-expect-error -- strictFunctionTypes
       result.current.filterData({
         '/field1': false,
       } as FilterData<Data>)
@@ -1333,6 +1334,7 @@ describe('Form.useData', () => {
     })
 
     expect(
+      // @ts-expect-error -- strictFunctionTypes
       result.current.filterData({
         '/field1': false,
         '/field2': ({ value }) => {
@@ -1344,6 +1346,7 @@ describe('Form.useData', () => {
     })
 
     expect(
+      // @ts-expect-error -- strictFunctionTypes
       result.current.filterData({
         '/field1': false,
         '/field2': ({ value }) => {

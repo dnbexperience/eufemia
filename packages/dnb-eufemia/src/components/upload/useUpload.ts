@@ -64,6 +64,7 @@ function useUpload(id: UploadProps['id']): UseUploadReturn {
 
   return {
     files,
+    // @ts-expect-error -- strictFunctionTypes
     setFiles,
     clearFiles,
     internalFiles,

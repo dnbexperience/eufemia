@@ -126,6 +126,7 @@ export default function useMedia(
 
   const removeListeners = useCallback(() => {
     Object.entries(refs.current).forEach(
+      // @ts-expect-error -- strictFunctionTypes
       ([key, item]: [Keys, UseMediaItem]) => {
         item?.event?.()
         delete refs.current[key]

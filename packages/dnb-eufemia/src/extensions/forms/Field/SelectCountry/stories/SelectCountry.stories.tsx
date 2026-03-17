@@ -16,6 +16,7 @@ export function SelectCountry() {
     <Field.SelectCountry
       required
       value={state}
+      // @ts-expect-error -- strictFunctionTypes
       onChange={(value: CountryISO, data) => {
         console.log('onChange', value, data)
         update(value)
@@ -43,6 +44,7 @@ export function Transform() {
         <Field.SelectCountry
           path="/country"
           transformIn={transformIn}
+          // @ts-expect-error -- strictFunctionTypes
           transformOut={transformOut}
           defaultValue="NO"
         />

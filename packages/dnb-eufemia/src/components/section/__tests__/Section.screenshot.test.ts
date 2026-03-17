@@ -31,6 +31,7 @@ describe.each(['ui', 'sbanken'])('Section for %s', (themeName) => {
 
   test.each(sections[themeName])(
     'have to match %p section',
+    // @ts-expect-error -- strictFunctionTypes
     async (sectionName) => {
       const screenshot = await makeScreenshot({
         selector: `[data-visual-test="section-${sectionName}"]`,

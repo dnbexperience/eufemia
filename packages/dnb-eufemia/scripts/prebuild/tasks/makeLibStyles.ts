@@ -35,6 +35,7 @@ export default async function makeLibStyles() {
       `> PrePublish: "makeLibStyles" converting sass to css done`
     )
   } catch (e) {
+    // @ts-expect-error -- strictFunctionTypes
     throw new Error(e)
   }
 }

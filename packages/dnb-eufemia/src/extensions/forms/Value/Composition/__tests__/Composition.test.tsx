@@ -220,6 +220,7 @@ describe('Value.Composition', () => {
       render(
         <Value.Composition
           label="Label"
+          // @ts-expect-error -- strictFunctionTypes
           transformLabel={(label: string) => label.toUpperCase()}
         >
           <Value.String path="/foo" />
@@ -235,6 +236,7 @@ describe('Value.Composition', () => {
     it('renders transformLabel given in Value.Provider', async () => {
       render(
         <Value.Provider
+          // @ts-expect-error -- strictFunctionTypes
           transformLabel={(label: string) => label?.toUpperCase()}
         >
           <Value.Composition label="Label">

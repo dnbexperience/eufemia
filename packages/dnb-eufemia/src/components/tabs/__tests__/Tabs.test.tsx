@@ -116,6 +116,7 @@ describe('Tabs component', () => {
     ]
 
     render(
+      // @ts-expect-error -- strictFunctionTypes
       <Tabs {...props} data={tablistData} tabElement={Link}>
         {contentWrapperData}
       </Tabs>

@@ -378,6 +378,7 @@ describe('Breadcrumb', () => {
       }
 
       render(
+        // @ts-expect-error -- strictFunctionTypes
         <BreadcrumbItem element={CustomElement} text="Page" href="/" />
       )
 
@@ -400,6 +401,7 @@ describe('Breadcrumb', () => {
         </a>
       )
 
+      // @ts-expect-error -- strictFunctionTypes
       render(<BreadcrumbItem to={'/url'} element={MockLink} text="Page" />)
 
       expect(screen.getByRole('link')).toHaveAttribute('href', '/url')

@@ -598,6 +598,7 @@ describe('postalCode', () => {
     let onChange = null
 
     beforeEach(() => {
+      // @ts-expect-error -- strictFunctionTypes
       onChange = withConfig(Connectors.Bring.postalCode.autofill, {
         cityPath: '/city',
       })
@@ -792,6 +793,7 @@ describe('postalCode', () => {
         fetchConfig: { url },
       })
 
+      // @ts-expect-error -- strictFunctionTypes
       const onChange = withConfig(Connectors.Bring.postalCode.autofill)
 
       render(
@@ -800,6 +802,7 @@ describe('postalCode', () => {
             countryCode="FI"
             postalCode={{
               path: '/postalCode',
+              // @ts-expect-error -- strictFunctionTypes
               onChange,
             }}
           />
@@ -825,7 +828,7 @@ describe('postalCode', () => {
 function createFetchMock(overwrite = null, delay = null) {
   return jest.fn(async () => {
     await delay?.()
-    return Promise.resolve({
+    const response = {
       ok: true,
       status: 200,
       statusText: 'OK',
@@ -836,7 +839,7 @@ function createFetchMock(overwrite = null, delay = null) {
       bodyUsed: false,
       redirected: false,
       clone: () => {
-        return this
+        return response
       },
       arrayBuffer: async () => {
         return new ArrayBuffer(0)
@@ -854,6 +857,7 @@ function createFetchMock(overwrite = null, delay = null) {
         return Promise.resolve(getMockData())
       },
       ...overwrite,
-    })
+    }
+    return Promise.resolve(response)
   })
 }

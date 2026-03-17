@@ -92,6 +92,7 @@ describe('Dialog', () => {
         onClose={onClose}
         hideCloseButton
       >
+        {/* @ts-expect-error -- strictFunctionTypes */}
         {({ close }) => (
           <Button id="close-me" text="close" onClick={close} />
         )}
@@ -529,6 +530,7 @@ describe('Dialog', () => {
         onClose={onClose}
         hideCloseButton
       >
+        {/* @ts-expect-error -- strictFunctionTypes */}
         {({ close }) => (
           <Button id="close-button" text="close" onClick={close} />
         )}

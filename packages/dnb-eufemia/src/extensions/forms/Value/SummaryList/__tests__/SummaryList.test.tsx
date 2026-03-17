@@ -242,6 +242,7 @@ describe('Value.SummaryList', () => {
 
           <Value.SummaryList
             inheritLabel
+            // @ts-expect-error -- strictFunctionTypes
             transformLabel={(label: string) => label.toUpperCase()}
           >
             <Value.String path="/foo" />

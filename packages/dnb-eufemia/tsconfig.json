@@ -12,7 +12,12 @@
     "types": ["node", "jest", "react", "react-dom"],
     "outDir": "./build",
     "rootDir": ".",
-    "baseUrl": "."
+    "baseUrl": ".",
+    "alwaysStrict": true,
+    "strictBindCallApply": true,
+    "noImplicitThis": true,
+    "useUnknownInCatchVariables": true,
+    "strictFunctionTypes": true
   },
   "exclude": ["node_modules", "build"]
 }

@@ -605,6 +605,7 @@ function CloseWithAnimation() {
 function CloseByCallback() {
   return (
     <Modal triggerAttributes={{ text: 'CloseByCallback' }} hideCloseButton>
+      {/* @ts-expect-error -- strictFunctionTypes */}
       {({ close }) => <Button text="Close by callback" onClick={close} />}
     </Modal>
   )
