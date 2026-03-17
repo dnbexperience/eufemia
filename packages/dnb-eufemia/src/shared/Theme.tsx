@@ -9,6 +9,7 @@ import Context from './Context'
 import Provider from './Provider'
 import { DynamicElement } from './types'
 import { extendPropsWithContext } from './component-helper'
+import withComponentMarkers from './helpers/withComponentMarkers'
 
 export type ThemeNames = 'ui' | 'eiendom' | 'sbanken' | 'carnegie'
 export type ThemeVariants = string
@@ -16,7 +17,7 @@ export type ThemeSizes = 'basis'
 export type PropMapping = string
 export type ContrastMode = boolean
 export type DarkMode = boolean
-export type DarkBackground = boolean
+export type ThemeSurface = 'dark'
 
 export type ThemeProps = {
   name?: ThemeNames
@@ -25,7 +26,7 @@ export type ThemeProps = {
   propMapping?: PropMapping
   contrastMode?: ContrastMode
   darkMode?: DarkMode
-  darkBackground?: DarkBackground
+  surface?: ThemeSurface
   element?: DynamicElement | false
 }
 
@@ -43,7 +44,7 @@ export default function Theme(themeProps: ThemeAllProps) {
     propMapping,
     contrastMode,
     darkMode,
-    darkBackground,
+    surface,
     ...restProps
   } = themeProps
 
@@ -55,7 +56,7 @@ export default function Theme(themeProps: ThemeAllProps) {
       propMapping,
       contrastMode,
       darkMode,
-      darkBackground,
+      surface,
     },
     null,
     context?.theme
@@ -70,10 +71,12 @@ export default function Theme(themeProps: ThemeAllProps) {
   )
 }
 
-Theme.Provider = ({ element, ...themeProps }: ThemeAllProps) => {
+Theme.Context = ({ element, ...themeProps }: ThemeAllProps) => {
   return <Theme {...themeProps} element={false} />
 }
-Theme.Provider['_supportsSpacingProps'] = 'children'
+withComponentMarkers(Theme.Context, {
+  _supportsSpacingProps: 'children',
+})
 
 export function ThemeWrapper({
   children,
@@ -112,14 +115,22 @@ export function getThemeClasses(theme: ThemeProps, className = null) {
     return className
   }
 
-  const { name, variant, size, propMapping, contrastMode, darkMode } =
-    theme
+  const {
+    name,
+    variant,
+    size,
+    propMapping,
+    contrastMode,
+    darkMode,
+    surface,
+  } = theme
 
   return clsx(
     className,
     'eufemia-theme',
     name && `eufemia-theme__${name}`,
     name && variant && `eufemia-theme__${name}--${variant}`,
+    surface && `eufemia-theme__surface--${surface}`,
     propMapping && `eufemia-theme__prop-mapping--${propMapping}`,
     contrastMode && 'eufemia-theme__contrast-mode',
     darkMode && 'eufemia-theme__dark-mode',

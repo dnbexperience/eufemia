@@ -101,7 +101,7 @@ export default function PopoverCloseButton({
     resolvedSize &&
       resolvedSize !== 'default' &&
       `dnb-button--size-${resolvedSize}`,
-    context?.theme?.darkBackground && 'dnb-button--on-dark-background',
+    context?.theme?.surface === 'dark' && 'dnb-button--on-dark-background',
     hasIcon && `dnb-button--icon-position-${iconPosition}`,
     hasIcon &&
       resolvedIconSize &&

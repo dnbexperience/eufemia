@@ -12,7 +12,7 @@ describe('useTheme', () => {
 
   it('returns given theme context', () => {
     const wrapper = ({ children }) => (
-      <Theme name="eiendom" variant="soft">
+      <Theme name="eiendom" variant="soft" surface="dark">
         {children}
       </Theme>
     )
@@ -22,6 +22,7 @@ describe('useTheme', () => {
       expect.objectContaining({
         name: 'eiendom',
         variant: 'soft',
+        surface: 'dark',
       })
     )
   })

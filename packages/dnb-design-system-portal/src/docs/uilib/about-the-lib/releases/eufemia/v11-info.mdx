@@ -60,6 +60,28 @@ If you use any Eufemia context objects directly (e.g. `Wizard.Provider`), update
 <SomeContext value={value}>{children}</SomeContext>
 ```
 
+### Theme.Provider → Theme.Context
+
+`Theme.Provider` has been renamed to `Theme.Context` to align with React 19's context-as-provider pattern. The `darkBackground` prop has been removed in favor of `surface="dark"`:
+
+**Before:**
+
+```tsx
+<Theme.Provider darkBackground>
+  <Button>Primary</Button>
+</Theme.Provider>
+```
+
+**After:**
+
+```tsx
+<Theme.Context surface="dark">
+  <Button>Primary</Button>
+</Theme.Context>
+```
+
+`Theme.Provider` has been removed.
+
 ## Install
 
 To upgrade to @dnb/eufemia v11 with NPM, use:
