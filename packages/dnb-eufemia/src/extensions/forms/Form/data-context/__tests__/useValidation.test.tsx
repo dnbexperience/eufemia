@@ -741,9 +741,13 @@ describe('useValidation', () => {
           )
         })
 
-        // The render log may have a one-render-cycle delay with keepInDOM
-        // because React renders parent before children update mountedFieldsRef.
-        // The correct value is always accessible via result.current (post-render).
+        // After all renders settle, render-body values should also be correct
+        await waitFor(() => {
+          const lastLog = renderLogs[renderLogs.length - 1]
+          expect(lastLog.all).toBe(true)
+          expect(lastLog.visibleOnly).toBe(false)
+        })
+
         expect(result.current.hasErrors({ visibleOnly: true })).toBe(false)
       })
 

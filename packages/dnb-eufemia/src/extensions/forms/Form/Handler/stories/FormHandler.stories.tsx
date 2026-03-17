@@ -435,6 +435,7 @@ export function ConditionallyRequiredFields() {
             path: '/locale',
             hasValue: 'da-DK',
           }}
+          keepInDOM
         >
           <Field.Currency path="/amount" label="Amount" required />
         </Form.Visibility>
