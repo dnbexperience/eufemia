@@ -20,11 +20,7 @@ import {
 } from '../../shared/component-helper'
 import ModalContext from './ModalContext'
 import { IS_IOS, IS_SAFARI, IS_MAC, isAndroid } from '../../shared/helpers'
-import {
-  CloseHandlerParams,
-  ModalContentProps,
-  TriggeredBy,
-} from './types'
+import { ModalCloseEvent, ModalContentProps, TriggeredBy } from './types'
 import {
   getListOfModalRoots,
   getModalRoot,
@@ -409,7 +405,7 @@ export default class ModalContent extends React.PureComponent<
 
   setModalContentState = (
     event: React.SyntheticEvent,
-    { triggeredBy }: CloseHandlerParams
+    { triggeredBy }: ModalCloseEvent
   ) => {
     this._triggeredBy = triggeredBy
     this._triggeredByEvent = event
@@ -417,10 +413,7 @@ export default class ModalContent extends React.PureComponent<
 
   closeModalContent(
     event,
-    {
-      triggeredBy,
-      ...params
-    }: CloseHandlerParams & { ifIsLatest?: boolean }
+    { triggeredBy, ...params }: ModalCloseEvent & { ifIsLatest?: boolean }
   ) {
     event?.persist?.()
 

@@ -1709,6 +1709,25 @@ All React context value types have been renamed to use a consistent `...ContextV
 
 The `ListContext` type (which previously collided with the `ListContext` variable) has been renamed to `ListContextValue`.
 
+### Event callback type renames
+
+Callback parameter types have been standardized to use `...Event` suffix (matching the existing convention used by Input, Radio, Button, etc.):
+
+| Before                       | After                     |
+| ---------------------------- | ------------------------- |
+| `CheckboxOnChangeParams`     | `CheckboxChangeEvent`     |
+| `CheckboxOnClickParams`      | `CheckboxClickEvent`      |
+| `SliderOnChangeParams`       | `SliderChangeEvent`       |
+| `SwitchOnChangeParams`       | `SwitchChangeEvent`       |
+| `SwitchOnClickParams`        | `SwitchClickEvent`        |
+| `AutocompleteOnClearParams`  | `AutocompleteClearEvent`  |
+| `AutocompleteOnTypeParams`   | `AutocompleteTypeEvent`   |
+| `AutocompleteOnFocusParams`  | `AutocompleteFocusEvent`  |
+| `AutocompleteOnBlurParams`   | `AutocompleteBlurEvent`   |
+| `AutocompleteOnChangeParams` | `AutocompleteChangeEvent` |
+| `AutocompleteOnSelectParams` | `AutocompleteSelectEvent` |
+| `CloseHandlerParams`         | `ModalCloseEvent`         |
+
 ## Theming
 
 - Replace import from path `style/themes/theme-ui/` with `style/themes/ui/`

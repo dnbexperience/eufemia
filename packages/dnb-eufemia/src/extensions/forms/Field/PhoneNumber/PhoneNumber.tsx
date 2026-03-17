@@ -30,7 +30,7 @@ import {
 } from '../SelectCountry'
 import useTranslation from '../../hooks/useTranslation'
 import { DrawerListDataArrayItem } from '../../../../fragments/DrawerList'
-import { AutocompleteOnBlurParams } from '../../../../components/Autocomplete'
+import { AutocompleteBlurEvent } from '../../../../components/Autocomplete'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type AdditionalArgs = {
@@ -390,7 +390,7 @@ function PhoneNumber(props: Props = {}) {
   }, [value, props.value, lang, updateCurrentDataSet])
 
   const handleCountryCodeChange = useCallback(
-    (event: AutocompleteOnBlurParams) => {
+    (event: AutocompleteBlurEvent) => {
       const data = event.data
       const dataObj =
         data && typeof data === 'object' && 'selectedKey' in data
