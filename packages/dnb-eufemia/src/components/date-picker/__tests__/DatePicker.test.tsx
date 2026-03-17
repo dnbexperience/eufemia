@@ -1437,7 +1437,6 @@ describe('DatePicker component', () => {
   })
 
   it('omits input shell class when _omitInputShellClass is true', () => {
-    // @ts-expect-error - Testing internal _omitInputShellClass prop
     render(<DatePicker showInput _omitInputShellClass />)
 
     const wrapper = document.querySelector('.dnb-input')
