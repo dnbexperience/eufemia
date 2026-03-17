@@ -159,7 +159,7 @@ const AvatarGroup = (localProps: AvatarGroupAllProps) => {
   )
 }
 
-export type ElementsHiddenProps = {
+export type AvatarElementsHiddenProps = {
   /**
    * The avatars to group.
    * Default: null
@@ -173,7 +173,7 @@ export type ElementsHiddenProps = {
   size?: AvatarSizes
 }
 
-function ElementsHidden(props: ElementsHiddenProps) {
+function ElementsHidden(props: AvatarElementsHiddenProps) {
   const { size, children } = props
   return (
     <span

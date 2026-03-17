@@ -16,7 +16,7 @@ import {
 } from './SliderHelpers'
 
 import type {
-  ValueTypes,
+  SliderValue,
   SliderOnChangeParams,
   SliderAllProps,
   SliderContextValue,
@@ -87,10 +87,10 @@ export function SliderProvider(localProps: SliderAllProps) {
     ...attributes // Find a DOM element to forwards props too when multi buttons are supported
   } = allProps
 
-  const [value, setValue] = React.useState<ValueTypes>(_value)
+  const [value, setValue] = React.useState<SliderValue>(_value)
   const [externValue, updateExternValue] =
-    React.useState<ValueTypes>(_value)
-  const realtimeValue = React.useRef<ValueTypes>(_value)
+    React.useState<SliderValue>(_value)
+  const realtimeValue = React.useRef<SliderValue>(_value)
   const [thumbState, setThumbState] = React.useState<ThumbState>('initial')
   const thumbIndex = React.useRef<number>(-1)
   const [shouldAnimate, updateAnimateState] =
@@ -117,7 +117,7 @@ export function SliderProvider(localProps: SliderAllProps) {
     return currentIndex
   }
 
-  const updateValue = (value: ValueTypes) => {
+  const updateValue = (value: SliderValue) => {
     setValue(value)
     realtimeValue.current = value
   }
@@ -131,7 +131,7 @@ export function SliderProvider(localProps: SliderAllProps) {
     }
 
     let numberValue = roundValue(rawValue, { step, min, max })
-    let multiValues: ValueTypes = numberValue
+    let multiValues: SliderValue = numberValue
 
     if (numberValue >= min) {
       if (isMulti) {

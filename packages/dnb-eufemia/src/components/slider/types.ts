@@ -6,12 +6,12 @@ import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import type { GlobalStatusConfigObject } from '../GlobalStatus'
 
-export type ValueTypes = number | Array<number>
-export type NumberFormatTypes =
+export type SliderValue = number | Array<number>
+export type SliderNumberFormat =
   | FormatOptionParams
   | ((value: number) => unknown)
 export type SliderOnChangeParams = {
-  value: ValueTypes
+  value: SliderValue
   rawValue: number
   number?: string | null
   event?: Event
@@ -64,7 +64,7 @@ export type SliderProps = {
   max?: number
 
   /** the `value` of the slider as a number. If an array with numbers is provided, each number will represent a thumb button (the `+` and `-` button will be hidden on multiple thumbs). */
-  value?: ValueTypes
+  value?: SliderValue
 
   /** the steps the slider takes on changing the value. Defaults to `null`. */
   step?: number
@@ -82,7 +82,7 @@ export type SliderProps = {
   stretch?: boolean
 
   /** provide a function callback or use the options from the [NumberFormat](/uilib/components/number-format/properties) component. It will show a formatted number in the Tooltip (`tooltip={true}`) and enhance the screen reader UX. It will also extend the `onChange` event return object with a formatted `number` property. */
-  numberFormat?: NumberFormatTypes
+  numberFormat?: SliderNumberFormat
 
   /** use `true` to show a tooltip on `mouseOver`, `touchStart` and `focus`, showing the current number (if `numberFormat` is given) or the raw value. Defaults to `null`. */
   tooltip?: boolean
@@ -132,9 +132,9 @@ export type SliderContextValue = {
   showButtons: boolean
   attributes: unknown
   allProps: SliderProps
-  value: ValueTypes
+  value: SliderValue
   values: Array<number>
-  setValue: (value: ValueTypes) => void
+  setValue: (value: SliderValue) => void
   setThumbState: (thumbState: ThumbState) => void
   setThumbIndex: (thumbIndex: number) => void
   emitChange: (emitEvent: MouseEvent | TouchEvent, value: number) => void

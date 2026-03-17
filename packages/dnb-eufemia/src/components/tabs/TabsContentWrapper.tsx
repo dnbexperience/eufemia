@@ -29,7 +29,7 @@ export default function ContentWrapper({
   animate = null,
   contentSpacing = true,
   ...rest
-}: ContentWrapperProps) {
+}: TabsContentWrapperProps) {
   const sharedStateRef = useRef<SharedState | null>(null)
 
   const [state, setState] = useState<ContentWrapperState>(() => {
@@ -162,7 +162,7 @@ export type ContentWrapperChildren =
   | React.ReactNode
   | ((...args: any[]) => any)
 
-export type ContentWrapperProps = {
+export type TabsContentWrapperProps = {
   id: string
   selectedKey?: ContentWrapperSelectedKey
   contentStyle?: SectionStyle | SectionVariants

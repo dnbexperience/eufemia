@@ -17,12 +17,12 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import Context from '../../shared/Context'
 import AccordionGroupContext from './AccordionProviderContext'
 
-import type { GroupProps } from './types'
+import type { AccordionGroupProps } from './types'
 import { accordionDefaultProps } from './types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type AccordionGroupProps = React.HTMLProps<HTMLElement> &
-  GroupProps & {
+  AccordionGroupProps & {
     onInit?: (...args: any[]) => any
   }
 

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { format, FormatReturnValue } from '../number-format/NumberUtils'
 
-import type { NumberFormatTypes, ValueTypes } from './types'
+import type { SliderNumberFormat, SliderValue } from './types'
 
 export const percentToValue = (
   percent: number,
@@ -102,7 +102,7 @@ export const getUpdatedValues = (
   value: Array<number>,
   index: number,
   newValue: number
-): ValueTypes => {
+): SliderValue => {
   return value.map((val, i) => {
     if (i === index) {
       val = newValue
@@ -120,7 +120,7 @@ export const closestIndex = (goal: number, array: Array<number>) => {
 
 export const getFormattedNumber = (
   value: number,
-  numberFormat: NumberFormatTypes
+  numberFormat: SliderNumberFormat
 ) => {
   if (numberFormat) {
     if (typeof numberFormat === 'function') {

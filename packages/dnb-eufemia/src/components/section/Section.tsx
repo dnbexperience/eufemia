@@ -57,8 +57,10 @@ export type SectionSpacing =
 export type TextColor = string
 export type OutlineColor = string | boolean
 export type BackgroundColor = string
-export type DropShadow = boolean
-export type RoundedCorner = boolean | [boolean, boolean, boolean, boolean]
+export type SectionDropShadow = boolean
+export type SectionRoundedCorner =
+  | boolean
+  | [boolean, boolean, boolean, boolean]
 
 export type SectionProps = {
   /**
@@ -80,7 +82,9 @@ export type SectionProps = {
   /**
    * Define if the section should have rounded corners. Defaults to `false`.
    */
-  roundedCorner?: RoundedCorner | ResponsiveProp<RoundedCorner>
+  roundedCorner?:
+    | SectionRoundedCorner
+    | ResponsiveProp<SectionRoundedCorner>
 
   /**
    * Define a custom border color. Use a Eufemia color.
@@ -105,7 +109,7 @@ export type SectionProps = {
   /**
    * Define a custom drop-shadow.
    */
-  dropShadow?: DropShadow | ResponsiveProp<DropShadow>
+  dropShadow?: SectionDropShadow | ResponsiveProp<SectionDropShadow>
 
   /**
    * Define what HTML element should be used. Defaults to `<section>`.

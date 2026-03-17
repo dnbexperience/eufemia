@@ -12,7 +12,7 @@ import {
 import type { MediaQueryBreakpoints } from '../../shared/MediaQueryUtils'
 import type { SpaceType } from '../space/types'
 import type { UseMediaQueries } from '../../shared/useMedia'
-import type { End, Start } from './types'
+import type { FlexEnd, FlexStart } from './types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 type Gap =
@@ -134,8 +134,8 @@ function FlexContainer(props: FlexContainerAllProps) {
 
     // Always set spacing between elements in the vertical layout on the top props, and 0 on bottom, to avoid
     // having to divide spacing between both with smaller values.
-    const start: Start = direction === 'horizontal' ? 'left' : 'top'
-    const end: End = direction === 'horizontal' ? 'right' : 'bottom'
+    const start: FlexStart = direction === 'horizontal' ? 'left' : 'top'
+    const end: FlexEnd = direction === 'horizontal' ? 'right' : 'bottom'
     // const start: Start | End = direction === 'horizontal' ? 'right' : 'top'
     // const end: Start | End = direction === 'horizontal' ? 'left' : 'bottom'
     const endSpacing = 0

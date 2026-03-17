@@ -58,7 +58,7 @@ export const createSkeletonClass = (
   return className
 }
 
-export type AutoSizeProps = {
+export type SkeletonAutoSizeProps = {
   __element?: React.ElementType
   children?: React.ReactNode
   className?: string
@@ -71,7 +71,7 @@ export function AutoSize({
   className = null,
   style = null,
   ...props
-}: AutoSizeProps) {
+}: SkeletonAutoSizeProps) {
   const string = convertJsxToString(children)
 
   if (typeof string === 'string') {

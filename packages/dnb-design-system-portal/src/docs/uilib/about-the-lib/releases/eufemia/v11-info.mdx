@@ -1739,6 +1739,28 @@ Types using a plural `Types` suffix have been renamed to use singular form for c
 | `FormatTypes`                 | `FormatType`             |
 | `UploadAcceptedFileTypes`     | `UploadAcceptedFiles`    |
 
+### Non-prefixed type renames
+
+Several exported types lacked a component namespace prefix, risking name collisions. They have been prefixed:
+
+| Before                | After                       |
+| --------------------- | --------------------------- |
+| `End`                 | `FlexEnd`                   |
+| `Start`               | `FlexStart`                 |
+| `GroupProps`          | `AccordionGroupProps`       |
+| `DropShadow`          | `SectionDropShadow`         |
+| `RoundedCorner`       | `SectionRoundedCorner`      |
+| `TriggeredBy`         | `ModalTriggeredBy`          |
+| `CloseHandler`        | `ModalCloseHandler`         |
+| `ValueTypes`          | `SliderValue`               |
+| `NumberFormatTypes`   | `SliderNumberFormat`        |
+| `DummyProps`          | `TabsDummyProps`            |
+| `ContentWrapperProps` | `TabsContentWrapperProps`   |
+| `CustomContentProps`  | `TabsCustomContentProps`    |
+| `AutoSizeProps`       | `SkeletonAutoSizeProps`     |
+| `ElementsHiddenProps` | `AvatarElementsHiddenProps` |
+| `LoadButtonProps`     | `PaginationLoadButtonProps` |
+
 ## Theming
 
 - Replace import from path `style/themes/theme-ui/` with `style/themes/ui/`

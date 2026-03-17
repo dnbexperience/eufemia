@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import type { SpacingProps } from '../space/types'
 import ContentWrapper, {
-  type ContentWrapperProps,
+  type TabsContentWrapperProps,
 } from './TabsContentWrapper'
 
 export type CustomContentTitle =
@@ -15,7 +15,7 @@ export type CustomContentChildren =
   | React.ReactNode
   | ((...args: any[]) => any)
 
-export type CustomContentProps = {
+export type TabsCustomContentProps = {
   displayName?: string
   title?: CustomContentTitle
   hash?: string
@@ -39,7 +39,7 @@ export type CustomContentProps = {
     <Tabs.Content title="second">second</Tabs.Content>
   </Tabs>
  */
-function CustomContent(props: CustomContentProps) {
+function CustomContent(props: TabsCustomContentProps) {
   const {
     displayName: _displayName = 'CustomContent',
     title: _title = null,
@@ -54,7 +54,7 @@ function CustomContent(props: CustomContentProps) {
 
   if (id) {
     const contentWrapperProps = rest as unknown as Omit<
-      ContentWrapperProps,
+      TabsContentWrapperProps,
       'id'
     >
     return (
