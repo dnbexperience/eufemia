@@ -11,7 +11,6 @@
   --textarea-border-color--disabled: var(--color-black-55);
   --textarea-border-width: 0.0625rem;
   --textarea-border-width--hover: 0.125rem;
-  --textarea-color: var(--color-black);
   --textarea-placeholder-color: var(--color-black-55);
   --textarea-placeholder-color--focus: var(--color-black-20);
 
@@ -37,17 +36,10 @@
   // }
 
   &--disabled {
-    --textarea-color: var(--color-black-55);
     --textarea-border-color: var(--textarea-border-color--disabled);
   }
 
   // with statusState = "error"
-  &__status--error:not(#{&}--focus)
-    &__textarea:not([disabled]):not(#{&}--disabled),
-  &__status--error:not(#{&}--focus)
-    &__textarea:not([disabled]):not(#{&}--disabled):hover {
-    color: var(--color-fire-red);
-  }
   &__status--error:not(#{&}--focus)
     &__textarea:not([disabled]):not(#{&}--disabled)
     ~ &__state {

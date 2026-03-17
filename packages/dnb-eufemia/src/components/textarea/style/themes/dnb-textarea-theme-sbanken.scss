@@ -8,9 +8,6 @@
 .dnb-textarea {
   --textarea-border-color: var(--sb-color-gray-dark-2);
   --textarea-border-width: 0.0625rem;
-  --textarea-color: var(--textarea-color--default);
-  --textarea-color--default: var(--color-black);
-  --textarea-color--active: var(--color-black);
   --textarea-placeholder-color: var(--sb-color-gray-dark-3);
   --textarea-placeholder-color--focus: var(--sb-color-gray-dark-3);
 
@@ -34,8 +31,6 @@
 
   // focus
   &__textarea:not([disabled]):not(#{&}--disabled):focus {
-    --textarea-color: var(--textarea-color--active);
-
     ~ .dnb-textarea__state {
       --textarea-border-color: var(--sb-color-violet);
       --textarea-border-radius: 1.5rem;
@@ -44,15 +39,11 @@
   }
 
   &--disabled {
-    --textarea-color: var(--sb-color-gray-dark-2);
     --textarea-border-color: var(--sb-color-gray-dark-2);
   }
 
   // with statusState = "error"
   &__status--error &__textarea:not([disabled]):not(#{&}--disabled) {
-    --textarea-color--default: var(--sb-color-red);
-    --textarea-color--active: var(--color-black);
-
     ~ .dnb-textarea__state {
       --textarea-border-color: var(--sb-color-red);
     }

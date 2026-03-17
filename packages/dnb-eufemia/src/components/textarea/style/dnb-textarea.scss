@@ -15,12 +15,12 @@
 
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
-  color: var(--textarea-color, var(--color-black));
 }
 
 .dnb-textarea {
   // Base variables
   --ta-color-bg: var(--token-color-background-neutral);
+  --ta-color-text: var(--token-color-text-neutral);
 
   // Old variables
   --textarea-border-radius: 0.25rem;
@@ -124,6 +124,7 @@
     // To prevent textarea element from going outside of boundaries on smaller screens
     width: 100%;
 
+    color: var(--ta-color-text);
     background-color: var(--ta-color-bg);
 
     @include textareaStyleCommon();
@@ -197,8 +198,10 @@
   // disabled
   &--disabled &__textarea,
   &__textarea[disabled] {
-    --ta-color-bg: var(--token-color-background-action-disabled)
-      user-select: none; // Safari / Touch fix
+    --ta-color-bg: var(--token-color-background-action-disabled);
+    --ta-color-text: var(--token-color-text-neutral-alternative);
+
+    user-select: none; // Safari / Touch fix
     &::-webkit-scrollbar {
       width: 0;
     }
@@ -285,5 +288,13 @@
   &.dnb-skeleton &__state,
   &.dnb-skeleton &__textarea {
     visibility: hidden;
+  }
+
+  // with statusState = "error"
+  &__status--error:not(#{&}--focus)
+    &__textarea:not([disabled]):not(#{&}--disabled),
+  &__status--error:not(#{&}--focus)
+    &__textarea:not([disabled]):not(#{&}--disabled):hover {
+    --ta-color-text: var(--token-color-text-destructive);
   }
 }
