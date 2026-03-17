@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const AriaLiveProperties: PropertiesTableProps = {
   variant: {
@@ -43,7 +43,7 @@ export const AriaLiveProperties: PropertiesTableProps = {
   },
   children: {
     doc: 'The content that will be announced to the user.',
-    type: 'ReactNode',
+    type: 'React.ReactNode',
     status: 'required',
   },
 }

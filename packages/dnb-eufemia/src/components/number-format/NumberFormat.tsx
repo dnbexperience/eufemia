@@ -26,12 +26,9 @@ import {
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 import Tooltip, { injectTooltipSemantic } from '../tooltip/Tooltip'
-import {
-  format,
-  runIOSSelectionFix,
-  NumberFormatCurrencyPosition as NumberFormatCurrencyPositionBase,
-} from './NumberUtils'
-import { SpacingProps } from '../space/types'
+import type { NumberFormatCurrencyPosition as NumberFormatCurrencyPositionBase } from './NumberUtils'
+import { format, runIOSSelectionFix } from './NumberUtils'
+import type { SpacingProps } from '../space/types'
 
 // TypeScript types
 export type NumberFormatValue = number | string

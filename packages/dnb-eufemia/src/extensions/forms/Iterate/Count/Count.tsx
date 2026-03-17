@@ -1,8 +1,8 @@
 import { useCallback } from 'react'
 import pointer from '../../utils/json-pointer'
-import { Path } from '../../types'
+import type { Path } from '../../types'
 import { useData, getData } from '../../Form'
-import { SharedStateId } from '../../../../shared/helpers/useSharedState'
+import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 
 export type Props = {
   /**

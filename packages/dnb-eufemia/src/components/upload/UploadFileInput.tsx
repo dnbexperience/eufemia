@@ -13,7 +13,7 @@ import { makeUniqueId } from '../../shared/component-helper'
 import { UploadContext } from './UploadContext'
 import UploadStatus from './UploadStatus'
 import { getAcceptedFileTypes } from './UploadVerify'
-import { UploadFile } from './types'
+import type { UploadFile } from './types'
 
 const UploadFileInput = ({
   children,

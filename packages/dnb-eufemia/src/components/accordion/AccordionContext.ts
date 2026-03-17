@@ -4,9 +4,9 @@
  */
 
 import React from 'react'
-import { SkeletonContextValue } from '../skeleton/SkeletonHelper'
-import { AccordionProps } from './Accordion'
-import { AccordionGroupProps } from './AccordionGroup'
+import type { SkeletonContextValue } from '../skeleton/SkeletonHelper'
+import type { AccordionProps } from './Accordion'
+import type { AccordionGroupProps } from './AccordionGroup'
 
 export type AccordionContextValue = AccordionProps &
   SkeletonContextValue & {

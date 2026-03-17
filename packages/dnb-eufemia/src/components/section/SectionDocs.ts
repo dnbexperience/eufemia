@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const SectionProperties: PropertiesTableProps = {
   variant: {
@@ -23,7 +23,7 @@ export const SectionProperties: PropertiesTableProps = {
   },
   outlineWidth: {
     doc: "Define a custom border width. Defaults to `var(--card-outline-width)`. Supports also media query breakpoints like `{ small: '2px' }`.",
-    type: 'string | number',
+    type: ['string', 'number'],
     status: 'optional',
   },
   roundedCorner: {

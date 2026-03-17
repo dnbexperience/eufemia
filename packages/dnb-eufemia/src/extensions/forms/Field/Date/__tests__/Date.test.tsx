@@ -12,10 +12,8 @@ import {
 } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 import enGB from '../../../constants/locales/en-GB'
-import {
-  DateFormatOptions,
-  formatDate,
-} from '../../../../../components/date-format/DateFormatUtils'
+import type { DateFormatOptions } from '../../../../../components/date-format/DateFormatUtils'
+import { formatDate } from '../../../../../components/date-format/DateFormatUtils'
 
 const nb = nbNO['nb-NO']
 const en = enGB['en-GB']

@@ -17,7 +17,7 @@ import {
   getTargetElement,
   injectTooltipSemantic,
 } from './TooltipHelpers'
-import { TooltipAllProps } from './types'
+import type { TooltipAllProps } from './types'
 import { TooltipContext } from './TooltipContext'
 import getRefElement from '../../shared/internal/getRefElement'
 

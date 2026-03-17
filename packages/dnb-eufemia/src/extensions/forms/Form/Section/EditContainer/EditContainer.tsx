@@ -2,17 +2,16 @@ import React, { useCallback, useContext, useMemo, useRef } from 'react'
 import clsx from 'clsx'
 import { convertJsxToString } from '../../../../../shared/component-helper'
 import { Flex } from '../../../../../components'
-import { FlexContainerAllProps as FlexContainerProps } from '../../../../../components/flex/Container'
+import type { FlexContainerAllProps as FlexContainerProps } from '../../../../../components/flex/Container'
 import { Lead } from '../../../../../elements'
 import FieldBoundaryProvider from '../../../DataContext/FieldBoundary/FieldBoundaryProvider'
 import SectionContainerContext from '../containers/SectionContainerContext'
 import Toolbar from '../Toolbar/Toolbar'
 import DoneButton from './DoneButton'
 import CancelButton from './CancelButton'
-import SectionContainer, {
-  SectionContainerProps,
-} from '../containers/SectionContainer'
-import { Path } from '../../../types'
+import type { SectionContainerProps } from '../containers/SectionContainer'
+import SectionContainer from '../containers/SectionContainer'
+import type { Path } from '../../../types'
 import withComponentMarkers from '../../../../../shared/helpers/withComponentMarkers'
 
 export type Props = {

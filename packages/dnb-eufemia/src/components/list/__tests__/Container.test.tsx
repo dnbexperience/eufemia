@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import Container, { ListContainerProps } from '../Container'
+import type { ListContainerProps } from '../Container'
+import Container from '../Container'
 import ItemContent from '../ItemContent'
 
 describe('List Container', () => {

@@ -7,7 +7,7 @@ import React from 'react'
 import Section from '../../section/Section'
 import ModalContext from '../ModalContext'
 import clsx from 'clsx'
-import { SectionProps } from '../../Section'
+import type { SectionProps } from '../../Section'
 
 export type ModalInnerProps = SectionProps
 

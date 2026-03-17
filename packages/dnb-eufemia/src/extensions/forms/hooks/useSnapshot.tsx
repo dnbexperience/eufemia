@@ -1,9 +1,10 @@
 import { useCallback, useMemo, useRef } from 'react'
 import { makeUniqueId } from '../../../shared/component-helper'
-import pointer, { JsonObject } from '../utils/json-pointer'
-import { SharedStateId } from '../../../shared/helpers/useSharedState'
+import type { JsonObject } from '../utils/json-pointer'
+import pointer from '../utils/json-pointer'
+import type { SharedStateId } from '../../../shared/helpers/useSharedState'
 import useDataContext from './useDataContext'
-import { SnapshotId, SnapshotName } from '../Form/Snapshot'
+import type { SnapshotId, SnapshotName } from '../Form/Snapshot'
 import useData from '../Form/data-context/useData'
 
 export default function useSnapshot(id?: SharedStateId) {

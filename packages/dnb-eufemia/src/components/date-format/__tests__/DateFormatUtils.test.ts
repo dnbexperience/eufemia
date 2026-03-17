@@ -1,3 +1,4 @@
+import type { DateFormatOptions } from '../DateFormatUtils'
 import {
   formatDate,
   formatDateRange,
@@ -8,7 +9,6 @@ import {
   formatDuration,
   isValidDuration,
   getDateTimeSeparator,
-  DateFormatOptions,
 } from '../DateFormatUtils'
 
 describe('DateFormatUtils', () => {
@@ -332,7 +332,6 @@ describe('DateFormatUtils', () => {
     it('falls back to manual formatting when 0 and no output from formatter', () => {
       // Force formatter to return empty string for zero
       intlRef.DurationFormat = class {
-        // eslint-disable-next-line class-methods-use-this
         format() {
           return ''
         }

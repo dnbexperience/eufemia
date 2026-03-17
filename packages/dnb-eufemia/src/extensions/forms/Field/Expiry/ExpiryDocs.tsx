@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 import { InputProperties } from '../../../../components/input/InputDocs'
 
 export const ExpiryProperties: PropertiesTableProps = {

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useCallback, useReducer } from 'react'
-import {
+import type {
   MultiInputMaskProps,
   MultiInputMaskValue,
 } from '../MultiInputMask'

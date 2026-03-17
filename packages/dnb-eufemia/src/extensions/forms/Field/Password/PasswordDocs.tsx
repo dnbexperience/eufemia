@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 import { StringProperties } from '../String/StringDocs'
 
 export const PasswordProperties: PropertiesTableProps = {

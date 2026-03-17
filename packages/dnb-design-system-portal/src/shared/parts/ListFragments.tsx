@@ -1,6 +1,8 @@
 import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
-import ListSummaryFromEdges, { ListEdges } from './ListSummaryFromEdges'
+import ListSummaryFromEdges, {
+  type ListEdges,
+} from './ListSummaryFromEdges'
 
 export default function ListFragments() {
   const {

@@ -31,7 +31,8 @@ import {
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 
-import Context, { InternalLocale } from '../../shared/Context'
+import type { InternalLocale } from '../../shared/Context'
+import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import type { FormStatusBaseProps } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'

@@ -46,7 +46,6 @@ const setOverflowHidden = () => {
 
     return () => {
       try {
-        // eslint-disable-next-line
         ;['overflow', 'height'].forEach((x) => {
           htmlElement.style[x] = htmlStyle[x] || ''
         })
@@ -140,7 +139,6 @@ const setOverflowHiddenAndroid = () => {
       unbind()
 
       try {
-        // eslint-disable-next-line
         ;['position', 'top', 'right', 'left'].forEach((x) => {
           bodyElement.style[x] = bodyStyle[x] || ''
         })

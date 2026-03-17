@@ -17,7 +17,7 @@ import {
   createSpacingClasses,
   createSpacingProperties,
 } from '../SpacingUtils'
-import { SpaceType } from '../types'
+import type { SpaceType } from '../types'
 
 describe('spacePatterns', () => {
   it('should be an object with valid keys', () => {

@@ -2,13 +2,12 @@ import React from 'react'
 import clsx from 'clsx'
 import ValueBlock from '../../ValueBlock'
 import useValueProps from '../../hooks/useValueProps'
-import { ValueProps } from '../../types'
+import type { ValueProps } from '../../types'
 import { omitSpacingProps } from '../../../../components/flex/utils'
-import NumberFormat, {
-  NumberFormatProps,
-} from '../../../../components/NumberFormat'
+import type { NumberFormatProps } from '../../../../components/NumberFormat'
+import NumberFormat from '../../../../components/NumberFormat'
 
-import { SpacingProps } from '../../../../shared/types'
+import type { SpacingProps } from '../../../../shared/types'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = Omit<ValueProps<number>, 'defaultValue'> &

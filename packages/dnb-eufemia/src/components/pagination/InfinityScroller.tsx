@@ -4,7 +4,8 @@
  */
 
 import React from 'react'
-import Pagination, { PaginationProps } from './Pagination'
+import type { PaginationProps } from './Pagination'
+import Pagination from './Pagination'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export default function InfinityScroller(props: PaginationProps) {

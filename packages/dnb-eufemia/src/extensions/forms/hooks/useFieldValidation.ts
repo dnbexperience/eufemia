@@ -7,8 +7,8 @@ import {
   zodErrorsToOneFormError,
 } from '../utils'
 import { ajvErrorsToOneFormError } from '../utils/ajvErrors'
-import * as z from 'zod'
-import {
+import type * as z from 'zod'
+import type {
   FieldPropsGeneric,
   ReceiveAdditionalEventArgs,
   Validator,

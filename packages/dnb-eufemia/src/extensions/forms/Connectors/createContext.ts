@@ -1,4 +1,4 @@
-import { ReceiveAdditionalEventArgs } from '../types'
+import type { ReceiveAdditionalEventArgs } from '../types'
 import { COUNTRY as defaultCountry } from '../../../shared/defaults'
 
 export type UrlSecondParameter = {

@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const ToggleButtonGroupProperties: PropertiesTableProps = {
   value: {
@@ -18,7 +18,7 @@ export const ToggleButtonGroupProperties: PropertiesTableProps = {
   },
   layoutDirection: {
     doc: 'Define the layout direction of the ToggleButton buttons. Can be either `column` or `row`. Defaults to `row`.',
-    type: ['column', 'row'],
+    type: ['"column"', '"row"'],
     status: 'optional',
   },
   title: {
@@ -28,12 +28,12 @@ export const ToggleButtonGroupProperties: PropertiesTableProps = {
   },
   status: {
     doc: 'Uses the `form-status` component to show failure messages.',
-    type: ['error', 'info', 'boolean'],
+    type: ['"error"', '"info"', 'boolean'],
     status: 'optional',
   },
   statusState: {
     doc: 'Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.',
-    type: ['error', 'info'],
+    type: ['"error"', '"info"'],
     status: 'optional',
   },
   statusProps: {
@@ -53,7 +53,7 @@ export const ToggleButtonGroupProperties: PropertiesTableProps = {
   },
   labelDirection: {
     doc: 'To define the `label` layout direction on how the next element should be placed on. Can be either `vertical` or `horizontal`. Defaults to `horizontal`.',
-    type: ['vertical', 'horizontal'],
+    type: ['"vertical"', '"horizontal"'],
     status: 'optional',
   },
   labelSrOnly: {

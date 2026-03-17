@@ -9,7 +9,7 @@ import { isCI } from 'repo-utils'
 import { slugify, makeUniqueId } from '../../shared/component-helper'
 import { configureToMatchImageSnapshot } from 'jest-image-snapshot'
 import screenshotConfig from '../../../jest.config.screenshots'
-import { Page } from '@playwright/test'
+import type { Page } from '@playwright/test'
 export { onMain, runOnMain, selectThemes } from './themeSelection'
 
 const playwrightSettings =

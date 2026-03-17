@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/aria-role */
 /**
  * @dnb/eufemia Component Story
  *

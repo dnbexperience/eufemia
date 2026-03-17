@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import ModalContent from '../ModalContent'
-import { ModalContentProps } from '../types'
+import type { ModalContentProps } from '../types'
 import DialogContent from '../../dialog/DialogContent'
 
 // Mock the focus method to track calls
