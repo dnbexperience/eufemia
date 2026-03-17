@@ -12,7 +12,7 @@ import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { iconCase } from './IconHelpers'
 import { SpacingProps } from '../../shared/types'
 import { SkeletonShow } from '../Skeleton'
-import { FormStatusIconTypes } from '../FormStatus'
+import { FormStatusIcon } from '../FormStatus'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export const DefaultIconSize = 16
@@ -49,7 +49,7 @@ type IconType =
 /** For external usage */
 export type IconIcon =
   | IconType
-  | FormStatusIconTypes
+  | FormStatusIcon
   | ((props?: unknown) => React.JSX.Element)
 
 export type IconSize =

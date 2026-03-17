@@ -187,7 +187,7 @@ export type MarketingIconProps = {
   [key: string]: any
 }
 
-export type FormStatusIconTypes =
+export type FormStatusIcon =
   | typeof ErrorIcon
   | typeof WarnIcon
   | typeof InfoIcon

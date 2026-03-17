@@ -18,8 +18,8 @@ import {
 } from '../../shared/component-helper'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import type {
-  HeightAnimationOnStartTypes,
-  HeightAnimationOnEndTypes,
+  HeightAnimationOnStart,
+  HeightAnimationOnEnd,
 } from '../height-animation/useHeightAnimation'
 import {
   skeletonDOMAttributes,
@@ -655,7 +655,7 @@ export default class GlobalStatus extends React.PureComponent<
       )
     }
 
-  onAnimationStart = (state: HeightAnimationOnStartTypes) => {
+  onAnimationStart = (state: HeightAnimationOnStart) => {
     this.setState({
       isAnimating: true,
     })
@@ -666,7 +666,7 @@ export default class GlobalStatus extends React.PureComponent<
     }
   }
 
-  onAnimationEnd = (state: HeightAnimationOnEndTypes) => {
+  onAnimationEnd = (state: HeightAnimationOnEnd) => {
     switch (state) {
       case 'opened':
         this.setFocus()
