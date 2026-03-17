@@ -95,10 +95,8 @@ export default {
     NumberField: {
       errorMinimum: 'Måste vara minst {minimum}.',
       errorMaximum: 'Måste vara max {maximum}.',
-      errorExclusiveMinimum:
-        'Måste vara större än {exclusiveMinimum}.',
-      errorExclusiveMaximum:
-        'Måste vara mindre än {exclusiveMaximum}.',
+      errorExclusiveMinimum: 'Måste vara större än {exclusiveMinimum}.',
+      errorExclusiveMaximum: 'Måste vara mindre än {exclusiveMaximum}.',
       errorMultipleOf: 'Måste vara delbart med {multipleOf}.',
       errorInteger: 'Måste vara ett heltal (utan decimaler).',
     },
@@ -173,8 +171,7 @@ export default {
       errorFnrLength:
         'Du måste ange ett giltigt födselsnummer med 11 siffror.',
       errorDnr: 'Ogiltigt d-nummer.',
-      errorDnrLength:
-        'Du måste ange ett giltigt d-nummer med 11 siffror.',
+      errorDnrLength: 'Du måste ange ett giltigt d-nummer med 11 siffror.',
       errorMinimumAgeValidator: 'Måste vara minst {age} år.',
       errorMinimumAgeValidatorLength:
         'Du måste ange ett giltigt födelsedatum med 7 siffror (inklusive århundrade).',

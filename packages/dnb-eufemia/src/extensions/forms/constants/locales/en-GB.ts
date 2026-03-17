@@ -87,18 +87,14 @@ export default {
      * Base fields
      */
     StringField: {
-      errorMinLength:
-        'Cannot be shorter than {minLength} characters.',
-      errorMaxLength:
-        'Cannot be longer than {maxLength} characters.',
+      errorMinLength: 'Cannot be shorter than {minLength} characters.',
+      errorMaxLength: 'Cannot be longer than {maxLength} characters.',
     },
     NumberField: {
       errorMinimum: 'Must be at least {minimum}.',
       errorMaximum: 'Must be max {maximum}.',
-      errorExclusiveMinimum:
-        'Must be larger than {exclusiveMinimum}.',
-      errorExclusiveMaximum:
-        'Must be less than {exclusiveMaximum}.',
+      errorExclusiveMinimum: 'Must be larger than {exclusiveMinimum}.',
+      errorExclusiveMaximum: 'Must be less than {exclusiveMaximum}.',
       errorMultipleOf: 'Must be divisible by {multipleOf}.',
       errorInteger: 'Must be a whole number (no decimals).',
     },
@@ -173,8 +169,7 @@ export default {
       errorFnrLength:
         'You must enter a valid national identity number with 11 digits.',
       errorDnr: 'Invalid D number.',
-      errorDnrLength:
-        'You must enter a valid D number with 11 digits.',
+      errorDnrLength: 'You must enter a valid D number with 11 digits.',
       errorMinimumAgeValidator: 'Must be at least {age} years of age.',
       errorMinimumAgeValidatorLength:
         'You must enter a valid date of birth with 7 digits (including century).',

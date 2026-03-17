@@ -94,10 +94,8 @@ export default {
     NumberField: {
       errorMinimum: 'Må være minst {minimum}.',
       errorMaximum: 'Må være maks. {maximum}.',
-      errorExclusiveMinimum:
-        'Må være større enn {exclusiveMinimum}.',
-      errorExclusiveMaximum:
-        'Må være mindre enn {exclusiveMaximum}.',
+      errorExclusiveMinimum: 'Må være større enn {exclusiveMinimum}.',
+      errorExclusiveMaximum: 'Må være mindre enn {exclusiveMaximum}.',
       errorMultipleOf: 'Må kunne deles på {multipleOf}.',
       errorInteger: 'Må være et helt tall (uten desimaler).',
     },
@@ -172,8 +170,7 @@ export default {
       errorFnrLength:
         'Du må skrive inn et gyldig fødselsnummer med 11 siffer.',
       errorDnr: 'Ugyldig d-nummer.',
-      errorDnrLength:
-        'Du må skrive inn et gyldig d-nummer med 11 siffer.',
+      errorDnrLength: 'Du må skrive inn et gyldig d-nummer med 11 siffer.',
       errorMinimumAgeValidator: 'Må være minst {age} år.',
       errorMinimumAgeValidatorLength:
         'Du må skrive inn en gyldig fødselsdato med 7 siffer (inkludert århundre).',
