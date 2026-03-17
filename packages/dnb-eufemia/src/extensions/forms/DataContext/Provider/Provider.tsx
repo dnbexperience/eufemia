@@ -422,6 +422,7 @@ export default function Provider<Data extends JsonObject>(
   const fieldStateRef = useRef<Record<Path, SubmitState>>({})
   const validationVersionRef = useRef(0)
   const bumpValidationVersionRef = useRef<() => void>(() => null)
+  const forceUpdateRef = useRef(forceUpdate)
 
   // - Data
   const initialData = useMemo<Data>(() => {
@@ -1260,6 +1261,15 @@ export default function Provider<Data extends JsonObject>(
         Promise.resolve().then(() => {
           bumpValidationVersionRef.current()
         })
+
+        if (
+          'isVisible' in state &&
+          currentState.isVisible !== state.isVisible
+        ) {
+          Promise.resolve().then(() => {
+            forceUpdateRef.current()
+          })
+        }
       }
 
       for (const itm of fieldEventListenersRef.current) {

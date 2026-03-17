@@ -621,6 +621,326 @@ describe('useValidation', () => {
         expect(result.current.hasErrors()).toBe(true)
         expect(result.current.hasErrors({ visibleOnly: true })).toBe(false)
       })
+
+      it('should work with visibleWhen and keepInDOM using path condition', async () => {
+        const result = { current: undefined }
+
+        const MockComponent = () => {
+          result.current = useValidation()
+
+          return (
+            <>
+              <Field.Boolean
+                path="/showField"
+                label="Show conditional field"
+                variant="button"
+              />
+
+              <Form.Visibility pathTrue="/showField" keepInDOM>
+                <Field.String
+                  path="/conditionalField"
+                  label="Conditional field"
+                  required
+                />
+              </Form.Visibility>
+            </>
+          )
+        }
+
+        render(
+          <Form.Handler>
+            <MockComponent />
+          </Form.Handler>
+        )
+
+        // Initially, boolean is false, field is hidden (but in DOM via keepInDOM)
+        expect(result.current.hasErrors()).toBe(true)
+        expect(result.current.hasErrors({ visibleOnly: true })).toBe(false)
+
+        // Toggle boolean to show the field
+        await userEvent.click(document.querySelector('button'))
+
+        await waitFor(() => {
+          // Field is now visible and required — should have error
+          expect(result.current.hasErrors({ visibleOnly: true })).toBe(
+            true
+          )
+        })
+
+        // Toggle boolean to hide the field again
+        await userEvent.click(document.querySelector('button'))
+
+        await waitFor(() => {
+          // Field is hidden again — visibleOnly should not report it
+          expect(result.current.hasErrors({ visibleOnly: true })).toBe(
+            false
+          )
+        })
+        // But without visibleOnly, it is still reported
+        expect(result.current.hasErrors()).toBe(true)
+      })
+
+      it('should work with id and visibleWhen and keepInDOM using path condition', async () => {
+        const renderLogs = []
+
+        const MockComponent = () => {
+          const { hasErrors } = useValidation()
+          renderLogs.push({
+            all: hasErrors(),
+            visibleOnly: hasErrors({ visibleOnly: true }),
+          })
+
+          return (
+            <>
+              <Field.Boolean
+                path="/showField"
+                label="Show conditional field"
+                variant="button"
+              />
+
+              <Form.Visibility pathTrue="/showField" keepInDOM>
+                <Field.String
+                  path="/conditionalField"
+                  label="Conditional field"
+                  required
+                />
+              </Form.Visibility>
+            </>
+          )
+        }
+
+        render(
+          <Form.Handler id={identifier}>
+            <MockComponent />
+          </Form.Handler>
+        )
+
+        const { result } = renderHook(() => useValidation(identifier))
+
+        // Initially, boolean is false, field is hidden
+        expect(result.current.hasErrors()).toBe(true)
+        expect(result.current.hasErrors({ visibleOnly: true })).toBe(false)
+
+        // Toggle boolean to show the field
+        renderLogs.length = 0
+        await userEvent.click(document.querySelector('button'))
+
+        await waitFor(() => {
+          expect(result.current.hasErrors({ visibleOnly: true })).toBe(
+            true
+          )
+        })
+
+        // Toggle boolean to hide the field again
+        renderLogs.length = 0
+        await userEvent.click(document.querySelector('button'))
+
+        await waitFor(() => {
+          expect(result.current.hasErrors({ visibleOnly: true })).toBe(
+            false
+          )
+        })
+
+        // Check that after all renders settle, the values are correct
+        await waitFor(() => {
+          const lastLog = renderLogs[renderLogs.length - 1]
+          expect(lastLog.all).toBe(true)
+          expect(lastLog.visibleOnly).toBe(false)
+        })
+
+        expect(result.current.hasErrors({ visibleOnly: true })).toBe(false)
+      })
+
+      it('should work with visibleWhen condition and keepInDOM', async () => {
+        const MockComponent = () => {
+          const [visible, setVisible] = useState(true)
+          return (
+            <>
+              <Form.Visibility visible={visible} keepInDOM>
+                <Field.String path="/amount" required />
+              </Form.Visibility>
+              <button onClick={() => setVisible(false)}>Hide</button>
+              <button onClick={() => setVisible(true)}>Show</button>
+            </>
+          )
+        }
+
+        render(
+          <Form.Handler id={identifier}>
+            <MockComponent />
+          </Form.Handler>
+        )
+
+        const { result } = renderHook(() => useValidation(identifier))
+
+        // Field is visible and has a required error
+        expect(result.current.hasErrors({ visibleOnly: true })).toBe(true)
+
+        // Hide the field
+        await userEvent.click(
+          document.querySelector('button:nth-of-type(1)')
+        )
+
+        await waitFor(() => {
+          // Field is hidden — visibleOnly should not report it
+          expect(result.current.hasErrors({ visibleOnly: true })).toBe(
+            false
+          )
+        })
+        // But without visibleOnly, it is still reported
+        expect(result.current.hasErrors()).toBe(true)
+
+        // Show the field again
+        await userEvent.click(
+          document.querySelector('button:nth-of-type(2)')
+        )
+
+        await waitFor(() => {
+          // Field is visible again — visibleOnly should report it
+          expect(result.current.hasErrors({ visibleOnly: true })).toBe(
+            true
+          )
+        })
+      })
+
+      it('should not report errors for unmounted fields when using visibleOnly without keepInDOM', async () => {
+        const MockComponent = () => {
+          const [visible, setVisible] = useState(true)
+          return (
+            <>
+              <Form.Visibility visible={visible}>
+                <Field.String path="/amount" required />
+              </Form.Visibility>
+              <button onClick={() => setVisible(false)}>Hide</button>
+              <button onClick={() => setVisible(true)}>Show</button>
+            </>
+          )
+        }
+
+        render(
+          <Form.Handler id={identifier}>
+            <MockComponent />
+          </Form.Handler>
+        )
+
+        const { result } = renderHook(() => useValidation(identifier))
+
+        // Field is visible and has a required error
+        expect(result.current.hasErrors({ visibleOnly: true })).toBe(true)
+
+        // Hide (unmount) the field
+        await userEvent.click(
+          document.querySelector('button:nth-of-type(1)')
+        )
+
+        await waitFor(() => {
+          // Field is unmounted — visibleOnly should not report it
+          expect(result.current.hasErrors({ visibleOnly: true })).toBe(
+            false
+          )
+        })
+      })
+
+      it('should not report errors for unmounted fields without keepInDOM using context', async () => {
+        const result = { current: undefined }
+
+        const MockComponent = () => {
+          const [visible, setVisible] = useState(true)
+          result.current = useValidation()
+
+          return (
+            <>
+              <Form.Visibility visible={visible}>
+                <Field.String path="/amount" required />
+              </Form.Visibility>
+              <button onClick={() => setVisible(false)}>Hide</button>
+            </>
+          )
+        }
+
+        render(
+          <Form.Handler id="test-form-id">
+            <MockComponent />
+          </Form.Handler>
+        )
+
+        // Field is visible and has a required error
+        expect(result.current.hasErrors({ visibleOnly: true })).toBe(true)
+
+        // Hide (unmount) the field
+        await userEvent.click(document.querySelector('button'))
+
+        await waitFor(() => {
+          expect(result.current.hasErrors({ visibleOnly: true })).toBe(
+            false
+          )
+        })
+
+        // Also check: hasErrors without options should also return false
+        // since the field is unmounted
+        expect(result.current.hasErrors()).toBe(false)
+      })
+
+      it('should match exact story scenario with visibleWhen and no keepInDOM', async () => {
+        const result = { current: undefined }
+
+        const MockComponent = () => {
+          result.current = useValidation()
+
+          return (
+            <>
+              <Field.Selection
+                path="/locale"
+                variant="button"
+                optionsLayout="horizontal"
+              >
+                <Field.Option value="nb-NO">Norsk</Field.Option>
+                <Field.Option value="da-DK">Dansk</Field.Option>
+              </Field.Selection>
+              <Form.Visibility
+                visibleWhen={{
+                  path: '/locale',
+                  hasValue: 'da-DK',
+                }}
+              >
+                <Field.String path="/amount" required />
+              </Form.Visibility>
+            </>
+          )
+        }
+
+        render(
+          <Form.Handler id="story-form-id">
+            <MockComponent />
+          </Form.Handler>
+        )
+
+        // Initially, locale is not set, field is not mounted
+        expect(result.current.hasErrors()).toBe(false)
+        expect(result.current.hasErrors({ visibleOnly: true })).toBe(false)
+
+        // Click da-DK to show the field
+        const dkButton = Array.from(
+          document.querySelectorAll('button')
+        ).find((b) => b.textContent === 'Dansk')
+        await userEvent.click(dkButton)
+
+        await waitFor(() => {
+          expect(result.current.hasErrors()).toBe(true)
+        })
+        expect(result.current.hasErrors({ visibleOnly: true })).toBe(true)
+
+        // Click nb-NO to hide the field (unmount since no keepInDOM)
+        const noButton = Array.from(
+          document.querySelectorAll('button')
+        ).find((b) => b.textContent === 'Norsk')
+        await userEvent.click(noButton)
+
+        await waitFor(() => {
+          expect(result.current.hasErrors()).toBe(false)
+        })
+        expect(result.current.hasErrors({ visibleOnly: true })).toBe(false)
+      })
     })
   })
 
