@@ -37,7 +37,7 @@ import {
 } from './DatePickerCalc'
 import Button, { ButtonProps } from '../button/Button'
 import DatePickerContext, {
-  DatePickerContextValues,
+  DatePickerContextValue,
 } from './DatePickerContext'
 import { InternalLocale } from '../../shared/Context'
 import { DatePickerChangeEvent } from './DatePickerProvider'
@@ -681,7 +681,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 export default DatePickerCalendar
 
 type SelectRangeEvent = Pick<
-  DatePickerContextValues,
+  DatePickerContextValue,
   'setHasClickedCalendarDay'
 > & {
   day: DayObject

@@ -1,11 +1,11 @@
 import { createContext } from 'react'
 
 export type ListVariant = 'basic'
-export type ListContext = {
+export type ListContextValue = {
   variant: ListVariant
   separated: boolean
 }
 
-export const ListContext = createContext<ListContext | undefined>(
+export const ListContext = createContext<ListContextValue | undefined>(
   undefined
 )

@@ -3,7 +3,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react'
 import UploadDropzone from '../UploadDropzone'
 import { createMockFile } from './testHelpers'
 import { UploadContext } from '../UploadContext'
-import type { UploadAllProps, UploadContextProps } from '../types'
+import type { UploadAllProps, UploadContextValue } from '../types'
 import { wait } from '../../../core/jest/jestSetup'
 
 const defaultProps: Partial<UploadAllProps> = {
@@ -11,7 +11,7 @@ const defaultProps: Partial<UploadAllProps> = {
   className: 'upload-drop-zone',
 }
 
-const defaultContext: UploadContextProps = {
+const defaultContext: UploadContextValue = {
   id: 'unique-id',
   acceptedFileTypes: ['png'],
   onInputUpload: jest.fn(),
