@@ -5,7 +5,7 @@ import { SpacingProps } from '../space/types'
 const validSizes = ['default', 'small', 'medium', 'large', 'huge'] as const
 
 export type ValidSizes = (typeof validSizes)[number]
-export type CustomSize = CSS.Property.Width
+export type ProgressIndicatorCustomSize = CSS.Property.Width
 
 export function isValidSize(
   size: ProgressIndicatorProps['size']
@@ -29,7 +29,7 @@ export type ProgressIndicatorProps = {
   /**
    * Defines the size. Defaults to `default`.
    */
-  size?: ValidSizes | CustomSize
+  size?: ValidSizes | ProgressIndicatorCustomSize
   /**
    * A number between 0-100, if not supplied a continuous loading-type animation will be used. Defaults to `undefined`
    */

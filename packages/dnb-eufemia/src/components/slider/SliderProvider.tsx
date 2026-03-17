@@ -20,7 +20,7 @@ import type {
   SliderOnChangeParams,
   SliderAllProps,
   SliderContextValue,
-  ThumbState,
+  SliderThumbState,
 } from './types'
 
 const defaultProps: Partial<SliderAllProps> = {
@@ -91,7 +91,8 @@ export function SliderProvider(localProps: SliderAllProps) {
   const [externValue, updateExternValue] =
     React.useState<SliderValue>(_value)
   const realtimeValue = React.useRef<SliderValue>(_value)
-  const [thumbState, setThumbState] = React.useState<ThumbState>('initial')
+  const [thumbState, setThumbState] =
+    React.useState<SliderThumbState>('initial')
   const thumbIndex = React.useRef<number>(-1)
   const [shouldAnimate, updateAnimateState] =
     React.useState<boolean>(false)

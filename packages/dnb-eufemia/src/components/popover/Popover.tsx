@@ -23,7 +23,7 @@ import type {
   PopoverTriggerRenderProps,
   PopoverContentRenderProps,
   PopoverRenderable,
-  TriggerAttributes,
+  PopoverTriggerAttributes,
   PopoverResolvedTargetElement,
   PopoverTargetElementObject,
 } from './types'
@@ -466,7 +466,7 @@ export default function Popover(props: PopoverProps) {
     [toggle]
   )
 
-  const mergedTriggerAttributes: TriggerAttributes =
+  const mergedTriggerAttributes: PopoverTriggerAttributes =
     triggerAttributes || {}
   const {
     onClick: triggerOnClick,

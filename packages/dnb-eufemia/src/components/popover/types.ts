@@ -51,9 +51,10 @@ type PopoverOverlayProps = Omit<
   'children' | 'content' | 'title'
 >
 
-export type TriggerAttributes = React.HTMLAttributes<HTMLElement> & {
-  ref?: React.RefObject<HTMLElement> & React.Ref<HTMLElement>
-}
+export type PopoverTriggerAttributes =
+  React.HTMLAttributes<HTMLElement> & {
+    ref?: React.RefObject<HTMLElement> & React.Ref<HTMLElement>
+  }
 
 type PopoverPropsBase = {
   id?: string
@@ -148,7 +149,7 @@ export type PopoverProps = PopoverOverlayProps & {
    * Useful for adding aria-* attributes, data-* attributes, or event handlers.
    * These are merged with the default trigger attributes.
    */
-  triggerAttributes?: TriggerAttributes
+  triggerAttributes?: PopoverTriggerAttributes
   /**
    * Additional class name(s) merged with the default trigger wrapper classes.
    * The default class `dnb-popover__trigger` is always included.

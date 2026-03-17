@@ -247,7 +247,7 @@ export type InputProps = Omit<
     onClear?: (event: InputClearEvent) => void
   }
 
-export type SubmitButtonProps = Omit<
+export type InputSubmitButtonProps = Omit<
   React.HTMLProps<HTMLButtonElement>,
   'ref' | 'size' | 'onSubmit'
 > &
@@ -899,7 +899,7 @@ const inputSubmitButtonDefaultProps = {
 function InputSubmitButton({
   ref,
   ...ownProps
-}: SubmitButtonProps & {
+}: InputSubmitButtonProps & {
   value?: string
   attributes?: Record<string, unknown>
   tooltip?: React.ReactNode

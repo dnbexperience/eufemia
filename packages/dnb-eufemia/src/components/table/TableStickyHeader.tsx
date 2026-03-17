@@ -2,7 +2,7 @@ import React from 'react'
 import { getClosestParent, warn } from '../../shared/component-helper'
 import { getOffsetTop } from '../../shared/helpers'
 
-export type StickyTableHeaderProps = {
+export type TableStickyHeaderProps = {
   /**
    * Makes the Table header sticky
    * Default: false
@@ -19,7 +19,7 @@ export type StickyTableHeaderProps = {
 export const useStickyHeader = ({
   sticky,
   stickyOffset,
-}: StickyTableHeaderProps) => {
+}: TableStickyHeaderProps) => {
   const elementRef = React.useRef<HTMLTableElement>(undefined)
 
   React.useEffect(() => {

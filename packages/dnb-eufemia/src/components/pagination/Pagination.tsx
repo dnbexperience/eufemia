@@ -229,7 +229,7 @@ export type PaginationProps = {
 > &
   SpacingProps
 
-export type CreatePaginationReturn = {
+export type PaginationCreateReturn = {
   Pagination: (props?: Record<string, unknown>) => React.JSX.Element
   InfinityMarker: (props?: Record<string, unknown>) => React.JSX.Element
   setContent: (pageNumber: number, content: React.ReactNode) => void
@@ -469,7 +469,7 @@ export const Bar = (props: PaginationProps) => (
 
 export const createPagination = (
   initProps: Record<string, unknown> = {}
-): CreatePaginationReturn => {
+): PaginationCreateReturn => {
   const store = React.createRef<any>()
   const rerender = React.createRef<any>()
   const _setContent = React.createRef<any>()

@@ -1,14 +1,14 @@
 import React from 'react'
 
 import type { SuffixChildren } from '../../shared/helpers/Suffix'
-import type { FormatOptionParams } from '../number-format/NumberUtils'
+import type { NumberFormatOptionParams } from '../number-format/NumberUtils'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import type { GlobalStatusConfigObject } from '../GlobalStatus'
 
 export type SliderValue = number | Array<number>
 export type SliderNumberFormat =
-  | FormatOptionParams
+  | NumberFormatOptionParams
   | ((value: number) => unknown)
 export type SliderOnChangeParams = {
   value: SliderValue
@@ -119,14 +119,18 @@ export type SliderAllProps = SliderProps &
   SpacingProps &
   Omit<React.HTMLProps<HTMLElement>, keyof SliderProps>
 
-export type ThumbState = 'initial' | 'normal' | 'activated' | 'released'
+export type SliderThumbState =
+  | 'initial'
+  | 'normal'
+  | 'activated'
+  | 'released'
 
 export type SliderContextValue = {
   isMulti: boolean
   isReverse: boolean
   isVertical: boolean
   shouldAnimate: boolean
-  thumbState: ThumbState
+  thumbState: SliderThumbState
   thumbIndex: React.RefObject<number>
   showStatus: boolean
   showButtons: boolean
@@ -135,7 +139,7 @@ export type SliderContextValue = {
   value: SliderValue
   values: Array<number>
   setValue: (value: SliderValue) => void
-  setThumbState: (thumbState: ThumbState) => void
+  setThumbState: (thumbState: SliderThumbState) => void
   setThumbIndex: (thumbIndex: number) => void
   emitChange: (emitEvent: MouseEvent | TouchEvent, value: number) => void
   trackRef: React.RefObject<HTMLElement>

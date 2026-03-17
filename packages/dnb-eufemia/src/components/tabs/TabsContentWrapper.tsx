@@ -157,18 +157,18 @@ import type {
   SectionVariants,
 } from '../Section'
 
-export type ContentWrapperSelectedKey = string | number
-export type ContentWrapperChildren =
+export type TabsContentWrapperSelectedKey = string | number
+export type TabsContentWrapperChildren =
   | React.ReactNode
   | ((...args: any[]) => any)
 
 export type TabsContentWrapperProps = {
   id: string
-  selectedKey?: ContentWrapperSelectedKey
+  selectedKey?: TabsContentWrapperSelectedKey
   contentStyle?: SectionStyle | SectionVariants
   animate?: boolean
   contentSpacing?: SectionSpacing
-  children?: ContentWrapperChildren
+  children?: TabsContentWrapperChildren
 } & Omit<
   React.HTMLProps<HTMLElement>,
   'children' | 'ref' | 'onAnimationStart' | 'onAnimationEnd'

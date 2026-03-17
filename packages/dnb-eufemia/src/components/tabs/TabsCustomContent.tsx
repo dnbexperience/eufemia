@@ -6,24 +6,24 @@ import ContentWrapper, {
   type TabsContentWrapperProps,
 } from './TabsContentWrapper'
 
-export type CustomContentTitle =
+export type TabsCustomContentTitle =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any)
 
-export type CustomContentChildren =
+export type TabsCustomContentChildren =
   | React.ReactNode
   | ((...args: any[]) => any)
 
 export type TabsCustomContentProps = {
   displayName?: string
-  title?: CustomContentTitle
+  title?: TabsCustomContentTitle
   hash?: string
   selected?: boolean
   disabled?: boolean
   id?: string
   key?: string | number
-  children?: CustomContentChildren
+  children?: TabsCustomContentChildren
   className?: string
 } & Omit<
   React.HTMLProps<HTMLElement>,

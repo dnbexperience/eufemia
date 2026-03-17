@@ -54,9 +54,9 @@ export type SectionSpacing =
   | 'x-large'
   | 'xx-large'
 
-export type TextColor = string
-export type OutlineColor = string | boolean
-export type BackgroundColor = string
+export type SectionTextColor = string
+export type SectionOutlineColor = string | boolean
+export type SectionBackgroundColor = string
 export type SectionDropShadow = boolean
 export type SectionRoundedCorner =
   | boolean
@@ -89,7 +89,7 @@ export type SectionProps = {
   /**
    * Define a custom border color. Use a Eufemia color.
    */
-  outline?: OutlineColor | ResponsiveProp<OutlineColor>
+  outline?: SectionOutlineColor | ResponsiveProp<SectionOutlineColor>
 
   /**
    * Define a custom border width. Defaults to `var(--card-outline-width)`.
@@ -99,12 +99,14 @@ export type SectionProps = {
   /**
    * Define a custom text color to compliment the backgroundColor. Use a Eufemia color.
    */
-  textColor?: TextColor | ResponsiveProp<TextColor>
+  textColor?: SectionTextColor | ResponsiveProp<SectionTextColor>
 
   /**
    * Define a custom background color, instead of a variant. Use a Eufemia color.
    */
-  backgroundColor?: BackgroundColor | ResponsiveProp<BackgroundColor>
+  backgroundColor?:
+    | SectionBackgroundColor
+    | ResponsiveProp<SectionBackgroundColor>
 
   /**
    * Define a custom drop-shadow.

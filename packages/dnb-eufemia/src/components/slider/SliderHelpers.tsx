@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { format, FormatReturnValue } from '../number-format/NumberUtils'
+import {
+  format,
+  NumberFormatReturnValue,
+} from '../number-format/NumberUtils'
 
 import type { SliderNumberFormat, SliderValue } from './types'
 
@@ -131,8 +134,8 @@ export const getFormattedNumber = (
     return format(value as number, {
       ...(numberFormat || {}),
       returnAria: true,
-    }) as FormatReturnValue
+    }) as NumberFormatReturnValue
   }
 
-  return { aria: null, number: null } as FormatReturnValue
+  return { aria: null, number: null } as NumberFormatReturnValue
 }

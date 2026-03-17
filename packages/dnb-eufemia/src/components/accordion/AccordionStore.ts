@@ -28,11 +28,11 @@ export class AccordionStore {
   }
 }
 
-export type StoreDataReturn = {
+export type AccordionStoreDataReturn = {
   id: string
   expanded: boolean
 }
-export type StoreOptions = {
+export type AccordionStoreOptions = {
   force?: boolean
 }
 
@@ -62,10 +62,14 @@ export class Store {
     return `dnb-accordion-${id}`
   }
 
-  saveState(expanded: boolean, id = this.id, opts: StoreOptions = {}) {
+  saveState(
+    expanded: boolean,
+    id = this.id,
+    opts: AccordionStoreOptions = {}
+  ) {
     if (id) {
       try {
-        const store = this.getData() || ({} as StoreDataReturn)
+        const store = this.getData() || ({} as AccordionStoreDataReturn)
 
         if (this.group) {
           if (expanded) {
@@ -89,7 +93,7 @@ export class Store {
     }
   }
 
-  getData(id = this.id): StoreDataReturn {
+  getData(id = this.id): AccordionStoreDataReturn {
     const storeId = this.storeId(id)
 
     if (storeId) {

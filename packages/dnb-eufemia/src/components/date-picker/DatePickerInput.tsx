@@ -28,7 +28,7 @@ import DatePickerContext from './DatePickerContext'
 
 import type { FormStatusBaseProps } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
-import { ReturnObject } from './DatePickerProvider'
+import { DatePickerReturnObject } from './DatePickerProvider'
 import { DatePickerEventAttributes, DatePickerProps } from './DatePicker'
 import { Context, useTranslation } from '../../shared'
 import useInputDates, { DatePickerInputDates } from './hooks/useInputDates'
@@ -71,25 +71,25 @@ export type DatePickerInputProps = Omit<
     showInput?: boolean
     onSubmit?: (event: React.MouseEvent<HTMLButtonElement>) => void
     onChange?: (
-      event: ReturnObject<React.ChangeEvent<HTMLInputElement>>
+      event: DatePickerReturnObject<React.ChangeEvent<HTMLInputElement>>
     ) => void
     /**
      * Will be called once the input gets focus.
      */
     onFocus?: (
-      event: ReturnObject<React.FocusEvent<HTMLInputElement>>
+      event: DatePickerReturnObject<React.FocusEvent<HTMLInputElement>>
     ) => void
     /**
      * Will be called once the input lose focus.
      */
     onBlur?: (
-      event: ReturnObject<React.FocusEvent<HTMLInputElement>>
+      event: DatePickerReturnObject<React.FocusEvent<HTMLInputElement>>
     ) => void
     /** @internal */
     _omitInputShellClass?: boolean
   }
 
-export type InvalidDates = {
+export type DatePickerInvalidDates = {
   invalidDate?: string
   invalidStartDate?: string
   invalidEndDate?: string
@@ -138,7 +138,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   } = props
   const [focusState, setFocusState] = useState<string>('virgin')
 
-  const invalidDatesRef = useRef<InvalidDates>({
+  const invalidDatesRef = useRef<DatePickerInvalidDates>({
     invalidStartDate: null,
     invalidEndDate: null,
   })

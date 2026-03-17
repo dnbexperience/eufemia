@@ -26,7 +26,7 @@ export type UseHandleSortStateConfig = Record<
   UseHandleSortStateName,
   UseHandleSortStateOptions
 >
-export type SortState = Record<
+export type TableSortState = Record<
   UseHandleSortStateName,
   {
     active: boolean
@@ -34,8 +34,11 @@ export type SortState = Record<
     direction: UseHandleSortStateDirection | 'off'
   }
 >
-export type SortEventHandler = () => void
-export type SortHandler = Record<UseHandleSortStateName, SortEventHandler>
+export type TableSortEventHandler = () => void
+export type TableSortHandler = Record<
+  UseHandleSortStateName,
+  TableSortEventHandler
+>
 
 type SortStateInternalStateOptions = Omit<
   UseHandleSortStateOptions,
@@ -70,9 +73,10 @@ export function useHandleSortState(
     }, {})
   }, [config, defaults])
 
-  const [internalState, setState] = React.useState<SortState>(initialState)
+  const [internalState, setState] =
+    React.useState<TableSortState>(initialState)
 
-  const sortHandler: SortHandler = React.useMemo(() => {
+  const sortHandler: TableSortHandler = React.useMemo(() => {
     const list = Object.entries(internalState as SortStateInternalEntry)
 
     return list.reduce((acc, [name, opts]) => {
@@ -112,7 +116,7 @@ export function useHandleSortState(
   }, [internalState]) // eslint-disable-line react-hooks/exhaustive-deps
 
   let activeSortName = null
-  const sortState: SortState = Object.entries(internalState).reduce(
+  const sortState: TableSortState = Object.entries(internalState).reduce(
     (acc, [name, { active, direction }]) => {
       const reversed =
         direction === 'off' ? undefined : direction === 'desc'

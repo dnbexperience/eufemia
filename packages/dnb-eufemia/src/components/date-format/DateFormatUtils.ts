@@ -1,7 +1,7 @@
 import { AnyLocale } from '../../shared/Context'
 import { LOCALE as defaultLocale } from '../../shared/defaults'
 import { convertStringToDate } from '../date-picker/DatePickerCalc'
-import { DateType } from '../date-picker/DatePickerContext'
+import { DatePickerDateType } from '../date-picker/DatePickerContext'
 
 // Type definitions for Intl.DurationFormat (newer API)
 type DurationFormatInput = {
@@ -26,7 +26,7 @@ type DurationFormatConstructor = {
   new (locale?: string, options?: DurationFormatOptions): DurationFormat
 }
 
-export type FormatDateOptions = {
+export type DateFormatOptions = {
   locale?: AnyLocale
   options?: Intl.DateTimeFormatOptions
   timeZone?: string
@@ -36,7 +36,7 @@ export type FormatDateOptions = {
   hideYear?: boolean
 }
 
-type FormatDateInput = DateType | number | string
+type FormatDateInput = DatePickerDateType | number | string
 
 /**
  * Detects if a date string represents a UTC date
@@ -110,7 +110,7 @@ export function formatDate(
     timeZone,
     hideCurrentYear,
     hideYear,
-  }: FormatDateOptions = {}
+  }: DateFormatOptions = {}
 ) {
   // Preserve original string for UTC detection
   const originalString =
@@ -122,7 +122,7 @@ export function formatDate(
 
   // Convert to DateType (Date | string) for convertStringToDate
   // Numbers are converted to strings to preserve UTC detection
-  const dateInput: DateType =
+  const dateInput: DatePickerDateType =
     typeof dateValue === 'number' ? String(dateValue) : dateValue
 
   const date = convertStringToDate(dateInput)
@@ -203,11 +203,11 @@ export function formatDate(
 }
 
 export function formatDateRange(
-  dates: { startDate: DateType; endDate: DateType },
+  dates: { startDate: DatePickerDateType; endDate: DatePickerDateType },
   {
     locale = defaultLocale,
     options = { dateStyle: 'long' },
-  }: FormatDateOptions = {}
+  }: DateFormatOptions = {}
 ) {
   const startDate = convertStringToDate(dates.startDate)
   const endDate = convertStringToDate(dates.endDate)
@@ -235,7 +235,7 @@ const timeUnitsInMs = {
   months: 30.4375 * 86_400_000, // avg month (365.25 / 12 days)
   years: 365.25 * 86_400_000, // avg year including leap years
 } as const
-export type RelativeTimeUnit = keyof typeof timeUnitsInMs
+export type DateFormatRelativeTimeUnit = keyof typeof timeUnitsInMs
 
 /**
  * Returns a relative time string, e.g. "3 days ago"
@@ -325,7 +325,9 @@ export function getRelativeTimeNextUpdateMs(
   return Math.max(min, Math.floor(msUntilFlip) + 50)
 }
 
-const UNIT_THRESHOLDS: ReadonlyArray<[number, RelativeTimeUnit]> = [
+const UNIT_THRESHOLDS: ReadonlyArray<
+  [number, DateFormatRelativeTimeUnit]
+> = [
   [timeUnitsInMs.minutes, 'seconds'],
   [timeUnitsInMs.hours, 'minutes'],
   [timeUnitsInMs.days, 'hours'],
@@ -334,7 +336,7 @@ const UNIT_THRESHOLDS: ReadonlyArray<[number, RelativeTimeUnit]> = [
   [timeUnitsInMs.years, 'months'],
 ]
 
-function getTimeUnit(msDifference: number): RelativeTimeUnit {
+function getTimeUnit(msDifference: number): DateFormatRelativeTimeUnit {
   const abs = Math.abs(msDifference)
   return UNIT_THRESHOLDS.find(([limit]) => abs < limit)?.[1] ?? 'years'
 }

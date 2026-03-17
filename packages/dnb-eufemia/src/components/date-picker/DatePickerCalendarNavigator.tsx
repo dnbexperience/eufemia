@@ -7,7 +7,7 @@ import {
   subMonths,
   subYears,
 } from 'date-fns'
-import { CalendarNavigationEvent } from './DatePickerCalendar'
+import { DatePickerCalendarNavigationEvent } from './DatePickerCalendar'
 import clsx from 'clsx'
 import Button from '../Button'
 import { useTranslation } from '../../shared'
@@ -87,7 +87,7 @@ export function DatePickerCalendarNav({
   const buttonDateType = type === 'year' ? 'year' : 'month'
 
   const onNav = useCallback(
-    ({ nr, type: navigationType }: CalendarNavigationEvent) => {
+    ({ nr, type: navigationType }: DatePickerCalendarNavigationEvent) => {
       const handlerType = type === 'year' ? 'year' : 'month'
       const updatedViews = views.map((view) => {
         if (view.nr === nr || isLinkedCalendars) {

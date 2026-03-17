@@ -29,7 +29,7 @@ import Tooltip, { injectTooltipSemantic } from '../tooltip/Tooltip'
 import {
   format,
   runIOSSelectionFix,
-  FormatCurrencyPosition,
+  NumberFormatCurrencyPosition as NumberFormatCurrencyPositionBase,
 } from './NumberUtils'
 import { SpacingProps } from '../space/types'
 
@@ -42,7 +42,9 @@ export type NumberFormatSuffix =
   | React.ReactNode
   | ((...args: any[]) => any)
 export type NumberFormatCurrency = string | boolean
-export type NumberFormatCurrencyPosition = 'auto' | FormatCurrencyPosition
+export type NumberFormatCurrencyPosition =
+  | 'auto'
+  | NumberFormatCurrencyPositionBase
 export type NumberFormatCompact = 'short' | 'long' | boolean
 export type NumberFormatLink = 'tel' | 'sms'
 export type NumberFormatSignDisplay =

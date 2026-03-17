@@ -19,8 +19,8 @@ import DatePickerContext, {
 import useViews from './hooks/useViews'
 import useDates, { DatePickerDates } from './hooks/useDates'
 import useLastEventCallCache from './hooks/useLastEventCallCache'
-import { InvalidDates } from './DatePickerInput'
-import { PartialDates } from './hooks/usePartialDates'
+import { DatePickerInvalidDates } from './DatePickerInput'
+import { DatePickerPartialDates } from './hooks/usePartialDates'
 import useHoverDate from './hooks/useHoverDate'
 import useSubmittedDates from './hooks/useSubmittedDates'
 
@@ -34,20 +34,20 @@ type DatePickerProviderProps = DatePickerAllProps & {
 }
 
 export type DatePickerChangeEvent<E> = DatePickerDates &
-  InvalidDates & {
+  DatePickerInvalidDates & {
     nr?: number
     hidePicker?: boolean
     event?: E
   }
 
 export type GetReturnObjectParams<E> = DatePickerDates &
-  PartialDates &
-  InvalidDates & {
+  DatePickerPartialDates &
+  DatePickerInvalidDates & {
     event?: E
   }
 
-export type ReturnObject<E> = InvalidDates &
-  PartialDates & {
+export type DatePickerReturnObject<E> = DatePickerInvalidDates &
+  DatePickerPartialDates & {
     event?: E
     attributes?: Record<string, unknown>
     daysBetween?: number
@@ -135,7 +135,7 @@ function DatePickerProvider(props: DatePickerProviderProps) {
       const endDateIsValid = Boolean(endDate && isValid(endDate))
       const hasMinOrMaxDates = minDate || maxDate
 
-      const returnObject: ReturnObject<E> = {
+      const returnObject: DatePickerReturnObject<E> = {
         event,
         attributes: attributes || {},
       }

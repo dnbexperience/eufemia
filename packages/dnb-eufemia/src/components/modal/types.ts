@@ -21,11 +21,11 @@ export type ModalTriggeredBy =
   | 'overlay'
   | 'keyboard'
   | 'unmount'
-export type CloseHandlerParams = {
+export type ModalCloseHandlerParams = {
   triggeredBy: ModalTriggeredBy
   triggeredByEvent?: Event
 }
-export type ModalCloseHandler = (params?: CloseHandlerParams) => void
+export type ModalCloseHandler = (params?: ModalCloseHandlerParams) => void
 
 export type ModalProps = ModalRootProps & {
   /**
@@ -130,7 +130,7 @@ export type ModalProps = ModalRootProps & {
   /**
    * Send along custom HTML attributes or properties to the trigger button.
    */
-  triggerAttributes?: TriggerAttributes
+  triggerAttributes?: ModalTriggerAttributes
 
   /**
    * The content which will appear when triggering the modal/drawer.
@@ -316,4 +316,4 @@ export type ModalContentProps = {
   modalContentCloseRef?: React.RefObject<any>
 }
 
-export type TriggerAttributes = ButtonProps
+export type ModalTriggerAttributes = ButtonProps

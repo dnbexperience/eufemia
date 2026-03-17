@@ -32,7 +32,7 @@ import FormLabel from '../form-label/FormLabel'
 import FormStatus, { FormStatusBaseProps } from '../form-status/FormStatus'
 import DatePickerProvider, {
   DatePickerChangeEvent,
-  type ReturnObject,
+  type DatePickerReturnObject,
 } from './DatePickerProvider'
 import DatePickerRange from './DatePickerRange'
 import DatePickerInput from './DatePickerInput'
@@ -42,13 +42,19 @@ import { SpacingProps } from '../space/types'
 import { InputElement, InputSize } from '../Input'
 import { SkeletonShow } from '../Skeleton'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
-import { CalendarDay, DatePickerCalendarProps } from './DatePickerCalendar'
-import { DatePickerContextValue, DateType } from './DatePickerContext'
+import {
+  DatePickerCalendarDay,
+  DatePickerCalendarProps,
+} from './DatePickerCalendar'
+import {
+  DatePickerContextValue,
+  DatePickerDateType,
+} from './DatePickerContext'
 import { DatePickerDates } from './hooks/useDates'
 import { useTranslation } from '../../shared'
 import Popover from '../popover/Popover'
 import {
-  FormatDateOptions,
+  DateFormatOptions,
   formatDate,
   formatDateRange,
 } from '../date-format/DateFormatUtils'
@@ -62,7 +68,7 @@ export type DatePickerEventAttributes = {
 } & Record<string, unknown>
 
 // Takes the return object from DatePickerProvider and extends it with the event
-export type DatePickerEvent<T> = ReturnObject<T>
+export type DatePickerEvent<T> = DatePickerReturnObject<T>
 
 type FocusOnClose = { focusOnClose?: boolean | string }
 
@@ -81,35 +87,35 @@ export type DatePickerProps = {
   /**
    * Defines the pre-filled date by either a JavaScript DateInstance or (ISO 8601) like `date="2019-05-05"`.
    */
-  date?: DateType
+  date?: DatePickerDateType
   /**
    * To set the pre-filled starting date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `maskPlaceholder`.
    */
-  startDate?: DateType
+  startDate?: DatePickerDateType
   /**
    * To set the pre-filled ending date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `maskPlaceholder`.
    */
-  endDate?: DateType
+  endDate?: DatePickerDateType
   /**
    * To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`.
    */
-  month?: DateType
+  month?: DatePickerDateType
   /**
    * To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`.
    */
-  startMonth?: DateType
+  startMonth?: DatePickerDateType
   /**
    * To display what month should be shown in the second calendar by default. Defaults to the `date` respective `startDate`.
    */
-  endMonth?: DateType
+  endMonth?: DatePickerDateType
   /**
    * To limit a date range to a minimum `startDate`. Defaults to `null`.
    */
-  minDate?: DateType
+  minDate?: DatePickerDateType
   /**
    * To limit a date range to a maximum `endDate`. Defaults to `null`.
    */
-  maxDate?: DateType
+  maxDate?: DatePickerDateType
   /**
    * To define the order of the masked placeholder input fields. Defaults to `dd/mm/yyyy`
    */
@@ -268,7 +274,7 @@ export type DatePickerProps = {
    * Will be called right before every new calendar view gets rendered. See the example above.
    */
   onDaysRender?: (
-    days: Array<CalendarDay>,
+    days: Array<DatePickerCalendarDay>,
     nr?: DatePickerCalendarProps['nr']
   ) => void
   /**
@@ -608,7 +614,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
       return ''
     }
 
-    const options: FormatDateOptions = {
+    const options: DateFormatOptions = {
       locale: context.locale,
       options: {
         dateStyle: 'full',
