@@ -217,6 +217,28 @@ describe('SegmentedField', () => {
       expect(first.value).toBe('ff')
     })
 
+    it('should prevent enter from inserting a newline', async () => {
+      renderSegmentedField({
+        values: { first: '12', second: '34' },
+      })
+
+      const first = getFirst()
+
+      await userEvent.click(first)
+
+      const keyDownEvent = new KeyboardEvent('keydown', {
+        key: 'Enter',
+        code: 'Enter',
+        bubbles: true,
+        cancelable: true,
+      })
+
+      fireEvent(first, keyDownEvent)
+
+      expect(keyDownEvent.defaultPrevented).toBe(true)
+      expect(first.value).toBe('12')
+    })
+
     it('should auto-advance to next section when current section is filled', async () => {
       renderSegmentedField()
 
@@ -1216,6 +1238,22 @@ describe('SegmentedField', () => {
       fireEvent.click(legend)
 
       expect(document.activeElement).toBe(getFirst())
+    })
+
+    it('should select the first input on legend click', () => {
+      renderSegmentedField({
+        label: 'My label',
+        values: { first: '12', second: '34' },
+      })
+
+      const legend = document.querySelector('legend')
+      const first = getFirst()
+
+      fireEvent.click(legend)
+
+      expect(document.activeElement).toBe(first)
+      expect(first.selectionStart).toBe(0)
+      expect(first.selectionEnd).toBe(2)
     })
 
     it('should not focus on legend click when disabled', () => {

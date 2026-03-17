@@ -603,6 +603,14 @@ export default function SegmentedFieldSection({
         onMouseUp={() => {
           syncSelectionFromDom()
         }}
+        onBeforeInput={(event) => {
+          if (
+            event.nativeEvent.inputType === 'insertParagraph' ||
+            event.nativeEvent.inputType === 'insertLineBreak'
+          ) {
+            event.preventDefault()
+          }
+        }}
         onInput={(event) => {
           event.preventDefault()
         }}
@@ -636,6 +644,11 @@ export default function SegmentedFieldSection({
           const hadWholeGroupSelected = groupSelectionRef.current
           clearGroupSelection()
           syncSelectionFromDom()
+
+          if (key === 'Enter') {
+            event.preventDefault()
+            return
+          }
 
           if (key === 'Tab') {
             clearSectionSelection()
