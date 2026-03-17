@@ -7,8 +7,8 @@ import {
   Tools,
   Wizard,
 } from '@dnb/eufemia/src/extensions/forms'
-import { GenerateRef as GeneratePropsRef } from '@dnb/eufemia/src/extensions/forms/Tools/ListAllProps'
-import { GenerateRef as GenerateSchemaRef } from '@dnb/eufemia/src/extensions/forms/Tools/GenerateSchema'
+import type { GenerateRef as GeneratePropsRef } from '@dnb/eufemia/src/extensions/forms/Tools/ListAllProps'
+import type { GenerateRef as GenerateSchemaRef } from '@dnb/eufemia/src/extensions/forms/Tools/GenerateSchema'
 import * as Blocks from '@dnb/eufemia/src/extensions/forms/blocks'
 import { useData } from '@dnb/eufemia/src/extensions/forms/Form'
 

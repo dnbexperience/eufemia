@@ -5,7 +5,7 @@ import { extendDeep, warn } from '@dnb/eufemia/src/shared/component-helper'
 import globalTranslations from '@dnb/eufemia/src/shared/locales'
 import formsTranslations from '@dnb/eufemia/src/extensions/forms/constants/locales'
 import { FormattedCode } from './PropertiesTable'
-import { Translation } from '@dnb/eufemia/src/shared/Context'
+import type { Translation } from '@dnb/eufemia/src/shared/Context'
 import { translationsWithoutEnUS } from '../../core/PortalProviders'
 import { languageDisplayNames } from '../../core/ChangeLocale'
 

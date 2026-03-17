@@ -22,7 +22,7 @@ import {
   DnbDefault,
   SbankenCompact,
 } from '@dnb/eufemia/src/components/Logo'
-import { ThemeProps } from '@dnb/eufemia/src/shared/Theme'
+import type { ThemeProps } from '@dnb/eufemia/src/shared/Theme'
 
 export const AvatarSizeDefault = () => (
   <ComponentBox hideCode data-visual-test="avatar-size-default">

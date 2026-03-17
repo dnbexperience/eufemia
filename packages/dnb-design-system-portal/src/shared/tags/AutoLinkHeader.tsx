@@ -2,7 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import Anchor from './Anchor'
 import Heading, {
-  HeadingAllProps,
+  type HeadingAllProps,
 } from '@dnb/eufemia/src/components/Heading'
 import { makeSlug } from '../../uilib/utils/slug'
 import { useLocation } from '@gatsbyjs/reach-router'

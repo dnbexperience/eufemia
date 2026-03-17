@@ -9,7 +9,7 @@ import {
   Value,
 } from '@dnb/eufemia/src/extensions/forms'
 import { createMockFile } from '../../../../../../../docs/uilib/components/upload/Examples'
-import {
+import type {
   UploadFile,
   UploadValue,
 } from '@dnb/eufemia/src/extensions/forms/Field/Upload'
