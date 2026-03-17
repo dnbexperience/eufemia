@@ -21,9 +21,9 @@ import {
 import ModalContext from './ModalContext'
 import { IS_IOS, IS_SAFARI, IS_MAC, isAndroid } from '../../shared/helpers'
 import {
-  CloseHandlerParams,
+  ModalCloseHandlerParams,
   ModalContentProps,
-  TriggeredBy,
+  ModalTriggeredBy,
 } from './types'
 import {
   getListOfModalRoots,
@@ -65,7 +65,7 @@ export default class ModalContent extends React.PureComponent<
   _androidFocusTimeout: NodeJS.Timeout
   _ii: InteractionInvalidation
   _iiLocal: InteractionInvalidation
-  _triggeredBy: TriggeredBy
+  _triggeredBy: ModalTriggeredBy
   _triggeredByEvent: React.SyntheticEvent
   _mounted = 0
   _lastFocusTime = 0
@@ -409,7 +409,7 @@ export default class ModalContent extends React.PureComponent<
 
   setModalContentState = (
     event: React.SyntheticEvent,
-    { triggeredBy }: CloseHandlerParams
+    { triggeredBy }: ModalCloseHandlerParams
   ) => {
     this._triggeredBy = triggeredBy
     this._triggeredByEvent = event
@@ -420,7 +420,7 @@ export default class ModalContent extends React.PureComponent<
     {
       triggeredBy,
       ...params
-    }: CloseHandlerParams & { ifIsLatest?: boolean }
+    }: ModalCloseHandlerParams & { ifIsLatest?: boolean }
   ) {
     event?.persist?.()
 

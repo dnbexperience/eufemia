@@ -26,7 +26,7 @@ import {
   ProgressIndicatorAllProps,
   ProgressIndicatorAnimationProps,
   isValidSize,
-  CustomSize,
+  ProgressIndicatorCustomSize,
 } from './types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
@@ -56,7 +56,7 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
 
   const [sizeVariant, customSize]: [
     ProgressIndicatorAnimationProps['size'],
-    CustomSize,
+    ProgressIndicatorCustomSize,
   ] = isValidSize(size) ? [size, undefined] : ['custom-size', size]
 
   const completeTimeout = useRef<NodeJS.Timeout>(undefined)

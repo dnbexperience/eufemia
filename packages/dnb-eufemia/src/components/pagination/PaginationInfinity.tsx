@@ -21,11 +21,11 @@ import {
 } from './PaginationHelpers'
 import PaginationContext from './PaginationContext'
 
-export type InfinityScrollerProps = {
+export type PaginationInfinityScrollerProps = {
   children?: React.ReactNode
 }
 
-export default class InfinityScroller extends React.PureComponent<InfinityScrollerProps> {
+export default class InfinityScroller extends React.PureComponent<PaginationInfinityScrollerProps> {
   static contextType = PaginationContext
   context!: React.ContextType<typeof PaginationContext>
 
@@ -531,7 +531,7 @@ class InteractionMarker extends React.PureComponent<any, any> {
   }
 }
 
-export type InfinityLoadButtonProps = {
+export type PaginationInfinityLoadButtonProps = {
   element?: React.ElementType
   pressedElement?: React.ReactNode
   icon?: string
@@ -545,7 +545,7 @@ type InfinityLoadButtonState = {
 }
 
 export class InfinityLoadButton extends React.PureComponent<
-  InfinityLoadButtonProps,
+  PaginationInfinityLoadButtonProps,
   InfinityLoadButtonState
 > {
   static contextType = Context

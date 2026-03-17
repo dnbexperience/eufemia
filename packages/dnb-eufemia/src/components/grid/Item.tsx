@@ -3,18 +3,20 @@ import clsx from 'clsx'
 import Space, { SpaceAllProps } from '../space/Space'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type Columns = number
+export type GridItemColumns = number
 
-export type Span = [Columns, Columns | 'end'] | 'full'
+export type GridItemSpan =
+  | [GridItemColumns, GridItemColumns | 'end']
+  | 'full'
 
-export type Media = {
-  small?: Span
-  medium?: Span
-  large?: Span
+export type GridItemMedia = {
+  small?: GridItemSpan
+  medium?: GridItemSpan
+  large?: GridItemSpan
 }
 
 export type GridItemProps = {
-  span?: Media | Span
+  span?: GridItemMedia | GridItemSpan
 }
 
 export type GridItemAllProps = GridItemProps & Omit<SpaceAllProps, 'span'>

@@ -1,14 +1,20 @@
 import { useCallback, useRef } from 'react'
 import { DatePickerDates } from './useDates'
 
-export type SubmittedDates = Pick<DatePickerDates, 'startDate' | 'endDate'>
+export type DatePickerSubmittedDates = Pick<
+  DatePickerDates,
+  'startDate' | 'endDate'
+>
 
 export default function useSubmittedDates() {
-  const submittedDatesRef = useRef<SubmittedDates>({})
+  const submittedDatesRef = useRef<DatePickerSubmittedDates>({})
 
-  const setSubmittedDates = useCallback((dates: SubmittedDates) => {
-    submittedDatesRef.current = dates
-  }, [])
+  const setSubmittedDates = useCallback(
+    (dates: DatePickerSubmittedDates) => {
+      submittedDatesRef.current = dates
+    },
+    []
+  )
 
   return {
     submittedDatesRef,

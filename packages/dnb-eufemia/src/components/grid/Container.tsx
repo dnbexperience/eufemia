@@ -3,16 +3,16 @@ import clsx from 'clsx'
 import Space, { SpaceAllProps } from '../space/Space'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type Columns = number
+export type GridContainerColumns = number
 
-export type Media = {
-  small?: Columns | false
-  medium?: Columns | false
-  large?: Columns | false
+export type GridContainerMedia = {
+  small?: GridContainerColumns | false
+  medium?: GridContainerColumns | false
+  large?: GridContainerColumns | false
 }
 
 export type GridContainerProps = {
-  columns?: Media | Columns
+  columns?: GridContainerMedia | GridContainerColumns
   rowGap?: 'x-small' | 'small' | 'medium' | 'large' | boolean
   columnGap?: 'x-small' | 'small' | 'medium' | 'large' | boolean
 }

@@ -1,35 +1,38 @@
 import { useCallback, useRef } from 'react'
 
-export type PartialDates = {
+export type DatePickerPartialDates = {
   partialDate?: string
   partialStartDate?: string
   partialEndDate?: string
 }
 
 export default function usePartialDates() {
-  const partialDatesRef = useRef<PartialDates>({
+  const partialDatesRef = useRef<DatePickerPartialDates>({
     partialStartDate: null,
     partialEndDate: null,
   })
 
-  const setPartialDates = useCallback((partialDates: PartialDates) => {
-    const nonPartialDates = Object.entries(partialDates).reduce(
-      (dates, [dateKey, dateValue]) => {
-        if (isFullyFilledOut(dateValue)) {
-          dates[dateKey] = null
-        }
+  const setPartialDates = useCallback(
+    (partialDates: DatePickerPartialDates) => {
+      const nonPartialDates = Object.entries(partialDates).reduce(
+        (dates, [dateKey, dateValue]) => {
+          if (isFullyFilledOut(dateValue)) {
+            dates[dateKey] = null
+          }
 
-        return dates
-      },
-      {}
-    )
+          return dates
+        },
+        {}
+      )
 
-    partialDatesRef.current = {
-      ...partialDatesRef.current,
-      ...partialDates,
-      ...nonPartialDates,
-    }
-  }, [])
+      partialDatesRef.current = {
+        ...partialDatesRef.current,
+        ...partialDates,
+        ...nonPartialDates,
+      }
+    },
+    []
+  )
 
   return { partialDatesRef, setPartialDates }
 }

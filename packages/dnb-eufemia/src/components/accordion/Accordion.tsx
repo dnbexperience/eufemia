@@ -36,10 +36,10 @@ import AccordionProviderContext from './AccordionProviderContext'
 import Context from '../../shared/Context'
 
 import { AccordionStore, Store, rememberWarning } from './AccordionStore'
-import { accordionDefaultProps, type GroupProps } from './types'
+import { accordionDefaultProps, type AccordionGroupProps } from './types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type { GroupProps } from './types'
+export type { AccordionGroupProps } from './types'
 export { accordionDefaultProps } from './types'
 
 export type AccordionVariant = 'plain' | 'default' | 'outlined' | 'filled'
@@ -435,7 +435,10 @@ function Accordion({
   )
 }
 
-const Group = ({ expandBehavior = 'single', ...props }: GroupProps) => {
+const Group = ({
+  expandBehavior = 'single',
+  ...props
+}: AccordionGroupProps) => {
   if (props.rememberState && !props.id) {
     rememberWarning('accordion group')
   }

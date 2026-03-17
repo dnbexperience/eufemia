@@ -19,7 +19,7 @@ import { extendPropsWithContext } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import TimelineContext from './TimelineContext'
 
-export type TimeLineItemStates = 'completed' | 'current' | 'upcoming'
+export type TimelineItemState = 'completed' | 'current' | 'upcoming'
 
 export type TimelineItemProps = {
   /**
@@ -53,7 +53,7 @@ export type TimelineItemProps = {
    * The component state. State 'completed', 'current' or 'upcoming'.
    * Default: null
    */
-  state: TimeLineItemStates
+  state: TimelineItemState
 
   /**
    * Skeleton should be applied when loading content
@@ -165,13 +165,13 @@ const TimelineItemIcon = ({
   const { altLabelCompleted, altLabelCurrent, altLabelUpcoming } =
     translations
 
-  const icons: Record<TimeLineItemStates, IconIcon> = {
+  const icons: Record<TimelineItemState, IconIcon> = {
     completed: checkIcon,
     current: pinIcon,
     upcoming: calendarIcon,
   }
 
-  const labels: Record<TimeLineItemStates, string> = {
+  const labels: Record<TimelineItemState, string> = {
     completed: altLabelCompleted,
     current: altLabelCurrent,
     upcoming: altLabelUpcoming,
