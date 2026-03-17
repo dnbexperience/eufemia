@@ -46,6 +46,7 @@ export type Props = FieldProps<string, undefined | string> & {
   selectAll?: InputProps['selectAll']
   clear?: boolean
   mask?: InputMaskedProps['mask']
+  allowOverflow?: InputMaskedProps['allowOverflow']
   leftIcon?: string
   rightIcon?: string
   submitElement?: InputProps['submitElement']
@@ -191,6 +192,7 @@ function StringComponent(props: Props) {
     disabled,
     multiline,
     mask,
+    allowOverflow,
     leftIcon,
     rightIcon,
     width,
@@ -317,9 +319,10 @@ function StringComponent(props: Props) {
         <Textarea {...sharedProps} {...textareaProps} />
       ) : mask ? (
         <InputMasked
-          {...(sharedProps as Record<string, unknown>)}
-          {...(inputProps as Record<string, unknown>)}
+          {...sharedProps}
+          {...inputProps}
           mask={mask}
+          allowOverflow={allowOverflow}
         />
       ) : (
         <Input {...sharedProps} {...inputProps} />

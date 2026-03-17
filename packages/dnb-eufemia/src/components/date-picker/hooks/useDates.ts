@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { convertStringToDate } from '../DatePickerCalc'
 import { addMonths, isSameDay } from 'date-fns'
 import { DateType } from '../DatePickerContext'
@@ -39,6 +39,11 @@ export default function useDates(
       isRange,
     }),
   })
+  const datesRef = useRef(dates)
+
+  useEffect(() => {
+    datesRef.current = dates
+  }, [dates])
 
   const hasDatePropChanges = useMemo(
     () =>
@@ -85,27 +90,27 @@ export default function useDates(
       newDates: DatePickerDates,
       callback?: (dates: DatePickerDates) => void
     ) => {
+      const currentDates = datesRef.current
+
       // Update months based on month or start/end date changes
       const months = updateMonths({
         newDates,
-        currentDates: dates,
+        currentDates,
       })
 
-      setDates((currentDates) => {
-        return {
-          ...currentDates,
-          ...newDates,
-          ...months,
-        }
-      })
-
-      callback?.({
-        ...dates,
+      const nextDates = {
+        ...currentDates,
         ...newDates,
         ...months,
-      })
+      }
+
+      datesRef.current = nextDates
+
+      setDates(nextDates)
+
+      callback?.(nextDates)
     },
-    [dates, isRange]
+    []
   )
 
   return {

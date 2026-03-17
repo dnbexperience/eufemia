@@ -234,7 +234,7 @@ export const DatePickerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   inputElement: {
-    doc: 'Gives you the possibility to use a plain/vanilla `<input />` HTML element by defining it as a string `inputElement="input"`, a React element, or a render function `inputElement={(internalProps) => (<Return />)}`. Can also be used in circumstances where the `react-text-mask` should not be used, e.g. in testing environments. Defaults to custom masked input.',
+    doc: 'Gives you the possibility to use a plain/vanilla `<input />` HTML element by defining it as a string `inputElement="input"`, a React element, or a render function `inputElement={(internalProps) => (<Return />)}`. Can also be used in circumstances where the masked input should not be used, e.g. in testing environments. Defaults to custom masked input.',
     type: 'React.ReactNode',
     status: 'optional',
   },

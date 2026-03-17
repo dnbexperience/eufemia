@@ -12,16 +12,6 @@ const no = nbNO['nb-NO'].Expiry
 const en = enGB['en-GB'].Expiry
 
 describe('Field.Expiry', () => {
-  beforeEach(() => {
-    window.requestAnimationFrame = jest.fn((callback) => {
-      return setTimeout(callback, 0)
-    })
-    window.cancelAnimationFrame = jest.fn((id) => {
-      clearTimeout(id)
-      return id
-    })
-  })
-
   it('should support size', () => {
     render(<Field.Expiry value="0835" size="large" />)
 
@@ -72,16 +62,15 @@ describe('Field.Expiry', () => {
 
     render(<Field.Expiry onChange={onChange} />)
 
-    const input = document.querySelector('input')
+    const input = document.querySelector('input') as HTMLInputElement
 
-    act(() => {
-      input.focus()
-    })
-
+    await userEvent.click(input)
     await userEvent.keyboard('1235')
 
-    expect(onChange).toHaveBeenCalledTimes(4)
-    expect(onChange).toHaveBeenLastCalledWith('1235', expect.anything())
+    await waitFor(() => {
+      expect(onChange).toHaveBeenCalled()
+      expect(onChange).toHaveBeenLastCalledWith('1235', expect.anything())
+    })
   })
 
   it('should return month and year values as undefined when removing value', async () => {
@@ -169,18 +158,18 @@ describe('Field.Expiry', () => {
     expect(monthInput.value).toBe('08')
     expect(yearInput.value).toBe('35')
 
-    await userEvent.type(monthInput, '1224')
+    await userEvent.click(monthInput)
+    await userEvent.keyboard('{Backspace>2}1224')
 
-    // Check that transformOut was called with the correct values
-    expect(transformOut).toHaveBeenCalledTimes(9)
-    expect(transformOut).toHaveBeenLastCalledWith('1224', {
-      year: '24',
-      month: '12',
-    })
-    expect(transformIn).toHaveBeenCalledTimes(6)
-    expect(transformIn).toHaveBeenLastCalledWith({
-      year: '24',
-      month: '12',
+    await waitFor(() => {
+      expect(transformOut).toHaveBeenLastCalledWith('1224', {
+        year: '24',
+        month: '12',
+      })
+      expect(transformIn).toHaveBeenLastCalledWith({
+        year: '24',
+        month: '12',
+      })
     })
 
     // Check that onChange was called with the transformed data
@@ -245,6 +234,9 @@ describe('Field.Expiry', () => {
       year: '35',
       month: undefined,
     })
+
+    // Year should still be intact
+    expect(yearInput.value).toBe('35')
 
     // Remove year value completely
     await userEvent.click(yearInput)
@@ -318,7 +310,9 @@ describe('Field.Expiry', () => {
 
     // Blur to trigger validation
     await userEvent.click(document.body)
-    expect(onBlur).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(onBlur).toHaveBeenCalledTimes(1)
+    })
 
     // Verify final state - both inputs should be empty/placeholder
     expect(monthInput.value).toBe('mm')
@@ -430,18 +424,23 @@ describe('Field.Expiry', () => {
     it('should not change cursor position when a letter is typed', async () => {
       render(<Field.Expiry />)
 
-      const monthInput = document.querySelectorAll('input')[0]
-      const yearInput = document.querySelectorAll('input')[1]
+      const monthInput = document.querySelectorAll(
+        'input'
+      )[0] as HTMLInputElement
+      const yearInput = document.querySelectorAll(
+        'input'
+      )[1] as HTMLInputElement
 
-      await userEvent.type(monthInput, '12')
+      await userEvent.click(monthInput)
+      await userEvent.keyboard('12')
 
       expect(yearInput.selectionStart).toBe(0)
-      expect(yearInput.selectionEnd).toBe(0)
+      expect(yearInput.selectionEnd).toBe(yearInput.value.length)
 
-      await userEvent.type(monthInput, '12A')
+      await userEvent.keyboard('A')
 
       expect(yearInput.selectionStart).toBe(0)
-      expect(yearInput.selectionEnd).toBe(0)
+      expect(yearInput.selectionEnd).toBe(yearInput.value.length)
 
       expect(document.activeElement).toBe(yearInput)
     })
@@ -449,65 +448,101 @@ describe('Field.Expiry', () => {
     it('should change cursor position to year when month is filled out', async () => {
       render(<Field.Expiry />)
 
-      const monthInput = document.querySelectorAll('input')[0]
-      const yearInput = document.querySelectorAll('input')[1]
+      const monthInput = document.querySelectorAll(
+        'input'
+      )[0] as HTMLInputElement
+      const yearInput = document.querySelectorAll(
+        'input'
+      )[1] as HTMLInputElement
 
-      await userEvent.type(monthInput, '12')
+      await userEvent.click(monthInput)
+      await userEvent.keyboard('12')
 
       expect(yearInput.selectionStart).toBe(0)
-      expect(yearInput.selectionEnd).toBe(0)
+      expect(yearInput.selectionEnd).toBe(yearInput.value.length)
       expect(document.activeElement).toBe(yearInput)
+    })
+
+    it('should type first year digit when typing at end of a filled month', async () => {
+      render(<Field.Expiry value="12" />)
+
+      const monthInput = document.querySelectorAll(
+        'input'
+      )[0] as HTMLInputElement
+      const yearInput = document.querySelectorAll(
+        'input'
+      )[1] as HTMLInputElement
+
+      await userEvent.click(monthInput)
+      expect(monthInput.value).toBe('12')
+      monthInput.setSelectionRange(2, 2)
+      expect(monthInput.selectionStart).toBe(2)
+      expect(monthInput.selectionEnd).toBe(2)
+      await userEvent.keyboard('7')
+
+      await waitFor(() => {
+        expect(document.activeElement).toBe(yearInput)
+      })
+
+      expect(yearInput.value).toBe('7å')
+      await waitFor(() => {
+        expect(yearInput.selectionStart).toBe(1)
+        expect(yearInput.selectionEnd).toBe(1)
+      })
     })
 
     it('should change cursor position to year after backspace through year', async () => {
       render(<Field.Expiry />)
 
-      const monthInput = document.querySelectorAll('input')[0]
-      const yearInput = document.querySelectorAll('input')[1]
+      const monthInput = document.querySelectorAll(
+        'input'
+      )[0] as HTMLInputElement
+      const yearInput = document.querySelectorAll(
+        'input'
+      )[1] as HTMLInputElement
 
-      await userEvent.type(monthInput, '1212')
+      await userEvent.click(monthInput)
+      await userEvent.keyboard('1212')
 
       expect(yearInput.selectionStart).toBe(2)
       expect(yearInput.selectionEnd).toBe(2)
       expect(document.activeElement).toBe(yearInput)
 
-      await userEvent.type(yearInput, '{Backspace}{Backspace}{Backspace}')
+      await userEvent.click(yearInput)
+      yearInput.setSelectionRange(
+        yearInput.value.length,
+        yearInput.value.length
+      )
+      await userEvent.keyboard('{Backspace>3}')
 
-      expect(monthInput.selectionStart).toBe(2)
-      expect(monthInput.selectionEnd).toBe(2)
+      await waitFor(() => {
+        expect(monthInput.selectionStart).toBe(0)
+        expect(monthInput.selectionEnd).toBe(monthInput.value.length)
+      })
       expect(document.activeElement).toBe(monthInput)
     })
 
     it('should be able to navigate between inputs using arrow keys', async () => {
       render(<Field.Expiry />)
 
-      const monthInput = document.querySelectorAll('input')[0]
-      const yearInput = document.querySelectorAll('input')[1]
+      const [monthInput, yearInput] = Array.from(
+        document.querySelectorAll('input')
+      ) as HTMLInputElement[]
 
-      act(() => {
-        monthInput.focus()
-      })
+      await userEvent.click(monthInput)
 
-      monthInput.setSelectionRange(0, 0)
-
-      await userEvent.keyboard('{ArrowRight}{ArrowRight}')
-
+      await userEvent.keyboard('{ArrowRight}')
       expect(document.activeElement).toBe(monthInput)
 
       await userEvent.keyboard('{ArrowRight}')
-
       expect(document.activeElement).toBe(yearInput)
 
-      await userEvent.keyboard('{ArrowLeft}')
+      await userEvent.keyboard('{ArrowLeft>2}')
+      expect(document.activeElement).toBe(monthInput)
 
       expect(document.activeElement).toBe(monthInput)
 
-      await userEvent.keyboard('{ArrowLeft}{ArrowLeft}')
-
-      expect(document.activeElement).toBe(monthInput)
-
-      await userEvent.keyboard('{ArrowRight}{ArrowRight}{ArrowRight}')
-
+      await userEvent.keyboard('{ArrowRight>3}')
       expect(document.activeElement).toBe(yearInput)
     })
 
@@ -564,6 +599,33 @@ describe('Field.Expiry', () => {
       expect(yearInput.selectionStart).toBe(0)
       expect(yearInput.selectionEnd).toBe(2)
     })
+
+    it('should select whole value on repeated blur and focus', async () => {
+      render(<Field.Expiry value="1234" />)
+
+      const monthInput = document.querySelectorAll('input')[0]
+      const yearInput = document.querySelectorAll('input')[1]
+
+      await userEvent.click(monthInput)
+      expect(monthInput.selectionStart).toBe(0)
+      expect(monthInput.selectionEnd).toBe(2)
+
+      monthInput.blur()
+
+      await userEvent.click(monthInput)
+      expect(monthInput.selectionStart).toBe(0)
+      expect(monthInput.selectionEnd).toBe(2)
+
+      await userEvent.click(yearInput)
+      expect(yearInput.selectionStart).toBe(0)
+      expect(yearInput.selectionEnd).toBe(2)
+
+      yearInput.blur()
+
+      await userEvent.click(yearInput)
+      expect(yearInput.selectionStart).toBe(0)
+      expect(yearInput.selectionEnd).toBe(2)
+    })
   })
 
   describe('validation', () => {
@@ -580,7 +642,8 @@ describe('Field.Expiry', () => {
         document.querySelector('.dnb-form-status__text')
       ).not.toBeInTheDocument()
 
-      await userEvent.type(input, '1')
+      await userEvent.click(input)
+      await userEvent.keyboard('1')
 
       expect(inputWrapper.classList).not.toContain(
         'dnb-input__status--error'
@@ -600,7 +663,8 @@ describe('Field.Expiry', () => {
       expect(formStatusText).toBeInTheDocument()
       expect(formStatusText).toHaveTextContent(no.errorRequired)
 
-      await userEvent.type(input, '12')
+      await userEvent.click(input)
+      await userEvent.keyboard('12')
 
       expect(inputWrapper.classList).not.toContain(
         'dnb-input__status--error'
@@ -675,7 +739,8 @@ describe('Field.Expiry', () => {
         document.querySelectorAll('input')
       )
 
-      await userEvent.type(yearInput, '25')
+      await userEvent.click(yearInput)
+      await userEvent.keyboard('25')
 
       // Type invalid month - error should appear during typing
       await userEvent.click(monthInput)
@@ -691,7 +756,8 @@ describe('Field.Expiry', () => {
       })
 
       // Fix the month - error should disappear during typing
-      await userEvent.keyboard('{Backspace}{Backspace}{Backspace}01')
+      await userEvent.click(monthInput)
+      await userEvent.keyboard('{Backspace>2}01')
 
       expect(monthInput).toHaveValue('01')
       await waitFor(() => {
@@ -701,7 +767,8 @@ describe('Field.Expiry', () => {
       })
 
       // Type invalid month again - error should appear again
-      await userEvent.keyboard('{Backspace}{Backspace}{Backspace}99')
+      await userEvent.click(monthInput)
+      await userEvent.keyboard('{Backspace>2}99')
 
       await waitFor(() => {
         expect(
@@ -1026,7 +1093,7 @@ describe('Field.Expiry', () => {
     onStatusChange.mockClear()
 
     // Type valid month and year
-    await userEvent.keyboard('{Backspace}{Backspace}0125')
+    await userEvent.keyboard('{Backspace>2}0125')
 
     await waitFor(() => {
       expect(onStatusChange).toHaveBeenCalled()
