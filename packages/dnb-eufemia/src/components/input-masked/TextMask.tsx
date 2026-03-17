@@ -7,11 +7,11 @@ import React, {
   useState,
 } from 'react'
 import { useMaskito } from '@maskito/react'
-import type {
-  MaskitoPostprocessor,
-  MaskitoPreprocessor,
+import {
   maskitoTransform,
   maskitoUpdateElement,
+  type MaskitoPostprocessor,
+  type MaskitoPreprocessor,
   type MaskitoMask,
   type MaskitoMaskExpression,
   type MaskitoOptions,
