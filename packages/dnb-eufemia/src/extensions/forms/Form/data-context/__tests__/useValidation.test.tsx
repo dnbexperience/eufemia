@@ -511,6 +511,117 @@ describe('useValidation', () => {
         expect(result.current.hasErrors()).toBe(false)
       })
     })
+
+    describe('visibleOnly', () => {
+      it('should return false when hidden field has error and visibleOnly is true', () => {
+        render(
+          <Form.Handler id={identifier}>
+            <Field.String path="/visible" required />
+            <Form.Visibility visible={false} keepInDOM>
+              <Field.String path="/hidden" required />
+            </Form.Visibility>
+          </Form.Handler>
+        )
+
+        const { result } = renderHook(() => useValidation(identifier))
+
+        expect(result.current.hasErrors()).toBe(true)
+        expect(result.current.hasErrors({ visibleOnly: true })).toBe(true)
+      })
+
+      it('should return false when only hidden fields have errors and visibleOnly is true', () => {
+        render(
+          <Form.Handler id={identifier} data={{ visible: 'has value' }}>
+            <Field.String path="/visible" required />
+            <Form.Visibility visible={false} keepInDOM>
+              <Field.String path="/hidden" required />
+            </Form.Visibility>
+          </Form.Handler>
+        )
+
+        const { result } = renderHook(() => useValidation(identifier))
+
+        expect(result.current.hasErrors()).toBe(true)
+        expect(result.current.hasErrors({ visibleOnly: true })).toBe(false)
+      })
+
+      it('should return true without visibleOnly even when field is hidden with keepInDOM', () => {
+        render(
+          <Form.Handler id={identifier}>
+            <Form.Visibility visible={false} keepInDOM>
+              <Field.String path="/hidden" required />
+            </Form.Visibility>
+          </Form.Handler>
+        )
+
+        const { result } = renderHook(() => useValidation(identifier))
+
+        expect(result.current.hasErrors()).toBe(true)
+        expect(result.current.hasErrors({ visibleOnly: true })).toBe(false)
+      })
+
+      it('should react to visibility changes with keepInDOM', async () => {
+        const MockComponent = () => {
+          const [visible, setVisible] = useState(true)
+          return (
+            <>
+              <Form.Visibility visible={visible} keepInDOM>
+                <Field.String path="/conditional" required />
+              </Form.Visibility>
+              <button onClick={() => setVisible(false)}>Hide</button>
+            </>
+          )
+        }
+
+        render(
+          <Form.Handler id={identifier}>
+            <MockComponent />
+          </Form.Handler>
+        )
+
+        const { result } = renderHook(() => useValidation(identifier))
+
+        expect(result.current.hasErrors({ visibleOnly: true })).toBe(true)
+        expect(result.current.hasErrors()).toBe(true)
+
+        await userEvent.click(
+          document.querySelector('button:last-of-type')
+        )
+
+        await waitFor(() => {
+          expect(result.current.hasErrors({ visibleOnly: true })).toBe(
+            false
+          )
+        })
+        expect(result.current.hasErrors()).toBe(true)
+      })
+
+      it('should work without an identifier', () => {
+        const result = { current: undefined }
+
+        const MockComponent = () => {
+          result.current = useValidation()
+
+          return (
+            <>
+              <Field.String path="/visible" required />
+              <Form.Visibility visible={false} keepInDOM>
+                <Field.String path="/hidden" required />
+              </Form.Visibility>
+            </>
+          )
+        }
+
+        render(
+          <Form.Handler data={{ visible: 'has value' }}>
+            <MockComponent />
+          </Form.Handler>
+        )
+
+        expect(result.current.hasErrors()).toBe(true)
+        expect(result.current.hasErrors({ visibleOnly: true })).toBe(false)
+      })
+    })
   })
 
   describe('hasFieldError', () => {
@@ -526,6 +637,28 @@ describe('useValidation', () => {
 
       expect(result.current.hasFieldError('/foo')).toBe(true)
       expect(result.current.hasFieldError('/bar')).toBe(false)
+    })
+
+    it('should return false for hidden field when visibleOnly is true', () => {
+      render(
+        <Form.Handler id={identifier}>
+          <Field.String path="/foo" required />
+          <Form.Visibility visible={false} keepInDOM>
+            <Field.String path="/hidden" required />
+          </Form.Visibility>
+        </Form.Handler>
+      )
+
+      const { result } = renderHook(() => useValidation(identifier))
+
+      expect(result.current.hasFieldError('/foo')).toBe(true)
+      expect(result.current.hasFieldError('/hidden')).toBe(true)
+      expect(
+        result.current.hasFieldError('/hidden', { visibleOnly: true })
+      ).toBe(false)
+      expect(
+        result.current.hasFieldError('/foo', { visibleOnly: true })
+      ).toBe(true)
     })
   })
 

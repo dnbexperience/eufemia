@@ -24,6 +24,10 @@ export type SectionSchemaRegistration = {
   schema: Schema
 }
 
+export type HasErrorOptions = {
+  visibleOnly?: boolean
+}
+
 export type MountState = {
   isPreMounted?: boolean
   isMounted?: boolean
@@ -155,9 +159,9 @@ export interface ContextState {
   handleSubmit: () => Promise<EventStateObject | undefined>
   scrollToTop: () => void
   setShowAllErrors: (showAllErrors: boolean) => void
-  hasErrors: () => boolean
-  hasFieldState: (state: SubmitState) => boolean
-  hasFieldError: (path: Path) => boolean
+  hasErrors: (options?: HasErrorOptions) => boolean
+  hasFieldState: (state: SubmitState, options?: HasErrorOptions) => boolean
+  hasFieldError: (path: Path, options?: HasErrorOptions) => boolean
   hasFieldWithAsyncValidator?: () => boolean
   setFieldState?: (path: Path, fieldState: SubmitState) => void
   setFieldError?: (path: Path, error: Error | FormError) => void

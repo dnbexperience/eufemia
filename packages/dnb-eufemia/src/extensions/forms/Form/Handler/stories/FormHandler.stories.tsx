@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react'
-import { Field, Form } from '../../..'
+import { Field, Form, Tools } from '../../..'
 import { Button, GlobalStatus } from '../../../../../components'
 import { debounceAsync } from '../../../../../shared/helpers'
 
@@ -399,4 +399,66 @@ function UseValidationComponent() {
   }, [setFieldStatus])
 
   return null
+}
+
+export function ConditionallyRequiredFields() {
+  function MyComponent() {
+    useEffect(() => {
+      Form.setData('formId', {
+        some: 'data',
+        more: 'data',
+      })
+    }, [])
+
+    const { hasErrors } = Form.useValidation()
+    console.log('hasErrors (all):', hasErrors())
+    console.log(
+      'hasErrors (visible only):',
+      hasErrors({ visibleOnly: true })
+    )
+
+    return (
+      <>
+        <Field.String path="/otherData" />
+        <Field.Selection
+          path="/locale"
+          variant="button"
+          optionsLayout="horizontal"
+        >
+          <Field.Option value="nb-NO">Norsk</Field.Option>
+          <Field.Option value="sv-SE">Svenska</Field.Option>
+          <Field.Option value="da-DK">Dansk</Field.Option>
+          <Field.Option value="en-GB">English</Field.Option>
+        </Field.Selection>
+        <Form.Visibility
+          visibleWhen={{
+            path: '/locale',
+            hasValue: 'da-DK',
+          }}
+          keepInDOM
+        >
+          <Field.Currency path="/amount" label="Amount" required />
+        </Form.Visibility>
+        <Form.SubmitButton />
+      </>
+    )
+  }
+
+  return (
+    <Form.Handler
+      id="formId"
+      onSubmit={(data) => console.log(data)}
+      onSubmitRequest={({ getErrors }) => {
+        getErrors().forEach(({ path, error }) => {
+          if (error) {
+            console.log(path, error.message)
+          }
+        })
+      }}
+    >
+      <MyComponent />
+      <Tools.Log />
+      <Tools.Errors />
+    </Form.Handler>
+  )
 }

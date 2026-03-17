@@ -55,6 +55,7 @@ import DataContext, {
   ValueInternalsRef,
   FilterData,
   FilterDataHandler,
+  HasErrorOptions,
   MountState,
   TransformData,
   VisibleDataHandler,
@@ -558,32 +559,43 @@ export default function Provider<Data extends JsonObject>(
     []
   )
   const hasFieldState = useCallback(
-    (state: SubmitState) => {
+    (state: SubmitState, options?: HasErrorOptions) => {
       return Array.from(mountedFieldsRef.current.entries()).some(
         ([path, item]) => {
-          return item.isMounted && checkFieldStateFor(path, state)
+          if (!item.isMounted) {
+            return false
+          }
+          if (options?.visibleOnly && item.isVisible === false) {
+            return false
+          }
+          return checkFieldStateFor(path, state)
         }
       )
     },
     [checkFieldStateFor]
   )
   const hasFieldError = useCallback(
-    (path: Path) => {
+    (path: Path, options?: HasErrorOptions) => {
       return Array.from(mountedFieldsRef.current.entries()).some(
         ([p, item]) => {
-          return (
-            item.isMounted &&
-            p === path &&
-            checkFieldStateFor(path, 'error')
-          )
+          if (!item.isMounted || p !== path) {
+            return false
+          }
+          if (options?.visibleOnly && item.isVisible === false) {
+            return false
+          }
+          return checkFieldStateFor(path, 'error')
         }
       )
     },
     [checkFieldStateFor]
   )
-  const hasErrors = useCallback(() => {
-    return hasFieldState('error')
-  }, [hasFieldState])
+  const hasErrors = useCallback(
+    (options?: HasErrorOptions) => {
+      return hasFieldState('error', options)
+    },
+    [hasFieldState]
+  )
 
   /**
    * Sets the error state for a specific path
