@@ -317,6 +317,8 @@ export type DatePickerProps = {
    * Will be called once the input lose focus.
    */
   onBlur?: (event: DatePickerEvent<React.FocusEvent<HTMLElement>>) => void
+  /** @internal */
+  _omitInputShellClass?: boolean
 }
 
 export type DatePickerAllProps = DatePickerProps &
@@ -570,6 +572,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     tooltip,
     skipPortal,
     labelAlignment,
+    _omitInputShellClass,
     ...restProps
   } = extendedProps
 
@@ -759,6 +762,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   status={status ? 'error' : null}
                   statusState={statusState}
                   lang={context.locale}
+                  _omitInputShellClass={_omitInputShellClass}
                   {...attributes}
                   submitAttributes={remainingSubmitProps}
                   onSubmit={togglePicker}

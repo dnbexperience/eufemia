@@ -85,6 +85,8 @@ export type DatePickerInputProps = Omit<
     onBlur?: (
       event: ReturnObject<React.FocusEvent<HTMLInputElement>>
     ) => void
+    /** @internal */
+    _omitInputShellClass?: boolean
   }
 
 export type InvalidDates = {
@@ -130,6 +132,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     status,
     statusState,
     statusProps,
+    _omitInputShellClass,
 
     ...attributes
   } = props
@@ -808,6 +811,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           />
         }
         lang={lang}
+        _omitInputShellClass={_omitInputShellClass}
         {...(attributes as Record<string, unknown>)}
       />
     </fieldset>
