@@ -244,10 +244,7 @@ function TextareaComponent(
     (context.getTranslation(ownProps) as Record<string, unknown>)
       ?.Textarea as Record<string, unknown>,
     pickFormElementProps(context?.formElement),
-    (context as Record<string, unknown>)?.Textarea as Record<
-      string,
-      unknown
-    >
+    context?.Textarea as Record<string, unknown>
   )
 
   const {
@@ -567,7 +564,7 @@ function TextareaComponent(
     ),
   }
 
-  const shellParams: Record<string, unknown> = {
+  const shellParams = {
     className: clsx('dnb-textarea__shell'),
   }
 
