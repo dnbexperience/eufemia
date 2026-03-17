@@ -295,6 +295,66 @@ describe('Field.Date', () => {
     expect(calls).toContain('2024-12-01|2025-02-28')
   })
 
+  it('should not call onChange again with the old value after clearing via select-all', async () => {
+    const onChange = jest.fn()
+
+    render(<Field.Date value="2025-11-12" onChange={onChange} />)
+
+    const [day, month, year] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    ) as Array<HTMLInputElement>
+
+    await userEvent.click(year)
+
+    fireEvent.keyDown(year, {
+      key: 'a',
+      ctrlKey: true,
+    })
+
+    onChange.mockClear()
+
+    fireEvent.keyDown(year, {
+      key: 'Backspace',
+    })
+
+    await waitFor(() => {
+      expect(day).toHaveValue('dd')
+      expect(month).toHaveValue('mm')
+      expect(year).toHaveValue(nbYearPlaceholder)
+      expect(onChange).toHaveBeenCalled()
+    })
+
+    expect(onChange.mock.calls[0][0]).toBeUndefined()
+
+    const values = onChange.mock.calls.map((call) => call[0])
+    expect(values).not.toContain('2025-11-12')
+  })
+
+  it('should not call onChange again with the old value after deleting only the year', async () => {
+    const onChange = jest.fn()
+
+    render(<Field.Date value="2025-11-12" onChange={onChange} />)
+
+    const [, , year] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    ) as Array<HTMLInputElement>
+
+    await userEvent.click(year)
+    onChange.mockClear()
+
+    await userEvent.keyboard('{Backspace>4}')
+
+    await waitFor(() => {
+      expect(year).toHaveValue(nbYearPlaceholder)
+      expect(onChange).toHaveBeenCalled()
+    })
+
+    expect(onChange.mock.calls[0][0]).toBeUndefined()
+
+    const values = onChange.mock.calls.map((call) => call[0])
+    expect(values).not.toContain('2025-11-12')
+  })
+
   describe('validation', () => {
     it('should display error on first form submit', async () => {
       render(

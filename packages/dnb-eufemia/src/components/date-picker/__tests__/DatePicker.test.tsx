@@ -3858,6 +3858,93 @@ describe('DatePicker component', () => {
     expect(day.selectionEnd).toBe(0)
   })
 
+  it('should not emit the stale date after clearing with select-all', async () => {
+    const onChange = jest.fn()
+
+    render(
+      <DatePicker showInput={true} date="2025-11-12" onChange={onChange} />
+    )
+
+    const [day, month, year] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    ) as HTMLInputElement[]
+
+    await userEvent.click(year)
+
+    fireEvent.keyDown(year, {
+      key: 'a',
+      ctrlKey: true,
+    })
+
+    onChange.mockClear()
+
+    fireEvent.keyDown(year, {
+      key: 'Backspace',
+    })
+
+    await waitFor(() => {
+      expect(day).toHaveValue('dd')
+      expect(month).toHaveValue('mm')
+      expect(year).toHaveValue('åååå')
+      expect(onChange).toHaveBeenCalled()
+    })
+
+    const values = onChange.mock.calls.map((call) => call[0].date)
+    expect(values).not.toContain('2025-11-12')
+    expect(values[0]).toBeNull()
+  })
+
+  it('should not emit the stale date after deleting the year', async () => {
+    const onChange = jest.fn()
+
+    render(
+      <DatePicker showInput={true} date="2025-11-12" onChange={onChange} />
+    )
+
+    const [, , year] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    ) as HTMLInputElement[]
+
+    await userEvent.click(year)
+    onChange.mockClear()
+
+    await userEvent.keyboard('{Backspace>4}')
+
+    await waitFor(() => {
+      expect(year).toHaveValue('åååå')
+      expect(onChange).toHaveBeenCalled()
+    })
+
+    const values = onChange.mock.calls.map((call) => call[0].date)
+    expect(values).not.toContain('2025-11-12')
+    expect(values[0]).toBeNull()
+  })
+
+  it('should not emit the stale date on onType after deleting the year', async () => {
+    const onType = jest.fn()
+
+    render(
+      <DatePicker showInput={true} date="2025-11-12" onType={onType} />
+    )
+
+    const [, , year] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    ) as HTMLInputElement[]
+
+    await userEvent.click(year)
+    onType.mockClear()
+
+    await userEvent.keyboard('{Backspace>4}')
+
+    await waitFor(() => {
+      expect(year).toHaveValue('åååå')
+      expect(onType).toHaveBeenCalled()
+    })
+
+    const values = onType.mock.calls.map((call) => call[0].date)
+    expect(values).not.toContain('2025-11-12')
+  })
+
   it('should restart typing from day after select-all', async () => {
     render(<DatePicker showInput={true} date="2025-11-12" />)
 

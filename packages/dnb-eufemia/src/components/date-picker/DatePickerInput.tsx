@@ -466,19 +466,44 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
   const callOnType = useCallback(
     ({ event }: { event: React.ChangeEvent<HTMLInputElement> }) => {
+      const getInputPart = (
+        mode: 'start' | 'end',
+        part: 'Day' | 'Month' | 'Year',
+        fallback: string
+      ) => {
+        const refValue = dateRefs.current[`${mode}${part}`]
+        const inputValue = inputDates[`${mode}${part}`]
+
+        if (refValue === '') {
+          if (
+            inputValue !== null &&
+            typeof inputValue !== 'undefined' &&
+            inputValue !== ''
+          ) {
+            return ''
+          }
+
+          return fallback
+        }
+
+        if (refValue !== null && typeof refValue !== 'undefined') {
+          return refValue
+        }
+
+        if (inputValue !== null && typeof inputValue !== 'undefined') {
+          return inputValue
+        }
+
+        return fallback
+      }
+
       const getDates = () =>
         ['start', 'end'].reduce(
           (acc, mode) => {
             acc[`${mode}Date`] = [
-              dateRefs.current[`${mode}Year`] ||
-                inputDates[`${mode}Year`] ||
-                'yyyy',
-              dateRefs.current[`${mode}Month`] ||
-                inputDates[`${mode}Month`] ||
-                'mm',
-              dateRefs.current[`${mode}Day`] ||
-                inputDates[`${mode}Day`] ||
-                'dd',
+              getInputPart(mode as 'start' | 'end', 'Year', 'yyyy'),
+              getInputPart(mode as 'start' | 'end', 'Month', 'mm'),
+              getInputPart(mode as 'start' | 'end', 'Day', 'dd'),
             ].join('-')
             return acc
           },
@@ -602,7 +627,11 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         updateDates({
           [`${mode}Date`]: null,
         })
-        updateInputDates({ [`${mode}${type}`]: value })
+        updateInputDates({
+          [`${mode}Day`]: dateRefs.current[`${mode}Day`] || null,
+          [`${mode}Month`]: dateRefs.current[`${mode}Month`] || null,
+          [`${mode}Year`]: dateRefs.current[`${mode}Year`] || null,
+        })
 
         const dateString = hasAnyTypedValue ? `${y}-${m}-${d}` : null
         invalidDatesRef.current = {
