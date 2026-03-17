@@ -70,7 +70,10 @@ module.exports = {
 
       const nameKebab = toKebabCase(name)
 
-      if (!nameKebab.startsWith(componentDir + '-') && nameKebab !== componentDir) {
+      if (
+        !nameKebab.startsWith(componentDir + '-') &&
+        nameKebab !== componentDir
+      ) {
         context.report({
           node,
           messageId: 'missingPrefix',
