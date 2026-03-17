@@ -648,8 +648,18 @@ describe('Anchor element', () => {
   })
 
   describe('surface', () => {
-    // TODO: Should also test when future `<SurfaceContext>` is implemented:
-    // TODO: Do we need a reset/default/null value? In cases where we want to override context with default behaviour?
+    it('should inherit surface from Theme context', () => {
+      const { default: Theme } = require('../../../shared/Theme')
+
+      render(
+        <Theme surface="dark">
+          <Anchor href="/url">text</Anchor>
+        </Theme>
+      )
+
+      const anchor = document.querySelector('.dnb-anchor')
+      expect(anchor).toHaveClass('dnb-anchor--surface-dark')
+    })
 
     it('should have surface class if `"surface="dark"`', () => {
       // Setup

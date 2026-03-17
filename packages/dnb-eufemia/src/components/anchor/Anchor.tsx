@@ -106,7 +106,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
   const allProps = extendPropsWithContext(
     localProps,
     defaultProps,
-    { skeleton: context?.skeleton },
+    { skeleton: context?.skeleton, surface: context?.theme?.surface },
     context?.getTranslation(localProps as AnchorAllProps).Anchor,
     context?.Anchor
   )
