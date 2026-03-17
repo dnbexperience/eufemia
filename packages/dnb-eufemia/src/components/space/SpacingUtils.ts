@@ -9,8 +9,8 @@ import type {
   SpaceType,
   SpacingUnknownProps,
   SpacingProps,
-  SpaceTypesPositiveValuesType,
-  SpaceTypesPositiveRemValuesType,
+  SpacePositiveSize,
+  SpacePositiveRemValue,
   SpaceStringTypes,
   InnerSpacingElementProps,
   InnerSpaceType,
@@ -32,8 +32,8 @@ export const spacingDefaultProps: SpacingProps = {
 }
 // IMPORTANT: Keep the shorthand after the long type names
 export const spacePatterns: Record<
-  SpaceTypesPositiveValuesType,
-  SpaceTypesPositiveRemValuesType
+  SpacePositiveSize,
+  SpacePositiveRemValue
 > = {
   'xx-small': 0.25,
   'x-small': 0.5,
@@ -268,7 +268,7 @@ export const splitTypes = (types: SpaceType | Array<SpaceType>) => {
     const test = (types as SpaceStringTypes).split(/ /g)
     return clean(test as Array<SpaceStringTypes>)
   } else if (typeof types === 'boolean') {
-    return [types ? ('small' as SpaceTypesPositiveValuesType) : 0]
+    return [types ? ('small' as SpacePositiveSize) : 0]
   } else if (typeof types === 'number') {
     return [types]
   }
@@ -347,12 +347,10 @@ export const findType = (num: SpaceNumber): SpaceType => {
 // @internal Finds from "2.0" the equivalent type "large" and returns all results
 export const findTypeAll = (
   num: SpaceNumber
-): Array<
-  SpaceTypesPositiveValuesType | SpaceTypesPositiveRemValuesType
-> => {
+): Array<SpacePositiveSize | SpacePositiveRemValue> => {
   const listOfSpacePatterns = Object.entries(spacePatterns) as [
-    SpaceTypesPositiveValuesType,
-    SpaceTypesPositiveRemValuesType,
+    SpacePositiveSize,
+    SpacePositiveRemValue,
   ][]
   const found =
     listOfSpacePatterns.find(([k, v]) => k && v === num) || null

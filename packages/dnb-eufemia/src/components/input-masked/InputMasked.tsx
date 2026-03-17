@@ -18,7 +18,7 @@ import type { FormStatusBaseProps } from '../FormStatus'
 import type { IconIcon, IconSize } from '../Icon'
 import type {
   InputInputAttributes,
-  InputInputElement,
+  InputElement,
   InputSize,
   InputSubmitElement,
   InputSubmitButtonIcon,
@@ -150,7 +150,7 @@ export type InputMaskedProps = Omit<
     skeleton?: SkeletonShow
     inputClass?: string
     inputAttributes?: InputInputAttributes
-    inputElement?: InputInputElement
+    inputElement?: InputElement
     icon?: IconIcon
     iconSize?: IconSize
     iconPosition?: ButtonIconPosition
