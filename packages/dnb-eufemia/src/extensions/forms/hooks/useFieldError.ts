@@ -56,7 +56,7 @@ export type ErrorInitiator =
   | 'onBlurValidator'
   | 'dataContextError'
 
-export interface UseFieldErrorParams<Value> {
+export type UseFieldErrorParams<Value> = {
   // Props
   initialErrorProp: FieldPropsGeneric<Value>['error'] | 'initial'
   warningProp:
