@@ -148,7 +148,7 @@ export default {
     Email: {
       label: 'E-mailadresse',
       errorRequired: 'Du skal udfylde en e-mailadresse.',
-      errorPattern: 'Ugyldig e-mailadresse. Indtast en e-mailadresse.',
+      errorPattern: 'Du skal indtaste en gyldig e-mailadresse.',
     },
     FirstName: {
       label: 'Fornavn',
