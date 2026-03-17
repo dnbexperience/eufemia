@@ -13,3 +13,9 @@ import * as Examples from './Examples'
 ### Check for errors with hasErrors
 
 <Examples.HasErrors />
+
+### Check for visible errors only
+
+Use the `visibleOnly` option to ignore errors for fields hidden via `Form.Visibility` with `keepInDOM`. This is useful when conditionally visible fields should not block form submission or trigger error states.
+
+<Examples.VisibleOnly />

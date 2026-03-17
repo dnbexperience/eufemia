@@ -1,7 +1,7 @@
 import React from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Form, Field, Tools } from '@dnb/eufemia/src/extensions/forms'
-import { Flex } from '@dnb/eufemia/src'
+import { Card, Flex } from '@dnb/eufemia/src'
 
 export function HasErrors() {
   return (
@@ -50,6 +50,76 @@ export function HasErrors() {
                     validateInitially
                   />
                 </Form.Visibility>
+              </Flex.Stack>
+            </Form.Handler>
+          )
+        }
+
+        return <Component />
+      }}
+    </ComponentBox>
+  )
+}
+
+export function VisibleOnly() {
+  return (
+    <ComponentBox>
+      {() => {
+        const Component = () => {
+          const { hasErrors, hasFieldError } =
+            Form.useValidation('visible-only-id')
+
+          return (
+            <Form.Handler id="visible-only-id">
+              <Flex.Stack>
+                <Card stack>
+                  <Tools.Log
+                    data={hasErrors()}
+                    label="hasErrors():"
+                    breakout={false}
+                  />
+                  <Tools.Log
+                    data={hasErrors({ visibleOnly: true })}
+                    label="hasErrors({ visibleOnly: true }):"
+                    breakout={false}
+                  />
+                  <Tools.Log
+                    data={hasFieldError('/conditionalField')}
+                    label="hasFieldError('/conditionalField'):"
+                    breakout={false}
+                  />
+                  <Tools.Log
+                    data={hasFieldError('/conditionalField', {
+                      visibleOnly: true,
+                    })}
+                    label="hasFieldError('/conditionalField', { visibleOnly: true }):"
+                    breakout={false}
+                  />
+                </Card>
+
+                <Field.Boolean
+                  label="Show conditional field"
+                  variant="button"
+                  path="/showField"
+                />
+
+                <Form.Visibility
+                  pathTrue="/showField"
+                  keepInDOM
+                  animate
+                >
+                  <Field.String
+                    path="/conditionalField"
+                    label="Conditional field"
+                    required
+                  />
+                </Form.Visibility>
+
+                <Field.String
+                  path="/alwaysVisible"
+                  label="Always visible field"
+                  required
+                />
               </Flex.Stack>
             </Form.Handler>
           )

@@ -513,7 +513,7 @@ describe('useValidation', () => {
     })
 
     describe('visibleOnly', () => {
-      it('should return false when hidden field has error and visibleOnly is true', () => {
+      it('should return true when both visible and hidden fields have errors and visibleOnly is true', () => {
         render(
           <Form.Handler id={identifier}>
             <Field.String path="/visible" required />
