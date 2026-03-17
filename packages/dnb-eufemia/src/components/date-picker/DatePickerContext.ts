@@ -4,16 +4,19 @@
  */
 
 import React from 'react'
-import { DatePickerAllProps, DisplayPickerEvent } from './DatePicker'
-import { ContextProps } from '../../shared/Context'
-import {
+import type { DatePickerAllProps, DisplayPickerEvent } from './DatePicker'
+import type { ContextProps } from '../../shared/Context'
+import type {
   DatePickerChangeEvent,
   GetReturnObjectParams,
   DatePickerReturnObject,
 } from './DatePickerProvider'
-import { DatePickerDateProps, DatePickerDates } from './hooks/useDates'
-import { DatePickerCalendarView } from './hooks/useViews'
-import { DatePickerSubmittedDates } from './hooks/useSubmittedDates'
+import type {
+  DatePickerDateProps,
+  DatePickerDates,
+} from './hooks/useDates'
+import type { DatePickerCalendarView } from './hooks/useViews'
+import type { DatePickerSubmittedDates } from './hooks/useSubmittedDates'
 
 export type DatePickerDateType = Date | string
 

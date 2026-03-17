@@ -1,7 +1,8 @@
 import React from 'react'
 import { renderHook } from '@testing-library/react'
 import useReportError from '../useReportError'
-import { Context, ContextState } from '../../../DataContext'
+import type { ContextState } from '../../../DataContext'
+import { Context } from '../../../DataContext'
 import WizardContext from '../../../Wizard/Context'
 import WizardStepContext from '../../../Wizard/Step/StepContext'
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import H, { SharedHProps } from '../H'
+import type { SharedHProps } from '../H'
+import H from '../H'
 import H1 from '../H1'
 import H2 from '../H2'
 import H3 from '../H3'

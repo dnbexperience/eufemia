@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react'
-import { JsonObject } from '../../utils/json-pointer'
+import type { JsonObject } from '../../utils/json-pointer'
 import { warn } from '../../../../shared/helpers'
-import DataContextProvider, {
-  Props as ProviderProps,
-} from '../../DataContext/Provider'
-import FormElement, { Props as FormElementProps } from '../Element'
-import { ContextState } from '../../DataContext'
+import type { Props as ProviderProps } from '../../DataContext/Provider'
+import DataContextProvider from '../../DataContext/Provider'
+import type { Props as FormElementProps } from '../Element'
+import FormElement from '../Element'
+import type { ContextState } from '../../DataContext'
 
 export type Props = FormElementProps & {
   /**

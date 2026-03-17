@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import clsx from 'clsx'
 import type { ComponentProps } from '../../types'
-import { ButtonProps } from '../../../../components/button/Button'
+import type { ButtonProps } from '../../../../components/button/Button'
 import WizardContext from '../Context/WizardContext'
 import DataContext from '../../DataContext/Context'
 import ButtonRow from '../../Form/ButtonRow'

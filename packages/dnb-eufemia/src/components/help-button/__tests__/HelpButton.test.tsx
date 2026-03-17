@@ -6,7 +6,8 @@
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import Dialog from '../../dialog/Dialog'
-import HelpButton, { HelpButtonProps } from '../HelpButton'
+import type { HelpButtonProps } from '../HelpButton'
+import HelpButton from '../HelpButton'
 import {
   question as QuestionIcon,
   information_medium as InformationIcon,

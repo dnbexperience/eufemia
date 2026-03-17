@@ -1,5 +1,6 @@
 import React from 'react'
-import Visibility, { Props } from '../../Form/Visibility/Visibility'
+import type { Props } from '../../Form/Visibility/Visibility'
+import Visibility from '../../Form/Visibility/Visibility'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 export * from '../../Form/Visibility/Visibility'
 

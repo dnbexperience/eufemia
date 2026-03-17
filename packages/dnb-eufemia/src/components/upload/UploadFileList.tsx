@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { UploadFile } from './types'
+import type { UploadFile } from './types'
 import { UploadContext } from './UploadContext'
 import UploadFileListCell from './UploadFileListCell'
 import useUpload from './useUpload'

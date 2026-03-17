@@ -2,8 +2,8 @@ import { useCallback, useContext, useRef } from 'react'
 import pointer from '../../utils/json-pointer'
 import DataContext from '../../DataContext/Context'
 import usePath from '../../hooks/usePath'
-import { Path } from '../../types'
-import { Props } from './Visibility'
+import type { Path } from '../../types'
+import type { Props } from './Visibility'
 
 export type { Props }
 

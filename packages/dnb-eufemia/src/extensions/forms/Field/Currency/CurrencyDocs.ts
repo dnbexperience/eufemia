@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 import { NumberProperties } from '../Number/NumberDocs'
 
 const props = { ...NumberProperties }
@@ -13,7 +13,7 @@ export const CurrencyProperties: PropertiesTableProps = {
   },
   currencyDisplay: {
     doc: 'Defines the currency display style. When set to `code`, the currency code is rendered before the amount. Defaults to `narrowSymbol`.',
-    type: ['code', 'symbol', 'narrowSymbol', 'name', 'false'],
+    type: ['"code"', 'symbol', 'narrowSymbol', '"name"', 'false'],
     status: 'optional',
   },
   ...props,

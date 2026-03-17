@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react'
 import clsx from 'clsx'
-import Button, { ButtonProps } from '../button/Button'
+import type { ButtonProps } from '../button/Button'
+import Button from '../button/Button'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import { applyPageFocus } from '../../shared/helpers'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'

@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const RadioProperties: PropertiesTableProps = {
   value: {
@@ -18,7 +18,7 @@ export const RadioProperties: PropertiesTableProps = {
   },
   size: {
     doc: 'The size of the Radio button. For now there is **medium** (default) and **large**.',
-    type: ['default', 'medium', 'large'],
+    type: ['"default"', '"medium"', '"large"'],
     status: 'optional',
   },
   label: {
@@ -28,7 +28,7 @@ export const RadioProperties: PropertiesTableProps = {
   },
   labelPosition: {
     doc: 'Defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.',
-    type: ['left', 'right'],
+    type: ['"left"', '"right"'],
     status: 'optional',
   },
   labelSrOnly: {
@@ -38,12 +38,12 @@ export const RadioProperties: PropertiesTableProps = {
   },
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['error', 'info', 'boolean'],
+    type: ['"error"', '"info"', 'boolean'],
     status: 'optional',
   },
   statusState: {
     doc: "Defines the state of the status. It's two statuses `[error, info]`. Defaults to `error`.",
-    type: ['error', 'info'],
+    type: ['"error"', '"info"'],
     status: 'optional',
   },
   statusProps: {
@@ -76,12 +76,12 @@ export const RadioGroupProperties: PropertiesTableProps = {
   },
   layoutDirection: {
     doc: 'Define the layout direction of the Radio buttons. Can be either `column` or `row`. Defaults to `row`.',
-    type: ['column', 'row'],
+    type: ['"column"', '"row"'],
     status: 'optional',
   },
   size: {
     doc: 'The size of the Radio button. For now there is **medium** (default) and **large**.',
-    type: ['default', 'medium', 'large'],
+    type: ['"default"', '"medium"', '"large"'],
     status: 'optional',
   },
   status: {
@@ -91,7 +91,7 @@ export const RadioGroupProperties: PropertiesTableProps = {
   },
   statusState: {
     doc: "Defines the state of the status. It's two statuses `[error, info]`. Defaults to `error`.",
-    type: ['error', 'info'],
+    type: ['"error"', '"info"'],
     status: 'optional',
   },
   statusProps: {
@@ -111,7 +111,7 @@ export const RadioGroupProperties: PropertiesTableProps = {
   },
   labelDirection: {
     doc: 'To define the `label` layout direction on how the next element should be placed on. Can be either `vertical` or `horizontal`. Defaults to `horizontal`.',
-    type: ['vertical', 'horizontal'],
+    type: ['"vertical"', '"horizontal"'],
     status: 'optional',
   },
   labelSrOnly: {

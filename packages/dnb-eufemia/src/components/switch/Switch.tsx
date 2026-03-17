@@ -1,6 +1,6 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import type { KeyboardEvent } from 'react'
 import React, {
-  KeyboardEvent,
   useCallback,
   useContext,
   useEffect,
@@ -26,10 +26,11 @@ import {
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
-import FormStatus, { FormStatusBaseProps } from '../form-status/FormStatus'
+import type { FormStatusBaseProps } from '../form-status/FormStatus'
+import FormStatus from '../form-status/FormStatus'
 import useId from '../../shared/helpers/useId'
-import { SkeletonShow } from '../Skeleton'
-import { SpacingProps } from '../space/types'
+import type { SkeletonShow } from '../Skeleton'
+import type { SpacingProps } from '../space/types'
 
 export type SwitchLabelPosition = 'left' | 'right'
 export type SwitchSize = 'default' | 'medium' | 'large'

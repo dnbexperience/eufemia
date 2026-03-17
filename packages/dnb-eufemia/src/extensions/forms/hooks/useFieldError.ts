@@ -2,7 +2,7 @@ import React, { useRef, useCallback, useMemo } from 'react'
 import type { ValidateFunction } from 'ajv/dist/2020.js'
 import { errorChanged, FormError } from '../utils'
 import { extendErrorMessagesWithTranslationMessages } from '../utils/errors'
-import {
+import type {
   FieldPropsGeneric,
   SubmitState,
   UseFieldProps,

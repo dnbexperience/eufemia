@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const AccordionProperties: PropertiesTableProps = {
   id: {
@@ -43,7 +43,7 @@ export const AccordionProperties: PropertiesTableProps = {
   },
   variant: {
     doc: 'Defines the used styling. `Outlined`, `filled`, `plain` (no styling), or `default`. Defaults to `outlined`.',
-    type: ['default', 'outlined', 'filled', 'plain'],
+    type: ['"default"', '"outlined"', '"filled"', '"plain"'],
     status: 'optional',
   },
   icon: {
@@ -141,7 +141,7 @@ export const AccordionProviderGroupProperties: PropertiesTableProps = {
   },
   expandBehavior: {
     doc: 'Determines how many accordions can be expanded at once. Defaults to `single`.',
-    type: ['single', 'multiple'],
+    type: ['"single"', '"multiple"'],
     status: 'optional',
   },
   expandedId: {

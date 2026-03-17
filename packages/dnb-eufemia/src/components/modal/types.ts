@@ -1,4 +1,4 @@
-import * as React from 'react'
+import type * as React from 'react'
 import type { CloseButtonProps } from './parts/CloseButton'
 import type { ButtonProps } from '../button/Button'
 import type { ModalRootProps } from './ModalRoot'

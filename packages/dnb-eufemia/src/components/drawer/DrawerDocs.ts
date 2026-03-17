@@ -1,9 +1,9 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const DrawerProperties: PropertiesTableProps = {
   containerPlacement: {
     doc: 'Defines on what side the Drawer should be opened. Can be set to `left`, `right`, `top` and `bottom`. Defaults to `right`.',
-    type: ['left', 'right', 'top', 'bottom'],
+    type: ['"left"', '"right"', '"top"', '"bottom"'],
     status: 'optional',
   },
   title: {
@@ -53,7 +53,7 @@ export const DrawerProperties: PropertiesTableProps = {
   },
   alignContent: {
     doc: 'Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `centered` and `right`. If `centered`, then the content will also be centered vertically. Defaults to `left`.',
-    type: ['left', 'center', 'centered', 'right'],
+    type: ['"left"', '"center"', '"centered"', '"right"'],
     status: 'optional',
   },
   fullscreen: {

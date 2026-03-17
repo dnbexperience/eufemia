@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const CountryFlagProperties: PropertiesTableProps = {
   iso: {
@@ -13,7 +13,7 @@ export const CountryFlagProperties: PropertiesTableProps = {
   },
   shape: {
     doc: 'The shape of the component. Can be `round` or `square`. Defaults to `round`.',
-    type: ['round', 'square'],
+    type: ['"round"', '"square"'],
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {

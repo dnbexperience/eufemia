@@ -1,9 +1,9 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const UploadProperties: PropertiesTableProps = {
   id: {
     doc: 'Unique id used together with the `useUpload` hook to manage the files. Needed when wanting to connect with the `useUpload` hook.',
-    type: ['string', 'Function', 'Object', 'React.Context'],
+    type: ['string', 'function', 'object', 'React.Context'],
     status: 'optional',
   },
   children: {
@@ -13,7 +13,7 @@ export const UploadProperties: PropertiesTableProps = {
   },
   variant: {
     doc: 'Defines the appearance. Use one of these: `default` or `compact`. Defaults to `default`.',
-    type: ['default', 'compact'],
+    type: ['"default"', '"compact"'],
     status: 'optional',
   },
   acceptedFileTypes: {

@@ -1,6 +1,6 @@
 import { createContext } from 'react'
-import { ArrayItemAreaProps } from './ArrayItemArea'
-import { FlexContainerProps } from '../../../../components/flex/Container'
+import type { ArrayItemAreaProps } from './ArrayItemArea'
+import type { FlexContainerProps } from '../../../../components/flex/Container'
 
 type ArrayItemAreaContext = {
   handleRemoveItem?: () => void

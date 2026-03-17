@@ -8,7 +8,7 @@ import { BYTES_IN_A_MEGA_BYTE } from '../../../../../components/upload/UploadVer
 import { createMockFile } from '../../../../../components/upload/__tests__/testHelpers'
 import nbNOForms from '../../../constants/locales/nb-NO'
 import nbNOShared from '../../../../../shared/locales/nb-NO'
-import { UploadFileNative, UploadValue } from '../Upload'
+import type { UploadFileNative, UploadValue } from '../Upload'
 
 const nbForms = nbNOForms['nb-NO']
 const nbShared = nbNOShared['nb-NO']

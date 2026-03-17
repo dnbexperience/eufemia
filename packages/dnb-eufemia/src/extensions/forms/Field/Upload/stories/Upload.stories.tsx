@@ -1,11 +1,11 @@
 import { Field, Form, Iterate, Tools, Value, Wizard } from '../../..'
 import { Flex } from '../../../../../components'
-import {
+import type {
   UploadFile,
   UploadFileNative,
 } from '../../../../../components/Upload'
 import { P } from '../../../../../elements'
-import { UploadValue } from '../Upload'
+import type { UploadValue } from '../Upload'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Upload',

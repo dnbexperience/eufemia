@@ -10,7 +10,7 @@ import userEvent from '@testing-library/user-event'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import { Button } from '../../../../../components'
 import { DataContext, Field, Form, Wizard, Iterate } from '../../..'
-import { FilterData } from '../../../DataContext/Context'
+import type { FilterData } from '../../../DataContext/Context'
 import Provider from '../../../DataContext/Provider'
 import useData from '../useData'
 

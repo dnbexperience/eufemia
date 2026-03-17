@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const FormLabelProperties: PropertiesTableProps = {
   forId: {
@@ -23,7 +23,7 @@ export const FormLabelProperties: PropertiesTableProps = {
   },
   size: {
     doc: 'Define one of the following [heading sizes](/uilib/elements/heading/): `basis`, `medium` or `large`.',
-    type: ['basis', 'medium', 'large'],
+    type: ['"basis"', '"medium"', '"large"'],
     status: 'optional',
   },
   skeleton: {

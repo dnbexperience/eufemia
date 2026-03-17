@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const DropdownEvents: PropertiesTableProps = {
   onChange: {
@@ -46,7 +46,13 @@ export const DropdownProperties: PropertiesTableProps = {
   },
   variant: {
     doc: 'Defines the kind of dropdown. Possible values are `primary`, `secondary`, `tertiary` and `signal`. Defaults to `secondary`.',
-    type: ['primary', 'secondary', 'tertiary', 'signal', 'unstyled'],
+    type: [
+      '"primary"',
+      '"secondary"',
+      '"tertiary"',
+      '"signal"',
+      '"unstyled"',
+    ],
     status: 'optional',
   },
   icon: {
@@ -61,17 +67,17 @@ export const DropdownProperties: PropertiesTableProps = {
   },
   iconPosition: {
     doc: 'Position of the icon inside the dropdown. Set to `left` or `right`. Defaults to `right`.',
-    type: ['left', 'right'],
+    type: ['"left"', '"right"'],
     status: 'optional',
   },
   arrowPosition: {
     doc: 'Position of arrow on the popup drawer. Set to `left` or `right`. Defaults to `right`.',
-    type: ['left', 'right'],
+    type: ['"left"', '"right"'],
     status: 'optional',
   },
   size: {
     doc: 'Define the height of the Dropdown. Can be set to `small`, `default`, `medium` and `large`. Defaults to `default`.',
-    type: ['default', 'small', 'medium', 'large'],
+    type: ['"default"', '"small"', '"medium"', '"large"'],
     status: 'optional',
   },
   open: {
@@ -101,7 +107,7 @@ export const DropdownProperties: PropertiesTableProps = {
   },
   align: {
     doc: 'Use `right` to change the options alignment direction. Makes only sense to use in combination with `preventSelection` or `moreMenu`. Defaults to `left`.',
-    type: ['left', 'right'],
+    type: ['"left"', '"right"'],
     status: 'optional',
   },
   independentWidth: {
@@ -121,12 +127,12 @@ export const DropdownProperties: PropertiesTableProps = {
   },
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['error', 'info', 'boolean'],
+    type: ['"error"', '"info"', 'boolean'],
     status: 'optional',
   },
   statusState: {
     doc: "Defines the state of the status. It's two statuses `[error, info]`. Defaults to `error`.",
-    type: ['error', 'info'],
+    type: ['"error"', '"info"'],
     status: 'optional',
   },
   statusProps: {
@@ -146,7 +152,7 @@ export const DropdownProperties: PropertiesTableProps = {
   },
   labelDirection: {
     doc: 'Use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`.',
-    type: ['horizontal', 'vertical'],
+    type: ['"horizontal"', '"vertical"'],
     status: 'optional',
   },
   labelSrOnly: {

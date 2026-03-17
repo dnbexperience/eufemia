@@ -1,5 +1,5 @@
-import { FormsTranslation } from '../../hooks/useTranslation'
-import { AdditionalReturnUtils } from '../../../../shared/useTranslation'
+import type { FormsTranslation } from '../../hooks/useTranslation'
+import type { AdditionalReturnUtils } from '../../../../shared/useTranslation'
 import {
   getTranslationKeyFromValidationRule,
   extendErrorMessagesWithTranslationMessages,

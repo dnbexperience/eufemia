@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 export type PointerPath = string | Array<string>
 export type JsonValue = unknown
 export type JsonObject = Record<string | number, unknown> | Array<unknown>

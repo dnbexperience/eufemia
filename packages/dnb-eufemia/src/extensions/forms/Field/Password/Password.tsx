@@ -1,18 +1,19 @@
+import type { ElementRef, RefObject } from 'react'
 import React, {
   useContext,
   useRef,
   useState,
-  ElementRef,
   useCallback,
   useMemo,
-  RefObject,
 } from 'react'
 import clsx from 'clsx'
 import SharedContext from '../../../../shared/Context'
-import StringField, { Props as StringFieldProps } from '../String'
+import type { Props as StringFieldProps } from '../String'
+import StringField from '../String'
 import useId from '../../../../shared/helpers/useId'
 
-import { InputProps, SubmitButton } from '../../../../components/Input'
+import type { InputProps } from '../../../../components/Input'
+import { SubmitButton } from '../../../../components/Input'
 import IconView from '../../../../icons/view'
 import IconViewOff from '../../../../icons/hide'
 import IconViewMedium from '../../../../icons/view_medium'

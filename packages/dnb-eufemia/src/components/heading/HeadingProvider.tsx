@@ -5,7 +5,8 @@
 
 import React from 'react'
 
-import HeadingContext, { HeadingContextValue } from './HeadingContext'
+import type { HeadingContextValue } from './HeadingContext'
+import HeadingContext from './HeadingContext'
 import {
   globalSyncCounter,
   globalHeadingCounter,
@@ -14,8 +15,9 @@ import {
   teardownHeadings,
   debugCounter,
 } from './HeadingHelpers'
-import { HeadingCounter, initCounter } from './HeadingCounter'
-import { InternalHeadingLevel, HeadingProps } from './Heading'
+import type { HeadingCounter } from './HeadingCounter'
+import { initCounter } from './HeadingCounter'
+import type { InternalHeadingLevel, HeadingProps } from './Heading'
 
 export type HeadingProviderProps = HeadingProps
 export type HeadingProviderAllProps = HeadingProviderProps &

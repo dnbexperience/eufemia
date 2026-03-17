@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const TagEvents: PropertiesTableProps = {
   onClick: {
@@ -31,7 +31,7 @@ export const TagProperties: PropertiesTableProps = {
   },
   variant: {
     doc: 'Possible values are `default`, `clickable`, `addable`, or `removable`. Defaults to `default`.',
-    type: ['default', 'clickable', 'addable', 'removable'],
+    type: ['"default"', '"clickable"', '"addable"', '"removable"'],
     status: 'optional',
   },
   omitOnKeyUpDeleteEvent: {

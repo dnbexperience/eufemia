@@ -1,16 +1,15 @@
 import React, { useCallback, useContext, useReducer, useRef } from 'react'
 import clsx from 'clsx'
 import { Card, HeightAnimation } from '../../../../components'
-import { Props as CardProps } from '../../../../components/card/Card'
-import { HeightAnimationOnEndStates } from '../../../../components/height-animation/HeightAnimationInstance'
-import { HeightAnimationProps } from '../../../../components/HeightAnimation'
-import IterateItemContext, {
-  IterateItemContextState,
-} from '../IterateItemContext'
+import type { Props as CardProps } from '../../../../components/card/Card'
+import type { HeightAnimationOnEndStates } from '../../../../components/height-animation/HeightAnimationInstance'
+import type { HeightAnimationProps } from '../../../../components/HeightAnimation'
+import type { IterateItemContextState } from '../IterateItemContext'
+import IterateItemContext from '../IterateItemContext'
 import ArrayItemAreaContext from './ArrayItemAreaContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
-import { FlexContainerAllProps as FlexContainerProps } from '../../../../components/flex/Container'
-import { ContainerMode } from './types'
+import type { FlexContainerAllProps as FlexContainerProps } from '../../../../components/flex/Container'
+import type { ContainerMode } from './types'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'

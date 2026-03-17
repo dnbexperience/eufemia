@@ -1,6 +1,6 @@
-import * as React from 'react'
-import CSS from 'csstype'
-import { SpacingProps } from '../space/types'
+import type * as React from 'react'
+import type CSS from 'csstype'
+import type { SpacingProps } from '../space/types'
 
 const validSizes = ['default', 'small', 'medium', 'large', 'huge'] as const
 

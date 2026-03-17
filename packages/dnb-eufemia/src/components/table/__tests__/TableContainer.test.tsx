@@ -1,7 +1,8 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import Table from '../Table'
-import TableContainer, { TableContainerAllProps } from '../TableContainer'
+import type { TableContainerAllProps } from '../TableContainer'
+import TableContainer from '../TableContainer'
 import { H2, P } from '../../../elements'
 
 describe('TableContainer', () => {

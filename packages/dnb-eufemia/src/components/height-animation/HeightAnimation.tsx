@@ -1,10 +1,8 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React, { useRef } from 'react'
 import clsx from 'clsx'
-import {
-  useHeightAnimation,
-  UseHeightAnimationOptions,
-} from './useHeightAnimation'
+import type { UseHeightAnimationOptions } from './useHeightAnimation'
+import { useHeightAnimation } from './useHeightAnimation'
 import Space from '../space/Space'
 
 import type { DynamicElement, SpacingProps } from '../../shared/types'

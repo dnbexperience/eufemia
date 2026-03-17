@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const SliderProperties: PropertiesTableProps = {
   value: {
@@ -43,7 +43,7 @@ export const SliderProperties: PropertiesTableProps = {
   },
   multiThumbBehavior: {
     doc: 'Use either `omit`, `push` or `swap`. This property only works for two (range) or more thumb buttons, while `omit` will stop the thumb from swapping, `push` will push its nearest thumb along. Defaults to `swap`.',
-    type: ['omit', 'push', 'swap'],
+    type: ['"omit"', '"push"', '"swap"'],
     status: 'optional',
   },
   thumbTitle: {
@@ -83,7 +83,7 @@ export const SliderProperties: PropertiesTableProps = {
   },
   labelDirection: {
     doc: 'Use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`.',
-    type: ['horizontal', 'vertical'],
+    type: ['"horizontal"', '"vertical"'],
     status: 'optional',
   },
   labelSrOnly: {
@@ -93,12 +93,12 @@ export const SliderProperties: PropertiesTableProps = {
   },
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['error', 'info', 'boolean'],
+    type: ['"error"', '"info"', 'boolean'],
     status: 'optional',
   },
   statusState: {
     doc: 'Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.',
-    type: ['error', 'info'],
+    type: ['"error"', '"info"'],
     status: 'optional',
   },
   statusProps: {

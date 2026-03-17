@@ -8,10 +8,11 @@ import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as helpers from '../../../shared/helpers'
 import type { MaskitoOptions } from '@maskito/core'
-import MultiInputMask, {
+import type {
   MultiInputMaskInput,
   MultiInputMaskProps,
 } from '../MultiInputMask'
+import MultiInputMask from '../MultiInputMask'
 
 const defaultProps: MultiInputMaskProps<'day' | 'month' | 'year'> = {
   inputs: [

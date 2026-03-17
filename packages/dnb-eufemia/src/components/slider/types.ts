@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 
 import type { SuffixChildren } from '../../shared/helpers/Suffix'
 import type { NumberFormatOptionParams } from '../number-format/NumberUtils'

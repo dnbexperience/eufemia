@@ -1,14 +1,14 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const PaginationProperties: PropertiesTableProps = {
   mode: {
     doc: 'If set to `infinity`, then the pagination bar will be now shown and but infinity scrolling will do the content presentation. For more information, check out the [Infinity Scroller](/uilib/components/pagination/infinity-scroller). Defaults to `pagination`.',
-    type: ['pagination', 'infinity'],
+    type: ['"pagination"', '"infinity"'],
     status: 'optional',
   },
   paginationBarLayout: {
     doc: 'The layout of the pagination bar. Defaults to `vertical`.',
-    type: ['vertical', 'horizontal'],
+    type: ['"vertical"', '"horizontal"'],
     status: 'optional',
   },
   children: {
@@ -18,7 +18,7 @@ export const PaginationProperties: PropertiesTableProps = {
   },
   align: {
     doc: 'Define the alignment of the pagination button bar. Can be `center`, `left` or `right`. Defaults to `left`.',
-    type: ['left', 'center', 'right'],
+    type: ['"left"', '"center"', '"right"'],
     status: 'optional',
   },
   startupPage: {

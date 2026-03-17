@@ -3,7 +3,8 @@
  *
  */
 
-import React, { HTMLProps, useContext, useState } from 'react'
+import type { HTMLProps } from 'react'
+import React, { useContext, useState } from 'react'
 import type { SpacingProps } from '../space/types'
 
 import {

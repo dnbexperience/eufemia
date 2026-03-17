@@ -6,7 +6,8 @@
 import React from 'react'
 import { axeComponent } from '../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
-import Element, { defaultProps, ElementAllProps } from '../Element'
+import type { ElementAllProps } from '../Element'
+import Element, { defaultProps } from '../Element'
 import { Provider } from '../../shared'
 
 const myPElement = (props) => <p {...props} />

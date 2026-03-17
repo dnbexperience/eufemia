@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../shared/types'
+import type { PropertiesTableProps } from '../../../shared/types'
 
 export const FieldBlockSharedProperties: PropertiesTableProps = {
   label: {
@@ -23,7 +23,7 @@ export const FieldBlockSharedProperties: PropertiesTableProps = {
   },
   labelSize: {
     doc: 'Define the font-size of the label based on the [font-size](/uilib/typography/font-size/) table.',
-    type: ['medium', 'large'],
+    type: ['"medium"', '"large"'],
     status: 'optional',
   },
   help: {

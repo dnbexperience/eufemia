@@ -1,7 +1,9 @@
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
-import Timeline, { TimelineAllProps } from '../Timeline'
-import TimelineItem, { TimelineItemAllProps } from '../TimelineItem'
+import type { TimelineAllProps } from '../Timeline'
+import Timeline from '../Timeline'
+import type { TimelineItemAllProps } from '../TimelineItem'
+import TimelineItem from '../TimelineItem'
 
 import IconPrimary from '../../icon-primary/IconPrimary'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'

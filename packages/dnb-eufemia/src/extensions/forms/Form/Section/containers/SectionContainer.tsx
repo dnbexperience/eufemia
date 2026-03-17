@@ -7,10 +7,9 @@ import React, {
 } from 'react'
 import clsx from 'clsx'
 import { Card, HeightAnimation } from '../../../../../components'
-import SectionContainerContext, {
-  SectionContainerContextState,
-} from './SectionContainerContext'
-import { FlexContainerAllProps as FlexContainerProps } from '../../../../../components/flex/Container'
+import type { SectionContainerContextState } from './SectionContainerContext'
+import SectionContainerContext from './SectionContainerContext'
+import type { FlexContainerAllProps as FlexContainerProps } from '../../../../../components/flex/Container'
 import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'
 import withComponentMarkers from '../../../../../shared/helpers/withComponentMarkers'
 

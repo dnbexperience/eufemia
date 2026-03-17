@@ -1,5 +1,5 @@
 import React from 'react'
-import { AriaLiveAllProps } from './types'
+import type { AriaLiveAllProps } from './types'
 import useAriaLive from './useAriaLive'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 

@@ -4,8 +4,8 @@
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import type { HTMLProps } from 'react'
 import React, {
-  HTMLProps,
   useCallback,
   useContext,
   useEffect,
@@ -29,32 +29,35 @@ import { skeletonDOMAttributes } from '../skeleton/SkeletonHelper'
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
-import FormStatus, { FormStatusBaseProps } from '../form-status/FormStatus'
-import DatePickerProvider, {
+import type { FormStatusBaseProps } from '../form-status/FormStatus'
+import FormStatus from '../form-status/FormStatus'
+import DatePickerProvider from './DatePickerProvider'
+import type {
   DatePickerChangeEvent,
-  type DatePickerReturnObject,
+  DatePickerReturnObject,
 } from './DatePickerProvider'
 import DatePickerRange from './DatePickerRange'
 import DatePickerInput from './DatePickerInput'
-import DatePickerAddon, { DatePickerAddonProps } from './DatePickerAddon'
+import type { DatePickerAddonProps } from './DatePickerAddon'
+import DatePickerAddon from './DatePickerAddon'
 import DatePickerFooter from './DatePickerFooter'
-import { SpacingProps } from '../space/types'
-import { InputElement, InputSize } from '../Input'
-import { SkeletonShow } from '../Skeleton'
+import type { SpacingProps } from '../space/types'
+import type { InputElement, InputSize } from '../Input'
+import type { SkeletonShow } from '../Skeleton'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
-import {
+import type {
   DatePickerCalendarDay,
   DatePickerCalendarProps,
 } from './DatePickerCalendar'
-import {
+import type {
   DatePickerContextValue,
   DatePickerDateType,
 } from './DatePickerContext'
-import { DatePickerDates } from './hooks/useDates'
+import type { DatePickerDates } from './hooks/useDates'
 import { useTranslation } from '../../shared'
 import Popover from '../popover/Popover'
+import type { DateFormatOptions } from '../date-format/DateFormatUtils'
 import {
-  DateFormatOptions,
   formatDate,
   formatDateRange,
 } from '../date-format/DateFormatUtils'

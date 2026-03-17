@@ -1,6 +1,6 @@
 import { useContext, useMemo } from 'react'
 import pointer from '../utils/json-pointer'
-import { FieldProps, Path } from '../types'
+import type { FieldProps, Path } from '../types'
 import DataContext from '../DataContext/Context'
 import IterateItemContext from '../Iterate/IterateItemContext'
 

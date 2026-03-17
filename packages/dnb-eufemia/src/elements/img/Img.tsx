@@ -9,8 +9,8 @@ import {
   createSpacingClasses,
   removeSpaceProps,
 } from '../../components/space/SpacingHelper'
-import { SpacingProps } from '../../components/space/types'
-import { SkeletonShow } from '../../components/skeleton/Skeleton'
+import type { SpacingProps } from '../../components/space/types'
+import type { SkeletonShow } from '../../components/skeleton/Skeleton'
 import clsx from 'clsx'
 import type { DynamicElement } from '../../shared/types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'

@@ -10,11 +10,12 @@ import clsx from 'clsx'
 // Components
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
-import Section, {
+import type {
   SectionSpacing,
   SectionStyle,
   SectionVariants,
 } from '../section/Section'
+import Section from '../section/Section'
 import Button from '../button/Button'
 
 // Shared
@@ -23,7 +24,8 @@ import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 
 // Internal
-import BreadcrumbItem, { BreadcrumbItemProps } from './BreadcrumbItem'
+import type { BreadcrumbItemProps } from './BreadcrumbItem'
+import BreadcrumbItem from './BreadcrumbItem'
 import {
   convertJsxToString,
   validateDOMAttributes,

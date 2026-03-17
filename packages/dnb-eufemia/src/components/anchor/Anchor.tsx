@@ -6,7 +6,8 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import React from 'react'
 import clsx from 'clsx'
-import E, { ElementAllProps } from '../../elements/Element'
+import type { ElementAllProps } from '../../elements/Element'
+import E from '../../elements/Element'
 import Context from '../../shared/Context'
 import {
   makeUniqueId,

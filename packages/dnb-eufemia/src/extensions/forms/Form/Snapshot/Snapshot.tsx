@@ -1,8 +1,9 @@
 import React, { useCallback, useContext, useEffect, useRef } from 'react'
-import SnapshotContext, { SnapshotContextState } from './SnapshotContext'
+import type { SnapshotContextState } from './SnapshotContext'
+import SnapshotContext from './SnapshotContext'
 import DataContext from '../../DataContext/Context'
-import { SharedStateId } from '../../../../shared/helpers/useSharedState'
-import { Path } from '../../types'
+import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
+import type { Path } from '../../types'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type SnapshotId = SharedStateId | number

@@ -2,7 +2,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm-react-markdown'
 import styled from '@emotion/styled'
 import { Table, Td, Th, Tr } from '@dnb/eufemia/src'
-import { PropertiesTableProps } from '@dnb/eufemia/src/shared/types'
+import type { PropertiesTableProps } from '@dnb/eufemia/src/shared/types'
 import { basicComponents } from '../tags'
 
 const components = {
