@@ -12,7 +12,7 @@ import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 export type PaginationIndicatorElement =
   | Record<string, unknown>
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
   | string
 
 export type PaginationIndicatorProps = {

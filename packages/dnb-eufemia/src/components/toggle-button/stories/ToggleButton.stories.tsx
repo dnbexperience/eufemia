@@ -197,24 +197,24 @@ export const ToggleButtonSandbox = () => (
           <ToggleButton
             value="first"
             text="First"
-            onChange={({ group, value }) => {
-              console.log('onChange', group, value)
+            onChange={({ value }) => {
+              console.log('onChange', value)
             }}
           />
           <ToggleButton
             checked
             value="second"
             text="Second"
-            onChange={({ group, value }) => {
-              console.log('onChange', group, value)
+            onChange={({ value }) => {
+              console.log('onChange', value)
             }}
           />
           <ToggleButton
             checked
             value="third"
             text="Third"
-            onChange={({ group, value }) => {
-              console.log('onChange', group, value)
+            onChange={({ value }) => {
+              console.log('onChange', value)
             }}
           />
         </span>
@@ -394,7 +394,7 @@ export function MultiselectRerender() {
         values={values}
         onChange={({ values }) => {
           console.log('onChange', values)
-          setValues(values)
+          setValues(values as string[])
         }}
       >
         <ToggleButton text="First" value="first" />

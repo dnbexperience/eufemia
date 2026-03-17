@@ -487,14 +487,20 @@ import type { ToggleButtonGroupProps } from './ToggleButtonGroup'
 export type ToggleButtonVariant = 'default' | 'checkbox' | 'radio'
 export type ToggleButtonSuffix =
   | string
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
   | React.ReactNode
 export type ToggleButtonValue =
   | string
   | number
   | Record<string, unknown>
   | any[]
-export type ToggleButtonChildren = string | ((...args: any[]) => any)
+export type ToggleButtonChildren = string | (() => React.ReactNode)
+
+export type ToggleButtonChangeEvent = {
+  checked: boolean
+  value: ToggleButtonValue
+  event: React.SyntheticEvent
+}
 
 export type ToggleButtonProps = Omit<
   React.HTMLProps<HTMLButtonElement>,
@@ -575,7 +581,7 @@ export type ToggleButtonProps = Omit<
     readOnly?: boolean
     className?: string
     children?: ToggleButtonChildren
-    onChange?: (...args: any[]) => any
+    onChange?: (event: ToggleButtonChangeEvent) => void
     // Additional properties that are used in tests and stories
     top?: SpaceType
     right?: SpaceType

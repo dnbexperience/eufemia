@@ -84,15 +84,17 @@ type AutocompleteIndicatorLabel = string | React.ReactNode
 type AutocompleteSubmitButtonIcon =
   | string
   | React.ReactNode
-  | ((...args: any[]) => any)
+  | (() => React.ReactNode)
 type AutocompleteInputRef =
-  | ((...args: any[]) => any)
+  | ((element: HTMLInputElement | null) => void)
   | React.RefObject<HTMLInputElement | undefined>
 type AutocompleteInputIcon =
   | string
   | React.ReactNode
-  | ((...args: any[]) => any)
-type AutocompleteInputElement = ((...args: any[]) => any) | React.ReactNode
+  | (() => React.ReactNode)
+type AutocompleteInputElement =
+  | ((...args: any[]) => React.ReactNode)
+  | React.ReactNode
 type AutocompleteSearchInWordIndex = string | number
 type AutocompleteSearchMatch = 'word' | 'starts-with'
 
@@ -120,7 +122,7 @@ export type AutocompleteEventMethods = {
   hideIndicator: () => void
   setMode: (mode: 'sync' | 'async') => void
   debounce: (
-    func: (...args: any[]) => any,
+    func: (...args: unknown[]) => void,
     props?: Record<string, unknown>,
     wait?: number
   ) => void
@@ -345,7 +347,7 @@ export type AutocompleteProps = {
 
 export type AutocompleteAllProps = AutocompleteProps &
   FormStatusBaseProps &
-  DrawerListProps &
+  Omit<DrawerListProps, 'onChange' | 'onSelect'> &
   SpacingProps &
   Omit<
     React.HTMLProps<HTMLElement>,

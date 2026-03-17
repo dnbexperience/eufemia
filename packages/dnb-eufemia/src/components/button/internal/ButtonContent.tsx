@@ -7,7 +7,7 @@ type ButtonContentProps = {
   title?: React.ReactNode
   content?: React.ReactNode
   customContent?: React.ReactNode
-  icon?: IconIcon | React.ReactNode | ((...args: any[]) => any)
+  icon?: IconIcon | React.ReactNode | (() => React.ReactNode)
   iconSize?: IconSize | string | number
   bounding?: boolean
   skeleton?: boolean
