@@ -859,7 +859,6 @@ export default class Tabs extends React.PureComponent<
       nextIndex = 0
     }
     return currentData.reduce(
-      // @ts-expect-error -- strictFunctionTypes
       (acc, { key }, i) => (i === nextIndex ? key : acc),
       null
     )

@@ -112,7 +112,6 @@ export function onMediaQueryChange(
     }
   }
 
-  // @ts-expect-error -- strictFunctionTypes
   return createMediaQueryListener(mediaQueryList, callback)
 }
 

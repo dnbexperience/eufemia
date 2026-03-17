@@ -128,7 +128,6 @@ export default function HelpButtonInline(props: HelpButtonInlineProps) {
         aria-controls={`${controlId}-content`}
         aria-expanded={isOpen}
         aria-label={title || undefined}
-        // @ts-expect-error -- strictFunctionTypes
         onClick={onClickHandler}
         onKeyDown={onKeyDownHandler}
         ref={buttonRef}

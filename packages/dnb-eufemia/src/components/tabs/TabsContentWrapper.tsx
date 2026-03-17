@@ -111,7 +111,6 @@ export default function ContentWrapper({
       role="tabpanel"
       tabIndex={-1}
       id={`${id}-content`}
-      // @ts-expect-error -- strictFunctionTypes
       element={
         contentStyle
           ? ({

@@ -35,7 +35,6 @@ export function IterateOverSteps({
       let step = child
 
       if (child?.type !== Step && typeof child.type === 'function') {
-        // @ts-expect-error -- strictFunctionTypes
         step = child.type.apply(child.type, [
           child.props,
         ]) as React.ReactElement

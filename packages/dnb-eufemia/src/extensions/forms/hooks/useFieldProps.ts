@@ -1684,14 +1684,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       if (hasFocus) {
         // Field was put in focus (like when clicking in a text field or opening a dropdown menu)
         hasFocusRef.current = true
-        onFocus?.apply(null, args as [any])
+        onFocus?.(...(args as [any]))
         setMountedFieldStateDataContext(identifier, {
           isFocused: true,
         })
       } else {
         // Field was removed from focus (like when tabbing out of a text field or closing a dropdown menu)
         hasFocusRef.current = false
-        onBlur?.apply(null, args as [any])
+        onBlur?.(...(args as [any]))
         setMountedFieldStateDataContext(identifier, {
           isFocused: false,
         })
@@ -2082,8 +2082,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
             if (!hasError()) {
               // If the value has changed during the async process, we don't want to call the onChange anymore
               await setEventResult(
-                // @ts-expect-error -- strictFunctionTypes
-                (await onChange?.apply(null, args as [any])) ?? null
+                (await onChange?.(...(args as [any]))) ?? null
               )
             } else {
               await setEventResult(null)
@@ -2100,7 +2099,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         })
 
         setEventResult(
-          (onChange?.apply(null, args as [any]) as
+          (onChange?.(...(args as [any])) as
             | EventReturnWithStateObjectAndSuccess
             | undefined) ?? null
         )

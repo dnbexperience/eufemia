@@ -476,7 +476,6 @@ function ArrayComponent(props: Props) {
         shellSpace={{ top: 0, bottom: 'medium' }}
         noAnimation={false}
       >
-        {/* @ts-expect-error -- strictFunctionTypes */}
         {getMessagesFromError({ content: error || limitWarning })[0]}
       </FormStatus>
     </>

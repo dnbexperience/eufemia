@@ -110,7 +110,6 @@ export function renderWithSpacing(
 
   if (variant === 'children') {
     return React.Children.toArray(element).map(
-      // @ts-expect-error -- strictFunctionTypes
       (child: React.ReactElement<any>) => {
         const children = child?.props?.children
         const { key: childKey, ...childProps } = child?.props || {}

@@ -179,7 +179,6 @@ const Tag = (
       }
       iconPosition={addIcon ? 'right' : 'left'}
       className={tagClassNames}
-      // @ts-expect-error -- strictFunctionTypes
       onClick={onClick}
       text={content}
       skeleton={skeleton}

@@ -48,7 +48,6 @@ export const BreadcrumbMultiple = ({
 
         {React.Children.toArray(items)
           .filter((item) => React.isValidElement(item))
-          // @ts-expect-error -- strictFunctionTypes
           .map((item: React.ReactElement<BreadcrumbItemProps>, i) => (
             <BreadcrumbItemContext key={i} value={{ itemNo: i }}>
               {item}

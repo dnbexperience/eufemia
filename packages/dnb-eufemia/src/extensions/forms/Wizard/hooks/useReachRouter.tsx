@@ -18,7 +18,6 @@ export default function useReachRouter(
         url.searchParams.set(name, String(index))
         navigate(url.href)
       } catch (error) {
-        // @ts-expect-error -- strictFunctionTypes
         setFormError(error)
       }
     },
@@ -32,7 +31,6 @@ export default function useReachRouter(
       const searchParams = new URLSearchParams(location.search)
       return parseFloat(searchParams.get(name))
     } catch (error) {
-      // @ts-expect-error -- strictFunctionTypes
       setFormError(error)
     }
   }, [location.search, name, setFormError])

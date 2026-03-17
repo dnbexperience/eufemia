@@ -328,7 +328,6 @@ function Selection(props: Props) {
         title: placeholder,
         value: String(value ?? ''),
         status:
-          // @ts-expect-error -- strictFunctionTypes
           (hasError || checkForError([error, info, warning])) && 'error',
         disabled,
         ...htmlAttributes,
@@ -450,7 +449,6 @@ function renderRadioItems({
         role="radio"
         value={String(value ?? valueProp) || undefined}
         status={
-          // @ts-expect-error -- strictFunctionTypes
           (hasError || checkForError([error, info, warning])) && 'error'
         }
         suffix={suffix}
@@ -476,7 +474,6 @@ export function mapOptions(
   }: { createOption: (props: OptionProps, i: number) => React.ReactNode }
 ) {
   return React.Children.map(
-    // @ts-expect-error -- strictFunctionTypes
     children,
     (child: React.ReactElement<OptionProps>, i) => {
       if (React.isValidElement(child)) {

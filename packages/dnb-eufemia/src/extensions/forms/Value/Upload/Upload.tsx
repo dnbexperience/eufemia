@@ -37,7 +37,6 @@ function Upload(props: Props) {
     displaySize = false,
     onFileClick,
     ...rest
-    // @ts-expect-error -- strictFunctionTypes
   } = useValueProps(preparedProps)
 
   const list = useMemo(() => {
@@ -79,7 +78,6 @@ function Upload(props: Props) {
   ])
 
   return (
-    // @ts-expect-error -- strictFunctionTypes
     <ValueBlock
       className={clsx('dnb-forms-value-upload', className)}
       {...rest}
