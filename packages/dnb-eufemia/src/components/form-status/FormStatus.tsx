@@ -25,7 +25,7 @@ import {
 } from '../skeleton/SkeletonHelper'
 import {
   pickFormElementProps,
-  FormElementProps,
+  type FormElementProps,
 } from '../../shared/helpers/filterValidProps'
 import ui from '../../style/themes/ui/properties'
 import sbanken from '../../style/themes/sbanken/properties'
