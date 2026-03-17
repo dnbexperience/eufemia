@@ -1709,6 +1709,19 @@ All React context value types have been renamed to use a consistent `...ContextV
 
 The `ListContext` type (which previously collided with the `ListContext` variable) has been renamed to `ListContextValue`.
 
+### Stuttering type name renames
+
+Several exported types had redundant/repeated words in their names. These have been cleaned up:
+
+| Before                                | After                        |
+| ------------------------------------- | ---------------------------- |
+| `InputInputElement`                   | `InputElement`               |
+| `TextareaTextareaElement`             | `TextareaElement`            |
+| `PaginationIndicatorIndicatorElement` | `PaginationIndicatorElement` |
+| `SpaceTypesType`                      | `SpaceSize`                  |
+| `SpaceTypesPositiveValuesType`        | `SpacePositiveSize`          |
+| `SpaceTypesPositiveRemValuesType`     | `SpacePositiveRemValue`      |
+
 ## Theming
 
 - Replace import from path `style/themes/theme-ui/` with `style/themes/ui/`
