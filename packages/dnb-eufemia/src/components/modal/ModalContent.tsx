@@ -40,7 +40,6 @@ import {
 } from './helpers'
 import { getThemeClasses } from '../../shared/Theme'
 import { Context } from '../../shared'
-import type { ContextProps } from '../../shared/Context'
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
@@ -118,7 +117,10 @@ export default function ModalContent(props: ModalContentProps) {
   selfRef.current._contentRef = contentRef
 
   const setModalContentState = useCallback(
-    (event: React.SyntheticEvent, { triggeredBy }: ModalCloseHandlerParams) => {
+    (
+      event: React.SyntheticEvent,
+      { triggeredBy }: ModalCloseHandlerParams
+    ) => {
       triggeredByRef.current = triggeredBy
       triggeredByEventRef.current = event
     },

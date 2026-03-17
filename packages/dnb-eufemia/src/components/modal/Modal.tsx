@@ -13,7 +13,6 @@ import React, {
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import clsx from 'clsx'
 import { SuffixContext } from '../../shared/helpers/Suffix'
-import type { ContextProps } from '../../shared/Context'
 import Context from '../../shared/Context'
 import useId from '../../shared/helpers/useId'
 import {
@@ -491,7 +490,7 @@ function ModalComponent(ownProps: ModalAllProps) {
           {...usedTriggerAttributes}
           id={_id.current}
           title={title}
-          onClick={toggleOpenClose}
+          onClick={(event) => toggleOpenClose(event.nativeEvent)}
           ref={triggerRef}
           className={clsx(
             'dnb-modal__trigger',
