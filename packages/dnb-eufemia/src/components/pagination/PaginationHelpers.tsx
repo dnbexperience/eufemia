@@ -9,14 +9,14 @@ import clsx from 'clsx'
 import Context from '../../shared/Context'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 
-export type PaginationIndicatorIndicatorElement =
+export type PaginationIndicatorElement =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any)
   | string
 
 export type PaginationIndicatorProps = {
-  indicatorElement?: PaginationIndicatorIndicatorElement
+  indicatorElement?: PaginationIndicatorElement
 }
 
 export const PaginationIndicator = ({
