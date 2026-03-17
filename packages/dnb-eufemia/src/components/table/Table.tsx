@@ -12,7 +12,7 @@ import ScrollView from './TableScrollView'
 import { TableContext } from './TableContext'
 import { useStickyHeader } from './TableStickyHeader'
 
-import type { StickyTableHeaderProps } from './TableStickyHeader'
+import type { TableStickyHeaderProps } from './TableStickyHeader'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import type { LocaleProps, SpacingProps } from '../../shared/types'
 import { useHandleOddEven } from './TableTr'
@@ -86,7 +86,7 @@ export type TableProps = {
    * Default: `undefined`
    */
   collapseAllHandleRef?: React.RefObject<() => void>
-} & StickyTableHeaderProps
+} & TableStickyHeaderProps
 
 export type TableAllProps = TableProps &
   Omit<React.TableHTMLAttributes<HTMLTableElement>, 'border'> &

@@ -2,7 +2,7 @@ import { addMonths } from 'date-fns'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { DatePickerDates } from './useDates'
 
-export type CalendarView = { nr: number; month?: Date }
+export type DatePickerCalendarView = { nr: number; month?: Date }
 
 export type ViewDates = {
   startMonth?: DatePickerDates['startMonth']
@@ -15,7 +15,7 @@ export type UseViewsParams = ViewDates & {
 
 export default function useViews({ isRange, ...dates }: UseViewsParams) {
   const [previousDates, setPreviousDates] = useState(dates)
-  const [views, setViews] = useState<Array<CalendarView>>(
+  const [views, setViews] = useState<Array<DatePickerCalendarView>>(
     getViews({ ...dates, isRange })
   )
 
@@ -51,7 +51,7 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
   }
 
   function updateViews(
-    views: Array<CalendarView>,
+    views: Array<DatePickerCalendarView>,
     cb: (...args: unknown[]) => void = null
   ) {
     setViews(views)
@@ -68,7 +68,7 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
 export function getViews({
   isRange,
   ...dates
-}: ViewDates & UseViewsParams): Array<CalendarView> {
+}: ViewDates & UseViewsParams): Array<DatePickerCalendarView> {
   return isRange
     ? [
         { nr: 0, month: getMonthView({ months: dates, nr: 0 }) },

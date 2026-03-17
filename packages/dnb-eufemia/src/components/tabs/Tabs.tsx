@@ -158,7 +158,7 @@ export type TabsProps = Omit<
     onFocus?: (...args: any[]) => any
   }
 
-export type DummyProps = {
+export type TabsDummyProps = {
   /**
    * the content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.
    */

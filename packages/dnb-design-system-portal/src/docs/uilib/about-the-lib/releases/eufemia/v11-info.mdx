@@ -1739,6 +1739,74 @@ Types using a plural `Types` suffix have been renamed to use singular form for c
 | `FormatTypes`                 | `FormatType`             |
 | `UploadAcceptedFileTypes`     | `UploadAcceptedFiles`    |
 
+### Non-prefixed type renames
+
+Several exported types lacked a component namespace prefix, risking name collisions. They have been prefixed:
+
+| Before                        | After                               |
+| ----------------------------- | ----------------------------------- |
+| `End`                         | `FlexEnd`                           |
+| `Start`                       | `FlexStart`                         |
+| `Spans`                       | `FlexSpans`                         |
+| `Span` (flex)                 | `FlexSpan`                          |
+| `GroupProps`                  | `AccordionGroupProps`               |
+| `StoreDataReturn`             | `AccordionStoreDataReturn`          |
+| `StoreOptions`                | `AccordionStoreOptions`             |
+| `TextColor`                   | `SectionTextColor`                  |
+| `OutlineColor`                | `SectionOutlineColor`               |
+| `BackgroundColor`             | `SectionBackgroundColor`            |
+| `DropShadow`                  | `SectionDropShadow`                 |
+| `RoundedCorner`               | `SectionRoundedCorner`              |
+| `TriggeredBy`                 | `ModalTriggeredBy`                  |
+| `CloseHandler`                | `ModalCloseHandler`                 |
+| `CloseHandlerParams`          | `ModalCloseHandlerParams`           |
+| `TriggerAttributes` (modal)   | `ModalTriggerAttributes`            |
+| `TriggerAttributes` (popover) | `PopoverTriggerAttributes`          |
+| `ValueTypes`                  | `SliderValue`                       |
+| `NumberFormatTypes`           | `SliderNumberFormat`                |
+| `ThumbState`                  | `SliderThumbState`                  |
+| `DummyProps`                  | `TabsDummyProps`                    |
+| `ContentWrapperProps`         | `TabsContentWrapperProps`           |
+| `ContentWrapperSelectedKey`   | `TabsContentWrapperSelectedKey`     |
+| `ContentWrapperChildren`      | `TabsContentWrapperChildren`        |
+| `CustomContentProps`          | `TabsCustomContentProps`            |
+| `CustomContentTitle`          | `TabsCustomContentTitle`            |
+| `CustomContentChildren`       | `TabsCustomContentChildren`         |
+| `AutoSizeProps`               | `SkeletonAutoSizeProps`             |
+| `ElementsHiddenProps`         | `AvatarElementsHiddenProps`         |
+| `LoadButtonProps`             | `PaginationLoadButtonProps`         |
+| `InfinityScrollerProps`       | `PaginationInfinityScrollerProps`   |
+| `InfinityLoadButtonProps`     | `PaginationInfinityLoadButtonProps` |
+| `CreatePaginationReturn`      | `PaginationCreateReturn`            |
+| `DateType`                    | `DatePickerDateType`                |
+| `CalendarDay`                 | `DatePickerCalendarDay`             |
+| `CalendarNavigationEvent`     | `DatePickerCalendarNavigationEvent` |
+| `CalendarView`                | `DatePickerCalendarView`            |
+| `ReturnObject`                | `DatePickerReturnObject`            |
+| `InvalidDates`                | `DatePickerInvalidDates`            |
+| `PartialDates`                | `DatePickerPartialDates`            |
+| `SubmittedDates`              | `DatePickerSubmittedDates`          |
+| `FormatType`                  | `NumberFormatType`                  |
+| `FormatCurrencyPosition`      | `NumberFormatCurrencyPosition`      |
+| `FormatReturnValue`           | `NumberFormatReturnValue`           |
+| `FormatValue`                 | `NumberFormatValue`                 |
+| `FormatReturnType`            | `NumberFormatReturnType`            |
+| `FormatOptionParams`          | `NumberFormatOptionParams`          |
+| `FormatDateOptions`           | `DateFormatOptions`                 |
+| `RelativeTimeUnit`            | `DateFormatRelativeTimeUnit`        |
+| `StickyTableHeaderProps`      | `TableStickyHeaderProps`            |
+| `SortState`                   | `TableSortState`                    |
+| `SortEventHandler`            | `TableSortEventHandler`             |
+| `SortHandler`                 | `TableSortHandler`                  |
+| `SubmitButtonProps`           | `InputSubmitButtonProps`            |
+| `CustomSize`                  | `ProgressIndicatorCustomSize`       |
+| `TimeLineItemStates`          | `TimelineItemState`                 |
+| `Columns` (grid/Item)         | `GridItemColumns`                   |
+| `Span` (grid/Item)            | `GridItemSpan`                      |
+| `Media` (grid/Item)           | `GridItemMedia`                     |
+| `Columns` (grid/Container)    | `GridContainerColumns`              |
+| `Media` (grid/Container)      | `GridContainerMedia`                |
+
 ## Theming
 
 - Replace import from path `style/themes/theme-ui/` with `style/themes/ui/`

@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import Space, { SpaceProps } from '../space/Space'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type Spans =
+export type FlexSpans =
   | 1
   | 2
   | 3
@@ -18,18 +18,18 @@ export type Spans =
   | 12
   | 'auto'
 type MediaSpans = {
-  xsmall?: Spans
-  small?: Spans
-  medium?: Spans
-  large?: Spans
+  xsmall?: FlexSpans
+  small?: FlexSpans
+  medium?: FlexSpans
+  large?: FlexSpans
 }
-export type Span = MediaSpans | Spans
+export type FlexSpan = MediaSpans | FlexSpans
 
 export type FlexItemProps = {
   grow?: boolean
   shrink?: boolean
   alignSelf?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch'
-  span?: Span
+  span?: FlexSpan
   ref?: React.Ref<HTMLElement>
 }
 
@@ -58,14 +58,14 @@ function FlexItem(props: FlexItemAllProps) {
     span && 'dnb-flex-item--responsive'
   )
 
-  const isValidSpan = React.useCallback((span: Spans) => {
+  const isValidSpan = React.useCallback((span: FlexSpans) => {
     return typeof span === 'number' || span === 'auto'
   }, [])
 
   const spaceStyles = {} as React.CSSProperties
 
   if (span) {
-    if (isValidSpan(span as Spans)) {
+    if (isValidSpan(span as FlexSpans)) {
       spaceStyles['--span--default'] = span
     } else {
       const spans = span as MediaSpans

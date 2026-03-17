@@ -1,17 +1,17 @@
 import React from 'react'
 
 import type { SuffixChildren } from '../../shared/helpers/Suffix'
-import type { FormatOptionParams } from '../number-format/NumberUtils'
+import type { NumberFormatOptionParams } from '../number-format/NumberUtils'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import type { GlobalStatusConfigObject } from '../GlobalStatus'
 
-export type ValueTypes = number | Array<number>
-export type NumberFormatTypes =
-  | FormatOptionParams
+export type SliderValue = number | Array<number>
+export type SliderNumberFormat =
+  | NumberFormatOptionParams
   | ((value: number) => unknown)
 export type SliderOnChangeParams = {
-  value: ValueTypes
+  value: SliderValue
   rawValue: number
   number?: string | null
   event?: Event
@@ -64,7 +64,7 @@ export type SliderProps = {
   max?: number
 
   /** the `value` of the slider as a number. If an array with numbers is provided, each number will represent a thumb button (the `+` and `-` button will be hidden on multiple thumbs). */
-  value?: ValueTypes
+  value?: SliderValue
 
   /** the steps the slider takes on changing the value. Defaults to `null`. */
   step?: number
@@ -82,7 +82,7 @@ export type SliderProps = {
   stretch?: boolean
 
   /** provide a function callback or use the options from the [NumberFormat](/uilib/components/number-format/properties) component. It will show a formatted number in the Tooltip (`tooltip={true}`) and enhance the screen reader UX. It will also extend the `onChange` event return object with a formatted `number` property. */
-  numberFormat?: NumberFormatTypes
+  numberFormat?: SliderNumberFormat
 
   /** use `true` to show a tooltip on `mouseOver`, `touchStart` and `focus`, showing the current number (if `numberFormat` is given) or the raw value. Defaults to `null`. */
   tooltip?: boolean
@@ -119,23 +119,27 @@ export type SliderAllProps = SliderProps &
   SpacingProps &
   Omit<React.HTMLProps<HTMLElement>, keyof SliderProps>
 
-export type ThumbState = 'initial' | 'normal' | 'activated' | 'released'
+export type SliderThumbState =
+  | 'initial'
+  | 'normal'
+  | 'activated'
+  | 'released'
 
 export type SliderContextValue = {
   isMulti: boolean
   isReverse: boolean
   isVertical: boolean
   shouldAnimate: boolean
-  thumbState: ThumbState
+  thumbState: SliderThumbState
   thumbIndex: React.RefObject<number>
   showStatus: boolean
   showButtons: boolean
   attributes: unknown
   allProps: SliderProps
-  value: ValueTypes
+  value: SliderValue
   values: Array<number>
-  setValue: (value: ValueTypes) => void
-  setThumbState: (thumbState: ThumbState) => void
+  setValue: (value: SliderValue) => void
+  setThumbState: (thumbState: SliderThumbState) => void
   setThumbIndex: (thumbIndex: number) => void
   emitChange: (emitEvent: MouseEvent | TouchEvent, value: number) => void
   trackRef: React.RefObject<HTMLElement>

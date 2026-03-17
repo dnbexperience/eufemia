@@ -21,7 +21,7 @@ import { hasSelectedText } from '@dnb/eufemia/src/shared/helpers'
 
 import {
   createPagination,
-  CreatePaginationReturn,
+  PaginationCreateReturn,
 } from '@dnb/eufemia/src/components/Pagination'
 
 type HeightLimitProps = {
@@ -185,7 +185,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   // create our Pagination instance
   const [
     { Pagination, setContent, resetContent, resetInfinity, endInfinity },
-  ] = React.useState<CreatePaginationReturn>(createPagination)
+  ] = React.useState<PaginationCreateReturn>(createPagination)
   const [orderDirection, setOrderDirection] = React.useState('asc')
   const [currentPage, setLocalPage] = React.useState(null)
   const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
