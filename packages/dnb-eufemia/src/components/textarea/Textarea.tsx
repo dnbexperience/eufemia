@@ -43,7 +43,7 @@ export type TextareaAlign = 'left' | 'center' | 'right' | 'justify'
 export type TextareaAutoresizeMaxRows = string | number
 export type TextareaRows = number | string
 export type TextareaCols = number | string
-export type TextareaTextareaElement =
+export type TextareaElement =
   | ((
       params: React.TextareaHTMLAttributes<HTMLTextAreaElement>,
       ref: React.RefObject<HTMLTextAreaElement | null>
@@ -153,7 +153,7 @@ export type TextareaProps = Omit<
     rows?: TextareaRows
     cols?: TextareaCols
     className?: string
-    textareaElement?: TextareaTextareaElement
+    textareaElement?: TextareaElement
     children?: TextareaChildren
     onChange?: (event: TextareaChangeEvent) => void
     onFocus?: (

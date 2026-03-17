@@ -21,7 +21,7 @@ import MultiInputMask, {
 } from '../input-masked/MultiInputMask'
 import Button from '../button/Button'
 import Input, { SubmitButton } from '../input/Input'
-import type { InputInputElement, InputSize } from '../Input'
+import type { InputElement, InputSize } from '../Input'
 import { warn, validateDOMAttributes } from '../../shared/component-helper'
 import { convertStringToDate } from './DatePickerCalc'
 import DatePickerContext from './DatePickerContext'
@@ -59,7 +59,7 @@ export type DatePickerInputProps = Omit<
     /**
      * Gives you the possibility to use a plain/vanilla `<input />` HTML element by defining it as a string `inputElement="input"`, a React element, or a render function `inputElement={(internalProps) => (<Return />)}`. Can also be used in circumstances where the masked input should not be used, e.g. in testing environments. Defaults to custom masked input.
      */
-    inputElement?: InputInputElement
+    inputElement?: InputElement
     /**
      * If set to `true`, an overlaying skeleton with animation will be shown.
      */
