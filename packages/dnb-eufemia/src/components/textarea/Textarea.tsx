@@ -499,7 +499,7 @@ function TextareaComponent(
   const showStatus = getStatusState(status)
   const currentHasValue = hasValue(value)
 
-  let TextareaElement: TextareaTextareaElement = props.textareaElement
+  let TextareaElement: TextareaElement = props.textareaElement
 
   const textareaParams: React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
     'aria-describedby'?: string
