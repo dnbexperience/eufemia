@@ -34,7 +34,7 @@ export type TermDefinitionProps = {
   placement?: 'top' | 'right' | 'bottom' | 'left'
 }
 
-type TermDefinitionAllProps = TermDefinitionProps &
+export type TermDefinitionAllProps = TermDefinitionProps &
   SpacingProps &
   React.HTMLAttributes<HTMLSpanElement>
 

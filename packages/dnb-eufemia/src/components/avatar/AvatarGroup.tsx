@@ -71,7 +71,9 @@ export type AvatarGroupProps = {
   color?: string
 } & Omit<React.HTMLProps<HTMLElement>, 'size' | 'label'>
 
-const defaultProps: Partial<AvatarGroupProps> = {
+export type AvatarGroupAllProps = AvatarGroupProps & SpacingProps
+
+const defaultProps: Partial<AvatarGroupAllProps> = {
   label: null,
   className: null,
   maxElements: 4,
@@ -87,7 +89,7 @@ export const AvatarGroupItemContext = React.createContext<{
   zIndex?: number
 } | null>(null)
 
-const AvatarGroup = (localProps: AvatarGroupProps & SpacingProps) => {
+const AvatarGroup = (localProps: AvatarGroupAllProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   // Extract additional props from global context
