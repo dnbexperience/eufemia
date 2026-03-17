@@ -681,15 +681,7 @@ const MemoizedTextarea = React.memo(
   React.ForwardRefExoticComponent<
     TextareaProps & React.RefAttributes<HTMLTextAreaElement>
   >
-> & {
-  hasValue: typeof hasValue
-  getValue: typeof getValue
-  _formElement: boolean
-  _supportsSpacingProps: boolean
-}
-
-MemoizedTextarea.hasValue = hasValue
-MemoizedTextarea.getValue = getValue
+>
 
 withComponentMarkers(MemoizedTextarea, {
   _formElement: true,
