@@ -21,11 +21,11 @@
   // Base variables
   --ta-color-bg: var(--token-color-background-neutral);
   --ta-color-text: var(--token-color-text-neutral);
+  --ta-color-placeholder: var(--token-color-text-neutral-alternative);
 
   // Old variables
   --textarea-border-radius: 0.25rem;
   --textarea-rows: 2; // using variable so it can be dynamically changed by react component
-  --textarea-placeholder-color: grey;
   --textarea-size--small: 0.25rem;
   --textarea-size--medium: 0.5rem;
   --textarea-size--large: 0.75rem;
@@ -161,7 +161,7 @@
 
     @include textareaStyleCommon();
 
-    color: var(--textarea-placeholder-color);
+    color: var(--ta-color-placeholder);
     background-color: transparent;
   }
 
@@ -263,7 +263,6 @@
   }
 
   &--keep-placeholder#{&}--focus &__placeholder {
-    --textarea-placeholder-color: var(--textarea-placeholder-color--focus);
     display: block;
   }
 

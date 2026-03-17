@@ -11,8 +11,6 @@
   --textarea-border-color--disabled: var(--color-black-55);
   --textarea-border-width: 0.0625rem;
   --textarea-border-width--hover: 0.125rem;
-  --textarea-placeholder-color: var(--color-black-55);
-  --textarea-placeholder-color--focus: var(--color-black-20);
 
   &__textarea:not([disabled]):not(#{&}--disabled):focus ~ &__state,
   &__textarea:not([disabled]):not(#{&}--disabled):not(.no-hover):hover

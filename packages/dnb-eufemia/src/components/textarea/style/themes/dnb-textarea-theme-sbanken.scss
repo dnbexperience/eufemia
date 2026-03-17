@@ -8,8 +8,6 @@
 .dnb-textarea {
   --textarea-border-color: var(--sb-color-gray-dark-2);
   --textarea-border-width: 0.0625rem;
-  --textarea-placeholder-color: var(--sb-color-gray-dark-3);
-  --textarea-placeholder-color--focus: var(--sb-color-gray-dark-3);
 
   &__textarea {
     // prevents clipping through rounded corners that appear on focus
