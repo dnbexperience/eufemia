@@ -83,13 +83,13 @@ export type BadgeProps = {
   hideBadge?: boolean
 }
 
-type BadgeAndSpacingProps = BadgeProps &
+export type BadgeAllProps = BadgeProps &
   SpacingProps &
   Omit<React.HTMLProps<HTMLElement>, 'content' | 'label'>
 
-type BadgeElemProps = BadgeAndSpacingProps & { context: ContextProps }
+type BadgeElemProps = BadgeAllProps & { context: ContextProps }
 
-export const defaultProps: BadgeAndSpacingProps = {
+export const defaultProps: BadgeAllProps = {
   label: null,
   className: null,
   skeleton: false,
@@ -103,7 +103,7 @@ export const defaultProps: BadgeAndSpacingProps = {
   hideBadge: false,
 }
 
-function Badge(localProps: BadgeAndSpacingProps) {
+function Badge(localProps: BadgeAllProps) {
   // Every component should have a context
   const context = React.useContext(Context)
 

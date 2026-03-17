@@ -108,13 +108,15 @@ export type AvatarProps = Omit<React.HTMLProps<HTMLElement>, 'size'> & {
   color?: string
 }
 
-const defaultProps: Partial<AvatarProps> = {
+export type AvatarAllProps = AvatarProps & SpacingProps
+
+const defaultProps: Partial<AvatarAllProps> = {
   size: 'medium',
   variant: 'primary',
   skeleton: false,
 }
 
-const Avatar = (localProps: AvatarProps & SpacingProps) => {
+const Avatar = (localProps: AvatarAllProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   const avatarGroupContext = React.useContext(AvatarGroupContext)
