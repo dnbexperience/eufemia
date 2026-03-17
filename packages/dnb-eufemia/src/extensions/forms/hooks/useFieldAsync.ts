@@ -24,7 +24,7 @@ type AsyncProcessesBuffer = {
   validateProcesses: () => boolean
 }
 
-export interface UseFieldAsyncParams<Value> {
+export type UseFieldAsyncParams<Value> = {
   onChange: (...args: unknown[]) => unknown
   onChangeContext: (...args: unknown[]) => unknown
   valueRef: React.RefObject<Value>
