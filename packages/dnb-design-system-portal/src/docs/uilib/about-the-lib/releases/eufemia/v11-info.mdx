@@ -78,6 +78,7 @@ $ pnpm add @dnb/eufemia@11
 - Replaced deprecated `<Context.Provider>` with direct `<Context>` rendering across all internal context providers (React 19).
 - Several exported TypeScript `interface` declarations have been converted to `type`. This prevents declaration merging but has no impact on standard usage.
 - All React context value types have been renamed to use a consistent `...ContextValue` suffix (e.g. `AccordionContextProps` → `AccordionContextValue`). See [TypeScript](#typescript) for the full list.
+- Event handler and render function prop types have been replaced with properly typed signatures (e.g. `(...args: any[]) => any` → `(event: AccordionChangeEvent) => void`). See [Typed event handlers](#typed-event-handlers) for the full list.
 
 ## Components
 
@@ -1806,6 +1807,82 @@ Several exported types lacked a component namespace prefix, risking name collisi
 | `Media` (grid/Item)           | `GridItemMedia`                     |
 | `Columns` (grid/Container)    | `GridContainerColumns`              |
 | `Media` (grid/Container)      | `GridContainerMedia`                |
+
+### Typed event handlers
+
+All untyped event handler and render function prop types (`(...args: any[]) => any`) have been replaced with properly typed signatures. This is only a breaking change if your existing callback types are incompatible with the new, stricter signatures.
+
+New event types have been introduced for the affected components. You can import them directly:
+
+```tsx
+import type { AccordionChangeEvent } from '@dnb/eufemia/components/Accordion'
+import type {
+  TabsEvent,
+  TabsRenderComponents,
+} from '@dnb/eufemia/components/Tabs'
+import type {
+  ToggleButtonChangeEvent,
+  ToggleButtonGroupChangeEvent,
+} from '@dnb/eufemia/components/ToggleButton'
+import type {
+  DrawerListEvent,
+  DrawerListChangeEvent,
+  DrawerListSelectEvent,
+  DrawerListResizeEvent,
+} from '@dnb/eufemia/fragments/DrawerList'
+```
+
+Affected components and props:
+
+#### Accordion
+
+| Prop                      | Before                    | After                                          |
+| ------------------------- | ------------------------- | ---------------------------------------------- |
+| `onChange`                | `(...args: any[]) => any` | `(event: AccordionChangeEvent) => void`        |
+| `onInit` (AccordionGroup) | `(...args: any[]) => any` | `(accordion: Record<string, unknown>) => void` |
+
+#### Tabs
+
+| Prop           | Before                    | After                                                   |
+| -------------- | ------------------------- | ------------------------------------------------------- |
+| `onChange`     | `(...args: any[]) => any` | `(event: TabsEvent) => void`                            |
+| `onClick`      | `(...args: any[]) => any` | `(event: TabsEvent) => void \| boolean`                 |
+| `onMouseEnter` | `(...args: any[]) => any` | `(event: TabsEvent) => void`                            |
+| `onFocus`      | `(...args: any[]) => any` | `(event: TabsEvent) => void`                            |
+| `render`       | `(...args: any[]) => any` | `(components: TabsRenderComponents) => React.ReactNode` |
+
+#### ToggleButton
+
+| Prop       | Before                    | After                                      |
+| ---------- | ------------------------- | ------------------------------------------ |
+| `onChange` | `(...args: any[]) => any` | `(event: ToggleButtonChangeEvent) => void` |
+
+#### ToggleButton.Group
+
+| Prop       | Before                    | After                                           |
+| ---------- | ------------------------- | ----------------------------------------------- |
+| `onChange` | `(...args: any[]) => any` | `(event: ToggleButtonGroupChangeEvent) => void` |
+
+#### DrawerList
+
+| Prop          | Before                    | After                                               |
+| ------------- | ------------------------- | --------------------------------------------------- |
+| `onOpen`      | `(...args: any[]) => any` | `(event: DrawerListEvent) => void`                  |
+| `onClose`     | `(...args: any[]) => any` | `(event: DrawerListEvent) => void`                  |
+| `onChange`    | `(...args: any[]) => any` | `(event: DrawerListChangeEvent) => void`            |
+| `onPreChange` | `(...args: any[]) => any` | `(event: DrawerListChangeEvent) => boolean \| void` |
+| `onResize`    | `(...args: any[]) => any` | `(event: DrawerListResizeEvent) => void`            |
+| `onSelect`    | `(...args: any[]) => any` | `(event: DrawerListSelectEvent) => void`            |
+
+#### ProgressIndicator
+
+| Prop         | Before                    | After        |
+| ------------ | ------------------------- | ------------ |
+| `onComplete` | `(...args: any[]) => any` | `() => void` |
+
+#### Render function / children types
+
+Several component types that accepted `(...args: any[]) => any` for render functions, children, or display elements have been narrowed to `() => React.ReactNode`. This affects types such as `AccordionHeaderTitle`, `AccordionHeaderDescription`, `NumberFormatPrefix`, `NumberFormatSuffix`, `NumberFormatTooltip`, `SkeletonFigure`, `SkeletonChildren`, `ToggleButtonSuffix`, `ToggleButtonChildren`, `ToggleButtonGroupSuffix`, `ToggleButtonGroupChildren`, `PaymentCardChildren`, `TextareaChildren`, and `PaginationIndicatorElement`.
 
 ## Theming
 
