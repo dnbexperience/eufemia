@@ -12,6 +12,7 @@
   --textarea-placeholder-color--focus: var(--sb-color-gray-dark-3);
 
   &__textarea {
+    // prevents clipping through rounded corners that appear on focus
     background-color: transparent;
   }
 
