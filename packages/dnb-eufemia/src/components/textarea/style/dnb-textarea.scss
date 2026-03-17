@@ -134,6 +134,10 @@
     @include utilities.isFirefox() {
       overflow-x: clip !important;
     }
+
+    ::selection {
+      text-shadow: none;
+    }
   }
 
   &__placeholder {

@@ -14,13 +14,6 @@
   --textarea-placeholder-color: var(--color-black-55);
   --textarea-placeholder-color--focus: var(--color-black-20);
 
-  &__textarea {
-    ::selection {
-      background-color: var(--color-mint-green);
-      text-shadow: none;
-    }
-  }
-
   &__textarea:not([disabled]):not(#{&}--disabled):focus ~ &__state,
   &__textarea:not([disabled]):not(#{&}--disabled):not(.no-hover):hover
     ~ &__state {
