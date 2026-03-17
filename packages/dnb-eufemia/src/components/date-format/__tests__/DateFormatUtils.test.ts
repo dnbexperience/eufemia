@@ -8,13 +8,13 @@ import {
   formatDuration,
   isValidDuration,
   getDateTimeSeparator,
-  FormatDateOptions,
+  DateFormatOptions,
 } from '../DateFormatUtils'
 
 describe('DateFormatUtils', () => {
   describe('formatDate', () => {
     it('formats a date using locale options', () => {
-      const opts: FormatDateOptions = {
+      const opts: DateFormatOptions = {
         locale: 'en-GB',
         options: { dateStyle: 'short' },
       }
@@ -147,7 +147,7 @@ describe('DateFormatUtils', () => {
 
   describe('formatDateRange', () => {
     it('formats a date range using formatRange when available', () => {
-      const opts: FormatDateOptions = {
+      const opts: DateFormatOptions = {
         locale: 'en-GB',
         options: { dateStyle: 'long' },
       }

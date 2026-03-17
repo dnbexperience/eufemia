@@ -13,14 +13,14 @@ import {
 import nbNO from '../../../constants/locales/nb-NO'
 import enGB from '../../../constants/locales/en-GB'
 import {
-  FormatDateOptions,
+  DateFormatOptions,
   formatDate,
 } from '../../../../../components/date-format/DateFormatUtils'
 
 const nb = nbNO['nb-NO']
 const en = enGB['en-GB']
 
-const options: Record<'no' | 'en', FormatDateOptions> = {
+const options: Record<'no' | 'en', DateFormatOptions> = {
   no: {
     locale: 'nb-NO',
     options: { dateStyle: 'long' },

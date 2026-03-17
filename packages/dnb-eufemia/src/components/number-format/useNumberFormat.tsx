@@ -2,11 +2,14 @@ import { useContext } from 'react'
 import { format } from './NumberUtils'
 import Context from '../../shared/Context'
 import { extendPropsWithContext } from '../../shared/component-helper'
-import type { FormatOptionParams, FormatValue } from './NumberUtils'
+import type {
+  NumberFormatOptionParams,
+  NumberFormatValue,
+} from './NumberUtils'
 
 function useNumberFormat(
-  value: FormatValue,
-  options: FormatOptionParams = {}
+  value: NumberFormatValue,
+  options: NumberFormatOptionParams = {}
 ) {
   const context = useContext(Context)
   const params = extendPropsWithContext(

@@ -1,6 +1,6 @@
 import type { AccordionProps } from './Accordion'
 
-export type GroupProps = AccordionProps & {
+export type AccordionGroupProps = AccordionProps & {
   allowCloseAll?: boolean
   /**
    * Determines how many accordions can be expanded at once.
@@ -16,8 +16,9 @@ export type GroupProps = AccordionProps & {
   collapseAllHandleRef?: React.RefObject<() => void>
 }
 
-export const accordionDefaultProps: Partial<AccordionProps & GroupProps> =
-  {
-    variant: 'outlined',
-    iconSize: 'medium',
-  }
+export const accordionDefaultProps: Partial<
+  AccordionProps & AccordionGroupProps
+> = {
+  variant: 'outlined',
+  iconSize: 'medium',
+}

@@ -75,7 +75,7 @@ export type PaginationChildrenArgs = {
 export type PaginationChildren =
   | React.ReactNode
   | ((props: PaginationChildrenArgs) => unknown)
-export type LoadButtonProps =
+export type PaginationLoadButtonProps =
   | (() => React.ReactNode)
   | {
       /**
@@ -209,7 +209,7 @@ export type PaginationProps = {
   /**
    * Used to set load button text and icon alignment. Accepts a function returning a ReactNode too, so you can replace the button with your own component.
    */
-  loadButton?: LoadButtonProps
+  loadButton?: PaginationLoadButtonProps
   /**
    * Used to set spacing for the pagination bar. Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`. See property [space](/uilib/layout/space/properties).
    */
@@ -229,7 +229,7 @@ export type PaginationProps = {
 > &
   SpacingProps
 
-export type CreatePaginationReturn = {
+export type PaginationCreateReturn = {
   Pagination: (props?: Record<string, unknown>) => React.JSX.Element
   InfinityMarker: (props?: Record<string, unknown>) => React.JSX.Element
   setContent: (pageNumber: number, content: React.ReactNode) => void
@@ -469,7 +469,7 @@ export const Bar = (props: PaginationProps) => (
 
 export const createPagination = (
   initProps: Record<string, unknown> = {}
-): CreatePaginationReturn => {
+): PaginationCreateReturn => {
   const store = React.createRef<any>()
   const rerender = React.createRef<any>()
   const _setContent = React.createRef<any>()
