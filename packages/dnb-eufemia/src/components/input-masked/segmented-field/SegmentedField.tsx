@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useRef } from 'react'
 import clsx from 'clsx'
 import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
 import useId from '../../../shared/helpers/useId'
-import { isiOS } from '../../../shared/helpers'
 import Input from '../../Input'
 import FormLabel from '../../FormLabel'
 import { createSpacingClasses } from '../../space/SpacingHelper'
@@ -352,11 +351,7 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
                             valuesRef.current as SegmentedFieldValue<T>
                           )
 
-                        if (isiOS()) {
-                          setTimeout(run, 10)
-                        } else {
-                          window.requestAnimationFrame(run)
-                        }
+                        window.requestAnimationFrame(run)
 
                         areInputsInFocus.current = false
                         clearGroupSelection()
