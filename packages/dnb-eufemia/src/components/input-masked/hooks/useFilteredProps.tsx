@@ -21,10 +21,9 @@ export const useFilteredProps = () => {
     asPercent, // eslint-disable-line
     locale, // eslint-disable-line
     showMask, // eslint-disable-line
-    showGuide, // eslint-disable-line
-    pipe, // eslint-disable-line
-    keepCharPositions, // eslint-disable-line
-    placeholderChar, // eslint-disable-line
+    allowOverflow, // eslint-disable-line
+    overwriteMode, // eslint-disable-line
+    _innerRef, // eslint-disable-line
 
     // Get rest of possible attributes
     ...attributes

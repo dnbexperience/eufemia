@@ -537,7 +537,7 @@ describe('Field.PhoneNumber', () => {
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
 
     expect(codeElement.value).toEqual('CH (+41)')
-    expect(phoneElement.value).toEqual('2​​​​​​​​​​​')
+    expect(phoneElement.value).toEqual('2')
 
     // Change PhoneNumber
     fireEvent.change(phoneElement, { target: { value: '234' } })
@@ -546,7 +546,7 @@ describe('Field.PhoneNumber', () => {
     expect(onChange).toHaveBeenNthCalledWith(1, '+41 234')
     expect(onFocus).toHaveBeenNthCalledWith(1, '+41 234')
     expect(codeElement.value).toEqual('CH (+41)')
-    expect(phoneElement.value).toEqual('234​​​​​​​​​')
+    expect(phoneElement.value).toEqual('234')
 
     // Change CountryCode
     fireEvent.focus(codeElement)
@@ -560,7 +560,7 @@ describe('Field.PhoneNumber', () => {
     expect(onFocus).toHaveBeenNthCalledWith(2, '+41 234')
     expect(onCountryCodeChange).toHaveBeenCalledWith('+47')
     expect(codeElement.value).toEqual('NO (+47)')
-    expect(phoneElement.value).toEqual('23 4​ ​​ ​​')
+    expect(phoneElement.value).toEqual('23 4')
 
     fireEvent.focus(phoneElement)
     expect(onFocus).toHaveBeenNthCalledWith(3, '+47 234')
@@ -736,7 +736,7 @@ describe('Field.PhoneNumber', () => {
         })
       )
       expect(codeElement.value).toEqual('CH (+41)')
-      expect(phoneElement.value).toEqual('99999999​​​​')
+      expect(phoneElement.value).toEqual('99999999')
 
       await userEvent.type(phoneElement, '{Backspace>12}')
 
@@ -825,7 +825,7 @@ describe('Field.PhoneNumber', () => {
         '.dnb-forms-field-phone-number__country-code input'
       )
 
-      expect(phoneElement).toHaveValue('9999​​​​​​​​')
+      expect(phoneElement).toHaveValue('9999')
       expect(codeElement).toHaveValue('GB (+44)')
 
       expect(transformIn).toHaveBeenCalledTimes(1)
@@ -1117,7 +1117,7 @@ describe('Field.PhoneNumber', () => {
       })
     )
     expect(codeElement.value).toEqual('CH (+41)')
-    expect(phoneElement.value).toEqual('456​​​​​​​​​')
+    expect(phoneElement.value).toEqual('456')
   })
 
   it('should handle events correctly', async () => {
@@ -1175,7 +1175,7 @@ describe('Field.PhoneNumber', () => {
       expect.anything()
     )
     expect(codeElement.value).toEqual('CH (+41)')
-    expect(phoneElement.value).toEqual('456​​​​​​​​​')
+    expect(phoneElement.value).toEqual('456')
 
     await userEvent.keyboard('{Backspace>3}')
 
@@ -1399,7 +1399,7 @@ describe('Field.PhoneNumber', () => {
     await userEvent.type(numberElement, '{Backspace>8}43')
     fireEvent.blur(numberElement)
 
-    expect(numberElement.value).toBe('43 ​​ ​​ ​​')
+    expect(numberElement.value).toBe('43')
 
     expect(
       document.querySelector('[role="alert"]')
@@ -1631,7 +1631,7 @@ describe('Field.PhoneNumber', () => {
     await userEvent.type(numberElement, '123')
 
     await waitFor(() => {
-      expect(numberElement.value).toBe('12 3​ ​​ ​​')
+      expect(numberElement.value).toBe('12 3')
     })
     expect(onChange).toHaveBeenLastCalledWith(
       '123',
@@ -1653,7 +1653,7 @@ describe('Field.PhoneNumber', () => {
     await userEvent.type(numberElement, '{Backspace>8}8888')
 
     await waitFor(() => {
-      expect(numberElement.value).toBe('88 88 ​​ ​​')
+      expect(numberElement.value).toBe('88 88')
     })
     expect(onChange).toHaveBeenLastCalledWith(
       '8888',
@@ -1662,10 +1662,10 @@ describe('Field.PhoneNumber', () => {
       })
     )
 
-    await userEvent.type(numberElement, '{Backspace>6}+4')
+    await userEvent.type(numberElement, '{Backspace>2}4')
 
     await waitFor(() => {
-      expect(numberElement.value).toBe('88 4​ ​​ ​​')
+      expect(numberElement.value).toBe('88 4')
     })
     expect(onChange).toHaveBeenLastCalledWith(
       '884',
@@ -1745,7 +1745,7 @@ describe('Field.PhoneNumber', () => {
     await userEvent.type(numberElement, '123')
     fireEvent.blur(numberElement)
 
-    expect(numberElement.value).toBe('12 3​ ​​ ​​')
+    expect(numberElement.value).toBe('12 3')
     expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
       nbNO.PhoneNumber.errorRequired
@@ -1754,7 +1754,7 @@ describe('Field.PhoneNumber', () => {
     await userEvent.type(numberElement, '{Backspace>8}456')
     fireEvent.blur(numberElement)
 
-    expect(numberElement.value).toBe('45 6​ ​​ ​​')
+    expect(numberElement.value).toBe('45 6')
     expect(
       document.querySelector('.dnb-form-status')
     ).not.toBeInTheDocument()
@@ -1806,7 +1806,7 @@ describe('Field.PhoneNumber', () => {
       '.dnb-forms-field-phone-number__number .dnb-input__input'
     )
 
-    expect(phoneNumberInput).toHaveValue('99 99 ​​ ​​')
+    expect(phoneNumberInput).toHaveValue('99 99')
   })
 
   describe('locale', () => {
@@ -1940,7 +1940,7 @@ describe('Field.PhoneNumber', () => {
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
       '/myValue': {
         type: 'field',
-        value: '+47 99 99 ​​ ​​',
+        value: '+47 99 99',
       },
     })
 
@@ -1968,11 +1968,11 @@ describe('Field.PhoneNumber', () => {
 
     await event.keyboard('123')
 
-    expect(input).toHaveValue('12 3​ ​​ ​​')
+    expect(input).toHaveValue('12 3')
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
       '/myValue': {
         type: 'field',
-        value: '+47 12 3​ ​​ ​​',
+        value: '+47 12 3',
       },
     })
 
@@ -1986,7 +1986,7 @@ describe('Field.PhoneNumber', () => {
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
         '/myValue': {
           type: 'field',
-          value: '+47 12 3​ ​​ ​​',
+          value: '+47 12 3',
         },
       })
     })

@@ -210,7 +210,7 @@ describe('Field.Currency', () => {
       },
     })
 
-    await userEvent.type(input, '{Backspace>5}')
+    await userEvent.keyboard('{Backspace>5}')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
       '/myValue': {

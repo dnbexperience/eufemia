@@ -268,8 +268,16 @@ function NumberComponent(props: Props) {
     return external
   }, [])
   const fromInput = useCallback(
-    ({ value, numberValue }: { value: string; numberValue: number }) => {
-      if (value === '') {
+    ({
+      value,
+      numberValue,
+      cleanedValue,
+    }: {
+      value: string
+      numberValue: number
+      cleanedValue: string
+    }) => {
+      if (value === '' || cleanedValue === '') {
         return props.emptyValue
       }
 
