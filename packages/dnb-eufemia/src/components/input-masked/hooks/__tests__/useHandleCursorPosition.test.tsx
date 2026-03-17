@@ -2,7 +2,7 @@
  * useHandleCursorPosition Hook Test
  */
 
-import { MutableRefObject } from 'react'
+import type { MutableRefObject } from 'react'
 import { renderHook, waitFor } from '@testing-library/react'
 import useHandleCursorPosition from '../useHandleCursorPosition'
 

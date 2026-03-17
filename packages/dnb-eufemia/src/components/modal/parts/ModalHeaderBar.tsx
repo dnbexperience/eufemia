@@ -8,7 +8,7 @@ import clsx from 'clsx'
 import Section from '../../section/Section'
 import ModalContext from '../ModalContext'
 import CloseButton from './CloseButton'
-import { SectionProps } from '../../Section'
+import type { SectionProps } from '../../Section'
 
 export type ModalHeaderBarProps = {
   /**

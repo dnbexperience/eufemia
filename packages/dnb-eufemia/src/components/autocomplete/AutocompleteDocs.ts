@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const AutocompleteProperties: PropertiesTableProps = {
   mode: {
@@ -193,12 +193,12 @@ export const AutocompleteProperties: PropertiesTableProps = {
   },
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['error', 'info', 'boolean'],
+    type: ['"error"', '"info"', 'boolean'],
     status: 'optional',
   },
   statusState: {
     doc: 'Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.',
-    type: ['error', 'info'],
+    type: ['"error"', '"info"'],
     status: 'optional',
   },
   statusProps: {
@@ -218,7 +218,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
   },
   labelDirection: {
     doc: 'Use `labelDirection="vertical"` to change the label layout direction. Defaults to `horizontal`.',
-    type: ['horizontal', 'vertical'],
+    type: ['"horizontal"', '"vertical"'],
     status: 'optional',
   },
   labelSrOnly: {

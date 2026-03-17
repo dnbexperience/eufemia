@@ -4,7 +4,7 @@ import React, {
   useLayoutEffect,
   useState,
 } from 'react'
-import { DatePickerProps } from './DatePicker'
+import type { DatePickerProps } from './DatePicker'
 import PortalRoot from '../PortalRoot'
 import { debounce } from '../../shared/helpers'
 

@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const NumberFormatProperties: PropertiesTableProps = {
   value: {
@@ -63,12 +63,12 @@ export const NumberFormatProperties: PropertiesTableProps = {
   },
   rounding: {
     doc: 'If `omit` is given, the decimal will NOT be rounded. If set to `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.',
-    type: ['omit', 'half-even', 'half-up'],
+    type: ['"omit"', '"half-even"', '"half-up"'],
     status: 'optional',
   },
   signDisplay: {
     doc: 'When to display the sign for the number. Use `auto` (default) for negative numbers only, `always` to always display sign, `exceptZero` for positive and negative numbers but not zero, `negative` for negative numbers only including negative zero, or `never` to never display sign.',
-    type: ['auto', 'always', 'exceptZero', 'negative', 'never'],
+    type: ['"auto"', '"always"', 'exceptZero', '"negative"', 'never'],
     status: 'optional',
   },
   prefix: {

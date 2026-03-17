@@ -7,7 +7,7 @@ import ToolbarContext from '../Toolbar/ToolbarContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
 import PushContainerContext from '../PushContainer/PushContainerContext'
 import { check } from '../../../../icons'
-import { ButtonProps } from '../../../../components/Button'
+import type { ButtonProps } from '../../../../components/Button'
 
 type Props = ButtonProps
 

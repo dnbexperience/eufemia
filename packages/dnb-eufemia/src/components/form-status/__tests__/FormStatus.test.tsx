@@ -5,7 +5,8 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import FormStatus, { FormStatusProps } from '../FormStatus'
+import type { FormStatusProps } from '../FormStatus'
+import FormStatus from '../FormStatus'
 import Input from '../../input/Input'
 import { render, waitFor } from '@testing-library/react'
 import {

@@ -10,7 +10,7 @@ import userEvent from '@testing-library/user-event'
 import { Form, Tools } from '../../..'
 import ChildrenWithAge from '../ChildrenWithAge'
 import { translations } from '../ChildrenWithAgeTranslations'
-import { GenerateRef } from '../../../Tools/ListAllProps'
+import type { GenerateRef } from '../../../Tools/ListAllProps'
 import nbNO from '../../../constants/locales/nb-NO'
 import { format } from '../../../../../components/number-format/NumberUtils'
 

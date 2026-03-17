@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { ContextState } from '../../DataContext'
+import type { ContextState } from '../../DataContext'
 import useHasContentChanged from './useHasContentChanged'
 import useReportError from './useReportError'
 

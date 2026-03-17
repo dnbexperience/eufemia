@@ -1,9 +1,9 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const DialogProperties: PropertiesTableProps = {
   variant: {
     doc: 'The dialog variant. Can either be `information` or `confirmation`. Defaults to `information`.',
-    type: ['information', 'confirmation'],
+    type: ['"information"', '"confirmation"'],
     status: 'optional',
   },
   title: {
@@ -68,7 +68,7 @@ export const DialogProperties: PropertiesTableProps = {
   },
   fullscreen: {
     doc: 'If set to `true` then the dialog content will be shown as fullscreen, without showing the original content behind. Can be set to `false` to omit the auto fullscreen. Defaults to `auto`.',
-    type: ['boolean', 'auto'],
+    type: ['boolean', '"auto"'],
     status: 'optional',
   },
   icon: {
@@ -78,7 +78,7 @@ export const DialogProperties: PropertiesTableProps = {
   },
   confirmType: {
     doc: 'For variant confirmation, the dialog is either an informational (`info`) or a warning (`warning`) message. Defaults to `info`.',
-    type: ['info', 'warning'],
+    type: ['"info"', '"warning"'],
     status: 'optional',
   },
   declineText: {

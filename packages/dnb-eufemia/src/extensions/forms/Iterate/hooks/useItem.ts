@@ -1,7 +1,6 @@
 import { useContext } from 'react'
-import IterateItemContext, {
-  IterateItemContextState,
-} from '../IterateItemContext'
+import type { IterateItemContextState } from '../IterateItemContext'
+import IterateItemContext from '../IterateItemContext'
 
 export type UseItemReturn<Value = unknown> = Omit<
   IterateItemContextState,

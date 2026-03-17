@@ -1,3 +1,4 @@
+import type { RefObject } from 'react'
 import React, {
   useCallback,
   useMemo,
@@ -5,7 +6,6 @@ import React, {
   useEffect,
   useState,
   useLayoutEffect,
-  RefObject,
 } from 'react'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import Input from '../Input'
@@ -15,9 +15,9 @@ import type { MaskitoOptions } from '@maskito/core'
 import useHandleCursorPosition from './hooks/useHandleCursorPosition'
 import clsx from 'clsx'
 import FormLabel from '../FormLabel'
-import { SpacingProps } from '../space/types'
+import type { SpacingProps } from '../space/types'
 import { createSpacingClasses } from '../space/SpacingHelper'
-import { FormStatusState, FormStatusText } from '../FormStatus'
+import type { FormStatusState, FormStatusText } from '../FormStatus'
 import { useMultiInputValue } from './hooks/useMultiInputValues'
 import useId from '../../shared/helpers/useId'
 import { isiOS, isAndroid } from '../../shared/helpers'

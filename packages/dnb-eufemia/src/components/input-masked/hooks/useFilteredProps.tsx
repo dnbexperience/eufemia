@@ -11,19 +11,19 @@ export const useFilteredProps = () => {
   const { props } = React.useContext(InputMaskedContext)
 
   const {
-    mask, // eslint-disable-line
-    numberMask, // eslint-disable-line
-    currencyMask, // eslint-disable-line
-    numberFormat, // eslint-disable-line
-    maskOptions, // eslint-disable-line
-    asCurrency, // eslint-disable-line
-    asNumber, // eslint-disable-line
-    asPercent, // eslint-disable-line
-    locale, // eslint-disable-line
-    showMask, // eslint-disable-line
-    allowOverflow, // eslint-disable-line
-    overwriteMode, // eslint-disable-line
-    _innerRef, // eslint-disable-line
+    mask,
+    numberMask,
+    currencyMask,
+    numberFormat,
+    maskOptions,
+    asCurrency,
+    asNumber,
+    asPercent,
+    locale,
+    showMask,
+    allowOverflow,
+    overwriteMode,
+    _innerRef,
 
     // Get rest of possible attributes
     ...attributes

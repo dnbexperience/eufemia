@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 
 export const SelectionProperties: PropertiesTableProps = {
   variant: {
@@ -33,7 +33,7 @@ export const SelectionProperties: PropertiesTableProps = {
   },
   groups: {
     doc: 'An array of group titles for the list items. Only the first group can be `undefined`',
-    type: 'React.ReactNode[]',
+    type: 'Array<React.ReactNode>',
     status: 'optional',
   },
   dataPath: {

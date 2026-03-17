@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const IconProperties: PropertiesTableProps = {
   icon: {
@@ -24,14 +24,14 @@ export const IconProperties: PropertiesTableProps = {
   size: {
     doc: 'The dimension of the icon. This will be the `viewBox` and represent `width` and `height`. Defaults to `16`. You can use `small`,`medium`, `large` or `auto`. Auto will enable that the icon size gets inherited by the parent HTML element if it provides a `font-size`.',
     type: [
-      'default',
-      'small',
-      'medium',
-      'large',
-      'x-large',
-      'xx-large',
-      'basis',
-      'auto',
+      '"default"',
+      '"small"',
+      '"medium"',
+      '"large"',
+      '"x-large"',
+      '"xx-large"',
+      '"basis"',
+      '"auto"',
       'number',
     ],
     status: 'optional',

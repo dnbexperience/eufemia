@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const FormStatusProperties: PropertiesTableProps = {
   text: {
@@ -23,12 +23,12 @@ export const FormStatusProperties: PropertiesTableProps = {
   },
   state: {
     doc: 'Defines the visual appearance of the status. These are the statuses `error`, `warning`, `info` and `marketing`. The default status is `error`.',
-    type: ['error', 'warning', 'info', 'success', 'marketing'],
+    type: ['"error"', '"warning"', '"info"', '"success"', '"marketing"'],
     status: 'optional',
   },
   size: {
     doc: 'Defines the appearance size. There are these sizes `default`, `large`. The default status is `default`.',
-    type: ['default', 'large'],
+    type: ['"default"', '"large"'],
     status: 'optional',
   },
   icon: {
@@ -43,7 +43,7 @@ export const FormStatusProperties: PropertiesTableProps = {
   },
   variant: {
     doc: 'As of now, there is the `plain` and the `outlined` variant. Defaults to `plain`.',
-    type: ['plain', 'outlined'],
+    type: ['"plain"', '"outlined"'],
     status: 'optional',
   },
   stretch: {

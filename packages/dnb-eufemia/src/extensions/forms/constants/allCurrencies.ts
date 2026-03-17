@@ -1734,7 +1734,7 @@ const preciousMetals = [
 ] as const
 
 // https://en.wikipedia.org/wiki/ISO_4217#X_currencies_(funds,_precious_metals,_supranationals,_other)
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 const xCurrencies = [
   {
     continent: 'Africa',

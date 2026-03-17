@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 import { HeightAnimationEvents } from '../../../../components/height-animation/HeightAnimationDocs'
 
 export const VisibilityProperties: PropertiesTableProps = {
@@ -74,7 +74,7 @@ export const VisibilityProperties: PropertiesTableProps = {
   },
   fieldPropsWhenHidden: {
     doc: 'When visibility is hidden, and `keepInDOM` is true, pass these properties to the children.',
-    type: 'various',
+    type: '"various"',
     status: 'optional',
   },
   element: {

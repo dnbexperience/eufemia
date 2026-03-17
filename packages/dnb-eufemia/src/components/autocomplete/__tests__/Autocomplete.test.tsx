@@ -6,7 +6,8 @@
 import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import * as helpers from '../../../shared/helpers'
-import Autocomplete, { AutocompleteAllProps } from '../Autocomplete'
+import type { AutocompleteAllProps } from '../Autocomplete'
+import Autocomplete from '../Autocomplete'
 import { SubmitButton } from '../../input/Input'
 import { format } from '../../number-format/NumberUtils'
 import userEvent from '@testing-library/user-event'
@@ -21,7 +22,7 @@ import {
   waitFor,
   screen,
 } from '@testing-library/react'
-import {
+import type {
   DrawerListData,
   DrawerListDataArrayObject,
   DrawerListDataArray,
@@ -951,7 +952,6 @@ describe('Autocomplete component', () => {
       { timeout: 2000 }
     )
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Mocking global property for test
     Object.defineProperty(helpers, 'IS_MAC', {
       value: false,
     })

@@ -4,10 +4,10 @@
  */
 
 import React, { useEffect, useRef } from 'react'
-import * as CSS from 'csstype'
+import type * as CSS from 'csstype'
 import clsx from 'clsx'
 import { validateDOMAttributes } from '../../shared/component-helper'
-import { ProgressIndicatorCircularAllProps } from './types'
+import type { ProgressIndicatorCircularAllProps } from './types'
 
 function ProgressIndicatorCircular(
   props: ProgressIndicatorCircularAllProps

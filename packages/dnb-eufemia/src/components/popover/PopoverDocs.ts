@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const PopoverProperties: PropertiesTableProps = {
   children: {
@@ -87,19 +87,19 @@ export const PopoverProperties: PropertiesTableProps = {
   },
   placement: {
     doc: 'Preferred placement of the popover relative to the trigger.',
-    type: ['top', 'right', 'bottom', 'left'],
+    type: ['"top"', '"right"', '"bottom"', '"left"'],
     defaultValue: 'bottom',
     status: 'optional',
   },
   alignOnTarget: {
     doc: 'Adjust horizontal alignment of the popover body when `placement` is `top`/`bottom`; ignored for other placements.',
-    type: ['left', 'center', 'right', 'null'],
+    type: ['"left"', '"center"', '"right"', 'null'],
     defaultValue: 'center',
     status: 'optional',
   },
   arrowPosition: {
     doc: 'Align the arrow along the axis of the selected `placement` (e.g., left/right for `placement="right"`).',
-    type: ['center', 'top', 'right', 'bottom', 'left'],
+    type: ['"center"', '"top"', '"right"', '"bottom"', '"left"'],
     defaultValue: 'center',
     status: 'optional',
   },
@@ -116,7 +116,7 @@ export const PopoverProperties: PropertiesTableProps = {
   },
   theme: {
     doc: 'Sets the surface style.',
-    type: ['light', 'dark'],
+    type: ['"light"', '"dark"'],
     status: 'optional',
   },
   contentClassName: {
@@ -151,7 +151,7 @@ export const PopoverProperties: PropertiesTableProps = {
   },
   focusOnOpenElement: {
     doc: 'Provide a specific element (or function returning one) to receive focus when the popover opens.',
-    type: 'HTMLElement | () => HTMLElement',
+    type: ['HTMLElement', '() => HTMLElement'],
     status: 'optional',
   },
   restoreFocus: {
@@ -212,7 +212,7 @@ export const PopoverProperties: PropertiesTableProps = {
   },
   autoAlignMode: {
     doc: "Control when the popover automatically flips its placement to fit within the viewport. `initial` (default): Flip placement only on initial open when there's limited space. `scroll`: Flip placement on initial open and during scroll events. `never`: Never automatically flip placement, always use the specified `placement` property.",
-    type: ['initial', 'scroll', 'never'],
+    type: ['"initial"', '"scroll"', 'never'],
     defaultValue: 'initial',
     status: 'optional',
   },

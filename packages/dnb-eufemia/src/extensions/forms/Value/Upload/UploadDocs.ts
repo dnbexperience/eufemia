@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 
 import { ListFormatProperties } from '../../../../components/list-format/ListFormatDocs'
 

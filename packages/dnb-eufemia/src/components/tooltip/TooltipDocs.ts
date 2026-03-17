@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const TooltipProperties: PropertiesTableProps = {
   children: {
@@ -13,17 +13,17 @@ export const TooltipProperties: PropertiesTableProps = {
   },
   placement: {
     doc: 'Defines the offset position to the target element the arrow appears. Can be `top`, `right`, `left` and `bottom`. Defaults to `top`.',
-    type: ['top', 'right', 'left', 'bottom'],
+    type: ['"top"', '"right"', '"left"', '"bottom"'],
     status: 'optional',
   },
   align: {
     doc: 'Defines the offset alignment to the target element the arrow appears. Can be `left`, `center` and `right`. Defaults to `center`.',
-    type: ['left', 'center', 'right', 'null'],
+    type: ['"left"', '"center"', '"right"', 'null'],
     status: 'optional',
   },
   arrow: {
     doc: 'Defines the direction where the arrow appears. Can be `center`, `top`, `right`, `bottom` and `left`. Defaults to `center`.',
-    type: ['center', 'top', 'right', 'bottom', 'left'],
+    type: ['"center"', '"top"', '"right"', '"bottom"', '"left"'],
     status: 'optional',
   },
   portalRootClass: {
@@ -58,7 +58,7 @@ export const TooltipProperties: PropertiesTableProps = {
   },
   size: {
     doc: 'Defines the spacing size of the tooltip. Can be `large` or `default`. Defaults to `default`.',
-    type: ['default', 'large'],
+    type: ['"default"', '"large"'],
     status: 'optional',
   },
   targetElement: {

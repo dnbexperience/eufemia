@@ -1,5 +1,5 @@
-import { ScrollViewAllProps } from '../../fragments/ScrollView'
-import { ModalAllProps } from '../modal/Modal'
+import type { ScrollViewAllProps } from '../../fragments/ScrollView'
+import type { ModalAllProps } from '../modal/Modal'
 
 export type DrawerProps = {
   /**

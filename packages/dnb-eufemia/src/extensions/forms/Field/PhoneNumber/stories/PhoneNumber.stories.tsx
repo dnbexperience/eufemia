@@ -1,7 +1,7 @@
 import React from 'react'
 import { Field, Form, FormError, Tools } from '../../..'
 import { Flex } from '../../../../../components'
-import { AdditionalArgs } from '../PhoneNumber'
+import type { AdditionalArgs } from '../PhoneNumber'
 
 export default {
   title: 'Eufemia/Extensions/Forms/PhoneNumber',

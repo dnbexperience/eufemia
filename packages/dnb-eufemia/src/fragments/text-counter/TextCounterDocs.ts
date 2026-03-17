@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const TextCounterProperties: PropertiesTableProps = {
   text: {
@@ -13,7 +13,7 @@ export const TextCounterProperties: PropertiesTableProps = {
   },
   variant: {
     doc: 'The counting variant. Can be either `up` (counts up from zero) or `down` (counts down from max). Default is `down`.',
-    type: ['down', 'up'],
+    type: ['"down"', '"up"'],
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {

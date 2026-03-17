@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 import { IsolationEvents } from '../../Form/Isolation/IsolationDocs'
 
 export const PushContainerProperties: PropertiesTableProps = {

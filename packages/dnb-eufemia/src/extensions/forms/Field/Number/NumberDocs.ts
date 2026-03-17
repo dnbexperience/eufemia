@@ -1,5 +1,5 @@
 import { InputProperties } from '../../../../components/input/InputDocs'
-import { PropertiesTableProps } from '../../../../shared/types'
+import type { PropertiesTableProps } from '../../../../shared/types'
 
 export const NumberProperties: PropertiesTableProps = {
   decimalLimit: {
@@ -68,7 +68,7 @@ export const NumberProperties: PropertiesTableProps = {
   },
   autoComplete: {
     doc: 'For HTML `autocomplete` attributes.',
-    type: ['on', 'string'],
+    type: ['"on"', 'string'],
     status: 'optional',
   },
   prefix: {

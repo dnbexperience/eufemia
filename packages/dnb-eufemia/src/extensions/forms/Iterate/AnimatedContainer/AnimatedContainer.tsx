@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import IterateItemContext from '../IterateItemContext'
-import { EditContainerWithoutToolbar, AllProps } from '../EditContainer'
+import type { AllProps } from '../EditContainer'
+import { EditContainerWithoutToolbar } from '../EditContainer'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 function AnimatedContainer(props: AllProps) {

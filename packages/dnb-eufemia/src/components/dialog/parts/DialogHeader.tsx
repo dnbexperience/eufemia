@@ -1,8 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
-import ModalHeader, {
-  ModalHeaderProps,
-} from '../../modal/parts/ModalHeader'
+import type { ModalHeaderProps } from '../../modal/parts/ModalHeader'
+import ModalHeader from '../../modal/parts/ModalHeader'
 import type { SpacingProps } from '../../space/types'
 
 type DialogHeaderProps = {

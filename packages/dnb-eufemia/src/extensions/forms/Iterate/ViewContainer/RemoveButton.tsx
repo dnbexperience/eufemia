@@ -1,5 +1,6 @@
 import React from 'react'
-import RemoveButton, { Props as RemoveButtonProps } from '../RemoveButton'
+import type { Props as RemoveButtonProps } from '../RemoveButton'
+import RemoveButton from '../RemoveButton'
 import useTranslation from '../../hooks/useTranslation'
 
 export default function ViewContainerRemoveButton(

@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const BreadcrumbProperties: PropertiesTableProps = {
   data: {
@@ -13,7 +13,7 @@ export const BreadcrumbProperties: PropertiesTableProps = {
   },
   variant: {
     doc: "Defaults to 'responsive' or 'single' depending on content. Options: `responsive` | `single` | `multiple` | `collapse` .",
-    type: ['responsive', 'single', 'multiple', 'collapse'],
+    type: ['"responsive"', '"single"', '"multiple"', '"collapse"'],
     status: 'optional',
   },
   href: {
@@ -48,7 +48,7 @@ export const BreadcrumbProperties: PropertiesTableProps = {
   },
   collapsedStyleType: {
     doc: 'Use one of the Section component variants. Defaults to `info`.',
-    type: ['error', 'info', 'warning', 'success'],
+    type: ['"error"', '"info"', '"warning"', '"success"'],
     status: 'optional',
   },
   className: {
@@ -99,7 +99,7 @@ export const BreadcrumbItemProperties: PropertiesTableProps = {
   },
   variant: {
     doc: 'The component variant. Options: `home` | `previous` | `current`.',
-    type: ['home', 'previous', 'current'],
+    type: ['"home"', '"previous"', '"current"'],
     status: 'optional',
   },
   icon: {

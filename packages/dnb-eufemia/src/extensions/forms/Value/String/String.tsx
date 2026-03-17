@@ -2,7 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import ValueBlock from '../../ValueBlock'
 import { useValueProps } from '../../hooks'
-import { ValueProps } from '../../types'
+import type { ValueProps } from '../../types'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = ValueProps<string>

@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const DrawerListProperties: PropertiesTableProps = {
   '[data](#the-data-property)': {
@@ -8,7 +8,7 @@ export const DrawerListProperties: PropertiesTableProps = {
   },
   groups: {
     doc: 'An array of group titles for the list items. Only the first group can be `undefined`',
-    type: 'React.ReactNode[]',
+    type: 'Array<React.ReactNode>',
     status: 'optional',
   },
   value: {
@@ -189,7 +189,11 @@ export const DrawerListEvents: PropertiesTableProps = {
 export const DrawerListItem: PropertiesTableProps = {
   content: {
     doc: 'Visual content in the list item',
-    type: ['string', 'React.node', '(string | React.ReactNode)[]'],
+    type: [
+      'string',
+      'React.ReactNode',
+      'Array<(string | React.ReactNode)>',
+    ],
     status: 'optional',
   },
   disabled: {
@@ -214,7 +218,7 @@ export const DrawerListItem: PropertiesTableProps = {
   },
   suffixValue: {
     doc: 'Content placed to the right in the list item.',
-    type: ['string', 'React.node'],
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
 }

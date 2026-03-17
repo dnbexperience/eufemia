@@ -11,25 +11,28 @@ import {
   Autocomplete,
   HelpButton,
 } from '../../../../components'
-import OptionField, { Props as OptionFieldProps } from '../Option'
+import type { Props as OptionFieldProps } from '../Option'
+import OptionField from '../Option'
 import { useFieldProps } from '../../hooks'
-import { checkForError, ReturnAdditional } from '../../hooks/useFieldProps'
+import type { ReturnAdditional } from '../../hooks/useFieldProps'
+import { checkForError } from '../../hooks/useFieldProps'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import FieldBlock, {
+import type {
   Props as FieldBlockProps,
   FieldBlockWidth,
 } from '../../FieldBlock'
-import { FieldProps, Path } from '../../types'
+import FieldBlock from '../../FieldBlock'
+import type { FieldProps, Path } from '../../types'
 import type { FormStatusText } from '../../../../components/FormStatus'
 import type { AutocompleteAllProps } from '../../../../components/Autocomplete'
 import type { DropdownAllProps } from '../../../../components/Dropdown'
-import { HelpProps } from '../../../../components/help-button/HelpButtonInline'
-import {
+import type { HelpProps } from '../../../../components/help-button/HelpButtonInline'
+import type {
   DrawerListDataArrayObjectStrict,
   DrawerListProps,
 } from '../../../../fragments/DrawerList'
 import useDataValue from '../../hooks/useDataValue'
-import { FormError } from '../../utils'
+import type { FormError } from '../../utils'
 import type { RadioProps } from '../../../../components/Radio'
 import type { ToggleButtonProps } from '../../../../components/ToggleButton'
 import type { RadioGroupProps } from '../../../../components/radio/RadioGroup'

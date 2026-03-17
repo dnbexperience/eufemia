@@ -19,9 +19,7 @@ export default function InputMaskedElement(): React.JSX.Element {
   const events = useEventMapping({ setLocalValue })
 
   const { props, htmlAttributes } = useFilteredProps()
-  const {
-    className, // eslint-disable-line
-  } = props
+  const { className } = props
 
   // ref is handled directly by useInputElement (which attaches
   // it to the underlying <input> element), so we omit it here

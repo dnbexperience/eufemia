@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import clsx from 'clsx'
-import { SpaceType, SpacingProps } from '../../shared/types'
+import type { SpaceType, SpacingProps } from '../../shared/types'
 import Space from '../space/Space'
 import {
   createSpacingClasses,
@@ -8,7 +8,7 @@ import {
   isValidSpaceProp,
   removeSpaceProps,
 } from '../space/SpacingUtils'
-import { FlexEnd, FlexStart } from './types'
+import type { FlexEnd, FlexStart } from './types'
 import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
 
 export const omitSpacingProps = removeSpaceProps

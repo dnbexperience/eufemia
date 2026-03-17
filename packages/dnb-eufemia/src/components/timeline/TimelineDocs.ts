@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../shared/types'
+import type { PropertiesTableProps } from '../../shared/types'
 
 export const TimelineProperties: PropertiesTableProps = {
   data: {
@@ -31,12 +31,12 @@ export const TimelineItemProperties: PropertiesTableProps = {
   },
   state: {
     doc: 'The component state. Options: `completed` | `current` | `upcoming`.',
-    type: ['completed', 'current', 'upcoming'],
+    type: ['"completed"', '"current"', '"upcoming"'],
     status: 'required',
   },
   subtitle: {
     doc: 'Subtitle of the Timeline item, displayed below the `title`. Also supports passing an array of subtitles. The subtitle is usually a date of the timeline item.',
-    type: ['React.ReactNode', 'React.ReactNode[]'],
+    type: ['React.ReactNode', 'Array<React.ReactNode>'],
     status: 'optional',
   },
   infoMessage: {

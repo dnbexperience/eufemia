@@ -5,7 +5,7 @@
 
 import React from 'react'
 import clsx from 'clsx'
-import { SpacingProps } from '../../components/space/types'
+import type { SpacingProps } from '../../components/space/types'
 import E from '../Element'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 

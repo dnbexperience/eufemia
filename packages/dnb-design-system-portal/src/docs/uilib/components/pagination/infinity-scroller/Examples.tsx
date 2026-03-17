@@ -21,7 +21,7 @@ import { hasSelectedText } from '@dnb/eufemia/src/shared/helpers'
 
 import {
   createPagination,
-  PaginationCreateReturn,
+  type PaginationCreateReturn,
 } from '@dnb/eufemia/src/components/Pagination'
 
 type HeightLimitProps = {

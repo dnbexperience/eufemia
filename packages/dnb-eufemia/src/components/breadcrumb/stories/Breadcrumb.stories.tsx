@@ -8,7 +8,7 @@ import { Box, Wrapper } from 'storybook-utils/helpers'
 import { Skeleton, ToggleButton } from '../../'
 import Breadcrumb from '../Breadcrumb'
 import { Provider } from '../../../shared'
-import { BreadcrumbItemProps } from '../BreadcrumbItem'
+import type { BreadcrumbItemProps } from '../BreadcrumbItem'
 
 export default {
   title: 'Eufemia/Components/Breadcrumb',

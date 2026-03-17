@@ -1,5 +1,5 @@
 import { warn } from '../../shared/component-helper'
-import { AccordionContextValue } from './AccordionContext'
+import type { AccordionContextValue } from './AccordionContext'
 
 type AccordionStoreInstance = {
   context: AccordionContextValue

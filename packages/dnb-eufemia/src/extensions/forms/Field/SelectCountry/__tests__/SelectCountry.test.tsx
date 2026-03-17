@@ -2,12 +2,12 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Props } from '../SelectCountry'
+import type { Props } from '../SelectCountry'
 import { Provider } from '../../../../../shared'
 import DataContext from '../../../DataContext/Context'
 import DrawerListProvider from '../../../../../fragments/drawer-list/DrawerListProvider'
 import { Field, Form, FieldBlock, Value, Iterate } from '../../..'
-import { CountryISO } from '../../../constants/countries'
+import type { CountryISO } from '../../../constants/countries'
 
 describe('Field.SelectCountry', () => {
   it('should render with props', () => {
