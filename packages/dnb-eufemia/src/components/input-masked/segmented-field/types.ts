@@ -1,9 +1,4 @@
-import type {
-  FocusEvent,
-  HTMLProps,
-  ReactNode,
-  RefObject,
-} from 'react'
+import type { FocusEvent, HTMLProps, ReactNode, RefObject } from 'react'
 import type { InputProps } from '../../Input'
 import type { FormStatusState, FormStatusText } from '../../FormStatus'
 import type { SpacingProps } from '../../space/types'
@@ -66,6 +61,8 @@ export type SegmentedFieldProps<T extends string> = {
 
 export type SectionSelectionMode = 'all' | 'caret'
 
+export type BoundaryTraversalMode = false | 'caret' | 'selection'
+
 export type SegmentedFieldInputConfig = {
   id: string
   mask: RegExp[]
@@ -85,12 +82,12 @@ export type SegmentedFieldSectionProps = {
   scopeRef: RefObject<HTMLElement | null>
   sectionRefs: RefObject<Record<string, HTMLSpanElement | null>>
   caretPositionsRef: RefObject<Record<string, number>>
-  sectionSelectionModeRef: RefObject<
-    Record<string, SectionSelectionMode>
-  >
+  sectionSelectionModeRef: RefObject<Record<string, SectionSelectionMode>>
   groupSelectionRef: RefObject<boolean>
   skipBoundaryBackspaceRef: RefObject<Record<string, boolean>>
-  boundaryTraversalLockRef: RefObject<Record<string, boolean>>
+  boundaryTraversalLockRef: RefObject<
+    Record<string, BoundaryTraversalMode>
+  >
   clearGroupSelection: () => void
   clearSectionSelection: () => void
   selectWholeGroup: (inputId: string) => void

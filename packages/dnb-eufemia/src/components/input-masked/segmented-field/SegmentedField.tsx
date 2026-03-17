@@ -11,6 +11,7 @@ import SegmentedFieldSection from './SegmentedFieldSection'
 import { ensureTextNode, listAllSections } from './dom'
 import { joinValues } from './utils'
 import type {
+  BoundaryTraversalMode,
   SectionSelectionMode,
   SegmentedFieldProps,
   SegmentedFieldValue,
@@ -67,7 +68,9 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
   const areInputsInFocus = useRef(false)
   const groupSelectionRef = useRef(false)
   const skipBoundaryBackspaceRef = useRef<Record<string, boolean>>({})
-  const boundaryTraversalLockRef = useRef<Record<string, boolean>>({})
+  const boundaryTraversalLockRef = useRef<
+    Record<string, BoundaryTraversalMode>
+  >({})
 
   valuesRef.current = values
 

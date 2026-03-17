@@ -347,6 +347,47 @@ describe('SegmentedField', () => {
       })
     })
 
+    it('should move to previous section immediately after navigating to start with arrow keys', async () => {
+      renderSegmentedField({
+        values: { first: '12', second: '34' },
+      })
+
+      const first = getFirst()
+      const second = getSecond()
+
+      await userEvent.click(second)
+      await userEvent.keyboard('{ArrowRight}{ArrowLeft>2}{Backspace}')
+
+      expect(document.activeElement).toBe(first)
+
+      expect(first.value).toBe('12')
+      expect(second.value).toBe('34')
+
+      await userEvent.keyboard('{Backspace}')
+
+      expect(first.value).toBe('ff')
+      expect(second.value).toBe('34')
+    })
+
+    it('should clear the previous section when backspacing from the start reached from a full selection', async () => {
+      render(
+        <SegmentedField
+          inputs={threeSegmentInputs}
+          delimiter="."
+          values={{ day: '03', month: '04', year: '2026' }}
+        />
+      )
+
+      const [day, month, year] = getSections()
+
+      await userEvent.click(year)
+      await userEvent.keyboard('{ArrowLeft}{Backspace}')
+
+      expect(day.value).toBe('03')
+      expect(month.value).toBe('mm')
+      expect(year.value).toBe('2026')
+    })
+
     it('should clear all sections on backspace after select-all', async () => {
       renderSegmentedField({
         values: { first: '12', second: '34' },

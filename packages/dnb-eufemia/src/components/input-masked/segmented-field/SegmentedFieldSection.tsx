@@ -516,6 +516,7 @@ export default function SegmentedFieldSection({
         }
         onFocus={() => {
           skipBoundaryBackspaceRef.current[inputId] = false
+          boundaryTraversalLockRef.current[inputId] = false
           clearGroupSelection()
           onGroupFocus()
           selectSection(inputId)
@@ -571,6 +572,7 @@ export default function SegmentedFieldSection({
 
           if (key === 'ArrowRight') {
             event.preventDefault()
+            boundaryTraversalLockRef.current[inputId] = false
 
             const currentValue = valuesRef.current[inputId] ?? ''
 
@@ -602,11 +604,13 @@ export default function SegmentedFieldSection({
             const currentValue = valuesRef.current[inputId] ?? ''
 
             if (!currentValue) {
+              boundaryTraversalLockRef.current[inputId] = false
               focusAdjacentSection('prev')
               return
             }
 
             if (sectionSelectionModeRef.current[inputId] === 'all') {
+              boundaryTraversalLockRef.current[inputId] = 'selection'
               setSectionCaret(inputId, 0)
               return
             }
@@ -614,12 +618,17 @@ export default function SegmentedFieldSection({
             const currentPosition = caretPositionsRef.current[inputId] ?? 0
 
             if (currentPosition <= 0) {
+              boundaryTraversalLockRef.current[inputId] = false
               focusAdjacentSection('prev')
 
               return
             }
 
-            setSectionCaret(inputId, currentPosition - 1)
+            const nextPosition = currentPosition - 1
+
+            boundaryTraversalLockRef.current[inputId] =
+              nextPosition === 0 ? 'caret' : false
+            setSectionCaret(inputId, nextPosition)
             return
           }
 
@@ -645,7 +654,7 @@ export default function SegmentedFieldSection({
             if (isAllSelected && currentValue.length > 0) {
               if (skipBoundaryBackspaceRef.current[inputId]) {
                 skipBoundaryBackspaceRef.current[inputId] = false
-                setSectionCaret(inputId, 0)
+                selectSection(inputId)
                 return
               }
 
@@ -658,26 +667,54 @@ export default function SegmentedFieldSection({
               const previousSectionId = getNextSectionId('prev', {
                 withinGroup: true,
               })
+              let keepPreviousSectionGuard = currentValue.length > 0
+              let shouldClearPreviousSection = false
 
               if (currentValue.length > 0) {
+                const traversalMode =
+                  boundaryTraversalLockRef.current[inputId]
+
+                boundaryTraversalLockRef.current[inputId] = false
+                const shouldTraverseBoundaryImmediately =
+                  traversalMode === 'caret' ||
+                  traversalMode === 'selection'
+                keepPreviousSectionGuard =
+                  keepPreviousSectionGuard &&
+                  !shouldTraverseBoundaryImmediately
+                shouldClearPreviousSection = traversalMode === 'selection'
+
                 if (!previousSectionId) {
                   focusAdjacentSection('prev')
                   return
                 }
 
-                if (!skipBoundaryBackspaceRef.current[inputId]) {
+                if (
+                  !shouldTraverseBoundaryImmediately &&
+                  !skipBoundaryBackspaceRef.current[inputId]
+                ) {
                   skipBoundaryBackspaceRef.current[inputId] = true
                   setSectionCaret(inputId, 0)
                   return
                 }
+              } else {
+                boundaryTraversalLockRef.current[inputId] = false
               }
 
               skipBoundaryBackspaceRef.current[inputId] = false
 
               if (previousSectionId) {
                 focusSection(previousSectionId, 'all')
+
+                if (shouldClearPreviousSection) {
+                  onChange(previousSectionId, '')
+                  selectSection(previousSectionId)
+                  skipBoundaryBackspaceRef.current[previousSectionId] =
+                    false
+                  return
+                }
+
                 skipBoundaryBackspaceRef.current[previousSectionId] =
-                  currentValue.length > 0
+                  keepPreviousSectionGuard
               } else {
                 if (currentValue.length === 0) {
                   focusAdjacentSection('prev')
@@ -691,6 +728,7 @@ export default function SegmentedFieldSection({
 
             const nextValue = removeChar(currentValue, currentPosition - 1)
             skipBoundaryBackspaceRef.current[inputId] = false
+            boundaryTraversalLockRef.current[inputId] = false
             updateValue(nextValue)
             setSectionCaret(inputId, currentPosition - 1)
             return
@@ -698,6 +736,7 @@ export default function SegmentedFieldSection({
 
           if (key === 'Delete') {
             event.preventDefault()
+            boundaryTraversalLockRef.current[inputId] = false
 
             if (hadWholeGroupSelected) {
               clearWholeGroup()
@@ -723,6 +762,7 @@ export default function SegmentedFieldSection({
 
           if (key.length === 1) {
             event.preventDefault()
+            boundaryTraversalLockRef.current[inputId] = false
 
             if (hadWholeGroupSelected) {
               const firstSectionId = inputs[0]?.id

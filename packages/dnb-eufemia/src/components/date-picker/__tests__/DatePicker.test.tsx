@@ -581,7 +581,38 @@ describe('DatePicker component', () => {
     await userEvent.keyboard('{Backspace}')
 
     expect(day.selectionStart).toBe(0)
-    expect(day.selectionEnd).toBe(0)
+    expect(day.selectionEnd).toBe(2)
+  })
+
+  it('should set focus on previous input immediately when pressing backspace at the beginning of the second input', async () => {
+    render(<DatePicker showInput />)
+
+    const [day, month, year] = getSegmentedFields()
+
+    await userEvent.click(day)
+    await userEvent.keyboard('03042026')
+
+    await userEvent.click(month)
+    await userEvent.keyboard('{ArrowRight}{ArrowLeft>2}{Backspace}')
+
+    expect(document.activeElement).toBe(day)
+
+    expect(day.value).toBe('03')
+    expect(month.value).toBe('04')
+    expect(year.value).toBe('2026')
+
+    await userEvent.keyboard('{Backspace}')
+
+    expect(day.value).toBe('dd')
+    expect(month.value).toBe('04')
+    expect(year.value).toBe('2026')
+
+    await userEvent.click(year)
+    await userEvent.keyboard('{ArrowLeft}{Backspace}')
+
+    expect(day.value).toBe('dd')
+    expect(month.value).toBe('mm')
+    expect(year.value).toBe('2026')
   })
 
   describe('Android', () => {
