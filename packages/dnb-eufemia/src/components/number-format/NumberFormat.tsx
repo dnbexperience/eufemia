@@ -26,7 +26,11 @@ import {
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 import Tooltip, { injectTooltipSemantic } from '../tooltip/Tooltip'
-import { format, runIOSSelectionFix } from './NumberUtils'
+import {
+  format,
+  runIOSSelectionFix,
+  FormatCurrencyPosition,
+} from './NumberUtils'
 import { SpacingProps } from '../space/types'
 import type { NumberFormatOptions } from './NumberUtils'
 import { SkeletonShow } from '../Skeleton'
@@ -45,7 +49,7 @@ export type NumberFormatSuffix =
   | React.ReactNode
   | ((...args: any[]) => any)
 export type NumberFormatCurrency = string | boolean
-export type NumberFormatCurrencyPosition = 'auto' | 'before' | 'after'
+export type NumberFormatCurrencyPosition = 'auto' | FormatCurrencyPosition
 export type NumberFormatCompact = 'short' | 'long' | boolean
 export type NumberFormatLink = 'tel' | 'sms'
 export type NumberFormatSignDisplay =
