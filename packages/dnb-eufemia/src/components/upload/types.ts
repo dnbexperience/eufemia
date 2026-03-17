@@ -4,7 +4,7 @@ import type { LocaleProps, SpacingProps } from '../../shared/types'
 import type { SharedStateId } from '../../shared/helpers/useSharedState'
 import { ButtonProps } from '../Button'
 
-export type UploadAcceptedFileTypes = string[]
+export type UploadAcceptedFiles = string[]
 
 export type UploadAcceptedFileTypesWithFileMaxSize =
   UploadAcceptedFileTypeObject[]
@@ -29,7 +29,7 @@ export type UploadProps = {
    * list of accepted file types.
    */
   acceptedFileTypes:
-    | UploadAcceptedFileTypes
+    | UploadAcceptedFiles
     | UploadAcceptedFileTypesWithFileMaxSize
 
   /**

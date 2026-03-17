@@ -19,7 +19,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type SectionVariants = 'error' | 'info' | 'warning' | 'success'
 
-export type SectionStyleTypes =
+export type SectionStyle =
   | 'divider'
   | 'white'
   | 'transparent'
@@ -124,7 +124,7 @@ export type SectionProps = {
   /**
    * @deprecated in v11 use "background" prop instead
    */
-  style_type?: SectionStyleTypes | string
+  style_type?: SectionStyle | string
 }
 
 type SectionSpacingProps = Omit<SpacingProps, 'innerSpace'> & {

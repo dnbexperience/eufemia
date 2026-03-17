@@ -1,7 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import ModalInner, { ModalInnerProps } from '../../modal/parts/ModalInner'
-import type { SectionStyleTypes } from '../../Section'
+import type { SectionStyle } from '../../Section'
 
 type DialogBodyProps = {
   /**
@@ -12,7 +12,7 @@ type DialogBodyProps = {
   /**
    * Color/Style of the dialog body
    */
-  styleType?: SectionStyleTypes
+  styleType?: SectionStyle
 } & ModalInnerProps
 
 export default function DialogBody({

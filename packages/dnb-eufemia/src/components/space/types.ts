@@ -73,7 +73,7 @@ type SpacePxStringType = `${number}px`
 
 type SpaceRemNumberType = SpaceRemValuesType
 
-export type SpaceStringTypes =
+export type SpaceStringValue =
   | SpaceRemStringType
   | SpacePxStringType
   | SpaceRemStringFallback
@@ -82,7 +82,7 @@ export type SpaceStringTypes =
   | SpaceSizeUnion
   | SpaceSizeUnionInfinite
 
-export type SpaceType = SpaceStringTypes | SpaceRemNumberType | boolean
+export type SpaceType = SpaceStringValue | SpaceRemNumberType | boolean
 export type SpaceTypeAll = SpaceType | SpacingElementProps
 
 export type SpaceTypeMedia = {

@@ -33,7 +33,7 @@ import ButtonContent from './internal/ButtonContent'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import type { IconIcon, IconSize } from '../icon/Icon'
 import type {
-  DataAttributeTypes,
+  DataAttributes,
   DynamicElement,
   SpacingProps,
 } from '../../shared/types'
@@ -180,7 +180,7 @@ export type ButtonProps = {
   onClick?: ButtonOnClick
 } & FormStatusBaseProps &
   Partial<
-    DataAttributeTypes &
+    DataAttributes &
       Omit<
         Partial<
           React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>

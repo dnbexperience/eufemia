@@ -11,7 +11,7 @@ import type {
   SpacingProps,
   SpacePositiveSize,
   SpacePositiveRemValue,
-  SpaceStringTypes,
+  SpaceStringValue,
   InnerSpacingElementProps,
   InnerSpaceType,
   InnerSpaceTypeMedia,
@@ -265,8 +265,8 @@ export const translateSpace = (type: SpaceType) => {
 // @internal Splits a string of: "large x-small" into an array of the same
 export const splitTypes = (types: SpaceType | Array<SpaceType>) => {
   if (typeof types === 'string') {
-    const test = (types as SpaceStringTypes).split(/ /g)
-    return clean(test as Array<SpaceStringTypes>)
+    const test = (types as SpaceStringValue).split(/ /g)
+    return clean(test as Array<SpaceStringValue>)
   } else if (typeof types === 'boolean') {
     return [types ? ('small' as SpacePositiveSize) : 0]
   } else if (typeof types === 'number') {
@@ -275,7 +275,7 @@ export const splitTypes = (types: SpaceType | Array<SpaceType>) => {
 
   return clean(types) || null
 
-  function clean(t: Array<SpaceType> | Array<SpaceStringTypes>) {
+  function clean(t: Array<SpaceType> | Array<SpaceStringValue>) {
     return t?.filter((r) => r && String(r).length > 0)
   }
 }
