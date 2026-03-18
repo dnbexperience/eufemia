@@ -14,9 +14,11 @@ export default {
   title: 'Eufemia/Components/Flex',
 }
 
-const Wrapper = Flex.withChildren(({ children }) => {
-  return <div className="wrapper">{children}</div>
-})
+const Wrapper = Flex.withChildren(
+  ({ children }: { children?: React.ReactNode }) => {
+    return <div className="wrapper">{children}</div>
+  }
+)
 
 export function FlexWithVisibility() {
   const TestComponent = (props: SpaceProps) => {

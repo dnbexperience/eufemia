@@ -112,9 +112,9 @@ describe('Field.DateOfBirth', () => {
     })
 
     it('should support transformIn', async () => {
-      const transformIn = jest.fn((external: AdditionalArgs) => {
+      const transformIn = jest.fn((external: unknown) => {
+        const { year, month, day } = external as AdditionalArgs
         if (external) {
-          const { year, month, day } = external
           return `${year}-${month}-${day}`
         }
       })
@@ -160,17 +160,19 @@ describe('Field.DateOfBirth', () => {
       const onChange = jest.fn()
 
       const transformOut = jest.fn(
-        (internal, additionalArgs: AdditionalArgs) => {
-          if (additionalArgs) {
-            const { year, month, day } = additionalArgs
+        (internal: unknown, additionalArgs?: unknown) => {
+          const args = additionalArgs as AdditionalArgs
+          if (args) {
+            const { year, month, day } = args
             return { year, month, day }
           }
         }
       )
 
-      const transformIn = jest.fn((external: AdditionalArgs) => {
-        if (external) {
-          const { year, month, day } = external
+      const transformIn = jest.fn((external: unknown) => {
+        const ext = external as AdditionalArgs
+        if (ext) {
+          const { year, month, day } = ext
           return `${year}-${month}-${day}`
         }
       })
