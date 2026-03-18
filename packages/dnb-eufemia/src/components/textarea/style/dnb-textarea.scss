@@ -205,7 +205,7 @@
       --token-color-background-action-disabled
     );
     --textarea-color-text: var(--token-color-text-neutral-alternative);
-    --textarea-color-border: var(--token-color-text-neutral-alternative);
+    --textarea-color-border: var(--token-color-stroke-action-disabled);
   }
 
   // disabled
