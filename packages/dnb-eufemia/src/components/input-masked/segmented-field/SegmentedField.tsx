@@ -5,7 +5,7 @@ import useId from '../../../shared/helpers/useId'
 import Input from '../../Input'
 import FormLabel from '../../FormLabel'
 import { createSpacingClasses } from '../../space/SpacingHelper'
-import { useMultiInputValue } from '../hooks/useMultiInputValues'
+import { useSegmentedFieldValues } from '../hooks/useSegmentedFieldValues'
 import SegmentedFieldSection from './SegmentedFieldSection'
 import { ensureTextNode, listAllSections } from './dom'
 import { joinValues } from './utils'
@@ -52,7 +52,7 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
   } = props
   const hasExternalScopeRef = Boolean(props.scopeRef)
 
-  const [values, onChangeBase] = useMultiInputValue({
+  const [values, onChangeBase] = useSegmentedFieldValues({
     inputs,
     defaultValues,
   })

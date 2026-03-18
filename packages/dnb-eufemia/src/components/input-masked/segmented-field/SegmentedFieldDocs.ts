@@ -1,4 +1,4 @@
-import { PropertiesTableProps } from '../../../shared/types'
+import type { PropertiesTableProps } from '../../../shared/types'
 
 export const segmentedFieldProperties: PropertiesTableProps = {
   label: {
@@ -28,7 +28,7 @@ export const segmentedFieldProperties: PropertiesTableProps = {
   },
   overwriteMode: {
     doc: 'Controls how typed characters overwrite existing content. Defaults to `shift`.',
-    type: ['replace', 'shift'],
+    type: ['"replace"', '"shift"'],
     status: 'optional',
   },
   status: {
@@ -38,7 +38,7 @@ export const segmentedFieldProperties: PropertiesTableProps = {
   },
   statusState: {
     doc: 'Visual status state passed to the wrapped `Input` component.',
-    type: ['error', 'info', 'warn', 'disabled'],
+    type: ['"error"', '"info"', '"warn"', '"disabled"'],
     status: 'optional',
   },
   stretch: {
