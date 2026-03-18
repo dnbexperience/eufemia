@@ -1022,7 +1022,7 @@ describe('useValidation', () => {
 
       it('should return false for visibleOnly after switching selection without keepInDOM', async () => {
         const MockComponent = () => {
-          const { hasErrors } = useValidation()
+          useValidation()
 
           return (
             <>
