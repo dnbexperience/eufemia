@@ -312,7 +312,7 @@ html:not([data-visual-test]) .dnb-textarea__textarea {
     --token-color-background-action-disabled
   );
   --textarea-color-text: var(--token-color-text-neutral-alternative);
-  --textarea-color-border: var(--token-color-text-neutral-alternative);
+  --textarea-color-border: var(--token-color-stroke-action-disabled);
 }
 .dnb-textarea--disabled .dnb-textarea__textarea, .dnb-textarea__textarea[disabled] {
   user-select: none;
