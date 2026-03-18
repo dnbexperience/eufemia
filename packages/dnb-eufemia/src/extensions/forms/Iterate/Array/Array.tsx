@@ -477,7 +477,6 @@ function ArrayComponent(props: Props) {
         noAnimation={false}
       >
         {
-          // @ts-expect-error -- strictFunctionTypes
           getMessagesFromError({ content: error || limitWarning })[0]
         }
       </FormStatus>

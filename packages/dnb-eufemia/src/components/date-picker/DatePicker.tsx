@@ -753,8 +753,6 @@ function DatePicker(externalProps: DatePickerAllProps) {
               </span>
             ) : (
               <span className="dnb-date-picker__shell" id={`${id}-shell`}>
-                {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                {/* @ts-expect-error -- strictFunctionTypes: DatePickerInput props type mismatch */}
                 <DatePickerInput
                   id={id}
                   title={title}

@@ -171,7 +171,6 @@ function StringComponent(props: Props) {
   const preparedProps: Props = {
     ...props,
     schema,
-    // @ts-expect-error -- strictFunctionTypes
     fromInput,
     toEvent,
     transformValue,

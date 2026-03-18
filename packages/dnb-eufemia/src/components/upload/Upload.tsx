@@ -157,7 +157,6 @@ const Upload = (localProps: UploadAllProps) => {
       value={{
         ...extendedProps,
         id,
-        // @ts-expect-error -- strictFunctionTypes: onInputUpload processes UploadFile[] internally but context expects UploadFileNative[]
         onInputUpload,
       }}
     >

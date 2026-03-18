@@ -518,7 +518,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     DrawerListContextValue & {
       Autocomplete: Record<string, unknown>
     }
-    // @ts-expect-error -- strictFunctionTypes: DrawerListContext has wider type than DrawerListContextValue & Autocomplete
   >(DrawerListContext)
   const drawerList = context.drawerList
 
@@ -1723,7 +1722,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       >
     >(null)
   eventMethodsRef.current = {
-    // @ts-expect-error -- strictFunctionTypes: updateData uses internal DrawerListInternalData type
     updateData,
     revalidateSelectedItem,
     revalidateInputValue,
