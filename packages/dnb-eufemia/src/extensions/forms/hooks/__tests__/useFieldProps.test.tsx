@@ -17,7 +17,6 @@ import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import WizardStepContext from '../../Wizard/Step/StepContext'
 import WizardContext from '../../Wizard/Context'
 import type {
-  FieldPropsGeneric,
   JSONSchema,
   OnChange,
   SubmitState,
@@ -42,7 +41,7 @@ import enGB from '../../constants/locales/en-GB'
 const nb = nbNO['nb-NO']
 const en = enGB['en-GB']
 
-function getError(error: FieldPropsGeneric['error']) {
+function getError(error: unknown) {
   return error as Error | FormError
 }
 
@@ -99,14 +98,17 @@ describe('useFieldProps', () => {
     it('should call onStatusChange when statuses change', async () => {
       const onStatusChange = jest.fn()
       const initialError = new Error('initial')
-      const { rerender } = renderHook((props) => useFieldProps(props), {
-        initialProps: {
-          onStatusChange,
-          warning: 'initial warning',
-          error: initialError,
-        },
-        wrapper: Provider,
-      })
+      const { rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            onStatusChange,
+            warning: 'initial warning',
+            error: initialError,
+          },
+          wrapper: Provider,
+        }
+      )
 
       await waitFor(() => {
         expect(onStatusChange).toHaveBeenCalledTimes(1)
@@ -160,13 +162,16 @@ describe('useFieldProps', () => {
 
     it('should call onStatusChange when info is set', async () => {
       const onStatusChange = jest.fn()
-      const { rerender } = renderHook((props) => useFieldProps(props), {
-        initialProps: {
-          onStatusChange,
-          info: 'initial info',
-        },
-        wrapper: Provider,
-      })
+      const { rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            onStatusChange,
+            info: 'initial info',
+          },
+          wrapper: Provider,
+        }
+      )
 
       await waitFor(() => {
         expect(onStatusChange).toHaveBeenCalledTimes(1)
@@ -240,13 +245,16 @@ describe('useFieldProps', () => {
     it('should call onStatusChange when going from error to no error', async () => {
       const onStatusChange = jest.fn()
       const errorValue = new Error('some error')
-      const { rerender } = renderHook((props) => useFieldProps(props), {
-        initialProps: {
-          onStatusChange,
-          error: errorValue,
-        },
-        wrapper: Provider,
-      })
+      const { rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            onStatusChange,
+            error: errorValue,
+          },
+          wrapper: Provider,
+        }
+      )
 
       await waitFor(() => {
         expect(onStatusChange).toHaveBeenCalledTimes(1)
@@ -710,15 +718,18 @@ describe('useFieldProps', () => {
       const givenValue = 'given value'
       const defaultValue = 'include this'
 
-      const { result, rerender } = renderHook(useFieldProps, {
-        initialProps: {
-          path: '/foo',
-          defaultValue,
-        },
-        wrapper: (props) => (
-          <Provider data={{ foo: givenValue }} {...props} />
-        ),
-      })
+      const { result, rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            path: '/foo',
+            defaultValue,
+          },
+          wrapper: (props) => (
+            <Provider data={{ foo: givenValue }} {...props} />
+          ),
+        }
+      )
 
       expect(result.current.dataContext.data).toEqual({
         foo: givenValue,
@@ -735,11 +746,14 @@ describe('useFieldProps', () => {
       const defaultValue = 'use this value'
       const changedValue = 'changed value'
 
-      const { result, rerender } = renderHook(useFieldProps, {
-        initialProps: {
-          defaultValue,
-        },
-      })
+      const { result, rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            defaultValue,
+          },
+        }
+      )
 
       expect(result.current.value).toBe(defaultValue)
 
@@ -859,7 +873,7 @@ describe('useFieldProps', () => {
 
   describe('with local validation', () => {
     it('should not return error when validateInitially is set to false', async () => {
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           value: '',
           onChangeValidator: () => {
@@ -895,7 +909,7 @@ describe('useFieldProps', () => {
         }
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange,
         },
@@ -1014,15 +1028,18 @@ describe('useFieldProps', () => {
         type: 'number',
       }
 
-      const { result, rerender } = renderHook(useFieldProps, {
-        initialProps: {
-          value: 'invalid',
-          schema,
-        },
-        wrapper: ({ children }) => (
-          <Provider ajvInstance={makeAjvInstance()}>{children}</Provider>
-        ),
-      })
+      const { result, rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            value: 'invalid',
+            schema,
+          },
+          wrapper: ({ children }) => (
+            <Provider ajvInstance={makeAjvInstance()}>{children}</Provider>
+          ),
+        }
+      )
 
       const { handleChange } = result.current
 
@@ -1115,7 +1132,7 @@ describe('useFieldProps', () => {
         path: '/foo',
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps,
         wrapper: ({ children }) => (
           <Provider ajvInstance={makeAjvInstance()}>{children}</Provider>
@@ -1231,10 +1248,13 @@ describe('useFieldProps', () => {
 
       const error = 'A formatted error message'
 
-      const { rerender } = renderHook(useFieldProps, {
-        initialProps: { error },
-        wrapper,
-      })
+      const { rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: { error },
+          wrapper,
+        }
+      )
 
       expect(document.querySelector('.dnb-form-status').textContent).toBe(
         'A formatted error message'
@@ -1256,10 +1276,13 @@ describe('useFieldProps', () => {
         </>
       )
 
-      const { rerender } = renderHook(useFieldProps, {
-        initialProps: { error },
-        wrapper,
-      })
+      const { rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: { error },
+          wrapper,
+        }
+      )
 
       expect(
         document.querySelector('.dnb-form-status__text').innerHTML
@@ -1278,19 +1301,22 @@ describe('useFieldProps', () => {
     it('should render error messages given as JSX in an array', () => {
       const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
 
-      const { rerender } = renderHook(useFieldProps, {
-        initialProps: {
-          error: [
-            <>
-              First <strong>formatted</strong> error message
-            </>,
-            <>
-              Second <strong>formatted</strong> error message
-            </>,
-          ],
-        },
-        wrapper,
-      })
+      const { rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            error: [
+              <>
+                First <strong>formatted</strong> error message
+              </>,
+              <>
+                Second <strong>formatted</strong> error message
+              </>,
+            ],
+          },
+          wrapper,
+        }
+      )
 
       expect(
         document.querySelector('.dnb-form-status__text').innerHTML
@@ -1330,14 +1356,17 @@ describe('useFieldProps', () => {
           required: true,
           validateInitially: true,
         }
-        const { result, rerender } = renderHook(useFieldProps, {
-          initialProps: {
-            ...props,
-            errorMessages: {
-              'Field.errorRequired': 'Show this message',
+        const { result, rerender } = renderHook(
+          (props: any) => useFieldProps(props),
+          {
+            initialProps: {
+              ...props,
+              errorMessages: {
+                'Field.errorRequired': 'Show this message',
+              },
             },
-          },
-        })
+          }
+        )
         expect(result.current.error).toBeInstanceOf(Error)
         expect(getError(result.current.error).message).toBe(
           'Show this message'
@@ -1408,13 +1437,16 @@ describe('useFieldProps', () => {
         }
         const error = new FormError('MyCustom.message')
 
-        const { rerender } = renderHook(useFieldProps, {
-          initialProps: {
-            error,
-            errorMessages,
-          },
-          wrapper,
-        })
+        const { rerender } = renderHook(
+          (props: any) => useFieldProps(props),
+          {
+            initialProps: {
+              error,
+              errorMessages,
+            },
+            wrapper,
+          }
+        )
 
         expect(
           document.querySelector('.dnb-form-status__text').innerHTML
@@ -1507,14 +1539,17 @@ describe('useFieldProps', () => {
 
     describe('disabled and readOnly', () => {
       it('should skip validation when disabled is given', async () => {
-        const { result, rerender } = renderHook(useFieldProps, {
-          initialProps: {
-            path: '/foo',
-            value: '',
-            required: true,
-            validateInitially: true,
-          },
-        })
+        const { result, rerender } = renderHook(
+          (props: any) => useFieldProps(props),
+          {
+            initialProps: {
+              path: '/foo',
+              value: '',
+              required: true,
+              validateInitially: true,
+            },
+          }
+        )
 
         expect(result.current.error).toBeInstanceOf(Error)
 
@@ -1526,14 +1561,17 @@ describe('useFieldProps', () => {
       })
 
       it('should skip validation when readOnly is given', async () => {
-        const { result, rerender } = renderHook(useFieldProps, {
-          initialProps: {
-            path: '/foo',
-            value: '',
-            required: true,
-            validateInitially: true,
-          },
-        })
+        const { result, rerender } = renderHook(
+          (props: any) => useFieldProps(props),
+          {
+            initialProps: {
+              path: '/foo',
+              value: '',
+              required: true,
+              validateInitially: true,
+            },
+          }
+        )
 
         expect(result.current.error).toBeInstanceOf(Error)
 
@@ -1550,7 +1588,7 @@ describe('useFieldProps', () => {
     it('should provide "additionalArgs" to onBlur', () => {
       const onBlur: OnChange<unknown> = jest.fn()
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onBlur,
           value: '',
@@ -1581,7 +1619,7 @@ describe('useFieldProps', () => {
     it('should provide "additionalArgs" to onFocus', () => {
       const onFocus: OnChange<unknown> = jest.fn()
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onFocus,
           value: '',
@@ -1612,7 +1650,7 @@ describe('useFieldProps', () => {
     it('should provide "additionalArgs" to onChange', () => {
       const onChange: OnChange<unknown> = jest.fn()
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange,
           value: '',
@@ -1651,12 +1689,15 @@ describe('useFieldProps', () => {
         return null
       }
 
-      const { result, rerender } = renderHook(useFieldProps, {
-        initialProps: {
-          onChange,
-          value: '',
-        },
-      })
+      const { result, rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            onChange,
+            value: '',
+          },
+        }
+      )
 
       expect(result.current.fieldState).toBeUndefined()
 
@@ -1679,7 +1720,7 @@ describe('useFieldProps', () => {
         return null
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange,
         },
@@ -1717,7 +1758,7 @@ describe('useFieldProps', () => {
         return new Error('Error message')
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange,
         },
@@ -1766,7 +1807,7 @@ describe('useFieldProps', () => {
         events.push('onChangeValidator')
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange,
           onChangeValidator,
@@ -1814,7 +1855,7 @@ describe('useFieldProps', () => {
         events.push('onBlurValidator')
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange,
           onBlurValidator,
@@ -1853,13 +1894,16 @@ describe('useFieldProps', () => {
       const onChangeValidator = async () => null
       const onBlurValidator = async () => null
 
-      const { result, rerender } = renderHook(useFieldProps, {
-        initialProps: {
-          onChange,
-          onChangeValidator,
-          onBlurValidator,
-        },
-      })
+      const { result, rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            onChange,
+            onChangeValidator,
+            onBlurValidator,
+          },
+        }
+      )
 
       expect(result.current.disabled).toBeUndefined()
 
@@ -1917,7 +1961,7 @@ describe('useFieldProps', () => {
         events.push('onBlurValidator')
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange,
           onChangeValidator,
@@ -1973,7 +2017,7 @@ describe('useFieldProps', () => {
         return new Error('Error message')
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange,
           onChangeValidator,
@@ -2017,7 +2061,7 @@ describe('useFieldProps', () => {
         return new Error('Error message')
       })
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange,
           onBlurValidator,
@@ -2064,7 +2108,7 @@ describe('useFieldProps', () => {
         return new Error('Error message')
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange,
         },
@@ -2106,7 +2150,7 @@ describe('useFieldProps', () => {
         events.push('onBlurValidator')
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange,
           onChangeValidator,
@@ -2191,7 +2235,7 @@ describe('useFieldProps', () => {
         }
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange: onChangeField,
           onChangeValidator,
@@ -2358,7 +2402,7 @@ describe('useFieldProps', () => {
         }
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange: onChangeField,
           onChangeValidator,
@@ -2545,7 +2589,7 @@ describe('useFieldProps', () => {
         }
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange,
         },
@@ -2575,7 +2619,7 @@ describe('useFieldProps', () => {
         return null
       })
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChange,
           value: '',
@@ -2786,9 +2830,12 @@ describe('useFieldProps', () => {
     })
 
     it('should return aria-describedby', async () => {
-      const { result, rerender } = renderHook(useFieldProps, {
-        initialProps: {},
-      })
+      const { result, rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {},
+        }
+      )
 
       expect(result.current.htmlAttributes).toEqual({})
 
@@ -2874,7 +2921,7 @@ describe('useFieldProps', () => {
     it('should call "transformOut" initially when path is given', () => {
       const transformOut = jest.fn((v) => v + 1)
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           path: '/myPath',
           value: 1,
@@ -3168,7 +3215,7 @@ describe('useFieldProps', () => {
         }
       })
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           path: '/myPath',
           value: 1,
@@ -3471,12 +3518,15 @@ describe('useFieldProps', () => {
   })
 
   it('should return autoComplete based on DataContext', () => {
-    const { result, rerender } = renderHook(useFieldProps, {
-      initialProps: {},
-      wrapper: ({ children }) => (
-        <Form.Handler autoComplete>{children}</Form.Handler>
-      ),
-    })
+    const { result, rerender } = renderHook(
+      (props: any) => useFieldProps(props),
+      {
+        initialProps: {},
+        wrapper: ({ children }) => (
+          <Form.Handler autoComplete>{children}</Form.Handler>
+        ),
+      }
+    )
 
     expect(result.current.autoComplete).toBe('on')
 
@@ -3537,7 +3587,7 @@ describe('useFieldProps', () => {
       setMountedFieldState,
     } as unknown as ContextState
 
-    const { rerender } = renderHook(useFieldProps, {
+    const { rerender } = renderHook((props: any) => useFieldProps(props), {
       initialProps: props,
       wrapper: ({ children }) => {
         return <Context value={dataContextValue}>{children}</Context>
@@ -3573,7 +3623,7 @@ describe('useFieldProps', () => {
   it('should call async context onChange when no error is present', async () => {
     const onChange = jest.fn(async () => null)
 
-    const { result } = renderHook(useFieldProps, {
+    const { result } = renderHook((props: any) => useFieldProps(props), {
       initialProps: {
         path: '/foo',
         error: undefined,
@@ -3596,7 +3646,7 @@ describe('useFieldProps', () => {
   it('should not call async context onChange when error is present', async () => {
     const onChange = jest.fn(async () => null)
 
-    const { result } = renderHook(useFieldProps, {
+    const { result } = renderHook((props: any) => useFieldProps(props), {
       initialProps: {
         path: '/foo',
         error: new Error('Error message'),
@@ -3616,7 +3666,7 @@ describe('useFieldProps', () => {
     const onSubmit = jest.fn(() => null)
 
     const first = {}
-    const { result } = renderHook(useFieldProps, {
+    const { result } = renderHook((props: any) => useFieldProps(props), {
       initialProps: {
         path: '/foo',
         emptyValue: first,
@@ -3663,7 +3713,7 @@ describe('useFieldProps', () => {
   it('should not call onChange when value is not changed', async () => {
     const onChange = jest.fn(async () => null)
 
-    const { result } = renderHook((props) => useFieldProps(props), {
+    const { result } = renderHook((props: any) => useFieldProps(props), {
       initialProps: {
         path: '/foo',
         value: 'my-value',
@@ -3737,13 +3787,16 @@ describe('useFieldProps', () => {
 
   describe('onChangeValidator', () => {
     it('should return error when onChangeValidator callback returns error', async () => {
-      const { result, rerender } = renderHook(useFieldProps, {
-        initialProps: {
-          onChangeValidator: () => new Error('This is wrong...'),
-          value: 'foo',
-          validateInitially: true,
-        },
-      })
+      const { result, rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            onChangeValidator: () => new Error('This is wrong...'),
+            value: 'foo',
+            validateInitially: true,
+          },
+        }
+      )
 
       await waitFor(() => {
         expect(result.current.error).toBeInstanceOf(Error)
@@ -3775,12 +3828,15 @@ describe('useFieldProps', () => {
           return null
         }
 
-        const { result, rerender } = renderHook(useFieldProps, {
-          initialProps: {
-            onChangeValidator,
-            value: '',
-          },
-        })
+        const { result, rerender } = renderHook(
+          (props: any) => useFieldProps(props),
+          {
+            initialProps: {
+              onChangeValidator,
+              value: '',
+            },
+          }
+        )
 
         expect(result.current.fieldState).toBeUndefined()
         expect(result.current.error).toBeUndefined()
@@ -3828,15 +3884,18 @@ describe('useFieldProps', () => {
           return null
         }
 
-        const { result, rerender } = renderHook(useFieldProps, {
-          initialProps: {
-            onChangeValidator: validator,
-            onBlurValidator: undefined,
-            value: '',
-            info: 'Info message',
-            warning: 'Warning message',
-          },
-        })
+        const { result, rerender } = renderHook(
+          (props: any) => useFieldProps(props),
+          {
+            initialProps: {
+              onChangeValidator: validator,
+              onBlurValidator: undefined,
+              value: '',
+              info: 'Info message',
+              warning: 'Warning message',
+            },
+          }
+        )
         const id = result.current.id
         const { result: sharedResult } = renderHook(() =>
           useSharedState<{
@@ -3951,12 +4010,15 @@ describe('useFieldProps', () => {
           return new Error('Error message')
         }
 
-        const { result, rerender } = renderHook(useFieldProps, {
-          initialProps: {
-            onChangeValidator,
-            value: '',
-          },
-        })
+        const { result, rerender } = renderHook(
+          (props: any) => useFieldProps(props),
+          {
+            initialProps: {
+              onChangeValidator,
+              value: '',
+            },
+          }
+        )
 
         expect(result.current.fieldState).toBeUndefined()
         expect(result.current.error).toBeUndefined()
@@ -3992,13 +4054,16 @@ describe('useFieldProps', () => {
           return new Error('Error message')
         }
 
-        const { result, rerender } = renderHook(useFieldProps, {
-          initialProps: {
-            onChangeValidator,
-            value: '',
-            disabled: undefined,
-          },
-        })
+        const { result, rerender } = renderHook(
+          (props: any) => useFieldProps(props),
+          {
+            initialProps: {
+              onChangeValidator,
+              value: '',
+              disabled: undefined,
+            },
+          }
+        )
 
         expect(result.current.fieldState).toBeUndefined()
         expect(result.current.error).toBeUndefined()
@@ -4985,7 +5050,7 @@ describe('useFieldProps', () => {
       }
       const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: { onChangeValidator },
         wrapper,
       })
@@ -5018,7 +5083,7 @@ describe('useFieldProps', () => {
       }
       const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: { onChangeValidator },
         wrapper,
       })
@@ -6313,7 +6378,7 @@ describe('useFieldProps', () => {
     it('should not call onBlurValidator when required error is present', () => {
       const onBlurValidator = jest.fn(() => new Error('This is wrong...'))
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onBlurValidator,
           required: true,
@@ -6350,7 +6415,7 @@ describe('useFieldProps', () => {
 
       const onBlurValidator = jest.fn(() => new Error('This is wrong...'))
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onBlurValidator,
           schema,
@@ -6390,7 +6455,7 @@ describe('useFieldProps', () => {
         () => new Error('Error message by onBlurValidator')
       )
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onChangeValidator,
           onBlurValidator,
@@ -6426,7 +6491,7 @@ describe('useFieldProps', () => {
         async () => new Error('Error message by onChangeValidator')
       )
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onBlurValidator,
           onChangeValidator,
@@ -6458,7 +6523,7 @@ describe('useFieldProps', () => {
       )
       const onChange = jest.fn(async () => null)
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onBlurValidator,
           onChange,
@@ -6492,7 +6557,7 @@ describe('useFieldProps', () => {
         async () => new Error('Error message by onChangeValidator')
       )
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onBlurValidator,
           onChangeValidator,
@@ -6560,12 +6625,15 @@ describe('useFieldProps', () => {
         return new Error('Error message')
       }
 
-      const { result, rerender } = renderHook(useFieldProps, {
-        initialProps: {
-          onBlurValidator,
-          value: '',
-        },
-      })
+      const { result, rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            onBlurValidator,
+            value: '',
+          },
+        }
+      )
 
       expect(result.current.fieldState).toBeUndefined()
       expect(result.current.error).toBeUndefined()
@@ -6606,12 +6674,15 @@ describe('useFieldProps', () => {
         return null
       }
 
-      const { result, rerender } = renderHook(useFieldProps, {
-        initialProps: {
-          onBlurValidator,
-          value: '',
-        },
-      })
+      const { result, rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            onBlurValidator,
+            value: '',
+          },
+        }
+      )
 
       expect(result.current.fieldState).toBeUndefined()
       expect(result.current.disabled).toBeUndefined()
@@ -6661,7 +6732,7 @@ describe('useFieldProps', () => {
         return firstReturn
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onBlurValidator,
           value: '',
@@ -6697,7 +6768,7 @@ describe('useFieldProps', () => {
         return firstReturn
       }
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: {
           onBlurValidator,
           value: '',
@@ -6732,7 +6803,7 @@ describe('useFieldProps', () => {
       }
       const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: { onBlurValidator },
         wrapper,
       })
@@ -6766,7 +6837,7 @@ describe('useFieldProps', () => {
       }
       const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
 
-      const { result } = renderHook(useFieldProps, {
+      const { result } = renderHook((props: any) => useFieldProps(props), {
         initialProps: { onBlurValidator },
         wrapper,
       })
@@ -6798,46 +6869,50 @@ describe('useFieldProps', () => {
       const showFieldErrorFieldBlock = jest.fn()
       const handlePathChangeUnvalidated = jest.fn()
 
-      const { result, rerender } = renderHook(useFieldProps, {
-        initialProps: {
-          path: '/foo',
-          required: false,
-        },
-        wrapper: ({ children }) => {
-          const dataContextValue = {
-            revealError: revealErrorDataContext,
-            handlePathChangeUnvalidated,
-            setMountedFieldState: jest.fn(),
-          } as unknown as ContextState
-          const fieldBoundaryContextErrorValue = {
-            revealError: revealErrorBoundary,
-          }
-          const fieldBlockContextValue = {
-            showFieldError: showFieldErrorFieldBlock,
-          }
-          const wizardContextValue = {
-            setFieldError: setFieldErrorWizard,
-          }
-          const wizardStepContextValue = {
-            index: 1,
-          }
-          return (
-            <Context value={dataContextValue}>
-              <FieldBoundaryContext value={fieldBoundaryContextErrorValue}>
-                <FieldBlockContext value={fieldBlockContextValue}>
-                  <WizardContext value={wizardContextValue}>
-                    <WizardStepContext value={wizardStepContextValue}>
-                      {children}
-                    </WizardStepContext>
-                  </WizardContext>
-                </FieldBlockContext>
-              </FieldBoundaryContext>
-            </Context>
-          )
-        },
-      })
+      const { result, rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            path: '/foo',
+            required: false,
+          },
+          wrapper: ({ children }) => {
+            const dataContextValue = {
+              revealError: revealErrorDataContext,
+              handlePathChangeUnvalidated,
+              setMountedFieldState: jest.fn(),
+            } as unknown as ContextState
+            const fieldBoundaryContextErrorValue = {
+              revealError: revealErrorBoundary,
+            }
+            const fieldBlockContextValue = {
+              showFieldError: showFieldErrorFieldBlock,
+            }
+            const wizardContextValue = {
+              setFieldError: setFieldErrorWizard,
+            }
+            const wizardStepContextValue = {
+              index: 1,
+            }
+            return (
+              <Context value={dataContextValue}>
+                <FieldBoundaryContext
+                  value={fieldBoundaryContextErrorValue}
+                >
+                  <FieldBlockContext value={fieldBlockContextValue}>
+                    <WizardContext value={wizardContextValue}>
+                      <WizardStepContext value={wizardStepContextValue}>
+                        {children}
+                      </WizardStepContext>
+                    </WizardContext>
+                  </FieldBlockContext>
+                </FieldBoundaryContext>
+              </Context>
+            )
+          },
+        }
+      )
 
-      // @ts-expect-error - Testing that revealError is not exposed in the return type
       const { revealError } = result.current
 
       expect(revealErrorDataContext).toHaveBeenCalledTimes(0)
@@ -6929,7 +7004,7 @@ describe('useFieldProps', () => {
                         title: 'Bar',
                       },
                     ]}
-                    onChangeValidator={(value: string) => {
+                    onChangeValidator={(value) => {
                       if (value === 'foo') {
                         return new Error('Show this error!')
                       }
@@ -6989,17 +7064,20 @@ describe('useFieldProps', () => {
     it('should mount and unmount when the field is removed from the DOM', () => {
       const setMountedFieldState = jest.fn()
 
-      const { unmount } = renderHook(useFieldProps, {
-        initialProps: {
-          path: '/foo',
-        },
-        wrapper: ({ children }) => {
-          const value = {
-            setMountedFieldState,
-          } as unknown as ContextState
-          return <Context value={value}>{children}</Context>
-        },
-      })
+      const { unmount } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            path: '/foo',
+          },
+          wrapper: ({ children }) => {
+            const value = {
+              setMountedFieldState,
+            } as unknown as ContextState
+            return <Context value={value}>{children}</Context>
+          },
+        }
+      )
 
       expect(setMountedFieldState).toHaveBeenCalledTimes(2)
       expect(setMountedFieldState).toHaveBeenNthCalledWith(1, '/foo', {
@@ -7022,21 +7100,24 @@ describe('useFieldProps', () => {
     it('should set isVisible when within a visibility context', () => {
       const setMountedFieldState = jest.fn()
 
-      const { unmount } = renderHook(useFieldProps, {
-        initialProps: {
-          path: '/foo',
-        },
-        wrapper: ({ children }) => {
-          const value = {
-            setMountedFieldState,
-          } as unknown as ContextState
-          return (
-            <Context value={value}>
-              <Form.Visibility visible>{children}</Form.Visibility>
-            </Context>
-          )
-        },
-      })
+      const { unmount } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            path: '/foo',
+          },
+          wrapper: ({ children }) => {
+            const value = {
+              setMountedFieldState,
+            } as unknown as ContextState
+            return (
+              <Context value={value}>
+                <Form.Visibility visible>{children}</Form.Visibility>
+              </Context>
+            )
+          },
+        }
+      )
 
       expect(setMountedFieldState).toHaveBeenCalledTimes(3)
       expect(setMountedFieldState).toHaveBeenNthCalledWith(1, '/foo', {
@@ -7062,23 +7143,26 @@ describe('useFieldProps', () => {
     it('should set isVisible when within a visibility context with a negative visibility', () => {
       const setMountedFieldState = jest.fn()
 
-      const { unmount } = renderHook(useFieldProps, {
-        initialProps: {
-          path: '/foo',
-        },
-        wrapper: ({ children }) => {
-          const value = {
-            setMountedFieldState,
-          } as unknown as ContextState
-          return (
-            <Context value={value}>
-              <Form.Visibility visible={false} keepInDOM>
-                {children}
-              </Form.Visibility>
-            </Context>
-          )
-        },
-      })
+      const { unmount } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            path: '/foo',
+          },
+          wrapper: ({ children }) => {
+            const value = {
+              setMountedFieldState,
+            } as unknown as ContextState
+            return (
+              <Context value={value}>
+                <Form.Visibility visible={false} keepInDOM>
+                  {children}
+                </Form.Visibility>
+              </Context>
+            )
+          },
+        }
+      )
 
       expect(setMountedFieldState).toHaveBeenCalledTimes(3)
       expect(setMountedFieldState).toHaveBeenNthCalledWith(1, '/foo', {
@@ -7106,26 +7190,29 @@ describe('useFieldProps', () => {
       const setMountedFieldState = jest.fn()
 
       let activeIndex = 0
-      const { rerender, unmount } = renderHook(useFieldProps, {
-        initialProps: { path: '/foo' },
-        wrapper: ({ children }) => {
-          const value = {
-            setMountedFieldState,
-          } as unknown as ContextState
-          activeIndex++
-          return (
-            <Context value={value}>
-              <WizardContext
-                value={{
-                  activeIndex,
-                }}
-              >
-                {children}
-              </WizardContext>
-            </Context>
-          )
-        },
-      })
+      const { rerender, unmount } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: { path: '/foo' },
+          wrapper: ({ children }) => {
+            const value = {
+              setMountedFieldState,
+            } as unknown as ContextState
+            activeIndex++
+            return (
+              <Context value={value}>
+                <WizardContext
+                  value={{
+                    activeIndex,
+                  }}
+                >
+                  {children}
+                </WizardContext>
+              </Context>
+            )
+          },
+        }
+      )
 
       expect(setMountedFieldState).toHaveBeenCalledTimes(2)
       expect(setMountedFieldState).toHaveBeenNthCalledWith(1, '/foo', {

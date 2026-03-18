@@ -753,7 +753,7 @@ export default function useFieldValidation<Value>({
       validatedValueRef.current = value
     } catch (error) {
       if (isProcessActive()) {
-        persistErrorState('weak', initiator, error)
+        persistErrorState('weak', initiator, error as Error | FormError)
 
         if (validateContinuously && changedRef.current) {
           revealError()

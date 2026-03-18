@@ -152,7 +152,7 @@ export const useStickyHeader = ({
             scrollElem.addEventListener('scroll', onScroll)
             window.addEventListener('resize', onResize)
           } catch (e) {
-            stickyWarning(e)
+            stickyWarning(String(e))
           }
         }
 
@@ -164,7 +164,7 @@ export const useStickyHeader = ({
           window.removeEventListener('resize', onResize)
         }
       } catch (e) {
-        stickyWarning(e)
+        stickyWarning(String(e))
       }
     }
   }, [elementRef, sticky, stickyOffset])

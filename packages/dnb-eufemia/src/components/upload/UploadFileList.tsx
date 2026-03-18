@@ -83,7 +83,8 @@ function UploadFileList() {
       updateFiles(
         updateFile(uploadFile, {
           isLoading: false,
-          errorMessage: error.message,
+          errorMessage:
+            error instanceof Error ? error.message : String(error),
         })
       )
     }

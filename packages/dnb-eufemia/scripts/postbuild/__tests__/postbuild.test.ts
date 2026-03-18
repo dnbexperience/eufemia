@@ -12,13 +12,14 @@ import path from 'path'
 import packpath from 'packpath'
 import { getCommittedFiles } from '../../tools/cliTools'
 
-const makeStagePathException = (stage) => (stage === '/esm' ? '' : stage)
-const normalizeCss = (value) =>
+const makeStagePathException = (stage: string) =>
+  stage === '/esm' ? '' : stage
+const normalizeCss = (value: string) =>
   value.replace(/\s+/g, ' ').replace(/'/g, '"').trim()
 
 // Filter out /es stage when BUILD_MINI is set (it's not built in mini builds)
 // Also filter it out if the directory doesn't exist (to avoid test failures)
-const getBuildStages = (stages) => {
+const getBuildStages = (stages: string[]) => {
   const shouldSkipEs = process.env.BUILD_MINI
   return shouldSkipEs ? stages.filter((s) => s !== '/es') : stages
 }

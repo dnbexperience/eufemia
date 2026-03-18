@@ -35,6 +35,7 @@ const createRequest = () => {
 }
 
 const firstValidator = debounceAsync(async function firstValidator(
+  this: { addCancelEvent: (fn: () => void) => () => boolean },
   value: string
 ) {
   const start = Date.now()
@@ -58,6 +59,7 @@ const firstValidator = debounceAsync(async function firstValidator(
 })
 
 const secondValidator = debounceAsync(async function secondValidator(
+  this: { addCancelEvent: (fn: () => void) => () => boolean },
   value: string
 ) {
   const start = Date.now()
@@ -81,6 +83,7 @@ const secondValidator = debounceAsync(async function secondValidator(
 })
 
 const thirdValidator = debounceAsync(async function thirdValidator(
+  this: { addCancelEvent: (fn: () => void) => () => boolean },
   value: string
 ) {
   const start = Date.now()
@@ -103,7 +106,10 @@ const thirdValidator = debounceAsync(async function thirdValidator(
   }
 }, 500)
 
-const submitHandler = debounceAsync(async function submit(data) {
+const submitHandler = debounceAsync(async function submit(
+  this: { addCancelEvent: (fn: () => void) => () => boolean },
+  data
+) {
   const start = Date.now()
   debug('Submit of data started:', data, start)
 
@@ -288,6 +294,7 @@ const delay = debounceAsync(async function () {
 
 export function SubmitIndicator() {
   return (
+    // @ts-expect-error -- debounceAsync return type mismatch
     <Form.Handler onSubmit={delay}>
       <Form.Card>
         <Field.String path="/myField" label="Label" />
@@ -301,6 +308,7 @@ export function SubmitIndicator() {
 
 export function SubmitIndicatorMultipleButtons() {
   return (
+    // @ts-expect-error -- debounceAsync return type mismatch
     <Form.Handler onSubmit={delay}>
       <Form.Card>
         <Field.String path="/myField" label="Label" />
@@ -318,6 +326,7 @@ export function GlobalStatusStory() {
     <>
       <GlobalStatus />
 
+      {/* @ts-expect-error -- debounceAsync return type mismatch */}
       <Form.Handler id="my-form" onSubmit={delay}>
         <Form.MainHeading>Heading</Form.MainHeading>
         <Form.Card>

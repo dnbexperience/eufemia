@@ -41,7 +41,7 @@ import type {
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
-type OnChangeValue = DataValueWriteProps['onChange']
+type OnChangeValue = DataValueWriteProps<any>['onChange']
 
 if (isCI) {
   jest.retryTimes(5) // because of an flaky async validation test
