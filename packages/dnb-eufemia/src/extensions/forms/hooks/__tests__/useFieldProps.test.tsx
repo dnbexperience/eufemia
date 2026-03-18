@@ -17,7 +17,6 @@ import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import WizardStepContext from '../../Wizard/Step/StepContext'
 import WizardContext from '../../Wizard/Context'
 import type {
-  FieldPropsGeneric,
   JSONSchema,
   OnChange,
   SubmitState,
