@@ -15,15 +15,17 @@
 
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
-  color: var(--textarea-color, var(--color-black));
-  background-color: var(--textarea-background-color, var(--color-white));
 }
 
 .dnb-textarea {
+  --textarea-color-background: var(--token-color-background-neutral);
+  --textarea-color-text: var(--token-color-text-neutral);
+  --textarea-color-placeholder: var(
+    --token-color-text-neutral-alternative
+  );
+  --textarea-color-border: var(--token-color-stroke-action);
   --textarea-border-radius: 0.25rem;
   --textarea-rows: 2; // using variable so it can be dynamically changed by react component
-  --textarea-background-color: var(--color-white);
-  --textarea-placeholder-color: grey;
   --textarea-size--small: 0.25rem;
   --textarea-size--medium: 0.5rem;
   --textarea-size--large: 0.75rem;
@@ -64,7 +66,7 @@
       background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="none"><path stroke="%23000" stroke-linecap="round" stroke-width=".5" d="m1 7 6-6M3.5 7 7 3.5M6 7l1-1"/></svg>');
       background-size: var(--bg-size);
       background-position: var(--bg-pos) var(--bg-pos);
-      background-color: var(--textarea-background-color);
+      background-color: var(--textarea-color-background);
     }
   }
 
@@ -93,10 +95,10 @@
     // use vertical to align the grabber to be centered on the corner
     right: calc(var(--textarea-size-vertical) * -1);
 
-    background-color: var(--textarea-background-color);
+    background-color: var(--textarea-color-background);
 
     @include utilities.fakeBorder(
-      var(--textarea-border-color),
+      var(--textarea-color-border),
       var(--textarea-border-width),
       var(--textarea-border-inset, inset)
     );
@@ -122,12 +124,19 @@
     // To prevent textarea element from going outside of boundaries on smaller screens
     width: 100%;
 
+    color: var(--textarea-color-text);
+    background-color: var(--textarea-color-background);
+
     @include textareaStyleCommon();
 
     @include utilities.scrollY(auto);
 
     @include utilities.isFirefox() {
       overflow-x: clip !important;
+    }
+
+    ::selection {
+      text-shadow: none;
     }
   }
 
@@ -152,7 +161,7 @@
 
     @include textareaStyleCommon();
 
-    color: var(--textarea-placeholder-color);
+    color: var(--textarea-color-placeholder);
     background-color: transparent;
   }
 
@@ -165,7 +174,7 @@
   // However; the background color change does look not good because of the padding we have.
   &__textarea:autofill {
     box-shadow: 0 0 0 10em
-      var(--textarea-background-color, var(--color-white)) inset;
+      var(--textarea-color-background, var(--color-white)) inset;
   }
 
   &__align--right &__textarea,
@@ -189,6 +198,14 @@
 
   &__autoresize &__textarea {
     resize: none;
+  }
+
+  &--disabled {
+    --textarea-color-background: var(
+      --token-color-background-action-disabled
+    );
+    --textarea-color-text: var(--token-color-text-neutral-alternative);
+    --textarea-color-border: var(--token-color-stroke-action-disabled);
   }
 
   // disabled
@@ -252,7 +269,6 @@
   }
 
   &--keep-placeholder#{&}--focus &__placeholder {
-    --textarea-placeholder-color: var(--textarea-placeholder-color--focus);
     display: block;
   }
 
@@ -281,5 +297,23 @@
   &.dnb-skeleton &__state,
   &.dnb-skeleton &__textarea {
     visibility: hidden;
+  }
+
+  // hover and focus
+  &__textarea:not([disabled]):not(#{&}--disabled):hover ~ &__state,
+  &__textarea:not([disabled]):not(#{&}--disabled):focus ~ &__state {
+    --textarea-color-border: var(--token-color-stroke-action-pressed);
+  }
+
+  // with statusState = "error"
+  &__status--error:not(#{&}--focus)
+    &__textarea:not([disabled]):not(#{&}--disabled) {
+    --textarea-color-text: var(--token-color-text-destructive);
+  }
+
+  &__status--error:not(#{&}--focus)
+    &__textarea:not([disabled]):not(#{&}--disabled)
+    ~ &__state {
+    --textarea-color-border: var(--token-color-stroke-error);
   }
 }
