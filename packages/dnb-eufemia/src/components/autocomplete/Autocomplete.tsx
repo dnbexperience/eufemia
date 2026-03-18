@@ -453,6 +453,7 @@ const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
 function Autocomplete(props: AutocompleteAllProps) {
   const _id = useId(props.id)
 
+  // @ts-expect-error -- strictFunctionTypes
   const providerProps = {
     ...props,
     id: _id,

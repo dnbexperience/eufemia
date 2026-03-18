@@ -753,6 +753,7 @@ export default function useFieldValidation<Value>({
       validatedValueRef.current = value
     } catch (error) {
       if (isProcessActive()) {
+        // @ts-expect-error -- strictFunctionTypes
         persistErrorState('weak', initiator, error)
 
         if (validateContinuously && changedRef.current) {
