@@ -153,6 +153,18 @@ describe('SegmentedField', () => {
       expect(hiddenInput.value).toBe('12/34')
     })
 
+    it('should redirect hidden input focus to the first section', () => {
+      renderSegmentedField()
+
+      const hiddenInput: HTMLInputElement = document.querySelector(
+        '.dnb-segmented-field__hidden-input'
+      )
+
+      hiddenInput.focus()
+
+      expect(document.activeElement).toBe(getFirst())
+    })
+
     it('should support size prop', () => {
       renderSegmentedField({ size: 'large' })
 
@@ -1020,6 +1032,7 @@ describe('SegmentedField', () => {
         ctrlKey: true,
       })
 
+      expect(document.activeElement).toBe(day)
       expect(day.selectionStart).toBe(0)
       expect(day.selectionEnd).toBe(day.value.length)
       expect(month.selectionStart).toBe(0)
@@ -1046,6 +1059,7 @@ describe('SegmentedField', () => {
         metaKey: true,
       })
 
+      expect(document.activeElement).toBe(day)
       expect(day.selectionStart).toBe(0)
       expect(day.selectionEnd).toBe(day.value.length)
       expect(month.selectionStart).toBe(0)

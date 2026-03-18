@@ -176,6 +176,11 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
         return
       }
 
+      // To help Chrome maintain focus visibility when selecting the whole group
+      if (document.activeElement !== firstSection) {
+        firstSection.focus()
+      }
+
       const firstTextNode = ensureTextNode(firstSection)
       const lastTextNode = ensureTextNode(lastSection)
 
@@ -360,6 +365,13 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
                 )
               )}
             </div>
+
+            {/*
+              Keep one real input in the DOM so the field keeps a single id-based
+              focus target. When that target receives focus, we redirect into the
+              first contentEditable section, while still exposing the joined value
+              as the canonical field string.
+            */}
             <input
               id={id}
               className="dnb-segmented-field__hidden-input dnb-sr-only"
