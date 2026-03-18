@@ -941,6 +941,227 @@ describe('useValidation', () => {
         })
         expect(result.current.hasErrors({ visibleOnly: true })).toBe(false)
       })
+
+      it('should return false for visibleOnly after switching from visible to another selection with keepInDOM', async () => {
+        const renderLogs = []
+
+        const MockComponent = () => {
+          const { hasErrors } = useValidation()
+          renderLogs.push({
+            all: hasErrors(),
+            visibleOnly: hasErrors({ visibleOnly: true }),
+          })
+
+          return (
+            <>
+              <Field.Selection
+                path="/locale"
+                variant="button"
+                optionsLayout="horizontal"
+              >
+                <Field.Option value="nb-NO">Norsk</Field.Option>
+                <Field.Option value="da-DK">Dansk</Field.Option>
+                <Field.Option value="en-GB">English</Field.Option>
+              </Field.Selection>
+              <Form.Visibility
+                visibleWhen={{
+                  path: '/locale',
+                  hasValue: 'da-DK',
+                }}
+                keepInDOM
+              >
+                <Field.String path="/amount" label="Amount" required />
+              </Form.Visibility>
+            </>
+          )
+        }
+
+        render(
+          <Form.Handler id={identifier}>
+            <MockComponent />
+          </Form.Handler>
+        )
+
+        const { result } = renderHook(() => useValidation(identifier))
+
+        // Initially no locale selected, field is hidden
+        expect(result.current.hasErrors()).toBe(true)
+        expect(result.current.hasErrors({ visibleOnly: true })).toBe(false)
+
+        // Click "Dansk" to show the field
+        const dkButton = Array.from(
+          document.querySelectorAll('button')
+        ).find((b) => b.textContent === 'Dansk')
+        await userEvent.click(dkButton)
+
+        await waitFor(() => {
+          expect(result.current.hasErrors({ visibleOnly: true })).toBe(
+            true
+          )
+        })
+
+        // Click "English" to hide the field again
+        renderLogs.length = 0
+        const enButton = Array.from(
+          document.querySelectorAll('button')
+        ).find((b) => b.textContent === 'English')
+        await userEvent.click(enButton)
+
+        await waitFor(() => {
+          expect(result.current.hasErrors({ visibleOnly: true })).toBe(
+            false
+          )
+        })
+
+        // Verify that the render-body values also settled correctly
+        await waitFor(() => {
+          const lastLog = renderLogs[renderLogs.length - 1]
+          expect(lastLog.visibleOnly).toBe(false)
+        })
+      })
+
+      it('should return false for visibleOnly after switching selection without keepInDOM', async () => {
+        const MockComponent = () => {
+          const { hasErrors } = useValidation()
+
+          return (
+            <>
+              <Field.Selection
+                path="/locale"
+                variant="button"
+                optionsLayout="horizontal"
+              >
+                <Field.Option value="nb-NO">Norsk</Field.Option>
+                <Field.Option value="da-DK">Dansk</Field.Option>
+                <Field.Option value="en-GB">English</Field.Option>
+              </Field.Selection>
+              <Form.Visibility
+                visibleWhen={{
+                  path: '/locale',
+                  hasValue: 'da-DK',
+                }}
+              >
+                <Field.String path="/amount" label="Amount" required />
+              </Form.Visibility>
+            </>
+          )
+        }
+
+        render(
+          <Form.Handler id={identifier}>
+            <MockComponent />
+          </Form.Handler>
+        )
+
+        const { result } = renderHook(() => useValidation(identifier))
+
+        // Initially no locale selected, field is not mounted
+        expect(result.current.hasErrors()).toBe(false)
+        expect(result.current.hasErrors({ visibleOnly: true })).toBe(false)
+
+        // Click "Dansk" to mount the field
+        const dkButton = Array.from(
+          document.querySelectorAll('button')
+        ).find((b) => b.textContent === 'Dansk')
+        await userEvent.click(dkButton)
+
+        await waitFor(() => {
+          expect(result.current.hasErrors({ visibleOnly: true })).toBe(
+            true
+          )
+        })
+
+        // Click "English" to unmount the field
+        const enButton = Array.from(
+          document.querySelectorAll('button')
+        ).find((b) => b.textContent === 'English')
+        await userEvent.click(enButton)
+
+        await waitFor(() => {
+          expect(result.current.hasErrors()).toBe(false)
+        })
+        expect(result.current.hasErrors({ visibleOnly: true })).toBe(false)
+      })
+
+      it('should work correctly with keepInDOM inside React.StrictMode', async () => {
+        const renderLogs = []
+
+        const MockComponent = () => {
+          const { hasErrors } = useValidation()
+          renderLogs.push({
+            all: hasErrors(),
+            visibleOnly: hasErrors({ visibleOnly: true }),
+          })
+
+          return (
+            <>
+              <Field.Selection
+                path="/locale"
+                variant="button"
+                optionsLayout="horizontal"
+              >
+                <Field.Option value="nb-NO">Norsk</Field.Option>
+                <Field.Option value="da-DK">Dansk</Field.Option>
+                <Field.Option value="en-GB">English</Field.Option>
+              </Field.Selection>
+              <Form.Visibility
+                visibleWhen={{
+                  path: '/locale',
+                  hasValue: 'da-DK',
+                }}
+                keepInDOM
+              >
+                <Field.String path="/amount" label="Amount" required />
+              </Form.Visibility>
+            </>
+          )
+        }
+
+        render(
+          <React.StrictMode>
+            <Form.Handler id={identifier}>
+              <MockComponent />
+            </Form.Handler>
+          </React.StrictMode>
+        )
+
+        const { result } = renderHook(() => useValidation(identifier))
+
+        // Initially field is hidden
+        expect(result.current.hasErrors()).toBe(true)
+        expect(result.current.hasErrors({ visibleOnly: true })).toBe(false)
+
+        // Click "Dansk" to show the field
+        const dkButton = Array.from(
+          document.querySelectorAll('button')
+        ).find((b) => b.textContent === 'Dansk')
+        await userEvent.click(dkButton)
+
+        await waitFor(() => {
+          expect(result.current.hasErrors({ visibleOnly: true })).toBe(
+            true
+          )
+        })
+
+        // Click "English" to hide the field again
+        renderLogs.length = 0
+        const enButton = Array.from(
+          document.querySelectorAll('button')
+        ).find((b) => b.textContent === 'English')
+        await userEvent.click(enButton)
+
+        await waitFor(() => {
+          expect(result.current.hasErrors({ visibleOnly: true })).toBe(
+            false
+          )
+        })
+
+        // Verify render-body values also settled correctly in StrictMode
+        await waitFor(() => {
+          const lastLog = renderLogs[renderLogs.length - 1]
+          expect(lastLog.visibleOnly).toBe(false)
+        })
+      })
     })
   })
 
