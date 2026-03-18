@@ -14,7 +14,7 @@ export default function useQueryLocator(id: string = undefined) {
         url.searchParams.set(name, String(index))
         window.history.pushState({}, '', url.toString())
       } catch (error) {
-        setFormError(error)
+        setFormError(error as Error)
       }
     },
     [name, setFormError]
@@ -27,7 +27,7 @@ export default function useQueryLocator(id: string = undefined) {
       const searchParams = new URLSearchParams(window.location.search)
       return parseFloat(searchParams.get(name))
     } catch (error) {
-      setFormError(error)
+      setFormError(error as Error)
     }
   }, [name, setFormError])
 
@@ -49,7 +49,7 @@ export default function useQueryLocator(id: string = undefined) {
       window.addEventListener('popstate', popstateListener)
       return () => window.removeEventListener('popstate', popstateListener)
     } catch (error) {
-      setFormError(error)
+      setFormError(error as Error)
     }
   }, [getIndex, id, setActiveIndex, setFormError])
 

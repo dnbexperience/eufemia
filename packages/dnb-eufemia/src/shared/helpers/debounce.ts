@@ -73,7 +73,7 @@ export function debounce<T extends any[], R>(
     }
   }
 
-  function executedFunction(...args: T) {
+  function executedFunction(this: any, ...args: T) {
     if (typeof recall === 'function') {
       recall()
     }

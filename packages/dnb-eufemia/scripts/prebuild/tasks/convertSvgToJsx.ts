@@ -139,7 +139,7 @@ const transformSvg = async ({
     })
   } catch (e) {
     log.fail('Failed to run the convertSvgToJsx process')
-    throw new Error(e)
+    throw e instanceof Error ? e : new Error(String(e))
   }
 }
 
@@ -313,7 +313,7 @@ const generateIndexFile = async ({
 
     await fs.writeFile(indexFile, indexContent)
   } catch (e) {
-    throw new Error(e)
+    throw e instanceof Error ? e : new Error(String(e))
   }
 }
 
@@ -395,7 +395,7 @@ const generateGroupFiles = async ({
       }
     )
   } catch (e) {
-    throw new Error(e)
+    throw e instanceof Error ? e : new Error(String(e))
   }
 }
 
@@ -423,7 +423,7 @@ const generateFallbackIndexFiles = async ({
       await fs.writeFile(indexFile, indexFileContent)
     })
   } catch (e) {
-    throw new Error(e)
+    throw e instanceof Error ? e : new Error(String(e))
   }
 }
 

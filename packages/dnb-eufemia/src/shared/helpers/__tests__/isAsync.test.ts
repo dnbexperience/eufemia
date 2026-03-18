@@ -76,7 +76,7 @@ describe('isAsync', () => {
       i.done ? t(u) : Promise.resolve(u).then(r, o)
     }
     function _asyncToGenerator(n) {
-      return function () {
+      return function (this: unknown) {
         var t = this,
           e = arguments
         return new Promise(function (r, o) {
@@ -94,8 +94,8 @@ describe('isAsync', () => {
     var _ref = _asyncToGenerator(function* () {
       console.log('async')
     })
-    function onSubmit() {
-      return _ref.apply(this, arguments)
+    function onSubmit(this: unknown) {
+      return _ref.apply(this, arguments as unknown as [])
     }
     /* eslint-enable */
 

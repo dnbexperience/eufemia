@@ -305,7 +305,7 @@ export const ButtonSandbox = () => (
   </Wrapper>
 )
 
-const Template = (props) => {
+const Template: any = (props) => {
   return (
     <>
       <Button icon="chevron_right" size="small" {...props} />
@@ -364,7 +364,7 @@ export const TypeScriptElement = () => {
       ref?: React.Ref<HTMLAnchorElement>
     }
   > = null // This is "simulating" { Link } from 'react-router-dom'
-  return <Button element={ReactRouterDomLink} />
+  return <Button element={ReactRouterDomLink as any} />
 }
 
 export const TertiaryError = () => {

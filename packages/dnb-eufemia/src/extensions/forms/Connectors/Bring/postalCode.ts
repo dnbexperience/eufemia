@@ -77,7 +77,7 @@ export function autofill(
 ): UseFieldProps<string>['onChange'] {
   const abortControllerRef = { current: null }
 
-  return async function autofillHandler(value, additionalArgs) {
+  return async function autofillHandler(value, additionalArgs?) {
     if (!(typeof value === 'string' && value.length >= 4)) {
       return // stop here
     }
@@ -132,7 +132,7 @@ export function autofill(
         return onMatch(payload)
       }
     } catch (error) {
-      return error
+      return error as Error
     }
   }
 }
@@ -145,7 +145,7 @@ export function validator(
   | UseFieldProps<string>['onBlurValidator'] {
   const abortControllerRef = { current: null }
 
-  return async function validatorHandler(value, additionalArgs) {
+  return async function validatorHandler(value, additionalArgs?) {
     if (!(typeof value === 'string' && value.length >= 4)) {
       return // stop here
     }
@@ -190,7 +190,7 @@ export function validator(
         return onMatch()
       }
     } catch (error) {
-      return error
+      return error as Error
     }
   }
 }

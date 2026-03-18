@@ -154,7 +154,6 @@ export function suggestions(
       additionalArgs.hideIndicator()
     } catch (error) {
       additionalArgs.hideIndicator()
-      return error
     }
   }
 }
