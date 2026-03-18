@@ -378,7 +378,13 @@ describe('Breadcrumb', () => {
       }
 
       render(
-        <BreadcrumbItem element={CustomElement} text="Page" href="/" />
+        <BreadcrumbItem
+          element={
+            CustomElement as React.ElementType
+          }
+          text="Page"
+          href="/"
+        />
       )
 
       expect(
@@ -400,7 +406,15 @@ describe('Breadcrumb', () => {
         </a>
       )
 
-      render(<BreadcrumbItem to={'/url'} element={MockLink} text="Page" />)
+      render(
+        <BreadcrumbItem
+          to={'/url'}
+          element={
+            MockLink as React.ElementType
+          }
+          text="Page"
+        />
+      )
 
       expect(screen.getByRole('link')).toHaveAttribute('href', '/url')
     })

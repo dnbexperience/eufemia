@@ -19,6 +19,7 @@ import {
 } from '../..'
 import { ScrollView } from '../../../fragments'
 import Dialog from '../Dialog'
+import type { ButtonOnClick } from '../../button/Button'
 import { H2, P, Hr, Flex, ToggleButton } from '../../..'
 import Provider from '../../../shared/Provider'
 import {
@@ -79,15 +80,15 @@ export const DialogConfirm = () => (
             text="Administrer"
             icon={edit}
             iconPosition="left"
-            onClick={({ close }) => {
+            onClick={(({ close }) => {
               close()
-            }}
+            }) as ButtonOnClick}
           />
           <Button
             text="Jeg godtar"
-            onClick={({ close }) => {
+            onClick={(({ close }) => {
               close()
-            }}
+            }) as ButtonOnClick}
           />
         </Dialog.Action>
       </Dialog>

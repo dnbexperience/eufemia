@@ -28,16 +28,20 @@ describe('useValueProps', () => {
     })
 
     it('should prepare value when function instance changes', () => {
-      const { result, rerender } = renderHook(useValueProps, {
-        initialProps: {
-          value: 1,
-          transformIn: (value: number) => value + 1,
-        },
-      })
+      const { result, rerender } = renderHook(
+        (props: { value: number; transformIn: (value: unknown) => unknown }) =>
+          useValueProps(props),
+        {
+          initialProps: {
+            value: 1,
+            transformIn: (value: unknown) => Number(value) + 1,
+          },
+        }
+      )
 
       expect(result.current.value).toBe(2)
 
-      rerender({ value: 2, transformIn: (value: number) => value + 2 })
+      rerender({ value: 2, transformIn: (value: unknown) => Number(value) + 2 })
 
       expect(result.current.value).toBe(4)
     })

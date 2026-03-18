@@ -7,7 +7,9 @@ export default {
 
 const createRequest = () => {
   let timeout: NodeJS.Timeout | null
-  let resolvePromise: ((value?: unknown) => void) | undefined
+  let resolvePromise:
+    | ((value: { hasError: boolean; cancel?: boolean }) => void)
+    | undefined
 
   const fn = (
     t: number
@@ -109,7 +111,7 @@ export function Upload() {
           <P>layout="grid"</P>
           <Value.SummaryList
             layout="grid"
-            transformLabel={(label: string) => label.toUpperCase()}
+            transformLabel={(label) => String(label).toUpperCase()}
           >
             <Value.String label="foo" path="/foo" />
             <Value.String label="bar" path="/bar" />
@@ -121,7 +123,7 @@ export function Upload() {
           <P>layout="horizontal"</P>
           <Value.SummaryList
             layout="horizontal"
-            transformLabel={(label: string) => label.toUpperCase()}
+            transformLabel={(label) => String(label).toUpperCase()}
           >
             <Value.String label="foo" path="/foo" />
             <Value.String label="bar" path="/bar" />
@@ -133,7 +135,7 @@ export function Upload() {
           <P>layout="vertical"</P>
           <Value.SummaryList
             layout="vertical"
-            transformLabel={(label: string) => label.toUpperCase()}
+            transformLabel={(label) => String(label).toUpperCase()}
           >
             <Value.String label="foo" path="/foo" />
             <Value.String label="bar" path="/bar" />
@@ -144,7 +146,7 @@ export function Upload() {
         <Form.Card>
           <P>empty values</P>
           <Value.SummaryList
-            transformLabel={(label: string) => label.toUpperCase()}
+            transformLabel={(label) => String(label).toUpperCase()}
           >
             <Value.String label="foo" />
             <Value.String label="bar" />

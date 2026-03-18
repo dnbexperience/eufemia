@@ -556,9 +556,16 @@ describe('Anchor element', () => {
   })
 
   it('should support custom Link component with "to" prop', () => {
-    const Link = ({ children, to, ...rest }) => {
+    const Link = ({
+      children,
+      to,
+      ...rest
+    }: Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & {
+      to: string | Record<string, string>
+      ref?: React.Ref<HTMLAnchorElement>
+    }) => {
       return (
-        <a {...rest} href={to}>
+        <a {...rest} href={String(to)}>
           {children}
         </a>
       )
