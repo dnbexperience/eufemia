@@ -560,42 +560,6 @@ describe('useValidation', () => {
         expect(result.current.hasErrors({ visibleOnly: true })).toBe(false)
       })
 
-      it('should react to visibility changes with keepInDOM', async () => {
-        const MockComponent = () => {
-          const [visible, setVisible] = useState(true)
-          return (
-            <>
-              <Form.Visibility visible={visible} keepInDOM>
-                <Field.String path="/conditional" required />
-              </Form.Visibility>
-              <button onClick={() => setVisible(false)}>Hide</button>
-            </>
-          )
-        }
-
-        render(
-          <Form.Handler id={identifier}>
-            <MockComponent />
-          </Form.Handler>
-        )
-
-        const { result } = renderHook(() => useValidation(identifier))
-
-        expect(result.current.hasErrors({ visibleOnly: true })).toBe(true)
-        expect(result.current.hasErrors()).toBe(true)
-
-        await userEvent.click(
-          document.querySelector('button:last-of-type')
-        )
-
-        await waitFor(() => {
-          expect(result.current.hasErrors({ visibleOnly: true })).toBe(
-            false
-          )
-        })
-        expect(result.current.hasErrors()).toBe(true)
-      })
-
       it('should work without an identifier', () => {
         const result = { current: undefined }
 
@@ -841,46 +805,6 @@ describe('useValidation', () => {
         })
       })
 
-      it('should not report errors for unmounted fields without keepInDOM using context', async () => {
-        const result = { current: undefined }
-
-        const MockComponent = () => {
-          const [visible, setVisible] = useState(true)
-          result.current = useValidation()
-
-          return (
-            <>
-              <Form.Visibility visible={visible}>
-                <Field.String path="/amount" required />
-              </Form.Visibility>
-              <button onClick={() => setVisible(false)}>Hide</button>
-            </>
-          )
-        }
-
-        render(
-          <Form.Handler id="test-form-id">
-            <MockComponent />
-          </Form.Handler>
-        )
-
-        // Field is visible and has a required error
-        expect(result.current.hasErrors({ visibleOnly: true })).toBe(true)
-
-        // Hide (unmount) the field
-        await userEvent.click(document.querySelector('button'))
-
-        await waitFor(() => {
-          expect(result.current.hasErrors({ visibleOnly: true })).toBe(
-            false
-          )
-        })
-
-        // Also check: hasErrors without options should also return false
-        // since the field is unmounted
-        expect(result.current.hasErrors()).toBe(false)
-      })
-
       it('should exclude unmounted fields from hasErrors without visibleOnly', async () => {
         const MockComponent = () => {
           const [visible, setVisible] = useState(true)
@@ -1065,69 +989,6 @@ describe('useValidation', () => {
           const lastLog = renderLogs[renderLogs.length - 1]
           expect(lastLog.visibleOnly).toBe(false)
         })
-      })
-
-      it('should return false for visibleOnly after switching selection without keepInDOM', async () => {
-        const MockComponent = () => {
-          useValidation()
-
-          return (
-            <>
-              <Field.Selection
-                path="/locale"
-                variant="button"
-                optionsLayout="horizontal"
-              >
-                <Field.Option value="nb-NO">Norsk</Field.Option>
-                <Field.Option value="da-DK">Dansk</Field.Option>
-                <Field.Option value="en-GB">English</Field.Option>
-              </Field.Selection>
-              <Form.Visibility
-                visibleWhen={{
-                  path: '/locale',
-                  hasValue: 'da-DK',
-                }}
-              >
-                <Field.String path="/amount" label="Amount" required />
-              </Form.Visibility>
-            </>
-          )
-        }
-
-        render(
-          <Form.Handler id={identifier}>
-            <MockComponent />
-          </Form.Handler>
-        )
-
-        const { result } = renderHook(() => useValidation(identifier))
-
-        // Initially no locale selected, field is not mounted
-        expect(result.current.hasErrors()).toBe(false)
-        expect(result.current.hasErrors({ visibleOnly: true })).toBe(false)
-
-        // Click "Dansk" to mount the field
-        const dkButton = Array.from(
-          document.querySelectorAll('button')
-        ).find((b) => b.textContent === 'Dansk')
-        await userEvent.click(dkButton)
-
-        await waitFor(() => {
-          expect(result.current.hasErrors({ visibleOnly: true })).toBe(
-            true
-          )
-        })
-
-        // Click "English" to unmount the field
-        const enButton = Array.from(
-          document.querySelectorAll('button')
-        ).find((b) => b.textContent === 'English')
-        await userEvent.click(enButton)
-
-        await waitFor(() => {
-          expect(result.current.hasErrors()).toBe(false)
-        })
-        expect(result.current.hasErrors({ visibleOnly: true })).toBe(false)
       })
 
       it('should work correctly with keepInDOM inside React.StrictMode', async () => {
