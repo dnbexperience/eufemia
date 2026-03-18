@@ -227,7 +227,6 @@ describe('Iterate.Count', () => {
 
         const { container } = render(
           <DataContext.Provider data={data}>
-            {/* @ts-expect-error -- strictFunctionTypes */}
             <Count path={path} filter={filter} />
           </DataContext.Provider>
         )
@@ -269,7 +268,6 @@ describe('Iterate.Count', () => {
 
         const MockComponent = () => {
           const { count } = useCount()
-          // @ts-expect-error -- strictFunctionTypes
           return (value = count(path, filter))
         }
 

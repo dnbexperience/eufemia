@@ -29,7 +29,6 @@ describe('address', () => {
 
     beforeEach(() => {
       addressSuggestionsElement = withConfig(
-        // @ts-expect-error -- strictFunctionTypes
         Connectors.Bring.address.suggestionsElement,
         {
           countryCode: 'NO', // Can be "NO" or a path
@@ -274,7 +273,6 @@ describe('address', () => {
 
     it('should have no options when country is other than "NO"', async () => {
       addressSuggestionsElement = withConfig(
-        // @ts-expect-error -- strictFunctionTypes
         Connectors.Bring.address.suggestionsElement,
         {
           countryCode: '/myCountryCode',
@@ -312,7 +310,6 @@ describe('address', () => {
       })
 
       addressSuggestionsElement = withConfig(
-        // @ts-expect-error -- strictFunctionTypes
         Connectors.Bring.address.suggestionsElement,
         {
           countryCode: 'NO',

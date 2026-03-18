@@ -843,7 +843,6 @@ const createXMLTarBundles = async ({
 }
 
 const optimizeSVGIcons = async ({ destDir, listWithFiles }) => {
-  // @ts-expect-error -- strictFunctionTypes
   await asyncForEach(listWithFiles, async ({ iconFile }) => {
     const file = path.resolve(destDir, iconFile)
     await optimizeSVG(file)

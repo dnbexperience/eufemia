@@ -28,7 +28,6 @@ describe('useValueProps', () => {
     })
 
     it('should prepare value when function instance changes', () => {
-      // @ts-expect-error -- strictFunctionTypes
       const { result, rerender } = renderHook(useValueProps, {
         initialProps: {
           value: 1,
@@ -36,12 +35,10 @@ describe('useValueProps', () => {
         },
       })
 
-      // @ts-expect-error -- strictFunctionTypes
       expect(result.current.value).toBe(2)
 
       rerender({ value: 2, transformIn: (value: number) => value + 2 })
 
-      // @ts-expect-error -- strictFunctionTypes
       expect(result.current.value).toBe(4)
     })
 

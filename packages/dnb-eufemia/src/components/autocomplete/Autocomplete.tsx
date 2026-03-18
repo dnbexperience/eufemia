@@ -453,7 +453,6 @@ const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
 function Autocomplete(props: AutocompleteAllProps) {
   const _id = useId(props.id)
 
-  // @ts-expect-error -- strictFunctionTypes
   const providerProps = {
     ...props,
     id: _id,
@@ -519,7 +518,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     DrawerListContextValue & {
       Autocomplete: Record<string, unknown>
     }
-    // @ts-expect-error -- strictFunctionTypes
   >(DrawerListContext)
   const drawerList = context.drawerList
 
@@ -1724,7 +1722,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       >
     >(null)
   eventMethodsRef.current = {
-    // @ts-expect-error -- strictFunctionTypes
     updateData,
     revalidateSelectedItem,
     revalidateInputValue,

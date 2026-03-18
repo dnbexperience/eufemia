@@ -23,7 +23,6 @@ const TranslationImpl = <T = TranslationCustomLocales,>({
   ...params
 }: TranslationProps<T>) => {
   const { translation } = useContext(SharedContext)
-  // @ts-expect-error -- strictFunctionTypes
   const result = formatMessage(id || children, params, translation)
 
   if (typeof result !== 'string') {

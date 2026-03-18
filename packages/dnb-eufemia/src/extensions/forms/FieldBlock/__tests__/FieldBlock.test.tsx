@@ -383,7 +383,6 @@ describe('FieldBlock', () => {
       const fromInput = React.useCallback(({ value }) => value, [])
       const { value, handleChange } = useFieldProps({
         value: '',
-        // @ts-expect-error -- strictFunctionTypes
         fromInput,
       })
 

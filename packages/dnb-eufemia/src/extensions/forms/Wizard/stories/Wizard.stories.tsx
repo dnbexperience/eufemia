@@ -16,7 +16,6 @@ const createRequest = () => {
     t: number
   ): Promise<{ hasError: boolean; cancel?: boolean }> => {
     return new Promise((resolve) => {
-      // @ts-expect-error -- strictFunctionTypes
       resolvePromise = resolve
       timeout = setTimeout(() => {
         resolve({ hasError: false })

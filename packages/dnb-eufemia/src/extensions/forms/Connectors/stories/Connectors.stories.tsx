@@ -26,7 +26,6 @@ export function PostalCode() {
   const onChangeValidator = withConfig(
     Connectors.Bring.postalCode.validator,
     {
-      // @ts-expect-error -- strictFunctionTypes
       responseResolver: (response: Response) => {
         const { postal_code, city } = response?.postal_codes?.[0] || {}
         return {
@@ -36,7 +35,6 @@ export function PostalCode() {
       },
     }
   )
-  // @ts-expect-error -- strictFunctionTypes
   const onChange = withConfig(Connectors.Bring.postalCode.autofill, {
     cityPath: '/city',
   })
@@ -61,7 +59,6 @@ export function PostalCode() {
           postalCode={{
             path: '/postalCode',
             onChangeValidator,
-            // @ts-expect-error -- strictFunctionTypes
             onChange,
             required: true,
           }}
@@ -89,7 +86,6 @@ export function Address() {
     },
   })
   const addressSuggestionsElement = withConfig(
-    // @ts-expect-error -- strictFunctionTypes
     Connectors.Bring.address.suggestionsElement,
     {
       countryCode: '/countryCode', // Can be "NO" or a path
@@ -116,7 +112,6 @@ export function Address() {
         <Field.Address.Street
           path="/streetAddress"
           required
-          // @ts-expect-error -- strictFunctionTypes
           element={addressSuggestionsElement}
           autocompleteProps={{
             inputIcon: false,

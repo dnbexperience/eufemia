@@ -19,6 +19,7 @@ import type {
   Identifier,
   FieldStatus,
   ReceiveAdditionalEventArgs,
+  EventReturnWithStateObjectAndSuccess,
 } from '../types'
 import type { ContextState } from '../DataContext'
 import { Context as DataContext } from '../DataContext'
@@ -288,12 +289,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     transformOut,
     toInput: toInput as TransformerFns<Value>['toInput'],
     fromInput,
-    // @ts-expect-error -- strictFunctionTypes
     toEvent,
     transformValue,
     provideAdditionalArgs,
     fromExternal,
-    // @ts-expect-error -- strictFunctionTypes
     validateRequired,
     valueRef,
   })
@@ -505,9 +504,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     validatedValueRef,
     changeEventResultRef,
   } = useFieldAsync<Value>({
-    // @ts-expect-error -- strictFunctionTypes
     onChange,
-    // @ts-expect-error -- strictFunctionTypes
     onChangeContext,
     valueRef,
     forceUpdate,
@@ -548,7 +545,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     required,
     hasDataContext,
     getAjvInstanceDataContext,
-    // @ts-expect-error -- strictFunctionTypes
     setFieldEventListener,
     getValueByPath,
     getSourceValue,
@@ -893,8 +889,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
             if (!hasError()) {
               // If the value has changed during the async process, we don't want to call the onChange anymore
               await setEventResult(
-                // @ts-expect-error -- strictFunctionTypes
-                (await onChange?.(...(args as [any]))) ?? null
+                ((await onChange?.(...(args as [any]))) ??
+                  null) as EventReturnWithStateObjectAndSuccess
               )
             } else {
               await setEventResult(null)
@@ -910,8 +906,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
             : additionalArgs,
         })
 
-        // @ts-expect-error -- strictFunctionTypes
-        setEventResult(onChange?.(...(args as [any])) ?? null)
+        setEventResult(
+          (onChange?.(...(args as [any])) ??
+            null) as EventReturnWithStateObjectAndSuccess
+        )
       }
 
       await runPool()

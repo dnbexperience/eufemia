@@ -89,7 +89,6 @@ describe('Drawer', () => {
         onClose={onClose}
         hideCloseButton
       >
-        {/* @ts-expect-error -- strictFunctionTypes */}
         {({ close }) => (
           <>
             <h1>title</h1>
@@ -117,7 +116,6 @@ describe('Drawer', () => {
         onClose={onClose}
         hideCloseButton
       >
-        {/* @ts-expect-error -- strictFunctionTypes */}
         {({ close }) => (
           <>
             <Drawer.Navigation>Drawer.Navigation</Drawer.Navigation>
@@ -491,7 +489,6 @@ describe('Drawer', () => {
         onClose={onClose}
         hideCloseButton
       >
-        {/* @ts-expect-error -- strictFunctionTypes */}
         {({ close }) => (
           <Button id="close-button" text="close" onClick={close} />
         )}

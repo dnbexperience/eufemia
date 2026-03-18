@@ -73,7 +73,6 @@ export const Transform = () => {
         label="Ønsket lånebeløp"
         path="/myField"
         transformIn={transformIn}
-        // @ts-expect-error -- strictFunctionTypes
         transformOut={transformOut}
       />
     </Form.Handler>
@@ -116,7 +115,6 @@ export function TransformObject() {
         transformOut={(value) => {
           return { value, test: 'test' }
         }}
-        // @ts-expect-error -- strictFunctionTypes
         transformIn={(data: typeof defaultData.myLabel) => {
           return data?.value
         }}

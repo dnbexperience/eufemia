@@ -234,7 +234,6 @@ function PhoneNumber(props: Props = {}) {
     fromExternal,
     toEvent,
     provideAdditionalArgs,
-    // @ts-expect-error -- strictFunctionTypes
     transformIn,
     inputRef: props.inputRef ?? ref,
   }
@@ -277,7 +276,6 @@ function PhoneNumber(props: Props = {}) {
     onCountryCodeChange,
     onNumberChange,
     filterCountries,
-    // @ts-expect-error -- strictFunctionTypes
   } = useFieldProps(preparedProps, {
     executeOnChangeRegardlessOfUnchangedValue: true,
   })
@@ -327,7 +325,6 @@ function PhoneNumber(props: Props = {}) {
         type Item = DrawerListDataArrayItem & { country: CountryType }
 
         const cdcVal = countryCode?.replace(/^\+/, '')
-        // @ts-expect-error -- strictFunctionTypes
         const item = dataRef.current.find((item: Item) => {
           const cdc = item?.country?.cdc
           return cdc === cdcVal

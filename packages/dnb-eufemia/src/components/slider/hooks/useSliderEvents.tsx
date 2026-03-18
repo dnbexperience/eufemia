@@ -49,7 +49,6 @@ export function useSliderEvents() {
 
     if (typeof document !== 'undefined') {
       try {
-        // @ts-expect-error -- strictFunctionTypes
         document.body.addEventListener('touchmove', onBodyMouseMoveHandler)
         document.body.addEventListener('touchend', onBodyMouseUpHandler)
         document.body.addEventListener('mousemove', onBodyMouseMoveHandler)
@@ -69,7 +68,6 @@ export function useSliderEvents() {
       try {
         document.body.removeEventListener(
           'touchmove',
-          // @ts-expect-error -- strictFunctionTypes
           onBodyMouseMoveHandler
         )
         document.body.removeEventListener('touchend', onBodyMouseUpHandler)

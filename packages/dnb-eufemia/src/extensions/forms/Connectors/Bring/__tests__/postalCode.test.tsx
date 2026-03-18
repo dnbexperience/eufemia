@@ -598,7 +598,6 @@ describe('postalCode', () => {
     let onChange = null
 
     beforeEach(() => {
-      // @ts-expect-error -- strictFunctionTypes
       onChange = withConfig(Connectors.Bring.postalCode.autofill, {
         cityPath: '/city',
       })
@@ -793,7 +792,6 @@ describe('postalCode', () => {
         fetchConfig: { url },
       })
 
-      // @ts-expect-error -- strictFunctionTypes
       const onChange = withConfig(Connectors.Bring.postalCode.autofill)
 
       render(
@@ -802,7 +800,6 @@ describe('postalCode', () => {
             countryCode="FI"
             postalCode={{
               path: '/postalCode',
-              // @ts-expect-error -- strictFunctionTypes
               onChange,
             }}
           />

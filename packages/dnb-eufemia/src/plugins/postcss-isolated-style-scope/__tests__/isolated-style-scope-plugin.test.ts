@@ -315,7 +315,6 @@ describe('isolated-style-scope-plugin', () => {
         .mockReturnValue('test-hash-from-file')
       const existsSyncSpy = jest
         .spyOn(fs, 'existsSync')
-        // @ts-expect-error -- strictFunctionTypes
         .mockImplementation((path: string) => {
           return path.endsWith('scope-hash.txt')
         })
@@ -372,7 +371,6 @@ describe('isolated-style-scope-plugin', () => {
         .mockReturnValue('test hash with spaces')
       const existsSyncSpy = jest
         .spyOn(fs, 'existsSync')
-        // @ts-expect-error -- strictFunctionTypes
         .mockImplementation((path: string) =>
           path.includes('scope-hash.txt')
         )

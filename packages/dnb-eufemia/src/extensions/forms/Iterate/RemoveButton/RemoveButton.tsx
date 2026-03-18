@@ -70,7 +70,6 @@ function RemoveButton(props: Props) {
   return (
     <Button
       {...triggerAttributes}
-      // @ts-expect-error -- strictFunctionTypes
       onClick={handleClick}
       {...buttonProps}
     />

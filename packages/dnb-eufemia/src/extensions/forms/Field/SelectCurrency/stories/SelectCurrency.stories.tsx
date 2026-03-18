@@ -19,7 +19,6 @@ export function SelectCurrency() {
     <Field.SelectCurrency
       required
       value={state}
-      // @ts-expect-error -- strictFunctionTypes
       onChange={(value: CurrencyISO, data) => {
         console.log('onChange', value, data)
         update(value)
@@ -44,7 +43,6 @@ export function Transform() {
         <Field.SelectCurrency
           path="/currency"
           transformIn={transformIn}
-          // @ts-expect-error -- strictFunctionTypes
           transformOut={transformOut}
           defaultValue="NOK"
         />

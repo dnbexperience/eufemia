@@ -20,8 +20,7 @@ export default function useNextRouter(
         params.set(name, String(index))
         router.push(`${pathname}?${params.toString()}`)
       } catch (error) {
-        // @ts-expect-error -- strictFunctionTypes
-        setFormError(error)
+        setFormError(error as Error)
       }
     },
     [name, pathname, router, searchParams, setFormError]

@@ -111,7 +111,6 @@ export const DatePickerSandbox = () => (
           { title: 'Set date', date: '2019-11-15' },
           {
             title: 'Relative +3 days',
-            // @ts-expect-error -- strictFunctionTypes
             date: ({ date }) => date && addDays(date, 3),
           },
         ]}

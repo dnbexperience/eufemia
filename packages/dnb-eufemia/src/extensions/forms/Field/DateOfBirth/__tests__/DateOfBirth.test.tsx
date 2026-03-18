@@ -129,7 +129,6 @@ describe('Field.DateOfBirth', () => {
             },
           }}
         >
-          {/* @ts-expect-error -- strictFunctionTypes */}
           <Field.DateOfBirth path="/myField" transformIn={transformIn} />
         </Form.Handler>
       )
@@ -180,9 +179,7 @@ describe('Field.DateOfBirth', () => {
         <Form.Handler onChange={onChange}>
           <Field.DateOfBirth
             path="/myField"
-            // @ts-expect-error -- strictFunctionTypes
             transformOut={transformOut}
-            // @ts-expect-error -- strictFunctionTypes
             transformIn={transformIn}
           />
         </Form.Handler>

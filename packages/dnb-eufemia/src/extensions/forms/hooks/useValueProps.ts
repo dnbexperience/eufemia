@@ -88,8 +88,7 @@ export default function useValueProps<Value = unknown, Props = unknown>(
   )
 
   const value = shouldBeVisible(path)
-    ? // @ts-expect-error -- strictFunctionTypes
-      transformIn(toInput(externalValue))
+    ? transformIn(toInput(externalValue))
     : undefined
 
   const label =
@@ -98,6 +97,5 @@ export default function useValueProps<Value = unknown, Props = unknown>(
       ? fieldInternalsRef?.current?.[path]?.props?.label
       : undefined)
 
-  // @ts-expect-error -- strictFunctionTypes
-  return { ...props, label, value }
+  return { ...props, label, value } as typeof props
 }

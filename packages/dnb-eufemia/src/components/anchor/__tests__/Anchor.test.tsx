@@ -565,7 +565,6 @@ describe('Anchor element', () => {
     }
 
     render(
-      // @ts-expect-error -- strictFunctionTypes
       <Anchor to="/url" element={Link}>
         text
       </Anchor>

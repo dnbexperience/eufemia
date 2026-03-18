@@ -19,7 +19,6 @@ const createRequest = () => {
     t: number
   ): Promise<{ hasError: boolean; cancel?: boolean }> => {
     return new Promise((resolve) => {
-      // @ts-expect-error -- strictFunctionTypes
       resolvePromise = resolve
       timeout = setTimeout(() => {
         resolve({ hasError: false })
@@ -244,9 +243,7 @@ export function TransformInAndOut() {
       <Flex.Stack>
         <Field.Upload
           path="/documents"
-          // @ts-expect-error -- strictFunctionTypes
           transformIn={transformIn}
-          // @ts-expect-error -- strictFunctionTypes
           transformOut={transformOut}
           defaultValue={defaultValue}
           onFileClick={({ fileItem }) => {
@@ -419,7 +416,6 @@ export const AsyncEverythingWithTransform = () => {
         <Field.Upload
           path="/myFiles"
           transformIn={transformIn}
-          // @ts-expect-error -- strictFunctionTypes
           transformOut={transformOut}
           onFileDelete={mockAsyncFileRemoval}
           onFileClick={mockAsyncOnFileClick}
@@ -501,7 +497,6 @@ export const IterateArrayUpload = () => {
         <Field.Upload
           itemPath="/files"
           label="Required field with async fileHandler"
-          // @ts-expect-error -- strictFunctionTypes
           fileHandler={mockAsyncFileUpload}
           onFileDelete={mockAsyncFileRemoval}
           required
@@ -564,7 +559,6 @@ export const TwoAsyncUploads = () => {
       <Field.Upload
         path="/files"
         label="Required field with async fileHandler #1"
-        // @ts-expect-error -- strictFunctionTypes
         fileHandler={mockAsyncFileUpload}
         required
         onChange={(e) => {
@@ -574,7 +568,6 @@ export const TwoAsyncUploads = () => {
       <Field.Upload
         path="/files1"
         label="Required field with async fileHandler #2"
-        // @ts-expect-error -- strictFunctionTypes
         fileHandler={mockAsyncFileUpload}
         required
         onChange={(e) => {

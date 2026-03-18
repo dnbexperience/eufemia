@@ -95,8 +95,7 @@ describe('isAsync', () => {
       console.log('async')
     })
     function onSubmit(this: unknown) {
-      // @ts-expect-error -- strictFunctionTypes
-      return _ref.apply(this, arguments)
+      return _ref.apply(this, arguments as unknown as [])
     }
     /* eslint-enable */
 

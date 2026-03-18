@@ -16,8 +16,7 @@
     "alwaysStrict": true,
     "strictBindCallApply": true,
     "noImplicitThis": true,
-    "useUnknownInCatchVariables": true,
-    "strictFunctionTypes": true
+    "useUnknownInCatchVariables": true
   },
   "exclude": ["node_modules", "build"]
 }

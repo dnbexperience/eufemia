@@ -528,7 +528,6 @@ class Modal extends React.PureComponent<ModalAllProps, ModalState> {
                 verticalAlignment={verticalAlignment}
                 barContent={barContent}
                 bypassInvalidationSelectors={bypassInvalidationSelectors}
-                // @ts-expect-error -- strictFunctionTypes
                 close={this.close}
                 hide={hide}
                 title={headerTitle}

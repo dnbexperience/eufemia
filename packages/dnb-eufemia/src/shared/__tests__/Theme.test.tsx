@@ -162,7 +162,6 @@ describe('Theme', () => {
         {children}
       </section>
     )
-    // @ts-expect-error -- strictFunctionTypes
     render(<Theme element={Component}>content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')

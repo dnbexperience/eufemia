@@ -14,7 +14,6 @@ export default {
   title: 'Eufemia/Components/Flex',
 }
 
-// @ts-expect-error -- strictFunctionTypes
 const Wrapper = Flex.withChildren(({ children }) => {
   return <div className="wrapper">{children}</div>
 })

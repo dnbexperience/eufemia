@@ -122,7 +122,6 @@ export function useHeightAnimation(
   }, [compensateForGap])
 
   useLayoutEffect(() => {
-    // @ts-expect-error -- strictFunctionTypes
     instRef.current.onStart((state: HeightAnimationOnStart) => {
       switch (state) {
         case 'opening':
@@ -147,7 +146,6 @@ export function useHeightAnimation(
       }
     })
 
-    // @ts-expect-error -- strictFunctionTypes
     instRef.current.onEnd((state: HeightAnimationOnEnd) => {
       switch (state) {
         case 'opened':

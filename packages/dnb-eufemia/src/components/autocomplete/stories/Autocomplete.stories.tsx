@@ -200,7 +200,6 @@ const AutocompleteWithState = () => {
         console.log('value 1', value)
         setResults(topMovies)
         debounce(
-          // @ts-expect-error -- strictFunctionTypes
           ({ value, results }) => {
             const timeout = setTimeout(() => {
               console.log('value 2', value, results)
@@ -993,9 +992,7 @@ export const Memo = () => {
 
   return (
     <Flex.Vertical space="large" gap="large">
-      {/* @ts-expect-error -- strictFunctionTypes */}
       <AutoComplete getInputIcon={getIconString} label="String" />
-      {/* @ts-expect-error -- strictFunctionTypes */}
       <AutoComplete getInputIcon={getIconElement} label="Element" />
     </Flex.Vertical>
   )

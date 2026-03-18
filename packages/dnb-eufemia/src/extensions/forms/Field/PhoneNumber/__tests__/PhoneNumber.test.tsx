@@ -802,7 +802,6 @@ describe('Field.PhoneNumber', () => {
             },
           }}
         >
-          {/* @ts-expect-error -- strictFunctionTypes */}
           <Field.PhoneNumber path="/myField" transformIn={transformIn} />
         </Form.Handler>
       )
@@ -876,7 +875,6 @@ describe('Field.PhoneNumber', () => {
           <Field.PhoneNumber
             path="/myField"
             transformOut={transformOut}
-            // @ts-expect-error -- strictFunctionTypes
             transformIn={transformIn}
           />
         </Form.Handler>
@@ -1870,7 +1868,6 @@ describe('Field.PhoneNumber', () => {
           document.querySelectorAll(
             '.dnb-drawer-list__options .dnb-drawer-list__option__inner'
           )
-          // @ts-expect-error -- strictFunctionTypes
         ).map((option: HTMLSpanElement) => option.textContent)
 
       await userEvent.click(codeElement)

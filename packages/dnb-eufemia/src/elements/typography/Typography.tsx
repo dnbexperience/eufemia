@@ -112,7 +112,6 @@ const Typography = ({
 
   return (
     <E
-      // @ts-expect-error -- strictFunctionTypes
       as={element}
       {...props}
       style={{ ...props.style, ...style }}

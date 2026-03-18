@@ -2342,7 +2342,6 @@ describe('Field.Upload', () => {
         }}
       >
         <Field.Upload
-          // @ts-expect-error -- strictFunctionTypes
           transformOut={transformOut}
           transformIn={transformIn}
           path="/myFiles"
@@ -2963,9 +2962,7 @@ describe('Field.Upload', () => {
         >
           <Field.Upload
             path="/documents"
-            // @ts-expect-error -- strictFunctionTypes
             transformIn={transformIn}
-            // @ts-expect-error -- strictFunctionTypes
             transformOut={transformOut}
           />
           <LogContext />
@@ -3013,9 +3010,7 @@ describe('Field.Upload', () => {
         <Form.Handler>
           <Field.Upload
             path="/documents"
-            // @ts-expect-error -- strictFunctionTypes
             transformIn={transformIn}
-            // @ts-expect-error -- strictFunctionTypes
             transformOut={transformOut}
             defaultValue={defaultValue}
           />

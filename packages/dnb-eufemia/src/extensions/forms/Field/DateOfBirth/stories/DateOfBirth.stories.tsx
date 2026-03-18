@@ -36,9 +36,7 @@ export const DateOfBirth = () => {
           path="/myField"
           labelDescription="Please enter your date of birth"
           labelDescriptionInline
-          // @ts-expect-error -- strictFunctionTypes
           transformOut={transformOut}
-          // @ts-expect-error -- strictFunctionTypes
           transformIn={transformIn}
         />
 

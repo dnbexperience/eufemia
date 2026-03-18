@@ -18,7 +18,6 @@ const createRequest = () => {
     t: number
   ): Promise<{ hasError: boolean; cancel?: boolean }> => {
     return new Promise((resolve) => {
-      // @ts-expect-error -- strictFunctionTypes
       resolvePromise = resolve
       timeout = setTimeout(() => {
         resolve({ hasError: false })
@@ -295,7 +294,7 @@ const delay = debounceAsync(async function () {
 
 export function SubmitIndicator() {
   return (
-    // @ts-expect-error -- strictFunctionTypes
+    // @ts-expect-error -- debounceAsync return type mismatch
     <Form.Handler onSubmit={delay}>
       <Form.Card>
         <Field.String path="/myField" label="Label" />
@@ -309,7 +308,7 @@ export function SubmitIndicator() {
 
 export function SubmitIndicatorMultipleButtons() {
   return (
-    // @ts-expect-error -- strictFunctionTypes
+    // @ts-expect-error -- debounceAsync return type mismatch
     <Form.Handler onSubmit={delay}>
       <Form.Card>
         <Field.String path="/myField" label="Label" />
@@ -327,7 +326,7 @@ export function GlobalStatusStory() {
     <>
       <GlobalStatus />
 
-      {/* @ts-expect-error -- strictFunctionTypes */}
+      {/* @ts-expect-error -- debounceAsync return type mismatch */}
       <Form.Handler id="my-form" onSubmit={delay}>
         <Form.MainHeading>Heading</Form.MainHeading>
         <Form.Card>

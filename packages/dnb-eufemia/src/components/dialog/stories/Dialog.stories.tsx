@@ -79,14 +79,12 @@ export const DialogConfirm = () => (
             text="Administrer"
             icon={edit}
             iconPosition="left"
-            // @ts-expect-error -- strictFunctionTypes
             onClick={({ close }) => {
               close()
             }}
           />
           <Button
             text="Jeg godtar"
-            // @ts-expect-error -- strictFunctionTypes
             onClick={({ close }) => {
               close()
             }}

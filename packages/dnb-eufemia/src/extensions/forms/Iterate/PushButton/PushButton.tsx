@@ -42,7 +42,6 @@ function PushButton(props: Props) {
     children,
     ...restProps
   } = props
-  // @ts-expect-error -- strictFunctionTypes
   const buttonProps = omitDataValueReadWriteProps(restProps)
 
   const { absolutePath } = useItemPath(itemPath)

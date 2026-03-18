@@ -1721,7 +1721,6 @@ describe('Modal component', () => {
 
       render(
         <Modal noAnimation onClose={onClose} hideCloseButton>
-          {/* @ts-expect-error -- strictFunctionTypes */}
           {({ close }) => {
             return (
               <Button id="close-button" text="close" onClick={close} />

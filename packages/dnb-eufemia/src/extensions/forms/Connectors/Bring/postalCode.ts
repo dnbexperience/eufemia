@@ -77,8 +77,7 @@ export function autofill(
 ): UseFieldProps<string>['onChange'] {
   const abortControllerRef = { current: null }
 
-  // @ts-expect-error -- strictFunctionTypes
-  return async function autofillHandler(value, additionalArgs) {
+  return async function autofillHandler(value, additionalArgs?) {
     if (!(typeof value === 'string' && value.length >= 4)) {
       return // stop here
     }
@@ -133,7 +132,7 @@ export function autofill(
         return onMatch(payload)
       }
     } catch (error) {
-      return error
+      return error as Error
     }
   }
 }
@@ -146,8 +145,7 @@ export function validator(
   | UseFieldProps<string>['onBlurValidator'] {
   const abortControllerRef = { current: null }
 
-  // @ts-expect-error -- strictFunctionTypes
-  return async function validatorHandler(value, additionalArgs) {
+  return async function validatorHandler(value, additionalArgs?) {
     if (!(typeof value === 'string' && value.length >= 4)) {
       return // stop here
     }
@@ -156,9 +154,7 @@ export function validator(
     const { countryCode } = handleCountryPath({
       value,
       countryCode: handlerConfig?.countryCode,
-      // @ts-expect-error -- strictFunctionTypes
       additionalArgs,
-      // @ts-expect-error -- strictFunctionTypes
       handler: validatorHandler,
     })
 
@@ -194,7 +190,7 @@ export function validator(
         return onMatch()
       }
     } catch (error) {
-      return error
+      return error as Error
     }
   }
 }
