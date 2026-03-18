@@ -13,20 +13,4 @@
       background-color: var(--color-mint-green);
     }
   }
-
-  &__content .dnb-hr {
-    --hr-color: var(--color-fire-red);
-  }
-
-  &--information &__content .dnb-hr {
-    --hr-color: var(--color-sea-green);
-  }
-
-  &--warning &__content .dnb-hr {
-    --hr-color: var(--color-accent-yellow);
-  }
-
-  &--success &__content .dnb-hr {
-    --hr-color: var(--color-ocean-green);
-  }
 }
