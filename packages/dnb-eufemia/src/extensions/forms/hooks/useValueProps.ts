@@ -14,10 +14,9 @@ import SummaryListContext from '../Value/SummaryList/SummaryListContext'
 
 export type Props<Value> = ValueProps<Value>
 
-export default function useValueProps<
-  Value = unknown,
-  Props extends ValueProps<Value> = ValueProps<Value>,
->(localProps: Props): Props & ValueProps<Value> {
+export default function useValueProps<Value = unknown, Props = unknown>(
+  localProps: Props & ValueProps<Value>
+): Props & ValueProps<Value> {
   const [, forceUpdate] = useReducer(() => ({}), {})
 
   const { extend } = useContext(ValueProviderContext)
@@ -98,5 +97,5 @@ export default function useValueProps<
       ? fieldInternalsRef?.current?.[path]?.props?.label
       : undefined)
 
-  return { ...props, label, value }
+  return { ...props, label, value } as typeof props
 }

@@ -338,7 +338,7 @@ describe('address', () => {
 function createFetchMock(overwrite = null, delay = null) {
   return jest.fn(async () => {
     await delay?.()
-    return Promise.resolve({
+    const response = {
       ok: true,
       status: 200,
       statusText: 'OK',
@@ -349,7 +349,7 @@ function createFetchMock(overwrite = null, delay = null) {
       bodyUsed: false,
       redirected: false,
       clone: () => {
-        return this
+        return response
       },
       arrayBuffer: async () => {
         return new ArrayBuffer(0)
@@ -367,6 +367,7 @@ function createFetchMock(overwrite = null, delay = null) {
         return Promise.resolve(getMockData())
       },
       ...overwrite,
-    })
+    }
+    return Promise.resolve(response)
   })
 }

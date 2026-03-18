@@ -163,7 +163,7 @@ const runFactory = async ({
     )
     searchGlob.sort()
   } catch (e) {
-    log.fail(e)
+    log.fail(String(e))
   }
 
   const content = searchGlob
@@ -189,7 +189,7 @@ const runFactory = async ({
     )
   } catch (e) {
     log.fail(`There was an error on creating ${outputFile}!`)
-    ErrorHandler(e)
+    ErrorHandler(String(e))
   }
 }
 

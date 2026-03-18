@@ -228,6 +228,7 @@ export async function runFactory({
     })
   } catch (e) {
     log.fail(`There was an error when creating ${scssOutputPath}!`)
+    // @ts-expect-error -- strictFunctionTypes
     ErrorHandler(e)
   }
 

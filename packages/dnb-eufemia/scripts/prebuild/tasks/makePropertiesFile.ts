@@ -366,14 +366,21 @@ const generateCSSVariablesFromFigmaExport = (
       return result
     }
   } catch (e) {
-    if (!e.recursionContext) {
-      e.recursionContext = {
+    const err = e as Error & {
+      recursionContext?: {
+        path: string[]
+        namespace: string
+        value: unknown
+      }
+    }
+    if (!err.recursionContext) {
+      err.recursionContext = {
         path,
         namespace,
         value,
       }
     }
-    throw e
+    throw err
   }
 }
 
