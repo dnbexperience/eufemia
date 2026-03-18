@@ -19,10 +19,12 @@
 
 .dnb-textarea {
   // Base variables
-  --ta-color-bg: var(--token-color-background-neutral);
-  --ta-color-text: var(--token-color-text-neutral);
-  --ta-color-placeholder: var(--token-color-text-neutral-alternative);
-  --ta-color-border: var(--token-color-stroke-action);
+  --textarea-color-background: var(--token-color-background-neutral);
+  --textarea-color-text: var(--token-color-text-neutral);
+  --textarea-color-placeholder: var(
+    --token-color-text-neutral-alternative
+  );
+  --textarea-color-border: var(--token-color-stroke-action);
 
   // Old variables
   --textarea-border-radius: 0.25rem;
@@ -67,7 +69,7 @@
       background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="none"><path stroke="%23000" stroke-linecap="round" stroke-width=".5" d="m1 7 6-6M3.5 7 7 3.5M6 7l1-1"/></svg>');
       background-size: var(--bg-size);
       background-position: var(--bg-pos) var(--bg-pos);
-      background-color: var(--ta-color-bg);
+      background-color: var(--textarea-color-background);
     }
   }
 
@@ -96,10 +98,10 @@
     // use vertical to align the grabber to be centered on the corner
     right: calc(var(--textarea-size-vertical) * -1);
 
-    background-color: var(--ta-color-bg);
+    background-color: var(--textarea-color-background);
 
     @include utilities.fakeBorder(
-      var(--ta-color-border),
+      var(--textarea-color-border),
       var(--textarea-border-width),
       var(--textarea-border-inset, inset)
     );
@@ -125,8 +127,8 @@
     // To prevent textarea element from going outside of boundaries on smaller screens
     width: 100%;
 
-    color: var(--ta-color-text);
-    background-color: var(--ta-color-bg);
+    color: var(--textarea-color-text);
+    background-color: var(--textarea-color-background);
 
     @include textareaStyleCommon();
 
@@ -162,7 +164,7 @@
 
     @include textareaStyleCommon();
 
-    color: var(--ta-color-placeholder);
+    color: var(--textarea-color-placeholder);
     background-color: transparent;
   }
 
@@ -174,7 +176,8 @@
   // Some browsers change the background color so users can see the difference between "autofill" and "user input".
   // However; the background color change does look not good because of the padding we have.
   &__textarea:autofill {
-    box-shadow: 0 0 0 10em var(--ta-color-bg, var(--color-white)) inset;
+    box-shadow: 0 0 0 10em
+      var(--textarea-color-background, var(--color-white)) inset;
   }
 
   &__align--right &__textarea,
@@ -201,9 +204,11 @@
   }
 
   &--disabled {
-    --ta-color-bg: var(--token-color-background-action-disabled);
-    --ta-color-text: var(--token-color-text-neutral-alternative);
-    --ta-color-border: var(--token-color-text-neutral-alternative);
+    --textarea-color-background: var(
+      --token-color-background-action-disabled
+    );
+    --textarea-color-text: var(--token-color-text-neutral-alternative);
+    --textarea-color-border: var(--token-color-text-neutral-alternative);
   }
 
   // disabled
@@ -300,18 +305,18 @@
   // hover and focus
   &__textarea:not([disabled]):not(#{&}--disabled):hover ~ &__state,
   &__textarea:not([disabled]):not(#{&}--disabled):focus ~ &__state {
-    --ta-color-border: var(--token-color-stroke-action-pressed);
+    --textarea-color-border: var(--token-color-stroke-action-pressed);
   }
 
   // with statusState = "error"
   &__status--error:not(#{&}--focus)
     &__textarea:not([disabled]):not(#{&}--disabled) {
-    --ta-color-text: var(--token-color-text-destructive);
+    --textarea-color-text: var(--token-color-text-destructive);
   }
 
   &__status--error:not(#{&}--focus)
     &__textarea:not([disabled]):not(#{&}--disabled)
     ~ &__state {
-    --ta-color-border: var(--token-color-stroke-error);
+    --textarea-color-border: var(--token-color-stroke-error);
   }
 }
