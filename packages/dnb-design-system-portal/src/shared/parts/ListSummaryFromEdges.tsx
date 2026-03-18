@@ -96,6 +96,7 @@ export default function ListSummaryFromEdges({
               <>
                 :{' '}
                 <ReactMarkdown
+                  // @ts-expect-error -- strictFunctionTypes
                   components={basicComponents}
                   disallowedElements={['p']}
                   unwrapDisallowed={true}
@@ -107,7 +108,10 @@ export default function ListSummaryFromEdges({
           }
 
           return (
-            <ReactMarkdown components={basicComponents}>
+            <ReactMarkdown
+              // @ts-expect-error -- strictFunctionTypes
+              components={basicComponents}
+            >
               {rawDescription}
             </ReactMarkdown>
           )
