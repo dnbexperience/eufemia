@@ -142,7 +142,9 @@ export function useHeightAnimation(
       }
 
       if (!isInitialRenderRef.current) {
-        eventsRef.current.onAnimationStart?.(state as HeightAnimationOnStart)
+        eventsRef.current.onAnimationStart?.(
+          state as HeightAnimationOnStart
+        )
       }
     })
 

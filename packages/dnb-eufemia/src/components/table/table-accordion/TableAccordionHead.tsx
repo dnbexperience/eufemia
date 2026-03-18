@@ -124,11 +124,9 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
   /**
    * Handle Accordion Content
    */
-  const accordionContent = headerContent.filter(
-    (element) => {
-      return isAccordionElement(element as React.ReactElement)
-    }
-  ) as React.ReactElement<
+  const accordionContent = headerContent.filter((element) => {
+    return isAccordionElement(element as React.ReactElement)
+  }) as React.ReactElement<
     TableAccordionContentSingleProps | TableAccordionContentRowProps
   >[]
 
@@ -179,9 +177,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
   const countTds = hasAccordionContent
     ? headerContent.filter((element) => {
         const el = element as React.ReactElement
-        return (
-          el.type === Td || el.type === TableClickableButtonTd
-        ) // TODO: We may need to include this in future --> || component.type === Td.MainCell
+        return el.type === Td || el.type === TableClickableButtonTd // TODO: We may need to include this in future --> || component.type === Td.MainCell
       }).length
     : null
 

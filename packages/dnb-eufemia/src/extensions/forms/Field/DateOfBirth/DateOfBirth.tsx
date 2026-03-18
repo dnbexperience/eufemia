@@ -186,7 +186,7 @@ function DateOfBirth(props: Props) {
     onYearChange,
     setHasFocus,
     value: fieldValue,
-  // @ts-expect-error -- strictFunctionTypes
+    // @ts-expect-error -- strictFunctionTypes
   } = useFieldProps(preparedProps)
 
   const labelWithItemNo = useIterateItemNo({

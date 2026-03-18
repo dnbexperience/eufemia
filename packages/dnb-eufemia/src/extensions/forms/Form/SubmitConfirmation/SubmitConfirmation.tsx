@@ -218,10 +218,8 @@ function SubmitConfirmation(props: ConfirmProps) {
 
       <SharedProvider {...sharedProviderParams}>
         <HeightAnimation>
-          {
-            // @ts-expect-error -- strictFunctionTypes
-            renderWithState?.(getParamsRef.current())
-          }
+          {// @ts-expect-error -- strictFunctionTypes
+          renderWithState?.(getParamsRef.current())}
         </HeightAnimation>
       </SharedProvider>
     </>

@@ -328,36 +328,39 @@ export const runFactory = async ({
   const template = await fs.readFile(srcFile, 'utf-8')
 
   if (destPath) {
-    await asyncForEach(filesToFindGlob, async ({ file }: { file: string }) => {
-      const destFile = path.resolve(destPath, `${toPascalCase(file)}.ts`)
+    await asyncForEach(
+      filesToFindGlob,
+      async ({ file }: { file: string }) => {
+        const destFile = path.resolve(destPath, `${toPascalCase(file)}.ts`)
 
-      try {
-        // replace the content in the template
-        const content = template
-          .trim()
-          // 1. replace templateListToExtendBy
-          .replace(
-            new RegExp(templateListToExtendBy, 'g'),
-            toPascalCase(file)
-          )
-          // 2. replace templateListToExtendBy, but lower case
-          .replace(
-            new RegExp(templateListToExtendBy.toLowerCase(), 'g'),
-            file
-          )
+        try {
+          // replace the content in the template
+          const content = template
+            .trim()
+            // 1. replace templateListToExtendBy
+            .replace(
+              new RegExp(templateListToExtendBy, 'g'),
+              toPascalCase(file)
+            )
+            // 2. replace templateListToExtendBy, but lower case
+            .replace(
+              new RegExp(templateListToExtendBy.toLowerCase(), 'g'),
+              file
+            )
 
-        await fs.writeFile(
-          destFile,
-          await prettier.format(`${autoAdvice}${content}`, {
-            ...prettierrc,
-            parser: 'babel',
-          })
-        )
-      } catch (e) {
-        log.fail(`There was an error on creating ${destFile}!`)
-        ErrorHandler(String(e))
+          await fs.writeFile(
+            destFile,
+            await prettier.format(`${autoAdvice}${content}`, {
+              ...prettierrc,
+              parser: 'babel',
+            })
+          )
+        } catch (e) {
+          log.fail(`There was an error on creating ${destFile}!`)
+          ErrorHandler(String(e))
+        }
       }
-    })
+    )
   }
 
   if (destFile) {

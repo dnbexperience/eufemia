@@ -277,7 +277,7 @@ function PhoneNumber(props: Props = {}) {
     onCountryCodeChange,
     onNumberChange,
     filterCountries,
-  // @ts-expect-error -- strictFunctionTypes
+    // @ts-expect-error -- strictFunctionTypes
   } = useFieldProps(preparedProps, {
     executeOnChangeRegardlessOfUnchangedValue: true,
   })

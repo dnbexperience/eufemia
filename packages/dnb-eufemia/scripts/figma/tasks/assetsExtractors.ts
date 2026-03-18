@@ -843,12 +843,15 @@ const createXMLTarBundles = async ({
 }
 
 const optimizeSVGIcons = async ({ destDir, listWithFiles }) => {
-  await asyncForEach(listWithFiles, async ({ iconFile }: { iconFile: string }) => {
-    const file = path.resolve(destDir, iconFile)
-    await optimizeSVG(file)
+  await asyncForEach(
+    listWithFiles,
+    async ({ iconFile }: { iconFile: string }) => {
+      const file = path.resolve(destDir, iconFile)
+      await optimizeSVG(file)
 
-    log.info(`> Figma: Icon was optimized: ${iconFile}`)
-  })
+      log.info(`> Figma: Icon was optimized: ${iconFile}`)
+    }
+  )
 }
 
 const optimizeSVG = async (file) => {

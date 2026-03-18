@@ -109,9 +109,7 @@ export function renderWithSpacing(
   }
 
   if (variant === 'children') {
-    return (
-      React.Children.toArray(element) as React.ReactElement[]
-    ).map(
+    return (React.Children.toArray(element) as React.ReactElement[]).map(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (child: React.ReactElement<any>) => {
         const children = child?.props?.children
@@ -122,7 +120,10 @@ export function renderWithSpacing(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             child.type as React.ComponentType<any>,
             { key: childKey || i, ...childProps },
-            wrapWithSpace({ element: element as React.ReactNode, spaceProps })
+            wrapWithSpace({
+              element: element as React.ReactNode,
+              spaceProps,
+            })
           )
         })
       }

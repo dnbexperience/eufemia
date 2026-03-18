@@ -91,7 +91,10 @@ export type MediaQueryState = {
  */
 export function onMediaQueryChange(
   property: MediaQueryProperties | string,
-  callback?: (matches: boolean, event: Partial<MediaQueryListEvent>) => void,
+  callback?: (
+    matches: boolean,
+    event: Partial<MediaQueryListEvent>
+  ) => void,
   { runOnInit = false } = {}
 ): MediaQueryListener {
   let query = property
