@@ -17,7 +17,9 @@
     "strictBindCallApply": true,
     "noImplicitThis": true,
     "useUnknownInCatchVariables": true,
-    "noUncheckedIndexedAccess": true
+    "noUncheckedIndexedAccess": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true
   },
   "exclude": ["node_modules", "build"]
 }
