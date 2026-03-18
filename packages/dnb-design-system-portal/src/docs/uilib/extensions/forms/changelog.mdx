@@ -17,7 +17,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 
 ## v10.100.0
 
-- Added `visibleOnly` option to `hasErrors` and `hasFieldError` in [Form.useValidation](/uilib/extensions/forms/Form/useValidation/). When `{ visibleOnly: true }` is passed, only errors for visible fields are considered.
+- Added `visibleOnly` option to `hasErrors` and `hasFieldError` in [Form.useValidation](/uilib/extensions/forms/Form/useValidation/). When `{ visibleOnly: true }` is passed, only errors for visible fields are considered. Requires `keepInDOM` on [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) to track visibility state. Without `keepInDOM`, hidden fields are unmounted and already excluded from `hasErrors()` by default.
 - Added `totalSteps` in `onStepChange` options for [Wizard.Container](/uilib/extensions/forms/Wizard/Container/).
 
 ## v10.96.0

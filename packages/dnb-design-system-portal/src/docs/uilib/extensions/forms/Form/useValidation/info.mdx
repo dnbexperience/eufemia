@@ -20,6 +20,19 @@ The `Form.useValidation` lets you monitor and modify field status or your form e
 - `setFormError(error: Error | FormError | undefined)` - Report a form error.
 - `setFieldStatus(path: Path, status: EventStateObject)` - Show a field error.
 
+### The `visibleOnly` option
+
+When using `hasErrors({ visibleOnly: true })` or `hasFieldError(path, { visibleOnly: true })`, only errors from fields that are currently visible will be considered. This requires that [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) has `keepInDOM` enabled. Without `keepInDOM`, hidden fields are unmounted entirely and already excluded from `hasErrors()` by default — making the `visibleOnly` option unnecessary.
+
+```jsx
+<Form.Visibility
+  visibleWhen={{ path: '/showField', hasValue: true }}
+  keepInDOM // Required for visibleOnly to work
+>
+  <Field.String path="/conditionalField" required />
+</Form.Visibility>
+```
+
 The `EventStateObject` is an object that can hold any of the following properties:
 
 ```ts
