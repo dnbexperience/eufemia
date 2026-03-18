@@ -10,13 +10,6 @@
     font-size: var(--font-size-small);
   }
 
-  &--error &__shell {
-    & > .dnb-icon {
-      color: var(--color-fire-red);
-      border: none;
-    }
-  }
-
   &--error#{&}--attention-focus &__shell,
   &--error#{&}:focus &__shell {
     animation: attention-focus 2s ease-in-out 1 200ms;

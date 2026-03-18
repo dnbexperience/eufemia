@@ -14,7 +14,6 @@
 
   &__shell {
     --form-status-color-text: var(--token-color-text-neutral);
-
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
@@ -27,59 +26,49 @@
   }
 
   &__variant--outlined &__shell {
-    --form-status-color-outline: var(--form-status-color-outline--default);
-
-    @include utilities.fakeBorder(
-      var(
-        --form-status-color-outline,
-        var(--form-status-color-outline--default)
-      )
-    );
+    @include utilities.fakeBorder(var(--form-status-color-outline));
   }
 
+  // Background and icon colors
   &--error &__shell {
     --form-status-color-background: var(
       --token-color-background-error-subtle
     );
+    --form-status-color-icon: var(--token-color-background-error);
   }
 
   &--info &__shell {
     --form-status-color-background: var(
       --token-color-background-info-subtle
     );
+    --form-status-color-icon: var(--token-color-background-info);
   }
   &--marketing &__shell {
     --form-status-color-background: var(
       --token-color-background-marketing-subtle
     );
+    --form-status-color-icon: var(--token-color-background-marketing);
   }
 
   &--warning &__shell {
     --form-status-color-background: var(
       --token-color-background-warning-subtle
     );
+    --form-status-color-icon: var(--token-color-background-warning);
   }
 
   // Outlines
   &__variant--outlined#{&}--error &__shell {
-    --form-status-color-outline--default: var(
-      --token-color-background-error
-    );
+    --form-status-color-outline: var(--token-color-background-error);
   }
   &__variant--outlined#{&}--warning &__shell {
-    --form-status-color-outline--default: var(
-      --token-color-background-warning
-    );
+    --form-status-color-outline: var(--token-color-background-warning);
   }
   &__variant--outlined#{&}--info &__shell {
-    --form-status-color-outline--default: var(
-      --token-color-background-info
-    );
+    --form-status-color-outline: var(--token-color-background-info);
   }
   &__variant--outlined#{&}--marketing &__shell {
-    --form-status-color-outline--default: var(
-      --token-color-background-marketing
-    );
+    --form-status-color-outline: var(--token-color-background-marketing);
   }
 
   &__text {
@@ -124,6 +113,9 @@
     align-items: center;
 
     margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
+
+    color: var(--form-status-color-icon);
+    border: none;
   }
 
   // Large
