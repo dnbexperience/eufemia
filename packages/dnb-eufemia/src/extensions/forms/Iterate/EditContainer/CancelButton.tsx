@@ -117,8 +117,11 @@ export default function CancelButton(props: Props) {
   }
 
   return (
-    // @ts-expect-error -- strictFunctionTypes
-    <Button {...triggerAttributes} onClick={cancelHandler} {...rest} />
+    <Button
+      {...triggerAttributes}
+      onClick={(args) => cancelHandler(args)}
+      {...rest}
+    />
   )
 }
 

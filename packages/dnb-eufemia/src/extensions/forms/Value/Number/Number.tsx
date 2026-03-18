@@ -47,7 +47,6 @@ function NumberValue(props: Props) {
   }
 
   return (
-    // @ts-expect-error -- strictFunctionTypes
     <ValueBlock
       className={clsx('dnb-forms-value-number', className)}
       inline={inline}

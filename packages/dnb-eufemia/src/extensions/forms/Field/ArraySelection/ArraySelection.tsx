@@ -278,8 +278,9 @@ export function useCheckboxOrToggleOptions({
           disabled={disabled}
           checked={value?.includes(active)}
           status={
-            // @ts-expect-error -- strictFunctionTypes
-            (hasError || checkForError([error, info, warning])) && 'error'
+            hasError || checkForError([error, info, warning])
+              ? 'error'
+              : undefined
           }
           suffix={suffix}
           role="checkbox"

@@ -32,7 +32,8 @@ import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
 /**
  * Props are documented in ValueDocs.ts
  */
-export type Props = Omit<ValueProps<unknown>, 'value'> & {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Props = Omit<ValueProps<any>, 'value'> & {
   id?: string
 
   /** The id to link a element with */

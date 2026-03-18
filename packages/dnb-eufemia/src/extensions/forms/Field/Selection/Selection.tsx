@@ -328,8 +328,9 @@ function Selection(props: Props) {
         title: placeholder,
         value: String(value ?? ''),
         status:
-          // @ts-expect-error -- strictFunctionTypes
-          (hasError || checkForError([error, info, warning])) && 'error',
+          hasError || checkForError([error, info, warning])
+            ? 'error'
+            : undefined,
         disabled,
         ...htmlAttributes,
         data,
@@ -450,8 +451,9 @@ function renderRadioItems({
         role="radio"
         value={String(value ?? valueProp) || undefined}
         status={
-          // @ts-expect-error -- strictFunctionTypes
-          (hasError || checkForError([error, info, warning])) && 'error'
+          hasError || checkForError([error, info, warning])
+            ? 'error'
+            : undefined
         }
         suffix={suffix}
         size={size}

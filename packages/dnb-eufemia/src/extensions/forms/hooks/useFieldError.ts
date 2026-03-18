@@ -20,13 +20,7 @@ import { convertJsxToString } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import type { FieldBlockContextProps } from '../FieldBlock/FieldBlockContext'
 
-export function checkForError(
-  potentialErrors: Array<
-    | FieldPropsGeneric['error']
-    | FieldPropsGeneric['warning']
-    | FieldPropsGeneric['info']
-  >
-): boolean {
+export function checkForError(potentialErrors: Array<unknown>): boolean {
   return potentialErrors.some((error) => {
     return error instanceof Error || error instanceof FormError
   })

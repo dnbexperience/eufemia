@@ -55,7 +55,7 @@ function FormElementInstance(props: Props) {
   mutableHasElementRef.current = true
 
   const onSubmitHandler = useCallback(
-    (event: React.SyntheticEvent<HTMLFormElement>) => {
+    (event: React.SyntheticEvent<HTMLElement>) => {
       if (preventDefaultOnSubmit) {
         event?.preventDefault()
       }
@@ -77,8 +77,7 @@ function FormElementInstance(props: Props) {
       }
 
       if (typeof onSubmit === 'function') {
-        // @ts-expect-error -- strictFunctionTypes
-        onSubmit(event)
+        ;(onSubmit as (event: React.SyntheticEvent) => void)(event)
       }
     },
     [dataContext, onSubmit, preventDefaultOnSubmit]
@@ -88,7 +87,6 @@ function FormElementInstance(props: Props) {
     <Space
       element="form"
       className={clsx('dnb-forms-form', className)}
-      // @ts-expect-error -- strictFunctionTypes
       onSubmit={onSubmitHandler}
       aria-labelledby={
         combineLabelledBy(
