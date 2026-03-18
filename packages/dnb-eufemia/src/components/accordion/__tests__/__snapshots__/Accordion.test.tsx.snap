@@ -99,6 +99,7 @@ p > .dnb-icon {
 /*
  * Utilities
  */
+/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 .dnb-accordion {
   --accordion-border-width: 0.0625rem;
   --accordion-border-radius: 0.5rem;
@@ -290,6 +291,7 @@ exports[`Accordion scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
+/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 .dnb-accordion__header {
   color: var(--ui-accordion-color--override, var(--ui-accordion-color));
   background-color: var(--ui-accordion-background--override, var(--ui-accordion-background));

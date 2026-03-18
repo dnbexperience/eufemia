@@ -12,6 +12,7 @@ exports[`Tabs scss has to match style dependencies css 1`] = `
 /*
  * Utilities
  */
+/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 /*
  * Tabs component
  *
@@ -394,6 +395,7 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
+/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 /*
 * Tabs theme
 *

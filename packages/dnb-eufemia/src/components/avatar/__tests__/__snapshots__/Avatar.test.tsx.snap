@@ -32,6 +32,7 @@ exports[`Avatar scss should match style dependencies css 1`] = `
 /*
  * Utilities
  */
+/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 .dnb-avatar {
   --avatar-font-size--small: var(--font-size-x-small);
   --avatar-font-size--medium: var(--font-size-basis);

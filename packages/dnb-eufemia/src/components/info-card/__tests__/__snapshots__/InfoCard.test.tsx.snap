@@ -12,6 +12,7 @@ exports[`InfoCard InfoCard scss has to match style dependencies css 1`] = `
 /*
  * Utilities
  */
+/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
 .dnb-info-card {
   display: flex;
   flex-direction: row;
