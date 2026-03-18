@@ -1,6 +1,6 @@
 import type { PropertiesTableProps } from '../../shared/types'
 
-export const textareaProperties: PropertiesTableProps = {
+export const TextareaProperties: PropertiesTableProps = {
   value: {
     doc: 'The content value of the Textarea.',
     type: 'string',
@@ -108,7 +108,7 @@ export const textareaProperties: PropertiesTableProps = {
   },
 }
 
-export const textareaEvents: PropertiesTableProps = {
+export const TextareaEvents: PropertiesTableProps = {
   onChange: {
     doc: 'Will be called on value changes made by the user. Returns an object with a string value and the native event: `{ value, rows, event }`.',
     type: 'function',
