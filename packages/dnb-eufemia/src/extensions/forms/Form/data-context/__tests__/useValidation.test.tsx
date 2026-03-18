@@ -513,6 +513,61 @@ describe('useValidation', () => {
     })
 
     describe('visibleOnly', () => {
+      it('should trigger an extra render when visibility changes so visibleOnly values settle correctly', async () => {
+        const renderCount = { current: 0 }
+        const renderLogs = []
+
+        const MockComponent = () => {
+          const [visible, setVisible] = useState(true)
+          const { hasErrors } = useValidation()
+
+          renderCount.current++
+          renderLogs.push({
+            render: renderCount.current,
+            all: hasErrors(),
+            visibleOnly: hasErrors({ visibleOnly: true }),
+          })
+
+          return (
+            <>
+              <Form.Visibility visible={visible} keepInDOM>
+                <Field.String path="/amount" required />
+              </Form.Visibility>
+              <button onClick={() => setVisible(false)}>Hide</button>
+              <button onClick={() => setVisible(true)}>Show</button>
+            </>
+          )
+        }
+
+        render(
+          <Form.Handler>
+            <MockComponent />
+          </Form.Handler>
+        )
+
+        const initialRenderCount = renderCount.current
+
+        // Hide the field — this triggers a visibility change which
+        // schedules a forceUpdate so that visibleOnly values settle
+        renderLogs.length = 0
+        await userEvent.click(
+          document.querySelector('button:nth-of-type(1)')
+        )
+
+        await waitFor(() => {
+          const lastLog = renderLogs[renderLogs.length - 1]
+          expect(lastLog.visibleOnly).toBe(false)
+        })
+
+        // Visibility change causes an extra render via forceUpdate
+        expect(renderCount.current).toBeGreaterThan(initialRenderCount + 1)
+
+        // The final settled values are correct
+        const lastLog = renderLogs[renderLogs.length - 1]
+        expect(lastLog.all).toBe(true)
+        expect(lastLog.visibleOnly).toBe(false)
+      })
+
       it('should return true when both visible and hidden fields have errors and visibleOnly is true', () => {
         render(
           <Form.Handler id={identifier}>

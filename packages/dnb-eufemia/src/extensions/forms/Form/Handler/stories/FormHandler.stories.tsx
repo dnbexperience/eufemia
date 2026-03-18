@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { Field, Form, Tools } from '../../..'
 import { Button, GlobalStatus } from '../../../../../components'
 import { debounceAsync } from '../../../../../shared/helpers'
@@ -411,11 +411,21 @@ export function ConditionallyRequiredFields() {
     }, [])
 
     const { hasErrors } = Form.useValidation()
-    console.log('hasErrors (all):', hasErrors())
-    console.log(
-      'hasErrors (visible only):',
-      hasErrors({ visibleOnly: true })
-    )
+    const all = hasErrors()
+    const visibleOnly = hasErrors({ visibleOnly: true })
+
+    // Deduplicate logs — the forceUpdate mechanism for visibleOnly
+    // causes an extra render when visibility changes, so we only
+    // log when actual values change.
+    const prevRef = useRef({ all: undefined, visibleOnly: undefined })
+    if (
+      prevRef.current.all !== all ||
+      prevRef.current.visibleOnly !== visibleOnly
+    ) {
+      prevRef.current = { all, visibleOnly }
+      console.log('hasErrors (all):', all)
+      console.log('hasErrors (visible only):', visibleOnly)
+    }
 
     return (
       <>
