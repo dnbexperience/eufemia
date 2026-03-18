@@ -9,20 +9,6 @@
   &__shell {
     color: var(--sb-color-text);
   }
-  &--error &__shell {
-    background-color: var(--sb-color-magenta-light-2);
-  }
-
-  &--info &__shell {
-    background-color: var(--sb-color-green-light-2);
-  }
-  &--marketing &__shell {
-    background-color: var(--sb-color-violet-light-4);
-  }
-
-  &--warning &__shell {
-    background-color: var(--sb-color-yellow-light-3);
-  }
 
   &__variant--outlined#{&}--error &__shell {
     @include utilities.fakeBorder(var(--sb-color-red));

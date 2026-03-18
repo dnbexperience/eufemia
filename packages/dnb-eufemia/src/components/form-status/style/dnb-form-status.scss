@@ -18,6 +18,30 @@
     min-width: inherit;
 
     border-radius: var(--form-status-radius);
+    background-color: var(--form-status-color-background);
+  }
+
+  &--error &__shell {
+    --form-status-color-background: var(
+      --token-color-background-error-subtle
+    );
+  }
+
+  &--info &__shell {
+    --form-status-color-background: var(
+      --token-color-background-info-subtle
+    );
+  }
+  &--marketing &__shell {
+    --form-status-color-background: var(
+      --token-color-background-marketing-subtle
+    );
+  }
+
+  &--warning &__shell {
+    --form-status-color-background: var(
+      --token-color-background-warning-subtle
+    );
   }
 
   &__text {
