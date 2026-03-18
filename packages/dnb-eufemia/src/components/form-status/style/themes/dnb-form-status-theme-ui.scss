@@ -7,7 +7,6 @@
 
 .dnb-form-status {
   &__shell {
-    color: var(--color-black-80);
     font-size: var(--font-size-small);
   }
 
@@ -16,10 +15,6 @@
       color: var(--color-fire-red);
       border: none;
     }
-  }
-
-  &:not(#{&}--attention-focus)#{&}__text {
-    color: var(--color-black-80);
   }
 
   &__variant--outlined#{&}--error &__shell {

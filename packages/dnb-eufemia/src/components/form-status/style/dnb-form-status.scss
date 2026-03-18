@@ -11,6 +11,8 @@
   opacity: 1;
 
   &__shell {
+    --form-status-color-text: var(--token-color-text-neutral);
+
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
@@ -19,6 +21,7 @@
 
     border-radius: var(--form-status-radius);
     background-color: var(--form-status-color-background);
+    color: var(--form-status-color-text);
   }
 
   &--error &__shell {

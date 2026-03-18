@@ -6,10 +6,6 @@
 @use '../../../../style/core/utilities.scss' as utilities;
 
 .dnb-form-status {
-  &__shell {
-    color: var(--sb-color-text);
-  }
-
   &__variant--outlined#{&}--error &__shell {
     @include utilities.fakeBorder(var(--sb-color-red));
   }
