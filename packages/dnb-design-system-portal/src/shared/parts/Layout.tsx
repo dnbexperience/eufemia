@@ -36,8 +36,7 @@ export function scrollToAnimation() {
     delay: 100,
     onCompletion: (elem) => {
       try {
-        // elem.classList.add('focus')// run link-attention-focus animation
-        elem.parentElement.classList.add('focus') // run parent-attention-focus animation
+        elem.parentElement.classList.add('focus')
       } catch (e) {
         //
       }
