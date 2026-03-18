@@ -77,6 +77,7 @@ function FormElementInstance(props: Props) {
       }
 
       if (typeof onSubmit === 'function') {
+        // @ts-ignore -- strictFunctionTypes
         onSubmit(event)
       }
     },
@@ -87,6 +88,7 @@ function FormElementInstance(props: Props) {
     <Space
       element="form"
       className={clsx('dnb-forms-form', className)}
+      // @ts-ignore -- strictFunctionTypes
       onSubmit={onSubmitHandler}
       aria-labelledby={
         combineLabelledBy(

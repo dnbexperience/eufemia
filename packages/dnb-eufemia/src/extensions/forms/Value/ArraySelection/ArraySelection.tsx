@@ -53,6 +53,7 @@ function ArraySelection(props: Props) {
   }, [value, path, format, variant, listType, fieldInternalsRef])
 
   return (
+    // @ts-ignore -- strictFunctionTypes
     <ValueBlock
       className={clsx('dnb-forms-value-array-selection', className)}
       {...rest}

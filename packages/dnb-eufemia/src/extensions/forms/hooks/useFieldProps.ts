@@ -289,10 +289,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     transformOut,
     toInput: toInput as TransformerFns<Value>['toInput'],
     fromInput,
+    // @ts-ignore -- strictFunctionTypes
     toEvent,
     transformValue,
     provideAdditionalArgs,
     fromExternal,
+    // @ts-ignore -- strictFunctionTypes
     validateRequired,
     valueRef,
   })
@@ -504,7 +506,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     validatedValueRef,
     changeEventResultRef,
   } = useFieldAsync<Value>({
+    // @ts-ignore -- strictFunctionTypes
     onChange,
+    // @ts-ignore -- strictFunctionTypes
     onChangeContext,
     valueRef,
     forceUpdate,
@@ -545,6 +549,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     required,
     hasDataContext,
     getAjvInstanceDataContext,
+    // @ts-ignore -- strictFunctionTypes
     setFieldEventListener,
     getValueByPath,
     getSourceValue,

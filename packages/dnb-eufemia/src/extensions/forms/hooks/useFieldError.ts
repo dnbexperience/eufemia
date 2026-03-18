@@ -299,6 +299,7 @@ export default function useFieldError<Value>({
   const errorProp =
     initialErrorProp === 'initial' ? undefined : initialErrorProp
   const error = executeMessage<UseFieldProps['error'] | 'initial'>(
+    // @ts-ignore -- strictFunctionTypes
     errorProp,
     true
   )
@@ -405,6 +406,7 @@ export default function useFieldError<Value>({
 
       if (Array.isArray(error)) {
         return new FormError('Error', {
+          // @ts-ignore -- strictFunctionTypes
           errors: error.map(prepare),
         })
       }

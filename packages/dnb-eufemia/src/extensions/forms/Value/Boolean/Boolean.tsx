@@ -17,6 +17,7 @@ function BooleanComponent(props: Props) {
     useValueProps(props)
 
   return (
+    // @ts-ignore -- strictFunctionTypes
     <ValueBlock
       className={clsx('dnb-forms-value-boolean', className)}
       {...rest}

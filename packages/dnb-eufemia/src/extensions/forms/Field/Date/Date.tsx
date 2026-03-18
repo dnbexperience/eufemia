@@ -260,6 +260,7 @@ function DateComponent(props: DateProps): React.ReactElement {
     maxDate,
     width,
     ...rest
+    // @ts-ignore -- strictFunctionTypes
   } = useFieldProps(preparedProps)
 
   const datePickerProps = pickDatePickerProps(rest)

@@ -70,6 +70,7 @@ function SubmitConfirmation(props: ConfirmProps) {
 
   const validatePreventSubmit = useCallback(() => {
     return (preventSubmitRef.current = preventSubmitWhen?.(
+      // @ts-ignore -- strictFunctionTypes
       getParamsRef.current()
     ))
   }, [preventSubmitWhen])
@@ -77,6 +78,7 @@ function SubmitConfirmation(props: ConfirmProps) {
   const setConfirmationState = useCallback(
     async (state: ConfirmationState) => {
       confirmationStateRef.current = state
+      // @ts-ignore -- strictFunctionTypes
       await onStateChange?.(getParamsRef.current())
 
       const setBuffered = (
@@ -135,6 +137,7 @@ function SubmitConfirmation(props: ConfirmProps) {
       setConfirmationState,
       submitHandler,
       cancelHandler,
+      // @ts-ignore -- strictFunctionTypes
       connectWithDialog,
       submitState: submitStateRef.current,
     } satisfies ConfirmParams
@@ -145,6 +148,7 @@ function SubmitConfirmation(props: ConfirmProps) {
       submitStateRef.current = {
         ...submitState,
       } as EventStateObject
+      // @ts-ignore -- strictFunctionTypes
       onSubmitResult?.(getParamsRef.current())
     }
   }, [submitState, onSubmitResult])
@@ -214,6 +218,7 @@ function SubmitConfirmation(props: ConfirmProps) {
 
       <SharedProvider {...sharedProviderParams}>
         <HeightAnimation>
+          {/* @ts-ignore -- strictFunctionTypes */}
           {renderWithState?.(getParamsRef.current())}
         </HeightAnimation>
       </SharedProvider>

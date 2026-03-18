@@ -157,6 +157,7 @@ const Upload = (localProps: UploadAllProps) => {
       value={{
         ...extendedProps,
         id,
+        // @ts-ignore -- strictFunctionTypes
         onInputUpload,
       }}
     >

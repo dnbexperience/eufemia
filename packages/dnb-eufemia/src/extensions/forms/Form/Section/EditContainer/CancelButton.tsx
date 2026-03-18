@@ -75,5 +75,6 @@ export default function CancelButton({
     )
   }
 
+  // @ts-ignore -- strictFunctionTypes
   return <Button {...triggerAttributes} onClick={cancelHandler} />
 }

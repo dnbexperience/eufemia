@@ -21,6 +21,7 @@ function SelectCountry(props: Props) {
   const { getCountryNameByIso } = useCountry()
 
   return (
+    // @ts-ignore -- strictFunctionTypes
     <ValueBlock
       label={label}
       className={clsx('dnb-forms-value-select-country', className)}

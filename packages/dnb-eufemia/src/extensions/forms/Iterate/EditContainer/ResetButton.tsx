@@ -29,6 +29,7 @@ export default function ResetButton(props: Props) {
   const { setShowError } = useContext(ToolbarContext) || {}
   const { hasContentChanged } = useHasContentChanged({ enabled: true })
 
+  // @ts-ignore -- strictFunctionTypes
   const buttonProps = omitDataValueReadWriteProps(restProps)
   const { resetButton } = useTranslation().IterateEditContainer
   const { confirmResetText } = useTranslation().IterateEditContainer
@@ -74,6 +75,7 @@ export default function ResetButton(props: Props) {
       ) : (
         <Button
           {...triggerAttributes}
+          // @ts-ignore -- strictFunctionTypes
           onClick={handleClick}
           {...buttonProps}
         >

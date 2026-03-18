@@ -66,6 +66,7 @@ function DatePickerRange({
           {...calendar}
           {...props}
           id={`${props.id}-${i}-`}
+          // @ts-ignore -- strictFunctionTypes
           onSelect={onSelect}
         />
       ))}

@@ -171,6 +171,7 @@ function StringComponent(props: Props) {
   const preparedProps: Props = {
     ...props,
     schema,
+    // @ts-ignore -- strictFunctionTypes
     fromInput,
     toEvent,
     transformValue,

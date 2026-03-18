@@ -11,6 +11,7 @@ function StringComponent(props: Props) {
   const { value, className, ...rest } = useValueProps(props)
 
   return (
+    // @ts-ignore -- strictFunctionTypes
     <ValueBlock
       className={clsx('dnb-forms-value-string', className)}
       {...rest}

@@ -774,6 +774,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   _omitInputShellClass={_omitInputShellClass}
                   {...attributes}
                   submitAttributes={remainingSubmitProps}
+                  // @ts-ignore -- strictFunctionTypes
                   onSubmit={togglePicker}
                   {...statusProps}
                 />

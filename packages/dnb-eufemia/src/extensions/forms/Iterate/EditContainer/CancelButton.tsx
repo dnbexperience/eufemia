@@ -117,6 +117,7 @@ export default function CancelButton(props: Props) {
   }
 
   return (
+    // @ts-ignore -- strictFunctionTypes
     <Button {...triggerAttributes} onClick={cancelHandler} {...rest} />
   )
 }
