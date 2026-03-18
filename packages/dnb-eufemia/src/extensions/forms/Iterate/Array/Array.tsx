@@ -476,9 +476,7 @@ function ArrayComponent(props: Props) {
         shellSpace={{ top: 0, bottom: 'medium' }}
         noAnimation={false}
       >
-        {
-          getMessagesFromError({ content: error || limitWarning })[0]
-        }
+        {getMessagesFromError({ content: error || limitWarning })[0]}
       </FormStatus>
     </>
   )
