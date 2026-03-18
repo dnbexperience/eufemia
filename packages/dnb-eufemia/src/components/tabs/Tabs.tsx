@@ -35,11 +35,7 @@ import {
 import type { DynamicElement } from '../../shared/types'
 import type { ButtonProps } from '../Button'
 import type { AnchorAllProps } from '../Anchor'
-import type {
-  SectionSpacing,
-  SectionStyle,
-  SectionVariants,
-} from '../Section'
+import type { SectionSpacing, SectionVariants } from '../Section'
 import type { SkeletonShow } from '../Skeleton'
 
 export type TabsData =
@@ -90,7 +86,7 @@ export type TabsProps = Omit<
     /**
      * To enable the visual helper `.dnb-section` on to the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.
      */
-    contentStyle?: SectionStyle | SectionVariants
+    contentStyle?: SectionVariants
     /**
      * To modify the `spacing` onto the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `large`.
      */
@@ -111,7 +107,7 @@ export type TabsProps = Omit<
     /**
      * To enable the visual helper `.dnb-section` inside the tabs list. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.
      */
-    tabsStyle?: SectionStyle | SectionVariants
+    tabsStyle?: SectionVariants
     /**
      * To modify the `spacing` inside the tab list. Defaults to `null`.
      */

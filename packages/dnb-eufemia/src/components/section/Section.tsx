@@ -24,8 +24,6 @@ export type SectionVariants =
   | 'success'
   | 'divider'
 
-export type SectionStyleTypes = 'divider' | 'white' | 'transparent'
-
 export type SectionSpacing =
   | boolean
   | 'x-small'

@@ -124,7 +124,7 @@ export default function ContentWrapper({
               return (
                 <Section
                   spacing={contentStyle ? false : undefined}
-                  style_type={contentStyle ? contentStyle : undefined}
+                  variant={contentStyle ? contentStyle : undefined}
                   ref={ref}
                   {...props}
                 />
@@ -152,11 +152,7 @@ export default function ContentWrapper({
 }
 
 // Type definitions
-import type {
-  SectionSpacing,
-  SectionStyle,
-  SectionVariants,
-} from '../Section'
+import type { SectionSpacing, SectionVariants } from '../Section'
 
 export type TabsContentWrapperSelectedKey = string | number
 export type TabsContentWrapperChildren =
@@ -166,7 +162,7 @@ export type TabsContentWrapperChildren =
 export type TabsContentWrapperProps = {
   id: string
   selectedKey?: TabsContentWrapperSelectedKey
-  contentStyle?: SectionStyle | SectionVariants
+  contentStyle?: SectionVariants
   animate?: boolean
   contentSpacing?: SectionSpacing
   children?: TabsContentWrapperChildren
