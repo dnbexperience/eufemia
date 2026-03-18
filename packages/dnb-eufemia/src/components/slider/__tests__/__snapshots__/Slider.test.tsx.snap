@@ -1115,12 +1115,15 @@ html[data-visual-test] .dnb-slider__thumb, html[data-visual-test] .dnb-slider__l
   opacity: 0;
   transform: translate3d(0.0625rem, 0, 0);
 }
-.dnb-slider__button-helper:not(:disabled):focus ~ .dnb-button {
-  outline: none;
+html:not([data-whatinput=touch]) .dnb-slider__button-helper:focus-visible[disabled] {
+  cursor: not-allowed;
 }
-html[data-whatinput=keyboard] .dnb-slider__button-helper:not(:disabled):focus ~ .dnb-button {
-  --border-color: var(--focus-ring-color);
-  --border-width: var(--focus-ring-width);
+html:not([data-whatinput=touch]) .dnb-slider__button-helper:focus-visible:not([disabled]) ~ .dnb-button {
+  outline: none;
+  background-color: var(--token-color-background-action-focus-subtle);
+  color: var(--token-color-text-neutral-inverse);
+  --border-color: var(--token-color-stroke-action-focus);
+  --border-width: 0.1875rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }

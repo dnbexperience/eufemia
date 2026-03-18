@@ -87,6 +87,30 @@
   }
 }
 
+/* Uses design token. Should become standard. Should be integrated with --focus-ring- variables */
+@mixin focusStyle(
+  $bgColor: var(--token-color-background-action-focus-subtle),
+  $textColor: var(--token-color-text-neutral-inverse),
+  $borderColor: var(--token-color-stroke-action-focus),
+  $borderWidth: 0.1875rem,
+  $inset: null,
+  $extendShadow: null,
+  $outline: none
+) {
+  outline: $outline;
+  background-color: $bgColor;
+  color: $textColor;
+
+  @if $borderColor != null {
+    @include fakeBorder(
+      $borderColor,
+      $borderWidth,
+      $inset,
+      $extendShadow: $extendShadow
+    );
+  }
+}
+
 @mixin focusRing(
   $whatinput: null,
   $color: null,
@@ -103,19 +127,25 @@
   }
 
   @if $whatinput == 'always' {
-    @include fakeBorder(
-      $color,
-      var(--focus-ring-width),
-      $inset,
-      $extendShadow: $extendShadow
+    @include focusStyle(
+      $bgColor: null,
+      $textColor: null,
+      $borderColor: $color,
+      $borderWidth: var(--focus-ring-width),
+      $inset: $inset,
+      $extendShadow: $extendShadow,
+      $outline: null
     );
   } @else {
     @include whatInput($whatinput) {
-      @include fakeBorder(
-        $color,
-        var(--focus-ring-width),
-        $inset,
-        $extendShadow: $extendShadow
+      @include focusStyle(
+        $bgColor: null,
+        $textColor: null,
+        $borderColor: $color,
+        $borderWidth: var(--focus-ring-width),
+        $inset: $inset,
+        $extendShadow: $extendShadow,
+        $outline: null
       );
     }
   }

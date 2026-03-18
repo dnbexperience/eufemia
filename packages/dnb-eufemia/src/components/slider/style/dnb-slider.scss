@@ -275,8 +275,12 @@
     transform: translate3d(0.0625rem, 0, 0);
   }
 
-  &__button-helper:not(:disabled):focus ~ .dnb-button {
-    @include utilities.focusRing();
+  &__button-helper {
+    @include utilities.focusVisible() {
+      ~ .dnb-button {
+        @include utilities.focusStyle();
+      }
+    }
   }
 
   > .dnb-form-label {
