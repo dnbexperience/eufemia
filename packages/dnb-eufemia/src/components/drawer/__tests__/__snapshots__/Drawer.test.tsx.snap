@@ -899,8 +899,13 @@ button.dnb-button::-moz-focus-inner {
  *
  */
 .dnb-help-button.dnb-help-button__inline--open {
-  --btn-color-border--default: var(--btn-color-border--hover);
-  --btn-border-width--default: var(--btn-border-width--hover);
+  --btn-color-bg--default: var(
+    --token-color-background-selected-subtle
+  );
+  --btn-color-border--default: var(--token-color-stroke-selected);
+  --btn-border-width--default: var(--token-color-icon-selected);
+  --button-border-width--default: 0.125rem;
+  --btn-border-inset--default: ;
 }
 
 .dnb-help-button__inline svg {

@@ -121,7 +121,7 @@ describe('Button component', () => {
     )
 
     expect(document.querySelector('.dnb-button')).toHaveClass(
-      'dnb-button--on-dark-background'
+      'dnb-button--surface-dark'
     )
   })
 

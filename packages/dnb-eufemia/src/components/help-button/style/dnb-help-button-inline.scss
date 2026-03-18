@@ -9,11 +9,13 @@
 .dnb-help-button {
   &.dnb-help-button__inline {
     &--open {
-      @include button-mixins.buttonHoverStyle(
-        null,
-        null,
-        var(--color-emerald-green)
+      --btn-color-bg--default: var(
+        --token-color-background-selected-subtle
       );
+      --btn-color-border--default: var(--token-color-stroke-selected);
+      --btn-border-width--default: var(--token-color-icon-selected);
+      --button-border-width--default: 0.125rem;
+      --btn-border-inset--default: ; // Need empty value to override default `inset`
     }
   }
 }

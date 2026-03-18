@@ -883,11 +883,11 @@ exports[`Button scss has to match theme css for sbanken 1`] = `
 *
 */
 /*
-* Button mixins
+* Button theme
 *
 */
 /*
-* Button theme
+* Button mixins
 *
 */
 .dnb-button--tertiary {
