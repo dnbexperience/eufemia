@@ -3,6 +3,8 @@
  *
  */
 
+@use '../../../style/core/utilities.scss' as utilities;
+
 .dnb-form-status {
   --form-status-radius: 0.25rem;
 
@@ -22,6 +24,17 @@
     border-radius: var(--form-status-radius);
     background-color: var(--form-status-color-background);
     color: var(--form-status-color-text);
+  }
+
+  &__variant--outlined &__shell {
+    --form-status-color-outline: var(--form-status-color-outline--default);
+
+    @include utilities.fakeBorder(
+      var(
+        --form-status-color-outline,
+        var(--form-status-color-outline--default)
+      )
+    );
   }
 
   &--error &__shell {
@@ -44,6 +57,28 @@
   &--warning &__shell {
     --form-status-color-background: var(
       --token-color-background-warning-subtle
+    );
+  }
+
+  // Outlines
+  &__variant--outlined#{&}--error &__shell {
+    --form-status-color-outline--default: var(
+      --token-color-background-error
+    );
+  }
+  &__variant--outlined#{&}--warning &__shell {
+    --form-status-color-outline--default: var(
+      --token-color-background-warning
+    );
+  }
+  &__variant--outlined#{&}--info &__shell {
+    --form-status-color-outline--default: var(
+      --token-color-background-info
+    );
+  }
+  &__variant--outlined#{&}--marketing &__shell {
+    --form-status-color-outline--default: var(
+      --token-color-background-marketing
     );
   }
 
