@@ -281,6 +281,11 @@ export default [
     rules: {
       'import/named': 'off',
       'no-unused-vars': 'off',
+
+      // Allow @ts-expect-error and @ts-ignore with a description.
+      // @ts-ignore is permitted because strictFunctionTypes errors may appear
+      // in some environments but not others (e.g. CI vs local), making
+      // @ts-expect-error fail with "unused directive" when the error is absent.
       '@typescript-eslint/ban-ts-comment': [
         'error',
         {

@@ -107,7 +107,7 @@ function BankAccountNumber(props: Props) {
     width: width ?? 'medium',
     inputMode: 'numeric',
     onChangeValidator: validate ? onChangeValidator : undefined,
-    // @ts-ignore -- strictFunctionTypes
+    // @ts-expect-error -- strictFunctionTypes
     onBlurValidator: validate ? onBlurValidatorToUse : undefined,
     exportValidators: { bankAccountNumberValidator },
   }

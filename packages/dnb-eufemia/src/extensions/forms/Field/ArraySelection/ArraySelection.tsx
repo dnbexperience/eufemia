@@ -278,7 +278,7 @@ export function useCheckboxOrToggleOptions({
           disabled={disabled}
           checked={value?.includes(active)}
           status={
-            // @ts-ignore -- strictFunctionTypes
+            // @ts-expect-error -- strictFunctionTypes
             (hasError || checkForError([error, info, warning])) && 'error'
           }
           suffix={suffix}
@@ -309,7 +309,7 @@ export function useCheckboxOrToggleOptions({
     ...(dataList || []).map((props, i) =>
       createOption(props as OptionProps, i)
     ),
-    // @ts-ignore -- strictFunctionTypes
+    // @ts-expect-error -- strictFunctionTypes
     ...(mapOptions(children, { createOption }) || []).filter(Boolean),
   ]
 

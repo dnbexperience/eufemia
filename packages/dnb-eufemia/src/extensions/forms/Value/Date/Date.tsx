@@ -54,7 +54,7 @@ function DateComponent(props: Props) {
   const stringProps: Props = {
     ...props,
     label: props.label ?? translations.label,
-    // @ts-ignore -- strictFunctionTypes
+    // @ts-expect-error -- strictFunctionTypes
     toInput,
   }
   return <StringValue {...stringProps} />

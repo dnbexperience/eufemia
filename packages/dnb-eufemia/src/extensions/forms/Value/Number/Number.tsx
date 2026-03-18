@@ -34,7 +34,7 @@ function NumberValue(props: Props) {
     itemPath,
     inheritLabel,
     ...rest
-    // @ts-ignore -- strictFunctionTypes
+    // @ts-expect-error -- strictFunctionTypes
   } = useValueProps(props)
   const numberFormatProps = omitSpacingProps(rest)
 
@@ -47,7 +47,7 @@ function NumberValue(props: Props) {
   }
 
   return (
-    // @ts-ignore -- strictFunctionTypes
+    // @ts-expect-error -- strictFunctionTypes
     <ValueBlock
       className={clsx('dnb-forms-value-number', className)}
       inline={inline}
