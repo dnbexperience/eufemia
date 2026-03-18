@@ -86,7 +86,7 @@ export type TabsProps = Omit<
     /**
      * To enable the visual helper `.dnb-section` on to the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.
      */
-    contentStyle?: SectionVariants
+    contentStyle?: SectionVariants | string
     /**
      * To modify the `spacing` onto the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `large`.
      */
@@ -107,7 +107,7 @@ export type TabsProps = Omit<
     /**
      * To enable the visual helper `.dnb-section` inside the tabs list. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `null`.
      */
-    tabsStyle?: SectionVariants
+    tabsStyle?: SectionVariants | string
     /**
      * To modify the `spacing` inside the tab list. Defaults to `null`.
      */

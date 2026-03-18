@@ -162,7 +162,7 @@ export type TabsContentWrapperChildren =
 export type TabsContentWrapperProps = {
   id: string
   selectedKey?: TabsContentWrapperSelectedKey
-  contentStyle?: SectionVariants
+  contentStyle?: SectionVariants | string
   animate?: boolean
   contentSpacing?: SectionSpacing
   children?: TabsContentWrapperChildren
