@@ -468,7 +468,8 @@ export const IterateArrayUpload = () => {
       } catch (error) {
         updatedFiles.push({
           ...file,
-          errorMessage: error.message,
+          errorMessage:
+            error instanceof Error ? error.message : String(error),
         })
       }
     }
@@ -539,7 +540,8 @@ export const TwoAsyncUploads = () => {
       } catch (error) {
         updatedFiles.push({
           ...file,
-          errorMessage: error.message,
+          errorMessage:
+            error instanceof Error ? error.message : String(error),
         })
       }
     }

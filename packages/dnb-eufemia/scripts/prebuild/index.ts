@@ -53,6 +53,7 @@ export const runPrepublishTasks = async ({
     log.succeed('Prepublishing has Succeeded!')
   } catch (e) {
     log.fail('Failed to run prepublish!')
+    // @ts-expect-error -- strictFunctionTypes
     ErrorHandler(e)
   }
   return true

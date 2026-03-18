@@ -649,7 +649,9 @@ export function createDocsTools(
     try {
       resolved = resolveInside(context.docsRoot, userPath)
     } catch (e) {
-      return makeTextResult(`Invalid path: ${String(e?.message ?? e)}`)
+      return makeTextResult(
+        `Invalid path: ${e instanceof Error ? e.message : String(e)}`
+      )
     }
 
     const { abs, relWithLeadingSlash } = resolved

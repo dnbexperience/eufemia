@@ -1376,7 +1376,11 @@ export default function Provider<Data extends JsonObject>(
           } else {
             return await onSubmit()
           }
-        })
+        } catch (error) {
+          submitResult = { error: error as Error }
+        }
+
+        result = submitResult as EventStateObject
 
         if (asyncBehaviorIsEnabled) {
           if (result?.error) {
@@ -1556,9 +1560,9 @@ export default function Provider<Data extends JsonObject>(
         let result = undefined
 
         if (isAsync(onSubmit)) {
-          result = await onSubmit(data, options)
+          result = await onSubmit(data, options as any)
         } else {
-          result = onSubmit?.(data, options)
+          result = onSubmit?.(data, options as any)
         }
 
         const completeResult = await onSubmitComplete?.(data, result)
@@ -1714,7 +1718,7 @@ export default function Provider<Data extends JsonObject>(
     []
   )
 
-  const contextValue: ContextState = {
+  const contextValue = {
     /** Method */
     handlePathChange,
     handlePathChangeUnvalidated,
@@ -1784,7 +1788,7 @@ export default function Provider<Data extends JsonObject>(
     internalDataRef,
     props,
     ...rest,
-  }
+  } as ContextState
 
   if (id) {
     sharedDataContext.set(contextValue)
