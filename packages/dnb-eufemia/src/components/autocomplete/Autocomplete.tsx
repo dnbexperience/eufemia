@@ -518,7 +518,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     DrawerListContextValue & {
       Autocomplete: Record<string, unknown>
     }
-    // @ts-expect-error -- strictFunctionTypes
+    // @ts-expect-error - strictFunctionTypes
   >(DrawerListContext)
   const drawerList = context.drawerList
 
@@ -1723,7 +1723,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       >
     >(null)
   eventMethodsRef.current = {
-    // @ts-expect-error -- strictFunctionTypes
+    // @ts-expect-error - strictFunctionTypes
     updateData,
     revalidateSelectedItem,
     revalidateInputValue,

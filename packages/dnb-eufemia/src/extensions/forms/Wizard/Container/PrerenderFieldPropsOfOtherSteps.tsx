@@ -137,13 +137,13 @@ function usePreventSubmit() {
 
   // Only add the listener when there is an unknown step state
   if (hasUnknownSteps) {
-    // @ts-expect-error -- strictFunctionTypes
+    // @ts-expect-error - strictFunctionTypes
     setFieldEventListener?.(undefined, 'onSubmit', handleSubmit)
   }
 
   useEffect(() => {
     return () => {
-      // @ts-expect-error -- strictFunctionTypes
+      // @ts-expect-error - strictFunctionTypes
       setFieldEventListener?.(undefined, 'onSubmit', handleSubmit, {
         remove: true,
       })

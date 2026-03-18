@@ -478,7 +478,7 @@ export function mapOptions(
   }: { createOption: (props: OptionProps, i: number) => React.ReactNode }
 ) {
   return React.Children.map(
-    // @ts-expect-error -- strictFunctionTypes
+    // @ts-expect-error - strictFunctionTypes
     children,
     (child: React.ReactElement<OptionProps>, i) => {
       if (React.isValidElement(child)) {

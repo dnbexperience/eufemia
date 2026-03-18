@@ -296,7 +296,7 @@ function NumberComponent(props: Props) {
     ...props,
     schema,
     toInput,
-    // @ts-expect-error -- strictFunctionTypes
+    // @ts-expect-error - strictFunctionTypes
     fromInput,
     width:
       props.width ??

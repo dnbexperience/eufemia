@@ -310,7 +310,7 @@ export function useCheckboxOrToggleOptions({
     ...(dataList || []).map((props, i) =>
       createOption(props as OptionProps, i)
     ),
-    // @ts-expect-error -- strictFunctionTypes
+    // @ts-expect-error - strictFunctionTypes
     ...(mapOptions(children, { createOption }) || []).filter(Boolean),
   ]
 

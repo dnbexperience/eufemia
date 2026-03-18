@@ -88,7 +88,7 @@ export default function useValueProps<Value = unknown, Props = unknown>(
   )
 
   const value = shouldBeVisible(path)
-    ? // @ts-expect-error -- strictFunctionTypes
+    ? // @ts-expect-error - strictFunctionTypes
       transformIn(toInput(externalValue))
     : undefined
 
