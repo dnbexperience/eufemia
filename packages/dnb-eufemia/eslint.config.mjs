@@ -350,10 +350,23 @@ export default [
     files: ['**/*Docs.{ts,tsx}'],
     plugins: {
       'docs-types': docsTypesPlugin,
+      '@typescript-eslint': tsPlugin,
     },
     rules: {
       'docs-types/warn-supported-types': 'warn',
       'docs-types/validate-supported-types': 'warn',
+      '@typescript-eslint/naming-convention': [
+        'error',
+        {
+          selector: 'variable',
+          modifiers: ['exported', 'const'],
+          format: ['PascalCase'],
+          filter: {
+            regex: 'Properties$|Events$|Data$|Designs?$|Item$|Object$',
+            match: true,
+          },
+        },
+      ],
     },
   },
   {
