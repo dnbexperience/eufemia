@@ -116,7 +116,7 @@ export const FormStatus = () => (
 
 export const Disabled = () => (
   <Wrapper>
-    <ComponentBox>
+    <ComponentBox data-visual-test="textarea-disabled">
       <Textarea
         label="Disabled"
         disabled
