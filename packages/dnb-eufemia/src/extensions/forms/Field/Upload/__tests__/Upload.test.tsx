@@ -2308,7 +2308,13 @@ describe('Field.Upload', () => {
 
   it('should remove correct file when transformIn and transformOut is used to change the file', async () => {
     function transformIn(external: unknown) {
-      const files = external as Array<{ id: string; fileName: string; errorMessage?: React.ReactNode }> | undefined
+      const files = external as
+        | Array<{
+            id: string
+            fileName: string
+            errorMessage?: React.ReactNode
+          }>
+        | undefined
       return (
         files?.map((file) => ({
           ...file,

@@ -379,9 +379,7 @@ describe('Breadcrumb', () => {
 
       render(
         <BreadcrumbItem
-          element={
-            CustomElement as React.ElementType
-          }
+          element={CustomElement as React.ElementType}
           text="Page"
           href="/"
         />
@@ -409,9 +407,7 @@ describe('Breadcrumb', () => {
       render(
         <BreadcrumbItem
           to={'/url'}
-          element={
-            MockLink as React.ElementType
-          }
+          element={MockLink as React.ElementType}
           text="Page"
         />
       )

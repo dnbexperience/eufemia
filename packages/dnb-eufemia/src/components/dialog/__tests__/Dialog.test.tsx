@@ -93,9 +93,11 @@ describe('Dialog', () => {
         onClose={onClose}
         hideCloseButton
       >
-        {(({ close }) => (
-          <Button id="close-me" text="close" onClick={close} />
-        )) as (props: ModalContentProps) => React.ReactNode}
+        {
+          (({ close }) => (
+            <Button id="close-me" text="close" onClick={close} />
+          )) as (props: ModalContentProps) => React.ReactNode
+        }
       </Dialog>
     )
     fireEvent.click(document.querySelector('button'))
@@ -530,9 +532,11 @@ describe('Dialog', () => {
         onClose={onClose}
         hideCloseButton
       >
-        {(({ close }) => (
-          <Button id="close-button" text="close" onClick={close} />
-        )) as (props: ModalContentProps) => React.ReactNode}
+        {
+          (({ close }) => (
+            <Button id="close-button" text="close" onClick={close} />
+          )) as (props: ModalContentProps) => React.ReactNode
+        }
       </Dialog>
     )
 

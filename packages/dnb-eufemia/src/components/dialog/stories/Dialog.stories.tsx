@@ -80,15 +80,19 @@ export const DialogConfirm = () => (
             text="Administrer"
             icon={edit}
             iconPosition="left"
-            onClick={(({ close }) => {
-              close()
-            }) as ButtonOnClick}
+            onClick={
+              (({ close }) => {
+                close()
+              }) as ButtonOnClick
+            }
           />
           <Button
             text="Jeg godtar"
-            onClick={(({ close }) => {
-              close()
-            }) as ButtonOnClick}
+            onClick={
+              (({ close }) => {
+                close()
+              }) as ButtonOnClick
+            }
           />
         </Dialog.Action>
       </Dialog>
