@@ -122,7 +122,7 @@ export function useHeightAnimation(
   }, [compensateForGap])
 
   useLayoutEffect(() => {
-    instRef.current.onStart((state: HeightAnimationOnStart) => {
+    instRef.current.onStart((state) => {
       switch (state) {
         case 'opening':
           handleCompensateForGap()
@@ -142,11 +142,11 @@ export function useHeightAnimation(
       }
 
       if (!isInitialRenderRef.current) {
-        eventsRef.current.onAnimationStart?.(state)
+        eventsRef.current.onAnimationStart?.(state as HeightAnimationOnStart)
       }
     })
 
-    instRef.current.onEnd((state: HeightAnimationOnEnd) => {
+    instRef.current.onEnd((state) => {
       switch (state) {
         case 'opened':
           setIsVisible(true)
@@ -169,7 +169,7 @@ export function useHeightAnimation(
       }
 
       if (!isInitialRenderRef.current) {
-        eventsRef.current.onAnimationEnd?.(state)
+        eventsRef.current.onAnimationEnd?.(state as HeightAnimationOnEnd)
       }
     })
   }, [compensateForGap, handleCompensateForGap])

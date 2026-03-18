@@ -843,7 +843,7 @@ const createXMLTarBundles = async ({
 }
 
 const optimizeSVGIcons = async ({ destDir, listWithFiles }) => {
-  await asyncForEach(listWithFiles, async ({ iconFile }) => {
+  await asyncForEach(listWithFiles, async ({ iconFile }: { iconFile: string }) => {
     const file = path.resolve(destDir, iconFile)
     await optimizeSVG(file)
 

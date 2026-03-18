@@ -21,6 +21,7 @@ function SelectCurrency(props: Props) {
   const { getCurrencyDisplayNameByIso } = useCurrency()
 
   return (
+    // @ts-expect-error -- strictFunctionTypes
     <ValueBlock
       label={label}
       className={clsx('dnb-forms-value-select-currency', className)}

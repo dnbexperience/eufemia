@@ -328,7 +328,7 @@ export const runFactory = async ({
   const template = await fs.readFile(srcFile, 'utf-8')
 
   if (destPath) {
-    await asyncForEach(filesToFindGlob, async ({ file }) => {
+    await asyncForEach(filesToFindGlob, async ({ file }: { file: string }) => {
       const destFile = path.resolve(destPath, `${toPascalCase(file)}.ts`)
 
       try {

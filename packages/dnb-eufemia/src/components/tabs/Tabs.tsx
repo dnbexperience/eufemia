@@ -858,7 +858,7 @@ export default class Tabs extends React.PureComponent<
     if (nextIndex >= currentData.length) {
       nextIndex = 0
     }
-    return currentData.reduce(
+    return currentData.reduce<string | number | null>(
       (acc, { key }, i) => (i === nextIndex ? key : acc),
       null
     )

@@ -125,8 +125,8 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
    * Handle Accordion Content
    */
   const accordionContent = headerContent.filter(
-    (element: React.ReactElement) => {
-      return isAccordionElement(element)
+    (element) => {
+      return isAccordionElement(element as React.ReactElement)
     }
   ) as React.ReactElement<
     TableAccordionContentSingleProps | TableAccordionContentRowProps
@@ -152,8 +152,8 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
 
   if (hasAccordionContent) {
     // Remove the AccordionContent, and use it outside of the tr
-    headerContent = headerContent.filter((element: React.ReactElement) => {
-      return !isAccordionElement(element)
+    headerContent = headerContent.filter((element) => {
+      return !isAccordionElement(element as React.ReactElement)
     })
 
     addContent(
@@ -177,9 +177,10 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
   }
 
   const countTds = hasAccordionContent
-    ? headerContent.filter((element: React.ReactElement) => {
+    ? headerContent.filter((element) => {
+        const el = element as React.ReactElement
         return (
-          element.type === Td || element.type === TableClickableButtonTd
+          el.type === Td || el.type === TableClickableButtonTd
         ) // TODO: We may need to include this in future --> || component.type === Td.MainCell
       }).length
     : null

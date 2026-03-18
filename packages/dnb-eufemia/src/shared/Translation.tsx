@@ -23,7 +23,11 @@ const TranslationImpl = <T = TranslationCustomLocales,>({
   ...params
 }: TranslationProps<T>) => {
   const { translation } = useContext(SharedContext)
-  const result = formatMessage(id || children, params, translation)
+  const result = formatMessage(
+    (id || children) as string | TranslationIdAsFunction<TranslationCustomLocales>,
+    params,
+    translation
+  )
 
   if (typeof result !== 'string') {
     return <>{String(id)}</>

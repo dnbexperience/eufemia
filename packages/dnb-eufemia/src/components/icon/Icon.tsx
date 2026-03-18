@@ -252,7 +252,7 @@ export function calcSize(props: IconProps) {
 
   // check if the sizeAsInt is a default size - and no sizeAsString exists yet
   if (!sizeAsString && sizeAsInt > 0) {
-    const potentialSizeAsString = ListDefaultIconSizes.reduce(
+    const potentialSizeAsString = ListDefaultIconSizes.reduce<string | null>(
       (acc, [key, value]) => {
         if (key && value === sizeAsInt) {
           return key
