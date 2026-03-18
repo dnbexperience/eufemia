@@ -61,8 +61,6 @@ export type SegmentedFieldProps<T extends string> = {
 
 export type SectionSelectionMode = 'all' | 'caret'
 
-export type BoundaryTraversalMode = false | 'caret' | 'selection'
-
 export type SegmentedFieldInputConfig = {
   id: string
   mask: RegExp[]
@@ -84,10 +82,6 @@ export type SegmentedFieldSectionProps = {
   caretPositionsRef: RefObject<Record<string, number>>
   sectionSelectionModeRef: RefObject<Record<string, SectionSelectionMode>>
   groupSelectionRef: RefObject<boolean>
-  skipBoundaryBackspaceRef: RefObject<Record<string, boolean>>
-  boundaryTraversalLockRef: RefObject<
-    Record<string, BoundaryTraversalMode>
-  >
   clearGroupSelection: () => void
   clearSectionSelection: () => void
   selectWholeGroup: (inputId: string) => void

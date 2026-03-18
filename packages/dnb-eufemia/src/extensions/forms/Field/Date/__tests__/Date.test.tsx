@@ -2878,7 +2878,7 @@ describe('Field.Date', () => {
           />
         )
 
-        const [startDay, endDay] = Array.from(
+        const [startDay] = Array.from(
           document.querySelectorAll('.dnb-date-picker__input--day')
         ) as Array<HTMLInputElement>
 
@@ -2904,9 +2904,7 @@ describe('Field.Date', () => {
         )
 
         await userEvent.click(startDay)
-        await userEvent.keyboard('{Backspace>2}01012025')
-        await userEvent.click(endDay)
-        await userEvent.keyboard('{Backspace>2}31012025')
+        await userEvent.keyboard('{Backspace}0101202531012025')
         await userEvent.click(document.body)
 
         expect(

@@ -543,7 +543,7 @@ describe('DatePicker component', () => {
     expect(year.selectionEnd).toBe(year.value.length)
   })
 
-  it('should set focus on previous input when pressing backspace and cursor is at the beginning of the input', async () => {
+  it('should move to the previous input before clearing it when backspacing from a collapsed section start', async () => {
     const Component = () => {
       const [date, setDate] = useState('2024-05-17')
 
@@ -569,12 +569,14 @@ describe('DatePicker component', () => {
     month.setSelectionRange(0, 0)
     await userEvent.keyboard('{Backspace}')
 
-    expect(month.selectionStart).toBe(0)
-    expect(month.selectionEnd).toBe(0)
+    expect(day.value).toBe('17')
+    expect(month.value).toBe('05')
+    expect(day.selectionStart).toBe(0)
+    expect(day.selectionEnd).toBe(2)
 
     await userEvent.keyboard('{Backspace}')
 
-    expect(day.value).toBe('17')
+    expect(day.value).toBe('dd')
     expect(day.selectionStart).toBe(0)
     expect(day.selectionEnd).toBe(2)
 
@@ -584,7 +586,7 @@ describe('DatePicker component', () => {
     expect(day.selectionEnd).toBe(2)
   })
 
-  it('should set focus on previous input immediately when pressing backspace at the beginning of the second input', async () => {
+  it('should clear the previous input immediately when pressing backspace after navigating from the second input', async () => {
     render(<DatePicker showInput />)
 
     const [day, month, year] = getSegmentedFields()
@@ -597,7 +599,7 @@ describe('DatePicker component', () => {
 
     expect(document.activeElement).toBe(day)
 
-    expect(day.value).toBe('03')
+    expect(day.value).toBe('dd')
     expect(month.value).toBe('04')
     expect(year.value).toBe('2026')
 
@@ -2662,11 +2664,13 @@ describe('DatePicker component', () => {
       ).textContent
     ).toBe('1')
 
-    expect(
-      document.querySelector(
-        'td.dnb-date-picker__day--end-date .dnb-button__text'
-      ).textContent
-    ).toBe('15')
+    await waitFor(() => {
+      expect(
+        document.querySelector(
+          'td.dnb-date-picker__day--end-date .dnb-button__text'
+        ).textContent
+      ).toBe('15')
+    })
 
     // from now on, check the second calendar
     fireEvent.click(
@@ -2809,7 +2813,7 @@ describe('DatePicker component', () => {
 
     // and simulate a right keydown
     await userEvent.click(dayElem)
-    await userEvent.keyboard('{ArrowRight>2}')
+    await userEvent.keyboard('{ArrowRight}')
 
     // and check the class of that element
     await waitFor(() => {
@@ -2820,7 +2824,7 @@ describe('DatePicker component', () => {
 
     // and simulate a left keydown
     await userEvent.click(monthElem)
-    await userEvent.keyboard('{ArrowLeft>3}')
+    await userEvent.keyboard('{ArrowLeft}')
 
     // and check the class of that element
     await waitFor(() => {
@@ -3532,12 +3536,18 @@ describe('DatePicker component', () => {
       })
     )
 
-    // Remove the whole end , month and day
+    // Remove the whole end group
     await userEvent.click(endYearInput)
-    await userEvent.keyboard('{ArrowRight}{Backspace>9}')
+    fireEvent.keyDown(endYearInput, {
+      key: 'a',
+      ctrlKey: true,
+    })
+    fireEvent.keyDown(endYearInput, {
+      key: 'Backspace',
+    })
     await userEvent.click(document.body)
     await waitFor(() => {
-      expect(onBlur).toHaveBeenCalledTimes(4)
+      expect(onBlur).toHaveBeenCalledTimes(3)
     })
     expect(onBlur).toHaveBeenLastCalledWith(
       expect.objectContaining({
@@ -3554,7 +3564,7 @@ describe('DatePicker component', () => {
     // Clicking body triggers blur
     await userEvent.click(document.body)
     await waitFor(() => {
-      expect(onBlur).toHaveBeenCalledTimes(5)
+      expect(onBlur).toHaveBeenCalledTimes(4)
     })
     expect(onBlur).toHaveBeenLastCalledWith(
       expect.objectContaining({

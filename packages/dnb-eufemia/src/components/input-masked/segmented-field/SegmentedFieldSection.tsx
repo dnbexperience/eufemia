@@ -40,8 +40,6 @@ export default function SegmentedFieldSection({
   caretPositionsRef,
   sectionSelectionModeRef,
   groupSelectionRef,
-  skipBoundaryBackspaceRef,
-  boundaryTraversalLockRef,
   clearGroupSelection,
   clearSectionSelection,
   selectWholeGroup,
@@ -515,8 +513,6 @@ export default function SegmentedFieldSection({
           spinButton ? (hasTypedValue ? value : 'Empty') : undefined
         }
         onFocus={() => {
-          skipBoundaryBackspaceRef.current[inputId] = false
-          boundaryTraversalLockRef.current[inputId] = false
           clearGroupSelection()
           onGroupFocus()
           selectSection(inputId)
@@ -524,32 +520,16 @@ export default function SegmentedFieldSection({
         onBlur={onGroupBlur}
         onMouseDown={(event) => {
           clearGroupSelection()
-          boundaryTraversalLockRef.current[inputId] = false
+
+          event.preventDefault()
 
           if (document.activeElement !== sectionRefs.current[inputId]) {
-            event.preventDefault()
             sectionRefs.current[inputId]?.focus()
             selectSection(inputId)
+            return
           }
-        }}
-        onMouseUp={() => {
-          // If internal state is 'all' but the DOM selection has collapsed
-          // (e.g. user clicked within an already-focused section to place a caret),
-          // sync the internal caret position from the DOM.
-          if (sectionSelectionModeRef.current[inputId] === 'all') {
-            const sel = window.getSelection()
-            if (sel?.isCollapsed && sel.rangeCount > 0) {
-              const range = sel.getRangeAt(0)
-              const el = sectionRefs.current[inputId]
-              if (el?.contains(range.startContainer)) {
-                sectionSelectionModeRef.current[inputId] = 'caret'
-                caretPositionsRef.current[inputId] = Math.min(
-                  range.startOffset,
-                  displayValue.length
-                )
-              }
-            }
-          }
+
+          selectSection(inputId)
         }}
         onBeforeInput={(event) => {
           if (
@@ -604,63 +584,15 @@ export default function SegmentedFieldSection({
 
           if (key === 'ArrowRight') {
             event.preventDefault()
-            boundaryTraversalLockRef.current[inputId] = false
 
-            const currentValue = valuesRef.current[inputId] ?? ''
-
-            if (!currentValue) {
-              focusAdjacentSection('next')
-              return
-            }
-
-            if (sectionSelectionModeRef.current[inputId] === 'all') {
-              setSectionCaret(inputId, displayValue.length)
-              return
-            }
-
-            const currentPosition = caretPositionsRef.current[inputId] ?? 0
-
-            if (currentPosition >= displayValue.length) {
-              focusAdjacentSection('next')
-
-              return
-            }
-
-            setSectionCaret(inputId, currentPosition + 1)
+            focusAdjacentSection('next')
             return
           }
 
           if (key === 'ArrowLeft') {
             event.preventDefault()
 
-            const currentValue = valuesRef.current[inputId] ?? ''
-
-            if (!currentValue) {
-              boundaryTraversalLockRef.current[inputId] = false
-              focusAdjacentSection('prev')
-              return
-            }
-
-            if (sectionSelectionModeRef.current[inputId] === 'all') {
-              boundaryTraversalLockRef.current[inputId] = 'selection'
-              setSectionCaret(inputId, 0)
-              return
-            }
-
-            const currentPosition = caretPositionsRef.current[inputId] ?? 0
-
-            if (currentPosition <= 0) {
-              boundaryTraversalLockRef.current[inputId] = false
-              focusAdjacentSection('prev')
-
-              return
-            }
-
-            const nextPosition = currentPosition - 1
-
-            boundaryTraversalLockRef.current[inputId] =
-              nextPosition === 0 ? 'caret' : false
-            setSectionCaret(inputId, nextPosition)
+            focusAdjacentSection('prev')
             return
           }
 
@@ -684,12 +616,6 @@ export default function SegmentedFieldSection({
             const currentPosition = caretPositionsRef.current[inputId] ?? 0
 
             if (isAllSelected && currentValue.length > 0) {
-              if (skipBoundaryBackspaceRef.current[inputId]) {
-                skipBoundaryBackspaceRef.current[inputId] = false
-                selectSection(inputId)
-                return
-              }
-
               updateValue('')
               selectSection(inputId)
               return
@@ -699,54 +625,9 @@ export default function SegmentedFieldSection({
               const previousSectionId = getNextSectionId('prev', {
                 withinGroup: true,
               })
-              let keepPreviousSectionGuard = currentValue.length > 0
-              let shouldClearPreviousSection = false
-
-              if (currentValue.length > 0) {
-                const traversalMode =
-                  boundaryTraversalLockRef.current[inputId]
-
-                boundaryTraversalLockRef.current[inputId] = false
-                const shouldTraverseBoundaryImmediately =
-                  traversalMode === 'caret' ||
-                  traversalMode === 'selection'
-                keepPreviousSectionGuard =
-                  keepPreviousSectionGuard &&
-                  !shouldTraverseBoundaryImmediately
-                shouldClearPreviousSection = traversalMode === 'selection'
-
-                if (!previousSectionId) {
-                  focusAdjacentSection('prev')
-                  return
-                }
-
-                if (
-                  !shouldTraverseBoundaryImmediately &&
-                  !skipBoundaryBackspaceRef.current[inputId]
-                ) {
-                  skipBoundaryBackspaceRef.current[inputId] = true
-                  setSectionCaret(inputId, 0)
-                  return
-                }
-              } else {
-                boundaryTraversalLockRef.current[inputId] = false
-              }
-
-              skipBoundaryBackspaceRef.current[inputId] = false
 
               if (previousSectionId) {
                 focusSection(previousSectionId, 'all')
-
-                if (shouldClearPreviousSection) {
-                  onChange(previousSectionId, '')
-                  selectSection(previousSectionId)
-                  skipBoundaryBackspaceRef.current[previousSectionId] =
-                    false
-                  return
-                }
-
-                skipBoundaryBackspaceRef.current[previousSectionId] =
-                  keepPreviousSectionGuard
               } else {
                 if (currentValue.length === 0) {
                   focusAdjacentSection('prev')
@@ -759,8 +640,6 @@ export default function SegmentedFieldSection({
             }
 
             const nextValue = removeChar(currentValue, currentPosition - 1)
-            skipBoundaryBackspaceRef.current[inputId] = false
-            boundaryTraversalLockRef.current[inputId] = false
             updateValue(nextValue)
             setSectionCaret(inputId, currentPosition - 1)
             return
@@ -768,7 +647,6 @@ export default function SegmentedFieldSection({
 
           if (key === 'Delete') {
             event.preventDefault()
-            boundaryTraversalLockRef.current[inputId] = false
 
             if (hadWholeGroupSelected) {
               clearWholeGroup()
@@ -794,7 +672,6 @@ export default function SegmentedFieldSection({
 
           if (key.length === 1) {
             event.preventDefault()
-            boundaryTraversalLockRef.current[inputId] = false
 
             if (hadWholeGroupSelected) {
               const firstSectionId = inputs[0]?.id

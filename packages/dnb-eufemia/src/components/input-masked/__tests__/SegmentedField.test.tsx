@@ -63,23 +63,6 @@ const getFirst = () => getSections()[0]
 
 const getSecond = () => getSections()[1]
 
-function setDomCaret(element: HTMLElement, position: number) {
-  const selection = window.getSelection()
-  const range = document.createRange()
-  const textNode = element.firstChild
-
-  if (!textNode) {
-    throw new Error(
-      'Expected segmented field section to contain a text node'
-    )
-  }
-
-  range.setStart(textNode, position)
-  range.collapse(true)
-  selection?.removeAllRanges()
-  selection?.addRange(range)
-}
-
 describe('SegmentedField', () => {
   describe('rendering', () => {
     it('should render sections for each input', () => {
@@ -387,7 +370,7 @@ describe('SegmentedField', () => {
       })
     })
 
-    it('should move to previous section immediately after navigating to start with arrow keys', async () => {
+    it('should clear the previous section after navigating to it with arrow keys', async () => {
       renderSegmentedField({
         values: { first: '12', second: '34' },
       })
@@ -399,11 +382,6 @@ describe('SegmentedField', () => {
       await userEvent.keyboard('{ArrowRight}{ArrowLeft>2}{Backspace}')
 
       expect(document.activeElement).toBe(first)
-
-      expect(first.value).toBe('12')
-      expect(second.value).toBe('34')
-
-      await userEvent.keyboard('{Backspace}')
 
       expect(first.value).toBe('ff')
       expect(second.value).toBe('34')
@@ -485,7 +463,7 @@ describe('SegmentedField', () => {
   })
 
   describe('arrow keys', () => {
-    it('should move cursor right from a manually placed caret', async () => {
+    it('should keep the last section selected when pressing right', async () => {
       render(
         <SegmentedField
           inputs={threeSegmentInputs}
@@ -497,32 +475,32 @@ describe('SegmentedField', () => {
       const year = getSections()[2]
 
       await userEvent.click(year)
-      setDomCaret(year, 2)
-      fireEvent.mouseUp(year)
 
       await userEvent.keyboard('{ArrowRight}')
 
-      expect(year.selectionStart).toBe(3)
-      expect(year.selectionEnd).toBe(3)
+      expect(document.activeElement).toBe(year)
+      expect(year.selectionStart).toBe(0)
+      expect(year.selectionEnd).toBe(year.value.length)
     })
 
-    it('should move cursor right within a section', async () => {
+    it('should move to the next section when pressing right', async () => {
       renderSegmentedField({
         values: { first: '12', second: '' },
       })
 
       const first = getFirst()
+      const second = getSecond()
 
       await userEvent.click(first)
-      first.setSelectionRange(0, 0)
 
       await userEvent.keyboard('{ArrowRight}')
 
-      expect(first.selectionStart).toBe(1)
-      expect(first.selectionEnd).toBe(1)
+      expect(document.activeElement).toBe(second)
+      expect(second.selectionStart).toBe(0)
+      expect(second.selectionEnd).toBe(second.value.length)
     })
 
-    it('should advance to next section when pressing right at end', async () => {
+    it('should move to the next section immediately when pressing right on a selected section', async () => {
       renderSegmentedField({
         values: { first: '12', second: '' },
       })
@@ -535,14 +513,13 @@ describe('SegmentedField', () => {
       expect(first.selectionEnd).toBe(2)
 
       await userEvent.keyboard('{ArrowRight}')
-      expect(first.selectionStart).toBe(2)
-      expect(first.selectionEnd).toBe(2)
 
-      await userEvent.keyboard('{ArrowRight}')
       expect(document.activeElement).toBe(second)
+      expect(second.selectionStart).toBe(0)
+      expect(second.selectionEnd).toBe(second.value.length)
     })
 
-    it('should move cursor left within a section', async () => {
+    it('should keep the first section selected when pressing left', async () => {
       renderSegmentedField({
         values: { first: '12', second: '' },
       })
@@ -550,12 +527,12 @@ describe('SegmentedField', () => {
       const first = getFirst()
 
       await userEvent.click(first)
-      first.setSelectionRange(2, 2)
 
       await userEvent.keyboard('{ArrowLeft}')
 
-      expect(first.selectionStart).toBe(1)
-      expect(first.selectionEnd).toBe(1)
+      expect(document.activeElement).toBe(first)
+      expect(first.selectionStart).toBe(0)
+      expect(first.selectionEnd).toBe(2)
     })
 
     it('should go to previous section when pressing left at start', async () => {
@@ -568,32 +545,32 @@ describe('SegmentedField', () => {
       expect(second.selectionStart).toBe(0)
       expect(second.selectionEnd).toBe(2)
 
-      // First ArrowLeft collapses the selection to the start
       await userEvent.keyboard('{ArrowLeft}')
 
-      // Second ArrowLeft moves to prev section
-      await userEvent.keyboard('{ArrowLeft}')
       expect(document.activeElement).toBe(first)
-    })
-
-    it('should set caret to end when pressing right with full selection', async () => {
-      renderSegmentedField({
-        values: { first: '12', second: '' },
-      })
-
-      const first = getFirst()
-
-      await userEvent.click(first)
       expect(first.selectionStart).toBe(0)
       expect(first.selectionEnd).toBe(2)
+    })
+
+    it('should keep the last section selected when pressing right with full selection', async () => {
+      renderSegmentedField({
+        values: { first: '12', second: '34' },
+      })
+
+      const second = getSecond()
+
+      await userEvent.click(second)
+      expect(second.selectionStart).toBe(0)
+      expect(second.selectionEnd).toBe(2)
 
       await userEvent.keyboard('{ArrowRight}')
 
-      expect(first.selectionStart).toBe(2)
-      expect(first.selectionEnd).toBe(2)
+      expect(document.activeElement).toBe(second)
+      expect(second.selectionStart).toBe(0)
+      expect(second.selectionEnd).toBe(2)
     })
 
-    it('should set caret to start when pressing left with full selection', async () => {
+    it('should keep the first section selected when pressing left with full selection', async () => {
       renderSegmentedField({
         values: { first: '12', second: '' },
       })
@@ -606,8 +583,9 @@ describe('SegmentedField', () => {
 
       await userEvent.keyboard('{ArrowLeft}')
 
+      expect(document.activeElement).toBe(first)
       expect(first.selectionStart).toBe(0)
-      expect(first.selectionEnd).toBe(0)
+      expect(first.selectionEnd).toBe(2)
     })
   })
 
