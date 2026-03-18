@@ -6,37 +6,30 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
 .dnb-vipps-wallet-button.dnb-button--primary {
-  --vipps-primary-color: #ff5b24;
-  --vipps-primary-color--active: #eb5320;
+  &,
+  &.dnb-button--surface-dark {
+    --vipps-primary-color: #ff5b24;
+    --vipps-primary-color--active: #eb5320;
 
-  background-color: var(--vipps-primary-color);
-  font-weight: var(--font-weight-medium);
+    // Background
+    --btn-color-bg--default: var(--vipps-primary-color);
+    --btn-color-bg--hover: var(--vipps-primary-color);
+    --btn-color-bg--active: var(--vipps-primary-color--active);
 
-  svg {
-    padding-left: 0.125rem;
+    // Border
+    --btn-color-border--hover: var(--vipps-primary-color);
 
-    path {
-      fill: var(--color-white);
+    // Text
+    --btn-color-text--default: var(--color-white);
+
+    font-weight: var(--font-weight-medium);
+
+    svg {
+      padding-left: 0.125rem;
+
+      path {
+        fill: currentColor;
+      }
     }
-  }
-
-  @include utilities.focus() {
-    background-color: var(--vipps-primary-color);
-    color: var(--color-white);
-  }
-
-  @include utilities.hover() {
-    background-color: var(--vipps-primary-color);
-    color: var(--color-white);
-
-    --border-color: var(--vipps-primary-color);
-  }
-
-  @include utilities.active() {
-    background-color: var(--vipps-primary-color--active);
-  }
-
-  &[disabled] {
-    background-color: var(--color-black-20);
   }
 }
