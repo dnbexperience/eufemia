@@ -1,9 +1,6 @@
 import { Field, Form, Iterate, Tools, Value, Wizard } from '../../..'
 import { Flex } from '../../../../../components'
-import type {
-  UploadFile,
-  UploadFileNative,
-} from '../../../../../components/Upload'
+import type { UploadFileNative } from '../../../../../components/Upload'
 import { P } from '../../../../../elements'
 import type { UploadValue } from '../Upload'
 
@@ -375,7 +372,13 @@ export const AsyncEverythingWithTransform = () => {
   }
 
   function transformIn(external: unknown) {
-    const files = external as Array<{ id: string; fileName: string; errorMessage?: React.ReactNode }> | undefined
+    const files = external as
+      | Array<{
+          id: string
+          fileName: string
+          errorMessage?: React.ReactNode
+        }>
+      | undefined
     return (
       files?.map((file) => ({
         ...file,
