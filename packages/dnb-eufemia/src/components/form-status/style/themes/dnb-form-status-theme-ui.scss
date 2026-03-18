@@ -9,28 +9,4 @@
   &__shell {
     font-size: var(--font-size-small);
   }
-
-  &--error#{&}--attention-focus &__shell,
-  &--error#{&}:focus &__shell {
-    animation: attention-focus 2s ease-in-out 1 200ms;
-  }
-  &--error#{&}--attention-focus &__shell > .dnb-icon,
-  &--error#{&}:focus &__shell > .dnb-icon {
-    animation: attention-focus 2s ease-in-out 1 200ms;
-  }
-}
-
-@keyframes attention-focus {
-  0%,
-  100% {
-    color: var(--color-fire-red);
-    background-color: var(--color-fire-red-8);
-    border-color: var(--color-fire-red);
-  }
-
-  35% {
-    color: var(--color-white);
-    background-color: var(--color-fire-red);
-    border-color: var(--color-fire-red);
-  }
 }
