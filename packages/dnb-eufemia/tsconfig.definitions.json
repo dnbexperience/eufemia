@@ -16,7 +16,8 @@
     "alwaysStrict": true,
     "strictBindCallApply": true,
     "noImplicitThis": true,
-    "useUnknownInCatchVariables": true
+    "useUnknownInCatchVariables": true,
+    "noUncheckedIndexedAccess": true
   },
   "include": ["src/**/*.js", "src/**/*.ts", "src/**/*.tsx"],
   "exclude": [
