@@ -881,6 +881,53 @@ describe('useValidation', () => {
         expect(result.current.hasErrors()).toBe(false)
       })
 
+      it('should exclude unmounted fields from hasErrors without visibleOnly', async () => {
+        const MockComponent = () => {
+          const [visible, setVisible] = useState(true)
+
+          return (
+            <>
+              <Form.Visibility visible={visible}>
+                <Field.String path="/conditionalField" required />
+              </Form.Visibility>
+              <button onClick={() => setVisible(false)}>Hide</button>
+              <button onClick={() => setVisible(true)}>Show</button>
+            </>
+          )
+        }
+
+        render(
+          <Form.Handler id={identifier}>
+            <MockComponent />
+          </Form.Handler>
+        )
+
+        const { result } = renderHook(() => useValidation(identifier))
+
+        // Field is mounted and has a required error
+        expect(result.current.hasErrors()).toBe(true)
+
+        // Hide (unmount) the field — no keepInDOM, so it fully unmounts
+        await userEvent.click(
+          document.querySelector('button:nth-of-type(1)')
+        )
+
+        // Plain hasErrors() should return false because the field is unmounted
+        await waitFor(() => {
+          expect(result.current.hasErrors()).toBe(false)
+        })
+
+        // Show (remount) the field
+        await userEvent.click(
+          document.querySelector('button:nth-of-type(2)')
+        )
+
+        // Field is mounted again with required error
+        await waitFor(() => {
+          expect(result.current.hasErrors()).toBe(true)
+        })
+      })
+
       it('should match exact story scenario with visibleWhen and no keepInDOM', async () => {
         const result = { current: undefined }
 
