@@ -91,11 +91,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  inputIcon: {
-    doc: 'Same as `icon`.',
-    type: ['string', 'React.ReactNode'],
-    status: 'optional',
-  },
+
   arrowPosition: {
     doc: 'Position of arrow on the popup drawer. Set to `left` or `right`. Defaults to `left`.',
     type: 'string',
