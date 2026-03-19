@@ -110,7 +110,7 @@ export const ProviderEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onSubmitRequest: {
-    doc: 'Will be called when the user tries to submit, but errors stop the data from being submitted. The first parameter is an object containing the `getErrors` method, returning an array with field errors. Each error object contains the `path`, `error` and `props` of the field. You can use this to log the errors before the form is submitted.',
+    doc: "Will be called when the user tries to submit, but errors stop the data from being submitted. The first parameter is an object containing the `getErrors` method, returning an array with field errors. Each error object contains the `path`, `error` and `props` of the field. You can use this to log the errors before the form is submitted. You can return an error or an object with these keys `{ info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` to be shown in a [FormStatus](/uilib/components/form-status) at the form level. Supports async functions.",
     type: 'function',
     status: 'optional',
   },

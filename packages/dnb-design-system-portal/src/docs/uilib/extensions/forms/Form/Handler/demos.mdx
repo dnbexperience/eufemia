@@ -44,6 +44,12 @@ This example is only for demo purpose and will NOT redirect to a new location. I
 
 <Examples.AsyncSubmitComplete />
 
+### Async onSubmitRequest with error message
+
+This example demonstrates returning an error message from `onSubmitRequest`. When the form has validation errors and the user tries to submit, the `onSubmitRequest` handler is called. It can return an error, warning, or info message that will be displayed at the form level.
+
+<Examples.AsyncOnSubmitRequest />
+
 ### Reduce your data to visible fields
 
 You can use the `reduceToVisibleFields` function to get only the data of visible (mounted) fields.

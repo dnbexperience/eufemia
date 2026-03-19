@@ -1397,14 +1397,38 @@ export default function Provider<Data extends JsonObject>(
 
         setShowAllErrors(true)
 
-        onSubmitRequest?.({
-          getErrors: () =>
-            Object.keys(fieldErrorRef.current)
-              .map((path) => {
-                return getDataPathHandlerParameters(path)
-              })
-              .filter(({ error }) => error),
-        })
+        let submitRequestResult: EventStateObject | undefined
+        try {
+          const requestResult = await onSubmitRequest?.({
+            getErrors: () =>
+              Object.keys(fieldErrorRef.current)
+                .map((path) => {
+                  return getDataPathHandlerParameters(path)
+                })
+                .filter(({ error }) => error),
+          })
+
+          if (requestResult instanceof Error) {
+            throw requestResult
+          }
+
+          submitRequestResult = requestResult as EventStateObject
+        } catch (error) {
+          submitRequestResult = { error: error as Error }
+        }
+
+        if (
+          submitRequestResult?.error ||
+          submitRequestResult?.warning ||
+          submitRequestResult?.info ||
+          submitRequestResult?.customStatus
+        ) {
+          setSubmitState(submitRequestResult)
+        }
+
+        if (submitRequestResult) {
+          result = submitRequestResult
+        }
 
         for (const itm of fieldEventListenersRef.current) {
           if (itm.type === 'onSubmitRequest') {
