@@ -66,8 +66,8 @@ export function useTableAnimationHandler({
   const { isInDOM, isAnimating, isVisibleParallax, firstPaintStyle } =
     useHeightAnimation(contentRef, {
       open,
-      animate: Boolean(
-        !noAnimation && !tableAccordionContext?.noAnimation
+      noAnimation: Boolean(
+        noAnimation || tableAccordionContext?.noAnimation
       ),
       onOpen,
       onAnimationStart,

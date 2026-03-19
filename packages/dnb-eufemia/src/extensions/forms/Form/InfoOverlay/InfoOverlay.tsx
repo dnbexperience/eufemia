@@ -190,7 +190,6 @@ function InfoOverlay(props: FormInfoOverlayProps) {
       <HeightAnimation
         open={childrenAreVisible}
         onAnimationEnd={onAnimationEnd}
-        animate
         keepInDOM
       >
         {children}

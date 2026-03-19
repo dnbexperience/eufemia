@@ -61,7 +61,10 @@ describe('useHeightAnimation', () => {
           Toggle me
         </ToggleButton>
 
-        <AnimatedContent open={open || openState} noAnimation={noAnimation} />
+        <AnimatedContent
+          open={open || openState}
+          noAnimation={noAnimation}
+        />
       </>
     )
   }

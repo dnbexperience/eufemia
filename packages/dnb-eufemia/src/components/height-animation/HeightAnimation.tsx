@@ -106,7 +106,9 @@ function HeightAnimation({
         'dnb-height-animation',
         isInDOM && 'dnb-height-animation--is-in-dom',
         isVisible && 'dnb-height-animation--is-visible',
-        !noAnimation && isVisibleParallax && 'dnb-height-animation--parallax',
+        !noAnimation &&
+          isVisibleParallax &&
+          'dnb-height-animation--parallax',
         isAnimating && 'dnb-height-animation--animating',
         !isVisible &&
           !isAnimating &&

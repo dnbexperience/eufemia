@@ -342,9 +342,7 @@ describe('HeightAnimation', () => {
   })
 
   it('should have correct classes when animation is disabled', () => {
-    const { rerender } = render(
-      <HeightAnimation noAnimation keepInDOM />
-    )
+    const { rerender } = render(<HeightAnimation noAnimation keepInDOM />)
 
     expect(getElement()).toHaveClass('dnb-height-animation--is-visible')
     expect(getElement()).not.toHaveClass('dnb-height-animation--animating')

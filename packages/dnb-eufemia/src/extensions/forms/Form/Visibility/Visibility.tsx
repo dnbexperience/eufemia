@@ -72,10 +72,7 @@ export type FormVisibilityProps = {
   withinIterate?: boolean
 } & Pick<
   HeightAnimationAllProps,
-  | 'onAnimationEnd'
-  | 'keepInDOM'
-  | 'element'
-  | 'compensateForGap'
+  'onAnimationEnd' | 'keepInDOM' | 'element' | 'compensateForGap'
 >
 
 function Visibility(props: FormVisibilityProps) {
