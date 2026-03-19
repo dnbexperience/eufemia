@@ -9,8 +9,8 @@ export const TableProperties: PropertiesTableProps = {
   },
   accordionChevronPlacement: {
     doc: 'Defines where the chevron will be placed, should only be used together with mode="accordion".',
-    type: [`'start'`, `'end'`],
-    defaultValue: `'start'`,
+    type: [`'left'`, `'right'`],
+    defaultValue: `'left'`,
     status: 'optional',
   },
   border: {

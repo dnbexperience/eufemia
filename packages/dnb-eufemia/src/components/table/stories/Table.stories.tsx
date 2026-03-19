@@ -1456,7 +1456,7 @@ export function Accodion() {
         <AccordionTable
           id="accordion-table-1"
           showCheckbox
-          accordionChevronPlacement="end"
+          accordionChevronPlacement="right"
         />
       </Table.ScrollView>
 
