@@ -88,7 +88,7 @@ class Modal extends React.PureComponent<ModalAllProps, ModalState> {
     title: null,
     disabled: null,
     spacing: true,
-    openDelay: null,
+    showDelay: null,
     contentId: null,
     dialogTitle: 'Vindu',
     closeTitle: 'Lukk', // Close Modal Window
@@ -256,10 +256,10 @@ class Modal extends React.PureComponent<ModalAllProps, ModalState> {
     }
 
     const waitBeforeOpen = () => {
-      const { openDelay } = this.props
+      const { showDelay } = this.props
       const { noAnimation } = this.state
       const delay =
-        typeof openDelay === 'string' ? parseFloat(openDelay) : openDelay
+        typeof showDelay === 'string' ? parseFloat(showDelay) : showDelay
       if (delay > 0 && !noAnimation) {
         this._openTimeout = setTimeout(toggleNow, delay) // custom delay
       } else {
@@ -445,7 +445,7 @@ class Modal extends React.PureComponent<ModalAllProps, ModalState> {
       verticalAlignment = 'center',
 
       id,
-      openDelay,
+      showDelay,
 
       omitTriggerButton = false,
       trigger = null,

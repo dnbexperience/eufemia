@@ -858,7 +858,7 @@ describe('Modal component', () => {
           </button>
           <Modal
             id="modal-id"
-            openDelay={2}
+            showDelay={2}
             animationDuration={2}
             open={open}
             onOpen={onOpen}

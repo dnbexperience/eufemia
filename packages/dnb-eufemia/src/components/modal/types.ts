@@ -41,7 +41,7 @@ export type ModalProps = ModalRootProps & {
   /**
    * Forces the modal/drawer to delay the opening. The delay is given in `ms`.
    */
-  openDelay?: string | number
+  showDelay?: string | number
 
   /**
    * If set to `true` (boolean or string), then the user can&#39;t close the modal/drawer.

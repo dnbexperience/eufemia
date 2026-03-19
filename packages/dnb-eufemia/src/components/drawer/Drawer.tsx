@@ -43,7 +43,7 @@ function Drawer({
   preventClose,
   preventOverlayClose,
   open,
-  openDelay,
+  showDelay,
 
   omitTriggerButton,
   trigger,
@@ -71,7 +71,7 @@ function Drawer({
     labelledBy,
     disabled,
     spacing,
-    openDelay,
+    showDelay,
     contentId,
     dialogTitle,
     closeTitle,

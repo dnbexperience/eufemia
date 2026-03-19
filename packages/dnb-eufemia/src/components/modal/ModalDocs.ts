@@ -31,7 +31,7 @@ export const ModalProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  openDelay: {
+  showDelay: {
     doc: 'Forces the modal to delay the opening. The delay is given in `ms`.',
     type: ['number', 'string'],
     status: 'optional',

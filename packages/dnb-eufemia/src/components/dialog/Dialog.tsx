@@ -58,7 +58,7 @@ function Dialog(localProps: DialogProps & DialogContentProps) {
     preventClose,
     preventOverlayClose,
     open,
-    openDelay,
+    showDelay,
 
     trigger,
     omitTriggerButton = false,
@@ -102,7 +102,7 @@ function Dialog(localProps: DialogProps & DialogContentProps) {
     disabled,
     spacing,
     verticalAlignment,
-    openDelay,
+    showDelay,
     contentId,
     dialogTitle,
     closeTitle,
