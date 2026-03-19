@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react'
-import { Field, Form } from '../../..'
+import { Field, Form, Tools } from '../../..'
 import { Button, GlobalStatus } from '../../../../../components'
 import { debounceAsync } from '../../../../../shared/helpers'
 
@@ -399,4 +399,111 @@ function UseValidationComponent() {
   }, [setFieldStatus])
 
   return null
+}
+
+const shoeModels: Record<string, string[]> = {
+  nike: [
+    'Air Zoom Pegasus 41',
+    'Vaporfly 3',
+    'Alphafly 3',
+    'InfinityRN 4',
+    'Zoom Fly 6',
+  ],
+  adidas: [
+    'Ultraboost Light',
+    'Adizero Adios Pro 4',
+    'Adizero Boston 12',
+    'Supernova Rise',
+    'Solar Glide 6',
+  ],
+  asics: [
+    'Gel-Nimbus 26',
+    'Gel-Kayano 31',
+    'Novablast 4',
+    'Magic Speed 4',
+    'Metaspeed Sky+',
+  ],
+  newBalance: [
+    'Fresh Foam X 1080v14',
+    'FuelCell SuperComp Elite v4',
+    'FuelCell Rebel v4',
+    'Fresh Foam X 880v14',
+    'FuelCell Propel v5',
+  ],
+  hoka: ['Clifton 9', 'Bondi 8', 'Mach 6', 'Rocket X 2', 'Rincon 4'],
+  brooks: [
+    'Ghost 16',
+    'Glycerin 21',
+    'Hyperion Elite 4',
+    'Adrenaline GTS 24',
+    'Launch 10',
+  ],
+  saucony: [
+    'Endorphin Pro 4',
+    'Endorphin Speed 4',
+    'Kinvara 15',
+    'Ride 17',
+    'Triumph 22',
+  ],
+}
+
+const brandOptions = [
+  { value: 'nike', title: 'Nike' },
+  { value: 'adidas', title: 'Adidas' },
+  { value: 'asics', title: 'ASICS' },
+  { value: 'newBalance', title: 'New Balance' },
+  { value: 'hoka', title: 'HOKA' },
+  { value: 'brooks', title: 'Brooks' },
+  { value: 'saucony', title: 'Saucony' },
+]
+
+function RunningShoeFields() {
+  const { data, update } = Form.useData<{
+    brand?: string
+    model?: string
+  }>()
+  const brand = data?.brand
+
+  const modelOptions = brand
+    ? shoeModels[brand].map((model) => ({ value: model, title: model }))
+    : []
+
+  return (
+    <Form.Card>
+      <Field.Selection
+        path="/brand"
+        label="Brand"
+        data={brandOptions}
+        required
+        onChange={() => {
+          update('/model', undefined)
+        }}
+      />
+
+      <Field.Selection
+        path="/model"
+        label="Model"
+        data={modelOptions}
+        required
+        disabled={!brand}
+      />
+    </Form.Card>
+  )
+}
+
+export function ConditionalFieldsExample() {
+  return (
+    <Form.Handler
+      onSubmit={(data, { reduceToVisibleFields }) => {
+        const visibleData = reduceToVisibleFields(data)
+        console.log('Submitted data:', visibleData)
+      }}
+    >
+      <RunningShoeFields />
+
+      <Form.SubmitButton top />
+
+      <Tools.Log top />
+    </Form.Handler>
+  )
 }
