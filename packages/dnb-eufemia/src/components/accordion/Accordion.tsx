@@ -66,7 +66,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     title?: React.ReactNode
     description?: React.ReactNode
     /**
-     * If set to `true` the accordion will be expanded as its initial state.
+     * Use `true` or `false` to control the expanded/collapsed state of the accordion.
      */
     expanded?: boolean
     /**
