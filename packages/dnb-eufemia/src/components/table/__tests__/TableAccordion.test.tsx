@@ -565,7 +565,7 @@ describe('TableAccordion', () => {
     )
 
     rerender(
-      <Table mode="accordion" accordionChevronPlacement="end">
+      <Table mode="accordion" accordionChevronPlacement="right">
         <thead>
           <Tr>
             <Th>heading</Th>

@@ -829,7 +829,7 @@ export const Accordion = () => (
             <AccordionTable
               id="accordion-table-1"
               showCheckbox
-              accordionChevronPlacement="end"
+              accordionChevronPlacement="right"
             />
           </Table.ScrollView>
 
@@ -959,7 +959,7 @@ export const AccordionMixed = () => (
             <AccordionTable
               id="accordion-table-mixed-1"
               showCheckbox
-              accordionChevronPlacement="end"
+              accordionChevronPlacement="right"
             />
           </Table.ScrollView>
 
@@ -991,7 +991,7 @@ export const AccordionRow = () => {
         ]
         return (
           <Table.ScrollView>
-            <Table mode="accordion" accordionChevronPlacement="end">
+            <Table mode="accordion" accordionChevronPlacement="right">
               <thead>
                 <Tr>
                   <Th noWrap style={{ width: '25%' }}>
@@ -1207,7 +1207,7 @@ export const NavigationMixed = () => (
             <NavigationTable
               id="navigation-table-mixed-1"
               showCheckbox
-              accordionChevronPlacement="end"
+              accordionChevronPlacement="right"
             />
           </Table.ScrollView>
 
@@ -1845,7 +1845,7 @@ export const TableInAccordionTable = () => (
         <Table.ScrollView>
           <AccordionTable
             id="accordion-table-in-table"
-            accordionChevronPlacement="end"
+            accordionChevronPlacement="right"
           />
         </Table.ScrollView>
       )

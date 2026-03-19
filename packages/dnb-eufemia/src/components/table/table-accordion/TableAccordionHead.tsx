@@ -66,7 +66,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
 
   const addContent = useCallback(
     (content) => {
-      if (tableContext.allProps.accordionChevronPlacement === 'end') {
+      if (tableContext.allProps.accordionChevronPlacement === 'right') {
         headerContent.push(content)
       } else {
         headerContent.unshift(content)
