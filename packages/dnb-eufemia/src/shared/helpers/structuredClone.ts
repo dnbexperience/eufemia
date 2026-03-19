@@ -18,7 +18,7 @@ import structuredClonePolyfill from '@ungap/structured-clone'
 // Use native structuredClone if available, otherwise use polyfill
 const cloneFunction =
   typeof globalThis['structuredClone'] !== 'undefined'
-    ? globalThis['structuredClone']
+    ? (globalThis as unknown as Record<string, unknown>)['structuredClone'] as <T>(value: T, options?: StructuredSerializeOptions) => T
     : // Polyfill for older browsers (iOS 13.1-15.3, Safari < 15.4)
       structuredClonePolyfill
 

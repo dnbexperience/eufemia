@@ -124,7 +124,7 @@ function SubmitConfirmation(props: ConfirmProps) {
       open: confirmationState === 'readyToBeSubmitted',
       onConfirm: submitHandler,
       onDecline: cancelHandler,
-      onClose: ({ triggeredBy }) => {
+      onClose: ({ triggeredBy }: { triggeredBy: string }) => {
         if (triggeredBy === 'keyboard') {
           cancelHandler()
         }
@@ -170,7 +170,7 @@ function SubmitConfirmation(props: ConfirmProps) {
   }, [setFocusOnButton, setConfirmationState])
 
   const handleSubmit = useCallback(
-    async ({ preventSubmit }) => {
+    async ({ preventSubmit }: { preventSubmit: () => void }) => {
       if (confirmationStateRef.current === 'submitInProgress') {
         return // stop here
       }
@@ -189,7 +189,7 @@ function SubmitConfirmation(props: ConfirmProps) {
     },
     [setConfirmationState, validatePreventSubmit]
   )
-  const { removeEvent } = useEventListener('onSubmit', handleSubmit)
+  const { removeEvent } = useEventListener('onSubmit', handleSubmit as (...args: unknown[]) => void)
 
   const submitHandler = useCallback(async () => {
     removeEvent()

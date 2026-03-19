@@ -46,7 +46,7 @@ function ProgressIndicatorLine(props: ProgressIndicatorLinearAllProps) {
   if (hasProgressValue) {
     rest.role = 'progressbar'
     rest['aria-label'] = title
-    rest['title'] = title
+    ;(rest as Record<string, unknown>)['title'] = title
   } else {
     rest.role = 'alert'
     rest['aria-busy'] = true

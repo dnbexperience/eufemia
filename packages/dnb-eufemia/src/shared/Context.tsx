@@ -272,29 +272,29 @@ export function prepareContext<Props>(
 
   const context = {
     ...props,
-    updateTranslation: (locale, newTranslations) => {
+    updateTranslation: (locale: string, newTranslations: Translations) => {
       context.translation = destructFlatTranslation(
         extendDeep(
           {},
           defaultLocales[LOCALE],
-          newTranslations[locale] || newTranslations[LOCALE]
+          (newTranslations as Record<string, unknown>)[locale] || (newTranslations as Record<string, unknown>)[LOCALE]
         ) as TranslationFlat
       )
       context.translations = newTranslations
     },
-    getTranslation: (localProps) => {
+    getTranslation: (localProps: Record<string, string>) => {
       if (localProps) {
         const locale = localProps.lang || localProps.locale
         if (
           locale &&
-          context.translations[locale] &&
+          (context.translations as Record<string, unknown>)[locale] &&
           locale !== localeWithFallback
         ) {
           return destructFlatTranslation(
             extendDeep(
               {},
               defaultLocales[LOCALE],
-              context.translations[locale]
+              (context.translations as Record<string, unknown>)[locale]
             )
           )
         }
@@ -319,7 +319,7 @@ function handleLocaleFallbacks(
   if (locale === 'en' || String(locale).split('-')[0] === 'en') {
     return 'en-GB'
   }
-  return translations[locale] ? locale : LOCALE
+  return (translations as Record<string, unknown>)[locale] ? locale : LOCALE
 }
 
 // If no provider is given, we use the default context from here
@@ -336,7 +336,7 @@ export default Context
 export function destructFlatTranslation<T>(source: TranslationFlat) {
   for (const k in source) {
     if (String(k).includes('.')) {
-      pointer.set(source, '/' + k.replace(/\./g, '/'), source[k])
+      pointer.set(source, '/' + k.replace(/\./g, '/'), (source as Record<string, unknown>)[k])
     }
   }
 

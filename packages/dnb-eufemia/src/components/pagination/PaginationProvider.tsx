@@ -54,7 +54,7 @@ export default class PaginationProvider extends React.PureComponent<
   _isMounted: boolean
   _updateStack: Array<(() => void) | undefined>
 
-  static defaultProps = {
+  static defaultProps: Partial<PaginationProviderProps> = {
     startupPage: null,
     currentPage: null,
     pageCount: null,
@@ -140,8 +140,8 @@ export default class PaginationProvider extends React.PureComponent<
     }
 
     if (props.rerender) {
-      this.rerender = ({ current: store }) => {
-        if (store && store.pageNumber > 0) {
+      this.rerender = ({ current: store }: { current: Record<string, unknown> }) => {
+        if (store && (store.pageNumber as number) > 0) {
           clearTimeout(this.rerenderTimeout)
           // because we have a set state inside setContent and render at the same time
           this.rerenderTimeout = setTimeout(
@@ -299,10 +299,14 @@ export default class PaginationProvider extends React.PureComponent<
       },
       () => {
         const pageNumber = this.state.currentPageInternal + 1
-        dispatchCustomElementEvent(this, 'onEnd', {
-          pageNumber,
-          ...this,
-        })
+        dispatchCustomElementEvent(
+          this as unknown as Record<string, unknown>,
+          'onEnd',
+          {
+            pageNumber,
+            ...(this as unknown as Record<string, unknown>),
+          }
+        )
       }
     )
   }

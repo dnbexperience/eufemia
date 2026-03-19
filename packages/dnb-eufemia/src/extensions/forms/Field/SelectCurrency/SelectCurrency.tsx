@@ -4,6 +4,7 @@ import SharedContext from '../../../../shared/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import { LOCALE } from '../../../../shared/defaults'
 import { Autocomplete } from '../../../../components'
+import type { AutocompleteOnFocusParams } from '../../../../components/autocomplete/Autocomplete'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import currencies, {
   prioritizedCurrencies,
@@ -80,7 +81,7 @@ function SelectCurrency(props: Props) {
     (value: CurrencyType['iso']) => {
       const currency = currencies.find(({ iso }) => value === iso)
       if (currency?.i18n) {
-        currency['name'] = currency.i18n[lang]
+        ;(currency as Record<string, unknown>)['name'] = (currency.i18n as Record<string, string>)[lang]
       }
       return currency
     },
@@ -212,7 +213,7 @@ function SelectCurrency(props: Props) {
   }, [ccFilter, filter, forceUpdate])
 
   const onFocusHandler = useCallback(
-    ({ updateData }) => {
+    ({ updateData }: AutocompleteOnFocusParams) => {
       fillData()
       updateData(dataRef.current)
       handleFocus()
@@ -221,9 +222,9 @@ function SelectCurrency(props: Props) {
   )
 
   const onTypeHandler = useCallback(
-    ({ value: currentValue, setHidden, event }) => {
+    ({ value: currentValue, setHidden, event }: { value: string; setHidden: () => void; event: React.SyntheticEvent }) => {
       // Handle browser autofill/autocomplete
-      if (typeof event?.nativeEvent?.data === 'undefined') {
+      if (typeof (event?.nativeEvent as InputEvent)?.data === 'undefined') {
         const search = currentValue.toLowerCase()
         const currency = currencies.find(({ i18n }) =>
           Object.values(i18n).some((s) => s.toLowerCase().includes(search))
@@ -306,10 +307,10 @@ export function getCurrencyData({
   enableSort = null,
   enableSearch = null,
   makeObject = (currency: CurrencyType, lang: string) => {
-    const translation = currency.i18n[lang] ?? currency.i18n.en
+    const translation = (currency.i18n as Record<string, string>)[lang] ?? currency.i18n.en
     const content = [translation, currency.iso]
     const searchContent = enableSearch
-      ? [translation, currency.iso, ...(currency.search?.[lang] || [])]
+      ? [translation, currency.iso, ...((currency.search as Record<string, readonly string[]>)?.[lang] || [])]
       : undefined
     return {
       selectedKey: currency.iso,

@@ -82,7 +82,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         setIsOpen(true)
       }
 
-      if (noAnimation || globalThis.IS_TEST) {
+      if (noAnimation || (globalThis as Record<string, unknown>).IS_TEST) {
         run()
       } else {
         clearTimers()

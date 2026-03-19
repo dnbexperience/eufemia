@@ -590,7 +590,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     [restProps]
   )
 
-  const showStatus = getStatusState(status)
+  const showStatus = getStatusState(status as string)
 
   const pickerParams = {} as HTMLProps<HTMLSpanElement>
 
@@ -918,9 +918,9 @@ const NonAttributes = [
 ]
 
 function filterOutNonAttributes(props: DatePickerProps) {
-  return Object.keys(props).reduce((attributes, key) => {
+  return Object.keys(props).reduce((attributes: Record<string, unknown>, key) => {
     if (!NonAttributes.includes(key)) {
-      attributes[key] = props[key]
+      attributes[key] = (props as Record<string, unknown>)[key]
     }
     return attributes
   }, {})

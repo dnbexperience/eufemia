@@ -92,7 +92,7 @@ export default class RadioGroup extends React.PureComponent<
   _id: string
   _name: string
 
-  static defaultProps = {
+  static defaultProps: Partial<RadioGroupProps> = {
     label: null,
     labelDirection: null,
     labelSrOnly: null,
@@ -157,10 +157,14 @@ export default class RadioGroup extends React.PureComponent<
     event: React.SyntheticEvent
   }) => {
     this.setState({ value, _listenForPropChanges: false })
-    dispatchCustomElementEvent(this, 'onChange', {
-      value,
-      event,
-    })
+    dispatchCustomElementEvent(
+      this as unknown as Record<string, unknown>,
+      'onChange',
+      {
+        value,
+        event,
+      }
+    )
   }
 
   render() {
@@ -204,7 +208,7 @@ export default class RadioGroup extends React.PureComponent<
     const { value } = this.state
 
     const id = this._id
-    const showStatus = getStatusState(status)
+    const showStatus = getStatusState(status as string)
 
     const classes = clsx(
       'dnb-radio-group',
@@ -215,7 +219,7 @@ export default class RadioGroup extends React.PureComponent<
       className
     )
 
-    const params = {
+    const params: Record<string, unknown> = {
       ...rest,
     }
     const legendId = id + '-label'

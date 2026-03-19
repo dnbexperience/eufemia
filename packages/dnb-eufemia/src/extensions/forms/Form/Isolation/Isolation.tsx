@@ -225,7 +225,7 @@ function IsolationProvider<Data extends JsonObject>(
       let isolatedData = structuredClone(mountedData)
 
       if (typeof transformOnCommitProp === 'function') {
-        isolatedData = transformOnCommitProp(isolatedData, outerData)
+        isolatedData = transformOnCommitProp(isolatedData, outerData) as Data
       }
 
       let stop = false
@@ -337,7 +337,7 @@ function IsolationProvider<Data extends JsonObject>(
   )
 }
 
-function BubbleValidation() {
+function BubbleValidation(): React.ReactElement | null {
   const innerContext = useContext(DataContext)
   const { outerContext } = useContext(IsolationContext)
   const { setShowAllErrors } = innerContext

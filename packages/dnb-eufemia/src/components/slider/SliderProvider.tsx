@@ -137,8 +137,8 @@ export function SliderProvider(localProps: SliderAllProps) {
     if (numberValue >= min) {
       if (isMulti) {
         const currentIndex = getAndUpdateCurrentIndex(numberValue)
-        const lower = realtimeValue.current[currentIndex - 1]
-        const upper = realtimeValue.current[currentIndex + 1]
+        const lower = (realtimeValue.current as Array<number>)[currentIndex - 1]
+        const upper = (realtimeValue.current as Array<number>)[currentIndex + 1]
 
         if (multiThumbBehavior === 'omit') {
           if (numberValue < lower) {
@@ -159,14 +159,14 @@ export function SliderProvider(localProps: SliderAllProps) {
 
         if (multiThumbBehavior === 'push') {
           if (typeof lower !== 'undefined' && numberValue < lower) {
-            multiValues[currentIndex - 1] = numberValue
+            (multiValues as Array<number>)[currentIndex - 1] = numberValue
           }
           if (typeof upper !== 'undefined' && numberValue >= upper) {
-            multiValues[currentIndex + 1] = numberValue
+            (multiValues as Array<number>)[currentIndex + 1] = numberValue
           }
         }
 
-        if (numberValue === realtimeValue.current[currentIndex]) {
+        if (numberValue === (realtimeValue.current as Array<number>)[currentIndex]) {
           return // stop here
         }
       } else if (numberValue === realtimeValue.current) {
@@ -195,7 +195,7 @@ export function SliderProvider(localProps: SliderAllProps) {
   React.useEffect(() => {
     if (isMulti) {
       const hasChanged = (_value as Array<number>).some((val, i) => {
-        return val !== externValue[i]
+        return val !== (externValue as Array<number>)[i]
       })
 
       if (hasChanged) {
@@ -224,7 +224,7 @@ export function SliderProvider(localProps: SliderAllProps) {
     }
   }
 
-  const showStatus = getStatusState(status)
+  const showStatus = getStatusState(status as string)
   const showButtons = !isMulti && !hideButtons
   const values = (isMulti ? value : [value]) as Array<number>
 

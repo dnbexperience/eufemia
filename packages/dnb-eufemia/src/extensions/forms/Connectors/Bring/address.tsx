@@ -75,9 +75,9 @@ export const responseResolver: ResponseResolver<
 > = (data, handlerConfig) => {
   const resolver = handlerConfig?.responseResolver
   if (typeof resolver === 'function') {
-    return resolver(data) as ReturnType<typeof resolver> & {
-      payload: AddressResolverPayload
-    }
+    return resolver(data) as unknown as ReturnType<
+      ResponseResolver<AddressResolverData, AddressResolverPayload>
+    >
   }
 
   const payload = data?.addresses.map((item) => {
@@ -89,7 +89,7 @@ export const responseResolver: ResponseResolver<
     return {
       item,
       selectedValue: street,
-      selectedKey: street || item['address_id'],
+      selectedKey: street || ((item as Record<string, unknown>)['address_id'] as string),
       content: [street, city],
     } satisfies DrawerListDataArrayObjectStrict &
       Pick<AddressResolverPayload[0], 'item'>
@@ -104,7 +104,7 @@ export function suggestions(
   generalConfig: GeneralConfig,
   handlerConfig?: SuggestionsHandlerConfig
 ): SuggestionsConnectorReturn {
-  const abortControllerRef = { current: null }
+  const abortControllerRef: { current: AbortController | null } = { current: null }
 
   return async function suggestionsHandlerWrapper(event) {
     return await suggestionsHandler(event.value, event)

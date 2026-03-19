@@ -36,6 +36,11 @@ export default async function convertSvgToJsx({
   destPath = './src/icons',
   preventDelete = false,
   customIconsLockFilePath = null,
+}: {
+  srcPath?: string
+  destPath?: string
+  preventDelete?: boolean
+  customIconsLockFilePath?: string | null
 } = {}) {
   if (!preventDelete) {
     const filesToDelete = await globby(
@@ -122,6 +127,11 @@ const transformSvg = async ({
   destPath,
   assetsDir,
   customIconsLockFilePath,
+}: {
+  srcPath: string
+  destPath: string
+  assetsDir: string
+  customIconsLockFilePath: string | null
 }) => {
   try {
     // create subfolder
@@ -143,7 +153,7 @@ const transformSvg = async ({
   }
 }
 
-const transformSvgToReact = async ({ srcPath, destPath }) => {
+const transformSvgToReact = async ({ srcPath, destPath }: { srcPath: string; destPath: string }) => {
   const files = await globby(srcPath, { cwd: ROOT_DIR })
 
   const globBase = path.resolve(ROOT_DIR, srcPath.split('*')[0])
@@ -167,7 +177,7 @@ const transformSvgToReact = async ({ srcPath, destPath }) => {
   }
 }
 
-const transformToJsx = (content, file): PromiseLike<string> => {
+const transformToJsx = (content: string, file: { path: string }): PromiseLike<string> => {
   if (String(content).trim().length === 0) {
     fs.unlinkSync(file.path)
     return Promise.resolve('')
@@ -212,6 +222,11 @@ const transformToJsx = (content, file): PromiseLike<string> => {
                   new RegExp(`import \\* as React from 'react'`, 'g'),
                   `import React from 'react'`
                 )
+                // Add TypeScript type annotation to props parameter
+                .replace(
+                  /= \(props\) =>/,
+                  '= (props: React.SVGProps<SVGSVGElement>) =>'
+                )
           )
         })
         .catch(reject)
@@ -228,6 +243,10 @@ const makeIconsEntryFiles = async ({
   destPath,
   assetsDir,
   customIconsLockFilePath = null,
+}: {
+  destPath: string
+  assetsDir: string
+  customIconsLockFilePath?: string | null
 }) => {
   // get all the svg icons we find
   const icons: Array<IconItem> = (
@@ -332,7 +351,7 @@ const generateGroupFiles = async ({
   // from the svg lock file we can generate groups out of the "bundleName"
   const groups: Record<string, Array<IconItem>> = Object.entries(
     lockFileContent
-  ).reduce((acc, [file, { bundleName }]) => {
+  ).reduce<Record<string, Array<IconItem>>>((acc, [file, { bundleName }]) => {
     acc[bundleName] = acc[bundleName] || []
     const basename = path.basename(file)
     const filename = basename.replace(path.extname(file), '')

@@ -48,14 +48,14 @@ export default function GenerateSchema(props: GenerateSchemaProps) {
           const pathList = objectKey.split('/')
           const slashCount = pathList.length
 
-          const type = props.valueType || 'string'
-          const propertyValue = {
+          const type = (props as unknown as Record<string, unknown>).valueType || 'string'
+          const propertyValue: Record<string, unknown> = {
             type,
           }
 
           for (const prop of schemaParams) {
-            if (props[prop]) {
-              propertyValue[prop] = props[prop]
+            if ((props as unknown as Record<string, unknown>)[prop]) {
+              propertyValue[prop] = (props as unknown as Record<string, unknown>)[prop]
             }
           }
 
@@ -73,7 +73,7 @@ export default function GenerateSchema(props: GenerateSchemaProps) {
               const pathValue = isLast ? propertyValue : existingValue
 
               if (isLast) {
-                if (filterData?.[pathToSet] !== false) {
+                if ((filterData as Record<string, unknown>)?.[pathToSet] !== false) {
                   pointer.set(acc, pathToSet, pathValue)
                 }
               } else {
@@ -94,13 +94,13 @@ export default function GenerateSchema(props: GenerateSchemaProps) {
                   pathValue.required = required
                 }
 
-                if (filterData?.[pathToSet] !== false) {
+                if ((filterData as Record<string, unknown>)?.[pathToSet] !== false) {
                   pointer.set(acc, pathToSet, pathValue)
                 }
               }
             }
           } else {
-            if (filterData?.[path] !== false) {
+            if ((filterData as Record<string, unknown>)?.[path] !== false) {
               pointer.set(acc.properties, path, propertyValue)
             }
             if (props.required) {
@@ -118,14 +118,14 @@ export default function GenerateSchema(props: GenerateSchemaProps) {
       fieldInternalsRef?.current || {}
     ).reduce((acc, [path, { props }]) => {
       if (path.startsWith('/')) {
-        const propertyValue = {}
+        const propertyValue: Record<string, unknown> = {}
 
         for (const prop in props) {
           if (
-            props[prop] !== undefined &&
-            typeof props[prop] !== 'function'
+            (props as unknown as Record<string, unknown>)[prop] !== undefined &&
+            typeof (props as unknown as Record<string, unknown>)[prop] !== 'function'
           ) {
-            propertyValue[prop] = props[prop]
+            propertyValue[prop] = (props as unknown as Record<string, unknown>)[prop]
           }
         }
 
@@ -133,20 +133,20 @@ export default function GenerateSchema(props: GenerateSchemaProps) {
       }
 
       return acc
-    }, {})
+    }, {} as Record<string, unknown>)
 
     const propsOfValues = Object.entries(
       valueInternalsRef?.current || {}
     ).reduce((acc, [path, { props }]) => {
       if (path.startsWith('/')) {
-        const propertyValue = {}
+        const propertyValue: Record<string, unknown> = {}
 
         for (const prop in props) {
           if (
-            props[prop] !== undefined &&
-            typeof props[prop] !== 'function'
+            (props as unknown as Record<string, unknown>)[prop] !== undefined &&
+            typeof (props as unknown as Record<string, unknown>)[prop] !== 'function'
           ) {
-            propertyValue[prop] = props[prop]
+            propertyValue[prop] = (props as unknown as Record<string, unknown>)[prop]
           }
         }
 
@@ -154,7 +154,7 @@ export default function GenerateSchema(props: GenerateSchemaProps) {
       }
 
       return acc
-    }, {})
+    }, {} as Record<string, unknown>)
 
     if (schema.required.length === 0) {
       delete schema.required

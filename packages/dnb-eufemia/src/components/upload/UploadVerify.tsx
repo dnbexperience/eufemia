@@ -162,7 +162,7 @@ function getAcceptedFileTypesAsListOfStrings(
       )
 }
 
-export function isArrayOfStrings(arr) {
+export function isArrayOfStrings(arr: unknown) {
   return (
     Array.isArray(arr) &&
     arr.length > 0 &&
@@ -170,7 +170,7 @@ export function isArrayOfStrings(arr) {
   )
 }
 
-export function isArrayOfObjects(arr) {
+export function isArrayOfObjects(arr: unknown) {
   return (
     Array.isArray(arr) &&
     arr.length > 0 &&

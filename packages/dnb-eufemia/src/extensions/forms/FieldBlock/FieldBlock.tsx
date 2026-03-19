@@ -206,7 +206,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
   const errorRef = useRef<UseFieldProps['error']>(undefined)
 
   const blockId = useId(props.id)
-  const [salt, forceUpdate] = useReducer(() => ({}), {})
+  const [salt, forceUpdate] = useReducer(() => ({} as Record<string, unknown>), {} as Record<string, unknown>)
   const mountedFieldsRef = useRef<MountedFieldsRef>(new Map())
   const fieldStateRef = useRef<SubmitState | null>(null)
   const stateRecordRef = useRef<StateRecord>({})
@@ -383,7 +383,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
           process.env.NODE_ENV === 'test'
             ? true
             : typeof globalThis !== 'undefined'
-            ? globalThis.IS_TEST === true
+            ? (globalThis as Record<string, unknown>).IS_TEST === true
             : false,
       }
 
@@ -423,7 +423,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
         // Combine the messages and put them in an ul/li list
         if (messages.length > 0) {
           acc[type] = {
-            ...acc[type],
+            ...(acc[type] as Record<string, unknown>),
             children: <CombineMessages type={type} messages={messages} />,
           }
 
@@ -508,11 +508,11 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
     const style: React.CSSProperties = {}
 
     if (hasCustomWidth) {
-      style['--dnb-forms-field-block-width'] = width
+      ;(style as Record<string, unknown>)['--dnb-forms-field-block-width'] = width
     }
 
     if (hasCustomContentWidth) {
-      style['--dnb-forms-field-block-content-width'] = contentWidth
+      ;(style as Record<string, unknown>)['--dnb-forms-field-block-content-width'] = contentWidth
     }
 
     const lO = layoutOptions || {}
@@ -520,10 +520,10 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
     const max = getFieldWidth(lO.maxWidth ?? lO.width)
 
     if (typeof min === 'string') {
-      style['--dnb-forms-field-block-layout-width-min'] = min
+      ;(style as Record<string, unknown>)['--dnb-forms-field-block-layout-width-min'] = min
     }
     if (typeof max === 'string') {
-      style['--dnb-forms-field-block-layout-width-max'] = max
+      ;(style as Record<string, unknown>)['--dnb-forms-field-block-layout-width-max'] = max
     }
 
     return style
@@ -672,6 +672,11 @@ function useEnableFieldset({
   asFieldset,
   children,
   nestedFieldBlockContext,
+}: {
+  label: unknown
+  asFieldset: boolean | undefined
+  children: React.ReactNode
+  nestedFieldBlockContext: unknown
 }) {
   return useMemo(() => {
     if (asFieldset === false) {
@@ -683,9 +688,9 @@ function useEnableFieldset({
     if (label && !result && !nestedFieldBlockContext) {
       let count = 0
 
-      findElementInChildren(children, (child: React.ReactElement<any>) => {
+      findElementInChildren(children, (child: React.ReactElement) => {
         if (
-          child?.props?.label ||
+          (child?.props as Record<string, unknown>)?.label ||
           (child?.type as ComponentMarkers)?._formElement === true
         ) {
           count++
@@ -776,7 +781,7 @@ function fragmentHasChildren(fragment: React.ReactNode) {
 }
 
 function fragmentHasOnlyUndefinedChildren(fragment: React.ReactNode) {
-  const isUndefined = (child) => child === undefined
+  const isUndefined = (child: React.ReactNode) => child === undefined
 
   return (
     React.isValidElement<{ children?: React.ReactNode }>(fragment) &&

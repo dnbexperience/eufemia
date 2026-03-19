@@ -18,7 +18,7 @@ type GlobalCacheItem = {
   [string: GlobalCacheHash]: GlobalCache
 }
 
-const globalContainerModeRef = { current: undefined }
+  const globalContainerModeRef: { current: ContainerMode | undefined } = { current: undefined }
 const globalCache: Record<
   GlobalCacheHash,
   Record<GlobalCacheId, GlobalCache>
@@ -71,7 +71,7 @@ export default function useSwitchContainerMode(path?: Path) {
   }, [])
 
   const setContainerMode = useCallback(
-    (fn: ({ hasError, index, count }) => ContainerMode) => {
+    (fn: ({ hasError, index, count }: { hasError: boolean; index: number; count: number }) => ContainerMode) => {
       const data = globalCache[hash]
       for (const id in data) {
         const item = data[id]

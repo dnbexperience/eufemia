@@ -30,8 +30,8 @@ export const useStickyHeader = ({
       let tableOffset = 0
       let tableHeight = 0
       let totalOffset = 0
-      let hasScrollbar = null
-      let scrollViewElem = null
+      let hasScrollbar: boolean | null = null
+      let scrollViewElem: HTMLElement | null = null
       let timeout: NodeJS.Timeout = null
 
       try {

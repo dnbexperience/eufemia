@@ -338,7 +338,7 @@ const transformLabelParameters = {
   convertJsxToString,
 } as unknown as Parameters<Props['transformLabel']>[1]
 
-function VisibilityWrapper({ children }) {
+function VisibilityWrapper({ children }: { children?: React.ReactNode }) {
   const visibilityContext = useContext(VisibilityContext)
 
   if (visibilityContext) {

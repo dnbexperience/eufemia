@@ -19,9 +19,9 @@ export function makeAjvInstance(instance?: Ajv): Ajv {
  * @returns The created or provided instance of Ajv.
  */
 export function enhanceAjvInstance(instance?: Ajv): Ajv {
-  if (!instance['__ajvErrors__']) {
+  if (!(instance as unknown as Record<string, unknown>)['__ajvErrors__']) {
     ajvErrors(instance)
-    instance['__ajvErrors__'] = true
+    ;(instance as unknown as Record<string, unknown>)['__ajvErrors__'] = true
   }
 
   return instance

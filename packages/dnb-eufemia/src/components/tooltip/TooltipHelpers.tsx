@@ -7,7 +7,7 @@ import React from 'react'
 import clsx from 'clsx'
 import type { TooltipAllProps } from './types'
 
-export function injectTooltipSemantic(params) {
+export function injectTooltipSemantic(params: Record<string, unknown>) {
   params.tabIndex = '0'
   params.className = clsx(
     'dnb-tooltip__wrapper',

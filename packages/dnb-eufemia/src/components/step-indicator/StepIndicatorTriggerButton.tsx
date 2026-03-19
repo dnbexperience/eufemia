@@ -80,7 +80,7 @@ function StepIndicatorTriggerButton({
   const triggerParamKeys = Object.keys(triggerParams)
   triggerParamKeys.forEach((key) => {
     if (filterAttributes.includes(key)) {
-      delete triggerParams[key]
+      delete (triggerParams as Record<string, unknown>)[key]
     }
   })
 

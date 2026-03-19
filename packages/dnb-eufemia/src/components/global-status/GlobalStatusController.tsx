@@ -71,7 +71,7 @@ class GlobalStatusController extends React.PureComponent<
 
   static defaultProps = {
     id: 'main',
-    statusId: null,
+    statusId: null as string | null,
     removeOnUnmount: false,
   }
 
@@ -126,7 +126,7 @@ class GlobalStatusController extends React.PureComponent<
     }
   }
 
-  render() {
+  render(): React.ReactNode {
     return null
   }
 }
@@ -183,7 +183,7 @@ class GlobalStatusRemove extends React.PureComponent<
     this.state.provider.remove(this.props.statusId, this.props)
   }
 
-  render() {
+  render(): React.ReactNode {
     return null
   }
 }

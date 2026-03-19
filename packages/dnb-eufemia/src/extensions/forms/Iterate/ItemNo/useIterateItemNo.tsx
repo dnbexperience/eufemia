@@ -8,6 +8,10 @@ export function useIterateItemNo({
   label: labelProp,
   labelSuffix = undefined,
   required = undefined,
+}: {
+  label?: React.ReactNode
+  labelSuffix?: React.ReactNode
+  required?: boolean
 }) {
   const { index: iterateIndex } = useItem() || {}
 

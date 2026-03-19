@@ -30,8 +30,8 @@ export type ScrollViewAllProps = ScrollViewProps &
     ref?: React.Ref<unknown>
   }
 
-const defaultProps = {
-  children: null,
+const defaultProps: Partial<ScrollViewAllProps> = {
+  children: null as unknown as React.ReactNode,
 }
 
 function ScrollView(localProps: ScrollViewAllProps) {
@@ -80,7 +80,7 @@ function ScrollView(localProps: ScrollViewAllProps) {
   return <div {...mainParams}>{children}</div>
 }
 
-function useInteractive({ interactive, children, ref }) {
+function useInteractive({ interactive, children, ref }: { interactive: ScrollViewAllProps['interactive']; children: React.ReactNode; ref: React.RefObject<HTMLDivElement> }) {
   const [isInteractive, setAsInteractive] = React.useState(
     Boolean(interactive)
   )

@@ -8,8 +8,8 @@ export function assignPropsWithContext<Props>(
   const context = reduceContext(contexts)
   return Object.entries(context).reduce((acc, [key, value]) => {
     if (!(props && Object.prototype.hasOwnProperty.call(props, key))) {
-      acc[key] = value
+      ;(acc as Record<string, unknown>)[key] = value
     }
     return acc
-  }, props || {})
+  }, props || {}) as Props
 }

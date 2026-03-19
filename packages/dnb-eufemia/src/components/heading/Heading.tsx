@@ -259,7 +259,7 @@ export default function Heading(props: HeadingAllProps) {
   if (element == null) {
     element = getHeadingElement(level)
     if (size == null) {
-      size = getHeadingSize(theme?.name)[level]
+      size = (getHeadingSize(theme?.name) as Record<number, string>)[level] as HeadingSize
     }
   } else {
     if (!attributes.role) {
@@ -299,7 +299,7 @@ export default function Heading(props: HeadingAllProps) {
             <>
               {' '}
               <span className="dnb-code">
-                {debugCounterFn(state.counter)}
+                {debugCounterFn(state.counter as unknown as Record<string, unknown>)}
               </span>
             </>
           )}

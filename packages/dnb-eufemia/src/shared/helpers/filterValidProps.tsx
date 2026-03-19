@@ -20,7 +20,7 @@ export function filterValidProps<T extends Record<string, unknown>>(
       (!validKeys || (validKeys && o.call(validKeys, key))) &&
       (!excludeKeys || (excludeKeys && !o.call(excludeKeys, key)))
     ) {
-      res[key] = props[key]
+      ;(res as Record<string, unknown>)[key] = (props as Record<string, unknown>)[key]
     }
   }
 
@@ -44,9 +44,9 @@ export function pickFormElementProps(
 export function prepareFormElementContext<Props>(
   props: Props & FormElementProps
 ) {
-  if (props.vertical) {
-    if (typeof props.labelDirection === 'undefined') {
-      props.labelDirection = 'vertical'
+  if ((props as FormElementProps).vertical) {
+    if (typeof (props as FormElementProps).labelDirection === 'undefined') {
+      ;(props as FormElementProps).labelDirection = 'vertical'
     }
   }
   return props
@@ -56,7 +56,7 @@ export type FormElementProps = {
   vertical?: boolean
   labelDirection?: 'vertical' | 'horizontal'
 }
-const validFormElementProps = {
+const validFormElementProps: Record<string, null> = {
   skeleton: null,
   disabled: null,
   vertical: null,

@@ -14,7 +14,7 @@ function PhoneNumber(props: Props) {
   const label =
     props.label ?? (props.inline ? undefined : translations.numberLabel)
 
-  const toInput = useCallback((value) => {
+  const toInput = useCallback((value: unknown) => {
     if (isValueEmpty(value)) {
       return undefined
     }

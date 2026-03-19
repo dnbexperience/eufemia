@@ -46,7 +46,7 @@ const transformModulesContent = async (content: string) => {
     .map((s) => s.trim())
     .filter((s) => s.startsWith('--'))
     .map((s) => s.split(':').map((s) => s.trim()))
-    .reduce((acc, [k, v]) => {
+    .reduce<Record<string, string>>((acc, [k, v]) => {
       acc[k] = v
         .split(';')[0]
         .replace(/\/\* .* \*\//g, '')
@@ -77,7 +77,7 @@ const transformModulesContentCSS = async (content: string) => {
     .map((s) => s.trim())
     .filter((s) => s.startsWith('--'))
     .map((s) => s.split(':').map((s) => s.trim()))
-    .reduce((acc, [k, v]) => {
+    .reduce<Record<string, string>>((acc, [k, v]) => {
       acc[k] = v
         .split(';')[0]
         .replace(/\/\* .* \*\//g, '')
@@ -272,7 +272,7 @@ export const transformFigmaValue = (value: FigmaValue) => {
  * `[ "Color", "Background", "Primary" ]` -> `"color-background-primary"`
  */
 export const transformFigmaPath = (path: string[]) => {
-  const unsupportedCharacters = []
+  const unsupportedCharacters: string[] = []
 
   const cleanPath = path.filter(Boolean)
 

@@ -80,14 +80,16 @@ export const isFileEqual = (fileA: File, fileB: File): boolean => {
     b: File,
     property: string
   ) {
+    const aRecord = a as unknown as Record<string, unknown>
+    const bRecord = b as unknown as Record<string, unknown>
     return (
       a &&
       property in a &&
       b &&
       property in b &&
-      (a[property] === 0 || // If value is 0, which is default when not provided, we can't say whether the file is equal or not, so we assume they are.
-        b[property] === 0 || // If value is 0, which is default when not provided, we can't say whether the file is equal or not, so we assume they are.
-        a[property] === b[property])
+      (aRecord[property] === 0 || // If value is 0, which is default when not provided, we can't say whether the file is equal or not, so we assume they are.
+        bRecord[property] === 0 || // If value is 0, which is default when not provided, we can't say whether the file is equal or not, so we assume they are.
+        aRecord[property] === bRecord[property])
     )
   }
   return (

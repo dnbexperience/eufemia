@@ -205,8 +205,8 @@ export function StepIndicatorProvider(props: StepIndicatorProviderProps) {
     }
   }, [activeStep, listOfReachedSteps])
 
-  if (typeof window !== 'undefined' && window['IS_TEST']) {
-    contextValue['noAnimation'] = true
+  if (typeof window !== 'undefined' && (window as unknown as Record<string, unknown>)['IS_TEST']) {
+    (contextValue as Record<string, unknown>)['noAnimation'] = true
   }
 
   // Filter out unwanted HTML attributes
@@ -214,7 +214,7 @@ export function StepIndicatorProvider(props: StepIndicatorProviderProps) {
   const contextValueKeys = Object.keys(contextValue)
   contextValueKeys.forEach((key) => {
     if (key.startsWith('_')) {
-      delete contextValue[key]
+      delete (contextValue as Record<string, unknown>)[key]
     }
   })
 
@@ -232,17 +232,20 @@ export function StepIndicatorProvider(props: StepIndicatorProviderProps) {
  * @param  {...object} objects
  * @returns object
  */
-function extendSafe(...objects): Record<string, unknown> {
-  const obj = {}
+function extendSafe(...objects: Array<Record<string, unknown>>): Record<string, unknown> {
+  const obj: Record<string, unknown> = {}
 
   objects.forEach((itm) => {
-    if (itm.defaultProps && itm.props) {
-      itm = Object.entries(itm.props).reduce((acc, [k, v]) => {
-        if (itm.defaultProps[k] !== v) {
+    const itmRecord = itm as Record<string, unknown>
+    if (itmRecord.defaultProps && itmRecord.props) {
+      const defaultPropsRecord = itmRecord.defaultProps as Record<string, unknown>
+      const propsRecord = itmRecord.props as Record<string, unknown>
+      itm = Object.entries(propsRecord).reduce((acc, [k, v]) => {
+        if (defaultPropsRecord[k] !== v) {
           acc[k] = v
         }
         return acc
-      }, {})
+      }, {} as Record<string, unknown>)
     }
 
     Object.entries(itm).forEach(([k, v]) => {

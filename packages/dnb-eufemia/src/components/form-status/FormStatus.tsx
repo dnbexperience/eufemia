@@ -211,7 +211,7 @@ export default class FormStatus extends React.PureComponent<
   contentCache: React.ReactNode | null
   stateCache: string | null
 
-  static defaultProps = {
+  static defaultProps: Partial<FormStatusProps> = {
     id: null,
     title: null,
     show: true,
@@ -305,7 +305,7 @@ export default class FormStatus extends React.PureComponent<
     return state
   }
 
-  state = { id: null }
+  state: FormStatusComponentState = { id: null }
 
   constructor(
     props: FormStatusProps,

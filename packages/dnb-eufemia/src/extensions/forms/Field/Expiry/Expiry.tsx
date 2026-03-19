@@ -97,7 +97,7 @@ function Expiry(props: ExpiryProps = {}) {
   )
 
   const validateRequired = useCallback(
-    (value: string, { required, error }) => {
+    (value: string, { required, error }: { required: boolean; error: Error }) => {
       return required && !value ? error : undefined
     },
     []
@@ -116,7 +116,7 @@ function Expiry(props: ExpiryProps = {}) {
   }, [validateInitiallyProp, valueProp])
 
   const fromExternal = useCallback(
-    (external) => {
+    (external: string) => {
       if (typeof external === 'string') {
         const { month, year } = stringToExpiryValue(external)
         const monthString = expiryValueToString(month, placeholders.month)

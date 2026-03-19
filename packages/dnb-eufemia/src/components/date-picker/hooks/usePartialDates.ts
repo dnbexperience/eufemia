@@ -15,7 +15,7 @@ export default function usePartialDates() {
   const setPartialDates = useCallback(
     (partialDates: DatePickerPartialDates) => {
       const nonPartialDates = Object.entries(partialDates).reduce(
-        (dates, [dateKey, dateValue]) => {
+        (dates: Record<string, null>, [dateKey, dateValue]) => {
           if (isFullyFilledOut(dateValue)) {
             dates[dateKey] = null
           }

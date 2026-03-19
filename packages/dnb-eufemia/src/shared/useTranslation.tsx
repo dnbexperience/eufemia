@@ -69,7 +69,7 @@ export default function useTranslation<
   >(() => {
     const id = typeof messages === 'string' ? messages : undefined
     if (id) {
-      return formatMessage(id, args, translation)
+      return formatMessage(id, args, translation) as unknown as TranslationFlatToObject<T> & AdditionalReturnUtils
     }
 
     // Handle translation fallback logic
@@ -111,12 +111,12 @@ export default function useTranslation<
       Object.hasOwn(contextTranslations, locale)
     ) {
       hasExplicitCurrent = true
-      currentMessages = contextTranslations[locale] as T | undefined
+      currentMessages = (contextTranslations as Record<string, unknown>)[locale] as T | undefined
     }
 
     const fallbackMessages =
       ((explicitMessages?.[fallbackLocale] as T | undefined) ||
-        (contextTranslations?.[fallbackLocale] as T | undefined) ||
+        ((contextTranslations as Record<string, unknown> | undefined)?.[fallbackLocale] as T | undefined) ||
         ((defaultLocales as Record<string, unknown>)[fallbackLocale] as
           | T
           | undefined)) ??
@@ -223,7 +223,7 @@ function generateTranslationKeyReferences(
     return baseKey ? baseKey : sourceValue
   }
 
-  const result = {}
+  const result: Record<string, unknown> = {}
   const entries = Object.entries(sourceValue)
   for (const [key, value] of entries) {
     const translationKey = baseKey ? `${baseKey}.${key}` : key
@@ -289,14 +289,14 @@ export function combineWithExternalTranslations({
   } as CombineWithExternalTranslationsReturn
 
   if (messages) {
-    if (Object.keys(defaultLocales).some((locale) => messages[locale])) {
-      if (messages[locale]) {
-        combined = messages[locale]
+    if (Object.keys(defaultLocales).some((locale) => (messages as Record<string, unknown>)[locale])) {
+      if ((messages as Record<string, unknown>)[locale]) {
+        combined = (messages as Record<string, unknown>)[locale] as CombineWithExternalTranslationsReturn
       }
     }
 
     for (const key in messages as TranslationCustomLocales) {
-      combined[key] = { ...translation[key], ...messages[key] }
+      ;(combined as Record<string, unknown>)[key] = { ...(translation as Record<string, unknown>)[key] as Record<string, unknown>, ...(messages as Record<string, unknown>)[key] as Record<string, unknown> }
     }
   }
 
@@ -308,24 +308,25 @@ export function formatMessage(
   args?: TranslationArguments,
   messages?: TranslationCustomLocales
 ) {
-  let str = undefined
+  let str: string | undefined = undefined
+  let msgs = messages as Record<string, unknown>
 
   if (typeof id === 'string') {
     let found = false
-    if (messages[id]) {
-      str = messages[id]
+    if (msgs[id]) {
+      str = msgs[id] as string
       found = true
     } else if (id?.includes?.('.')) {
       const keys = id.split('.')
       for (const key of keys) {
-        if (messages[key]) {
-          messages = messages[key]
+        if (msgs[key]) {
+          msgs = msgs[key] as Record<string, unknown>
         } else {
           break
         }
       }
-      if (typeof messages === 'string') {
-        str = messages
+      if (typeof msgs === 'string') {
+        str = msgs
         found = true
       }
     }
@@ -339,7 +340,7 @@ export function formatMessage(
   if (typeof str === 'string') {
     for (const t in args) {
       const regex = new RegExp(`{${t}}`, 'g')
-      str = str.replace(regex, args[t])
+      str = str.replace(regex, args[t] as string)
     }
   }
 

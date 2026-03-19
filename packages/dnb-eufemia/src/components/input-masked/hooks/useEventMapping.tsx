@@ -6,20 +6,21 @@
  * @returns object of events to handle
  */
 
+import type React from 'react'
 import { useCallEvent } from './useCallEvent'
 
-export const useEventMapping = ({ setLocalValue }) => {
+export const useEventMapping = ({ setLocalValue }: { setLocalValue: (value: string) => void }) => {
   const callEvent = useCallEvent({ setLocalValue })
 
   return {
-    onBeforeInput: (event) => callEvent({ event }, 'onBeforeInput'),
-    onInput: (event) => callEvent({ event }, 'onInput'),
-    onFocus: (params) => callEvent(params, 'onFocus'),
-    onBlur: (params) => callEvent(params, 'onBlur'),
-    onMouseUp: (event) => callEvent({ event }, 'onMouseUp'),
-    onMouseDown: (event) => callEvent({ event }, 'onMouseDown'),
-    onKeyDown: (params) => callEvent(params, 'onKeyDown'),
-    onSubmit: (params) => callEvent(params, 'onSubmit'),
-    onChange: (params) => callEvent(params, 'onChange'),
+    onBeforeInput: (event: React.FormEvent) => callEvent({ event } as { event: any; value?: any }, 'onBeforeInput'),
+    onInput: (event: React.FormEvent) => callEvent({ event } as { event: any; value?: any }, 'onInput'),
+    onFocus: (params: Record<string, unknown>) => callEvent(params as { event: any; value?: any }, 'onFocus'),
+    onBlur: (params: Record<string, unknown>) => callEvent(params as { event: any; value?: any }, 'onBlur'),
+    onMouseUp: (event: React.MouseEvent) => callEvent({ event } as { event: any; value?: any }, 'onMouseUp'),
+    onMouseDown: (event: React.MouseEvent) => callEvent({ event } as { event: any; value?: any }, 'onMouseDown'),
+    onKeyDown: (params: Record<string, unknown>) => callEvent(params as { event: any; value?: any }, 'onKeyDown'),
+    onSubmit: (params: Record<string, unknown>) => callEvent(params as { event: any; value?: any }, 'onSubmit'),
+    onChange: (params: Record<string, unknown>) => callEvent(params as { event: any; value?: any }, 'onChange'),
   }
 }

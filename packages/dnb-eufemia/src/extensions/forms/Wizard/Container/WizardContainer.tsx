@@ -189,7 +189,7 @@ function WizardContainer(props: Props) {
    * If an index is given, it will check if the step, with the given index, has an invalid state.
    */
   const syncStepsState = useCallback(
-    (index = undefined, forStates = ['unknown', 'error']) => {
+    (index: number | undefined = undefined, forStates = ['unknown', 'error']) => {
       const checkUnknown = forStates.includes('unknown')
       const checkError = forStates.includes('error')
 
@@ -453,7 +453,7 @@ function WizardContainer(props: Props) {
   }, [setActiveIndex])
 
   const handleChange = useCallback(
-    ({ currentStep }) => {
+    ({ currentStep }: { currentStep: number }) => {
       setActiveIndex(
         currentStep,
         mode === 'loose' ? { skipErrorCheck: true } : undefined
@@ -470,7 +470,7 @@ function WizardContainer(props: Props) {
   )
 
   const handleSubmit = useCallback(
-    ({ preventSubmit }) => {
+    ({ preventSubmit }: { preventSubmit: () => void }) => {
       // - If there is a step with an error state, we need to prevent the submit
       if (hasInvalidStepsState(undefined, ['error'])) {
         return preventSubmit()
@@ -483,7 +483,7 @@ function WizardContainer(props: Props) {
     },
     [hasInvalidStepsState, handleNext]
   )
-  useEventListener('onSubmit', handleSubmit)
+  useEventListener('onSubmit', handleSubmit as (...args: unknown[]) => void)
 
   // NB: useVisibility needs to be imported here,
   // because it need the outer context to be available.

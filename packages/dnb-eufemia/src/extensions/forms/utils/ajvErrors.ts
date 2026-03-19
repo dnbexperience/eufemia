@@ -155,7 +155,7 @@ export const ajvErrorsToFormErrors = (
     }
 
     return errors
-  }, {})
+  }, {} as Record<string, FormError>)
 }
 
 /**

@@ -127,7 +127,7 @@ function PopoverContainer(props: PopoverContainerProps) {
         setWasActive(true)
       }
 
-      if (noAnimation || globalThis.IS_TEST) {
+      if (noAnimation || (globalThis as Record<string, unknown>).IS_TEST) {
         clearShowDelay()
         run()
         return
@@ -161,7 +161,7 @@ function PopoverContainer(props: PopoverContainerProps) {
       return clearDomTimeout
     }
 
-    if (noAnimation || globalThis.IS_TEST) {
+    if (noAnimation || (globalThis as Record<string, unknown>).IS_TEST) {
       setIsInDOM(false)
       return clearDomTimeout
     }

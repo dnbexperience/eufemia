@@ -6,13 +6,13 @@
  */
 export function isAsync(fn: unknown): boolean {
   // Support for jest.fn
-  const n = 'getMockImplementation'
-  if (fn?.[n]?.()) {
-    fn = fn[n]()
+  const n = 'getMockImplementation' as const
+  if ((fn as Record<string, () => unknown>)?.[n]?.()) {
+    fn = (fn as Record<string, () => unknown>)[n]()
   }
 
-  const firstCheck = fn instanceof (async () => null).constructor
-  const secondCheck = fn?.constructor?.name === 'AsyncFunction'
+  const firstCheck = fn instanceof (async (): Promise<null> => null).constructor
+  const secondCheck = (fn as { constructor?: { name?: string } })?.constructor?.name === 'AsyncFunction'
 
   if (firstCheck !== secondCheck) {
     // Storybook has a problem with async functions.
@@ -24,7 +24,7 @@ export function isAsync(fn: unknown): boolean {
   }
 
   // is async function transpiled using @babel/plugin-transform-async-to-generator
-  const isAsyncFunctionBabelTranspiled = fn
+  const isAsyncFunctionBabelTranspiled = (fn as { toString?: () => string })
     ?.toString()
     ?.trim()
     ?.match(/return _ref[^.]*\.apply/)

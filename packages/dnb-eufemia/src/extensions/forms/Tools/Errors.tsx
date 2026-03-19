@@ -13,14 +13,14 @@ function Errors({ label }: { label?: React.ReactNode }) {
       acc[key] = fieldErrorRef?.current[key]?.message
       return acc
     },
-    {}
+    {} as Record<string, string>
   )
   const formErrors = Object.keys(errorsRef?.current || {}).reduce(
     (acc, key) => {
       acc[key || '/'] = errorsRef?.current[key]?.message
       return acc
     },
-    {}
+    {} as Record<string, string>
   )
 
   const handleSetFieldError = useCallback(() => {

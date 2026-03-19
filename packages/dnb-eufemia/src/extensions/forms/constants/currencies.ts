@@ -3,7 +3,7 @@ import { selectedCurrencies } from './allCurrencies'
 
 export type CurrencyType = {
   iso: string
-  decimals: number
+  decimals: number | null
   i18n: {
     en: string
     nb: string

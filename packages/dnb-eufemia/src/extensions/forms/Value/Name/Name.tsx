@@ -25,7 +25,8 @@ Name.First = function FirstName(props: Props) {
 
   return <Name {...nameProps} />
 }
-Name.First['_supportsSpacingProps'] = true
+;
+(Name.First as unknown as Record<string, unknown>)['_supportsSpacingProps'] = true
 
 Name.Last = function LastName(props: Props) {
   const translations = useTranslation()
@@ -37,7 +38,8 @@ Name.Last = function LastName(props: Props) {
 
   return <Name {...nameProps} />
 }
-Name.Last['_supportsSpacingProps'] = true
+;
+(Name.Last as unknown as Record<string, unknown>)['_supportsSpacingProps'] = true
 
 Name.Company = function CompanyName(props: Props) {
   const translations = useTranslation()
@@ -49,6 +51,7 @@ Name.Company = function CompanyName(props: Props) {
 
   return <Name {...nameProps} />
 }
-Name.Company['_supportsSpacingProps'] = true
+;
+(Name.Company as unknown as Record<string, unknown>)['_supportsSpacingProps'] = true
 
 export default Name

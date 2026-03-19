@@ -1,15 +1,17 @@
 import { useCallback, useContext, useEffect, useMemo } from 'react'
 import DataContext from '../Context'
 
-export default function useEventListener(id, listener, path = undefined) {
+export default function useEventListener(id: string, listener: (...args: unknown[]) => void, path: string = undefined) {
   const { setFieldEventListener } = useContext(DataContext)
 
   useMemo(() => {
-    setFieldEventListener?.(path, id, listener)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setFieldEventListener?.(path, id as any, listener)
   }, [id, listener, path, setFieldEventListener])
 
   const removeEvent = useCallback(() => {
-    setFieldEventListener?.(path, id, listener, {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setFieldEventListener?.(path, id as any, listener, {
       remove: true,
     })
   }, [id, listener, path, setFieldEventListener])

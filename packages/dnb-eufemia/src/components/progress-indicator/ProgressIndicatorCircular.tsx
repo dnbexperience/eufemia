@@ -58,7 +58,7 @@ function ProgressIndicatorCircular(
   const doAnimation = (
     element: SVGSVGElement,
     animateOnStart = true,
-    callback = null
+    callback: (() => void) | null = null
   ) => {
     const min = 1
     const max = Math.PI * 100
@@ -70,7 +70,7 @@ function ProgressIndicatorCircular(
       completeCalled = false,
       stopNextRound = false
 
-    const step = (timestamp) => {
+    const step = (timestamp: number) => {
       if (!start) {
         start = timestamp
       }
@@ -83,9 +83,9 @@ function ProgressIndicatorCircular(
           prog = min
         }
         if (setProg) {
-          element.style['stroke-dashoffset'] = `${prog}%`
+          element.style['stroke-dashoffset' as unknown as number] = `${prog}%`
         } else if (!animateOnStart) {
-          element.style['stroke-dashoffset'] = `${max}%`
+          element.style['stroke-dashoffset' as unknown as number] = `${max}%`
         }
       }
 
@@ -130,7 +130,7 @@ function ProgressIndicatorCircular(
   if (progressIsControlled) {
     rest.role = 'progressbar'
     rest['aria-label'] = title
-    rest['title'] = title
+    ;(rest as Record<string, unknown>)['title'] = title
   } else {
     rest.role = 'alert'
     rest['aria-busy'] = true

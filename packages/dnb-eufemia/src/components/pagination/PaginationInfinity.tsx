@@ -29,7 +29,7 @@ export default class InfinityScroller extends React.PureComponent<PaginationInfi
   static contextType = PaginationContext
   context!: React.ContextType<typeof PaginationContext>
 
-  static defaultProps = { children: null }
+  static defaultProps: Partial<PaginationInfinityScrollerProps> = { children: null }
 
   hideIndicator: boolean
   useLoadButton: boolean
@@ -93,7 +93,7 @@ export default class InfinityScroller extends React.PureComponent<PaginationInfi
     }
 
     const exists =
-      this.context.pagination.items.findIndex((obj) => {
+      this.context.pagination.items.findIndex((obj: { pageNumber: number }) => {
         return obj.pageNumber === newPageNo
       }) > -1
 
@@ -164,7 +164,7 @@ export default class InfinityScroller extends React.PureComponent<PaginationInfi
     this.waitForReachedTime(
       ({ pageNumber, callStartupEvent }: Record<string, unknown>) => {
         const context = this.context.pagination
-        const createEvent = (eventName) => {
+        const createEvent = (eventName: string) => {
           if (isNaN(pageNumber as number)) {
             pageNumber = 1
           }
@@ -220,8 +220,8 @@ export default class InfinityScroller extends React.PureComponent<PaginationInfi
       <InteractionMarker
         pageNumber={upperPage}
         markerElement={markerElement || fallbackElement}
-        onVisible={(pageNumber) => {
-          let newPageNo
+        onVisible={(pageNumber: number) => {
+          let newPageNo: number
           // load several pages at once
           for (let i = 0; i < parallelLoadCount; ++i) {
             newPageNo = pageNumber + 1 + i
@@ -324,8 +324,15 @@ export default class InfinityScroller extends React.PureComponent<PaginationInfi
           ref,
           skipObserver,
           ScrollElement,
+        }: {
+          pageNumber: number
+          hasContent: boolean
+          content: React.ReactNode
+          ref: React.Ref<HTMLElement>
+          skipObserver: boolean
+          ScrollElement: React.ElementType | null
         },
-        idx
+        idx: number
       ) => {
         const isLastItem = idx === items.length - 1
 
@@ -343,7 +350,7 @@ export default class InfinityScroller extends React.PureComponent<PaginationInfi
             <InteractionMarker
               pageNumber={pageNumber}
               markerElement={markerElement || fallbackElement}
-              onVisible={(pageNumber) => {
+              onVisible={(pageNumber: number) => {
                 let newPageNo
                 // load several pages at once
                 for (let i = 0; i < parallelLoadCount; ++i) {
@@ -415,7 +422,7 @@ export default class InfinityScroller extends React.PureComponent<PaginationInfi
                     this.getNewContent(pageNumber + 1, {
                       position: 'after',
                       skipObserver: true,
-                      ScrollElement: (props) =>
+                      ScrollElement: (props: Record<string, unknown>) =>
                         hasContent && (
                           <ScrollToElement
                             pageElement={pageElement}
@@ -435,7 +442,7 @@ export default class InfinityScroller extends React.PureComponent<PaginationInfi
 }
 
 class InteractionMarker extends React.PureComponent<any, any> {
-  static defaultProps = {
+  static defaultProps: Record<string, unknown> = {
     markerElement: null,
   }
   state = { isConnected: false }
@@ -556,7 +563,7 @@ export class InfinityLoadButton extends React.PureComponent<
 > {
   static contextType = Context
   context!: React.ContextType<typeof Context>
-  static defaultProps = {
+  static defaultProps: Partial<PaginationInfinityLoadButtonProps> = {
     element: 'div',
     pressedElement: null,
     icon: 'arrow_down',
@@ -597,7 +604,7 @@ export class InfinityLoadButton extends React.PureComponent<
 }
 
 class ScrollToElement extends React.PureComponent<any> {
-  static defaultProps = {
+  static defaultProps: Record<string, unknown> = {
     pageElement: null,
   }
 

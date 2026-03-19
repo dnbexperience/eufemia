@@ -315,7 +315,7 @@ class GlobalStatusProvider {
         if (item?.text) {
           item.itemId = slugify(convertJsxToString(item.text))
         } else {
-          item.itemId = slugify(item)
+          item.itemId = slugify(convertJsxToString(item as unknown as React.ReactNode))
         }
       }
     }

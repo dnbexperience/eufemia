@@ -34,10 +34,10 @@ export default function ListAllProps<Data extends JsonObject = JsonObject>(
       fieldInternalsRef?.current || {}
     ).reduce((acc, [path, { props }]) => {
       if (path.startsWith('/')) {
-        const propertyValue = {}
+        const propertyValue: Record<string, unknown> = {}
 
         for (const prop in props) {
-          const value = props[prop]
+          const value = (props as unknown as Record<string, unknown>)[prop]
           if (value === undefined) {
             continue
           }
@@ -66,37 +66,37 @@ export default function ListAllProps<Data extends JsonObject = JsonObject>(
           }
         }
 
-        if (filterData?.[path] !== false) {
+        if ((filterData as Record<string, unknown>)?.[path] !== false) {
           pointer.set(acc, path, propertyValue)
         }
       }
 
       return acc
-    }, {})
+    }, {} as Record<string, unknown>)
 
     const propsOfValues = Object.entries(
       valueInternalsRef?.current || {}
     ).reduce((acc, [path, { props }]) => {
       if (path.startsWith('/')) {
-        const propertyValue = {}
+        const propertyValue: Record<string, unknown> = {}
 
         for (const prop in props) {
           if (
-            props[prop] !== undefined &&
-            typeof props[prop] !== 'function' &&
-            !isValidElement(props[prop])
+            (props as Record<string, unknown>)[prop] !== undefined &&
+            typeof (props as Record<string, unknown>)[prop] !== 'function' &&
+            !isValidElement((props as Record<string, unknown>)[prop])
           ) {
-            propertyValue[prop] = props[prop]
+            propertyValue[prop] = (props as Record<string, unknown>)[prop]
           }
         }
 
-        if (filterData?.[path] !== false) {
+        if ((filterData as Record<string, unknown>)?.[path] !== false) {
           pointer.set(acc, path, propertyValue)
         }
       }
 
       return acc
-    }, {})
+    }, {} as Record<string, unknown>)
 
     return { propsOfFields, propsOfValues } as ListAllPropsReturn<Data>
   }, [fieldInternalsRef, filterData, valueInternalsRef])

@@ -256,7 +256,7 @@ export default class GlobalStatus extends React.PureComponent<
   initialActiveElement: Element | null
   _scrollToStatusTimeout: ReturnType<typeof setTimeout> | null
 
-  static defaultProps = {
+  static defaultProps: Partial<GlobalStatusProps> = {
     id: 'main',
     statusId: 'status-main',
     title: null,
@@ -350,7 +350,7 @@ export default class GlobalStatus extends React.PureComponent<
     }
   }
 
-  state = {
+  state: GlobalStatusComponentState = {
     globalStatus: null,
     isActive: false,
   }
@@ -599,8 +599,9 @@ export default class GlobalStatus extends React.PureComponent<
   }
 
   itemsRenderHandler =
-    ({ statusAnchorText, lang }) =>
-    (item, i) => {
+    ({ statusAnchorText, lang }: { statusAnchorText: React.ReactNode; lang: string }) =>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (item: any, i: number) => {
       const text = item?.text
         ? item.text
         : typeof item === 'string'

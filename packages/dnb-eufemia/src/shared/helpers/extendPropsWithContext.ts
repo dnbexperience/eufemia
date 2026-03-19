@@ -59,10 +59,10 @@ function reduceContextHasValue<Props>(
       !onlyMergeExistingProps ||
       Object.prototype.hasOwnProperty.call(props, key)
     ) {
-      if (props[key] === defaults?.[key]) {
+      if ((props as Record<string, unknown>)[key] === defaults?.[key]) {
         // Existing props can only be overridden if it has default value
         // But a prop that does not exist will also be merged (as long as the default value is "undefined")
-        acc[key] = value
+        (acc as Record<string, unknown>)[key] = value
       }
     }
 

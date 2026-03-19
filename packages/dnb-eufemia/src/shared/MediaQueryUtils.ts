@@ -192,7 +192,7 @@ export function buildQuery(
       when = when.split(/[ ,]/g)
     }
 
-    let listOfQueries = []
+    let listOfQueries: string[] = []
 
     if (Array.isArray(when)) {
       listOfQueries = listOfQueries.concat(
@@ -259,7 +259,7 @@ function combineQueries(
       }
 
       return listOfQueries
-    }, [])
+    }, [] as string[])
     .filter((query, i) => {
       return !(i === 0 && query.startsWith(', '))
     })
@@ -276,9 +276,9 @@ function mergeBreakpoints(breakpoints: MediaQueryBreakpoints) {
   })
     .sort((a, b) => (a[1] > b[1] ? 1 : -1))
     .reduce((acc, [key, value]) => {
-      acc[key] = value
+        acc[key] = value as string
       return acc
-    }, {})
+    }, {} as Record<string, unknown>)
 }
 
 /**
@@ -325,7 +325,7 @@ function objToMediaQuery(
   let hasNot = false
   let query: string | Array<null> = Object.keys(obj).reduce(
     (acc, feature) => {
-      let value = obj[feature]
+      let value = (obj as Record<string, unknown>)[feature]
       feature = toKebabCase(feature)
 
       if (feature === 'not') {
@@ -350,7 +350,7 @@ function objToMediaQuery(
       } else if (value === false) {
         acc.push('not ' + feature)
       } else {
-        value = getValueByFeature(value, breakpoints)
+        value = getValueByFeature(value as string, breakpoints)
         if (typeof value !== 'undefined') {
           acc.push(`(${feature}: ${value})`)
         }
@@ -393,7 +393,7 @@ function getValueByFeature(
 ) {
   types = types || defaultBreakpoints
   if (Object.hasOwn(types, value)) {
-    value = types[value]
+    value = (types as Record<string, string>)[value]
   }
   return value
 }

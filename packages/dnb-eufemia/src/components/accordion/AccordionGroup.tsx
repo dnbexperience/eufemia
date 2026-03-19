@@ -37,7 +37,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     onChangeHandler,
   }
 
-  function onChangeHandler(event) {
+  function onChangeHandler(event: Record<string, unknown>) {
     dispatchCustomElementEvent(thisInstance, 'onChange', {
       id: event.id,
       expanded: event.expanded,
@@ -50,7 +50,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     props,
     accordionDefaultProps,
     context.Accordion,
-    context.getTranslation(props)['Accordion']
+    (context.getTranslation(props) as Record<string, unknown>)['Accordion'] as Record<string, unknown>
   )
 
   const {
@@ -121,7 +121,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
   }
 
   return (
-    <AccordionGroupContext value={contextForProvider}>
+    <AccordionGroupContext value={contextForProvider as React.ComponentProps<typeof AccordionGroupContext>['value']}>
       <div className={classes}>
         <span
           id={id}

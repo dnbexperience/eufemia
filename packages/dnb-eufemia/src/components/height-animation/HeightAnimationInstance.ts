@@ -89,7 +89,7 @@ export default class HeightAnimation {
   addEndEvent(listener: HeightAnimationEventListener) {
     this.removeEndEvents() // also, remove events on every open (but not on close!)
 
-    const handleTransitionEnd = (e) => {
+    const handleTransitionEnd = (e: Event) => {
       if (this.canFinish()) {
         listener(e)
       } else {
@@ -125,7 +125,7 @@ export default class HeightAnimation {
     }
 
     this.duration =
-      globalThis.animationDuration ??
+      (globalThis as Record<string, unknown>).animationDuration as number ??
       (parseFloat(window.getComputedStyle(this.elem).transitionDuration) *
         1000 ||
         400) // The default duration
@@ -188,7 +188,8 @@ export default class HeightAnimation {
 
     // Hide the cloned element
     for (const key in this.firstPaintStyle) {
-      clonedElem.style[key] = this.firstPaintStyle[key]
+      clonedElem.style[key as keyof typeof this.firstPaintStyle] =
+        this.firstPaintStyle[key as keyof typeof this.firstPaintStyle]
     }
     clonedElem.style.position = 'absolute' // not a part of the "firstPaintStyle"
 
@@ -426,7 +427,7 @@ export default class HeightAnimation {
     return Boolean(
       this.startTime &&
         Date.now() - this.startTime >
-          (globalThis.animationDuration ?? this.duration)
+          ((globalThis as Record<string, unknown>).animationDuration as number ?? this.duration)
     )
   }
   /**
@@ -443,14 +444,14 @@ export default class HeightAnimation {
 
     if (
       this.isInBrowser &&
-      (globalThis.IS_TEST || globalThis.bypassTime === -1)
+      ((globalThis as Record<string, unknown>).IS_TEST || (globalThis as Record<string, unknown>).bypassTime === -1)
     ) {
       return false
     }
 
     return Boolean(
       this.firstTime &&
-        Date.now() - this.firstTime < (globalThis.bypassTime ?? 100)
+        Date.now() - this.firstTime < ((globalThis as Record<string, unknown>).bypassTime as number ?? 100)
     )
   }
 }

@@ -59,7 +59,7 @@ export default function VisibilityByTheme({
     // Cache Object.keys() result for performance
     const themeItemKeys = Object.keys(themeItem)
     return themeItemKeys.every((key) => {
-      return theme[key] === themeItem[key]
+      return (theme as Record<string, unknown>)[key] === (themeItem as Record<string, unknown>)[key]
     })
   }
 }

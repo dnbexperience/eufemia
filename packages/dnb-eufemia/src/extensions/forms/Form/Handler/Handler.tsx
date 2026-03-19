@@ -78,9 +78,9 @@ export default function FormHandler<Data extends JsonObject>(
         key as keyof AllowedProviderContextProps
       )
     ) {
-      providerProps[key] = props[key]
+      ;(providerProps as Record<string, unknown>)[key] = (props as Record<string, unknown>)[key]
     } else if (key !== 'children') {
-      providerProps.restHandlerProps[key] = props[key]
+      ;(providerProps.restHandlerProps as Record<string, unknown>)[key] = (props as Record<string, unknown>)[key]
     }
   }
 

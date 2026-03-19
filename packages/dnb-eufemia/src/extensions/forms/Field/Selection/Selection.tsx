@@ -11,6 +11,7 @@ import {
   Autocomplete,
   HelpButton,
 } from '../../../../components'
+import type { AutocompleteOnTypeParams } from '../../../../components/autocomplete/Autocomplete'
 import type { Props as OptionFieldProps } from '../Option'
 import OptionField from '../Option'
 import { useFieldProps } from '../../hooks'
@@ -194,7 +195,7 @@ function Selection(props: Props) {
   )
 
   const onChangeHandler = useCallback(
-    ({ value }) => {
+    ({ value }: { value: unknown }) => {
       handleChange?.(value === undefined ? emptyValue : value)
     },
     [handleChange, emptyValue]
@@ -240,14 +241,14 @@ function Selection(props: Props) {
 
   const onType = props?.autocompleteProps?.onType
   const onTypeAutocompleteHandler = useCallback(
-    (event) => {
+    (event: Record<string, unknown>) => {
       if (typeof onType === 'function') {
         const { value } = event
         onType({
           ...event,
           ...additionalArgs,
-          value: value === '' ? emptyValue : value,
-        })
+          value: value === '' ? emptyValue as string : value as string,
+        } as unknown as AutocompleteOnTypeParams)
       }
     },
     [additionalArgs, emptyValue, onType]
@@ -476,7 +477,7 @@ export function mapOptions(
   {
     createOption,
   }: { createOption: (props: OptionProps, i: number) => React.ReactNode }
-) {
+): React.ReactNode[] {
   return React.Children.map(
     // @ts-expect-error - strictFunctionTypes
     children,
@@ -486,8 +487,8 @@ export function mapOptions(
           return createOption(child.props, i)
         }
 
-        if (child.props.children) {
-          const nestedChildren = mapOptions(child.props.children, {
+        if (child?.['props']?.children) {
+          const nestedChildren: React.ReactNode[] = mapOptions(child.props.children, {
             createOption,
           })
           return React.createElement(
@@ -508,8 +509,8 @@ export function makeOptions<T = DrawerListProps['data']>(
   transformSelection?: Props['transformSelection']
 ): T {
   return React.Children.map(children, (child) => {
-    if (child?.['props']?.children?.type === OptionField) {
-      child = child['props'].children
+    if (((child as React.ReactElement<Record<string, unknown>>)?.props?.children as React.ReactElement)?.type === OptionField) {
+      child = (child as React.ReactElement<Record<string, unknown>>).props.children as React.ReactNode
     }
 
     if (React.isValidElement(child) && child.type === OptionField) {

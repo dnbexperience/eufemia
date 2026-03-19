@@ -125,7 +125,7 @@ function DatePickerAddon(props: DatePickerAddonProps) {
                 key={i}
                 text={title}
                 variant="secondary"
-                onClick={(event) => setDate({ shortcut, event })}
+                onClick={({ event }: { event: React.SyntheticEvent }) => setDate({ shortcut, event: event as React.MouseEvent<HTMLButtonElement | HTMLAnchorElement> })}
               />
             )
           })}

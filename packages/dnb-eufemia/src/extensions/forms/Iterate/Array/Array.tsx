@@ -87,7 +87,7 @@ function ArrayComponent(props: Props) {
   }, [countPath, countPathLimit, getValueByPath, dataContext.data])
 
   const validateRequired = useCallback(
-    (value: Value, { emptyValue, required, error }) => {
+    (value: Value, { emptyValue, required, error }: { emptyValue: unknown; required: boolean; error: Error }) => {
       if (
         required &&
         (!value || value?.length === 0 || value === emptyValue)
@@ -105,7 +105,7 @@ function ArrayComponent(props: Props) {
       required: false,
       validateRequired,
       ...props,
-    }
+    } as Props & Record<string, unknown>
 
     if (
       typeof props.minItems === 'number' ||

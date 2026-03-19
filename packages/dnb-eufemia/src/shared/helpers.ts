@@ -167,7 +167,7 @@ export function scrollToLocationHashId({
     window.location
   ) {
     try {
-      let _timeout
+      let _timeout: ReturnType<typeof setTimeout> | undefined
       const id = String(window.location.hash).replace('#', '')
       if (id.length > 0) {
         const handleScroll = () => {
@@ -365,7 +365,7 @@ export async function copyToClipboard(string: string) {
  *
  * @param  {...any} params Send in what ever you would
  */
-export const warn = (...params) => {
+export const warn = (...params: unknown[]) => {
   if (
     typeof process !== 'undefined' &&
     process.env.NODE_ENV !== 'production' &&

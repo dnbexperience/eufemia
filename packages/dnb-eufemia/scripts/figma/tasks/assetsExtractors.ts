@@ -23,7 +23,25 @@ import properties from '../../../src/style/themes/ui/properties'
 import { create, extract } from 'tar'
 import { runCommand } from '../../tools/cliTools'
 
-export const ICON_SIZES = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type FigmaDocAny = any
+
+type IconProcessedFile = {
+  iconName: string
+  iconFile: string
+  name: string
+  category: string
+  url: string
+  id: string
+  slug: string
+  size: number
+  variant: string
+  bundleName: string
+  created: number | null
+  updated: number | null
+}
+
+export const ICON_SIZES: Record<number, { suffix: string }> = {
   16: { suffix: '' },
   24: { suffix: 'medium' },
 }
@@ -67,7 +85,8 @@ export function IconsConfig(overwrite: IconsConfig = {}) {
 
   const iconRenameList = (process.env.FIGMA_ICONS_RENAME_LIST ||
     []) as Array<{ from: string; to: string }>
-  const iconCloneList = process.env.FIGMA_ICONS_CLONE_LIST || []
+  const iconCloneList = (process.env.FIGMA_ICONS_CLONE_LIST ||
+    []) as Array<{ from: string; to: string }>
   const canvasNameSelector = /^Icons$/ // before we have used: ^[0-9]+[_\- ]Icons$
   const frameNameSelector = /^Icons$/ // before we have used: [A-z]+ - [0-9]{1,2}
   const iconSelector = process.env.FIGMA_ICONS_SELECTOR || null
@@ -158,7 +177,7 @@ export const extractIcons = async ({
     if (!forceReconvert) {
       await saveIconsLockFile({
         file: iconsLockFile,
-        data: listOfProcessedFiles.reduce((acc, { iconFile, ...cur }) => {
+        data: listOfProcessedFiles.reduce<Record<string, unknown>>((acc, { iconFile, ...cur }) => {
           acc[iconFile] = cur
           return acc
         }, {}),
@@ -185,6 +204,12 @@ async function collectIconsFromFigmaDoc({
   assetsDir,
   forceReconvert = false,
   ...rest
+}: {
+  figmaDoc: FigmaDocAny
+  figmaFile: string
+  assetsDir: string
+  forceReconvert?: boolean
+  [key: string]: unknown
 }) {
   const { frameNameSelector, destDir } = IconsConfig({ assetsDir })
 
@@ -193,8 +218,8 @@ async function collectIconsFromFigmaDoc({
     type: 'FRAME',
   })
 
-  const controlStorageLists = []
-  const listWithNewFiles = []
+  const controlStorageLists: IconProcessedFile[][] = []
+  const listWithNewFiles: IconProcessedFile[] = []
   const listOfProcessedFiles = await asyncForEach(
     framesInTheCanvas,
     async (frameDoc) => {
@@ -229,12 +254,12 @@ async function collectIconsFromFigmaDoc({
   }
 }
 
-const runDiffControl = ({ controlStorageLists }) => {
-  const collectDiff = []
+const runDiffControl = ({ controlStorageLists }: { controlStorageLists: IconProcessedFile[][] }) => {
+  const collectDiff: Array<Record<string, string>> = []
   const sizes = Object.keys(ICON_SIZES).map((size) => `_${size}`)
-  const removeSizes = (n) =>
+  const removeSizes = (n: string) =>
     n.replace(new RegExp(`(${sizes.join('|')})$`), '')
-  const getDiff = (a, b) =>
+  const getDiff = (a: IconProcessedFile[], b: IconProcessedFile[]) =>
     a.filter(
       ({ name }) =>
         !b.some(({ name: n }) => removeSizes(n) === removeSizes(name))
@@ -273,9 +298,21 @@ const frameIconsFactory = async ({
   iconPrimaryList,
   iconCloneList,
   imageUrlExpireAfterDays,
+}: {
+  frameDoc: FigmaDocAny
+  figmaFile: string
+  destDir: string
+  forceRedownload?: boolean
+  format?: string
+  iconsLockFile: string
+  iconSelector: string | RegExp | null
+  iconPrimaryList: string[] | string
+  iconCloneList: Array<{ from: string; to: string }>
+  imageUrlExpireAfterDays: number | string
+  [key: string]: unknown
 }) => {
-  const newFiles = []
-  const existingFiles = []
+  const newFiles: IconProcessedFile[] = []
+  const existingFiles: IconProcessedFile[] = []
 
   const frameId = frameDoc.id
   const originalFrameName = String(frameDoc.name)
@@ -292,7 +329,7 @@ const frameIconsFactory = async ({
 
   // get a list of icons we want to refetch
   const listOfIconObjectsFromDoc = frameDocChildren.reduce(
-    (acc, { name, children }) => {
+    (acc: FigmaDocAny[], { name, children }: { name: string; children: FigmaDocAny[] }) => {
       const iconName = prerenderIconName(name)
 
       // Skip names starting with a dot
@@ -311,7 +348,7 @@ const frameIconsFactory = async ({
       }
 
       // then add every component variant to the fetch list
-      children.forEach((object) => {
+      children.forEach((object: FigmaDocAny) => {
         if (!object.size) {
           object.size = object.name.match(/([0-9]+)/)?.[1] || null
         }
@@ -348,7 +385,7 @@ const frameIconsFactory = async ({
     }))
 
   // remove the IDs if they are in the lock file so we font need to refetch the urls
-  const iconIdsToFetchFrom = listOfIconObjectsFromDoc.filter(({ id }) => {
+  const iconIdsToFetchFrom = listOfIconObjectsFromDoc.filter(({ id }: { id: string }) => {
     const found = listOfCachedIconUrls.find(({ id: i }) => i === id)
 
     if (found) {
@@ -356,7 +393,7 @@ const frameIconsFactory = async ({
       const countDays = Math.ceil(
         (Date.now() - found.updated) / (1e3 * 60 * 60 * 24)
       )
-      const outdated = countDays > imageUrlExpireAfterDays
+      const outdated = countDays > Number(imageUrlExpireAfterDays)
 
       if (outdated) {
         return true // yes, re-fetch the url
@@ -374,7 +411,7 @@ const frameIconsFactory = async ({
   const listOfAdditionalIconUrls = Object.entries(
     await getFigmaUrlByImageIds({
       figmaFile,
-      ids: iconIdsToFetchFrom.map(({ id }) => id),
+      ids: iconIdsToFetchFrom.map(({ id }: { id: string }) => id),
       params: { format },
     })
   ).map(([id, url]) => ({
@@ -399,7 +436,7 @@ const frameIconsFactory = async ({
     // clean the list of icons we will process
     .map(({ id, url }) => {
       const existingObject = listOfIconObjectsFromDoc.find(
-        ({ id: i }) => i === id
+        ({ id: i }: { id: string }) => i === id
       )
 
       return {
@@ -435,7 +472,7 @@ const frameIconsFactory = async ({
       listOfIconsToProcess,
       async ({ id, url, category, name, size }) => {
         try {
-          const iconSize = ICON_SIZES[size].suffix
+          const iconSize = ICON_SIZES[size]?.suffix ?? ''
           const iconName = prerenderIconName(name, iconSize)
 
           const iconFile = prerenderIconFile(iconName, format)
@@ -464,8 +501,8 @@ const frameIconsFactory = async ({
             size,
             variant,
             bundleName,
-            created: null,
-            updated: null,
+            created: null as number | null,
+            updated: null as number | null,
           }
 
           let existsAndIsValid =
@@ -484,7 +521,7 @@ const frameIconsFactory = async ({
             (Date.now() - lockFileFrameContent?.updated) /
               (1e3 * 60 * 60 * 24)
           )
-          if (countDays > imageUrlExpireAfterDays) {
+          if (countDays > Number(imageUrlExpireAfterDays)) {
             existsAndIsValid = false
           }
 
@@ -557,7 +594,7 @@ const frameIconsFactory = async ({
   return { files: listOfProcessedFiles, newFiles, existingFiles }
 }
 
-const prerenderIconName = (name, size = null) => {
+const prerenderIconName = (name: string, size: string | null = null) => {
   const { iconSelector, iconNameCleaner, iconRenameList } = IconsConfig()
 
   let iconName = name
@@ -565,13 +602,13 @@ const prerenderIconName = (name, size = null) => {
   // in case Icons have "[NAME] ..." somewhere
   if (iconSelector) {
     iconName =
-      iconName.match(new RegExp(iconSelector), '$1')?.[1] || iconName
+      iconName.match(new RegExp(iconSelector))?.[1] || iconName
   }
 
   // essentials/grabber_16 => grabber
   if (iconNameCleaner) {
     iconName =
-      iconName.match(new RegExp(iconNameCleaner), '$1')?.[1] || iconName
+      iconName.match(new RegExp(iconNameCleaner))?.[1] || iconName
   }
 
   // also, make sure we use underline, instead of hyphen and so on
@@ -599,7 +636,7 @@ const prerenderIconName = (name, size = null) => {
   return iconName
 }
 
-const prerenderIconFile = (name, format = 'svg') => {
+const prerenderIconFile = (name: string, format = 'svg') => {
   // make the frameName ready for creating a collection file for every frame
   return `${name}.${format}`
 }
@@ -609,11 +646,16 @@ const makeMetaFile = async ({
   figmaDoc,
   iconRenameList,
   assetsDir,
+}: {
+  listOfProcessedFiles: IconProcessedFile[]
+  figmaDoc: FigmaDocAny
+  iconRenameList: Array<{ from: string; to: string }>
+  assetsDir: string
 }) => {
   // save the metaFile content
-  const data = listOfProcessedFiles.reduce(
+  const data = listOfProcessedFiles.reduce<Record<string, { tags: string[]; created: number | null; name: string; variant: string; category: string }>>(
     (acc, { iconName, size, id, created, name, variant, category }) => {
-      const cleanSize = size ? size : null
+      const cleanSize = size ? String(size) : null
       if (cleanSize && iconName.includes(cleanSize)) {
         iconName = iconName.replace(`_${cleanSize}`, '')
       }
@@ -621,20 +663,20 @@ const makeMetaFile = async ({
       const { description, componentSetId } = figmaDoc.components[id]
       const componentSet = figmaDoc.componentSets?.[componentSetId]
 
-      let tags = []
+      let tags: string[] = []
 
       // add component tags
-      tags = description
+      tags = (description as string)
         .split(/[,;|]/g)
         .map((s) => (s ? s.trim() : null))
-        .filter(Boolean)
+        .filter(Boolean) as string[]
 
       // add set tags
-      tags = (componentSet?.description || '')
+      tags = ((componentSet?.description || '') as string)
         .split(/[,;|]/g)
         .map((s) => (s ? s.trim() : null))
         .filter(Boolean)
-        .reduce((tags, tag) => {
+        .reduce((tags: string[], tag: string) => {
           if (!tags.includes(tag)) {
             tags.push(tag)
           }
@@ -842,7 +884,7 @@ const createXMLTarBundles = async ({
   }
 }
 
-const optimizeSVGIcons = async ({ destDir, listWithFiles }) => {
+const optimizeSVGIcons = async ({ destDir, listWithFiles }: { destDir: string; listWithFiles: Array<{ iconFile: string }> }) => {
   await asyncForEach(
     listWithFiles,
     async ({ iconFile }: { iconFile: string }) => {
@@ -854,7 +896,7 @@ const optimizeSVGIcons = async ({ destDir, listWithFiles }) => {
   )
 }
 
-const optimizeSVG = async (file) => {
+const optimizeSVG = async (file: string) => {
   if (!fs.existsSync(file)) {
     log.fail(`Figma: optimizeSVG got an non existing file: ${file}`)
     return null
@@ -893,7 +935,7 @@ const optimizeSVG = async (file) => {
   return null
 }
 
-const _insertInlineStylesToSVG = (svg) => {
+const _insertInlineStylesToSVG = (svg: string) => {
   return Object.entries(properties)
     .filter(([key]) => key.includes('--color-'))
     .reduce((acc, [key, val]) => {
@@ -907,7 +949,7 @@ const _insertInlineStylesToSVG = (svg) => {
     }, svg)
 }
 
-const getIconCanvasDoc = ({ figmaDoc }) => {
+const getIconCanvasDoc = ({ figmaDoc }: { figmaDoc: FigmaDocAny }) => {
   const { canvasNameSelector } = IconsConfig()
   return findNode(figmaDoc.document, {
     name: canvasNameSelector,
@@ -915,7 +957,7 @@ const getIconCanvasDoc = ({ figmaDoc }) => {
   })
 }
 
-const formatIconName = (n) =>
+const formatIconName = (n: string) =>
   String(n)
     .trim()
     .toLowerCase()
@@ -932,7 +974,7 @@ type IconsLockFileItem = {
 }
 type IconsLockFileMap = { [key: string]: IconsLockFileItem }
 
-export const readIconsLockFile = async ({ file }) => {
+export const readIconsLockFile = async ({ file }: { file: string }) => {
   if (fs.existsSync(file)) {
     try {
       return JSON.parse(
@@ -946,19 +988,19 @@ export const readIconsLockFile = async ({ file }) => {
 
   return {} as IconsLockFileMap
 }
-export const saveIconsLockFile = async ({ file, data, assetsDir }) => {
+export const saveIconsLockFile = async ({ file, data, assetsDir }: { file: string; data: unknown; assetsDir: string }) => {
   await saveToFile(file, await formatIconsMetaFile(data, assetsDir))
 
   log.info(`> Figma: ${file} file got generated`)
 }
 
-const makeIconsMetaFile = (assetsDir) =>
+const makeIconsMetaFile = (assetsDir: string) =>
   path.resolve(
     __dirname,
     `../../../src/icons/${assetsDir}/icons-meta.json`
   )
 
-export const formatIconsMetaFile = async (data, assetsDir) => {
+export const formatIconsMetaFile = async (data: unknown, assetsDir: string) => {
   return await prettier.format(JSON.stringify(data), {
     ...prettierrc,
     filepath: makeIconsMetaFile(assetsDir),

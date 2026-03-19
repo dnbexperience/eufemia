@@ -15,7 +15,7 @@ export const checkMinMaxWidth = (
   return { minWidth, maxWidth }
 }
 
-export const getContent = (props) => {
+export const getContent = (props: Record<string, unknown>) => {
   if (typeof props.modalContent === 'string') {
     return props.modalContent
   } else if (typeof props.modalContent === 'function') {

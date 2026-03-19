@@ -14,7 +14,7 @@ export function useCollectStepsData() {
   const translations = useTranslation()
 
   const collectStepsData = useCallback(
-    ({ id, index, inactive, title, keepInDOM }) => {
+    ({ id, index, inactive, title, keepInDOM }: { id: string; index: number; inactive: boolean; title: React.ReactNode; keepInDOM: boolean }) => {
       if (!hasInvalidStepsState) {
         return // stop here
       }
@@ -26,7 +26,7 @@ export function useCollectStepsData() {
         if (hasInvalidStepsState(index, ['error'])) {
           // Show FormStatus inside the StepIndicator
           status = translations.Step.stepHasError
-          statusState = 'error'
+          statusState = 'error' as const
         }
       }
 

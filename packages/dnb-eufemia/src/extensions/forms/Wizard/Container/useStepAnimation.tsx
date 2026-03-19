@@ -6,6 +6,10 @@ export default function useStepAnimation({
   activeIndexRef,
   stepElementRef,
   executeLayoutAnimationRef,
+}: {
+  activeIndexRef: React.RefObject<number>
+  stepElementRef: React.RefObject<HTMLElement>
+  executeLayoutAnimationRef: React.MutableRefObject<(() => void) | undefined>
 }) {
   const activeIndex = activeIndexRef.current
   const indexRef = useRef(activeIndex)
@@ -20,10 +24,11 @@ export default function useStepAnimation({
     // as it rerenders the children
     window.requestAnimationFrame(() => {
       try {
-        const elements: Array<HTMLElement> =
+        const elements: Array<HTMLElement> = Array.from(
           stepElementRef.current.querySelectorAll(
             '.dnb-forms-step > *, .dnb-forms-button-row > *'
           )
+        ) as HTMLElement[]
         elements.forEach((element, i) => {
           element.style.setProperty('--element-index', String(i + 1))
           element.classList.add('appear-fx')

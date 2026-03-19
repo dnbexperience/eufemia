@@ -1694,7 +1694,7 @@ const allNationalCurrencies = [
   ...selectedNationalCurrencies,
 ] satisfies Readonly<Array<CurrencyType>>
 
-const preciousMetals = [
+const preciousMetals: Readonly<Array<CurrencyType>> = [
   {
     continent: 'None',
     iso: 'XPD',
@@ -1735,7 +1735,7 @@ const preciousMetals = [
 
 // https://en.wikipedia.org/wiki/ISO_4217#X_currencies_(funds,_precious_metals,_supranationals,_other)
 
-const xCurrencies = [
+const xCurrencies: Readonly<Array<CurrencyType>> = [
   {
     continent: 'Africa',
     iso: 'XAF',

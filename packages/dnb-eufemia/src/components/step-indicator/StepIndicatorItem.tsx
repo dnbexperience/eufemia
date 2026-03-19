@@ -87,7 +87,7 @@ function StepIndicatorItem({
   const context = useContext(StepIndicatorContext)
 
   const onClickHandler = useCallback(
-    ({ event, item, currentItemNum }) => {
+    ({ event, item, currentItemNum }: { event: React.MouseEvent | React.KeyboardEvent; item: Record<string, unknown>; currentItemNum: number }) => {
       const params = {
         event,
         item,

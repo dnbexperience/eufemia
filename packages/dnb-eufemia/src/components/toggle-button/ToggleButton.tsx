@@ -53,8 +53,7 @@ class ToggleButton extends React.PureComponent<
   static contextType = ToggleButtonGroupContext
   context!: ToggleButtonGroupContextValue
 
-  static defaultProps = {
-    text: null,
+  static defaultProps: Partial<ToggleButtonProps> = {
     label: null,
     labelDirection: null,
     labelSrOnly: null,
@@ -213,11 +212,15 @@ class ToggleButton extends React.PureComponent<
         event,
       })
     }
-    dispatchCustomElementEvent(this, 'onChange', {
-      checked,
-      value,
-      event,
-    })
+    dispatchCustomElementEvent(
+      this as unknown as Record<string, unknown>,
+      'onChange',
+      {
+        checked,
+        value,
+        event,
+      }
+    )
   }
 
   render() {
@@ -307,7 +310,7 @@ class ToggleButton extends React.PureComponent<
           }
 
           const id = this._id
-          const showStatus = getStatusState(status)
+          const showStatus = getStatusState(status as string)
 
           const mainParams = {
             className: clsx(

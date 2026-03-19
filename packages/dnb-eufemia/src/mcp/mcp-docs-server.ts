@@ -272,10 +272,10 @@ function createDocsContext(docsRoot: string) {
   async function resolveComponentPaths(
     name: string
   ): Promise<ResolvedComponent> {
-    let doc = null
-    let properties = null
-    let events = null
-    const slug = null
+    let doc: string | null = null
+    let properties: string | null = null
+    let events: string | null = null
+    const slug: string | null = null
 
     // Try multiple possible paths for the component
     const possiblePaths = conventionalDocPath(name)

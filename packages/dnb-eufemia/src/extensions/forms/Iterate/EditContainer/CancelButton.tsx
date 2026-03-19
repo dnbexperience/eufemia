@@ -46,7 +46,7 @@ export default function CancelButton(props: Props) {
   }, [arrayValue, containerMode, index])
 
   const cancelHandler = useCallback(
-    ({ close, event }) => {
+    ({ close, event }: { close?: () => void; event?: React.SyntheticEvent }) => {
       close?.()
       restoreOriginalValue?.(valueBackupRef.current)
 
@@ -64,7 +64,8 @@ export default function CancelButton(props: Props) {
           switchContainerMode?.('view')
         }
 
-        onClick?.(event)
+        // eslint-disable-next-line @typescript-eslint/consistent-type-imports
+        onClick?.(event as unknown as React.MouseEvent<HTMLButtonElement> & import('../../../../components/button/Button').ButtonClickEvent)
       }) // because of the re-render of "restoreOriginalData"
     },
     [
@@ -119,7 +120,7 @@ export default function CancelButton(props: Props) {
   return (
     <Button
       {...triggerAttributes}
-      onClick={(args) => cancelHandler(args)}
+      onClick={(args: Record<string, unknown>) => cancelHandler(args)}
       {...rest}
     />
   )

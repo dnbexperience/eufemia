@@ -248,7 +248,9 @@ export const processExtensions = async () => {
   })
 }
 
-export const processMainIndex = async ({ components, elements }) => {
+type FileEntry = { file: string; source: string }
+
+export const processMainIndex = async ({ components, elements }: { components: FileEntry[]; elements: FileEntry[] }) => {
   // fix the glory main index
   await runFactory({
     templateObjectToFill: '{ Template }',
@@ -260,7 +262,7 @@ export const processMainIndex = async ({ components, elements }) => {
     ),
     destFile: path.resolve(__dirname, '../../../src/index.ts'),
     filesToFindGlob: [...components, ...elements],
-    transformNamesList: ({ result }) => {
+    transformNamesList: ({ result }: { result: string }) => {
       // because elements don't have a folder, we remove the last part of the path
       if (/\/elements\//.test(result)) {
         return result.replace(/\/[^/]+\/?$/g, "'")
@@ -285,6 +287,17 @@ export const runFactory = async ({
   filesToFindGlobByUsingFolders = false,
   processToNamesIgnoreList = [],
   transformNamesList = null,
+}: {
+  templateObjectToFill?: string
+  templateListToExtend: string
+  templateListToExtendBy: string
+  srcFile: string
+  destFile: string | false
+  destPath?: string | null
+  filesToFindGlob: string | FileEntry[]
+  filesToFindGlobByUsingFolders?: boolean
+  processToNamesIgnoreList?: string[]
+  transformNamesList?: ((params: { file: string; source: string; result: string }) => string | undefined) | null
 }) => {
   if (typeof filesToFindGlob === 'string') {
     const __orig__filesToFindGlob = filesToFindGlob
@@ -391,7 +404,7 @@ export const runFactory = async ({
 
             // in case we have a type to replace
             if (/\{type\}/.test(res)) {
-              const type = source.trim('/').split(/\//g).slice(-2, -1)[0]
+              const type = source.replace(/^\/+|\/+$/g, '').split(/\//g).slice(-2, -1)[0]
               res = res.replace(new RegExp('{type}', 'g'), type)
             }
 

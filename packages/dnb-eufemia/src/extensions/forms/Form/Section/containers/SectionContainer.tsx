@@ -89,7 +89,7 @@ function SectionContainer(props: Props & FlexContainerProps) {
   }, [disableEditing, hasSubmitError, containerMode, switchContainerMode])
 
   const setFocus = useCallback(
-    (state) => {
+    (state: string) => {
       if (state === 'opened') {
         if (
           !omitFocusManagementRef.current &&
@@ -105,9 +105,9 @@ function SectionContainer(props: Props & FlexContainerProps) {
 
   // - Remove the block with animation, if it's in the right mode
   const handleAnimationEnd = useCallback(
-    (state) => {
+    (state: string) => {
       setFocus(state)
-      onAnimationEnd?.(state)
+      onAnimationEnd?.(state as unknown as React.AnimationEvent<HTMLDivElement>)
     },
     [onAnimationEnd, setFocus]
   )

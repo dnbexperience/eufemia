@@ -80,6 +80,9 @@ export type InputMaskParams = {
   suffix?: string
   disallowLeadingZeroes?: boolean
   integerLimit?: number
+  allowNegative?: boolean
+  min?: number
+  max?: number
 }
 
 export const correctNumberValue = ({

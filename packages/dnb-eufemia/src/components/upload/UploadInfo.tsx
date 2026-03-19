@@ -14,7 +14,7 @@ import Td from '../table/TableTd'
 import type { UploadAcceptedFileTypeObject, UploadProps } from './types'
 import Flex from '../../components/Flex'
 
-const prettifyAcceptedFileFormats = (acceptedFileTypes) =>
+const prettifyAcceptedFileFormats = (acceptedFileTypes: string[]) =>
   acceptedFileTypes.sort().join(', ').toUpperCase()
 
 const UploadInfo = () => {
@@ -34,7 +34,7 @@ const UploadInfo = () => {
   } = context
 
   const prettifiedAcceptedFileFormats =
-    prettifyAcceptedFileFormats(acceptedFileTypes)
+    prettifyAcceptedFileFormats(acceptedFileTypes as string[])
 
   const isAcceptedFileTypeListOfStrings =
     isArrayOfStrings(acceptedFileTypes)
@@ -127,9 +127,9 @@ function UploadInfoAcceptedFileTypesTable() {
       return fileMaxSize === false || fileMaxSize === 0
     }
 
-    const group = {}
+    const group: Record<string | number, UploadAcceptedFileTypeObject[]> = {}
     acceptedFileTypes.forEach((item) => {
-      const itemFileMaxSize = item.fileMaxSize
+      const itemFileMaxSize = (item as UploadAcceptedFileTypeObject).fileMaxSize
       const groupName = itemFileMaxSize
         ? itemFileMaxSize
         : fileMaxSizeIsFalseOrZero(itemFileMaxSize)
@@ -139,7 +139,7 @@ function UploadInfoAcceptedFileTypesTable() {
         : fallBackFileMaxSize
 
       group[groupName] = group[groupName] || []
-      group[groupName].push(item)
+      group[groupName].push(item as UploadAcceptedFileTypeObject)
     })
 
     return group
@@ -171,7 +171,7 @@ function UploadInfoAcceptedFileTypesTable() {
               <Tr variant="odd" key={key}>
                 <Td>
                   {prettifyAcceptedFileFormats(
-                    acceptedFileTypesGroupedByFileMaxSize[key].map(
+                    (acceptedFileTypesGroupedByFileMaxSize as Record<string, UploadAcceptedFileTypeObject[]>)[key].map(
                       (
                         acceptedFileTypesObj: UploadAcceptedFileTypeObject
                       ) => acceptedFileTypesObj.fileType

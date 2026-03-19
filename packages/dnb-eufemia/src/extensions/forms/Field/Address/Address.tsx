@@ -47,7 +47,8 @@ Address.Postal = function PostalAddress(props: Props) {
 
   return <Address {...postalAddressProps} />
 }
-Address.Postal['_supportsSpacingProps'] = true
+;
+(Address.Postal as unknown as Record<string, unknown>)['_supportsSpacingProps'] = true
 
 Address.Street = function StreetAddress(props: Props) {
   const { label, errorRequired, errorPattern } =
@@ -70,6 +71,7 @@ Address.Street = function StreetAddress(props: Props) {
 
   return <Address {...streetAddressProps} />
 }
-Address.Street['_supportsSpacingProps'] = true
+;
+(Address.Street as unknown as Record<string, unknown>)['_supportsSpacingProps'] = true
 
 export default Address

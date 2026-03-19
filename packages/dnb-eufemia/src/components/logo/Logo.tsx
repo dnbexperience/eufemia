@@ -113,7 +113,7 @@ function Logo(localProps: LogoProps) {
 
   // Alt text for the logo does not need to be translated. DNB alt will be the same in English.
   const altText = useMemo(() => {
-    const alt = svg?.['alt']
+    const alt = (svg as unknown as Record<string, unknown>)?.['alt']
     if (alt) {
       return alt as string
     }
@@ -188,7 +188,7 @@ function renderCustomSvg(
     if (theme) {
       for (const key in SvgComponent.props) {
         if (!(key in theme)) {
-          allowedProps[key] = SvgComponent.props[key]
+          allowedProps[key] = (SvgComponent.props as Record<string, unknown>)[key]
         }
       }
     }

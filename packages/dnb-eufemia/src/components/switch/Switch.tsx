@@ -170,14 +170,14 @@ function Switch(props: SwitchProps) {
   }, [checkedProp])
 
   const callOnChange = useCallback(
-    ({ checked, event }) => {
+    ({ checked, event }: SwitchOnChangeParams) => {
       onChange?.({ checked, event })
     },
     [onChange]
   )
 
   const onChangeHandler = useCallback(
-    (event) => {
+    (event: React.ChangeEvent<HTMLInputElement> | KeyboardEvent) => {
       if (preventChangeRef.current) {
         return // stop here
       }
@@ -186,14 +186,14 @@ function Switch(props: SwitchProps) {
 
       isCheckedRef.current = updatedChecked
       forceUpdate()
-      callOnChange({ checked: updatedChecked, event })
+      callOnChange({ checked: updatedChecked, event: event as unknown as SwitchOnChangeParams['event'] })
 
       if (onChangeEnd) {
         if (event && event.persist) {
           event.persist()
         }
         setTimeout(
-          () => onChangeEnd({ checked: updatedChecked, event }),
+          () => onChangeEnd({ checked: updatedChecked, event: event as unknown as SwitchOnChangeParams['event'] }),
           500
         )
       }
@@ -212,7 +212,7 @@ function Switch(props: SwitchProps) {
         const preventDefault = () => {
           event.preventDefault()
 
-          if (event.target['checked'] !== isCheckedRef.current) {
+          if ((event.target as HTMLInputElement)['checked'] !== isCheckedRef.current) {
             preventChangeRef.current = true
             isCheckedRef.current = !isCheckedRef.current
             forceUpdate()
@@ -244,7 +244,7 @@ function Switch(props: SwitchProps) {
     [onChangeHandler]
   )
 
-  const showStatus = useMemo(() => getStatusState(status), [status])
+  const showStatus = useMemo(() => getStatusState(status as string), [status])
 
   const mainParams = {
     className: clsx(
@@ -346,7 +346,7 @@ function Switch(props: SwitchProps) {
                 draggable
                 aria-hidden
                 className="dnb-switch__background"
-                onDragStart={onChangeHandler}
+                onDragStart={onChangeHandler as unknown as React.DragEventHandler<HTMLSpanElement>}
                 {...helperParams}
               />
               <span

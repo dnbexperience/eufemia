@@ -178,7 +178,7 @@ export type TextareaProps = Omit<
     ref?: React.Ref<HTMLTextAreaElement> | null
   }
 
-const textareaDefaultProps = {
+const textareaDefaultProps: Partial<TextareaProps> = {
   value: 'initval',
   statusState: 'error',
   readOnly: false,
@@ -493,7 +493,7 @@ function TextareaComponent(
     }
   })
 
-  const showStatus = getStatusState(status)
+  const showStatus = getStatusState(status as string)
   const currentHasValue = hasValue(value)
 
   let TextareaElement: TextareaElement = props.textareaElement
@@ -564,7 +564,7 @@ function TextareaComponent(
     ),
   }
 
-  const shellParams = {
+  const shellParams: { className: string; 'aria-disabled'?: boolean } = {
     className: clsx('dnb-textarea__shell'),
   }
 

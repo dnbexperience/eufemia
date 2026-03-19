@@ -47,10 +47,10 @@ const setOverflowHidden = () => {
     return () => {
       try {
         ;['overflow', 'height'].forEach((x) => {
-          htmlElement.style[x] = htmlStyle[x] || ''
+          ;(htmlElement.style as unknown as Record<string, string>)[x] = (htmlStyle as unknown as Record<string, string>)[x] || ''
         })
         ;['overflow', 'height', 'boxSizing', 'margin'].forEach((x) => {
-          bodyElement.style[x] = bodyStyle[x] || ''
+          ;(bodyElement.style as unknown as Record<string, string>)[x] = (bodyStyle as unknown as Record<string, string>)[x] || ''
         })
         htmlElement.style.removeProperty('--scrollbar-width')
       } catch (e) {
@@ -140,7 +140,7 @@ const setOverflowHiddenAndroid = () => {
 
       try {
         ;['position', 'top', 'right', 'left'].forEach((x) => {
-          bodyElement.style[x] = bodyStyle[x] || ''
+          ;(bodyElement.style as unknown as Record<string, string>)[x] = (bodyStyle as unknown as Record<string, string>)[x] || ''
         })
 
         const scrollBehavior =
@@ -159,7 +159,7 @@ const setOverflowHiddenAndroid = () => {
 
 const preventDefault = (event: TouchEvent) => {
   const found = lockedElements.find((targetElement) => {
-    return isChildOfElement(event.target, targetElement)
+    return isChildOfElement(event.target as HTMLElement, targetElement)
   })
 
   if (found || !event.cancelable) {
@@ -195,7 +195,7 @@ const handleScroll = (event: TouchEvent, targetElement: HTMLElement) => {
         (!isVertical && (isOnLeft || isOnRight))
       ) {
         const hasScrollbar = isChildOfElement(
-          event.target,
+          event.target as HTMLElement,
           targetElement,
           checkIfHasScrollbar
         )

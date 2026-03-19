@@ -152,11 +152,11 @@ export const validateDOMAttributes = (
   return params
 }
 
-export function isObject(item) {
+export function isObject(item: unknown): item is Record<string, unknown> {
   return item && typeof item === 'object' && !Array.isArray(item)
 }
 
-export function extendDeep(target = {}, ...sources) {
+export function extendDeep(target: Record<string, unknown> = {}, ...sources: unknown[]): Record<string, unknown> {
   for (const source of sources) {
     if (isObject(source)) {
       for (const key in source) {
@@ -169,7 +169,7 @@ export function extendDeep(target = {}, ...sources) {
           if (!isObject(target[key])) {
             target[key] = {}
           }
-          extendDeep(target[key], source[key])
+          extendDeep(target[key] as Record<string, unknown>, source[key])
         } else {
           target[key] = source[key]
         }
@@ -181,43 +181,44 @@ export function extendDeep(target = {}, ...sources) {
 }
 
 export const dispatchCustomElementEvent = (
-  src,
-  eventName,
-  eventObjectOrig = undefined
+  src: Record<string, unknown>,
+  eventName: string,
+  eventObjectOrig: Record<string, unknown> = undefined
 ) => {
   let ret = undefined
 
   const eventObject = {
-    ...((eventObjectOrig && eventObjectOrig.event) || {}),
-    ...eventObjectOrig,
+    ...((eventObjectOrig && eventObjectOrig.event as Record<string, unknown>) || {}),
+    ...(eventObjectOrig || {}),
   }
 
   // distribute dataset like "data-*" to both currentTarget and target
   if (eventObject && eventObject.attributes && eventObject.event) {
-    const currentTarget = eventObject.event.currentTarget
+    const evt = eventObject.event as Record<string, unknown>
+    const currentTarget = (evt as { currentTarget?: HTMLElement }).currentTarget
     if (currentTarget) {
       try {
         // 1. create new dataset, and copy if exists
         const dataset = { ...(currentTarget.dataset || {}) }
 
         // 2. copy in our attributes if they are of "data-" type
-        const attributes = { ...eventObject.attributes }
+        const attributes = { ...(eventObject.attributes as Record<string, unknown>) }
         for (const i in attributes) {
           if (/^data-/.test(i)) {
-            dataset[String(i).replace(/^data-/, '')] = attributes[i]
+            dataset[String(i).replace(/^data-/, '')] = attributes[i] as string
           }
         }
 
         // 3. and distribute them to the targets. Use the for method because of immutability
         for (const i in dataset) {
-          if (eventObject.event.currentTarget.dataset) {
-            eventObject.event.currentTarget.dataset[i] = dataset[i]
+          if ((evt as { currentTarget?: HTMLElement }).currentTarget?.dataset) {
+            (evt as { currentTarget?: HTMLElement }).currentTarget.dataset[i] = dataset[i]
           }
           if (
-            eventObject.event.target &&
-            eventObject.event.target.dataset
+            (evt as { target?: HTMLElement }).target &&
+            (evt as { target?: HTMLElement }).target.dataset
           ) {
-            eventObject.event.target.dataset[i] = dataset[i]
+            (evt as { target?: HTMLElement }).target.dataset[i] = dataset[i]
           }
         }
       } catch (e) {
@@ -226,10 +227,10 @@ export const dispatchCustomElementEvent = (
     }
   }
 
-  const props = (src && src.props) || src
+  const props = ((src && src.props) || src) as Record<string, unknown>
 
   if (typeof props[eventName] === 'function') {
-    const r = props[eventName].apply(src, [eventObject])
+    const r = (props[eventName] as (...args: unknown[]) => unknown).apply(src, [eventObject])
     if (typeof r !== 'undefined') {
       ret = r
     }
@@ -239,24 +240,24 @@ export const dispatchCustomElementEvent = (
 }
 
 // transform my_component to MyComponent
-export const toPascalCase = (s) =>
+export const toPascalCase = (s: string) =>
   s
     .split(/_/g)
     .reduce(
-      (acc, cur) =>
+      (acc: string, cur: string) =>
         acc +
         cur.replace(
           /(\w)(\w*)/g,
-          (g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase()
+          (_g0: string, g1: string, g2: string) => g1.toUpperCase() + g2.toLowerCase()
         ),
       ''
     )
 
 // transform MyComponent to my-component
-export const toKebabCase = (str) =>
-  str.replace(/\B[A-Z]/g, (letter) => `-${letter}`).toLowerCase()
+export const toKebabCase = (str: string) =>
+  str.replace(/\B[A-Z]/g, (letter: string) => `-${letter}`).toLowerCase()
 
-export function toCapitalized(str) {
+export function toCapitalized(str: string) {
   return typeof str === 'string'
     ? str
         .toLowerCase()
@@ -279,7 +280,7 @@ export const makeUniqueId = (prefix = 'id-', length = 8) =>
   ).slice(-length)
 let idIncrement = 0
 
-export const slugify = (s) =>
+export const slugify = (s: string) =>
   String(s)
     .toLowerCase()
     .replace(/[^\w\s-]/g, '')
@@ -295,9 +296,9 @@ export const slugify = (s) =>
  * @param {function} callback (optional)
  * @returns {HTMLElement | null} Returns the found child of all existing dom elements inside of "target"
  */
-export const isChildOfElement = (element, target, callback = null) => {
+export const isChildOfElement = (element: HTMLElement, target: HTMLElement, callback: ((el: HTMLElement) => unknown) | null = null) => {
   try {
-    const contains = (element) => {
+    const contains = (element: HTMLElement) => {
       if (callback) {
         const res = callback(element)
         if (res) {
@@ -323,12 +324,12 @@ export const isChildOfElement = (element, target, callback = null) => {
 }
 
 // Round number to nearest target number
-export const roundToNearest = (num, target) => {
+export const roundToNearest = (num: number, target: number) => {
   const diff = num % target
   return diff > target / 2 ? num - diff + target : num - diff
 }
 
-export const getClosestScrollViewElement = (currentElement) => {
+export const getClosestScrollViewElement = (currentElement: HTMLElement) => {
   return getClosestParent('.dnb-scroll-view', currentElement)
 }
 
@@ -352,7 +353,7 @@ export function convertJsxToString(
       }
 
       if (Array.isArray(element.props.children)) {
-        word = element.props.children.reduce((acc, word) => {
+        word = element.props.children.reduce((acc: string, word: React.ReactNode) => {
           if (typeof word !== 'string') {
             word = process(word)
           }
@@ -386,7 +387,7 @@ export function convertJsxToString(
     .trim()
 }
 
-export function getStatusState(status) {
+export function getStatusState(status: string) {
   return (
     status &&
     status !== 'error' &&
@@ -395,47 +396,48 @@ export function getStatusState(status) {
   )
 }
 
-export function combineLabelledBy(...params) {
+export function combineLabelledBy(...params: unknown[]) {
   return combineAriaBy('aria-labelledby', params)
 }
-export function combineDescribedBy(...params) {
+export function combineDescribedBy(...params: unknown[]) {
   return combineAriaBy('aria-describedby', params)
 }
-export function combineDetails(...params) {
+export function combineDetails(...params: unknown[]) {
   return combineAriaBy('aria-details', params)
 }
-function combineAriaBy(type, params) {
-  params = params.map((cur) => {
+function combineAriaBy(type: string, params: unknown[]) {
+  const result: unknown[] = params.map((cur: unknown) => {
     if (Array.isArray(cur)) {
       return cur.join(' ')
     }
-    if (cur && params.includes(cur[type])) {
+    const curObj = cur as Record<string, unknown>
+    if (curObj && result.includes(curObj[type])) {
       return null
     }
-    if (cur && typeof cur[type] !== 'undefined') {
-      cur = cur[type]
+    if (curObj && typeof curObj[type] !== 'undefined') {
+      return curObj[type] as string
     }
     if (typeof cur !== 'string') {
-      cur = null
+      return null
     }
     return cur
   })
-  params = params.filter(Boolean).join(' ')
-  if (params === '') {
-    params = undefined
+  const joined = result.filter(Boolean).join(' ')
+  if (joined === '') {
+    return undefined
   }
-  return params
+  return joined
 }
 
-export function findElementInChildren(children, find) {
+export function findElementInChildren(children: React.ReactNode | React.ReactNode[], find: (element: React.ReactElement) => boolean): React.ReactElement | null {
   if (!Array.isArray(children)) {
     children = [children]
   }
 
-  let result = null
-  children.some((cur) => {
-    if (cur && cur.props && cur.props.children) {
-      const res = findElementInChildren(cur.props.children, find)
+  let result: React.ReactElement | null = null
+  ;(children as React.ReactNode[]).some((cur: React.ReactNode) => {
+    if (React.isValidElement(cur) && cur.props && (cur.props as Record<string, unknown>).children) {
+      const res = findElementInChildren((cur.props as Record<string, unknown>).children as React.ReactNode, find)
       if (res) {
         return (result = res)
       }
@@ -449,11 +451,11 @@ export function findElementInChildren(children, find) {
   return result
 }
 
-export function escapeRegexChars(str) {
+export function escapeRegexChars(str: string) {
   return str.replace(/[-[\]{}()*+?.,\\^$|#]/g, '\\$&')
 }
 
-export function removeUndefinedProps(object) {
+export function removeUndefinedProps(object: Record<string, unknown>) {
   Object.keys(object || {}).forEach((key) => {
     if (object[key] === undefined) {
       delete object[key]

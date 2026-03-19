@@ -356,7 +356,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     if (schema || dataContext?.schema) {
       const paths = identifier.split('/')
       if (paths.length > 0) {
-        const requiredInSchema = [schema?.['required']]
+        const requiredInSchema = [(schema as Record<string, unknown>)?.['required']]
 
         // - Handle context schema
         if (paths.length > 1) {
@@ -366,7 +366,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
             ? pointer.get(schema, pathWithoutLast)
             : schema
 
-          const requiredSchemaList = schemaPart?.['required']
+          const requiredSchemaList = (schemaPart as Record<string, unknown>)?.['required']
           if (Array.isArray(requiredSchemaList)) {
             const rootPath = pathWithoutLast.replace(/properties\//g, '')
             const requiredList = requiredSchemaList.map((path) => {
@@ -404,7 +404,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   ])
 
   const getFieldByPath = useCallback(
-    (path) => {
+    (path: string) => {
       return (
         fieldInternalsRef.current?.[path] || {
           props: undefined,
@@ -478,7 +478,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     isInternalRerenderRef,
     schemaValidatorRef,
     translationRef,
-    formatMessage,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    formatMessage: formatMessage as any,
     getFieldByPath,
     getValueByPath,
     forceUpdate,
@@ -696,7 +697,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
         addToPool(
           'onBlurValidator',
-          async () => await startOnBlurValidatorProcess({ overrideValue }),
+          async () => { await startOnBlurValidatorProcess({ overrideValue }) },
           isAsync(onBlurValidatorRef.current)
         )
 
@@ -1132,7 +1133,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       if (onBlurValidatorRef.current && shouldRevalidateOnLocaleChange) {
         addToPool(
           'onBlurValidator',
-          async () => await startOnBlurValidatorProcess(),
+          async () => { await startOnBlurValidatorProcess() },
           isAsync(onBlurValidatorRef.current)
         )
 
@@ -1512,13 +1513,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
     addToPool(
       'onChangeValidator',
-      startOnChangeValidatorValidation,
+      async () => { await startOnChangeValidatorValidation() },
       isAsync(onChangeValidatorRef.current)
     )
 
     addToPool(
       'onBlurValidator',
-      startOnBlurValidatorProcess,
+      async () => { await startOnBlurValidatorProcess() },
       isAsync(onBlurValidatorRef.current)
     )
 
@@ -1653,7 +1654,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     return Object.keys(props).reduce<AriaAttributes>(
       (acc, cur) => {
         if (cur.startsWith('aria-') || cur.startsWith('data-')) {
-          acc[cur] = props[cur]
+          ;(acc as Record<string, unknown>)[cur] = (props as Record<string, unknown>)[cur]
         }
         return acc
       },
@@ -1737,7 +1738,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     /** Internal */
     fieldState: resolveValidatingState(fieldStateRef.current),
     labelHeight:
-      typeof props['size'] === 'string' ? props['size'] : undefined, // component/field size
+      typeof (props as Record<string, unknown>)['size'] === 'string' ? (props as Record<string, unknown>)['size'] as string : undefined, // component/field size
   }
 
   const sharedData = useSharedState('field-block-props-' + id)
@@ -1820,4 +1821,4 @@ export type ReturnAdditional<Value> = {
 
 export { checkForError } from './useFieldError'
 
-export const clearedArray = []
+export const clearedArray: unknown[] = []

@@ -48,13 +48,13 @@ export default function useDates(
   const hasDatePropChanges = useMemo(
     () =>
       Object.keys(dateProps).some((date) => {
-        const dateProp = dateProps[date]
-        const previousDate = previousDateProps[date]
+        const dateProp = (dateProps as Record<string, unknown>)[date]
+        const previousDate = (previousDateProps as Record<string, unknown>)[date]
 
-        const convertedDateProp = convertStringToDate(dateProp, {
+        const convertedDateProp = convertStringToDate(dateProp as string | Date, {
           dateFormat,
         })
-        const convertedPreviousDate = convertStringToDate(previousDate, {
+        const convertedPreviousDate = convertStringToDate(previousDate as string | Date, {
           dateFormat,
         })
         // Make sure that same dates does not trigger a change

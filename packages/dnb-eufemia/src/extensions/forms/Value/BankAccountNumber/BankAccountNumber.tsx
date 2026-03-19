@@ -14,7 +14,7 @@ export type Props = StringValueProps
 function BankAccountNumber(props: Props) {
   const translations = useTranslation().BankAccountNumber
 
-  const toInput = useCallback((value) => {
+  const toInput = useCallback((value: unknown) => {
     if (isValueEmpty(value)) {
       return undefined
     }

@@ -309,7 +309,7 @@ function createDaggy() {
   }
 
   function sum$cata(this: DaggyObj, fs: DaggyObj) {
-    const tags: string[] = this.constructor[TAGS]
+    const tags: string[] = (this.constructor as DaggyObj)[TAGS]
     let tag: string
 
     for (let idx = 0; idx < tags.length; idx += 1) {
@@ -330,7 +330,7 @@ function createDaggy() {
 
   function sum$toString(this: DaggyObj) {
     return (
-      this.constructor[TYPE] +
+      (this.constructor as DaggyObj)[TYPE] +
       '.' +
       this[TAG] +
       arrToString(this[VALUES] as unknown[])

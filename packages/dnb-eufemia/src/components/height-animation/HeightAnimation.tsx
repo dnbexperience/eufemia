@@ -92,10 +92,10 @@ function HeightAnimation({
   }
 
   if (duration) {
-    firstPaintStyle['--duration'] = `${duration}ms`
+    ;(firstPaintStyle as Record<string, string>)['--duration'] = `${duration}ms`
   }
   if (delay) {
-    firstPaintStyle['--delay'] = `${delay}ms`
+    ;(firstPaintStyle as Record<string, string>)['--delay'] = `${delay}ms`
   }
 
   return (

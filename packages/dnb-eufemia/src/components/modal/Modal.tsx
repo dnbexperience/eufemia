@@ -51,7 +51,7 @@ class Modal extends React.PureComponent<ModalAllProps, ModalState> {
   static Header = ModalHeader
   static Content = ModalInner
 
-  static getContent(props) {
+  static getContent(props: ModalAllProps) {
     if (typeof props.modalContent === 'string') {
       return props.modalContent
     } else if (typeof props.modalContent === 'function') {
@@ -81,7 +81,7 @@ class Modal extends React.PureComponent<ModalAllProps, ModalState> {
     noAnimation: false,
   }
 
-  static defaultProps = {
+  static defaultProps: Partial<ModalAllProps> = {
     id: null,
     focusSelector: null,
     labelledBy: null,
@@ -129,13 +129,13 @@ class Modal extends React.PureComponent<ModalAllProps, ModalState> {
     barContent: null,
   }
 
-  static getDerivedStateFromProps(props, state) {
-    if (typeof window !== 'undefined' && window['IS_TEST']) {
+  static getDerivedStateFromProps(props: ModalAllProps, state: ModalState & { animationDuration: number; noAnimation: boolean; _open?: boolean }) {
+    if (typeof window !== 'undefined' && (window as unknown as Record<string, unknown>)['IS_TEST']) {
       state.animationDuration = 0
       state.noAnimation = true
     } else {
-      state.animationDuration = props.animationDuration
-      state.noAnimation = props.noAnimation
+      state.animationDuration = props.animationDuration as number
+      state.noAnimation = props.noAnimation as boolean
     }
 
     if (props.open !== state._open) {
@@ -156,7 +156,7 @@ class Modal extends React.PureComponent<ModalAllProps, ModalState> {
     return state
   }
 
-  constructor(props) {
+  constructor(props: ModalAllProps) {
     super(props)
     this._id = props.id || makeUniqueId('modal-')
 
@@ -183,7 +183,7 @@ class Modal extends React.PureComponent<ModalAllProps, ModalState> {
     })
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: ModalAllProps) {
     // Don't interfere if modal is currently transitioning, added to fix an issue with rapid state changes in React v19.
     // Could be considered to be removed in the future, when Eufemia is using React v19.
     if (this.isInTransition) {
@@ -209,7 +209,7 @@ class Modal extends React.PureComponent<ModalAllProps, ModalState> {
     }
   }
 
-  toggleOpenClose = (event = null, showModal = null) => {
+  toggleOpenClose = (event: Event | React.SyntheticEvent | null = null, showModal: boolean | null = null) => {
     if (event && event.preventDefault) {
       event.preventDefault()
     }
@@ -354,11 +354,11 @@ class Modal extends React.PureComponent<ModalAllProps, ModalState> {
 
     if (preventClose) {
       const id = this._id
-      dispatchCustomElementEvent(this, 'onClosePrevent', {
+      dispatchCustomElementEvent(this as unknown as Record<string, unknown>, 'onClosePrevent', {
         id,
         event,
         triggeredBy,
-        close: (e) => {
+        close: (e: Event | React.SyntheticEvent) => {
           this.toggleOpenClose(e, false)
         },
       })
@@ -418,7 +418,7 @@ class Modal extends React.PureComponent<ModalAllProps, ModalState> {
 
   render() {
     const visualTestsPropsOverride =
-      typeof window !== 'undefined' && window['IS_TEST']
+      typeof window !== 'undefined' && (window as unknown as Record<string, unknown>)['IS_TEST']
         ? {
             animationDuration: 0,
             noAnimation: true,
@@ -464,7 +464,7 @@ class Modal extends React.PureComponent<ModalAllProps, ModalState> {
         : this.props
     )
 
-    const render = (suffixProps) => {
+    const render = (suffixProps: Record<string, unknown> | null) => {
       const usedTriggerAttributes = {
         hidden: false,
         variant: 'secondary',

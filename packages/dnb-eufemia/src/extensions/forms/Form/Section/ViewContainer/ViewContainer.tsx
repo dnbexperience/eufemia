@@ -24,7 +24,7 @@ function ViewContainer(props: AllProps) {
   const { disableEditing } = useContext(SectionContainerContext) || {}
 
   const hasToolbar = React.Children.toArray(children).some((child) => {
-    return child?.['type'] === Toolbar
+    return (child as React.ReactElement)?.type === Toolbar
   })
 
   const showDefaultToolbar = !disableEditing && !hasToolbar

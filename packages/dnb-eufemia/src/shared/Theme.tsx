@@ -84,6 +84,12 @@ export function ThemeWrapper({
   element = null,
   className = null,
   ...rest
+}: {
+  children: React.ReactNode
+  theme: ThemeProps
+  element?: DynamicElement | false | null
+  className?: string | null
+  [key: string]: unknown
 }) {
   const Wrapper = element === false ? React.Fragment : element || 'div'
   const ref = React.useRef<HTMLElement>(null)
@@ -110,7 +116,7 @@ export function ThemeWrapper({
   )
 }
 
-export function getThemeClasses(theme: ThemeProps, className = null) {
+export function getThemeClasses(theme: ThemeProps, className: string | null = null) {
   if (!theme) {
     return className
   }

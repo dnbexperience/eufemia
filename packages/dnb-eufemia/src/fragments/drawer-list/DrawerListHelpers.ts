@@ -25,13 +25,13 @@ import Icon from '../../components/icon/Icon'
 import CountryFlag from '../../components/country-flag/CountryFlag'
 
 export const drawerListDefaultProps = {
-  id: null,
+  id: null as string | null,
   role: 'listbox',
-  cacheHash: null,
+  cacheHash: null as string | null,
   arrowPosition: 'left',
   scrollable: true,
   focusable: false,
-  maxHeight: null,
+  maxHeight: null as (string | number) | null,
   direction: 'auto',
   size: 'default',
   noAnimation: false,
@@ -40,40 +40,40 @@ export const drawerListDefaultProps = {
   actionMenu: false,
   isPopup: false,
   alignDrawer: 'left',
-  wrapperElement: null,
-  defaultValue: null,
+  wrapperElement: null as (string | HTMLElement) | null,
+  defaultValue: null as (string | number) | null,
   value: 'initval',
-  portalClass: null,
-  listClass: null,
-  skipPortal: null,
+  portalClass: null as string | null,
+  listClass: null as string | null,
+  skipPortal: null as boolean | null,
   preventClose: false,
   keepOpen: false,
   preventFocus: false,
   fixedPosition: false,
   independentWidth: false,
   skipKeysearch: false,
-  open: null,
-  data: null,
-  rawData: null,
-  ignoreEvents: null,
+  open: null as boolean | null,
+  data: null as DrawerListData | null,
+  rawData: null as DrawerListDataAll | null,
+  ignoreEvents: null as boolean | null,
 
-  className: null,
-  children: null,
+  className: null as string | null,
+  children: null as React.ReactNode,
 
-  onOpen: null,
-  onClose: null,
-  handleDismissFocus: null,
-  onChange: null,
-  onPreChange: null,
-  onResize: null,
-  onSelect: null,
-  optionsRender: null,
+  onOpen: null as ((...args: never[]) => void) | null,
+  onClose: null as ((...args: never[]) => void) | null,
+  handleDismissFocus: null as (() => void) | null,
+  onChange: null as ((...args: never[]) => void) | null,
+  onPreChange: null as ((...args: never[]) => void) | null,
+  onResize: null as ((...args: never[]) => void) | null,
+  onSelect: null as ((...args: never[]) => void) | null,
+  optionsRender: null as ((...args: never[]) => void) | null,
 }
 
 export const drawerListProviderDefaultProps = {
   enableBodyLock: false,
-  pageOffset: null,
-  observerElement: null,
+  pageOffset: null as (string | number) | null,
+  observerElement: null as (string | React.ReactNode) | null,
   minHeight: 10, // 10rem = 10x16=160,
 }
 
@@ -146,7 +146,8 @@ export function parseContentTitle(
   return ret
 }
 
-export const hasObjectKeyAsValue = (data) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const hasObjectKeyAsValue = (data: any) => {
   data = data?.rawData || data
   return data && typeof data === 'object' && !Array.isArray(data)
 }
@@ -172,7 +173,8 @@ export function preSelectData(data: DrawerListData): DrawerListDataAll {
  * @param {*} props object containing the data in props.data or props.children, or the data itself
  * @returns an array representation of the data
  */
-export function normalizeData(props): DrawerListInternalData {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function normalizeData(props: any): DrawerListInternalData {
   let data = preSelectData(props.data || props.children || props) ?? []
 
   if (typeof data === 'object' && !Array.isArray(data)) {
@@ -210,11 +212,12 @@ function normalizeDataItem(
       }
 }
 
-export const getData = (props) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getData = (props: any) => {
   return normalizeData(props)
 }
 
-export const getCurrentIndex = (value, data) => {
+export const getCurrentIndex = (value: string | number, data: DrawerListInternalData) => {
   // 1. if a non-numeric value is given
   if (/[^0-9]/.test(String(value))) {
     return data?.findIndex((cur) => parseCurrentValue(cur) === value)
@@ -229,7 +232,7 @@ export const getCurrentIndex = (value, data) => {
     }
   }
   // 3. if is numeric, and no matching "selectedKey", handle it as a index.
-  if (!isNaN(parseFloat(value))) {
+  if (!isNaN(parseFloat(String(value)))) {
     return value
   }
 
@@ -250,17 +253,17 @@ export const getCurrentIndex = (value, data) => {
   }
 }
 
-export const getSelectedItemValue = (value, state) => {
+export const getSelectedItemValue = (value: string | number, state: DrawerListContextState) => {
   if (hasObjectKeyAsValue(state)) {
     return parseCurrentValue(
-      state.data.filter((_, i) => i === parseFloat(value))[0]
+      state.data.filter((_, i) => i === parseFloat(String(value)))[0]
     )
   }
 
   return value
 }
 
-export const parseCurrentValue = (current) => {
+export const parseCurrentValue = (current: DrawerListDataArrayObject) => {
   if (typeof current?.selectedKey !== 'undefined') {
     return current?.selectedKey
   }
@@ -270,7 +273,8 @@ export const parseCurrentValue = (current) => {
   return current
 }
 
-export const getEventData = (itemIndex, data) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getEventData = (itemIndex: string | number, data: any) => {
   data = getCurrentData(itemIndex, data)
 
   // cleanup
@@ -283,12 +287,13 @@ export const getEventData = (itemIndex, data) => {
   return data
 }
 
-export const getCurrentData = (itemIndex, data) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getCurrentData = (itemIndex: string | number, data: any) => {
   if (typeof data === 'function') {
     data = normalizeData(data)
   }
 
-  data = (data && data.find(({ __id }) => __id === itemIndex)) || null
+  data = (data && data.find(({ __id }: DrawerListInternalItem) => __id === itemIndex)) || null
 
   if (data && data.__isTransformed) {
     return data.content
@@ -319,7 +324,7 @@ function getFirstItemFromData(data: DrawerListInternalData): number {
 export function prepareStartupState(
   props: DrawerListProviderProps
 ): DrawerListContextState {
-  const selectedItem = null
+  const selectedItem: number | null = null
   const rawData = preSelectData(
     props.data ||
       (!React.isValidElement(props.children)
@@ -457,7 +462,7 @@ export const prepareDerivedState = (
   return state
 }
 
-export const getCurrentDataTitle = (selectedItem, data) => {
+export const getCurrentDataTitle = (selectedItem: string | number, data: DrawerListInternalData) => {
   const currentData = getCurrentData(selectedItem, data)
   return parseContentTitle(currentData, {
     separator: ' ',
@@ -465,8 +470,9 @@ export const getCurrentDataTitle = (selectedItem, data) => {
   })
 }
 
-export const findClosest = (arr, val) =>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const findClosest = (arr: any[], val: number) =>
   Math.max.apply(
     null,
-    arr.filter((v) => v <= val)
+    arr.filter((v: number) => v <= val)
   )

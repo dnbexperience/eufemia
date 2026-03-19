@@ -14,7 +14,7 @@ export const GLOBAL_VISUAL_FILES = new Set([
 export const GLOBAL_VISUAL_PATH_PREFIXES = ['src/style/', 'src/core/jest/']
 
 // Source paths that should not influence visual screenshot selection.
-export const NON_VISUAL_SOURCE_PATH_PREFIXES = []
+export const NON_VISUAL_SOURCE_PATH_PREFIXES: string[] = []
 
 // Source files that should not trigger visual dependency expansion.
 export const NON_VISUAL_SOURCE_FILES = new Set([])

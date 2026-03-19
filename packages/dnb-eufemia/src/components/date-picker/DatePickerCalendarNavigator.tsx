@@ -197,7 +197,7 @@ function CalendarNavButton({
   const translationKey = `${type}${capitalizeFirstLetter(dateType)}`
   const dateHandler = dateHandlers[dateType][type]
 
-  const title = translations[translationKey].replace(
+  const title = (translations as Record<string, string>)[translationKey].replace(
     /%s/,
     formatDate(dateHandler(date, 1), {
       locale,

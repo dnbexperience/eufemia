@@ -1589,7 +1589,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   )
 
   const toggleVisibleAndFocusOptions = useCallback(() => {
-    drawerListRef.current.toggleVisible(null, (isVisible) => {
+    drawerListRef.current.toggleVisible(null, (isVisible: boolean) => {
       if (isVisible) {
         focusDrawerList()
       }
@@ -1600,8 +1600,9 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     (rawData: DrawerListInternalData) => {
       const { selectedItem } = drawerListRef.current
       if (parseFloat(String(selectedItem)) > -1) {
-        const newItem = rawData?.[selectedItem]
-        const oldItem = drawerListRef.current.originalData[selectedItem]
+        const idx = Number(selectedItem)
+        const newItem = rawData?.[idx]
+        const oldItem = drawerListRef.current.originalData[idx]
         if (newItem?.selectedKey !== oldItem?.selectedKey) {
           return true
         }
@@ -2317,11 +2318,11 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     ref: _refShell,
   }
 
-  const inputParams = {
+  const inputParams: Record<string, unknown> = {
     className: 'dnb-autocomplete__input',
     id,
     value: inputValue ?? '',
-    placeholder: undefined,
+    placeholder: undefined as string | undefined,
     autoCapitalize: 'none',
     spellCheck: false,
     autoCorrect: 'off',

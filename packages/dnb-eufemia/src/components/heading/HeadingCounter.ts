@@ -53,7 +53,7 @@ export class Counter {
   isHeading = false
   bypassChecks = false
   contextCounter: ContextCounter = null
-  reports = []
+  reports: Array<Array<string | number>> = []
   group: CounterGroup = null
   children: CounterChildren = null
 
@@ -72,7 +72,7 @@ export class Counter {
     this.children = props.children
   }
 
-  report(...str) {
+  report(...str: Array<string | number>) {
     if (
       !(
         typeof process !== 'undefined' &&
@@ -155,7 +155,7 @@ export class Counter {
     }
   }
 
-  factorCheck({ action, level, current, report }) {
+  factorCheck({ action, level, current, report }: { action: string; level: number; current: number; report?: Array<string | number> }) {
     if (!this.bypassChecks && level - current > 1) {
       report &&
         report.push(
@@ -190,7 +190,7 @@ export class Counter {
   setLevel(level: InternalHeadingLevel, action = 'set') {
     level = parseFloat(String(level))
 
-    const report = []
+    const report: Array<string | number> = []
 
     if (globalSyncCounter.current?.level > 0) {
       level = this.factorCheck({
@@ -270,8 +270,8 @@ export class Counter {
     this.bypassChecks = false
   }
 
-  reset(toLevel = null) {
-    toLevel = parseFloat(toLevel) || 2
+  reset(toLevel: number | string = null) {
+    toLevel = parseFloat(String(toLevel)) || 2
 
     this.level = this.entry = this.lastResetLevel = toLevel
 

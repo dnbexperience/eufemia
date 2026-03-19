@@ -2,6 +2,7 @@ import React, { useCallback, useContext, useReducer } from 'react'
 import WizardContext from '../Context'
 import StepIndicator from '../../../../components/StepIndicator'
 import type { StepIndicatorItemProps } from '../../../../components/step-indicator/StepIndicatorItem'
+import type { StepIndicatorMode } from '../../../../components/step-indicator/StepIndicator'
 import { useTranslation } from '../../hooks'
 
 export function DisplaySteps({
@@ -10,6 +11,12 @@ export function DisplaySteps({
   handleChange,
   expandedInitially,
   outset,
+}: {
+  mode: string
+  noAnimation: boolean
+  handleChange: (params: { currentStep: number }) => void
+  expandedInitially: boolean
+  outset: boolean
 }) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const {
@@ -58,7 +65,7 @@ export function DisplaySteps({
               statusState: statusState,
             }) satisfies Omit<StepIndicatorItemProps, 'currentItemNum'>
         )}
-        mode={mode}
+        mode={mode as StepIndicatorMode}
         noAnimation={noAnimation}
         expandedInitially={expandedInitially}
         onChange={handleChange}

@@ -19,6 +19,7 @@
     "useUnknownInCatchVariables": true,
     "noUncheckedIndexedAccess": true,
     "strictFunctionTypes": true,
+    "noImplicitAny": true,
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true
   },

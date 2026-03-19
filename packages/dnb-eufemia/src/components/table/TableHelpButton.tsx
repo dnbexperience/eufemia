@@ -2,7 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import HelpButton from '../help-button/HelpButton'
 
-export default function TableHelpButton({ className = null, ...props }) {
+export default function TableHelpButton({ className = null, ...props }: { className?: string; [key: string]: unknown }) {
   return (
     <HelpButton
       className={clsx('dnb-table__help-button', className)}

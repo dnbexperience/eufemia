@@ -150,7 +150,8 @@ function SliderSuffix() {
 }
 
 function SubtractButton() {
-  const { emitChange, value, attributes, allProps } = useSliderProps()
+  const { emitChange, value, attributes: _attributes, allProps } = useSliderProps()
+  const attributes = _attributes as Record<string, unknown>
   const {
     step,
     min,
@@ -165,7 +166,7 @@ function SubtractButton() {
     emitChange(event, clamp((value as number) - (step || 1), min, max))
   }
 
-  const subtractParams = {}
+  const subtractParams: Record<string, unknown> = {}
 
   if (typeof attributes['aria-hidden'] !== 'undefined') {
     subtractParams['aria-hidden'] = attributes['aria-hidden']
@@ -192,7 +193,8 @@ function SubtractButton() {
 }
 
 function AddButton() {
-  const { emitChange, value, attributes, allProps } = useSliderProps()
+  const { emitChange, value, attributes: _attributes, allProps } = useSliderProps()
+  const attributes = _attributes as Record<string, unknown>
   const { step, min, max, disabled, skeleton, addTitle, numberFormat } =
     allProps
 
@@ -200,7 +202,7 @@ function AddButton() {
     emitChange(event, clamp((value as number) + (step || 1), min, max))
   }
 
-  const addParams = {}
+  const addParams: Record<string, unknown> = {}
 
   if (typeof attributes['aria-hidden'] !== 'undefined') {
     addParams['aria-hidden'] = attributes['aria-hidden']

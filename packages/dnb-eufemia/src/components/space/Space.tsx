@@ -160,7 +160,7 @@ function SpaceElement({
     // also used for code markup simulation
     validateDOMAttributes({}, props)
   }
-  props['ref'] = ref
+  ;(props as Record<string, unknown>)['ref'] = ref
 
   const component = (
     <ElementDynamic {...(props as DynamicElementParams)}>

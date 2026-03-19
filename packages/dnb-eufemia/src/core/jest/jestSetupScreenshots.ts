@@ -9,7 +9,7 @@ import { isCI } from 'repo-utils'
 import { slugify, makeUniqueId } from '../../shared/component-helper'
 import { configureToMatchImageSnapshot } from 'jest-image-snapshot'
 import screenshotConfig from '../../../jest.config.screenshots'
-import type { Page } from '@playwright/test'
+import type { Page, ElementHandle } from '@playwright/test'
 export { onMain, runOnMain, selectThemes } from './themeSelection'
 
 const playwrightSettings =
@@ -33,7 +33,7 @@ export const config = {
     failureThreshold: isCI ? 0.001 : 0, // Chromium needs 0.03, while webkit needs 0.04 or even more
     failureThresholdType: 'percent',
     comparisonMethod: 'pixelmatch',
-    customSnapshotIdentifier: ({ currentTestName }) => {
+    customSnapshotIdentifier: ({ currentTestName }: { currentTestName: string }) => {
       return slugify(currentTestName) + '.snap'
     },
   },
@@ -50,12 +50,29 @@ type ActionName = 'click' | 'hover' | 'focus' | 'focusclick' | 'active'
 type Action = { action?: ActionName; selector?: string; keypress?: string }
 type Simulate = Action | ActionName | (Action | ActionName)[]
 
+declare global {
+  // eslint-disable-next-line no-var
+  var IS_TEST: boolean
+  // eslint-disable-next-line no-var
+  var page: Page
+  // eslint-disable-next-line no-var
+  var pageUrl: string
+  // eslint-disable-next-line no-var
+  var pageViewport: { width?: number; height?: number } | null
+  // eslint-disable-next-line no-var
+  var themeName: string | null | undefined
+  // eslint-disable-next-line no-var
+  var rootClassName: string | string[] | null
+  // eslint-disable-next-line no-var
+  var __VISUAL_TEST_RETRY__: boolean | undefined
+}
+
 // Helper function to apply test configuration to the page
 async function applyTestConfiguration(page: Page) {
   global.IS_TEST = true
   await page.evaluate(() => {
     try {
-      window['IS_TEST'] = true
+      ;(window as unknown as Record<string, boolean>)['IS_TEST'] = true
       document.documentElement.setAttribute('data-visual-test', 'true')
     } catch (e) {
       //
@@ -403,12 +420,14 @@ export const makeScreenshot = async (
   return screenshot
 }
 
-export const setMatchConfig = (matchConfig) => {
+export const setMatchConfig = (matchConfig: Record<string, unknown>) => {
   const cfg = {
     ...config.matchConfig,
     ...matchConfig,
   }
-  const toMatchImageSnapshot = configureToMatchImageSnapshot(cfg)
+  const toMatchImageSnapshot = configureToMatchImageSnapshot(
+    cfg as Parameters<typeof configureToMatchImageSnapshot>[0]
+  )
   expect.extend({ toMatchImageSnapshot })
 }
 
@@ -422,6 +441,15 @@ export const setupPageScreenshot = (
     fullscreen = false,
     timeout = 60e3,
     matchConfig = null,
+  }: {
+    page?: Page
+    url?: string
+    themeName?: string | null
+    pageViewport?: { width?: number; height?: number } | null
+    headers?: Record<string, string> | null
+    fullscreen?: boolean
+    timeout?: number
+    matchConfig?: Record<string, unknown> | null
   } = { url: undefined }
 ) => {
   if (matchConfig) {
@@ -450,6 +478,12 @@ async function handleElement({
   style = null,
   rootClassName = null,
   styleSelector = null,
+}: {
+  page: Page
+  selector?: string | null
+  style?: Record<string, string> | null
+  rootClassName?: string | string[] | null
+  styleSelector?: string | null
 }) {
   const countSelectorElements = await page.evaluate(
     ({ selector }) => {
@@ -474,7 +508,7 @@ async function handleElement({
     throw new Error(
       `Ensure the selector '${selector}' exists only once! Found ${countSelectorElements}.`
     )
-  } else if (isNaN(parseFloat(countSelectorElements))) {
+  } else if (isNaN(parseFloat(String(countSelectorElements)))) {
     log.warn(`Count not extract main selector from '${selector}'!`)
   }
 
@@ -545,17 +579,15 @@ async function makePageReady({
   await page.waitForTimeout(50)
 }
 
-async function handleRootClassName({ page, rootClassName }) {
+async function handleRootClassName({ page, rootClassName }: { page: Page; rootClassName: string | string[] | null }) {
   // This removes a previous added global css class to HTML
   if (global.rootClassName) {
     await page.evaluate(
       ({ rootClassName }) => {
         const elem = document.documentElement
-        if (!Array.isArray(rootClassName)) {
-          rootClassName = [rootClassName]
-        }
-        rootClassName.forEach((className) => {
-          if (elem.classList.contains(className)) {
+        const classNames = Array.isArray(rootClassName) ? rootClassName : [rootClassName]
+        classNames.forEach((className) => {
+          if (className && elem.classList.contains(className)) {
             elem.classList.remove(className)
           }
         })
@@ -572,11 +604,9 @@ async function handleRootClassName({ page, rootClassName }) {
     await page.evaluate(
       ({ rootClassName }) => {
         const elem = document.documentElement
-        if (!Array.isArray(rootClassName)) {
-          rootClassName = [rootClassName]
-        }
-        rootClassName.forEach((className) => {
-          if (!elem.classList.contains(className)) {
+        const classNames = Array.isArray(rootClassName) ? rootClassName : [rootClassName]
+        classNames.forEach((className) => {
+          if (className && !elem.classList.contains(className)) {
             elem.classList.add(className)
           }
         })
@@ -587,7 +617,7 @@ async function handleRootClassName({ page, rootClassName }) {
   }
 }
 
-async function handleMeasureOfElement({ page, measureElement, selector }) {
+async function handleMeasureOfElement({ page, measureElement, selector }: { page: Page; measureElement: string | null; selector: string }) {
   if (measureElement) {
     const pixelGrid = config.pixelGrid
     if (selector !== measureElement) {
@@ -603,8 +633,8 @@ async function handleMeasureOfElement({ page, measureElement, selector }) {
       }
     )
     const heightInPixelsFloat = parseFloat(heightInPixels)
-    const isInEightSeries = (num) => num % pixelGrid
-    const howManyPixelsToNextEight = (num) => {
+    const isInEightSeries = (num: number) => num % pixelGrid
+    const howManyPixelsToNextEight = (num: number) => {
       const v = isInEightSeries(num)
       return v === 0 ? v : pixelGrid - v
     }
@@ -624,9 +654,13 @@ async function takeScreenshot({
   page,
   screenshotElement,
   screenshotSelector,
+}: {
+  page: Page
+  screenshotElement: ElementHandle<SVGElement | HTMLElement>
+  screenshotSelector: string | null
 }) {
   if (screenshotSelector) {
-    await page.waitForSelector(screenshotSelector, { visible: true })
+    await page.waitForSelector(screenshotSelector, { state: 'visible' })
     screenshotElement = await page.$(screenshotSelector)
   }
 
@@ -642,8 +676,8 @@ async function handleSimulation({
   waitAfterSimulate = undefined,
   waitBeforeSimulate = undefined,
 }: {
-  page
-  element
+  page: Page
+  element: ElementHandle<SVGElement | HTMLElement> | null
   simulate: Simulate
   simulateSelector?: string
   waitAfterSimulateSelector?: string
@@ -714,7 +748,7 @@ async function handleSimulation({
 
           case 'focus': {
             await page.keyboard.press('Tab') // to simulate pressing tab key before focus
-            await elementToSimulate.focus({ force: true })
+            await elementToSimulate.focus()
             break
           }
         }
@@ -731,7 +765,7 @@ async function handleSimulation({
   // wait before taking screenshot
   if (waitAfterSimulateSelector) {
     await page.waitForSelector(waitAfterSimulateSelector, {
-      visible: true,
+      state: 'visible',
     })
   }
   if (waitAfterSimulate) {
@@ -745,7 +779,7 @@ async function handleSimulation({
   }
 }
 
-async function wrapperCleanup({ page, selector, addWrapper }) {
+async function wrapperCleanup({ page, selector, addWrapper }: { page: Page; selector: string; addWrapper: boolean }) {
   if (addWrapper) {
     await page.evaluate(
       ({ selector }) => {
@@ -755,7 +789,7 @@ async function wrapperCleanup({ page, selector, addWrapper }) {
         )
 
         if (wrapperElement) {
-          wrapperElement.replaceWith(...wrapperElement.childNodes)
+          wrapperElement.replaceWith(...Array.from(wrapperElement.childNodes))
         }
 
         return wrapperElement
@@ -773,6 +807,12 @@ async function handleWrapper({
   wrapperStyle,
   addWrapper,
   element,
+}: {
+  page: Page
+  selector: string
+  wrapperStyle: Record<string, string> | null
+  addWrapper: boolean
+  element: ElementHandle<SVGElement | HTMLElement>
 }) {
   // now we wrap the element and apply a padding to it
   // the reason is because on some styles we have a shadow around,
@@ -787,11 +827,11 @@ async function handleWrapper({
     // because of getComputedStyle we have to use evaluate
     const background = await page.evaluate(
       ({ selector }) => {
-        const element = document.querySelector(selector)?.parentNode
+        const element = document.querySelector(selector)?.parentNode as Element | null
 
-        const backgroundColor = window
-          .getComputedStyle(element)
-          ?.getPropertyValue('background-color')
+        const backgroundColor = element
+          ? window.getComputedStyle(element)?.getPropertyValue('background-color')
+          : null
 
         // if transparent, do nothing
         if (!element || backgroundColor === 'rgba(0, 0, 0, 0)') {
@@ -869,13 +909,13 @@ async function handleWrapper({
   return element
 }
 
-async function handleWrapperHeightChange({ page, selector, element }) {
+async function handleWrapperHeightChange({ page, selector, element }: { page: Page; selector: string; element: ElementHandle<SVGElement | HTMLElement> }) {
   const { height } = await element.boundingBox()
 
   await page.evaluate(
     ({ selector, height }) => {
       const element = document.querySelector(selector)
-      const wrapperElement = element.closest('[data-visual-test-wrapper]')
+      const wrapperElement = element.closest('[data-visual-test-wrapper]') as HTMLElement | null
 
       if (wrapperElement) {
         wrapperElement.style.height = `${height + 32}px`
@@ -889,11 +929,11 @@ async function handleWrapperHeightChange({ page, selector, element }) {
   )
 }
 
-export const loadImage = async (imagePath) =>
+export const loadImage = async (imagePath: string) =>
   await fs.readFile(path.resolve(imagePath))
 
 // make sure "${url}/" has actually a slash on the end
-const createUrl = (url, fullscreen = true, themeName = null) => {
+const createUrl = (url: string, fullscreen = true, themeName: string | null = null) => {
   const newURL = new URL(
     url,
     `http://${config.testScreenshotOnHost}:${config.testScreenshotOnPort}`
@@ -912,7 +952,7 @@ const createUrl = (url, fullscreen = true, themeName = null) => {
   return newURL.toString()
 }
 
-const makeStyles = (style) =>
+const makeStyles = (style: Record<string, string | null>) =>
   Object.entries(style)
     .filter(([k, v]) => k && v)
     .map(([k, v]) => `${k}: ${v}`)

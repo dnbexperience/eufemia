@@ -34,7 +34,7 @@ export function getModalRoot(index?: number): any {
   return null
 }
 
-export function addToIndex(elem) {
+export function addToIndex(elem: unknown) {
   if (typeof window !== 'undefined') {
     try {
       if (!Array.isArray(window.__modalStack)) {
@@ -47,7 +47,7 @@ export function addToIndex(elem) {
   }
 }
 
-export function removeFromIndex(elem) {
+export function removeFromIndex(elem: unknown) {
   if (typeof window !== 'undefined') {
     try {
       if (!Array.isArray(window.__modalStack)) {
@@ -62,7 +62,7 @@ export function removeFromIndex(elem) {
   }
 }
 
-export function getContent(props) {
+export function getContent(props: Record<string, unknown>) {
   if (typeof props.modalContent === 'string') {
     return props.modalContent
   } else if (typeof props.modalContent === 'function') {

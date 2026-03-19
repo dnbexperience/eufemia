@@ -42,7 +42,7 @@ export class FormError extends Error {
 
     if (options) {
       for (const key in options) {
-        this[key] = options[key]
+        ;(this as Record<string, unknown>)[key] = (options as Record<string, unknown>)[key]
       }
     }
   }

@@ -124,6 +124,12 @@ const ChevronTd = ({
   ariaLive,
   isInDOM,
   accordionMoreContentSR,
+}: {
+  children?: React.ReactNode
+  colSpan?: number
+  ariaLive: boolean | null
+  isInDOM: boolean
+  accordionMoreContentSR: string
 }) => (
   <td
     role={isInDOM ? 'cell' : undefined} // remove the "role", because the parent role is removed as well

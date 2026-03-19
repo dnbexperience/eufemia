@@ -69,7 +69,7 @@ export function useHeightAnimation(
   const instRef = useRef<HeightAnimationInstance | null>(null)
   const isInitialRenderRef = useRef(
     typeof globalThis !== 'undefined'
-      ? globalThis.readjustTime !== -1
+      ? (globalThis as Record<string, unknown>).readjustTime !== -1
       : true
   )
 
@@ -101,7 +101,7 @@ export function useHeightAnimation(
   useLayoutEffect(() => {
     instRef.current.setOptions({ animate })
 
-    if (typeof global !== 'undefined' && globalThis.IS_TEST) {
+    if (typeof global !== 'undefined' && (globalThis as Record<string, unknown>).IS_TEST) {
       instRef.current.setOptions({ animate: false })
     }
   }, [animate])
@@ -204,18 +204,23 @@ export function useHeightAnimation(
   }
 }
 
-function useOpenClose({ open, instRef, isInitialRenderRef, targetRef }) {
+function useOpenClose({ open, instRef, isInitialRenderRef, targetRef }: {
+  open: boolean
+  instRef: React.RefObject<HeightAnimationInstance | null>
+  isInitialRenderRef: React.RefObject<boolean>
+  targetRef: React.RefObject<HTMLElement>
+}) {
   const isTest =
     typeof process !== 'undefined' &&
     process.env.NODE_ENV === 'test' &&
-    typeof globalThis.IS_TEST === 'undefined'
+    typeof (globalThis as Record<string, unknown>).IS_TEST === 'undefined'
 
   useLayoutEffect(() => {
     instRef.current.setElement(targetRef.current)
 
     if (
       !targetRef.current ||
-      (instRef.current.state === 'init' && isInitialRenderRef.current)
+      ((instRef.current as unknown as { state: string }).state === 'init' && isInitialRenderRef.current)
     ) {
       if (open) {
         instRef.current.setAsOpen()
@@ -241,7 +246,7 @@ function useOpenClose({ open, instRef, isInitialRenderRef, targetRef }) {
     const run = () => {
       isInitialRenderRef.current = false
     }
-    if (globalThis.bypassTime === -1 || isTest) {
+    if ((globalThis as Record<string, unknown>).bypassTime === -1 || isTest) {
       run()
     } else {
       window.requestAnimationFrame?.(run)
@@ -249,7 +254,12 @@ function useOpenClose({ open, instRef, isInitialRenderRef, targetRef }) {
   }, [isInitialRenderRef, isTest])
 }
 
-function useAdjust({ children, instRef, isInitialRenderRef, targetRef }) {
+function useAdjust({ children, instRef, isInitialRenderRef, targetRef }: {
+  children: React.ReactNode | HTMLElement
+  instRef: React.RefObject<HeightAnimationInstance | null>
+  isInitialRenderRef: React.RefObject<boolean>
+  targetRef: React.RefObject<HTMLElement>
+}) {
   const fromHeight = useRef(0)
 
   const [timer] = useState(() => Date.now())
@@ -259,13 +269,13 @@ function useAdjust({ children, instRef, isInitialRenderRef, targetRef }) {
    * so it will not run when a open/close animation is running.
    */
   const shouldAdjust = () => {
-    switch (instRef.current?.state) {
+    switch ((instRef.current as unknown as { state: string })?.state) {
       case 'opened':
       case 'adjusted':
       case 'adjusting':
         return (
           !isInitialRenderRef.current &&
-          Date.now() - timer > (globalThis.readjustTime || 100)
+          Date.now() - timer > ((globalThis as Record<string, unknown>).readjustTime as number || 100)
         )
     }
 

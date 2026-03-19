@@ -83,7 +83,7 @@ export default function useTranslation<T = FormsTranslation>(
   const base = useMemo(() => {
     return extendDeep(
       {},
-      formsLocales[translationLocale] || formsLocales[LOCALE],
+      (formsLocales as Record<string, unknown>)[translationLocale] || formsLocales[LOCALE],
       globalTranslation
     )
   }, [globalTranslation, translationLocale])

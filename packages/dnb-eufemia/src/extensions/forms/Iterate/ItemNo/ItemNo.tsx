@@ -3,7 +3,7 @@ import { useItem } from '../hooks'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-function ItemNo({ children }) {
+function ItemNo({ children }: { children?: React.ReactNode }) {
   const { index } = useItem()
 
   const processedChildren = useMemo(

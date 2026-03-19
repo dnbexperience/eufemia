@@ -124,7 +124,7 @@ class RadioClass extends React.PureComponent<
   _refInput: React.RefObject<HTMLInputElement | null>
   _id: string
 
-  static defaultProps = {
+  static defaultProps: Partial<RadioProps> = {
     label: null,
     labelSrOnly: null,
     labelPosition: null,
@@ -205,7 +205,11 @@ class RadioClass extends React.PureComponent<
         event.preventDefault()
       }
     }
-    dispatchCustomElementEvent(this, 'onKeyDown', { event })
+    dispatchCustomElementEvent(
+      this as unknown as Record<string, unknown>,
+      'onKeyDown',
+      { event }
+    )
   }
 
   onChangeHandler = (
@@ -272,12 +276,16 @@ class RadioClass extends React.PureComponent<
         event,
       })
     }
-    dispatchCustomElementEvent(this, 'onChange', {
-      group,
-      checked,
-      value,
-      event,
-    })
+    dispatchCustomElementEvent(
+      this as unknown as Record<string, unknown>,
+      'onChange',
+      {
+        group,
+        checked,
+        value,
+        event,
+      }
+    )
 
     // help firefox and safari to have an correct state after a click
     if (this._refInput.current) {
@@ -354,7 +362,7 @@ class RadioClass extends React.PureComponent<
           }
 
           const id = this._id
-          const showStatus = getStatusState(status)
+          const showStatus = getStatusState(status as string)
 
           const mainParams = {
             className: clsx(

@@ -264,11 +264,11 @@ function computeStyle<T extends boolean | string | number | boolean[]>(
     } as ResponsiveProp<T>
   }
 
-  const result = {}
+  const result: Record<string, string> = {}
 
   for (const size in media as ResponsiveProp<T>) {
-    if (typeof media?.[size] !== 'undefined') {
-      const value = valueCallback(media?.[size])
+    if (typeof (media as Record<string, unknown>)?.[size] !== 'undefined') {
+      const value = valueCallback((media as Record<string, unknown>)?.[size] as T)
       if (typeof value === 'string') {
         result[`--${name}--${size}`] = value
       }

@@ -24,7 +24,7 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
   const hasDateChanges = useMemo(
     () =>
       Object.keys(dates).some(
-        (date) => previousDates[date] !== dates[date]
+        (date) => (previousDates as Record<string, unknown>)[date] !== (dates as Record<string, unknown>)[date]
       ),
     [dates, previousDates]
   )

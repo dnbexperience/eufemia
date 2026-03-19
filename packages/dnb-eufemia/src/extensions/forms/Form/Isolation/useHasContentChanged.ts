@@ -22,7 +22,7 @@ export default function useHasContentChanged({
 
     let hasChanged = false
 
-    pointer.walk(data, (value, path) => {
+    pointer.walk(data, (value: unknown, path: string) => {
       const exists = pointer.has(snapshot, path)
       const prev = exists ? pointer.get(snapshot, path) : undefined
 
@@ -38,7 +38,7 @@ export default function useHasContentChanged({
   return { hasContentChanged }
 }
 
-function hasValueChanged(a, b) {
+function hasValueChanged(a: unknown, b: unknown): boolean {
   if (a === b) {
     return false
   }

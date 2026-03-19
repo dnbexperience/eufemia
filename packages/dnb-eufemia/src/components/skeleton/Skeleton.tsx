@@ -66,7 +66,7 @@ export type SkeletonProps = {
 } & Omit<React.HTMLProps<HTMLElement>, 'ref' | 'children'> &
   SpacingProps
 
-const skeletonDefaultProps = {
+const skeletonDefaultProps: Record<string, unknown> = {
   show: null,
   skeleton: null, // only to make sure we process extendPropsWithContextInClassComponent
   noAnimation: null,
@@ -169,8 +169,8 @@ function Skeleton(props: SkeletonProps) {
       className
     ),
     // role: 'status',// is not needed as for now
-    'aria-busy': showSkeleton,
-    'aria-label': showSkeleton ? ariaBusy : undefined,
+    'aria-busy': showSkeleton as boolean,
+    'aria-label': showSkeleton ? (ariaBusy as string) : undefined,
     lang: context.locale || LOCALE,
     ...attributes,
   }
@@ -191,10 +191,10 @@ function Skeleton(props: SkeletonProps) {
         )
       ) : (
         <Provider
-          skeleton={showSkeleton}
+          skeleton={showSkeleton as boolean}
           skeletonNoAnimation={noAnimation}
         >
-          {children}
+          {children as React.ReactNode}
         </Provider>
       )}
       <span className="dnb-sr-only" aria-live="assertive">
@@ -206,7 +206,7 @@ function Skeleton(props: SkeletonProps) {
 
 export default Skeleton
 
-function Exclude(props) {
+function Exclude(props: Record<string, unknown> & { children: React.ReactNode }) {
   return <Provider {...props} skeleton={false} />
 }
 

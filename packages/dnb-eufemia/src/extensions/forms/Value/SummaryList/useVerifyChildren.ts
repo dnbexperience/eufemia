@@ -46,16 +46,16 @@ export const countChildren = (
   children: React.ReactNode,
   ignoreTypes?: Array<string>,
   count = 0
-) => {
+): number => {
   return Children.toArray(children).reduce((count: number, child) => {
-    if (child?.['type'] === Fragment) {
-      return countChildren(child['props']?.children, ignoreTypes, count)
+    if ((child as React.ReactElement)?.type === Fragment) {
+      return countChildren(((child as React.ReactElement).props as Record<string, unknown>)?.children as React.ReactNode, ignoreTypes, count)
     }
 
     return (
       count +
       (isValidElement(child) &&
-      !ignoreTypes?.includes(child?.type?.['name'])
+      !ignoreTypes?.includes((child?.type as unknown as Record<string, string>)?.['name'])
         ? 1
         : 0)
     )

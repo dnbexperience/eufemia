@@ -20,11 +20,11 @@ import type {
 } from './MediaQueryUtils'
 import { toPascalCase } from './component-helper'
 
-const makeLayoutEffect = () => {
+const makeLayoutEffect = (): typeof useEffect => {
   // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
   return typeof window === 'undefined'
     ? useEffect
-    : window['__SSR_TEST__'] // To be able to test this hook like we are in SSR land
+    : (window as unknown as Record<string, unknown>)['__SSR_TEST__'] // To be able to test this hook like we are in SSR land
     ? () => null
     : React.useLayoutEffect
 }
@@ -118,8 +118,8 @@ export default function useMedia(
 
   const context = useContext(Context)
 
-  const refs = useRef({})
-  const defaultsRef = useRef({})
+  const refs = useRef<Record<string, UseMediaItem | undefined>>({})
+  const defaultsRef = useRef<Record<string, boolean>>({})
   const resultRef = useRef<Partial<UseMediaResult>>({})
   const isMountedRef = useRef(false)
   const isDisabledRef = useRef(disabled)
@@ -167,11 +167,11 @@ export default function useMedia(
         const name = `is${toPascalCase(key)}` as Names
 
         if (disabled) {
-          acc[name] = false
+          ;(acc as Record<string, unknown>)[name] = false
           return acc
         }
 
-        defaultsRef.current[name] = false
+        ;(defaultsRef.current as Record<string, boolean>)[name] = false
 
         const item = runQuery({
           when,
@@ -190,7 +190,7 @@ export default function useMedia(
           hasMatch = item?.mediaQueryList?.matches || false
         }
 
-        acc[name] = hasMatch
+        ;(acc as Record<string, unknown>)[name] = hasMatch
         if (hasMatch) {
           acc.key = key
         }
@@ -217,7 +217,7 @@ export default function useMedia(
       // Cache Object.keys() result for performance
       const resultKeys = Object.keys(result)
       const hasChanged = resultKeys.some(
-        (key) => resultRef.current[key] !== result[key]
+        (key) => (resultRef.current as Record<string, unknown>)[key] !== (result as Record<string, unknown>)[key]
       )
       if (hasChanged) {
         updateRerender(result)

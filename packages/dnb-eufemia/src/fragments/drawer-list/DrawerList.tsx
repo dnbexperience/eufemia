@@ -419,7 +419,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
     onKeyDown: _onKeyDown,
 
     ...attributes
-  } = propsWithDefaults as DrawerListAllProps & {
+  } = propsWithDefaults as unknown as DrawerListAllProps & {
     onKeyDown?: (e: React.KeyboardEvent) => void
   }
 
@@ -464,7 +464,7 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
   const renderData = makeRenderData(
     data,
     groups,
-    context.getTranslation(propsWithDefaults).DrawerList
+    context.getTranslation(propsWithDefaults as { lang?: string }).DrawerList
   )
   const hasGroups =
     renderData.length > 1 || renderData[0]?.groupTitle !== undefined
@@ -697,7 +697,7 @@ function makeRenderData(
   translation?: Translation['DrawerList']
 ): DrawerListRenderData {
   const renderData: DrawerListRenderData = []
-  const noIndex = []
+  const noIndex: DrawerListInternalItem[] = []
 
   if (Array.isArray(data) && data.length > 0) {
     data.forEach((dataItem) => {
@@ -808,7 +808,7 @@ function OnMounted({
 }: {
   addObservers: () => void
   removeObservers: () => void
-}) {
+}): React.ReactNode {
   useMountEffect(() => {
     addObservers()
     return () => {

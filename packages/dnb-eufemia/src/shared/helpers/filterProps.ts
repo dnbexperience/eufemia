@@ -30,21 +30,21 @@ export function filterProps<Props = FilterProps>(
       if (
         (typeof remove === 'function'
           ? !remove(k)
-          : typeof remove?.[k] === 'undefined') ||
+          : typeof (remove as Record<string, unknown>)?.[k] === 'undefined') ||
         (typeof allowed === 'function'
           ? allowed(k)
-          : typeof allowed?.[k] !== 'undefined')
+          : typeof (allowed as Record<string, unknown>)?.[k] !== 'undefined')
       ) {
         if (isArray) {
-          acc.push(v)
+          ;(acc as unknown[]).push(v)
         } else {
-          acc[k] = v
+          ;(acc as Record<string, unknown>)[k] = v
         }
       }
 
       return acc
     },
-    (isArray ? [] : {}) as Array<unknown>
+    (isArray ? [] : {}) as Props
   ) as Props
 }
 export type FilterProps = Record<string, unknown> | Array<string | number>

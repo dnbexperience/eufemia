@@ -4,6 +4,7 @@ import SharedContext from '../../../../shared/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import { LOCALE } from '../../../../shared/defaults'
 import { Autocomplete } from '../../../../components'
+import type { AutocompleteOnFocusParams } from '../../../../components/autocomplete/Autocomplete'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import type listOfCountries from '../../constants/countries'
 import {
@@ -83,7 +84,7 @@ function SelectCountry(props: Props) {
     (value: CountryType['iso']) => {
       const country = countries.find(({ iso }) => value === iso)
       if (country?.i18n) {
-        country['name'] = country.i18n[lang]
+      ;(country as Record<string, unknown>)['name'] = (country.i18n as Record<string, string>)[lang]
       }
       return country
     },
@@ -215,7 +216,7 @@ function SelectCountry(props: Props) {
   }, [ccFilter, countries, filter, forceUpdate])
 
   const onFocusHandler = useCallback(
-    ({ updateData }) => {
+    ({ updateData }: AutocompleteOnFocusParams) => {
       fillData()
       updateData(dataRef.current)
       handleFocus()
@@ -224,9 +225,9 @@ function SelectCountry(props: Props) {
   )
 
   const onTypeHandler = useCallback(
-    ({ value: currentValue, setHidden, event }) => {
+    ({ value: currentValue, setHidden, event }: { value: string; setHidden: () => void; event: React.SyntheticEvent }) => {
       // Handle browser autofill/autocomplete
-      if (typeof event?.nativeEvent?.data === 'undefined') {
+      if (typeof (event?.nativeEvent as InputEvent)?.data === 'undefined') {
         const search = currentValue.toLowerCase()
         const country = countries.find(({ i18n }) =>
           Object.values(i18n).some((s) => s.toLowerCase().includes(search))
@@ -308,7 +309,7 @@ export function getCountryData({
   filter = null,
   sort = null,
   makeObject = (country: CountryType, lang: string) => {
-    const content = country.i18n[lang] ?? country.i18n.en
+    const content = (country.i18n as Record<string, string>)[lang] ?? country.i18n.en
     return {
       selectedKey: country.iso,
       content,

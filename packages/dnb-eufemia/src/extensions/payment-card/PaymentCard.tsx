@@ -21,12 +21,14 @@ import {
 
 import { formatCardNumber } from './components/CardNumber'
 import CardFigure from './components/CardFigure'
+import type { CardData } from './components/CardFigure'
 
 import { ProductType, CardType, BankAxeptType } from './utils/Types'
 import Designs, { defaultDesign } from './utils/CardDesigns'
 import type { CardDesign } from './utils/CardDesigns'
 import cardProducts from './utils/cardProducts'
 
+import type { Translations } from './components/StatusOverlay'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../../components/skeleton/Skeleton'
 import type { InternalLocale } from '../../shared/Context'
@@ -106,7 +108,7 @@ export type PaymentCardProps = {
 } & Omit<React.HTMLProps<HTMLElement>, 'ref' | 'children'> &
   SpacingProps
 
-const translationDefaultPropsProps = {
+const translationDefaultPropsProps: Record<string, null> = {
   textBlocked: null,
   textExpired: null,
   textNotActive: null,
@@ -118,7 +120,7 @@ const translationDefaultPropsProps = {
   textUnknown: null,
 }
 
-const paymentCardDefaultProps = {
+const paymentCardDefaultProps: Record<string, unknown> = {
   digits: 8,
   locale: null,
   cardStatus: 'active',
@@ -148,7 +150,7 @@ function PaymentCard(props: PaymentCardProps) {
     paymentCardDefaultProps,
     { locale: context.locale },
     { skeleton: context?.skeleton }
-  )
+  ) as PaymentCardProps
 
   const {
     productCode,
@@ -198,7 +200,7 @@ function PaymentCard(props: PaymentCardProps) {
             },
             translationDefaultPropsProps,
             translation.PaymentCard
-          )
+          ) as Translations
           return (
             <figure {...params}>
               <figcaption className="dnb-sr-only dnb-payment-card__figcaption">
@@ -208,7 +210,7 @@ function PaymentCard(props: PaymentCardProps) {
                 id={id}
                 skeleton={skeleton}
                 compact={variant === 'compact'}
-                data={cardData}
+                data={cardData as unknown as CardData}
                 cardStatus={cardStatus}
                 cardNumber={formatCardNumber(
                   cardNumber,
@@ -226,14 +228,14 @@ function PaymentCard(props: PaymentCardProps) {
 
 export default PaymentCard
 
-export const getCardData = (productCode) => {
+export const getCardData = (productCode: string) => {
   const card = cardProducts.find(
     (item) => item.productCode === productCode
   )
   return card || defaultCard(productCode)
 }
 
-const defaultCard = (productCode) => ({
+const defaultCard = (productCode: string) => ({
   productCode,
   productName: '',
   displayName: '',

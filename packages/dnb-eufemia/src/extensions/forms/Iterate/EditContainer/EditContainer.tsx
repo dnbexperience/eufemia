@@ -56,7 +56,7 @@ export default function EditContainer(props: AllProps) {
   const hasToolbar =
     !toolbarElement &&
     React.Children.toArray(children).some((child) => {
-      return child?.['type'] === Toolbar
+      return (child as React.ReactElement)?.type === Toolbar
     })
 
   return (

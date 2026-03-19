@@ -3,6 +3,9 @@ import { useCallback, useEffect, useRef } from 'react'
 export default function useHandleLayoutEffect({
   elementRef,
   stepElementRef,
+}: {
+  elementRef: React.RefObject<HTMLElement>
+  stepElementRef: React.RefObject<HTMLElement>
 }) {
   const isInteractionRef = useRef(false)
 

@@ -139,7 +139,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     })
   }
 
-  const setPage = (currentPageInternal: number, event = null) => {
+  const setPage = (currentPageInternal: number, event: React.SyntheticEvent | null = null) => {
     keepPageHeight()
 
     const { setState: setContextState, updatePageContent } = props
@@ -162,7 +162,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     setPage(props.currentPageInternal + 1)
   }
 
-  const clickHandler = ({ pageNumber, event }) => {
+  const clickHandler = ({ pageNumber, event }: { pageNumber: number; event: React.SyntheticEvent }) => {
     setPage(pageNumber, event)
     focusPage()
   }
@@ -245,7 +245,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
               aria-current={
                 pageNumber === currentPageInternal ? 'page' : null
               }
-              onClick={(event) => clickHandler({ pageNumber, event })}
+              onClick={(event: React.MouseEvent<HTMLButtonElement>) => clickHandler({ pageNumber, event })}
             />
           ))}
 
@@ -290,7 +290,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
                     aria-current={
                       pageNumber === currentPageInternal ? 'page' : null
                     }
-                    onClick={(event) =>
+                    onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
                       clickHandler({ pageNumber, event })
                     }
                   />
@@ -308,13 +308,13 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
   )
 }
 
-export const useResizeObserver = (element) => {
+export const useResizeObserver = (element: React.RefObject<HTMLElement | null>) => {
   const [currentSize, setSize] = useState('large')
   const resizeObserver = useRef<ResizeObserver | null>(null)
 
   useEffect(() => {
     try {
-      const handleSizeChange = (width) => {
+      const handleSizeChange = (width: number) => {
         if (width <= getSizeInPx('small') && currentSize !== 'small') {
           setSize('small')
         } else if (
@@ -359,8 +359,8 @@ export const useResizeObserver = (element) => {
   return currentSize
 }
 
-const getSizeInPx = (size) => {
-  const styleSize = styleProperties[`--layout-${size}`]
+const getSizeInPx = (size: string) => {
+  const styleSize = (styleProperties as Record<string, string>)[`--layout-${size}`]
 
   if (styleSize.includes('em')) {
     return parseFloat(styleSize.replace(/(rem|em)$/, '')) * 16

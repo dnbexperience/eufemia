@@ -13,6 +13,6 @@ export type Props = FieldProps<number | string> & {
   style?: React.CSSProperties
 }
 
-export default function Option(_props: Props) {
+export default function Option(_props: Props): React.ReactElement | null {
   return null
 }

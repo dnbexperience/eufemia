@@ -54,7 +54,7 @@ export default class ModalContent extends React.PureComponent<
   ModalContentProps,
   ModalContentState
 > {
-  state = { color: null }
+  state: ModalContentState = { color: null as string | null }
 
   _contentRef: React.RefObject<HTMLElement>
   _scrollRef: React.RefObject<HTMLElement>
@@ -118,7 +118,7 @@ export default class ModalContent extends React.PureComponent<
     this.setFocus()
     this.setAndroidFocusHelper()
 
-    dispatchCustomElementEvent(this, 'onOpen', {
+    dispatchCustomElementEvent(this as unknown as Record<string, unknown>, 'onOpen', {
       id,
     })
 
@@ -233,7 +233,7 @@ export default class ModalContent extends React.PureComponent<
 
     if (this.wasOpenedManually()) {
       const id = this.props.id
-      dispatchCustomElementEvent(this, 'onClose', {
+      dispatchCustomElementEvent(this as unknown as Record<string, unknown>, 'onClose', {
         id,
         event: this._triggeredByEvent,
         triggeredBy: this._triggeredBy || 'unmount',
@@ -355,7 +355,7 @@ export default class ModalContent extends React.PureComponent<
     clearAllBodyScrollLocks()
   }
 
-  preventClick = (event) => {
+  preventClick = (event: React.SyntheticEvent) => {
     if (event) {
       event.stopPropagation()
     }
@@ -394,7 +394,7 @@ export default class ModalContent extends React.PureComponent<
     }
   }
 
-  onKeyDownHandler = (event) => {
+  onKeyDownHandler = (event: KeyboardEvent) => {
     if (event.key === 'Escape') {
       const mostCurrent = getModalRoot(-1)
 
@@ -416,13 +416,15 @@ export default class ModalContent extends React.PureComponent<
   }
 
   closeModalContent(
-    event,
+    event: React.SyntheticEvent | KeyboardEvent,
     {
       triggeredBy,
       ...params
     }: ModalCloseHandlerParams & { ifIsLatest?: boolean }
   ) {
-    event?.persist?.()
+    if ('persist' in event) {
+      event.persist?.()
+    }
 
     this.props.close(event, {
       triggeredBy,

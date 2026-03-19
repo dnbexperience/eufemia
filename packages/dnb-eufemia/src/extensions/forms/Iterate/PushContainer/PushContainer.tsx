@@ -354,6 +354,7 @@ function PushContainer(props: AllProps) {
   )
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function NewContainer({
   title,
   openButton,
@@ -368,7 +369,7 @@ function NewContainer({
   required,
   children,
   ...rest
-}) {
+}: Record<string, any>) {
   const { containerMode, switchContainerMode } =
     useContext(IterateItemContext) || {}
   containerModeRef.current = containerMode

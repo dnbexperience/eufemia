@@ -14,7 +14,8 @@ export async function asyncForEach<TBase>(
   array: Array<TBase>,
   callback: AsyncForEachCallback<TBase>
 ) {
-  let res = []
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let res: any[] = []
   for (let i = 0, l = array.length; i < l; ++i) {
     const cur = await callback(
       array[i] as (typeof array)[number],

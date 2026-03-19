@@ -4,6 +4,7 @@ import clsx from 'clsx'
 // Components
 import Button from '../button/Button'
 import Icon from '../../components/Icon'
+import type { IconIcon } from '../../components/Icon'
 import FormStatus from '../../components/FormStatus'
 import ProgressIndicator from '../../components/progress-indicator'
 
@@ -257,13 +258,13 @@ export function getFileIcon(
   if (!iconFileType) {
     const mimeParts = file.type.split('/')
     iconFileType =
-      fileExtensionImages[mimeParts[0]] ||
-      fileExtensionImages[mimeParts[1]]
+      (fileExtensionImages as Record<string, unknown>)[mimeParts[0]] as string ||
+      (fileExtensionImages as Record<string, unknown>)[mimeParts[1]] as string
   }
 
   if (!Object.hasOwn(fileExtensionImages, iconFileType)) {
     iconFileType = 'file'
   }
 
-  return <Icon icon={fileExtensionImages[iconFileType]} />
+  return <Icon icon={(fileExtensionImages as Record<string, React.FC>)[iconFileType] as IconIcon} />
 }

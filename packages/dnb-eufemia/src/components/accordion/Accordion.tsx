@@ -205,11 +205,13 @@ function Accordion({
   // Constructor
   useEffect(() => {
     if (group && typeof window !== 'undefined') {
-      window['__dnbAccordion'] = window['__dnbAccordion'] || {}
-      window['__dnbAccordion'][group] =
-        window['__dnbAccordion'][group] || new AccordionStore(group)
+      const win = window as unknown as Record<string, unknown>
+      win['__dnbAccordion'] = win['__dnbAccordion'] || {}
+      const accordionStore = win['__dnbAccordion'] as Record<string, AccordionStore>
+      accordionStore[group] =
+        accordionStore[group] || new AccordionStore(group)
 
-      window['__dnbAccordion'][group].addInstance(thisInstance)
+      accordionStore[group].addInstance(thisInstance)
     }
 
     if (context && typeof context?.onInit === 'function') {
@@ -218,7 +220,9 @@ function Accordion({
 
     return () => {
       if (group && typeof window !== 'undefined') {
-        window?.['__dnbAccordion'][group]?.removeInstance(thisInstance)
+        const win = window as unknown as Record<string, unknown>
+        const accordionStore = win['__dnbAccordion'] as Record<string, AccordionStore> | undefined
+        accordionStore?.[group]?.removeInstance(thisInstance)
       }
     }
   }, [])
@@ -296,18 +300,20 @@ function Accordion({
     return false
   }
 
-  function callOnChangeHandler(...params: any[]) {
+  function callOnChangeHandler(...params: [Record<string, unknown>]) {
     callOnChange(...params)
     if (context?.onChange) {
       context?.onChange(...params)
     }
     if (group && typeof window !== 'undefined') {
-      window?.['__dnbAccordion'][group]?.onChange(...params)
+      const win = window as unknown as Record<string, unknown>
+      const accordionStore = win['__dnbAccordion'] as Record<string, AccordionStore> | undefined
+      accordionStore?.[group]?.onChange(params[0] as { id: string })
     }
   }
 
-  function callOnChange(...params: any[]) {
-    const { expanded, event } = params[0]
+  function callOnChange(...params: [Record<string, unknown>]) {
+    const { expanded, event } = params[0] as { expanded: boolean; event: React.SyntheticEvent }
 
     changeOpened(expanded)
 
@@ -329,10 +335,10 @@ function Accordion({
               props,
               accordionDefaultProps,
               context, // group context
-              nestedContext as Record<string, unknown>, // internal context
+              nestedContext as unknown as Record<string, unknown>, // internal context
               { skeleton: globalContext?.skeleton },
               globalContext.Accordion, // global context
-              globalContext.translation['Accordion']
+              (globalContext.translation as Record<string, unknown>)['Accordion'] as Record<string, unknown>
             )
 
             if (expandedState === undefined && globalContext.Accordion) {
@@ -497,12 +503,13 @@ const Group = ({
     setExpandedId(null)
   }, [expandedId, store])
 
-  function onInit(instance) {
+  function onInit(instance: Record<string, unknown>) {
+    const instanceProps = instance.props as { id?: string }
     if (
-      instance.props.id &&
-      !instanceIDs.current.includes(instance.props.id)
+      instanceProps.id &&
+      !instanceIDs.current.includes(instanceProps.id)
     ) {
-      instanceIDs.current.push(instance.props.id)
+      instanceIDs.current.push(instanceProps.id)
     }
   }
 

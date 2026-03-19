@@ -24,7 +24,7 @@ export const PaginationIndicator = ({
   ...props
 }: PaginationIndicatorProps) => {
   const context = React.useContext(Context)
-  const Element = preparePageElement(indicatorElement)
+  const Element = preparePageElement(indicatorElement as React.ElementType) as React.ElementType
   const ElementChild = isTrElement(Element) ? 'td' : 'div'
 
   return (
@@ -82,7 +82,7 @@ export class ContentObject {
   }
 }
 
-export function isTrElement(Element) {
+export function isTrElement(Element: unknown) {
   let isTr = false
 
   if (Element === 'tr') {
@@ -91,7 +91,7 @@ export function isTrElement(Element) {
     Element &&
     (typeof Element === 'object' || React.isValidElement(Element))
   ) {
-    if ((Element.__emotion_base || Element.target) === 'tr') {
+    if (((Element as Record<string, unknown>).__emotion_base || (Element as Record<string, unknown>).target) === 'tr') {
       isTr = true
     }
   }
@@ -100,17 +100,18 @@ export function isTrElement(Element) {
 }
 
 export function preparePageElement(
-  Element,
+  Element: React.ElementType | symbol,
   includeClassName = 'dnb-pagination__page'
-) {
+): React.ElementType {
   if (String(Element) === 'Symbol(react.fragment)') {
-    return Element
+    return Element as React.ElementType
   }
 
   if (includeClassName) {
     const isTr = isTrElement(Element)
+    const Comp = Element as React.ElementType
 
-    return ({ className, children, ref, ...props }) => {
+    return ({ className, children, ref, ...props }: { className?: string; children?: React.ReactNode; ref?: React.Ref<unknown>; [key: string]: unknown }) => {
       const params = {
         ...props,
         className: clsx(includeClassName, className),
@@ -118,13 +119,13 @@ export function preparePageElement(
       }
       return isTr ? (
         <td>
-          <div {...params}>{children}</div>
+          <div {...(params as React.HTMLAttributes<HTMLDivElement>)}>{children}</div>
         </td>
       ) : (
-        <Element {...params}>{children}</Element>
+        <Comp {...(params as Record<string, unknown>)}>{children}</Comp>
       )
     }
   }
 
-  return Element
+  return Element as React.ElementType
 }

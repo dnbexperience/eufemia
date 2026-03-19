@@ -107,7 +107,7 @@ function FlexContainer(props: FlexContainerAllProps) {
     [direction, gap, rowGap]
   )
   const childrenArray = replaceRootFragment(wrapChildren(props, children))
-  const hasHeading = childrenArray.some((child, i) => {
+  const hasHeading = childrenArray.some((child: React.ReactNode, i: number) => {
     const previousChild = childrenArray?.[i - 1]
     return (
       isHeadingElement(child) || (i > 0 && isHeadingElement(previousChild))
@@ -116,7 +116,7 @@ function FlexContainer(props: FlexContainerAllProps) {
   const hasSizeProp =
     !hasHeading &&
     direction === 'horizontal' &&
-    childrenArray.some((child) => child['props']?.span)
+    childrenArray.some((child: React.ReactNode) => React.isValidElement(child) && (child as React.ReactElement<Record<string, unknown>>).props?.span)
 
   const { key: mediaKey } = useMedia({
     disabled: !hasSizeProp,
@@ -124,7 +124,7 @@ function FlexContainer(props: FlexContainerAllProps) {
     queries,
   })
 
-  const content = childrenArray.map((child, i) => {
+  const content = childrenArray.map((child: React.ReactNode, i: number) => {
     // Set spacing on child components by props (instead of CSS) to be able to dynamically override by props on each child. The default
     // is the spacing-props that controls space between children. Then override with props sent to the children, including both top
     // and bottom when th
@@ -186,7 +186,7 @@ function FlexContainer(props: FlexContainerAllProps) {
 
     if (
       React.isValidElement(previousChild) &&
-      previousChild?.type?.['_supportsSpacingProps'] === false
+      (previousChild?.type as unknown as Record<string, unknown>)?.['_supportsSpacingProps'] === false
     ) {
       startSpacing = 0
     }
@@ -197,7 +197,7 @@ function FlexContainer(props: FlexContainerAllProps) {
         : { [start]: startSpacing, [end]: endSpacing }
 
     return renderWithSpacing(child, {
-      key: child?.['key'] || `element-${i}`,
+      key: (child as React.ReactElement)?.key || `element-${i}`,
       space,
     })
   })
@@ -245,18 +245,18 @@ function wrapChildren(
   props: FlexContainerAllProps,
   children: React.ReactNode
 ) {
-  return React.Children.toArray(children).map((child) => {
+  return React.Children.toArray(children).map((child: React.ReactNode) => {
     if (
-      React.isValidElement<any>(child) &&
-      child.type['_supportsSpacingProps'] === 'children'
+      React.isValidElement<Record<string, unknown>>(child) &&
+      (child.type as unknown as Record<string, unknown>)['_supportsSpacingProps'] === 'children'
     ) {
-      const childElement = child as React.ReactElement<any>
+      const childElement = child as React.ReactElement<Record<string, unknown>>
       const { key, ...childProps } = childElement.props || {}
       return React.createElement(
         childElement.type as React.ComponentType<any>,
         { key, ...childProps },
         <FlexContainer {...props}>
-          {childElement.props.children}
+          {childElement.props.children as React.ReactNode}
         </FlexContainer>
       )
     }
@@ -265,13 +265,13 @@ function wrapChildren(
   })
 }
 
-function replaceRootFragment(children) {
-  const firstChild = children[0]
+function replaceRootFragment(children: React.ReactNode[]) {
+  const firstChild = children[0] as React.ReactElement | undefined
   if (
     React.Children.count(children) === 1 &&
     firstChild?.type === Fragment
   ) {
-    return React.Children.toArray(firstChild?.props?.children)
+    return React.Children.toArray((firstChild?.props as Record<string, unknown>)?.children as React.ReactNode) as React.ReactNode[]
   }
   return children
 }

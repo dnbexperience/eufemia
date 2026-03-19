@@ -262,14 +262,14 @@ export function calcSize(props: IconProps) {
     }, null)
 
     if (potentialSizeAsString) {
-      sizeAsString = potentialSizeAsString
+      sizeAsString = potentialSizeAsString as ValidIconType
     }
   }
 
   // define all the svg parameters
   const { sizeAsString: isCustomSize, params: iconParams } =
     prepareIconParams({
-      sizeAsString,
+      sizeAsString: sizeAsString as ValidIconType | 'custom-size',
       sizeAsInt,
       size,
       width,
@@ -277,7 +277,7 @@ export function calcSize(props: IconProps) {
     })
 
   if (isCustomSize) {
-    sizeAsString = isCustomSize
+    sizeAsString = isCustomSize as ValidIconType | 'custom-size'
   }
 
   if (!(sizeAsInt > 0)) {
@@ -468,7 +468,8 @@ export function prerenderIcon(
   props: IconProps & {
     listOfIcons?: Record<string, IconIcon>
   }
-) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): React.ComponentType<any> | null {
   const { size = null, listOfIcons = null, alt = null } = props
   let { icon } = props as Omit<IconProps, 'icon'> & { icon: IconType }
 
@@ -484,7 +485,7 @@ export function prerenderIcon(
   }
 
   if (React.isValidElement(icon) || Array.isArray(icon)) {
-    return () => icon
+    return (() => icon) as React.ComponentType<any>
   }
 
   // For UMD/ dynamic import of icons
@@ -492,7 +493,7 @@ export function prerenderIcon(
     icon = iconCase(icon)
     if (
       size &&
-      DefaultIconSizes[size] &&
+      (DefaultIconSizes as Record<string, number>)[size] &&
       size !== 'basis' &&
       size !== 'default' &&
       !(parseFloat(String(size)) > 0) &&
@@ -502,15 +503,16 @@ export function prerenderIcon(
     }
     const mod = (
       listOfIcons.dnbIcons ? listOfIcons.dnbIcons : listOfIcons
-    )[icon]
-    return mod && mod.default ? mod.default : mod
+    ) as Record<string, unknown>
+    const iconModule = mod[icon]
+    return (iconModule && (iconModule as Record<string, unknown>).default ? (iconModule as Record<string, unknown>).default : iconModule) as React.ComponentType<any>
   } catch (e) {
     ErrorHandler(`Icon '${icon}' did not exist!`)
     return null
   }
 }
 
-function getIcon(props) {
+function getIcon(props: IconAllProps) {
   if (props.icon) {
     return props.icon
   }

@@ -60,12 +60,13 @@ function Name(props: Props) {
 
     if (typeof onBlurValidatorProp === 'function') {
       // Prioritize the internal validator first; only then run the external one
-      return (value: string, args) => {
+      return (value: string, args: unknown) => {
         const coreResult = nameValidator(value)
         if (coreResult instanceof Error) {
           return coreResult
         }
-        return onBlurValidatorProp(value, args)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return onBlurValidatorProp(value, args as any)
       }
     }
 
@@ -109,7 +110,8 @@ Name.First = function FirstName(props: Props) {
 
   return <Name {...nameProps} />
 }
-Name.First['_supportsSpacingProps'] = true
+;
+(Name.First as unknown as Record<string, unknown>)['_supportsSpacingProps'] = true
 
 Name.Last = function LastName(props: Props) {
   const translations = useTranslation().LastName
@@ -134,7 +136,8 @@ Name.Last = function LastName(props: Props) {
 
   return <Name {...nameProps} />
 }
-Name.Last['_supportsSpacingProps'] = true
+;
+(Name.Last as unknown as Record<string, unknown>)['_supportsSpacingProps'] = true
 
 Name.Company = function CompanyName(props: Props) {
   const translations = useTranslation().CompanyName
@@ -169,12 +172,13 @@ Name.Company = function CompanyName(props: Props) {
 
     if (typeof onBlurValidatorProp === 'function') {
       // Prioritize the internal validator first; only then run the external one
-      return (value: string, args) => {
+      return (value: string, args: unknown) => {
         const coreResult = companyValidator(value)
         if (coreResult instanceof Error) {
           return coreResult
         }
-        return onBlurValidatorProp(value, args)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return onBlurValidatorProp(value, args as any)
       }
     }
 
@@ -194,6 +198,7 @@ Name.Company = function CompanyName(props: Props) {
 
   return <StringField {...StringFieldProps} />
 }
-Name.Company['_supportsSpacingProps'] = true
+;
+(Name.Company as unknown as Record<string, unknown>)['_supportsSpacingProps'] = true
 
 export default Name

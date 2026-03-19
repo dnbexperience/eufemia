@@ -121,7 +121,7 @@ function usePreventSubmit() {
   const hasUnknownSteps = hasInvalidStepsState(undefined, ['unknown'])
 
   const handleSubmit = useCallback(
-    async ({ preventSubmit }) => {
+    async ({ preventSubmit }: { preventSubmit: () => void }) => {
       // - Wait for the prerendered steps to be rendered
       if (hasUnknownSteps) {
         await effectPromise()
@@ -151,13 +151,13 @@ function usePreventSubmit() {
   }, [handleSubmit, setFieldEventListener])
 }
 
-function PrerenderPortal({ children }) {
+function PrerenderPortal({ children }: { children?: React.ReactNode }) {
   if (typeof document !== 'undefined') {
     return ReactDOM.createPortal(children, document.body)
   }
 }
 
-function PrerenderFieldPropsProvider({ showAllErrorsNow, children }) {
+function PrerenderFieldPropsProvider({ showAllErrorsNow, children }: { showAllErrorsNow?: boolean; children?: React.ReactNode }) {
   const dataContext = useContext(DataContext)
 
   const {

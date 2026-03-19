@@ -212,7 +212,8 @@ export default function useFieldError<Value>({
   }>({ isSet: false, message: undefined })
 
   const executeMessage = useCallback(
-    <ReturnValue extends MessageTypes<Value>>(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    <ReturnValue extends MessageTypes<Value> = any>(
       message: MessageProp<Value, ReturnValue>,
       forceReturnErrorMessageObject?: boolean
     ): ReturnValue => {
@@ -222,19 +223,20 @@ export default function useFieldError<Value>({
 
         let currentMode = ALWAYS
 
-        const msg = message(valueRef.current, {
-          conditionally: (callback, options) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const msg = (message as any)(valueRef.current, {
+          conditionally: ((callback: () => ReturnValue | void, options?: { showInitially?: boolean }) => {
             currentMode &= ~ALWAYS
 
             if (options?.showInitially) {
               currentMode |= INITIALLY
             }
 
-            return executeMessage(callback())
-          },
+            return executeMessage(callback() as MessageProp<Value, ReturnValue>)
+          }),
           getValueByPath,
           getFieldByPath,
-        })
+        } as unknown as MessagePropParams<Value, ReturnValue>)
 
         if (msg === undefined) {
           messageCacheRef.current.message = undefined
@@ -365,7 +367,7 @@ export default function useFieldError<Value>({
         if (error instanceof FormError) {
           let message = error.message
 
-          const { ajvKeyword } = error
+          const { ajvKeyword } = error as FormError
           if (typeof ajvKeyword === 'string') {
             const ajvMessage = combinedErrorMessages?.[ajvKeyword]
             if (ajvMessage) {
@@ -439,8 +441,8 @@ export default function useFieldError<Value>({
 
   // If the error is a type error, we want to show it even if the field has not been used
   if (
-    localErrorRef.current?.['ajvKeyword'] === 'type' ||
-    contextErrorRef.current?.['ajvKeyword'] === 'type'
+    (localErrorRef.current as unknown as Record<string, unknown>)?.['ajvKeyword'] === 'type' ||
+    (contextErrorRef.current as unknown as Record<string, unknown>)?.['ajvKeyword'] === 'type'
   ) {
     revealErrorRef.current = true
   }
@@ -455,7 +457,7 @@ export default function useFieldError<Value>({
       return prepareError(errorProp)
     } else if (revealErrorRef.current) {
       // For type errors, prioritize context (Provider) errors over local validation errors
-      if (contextErrorRef.current?.['ajvKeyword'] === 'type') {
+      if ((contextErrorRef.current as unknown as Record<string, unknown>)?.['ajvKeyword'] === 'type') {
         return contextErrorRef.current
       }
       return (

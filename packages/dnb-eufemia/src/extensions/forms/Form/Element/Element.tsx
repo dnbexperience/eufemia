@@ -101,7 +101,7 @@ function FormElementInstance(props: Props) {
       {children}
 
       {['error', 'warning', 'info'].map((key) => {
-        const value = submitState?.[key]
+        const value = (submitState as Record<string, unknown>)?.[key]
         return (
           <FormStatus
             key={key}
@@ -112,7 +112,7 @@ function FormElementInstance(props: Props) {
             noAnimation={false}
             shellSpace={{ top: 'small' }}
           >
-            {String(value?.['message'] || value || '')}
+            {String((value as Record<string, unknown>)?.['message'] || value || '')}
           </FormStatus>
         )
       })}

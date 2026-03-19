@@ -226,7 +226,7 @@ function Checkbox(localProps: CheckboxProps) {
         const preventDefault = () => {
           event.preventDefault()
 
-          if (event.target['checked'] !== isCheckedRef.current) {
+          if ((event.target as HTMLInputElement)['checked'] !== isCheckedRef.current) {
             preventChangeRef.current = true
             isCheckedRef.current = !isCheckedRef.current
             forceUpdate()
@@ -256,7 +256,7 @@ function Checkbox(localProps: CheckboxProps) {
     [handleChange]
   )
 
-  const showStatus = getStatusState(status)
+  const showStatus = getStatusState(status as string)
 
   /**
    * Adds aria attributes, calls validateDOMAttributes and skeletonDOMAttributes and returns the result

@@ -296,7 +296,7 @@ export const AccordionHeader = ({
   ]
 
   if (Array.isArray(children)) {
-    const removeParts = []
+    const removeParts: React.ReactElement[] = []
     children.forEach((cur) => {
       if (React.isValidElement(cur)) {
         const part = defaultParts.find((c) => c.type === cur.type)
@@ -321,8 +321,8 @@ export const AccordionHeader = ({
     })
   }
 
-  const partsToRender = []
-  const wrapperParts = []
+  const partsToRender: React.ReactNode[] = []
+  const wrapperParts: React.ReactNode[] = []
   const wrapperComp = (
     <span className="dnb-accordion__header__wrapper" key="wrapper">
       {wrapperParts}
@@ -347,7 +347,7 @@ export const AccordionHeader = ({
   // position the icon to the right, if the element is not in the beginning
   if (iconPosition === undefined) {
     const iconIndex = partsToRender.findIndex(
-      (c) => c.type === AccordionHeaderIcon
+      (c) => React.isValidElement(c) && c.type === AccordionHeaderIcon
     )
     // because of the container at the beginning, we use 1
     if (iconIndex > 1) {

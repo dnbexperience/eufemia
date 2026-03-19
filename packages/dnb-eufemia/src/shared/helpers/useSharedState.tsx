@@ -21,7 +21,7 @@ export function useWeakSharedState<
   /** The initial data for the shared state. */
   initialData: Data = undefined,
   /** Optional callback function to be called when the shared state is set from another instance/component. */
-  onChange = null
+  onChange: ((data: Data) => void) | null = null
 ) {
   return useSharedState<Data>(id, initialData, onChange, { weak: true })
 }
@@ -35,7 +35,7 @@ export function useSharedState<Data>(
   /** The initial data for the shared state. */
   initialData: Data = undefined,
   /** Optional callback function to be called when the shared state is set from another instance/component. */
-  onChange = null,
+  onChange: ((data: Data) => void) | null = null,
   /** Optional configuration options. */
   {
     /** When set to `true`, the shared state will be deleted when all components have been unmounted. */
@@ -57,7 +57,7 @@ export function useSharedState<Data>(
 
   const shouldSync = useCallback((fn: () => void) => {
     // Do not rerender the "same component", when the hook is used. Only other subscribers will rerender.
-    if (instanceRef.current === fn?.['ref']) {
+    if (instanceRef.current === (fn as unknown as Record<string, unknown>)?.['ref']) {
       return false
     }
   }, [])
@@ -132,7 +132,7 @@ export function useSharedState<Data>(
       return
     }
 
-    forceRerender['ref'] = instanceRef.current
+    ;(forceRerender as unknown as Record<string, unknown>)['ref'] = instanceRef.current
     sharedState.subscribe(forceRerender)
 
     return () => {
@@ -278,7 +278,7 @@ export function createSharedState<Data>(
  * Creates a reference key for the shared state.
  * You can pass any JavaScript instance as the reference.
  */
-export function createReferenceKey(ref1, ref2) {
+export function createReferenceKey(ref1: unknown, ref2: unknown) {
   if (!cache.has(ref1)) {
     cache.set(ref1, new Map())
   }

@@ -10,14 +10,14 @@ type ErrorHandlerMessage = string
 
 function ErrorHandler(
   message: ErrorHandlerMessage,
-  error = null,
+  error: unknown = null,
   code = ERROR_HARMLESS
 ): string {
   if (error === null && typeof message !== 'string') {
     error = message
   }
-  if (error && typeof error === 'object' && error.message) {
-    message = error.message
+  if (error && typeof error === 'object' && 'message' in error) {
+    message = (error as Error).message
   }
 
   const err = new Error(`${message} (error code ${code})`)

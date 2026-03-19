@@ -7,6 +7,7 @@ import React, {
 } from 'react'
 import * as z from 'zod'
 import { Autocomplete } from '../../../../components'
+import type { AutocompleteOnFocusParams, AutocompleteOnTypeParams } from '../../../../components/autocomplete/Autocomplete'
 import type { InputMaskedProps } from '../../../../components/InputMasked'
 import clsx from 'clsx'
 import type {
@@ -120,7 +121,7 @@ function PhoneNumber(props: Props = {}) {
   )
 
   const validateRequired = useCallback(
-    (value: string, { required, isChanged, error }) => {
+    (value: string, { required, isChanged, error }: { required: boolean; isChanged: boolean; error: Error }) => {
       if (required) {
         const [countryCode, phoneNumber] = splitValue(value)
 
@@ -451,7 +452,7 @@ function PhoneNumber(props: Props = {}) {
   }, [callOnBlurOrFocus])
 
   const handleCountryCodeFocus = useCallback(
-    ({ updateData }) => {
+    ({ updateData }: AutocompleteOnFocusParams) => {
       if (!wasFilled.current) {
         wasFilled.current = true
         updateCurrentDataSet()
@@ -463,10 +464,10 @@ function PhoneNumber(props: Props = {}) {
   )
 
   const onTypeHandler = useCallback(
-    ({ value, updateData, revalidateInputValue, event }) => {
+    ({ value, updateData, revalidateInputValue, event }: AutocompleteOnTypeParams) => {
       // Handle browser autofill/autocomplete
-      if (typeof event?.nativeEvent?.data === 'undefined') {
-        const cdcVal = /\+\d{1,3}\s{1}\d+/.test(value)
+      if (typeof (event?.nativeEvent as InputEvent)?.data === 'undefined') {
+        const cdcVal = /\\+\\d{1,3}\\s{1}\\d+/.test(value)
           ? splitValue(value)[0]
           : value
         const country = countries.find(({ cdc }) => cdc === cdcVal)
@@ -588,7 +589,7 @@ function PhoneNumber(props: Props = {}) {
 }
 
 function makeObject(country: CountryType, lang: string) {
-  const name = country.i18n[lang] ?? country.i18n.en
+  const name = (country.i18n as Record<string, string>)[lang] ?? country.i18n.en
   const code = formatCountryCode(country.cdc)
   return {
     selectedKey: code,

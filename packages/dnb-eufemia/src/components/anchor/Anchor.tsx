@@ -167,7 +167,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     attributes.rel = 'noopener noreferrer'
   }
 
-  const iconNode = icon && getIcon(icon)
+  const iconNode = icon && getIcon(icon as IconIcon)
 
   const suffix =
     (iconPosition === 'right' && iconNode) ||
@@ -298,16 +298,17 @@ export function scrollToHash(hash: string) {
   }
 }
 
-function getIcon(icon) {
+function getIcon(icon: IconIcon) {
   return pickIcon(icon) || <IconPrimary icon={icon} />
 }
 
-export function pickIcon(icon, className?: string) {
-  if (icon?.props?.icon || icon?.props?.className?.includes('dnb-icon')) {
-    return React.createElement(icon.type, {
-      ...icon.props,
+export function pickIcon(icon: IconIcon, className?: string) {
+  const element = icon as React.ReactElement<{ icon?: string; className?: string }>
+  if (element?.props?.icon || element?.props?.className?.includes('dnb-icon')) {
+    return React.createElement(element.type, {
+      ...(element.props as Record<string, unknown>),
       key: 'button-icon-clone',
-      className: clsx(icon.props?.className, className),
+      className: clsx(element.props?.className, className),
     })
   }
 

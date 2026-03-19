@@ -79,7 +79,7 @@ async function runThemeFactory() {
       ),
       ...processToNamesIgnoreList,
     ],
-    customContent: ({ name }) => `@use './${name}-theme-forms.scss';`,
+    customContent: ({ name }: { name: string }) => `@use './${name}-theme-forms.scss';`,
     // output
     targetFile: 'components', // ui-theme-components.scss
     scssOutputPath: path.resolve(__dirname, '../../../src/style/themes'),
@@ -161,12 +161,18 @@ export async function runFactory({
   customContent = null,
   targetFile = 'basis', // ui-theme-basis.scss
   returnResult = false,
+}: {
+  filesToFindGlob: string[]
+  scssOutputPath?: string
+  customContent?: ((params: { name: string }) => string) | null
+  targetFile?: string
+  returnResult?: boolean
 }) {
   const themeSources = await getThemeSources(filesToFindGlob)
   const themesWithRelatedFiles =
     await collectRelatedThemeFiles(themeSources)
 
-  const collectedOutput = {}
+  const collectedOutput: Record<string, string[]> = {}
 
   try {
     const write = async (file: string, fileContent: string) => {

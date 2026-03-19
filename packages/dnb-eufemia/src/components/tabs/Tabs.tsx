@@ -234,7 +234,7 @@ export default class Tabs extends React.PureComponent<
   >
   _props: TabsProps
 
-  static defaultProps = {
+  static defaultProps: Partial<TabsProps> = {
     data: null,
     content: null,
     contentStyle: null,
@@ -621,7 +621,7 @@ export default class Tabs extends React.PureComponent<
     // )
   }
 
-  onTablistKeyDownHandler = (e) => {
+  onTablistKeyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>) => {
     switch (e.key) {
       case 'ArrowUp':
       case 'PageUp':
@@ -646,32 +646,32 @@ export default class Tabs extends React.PureComponent<
     }
   }
 
-  focusFirstTab = (e) => {
+  focusFirstTab = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const key = this.state.data[0].key
     this.focusTab(key, e, 'step')
     this.scrollToTab({ type: 'focus' })
   }
 
-  focusLastTab = (e) => {
+  focusLastTab = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const key = this.state.data[this.state.data.length - 1].key
     this.focusTab(key, e, 'step')
     this.scrollToTab({ type: 'focus' })
   }
 
-  focusPrevTab = (e) => {
+  focusPrevTab = (e: React.KeyboardEvent<HTMLDivElement>) => {
     this.focusTab(-1, e, 'step')
     this.scrollToTab({ type: 'focus' })
   }
-  focusNextTab = (e) => {
+  focusNextTab = (e: React.KeyboardEvent<HTMLDivElement>) => {
     this.focusTab(+1, e, 'step')
     this.scrollToTab({ type: 'focus' })
   }
 
-  openPrevTab = (e) => {
+  openPrevTab = (e: React.KeyboardEvent<HTMLDivElement>) => {
     this.openTab(-1, e, 'step')
     this.scrollToTab({ type: 'selected' })
   }
-  openNextTab = (e) => {
+  openNextTab = (e: React.KeyboardEvent<HTMLDivElement>) => {
     this.openTab(+1, e, 'step')
     this.scrollToTab({ type: 'selected' })
   }
@@ -689,7 +689,7 @@ export default class Tabs extends React.PureComponent<
     }
   }
 
-  setLeftPosition(scrollLeft) {
+  setLeftPosition(scrollLeft: number) {
     try {
       this._tablistRef.current.style.scrollBehavior = 'auto'
       this._tablistRef.current.scrollLeft = scrollLeft
@@ -779,13 +779,13 @@ export default class Tabs extends React.PureComponent<
     window.requestAnimationFrame(delay)
   }
 
-  onMouseDown = (event) => {
+  onMouseDown = (event: React.MouseEvent) => {
     // once we press with mouse, the focus makes the scroll view move
     // in order to enhance UX, we prevent that and only allow a real click
     event.preventDefault()
   }
 
-  onKeyDownHandler = (event) => {
+  onKeyDownHandler = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
       try {
         const elem = document.getElementById(`${this._id}-content`)
@@ -796,22 +796,22 @@ export default class Tabs extends React.PureComponent<
     }
   }
 
-  onMouseEnterHandler = (event) => {
+  onMouseEnterHandler = (event: React.SyntheticEvent) => {
     const selectedKey = this.getCurrentKey(event)
     if (selectedKey) {
       dispatchCustomElementEvent(
-        this,
+        this as unknown as Record<string, unknown>,
         'onMouseEnter',
         this.getEventArgs({ event, selectedKey })
       )
     }
   }
 
-  onClickHandler = (event) => {
+  onClickHandler = (event: React.SyntheticEvent) => {
     const selectedKey = this.getCurrentKey(event)
     if (selectedKey) {
       const ret = dispatchCustomElementEvent(
-        this,
+        this as unknown as Record<string, unknown>,
         'onClick',
         this.getEventArgs({ event, selectedKey })
       )
@@ -845,7 +845,7 @@ export default class Tabs extends React.PureComponent<
     return (current && current.title) || null
   }
 
-  getStepKey(useKey, stateKey) {
+  getStepKey(useKey: number, stateKey: string | number) {
     const currentData = this.state.data.filter(({ disabled }) => !disabled)
     const currentIndex = currentData.reduce(
       (acc, { key }, i) => (key == stateKey ? i : acc),
@@ -864,10 +864,10 @@ export default class Tabs extends React.PureComponent<
     )
   }
 
-  focusTab = (focusKey, event = null, mode = null) => {
+  focusTab = (focusKey: string | number, event: React.SyntheticEvent | null = null, mode: string | null = null) => {
     // for handling openPrevTab and openNextTab
-    if (mode === 'step' && parseFloat(focusKey)) {
-      focusKey = this.getStepKey(focusKey, this.state.focusKey)
+    if (mode === 'step' && parseFloat(String(focusKey))) {
+      focusKey = this.getStepKey(Number(focusKey), this.state.focusKey)
     }
 
     this.setState(
@@ -879,7 +879,7 @@ export default class Tabs extends React.PureComponent<
     )
 
     dispatchCustomElementEvent(
-      this,
+      this as unknown as Record<string, unknown>,
       'onFocus',
       this.getEventArgs({ event, focusKey })
     )
@@ -920,15 +920,15 @@ export default class Tabs extends React.PureComponent<
     )
   }
 
-  openTab = (selectedKey, event = null, mode = null) => {
+  openTab = (selectedKey: string | number, event: React.SyntheticEvent | null = null, mode: string | null = null) => {
     // saving the position will avoid flickering if the new tab will be done by a new page load
     this.saveLastPosition()
     this.saveLastUsedTab()
     this.resetWhatInput()
 
     // for handling openPrevTab and openNextTab
-    if (mode === 'step' && parseFloat(selectedKey)) {
-      selectedKey = this.getStepKey(selectedKey, this.state.selectedKey)
+    if (mode === 'step' && parseFloat(String(selectedKey))) {
+      selectedKey = this.getStepKey(Number(selectedKey), this.state.selectedKey)
     }
 
     if (typeof selectedKey !== 'undefined') {
@@ -943,7 +943,7 @@ export default class Tabs extends React.PureComponent<
     }
 
     dispatchCustomElementEvent(
-      this,
+      this as unknown as Record<string, unknown>,
       'onChange',
       this.getEventArgs({ event, selectedKey })
     )
@@ -964,11 +964,11 @@ export default class Tabs extends React.PureComponent<
     }
   }
 
-  getEventArgs(args) {
+  getEventArgs(args: Record<string, unknown>) {
     const { selectedKey, focusKey } = this.state
     const key =
       typeof args.selectedKey !== 'undefined'
-        ? args.selectedKey
+        ? (args.selectedKey as string | number)
         : selectedKey
 
     return {
@@ -980,10 +980,10 @@ export default class Tabs extends React.PureComponent<
     }
   }
 
-  isFocus(tabKey) {
+  isFocus(tabKey: string | number) {
     return this.state.focusKey == tabKey
   }
-  isSelected(tabKey) {
+  isSelected(tabKey: string | number) {
     return this.state.selectedKey == tabKey
   }
 
@@ -998,7 +998,7 @@ export default class Tabs extends React.PureComponent<
           content: this.getContent(cur.key),
         }
         return acc
-      }, {})
+      }, {} as typeof this._cache)
     } else if (preventRerender) {
       this._cache = {
         ...(this._cache || {}),
@@ -1037,7 +1037,7 @@ export default class Tabs extends React.PureComponent<
     return this.getContent(this.state.selectedKey)
   }
 
-  getContent = (selectedKey) => {
+  getContent = (selectedKey: string | number) => {
     const { children, content: _content } = this.props
 
     const contentToRender = children || _content
@@ -1047,10 +1047,10 @@ export default class Tabs extends React.PureComponent<
     if (contentToRender) {
       if (
         typeof contentToRender === 'object' &&
-        contentToRender[selectedKey]
+        (contentToRender as Record<string | number, unknown>)[selectedKey]
       ) {
         // if content is provided as an object
-        content = contentToRender[selectedKey]
+        content = (contentToRender as Record<string | number, unknown>)[selectedKey] as React.ReactNode
       } else if (typeof contentToRender === 'function') {
         // if content is provided as a render prop
         content = contentToRender.apply(this, [selectedKey])

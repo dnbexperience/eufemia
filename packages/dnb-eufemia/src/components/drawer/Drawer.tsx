@@ -116,11 +116,14 @@ function Drawer({
   return (
     <Modal
       {...context.Drawer}
-      {...modalProps}
+      {...(modalProps as Record<string, unknown>)}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ref={undefined as any}
       fullscreen={false} // to avoid double fullscreen as it's handled in DrawerContent
       contentClass={clsx('dnb-drawer__root', contentClass)}
     >
-      <DrawerContent {...context.Drawer} {...drawerProps} />
+      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+      <DrawerContent {...context.Drawer} {...(drawerProps as any)} />
     </Modal>
   )
 }

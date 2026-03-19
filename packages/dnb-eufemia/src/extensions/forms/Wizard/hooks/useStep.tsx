@@ -17,8 +17,8 @@ type SetActiveIndexHandler = NonNullable<
 export default function useStep(
   id: SharedStateId = null,
   { onStepChange }: { onStepChange?: OnStepChange } = {}
-) {
-  const setFormError = useCallback(() => null, [])
+): WizardContextState {
+  const setFormError = useCallback((): null => null, [])
   const wizardContext = useContext(WizardContext) || { setFormError }
 
   // In order to make it possible to add a "onStepChange" handler without an id,

@@ -238,7 +238,7 @@ export type PaginationCreateReturn = {
   endInfinity: () => void
 }
 
-const paginationDefaultProps = {
+const paginationDefaultProps: Partial<PaginationProps> = {
   startupPage: null,
   currentPage: null,
   pageCount: null,
@@ -391,7 +391,7 @@ class PaginationInstance extends React.PureComponent<PaginationProps> {
       validateDOMAttributes(props, mainParams)
 
       const content = items.find(
-        ({ pageNumber }) => pageNumber === currentPageInternal
+        ({ pageNumber }: { pageNumber: number }) => pageNumber === currentPageInternal
       )?.content
 
       return (
@@ -431,7 +431,7 @@ export function InfinityMarker(props: PaginationProps) {
       tagName="dnb-infinity-marker"
       {...rest}
     >
-      <InfinityScroller {...rest}>{children}</InfinityScroller>
+      <InfinityScroller {...rest}>{children as React.ReactNode}</InfinityScroller>
     </PaginationProvider>
   )
 }

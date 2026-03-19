@@ -52,8 +52,8 @@ export default class InputModeNumber {
   }
   add() {
     const fnId = '__getCorrectCaretPosition'
-    if (this.inputElement && !this.inputElement?.[fnId]) {
-      this.inputElement[fnId] = true
+    if (this.inputElement && !(this.inputElement as unknown as Record<string, unknown>)?.[fnId]) {
+      (this.inputElement as unknown as Record<string, unknown>)[fnId] = true
 
       // Listen to both mouseenter and focus so programmatic focus also triggers on iOS
       this.inputElement.addEventListener(this.focusEventName, this.onFocus)
@@ -146,7 +146,7 @@ export default class InputModeNumber {
       // resolves the tap location after the type-toggle completes. Forcing the
       // old selection back would override the user's intended caret position,
       // causing a visible jump.
-      this.inputElement['runCorrectCaretPosition']?.()
+      ;(this.inputElement as unknown as { runCorrectCaretPosition?: () => void }).runCorrectCaretPosition?.()
     } catch (error) {
       console.error(error)
     }

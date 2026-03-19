@@ -194,7 +194,7 @@ type ButtonState = {
   afterContent: React.ReactNode | null
 }
 
-const buttonDefaultProps = {
+const buttonDefaultProps: Partial<ButtonProps> = {
   type: null, // defaults to 'button' to prevent accidental form submissions (except when used as Anchor)
   text: null,
   variant: null,
@@ -254,7 +254,7 @@ class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
   }
 
   getOnClickHandler =
-    (src: ButtonProps) =>
+    (src: Record<string, unknown>) =>
     (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
       const afterContent = dispatchCustomElementEvent(src, 'onClick', {
         event,
@@ -308,7 +308,7 @@ class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
       ...attributes
     } = props
 
-    const showStatus = getStatusState(status)
+    const showStatus = getStatusState(status as string)
 
     const { text } = props
     let { icon } = props
@@ -349,7 +349,7 @@ class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
       if (
         process.env.NODE_ENV === 'development' &&
         !title &&
-        !attributes['aria-label']
+        !(attributes as Record<string, unknown>)['aria-label']
       ) {
         warn(
           'Icon-only Button requires either a "title" or "aria-label" prop for accessibility.'
@@ -371,11 +371,11 @@ class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
       usedIconSize = 'medium'
     }
 
-    const Element = element
+    const Element = (element
       ? element
       : props.href || props.to
       ? Anchor
-      : 'button'
+      : 'button') as React.ElementType
     if (Element === Anchor) {
       ;(attributes as Record<string, unknown>).omitClass = true
       if (opensNewTab(props.target, props.href) && !icon) {
@@ -407,7 +407,8 @@ class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
       Element === Anchor && 'dnb-anchor--no-style'
     )
 
-    const params = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const params: Record<string, any> = {
       className: classes,
       title,
       id: this._id,
@@ -422,7 +423,7 @@ class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
     // Prevent navigation when used as Anchor and disabled
     if (Element === Anchor && params.disabled) {
       const originalOnClick = params.onClick
-      params.onClick = (e) => {
+      params.onClick = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault()
         e.stopPropagation()
         if (typeof originalOnClick === 'function') {
@@ -461,7 +462,7 @@ class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
             customContent={customContent}
             isIconOnly={isIconOnly}
             skeleton={skeleton}
-            iconElement={pickIcon(icon, 'dnb-button__icon')}
+            iconElement={pickIcon(icon as IconIcon, 'dnb-button__icon')}
           />
         </Element>
 
@@ -471,7 +472,7 @@ class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
           show={showStatus}
           id={this._id + '-form-status'}
           globalStatus={globalStatus}
-          label={text}
+          label={text as React.ReactNode}
           text={status}
           state={statusState}
           textId={this._id + '-status'} // used for "aria-describedby"
@@ -484,7 +485,7 @@ class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
           <Tooltip
             id={this._id + '-tooltip'}
             targetElement={this._ref}
-            tooltip={tooltip}
+            tooltip={tooltip as React.ReactNode}
           />
         )}
       </>

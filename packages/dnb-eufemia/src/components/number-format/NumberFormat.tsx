@@ -122,7 +122,7 @@ export default class NumberFormat extends React.PureComponent<
   static contextType = Context
   context!: ContextProps
 
-  static defaultProps = {
+  static defaultProps: Partial<NumberFormatAllProps> = {
     id: null,
     value: null,
     locale: null,

@@ -175,7 +175,7 @@ const InputMasked = React.forwardRef<HTMLInputElement, InputMaskedProps>(
         return context?.InputMasked
       }
 
-      const clone = { ...context.InputMasked }
+      const clone: Record<string, unknown> = { ...context.InputMasked }
       for (const key in clone) {
         if (/^as[_A-Z]|numberMask|currencyMask/.test(key)) {
           delete clone[key]
@@ -207,7 +207,7 @@ const InputMasked = React.forwardRef<HTMLInputElement, InputMaskedProps>(
   }
 )
 
-const defaultProps = {
+const defaultProps: Record<string, unknown> = {
   ...inputDefaultProps,
   mask: null,
   numberMask: null,

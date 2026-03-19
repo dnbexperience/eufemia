@@ -63,16 +63,16 @@ function FlexItem(props: FlexItemAllProps) {
     return typeof span === 'number' || span === 'auto'
   }, [])
 
-  const spaceStyles = {} as React.CSSProperties
+  const spaceStyles = {} as Record<string, string | number>
 
   if (span) {
     if (isValidSpan(span as FlexSpans)) {
-      spaceStyles['--span--default'] = span
+      spaceStyles['--span--default'] = span as FlexSpans
     } else {
       const spans = span as MediaSpans
       for (const key in spans) {
-        if (isValidSpan(span[key])) {
-          spaceStyles[`--${key}`] = span[key]
+        if (isValidSpan(spans[key as keyof MediaSpans])) {
+          spaceStyles[`--${key}`] = spans[key as keyof MediaSpans]
         }
       }
     }

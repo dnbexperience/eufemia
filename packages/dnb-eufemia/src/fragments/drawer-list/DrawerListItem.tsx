@@ -64,7 +64,7 @@ export function DrawerListItem(
   }
 
   if (active) {
-    params['aria-current'] = true
+    ;(params as Record<string, unknown>)['aria-current'] = true
   }
 
   return (
@@ -143,6 +143,10 @@ function DrawerListOptionItem({
   children = undefined,
   className = null,
   ...props
+}: {
+  children?: React.ReactNode
+  className?: string | null
+  [key: string]: unknown
 }) {
   return (
     <span

@@ -42,7 +42,7 @@ class ToggleButtonGroup extends React.PureComponent<
   static contextType = Context
   context!: ContextProps
 
-  static defaultProps = {
+  static defaultProps: Partial<ToggleButtonGroupProps> = {
     label: null,
     labelDirection: null,
     labelSrOnly: null,
@@ -141,7 +141,10 @@ class ToggleButtonGroup extends React.PureComponent<
       _listenForPropChanges: false,
     })
 
-    dispatchCustomElementEvent(this, 'onChange', {
+    dispatchCustomElementEvent(
+      this as unknown as Record<string, unknown>,
+      'onChange',
+      {
       value,
       values,
       event,
@@ -197,7 +200,7 @@ class ToggleButtonGroup extends React.PureComponent<
     const { value, values } = this.state
 
     const id = this._id
-    const showStatus = getStatusState(status)
+    const showStatus = getStatusState(status as string)
 
     const classes = clsx(
       'dnb-toggle-button-group',

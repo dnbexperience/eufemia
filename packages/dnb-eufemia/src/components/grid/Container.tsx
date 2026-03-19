@@ -32,14 +32,14 @@ function GridContainer(props: GridContainerAllProps) {
     ...rest
   } = props
 
-  const styleObj = {
+  const styleObj: Record<string, string> = {
     ...compute(columns),
-    ...style,
+    ...(style as Record<string, string>),
   }
 
   const n = 'dnb-grid-container'
 
-  const unsetClasses = []
+  const unsetClasses: string[] = []
   for (const prop in styleObj) {
     if (styleObj[prop] === 'unset') {
       const disableClass = `${n}__disabled--${prop.replace(
@@ -72,12 +72,12 @@ withComponentMarkers(GridContainer, {
 
 export default GridContainer
 
-function compute(columns) {
+function compute(columns: Record<string, unknown> | number | undefined) {
   if (!columns) {
     return null
   }
 
-  const result = {}
+  const result: Record<string, string> = {}
 
   if (typeof columns === 'number') {
     columns = {
@@ -88,8 +88,8 @@ function compute(columns) {
   }
 
   for (const media in columns) {
-    const value = columns?.[media]
-    result[`--${media}-columns`] = value || 'unset'
+    const value = (columns as Record<string, unknown>)?.[media]
+    result[`--${media}-columns`] = (value as string) || 'unset'
   }
 
   return result

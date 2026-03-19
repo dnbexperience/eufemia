@@ -281,7 +281,7 @@ export type InputSubmitButtonProps = Omit<
     onSubmitBlur?: (event: InputEvent<React.FocusEvent>) => void
   }
 
-export const inputDefaultProps = {
+export const inputDefaultProps: Partial<InputProps> = {
   type: 'text',
   size: null,
   value: 'initval',
@@ -627,10 +627,10 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   if (disabled || skeleton) {
     usedInputState = 'disabled'
   }
-  const sizeIsNumber = parseFloat(size) > 0
+  const sizeIsNumber = parseFloat(String(size)) > 0
 
   const id = _id
-  const showStatus = getStatusState(status)
+  const showStatus = getStatusState(status as string)
   const hasSubmitButton =
     submitElement || (submitElement !== false && type === 'search')
   const hasVal = hasValue(value)
@@ -835,13 +835,13 @@ function InputComponent({ ref, ...restProps }: InputProps) {
           {hasSubmitButton && (
             <span className="dnb-input__submit-element">
               {submitElement ? (
-                submitElement
+                (submitElement as React.ReactNode)
               ) : (
                 <InputSubmitButton
-                  {...inputSubmitButtonAttributes}
+                  {...(inputSubmitButtonAttributes as Record<string, unknown>)}
                   id={id + '-submit-button'}
-                  value={hasVal ? value : ''}
-                  icon={submitButtonIcon}
+                  value={hasVal ? String(value) : ''}
+                  icon={submitButtonIcon as IconIcon}
                   status={
                     submitButtonStatus || status ? statusState : null
                   }
@@ -852,12 +852,12 @@ function InputComponent({ ref, ...restProps }: InputProps) {
                       : 'default'
                   }
                   title={submitButtonTitle}
-                  variant={submitButtonVariant}
+                  variant={submitButtonVariant as ButtonVariant}
                   disabled={disabled}
                   skeleton={skeleton}
-                  size={size}
-                  onSubmit={onSubmit}
-                  {...statusProps}
+                  size={size as ButtonSize}
+                  onSubmit={onSubmit as InputSubmitButtonProps['onSubmit']}
+                  {...(statusProps as Record<string, unknown>)}
                 />
               )}
             </span>
@@ -877,7 +877,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   )
 }
 
-const inputSubmitButtonDefaultProps = {
+const inputSubmitButtonDefaultProps: Partial<InputSubmitButtonProps> = {
   id: null,
   value: null,
   title: null,

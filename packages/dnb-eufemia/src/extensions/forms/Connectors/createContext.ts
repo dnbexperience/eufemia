@@ -163,7 +163,7 @@ export function getCountryCodeValue({
 }) {
   const countryCodeValue =
     givenCountryCode ||
-    additionalArgs.props?.['data-country-code'] ||
+    ((additionalArgs.props as Record<string, unknown>)?.['data-country-code'] as string) ||
     defaultCountry
   const countryCode =
     additionalArgs.getSourceValue<string>(countryCodeValue) ||
@@ -187,17 +187,17 @@ export function handleCountryPath({
 }) {
   const { countryCode, countryCodeValue } = getCountryCodeValue({
     countryCode:
-      givenCountryCode || additionalArgs.props?.['data-country-code'],
+      givenCountryCode || ((additionalArgs.props as Record<string, unknown>)?.['data-country-code'] as string),
     additionalArgs,
   })
 
   if (
     String(countryCodeValue).startsWith('/') &&
-    additionalArgs[handler.name] !== handler
+    (additionalArgs as Record<string, unknown>)[handler.name] !== handler
   ) {
-    additionalArgs[handler.name] = handler
+    ;(additionalArgs as Record<string, unknown>)[handler.name] = handler
     additionalArgs.setFieldEventListener(
-      countryCodeValue,
+      countryCodeValue as string,
       'onPathChange',
       () => {
         handler(value, additionalArgs)

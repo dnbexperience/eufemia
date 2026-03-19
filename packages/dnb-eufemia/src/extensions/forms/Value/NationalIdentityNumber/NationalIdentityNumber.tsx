@@ -14,7 +14,7 @@ export type Props = StringValueProps
 function NationalIdentityNumber(props: Props) {
   const translations = useTranslation().NationalIdentityNumber
 
-  const toInput = useCallback((value) => {
+  const toInput = useCallback((value: unknown) => {
     if (isValueEmpty(value)) {
       return undefined
     }

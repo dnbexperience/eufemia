@@ -17,6 +17,11 @@ import type {
   InnerSpaceTypeMedia,
 } from './types'
 
+declare global {
+  // eslint-disable-next-line no-var
+  var CALC_CACHE: Record<string, string | null>
+}
+
 type SpaceNumber = number
 type InnerSpacingProps = Omit<SpacingProps, 'innerSpace'> & {
   innerSpace?: InnerSpaceType
@@ -117,15 +122,15 @@ function computeProperties(space: InnerSpaceType) {
     } as InnerSpaceTypeMedia
   }
 
-  const result = {}
+  const result: Record<string, string> = {}
 
   for (const size in space as InnerSpaceTypeMedia) {
-    const value = space?.[size] as SpaceType | InnerSpacingElementProps
+    const value = (space as Record<string, unknown>)?.[size] as SpaceType | InnerSpacingElementProps
     const props = transformToAll(value)
 
     for (const key in props as InnerSpaceTypeMedia) {
       if (isValidInnerSpaceProp(key)) {
-        const cur = props[key]
+        const cur = (props as Record<string, unknown>)[key]
         const name = `--space-${key[0]}-${size[0]}`
 
         if (String(cur) === '0' || String(cur) === 'false') {
@@ -208,8 +213,8 @@ export const createSpacingClasses = (
     }
     if (typeof p.space === 'object') {
       for (const i in p.space) {
-        if (!p[i] && isValidSpaceProp(i)) {
-          p[i] = p.space[i]
+        if (!(p as Record<string, unknown>)[i] && isValidSpaceProp(i)) {
+          ;(p as Record<string, unknown>)[i] = (p.space as Record<string, unknown>)[i]
         }
       }
     }
@@ -257,9 +262,9 @@ export const createSpacingClasses = (
 // @internal splits types by given string
 export const translateSpace = (type: SpaceType) => {
   if (/-x2$/.test(String(type))) {
-    return spacePatterns[String(type).replace(/-x2$/, '')] * 2
+    return (spacePatterns as Record<string, number>)[String(type).replace(/-x2$/, '')] * 2
   }
-  return spacePatterns[String(type)] || 0
+  return (spacePatterns as Record<string, number>)[String(type)] || 0
 }
 
 // @internal Splits a string of: "large x-small" into an array of the same
@@ -283,7 +288,7 @@ export const splitTypes = (types: SpaceType | Array<SpaceType>) => {
 // @internal Sums e.g. "large" + "x-small" to be = 2.5rem
 export const sumTypes = (types: SpaceType | Array<SpaceType>) =>
   splitTypes(types)
-    .map((type) => translateSpace(type))
+    .map((type) => translateSpace(type as SpaceType))
     .reduce((acc, cur) => {
       if (cur > 0) {
         acc += cur
@@ -358,8 +363,8 @@ export const findTypeAll = (
 }
 
 // @internal Finds from e.g. a value of "2.5rem" the nearest type = ["large", "x-small"]
-export const findNearestTypes = (num: SpaceNumber, multiply = false) => {
-  let res = []
+export const findNearestTypes = (num: SpaceNumber, multiply = false): SpaceType[] => {
+  let res: SpaceType[] = []
 
   const near = Object.entries(spacePatterns)
     .reverse()
@@ -378,7 +383,7 @@ export const findNearestTypes = (num: SpaceNumber, multiply = false) => {
     foundMoreTypes.forEach((type) => {
       const index = res.indexOf(type)
       if (index !== -1) {
-        res[index] = multiply ? `${type}-x2` : type
+        res[index] = (multiply ? `${type}-x2` : type) as SpaceType
       }
     })
 

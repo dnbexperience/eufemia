@@ -18,8 +18,8 @@ export function pickSpacingProps<Props extends SpacingProps>(
 ): SpacingProps {
   const obj: SpacingProps = {}
   for (const key in props as SpacingProps) {
-    if (isValidSpaceProp(key) && typeof props[key] !== 'undefined') {
-      obj[key] = props[key]
+    if (isValidSpaceProp(key) && typeof (props as Record<string, unknown>)[key] !== 'undefined') {
+      (obj as Record<string, unknown>)[key] = (props as Record<string, unknown>)[key]
     }
   }
   return obj
@@ -101,7 +101,7 @@ export function getSpaceVariant(element: React.ReactNode) {
 export function renderWithSpacing(
   element: React.ReactNode,
   spaceProps: SpacingProps & { key?: string; className?: string }
-) {
+): React.ReactNode {
   const variant = getSpaceVariant(element)
 
   if (variant === false) {
@@ -137,7 +137,11 @@ function wrapWithSpace({
   element,
   spaceProps: { key = undefined, ...spaceProps },
   variant = null,
-}) {
+}: {
+  element: React.ReactNode
+  spaceProps: SpacingProps & { key?: string; className?: string }
+  variant?: boolean | 'children' | null
+}): React.ReactNode {
   if (variant ?? getSpaceVariant(element) === true) {
     return React.createElement(
       (element as React.ReactElement).type as React.ComponentType<any>,

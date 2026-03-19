@@ -19,25 +19,25 @@ export default function useCountries({
   const translateCountries = useCallback(
     (locales: Array<InternalLocale>) => {
       const hasTranslations = locales.some((locale) => {
-        return Boolean(translations?.[locale]?.countries)
+        return Boolean((translations as Record<string, Record<string, unknown>>)?.[locale]?.countries)
       })
 
       if (hasTranslations) {
-        const missing = []
+        const missing: string[] = []
         const defaultLocale = LOCALE.split('-')[0]
 
         const result = listOfCountries.map((country) => {
-          const translated = {}
+          const translated: Record<string, string> = {}
 
           locales.forEach((locale) => {
-            const { countries } = translations?.[locale] || {}
+            const { countries } = (translations as Record<string, Record<string, unknown>>)?.[locale] || {} as Record<string, unknown>
             if (countries) {
               const key = locale.split('-')[0]
-              translated[key] = countries[country.iso]
+              translated[key] = (countries as Record<string, string>)[country.iso]
 
               if (!translated[key]) {
                 // Fall back to the default translation for this locale
-                translated[key] = country.i18n[defaultLocale]
+                translated[key] = (country.i18n as Record<string, string>)[defaultLocale]
                 missing.push(country.iso)
               }
             }

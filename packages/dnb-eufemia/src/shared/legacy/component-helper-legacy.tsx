@@ -84,10 +84,10 @@ export const processChildren = (props: Record<string, any>) => {
   // If used in WB, call functions who starts with "render_"
   if (
     typeof global !== 'undefined' &&
-    Array.isArray(global.registeredElements) &&
-    global.registeredElements.length > 0
+    Array.isArray((global as Record<string, unknown>).registeredElements) &&
+    ((global as Record<string, unknown>).registeredElements as unknown[]).length > 0
   ) {
-    let cache = null
+    let cache: React.ReactNode = null
     Object.entries(props)
       .reverse()
       .map(([key, cb]) => {

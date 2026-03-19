@@ -70,7 +70,7 @@ function RemoveButton(props: Props) {
   return (
     <Button
       {...triggerAttributes}
-      onClick={(args) => handleClick(args)}
+      onClick={(args: Record<string, unknown>) => handleClick(args)}
       {...buttonProps}
     />
   )

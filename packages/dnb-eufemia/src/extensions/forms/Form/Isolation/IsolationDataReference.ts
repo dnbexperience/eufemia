@@ -9,8 +9,8 @@ export type IsolationDataReference = {
 }
 
 export function createDataReference(): IsolationDataReference {
-  const snapshotRef = { current: undefined }
-  const eventsRef = { current: [] }
+  const snapshotRef: { current: unknown } = { current: undefined }
+  const eventsRef: { current: Array<() => void> } = { current: [] }
 
   const refresh: IsolationDataReference['refresh'] = ({
     deferred = false,

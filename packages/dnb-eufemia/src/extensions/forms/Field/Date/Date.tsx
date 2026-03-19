@@ -141,7 +141,7 @@ function DateComponent(props: DateProps): React.ReactElement {
   )
 
   const validateRequired = useCallback(
-    (value: string, { required, error }) => {
+    (value: string, { required, error }: { required: boolean; error: Error }) => {
       if (!required) {
         return undefined
       }
@@ -270,7 +270,7 @@ function DateComponent(props: DateProps): React.ReactElement {
         React.MouseEvent<HTMLButtonElement, MouseEvent>
       >
     ) => {
-      const reset = {
+      const reset: Record<string, unknown> = {
         date: undefined,
         startDate: undefined,
         endDate: undefined,
@@ -315,7 +315,7 @@ function DateComponent(props: DateProps): React.ReactElement {
     [handleChange, props.range, setChanged]
   )
 
-  const { value, startDate, endDate } = useMemo(() => {
+  const { value, startDate, endDate } = useMemo((): { value: string | null | undefined; startDate: string | null | undefined; endDate: string | null | undefined } => {
     if (!range || !internalValue) {
       return {
         // Assign to null if falsy value, to properly clear input values
@@ -598,7 +598,7 @@ function pickDatePickerProps(props: DateProps): Partial<DatePickerProps> {
   const datePickerProps = Object.keys(props).reduce(
     (datePickerProps, key) => {
       if (datePickerPropKeys.includes(key)) {
-        datePickerProps[key] = props[key]
+        ;(datePickerProps as Record<string, unknown>)[key] = (props as Record<string, unknown>)[key]
       }
 
       return datePickerProps

@@ -27,7 +27,7 @@ const CountryFlag = (props: CountryFlagProps) => {
   const { countries } = useCountries()
   const countryName = useMemo(() => {
     return countries.find((item) => item.iso === iso)?.i18n[
-      locale.split('-')[0]
+      locale.split('-')[0] as 'en' | 'nb'
     ]
   }, [countries, iso, locale])
 

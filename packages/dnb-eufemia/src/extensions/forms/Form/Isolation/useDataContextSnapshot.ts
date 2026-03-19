@@ -31,7 +31,7 @@ export default function useDataContextSnapshot({
     dataReference || {}
 
   const updateHandler = useCallback(
-    (data = null) => {
+    (data: unknown = null) => {
       update(data || structuredClone(internalDataRef?.current))
       forceUpdate() // Ensure the hasContentChanged hook gets updated
     },
