@@ -160,7 +160,7 @@ export type InputProps = Omit<
     /**
      * If set to `true`, then a clear button will be shown which lets the user clear any given input value.
      */
-    clear?: boolean
+    showClearButton?: boolean
     /**
      * Set to `true` in case the `placeholder` has to be kept during focus. By default, the placeholder disappears on focus.
      */
@@ -297,7 +297,7 @@ export const inputDefaultProps = {
   inputState: null,
   autocomplete: 'off',
   placeholder: null,
-  clear: null,
+  showClearButton: null,
   keepPlaceholder: null,
   suffix: null,
   align: null,
@@ -453,7 +453,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   })
 
   useMountEffect(() => {
-    if (restProps.clear && restProps.iconPosition === 'right') {
+    if (restProps.showClearButton && restProps.iconPosition === 'right') {
       warn('You cannot have a clear button and iconPosition="right"')
     }
 
@@ -580,7 +580,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     disabled,
     skeleton,
     placeholder,
-    clear,
+    showClearButton,
     keepPlaceholder,
     _omitInputShellClass,
     suffix,
@@ -648,7 +648,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
       size && !sizeIsNumber && `dnb-input--${size}`,
       hasSubmitButton && 'dnb-input--has-submit-element',
       innerElement && 'dnb-input--has-inner-element',
-      clear && 'dnb-input--has-clear-button',
+      showClearButton && 'dnb-input--has-clear-button',
       align && `dnb-input__align--${align}`,
       status && `dnb-input__status--${statusState}`,
       disabled && 'dnb-input--disabled',
@@ -812,7 +812,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
               </span>
             )}
 
-            {clear && iconPosition !== 'right' && (
+            {showClearButton && iconPosition !== 'right' && (
               <span className="dnb-input--clear dnb-input__submit-element">
                 <InputSubmitButton
                   aria-hidden={!hasVal}
