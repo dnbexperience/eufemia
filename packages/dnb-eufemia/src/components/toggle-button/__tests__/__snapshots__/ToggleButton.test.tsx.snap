@@ -350,6 +350,10 @@ p > .dnb-icon {
 *
 */
 /*
+* Tooltip component
+*
+*/
+/*
  * FormStatus component
  *
  */
@@ -359,11 +363,56 @@ p > .dnb-icon {
   opacity: 1;
 }
 .dnb-form-status__shell {
+  --form-status-color-text: var(--token-color-text-neutral);
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   min-width: inherit;
   border-radius: var(--form-status-radius);
+  background-color: var(--form-status-color-background);
+  color: var(--form-status-color-text);
+}
+.dnb-form-status__variant--outlined .dnb-form-status__shell {
+  --border-color: var(--form-status-color-outline);
+  --border-width: 0.0625rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-form-status--error .dnb-form-status__shell {
+  --form-status-color-background: var(
+    --token-color-background-error-subtle
+  );
+  --form-status-color-icon: var(--token-color-background-error);
+}
+.dnb-form-status--info .dnb-form-status__shell {
+  --form-status-color-background: var(
+    --token-color-background-info-subtle
+  );
+  --form-status-color-icon: var(--token-color-background-info);
+}
+.dnb-form-status--marketing .dnb-form-status__shell {
+  --form-status-color-background: var(
+    --token-color-background-marketing-subtle
+  );
+  --form-status-color-icon: var(--token-color-background-marketing);
+}
+.dnb-form-status--warning .dnb-form-status__shell {
+  --form-status-color-background: var(
+    --token-color-background-warning-subtle
+  );
+  --form-status-color-icon: var(--token-color-background-warning);
+}
+.dnb-form-status__variant--outlined.dnb-form-status--error .dnb-form-status__shell {
+  --form-status-color-outline: var(--token-color-stroke-error);
+}
+.dnb-form-status__variant--outlined.dnb-form-status--warning .dnb-form-status__shell {
+  --form-status-color-outline: var(--token-color-stroke-warning);
+}
+.dnb-form-status__variant--outlined.dnb-form-status--info .dnb-form-status__shell {
+  --form-status-color-outline: var(--token-color-stroke-info);
+}
+.dnb-form-status__variant--outlined.dnb-form-status--marketing .dnb-form-status__shell {
+  --form-status-color-outline: var(--token-color-stroke-marketing);
 }
 .dnb-form-status__text {
   max-width: var(--prose-max-width);
@@ -403,6 +452,8 @@ button .dnb-form-status__text {
   justify-content: center;
   align-items: center;
   margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
+  color: var(--form-status-color-icon);
+  border: none;
 }
 .dnb-form-status__size--large .dnb-form-status__text {
   padding-top: 1.125rem;
@@ -421,7 +472,25 @@ button .dnb-form-status__text {
 .dnb-form-status[hidden] {
   display: none;
 }
+.dnb-form-status--error.dnb-form-status--attention-focus .dnb-form-status__shell, .dnb-form-status--error.dnb-form-status:focus .dnb-form-status__shell {
+  animation: attention-focus 2s ease-in-out 1 200ms;
+}
+.dnb-form-status--error.dnb-form-status--attention-focus .dnb-form-status__shell > .dnb-icon, .dnb-form-status--error.dnb-form-status:focus .dnb-form-status__shell > .dnb-icon {
+  animation: attention-focus 2s ease-in-out 1 200ms;
+}
 
+@keyframes attention-focus {
+  0%, 100% {
+    color: var(--token-color-text-destructive);
+    background-color: var(--token-color-background-error-subtle);
+    border-color: var(--token-color-stroke-error);
+  }
+  35% {
+    color: var(--token-color-text-neutral-inverse);
+    background-color: var(--token-color-background-error);
+    border-color: var(--token-color-stroke-error);
+  }
+}
 /*
 * Tooltip component
 *
