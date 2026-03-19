@@ -68,6 +68,7 @@ export const IntroFooter = ({ href, text }: IntroFooterProps) => (
         }
       `}
     />
+    {/* @ts-expect-error -- strictFunctionTypes */}
     <Button href={href} text={text} icon="chevron_right" element={Link} />
     <Button
       href="/uilib/getting-started"
@@ -75,6 +76,7 @@ export const IntroFooter = ({ href, text }: IntroFooterProps) => (
       text="Cancel"
       icon="close"
       iconPosition="left"
+      // @ts-expect-error -- strictFunctionTypes
       element={Link}
     />
   </Space>

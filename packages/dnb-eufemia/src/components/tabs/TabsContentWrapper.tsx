@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
+import type { DynamicElement } from '../../shared/types'
 import {
   validateDOMAttributes,
   combineLabelledBy,
@@ -112,7 +113,7 @@ export default function ContentWrapper({
       tabIndex={-1}
       id={`${id}-content`}
       element={
-        contentStyle
+        (contentStyle
           ? ({
               ref,
               ...props
@@ -129,7 +130,7 @@ export default function ContentWrapper({
                 />
               )
             }
-          : 'div'
+          : 'div') as DynamicElement
       }
       className={clsx(
         'dnb-tabs__content',

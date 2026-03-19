@@ -26,8 +26,9 @@ export function PostalCode() {
   const onChangeValidator = withConfig(
     Connectors.Bring.postalCode.validator,
     {
-      responseResolver: (response: Response) => {
-        const { postal_code, city } = response?.postal_codes?.[0] || {}
+      responseResolver: (response: unknown) => {
+        const { postal_code, city } =
+          (response as Response)?.postal_codes?.[0] || {}
         return {
           matcher: (value) => value === postal_code,
           payload: { city },
@@ -59,7 +60,7 @@ export function PostalCode() {
           postalCode={{
             path: '/postalCode',
             onChangeValidator,
-            onChange,
+            onChange: onChange as (value: string) => void,
             required: true,
           }}
           city={{
@@ -112,7 +113,7 @@ export function Address() {
         <Field.Address.Street
           path="/streetAddress"
           required
-          element={addressSuggestionsElement}
+          element={addressSuggestionsElement as React.ComponentType}
           autocompleteProps={{
             inputIcon: false,
           }}

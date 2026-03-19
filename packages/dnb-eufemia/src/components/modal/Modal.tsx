@@ -340,12 +340,15 @@ class Modal extends React.PureComponent<ModalAllProps, ModalState> {
   }
 
   close = (
-    event: Event,
-    { ifIsLatest, triggeredBy = 'handler' } = {
+    event?: Event | React.SyntheticEvent,
+    {
+      ifIsLatest,
+      triggeredBy = 'handler',
+    }: { ifIsLatest?: boolean; triggeredBy?: string } = {
       ifIsLatest: true,
     }
   ) => {
-    this.modalContentCloseRef.current?.(event, { triggeredBy })
+    this.modalContentCloseRef.current?.(event as Event, { triggeredBy })
 
     const { preventClose = false } = this.props
 

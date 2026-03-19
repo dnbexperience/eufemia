@@ -628,6 +628,7 @@ export const WithIterateArray = () => {
                 label="Required field with async fileHandler"
                 onFileDelete={mockAsyncFileRemoval}
                 onFileClick={mockAsyncOnFileClick}
+                // @ts-expect-error -- strictFunctionTypes
                 fileHandler={mockAsyncFileUpload}
                 required
                 onChange={(e) => {

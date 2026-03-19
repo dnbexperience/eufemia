@@ -112,7 +112,7 @@ const Typography = ({
 
   return (
     <E
-      as={element}
+      as={element as DynamicElement<unknown>}
       {...props}
       style={{ ...props.style, ...style }}
       className={clsx(

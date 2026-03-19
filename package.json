@@ -44,7 +44,7 @@
     "sharp": "0.33.5",
     "gatsby/socket.io": "4.8.3",
     "gatsby/browserslist": "4.28.1",
-    "@types/react": "19.2.8",
+    "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3"
   },
   "engines": {

@@ -380,7 +380,10 @@ describe('FieldBlock', () => {
 
   it('click on label should set focus on input after value change', async () => {
     const MockComponent = () => {
-      const fromInput = React.useCallback(({ value }) => value, [])
+      const fromInput = React.useCallback(
+        (external: unknown) => (external as { value: string }).value,
+        []
+      )
       const { value, handleChange } = useFieldProps({
         value: '',
         fromInput,

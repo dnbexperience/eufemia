@@ -800,7 +800,7 @@ describe('postalCode', () => {
             countryCode="FI"
             postalCode={{
               path: '/postalCode',
-              onChange,
+              onChange: onChange as (value: string) => void,
             }}
           />
         </Form.Handler>

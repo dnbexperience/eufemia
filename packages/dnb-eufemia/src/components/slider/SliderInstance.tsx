@@ -15,6 +15,7 @@ import {
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import Button from '../button/Button'
+import type { ButtonOnClick } from '../button/Button'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 
@@ -182,7 +183,7 @@ function SubtractButton() {
         '%s',
         humanNumber.aria || String(value)
       )}
-      onClick={onSubtractClickHandler}
+      onClick={onSubtractClickHandler as ButtonOnClick}
       disabled={disabled}
       skeleton={skeleton}
       {...subtractParams}
@@ -217,7 +218,7 @@ function AddButton() {
         '%s',
         humanNumber.aria || String(value)
       )}
-      onClick={onAddClickHandler}
+      onClick={onAddClickHandler as ButtonOnClick}
       disabled={disabled}
       skeleton={skeleton}
       {...addParams}

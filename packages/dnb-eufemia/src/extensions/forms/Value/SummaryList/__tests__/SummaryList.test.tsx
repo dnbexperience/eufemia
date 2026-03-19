@@ -242,7 +242,7 @@ describe('Value.SummaryList', () => {
 
           <Value.SummaryList
             inheritLabel
-            transformLabel={(label: string) => label.toUpperCase()}
+            transformLabel={(label) => String(label).toUpperCase()}
           >
             <Value.String path="/foo" />
             <Value.String path="/bar" />

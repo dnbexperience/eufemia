@@ -105,7 +105,13 @@ describe('Tabs component', () => {
   })
 
   it('will use given tabElement', () => {
-    const Link = ({ href, children }) => {
+    const Link = ({
+      href,
+      children,
+    }: {
+      href?: string
+      children?: React.ReactNode
+    }) => {
       return <a href={href}>{children}</a>
     }
 

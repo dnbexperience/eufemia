@@ -26,7 +26,7 @@ export default function CancelButton({
     translation.SectionEditContainer
 
   const cancelHandler = useCallback(
-    ({ close }) => {
+    ({ close }: { close?: () => void }) => {
       close?.()
       restoreOriginalData()
 
@@ -75,5 +75,10 @@ export default function CancelButton({
     )
   }
 
-  return <Button {...triggerAttributes} onClick={cancelHandler} />
+  return (
+    <Button
+      {...triggerAttributes}
+      onClick={(args) => cancelHandler(args)}
+    />
+  )
 }

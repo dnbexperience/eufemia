@@ -20,12 +20,13 @@ export function createContext<GeneralConfigGeneric = GeneralConfig>(
   generalConfig: GeneralConfigGeneric = null
 ) {
   return {
-    withConfig<
-      HandlerMethod extends (
+    withConfig<HandlerConfig, ReturnValue>(
+      fn: (
         generalConfig: GeneralConfigGeneric,
-        handlerConfig: unknown
-      ) => ReturnType<HandlerMethod>,
-    >(fn: HandlerMethod, handlerConfig?: Parameters<HandlerMethod>[1]) {
+        handlerConfig?: HandlerConfig
+      ) => ReturnValue,
+      handlerConfig?: HandlerConfig
+    ): ReturnValue {
       return fn(generalConfig, handlerConfig)
     },
   }

@@ -12,7 +12,9 @@ const debug = console.log
 
 const createRequest = () => {
   let timeout: NodeJS.Timeout | null
-  let resolvePromise: ((value?: unknown) => void) | undefined
+  let resolvePromise:
+    | ((value: { hasError: boolean; cancel?: boolean }) => void)
+    | undefined
 
   const fn = (
     t: number
@@ -294,7 +296,7 @@ const delay = debounceAsync(async function () {
 
 export function SubmitIndicator() {
   return (
-    // @ts-expect-error -- debounceAsync return type mismatch
+    // @ts-expect-error - debounceAsync return type mismatch
     <Form.Handler onSubmit={delay}>
       <Form.Card>
         <Field.String path="/myField" label="Label" />
@@ -308,7 +310,7 @@ export function SubmitIndicator() {
 
 export function SubmitIndicatorMultipleButtons() {
   return (
-    // @ts-expect-error -- debounceAsync return type mismatch
+    // @ts-expect-error - debounceAsync return type mismatch
     <Form.Handler onSubmit={delay}>
       <Form.Card>
         <Field.String path="/myField" label="Label" />

@@ -34,7 +34,7 @@ function RemoveButton(props: Props) {
   const { handleRemoveItem } = arrayItemAreaContext || {}
 
   const handleClick = useCallback(
-    ({ close }) => {
+    ({ close }: { close?: () => void }) => {
       close?.()
 
       // - Don't call handleRemoveItem when itemPath is given to support nested arrays
@@ -70,7 +70,7 @@ function RemoveButton(props: Props) {
   return (
     <Button
       {...triggerAttributes}
-      onClick={handleClick}
+      onClick={(args) => handleClick(args)}
       {...buttonProps}
     />
   )
