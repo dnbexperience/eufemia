@@ -72,17 +72,11 @@ describe('useFormField', () => {
 
   it('should pass labelDirection to FormLabel', () => {
     const { container } = render(
-      <TestComponent
-        id="test"
-        label="Label"
-        labelDirection="vertical"
-      />
+      <TestComponent id="test" label="Label" labelDirection="vertical" />
     )
 
     const label = container.querySelector('.dnb-form-label')
-    expect(label.classList.contains('dnb-form-label--vertical')).toBe(
-      true
-    )
+    expect(label.classList.contains('dnb-form-label--vertical')).toBe(true)
   })
 
   it('should pass srOnly to FormLabel', () => {
@@ -96,16 +90,10 @@ describe('useFormField', () => {
 
   it('should pass statusState to FormStatus', () => {
     const { container } = render(
-      <TestComponent
-        id="test"
-        status="Info message"
-        statusState="info"
-      />
+      <TestComponent id="test" status="Info message" statusState="info" />
     )
 
     const status = container.querySelector('.dnb-form-status')
-    expect(
-      status.classList.contains('dnb-form-status--info')
-    ).toBeTruthy()
+    expect(status.classList.contains('dnb-form-status--info')).toBeTruthy()
   })
 })
