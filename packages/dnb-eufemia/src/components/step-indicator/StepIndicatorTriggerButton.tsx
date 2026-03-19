@@ -105,7 +105,7 @@ function StepIndicatorTriggerButton({
       outset={isNested ? true : undefined}
       aria-label={overviewTitle}
     >
-      <HeightAnimation animate={!noAnimation}>
+      <HeightAnimation noAnimation={noAnimation}>
         <div {...(triggerParams as React.HTMLProps<HTMLDivElement>)}>
           <FormLabel
             aria-describedby={id}

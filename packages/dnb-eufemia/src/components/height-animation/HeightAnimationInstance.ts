@@ -8,7 +8,7 @@ export type HeightAnimationStates =
   | HeightAnimationOnEndStates
   | 'init'
 export type HeightAnimationOptions = {
-  animate?: boolean
+  noAnimation?: boolean
 }
 export type HeightAnimationOnStartCallback = (
   state: HeightAnimationStates
@@ -32,7 +32,7 @@ export default class HeightAnimation {
   onStartStack: HeightAnimationOnStartStack = []
   onEndStack: HeightAnimationOnEndStack = []
   events: HeightAnimationEvents = []
-  opts: HeightAnimationOptions = { animate: true }
+  opts: HeightAnimationOptions = { noAnimation: false }
   elem: HeightAnimationElement
   reqId1: number
   reqId2: number
@@ -253,7 +253,7 @@ export default class HeightAnimation {
     }
 
     const opts = this.getOptions()
-    if (opts.animate === false) {
+    if (opts.noAnimation) {
       return
     }
 
@@ -362,7 +362,7 @@ export default class HeightAnimation {
 
     if (
       !this.elem ||
-      opts.animate === false ||
+      opts.noAnimation ||
       this.state === 'opening' ||
       this.state === 'closing'
     ) {
@@ -437,7 +437,7 @@ export default class HeightAnimation {
   shouldBypassAnimation() {
     const opts = this.getOptions()
 
-    if (!this.elem || opts.animate === false) {
+    if (!this.elem || opts.noAnimation) {
       return true
     }
 

@@ -25,6 +25,7 @@ v11 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 9. Replace the `as` prop with `element` on the `H` heading element.
 10. Replace `prerender` with `keepInDOM` on Tabs and Accordion components.
 11. Replace `styleType` (or `style_type`) with `backgroundColor` on Breadcrumb, Dialog.Body, and Drawer.Body components.
+12. Replace the `animate` prop with `noAnimation` on `HeightAnimation` (inverted logic: `animate={false}` → `noAnimation`).
 
 ### innerRef → ref
 
@@ -925,6 +926,24 @@ render(<Logo svg={SbankenCompact} />)
 <H element="h2" size="medium">
   Heading
 </H>
+```
+
+### [HeightAnimation](/uilib/components/height-animation/)
+
+#### Properties
+
+- Replace `animate` with `noAnimation` (inverted logic). The `animate` prop defaulted to `true`; the new `noAnimation` prop defaults to `false`. This aligns HeightAnimation with all other Eufemia components that use `noAnimation`.
+
+**Before:**
+
+```tsx
+<HeightAnimation animate={false}>...</HeightAnimation>
+```
+
+**After:**
+
+```tsx
+<HeightAnimation noAnimation>...</HeightAnimation>
 ```
 
 ### [Table](/uilib/components/table/)

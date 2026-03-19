@@ -65,12 +65,14 @@ export type FormVisibilityProps = {
   fieldPropsWhenHidden?: UseFieldProps & DataAttributes & AriaAttributes
   children: React.ReactNode
 
+  /** Define if the content should animate during show/hide. */
+  animate?: boolean
+
   /** For internal use only. Used by "Iterate.Visibility" */
   withinIterate?: boolean
 } & Pick<
   HeightAnimationAllProps,
   | 'onAnimationEnd'
-  | 'animate'
   | 'keepInDOM'
   | 'element'
   | 'compensateForGap'

@@ -6,8 +6,8 @@ export const HeightAnimationProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  animate: {
-    doc: 'Set to `false` to omit the animation. Defaults to `true`.',
+  noAnimation: {
+    doc: 'Set to `true` to disable the animation. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

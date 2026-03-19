@@ -143,7 +143,7 @@ export default function ContentWrapper({
         createSpacingClasses(rest)
       )}
       duration={600}
-      animate={animate === true}
+      noAnimation={animate !== true}
       {...params}
     >
       {content}

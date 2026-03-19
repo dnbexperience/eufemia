@@ -343,7 +343,7 @@ describe('HeightAnimation', () => {
 
   it('should have correct classes when animation is disabled', () => {
     const { rerender } = render(
-      <HeightAnimation animate={false} keepInDOM />
+      <HeightAnimation noAnimation keepInDOM />
     )
 
     expect(getElement()).toHaveClass('dnb-height-animation--is-visible')
@@ -351,7 +351,7 @@ describe('HeightAnimation', () => {
     expect(getElement()).not.toHaveClass('dnb-height-animation--parallax')
     expect(getElement()).not.toHaveClass('dnb-height-animation--hidden')
 
-    rerender(<HeightAnimation open={false} animate={false} keepInDOM />)
+    rerender(<HeightAnimation open={false} noAnimation keepInDOM />)
 
     expect(getElement()).not.toHaveClass(
       'dnb-height-animation--is-visible'

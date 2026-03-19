@@ -31,7 +31,7 @@ function StepIndicatorList() {
   skeletonDOMAttributes(params, skeleton)
   return (
     <HeightAnimation
-      animate={!noAnimation}
+      noAnimation={noAnimation}
       open={open}
       onOpen={(state) => {
         if (state) {

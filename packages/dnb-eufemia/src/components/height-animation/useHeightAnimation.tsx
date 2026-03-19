@@ -12,10 +12,10 @@ export type UseHeightAnimationOptions = {
   open?: boolean
 
   /**
-   * Set to `false` to omit the animation.
-   * Default: true
+   * Set to `true` to disable the animation.
+   * Default: false
    */
-  animate?: boolean
+  noAnimation?: boolean
 
   /**
    * To compensate for CSS gap between the rows, so animation does not jump during the animation.
@@ -57,7 +57,7 @@ export function useHeightAnimation(
   targetRef: React.RefObject<HTMLElement>,
   {
     open = true,
-    animate = true,
+    noAnimation = false,
     children = null,
     compensateForGap,
     onInit = null,
@@ -99,12 +99,12 @@ export function useHeightAnimation(
   }, [])
 
   useLayoutEffect(() => {
-    instRef.current.setOptions({ animate })
+    instRef.current.setOptions({ noAnimation })
 
     if (typeof global !== 'undefined' && globalThis.IS_TEST) {
-      instRef.current.setOptions({ animate: false })
+      instRef.current.setOptions({ noAnimation: true })
     }
-  }, [animate])
+  }, [noAnimation])
 
   const handleCompensateForGap = useCallback(() => {
     if (compensateForGap) {

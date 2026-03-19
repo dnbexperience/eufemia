@@ -873,7 +873,7 @@ export default class GlobalStatus extends React.PureComponent<
             duration={800}
             delay={delay}
             open={isActive}
-            animate={!noAnimationUsed}
+            noAnimation={noAnimationUsed}
             onAnimationEnd={this.onAnimationEnd}
             onAnimationStart={this.onAnimationStart as any}
             onOpen={this.onOpen}

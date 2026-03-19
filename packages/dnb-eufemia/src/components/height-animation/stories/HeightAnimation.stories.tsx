@@ -55,7 +55,7 @@ export const HeightAnimationSandbox = () => {
         <HeightAnimation
           open={openState}
           element="div" // Optional
-          animate={true} // Optional
+          noAnimation={false} // Optional
           keepInDOM={true} // Optional
           duration={1000}
           onOpen={setIsOpen}

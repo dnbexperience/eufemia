@@ -570,7 +570,7 @@ export default class FormStatus extends React.PureComponent<
       <HeightAnimation
         element="span"
         open={this.isReadyToGetVisible()}
-        animate={this.shouldAnimate()}
+        noAnimation={!this.shouldAnimate()}
         duration={600}
         {...(params as any)}
         ref={this._ref}

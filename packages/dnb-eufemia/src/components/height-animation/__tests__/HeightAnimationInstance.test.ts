@@ -298,7 +298,7 @@ describe('HeightAnimationInstance', () => {
     it('start without animation should work properly', () => {
       const inst = new HeightAnimationInstance()
       inst.setElement(element)
-      inst.setOptions({ animate: false })
+      inst.setOptions({ noAnimation: true })
 
       const onStart = jest.fn()
       inst.onStart(onStart)
@@ -446,13 +446,13 @@ describe('HeightAnimationInstance', () => {
       const setAsOpen = jest.fn()
       jest.spyOn(inst, 'setAsOpen').mockImplementation(setAsOpen)
 
-      inst.setOptions({ animate: false })
+      inst.setOptions({ noAnimation: true })
 
       inst.open()
 
       expect(setAsOpen).toHaveBeenCalledTimes(1)
 
-      inst.setOptions({ animate: true })
+      inst.setOptions({ noAnimation: false })
 
       inst.setState('opened')
       inst.open()
@@ -479,7 +479,7 @@ describe('HeightAnimationInstance', () => {
       const inst = new HeightAnimationInstance()
       inst.setElement(element)
       inst.setState('closed')
-      inst.setOptions({ animate: false })
+      inst.setOptions({ noAnimation: true })
 
       const onStart = jest.fn()
       inst.onStart(onStart)
@@ -573,13 +573,13 @@ describe('HeightAnimationInstance', () => {
       const setAsClosed = jest.fn()
       jest.spyOn(inst, 'setAsClosed').mockImplementation(setAsClosed)
 
-      inst.setOptions({ animate: false })
+      inst.setOptions({ noAnimation: true })
 
       inst.close()
 
       expect(setAsClosed).toHaveBeenCalledTimes(1)
 
-      inst.setOptions({ animate: true })
+      inst.setOptions({ noAnimation: false })
 
       inst.setState('closed')
       inst.close()
@@ -606,7 +606,7 @@ describe('HeightAnimationInstance', () => {
       const inst = new HeightAnimationInstance()
       inst.setElement(element)
       inst.setState('opened')
-      inst.setOptions({ animate: false })
+      inst.setOptions({ noAnimation: true })
 
       const onStart = jest.fn()
       inst.onStart(onStart)
@@ -843,9 +843,9 @@ describe('HeightAnimationInstance', () => {
   })
 
   describe('shouldBypassAnimation', () => {
-    it('should return true when element is not set or animate option is false', () => {
+    it('should return true when element is not set or noAnimation option is true', () => {
       const inst = new HeightAnimationInstance()
-      inst.setOptions({ animate: false })
+      inst.setOptions({ noAnimation: true })
 
       expect(inst.shouldBypassAnimation()).toBe(true)
 

@@ -51,7 +51,7 @@ export type HeightAnimationAllProps = HeightAnimationProps &
 
 function HeightAnimation({
   open = true,
-  animate = true,
+  noAnimation = false,
   keepInDOM = false,
   showOverflow = false,
   element,
@@ -78,7 +78,7 @@ function HeightAnimation({
     firstPaintStyle,
   } = useHeightAnimation(targetRef, {
     open,
-    animate,
+    noAnimation,
     children,
     compensateForGap,
     onInit,
@@ -106,7 +106,7 @@ function HeightAnimation({
         'dnb-height-animation',
         isInDOM && 'dnb-height-animation--is-in-dom',
         isVisible && 'dnb-height-animation--is-visible',
-        animate && isVisibleParallax && 'dnb-height-animation--parallax',
+        !noAnimation && isVisibleParallax && 'dnb-height-animation--parallax',
         isAnimating && 'dnb-height-animation--animating',
         !isVisible &&
           !isAnimating &&

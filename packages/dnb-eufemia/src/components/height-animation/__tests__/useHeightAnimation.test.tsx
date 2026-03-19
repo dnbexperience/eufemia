@@ -22,13 +22,13 @@ initializeTestSetup()
 describe('useHeightAnimation', () => {
   const AnimatedContent = ({
     open = false,
-    animate = true,
+    noAnimation = false,
   }: UseHeightAnimationOptions) => {
     const element = React.useRef<HTMLDivElement | null>(null)
     const { isOpen, isVisible, isInDOM, isVisibleParallax } =
       useHeightAnimation(element, {
         open,
-        animate,
+        noAnimation,
       })
 
     return (
@@ -48,7 +48,7 @@ describe('useHeightAnimation', () => {
     )
   }
 
-  const MockComponent = ({ open = false, animate = true }) => {
+  const MockComponent = ({ open = false, noAnimation = false }) => {
     const [openState, setOpenState] = useState(open)
 
     const onChangeHandler = useCallback(({ checked }) => {
@@ -61,7 +61,7 @@ describe('useHeightAnimation', () => {
           Toggle me
         </ToggleButton>
 
-        <AnimatedContent open={open || openState} animate={animate} />
+        <AnimatedContent open={open || openState} noAnimation={noAnimation} />
       </>
     )
   }
@@ -160,7 +160,7 @@ describe('useHeightAnimation', () => {
   })
 
   it('should only set isInDOM when animation is disabled', async () => {
-    render(<MockComponent animate={false} />)
+    render(<MockComponent noAnimation />)
 
     const element = document.querySelector('.wrapper-element')
 

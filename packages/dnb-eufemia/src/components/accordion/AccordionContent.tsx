@@ -170,13 +170,14 @@ export default function AccordionContent(props: AccordionContentProps) {
   validateDOMAttributes(props, wrapperParams)
   validateDOMAttributes(null, innerParams)
 
-  const animate = !noAnimation && (singleContainer ? isSmallScreen : true)
+  const shouldSkipAnimation =
+    noAnimation || !(singleContainer ? isSmallScreen : true)
 
   return (
     <HeightAnimation
       {...wrapperParams}
       open={expanded}
-      animate={animate}
+      noAnimation={shouldSkipAnimation}
       keepInDOM={keepInDOMContent}
       ref={elementRef}
     >

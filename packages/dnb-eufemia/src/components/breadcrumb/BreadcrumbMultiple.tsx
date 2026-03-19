@@ -23,7 +23,7 @@ export const BreadcrumbMultiple = ({
   return (
     <HeightAnimation
       open={!collapsed}
-      animate={!noAnimation}
+      noAnimation={noAnimation}
       className="dnb-breadcrumb__multiple"
     >
       <Section

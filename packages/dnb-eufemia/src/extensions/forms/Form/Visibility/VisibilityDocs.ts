@@ -78,7 +78,7 @@ export const VisibilityProperties: PropertiesTableProps = {
     status: 'optional',
   },
   element: {
-    doc: 'Define the type of element. Defaults to `div`. Only for when `animate` is true.',
+    doc: 'Define the type of element. Defaults to `div`. Only for when `animate` is `true`.',
     type: 'string or React.Element',
     status: 'optional',
   },
