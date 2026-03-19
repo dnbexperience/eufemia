@@ -1200,7 +1200,7 @@ render(<Logo svg={SbankenCompact} />)
 
 - Replace `position` with `placement` to match the Popover API.
 - Replace `active` with `open`.
-- Replace `forceActive` with `forceOpen`.
+- Remove `forceOpen` and use `open` instead. The `open` prop is now dynamically controlled — when `open` is a boolean it controls visibility, and when not provided (undefined) the Tooltip reverts to hover/focus behavior.
 - Replace `size="basis"` with `size="default"`.
 
 ### [GlobalStatus](/uilib/components/global-status/)

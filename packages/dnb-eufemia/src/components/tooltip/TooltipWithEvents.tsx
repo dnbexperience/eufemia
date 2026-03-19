@@ -25,7 +25,6 @@ type TooltipWithEventsProps = {
   target: TooltipProps['targetElement']
   attributes?: React.HTMLAttributes<HTMLElement>
   targetRefreshKey?: TooltipProps['targetRefreshKey']
-  forceOpen?: TooltipProps['forceOpen']
 }
 
 function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
@@ -47,7 +46,6 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     size,
     keepInDOM = false,
     targetRefreshKey,
-    forceOpen,
   } = restProps
 
   const { internalId, isControlled } = useContext(TooltipContext)
@@ -175,7 +173,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     [onFocus, onMouseEnter, onMouseLeave]
   )
 
-  const overlayOpen = Boolean(isOpen || isOverlayHovered || forceOpen)
+  const overlayOpen = Boolean(isOpen || isOverlayHovered)
 
   // const fallbackDescriptionId = `${internalId}-sr`
   const describedById = overlayOpen ? internalId : null
@@ -221,6 +219,8 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   useEffect(() => {
     if (isControlled) {
       setIsOpen(open)
+    } else {
+      setIsOpen(false)
     }
   }, [open, isControlled])
 
