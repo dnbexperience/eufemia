@@ -368,7 +368,7 @@ export const AutocompleteSandbox = () => {
       </Box>
       <Box>
         <Autocomplete
-          inputIcon={null}
+          icon={null}
           title="Type to find ..."
           inputValue="d"
           onSelect={(e) => {
@@ -818,7 +818,7 @@ export function DataSuffix() {
           value={0}
           data={numbers}
           size="medium"
-          inputIcon={null}
+          icon={null}
           showSubmitButton
           label="From account"
           labelDirection="vertical"
@@ -989,7 +989,7 @@ export const Memo = () => {
         onChange={(e) => {
           setValue(e.value)
         }}
-        inputIcon={getInputIcon(value)}
+        icon={getInputIcon(value)}
       />
     )
   }

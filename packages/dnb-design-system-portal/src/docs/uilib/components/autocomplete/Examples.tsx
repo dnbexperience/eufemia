@@ -327,7 +327,7 @@ export const AutocompleteCustomWidth = () => (
             size="large"
             align="right"
             iconPosition="right"
-            inputIcon="bell"
+            icon="bell"
             data={topMovies}
           />
         </Flex.Vertical>
@@ -384,7 +384,7 @@ export const AutocompleteSuffix = () => {
             value={1}
             data={numbers}
             size="medium"
-            inputIcon={null}
+            icon={null}
             showSubmitButton
             label="From account"
             labelDirection="vertical"
