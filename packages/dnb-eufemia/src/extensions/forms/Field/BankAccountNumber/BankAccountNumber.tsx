@@ -3,6 +3,7 @@ import type { Props as StringFieldProps } from '../String'
 import StringField from '../String'
 
 import useTranslation from '../../hooks/useTranslation'
+import useErrorMessages from '../../hooks/useErrorMessages'
 import type { Validator, ValidatorWithCustomValidators } from '../../types'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
@@ -27,13 +28,11 @@ function BankAccountNumber(props: Props) {
     label,
   } = useTranslation().BankAccountNumber
 
-  const errorMessages = useMemo(() => {
-    return {
-      'Field.errorRequired': errorRequired,
-      'Field.errorPattern': errorBankAccountNumber,
-      ...props.errorMessages,
-    }
-  }, [errorBankAccountNumber, errorRequired, props.errorMessages])
+  const errorMessages = useErrorMessages({
+    errorRequired,
+    errorPattern: errorBankAccountNumber,
+    propsErrorMessages: props.errorMessages,
+  })
 
   const bankAccountNumberValidator = useCallback(
     (value: string) => {

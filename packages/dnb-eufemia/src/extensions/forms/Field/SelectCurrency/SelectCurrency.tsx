@@ -19,6 +19,7 @@ import type {
 } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import useTranslation from '../../hooks/useTranslation'
+import useErrorMessages from '../../hooks/useErrorMessages'
 import type {
   AutocompleteAllProps,
   AutocompleteOnChangeParams,
@@ -98,12 +99,9 @@ function SelectCurrency(props: Props) {
     [getCurrencyObjectByIso]
   )
 
-  const errorMessages = useMemo(
-    () => ({
-      required: errorRequired,
-    }),
-    [errorRequired]
-  )
+  const errorMessages = useErrorMessages({
+    extra: { required: errorRequired },
+  })
 
   const preparedProps: Props = {
     errorMessages,

@@ -19,6 +19,7 @@ import IconViewOff from '../../../../icons/hide'
 import IconViewMedium from '../../../../icons/view_medium'
 import IconViewOffMedium from '../../../../icons/hide_medium'
 import useTranslation from '../../hooks/useTranslation'
+import useErrorMessages from '../../hooks/useErrorMessages'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type PasswordVisibilityEvent =
@@ -65,12 +66,10 @@ function Password({
 
   const ref = useRef<ElementRef<'input'>>(refProp?.current ?? null)
 
-  const errorMessages = useMemo(() => {
-    return {
-      'Field.errorRequired': translations.errorRequired,
-      ...props.errorMessages,
-    }
-  }, [translations.errorRequired, props.errorMessages])
+  const errorMessages = useErrorMessages({
+    errorRequired: translations.errorRequired,
+    propsErrorMessages: props.errorMessages,
+  })
 
   const toggleVisibility = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {

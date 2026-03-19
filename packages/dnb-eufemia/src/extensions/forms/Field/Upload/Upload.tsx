@@ -10,6 +10,7 @@ import {
   usePath,
   useTranslation as useFormsTranslation,
 } from '../../hooks'
+import useErrorMessages from '../../hooks/useErrorMessages'
 import type { FieldProps } from '../../types'
 import type {
   UploadFile,
@@ -74,12 +75,9 @@ function UploadComponent(props: Props) {
   const sharedTr = useSharedTranslation().Upload
   const formsTr = useFormsTranslation().Upload
 
-  const errorMessages = useMemo(
-    () => ({
-      'Field.errorRequired': formsTr.errorRequired,
-    }),
-    [formsTr.errorRequired]
-  )
+  const errorMessages = useErrorMessages({
+    errorRequired: formsTr.errorRequired,
+  })
 
   const validateRequired = useCallback(
     (value: UploadValue, { required, isChanged, error }) => {

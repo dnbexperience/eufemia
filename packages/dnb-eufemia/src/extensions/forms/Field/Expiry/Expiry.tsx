@@ -16,6 +16,7 @@ import type {
 } from '../../../../components/input-masked'
 import { useTranslation as useSharedTranslation } from '../../../../shared'
 import useTranslation from '../../hooks/useTranslation'
+import useErrorMessages from '../../hooks/useErrorMessages'
 import { FormError } from '../../utils'
 import type { Translation } from '../../../../shared/Context'
 
@@ -65,13 +66,10 @@ function Expiry(props: ExpiryProps = {}) {
     onStatusChange,
   } = props
 
-  const errorMessages = useMemo(
-    () => ({
-      'Field.errorRequired': errorRequired,
-      ...propErrorMessages,
-    }),
-    [errorRequired, propErrorMessages]
-  )
+  const errorMessages = useErrorMessages({
+    errorRequired,
+    propsErrorMessages: propErrorMessages,
+  })
 
   const fromInput = useCallback(
     (values: ExpiryValue) => {

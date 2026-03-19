@@ -2,6 +2,7 @@ import React, { useCallback, useMemo } from 'react'
 import type { Props as StringFieldProps } from '../String'
 import StringField from '../String'
 import useTranslation from '../../hooks/useTranslation'
+import useErrorMessages from '../../hooks/useErrorMessages'
 import type { Validator, ValidatorWithCustomValidators } from '../../types'
 import { FormError } from '../../utils'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
@@ -88,17 +89,11 @@ withComponentMarkers(Name, { _supportsSpacingProps: true })
 
 Name.First = function FirstName(props: Props) {
   const translations = useTranslation().FirstName
-  const errorMessages = useMemo(() => {
-    return {
-      'Field.errorRequired': translations.errorRequired,
-      'Field.errorPattern': translations.errorPattern,
-      ...props.errorMessages,
-    }
-  }, [
-    props.errorMessages,
-    translations.errorPattern,
-    translations.errorRequired,
-  ])
+  const errorMessages = useErrorMessages({
+    errorRequired: translations.errorRequired,
+    errorPattern: translations.errorPattern,
+    propsErrorMessages: props.errorMessages,
+  })
 
   const nameProps: Props = {
     label: translations.label,
@@ -113,17 +108,11 @@ Name.First['_supportsSpacingProps'] = true
 
 Name.Last = function LastName(props: Props) {
   const translations = useTranslation().LastName
-  const errorMessages = useMemo(() => {
-    return {
-      'Field.errorRequired': translations.errorRequired,
-      'Field.errorPattern': translations.errorPattern,
-      ...props.errorMessages,
-    }
-  }, [
-    props.errorMessages,
-    translations.errorPattern,
-    translations.errorRequired,
-  ])
+  const errorMessages = useErrorMessages({
+    errorRequired: translations.errorRequired,
+    errorPattern: translations.errorPattern,
+    propsErrorMessages: props.errorMessages,
+  })
 
   const nameProps: Props = {
     label: translations.label,
@@ -144,12 +133,10 @@ Name.Company = function CompanyName(props: Props) {
     ...otherProps
   } = props
 
-  const errorMessages = useMemo(() => {
-    return {
-      'Field.errorRequired': translations.errorRequired,
-      ...props.errorMessages,
-    }
-  }, [props.errorMessages, translations.errorRequired])
+  const errorMessages = useErrorMessages({
+    errorRequired: translations.errorRequired,
+    propsErrorMessages: props.errorMessages,
+  })
 
   const companyValidator = useCallback((value: string) => {
     if (value !== undefined) {

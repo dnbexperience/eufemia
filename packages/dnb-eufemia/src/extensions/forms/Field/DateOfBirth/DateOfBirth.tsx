@@ -14,6 +14,7 @@ import SharedContext from '../../../../shared/Context'
 import { parseISO, isValid, isAfter } from 'date-fns'
 
 import useTranslation from '../../hooks/useTranslation'
+import useErrorMessages from '../../hooks/useErrorMessages'
 import type {
   FieldPropsWithExtraValue,
   Validator,
@@ -79,13 +80,11 @@ function DateOfBirth(props: Props) {
   const monthRef = useRef<Props['value']>(props?.emptyValue)
   const yearRef = useRef<Props['value']>(props?.emptyValue)
 
-  const errorMessages = useMemo(() => {
-    return {
-      'Field.errorRequired': errorRequired,
-      'Field.errorPattern': errorDateOfBirth,
-      ...props.errorMessages,
-    }
-  }, [errorDateOfBirth, errorRequired, props.errorMessages])
+  const errorMessages = useErrorMessages({
+    errorRequired,
+    errorPattern: errorDateOfBirth,
+    propsErrorMessages: props.errorMessages,
+  })
 
   const provideAdditionalArgs = useCallback(
     (value: string) => {

@@ -21,6 +21,7 @@ import type {
 } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import useTranslation from '../../hooks/useTranslation'
+import useErrorMessages from '../../hooks/useErrorMessages'
 import type {
   AutocompleteAllProps,
   AutocompleteOnChangeParams,
@@ -101,12 +102,9 @@ function SelectCountry(props: Props) {
     [getCountryObjectByIso]
   )
 
-  const errorMessages = useMemo(
-    () => ({
-      required: errorRequired,
-    }),
-    [errorRequired]
-  )
+  const errorMessages = useErrorMessages({
+    extra: { required: errorRequired },
+  })
 
   const preparedProps: Props = {
     errorMessages,

@@ -1,7 +1,8 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import type { Props as StringFieldProps } from '../String'
 import StringField from '../String'
 import useTranslation from '../../hooks/useTranslation'
+import useErrorMessages from '../../hooks/useErrorMessages'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type Props = StringFieldProps
@@ -30,14 +31,11 @@ export const pattern =
 function Email(props: Props) {
   const { label, errorRequired, errorPattern } = useTranslation().Email
 
-  const errorMessages = useMemo(
-    () => ({
-      'Field.errorRequired': errorRequired,
-      'Field.errorPattern': errorPattern,
-      ...props.errorMessages,
-    }),
-    [errorPattern, errorRequired, props.errorMessages]
-  )
+  const errorMessages = useErrorMessages({
+    errorRequired,
+    errorPattern,
+    propsErrorMessages: props.errorMessages,
+  })
 
   const StringFieldProps: Props = {
     label,

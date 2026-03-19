@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo } from 'react'
+import React, { useCallback, useContext } from 'react'
 import clsx from 'clsx'
 import type { Props as FieldBlockProps } from '../../FieldBlock'
 import DataContext from '../../DataContext/Context'
@@ -7,6 +7,7 @@ import StringField from '../String'
 import CompositionField from '../Composition'
 import type { CountryCode } from '../../types'
 import useTranslation from '../../hooks/useTranslation'
+import useErrorMessages from '../../hooks/useErrorMessages'
 import useDataValue from '../../hooks/useDataValue'
 import { COUNTRY as defaultCountry } from '../../../../shared/defaults'
 import type { SpacingProps } from '../../../../shared/types'
@@ -106,6 +107,18 @@ function PostalCodeAndCity(props: Props) {
     errorMessages: postalCodeErrorMessages,
   } = handlePostalCodeDefaults(postalCode)
 
+  const postalCodeMergedErrorMessages = useErrorMessages({
+    errorRequired: translations.PostalCode.errorRequired,
+    errorPattern: translations.PostalCode.errorPattern,
+    propsErrorMessages: postalCodeErrorMessages,
+  })
+
+  const cityMergedErrorMessages = useErrorMessages({
+    errorRequired: translations.City.errorRequired,
+    errorPattern: translations.City.errorPattern,
+    propsErrorMessages: cityErrorMessages,
+  })
+
   return (
     <CompositionField
       className={clsx(
@@ -125,18 +138,7 @@ function PostalCodeAndCity(props: Props) {
         mask={postalCodeMask}
         pattern={postalCodePattern}
         placeholder={postalCodePlaceHolder}
-        errorMessages={useMemo(
-          () => ({
-            'Field.errorRequired': translations.PostalCode.errorRequired,
-            'Field.errorPattern': translations.PostalCode.errorPattern,
-            ...postalCodeErrorMessages,
-          }),
-          [
-            postalCodeErrorMessages,
-            translations.PostalCode.errorPattern,
-            translations.PostalCode.errorRequired,
-          ]
-        )}
+        errorMessages={postalCodeMergedErrorMessages}
         width={postalCodeWidth ?? false}
         inputClassName="dnb-forms-field-postal-code-and-city__postal-code-input"
         inputMode="numeric"
@@ -153,18 +155,7 @@ function PostalCodeAndCity(props: Props) {
           cityClassName
         )}
         label={cityLabel ?? translations.City.label}
-        errorMessages={useMemo(
-          () => ({
-            'Field.errorRequired': translations.City.errorRequired,
-            'Field.errorPattern': translations.City.errorPattern,
-            ...cityErrorMessages,
-          }),
-          [
-            cityErrorMessages,
-            translations.City.errorPattern,
-            translations.City.errorRequired,
-          ]
-        )}
+        errorMessages={cityMergedErrorMessages}
         pattern={cityPattern}
         trim
         width={cityWidth ?? 'stretch'}

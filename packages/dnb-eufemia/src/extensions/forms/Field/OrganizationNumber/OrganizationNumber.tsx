@@ -2,6 +2,7 @@ import React, { useCallback, useMemo } from 'react'
 import type { Props as StringFieldProps } from '../String'
 import StringField from '../String'
 import useTranslation from '../../hooks/useTranslation'
+import useErrorMessages from '../../hooks/useErrorMessages'
 import type { Validator, ValidatorWithCustomValidators } from '../../types'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
@@ -22,14 +23,11 @@ function OrganizationNumber(props: Props) {
   const { errorOrgNo, errorOrgNoLength, errorRequired, label } =
     translations
 
-  const errorMessages = useMemo(
-    () => ({
-      'Field.errorRequired': errorRequired,
-      'Field.errorPattern': errorOrgNo,
-      ...props.errorMessages,
-    }),
-    [errorRequired, errorOrgNo, props.errorMessages]
-  )
+  const errorMessages = useErrorMessages({
+    errorRequired,
+    errorPattern: errorOrgNo,
+    propsErrorMessages: props.errorMessages,
+  })
 
   const organizationNumberValidator = useCallback(
     (value: string) => {

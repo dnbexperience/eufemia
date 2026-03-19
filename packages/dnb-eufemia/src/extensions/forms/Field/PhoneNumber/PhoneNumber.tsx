@@ -26,6 +26,7 @@ import SharedContext from '../../../../shared/Context'
 import type { CountryFilterSet } from '../SelectCountry'
 import { countryFilter, getCountryData } from '../SelectCountry'
 import useTranslation from '../../hooks/useTranslation'
+import useErrorMessages from '../../hooks/useErrorMessages'
 import type { DrawerListDataArrayItem } from '../../../../fragments/DrawerList'
 import type { AutocompleteOnChangeParams } from '../../../../components/Autocomplete'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
@@ -110,14 +111,11 @@ function PhoneNumber(props: Props = {}) {
   const wasFilled = useRef<boolean>(false)
   const currentCountryRef = useRef<CountryType>(undefined)
 
-  const errorMessages = useMemo(
-    () => ({
-      'Field.errorRequired': errorRequired,
-      'Field.errorPattern': errorRequired,
-      ...props.errorMessages,
-    }),
-    [errorRequired, props.errorMessages]
-  )
+  const errorMessages = useErrorMessages({
+    errorRequired,
+    errorPattern: errorRequired,
+    propsErrorMessages: props.errorMessages,
+  })
 
   const validateRequired = useCallback(
     (value: string, { required, isChanged, error }) => {

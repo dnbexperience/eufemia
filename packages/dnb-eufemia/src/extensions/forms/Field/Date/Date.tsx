@@ -15,6 +15,7 @@ import FieldBlock from '../../FieldBlock'
 import SharedContext from '../../../../shared/Context'
 import { parseISO, isValid, isBefore, isAfter, startOfDay } from 'date-fns'
 import useTranslation from '../../hooks/useTranslation'
+import useErrorMessages from '../../hooks/useErrorMessages'
 import type {
   DatePickerEvent,
   DatePickerProps,
@@ -109,13 +110,11 @@ function DateComponent(props: DateProps): React.ReactElement {
 
   const { invalidDatesRef, setInvalidDates } = useInvalidDates()
 
-  const errorMessages = useMemo(() => {
-    return {
-      'Field.errorRequired': errorRequired,
-      'Field.errorPattern': errorRequired,
-      ...props.errorMessages,
-    }
-  }, [props.errorMessages, errorRequired])
+  const errorMessages = useErrorMessages({
+    errorRequired,
+    errorPattern: errorRequired,
+    propsErrorMessages: props.errorMessages,
+  })
 
   const schema = useMemo<Schema<string>>(
     () => {

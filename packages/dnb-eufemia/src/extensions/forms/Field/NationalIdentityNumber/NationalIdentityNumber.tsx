@@ -5,6 +5,7 @@ import { dnr, fnr } from '@navikt/fnrvalidator'
 import type { Validator, ValidatorWithCustomValidators } from '../../types'
 import { FormError } from '../../utils'
 import useTranslation from '../../hooks/useTranslation'
+import useErrorMessages from '../../hooks/useErrorMessages'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type NationalIdentityNumberValidator =
@@ -33,14 +34,11 @@ function NationalIdentityNumber(props: Props) {
     errorDnr,
     errorDnrLength,
   } = translations
-  const errorMessages = useMemo(
-    () => ({
-      'Field.errorRequired': errorRequired,
-      'Field.errorPattern': errorFnr,
-      ...props.errorMessages,
-    }),
-    [errorRequired, errorFnr, props.errorMessages]
-  )
+  const errorMessages = useErrorMessages({
+    errorRequired,
+    errorPattern: errorFnr,
+    propsErrorMessages: props.errorMessages,
+  })
 
   const identificationNumberIsOfLength = (
     identificationNumber: string,
