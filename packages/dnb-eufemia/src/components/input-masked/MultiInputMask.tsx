@@ -97,6 +97,7 @@ export type MultiInputMaskProps<T extends string> = {
   suffix?: React.ReactNode
   /**
    * Keeps compatibility with callers that already forward the internal Input prop.
+   * @internal
    */
   _omitInputShellClass?: boolean
   /**
