@@ -27,7 +27,6 @@ import {
   EventReturnWithStateObject,
   ValueProps,
   OnSubmitParams,
-  OnSubmitReturn,
   OnSubmitRequest,
   CountryCode,
   PathStrict,
@@ -1268,6 +1267,49 @@ export default function Provider<Data extends JsonObject>(
   }, [])
 
   /**
+   * Resolves a callback result into an EventStateObject.
+   * Handles Error instances (returned or thrown) and casts valid results.
+   */
+  const resolveStateResult = useCallback(
+    async (
+      fn: () =>
+        | EventReturnWithStateObject
+        | void
+        | Promise<EventReturnWithStateObject | void>
+    ): Promise<EventStateObject | undefined> => {
+      try {
+        const result = await fn()
+
+        if (result instanceof Error) {
+          throw result
+        }
+
+        return result as EventStateObject | undefined
+      } catch (error) {
+        return { error: error as Error }
+      }
+    },
+    []
+  )
+
+  /**
+   * Applies submit state (error/warning/info/customStatus) from a result object.
+   */
+  const applySubmitState = useCallback(
+    (result: EventStateObject | undefined) => {
+      if (
+        result?.error ||
+        result?.warning ||
+        result?.info ||
+        result?.customStatus
+      ) {
+        setSubmitState(result)
+      }
+    },
+    [setSubmitState]
+  )
+
+  /**
    * Shared logic dedicated to submit the whole form
    */
   const handleSubmitCall = useCallback<ContextState['handleSubmitCall']>(
@@ -1317,8 +1359,7 @@ export default function Provider<Data extends JsonObject>(
         !hasFieldState('pending') &&
         (skipFieldValidation ? true : !hasFieldState('error'))
       ) {
-        let submitResult: OnSubmitReturn
-        try {
+        result = await resolveStateResult(async () => {
           if (isolate) {
             // Notify listeners before committing isolated data
             for (const item of fieldEventListenersRef.current) {
@@ -1327,9 +1368,12 @@ export default function Provider<Data extends JsonObject>(
                 callback()
               }
             }
-            submitResult = await onCommit?.(internalDataRef.current, {
-              clearData,
-            })
+            const commitResult = await onCommit?.(
+              internalDataRef.current,
+              {
+                clearData,
+              }
+            )
 
             // Notify listeners after committing isolated data
             for (const item of fieldEventListenersRef.current) {
@@ -1338,18 +1382,12 @@ export default function Provider<Data extends JsonObject>(
                 callback()
               }
             }
+
+            return commitResult
           } else {
-            submitResult = await onSubmit()
+            return await onSubmit()
           }
-
-          if (submitResult instanceof Error) {
-            throw submitResult
-          }
-        } catch (error) {
-          submitResult = { error }
-        }
-
-        result = submitResult as EventStateObject
+        })
 
         if (asyncBehaviorIsEnabled) {
           if (result?.error) {
@@ -1364,14 +1402,7 @@ export default function Provider<Data extends JsonObject>(
           setFormState(result?.['status'])
         }
 
-        if (
-          result?.error ||
-          result?.warning ||
-          result?.info ||
-          result?.customStatus
-        ) {
-          setSubmitState(result)
-        }
+        applySubmitState(result)
       } else {
         if (asyncBehaviorIsEnabled) {
           // Because we buffer the "revealError" in the useFieldProps hook,
@@ -1397,9 +1428,8 @@ export default function Provider<Data extends JsonObject>(
 
         setShowAllErrors(true)
 
-        let submitRequestResult: EventStateObject | undefined
-        try {
-          const requestResult = await onSubmitRequest?.({
+        const submitRequestResult = await resolveStateResult(() =>
+          onSubmitRequest?.({
             getErrors: () =>
               Object.keys(fieldErrorRef.current)
                 .map((path) => {
@@ -1407,24 +1437,9 @@ export default function Provider<Data extends JsonObject>(
                 })
                 .filter(({ error }) => error),
           })
+        )
 
-          if (requestResult instanceof Error) {
-            throw requestResult
-          }
-
-          submitRequestResult = requestResult as EventStateObject
-        } catch (error) {
-          submitRequestResult = { error: error as Error }
-        }
-
-        if (
-          submitRequestResult?.error ||
-          submitRequestResult?.warning ||
-          submitRequestResult?.info ||
-          submitRequestResult?.customStatus
-        ) {
-          setSubmitState(submitRequestResult)
-        }
+        applySubmitState(submitRequestResult)
 
         if (submitRequestResult) {
           result = submitRequestResult
@@ -1440,6 +1455,7 @@ export default function Provider<Data extends JsonObject>(
       return result
     },
     [
+      applySubmitState,
       clearData,
       getDataPathHandlerParameters,
       hasErrors,
@@ -1448,9 +1464,9 @@ export default function Provider<Data extends JsonObject>(
       isolate,
       onCommit,
       onSubmitRequest,
+      resolveStateResult,
       setFormState,
       setShowAllErrors,
-      setSubmitState,
     ]
   )
 
