@@ -10,7 +10,7 @@ function UploadFileList() {
 
   const {
     id,
-    fileListAriaLabel,
+    listAriaLabel,
     deleteButton,
     download,
     allowDuplicates,
@@ -111,7 +111,7 @@ function UploadFileList() {
   }
 
   return (
-    <ul className="dnb-upload__file-list" aria-label={fileListAriaLabel}>
+    <ul className="dnb-upload__file-list" aria-label={listAriaLabel}>
       {files.map((uploadFile: UploadFile, index: number) => {
         const onDeleteHandler = async () => {
           if (typeof onFileDelete === 'function') {
