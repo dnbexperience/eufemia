@@ -74,13 +74,12 @@ const transformOut = (internal, additionalArgs = {}) => {
     countryCodePrefix,
   } satisfies PhoneNumberDataShape
 }
-const transformIn = (
-  {
+const transformIn = (external: unknown) => {
+  const {
     countryCode: iso,
     phoneNumber,
     countryCodePrefix: countryCode,
-  }: PhoneNumberDataShape = {} as PhoneNumberDataShape | undefined
-) => {
+  } = (external || {}) as PhoneNumberDataShape
   return {
     countryCode,
     phoneNumber,

@@ -89,6 +89,7 @@ export const createRequest = () => {
 
   const fn = (t: number): CreateRequestReturn => {
     return new Promise((resolve) => {
+      // @ts-expect-error -- strictFunctionTypes
       resolvePromise = resolve
       timeout = setTimeout(() => {
         resolve({ hasError: false })

@@ -186,6 +186,7 @@ export const WrappedWithChildren = () => {
       data-visual-test="flex-container-with-children"
     >
       {() => {
+        // @ts-expect-error -- strictFunctionTypes
         const Wrapper = Flex.withChildren(({ children }) => {
           return <div>{children}</div>
         })

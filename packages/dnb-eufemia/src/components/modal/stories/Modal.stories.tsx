@@ -4,6 +4,7 @@
  */
 
 import React from 'react'
+import type { ModalContentProps } from '../types'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
 import {
@@ -605,7 +606,11 @@ function CloseWithAnimation() {
 function CloseByCallback() {
   return (
     <Modal triggerAttributes={{ text: 'CloseByCallback' }} hideCloseButton>
-      {({ close }) => <Button text="Close by callback" onClick={close} />}
+      {
+        (({ close }) => (
+          <Button text="Close by callback" onClick={close} />
+        )) as (props: ModalContentProps) => React.ReactNode
+      }
     </Modal>
   )
 }

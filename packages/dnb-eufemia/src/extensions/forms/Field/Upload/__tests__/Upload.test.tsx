@@ -2364,9 +2364,16 @@ describe('Field.Upload', () => {
   })
 
   it('should remove correct file when transformIn and transformOut is used to change the file', async () => {
-    function transformIn(external) {
+    function transformIn(external: unknown) {
+      const files = external as
+        | Array<{
+            id: string
+            fileName: string
+            errorMessage?: React.ReactNode
+          }>
+        | undefined
       return (
-        external?.map((file) => ({
+        files?.map((file) => ({
           ...file,
           id: file.id,
           file: new File([], file.fileName),
@@ -2375,7 +2382,8 @@ describe('Field.Upload', () => {
       )
     }
 
-    function transformOut(upload?: UploadValue) {
+    function transformOut(internal: unknown) {
+      const upload = internal as UploadValue | undefined
       return upload?.map((file) => ({
         ...file,
         id: file.id,
@@ -2981,9 +2989,10 @@ describe('Field.Upload', () => {
     const filesCache = new Map<string, File>()
 
     // To the Field (from e.g. defaultValue)
-    const transformIn = (external?: DocumentMetadata[]) => {
+    const transformIn = (external: unknown) => {
+      const docs = external as DocumentMetadata[] | undefined
       return (
-        external?.map(({ id, fileName }) => {
+        docs?.map(({ id, fileName }) => {
           const file: File = filesCache.get(id) || new File([], fileName)
 
           return { id, file } satisfies UploadFileNative
@@ -2992,9 +3001,10 @@ describe('Field.Upload', () => {
     }
 
     // From the Field (internal value) to the data context or event parameter
-    const transformOut = (internal?: UploadValue) => {
+    const transformOut = (internal: unknown) => {
+      const upload = internal as UploadValue | undefined
       return (
-        internal?.map(({ id, file }) => {
+        upload?.map(({ id, file }) => {
           if (!filesCache.has(id)) {
             filesCache.set(id, file)
           }

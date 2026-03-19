@@ -274,17 +274,15 @@ export function pickDataValueReadWriteProps<
 }
 
 export function omitDataValueReadWriteProps<
-  Props extends DataValueReadWriteProps,
->(
-  props: Props
-): Omit<DataValueReadWriteProps, keyof DataValueReadWriteProps> {
+  Props extends Record<string, unknown>,
+>(props: Props): Omit<Props, keyof DataValueReadWriteProps> {
   return Object.fromEntries(
     Object.entries(props ?? {}).filter(
       ([key]) =>
         !dataValueReadProps.includes(key) &&
         !dataValueWriteProps.includes(key)
     )
-  )
+  ) as Omit<Props, keyof DataValueReadWriteProps>
 }
 
 export type ComponentProps = SpacingProps & {

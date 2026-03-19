@@ -186,4 +186,4 @@ export function TableIconSrTh(props: { text: string }) {
 }
 
 export const isTableHead = (children: React.ReactNode[]) =>
-  children.some((element: React.ReactElement) => element.type === Th)
+  children.some((element) => (element as React.ReactElement).type === Th)

@@ -462,7 +462,7 @@ function Autocomplete(props: AutocompleteAllProps) {
     ignoreEvents: false,
     preventFocus: true,
     skipKeysearch: true,
-  } as Partial<DrawerListProps>
+  } as unknown as Partial<DrawerListProps>
 
   return (
     <DrawerListProvider {...providerProps}>
@@ -518,6 +518,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     DrawerListContextValue & {
       Autocomplete: Record<string, unknown>
     }
+    // @ts-expect-error - strictFunctionTypes
   >(DrawerListContext)
   const drawerList = context.drawerList
 
@@ -1722,6 +1723,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       >
     >(null)
   eventMethodsRef.current = {
+    // @ts-expect-error - strictFunctionTypes
     updateData,
     revalidateSelectedItem,
     revalidateInputValue,

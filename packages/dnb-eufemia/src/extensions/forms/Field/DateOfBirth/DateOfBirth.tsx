@@ -186,6 +186,7 @@ function DateOfBirth(props: Props) {
     onYearChange,
     setHasFocus,
     value: fieldValue,
+    // @ts-expect-error - strictFunctionTypes
   } = useFieldProps(preparedProps)
 
   const labelWithItemNo = useIterateItemNo({
@@ -353,6 +354,7 @@ function DateOfBirth(props: Props) {
 
   const compositionFieldProps: CompositionFieldProps = {
     className: 'dnb-forms-field-date-of-birth',
+    // @ts-expect-error - strictFunctionTypes
     error,
     label: labelWithItemNo,
     labelSrOnly,
@@ -437,6 +439,7 @@ function DateOfBirth(props: Props) {
           onBlur: onBlurAutocomplete,
         }}
         data={months}
+        // @ts-expect-error - strictFunctionTypes
         onChange={handleMonthChange}
         onFocus={handleOnFocus}
         onBlur={handleOnBlur}

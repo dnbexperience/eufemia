@@ -1,6 +1,7 @@
 import React from 'react'
 import Dialog from '../Dialog'
 import type { DialogContentProps, DialogProps } from '../types'
+import type { ModalContentProps } from '../../modal/types'
 import Button from '../../button/Button'
 import Provider from '../../../shared/Provider'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
@@ -92,9 +93,11 @@ describe('Dialog', () => {
         onClose={onClose}
         hideCloseButton
       >
-        {({ close }) => (
-          <Button id="close-me" text="close" onClick={close} />
-        )}
+        {
+          (({ close }) => (
+            <Button id="close-me" text="close" onClick={close} />
+          )) as (props: ModalContentProps) => React.ReactNode
+        }
       </Dialog>
     )
     fireEvent.click(document.querySelector('button'))
@@ -529,9 +532,11 @@ describe('Dialog', () => {
         onClose={onClose}
         hideCloseButton
       >
-        {({ close }) => (
-          <Button id="close-button" text="close" onClick={close} />
-        )}
+        {
+          (({ close }) => (
+            <Button id="close-button" text="close" onClick={close} />
+          )) as (props: ModalContentProps) => React.ReactNode
+        }
       </Dialog>
     )
 

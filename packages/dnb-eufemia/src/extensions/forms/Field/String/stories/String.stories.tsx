@@ -64,8 +64,8 @@ export const Transform = () => {
   const transformIn = (external: unknown) => {
     return String(external)?.toUpperCase()
   }
-  const transformOut = (internal: string) => {
-    return internal?.toLowerCase()
+  const transformOut = (internal: unknown) => {
+    return String(internal)?.toLowerCase()
   }
   return (
     <Form.Handler onChange={console.log}>
@@ -115,8 +115,8 @@ export function TransformObject() {
         transformOut={(value) => {
           return { value, test: 'test' }
         }}
-        transformIn={(data: typeof defaultData.myLabel) => {
-          return data?.value
+        transformIn={(data: unknown) => {
+          return (data as typeof defaultData.myLabel)?.value
         }}
       />
 
