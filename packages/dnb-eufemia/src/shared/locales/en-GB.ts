@@ -82,7 +82,7 @@ export default {
     },
     Autocomplete: {
       title: 'Type and select',
-      submitButtonTitle: 'Show options',
+      submitButtonAriaLabel: 'Show options',
       noOptions: 'No options',
       showAll: 'Show everything',
       showOptionsSr: 'Browse options, close with esc button',

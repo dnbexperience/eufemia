@@ -82,7 +82,7 @@ export default {
     },
     Autocomplete: {
       title: 'Skriv och välj',
-      submitButtonTitle: 'Visa alternativ',
+      submitButtonAriaLabel: 'Visa alternativ',
       noOptions: 'Inga alternativ',
       showAll: 'Visa allt',
       showOptionsSr: 'Bläddra genom alternativ, stäng med esc-knappen',

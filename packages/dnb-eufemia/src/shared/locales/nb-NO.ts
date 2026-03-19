@@ -81,7 +81,7 @@ export default {
     },
     Autocomplete: {
       title: 'Skriv og velg',
-      submitButtonTitle: 'Vis alternativer',
+      submitButtonAriaLabel: 'Vis alternativer',
       noOptions: 'Ingen alternativer',
       showAll: 'Vis alt',
       showOptionsSr: 'Bla gjennom alternativer, lukk med esc knappen',

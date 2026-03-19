@@ -83,7 +83,7 @@ export default {
     },
     Autocomplete: {
       title: 'Skriv og vælg',
-      submitButtonTitle: 'Vis muligheder',
+      submitButtonAriaLabel: 'Vis muligheder',
       noOptions: 'Ingen muligheder',
       showAll: 'Vis alt',
       showOptionsSr: 'Gennemse muligheder, luk med esc-knappen',

@@ -152,8 +152,8 @@ export const AutocompleteProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  submitButtonTitle: {
-    doc: 'Title on submit button. Defaults to `Vis alternativer`.',
+  submitButtonAriaLabel: {
+    doc: 'Aria-label on submit button. Defaults to `Vis alternativer`.',
     type: 'React.ReactNode',
     status: 'optional',
   },

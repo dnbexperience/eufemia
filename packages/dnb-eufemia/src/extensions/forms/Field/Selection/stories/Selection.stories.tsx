@@ -60,7 +60,7 @@ export function Autocomplete() {
         onChange={(value) => console.log('onChange', value)}
         autocompleteProps={{
           showSubmitButton: true,
-          submitButtonTitle: 'Custom title',
+          submitButtonAriaLabel: 'Custom title',
         }}
         help={{
           title: 'Title',

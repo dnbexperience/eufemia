@@ -194,9 +194,9 @@ export type AutocompleteProps = {
    */
   selectAll?: boolean
   /**
-   * Title on submit button.
+   * Aria-label on submit button.
    */
-  submitButtonTitle?: string
+  submitButtonAriaLabel?: string
   /**
    * The icon used in the submit button.
    */
@@ -371,7 +371,7 @@ const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
   indicatorLabel: null,
   showOptionsSr: null,
   selectedSr: null,
-  submitButtonTitle: null,
+  submitButtonAriaLabel: null,
   submitButtonIcon: 'chevron_down',
   inputRef: null,
   icon: 'loupe',
@@ -568,7 +568,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     searchMatch,
     showOptionsSr,
     selectedSr,
-    submitButtonTitle,
+    submitButtonAriaLabel,
     submitButtonIcon,
     portalClass,
     drawerClass,
@@ -2374,8 +2374,8 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     onMouseDown: reserveActivityHandler,
     'aria-haspopup': 'listbox' as const,
     'aria-expanded': isExpanded,
-    'aria-label': !hidden ? submitButtonTitle : undefined,
-    tooltip: showSubmitButton ? submitButtonTitle : null,
+    'aria-label': !hidden ? submitButtonAriaLabel : undefined,
+    tooltip: showSubmitButton ? submitButtonAriaLabel : null,
     className: open ? 'dnb-button--active' : null,
   }
 

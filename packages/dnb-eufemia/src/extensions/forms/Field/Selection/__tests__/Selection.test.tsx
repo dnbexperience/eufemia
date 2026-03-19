@@ -2386,7 +2386,7 @@ describe('variants', () => {
           value="bar"
           autocompleteProps={{
             showSubmitButton: true,
-            submitButtonTitle: 'Custom title',
+            submitButtonAriaLabel: 'Custom title',
           }}
         >
           <Field.Option value="foo">Foo</Field.Option>
