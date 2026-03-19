@@ -2528,7 +2528,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
                 }
                 submitElement={submitButton}
                 inputState={skipFocusDuringChange ? 'focus' : undefined}
-                clear={showClearButton}
+                showClearButton={showClearButton}
                 onClear={onClear}
                 ref={_refInput}
                 {...inputParams}

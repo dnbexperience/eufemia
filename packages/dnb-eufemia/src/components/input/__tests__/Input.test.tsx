@@ -609,12 +609,12 @@ describe('Input component', () => {
 
 describe('Input with clear button', () => {
   it('should have the button', () => {
-    render(<Input clear={true} />)
+    render(<Input showClearButton={true} />)
     expect(document.querySelector('.dnb-input--clear')).toBeInTheDocument()
   })
 
   it('should clear the value on press', () => {
-    render(<Input id="input-id" clear={true} value="value" />)
+    render(<Input id="input-id" showClearButton={true} value="value" />)
 
     expect(document.querySelector('input').value).toBe('value')
 
@@ -627,7 +627,7 @@ describe('Input with clear button', () => {
   })
 
   it('should have a disabled clear button when no value is given', () => {
-    render(<Input id="input-id" clear={true} value="value" />)
+    render(<Input id="input-id" showClearButton={true} value="value" />)
 
     expect(document.querySelector('input').value).toBe('value')
 
@@ -642,7 +642,7 @@ describe('Input with clear button', () => {
   })
 
   it('should have a disabled clear button when initially empty value is given', () => {
-    render(<Input id="input-id" clear={true} />)
+    render(<Input id="input-id" showClearButton={true} />)
 
     expect(document.querySelector('input').value).toBe('')
 
@@ -656,7 +656,7 @@ describe('Input with clear button', () => {
   })
 
   it('should set focus on input when clear button is pressed', () => {
-    render(<Input id="input-id" clear={true} value="value" />)
+    render(<Input id="input-id" showClearButton={true} value="value" />)
 
     const clearButton = document.querySelector(
       'button#input-id-clear-button'
@@ -710,7 +710,9 @@ describe('Input with clear button', () => {
   })
 
   it('should support icon', () => {
-    const { rerender } = render(<Input clear={true} icon="bell" />)
+    const { rerender } = render(
+      <Input showClearButton={true} icon="bell" />
+    )
     expect(
       document.querySelector('.dnb-input__icon').querySelector('svg')
     ).toBeInTheDocument()
@@ -721,7 +723,9 @@ describe('Input with clear button', () => {
       document.querySelector('.dnb-input--icon-position-right')
     ).not.toBeInTheDocument()
 
-    rerender(<Input clear={true} icon="bell" iconPosition="right" />)
+    rerender(
+      <Input showClearButton={true} icon="bell" iconPosition="right" />
+    )
 
     expect(
       document.querySelector('.dnb-input--icon-position-right')
@@ -737,7 +741,9 @@ describe('Input with clear button', () => {
 
   it('should warn about clear button and right icon position', () => {
     global.console.log = jest.fn()
-    render(<Input clear={true} icon="bell" iconPosition="right" />)
+    render(
+      <Input showClearButton={true} icon="bell" iconPosition="right" />
+    )
     expect(
       document.querySelector('.dnb-input--clear')
     ).not.toBeInTheDocument()
@@ -775,7 +781,12 @@ describe('Input with clear button', () => {
     const onChange = jest.fn()
 
     render(
-      <Input value="123" clear onClear={onClear} onChange={onChange} />
+      <Input
+        value="123"
+        showClearButton
+        onClear={onClear}
+        onChange={onChange}
+      />
     )
 
     fireEvent.click(document.querySelector('.dnb-input__clear-button'))
