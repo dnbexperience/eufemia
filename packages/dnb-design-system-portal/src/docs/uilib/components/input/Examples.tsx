@@ -222,9 +222,14 @@ export const InputExampleClear = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-clear">
       <Flex.Vertical>
-        <Input clear={true} value="Value ..." size="medium" />
-        <Input clear={true} value="Value ..." type="search" />
-        <Input clear={true} value="Value ..." icon="loupe" type="search" />
+        <Input showClearButton={true} value="Value ..." size="medium" />
+        <Input showClearButton={true} value="Value ..." type="search" />
+        <Input
+          showClearButton={true}
+          value="Value ..."
+          icon="loupe"
+          type="search"
+        />
       </Flex.Vertical>
     </ComponentBox>
   </Wrapper>

@@ -106,7 +106,7 @@ export const InputProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  clear: {
+  showClearButton: {
     doc: 'If set to `true`, then a clear button will be shown which lets the user clear any given input value.',
     type: 'boolean',
     status: 'optional',
