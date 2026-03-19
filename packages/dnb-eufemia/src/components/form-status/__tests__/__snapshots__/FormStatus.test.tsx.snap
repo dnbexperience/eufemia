@@ -147,13 +147,3 @@ button .dnb-form-status__text {
   }
 }"
 `;
-
-exports[`FormStatus scss have to match default theme snapshot 1`] = `
-"/*
- * FormStatus theme
- *
- */
-.dnb-form-status__shell {
-  font-size: var(--font-size-small);
-}"
-`;
