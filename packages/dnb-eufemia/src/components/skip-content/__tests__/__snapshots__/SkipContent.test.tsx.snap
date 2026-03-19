@@ -368,6 +368,9 @@ button .dnb-form-status__text {
   height: inherit;
   border-radius: inherit;
 }
+.dnb-skeleton .dnb-button--tertiary::before {
+  content: none;
+}
 .dnb-button--primary, .dnb-button--secondary, .dnb-button--tertiary {
   color: var(--btn-color-text, var(--btn-color-text--default));
   background-color: var(--btn-color-bg, var(--btn-color-bg--default));

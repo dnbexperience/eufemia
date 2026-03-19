@@ -82,6 +82,10 @@
       background-color: inherit;
       height: inherit;
       border-radius: inherit;
+
+      .dnb-skeleton & {
+        content: none;
+      }
     }
   }
 

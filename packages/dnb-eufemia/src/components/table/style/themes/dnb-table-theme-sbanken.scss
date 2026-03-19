@@ -53,7 +53,6 @@
   & > thead > tr > th#{&}--sortable,
   & &__th#{&}--sortable {
     .dnb-table__sort-button.dnb-button {
-      color: var(--sb-color-violet);
       & .dnb-button__text::after {
         bottom: -0.0625rem;
         left: 0;
@@ -63,11 +62,7 @@
       &:not(:focus) .dnb-button__text::after {
         color: var(--sb-color-violet);
       }
-      @include utilities.hover() {
-        color: var(--sb-color-violet);
-      }
       @include utilities.active() {
-        color: var(--sb-color-violet);
         @include button-mixins.buttonFocusRing(
           'mouse',
           inset
