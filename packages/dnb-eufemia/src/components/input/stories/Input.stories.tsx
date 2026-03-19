@@ -271,12 +271,12 @@ export const InputSandbox = () => {
 
         {/* <Box>
           <Input
-            clear
+            showClearButton
            label="Input" />
         </Box>
         <Box>
           <Input
-          clear
+          showClearButton
             label="Small Input"
             size="small"
             iconSize="small"
@@ -285,7 +285,7 @@ export const InputSandbox = () => {
         </Box>
         <Box>
           <Input
-          clear
+          showClearButton
             label="Medium Input"
             size="medium"
             bottom="small"
@@ -293,21 +293,21 @@ export const InputSandbox = () => {
         </Box>
         <Box>
           <Input
-          clear
+          showClearButton
             label="Large Input"
             size="large"
           />
         </Box>
         <Box>
           <Input
-          clear
+          showClearButton
             label="Input clear button with submit button"
             type="search"
           />
         </Box>
         <Box>
           <Input
-          clear
+          showClearButton
             label="Small Input clear button with submit button"
             type="search"
             size="small"
@@ -315,7 +315,7 @@ export const InputSandbox = () => {
         </Box>
         <Box>
           <Input
-          clear
+          showClearButton
             label="Medium Input clear button with submit button"
             type="search"
             size="medium"
@@ -323,7 +323,7 @@ export const InputSandbox = () => {
         </Box>
         <Box>
           <Input
-          clear
+          showClearButton
             label="Large Input clear button with submit button"
             type="search"
             size="large"
@@ -387,12 +387,12 @@ export function InputClearButton() {
       <Box>
         <Input icon="loupe" label="Input" />
         <br />
-        <Input icon="loupe" clear label="Input" />
+        <Input icon="loupe" showClearButton label="Input" />
       </Box>
       <Box>
         <Input
           icon="loupe"
-          clear
+          showClearButton
           label="Small Input"
           size="small"
           iconSize="small"
@@ -402,14 +402,19 @@ export function InputClearButton() {
       <Box>
         <Input
           icon="loupe"
-          clear
+          showClearButton
           label="Medium Input"
           size="medium"
           bottom="small"
         />
       </Box>
       <Box>
-        <Input icon="loupe" clear label="Large Input" size="large" />
+        <Input
+          icon="loupe"
+          showClearButton
+          label="Large Input"
+          size="large"
+        />
       </Box>
       <Box>
         <Input icon="loupe" label="Input A" />
@@ -420,12 +425,17 @@ export function InputClearButton() {
 
         <br />
 
-        <Input icon="loupe" clear label="Input C" type="search" />
+        <Input
+          icon="loupe"
+          showClearButton
+          label="Input C"
+          type="search"
+        />
       </Box>
       <Box>
         <Input
           icon="loupe"
-          clear
+          showClearButton
           label="Small Input clear button with submit button"
           type="search"
           size="small"
@@ -434,7 +444,7 @@ export function InputClearButton() {
       <Box>
         <Input
           icon="loupe"
-          clear
+          showClearButton
           label="Medium Input clear button with submit button"
           type="search"
           size="medium"
@@ -443,7 +453,7 @@ export function InputClearButton() {
       <Box>
         <Input
           icon="loupe"
-          clear
+          showClearButton
           label="Large Input clear button with submit button"
           type="search"
           size="large"
