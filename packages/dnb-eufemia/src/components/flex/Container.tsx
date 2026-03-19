@@ -27,6 +27,8 @@ type Gap =
 export type BasicProps = {
   direction?: 'horizontal' | 'vertical'
   wrap?: boolean
+  /** Disable automatic Space wrappers for intrinsic DOM children such as `li` or `p`. */
+  wrapChildrenInSpace?: boolean
   /** value `true` is deprecated, use `undefined` instead */
   rowGap?: Gap | true
   sizeCount?: number
@@ -60,6 +62,7 @@ export type Props = BasicProps &
 const propNames: Array<keyof Props> = [
   'direction',
   'wrap',
+  'wrapChildrenInSpace',
   'justify',
   'align',
   'divider',
@@ -104,6 +107,7 @@ function FlexContainer(props: Props) {
     element = 'div',
     direction = 'horizontal',
     wrap = true,
+    wrapChildrenInSpace = true,
     sizeCount = 12,
     rowGap,
     justify = 'flex-start',
@@ -174,6 +178,7 @@ function FlexContainer(props: Props) {
 
           {renderWithSpacing(child, {
             space: { [start]: startSpacing, [end]: endSpacing },
+            wrapInSpace: wrapChildrenInSpace,
           })}
 
           {divider === 'line-framed' && isLast && (
@@ -213,6 +218,7 @@ function FlexContainer(props: Props) {
     return renderWithSpacing(child, {
       key: child?.['key'] || `element-${i}`,
       space,
+      wrapInSpace: wrapChildrenInSpace,
     })
   })
 
