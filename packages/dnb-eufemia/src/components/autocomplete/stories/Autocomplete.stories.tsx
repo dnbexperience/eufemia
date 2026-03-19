@@ -251,7 +251,7 @@ export const AutocompleteSandbox = () => {
       <Box>
         <CustomStyle>
           <Autocomplete
-            drawerClass="drawerClass"
+            contentClassName="drawerClass"
             size="small"
             value="A"
             data={['A']}

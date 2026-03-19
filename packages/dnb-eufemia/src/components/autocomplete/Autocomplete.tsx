@@ -313,7 +313,7 @@ export type AutocompleteProps = {
   /**
    * Custom class for internal drawer list.
    */
-  drawerClass?: string
+  contentClassName?: string
   /**
    * Selected value.
    */
@@ -431,7 +431,7 @@ const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
   stretch: null,
   skeleton: null,
   portalClass: null,
-  drawerClass: null,
+  contentClassName: null,
   pageOffset: null,
   observerElement: null,
   enableBodyLock: false,
@@ -581,7 +581,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     submitButtonTitle,
     submitButtonIcon,
     portalClass,
-    drawerClass,
+    contentClassName,
     inputRef,
     className,
     disabled,
@@ -2560,7 +2560,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
             <DrawerList
               id={id}
-              className={clsx('dnb-autocomplete__root', drawerClass)}
+              className={clsx('dnb-autocomplete__root', contentClassName)}
               portalClass={portalClass}
               listClass="dnb-autocomplete__list"
               value={selectedItem}

@@ -106,7 +106,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  drawerClass: {
+  contentClassName: {
     doc: 'Define a custom class for the internal drawer-list. This makes it possible more easily customize the drawer-list style with styled-components and the `css` style method. Defaults to `null`.',
     type: 'string',
     status: 'optional',

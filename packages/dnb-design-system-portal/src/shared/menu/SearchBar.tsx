@@ -102,7 +102,7 @@ export const SearchBarInput = () => {
       labelSrOnly
       status={status}
       portalClass={portalClassStyle}
-      drawerClass={drawerClassStyle}
+      contentClassName={drawerClassStyle}
       onType={onTypeHandler}
       onChange={onChangeHandler}
       onFocus={onFocusHandler}
