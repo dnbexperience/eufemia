@@ -58,6 +58,10 @@
 
     margin: 0;
     padding: 0 0.125rem;
+    .dnb-input--medium &,
+    .dnb-input--large & {
+      padding: 0 0.25rem;
+    }
 
     overflow: hidden;
     outline: none;
@@ -68,11 +72,6 @@
     font-family: var(--font-family-monospace);
     border: none;
     background: transparent;
-
-    .dnb-input--medium &,
-    .dnb-input--large & {
-      padding: 0 0.25rem;
-    }
   }
 
   &__delimiter {
@@ -83,14 +82,6 @@
     @include utilities.isFirefox() {
       padding: 0 0.0625rem;
     }
-  }
-
-  &__fieldset
-    &__fieldset
-    &__group
-    &__section.dnb-input__input:first-child {
-    // On second fieldset, the left padding should be less, because the delimiter already has some spacing.
-    padding-left: 0.25rem;
   }
 
   &:not(.dnb-input__status--error) {
