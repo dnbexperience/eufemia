@@ -46,18 +46,18 @@ export const SliderProperties: PropertiesTableProps = {
     type: ['"omit"', '"push"', '"swap"'],
     status: 'optional',
   },
-  thumbTitle: {
-    doc: 'Give the slider thumb button a title for accessibility reasons. Defaults to `null`.',
+  thumbAriaLabel: {
+    doc: 'Give the slider thumb button an aria-label for accessibility reasons. Defaults to `null`.',
     type: 'string',
     status: 'optional',
   },
-  subtractTitle: {
-    doc: 'Give the subtract button a title for accessibility reasons. Defaults to `Decrease (%s)`.',
+  subtractAriaLabel: {
+    doc: 'Give the subtract button an aria-label for accessibility reasons. Defaults to `Decrease (%s)`.',
     type: 'string',
     status: 'optional',
   },
-  addTitle: {
-    doc: 'Give the add button a title for accessibility reasons. Defaults to `Increase (%s)`.',
+  addAriaLabel: {
+    doc: 'Give the add button an aria-label for accessibility reasons. Defaults to `Increase (%s)`.',
     type: 'string',
     status: 'optional',
   },

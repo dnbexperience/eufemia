@@ -440,7 +440,7 @@ function NumberComponent(props: Props) {
     tabIndex: -1,
     disabled: disabled || value >= maximum,
     onClick: increaseClickHandler,
-    title: sharedContext?.translation.Slider.addTitle?.replace(
+    title: sharedContext?.translation.Slider.addAriaLabel?.replace(
       '%s',
       String(value + step)
     ),
@@ -459,7 +459,7 @@ function NumberComponent(props: Props) {
     size: (size || 'small') as ButtonSize,
     disabled: disabled || value <= minimum,
     onClick: decreaseClickHandler,
-    title: sharedContext?.translation.Slider.subtractTitle?.replace(
+    title: sharedContext?.translation.Slider.subtractAriaLabel?.replace(
       '%s',
       String(value - step)
     ),

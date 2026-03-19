@@ -130,8 +130,8 @@ export default {
       stepTitle: 'Step %step of %count:',
     },
     Slider: {
-      addTitle: 'Increase (%s)',
-      subtractTitle: 'Decrease (%s)',
+      addAriaLabel: 'Increase (%s)',
+      subtractAriaLabel: 'Decrease (%s)',
     },
     PaymentCard: {
       textBlocked: 'Blocked',

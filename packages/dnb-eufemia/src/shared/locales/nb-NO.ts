@@ -129,8 +129,8 @@ export default {
       stepTitle: 'Steg %step av %count:',
     },
     Slider: {
-      addTitle: 'Øk (%s)',
-      subtractTitle: 'Reduser (%s)',
+      addAriaLabel: 'Øk (%s)',
+      subtractAriaLabel: 'Reduser (%s)',
     },
     PaymentCard: {
       textBlocked: 'Sperret',

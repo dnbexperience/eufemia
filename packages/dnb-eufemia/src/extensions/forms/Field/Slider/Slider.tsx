@@ -33,9 +33,9 @@ export type Props = FieldProps<SliderValue> & {
   reverse?: SliderProps['reverse']
   hideButtons?: SliderProps['hideButtons']
   multiThumbBehavior?: SliderProps['multiThumbBehavior']
-  thumbTitle?: SliderProps['thumbTitle']
-  subtractTitle?: SliderProps['subtractTitle']
-  addTitle?: SliderProps['addTitle']
+  thumbAriaLabel?: SliderProps['thumbAriaLabel']
+  subtractAriaLabel?: SliderProps['subtractAriaLabel']
+  addAriaLabel?: SliderProps['addAriaLabel']
   numberFormat?: SliderProps['numberFormat']
   tooltip?: SliderProps['tooltip']
   alwaysShowTooltip?: SliderProps['alwaysShowTooltip']
@@ -49,7 +49,10 @@ function SliderComponent(props: Props) {
   const dataContextRef = useRef<ContextState>(undefined)
   dataContextRef.current = useContext<ContextState>(DataContext)
   const {
-    Slider: { addTitle: addTitleLabel, subtractTitle: subtractTitleLabel },
+    Slider: {
+      addAriaLabel: addAriaLabelDefault,
+      subtractAriaLabel: subtractAriaLabelDefault,
+    },
   } = useSharedTranslation()
 
   const { getSourceValue } = useDataValue()
@@ -86,9 +89,9 @@ function SliderComponent(props: Props) {
     reverse,
     hideButtons,
     multiThumbBehavior = 'swap',
-    thumbTitle,
-    subtractTitle = subtractTitleLabel,
-    addTitle = addTitleLabel,
+    thumbAriaLabel,
+    subtractAriaLabel = subtractAriaLabelDefault,
+    addAriaLabel = addAriaLabelDefault,
     numberFormat,
     tooltip,
     alwaysShowTooltip,
@@ -155,9 +158,9 @@ function SliderComponent(props: Props) {
     reverse,
     hideButtons,
     multiThumbBehavior,
-    thumbTitle,
-    subtractTitle,
-    addTitle,
+    thumbAriaLabel,
+    subtractAriaLabel,
+    addAriaLabel,
     numberFormat,
     tooltip,
     alwaysShowTooltip,

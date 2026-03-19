@@ -157,7 +157,7 @@ function SubtractButton() {
     max,
     disabled,
     skeleton,
-    subtractTitle,
+    subtractAriaLabel,
     numberFormat,
   } = allProps
 
@@ -179,7 +179,7 @@ function SubtractButton() {
       variant="secondary"
       icon="subtract"
       size="small"
-      aria-label={subtractTitle?.replace(
+      aria-label={subtractAriaLabel?.replace(
         '%s',
         humanNumber.aria || String(value)
       )}
@@ -193,8 +193,15 @@ function SubtractButton() {
 
 function AddButton() {
   const { emitChange, value, attributes, allProps } = useSliderProps()
-  const { step, min, max, disabled, skeleton, addTitle, numberFormat } =
-    allProps
+  const {
+    step,
+    min,
+    max,
+    disabled,
+    skeleton,
+    addAriaLabel,
+    numberFormat,
+  } = allProps
 
   const onAddClickHandler = (event: MouseEvent | TouchEvent) => {
     emitChange(event, clamp((value as number) + (step || 1), min, max))
@@ -214,7 +221,7 @@ function AddButton() {
       variant="secondary"
       icon="add"
       size="small"
-      aria-label={addTitle?.replace(
+      aria-label={addAriaLabel?.replace(
         '%s',
         humanNumber.aria || String(value)
       )}

@@ -48,14 +48,14 @@ export type SliderProps = {
   /** text describing the content of the Slider more than the label. You can also send in a React component, so it gets wrapped inside the Slider component. */
   suffix?: SuffixChildren
 
-  /** give the slider thumb button a title for accessibility reasons. Defaults to `null`. */
-  thumbTitle?: string
+  /** give the slider thumb button an aria-label for accessibility reasons. Defaults to `null`. */
+  thumbAriaLabel?: string
 
-  /** give the add button a title for accessibility reasons. Defaults to `Increase (%s)`. */
-  addTitle?: string
+  /** give the add button an aria-label for accessibility reasons. Defaults to `Increase (%s)`. */
+  addAriaLabel?: string
 
-  /** give the subtract button a title for accessibility reasons. Defaults to `Decrease (%s)`. */
-  subtractTitle?: string
+  /** give the subtract button an aria-label for accessibility reasons. Defaults to `Decrease (%s)`. */
+  subtractAriaLabel?: string
 
   /** the minimum value. Defaults to `0`. */
   min?: number

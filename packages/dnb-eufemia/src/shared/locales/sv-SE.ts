@@ -130,8 +130,8 @@ export default {
       stepTitle: 'Steg %step av %count:',
     },
     Slider: {
-      addTitle: 'Öka (%s)',
-      subtractTitle: 'Minska (%s)',
+      addAriaLabel: 'Öka (%s)',
+      subtractAriaLabel: 'Minska (%s)',
     },
     PaymentCard: {
       textBlocked: 'Spärrat',

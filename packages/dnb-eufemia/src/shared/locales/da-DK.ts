@@ -131,8 +131,8 @@ export default {
       stepTitle: 'Trin %step af %count:',
     },
     Slider: {
-      addTitle: 'Forøg (%s)',
-      subtractTitle: 'Reducer (%s)',
+      addAriaLabel: 'Forøg (%s)',
+      subtractAriaLabel: 'Reducer (%s)',
     },
     PaymentCard: {
       textBlocked: 'Spærret',
