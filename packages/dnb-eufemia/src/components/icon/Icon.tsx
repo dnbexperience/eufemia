@@ -18,18 +18,18 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export const DefaultIconSize = 16
 export const DefaultIconSizes = {
-  default: 16,
+  basis: 16,
   medium: 24,
 } as const
 export const ListDefaultIconSizes: Array<
   [ValidIconType, ValidIconNumericSize]
 > = [
-  ['default', 16],
+  ['basis', 16],
   ['medium', 24],
 ]
 export const ValidIconType = [
   'small', // 12px 0.75rem
-  'default', // 16px 1rem
+  'basis', // 16px 1rem
   'medium', // 24px 1.5rem
   'large', // 32px 2rem
   'x-large', // 40px 2.5rem
@@ -58,7 +58,6 @@ export type IconSize =
   | `${ValidIconNumericSize | number}`
   | ValidIconType
   | 'auto'
-  | 'basis'
 
 export type IconColor =
   | string
@@ -402,7 +401,7 @@ function prepareIconCore(
     modifier && `dnb-icon--${modifier}`,
     border && 'dnb-icon--border',
     inheritColor !== false && 'dnb-icon--inherit-color',
-    sizeAsString ? `dnb-icon--${sizeAsString}` : 'dnb-icon--default',
+    sizeAsString ? `dnb-icon--${sizeAsString}` : 'dnb-icon--basis',
     createSkeletonClass(null, skeleton, context),
     createSpacingClasses(props),
     className
@@ -494,7 +493,6 @@ export function prerenderIcon(
       size &&
       DefaultIconSizes[size] &&
       size !== 'basis' &&
-      size !== 'default' &&
       !(parseFloat(String(size)) > 0) &&
       !icon.includes(size as ValidIconType)
     ) {

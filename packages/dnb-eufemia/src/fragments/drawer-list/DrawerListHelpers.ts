@@ -33,7 +33,7 @@ export const drawerListDefaultProps = {
   focusable: false,
   maxHeight: null,
   direction: 'auto',
-  size: 'default',
+  size: null,
   noAnimation: false,
   noScrollAnimation: false,
   preventSelection: false,

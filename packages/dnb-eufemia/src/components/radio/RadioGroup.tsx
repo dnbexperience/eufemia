@@ -36,7 +36,7 @@ import type { SpacingProps } from '../space/types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type RadioGroupLabelPosition = 'left' | 'right'
-export type RadioGroupSize = 'default' | 'medium' | 'large'
+export type RadioGroupSize = 'small' | 'medium' | 'large'
 export type RadioGroupSuffix = string | React.ReactNode
 export type RadioGroupLayoutDirection = 'column' | 'row'
 export type RadioGroupChildren = string | React.ReactNode

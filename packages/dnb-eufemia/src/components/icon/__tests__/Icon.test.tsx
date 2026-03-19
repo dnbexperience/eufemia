@@ -49,7 +49,7 @@ describe('Icon component', () => {
     )
     rerender(<Icon {...props} size={16} />)
     expect(document.querySelector('span.dnb-icon').classList).toContain(
-      'dnb-icon--default'
+      'dnb-icon--basis'
     )
   })
 
@@ -212,7 +212,7 @@ describe('Icon component', () => {
 
     render(<Icon icon={<E />} />)
     expect(document.querySelector('span.dnb-icon').classList).toContain(
-      'dnb-icon--default'
+      'dnb-icon--basis'
     )
   })
 

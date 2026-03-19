@@ -20,7 +20,7 @@ export default function ButtonContent({
   content = null,
   customContent = null,
   icon = null,
-  iconSize = 'default',
+  iconSize = 'basis',
   bounding = null,
   skeleton = null,
   isIconOnly = null,

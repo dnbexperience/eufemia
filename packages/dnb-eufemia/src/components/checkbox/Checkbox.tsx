@@ -37,7 +37,7 @@ import FormStatus from '../form-status/FormStatus'
 import CheckIcon from './CheckIcon'
 
 export type CheckboxLabelPosition = 'left' | 'right'
-export type CheckboxSize = 'default' | 'medium' | 'large'
+export type CheckboxSize = 'small' | 'medium' | 'large'
 export type CheckboxOnChangeParams = {
   checked: boolean
   event: React.ChangeEvent<HTMLInputElement>

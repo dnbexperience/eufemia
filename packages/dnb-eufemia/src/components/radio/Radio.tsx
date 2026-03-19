@@ -38,7 +38,7 @@ import type { SpacingProps } from '../space/types'
 
 export type RadioLabel = string | React.ReactNode
 export type RadioLabelPosition = 'left' | 'right'
-export type RadioSize = 'default' | 'medium' | 'large'
+export type RadioSize = 'small' | 'medium' | 'large'
 export type RadioSuffix = string | React.ReactNode
 export type RadioChildren = string | React.ReactNode
 

@@ -413,7 +413,7 @@ const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
   showSubmitButton: false,
   submitElement: null,
   preventSelection: false,
-  size: 'default',
+  size: null,
   align: null,
   optionsRender: null,
   data: null,
@@ -2404,9 +2404,9 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     submitButton = (
       <SubmitButton
         icon={submitButtonIcon as IconIcon}
-        iconSize={iconSize || (size === 'large' ? 'medium' : 'default')}
+        iconSize={iconSize || (size === 'large' ? 'medium' : 'basis')}
         variant="secondary"
-        size={size === 'default' ? 'medium' : (size as ButtonSize)}
+        size={(!size || size === 'small') ? 'medium' : (size as ButtonSize)}
         type="button"
         status={status}
         statusState={statusState}
@@ -2519,7 +2519,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
                   )
                 }
                 iconSize={
-                  iconSize || (size === 'large' ? 'medium' : 'default')
+                  iconSize || (size === 'large' ? 'medium' : 'basis')
                 }
                 size={size}
                 status={status ? statusState : null}

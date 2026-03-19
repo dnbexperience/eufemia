@@ -76,7 +76,6 @@ export type DrawerListDataRecord = Record<string, DrawerListContent>
 
 export type DrawerListDataAll = DrawerListDataRecord | DrawerListDataArray
 export type DrawerListSize =
-  | 'default'
   | 'small'
   | 'medium'
   | 'large'

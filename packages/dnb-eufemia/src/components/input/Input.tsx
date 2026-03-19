@@ -50,7 +50,7 @@ import type { IconIcon, IconSize } from '../Icon'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../space/types'
 
-export type InputSize = 'default' | 'small' | 'medium' | 'large' | number
+export type InputSize = 'small' | 'medium' | 'large' | number
 export type InputValue = string | number
 export type InputSuffix = React.ReactNode
 export type InputAlign = 'left' | 'center' | 'right'
@@ -636,7 +636,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   const hasVal = hasValue(value)
 
   const usedIconSize =
-    size === 'large' && (iconSize === 'default' || !iconSize)
+    size === 'large' && (iconSize === 'basis' || !iconSize)
       ? 'medium'
       : iconSize
 

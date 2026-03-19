@@ -47,7 +47,7 @@ export type ButtonVariant =
   | 'tertiary'
   | 'signal'
   | 'unstyled'
-export type ButtonSize = 'default' | 'small' | 'medium' | 'large'
+export type ButtonSize = 'small' | 'medium' | 'large'
 export type ButtonIcon = IconIcon
 export type ButtonIconPositionTertiary = 'top'
 export type ButtonIconPosition = 'left' | 'right'
@@ -112,7 +112,7 @@ export type ButtonProps = {
    */
   variant?: ButtonVariant
   /**
-   * The size of the button. For now there is `small`, `medium`, `default` and `large`.
+   * The size of the button. For now there is `small`, `medium` and `large`.
    */
   size?: ButtonSize
   /**
@@ -337,7 +337,7 @@ class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
       }
       if (
         !usedIconSize &&
-        (usedSize === 'default' || usedSize === 'large')
+        (!usedSize || usedSize === 'large')
       ) {
         usedIconSize = 'medium'
       }
@@ -360,7 +360,7 @@ class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
         usedVariant = 'primary'
       }
       if (!usedSize) {
-        usedSize = 'default'
+        usedSize = null
       }
     }
     if (
@@ -386,7 +386,7 @@ class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
     const classes = clsx(
       'dnb-button',
       `dnb-button--${usedVariant || 'primary'}`,
-      usedSize && usedSize !== 'default' && `dnb-button--size-${usedSize}`,
+      usedSize && `dnb-button--size-${usedSize}`,
       this.context?.theme?.surface === 'dark' &&
         `dnb-button--on-dark-background`,
       icon && `dnb-button--icon-position-${iconPosition}`,

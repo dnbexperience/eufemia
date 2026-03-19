@@ -19,6 +19,7 @@ v11 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 3. If you import Eufemia SCSS source files with `@import`, replace with `@use` and namespace your mixin/variable calls (see [SCSS: @import → @use](#scss-import--use)).
 4. Replace the `size` prop with `span` on `Flex.Item` and `Card` components.
 5. If you `@use` Eufemia SCSS source files and reference internal mixins, rename them to camelCase (see [SCSS mixin renames](#scss-mixin-renames)).
+6. Replace `size="default"` with the equivalent standard value or remove the prop (see [Standardized size values](#standardized-size-values)).
 
 ### innerRef → ref
 
@@ -101,6 +102,7 @@ $ pnpm add @dnb/eufemia@11
 - Several exported TypeScript `interface` declarations have been converted to `type`. This prevents declaration merging but has no impact on standard usage.
 - All React context value types have been renamed to use a consistent `...ContextValue` suffix (e.g. `AccordionContextProps` → `AccordionContextValue`). See [TypeScript](#typescript) for the full list.
 - Event handler and render function prop types have been replaced with properly typed signatures (e.g. `(...args: any[]) => any` → `(event: AccordionChangeEvent) => void`). See [Typed event handlers](#typed-event-handlers) for the full list.
+- The `size` prop has been standardized across all components. The `'default'` value has been removed (replaced with `'small'` or `'medium'` depending on context), `FormLabel`'s `'basis'` was renamed to `'small'`, and `Icon`'s `'default'` was renamed to `'basis'`. See [Standardized size values](#standardized-size-values).
 
 ## Components
 
@@ -1905,6 +1907,64 @@ Affected components and props:
 #### Render function / children types
 
 Several component types that accepted `(...args: any[]) => any` for render functions, children, or display elements have been narrowed to `() => React.ReactNode`. This affects types such as `AccordionHeaderTitle`, `AccordionHeaderDescription`, `NumberFormatPrefix`, `NumberFormatSuffix`, `NumberFormatTooltip`, `SkeletonFigure`, `SkeletonChildren`, `ToggleButtonSuffix`, `ToggleButtonChildren`, `ToggleButtonGroupSuffix`, `ToggleButtonGroupChildren`, `PaymentCardChildren`, `TextareaChildren`, and `PaginationIndicatorElement`.
+
+## Standardized size values
+
+The `size` prop has been standardized across all components to use consistent T-shirt sizing (`small`, `medium`, `large`). The ambiguous `'default'` value has been removed, and `FormLabel`'s `'basis'` has been renamed to `'small'`. `Icon` renames `'default'` to `'basis'` to align with the typography sizing scale.
+
+### Migration
+
+**Components where `size="default"` should be removed** (the default appearance is what you get when no `size` prop is specified):
+
+- `Button`
+- `Input`
+- `Autocomplete`
+- `Dropdown`
+- `DrawerList`
+- `ProgressIndicator`
+
+```diff
+- <Button size="default" />
++ <Button />
+```
+
+**Components where `size="default"` becomes `size="small"`:**
+
+- `Checkbox`
+- `Radio`
+- `RadioGroup`
+- `Switch`
+
+```diff
+- <Checkbox size="default" />
++ <Checkbox size="small" />
+```
+
+**Components where `size="default"` becomes `size="medium"`:**
+
+- `FormStatus`
+- `Tooltip`
+
+```diff
+- <FormStatus size="default">…</FormStatus>
++ <FormStatus size="medium">…</FormStatus>
+```
+
+**FormLabel: `size="basis"` becomes `size="small"`:**
+
+```diff
+- <FormLabel size="basis" />
++ <FormLabel size="small" />
+```
+
+**Icon: `size="default"` becomes `size="basis"`:**
+
+```diff
+- <Icon size="default" icon={myIcon} />
++ <Icon size="basis" icon={myIcon} />
+```
+
+The CSS class `dnb-icon--default` has been renamed to `dnb-icon--basis`.
 
 ## Theming
 

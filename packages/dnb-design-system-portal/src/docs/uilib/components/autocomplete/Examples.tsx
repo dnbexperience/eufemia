@@ -268,7 +268,7 @@ export const AutocompleteDifferentSizes = () => (
       <Flex.Vertical>
         <Autocomplete
           label="Label"
-          size="default"
+          size="small"
           data={() => topMovies}
         />
         <Autocomplete label="Label" size="medium" data={() => topMovies} />
@@ -311,7 +311,7 @@ export const AutocompleteCustomWidth = () => (
           <CustomWidthOne
             label="Label"
             labelSrOnly
-            size="default"
+            size="small"
             iconPosition="left"
             data={topMovies}
           />

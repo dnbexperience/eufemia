@@ -11,7 +11,7 @@ export type TooltipArrow =
   | 'left'
 export type TooltipAlign = null | 'center' | 'right' | 'left'
 
-export type TooltipSize = 'default' | 'large'
+export type TooltipSize = 'medium' | 'large'
 
 export type TooltipProps = {
   id?: string

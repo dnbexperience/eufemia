@@ -47,7 +47,7 @@ export type FormStatusState =
   | 'success'
   | 'marketing'
 export type FormStatusVariant = 'plain' | 'outlined'
-export type FormStatusSize = 'default' | 'large'
+export type FormStatusSize = 'medium' | 'large'
 export type FormStatusAttributes = string | Record<string, unknown>
 export type FormStatusChildren =
   | string
@@ -220,7 +220,7 @@ export default class FormStatus extends React.PureComponent<
     label: null,
     icon: 'error',
     iconSize: 'medium',
-    size: 'default',
+    size: 'medium',
     variant: null,
     state: 'error',
     attributes: null,

@@ -306,7 +306,7 @@ describe('FormStatus component', () => {
       'dnb-space',
       'dnb-height-animation',
       'dnb-form-status',
-      'dnb-form-status__size--default',
+      'dnb-form-status__size--medium',
       'dnb-space__top--large',
       'dnb-form-status--error',
       'dnb-form-status--has-content',

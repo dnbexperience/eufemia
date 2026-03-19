@@ -45,7 +45,7 @@ exports[`Dropdown scss has to match style dependencies css 1`] = `
 .dnb-icon--small {
   font-size: 0.75rem;
 }
-.dnb-icon--default {
+.dnb-icon--basis {
   font-size: 1rem;
 }
 .dnb-icon--medium {

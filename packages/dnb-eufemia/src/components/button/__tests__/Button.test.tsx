@@ -64,7 +64,7 @@ describe('Button component', () => {
       const icon = document.querySelector('.dnb-icon')
       expect(button.classList).toContain('dnb-button--size-small')
       expect(button.classList).not.toContain('dnb-button--icon-size-small')
-      expect(icon.classList).toContain('dnb-icon--default')
+      expect(icon.classList).toContain('dnb-icon--basis')
     })
 
     it('should support medium size', () => {
@@ -75,11 +75,11 @@ describe('Button component', () => {
       expect(button.classList).not.toContain(
         'dnb-button--icon-size-medium'
       )
-      expect(icon.classList).toContain('dnb-icon--default')
+      expect(icon.classList).toContain('dnb-icon--basis')
     })
 
-    it('has size set to medium when button size is default', () => {
-      render(<Button icon="question" size="default" />)
+    it('has medium icon when icon-only button has no size', () => {
+      render(<Button icon="question" />)
       const button = document.querySelector('button')
       const icon = document.querySelector('.dnb-icon')
       expect(button.classList).toContain('dnb-button--icon-size-medium')
@@ -92,7 +92,7 @@ describe('Button component', () => {
       const icon = document.querySelector('.dnb-icon')
       // size "large
       expect(button.classList).toContain('dnb-button--size-large')
-      expect(icon.classList).toContain('dnb-icon--default')
+      expect(icon.classList).toContain('dnb-icon--basis')
     })
   })
 

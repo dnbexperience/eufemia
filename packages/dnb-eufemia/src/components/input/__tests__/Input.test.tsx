@@ -457,7 +457,7 @@ describe('Input component', () => {
     )
 
     expect(document.querySelector('.dnb-form-status')).toHaveClass(
-      'dnb-form-status--warning dnb-form-status__size--default dnb-form-status--stretch dnb-form-status--has-content dnb-form-status--has-content'
+      'dnb-form-status--warning dnb-form-status__size--medium dnb-form-status--stretch dnb-form-status--has-content dnb-form-status--has-content'
     )
     expect(document.querySelector('.dnb-form-status')).toHaveClass(
       'dnb-height-animation--is-visible dnb-height-animation--is-in-dom'
@@ -715,7 +715,7 @@ describe('Input with clear button', () => {
       document.querySelector('.dnb-input__icon').querySelector('svg')
     ).toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-icon--default')
+      document.querySelector('.dnb-icon--basis')
     ).toBeInTheDocument()
     expect(
       document.querySelector('.dnb-input--icon-position-right')

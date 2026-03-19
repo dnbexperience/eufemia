@@ -847,7 +847,6 @@ describe('DrawerList component', () => {
       'dnb-drawer-list--open',
       'dnb-drawer-list--arrow-position-left',
       'dnb-drawer-list--left',
-      'dnb-drawer-list--default',
       'dnb-drawer-list--scroll',
     ])
 
@@ -865,7 +864,6 @@ describe('DrawerList component', () => {
         'dnb-drawer-list--hidden',
         'dnb-drawer-list--arrow-position-left',
         'dnb-drawer-list--left',
-        'dnb-drawer-list--default',
         'dnb-drawer-list--scroll',
       ])
     })
@@ -1404,7 +1402,7 @@ describe('DrawerList markup', () => {
       value: 2,
       open: true,
       noAnimation: true,
-      size: 'default',
+      size: null,
     }
 
     const result = render(

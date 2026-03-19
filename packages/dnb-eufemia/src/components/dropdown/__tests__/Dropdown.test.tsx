@@ -207,7 +207,7 @@ describe('Dropdown component', () => {
     )
 
     expect(document.querySelector('.dnb-form-status')).toHaveClass(
-      'dnb-form-status--warning dnb-form-status__size--default dnb-form-status--stretch dnb-form-status--has-content'
+      'dnb-form-status--warning dnb-form-status__size--medium dnb-form-status--stretch dnb-form-status--has-content'
     )
   })
 

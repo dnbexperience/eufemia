@@ -2,7 +2,7 @@ import type * as React from 'react'
 import type CSS from 'csstype'
 import type { SpacingProps } from '../space/types'
 
-const validSizes = ['default', 'small', 'medium', 'large', 'huge'] as const
+const validSizes = ['small', 'medium', 'large', 'huge'] as const
 
 export type ValidSizes = (typeof validSizes)[number]
 export type ProgressIndicatorCustomSize = CSS.Property.Width
@@ -27,7 +27,7 @@ export type ProgressIndicatorProps = {
    */
   noAnimation?: boolean
   /**
-   * Defines the size. Defaults to `default`.
+   * Defines the size. Defaults to `medium`.
    */
   size?: ValidSizes | ProgressIndicatorCustomSize
   /**

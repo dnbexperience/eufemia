@@ -247,7 +247,7 @@ export function getFileIcon(
   hasWarning?: boolean
 ) {
   if (loading?.isLoading) {
-    return <ProgressIndicator size={loading?.size ?? 'default'} />
+    return <ProgressIndicator size={loading?.size} />
   }
 
   if (hasWarning) return <Icon icon={ExclamationIcon} />

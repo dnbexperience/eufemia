@@ -273,7 +273,7 @@ function Toggle(props: Props) {
             onChange={handleToggleChange}
             status={hasError ? 'error' : undefined}
             disabled={disabled}
-            size={size !== 'small' ? size : 'default'} // Radio does not support "small" size
+            size={size !== 'small' ? size : undefined} // Radio does not support "small" size
           >
             <Radio
               label={textOn ?? translations.yes}

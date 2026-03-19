@@ -598,7 +598,7 @@ export const DropdownSizes = () => (
   <Wrapper>
     <ComponentBox data-visual-test="dropdown-sizes" scope={{ data }}>
       <Flex.Vertical>
-        <Dropdown label="Label" size="default" data={() => data} />
+        <Dropdown label="Label" size="small" data={() => data} />
         <Dropdown label="Label" size="medium" data={() => data} />
         <Dropdown label="Label" size="large" data={() => data} />
       </Flex.Vertical>
@@ -646,7 +646,7 @@ export const DropdownCustomWidth = () => (
           <Flex.Vertical>
             <CustomWidthOne
               label="Label"
-              size="default"
+              size="small"
               iconPosition="left"
               data={data}
             />

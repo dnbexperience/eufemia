@@ -87,14 +87,12 @@ export const ButtonErrorState = () => (
       title="Primary icon button error"
       variant="primary"
       icon={question}
-      size="default"
       status="error"
       left
     />
     <Button
       title="Secondary icon button error"
       icon={question}
-      size="default"
       status="error"
       left
     />
@@ -198,7 +196,6 @@ export const ButtonAnchor = () => (
       href="/uilib/components/button/demos"
       title="This is a link"
       icon="chevron_right"
-      size="default"
       right
     />
   </ComponentBox>
@@ -475,7 +472,6 @@ export const IconButtonSizes = () => {
       <Button
         title="Default sized button with add icon (not default)"
         icon="add"
-        size="default"
         left
       />
       <Button

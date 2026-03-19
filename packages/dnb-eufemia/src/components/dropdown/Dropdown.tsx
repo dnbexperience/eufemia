@@ -190,7 +190,7 @@ const dropdownDefaultProps = {
   moreMenu: false,
   actionMenu: false,
   independentWidth: false,
-  size: 'default',
+  size: null,
   align: null,
   triggerElement: null,
   data: null,
@@ -656,7 +656,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
                 status={status ? statusState : null}
                 statusState={statusState}
                 icon={false} // only to suppress the warning about the icon when tertiary variant is used
-                size={(size === 'default' ? 'medium' : size) as ButtonSize}
+                size={(!size || size === 'small' ? 'medium' : size) as ButtonSize}
                 ref={setButtonRef}
                 customContent={
                   <>
@@ -680,7 +680,7 @@ const DropdownInstance = React.memo(function DropdownInstance({
                           icon={icon || 'chevron_down'}
                           size={
                             iconSize ||
-                            (size === 'large' ? 'medium' : 'default')
+                            (size === 'large' ? 'medium' : 'basis')
                           }
                         />
                       )}

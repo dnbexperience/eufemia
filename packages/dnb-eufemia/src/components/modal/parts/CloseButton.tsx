@@ -23,7 +23,7 @@ function CloseButton(props: CloseButtonProps) {
   // use only the props from context, who are available here anyway
   const {
     closeTitle = null,
-    size = 'default',
+    size = null,
     iconPosition = 'left',
     className = null,
     ...buttonProps
@@ -31,7 +31,7 @@ function CloseButton(props: CloseButtonProps) {
     props,
     {
       closeTitle: null,
-      size: 'default',
+      size: null,
       iconPosition: 'left',
       className: null,
     },

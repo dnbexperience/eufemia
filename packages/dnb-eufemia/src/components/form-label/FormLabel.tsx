@@ -29,7 +29,7 @@ export type FormLabelProps = {
   forId?: string
   element?: DynamicElement<HTMLLabelElement>
   text?: React.ReactNode
-  size?: 'basis' | 'medium' | 'large'
+  size?: 'small' | 'medium' | 'large'
   id?: string
   skeleton?: boolean
   label?: React.ReactNode
@@ -98,7 +98,7 @@ function FormLabel(localProps: FormLabelAllProps) {
       (vertical || labelDirection === 'vertical') &&
         `dnb-form-label--vertical`,
       srOnly && 'dnb-sr-only',
-      size && `dnb-h--${size}`,
+      size && `dnb-h--${size === 'small' ? 'basis' : size}`,
       isInteractive && 'dnb-form-label--interactive',
       createSkeletonClass('font', skeleton, context),
       createSpacingClasses(

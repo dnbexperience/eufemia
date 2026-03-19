@@ -18,7 +18,7 @@ type CloseButtonProps = Omit<
     iconSize?: IconSize
     iconPosition?: 'left' | 'right' | 'top'
     variant?: 'primary' | 'secondary' | 'tertiary' | 'signal' | 'unstyled'
-    size?: 'default' | 'small' | 'medium' | 'large'
+    size?: 'small' | 'medium' | 'large'
     text?: React.ReactNode
     children?: React.ReactNode
     stretch?: boolean
@@ -75,7 +75,7 @@ export default function PopoverCloseButton({
     }
     if (
       !resolvedIconSize &&
-      (resolvedSize === 'default' || resolvedSize === 'large')
+      (!resolvedSize || resolvedSize === 'large')
     ) {
       resolvedIconSize = 'medium'
     }
@@ -84,7 +84,7 @@ export default function PopoverCloseButton({
       resolvedVariant = 'primary'
     }
     if (!resolvedSize) {
-      resolvedSize = 'default'
+      resolvedSize = null
     }
   }
   if (
@@ -99,7 +99,7 @@ export default function PopoverCloseButton({
     'dnb-button',
     `dnb-button--${resolvedVariant}`,
     resolvedSize &&
-      resolvedSize !== 'default' &&
+      resolvedSize &&
       `dnb-button--size-${resolvedSize}`,
     context?.theme?.surface === 'dark' && 'dnb-button--on-dark-background',
     hasIcon && `dnb-button--icon-position-${iconPosition}`,

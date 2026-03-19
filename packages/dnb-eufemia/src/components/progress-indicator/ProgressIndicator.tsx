@@ -36,7 +36,7 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
 
   const {
     type = 'circular',
-    size = 'default',
+    size,
     noAnimation = false,
     onComplete,
     label,
@@ -58,7 +58,11 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
   const [sizeVariant, customSize]: [
     ProgressIndicatorAnimationProps['size'],
     ProgressIndicatorCustomSize,
-  ] = isValidSize(size) ? [size, undefined] : ['custom-size', size]
+  ] = !size
+    ? [undefined, undefined]
+    : isValidSize(size)
+    ? [size, undefined]
+    : ['custom-size', size]
 
   const completeTimeout = useRef<NodeJS.Timeout>(undefined)
   const fadeOutTimeout = useRef<NodeJS.Timeout>(undefined)

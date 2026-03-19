@@ -3382,7 +3382,6 @@ describe('Autocomplete component', () => {
       'dnb-autocomplete--auto',
       'dnb-autocomplete--vertical',
       'dnb-autocomplete--icon-position-left',
-      'dnb-autocomplete--default',
     ])
   })
 

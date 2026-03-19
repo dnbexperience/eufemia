@@ -1,7 +1,7 @@
 import React from 'react'
 
 export type CheckIconProps = {
-  size: 'default' | 'medium' | 'large'
+  size: 'small' | 'medium' | 'large'
 }
 
 // The new checkbox has too low contrast, as it is too thin on web
