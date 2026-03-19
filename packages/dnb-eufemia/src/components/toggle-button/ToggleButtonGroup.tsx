@@ -364,6 +364,12 @@ export type ToggleButtonGroupChildren =
   | (() => React.ReactNode)
   | React.ReactNode
 
+export type ToggleButtonGroupChangeEvent = {
+  value: ToggleButtonGroupValue
+  values: ToggleButtonGroupValues
+  event: React.SyntheticEvent
+}
+
 export type ToggleButtonGroupProps = Omit<
   React.HTMLProps<HTMLElement>,
   'label' | 'value' | 'children' | 'onChange' | 'size'
@@ -415,7 +421,7 @@ export type ToggleButtonGroupProps = Omit<
     readOnly?: boolean
     className?: string
     children?: ToggleButtonGroupChildren
-    onChange?: (...args: unknown[]) => void
+    onChange?: (event: ToggleButtonGroupChangeEvent) => void
     // Additional properties that are used in tests and stories
     top?: SpaceType
     right?: SpaceType

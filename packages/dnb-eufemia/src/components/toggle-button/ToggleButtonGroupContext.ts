@@ -24,7 +24,7 @@ export type ToggleButtonGroupContextValue = {
         ) => Record<string, unknown>)
   ) => void
   onChange?: (args: {
-    value: unknown
+    value: string | number | Record<string, unknown> | any[]
     event: React.SyntheticEvent
   }) => void
 }

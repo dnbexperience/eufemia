@@ -564,7 +564,7 @@ export type ToggleButtonProps = Omit<
     readOnly?: boolean
     className?: string
     children?: ToggleButtonChildren
-    onChange?: (...args: unknown[]) => void
+    onChange?: (event: ToggleButtonChangeEvent) => void
     // Additional properties that are used in tests and stories
     top?: SpaceType
     right?: SpaceType
