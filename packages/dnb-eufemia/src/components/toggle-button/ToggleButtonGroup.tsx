@@ -26,6 +26,7 @@ import Space from '../Space'
 import Context, { type ContextProps } from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import ToggleButtonGroupContext from './ToggleButtonGroupContext'
+import type { ToggleButtonGroupContextValue } from './ToggleButtonGroupContext'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 type ToggleButtonGroupState = {
@@ -258,7 +259,7 @@ class ToggleButtonGroup extends React.PureComponent<
         } as ToggleButtonGroupState)
       },
       onChange: this.onChangeHandler,
-    }
+    } as ToggleButtonGroupContextValue
 
     const Fieldset = label ? 'fieldset' : 'div'
 

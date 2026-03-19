@@ -220,7 +220,7 @@ describe('Value.Composition', () => {
       render(
         <Value.Composition
           label="Label"
-          transformLabel={(label: string) => label.toUpperCase()}
+          transformLabel={(label) => String(label).toUpperCase()}
         >
           <Value.String path="/foo" />
           <Value.String path="/bar" />
@@ -235,7 +235,7 @@ describe('Value.Composition', () => {
     it('renders transformLabel given in Value.Provider', async () => {
       render(
         <Value.Provider
-          transformLabel={(label: string) => label?.toUpperCase()}
+          transformLabel={(label) => String(label)?.toUpperCase()}
         >
           <Value.Composition label="Label">
             <Value.String path="/foo" />

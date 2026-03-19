@@ -776,21 +776,18 @@ describe('Field.PhoneNumber', () => {
         countryCodePrefix: string
       }
 
-      const transformIn = jest.fn(
-        (
-          {
-            countryCode: iso,
-            phoneNumber,
-            countryCodePrefix: countryCode,
-          }: PhoneNumberDataShape = {} as PhoneNumberDataShape | undefined
-        ) => {
-          return {
-            countryCode,
-            phoneNumber,
-            iso,
-          } satisfies AdditionalArgs
-        }
-      )
+      const transformIn = jest.fn((external: unknown) => {
+        const {
+          countryCode: iso,
+          phoneNumber,
+          countryCodePrefix: countryCode,
+        } = (external || {}) as PhoneNumberDataShape
+        return {
+          countryCode,
+          phoneNumber,
+          iso,
+        } satisfies AdditionalArgs
+      })
 
       render(
         <Form.Handler
@@ -854,21 +851,18 @@ describe('Field.PhoneNumber', () => {
         } satisfies PhoneNumberDataShape
       })
 
-      const transformIn = jest.fn(
-        (
-          {
-            countryCode: iso,
-            phoneNumber,
-            countryCodePrefix: countryCode,
-          }: PhoneNumberDataShape = {} as PhoneNumberDataShape | undefined
-        ) => {
-          return {
-            countryCode,
-            phoneNumber,
-            iso,
-          } satisfies AdditionalArgs
-        }
-      )
+      const transformIn = jest.fn((external: unknown) => {
+        const {
+          countryCode: iso,
+          phoneNumber,
+          countryCodePrefix: countryCode,
+        } = (external || {}) as PhoneNumberDataShape
+        return {
+          countryCode,
+          phoneNumber,
+          iso,
+        } satisfies AdditionalArgs
+      })
 
       render(
         <Form.Handler onChange={onChange}>
@@ -1868,7 +1862,7 @@ describe('Field.PhoneNumber', () => {
           document.querySelectorAll(
             '.dnb-drawer-list__options .dnb-drawer-list__option__inner'
           )
-        ).map((option: HTMLSpanElement) => option.textContent)
+        ).map((option: Element) => option.textContent)
 
       await userEvent.click(codeElement)
 

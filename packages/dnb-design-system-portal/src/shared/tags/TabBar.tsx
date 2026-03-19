@@ -112,6 +112,7 @@ export default function TabBar({
       )}
       <Tabs
         id="tab-bar"
+        // @ts-expect-error -- strictFunctionTypes
         onOpenTabNavigationFn={navigate}
         tabElement={Link as unknown as TabsTabElement}
         data={preparedTabs}
@@ -125,6 +126,7 @@ export default function TabBar({
                   <Button
                     onClick={quitFullscreen}
                     href={quitFullscreenPath}
+                    // @ts-expect-error -- strictFunctionTypes
                     element={Link}
                     variant="secondary"
                     title="Quit Fullscreen"
@@ -135,6 +137,7 @@ export default function TabBar({
                   <Button
                     onClick={openFullscreen}
                     href={fullscreenPath}
+                    // @ts-expect-error -- strictFunctionTypes
                     element={Link}
                     variant="secondary"
                     title="Fullscreen"

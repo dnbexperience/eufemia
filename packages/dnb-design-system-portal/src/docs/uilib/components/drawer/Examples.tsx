@@ -252,6 +252,7 @@ export const DrawerCallbackExample = () => (
       triggerAttributes={{ text: 'Open drawer' }}
       hideCloseButton
     >
+      {/* @ts-expect-error -- strictFunctionTypes */}
       {({ close }) => (
         <>
           <Button text="Close by callback" onClick={close} />

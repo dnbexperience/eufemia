@@ -48,7 +48,7 @@ export const BreadcrumbMultiple = ({
 
         {React.Children.toArray(items)
           .filter((item) => React.isValidElement(item))
-          .map((item: React.ReactElement<BreadcrumbItemProps>, i) => (
+          .map((item, i) => (
             <BreadcrumbItemContext key={i} value={{ itemNo: i }}>
               {item}
             </BreadcrumbItemContext>

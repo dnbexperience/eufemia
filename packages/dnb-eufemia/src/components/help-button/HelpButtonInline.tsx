@@ -80,7 +80,11 @@ export default function HelpButtonInline(props: HelpButtonInlineProps) {
   }, [focusOnOpen, isOpen, update])
 
   const onClickHandler = useCallback(
-    ({ event }: { event: React.MouseEvent<HTMLButtonElement> }) => {
+    ({
+      event,
+    }: {
+      event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
+    }) => {
       event.preventDefault() // Because when used inside a FormLabel
       toggleOpen()
     },

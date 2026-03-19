@@ -165,6 +165,7 @@ export default function PropertiesTable({
             <em>({status}) </em>
           )}
           <ReactMarkdown
+            // @ts-expect-error -- strictFunctionTypes
             components={components}
             remarkPlugins={[remarkGfm]}
           >
@@ -219,7 +220,10 @@ function typeWithoutArray(type: string) {
 
 export function formatIfMarkdown(name: string): React.ReactNode | string {
   if (name.includes('](')) {
-    return <ReactMarkdown components={components}>{name}</ReactMarkdown>
+    return (
+      // @ts-expect-error -- strictFunctionTypes
+      <ReactMarkdown components={components}>{name}</ReactMarkdown>
+    )
   }
 
   return name

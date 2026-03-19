@@ -1,9 +1,6 @@
 import { Field, Form, Iterate, Tools, Value, Wizard } from '../../..'
 import { Flex } from '../../../../../components'
-import type {
-  UploadFile,
-  UploadFileNative,
-} from '../../../../../components/Upload'
+import type { UploadFileNative } from '../../../../../components/Upload'
 import { P } from '../../../../../elements'
 import type { UploadValue } from '../Upload'
 
@@ -13,7 +10,9 @@ export default {
 
 const createRequest = () => {
   let timeout: NodeJS.Timeout | null
-  let resolvePromise: ((value?: unknown) => void) | undefined
+  let resolvePromise:
+    | ((value: { hasError: boolean; cancel?: boolean }) => void)
+    | undefined
 
   const fn = (
     t: number
@@ -216,18 +215,20 @@ const defaultValue = [
 ] satisfies DocumentMetadata[] as unknown as UploadValue
 
 const filesCache = new Map<string, File>()
-const transformIn = (external?: DocumentMetadata[]) => {
+const transformIn = (external: unknown) => {
+  const docs = external as DocumentMetadata[] | undefined
   return (
-    external?.map(({ id, fileName }) => {
+    docs?.map(({ id, fileName }) => {
       const file: File = filesCache.get(id) || new File([], fileName)
 
       return { id, file } satisfies UploadFileNative
     }) || []
   )
 }
-const transformOut = (internal?: UploadValue) => {
+const transformOut = (internal: unknown) => {
+  const upload = internal as UploadValue | undefined
   return (
-    internal?.map(({ id, file }) => {
+    upload?.map(({ id, file }) => {
       if (!filesCache.has(id)) {
         filesCache.set(id, file)
       }
@@ -370,9 +371,16 @@ export const AsyncEverythingWithTransform = () => {
     )
   }
 
-  function transformIn(external?: any) {
+  function transformIn(external: unknown) {
+    const files = external as
+      | Array<{
+          id: string
+          fileName: string
+          errorMessage?: React.ReactNode
+        }>
+      | undefined
     return (
-      external?.map((file) => ({
+      files?.map((file) => ({
         ...file,
         id: file.id,
         file: new File([], file.fileName),
@@ -381,7 +389,8 @@ export const AsyncEverythingWithTransform = () => {
     )
   }
 
-  function transformOut(upload?: UploadValue) {
+  function transformOut(internal: unknown) {
+    const upload = internal as UploadValue | undefined
     return upload?.map((file) => ({
       ...file,
       id: file.id,
@@ -441,9 +450,9 @@ export const RequiredProperty = () => {
 
 export const IterateArrayUpload = () => {
   async function mockAsyncFileUpload(
-    newFiles: UploadFile[]
-  ): Promise<any> {
-    const updatedFiles: UploadFile[] = []
+    newFiles: UploadValue
+  ): Promise<UploadValue> {
+    const updatedFiles: UploadValue = []
 
     for (const [, file] of Object.entries(newFiles)) {
       const formData = new FormData()
@@ -513,9 +522,9 @@ export const IterateArrayUpload = () => {
 
 export const TwoAsyncUploads = () => {
   async function mockAsyncFileUpload(
-    newFiles: UploadFile[]
-  ): Promise<any> {
-    const updatedFiles: UploadFile[] = []
+    newFiles: UploadValue
+  ): Promise<UploadValue> {
+    const updatedFiles: UploadValue = []
 
     for (const [, file] of Object.entries(newFiles)) {
       const formData = new FormData()

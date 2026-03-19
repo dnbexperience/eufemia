@@ -680,9 +680,9 @@ describe('ArraySelection', () => {
     })
   })
 
-  describe.each(['button', 'checkbox-button'])(
+  describe.each(['button', 'checkbox-button'] as const)(
     '%s',
-    (testVariant: 'button' | 'checkbox-button') => {
+    (testVariant) => {
       it('precede option title over children', async () => {
         render(
           <Field.ArraySelection variant={testVariant}>

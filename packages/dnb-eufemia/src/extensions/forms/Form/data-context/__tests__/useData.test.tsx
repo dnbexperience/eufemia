@@ -1326,7 +1326,7 @@ describe('Form.useData', () => {
     expect(
       result.current.filterData({
         '/field1': false,
-      } as FilterData<Data>)
+      } as FilterData)
     ).toEqual({
       field2: '',
       field3: 'baz',
@@ -1338,7 +1338,7 @@ describe('Form.useData', () => {
         '/field2': ({ value }) => {
           return value !== ''
         },
-      } as FilterData<Data>)
+      } as FilterData)
     ).toEqual({
       field3: 'baz',
     })
@@ -1350,9 +1350,9 @@ describe('Form.useData', () => {
           return value !== ''
         },
         '/field3': ({ data }) => {
-          return data.field2 !== ''
+          return (data as Data).field2 !== ''
         },
-      } as FilterData<Data>)
+      } as FilterData)
     ).toEqual({})
   })
 

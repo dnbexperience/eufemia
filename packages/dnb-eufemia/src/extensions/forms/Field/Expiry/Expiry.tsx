@@ -190,7 +190,9 @@ function Expiry(props: ExpiryProps = {}) {
     validateInitially,
     validateContinuously,
     fromExternal,
+    // @ts-expect-error - strictFunctionTypes
     transformIn,
+    // @ts-expect-error - strictFunctionTypes
     fromInput,
     provideAdditionalArgs,
     validateRequired,

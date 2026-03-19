@@ -127,6 +127,7 @@ export const ValidationExtendValidator = () => {
           <Field.DateOfBirth
             required
             value="2000-05-17"
+            // @ts-expect-error -- strictFunctionTypes
             onBlurValidator={myValidator}
             validateInitially
           />

@@ -315,8 +315,8 @@ describe('isolated-style-scope-plugin', () => {
         .mockReturnValue('test-hash-from-file')
       const existsSyncSpy = jest
         .spyOn(fs, 'existsSync')
-        .mockImplementation((path: string) => {
-          return path.endsWith('scope-hash.txt')
+        .mockImplementation((path: fs.PathLike) => {
+          return String(path).endsWith('scope-hash.txt')
         })
       const getStyleScopeHashSpy = jest
         .spyOn(scopeHash, 'getStyleScopeHash')
@@ -371,8 +371,8 @@ describe('isolated-style-scope-plugin', () => {
         .mockReturnValue('test hash with spaces')
       const existsSyncSpy = jest
         .spyOn(fs, 'existsSync')
-        .mockImplementation((path: string) =>
-          path.includes('scope-hash.txt')
+        .mockImplementation((path: fs.PathLike) =>
+          String(path).includes('scope-hash.txt')
         )
       const getStyleScopeHashSpy = jest
         .spyOn(scopeHash, 'getStyleScopeHash')
