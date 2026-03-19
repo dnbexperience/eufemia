@@ -138,7 +138,7 @@ function Thumb({ value, currentIndex }: ThumbProps) {
         <Tooltip
           key={`group-${currentIndex}`}
           targetElement={elemRef}
-          forceOpen={Boolean(alwaysShowTooltip || forceActive)}
+          open={alwaysShowTooltip || forceActive || undefined}
           targetRefreshKey={value}
           showDelay={1}
           hideDelay={300}
