@@ -176,7 +176,7 @@ export default {
       errorUnsupportedFile:
         'Filen du prøver at uploade er ikke understøttet.',
       deleteButton: 'Slet',
-      fileListAriaLabel: 'uploadede filer',
+      listAriaLabel: 'uploadede filer',
     },
     Popover: {
       closeButtonTitle: 'Luk',

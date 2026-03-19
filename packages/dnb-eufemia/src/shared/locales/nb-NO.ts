@@ -174,7 +174,7 @@ export default {
         'Det er begrenset hvor mange filer du kan laste opp (%amount).',
       errorUnsupportedFile: 'Filen du prøver å laste opp er ikke støttet.',
       deleteButton: 'Slett',
-      fileListAriaLabel: 'opplastede filer',
+      listAriaLabel: 'opplastede filer',
     },
     Popover: {
       closeButtonTitle: 'Lukk',
