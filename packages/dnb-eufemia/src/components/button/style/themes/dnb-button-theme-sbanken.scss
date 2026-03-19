@@ -64,6 +64,15 @@
     }
   }
 
+  // Secondary button
+  &--secondary {
+    // Input-button
+    .dnb-button--input-button:not(&--has-text) {
+      &::after {
+        display: none;
+      }
+    }
+  }
   &--tertiary {
     --button-tertiary-focus-overflow--icon-top: 0;
     --button-tertiary-underline-overflow: -0.5rem;

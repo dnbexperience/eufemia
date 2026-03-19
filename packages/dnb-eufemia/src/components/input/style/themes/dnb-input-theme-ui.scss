@@ -59,28 +59,6 @@
     background-color: var(--color-black-3);
   }
 
-  &__status--error &__submit-button {
-    html:not([data-whatintent='touch'])
-      &__button.dnb-button--secondary:not(
-        &__button--has-text,
-        [disabled]
-      ):hover,
-    html:not([data-whatintent='touch'])
-      &__button.dnb-button--secondary:not(
-        &__button--has-text,
-        [disabled]
-      ):focus-visible {
-      &,
-      &::after {
-        background-color: var(--color-fire-red);
-      }
-
-      &:active {
-        color: var(--color-white);
-      }
-    }
-  }
-
   // Icon
   &__icon {
     color: var(--color-sea-green);
