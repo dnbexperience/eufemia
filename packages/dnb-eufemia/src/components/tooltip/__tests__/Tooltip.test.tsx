@@ -293,8 +293,8 @@ describe('Tooltip', () => {
         })
       })
 
-      it('remains open when forceOpen is true', async () => {
-        render(<Tooltip forceOpen open={false} />)
+      it('remains open when open is true', async () => {
+        render(<Tooltip open />)
 
         await waitFor(() => {
           expect(getMainElem().classList).toContain('dnb-tooltip--active')
