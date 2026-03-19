@@ -252,6 +252,104 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
 
   const WrapperElement: 'fieldset' | 'div' = label ? 'fieldset' : 'div'
   const hiddenInputValue = joinValues(values, delimiter)
+  const inputElement = (
+    <>
+      <div
+        className="dnb-segmented-field__group"
+        role="group"
+        data-segmented-selection={
+          groupSelectionRef.current ? 'all' : undefined
+        }
+      >
+        {inputs.map(
+          (
+            { id: inputId, onFocus: _a, onBlur: _b, ...itemProps },
+            index
+          ) => (
+            <SegmentedFieldSection
+              key={String(inputId)}
+              groupId={id}
+              inputId={String(inputId)}
+              itemProps={itemProps}
+              value={String(values[inputId] ?? '')}
+              overwriteMode={overwriteMode}
+              delimiter={
+                index !== inputs.length - 1 ? delimiter : undefined
+              }
+              groupDelimiter={delimiter}
+              disabled={Boolean(disabled)}
+              valuesRef={
+                valuesRef as React.RefObject<Record<string, string>>
+              }
+              inputs={inputs.map(({ id, mask }) => ({
+                id: String(id),
+                mask,
+              }))}
+              scopeRef={scopeRef}
+              sectionRefs={sectionRefs}
+              caretPositionsRef={caretPositionsRef}
+              sectionSelectionModeRef={sectionSelectionModeRef}
+              groupSelectionRef={groupSelectionRef}
+              clearGroupSelection={clearGroupSelection}
+              clearSectionSelection={clearSectionSelection}
+              selectWholeGroup={selectWholeGroup}
+              selectSection={selectSection}
+              setSectionCaret={setSectionCaret}
+              focusSection={focusSection}
+              onChange={onChange}
+              onGroupFocus={() => {
+                if (!areInputsInFocus.current) {
+                  onFocus?.(valuesRef.current as SegmentedFieldValue<T>)
+                }
+
+                areInputsInFocus.current = true
+              }}
+              onGroupBlur={(event) => {
+                if (!event.relatedTarget?.id?.startsWith(`${id}-`)) {
+                  const run = () =>
+                    onBlur?.(valuesRef.current as SegmentedFieldValue<T>)
+
+                  window.requestAnimationFrame(run)
+
+                  areInputsInFocus.current = false
+                  clearGroupSelection()
+                  clearSectionSelection()
+                }
+              }}
+              {...rest}
+            />
+          )
+        )}
+      </div>
+
+      {/*
+        Keep one real input in the DOM so the field keeps a single id-based
+        focus target. When that target receives focus, we redirect into the
+        first contentEditable section, while still exposing the joined value
+        as the canonical field string.
+      */}
+      <input
+        id={id}
+        className="dnb-segmented-field__hidden-input dnb-sr-only"
+        value={hiddenInputValue}
+        onFocus={focusFirstSection}
+        readOnly
+        tabIndex={-1}
+        aria-hidden
+      />
+    </>
+  )
+  const labelElement = label && (
+    <FormLabel
+      element="legend"
+      forId={id}
+      disabled={disabled}
+      labelDirection={labelDirection}
+      onClick={onLegendClick}
+    >
+      {label}
+    </FormLabel>
+  )
 
   return (
     <WrapperElement
@@ -269,21 +367,8 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
     >
       <Input
         {...rest}
-        _omitInputShellClass={_omitInputShellClass}
         id={id}
-        label={
-          label && (
-            <FormLabel
-              element="legend"
-              forId={id}
-              disabled={disabled}
-              labelDirection={labelDirection}
-              onClick={onLegendClick}
-            >
-              {label}
-            </FormLabel>
-          )
-        }
+        label={labelElement}
         className={clsx('dnb-segmented-field', className)}
         size={size}
         labelDirection={labelDirection}
@@ -292,97 +377,8 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
         statusState={statusState}
         suffix={suffix}
         stretch={stretch}
-        inputElement={
-          <>
-            <div
-              className="dnb-segmented-field__group"
-              role="group"
-              data-segmented-selection={
-                groupSelectionRef.current ? 'all' : undefined
-              }
-            >
-              {inputs.map(
-                (
-                  { id: inputId, onFocus: _a, onBlur: _b, ...itemProps },
-                  index
-                ) => (
-                  <SegmentedFieldSection
-                    key={String(inputId)}
-                    groupId={id}
-                    inputId={String(inputId)}
-                    itemProps={itemProps}
-                    value={String(values[inputId] ?? '')}
-                    overwriteMode={overwriteMode}
-                    delimiter={
-                      index !== inputs.length - 1 ? delimiter : undefined
-                    }
-                    groupDelimiter={delimiter}
-                    disabled={Boolean(disabled)}
-                    valuesRef={
-                      valuesRef as React.RefObject<Record<string, string>>
-                    }
-                    inputs={inputs.map(({ id, mask }) => ({
-                      id: String(id),
-                      mask,
-                    }))}
-                    scopeRef={scopeRef}
-                    sectionRefs={sectionRefs}
-                    caretPositionsRef={caretPositionsRef}
-                    sectionSelectionModeRef={sectionSelectionModeRef}
-                    groupSelectionRef={groupSelectionRef}
-                    clearGroupSelection={clearGroupSelection}
-                    clearSectionSelection={clearSectionSelection}
-                    selectWholeGroup={selectWholeGroup}
-                    selectSection={selectSection}
-                    setSectionCaret={setSectionCaret}
-                    focusSection={focusSection}
-                    onChange={onChange}
-                    onGroupFocus={() => {
-                      if (!areInputsInFocus.current) {
-                        onFocus?.(
-                          valuesRef.current as SegmentedFieldValue<T>
-                        )
-                      }
-
-                      areInputsInFocus.current = true
-                    }}
-                    onGroupBlur={(event) => {
-                      if (!event.relatedTarget?.id?.startsWith(`${id}-`)) {
-                        const run = () =>
-                          onBlur?.(
-                            valuesRef.current as SegmentedFieldValue<T>
-                          )
-
-                        window.requestAnimationFrame(run)
-
-                        areInputsInFocus.current = false
-                        clearGroupSelection()
-                        clearSectionSelection()
-                      }
-                    }}
-                    {...rest}
-                  />
-                )
-              )}
-            </div>
-
-            {/*
-              Keep one real input in the DOM so the field keeps a single id-based
-              focus target. When that target receives focus, we redirect into the
-              first contentEditable section, while still exposing the joined value
-              as the canonical field string.
-            */}
-            <input
-              id={id}
-              className="dnb-segmented-field__hidden-input dnb-sr-only"
-              value={hiddenInputValue}
-              onFocus={focusFirstSection}
-              readOnly
-              tabIndex={-1}
-              aria-hidden
-            />
-          </>
-        }
+        inputElement={inputElement}
+        _omitInputShellClass={_omitInputShellClass}
       />
     </WrapperElement>
   )

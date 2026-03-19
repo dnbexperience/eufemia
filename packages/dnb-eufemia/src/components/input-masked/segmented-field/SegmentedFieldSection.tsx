@@ -492,9 +492,16 @@ export default function SegmentedFieldSection({
           className
         )}
         data-segmented-input-id={inputId}
+        /**
+         * Chrome has an issue where it focuses the nearest element with
+         * contentEditable when clicking outside the Expiry field.
+         */
         contentEditable={!disabled}
-        // React warns about managed children inside contentEditable. We intentionally
-        // render controlled text here because each segment behaves like a custom input.
+        /**
+         * React warns about managed children inside contentEditable.
+         * We intentionally render controlled text here because each
+         * segment behaves like a custom input.
+         */
         suppressContentEditableWarning
         role={spinButton ? 'spinbutton' : 'textbox'}
         tabIndex={disabled ? -1 : 0}

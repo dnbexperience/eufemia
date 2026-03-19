@@ -12,7 +12,7 @@ export const segmentedFieldProperties: PropertiesTableProps = {
     status: 'optional',
   },
   inputs: {
-    doc: 'Array of [SegmentedField input definitions](/uilib/components/input-masked/properties/#segmentedfield-inputs-properties) describing each editable section.',
+    doc: 'Array of SegmentedField input definitions. E.g. for a month/year expiry field, you would define two inputs with ids "month" and "year".',
     type: 'array',
     status: 'required',
   },
