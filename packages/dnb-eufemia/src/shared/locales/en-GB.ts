@@ -114,8 +114,8 @@ export default {
       ariaReady: 'Ready to interact',
     },
     Input: {
-      submitButtonTitle: 'Submit button',
-      clearButtonTitle: 'Clear value',
+      submitButtonAriaLabel: 'Submit button',
+      clearButtonAriaLabel: 'Clear value',
     },
     Pagination: {
       buttonTitle: 'Page %s',

@@ -111,8 +111,8 @@ export default {
       ariaRole: 'Hjælp-knap',
     },
     Input: {
-      submitButtonTitle: 'Indsend',
-      clearButtonTitle: 'Nulstil',
+      submitButtonAriaLabel: 'Indsend',
+      clearButtonAriaLabel: 'Nulstil',
     },
     Pagination: {
       buttonTitle: 'Side %s',

@@ -149,10 +149,10 @@ export type InputProps = Omit<
      */
     autocomplete?: string
     /**
-     * Title attribute for the search/submit button. Only relevant when `type="search"`.
+     * Aria-label for the search/submit button. Only relevant when `type="search"`.
      */
-    submitButtonTitle?: string
-    clearButtonTitle?: string
+    submitButtonAriaLabel?: string
+    clearButtonAriaLabel?: string
     /**
      * The placeholder which shows up once the input value is empty.
      */
@@ -317,8 +317,8 @@ export const inputDefaultProps = {
 
   // Submit button
   submitElement: null,
-  submitButtonTitle: null,
-  clearButtonTitle: null,
+  submitButtonAriaLabel: null,
+  clearButtonAriaLabel: null,
   submitButtonVariant: 'secondary',
   submitButtonIcon: 'loupe',
   submitButtonStatus: null,
@@ -586,8 +586,8 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     suffix,
     align,
     inputClass,
-    submitButtonTitle,
-    clearButtonTitle,
+    submitButtonAriaLabel,
+    clearButtonAriaLabel,
     submitButtonVariant,
     submitButtonIcon,
     submitButtonStatus,
@@ -821,8 +821,8 @@ function InputComponent({ ref, ...restProps }: InputProps) {
                   type="button"
                   variant="tertiary"
                   aria-controls={id}
-                  aria-label={clearButtonTitle}
-                  tooltip={hasVal && clearButtonTitle}
+                  aria-label={clearButtonAriaLabel}
+                  tooltip={hasVal && clearButtonAriaLabel}
                   icon="close"
                   iconSize={size === 'small' ? 'small' : undefined}
                   skeleton={skeleton}
@@ -851,7 +851,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
                       ? 'medium'
                       : 'default'
                   }
-                  title={submitButtonTitle}
+                  title={submitButtonAriaLabel}
                   variant={submitButtonVariant}
                   disabled={disabled}
                   skeleton={skeleton}

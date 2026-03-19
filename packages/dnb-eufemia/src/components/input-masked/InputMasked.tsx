@@ -138,8 +138,8 @@ export type InputMaskedProps = Omit<
     labelSrOnly?: boolean
     inputState?: string
     autocomplete?: string
-    submitButtonTitle?: string
-    clearButtonTitle?: string
+    submitButtonAriaLabel?: string
+    clearButtonAriaLabel?: string
     placeholder?: React.ReactNode
     clear?: boolean
     keepPlaceholder?: boolean

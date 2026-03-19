@@ -199,7 +199,7 @@ export const InputSandbox = () => {
             type="search"
             align="right"
             stretch
-            submitButtonTitle="Custom search button title"
+            submitButtonAriaLabel="Custom search button title"
             placeholder="Large input clear button with right aligned text"
           />
         </Box>
@@ -209,7 +209,7 @@ export const InputSandbox = () => {
             status="Error"
             label="Disabled search:"
             type="search"
-            submitButtonTitle="Custom search button title"
+            submitButtonAriaLabel="Custom search button title"
             placeholder="Search text placeholder"
           />
         </Box>

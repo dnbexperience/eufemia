@@ -86,8 +86,8 @@ export const InputProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  submitButtonTitle: {
-    doc: 'Title attribute for the search/submit button. Only relevant when `type="search"`.',
+  submitButtonAriaLabel: {
+    doc: 'Aria-label for the search/submit button. Only relevant when `type="search"`.',
     type: 'string',
     status: 'optional',
   },

@@ -109,8 +109,8 @@ export default {
       ariaRole: 'Hjelp-knapp',
     },
     Input: {
-      submitButtonTitle: 'Send',
-      clearButtonTitle: 'Nullstill',
+      submitButtonAriaLabel: 'Send',
+      clearButtonAriaLabel: 'Nullstill',
     },
     Pagination: {
       buttonTitle: 'Side %s',
