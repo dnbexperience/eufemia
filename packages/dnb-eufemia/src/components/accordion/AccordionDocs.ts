@@ -17,7 +17,7 @@ export const AccordionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   expanded: {
-    doc: 'If set to `true` the accordion will be expanded as its initial state.',
+    doc: 'Use `true` or `false` to control the expanded/collapsed state of the accordion.',
     type: 'boolean',
     status: 'optional',
   },
