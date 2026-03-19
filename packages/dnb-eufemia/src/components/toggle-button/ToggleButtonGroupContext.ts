@@ -8,13 +8,13 @@ import React from 'react'
 export type ToggleButtonGroupContextValue = {
   name?: string
   value?: string | number | Record<string, unknown> | any[] | null
-  values?: any[]
-  size?: string
-  multiselect?: boolean | null
-  variant?: string | null
+  values?: string | any[]
+  size?: 'default' | 'small' | 'medium' | 'large'
+  multiselect?: boolean
+  variant?: 'default' | 'checkbox' | 'radio'
   leftComponent?: React.ReactNode
-  disabled?: boolean | null
-  skeleton?: boolean | string | null
+  disabled?: boolean
+  skeleton?: boolean
   status?: string
   setContext?: (
     context:
