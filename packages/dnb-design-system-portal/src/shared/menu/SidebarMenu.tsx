@@ -416,7 +416,7 @@ function ListItem({
         </div>
         {hasSubheadings && (
           <HeightAnimation
-            animate={isAccordion === true}
+            noAnimation={isAccordion !== true}
             element="ul"
             open={isExpanded}
             onAnimationEnd={(state) => {
