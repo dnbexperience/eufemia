@@ -126,7 +126,7 @@ export default {
       loadButtonText: 'Show more content',
     },
     StepIndicator: {
-      overviewTitle: 'Steps Overview',
+      overviewAriaLabel: 'Steps Overview',
       stepTitle: 'Step %step of %count:',
     },
     Slider: {

@@ -36,7 +36,7 @@ function StepIndicatorTriggerButton({
   const {
     stepsLabel,
     activeStep,
-    overviewTitle,
+    overviewAriaLabel,
     open,
     closeHandler,
     openHandler,
@@ -103,7 +103,7 @@ function StepIndicatorTriggerButton({
         large: [true, true, !open, !open],
       }}
       outset={isNested ? true : undefined}
-      aria-label={overviewTitle}
+      aria-label={overviewAriaLabel}
     >
       <HeightAnimation animate={!noAnimation}>
         <div {...(triggerParams as React.HTMLProps<HTMLDivElement>)}>

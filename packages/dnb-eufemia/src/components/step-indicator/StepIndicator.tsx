@@ -59,10 +59,10 @@ export type StepIndicatorProps = Omit<
      */
     data: StepIndicatorData
     /**
-     *  The title shown inside the `<StepIndicatorModal />` supplemental screen reader text for the `<StepIndicatorTriggerButton />`
+     *  The aria-label for the `<StepIndicatorTriggerButton />` section
      *  Defaults to `Steps Overview`
      */
-    overviewTitle?: string
+    overviewAriaLabel?: string
     /**
      *  The label for `<StepIndicatorTriggerButton />` and supplemental screen reader text for `<StepIndicatorItem />`
      *  This value need to contain `%step` and `%count` if you want to display the current step and total amount of steps

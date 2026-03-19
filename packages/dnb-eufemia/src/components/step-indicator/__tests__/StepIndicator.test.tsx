@@ -619,7 +619,7 @@ describe('StepIndicator ARIA', () => {
       <StepIndicator
         mode="loose"
         data={stepIndicatorListData}
-        overviewTitle="Custom Overview Title"
+        overviewAriaLabel="Custom Overview Title"
       />
     )
 
@@ -636,7 +636,7 @@ describe('StepIndicator ARIA', () => {
     expect(triggerDiv).toBeInTheDocument()
   })
 
-  it('should have default aria-label when overviewTitle is not provided', () => {
+  it('should have default aria-label when overviewAriaLabel is not provided', () => {
     render(<StepIndicator mode="loose" data={stepIndicatorListData} />)
 
     // The aria-label is on the section element that contains the trigger

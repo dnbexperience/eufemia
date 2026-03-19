@@ -127,7 +127,7 @@ export default {
       ariaReady: 'Klar til at interagere',
     },
     StepIndicator: {
-      overviewTitle: 'Trinoverblik',
+      overviewAriaLabel: 'Trinoverblik',
       stepTitle: 'Trin %step af %count:',
     },
     Slider: {

@@ -126,7 +126,7 @@ export default {
       ariaReady: 'Klar att interagera',
     },
     StepIndicator: {
-      overviewTitle: 'Stegöversikt',
+      overviewAriaLabel: 'Stegöversikt',
       stepTitle: 'Steg %step av %count:',
     },
     Slider: {

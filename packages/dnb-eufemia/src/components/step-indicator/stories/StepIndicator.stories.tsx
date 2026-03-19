@@ -294,7 +294,7 @@ export const TitleTests = () => {
     <>
       <Box>
         <StepIndicator
-          overviewTitle="Custom Overview Title"
+          overviewAriaLabel="Custom Overview Title"
           stepTitle="Custom Step Title"
           top="large"
           mode="loose"

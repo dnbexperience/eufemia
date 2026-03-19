@@ -16,8 +16,8 @@ export const StepIndicatorProperties: PropertiesTableProps = {
     type: 'number',
     status: 'optional',
   },
-  overviewTitle: {
-    doc: 'The title shown inside the `<StepIndicatorModal />` supplemental screen reader text for the `<StepIndicatorTriggerButton />`. Defaults to `Steps Overview`.',
+  overviewAriaLabel: {
+    doc: 'The aria-label for the `<StepIndicatorTriggerButton />` section. Defaults to `Steps Overview`.',
     type: 'string',
     status: 'optional',
   },
