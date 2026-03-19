@@ -63,7 +63,7 @@ export type FormStatusBaseProps = {
    */
   status?: FormStatusText
   /**
-   * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
+   * Defines the state of the status. Defaults to `error`.
    */
   statusState?: FormStatusState
   /**

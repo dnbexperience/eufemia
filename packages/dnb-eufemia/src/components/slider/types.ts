@@ -5,6 +5,7 @@ import type { NumberFormatOptionParams } from '../number-format/NumberUtils'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import type { GlobalStatusConfigObject } from '../GlobalStatus'
+import type { FormStatusState } from '../FormStatus'
 
 export type SliderValue = number | Array<number>
 export type SliderNumberFormat =
@@ -35,8 +36,8 @@ export type SliderProps = {
   /** text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message. */
   status?: string | boolean
 
-  /** defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`. */
-  statusState?: 'error' | 'info'
+  /** defines the state of the status. Defaults to `error`. */
+  statusState?: FormStatusState
 
   /** use an object to define additional FormStatus properties. */
   statusProps?: Record<string, unknown>
