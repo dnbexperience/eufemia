@@ -175,7 +175,7 @@ export default {
         'Det är begränsat hur många filer du kan ladda upp (%amount).',
       errorUnsupportedFile: 'Filen du försöker ladda upp stöds inte.',
       deleteButton: 'Radera',
-      fileListAriaLabel: 'uppladdade filer',
+      listAriaLabel: 'uppladdade filer',
     },
     Popover: {
       closeButtonTitle: 'Stäng',
