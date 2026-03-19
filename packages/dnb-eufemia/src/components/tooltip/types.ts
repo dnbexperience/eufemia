@@ -17,7 +17,7 @@ export type TooltipProps = {
   id?: string
   size?: TooltipSize
   /**
-   * Controls visibility. When provided, Tooltip is controlled and ignores DOM events (hover/focus/touch). `true` keeps it visible; `false` keeps it hidden.
+   * Controls visibility. When provided as a boolean, Tooltip is controlled and ignores DOM events (hover/focus/touch). `true` keeps it visible; `false` keeps it hidden. When not provided (undefined), the Tooltip uses default hover/focus behavior.
    */
   open?: boolean
   placement?: TooltipPlacement
@@ -42,10 +42,6 @@ export type TooltipProps = {
   portalRootClass?: string
   targetSelector?: string
   targetElement?: React.ReactNode | React.RefObject<unknown> | HTMLElement
-  /**
-   * Forces the tooltip to stay open even when the hover state changes.
-   */
-  forceOpen?: boolean
   tooltip?: React.ReactNode
   className?: string
   children?: React.ReactNode
