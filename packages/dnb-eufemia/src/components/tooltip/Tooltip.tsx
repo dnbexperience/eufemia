@@ -45,14 +45,13 @@ function Tooltip(localProps: TooltipAllProps) {
     omitDescribedBy,
     contentRef,
     triggerOffset,
-    forceOpen,
     ...attributeProps
   } = props
 
   const targetSource = targetElement || targetSelector
   const target = useTooltipTarget(targetElement, targetSelector)
   const internalId = useId(id)
-  const [isControlled] = useState(() => typeof open === 'boolean')
+  const isControlled = typeof open === 'boolean'
 
   if (targetSource && !target) {
     return null
@@ -69,7 +68,6 @@ function Tooltip(localProps: TooltipAllProps) {
       <TooltipWithEvents
         target={target}
         attributes={attributes}
-        forceOpen={forceOpen}
         {...props}
       >
         {children}
