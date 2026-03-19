@@ -26,7 +26,7 @@ function Drawer({
   disabled,
 
   title,
-  dialogTitle,
+  ariaLabel,
   closeTitle,
   containerPlacement = 'right',
   spacing = true,
@@ -73,7 +73,7 @@ function Drawer({
     spacing,
     openDelay,
     contentId,
-    dialogTitle,
+    ariaLabel,
     closeTitle,
     hideCloseButton,
     preventClose,

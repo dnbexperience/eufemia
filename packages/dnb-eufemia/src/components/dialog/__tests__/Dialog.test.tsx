@@ -155,7 +155,7 @@ describe('Dialog', () => {
         <Dialog
           noAnimation
           open
-          title={<Translation id="Modal.dialogTitle" />}
+          title={<Translation id="Modal.ariaLabel" />}
         />
       </Provider>
     )
@@ -171,7 +171,7 @@ describe('Dialog', () => {
         <Dialog
           noAnimation
           open
-          title={<Translation id="Modal.dialogTitle" />}
+          title={<Translation id="Modal.ariaLabel" />}
         />
       </Provider>
     )

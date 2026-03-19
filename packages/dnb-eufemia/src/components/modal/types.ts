@@ -200,7 +200,7 @@ export type ModalContentProps = {
   /**
    * The aria label of the dialog when no labelledBy and no title is given. Defaults to `Vindu`.
    */
-  dialogTitle?: string
+  ariaLabel?: string
 
   /**
    * If boolean, the close button will not be shown.

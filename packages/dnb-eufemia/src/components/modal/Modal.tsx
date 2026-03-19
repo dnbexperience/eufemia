@@ -90,7 +90,7 @@ class Modal extends React.PureComponent<ModalAllProps, ModalState> {
     spacing: true,
     openDelay: null,
     contentId: null,
-    dialogTitle: 'Vindu',
+    ariaLabel: 'Vindu',
     closeTitle: 'Lukk', // Close Modal Window
     hideCloseButton: false,
     closeButtonAttributes: null,

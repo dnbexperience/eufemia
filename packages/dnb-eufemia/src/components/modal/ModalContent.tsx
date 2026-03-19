@@ -441,7 +441,7 @@ export default class ModalContent extends React.PureComponent<
       labelledBy,
       id: _id,
       closeTitle = 'Lukk',
-      dialogTitle = 'Vindu',
+      ariaLabel = 'Vindu',
       hideCloseButton = false,
       closeButtonAttributes,
       noAnimation = false,
@@ -496,9 +496,9 @@ export default class ModalContent extends React.PureComponent<
 
       /**
        * If no labelledBy and no title is given,
-       * set a fallback "dialogTitle"
+       * set a fallback "ariaLabel"
        */
-      'aria-label': !title && !labelledBy ? dialogTitle : undefined,
+      'aria-label': !title && !labelledBy ? ariaLabel : undefined,
 
       className: clsx(
         'dnb-modal__content',

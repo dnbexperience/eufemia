@@ -91,7 +91,7 @@ export default {
       indicatorLabel: 'Getting data ...',
     },
     Modal: {
-      dialogTitle: 'Dialog Window',
+      ariaLabel: 'Dialog Window',
       closeTitle: 'Close',
     },
     Dialog: {

@@ -91,7 +91,7 @@ export default {
       indicatorLabel: 'Hämtar data ...',
     },
     Modal: {
-      dialogTitle: 'Separat fönster',
+      ariaLabel: 'Separat fönster',
       closeTitle: 'Stäng',
     },
     Dialog: {

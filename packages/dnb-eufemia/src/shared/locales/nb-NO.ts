@@ -90,7 +90,7 @@ export default {
       indicatorLabel: 'Henter data ...',
     },
     Modal: {
-      dialogTitle: 'Separat Vindu',
+      ariaLabel: 'Separat Vindu',
       closeTitle: 'Lukk',
     },
     Dialog: {

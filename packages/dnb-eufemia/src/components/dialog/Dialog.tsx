@@ -39,7 +39,7 @@ function Dialog(localProps: DialogProps & DialogContentProps) {
 
     variant,
     title,
-    dialogTitle,
+    ariaLabel,
     closeTitle,
     spacing,
     verticalAlignment,
@@ -104,7 +104,7 @@ function Dialog(localProps: DialogProps & DialogContentProps) {
     verticalAlignment,
     openDelay,
     contentId,
-    dialogTitle,
+    ariaLabel,
     closeTitle,
     hideCloseButton: currentHideCloseButton,
     preventClose,

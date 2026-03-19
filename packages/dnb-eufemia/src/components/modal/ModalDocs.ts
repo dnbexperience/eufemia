@@ -106,7 +106,7 @@ export const ModalProperties: PropertiesTableProps = {
     type: 'Various',
     status: 'optional',
   },
-  dialogTitle: {
+  ariaLabel: {
     doc: 'The aria label of the dialog when no labelledBy and no title is given. Defaults to `Vindu`.',
     type: 'string',
     status: 'optional',

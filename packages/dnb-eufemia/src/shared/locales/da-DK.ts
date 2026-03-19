@@ -92,7 +92,7 @@ export default {
       indicatorLabel: 'Henter data ...',
     },
     Modal: {
-      dialogTitle: 'Separat vindue',
+      ariaLabel: 'Separat vindue',
       closeTitle: 'Luk',
     },
     Dialog: {
