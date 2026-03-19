@@ -155,7 +155,7 @@ describe('Theme', () => {
       ref,
       ...rest
     }: {
-      children: React.ReactNode
+      children?: React.ReactNode
       ref?: React.Ref<HTMLElement>
     }) => (
       <section {...rest} ref={ref}>

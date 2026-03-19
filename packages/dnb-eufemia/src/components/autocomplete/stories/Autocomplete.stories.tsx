@@ -200,10 +200,14 @@ const AutocompleteWithState = () => {
         console.log('value 1', value)
         setResults(topMovies)
         debounce(
-          ({ value, results }) => {
+          (...args: unknown[]) => {
+            const props = args[0] as {
+              value: string
+              results: DrawerListData
+            }
             const timeout = setTimeout(() => {
-              console.log('value 2', value, results)
-              updateData(results)
+              console.log('value 2', props.value, props.results)
+              updateData(props.results)
               hideIndicator()
             }, 600)
             return () => clearTimeout(timeout)
@@ -934,7 +938,7 @@ export const OpenedEmptyDataExample = () => {
   )
 }
 
-function getIconString(value: number | undefined) {
+function getIconString(value: string | number | undefined) {
   switch (value) {
     case 0:
       return 'chevron-up'
@@ -949,7 +953,7 @@ function getIconString(value: number | undefined) {
   return 'loupe'
 }
 
-function getIconElement(value: number | undefined) {
+function getIconElement(value: string | number | undefined) {
   switch (value) {
     case 0:
       return <ChevronUp />

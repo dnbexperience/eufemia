@@ -221,7 +221,8 @@ describe('Iterate.Count', () => {
         const data = {
           myList: { foo: 1, bar: 2, baz: 3 },
         }
-        const filter = ([key, value]) => {
+        const filter = (item: unknown) => {
+          const [, value] = item as [string, number]
           return value > 1
         }
 
@@ -261,7 +262,8 @@ describe('Iterate.Count', () => {
         const data = {
           myList: { foo: 1, bar: 2, baz: 3 },
         }
-        const filter = ([key, value]) => {
+        const filter = (item: unknown) => {
+          const [, value] = item as [string, number]
           return value > 1
         }
         let value = null

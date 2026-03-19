@@ -5,16 +5,18 @@ export default {
   title: 'Eufemia/Extensions/Forms/DateOfBirth',
 }
 
-const transformOut = (internal, additionalArgs: AdditionalArgs) => {
-  if (additionalArgs) {
-    const { year, month, day } = additionalArgs
+const transformOut = (internal: unknown, additionalArgs?: unknown) => {
+  const args = additionalArgs as AdditionalArgs
+  if (args) {
+    const { year, month, day } = args
     return { year, month, day }
   }
 }
 
-const transformIn = (external: AdditionalArgs) => {
-  if (external) {
-    const { year, month, day } = external
+const transformIn = (external: unknown) => {
+  const ext = external as AdditionalArgs
+  if (ext) {
+    const { year, month, day } = ext
     return `${year}-${month}-${day}`
   }
 }

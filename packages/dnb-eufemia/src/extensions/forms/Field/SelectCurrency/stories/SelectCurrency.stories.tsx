@@ -19,15 +19,16 @@ export function SelectCurrency() {
     <Field.SelectCurrency
       required
       value={state}
-      onChange={(value: CurrencyISO, data) => {
+      onChange={(value, data) => {
         console.log('onChange', value, data)
-        update(value)
+        update(value as CurrencyISO)
       }}
     />
   )
 }
 
-const transformOut = (internal: CurrencyType, currency: CurrencyType) => {
+const transformOut = (internal: unknown, additionalArgs?: unknown) => {
+  const currency = additionalArgs as CurrencyType
   if (internal) {
     return `${currency.name} (${internal})`
   }

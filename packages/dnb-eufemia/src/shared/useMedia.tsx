@@ -125,12 +125,10 @@ export default function useMedia(
   const isDisabledRef = useRef(disabled)
 
   const removeListeners = useCallback(() => {
-    Object.entries(refs.current).forEach(
-      ([key, item]: [Keys, UseMediaItem]) => {
-        item?.event?.()
-        delete refs.current[key]
-      }
-    )
+    Object.entries(refs.current).forEach(([key, item]) => {
+      ;(item as UseMediaItem)?.event?.()
+      delete refs.current[key]
+    })
   }, [])
 
   const runQuery = useCallback(

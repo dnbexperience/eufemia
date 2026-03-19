@@ -290,12 +290,14 @@ export const DialogConfirmCookies = () => (
           text="Administrer"
           icon={edit}
           iconPosition="left"
+          // @ts-expect-error -- strictFunctionTypes
           onClick={({ close }) => {
             close()
           }}
         />
         <Button
           text="Jeg godtar"
+          // @ts-expect-error -- strictFunctionTypes
           onClick={({ close }) => {
             close()
           }}
@@ -390,12 +392,14 @@ export const DialogConfirmScrollableContent = () => {
                   variant="tertiary"
                   text="Administrer"
                   iconPosition="left"
+                  // @ts-expect-error -- strictFunctionTypes
                   onClick={({ close }) => {
                     close()
                   }}
                 />
                 <Button
                   text="Jeg godtar alle"
+                  // @ts-expect-error -- strictFunctionTypes
                   onClick={({ close }) => {
                     close()
                   }}

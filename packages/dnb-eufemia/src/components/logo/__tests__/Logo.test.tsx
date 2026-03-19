@@ -208,7 +208,7 @@ describe('Logo component', () => {
     const CustomSvg = ({
       alt,
       ...props
-    }: React.SVGProps<SVGSVGElement> & { alt: React.ReactNode }) => (
+    }: React.SVGProps<SVGSVGElement> & { alt?: React.ReactNode }) => (
       <svg viewBox="0 0 10 10" {...props}>
         <title>{alt}</title>
         <circle cx="5" cy="5" r="5" />

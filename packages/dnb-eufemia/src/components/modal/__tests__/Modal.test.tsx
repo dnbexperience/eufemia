@@ -8,7 +8,7 @@ import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import Input from '../../input/Input'
 import Modal from '../Modal'
-import type { ModalProps } from '../types'
+import type { ModalProps, ModalContentProps } from '../types'
 import Button from '../../button/Button'
 import DialogContent from '../../dialog/DialogContent'
 import * as helpers from '../../../shared/helpers'
@@ -1721,11 +1721,13 @@ describe('Modal component', () => {
 
       render(
         <Modal noAnimation onClose={onClose} hideCloseButton>
-          {({ close }) => {
-            return (
-              <Button id="close-button" text="close" onClick={close} />
-            )
-          }}
+          {
+            (({ close }) => {
+              return (
+                <Button id="close-button" text="close" onClick={close} />
+              )
+            }) as (props: ModalContentProps) => React.ReactNode
+          }
         </Modal>
       )
 

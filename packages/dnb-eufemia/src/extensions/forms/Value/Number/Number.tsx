@@ -34,6 +34,7 @@ function NumberValue(props: Props) {
     itemPath,
     inheritLabel,
     ...rest
+    // @ts-expect-error - strictFunctionTypes
   } = useValueProps(props)
   const numberFormatProps = omitSpacingProps(rest)
 

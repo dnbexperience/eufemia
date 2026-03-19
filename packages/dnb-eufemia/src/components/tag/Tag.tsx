@@ -5,7 +5,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 // Components
 import IconPrimary from '../icon-primary/IconPrimary'
 import type { IconIcon } from '../icon/Icon'
-import type { ButtonProps } from '../button/Button'
+import type { ButtonProps, ButtonOnClick } from '../button/Button'
 import Button from '../button/Button'
 
 // Shared
@@ -179,7 +179,7 @@ const Tag = (
       }
       iconPosition={addIcon ? 'right' : 'left'}
       className={tagClassNames}
-      onClick={onClick}
+      onClick={onClick as ButtonOnClick}
       text={content}
       skeleton={skeleton}
       onKeyUp={

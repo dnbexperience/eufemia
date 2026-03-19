@@ -89,12 +89,14 @@ describe('Drawer', () => {
         onClose={onClose}
         hideCloseButton
       >
-        {({ close }) => (
-          <>
-            <h1>title</h1>
-            <Button id="close-me" text="close" onClick={close} />
-          </>
-        )}
+        {
+          (({ close }) => (
+            <>
+              <h1>title</h1>
+              <Button id="close-me" text="close" onClick={close} />
+            </>
+          )) as (...args: unknown[]) => React.ReactNode
+        }
       </Drawer>
     )
 
@@ -116,16 +118,18 @@ describe('Drawer', () => {
         onClose={onClose}
         hideCloseButton
       >
-        {({ close }) => (
-          <>
-            <Drawer.Navigation>Drawer.Navigation</Drawer.Navigation>
-            <Drawer.Header>
-              <h1>Drawer.Header</h1>
-              <Button id="close-me" onClick={close} />
-            </Drawer.Header>
-            <Drawer.Body>Drawer.Body</Drawer.Body>
-          </>
-        )}
+        {
+          (({ close }) => (
+            <>
+              <Drawer.Navigation>Drawer.Navigation</Drawer.Navigation>
+              <Drawer.Header>
+                <h1>Drawer.Header</h1>
+                <Button id="close-me" onClick={close} />
+              </Drawer.Header>
+              <Drawer.Body>Drawer.Body</Drawer.Body>
+            </>
+          )) as (...args: unknown[]) => React.ReactNode
+        }
       </Drawer>
     )
 
@@ -489,9 +493,11 @@ describe('Drawer', () => {
         onClose={onClose}
         hideCloseButton
       >
-        {({ close }) => (
-          <Button id="close-button" text="close" onClick={close} />
-        )}
+        {
+          (({ close }) => (
+            <Button id="close-button" text="close" onClick={close} />
+          )) as (...args: unknown[]) => React.ReactNode
+        }
       </Drawer>
     )
 
