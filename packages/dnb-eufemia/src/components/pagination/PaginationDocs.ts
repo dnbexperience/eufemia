@@ -106,8 +106,8 @@ export const PaginationProperties: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
-  buttonTitle: {
-    doc: 'The title used in every button shown in the bar. Defaults to `Side %s`.',
+  buttonAriaLabel: {
+    doc: 'The aria-label used in every button shown in the bar. Defaults to `Side %s`.',
     type: 'string',
     status: 'optional',
   },

@@ -118,7 +118,7 @@ export default {
       clearButtonTitle: 'Clear value',
     },
     Pagination: {
-      buttonTitle: 'Page %s',
+      buttonAriaLabel: 'Page %s',
       nextTitle: 'Next page',
       prevTitle: 'Previous page',
       morePages: '%s more pages',

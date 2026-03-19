@@ -114,7 +114,7 @@ export default {
       clearButtonTitle: 'Återställ',
     },
     Pagination: {
-      buttonTitle: 'Sida %s',
+      buttonAriaLabel: 'Sida %s',
       nextTitle: 'Nästa sida',
       prevTitle: 'Föregående sida',
       morePages: '%s fler sidor',

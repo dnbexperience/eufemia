@@ -115,7 +115,7 @@ export default {
       clearButtonTitle: 'Nulstil',
     },
     Pagination: {
-      buttonTitle: 'Side %s',
+      buttonAriaLabel: 'Side %s',
       nextTitle: 'Næste side',
       prevTitle: 'Forrige side',
       morePages: '%s flere sider',

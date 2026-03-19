@@ -26,9 +26,9 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type PaginationBarProps = {
   /**
-   * The title used in every button shown in the bar. Defaults to Side %s.
+   * The aria-label used in every button shown in the bar. Defaults to Side %s.
    */
-  buttonTitle?: string
+  buttonAriaLabel?: string
 
   /**
    *  The title used in the previous page button. Defaults to Forrige side.
@@ -74,7 +74,7 @@ type PaginationBarContext = {
 }
 
 const defaultProps: Partial<PaginationBarProps> = {
-  buttonTitle: null,
+  buttonAriaLabel: null,
   prevTitle: null,
   nextTitle: null,
   morePages: null,
@@ -168,7 +168,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
   }
 
   const { getTranslation } = useContext(Context)
-  const { buttonTitle, prevTitle, nextTitle, morePages } =
+  const { buttonAriaLabel, prevTitle, nextTitle, morePages } =
     extendPropsWithContext(
       props,
       defaultProps,
@@ -234,7 +234,10 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
               key={pageNumber}
               className="dnb-pagination__button"
               text={String(pageNumber)}
-              aria-label={buttonTitle.replace('%s', String(pageNumber))}
+              aria-label={buttonAriaLabel.replace(
+                '%s',
+                String(pageNumber)
+              )}
               variant={
                 pageNumber === currentPageInternal
                   ? 'primary'
@@ -276,7 +279,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
                         : null
                     )}
                     text={String(pageNumber)}
-                    aria-label={buttonTitle.replace(
+                    aria-label={buttonAriaLabel.replace(
                       '%s',
                       String(pageNumber)
                     )}
@@ -302,7 +305,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
       </div>
 
       <span className="dnb-sr-only" aria-live="assertive">
-        {buttonTitle.replace('%s', String(currentPageInternal))}
+        {buttonAriaLabel.replace('%s', String(currentPageInternal))}
       </span>
     </div>
   )

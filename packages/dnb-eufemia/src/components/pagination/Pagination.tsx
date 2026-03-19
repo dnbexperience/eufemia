@@ -187,9 +187,9 @@ export type PaginationProps = {
    */
   align?: string
   /**
-   * The title used in every button shown in the bar. Defaults to `Side %s`.
+   * The aria-label used in every button shown in the bar. Defaults to `Side %s`.
    */
-  buttonTitle?: string
+  buttonAriaLabel?: string
   /**
    * The title used in the previous page button. Defaults to `Forrige side`.
    */
@@ -254,7 +254,7 @@ const paginationDefaultProps = {
   markerElement: undefined,
   indicatorElement: undefined,
   align: 'left',
-  buttonTitle: null,
+  buttonAriaLabel: null,
   prevTitle: null,
   nextTitle: null,
   morePages: null,
@@ -354,7 +354,7 @@ class PaginationInstance extends React.PureComponent<PaginationProps> {
       pageElement: _pageElement,
       startupCount: _startupCount,
       parallelLoadCount: _parallelLoadCount,
-      buttonTitle: _buttonTitle,
+      buttonAriaLabel: _buttonAriaLabel,
       prevTitle: _prevTitle,
       nextTitle: _nextTitle,
       morePages: _morePages,
