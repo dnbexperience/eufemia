@@ -45,8 +45,7 @@ import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import Suffix from '../../shared/helpers/Suffix'
 import AriaLive from '../aria-live/AriaLive'
-import FormLabel from '../form-label/FormLabel'
-import FormStatus from '../form-status/FormStatus'
+import useFormField from '../../shared/helpers/useFormField'
 import IconPrimary from '../icon-primary/IconPrimary'
 import Input, {
   SubmitButton,
@@ -2426,6 +2425,22 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       ? `${id}-inner`
       : null
 
+  const { labelElement, statusElement } = useFormField({
+    id,
+    label,
+    labelDirection,
+    labelSrOnly,
+    disabled,
+    skeleton,
+    status,
+    statusState,
+    statusProps,
+    statusNoAnimation,
+    globalStatus,
+    widthSelector: innerId,
+    labelOnClick: toggleVisible as unknown as React.MouseEventHandler,
+  })
+
   validateDOMAttributes(null, mainParams)
   validateDOMAttributes(null, shellParams)
 
@@ -2470,35 +2485,12 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
   return (
     <span {...mainParams}>
-      {label && (
-        <FormLabel
-          id={id + '-label'}
-          forId={id}
-          text={label}
-          labelDirection={labelDirection}
-          srOnly={labelSrOnly}
-          disabled={disabled}
-          skeleton={skeleton}
-          onClick={toggleVisible as unknown as React.MouseEventHandler}
-        />
-      )}
+      {labelElement}
 
       <span className="dnb-autocomplete__inner" ref={_ref} id={innerId}>
         <AlignmentHelper />
 
-        <FormStatus
-          show={showStatus}
-          id={id + '-form-status'}
-          globalStatus={globalStatus}
-          label={label}
-          textId={id + '-status'}
-          text={status}
-          state={statusState}
-          noAnimation={statusNoAnimation}
-          skeleton={skeleton}
-          widthSelector={innerId}
-          {...statusProps}
-        />
+        {statusElement}
 
         <span className="dnb-autocomplete__row">
           <span {...shellParams}>

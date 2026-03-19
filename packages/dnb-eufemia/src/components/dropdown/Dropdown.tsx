@@ -7,7 +7,6 @@ import React, { useContext, useRef, useCallback } from 'react'
 import clsx from 'clsx'
 import {
   validateDOMAttributes,
-  getStatusState,
   combineDescribedBy,
   combineLabelledBy,
   dispatchCustomElementEvent,
@@ -24,8 +23,7 @@ import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 import Suffix from '../../shared/helpers/Suffix'
 import Icon from '../icon-primary/IconPrimary'
-import FormLabel from '../form-label/FormLabel'
-import FormStatus from '../form-status/FormStatus'
+import useFormField from '../../shared/helpers/useFormField'
 import Button from '../button/Button'
 import DrawerList from '../../fragments/drawer-list/DrawerList'
 import DrawerListContext from '../../fragments/drawer-list/DrawerListContext'
@@ -543,7 +541,20 @@ const DropdownInstance = React.memo(function DropdownInstance({
   }
 
   const { id, selectedItem, direction, open } = context.drawerList
-  const showStatus = getStatusState(status)
+  const { labelElement, statusElement, showStatus } = useFormField({
+    id,
+    label,
+    labelDirection,
+    labelSrOnly,
+    disabled,
+    skeleton,
+    status,
+    statusState,
+    statusProps,
+    statusNoAnimation,
+    globalStatus,
+    labelOnClick: onClickHandler,
+  })
 
   Object.assign(
     context.drawerList.attributes,
@@ -614,34 +625,12 @@ const DropdownInstance = React.memo(function DropdownInstance({
 
   return (
     <span ref={setRootRef} {...mainParams}>
-      {label && (
-        <FormLabel
-          id={id + '-label'}
-          forId={id}
-          text={label}
-          labelDirection={labelDirection}
-          srOnly={labelSrOnly}
-          disabled={disabled}
-          skeleton={skeleton}
-          onClick={onClickHandler}
-        />
-      )}
+      {labelElement}
 
       <span className="dnb-dropdown__inner" ref={wrapperRef}>
         <AlignmentHelper />
 
-        <FormStatus
-          show={showStatus}
-          id={id + '-form-status'}
-          globalStatus={globalStatus}
-          label={label}
-          textId={id + '-status'} // used for "aria-describedby"
-          text={status}
-          state={statusState}
-          noAnimation={statusNoAnimation}
-          skeleton={skeleton}
-          {...statusProps}
-        />
+        {statusElement}
 
         <span className="dnb-dropdown__row">
           <span className="dnb-dropdown__shell">

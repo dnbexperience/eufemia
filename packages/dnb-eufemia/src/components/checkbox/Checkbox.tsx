@@ -32,8 +32,7 @@ import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import type { FormStatusBaseProps } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
 
-import FormLabel from '../form-label/FormLabel'
-import FormStatus from '../form-status/FormStatus'
+import useFormField from '../../shared/helpers/useFormField'
 import CheckIcon from './CheckIcon'
 
 export type CheckboxLabelPosition = 'left' | 'right'
@@ -258,6 +257,20 @@ function Checkbox(localProps: CheckboxProps) {
 
   const showStatus = getStatusState(status)
 
+  const { labelElement, statusElement } = useFormField({
+    id,
+    label,
+    labelSrOnly,
+    disabled,
+    skeleton,
+    status,
+    statusState,
+    statusProps,
+    statusNoAnimation,
+    globalStatus,
+    widthSelector: id + ', ' + id + '-label',
+  })
+
   /**
    * Adds aria attributes, calls validateDOMAttributes and skeletonDOMAttributes and returns the result
    */
@@ -312,41 +325,16 @@ function Checkbox(localProps: CheckboxProps) {
 
   const inputParams = handleInputAttributes()
 
-  const statusComp = (
-    <FormStatus
-      show={showStatus}
-      id={id + '-form-status'}
-      globalStatus={globalStatus}
-      label={label}
-      textId={id + '-status'} // used for "aria-describedby"
-      widthSelector={id + ', ' + id + '-label'}
-      text={status}
-      state={statusState}
-      noAnimation={statusNoAnimation}
-      skeleton={skeleton}
-      {...statusProps}
-    />
-  )
-
   const Element = element || 'input'
 
   return (
     <span {...mainParams}>
       <span className="dnb-checkbox__order">
-        {label && (
-          <FormLabel
-            id={id + '-label'}
-            forId={id}
-            text={label}
-            disabled={disabled}
-            skeleton={skeleton}
-            srOnly={labelSrOnly}
-          />
-        )}
+        {labelElement}
 
         <span className="dnb-checkbox__inner">
           <AlignmentHelper />
-          {labelPosition === 'left' && statusComp}
+          {labelPosition === 'left' && statusElement}
 
           <span className="dnb-checkbox__shell">
             <Element
@@ -391,7 +379,7 @@ function Checkbox(localProps: CheckboxProps) {
         )}
       </span>
 
-      {(labelPosition === 'right' || !labelPosition) && statusComp}
+      {(labelPosition === 'right' || !labelPosition) && statusElement}
     </span>
   )
 }

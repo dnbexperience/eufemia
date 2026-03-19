@@ -22,7 +22,6 @@ import {
   removeUndefinedProps,
   validateDOMAttributes,
   processChildren,
-  getStatusState,
   combineDescribedBy,
   dispatchCustomElementEvent,
   convertJsxToString,
@@ -34,8 +33,7 @@ import {
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 import Button from '../button/Button'
-import FormLabel from '../form-label/FormLabel'
-import FormStatus from '../form-status/FormStatus'
+import useFormField from '../../shared/helpers/useFormField'
 import IconPrimary from '../icon-primary/IconPrimary'
 import Context from '../../shared/Context'
 
@@ -630,7 +628,19 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   const sizeIsNumber = parseFloat(size) > 0
 
   const id = _id
-  const showStatus = getStatusState(status)
+  const { labelElement, statusElement, showStatus } = useFormField({
+    id,
+    label,
+    labelDirection,
+    labelSrOnly,
+    disabled,
+    skeleton,
+    status,
+    statusState,
+    statusProps,
+    statusNoAnimation,
+    globalStatus,
+  })
   const hasSubmitButton =
     submitElement || (submitElement !== false && type === 'search')
   const hasVal = hasValue(value)
@@ -750,33 +760,12 @@ function InputComponent({ ref, ...restProps }: InputProps) {
 
   return (
     <span {...mainParams}>
-      {label && (
-        <FormLabel
-          id={id + '-label'}
-          forId={id}
-          text={label}
-          labelDirection={labelDirection}
-          srOnly={labelSrOnly}
-          disabled={disabled}
-          skeleton={skeleton}
-        />
-      )}
+      {labelElement}
 
       <span {...innerParams}>
         <AlignmentHelper />
 
-        <FormStatus
-          show={showStatus}
-          id={id + '-form-status'}
-          globalStatus={globalStatus}
-          label={label}
-          text={status}
-          state={statusState}
-          textId={id + '-status'} // used for "aria-describedby"
-          noAnimation={statusNoAnimation}
-          skeleton={skeleton}
-          {...statusProps}
-        />
+        {statusElement}
 
         <span className="dnb-input__row">
           <span {...shellParams}>

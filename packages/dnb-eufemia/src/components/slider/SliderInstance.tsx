@@ -16,8 +16,7 @@ import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import Button from '../button/Button'
 import type { ButtonOnClick } from '../button/Button'
-import FormLabel from '../form-label/FormLabel'
-import FormStatus from '../form-status/FormStatus'
+import useFormField from '../../shared/helpers/useFormField'
 
 import {
   SliderMainTrack,
@@ -57,6 +56,21 @@ export function SliderInstance() {
     extensions,
   } = allProps
 
+  const { labelElement, statusElement } = useFormField({
+    id,
+    label,
+    labelDirection,
+    labelSrOnly,
+    disabled,
+    skeleton,
+    status,
+    statusState,
+    statusProps,
+    statusNoAnimation,
+    globalStatus,
+    forId: `${id}-thumb-0`,
+  })
+
   const mainParams = {
     className: clsx(
       'dnb-slider',
@@ -82,32 +96,12 @@ export function SliderInstance() {
 
   return (
     <span {...mainParams}>
-      {label && (
-        <FormLabel
-          forId={`${id}-thumb-0`}
-          id={id + '-label'}
-          text={label}
-          disabled={disabled}
-          skeleton={skeleton}
-          labelDirection={labelDirection}
-          srOnly={labelSrOnly}
-        />
-      )}
+      {labelElement}
 
       <span className="dnb-slider__wrapper">
         <AlignmentHelper />
 
-        <FormStatus
-          show={showStatus}
-          id={id + '-form-status'}
-          globalStatus={globalStatus}
-          textId={id + '-status'} // used for "aria-describedby"
-          text={status}
-          state={statusState}
-          noAnimation={statusNoAnimation}
-          skeleton={skeleton}
-          {...statusProps}
-        />
+        {statusElement}
 
         <span className="dnb-slider__inner">
           {showButtons && (isReverse ? addButton : subtractButton)}

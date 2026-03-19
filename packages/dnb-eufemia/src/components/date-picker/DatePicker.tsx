@@ -18,7 +18,6 @@ import clsx from 'clsx'
 import {
   warn,
   extendPropsWithContext,
-  getStatusState,
   combineDescribedBy,
   validateDOMAttributes,
 } from '../../shared/component-helper'
@@ -28,9 +27,8 @@ import { skeletonDOMAttributes } from '../skeleton/SkeletonHelper'
 
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
-import FormLabel from '../form-label/FormLabel'
+import useFormField from '../../shared/helpers/useFormField'
 import type { FormStatusBaseProps } from '../form-status/FormStatus'
-import FormStatus from '../form-status/FormStatus'
 import DatePickerProvider from './DatePickerProvider'
 import type {
   DatePickerChangeEvent,
@@ -590,7 +588,20 @@ function DatePicker(externalProps: DatePickerAllProps) {
     [restProps]
   )
 
-  const showStatus = getStatusState(status)
+  const { labelElement, statusElement, showStatus } = useFormField({
+    id,
+    label,
+    labelDirection,
+    labelSrOnly,
+    disabled,
+    skeleton,
+    status,
+    statusState,
+    statusProps,
+    statusNoAnimation,
+    globalStatus,
+    widthSelector: id + '-shell',
+  })
 
   const pickerParams = {} as HTMLProps<HTMLSpanElement>
 
@@ -682,17 +693,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
       hidePicker={hidePicker}
     >
       <span {...mainParams}>
-        {label && (
-          <FormLabel
-            id={id + '-label'}
-            forId={id}
-            text={label}
-            labelDirection={labelDirection}
-            srOnly={labelSrOnly}
-            disabled={disabled}
-            skeleton={skeleton}
-          />
-        )}
+        {labelElement}
 
         <span
           className="dnb-date-picker__inner"
@@ -701,19 +702,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
         >
           <AlignmentHelper />
 
-          <FormStatus
-            show={showStatus}
-            id={id + '-form-status'}
-            globalStatus={globalStatus}
-            label={String(label)}
-            textId={id + '-status'} // used for "aria-describedby"
-            widthSelector={id + '-shell'}
-            text={status}
-            state={statusState}
-            noAnimation={statusNoAnimation}
-            skeleton={skeleton}
-            {...statusProps}
-          />
+          {statusElement}
 
           <span className="dnb-date-picker__row">
             {inline ? (

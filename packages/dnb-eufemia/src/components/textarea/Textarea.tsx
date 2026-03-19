@@ -12,8 +12,7 @@ import React, {
 } from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import clsx from 'clsx'
-import FormLabel from '../form-label/FormLabel'
-import FormStatus from '../form-status/FormStatus'
+import useFormField from '../../shared/helpers/useFormField'
 import TextCounter from '../../fragments/text-counter/TextCounter'
 import useId from '../../shared/helpers/useId'
 import {
@@ -21,7 +20,6 @@ import {
   removeUndefinedProps,
   validateDOMAttributes,
   processChildren,
-  getStatusState,
   combineDescribedBy,
   warn,
   dispatchCustomElementEvent,
@@ -493,7 +491,19 @@ function TextareaComponent(
     }
   })
 
-  const showStatus = getStatusState(status)
+  const { labelElement, statusElement, showStatus } = useFormField({
+    id,
+    label,
+    labelDirection,
+    labelSrOnly,
+    disabled,
+    skeleton,
+    status,
+    statusState,
+    statusProps,
+    statusNoAnimation,
+    globalStatus,
+  })
   const currentHasValue = hasValue(value)
 
   let TextareaElement: TextareaElement = props.textareaElement
@@ -593,33 +603,12 @@ function TextareaComponent(
 
   return (
     <span {...mainParams}>
-      {label && (
-        <FormLabel
-          id={id + '-label'}
-          forId={id}
-          text={label}
-          labelDirection={labelDirection}
-          srOnly={labelSrOnly}
-          disabled={disabled}
-          skeleton={skeleton}
-        />
-      )}
+      {labelElement}
 
       <span {...innerParams}>
         <AlignmentHelper />
 
-        <FormStatus
-          show={showStatus}
-          id={id + '-form-status'}
-          globalStatus={globalStatus}
-          label={label}
-          textId={id + '-status'}
-          text={status}
-          state={statusState}
-          noAnimation={statusNoAnimation}
-          skeleton={skeleton}
-          {...statusProps}
-        />
+        {statusElement}
 
         <span className="dnb-textarea__row">
           <span {...shellParams}>
