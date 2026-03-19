@@ -3,6 +3,8 @@
  *
  */
 
+@use '../../../style/core/utilities.scss' as utilities;
+
 .dnb-form-status {
   --form-status-radius: 0.25rem;
 
@@ -11,6 +13,7 @@
   opacity: 1;
 
   &__shell {
+    --form-status-color-text: var(--token-color-text-neutral);
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
@@ -18,6 +21,55 @@
     min-width: inherit;
 
     border-radius: var(--form-status-radius);
+    background-color: var(--form-status-color-background);
+    color: var(--form-status-color-text);
+  }
+
+  &__variant--outlined &__shell {
+    @include utilities.fakeBorder(var(--form-status-color-outline));
+  }
+
+  // Background and icon colors
+  &--error &__shell {
+    --form-status-color-background: var(
+      --token-color-background-error-subtle
+    );
+    --form-status-color-icon: var(--token-color-background-error);
+  }
+
+  &--info &__shell {
+    --form-status-color-background: var(
+      --token-color-background-info-subtle
+    );
+    --form-status-color-icon: var(--token-color-background-info);
+  }
+
+  &--marketing &__shell {
+    --form-status-color-background: var(
+      --token-color-background-marketing-subtle
+    );
+    --form-status-color-icon: var(--token-color-background-marketing);
+  }
+
+  &--warning &__shell {
+    --form-status-color-background: var(
+      --token-color-background-warning-subtle
+    );
+    --form-status-color-icon: var(--token-color-background-warning);
+  }
+
+  // Outlines
+  &__variant--outlined#{&}--error &__shell {
+    --form-status-color-outline: var(--token-color-stroke-error);
+  }
+  &__variant--outlined#{&}--warning &__shell {
+    --form-status-color-outline: var(--token-color-stroke-warning);
+  }
+  &__variant--outlined#{&}--info &__shell {
+    --form-status-color-outline: var(--token-color-stroke-info);
+  }
+  &__variant--outlined#{&}--marketing &__shell {
+    --form-status-color-outline: var(--token-color-stroke-marketing);
   }
 
   &__text {
@@ -62,6 +114,9 @@
     align-items: center;
 
     margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
+
+    color: var(--form-status-color-icon);
+    border: none;
   }
 
   // Large
@@ -97,5 +152,30 @@
 
   &[hidden] {
     display: none;
+  }
+
+  // Attention focus animation used in conjunction with GlobalStatus
+  &--error#{&}--attention-focus &__shell,
+  &--error#{&}:focus &__shell {
+    animation: attention-focus 2s ease-in-out 1 200ms;
+  }
+  &--error#{&}--attention-focus &__shell > .dnb-icon,
+  &--error#{&}:focus &__shell > .dnb-icon {
+    animation: attention-focus 2s ease-in-out 1 200ms;
+  }
+}
+
+@keyframes attention-focus {
+  0%,
+  100% {
+    color: var(--token-color-text-destructive);
+    background-color: var(--token-color-background-error-subtle);
+    border-color: var(--token-color-stroke-error);
+  }
+
+  35% {
+    color: var(--token-color-text-neutral-inverse);
+    background-color: var(--token-color-background-error);
+    border-color: var(--token-color-stroke-error);
   }
 }
