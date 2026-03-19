@@ -91,7 +91,7 @@ export function StepIndicatorProvider(props: StepIndicatorProviderProps) {
     return props.data || []
   }, [props])
 
-  const [open, setOpen] = useState<boolean>(props.expandedInitially)
+  const [open, setOpen] = useState<boolean>(props.expanded)
 
   const openHandler = useCallback(() => {
     setOpen(true)

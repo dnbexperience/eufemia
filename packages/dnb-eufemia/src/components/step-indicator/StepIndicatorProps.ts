@@ -10,5 +10,5 @@ export const stepIndicatorDefaultProps: Omit<StepIndicatorProps, 'mode'> =
     currentStep: 0,
     hideNumbers: false,
     noAnimation: false,
-    expandedInitially: false,
+    expanded: false,
   }

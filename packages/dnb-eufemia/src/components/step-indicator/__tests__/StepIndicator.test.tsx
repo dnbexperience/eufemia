@@ -133,7 +133,7 @@ describe('StepIndicator redesign', () => {
         <StepIndicator
           mode="loose"
           data={stepIndicatorListData}
-          expandedInitially
+          expanded
         />
       </>
     )
@@ -164,7 +164,7 @@ describe('StepIndicator redesign', () => {
         <StepIndicator
           mode="loose"
           data={stepIndicatorListData}
-          expandedInitially
+          expanded
         />
       </>
     )
@@ -184,7 +184,7 @@ describe('StepIndicator redesign', () => {
           mode="loose"
           data={stepIndicatorListData}
           hideNumbers
-          expandedInitially
+          expanded
         />
       </>
     )
@@ -233,7 +233,7 @@ describe('StepIndicator in loose mode', () => {
         currentStep={1}
         mode="loose"
         data={stepIndicatorListData}
-        expandedInitially
+        expanded
         {...props}
       />
     )
@@ -242,7 +242,7 @@ describe('StepIndicator in loose mode', () => {
   it('has trigger button when mobile', () => {
     simulateSmallScreen()
 
-    renderComponent({ expandedInitially: false })
+    renderComponent({ expanded: false })
     expect(screen.queryByRole('button')).toBeInTheDocument()
   })
 
@@ -252,7 +252,7 @@ describe('StepIndicator in loose mode', () => {
         currentStep={1}
         mode="loose"
         data={stepIndicatorListData}
-        expandedInitially
+        expanded
       />
     )
 
@@ -371,7 +371,7 @@ describe('StepIndicator in loose mode', () => {
 
   it('should react on isCurrent data prop change', () => {
     const TestComp = (props) => {
-      return <StepIndicator mode="loose" expandedInitially {...props} />
+      return <StepIndicator mode="loose" expanded {...props} />
     }
 
     const data1 = [
@@ -422,7 +422,7 @@ describe('StepIndicator in loose mode', () => {
           currentStep={1}
           mode="loose"
           data={stepIndicatorListData}
-          expandedInitially
+          expanded
           {...props}
         />
       )
@@ -496,7 +496,7 @@ describe('StepIndicator in strict mode', () => {
         currentStep={1}
         mode="strict"
         data={stepIndicatorListData}
-        expandedInitially
+        expanded
         {...props}
       />
     )
@@ -506,7 +506,7 @@ describe('StepIndicator in strict mode', () => {
     simulateSmallScreen()
 
     renderComponent({
-      expandedInitially: false,
+      expanded: false,
     })
     expect(screen.queryByRole('button')).toBeInTheDocument()
   })
@@ -568,7 +568,7 @@ describe('StepIndicator in static mode', () => {
         currentStep={1}
         mode="static"
         data={stepIndicatorListData}
-        expandedInitially
+        expanded
         {...props}
       />
     )
@@ -669,11 +669,7 @@ describe('StepIndicator ARIA', () => {
 
   it('should have aria-hidden on step item elements to avoid duplicate information', () => {
     render(
-      <StepIndicator
-        mode="loose"
-        data={stepIndicatorListData}
-        expandedInitially
-      />
+      <StepIndicator mode="loose" data={stepIndicatorListData} expanded />
     )
 
     // Find step items

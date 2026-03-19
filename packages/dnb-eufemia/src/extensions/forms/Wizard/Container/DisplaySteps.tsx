@@ -8,7 +8,7 @@ export function DisplaySteps({
   mode,
   noAnimation,
   handleChange,
-  expandedInitially,
+  expanded,
   outset,
 }) {
   const [, forceUpdate] = useReducer(() => ({}), {})
@@ -60,7 +60,7 @@ export function DisplaySteps({
         )}
         mode={mode}
         noAnimation={noAnimation}
-        expandedInitially={expandedInitially}
+        expanded={expanded}
         onChange={handleChange}
         outset={outset}
         status={status}

@@ -79,7 +79,7 @@ export type Props = ComponentProps & {
   /**
    * Set to `true` to have the list be expanded initially. Defaults to `false`.
    */
-  expandedInitially?: boolean
+  expanded?: boolean
   /**
    * If set to `true`, the wizard will not unmount the steps when navigating back and forth.
    */
@@ -116,7 +116,7 @@ function WizardContainer(props: Props) {
     onStepChange,
     children,
     noAnimation = false,
-    expandedInitially = false,
+    expanded = false,
     prerenderFieldProps = true,
     keepInDOM,
     validationMode,
@@ -595,7 +595,7 @@ function WizardContainer(props: Props) {
         <DisplaySteps
           mode={mode}
           noAnimation={noAnimation}
-          expandedInitially={expandedInitially}
+          expanded={expanded}
           handleChange={handleChange}
           outset={outset}
         />

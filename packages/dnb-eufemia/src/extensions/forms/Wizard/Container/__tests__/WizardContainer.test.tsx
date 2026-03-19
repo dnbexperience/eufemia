@@ -529,10 +529,7 @@ describe('Wizard.Container', () => {
       render(
         <React.StrictMode>
           <Form.Handler>
-            <Wizard.Container
-              expandedInitially
-              onStepChange={onStepChange}
-            >
+            <Wizard.Container expanded onStepChange={onStepChange}>
               <Step1 />
               <Step2 />
               <Summary />
@@ -599,7 +596,7 @@ describe('Wizard.Container', () => {
     }
 
     render(
-      <Wizard.Container omitFocusManagement expandedInitially>
+      <Wizard.Container omitFocusManagement expanded>
         <Wizard.Step title="Step 1">
           <output>Step 1</output>
           <Field.String
@@ -1642,7 +1639,7 @@ describe('Wizard.Container', () => {
       }
 
       render(
-        <Wizard.Container expandedInitially>
+        <Wizard.Container expanded>
           <Wizard.Step title="Step 1">
             <output>Step 1</output>
             <Field.String onChangeValidator={asyncValidator} />
@@ -1764,7 +1761,7 @@ describe('Wizard.Container', () => {
       }
 
       render(
-        <Wizard.Container expandedInitially>
+        <Wizard.Container expanded>
           <Wizard.Step title="Step 1">
             <output>Step 1</output>
             <Field.String onBlurValidator={onBlurValidator} />
@@ -2381,7 +2378,7 @@ describe('Wizard.Container', () => {
           mode="loose"
           validationMode="bypassOnNavigation"
           onStepChange={onStepChange}
-          expandedInitially
+          expanded
         >
           <Wizard.Step title="Step 1">
             <Field.String path="/foo" required />
@@ -2446,7 +2443,7 @@ describe('Wizard.Container', () => {
   describe('validation', () => {
     it('should show error on navigating back and forth', async () => {
       render(
-        <Wizard.Container expandedInitially>
+        <Wizard.Container expanded>
           <Wizard.Step title="Step 1">
             <output>Step 1</output>
             <Field.String path="/something" />
@@ -2531,7 +2528,7 @@ describe('Wizard.Container', () => {
 
     it('should show error on navigating back and forth in loose mode', async () => {
       render(
-        <Wizard.Container mode="loose" expandedInitially>
+        <Wizard.Container mode="loose" expanded>
           <Wizard.Step title="Step 1">
             <output>Step 1</output>
             <Field.String path="/something" />
@@ -2592,11 +2589,7 @@ describe('Wizard.Container', () => {
 
     it('should be able to navigate forth with NextButton even if there are errors in other steps', async () => {
       render(
-        <Wizard.Container
-          mode="strict"
-          initialActiveIndex={2}
-          expandedInitially
-        >
+        <Wizard.Container mode="strict" initialActiveIndex={2} expanded>
           <Wizard.Step title="Step 1">
             <output>Step 1</output>
             <Field.String path="/foo" required />
@@ -2661,7 +2654,7 @@ describe('Wizard.Container', () => {
 
     it('should remove the prerendered steps from the DOM after submitting the form', async () => {
       render(
-        <Wizard.Container initialActiveIndex={2} expandedInitially>
+        <Wizard.Container initialActiveIndex={2} expanded>
           <Wizard.Step title="Step 1">
             <Field.String path="/foo" required />
             <Wizard.Buttons />
@@ -2865,7 +2858,7 @@ describe('Wizard.Container', () => {
             mode="loose"
             initialActiveIndex={2}
             onStepChange={onStepChange}
-            expandedInitially
+            expanded
           >
             <Wizard.Step title="Step 1">
               <Field.String path="/foo" required />
@@ -3024,7 +3017,7 @@ describe('Wizard.Container', () => {
             mode="loose"
             initialActiveIndex={2}
             onStepChange={onStepChange}
-            expandedInitially
+            expanded
           >
             <Wizard.Step title="Step 1">
               <Field.String path="/foo" required />
@@ -3143,7 +3136,7 @@ describe('Wizard.Container', () => {
       it('should not show a status when no fields are present', async () => {
         render(
           <Form.Handler>
-            <Wizard.Container expandedInitially>
+            <Wizard.Container expanded>
               <Wizard.Step title="Step 1">
                 <output>Step 1</output>
                 <Wizard.Buttons />
@@ -3176,7 +3169,7 @@ describe('Wizard.Container', () => {
       it('should not show a status when Iterate.PushContainer is closed', async () => {
         render(
           <Form.Handler>
-            <Wizard.Container expandedInitially>
+            <Wizard.Container expanded>
               <Wizard.Step title="Step 1">
                 <output>Step 1</output>
                 <Iterate.PushContainer
@@ -3216,7 +3209,7 @@ describe('Wizard.Container', () => {
       it('should not navigate to next step when Iterate.PushContainer is open', async () => {
         render(
           <Form.Handler>
-            <Wizard.Container expandedInitially>
+            <Wizard.Container expanded>
               <Wizard.Step title="Step 1">
                 <output>Step 1</output>
                 <Iterate.PushContainer
@@ -3373,7 +3366,7 @@ describe('Wizard.Container', () => {
               mode="loose"
               initialActiveIndex={2}
               onStepChange={onStepChange}
-              expandedInitially
+              expanded
             >
               <Wizard.Step title="Step 1">
                 <Field.String path="/foo" required />
@@ -3559,11 +3552,7 @@ describe('Wizard.Container', () => {
         jest.setTimeout(15000)
         render(
           <Form.Handler>
-            <Wizard.Container
-              mode="loose"
-              initialActiveIndex={1}
-              expandedInitially
-            >
+            <Wizard.Container mode="loose" initialActiveIndex={1} expanded>
               <Wizard.Step title="Step 1">
                 <Field.String path="/foo" required />
                 <output>Step 1</output>
@@ -3619,11 +3608,7 @@ describe('Wizard.Container', () => {
 
         render(
           <Form.Handler>
-            <Wizard.Container
-              mode="loose"
-              initialActiveIndex={2}
-              expandedInitially
-            >
+            <Wizard.Container mode="loose" initialActiveIndex={2} expanded>
               <Wizard.Step title="Step 1">
                 <Field.String path="/foo" required />
                 <Wizard.Buttons />
@@ -3688,10 +3673,7 @@ describe('Wizard.Container', () => {
 
         render(
           <Form.Handler>
-            <Wizard.Container
-              onStepChange={onStepChange}
-              expandedInitially
-            >
+            <Wizard.Container onStepChange={onStepChange} expanded>
               <Wizard.Step title="Step 1">
                 <Field.String required />
                 <output>Step 1</output>
@@ -3763,7 +3745,7 @@ describe('Wizard.Container', () => {
       it('should show error in menu when validation fails', async () => {
         render(
           <Form.Handler>
-            <Wizard.Container mode="loose" expandedInitially>
+            <Wizard.Container mode="loose" expanded>
               <Wizard.Step title="Step 1">
                 <Field.String path="/foo" required />
                 <output>Step 1</output>
@@ -3853,11 +3835,7 @@ describe('Wizard.Container', () => {
       it('should show error in menu of other steps with errors', async () => {
         render(
           <Form.Handler>
-            <Wizard.Container
-              mode="loose"
-              initialActiveIndex={2}
-              expandedInitially
-            >
+            <Wizard.Container mode="loose" initialActiveIndex={2} expanded>
               <Wizard.Step title="Step 1">
                 <Field.String path="/foo" required />
                 <output>Step 1</output>
@@ -3942,7 +3920,7 @@ describe('Wizard.Container', () => {
       it('should remove error in menu after user enters required data using Field.Boolean', async () => {
         render(
           <Form.Handler>
-            <Wizard.Container mode="loose" expandedInitially>
+            <Wizard.Container mode="loose" expanded>
               <Wizard.Step title="Step 1">
                 <Field.Boolean path="/foo" variant="checkbox" required />
                 <output>Step 1</output>
@@ -4086,10 +4064,7 @@ describe('Wizard.Container', () => {
 
         render(
           <Form.Handler>
-            <Wizard.Container
-              onStepChange={onStepChange}
-              expandedInitially
-            >
+            <Wizard.Container onStepChange={onStepChange} expanded>
               <Wizard.Step title="Step 1">
                 <output>Step 1</output>
                 <Wizard.Buttons />
@@ -4872,7 +4847,7 @@ describe('Wizard.Container', () => {
           }}
           ajvInstance={makeAjvInstance()}
         >
-          <Wizard.Container expandedInitially>
+          <Wizard.Container expanded>
             <Wizard.Step title="Step 1">
               <output>Step 1</output>
               <Form.Section path="/sectionPath">
@@ -4925,10 +4900,10 @@ describe('Wizard.Container', () => {
     })
   })
 
-  it('should render the Wizard container in an expanded state when "expandedInitially" is set', () => {
+  it('should render the Wizard container in an expanded state when "expanded" is set', () => {
     render(
       <>
-        <Wizard.Container expandedInitially>
+        <Wizard.Container expanded>
           <Wizard.Step title="Step 1">
             <Wizard.NextButton />
           </Wizard.Step>

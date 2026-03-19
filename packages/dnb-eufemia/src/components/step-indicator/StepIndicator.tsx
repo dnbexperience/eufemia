@@ -111,7 +111,7 @@ export type StepIndicatorProps = Omit<
     /**
      * Set to `true` to have the list be expanded initially. Defaults to `false`.
      */
-    expandedInitially?: boolean
+    expanded?: boolean
     /**
      * Whether or not to break out (using negative margins) on larger screens. Defaults to `false`.
      */
@@ -129,7 +129,7 @@ function StepIndicator({
   currentStep = stepIndicatorDefaultProps.currentStep,
   hideNumbers = stepIndicatorDefaultProps.hideNumbers,
   noAnimation = stepIndicatorDefaultProps.noAnimation,
-  expandedInitially = stepIndicatorDefaultProps.expandedInitially,
+  expanded = stepIndicatorDefaultProps.expanded,
   ...restOfProps
 }: StepIndicatorProps) {
   const { outset, ...props } = {
@@ -138,7 +138,7 @@ function StepIndicator({
     currentStep,
     hideNumbers,
     noAnimation,
-    expandedInitially,
+    expanded,
     ...restOfProps,
   }
 

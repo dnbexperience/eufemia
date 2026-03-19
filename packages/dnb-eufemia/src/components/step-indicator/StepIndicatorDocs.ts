@@ -36,7 +36,7 @@ export const StepIndicatorProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  expandedInitially: {
+  expanded: {
     doc: 'Set to `true` to have the list be expanded initially. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',

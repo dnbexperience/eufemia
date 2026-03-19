@@ -158,7 +158,7 @@ export const StepIndicatorCustomized = () => (
 export const StepIndicatorTextOnly = () => (
   <ComponentBox data-visual-test="step-indicator-expanded">
     <StepIndicator
-      expandedInitially
+      expanded
       mode="static"
       currentStep={1}
       data={[
@@ -247,7 +247,7 @@ export const StepIndicatorSkeleton = () => (
       mode="static"
       skeleton
       currentStep={1}
-      expandedInitially
+      expanded
       data={[
         {
           title: 'Om din nye bolig',

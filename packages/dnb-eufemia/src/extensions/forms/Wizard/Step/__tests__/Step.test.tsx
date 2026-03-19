@@ -156,11 +156,7 @@ describe('Step', () => {
     it('should not be clickable', async () => {
       render(
         <Form.Handler>
-          <Wizard.Container
-            mode="loose"
-            initialActiveIndex={1}
-            expandedInitially
-          >
+          <Wizard.Container mode="loose" initialActiveIndex={1} expanded>
             <Wizard.Step title="Step 1" inactive>
               1
             </Wizard.Step>
@@ -201,11 +197,7 @@ describe('Step', () => {
     it('should make steps inactive in loose mode', async () => {
       render(
         <Form.Handler>
-          <Wizard.Container
-            mode="loose"
-            initialActiveIndex={1}
-            expandedInitially
-          >
+          <Wizard.Container mode="loose" initialActiveIndex={1} expanded>
             <Wizard.Step title="Step 1" inactive>
               1
             </Wizard.Step>
@@ -230,11 +222,7 @@ describe('Step', () => {
     it('should make steps inactive in strict mode', async () => {
       render(
         <Form.Handler>
-          <Wizard.Container
-            mode="strict"
-            initialActiveIndex={1}
-            expandedInitially
-          >
+          <Wizard.Container mode="strict" initialActiveIndex={1} expanded>
             <Wizard.Step title="Step 1" inactive>
               1
             </Wizard.Step>
