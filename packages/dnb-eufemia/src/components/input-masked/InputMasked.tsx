@@ -121,6 +121,7 @@ export type InputMaskedProps = Omit<
      * `shift` (default) moves to the next slot, `replace` keeps the cursor in place.
      */
     overwriteMode?: InputMaskedOverwriteMode | null
+    /** @internal */
     _innerRef?: React.Ref<HTMLInputElement>
     onSubmit?: InputMaskedEventHandler
     onFocus?: InputMaskedEventHandler
