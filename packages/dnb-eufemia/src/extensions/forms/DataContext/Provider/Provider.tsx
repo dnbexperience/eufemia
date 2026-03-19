@@ -1352,7 +1352,7 @@ export default function Provider<Data extends JsonObject>(
         }
       }
 
-      let result: EventStateObject
+      let result: EventStateObject | undefined
 
       if (
         !(skipErrorCheck ? false : hasErrors()) &&
@@ -1428,15 +1428,16 @@ export default function Provider<Data extends JsonObject>(
 
         setShowAllErrors(true)
 
-        const submitRequestResult = await resolveStateResult(() =>
-          onSubmitRequest?.({
-            getErrors: () =>
-              Object.keys(fieldErrorRef.current)
-                .map((path) => {
-                  return getDataPathHandlerParameters(path)
-                })
-                .filter(({ error }) => error),
-          })
+        const submitRequestResult = await resolveStateResult(
+          () =>
+            onSubmitRequest?.({
+              getErrors: () =>
+                Object.keys(fieldErrorRef.current)
+                  .map((path) => {
+                    return getDataPathHandlerParameters(path)
+                  })
+                  .filter(({ error }) => error),
+            })
         )
 
         applySubmitState(submitRequestResult)

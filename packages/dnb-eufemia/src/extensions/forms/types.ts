@@ -760,10 +760,7 @@ export type OnSubmit<Data = JsonObject> = (
     clearData,
   }: OnSubmitParams
 ) => OnSubmitReturn
-export type OnSubmitRequestReturn =
-  | EventReturnWithStateObject
-  | void
-  | Promise<EventReturnWithStateObject | void>
+export type OnSubmitRequestReturn = OnSubmitReturn
 export type OnSubmitRequest = ({
   getErrors,
 }: {
