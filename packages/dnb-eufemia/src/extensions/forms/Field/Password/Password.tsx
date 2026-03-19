@@ -1,11 +1,5 @@
 import type { ElementRef, RefObject } from 'react'
-import React, {
-  useContext,
-  useRef,
-  useState,
-  useCallback,
-  useMemo,
-} from 'react'
+import React, { useContext, useRef, useState, useCallback } from 'react'
 import clsx from 'clsx'
 import SharedContext from '../../../../shared/Context'
 import type { Props as StringFieldProps } from '../String'
