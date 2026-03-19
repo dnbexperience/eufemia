@@ -90,7 +90,7 @@ export type InfoCardProps = {
    * The text of the close button.
    * Default: null
    */
-  closeButtonText?: React.ReactNode
+  closeTitle?: React.ReactNode
   /**
    * Is called when the accept button is clicked
    * Default: null
@@ -153,7 +153,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
     children,
     onClose,
     onAccept,
-    closeButtonText,
+    closeTitle,
     acceptButtonText,
     closeButtonAttributes,
     acceptButtonAttributes,
@@ -162,7 +162,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
 
   const spacingClasses = createSpacingClasses(props)
 
-  const closeButtonIsHidden = !onClose && !closeButtonText
+  const closeButtonIsHidden = !onClose && !closeTitle
   const acceptButtonIsHidden = !onAccept && !acceptButtonText
 
   validateDOMAttributes(allProps, props)
@@ -193,7 +193,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
             onClick={onClose}
             icon="close"
             iconPosition="left"
-            text={closeButtonText}
+            text={closeTitle}
             {...closeButtonAttributes}
           />
         )}
@@ -206,7 +206,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
     centered,
     closeButtonAttributes,
     closeButtonIsHidden,
-    closeButtonText,
+    closeTitle,
     onAccept,
     onClose,
   ])

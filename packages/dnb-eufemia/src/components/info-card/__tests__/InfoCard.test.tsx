@@ -205,21 +205,21 @@ describe('InfoCard', () => {
   })
 
   it('renders the close button text as string', () => {
-    const closeButtonText = 'some text'
-    render(<InfoCard text="text" closeButtonText={closeButtonText} />)
+    const closeTitle = 'some text'
+    render(<InfoCard text="text" closeTitle={closeTitle} />)
 
     const buttonElement = document.querySelector(
       '.dnb-info-card__buttons__close-button'
     )
 
     expect(buttonElement).toBeInTheDocument()
-    expect(buttonElement.textContent).toMatch(closeButtonText)
+    expect(buttonElement.textContent).toMatch(closeTitle)
   })
 
   it('renders the close button text as react node', () => {
-    const closeButtonText = <span data-testid="react-node">ReactNode</span>
+    const closeTitle = <span data-testid="react-node">ReactNode</span>
 
-    render(<InfoCard text="text" closeButtonText={closeButtonText} />)
+    render(<InfoCard text="text" closeTitle={closeTitle} />)
 
     expect(
       document.querySelector('.dnb-info-card__buttons__close-button')
@@ -255,7 +255,7 @@ describe('InfoCard', () => {
     render(
       <InfoCard
         text="text"
-        closeButtonText="accept"
+        closeTitle="accept"
         closeButtonAttributes={{ href }}
       />
     )

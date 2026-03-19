@@ -56,7 +56,7 @@ export const InfoCardProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  closeButtonText: {
+  closeTitle: {
     doc: 'The close button text.',
     type: 'React.ReactNode',
     status: 'optional',

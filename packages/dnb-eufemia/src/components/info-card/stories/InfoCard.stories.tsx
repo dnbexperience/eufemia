@@ -92,7 +92,7 @@ export const InfoCardSandbox = () => (
         onAccept={() => console.log('accept')}
         acceptButtonText="Accept"
         onClose={() => console.log('close')}
-        closeButtonText="Closeeeeeeeeeeeeeee"
+        closeTitle="Closeeeeeeeeeeeeeee"
         text="This is a description of some information or a tip that will inform the user of something that will help them."
       />
     </Box>
@@ -102,7 +102,7 @@ export const InfoCardSandbox = () => (
         onAccept={() => console.log('accept')}
         acceptButtonText="Accept"
         onClose={() => console.log('close')}
-        closeButtonText="Close"
+        closeTitle="Close"
         text="This is a description of some information or a tip that will inform the user of something that will help them."
       />
     </Box>

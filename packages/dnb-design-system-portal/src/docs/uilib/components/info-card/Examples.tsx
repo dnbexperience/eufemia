@@ -41,7 +41,7 @@ export const InfoCardButtons = () => (
     <InfoCard
       text="This is a description of some information or a tip that will inform the user of something that will help them."
       title="Title of your info/tip"
-      closeButtonText="Close"
+      closeTitle="Close"
       onClose={() => {
         console.log('onClose')
       }}
@@ -59,7 +59,7 @@ export const InfoCardButtonsCentered = () => (
       centered
       text="This is a description of some information or a tip that will inform the user of something that will help them."
       title="Title of your info/tip"
-      closeButtonText="Close"
+      closeTitle="Close"
       onClose={() => {
         console.log('onClose')
       }}
@@ -89,7 +89,7 @@ export const InfoCardCloseButton = () => (
     <InfoCard
       text="This is a description of some information or a tip that will inform the user of something that will help them."
       title="Title of your info/tip"
-      closeButtonText="Close"
+      closeTitle="Close"
       onClose={() => {
         console.log('onClose')
       }}
