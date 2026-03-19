@@ -342,3 +342,35 @@ export const ItemActionEvents: PropertiesTableProps = {
     status: 'optional',
   },
 }
+
+export const CardProperties: PropertiesTableProps = {
+  responsive: {
+    doc: 'When `true`, the card adjusts its layout for smaller screens. Defaults to `true`.',
+    type: 'boolean',
+    defaultValue: 'true',
+    status: 'optional',
+  },
+  '[Card](/uilib/components/card/properties)': {
+    doc: 'All [Card](/uilib/components/card) properties are supported.',
+    type: 'Various',
+    status: 'optional',
+  },
+  '[Space](/uilib/layout/space/properties)': {
+    doc: 'Spacing properties like `top` or `bottom` are supported.',
+    type: ['string', 'object'],
+    status: 'optional',
+  },
+}
+
+export const CardScrollViewProperties: PropertiesTableProps = {
+  children: {
+    doc: 'Scrollable content. Typically a `List.Container` with list items.',
+    type: 'React.ReactNode',
+    status: 'required',
+  },
+  '[Space](/uilib/layout/space/properties)': {
+    doc: 'Spacing properties like `top` or `bottom` are supported.',
+    type: ['string', 'object'],
+    status: 'optional',
+  },
+}

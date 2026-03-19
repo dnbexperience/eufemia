@@ -4,11 +4,14 @@ import {
   Avatar,
   Badge,
   Button,
+  Card,
   Checkbox,
   DateFormat,
   Flex,
+  Heading,
   List,
   NumberFormat,
+  PortalRoot,
 } from '../../../components'
 import { Value } from '../../../extensions/forms'
 import { fish_medium } from '../../../icons'
@@ -392,5 +395,93 @@ export function ListSubline() {
         </List.Item.Accordion.Content>
       </List.Item.Accordion>
     </List.Container>
+  )
+}
+
+export function ListInsideCard() {
+  return (
+    <List.Card>
+      <Heading size="medium">Transactions</Heading>
+
+      <List.Card.ScrollView style={{ maxHeight: '15rem' }}>
+        <List.Container>
+          <List.Item.Action icon={fish_medium} title="Payment received">
+            <List.Cell.End>
+              <Value.Currency value={1234} />
+            </List.Cell.End>
+          </List.Item.Action>
+
+          <List.Item.Action icon={fish_medium} title="Transfer sent">
+            <List.Cell.End>
+              <Value.Currency value={-500} />
+            </List.Cell.End>
+          </List.Item.Action>
+
+          <List.Item.Action icon={fish_medium} title="Subscription">
+            <List.Cell.End>
+              <Value.Currency value={-99} />
+            </List.Cell.End>
+          </List.Item.Action>
+
+          <List.Item.Action icon={fish_medium} title="Refund">
+            <List.Cell.End>
+              <Value.Currency value={250} />
+            </List.Cell.End>
+          </List.Item.Action>
+
+          <List.Item.Action icon={fish_medium} title="Salary">
+            <List.Cell.End>
+              <Value.Currency value={45000} />
+            </List.Cell.End>
+          </List.Item.Action>
+
+          <List.Item.Action icon={fish_medium} title="Groceries">
+            <List.Cell.End>
+              <Value.Currency value={-320} />
+            </List.Cell.End>
+          </List.Item.Action>
+        </List.Container>
+      </List.Card.ScrollView>
+    </List.Card>
+  )
+}
+
+export function ListWithPortalRoot() {
+  return (
+    <Wrapper>
+      <Box>
+        <PortalRoot>
+          <Card stack>
+            <Heading>Portal List</Heading>
+
+            <List.Container>
+              <List.Item.Action
+                icon={fish_medium}
+                title="Item inside portal"
+                onClick={() => console.log('Clicked')}
+              >
+                <List.Cell.End>
+                  <Value.Currency value={1234} showEmpty />
+                </List.Cell.End>
+              </List.Item.Action>
+
+              <List.Item.Accordion
+                icon={fish_medium}
+                title="Accordion item"
+              >
+                <List.Item.Accordion.Header>
+                  <List.Cell.End>
+                    <Value.Currency value={5678} showEmpty />
+                  </List.Cell.End>
+                </List.Item.Accordion.Header>
+                <List.Item.Accordion.Content innerSpace>
+                  <P>Content rendered inside a PortalRoot.</P>
+                </List.Item.Accordion.Content>
+              </List.Item.Accordion>
+            </List.Container>
+          </Card>
+        </PortalRoot>
+      </Box>
+    </Wrapper>
   )
 }
