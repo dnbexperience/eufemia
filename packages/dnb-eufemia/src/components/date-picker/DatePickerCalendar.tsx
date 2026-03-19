@@ -479,16 +479,19 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
     let count = 0
 
-    const days = getDays(month).reduce((acc: Record<number, DatePickerCalendarDay[]>, cur, i) => {
-      // Normalize the data for table consumption
-      acc[count] = acc[count] || []
-      acc[count].push(cur)
-      if (i % 7 === 6) {
-        count++
-      }
+    const days = getDays(month).reduce(
+      (acc: Record<number, DatePickerCalendarDay[]>, cur, i) => {
+        // Normalize the data for table consumption
+        acc[count] = acc[count] || []
+        acc[count].push(cur)
+        if (i % 7 === 6) {
+          count++
+        }
 
-      return acc
-    }, {})
+        return acc
+      },
+      {}
+    )
 
     cache.current[cacheKey] = Object.values(days)
 
@@ -642,20 +645,27 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                         onClick={
                           handleAsDisabled
                             ? undefined
-                            : ({ event }: { event: React.SyntheticEvent }) =>
+                            : ({
+                                event,
+                              }: {
+                                event: React.SyntheticEvent
+                              }) =>
                                 onSelectRange({
                                   day,
                                   isRange,
                                   startDate,
                                   endDate,
                                   resetDate,
-                                  event: event as React.MouseEvent<HTMLButtonElement>,
+                                  event:
+                                    event as React.MouseEvent<HTMLButtonElement>,
                                   setHasClickedCalendarDay,
                                   onSelect: (state) => {
                                     updateDates(state, (dates) =>
                                       callOnSelect({
                                         ...dates,
-                                        event: event as React.MouseEvent<HTMLSpanElement> | React.KeyboardEvent<HTMLTableElement>,
+                                        event: event as
+                                          | React.MouseEvent<HTMLSpanElement>
+                                          | React.KeyboardEvent<HTMLTableElement>,
                                         nr,
                                         hidePicker: !isRange,
                                       })

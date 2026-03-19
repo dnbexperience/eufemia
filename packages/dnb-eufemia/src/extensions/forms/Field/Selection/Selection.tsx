@@ -247,7 +247,7 @@ function Selection(props: Props) {
         onType({
           ...event,
           ...additionalArgs,
-          value: value === '' ? emptyValue as string : value as string,
+          value: value === '' ? (emptyValue as string) : (value as string),
         } as unknown as AutocompleteOnTypeParams)
       }
     },
@@ -488,9 +488,12 @@ export function mapOptions(
         }
 
         if (child?.['props']?.children) {
-          const nestedChildren: React.ReactNode[] = mapOptions(child.props.children, {
-            createOption,
-          })
+          const nestedChildren: React.ReactNode[] = mapOptions(
+            child.props.children,
+            {
+              createOption,
+            }
+          )
           return React.createElement(
             child.type as React.ComponentType<any>,
             child.props,
@@ -509,8 +512,14 @@ export function makeOptions<T = DrawerListProps['data']>(
   transformSelection?: Props['transformSelection']
 ): T {
   return React.Children.map(children, (child) => {
-    if (((child as React.ReactElement<Record<string, unknown>>)?.props?.children as React.ReactElement)?.type === OptionField) {
-      child = (child as React.ReactElement<Record<string, unknown>>).props.children as React.ReactNode
+    if (
+      (
+        (child as React.ReactElement<Record<string, unknown>>)?.props
+          ?.children as React.ReactElement
+      )?.type === OptionField
+    ) {
+      child = (child as React.ReactElement<Record<string, unknown>>).props
+        .children as React.ReactNode
     }
 
     if (React.isValidElement(child) && child.type === OptionField) {

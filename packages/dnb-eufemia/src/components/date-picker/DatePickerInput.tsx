@@ -257,7 +257,10 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
       const success = (
         event.clipboardData ||
-        (typeof window !== 'undefined' && (window as unknown as Record<string, unknown>)['clipboardData'] as DataTransfer)
+        (typeof window !== 'undefined' &&
+          ((window as unknown as Record<string, unknown>)[
+            'clipboardData'
+          ] as DataTransfer))
       ).getData('text/plain')
 
       if (!success) {
@@ -435,10 +438,14 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         ['start', 'end'].reduce(
           (acc, mode) => {
             acc[`${mode}Date`] = [
-              (dateRefs.current as Record<string, string>)[`${mode}Year`] ||
+              (dateRefs.current as Record<string, string>)[
+                `${mode}Year`
+              ] ||
                 (inputDates as Record<string, string>)[`${mode}Year`] ||
                 'yyyy',
-              (dateRefs.current as Record<string, string>)[`${mode}Month`] ||
+              (dateRefs.current as Record<string, string>)[
+                `${mode}Month`
+              ] ||
                 (inputDates as Record<string, string>)[`${mode}Month`] ||
                 'mm',
               (dateRefs.current as Record<string, string>)[`${mode}Day`] ||
@@ -447,7 +454,10 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             ].join('-')
             return acc
           },
-          { startDate: undefined, endDate: undefined } as Record<string, string>
+          { startDate: undefined, endDate: undefined } as Record<
+            string,
+            string
+          >
         )
 
       // Get the typed dates, so we can ...
@@ -505,10 +515,13 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
       const modeDateRecord = modeDate as Record<string, Date>
       if (modeDateRecord[`${mode}Date`]) {
-        (temporaryDates.current as Record<string, Date>)[`${mode}Date`] = modeDateRecord[`${mode}Date`]
+        ;(temporaryDates.current as Record<string, Date>)[`${mode}Date`] =
+          modeDateRecord[`${mode}Date`]
       }
 
-      const fallback = (temporaryDates.current as Record<string, Date>)[`${mode}Date`]
+      const fallback = (temporaryDates.current as Record<string, Date>)[
+        `${mode}Date`
+      ]
 
       // provide fallbacks to create a temp fallback
       const year =
@@ -618,9 +631,12 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       }
 
       // Sync refs with full values before computing validity
-      ;(dateRefs.current as Record<string, string>)[`${mode}Day`] = values.day
-      ;(dateRefs.current as Record<string, string>)[`${mode}Month`] = values.month
-      ;(dateRefs.current as Record<string, string>)[`${mode}Year`] = values.year
+      ;(dateRefs.current as Record<string, string>)[`${mode}Day`] =
+        values.day
+      ;(dateRefs.current as Record<string, string>)[`${mode}Month`] =
+        values.month
+      ;(dateRefs.current as Record<string, string>)[`${mode}Year`] =
+        values.year
       lastMaskValuesRef.current[mode] = {
         day: values.day,
         month: values.month,

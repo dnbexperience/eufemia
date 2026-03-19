@@ -97,7 +97,10 @@ function Expiry(props: ExpiryProps = {}) {
   )
 
   const validateRequired = useCallback(
-    (value: string, { required, error }: { required: boolean; error: Error }) => {
+    (
+      value: string,
+      { required, error }: { required: boolean; error: Error }
+    ) => {
       return required && !value ? error : undefined
     },
     []

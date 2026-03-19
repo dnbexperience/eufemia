@@ -50,7 +50,9 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     props,
     accordionDefaultProps,
     context.Accordion,
-    (context.getTranslation(props) as Record<string, unknown>)['Accordion'] as Record<string, unknown>
+    (context.getTranslation(props) as Record<string, unknown>)[
+      'Accordion'
+    ] as Record<string, unknown>
   )
 
   const {
@@ -121,7 +123,13 @@ const AccordionGroup = (props: AccordionGroupProps) => {
   }
 
   return (
-    <AccordionGroupContext value={contextForProvider as React.ComponentProps<typeof AccordionGroupContext>['value']}>
+    <AccordionGroupContext
+      value={
+        contextForProvider as React.ComponentProps<
+          typeof AccordionGroupContext
+        >['value']
+      }
+    >
       <div className={classes}>
         <span
           id={id}

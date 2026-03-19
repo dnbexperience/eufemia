@@ -217,7 +217,10 @@ export const getData = (props: any) => {
   return normalizeData(props)
 }
 
-export const getCurrentIndex = (value: string | number, data: DrawerListInternalData) => {
+export const getCurrentIndex = (
+  value: string | number,
+  data: DrawerListInternalData
+) => {
   // 1. if a non-numeric value is given
   if (/[^0-9]/.test(String(value))) {
     return data?.findIndex((cur) => parseCurrentValue(cur) === value)
@@ -253,7 +256,10 @@ export const getCurrentIndex = (value: string | number, data: DrawerListInternal
   }
 }
 
-export const getSelectedItemValue = (value: string | number, state: DrawerListContextState) => {
+export const getSelectedItemValue = (
+  value: string | number,
+  state: DrawerListContextState
+) => {
   if (hasObjectKeyAsValue(state)) {
     return parseCurrentValue(
       state.data.filter((_, i) => i === parseFloat(String(value)))[0]
@@ -293,7 +299,12 @@ export const getCurrentData = (itemIndex: string | number, data: any) => {
     data = normalizeData(data)
   }
 
-  data = (data && data.find(({ __id }: DrawerListInternalItem) => __id === itemIndex)) || null
+  data =
+    (data &&
+      data.find(
+        ({ __id }: DrawerListInternalItem) => __id === itemIndex
+      )) ||
+    null
 
   if (data && data.__isTransformed) {
     return data.content
@@ -462,7 +473,10 @@ export const prepareDerivedState = (
   return state
 }
 
-export const getCurrentDataTitle = (selectedItem: string | number, data: DrawerListInternalData) => {
+export const getCurrentDataTitle = (
+  selectedItem: string | number,
+  data: DrawerListInternalData
+) => {
   const currentData = getCurrentData(selectedItem, data)
   return parseContentTitle(currentData, {
     separator: ' ',

@@ -225,15 +225,20 @@ export default function useFieldError<Value>({
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const msg = (message as any)(valueRef.current, {
-          conditionally: ((callback: () => ReturnValue | void, options?: { showInitially?: boolean }) => {
+          conditionally: (
+            callback: () => ReturnValue | void,
+            options?: { showInitially?: boolean }
+          ) => {
             currentMode &= ~ALWAYS
 
             if (options?.showInitially) {
               currentMode |= INITIALLY
             }
 
-            return executeMessage(callback() as MessageProp<Value, ReturnValue>)
-          }),
+            return executeMessage(
+              callback() as MessageProp<Value, ReturnValue>
+            )
+          },
           getValueByPath,
           getFieldByPath,
         } as unknown as MessagePropParams<Value, ReturnValue>)
@@ -441,8 +446,12 @@ export default function useFieldError<Value>({
 
   // If the error is a type error, we want to show it even if the field has not been used
   if (
-    (localErrorRef.current as unknown as Record<string, unknown>)?.['ajvKeyword'] === 'type' ||
-    (contextErrorRef.current as unknown as Record<string, unknown>)?.['ajvKeyword'] === 'type'
+    (localErrorRef.current as unknown as Record<string, unknown>)?.[
+      'ajvKeyword'
+    ] === 'type' ||
+    (contextErrorRef.current as unknown as Record<string, unknown>)?.[
+      'ajvKeyword'
+    ] === 'type'
   ) {
     revealErrorRef.current = true
   }
@@ -457,7 +466,11 @@ export default function useFieldError<Value>({
       return prepareError(errorProp)
     } else if (revealErrorRef.current) {
       // For type errors, prioritize context (Provider) errors over local validation errors
-      if ((contextErrorRef.current as unknown as Record<string, unknown>)?.['ajvKeyword'] === 'type') {
+      if (
+        (contextErrorRef.current as unknown as Record<string, unknown>)?.[
+          'ajvKeyword'
+        ] === 'type'
+      ) {
         return contextErrorRef.current
       }
       return (

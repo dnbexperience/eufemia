@@ -33,7 +33,11 @@ export const config = {
     failureThreshold: isCI ? 0.001 : 0, // Chromium needs 0.03, while webkit needs 0.04 or even more
     failureThresholdType: 'percent',
     comparisonMethod: 'pixelmatch',
-    customSnapshotIdentifier: ({ currentTestName }: { currentTestName: string }) => {
+    customSnapshotIdentifier: ({
+      currentTestName,
+    }: {
+      currentTestName: string
+    }) => {
       return slugify(currentTestName) + '.snap'
     },
   },
@@ -579,13 +583,21 @@ async function makePageReady({
   await page.waitForTimeout(50)
 }
 
-async function handleRootClassName({ page, rootClassName }: { page: Page; rootClassName: string | string[] | null }) {
+async function handleRootClassName({
+  page,
+  rootClassName,
+}: {
+  page: Page
+  rootClassName: string | string[] | null
+}) {
   // This removes a previous added global css class to HTML
   if (global.rootClassName) {
     await page.evaluate(
       ({ rootClassName }) => {
         const elem = document.documentElement
-        const classNames = Array.isArray(rootClassName) ? rootClassName : [rootClassName]
+        const classNames = Array.isArray(rootClassName)
+          ? rootClassName
+          : [rootClassName]
         classNames.forEach((className) => {
           if (className && elem.classList.contains(className)) {
             elem.classList.remove(className)
@@ -604,7 +616,9 @@ async function handleRootClassName({ page, rootClassName }: { page: Page; rootCl
     await page.evaluate(
       ({ rootClassName }) => {
         const elem = document.documentElement
-        const classNames = Array.isArray(rootClassName) ? rootClassName : [rootClassName]
+        const classNames = Array.isArray(rootClassName)
+          ? rootClassName
+          : [rootClassName]
         classNames.forEach((className) => {
           if (className && !elem.classList.contains(className)) {
             elem.classList.add(className)
@@ -617,7 +631,15 @@ async function handleRootClassName({ page, rootClassName }: { page: Page; rootCl
   }
 }
 
-async function handleMeasureOfElement({ page, measureElement, selector }: { page: Page; measureElement: string | null; selector: string }) {
+async function handleMeasureOfElement({
+  page,
+  measureElement,
+  selector,
+}: {
+  page: Page
+  measureElement: string | null
+  selector: string
+}) {
   if (measureElement) {
     const pixelGrid = config.pixelGrid
     if (selector !== measureElement) {
@@ -779,7 +801,15 @@ async function handleSimulation({
   }
 }
 
-async function wrapperCleanup({ page, selector, addWrapper }: { page: Page; selector: string; addWrapper: boolean }) {
+async function wrapperCleanup({
+  page,
+  selector,
+  addWrapper,
+}: {
+  page: Page
+  selector: string
+  addWrapper: boolean
+}) {
   if (addWrapper) {
     await page.evaluate(
       ({ selector }) => {
@@ -789,7 +819,9 @@ async function wrapperCleanup({ page, selector, addWrapper }: { page: Page; sele
         )
 
         if (wrapperElement) {
-          wrapperElement.replaceWith(...Array.from(wrapperElement.childNodes))
+          wrapperElement.replaceWith(
+            ...Array.from(wrapperElement.childNodes)
+          )
         }
 
         return wrapperElement
@@ -827,10 +859,13 @@ async function handleWrapper({
     // because of getComputedStyle we have to use evaluate
     const background = await page.evaluate(
       ({ selector }) => {
-        const element = document.querySelector(selector)?.parentNode as Element | null
+        const element = document.querySelector(selector)
+          ?.parentNode as Element | null
 
         const backgroundColor = element
-          ? window.getComputedStyle(element)?.getPropertyValue('background-color')
+          ? window
+              .getComputedStyle(element)
+              ?.getPropertyValue('background-color')
           : null
 
         // if transparent, do nothing
@@ -909,13 +944,23 @@ async function handleWrapper({
   return element
 }
 
-async function handleWrapperHeightChange({ page, selector, element }: { page: Page; selector: string; element: ElementHandle<SVGElement | HTMLElement> }) {
+async function handleWrapperHeightChange({
+  page,
+  selector,
+  element,
+}: {
+  page: Page
+  selector: string
+  element: ElementHandle<SVGElement | HTMLElement>
+}) {
   const { height } = await element.boundingBox()
 
   await page.evaluate(
     ({ selector, height }) => {
       const element = document.querySelector(selector)
-      const wrapperElement = element.closest('[data-visual-test-wrapper]') as HTMLElement | null
+      const wrapperElement = element.closest(
+        '[data-visual-test-wrapper]'
+      ) as HTMLElement | null
 
       if (wrapperElement) {
         wrapperElement.style.height = `${height + 32}px`
@@ -933,7 +978,11 @@ export const loadImage = async (imagePath: string) =>
   await fs.readFile(path.resolve(imagePath))
 
 // make sure "${url}/" has actually a slash on the end
-const createUrl = (url: string, fullscreen = true, themeName: string | null = null) => {
+const createUrl = (
+  url: string,
+  fullscreen = true,
+  themeName: string | null = null
+) => {
   const newURL = new URL(
     url,
     `http://${config.testScreenshotOnHost}:${config.testScreenshotOnPort}`

@@ -83,9 +83,13 @@ function ProgressIndicatorCircular(
           prog = min
         }
         if (setProg) {
-          element.style['stroke-dashoffset' as unknown as number] = `${prog}%`
+          element.style[
+            'stroke-dashoffset' as unknown as number
+          ] = `${prog}%`
         } else if (!animateOnStart) {
-          element.style['stroke-dashoffset' as unknown as number] = `${max}%`
+          element.style[
+            'stroke-dashoffset' as unknown as number
+          ] = `${max}%`
         }
       }
 

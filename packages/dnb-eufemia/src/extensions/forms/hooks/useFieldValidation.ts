@@ -380,7 +380,13 @@ export default function useFieldValidation<Value>({
   // -- onChange validator orchestration --
 
   const revealOnChangeValidatorResult = useCallback(
-    ({ result, unchangedValue }: { result: unknown; unchangedValue: boolean }) => {
+    ({
+      result,
+      unchangedValue,
+    }: {
+      result: unknown
+      unchangedValue: boolean
+    }) => {
       const runAsync = isAsync(onChangeValidatorRef.current)
 
       if (unchangedValue) {
@@ -537,7 +543,11 @@ export default function useFieldValidation<Value>({
 
   const revealOnBlurValidatorResult = useCallback(
     ({ result }: { result: unknown }) => {
-      persistErrorState('gracefully', 'onBlurValidator', result as Error | FormError | (Error | FormError)[])
+      persistErrorState(
+        'gracefully',
+        'onBlurValidator',
+        result as Error | FormError | (Error | FormError)[]
+      )
 
       if (isAsync(onBlurValidatorRef.current)) {
         defineAsyncProcess(undefined)

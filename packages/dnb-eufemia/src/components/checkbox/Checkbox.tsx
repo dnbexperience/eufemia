@@ -226,7 +226,10 @@ function Checkbox(localProps: CheckboxProps) {
         const preventDefault = () => {
           event.preventDefault()
 
-          if ((event.target as HTMLInputElement)['checked'] !== isCheckedRef.current) {
+          if (
+            (event.target as HTMLInputElement)['checked'] !==
+            isCheckedRef.current
+          ) {
             preventChangeRef.current = true
             isCheckedRef.current = !isCheckedRef.current
             forceUpdate()

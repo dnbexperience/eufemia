@@ -87,7 +87,14 @@ function ArrayComponent(props: Props) {
   }, [countPath, countPathLimit, getValueByPath, dataContext.data])
 
   const validateRequired = useCallback(
-    (value: Value, { emptyValue, required, error }: { emptyValue: unknown; required: boolean; error: Error }) => {
+    (
+      value: Value,
+      {
+        emptyValue,
+        required,
+        error,
+      }: { emptyValue: unknown; required: boolean; error: Error }
+    ) => {
       if (
         required &&
         (!value || value?.length === 0 || value === emptyValue)

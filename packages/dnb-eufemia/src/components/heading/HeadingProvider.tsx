@@ -126,7 +126,11 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
         <span className="dnb-heading__context">
           <span className="dnb-heading__debug">
             Context:{' '}
-            <span className="dnb-code">{debugCounter(state.counter as unknown as Record<string, unknown>)}</span>
+            <span className="dnb-code">
+              {debugCounter(
+                state.counter as unknown as Record<string, unknown>
+              )}
+            </span>
           </span>
           {props.children}
         </span>

@@ -189,7 +189,10 @@ function SubmitConfirmation(props: ConfirmProps) {
     },
     [setConfirmationState, validatePreventSubmit]
   )
-  const { removeEvent } = useEventListener('onSubmit', handleSubmit as (...args: unknown[]) => void)
+  const { removeEvent } = useEventListener(
+    'onSubmit',
+    handleSubmit as (...args: unknown[]) => void
+  )
 
   const submitHandler = useCallback(async () => {
     removeEvent()

@@ -206,7 +206,9 @@ function Skeleton(props: SkeletonProps) {
 
 export default Skeleton
 
-function Exclude(props: Record<string, unknown> & { children: React.ReactNode }) {
+function Exclude(
+  props: Record<string, unknown> & { children: React.ReactNode }
+) {
   return <Provider {...props} skeleton={false} />
 }
 

@@ -24,7 +24,9 @@ export const PaginationIndicator = ({
   ...props
 }: PaginationIndicatorProps) => {
   const context = React.useContext(Context)
-  const Element = preparePageElement(indicatorElement as React.ElementType) as React.ElementType
+  const Element = preparePageElement(
+    indicatorElement as React.ElementType
+  ) as React.ElementType
   const ElementChild = isTrElement(Element) ? 'td' : 'div'
 
   return (
@@ -91,7 +93,10 @@ export function isTrElement(Element: unknown) {
     Element &&
     (typeof Element === 'object' || React.isValidElement(Element))
   ) {
-    if (((Element as Record<string, unknown>).__emotion_base || (Element as Record<string, unknown>).target) === 'tr') {
+    if (
+      ((Element as Record<string, unknown>).__emotion_base ||
+        (Element as Record<string, unknown>).target) === 'tr'
+    ) {
       isTr = true
     }
   }
@@ -111,7 +116,17 @@ export function preparePageElement(
     const isTr = isTrElement(Element)
     const Comp = Element as React.ElementType
 
-    return ({ className, children, ref, ...props }: { className?: string; children?: React.ReactNode; ref?: React.Ref<unknown>; [key: string]: unknown }) => {
+    return ({
+      className,
+      children,
+      ref,
+      ...props
+    }: {
+      className?: string
+      children?: React.ReactNode
+      ref?: React.Ref<unknown>
+      [key: string]: unknown
+    }) => {
       const params = {
         ...props,
         className: clsx(includeClassName, className),
@@ -119,7 +134,9 @@ export function preparePageElement(
       }
       return isTr ? (
         <td>
-          <div {...(params as React.HTMLAttributes<HTMLDivElement>)}>{children}</div>
+          <div {...(params as React.HTMLAttributes<HTMLDivElement>)}>
+            {children}
+          </div>
         </td>
       ) : (
         <Comp {...(params as Record<string, unknown>)}>{children}</Comp>

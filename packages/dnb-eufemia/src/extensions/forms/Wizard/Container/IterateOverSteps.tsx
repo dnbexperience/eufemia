@@ -76,11 +76,14 @@ export function IterateOverSteps({
           prerenderFieldProps &&
           typeof document !== 'undefined' &&
           index !== activeIndexRef.current &&
-          typeof (prerenderFieldPropsRef.current as Record<string, unknown>)[`step-${index}`] ===
-            'undefined'
+          typeof (
+            prerenderFieldPropsRef.current as Record<string, unknown>
+          )[`step-${index}`] === 'undefined'
         ) {
           const key = `${index}-${activeIndexRef.current}`
-          ;(prerenderFieldPropsRef.current as Record<string, unknown>)[`step-${index}`] = {
+          ;(prerenderFieldPropsRef.current as Record<string, unknown>)[
+            `step-${index}`
+          ] = {
             index,
             fn: () =>
               React.createElement(

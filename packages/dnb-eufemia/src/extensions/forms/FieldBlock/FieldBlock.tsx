@@ -206,7 +206,10 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
   const errorRef = useRef<UseFieldProps['error']>(undefined)
 
   const blockId = useId(props.id)
-  const [salt, forceUpdate] = useReducer(() => ({} as Record<string, unknown>), {} as Record<string, unknown>)
+  const [salt, forceUpdate] = useReducer(
+    () => ({}) as Record<string, unknown>,
+    {} as Record<string, unknown>
+  )
   const mountedFieldsRef = useRef<MountedFieldsRef>(new Map())
   const fieldStateRef = useRef<SubmitState | null>(null)
   const stateRecordRef = useRef<StateRecord>({})
@@ -508,11 +511,15 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
     const style: React.CSSProperties = {}
 
     if (hasCustomWidth) {
-      ;(style as Record<string, unknown>)['--dnb-forms-field-block-width'] = width
+      ;(style as Record<string, unknown>)[
+        '--dnb-forms-field-block-width'
+      ] = width
     }
 
     if (hasCustomContentWidth) {
-      ;(style as Record<string, unknown>)['--dnb-forms-field-block-content-width'] = contentWidth
+      ;(style as Record<string, unknown>)[
+        '--dnb-forms-field-block-content-width'
+      ] = contentWidth
     }
 
     const lO = layoutOptions || {}
@@ -520,10 +527,14 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
     const max = getFieldWidth(lO.maxWidth ?? lO.width)
 
     if (typeof min === 'string') {
-      ;(style as Record<string, unknown>)['--dnb-forms-field-block-layout-width-min'] = min
+      ;(style as Record<string, unknown>)[
+        '--dnb-forms-field-block-layout-width-min'
+      ] = min
     }
     if (typeof max === 'string') {
-      ;(style as Record<string, unknown>)['--dnb-forms-field-block-layout-width-max'] = max
+      ;(style as Record<string, unknown>)[
+        '--dnb-forms-field-block-layout-width-max'
+      ] = max
     }
 
     return style

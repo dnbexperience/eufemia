@@ -69,7 +69,11 @@ export default function useTranslation<
   >(() => {
     const id = typeof messages === 'string' ? messages : undefined
     if (id) {
-      return formatMessage(id, args, translation) as unknown as TranslationFlatToObject<T> & AdditionalReturnUtils
+      return formatMessage(
+        id,
+        args,
+        translation
+      ) as unknown as TranslationFlatToObject<T> & AdditionalReturnUtils
     }
 
     // Handle translation fallback logic
@@ -111,12 +115,16 @@ export default function useTranslation<
       Object.hasOwn(contextTranslations, locale)
     ) {
       hasExplicitCurrent = true
-      currentMessages = (contextTranslations as Record<string, unknown>)[locale] as T | undefined
+      currentMessages = (contextTranslations as Record<string, unknown>)[
+        locale
+      ] as T | undefined
     }
 
     const fallbackMessages =
       ((explicitMessages?.[fallbackLocale] as T | undefined) ||
-        ((contextTranslations as Record<string, unknown> | undefined)?.[fallbackLocale] as T | undefined) ||
+        ((contextTranslations as Record<string, unknown> | undefined)?.[
+          fallbackLocale
+        ] as T | undefined) ||
         ((defaultLocales as Record<string, unknown>)[fallbackLocale] as
           | T
           | undefined)) ??
@@ -289,14 +297,29 @@ export function combineWithExternalTranslations({
   } as CombineWithExternalTranslationsReturn
 
   if (messages) {
-    if (Object.keys(defaultLocales).some((locale) => (messages as Record<string, unknown>)[locale])) {
+    if (
+      Object.keys(defaultLocales).some(
+        (locale) => (messages as Record<string, unknown>)[locale]
+      )
+    ) {
       if ((messages as Record<string, unknown>)[locale]) {
-        combined = (messages as Record<string, unknown>)[locale] as CombineWithExternalTranslationsReturn
+        combined = (messages as Record<string, unknown>)[
+          locale
+        ] as CombineWithExternalTranslationsReturn
       }
     }
 
     for (const key in messages as TranslationCustomLocales) {
-      ;(combined as Record<string, unknown>)[key] = { ...(translation as Record<string, unknown>)[key] as Record<string, unknown>, ...(messages as Record<string, unknown>)[key] as Record<string, unknown> }
+      ;(combined as Record<string, unknown>)[key] = {
+        ...((translation as Record<string, unknown>)[key] as Record<
+          string,
+          unknown
+        >),
+        ...((messages as Record<string, unknown>)[key] as Record<
+          string,
+          unknown
+        >),
+      }
     }
   }
 

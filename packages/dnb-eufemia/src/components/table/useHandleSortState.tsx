@@ -66,15 +66,22 @@ export function useHandleSortState(
   }
 ) {
   const initialState = React.useMemo(() => {
-    return Object.entries(config).reduce((acc, [name, opts]) => {
-      acc[name] = { ...defaults, ...opts } as SortStateInternalStateOptions
+    return Object.entries(config).reduce(
+      (acc, [name, opts]) => {
+        acc[name] = {
+          ...defaults,
+          ...opts,
+        } as SortStateInternalStateOptions
 
-      return acc
-    }, {} as Record<string, SortStateInternalStateOptions>)
+        return acc
+      },
+      {} as Record<string, SortStateInternalStateOptions>
+    )
   }, [config, defaults])
 
-  const [internalState, setState] =
-    React.useState<TableSortState>(initialState as unknown as TableSortState)
+  const [internalState, setState] = React.useState<TableSortState>(
+    initialState as unknown as TableSortState
+  )
 
   const sortHandler: TableSortHandler = React.useMemo(() => {
     const list = Object.entries(internalState as SortStateInternalEntry)
@@ -99,14 +106,17 @@ export function useHandleSortState(
         }
 
         setState({
-          ...list.reduce((acc, [name, opts]) => {
-            acc[name] = opts as unknown as SortStateInternalState
-            acc[name].active = false
-            if (opts.direction !== 'off') {
-              acc[name].lastDirection = opts.direction
-            }
-            return acc
-          }, {} as Record<string, SortStateInternalState>),
+          ...list.reduce(
+            (acc, [name, opts]) => {
+              acc[name] = opts as unknown as SortStateInternalState
+              acc[name].active = false
+              if (opts.direction !== 'off') {
+                acc[name].lastDirection = opts.direction
+              }
+              return acc
+            },
+            {} as Record<string, SortStateInternalState>
+          ),
           [name]: state,
         } as unknown as TableSortState)
       }

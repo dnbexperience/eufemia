@@ -61,7 +61,12 @@ export function set<T = JsonObject>(
       }
     }
     if (Object.isFrozen((obj as Record<string | number, unknown>)[tok])) {
-      ;(obj as Record<string | number, unknown>)[tok] = { ...(obj as Record<string | number, unknown>)[tok] as Record<string, unknown> }
+      ;(obj as Record<string | number, unknown>)[tok] = {
+        ...((obj as Record<string | number, unknown>)[tok] as Record<
+          string,
+          unknown
+        >),
+      }
     }
     obj = (obj as Record<string | number, unknown>)[tok] as T
   }
@@ -99,7 +104,10 @@ export function remove<T = JsonObject>(obj: T, pointer: PointerPath) {
 /**
  * Returns a (pointer -> value) dictionary for an object
  */
-export function dict<T = JsonObject>(obj: T, descend: ((value: unknown) => boolean) | null = null) {
+export function dict<T = JsonObject>(
+  obj: T,
+  descend: ((value: unknown) => boolean) | null = null
+) {
   const results: Record<string, unknown> = {}
   walk(
     obj,
@@ -114,7 +122,11 @@ export function dict<T = JsonObject>(obj: T, descend: ((value: unknown) => boole
 /**
  * Iterates over an object
  */
-export function walk<T = JsonObject>(obj: T, iterator: (value: unknown, pointer: string) => void | false, descend: ((value: unknown) => boolean) | null = null) {
+export function walk<T = JsonObject>(
+  obj: T,
+  iterator: (value: unknown, pointer: string) => void | false,
+  descend: ((value: unknown) => boolean) | null = null
+) {
   const refTokens: string[] = []
 
   descend =
@@ -127,7 +139,12 @@ export function walk<T = JsonObject>(obj: T, iterator: (value: unknown, pointer:
   next(obj, refTokens, iterator, descend)
 }
 
-function next(cur: unknown, refTokens: string[], iterator: (value: unknown, pointer: string) => void | false, descend: (value: unknown) => boolean) {
+function next(
+  cur: unknown,
+  refTokens: string[],
+  iterator: (value: unknown, pointer: string) => void | false,
+  descend: (value: unknown) => boolean
+) {
   if (Array.isArray(cur)) {
     cur = cur.reduce((acc, cur, i) => {
       acc[i] = cur

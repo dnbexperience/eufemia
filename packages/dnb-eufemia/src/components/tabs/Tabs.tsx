@@ -864,7 +864,11 @@ export default class Tabs extends React.PureComponent<
     )
   }
 
-  focusTab = (focusKey: string | number, event: React.SyntheticEvent | null = null, mode: string | null = null) => {
+  focusTab = (
+    focusKey: string | number,
+    event: React.SyntheticEvent | null = null,
+    mode: string | null = null
+  ) => {
     // for handling openPrevTab and openNextTab
     if (mode === 'step' && parseFloat(String(focusKey))) {
       focusKey = this.getStepKey(Number(focusKey), this.state.focusKey)
@@ -920,7 +924,11 @@ export default class Tabs extends React.PureComponent<
     )
   }
 
-  openTab = (selectedKey: string | number, event: React.SyntheticEvent | null = null, mode: string | null = null) => {
+  openTab = (
+    selectedKey: string | number,
+    event: React.SyntheticEvent | null = null,
+    mode: string | null = null
+  ) => {
     // saving the position will avoid flickering if the new tab will be done by a new page load
     this.saveLastPosition()
     this.saveLastUsedTab()
@@ -928,7 +936,10 @@ export default class Tabs extends React.PureComponent<
 
     // for handling openPrevTab and openNextTab
     if (mode === 'step' && parseFloat(String(selectedKey))) {
-      selectedKey = this.getStepKey(Number(selectedKey), this.state.selectedKey)
+      selectedKey = this.getStepKey(
+        Number(selectedKey),
+        this.state.selectedKey
+      )
     }
 
     if (typeof selectedKey !== 'undefined') {
@@ -992,13 +1003,16 @@ export default class Tabs extends React.PureComponent<
     const { preventRerender, prerender } = this.props
 
     if (prerender) {
-      this._cache = Object.entries(data).reduce((acc, [_idx, cur]) => {
-        acc[cur.key] = {
-          ...cur,
-          content: this.getContent(cur.key),
-        }
-        return acc
-      }, {} as typeof this._cache)
+      this._cache = Object.entries(data).reduce(
+        (acc, [_idx, cur]) => {
+          acc[cur.key] = {
+            ...cur,
+            content: this.getContent(cur.key),
+          }
+          return acc
+        },
+        {} as typeof this._cache
+      )
     } else if (preventRerender) {
       this._cache = {
         ...(this._cache || {}),
@@ -1050,7 +1064,9 @@ export default class Tabs extends React.PureComponent<
         (contentToRender as Record<string | number, unknown>)[selectedKey]
       ) {
         // if content is provided as an object
-        content = (contentToRender as Record<string | number, unknown>)[selectedKey] as React.ReactNode
+        content = (contentToRender as Record<string | number, unknown>)[
+          selectedKey
+        ] as React.ReactNode
       } else if (typeof contentToRender === 'function') {
         // if content is provided as a render prop
         content = contentToRender.apply(this, [selectedKey])

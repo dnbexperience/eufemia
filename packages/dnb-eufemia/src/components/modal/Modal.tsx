@@ -129,8 +129,18 @@ class Modal extends React.PureComponent<ModalAllProps, ModalState> {
     barContent: null,
   }
 
-  static getDerivedStateFromProps(props: ModalAllProps, state: ModalState & { animationDuration: number; noAnimation: boolean; _open?: boolean }) {
-    if (typeof window !== 'undefined' && (window as unknown as Record<string, unknown>)['IS_TEST']) {
+  static getDerivedStateFromProps(
+    props: ModalAllProps,
+    state: ModalState & {
+      animationDuration: number
+      noAnimation: boolean
+      _open?: boolean
+    }
+  ) {
+    if (
+      typeof window !== 'undefined' &&
+      (window as unknown as Record<string, unknown>)['IS_TEST']
+    ) {
       state.animationDuration = 0
       state.noAnimation = true
     } else {
@@ -209,7 +219,10 @@ class Modal extends React.PureComponent<ModalAllProps, ModalState> {
     }
   }
 
-  toggleOpenClose = (event: Event | React.SyntheticEvent | null = null, showModal: boolean | null = null) => {
+  toggleOpenClose = (
+    event: Event | React.SyntheticEvent | null = null,
+    showModal: boolean | null = null
+  ) => {
     if (event && event.preventDefault) {
       event.preventDefault()
     }
@@ -354,14 +367,18 @@ class Modal extends React.PureComponent<ModalAllProps, ModalState> {
 
     if (preventClose) {
       const id = this._id
-      dispatchCustomElementEvent(this as unknown as Record<string, unknown>, 'onClosePrevent', {
-        id,
-        event,
-        triggeredBy,
-        close: (e: Event | React.SyntheticEvent) => {
-          this.toggleOpenClose(e, false)
-        },
-      })
+      dispatchCustomElementEvent(
+        this as unknown as Record<string, unknown>,
+        'onClosePrevent',
+        {
+          id,
+          event,
+          triggeredBy,
+          close: (e: Event | React.SyntheticEvent) => {
+            this.toggleOpenClose(e, false)
+          },
+        }
+      )
     } else {
       if (ifIsLatest) {
         const list = getListOfModalRoots()
@@ -418,7 +435,8 @@ class Modal extends React.PureComponent<ModalAllProps, ModalState> {
 
   render() {
     const visualTestsPropsOverride =
-      typeof window !== 'undefined' && (window as unknown as Record<string, unknown>)['IS_TEST']
+      typeof window !== 'undefined' &&
+      (window as unknown as Record<string, unknown>)['IS_TEST']
         ? {
             animationDuration: 0,
             noAnimation: true,

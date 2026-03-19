@@ -49,10 +49,19 @@ export default function IsolationResetButton(props: Props) {
 
   const buttonWrapperRef = React.useRef<HTMLButtonElement>(null)
   const handleClick = useCallback(
-    ({ close, event }: { close?: () => void; event?: React.SyntheticEvent }) => {
+    ({
+      close,
+      event,
+    }: {
+      close?: () => void
+      event?: React.SyntheticEvent
+    }) => {
       close?.()
       // eslint-disable-next-line @typescript-eslint/consistent-type-imports
-      onClick?.(event as unknown as React.MouseEvent<HTMLButtonElement> & import('../../../../components/button/Button').ButtonClickEvent)
+      onClick?.(
+        event as unknown as React.MouseEvent<HTMLButtonElement> &
+          import('../../../../components/button/Button').ButtonClickEvent
+      )
       handleReset()
       setShowBoundaryErrors?.(false)
       buttonWrapperRef.current?.focus()

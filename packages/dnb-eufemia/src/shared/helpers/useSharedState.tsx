@@ -57,7 +57,10 @@ export function useSharedState<Data>(
 
   const shouldSync = useCallback((fn: () => void) => {
     // Do not rerender the "same component", when the hook is used. Only other subscribers will rerender.
-    if (instanceRef.current === (fn as unknown as Record<string, unknown>)?.['ref']) {
+    if (
+      instanceRef.current ===
+      (fn as unknown as Record<string, unknown>)?.['ref']
+    ) {
       return false
     }
   }, [])
@@ -132,7 +135,8 @@ export function useSharedState<Data>(
       return
     }
 
-    ;(forceRerender as unknown as Record<string, unknown>)['ref'] = instanceRef.current
+    ;(forceRerender as unknown as Record<string, unknown>)['ref'] =
+      instanceRef.current
     sharedState.subscribe(forceRerender)
 
     return () => {

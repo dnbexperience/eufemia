@@ -391,7 +391,8 @@ class PaginationInstance extends React.PureComponent<PaginationProps> {
       validateDOMAttributes(props, mainParams)
 
       const content = items.find(
-        ({ pageNumber }: { pageNumber: number }) => pageNumber === currentPageInternal
+        ({ pageNumber }: { pageNumber: number }) =>
+          pageNumber === currentPageInternal
       )?.content
 
       return (
@@ -431,7 +432,9 @@ export function InfinityMarker(props: PaginationProps) {
       tagName="dnb-infinity-marker"
       {...rest}
     >
-      <InfinityScroller {...rest}>{children as React.ReactNode}</InfinityScroller>
+      <InfinityScroller {...rest}>
+        {children as React.ReactNode}
+      </InfinityScroller>
     </PaginationProvider>
   )
 }

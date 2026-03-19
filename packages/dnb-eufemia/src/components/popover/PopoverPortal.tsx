@@ -60,11 +60,10 @@ type PopoverPortalEntry = {
 
 let popoverPortal: Record<string, PopoverPortalEntry>
 if (typeof globalThis !== 'undefined') {
-  ;(globalThis as Record<string, unknown>).popoverPortal = (globalThis as Record<string, unknown>).popoverPortal || {}
-  popoverPortal = (globalThis as Record<string, unknown>).popoverPortal as Record<
-    string,
-    PopoverPortalEntry
-  >
+  ;(globalThis as Record<string, unknown>).popoverPortal =
+    (globalThis as Record<string, unknown>).popoverPortal || {}
+  popoverPortal = (globalThis as Record<string, unknown>)
+    .popoverPortal as Record<string, PopoverPortalEntry>
 } else {
   popoverPortal = {}
 }

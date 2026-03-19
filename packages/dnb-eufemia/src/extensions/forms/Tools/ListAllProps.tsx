@@ -32,71 +32,82 @@ export default function ListAllProps<Data extends JsonObject = JsonObject>(
 
     const propsOfFields = Object.entries(
       fieldInternalsRef?.current || {}
-    ).reduce((acc, [path, { props }]) => {
-      if (path.startsWith('/')) {
-        const propertyValue: Record<string, unknown> = {}
+    ).reduce(
+      (acc, [path, { props }]) => {
+        if (path.startsWith('/')) {
+          const propertyValue: Record<string, unknown> = {}
 
-        for (const prop in props) {
-          const value = (props as unknown as Record<string, unknown>)[prop]
-          if (value === undefined) {
-            continue
-          }
-
-          // Resolve schema functions to their concrete schema objects
-          if (prop === 'schema') {
-            if (!includeSchema) {
+          for (const prop in props) {
+            const value = (props as unknown as Record<string, unknown>)[
+              prop
+            ]
+            if (value === undefined) {
               continue
             }
-            try {
-              // Some fields provide schema as a factory function depending on props
-              // Ensure we expose the resolved schema object for tooling like ListAllProps
-              propertyValue[prop] =
-                typeof value === 'function' ? value(props) : value
-            } catch {
-              // Ignore schema resolution errors and fall back to the raw value if it is not a function
-              if (typeof value !== 'function') {
-                propertyValue[prop] = value
+
+            // Resolve schema functions to their concrete schema objects
+            if (prop === 'schema') {
+              if (!includeSchema) {
+                continue
               }
+              try {
+                // Some fields provide schema as a factory function depending on props
+                // Ensure we expose the resolved schema object for tooling like ListAllProps
+                propertyValue[prop] =
+                  typeof value === 'function' ? value(props) : value
+              } catch {
+                // Ignore schema resolution errors and fall back to the raw value if it is not a function
+                if (typeof value !== 'function') {
+                  propertyValue[prop] = value
+                }
+              }
+              continue
             }
-            continue
+
+            if (typeof value !== 'function' && !isValidElement(value)) {
+              propertyValue[prop] = value
+            }
           }
 
-          if (typeof value !== 'function' && !isValidElement(value)) {
-            propertyValue[prop] = value
+          if ((filterData as Record<string, unknown>)?.[path] !== false) {
+            pointer.set(acc, path, propertyValue)
           }
         }
 
-        if ((filterData as Record<string, unknown>)?.[path] !== false) {
-          pointer.set(acc, path, propertyValue)
-        }
-      }
-
-      return acc
-    }, {} as Record<string, unknown>)
+        return acc
+      },
+      {} as Record<string, unknown>
+    )
 
     const propsOfValues = Object.entries(
       valueInternalsRef?.current || {}
-    ).reduce((acc, [path, { props }]) => {
-      if (path.startsWith('/')) {
-        const propertyValue: Record<string, unknown> = {}
+    ).reduce(
+      (acc, [path, { props }]) => {
+        if (path.startsWith('/')) {
+          const propertyValue: Record<string, unknown> = {}
 
-        for (const prop in props) {
-          if (
-            (props as Record<string, unknown>)[prop] !== undefined &&
-            typeof (props as Record<string, unknown>)[prop] !== 'function' &&
-            !isValidElement((props as Record<string, unknown>)[prop])
-          ) {
-            propertyValue[prop] = (props as Record<string, unknown>)[prop]
+          for (const prop in props) {
+            if (
+              (props as Record<string, unknown>)[prop] !== undefined &&
+              typeof (props as Record<string, unknown>)[prop] !==
+                'function' &&
+              !isValidElement((props as Record<string, unknown>)[prop])
+            ) {
+              propertyValue[prop] = (props as Record<string, unknown>)[
+                prop
+              ]
+            }
+          }
+
+          if ((filterData as Record<string, unknown>)?.[path] !== false) {
+            pointer.set(acc, path, propertyValue)
           }
         }
 
-        if ((filterData as Record<string, unknown>)?.[path] !== false) {
-          pointer.set(acc, path, propertyValue)
-        }
-      }
-
-      return acc
-    }, {} as Record<string, unknown>)
+        return acc
+      },
+      {} as Record<string, unknown>
+    )
 
     return { propsOfFields, propsOfValues } as ListAllPropsReturn<Data>
   }, [fieldInternalsRef, filterData, valueInternalsRef])

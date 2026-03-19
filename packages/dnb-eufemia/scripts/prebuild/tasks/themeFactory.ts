@@ -79,7 +79,8 @@ async function runThemeFactory() {
       ),
       ...processToNamesIgnoreList,
     ],
-    customContent: ({ name }: { name: string }) => `@use './${name}-theme-forms.scss';`,
+    customContent: ({ name }: { name: string }) =>
+      `@use './${name}-theme-forms.scss';`,
     // output
     targetFile: 'components', // ui-theme-components.scss
     scssOutputPath: path.resolve(__dirname, '../../../src/style/themes'),

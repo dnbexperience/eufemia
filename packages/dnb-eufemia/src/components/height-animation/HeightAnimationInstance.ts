@@ -125,7 +125,8 @@ export default class HeightAnimation {
     }
 
     this.duration =
-      (globalThis as Record<string, unknown>).animationDuration as number ??
+      ((globalThis as Record<string, unknown>)
+        .animationDuration as number) ??
       (parseFloat(window.getComputedStyle(this.elem).transitionDuration) *
         1000 ||
         400) // The default duration
@@ -427,7 +428,8 @@ export default class HeightAnimation {
     return Boolean(
       this.startTime &&
         Date.now() - this.startTime >
-          ((globalThis as Record<string, unknown>).animationDuration as number ?? this.duration)
+          (((globalThis as Record<string, unknown>)
+            .animationDuration as number) ?? this.duration)
     )
   }
   /**
@@ -444,14 +446,17 @@ export default class HeightAnimation {
 
     if (
       this.isInBrowser &&
-      ((globalThis as Record<string, unknown>).IS_TEST || (globalThis as Record<string, unknown>).bypassTime === -1)
+      ((globalThis as Record<string, unknown>).IS_TEST ||
+        (globalThis as Record<string, unknown>).bypassTime === -1)
     ) {
       return false
     }
 
     return Boolean(
       this.firstTime &&
-        Date.now() - this.firstTime < ((globalThis as Record<string, unknown>).bypassTime as number ?? 100)
+        Date.now() - this.firstTime <
+          (((globalThis as Record<string, unknown>)
+            .bypassTime as number) ?? 100)
     )
   }
 }

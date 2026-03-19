@@ -18,8 +18,13 @@ export function pickSpacingProps<Props extends SpacingProps>(
 ): SpacingProps {
   const obj: SpacingProps = {}
   for (const key in props as SpacingProps) {
-    if (isValidSpaceProp(key) && typeof (props as Record<string, unknown>)[key] !== 'undefined') {
-      (obj as Record<string, unknown>)[key] = (props as Record<string, unknown>)[key]
+    if (
+      isValidSpaceProp(key) &&
+      typeof (props as Record<string, unknown>)[key] !== 'undefined'
+    ) {
+      ;(obj as Record<string, unknown>)[key] = (
+        props as Record<string, unknown>
+      )[key]
     }
   }
   return obj

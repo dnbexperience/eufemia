@@ -121,7 +121,9 @@ function getMessageValuesFromZodIssue(
 ): FormError['messageValues'] {
   // Prefer explicit message parameters provided by field validation
   // (e.g., pre-formatted and locale-aware values)
-  const explicitParams = (issue as unknown as Record<string, unknown>)?.['messageValues']
+  const explicitParams = (issue as unknown as Record<string, unknown>)?.[
+    'messageValues'
+  ]
   if (explicitParams && typeof explicitParams === 'object') {
     const messages = Object.fromEntries(
       Object.entries(explicitParams).map(([k, v]) => [k, String(v)])

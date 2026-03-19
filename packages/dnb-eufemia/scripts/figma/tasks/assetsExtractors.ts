@@ -177,10 +177,13 @@ export const extractIcons = async ({
     if (!forceReconvert) {
       await saveIconsLockFile({
         file: iconsLockFile,
-        data: listOfProcessedFiles.reduce<Record<string, unknown>>((acc, { iconFile, ...cur }) => {
-          acc[iconFile] = cur
-          return acc
-        }, {}),
+        data: listOfProcessedFiles.reduce<Record<string, unknown>>(
+          (acc, { iconFile, ...cur }) => {
+            acc[iconFile] = cur
+            return acc
+          },
+          {}
+        ),
         assetsDir,
       })
 
@@ -254,7 +257,11 @@ async function collectIconsFromFigmaDoc({
   }
 }
 
-const runDiffControl = ({ controlStorageLists }: { controlStorageLists: IconProcessedFile[][] }) => {
+const runDiffControl = ({
+  controlStorageLists,
+}: {
+  controlStorageLists: IconProcessedFile[][]
+}) => {
   const collectDiff: Array<Record<string, string>> = []
   const sizes = Object.keys(ICON_SIZES).map((size) => `_${size}`)
   const removeSizes = (n: string) =>
@@ -329,7 +336,10 @@ const frameIconsFactory = async ({
 
   // get a list of icons we want to refetch
   const listOfIconObjectsFromDoc = frameDocChildren.reduce(
-    (acc: FigmaDocAny[], { name, children }: { name: string; children: FigmaDocAny[] }) => {
+    (
+      acc: FigmaDocAny[],
+      { name, children }: { name: string; children: FigmaDocAny[] }
+    ) => {
       const iconName = prerenderIconName(name)
 
       // Skip names starting with a dot
@@ -385,23 +395,25 @@ const frameIconsFactory = async ({
     }))
 
   // remove the IDs if they are in the lock file so we font need to refetch the urls
-  const iconIdsToFetchFrom = listOfIconObjectsFromDoc.filter(({ id }: { id: string }) => {
-    const found = listOfCachedIconUrls.find(({ id: i }) => i === id)
+  const iconIdsToFetchFrom = listOfIconObjectsFromDoc.filter(
+    ({ id }: { id: string }) => {
+      const found = listOfCachedIconUrls.find(({ id: i }) => i === id)
 
-    if (found) {
-      // Check if created has passed 30 days
-      const countDays = Math.ceil(
-        (Date.now() - found.updated) / (1e3 * 60 * 60 * 24)
-      )
-      const outdated = countDays > Number(imageUrlExpireAfterDays)
+      if (found) {
+        // Check if created has passed 30 days
+        const countDays = Math.ceil(
+          (Date.now() - found.updated) / (1e3 * 60 * 60 * 24)
+        )
+        const outdated = countDays > Number(imageUrlExpireAfterDays)
 
-      if (outdated) {
-        return true // yes, re-fetch the url
+        if (outdated) {
+          return true // yes, re-fetch the url
+        }
       }
-    }
 
-    return !found // no, we have it already
-  })
+      return !found // no, we have it already
+    }
+  )
 
   log.start(
     `> Figma: Starting to fetch ${iconIdsToFetchFrom.length} icons from the "${originalFrameName}" Canvas`
@@ -601,14 +613,12 @@ const prerenderIconName = (name: string, size: string | null = null) => {
 
   // in case Icons have "[NAME] ..." somewhere
   if (iconSelector) {
-    iconName =
-      iconName.match(new RegExp(iconSelector))?.[1] || iconName
+    iconName = iconName.match(new RegExp(iconSelector))?.[1] || iconName
   }
 
   // essentials/grabber_16 => grabber
   if (iconNameCleaner) {
-    iconName =
-      iconName.match(new RegExp(iconNameCleaner))?.[1] || iconName
+    iconName = iconName.match(new RegExp(iconNameCleaner))?.[1] || iconName
   }
 
   // also, make sure we use underline, instead of hyphen and so on
@@ -653,76 +663,82 @@ const makeMetaFile = async ({
   assetsDir: string
 }) => {
   // save the metaFile content
-  const data = listOfProcessedFiles.reduce<Record<string, { tags: string[]; created: number | null; name: string; variant: string; category: string }>>(
-    (acc, { iconName, size, id, created, name, variant, category }) => {
-      const cleanSize = size ? String(size) : null
-      if (cleanSize && iconName.includes(cleanSize)) {
-        iconName = iconName.replace(`_${cleanSize}`, '')
+  const data = listOfProcessedFiles.reduce<
+    Record<
+      string,
+      {
+        tags: string[]
+        created: number | null
+        name: string
+        variant: string
+        category: string
       }
+    >
+  >((acc, { iconName, size, id, created, name, variant, category }) => {
+    const cleanSize = size ? String(size) : null
+    if (cleanSize && iconName.includes(cleanSize)) {
+      iconName = iconName.replace(`_${cleanSize}`, '')
+    }
 
-      const { description, componentSetId } = figmaDoc.components[id]
-      const componentSet = figmaDoc.componentSets?.[componentSetId]
+    const { description, componentSetId } = figmaDoc.components[id]
+    const componentSet = figmaDoc.componentSets?.[componentSetId]
 
-      let tags: string[] = []
+    let tags: string[] = []
 
-      // add component tags
-      tags = (description as string)
-        .split(/[,;|]/g)
-        .map((s) => (s ? s.trim() : null))
-        .filter(Boolean) as string[]
+    // add component tags
+    tags = (description as string)
+      .split(/[,;|]/g)
+      .map((s) => (s ? s.trim() : null))
+      .filter(Boolean) as string[]
 
-      // add set tags
-      tags = ((componentSet?.description || '') as string)
-        .split(/[,;|]/g)
-        .map((s) => (s ? s.trim() : null))
-        .filter(Boolean)
-        .reduce((tags: string[], tag: string) => {
-          if (!tags.includes(tag)) {
-            tags.push(tag)
+    // add set tags
+    tags = ((componentSet?.description || '') as string)
+      .split(/[,;|]/g)
+      .map((s) => (s ? s.trim() : null))
+      .filter(Boolean)
+      .reduce((tags: string[], tag: string) => {
+        if (!tags.includes(tag)) {
+          tags.push(tag)
+        }
+
+        return tags
+      }, tags)
+
+    // remove duplication
+    const cleanedName = Object.values(ICON_SIZES).reduce(
+      (iconName, { suffix }) =>
+        suffix ? iconName.replace(NAME_SEPARATOR + suffix, '') : iconName,
+      iconName
+    )
+    tags = tags.filter((item, index) => {
+      if (item === cleanedName) {
+        return false
+      }
+      return tags.indexOf(item) === index
+    })
+
+    const foundRename = iconRenameList.find(({ to }) => to === iconName)
+    if (foundRename) {
+      tags.push(foundRename.from)
+    }
+
+    if (acc[iconName]) {
+      const existing = acc[iconName]
+
+      acc[iconName] = {
+        ...existing,
+        tags: tags.reduce((acc, cur) => {
+          if (!acc.includes(cur) && cur !== iconName) {
+            acc.push(cur)
           }
-
-          return tags
-        }, tags)
-
-      // remove duplication
-      const cleanedName = Object.values(ICON_SIZES).reduce(
-        (iconName, { suffix }) =>
-          suffix
-            ? iconName.replace(NAME_SEPARATOR + suffix, '')
-            : iconName,
-        iconName
-      )
-      tags = tags.filter((item, index) => {
-        if (item === cleanedName) {
-          return false
-        }
-        return tags.indexOf(item) === index
-      })
-
-      const foundRename = iconRenameList.find(({ to }) => to === iconName)
-      if (foundRename) {
-        tags.push(foundRename.from)
+          return acc
+        }, existing.tags),
       }
-
-      if (acc[iconName]) {
-        const existing = acc[iconName]
-
-        acc[iconName] = {
-          ...existing,
-          tags: tags.reduce((acc, cur) => {
-            if (!acc.includes(cur) && cur !== iconName) {
-              acc.push(cur)
-            }
-            return acc
-          }, existing.tags),
-        }
-      } else {
-        acc[iconName] = { tags, created, name, variant, category }
-      }
-      return acc
-    },
-    {}
-  )
+    } else {
+      acc[iconName] = { tags, created, name, variant, category }
+    }
+    return acc
+  }, {})
 
   await saveToFile(
     makeIconsMetaFile(assetsDir),
@@ -884,7 +900,13 @@ const createXMLTarBundles = async ({
   }
 }
 
-const optimizeSVGIcons = async ({ destDir, listWithFiles }: { destDir: string; listWithFiles: Array<{ iconFile: string }> }) => {
+const optimizeSVGIcons = async ({
+  destDir,
+  listWithFiles,
+}: {
+  destDir: string
+  listWithFiles: Array<{ iconFile: string }>
+}) => {
   await asyncForEach(
     listWithFiles,
     async ({ iconFile }: { iconFile: string }) => {
@@ -988,7 +1010,15 @@ export const readIconsLockFile = async ({ file }: { file: string }) => {
 
   return {} as IconsLockFileMap
 }
-export const saveIconsLockFile = async ({ file, data, assetsDir }: { file: string; data: unknown; assetsDir: string }) => {
+export const saveIconsLockFile = async ({
+  file,
+  data,
+  assetsDir,
+}: {
+  file: string
+  data: unknown
+  assetsDir: string
+}) => {
   await saveToFile(file, await formatIconsMetaFile(data, assetsDir))
 
   log.info(`> Figma: ${file} file got generated`)
@@ -1000,7 +1030,10 @@ const makeIconsMetaFile = (assetsDir: string) =>
     `../../../src/icons/${assetsDir}/icons-meta.json`
   )
 
-export const formatIconsMetaFile = async (data: unknown, assetsDir: string) => {
+export const formatIconsMetaFile = async (
+  data: unknown,
+  assetsDir: string
+) => {
   return await prettier.format(JSON.stringify(data), {
     ...prettierrc,
     filepath: makeIconsMetaFile(assetsDir),

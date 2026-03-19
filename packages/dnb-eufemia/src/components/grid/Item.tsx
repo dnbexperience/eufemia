@@ -80,7 +80,9 @@ function compute(span: GridItemMedia | GridItemSpan, modifier: string) {
     })
   } else if (typeof span === 'object') {
     for (const media in span) {
-      const values = (span as GridItemMedia)?.[media as keyof GridItemMedia]
+      const values = (span as GridItemMedia)?.[
+        media as keyof GridItemMedia
+      ]
 
       if (values === 'full') {
         result[makeStyle(media, 's')] = '1'

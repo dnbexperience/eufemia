@@ -76,8 +76,12 @@ export function SliderTrackBefore() {
   ]
 
   const style: React.CSSProperties = {}
-  ;(style as Record<string, string>)[units[isReverse ? 1 : 0]] = `${lowerPercent}%`
-  ;(style as Record<string, string>)[units[isReverse ? 0 : 1]] = `${upperPercent}%`
+  ;(style as Record<string, string>)[
+    units[isReverse ? 1 : 0]
+  ] = `${lowerPercent}%`
+  ;(style as Record<string, string>)[
+    units[isReverse ? 0 : 1]
+  ] = `${upperPercent}%`
 
   return (
     <span

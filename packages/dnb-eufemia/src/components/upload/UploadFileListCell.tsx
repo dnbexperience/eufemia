@@ -258,13 +258,25 @@ export function getFileIcon(
   if (!iconFileType) {
     const mimeParts = file.type.split('/')
     iconFileType =
-      (fileExtensionImages as Record<string, unknown>)[mimeParts[0]] as string ||
-      (fileExtensionImages as Record<string, unknown>)[mimeParts[1]] as string
+      ((fileExtensionImages as Record<string, unknown>)[
+        mimeParts[0]
+      ] as string) ||
+      ((fileExtensionImages as Record<string, unknown>)[
+        mimeParts[1]
+      ] as string)
   }
 
   if (!Object.hasOwn(fileExtensionImages, iconFileType)) {
     iconFileType = 'file'
   }
 
-  return <Icon icon={(fileExtensionImages as Record<string, React.FC>)[iconFileType] as IconIcon} />
+  return (
+    <Icon
+      icon={
+        (fileExtensionImages as Record<string, React.FC>)[
+          iconFileType
+        ] as IconIcon
+      }
+    />
+  )
 }

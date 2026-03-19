@@ -125,7 +125,9 @@ function computeProperties(space: InnerSpaceType) {
   const result: Record<string, string> = {}
 
   for (const size in space as InnerSpaceTypeMedia) {
-    const value = (space as Record<string, unknown>)?.[size] as SpaceType | InnerSpacingElementProps
+    const value = (space as Record<string, unknown>)?.[size] as
+      | SpaceType
+      | InnerSpacingElementProps
     const props = transformToAll(value)
 
     for (const key in props as InnerSpaceTypeMedia) {
@@ -214,7 +216,9 @@ export const createSpacingClasses = (
     if (typeof p.space === 'object') {
       for (const i in p.space) {
         if (!(p as Record<string, unknown>)[i] && isValidSpaceProp(i)) {
-          ;(p as Record<string, unknown>)[i] = (p.space as Record<string, unknown>)[i]
+          ;(p as Record<string, unknown>)[i] = (
+            p.space as Record<string, unknown>
+          )[i]
         }
       }
     }
@@ -262,7 +266,11 @@ export const createSpacingClasses = (
 // @internal splits types by given string
 export const translateSpace = (type: SpaceType) => {
   if (/-x2$/.test(String(type))) {
-    return (spacePatterns as Record<string, number>)[String(type).replace(/-x2$/, '')] * 2
+    return (
+      (spacePatterns as Record<string, number>)[
+        String(type).replace(/-x2$/, '')
+      ] * 2
+    )
   }
   return (spacePatterns as Record<string, number>)[String(type)] || 0
 }
@@ -363,7 +371,10 @@ export const findTypeAll = (
 }
 
 // @internal Finds from e.g. a value of "2.5rem" the nearest type = ["large", "x-small"]
-export const findNearestTypes = (num: SpaceNumber, multiply = false): SpaceType[] => {
+export const findNearestTypes = (
+  num: SpaceNumber,
+  multiply = false
+): SpaceType[] => {
   let res: SpaceType[] = []
 
   const near = Object.entries(spacePatterns)

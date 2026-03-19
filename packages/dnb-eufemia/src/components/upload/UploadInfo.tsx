@@ -33,8 +33,9 @@ const UploadInfo = () => {
     children,
   } = context
 
-  const prettifiedAcceptedFileFormats =
-    prettifyAcceptedFileFormats(acceptedFileTypes as string[])
+  const prettifiedAcceptedFileFormats = prettifyAcceptedFileFormats(
+    acceptedFileTypes as string[]
+  )
 
   const isAcceptedFileTypeListOfStrings =
     isArrayOfStrings(acceptedFileTypes)
@@ -127,9 +128,11 @@ function UploadInfoAcceptedFileTypesTable() {
       return fileMaxSize === false || fileMaxSize === 0
     }
 
-    const group: Record<string | number, UploadAcceptedFileTypeObject[]> = {}
+    const group: Record<string | number, UploadAcceptedFileTypeObject[]> =
+      {}
     acceptedFileTypes.forEach((item) => {
-      const itemFileMaxSize = (item as UploadAcceptedFileTypeObject).fileMaxSize
+      const itemFileMaxSize = (item as UploadAcceptedFileTypeObject)
+        .fileMaxSize
       const groupName = itemFileMaxSize
         ? itemFileMaxSize
         : fileMaxSizeIsFalseOrZero(itemFileMaxSize)
@@ -171,7 +174,12 @@ function UploadInfoAcceptedFileTypesTable() {
               <Tr variant="odd" key={key}>
                 <Td>
                   {prettifyAcceptedFileFormats(
-                    (acceptedFileTypesGroupedByFileMaxSize as Record<string, UploadAcceptedFileTypeObject[]>)[key].map(
+                    (
+                      acceptedFileTypesGroupedByFileMaxSize as Record<
+                        string,
+                        UploadAcceptedFileTypeObject[]
+                      >
+                    )[key].map(
                       (
                         acceptedFileTypesObj: UploadAcceptedFileTypeObject
                       ) => acceptedFileTypesObj.fileType

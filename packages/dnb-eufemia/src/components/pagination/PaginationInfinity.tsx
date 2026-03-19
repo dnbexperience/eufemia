@@ -29,7 +29,9 @@ export default class InfinityScroller extends React.PureComponent<PaginationInfi
   static contextType = PaginationContext
   context!: React.ContextType<typeof PaginationContext>
 
-  static defaultProps: Partial<PaginationInfinityScrollerProps> = { children: null }
+  static defaultProps: Partial<PaginationInfinityScrollerProps> = {
+    children: null,
+  }
 
   hideIndicator: boolean
   useLoadButton: boolean
@@ -93,9 +95,11 @@ export default class InfinityScroller extends React.PureComponent<PaginationInfi
     }
 
     const exists =
-      this.context.pagination.items.findIndex((obj: { pageNumber: number }) => {
-        return obj.pageNumber === newPageNo
-      }) > -1
+      this.context.pagination.items.findIndex(
+        (obj: { pageNumber: number }) => {
+          return obj.pageNumber === newPageNo
+        }
+      ) > -1
 
     if (exists) {
       return // stop here!

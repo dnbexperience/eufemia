@@ -303,8 +303,14 @@ function getIcon(icon: IconIcon) {
 }
 
 export function pickIcon(icon: IconIcon, className?: string) {
-  const element = icon as React.ReactElement<{ icon?: string; className?: string }>
-  if (element?.props?.icon || element?.props?.className?.includes('dnb-icon')) {
+  const element = icon as React.ReactElement<{
+    icon?: string
+    className?: string
+  }>
+  if (
+    element?.props?.icon ||
+    element?.props?.className?.includes('dnb-icon')
+  ) {
     return React.createElement(element.type, {
       ...(element.props as Record<string, unknown>),
       key: 'button-icon-clone',

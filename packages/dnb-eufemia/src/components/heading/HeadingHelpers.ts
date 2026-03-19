@@ -168,9 +168,15 @@ export const correctInternalHeadingLevel = ({
   return counter
 }
 
-function report(debug: boolean | (((...args: unknown[]) => void)), source: React.ReactNode, ...reports: Array<string | number | React.ReactNode>) {
+function report(
+  debug: boolean | ((...args: unknown[]) => void),
+  source: React.ReactNode,
+  ...reports: Array<string | number | React.ReactNode>
+) {
   if (source) {
-    const props = (source as React.ReactElement)?.props as Record<string, unknown> || {}
+    const props =
+      ((source as React.ReactElement)?.props as Record<string, unknown>) ||
+      {}
     const identifiers = [props.id, props['class'], props.className].filter(
       Boolean
     )
@@ -240,11 +246,15 @@ export function teardownHeadings() {
 export function debugCounter(counter: Record<string, unknown>) {
   return JSON.stringify(
     {
-      group: counter.group || (counter.contextCounter as Record<string, unknown>)?.group,
+      group:
+        counter.group ||
+        (counter.contextCounter as Record<string, unknown>)?.group,
       level: counter.level,
       entry: counter.entry,
-      contextLevel: (counter.contextCounter as Record<string, unknown>)?.level,
-      contextLEntry: (counter.contextCounter as Record<string, unknown>)?.entry,
+      contextLevel: (counter.contextCounter as Record<string, unknown>)
+        ?.level,
+      contextLEntry: (counter.contextCounter as Record<string, unknown>)
+        ?.entry,
     },
     null,
     2

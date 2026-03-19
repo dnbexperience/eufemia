@@ -626,7 +626,9 @@ export default function Provider<Data extends JsonObject>(
       const { value: displayValue } =
         fieldDisplayValueRef.current[path] || {}
       const props = fieldInternalsRef.current[path]?.props || {}
-      const label = (props as Record<string, unknown>)?.['label'] as React.ReactNode
+      const label = (props as Record<string, unknown>)?.[
+        'label'
+      ] as React.ReactNode
       const error = fieldErrorRef.current[path]
 
       return {
@@ -690,11 +692,14 @@ export default function Provider<Data extends JsonObject>(
         }
 
         // Then iterate over the rest of the internal data set
-        pointer.walk(internalDataRef.current, (value: unknown, path: string) => {
-          if (fieldInternalsRef.current[path] === undefined) {
-            run(path)
+        pointer.walk(
+          internalDataRef.current,
+          (value: unknown, path: string) => {
+            if (fieldInternalsRef.current[path] === undefined) {
+              run(path)
+            }
           }
-        })
+        )
 
         if (!mutate) {
           return freshData
@@ -702,7 +707,13 @@ export default function Provider<Data extends JsonObject>(
 
         return data
       } else if (handler) {
-        const runFilter = ({ path, condition }: { path: string; condition: unknown }) => {
+        const runFilter = ({
+          path,
+          condition,
+        }: {
+          path: string
+          condition: unknown
+        }) => {
           const exists = pointer.has(data, path)
           if (exists) {
             const result =
@@ -713,7 +724,8 @@ export default function Provider<Data extends JsonObject>(
           }
         }
 
-        const wildcardPaths: Array<{ path: string; condition: unknown }> = []
+        const wildcardPaths: Array<{ path: string; condition: unknown }> =
+          []
 
         Object.entries(handler).forEach(([path, condition]) => {
           if (path.includes('*')) {
@@ -1345,7 +1357,9 @@ export default function Provider<Data extends JsonObject>(
 
         // Force the state to be set by a custom status
         if ((result as Record<string, unknown>)?.['status']) {
-          setFormState((result as Record<string, unknown>)?.['status'] as SubmitState)
+          setFormState(
+            (result as Record<string, unknown>)?.['status'] as SubmitState
+          )
         }
 
         if (
@@ -1652,7 +1666,8 @@ export default function Provider<Data extends JsonObject>(
       ? true
       : undefined
   const contextErrorMessages =
-    (errorMessages as Record<string, unknown>)?.[locale ?? sharedLocale] || errorMessages
+    (errorMessages as Record<string, unknown>)?.[locale ?? sharedLocale] ||
+    errorMessages
 
   const getSourceValue = useCallback(
     <Return extends string>(value: PathStrict | unknown): Return => {
@@ -1803,7 +1818,9 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
 
   const clear = useCallback(() => {
     for (const key in timeoutRef.current) {
-      clearTimeout(timeoutRef.current[key as keyof typeof timeoutRef.current])
+      clearTimeout(
+        timeoutRef.current[key as keyof typeof timeoutRef.current]
+      )
     }
   }, [])
 

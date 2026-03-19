@@ -50,7 +50,10 @@ export function extendErrorMessagesWithTranslationMessages(
         const keys = translationKey.split('.')
 
         messages[translationKey] =
-          messages[translationKey] ?? (translation as Record<string, Record<string, string>>)[keys[0]]?.[keys[1]]
+          messages[translationKey] ??
+          (translation as Record<string, Record<string, string>>)[
+            keys[0]
+          ]?.[keys[1]]
       }
     }
   )

@@ -163,7 +163,9 @@ export function getCountryCodeValue({
 }) {
   const countryCodeValue =
     givenCountryCode ||
-    ((additionalArgs.props as Record<string, unknown>)?.['data-country-code'] as string) ||
+    ((additionalArgs.props as Record<string, unknown>)?.[
+      'data-country-code'
+    ] as string) ||
     defaultCountry
   const countryCode =
     additionalArgs.getSourceValue<string>(countryCodeValue) ||
@@ -187,7 +189,10 @@ export function handleCountryPath({
 }) {
   const { countryCode, countryCodeValue } = getCountryCodeValue({
     countryCode:
-      givenCountryCode || ((additionalArgs.props as Record<string, unknown>)?.['data-country-code'] as string),
+      givenCountryCode ||
+      ((additionalArgs.props as Record<string, unknown>)?.[
+        'data-country-code'
+      ] as string),
     additionalArgs,
   })
 

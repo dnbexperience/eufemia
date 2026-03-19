@@ -5,7 +5,13 @@ import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared
 
 export default function useReachRouter(
   id: string = null,
-  { useLocation, navigate }: { useLocation: () => { href: string; search: string }; navigate: (url: string) => void }
+  {
+    useLocation,
+    navigate,
+  }: {
+    useLocation: () => { href: string; search: string }
+    navigate: (url: string) => void
+  }
 ) {
   const name = id ? `${id}-step` : 'step'
   const { setFormError } = useStep(id)

@@ -49,14 +49,22 @@ export default function useDates(
     () =>
       Object.keys(dateProps).some((date) => {
         const dateProp = (dateProps as Record<string, unknown>)[date]
-        const previousDate = (previousDateProps as Record<string, unknown>)[date]
+        const previousDate = (
+          previousDateProps as Record<string, unknown>
+        )[date]
 
-        const convertedDateProp = convertStringToDate(dateProp as string | Date, {
-          dateFormat,
-        })
-        const convertedPreviousDate = convertStringToDate(previousDate as string | Date, {
-          dateFormat,
-        })
+        const convertedDateProp = convertStringToDate(
+          dateProp as string | Date,
+          {
+            dateFormat,
+          }
+        )
+        const convertedPreviousDate = convertStringToDate(
+          previousDate as string | Date,
+          {
+            dateFormat,
+          }
+        )
         // Make sure that same dates does not trigger a change
         // i.e. 2021-01-01 and new Date('2021-01-01')
         if (

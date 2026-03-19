@@ -116,7 +116,10 @@ export function ThemeWrapper({
   )
 }
 
-export function getThemeClasses(theme: ThemeProps, className: string | null = null) {
+export function getThemeClasses(
+  theme: ThemeProps,
+  className: string | null = null
+) {
   if (!theme) {
     return className
   }

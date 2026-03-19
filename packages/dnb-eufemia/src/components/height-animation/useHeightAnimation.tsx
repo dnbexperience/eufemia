@@ -101,7 +101,10 @@ export function useHeightAnimation(
   useLayoutEffect(() => {
     instRef.current.setOptions({ animate })
 
-    if (typeof global !== 'undefined' && (globalThis as Record<string, unknown>).IS_TEST) {
+    if (
+      typeof global !== 'undefined' &&
+      (globalThis as Record<string, unknown>).IS_TEST
+    ) {
       instRef.current.setOptions({ animate: false })
     }
   }, [animate])
@@ -204,7 +207,12 @@ export function useHeightAnimation(
   }
 }
 
-function useOpenClose({ open, instRef, isInitialRenderRef, targetRef }: {
+function useOpenClose({
+  open,
+  instRef,
+  isInitialRenderRef,
+  targetRef,
+}: {
   open: boolean
   instRef: React.RefObject<HeightAnimationInstance | null>
   isInitialRenderRef: React.RefObject<boolean>
@@ -220,7 +228,9 @@ function useOpenClose({ open, instRef, isInitialRenderRef, targetRef }: {
 
     if (
       !targetRef.current ||
-      ((instRef.current as unknown as { state: string }).state === 'init' && isInitialRenderRef.current)
+      ((instRef.current as unknown as { state: string }).state ===
+        'init' &&
+        isInitialRenderRef.current)
     ) {
       if (open) {
         instRef.current.setAsOpen()
@@ -246,7 +256,10 @@ function useOpenClose({ open, instRef, isInitialRenderRef, targetRef }: {
     const run = () => {
       isInitialRenderRef.current = false
     }
-    if ((globalThis as Record<string, unknown>).bypassTime === -1 || isTest) {
+    if (
+      (globalThis as Record<string, unknown>).bypassTime === -1 ||
+      isTest
+    ) {
       run()
     } else {
       window.requestAnimationFrame?.(run)
@@ -254,7 +267,12 @@ function useOpenClose({ open, instRef, isInitialRenderRef, targetRef }: {
   }, [isInitialRenderRef, isTest])
 }
 
-function useAdjust({ children, instRef, isInitialRenderRef, targetRef }: {
+function useAdjust({
+  children,
+  instRef,
+  isInitialRenderRef,
+  targetRef,
+}: {
   children: React.ReactNode | HTMLElement
   instRef: React.RefObject<HeightAnimationInstance | null>
   isInitialRenderRef: React.RefObject<boolean>
@@ -275,7 +293,9 @@ function useAdjust({ children, instRef, isInitialRenderRef, targetRef }: {
       case 'adjusting':
         return (
           !isInitialRenderRef.current &&
-          Date.now() - timer > ((globalThis as Record<string, unknown>).readjustTime as number || 100)
+          Date.now() - timer >
+            (((globalThis as Record<string, unknown>)
+              .readjustTime as number) || 100)
         )
     }
 

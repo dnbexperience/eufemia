@@ -217,7 +217,9 @@ export default function useMedia(
       // Cache Object.keys() result for performance
       const resultKeys = Object.keys(result)
       const hasChanged = resultKeys.some(
-        (key) => (resultRef.current as Record<string, unknown>)[key] !== (result as Record<string, unknown>)[key]
+        (key) =>
+          (resultRef.current as Record<string, unknown>)[key] !==
+          (result as Record<string, unknown>)[key]
       )
       if (hasChanged) {
         updateRerender(result)

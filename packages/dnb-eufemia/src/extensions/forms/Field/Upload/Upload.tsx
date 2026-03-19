@@ -82,7 +82,14 @@ function UploadComponent(props: Props) {
   )
 
   const validateRequired = useCallback(
-    (value: UploadValue, { required, isChanged, error }: { required: boolean; isChanged: boolean; error: Error }) => {
+    (
+      value: UploadValue,
+      {
+        required,
+        isChanged,
+        error,
+      }: { required: boolean; isChanged: boolean; error: Error }
+    ) => {
       const hasError = value?.some((file) => file.errorMessage)
       if (hasError) {
         return new FormError('Upload.errorInvalidFiles')
@@ -107,7 +114,8 @@ function UploadComponent(props: Props) {
       value[index] = item
 
       // Store the name in the value, to support session storage (serialization)
-      ;(value[index] as Record<string, unknown>)['name'] = (item as Record<string, unknown>)['name'] || item.file?.name
+      ;(value[index] as Record<string, unknown>)['name'] =
+        (item as Record<string, unknown>)['name'] || item.file?.name
     })
 
     return value
@@ -511,10 +519,15 @@ export function transformFiles(
     value.map((item) => {
       if (item?.file && !(item.file instanceof File)) {
         // To support session storage, we recreated the file blob.
-        item['file'] = new File([], (item as Record<string, unknown>)['name'] as string || item?.file['name'], {
-          lastModified: (item.file as File)?.lastModified ?? 0,
-          type: (item.file as File)?.type ?? '',
-        })
+        item['file'] = new File(
+          [],
+          ((item as Record<string, unknown>)['name'] as string) ||
+            item?.file['name'],
+          {
+            lastModified: (item.file as File)?.lastModified ?? 0,
+            type: (item.file as File)?.type ?? '',
+          }
+        )
       }
       return item
     })

@@ -371,11 +371,9 @@ class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
       usedIconSize = 'medium'
     }
 
-    const Element = (element
-      ? element
-      : props.href || props.to
-      ? Anchor
-      : 'button') as React.ElementType
+    const Element = (
+      element ? element : props.href || props.to ? Anchor : 'button'
+    ) as React.ElementType
     if (Element === Anchor) {
       ;(attributes as Record<string, unknown>).omitClass = true
       if (opensNewTab(props.target, props.href) && !icon) {

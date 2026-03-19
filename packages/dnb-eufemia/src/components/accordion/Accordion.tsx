@@ -207,7 +207,10 @@ function Accordion({
     if (group && typeof window !== 'undefined') {
       const win = window as unknown as Record<string, unknown>
       win['__dnbAccordion'] = win['__dnbAccordion'] || {}
-      const accordionStore = win['__dnbAccordion'] as Record<string, AccordionStore>
+      const accordionStore = win['__dnbAccordion'] as Record<
+        string,
+        AccordionStore
+      >
       accordionStore[group] =
         accordionStore[group] || new AccordionStore(group)
 
@@ -221,7 +224,9 @@ function Accordion({
     return () => {
       if (group && typeof window !== 'undefined') {
         const win = window as unknown as Record<string, unknown>
-        const accordionStore = win['__dnbAccordion'] as Record<string, AccordionStore> | undefined
+        const accordionStore = win['__dnbAccordion'] as
+          | Record<string, AccordionStore>
+          | undefined
         accordionStore?.[group]?.removeInstance(thisInstance)
       }
     }
@@ -307,13 +312,18 @@ function Accordion({
     }
     if (group && typeof window !== 'undefined') {
       const win = window as unknown as Record<string, unknown>
-      const accordionStore = win['__dnbAccordion'] as Record<string, AccordionStore> | undefined
+      const accordionStore = win['__dnbAccordion'] as
+        | Record<string, AccordionStore>
+        | undefined
       accordionStore?.[group]?.onChange(params[0] as { id: string })
     }
   }
 
   function callOnChange(...params: [Record<string, unknown>]) {
-    const { expanded, event } = params[0] as { expanded: boolean; event: React.SyntheticEvent }
+    const { expanded, event } = params[0] as {
+      expanded: boolean
+      event: React.SyntheticEvent
+    }
 
     changeOpened(expanded)
 
@@ -338,7 +348,9 @@ function Accordion({
               nestedContext as unknown as Record<string, unknown>, // internal context
               { skeleton: globalContext?.skeleton },
               globalContext.Accordion, // global context
-              (globalContext.translation as Record<string, unknown>)['Accordion'] as Record<string, unknown>
+              (globalContext.translation as Record<string, unknown>)[
+                'Accordion'
+              ] as Record<string, unknown>
             )
 
             if (expandedState === undefined && globalContext.Accordion) {

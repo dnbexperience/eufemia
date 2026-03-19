@@ -165,7 +165,13 @@ function StepIndicator({
   )
 }
 
-function StepIndicatorStatus({ status, statusState }: { status: FormStatusText; statusState: FormStatusState }) {
+function StepIndicatorStatus({
+  status,
+  statusState,
+}: {
+  status: FormStatusText
+  statusState: FormStatusState
+}) {
   const { open, noAnimation } = useContext(StepIndicatorContext)
   const show = !open && !!status
   return (

@@ -81,7 +81,9 @@ function SelectCurrency(props: Props) {
     (value: CurrencyType['iso']) => {
       const currency = currencies.find(({ iso }) => value === iso)
       if (currency?.i18n) {
-        ;(currency as Record<string, unknown>)['name'] = (currency.i18n as Record<string, string>)[lang]
+        ;(currency as Record<string, unknown>)['name'] = (
+          currency.i18n as Record<string, string>
+        )[lang]
       }
       return currency
     },
@@ -222,9 +224,19 @@ function SelectCurrency(props: Props) {
   )
 
   const onTypeHandler = useCallback(
-    ({ value: currentValue, setHidden, event }: { value: string; setHidden: () => void; event: React.SyntheticEvent }) => {
+    ({
+      value: currentValue,
+      setHidden,
+      event,
+    }: {
+      value: string
+      setHidden: () => void
+      event: React.SyntheticEvent
+    }) => {
       // Handle browser autofill/autocomplete
-      if (typeof (event?.nativeEvent as InputEvent)?.data === 'undefined') {
+      if (
+        typeof (event?.nativeEvent as InputEvent)?.data === 'undefined'
+      ) {
         const search = currentValue.toLowerCase()
         const currency = currencies.find(({ i18n }) =>
           Object.values(i18n).some((s) => s.toLowerCase().includes(search))
@@ -307,10 +319,17 @@ export function getCurrencyData({
   enableSort = null,
   enableSearch = null,
   makeObject = (currency: CurrencyType, lang: string) => {
-    const translation = (currency.i18n as Record<string, string>)[lang] ?? currency.i18n.en
+    const translation =
+      (currency.i18n as Record<string, string>)[lang] ?? currency.i18n.en
     const content = [translation, currency.iso]
     const searchContent = enableSearch
-      ? [translation, currency.iso, ...((currency.search as Record<string, readonly string[]>)?.[lang] || [])]
+      ? [
+          translation,
+          currency.iso,
+          ...((currency.search as Record<string, readonly string[]>)?.[
+            lang
+          ] || []),
+        ]
       : undefined
     return {
       selectedKey: currency.iso,

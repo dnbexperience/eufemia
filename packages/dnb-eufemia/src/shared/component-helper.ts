@@ -156,7 +156,10 @@ export function isObject(item: unknown): item is Record<string, unknown> {
   return item && typeof item === 'object' && !Array.isArray(item)
 }
 
-export function extendDeep(target: Record<string, unknown> = {}, ...sources: unknown[]): Record<string, unknown> {
+export function extendDeep(
+  target: Record<string, unknown> = {},
+  ...sources: unknown[]
+): Record<string, unknown> {
   for (const source of sources) {
     if (isObject(source)) {
       for (const key in source) {
@@ -188,37 +191,49 @@ export const dispatchCustomElementEvent = (
   let ret = undefined
 
   const eventObject = {
-    ...((eventObjectOrig && eventObjectOrig.event as Record<string, unknown>) || {}),
+    ...((eventObjectOrig &&
+      (eventObjectOrig.event as Record<string, unknown>)) ||
+      {}),
     ...(eventObjectOrig || {}),
   }
 
   // distribute dataset like "data-*" to both currentTarget and target
   if (eventObject && eventObject.attributes && eventObject.event) {
     const evt = eventObject.event as Record<string, unknown>
-    const currentTarget = (evt as { currentTarget?: HTMLElement }).currentTarget
+    const currentTarget = (evt as { currentTarget?: HTMLElement })
+      .currentTarget
     if (currentTarget) {
       try {
         // 1. create new dataset, and copy if exists
         const dataset = { ...(currentTarget.dataset || {}) }
 
         // 2. copy in our attributes if they are of "data-" type
-        const attributes = { ...(eventObject.attributes as Record<string, unknown>) }
+        const attributes = {
+          ...(eventObject.attributes as Record<string, unknown>),
+        }
         for (const i in attributes) {
           if (/^data-/.test(i)) {
-            dataset[String(i).replace(/^data-/, '')] = attributes[i] as string
+            dataset[String(i).replace(/^data-/, '')] = attributes[
+              i
+            ] as string
           }
         }
 
         // 3. and distribute them to the targets. Use the for method because of immutability
         for (const i in dataset) {
-          if ((evt as { currentTarget?: HTMLElement }).currentTarget?.dataset) {
-            (evt as { currentTarget?: HTMLElement }).currentTarget.dataset[i] = dataset[i]
+          if (
+            (evt as { currentTarget?: HTMLElement }).currentTarget?.dataset
+          ) {
+            ;(
+              evt as { currentTarget?: HTMLElement }
+            ).currentTarget.dataset[i] = dataset[i]
           }
           if (
             (evt as { target?: HTMLElement }).target &&
             (evt as { target?: HTMLElement }).target.dataset
           ) {
-            (evt as { target?: HTMLElement }).target.dataset[i] = dataset[i]
+            ;(evt as { target?: HTMLElement }).target.dataset[i] =
+              dataset[i]
           }
         }
       } catch (e) {
@@ -230,7 +245,10 @@ export const dispatchCustomElementEvent = (
   const props = ((src && src.props) || src) as Record<string, unknown>
 
   if (typeof props[eventName] === 'function') {
-    const r = (props[eventName] as (...args: unknown[]) => unknown).apply(src, [eventObject])
+    const r = (props[eventName] as (...args: unknown[]) => unknown).apply(
+      src,
+      [eventObject]
+    )
     if (typeof r !== 'undefined') {
       ret = r
     }
@@ -248,7 +266,8 @@ export const toPascalCase = (s: string) =>
         acc +
         cur.replace(
           /(\w)(\w*)/g,
-          (_g0: string, g1: string, g2: string) => g1.toUpperCase() + g2.toLowerCase()
+          (_g0: string, g1: string, g2: string) =>
+            g1.toUpperCase() + g2.toLowerCase()
         ),
       ''
     )
@@ -296,7 +315,11 @@ export const slugify = (s: string) =>
  * @param {function} callback (optional)
  * @returns {HTMLElement | null} Returns the found child of all existing dom elements inside of "target"
  */
-export const isChildOfElement = (element: HTMLElement, target: HTMLElement, callback: ((el: HTMLElement) => unknown) | null = null) => {
+export const isChildOfElement = (
+  element: HTMLElement,
+  target: HTMLElement,
+  callback: ((el: HTMLElement) => unknown) | null = null
+) => {
   try {
     const contains = (element: HTMLElement) => {
       if (callback) {
@@ -329,7 +352,9 @@ export const roundToNearest = (num: number, target: number) => {
   return diff > target / 2 ? num - diff + target : num - diff
 }
 
-export const getClosestScrollViewElement = (currentElement: HTMLElement) => {
+export const getClosestScrollViewElement = (
+  currentElement: HTMLElement
+) => {
   return getClosestParent('.dnb-scroll-view', currentElement)
 }
 
@@ -353,15 +378,18 @@ export function convertJsxToString(
       }
 
       if (Array.isArray(element.props.children)) {
-        word = element.props.children.reduce((acc: string, word: React.ReactNode) => {
-          if (typeof word !== 'string') {
-            word = process(word)
-          }
-          if (typeof word === 'string') {
-            acc = (acc + (separator || '') + word).trim()
-          }
-          return acc
-        }, '')
+        word = element.props.children.reduce(
+          (acc: string, word: React.ReactNode) => {
+            if (typeof word !== 'string') {
+              word = process(word)
+            }
+            if (typeof word === 'string') {
+              acc = (acc + (separator || '') + word).trim()
+            }
+            return acc
+          },
+          ''
+        )
       } else if (element.props.children) {
         word = element.props.children
         if (typeof word !== 'string') {
@@ -429,15 +457,25 @@ function combineAriaBy(type: string, params: unknown[]) {
   return joined
 }
 
-export function findElementInChildren(children: React.ReactNode | React.ReactNode[], find: (element: React.ReactElement) => boolean): React.ReactElement | null {
+export function findElementInChildren(
+  children: React.ReactNode | React.ReactNode[],
+  find: (element: React.ReactElement) => boolean
+): React.ReactElement | null {
   if (!Array.isArray(children)) {
     children = [children]
   }
 
   let result: React.ReactElement | null = null
   ;(children as React.ReactNode[]).some((cur: React.ReactNode) => {
-    if (React.isValidElement(cur) && cur.props && (cur.props as Record<string, unknown>).children) {
-      const res = findElementInChildren((cur.props as Record<string, unknown>).children as React.ReactNode, find)
+    if (
+      React.isValidElement(cur) &&
+      cur.props &&
+      (cur.props as Record<string, unknown>).children
+    ) {
+      const res = findElementInChildren(
+        (cur.props as Record<string, unknown>).children as React.ReactNode,
+        find
+      )
       if (res) {
         return (result = res)
       }

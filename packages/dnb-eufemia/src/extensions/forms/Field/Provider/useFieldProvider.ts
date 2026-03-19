@@ -68,14 +68,18 @@ function useFieldProvider(props?: Omit<FieldProviderProps, 'children'>) {
 
       // Extract props from overwriteProps to be used in values
       const key = overwriteProps && fieldProps?.path?.split('/')?.pop()
-      const overwrite = overwriteProps?.[(key as string)]
+      const overwrite = overwriteProps?.[key as string]
       // Overwrite given schema props
       if (overwrite && fieldProps?.schema) {
-        Object.keys(fieldProps.schema as Record<string, unknown>).forEach((key) => {
-          if ((overwrite as Record<string, unknown>)?.[(key as string)]) {
-            ;(fieldProps.schema as Record<string, unknown>)[key] = (overwrite as Record<string, unknown>)[(key as string)]
+        Object.keys(fieldProps.schema as Record<string, unknown>).forEach(
+          (key) => {
+            if ((overwrite as Record<string, unknown>)?.[key as string]) {
+              ;(fieldProps.schema as Record<string, unknown>)[key] = (
+                overwrite as Record<string, unknown>
+              )[key as string]
+            }
           }
-        })
+        )
       }
 
       const props = overwrite

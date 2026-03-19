@@ -6,7 +6,11 @@ import IsolationContext from './IsolationContext'
 import useDataContextSnapshot from './useDataContextSnapshot'
 import useEventListener from '../../DataContext/Provider/useEventListener'
 
-export default function IsolatedContainer({ children }: { children?: React.ReactNode }) {
+export default function IsolatedContainer({
+  children,
+}: {
+  children?: React.ReactNode
+}) {
   const { outerContext, preventUncommittedChanges } =
     useContext(IsolationContext)
   const { preventUncommittedChangesText } = useTranslation().Isolation

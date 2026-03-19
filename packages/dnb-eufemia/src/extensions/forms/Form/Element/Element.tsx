@@ -112,7 +112,11 @@ function FormElementInstance(props: Props) {
             noAnimation={false}
             shellSpace={{ top: 'small' }}
           >
-            {String((value as Record<string, unknown>)?.['message'] || value || '')}
+            {String(
+              (value as Record<string, unknown>)?.['message'] ||
+                value ||
+                ''
+            )}
           </FormStatus>
         )
       })}

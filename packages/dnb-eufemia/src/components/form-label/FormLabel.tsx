@@ -64,9 +64,15 @@ function FormLabel(localProps: FormLabelAllProps) {
 
   const nestedContent = props?.text || props?.children
   const nestedNode =
-    (nestedContent as React.ReactElement)?.['type'] === FormLabel ? (nestedContent as React.ReactElement)?.['type'] : null
+    (nestedContent as React.ReactElement)?.['type'] === FormLabel
+      ? (nestedContent as React.ReactElement)?.['type']
+      : null
   const nestedElement = nestedNode
-    ? () => React.createElement(nestedNode, (nestedContent as React.ReactElement)['props'])
+    ? () =>
+        React.createElement(
+          nestedNode,
+          (nestedContent as React.ReactElement)['props']
+        )
     : null
 
   const {

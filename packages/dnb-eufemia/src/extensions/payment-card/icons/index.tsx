@@ -81,12 +81,24 @@ const BankAxeptLogo = ({
   return bankAxept.cata({
     BankAxept: (): React.ReactNode =>
       cardDesign.bankAxept.cata({
-        White: (): React.ReactNode => <BankAxept className={id} fill="#FFFFFF" />,
-        Black20: (): React.ReactNode => <BankAxept className={id} fill="#CCCCCC" />,
-        Gray: (): React.ReactNode => <BankAxept className={id} fill="#b2b4b3" />,
-        GrayDark: (): React.ReactNode => <BankAxept className={id} fill="#55565A" />,
-        Black: (): React.ReactNode => <BankAxept className={id} fill="#000000" />,
-        Gold: (): React.ReactNode => <BankAxept className={id} fill="#CAAB51" />,
+        White: (): React.ReactNode => (
+          <BankAxept className={id} fill="#FFFFFF" />
+        ),
+        Black20: (): React.ReactNode => (
+          <BankAxept className={id} fill="#CCCCCC" />
+        ),
+        Gray: (): React.ReactNode => (
+          <BankAxept className={id} fill="#b2b4b3" />
+        ),
+        GrayDark: (): React.ReactNode => (
+          <BankAxept className={id} fill="#55565A" />
+        ),
+        Black: (): React.ReactNode => (
+          <BankAxept className={id} fill="#000000" />
+        ),
+        Gold: (): React.ReactNode => (
+          <BankAxept className={id} fill="#CAAB51" />
+        ),
       }),
     Credit: (): React.ReactNode => null,
     None: (): React.ReactNode => null,
@@ -104,12 +116,16 @@ const TypeLogo = ({
   return cardType.cata({
     Visa: (): React.ReactNode =>
       cardDesign.visa.cata({
-        Colored: (color: string) => <VisaDefault className={id} fill={color} />,
+        Colored: (color: string) => (
+          <VisaDefault className={id} fill={color} />
+        ),
         Platinum: (): React.ReactNode => <VisaPlatinum className={id} />,
       }),
     Mastercard: (): React.ReactNode =>
       cardDesign.mastercard.cata({
-        Default: (): React.ReactNode => <MastercardDefault className={id} />,
+        Default: (): React.ReactNode => (
+          <MastercardDefault className={id} />
+        ),
         Dark: (): React.ReactNode => <MastercardDark className={id} />,
       }),
     None: (): React.ReactNode => null,

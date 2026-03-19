@@ -153,7 +153,13 @@ const transformSvg = async ({
   }
 }
 
-const transformSvgToReact = async ({ srcPath, destPath }: { srcPath: string; destPath: string }) => {
+const transformSvgToReact = async ({
+  srcPath,
+  destPath,
+}: {
+  srcPath: string
+  destPath: string
+}) => {
   const files = await globby(srcPath, { cwd: ROOT_DIR })
 
   const globBase = path.resolve(ROOT_DIR, srcPath.split('*')[0])
@@ -177,7 +183,10 @@ const transformSvgToReact = async ({ srcPath, destPath }: { srcPath: string; des
   }
 }
 
-const transformToJsx = (content: string, file: { path: string }): PromiseLike<string> => {
+const transformToJsx = (
+  content: string,
+  file: { path: string }
+): PromiseLike<string> => {
   if (String(content).trim().length === 0) {
     fs.unlinkSync(file.path)
     return Promise.resolve('')
@@ -351,30 +360,33 @@ const generateGroupFiles = async ({
   // from the svg lock file we can generate groups out of the "bundleName"
   const groups: Record<string, Array<IconItem>> = Object.entries(
     lockFileContent
-  ).reduce<Record<string, Array<IconItem>>>((acc, [file, { bundleName }]) => {
-    acc[bundleName] = acc[bundleName] || []
-    const basename = path.basename(file)
-    const filename = basename.replace(path.extname(file), '')
-    const filePath = path.resolve(
-      ROOT_DIR,
-      destPath,
-      assetsDir,
-      `${filename}.tsx`
-    )
+  ).reduce<Record<string, Array<IconItem>>>(
+    (acc, [file, { bundleName }]) => {
+      acc[bundleName] = acc[bundleName] || []
+      const basename = path.basename(file)
+      const filename = basename.replace(path.extname(file), '')
+      const filePath = path.resolve(
+        ROOT_DIR,
+        destPath,
+        assetsDir,
+        `${filename}.tsx`
+      )
 
-    // make sure the file actually exists
-    if (fs.existsSync(filePath)) {
-      acc[bundleName].push({
-        filename,
-        basename,
-        name: iconCase(filename),
-      })
-    } else {
-      log.fail(`The file "${filePath}" did not exist!`)
-    }
+      // make sure the file actually exists
+      if (fs.existsSync(filePath)) {
+        acc[bundleName].push({
+          filename,
+          basename,
+          name: iconCase(filename),
+        })
+      } else {
+        log.fail(`The file "${filePath}" did not exist!`)
+      }
 
-    return acc
-  }, {})
+      return acc
+    },
+    {}
+  )
 
   try {
     await asyncForEach(

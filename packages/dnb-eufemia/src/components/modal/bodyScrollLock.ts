@@ -47,10 +47,12 @@ const setOverflowHidden = () => {
     return () => {
       try {
         ;['overflow', 'height'].forEach((x) => {
-          ;(htmlElement.style as unknown as Record<string, string>)[x] = (htmlStyle as unknown as Record<string, string>)[x] || ''
+          ;(htmlElement.style as unknown as Record<string, string>)[x] =
+            (htmlStyle as unknown as Record<string, string>)[x] || ''
         })
         ;['overflow', 'height', 'boxSizing', 'margin'].forEach((x) => {
-          ;(bodyElement.style as unknown as Record<string, string>)[x] = (bodyStyle as unknown as Record<string, string>)[x] || ''
+          ;(bodyElement.style as unknown as Record<string, string>)[x] =
+            (bodyStyle as unknown as Record<string, string>)[x] || ''
         })
         htmlElement.style.removeProperty('--scrollbar-width')
       } catch (e) {
@@ -140,7 +142,8 @@ const setOverflowHiddenAndroid = () => {
 
       try {
         ;['position', 'top', 'right', 'left'].forEach((x) => {
-          ;(bodyElement.style as unknown as Record<string, string>)[x] = (bodyStyle as unknown as Record<string, string>)[x] || ''
+          ;(bodyElement.style as unknown as Record<string, string>)[x] =
+            (bodyStyle as unknown as Record<string, string>)[x] || ''
         })
 
         const scrollBehavior =

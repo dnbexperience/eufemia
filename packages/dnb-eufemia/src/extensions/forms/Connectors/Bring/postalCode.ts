@@ -75,7 +75,9 @@ export function autofill(
   generalConfig: GeneralConfig,
   handlerConfig?: AutofillHandlerConfig & { cityPath: Path }
 ): UseFieldProps<string>['onChange'] {
-  const abortControllerRef: { current: AbortController | null } = { current: null }
+  const abortControllerRef: { current: AbortController | null } = {
+    current: null,
+  }
 
   return async function autofillHandler(value, additionalArgs?) {
     if (!(typeof value === 'string' && value.length >= 4)) {
@@ -143,7 +145,9 @@ export function validator(
 ):
   | UseFieldProps<string>['onChangeValidator']
   | UseFieldProps<string>['onBlurValidator'] {
-  const abortControllerRef: { current: AbortController | null } = { current: null }
+  const abortControllerRef: { current: AbortController | null } = {
+    current: null,
+  }
 
   return async function validatorHandler(value, additionalArgs?) {
     if (!(typeof value === 'string' && value.length >= 4)) {

@@ -137,8 +137,12 @@ export function SliderProvider(localProps: SliderAllProps) {
     if (numberValue >= min) {
       if (isMulti) {
         const currentIndex = getAndUpdateCurrentIndex(numberValue)
-        const lower = (realtimeValue.current as Array<number>)[currentIndex - 1]
-        const upper = (realtimeValue.current as Array<number>)[currentIndex + 1]
+        const lower = (realtimeValue.current as Array<number>)[
+          currentIndex - 1
+        ]
+        const upper = (realtimeValue.current as Array<number>)[
+          currentIndex + 1
+        ]
 
         if (multiThumbBehavior === 'omit') {
           if (numberValue < lower) {
@@ -159,14 +163,17 @@ export function SliderProvider(localProps: SliderAllProps) {
 
         if (multiThumbBehavior === 'push') {
           if (typeof lower !== 'undefined' && numberValue < lower) {
-            (multiValues as Array<number>)[currentIndex - 1] = numberValue
+            ;(multiValues as Array<number>)[currentIndex - 1] = numberValue
           }
           if (typeof upper !== 'undefined' && numberValue >= upper) {
-            (multiValues as Array<number>)[currentIndex + 1] = numberValue
+            ;(multiValues as Array<number>)[currentIndex + 1] = numberValue
           }
         }
 
-        if (numberValue === (realtimeValue.current as Array<number>)[currentIndex]) {
+        if (
+          numberValue ===
+          (realtimeValue.current as Array<number>)[currentIndex]
+        ) {
           return // stop here
         }
       } else if (numberValue === realtimeValue.current) {

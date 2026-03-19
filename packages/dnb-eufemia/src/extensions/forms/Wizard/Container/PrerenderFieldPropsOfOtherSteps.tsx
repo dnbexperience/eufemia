@@ -157,7 +157,13 @@ function PrerenderPortal({ children }: { children?: React.ReactNode }) {
   }
 }
 
-function PrerenderFieldPropsProvider({ showAllErrorsNow, children }: { showAllErrorsNow?: boolean; children?: React.ReactNode }) {
+function PrerenderFieldPropsProvider({
+  showAllErrorsNow,
+  children,
+}: {
+  showAllErrorsNow?: boolean
+  children?: React.ReactNode
+}) {
   const dataContext = useContext(DataContext)
 
   const {

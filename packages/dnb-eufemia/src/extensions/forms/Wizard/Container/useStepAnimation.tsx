@@ -9,7 +9,9 @@ export default function useStepAnimation({
 }: {
   activeIndexRef: React.RefObject<number>
   stepElementRef: React.RefObject<HTMLElement>
-  executeLayoutAnimationRef: React.MutableRefObject<(() => void) | undefined>
+  executeLayoutAnimationRef: React.MutableRefObject<
+    (() => void) | undefined
+  >
 }) {
   const activeIndex = activeIndexRef.current
   const indexRef = useRef(activeIndex)

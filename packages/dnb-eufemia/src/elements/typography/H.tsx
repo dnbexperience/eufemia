@@ -61,7 +61,8 @@ const H = ({
 
   const theme = useTheme()
   const targetSize =
-    (size === 'auto' && (getHeadingSize(theme?.name) as Record<number, string>)[numSiz]) ||
+    (size === 'auto' &&
+      (getHeadingSize(theme?.name) as Record<number, string>)[numSiz]) ||
     size ||
     'xx-large'
 

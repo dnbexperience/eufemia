@@ -139,7 +139,10 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     })
   }
 
-  const setPage = (currentPageInternal: number, event: React.SyntheticEvent | null = null) => {
+  const setPage = (
+    currentPageInternal: number,
+    event: React.SyntheticEvent | null = null
+  ) => {
     keepPageHeight()
 
     const { setState: setContextState, updatePageContent } = props
@@ -162,7 +165,13 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     setPage(props.currentPageInternal + 1)
   }
 
-  const clickHandler = ({ pageNumber, event }: { pageNumber: number; event: React.SyntheticEvent }) => {
+  const clickHandler = ({
+    pageNumber,
+    event,
+  }: {
+    pageNumber: number
+    event: React.SyntheticEvent
+  }) => {
     setPage(pageNumber, event)
     focusPage()
   }
@@ -245,7 +254,9 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
               aria-current={
                 pageNumber === currentPageInternal ? 'page' : null
               }
-              onClick={(event: React.MouseEvent<HTMLButtonElement>) => clickHandler({ pageNumber, event })}
+              onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
+                clickHandler({ pageNumber, event })
+              }
             />
           ))}
 
@@ -290,9 +301,9 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
                     aria-current={
                       pageNumber === currentPageInternal ? 'page' : null
                     }
-                    onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
-                      clickHandler({ pageNumber, event })
-                    }
+                    onClick={(
+                      event: React.MouseEvent<HTMLButtonElement>
+                    ) => clickHandler({ pageNumber, event })}
                   />
                 )
               })}
@@ -308,7 +319,9 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
   )
 }
 
-export const useResizeObserver = (element: React.RefObject<HTMLElement | null>) => {
+export const useResizeObserver = (
+  element: React.RefObject<HTMLElement | null>
+) => {
   const [currentSize, setSize] = useState('large')
   const resizeObserver = useRef<ResizeObserver | null>(null)
 
@@ -360,7 +373,9 @@ export const useResizeObserver = (element: React.RefObject<HTMLElement | null>) 
 }
 
 const getSizeInPx = (size: string) => {
-  const styleSize = (styleProperties as Record<string, string>)[`--layout-${size}`]
+  const styleSize = (styleProperties as Record<string, string>)[
+    `--layout-${size}`
+  ]
 
   if (styleSize.includes('em')) {
     return parseFloat(styleSize.replace(/(rem|em)$/, '')) * 16

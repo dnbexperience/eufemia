@@ -15,14 +15,24 @@ export default function useDependencePaths(
       return {}
     }
 
-    const check = ({ key, whenUndefined = false }: { key: string; whenUndefined?: boolean }) => {
+    const check = ({
+      key,
+      whenUndefined = false,
+    }: {
+      key: string
+      whenUndefined?: boolean
+    }) => {
       return dependencePaths?.every((path) => {
         if (pointer.has(data, path)) {
           const value = pointer.get(data, path)
           if (
             // When value is undefined, we should also consider it as off
             (whenUndefined ? typeof value === 'undefined' : false) ||
-            value === (fieldInternalsRef?.current?.[path]?.props as unknown as Record<string, unknown>)?.[key]
+            value ===
+              (
+                fieldInternalsRef?.current?.[path]
+                  ?.props as unknown as Record<string, unknown>
+              )?.[key]
           ) {
             return true
           }
@@ -65,8 +75,12 @@ export default function useDependencePaths(
     (checked: boolean) => {
       dependencePaths?.forEach((path) => {
         const fieldProp = checked ? 'valueOn' : 'valueOff'
-        const value =
-          (fieldInternalsRef?.current?.[path]?.props as unknown as Record<string, unknown>)?.[fieldProp as 'valueOn' | 'valueOff']
+        const value = (
+          fieldInternalsRef?.current?.[path]?.props as unknown as Record<
+            string,
+            unknown
+          >
+        )?.[fieldProp as 'valueOn' | 'valueOff']
         handlePathChange?.(path, value)
       })
     },

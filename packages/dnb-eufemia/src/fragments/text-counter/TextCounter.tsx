@@ -44,9 +44,13 @@ export default function TextCounter(localProps: TextCounterProps) {
       isExceeded ? 'Exceeded' : toPascalCase(String(variant))
     }`
 
-    return (context
-      .getTranslation(localProps)
-      .TextCounter as Record<string, string>)[key].replace('%count', String(count))
+    return (
+      context.getTranslation(localProps).TextCounter as Record<
+        string,
+        string
+      >
+    )[key]
+      .replace('%count', String(count))
       .replace('%max', String(max))
   }, [max, length, variant, context, localProps])
 

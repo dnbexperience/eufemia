@@ -118,7 +118,11 @@ export default function useFieldAsync<Value>({
   })
 
   const addToPool = useCallback(
-    (name: keyof typeof eventPool.current, fn: () => void | Promise<void>, runAsync: boolean) => {
+    (
+      name: keyof typeof eventPool.current,
+      fn: () => void | Promise<void>,
+      runAsync: boolean
+    ) => {
       if (!eventPool.current[name]) {
         eventPool.current[name] = { fn, runAsync }
       }
@@ -132,7 +136,8 @@ export default function useFieldAsync<Value>({
         continue
       }
 
-      const { fn, runAsync } = eventPool.current[key as keyof typeof eventPool.current] || {}
+      const { fn, runAsync } =
+        eventPool.current[key as keyof typeof eventPool.current] || {}
       if (fn) {
         eventPool.current[key as keyof typeof eventPool.current] = null
 

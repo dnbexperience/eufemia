@@ -225,7 +225,10 @@ function IsolationProvider<Data extends JsonObject>(
       let isolatedData = structuredClone(mountedData)
 
       if (typeof transformOnCommitProp === 'function') {
-        isolatedData = transformOnCommitProp(isolatedData, outerData) as Data
+        isolatedData = transformOnCommitProp(
+          isolatedData,
+          outerData
+        ) as Data
       }
 
       let stop = false

@@ -45,7 +45,8 @@ async function runStyleFactory() {
       @use './core/utilities.scss';
       @use './${fallbackPrefix}-ui-fragments.scss';
     `,
-    importContent: ({ relativeSource }: { relativeSource: string }) => `@use '${relativeSource}';`,
+    importContent: ({ relativeSource }: { relativeSource: string }) =>
+      `@use '${relativeSource}';`,
     searchGlob: [
       path.resolve(
         __dirname,
@@ -67,7 +68,8 @@ async function runStyleFactory() {
       `../../../src/style/${fallbackPrefix}-ui-elements.scss`
     ),
     customContent: `@use './core/utilities.scss';`,
-    importContent: ({ relativeSource }: { relativeSource: string }) => `@use '${relativeSource}';`,
+    importContent: ({ relativeSource }: { relativeSource: string }) =>
+      `@use '${relativeSource}';`,
     searchGlob: [
       path.resolve(
         __dirname,
@@ -89,7 +91,8 @@ async function runStyleFactory() {
       `../../../src/style/${fallbackPrefix}-ui-fragments.scss`
     ),
     customContent: `@use './core/utilities.scss';`,
-    importContent: ({ relativeSource }: { relativeSource: string }) => `@use '${relativeSource}';`,
+    importContent: ({ relativeSource }: { relativeSource: string }) =>
+      `@use '${relativeSource}';`,
     searchGlob: [
       path.resolve(
         __dirname,
@@ -111,7 +114,8 @@ async function runStyleFactory() {
       `../../../src/style/${fallbackPrefix}-ui-extensions.scss`
     ),
     customContent: `@use './core/utilities.scss';`,
-    importContent: ({ relativeSource }: { relativeSource: string }) => `@use '${relativeSource}';`,
+    importContent: ({ relativeSource }: { relativeSource: string }) =>
+      `@use '${relativeSource}';`,
     searchGlob: [
       path.resolve(
         __dirname,
@@ -131,7 +135,8 @@ async function runStyleFactory() {
       `../../../src/style/${fallbackPrefix}-ui-forms.scss`
     ),
     customContent: `@use './core/utilities.scss';`,
-    importContent: ({ relativeSource }: { relativeSource: string }) => `@use '${relativeSource}';`,
+    importContent: ({ relativeSource }: { relativeSource: string }) =>
+      `@use '${relativeSource}';`,
     searchGlob: [
       path.resolve(
         __dirname,

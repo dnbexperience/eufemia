@@ -145,10 +145,11 @@ class ToggleButtonGroup extends React.PureComponent<
       this as unknown as Record<string, unknown>,
       'onChange',
       {
-      value,
-      values,
-      event,
-    })
+        value,
+        values,
+        event,
+      }
+    )
   }
 
   render() {

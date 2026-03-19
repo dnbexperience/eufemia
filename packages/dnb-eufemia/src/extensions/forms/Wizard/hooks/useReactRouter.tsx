@@ -6,7 +6,9 @@ import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared
 export default function useReactRouter(
   id: string = null,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { useSearchParams }: { useSearchParams: () => [any, (params: any) => void] }
+  {
+    useSearchParams,
+  }: { useSearchParams: () => [any, (params: any) => void] }
 ) {
   const name = id ? `${id}-step` : 'step'
   const { setFormError } = useStep(id)

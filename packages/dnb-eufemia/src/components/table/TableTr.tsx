@@ -190,7 +190,11 @@ function useHandleTrVariant({ variant }: { variant?: string }) {
 /**
  * Handle odd/even on re-render and React.StrictMode
  */
-export function useHandleOddEven({ children }: { children: React.ReactNode }) {
+export function useHandleOddEven({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   // Create this ref in order to "auto" set even/odd class in tr elements
   const trCountRef = React.useRef({ count: 0 })
 

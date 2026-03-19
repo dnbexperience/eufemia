@@ -89,7 +89,9 @@ export const responseResolver: ResponseResolver<
     return {
       item,
       selectedValue: street,
-      selectedKey: street || ((item as Record<string, unknown>)['address_id'] as string),
+      selectedKey:
+        street ||
+        ((item as Record<string, unknown>)['address_id'] as string),
       content: [street, city],
     } satisfies DrawerListDataArrayObjectStrict &
       Pick<AddressResolverPayload[0], 'item'>
@@ -104,7 +106,9 @@ export function suggestions(
   generalConfig: GeneralConfig,
   handlerConfig?: SuggestionsHandlerConfig
 ): SuggestionsConnectorReturn {
-  const abortControllerRef: { current: AbortController | null } = { current: null }
+  const abortControllerRef: { current: AbortController | null } = {
+    current: null,
+  }
 
   return async function suggestionsHandlerWrapper(event) {
     return await suggestionsHandler(event.value, event)

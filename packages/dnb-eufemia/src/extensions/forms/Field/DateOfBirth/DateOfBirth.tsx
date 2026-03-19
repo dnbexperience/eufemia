@@ -140,7 +140,10 @@ function DateOfBirth(props: Props) {
         if (coreResult instanceof Error) {
           return coreResult
         }
-        return (propOnBlurValidator as Validator<string>)(value, args as Parameters<Validator<string>>[1])
+        return (propOnBlurValidator as Validator<string>)(
+          value,
+          args as Parameters<Validator<string>>[1]
+        )
       }
     }
 

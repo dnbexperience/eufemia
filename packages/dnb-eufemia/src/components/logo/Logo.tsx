@@ -188,7 +188,9 @@ function renderCustomSvg(
     if (theme) {
       for (const key in SvgComponent.props) {
         if (!(key in theme)) {
-          allowedProps[key] = (SvgComponent.props as Record<string, unknown>)[key]
+          allowedProps[key] = (
+            SvgComponent.props as Record<string, unknown>
+          )[key]
         }
       }
     }

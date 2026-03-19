@@ -62,7 +62,7 @@ function reduceContextHasValue<Props>(
       if ((props as Record<string, unknown>)[key] === defaults?.[key]) {
         // Existing props can only be overridden if it has default value
         // But a prop that does not exist will also be merged (as long as the default value is "undefined")
-        (acc as Record<string, unknown>)[key] = value
+        ;(acc as Record<string, unknown>)[key] = value
       }
     }
 

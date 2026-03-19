@@ -250,7 +250,13 @@ export const processExtensions = async () => {
 
 type FileEntry = { file: string; source: string }
 
-export const processMainIndex = async ({ components, elements }: { components: FileEntry[]; elements: FileEntry[] }) => {
+export const processMainIndex = async ({
+  components,
+  elements,
+}: {
+  components: FileEntry[]
+  elements: FileEntry[]
+}) => {
   // fix the glory main index
   await runFactory({
     templateObjectToFill: '{ Template }',
@@ -297,7 +303,13 @@ export const runFactory = async ({
   filesToFindGlob: string | FileEntry[]
   filesToFindGlobByUsingFolders?: boolean
   processToNamesIgnoreList?: string[]
-  transformNamesList?: ((params: { file: string; source: string; result: string }) => string | undefined) | null
+  transformNamesList?:
+    | ((params: {
+        file: string
+        source: string
+        result: string
+      }) => string | undefined)
+    | null
 }) => {
   if (typeof filesToFindGlob === 'string') {
     const __orig__filesToFindGlob = filesToFindGlob
@@ -404,7 +416,10 @@ export const runFactory = async ({
 
             // in case we have a type to replace
             if (/\{type\}/.test(res)) {
-              const type = source.replace(/^\/+|\/+$/g, '').split(/\//g).slice(-2, -1)[0]
+              const type = source
+                .replace(/^\/+|\/+$/g, '')
+                .split(/\//g)
+                .slice(-2, -1)[0]
               res = res.replace(new RegExp('{type}', 'g'), type)
             }
 

@@ -84,7 +84,9 @@ function SelectCountry(props: Props) {
     (value: CountryType['iso']) => {
       const country = countries.find(({ iso }) => value === iso)
       if (country?.i18n) {
-      ;(country as Record<string, unknown>)['name'] = (country.i18n as Record<string, string>)[lang]
+        ;(country as Record<string, unknown>)['name'] = (
+          country.i18n as Record<string, string>
+        )[lang]
       }
       return country
     },
@@ -225,9 +227,19 @@ function SelectCountry(props: Props) {
   )
 
   const onTypeHandler = useCallback(
-    ({ value: currentValue, setHidden, event }: { value: string; setHidden: () => void; event: React.SyntheticEvent }) => {
+    ({
+      value: currentValue,
+      setHidden,
+      event,
+    }: {
+      value: string
+      setHidden: () => void
+      event: React.SyntheticEvent
+    }) => {
       // Handle browser autofill/autocomplete
-      if (typeof (event?.nativeEvent as InputEvent)?.data === 'undefined') {
+      if (
+        typeof (event?.nativeEvent as InputEvent)?.data === 'undefined'
+      ) {
         const search = currentValue.toLowerCase()
         const country = countries.find(({ i18n }) =>
           Object.values(i18n).some((s) => s.toLowerCase().includes(search))
@@ -309,7 +321,8 @@ export function getCountryData({
   filter = null,
   sort = null,
   makeObject = (country: CountryType, lang: string) => {
-    const content = (country.i18n as Record<string, string>)[lang] ?? country.i18n.en
+    const content =
+      (country.i18n as Record<string, string>)[lang] ?? country.i18n.en
     return {
       selectedKey: country.iso,
       content,

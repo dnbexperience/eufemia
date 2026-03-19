@@ -87,7 +87,7 @@ const UploadFileInput = ({
           {...buttonProps}
           onClick={(e: React.MouseEvent) => {
             openFileDialog()
-            ;(buttonProps?.onClick as ((...args: unknown[]) => void))?.(e)
+            ;(buttonProps?.onClick as (...args: unknown[]) => void)?.(e)
           }}
         />
       )}

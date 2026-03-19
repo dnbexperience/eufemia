@@ -112,9 +112,22 @@ function Step(props: Props): React.JSX.Element {
             }
 
             // Try to find the step by <Translation id="..." />
-            const translationId = ((originalTitleProp as React.ReactElement)?.props as Record<string, unknown>)?.id
+            const translationId = (
+              (originalTitleProp as React.ReactElement)?.props as Record<
+                string,
+                unknown
+              >
+            )?.id
             if (translationId) {
-              return translationId === ((title as React.ReactElement)?.props as Record<string, unknown>)?.id
+              return (
+                translationId ===
+                (
+                  (title as React.ReactElement)?.props as Record<
+                    string,
+                    unknown
+                  >
+                )?.id
+              )
             }
 
             // Try to find the step by a string (with convertJsxToString) title

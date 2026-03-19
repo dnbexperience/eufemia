@@ -599,7 +599,13 @@ export default class GlobalStatus extends React.PureComponent<
   }
 
   itemsRenderHandler =
-    ({ statusAnchorText, lang }: { statusAnchorText: React.ReactNode; lang: string }) =>
+    ({
+      statusAnchorText,
+      lang,
+    }: {
+      statusAnchorText: React.ReactNode
+      lang: string
+    }) =>
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (item: any, i: number) => {
       const text = item?.text

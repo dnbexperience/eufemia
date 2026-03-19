@@ -277,7 +277,8 @@ export function prepareContext<Props>(
         extendDeep(
           {},
           defaultLocales[LOCALE],
-          (newTranslations as Record<string, unknown>)[locale] || (newTranslations as Record<string, unknown>)[LOCALE]
+          (newTranslations as Record<string, unknown>)[locale] ||
+            (newTranslations as Record<string, unknown>)[LOCALE]
         ) as TranslationFlat
       )
       context.translations = newTranslations
@@ -319,7 +320,9 @@ function handleLocaleFallbacks(
   if (locale === 'en' || String(locale).split('-')[0] === 'en') {
     return 'en-GB'
   }
-  return (translations as Record<string, unknown>)[locale] ? locale : LOCALE
+  return (translations as Record<string, unknown>)[locale]
+    ? locale
+    : LOCALE
 }
 
 // If no provider is given, we use the default context from here
@@ -336,7 +339,11 @@ export default Context
 export function destructFlatTranslation<T>(source: TranslationFlat) {
   for (const k in source) {
     if (String(k).includes('.')) {
-      pointer.set(source, '/' + k.replace(/\./g, '/'), (source as Record<string, unknown>)[k])
+      pointer.set(
+        source,
+        '/' + k.replace(/\./g, '/'),
+        (source as Record<string, unknown>)[k]
+      )
     }
   }
 

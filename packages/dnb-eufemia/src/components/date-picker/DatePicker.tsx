@@ -918,12 +918,15 @@ const NonAttributes = [
 ]
 
 function filterOutNonAttributes(props: DatePickerProps) {
-  return Object.keys(props).reduce((attributes: Record<string, unknown>, key) => {
-    if (!NonAttributes.includes(key)) {
-      attributes[key] = (props as Record<string, unknown>)[key]
-    }
-    return attributes
-  }, {})
+  return Object.keys(props).reduce(
+    (attributes: Record<string, unknown>, key) => {
+      if (!NonAttributes.includes(key)) {
+        attributes[key] = (props as Record<string, unknown>)[key]
+      }
+      return attributes
+    },
+    {}
+  )
 }
 
 withComponentMarkers(DatePicker, {

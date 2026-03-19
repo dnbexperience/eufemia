@@ -106,7 +106,9 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
     defaultProps,
     context?.GlobalError,
     translation,
-    (translation as Record<string, unknown>)[localProps.statusCode || defaultProps.statusCode] as Record<string, unknown>,
+    (translation as Record<string, unknown>)[
+      localProps.statusCode || defaultProps.statusCode
+    ] as Record<string, unknown>,
     { skeleton: context?.skeleton }
   )
 

@@ -146,16 +146,19 @@ export const ajvErrorsToFormErrors = (
   errors?: ErrorObject[] | null,
   data?: JsonObject
 ): Record<string, FormError> => {
-  return (errors ?? []).reduce((errors, ajvError) => {
-    const path = getInstancePath(ajvError)
-    const error = ajvErrorsTransformation(ajvError, data, path)
+  return (errors ?? []).reduce(
+    (errors, ajvError) => {
+      const path = getInstancePath(ajvError)
+      const error = ajvErrorsTransformation(ajvError, data, path)
 
-    if (error) {
-      errors[path] = ajvErrorToFormError(error)
-    }
+      if (error) {
+        errors[path] = ajvErrorToFormError(error)
+      }
 
-    return errors
-  }, {} as Record<string, FormError>)
+      return errors
+    },
+    {} as Record<string, FormError>
+  )
 }
 
 /**

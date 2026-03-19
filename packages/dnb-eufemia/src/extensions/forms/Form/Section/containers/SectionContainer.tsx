@@ -107,7 +107,9 @@ function SectionContainer(props: Props & FlexContainerProps) {
   const handleAnimationEnd = useCallback(
     (state: string) => {
       setFocus(state)
-      onAnimationEnd?.(state as unknown as React.AnimationEvent<HTMLDivElement>)
+      onAnimationEnd?.(
+        state as unknown as React.AnimationEvent<HTMLDivElement>
+      )
     },
     [onAnimationEnd, setFocus]
   )

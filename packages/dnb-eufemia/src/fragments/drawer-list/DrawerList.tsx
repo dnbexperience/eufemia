@@ -464,7 +464,8 @@ const DrawerListInstance = React.memo(function DrawerListInstance(
   const renderData = makeRenderData(
     data,
     groups,
-    context.getTranslation(propsWithDefaults as { lang?: string }).DrawerList
+    context.getTranslation(propsWithDefaults as { lang?: string })
+      .DrawerList
   )
   const hasGroups =
     renderData.length > 1 || renderData[0]?.groupTitle !== undefined

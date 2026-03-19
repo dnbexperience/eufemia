@@ -140,7 +140,11 @@ export default class PaginationProvider extends React.PureComponent<
     }
 
     if (props.rerender) {
-      this.rerender = ({ current: store }: { current: Record<string, unknown> }) => {
+      this.rerender = ({
+        current: store,
+      }: {
+        current: Record<string, unknown>
+      }) => {
         if (store && (store.pageNumber as number) > 0) {
           clearTimeout(this.rerenderTimeout)
           // because we have a set state inside setContent and render at the same time

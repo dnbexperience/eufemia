@@ -128,7 +128,9 @@ export function listFormat(
     return list
   }
 
-  list = (replaceRootFragment(list) as React.ReactNode[]).filter(function (item: unknown) {
+  list = (replaceRootFragment(list) as React.ReactNode[]).filter(function (
+    item: unknown
+  ) {
     const isNan = typeof item === 'number' && isNaN(item)
     return item !== undefined && item !== false && item !== null && !isNan
   })
@@ -175,10 +177,15 @@ export function listFormat(
   }
 }
 
-function replaceRootFragment(children: React.ReactNode): React.ReactNode | React.ReactNode[] {
+function replaceRootFragment(
+  children: React.ReactNode
+): React.ReactNode | React.ReactNode[] {
   const element = children as React.ReactElement
   if (element?.type === Fragment) {
-    return React.Children.toArray((element?.props as Record<string, unknown>)?.children as React.ReactNode)
+    return React.Children.toArray(
+      (element?.props as Record<string, unknown>)
+        ?.children as React.ReactNode
+    )
   }
   if (Array.isArray(children)) {
     const firstChild = children[0]

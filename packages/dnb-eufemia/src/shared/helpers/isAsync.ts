@@ -11,8 +11,11 @@ export function isAsync(fn: unknown): boolean {
     fn = (fn as Record<string, () => unknown>)[n]()
   }
 
-  const firstCheck = fn instanceof (async (): Promise<null> => null).constructor
-  const secondCheck = (fn as { constructor?: { name?: string } })?.constructor?.name === 'AsyncFunction'
+  const firstCheck =
+    fn instanceof (async (): Promise<null> => null).constructor
+  const secondCheck =
+    (fn as { constructor?: { name?: string } })?.constructor?.name ===
+    'AsyncFunction'
 
   if (firstCheck !== secondCheck) {
     // Storybook has a problem with async functions.
@@ -24,7 +27,9 @@ export function isAsync(fn: unknown): boolean {
   }
 
   // is async function transpiled using @babel/plugin-transform-async-to-generator
-  const isAsyncFunctionBabelTranspiled = (fn as { toString?: () => string })
+  const isAsyncFunctionBabelTranspiled = (
+    fn as { toString?: () => string }
+  )
     ?.toString()
     ?.trim()
     ?.match(/return _ref[^.]*\.apply/)

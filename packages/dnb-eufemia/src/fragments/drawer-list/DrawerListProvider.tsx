@@ -146,7 +146,10 @@ export default class DrawerListProvider extends React.PureComponent<
 
   static isOpen: boolean
 
-  static getDerivedStateFromProps(props: DrawerListProviderProps, state: DrawerListContextState) {
+  static getDerivedStateFromProps(
+    props: DrawerListProviderProps,
+    state: DrawerListContextState
+  ) {
     return prepareDerivedState(props, state)
   }
 
@@ -201,7 +204,10 @@ export default class DrawerListProvider extends React.PureComponent<
     }
   }
 
-  componentDidUpdate(prevProps: DrawerListProviderProps, prevState: DrawerListContextState) {
+  componentDidUpdate(
+    prevProps: DrawerListProviderProps,
+    prevState: DrawerListContextState
+  ) {
     if (this.props.open !== null && this.props.open !== prevProps.open) {
       if (this.props.open) {
         this.setVisible()
@@ -383,7 +389,13 @@ export default class DrawerListProvider extends React.PureComponent<
     const spaceToTopOffset = 2 * 16
     const spaceToBottomOffset = 2 * 16
     const elem = this.state.wrapperElement || this._refRoot.current
-    const getSpaceToBottom = ({ rootElem, pageYOffset }: { rootElem: Element; pageYOffset: number }) => {
+    const getSpaceToBottom = ({
+      rootElem,
+      pageYOffset,
+    }: {
+      rootElem: Element
+      pageYOffset: number
+    }) => {
       const spaceToBottom =
         rootElem.clientHeight -
         (getOffsetTop(elem) + elem.offsetHeight) +
@@ -586,23 +598,26 @@ export default class DrawerListProvider extends React.PureComponent<
 
       this.searchCache =
         this.searchCache ||
-        this.state.data.reduce<Record<string, { i: number }[]>>((acc, itemData, i) => {
-          const str = String(
-            parseContentTitle(itemData, {
-              separator: ' ',
-              removeNumericOnlyValues: true,
+        this.state.data.reduce<Record<string, { i: number }[]>>(
+          (acc, itemData, i) => {
+            const str = String(
+              parseContentTitle(itemData, {
+                separator: ' ',
+                removeNumericOnlyValues: true,
+              })
+            )
+
+            // take the first letter
+            const firstLetter = String(str[0]).toLowerCase()
+            acc[firstLetter] = acc[firstLetter] || []
+            acc[firstLetter].push({
+              i,
             })
-          )
 
-          // take the first letter
-          const firstLetter = String(str[0]).toLowerCase()
-          acc[firstLetter] = acc[firstLetter] || []
-          acc[firstLetter].push({
-            i,
-          })
-
-          return acc
-        }, {})
+            return acc
+          },
+          {}
+        )
 
       const found = this.searchCache[value]
       index = found && found[0] && found[0].i > -1 ? found[0].i : -1
@@ -634,7 +649,10 @@ export default class DrawerListProvider extends React.PureComponent<
           if (liElement) {
             const top = liElement.offsetTop
             if (ulElement.scrollTo) {
-              if (scrollTo === false || (window as unknown as Record<string, unknown>)['IS_TEST']) {
+              if (
+                scrollTo === false ||
+                (window as unknown as Record<string, unknown>)['IS_TEST']
+              ) {
                 ulElement.style.scrollBehavior = 'auto'
               }
               ulElement.scrollTo({
@@ -650,9 +668,13 @@ export default class DrawerListProvider extends React.PureComponent<
 
             if (!this.props.preventFocus && liElement) {
               liElement.focus()
-              dispatchCustomElementEvent(this as unknown as Record<string, unknown>, 'onOpenFocus', {
-                element: liElement,
-              })
+              dispatchCustomElementEvent(
+                this as unknown as Record<string, unknown>,
+                'onOpenFocus',
+                {
+                  element: liElement,
+                }
+              )
             }
           } else {
             warn('The DrawerList item was not a DOM Element')
@@ -688,9 +710,13 @@ export default class DrawerListProvider extends React.PureComponent<
           this._refUl.current?.focus({ preventScroll: true })
         }
 
-        dispatchCustomElementEvent(this as unknown as Record<string, unknown>, 'onOpenFocus', {
-          element: this._refUl.current,
-        })
+        dispatchCustomElementEvent(
+          this as unknown as Record<string, unknown>,
+          'onOpenFocus',
+          {
+            element: this._refUl.current,
+          }
+        )
       } else if (parseFloat(String(activeItem)) > -1) {
         const { selectedItem } = this.state
 
@@ -1181,7 +1207,10 @@ export default class DrawerListProvider extends React.PureComponent<
       : this.setVisible(...args)
   }
 
-  setVisible = (args = {}, onStateComplete: ((result: boolean) => void) | null = null) => {
+  setVisible = (
+    args = {},
+    onStateComplete: ((result: boolean) => void) | null = null
+  ) => {
     if (this.state.open && this.state.hidden === false) {
       if (typeof onStateComplete === 'function') {
         onStateComplete(true)
@@ -1259,7 +1288,10 @@ export default class DrawerListProvider extends React.PureComponent<
     }
   }
 
-  setHidden = (args = {}, onStateComplete: ((result: boolean) => void) | null = null) => {
+  setHidden = (
+    args = {},
+    onStateComplete: ((result: boolean) => void) | null = null
+  ) => {
     if (!this.state.open || this.props.preventClose) {
       if (typeof onStateComplete === 'function') {
         onStateComplete(false)
@@ -1368,7 +1400,10 @@ export default class DrawerListProvider extends React.PureComponent<
     return this
   }
 
-  setStateHandler = (state: Partial<DrawerListContextState>, cb: (() => void) | null = null) => {
+  setStateHandler = (
+    state: Partial<DrawerListContextState>,
+    cb: (() => void) | null = null
+  ) => {
     this.setState(
       {
         ...state,

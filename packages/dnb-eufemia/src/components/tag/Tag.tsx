@@ -153,7 +153,9 @@ const Tag = (
 
   const handleDeleteKeyUp = (event: React.KeyboardEvent) => {
     if (isDeleteKeyboardEvent(event) && onClick) {
-      onClick(event as unknown as { event: React.MouseEvent<HTMLButtonElement> })
+      onClick(
+        event as unknown as { event: React.MouseEvent<HTMLButtonElement> }
+      )
     }
   }
 

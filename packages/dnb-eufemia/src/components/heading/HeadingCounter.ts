@@ -155,7 +155,17 @@ export class Counter {
     }
   }
 
-  factorCheck({ action, level, current, report }: { action: string; level: number; current: number; report?: Array<string | number> }) {
+  factorCheck({
+    action,
+    level,
+    current,
+    report,
+  }: {
+    action: string
+    level: number
+    current: number
+    report?: Array<string | number>
+  }) {
     if (!this.bypassChecks && level - current > 1) {
       report &&
         report.push(

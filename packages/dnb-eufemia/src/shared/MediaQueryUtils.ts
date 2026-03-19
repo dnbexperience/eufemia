@@ -275,10 +275,13 @@ function mergeBreakpoints(breakpoints: MediaQueryBreakpoints) {
     ...breakpoints,
   })
     .sort((a, b) => (a[1] > b[1] ? 1 : -1))
-    .reduce((acc, [key, value]) => {
+    .reduce(
+      (acc, [key, value]) => {
         acc[key] = value as string
-      return acc
-    }, {} as Record<string, unknown>)
+        return acc
+      },
+      {} as Record<string, unknown>
+    )
 }
 
 /**

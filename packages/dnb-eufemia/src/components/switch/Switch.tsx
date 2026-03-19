@@ -186,14 +186,21 @@ function Switch(props: SwitchProps) {
 
       isCheckedRef.current = updatedChecked
       forceUpdate()
-      callOnChange({ checked: updatedChecked, event: event as unknown as SwitchOnChangeParams['event'] })
+      callOnChange({
+        checked: updatedChecked,
+        event: event as unknown as SwitchOnChangeParams['event'],
+      })
 
       if (onChangeEnd) {
         if (event && event.persist) {
           event.persist()
         }
         setTimeout(
-          () => onChangeEnd({ checked: updatedChecked, event: event as unknown as SwitchOnChangeParams['event'] }),
+          () =>
+            onChangeEnd({
+              checked: updatedChecked,
+              event: event as unknown as SwitchOnChangeParams['event'],
+            }),
           500
         )
       }
@@ -212,7 +219,10 @@ function Switch(props: SwitchProps) {
         const preventDefault = () => {
           event.preventDefault()
 
-          if ((event.target as HTMLInputElement)['checked'] !== isCheckedRef.current) {
+          if (
+            (event.target as HTMLInputElement)['checked'] !==
+            isCheckedRef.current
+          ) {
             preventChangeRef.current = true
             isCheckedRef.current = !isCheckedRef.current
             forceUpdate()
@@ -244,7 +254,10 @@ function Switch(props: SwitchProps) {
     [onChangeHandler]
   )
 
-  const showStatus = useMemo(() => getStatusState(status as string), [status])
+  const showStatus = useMemo(
+    () => getStatusState(status as string),
+    [status]
+  )
 
   const mainParams = {
     className: clsx(
@@ -346,7 +359,9 @@ function Switch(props: SwitchProps) {
                 draggable
                 aria-hidden
                 className="dnb-switch__background"
-                onDragStart={onChangeHandler as unknown as React.DragEventHandler<HTMLSpanElement>}
+                onDragStart={
+                  onChangeHandler as unknown as React.DragEventHandler<HTMLSpanElement>
+                }
                 {...helperParams}
               />
               <span

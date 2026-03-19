@@ -505,7 +505,11 @@ export function prerenderIcon(
       listOfIcons.dnbIcons ? listOfIcons.dnbIcons : listOfIcons
     ) as Record<string, unknown>
     const iconModule = mod[icon]
-    return (iconModule && (iconModule as Record<string, unknown>).default ? (iconModule as Record<string, unknown>).default : iconModule) as React.ComponentType<any>
+    return (
+      iconModule && (iconModule as Record<string, unknown>).default
+        ? (iconModule as Record<string, unknown>).default
+        : iconModule
+    ) as React.ComponentType<any>
   } catch (e) {
     ErrorHandler(`Icon '${icon}' did not exist!`)
     return null

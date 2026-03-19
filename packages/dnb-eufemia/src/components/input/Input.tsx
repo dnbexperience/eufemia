@@ -838,7 +838,10 @@ function InputComponent({ ref, ...restProps }: InputProps) {
                 (submitElement as React.ReactNode)
               ) : (
                 <InputSubmitButton
-                  {...(inputSubmitButtonAttributes as Record<string, unknown>)}
+                  {...(inputSubmitButtonAttributes as Record<
+                    string,
+                    unknown
+                  >)}
                   id={id + '-submit-button'}
                   value={hasVal ? String(value) : ''}
                   icon={submitButtonIcon as IconIcon}

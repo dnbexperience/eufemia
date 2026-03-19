@@ -118,9 +118,13 @@ export default class ModalContent extends React.PureComponent<
     this.setFocus()
     this.setAndroidFocusHelper()
 
-    dispatchCustomElementEvent(this as unknown as Record<string, unknown>, 'onOpen', {
-      id,
-    })
+    dispatchCustomElementEvent(
+      this as unknown as Record<string, unknown>,
+      'onOpen',
+      {
+        id,
+      }
+    )
 
     if (noAnimation || process.env.NODE_ENV === 'test') {
       this.lockBody() // forces browser to re-paint
@@ -233,11 +237,15 @@ export default class ModalContent extends React.PureComponent<
 
     if (this.wasOpenedManually()) {
       const id = this.props.id
-      dispatchCustomElementEvent(this as unknown as Record<string, unknown>, 'onClose', {
-        id,
-        event: this._triggeredByEvent,
-        triggeredBy: this._triggeredBy || 'unmount',
-      })
+      dispatchCustomElementEvent(
+        this as unknown as Record<string, unknown>,
+        'onClose',
+        {
+          id,
+          event: this._triggeredByEvent,
+          triggeredBy: this._triggeredBy || 'unmount',
+        }
+      )
     }
 
     if (typeof document !== 'undefined') {

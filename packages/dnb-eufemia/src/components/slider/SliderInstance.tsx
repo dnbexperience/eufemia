@@ -150,7 +150,12 @@ function SliderSuffix() {
 }
 
 function SubtractButton() {
-  const { emitChange, value, attributes: _attributes, allProps } = useSliderProps()
+  const {
+    emitChange,
+    value,
+    attributes: _attributes,
+    allProps,
+  } = useSliderProps()
   const attributes = _attributes as Record<string, unknown>
   const {
     step,
@@ -193,7 +198,12 @@ function SubtractButton() {
 }
 
 function AddButton() {
-  const { emitChange, value, attributes: _attributes, allProps } = useSliderProps()
+  const {
+    emitChange,
+    value,
+    attributes: _attributes,
+    allProps,
+  } = useSliderProps()
   const attributes = _attributes as Record<string, unknown>
   const { step, min, max, disabled, skeleton, addTitle, numberFormat } =
     allProps
