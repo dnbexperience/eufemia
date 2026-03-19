@@ -173,7 +173,7 @@ export default {
       errorUnsupportedFile:
         'The file you are trying to upload is not supported.',
       deleteButton: 'Delete',
-      fileListAriaLabel: 'uploaded files',
+      listAriaLabel: 'uploaded files',
     },
     Popover: {
       closeButtonTitle: 'Close',

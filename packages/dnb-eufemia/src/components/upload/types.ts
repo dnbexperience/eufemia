@@ -112,7 +112,7 @@ export type UploadProps = {
   errorAmountLimit?: React.ReactNode
   loadingText?: React.ReactNode
   deleteButton?: React.ReactNode
-  fileListAriaLabel?: string
+  listAriaLabel?: string
   children?: React.ReactNode
 }
 

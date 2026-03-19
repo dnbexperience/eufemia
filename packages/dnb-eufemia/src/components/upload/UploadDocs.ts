@@ -121,7 +121,7 @@ export const UploadProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  fileListAriaLabel: {
+  listAriaLabel: {
     doc: 'Custom aria-label for the file list. Overrides the default translation.',
     type: 'string',
     status: 'optional',
