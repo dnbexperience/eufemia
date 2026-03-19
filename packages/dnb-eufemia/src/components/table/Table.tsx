@@ -70,9 +70,9 @@ export type TableProps = {
 
   /**
    * Defines where the chevron will be placed, should only be used together with mode="accordion".
-   * Default: 'start'
+   * Default: 'left'
    */
-  accordionChevronPlacement?: 'start' | 'end'
+  accordionChevronPlacement?: 'left' | 'right'
 
   /**
    * Defines if the table should behave with a fixed table layout, using: "table-layout: fixed;"

@@ -91,11 +91,11 @@ function TableAccordionContent(
     >
       {variant === 'row' && (
         <>
-          {tableContextAllProps?.accordionChevronPlacement !== 'end' && (
+          {tableContextAllProps?.accordionChevronPlacement !== 'right' && (
             <ChevronTd {...chevronTdProps} />
           )}
           {shouldRenderContent && children}
-          {tableContextAllProps?.accordionChevronPlacement === 'end' && (
+          {tableContextAllProps?.accordionChevronPlacement === 'right' && (
             <ChevronTd {...chevronTdProps} />
           )}
         </>
