@@ -431,7 +431,7 @@ function DateOfBirth(props: Props) {
         placeholder=""
         autocompleteProps={{
           openOnFocus: true,
-          inputIcon: '',
+          icon: '',
           placeholder: monthPlaceholder,
           autoComplete: 'bday-month',
           independentWidth: true,
