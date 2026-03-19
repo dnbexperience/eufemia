@@ -274,15 +274,17 @@ export function pickDataValueReadWriteProps<
 }
 
 export function omitDataValueReadWriteProps<
-  Props extends Record<string, unknown>,
->(props: Props): Omit<Props, keyof DataValueReadWriteProps> {
+  Props extends DataValueReadWriteProps,
+>(
+  props: Props
+): Omit<DataValueReadWriteProps, keyof DataValueReadWriteProps> {
   return Object.fromEntries(
     Object.entries(props ?? {}).filter(
       ([key]) =>
         !dataValueReadProps.includes(key) &&
         !dataValueWriteProps.includes(key)
     )
-  ) as Omit<Props, keyof DataValueReadWriteProps>
+  )
 }
 
 export type ComponentProps = SpacingProps & {
@@ -701,11 +703,15 @@ export type OnSubmit<Data = JsonObject> = (
     clearData,
   }: OnSubmitParams
 ) => OnSubmitReturn
+export type OnSubmitRequestReturn =
+  | EventReturnWithStateObject
+  | void
+  | Promise<EventReturnWithStateObject | void>
 export type OnSubmitRequest = ({
   getErrors,
 }: {
   getErrors: () => Array<DataPathHandlerParameters>
-}) => void
+}) => OnSubmitRequestReturn
 
 export type OnCommit<Data = JsonObject> = (
   data: Data,
