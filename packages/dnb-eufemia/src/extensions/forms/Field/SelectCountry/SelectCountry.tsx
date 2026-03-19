@@ -265,7 +265,7 @@ function SelectCountry(props: Props) {
       <Autocomplete
         id={id}
         placeholder={placeholder}
-        inputIcon={false}
+        icon={false}
         data={dataRef.current}
         value={typeof value === 'string' ? value : null}
         disabled={disabled}

@@ -49,7 +49,7 @@ describe('address', () => {
         <Field.Address.Street
           element={addressSuggestionsElement}
           autocompleteProps={{
-            inputIcon: false,
+            icon: false,
           }}
         />
       )

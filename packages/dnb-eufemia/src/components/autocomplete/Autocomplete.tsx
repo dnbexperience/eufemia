@@ -87,10 +87,6 @@ type AutocompleteSubmitButtonIcon =
 type AutocompleteInputRef =
   | ((element: HTMLInputElement | null) => void)
   | React.RefObject<HTMLInputElement | undefined>
-type AutocompleteInputIcon =
-  | string
-  | React.ReactNode
-  | (() => React.ReactNode)
 type AutocompleteInputElement =
   | ((...args: any[]) => React.ReactNode)
   | React.ReactNode
@@ -210,9 +206,9 @@ export type AutocompleteProps = {
    */
   inputRef?: AutocompleteInputRef
   /**
-   * Icon to be included in the autocomplete input.
+   * Icon to be included in the autocomplete input. Defaults to `'loupe'`.
    */
-  icon?: IconIcon
+  icon?: IconIcon | React.ReactNode | (() => React.ReactNode)
   /**
    * Change icon size.
    */
@@ -221,10 +217,6 @@ export type AutocompleteProps = {
    * Icon position inside autocomplete.
    */
   iconPosition?: ButtonIconPosition
-  /**
-   * Same as `icon`.
-   */
-  inputIcon?: AutocompleteInputIcon
   /**
    * Prepends the form label.
    */
@@ -382,11 +374,10 @@ const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
   submitButtonTitle: null,
   submitButtonIcon: 'chevron_down',
   inputRef: null,
-  icon: null,
+  icon: 'loupe',
   iconSize: null,
   iconPosition: 'left',
   arrowPosition: null,
-  inputIcon: 'loupe',
   label: null,
   labelDirection: null,
   labelSrOnly: null,
@@ -546,7 +537,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     labelSrOnly,
     icon,
     iconSize,
-    inputIcon,
     size,
     align,
     fixedPosition,
@@ -2515,7 +2505,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
                       size={size === 'large' ? 'medium' : 'small'}
                     />
                   ) : (
-                    (inputIcon as IconIcon)
+                    (icon as IconIcon)
                   )
                 }
                 iconSize={

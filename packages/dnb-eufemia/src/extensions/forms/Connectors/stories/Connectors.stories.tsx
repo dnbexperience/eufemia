@@ -115,7 +115,7 @@ export function Address() {
           required
           element={addressSuggestionsElement as React.ComponentType}
           autocompleteProps={{
-            inputIcon: false,
+            icon: false,
           }}
         />
         <Field.PostalCodeAndCity
