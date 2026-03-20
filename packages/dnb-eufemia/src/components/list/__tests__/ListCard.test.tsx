@@ -1,6 +1,7 @@
 import React from 'react'
 import { act, render, waitFor } from '@testing-library/react'
 import List from '../List'
+import { List as RootList } from '../../../components'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import { fish_medium } from '../../../icons'
 
@@ -85,6 +86,10 @@ describe('List.Card', () => {
     expect(ListCard._supportsSpacingProps).toBe(true)
   })
 
+  it('does not expose ScrollView on List.Card', () => {
+    expect('ScrollView' in List.Card).toBe(false)
+  })
+
   it('renders a full List.Card with List.Container inside', () => {
     render(
       <List.Card stack>
@@ -110,12 +115,12 @@ describe('List.Card', () => {
   })
 })
 
-describe('List.Card.ScrollView', () => {
+describe('List.ScrollView', () => {
   it('renders with dnb-list__card__scroll-view class', () => {
     render(
-      <List.Card.ScrollView>
+      <List.ScrollView>
         <span>Content</span>
-      </List.Card.ScrollView>
+      </List.ScrollView>
     )
 
     const element = document.querySelector('.dnb-list__card__scroll-view')
@@ -125,9 +130,9 @@ describe('List.Card.ScrollView', () => {
 
   it('merges custom className', () => {
     render(
-      <List.Card.ScrollView className="my-scroll">
+      <List.ScrollView className="my-scroll">
         <span>Content</span>
-      </List.Card.ScrollView>
+      </List.ScrollView>
     )
 
     const element = document.querySelector('.dnb-list__card__scroll-view')
@@ -138,9 +143,9 @@ describe('List.Card.ScrollView', () => {
 
   it('renders children', () => {
     render(
-      <List.Card.ScrollView>
+      <List.ScrollView>
         <span>Scrollable content</span>
-      </List.Card.ScrollView>
+      </List.ScrollView>
     )
 
     const element = document.querySelector('.dnb-list__card__scroll-view')
@@ -150,9 +155,9 @@ describe('List.Card.ScrollView', () => {
 
   it('passes style prop for maxHeight', () => {
     render(
-      <List.Card.ScrollView style={{ maxHeight: '20rem' }}>
+      <List.ScrollView style={{ maxHeight: '20rem' }}>
         <span>Content</span>
-      </List.Card.ScrollView>
+      </List.ScrollView>
     )
 
     const element = document.querySelector(
@@ -164,9 +169,9 @@ describe('List.Card.ScrollView', () => {
 
   it('sets maxHeight based on maxVisibleListItems', () => {
     render(
-      <List.Card.ScrollView maxVisibleListItems={3}>
+      <List.ScrollView maxVisibleListItems={3}>
         <span>Content</span>
-      </List.Card.ScrollView>
+      </List.ScrollView>
     )
 
     const element = document.querySelector(
@@ -208,7 +213,7 @@ describe('List.Card.ScrollView', () => {
 
     render(
       <List.Card>
-        <List.Card.ScrollView maxVisibleListItems={2}>
+        <List.ScrollView maxVisibleListItems={2}>
           <List.Container>
             <List.Item.Action title="Item one" onClick={() => {}}>
               <List.Cell.End>100 kr</List.Cell.End>
@@ -218,7 +223,7 @@ describe('List.Card.ScrollView', () => {
               <List.Cell.End>200 kr</List.Cell.End>
             </List.Item.Action>
           </List.Container>
-        </List.Card.ScrollView>
+        </List.ScrollView>
       </List.Card>
     )
 
@@ -265,7 +270,7 @@ describe('List.Card.ScrollView', () => {
       })
 
     render(
-      <List.Card.ScrollView maxVisibleListItems={2}>
+      <List.ScrollView maxVisibleListItems={2}>
         <List.Container>
           <List.Item.Action title="Item one" onClick={() => {}}>
             <List.Cell.End>100 kr</List.Cell.End>
@@ -275,7 +280,7 @@ describe('List.Card.ScrollView', () => {
             <List.Cell.End>200 kr</List.Cell.End>
           </List.Item.Action>
         </List.Container>
-      </List.Card.ScrollView>
+      </List.ScrollView>
     )
 
     const element = document.querySelector(
@@ -306,12 +311,12 @@ describe('List.Card.ScrollView', () => {
 
   it('lets style.maxHeight override maxVisibleListItems', () => {
     render(
-      <List.Card.ScrollView
+      <List.ScrollView
         maxVisibleListItems={3}
         style={{ maxHeight: '20rem' }}
       >
         <span>Content</span>
-      </List.Card.ScrollView>
+      </List.ScrollView>
     )
 
     const element = document.querySelector(
@@ -323,15 +328,19 @@ describe('List.Card.ScrollView', () => {
   })
 
   it('supports spacing props', () => {
-    const { default: ListCard } = require('../ListCard')
+    const { default: ListScrollView } = require('../ListScrollView')
 
-    expect(ListCard.ScrollView._supportsSpacingProps).toBe(true)
+    expect(ListScrollView._supportsSpacingProps).toBe(true)
+  })
+
+  it('is available from the public List export', () => {
+    expect(RootList.ScrollView._supportsSpacingProps).toBe(true)
   })
 
   it('renders a full composition with List.Card and List.Container', () => {
     render(
       <List.Card stack>
-        <List.Card.ScrollView style={{ maxHeight: '20rem' }}>
+        <List.ScrollView style={{ maxHeight: '20rem' }}>
           <List.Container>
             <List.Item.Action
               icon={fish_medium}
@@ -348,7 +357,7 @@ describe('List.Card.ScrollView', () => {
               <List.Cell.End>200 kr</List.Cell.End>
             </List.Item.Action>
           </List.Container>
-        </List.Card.ScrollView>
+        </List.ScrollView>
       </List.Card>
     )
 
@@ -383,13 +392,13 @@ describe('List.Card.ScrollView', () => {
     it('List.Card with ScrollView has no axe violations', async () => {
       const { container } = render(
         <List.Card stack>
-          <List.Card.ScrollView style={{ maxHeight: '20rem' }}>
+          <List.ScrollView style={{ maxHeight: '20rem' }}>
             <List.Container>
               <List.Item.Action title="Action item" onClick={() => {}}>
                 <List.Cell.End>123</List.Cell.End>
               </List.Item.Action>
             </List.Container>
-          </List.Card.ScrollView>
+          </List.ScrollView>
         </List.Card>
       )
 

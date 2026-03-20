@@ -1,10 +1,5 @@
-import Container from './Container'
-import Item from './Item'
-import Cell from './Cell'
-import Card from './ListCard'
-
-export { Container, Item, Cell, Card }
-
-const List = { Container, Item, Cell, Card }
-
-export default List
+export { default as Container } from './Container'
+export { default as Item } from './Item'
+export { default as Cell } from './Cell'
+export { default as Card } from './ListCard'
+export { default as ScrollView } from './ListScrollView'

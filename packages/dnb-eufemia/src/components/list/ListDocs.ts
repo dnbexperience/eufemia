@@ -362,7 +362,7 @@ export const CardProperties: PropertiesTableProps = {
   },
 }
 
-export const CardScrollViewProperties: PropertiesTableProps = {
+export const ScrollViewProperties: PropertiesTableProps = {
   children: {
     doc: 'Scrollable content. Typically a `List.Container` with list items.',
     type: 'React.ReactNode',

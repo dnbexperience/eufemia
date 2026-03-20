@@ -718,7 +718,7 @@ export const InsideCard = () => {
       <List.Card>
         <Heading size="medium">Transactions</Heading>
 
-        <List.Card.ScrollView maxVisibleListItems={4}>
+        <List.ScrollView maxVisibleListItems={4}>
           <List.Container>
             <List.Item.Action icon={fish_medium} title="Payment received">
               <List.Cell.End>
@@ -756,7 +756,7 @@ export const InsideCard = () => {
               </List.Cell.End>
             </List.Item.Action>
           </List.Container>
-        </List.Card.ScrollView>
+        </List.ScrollView>
       </List.Card>
     </ComponentBox>
   )
