@@ -3,6 +3,30 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.101.0](https://github.com/dnbexperience/eufemia/compare/v10.100.1...v10.101.0) (2026-03-20)
+
+
+### :memo: Documentation
+
+* improve naming docs ([#7020](https://github.com/dnbexperience/eufemia/issues/7020)) ([b398e5a](https://github.com/dnbexperience/eufemia/commit/b398e5a15cb1d3a4b8b50162b00b268bedf4cf90))
+
+
+### :bug: Bug Fixes
+
+* **Field.Date:** add validation error when range start date is after end date ([#7019](https://github.com/dnbexperience/eufemia/issues/7019)) ([3142120](https://github.com/dnbexperience/eufemia/commit/31421209bb69a31a37428a9c0303847105907872))
+* **Field.Email:** improve error message ([#7034](https://github.com/dnbexperience/eufemia/issues/7034)) ([7446b9c](https://github.com/dnbexperience/eufemia/commit/7446b9caf41de3d74083821b5ce0926321c44f46))
+* **Input, Autocomplete:** memoize `icon` for ProgressIndicator ([#7027](https://github.com/dnbexperience/eufemia/issues/7027)) ([5b69748](https://github.com/dnbexperience/eufemia/commit/5b697487cfc6786fc7753292f34c81bb2a8219c6)), closes [#6449](https://github.com/dnbexperience/eufemia/issues/6449)
+* **List:** preserve direct li children in `List.Container` ([#7079](https://github.com/dnbexperience/eufemia/issues/7079)) ([d86275a](https://github.com/dnbexperience/eufemia/commit/d86275aaa7c58a7c1e0e4c4cf7b5b022aecfe381))
+* **Stat.Number:** add missing Number export to barrel index ([#7024](https://github.com/dnbexperience/eufemia/issues/7024)) ([069e9d0](https://github.com/dnbexperience/eufemia/commit/069e9d0599f10cdc02922e8ff5ba701b2632e620))
+* **Stat:** ensure amounts are accessible to screen readers ([#7022](https://github.com/dnbexperience/eufemia/issues/7022)) ([3131116](https://github.com/dnbexperience/eufemia/commit/3131116a394faf4fa56e4b0df79053d9bb2fe604))
+* update forms validation messages across all locales ([#7043](https://github.com/dnbexperience/eufemia/issues/7043)) ([7557016](https://github.com/dnbexperience/eufemia/commit/7557016c7e20708615babe878574dbfb0fc4fa2e))
+
+
+### :sparkles: Features
+
+* **Forms:** support return messages from onSubmitRequest ([#7078](https://github.com/dnbexperience/eufemia/issues/7078)) ([b63b9fe](https://github.com/dnbexperience/eufemia/commit/b63b9fe97ceee8f18e7a2f1acab7154603ef23f9))
+* **List:** add `List.Card` and `List.ScrollView` ([#7080](https://github.com/dnbexperience/eufemia/issues/7080)) ([91a04d2](https://github.com/dnbexperience/eufemia/commit/91a04d2350eb8bb509f90b4cb0933679aae85702))
+
 ## [10.100.1](https://github.com/dnbexperience/eufemia/compare/v10.100.0...v10.100.1) (2026-03-12)
 
 
