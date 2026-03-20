@@ -10,18 +10,6 @@ exports[`GlobalStatus scss should match default theme snapshot 1`] = `
 }
 .dnb-global-status__message.dnb-section--white ::selection {
   background-color: var(--color-mint-green);
-}
-.dnb-global-status__content .dnb-hr {
-  --hr-color: var(--color-fire-red);
-}
-.dnb-global-status--information .dnb-global-status__content .dnb-hr {
-  --hr-color: var(--color-sea-green);
-}
-.dnb-global-status--warning .dnb-global-status__content .dnb-hr {
-  --hr-color: var(--color-accent-yellow);
-}
-.dnb-global-status--success .dnb-global-status__content .dnb-hr {
-  --hr-color: var(--color-ocean-green);
 }"
 `;
 
@@ -1155,6 +1143,18 @@ button.dnb-button::-moz-focus-inner {
   padding-top: var(--spacing-xx-large);
   padding-bottom: var(--spacing-xx-large);
 }
+.dnb-section--error {
+  --text-color: var(--token-color-text-neutral);
+  --background-color: var(--token-color-background-error-subtle);
+}
+.dnb-section--info, .dnb-section--success {
+  --text-color: var(--token-color-text-neutral);
+  --background-color: var(--token-color-background-info-subtle);
+}
+.dnb-section--warning {
+  --text-color: var(--token-color-text-neutral);
+  --background-color: var(--token-color-background-warning-subtle);
+}
 
 /*
  * GlobalStatus component
@@ -1217,6 +1217,7 @@ button.dnb-button::-moz-focus-inner {
   right: 0;
 }
 .dnb-global-status__content {
+  --global-status-underline-color: var(--token-color-stroke-error);
   width: 100%;
 }
 .dnb-global-status__content .dnb-ul, .dnb-spacing .dnb-global-status__content .dnb-ul, .dnb-spacing .dnb-global-status__content .dnb-ul:not([class*=dnb-space]) {
@@ -1225,5 +1226,17 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-global-status__content .dnb-ul .dnb-anchor:last-of-type, .dnb-spacing .dnb-global-status__content .dnb-ul .dnb-anchor:last-of-type, .dnb-spacing .dnb-global-status__content .dnb-ul:not([class*=dnb-space]) .dnb-anchor:last-of-type {
   margin-left: 0.5rem;
+}
+.dnb-global-status__content .dnb-hr {
+  --hr-color: var(--global-status-underline-color);
+}
+.dnb-global-status--info .dnb-global-status__content .dnb-hr {
+  --global-status-underline-color: var(--token-color-stroke-info);
+}
+.dnb-global-status--warning .dnb-global-status__content .dnb-hr {
+  --global-status-underline-color: var(--token-color-stroke-warning);
+}
+.dnb-global-status--success .dnb-global-status__content .dnb-hr {
+  --global-status-underline-color: var(--token-color-stroke-info);
 }"
 `;
