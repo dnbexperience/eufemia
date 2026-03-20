@@ -9,7 +9,6 @@
     --item-chevron-margin: 1rem;
     --item-chevron-height: 1.5rem;
     --item-outline-width: 0.0625rem;
-    --item-outline-inset: ; // leave empty for normal
     --item-outline-color: var(--color-black-8);
     --item-navigation-color: var(--color-sea-green);
     --item-navigation-color--active: var(--color-emerald-green);
@@ -302,9 +301,6 @@
         --item-outline-width: 0.125rem;
         z-index: 2;
       }
-      &:hover {
-        --item-outline-inset: inset;
-      }
       &:active {
         --item-outline-color: var(--item-navigation-color--active);
         --item-icon-color: var(--item-navigation-color--active);
@@ -319,9 +315,6 @@
       --item-outline-color: var(--item-navigation-color);
       --item-outline-width: 0.125rem;
       z-index: 2;
-    }
-    &:has(#{&}__accordion__header:hover) {
-      --item-outline-inset: inset;
     }
     &:has(#{&}__accordion__header:active) {
       --item-outline-color: var(--item-navigation-color--active);
