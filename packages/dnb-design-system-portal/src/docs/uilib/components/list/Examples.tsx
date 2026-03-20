@@ -13,6 +13,7 @@ import {
   DateFormat,
   Flex,
   Grid,
+  Heading,
   List,
   NumberFormat,
   P,
@@ -102,7 +103,7 @@ export const FooterWithButtons = () => {
           title="Action item with button"
         >
           <List.Cell.End>
-            <Value.Currency value={5678} showEmpty />
+            <Value.Currency value={5678} />
           </List.Cell.End>
           <List.Cell.Footer>
             <Button variant="secondary" text="Open" />
@@ -235,7 +236,7 @@ export const WithAvatar = () => {
             <Avatar size="medium">B</Avatar>
           </List.Cell.Start>
           <List.Cell.End>
-            <Value.Currency value={5678} showEmpty />
+            <Value.Currency value={5678} />
           </List.Cell.End>
         </List.Item.Action>
 
@@ -353,13 +354,13 @@ export const SeparatedLists = () => {
       <List.Container separated>
         <List.Item.Basic icon={fish_medium} title="Title 1">
           <List.Cell.End>
-            <Value.Currency value={1234} showEmpty />
+            <Value.Currency value={1234} />
           </List.Cell.End>
         </List.Item.Basic>
 
         <List.Item.Basic icon={fish_medium} title="Title 2">
           <List.Cell.End>
-            <Value.Currency value={4567} showEmpty />
+            <Value.Currency value={4567} />
           </List.Cell.End>
         </List.Item.Basic>
       </List.Container>
@@ -426,7 +427,7 @@ export const WithDateFormat = () => {
             />
           </List.Cell.Start>
           <List.Cell.End>
-            <Value.Currency value={1234} showEmpty />
+            <Value.Currency value={1234} />
           </List.Cell.End>
         </List.Item.Basic>
 
@@ -442,7 +443,7 @@ export const WithDateFormat = () => {
             In Action Item
           </List.Cell.Title>
           <List.Cell.End>
-            <Value.Currency value={5678} showEmpty />
+            <Value.Currency value={5678} />
           </List.Cell.End>
         </List.Item.Action>
 
@@ -459,7 +460,7 @@ export const WithDateFormat = () => {
               In Accordion Item
             </List.Cell.Title>
             <List.Cell.End>
-              <Value.Currency value={1234} showEmpty />
+              <Value.Currency value={1234} />
             </List.Cell.End>
           </List.Item.Accordion.Header>
           <List.Item.Accordion.Content innerSpace>
@@ -490,7 +491,7 @@ export const ListSubline = () => {
             </List.Cell.Title.Subline>
           </List.Cell.Title>
           <List.Cell.End>
-            <Value.Currency value={5678} showEmpty />
+            <Value.Currency value={5678} />
           </List.Cell.End>
         </List.Item.Action>
 
@@ -510,7 +511,7 @@ export const ListSubline = () => {
               </List.Cell.Title.Subline>
             </List.Cell.Title>
             <List.Cell.End>
-              <Value.Currency value={5678} showEmpty />
+              <Value.Currency value={5678} />
             </List.Cell.End>
           </List.Item.Accordion.Header>
           <List.Item.Accordion.Content innerSpace>
@@ -520,7 +521,7 @@ export const ListSubline = () => {
 
         <List.Item.Action title="Title" icon={fish_medium}>
           <List.Cell.End>
-            <Value.Currency value={5678} showEmpty />
+            <Value.Currency value={5678} />
             <List.Cell.Title.Subline variant="description">
               Subline
             </List.Cell.Title.Subline>
@@ -550,7 +551,7 @@ export const WithBadge = () => {
                   label="Notifications"
                   variant="notification"
                 />
-                <Value.Currency value={1234} showEmpty />
+                <Value.Currency value={1234} />
               </Flex.Horizontal>
             </List.Cell.End>
           </List.Item.Accordion.Header>
@@ -707,6 +708,56 @@ export const GridColumns = () => {
           <P>Second Grid Item</P>
         </Grid.Item>
       </Grid.Container>
+    </ComponentBox>
+  )
+}
+
+export const InsideCard = () => {
+  return (
+    <ComponentBox data-visual-test="list-card" scope={{ fish_medium }}>
+      <List.Card>
+        <Heading size="medium">Transactions</Heading>
+
+        <List.ScrollView maxVisibleListItems={4}>
+          <List.Container>
+            <List.Item.Action icon={fish_medium} title="Payment received">
+              <List.Cell.End>
+                <Value.Currency value={1234} />
+              </List.Cell.End>
+            </List.Item.Action>
+
+            <List.Item.Action icon={fish_medium} title="Transfer sent">
+              <List.Cell.End>
+                <Value.Currency value={-500} />
+              </List.Cell.End>
+            </List.Item.Action>
+
+            <List.Item.Action icon={fish_medium} title="Subscription">
+              <List.Cell.End>
+                <Value.Currency value={-99} />
+              </List.Cell.End>
+            </List.Item.Action>
+
+            <List.Item.Action icon={fish_medium} title="Refund">
+              <List.Cell.End>
+                <Value.Currency value={250} />
+              </List.Cell.End>
+            </List.Item.Action>
+
+            <List.Item.Action icon={fish_medium} title="Salary">
+              <List.Cell.End>
+                <Value.Currency value={45000} />
+              </List.Cell.End>
+            </List.Item.Action>
+
+            <List.Item.Action icon={fish_medium} title="Groceries">
+              <List.Cell.End>
+                <Value.Currency value={-320} />
+              </List.Cell.End>
+            </List.Item.Action>
+          </List.Container>
+        </List.ScrollView>
+      </List.Card>
     </ComponentBox>
   )
 }

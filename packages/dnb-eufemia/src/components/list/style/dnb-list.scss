@@ -1,16 +1,6 @@
 @import './../../../style/core/utilities.scss';
 
 .dnb-list {
-  &__container {
-    display: flex;
-    flex-direction: column;
-
-    margin: 0; // reset UL margin
-    padding: 0;
-
-    list-style: none;
-  }
-
   &--variant-basic {
     --item-padding: 1rem;
     --item-height: 4rem;
@@ -19,7 +9,6 @@
     --item-chevron-margin: 1rem;
     --item-chevron-height: 1.5rem;
     --item-outline-width: 0.0625rem;
-    --item-outline-inset: ; // leave empty for normal
     --item-outline-color: var(--color-black-8);
     --item-navigation-color: var(--color-sea-green);
     --item-navigation-color--active: var(--color-emerald-green);
@@ -42,17 +31,15 @@
     &::after {
       content: '';
       position: absolute;
-      inset: 0;
+      inset: calc(var(--item-outline-width) * -1);
+      left: 0;
+      right: 0;
       z-index: 10;
 
       border-radius: inherit;
       pointer-events: none;
 
-      @include fakeBorder(
-        var(--item-outline-color),
-        var(--item-outline-width),
-        var(--item-outline-inset)
-      );
+      border: var(--item-outline-width) solid var(--item-outline-color);
     }
 
     // Grid layout: each slot (start, icon, title, center, end) is placed by its
@@ -314,9 +301,6 @@
         --item-outline-width: 0.125rem;
         z-index: 2;
       }
-      &:hover {
-        --item-outline-inset: inset;
-      }
       &:active {
         --item-outline-color: var(--item-navigation-color--active);
         --item-icon-color: var(--item-navigation-color--active);
@@ -331,9 +315,6 @@
       --item-outline-color: var(--item-navigation-color);
       --item-outline-width: 0.125rem;
       z-index: 2;
-    }
-    &:has(#{&}__accordion__header:hover) {
-      --item-outline-inset: inset;
     }
     &:has(#{&}__accordion__header:active) {
       --item-outline-color: var(--item-navigation-color--active);
@@ -386,6 +367,51 @@
         -45deg,
         var(--item-pending-color) 1px 2px,
         transparent 0 6px
+      );
+    }
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+
+    margin: 0; // reset UL margin
+    padding: 0;
+
+    list-style: none;
+
+    .dnb-list--inset-outline & .dnb-list__item {
+      &::after {
+        inset: 0;
+        bottom: calc(var(--item-outline-width) * -1);
+      }
+      &:last-of-type::after {
+        bottom: 0;
+      }
+    }
+
+    .dnb-card & {
+      .dnb-list__item {
+        &:first-of-type,
+        &:last-of-type {
+          border-radius: 0;
+        }
+      }
+    }
+
+    .dnb-card:has(.dnb-scroll-view &)
+      .dnb-list__item:not(:hover):not(:focus-visible)::after {
+      border-right: none;
+      border-left: none;
+    }
+
+    // Handle scrollbar
+    .dnb-scroll-view & {
+      padding-right: calc(var(--scrollbar-track-width) * 2);
+    }
+    .dnb-card:has(.dnb-scroll-view &) {
+      padding-right: calc(
+        var(--padding-right) - (var(--scrollbar-track-width) * 2)
       );
     }
   }
