@@ -199,4 +199,22 @@
     padding-top: var(--spacing-xx-large);
     padding-bottom: var(--spacing-xx-large);
   }
+
+  // GlobalStatus states and Section variant colors
+  &--error {
+    --text-color: var(--token-color-text-neutral);
+    --background-color: var(--token-color-background-error-subtle);
+  }
+
+  // Success seems to be on its way to be deprecated (no designs in figma), treat as info for now
+  &--info,
+  &--success {
+    --text-color: var(--token-color-text-neutral);
+    --background-color: var(--token-color-background-info-subtle);
+  }
+
+  &--warning {
+    --text-color: var(--token-color-text-neutral);
+    --background-color: var(--token-color-background-warning-subtle);
+  }
 }
