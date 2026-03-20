@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.EditContainer'
 description: '`Iterate.EditContainer` enables users to toggle (with animation) the content of each item between the view and edit container.'
-version: 10.100.1
-generatedAt: 2026-03-12T13:34:03.146Z
+version: 10.101.0
+generatedAt: 2026-03-20T11:32:39.312Z
 checksum: e26a9cd2ef9add46be0be2b3722e39b9885b72d1bce7283500f4f6fc4969a44d
 ---
 
@@ -305,10 +305,10 @@ render(
       "da-DK": "Færdig"
     },
     "IterateEditContainer.errorInContainer": {
-      "nb-NO": "Feilene ovenfor må rettes.",
-      "en-GB": "Please correct the errors above.",
-      "sv-SE": "Felen ovan måste åtgärdas.",
-      "da-DK": "Fejlene ovenfor skal rettes."
+      "nb-NO": "Du må rette feilene over.",
+      "en-GB": "You must correct the errors above.",
+      "sv-SE": "Du måste rätta felen ovan.",
+      "da-DK": "Du skal rette fejlene ovenfor."
     },
     "IterateEditContainer.removeButton": {
       "nb-NO": "Fjern",

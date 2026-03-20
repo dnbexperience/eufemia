@@ -1,8 +1,8 @@
 ---
 title: 'Stat'
 description: 'Composable metric components for highlighted values, trends, and labels.'
-version: 10.100.1
-generatedAt: 2026-03-12T13:34:02.617Z
+version: 10.101.0
+generatedAt: 2026-03-20T11:32:38.741Z
 checksum: c745bfd7d4ae4407cc7cbc40dafc43620da871b400fa9f8480d9ef01c5b12aa8
 ---
 
@@ -59,7 +59,7 @@ render(
   <Stat.Root>
     <Stat.Label>Revenue growth</Stat.Label>
     <Stat.Content direction="vertical">
-      <Stat.Currency value={1234} signDisplay="always" srLabel="Revenue" />
+      <Stat.Currency value={1234} signDisplay="always" />
       <Stat.Trend srLabel="Change">+12.4%</Stat.Trend>
       <Stat.Info>Some additional information.</Stat.Info>
     </Stat.Content>
@@ -82,7 +82,6 @@ render(
         value={1234}
         mainSize="x-large"
         auxiliarySize="x-small"
-        srLabel="Revenue growth"
       />
       <Stat.Trend srLabel="Growth trend">+12.4%</Stat.Trend>
     </Stat.Content>
@@ -94,7 +93,6 @@ render(
         signDisplay="always"
         mainSize="x-large"
         auxiliarySize="x-small"
-        srLabel="Monthly change"
       />
       <Stat.Inline>
         <Stat.Trend srLabel="Change trend">-2.1%</Stat.Trend>
@@ -134,7 +132,6 @@ render(
         mainSize="x-large"
         signDisplay="always"
         auxiliarySize="x-small"
-        srLabel="NOK amount"
       />
     </Stat.Content>
 
@@ -146,7 +143,6 @@ render(
         suffix="/mnd"
         mainSize="x-large"
         auxiliarySize="x-small"
-        srLabel="USD per month"
       />
     </Stat.Content>
 
@@ -212,18 +208,13 @@ render(
         signDisplay="always"
         mainSize="x-large"
         auxiliarySize="x-small"
-        srLabel="Number value"
       />
     </Stat.Content>
 
     <Stat.Label top>Number in Trend and Info</Stat.Label>
     <Stat.Content>
       <Stat.Trend tone="negative" srLabel="Negative trend">
-        <Stat.Number
-          value={-1234}
-          signDisplay="always"
-          srLabel="Signed amount with currency"
-        />
+        <Stat.Number value={-1234} signDisplay="always" />
       </Stat.Trend>
       <Stat.Info>
         (
@@ -245,7 +236,6 @@ render(
         value={12.3}
         mainSize="x-large"
         auxiliarySize="x-small"
-        srLabel="Percentage value"
       />
     </Stat.Content>
 
@@ -257,7 +247,6 @@ render(
         signDisplay="always"
         fontSize="medium"
         colorizeBySign
-        srLabel="Signed percentage value"
       />
     </Stat.Content>
   </Stat.Root>
@@ -271,16 +260,12 @@ render(
   <Stat.Root>
     <Stat.Label>Stars rating</Stat.Label>
     <Stat.Content>
-      <Stat.Rating value={4} srLabel="Stars rating" />
+      <Stat.Rating value={4} />
     </Stat.Content>
 
     <Stat.Label top>Progressive rating</Stat.Label>
     <Stat.Content direction="vertical">
-      <Stat.Rating
-        variant="progressive"
-        value={5}
-        srLabel="Progressive rating"
-      />
+      <Stat.Rating variant="progressive" value={5} />
     </Stat.Content>
   </Stat.Root>
 )
@@ -373,11 +358,7 @@ function Example() {
           <Stat.Root visualOrder="content-label">
             <Stat.Label variant="subtle">Risiko</Stat.Label>
             <Stat.Content direction="vertical">
-              <Stat.Rating
-                variant="progressive"
-                value={2}
-                srLabel="Lav risiko"
-              />
+              <Stat.Rating variant="progressive" value={2} />
               <Stat.Info top variant="prominent">
                 Lav
               </Stat.Info>
@@ -401,7 +382,7 @@ function Example() {
           <Stat.Root visualOrder="content-label">
             <Stat.Label variant="subtle">Stars rating</Stat.Label>
             <Stat.Content direction="vertical">
-              <Stat.Rating value={2} srLabel="Stars rating" />
+              <Stat.Rating value={2} />
               <Stat.Info top variant="prominent">
                 {rating.replace('%value', '2').replace('%max', '5')}
               </Stat.Info>

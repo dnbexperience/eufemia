@@ -1,8 +1,8 @@
 ---
 title: 'CountryFlag'
 description: 'The CountryFlag component lets you display a country flag based on a country ISO code.'
-version: 10.100.1
-generatedAt: 2026-03-12T13:34:02.274Z
+version: 10.101.0
+generatedAt: 2026-03-20T11:32:38.393Z
 checksum: e95e21927630e53209d67e09696c37bbb6bcd26ccaef3599d84b19c26f3202d5
 ---
 

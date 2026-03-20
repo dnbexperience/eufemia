@@ -1,8 +1,8 @@
 ---
 title: 'Checkbox'
 description: 'The Checkbox component is shown as a square box that is ticked (checked) when activated.'
-version: 10.100.1
-generatedAt: 2026-03-12T13:34:02.263Z
+version: 10.101.0
+generatedAt: 2026-03-20T11:32:38.381Z
 checksum: 4ad409a5c220c1a36b1d66252b123c2e6f01b4a02484117c0f7281f618d4bc5e
 ---
 

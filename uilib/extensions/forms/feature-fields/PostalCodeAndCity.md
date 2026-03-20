@@ -1,8 +1,8 @@
 ---
 title: 'Field.PostalCodeAndCity'
 description: '`Field.PostalCodeAndCity` is a wrapper component for input of two separate values with user experience tailored for postal code and city values.'
-version: 10.100.1
-generatedAt: 2026-03-12T13:34:03.437Z
+version: 10.101.0
+generatedAt: 2026-03-20T11:32:39.612Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -414,10 +414,10 @@ render(
   "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
   "entries": {
     "City.errorPattern": {
-      "nb-NO": "Stedsnavn kan kun inneholde bokstaver og gyldige tegn som bindestrek og mellomrom.",
-      "en-GB": "City names can only contain letters and valid characters such as hyphens and spaces.",
-      "sv-SE": "Ortsnamn kan endast innehålla bokstäver och giltiga tecken som bindestreck och mellanslag.",
-      "da-DK": "Bynavn må kun indeholde bogstaver og gyldige tegn som bindestreg og mellemrum."
+      "nb-NO": "Du må skrive inn et gyldig stedsnavn. Kun bokstaver, bindestrek og mellomrom er tillatt.",
+      "en-GB": "You must enter a valid city name. Only letters, hyphens and spaces are allowed.",
+      "sv-SE": "Du måste ange ett giltigt ortsnamn. Endast bokstäver, bindestreck och mellanslag är tillåtna.",
+      "da-DK": "Du skal indtaste et gyldigt bynavn. Kun bogstaver, bindestreger og mellemrum er tilladt."
     },
     "City.errorRequired": {
       "nb-NO": "Du må fylle inn et stedsnavn.",
@@ -432,10 +432,10 @@ render(
       "da-DK": "By"
     },
     "Field.errorPattern": {
-      "nb-NO": "Verdien er ugyldig.",
-      "en-GB": "The value is invalid.",
-      "sv-SE": "Värdet är ogiltigt.",
-      "da-DK": "Ugyldig værdi."
+      "nb-NO": "Du må skrive inn en gyldig verdi.",
+      "en-GB": "You must enter a valid value.",
+      "sv-SE": "Du måste ange ett giltigt värde.",
+      "da-DK": "Du skal indtaste en gyldig værdi."
     },
     "Field.errorRequired": {
       "nb-NO": "Dette feltet må fylles ut.",
@@ -468,10 +468,10 @@ render(
       "da-DK": "Oversigt:"
     },
     "PostalCode.errorPattern": {
-      "nb-NO": "Dette er ikke et gyldig postnummer (fire siffer).",
-      "en-GB": "This is not a valid postcode (four digits).",
-      "sv-SE": "Detta är inte ett giltigt postnummer (fyra siffror).",
-      "da-DK": "Dette er ikke et gyldigt postnummer (fire cifre)."
+      "nb-NO": "Du må skrive inn et gyldig postnummer (fire siffer).",
+      "en-GB": "You must enter a valid postcode (4 digits).",
+      "sv-SE": "Du måste ange ett giltigt postnummer (fyra siffror).",
+      "da-DK": "Du skal indtaste et gyldigt postnummer (fire cifre)."
     },
     "PostalCode.errorRequired": {
       "nb-NO": "Du må fylle inn et postnummer.",

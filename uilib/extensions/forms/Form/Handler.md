@@ -1,9 +1,9 @@
 ---
 title: 'Form.Handler'
 description: 'The `Form.Handler` is the root component of your form. It provides an HTML form element and handles the form data.'
-version: 10.100.1
-generatedAt: 2026-03-12T13:34:02.962Z
-checksum: 04607cbd4f87ff024a967f02f28239430391cbd1147cac10882113bd3e3cdc6d
+version: 10.101.0
+generatedAt: 2026-03-20T11:32:39.116Z
+checksum: 46576cb992676575bd937799c9547cd77de1bc2d48997664e6c70df0a6215ac8
 ---
 
 # Form.Handler
@@ -554,6 +554,41 @@ render(
 )
 ```
 
+### Async onSubmitRequest with error message
+
+This example demonstrates returning an error message from `onSubmitRequest`. When the form has validation errors and the user tries to submit, the `onSubmitRequest` handler is called. It can return an error, warning, or info message that will be displayed at the form level.
+
+```tsx
+render(
+  <Form.Handler
+    onSubmitRequest={async ({ getErrors }) => {
+      const errors = getErrors()
+      console.log('onSubmitRequest errors', errors)
+
+      // Wait for 1 second
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
+      // Return an error message to display in the form
+      return {
+        error: new Error(
+          `The form has ${errors.length} error(s). Please fix them before submitting.`
+        ),
+      }
+    }}
+  >
+    <Flex.Stack>
+      <Form.Card>
+        <Field.String label="Required field" path="/myField" required />
+        <Field.Email path="/email" required />
+      </Form.Card>
+      <Form.ButtonRow>
+        <Form.SubmitButton />
+      </Form.ButtonRow>
+    </Flex.Stack>
+  </Form.Handler>
+)
+```
+
 ### Reduce your data to visible fields
 
 You can use the `reduceToVisibleFields` function to get only the data of visible (mounted) fields.
@@ -1090,7 +1125,7 @@ render(<MyForm />)
       "status": "optional"
     },
     "onSubmitRequest": {
-      "doc": "Will be called when the user tries to submit, but errors stop the data from being submitted. The first parameter is an object containing the `getErrors` method, returning an array with field errors. Each error object contains the `path`, `error` and `props` of the field. You can use this to log the errors before the form is submitted.",
+      "doc": "Will be called when the user tries to submit, but errors stop the data from being submitted. The first parameter is an object containing the `getErrors` method, returning an array with field errors. Each error object contains the `path`, `error` and `props` of the field. You can use this to log the errors before the form is submitted. You can return an error or an object with these keys `{ info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` to be shown in a [FormStatus](/uilib/components/form-status) at the form level. Supports async functions.",
       "type": "function",
       "status": "optional"
     },

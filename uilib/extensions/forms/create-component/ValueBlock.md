@@ -1,8 +1,8 @@
 ---
 title: 'ValueBlock'
 description: '`ValueBlock` is a reusable wrapper component that can be used to easily create custom Value-components that will display in the same way as other Value-components.'
-version: 10.100.1
-generatedAt: 2026-03-12T13:34:03.421Z
+version: 10.101.0
+generatedAt: 2026-03-20T11:32:39.593Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

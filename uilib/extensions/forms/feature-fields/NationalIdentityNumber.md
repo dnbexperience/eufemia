@@ -1,8 +1,8 @@
 ---
 title: 'Field.NationalIdentityNumber'
 description: '`Field.NationalIdentityNumber` is a wrapper component for the input of strings, with user experience tailored for national identity number values.'
-version: 10.100.1
-generatedAt: 2026-03-12T13:34:03.434Z
+version: 10.101.0
+generatedAt: 2026-03-20T11:32:39.608Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -667,10 +667,10 @@ render(
   "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
   "entries": {
     "Field.errorPattern": {
-      "nb-NO": "Verdien er ugyldig.",
-      "en-GB": "The value is invalid.",
-      "sv-SE": "Värdet är ogiltigt.",
-      "da-DK": "Ugyldig værdi."
+      "nb-NO": "Du må skrive inn en gyldig verdi.",
+      "en-GB": "You must enter a valid value.",
+      "sv-SE": "Du måste ange ett giltigt värde.",
+      "da-DK": "Du skal indtaste en gyldig værdi."
     },
     "Field.errorRequired": {
       "nb-NO": "Dette feltet må fylles ut.",
@@ -709,10 +709,10 @@ render(
       "da-DK": "Ugyldigt d-nummer."
     },
     "NationalIdentityNumber.errorDnrLength": {
-      "nb-NO": "Ugyldig d-nummer. Skriv inn et gyldig d-nummer med 11 siffer.",
-      "en-GB": "Invalid D number. Enter a valid d-number with 11 digits.",
-      "sv-SE": "Ogiltigt d-nummer. Ange ett giltigt d-nummer med 11 siffror.",
-      "da-DK": "Ugyldigt d-nummer. Indtast et gyldigt d-nummer med 11 cifre."
+      "nb-NO": "Du må skrive inn et gyldig d-nummer med 11 siffer.",
+      "en-GB": "You must enter a valid D number with 11 digits.",
+      "sv-SE": "Du måste ange ett giltigt d-nummer med 11 siffror.",
+      "da-DK": "Du skal indtaste et gyldigt d-nummer med 11 cifre."
     },
     "NationalIdentityNumber.errorFnr": {
       "nb-NO": "Ugyldig fødselsnummer.",
@@ -721,10 +721,10 @@ render(
       "da-DK": "Ugyldigt fødselsnummer."
     },
     "NationalIdentityNumber.errorFnrLength": {
-      "nb-NO": "Ugyldig fødselsnummer. Skriv inn et gyldig fødselsnummer med 11 siffer.",
-      "en-GB": "Invalid national identity number. Enter a valid national identity number with 11 digits.",
-      "sv-SE": "Ogiltigt födselsnummer. Ange ett giltigt födselsnummer med 11 siffror.",
-      "da-DK": "Ugyldigt fødselsnummer. Indtast et gyldigt fødselsnummer med 11 cifre."
+      "nb-NO": "Du må skrive inn et gyldig fødselsnummer med 11 siffer.",
+      "en-GB": "You must enter a valid national identity number with 11 digits.",
+      "sv-SE": "Du måste ange ett giltigt födselsnummer med 11 siffror.",
+      "da-DK": "Du skal indtaste et gyldigt fødselsnummer med 11 cifre."
     },
     "NationalIdentityNumber.errorMinimumAgeValidator": {
       "nb-NO": "Må være minst {age} år.",
@@ -733,10 +733,10 @@ render(
       "da-DK": "Skal være mindst {age} år."
     },
     "NationalIdentityNumber.errorMinimumAgeValidatorLength": {
-      "nb-NO": "Ugyldig fødselsdato. Skriv inn en gyldig fødselsdato (inkl. århundresiffer) med 7 siffer.",
-      "en-GB": "Invalid date of birth. Enter a valid date of birth (incl. century digit) with 7 digits.",
-      "sv-SE": "Ogiltigt födelsedatum. Ange ett giltigt födelsedatum (inkl. århundradessiffra) med 7 siffror.",
-      "da-DK": "Ugyldig fødselsdato. Indtast en gyldig fødselsdato (inkl. århundredetal) med 7 cifre."
+      "nb-NO": "Du må skrive inn en gyldig fødselsdato med 7 siffer (inkludert århundre).",
+      "en-GB": "You must enter a valid date of birth with 7 digits (including century).",
+      "sv-SE": "Du måste ange ett giltigt födelsedatum med 7 siffror (inklusive århundrade).",
+      "da-DK": "Du skal indtaste en gyldig fødselsdato med 7 cifre (inklusive århundrede)."
     },
     "NationalIdentityNumber.errorRequired": {
       "nb-NO": "Du må fylle inn et fødselsnummer.",

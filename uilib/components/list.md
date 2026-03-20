@@ -1,9 +1,9 @@
 ---
 title: 'List'
 description: 'List is a layout component for displaying rows of content, with optional start/center/end slots and a navigable item variant.'
-version: 10.100.1
-generatedAt: 2026-03-12T13:34:02.446Z
-checksum: dfc61ec24339a0753565b65b94f0885be66de9af5a24aa7eb775de0601be4b08
+version: 10.101.0
+generatedAt: 2026-03-20T11:32:38.565Z
+checksum: e77926b5765d1ffe3e74b43bd77001bd4de171e1292943ad3a14e6610f6c4b6e
 ---
 
 # List
@@ -293,7 +293,7 @@ render(
               label="Notifications"
               variant="notification"
             />
-            <Value.Currency value={1234} showEmpty />
+            <Value.Currency value={1234} />
           </Flex.Horizontal>
         </List.Cell.End>
       </List.Item.Accordion.Header>
@@ -326,7 +326,7 @@ render(
 
     <List.Item.Action icon={fish_medium} title="Action item with button">
       <List.Cell.End>
-        <Value.Currency value={5678} showEmpty />
+        <Value.Currency value={5678} />
       </List.Cell.End>
       <List.Cell.Footer>
         <Button variant="secondary" text="Open" />
@@ -419,13 +419,13 @@ render(
   <List.Container separated>
     <List.Item.Basic icon={fish_medium} title="Title 1">
       <List.Cell.End>
-        <Value.Currency value={1234} showEmpty />
+        <Value.Currency value={1234} />
       </List.Cell.End>
     </List.Item.Basic>
 
     <List.Item.Basic icon={fish_medium} title="Title 2">
       <List.Cell.End>
-        <Value.Currency value={4567} showEmpty />
+        <Value.Currency value={4567} />
       </List.Cell.End>
     </List.Item.Basic>
   </List.Container>
@@ -478,7 +478,7 @@ render(
         />
       </List.Cell.Start>
       <List.Cell.End>
-        <Value.Currency value={1234} showEmpty />
+        <Value.Currency value={1234} />
       </List.Cell.End>
     </List.Item.Basic>
 
@@ -494,7 +494,7 @@ render(
         In Action Item
       </List.Cell.Title>
       <List.Cell.End>
-        <Value.Currency value={5678} showEmpty />
+        <Value.Currency value={5678} />
       </List.Cell.End>
     </List.Item.Action>
 
@@ -511,7 +511,7 @@ render(
           In Accordion Item
         </List.Cell.Title>
         <List.Cell.End>
-          <Value.Currency value={1234} showEmpty />
+          <Value.Currency value={1234} />
         </List.Cell.End>
       </List.Item.Accordion.Header>
       <List.Item.Accordion.Content innerSpace>
@@ -544,7 +544,7 @@ render(
         </List.Cell.Title.Subline>
       </List.Cell.Title>
       <List.Cell.End>
-        <Value.Currency value={5678} showEmpty />
+        <Value.Currency value={5678} />
       </List.Cell.End>
     </List.Item.Action>
 
@@ -564,7 +564,7 @@ render(
           </List.Cell.Title.Subline>
         </List.Cell.Title>
         <List.Cell.End>
-          <Value.Currency value={5678} showEmpty />
+          <Value.Currency value={5678} />
         </List.Cell.End>
       </List.Item.Accordion.Header>
       <List.Item.Accordion.Content innerSpace>
@@ -574,7 +574,7 @@ render(
 
     <List.Item.Action title="Title" icon={fish_medium}>
       <List.Cell.End>
-        <Value.Currency value={5678} showEmpty />
+        <Value.Currency value={5678} />
         <List.Cell.Title.Subline variant="description">
           Subline
         </List.Cell.Title.Subline>
@@ -701,7 +701,7 @@ render(
         <Avatar size="medium">B</Avatar>
       </List.Cell.Start>
       <List.Cell.End>
-        <Value.Currency value={5678} showEmpty />
+        <Value.Currency value={5678} />
       </List.Cell.End>
     </List.Item.Action>
 
@@ -806,6 +806,58 @@ render(
       </List.Cell.End>
     </List.Item.Action>
   </List.Container>
+)
+```
+
+### Inside a Card
+
+Use `List.Card` to wrap a list inside a [Card](/uilib/components/card) with built-in styling. Add `List.ScrollView` for a scrollable area with a `maxVisibleListItems` property.
+
+```tsx
+render(
+  <List.Card>
+    <Heading size="medium">Transactions</Heading>
+
+    <List.ScrollView maxVisibleListItems={4}>
+      <List.Container>
+        <List.Item.Action icon={fish_medium} title="Payment received">
+          <List.Cell.End>
+            <Value.Currency value={1234} />
+          </List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Action icon={fish_medium} title="Transfer sent">
+          <List.Cell.End>
+            <Value.Currency value={-500} />
+          </List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Action icon={fish_medium} title="Subscription">
+          <List.Cell.End>
+            <Value.Currency value={-99} />
+          </List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Action icon={fish_medium} title="Refund">
+          <List.Cell.End>
+            <Value.Currency value={250} />
+          </List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Action icon={fish_medium} title="Salary">
+          <List.Cell.End>
+            <Value.Currency value={45000} />
+          </List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Action icon={fish_medium} title="Groceries">
+          <List.Cell.End>
+            <Value.Currency value={-320} />
+          </List.Cell.End>
+        </List.Item.Action>
+      </List.Container>
+    </List.ScrollView>
+  </List.Card>
 )
 ```
 
@@ -1213,6 +1265,55 @@ render(
       "doc": "Footer content of the list item. Grows to fill available space.",
       "type": "React.ReactNode",
       "status": "required"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": ["string", "object"],
+      "status": "optional"
+    }
+  }
+}
+```
+
+## List.Card
+
+```json
+{
+  "props": {
+    "responsive": {
+      "doc": "When `true`, the card adjusts its layout for smaller screens. Defaults to `true`.",
+      "type": "boolean",
+      "defaultValue": "true",
+      "status": "optional"
+    },
+    "[Card](/uilib/components/card/properties)": {
+      "doc": "All [Card](/uilib/components/card) properties are supported.",
+      "type": "Various",
+      "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": ["string", "object"],
+      "status": "optional"
+    }
+  }
+}
+```
+
+## List.ScrollView
+
+```json
+{
+  "props": {
+    "children": {
+      "doc": "Scrollable content. Typically a `List.Container` with list items.",
+      "type": "React.ReactNode",
+      "status": "required"
+    },
+    "maxVisibleListItems": {
+      "doc": "Sets the maximum visible list items before the content scrolls. The component measures the rendered height of the first visible items. An explicit `style.maxHeight` overrides this.",
+      "type": "number",
+      "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",

@@ -1,9 +1,9 @@
 ---
 title: 'DataContext.Provider'
 description: '`DataContext.Provider` is the context provider that has to wrap the features if components of Field and Value is to be used with a common source instead of distributing values and events individually.'
-version: 10.100.1
-generatedAt: 2026-03-12T13:34:02.930Z
-checksum: 4f168e715a780fffd9f14c309b7b971f20b6d4176a0fa13609d9428a91b2e98d
+version: 10.101.0
+generatedAt: 2026-03-20T11:32:39.084Z
+checksum: d1665e49ccb9deed62097f626de5d161f5ccc73c69cc701a087583953ac6be66
 ---
 
 # DataContext.Provider
@@ -292,7 +292,7 @@ render(
       "status": "optional"
     },
     "onSubmitRequest": {
-      "doc": "Will be called when the user tries to submit, but errors stop the data from being submitted. The first parameter is an object containing the `getErrors` method, returning an array with field errors. Each error object contains the `path`, `error` and `props` of the field. You can use this to log the errors before the form is submitted.",
+      "doc": "Will be called when the user tries to submit, but errors stop the data from being submitted. The first parameter is an object containing the `getErrors` method, returning an array with field errors. Each error object contains the `path`, `error` and `props` of the field. You can use this to log the errors before the form is submitted. You can return an error or an object with these keys `{ info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` to be shown in a [FormStatus](/uilib/components/form-status) at the form level. Supports async functions.",
       "type": "function",
       "status": "optional"
     },

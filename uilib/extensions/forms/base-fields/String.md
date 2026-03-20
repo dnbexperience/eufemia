@@ -1,8 +1,8 @@
 ---
 title: 'Field.String'
 description: '`Field.String` is the base component for receiving user input where the target data is of type `string`.'
-version: 10.100.1
-generatedAt: 2026-03-12T13:34:03.408Z
+version: 10.101.0
+generatedAt: 2026-03-20T11:32:39.578Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -957,10 +957,10 @@ render(
   "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
   "entries": {
     "Field.errorPattern": {
-      "nb-NO": "Verdien er ugyldig.",
-      "en-GB": "The value is invalid.",
-      "sv-SE": "Värdet är ogiltigt.",
-      "da-DK": "Ugyldig værdi."
+      "nb-NO": "Du må skrive inn en gyldig verdi.",
+      "en-GB": "You must enter a valid value.",
+      "sv-SE": "Du måste ange ett giltigt värde.",
+      "da-DK": "Du skal indtaste en gyldig værdi."
     },
     "Field.errorRequired": {
       "nb-NO": "Dette feltet må fylles ut.",
@@ -993,16 +993,16 @@ render(
       "da-DK": "Oversigt:"
     },
     "StringField.errorMaxLength": {
-      "nb-NO": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-      "en-GB": "The value cannot be longer than {maxLength} characters.",
-      "sv-SE": "Värdet kan inte vara längre än {maxLength} tecken.",
-      "da-DK": "Værdien må ikke være længere end {maxLength} tegn."
+      "nb-NO": "Kan ikke være lengre enn {maxLength} tegn.",
+      "en-GB": "Cannot be longer than {maxLength} characters.",
+      "sv-SE": "Kan inte vara längre än {maxLength} tecken.",
+      "da-DK": "Må ikke være længere end {maxLength} tegn."
     },
     "StringField.errorMinLength": {
-      "nb-NO": "Verdien kan ikke være kortere enn {minLength} tegn.",
-      "en-GB": "The value cannot be shorter than {minLength} characters.",
-      "sv-SE": "Värdet kan inte vara kortare än {minLength} tecken.",
-      "da-DK": "Værdien må ikke være kortere end {minLength} tegn."
+      "nb-NO": "Kan ikke være kortere enn {minLength} tegn.",
+      "en-GB": "Cannot be shorter than {minLength} characters.",
+      "sv-SE": "Kan inte vara kortare än {minLength} tecken.",
+      "da-DK": "Må ikke være kortere end {minLength} tegn."
     }
   }
 }

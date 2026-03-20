@@ -1,8 +1,8 @@
 ---
 title: 'Form.Section'
 description: '`Form.Section` lets you compose blocks of fields and values to be reused in different contexts.'
-version: 10.100.1
-generatedAt: 2026-03-12T13:34:03.037Z
+version: 10.101.0
+generatedAt: 2026-03-20T11:32:39.192Z
 checksum: e125633052ef7908a2f0171cb864e12c3c898f9452212cab006b060b10d68116
 ---
 
@@ -1118,10 +1118,10 @@ render(
       "da-DK": "Færdig"
     },
     "SectionEditContainer.errorInSection": {
-      "nb-NO": "Feilene ovenfor må rettes.",
-      "en-GB": "Please correct the errors above.",
-      "sv-SE": "Felen ovan måste åtgärdas.",
-      "da-DK": "Fejlene ovenfor skal rettes."
+      "nb-NO": "Du må rette feilene over.",
+      "en-GB": "You must correct the errors above.",
+      "sv-SE": "Du måste rätta felen ovan.",
+      "da-DK": "Du skal rette fejlene ovenfor."
     },
     "SectionViewContainer.editButton": {
       "nb-NO": "Endre",

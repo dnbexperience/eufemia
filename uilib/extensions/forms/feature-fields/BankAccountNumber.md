@@ -1,8 +1,8 @@
 ---
 title: 'Field.BankAccountNumber'
 description: '`Field.BankAccountNumber` is a wrapper component for the input of strings, with user experience tailored for bank account number values.'
-version: 10.100.1
-generatedAt: 2026-03-12T13:34:03.427Z
+version: 10.101.0
+generatedAt: 2026-03-20T11:32:39.600Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -529,10 +529,10 @@ render(
       "da-DK": "Ugyldigt kontonummer."
     },
     "BankAccountNumber.errorBankAccountNumberLength": {
-      "nb-NO": "Ugyldig kontonummer. Skriv inn et gyldig kontonummer med 11 siffer.",
-      "en-GB": "Invalid account number. Enter a valid account number with 11 digits.",
-      "sv-SE": "Ogiltigt kontonummer. Ange ett giltigt kontonummer med 11 siffror.",
-      "da-DK": "Ugyldigt kontonummer. Indtast et gyldigt kontonummer med 11 cifre."
+      "nb-NO": "Du må skrive inn et gyldig kontonummer med 11 siffer.",
+      "en-GB": "You must enter a valid account number with 11 digits.",
+      "sv-SE": "Du måste ange ett giltigt kontonummer med 11 siffror.",
+      "da-DK": "Du skal indtaste et gyldigt kontonummer med 11 cifre."
     },
     "BankAccountNumber.errorRequired": {
       "nb-NO": "Du må fylle inn et kontonummer.",
@@ -547,10 +547,10 @@ render(
       "da-DK": "Bankkonto"
     },
     "Field.errorPattern": {
-      "nb-NO": "Verdien er ugyldig.",
-      "en-GB": "The value is invalid.",
-      "sv-SE": "Värdet är ogiltigt.",
-      "da-DK": "Ugyldig værdi."
+      "nb-NO": "Du må skrive inn en gyldig verdi.",
+      "en-GB": "You must enter a valid value.",
+      "sv-SE": "Du måste ange ett giltigt värde.",
+      "da-DK": "Du skal indtaste en gyldig værdi."
     },
     "Field.errorRequired": {
       "nb-NO": "Dette feltet må fylles ut.",

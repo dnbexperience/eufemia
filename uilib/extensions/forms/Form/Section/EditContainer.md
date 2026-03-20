@@ -1,8 +1,8 @@
 ---
 title: 'Form.Section.EditContainer'
 description: '`Form.Section.EditContainer` enables users to toggle (with animation) the content of each item between the view and edit container.'
-version: 10.100.1
-generatedAt: 2026-03-12T13:34:03.021Z
+version: 10.101.0
+generatedAt: 2026-03-20T11:32:39.177Z
 checksum: 3a3c3d0e49e2c12b2e78849f5784f909f49e8d2aa76cad07a5714074d3a7b48a
 ---
 
@@ -158,10 +158,10 @@ render(
       "da-DK": "Færdig"
     },
     "SectionEditContainer.errorInSection": {
-      "nb-NO": "Feilene ovenfor må rettes.",
-      "en-GB": "Please correct the errors above.",
-      "sv-SE": "Felen ovan måste åtgärdas.",
-      "da-DK": "Fejlene ovenfor skal rettes."
+      "nb-NO": "Du må rette feilene over.",
+      "en-GB": "You must correct the errors above.",
+      "sv-SE": "Du måste rätta felen ovan.",
+      "da-DK": "Du skal rette fejlene ovenfor."
     }
   }
 }

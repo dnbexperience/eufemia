@@ -1,8 +1,8 @@
 ---
 title: 'Field.Name'
 description: '`Field.Name` is a wrapper component for the input of strings, with user experience tailored for first name, last name and company names.'
-version: 10.100.1
-generatedAt: 2026-03-12T13:34:03.433Z
+version: 10.101.0
+generatedAt: 2026-03-20T11:32:39.607Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -446,10 +446,10 @@ render(
       "da-DK": "Firmanavn"
     },
     "Field.errorPattern": {
-      "nb-NO": "Verdien er ugyldig.",
-      "en-GB": "The value is invalid.",
-      "sv-SE": "Värdet är ogiltigt.",
-      "da-DK": "Ugyldig værdi."
+      "nb-NO": "Du må skrive inn en gyldig verdi.",
+      "en-GB": "You must enter a valid value.",
+      "sv-SE": "Du måste ange ett giltigt värde.",
+      "da-DK": "Du skal indtaste en gyldig værdi."
     },
     "Field.errorRequired": {
       "nb-NO": "Dette feltet må fylles ut.",
@@ -482,10 +482,10 @@ render(
       "da-DK": "Oversigt:"
     },
     "FirstName.errorPattern": {
-      "nb-NO": "Kun bokstaver og tegn som bindestrek og mellomrom er tillatt.",
-      "en-GB": "Enter a given name (first name) using only letters and characters such as hyphens and spaces.",
-      "sv-SE": "Endast bokstäver och tecken som bindestreck och mellanslag är tillåtna.",
-      "da-DK": "Kun bogstaver og tegn som bindestreg og mellemrum er tilladt."
+      "nb-NO": "Du må skrive inn et gyldig fornavn. Kun bokstaver, bindestrek og mellomrom er tillatt.",
+      "en-GB": "You must enter a valid first name. Only letters, hyphens and spaces are allowed.",
+      "sv-SE": "Du måste ange ett giltigt förnamn. Endast bokstäver, bindestreck och mellanslag är tillåtna.",
+      "da-DK": "Du skal indtaste et gyldigt fornavn. Kun bogstaver, bindestreger og mellemrum er tilladt."
     },
     "FirstName.errorRequired": {
       "nb-NO": "Du må fylle inn fornavn.",
@@ -500,10 +500,10 @@ render(
       "da-DK": "Fornavn"
     },
     "LastName.errorPattern": {
-      "nb-NO": "Kun bokstaver og tegn som bindestrek og mellomrom er tillatt.",
-      "en-GB": "Enter a surname (last name) using only letters and characters such as hyphens and spaces.",
-      "sv-SE": "Endast bokstäver och tecken som bindestreck och mellanslag är tillåtna.",
-      "da-DK": "Kun bogstaver og tegn som bindestreg og mellemrum er tilladt."
+      "nb-NO": "Du må skrive inn et gyldig etternavn. Kun bokstaver, bindestrek og mellomrom er tillatt.",
+      "en-GB": "You must enter a valid surname. Only letters, hyphens and spaces are allowed.",
+      "sv-SE": "Du måste ange ett giltigt efternamn. Endast bokstäver, bindestreck och mellanslag är tillåtna.",
+      "da-DK": "Du skal indtaste et gyldigt efternavn. Kun bogstaver, bindestreger og mellemrum er tilladt."
     },
     "LastName.errorRequired": {
       "nb-NO": "Du må fylle inn etternavn.",
@@ -518,10 +518,10 @@ render(
       "da-DK": "Efternavn"
     },
     "StringField.errorMinLength": {
-      "nb-NO": "Verdien kan ikke være kortere enn {minLength} tegn.",
-      "en-GB": "The value cannot be shorter than {minLength} characters.",
-      "sv-SE": "Värdet kan inte vara kortare än {minLength} tecken.",
-      "da-DK": "Værdien må ikke være kortere end {minLength} tegn."
+      "nb-NO": "Kan ikke være kortere enn {minLength} tegn.",
+      "en-GB": "Cannot be shorter than {minLength} characters.",
+      "sv-SE": "Kan inte vara kortare än {minLength} tecken.",
+      "da-DK": "Må ikke være kortere end {minLength} tegn."
     }
   }
 }

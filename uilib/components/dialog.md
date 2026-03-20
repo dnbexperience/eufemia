@@ -1,8 +1,8 @@
 ---
 title: 'Dialog'
 description: 'The Dialog component is a Modal variation that appears at the center of the screen.'
-version: 10.100.1
-generatedAt: 2026-03-12T13:34:02.305Z
+version: 10.101.0
+generatedAt: 2026-03-20T11:32:38.421Z
 checksum: 6146c02e2ec2d9b56850e52773452480f012e0218157924a5c1255deac391a7a
 ---
 

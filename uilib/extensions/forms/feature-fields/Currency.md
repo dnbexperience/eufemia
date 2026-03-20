@@ -1,8 +1,8 @@
 ---
 title: 'Field.Currency'
 description: '`Field.Currency` is a wrapper component for the input of numbers, with user experience tailored for currency values.'
-version: 10.100.1
-generatedAt: 2026-03-12T13:34:03.428Z
+version: 10.101.0
+generatedAt: 2026-03-20T11:32:39.601Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -500,10 +500,10 @@ render(
   "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
   "entries": {
     "Field.errorPattern": {
-      "nb-NO": "Verdien er ugyldig.",
-      "en-GB": "The value is invalid.",
-      "sv-SE": "Värdet är ogiltigt.",
-      "da-DK": "Ugyldig værdi."
+      "nb-NO": "Du må skrive inn en gyldig verdi.",
+      "en-GB": "You must enter a valid value.",
+      "sv-SE": "Du måste ange ett giltigt värde.",
+      "da-DK": "Du skal indtaste en gyldig værdi."
     },
     "Field.errorRequired": {
       "nb-NO": "Dette feltet må fylles ut.",
@@ -536,40 +536,40 @@ render(
       "da-DK": "Oversigt:"
     },
     "NumberField.errorExclusiveMaximum": {
-      "nb-NO": "Verdien må være mindre enn {exclusiveMaximum}.",
-      "en-GB": "The value must be less than {exclusiveMaximum}.",
-      "sv-SE": "Värdet måste vara mindre än {exclusiveMaximum}.",
-      "da-DK": "Værdien skal være mindre end {exclusiveMaximum}."
+      "nb-NO": "Må være mindre enn {exclusiveMaximum}.",
+      "en-GB": "Must be less than {exclusiveMaximum}.",
+      "sv-SE": "Måste vara mindre än {exclusiveMaximum}.",
+      "da-DK": "Skal være mindre end {exclusiveMaximum}."
     },
     "NumberField.errorExclusiveMinimum": {
-      "nb-NO": "Verdien må være større enn {exclusiveMinimum}.",
-      "en-GB": "The value must be greater than {exclusiveMinimum}.",
-      "sv-SE": "Värdet måste vara större än {exclusiveMinimum}.",
-      "da-DK": "Værdien skal være større end {exclusiveMinimum}."
+      "nb-NO": "Må være større enn {exclusiveMinimum}.",
+      "en-GB": "Must be larger than {exclusiveMinimum}.",
+      "sv-SE": "Måste vara större än {exclusiveMinimum}.",
+      "da-DK": "Skal være større end {exclusiveMinimum}."
     },
     "NumberField.errorInteger": {
-      "nb-NO": "Verdien må være et heltall (uten desimaler).",
-      "en-GB": "The value must be an integer (no decimals).",
-      "sv-SE": "Värdet måste vara ett heltal (utan decimaler).",
-      "da-DK": "Værdien skal være et helt tal (uden decimaler)."
+      "nb-NO": "Må være et helt tall (uten desimaler).",
+      "en-GB": "Must be a whole number (no decimals).",
+      "sv-SE": "Måste vara ett heltal (utan decimaler).",
+      "da-DK": "Skal være et helt tal (uden decimaler)."
     },
     "NumberField.errorMaximum": {
-      "nb-NO": "Verdien må maksimalt være {maximum}.",
-      "en-GB": "The value must be a maximum of {maximum}.",
-      "sv-SE": "Värdet får vara högst {maximum}.",
-      "da-DK": "Værdien må højst være {maximum}."
+      "nb-NO": "Må være maks. {maximum}.",
+      "en-GB": "Must be max {maximum}.",
+      "sv-SE": "Måste vara max {maximum}.",
+      "da-DK": "Skal være maks. {maximum}."
     },
     "NumberField.errorMinimum": {
-      "nb-NO": "Verdien må minst være {minimum}.",
-      "en-GB": "The value must be at least {minimum}.",
-      "sv-SE": "Värdet måste vara minst {minimum}.",
-      "da-DK": "Værdien skal være mindst {minimum}."
+      "nb-NO": "Må være minst {minimum}.",
+      "en-GB": "Must be at least {minimum}.",
+      "sv-SE": "Måste vara minst {minimum}.",
+      "da-DK": "Skal være mindst {minimum}."
     },
     "NumberField.errorMultipleOf": {
-      "nb-NO": "Verdien må være et multiplum av {multipleOf}.",
-      "en-GB": "The value must be a multiple of {multipleOf}.",
-      "sv-SE": "Värdet måste vara en multipel av {multipleOf}.",
-      "da-DK": "Indtast en værdi, der går op i {multipleOf}."
+      "nb-NO": "Må kunne deles på {multipleOf}.",
+      "en-GB": "Must be divisible by {multipleOf}.",
+      "sv-SE": "Måste vara delbart med {multipleOf}.",
+      "da-DK": "Skal kunne deles med {multipleOf}."
     }
   }
 }

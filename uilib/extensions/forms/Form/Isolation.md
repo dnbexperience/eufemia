@@ -1,8 +1,8 @@
 ---
 title: 'Form.Isolation'
 description: '`Form.Isolation` lets you isolate parts of your form so data and validations are not shared between the `Form.Handler` until you want to.'
-version: 10.100.1
-generatedAt: 2026-03-12T13:34:02.980Z
+version: 10.101.0
+generatedAt: 2026-03-20T11:32:39.134Z
 checksum: 1b679c8bfae5176229dd5e4389bc2603423d48f38734ad41264ef70e0043101e
 ---
 
@@ -708,10 +708,10 @@ render(
       "da-DK": "Tilføj"
     },
     "Isolation.preventUncommittedChangesText": {
-      "nb-NO": "Du har endringer som enten må legges til eller nullstilles.",
-      "en-GB": "You have changes that either need to be added or cleared.",
-      "sv-SE": "Du har ändringar som antingen måste läggas till eller rensas.",
-      "da-DK": "Du har ændringer, som enten skal tilføjes eller nulstilles."
+      "nb-NO": "Du må enten legge til eller forkaste endringene.",
+      "en-GB": "You must either add or discard the changes.",
+      "sv-SE": "Du måste antingen lägga till eller förkasta ändringarna.",
+      "da-DK": "Du skal enten tilføje eller forkaste ændringerne."
     }
   }
 }

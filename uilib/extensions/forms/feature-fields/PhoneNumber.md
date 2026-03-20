@@ -1,8 +1,8 @@
 ---
 title: 'Field.PhoneNumber'
 description: '`Field.PhoneNumber` is a wrapper component for the input of strings, with user experience tailored for phone number values.'
-version: 10.100.1
-generatedAt: 2026-03-12T13:34:03.436Z
+version: 10.101.0
+generatedAt: 2026-03-20T11:32:39.610Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -625,10 +625,10 @@ render(
   "locales": ["da-DK", "en-GB", "nb-NO", "sv-SE"],
   "entries": {
     "Field.errorPattern": {
-      "nb-NO": "Verdien er ugyldig.",
-      "en-GB": "The value is invalid.",
-      "sv-SE": "Värdet är ogiltigt.",
-      "da-DK": "Ugyldig værdi."
+      "nb-NO": "Du må skrive inn en gyldig verdi.",
+      "en-GB": "You must enter a valid value.",
+      "sv-SE": "Du måste ange ett giltigt värde.",
+      "da-DK": "Du skal indtaste en gyldig værdi."
     },
     "Field.errorRequired": {
       "nb-NO": "Dette feltet må fylles ut.",

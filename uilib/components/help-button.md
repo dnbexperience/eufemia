@@ -1,8 +1,8 @@
 ---
 title: 'HelpButton'
 description: 'A help button with custom semantics, helping screen readers determine the meaning of that button.'
-version: 10.100.1
-generatedAt: 2026-03-12T13:34:02.377Z
+version: 10.101.0
+generatedAt: 2026-03-20T11:32:38.497Z
 checksum: 4c38317663e884d46d1687367502de962906c21331a6f78b8de2c78f8d99087f
 ---
 
