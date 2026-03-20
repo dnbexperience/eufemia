@@ -624,78 +624,6 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
     --token-color-component-button-text-action-destructive-pressed
   );
 }
-.dnb-button--input-button:not(.dnb-button--secondary--has-text) {
-  --btn-color-bg--default: transparent;
-  --btn-color-bg--hover: var(--token-color-background-action);
-  --btn-color-bg--active: var(--token-color-background-action-pressed);
-  --btn-color-bg--disabled: var(
-    --token-color-background-neutral-subtle
-  );
-  --btn-color-border--default: transparent;
-  --btn-color-border--hover: transparent;
-  --btn-color-border--active: transparent;
-  --btn-color-border--disabled: transparent;
-  --btn-border-inset--focus: inset;
-  --btn-color-icon--hover: var(
-    --token-color-component-button-icon-neutral
-  );
-  --btn-color-icon--active: var(
-    --token-color-component-button-icon-neutral
-  );
-  --btn-color-icon--disabled: var(--token-color-icon-action-disabled);
-  --btn-color-text--hover: var(
-    --token-color-component-button-text-neutral
-  );
-  --btn-color-text--active: var(
-    --token-color-component-button-text-neutral
-  );
-  --btn-color-text--disabled: var(
-    --token-color-component-button-text-action-disabled
-  );
-}
-.dnb-button--input-button:not(.dnb-button--secondary--has-text).dnb-button__status--error {
-  --btn-color-bg--hover: var(--token-color-background-error);
-  --btn-color-bg--active: var(
-    --token-color-component-button-background-action-destructive-pressed
-  );
-  --btn-color-icon--hover: var(
-    --token-color-component-button-icon-neutral-destructive
-  );
-  --btn-color-icon--active: var(
-    --token-color-component-button-icon-neutral-destructive
-  );
-  --btn-color-text--hover: var(
-    --token-color-component-button-text-neutral-destructive
-  );
-  --btn-color-text--active: var(
-    --token-color-component-button-text-neutral-destructive
-  );
-}
-.dnb-button--input-button:not(.dnb-button--secondary--has-text) {
-  --btn-input-separator-color--default: var(--btn-color-text);
-  --btn-input-separator-color--hover: var(--btn-color-bg);
-  --btn-input-separator-color--active: var(--btn-color-bg);
-  --btn-input-separator-color--focus: var(--btn-color-border);
-  --btn-input-separator-color--disabled: var(
-    --token-color-background-action-disabled
-  );
-}
-.dnb-button--input-button:not(.dnb-button--secondary--has-text)::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: var(--input-border-width);
-  background-color: var(--btn-input-separator-color, var(--btn-input-separator-color--default));
-}
-.dnb-button--input-button:not(.dnb-button--secondary--has-text)::after:active[disabled], html:not([data-whatintent=touch]) .dnb-button--input-button:not(.dnb-button--secondary--has-text)::after:active[disabled] {
-  cursor: not-allowed;
-}
-.dnb-button--input-button:not(.dnb-button--secondary--has-text)::after:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--input-button:not(.dnb-button--secondary--has-text)::after:active:not([disabled]) {
-  top: var(--input-border-width);
-  bottom: var(--input-border-width);
-}
 .dnb-button--tertiary {
   --btn-color-icon--default: var(--token-color-icon-action);
   --btn-color-icon--hover: var(--token-color-icon-action-hover);
@@ -761,6 +689,86 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   --btn-color-underline--hover: var(
     --token-color-component-button-background-action-destructive-hover
   );
+}
+.dnb-button--icon-only.dnb-button--selected {
+  --btn-color-bg--default: var(
+    --token-color-background-selected-subtle
+  );
+  --btn-color-border--default: var(--token-color-stroke-selected);
+  --btn-border-width--default: var(--token-color-icon-selected);
+  --button-border-width--default: 0.125rem;
+  --btn-border-inset--default: ;
+}
+.dnb-button--icon-only.dnb-button--input-button {
+  --btn-color-bg--default: transparent;
+  --btn-color-bg--hover: var(--token-color-background-action);
+  --btn-color-bg--active: var(--token-color-background-action-pressed);
+  --btn-color-bg--disabled: var(
+    --token-color-background-neutral-subtle
+  );
+  --btn-color-border--default: transparent;
+  --btn-color-border--hover: transparent;
+  --btn-color-border--active: transparent;
+  --btn-border-inset--focus: inset;
+  --btn-color-icon--hover: var(
+    --token-color-component-button-icon-neutral
+  );
+  --btn-color-icon--active: var(
+    --token-color-component-button-icon-neutral
+  );
+  --btn-color-icon--disabled: var(--token-color-icon-action-disabled);
+  --btn-color-text--hover: var(
+    --token-color-component-button-text-neutral
+  );
+  --btn-color-text--active: var(
+    --token-color-component-button-text-neutral
+  );
+  --btn-color-text--disabled: var(
+    --token-color-component-button-text-action-disabled
+  );
+}
+.dnb-button--icon-only.dnb-button--input-button.dnb-button__status--error {
+  --btn-color-bg--hover: var(--token-color-background-error);
+  --btn-color-bg--active: var(
+    --token-color-component-button-background-action-destructive-pressed
+  );
+  --btn-color-icon--hover: var(
+    --token-color-component-button-icon-neutral-destructive
+  );
+  --btn-color-icon--active: var(
+    --token-color-component-button-icon-neutral-destructive
+  );
+  --btn-color-text--hover: var(
+    --token-color-component-button-text-neutral-destructive
+  );
+  --btn-color-text--active: var(
+    --token-color-component-button-text-neutral-destructive
+  );
+}
+.dnb-button--icon-only.dnb-button--input-button {
+  --btn-input-separator-color--default: var(--btn-color-text);
+  --btn-input-separator-color--hover: var(--btn-color-bg);
+  --btn-input-separator-color--active: var(--btn-color-bg);
+  --btn-input-separator-color--focus: var(--btn-color-border);
+  --btn-input-separator-color--disabled: var(
+    --token-color-background-action-disabled
+  );
+}
+.dnb-button--icon-only.dnb-button--input-button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: var(--input-border-width);
+  background-color: var(--btn-input-separator-color, var(--btn-input-separator-color--default));
+}
+.dnb-button--icon-only.dnb-button--input-button::after:active[disabled], html:not([data-whatintent=touch]) .dnb-button--icon-only.dnb-button--input-button::after:active[disabled] {
+  cursor: not-allowed;
+}
+.dnb-button--icon-only.dnb-button--input-button::after:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--icon-only.dnb-button--input-button::after:active:not([disabled]) {
+  top: var(--input-border-width);
+  bottom: var(--input-border-width);
 }
 .dnb-button {
   display: inline-flex;

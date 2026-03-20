@@ -405,97 +405,6 @@
         --token-color-component-button-text-action-destructive-pressed
       );
     }
-
-    // Input-button
-    .dnb-button--input-button:not(&--has-text) {
-      // Because we cannot anymore have a square, we have to trick that part
-
-      // Background
-      --btn-color-bg--default: transparent;
-      --btn-color-bg--hover: var(--token-color-background-action);
-      --btn-color-bg--active: var(--token-color-background-action-pressed);
-
-      --btn-color-bg--disabled: var(
-        --token-color-background-neutral-subtle
-      );
-      // Border
-      --btn-color-border--default: transparent;
-      --btn-color-border--hover: transparent;
-      --btn-color-border--active: transparent;
-      --btn-border-inset--focus: inset;
-
-      // Icon
-      --btn-color-icon--hover: var(
-        --token-color-component-button-icon-neutral
-      );
-      --btn-color-icon--active: var(
-        --token-color-component-button-icon-neutral
-      );
-      --btn-color-icon--disabled: var(--token-color-icon-action-disabled);
-
-      // Text
-      --btn-color-text--hover: var(
-        --token-color-component-button-text-neutral
-      );
-      --btn-color-text--active: var(
-        --token-color-component-button-text-neutral
-      );
-      --btn-color-text--disabled: var(
-        --token-color-component-button-text-action-disabled
-      );
-
-      &.dnb-button__status--error {
-        // Background
-        --btn-color-bg--hover: var(--token-color-background-error);
-        --btn-color-bg--active: var(
-          --token-color-component-button-background-action-destructive-pressed
-        );
-
-        // Icon
-        --btn-color-icon--hover: var(
-          --token-color-component-button-icon-neutral-destructive
-        );
-        --btn-color-icon--active: var(
-          --token-color-component-button-icon-neutral-destructive
-        );
-
-        // Text
-        --btn-color-text--hover: var(
-          --token-color-component-button-text-neutral-destructive
-        );
-        --btn-color-text--active: var(
-          --token-color-component-button-text-neutral-destructive
-        );
-      }
-
-      --btn-input-separator-color--default: var(--btn-color-text);
-      --btn-input-separator-color--hover: var(--btn-color-bg);
-      --btn-input-separator-color--active: var(--btn-color-bg);
-      --btn-input-separator-color--focus: var(--btn-color-border);
-      --btn-input-separator-color--disabled: var(
-        --token-color-background-action-disabled
-      );
-
-      &::after {
-        content: '';
-        position: absolute;
-
-        top: 0;
-        bottom: 0;
-        left: 0;
-
-        width: var(--input-border-width);
-        background-color: var(
-          --btn-input-separator-color,
-          var(--btn-input-separator-color--default)
-        );
-
-        @include utilities.active() {
-          top: var(--input-border-width);
-          bottom: var(--input-border-width);
-        }
-      }
-    }
   }
 
   // Tertiary button
@@ -583,6 +492,107 @@
       --btn-color-underline--hover: var(
         --token-color-component-button-background-action-destructive-hover
       );
+    }
+  }
+
+  &--icon-only {
+    &.dnb-button--selected {
+      --btn-color-bg--default: var(
+        --token-color-background-selected-subtle
+      );
+      --btn-color-border--default: var(--token-color-stroke-selected);
+      --btn-border-width--default: var(--token-color-icon-selected);
+      --button-border-width--default: 0.125rem;
+      --btn-border-inset--default: ; // Need empty value to override default `inset`
+    }
+
+    // Input-button
+    &.dnb-button--input-button {
+      // Background
+      --btn-color-bg--default: transparent;
+      --btn-color-bg--hover: var(--token-color-background-action);
+      --btn-color-bg--active: var(--token-color-background-action-pressed);
+
+      --btn-color-bg--disabled: var(
+        --token-color-background-neutral-subtle
+      );
+      // Border
+      --btn-color-border--default: transparent;
+      --btn-color-border--hover: transparent;
+      --btn-color-border--active: transparent;
+      --btn-border-inset--focus: inset;
+
+      // Icon
+      --btn-color-icon--hover: var(
+        --token-color-component-button-icon-neutral
+      );
+      --btn-color-icon--active: var(
+        --token-color-component-button-icon-neutral
+      );
+      --btn-color-icon--disabled: var(--token-color-icon-action-disabled);
+
+      // Text
+      --btn-color-text--hover: var(
+        --token-color-component-button-text-neutral
+      );
+      --btn-color-text--active: var(
+        --token-color-component-button-text-neutral
+      );
+      --btn-color-text--disabled: var(
+        --token-color-component-button-text-action-disabled
+      );
+
+      &.dnb-button__status--error {
+        // Background
+        --btn-color-bg--hover: var(--token-color-background-error);
+        --btn-color-bg--active: var(
+          --token-color-component-button-background-action-destructive-pressed
+        );
+
+        // Icon
+        --btn-color-icon--hover: var(
+          --token-color-component-button-icon-neutral-destructive
+        );
+        --btn-color-icon--active: var(
+          --token-color-component-button-icon-neutral-destructive
+        );
+
+        // Text
+        --btn-color-text--hover: var(
+          --token-color-component-button-text-neutral-destructive
+        );
+        --btn-color-text--active: var(
+          --token-color-component-button-text-neutral-destructive
+        );
+      }
+
+      --btn-input-separator-color--default: var(--btn-color-text);
+      --btn-input-separator-color--hover: var(--btn-color-bg);
+      --btn-input-separator-color--active: var(--btn-color-bg);
+      --btn-input-separator-color--focus: var(--btn-color-border);
+      --btn-input-separator-color--disabled: var(
+        --token-color-background-action-disabled
+      );
+
+      &::after {
+        content: '';
+        position: absolute;
+
+        top: 0;
+        bottom: 0;
+        left: 0;
+
+        width: var(--input-border-width);
+        background-color: var(
+          --btn-input-separator-color,
+          var(--btn-input-separator-color--default)
+        );
+
+        @include utilities.active() {
+          top: var(--input-border-width);
+          bottom: var(--input-border-width);
+        }
+      }
     }
   }
 

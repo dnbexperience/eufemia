@@ -132,6 +132,10 @@ export type ButtonProps = {
    */
   iconSize?: IconSize
   /**
+   * Only for icon buttons. If true, use the style for a selected icon button. Default is `false`.
+   */
+  selected?: boolean
+  /**
    * Provide a string or a React Element to be shown as the tooltip content.
    */
   tooltip?: ButtonTooltip
@@ -303,6 +307,7 @@ class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
       icon: _icon,
       iconPosition,
       iconSize,
+      selected,
       wrap,
       bounding,
       stretch,
@@ -400,6 +405,7 @@ class ButtonClass extends React.PureComponent<ButtonProps, ButtonState> {
       (text || content || customContent) && 'dnb-button--has-text',
       icon && 'dnb-button--has-icon',
       isIconOnly && 'dnb-button--icon-only',
+      selected && 'dnb-button--selected',
       wrap && 'dnb-button--wrap',
       status && `dnb-button__status--${statusState}`,
       createSkeletonClass(

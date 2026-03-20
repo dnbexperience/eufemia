@@ -57,6 +57,11 @@ export const ButtonProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  selected: {
+    doc: 'Only for icon buttons. If true, use the style for a selected icon button. Default is `false`',
+    type: 'boolean',
+    status: 'optional',
+  },
   href: {
     doc: 'If you want the button to behave as a link. Use with caution! A link should normally visually be a link and not a button.',
     type: 'string',
