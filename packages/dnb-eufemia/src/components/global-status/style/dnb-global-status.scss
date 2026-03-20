@@ -9,11 +9,17 @@
   }
 
   &__shell {
+    --global-status-underline-color: var(--token-color-stroke-error);
+
     width: 100%;
 
     &.dnb-height-animation--hidden {
       // Ensure Section is not overflowing with its after/before pseudo elements
       overflow-y: clip;
+    }
+
+    .dnb-hr {
+      --hr-color: var(--global-status-underline-color);
     }
 
     .dnb-hr,
@@ -86,8 +92,6 @@
   }
 
   &__content {
-    --global-status-underline-color: var(--token-color-stroke-error);
-
     width: 100%;
 
     .dnb-ul,
@@ -100,23 +104,19 @@
         margin-left: 0.5rem;
       }
     }
-
-    .dnb-hr {
-      --hr-color: var(--global-status-underline-color);
-    }
   }
 
   // Underline colors
-  &--info &__content .dnb-hr {
+  &--info &__content {
     --global-status-underline-color: var(--token-color-stroke-info);
   }
 
-  &--warning &__content .dnb-hr {
+  &--warning &__content {
     --global-status-underline-color: var(--token-color-stroke-warning);
   }
 
   // Success is supposed to not be a thing in the future as it's not in the figma sketches, so using info styling for now?
-  &--success &__content .dnb-hr {
+  &--success &__content {
     --global-status-underline-color: var(--token-color-stroke-info);
   }
 }
