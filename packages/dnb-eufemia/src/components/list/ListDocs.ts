@@ -368,6 +368,11 @@ export const CardScrollViewProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'required',
   },
+  maxVisibleListItems: {
+    doc: 'Sets the maximum visible list items before the content scrolls. The component measures the rendered height of the first visible items. An explicit `style.maxHeight` overrides this.',
+    type: 'number',
+    status: 'optional',
+  },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],

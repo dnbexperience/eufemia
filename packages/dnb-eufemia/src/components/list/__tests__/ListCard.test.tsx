@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { act, render, waitFor } from '@testing-library/react'
 import List from '../List'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import { fish_medium } from '../../../icons'
@@ -160,6 +160,166 @@ describe('List.Card.ScrollView', () => {
     ) as HTMLElement
 
     expect(element.style.maxHeight).toBe('20rem')
+  })
+
+  it('sets maxHeight based on maxVisibleListItems', () => {
+    render(
+      <List.Card.ScrollView maxVisibleListItems={3}>
+        <span>Content</span>
+      </List.Card.ScrollView>
+    )
+
+    const element = document.querySelector(
+      '.dnb-list__card__scroll-view'
+    ) as HTMLElement
+
+    expect(element.style.maxHeight).toBe(
+      'calc(calc(var(--item-height, 4rem) * 3) + 0.125rem)'
+    )
+    expect(element.style.marginBottom).toBe('-0.125rem')
+  })
+
+  it('derives outline compensation from --item-outline-width', async () => {
+    const originalGetComputedStyle = window.getComputedStyle
+
+    const getComputedStyleSpy = jest
+      .spyOn(window, 'getComputedStyle')
+      .mockImplementation((element) => {
+        const styles = originalGetComputedStyle(element)
+
+        if (
+          element instanceof HTMLElement &&
+          element.classList.contains('dnb-list__container')
+        ) {
+          return {
+            ...styles,
+            getPropertyValue: (property: string) => {
+              if (property === '--item-outline-width') {
+                return '0.0625rem'
+              }
+
+              return styles.getPropertyValue(property)
+            },
+          } as CSSStyleDeclaration
+        }
+
+        return styles
+      })
+
+    render(
+      <List.Card>
+        <List.Card.ScrollView maxVisibleListItems={2}>
+          <List.Container>
+            <List.Item.Action title="Item one" onClick={() => {}}>
+              <List.Cell.End>100 kr</List.Cell.End>
+            </List.Item.Action>
+
+            <List.Item.Action title="Item two" onClick={() => {}}>
+              <List.Cell.End>200 kr</List.Cell.End>
+            </List.Item.Action>
+          </List.Container>
+        </List.Card.ScrollView>
+      </List.Card>
+    )
+
+    const element = document.querySelector(
+      '.dnb-list__card__scroll-view'
+    ) as HTMLElement
+
+    await waitFor(() => {
+      expect(element.style.marginBottom).toBe('-0.125rem')
+    })
+
+    getComputedStyleSpy.mockRestore()
+  })
+
+  it('measures rendered list item heights when list items exist', async () => {
+    let currentHeights = {
+      itemOneHeight: 80,
+      itemTwoHeight: 60,
+      itemTwoTop: 80,
+    }
+
+    const offsetHeightSpy = jest
+      .spyOn(HTMLElement.prototype, 'offsetHeight', 'get')
+      .mockImplementation(function () {
+        if (this.textContent?.includes('Item one')) {
+          return currentHeights.itemOneHeight
+        }
+
+        if (this.textContent?.includes('Item two')) {
+          return currentHeights.itemTwoHeight
+        }
+
+        return 0
+      })
+
+    const offsetTopSpy = jest
+      .spyOn(HTMLElement.prototype, 'offsetTop', 'get')
+      .mockImplementation(function () {
+        if (this.textContent?.includes('Item two')) {
+          return currentHeights.itemTwoTop
+        }
+
+        return 0
+      })
+
+    render(
+      <List.Card.ScrollView maxVisibleListItems={2}>
+        <List.Container>
+          <List.Item.Action title="Item one" onClick={() => {}}>
+            <List.Cell.End>100 kr</List.Cell.End>
+          </List.Item.Action>
+
+          <List.Item.Action title="Item two" onClick={() => {}}>
+            <List.Cell.End>200 kr</List.Cell.End>
+          </List.Item.Action>
+        </List.Container>
+      </List.Card.ScrollView>
+    )
+
+    const element = document.querySelector(
+      '.dnb-list__card__scroll-view'
+    ) as HTMLElement
+
+    await waitFor(() => {
+      expect(element.style.maxHeight).toBe('calc(140px + 0.125rem)')
+    })
+
+    currentHeights = {
+      itemOneHeight: 100,
+      itemTwoHeight: 90,
+      itemTwoTop: 100,
+    }
+
+    act(() => {
+      window.dispatchEvent(new Event('resize'))
+    })
+
+    await waitFor(() => {
+      expect(element.style.maxHeight).toBe('calc(190px + 0.125rem)')
+    })
+
+    offsetHeightSpy.mockRestore()
+    offsetTopSpy.mockRestore()
+  })
+
+  it('lets style.maxHeight override maxVisibleListItems', () => {
+    render(
+      <List.Card.ScrollView
+        maxVisibleListItems={3}
+        style={{ maxHeight: '20rem' }}
+      >
+        <span>Content</span>
+      </List.Card.ScrollView>
+    )
+
+    const element = document.querySelector(
+      '.dnb-list__card__scroll-view'
+    ) as HTMLElement
+
+    expect(element.style.maxHeight).toBe('20rem')
+    expect(element.style.marginBottom).toBe('')
   })
 
   it('supports spacing props', () => {

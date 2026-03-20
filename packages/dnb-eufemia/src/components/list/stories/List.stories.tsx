@@ -403,7 +403,7 @@ export function ListInsideCard() {
     <List.Card>
       <Heading size="medium">Transactions</Heading>
 
-      <List.Card.ScrollView style={{ maxHeight: '15rem' }}>
+      <List.Card.ScrollView maxVisibleListItems={4}>
         <List.Container>
           <List.Item.Action icon={fish_medium} title="Payment received">
             <List.Cell.End>
