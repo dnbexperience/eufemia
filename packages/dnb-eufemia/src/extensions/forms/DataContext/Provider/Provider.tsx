@@ -1321,7 +1321,12 @@ export default function Provider<Data extends JsonObject>(
         skipErrorCheck,
       } = args
 
-      setSubmitState({ error: undefined, customStatus: undefined })
+      setSubmitState({
+        error: undefined,
+        warning: undefined,
+        info: undefined,
+        customStatus: undefined,
+      })
 
       const asyncBehaviorIsEnabled =
         (skipErrorCheck
