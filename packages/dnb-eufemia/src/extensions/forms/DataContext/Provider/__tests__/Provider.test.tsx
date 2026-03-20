@@ -3489,6 +3489,254 @@ describe('DataContext.Provider', () => {
         expect(handleSubmitRequest).toHaveBeenCalledTimes(3)
         expect(handleSubmitRequest).toHaveBeenLastCalledWith()
       })
+
+      it('should show error message returned from onSubmitRequest', async () => {
+        const onSubmitRequest: OnSubmitRequest = jest.fn(() => {
+          return new Error('Submit request error')
+        })
+
+        render(
+          <Form.Handler onSubmitRequest={onSubmitRequest}>
+            <Field.String path="/foo" required />
+            <Form.SubmitButton />
+          </Form.Handler>
+        )
+
+        await userEvent.click(document.querySelector('button'))
+
+        expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-forms-form__status-message')
+          ).toHaveTextContent('Submit request error')
+        })
+      })
+
+      it('should show info message returned from onSubmitRequest', async () => {
+        const onSubmitRequest: OnSubmitRequest = jest.fn(() => {
+          return { info: 'Please fix the errors above' }
+        })
+
+        render(
+          <Form.Handler onSubmitRequest={onSubmitRequest}>
+            <Field.String path="/foo" required />
+            <Form.SubmitButton />
+          </Form.Handler>
+        )
+
+        await userEvent.click(document.querySelector('button'))
+
+        expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+
+        await waitFor(() => {
+          expect(
+            document.querySelector(
+              '.dnb-forms-form__status-message.dnb-form-status--info'
+            )
+          ).toHaveTextContent('Please fix the errors above')
+        })
+      })
+
+      it('should show error message returned from async onSubmitRequest', async () => {
+        const onSubmitRequest: OnSubmitRequest = jest.fn(async () => {
+          return { error: new Error('Async submit request error') }
+        })
+
+        render(
+          <Form.Handler onSubmitRequest={onSubmitRequest}>
+            <Field.String path="/foo" required />
+            <Form.SubmitButton />
+          </Form.Handler>
+        )
+
+        await userEvent.click(document.querySelector('button'))
+
+        expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-forms-form__status-message')
+          ).toHaveTextContent('Async submit request error')
+        })
+      })
+
+      it('should show warning message returned from onSubmitRequest', async () => {
+        const onSubmitRequest: OnSubmitRequest = jest.fn(() => {
+          return { warning: 'Some fields need attention' }
+        })
+
+        render(
+          <Form.Handler onSubmitRequest={onSubmitRequest}>
+            <Field.String path="/foo" required />
+            <Form.SubmitButton />
+          </Form.Handler>
+        )
+
+        await userEvent.click(document.querySelector('button'))
+
+        expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+
+        await waitFor(() => {
+          expect(
+            document.querySelector(
+              '.dnb-forms-form__status-message.dnb-form-status--warn'
+            )
+          ).toHaveTextContent('Some fields need attention')
+        })
+      })
+
+      it('should replace onSubmitRequest error with onSubmit error after fixing validation', async () => {
+        const onSubmitRequest: OnSubmitRequest = jest.fn(() => {
+          return { error: new Error('Validation errors exist') }
+        })
+        const onSubmit: OnSubmit = jest.fn(() => {
+          return { error: new Error('Server error occurred') }
+        })
+
+        render(
+          <Form.Handler
+            onSubmitRequest={onSubmitRequest}
+            onSubmit={onSubmit}
+          >
+            <Field.String path="/foo" required />
+            <Form.SubmitButton />
+          </Form.Handler>
+        )
+
+        const inputElement = document.querySelector('input')
+        const submitButton = document.querySelector('button')
+
+        // Submit with empty required field — triggers onSubmitRequest
+        await userEvent.click(submitButton)
+
+        expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+        expect(onSubmit).not.toHaveBeenCalled()
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-forms-form__status-message')
+          ).toHaveTextContent('Validation errors exist')
+        })
+
+        // Fill in the required field
+        await userEvent.type(inputElement, 'some value')
+
+        // Submit again — now validation passes, triggers onSubmit
+        await userEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        })
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-forms-form__status-message')
+          ).toHaveTextContent('Server error occurred')
+        })
+      })
+
+      it('should clear warning from onSubmitRequest after successful submit', async () => {
+        const onSubmitRequest: OnSubmitRequest = jest.fn(() => {
+          return { warning: 'Some fields need attention' }
+        })
+        const onSubmit: OnSubmit = jest.fn()
+
+        render(
+          <Form.Handler
+            onSubmitRequest={onSubmitRequest}
+            onSubmit={onSubmit}
+          >
+            <Field.String path="/foo" required />
+            <Form.SubmitButton />
+          </Form.Handler>
+        )
+
+        const inputElement = document.querySelector('input')
+        const submitButton = document.querySelector('button')
+
+        // Submit with empty required field — triggers onSubmitRequest
+        await userEvent.click(submitButton)
+
+        expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+        expect(onSubmit).not.toHaveBeenCalled()
+
+        await waitFor(() => {
+          expect(
+            document.querySelector(
+              '.dnb-forms-form__status-message.dnb-form-status--warn'
+            )
+          ).toHaveTextContent('Some fields need attention')
+        })
+
+        // Fill in the required field
+        await userEvent.type(inputElement, 'some value')
+
+        // Submit again — now validation passes, triggers onSubmit
+        await userEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        })
+
+        // Warning from onSubmitRequest should be cleared
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-forms-form__status-message')
+          ).toBeNull()
+        })
+      })
+
+      it('should clear info from onSubmitRequest after successful submit', async () => {
+        const onSubmitRequest: OnSubmitRequest = jest.fn(() => {
+          return { info: 'Please review the errors above' }
+        })
+        const onSubmit: OnSubmit = jest.fn()
+
+        render(
+          <Form.Handler
+            onSubmitRequest={onSubmitRequest}
+            onSubmit={onSubmit}
+          >
+            <Field.String path="/foo" required />
+            <Form.SubmitButton />
+          </Form.Handler>
+        )
+
+        const inputElement = document.querySelector('input')
+        const submitButton = document.querySelector('button')
+
+        // Submit with empty required field — triggers onSubmitRequest
+        await userEvent.click(submitButton)
+
+        expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+        expect(onSubmit).not.toHaveBeenCalled()
+
+        await waitFor(() => {
+          expect(
+            document.querySelector(
+              '.dnb-forms-form__status-message.dnb-form-status--info'
+            )
+          ).toHaveTextContent('Please review the errors above')
+        })
+
+        // Fill in the required field
+        await userEvent.type(inputElement, 'some value')
+
+        // Submit again — now validation passes, triggers onSubmit
+        await userEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        })
+
+        // Info from onSubmitRequest should be cleared
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-forms-form__status-message')
+          ).toBeNull()
+        })
+      })
     })
 
     it('should revalidate with provided schema based on changes in external data using deprecated continuousValidation', () => {
