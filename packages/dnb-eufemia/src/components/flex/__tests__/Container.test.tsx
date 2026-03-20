@@ -212,6 +212,55 @@ describe('Flex.Container', () => {
     expect(children[4]).toHaveClass('dnb-flex-item')
   })
 
+  it('should not wrap intrinsic elements with extra Space when wrapChildrenInSpace is false', () => {
+    render(
+      <Flex.Container direction="vertical" wrapChildrenInSpace={false}>
+        <p>Alpha</p>
+        <p>Beta</p>
+      </Flex.Container>
+    )
+
+    const container = document.querySelector('.dnb-flex-container')
+    const children = Array.from(container.children)
+
+    expect(children).toHaveLength(2)
+    expect(children[0].tagName).toBe('P')
+    expect(children[0]).toHaveClass('dnb-space__top--zero')
+    expect(children[0]).toHaveClass('dnb-space__bottom--zero')
+    expect(children[1].tagName).toBe('P')
+    expect(children[1]).toHaveClass('dnb-space__top--small')
+    expect(children[1]).toHaveClass('dnb-space__bottom--zero')
+    expect(
+      document.querySelectorAll('.dnb-flex-container > .dnb-space')
+    ).toHaveLength(0)
+  })
+
+  it('should still wrap custom components with Space when wrapChildrenInSpace is false', () => {
+    const TestComponent = () => <div className="test-item">content</div>
+
+    render(
+      <Flex.Container direction="vertical" wrapChildrenInSpace={false}>
+        <TestComponent />
+        <TestComponent />
+      </Flex.Container>
+    )
+
+    const container = document.querySelector('.dnb-flex-container')
+    const children = Array.from(container.children)
+
+    expect(children).toHaveLength(2)
+    expect(children[0].tagName).toBe('DIV')
+    expect(children[0]).toHaveClass('dnb-space')
+    expect(children[0]).toHaveClass('dnb-space__top--zero')
+    expect(children[0]).not.toHaveClass('test-item')
+    expect(children[0].querySelector('.test-item')).toBeInTheDocument()
+    expect(children[1].tagName).toBe('DIV')
+    expect(children[1]).toHaveClass('dnb-space')
+    expect(children[1]).toHaveClass('dnb-space__top--small')
+    expect(children[1]).not.toHaveClass('test-item')
+    expect(children[1].querySelector('.test-item')).toBeInTheDocument()
+  })
+
   it('should not add line divider below heading', () => {
     render(
       <Flex.Container direction="vertical" divider="line">

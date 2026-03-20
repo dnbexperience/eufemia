@@ -223,6 +223,8 @@ function formatProgress(progress) {
   return null
 }
 
+ProgressIndicator.displayName = 'ProgressIndicator'
+
 export default ProgressIndicator
 
 ProgressIndicator._supportsSpacingProps = true

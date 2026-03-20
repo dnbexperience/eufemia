@@ -18,6 +18,11 @@ The DNB Design System Eufemia uses the following naming conventions.
 
 - React Components, both as files and as components use **pascal case**.
 - The folder containing the component uses **kebab case**.
+- Co-located files that belong to a component (such as Context, Provider, Docs, and utility files) use **pascal case** prefixed with the component name. Like: `SliderProvider.tsx`, `InputDocs.ts`, `DatePickerContext.ts`
+
+### Namespace components
+
+Components exported as part of a namespace (e.g. `Field.String`, `Form.Handler`, `Iterate.Array`) use **pascal case** for both folders and files to mirror the public API structure.
 
 ## CSS / SCSS
 
@@ -44,10 +49,11 @@ The DNB Design System Eufemia uses the following naming conventions.
 - Icon names use **snake case**.
 - They have to describe what they are meant for. Like: `chevron_right`
 - Sizes are added as a postfix. Like: `chevron_right_medium`
-- Only alphabetic characters (a to z) without special chars, due to import statements.
+- Only alphabetic characters (a to z) and numeric characters (0 to 9) without special chars, due to import statements.
 - Figma icon naming has to match the same (icon archive) as they will define the import names.
 - Figma page and frame names (icon archive) have to be the same, due to the automated import mechanism.
 
 ## Documentation
 
-- `Pages` and directories use **kebab case**.
+- `Pages` and directories use **kebab-case**.
+- Documentation example files use **pascal case**. Like: `Examples.tsx`

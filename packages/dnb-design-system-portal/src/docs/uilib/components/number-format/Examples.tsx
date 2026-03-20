@@ -93,8 +93,9 @@ export const NumberHeroStyleAmount = () => (
         currency="NOK"
         suffix="/mnd"
         signDisplay="always"
+        mainSize="x-large"
+        auxiliarySize="x-small"
       />
-      <Stat.Percent value={12.34} signDisplay="always" />
     </ComponentBox>
   </Style>
 )

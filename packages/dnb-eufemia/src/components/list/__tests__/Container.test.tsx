@@ -89,4 +89,23 @@ describe('List Container', () => {
       expect(item.tagName).toBe('LI')
     })
   })
+
+  it('keeps intrinsic li children as direct descendants of ul', () => {
+    render(
+      <Container separated>
+        <li>Item 1</li>
+        <li>Item 2</li>
+      </Container>
+    )
+
+    const list = document.querySelector('.dnb-list')
+    const children = Array.from(list.children)
+
+    expect(children).toHaveLength(2)
+    expect(children[0].tagName).toBe('LI')
+    expect(children[0]).toHaveClass('dnb-space__top--zero')
+    expect(children[1].tagName).toBe('LI')
+    expect(children[1]).toHaveClass('dnb-space__top--small')
+    expect(list.querySelector(':scope > div')).toBeNull()
+  })
 })

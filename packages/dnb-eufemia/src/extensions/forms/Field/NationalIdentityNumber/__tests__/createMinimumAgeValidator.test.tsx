@@ -183,8 +183,8 @@ describe('createMinimumAgeValidator', () => {
 
     const invalidIds = [...fnrUnder18YearsOld, ...dnrUnder18YearsOld]
 
-    const invalidDnums = ['69020112345', '690']
-    const invalidFnrs = ['29020112345', '290']
+    const invalidDnums = ['69020112345']
+    const invalidFnrs = ['29020112345']
 
     describe('when provided as the onChangeValidator function', () => {
       it.each(validIds)(

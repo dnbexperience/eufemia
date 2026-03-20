@@ -95,6 +95,14 @@ describe.each(['ui', 'sbanken'])('List for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match list inside card', async () => {
+    const screenshot = await makeScreenshot({
+      style: { width: '30rem' },
+      selector: '[data-visual-test="list-card"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe.each(['ui'])('List for %s on small viewport', (themeName) => {

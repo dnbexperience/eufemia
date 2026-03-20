@@ -85,6 +85,43 @@ export const AsyncSubmitComplete = () => {
   )
 }
 
+export const AsyncOnSubmitRequest = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler
+        onSubmitRequest={async ({ getErrors }) => {
+          const errors = getErrors()
+          console.log('onSubmitRequest errors', errors)
+
+          // Wait for 1 second
+          await new Promise((resolve) => setTimeout(resolve, 1000))
+
+          // Return an error message to display in the form
+          return {
+            error: new Error(
+              `The form has ${errors.length} error(s). Please fix them before submitting.`
+            ),
+          }
+        }}
+      >
+        <Flex.Stack>
+          <Form.Card>
+            <Field.String
+              label="Required field"
+              path="/myField"
+              required
+            />
+            <Field.Email path="/email" required />
+          </Form.Card>
+          <Form.ButtonRow>
+            <Form.SubmitButton />
+          </Form.ButtonRow>
+        </Flex.Stack>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
 export const AsyncChangeAndValidation = () => {
   return (
     <ComponentBox scope={{ debounceAsync, createRequest, stopIcon }}>

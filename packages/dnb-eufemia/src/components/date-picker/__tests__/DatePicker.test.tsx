@@ -1938,6 +1938,60 @@ describe('DatePicker component', () => {
     expect(onChange.mock.calls[4][0].is_valid).toBe(true)
   })
 
+  it('should report both is_valid_start_date and is_valid_end_date as false when start date is after end date in range mode', () => {
+    const onChange = jest.fn()
+
+    render(
+      <DatePicker
+        {...defaultProps}
+        startDate="2019-01-15"
+        endDate="2019-02-15"
+        onChange={onChange}
+      />
+    )
+
+    const startMonthElem = document.querySelectorAll(
+      'input.dnb-date-picker__input--month'
+    )[0]
+
+    fireEvent.change(startMonthElem, {
+      target: { value: '03' },
+    })
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange.mock.calls[0][0].start_date).toBe('2019-03-15')
+    expect(onChange.mock.calls[0][0].end_date).toBe('2019-02-15')
+    expect(onChange.mock.calls[0][0].days_between).toBeLessThan(0)
+    expect(onChange.mock.calls[0][0].is_valid_start_date).toBe(false)
+    expect(onChange.mock.calls[0][0].is_valid_end_date).toBe(false)
+  })
+
+  it('should not report range order error when end date is cleared in range mode', () => {
+    const onChange = jest.fn()
+
+    render(
+      <DatePicker
+        {...defaultProps}
+        startDate="2019-01-15"
+        endDate="2019-02-15"
+        onChange={onChange}
+      />
+    )
+
+    const endYearElem = document.querySelectorAll(
+      'input.dnb-date-picker__input--year'
+    )[1]
+
+    // Clear the end date
+    fireEvent.change(endYearElem, {
+      target: { value: '' },
+    })
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange.mock.calls[0][0].is_valid_start_date).toBe(true)
+    expect(onChange.mock.calls[0][0].is_valid_end_date).toBe(false)
+  })
+
   it('has valid on_type and onChange event calls', () => {
     const onType = jest.fn()
     const onChange = jest.fn()

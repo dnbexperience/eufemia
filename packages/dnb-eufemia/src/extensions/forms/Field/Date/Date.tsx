@@ -112,6 +112,7 @@ function DateComponent(props: DateProps) {
   const { locale } = useContext(SharedContext)
 
   const { invalidDatesRef, setInvalidDates } = useInvalidDates()
+  const lastEditedRangeDateRef = useRef<'start' | 'end'>('start')
 
   const errorMessages = useMemo(() => {
     return {
@@ -170,9 +171,16 @@ function DateComponent(props: DateProps) {
     (value: string) => {
       const invalidDateErrors = validateDate(invalidDatesRef.current)
 
+      const rangeOrderErrors = validateRangeOrder({
+        value,
+        isRange: props.range,
+        lastEditedDate: lastEditedRangeDateRef.current,
+        locale,
+      })
+
       // No need to validate min/max date if they are not provided
       if (!props.minDate && !props.maxDate) {
-        return invalidDateErrors
+        return [...invalidDateErrors, ...rangeOrderErrors]
       }
 
       const dateLimitErrors = validateDateLimit({
@@ -183,7 +191,13 @@ function DateComponent(props: DateProps) {
         isRange: props.range,
       })
 
-      return [...invalidDateErrors, ...dateLimitErrors]
+      // Skip range order errors when date limit errors exist,
+      // since exceeding minDate/maxDate is more specific
+      return [
+        ...invalidDateErrors,
+        ...dateLimitErrors,
+        ...(dateLimitErrors.length > 0 ? [] : rangeOrderErrors),
+      ]
     },
     [props.maxDate, props.minDate, props.range, invalidDatesRef, locale]
   )
@@ -316,6 +330,14 @@ function DateComponent(props: DateProps) {
       const { date, start_date, end_date, ...rest } = event
 
       if (props.range) {
+        // Track which date the user last edited for range order error messages
+        const [prevStart, prevEnd] = parseRangeValue(internalValue)
+        if (start_date !== prevStart) {
+          lastEditedRangeDateRef.current = 'start'
+        } else if (end_date !== prevEnd) {
+          lastEditedRangeDateRef.current = 'end'
+        }
+
         const parsedStartDate = parseISO(start_date)
         const parsedEndDate = parseISO(end_date)
         if (isValid(parsedStartDate) || isValid(parsedEndDate)) {
@@ -336,7 +358,7 @@ function DateComponent(props: DateProps) {
       // To ensure that the form can show the required error message while typing and blurring
       setChanged(true)
     },
-    [handleChange, props.range, setChanged]
+    [handleChange, props.range, setChanged, internalValue]
   )
 
   const { value, startDate, endDate } = useMemo(() => {
@@ -526,6 +548,61 @@ function validateDateLimit({
   }
 
   return messages
+}
+
+function validateRangeOrder({
+  value,
+  isRange,
+  lastEditedDate,
+  locale,
+}: {
+  value: DateProps['value']
+  isRange: DateProps['range']
+  lastEditedDate: 'start' | 'end'
+  locale: ProviderProps['locale']
+}) {
+  if (!isRange || !value) {
+    return []
+  }
+
+  const [startDateParsed, endDateParsed] = parseRangeValue(value)
+
+  const convertedStartDate = convertStringToDate(startDateParsed)
+  const convertedEndDate = convertStringToDate(endDateParsed)
+
+  const startDate = convertedStartDate
+    ? startOfDay(convertedStartDate)
+    : undefined
+  const endDate = convertedEndDate
+    ? startOfDay(convertedEndDate)
+    : undefined
+
+  if (startDate && endDate && isAfter(startDate, endDate)) {
+    const options: FormatDateOptions = {
+      locale,
+      options: { dateStyle: 'long' },
+    }
+
+    if (lastEditedDate === 'end') {
+      return [
+        new FormError('Date.errorEndDateMinDate', {
+          messageValues: {
+            date: formatDate(startDateParsed, options),
+          },
+        }),
+      ]
+    }
+
+    return [
+      new FormError('Date.errorStartDateMaxDate', {
+        messageValues: {
+          date: formatDate(endDateParsed, options),
+        },
+      }),
+    ]
+  }
+
+  return []
 }
 
 function validateDate({

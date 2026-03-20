@@ -72,7 +72,7 @@ describe('Field.NationalIdentityNumber', () => {
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        nb.NationalIdentityNumber.errorFnr
+        nb.NationalIdentityNumber.errorFnrLength
       )
     })
 
@@ -87,7 +87,7 @@ describe('Field.NationalIdentityNumber', () => {
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        nb.NationalIdentityNumber.errorDnr
+        nb.NationalIdentityNumber.errorDnrLength
       )
     })
   })
@@ -280,7 +280,7 @@ describe('Field.NationalIdentityNumber', () => {
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        nb.NationalIdentityNumber.errorFnr
+        nb.NationalIdentityNumber.errorFnrLength
       )
     })
   })
@@ -703,7 +703,7 @@ describe('Field.NationalIdentityNumber', () => {
         document.querySelector('.dnb-form-status--error')
       ).toBeInTheDocument()
       expect(document.querySelector('[role="alert"]')).toHaveTextContent(
-        nb.NationalIdentityNumber.errorFnr
+        nb.NationalIdentityNumber.errorFnrLength
       )
     })
 

@@ -760,11 +760,12 @@ export type OnSubmit<Data = JsonObject> = (
     clearData,
   }: OnSubmitParams
 ) => OnSubmitReturn
+export type OnSubmitRequestReturn = OnSubmitReturn
 export type OnSubmitRequest = ({
   getErrors,
 }: {
   getErrors: () => Array<DataPathHandlerParameters>
-}) => void
+}) => OnSubmitRequestReturn
 
 export type OnCommit<Data = JsonObject> = (
   data: Data,
