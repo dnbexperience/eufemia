@@ -3682,9 +3682,7 @@ describe('DataContext.Provider', () => {
         // Warning from onSubmitRequest should be cleared
         await waitFor(() => {
           expect(
-            document.querySelector(
-              '.dnb-forms-form__status-message'
-            )
+            document.querySelector('.dnb-forms-form__status-message')
           ).toBeNull()
         })
       })
@@ -3735,9 +3733,7 @@ describe('DataContext.Provider', () => {
         // Info from onSubmitRequest should be cleared
         await waitFor(() => {
           expect(
-            document.querySelector(
-              '.dnb-forms-form__status-message'
-            )
+            document.querySelector('.dnb-forms-form__status-message')
           ).toBeNull()
         })
       })
