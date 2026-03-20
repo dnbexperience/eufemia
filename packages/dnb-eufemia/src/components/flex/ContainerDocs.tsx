@@ -92,6 +92,12 @@ export const FlexContainerProperties: PropertiesTableProps = {
     defaultValue: 'undefined',
     status: 'optional',
   },
+  wrapChildrenInSpace: {
+    doc: 'Define if intrinsic DOM child elements such as `li` should be wrapped in `Space` to receive spacing. Set to `false` to keep them as direct descendants.',
+    type: 'boolean',
+    defaultValue: 'true',
+    status: 'optional',
+  },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: 'Various',

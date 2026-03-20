@@ -1,7 +1,13 @@
 import React, { Fragment } from 'react'
+import classnames from 'classnames'
 import { SpaceType, SpacingProps } from '../../shared/types'
 import Space from '../space/Space'
-import { isValidSpaceProp, removeSpaceProps } from '../space/SpacingUtils'
+import {
+  createSpacingClasses,
+  createSpacingProperties,
+  isValidSpaceProp,
+  removeSpaceProps,
+} from '../space/SpacingUtils'
 import { End, Start } from './types'
 
 export const omitSpacingProps = removeSpaceProps
@@ -98,9 +104,14 @@ export function getSpaceVariant(element: React.ReactNode) {
  */
 export function renderWithSpacing(
   element: React.ReactNode,
-  spaceProps: SpacingProps & { key?: string; className?: string }
+  spaceProps: SpacingProps & {
+    key?: string
+    className?: string
+    wrapInSpace?: boolean
+  }
 ) {
   const variant = getSpaceVariant(element)
+  const { wrapInSpace = true } = spaceProps
 
   if (variant === false) {
     return element
@@ -115,22 +126,73 @@ export function renderWithSpacing(
           return React.cloneElement(
             child,
             { key: i, ...child?.props },
-            wrapWithSpace({ element, spaceProps })
+            wrapWithSpace({ element, spaceProps, wrapInSpace })
           )
         })
       }
     )
   }
 
-  return wrapWithSpace({ element, spaceProps, variant })
+  return wrapWithSpace({ element, spaceProps, variant, wrapInSpace })
 }
 
-function wrapWithSpace({ element, spaceProps, variant = null }) {
-  return variant ?? getSpaceVariant(element) === true ? (
-    React.cloneElement(element as React.ReactElement, spaceProps)
-  ) : getSpaceVariant(element) === 'children' ? (
-    renderWithSpacing(element, spaceProps)
-  ) : (
-    <Space {...spaceProps}>{element}</Space>
-  )
+function isIntrinsicElement(element: React.ReactNode) {
+  return React.isValidElement(element) && typeof element.type === 'string'
+}
+
+function wrapWithSpace({
+  element,
+  spaceProps,
+  variant = null,
+  wrapInSpace = true,
+}) {
+  const resolvedVariant = variant ?? getSpaceVariant(element)
+  const { wrapInSpace: _, ...props } = spaceProps
+
+  if (resolvedVariant === true) {
+    return React.cloneElement(element as React.ReactElement, props)
+  }
+
+  if (resolvedVariant === 'children') {
+    return renderWithSpacing(element, spaceProps)
+  }
+
+  if (!wrapInSpace && isIntrinsicElement(element)) {
+    return cloneIntrinsicElementWithSpacing(element, spaceProps)
+  }
+
+  return <Space {...props}>{element}</Space>
+}
+
+function cloneIntrinsicElementWithSpacing(
+  element: React.ReactNode,
+  {
+    wrapInSpace,
+    className,
+    style,
+    ...spaceProps
+  }: SpacingProps & {
+    key?: string
+    className?: string
+    style?: React.CSSProperties
+    wrapInSpace?: boolean
+  }
+) {
+  if (!React.isValidElement(element)) {
+    return element
+  }
+
+  return React.cloneElement(element as React.ReactElement, {
+    key: spaceProps.key,
+    className: classnames(
+      element.props?.className,
+      ...createSpacingClasses(spaceProps),
+      className
+    ),
+    style: {
+      ...element.props?.style,
+      ...createSpacingProperties(spaceProps),
+      ...style,
+    },
+  })
 }
