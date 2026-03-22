@@ -1,9 +1,8 @@
 import React from 'react'
 import classnames from 'classnames'
-import FlexItem from '../flex/Item'
-import { ItemContentProps } from './ItemContent'
+import FlexItem, { Props as FlexItemProps } from '../flex/Item'
 
-function ItemCenter({ className, ...rest }: ItemContentProps) {
+function ItemCenter({ className, ...rest }: FlexItemProps) {
   return (
     <FlexItem
       className={classnames(

@@ -9,7 +9,7 @@ import classnames from 'classnames'
 import useId from '../../shared/helpers/useId'
 import { ListVariant } from './ListContext'
 import ItemContent, { ItemContentProps } from './ItemContent'
-import FlexItem from '../flex/Item'
+import FlexItem, { Props as FlexItemProps } from '../flex/Item'
 import type { IconIcon } from '../icon/Icon'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import Hr from '../../elements/Hr'
@@ -112,7 +112,7 @@ ItemAccordion._supportsSpacingProps = true
 export type AccordionHeaderProps = {
   open?: boolean
   onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
-} & ItemContentProps
+} & FlexItemProps
 
 function AccordionHeader(props: AccordionHeaderProps) {
   const { className, children, ...rest } = props
@@ -177,7 +177,7 @@ function AccordionHeader(props: AccordionHeaderProps) {
 ItemAccordion.Header = AccordionHeader
 AccordionHeader._supportsSpacingProps = true
 
-function AccordionContent(props: ItemContentProps) {
+function AccordionContent(props: FlexItemProps) {
   const { className, children, ...rest } = props
   const { openState, accordionId, keepInDOM } = useContext(
     ItemAccordionContext

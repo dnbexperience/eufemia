@@ -1,14 +1,13 @@
 import React from 'react'
 import classnames from 'classnames'
-import FlexItem from '../flex/Item'
+import FlexItem, { Props as FlexItemProps } from '../flex/Item'
 import Icon, { type IconIcon } from '../icon/Icon'
-import { ItemContentProps } from './ItemContent'
 
 function ItemIcon({
   children,
   className,
   ...rest
-}: Omit<ItemContentProps, 'children'> & {
+}: Omit<FlexItemProps, 'children'> & {
   children: IconIcon
 }) {
   return (

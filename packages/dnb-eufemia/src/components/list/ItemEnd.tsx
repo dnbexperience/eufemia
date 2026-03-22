@@ -1,18 +1,17 @@
 import React from 'react'
 import classnames from 'classnames'
-import FlexItem from '../flex/Item'
-import { ItemContentProps } from './ItemContent'
+import FlexItem, { Props as FlexItemProps } from '../flex/Item'
 
 /**
  * Props for List.Cell.End (ItemEnd).
- * Extends ItemContentProps and Flex.Item; supports spacing props.
+ * Extends FlexItem props; supports spacing props.
  */
 export type ItemEndProps = {
   /** Font weight of the end content. Defaults to `medium`. */
   fontWeight?: 'regular' | 'medium'
   /** Font size of the end content. Defaults to `basis`. */
   fontSize?: 'small' | 'basis'
-} & ItemContentProps
+} & FlexItemProps
 
 function ItemEnd(props: ItemEndProps) {
   const {

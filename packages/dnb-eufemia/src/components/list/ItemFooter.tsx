@@ -1,10 +1,9 @@
 import React from 'react'
 import classnames from 'classnames'
-import FlexItem from '../flex/Item'
+import FlexItem, { Props as FlexItemProps } from '../flex/Item'
 import Hr from '../../elements/Hr'
-import { ItemContentProps } from './ItemContent'
 
-function ItemFooter({ className, children, ...rest }: ItemContentProps) {
+function ItemFooter({ className, children, ...rest }: FlexItemProps) {
   return (
     <>
       <Hr top={false} bottom={false} className="dnb-list__item__footer" />
