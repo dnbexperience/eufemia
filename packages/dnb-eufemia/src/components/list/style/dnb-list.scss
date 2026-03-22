@@ -359,7 +359,7 @@
       overflow: clip;
     }
     &--disabled {
-      pointer-events: none;
+      cursor: not-allowed;
       opacity: 0.5;
     }
     &__pending {

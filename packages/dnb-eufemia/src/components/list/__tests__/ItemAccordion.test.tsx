@@ -576,5 +576,28 @@ describe('ItemAccordion', () => {
         'dnb-list__item__accordion--open'
       )
     })
+
+    it('does not toggle when disabled and Enter key is pressed', () => {
+      render(
+        <ItemAccordion disabled>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Content</ItemAccordion.Content>
+        </ItemAccordion>
+      )
+
+      const header = document.querySelector(
+        '.dnb-list__item__accordion__header'
+      )
+
+      fireEvent.keyDown(header, { key: 'Enter' })
+
+      const accordion = document.querySelector(
+        '.dnb-list__item__accordion'
+      )
+
+      expect(accordion.classList).not.toContain(
+        'dnb-list__item__accordion--open'
+      )
+    })
   })
 })
