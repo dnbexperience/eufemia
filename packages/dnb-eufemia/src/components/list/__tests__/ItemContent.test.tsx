@@ -137,6 +137,31 @@ describe('ItemContent', () => {
     expect(element.classList).toContain('dnb-skeleton--font')
   })
 
+  it('inherits skeleton from parent container context', () => {
+    render(
+      <Container skeleton>
+        <ItemContent>Content</ItemContent>
+      </Container>
+    )
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.classList).toContain('dnb-skeleton')
+    expect(element.classList).toContain('dnb-skeleton--font')
+  })
+
+  it('overrides inherited skeleton with own skeleton prop', () => {
+    render(
+      <Container skeleton>
+        <ItemContent skeleton={false}>Content</ItemContent>
+      </Container>
+    )
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.classList).not.toContain('dnb-skeleton')
+  })
+
   it('declares _supportsSpacingProps for flex layout', () => {
     expect(ItemContent._supportsSpacingProps).toBe(true)
   })

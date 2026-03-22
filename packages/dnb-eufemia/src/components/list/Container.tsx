@@ -2,10 +2,12 @@ import React from 'react'
 import classnames from 'classnames'
 import { ListVariant, ListContext } from './ListContext'
 import FlexContainer, { Props as FlexProps } from '../flex/Stack'
+import type { SkeletonShow } from '../Skeleton'
 
 export type ListContainerProps = {
   variant?: ListVariant
   separated?: boolean
+  skeleton?: SkeletonShow
 } & FlexProps
 
 function ListContainer(props: ListContainerProps) {
@@ -14,12 +16,13 @@ function ListContainer(props: ListContainerProps) {
     children,
     variant = 'basic',
     separated,
+    skeleton,
     wrapChildrenInSpace = false,
     ...rest
   } = props
 
   return (
-    <ListContext.Provider value={{ variant, separated }}>
+    <ListContext.Provider value={{ variant, separated, skeleton }}>
       <FlexContainer
         element="ul"
         rowGap={separated ? 'small' : false}
