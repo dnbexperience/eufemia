@@ -138,4 +138,16 @@ describe('List Container', () => {
     expect(items[0].classList).toContain('dnb-skeleton')
     expect(items[1].classList).not.toContain('dnb-skeleton')
   })
+
+  it('defaults separated to false when not provided', () => {
+    render(
+      <Container>
+        <ItemContent>Item</ItemContent>
+      </Container>
+    )
+
+    const element = document.querySelector('.dnb-list__container')
+
+    expect(element.classList).not.toContain('dnb-list--separated')
+  })
 })
