@@ -178,4 +178,42 @@ describe('Stat.Content', () => {
 
     expect(content.getAttribute('id')).toBe('my-content')
   })
+
+  it('applies style prop to the element', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content style={{ color: 'red' }}>
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const content = document.querySelector('.dnb-stat__content-item')
+
+    expect(content.style.color).toBe('red')
+
+    spy.mockRestore()
+  })
+
+  it('supports className prop', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content className="custom-class">
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const content = document.querySelector('.dnb-stat__content-item')
+
+    expect(content.classList).toContain('custom-class')
+
+    spy.mockRestore()
+  })
 })
