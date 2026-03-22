@@ -1,6 +1,7 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import ItemAccordion from '../ItemAccordion'
+import Container from '../Container'
 
 describe('ItemAccordion', () => {
   it('renders with Header and Content', () => {
@@ -599,5 +600,22 @@ describe('ItemAccordion', () => {
         'dnb-list__item__accordion--open'
       )
     })
+  })
+
+  it('applies skeleton class to AccordionContent when Container has skeleton', () => {
+    render(
+      <Container skeleton>
+        <ItemAccordion open>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Content body</ItemAccordion.Content>
+        </ItemAccordion>
+      </Container>
+    )
+
+    const content = document.querySelector(
+      '.dnb-list__item__accordion__content'
+    )
+
+    expect(content.classList).toContain('dnb-skeleton')
   })
 })
