@@ -1,6 +1,12 @@
 import { PropertiesTableProps } from '../../shared/types'
 
 export const ContainerProperties: PropertiesTableProps = {
+  variant: {
+    doc: 'Visual variant of the list. Defaults to `basic`. Custom variant strings map to a `dnb-list--variant-{name}` CSS class for custom theming.',
+    type: 'string',
+    defaultValue: "'basic'",
+    status: 'optional',
+  },
   separated: {
     doc: 'When `true`, adds row gap between items so each row keeps its own outline and border radius instead of running edge-to-edge.',
     type: 'boolean',

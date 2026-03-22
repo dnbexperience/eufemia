@@ -56,6 +56,14 @@ describe('List Container', () => {
     expect(element.classList).toContain('dnb-list--variant-basic')
   })
 
+  it('supports custom variant strings', () => {
+    render(<Container variant="compact">Content</Container>)
+
+    const element = document.querySelector('.dnb-list')
+
+    expect(element.classList).toContain('dnb-list--variant-compact')
+  })
+
   it('adds separated modifier class when separated is true', () => {
     render(<Container separated>Content</Container>)
 
