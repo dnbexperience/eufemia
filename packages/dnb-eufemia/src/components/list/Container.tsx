@@ -6,8 +6,7 @@ import FlexContainer, { Props as FlexProps } from '../flex/Stack'
 export type ListContainerProps = {
   variant?: ListVariant
   separated?: boolean
-} & React.HTMLAttributes<HTMLDivElement> &
-  FlexProps
+} & FlexProps
 
 function ListContainer(props: ListContainerProps) {
   const {

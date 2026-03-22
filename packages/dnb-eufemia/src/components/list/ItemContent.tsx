@@ -10,8 +10,7 @@ export type ItemContentProps = {
   selected?: boolean
   pending?: boolean
   skeleton?: SkeletonShow
-} & React.HTMLAttributes<HTMLDivElement> &
-  FlexProps
+} & FlexProps
 
 function ItemContent(props: ItemContentProps) {
   const {
