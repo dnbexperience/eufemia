@@ -108,4 +108,34 @@ describe('List Container', () => {
     expect(children[1]).toHaveClass('dnb-space__top--small')
     expect(list.querySelector(':scope > div')).toBeNull()
   })
+
+  it('propagates skeleton to child items via context', () => {
+    render(
+      <Container skeleton>
+        <ItemContent>Item 1</ItemContent>
+        <ItemContent>Item 2</ItemContent>
+      </Container>
+    )
+
+    const items = document.querySelectorAll('.dnb-list__item')
+
+    items.forEach((item) => {
+      expect(item.classList).toContain('dnb-skeleton')
+      expect(item.classList).toContain('dnb-skeleton--font')
+    })
+  })
+
+  it('allows individual items to override skeleton from container', () => {
+    render(
+      <Container skeleton>
+        <ItemContent>Skeleton item</ItemContent>
+        <ItemContent skeleton={false}>Not skeleton</ItemContent>
+      </Container>
+    )
+
+    const items = document.querySelectorAll('.dnb-list__item')
+
+    expect(items[0].classList).toContain('dnb-skeleton')
+    expect(items[1].classList).not.toContain('dnb-skeleton')
+  })
 })

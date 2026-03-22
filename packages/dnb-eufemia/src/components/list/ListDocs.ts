@@ -6,6 +6,11 @@ export const ContainerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  skeleton: {
+    doc: 'When `true`, applies skeleton font styling to all child items. Individual items can override this with their own `skeleton` prop.',
+    type: 'boolean',
+    status: 'optional',
+  },
   children: {
     doc: 'List items. Use `List.Item.Basic`, `List.Item.Action`, or `List.Item.Accordion` as direct children.',
     type: 'React.ReactNode',

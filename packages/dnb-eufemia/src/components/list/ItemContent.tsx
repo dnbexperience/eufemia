@@ -23,7 +23,9 @@ function ItemContent(props: ItemContentProps) {
     ...rest
   } = props
   const inheritedVariant = useContext(ListContext)?.variant
+  const inheritedSkeleton = useContext(ListContext)?.skeleton
   const appliedVariant = variant ?? inheritedVariant
+  const appliedSkeleton = skeleton ?? inheritedSkeleton
 
   return (
     <FlexContainer
@@ -39,7 +41,7 @@ function ItemContent(props: ItemContentProps) {
         selected !== undefined && 'dnb-list__item--selection',
         selected && 'dnb-list__item--selected',
         pending && 'dnb-list__item--pending',
-        skeleton && createSkeletonClass('font', true),
+        appliedSkeleton && createSkeletonClass('font', true),
         className
       )}
       {...rest}
