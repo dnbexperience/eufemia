@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import classnames from 'classnames'
 import { ListVariant, ListContext } from './ListContext'
 import FlexContainer, { Props as FlexProps } from '../flex/Stack'
@@ -21,8 +21,13 @@ function ListContainer(props: ListContainerProps) {
     ...rest
   } = props
 
+  const parentContext = useContext(ListContext)
+  const appliedSkeleton = skeleton ?? parentContext?.skeleton
+
   return (
-    <ListContext.Provider value={{ variant, separated, skeleton }}>
+    <ListContext.Provider
+      value={{ variant, separated, skeleton: appliedSkeleton }}
+    >
       <FlexContainer
         element="ul"
         rowGap={separated ? 'small' : false}
