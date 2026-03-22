@@ -17,6 +17,7 @@ const MAX_ALLOWED = 20
 export type RatingProps = {
   value?: number
   max?: number
+  id?: string
   variant?: 'stars' | 'progressive'
   element?: keyof JSX.IntrinsicElements
   className?: string

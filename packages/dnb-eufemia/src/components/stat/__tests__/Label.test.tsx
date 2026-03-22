@@ -151,4 +151,16 @@ describe('Stat.Label', () => {
 
     expect(await axeComponent(component)).toHaveNoViolations()
   })
+
+  it('supports id prop', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label id="my-label">Revenue</Stat.Label>
+      </Stat.Root>
+    )
+
+    const label = document.querySelector('.dnb-stat__label')
+
+    expect(label.getAttribute('id')).toBe('my-label')
+  })
 })

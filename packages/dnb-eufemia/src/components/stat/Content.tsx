@@ -9,6 +9,7 @@ import useStatSkeleton from './useStatSkeleton'
 
 export type ContentProps = {
   children?: React.ReactNode
+  id?: string
   className?: string
   style?: React.CSSProperties
   element?: keyof JSX.IntrinsicElements
