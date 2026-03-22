@@ -15,7 +15,7 @@ function ListContainer(props: ListContainerProps) {
     className,
     children,
     variant = 'basic',
-    separated,
+    separated = false,
     skeleton,
     wrapChildrenInSpace = false,
     ...rest
