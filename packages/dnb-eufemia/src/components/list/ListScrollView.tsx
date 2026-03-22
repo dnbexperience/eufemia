@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useContext, useRef, useState } from 'react'
 import classnames from 'classnames'
 import ScrollView, {
   ScrollViewAllProps,
@@ -20,6 +20,8 @@ export type ListScrollViewProps = {
 const defaultListItemOutlineCompensation = '0.125rem'
 
 function ListScrollView(props: ListScrollViewProps) {
+  const parentContext = useContext(ListContext)
+
   const {
     className,
     children,
@@ -130,8 +132,8 @@ function ListScrollView(props: ListScrollViewProps) {
     return (
       <ListContext.Provider
         value={{
-          variant: 'basic',
-          separated: false,
+          variant: parentContext?.variant ?? 'basic',
+          separated: parentContext?.separated ?? false,
           skeleton,
         }}
       >

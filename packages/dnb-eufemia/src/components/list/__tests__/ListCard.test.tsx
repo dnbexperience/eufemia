@@ -440,4 +440,21 @@ describe('List.ScrollView', () => {
       expect(item.classList).toContain('dnb-skeleton--font')
     })
   })
+
+  it('inherits parent context values when skeleton is set', () => {
+    render(
+      <List.Container variant="basic" separated>
+        <List.ScrollView skeleton>
+          <List.Item.Basic title="Item">
+            <List.Cell.End>Value</List.Cell.End>
+          </List.Item.Basic>
+        </List.ScrollView>
+      </List.Container>
+    )
+
+    const item = document.querySelector('.dnb-list__item')
+
+    expect(item.classList).toContain('dnb-list--variant-basic')
+    expect(item.classList).toContain('dnb-skeleton')
+  })
 })
