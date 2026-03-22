@@ -90,4 +90,15 @@ describe('ItemEnd', () => {
   it('declares _supportsSpacingProps for flex layout', () => {
     expect(ItemEnd._supportsSpacingProps).toBe(true)
   })
+
+  it('does not accept unrelated ItemContent props', () => {
+    render(<ItemEnd>Content</ItemEnd>)
+
+    const element = document.querySelector('.dnb-list__item__end')
+
+    expect(element.getAttribute('variant')).toBeNull()
+    expect(element.getAttribute('selected')).toBeNull()
+    expect(element.getAttribute('pending')).toBeNull()
+    expect(element.getAttribute('skeleton')).toBeNull()
+  })
 })

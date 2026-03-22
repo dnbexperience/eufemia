@@ -1,15 +1,14 @@
 import React from 'react'
 import classnames from 'classnames'
-import FlexItem from '../flex/Item'
-import { ItemContentProps } from './ItemContent'
+import FlexItem, { type Props as FlexItemProps } from '../flex/Item'
 import ItemOverline from './ItemOverline'
 import ItemSubline from './ItemSubline'
 
 /**
  * Props for List.Cell.Title (ItemTitle).
- * Extends ItemContentProps and Flex.Item; supports spacing props.
+ * Extends Flex.Item; supports spacing props.
  */
-export type ItemTitleProps = ItemContentProps & {
+export type ItemTitleProps = FlexItemProps & {
   /** Font size of the title content. Defaults to `basis`. */
   fontSize?: 'small' | 'basis'
 }

@@ -94,4 +94,15 @@ describe('ItemTitle', () => {
   it('declares _supportsSpacingProps for flex layout', () => {
     expect(ItemTitle._supportsSpacingProps).toBe(true)
   })
+
+  it('does not accept unrelated ItemContent props', () => {
+    render(<ItemTitle>Content</ItemTitle>)
+
+    const element = document.querySelector('.dnb-list__item__title')
+
+    expect(element.getAttribute('variant')).toBeNull()
+    expect(element.getAttribute('selected')).toBeNull()
+    expect(element.getAttribute('pending')).toBeNull()
+    expect(element.getAttribute('skeleton')).toBeNull()
+  })
 })

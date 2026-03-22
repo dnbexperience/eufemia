@@ -1,13 +1,12 @@
 import React from 'react'
 import classnames from 'classnames'
-import FlexItem from '../flex/Item'
-import { ItemContentProps } from './ItemContent'
+import FlexItem, { type Props as FlexItemProps } from '../flex/Item'
 
 /**
  * Props for List.Cell.Start (ItemStart).
- * Extends ItemContentProps and Flex.Item; supports spacing props.
+ * Extends Flex.Item; supports spacing props.
  */
-export type ItemStartProps = ItemContentProps & {
+export type ItemStartProps = FlexItemProps & {
   /** Font size of the start content. Defaults to `basis`. */
   fontSize?: 'small' | 'basis'
 }

@@ -73,4 +73,17 @@ describe('ItemFooter', () => {
   it('declares _supportsSpacingProps for flex layout', () => {
     expect(ItemFooter._supportsSpacingProps).toBe(true)
   })
+
+  it('does not accept unrelated ItemContent props', () => {
+    render(<ItemFooter>Content</ItemFooter>)
+
+    const element = document.querySelector(
+      '.dnb-flex-item.dnb-list__item__footer'
+    )
+
+    expect(element.getAttribute('variant')).toBeNull()
+    expect(element.getAttribute('selected')).toBeNull()
+    expect(element.getAttribute('pending')).toBeNull()
+    expect(element.getAttribute('skeleton')).toBeNull()
+  })
 })
