@@ -8,7 +8,9 @@ import StatRootContext from './StatRootContext'
 
 export type RootProps = {
   children?: React.ReactNode
+  id?: string
   className?: string
+  style?: React.CSSProperties
   visualOrder?: 'label-content' | 'content-label'
   skeleton?: SkeletonShow
 } & SpacingProps
@@ -16,7 +18,9 @@ export type RootProps = {
 function Root(props: RootProps) {
   const {
     children,
+    id = null,
     className = null,
+    style = null,
     visualOrder = 'label-content',
     skeleton = null,
     ...rest
@@ -39,6 +43,8 @@ function Root(props: RootProps) {
     <StatRootContext.Provider value={{ inRoot: true, skeleton }}>
       <Space
         element="dl"
+        id={id}
+        style={style}
         className={classnames(
           'dnb-stat',
           'dnb-stat__root',

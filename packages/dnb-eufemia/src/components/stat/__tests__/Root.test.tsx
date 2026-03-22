@@ -204,4 +204,28 @@ describe('Stat.Root', () => {
     expect(didWarnOrder).toBe(false)
     spy.mockRestore()
   })
+
+  it('supports id prop', () => {
+    render(
+      <Stat.Root id="my-root">
+        <Stat.Label>Revenue</Stat.Label>
+      </Stat.Root>
+    )
+
+    const root = document.querySelector('.dnb-stat__root')
+
+    expect(root.getAttribute('id')).toBe('my-root')
+  })
+
+  it('applies style prop to the element', () => {
+    render(
+      <Stat.Root style={{ color: 'red' }}>
+        <Stat.Label>Revenue</Stat.Label>
+      </Stat.Root>
+    )
+
+    const root = document.querySelector('.dnb-stat__root')
+
+    expect(root.style.color).toBe('red')
+  })
 })
