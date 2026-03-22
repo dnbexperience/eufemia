@@ -107,6 +107,9 @@ export default {
     },
     Stat: {
       rating: '%value av %max',
+      trendUp: 'opp %value',
+      trendDown: 'ned %value',
+      trendSteady: 'uendret %value',
     },
     HelpButton: {
       title: 'Hjelpetekst',

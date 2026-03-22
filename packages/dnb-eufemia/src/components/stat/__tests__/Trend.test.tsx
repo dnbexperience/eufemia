@@ -16,7 +16,7 @@ describe('Stat.Trend', () => {
     expect(trend.classList).toContain('dnb-stat__trend--positive')
     expect(sign.textContent).toBe('+')
     expect(value.textContent).toBe('12.4')
-    expect(sr.getAttribute('data-text')).toBe('+12.4')
+    expect(sr.getAttribute('data-text')).toBe('opp +12.4')
   })
 
   it('renders negative sign and red state class', () => {
@@ -31,7 +31,7 @@ describe('Stat.Trend', () => {
     expect(sign.textContent).toBe('-')
     expect(value.textContent).toBe('2.1%')
     expect(sr.getAttribute('data-text')).toContain('Change:')
-    expect(sr.getAttribute('data-text')).toContain('-2.1%')
+    expect(sr.getAttribute('data-text')).toContain('ned -2.1%')
   })
 
   it('renders neutral tone for zero without sign', () => {
@@ -47,7 +47,7 @@ describe('Stat.Trend', () => {
     expect(trend.classList).not.toContain('dnb-stat__trend--negative')
     expect(sign).not.toBeInTheDocument()
     expect(value.textContent).toBe('0')
-    expect(sr.getAttribute('data-text')).toBe('0')
+    expect(sr.getAttribute('data-text')).toBe('uendret 0')
   })
 
   it('supports NumberFormat as children without duplicating sign', () => {

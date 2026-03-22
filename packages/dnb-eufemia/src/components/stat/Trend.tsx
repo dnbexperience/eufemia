@@ -7,6 +7,7 @@ import {
   validateDOMAttributes,
 } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
+import { useTranslation } from '../../shared'
 import StatValueContext from './StatValueContext'
 import useStatSkeleton from './useStatSkeleton'
 
@@ -60,12 +61,30 @@ function Trend(props: TrendProps) {
     displayValue: string
   } = resolveTrendValue(rawValue)
 
+  const {
+    Stat: {
+      trendUp = 'up %value',
+      trendDown = 'down %value',
+      trendSteady = 'steady %value',
+    } = {},
+  } = useTranslation()
+
   const childText = hasCustomChildren ? convertJsxToString(children) : ''
   const visibleText = childText || `${sign || ''}${displayValue}`
   const usedTone = tone || resolvedTone
+
+  const trendTemplates = {
+    positive: trendUp,
+    negative: trendDown,
+    neutral: trendSteady,
+  }
+  const localizedTrendText = trendTemplates[usedTone].replace(
+    '%value',
+    visibleText
+  )
   const srText = srLabel
-    ? `${convertJsxToString(srLabel)}${' '}${visibleText}`
-    : visibleText
+    ? `${convertJsxToString(srLabel)}${' '}${localizedTrendText}`
+    : localizedTrendText
 
   const attributes = validateDOMAttributes(props, {
     ...rest,

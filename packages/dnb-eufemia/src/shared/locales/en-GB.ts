@@ -108,6 +108,9 @@ export default {
     },
     Stat: {
       rating: '%value of %max',
+      trendUp: 'up %value',
+      trendDown: 'down %value',
+      trendSteady: 'steady %value',
     },
     HelpButton: {
       title: 'Help text',
