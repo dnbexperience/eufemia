@@ -107,5 +107,10 @@ export const SharedValueProperties: PropertiesTableProps = {
   auxiliaryWeight: auxiliaryWeightProperty,
   auxiliarySize: auxiliarySizeProperty,
   colorizeBySign: colorizeBySignProperty,
+  className: {
+    doc: 'Custom CSS class for the component.',
+    type: ['string'],
+    status: 'optional',
+  },
   '[Space](/uilib/layout/space/properties)': spacingProperties,
 }
