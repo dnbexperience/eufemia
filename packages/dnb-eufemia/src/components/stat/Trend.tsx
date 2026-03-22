@@ -18,6 +18,7 @@ const trendContextValue = {
 export type TrendProps = {
   value?: number | string
   children?: React.ReactNode
+  id?: string
   element?: keyof JSX.IntrinsicElements
   className?: string
   style?: React.CSSProperties

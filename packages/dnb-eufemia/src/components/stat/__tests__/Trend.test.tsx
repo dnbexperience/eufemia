@@ -136,4 +136,12 @@ describe('Stat.Trend', () => {
 
     expect(trend.getAttribute('style')).toContain('color: red')
   })
+
+  it('supports id prop', () => {
+    render(<Stat.Trend id="my-trend">+5%</Stat.Trend>)
+
+    const trend = document.querySelector('.dnb-stat__trend')
+
+    expect(trend.getAttribute('id')).toBe('my-trend')
+  })
 })

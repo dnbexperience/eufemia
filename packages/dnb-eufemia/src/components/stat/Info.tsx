@@ -14,6 +14,7 @@ const infoContextValue = {
 
 export type InfoProps = {
   children?: React.ReactNode
+  id?: string
   element?: keyof JSX.IntrinsicElements
   className?: string
   style?: React.CSSProperties

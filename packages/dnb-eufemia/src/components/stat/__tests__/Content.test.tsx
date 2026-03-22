@@ -163,4 +163,19 @@ describe('Stat.Content', () => {
 
     expect(await axeComponent(component)).toHaveNoViolations()
   })
+
+  it('supports id prop', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content id="my-content">
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const content = document.querySelector('.dnb-stat__content-item')
+
+    expect(content.getAttribute('id')).toBe('my-content')
+  })
 })

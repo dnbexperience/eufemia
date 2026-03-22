@@ -152,4 +152,12 @@ describe('Stat.Rating', () => {
 
     expect(rating.getAttribute('style')).toContain('color: red')
   })
+
+  it('supports id prop', () => {
+    render(<Stat.Rating value={3} id="my-rating" />)
+
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(rating.getAttribute('id')).toBe('my-rating')
+  })
 })

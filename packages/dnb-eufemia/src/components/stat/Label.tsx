@@ -14,6 +14,7 @@ import useStatSkeleton from './useStatSkeleton'
 
 export type LabelProps = {
   children?: React.ReactNode
+  id?: string
   element?: keyof JSX.IntrinsicElements
   className?: string
   srOnly?: boolean

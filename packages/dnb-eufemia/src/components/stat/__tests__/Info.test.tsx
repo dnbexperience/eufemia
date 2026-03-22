@@ -83,4 +83,12 @@ describe('Stat.Info', () => {
 
     expect(await axeComponent(component)).toHaveNoViolations()
   })
+
+  it('supports id prop', () => {
+    render(<Stat.Info id="my-info">Details</Stat.Info>)
+
+    const info = document.querySelector('.dnb-stat__info')
+
+    expect(info.getAttribute('id')).toBe('my-info')
+  })
 })
