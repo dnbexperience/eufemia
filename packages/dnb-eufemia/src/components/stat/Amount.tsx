@@ -164,12 +164,9 @@ function AmountBase(props: AmountProps) {
     resolvedMainSize === resolvedAuxiliarySize
       ? 'medium'
       : null)
+  const numericValue = Number(rawValue)
   const signTone =
-    parts.sign === '+'
-      ? 'positive'
-      : parts.sign === '-' || parts.sign === '−'
-      ? 'negative'
-      : null
+    numericValue > 0 ? 'positive' : numericValue < 0 ? 'negative' : null
 
   const currencyClass = classnames(
     'dnb-stat__currency',
