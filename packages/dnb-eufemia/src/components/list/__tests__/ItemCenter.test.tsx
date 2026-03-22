@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import ItemCenter from '../ItemCenter'
+import Container from '../Container'
 
 describe('ItemCenter', () => {
   it('renders with children', () => {
@@ -70,5 +71,27 @@ describe('ItemCenter', () => {
     expect(element.getAttribute('selected')).toBeNull()
     expect(element.getAttribute('pending')).toBeNull()
     expect(element.getAttribute('skeleton')).toBeNull()
+  })
+
+  it('applies skeleton class when skeleton prop is true', () => {
+    render(<ItemCenter skeleton>Content</ItemCenter>)
+
+    const element = document.querySelector('.dnb-list__item__center')
+
+    expect(element.classList).toContain('dnb-skeleton')
+    expect(element.classList).toContain('dnb-skeleton--font')
+  })
+
+  it('inherits skeleton from Container context', () => {
+    render(
+      <Container skeleton>
+        <ItemCenter>Content</ItemCenter>
+      </Container>
+    )
+
+    const element = document.querySelector('.dnb-list__item__center')
+
+    expect(element.classList).toContain('dnb-skeleton')
+    expect(element.classList).toContain('dnb-skeleton--font')
   })
 })
