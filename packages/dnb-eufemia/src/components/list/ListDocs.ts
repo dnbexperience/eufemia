@@ -239,8 +239,9 @@ export const ItemAccordionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   disabled: {
-    doc: 'If set to `true`, the item is visually dimmed and interaction is prevented. Sets `aria-disabled`, removes tabbing, and disables click/keyboard handlers.',
+    doc: 'If set to `true`, the accordion is visually dimmed and interaction is prevented. Sets `aria-disabled`, removes tabbing, and disables click/keyboard handlers.',
     type: 'boolean',
+    defaultValue: 'false',
     status: 'optional',
   },
   children: {
