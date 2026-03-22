@@ -136,4 +136,12 @@ describe('Stat.Rating', () => {
     expect(rating.classList).toContain('dnb-skeleton--font')
     expect(rating).toHaveAttribute('aria-disabled', 'true')
   })
+
+  it('supports spacing props', () => {
+    render(<Stat.Rating value={3} top="large" />)
+
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(rating.classList).toContain('dnb-space__top--large')
+  })
 })

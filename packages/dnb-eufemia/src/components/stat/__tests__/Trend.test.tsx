@@ -113,6 +113,14 @@ describe('Stat.Trend', () => {
     expect(value.textContent).toBe('\u2013')
   })
 
+  it('supports spacing props', () => {
+    render(<Stat.Trend top="large">12.4</Stat.Trend>)
+
+    const trend = document.querySelector('.dnb-stat__trend')
+
+    expect(trend.classList).toContain('dnb-space__top--large')
+  })
+
   it('should validate with ARIA rules', async () => {
     const component = render(
       <Stat.Trend srLabel="Change:">{12.4}</Stat.Trend>

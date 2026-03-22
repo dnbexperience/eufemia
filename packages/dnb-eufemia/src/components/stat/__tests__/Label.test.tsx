@@ -127,6 +127,18 @@ describe('Stat.Label', () => {
     spy.mockRestore()
   })
 
+  it('supports spacing props', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label top="large">Revenue growth</Stat.Label>
+      </Stat.Root>
+    )
+
+    const label = document.querySelector('.dnb-stat__label')
+
+    expect(label.classList).toContain('dnb-space__top--large')
+  })
+
   it('should validate with ARIA rules', async () => {
     const component = render(
       <Stat.Root>

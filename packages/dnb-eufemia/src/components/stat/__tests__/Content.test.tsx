@@ -111,6 +111,25 @@ describe('Stat.Content', () => {
     spy.mockRestore()
   })
 
+  it('supports spacing props', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content top="large">
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const content = document.querySelector('.dnb-stat__content-item')
+
+    expect(content.classList).toContain('dnb-space__top--large')
+
+    spy.mockRestore()
+  })
+
   it('should validate with ARIA rules', async () => {
     const component = render(
       <Stat.Root>

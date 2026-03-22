@@ -105,6 +105,14 @@ describe('Stat.Currency', () => {
     expect(amount.classList).not.toContain('dnb-t__weight--medium')
   })
 
+  it('supports spacing props', () => {
+    render(<Stat.Currency value={1234} top="large" />)
+
+    const root = document.querySelector('.dnb-stat')
+
+    expect(root.classList).toContain('dnb-space__top--large')
+  })
+
   it('should validate with ARIA rules', async () => {
     const component = render(
       <Stat.Currency
