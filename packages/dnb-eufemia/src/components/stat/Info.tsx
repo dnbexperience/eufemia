@@ -31,6 +31,7 @@ function Info(props: InfoProps) {
     children,
     element: Element = 'span',
     className = null,
+    style = null,
     variant: variantProp = 'subtle',
     skeleton = null,
     ...rest
@@ -49,6 +50,7 @@ function Info(props: InfoProps) {
 
   const attributes = validateDOMAttributes(props, {
     ...rest,
+    style,
     className: classnames(
       'dnb-stat',
       'dnb-stat__info',
