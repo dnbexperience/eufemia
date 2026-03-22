@@ -111,6 +111,27 @@ describe('Stat.Content', () => {
     spy.mockRestore()
   })
 
+  it('applies skeleton class and aria-disabled to Content element', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content skeleton>
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const content = document.querySelector('.dnb-stat__content-item')
+
+    expect(content.classList).toContain('dnb-skeleton')
+    expect(content.classList).toContain('dnb-skeleton--font')
+    expect(content).toHaveAttribute('aria-disabled', 'true')
+
+    spy.mockRestore()
+  })
+
   it('supports spacing props', () => {
     const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
 
