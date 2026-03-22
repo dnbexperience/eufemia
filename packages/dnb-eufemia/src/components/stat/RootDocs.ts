@@ -7,6 +7,16 @@ export const RootProperties: PropertiesTableProps = {
     type: ['React.ReactNode'],
     status: 'optional',
   },
+  id: {
+    doc: 'A unique identifier for the root element.',
+    type: ['string'],
+    status: 'optional',
+  },
+  style: {
+    doc: 'Inline styles for the root element.',
+    type: ['React.CSSProperties'],
+    status: 'optional',
+  },
   visualOrder: {
     doc: 'Visual order of label and content while keeping semantic `dt`/`dd` markup in DOM.',
     type: ['"label-content"', '"content-label"'],
