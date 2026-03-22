@@ -118,10 +118,11 @@ function ItemAction(props: ItemActionProps) {
         <Anchor
           noStyle
           ref={anchorRef}
-          href={href}
+          href={isInactive ? undefined : href}
           target={target}
           rel={rel}
           tabIndex={-1}
+          aria-disabled={isInactive ? true : undefined}
         >
           {content}
         </Anchor>

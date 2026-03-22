@@ -313,6 +313,19 @@ describe('ItemAction', () => {
       expect(element.getAttribute('aria-disabled')).toBe('true')
       expect(element.getAttribute('tabindex')).toBe('-1')
     })
+
+    it('removes href from anchor when disabled', () => {
+      render(
+        <ItemAction disabled href="/path">
+          Content
+        </ItemAction>
+      )
+
+      const anchor = document.querySelector('.dnb-list__item__action a')
+
+      expect(anchor).not.toHaveAttribute('href')
+      expect(anchor.getAttribute('aria-disabled')).toBe('true')
+    })
   })
 
   describe('href', () => {
