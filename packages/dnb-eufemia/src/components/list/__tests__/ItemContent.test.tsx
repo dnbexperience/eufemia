@@ -162,6 +162,14 @@ describe('ItemContent', () => {
     expect(element.classList).not.toContain('dnb-skeleton')
   })
 
+  it('applies disabled modifier when disabled is true', () => {
+    render(<ItemContent disabled>Content</ItemContent>)
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.classList).toContain('dnb-list__item--disabled')
+  })
+
   it('declares _supportsSpacingProps for flex layout', () => {
     expect(ItemContent._supportsSpacingProps).toBe(true)
   })

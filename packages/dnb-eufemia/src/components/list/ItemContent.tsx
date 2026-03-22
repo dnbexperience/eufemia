@@ -9,6 +9,7 @@ export type ItemContentProps = {
   variant?: ListVariant
   selected?: boolean
   pending?: boolean
+  disabled?: boolean
   skeleton?: SkeletonShow
 } & FlexProps
 
@@ -19,6 +20,7 @@ function ItemContent(props: ItemContentProps) {
     variant,
     selected,
     pending,
+    disabled,
     skeleton,
     ...rest
   } = props
@@ -41,6 +43,7 @@ function ItemContent(props: ItemContentProps) {
         selected !== undefined && 'dnb-list__item--selection',
         selected && 'dnb-list__item--selected',
         pending && 'dnb-list__item--pending',
+        disabled && 'dnb-list__item--disabled',
         appliedSkeleton && createSkeletonClass('font', true),
         className
       )}

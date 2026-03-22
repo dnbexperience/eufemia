@@ -522,4 +522,59 @@ describe('ItemAccordion', () => {
   it('declares _supportsSpacingProps for flex layout', () => {
     expect(ItemAccordion._supportsSpacingProps).toBe(true)
   })
+
+  describe('disabled', () => {
+    it('applies disabled modifier when disabled is true', () => {
+      render(
+        <ItemAccordion disabled>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Content</ItemAccordion.Content>
+        </ItemAccordion>
+      )
+
+      const accordion = document.querySelector(
+        '.dnb-list__item__accordion'
+      )
+
+      expect(accordion.classList).toContain('dnb-list__item--disabled')
+    })
+
+    it('has aria-disabled and tabIndex -1 on header when disabled', () => {
+      render(
+        <ItemAccordion disabled>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Content</ItemAccordion.Content>
+        </ItemAccordion>
+      )
+
+      const header = document.querySelector(
+        '.dnb-list__item__accordion__header'
+      )
+
+      expect(header.getAttribute('aria-disabled')).toBe('true')
+      expect(header.getAttribute('tabindex')).toBe('-1')
+    })
+
+    it('does not toggle when disabled and header is clicked', () => {
+      render(
+        <ItemAccordion disabled>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Content</ItemAccordion.Content>
+        </ItemAccordion>
+      )
+
+      const accordion = document.querySelector(
+        '.dnb-list__item__accordion'
+      )
+      const header = document.querySelector(
+        '.dnb-list__item__accordion__header'
+      )
+
+      fireEvent.click(header)
+
+      expect(accordion.classList).not.toContain(
+        'dnb-list__item__accordion--open'
+      )
+    })
+  })
 })

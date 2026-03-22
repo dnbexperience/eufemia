@@ -34,6 +34,11 @@ export const ItemContentProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  disabled: {
+    doc: 'If set to `true`, the item is visually dimmed and interaction is prevented. Sets `aria-disabled`, removes tabbing, and disables click/keyboard handlers.',
+    type: 'boolean',
+    status: 'optional',
+  },
   skeleton: {
     doc: 'If set to `true`, applies skeleton font styling to the item (text placeholder animation). Use for loading state without the full overlay from `pending`.',
     type: 'boolean',
