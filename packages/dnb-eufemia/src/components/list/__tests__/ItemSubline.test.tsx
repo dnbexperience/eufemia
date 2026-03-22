@@ -138,4 +138,14 @@ describe('ItemSubline', () => {
   it('declares _supportsSpacingProps for flex layout', () => {
     expect(ItemSubline._supportsSpacingProps).toBe(true)
   })
+
+  it('does not accept unrelated ItemContent props', () => {
+    render(<ItemSubline>Content</ItemSubline>)
+
+    const element = document.querySelector('.dnb-list__item__subline')
+
+    expect(element.getAttribute('selected')).toBeNull()
+    expect(element.getAttribute('pending')).toBeNull()
+    expect(element.getAttribute('skeleton')).toBeNull()
+  })
 })
