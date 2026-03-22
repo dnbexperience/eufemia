@@ -29,7 +29,8 @@ function Content(props: ContentProps) {
     ...rest
   } = props
 
-  const { hasSkeleton } = useStatSkeleton(skeleton)
+  const { hasSkeleton, skeletonClass, applySkeletonAttributes } =
+    useStatSkeleton(skeleton)
 
   if (!inRoot) {
     warn('Stat.Content should be used inside Stat.Root')
@@ -43,9 +44,12 @@ function Content(props: ContentProps) {
       'dnb-stat__content-item',
       `dnb-stat__content-item--${direction}`,
       createSpacingClasses(props),
+      skeletonClass,
       className
     ),
   })
+
+  applySkeletonAttributes(attributes)
 
   return (
     <StatRootContext.Provider value={{ inRoot, skeleton: hasSkeleton }}>
