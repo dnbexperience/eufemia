@@ -6,6 +6,11 @@ export const InlineProperties: PropertiesTableProps = {
     type: ['React.ReactNode'],
     status: 'optional',
   },
+  skeleton: {
+    doc: 'Applies skeleton state to the inline container.',
+    type: 'boolean',
+    status: 'optional',
+  },
   '[Flex.Horizontal](/uilib/layout/flex/horizontal/properties)': {
     doc: 'Supports all additional `Flex.Horizontal` properties.',
     type: 'Various',
