@@ -29,6 +29,10 @@ export type ItemAccordionProps = {
    * When true, keeps the accordion content in the DOM when closed. Defaults to false.
    */
   keepInDOM?: boolean
+  /**
+   * When true, the accordion is visually dimmed and interaction is prevented.
+   */
+  disabled?: boolean
   chevronPosition?: ItemAccordionIconPosition
   icon?: IconIcon
   title?: React.ReactNode
