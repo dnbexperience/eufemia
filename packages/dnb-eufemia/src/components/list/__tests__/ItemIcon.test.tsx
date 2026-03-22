@@ -61,4 +61,15 @@ describe('ItemIcon', () => {
   it('declares _supportsSpacingProps for flex layout', () => {
     expect(ItemIcon._supportsSpacingProps).toBe(true)
   })
+
+  it('does not accept unrelated ItemContent props', () => {
+    render(<ItemIcon>{fish_medium}</ItemIcon>)
+
+    const element = document.querySelector('.dnb-flex-item')
+
+    expect(element.getAttribute('variant')).toBeNull()
+    expect(element.getAttribute('selected')).toBeNull()
+    expect(element.getAttribute('pending')).toBeNull()
+    expect(element.getAttribute('skeleton')).toBeNull()
+  })
 })

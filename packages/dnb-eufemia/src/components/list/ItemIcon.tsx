@@ -1,16 +1,13 @@
 import React from 'react'
 import classnames from 'classnames'
-import FlexItem from '../flex/Item'
+import FlexItem, { type Props as FlexItemProps } from '../flex/Item'
 import Icon, { type IconIcon } from '../icon/Icon'
-import { ItemContentProps } from './ItemContent'
 
-function ItemIcon({
-  children,
-  className,
-  ...rest
-}: Omit<ItemContentProps, 'children'> & {
+export type ItemIconProps = Omit<FlexItemProps, 'children'> & {
   children: IconIcon
-}) {
+}
+
+function ItemIcon({ children, className, ...rest }: ItemIconProps) {
   return (
     <FlexItem
       className={classnames('dnb-list__item__icon', className)}
