@@ -1,7 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import FlexItem from '../flex/Item'
-import { ItemContentProps } from './ItemContent'
+import FlexItem, { type Props as FlexItemProps } from '../flex/Item'
 
 export type ItemSublineVariant = 'description'
 
@@ -9,7 +8,7 @@ export type ItemSublineVariant = 'description'
  * Props for List.Cell.Title.Subline (ItemSubline).
  * Secondary line under the title; pairs with List.Cell.Title.Overline (above the row).
  */
-export type ItemSublineProps = Omit<ItemContentProps, 'variant'> & {
+export type ItemSublineProps = FlexItemProps & {
   /** Visual variant. Use `description` for smaller, muted text. */
   variant?: ItemSublineVariant
   /** Font size of the subline content. Defaults to `small`. When `variant="description"`, defaults to `x-small`. */
