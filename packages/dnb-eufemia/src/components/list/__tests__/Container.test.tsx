@@ -2,6 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import Container, { ListContainerProps } from '../Container'
 import ItemContent from '../ItemContent'
+import Provider from '../../../shared/Provider'
 
 describe('List Container', () => {
   it('renders with props as an object', () => {
@@ -149,5 +150,33 @@ describe('List Container', () => {
     const element = document.querySelector('.dnb-list__container')
 
     expect(element.classList).not.toContain('dnb-list--separated')
+  })
+
+  it('inherits skeleton from SharedContext Provider', () => {
+    render(
+      <Provider skeleton>
+        <Container>
+          <ItemContent>Item</ItemContent>
+        </Container>
+      </Provider>
+    )
+
+    const item = document.querySelector('.dnb-list__item')
+
+    expect(item.classList).toContain('dnb-skeleton')
+  })
+
+  it('allows local skeleton prop to override SharedContext', () => {
+    render(
+      <Provider skeleton>
+        <Container skeleton={false}>
+          <ItemContent>Item</ItemContent>
+        </Container>
+      </Provider>
+    )
+
+    const item = document.querySelector('.dnb-list__item')
+
+    expect(item.classList).not.toContain('dnb-skeleton')
   })
 })
