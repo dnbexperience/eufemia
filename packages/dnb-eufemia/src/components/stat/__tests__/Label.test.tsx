@@ -163,4 +163,28 @@ describe('Stat.Label', () => {
 
     expect(label.getAttribute('id')).toBe('my-label')
   })
+
+  it('applies style prop to the element', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label style={{ color: 'red' }}>Revenue</Stat.Label>
+      </Stat.Root>
+    )
+
+    const label = document.querySelector('.dnb-stat__label')
+
+    expect(label.style.color).toBe('red')
+  })
+
+  it('supports className prop', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label className="custom-class">Revenue</Stat.Label>
+      </Stat.Root>
+    )
+
+    const label = document.querySelector('.dnb-stat__label')
+
+    expect(label.classList).toContain('custom-class')
+  })
 })
