@@ -194,7 +194,6 @@ function AccordionContent(props: ItemContentProps) {
       id={`${accordionId}-content`}
       aria-labelledby={`${accordionId}-header`}
       aria-hidden={!openState}
-      aria-expanded={openState}
       {...omitSpacingProps(rest)}
     >
       <HeightAnimation open={openState} keepInDOM={keepInDOM}>
