@@ -32,6 +32,7 @@ function Trend(props: TrendProps) {
     children,
     element: Element = 'span',
     className = null,
+    style = null,
     srLabel = null,
     tone = null,
     skeleton = null,
@@ -70,6 +71,7 @@ function Trend(props: TrendProps) {
 
   const attributes = validateDOMAttributes(props, {
     ...rest,
+    style,
     className: classnames(
       'dnb-stat',
       'dnb-stat__trend',
