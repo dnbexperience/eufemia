@@ -137,33 +137,21 @@ function AccordionHeader(props: AccordionHeaderProps) {
     [onClick, pending, setOpen]
   )
 
-  const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLDivElement>) => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault()
-        handleClick(
-          event as unknown as React.MouseEvent<HTMLDivElement, MouseEvent>
-        )
-      }
-    },
-    [handleClick]
-  )
-
   return (
     <FlexItem
+      element="button"
+      type="button"
       className={classnames(
         'dnb-list__item__accordion__header',
         chevronPosition === 'left' && 'dnb-list__item--chevron-left',
         className
       )}
       id={`${accordionId}-header`}
-      role="button"
       aria-controls={`${accordionId}-content`}
       aria-expanded={openState}
       aria-disabled={pending ? true : undefined}
       tabIndex={pending ? -1 : 0}
       onClick={handleClick}
-      onKeyDown={handleKeyDown}
       {...rest}
     >
       {chevronPosition === 'left' && <ChevronIcon />}

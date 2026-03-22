@@ -336,6 +336,17 @@
       &__header {
         position: relative;
 
+        // Reset native button styles
+        appearance: none;
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        font: inherit;
+        color: inherit;
+        text-align: inherit;
+        width: 100%;
+
         cursor: pointer;
         outline: none;
 

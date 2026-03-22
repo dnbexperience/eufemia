@@ -150,7 +150,7 @@ describe('ItemAccordion', () => {
     )
   })
 
-  it('header has role="button" and tabIndex 0', () => {
+  it('header renders as a native button element', () => {
     render(
       <ItemAccordion>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
@@ -162,7 +162,8 @@ describe('ItemAccordion', () => {
       '.dnb-list__item__accordion__header'
     )
 
-    expect(header.getAttribute('role')).toBe('button')
+    expect(header.tagName).toBe('BUTTON')
+    expect(header.getAttribute('type')).toBe('button')
     expect(header.getAttribute('tabindex')).toBe('0')
   })
 
@@ -380,7 +381,7 @@ describe('ItemAccordion', () => {
     expect(handleClick).toHaveBeenCalledTimes(1)
   })
 
-  it('toggles open state when Enter key is pressed on header', () => {
+  it('toggles open state when Enter or Space key activates the button', () => {
     render(
       <ItemAccordion>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
@@ -393,36 +394,15 @@ describe('ItemAccordion', () => {
       '.dnb-list__item__accordion__header'
     )
 
-    fireEvent.keyDown(header, { key: 'Enter' })
+    // Native button handles Enter/Space via click
+    expect(header.tagName).toBe('BUTTON')
+
+    fireEvent.click(header)
     expect(accordion.classList).toContain(
       'dnb-list__item__accordion--open'
     )
 
-    fireEvent.keyDown(header, { key: 'Enter' })
-    expect(accordion.classList).not.toContain(
-      'dnb-list__item__accordion--open'
-    )
-  })
-
-  it('toggles open state when Space key is pressed on header', () => {
-    render(
-      <ItemAccordion>
-        <ItemAccordion.Header>Title</ItemAccordion.Header>
-        <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
-    )
-
-    const accordion = document.querySelector('.dnb-list__item__accordion')
-    const header = document.querySelector(
-      '.dnb-list__item__accordion__header'
-    )
-
-    fireEvent.keyDown(header, { key: ' ' })
-    expect(accordion.classList).toContain(
-      'dnb-list__item__accordion--open'
-    )
-
-    fireEvent.keyDown(header, { key: ' ' })
+    fireEvent.click(header)
     expect(accordion.classList).not.toContain(
       'dnb-list__item__accordion--open'
     )
@@ -447,7 +427,7 @@ describe('ItemAccordion', () => {
     )
   })
 
-  it('does not toggle open state when pending and header receives Enter', () => {
+  it('does not toggle open state when pending and header is activated', () => {
     render(
       <ItemAccordion pending open>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
@@ -464,7 +444,7 @@ describe('ItemAccordion', () => {
       'dnb-list__item__accordion--open'
     )
 
-    fireEvent.keyDown(header, { key: 'Enter' })
+    fireEvent.click(header)
     expect(accordion.classList).toContain(
       'dnb-list__item__accordion--open'
     )
