@@ -38,48 +38,39 @@ function ItemAction(props: ItemActionProps) {
     ...rest
   } = props
 
-  const handleClick = useCallback(
-    (
-      event: React.MouseEvent<
-        HTMLDivElement | HTMLAnchorElement,
-        MouseEvent
-      >
-    ) => {
+  const handleButtonClick = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       if (!pending) {
-        onClick && onClick(event as React.MouseEvent<HTMLDivElement>)
+        onClick &&
+          onClick(event as unknown as React.MouseEvent<HTMLDivElement>)
       }
     },
     [onClick, pending]
-  )
-
-  const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLDivElement | HTMLAnchorElement>) => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault()
-        handleClick(
-          event as unknown as React.MouseEvent<
-            HTMLDivElement | HTMLAnchorElement,
-            MouseEvent
-          >
-        )
-      }
-    },
-    [handleClick]
   )
 
   const anchorRef = useRef<HTMLAnchorElement>(null)
 
-  const handleLinkKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLDivElement>) => {
-      if (event.key === 'Enter' || event.key === ' ') {
+  const handleAnchorClick = useCallback(
+    (event: React.MouseEvent<HTMLAnchorElement>) => {
+      if (pending) {
+        event.preventDefault()
+        return // stop here
+      }
+      onClick?.(event as unknown as React.MouseEvent<HTMLDivElement>)
+    },
+    [onClick, pending]
+  )
+
+  const handleAnchorKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLAnchorElement>) => {
+      if (event.key === ' ') {
         event.preventDefault()
         if (!pending) {
           anchorRef.current?.click()
-          onClick?.(event as unknown as React.MouseEvent<HTMLDivElement>)
         }
       }
     },
-    [onClick, pending]
+    [pending]
   )
 
   const actionClassName = classnames(
@@ -101,22 +92,17 @@ function ItemAction(props: ItemActionProps) {
 
   if (href) {
     return (
-      <ItemContent
-        className={actionClassName}
-        role="link"
-        tabIndex={pending ? -1 : 0}
-        aria-disabled={pending ? true : undefined}
-        onKeyDown={handleLinkKeyDown}
-        pending={pending}
-        {...rest}
-      >
+      <ItemContent className={actionClassName} pending={pending} {...rest}>
         <Anchor
           noStyle
           ref={anchorRef}
           href={href}
           target={target}
           rel={rel}
-          tabIndex={-1}
+          tabIndex={pending ? -1 : 0}
+          aria-disabled={pending ? true : undefined}
+          onClick={handleAnchorClick}
+          onKeyDown={handleAnchorKeyDown}
         >
           {content}
         </Anchor>
@@ -125,17 +111,16 @@ function ItemAction(props: ItemActionProps) {
   }
 
   return (
-    <ItemContent
-      className={actionClassName}
-      role="button"
-      tabIndex={pending ? -1 : 0}
-      aria-disabled={pending ? true : undefined}
-      onClick={handleClick}
-      onKeyDown={handleKeyDown}
-      pending={pending}
-      {...rest}
-    >
-      {content}
+    <ItemContent className={actionClassName} pending={pending} {...rest}>
+      <button
+        type="button"
+        className="dnb-list__item__action__button"
+        tabIndex={pending ? -1 : 0}
+        aria-disabled={pending ? true : undefined}
+        onClick={handleButtonClick}
+      >
+        {content}
+      </button>
     </ItemContent>
   )
 }

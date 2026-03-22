@@ -29,28 +29,33 @@ describe('ItemAction', () => {
     expect(element.classList).toContain('dnb-t__size--basis')
   })
 
-  it('has role="button" for accessibility', () => {
+  it('renders a native button inside the list item', () => {
     render(<ItemAction>Content</ItemAction>)
 
-    const element = document.querySelector('.dnb-list__item__action')
+    const listItem = document.querySelector('.dnb-list__item__action')
+    const button = listItem.querySelector('button')
 
-    expect(element.getAttribute('role')).toBe('button')
+    expect(listItem.tagName).toBe('LI')
+    expect(listItem.getAttribute('role')).toBeNull()
+    expect(button).toBeInTheDocument()
+    expect(button.getAttribute('type')).toBe('button')
   })
 
-  it('allows role to be overridden', () => {
-    render(<ItemAction role="link">Content</ItemAction>)
-
-    const element = document.querySelector('.dnb-list__item__action')
-
-    expect(element.getAttribute('role')).toBe('link')
-  })
-
-  it('has tabIndex 0 for keyboard navigation when not pending', () => {
+  it('preserves listitem role on the li element', () => {
     render(<ItemAction>Content</ItemAction>)
 
-    const element = document.querySelector('.dnb-list__item__action')
+    const listItem = document.querySelector('.dnb-list__item__action')
 
-    expect(element.getAttribute('tabindex')).toBe('0')
+    expect(listItem.tagName).toBe('LI')
+    expect(listItem.getAttribute('role')).toBeNull()
+  })
+
+  it('has tabIndex 0 on the button when not pending', () => {
+    render(<ItemAction>Content</ItemAction>)
+
+    const button = document.querySelector('.dnb-list__item__action button')
+
+    expect(button.getAttribute('tabindex')).toBe('0')
   })
 
   it('renders IconPrimary chevron_right at the end', () => {
@@ -90,38 +95,14 @@ describe('ItemAction', () => {
     expect(element.className).toContain('dnb-list__item--chevron-left')
   })
 
-  it('calls onClick when clicked', () => {
+  it('calls onClick when button is clicked', () => {
     const handleClick = jest.fn()
 
     render(<ItemAction onClick={handleClick}>Content</ItemAction>)
 
-    const element = document.querySelector('.dnb-list__item__action')
+    const button = document.querySelector('.dnb-list__item__action button')
 
-    fireEvent.click(element)
-
-    expect(handleClick).toHaveBeenCalledTimes(1)
-  })
-
-  it('calls onClick when Enter key is pressed', () => {
-    const handleClick = jest.fn()
-
-    render(<ItemAction onClick={handleClick}>Content</ItemAction>)
-
-    const element = document.querySelector('.dnb-list__item__action')
-
-    fireEvent.keyDown(element, { key: 'Enter' })
-
-    expect(handleClick).toHaveBeenCalledTimes(1)
-  })
-
-  it('calls onClick when Space key is pressed', () => {
-    const handleClick = jest.fn()
-
-    render(<ItemAction onClick={handleClick}>Content</ItemAction>)
-
-    const element = document.querySelector('.dnb-list__item__action')
-
-    fireEvent.keyDown(element, { key: ' ' })
+    fireEvent.click(button)
 
     expect(handleClick).toHaveBeenCalledTimes(1)
   })
@@ -135,7 +116,7 @@ describe('ItemAction', () => {
     expect(element.classList).toContain('my-action')
   })
 
-  it('forwards custom HTML attributes', () => {
+  it('forwards custom HTML attributes to the list item', () => {
     render(
       <ItemAction
         data-testid="action-item"
@@ -189,13 +170,15 @@ describe('ItemAction', () => {
       ).toBeInTheDocument()
     })
 
-    it('has aria-disabled and tabIndex -1 when pending', () => {
+    it('has aria-disabled and tabIndex -1 on button when pending', () => {
       render(<ItemAction pending>Content</ItemAction>)
 
-      const element = document.querySelector('.dnb-list__item__action')
+      const button = document.querySelector(
+        '.dnb-list__item__action button'
+      )
 
-      expect(element.getAttribute('aria-disabled')).toBe('true')
-      expect(element.getAttribute('tabindex')).toBe('-1')
+      expect(button.getAttribute('aria-disabled')).toBe('true')
+      expect(button.getAttribute('tabindex')).toBe('-1')
     })
 
     it('does not call onClick on click when pending is true', () => {
@@ -207,41 +190,11 @@ describe('ItemAction', () => {
         </ItemAction>
       )
 
-      const element = document.querySelector('.dnb-list__item__action')
-
-      fireEvent.click(element)
-
-      expect(handleClick).not.toHaveBeenCalled()
-    })
-
-    it('does not call onClick on Enter key when pending is true', () => {
-      const handleClick = jest.fn()
-
-      render(
-        <ItemAction pending onClick={handleClick}>
-          Content
-        </ItemAction>
+      const button = document.querySelector(
+        '.dnb-list__item__action button'
       )
 
-      const element = document.querySelector('.dnb-list__item__action')
-
-      fireEvent.keyDown(element, { key: 'Enter' })
-
-      expect(handleClick).not.toHaveBeenCalled()
-    })
-
-    it('does not call onClick on Space key when pending is true', () => {
-      const handleClick = jest.fn()
-
-      render(
-        <ItemAction pending onClick={handleClick}>
-          Content
-        </ItemAction>
-      )
-
-      const element = document.querySelector('.dnb-list__item__action')
-
-      fireEvent.keyDown(element, { key: ' ' })
+      fireEvent.click(button)
 
       expect(handleClick).not.toHaveBeenCalled()
     })
@@ -289,84 +242,71 @@ describe('ItemAction', () => {
       expect(anchor?.getAttribute('href')).toBe('https://example.com/page')
     })
 
-    it('has role="link" on list item when href is provided', () => {
+    it('preserves listitem role on li when href is provided', () => {
       render(<ItemAction href="/path">Content</ItemAction>)
 
       const listItem = document.querySelector(hrefSelector)
 
-      expect(listItem.getAttribute('role')).toBe('link')
+      expect(listItem.tagName).toBe('LI')
+      expect(listItem.getAttribute('role')).toBeNull()
     })
 
-    it('allows role to be overridden when href is provided', () => {
-      render(
-        <ItemAction href="/path" role="button">
-          Content
-        </ItemAction>
-      )
-
-      const listItem = document.querySelector(hrefSelector)
-
-      expect(listItem.getAttribute('role')).toBe('button')
-    })
-
-    it('has tabIndex 0 on list item when href and not pending', () => {
-      render(<ItemAction href="/path">Link content</ItemAction>)
-
-      const listItem = document.querySelector(hrefSelector)
-
-      expect(listItem?.getAttribute('tabindex')).toBe('0')
-    })
-
-    it('has tabIndex -1 on anchor when href (focus on list item)', () => {
+    it('anchor is focusable when href is provided', () => {
       render(<ItemAction href="/path">Link content</ItemAction>)
 
       const container = document.querySelector(hrefSelector)
       const anchor = container?.querySelector('a')
 
-      expect(anchor?.getAttribute('tabindex')).toBe('-1')
+      expect(anchor?.getAttribute('tabindex')).toBe('0')
     })
 
-    it('has tabIndex -1 on list item when href and pending', () => {
+    it('anchor has tabIndex -1 and aria-disabled when pending', () => {
       render(
         <ItemAction href="/path" pending>
           Link content
         </ItemAction>
       )
 
-      const listItem = document.querySelector(hrefSelector)
+      const container = document.querySelector(hrefSelector)
+      const anchor = container?.querySelector('a')
 
-      expect(listItem?.getAttribute('tabindex')).toBe('-1')
+      expect(anchor?.getAttribute('tabindex')).toBe('-1')
+      expect(anchor?.getAttribute('aria-disabled')).toBe('true')
     })
 
-    it('triggers anchor click when list item receives Enter key (href)', () => {
+    it('activates anchor on Space key for backward compatibility', () => {
       render(<ItemAction href="/path">Link content</ItemAction>)
 
-      const listItem = document.querySelector(hrefSelector)
-      const anchor = listItem?.querySelector('a')
+      const container = document.querySelector(hrefSelector)
+      const anchor = container?.querySelector('a')
 
       expect(anchor).toBeInTheDocument()
 
       const clickSpy = jest.spyOn(anchor as HTMLAnchorElement, 'click')
 
-      fireEvent.keyDown(listItem as Element, { key: 'Enter' })
+      fireEvent.keyDown(anchor as Element, { key: ' ' })
 
       expect(clickSpy).toHaveBeenCalled()
       clickSpy.mockRestore()
     })
 
-    it('triggers anchor click when list item receives Space key (href)', () => {
-      render(<ItemAction href="/path">Link content</ItemAction>)
+    it('does not activate anchor on Space key when pending', () => {
+      render(
+        <ItemAction href="/path" pending>
+          Link content
+        </ItemAction>
+      )
 
-      const listItem = document.querySelector(hrefSelector)
-      const anchor = listItem?.querySelector('a')
+      const container = document.querySelector(hrefSelector)
+      const anchor = container?.querySelector('a')
 
       expect(anchor).toBeInTheDocument()
 
       const clickSpy = jest.spyOn(anchor as HTMLAnchorElement, 'click')
 
-      fireEvent.keyDown(listItem as Element, { key: ' ' })
+      fireEvent.keyDown(anchor as Element, { key: ' ' })
 
-      expect(clickSpy).toHaveBeenCalled()
+      expect(clickSpy).not.toHaveBeenCalled()
       clickSpy.mockRestore()
     })
 
@@ -389,10 +329,11 @@ describe('ItemAction', () => {
 
       const element = document.querySelector('.dnb-list__item__action')
       const hrefElement = document.querySelector(hrefSelector)
+      const button = element.querySelector('button')
 
       expect(element.tagName).toBe('LI')
-      expect(element.getAttribute('href')).toBeNull()
       expect(hrefElement).toBeNull()
+      expect(button).toBeInTheDocument()
     })
   })
 })
