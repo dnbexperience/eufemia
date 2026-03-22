@@ -91,4 +91,12 @@ describe('Stat.Info', () => {
 
     expect(info.getAttribute('id')).toBe('my-info')
   })
+
+  it('applies style prop to the element', () => {
+    render(<Stat.Info style={{ color: 'red' }}>Details</Stat.Info>)
+
+    const info = document.querySelector('.dnb-stat__info')
+
+    expect(info.style.color).toBe('red')
+  })
 })
