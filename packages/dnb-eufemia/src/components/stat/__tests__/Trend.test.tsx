@@ -128,4 +128,12 @@ describe('Stat.Trend', () => {
 
     expect(await axeComponent(component)).toHaveNoViolations()
   })
+
+  it('applies style prop to the element', () => {
+    render(<Stat.Trend style={{ color: 'red' }}>+5%</Stat.Trend>)
+
+    const trend = document.querySelector('.dnb-stat__trend')
+
+    expect(trend.getAttribute('style')).toContain('color: red')
+  })
 })
