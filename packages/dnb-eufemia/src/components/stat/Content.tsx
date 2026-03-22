@@ -10,6 +10,7 @@ import useStatSkeleton from './useStatSkeleton'
 export type ContentProps = {
   children?: React.ReactNode
   className?: string
+  style?: React.CSSProperties
   element?: keyof JSX.IntrinsicElements
   direction?: 'horizontal' | 'vertical'
   skeleton?: SkeletonShow
@@ -21,6 +22,7 @@ function Content(props: ContentProps) {
   const {
     children,
     className = null,
+    style = null,
     element: Element = 'dd',
     direction = 'horizontal',
     skeleton = null,
@@ -35,6 +37,7 @@ function Content(props: ContentProps) {
 
   const attributes = validateDOMAttributes(props, {
     ...rest,
+    style,
     className: classnames(
       'dnb-stat',
       'dnb-stat__content-item',

@@ -20,6 +20,7 @@ export type TrendProps = {
   children?: React.ReactNode
   element?: keyof JSX.IntrinsicElements
   className?: string
+  style?: React.CSSProperties
   srLabel?: React.ReactNode
   tone?: 'positive' | 'negative' | 'neutral'
   skeleton?: SkeletonShow
