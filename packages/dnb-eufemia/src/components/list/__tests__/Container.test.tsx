@@ -108,4 +108,31 @@ describe('List Container', () => {
     expect(children[1]).toHaveClass('dnb-space__top--small')
     expect(list.querySelector(':scope > div')).toBeNull()
   })
+
+  it('forwards aria-label to the list element', () => {
+    render(
+      <Container aria-label="My transactions">
+        <li>Item</li>
+      </Container>
+    )
+
+    const list = document.querySelector('.dnb-list')
+
+    expect(list.getAttribute('aria-label')).toBe('My transactions')
+  })
+
+  it('forwards aria-labelledby to the list element', () => {
+    render(
+      <>
+        <h2 id="list-heading">Heading</h2>
+        <Container aria-labelledby="list-heading">
+          <li>Item</li>
+        </Container>
+      </>
+    )
+
+    const list = document.querySelector('.dnb-list')
+
+    expect(list.getAttribute('aria-labelledby')).toBe('list-heading')
+  })
 })

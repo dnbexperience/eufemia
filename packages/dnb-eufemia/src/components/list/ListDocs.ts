@@ -6,6 +6,16 @@ export const ContainerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  'aria-label': {
+    doc: 'Labels the list for assistive technology. Use when the list has no visible heading.',
+    type: 'string',
+    status: 'optional',
+  },
+  'aria-labelledby': {
+    doc: 'References the `id` of an element that labels the list (e.g. a heading above the list).',
+    type: 'string',
+    status: 'optional',
+  },
   children: {
     doc: 'List items. Use `List.Item.Basic`, `List.Item.Action`, or `List.Item.Accordion` as direct children.',
     type: 'React.ReactNode',
