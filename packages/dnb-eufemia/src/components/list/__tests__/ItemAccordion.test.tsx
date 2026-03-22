@@ -522,4 +522,19 @@ describe('ItemAccordion', () => {
   it('declares _supportsSpacingProps for flex layout', () => {
     expect(ItemAccordion._supportsSpacingProps).toBe(true)
   })
+
+  it('content has tabIndex -1 for programmatic focus', () => {
+    render(
+      <ItemAccordion>
+        <ItemAccordion.Header>Title</ItemAccordion.Header>
+        <ItemAccordion.Content>Content</ItemAccordion.Content>
+      </ItemAccordion>
+    )
+
+    const content = document.querySelector(
+      '.dnb-list__item__accordion__content'
+    )
+
+    expect(content.getAttribute('tabindex')).toBe('-1')
+  })
 })

@@ -3,6 +3,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from 'react'
 import classnames from 'classnames'
@@ -183,7 +184,14 @@ function AccordionContent(props: ItemContentProps) {
     ItemAccordionContext
   )
 
+  const contentRef = useRef<HTMLDivElement>(null)
   const spacingProps = pickSpacingProps(rest)
+
+  const handleOpen = useCallback((isOpen: boolean) => {
+    if (isOpen) {
+      contentRef.current?.focus({ preventScroll: true })
+    }
+  }, [])
 
   return (
     <FlexItem
@@ -195,9 +203,15 @@ function AccordionContent(props: ItemContentProps) {
       aria-labelledby={`${accordionId}-header`}
       aria-hidden={!openState}
       aria-expanded={openState}
+      tabIndex={-1}
+      innerRef={contentRef}
       {...omitSpacingProps(rest)}
     >
-      <HeightAnimation open={openState} keepInDOM={keepInDOM}>
+      <HeightAnimation
+        open={openState}
+        keepInDOM={keepInDOM}
+        onOpen={handleOpen}
+      >
         <Hr bottom={false} />
         <Space {...spacingProps}>{children}</Space>
       </HeightAnimation>
