@@ -12,6 +12,7 @@ import { InlineProperties } from '@dnb/eufemia/src/components/stat/InlineDocs'
 import { LabelProperties } from '@dnb/eufemia/src/components/stat/LabelDocs'
 import { PercentProperties } from '@dnb/eufemia/src/components/stat/PercentDocs'
 import { RatingProperties } from '@dnb/eufemia/src/components/stat/RatingDocs'
+import { RatingCSSProperties } from '@dnb/eufemia/src/components/stat/RatingDocs'
 import { RootProperties } from '@dnb/eufemia/src/components/stat/RootDocs'
 import { TrendProperties } from '@dnb/eufemia/src/components/stat/TrendDocs'
 
@@ -34,6 +35,12 @@ import { TrendProperties } from '@dnb/eufemia/src/components/stat/TrendDocs'
 ## Stat.Rating
 
 <PropertiesTable props={RatingProperties} />
+
+### CSS Custom Properties
+
+These properties are set automatically by the component based on the `value` and `max` props. They can be used for advanced style customization.
+
+<PropertiesTable props={RatingCSSProperties} />
 
 ## Stat.Info
 

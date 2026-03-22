@@ -25,3 +25,21 @@ export const RatingProperties: PropertiesTableProps = {
   skeleton: skeletonProperty,
   '[Space](/uilib/layout/space/properties)': spacingProperties,
 }
+
+export const RatingCSSProperties: PropertiesTableProps = {
+  '--dnb-stat-rating-fill': {
+    doc: 'Fill percentage for each star in the `stars` variant. Set automatically based on `value`.',
+    type: 'CSS Custom Property',
+    status: 'optional',
+  },
+  '--dnb-stat-rating-step-height': {
+    doc: 'Height of each step in the `progressive` variant. Scales from `0.25rem` to `1rem` based on position.',
+    type: 'CSS Custom Property',
+    status: 'optional',
+  },
+  '--dnb-stat-rating-step-fill': {
+    doc: 'Fill percentage for each step in the `progressive` variant. Set automatically based on `value`.',
+    type: 'CSS Custom Property',
+    status: 'optional',
+  },
+}
