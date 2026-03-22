@@ -3,6 +3,11 @@ import { NumberFormatPropertiesCamelCase } from '../number-format/NumberFormatDo
 import { skeletonProperty, spacingProperties } from './StatDocsUtils'
 
 export const TrendProperties: PropertiesTableProps = {
+  value: {
+    doc: 'Numeric or string value used to resolve the trend sign and tone. When omitted, the value is extracted from `children`.',
+    type: ['number', 'string'],
+    status: 'optional',
+  },
   children: {
     doc: 'Trend value content, e.g. `+12.4%` or `-2.1%`.',
     type: ['React.ReactNode'],
