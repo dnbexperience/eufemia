@@ -16,6 +16,7 @@ export type InfoProps = {
   children?: React.ReactNode
   element?: keyof JSX.IntrinsicElements
   className?: string
+  style?: React.CSSProperties
   variant?:
     | 'plain'
     | 'subtle'

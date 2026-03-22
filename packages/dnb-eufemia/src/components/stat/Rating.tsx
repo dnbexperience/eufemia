@@ -20,6 +20,7 @@ export type RatingProps = {
   variant?: 'stars' | 'progressive'
   element?: keyof JSX.IntrinsicElements
   className?: string
+  style?: React.CSSProperties
   srLabel?: React.ReactNode
   skeleton?: SkeletonShow
 } & SpacingProps
