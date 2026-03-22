@@ -53,6 +53,14 @@ describe('Stat', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('has to match percent colorize by sign', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="stat-percent-colorize-by-sign"]',
+    })
+
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('has to match rating default', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="stat-rating-default"]',
