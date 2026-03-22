@@ -7,7 +7,7 @@ import React, {
 } from 'react'
 import classnames from 'classnames'
 import useId from '../../shared/helpers/useId'
-import { ListVariant } from './ListContext'
+import { ListVariant, ListContext } from './ListContext'
 import ItemContent, { ItemContentProps } from './ItemContent'
 import FlexItem from '../flex/Item'
 import type { IconIcon } from '../icon/Icon'
@@ -18,6 +18,7 @@ import Space from '../space/Space'
 import { omitSpacingProps, pickSpacingProps } from '../flex/utils'
 import ItemIcon from './ItemIcon'
 import ItemTitle from './ItemTitle'
+import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 
 export type ItemAccordionIconPosition = 'left' | 'right'
 
@@ -189,6 +190,7 @@ function AccordionContent(props: ItemContentProps) {
   const { openState, accordionId, keepInDOM } = useContext(
     ItemAccordionContext
   )
+  const inheritedSkeleton = useContext(ListContext)?.skeleton
 
   const spacingProps = pickSpacingProps(rest)
 
@@ -196,6 +198,7 @@ function AccordionContent(props: ItemContentProps) {
     <FlexItem
       className={classnames(
         'dnb-list__item__accordion__content',
+        inheritedSkeleton && createSkeletonClass('font', true),
         className
       )}
       id={`${accordionId}-content`}
