@@ -34,6 +34,11 @@ export const ItemContentProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  disabled: {
+    doc: 'If set to `true`, the item is visually dimmed and interaction is prevented. Sets `aria-disabled`, removes tabbing, and disables click/keyboard handlers.',
+    type: 'boolean',
+    status: 'optional',
+  },
   skeleton: {
     doc: 'If set to `true`, applies skeleton font styling to the item (text placeholder animation). Use for loading state without the full overlay from `pending`.',
     type: 'boolean',
@@ -233,6 +238,11 @@ export const ItemAccordionProperties: PropertiesTableProps = {
     defaultValue: 'false',
     status: 'optional',
   },
+  disabled: {
+    doc: 'If set to `true`, the item is visually dimmed and interaction is prevented. Sets `aria-disabled`, removes tabbing, and disables click/keyboard handlers.',
+    type: 'boolean',
+    status: 'optional',
+  },
   children: {
     doc: 'Header cells (e.g. `List.Cell.Start`, `List.Cell.Title`/`List.Cell.Title.Overline`, `List.Cell.End`) and optionally `List.Item.Accordion.Content` for the expandable section.',
     type: 'React.ReactNode',
@@ -315,6 +325,11 @@ export const ItemActionProperties: PropertiesTableProps = {
   },
   pending: {
     doc: 'If set to `true`, an overlaying skeleton with animation will be shown (loading state). Disables click and keyboard while active.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  disabled: {
+    doc: 'If set to `true`, the item is visually dimmed and interaction is prevented. Sets `aria-disabled`, removes tabbing, and disables click/keyboard handlers.',
     type: 'boolean',
     status: 'optional',
   },

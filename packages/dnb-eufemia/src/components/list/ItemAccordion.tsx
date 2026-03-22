@@ -38,6 +38,7 @@ const ItemAccordionContext = createContext<{
   open?: boolean
   openState: boolean
   pending?: boolean
+  disabled?: boolean
   keepInDOM?: boolean
   chevronPosition?: ItemAccordionIconPosition
   accordionId: string
@@ -54,6 +55,7 @@ function ItemAccordion(props: ItemAccordionProps) {
     children,
     variant,
     pending,
+    disabled,
     open = false,
     keepInDOM = false,
     chevronPosition = 'right',
@@ -81,6 +83,7 @@ function ItemAccordion(props: ItemAccordionProps) {
         open,
         openState,
         pending,
+        disabled,
         keepInDOM,
         chevronPosition,
         accordionId,
@@ -98,6 +101,7 @@ function ItemAccordion(props: ItemAccordionProps) {
         )}
         direction="vertical"
         pending={pending}
+        disabled={disabled}
         variant={variant}
         {...rest}
       >
@@ -120,6 +124,7 @@ function AccordionHeader(props: AccordionHeaderProps) {
     setOpen,
     onClick,
     pending,
+    disabled,
     chevronPosition,
     accordionId,
     openState,
@@ -127,14 +132,16 @@ function AccordionHeader(props: AccordionHeaderProps) {
     title,
   } = useContext(ItemAccordionContext)
 
+  const isInactive = pending || disabled
+
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      if (!pending) {
+      if (!isInactive) {
         setOpen((prev) => !prev)
         onClick && onClick(event)
       }
     },
-    [onClick, pending, setOpen]
+    [onClick, isInactive, setOpen]
   )
 
   const handleKeyDown = useCallback(
@@ -160,8 +167,8 @@ function AccordionHeader(props: AccordionHeaderProps) {
       role="button"
       aria-controls={`${accordionId}-content`}
       aria-expanded={openState}
-      aria-disabled={pending ? true : undefined}
-      tabIndex={pending ? -1 : 0}
+      aria-disabled={isInactive ? true : undefined}
+      tabIndex={isInactive ? -1 : 0}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       {...rest}

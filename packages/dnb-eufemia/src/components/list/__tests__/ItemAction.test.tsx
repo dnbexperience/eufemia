@@ -251,6 +251,83 @@ describe('ItemAction', () => {
     expect(ItemAction._supportsSpacingProps).toBe(true)
   })
 
+  describe('disabled', () => {
+    it('applies disabled modifier when disabled is true', () => {
+      render(<ItemAction disabled>Content</ItemAction>)
+
+      const element = document.querySelector('.dnb-list__item__action')
+
+      expect(element.classList).toContain('dnb-list__item--disabled')
+    })
+
+    it('has aria-disabled and tabIndex -1 when disabled', () => {
+      render(<ItemAction disabled>Content</ItemAction>)
+
+      const element = document.querySelector('.dnb-list__item__action')
+
+      expect(element.getAttribute('aria-disabled')).toBe('true')
+      expect(element.getAttribute('tabindex')).toBe('-1')
+    })
+
+    it('does not call onClick on click when disabled', () => {
+      const handleClick = jest.fn()
+
+      render(
+        <ItemAction disabled onClick={handleClick}>
+          Content
+        </ItemAction>
+      )
+
+      const element = document.querySelector('.dnb-list__item__action')
+
+      fireEvent.click(element)
+
+      expect(handleClick).not.toHaveBeenCalled()
+    })
+
+    it('does not call onClick on Enter key when disabled', () => {
+      const handleClick = jest.fn()
+
+      render(
+        <ItemAction disabled onClick={handleClick}>
+          Content
+        </ItemAction>
+      )
+
+      const element = document.querySelector('.dnb-list__item__action')
+
+      fireEvent.keyDown(element, { key: 'Enter' })
+
+      expect(handleClick).not.toHaveBeenCalled()
+    })
+
+    it('has aria-disabled and tabIndex -1 on href items when disabled', () => {
+      render(
+        <ItemAction disabled href="/path">
+          Content
+        </ItemAction>
+      )
+
+      const element = document.querySelector('.dnb-list__item__action')
+
+      expect(element.getAttribute('aria-disabled')).toBe('true')
+      expect(element.getAttribute('tabindex')).toBe('-1')
+    })
+
+    it('removes href from anchor when disabled', () => {
+      render(
+        <ItemAction disabled href="/path">
+          Content
+        </ItemAction>
+      )
+
+      const anchor = document.querySelector('.dnb-list__item__action a')
+
+      expect(anchor).not.toHaveAttribute('href')
+      expect(anchor.getAttribute('aria-disabled')).toBe('true')
+    })
+  })
+
   describe('href', () => {
     const hrefSelector = '.dnb-list__item__action--href'
 
