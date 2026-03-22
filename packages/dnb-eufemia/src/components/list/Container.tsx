@@ -3,6 +3,7 @@ import classnames from 'classnames'
 import { ListVariant, ListContext } from './ListContext'
 import FlexContainer, { Props as FlexProps } from '../flex/Stack'
 import type { SkeletonShow } from '../Skeleton'
+import SharedContext from '../../shared/Context'
 
 export type ListContainerProps = {
   variant?: ListVariant
@@ -22,7 +23,9 @@ function ListContainer(props: ListContainerProps) {
   } = props
 
   const parentContext = useContext(ListContext)
-  const appliedSkeleton = skeleton ?? parentContext?.skeleton
+  const globalContext = useContext(SharedContext)
+  const appliedSkeleton =
+    skeleton ?? parentContext?.skeleton ?? globalContext?.skeleton
 
   return (
     <ListContext.Provider
