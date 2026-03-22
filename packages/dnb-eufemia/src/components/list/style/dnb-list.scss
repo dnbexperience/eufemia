@@ -360,7 +360,12 @@
     }
     &--disabled {
       cursor: not-allowed;
-      opacity: 0.5;
+      color: var(--color-black-20);
+
+      --item-navigation-color: var(--color-sea-green-30);
+      --item-navigation-color--active: var(--color-sea-green-30);
+      --item-icon-color: var(--color-sea-green-30);
+      --item-outline-color: var(--color-black-8);
     }
     &__pending {
       position: absolute;
