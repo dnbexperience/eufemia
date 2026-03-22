@@ -89,6 +89,30 @@ describe('Stat.Trend', () => {
     expect(trend).toHaveAttribute('aria-disabled', 'true')
   })
 
+  it('renders NaN as em dash with neutral tone', () => {
+    render(<Stat.Trend value={NaN} />)
+
+    const trend = document.querySelector('.dnb-stat__trend')
+    const value = document.querySelector('.dnb-stat__trend-value')
+    const sign = document.querySelector('.dnb-stat__trend-sign')
+    const sr = document.querySelector('.dnb-stat .dnb-sr-only')
+
+    expect(trend.classList).toContain('dnb-stat__trend--neutral')
+    expect(value.textContent).toBe('\u2013')
+    expect(sign).not.toBeInTheDocument()
+    expect(sr.getAttribute('data-text')).toBe('\u2013')
+  })
+
+  it('renders Infinity as em dash with neutral tone', () => {
+    render(<Stat.Trend value={Infinity} />)
+
+    const trend = document.querySelector('.dnb-stat__trend')
+    const value = document.querySelector('.dnb-stat__trend-value')
+
+    expect(trend.classList).toContain('dnb-stat__trend--neutral')
+    expect(value.textContent).toBe('\u2013')
+  })
+
   it('should validate with ARIA rules', async () => {
     const component = render(
       <Stat.Trend srLabel="Change:">{12.4}</Stat.Trend>

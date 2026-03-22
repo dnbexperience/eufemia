@@ -131,6 +131,14 @@ function getValueFromChildren(children: React.ReactNode): number | string {
 
 function resolveTrendValue(value: number | string) {
   if (typeof value === 'number') {
+    if (!Number.isFinite(value)) {
+      return {
+        tone: 'neutral' as const,
+        sign: null,
+        displayValue: '\u2013',
+      }
+    }
+
     if (value > 0) {
       return {
         tone: 'positive' as const,
