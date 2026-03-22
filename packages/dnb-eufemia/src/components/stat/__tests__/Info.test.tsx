@@ -68,6 +68,14 @@ describe('Stat.Info', () => {
     expect(info).toHaveAttribute('aria-disabled', 'true')
   })
 
+  it('supports spacing props', () => {
+    render(<Stat.Info top="large">Some additional content</Stat.Info>)
+
+    const info = document.querySelector('.dnb-stat__info')
+
+    expect(info.classList).toContain('dnb-space__top--large')
+  })
+
   it('should validate with ARIA rules', async () => {
     const component = render(
       <Stat.Info>Some additional content</Stat.Info>

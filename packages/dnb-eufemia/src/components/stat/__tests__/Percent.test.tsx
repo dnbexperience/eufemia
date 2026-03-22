@@ -124,6 +124,14 @@ describe('Stat.Percent', () => {
     expect(amount.classList).not.toContain('dnb-t__weight--medium')
   })
 
+  it('supports spacing props', () => {
+    render(<Stat.Percent value={12.3} top="large" />)
+
+    const root = document.querySelector('.dnb-stat')
+
+    expect(root.classList).toContain('dnb-space__top--large')
+  })
+
   it('should validate with ARIA rules', async () => {
     const component = render(
       <Stat.Percent value={0.1234} signDisplay="always" srLabel="Change" />
