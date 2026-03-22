@@ -522,4 +522,113 @@ describe('ItemAccordion', () => {
   it('declares _supportsSpacingProps for flex layout', () => {
     expect(ItemAccordion._supportsSpacingProps).toBe(true)
   })
+
+  describe('defaultOpen', () => {
+    it('starts closed when neither open nor defaultOpen is set', () => {
+      render(
+        <ItemAccordion>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Content</ItemAccordion.Content>
+        </ItemAccordion>
+      )
+
+      const accordion = document.querySelector(
+        '.dnb-list__item__accordion'
+      )
+
+      expect(accordion.classList).not.toContain(
+        'dnb-list__item__accordion--open'
+      )
+    })
+
+    it('starts open when defaultOpen is true', () => {
+      render(
+        <ItemAccordion defaultOpen>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Content</ItemAccordion.Content>
+        </ItemAccordion>
+      )
+
+      const accordion = document.querySelector(
+        '.dnb-list__item__accordion'
+      )
+
+      expect(accordion.classList).toContain(
+        'dnb-list__item__accordion--open'
+      )
+    })
+
+    it('toggles from defaultOpen state when header is clicked', () => {
+      render(
+        <ItemAccordion defaultOpen>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Content</ItemAccordion.Content>
+        </ItemAccordion>
+      )
+
+      const header = document.querySelector(
+        '.dnb-list__item__accordion__header'
+      )
+      const accordion = document.querySelector(
+        '.dnb-list__item__accordion'
+      )
+
+      fireEvent.click(header)
+
+      expect(accordion.classList).not.toContain(
+        'dnb-list__item__accordion--open'
+      )
+
+      fireEvent.click(header)
+
+      expect(accordion.classList).toContain(
+        'dnb-list__item__accordion--open'
+      )
+    })
+
+    it('ignores defaultOpen when open is provided', () => {
+      render(
+        <ItemAccordion open={false} defaultOpen>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Content</ItemAccordion.Content>
+        </ItemAccordion>
+      )
+
+      const accordion = document.querySelector(
+        '.dnb-list__item__accordion'
+      )
+
+      expect(accordion.classList).not.toContain(
+        'dnb-list__item__accordion--open'
+      )
+    })
+
+    it('controlled open prop syncs state after change', () => {
+      const { rerender } = render(
+        <ItemAccordion open={true}>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Content</ItemAccordion.Content>
+        </ItemAccordion>
+      )
+
+      let accordion = document.querySelector('.dnb-list__item__accordion')
+
+      expect(accordion.classList).toContain(
+        'dnb-list__item__accordion--open'
+      )
+
+      rerender(
+        <ItemAccordion open={false}>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Content</ItemAccordion.Content>
+        </ItemAccordion>
+      )
+
+      accordion = document.querySelector('.dnb-list__item__accordion')
+
+      expect(accordion.classList).not.toContain(
+        'dnb-list__item__accordion--open'
+      )
+    })
+  })
 })

@@ -23,7 +23,16 @@ export type ItemAccordionIconPosition = 'left' | 'right'
 
 export type ItemAccordionProps = {
   variant?: ListVariant
+  /**
+   * Controlled open state. When provided, the accordion is fully controlled
+   * and only changes when this prop changes.
+   */
   open?: boolean
+  /**
+   * Initial open state for uncontrolled usage. Defaults to false.
+   * Ignored when `open` is provided.
+   */
+  defaultOpen?: boolean
   /**
    * When true, keeps the accordion content in the DOM when closed. Defaults to false.
    */
@@ -54,7 +63,8 @@ function ItemAccordion(props: ItemAccordionProps) {
     children,
     variant,
     pending,
-    open = false,
+    open,
+    defaultOpen = false,
     keepInDOM = false,
     chevronPosition = 'right',
     icon,
@@ -63,7 +73,8 @@ function ItemAccordion(props: ItemAccordionProps) {
     ...rest
   } = props
 
-  const [openState, setOpen] = useState(open)
+  const isControlled = open !== undefined
+  const [openState, setOpen] = useState(isControlled ? open : defaultOpen)
   const accordionId = useId(idProp)
   const childArray = React.Children.toArray(children)
   const hasExplicitHeader = childArray.some(
@@ -72,8 +83,10 @@ function ItemAccordion(props: ItemAccordionProps) {
   )
 
   useEffect(() => {
-    setOpen(open)
-  }, [open])
+    if (isControlled) {
+      setOpen(open)
+    }
+  }, [open, isControlled])
 
   return (
     <ItemAccordionContext.Provider

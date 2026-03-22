@@ -217,7 +217,12 @@ export const ItemAccordionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   open: {
-    doc: 'Initial open state. Defaults to `false`. The accordion can be toggled by the user via the header.',
+    doc: 'Controlled open state. When provided, the accordion only changes when this prop changes. Use for fully controlled accordions.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  defaultOpen: {
+    doc: 'Initial open state for uncontrolled usage. Defaults to `false`. Ignored when `open` is provided.',
     type: 'boolean',
     defaultValue: 'false',
     status: 'optional',
