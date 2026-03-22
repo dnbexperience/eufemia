@@ -421,4 +421,23 @@ describe('List.ScrollView', () => {
       expect(await axeComponent(container)).toHaveNoViolations()
     })
   })
+
+  it('propagates skeleton to child items via context', () => {
+    render(
+      <List.ScrollView skeleton>
+        <List.Container>
+          <List.Item.Basic title="Item">
+            <List.Cell.End>Value</List.Cell.End>
+          </List.Item.Basic>
+        </List.Container>
+      </List.ScrollView>
+    )
+
+    const items = document.querySelectorAll('.dnb-list__item')
+
+    items.forEach((item) => {
+      expect(item.classList).toContain('dnb-skeleton')
+      expect(item.classList).toContain('dnb-skeleton--font')
+    })
+  })
 })

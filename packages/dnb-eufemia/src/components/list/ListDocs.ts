@@ -383,6 +383,11 @@ export const ScrollViewProperties: PropertiesTableProps = {
     type: 'number',
     status: 'optional',
   },
+  skeleton: {
+    doc: 'When `true`, applies skeleton font styling to all child items inside the scroll view. Propagated via context so nested `List.Container` and items inherit it.',
+    type: 'boolean',
+    status: 'optional',
+  },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],

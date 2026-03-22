@@ -4,12 +4,15 @@ import ScrollView, {
   ScrollViewAllProps,
 } from '../../fragments/scroll-view/ScrollView'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
+import { ListContext } from './ListContext'
+import type { SkeletonShow } from '../Skeleton'
 
 import type { SpacingProps } from '../../shared/types'
 
 export type ListScrollViewProps = {
   children: React.ReactNode
   maxVisibleListItems?: number
+  skeleton?: SkeletonShow
 } & Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> &
   SpacingProps &
   ScrollViewAllProps
@@ -21,6 +24,7 @@ function ListScrollView(props: ListScrollViewProps) {
     className,
     children,
     maxVisibleListItems,
+    skeleton,
     style,
     innerRef,
     ...rest
@@ -106,7 +110,7 @@ function ListScrollView(props: ListScrollViewProps) {
     ...style,
   }
 
-  return (
+  const scrollViewContent = (
     <ScrollView
       className={classnames(
         'dnb-list__card__scroll-view',
@@ -121,6 +125,22 @@ function ListScrollView(props: ListScrollViewProps) {
       {children}
     </ScrollView>
   )
+
+  if (skeleton !== undefined) {
+    return (
+      <ListContext.Provider
+        value={{
+          variant: 'basic',
+          separated: false,
+          skeleton,
+        }}
+      >
+        {scrollViewContent}
+      </ListContext.Provider>
+    )
+  }
+
+  return scrollViewContent
 }
 
 function getVisibleListItemsHeight(
