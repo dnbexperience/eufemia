@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import classnames from 'classnames'
 import FlexItem, { type Props as FlexItemProps } from '../flex/Item'
+import { ListContext } from './ListContext'
+import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+import type { SkeletonShow } from '../Skeleton'
 
 export type ItemSublineVariant = 'description'
 
@@ -15,6 +18,8 @@ export type ItemSublineProps = FlexItemProps & {
   fontSize?: 'basis' | 'small' | 'x-small'
   /** Font weight of the subline content. Defaults to `regular`. */
   fontWeight?: 'regular' | 'medium'
+  /** If `true`, applies skeleton loading state. Inherits from parent List context when not set. */
+  skeleton?: SkeletonShow
 }
 
 function ItemSubline({
@@ -22,9 +27,13 @@ function ItemSubline({
   variant,
   fontSize = 'small',
   fontWeight = 'regular',
+  skeleton,
   children,
   ...rest
 }: ItemSublineProps) {
+  const inheritedSkeleton = useContext(ListContext)?.skeleton
+  const appliedSkeleton = skeleton ?? inheritedSkeleton
+
   return (
     <FlexItem
       className={classnames(
@@ -32,6 +41,7 @@ function ItemSubline({
         variant && `dnb-list__item__subline--${variant}`,
         fontSize && `dnb-t__size--${fontSize}`,
         fontWeight === 'medium' && 'dnb-t__weight--medium',
+        appliedSkeleton && createSkeletonClass('font', true),
         className
       )}
       {...rest}

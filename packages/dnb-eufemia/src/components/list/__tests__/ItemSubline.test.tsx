@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import ItemSubline from '../ItemSubline'
+import Container from '../Container'
 
 describe('ItemSubline', () => {
   it('renders with children', () => {
@@ -147,5 +148,27 @@ describe('ItemSubline', () => {
     expect(element.getAttribute('selected')).toBeNull()
     expect(element.getAttribute('pending')).toBeNull()
     expect(element.getAttribute('skeleton')).toBeNull()
+  })
+
+  it('applies skeleton class when skeleton prop is true', () => {
+    render(<ItemSubline skeleton>Content</ItemSubline>)
+
+    const element = document.querySelector('.dnb-list__item__subline')
+
+    expect(element.classList).toContain('dnb-skeleton')
+    expect(element.classList).toContain('dnb-skeleton--font')
+  })
+
+  it('inherits skeleton from Container context', () => {
+    render(
+      <Container skeleton>
+        <ItemSubline>Content</ItemSubline>
+      </Container>
+    )
+
+    const element = document.querySelector('.dnb-list__item__subline')
+
+    expect(element.classList).toContain('dnb-skeleton')
+    expect(element.classList).toContain('dnb-skeleton--font')
   })
 })

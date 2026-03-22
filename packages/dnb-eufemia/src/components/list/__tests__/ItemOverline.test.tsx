@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import ItemOverline from '../ItemOverline'
+import Container from '../Container'
 
 describe('ItemOverline', () => {
   it('renders with children', () => {
@@ -121,5 +122,27 @@ describe('ItemOverline', () => {
     expect(element.getAttribute('selected')).toBeNull()
     expect(element.getAttribute('pending')).toBeNull()
     expect(element.getAttribute('skeleton')).toBeNull()
+  })
+
+  it('applies skeleton class when skeleton prop is true', () => {
+    render(<ItemOverline skeleton>Content</ItemOverline>)
+
+    const element = document.querySelector('.dnb-list__item__overline')
+
+    expect(element.classList).toContain('dnb-skeleton')
+    expect(element.classList).toContain('dnb-skeleton--font')
+  })
+
+  it('inherits skeleton from Container context', () => {
+    render(
+      <Container skeleton>
+        <ItemOverline>Content</ItemOverline>
+      </Container>
+    )
+
+    const element = document.querySelector('.dnb-list__item__overline')
+
+    expect(element.classList).toContain('dnb-skeleton')
+    expect(element.classList).toContain('dnb-skeleton--font')
   })
 })

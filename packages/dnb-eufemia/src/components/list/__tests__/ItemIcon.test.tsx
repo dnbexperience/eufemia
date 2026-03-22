@@ -2,6 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import { fish_medium } from '../../../icons'
 import ItemIcon from '../ItemIcon'
+import Container from '../Container'
 
 describe('ItemIcon', () => {
   it('renders with icon as children', () => {
@@ -71,5 +72,27 @@ describe('ItemIcon', () => {
     expect(element.getAttribute('selected')).toBeNull()
     expect(element.getAttribute('pending')).toBeNull()
     expect(element.getAttribute('skeleton')).toBeNull()
+  })
+
+  it('applies skeleton class when skeleton prop is true', () => {
+    render(<ItemIcon skeleton>{fish_medium}</ItemIcon>)
+
+    const element = document.querySelector('.dnb-list__item__icon')
+
+    expect(element.classList).toContain('dnb-skeleton')
+    expect(element.classList).toContain('dnb-skeleton--font')
+  })
+
+  it('inherits skeleton from Container context', () => {
+    render(
+      <Container skeleton>
+        <ItemIcon>{fish_medium}</ItemIcon>
+      </Container>
+    )
+
+    const element = document.querySelector('.dnb-list__item__icon')
+
+    expect(element.classList).toContain('dnb-skeleton')
+    expect(element.classList).toContain('dnb-skeleton--font')
   })
 })

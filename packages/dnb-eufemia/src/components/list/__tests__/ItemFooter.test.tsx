@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import ItemFooter from '../ItemFooter'
+import Container from '../Container'
 
 describe('ItemFooter', () => {
   it('renders with children', () => {
@@ -85,5 +86,31 @@ describe('ItemFooter', () => {
     expect(element.getAttribute('selected')).toBeNull()
     expect(element.getAttribute('pending')).toBeNull()
     expect(element.getAttribute('skeleton')).toBeNull()
+  })
+
+  it('applies skeleton class when skeleton prop is true', () => {
+    render(<ItemFooter skeleton>Content</ItemFooter>)
+
+    const element = document.querySelector(
+      '.dnb-list__item__footer:not(hr)'
+    )
+
+    expect(element.classList).toContain('dnb-skeleton')
+    expect(element.classList).toContain('dnb-skeleton--font')
+  })
+
+  it('inherits skeleton from Container context', () => {
+    render(
+      <Container skeleton>
+        <ItemFooter>Content</ItemFooter>
+      </Container>
+    )
+
+    const element = document.querySelector(
+      '.dnb-list__item__footer:not(hr)'
+    )
+
+    expect(element.classList).toContain('dnb-skeleton')
+    expect(element.classList).toContain('dnb-skeleton--font')
   })
 })

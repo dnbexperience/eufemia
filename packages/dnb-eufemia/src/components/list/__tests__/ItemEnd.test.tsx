@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import ItemEnd from '../ItemEnd'
+import Container from '../Container'
 
 describe('ItemEnd', () => {
   it('renders with children', () => {
@@ -100,5 +101,27 @@ describe('ItemEnd', () => {
     expect(element.getAttribute('selected')).toBeNull()
     expect(element.getAttribute('pending')).toBeNull()
     expect(element.getAttribute('skeleton')).toBeNull()
+  })
+
+  it('applies skeleton class when skeleton prop is true', () => {
+    render(<ItemEnd skeleton>Content</ItemEnd>)
+
+    const element = document.querySelector('.dnb-list__item__end')
+
+    expect(element.classList).toContain('dnb-skeleton')
+    expect(element.classList).toContain('dnb-skeleton--font')
+  })
+
+  it('inherits skeleton from Container context', () => {
+    render(
+      <Container skeleton>
+        <ItemEnd>Content</ItemEnd>
+      </Container>
+    )
+
+    const element = document.querySelector('.dnb-list__item__end')
+
+    expect(element.classList).toContain('dnb-skeleton')
+    expect(element.classList).toContain('dnb-skeleton--font')
   })
 })
