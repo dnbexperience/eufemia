@@ -344,6 +344,11 @@ export const ItemActionEvents: PropertiesTableProps = {
 }
 
 export const CardProperties: PropertiesTableProps = {
+  children: {
+    doc: 'Card content. Typically a `List.Container` (optionally wrapped in `List.ScrollView`). The card provides a visual container with border-radius resets and scrollbar integration for the list inside it.',
+    type: 'React.ReactNode',
+    status: 'required',
+  },
   responsive: {
     doc: 'When `true`, the card adjusts its layout for smaller screens. Defaults to `true`.',
     type: 'boolean',
@@ -351,7 +356,7 @@ export const CardProperties: PropertiesTableProps = {
     status: 'optional',
   },
   '[Card](/uilib/components/card/properties)': {
-    doc: 'All [Card](/uilib/components/card) properties are supported.',
+    doc: 'All [Card](/uilib/components/card) properties are supported. The card renders with `stack` layout by default.',
     type: 'Various',
     status: 'optional',
   },

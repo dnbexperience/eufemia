@@ -68,6 +68,22 @@ describe('List.Card', () => {
     expect(element).toBeInTheDocument()
   })
 
+  it('applies stack layout by default', () => {
+    render(
+      <List.Card>
+        <span>Item 1</span>
+        <span>Item 2</span>
+      </List.Card>
+    )
+
+    const element = document.querySelector('.dnb-list__card')
+    const inner = element.querySelector(
+      '.dnb-flex-container--align-stretch'
+    )
+
+    expect(inner).toBeInTheDocument()
+  })
+
   it('passes title prop to Card', () => {
     render(
       <List.Card title="My Title">
