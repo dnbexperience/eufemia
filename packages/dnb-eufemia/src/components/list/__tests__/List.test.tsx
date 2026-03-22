@@ -178,6 +178,21 @@ describe('List', () => {
     expect(list.classList).toContain('dnb-list--variant-basic')
   })
 
+  it('exports List.Cell.Icon for custom icon placement', () => {
+    render(
+      <List.Container>
+        <List.Item.Basic>
+          <List.Cell.Icon>{fish_medium}</List.Cell.Icon>
+          <List.Cell.Title>With icon cell</List.Cell.Title>
+        </List.Item.Basic>
+      </List.Container>
+    )
+
+    const icon = document.querySelector('.dnb-list__item__icon .dnb-icon')
+    expect(icon).toBeInTheDocument()
+    expect(icon.classList).toContain('dnb-icon--medium')
+  })
+
   it('renders a mixed list with Basic, Action and Accordion items', () => {
     render(
       <List.Container>
