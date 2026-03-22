@@ -111,4 +111,97 @@ describe('Stat.Root', () => {
     expect(await axeComponent(component)).not.toHaveNoViolations()
     spy.mockRestore()
   })
+
+  it('warns when Content appears before any Label', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Root>
+        <Stat.Content>
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+        <Stat.Label>Revenue</Stat.Label>
+      </Stat.Root>
+    )
+
+    const didWarn = spy.mock.calls.some((call) =>
+      call
+        .map((entry) => String(entry))
+        .join(' ')
+        .includes('every Stat.Content should be preceded by a Stat.Label')
+    )
+
+    expect(didWarn).toBe(true)
+    spy.mockRestore()
+  })
+
+  it('does not warn when Label precedes Content', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content>
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const didWarn = spy.mock.calls.some((call) =>
+      call
+        .map((entry) => String(entry))
+        .join(' ')
+        .includes('every Stat.Content should be preceded by a Stat.Label')
+    )
+
+    expect(didWarn).toBe(false)
+    spy.mockRestore()
+  })
+
+  it('warns when Content precedes Label inside a Fragment', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Root>
+        <>
+          <Stat.Content>
+            <Stat.Currency value={1234} />
+          </Stat.Content>
+        </>
+        <Stat.Label>Revenue</Stat.Label>
+      </Stat.Root>
+    )
+
+    const didWarn = spy.mock.calls.some((call) =>
+      call
+        .map((entry) => String(entry))
+        .join(' ')
+        .includes('every Stat.Content should be preceded by a Stat.Label')
+    )
+
+    expect(didWarn).toBe(true)
+    spy.mockRestore()
+  })
+
+  it('does not emit order warning when Label is missing entirely', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Root>
+        <Stat.Content>
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const didWarnOrder = spy.mock.calls.some((call) =>
+      call
+        .map((entry) => String(entry))
+        .join(' ')
+        .includes('every Stat.Content should be preceded by a Stat.Label')
+    )
+
+    expect(didWarnOrder).toBe(false)
+    spy.mockRestore()
+  })
 })
