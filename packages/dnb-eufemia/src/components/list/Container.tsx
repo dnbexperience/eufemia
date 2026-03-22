@@ -3,9 +3,12 @@ import classnames from 'classnames'
 import { ListVariant, ListContext } from './ListContext'
 import FlexContainer, { Props as FlexProps } from '../flex/Stack'
 
+export type ListContainerElement = 'ul' | 'ol'
+
 export type ListContainerProps = {
   variant?: ListVariant
   separated?: boolean
+  element?: ListContainerElement
 } & React.HTMLAttributes<HTMLDivElement> &
   FlexProps
 
@@ -15,6 +18,7 @@ function ListContainer(props: ListContainerProps) {
     children,
     variant = 'basic',
     separated,
+    element = 'ul',
     wrapChildrenInSpace = false,
     ...rest
   } = props
@@ -22,7 +26,7 @@ function ListContainer(props: ListContainerProps) {
   return (
     <ListContext.Provider value={{ variant, separated }}>
       <FlexContainer
-        element="ul"
+        element={element}
         rowGap={separated ? 'small' : false}
         wrapChildrenInSpace={wrapChildrenInSpace}
         className={classnames(

@@ -1,6 +1,12 @@
 import { PropertiesTableProps } from '../../shared/types'
 
 export const ContainerProperties: PropertiesTableProps = {
+  element: {
+    doc: 'The HTML element to render. Defaults to `ul`. Use `ol` for ordered list semantics.',
+    type: ["'ul'", "'ol'"],
+    defaultValue: "'ul'",
+    status: 'optional',
+  },
   separated: {
     doc: 'When `true`, adds row gap between items so each row keeps its own outline and border radius instead of running edge-to-edge.',
     type: 'boolean',

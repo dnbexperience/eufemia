@@ -24,6 +24,14 @@ describe('List Container', () => {
     expect(element.tagName).toBe('UL')
   })
 
+  it('renders as ol element when element is ol', () => {
+    render(<Container element="ol">Content</Container>)
+
+    const element = document.querySelector('.dnb-list')
+
+    expect(element.tagName).toBe('OL')
+  })
+
   it('merges custom className', () => {
     render(
       <Container className="custom-class">
