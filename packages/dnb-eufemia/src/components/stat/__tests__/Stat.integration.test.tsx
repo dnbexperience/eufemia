@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import Provider from '../../../shared/Provider'
 import Stat from '../Stat'
@@ -323,5 +323,94 @@ describe('Stat integration', () => {
     )
 
     expect(await axeComponent(component)).toHaveNoViolations()
+  })
+
+  it('forwards event handlers to Currency', () => {
+    const onClick = jest.fn()
+    const props = { value: 1234, onClick }
+
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content>
+          <Stat.Currency {...props} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const currencyRoot = document.querySelector(
+      '.dnb-stat__content-item > .dnb-stat'
+    )
+    fireEvent.click(currencyRoot)
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('forwards event handlers to Trend', () => {
+    const onClick = jest.fn()
+    const props = { onClick, children: '+5%' }
+
+    render(
+      <Stat.Root>
+        <Stat.Label>Revenue</Stat.Label>
+        <Stat.Content>
+          <Stat.Trend {...props} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const trend = document.querySelector('.dnb-stat__trend')
+    fireEvent.click(trend)
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('supports custom element prop on Label and Content', () => {
+    render(
+      <Stat.Root>
+        <Stat.Label element="span">Revenue</Stat.Label>
+        <Stat.Content element="div">
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    const label = document.querySelector('.dnb-stat__label')
+    const content = document.querySelector('.dnb-stat__content-item')
+
+    expect(label.tagName.toLowerCase()).toBe('span')
+    expect(content.tagName.toLowerCase()).toBe('div')
+  })
+
+  it('renders Currency standalone without Root', () => {
+    render(<Stat.Currency value={9999} />)
+
+    const amount = document.querySelector('.dnb-stat__amount')
+    const currency = document.querySelector('.dnb-stat__currency')
+
+    expect(amount).toBeInTheDocument()
+    expect(amount.textContent).toBe('9\u00A0999')
+    expect(currency.textContent).toBe('kr')
+  })
+
+  it('renders Trend standalone without Root', () => {
+    render(<Stat.Trend>+3.2%</Stat.Trend>)
+
+    const trend = document.querySelector('.dnb-stat__trend')
+    const sr = document.querySelector('.dnb-stat .dnb-sr-only')
+
+    expect(trend).toBeInTheDocument()
+    expect(trend.classList).toContain('dnb-stat__trend--positive')
+    expect(sr.getAttribute('data-text')).toBe('+3.2%')
+  })
+
+  it('renders Percent standalone without Root', () => {
+    render(<Stat.Percent value={42.5} decimals={1} />)
+
+    const amount = document.querySelector('.dnb-stat__amount')
+    const percent = document.querySelector('.dnb-stat__percent')
+
+    expect(amount).toBeInTheDocument()
+    expect(percent).toBeInTheDocument()
   })
 })
