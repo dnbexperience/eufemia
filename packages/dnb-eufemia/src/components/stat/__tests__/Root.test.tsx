@@ -28,6 +28,30 @@ describe('Stat.Root', () => {
     expect(root.classList).toContain('dnb-space__top--small')
   })
 
+  it('supports id prop', () => {
+    render(
+      <Stat.Root id="my-root">
+        <Stat.Label>Revenue growth</Stat.Label>
+      </Stat.Root>
+    )
+
+    const root = document.querySelector('.dnb-stat__root')
+
+    expect(root.getAttribute('id')).toBe('my-root')
+  })
+
+  it('applies style prop to the element', () => {
+    render(
+      <Stat.Root style={{ color: 'red' }}>
+        <Stat.Label>Revenue growth</Stat.Label>
+      </Stat.Root>
+    )
+
+    const root = document.querySelector('.dnb-stat__root')
+
+    expect(root.getAttribute('style')).toContain('color: red')
+  })
+
   it('warns when unsupported children are used', () => {
     const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
 
