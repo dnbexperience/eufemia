@@ -32,6 +32,7 @@ function Rating(props: RatingProps) {
     variant = 'stars',
     element: Element = 'span',
     className = null,
+    style = null,
     srLabel = null,
     skeleton = null,
     ...rest
@@ -67,6 +68,7 @@ function Rating(props: RatingProps) {
 
   const attributes = validateDOMAttributes(props, {
     ...rest,
+    style,
     role: 'img',
     'aria-label': label,
     className: classnames(
