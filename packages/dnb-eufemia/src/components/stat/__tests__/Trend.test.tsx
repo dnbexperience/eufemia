@@ -13,6 +13,7 @@ describe('Stat.Trend', () => {
     const value = document.querySelector('.dnb-stat__trend-value')
     const sr = document.querySelector('.dnb-stat .dnb-sr-only')
 
+    expect(trend).toHaveAttribute('role', 'text')
     expect(trend.classList).toContain('dnb-stat__trend--positive')
     expect(sign.textContent).toBe('+')
     expect(value.textContent).toBe('12.4')

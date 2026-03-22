@@ -69,6 +69,7 @@ function Trend(props: TrendProps) {
 
   const attributes = validateDOMAttributes(props, {
     ...rest,
+    role: 'text',
     className: classnames(
       'dnb-stat',
       'dnb-stat__trend',
