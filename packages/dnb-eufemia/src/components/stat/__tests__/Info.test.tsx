@@ -97,7 +97,7 @@ describe('Stat.Info', () => {
 
     const info = document.querySelector('.dnb-stat__info')
 
-    expect(info.style.color).toBe('red')
+    expect(info.getAttribute('style')).toContain('color: red')
   })
 
   it('supports className prop', () => {

@@ -173,7 +173,7 @@ describe('Stat.Label', () => {
 
     const label = document.querySelector('.dnb-stat__label')
 
-    expect(label.style.color).toBe('red')
+    expect(label.getAttribute('style')).toContain('color: red')
   })
 
   it('supports className prop', () => {

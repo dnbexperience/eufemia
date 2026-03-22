@@ -193,7 +193,7 @@ describe('Stat.Content', () => {
 
     const content = document.querySelector('.dnb-stat__content-item')
 
-    expect(content.style.color).toBe('red')
+    expect(content.getAttribute('style')).toContain('color: red')
 
     spy.mockRestore()
   })
