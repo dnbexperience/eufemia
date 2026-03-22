@@ -6,7 +6,7 @@
 .dnb-list {
   &--variant-basic {
     --item-outline-color: var(--border-color, var(--sb-color-gray-light));
-    --item-background: var(--sb-color-white);
+    --item-background-color: var(--sb-color-white);
     --item-selected-background-color: var(
       --internal-color-background-selected-subtle,
       var(--sb-color-gray-light)
