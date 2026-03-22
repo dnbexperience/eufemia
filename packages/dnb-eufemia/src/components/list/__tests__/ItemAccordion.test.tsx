@@ -858,4 +858,85 @@ describe('ItemAccordion', () => {
 
     spy.mockRestore()
   })
+
+  describe('onChange', () => {
+    it('calls onChange with { expanded: true } when accordion opens', () => {
+      const handleChange = jest.fn()
+
+      render(
+        <ItemAccordion onChange={handleChange}>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Content</ItemAccordion.Content>
+        </ItemAccordion>
+      )
+
+      const header = document.querySelector(
+        '.dnb-list__item__accordion__header'
+      )
+
+      fireEvent.click(header)
+
+      expect(handleChange).toHaveBeenCalledTimes(1)
+      expect(handleChange).toHaveBeenCalledWith({ expanded: true })
+    })
+
+    it('calls onChange with { expanded: false } when accordion closes', () => {
+      const handleChange = jest.fn()
+
+      render(
+        <ItemAccordion open onChange={handleChange}>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Content</ItemAccordion.Content>
+        </ItemAccordion>
+      )
+
+      const header = document.querySelector(
+        '.dnb-list__item__accordion__header'
+      )
+
+      fireEvent.click(header)
+
+      expect(handleChange).toHaveBeenCalledTimes(1)
+      expect(handleChange).toHaveBeenCalledWith({ expanded: false })
+    })
+
+    it('calls onChange on keyboard toggle with Enter', () => {
+      const handleChange = jest.fn()
+
+      render(
+        <ItemAccordion onChange={handleChange}>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Content</ItemAccordion.Content>
+        </ItemAccordion>
+      )
+
+      const header = document.querySelector(
+        '.dnb-list__item__accordion__header'
+      )
+
+      fireEvent.keyDown(header, { key: 'Enter' })
+
+      expect(handleChange).toHaveBeenCalledTimes(1)
+      expect(handleChange).toHaveBeenCalledWith({ expanded: true })
+    })
+
+    it('does not call onChange when pending', () => {
+      const handleChange = jest.fn()
+
+      render(
+        <ItemAccordion pending onChange={handleChange}>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Content</ItemAccordion.Content>
+        </ItemAccordion>
+      )
+
+      const header = document.querySelector(
+        '.dnb-list__item__accordion__header'
+      )
+
+      fireEvent.click(header)
+
+      expect(handleChange).not.toHaveBeenCalled()
+    })
+  })
 })

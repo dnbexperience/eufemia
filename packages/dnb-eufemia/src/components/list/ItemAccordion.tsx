@@ -35,6 +35,10 @@ export type ItemAccordionProps = {
    * When true, the accordion is visually dimmed and interaction is prevented.
    */
   disabled?: boolean
+  /**
+   * Called when the accordion open state changes. Receives an object with the `expanded` state.
+   */
+  onChange?: (args: { expanded: boolean }) => void
   chevronPosition?: ItemAccordionIconPosition
   icon?: IconIcon
   title?: React.ReactNode
@@ -50,14 +54,16 @@ const ItemAccordionContext = createContext<{
   accordionId: string
   icon?: IconIcon
   title?: React.ReactNode
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>
-  onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+  handleToggle: (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => void
 }>(undefined)
 
 function ItemAccordion(props: ItemAccordionProps) {
   const {
     className,
     onClick,
+    onChange,
     children,
     variant,
     pending,
@@ -86,6 +92,20 @@ function ItemAccordion(props: ItemAccordionProps) {
     setOpen(open)
   }, [open])
 
+  const handleToggle = useCallback(
+    (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      if (!pending) {
+        setOpen((prev) => {
+          const next = !prev
+          onChange?.({ expanded: next })
+          return next
+        })
+        onClick?.(event)
+      }
+    },
+    [onClick, onChange, pending]
+  )
+
   return (
     <ItemAccordionContext.Provider
       value={{
@@ -97,8 +117,7 @@ function ItemAccordion(props: ItemAccordionProps) {
         accordionId,
         icon,
         title,
-        setOpen,
-        onClick,
+        handleToggle,
       }}
     >
       <ItemContent
@@ -138,8 +157,7 @@ function AccordionHeader(props: AccordionHeaderProps) {
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       if (!isInactive && accordionContext) {
-        accordionContext.setOpen((prev) => !prev)
-        accordionContext.onClick && accordionContext.onClick(event)
+        accordionContext.handleToggle(event)
       }
     },
     [accordionContext, isInactive]
