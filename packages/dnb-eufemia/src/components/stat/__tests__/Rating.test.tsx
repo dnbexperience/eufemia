@@ -144,4 +144,12 @@ describe('Stat.Rating', () => {
 
     expect(rating.classList).toContain('dnb-space__top--large')
   })
+
+  it('applies style prop to the element', () => {
+    render(<Stat.Rating value={3} style={{ color: 'red' }} />)
+
+    const rating = document.querySelector('.dnb-stat__rating')
+
+    expect(rating.getAttribute('style')).toContain('color: red')
+  })
 })
