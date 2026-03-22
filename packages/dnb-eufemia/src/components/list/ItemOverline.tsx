@@ -1,13 +1,12 @@
 import React from 'react'
 import classnames from 'classnames'
-import FlexItem from '../flex/Item'
-import { ItemContentProps } from './ItemContent'
+import FlexItem, { type Props as FlexItemProps } from '../flex/Item'
 
 /**
  * Props for List.Cell.Title.Overline (ItemOverline).
  * Secondary line above the main row; pairs with List.Cell.Title.Subline (below title).
  */
-export type ItemOverlineProps = ItemContentProps & {
+export type ItemOverlineProps = FlexItemProps & {
   /** Font size of the overline content. Defaults to `x-small`. */
   fontSize?: 'basis' | 'small' | 'x-small'
   /** Font weight of the overline content. Defaults to `medium`. */
