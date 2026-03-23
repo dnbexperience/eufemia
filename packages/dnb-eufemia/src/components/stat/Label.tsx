@@ -33,7 +33,7 @@ function Label(props: LabelProps) {
 
   const {
     children,
-    element: Element = 'dt',
+    element: elementProp,
     className = null,
     srOnly = false,
     fontSize = 'basis',
@@ -43,6 +43,8 @@ function Label(props: LabelProps) {
     style = null,
     ...rest
   } = props
+
+  const Element = elementProp ?? (inRoot ? 'dt' : 'span')
 
   const { skeletonClass, applySkeletonAttributes } =
     useStatSkeleton(skeleton)
