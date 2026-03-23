@@ -70,11 +70,11 @@ export const TabsExampleContentObject = () => (
   </Wrapper>
 )
 
-export const TabsExamplePrerender = () => (
+export const TabsExampleKeepInDOM = () => (
   <Wrapper>
     <ComponentBox>
       <>
-        <Tabs prerender contentStyle="info">
+        <Tabs keepInDOM contentStyle="info">
           <Tabs.Content title="Tab 1" key="first">
             <H2>Content 1</H2>
           </Tabs.Content>

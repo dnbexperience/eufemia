@@ -447,11 +447,11 @@ describe('A single Tab component', () => {
     ).toBe('true')
   })
 
-  it('has to run "prerender" as supposed', () => {
+  it('has to run "keepInDOM" as supposed', () => {
     render(
       <Tabs
         {...props}
-        prerender
+        keepInDOM
         data={[
           {
             title: 'One',
