@@ -530,5 +530,53 @@ describe('ItemAction', () => {
       expect(element.getAttribute('href')).toBeNull()
       expect(hrefElement).toBeNull()
     })
+
+    it('calls onClick on mouse click when href is provided', () => {
+      const handleClick = jest.fn()
+
+      render(
+        <ItemAction href="/path" onClick={handleClick}>
+          Content
+        </ItemAction>
+      )
+
+      const listItem = document.querySelector(hrefSelector)
+
+      fireEvent.click(listItem)
+
+      expect(handleClick).toHaveBeenCalledTimes(1)
+    })
+
+    it('does not call onClick on mouse click when href is provided and pending', () => {
+      const handleClick = jest.fn()
+
+      render(
+        <ItemAction href="/path" pending onClick={handleClick}>
+          Content
+        </ItemAction>
+      )
+
+      const listItem = document.querySelector(hrefSelector)
+
+      fireEvent.click(listItem)
+
+      expect(handleClick).not.toHaveBeenCalled()
+    })
+
+    it('does not call onClick on mouse click when href is provided and disabled', () => {
+      const handleClick = jest.fn()
+
+      render(
+        <ItemAction href="/path" disabled onClick={handleClick}>
+          Content
+        </ItemAction>
+      )
+
+      const listItem = document.querySelector(hrefSelector)
+
+      fireEvent.click(listItem)
+
+      expect(handleClick).not.toHaveBeenCalled()
+    })
   })
 })
