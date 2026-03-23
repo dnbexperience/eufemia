@@ -42,7 +42,6 @@ export type ItemAccordionProps = {
 } & Omit<ItemContentProps, 'title'>
 
 const ItemAccordionContext = createContext<{
-  open?: boolean
   openState: boolean
   pending?: boolean
   disabled?: boolean
@@ -90,7 +89,6 @@ function ItemAccordion(props: ItemAccordionProps) {
   return (
     <ItemAccordionContext.Provider
       value={{
-        open,
         openState,
         pending,
         disabled: appliedDisabled,
