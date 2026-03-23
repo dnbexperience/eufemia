@@ -720,4 +720,53 @@ describe('ItemAccordion', () => {
     expect(accordion.classList).toContain('dnb-skeleton')
     expect(accordion.classList).toContain('dnb-skeleton--font')
   })
+
+  it('applies skeleton class to auto-generated header when Container has skeleton', () => {
+    render(
+      <Container skeleton>
+        <ItemAccordion title="Auto title">
+          <ItemAccordion.Content>Content body</ItemAccordion.Content>
+        </ItemAccordion>
+      </Container>
+    )
+
+    const header = document.querySelector(
+      '.dnb-list__item__accordion__header'
+    )
+
+    expect(header.classList).toContain('dnb-skeleton')
+  })
+
+  it('applies skeleton class to AccordionContent when skeleton prop is set on ItemAccordion inside Container', () => {
+    render(
+      <Container>
+        <ItemAccordion skeleton open>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Content body</ItemAccordion.Content>
+        </ItemAccordion>
+      </Container>
+    )
+
+    const accordion = document.querySelector('.dnb-list__item__accordion')
+
+    expect(accordion.classList).toContain('dnb-skeleton')
+    expect(accordion.classList).toContain('dnb-skeleton--font')
+  })
+
+  it('applies skeleton and disabled together on accordion item', () => {
+    render(
+      <Container skeleton disabled>
+        <ItemAccordion>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Content body</ItemAccordion.Content>
+        </ItemAccordion>
+      </Container>
+    )
+
+    const accordion = document.querySelector('.dnb-list__item__accordion')
+
+    expect(accordion.classList).toContain('dnb-skeleton')
+    expect(accordion.classList).toContain('dnb-skeleton--font')
+    expect(accordion.classList).toContain('dnb-list__item--disabled')
+  })
 })
