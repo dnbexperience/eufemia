@@ -196,7 +196,9 @@ function AccordionHeader(props: AccordionHeaderProps) {
 
   if (inheritedSkeleton) {
     return (
-      <Context.Provider value={{ ...context, skeleton: inheritedSkeleton }}>
+      <Context.Provider
+        value={{ ...context, skeleton: inheritedSkeleton }}
+      >
         {content}
       </Context.Provider>
     )
@@ -239,7 +241,9 @@ function AccordionContent(props: ItemContentProps) {
 
   if (inheritedSkeleton) {
     return (
-      <Context.Provider value={{ ...context, skeleton: inheritedSkeleton }}>
+      <Context.Provider
+        value={{ ...context, skeleton: inheritedSkeleton }}
+      >
         {content}
       </Context.Provider>
     )
