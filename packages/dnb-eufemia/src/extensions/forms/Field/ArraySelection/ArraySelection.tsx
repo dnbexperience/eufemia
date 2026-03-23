@@ -2,10 +2,7 @@ import React, { useCallback, useContext, useMemo } from 'react'
 import clsx from 'clsx'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import { Checkbox, HelpButton, ToggleButton } from '../../../../components'
-import type {
-  Props as FieldBlockProps,
-  FieldBlockWidth,
-} from '../../FieldBlock'
+import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import type { ReturnAdditional } from '../../hooks/useFieldProps'
@@ -38,11 +35,13 @@ type OptionProps = React.ComponentProps<
 
 type OptionValue = string | number
 type RenderArraySelectionChildren = (params: {
-  value: Props['value']
-  options: Props['data']
+  value: FieldArraySelectionProps['value']
+  options: FieldArraySelectionProps['data']
 }) => React.ReactNode
 
-export type Props = FieldProps<Array<OptionValue> | undefined> & {
+export type FieldArraySelectionProps = FieldProps<
+  Array<OptionValue> | undefined
+> & {
   children?: React.ReactNode | RenderArraySelectionChildren
   variant?: 'checkbox' | 'button' | 'checkbox-button'
   optionsLayout?: 'horizontal' | 'vertical'
@@ -75,7 +74,7 @@ export type Props = FieldProps<Array<OptionValue> | undefined> & {
   }
 }
 
-function ArraySelection(props: Props) {
+function ArraySelection(props: FieldArraySelectionProps) {
   const {
     id,
     path,
@@ -172,9 +171,9 @@ function ArraySelection(props: Props) {
 }
 
 function resolveChildren(
-  children: Props['children'],
-  value: Props['value'],
-  options: Props['data']
+  children: FieldArraySelectionProps['children'],
+  value: FieldArraySelectionProps['value'],
+  options: FieldArraySelectionProps['data']
 ) {
   if (typeof children === 'function') {
     return children({ value, options })
@@ -200,20 +199,24 @@ export function useCheckboxOrToggleOptions({
   handleChange,
   handleActiveData,
 }: {
-  id: Props['id']
-  path?: Props['path']
-  variant?: Props['variant']
-  info?: Props['info']
-  warning?: Props['warning']
-  emptyValue?: Props['emptyValue']
-  htmlAttributes?: Props['htmlAttributes']
-  dataList?: Props['data']
+  id: FieldArraySelectionProps['id']
+  path?: FieldArraySelectionProps['path']
+  variant?: FieldArraySelectionProps['variant']
+  info?: FieldArraySelectionProps['info']
+  warning?: FieldArraySelectionProps['warning']
+  emptyValue?: FieldArraySelectionProps['emptyValue']
+  htmlAttributes?: FieldArraySelectionProps['htmlAttributes']
+  dataList?: FieldArraySelectionProps['data']
   children?: React.ReactNode
-  value?: Props['value']
-  disabled?: Props['disabled']
-  size?: Props['size']
-  hasError?: ReturnAdditional<Props['value']>['hasError']
-  handleChange?: ReturnAdditional<Props['value']>['handleChange']
+  value?: FieldArraySelectionProps['value']
+  disabled?: FieldArraySelectionProps['disabled']
+  size?: FieldArraySelectionProps['size']
+  hasError?: ReturnAdditional<
+    FieldArraySelectionProps['value']
+  >['hasError']
+  handleChange?: ReturnAdditional<
+    FieldArraySelectionProps['value']
+  >['handleChange']
   handleActiveData?: (item: { labels: React.ReactNode[] }) => void
 }) {
   const { setFieldInternals } = useContext(DataContext)

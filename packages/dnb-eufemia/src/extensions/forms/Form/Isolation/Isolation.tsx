@@ -22,7 +22,7 @@ import IsolationCommitButton from './IsolationCommitButton'
 import IsolationResetButton from './IsolationResetButton'
 import {
   clearedData,
-  type Props as ProviderProps,
+  type DataContextProviderProps as ProviderProps,
 } from '../../DataContext/Provider'
 import type { IsolationDataReference } from './IsolationDataReference'
 import { createDataReference } from './IsolationDataReference'

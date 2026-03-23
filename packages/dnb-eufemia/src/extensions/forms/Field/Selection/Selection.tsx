@@ -11,16 +11,13 @@ import {
   Autocomplete,
   HelpButton,
 } from '../../../../components'
-import type { Props as OptionFieldProps } from '../Option'
+import type { FieldOptionProps as OptionFieldProps } from '../Option'
 import OptionField from '../Option'
 import { useFieldProps } from '../../hooks'
 import type { ReturnAdditional } from '../../hooks/useFieldProps'
 import { checkForError } from '../../hooks/useFieldProps'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import type {
-  Props as FieldBlockProps,
-  FieldBlockWidth,
-} from '../../FieldBlock'
+import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import type { FieldProps, Path } from '../../types'
 import type { FormStatusText } from '../../../../components/FormStatus'
@@ -57,7 +54,7 @@ export type Data = Array<
 
 type RenderSelectionChildren = (params: {
   value: IOption['value']
-  options: Props['data']
+  options: FieldSelectionProps['data']
 }) => React.ReactNode
 
 type DrawerListChangeParams = {
@@ -69,7 +66,7 @@ type DrawerListVisibilityParams = {
   data?: DrawerListDataArrayObjectStrict | string | null
 }
 
-export type Props = FieldProps<IOption['value']> & {
+export type FieldSelectionProps = FieldProps<IOption['value']> & {
   /**
    * Defines the variant of the component.
    * Default: dropdown
@@ -134,7 +131,7 @@ export type Props = FieldProps<IOption['value']> & {
   children?: React.ReactNode | RenderSelectionChildren
 }
 
-function Selection(props: Props) {
+function Selection(props: FieldSelectionProps) {
   const clearValue = useMemo(() => `clear-option-${makeUniqueId()}`, [])
 
   const {
@@ -375,9 +372,9 @@ function Selection(props: Props) {
 }
 
 function resolveChildren(
-  children: Props['children'],
-  value: Props['value'],
-  options: Props['data']
+  children: FieldSelectionProps['children'],
+  value: FieldSelectionProps['value'],
+  options: FieldSelectionProps['data']
 ) {
   if (typeof children === 'function') {
     return children({ value, options })
@@ -388,7 +385,7 @@ function resolveChildren(
 
 type OptionProps = React.ComponentProps<
   (props: {
-    value: Props['value']
+    value: FieldSelectionProps['value']
     error: Error | FormError | undefined
     help: HelpProps
     title: React.ReactNode
@@ -410,16 +407,16 @@ function renderRadioItems({
   iterateOverItems,
 }: {
   id: string
-  value: Props['value']
-  variant: Props['variant']
-  info: Props['info']
-  warning: Props['warning']
-  htmlAttributes: Props['htmlAttributes']
+  value: FieldSelectionProps['value']
+  variant: FieldSelectionProps['variant']
+  info: FieldSelectionProps['info']
+  warning: FieldSelectionProps['warning']
+  htmlAttributes: FieldSelectionProps['htmlAttributes']
   children: React.ReactNode
   dataList?: Data
-  hasError: ReturnAdditional<Props['value']>['hasError']
+  hasError: ReturnAdditional<FieldSelectionProps['value']>['hasError']
   iterateOverItems?: (item: {
-    value: Props['value']
+    value: FieldSelectionProps['value']
     label: React.ReactNode
   }) => void
 }) {
@@ -505,7 +502,7 @@ export function mapOptions(
 
 export function makeOptions<T = DrawerListProps['data']>(
   children: React.ReactNode,
-  transformSelection?: Props['transformSelection']
+  transformSelection?: FieldSelectionProps['transformSelection']
 ): T {
   return React.Children.map(children, (child) => {
     if (child?.['props']?.children?.type === OptionField) {
@@ -546,7 +543,7 @@ export function makeOptions<T = DrawerListProps['data']>(
 
 function renderDropdownItems(
   data: Data,
-  transformSelection?: Props['transformSelection']
+  transformSelection?: FieldSelectionProps['transformSelection']
 ) {
   return (
     data?.map((props) => {

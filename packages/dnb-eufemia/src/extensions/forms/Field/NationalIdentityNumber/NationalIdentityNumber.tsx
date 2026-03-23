@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import type { Props as StringFieldProps } from '../String'
+import type { FieldStringProps as StringFieldProps } from '../String'
 import StringField from '../String'
 import { dnr, fnr } from '@navikt/fnrvalidator'
 import type { Validator, ValidatorWithCustomValidators } from '../../types'
@@ -17,13 +17,16 @@ export type NationalIdentityNumberValidator =
     }
   >
 
-export type Props = Omit<StringFieldProps, 'onBlurValidator'> & {
+export type FieldNationalIdentityNumberProps = Omit<
+  StringFieldProps,
+  'onBlurValidator'
+> & {
   omitMask?: boolean
   validate?: boolean
   onBlurValidator?: NationalIdentityNumberValidator | false
 }
 
-function NationalIdentityNumber(props: Props) {
+function NationalIdentityNumber(props: FieldNationalIdentityNumberProps) {
   const translations = useTranslation().NationalIdentityNumber
   const {
     label,

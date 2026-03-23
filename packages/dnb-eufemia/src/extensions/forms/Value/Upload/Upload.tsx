@@ -8,20 +8,20 @@ import ListFormat from '../../../../components/list-format'
 import type { UploadFile } from '../../../../components/upload/types'
 import { getFileIcon } from '../../../../components/upload/UploadFileListCell'
 import { BYTES_IN_A_MEGA_BYTE } from '../../../../components/upload/UploadVerify'
-import type { Props as FieldUploadProps } from '../../Field/Upload/Upload'
+import type { FieldUploadProps as FieldUploadProps } from '../../Field/Upload/Upload'
 import { transformFiles } from '../../Field/Upload/Upload'
 import { format } from '../../../../components/number-format/NumberUtils'
 import { UploadFileLink } from '../../../../components/upload/UploadFileListLink'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ValueProps<Array<UploadFile>> &
+export type ValueUploadProps = ValueProps<Array<UploadFile>> &
   Omit<ListFormatProps, 'value'> &
   Pick<FieldUploadProps, 'download' | 'onFileClick'> & {
     displaySize?: boolean
   }
 
-function Upload(props: Props) {
+function Upload(props: ValueUploadProps) {
   const preparedProps = {
     fromExternal: transformFiles,
     ...props,
@@ -107,7 +107,7 @@ export default Upload
 
 function UploadFileItem(
   props: { uploadFile: UploadFile } & Pick<
-    Props,
+    ValueUploadProps,
     'download' | 'onFileClick' | 'displaySize'
   >
 ) {

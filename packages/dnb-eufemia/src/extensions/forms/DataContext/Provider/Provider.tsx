@@ -83,7 +83,7 @@ export type SharedAttachments<Data = unknown> = {
   internalDataRef?: ContextState['internalDataRef']
 }
 
-export type Props<Data extends JsonObject> =
+export type DataContextProviderProps<Data extends JsonObject> =
   IsolationProviderProps<Data> & {
     /**
      * Unique ID to communicate with the hook Form.useData
@@ -209,7 +209,7 @@ export type Props<Data extends JsonObject> =
 const isArrayJsonPointer = /^\/\d+(\/|$)/
 
 export default function Provider<Data extends JsonObject>(
-  props: Props<Data>
+  props: DataContextProviderProps<Data>
 ) {
   const [, forceUpdate] = useReducer(() => ({}), {})
 
@@ -1771,8 +1771,8 @@ export default function Provider<Data extends JsonObject>(
 }
 
 type FormStatusBufferProps = {
-  minimumAsyncBehaviorTime?: Props<JsonObject>['minimumAsyncBehaviorTime']
-  asyncSubmitTimeout?: Props<JsonObject>['asyncSubmitTimeout']
+  minimumAsyncBehaviorTime?: DataContextProviderProps<JsonObject>['minimumAsyncBehaviorTime']
+  asyncSubmitTimeout?: DataContextProviderProps<JsonObject>['asyncSubmitTimeout']
   formState: ContextState['formState']
   waitFor: boolean
   onTimeout: () => void

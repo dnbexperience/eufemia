@@ -44,7 +44,7 @@ import { PrerenderFieldPropsOfOtherSteps } from './PrerenderFieldPropsOfOtherSte
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = ComponentProps & {
+export type WizardContainerProps = ComponentProps & {
   id?: string
 
   /**
@@ -105,7 +105,7 @@ export type Props = ComponentProps & {
   children: React.ReactNode
 }
 
-function WizardContainer(props: Props) {
+function WizardContainer(props: WizardContainerProps) {
   const {
     className,
     id: idProp,

@@ -8,13 +8,13 @@ import { Flex, FormStatus } from '../../../../../components'
 import type { SpaceAllProps } from '../../../../../components/Space'
 import Space from '../../../../../components/Space'
 
-export type Props = SpaceAllProps & {
+export type FormSectionToolbarProps = SpaceAllProps & {
   onEdit?: () => void
   onDone?: () => void
   onCancel?: () => void
 }
 
-export default function Toolbar(props: Props) {
+export default function Toolbar(props: FormSectionToolbarProps) {
   const { errorInSection } = useTranslation().SectionEditContainer
   const { children, className, onEdit, onDone, onCancel, ...rest } = props
 

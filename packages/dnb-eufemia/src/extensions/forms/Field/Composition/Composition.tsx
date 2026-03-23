@@ -1,9 +1,9 @@
 import React from 'react'
-import type { Props as FieldBlockProps } from '../../FieldBlock'
+import type { FieldBlockProps } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = Pick<
+export type FieldCompositionProps = Pick<
   FieldBlockProps,
   | 'id'
   | 'label'
@@ -24,8 +24,8 @@ export type Props = Pick<
   | 'space'
 >
 
-function CompositionField(props: Props) {
-  const params: Props = {}
+function CompositionField(props: FieldCompositionProps) {
+  const params: FieldCompositionProps = {}
 
   if (props?.width) {
     params.width = 'stretch'

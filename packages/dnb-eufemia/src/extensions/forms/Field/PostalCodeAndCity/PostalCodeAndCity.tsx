@@ -1,8 +1,8 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import clsx from 'clsx'
-import type { Props as FieldBlockProps } from '../../FieldBlock'
+import type { FieldBlockProps } from '../../FieldBlock'
 import DataContext from '../../DataContext/Context'
-import type { Props as StringFieldProps } from '../String'
+import type { FieldStringProps as StringFieldProps } from '../String'
 import StringField from '../String'
 import CompositionField from '../Composition'
 import type { CountryCode } from '../../types'
@@ -12,7 +12,7 @@ import { COUNTRY as defaultCountry } from '../../../../shared/defaults'
 import type { SpacingProps } from '../../../../shared/types'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type Props = Pick<
+export type FieldPostalCodeAndCityProps = Pick<
   FieldBlockProps,
   | 'error'
   | 'warning'
@@ -32,7 +32,7 @@ export type Props = Pick<
     countryCode?: CountryCode
   } & Pick<StringFieldProps, 'size'>
 
-function PostalCodeAndCity(props: Props) {
+function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
   const translations = useTranslation()
   const { getSourceValue } = useDataValue()
   const countryCodeFromProvider = useContext(DataContext)?.countryCode
