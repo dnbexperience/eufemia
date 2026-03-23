@@ -11,6 +11,7 @@ import { validateDOMAttributes, warn } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatRootContext from './StatRootContext'
 import useStatSkeleton from './useStatSkeleton'
+import Provider from '../../shared/Provider'
 
 export type LabelProps = {
   children?: React.ReactNode
@@ -90,7 +91,9 @@ function Label(props: LabelProps) {
 
   return (
     <StatRootContext.Provider value={{ inRoot, skeleton: childSkeleton }}>
-      <Element {...attributes}>{children}</Element>
+      <Provider skeleton={hasSkeleton}>
+        <Element {...attributes}>{children}</Element>
+      </Provider>
     </StatRootContext.Provider>
   )
 }

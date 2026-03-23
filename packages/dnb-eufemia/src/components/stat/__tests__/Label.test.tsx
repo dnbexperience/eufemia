@@ -2,6 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import Stat from '../Stat'
+import SharedContext from '../../../shared/Context'
 
 describe('Stat.Label', () => {
   it('renders dt inside Stat.Root', () => {
@@ -98,6 +99,50 @@ describe('Stat.Label', () => {
     expect(label.classList).toContain('dnb-skeleton')
     expect(label.classList).toContain('dnb-skeleton--font')
     expect(label).toHaveAttribute('aria-disabled', 'true')
+  })
+
+  it('propagates skeleton to non-Stat children via SharedContext Provider', () => {
+    let contextSkeleton: unknown = undefined
+
+    function ContextReader() {
+      contextSkeleton = React.useContext(SharedContext)?.skeleton
+      return null
+    }
+
+    render(
+      <Stat.Root>
+        <Stat.Label skeleton>
+          <ContextReader />
+        </Stat.Label>
+        <Stat.Content>
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    expect(contextSkeleton).toBe(true)
+  })
+
+  it('does not set skeleton in SharedContext when skeleton is not active', () => {
+    let contextSkeleton: unknown = undefined
+
+    function ContextReader() {
+      contextSkeleton = React.useContext(SharedContext)?.skeleton
+      return null
+    }
+
+    render(
+      <Stat.Root>
+        <Stat.Label>
+          <ContextReader />
+        </Stat.Label>
+        <Stat.Content>
+          <Stat.Currency value={1234} />
+        </Stat.Content>
+      </Stat.Root>
+    )
+
+    expect(contextSkeleton).toBe(false)
   })
 
   it('warns when deprecated variant="default" is used and maps to plain', () => {
