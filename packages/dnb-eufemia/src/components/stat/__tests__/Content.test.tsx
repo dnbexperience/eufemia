@@ -216,4 +216,56 @@ describe('Stat.Content', () => {
 
     spy.mockRestore()
   })
+
+  it('uses custom element prop when outside Stat.Root', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Content element="div">
+        <Stat.Currency value={1234} />
+      </Stat.Content>
+    )
+
+    const content = document.querySelector('.dnb-stat__content-item')
+    expect(content.tagName.toLowerCase()).toBe('div')
+
+    spy.mockRestore()
+  })
+
+  it('applies correct CSS classes when outside Stat.Root', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Content direction="vertical" className="custom">
+        <Stat.Currency value={1234} />
+      </Stat.Content>
+    )
+
+    const content = document.querySelector('.dnb-stat__content-item')
+
+    expect(content.classList).toContain('dnb-stat')
+    expect(content.classList).toContain('dnb-stat__content-item')
+    expect(content.classList).toContain('dnb-stat__content-item--vertical')
+    expect(content.classList).toContain('custom')
+
+    spy.mockRestore()
+  })
+
+  it('supports skeleton when outside Stat.Root', () => {
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+
+    render(
+      <Stat.Content skeleton>
+        <Stat.Currency value={1234} />
+      </Stat.Content>
+    )
+
+    const content = document.querySelector('.dnb-stat__content-item')
+
+    expect(content.classList).toContain('dnb-skeleton')
+    expect(content.classList).toContain('dnb-skeleton--font')
+    expect(content).toHaveAttribute('aria-disabled', 'true')
+
+    spy.mockRestore()
+  })
 })
