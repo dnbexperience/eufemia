@@ -23,7 +23,7 @@ describe('Section component', () => {
   })
 
   it('should support "variant" prop', () => {
-    render(<Section variant="warning">text</Section>)
+    const { rerender } = render(<Section variant="warning">text</Section>)
 
     const element = document.querySelector('section.dnb-section')
 
@@ -33,11 +33,7 @@ describe('Section component', () => {
       'dnb-section--warning',
     ])
 
-    rerender(
-      <Section variant="information">
-        text
-      </Section>
-    )
+    rerender(<Section variant="information">text</Section>)
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-space',
