@@ -1,9 +1,9 @@
 ---
 title: 'List'
 description: 'List is a layout component for displaying rows of content, with optional start/center/end slots and a navigable item variant.'
-version: 10.101.0
-generatedAt: 2026-03-20T11:32:38.565Z
-checksum: e77926b5765d1ffe3e74b43bd77001bd4de171e1292943ad3a14e6610f6c4b6e
+version: 10.101.1
+generatedAt: 2026-03-23T05:53:39.510Z
+checksum: c4d85f4fa25641c63c0d997470afc9144f118a91d89991b58596bd33e2f2de4b
 ---
 
 # List
@@ -871,6 +871,16 @@ render(
       "type": "boolean",
       "status": "optional"
     },
+    "skeleton": {
+      "doc": "When `true`, applies skeleton font styling to all child items. Individual items can override this with their own `skeleton` prop.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "disabled": {
+      "doc": "When `true`, all child items are visually dimmed and interaction is prevented. Individual items can override this with their own `disabled` prop.",
+      "type": "boolean",
+      "status": "optional"
+    },
     "children": {
       "doc": "List items. Use `List.Item.Basic`, `List.Item.Action`, or `List.Item.Accordion` as direct children.",
       "type": "React.ReactNode",
@@ -897,6 +907,11 @@ render(
     },
     "pending": {
       "doc": "If set to `true`, an overlaying skeleton with animation will be shown (loading state). Disables pointer events on the item.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "disabled": {
+      "doc": "If set to `true`, the item is visually dimmed and interaction is prevented. Sets `aria-disabled`, removes tabbing, and disables click/keyboard handlers.",
       "type": "boolean",
       "status": "optional"
     },
@@ -975,6 +990,11 @@ render(
       "type": "boolean",
       "status": "optional"
     },
+    "disabled": {
+      "doc": "If set to `true`, the item is visually dimmed and interaction is prevented. Sets `aria-disabled`, removes tabbing, and disables click/keyboard handlers.",
+      "type": "boolean",
+      "status": "optional"
+    },
     "skeleton": {
       "doc": "If set to `true`, applies skeleton font styling to the item (text placeholder).",
       "type": "boolean",
@@ -1028,6 +1048,12 @@ render(
     },
     "keepInDOM": {
       "doc": "When `true`, keeps the accordion content in the DOM when closed. Defaults to `false`.",
+      "type": "boolean",
+      "defaultValue": "false",
+      "status": "optional"
+    },
+    "disabled": {
+      "doc": "If set to `true`, the accordion is visually dimmed and interaction is prevented. Sets `aria-disabled`, removes tabbing, and disables click/keyboard handlers.",
       "type": "boolean",
       "defaultValue": "false",
       "status": "optional"
@@ -1192,6 +1218,12 @@ render(
       "defaultValue": "'basis'",
       "status": "optional"
     },
+    "fontWeight": {
+      "doc": "Font weight of the start content. Defaults to `regular`.",
+      "type": ["'regular'", "'medium'"],
+      "defaultValue": "'regular'",
+      "status": "optional"
+    },
     "children": {
       "doc": "Start content of the list item (e.g. icon, label).",
       "type": "React.ReactNode",
@@ -1211,6 +1243,18 @@ render(
 ```json
 {
   "props": {
+    "fontSize": {
+      "doc": "Font size of the center content. Defaults to `basis`. Use `small` for smaller text.",
+      "type": ["'small'", "'basis'"],
+      "defaultValue": "'basis'",
+      "status": "optional"
+    },
+    "fontWeight": {
+      "doc": "Font weight of the center content. Defaults to `regular`.",
+      "type": ["'regular'", "'medium'"],
+      "defaultValue": "'regular'",
+      "status": "optional"
+    },
     "children": {
       "doc": "Center content of the list item. Grows to fill available space.",
       "type": "React.ReactNode",
@@ -1280,6 +1324,11 @@ render(
 ```json
 {
   "props": {
+    "children": {
+      "doc": "Card content. Typically a `List.Container` (optionally wrapped in `List.ScrollView`). The card provides a visual container with border-radius resets and scrollbar integration for the list inside it.",
+      "type": "React.ReactNode",
+      "status": "required"
+    },
     "responsive": {
       "doc": "When `true`, the card adjusts its layout for smaller screens. Defaults to `true`.",
       "type": "boolean",
@@ -1287,7 +1336,7 @@ render(
       "status": "optional"
     },
     "[Card](/uilib/components/card/properties)": {
-      "doc": "All [Card](/uilib/components/card) properties are supported.",
+      "doc": "All [Card](/uilib/components/card) properties are supported. The card renders with `stack` layout by default.",
       "type": "Various",
       "status": "optional"
     },
@@ -1313,6 +1362,16 @@ render(
     "maxVisibleListItems": {
       "doc": "Sets the maximum visible list items before the content scrolls. The component measures the rendered height of the first visible items. An explicit `style.maxHeight` overrides this.",
       "type": "number",
+      "status": "optional"
+    },
+    "skeleton": {
+      "doc": "When `true`, applies skeleton font styling to all child items inside the scroll view. Propagated via context so nested `List.Container` and items inherit it.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "disabled": {
+      "doc": "When `true`, dims all child items and prevents interaction. Propagated via context so nested `List.Container` and items inherit it.",
+      "type": "boolean",
       "status": "optional"
     },
     "[Space](/uilib/layout/space/properties)": {

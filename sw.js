@@ -28,11 +28,11 @@ workbox.core.clientsClaim();
 self.__precacheManifest = [
   {
     "url": "404.html",
-    "revision": "2a06f06bf9f589acc6ab656540a5b052"
+    "revision": "5bcf3ce8e71ee8552a137a5b5410efa1"
   },
   {
     "url": "500.html",
-    "revision": "8be42c38b77179cb626a08b7b0116f30"
+    "revision": "29ef07a77d07f45955d904560ad7dde4"
   },
   {
     "url": "google4f78509f2ca83a08.html",
@@ -44,38 +44,38 @@ self.__precacheManifest = [
   },
   {
     "url": "index.html",
-    "revision": "0057c4cabafa5e48f51b3c9b22fe9989"
+    "revision": "cb25597d52db2eccc7322def5149002e"
   },
   {
-    "url": "commons.9ff998d56d0d7e15048e.css"
+    "url": "commons.659da7700a3a2ceddf59.css"
   },
   {
     "url": "framework-45cb733ac1a8ced2c1eb.js"
   },
   {
-    "url": "ui.4da9e80b52d404d6bd26.css"
+    "url": "ui.f01508a153317abdf5bf.css"
   },
   {
-    "url": "sbanken.30a136d88574e5146624.css"
+    "url": "sbanken.e42f059438ee3b5333ce.css"
   },
   {
-    "url": "eiendom.c1d13fb0dfe227bbd653.css"
+    "url": "eiendom.a4215f3b3150387bedb6.css"
   },
   {
-    "url": "carnegie.399762cd6343ee7cb149.css"
+    "url": "carnegie.72d15e63c7dda3f70cbe.css"
   },
   {
     "url": "aaa5778d-404e02fe8208b674c8be.js"
   },
   {
-    "url": "app-3d7ee3aefd94c094327d.js"
+    "url": "app-6e813621849740c6870f.js"
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "7c99b9076d1d1a7875799ff64d20d263"
+    "revision": "4b6446e0823ec843894cfde695ce95a6"
   },
   {
-    "url": "webpack-runtime-dee4e87b177621dfac28.js"
+    "url": "webpack-runtime-55888c0ca748f35b276e.js"
   },
   {
     "url": "manifest.webmanifest",
@@ -189,7 +189,7 @@ const navigationRoute = new NavigationRoute(async ({ event }) => {
   // Check for resources + the app bundle
   // The latter may not exist if the SW is updating to a new version
   const resources = await idbKeyval.get(`resources:${pathname}`)
-  if (!resources || !(await caches.match(`/app-3d7ee3aefd94c094327d.js`))) {
+  if (!resources || !(await caches.match(`/app-6e813621849740c6870f.js`))) {
     return await fetch(event.request)
   }
 

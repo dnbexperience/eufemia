@@ -1,9 +1,9 @@
 ---
 title: 'Stat'
 description: 'Composable metric components for highlighted values, trends, and labels.'
-version: 10.101.0
-generatedAt: 2026-03-20T11:32:38.741Z
-checksum: c745bfd7d4ae4407cc7cbc40dafc43620da871b400fa9f8480d9ef01c5b12aa8
+version: 10.101.1
+generatedAt: 2026-03-23T05:53:40.185Z
+checksum: 30fa6d1efae36f3ea3005035dea83acba7d3bb0b6d171a7890b5e00b1da462eb
 ---
 
 # Stat
@@ -37,6 +37,12 @@ import { Stat } from '@dnb/eufemia'
 - `Stat.Rating` renders a star rating (defaults to 5 stars) and colorizes stars based on `value`. The `max` prop is clamped to `20` to prevent excessive DOM output; a console warning is emitted when the limit is exceeded.
 
 - `Stat.Info` renders supporting text with a smaller, muted style.
+
+- `Stat.Inline` is a horizontal layout container for grouping content elements like `Stat.Trend` and `Stat.Info` side by side with consistent spacing and alignment.
+
+### Deprecated
+
+- `Stat.Amount` is deprecated and will be removed in a future version. Use `Stat.Number` instead.
 
 ## Accessibility
 
@@ -253,6 +259,29 @@ render(
 )
 ```
 
+### Percent colorized by sign
+
+```tsx
+render(
+  <Stat.Root>
+    <Stat.Label>Positive without signDisplay</Stat.Label>
+    <Stat.Content>
+      <Stat.Percent value={12.3} fontSize="medium" colorizeBySign />
+    </Stat.Content>
+
+    <Stat.Label top>Negative without signDisplay</Stat.Label>
+    <Stat.Content>
+      <Stat.Percent value={-12.3} fontSize="medium" colorizeBySign />
+    </Stat.Content>
+
+    <Stat.Label top>Zero without signDisplay</Stat.Label>
+    <Stat.Content>
+      <Stat.Percent value={0} fontSize="medium" colorizeBySign />
+    </Stat.Content>
+  </Stat.Root>
+)
+```
+
 ### Rating
 
 ```tsx
@@ -440,6 +469,11 @@ render(<Example />)
     "children": {
       "doc": "Inline layout container for content elements, typically `Stat.Trend` and `Stat.Info`.",
       "type": ["React.ReactNode"],
+      "status": "optional"
+    },
+    "skeleton": {
+      "doc": "Applies skeleton state to the inline container.",
+      "type": "boolean",
       "status": "optional"
     },
     "[Flex.Horizontal](/uilib/layout/flex/horizontal/properties)": {
