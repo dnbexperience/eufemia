@@ -2,7 +2,6 @@ import React, {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useState,
 } from 'react'
 import classnames from 'classnames'
@@ -63,7 +62,7 @@ function ItemAccordion(props: ItemAccordionProps) {
     pending,
     disabled,
     skeleton,
-    open = false,
+    open,
     keepInDOM = false,
     chevronPosition = 'right',
     icon,
@@ -72,7 +71,8 @@ function ItemAccordion(props: ItemAccordionProps) {
     ...rest
   } = props
 
-  const [openState, setOpen] = useState(open)
+  const isControlled = open !== undefined
+  const [internalOpen, setInternalOpen] = useState(open ?? false)
   const accordionId = useId(idProp)
   const inheritedDisabled = useContext(ListContext)?.disabled
   const appliedDisabled = disabled ?? inheritedDisabled
@@ -82,9 +82,14 @@ function ItemAccordion(props: ItemAccordionProps) {
       React.isValidElement(child) && child.type === AccordionHeader
   )
 
-  useEffect(() => {
-    setOpen(open)
-  }, [open])
+  const openState = isControlled ? open : internalOpen
+  const setOpen: React.Dispatch<React.SetStateAction<boolean>> =
+    isControlled
+      ? () => {
+          // In controlled mode, do not update internal state.
+          // The consumer drives open/close via the open prop.
+        }
+      : setInternalOpen
 
   return (
     <ItemAccordionContext.Provider

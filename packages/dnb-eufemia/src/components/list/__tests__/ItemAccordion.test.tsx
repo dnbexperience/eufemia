@@ -70,46 +70,8 @@ describe('ItemAccordion', () => {
     )
   })
 
-  it('syncs open state when open prop changes after mount', () => {
-    const { rerender } = render(
-      <ItemAccordion open={false}>
-        <ItemAccordion.Header>Title</ItemAccordion.Header>
-        <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
-    )
-
-    let accordion = document.querySelector('.dnb-list__item__accordion')
-    expect(accordion.classList).not.toContain(
-      'dnb-list__item__accordion--open'
-    )
-
-    rerender(
-      <ItemAccordion open>
-        <ItemAccordion.Header>Title</ItemAccordion.Header>
-        <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
-    )
-
-    accordion = document.querySelector('.dnb-list__item__accordion')
-    expect(accordion.classList).toContain(
-      'dnb-list__item__accordion--open'
-    )
-
-    rerender(
-      <ItemAccordion open={false}>
-        <ItemAccordion.Header>Title</ItemAccordion.Header>
-        <ItemAccordion.Content>Content</ItemAccordion.Content>
-      </ItemAccordion>
-    )
-
-    accordion = document.querySelector('.dnb-list__item__accordion')
-    expect(accordion.classList).not.toContain(
-      'dnb-list__item__accordion--open'
-    )
-  })
-
-  it('header click still toggles open state after open prop has changed', () => {
-    const { rerender } = render(
+  it('does not toggle internally when open prop is controlled', () => {
+    render(
       <ItemAccordion open={false}>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
         <ItemAccordion.Content>Content</ItemAccordion.Content>
@@ -119,7 +81,28 @@ describe('ItemAccordion', () => {
     const header = document.querySelector(
       '.dnb-list__item__accordion__header'
     )
-    let accordion = document.querySelector('.dnb-list__item__accordion')
+    const accordion = document.querySelector('.dnb-list__item__accordion')
+
+    expect(accordion.classList).not.toContain(
+      'dnb-list__item__accordion--open'
+    )
+
+    fireEvent.click(header)
+
+    expect(accordion.classList).not.toContain(
+      'dnb-list__item__accordion--open'
+    )
+  })
+
+  it('follows controlled open prop changes via rerender', () => {
+    const { rerender } = render(
+      <ItemAccordion open={false}>
+        <ItemAccordion.Header>Title</ItemAccordion.Header>
+        <ItemAccordion.Content>Content</ItemAccordion.Content>
+      </ItemAccordion>
+    )
+
+    const accordion = document.querySelector('.dnb-list__item__accordion')
 
     expect(accordion.classList).not.toContain(
       'dnb-list__item__accordion--open'
@@ -132,24 +115,39 @@ describe('ItemAccordion', () => {
       </ItemAccordion>
     )
 
-    accordion = document.querySelector('.dnb-list__item__accordion')
     expect(accordion.classList).toContain(
       'dnb-list__item__accordion--open'
     )
 
-    fireEvent.click(header)
+    rerender(
+      <ItemAccordion open={false}>
+        <ItemAccordion.Header>Title</ItemAccordion.Header>
+        <ItemAccordion.Content>Content</ItemAccordion.Content>
+      </ItemAccordion>
+    )
 
-    accordion = document.querySelector('.dnb-list__item__accordion')
     expect(accordion.classList).not.toContain(
       'dnb-list__item__accordion--open'
     )
+  })
+
+  it('calls onClick in controlled mode so consumer can update open prop', () => {
+    const handleClick = jest.fn()
+
+    render(
+      <ItemAccordion open={false} onClick={handleClick}>
+        <ItemAccordion.Header>Title</ItemAccordion.Header>
+        <ItemAccordion.Content>Content</ItemAccordion.Content>
+      </ItemAccordion>
+    )
+
+    const header = document.querySelector(
+      '.dnb-list__item__accordion__header'
+    )
 
     fireEvent.click(header)
 
-    accordion = document.querySelector('.dnb-list__item__accordion')
-    expect(accordion.classList).toContain(
-      'dnb-list__item__accordion--open'
-    )
+    expect(handleClick).toHaveBeenCalledTimes(1)
   })
 
   it('header has role="button" and tabIndex 0', () => {
